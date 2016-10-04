@@ -1,0 +1,21 @@
+<!--[if IE ]><![endif]-->
+<!DOCTYPE html>
+<!--[if IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9]><html class="no-js lt-ie10"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <title>Wellcome Styleguide</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+      document.documentElement.className = document.documentElement.className.replace('no-js', '');
+    </script>
+    <link rel="stylesheet" type="text/css" href="{{ assetPath 'css/styleguide.css' }}">
+    <script src="{{ assetPath 'js/styleguide.js' }}"></script>
+  </head>
+  <body>
+    <div id="main" role="main">
+      {{#block 'main'}}{{/block}}
+    </div>
+  </body>
+</html>

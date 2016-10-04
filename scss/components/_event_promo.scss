@@ -1,0 +1,69 @@
+//* @define event-promo; weak
+
+.event-promo__image {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.event-promo__link {
+  @include link();
+}
+
+.event-promo__title {
+  @include font('sans', 'medium', 'bold');
+  margin-bottom: 1em;
+}
+
+.event-promo__meta {
+  @include font-weight('bold');
+  @include font-size('xsmall');
+  margin-bottom: .8em;
+}
+
+.event-promo__type,
+.event-promo__spaces {
+  position: relative;
+  text-transform: uppercase;
+  display: block;
+  padding-left: 6px;
+  margin-bottom: .2em;
+
+  &:before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 4px;
+    content: '';
+  }
+}
+
+.event-promo__type:before {
+  background: colour('light-grey');
+}
+
+.event-promo__spaces:before {
+  background: colour('red');
+}
+
+.event-promo__date-time {
+  @include font('sans', 'small', 'bold');
+  margin-bottom: .8em;
+}
+
+.event-promo__date,
+.event-promo__time {
+  display: block;
+}
+
+.event-promo__description {
+  margin-bottom: 1em;
+}
+
+.event-promo__extra {
+  font-weight: bold;
+
+  a {
+    @include link();
+  }
+}

@@ -1,0 +1,18 @@
+.row {
+  margin: 0 auto;
+  padding: vertical-space(2) 0;
+  overflow: hidden;
+
+  &--no-padding {
+    padding: 0;
+  }
+
+  &--overflow {
+    overflow: visible;
+  }
+
+  &--no-top-padding {
+    padding-top: 0;
+  }
+}
+

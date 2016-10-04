@@ -1,0 +1,6 @@
+{{#each components}}
+  <h2 class="styleguide__item-heading" id="{{key}}">
+    <a href="/components/{{ key }}">{{ name }}</a>
+  </h2>
+  {{{ renderComponent key default=true }}}
+{{/each}}

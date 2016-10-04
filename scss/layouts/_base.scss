@@ -1,0 +1,28 @@
+.layout-container {
+  @include container;
+}
+
+.layout {
+  @include clearfix;
+  margin-bottom: vertical-space(2);
+  margin-left: -$gutter-width / 2;
+  margin-right: -$gutter-width / 2;
+
+  &.is-gutter-narrow {
+    margin-left: -$gutter-width-narrow / 2;
+    margin-right: -$gutter-width-narrow / 2;
+  }
+
+  .layout-container > &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.layout__column {
+  @include column;
+
+  // remove the bottom margin of the last component in each layout column
+  > div:last-child {
+    margin-bottom: 0;
+  }
+}

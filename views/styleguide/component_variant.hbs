@@ -1,0 +1,28 @@
+<div class="row styleguide__header">
+  <div class="layout-container">
+    <h2 class="styleguide__item-heading">{{ component.name }}</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="layout-container">
+    <a class="styleguide__back" href="/components/{{ component.key }}">Back to {{ component.name }}</a>
+  </div>
+</div>
+
+<div class="row">
+  <div class="layout-container">
+    <div class="layout layout--12">
+      <div class="layout__column">
+        <h2 class="styleguide__item-heading">{{ variant.name }}</h2>
+
+        <div class="styleguide__component-wrapper">
+          <div class="styleguide__component styleguide__component--{{ variant.key }}">
+            {{{ renderComponent component.key variant=variant.key }}}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+{{#partial 'main'}}
+  <div class="row row--no-padding">
+    <div class="layout-container">
+      <div class="layout layout--12 is-gutter-narrow">
+        <div class="layout__column layout__column--1">
+          {{{ renderComponent 'site_header' default=true }}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="layout-container">
+      <div class="layout layout--3-9 is-gutter-narrow">
+        <div class="layout__column layout__column--1">{{{ renderComponent 'side_nav' default=true }}}</div>
+        <div class="layout__column layout__column--2">
+          <div class="grid grid--3 is-gutter-narrow">
+            {{#each events as |event|}}
+              <div class="grid__cell">{{{ renderComponent 'event_promo' data=event }}}</div>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{{/partial}}
+
+{{{ useLayout 'views/base/app' }}}

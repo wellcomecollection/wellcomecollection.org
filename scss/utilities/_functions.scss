@@ -1,0 +1,7 @@
+@function colour($name) {
+  @return map-get($colours, $name);
+}
+
+@function vertical-space($multiplier) {
+  @return $vertical-space-unit * $multiplier;
+}

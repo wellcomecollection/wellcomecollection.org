@@ -1,0 +1,16 @@
+//* @define grid; weak
+
+.grid {
+  @include clearfix;
+  margin-left: -$gutter-width / 2;
+  margin-right: -$gutter-width / 2;
+
+  &.is-gutter-narrow {
+    margin-left: -$gutter-width-narrow / 2;
+    margin-right: -$gutter-width-narrow / 2;
+  }
+}
+
+.grid__cell {
+  @include column;
+}

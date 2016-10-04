@@ -1,0 +1,224 @@
+body,
+html,
+.app {
+  height: 100%;
+}
+
+.app {
+  position: relative;
+}
+
+.styleguide {
+  position: relative;
+  height: 100%;
+}
+
+.styleguide__item-heading {
+  @include font('mono', 'large', 'bold');
+}
+
+.styleguide__item-subheading {
+  @include font('mono', 'medium', 'bold');
+  display: inline-block;
+  color: colour('dark-grey');
+  border-bottom: 3px solid colour('dark-grey');
+}
+
+.styleguide__heading {
+  padding: 15px;
+  margin-bottom: .5em;
+}
+
+.styleguide__logo-wrap {
+  @include clearfix;
+  color: colour('charcoal');
+
+  span {
+    @include font('mono', 'medium', 'ultra-bold');
+    margin-left: 12px;
+    margin-top: .2em;
+    float: left;
+    width: 160px;
+  }
+}
+
+.styleguide__logo {
+  float: left;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.styleguide__subheading {
+  cursor: pointer;
+  position: relative;
+  margin-left: .8em;
+  font-weight: 500;
+  font-size: .8em;
+  text-transform: uppercase;
+  margin-bottom: .8em;
+}
+
+.styleguide__chevron {
+  position: relative;
+  top: .2em;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+
+  .styleguide__section.is-active & {
+    transform: rotate(90deg);
+  }
+}
+
+.styleguide__main {
+  padding: 60px 15px 15px;
+  position: absolute;
+  left: 270px;
+  overflow-y: scroll;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: colour('white');
+  transition: left 200ms ease;
+  border-left: 1px solid colour('smoke');
+
+  &.is-fullscreen {
+    left: 0;
+  }
+}
+
+.styleguide__top-nav {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  height: 30px;
+  border-bottom: 1px solid colour('smoke');
+  right: 0;
+}
+
+.styleguide__menu {
+  position: relative;
+  display: block;
+  width: 25px;
+  height: 25px;
+  margin-left: 15px;
+  cursor: pointer;
+
+  span {
+    display: block;
+    height: 4px;
+    margin-bottom: 3px;
+    background: colour('light-grey');
+    transition: background 200ms ease;
+  }
+
+  &:hover span {
+    background: colour('charcoal');
+  }
+}
+
+.styleguide__sidebar {
+  background: colour('mist');
+  top: 0;
+  bottom: 0;
+  width: 270px;
+  position: absolute;
+  overflow-y: auto;
+}
+
+.styleguide__list {
+  list-style: none;
+  display: none;
+
+  .styleguide__section.is-active & {
+    display: block;
+  }
+}
+
+.styleguide__item {
+  @include font-size('xsmall');
+  margin: 0 0 .4em;
+
+  &:last-child {
+    margin-bottom: 1.6em;
+  }
+}
+
+.styleguide__link {
+  display: block;
+  text-decoration: none;
+  padding-right: 10px;
+  color: colour('granite');
+  border-bottom: 0;
+  transition: color 200ms ease;
+
+  &:hover,
+  &:focus,
+  &.is-active {
+    color: colour('blue');
+  }
+
+  &--standalone {
+    color: inherit;
+    margin-left: 1em;
+    font-weight: 500;
+    font-size: .8em;
+    text-transform: uppercase;
+    margin-bottom: .8em;
+  }
+}
+
+.styleguide__standalone {
+  margin-bottom: vertical-space(2);
+}
+
+@function colour-list($colours) {
+  $list: null;
+
+  @each $colour in $colours {
+    $list: append($list, $colour);
+  }
+
+  @return '#{$list}';
+}
+
+.styleguide__palette {
+  @include clearfix;
+
+  &:after {
+    display: block;
+    height: 0;
+    width: 0;
+    overflow: hidden;
+    content: colour-list($colours);
+  }
+}
+
+.styleguide__hex {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  float: left;
+}
+
+.styleguide__colour {
+  position: absolute;
+  font-size: .8em;
+  top: 5px;
+  left: 5px;
+  background: colour('white');
+  padding: 5px;
+  max-width: 190px;
+  border-radius: 3px;
+  border: 1px solid colour('smoke');
+}
+
+.styleguide__code {
+  display: inline-block;
+  padding: .2em;
+  background: colour('granite');
+  color: colour('white');
+  text-shadow: .05em .05em 0 rgba(33, 33, 33, .8);
+  font-family: 'source code pro', courier, sans-serif;
+  border-radius: 2px;
+}

@@ -1,0 +1,38 @@
+//* @define side-nav; weak
+
+.side-nav__list {
+  @include plain-list();
+}
+
+.side-nav__item {
+  font-weight: bold;
+  margin-bottom: .1em;
+}
+
+.side-nav__link {
+  padding: .5em .5em .5em 1em;
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  transition: background 600ms ease;
+
+  &:hover {
+    background: colour('light-grey');
+
+    &:before {
+      background: colour('mid-grey');
+    }
+  }
+
+  &:before {
+    transition: background 600ms ease;
+    position: absolute;
+    content: '';
+    background: colour('light-grey');
+    width: 8px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+  }
+}

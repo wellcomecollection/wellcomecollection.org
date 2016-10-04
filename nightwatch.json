@@ -1,0 +1,26 @@
+{
+  "src_folders" : ["tests/integration"],
+  "output_folder" : "reports",
+  "test_runner": {
+    "type" : "mocha"
+  },
+  "selenium" : {
+    "start_process" : false,
+    "host" : "127.0.0.1",
+    "port" : 4444
+  },
+
+  "test_settings" : {
+    "default" : {
+      "launch_url" : "http://localhost",
+      "selenium_port"  : 4444,
+      "selenium_host"  : "localhost",
+      "silent": true,
+      "desiredCapabilities": {
+        "browserName": "firefox",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
+      }
+    }
+  }
+}

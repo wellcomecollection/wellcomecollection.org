@@ -1,0 +1,19 @@
+<h2 class="styleguide__item-heading">{{ component.name }}</h2>
+
+{{{ renderComponent component.key default=true }}}
+
+<code class="language-javascript">
+  <pre>{{{ prettyJson component.json }}}</pre>
+</code>
+
+{{#each component.variants}}
+  <h3 id="{{key}}">
+    <a href="/components/{{../component.key}}/{{ key }}">{{ name }}</a>
+  </h3>
+
+  {{{ renderComponent ../component.key variant=key }}}
+
+  <code class="language-javascript">
+    <pre>{{{ prettyJson json }}}</pre>
+  </code>
+{{/each}}

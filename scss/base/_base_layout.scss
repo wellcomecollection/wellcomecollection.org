@@ -1,0 +1,31 @@
+//* @define base-layout; weak
+
+.base-layout {
+  overflow: hidden;
+}
+
+.base-layout__main {
+  position: relative;
+}
+
+.base-layout__overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0;
+  background: colour('white');
+  transition: opacity 1000ms ease, z-index 0ms 1000ms;
+
+  .base-layout.is-overlayed & {
+    transition: opacity 1000ms ease, z-index 0ms 0ms;
+    z-index: 1;
+    opacity: .9;
+
+    @include respond-to('xlarge') {
+      display: none;
+    }
+  }
+}

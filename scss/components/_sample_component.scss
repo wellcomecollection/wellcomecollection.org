@@ -1,0 +1,13 @@
+//* @define sample-component; weak
+
+.sample-component {
+  height: 200px;
+  background: colour('light-grey');
+  padding: 20px;
+  margin-bottom: 20px;
+
+  &:before {
+    color: colour('white');
+    content: 'Sample Component';
+  }
+}

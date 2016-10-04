@@ -1,0 +1,27 @@
+//* @define grid; weak
+
+.grid--3 {
+  .grid__cell {
+    width: 100%;
+
+    @include respond-to('medium') {
+      width: 50%;
+
+      &:nth-child(2n+1) {
+        clear: both;
+      }
+    }
+
+    @include respond-to('xlarge') {
+      width: 33.333%;
+
+      &:nth-child(2n+1) {
+        clear: none;
+      }
+
+      &:nth-child(3n+1) {
+        clear: both;
+      }
+    }
+  }
+}
