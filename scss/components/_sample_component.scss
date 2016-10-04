@@ -2,12 +2,8 @@
 
 .sample-component {
   height: 200px;
-  background: colour('light-grey');
+  background: colour('mid-grey');
   padding: 20px;
   margin-bottom: 20px;
-
-  &:before {
-    color: colour('white');
-    content: 'Sample Component';
-  }
+  color: colour('white');
 }

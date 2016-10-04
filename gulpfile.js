@@ -14,10 +14,6 @@ let sources = {
     all: 'scss/**/*.scss',
     distPath: 'dist/assets/css'
   },
-  fonts: {
-    srcPath: 'fonts/**/*',
-    distPath: 'dist/assets/fonts'
-  },
   scripts: {
     entry: 'js/styleguide.js',
     distPath: 'dist/assets/js/',
@@ -43,11 +39,6 @@ gulp.task('styles', () => {
     .pipe(livereload())
 })
 
-gulp.task('fonts', () => {
-  return gulp.src(sources.fonts.srcPath)
-    .pipe(gulp.dest(sources.fonts.distPath))
-})
-
 gulp.task('scripts', () => {
   return gulp.src(sources.scripts.entry)
     .pipe(webpack(require('./webpack.config.js')))
@@ -60,4 +51,4 @@ gulp.task('watch', () => {
   gulp.watch(sources.scripts.all, ['scripts'])
 })
 
-gulp.task('default', ['styles', 'fonts', 'scripts', 'watch'])
+gulp.task('default', ['styles', 'scripts', 'watch'])

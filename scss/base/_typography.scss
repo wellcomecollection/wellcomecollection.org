@@ -3,8 +3,10 @@ html {
 }
 
 body {
-  @include font('sans', 'small');
+  font-family: $font-sans;
+  font-size: $font-small;
   letter-spacing: .04em;
+  line-height: 1.4;
 }
 
 h1,
@@ -13,20 +15,20 @@ h3,
 h4,
 h5,
 h6 {
-  @include font('sans', 'medium', 'bold');
+  font-weight: bold;
   margin-bottom: .6em;
 }
 
 h1 {
-  @include font-size('xxlarge');
+  font-size: $font-xlarge;
 }
 
 h2 {
-  @include font-size('xlarge');
+  font-size: $font-large;
 }
 
 h3 {
-  @include font-size('large');
+  font-size: $font-medium;
 }
 
 a {
@@ -48,7 +50,7 @@ p {
 
 ul,
 ol {
-  margin: .5em 0 1.7em 2em;
+  margin: .5rem 0 1.7rem 2rem;
 
   &:last-child {
     margin-bottom: 0;
@@ -77,13 +79,13 @@ i {
 
   strong,
   b {
-    @include font-weight('bold');
+    font-weight: bold;
   }
 }
 
 strong,
 b {
-  @include font-weight('bold');
+  font-weight: bold;
 
   em,
   i {
