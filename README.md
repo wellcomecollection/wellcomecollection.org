@@ -1,4 +1,4 @@
-# Wellcome patterns
+# Wellcome patterns (node app)
 This repo contains some sensible defaults for Sass/JS architecture, as well as a barebones starter for layouts and grids.
 
 ## Prerequisites
