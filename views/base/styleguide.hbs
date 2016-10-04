@@ -40,7 +40,20 @@
           <a href="/palette" class="styleguide__link styleguide__link--standalone">Palette</a>
           <a href="/typography" class="styleguide__link styleguide__link--standalone">Typography</a>
           <a href="/layouts" class="styleguide__link styleguide__link--standalone">Layouts</a>
-          <a href="/templates" class="styleguide__link styleguide__link--standalone">Templates</a>
+        </section>
+
+        <section class="styleguide__section js-toggle-drawer">
+          <h2 class="styleguide__subheading js-trigger">
+            <svg class="styleguide__chevron" aria-hidden=true>
+              <use xlink:href="#icon-chevron"></use>
+            </svg>
+            Templates
+          </h2>
+          <ul class="styleguide__list">
+            {{#each templates as |template|}}
+              <li class="styleguide__item"><a class="styleguide__link" href="/templates/{{template.key}}">{{template.name}}</a></li>
+            {{/each}}
+          </ul>
         </section>
 
         <section class="styleguide__section js-toggle-drawer">

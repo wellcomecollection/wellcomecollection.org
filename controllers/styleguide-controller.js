@@ -7,6 +7,7 @@ module.exports = {
   about: (req, res) => {
     res.render('styleguide/about', {
       layout: 'base/styleguide',
+      templates: TemplateList.all(),
       components: ComponentList.all()
     })
   },
@@ -14,6 +15,7 @@ module.exports = {
   palette: (req, res) => {
     res.render('styleguide/palette', {
       layout: 'base/styleguide',
+      templates: TemplateList.all(),
       components: ComponentList.all()
     })
   },
@@ -21,6 +23,7 @@ module.exports = {
   typography: (req, res) => {
     res.render('styleguide/typography', {
       layout: 'base/styleguide',
+      templates: TemplateList.all(),
       components: ComponentList.all()
     })
   },
@@ -28,6 +31,7 @@ module.exports = {
   components: (req, res) => {
     res.render('styleguide/components', {
       layout: 'base/styleguide',
+      templates: TemplateList.all(),
       components: ComponentList.all()
     })
   },
@@ -36,6 +40,7 @@ module.exports = {
     res.render('styleguide/component', {
       layout: 'base/styleguide',
       component: ComponentList.findByKey(req.params.componentKey),
+      templates: TemplateList.all(),
       components: ComponentList.all()
     })
   },
@@ -47,6 +52,7 @@ module.exports = {
       layout: 'base/styleguide',
       component: component,
       variant: component.variant(req.params.variantKey),
+      templates: TemplateList.all(),
       components: ComponentList.all()
     })
   },
@@ -62,6 +68,7 @@ module.exports = {
   layouts: (req, res) => {
     res.render('styleguide/layouts', {
       layout: 'base/styleguide',
+      templates: TemplateList.all(),
       components: ComponentList.all()
     })
   }

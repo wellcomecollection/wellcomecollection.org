@@ -2,9 +2,17 @@
 
 {{{ renderComponent component.key default=true }}}
 
-<code class="language-javascript">
-  <pre>{{{ prettyJson component.json }}}</pre>
-</code>
+<section class="styleguide__section js-toggle-drawer">
+  <h3 class="styleguide__subheading js-trigger">
+    <svg class="styleguide__chevron" aria-hidden=true>
+      <use xlink:href="#icon-chevron"></use>
+    </svg>
+    Data
+  </h3>
+  <code class="styleguide__code">
+    <pre>{{{ prettyJson component.json }}}</pre>
+  </code>
+</section>
 
 {{#each component.variants}}
   <h3 id="{{key}}">
@@ -13,7 +21,7 @@
 
   {{{ renderComponent ../component.key variant=key }}}
 
-  <code class="language-javascript">
+  <code class="styleguide__code">
     <pre>{{{ prettyJson json }}}</pre>
   </code>
 {{/each}}
