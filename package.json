@@ -1,7 +1,7 @@
 {
-  "name": "wellcome-patterns",
+  "name": "wellcome-patterns-node",
   "version": "1.0.0",
-  "description": "Browserify, Gulp, Sass starter",
+  "description": "Webpack, Babel, Gulp, Sass starter",
   "author": "David McCormick <d.mccormick@wellcome.ac.uk>",
   "license": "ISC",
   "devDependencies": {
