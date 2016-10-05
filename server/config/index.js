@@ -14,7 +14,7 @@ module.exports = {
         }
     },
     static_dir: {
-        root: 'static',
+        root: '../dist',
         options: {}
     },
     session: {

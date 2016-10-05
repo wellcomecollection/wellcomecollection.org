@@ -32,6 +32,7 @@
     "webpack-stream": "^3.2.0"
   },
   "scripts": {
+    "compile": "gulp",
     "test": "npm run test:integration && npm run test:unit",
     "test:integration": "node node_modules/nightwatch/bin/runner.js",
     "test:unit": "mocha tests/unit/**/*.js"
