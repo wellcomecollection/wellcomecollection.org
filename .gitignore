@@ -16,3 +16,7 @@ npm-debug.log
 
 # Ignore .sass-cache
 *.sass-cache*
+
+# Ignore Mac system files
+.DS_Store
+

@@ -88,7 +88,6 @@ html,
 }
 
 .styleguide__main {
-  padding: 60px 15px 15px;
   position: absolute;
   left: 270px;
   overflow-y: scroll;
@@ -98,6 +97,21 @@ html,
   background: colour('white');
   transition: left 200ms ease;
   border-left: 1px solid colour('smoke');
+  padding: 60px 15px 15px;
+// margin: 0 auto;
+//  width: map-get($container-width, 'small');
+//  padding: 60px  map-get($container-padding, 'small') 15px;
+//  
+//  @include respond-to('medium') {
+//    width: map-get($container-width, 'medium');
+//    padding: 60px  map-get($container-padding, 'medium') 15px;
+//  }
+//  
+//  @include respond-to('large') {
+//    width: map-get($container-width, 'large');
+//    padding: 60px  map-get($container-padding, 'large') 15px;
+//  }
+  
 
   &.is-fullscreen {
     left: 0;
