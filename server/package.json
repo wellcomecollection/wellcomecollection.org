@@ -1,0 +1,26 @@
+{
+  "name": "wellcomecollections-server",
+  "version": "0.0.0",
+  "description": "The node server serving content for wellcomecollection.org",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "watch": "nodemon --ignore node_modules/ ./app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wellcometrust/wellcomecollection.org/tree/master/server"
+  },
+  "author": "wellcomecollection.dev@wellcome.ac.uk",
+  "license": "MIT",
+  "dependencies": {
+    "co": "^4.6.0",
+    "koa": "^2.0.0",
+    "koa-router": "^7.0.1",
+    "koa-static": "^3.0.0",
+    "koa-views": "^5.1.2",
+    "nodemon": "^1.10.2",
+    "nunjucks": "^2.5.2"
+  }
+}
