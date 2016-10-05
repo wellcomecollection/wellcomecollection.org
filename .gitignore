@@ -8,7 +8,7 @@
 npm-debug.log
 
 #ignore node modules
-/node_modules/
+node_modules/
 
 #ignore built files
 /dist
@@ -20,3 +20,7 @@ npm-debug.log
 # Ignore Mac system files
 .DS_Store
 
+=======
+# IntelliJ
+.idea
+wellcomecollection.org.iml
