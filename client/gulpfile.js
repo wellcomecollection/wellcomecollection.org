@@ -23,10 +23,10 @@ let sources = {
 
 gulp.task('styles', () => {
   return gulp.src(sources.css.manifests)
-    .on('error', (error) => { console.log(error) })
     .pipe(sass({
       outputStyle: 'compressed'
     }))
+    .on('error', sass.logError)
     .pipe(autoprefixer({
       browsers: [
         '> 0.01%',
