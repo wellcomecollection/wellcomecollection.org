@@ -12,11 +12,11 @@ let sources = {
       'scss/styleguide.scss'
     ],
     all: 'scss/**/*.scss',
-    distPath: 'dist/assets/css'
+    distPath: '../dist/assets/css'
   },
   scripts: {
     entry: 'js/styleguide.js',
-    distPath: 'dist/assets/js/',
+    distPath: '../dist/assets/js/',
     all: 'js/**/*.js'
   }
 }
