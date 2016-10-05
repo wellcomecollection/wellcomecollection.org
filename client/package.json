@@ -38,6 +38,8 @@
     "test:unit": "mocha tests/unit/**/*.js"
   },
   "dependencies": {
+    "express": "^4.14.0",
+    "hbs": "^4.0.1",
     "lodash": "^4.16.2"
   }
 }
