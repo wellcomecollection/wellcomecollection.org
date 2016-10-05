@@ -1,11 +1,11 @@
 .grid--3-1-up {//will be inside media query
-  
+
   flex-wrap: wrap;
-  
+
   .grid__cell:first-child {
     flex-basis: 100%;
   }
-  
+
   .grid__cell {
     flex-basis: 50%;
   }
