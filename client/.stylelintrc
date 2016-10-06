@@ -1,11 +1,37 @@
 {
   "plugins": [
-    "stylelint-selector-bem-pattern"
+    "stylelint-selector-bem-pattern",
+    "stylelint-declaration-use-variable",
+    "stylelint-declaration-block-order",
+    "stylelint-scss"
   ],
   "ignoreFiles": [
     "scss/vendor/**"
   ],
   "rules": {
+    "plugin/declaration-block-order": [
+      {
+        "type": "at-rule",
+        "name": "include"
+      },
+      {
+        "type": "at-rule",
+        "name": "include",
+        "hasBlock": true
+      },
+      {
+        "type": "at-rule",
+        "hasBlock": true
+      },
+      {
+        "type": "at-rule"
+      }
+    ],
+    "property-no-unknown": true,
+    "scss/selector-no-redundant-nesting-selector": true,
+    "scss/at-import-partial-extension-blacklist": ['scss'],
+    "scss/at-extend-no-missing-placeholder": true,
+    "scss/at-import-no-partial-leading-underscore": true,
     "plugin/selector-bem-pattern": {
       "componentName": "(([a-z0-9]+(?!-$)-?)+)",
       "componentSelectors": {
@@ -17,10 +43,11 @@
         ".*\\.lt-ie.*"
       ]
     },
+    "sh-waqar/declaration-use-variable": [["/color/", "font-size"]],
     "declaration-bang-space-before": "always",
     "declaration-bang-space-after": "never",
     "declaration-property-value-blacklist": {
-      "/^border/": ["none", "0"]
+      "/^border/": ["none"]
     },
     "color-named": "never",
     "declaration-block-no-duplicate-properties": true,
