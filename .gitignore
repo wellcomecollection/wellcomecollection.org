@@ -1,4 +1,20 @@
+# Ignore all logfiles and tempfiles.
+/log/*
+!/log/.gitkeep
+/tmp
+npm-debug.log
+
+#ignore node modules
+node_modules/
+
+#ignore built files
 dist/
+
+# Ignore .sass-cache
+*.sass-cache*
+
+# Ignore Mac system files
+.DS_Store
 
 # intelliJ
 wellcomecollection.org.iml
