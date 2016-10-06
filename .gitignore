@@ -1,5 +1,7 @@
 dist/
+build/
 
 # intelliJ
 wellcomecollection.org.iml
 .idea/
+

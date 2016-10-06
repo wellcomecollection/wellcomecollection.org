@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "description": "The node server serving content for wellcomecollection.org",
   "main": "app.js",
-  "devDependencies": {},
   "scripts": {
+    "start": "pm2 start app.js",
     "test": "echo \"Error: no test specified\" && exit 0",
-    "watch": "nodemon --ignore node_modules/ ./app"
+    "watch": "nodemon app.js -e njk,js"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,10 @@
     "koa-router": "^7.0.1",
     "koa-static": "^3.0.0",
     "koa-views": "^5.1.2",
-    "nodemon": "^1.10.2",
     "nunjucks": "^2.5.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.10.2",
+    "pm2": "^2.0.18"
   }
 }
