@@ -9,6 +9,7 @@ node_modules/
 
 #ignore built files
 dist/
+build/
 
 # Ignore .sass-cache
 *.sass-cache*
@@ -19,3 +20,4 @@ dist/
 # intelliJ
 wellcomecollection.org.iml
 .idea/
+

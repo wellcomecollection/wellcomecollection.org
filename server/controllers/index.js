@@ -4,5 +4,6 @@ module.exports = {
         typography: (ctx) => ctx.render('patterns/typography', {}),
         grids: (ctx) => ctx.render('patterns/grids', {}),
         palette: (ctx) => ctx.render('patterns/palette', {})
-    }
+    },
+    healthcheck: (ctx) => ctx.body = 'ok'
 };

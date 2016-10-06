@@ -51,4 +51,4 @@ gulp.task('watch', () => {
   gulp.watch(sources.scripts.all, ['scripts'])
 })
 
-gulp.task('default', ['styles', 'scripts', 'watch'])
+gulp.task('default', ['styles', 'scripts'])
