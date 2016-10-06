@@ -1,11 +1,13 @@
 html {
+  // stylelint-disable sh-waqar/declaration-use-variable
   font-size: 62.5%;
+  // stylelint-enable sh-waqar/declaration-use-variable
 }
 
 body {
   font-family: $font-sans;
   font-size: $font-small;
-  letter-spacing: .04em;
+  letter-spacing: 0.04em;
   line-height: 1.4;
 }
 
@@ -16,7 +18,7 @@ h4,
 h5,
 h6 {
   font-weight: bold;
-  margin-bottom: .6em;
+  margin-bottom: 0.6em;
 }
 
 h1 {
@@ -32,7 +34,9 @@ h3 {
 }
 
 a {
+  // stylelint-disable sh-waqar/declaration-use-variable
   color: inherit;
+  // stylelint-enable sh-waqar/declaration-use-variable
   text-decoration: underline;
 }
 
@@ -50,7 +54,7 @@ p {
 
 ul,
 ol {
-  margin: .5rem 0 1.7rem 2rem;
+  margin: 0.5rem 0 1.7rem 2rem;
 
   &:last-child {
     margin-bottom: 0;
@@ -66,7 +70,7 @@ ol {
 }
 
 li {
-  margin-bottom: .1em;
+  margin-bottom: 0.1em;
 
   &:last-child {
     margin-bottom: 0;
