@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Webpack, Babel, Gulp, Sass starter",
   "author": "David McCormick <d.mccormick@wellcome.ac.uk>",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.5.2",
     "babel-loader": "^6.2.2",
