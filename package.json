@@ -1,0 +1,22 @@
+{
+  "name": "wellcomecollection.org",
+  "version": "0.0.1",
+  "description": "The new home of the betanextbest.wellcomecollection.org website.",
+  "main": "server/app.js",
+  "scripts": {
+    "test": "concurrently './test.sh client' './test.sh server'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wellcometrust/wellcomecollection.org.git"
+  },
+  "author": "collection.dev@wellcome.ac.uk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wellcometrust/wellcomecollection.org/issues"
+  },
+  "homepage": "https://github.com/wellcometrust/wellcomecollection.org#readme",
+  "devDependencies": {
+    "concurrently": "^3.1.0"
+  }
+}
