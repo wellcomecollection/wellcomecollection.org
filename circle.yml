@@ -3,7 +3,7 @@ machine:
     version: 6.1.0
 deployment:
     prod:
-      branch: /.*/
+      branch: master
       commands:
         - ./build.sh $CIRCLE_BUILD_NUM
         - aws s3 cp ./build/$CIRCLE_BUILD_NUM.tar s3://$CIRCLE_BUILD_BUCKET/builds/$CIRCLE_BRANCH/$CIRCLE_BUILD_NUM.tar
