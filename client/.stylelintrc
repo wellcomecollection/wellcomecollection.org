@@ -6,7 +6,8 @@
     "stylelint-scss"
   ],
   "ignoreFiles": [
-    "scss/vendor/**"
+    "scss/vendor/**/*",
+    "scss/utilities/**/*"
   ],
   "rules": {
     "plugin/declaration-block-order": [
