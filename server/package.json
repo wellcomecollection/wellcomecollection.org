@@ -1,11 +1,11 @@
 {
-  "name": "wellcomecollections-server",
+  "name": "wellcomecollection.org-server",
   "version": "0.0.0",
   "description": "The node server serving content for wellcomecollection.org",
   "main": "app.js",
   "scripts": {
     "start": "pm2 start app.js",
-    "test": "echo \"Error: no test specified\" && exit 0",
+    "test": "exit 0",
     "watch": "nodemon app.js -e njk,js"
   },
   "repository": {
