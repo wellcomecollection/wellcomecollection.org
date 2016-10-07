@@ -3,6 +3,7 @@ const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const webpack = require('webpack-stream');
 const browserSync = require('browser-sync').create();
+const gulpStylelint = require('gulp-stylelint');
 const webpackConfig = require('./webpack.config.js');
 
 const sources = {
@@ -39,6 +40,17 @@ gulp.task('styles', () => {
     .pipe(browserSync.stream());
 });
 
+gulp.task('stylelint', () => {
+  return gulp.src(sources.css.all)
+    .pipe(gulpStylelint({
+      syntax: 'scss',
+      failAfterError: false,
+      reporters: [
+        {formatter: 'string', console: true}
+      ]
+    }));
+});
+
 gulp.task('js', () => {
   return gulp.src(sources.js.entry)
       .pipe(webpack(webpackConfig))
@@ -49,8 +61,8 @@ gulp.task('watch', () => {
   browserSync.init({
     proxy: 'localhost:3000/patterns'
   });
-  gulp.watch(sources.css.all, ['styles']);
+  gulp.watch(sources.css.all, ['styles', 'stylelint']);
   gulp.watch(sources.js.all, ['js']);
 });
 
-gulp.task('default', ['styles', 'scripts']);
+gulp.task('default', ['styles', 'js', 'stylelint']);
