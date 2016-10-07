@@ -4,7 +4,7 @@ let gulp = require('gulp')
 let sass = require('gulp-sass')
 let autoprefixer = require('gulp-autoprefixer')
 let webpack = require('webpack-stream')
-let livereload = require('gulp-livereload')
+let browserSync = require('browser-sync').create()
 let sources = {
   css: {
     manifests: [
@@ -36,7 +36,7 @@ gulp.task('styles', () => {
         'opera 12.1']
     }))
     .pipe(gulp.dest(sources.css.distPath))
-    .pipe(livereload())
+    .pipe(browserSync.stream())
 })
 
 gulp.task('scripts', () => {
@@ -46,7 +46,9 @@ gulp.task('scripts', () => {
 })
 
 gulp.task('watch', () => {
-  livereload.listen()
+  browserSync.init({
+    proxy: 'localhost:3000/patterns'
+  })
   gulp.watch(sources.css.all, ['styles'])
   gulp.watch(sources.scripts.all, ['scripts'])
 })
