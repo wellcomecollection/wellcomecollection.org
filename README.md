@@ -6,7 +6,7 @@ The new home of the betanextbest.wellcomecollection.org website.
 
     cd client
     npm install
-    npm run compile
+    npm run compile OR npm run compile:watch (for developing)
        
 # server
     

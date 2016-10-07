@@ -12,6 +12,7 @@
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.1",
     "gulp-sass": "^2.3.2",
+    "gulp-sourcemaps": "^1.6.0",
     "gulp-stylelint": "^3.3.0",
     "stylelint": "^7.3.1",
     "stylelint-declaration-block-order": "^0.1.0",
@@ -22,7 +23,7 @@
   },
   "scripts": {
     "compile": "gulp",
-    "compile:watch": "gulp watch",
+    "compile:watch": "gulp watch --dev",
     "test": "exit 0"
   }
 }

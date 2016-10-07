@@ -4,6 +4,8 @@ const autoprefixer = require('gulp-autoprefixer');
 const webpack = require('webpack-stream');
 const browserSync = require('browser-sync').create();
 const gulpStylelint = require('gulp-stylelint');
+const sourcemaps = require('gulp-sourcemaps');
+const onst gutil = require('gulp-util');
 const webpackConfig = require('./webpack.config.js');
 
 const sources = {
@@ -24,6 +26,7 @@ const sources = {
 
 gulp.task('styles', () => {
   return gulp.src(sources.css.manifests)
+    .pipe(gutil.env.dev ? sourcemaps.init() : gutil.noop())
     .pipe(sass({
       outputStyle: 'compressed'
     }))
@@ -36,6 +39,7 @@ gulp.task('styles', () => {
         'IE 9',
         'opera 12.1']
     }))
+    .pipe(gutil.env.dev ? sourcemaps.write() : gutil.noop())
     .pipe(gulp.dest(sources.css.distPath))
     .pipe(browserSync.stream());
 });
