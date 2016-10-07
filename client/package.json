@@ -22,6 +22,8 @@
     "gulp-autoprefixer": "^3.1.0",
     "gulp-sass": "^2.1.1",
     "gulp-stylelint": "^3.3.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-util": "^3.0.7",
     "inflection": "^1.10.0",
     "jquery": "^2.2.3",
     "jquery.easing": "^1.3.2",
@@ -38,7 +40,7 @@
   },
   "scripts": {
     "compile": "gulp",
-    "compile:watch": "gulp watch",
+    "compile:watch": "gulp watch --dev",
     "test": "exit 0",
     "test:fail": "npm run test:integration && npm run test:unit",
     "test:integration": "node node_modules/nightwatch/bin/runner.js",
