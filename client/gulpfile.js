@@ -59,6 +59,7 @@ gulp.task('js', () => {
 
 gulp.task('watch', () => {
   browserSync.init({
+    open: false,
     proxy: 'localhost:3000/patterns'
   });
   gulp.watch(sources.css.all, ['styles', 'stylelint']);
