@@ -58,6 +58,7 @@ gulp.task('stylelint', () => {
 gulp.task('scripts', () => {
   return gulp.src(sources.scripts.entry)
     .pipe(webpack(require('./webpack.config.js')))
+    .on('error', err => console.log(err.toString()))
     .pipe(gulp.dest(sources.scripts.distPath))
 })
 
@@ -66,7 +67,6 @@ gulp.task('watch', () => {
     proxy: 'localhost:3000/patterns'
   })
   gulp.watch(sources.css.all, ['styles', 'stylelint'])
-  gulp.watch(sources.scripts.all, ['scripts'])
 })
 
 gulp.task('default', ['styles', 'scripts', 'stylelint'])

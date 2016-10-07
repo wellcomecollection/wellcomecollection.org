@@ -7,6 +7,7 @@ module.exports = {
     path: path.join(__dirname, '/dist/assets/js'),
     filename: 'styleguide.js'
   },
+  watch: true,
   resolve: {
     extensions: ['', '.js', '.jsx', '.json']
   },
