@@ -1,11 +1,11 @@
-'use strict'
+const gulp = require('gulp');
+const sass = require('gulp-sass');
+const autoprefixer = require('gulp-autoprefixer');
+const webpack = require('webpack-stream');
+const livereload = require('gulp-livereload');
+const webpackConfig = require('./webpack.config.js');
 
-let gulp = require('gulp')
-let sass = require('gulp-sass')
-let autoprefixer = require('gulp-autoprefixer')
-let webpack = require('webpack-stream')
-let livereload = require('gulp-livereload')
-let sources = {
+const sources = {
   css: {
     manifests: [
       'scss/application.scss',
@@ -14,12 +14,12 @@ let sources = {
     all: 'scss/**/*.scss',
     distPath: '../dist/assets/css'
   },
-  scripts: {
-    entry: 'js/styleguide.js',
+  js: {
+    entry: './js/app.js',
     distPath: '../dist/assets/js/',
     all: 'js/**/*.js'
   }
-}
+};
 
 gulp.task('styles', () => {
   return gulp.src(sources.css.manifests)
@@ -36,19 +36,19 @@ gulp.task('styles', () => {
         'opera 12.1']
     }))
     .pipe(gulp.dest(sources.css.distPath))
-    .pipe(livereload())
-})
+    .pipe(livereload());
+});
 
-gulp.task('scripts', () => {
-  return gulp.src(sources.scripts.entry)
-    .pipe(webpack(require('./webpack.config.js')))
-    .pipe(gulp.dest(sources.scripts.distPath))
-})
+gulp.task('js', () => {
+  return gulp.src(sources.js.entry)
+      .pipe(webpack(webpackConfig))
+      .pipe(gulp.dest(sources.js.distPath));
+});
 
 gulp.task('watch', () => {
-  livereload.listen()
-  gulp.watch(sources.css.all, ['styles'])
-  gulp.watch(sources.scripts.all, ['scripts'])
-})
+  livereload.listen();
+  gulp.watch(sources.css.all, ['styles']);
+  gulp.watch(sources.js.all, ['js']);
+});
 
-gulp.task('default', ['styles', 'scripts'])
+gulp.task('default', ['styles', 'scripts']);
