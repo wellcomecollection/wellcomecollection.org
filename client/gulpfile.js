@@ -2,10 +2,12 @@
 
 let gulp = require('gulp')
 let sass = require('gulp-sass')
+let sourcemaps = require('gulp-sourcemaps')
 let autoprefixer = require('gulp-autoprefixer')
 let webpack = require('webpack-stream')
 let browserSync = require('browser-sync').create()
 let gulpStylelint = require('gulp-stylelint')
+let gutil = require('gulp-util')
 let sources = {
   css: {
     manifests: [
@@ -24,6 +26,7 @@ let sources = {
 
 gulp.task('styles', () => {
   return gulp.src(sources.css.manifests)
+    .pipe(gutil.env.dev ? sourcemaps.init() : gutil.noop())
     .pipe(sass({
       outputStyle: 'compressed'
     }))
@@ -36,6 +39,7 @@ gulp.task('styles', () => {
         'IE 9',
         'opera 12.1']
     }))
+    .pipe(gutil.env.dev ? sourcemaps.write() : gutil.noop())
     .pipe(gulp.dest(sources.css.distPath))
     .pipe(browserSync.stream())
 })
