@@ -1,6 +1,6 @@
 # Deploy
 
-You'll need to be sure to get setup with you `tfvars` from a friendly developer near you.
+To get deploying, you'll need to get some `tfvars` from a friendly developer near you.
 Once that's done run:
 
     ./airbag.sh <BUILD_STATE_BUCKET>
