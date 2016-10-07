@@ -26,7 +26,7 @@
   pairArray.forEach((pair) => {
     palette_element.innerHTML += `
     <div class="styleguide__hex" style="background: ${pair.hex};">
-      <span class="styleguide__colour">${pair.name}: <code class="styleguide__hex-code">${pair.hex}</code></span>
+      <span class="styleguide__color">${pair.name}: <code class="styleguide__hex-code">${pair.hex}</code></span>
     </div>`
   })
 })()
