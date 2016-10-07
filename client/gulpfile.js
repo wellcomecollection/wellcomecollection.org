@@ -2,7 +2,7 @@ const gulp = require('gulp');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const webpack = require('webpack-stream');
-const livereload = require('gulp-livereload');
+const browserSync = require('browser-sync').create();
 const webpackConfig = require('./webpack.config.js');
 
 const sources = {
@@ -36,7 +36,7 @@ gulp.task('styles', () => {
         'opera 12.1']
     }))
     .pipe(gulp.dest(sources.css.distPath))
-    .pipe(livereload());
+    .pipe(browserSync.stream());
 });
 
 gulp.task('js', () => {
@@ -46,7 +46,9 @@ gulp.task('js', () => {
 });
 
 gulp.task('watch', () => {
-  livereload.listen();
+  browserSync.init({
+    proxy: 'localhost:3000/patterns'
+  });
   gulp.watch(sources.css.all, ['styles']);
   gulp.watch(sources.js.all, ['js']);
 });
