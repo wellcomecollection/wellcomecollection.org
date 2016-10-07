@@ -38,7 +38,10 @@ $colors: (
   'smoke': #f5f5f5,
   'white': #fff,
   'black': #000,
-  'red': #aa0000
+  'red': #aa0000,
+  'transparent': transparent,
+  'inherit': inherit,
+  'currentColor': currentColor
 );
 
 $breakpoints: (

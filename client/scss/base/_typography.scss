@@ -34,9 +34,7 @@ h3 {
 }
 
 a {
-  // stylelint-disable sh-waqar/declaration-use-variable
-  color: inherit;
-  // stylelint-enable sh-waqar/declaration-use-variable
+  color: color('inherit');
   text-decoration: underline;
 }
 

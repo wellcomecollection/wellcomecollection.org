@@ -5,6 +5,7 @@ let sass = require('gulp-sass')
 let autoprefixer = require('gulp-autoprefixer')
 let webpack = require('webpack-stream')
 let browserSync = require('browser-sync').create()
+let gulpStylelint = require('gulp-stylelint')
 let sources = {
   css: {
     manifests: [
@@ -39,6 +40,17 @@ gulp.task('styles', () => {
     .pipe(browserSync.stream())
 })
 
+gulp.task('stylelint', () => {
+  return gulp.src(sources.css.all)
+    .pipe(gulpStylelint({
+      syntax: 'scss',
+      failAfterError: false,
+      reporters: [
+        {formatter: 'string', console: true}
+      ]
+    }))
+})
+
 gulp.task('scripts', () => {
   return gulp.src(sources.scripts.entry)
     .pipe(webpack(require('./webpack.config.js')))
@@ -49,8 +61,8 @@ gulp.task('watch', () => {
   browserSync.init({
     proxy: 'localhost:3000/patterns'
   })
-  gulp.watch(sources.css.all, ['styles'])
+  gulp.watch(sources.css.all, ['styles', 'stylelint'])
   gulp.watch(sources.scripts.all, ['scripts'])
 })
 
-gulp.task('default', ['styles', 'scripts'])
+gulp.task('default', ['styles', 'scripts', 'stylelint'])
