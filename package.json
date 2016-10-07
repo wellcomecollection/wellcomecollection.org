@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/wellcometrust/wellcomecollection.org#readme",
   "devDependencies": {
-    "concurrently": "^3.1.0"
+    "concurrently": "^3.1.0",
+    "gulp-stylelint": "^3.3.0"
   }
 }
