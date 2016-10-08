@@ -8,6 +8,10 @@ let webpack = require('webpack-stream')
 let browserSync = require('browser-sync').create()
 let gulpStylelint = require('gulp-stylelint')
 let gutil = require('gulp-util')
+let svgstore = require('gulp-svgstore')
+let svgmin = require('gulp-svgmin')
+let path = require('path')
+let inject = require('gulp-inject')
 let sources = {
   css: {
     manifests: [
@@ -21,6 +25,13 @@ let sources = {
     entry: 'js/styleguide.js',
     distPath: '../dist/assets/js/',
     all: 'js/**/*.js'
+  },
+  images: {
+    svg: {
+      all: 'images/svg/*.svg',
+      srcPath: 'images/svg/svg-sprite.njk',
+      distPath: '../server/views/partials'
+    }
   }
 }
 
@@ -55,6 +66,31 @@ gulp.task('stylelint', () => {
     }))
 })
 
+gulp.task('svgstore', function () {
+  let svgs = gulp.src(sources.images.svg.all)
+      .pipe(svgmin((file) => {
+        let prefix = path.basename(file.relative, path.extname(file.relative))
+
+        return {
+          plugins: [{
+            cleanupIDs: {
+              prefix: prefix + '-',
+              minify: true
+            }
+          }]
+        }
+      }))
+      .pipe(svgstore({inlineSvg: true}))
+
+  const fileContents = (filePath, file) => {
+    return file.contents.toString()
+  }
+
+  return gulp.src(sources.images.svg.srcPath)
+    .pipe(inject(svgs, {transform: fileContents}))
+    .pipe(gulp.dest(sources.images.svg.distPath))
+})
+
 gulp.task('scripts', () => {
   return gulp.src(sources.scripts.entry)
     .pipe(webpack(require('./webpack.config.js')))
@@ -67,6 +103,7 @@ gulp.task('watch', () => {
   })
   gulp.watch(sources.css.all, ['styles', 'stylelint'])
   gulp.watch(sources.scripts.all, ['scripts'])
+  gulp.watch(sources.images.svg.all, ['svgstore'])
 })
 
-gulp.task('default', ['styles', 'scripts', 'stylelint'])
+gulp.task('default', ['styles', 'scripts', 'svgstore', 'stylelint'])
