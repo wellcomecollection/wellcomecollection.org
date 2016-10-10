@@ -1,0 +1,30 @@
+{% extends "views/layout/patterns.njk" %}
+
+{% block body %}
+<h2 class="styleguide__item-heading">Icons</h2>
+<div id="icon-preview"></div>
+
+<script>
+  var iconPreviewEl = document.getElementById('icon-preview');
+  var iconSpriteEl = document.getElementById('icon-sprite');
+  var icons = iconSpriteEl.getElementsByTagName('symbol');
+
+  for (var i = 0, l = icons.length; i < l; i++) {
+    var iconWrapper = document.createElement('div');
+    var iconHeading = document.createElement('h3')
+    var svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    var useEl = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    var iconId = icons[i].id;
+
+    iconWrapper.setAttribute('class', 'styleguide__icon-wrap');
+    iconHeading.appendChild(document.createTextNode(iconId));
+    iconHeading.setAttribute('class', 'styleguide__subheading');
+
+    iconWrapper.appendChild(iconHeading);
+    useEl.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#' + iconId);
+    svgEl.appendChild(useEl);
+    iconWrapper.appendChild(svgEl);
+    iconPreviewEl.appendChild(iconWrapper);
+  }
+</script>
+{% endblock %}}
