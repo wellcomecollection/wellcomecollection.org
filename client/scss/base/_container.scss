@@ -1,0 +1,19 @@
+.container {
+  margin: 0 auto;
+  width: map-get($container-width, 'small');
+  padding: 0  map-get($container-padding, 'small') 0;
+
+  @include respond-to('medium') {
+    width: map-get($container-width, 'medium');
+    padding: 0  map-get($container-padding, 'medium') 0;
+  }
+
+  @include respond-to('large') {
+    width: map-get($container-width, 'large');
+    padding: 0  map-get($container-padding, 'large') 0;
+  }
+
+  @include respond-to('xlarge') {
+    width: map-get($container-width, 'xlarge');
+  }
+}
