@@ -8,12 +8,12 @@
 
 // Base
 @import 'base/layout';
+@import 'base/container';
 @import 'base/typography';
 
 // Grids
 @import 'grids/base';
 @import 'grids/grid_breakout';
-@import 'grids/grid_3';
 
 // Components
 @import 'components/sample_component';

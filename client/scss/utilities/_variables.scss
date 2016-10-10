@@ -8,16 +8,21 @@ $font-large: 2.6rem;
 $font-xlarge: 3.4rem;
 $font-xxlarge: 4rem;
 
+$smallColumnNumber: 4;
+$mediumColumnNumber: 8;
+$largeColumnNumber: 12;
+
 $container-width: (
-  'large': 1424px,
+  'small': 100%,
   'medium': 100%,
-  'small': 100%
+  'large': 100%,
+  'xlarge': 1424px
 );
 
 $container-padding: (
-  'large': 60px,
+  'small': 30px,
   'medium': 42px,
-  'small': 30px
+  'large': 60px
 );
 
 $gutter-width: (
@@ -45,9 +50,10 @@ $colors: (
 );
 
 $breakpoints: (
-  'large': 1424px,
-  'medium': 960px,
-  'small': 600px
+  'small': 0,
+  'medium': 600px,
+  'large': 960px,
+  'xlarge': 1424px
 );
 
 // Empty map for respond-to mixin
