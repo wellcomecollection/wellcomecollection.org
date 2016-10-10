@@ -11,6 +11,7 @@ The new home of the betanextbest.wellcomecollection.org website.
 # server
     
     cd server
+    npm install
     npm run watch
     
 The assets are then compiled to the root `/dist` directory which is then referenced by the server

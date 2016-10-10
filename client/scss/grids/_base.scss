@@ -1,7 +1,7 @@
 //* @define grid; weak
-
 .grid {
   display: flex;
+  flex-wrap: wrap;
   margin-top: $vertical-space-unit;
   margin-bottom: $vertical-space-unit;
   margin-left: -(map-get($gutter-width, 'small'));
