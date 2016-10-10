@@ -5,7 +5,7 @@ const webpack = require('webpack-stream');
 const browserSync = require('browser-sync').create();
 const gulpStylelint = require('gulp-stylelint');
 const sourcemaps = require('gulp-sourcemaps');
-const onst gutil = require('gulp-util');
+const gutil = require('gulp-util');
 const webpackConfig = require('./webpack.config.js');
 
 const sources = {
