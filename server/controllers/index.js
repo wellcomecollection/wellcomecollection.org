@@ -1,4 +1,5 @@
-// const {get} = require('./util/http');
+const {get} = require('../util/http');
+const Article = require('../model/article');
 
 module.exports = {
   patterns: {
@@ -6,6 +7,17 @@ module.exports = {
     typography: (ctx) => ctx.render('patterns/typography', {}),
     grids: (ctx) => ctx.render('patterns/grids', {}),
     palette: (ctx) => ctx.render('patterns/palette', {})
+  },
+
+  article: async (ctx) => {
+    const id = ctx.params.id;
+    const uri = {
+      host: 'blog.wellcomelibrary.org',
+      path: `/wp-json/wp/v2/posts/${id}`
+    };
+
+    const json = await get(uri);
+    return ctx.render('article/index', Article.fromWordpressData(json));
   },
 
   healthcheck: (ctx) => ctx.body = 'ok'

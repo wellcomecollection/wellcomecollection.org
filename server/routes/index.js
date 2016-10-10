@@ -4,7 +4,7 @@ module.exports = function (router, controllers) {
   router.get('/patterns/grids', controllers.patterns.grids);
   router.get('/patterns/palette', controllers.patterns.palette);
 
-  // router.get('/library/:id*', controllers.article);
+  router.get('/library/:id*', controllers.article);
 
   router.get('/healthcheck', controllers.healthcheck);
 
