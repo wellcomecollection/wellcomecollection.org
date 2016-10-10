@@ -4,6 +4,8 @@ To deploy you will have to have the [AWS CLI installed](http://docs.aws.amazon.c
 and your [AWS credentials setup](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html). 
 
 To get deploying, you'll need to get some `tfvars` from a friendly developer near you.
+Save them in `terraform/terraform.tfvars`.
+
 They well look something like:
  
     aws_access_key               = "KEY"
