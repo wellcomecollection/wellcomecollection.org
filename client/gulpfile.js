@@ -9,7 +9,6 @@ const gutil = require('gulp-util');
 const webpackConfig = require('./webpack.config.js');
 const svgstore = require('gulp-svgstore')
 const svgmin = require('gulp-svgmin')
-const path = require('path')
 const inject = require('gulp-inject')
 
 const sources = {
