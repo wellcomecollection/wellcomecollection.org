@@ -1,14 +1,14 @@
-'use strict'
+const gulp = require('gulp');
+const sass = require('gulp-sass');
+const autoprefixer = require('gulp-autoprefixer');
+const webpack = require('webpack-stream');
+const browserSync = require('browser-sync').create();
+const gulpStylelint = require('gulp-stylelint');
+const sourcemaps = require('gulp-sourcemaps');
+const onst gutil = require('gulp-util');
+const webpackConfig = require('./webpack.config.js');
 
-let gulp = require('gulp')
-let sass = require('gulp-sass')
-let sourcemaps = require('gulp-sourcemaps')
-let autoprefixer = require('gulp-autoprefixer')
-let webpack = require('webpack-stream')
-let browserSync = require('browser-sync').create()
-let gulpStylelint = require('gulp-stylelint')
-let gutil = require('gulp-util')
-let sources = {
+const sources = {
   css: {
     manifests: [
       'scss/application.scss',
@@ -17,12 +17,12 @@ let sources = {
     all: 'scss/**/*.scss',
     distPath: '../dist/assets/css'
   },
-  scripts: {
-    entry: 'js/styleguide.js',
+  js: {
+    entry: './js/app.js',
     distPath: '../dist/assets/js/',
     all: 'js/**/*.js'
   }
-}
+};
 
 gulp.task('styles', () => {
   return gulp.src(sources.css.manifests)
@@ -41,8 +41,8 @@ gulp.task('styles', () => {
     }))
     .pipe(gutil.env.dev ? sourcemaps.write() : gutil.noop())
     .pipe(gulp.dest(sources.css.distPath))
-    .pipe(browserSync.stream())
-})
+    .pipe(browserSync.stream());
+});
 
 gulp.task('stylelint', () => {
   return gulp.src(sources.css.all)
@@ -52,21 +52,22 @@ gulp.task('stylelint', () => {
       reporters: [
         {formatter: 'string', console: true}
       ]
-    }))
-})
+    }));
+});
 
-gulp.task('scripts', () => {
-  return gulp.src(sources.scripts.entry)
-    .pipe(webpack(require('./webpack.config.js')))
-    .pipe(gulp.dest(sources.scripts.distPath))
-})
+gulp.task('js', () => {
+  return gulp.src(sources.js.entry)
+      .pipe(webpack(webpackConfig))
+      .pipe(gulp.dest(sources.js.distPath));
+});
 
 gulp.task('watch', () => {
   browserSync.init({
+    open: false,
     proxy: 'localhost:3000/patterns'
-  })
-  gulp.watch(sources.css.all, ['styles', 'stylelint'])
-  gulp.watch(sources.scripts.all, ['scripts'])
-})
+  });
+  gulp.watch(sources.css.all, ['styles', 'stylelint']);
+  gulp.watch(sources.js.all, ['js']);
+});
 
-gulp.task('default', ['styles', 'scripts', 'stylelint'])
+gulp.task('default', ['styles', 'js', 'stylelint']);
