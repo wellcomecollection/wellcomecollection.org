@@ -5,8 +5,11 @@ const webpack = require('webpack-stream');
 const browserSync = require('browser-sync').create();
 const gulpStylelint = require('gulp-stylelint');
 const sourcemaps = require('gulp-sourcemaps');
-const onst gutil = require('gulp-util');
+const gutil = require('gulp-util');
 const webpackConfig = require('./webpack.config.js');
+const svgstore = require('gulp-svgstore')
+const svgmin = require('gulp-svgmin')
+const inject = require('gulp-inject')
 
 const sources = {
   css: {
@@ -21,6 +24,13 @@ const sources = {
     entry: './js/app.js',
     distPath: '../dist/assets/js/',
     all: 'js/**/*.js'
+  },
+  images: {
+    icons: {
+      all: 'images/icons/*.svg',
+      srcPath: 'images/icons/svg-sprite.njk',
+      distPath: '../server/views/partials'
+    }
   }
 };
 
@@ -55,6 +65,20 @@ gulp.task('stylelint', () => {
     }));
 });
 
+gulp.task('svgstore', function () {
+  const svgs = gulp.src(sources.images.icons.all)
+      .pipe(svgmin())
+      .pipe(svgstore({inlineSvg: true}))
+
+  const fileContents = (filePath, file) => {
+    return file.contents.toString()
+  }
+
+  return gulp.src(sources.images.icons.srcPath)
+    .pipe(inject(svgs, {transform: fileContents}))
+    .pipe(gulp.dest(sources.images.icons.distPath))
+})
+
 gulp.task('js', () => {
   return gulp.src(sources.js.entry)
       .pipe(webpack(webpackConfig))
@@ -65,9 +89,10 @@ gulp.task('watch', () => {
   browserSync.init({
     open: false,
     proxy: 'localhost:3000/patterns'
-  });
+  })
   gulp.watch(sources.css.all, ['styles', 'stylelint']);
   gulp.watch(sources.js.all, ['js']);
-});
+  gulp.watch(sources.images.icons.all, ['svgstore'])
+})
 
-gulp.task('default', ['styles', 'js', 'stylelint']);
+gulp.task('default', ['styles', 'js', 'svgstore', 'stylelint'])

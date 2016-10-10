@@ -16,6 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "babel-core": "^6.17.0",
+    "babel-polyfill": "^6.16.0",
     "babel-preset-es2015": "^6.16.0",
     "babel-preset-stage-3": "^6.17.0",
     "co": "^4.6.0",
@@ -26,7 +27,6 @@
     "nunjucks": "^2.5.2"
   },
   "devDependencies": {
-    "babel-polyfill": "^6.16.0",
     "nodemon": "^1.10.2",
     "pm2": "^2.0.18",
     "regenerator": "^0.8.46"
