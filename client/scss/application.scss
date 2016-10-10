@@ -1,5 +1,5 @@
 // Vendor
-@import 'vendor/reset';
+@import 'vendor/normalize';
 
 // Utilities
 @import 'utilities/variables';
@@ -7,12 +7,13 @@
 @import 'utilities/functions';
 
 // Base
+@import 'base/layout';
+@import 'base/container';
 @import 'base/typography';
 
 // Grids
 @import 'grids/base';
 @import 'grids/grid_breakout';
-@import 'grids/grid_3';
 
 // Components
 @import 'components/sample_component';

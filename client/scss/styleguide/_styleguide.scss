@@ -77,9 +77,8 @@ html,
 
 .styleguide__chevron {
   position: relative;
-  top: 0.2rem;
-  width: 1rem;
-  height: 1rem;
+  width: 1.2rem;
+  height: 1.2rem;
   fill: color('currentColor');
 
   .styleguide__section.is-active & {
@@ -254,5 +253,20 @@ html,
 
   .styleguide__section.is-active & {
     display: block;
+  }
+}
+
+.styleguide__icon-sprite {
+  height: 0;
+  width: 0;
+  position: absolute;
+  visibility: hidden;
+}
+
+.styleguide__icon-wrap {
+  svg {
+    display: block;
+    width: 4em;
+    height: 4em;
   }
 }
