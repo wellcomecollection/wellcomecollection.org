@@ -1,0 +1,25 @@
+/* grid__cell width modififiers */
+@for $i from 1 through $smallColumnNumber {
+  .grid__cell--s#{$i} {
+    flex-basis: ($i/$smallColumnNumber)*100%;
+    max-width: ($i/$smallColumnNumber)*100%;
+  }
+}
+
+@include respond-to('medium') {
+  @for $i from 1 through $mediumColumnNumber {
+    .grid__cell--m#{$i} {
+      flex-basis: ($i/$mediumColumnNumber)*100%;
+      max-width: ($i/$mediumColumnNumber)*100%;
+    }
+  }
+}
+
+@include respond-to('large') {
+  @for $i from 1 through $largeColumnNumber {
+    .grid__cell--l#{$i} {
+      flex-basis: ($i/$largeColumnNumber)*100%;
+      max-width: ($i/$largeColumnNumber)*100%;
+    }
+  }
+}

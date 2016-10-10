@@ -1,17 +1,17 @@
-'use strict'
-
-const gulp = require('gulp')
-const sass = require('gulp-sass')
-const sourcemaps = require('gulp-sourcemaps')
-const autoprefixer = require('gulp-autoprefixer')
-const webpack = require('webpack-stream')
-const browserSync = require('browser-sync').create()
-const gulpStylelint = require('gulp-stylelint')
-const gutil = require('gulp-util')
+const gulp = require('gulp');
+const sass = require('gulp-sass');
+const autoprefixer = require('gulp-autoprefixer');
+const webpack = require('webpack-stream');
+const browserSync = require('browser-sync').create();
+const gulpStylelint = require('gulp-stylelint');
+const sourcemaps = require('gulp-sourcemaps');
+const gutil = require('gulp-util');
+const webpackConfig = require('./webpack.config.js');
 const svgstore = require('gulp-svgstore')
 const svgmin = require('gulp-svgmin')
 const path = require('path')
 const inject = require('gulp-inject')
+
 const sources = {
   css: {
     manifests: [
@@ -21,8 +21,8 @@ const sources = {
     all: 'scss/**/*.scss',
     distPath: '../dist/assets/css'
   },
-  scripts: {
-    entry: 'js/styleguide.js',
+  js: {
+    entry: './js/app.js',
     distPath: '../dist/assets/js/',
     all: 'js/**/*.js'
   },
@@ -33,7 +33,7 @@ const sources = {
       distPath: '../server/views/partials'
     }
   }
-}
+};
 
 gulp.task('styles', () => {
   return gulp.src(sources.css.manifests)
@@ -52,8 +52,8 @@ gulp.task('styles', () => {
     }))
     .pipe(gutil.env.dev ? sourcemaps.write() : gutil.noop())
     .pipe(gulp.dest(sources.css.distPath))
-    .pipe(browserSync.stream())
-})
+    .pipe(browserSync.stream());
+});
 
 gulp.task('stylelint', () => {
   return gulp.src(sources.css.all)
@@ -63,8 +63,8 @@ gulp.task('stylelint', () => {
       reporters: [
         {formatter: 'string', console: true}
       ]
-    }))
-})
+    }));
+});
 
 gulp.task('svgstore', function () {
   const svgs = gulp.src(sources.images.icons.all)
@@ -80,19 +80,20 @@ gulp.task('svgstore', function () {
     .pipe(gulp.dest(sources.images.icons.distPath))
 })
 
-gulp.task('scripts', () => {
-  return gulp.src(sources.scripts.entry)
-    .pipe(webpack(require('./webpack.config.js')))
-    .pipe(gulp.dest(sources.scripts.distPath))
-})
+gulp.task('js', () => {
+  return gulp.src(sources.js.entry)
+      .pipe(webpack(webpackConfig))
+      .pipe(gulp.dest(sources.js.distPath));
+});
 
 gulp.task('watch', () => {
   browserSync.init({
+    open: false,
     proxy: 'localhost:3000/patterns'
   })
-  gulp.watch(sources.css.all, ['styles', 'stylelint'])
-  gulp.watch(sources.scripts.all, ['scripts'])
+  gulp.watch(sources.css.all, ['styles', 'stylelint']);
+  gulp.watch(sources.js.all, ['js']);
   gulp.watch(sources.images.icons.all, ['svgstore'])
 })
 
-gulp.task('default', ['styles', 'scripts', 'svgstore', 'stylelint'])
+gulp.task('default', ['styles', 'js', 'svgstore', 'stylelint'])

@@ -6,12 +6,11 @@
 <!--[if gt IE 9]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
     <title>Wellcome Styleguide</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script>
         document.documentElement.className = document.documentElement.className.replace('no-js', '');
     </script>
-    <link rel="stylesheet" type="text/css" href="/assets/css/styleguide.css">
-    <script src="/assets/js/styleguide.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets/css/styleguide.css" id="main-stylesheet" />
 </head>
 <body>
 {% include "views/partials/svg-sprite.njk" %}
@@ -73,5 +72,8 @@
         {% block body %}
         {% endblock %}
     </div>
+</div>
+{# Not massively sure this is the way forward, but async and other things cause trouble with DomContentLoaded #}
+<script src="/assets/js/app.js"></script>
 </body>
 </html>
