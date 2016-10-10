@@ -1,5 +1,3 @@
-// const {get} = require('./util/http');
-
 module.exports = {
   patterns: {
     index: (ctx) => ctx.render('patterns/index', {}),
