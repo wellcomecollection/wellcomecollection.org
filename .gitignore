@@ -20,6 +20,3 @@ build/
 # intelliJ
 wellcomecollection.org.iml
 .idea/
-
-# Ignore generated svg-sprite
-server/**/svg-sprite.njk
