@@ -3,6 +3,7 @@
   "rules": {
     "space-before-function-paren": "off",
     "camelcase": "off",
-    "semi": ["error", "always"]
+    "semi": ["error", "always"],
+    "indent": ["error", 2]
   }
 }

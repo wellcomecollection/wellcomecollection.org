@@ -12,7 +12,6 @@ They well look something like:
     aws_secret_key               = "SECRETSHHH"
     wellcomecollection_key_path  = "/Users/hank/.ssh/key.pub"
     wellcomecollection_key_name  = "KEY_NAME"
-    build_bucket                 = "BUCKET"
 
 Be very careful of not checking these in, `tfvars` are excluded from git at the root level,
 but probably worth mentioning.
@@ -21,8 +20,10 @@ If you noticed there is a reference to a key file there, you will need to get th
  
 Once that's done run:
 
-    ./airbag.sh <BUILD_STATE_BUCKET>
+    ./airbag.js
     
-You'll be asked for a build number - get that from [cirleci](https://circleci.com/gh/wellcometrust/wellcomecollection.org).
+You'll be asked to select the build bucket and build number.
+You can ge the build number from [cirleci](https://circleci.com/gh/wellcometrust/wellcomecollection.org).
+__Please only deploy master, as those are the only artifacts that exist__.
 
 That should deploy your changes once all the LBs and instances are reporting healthy.
