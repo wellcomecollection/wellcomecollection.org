@@ -8,3 +8,4 @@
 * Only allow valid builds 
 * Pump AMI ref into Terraform vars from Packer. 
 * Make airbag target the asg and instances only
+* What do we do about concurrent deploys? Queue?
