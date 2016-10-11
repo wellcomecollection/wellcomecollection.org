@@ -2,7 +2,7 @@
   "extends": ["standard"],
   "rules": {
     "space-before-function-paren": "off",
-    "camelcase": "off",
+    "no-return-assign": "off",
     "semi": ["error", "always"]
   }
 }
