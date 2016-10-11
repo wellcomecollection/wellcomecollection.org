@@ -38,7 +38,7 @@
     "webpack-stream": "^3.2.0"
   },
   "scripts": {
-    "compile": "gulp",
+    "compile": "gulp compile",
     "compile:watch": "gulp watch --dev",
     "test": "exit 0"
   }
