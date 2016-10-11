@@ -12,13 +12,13 @@
       @content;
     }
   } @else {
-    @warn "Could not find `#{$point}` in both local ($tweakpoints) and global ($breakpoints) contexts. Media block omitted.";
+    @warn 'Could not find `#{$point}` in both local ($tweakpoints) and global ($breakpoints) contexts. Media block omitted.';
   }
 }
 
 @mixin respond-between($point1, $point2) {
   // Check global breakpoints first
-  @if map-has-key($breakpoints, $point1) and map-has-key($breakpoints, $point2)  {
+  @if map-has-key($breakpoints, $point1) and map-has-key($breakpoints, $point2) {
     @media (min-width: map-get($breakpoints, $point1)) and (max-width: map-get($breakpoints, $point2) - 1) {
       @content;
     }
@@ -28,7 +28,7 @@
       @content;
     }
   } @else {
-    @warn "Could not find `#{$point1}` and/or `#{$point2}` in both local ($tweakpoints) and global ($breakpoints) contexts. Media block omitted.";
+    @warn 'Could not find `#{$point1}` and/or `#{$point2}` in both local ($tweakpoints) and global ($breakpoints) contexts. Media block omitted.';
   }
 }
 

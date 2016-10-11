@@ -6,8 +6,7 @@
     "stylelint-scss"
   ],
   "ignoreFiles": [
-    "scss/vendor/**/*",
-    "scss/utilities/**/*"
+    "scss/vendor/**/*"
   ],
   "rules": {
     "plugin/declaration-block-order": [
@@ -125,10 +124,12 @@
           "blockless-group",
           "first-nested"
         ],
+        "ignoreAtRules": ["else"],
         "ignore": [
           "after-comment"
         ]
       }
-    ]
+    ],
+    "shorthand-property-no-redundant-values": true
   }
 }
