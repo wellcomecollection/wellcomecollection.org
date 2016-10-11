@@ -32,13 +32,8 @@
             <a href="/patterns/icons" class="styleguide__link styleguide__link--standalone">Icons</a>
         </section>
 
-        <section class="styleguide__section js-toggle-drawer">
-            <h2 class="styleguide__subheading js-trigger">
-                <svg class="styleguide__chevron" aria-hidden=true>
-                    <use xlink:href="#icon-chevron"></use>
-                </svg>
-                Templates
-            </h2>
+        <section class="styleguide__section" data-component="drawer">
+            <h2 class="styleguide__subheading js-trigger">Templates</h2>
             <ul class="styleguide__list">
                 {#{each templates as |template|}#}
                 <li class="styleguide__item"><a class="styleguide__link" href="/templates/{{template.key}}">{{template.name}}</a></li>
@@ -46,13 +41,8 @@
             </ul>
         </section>
 
-        <section class="styleguide__section js-toggle-drawer">
-            <h2 class="styleguide__subheading js-trigger">
-                <svg class="styleguide__chevron" aria-hidden=true>
-                    <use xlink:href="#icon-chevron"></use>
-                </svg>
-                Components
-            </h2>
+        <section class="styleguide__section" data-component="drawer">
+            <h2 class="styleguide__subheading js-trigger">Components</h2>
             <ul class="styleguide__list">
                 <li class="styleguide__item"><a class="styleguide__link" href="/components">All components</a></li>
                 {#{each components as |component|}#}
