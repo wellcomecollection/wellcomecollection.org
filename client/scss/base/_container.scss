@@ -1,21 +1,17 @@
 .container {
   margin: 0 auto;
-  max-width: map-get($container-width, 'small');
+  max-width: $container-width-max;
   padding: 0  map-get($container-padding, 'small');
 
   @include respond-to('medium') {
-    max-width: map-get($container-width, 'medium');
     padding: 0  map-get($container-padding, 'medium');
   }
 
   @include respond-to('large') {
-    max-width: map-get($container-width, 'large');
     padding: 0  map-get($container-padding, 'large');
   }
 
   @include respond-to('xlarge') {
-    max-width: map-get($container-width, 'xlarge');
     box-sizing: content-box;
   }
-
 }

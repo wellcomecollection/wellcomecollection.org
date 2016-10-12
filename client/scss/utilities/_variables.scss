@@ -12,12 +12,7 @@ $smallColumnNumber: 4;
 $mediumColumnNumber: 8;
 $largeColumnNumber: 12;
 
-$container-width: (
-  'small': 100%,
-  'medium': 100%,
-  'large': 100%,
-  'xlarge': 1424px
-);
+$container-width-max: 1424px;
 
 $container-padding: (
   'small': 30px,
