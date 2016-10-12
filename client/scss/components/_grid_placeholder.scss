@@ -1,0 +1,9 @@
+//* @define grid-placeholder; weak
+
+.grid-placeholder {
+  min-height: 20px;
+  height: 100%;
+  background: color('mid-grey');
+  padding: 20px;
+  border-radius: 4px;
+}

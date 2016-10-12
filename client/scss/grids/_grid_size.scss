@@ -1,12 +1,14 @@
 /* grid__cell width modififiers */
-@for $i from 1 through $smallColumnNumber {
-  .grid__cell--s#{$i} {
-    flex-basis: ($i/$smallColumnNumber)*100%;
-    max-width: ($i/$smallColumnNumber)*100%;
+@include respond-between('small', 'medium') {
+  @for $i from 1 through $smallColumnNumber {
+    .grid__cell--s#{$i} {
+      flex-basis: ($i/$smallColumnNumber)*100%;
+      max-width: ($i/$smallColumnNumber)*100%;
+    }
   }
 }
 
-@include respond-to('medium') {
+@include respond-between('medium', 'large') {
   @for $i from 1 through $mediumColumnNumber {
     .grid__cell--m#{$i} {
       flex-basis: ($i/$mediumColumnNumber)*100%;
