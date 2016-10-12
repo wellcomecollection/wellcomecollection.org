@@ -97,13 +97,13 @@ gulp.task('js:lint', () =>  {
 });
 
 gulp.task('js', ['js:lint', 'js:compile']);
-gulp.task('scss', ['scss:lint', 'scss:lint']);
+gulp.task('scss', ['scss:lint', 'scss:compile']);
 
 gulp.task('browsersync', () => {
   browserSync.init({
     open: false,
     proxy: 'localhost:3000/patterns'
-  });  
+  });
 })
 
 gulp.task('watch', () => {
