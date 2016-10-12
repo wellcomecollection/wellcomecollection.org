@@ -39,7 +39,7 @@
   },
   "scripts": {
     "compile": "gulp compile",
-    "compile:watch": "gulp watch --dev",
+    "compile:dev": "gulp dev --dev",
     "test": "exit 0"
   }
 }
