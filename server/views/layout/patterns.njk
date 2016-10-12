@@ -5,66 +5,66 @@
 <!--[if IE 9]><html class="no-js lt-ie10"> <![endif]-->
 <!--[if gt IE 9]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
-    <title>Wellcome Styleguide</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script>
+  <title>Wellcome Styleguide</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>
         document.documentElement.className = document.documentElement.className.replace('no-js', '');
     </script>
-    <link rel="stylesheet" type="text/css" href="/assets/css/styleguide.css" id="main-stylesheet" />
+  <link rel="stylesheet" type="text/css" href="/assets/css/styleguide.css" id="main-stylesheet" />
 </head>
 <body>
-{% include "views/partials/svg-sprite.njk" %}
-<div class="styleguide">
+  {% include "views/partials/svg-sprite.njk" %}
+  <div class="styleguide">
     <div class="styleguide__sidebar">
-        <a href="/patterns" class="styleguide__logo-wrap">
-            <svg class="styleguide__logo" aria-hidden="true">
-                <use xlink:href="#icon-wellcome-logo"></use>
-            </svg>
-            <span class="styleguide__subheading">Pattern library</span>
-        </a>
+      <a href="/patterns" class="styleguide__logo-wrap">
+        <svg class="styleguide__logo" aria-hidden="true">
+          <use xlink:href="#icon-wellcome-logo"></use>
+        </svg>
+        <span class="styleguide__subheading">Pattern library</span>
+      </a>
 
-        <nav class="styleguide__side-nav">
-            <ul class="styleguide__list">
-                <li class="styleguide__item"><a href="/patterns/typography" class="styleguide__link">Typography</a></li>
-                <li class="styleguide__item"><a href="/patterns/grids" class="styleguide__link">Grids</a></li>
-                <li class="styleguide__item"><a href="/patterns/palette" class="styleguide__link">Palette</a></li>
-                <li class="styleguide__item"><a href="/patterns/icons" class="styleguide__link">Icons</a></li>
-            </ul>
-        </nav>
+      <nav class="styleguide__side-nav">
+        <ul class="styleguide__list">
+          <li class="styleguide__item"><a href="/patterns/typography" class="styleguide__link">Typography</a></li>
+          <li class="styleguide__item"><a href="/patterns/grids" class="styleguide__link">Grids</a></li>
+          <li class="styleguide__item"><a href="/patterns/palette" class="styleguide__link">Palette</a></li>
+          <li class="styleguide__item"><a href="/patterns/icons" class="styleguide__link">Icons</a></li>
+        </ul>
+      </nav>
 
-        <nav class="styleguide__side-nav">
-            <h2 class="styleguide__item">Templates</h2>
-            <ul class="styleguide__list">
-                {#{each templates as |template|}#}
-                <li class="styleguide__item"><a class="styleguide__link" href="/templates/{{template.key}}">{{template.name}}</a></li>
-                {#{!/each}#}
-            </ul>
-        </nav>
+      <nav class="styleguide__side-nav">
+        <h2 class="styleguide__item">Templates</h2>
+        <ul class="styleguide__list">
+          {#{each templates as |template|}#}
+          <li class="styleguide__item"><a class="styleguide__link" href="/templates/{{template.key}}">{{template.name}}</a></li>
+          {#{!/each}#}
+        </ul>
+      </nav>
 
-        <nav class="styleguide__side-nav">
-            <h2 class="styleguide__item">Components</h2>
-            <ul class="styleguide__list styleguide__list--small">
-                <li class="styleguide__item"><a class="styleguide__link" href="/components">All components</a></li>
-                {#{each components as |component|}#}
-                <li class="styleguide__item"><a class="styleguide__link" href="/components/{{component.key}}">{{component.name}}</a></li>
-                {#{/each}#}
-            </ul>
-        </nav>
+      <nav class="styleguide__side-nav">
+        <h2 class="styleguide__item">Components</h2>
+        <ul class="styleguide__list styleguide__list--small">
+          <li class="styleguide__item"><a class="styleguide__link" href="/components">All components</a></li>
+          {#{each components as |component|}#}
+          <li class="styleguide__item"><a class="styleguide__link" href="/components/{{component.key}}">{{component.name}}</a></li>
+          {#{/each}#}
+        </ul>
+      </nav>
     </div>
 
     <div class="styleguide__main">
-        <nav class="styleguide__top-nav">
-            <a href="#" class="styleguide__menu" title="menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </a>
-        </nav>
-        {% block body %}
-        {% endblock %}
+      <nav class="styleguide__top-nav">
+        <a href="#" class="styleguide__menu" title="menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </a>
+      </nav>
+      {% block body %}
+      {% endblock %}
     </div>
-</div>
-{# Not massively sure this is the way forward, but async and other things cause trouble with DomContentLoaded #}
-<script src="/assets/js/app.js"></script>
+  </div>
+  {# Not massively sure this is the way forward, but async and other things cause trouble with DomContentLoaded #}
+  <script src="/assets/js/app.js"></script>
 </body>
 </html>
