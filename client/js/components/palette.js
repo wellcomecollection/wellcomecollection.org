@@ -2,9 +2,10 @@ export default (el) => {
   const computedStyle = window.getComputedStyle(el, ':after').content.replace(/"/g, '').split(' ');
   const palette = computedStyle.map((str, i) => {
     if (!(i % 2)) {
-      return { name: str, hex: computedStyle[i+1] };
+      return { name: str, hex: computedStyle[i + 1] };
     }
-  }).filter(o => o); // remove the `undefined`s
+  }).filter(o => o) // Remove `undefined`s
+    .filter(o => o.hex.indexOf('#') > -1); // Remove non-hex values (e.g. 'currentColor')
 
   palette.forEach((pair) => {
     const descriptionEl = document.createElement('div');
@@ -16,5 +17,4 @@ export default (el) => {
 
     el.appendChild(descriptionEl.querySelector('.styleguide__hex'));
   });
-
 };

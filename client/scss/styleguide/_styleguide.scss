@@ -42,6 +42,7 @@ html,
 
 .styleguide__heading {
   margin-bottom: 4rem;
+  margin-top: 0;
 }
 
 .styleguide__logo-wrap {
@@ -69,7 +70,6 @@ html,
   font-size: $font-xsmall;
   cursor: pointer;
   position: relative;
-  margin-left: -0.2rem;
   font-weight: 500;
   text-transform: uppercase;
   margin-bottom: 0.8em;
@@ -145,11 +145,7 @@ html,
 
 .styleguide__list {
   list-style: none;
-  display: none;
-
-  .styleguide__section.is-active & {
-    display: block;
-  }
+  padding: 0;
 }
 
 .styleguide__item {
@@ -237,23 +233,6 @@ html,
   color: color('white');
   text-shadow: 0.05em 0.05em 0 rgba(33, 33, 33, 0.8);
   border-radius: 2px;
-}
-
-.styleguide__code {
-  font-family: $font-mono;
-  font-size: $font-small;
-  max-width: 100%;
-  overflow: auto;
-  padding: 20px;
-  background: color('granite');
-  color: color('white');
-  text-shadow: 0.05em 0.05em 0 rgba(33, 33, 33, 0.8);
-  border-radius: 3px;
-  display: none;
-
-  .styleguide__section.is-active & {
-    display: block;
-  }
 }
 
 .styleguide__icon-sprite {
