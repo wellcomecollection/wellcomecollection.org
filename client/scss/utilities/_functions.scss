@@ -1,3 +1,5 @@
 @function color($name) {
+  $name: quote($name);
+
   @return map-get($colors, $name);
 }

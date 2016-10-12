@@ -1,0 +1,21 @@
+.grid--dividers {
+  .grid__cell {
+    border-left: 1px solid color('light-grey');
+    padding-left: map-get($gutter-width, 'small')/2;
+    margin-left: map-get($gutter-width, 'small')/2 - 1;
+
+    @include respond-to('medium') {
+      padding-left: map-get($gutter-width, 'medium')/2;
+      margin-left: map-get($gutter-width, 'medium')/2 - 1;
+    }
+
+    @include respond-to('large') {
+      padding-left: map-get($gutter-width, 'large')/2;
+      margin-left: map-get($gutter-width, 'large')/2 - 1;
+    }
+
+    &:first-child {
+      border-color: color('transparent');
+    }
+  }
+}

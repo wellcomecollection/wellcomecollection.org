@@ -12,8 +12,12 @@
 @import 'base/typography';
 
 // Grids
-@import 'grids/base';
+@import 'grids/grid_base';
+@import 'grids/grid_alignment';
 @import 'grids/grid_breakout';
+@import 'grids/grid_dividers';
+@import 'grids/grid_size';
 
 // Components
 @import 'components/sample_component';
+@import 'components/grid_placeholder';

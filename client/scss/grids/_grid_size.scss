@@ -1,0 +1,27 @@
+/* grid__cell width modififiers */
+@include respond-between('small', 'medium') {
+  @for $i from 1 through $small-column-number {
+    .grid__cell--s#{$i} {
+      flex-basis: ($i/$small-column-number)*100%;
+      max-width: ($i/$small-column-number)*100%;
+    }
+  }
+}
+
+@include respond-between('medium', 'large') {
+  @for $i from 1 through $medium-column-number {
+    .grid__cell--m#{$i} {
+      flex-basis: ($i/$medium-column-number)*100%;
+      max-width: ($i/$medium-column-number)*100%;
+    }
+  }
+}
+
+@include respond-to('large') {
+  @for $i from 1 through $large-column-number {
+    .grid__cell--l#{$i} {
+      flex-basis: ($i/$large-column-number)*100%;
+      max-width: ($i/$large-column-number)*100%;
+    }
+  }
+}
