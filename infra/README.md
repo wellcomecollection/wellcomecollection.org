@@ -5,20 +5,25 @@
 * [AWS credentials](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html)
 * [Terraform](https://www.terraform.io/intro/getting-started/install.html) 
 
-To get deploying, you'll need to get some `tfvars` from a friendly developer near you.
-Save them in `terraform/terraform.tfvars`.
 
-They well look something like:
+## Setup
+
+* You'll need to get some `tfvars` from a friendly developer near you.
+  Save them in `terraform/terraform.tfvars`.
+
+  They well look something like:
  
-    aws_access_key               = "KEY"
-    aws_secret_key               = "SECRETSHHH"
-    wellcomecollection_key_path  = "/Users/hank/.ssh/key.pub"
-    wellcomecollection_key_name  = "KEY_NAME"
+      aws_access_key               = "KEY"
+      aws_secret_key               = "SECRETSHHH"
+      wellcomecollection_key_path  = "/Users/hank/.ssh/key.pub"
+      wellcomecollection_key_name  = "KEY_NAME"
+
+* Aquire the public key from a friendly Wellcome Collection developer near you.
+  
+  Save it somewhere and If you noticed there is a reference to a key file there, you will need to get that too.
 
 Be very careful of not checking these in, `tfvars` are excluded from git at the root level,
-but probably worth mentioning.
-
-If you noticed there is a reference to a key file there, you will need to get that too. 
+but probably worth mentioning. 
  
 Once that's done run:
 

@@ -2,7 +2,6 @@ const AWS = require('aws-sdk');
 const inquirer = require('inquirer');
 const exec = require('child_process').exec;
 
-
 async function getBuckets() {
   const s3 = new AWS.S3({
     sslEnabled: true,
@@ -45,14 +44,16 @@ async function getBuckets() {
 
   const {buildNumber} = await inquirer.prompt(buildNumbersQ);
 
+  const deployStart = Date.now();
   console.info(`Deploying build: ${buildNumber} of wellcomecollection.org to prod...`);
-  console.time('deploy');
+  
   exec(`./deploy.sh ${bucket} ${buildNumber}`, (err, stdout) => {
     if (err) {
       console.error('There was an error deploying, please make sure you check that the AWS setup is not mangled.');
     }
     else {
-      console.info(`Deployed build: ${buildNumber} of wellcomecollection.org to prod in ${console.timeEnd('deploy')}`)
+      const deployedIn = Date.now() - deployStart;
+      console.info(`Deployed build: ${buildNumber} of wellcomecollection.org to prod in ${deployedIn/100} seconds`);
     }
   });
 }
