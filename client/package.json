@@ -42,6 +42,6 @@
     "compile": "gulp compile",
     "compile:dev": "gulp dev --dev",
     "test": "exit 0",
-    "precommit": "gulp scss:lint && gulp js:lint"
+    "prepush": "gulp scss:lint && gulp js:lint"
   }
 }
