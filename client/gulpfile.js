@@ -61,7 +61,7 @@ gulp.task('scss:lint', () => {
   return gulp.src(sources.scss.all)
     .pipe(gulpStylelint({
       syntax: 'scss',
-      failAfterError: false,
+      failAfterError: !gutil.env.dev,
       reporters: [
         {formatter: 'string', console: true}
       ]
@@ -89,8 +89,8 @@ gulp.task('js:compile', () => {
     .pipe(gulp.dest(sources.js.distPath));
 });
 
-gulp.task('js:lint', () =>  {
-  return gulp.src(sources.js.entry)
+gulp.task('js:lint', () => {
+  return gulp.src(sources.js.all)
     .pipe(eslint(eslintConfig))
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
@@ -104,7 +104,7 @@ gulp.task('browsersync', () => {
     open: false,
     proxy: 'localhost:3000/patterns'
   });
-})
+});
 
 gulp.task('watch', () => {
   gulp.watch(sources.scss.all, ['scss', 'scss:lint']);
