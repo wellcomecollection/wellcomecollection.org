@@ -32,6 +32,7 @@
     "scss/at-import-partial-extension-blacklist": ["scss"],
     "scss/at-extend-no-missing-placeholder": true,
     "scss/at-import-no-partial-leading-underscore": true,
+    "scss/dollar-variable-pattern": "^[a-z0-9]+((-[a-z0-9]+))*$",
     "plugin/selector-bem-pattern": {
       "componentName": "(([a-z0-9]+(?!-$)-?)+)",
       "componentSelectors": {
