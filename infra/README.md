@@ -11,16 +11,17 @@
 * You'll need to get some `tfvars` from a friendly developer near you.
   Save them in `terraform/terraform.tfvars`.
 
-  They well look something like:
+  They will look something like:
  
       aws_access_key               = "KEY"
       aws_secret_key               = "SECRETSHHH"
       wellcomecollection_key_path  = "/Users/hank/.ssh/key.pub"
       wellcomecollection_key_name  = "KEY_NAME"
 
-* Aquire the public key from a friendly Wellcome Collection developer near you.
+* Aquire the public key file from a friendly Wellcome Collection developer near you.
   
-  Save it somewhere and If you noticed there is a reference to a key file there, you will need to get that too.
+  Once you've got that you'll need to save it locally and reference it to `wellcomecollection_key_path`
+  in your `tfvars` file.
 
 Be very careful of not checking these in, `tfvars` are excluded from git at the root level,
 but probably worth mentioning. 

@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/wellcometrust/wellcomecollection.org/issues"
   },
-  "homepage": "https://github.com/wellcometrust/wellcomecollection.org#readme"
+  "homepage": "https://github.com/wellcometrust/wellcomecollection.org#readme",
+  "dependencies": {
+    "babel-register": "^6.16.3"
+  }
 }
