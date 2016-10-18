@@ -1,7 +1,7 @@
 {% extends "views/layout/patterns.njk" %} {% block body %}
 <article>
   <h1>Typography Style Guide</h1>
-  <p class="lede">Basic markup and typographic styles</p>
+  <p>Basic markup and typographic styles</p>
 
   <section>
     <div class="example">
@@ -123,7 +123,10 @@
   <h4>Image-based figure</h4>
   <div class="example">
     <figure>
-      <img src="http://lorempixel.com/680/400/abstract" alt="Example image" />
+      <img style="max-width: 100%;"
+        src="http://placehold.it/350x150"
+        srcset="http://placehold.it/700x300 700w,
+          http://placehold.it/1050x450 1050w" alt="Example image">
       <figcaption>
         This is a placeholder image, with supporting caption.
       </figcaption>
