@@ -1,7 +1,6 @@
 {% extends "views/layout/patterns.njk" %} {% block body %}
 <article>
-  <h1>Typography Style Guide</h1>
-  <p>Basic markup and typographic styles</p>
+  <h1>Typography styles</h1>
 
   <section>
     <div class="example">
@@ -42,10 +41,13 @@
     </pre>
   </div>
 
-  <h3>TODO: Blockquotes</h3>
+  <h3>Blockquotes</h3>
   <div class="example">
     <blockquote cite="http://hansard.millbanksystems.com/commons/1947/nov/11/parliament-bill#column_206">
       <p>Many forms of Government have been tried, and will be tried in this world of sin and woe. No one pretends that democracy is perfect or all-wise. Indeed, it has been said that democracy is the worst form of government except all those other forms that have been tried from time to time.</p>
+      <footer>
+        Winston Churchill, in <cite><a href="http://hansard.millbanksystems.com/commons/1947/nov/11/parliament-bill#column_206">a speech to the House of Commons</a></cite>, 11th November 1947.
+      </footer>
     </blockquote>
   </div>
 
@@ -125,35 +127,52 @@
     <figure>
       <img style="max-width: 100%;"
         src="http://placehold.it/350x150"
-        srcset="http://placehold.it/700x300 700w,
-          http://placehold.it/1050x450 1050w" alt="Example image">
+        srcset="http://placehold.it/350x150 350w,
+                http://placehold.it/700x300 700w,
+                http://placehold.it/1050x450 1050w"
+        sizes="(min-width: 800px) 50vw, 100vw"
+        alt="Example image">
+        <!-- Leaving off the sizes attribute, it would default to 100vw (maybe not a bad assumption) -->
       <figcaption>
         This is a placeholder image, with supporting caption.
       </figcaption>
     </figure>
   </div>
 
-  <h4>TODO: Text-based figure</h4>
+  <h4>Picture-based figure</h4>
   <div class="example">
     <figure>
-      <p>&#8216;Twas brillig, and the slithy toves
-        <br/> Did gyre and gimble in the wabe;
-        <br/> All mimsy were the borogoves,
-        <br/> And the mome raths outgrabe.</p>
+      <picture style="max-width: 100%">
+        <source media="(min-width: 1000px)"
+                srcset="http://placehold.it/1050/450 1050w,
+                        http://placehold.it/700/300 700w"
+                sizes="33.3vw" />
+        <source srcset="http://placehold.it/400/800 400w,
+                        http://placehold.it/600/1200 600w" />
+        <img style="max-width: 100%" src="http://placehold.it/700/300" alt="Example image" />
+      </picture>
       <figcaption>
-        <cite>Jabberwocky</cite> (first verse). Lewis Carroll, 1832-98
+        This is a placeholder "art-directed" image, with supporting caption.
       </figcaption>
     </figure>
   </div>
 
-  <h4>Quote citation as <code>figcaption</code></h4>
+  <h4>Text-based figure</h4>
   <div class="example">
-    <blockquote cite="http://hansard.millbanksystems.com/commons/1947/nov/11/parliament-bill#column_206">
-      <p>Many forms of Government have been tried, and will be tried in this world of sin and woe. No one pretends that democracy is perfect or all-wise. Indeed, it has been said that democracy is the worst form of government except all those other forms that have been tried from time to time.</p>
-    </blockquote>
-    <figcaption>
-      Winston Churchill, in <cite><a href="http://hansard.millbanksystems.com/commons/1947/nov/11/parliament-bill#column_206">a speech to the House of Commons</a></cite>. 11th November 1947
-    </figcaption>
+    <figure>
+      <figcaption>Get browser details using navigator</figcaption>
+      <pre>
+        function NavigatorExample() {
+          var txt;
+          txt = "Browser CodeName: " + navigator.appCodeName;
+          txt+= "Browser Name: " + navigator.appName;
+          txt+= "Browser Version: " + navigator.appVersion ;
+          txt+= "Cookies Enabled: " + navigator.cookieEnabled;
+          txt+= "Platform: " + navigator.platform;
+          txt+= "User-agent header: " + navigator.userAgent;
+        }
+      </pre>
+    </figure>
   </div>
 
   <h2 id="text">Text-level Semantics</h2>
@@ -184,8 +203,7 @@
       <br/><strong>Now selling for just &#163;2.99 a bottle!</strong></p>
   </div>
 
-  <h3>TODO: Citations</h3>
-  <p>The <code>cite</code> element is used to represent the title of a work (e.g. a book, essay, poem, song, film, TV show, sculpture, painting, musical, exhibition, etc). This can be a work that is being quoted or referenced in detail (i.e. a citation), or it can just be a work that is mentioned in passing. Example:</p>
+  <h3>Citations</h3>
   <div class="example">
     <p><cite>Universal Declaration of Human Rights</cite>, United Nations, December 1948. Adopted by General Assembly resolution 217 A (III).</p>
   </div>
@@ -262,12 +280,12 @@
     <p>I also have some <mark>kitten</mark>s who are visiting me these days. They&#8217;re really cute. I think they like my garden! Maybe I should adopt a <mark>kitten</mark>.</p>
   </div>
 
-  <h3 id="edits">Edits</h3>
+  <h3>Edits</h3>
   <div class="example">
     <p>She bought <del datetime="2005-05-30T13:00:00">two</del> <ins datetime="2005-05-30T13:00:00">five</ins> pairs of shoes.</p>
   </div>
 
-  <h2 id="tables">Tabular data</h2>
+  <h2>Tabular data</h2>
   <div class="example">
     <table>
       <caption>The Very Best Eggnog</caption>
