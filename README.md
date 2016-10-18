@@ -2,17 +2,30 @@
 
 The new home of the betanextbest.wellcomecollection.org website.
 
-# client
+## client
 
-    cd client
-    npm install
-    npm run compile OR npm run compile:watch (for developing)
-       
-# server
-    
-    cd server
-    npm install
-    npm run watch
-    
+```bash
+cd client
+npm install
+npm run compile:watch # for local development
+# or
+npm compile # one-off compile, used on build
+```
+
+## server
+
+```bash
+cd server
+npm install
+npm run watch
+```
+
+## infra
+
+```bash
+cd infra
+npm install
+```
+
 The assets are then compiled to the root `/dist` directory which is then referenced by the server
 app via koa-static.
