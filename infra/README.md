@@ -6,7 +6,6 @@
 - [AWS credentials](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html)
 - [Terraform](https://www.terraform.io/intro/getting-started/install.html)
 
-
 ## Setup
 
 - You'll need to get some `tfvars` from a friendly developer near you.
