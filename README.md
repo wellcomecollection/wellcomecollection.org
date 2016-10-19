@@ -7,7 +7,7 @@ The new home of the betanextbest.wellcomecollection.org website.
 ```bash
 cd client
 npm install
-npm run compile:watch # for local development
+npm run compile:dev # to watch for changes and compile in local dev
 # or
 npm compile # one-off compile, used on build
 ```
