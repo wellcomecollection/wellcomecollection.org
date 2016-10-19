@@ -96,9 +96,6 @@ gulp.task('js:lint', () => {
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('js', ['js:lint', 'js:compile']);
-gulp.task('scss', ['scss:lint', 'scss:compile']);
-
 gulp.task('browsersync', () => {
   browserSync.init({
     open: false,
@@ -107,10 +104,14 @@ gulp.task('browsersync', () => {
 });
 
 gulp.task('watch', () => {
-  gulp.watch(sources.scss.all, ['scss', 'scss:lint']);
-  gulp.watch(sources.js.all, ['js', 'js:lint']);
+  gulp.watch(sources.scss.all, ['scss:compile']);
+  gulp.watch(sources.js.all, ['js:compile']);
   gulp.watch(sources.images.icons.all, ['svgstore']);
 });
 
-gulp.task('compile', ['scss', 'js', 'svgstore']);
+gulp.task('js', ['js:lint', 'js:compile']);
+gulp.task('scss', ['scss:lint', 'scss:compile']);
+gulp.task('lint', ['scss:lint', 'js:lint'])
+gulp.task('compile', ['scss:compile', 'js:compile', 'svgstore']);
+gulp.task('build', ['scss', 'js']);
 gulp.task('dev', ['compile', 'browsersync', 'watch']);
