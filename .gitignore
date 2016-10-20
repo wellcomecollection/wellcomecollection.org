@@ -20,3 +20,6 @@ build/
 # intelliJ
 wellcomecollection.org.iml
 .idea/
+
+#VS Code
+.vscode/
