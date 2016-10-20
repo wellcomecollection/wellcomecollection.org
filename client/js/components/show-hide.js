@@ -32,7 +32,6 @@ function update(state, el) {
   el.setAttribute('aria-expanded', expanded);
 
   controlsEl.style.display = display;
-  console.log(controlsEl)
 }
 
 function init(el) {
