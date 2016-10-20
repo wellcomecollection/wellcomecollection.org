@@ -111,7 +111,7 @@ gulp.task('watch', () => {
 
 gulp.task('js', ['js:lint', 'js:compile']);
 gulp.task('scss', ['scss:lint', 'scss:compile']);
-gulp.task('lint', ['scss:lint', 'js:lint'])
+gulp.task('lint', ['scss:lint', 'js:lint']);
 gulp.task('compile', ['scss:compile', 'js:compile', 'svgstore']);
 gulp.task('build', ['scss', 'js']);
 gulp.task('dev', ['compile', 'browsersync', 'watch']);
