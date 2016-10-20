@@ -1,4 +1,4 @@
-import { createStore } from 'redux';
+import Component from '../component';
 
 const reducers = {
   INIT: (previousState) => previousState,
@@ -34,17 +34,4 @@ function update(state, el) {
   controlsEl.style.display = display;
 }
 
-function init(el) {
-  const initialState = getInitialState(el);
-  const store = createStore((state, action) => {
-    return reducers[action.type] ? reducers[action.type](state) : state;
-  }, initialState);
-
-  store.subscribe(function() {
-    update(store.getState(), el);
-  });
-
-  setupDispatches(store.dispatch, el);
-}
-
-export default init;
+export default Component(getInitialState, reducers, setupDispatches, update);;
