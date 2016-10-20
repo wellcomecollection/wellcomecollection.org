@@ -8,7 +8,7 @@ popd
 
 pushd client
 npm install
-npm run compile
+npm run build
 popd
 
 mkdir -p build
