@@ -32,6 +32,22 @@
   }
 }
 
+@mixin container-query($size, $respond...) {
+  @if length($respond) > 1 {
+    @include respond-between(nth($respond, 1), nth($respond, 2)) {
+      [class*='grid__cell--#{$size}'] & {
+        @content;
+      }
+    }
+  } @else {
+    @include respond-to(nth($respond, 1)) {
+      [class*='grid__cell--#{$size}'] & {
+        @content;
+      }
+    }
+  }
+}
+
 @mixin clearfix {
   &:before,
   &:after {

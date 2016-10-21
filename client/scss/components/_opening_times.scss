@@ -11,11 +11,13 @@
 }
 
 .c-opening-times__selection {
-  [class*='grid__cell--l12'] & {
-    @include respond-to('large') {
-      flex-grow: 10;
-      flex-basis: 0;
-    }
+  @include container-query('l12', 'large') {
+    flex-grow: 10;
+    flex-basis: 0;
+  }
+
+  @include container-query('m6', 'medium', 'large') {
+    background: color('mid-grey');
   }
 }
 
@@ -26,13 +28,6 @@
 .c-opening-times__label {
   font-size: $font-xsmall;
   display: block;
-
-  [class*='grid__cell--l12'] &:not(.c-opening-times__label--results) {
-    @include respond-to('large') {
-      display: inline-block;
-      font-size: $font-large;
-    }
-  }
 }
 
 .c-opening-times__heading {
@@ -40,22 +35,14 @@
   margin-bottom: 2em;
   font-weight: bold;
   display: block;
-
-  [class*='grid__cell--l12'] & {
-    @include respond-to('large') {
-      display: none;
-    }
-  }
 }
 
 .c-opening-times__results {
   background: color('black');
 
-  [class*='grid__cell--l12'] & {
-    @include respond-to('large') {
-      flex-grow: 2;
-      flex-basis: 0;
-    }
+  @include container-query('l12', 'large') {
+    flex-grow: 2;
+    flex-basis: 0;
   }
 }
 
@@ -65,12 +52,6 @@
 
 .c-opening-times__select {
   margin-bottom: 1rem;
-
-  [class*='grid__cell--l12'] & {
-    @include respond-to('large') {
-      display: inline-block;
-    }
-  }
 }
 
 .a-button {
@@ -84,9 +65,7 @@
 }
 
 .c-opening-times__button {
-  [class*='grid__cell--l12'] & {
-    display: block;
-  }
+
 }
 
 .a-select {
