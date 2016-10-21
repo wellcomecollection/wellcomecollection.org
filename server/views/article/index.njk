@@ -1,6 +1,7 @@
-{% extends "views/layout/default.njk" %}
+{% extends "layout/default.njk" %}
 
 {% block body %}
-<h1>{{ title }}</h1>
-<div class="body">{{ body | safe }}</div>
+
+  {% component "article", { title: title, body: body } %}{% endcomponent %}
+
 {% endblock %}

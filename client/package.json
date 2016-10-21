@@ -29,6 +29,8 @@
     "jsdom": "^8.5.0",
     "json-loader": "^0.5.4",
     "nightwatch": "^0.8.18",
+    "nunjucks": "^2.5.2",
+    "nunjucks-loader": "^2.4.4",
     "stylelint": "^7.3.1",
     "stylelint-declaration-block-order": "^0.1.0",
     "stylelint-declaration-use-variable": "^1.6.0",
@@ -37,7 +39,7 @@
     "webpack-stream": "^3.2.0"
   },
   "scripts": {
-    "build": "gulp build", 
+    "build": "gulp build",
     "compile": "gulp compile",
     "compile:dev": "gulp dev --dev",
     "test": "exit 0",
