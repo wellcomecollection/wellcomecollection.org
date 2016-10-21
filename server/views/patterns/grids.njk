@@ -1,6 +1,20 @@
 {% extends "views/layout/patterns.njk" %}
 {% block body %}
 
+
+<div class="grid">
+  <div class="grid__cell grid__cell--s4 grid__cell--m4 grid__cell--l4">
+    {% include "views/components/opening-times.njk" %}
+  </div>
+</div>
+<div class="grid">
+  <div class="grid__cell grid__cell--s4 grid__cell--m4 grid__cell--l12">
+    {% include "views/components/opening-times.njk" %}
+  </div>
+</div>
+
+
+
 <h1>Layout</h1>
 
 <div class="grid">
@@ -22,7 +36,7 @@
 <div class="grid">
   <div class="grid__cell  grid__cell--s4">
    <h2>Grid columns/spacing</h2>
-    <p>Breakpoints determine the number of columns in the layout, the spacing between the columns, 
+    <p>Breakpoints determine the number of columns in the layout, the spacing between the columns,
     i.e. gutters, and the space either side of the layout, i.e. margins.</p>
   </div>
   <div class="grid__cell">
@@ -53,7 +67,7 @@
 
 <p>Layouts are created using two main CSS classes, '.grid' and '.grid__cell'.</p>
 
-<p>Any number of grid cells can be placed in a grid container and 
+<p>Any number of grid cells can be placed in a grid container and
 by default they will be equally spaced out.</p>
 
 <h4>Code example</h4>
@@ -90,7 +104,7 @@ by default they will be equally spaced out.</p>
 <div class="grid">
     <div class="grid__cell">
         {% include "views/components/grid-placeholder.njk" %}
-    </div>    
+    </div>
     <div class="grid__cell">
         {% include "views/components/grid-placeholder.njk" %}
     </div>
@@ -121,23 +135,23 @@ by default they will be equally spaced out.</p>
 <div class="grid grid--dividers">
     <div class="grid__cell">
         {% include "views/components/grid-placeholder.njk" %}
-    </div>  
+    </div>
     <div class="grid__cell">
         {% include "views/components/grid-placeholder.njk" %}
-    </div>    
+    </div>
     <div class="grid__cell">
         {% include "views/components/grid-placeholder.njk" %}
-    </div>      
+    </div>
 </div>
 
 <h3>Size modifiers</h3>
 
-<p>Modifier classes can be used to determine exactly how many columns a cell will take up at a given breakpoint.</p> 
-<p><small><strong>N.B. remember that there are different numbers of columns avaliable at each breakpoint: 
+<p>Modifier classes can be used to determine exactly how many columns a cell will take up at a given breakpoint.</p>
+<p><small><strong>N.B. remember that there are different numbers of columns avaliable at each breakpoint:
 small(s) - 4; medium(m) - 8; large(l) - 12.</strong></small></p>
 
 <p>Size modifier classes take the form '.grid__cell--xy', where x is either s, m or l
- and y is the number of columns the cell should span.  Applying a size modifier class to 
+ and y is the number of columns the cell should span.  Applying a size modifier class to
  '.grid__cell' div will make the cell span the designated number of columns within the specified breakpoint only.</p>
 
 <h4>Code example</h4>
@@ -202,7 +216,7 @@ small(s) - 4; medium(m) - 8; large(l) - 12.</strong></small></p>
 
 <h3>Nesting</h3>
 
-<p>Grids can be nested. This is useful in combination with size modifier classes, 
+<p>Grids can be nested. This is useful in combination with size modifier classes,
 when the layout needs to change in more complex ways between breakpoints.</p>
 
 <h4>Code example</h4>
@@ -215,7 +229,7 @@ when the layout needs to change in more complex ways between breakpoints.</p>
         &lt;div class="grid"&gt;
             &lt;div class="grid__cell grid__cell--m8"&gt;
                 {content of the cell goes here}
-            &lt;/div&gt;  
+            &lt;/div&gt;
             &lt;div class="grid__cell grid__cell--m8"&gt;
                 {content of the cell goes here}
             &lt;/div&gt;
@@ -231,7 +245,7 @@ when the layout needs to change in more complex ways between breakpoints.</p>
         <div class="grid">
             <div class="grid__cell grid__cell--m8">
                 {% include "views/components/grid-placeholder.njk" %}
-            </div>  
+            </div>
             <div class="grid__cell grid__cell--m8">
                 {% include "views/components/grid-placeholder.njk" %}
             </div>
@@ -257,7 +271,7 @@ when the layout needs to change in more complex ways between breakpoints.</p>
 <div class="grid grid--breakout">
     <div class="grid__cell">
         {% include "views/components/grid-placeholder.njk" %}
-    </div>    
+    </div>
 </div>
 
 {% endblock %}
