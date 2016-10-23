@@ -1,27 +1,29 @@
-/* grid__cell width modififiers */
-@include respond-between('small', 'medium') {
-  @for $i from 1 through $small-column-number {
-    .grid__cell--s#{$i} {
-      flex-basis: ($i/$small-column-number)*100%;
-      max-width: ($i/$small-column-number)*100%;
-    }
-  }
-}
+@each $key, $list in $grid-config {
+  $padding: map-get($list, 'padding');
+  $gutter: map-get($list, 'gutter');
+  $columns: map-get($list, 'columns');
+  $respond: map-get($list, 'respond');
 
-@include respond-between('medium', 'large') {
-  @for $i from 1 through $medium-column-number {
-    .grid__cell--m#{$i} {
-      flex-basis: ($i/$medium-column-number)*100%;
-      max-width: ($i/$medium-column-number)*100%;
-    }
-  }
-}
+  @if (length($respond) > 1) {
+    $lower: nth($respond, 1);
+    $higher: nth($respond, 2);
 
-@include respond-to('large') {
-  @for $i from 1 through $large-column-number {
-    .grid__cell--l#{$i} {
-      flex-basis: ($i/$large-column-number)*100%;
-      max-width: ($i/$large-column-number)*100%;
+    @include respond-between($lower, $higher) {
+      @for $i from 1 through $columns {
+        .grid__cell--#{$key}#{$i} {
+          flex-basis: ($i/$columns)*100%;
+          max-width: ($i/$columns)*100%;
+        }
+      }
+    }
+  } @else {
+    @include respond-to($respond) {
+      @for $i from 1 through $columns {
+        .grid__cell--#{$key}#{$i} {
+          flex-basis: ($i/$columns)*100%;
+          max-width: ($i/$columns)*100%;
+        }
+      }
     }
   }
 }

@@ -8,11 +8,13 @@ $font-large: 2.6rem;
 $font-xlarge: 3.4rem;
 $font-xxlarge: 4rem;
 
-$small-column-number: 4;
-$medium-column-number: 8;
-$large-column-number: 12;
-
 $container-width-max: 1424px;
+
+$gutter-width: (
+  'small': 18px,
+  'medium': 24px,
+  'large': 30px
+);
 
 $container-padding: (
   'small': 30px,
@@ -20,10 +22,25 @@ $container-padding: (
   'large': 60px
 );
 
-$gutter-width: (
-  'small': 18px,
-  'medium': 24px,
-  'large': 30px
+$grid-config: (
+  's': (
+    'padding': map-get($container-padding, 'small'),
+    'gutter': map-get($gutter-width, 'small'),
+    'columns': 4,
+    'respond': ('small', 'medium')
+  ),
+  'm': (
+    'padding': map-get($container-padding, 'medium'),
+    'gutter': map-get($gutter-width, 'medium'),
+    'columns': 8,
+    'respond': ('medium', 'large')
+  ),
+  'l': (
+    'padding': map-get($container-padding, 'large'),
+    'gutter': map-get($gutter-width, 'large'),
+    'columns': 12,
+    'respond': 'large'
+  )
 );
 
 $vertical-space-unit: 15px;
