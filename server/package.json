@@ -15,6 +15,8 @@
   "author": "wellcomecollection.dev@wellcome.ac.uk",
   "license": "MIT",
   "dependencies": {
+    "@frctl/fractal": "^1.0.8",
+    "@frctl/nunjucks": "^1.0.1",
     "babel-core": "^6.17.0",
     "babel-polyfill": "^6.16.0",
     "babel-preset-es2015": "^6.16.0",
