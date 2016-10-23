@@ -32,24 +32,19 @@
   }
 }
 
-@mixin container-query($respond, $columns) {
-  $between: null;
+@mixin container-query($size-key, $columns) {
+  $size: map-get($grid-config, $size-key);
+  $respond: map-get($size, 'respond');
 
-  @if ($respond == 's') {
-    $between: 'small', 'medium';
-  } @else if ($respond == 'm') {
-    $between: 'medium', 'large';
-  }
-
-  @if ($between) {
-    @include respond-between(nth($between, 1), nth($between, 2)) {
-      [class*='grid__cell--#{$respond}#{$columns}'] & {
+  @if (length($respond) > 1) {
+    @include respond-between(nth($respond, 1), nth($respond, 2)) {
+      [class*='grid__cell--#{$size-key}#{$columns}'] & {
         @content;
       }
     }
   } @else {
-    @include respond-to('large') {
-      [class*='grid__cell--#{$respond}#{$columns}'] & {
+    @include respond-to($respond) {
+      [class*='grid__cell--#{$size-key}#{$columns}'] & {
         @content;
       }
     }
