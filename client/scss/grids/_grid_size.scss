@@ -1,3 +1,12 @@
+@mixin grid-cells($columns, $key) {
+  @for $i from 1 through $columns {
+    .grid__cell--#{$key}#{$i} {
+      flex-basis: ($i / $columns) * 100%;
+      max-width: ($i / $columns) * 100%;
+    }
+  }
+}
+
 @each $key, $list in $grid-config {
   $padding: map-get($list, 'padding');
   $gutter: map-get($list, 'gutter');
@@ -9,21 +18,11 @@
     $higher: nth($respond, 2);
 
     @include respond-between($lower, $higher) {
-      @for $i from 1 through $columns {
-        .grid__cell--#{$key}#{$i} {
-          flex-basis: ($i/$columns)*100%;
-          max-width: ($i/$columns)*100%;
-        }
-      }
+      @include grid-cells($columns, $key);
     }
   } @else {
     @include respond-to($respond) {
-      @for $i from 1 through $columns {
-        .grid__cell--#{$key}#{$i} {
-          flex-basis: ($i/$columns)*100%;
-          max-width: ($i/$columns)*100%;
-        }
-      }
+      @include grid-cells($columns, $key);
     }
   }
 }
