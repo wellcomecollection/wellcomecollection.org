@@ -18,6 +18,9 @@ fractal.web.set('static.path', __dirname + './../dist');
 /* Set the static HTML build path */
 fractal.web.set('builder.dest', './../cardigan');
 
+/* Set the default status of components */
+fractal.components.set('default.status', 'wip');
+
 /* Add paths for component templates */
 const nunj = require('@frctl/nunjucks')({
     //paths: ['views/components/grid-placeholder/']
