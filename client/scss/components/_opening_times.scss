@@ -11,12 +11,12 @@
 }
 
 .c-opening-times__selection {
-  @include container-query('l12', 'large') {
+  @include container-query('l', '12') {
     flex-grow: 10;
     flex-basis: 0;
   }
 
-  @include container-query('m6', 'medium', 'large') {
+  @include container-query('m', '6') {
     background: color('mid-grey');
   }
 }
@@ -40,7 +40,7 @@
 .c-opening-times__results {
   background: color('black');
 
-  @include container-query('l12', 'large') {
+  @include container-query('l', '12') {
     flex-grow: 2;
     flex-basis: 0;
   }
