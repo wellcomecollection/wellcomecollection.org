@@ -1,6 +1,3 @@
-{% extends "views/layout/patterns.njk" %}
-{% block body %}
-
 <h1>Layout</h1>
 
 <div class="grid">
@@ -80,22 +77,22 @@ by default they will be equally spaced out.</p>
 
 <div class="grid">
     <div class="grid__cell">
-        {% include "views/components/grid-placeholder.njk" %}
+        {% include "views/components/grid-placeholder/grid-placeholder.njk" %}
     </div>
     <div class="grid__cell">
-        {% include "views/components/grid-placeholder.njk" %}
+        {% include "views/components/grid-placeholder/grid-placeholder.njk" %}
     </div>
 </div>
 
 <div class="grid">
     <div class="grid__cell">
-        {% include "views/components/grid-placeholder.njk" %}
+        {% include "views/components/grid-placeholder/grid-placeholder.njk" %}
     </div>    
     <div class="grid__cell">
-        {% include "views/components/grid-placeholder.njk" %}
+        {% include "views/components/grid-placeholder/grid-placeholder.njk" %}
     </div>
     <div class="grid__cell">
-        {% include "views/components/grid-placeholder.njk" %}
+        {% include "views/components/grid-placeholder/grid-placeholder.njk" %}
     </div>
 </div>
 
@@ -120,13 +117,13 @@ by default they will be equally spaced out.</p>
 
 <div class="grid grid--dividers">
     <div class="grid__cell">
-        {% include "views/components/grid-placeholder.njk" %}
+        {% include "views/components/grid-placeholder/grid-placeholder.njk" %}
     </div>  
     <div class="grid__cell">
-        {% include "views/components/grid-placeholder.njk" %}
+        {% include "views/components/grid-placeholder/grid-placeholder.njk" %}
     </div>    
     <div class="grid__cell">
-        {% include "views/components/grid-placeholder.njk" %}
+        {% include "views/components/grid-placeholder/grid-placeholder.njk" %}
     </div>      
 </div>
 
@@ -150,7 +147,7 @@ small(s) - 4; medium(m) - 8; large(l) - 12.</strong></small></p>
 
 <div class="grid">
     <div class="grid__cell  grid__cell--s2 grid__cell--m2 grid__cell--l4">
-        {% include "views/components/grid-placeholder.njk" %}
+        {% include "views/components/grid-placeholder/grid-placeholder.njk" %}
     </div>
 </div>
 
@@ -172,7 +169,7 @@ small(s) - 4; medium(m) - 8; large(l) - 12.</strong></small></p>
 
 <div class="grid grid--start">
     <div class="grid__cell grid__cell--s2 grid__cell--m4 grid__cell--l6">
-        {% include "views/components/grid-placeholder.njk" %}
+        {% include "views/components/grid-placeholder/grid-placeholder.njk" %}
     </div>
 </div>
 
@@ -184,7 +181,7 @@ small(s) - 4; medium(m) - 8; large(l) - 12.</strong></small></p>
 
 <div class="grid grid--center">
     <div class="grid__cell grid__cell--s2 grid__cell--m4 grid__cell--l6">
-        {% include "views/components/grid-placeholder.njk" %}
+        {% include "views/components/grid-placeholder/grid-placeholder.njk" %}
     </div>
 </div>
 
@@ -196,7 +193,7 @@ small(s) - 4; medium(m) - 8; large(l) - 12.</strong></small></p>
 
 <div class="grid grid--end">
     <div class="grid__cell grid__cell--s2 grid__cell--m4 grid__cell--l6">
-        {% include "views/components/grid-placeholder.njk" %}
+        {% include "views/components/grid-placeholder/grid-placeholder.njk" %}
     </div>
 </div>
 
@@ -225,15 +222,15 @@ when the layout needs to change in more complex ways between breakpoints.</p>
 
 <div class="grid">
     <div class="grid__cell grid__cell--s4 grid__cell--m4 grid__cell--l4">
-        {% include "views/components/grid-placeholder.njk" %}
+        {% include "views/components/grid-placeholder/grid-placeholder.njk" %}
     </div>
     <div class="grid__cell">
         <div class="grid">
             <div class="grid__cell grid__cell--m8">
-                {% include "views/components/grid-placeholder.njk" %}
+                {% include "views/components/grid-placeholder/grid-placeholder.njk" %}
             </div>  
             <div class="grid__cell grid__cell--m8">
-                {% include "views/components/grid-placeholder.njk" %}
+                {% include "views/components/grid-placeholder/grid-placeholder.njk" %}
             </div>
         </div>
     </div>
@@ -256,8 +253,6 @@ when the layout needs to change in more complex ways between breakpoints.</p>
 
 <div class="grid grid--breakout">
     <div class="grid__cell">
-        {% include "views/components/grid-placeholder.njk" %}
+        {% include "views/components/grid-placeholder/grid-placeholder.njk" %}
     </div>    
 </div>
-
-{% endblock %}
