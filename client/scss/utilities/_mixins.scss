@@ -68,3 +68,12 @@
   margin: 0;
   padding: 0;
 }
+
+@mixin grid-cells($columns, $key) {
+  @for $i from 1 through $columns {
+    .grid__cell--#{$key}#{$i} {
+      flex-basis: ($i / $columns) * 100%;
+      max-width: ($i / $columns) * 100%;
+    }
+  }
+}

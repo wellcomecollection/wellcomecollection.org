@@ -1,12 +1,3 @@
-@mixin grid-cells($columns, $key) {
-  @for $i from 1 through $columns {
-    .grid__cell--#{$key}#{$i} {
-      flex-basis: ($i / $columns) * 100%;
-      max-width: ($i / $columns) * 100%;
-    }
-  }
-}
-
 @each $key, $list in $grid-config {
   $padding: map-get($list, 'padding');
   $gutter: map-get($list, 'gutter');
