@@ -16,7 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "@frctl/fractal": "^1.0.8",
-    "@frctl/nunjucks": "^1.0.1",
+    "@frctl/nunjucks": "https://github.com/gestchild/nunjucks/tarball/66b327d3c9ac24f97784332c09669336fe4c650a",
     "babel-core": "^6.17.0",
     "babel-polyfill": "^6.16.0",
     "babel-preset-es2015": "^6.16.0",
