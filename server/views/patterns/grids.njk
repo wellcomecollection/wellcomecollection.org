@@ -163,11 +163,11 @@ small(s) - 4; medium(m) - 8; large(l) - 12.</strong></small></p>
 
 <p>Combining the breakpoint and cell modifier information, we can create pseudo container queries (also known as element queries), enabling components to take on different styles based on their size in the viewport, rather than the size of the viewport itself.</p>
 
-<h4>Code example</h4>
 <p>The <code>container-query()</code> mixin accepts a size-key ('s', 'm', or 'l') and a number of columns ('1' – '12') as arguments.</p>
 <p>These arguments map to the cell modifier strings, and they determine the viewport sizes at which the mixin's <code>@content</code> will be rendered in cells with that modifier applied.</p>
 
-<h4>Sass</h4>
+<h4>Code example</h4>
+<h5>Sass</h5>
 <pre><code>
 @include container-query('s', '1') {
   background: color('blue');
@@ -181,7 +181,7 @@ small(s) - 4; medium(m) - 8; large(l) - 12.</strong></small></p>
   background: color('charcoal');
 }</code></pre>
 
-<h4>Markup</h4>
+<h5>Markup</h5>
 <pre><code>&lt;div class="grid"&gt;
     &lt;div class="grid__cell grid__cell--s1 grid__cell--m2 grid__cell--l3"&gt;
         {content of the cell goes here}
