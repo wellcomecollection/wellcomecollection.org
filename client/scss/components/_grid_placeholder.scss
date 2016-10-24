@@ -17,11 +17,11 @@
     }
   }
 
-  @include container-query('m', '2') {
+  @include container-query('m', '5') {
     background: color('red');
 
     &:before {
-      content: 'm2';
+      content: 'm5';
     }
   }
 
