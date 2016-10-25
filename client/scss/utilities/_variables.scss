@@ -1,13 +1,156 @@
-$font-sans: 'helvetica neue', helvetica, arial, sans-serif;
-$font-mono: 'source code pro', courier, monospace;
-
-$font-xsmall: 1.3rem;
-$font-small: 1.6rem;
-$font-medium: 2rem;
-$font-large: 2.6rem;
-$font-xlarge: 3.4rem;
-$font-xxlarge: 4rem;
 $base-font-size: 16; // Used for calculating ems from px;
+
+$wellcome-bold: 'Wellcome Bold', 'Arial Black', Gadget, sans-serif;
+$helvetica-neue-light: 'Helvetica Neue LT W01_41488878', 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+$helvetica-neue-medium: 'Helvetica Neue LT W01_65 Md', 'HelveticaNeue-Medium', 'Helvetica Neue Medium', 'Arial Black', Gadget, sans-serif;
+$lettera-regular: 'Lettera Regular', 'Courier New', Courier, Monospace;
+
+//N.B. The letter-spacing value is the tracking value provided from Photoshop
+//The @font mixin which utilises this map, converts this to the correct CSS em value. 
+$fonts: (
+  'WB1': (
+    'font-family': $wellcome-bold,
+    'font-size': 156px,
+    'letter-spacing': -20,
+    'line-height': 200px
+  ),
+  'WB2': (
+    'font-family': $wellcome-bold,
+    'font-size': 60px,
+    'letter-spacing': -20,
+    'line-height': 78px
+  ),
+  'WB3': (
+    'font-family': $wellcome-bold,
+    'font-size': 44px,
+    'letter-spacing': 0,
+    'line-height': 60px
+  ),
+  'WB4': (
+    'font-family': $wellcome-bold,
+    'font-size': 33px,
+    'letter-spacing': 0,
+    'line-height': 48px
+  ),
+  'WB5': (
+    'font-family': $wellcome-bold,
+    'font-size': 22px,
+    'letter-spacing': 20,
+    'line-height': 32px
+  ),
+  'WB6': (
+    'font-family': $wellcome-bold,
+    'font-size': 19px,
+    'letter-spacing': 20,
+    'line-height': 28px
+  ),
+  'WB7': (
+    'font-family': $wellcome-bold,
+    'font-size': 15px,
+    'letter-spacing': 20,
+    'line-height': 24px
+  ),
+  'HNM1': (
+    'font-family': $helvetica-neue-medium,
+    'font-size': 36px,
+    'letter-spacing': 20,
+    'line-height': 48px
+  ),
+  'HNM2': (
+    'font-family': $helvetica-neue-medium,
+    'font-size': 26px,
+    'letter-spacing': 20,
+    'line-height': 38px
+  ),
+  'HNM3': (
+    'font-family': $helvetica-neue-medium,
+    'font-size': 20px,
+    'letter-spacing': 40,
+    'line-height': 32px
+  ),
+  'HNM4': (
+    'font-family': $helvetica-neue-medium,
+    'font-size': 16px,
+    'letter-spacing': 40,
+    'line-height': 24px
+  ),
+  'HNM5': (
+    'font-family': $helvetica-neue-medium,
+    'font-size': 14px,
+    'letter-spacing': 80,
+    'line-height': 24px
+  ),
+  'HNM6': (
+    'font-family': $helvetica-neue-medium,
+    'font-size': 12px,
+    'letter-spacing': 80,
+    'line-height': 18px
+  ),
+  'HNL1': (
+    'font-family': $helvetica-neue-light,
+    'font-size': 36px,
+    'letter-spacing': 40,
+    'line-height': 48px
+  ),
+  'HNL2': (
+    'font-family': $helvetica-neue-light,
+    'font-size': 26px,
+    'letter-spacing': 40,
+    'line-height': 38px
+  ),
+  'HNL3': (
+    'font-family': $helvetica-neue-light,
+    'font-size': 20px,
+    'letter-spacing': 40,
+    'line-height': 32px
+  ),
+  'HNL4': (
+    'font-family': $helvetica-neue-light,
+    'font-size': 16px,
+    'letter-spacing': 40,
+    'line-height': 24px
+  ),
+  'HNL5': (
+    'font-family': $helvetica-neue-light,
+    'font-size': 14px,
+    'letter-spacing': 80,
+    'line-height': 24px
+  ),
+  'HNL6': (
+    'font-family': $helvetica-neue-light,
+    'font-size': 14px,
+    'letter-spacing': 40,
+    'line-height': 24px
+  ),
+  'HNL7': (
+    'font-family': $helvetica-neue-light,
+    'font-size': 12px,
+    'letter-spacing': 80,
+    'line-height': 18px
+  ),
+  'LR1': (
+    'font-family': $lettera-regular,
+    'font-size': 18px,
+    'letter-spacing': 0,
+    'line-height': 24px
+  ),
+  'LR2': (
+    'font-family': $lettera-regular,
+    'font-size': 14px,
+    'letter-spacing': -40,
+    'line-height': 24px
+  ),
+  'LR3': (
+    'font-family': $lettera-regular,
+    'font-size': 12px,
+    'letter-spacing': -20,
+    'line-height': 18px
+  )
+);
+
+$small-column-number: 4;
+$medium-column-number: 8;
+$large-column-number: 12;
 
 $container-width-max: 1424px;
 
