@@ -24,8 +24,8 @@ module.exports = {
       test: /\.(njk|nunjucks)$/,
       loader: 'nunjucks-loader',
       query: {
-        config: 'nunjucks.config.js'
-        // quiet: true
+        config: 'nunjucks.config.js',
+        quiet: true
       }
     }]
   }

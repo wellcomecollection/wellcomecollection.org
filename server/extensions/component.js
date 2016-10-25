@@ -18,7 +18,9 @@ module.exports = class ComponentTag {
   };
 
   run(context, name, data) {
-    const html = this.env.render(`components/${name}/component.njk`, data);
+    // we've gone with index `here` as that's webpacks default
+    // making it easier to include in the client side
+    const html = this.env.render(`components/${name}/index.njk`, data);
     return new nunjucks.runtime.SafeString(html);
   };
 };
