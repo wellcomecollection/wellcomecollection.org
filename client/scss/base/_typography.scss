@@ -4,6 +4,10 @@ html {
   // stylelint-enable sh-waqar/declaration-use-variable
 }
 
+body {
+  @include font(HNL3);
+}
+
 h1,
 h2,
 h3,
