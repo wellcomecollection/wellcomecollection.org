@@ -1,3 +1,7 @@
+.container {
+  padding-top: 20px;
+}
+
 .styleguide__heading {
   margin-bottom: 2rem;
 }
@@ -84,7 +88,6 @@
 }
 
 .styleguide__item {
-  font-size: $font-xsmall;
   color: color('granite');
   text-transform: uppercase;
   font-weight: 500;
@@ -150,7 +153,6 @@
 
 .styleguide__color {
   position: absolute;
-  font-size: $font-xsmall;
   top: 5px;
   left: 5px;
   background: color('white');
@@ -161,8 +163,7 @@
 }
 
 .styleguide__hex-code {
-  font-family: $font-mono;
-  font-size: $font-xsmall;
+  font-family: $lettera-regular;
   padding: 0.2em 0.5em;
   background: color('granite');
   color: color('white');
@@ -183,6 +184,70 @@
     width: 4em;
     height: 4em;
   }
+}
+
+@each $font-name in map-keys($fonts) {
+  .font__example--#{$font-name} {
+    @include font($font-name);
+  }
+}
+
+.font {
+  border: 1px solid color(light-grey);
+  border-width: 1px 0;
+  padding: 10px 0 25px;
+}
+
+.font__name,
+.font__property,
+.font__value {
+  color: color(red);
+}
+
+.font__usage-text {
+  color: color(granite);
+}
+
+.font__name {
+  @include font(HNM5);
+}
+
+[class^=font__example--] {
+  margin: 0;
+}
+
+.font__property, .font__usage-title {
+  @include font(HNM6);
+}
+
+.font__value, .font__usage-text {
+  @include font(HNL7);
+}
+
+.font__property, 
+.font__value {
+  display: inline;
+}
+
+.font__properties {
+  margin: 10px 0 0;
+}
+
+.font__property {
+  white-space: nowrap;
+}
+
+.font__value {
+  margin: 0 20px 0 0;
+}
+
+.font__usage-title {
+  @include font(HNM6);
+  display: inline;
+}
+
+.font__usage-text {
+  display: inline;
 }
 
 @import 'components/grid_placeholder';
