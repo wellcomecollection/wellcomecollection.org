@@ -3,3 +3,16 @@
 
   @return map-get($colors, $name);
 }
+
+/* Converts pixel values to ems */
+@function em($pixels, $base: $base-font-size) {
+  @if (unitless($pixels)) {
+    $pixels: $pixels * 1px;
+  }
+
+  @if (unitless($base)) {
+    $base: $base * 1px;
+  }
+
+  @return $pixels / $base * 1em;
+}
