@@ -6,4 +6,31 @@
   background: color('mid-grey');
   padding: 20px;
   border-radius: 4px;
+  color: color('white');
+
+  // Example used in grids.njk
+  @include container-query('s', '1') {
+    background: color('blue');
+
+    &:before {
+      content: 's1';
+    }
+  }
+
+  @include container-query('m', '5') {
+    background: color('red');
+
+    &:before {
+      content: 'm5';
+    }
+  }
+
+  @include container-query('l', '3') {
+    background: color('charcoal');
+
+    &:before {
+      content: 'l3';
+    }
+  }
+  // Example ends
 }
