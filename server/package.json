@@ -6,7 +6,8 @@
   "scripts": {
     "start": "pm2 start babel-entry.js --name 'wellcomecollection.org'",
     "test": "exit 0",
-    "watch": "nodemon babel-entry.js -e njk,js"
+    "watch": "nodemon babel-entry.js -e njk,js",
+    "fractal": "fractal start —sync --port 3002"
   },
   "repository": {
     "type": "git",
