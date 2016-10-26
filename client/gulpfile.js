@@ -12,6 +12,7 @@ const svgmin = require('gulp-svgmin');
 const inject = require('gulp-inject');
 const eslint = require('gulp-eslint');
 const eslintConfig = require('./.eslintrc.json');
+const devMode = gutil.env.dev;
 
 const sources = {
   scss: {
@@ -39,7 +40,7 @@ const sources = {
 // TODO: pull out autoprefixing / sourcemaps to it's own task
 gulp.task('scss:compile', () => {
   return gulp.src(sources.scss.manifests)
-    .pipe(gutil.env.dev ? sourcemaps.init() : gutil.noop())
+    .pipe(devMode ? sourcemaps.init() : gutil.noop())
     .pipe(sass({
       outputStyle: 'compressed'
     }))
@@ -52,7 +53,7 @@ gulp.task('scss:compile', () => {
         'IE 9',
         'opera 12.1']
     }))
-    .pipe(gutil.env.dev ? sourcemaps.write() : gutil.noop())
+    .pipe(devMode ? sourcemaps.write() : gutil.noop())
     .pipe(gulp.dest(sources.scss.distPath))
     .pipe(browserSync.stream());
 });
@@ -61,7 +62,7 @@ gulp.task('scss:lint', () => {
   return gulp.src(sources.scss.all)
     .pipe(gulpStylelint({
       syntax: 'scss',
-      failAfterError: !gutil.env.dev,
+      failAfterError: !devMode,
       reporters: [
         {formatter: 'string', console: true}
       ]
@@ -85,7 +86,11 @@ gulp.task('svgstore', function () {
 gulp.task('js:compile', () => {
   return gulp.src(sources.js.entry)
     .pipe(webpack(webpackConfig))
-    .on('error', err => console.log(err.toString()))
+    .on('error', function(err) {
+      console.log(err.toString())
+      // Allows the stream to continue, thus not breaking watch§
+      this.emit('end');
+    })
     .pipe(gulp.dest(sources.js.distPath));
 });
 
