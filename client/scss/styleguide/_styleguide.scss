@@ -1,122 +1,5 @@
-.styleguide__heading {
-  margin-bottom: 2rem;
-}
-
-.styleguide__logo-wrap {
-  margin-bottom: 4rem;
-  text-decoration: none;
-  font-weight: bold;
-  display: block;
-}
-
-.styleguide__logo {
-  width: 210px;
-  height: 45px;
-}
-
-.styleguide__subheading {
-  line-height: 1;
-  display: block;
-}
-
-.styleguide__main {
-  position: absolute;
-  left: 270px;
-  overflow-y: scroll;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  background: color('white');
-  transition: left 200ms ease;
-  border-left: 1px solid color('smoke');
-  padding: 60px 15px 15px;
-
-  &.is-fullscreen {
-    left: 0;
-  }
-}
-
-.styleguide__top-nav {
-  position: absolute;
-  top: 15px;
-  left: 0;
-  height: 30px;
-  border-bottom: 1px solid color('smoke');
-  right: 0;
-}
-
-.styleguide__menu {
-  position: relative;
-  display: block;
-  width: 25px;
-  height: 25px;
-  margin-left: 15px;
-  cursor: pointer;
-
-  span {
-    display: block;
-    height: 4px;
-    margin-bottom: 3px;
-    background: color('light-grey');
-    transition: background 200ms ease;
-  }
-
-  &:hover,
-  &:focus {
-    span {
-      background: color('charcoal');
-    }
-  }
-}
-
-.styleguide__sidebar {
-  padding: 15px;
-  background: color('mist');
-  top: 0;
-  bottom: 0;
-  width: 270px;
-  position: absolute;
-  overflow-y: auto;
-}
-
-.styleguide__list {
-  @include plain-list();
-}
-
-.styleguide__item {
-  font-size: $font-xsmall;
-  color: color('granite');
-  text-transform: uppercase;
-  font-weight: 500;
-  margin: 0 0 0.4em;
-
-  .styleguide__list--small & {
-    text-transform: none;
-    font-weight: normal;
-    margin-left: 1rem;
-  }
-
-  &:last-child {
-    margin-bottom: 1.6em;
-  }
-}
-
-.styleguide__link {
-  display: block;
-  text-decoration: none;
-  padding-right: 1rem;
-  border-bottom: 0;
-  transition: color 200ms ease;
-
-  &:hover,
-  &:focus,
-  &.is-active {
-    color: color('blue');
-  }
-}
-
-.styleguide__standalone {
-  margin-bottom: 30px;
+.styleguide__container {
+  padding-top: 20px;
 }
 
 @function color-list($colors) {
@@ -150,7 +33,6 @@
 
 .styleguide__color {
   position: absolute;
-  font-size: $font-xsmall;
   top: 5px;
   left: 5px;
   background: color('white');
@@ -161,8 +43,7 @@
 }
 
 .styleguide__hex-code {
-  font-family: $font-mono;
-  font-size: $font-xsmall;
+  font-family: $lettera-regular;
   padding: 0.2em 0.5em;
   background: color('granite');
   color: color('white');
@@ -183,6 +64,55 @@
     width: 4em;
     height: 4em;
   }
+}
+
+.styleguide__font {
+  border: 1px solid color(light-grey);
+  border-width: 1px 0;
+  padding: 10px 0 25px;
+}
+
+@each $font-name in map-keys($fonts) {
+  .styleguide__font__example--#{$font-name} {
+    @include font($font-name);
+  }
+}
+
+[class^=styleguide__font__example--] {
+  margin: 0;
+}
+
+.styleguide__font__name {
+  @include font('HNM5');
+  color: color('red');
+}
+
+.styleguide__font__properties {
+  margin: 10px 0 0;
+  color: color('red');
+}
+
+.styleguide__font__property {
+  @include font('HNM6');
+  display: inline;
+  white-space: nowrap;
+}
+
+.styleguide__font__value {
+  @include font('HNL7');
+  display: inline;
+  margin: 0 20px 0 0;
+}
+
+.styleguide__font__usage-title {
+  @include font('HNM6');
+  display: inline;
+}
+
+.styleguide__font__usage-text {
+  @include font('HNL7');
+  color: color(granite);
+  display: inline;
 }
 
 @import 'components/grid_placeholder';

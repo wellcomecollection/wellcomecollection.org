@@ -77,3 +77,17 @@
     }
   }
 }
+
+@mixin font($font-name) {
+  $font: map-get($fonts, $font-name);
+
+  $font-family: map-get($font, 'font-family');
+  $font-size: px-to-rem(map-get($font, 'font-size'));
+  $letter-spacing: tracking-to-em(map-get($font, 'letter-spacing'));
+  $line-height: px-to-unitless(map-get($font, 'line-height'), map-get($font, 'font-size'));
+
+  font-family: $font-family;
+  font-size: $font-size;
+  letter-spacing: $letter-spacing;
+  line-height: $line-height;
+}

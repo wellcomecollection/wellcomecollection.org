@@ -1,0 +1,190 @@
+{
+  "context": {
+    "fonts": [
+      {
+        "font__name": "WB1",
+        "font__example": "In Pictures",
+        "font__size": "156px",
+        "letter__spacing": "-20",
+        "line__height": "200px",
+        "usage__text": "Discover Landing page label (XL) • Decorative episodic article rail numbers"
+      },
+      {
+        "font__name": "WB2",
+        "font__example": "Research notes",
+        "font__size": "60px",
+        "letter__spacing": "-20",
+        "line__height": "78px",
+        "usage__text": "Discover Landing page label (L) • Article title if no lead/hero image"
+      },
+      {
+        "font__name": "WB3",
+        "font__example": "Inspired: Alchemists and housewives around a long table",
+        "font__size": "44px",
+        "letter__spacing": "0",
+        "line__height": "60px",
+        "usage__text": "Article title in page • Discover Landing page breaker link title"
+      },
+      {
+        "font__name": "WB4",
+        "font__example": "Sleep Paralysis: A brief history of fear, treatment and artistic creativity",
+        "font__size": "33px",
+        "letter__spacing": "0",
+        "line__height": "48px",
+        "usage__text": "Discover landing page label (M) • Large article link title (1 of many) • Article gallery titles • Transporter title for articles"
+      },
+      {
+        "font__name": "WB5",
+        "font__example": "At the heart",
+        "font__size": "22px",
+        "letter__spacing": "20",
+        "line__height": "32px",
+        "usage__text": "Article section name • Article Quote 1 alt version • Some right hand rail module titles/labels • Article commenting panel name"
+      },
+      {
+        "font__name": "WB6",
+        "font__example": "Would like to meet: Anna",
+        "font__size": "19px",
+        "letter__spacing": "20",
+        "line__height": "28px",
+        "usage__text": "Article link title (1 of many) • Discover Landing page label (S)"
+      },
+      {
+        "font__name": "WB7",
+        "font__example": "Oops!...I wrote a Britney blog post",
+        "font__size": "15px",
+        "letter__spacing": "20",
+        "line__height": "24px",
+        "usage__text": "Usage: Article link title (1 of many) • Playlist queue titles • List module links e.g. Most Popular on Discover Landing"
+      },
+      {
+        "font__name": "HNM1",
+        "font__example": "Francis Crick Archives",
+        "font__size": "36px",
+        "letter__spacing": "20",
+        "line__height": "48px",
+        "usage__text": "Library item/archive etc titles • Archive/Collection item counter"
+      },
+      {
+        "font__name": "HNM2",
+        "font__example": "It was a large room, heavily outfitted with the usual badly ventilated furnaces, rows of bubbling crucibles, and one stu ed alligator. Things floated in jars. The air smelled of a limited life expectancy.",
+        "font__size": "26px",
+        "letter__spacing": "20",
+        "line__height": "38px",
+        "usage__text": "Article Quote 2"
+      },
+      {
+        "font__name": "HNM3",
+        "font__example": "Library Item Group Info Label",
+        "font__size": "20px",
+        "letter__spacing": "40",
+        "line__height": "32px",
+        "usage__text": "Library group info label • Bold option in article body • Bold option in Library item lead description • Transporter title for library things"
+      },
+      {
+        "font__name": "HNM4",
+        "font__example": "Fingerprints",
+        "font__size": "16px",
+        "letter__spacing": "40",
+        "line__height": "24px",
+        "usage__text": "Item title in library search results List view • Exhibition card dates • Archive/Collection card title • Archive/Collection card format"
+      },
+      {
+        "font__name": "HNM5",
+        "font__example": "Filter",
+        "font__size": "14px",
+        "letter__spacing": "80",
+        "line__height": "24px",
+        "usage__text": "Pimary, secondary & tertiary buttons • Labels/optional labels • Bold option in library data"
+      },
+      {
+        "font__name": "HNM6",
+        "font__example": "PP/CRI Medical Research Council",
+        "font__size": "12px",
+        "letter__spacing": "80",
+        "line__height": "18px",
+        "usage__text": "Archive Breadcrumb sublevel names • Sublevel title on series tree card folder • Active  lter button text"
+      },
+      {
+        "font__name": "HNL1",
+        "font__example": "— Personal Material",
+        "font__size": "36px",
+        "letter__spacing": "40",
+        "line__height": "48px",
+        "usage__text": "Archive/Collection subfolder name (sits w/ title) • Archive/ Collection date range"
+      },
+      {
+        "font__name": "HNL2",
+        "font__example": "Sometimes provocative and always interesting, this series of shorter stories can be inspired by pretty much anything in Wellcome Collection and offers a quick insight into some of the themes we explore. This one comes from Elissavet Ntoulia.",
+        "font__size": "26px",
+        "letter__spacing": "40",
+        "line__height": "38px",
+        "usage__text": "Article lead paragraph"
+      },
+      {
+        "font__name": "HNL3",
+        "font__example": "By discovering (with James Watson) the double helix of DNA, and helping to crack its code, Francis Crick laid the foundations of modern molecular biology.",
+        "font__size": "20px",
+        "letter__spacing": "40",
+        "line__height": "32px",
+        "usage__text": "Article lead paragraph • Main description in archives & items etc • Article body copy"
+      },
+      {
+        "font__name": "HNL4",
+        "font__example": "Mental health : facing the challenges, building solutions : report from the WHO European Ministerial Conference",
+        "font__size": "16px",
+        "letter__spacing": "40",
+        "line__height": "24px",
+        "usage__text": "Library item title on card/search result"
+      },
+      {
+        "font__name": "HNL5",
+        "font__example": "Featured Series",
+        "font__size": "14px",
+        "letter__spacing": "80",
+        "line__height": "24px",
+        "usage__text": "Library main body/data copy • Label when Helv Neue Medium is used for button (e.g. Sort by) • Article label • Article datestamp"
+      },
+      {
+        "font__name": "HNL6",
+        "font__example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris at hendrerit justo. Donec quis nibh malesuada, accumsan libero eu, commodo.",
+        "font__size": "14px",
+        "letter__spacing": "40",
+        "line__height": "24px",
+        "usage__text": "Article card/link descriptions • Descriptive copy in cards/thumb links"
+      },
+      {
+        "font__name": "HNL7",
+        "font__example": "of 400",
+        "font__size": "12px",
+        "letter__spacing": "80",
+        "line__height": "18px",
+        "usage__text": "Page jumper in book item viewer • Smallprint • Archive/Collection card description • Datestamps on cards/links"
+      },
+      {
+        "font__name": "LR1",
+        "font__example": "PP/CRI",
+        "font__size": "18px",
+        "letter__spacing": "0",
+        "line__height": "24px",
+        "usage__text": "Archive/sublevel reference number in title lockup (Archive page)"
+      },
+      {
+        "font__name": "LR2",
+        "font__example": "15th July 2016",
+        "font__size": "14px",
+        "letter__spacing": "-40",
+        "line__height": "24px",
+        "usage__text": "Sub Info Label in Library • Last Updated date in Archive/collection • Article Quote 2 • Article image captions • Quantity indicator for theme • Episode indicator for episodic articles • Discover Landing block context"
+      },
+      {
+        "font__name": "LR3",
+        "font__example": "PP/CRI/A",
+        "font__size": "12px",
+        "letter__spacing": "-20",
+        "line__height": "18px",
+        "usage__text": "Archive series tree card folder number • Search Results Filter quantity indicator"
+      }
+    ]
+  }
+}
