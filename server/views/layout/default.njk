@@ -13,5 +13,7 @@
     {% block body %}
     {% endblock %}
   </div>
+  {# Not massively sure this is the way forward, but async and other things cause trouble with DomContentLoaded #}
+  <script src="/assets/js/app.js"></script>
 </body>
 </html>
