@@ -1,4 +1,4 @@
-.container {
+.styleguide__container {
   padding-top: 20px;
 }
 
@@ -66,51 +66,51 @@
   }
 }
 
-.font {
+.styleguide__font {
   border: 1px solid color(light-grey);
   border-width: 1px 0;
   padding: 10px 0 25px;
 }
 
 @each $font-name in map-keys($fonts) {
-  .font__example--#{$font-name} {
+  .styleguide__font__example--#{$font-name} {
     @include font($font-name);
   }
 }
 
-.font__name {
-  @include font(HNM5);
-  color: color(red);
-}
-
-[class^=font__example--] {
+[class^=styleguide__font__example--] {
   margin: 0;
 }
 
-.font__properties {
-  margin: 10px 0 0;
-  color: color(red);
+.styleguide__font__name {
+  @include font('HNM5');
+  color: color('red');
 }
 
-.font__properties__property {
-  @include font(HNM6);
+.styleguide__font__properties {
+  margin: 10px 0 0;
+  color: color('red');
+}
+
+.styleguide__font__property {
+  @include font('HNM6');
   display: inline;
   white-space: nowrap;
 }
 
-.font__properties__value {
-  @include font(HNL7);
+.styleguide__font__value {
+  @include font('HNL7');
   display: inline;
   margin: 0 20px 0 0;
 }
 
-.font__usage-title {
-  @include font(HNM6);
+.styleguide__font__usage-title {
+  @include font('HNM6');
   display: inline;
 }
 
-.font__usage-text {
-  @include font(HNL7);
+.styleguide__font__usage-text {
+  @include font('HNL7');
   color: color(granite);
   display: inline;
 }

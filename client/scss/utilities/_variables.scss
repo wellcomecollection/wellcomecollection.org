@@ -1,7 +1,7 @@
 $base-font-size: 16; // Used for calculating ems from px;
 
 $wellcome-bold: 'Wellcome Bold', 'Arial Black', Gadget, sans-serif;
-$helvetica-neue-light: 'Helvetica Neue LT W01_41488878', 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+$helvetica-neue-light: 'Helvetica Neue LT W01_41488878', 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $helvetica-neue-medium: 'Helvetica Neue LT W01_65 Md', 'HelveticaNeue-Medium', 'Helvetica Neue Medium', 'Arial Black', Gadget, sans-serif;
 $lettera-regular: 'Lettera Regular', 'Courier New', Courier, Monospace;
 
@@ -147,10 +147,6 @@ $fonts: (
     'line-height': 18px
   )
 );
-
-$small-column-number: 4;
-$medium-column-number: 8;
-$large-column-number: 12;
 
 $container-width-max: 1424px;
 
