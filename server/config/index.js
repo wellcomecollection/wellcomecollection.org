@@ -6,12 +6,8 @@ module.exports = {
   server: {
     port: 3000
   },
-  template: {
-    path: 'views',
-    options: {
-      extension: 'njk',
-      map: {njk: 'nunjucks'}
-    }
+  views: {
+    path: 'views'
   },
   static_dir: {
     root: '../dist',
