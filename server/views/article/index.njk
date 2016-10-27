@@ -3,4 +3,10 @@
 {% block body %}
 <h1>{{ title }}</h1>
 <div class="body">{{ body | safe }}</div>
+
+<div class="sharing-is-caring">
+  {% component "share", { network: "Facebook", url: "https://facebook.com" } %}{% endcomponent %}
+  {% component "share", { network: "VK", url: "https://vk.com" } %}{% endcomponent %}
+  {% component "share", { network: "WeChat", url: "https://web.wechat.com/" } %}{% endcomponent %}
+</div>
 {% endblock %}
