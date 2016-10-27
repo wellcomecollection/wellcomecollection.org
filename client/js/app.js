@@ -1,5 +1,4 @@
 import {message} from './wellcome';
-import nunjucks from 'nunjucks/browser/nunjucks-slim';
 import render from './render';
 
 message();
