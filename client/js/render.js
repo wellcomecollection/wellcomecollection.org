@@ -1,4 +1,5 @@
 import 'views/component-templates';
+import nunjucks from 'nunjucks/browser/nunjucks-slim';
 import extensions from 'common/extensions';
 
 const env = nunjucks.configure({autoescape: false});
