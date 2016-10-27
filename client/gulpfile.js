@@ -1,3 +1,4 @@
+const path = require('path');
 const gulp = require('gulp');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
@@ -6,12 +7,15 @@ const browserSync = require('browser-sync').create();
 const gulpStylelint = require('gulp-stylelint');
 const sourcemaps = require('gulp-sourcemaps');
 const gutil = require('gulp-util');
-const webpackConfig = require('./webpack.config.js');
 const svgstore = require('gulp-svgstore');
 const svgmin = require('gulp-svgmin');
 const inject = require('gulp-inject');
 const eslint = require('gulp-eslint');
+const nunjucks = require('gulp-nunjucks');
+const concat = require('gulp-concat');
+const nunjucksEnv = require('./nunjucks.config.js');
 const eslintConfig = require('./.eslintrc.json');
+const webpackConfig = require('./webpack.config.js');
 const devMode = gutil.env.dev;
 
 const sources = {
@@ -27,6 +31,11 @@ const sources = {
     entry: './js/app.js',
     distPath: '../dist/assets/js/',
     all: 'js/**/*.js'
+  },
+  views: {
+    path: path.resolve('../common/views/'),
+    all: ['../common/views/components/**/*.njk'],
+    dist: '../dist/views/'
   },
   images: {
     icons: {
@@ -88,7 +97,7 @@ gulp.task('js:compile', () => {
     .pipe(webpack(webpackConfig))
     .on('error', function(err) {
       console.log(err.toString())
-      // Allows the stream to continue, thus not breaking watch§
+      // Allows the stream to continue, thus not breaking watch
       this.emit('end');
     })
     .pipe(gulp.dest(sources.js.distPath));
@@ -99,6 +108,16 @@ gulp.task('js:lint', () => {
     .pipe(eslint(eslintConfig))
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
+});
+
+gulp.task('views:compile', () => {
+  return gulp.src(sources.views.all)
+    .pipe(nunjucks.precompile({
+      env: nunjucksEnv(path.resolve(sources.views.path)),
+      name: file => `components/${file.relative}`
+    }))
+    .pipe(concat('component-templates.js'))
+    .pipe(gulp.dest(sources.views.dist));
 });
 
 gulp.task('browsersync', () => {

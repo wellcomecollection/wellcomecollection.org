@@ -1,4 +1,4 @@
-const extensions = require('../extensions');
+const extensions = require('common/extensions');
 
 module.exports = (ctx, next) => {
   const env = ctx.viewEnv;

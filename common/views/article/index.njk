@@ -1,0 +1,7 @@
+{% extends "layout/default.njk" %}
+
+{% block body %}
+  <h1>An article</h1>
+  {% component "article", { title: title, body: body } %}{% endcomponent %}
+
+{% endblock %}

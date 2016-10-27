@@ -6,7 +6,7 @@ module.exports = {
     version: '0.0.1'
   },
   views: {
-    root: path.resolve(`${__dirname}/views/`)
+    root: path.resolve(`${__dirname}/../common/views`)
   },
   server: {
     port: 3000
