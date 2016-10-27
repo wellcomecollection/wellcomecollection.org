@@ -37,10 +37,13 @@
     "webpack-stream": "^3.2.0"
   },
   "scripts": {
-    "build": "gulp build", 
+    "build": "gulp build",
     "compile": "gulp compile",
     "compile:dev": "gulp dev --dev",
     "test": "exit 0",
     "prepush": "gulp lint"
+  },
+  "dependencies": {
+    "redux": "^3.6.0"
   }
 }

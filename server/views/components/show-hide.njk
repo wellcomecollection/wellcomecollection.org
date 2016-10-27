@@ -1,0 +1,13 @@
+{% macro toggler(controlsId, expanded = true, attributes = {}, innerHTML = "") %}
+  {# make this a button #}
+  <a href="#"
+    role="button"
+    {% for attr, val in attributes %}
+      {{attr}}="{{val}}"
+    {% endfor %}
+    data-component="show-hide"
+    aria-controls="{{controlsId}}"
+    aria-expanded="{{expanded}}">
+    {{innerHTML | safe}}
+  </a>
+{% endmacro %}
