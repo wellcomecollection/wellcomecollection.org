@@ -1,15 +1,16 @@
-const Koa = require('koa');
-const config = require('./config');
-const serve = require('koa-static');
-const views = require('koa-views');
-const Router = require('koa-router');
-const controllers = require('./controllers');
-const routing = require('./routes');
+import Koa from 'koa';
+import config from './config';
+import serve from 'koa-static';
+import views from 'koa-views';
+import Router from 'koa-router';
+import controllers from './controllers';
+import routing from './routes';
+import render from './view/render';
 
 const app = module.exports = new Koa();
 
 app.use(serve(config.static_dir.root,config.static_dir.options));
-app.use(views(config.template.path, config.template.options));
+app.use(render(config.views.path));
 app.use(routing(new Router, controllers));
 
 app.listen(config.server.port);
