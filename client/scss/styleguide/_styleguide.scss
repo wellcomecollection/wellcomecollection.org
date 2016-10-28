@@ -106,7 +106,7 @@
 }
 
 .styleguide__font {
-  border: 1px solid color(light-grey);
+  border: 1px solid color('accessible-grey-2');
   border-width: 1px 0;
   padding: 10px 0 25px;
 }
@@ -150,7 +150,7 @@
 
 .styleguide__font__usage-text {
   @include font('HNL7');
-  color: color(granite);
+  color: color('accessible-grey-2');
   display: inline;
 }
 
