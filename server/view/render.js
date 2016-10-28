@@ -14,8 +14,7 @@ export default function render(root) {
             resolve(res);
           }
         });
-
-      })
+      });
     };
     return next();
   }
