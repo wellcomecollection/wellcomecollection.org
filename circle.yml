@@ -9,7 +9,7 @@ dependencies:
     - ./build-docker.sh
     - docker build --rm=false -t wellcome/wellcomecollection .
 deployment:
-  hub:
+  docker:
     branch: docker-circle
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
