@@ -15,4 +15,4 @@ app.use(routing(new Router, controllers));
 
 app.listen(config.server.port);
 
-console.info(`Server up and running on localhost: ${config.server.port}`);
+console.info(`Server up and running on http://localhost:${config.server.port}`);

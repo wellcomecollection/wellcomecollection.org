@@ -1,9 +1,20 @@
 machine:
+  services:
+    - docker
   node:
     version: 6.1.0
+dependencies:
+  override:
+    - docker info
+    - docker build --rm=false -t wellcome/wellcomecollection .
 deployment:
-    prod:
-      branch: master
-      commands:
-        - ./build.sh $CIRCLE_BUILD_NUM
-        - aws s3 cp ./build/$CIRCLE_BUILD_NUM.tar s3://$CIRCLE_BUILD_BUCKET/builds/$CIRCLE_BRANCH/$CIRCLE_BUILD_NUM.tar
+  hub:
+    branch: docker-circle
+    commands:
+      - docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push wellcome/wellcomecollection
+  prod:
+    branch: master
+    commands:
+      - ./build.sh $CIRCLE_BUILD_NUM
+      - aws s3 cp ./build/$CIRCLE_BUILD_NUM.tar s3://$CIRCLE_BUILD_BUCKET/builds/$CIRCLE_BRANCH/$CIRCLE_BUILD_NUM.tar
