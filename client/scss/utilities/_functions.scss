@@ -1,10 +1,11 @@
 @function color($name) {
   $name: quote($name);
+  $list: map-get($colors, $name);
 
-  @return map-get($colors, $name);
+  @return nth($list, 1);
 }
 
-// Converts pixel values to rems 
+// Converts pixel values to rems
 @function px-to-rem($pixels, $base: $base-font-size) {
   @if (unitless($pixels)) {
     $pixels: $pixels * 1px;

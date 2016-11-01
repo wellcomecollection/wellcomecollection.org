@@ -9,14 +9,14 @@ These arguments map to the cell modifier strings, and they determine the viewpor
 ## SCSS
 ```scss
 @include container-query('s', '1') {
-  background: color('blue');
-}
-
-@include container-query('m', '5') {
   background: color('red');
 }
 
+@include container-query('m', '5') {
+  background: color('orange');
+}
+
 @include container-query('l', '3') {
-  background: color('charcoal');
+  background: color('yellow');
 }
 ```
