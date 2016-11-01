@@ -5,13 +5,12 @@ machine:
     version: 6.1.0
 dependencies:
   override:
-    - docker info
-    - ./build-docker.sh
-    - docker build --rm=false -t wellcome/wellcomecollection .
+    - ./build-app.sh
 deployment:
   docker:
     branch: docker-circle
     commands:
+      - docker build --rm=false -t wellcome/wellcomecollection .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push wellcome/wellcomecollection
   prod:
