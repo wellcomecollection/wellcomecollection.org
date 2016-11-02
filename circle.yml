@@ -12,7 +12,7 @@ deployment:
     commands:
       - docker build --rm=false -t wellcome/wellcomecollection .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push wellcome/wellcomecollection
+      - docker push wellcome/wellcomecollection:$CIRCLE_BUILD_NUM
   prod:
     branch: master
     commands:
