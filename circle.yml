@@ -10,7 +10,7 @@ deployment:
   docker:
     branch: docker-circle
     commands:
-      - docker build --rm=false -t wellcome/wellcomecollection .
+      - docker build --rm=false -t wellcome/wellcomecollection:$CIRCLE_BUILD_NUM .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push wellcome/wellcomecollection:$CIRCLE_BUILD_NUM
   prod:
