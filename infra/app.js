@@ -55,7 +55,7 @@ async function getBuckets() {
     }
     else {
       const deployedIn = Date.now() - deployStart;
-      console.info(`Deployed build: ${buildNumber} of wellcomecollection.org to prod in ${deployedIn/100} seconds`);
+      console.info('\x1b[32m', `Deployed build: ${buildNumber} of wellcomecollection.org to prod in ${deployedIn/100} seconds`, '\x1b[0m');
     }
   });
 }
