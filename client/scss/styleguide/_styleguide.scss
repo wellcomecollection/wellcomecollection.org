@@ -6,16 +6,13 @@
   $list: null;
 
   @each $color in $colors {
-    $list: append($list, $color);
+    $list: append($list, '#{nth($color, 1)}|#{nth($color, 2)}');
   }
 
   @return '#{$list}';
 }
 
 .styleguide__palette {
-  display: flex;
-  flex-wrap: wrap;
-
   &:after {
     display: block;
     height: 0;
@@ -25,30 +22,72 @@
   }
 }
 
-.styleguide__hex {
+.styleguide__palette__heading {
+  @include font('HNM4');
+  text-transform: uppercase;
+  flex-basis: 100%;
+  margin-bottom: 1em;
+}
+
+.styleguide__palette__section {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 3px solid color('cream');
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+
+  &:last-child {
+    border: 0;
+  }
+}
+
+.styleguide__palette__block {
+  flex-basis: 25%;
+  margin-bottom: 15px;
+}
+
+.styleguide__palette__color {
   position: relative;
-  width: 200px;
-  height: 200px;
+  min-width: 200px;
+  margin-right: 15px;
+  border: 1px solid color('transparent');
+
+  &--white {
+    border-color: color('accessible-grey-2');
+  }
+
+  &:before {
+    content: '';
+    display: block;
+    padding-top: 100%;
+  }
 }
 
-.styleguide__color {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  background: color('white');
-  padding: 5px;
-  max-width: 190px;
-  border-radius: 3px;
-  border: 1px solid color('smoke');
+.styleguide__palette__hyphen {
+  visibility: hidden;
 }
 
-.styleguide__hex-code {
+.styleguide__palette__name {
+  @include font('HNM5');
+  color: color('red');
+  text-transform: capitalize;
+
+  &:hover {
+    text-transform: none;
+
+    .styleguide__palette__hyphen {
+      visibility: visible;
+    }
+  }
+}
+
+.styleguide__palette__hex {
+  @include font('HNM6');
+  color: color('red');
+}
+
+.styleguide__palette__code {
   font-family: $lettera-regular;
-  padding: 0.2em 0.5em;
-  background: color('granite');
-  color: color('white');
-  text-shadow: 0.05em 0.05em 0 rgba(33, 33, 33, 0.8);
-  border-radius: 2px;
 }
 
 .styleguide__icon-sprite {
@@ -67,7 +106,7 @@
 }
 
 .styleguide__font {
-  border: 1px solid color(light-grey);
+  border: 1px solid color('accessible-grey-2');
   border-width: 1px 0;
   padding: 10px 0 25px;
 }
@@ -111,7 +150,7 @@
 
 .styleguide__font__usage-text {
   @include font('HNL7');
-  color: color(granite);
+  color: color('accessible-grey-2');
   display: inline;
 }
 

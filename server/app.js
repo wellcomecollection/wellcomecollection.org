@@ -1,7 +1,6 @@
 import Koa from 'koa';
 import config from './config';
 import serve from 'koa-static';
-import views from 'koa-views';
 import Router from 'koa-router';
 import controllers from './controllers';
 import routing from './routes';

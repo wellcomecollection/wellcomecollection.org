@@ -3,14 +3,14 @@
 .grid-placeholder {
   min-height: 20px;
   height: 100%;
-  background: color('mid-grey');
+  background: color('accessible-grey-1');
   padding: 20px;
   border-radius: 4px;
   color: color('white');
 
   // Example used in grids.njk
   @include container-query('s', '1') {
-    background: color('blue');
+    background: color('red');
 
     &:before {
       content: 's1';
@@ -18,7 +18,7 @@
   }
 
   @include container-query('m', '5') {
-    background: color('red');
+    background: color('orange');
 
     &:before {
       content: 'm5';
@@ -26,7 +26,7 @@
   }
 
   @include container-query('l', '3') {
-    background: color('charcoal');
+    background: color('yellow');
 
     &:before {
       content: 'l3';

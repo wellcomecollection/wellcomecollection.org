@@ -6,7 +6,7 @@ $helvetica-neue-medium: 'Helvetica Neue LT W01_65 Md', 'HelveticaNeue-Medium', '
 $lettera-regular: 'Lettera Regular', 'Courier New', Courier, Monospace;
 
 //N.B. The letter-spacing value is the tracking value provided from Photoshop
-//The @font mixin which utilises this map, converts this to the correct CSS em value. 
+//The @font mixin which utilises this map, converts this to the correct CSS em value.
 $fonts: (
   'WB1': (
     'font-family': $wellcome-bold,
@@ -192,19 +192,24 @@ $grid-config: (
 $vertical-space-unit: 15px;
 
 $colors: (
-  'charcoal': #333333,
-  'granite': #555555,
-  'mid-grey': #cbc6c3,
-  'light-grey': #e5e5e5,
-  'blue': #168dfb,
-  'mist': #fafafa,
-  'smoke': #f5f5f5,
-  'white': #fff,
-  'black': #000,
-  'red': #aa0000,
-  'transparent': transparent,
-  'inherit': inherit,
-  'currentColor': currentColor
+  'action-green-1': (#088574, 'primary'),
+  'action-green-2': (#0aa38f, 'primary'),
+  'white': (#fff, 'primary'),
+  'cream': (#f8f7f4, 'primary'),
+  'black': (#1d1d1d, 'primary'),
+  'turquoise': (#5cb8bf, 'secondary'),
+  'teal': (#006272, 'secondary'),
+  'collection-teal': (#00424d, 'secondary'),
+  'purple': (#8c4799, 'secondary'),
+  'archive-purple': (#46284d, 'secondary'),
+  'red': (#ff4355, 'secondary'),
+  'orange': (#e87500, 'secondary'),
+  'yellow': (#ffce3c, 'secondary'),
+  'accessible-grey-1': (#717171, 'secondary'),
+  'accessible-grey-2': (#8f8f8f, 'secondary'),
+  'transparent': (transparent, 'secondary'),
+  'inherit': (inherit, 'secondary'),
+  'currentColor': (currentColor, 'secondary')
 );
 
 $breakpoints: (
