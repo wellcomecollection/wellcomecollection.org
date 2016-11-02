@@ -9,7 +9,6 @@
     "babel-loader": "^6.2.5",
     "babel-preset-es2015": "^6.16.0",
     "browser-sync": "^2.17.0",
-    "chai": "^3.5.0",
     "eslint-config-wellcome": "^1.0.8",
     "glob": "^7.1.0",
     "gulp": "^3.9.1",
@@ -37,7 +36,7 @@
     "webpack-stream": "^3.2.0"
   },
   "scripts": {
-    "build": "gulp build", 
+    "build": "gulp build",
     "compile": "gulp compile",
     "compile:dev": "gulp dev --dev",
     "test": "exit 0",
