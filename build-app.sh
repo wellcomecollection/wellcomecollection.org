@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 pushd server
-npm install --loglevel win
+npm install
 popd
 
 pushd client
-npm install --loglevel win
+npm install
 npm run compile
 popd
