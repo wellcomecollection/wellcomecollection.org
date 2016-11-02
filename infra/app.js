@@ -19,7 +19,7 @@ async function getBuckets() {
   };
 
   const {bucket} = await inquirer.prompt(bucketQ);
-  
+
   const prefix = 'builds/master/';
   const buildNumbers = await s3.listObjectsV2({
     Bucket: bucket,
@@ -30,7 +30,7 @@ async function getBuckets() {
       parseInt(obj.Key
         .replace(prefix, '')
         .replace('.tar', ''))
-    ) 
+    )
     .filter(key => !isNaN(key)) // <= removes the root object
     .sort((a, b) => b - a)
   );
@@ -46,10 +46,12 @@ async function getBuckets() {
 
   const deployStart = Date.now();
   console.info(`Deploying build: ${buildNumber} of wellcomecollection.org to prod...`);
-  
-  exec(`./deploy.sh ${bucket} ${buildNumber}`, (err, stdout) => {
-    if (err) {
-      console.error('There was an error deploying, please make sure you check that the AWS setup is not mangled.');
+
+  exec(`./deploy.sh ${bucket} ${buildNumber}`, (err, stdout, stderr) => {
+    if (stderr) {
+      console.info('\n');
+      console.error('\x1b[33m', 'Airbag error: Applicaiton not deployed, there was a Terraform error.', '\x1b[0m');
+      console.error(stderr);
     }
     else {
       const deployedIn = Date.now() - deployStart;
