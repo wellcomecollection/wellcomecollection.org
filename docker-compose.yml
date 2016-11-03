@@ -1,4 +1,7 @@
-wellcomecollection:
-  build: .
-
-  
+version: '2'
+services:
+  wellcomecollection:
+    image: node:6.1
+    build: .
+    ports:
+      - "3000:3000"

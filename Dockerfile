@@ -7,9 +7,8 @@ ENV HOME=/home/wellcomecollection
 USER wellcomecollection
 WORKDIR $HOME
 
-RUN mkdir -p ./dist && mkdir -p ./server 
-COPY dist dist
-COPY server server
+ADD dist/ dist/
+ADD server/ server/
 
 EXPOSE 3000
 
