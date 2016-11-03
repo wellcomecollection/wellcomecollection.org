@@ -12,6 +12,6 @@ app.use(serve(config.static_dir.root,config.static_dir.options));
 app.use(render(config.views.path));
 app.use(routing(new Router, controllers));
 
-app.listen(config.server.port);
+app.listen(config.server.port, '0.0.0.0');
 
 console.info(`Server up and running on http://localhost:${config.server.port}`);

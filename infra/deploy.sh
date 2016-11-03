@@ -6,7 +6,7 @@ if [ $# -lt 2 ]; then
 fi
 
 BUCKET=$1
-BUILD_NUMBER=$2 
+BUILD_NUMBER=$2
 
 pushd terraform
 
