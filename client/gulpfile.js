@@ -7,6 +7,7 @@ const gulpStylelint = require('gulp-stylelint');
 const sourcemaps = require('gulp-sourcemaps');
 const gutil = require('gulp-util');
 const webpackConfig = require('./webpack.config.js');
+const webpackConfigHead = require('./webpack-head.config.js');
 const svgstore = require('gulp-svgstore');
 const svgmin = require('gulp-svgmin');
 const inject = require('gulp-inject');
@@ -27,6 +28,10 @@ const sources = {
     entry: './js/app.js',
     distPath: '../dist/assets/js/',
     all: 'js/**/*.js'
+  },
+  jsHead: {
+    entry: './js/jsHead.js',
+    distPath: '../server/views/_partials/'
   },
   fonts: {
     srcPath: './fonts/**/*.{woff,woff2}',
@@ -103,6 +108,17 @@ gulp.task('js:compile', () => {
     .pipe(gulp.dest(sources.js.distPath));
 });
 
+gulp.task('jsHead:compile', () => {
+  return gulp.src(sources.jsHead.entry)
+    .pipe(webpack(webpackConfigHead))
+    .on('error', function(err) {
+      console.log(err.toString())
+      // Allows the stream to continue, thus not breaking watch§
+      this.emit('end');
+    })
+    .pipe(gulp.dest(sources.jsHead.distPath));
+});
+
 gulp.task('js:lint', () => {
   return gulp.src(sources.js.all)
     .pipe(eslint(eslintConfig))
@@ -120,6 +136,7 @@ gulp.task('browsersync', () => {
 gulp.task('watch', () => {
   gulp.watch(sources.scss.all, ['scss:compile']);
   gulp.watch(sources.js.all, ['js:compile']);
+  gulp.watch(sources.jsHead.entry, ['jsHead:compile']);
   gulp.watch(sources.images.icons.all, ['svgstore']);
   gulp.watch(sources.fonts.srcPath, ['fonts:copy']);
 });
@@ -127,6 +144,6 @@ gulp.task('watch', () => {
 gulp.task('js', ['js:lint', 'js:compile']);
 gulp.task('scss', ['scss:lint', 'scss:compile']);
 gulp.task('lint', ['scss:lint', 'js:lint']);
-gulp.task('compile', ['scss:compile', 'js:compile', 'svgstore', 'fonts:copy']);
+gulp.task('compile', ['scss:compile', 'js:compile', 'jsHead:compile', 'svgstore', 'fonts:copy']);
 gulp.task('build', ['scss', 'js']);
 gulp.task('dev', ['compile', 'browsersync', 'watch']);
