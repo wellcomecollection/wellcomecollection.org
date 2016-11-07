@@ -8185,24 +8185,24 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var fontASubset = new _fontfaceobserver2.default('Wellcome Bold Web Subset', { weight: 'bold' });
+	var fontASubset = new _fontfaceobserver2.default('Wellcome Bold Web Subset', { weight: 'bold' }); /* eslint-env browser */
+
 	var fontA = new _fontfaceobserver2.default('Wellcome Bold Web', { weight: 'bold' });
 	var fontB = new _fontfaceobserver2.default('Helvetica Neue Light Web');
 	var fontC = new _fontfaceobserver2.default('Helvetica Neue Medium Web');
 	var fontD = new _fontfaceobserver2.default('Lettera Regular Web');
 	var rootElement = document.documentElement;
-
-	Promise.all([fontASubset.load()]).then(function () {
-		if (sessionStorage.fontsLoaded) {
-			document.documentElement.className += " font-stage-1 font-stage-2";
-			return;
-		}
-		rootElement.className += " font-stage-1";
-		Promise.all([fontA.load(), fontB.load(), fontC.load(), fontD.load()]).then(function () {
-			document.documentElement.className += " font-stage-2";
-			sessionStorage.fontsLoaded = true;
-		});
-	});
+	if (sessionStorage.fontsLoaded) {
+	  document.documentElement.className += ' font-stage-1 font-stage-2';
+	} else {
+	  Promise.all([fontASubset.load()]).then(function () {
+	    rootElement.className += ' font-stage-1';
+	    Promise.all([fontA.load(), fontB.load(), fontC.load(), fontD.load()]).then(function () {
+	      document.documentElement.className += ' font-stage-2';
+	      sessionStorage.fontsLoaded = true;
+	    });
+	  });
+	}
 
 /***/ },
 /* 299 */

@@ -100,7 +100,7 @@
   }
 
   @if($font-family-web and $font-family-subset) {
-    .fonts-stage-2 & {
+    .font-stage-2 & {
       font-family: #{$font-family-web + ',' + $font-family-subset + ',' + $font-family-base};
     }
   } @else if ($font-family-web) {
