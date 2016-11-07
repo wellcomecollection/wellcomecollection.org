@@ -48,9 +48,14 @@ async function getBuckets() {
   console.info(`Deploying build: ${buildNumber} of wellcomecollection.org to prod...`);
 
   exec(`./deploy.sh ${bucket} ${buildNumber}`, (err, stdout, stderr) => {
+    if (err) {
+      console.info('\n');
+      console.error('\x1b[33m', 'Airbag error: Application not deployed.', '\x1b[0m');
+      console.error(stderr);
+    }
     if (stderr) {
       console.info('\n');
-      console.error('\x1b[33m', 'Airbag error: Application not deployed, there was a Terraform error.', '\x1b[0m');
+      console.error('\x1b[33m', 'Terraform error: Application not deployed, there was a Terraform error.', '\x1b[0m');
       console.error(stderr);
     }
     else {
