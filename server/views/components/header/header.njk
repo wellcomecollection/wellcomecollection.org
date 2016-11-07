@@ -1,0 +1,22 @@
+<div class="header">
+  <a href="#" class="header__brand">
+    <img class="header__logo" src="https://wellcomecollection.org/sites/all/themes/col_base/images/wellcomecollection-logo.svg" />
+  </a>
+  <div class="header__content">
+    <div class="header__upper">
+      <form class="header__search">
+        <input class="header__input" type="text" />
+        <button class="header__button"><span>Search</span></button>
+      </form>
+    </div>
+    <div class="header__lower">
+      <nav class="header__nav">
+        <ul class="header__list">
+          {% for navLink in navLinks %}
+            <li class="header__item {{ "is-active" if navLink.isActive }}"><a href="{{ navLink.url }}" class="header__link">{{ navLink.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>

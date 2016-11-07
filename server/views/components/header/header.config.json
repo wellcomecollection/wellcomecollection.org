@@ -1,0 +1,26 @@
+{
+  "context": {
+    "navLinks": [{
+      "url": "#",
+      "title": "What's on"
+    }, {
+      "url": "#",
+      "title": "Plan your visit"
+    }, {
+      "url": "#",
+      "title": "Discover"
+    }, {
+      "url": "#",
+      "title": "Library",
+      "isActive": true
+    }, {
+      "url": "#",
+      "title": "About"
+    }],
+    "teaser": {
+      "url": "#",
+      "title": "The craft of medicine: illumination through conversation",
+      "time": "Today 11:00-17:00"
+    }
+  }
+}
