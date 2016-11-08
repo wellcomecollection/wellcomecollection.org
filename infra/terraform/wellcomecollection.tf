@@ -2,9 +2,8 @@ variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "wellcomecollection_key_path" {}
 variable "wellcomecollection_key_name" {}
-variable "build_number" {}
-variable "build_bucket" {}
-variable "build_branch" {}
+variable "build_state_bucket" {}
+variable "container_tag" {}
 
 module "wellcomecollection" {
   source                       = "templates/"
@@ -17,5 +16,6 @@ module "wellcomecollection" {
   aws_secret_key               = "${var.aws_secret_key}"
   wellcomecollection_key_path  = "${var.wellcomecollection_key_path}"
   wellcomecollection_key_name  = "${var.wellcomecollection_key_name}"
-  build_number                 = "${var.build_number}"
+  container_tag                = "${var.container_tag}"
+  build_state_bucket           = "${var.build_state_bucket}"
 }

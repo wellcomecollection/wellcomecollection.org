@@ -13,27 +13,6 @@ resource "aws_iam_role" "wellcomecollection_instance" {
 EOF
 }
 
-resource "aws_iam_role_policy" "get_builds" {
-  name = "get-builds"
-  role = "${aws_iam_role.wellcomecollection_instance.id}"
-
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": [
-        "s3:GetObject",
-        "s3:ListBucket"
-      ],
-      "Effect": "Allow",
-      "Resource": "arn:aws:s3:::${var.build_bucket}/builds/*"
-    }
-  ]
-}
-EOF
-}
-
 # ECS
 resource "aws_iam_policy_attachment" "ecs_service_ec2_role" {
   # This is the default name used by amazon

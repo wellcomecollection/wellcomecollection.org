@@ -17,13 +17,20 @@ async function deploy() {
   const deployStart = Date.now();
   console.info(`Deploying build: ${tag} of wellcomecollection.org to prod…`);
 
-  exec(`./deploy.sh ${tag}`, (err, stdout) => {
+  exec(`./deploy.sh ${tag}`, (err, stdout, stderr) => {
     if (err) {
-      console.error('There was an error deploying, please make sure you check that the AWS setup is not mangled.');
+      console.info('\n');
+      console.error('\x1b[33m', 'Airbag error: Application not deployed.', '\x1b[0m');
+      console.error(err);
     }
-    else {
+    if (stderr) {
+      console.info('\n');
+      console.error('\x1b[33m', 'Terraform error: Application not deployed, there was a Terraform error.', '\x1b[0m');
+      console.error(stderr);
+    }
+    if (!(err || stderr)) {
       const deployedIn = Date.now() - deployStart;
-      console.info(`Deployed build: ${buildNumber} of wellcomecollection.org to prod in ${deployedIn/100} seconds`);
+      console.info('\x1b[32m', `Deployed build: ${tag} of wellcomecollection.org to prod in ${deployedIn/100} seconds`, '\x1b[0m');
     }
   });
 }

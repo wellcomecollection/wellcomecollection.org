@@ -8,13 +8,8 @@ dependencies:
     - ./build-app.sh
 deployment:
   docker:
-    branch: docker-circle
+    branch: ecs
     commands:
       - docker build --rm=false -t wellcome/wellcomecollection:$CIRCLE_BUILD_NUM .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push wellcome/wellcomecollection:$CIRCLE_BUILD_NUM
-  prod:
-    branch: master
-    commands:
-      - ./build.sh $CIRCLE_BUILD_NUM
-      - aws s3 cp ./build/$CIRCLE_BUILD_NUM.tar s3://$CIRCLE_BUILD_BUCKET/builds/$CIRCLE_BRANCH/$CIRCLE_BUILD_NUM.tar

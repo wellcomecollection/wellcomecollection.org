@@ -2,7 +2,7 @@ data "template_file" "container_definitions" {
   template = "${var.container_definitions}"
 
   vars {
-    build_number = "${var.build_number}"
+    container_tag = "${var.container_tag}"
   }
 }
 
