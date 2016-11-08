@@ -8,7 +8,29 @@
     <nav class="header__nav">
       <ul class="header__list">
         {% for navLink in navLinks %}
-          <li class="header__item {{ "is-active" if navLink.isActive }}"><a href="{{ navLink.url }}" class="header__link">{{ navLink.title }}</a></li>
+          <li class="header__item {{ "is-current" if navLink.isCurrent }}">
+            <a href="{{ navLink.url }}" class="header__link">{{ navLink.title }}</a>
+            <div class="header__dropdown grid grid--breakout">
+              <div class="grid__cell">
+                <div class="grid container header__container">
+                  <nav class="grid__cell header__subnav">
+                    <ul class="header__subnav-list">
+                      {% if navLink.subnavLinks %}
+                        {% for subnavLink in navLink.subnavLinks %}
+                          <li class="header__subnav-item">
+                            <a href="{{ subnavLink.url }}" class="header__subnav-link">{{ subnavLink.title }}</a>
+                          </li>
+                        {% endfor %}
+                      {% endif %}
+                    </ul>
+                  </nav>
+                  <div class="grid__cell">
+                    {# TODO: add e.g cards here #}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
         {% endfor %}
       </ul>
     </nav>

@@ -5,14 +5,39 @@
       "title": "Visit us"
     }, {
       "url": "#",
-      "title": "Library"
+      "title": "Library",
+      "isCurrent": true,
+      "subnavLinks": [{
+        "url": "#",
+        "title": "Digitisation at Wellcome"
+      }, {
+        "url": "#",
+        "title": "Library Strategy & Policy"
+      }, {
+        "url": "#",
+        "title": "Open Access Fund"
+      }, {
+        "url": "#",
+        "title": "Joining"
+      }, {
+        "url": "#",
+        "title": "Developing & Caring"
+      }, {
+        "url": "#",
+        "title": "Open Tools"
+      }, {
+        "url": "#",
+        "title": "Services & Facilities"
+      }, {
+        "url": "#",
+        "title": "Contact"
+      }]
     }, {
       "url": "#",
       "title": "What's on"
     }, {
       "url": "#",
-      "title": "Discover",
-      "isActive": true
+      "title": "Discover"
     }, {
       "url": "#",
       "title": "Custom"
