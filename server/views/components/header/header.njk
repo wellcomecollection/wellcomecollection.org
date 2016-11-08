@@ -1,16 +1,20 @@
-<div class="header">
+<div class="header" data-component="header">
   <div class="header__upper">
     <a href="#" class="header__brand">
       <img class="header__logo" src="https://wellcomecollection.org/sites/all/themes/col_base/images/wellcomecollection-logo.svg" />
     </a>
   </div>
   <div class="header__lower">
-    <nav class="header__nav">
+    <nav class="header__nav" data-hook="header-nav">
       <ul class="header__list">
         {% for navLink in navLinks %}
-          <li class="header__item {{ "is-current" if navLink.isCurrent }}">
-            <a href="{{ navLink.url }}" class="header__link">{{ navLink.title }}</a>
-            <div class="header__dropdown grid grid--breakout">
+          <li class="header__item {{ "is-current" if navLink.isCurrent }}"
+            data-component="show-hide">
+            <a href="{{ navLink.url }}"
+              class="header__link"
+              data-hook="show-hide-trigger">{{ navLink.title }}</a>
+            <div class="header__dropdown grid grid--breakout"
+              data-hook="show-hide-drawer">
               <div class="grid__cell">
                 <div class="grid container header__container">
                   <nav class="grid__cell header__subnav">

@@ -43,7 +43,8 @@
   background: color('cream');
   border-top: 1px solid color('keyline-grey');
 
-  .header__item.is-active & {
+  .header__item[aria-expanded='true'] &,
+  .no-js & {
     display: block;
   }
 }
