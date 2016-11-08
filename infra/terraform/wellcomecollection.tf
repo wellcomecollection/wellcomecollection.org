@@ -17,7 +17,5 @@ module "wellcomecollection" {
   aws_secret_key               = "${var.aws_secret_key}"
   wellcomecollection_key_path  = "${var.wellcomecollection_key_path}"
   wellcomecollection_key_name  = "${var.wellcomecollection_key_name}"
-  build_bucket                 = "${var.build_bucket}"
-  build_branch                 = "${var.build_branch}"
   build_number                 = "${var.build_number}"
 }

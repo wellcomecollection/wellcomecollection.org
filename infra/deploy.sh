@@ -17,9 +17,7 @@ terraform remote config \
     -backend-config="region=eu-west-1"
 
 terraform get
-terraform apply \
-    -var "build_bucket=$BUCKET" \
-    -var "build_number='$BUILD_NUMBER'" \
-    -var "build_branch=master"
+terraform apply
+    -var "build_number='$BUILD_NUMBER'"
 
 popd

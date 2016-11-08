@@ -1,12 +1,12 @@
 {
   "dependencies": {
-    "aws-sdk": "^2.6.7",
     "babel-core": "^6.17.0",
     "babel-polyfill": "^6.16.0",
     "babel-preset-es2015": "^6.16.0",
     "babel-preset-stage-3": "^6.17.0",
     "babel-register": "^6.16.3",
-    "inquirer": "^1.2.1"
+    "inquirer": "^1.2.1",
+    "superagent": "^2.3.0"
   },
   "name": "wellcomecollection.org-infra",
   "description": "To deploy you will have to have the [AWS CLI installed](http://docs.aws.amazon.com/cli/latest/userguide/installing.html#install-with-pip) and your [AWS credentials setup](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html).",
