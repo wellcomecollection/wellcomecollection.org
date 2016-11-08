@@ -1,7 +1,7 @@
 [
   {
     "name": "wellcomecollection",
-    "image": "wellcome/wellcomecollection:latest",
+    "image": "wellcome/wellcomecollection:${build_number}",
     "cpu": 1024,
     "memory": 768,
     "essential": true,

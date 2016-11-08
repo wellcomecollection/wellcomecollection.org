@@ -1,11 +1,8 @@
-data "template_file" "launch_script" {
-  template = "${var.launch_template}"
+data "template_file" "container_definitions" {
+  template = "${var.container_definitions}"
 
   vars {
-    build_number = "${var.build_number}",
-    build_bucket = "${var.build_bucket}",
-    build_branch = "${var.build_branch}",
-    project_name = "${var.project_name}"
+    build_number = "${var.build_number}"
   }
 }
 

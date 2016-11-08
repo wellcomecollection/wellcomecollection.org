@@ -9,4 +9,4 @@ variable "aws_node_ami" {}
 variable "build_bucket" {}
 variable "build_number" {}
 variable "build_branch" {}
-variable "launch_template" {}
+variable "container_definitions" {}

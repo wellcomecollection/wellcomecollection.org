@@ -9,7 +9,7 @@ variable "build_branch" {}
 module "wellcomecollection" {
   source                       = "templates/"
   project_name                 = "wellcomecollection"
-  launch_template              = "${file("launch-script.tpl")}"
+  container_definitions        = "${file("container-definitions.json")}"
   aws_region                   = "eu-west-1"
   aws_availability_zones       = "eu-west-1a"
   aws_node_ami                 = "ami-ffaad08c"

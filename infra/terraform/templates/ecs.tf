@@ -4,7 +4,7 @@ resource "aws_ecs_cluster" "wellcomecollection" {
 
 resource "aws_ecs_task_definition" "wellcomecollection" {
   family = "wellcomecollection"
-  container_definitions = "${file("container-definitions.json")}"
+  container_definitions = "${data.template_file.container_definitions.rendered}"
 }
 
 resource "aws_ecs_service" "wellcomecollection" {
