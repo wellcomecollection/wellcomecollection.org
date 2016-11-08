@@ -8,12 +8,12 @@ const fontC = new FontFaceObserver('Helvetica Neue Medium Web');
 const fontD = new FontFaceObserver('Lettera Regular Web');
 const rootElement = document.documentElement;
 if (sessionStorage.fontsLoaded) {
-  document.documentElement.className += ' font-stage-1 font-stage-2';
+  rootElement.className += ' font-stage-1 font-stage-2';
 } else {
   Promise.all([fontASubset.load()]).then(() => {
     rootElement.className += ' font-stage-1';
     Promise.all([fontA.load(), fontB.load(), fontC.load(), fontD.load()]).then(() => {
-      document.documentElement.className += ' font-stage-2';
+      rootElement.className += ' font-stage-2';
       sessionStorage.fontsLoaded = true;
     });
   });

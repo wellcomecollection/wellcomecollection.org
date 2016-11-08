@@ -31,7 +31,7 @@ const sources = {
   },
   jsHead: {
     entry: './js/jsHead.js',
-    distPath: '../server/views/_partials/'
+    distPath: '../dist/assets/js/inline/'
   },
   fonts: {
     srcPath: './fonts/**/*.{woff,woff2}',
@@ -47,8 +47,8 @@ const sources = {
 };
 
 gulp.task('fonts:copy', function() {
-   gulp.src('./fonts/**/*.{woff,woff2}')
-   .pipe(gulp.dest('../dist/assets/fonts/'));
+   gulp.src(sources.fonts.srcPath)
+   .pipe(gulp.dest(sources.fonts.distPath));
 });
 
 // TODO: pull out autoprefixing / sourcemaps to it's own task

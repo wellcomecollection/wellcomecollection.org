@@ -9,8 +9,9 @@
 	 {% include "views/partials/css-head.njk" %}
   </style>
   <link rel="stylesheet" href="{{ '/assets/css/styleguide.css' | path }}">
+  {# TODO - come up with better way of including javscript in the head #}
   <script>
-	 {% include "views/partials/js-head.njk" %}
+	 {% include "js-head.njk" %}
 	</script>
 </head>
 

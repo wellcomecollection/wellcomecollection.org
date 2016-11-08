@@ -4,6 +4,9 @@
   "description": "wellcomecollection.org frontend",
   "author": "David McCormick <d.mccormick@wellcome.ac.uk>",
   "license": "MIT",
+  "dependencies": {
+    "fontfaceobserver": "^2.0.5"
+  },
   "devDependencies": {
     "babel-core": "^6.17.0",
     "babel-loader": "^6.2.5",
