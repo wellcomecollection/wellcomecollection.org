@@ -4,7 +4,7 @@
   "description": "The node server serving content for wellcomecollection.org",
   "main": "app.js",
   "scripts": {
-    "start": "pm2-docker babel-entry.js --name 'wellcomecollection.org' -i",
+    "start": "pm2-docker babel-entry.js --name 'wellcomecollection.org'",
     "test": "exit 0",
     "watch": "nodemon babel-entry.js -e njk,js",
     "fractal": "fractal start —sync --port 3002"
