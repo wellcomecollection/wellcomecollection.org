@@ -30,7 +30,7 @@ async function deploy() {
     }
     if (!(err || stderr)) {
       const deployedIn = Date.now() - deployStart;
-      console.info('\x1b[32m', `Deployed build: ${tag} of wellcomecollection.org to prod in ${deployedIn/100} seconds`, '\x1b[0m');
+      console.info('\x1b[32m', `Deployed build: ${tag} of wellcomecollection.org to prod in ${deployedIn/1000} seconds`, '\x1b[0m');
     }
   });
 }
