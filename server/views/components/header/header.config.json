@@ -2,25 +2,20 @@
   "context": {
     "navLinks": [{
       "url": "#",
+      "title": "Visit us"
+    }, {
+      "url": "#",
+      "title": "Library"
+    }, {
+      "url": "#",
       "title": "What's on"
     }, {
       "url": "#",
-      "title": "Plan your visit"
-    }, {
-      "url": "#",
-      "title": "Discover"
-    }, {
-      "url": "#",
-      "title": "Library",
+      "title": "Discover",
       "isActive": true
     }, {
       "url": "#",
-      "title": "About"
-    }],
-    "teaser": {
-      "url": "#",
-      "title": "The craft of medicine: illumination through conversation",
-      "time": "Today 11:00-17:00"
-    }
+      "title": "Custom"
+    }]
   }
 }

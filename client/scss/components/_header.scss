@@ -1,103 +1,73 @@
-.header {
+.header__upper,
+.header__lower {
   display: flex;
-  flex-wrap: wrap;
-
-  @include respond-to('large') {
-    flex-wrap: nowrap;
-  }
-}
-
-.header__brand {
-  flex-basis: 100%;
-  padding: 1rem 1rem 1rem 0;
-
-  @include respond-to('large') {
-    display: block;
-    flex-basis: 20%;
-    margin-right: 1rem;
-    border-right: 1px solid color('keyline-grey');
-  }
-
-  display: flex;
-  position: relative;
-}
-
-.header__logo {
-  @include respond-to('large') {
-    width: 100%;
-  }
 }
 
 .header__upper {
-  display: flex;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid color('keyline-grey');
 }
 
-.header__content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.header__lower {
+  justify-content: space-between;
 }
 
-.header__nav {
-  @include font('WB7');
+.header__brand {
+  flex-basis: 15%;
+  display: block;
+}
 
-  @include respond-to('large') {
-    @include font('WB6');
-  }
+.header__logo {
+  width: 100%;
+  padding-right: 1.5rem;
+  border-right: 1px solid color('keyline-grey');
 }
 
 .header__list {
   @include plain-list();
+  @include font('WB7');
+  margin-left: -0.3rem;
 
-  @include respond-to('medium') {
-    display: flex;
-  }
+  display: flex;
+}
+
+.header__item {
+  margin-right: 2rem;
 }
 
 .header__link {
-  padding: 0.2em 0;
-
-  @include respond-to('medium') {
-    padding: 0.5em 1em;
-
-    &:first-child {
-      padding-left: 0;
-    }
-  }
-
+  padding: 1rem 0.3rem;
   display: block;
-  position: relative;
   text-decoration: none;
 
   .header__item.is-active & {
+    position: relative;
+
     &:after {
       content: '';
       position: absolute;
-      bottom: -0.25em;
-      height: 0.4em;
-      background: color('yellow');
+      bottom: 1rem;
+      height: 0.6rem;
       left: 0;
       right: 0;
+      background: color('yellow');
+      z-index: -1;
     }
   }
 }
 
 .header__search {
-  //
-}
-
-.header__input {
-  display: none;
+  padding: 1rem 0;
 }
 
 .header__button {
   @include font('WB7');
   appearance: none;
-  background: transparent;
   border: 0;
+  background: color('transparent');
   padding: 0;
+}
 
-  @include respond-to('large') {
-    @include font('WB6');
-  }
+.header__input {
+  display: none;
 }
