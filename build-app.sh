@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 pushd server
-npm install --production
+npm install
 popd
 
 pushd client
-npm install --production
+npm install
 npm run compile
 popd
