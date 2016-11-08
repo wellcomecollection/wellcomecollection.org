@@ -8,7 +8,7 @@ dependencies:
     - ./build-app.sh
 deployment:
   docker:
-    branch: master
+    branch: [master, ecs]
     commands:
       - docker build --rm=false -t wellcome/wellcomecollection:$CIRCLE_BUILD_NUM .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
