@@ -1,5 +1,5 @@
 import showHide from './show-hide';
-import { nodeList } from './../util';
+import { nodeList, KEYS } from './../util';
 
 const header = (el) => {
   const headerItems = el.querySelectorAll('[data-component="show-hide"]');
@@ -27,9 +27,32 @@ const header = (el) => {
       dropdown.setActive(true);
     });
 
+    dropdown.trigger.addEventListener('keydown', (event) => {
+      if (event.keyCode !== KEYS.ESCAPE) return;
+
+      dropdown.setActive(false);
+    });
+
     headerNav.addEventListener('mouseleave', () => {
       hideAll();
     });
+  });
+
+  const firstDropdown = dropdowns[0];
+  const lastDropdown = dropdowns[dropdowns.length - 1];
+
+  firstDropdown.trigger.addEventListener('keydown', (event) => {
+    if (event.keyCode !== KEYS.TAB) return;
+    if (!event.shiftKey) return;
+
+    hideAll();
+  });
+
+  lastDropdown.trigger.addEventListener('keydown', (event) => {
+    if (event.keyCode !== KEYS.TAB) return;
+    if (event.shiftKey) return;
+
+    hideAll();
   });
 };
 
