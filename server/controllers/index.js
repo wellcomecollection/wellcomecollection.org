@@ -2,13 +2,6 @@ const {get} = require('../util/https');
 const Article = require('../model/article');
 
 module.exports = {
-  patterns: {
-    index: (ctx) => ctx.render('patterns/index', {}),
-    typography: (ctx) => ctx.render('patterns/typography', {}),
-    grids: (ctx) => ctx.render('patterns/grids', {}),
-    palette: (ctx) => ctx.render('patterns/palette', {}),
-    icons: (ctx) => ctx.render('patterns/icons', {})
-  },
   article: async (ctx) => {
     const id = ctx.params.id;
     const uri = {
