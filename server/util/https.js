@@ -1,8 +1,8 @@
-const http = require('http');
+const https = require('https');
 
 function get(uri, options) {
   return new Promise((resolve, reject) => {
-    return http.get(uri, function(response) {
+    return https.get(uri, function(response) {
       // beware, mutants.
       var body = '';
       response.on('data', (d) => body += d);
