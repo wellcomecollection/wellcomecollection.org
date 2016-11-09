@@ -1,4 +1,4 @@
-class Article {
+export default class Article {
   constructor(headline, articleBody, mainImage) {
     this.headline = headline;
     this.articleBody = articleBody;
@@ -9,5 +9,3 @@ class Article {
     return new Article(json.headline, json.articleBody, json.mainImage);
   }
 }
-
-module.exports = Article;
