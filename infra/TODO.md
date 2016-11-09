@@ -5,3 +5,7 @@
 * Review VPC strategy
 * What do we do about concurrent deploys? Queue?
 * Move from ELB to ALB
+* Figure out domain name
+* Get HTTPs setup on ALB
+* Health checks
+* Figure out create_before_destroy dependencies

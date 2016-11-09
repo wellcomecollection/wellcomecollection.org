@@ -10,7 +10,6 @@ module "wellcomecollection" {
   project_name                 = "wellcomecollection"
   container_definitions        = "${file("container-definitions.json")}"
   aws_region                   = "eu-west-1"
-  aws_availability_zones       = "eu-west-1a"
   aws_node_ami                 = "ami-ffaad08c"
   aws_access_key               = "${var.aws_access_key}"
   aws_secret_key               = "${var.aws_secret_key}"
