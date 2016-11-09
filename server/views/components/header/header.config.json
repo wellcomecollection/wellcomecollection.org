@@ -2,9 +2,11 @@
   "context": {
     "navLinks": [{
       "url": "#",
+      "subnavId": "header-subnav-visit-us",
       "title": "Visit us"
     }, {
       "url": "#",
+      "subnavId": "header-subnav-library",
       "title": "Library",
       "isCurrent": true,
       "subnavLinks": [{
@@ -34,12 +36,15 @@
       }]
     }, {
       "url": "#",
+      "subnavId": "header-subnav-whats-on",
       "title": "What's on"
     }, {
       "url": "#",
+      "subnavId": "header-subnav-discover",
       "title": "Discover"
     }, {
       "url": "#",
+      "subnavId": "header-subnav-custom",
       "title": "Custom"
     }]
   }
