@@ -1,12 +1,20 @@
 <div class="header js-header">
-  <div class="header__upper">
-    <a href="#" class="header__brand">
-      <img class="header__logo" src="https://wellcomecollection.org/sites/all/themes/col_base/images/wellcomecollection-logo.svg" />
-    </a>
+  <div class="header__upper-wrap">
+    <div class="header__upper container">
+      <a href="#" class="header__brand">
+        <img class="header__logo" src="https://wellcomecollection.org/sites/all/themes/col_base/images/wellcomecollection-logo.svg" />
+      </a>
+    </div>
   </div>
-  <div class="header__lower js-show-hide js-header-lower">
-    <a href="#" class="header__burger-trigger js-show-hide-trigger">burger</a>
-    <nav class="header__nav js-header-nav">
+  <div class="header__lower container js-show-hide js-header-lower">
+    <a href="#"
+      class="header__burger-trigger js-show-hide-trigger"
+      aria-controls="header-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </a>
+    <nav id="header-nav" class="header__nav js-header-nav">
       <ul class="header__list">
         {% for navLink in navLinks %}
           <li class="header__item js-show-hide {{ "is-current" if navLink.isCurrent }}">
