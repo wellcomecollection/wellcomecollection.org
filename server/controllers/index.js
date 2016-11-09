@@ -1,4 +1,4 @@
-const {get} = require('../util/http');
+const {get} = require('../util/https');
 const Article = require('../model/article');
 
 module.exports = {
@@ -19,5 +19,6 @@ module.exports = {
     const json = await get(uri);
     return ctx.render('article/index', Article.fromDrupalApi(json));
   },
+  favicon: (ctx) => ctx.body = '',
   healthcheck: (ctx) => ctx.body = 'ok'
 };
