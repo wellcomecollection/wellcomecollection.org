@@ -4,18 +4,18 @@ import { nodeList, KEYS } from './../util';
 const header = (el) => {
   const headerNav = el.querySelector('.js-header-nav');
   const headerLower = el.querySelector('.js-header-lower');
+  const headerSearchForm = el.querySelector('.js-search');
+  const headerSearchInput = headerSearchForm.querySelector('.js-search-input');
   const headerItems = headerNav.querySelectorAll('.js-show-hide');
-  let dropdowns = [];
+  let searchToggle;
+  let dropdowns;
   let burger;
 
   const init = () => {
     dropdowns = collectDropdowns();
-    burger = makeBurger();
+    burger = showHide({el: headerLower});
+    searchToggle = showHide({el: headerSearchForm});
     handleEvents();
-  };
-
-  const makeBurger = () => {
-    return showHide({el: headerLower});
   };
 
   const collectDropdowns = () => {
@@ -45,8 +45,8 @@ const header = (el) => {
         dropdown.setActive(true);
       });
 
-      dropdown.trigger.addEventListener('keydown', (event) => {
-        if (event.keyCode !== KEYS.ESCAPE) return;
+      dropdown.trigger.addEventListener('keydown', ({ keyCode }) => {
+        if (keyCode !== KEYS.ESCAPE) return;
 
         dropdown.setActive(false);
       });
@@ -56,31 +56,62 @@ const header = (el) => {
       });
     });
 
-    firstDropdown.trigger.addEventListener('keydown', (event) => {
-      if (event.keyCode !== KEYS.TAB) return;
-      if (!event.shiftKey) return;
+    firstDropdown.trigger.addEventListener('keydown', ({ keyCode, shiftKey }) => {
+      if (keyCode !== KEYS.TAB) return;
+      if (!shiftKey) return;
 
       hideAllDropdowns();
     });
 
-    lastDropdown.trigger.addEventListener('keydown', (event) => {
-      if (event.keyCode !== KEYS.TAB) return;
-      if (event.shiftKey) return;
+    lastDropdown.trigger.addEventListener('keydown', ({ keyCode, shiftKey }) => {
+      if (keyCode !== KEYS.TAB) return;
+      if (shiftKey) return;
 
       hideAllDropdowns();
     });
 
     burger.trigger.addEventListener('click', (event) => {
       event.preventDefault();
-      burger.toggleActive();
+
+      if (burger.getActive()) {
+        burger.setActive(false);
+        document.body.classList.remove('is-fixed');
+      } else {
+        burger.setActive(true);
+        document.body.classList.add('is-fixed');
+      }
     });
 
-    burger.trigger.addEventListener('keyup', ({ keyCode }) => {
+    burger.trigger.addEventListener('keydown', ({ keyCode }) => {
       if (keyCode !== KEYS.ESCAPE) return;
 
-      if (keyCode === KEYS.ESCAPE) {
-        burger.setActive(false);
+      burger.setActive(false);
+    });
+
+    headerSearchForm.addEventListener('submit', (event) => {
+      if (searchToggle.getActive() && headerSearchInput.value.trim().length) return;
+
+      event.preventDefault();
+      searchToggle.toggleActive();
+
+      if (searchToggle.getActive()) {
+        searchToggle.drawer.focus();
       }
+    });
+
+    headerSearchInput.addEventListener('keydown', ({ keyCode, shiftKey }) => {
+      if (keyCode !== KEYS.ESCAPE && keyCode !== KEYS.TAB) return;
+      if (keyCode === KEYS.TAB && !shiftKey) return;
+
+      searchToggle.setActive(false);
+      searchToggle.trigger.focus();
+    });
+
+    searchToggle.trigger.addEventListener('keydown', ({ keyCode, shiftKey }) => {
+      if (keyCode !== KEYS.TAB) return;
+      if (shiftKey) return;
+
+      searchToggle.setActive(false);
     });
   };
 

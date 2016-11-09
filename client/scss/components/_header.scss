@@ -13,16 +13,24 @@
 
 .header__upper {
   padding-bottom: 0.2rem;
-  justify-content: center;
+  justify-content: flex-end;
+  position: relative;
 
   @include respond-to('medium') {
-    justify-content: flex-start;
+    justify-content: space-between;
   }
 }
 
 .header__lower {
   justify-content: space-between;
   position: relative;
+
+  &[aria-expanded='true'] {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: color('white');
+  }
 }
 
 .header__burger-trigger {
@@ -72,8 +80,9 @@
 }
 
 .header__brand {
-  flex-basis: 40%;
-  max-width: 8rem;
+  flex-basis: (100% / 3);
+  display: flex;
+  justify-content: center;
 
   @include respond-to('medium') {
     flex-basis: 15%;
@@ -82,8 +91,36 @@
   }
 }
 
+.header__search {
+  flex-basis: (100% / 3);
+  min-width: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.header__button {
+  @include font('WB7');
+  appearance: none;
+  border: 0;
+  background: color('transparent');
+  padding: 0;
+}
+
+.header__input {
+  @include font('WB7');
+  display: none;
+  margin-right: 1rem;
+  padding: 0 1rem;
+
+  .no-js &,
+  .header__search[aria-expanded='true'] & {
+    display: block;
+  }
+}
+
 .header__logo {
   width: 100%;
+  max-width: 8rem;
 
   @include respond-to('medium') {
     padding-right: 1.5rem;
@@ -147,10 +184,16 @@
   display: block;
   text-decoration: none;
   position: relative;
+  transition: color 400ms ease;
 
   @include respond-to('medium') {
     padding-top: 1rem;
     padding-bottom: 1rem;
+  }
+
+  &:hover,
+  &:focus {
+    color: color('action-green-1');
   }
 
   .header__item.is-current & {
@@ -169,34 +212,6 @@
       }
     }
   }
-}
-
-.header__search {
-  padding: 1rem 0;
-}
-
-.header__button {
-  @include font('WB7');
-  position: absolute;
-  appearance: none;
-  border: 0;
-  background: color('transparent');
-  padding: 0;
-  top: -3rem;
-  right: map-get($container-padding, 'small');
-
-  @include respond-to('medium') {
-    right: map-get($container-padding, 'medium');
-  }
-
-  @include respond-to('large') {
-    position: static;
-    display: block;
-  }
-}
-
-.header__input {
-  display: none;
 }
 
 .header__subnav {
@@ -219,7 +234,7 @@
 
 .header__subnav-link {
   text-decoration: none;
-  transition: color 200ms ease;
+  transition: color 400ms ease;
 
   &:hover,
   &:focus {

@@ -17,7 +17,7 @@ const showHide = (state) => {
   };
 
   const getActive = () => {
-    return el.classList.contains(activeClass);
+    return el.getAttribute('aria-expanded') === 'true';
   };
 
   const toggleActive = () => {
