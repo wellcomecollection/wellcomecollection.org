@@ -2,58 +2,89 @@ import showHide from './show-hide';
 import { nodeList, KEYS } from './../util';
 
 const header = (el) => {
-  const headerItems = el.querySelectorAll('[data-component="show-hide"]');
-  const headerNav = el.querySelector('[data-hook="header-nav"]');
-  const dropdowns = [];
+  const headerNav = el.querySelector('.js-header-nav');
+  const headerLower = el.querySelector('.js-header-lower');
+  const headerItems = headerNav.querySelectorAll('.js-show-hide');
+  let dropdowns = [];
+  let burger;
 
-  nodeList(headerItems).forEach((headerItem) => {
-    dropdowns.push(showHide({el: headerItem}));
-  });
+  const init = () => {
+    dropdowns = collectDropdowns();
+    burger = makeBurger();
+    handleEvents();
+  };
 
-  const hideAll = () => {
+  const makeBurger = () => {
+    return showHide({el: headerLower});
+  };
+
+  const collectDropdowns = () => {
+    return nodeList(headerItems).map((headerItem) => {
+      return showHide({el: headerItem});
+    });
+  };
+
+  const hideAllDropdowns = () => {
     dropdowns.forEach((dropdown) => {
       dropdown.setActive(false);
     });
   };
 
-  dropdowns.forEach((dropdown) => {
-    dropdown.trigger.addEventListener('mouseover', () => {
-      hideAll();
-      dropdown.setActive(true);
+  const handleEvents = () => {
+    const firstDropdown = dropdowns[0];
+    const lastDropdown = dropdowns[dropdowns.length - 1];
+
+    dropdowns.forEach((dropdown) => {
+      dropdown.trigger.addEventListener('mouseover', () => {
+        hideAllDropdowns();
+        dropdown.setActive(true);
+      });
+
+      dropdown.trigger.addEventListener('focus', () => {
+        hideAllDropdowns();
+        dropdown.setActive(true);
+      });
+
+      dropdown.trigger.addEventListener('keydown', (event) => {
+        if (event.keyCode !== KEYS.ESCAPE) return;
+
+        dropdown.setActive(false);
+      });
+
+      headerNav.addEventListener('mouseleave', () => {
+        hideAllDropdowns();
+      });
     });
 
-    dropdown.trigger.addEventListener('focus', () => {
-      hideAll();
-      dropdown.setActive(true);
+    firstDropdown.trigger.addEventListener('keydown', (event) => {
+      if (event.keyCode !== KEYS.TAB) return;
+      if (!event.shiftKey) return;
+
+      hideAllDropdowns();
     });
 
-    dropdown.trigger.addEventListener('keydown', (event) => {
-      if (event.keyCode !== KEYS.ESCAPE) return;
+    lastDropdown.trigger.addEventListener('keydown', (event) => {
+      if (event.keyCode !== KEYS.TAB) return;
+      if (event.shiftKey) return;
 
-      dropdown.setActive(false);
+      hideAllDropdowns();
     });
 
-    headerNav.addEventListener('mouseleave', () => {
-      hideAll();
+    burger.trigger.addEventListener('click', (event) => {
+      event.preventDefault();
+      burger.toggleActive();
     });
-  });
 
-  const firstDropdown = dropdowns[0];
-  const lastDropdown = dropdowns[dropdowns.length - 1];
+    burger.trigger.addEventListener('keyup', ({ keyCode }) => {
+      if (keyCode !== KEYS.ESCAPE) return;
 
-  firstDropdown.trigger.addEventListener('keydown', (event) => {
-    if (event.keyCode !== KEYS.TAB) return;
-    if (!event.shiftKey) return;
+      if (keyCode === KEYS.ESCAPE) {
+        burger.setActive(false);
+      }
+    });
+  };
 
-    hideAll();
-  });
-
-  lastDropdown.trigger.addEventListener('keydown', (event) => {
-    if (event.keyCode !== KEYS.TAB) return;
-    if (event.shiftKey) return;
-
-    hideAll();
-  });
+  init();
 };
 
 export default header;

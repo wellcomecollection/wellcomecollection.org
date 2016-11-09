@@ -1,8 +1,8 @@
 const showHide = (state) => {
   const el = state.el;
   const activeClass = state.activeClass || 'is-active';
-  const trigger = el.querySelector('[data-hook="show-hide-trigger"]');
-  const drawer = el.querySelector('[data-hook="show-hide-drawer"]');
+  const trigger = el.querySelector('.js-show-hide-trigger');
+  const drawer = el.querySelector('.js-show-hide-drawer');
 
   el.setAttribute('aria-haspopup', 'true');
 

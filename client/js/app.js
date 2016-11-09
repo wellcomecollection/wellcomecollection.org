@@ -8,4 +8,4 @@ message();
 
 nodeList(document.querySelectorAll('[data-component="palette"]')).forEach((el) => palette(el));
 nodeList(document.querySelectorAll('[data-component="icons"]')).forEach((el) => icons(el));
-header(document.querySelector('[data-component="header"]'));
+header(document.querySelector('.js-header'));

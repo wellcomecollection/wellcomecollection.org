@@ -1,21 +1,19 @@
-<div class="header" data-component="header">
+<div class="header js-header">
   <div class="header__upper">
     <a href="#" class="header__brand">
       <img class="header__logo" src="https://wellcomecollection.org/sites/all/themes/col_base/images/wellcomecollection-logo.svg" />
     </a>
   </div>
-  <div class="header__lower">
-    <nav class="header__nav" data-hook="header-nav">
+  <div class="header__lower js-show-hide js-header-lower">
+    <a href="#" class="header__burger-trigger js-show-hide-trigger">burger</a>
+    <nav class="header__nav js-header-nav">
       <ul class="header__list">
         {% for navLink in navLinks %}
-          <li class="header__item {{ "is-current" if navLink.isCurrent }}"
-            data-component="show-hide">
+          <li class="header__item js-show-hide {{ "is-current" if navLink.isCurrent }}">
             <a href="{{ navLink.url }}"
-              class="header__link"
-              data-hook="show-hide-trigger"
+              class="header__link js-show-hide-trigger"
               aria-controls="{{ navLink.subnavId }}">{{ navLink.title }}</a>
-            <div class="header__dropdown grid grid--breakout"
-              data-hook="show-hide-drawer">
+            <div class="header__dropdown grid grid--breakout js-show-hide-drawer">
               <div class="grid__cell">
                 <div class="grid container header__container">
                   <nav id="{{ navLink.subnavId }}" class="grid__cell header__subnav">

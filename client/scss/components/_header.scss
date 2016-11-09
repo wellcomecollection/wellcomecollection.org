@@ -6,6 +6,11 @@
 .header__upper {
   padding-bottom: 0.2rem;
   border-bottom: 1px solid color('keyline-grey');
+  justify-content: center;
+
+  @include respond-to('medium') {
+    justify-content: flex-start;
+  }
 }
 
 .header__lower {
@@ -13,26 +18,65 @@
   position: relative;
 }
 
+.header__burger-trigger {
+  position: absolute;
+  top: -3.5rem;
+
+  @include respond-to('medium') {
+    display: none;
+  }
+}
+
 .header__brand {
-  flex-basis: 15%;
-  display: block;
+  flex-basis: 40%;
+
+  @include respond-to('medium') {
+    flex-basis: 15%;
+    min-width: 8rem;
+    display: block;
+  }
 }
 
 .header__logo {
   width: 100%;
-  padding-right: 1.5rem;
-  border-right: 1px solid color('keyline-grey');
+
+  @include respond-to('medium') {
+    padding-right: 1.5rem;
+    border-right: 1px solid color('keyline-grey');
+  }
+}
+
+.header__nav {
+  display: none;
+  margin-top: 0.5rem;
+
+  .no-js &,
+  .header__lower[aria-expanded='true'] & {
+    display: block;
+  }
+
+  @include respond-to('medium') {
+    display: block;
+    margin-top: 0;
+  }
 }
 
 .header__list {
   @include plain-list();
   @include font('WB7');
   margin-left: -0.3rem;
-  display: flex;
+
+  @include respond-to('medium') {
+    display: flex;
+  }
 }
 
 .header__item {
-  margin-right: 2rem;
+  margin-right: 1.5rem;
+
+  @include respond-to('large') {
+    margin-right: 2rem;
+  }
 }
 
 .header__dropdown {
@@ -54,21 +98,30 @@
 }
 
 .header__link {
-  padding: 1rem 0.3rem;
+  padding: 0.5rem 0.3rem;
   display: block;
   text-decoration: none;
   position: relative;
+
+  @include respond-to('medium') {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
 
   .header__item.is-current & {
     &:after {
       content: '';
       position: absolute;
-      bottom: 1rem;
+      bottom: 0.5rem;
       height: 0.6rem;
       left: 0;
       right: 0;
       background: color('yellow');
       z-index: -1;
+
+      @include respond-to('medium') {
+        bottom: 1rem;
+      }
     }
   }
 }
@@ -79,11 +132,18 @@
 
 .header__button {
   @include font('WB7');
-  display: block;
+  position: absolute;
   appearance: none;
   border: 0;
   background: color('transparent');
   padding: 0;
+  top: -3rem;
+  right: 0;
+
+  @include respond-to('large') {
+    position: static;
+    display: block;
+  }
 }
 
 .header__input {
