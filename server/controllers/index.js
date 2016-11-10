@@ -1,5 +1,4 @@
 import request from 'superagent';
-import {get} from '../util/https';
 import Article from '../model/article';
 
 export const article = async(ctx, next) => {
@@ -7,7 +6,6 @@ export const article = async(ctx, next) => {
   // TODO: This should be discoverable - not hard-coded
   const uri = `https://wellcomecollection.org/api/v0/${id}`;
   const response = await request(uri);
-
   const valid = response.type === 'application/json' && response.status === 200;
 
   if (valid) {
