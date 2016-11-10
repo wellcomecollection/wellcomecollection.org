@@ -4,7 +4,10 @@ const showHide = (state) => {
   const trigger = el.querySelector('.js-show-hide-trigger');
   const drawer = el.querySelector('.js-show-hide-drawer');
 
-  el.setAttribute('aria-haspopup', 'true');
+  const init = () => {
+    el.setAttribute('aria-haspopup', 'true');
+    el.setAttribute('aria-expanded', getActive());
+  };
 
   const setActive = (value) => {
     if (value) {
@@ -17,14 +20,17 @@ const showHide = (state) => {
   };
 
   const getActive = () => {
-    return el.getAttribute('aria-expanded') === 'true';
+    return el.classList.contains(activeClass);
   };
 
   const toggleActive = () => {
     setActive(!getActive());
   };
 
+  init();
+
   return {
+    el,
     trigger,
     drawer,
     getActive,

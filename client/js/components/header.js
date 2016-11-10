@@ -15,6 +15,7 @@ const header = (el) => {
     dropdowns = collectDropdowns();
     burger = showHide({el: headerLower});
     searchToggle = showHide({el: headerSearchForm});
+    setBurgerAria(isBurgerVisible());
     handleEvents();
   };
 
@@ -28,6 +29,21 @@ const header = (el) => {
     dropdowns.forEach((dropdown) => {
       dropdown.setActive(false);
     });
+  };
+
+  const setBurgerAria = (value) => {
+    if (value) {
+      burger.el.setAttribute('aria-expanded', burger.getActive());
+    } else {
+      burger.el.removeAttribute('aria-expanded');
+    }
+  };
+
+  const isBurgerVisible = () => {
+    const isDisplayed = window.getComputedStyle(burger.trigger)
+      .getPropertyValue('display') === 'block';
+
+    return isDisplayed;
   };
 
   const handleEvents = () => {
@@ -112,6 +128,11 @@ const header = (el) => {
       if (shiftKey) return;
 
       searchToggle.setActive(false);
+    });
+
+    window.addEventListener('resize', () => {
+      // TODO: throttle or debounce this
+      setBurgerAria(isBurgerVisible());
     });
   };
 
