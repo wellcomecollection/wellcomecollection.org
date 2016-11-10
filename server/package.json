@@ -4,7 +4,7 @@
   "description": "The node server serving content for wellcomecollection.org",
   "main": "app.js",
   "scripts": {
-    "start": "pm2 start babel-entry.js --name 'wellcomecollection.org'",
+    "start": "pm2-docker babel-entry.js --name 'wellcomecollection.org'",
     "test": "exit 0",
     "watch": "nodemon babel-entry.js -e njk,js",
     "fractal": "fractal start —sync --port 3002"
@@ -26,7 +26,8 @@
     "koa": "^2.0.0",
     "koa-router": "^7.0.1",
     "koa-static": "^3.0.0",
-    "nunjucks": "^2.5.2"
+    "nunjucks": "^2.5.2",
+    "superagent": "^2.3.0"
   },
   "devDependencies": {
     "nodemon": "^1.10.2",
