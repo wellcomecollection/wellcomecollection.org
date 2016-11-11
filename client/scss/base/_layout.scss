@@ -8,4 +8,10 @@
 
 .is-fixed {
   position: fixed;
+
+  &--small {
+    @include respond-to('medium') {
+      position: inherit;
+    }
+  }
 }

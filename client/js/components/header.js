@@ -67,6 +67,12 @@ const header = (el) => {
         dropdown.setActive(false);
       });
 
+      dropdown.drawer.addEventListener('keydown', ({ keyCode }) => {
+        if (keyCode !== KEYS.ESCAPE) return;
+
+        dropdown.setActive(false);
+      });
+
       headerNav.addEventListener('mouseleave', () => {
         hideAllDropdowns();
       });
@@ -91,10 +97,10 @@ const header = (el) => {
 
       if (burger.getActive()) {
         burger.setActive(false);
-        document.body.classList.remove('is-fixed');
+        document.body.classList.remove('is-fixed', 'is-fixed--small');
       } else {
         burger.setActive(true);
-        document.body.classList.add('is-fixed');
+        document.body.classList.add('is-fixed', 'is-fixed--small');
       }
     });
 

@@ -6,16 +6,16 @@ const showHide = (state) => {
 
   const init = () => {
     el.setAttribute('aria-haspopup', 'true');
-    el.setAttribute('aria-expanded', getActive());
+    trigger.setAttribute('aria-expanded', getActive());
   };
 
   const setActive = (value) => {
     if (value) {
       el.classList.add(activeClass);
-      el.setAttribute('aria-expanded', 'true');
+      trigger.setAttribute('aria-expanded', 'true');
     } else {
       el.classList.remove(activeClass);
-      el.setAttribute('aria-expanded', 'false');
+      trigger.setAttribute('aria-expanded', 'false');
     }
   };
 

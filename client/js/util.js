@@ -5,8 +5,7 @@ const KEYS = {
 };
 
 const nodeList = (nl) => {
-  const t = Array.prototype.slice.call(nl || []);
-  return t;
+  return [...nl];
 };
 
 export { nodeList, KEYS };
