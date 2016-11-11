@@ -1,0 +1,11 @@
+.icon-sprite {
+  height: 0;
+  width: 0;
+  position: absolute;
+  visibility: hidden;
+}
+
+.icon-sprite__shape { //allows fill and stroke styles to be overwritten
+  fill: inherit;
+  stroke: inherit!important; //TODO rewrite print svg so !important not required
+}
