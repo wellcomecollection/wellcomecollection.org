@@ -68,12 +68,18 @@ const header = (el) => {
       dropdown.trigger.addEventListener('keydown', ({ keyCode }) => {
         if (keyCode !== KEYS.ESCAPE) return;
 
+        if (isBurgerVisible()) {
+          burger.setActive(false);
+          burger.trigger.focus();
+        }
+
         dropdown.setActive(false);
       });
 
       dropdown.drawer.addEventListener('keydown', ({ keyCode }) => {
         if (keyCode !== KEYS.ESCAPE) return;
 
+        dropdown.trigger.focus();
         dropdown.setActive(false);
       });
 
