@@ -81,13 +81,31 @@
 @mixin font($font-name) {
   $font: map-get($fonts, $font-name);
 
-  $font-family: map-get($font, 'font-family');
+  $font-family-base: map-get($font, 'font-family-base');
+  $font-family-subset: map-get($font, 'font-family-subset');
+  $font-family-web: map-get($font, 'font-family-web');
   $font-size: px-to-rem(map-get($font, 'font-size'));
   $letter-spacing: tracking-to-em(map-get($font, 'letter-spacing'));
   $line-height: px-to-unitless(map-get($font, 'line-height'), map-get($font, 'font-size'));
 
-  font-family: $font-family;
+  font-family: $font-family-base;
   font-size: $font-size;
   letter-spacing: $letter-spacing;
   line-height: $line-height;
+
+  @if($font-family-subset) {
+    .font-stage-1 & {
+      font-family: #{$font-family-subset + ',' + $font-family-base};
+    }
+  }
+
+  @if($font-family-web and $font-family-subset) {
+    .font-stage-2 & {
+      font-family: #{$font-family-web + ',' + $font-family-subset + ',' + $font-family-base};
+    }
+  } @else if ($font-family-web) {
+    .font-stage-2 & {
+      font-family: #{$font-family-web + ',' + $font-family-base};
+    }
+  }
 }
