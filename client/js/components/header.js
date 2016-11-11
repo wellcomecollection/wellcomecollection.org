@@ -46,6 +46,15 @@ const header = (el) => {
     return isDisplayed;
   };
 
+  const focusNextTrigger = (element, isReverse) => {
+    const parentLi = element.parentNode;
+    const nextNode = parentLi[isReverse ? 'previousElementSibling' : 'nextElementSibling'];
+
+    if (!nextNode) return;
+
+    nextNode.querySelector('.js-show-hide-trigger').focus();
+  };
+
   const handleEvents = () => {
     const firstDropdown = dropdowns[0];
     const lastDropdown = dropdowns[dropdowns.length - 1];
@@ -66,14 +75,21 @@ const header = (el) => {
       });
 
       dropdown.trigger.addEventListener('keydown', ({ keyCode }) => {
-        if (keyCode !== KEYS.ESCAPE) return;
-
-        if (isBurgerVisible()) {
-          burger.setActive(false);
-          burger.trigger.focus();
+        switch (keyCode) {
+          case KEYS.RIGHT:
+            focusNextTrigger(dropdown.trigger);
+            break;
+          case KEYS.LEFT:
+            focusNextTrigger(dropdown.trigger, true);
+            break;
+          case KEYS.ESCAPE:
+            if (isBurgerVisible()) {
+              burger.setActive(false);
+              burger.trigger.focus();
+            } else {
+              dropdown.setActive(false);
+            }
         }
-
-        dropdown.setActive(false);
       });
 
       dropdown.drawer.addEventListener('keydown', ({ keyCode }) => {

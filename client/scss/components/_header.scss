@@ -1,5 +1,5 @@
 .header {
-  padding-top: 1rem;
+  padding-top: 0.8rem;
 }
 
 .header__upper-wrap {
@@ -12,7 +12,7 @@
 }
 
 .header__upper {
-  padding-bottom: 0.2rem;
+  padding-bottom: 0.8rem;
   justify-content: flex-end;
   position: relative;
 
@@ -44,12 +44,13 @@
   position: absolute;
   width: 1.3rem;
   height: 1rem;
-  top: -2.5rem;
+  top: -2.7rem;
 
   @include respond-to('medium') {
     display: none;
   }
 
+  // TODO: replace with svg-sprite icon
   span {
     position: absolute;
     left: 0;
@@ -92,9 +93,8 @@
   justify-content: center;
 
   @include respond-to('medium') {
+    border-right: 1px solid color('keyline-grey');
     flex-basis: 15%;
-    min-width: 8rem;
-    display: block;
   }
 }
 
@@ -110,7 +110,42 @@
   appearance: none;
   border: 0;
   background: color('transparent');
-  padding: 0;
+  padding: 0 0 0 1.5rem;
+  display: flex;
+
+  @include respond-to('medium') {
+    border-left: 1px solid color('keyline-grey');
+  }
+}
+
+// TODO: replace with svg-sprite icon
+.header__button-icon {
+  width: 1rem;
+  height: 1rem;
+  position: relative;
+  border: 2px solid color('black');
+  border-radius: 50%;
+
+  &:after {
+    content: '';
+    position: absolute;
+    transform: rotate(45deg);
+    bottom: -0.25rem;
+    right: -0.5rem;
+    display: block;
+    width: 0.75rem;
+    height: 2px;
+    background: color('black');
+  }
+}
+
+.header__button-text {
+  display: none;
+  margin-left: 1rem;
+
+  @include respond-to('medium') {
+    display: block;
+  }
 }
 
 .header__input {
@@ -128,10 +163,10 @@
 .header__logo {
   width: 100%;
   max-width: 8rem;
+  margin-right: 1.5rem;
 
   @include respond-to('medium') {
-    padding-right: 1.5rem;
-    border-right: 1px solid color('keyline-grey');
+    width: auto;
   }
 }
 
