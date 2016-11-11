@@ -8,8 +8,12 @@
 
 .is-mobile-nav-visible {
   position: fixed;
+  width: 100%;
+  height: 100%;
 
   @include respond-to('medium') {
     position: inherit;
+    width: inherit;
+    height: inherit;
   }
 }

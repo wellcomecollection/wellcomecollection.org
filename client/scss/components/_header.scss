@@ -1,3 +1,5 @@
+//* @define header; weak
+
 .header {
   padding-top: 0.8rem;
 }
@@ -94,7 +96,8 @@
 
   @include respond-to('medium') {
     border-right: 1px solid color('keyline-grey');
-    flex-basis: 15%;
+    flex-basis: auto;
+    width: 10rem;
   }
 }
 
@@ -163,9 +166,9 @@
 .header__logo {
   width: 100%;
   max-width: 8rem;
-  margin-right: 1.5rem;
 
   @include respond-to('medium') {
+    margin-right: 1.5rem;
     width: auto;
   }
 }
@@ -210,9 +213,10 @@
   top: 100%;
   background: color('cream');
   border-top: 1px solid color('keyline-grey');
+  padding-bottom: 2rem;
 
-  .header__item.is-active &,
-  .no-js & {
+  .no-js &,
+  .header__item.is-active & {
     display: block;
   }
 }
@@ -258,7 +262,7 @@
 
 .header__subnav {
   margin-top: 0;
-  padding: 1rem 0 1.2rem;
+  padding: 1rem 0 0;
 }
 
 .header__subnav-list {
