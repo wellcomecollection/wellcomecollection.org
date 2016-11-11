@@ -23,7 +23,7 @@ fractal.components.set('default.status', 'wip');
 
 /* Add paths for component templates */
 const nunj = require('@frctl/nunjucks')({
-    //paths: ['views/components/grid-placeholder/']
+    //paths: ['../dist/assets/js/inline/']
 });
 
 /* Use Nunjucks for component templates */

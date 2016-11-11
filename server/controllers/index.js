@@ -1,23 +1,19 @@
-const {get} = require('../util/http');
-const Article = require('../model/article');
+import request from 'superagent';
+import Article from '../model/article';
 
-module.exports = {
-  patterns: {
-    index: (ctx) => ctx.render('patterns/index', {}),
-    typography: (ctx) => ctx.render('patterns/typography', {}),
-    grids: (ctx) => ctx.render('patterns/grids', {}),
-    palette: (ctx) => ctx.render('patterns/palette', {}),
-    icons: (ctx) => ctx.render('patterns/icons', {})
-  },
-  article: async (ctx) => {
-    const id = ctx.params.id;
-    const uri = {
-      host: 'blog.wellcomelibrary.org',
-      path: `/wp-json/wp/v2/posts/${id}`
-    };
+export const article = async(ctx, next) => {
+  const id = ctx.params.id;
+  // TODO: This should be discoverable - not hard-coded
+  const uri = `https://wellcomecollection.org/api/v0/${id}`;
+  const response = await request(uri);
+  const valid = response.type === 'application/json' && response.status === 200;
 
-    const json = await get(uri);
-    return ctx.render('article/index', Article.fromWordpressData(json));
-  },
-  healthcheck: (ctx) => ctx.body = 'ok'
+  if (valid) {
+    return ctx.render('article/index', Article.fromDrupalApi(response.body));
+  } else {
+    return next();
+  }
 };
+
+export const favicon = (ctx) => ctx.body = '';
+export const healthcheck = (ctx) => ctx.body = 'ok';

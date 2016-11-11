@@ -1,0 +1,48 @@
+@font-face {
+  font-family: 'Wellcome Bold Web';
+  src: url('/assets/fonts/wellcome-bold.woff2') format('woff2'),
+    url('/assets/fonts/wellcome-bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Helvetica Neue Light Web';
+  src: local('Helvetica Neue Light'),
+    local('HelveticaNeue-Light'),
+    url('/assets/fonts/3a46542f-f429-4821-9a88-62e3be54a640.woff2') format('woff2'),
+    url('/assets/fonts/50ac1699-f3d2-47b6-878f-67a368a17c41.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Helvetica Neue Medium Web';
+  src: local('Helvetica Neue Medium'),
+    local('HelveticaNeue-Medium'),
+    url('/assets/fonts/5b1fbd62-45dc-4433-a7df-a2b24a146411.woff2') format('woff2'),
+    url('/assets/fonts/050b1948-f226-4d20-a65a-15d8ed031222.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/*
+ * Legal Disclaimer
+ *
+ * These Fonts are licensed only for use on these domains and their subdomains:
+ * wellcomecollection.org
+ *
+ * It is illegal to download or use them on other websites.
+ *
+ * While the @font-face statements below may be modified by the client, this
+ * disclaimer may not be removed.
+ *
+ * Lineto.com, 2016
+ */
+@font-face {
+  font-family: 'Lettera Regular Web';
+  src: url('/assets/fonts/lineto-lettera-regular.woff2') format('woff2'),
+    url('/assets/fonts/lineto-lettera-regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}

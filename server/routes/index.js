@@ -1,12 +1,10 @@
-module.exports = function (router, controllers) {
-  router.get('/patterns', controllers.patterns.index);
-  router.get('/patterns/typography', controllers.patterns.typography);
-  router.get('/patterns/grids', controllers.patterns.grids);
-  router.get('/patterns/palette', controllers.patterns.palette);
-  router.get('/library/:id*', controllers.article);
-  router.get('/patterns/icons', controllers.patterns.icons);
+import Router from 'koa-router';
+import {article, healthcheck, favicon} from '../controllers';
 
-  router.get('/healthcheck', controllers.healthcheck);
+const r = new Router();
 
-  return router.middleware();
-};
+r.get('/healthcheck', healthcheck);
+r.get('/favicon.ico', favicon);
+r.get('/:id*', article);
+
+export const router = r.middleware();

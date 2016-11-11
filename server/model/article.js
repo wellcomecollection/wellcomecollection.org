@@ -1,13 +1,11 @@
-class Article {
-  constructor(title, body) {
-    this.title = title;
-    this.body = body;
+export default class Article {
+  constructor(headline, articleBody, mainImage) {
+    this.headline = headline;
+    this.articleBody = articleBody;
+    this.mainImage = mainImage;
   }
 
-
-  static fromWordpressData(json) {
-    return new Article(json.title.rendered, json.content.rendered);
+  static fromDrupalApi(json) {
+    return new Article(json.headline, json.articleBody, json.mainImage);
   }
 }
-
-module.exports = Article;
