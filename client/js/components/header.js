@@ -52,11 +52,15 @@ const header = (el) => {
 
     dropdowns.forEach((dropdown) => {
       dropdown.trigger.addEventListener('mouseover', () => {
+        if (isBurgerVisible()) return;
+
         hideAllDropdowns();
         dropdown.setActive(true);
       });
 
       dropdown.trigger.addEventListener('focus', () => {
+        if (isBurgerVisible()) return;
+
         hideAllDropdowns();
         dropdown.setActive(true);
       });
@@ -97,10 +101,10 @@ const header = (el) => {
 
       if (burger.getActive()) {
         burger.setActive(false);
-        document.body.classList.remove('is-fixed', 'is-fixed--small');
+        document.body.classList.remove('is-mobile-nav-visible');
       } else {
         burger.setActive(true);
-        document.body.classList.add('is-fixed', 'is-fixed--small');
+        document.body.classList.add('is-mobile-nav-visible');
       }
     });
 

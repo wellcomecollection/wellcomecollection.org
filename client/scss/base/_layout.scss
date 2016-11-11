@@ -6,12 +6,10 @@
   }
 }
 
-.is-fixed {
+.is-mobile-nav-visible {
   position: fixed;
 
-  &--small {
-    @include respond-to('medium') {
-      position: inherit;
-    }
+  @include respond-to('medium') {
+    position: inherit;
   }
 }
