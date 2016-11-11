@@ -15,7 +15,9 @@ export default (el) => {
     iconHeading.setAttribute('class', 'styleguide__item-subheading');
 
     iconWrapper.appendChild(iconHeading);
+    svgEl.setAttribute('class', 'icon');
     useEl.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#' + icon.id);
+    useEl.setAttribute('class', 'icon__use');
     svgEl.appendChild(useEl);
     iconWrapper.appendChild(svgEl);
     el.appendChild(iconWrapper);

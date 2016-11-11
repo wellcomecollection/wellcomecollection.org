@@ -5,7 +5,7 @@
   visibility: hidden;
 }
 
-.icon-sprite__shape { //allows fill and stroke styles to be overwritten
+.icon-sprite__shape {//allows fill and stroke styles of icons to be overwritten per use instance
   fill: inherit;
-  stroke: inherit!important; //TODO rewrite print svg so !important not required
+  stroke: inherit; //the default for stroke is none, so must specify for instance
 }
