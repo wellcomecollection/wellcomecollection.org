@@ -4,10 +4,9 @@ import { KEYS } from './../../util';
 const headerSearch = (el) => {
   const headerSearchForm = el.querySelector('.js-search');
   const headerSearchInput = headerSearchForm.querySelector('.js-search-input');
-  let searchToggle;
+  const searchToggle = showHide({el: headerSearchForm});
 
   const init = () => {
-    searchToggle = showHide({el: headerSearchForm});
     handleEvents();
   };
 
