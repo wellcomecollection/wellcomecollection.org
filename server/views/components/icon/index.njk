@@ -1,0 +1,4 @@
+<svg class="icon"{% if decorative %} aria-hidden="true"{% else %} role="img"{% endif %}>
+  {% if not decorative %}<title>{{title}}</title>{% endif %}
+  <use class="icon__use" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#{{icon}}"></use>
+</svg>
