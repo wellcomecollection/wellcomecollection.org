@@ -2,95 +2,20 @@
   "context": {
     "navLinks": [{
       "url": "#",
-      "id": "header-nav-visit-us",
-      "subnavId": "header-subnav-visit-us",
-      "title": "Visit us",
-      "subnavLinks": [{
-        "url": "#",
-        "title": "Lorem"
-      }, {
-        "url": "#",
-        "title": "Ipsum"
-      }]
+      "title": "Visit us"
     }, {
       "url": "#",
-      "id": "header-nav-library",
-      "subnavId": "header-subnav-library",
       "title": "Library",
-      "isCurrent": true,
-      "subnavLinks": [{
-        "url": "#",
-        "title": "Digitisation at Wellcome"
-      }, {
-        "url": "#",
-        "title": "Library Strategy & Policy"
-      }, {
-        "url": "#",
-        "title": "Open Access Fund"
-      }, {
-        "url": "#",
-        "title": "Joining"
-      }, {
-        "url": "#",
-        "title": "Developing & Caring"
-      }, {
-        "url": "#",
-        "title": "Open Tools"
-      }, {
-        "url": "#",
-        "title": "Services & Facilities"
-      }, {
-        "url": "#",
-        "title": "Contact"
-      }]
+      "isCurrent": true
     }, {
       "url": "#",
-      "id": "header-nav-whats-on",
-      "subnavId": "header-subnav-whats-on",
-      "title": "What's on",
-      "subnavLinks": [{
-        "url": "#",
-        "title": "Dolor"
-      }, {
-        "url": "#",
-        "title": "Sit"
-      }, {
-        "url": "#",
-        "title": "Amet"
-      }, {
-        "url": "#",
-        "title": "Quid"
-      }]
+      "title": "What's on"
     }, {
       "url": "#",
-      "id": "header-nav-discover",
-      "subnavId": "header-subnav-discover",
-      "title": "Discover",
-      "subnavLinks": [{
-        "url": "#",
-        "title": "Consecutor"
-      }, {
-        "url": "#",
-        "title": "Molestiae"
-      }]
+      "title": "Discover"
     }, {
       "url": "#",
-      "id": "header-nav-custom",
-      "subnavId": "header-subnav-custom",
-      "title": "Custom",
-      "subnavLinks": [{
-        "url": "#",
-        "title": "Veritatis"
-      }, {
-        "url": "#",
-        "title": "Earum"
-      }, {
-        "url": "#",
-        "title": "Explicabo"
-      }, {
-        "url": "#",
-        "title": "Minus"
-      }]
+      "title": "Custom"
     }]
   }
 }

@@ -1,9 +1,8 @@
 import showHide from './../show-hide';
 import { KEYS } from './../../util';
 
-const headerBurger = () => {
-  const headerLower = document.querySelector('.js-header-lower');
-  const burger = showHide({el: headerLower});
+const headerBurger = (el) => {
+  const burger = showHide({el: el});
 
   const init = () => {
     setBurgerAria(isBurgerVisible());
@@ -51,11 +50,6 @@ const headerBurger = () => {
   };
 
   init();
-
-  return {
-    burger,
-    isBurgerVisible
-  };
 };
 
 export default headerBurger;
