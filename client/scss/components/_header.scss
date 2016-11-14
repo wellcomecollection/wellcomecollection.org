@@ -46,7 +46,10 @@
   position: absolute;
   width: 1.3rem;
   height: 1rem;
-  top: -2.7rem;
+  top: -3rem;
+  appearance: none;
+  background: color('transparent');
+  border: 0;
 
   @include respond-to('medium') {
     display: none;
@@ -55,6 +58,7 @@
   // TODO: replace with svg-sprite icon
   span {
     position: absolute;
+    top: 0;
     left: 0;
     right: 0;
     height: 2px;
@@ -63,11 +67,11 @@
     transform-origin: center center;
 
     &:nth-child(2) {
-      top: 0.4rem;
+      top: 50%;
     }
 
     &:last-child {
-      bottom: 0;
+      top: 100%;
     }
 
     .header__lower.is-active & {
