@@ -1,0 +1,11 @@
+.icon-sprite {
+  height: 0;
+  width: 0;
+  position: absolute;
+  visibility: hidden;
+}
+
+.icon-sprite__shape {//allows fill and stroke styles of icons to be overwritten per use instance
+  fill: inherit;
+  stroke: inherit; //the default for stroke is none, so must specify for instance
+}

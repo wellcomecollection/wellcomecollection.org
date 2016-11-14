@@ -14,6 +14,7 @@
 <body>
   {# TODO: add a preview without its own container
   for components that handle their own page-level layout  #}
+  {% include "views/partials/svg-sprite.njk" %}
   <div class="container styleguide__container">
     {{ yield }}
   </div>

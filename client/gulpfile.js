@@ -35,7 +35,7 @@ const sources = {
   },
   images: {
     icons: {
-      all: 'images/icons/*.svg',
+      all: 'images/icons/**/*.svg',
       srcPath: 'images/icons/svg-sprite.njk',
       distPath: '../server/views/_partials'
     }
