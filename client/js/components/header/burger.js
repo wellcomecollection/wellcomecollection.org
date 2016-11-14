@@ -1,8 +1,8 @@
 import showHide from './../show-hide';
 import { KEYS } from './../../util';
 
-const headerBurger = (el) => {
-  const headerLower = el.querySelector('.js-header-lower');
+const headerBurger = () => {
+  const headerLower = document.querySelector('.js-header-lower');
   const burger = showHide({el: headerLower});
 
   const init = () => {

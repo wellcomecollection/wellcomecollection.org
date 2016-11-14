@@ -3,9 +3,8 @@ import { nodeList, KEYS } from './../../util';
 import headerBurger from './burger';
 
 const headerDropdowns = (el) => {
-  const headerNav = el.querySelector('.js-header-nav');
-  const headerItems = headerNav.querySelectorAll('.js-show-hide');
-  const mobileMenu = headerBurger(el);
+  const headerItems = el.querySelectorAll('.js-show-hide');
+  const mobileMenu = headerBurger();
   const dropdowns = nodeList(headerItems).map((item) => {
     return showHide({el: item});
   });
@@ -73,7 +72,7 @@ const headerDropdowns = (el) => {
         dropdown.setActive(false);
       });
 
-      headerNav.addEventListener('mouseleave', () => {
+      el.addEventListener('mouseleave', () => {
         hideAllDropdowns();
       });
     });

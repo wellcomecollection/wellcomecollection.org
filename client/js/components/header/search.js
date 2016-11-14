@@ -2,16 +2,15 @@ import showHide from './../show-hide';
 import { KEYS } from './../../util';
 
 const headerSearch = (el) => {
-  const headerSearchForm = el.querySelector('.js-search');
-  const headerSearchInput = headerSearchForm.querySelector('.js-search-input');
-  const searchToggle = showHide({el: headerSearchForm});
+  const headerSearchInput = el.querySelector('.js-search-input');
+  const searchToggle = showHide({el: el});
 
   const init = () => {
     handleEvents();
   };
 
   const handleEvents = () => {
-    headerSearchForm.addEventListener('submit', (event) => {
+    el.addEventListener('submit', (event) => {
       if (searchToggle.getActive() && headerSearchInput.value.trim().length) return;
 
       event.preventDefault();

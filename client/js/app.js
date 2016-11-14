@@ -9,6 +9,5 @@ message();
 
 nodeList(document.querySelectorAll('[data-component="palette"]')).forEach((el) => palette(el));
 nodeList(document.querySelectorAll('[data-component="icons"]')).forEach((el) => icons(el));
-const header = document.querySelector('.js-header');
-headerSearch(header);
-headerDropdowns(header);
+headerSearch(document.querySelector('.js-header-search'));
+headerDropdowns(document.querySelector('.js-header-nav'));
