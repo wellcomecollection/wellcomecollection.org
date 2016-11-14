@@ -1,20 +1,18 @@
 import showHide from './show-hide';
+import headerSearch from './header/search';
 import { nodeList, KEYS } from './../util';
 
 const header = (el) => {
   const headerNav = el.querySelector('.js-header-nav');
   const headerLower = el.querySelector('.js-header-lower');
-  const headerSearchForm = el.querySelector('.js-search');
-  const headerSearchInput = headerSearchForm.querySelector('.js-search-input');
   const headerItems = headerNav.querySelectorAll('.js-show-hide');
-  let searchToggle;
   let dropdowns;
   let burger;
 
   const init = () => {
     dropdowns = collectDropdowns();
     burger = showHide({el: headerLower});
-    searchToggle = showHide({el: headerSearchForm});
+    headerSearch(el);
     setBurgerAria(isBurgerVisible());
     handleEvents();
   };
@@ -134,32 +132,6 @@ const header = (el) => {
       if (keyCode !== KEYS.ESCAPE) return;
 
       burger.setActive(false);
-    });
-
-    headerSearchForm.addEventListener('submit', (event) => {
-      if (searchToggle.getActive() && headerSearchInput.value.trim().length) return;
-
-      event.preventDefault();
-      searchToggle.toggleActive();
-
-      if (searchToggle.getActive()) {
-        searchToggle.drawer.focus();
-      }
-    });
-
-    headerSearchInput.addEventListener('keydown', ({ keyCode, shiftKey }) => {
-      if (keyCode !== KEYS.ESCAPE && keyCode !== KEYS.TAB) return;
-      if (keyCode === KEYS.TAB && !shiftKey) return;
-
-      searchToggle.setActive(false);
-      searchToggle.trigger.focus();
-    });
-
-    searchToggle.trigger.addEventListener('keydown', ({ keyCode, shiftKey }) => {
-      if (keyCode !== KEYS.TAB) return;
-      if (shiftKey) return;
-
-      searchToggle.setActive(false);
     });
 
     window.addEventListener('resize', () => {
