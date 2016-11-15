@@ -5,7 +5,8 @@ machine:
     version: 6.1.0
 dependencies:
   override:
-    - ./build-app.sh
+    - ./build-client.sh
+    - ./build-server.sh
 deployment:
   docker:
     branch: [master, ecs]
