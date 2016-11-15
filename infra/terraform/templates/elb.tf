@@ -1,6 +1,6 @@
 resource "aws_elb" "wellcomecollection" {
   name                  = "${var.project_name}"
-  subnets               = ["${aws_subnet.public.id}"]
+  subnets               = ["${aws_subnet.public_a.id}", "${aws_subnet.public_b.id}"]
   security_groups       = [
     "${aws_security_group.http.id}",
     "${aws_security_group.https.id}",

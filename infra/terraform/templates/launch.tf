@@ -58,6 +58,6 @@ resource "aws_autoscaling_group" "wellcomecollection_ecs_asg" {
   health_check_grace_period = 300
   health_check_type         = "ELB"
   launch_configuration      = "${aws_launch_configuration.wellcomecollection_ecs.id}"
-  vpc_zone_identifier       = ["${aws_subnet.public.id}"]
+  vpc_zone_identifier       = ["${aws_subnet.public_a.id}", "${aws_subnet.public_b.id}"]
   load_balancers            = ["${aws_elb.wellcomecollection.id}"]
 }

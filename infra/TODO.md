@@ -1,7 +1,7 @@
 # TODO
 
-* Tag AWS resources with stage, project...
+* Tag AWS resources with Name...
 * Better AZN
-* A VPC strategy
-* Pump AMI ref into Terraform vars from Packer.
+* Review VPC strategy
 * What do we do about concurrent deploys? Queue?
+* Move from ELB to ALB
