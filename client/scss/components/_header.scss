@@ -105,68 +105,6 @@
   }
 }
 
-.header__search {
-  flex-basis: (100% / 3);
-  min-width: 0;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.header__button {
-  @include font('WB7');
-  appearance: none;
-  border: 0;
-  background: color('transparent');
-  padding: 0 0 0 1.5rem;
-  display: flex;
-
-  @include respond-to('medium') {
-    border-left: 1px solid color('keyline-grey');
-  }
-}
-
-// TODO: replace with svg-sprite icon
-.header__button-icon {
-  width: 1rem;
-  height: 1rem;
-  position: relative;
-  border: 2px solid color('black');
-  border-radius: 50%;
-
-  &:after {
-    content: '';
-    position: absolute;
-    transform: rotate(45deg);
-    bottom: -0.25rem;
-    right: -0.5rem;
-    display: block;
-    width: 0.75rem;
-    height: 2px;
-    background: color('black');
-  }
-}
-
-.header__button-text {
-  display: none;
-  margin-left: 1rem;
-
-  @include respond-to('medium') {
-    display: block;
-  }
-}
-
-.header__input {
-  @include font('WB7');
-  display: none;
-  margin-right: 1rem;
-  padding: 0 1rem;
-
-  .no-js &,
-  .header__search.is-active & {
-    display: block;
-  }
-}
-
 .header__logo {
   width: 100%;
   max-width: 8rem;
