@@ -2,7 +2,14 @@ import showHide from './../show-hide';
 import { KEYS } from './../../util';
 
 const headerBurger = (el) => {
-  const burger = showHide({el: el});
+  const burgerDrawer = el.querySelector('.js-header-burger-drawer');
+  const burgerTrigger = el.querySelector('.js-header-burger-trigger');
+  const burger = showHide({
+    activeClass: 'header--is-burger-open',
+    el: el,
+    trigger: burgerTrigger,
+    drawer: burgerDrawer
+  });
 
   const init = () => {
     setBurgerAria(isBurgerVisible());

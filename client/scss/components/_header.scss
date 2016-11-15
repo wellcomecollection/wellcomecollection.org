@@ -74,7 +74,7 @@
       top: 100%;
     }
 
-    .header__lower.is-active & {
+    .header--is-burger-open & {
       top: 0.5rem;
 
       &:first-child {
@@ -94,7 +94,6 @@
 }
 
 .header__brand {
-  flex-basis: (100% / 3);
   display: flex;
   justify-content: center;
   margin-right: auto;
@@ -121,7 +120,7 @@
   margin-top: 0.5rem;
 
   .no-js &,
-  .header__lower.is-active & {
+  .header--is-burger-open & {
     display: block;
   }
 
@@ -149,25 +148,6 @@
   }
 }
 
-.header__dropdown {
-  display: none;
-  position: absolute;
-  margin-top: 0;
-  top: 100%;
-  background: color('cream');
-  border-top: 1px solid color('keyline-grey');
-  padding-bottom: 2rem;
-
-  .no-js &,
-  .header__item.is-active & {
-    display: block;
-  }
-}
-
-.header__container {
-  margin: 0 auto;
-}
-
 .header__link {
   padding: 0.5rem 0.3rem;
   display: block;
@@ -185,7 +165,7 @@
     color: color('action-green-1');
   }
 
-  .header__item.is-current & {
+  .header__item--is-current & {
     &:after {
       content: '';
       position: absolute;
@@ -203,30 +183,3 @@
   }
 }
 
-.header__subnav {
-  margin-top: 0;
-  padding: 1rem 0 0;
-}
-
-.header__subnav-list {
-  @include plain-list();
-  @include font('HNM5');
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.header__subnav-item {
-  flex-basis: 50%;
-  padding-right: 1rem;
-  margin-bottom: 1.2rem;
-}
-
-.header__subnav-link {
-  text-decoration: none;
-  transition: color 400ms ease;
-
-  &:hover,
-  &:focus {
-    color: color('action-green-1');
-  }
-}
