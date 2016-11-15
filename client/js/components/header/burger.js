@@ -3,6 +3,7 @@ import { KEYS } from './../../util';
 
 const headerBurger = (el) => {
   const burgerDrawer = el.querySelector('.js-header-burger-drawer');
+  const firstNavLink = burgerDrawer.querySelector('.js-header-nav-link');
   const burgerTrigger = el.querySelector('.js-header-burger-trigger');
   const burger = showHide({
     activeClass: 'header--is-burger-open',
@@ -48,6 +49,26 @@ const headerBurger = (el) => {
       if (keyCode !== KEYS.ESCAPE) return;
 
       burger.setActive(false);
+    });
+
+    // Focus nav items when tabbing from open burger
+    burger.trigger.addEventListener('keydown', (event) => {
+      if (event.keyCode !== KEYS.TAB) return;
+      if (event.shiftKey) return;
+      if (!burger.getActive()) return;
+
+      event.preventDefault();
+      firstNavLink.focus();
+    });
+
+    // Focus burger when tabbing backwards from nav items
+    firstNavLink.addEventListener('keydown', (event) => {
+      if (event.keyCode !== KEYS.TAB) return;
+      if (!event.shiftKey) return;
+      if (!isBurgerVisible()) return;
+
+      event.preventDefault();
+      burger.trigger.focus();
     });
 
     window.addEventListener('resize', () => {

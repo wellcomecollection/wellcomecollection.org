@@ -22,7 +22,7 @@
       <ul class="header__list">
         {% for navLink in navLinks %}
           <li class="header__item {{ "header__item--is-current" if navLink.isCurrent }}">
-            <a href="{{ navLink.url }}" class="header__link">{{ navLink.title }}</a>
+            <a href="{{ navLink.url }}" class="header__link js-header-nav-link">{{ navLink.title }}</a>
           </li>
         {% endfor %}
       </ul>
