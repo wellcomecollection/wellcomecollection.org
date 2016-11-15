@@ -1,6 +1,6 @@
 resource "aws_security_group" "http" {
   name = "allow-http"
-  description = "Allow http/s traffic"
+  description = "Allow http traffic"
   vpc_id = "${aws_vpc.wellcomecollection.id}"
 
   # HTTP
@@ -21,7 +21,7 @@ resource "aws_security_group" "http" {
 
 resource "aws_security_group" "https" {
   name = "allow-http-s"
-  description = "Allow http/s traffic"
+  description = "Allow https traffic"
   vpc_id = "${aws_vpc.wellcomecollection.id}"
 
   # HTTPS
@@ -42,7 +42,7 @@ resource "aws_security_group" "https" {
 
 resource "aws_security_group" "node_app_port" {
   name = "allow-3000"
-  description = "Allow http/s traffic"
+  description = "Allow node app (:3000) traffic"
   vpc_id = "${aws_vpc.wellcomecollection.id}"
 
   # Our apps run on port 3000
