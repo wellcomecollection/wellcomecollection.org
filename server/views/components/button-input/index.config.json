@@ -1,0 +1,10 @@
+{
+  "name": "button-input",
+  "handle": "button-input",
+  "preview": "@preview-dark",
+  "context": {
+    "modifierClasses": "btn--dark",
+    "type": "submit",
+    "value": "this is an input"
+  }
+}
