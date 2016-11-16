@@ -1,4 +1,6 @@
 {
+  "name": "header",
+  "handle": "header",
   "preview": "@preview_no_container",
   "context": {
     "navLinks": [{
