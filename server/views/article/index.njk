@@ -2,21 +2,22 @@
 
 {% block body %}
 <h1>{{ headline }}</h1>
-{% if mainImage %}
-<picture>
-  <img src="{{mainImage.uri}}" alt="{{mainImage.altText}}" title="{{mainImage.title}}" />
-</picture>
-{% endif %}
+
+{% for media in associatedMedia %}
+  {% if media.mediaType == 'image' and media.weighting == 'leading' %}
+    <picture>
+      <img src="{{media.uri}}" alt="{{media.altText}}" title="{{media.title}}" />
+    </picture>
+  {% endif %}
+
+  {% if media.mediaType == 'audio' and media.weighting == 'leading' %}
+    <audio controls="controls" src="{{media.uri}}"></audio>
+  {% endif %}
+{% endfor %}
 
 <div>
   {% for bodyPart in articleBody | parseBody %}
     {{bodyPart.value | safe}}
   {% endfor %}
-</div>
-
-<div class="sharing-is-caring">
-  {% component "share", { network: "Facebook", url: "https://facebook.com" } %}{% endcomponent %}
-  {% component "share", { network: "VK", url: "https://vk.com" } %}{% endcomponent %}
-  {% component "share", { network: "WeChat", url: "https://web.wechat.com/" } %}{% endcomponent %}
 </div>
 {% endblock %}
