@@ -9,3 +9,7 @@
   fill: inherit;
   stroke: inherit; //the default for stroke is none, so must specify for instance
 }
+
+.icon__use {
+  fill: color('black');
+}
