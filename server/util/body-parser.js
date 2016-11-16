@@ -3,7 +3,7 @@ const treeAdapter = parse.treeAdapters.default;
 
 export default function bodyParser(bodyText) {
   const fragment = getFragment(bodyText);
-  const nodes = cleanNodes(fragment.childNodes);
+  const nodes = explodeIntoBodyParts(cleanNodes(fragment.childNodes));
   return nodes;
 }
 
@@ -11,10 +11,11 @@ export function getFragment(bodyText) {
   return parse.parseFragment(bodyText);
 }
 
-export function explodeIntoBodyParts(body) {
-  const parts = body.childNodes.map(node => {
+export function explodeIntoBodyParts(nodes) {
+  const parts = nodes.map(node => {
     const frag = treeAdapter.createDocumentFragment();
     treeAdapter.appendChild(frag, node);
+
     return {
       nodeName: node.nodeName,
       value: parse.serialize(frag)
@@ -31,11 +32,11 @@ export function removeEmptyTextNodes(nodes) {
 // This recursively cleans the nodes.
 function cleanNodes(nodes) {
   return removeEmptyTextNodes(nodes).map(node => {
-    if (node.childNodes) {
+    if (node.childNodes && node.childNodes.length > 0) {
       const childNodes = cleanNodes(node.childNodes);
       return Object.assign({}, node, {childNodes});
     } else {
-      return node;
+        return node;
     }
   });
 }
