@@ -36,7 +36,7 @@ function cleanNodes(nodes) {
       const childNodes = cleanNodes(node.childNodes);
       return Object.assign({}, node, {childNodes});
     } else {
-        return node;
+      return node;
     }
   });
 }
