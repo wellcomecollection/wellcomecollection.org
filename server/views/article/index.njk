@@ -7,7 +7,12 @@
   <img src="{{mainImage.uri}}" alt="{{mainImage.altText}}" title="{{mainImage.title}}" />
 </picture>
 {% endif %}
-<div>{{ articleBody | safe }}</div>
+
+<div>
+  {% for bodyPart in articleBody | parseBody %}
+    {{bodyPart.value | safe}}
+  {% endfor %}
+</div>
 
 <div class="sharing-is-caring">
   {% component "share", { network: "Facebook", url: "https://facebook.com" } %}{% endcomponent %}
