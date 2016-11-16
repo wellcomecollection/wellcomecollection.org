@@ -1,0 +1,27 @@
+{
+"@context": "http://schema.org",
+"@type": "Article",
+"headline": {},
+"articleBody": "<h2>Taxonomy provides a way of characterising living things and documenting family relationships.</h2>\r\n\r\n<p>Our planet is teeming with perhaps 100 million species (though estimates vary wildly), but only about 1.4 million have actually been named.</p>\r\n\r\n<p>With so many species there has to be a system of classifying them. The most common system of classification is that developed by a naturalist called Linnaeus in the 18th century.</p>\r\n\r\n<p>This system is known as taxonomy and divides organisms into ranks or &#39;taxa&#39;: kingdom, phylum, class, order, family, genus and species. Usually we stick to genus and species when talking about organisms, such as E. coli (gut bacterium) or Homo sapiens (humans).</p>\r\n\r\n<p>The Red Admiral butterfly, for example, is known as Vanessa atalanta in taxonomic terms. Its full classification is as follows:</p>\r\n\r\n<p><strong>Kingdom:</strong> animalia<br />\r\n\t<strong>Phylum:</strong> arthropoda<br />\r\n\t<strong>Class:</strong> insecta<br />\r\n\t<strong>Order:</strong> Lepidoptera<br />\r\n\t<strong>Family:</strong> nymphalidae<br />\r\n\t<strong>Genus:</strong> Vanessa<br />\r\n\t<strong>Species:</strong> atalanta</p>\r\n\r\n<p>Over time, biological classifications change due to improved techniques and better knowledge about the biology and the evolutionary relationships of different living things. Nowadays, species are often subdivided into different subspecies or strains.</p>\r\n\r\n<p>Since physical characteristics are derived from genes, genetic analysis is increasingly used to analyse relationships between organisms.</p>\r\n\r\n<p>&nbsp;</p>\r\n",
+"associatedMedia": [
+{
+"mediaType": "image",
+"uri": "https://wellcomecollection.org/sites/default/files/butterfly.JPG",
+"mimetype": "image/jpeg",
+"weighting": "leading",
+"altText": null,
+"filesize": 37493,
+"title": null,
+"author": null,
+"caption": null,
+"credit": null,
+"copyright": null,
+"dimensions": {
+"width": 380,
+"height": 443
+}
+}
+],
+"dateCreated": "2014-09-01T17:30:59.000Z",
+"dateModified": "2014-10-06T15:01:00.000Z"
+}

@@ -9,7 +9,7 @@ export const article = async(ctx, next) => {
   const valid = response.type === 'application/json' && response.status === 200;
 
   if (valid) {
-    return ctx.render('article/index', Article.fromDrupalApi(response.body));
+    return ctx.render('article/index', { article: Article.fromDrupalApi(response.body) });
   } else {
     return next();
   }
