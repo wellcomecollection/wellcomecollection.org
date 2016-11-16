@@ -15,5 +15,6 @@ export const article = async(ctx, next) => {
   }
 };
 
+export const explore = (ctx) => ctx.render('explore/index');
 export const favicon = (ctx) => ctx.body = '';
 export const healthcheck = (ctx) => ctx.body = 'ok';
