@@ -1,3 +1,3 @@
-pushd client
+pushd server
 npm install --production
 popd
