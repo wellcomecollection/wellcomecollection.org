@@ -1,4 +1,3 @@
 pushd client
-npm install
-npm run compile
+npm install --production
 popd
