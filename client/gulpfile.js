@@ -97,7 +97,7 @@ gulp.task('js:compile', () => {
   return gulp.src(sources.js.entry)
     .pipe(webpack(webpackConfig))
     .on('error', function(err) {
-      console.log(err.toString())
+      console.log(err.toString());
       // Allows the stream to continue, thus not breaking watch§
       this.emit('end');
     })
