@@ -247,7 +247,8 @@ $colors: (
   'keyline-grey': (#e5e5e5, 'secondary'),
   'transparent': (transparent, 'secondary'),
   'inherit': (inherit, 'secondary'),
-  'currentColor': (currentColor, 'secondary')
+  'currentColor': (currentColor, 'secondary'),
+  'highlight-green': (#1fbea9, 'tertiary')
 );
 
 $breakpoints: (
