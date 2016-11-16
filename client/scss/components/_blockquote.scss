@@ -4,31 +4,17 @@
   @include font('HNM2');
   text-align: center;
 
-  &--wb {
+  &.blockquote--wb {
     @include font('WB5');
   }
 
-  &--lr {
+  &.blockquote--lr {
     @include font('LR2');
     text-align: left;
   }
 
-  footer {
-    @include font('HNM5');
-
-    &:before {
-      content: '\2015';
-      margin-right: 0.5em;
-    }
-  }
-
-  p {
+  p:first-child {
     margin-top: 0;
-  }
-
-  cite {
-    @include font('HNL5');
-    font-style: normal;
   }
 
   &:before,
@@ -53,4 +39,18 @@
     content: '\201d';
     margin-top: 0.5rem;
   }
+}
+
+.blockquote__footer {
+  @include font('HNM5');
+
+  &:before {
+    content: '\2015';
+    margin-right: 0.5em;
+  }
+}
+
+.blockquote__cite {
+  @include font('HNL5');
+  font-style: normal;
 }
