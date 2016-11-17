@@ -1,0 +1,12 @@
+<header class="header-block {% for modifier in modifiers %}header-block--{{ modifier }} {% endfor %}">
+  <span class="header-block__intro">{{ intro }}</span>
+  <h1 class="header-block__title">{{ title }}</h1>
+  <span class="header-block__outro">
+    {% if icon %}
+      <svg class="header-block__icon">
+        <use xlink:href="#{{ icon }}"></use>
+      </svg>
+    {% endif %}
+    {{ outro }}
+  </span>
+</header>

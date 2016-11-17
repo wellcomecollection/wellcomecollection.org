@@ -199,7 +199,7 @@ $gutter-width: (
   'large': 30px
 );
 
-$columns: (
+$total-columns: (
   'small': 4,
   'medium': 8,
   'large': 12
@@ -209,19 +209,19 @@ $grid-config: (
   's': (
     'padding': map-get($container-padding, 'small'),
     'gutter': map-get($gutter-width, 'small'),
-    'columns': map-get($columns, 'small'),
+    'columns': map-get($total-columns, 'small'),
     'respond': ('small', 'medium')
   ),
   'm': (
     'padding': map-get($container-padding, 'medium'),
     'gutter': map-get($gutter-width, 'medium'),
-    'columns': map-get($columns, 'medium'),
+    'columns': map-get($total-columns, 'medium'),
     'respond': ('medium', 'large')
   ),
   'l': (
     'padding': map-get($container-padding, 'large'),
     'gutter': map-get($gutter-width, 'large'),
-    'columns': map-get($columns, 'large'),
+    'columns': map-get($total-columns, 'large'),
     'respond': 'large'
   )
 );

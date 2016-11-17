@@ -1,0 +1,107 @@
+//* @define header-block;
+
+.header-block {
+  &.header-block--a {
+    @include respond-to('large') {
+      position: relative;
+      padding: 1.8rem 0 1.5rem span-columns('large', 1.5);
+
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: span-columns('large', 0.5);
+        background: color('keyline-grey');
+      }
+    }
+  }
+
+  &.header-block--b,
+  &.header-block--c:not(.header-block--xlarge) {
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid color('keyline-grey');
+  }
+}
+
+.header-block__title {
+  margin-top: 0;
+  margin-left: -0.06em;
+
+  .header-block--a & {
+    @include font('WB3');
+    margin-bottom: 0.25em;
+  }
+
+  .header-block--b & {
+    @include font('HNM1');
+  }
+
+  .header-block--c.header-block--small & {
+    @include font('WB6');
+    margin-bottom: 0.4em;
+  }
+
+  .header-block--c.header-block--medium & {
+    @include font('WB4');
+    margin-bottom: 0.1em;
+  }
+
+  .header-block--c.header-block--large & {
+    @include font('WB2');
+    margin-bottom: 0.05em;
+  }
+
+  .header-block--c.header-block--xlarge & {
+    @include font('WB1');
+    margin-bottom: 0.03em;
+  }
+}
+
+.header-block__intro {
+  display: block;
+
+  .header-block--a & {
+    @include font('HNL5');
+    color: color('action-green-1');
+    margin-bottom: 0.4em;
+  }
+
+  .header-block--c & {
+    @include font('HNL5');
+  }
+
+  .header-block--c.header-block--medium & {
+    margin-bottom: -0.4em;
+  }
+
+  .header-block--c.header-block--large & {
+    margin-bottom: -0.18em;
+  }
+
+  .header-block--c.header-block--xlarge & {
+    margin-bottom: -1.8em;
+  }
+}
+
+.header-block__outro {
+  display: flex;
+  align-items: center;
+  color: color('accessible-grey-1');
+
+  .header-block--a & {
+    @include font('HNL5');
+  }
+
+  .header-block--c & {
+    @include font('LR2');
+  }
+}
+
+.header-block__icon {
+  margin-right: 0.5em;
+  width: 1.3em;
+  height: 1.3em;
+  fill: color('currentColor');
+}
