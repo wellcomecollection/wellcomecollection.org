@@ -1,0 +1,56 @@
+//* @define blockquote; weak
+
+.blockquote {
+  @include font('HNM2');
+  text-align: center;
+
+  &.blockquote--wb {
+    @include font('WB5');
+  }
+
+  &.blockquote--lr {
+    @include font('LR2');
+    text-align: left;
+  }
+
+  p:first-child {
+    margin-top: 0;
+  }
+
+  &:before,
+  &:after {
+    // stylelint-disable sh-waqar/declaration-use-variable
+    // Decorative quotes – not defined as part of the typography styles
+    font-family: $helvetica-neue-medium-base;
+    font-size: 6rem;
+    // stylelint-enable sh-waqar/declaration-use-variable
+    line-height: 1;
+    display: block;
+    color: color('action-green-1');
+    height: 3rem;
+  }
+
+  &:before {
+    content: '\201c';
+    margin-bottom: 1rem;
+  }
+
+  &:after {
+    content: '\201d';
+    margin-top: 0.5rem;
+  }
+}
+
+.blockquote__footer {
+  @include font('HNM5');
+
+  &:before {
+    content: '\2015';
+    margin-right: 0.5em;
+  }
+}
+
+.blockquote__cite {
+  @include font('HNL5');
+  font-style: normal;
+}

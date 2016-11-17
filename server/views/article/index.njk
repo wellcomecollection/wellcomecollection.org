@@ -2,16 +2,30 @@
 
 {% block body %}
 <h1>{{ headline }}</h1>
-{% if mainImage %}
-<picture>
-  <img src="{{mainImage.uri}}" alt="{{mainImage.altText}}" title="{{mainImage.title}}" />
-</picture>
-{% endif %}
-<div>{{ articleBody | safe }}</div>
 
-<div class="sharing-is-caring">
-  {% component "share", { network: "Facebook", url: "https://facebook.com" } %}{% endcomponent %}
-  {% component "share", { network: "VK", url: "https://vk.com" } %}{% endcomponent %}
-  {% component "share", { network: "WeChat", url: "https://web.wechat.com/" } %}{% endcomponent %}
+{% for media in mainMedia %}
+  {% if media.weighting == 'leading' %}
+
+    {% if media.mediaType == 'image' %}
+      <picture>
+        <img src="{{media.uri}}" alt="{{media.altText}}" title="{{media.title}}" />
+      </picture>
+    {% endif %}
+
+    {% if media.mediaType == 'audio' %}
+      <audio controls="controls" src="{{media.uri}}"></audio>
+    {% endif %}
+
+    {% if media.mediaType == 'video' %}
+      <iframe width="640" height="360" src="{{media.uri | youtubeEmbedUrl}}" frameborder="0"></iframe>
+    {% endif %}
+
+  {% endif %}
+{% endfor %}
+
+<div>
+  {% for bodyPart in articleBody | parseBody %}
+    {{bodyPart.value | safe}}
+  {% endfor %}
 </div>
 {% endblock %}

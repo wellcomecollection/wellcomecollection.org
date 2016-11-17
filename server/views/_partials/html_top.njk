@@ -7,15 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 	{% include "views/partials/css-head.njk" %}
   <link rel="stylesheet" href="{{ '/assets/css/styleguide.css' | path }}">
-  {# TODO - come up with better way of including javscript in the head #}
+  {# TODO: - come up with better way of including javscript in the head #}
   {% include "views/partials/js-head.njk" %}
 </head>
-
-<body>
-  {% include "views/partials/svg-sprite.njk" %}
-  <div class="container styleguide__container">
-    {{ yield }}
-  </div>
-  <script src="{{ '/assets/js/app.js' | path }}"></script>
-</body>
-</html>

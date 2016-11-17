@@ -1,8 +1,8 @@
-import {getEnvWithExtensions} from './env-utils';
+import {getEnvWithExtensionsAndFilters} from './env-utils';
 
 export default function render(root) {
   return (ctx, next) => {
-    const env = getEnvWithExtensions(root);
+    const env = getEnvWithExtensionsAndFilters(root);
 
     ctx.render = (relPath, templateData) => {
       return new Promise((resolve, reject) => {

@@ -1,0 +1,22 @@
+{
+  "handle": "blockquote",
+  "name": "Blockquote",
+  "context": {
+    "body": "<p>It was a large room, heavily outfitted with the usual badly ventilated furnaces, rows of bubbling crucibles, and one stuffed alligator. Things floated in jars. The air smelled of a limited life expectancy.</p>",
+    "footer": "<footer class='blockquote__footer'>Emily Dickinson, <cite class='blockquote__cite'>I felt a funeral in my brain</cite></footer>"
+  },
+  "notes": "For pull quotes. Suited for more serious articles",
+  "variants": [{
+    "name": "Wellcome Bold",
+    "context": {
+      "modifier": "wb"
+    },
+    "notes": "For pull quotes. Suited for more informal articles"
+  }, {
+    "name": "Leterra",
+    "context": {
+      "modifier": "lr"
+    },
+    "notes": "For text references"
+  }]
+}

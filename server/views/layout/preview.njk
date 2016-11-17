@@ -1,0 +1,9 @@
+{% include "views/partials/html_top.njk" %}
+<body>
+  {% include "views/partials/svg-sprite.njk" %}
+  <div class="container styleguide__container">
+    {{ yield }}
+  </div>
+  <script src="{{ '/assets/js/app.js' | path }}"></script>
+</body>
+</html>

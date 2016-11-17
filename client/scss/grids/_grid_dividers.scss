@@ -1,21 +1,29 @@
 .grid--dividers {
   .grid__cell {
-    border-left: 1px solid color('accessible-grey-2');
-    padding-left: map-get($gutter-width, 'small')/2;
-    margin-left: map-get($gutter-width, 'small')/2 - 1;
+    position: relative;
 
-    @include respond-to('medium') {
-      padding-left: map-get($gutter-width, 'medium')/2;
-      margin-left: map-get($gutter-width, 'medium')/2 - 1;
-    }
+    &:before {
+      position: absolute;
+      content: '';
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: color('keyline-grey');
+      left: map-get($gutter-width, 'small') / 2;
 
-    @include respond-to('large') {
-      padding-left: map-get($gutter-width, 'large')/2;
-      margin-left: map-get($gutter-width, 'large')/2 - 1;
+      @include respond-to('medium') {
+        left: map-get($gutter-width, 'medium') / 2;
+      }
+
+      @include respond-to('large') {
+        left: map-get($gutter-width, 'large') / 2;
+      }
     }
 
     &:first-child {
-      border-color: color('transparent');
+      &:before {
+        display: none;
+      }
     }
   }
 }

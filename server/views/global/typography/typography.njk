@@ -1,5 +1,6 @@
 {% for font in fonts %}
-  {% include "views/components/font-example/font-example.njk" %}
+  {% component "font-example", {font__name: font.font__name, font__example: font.font__example, font__size: font.font__size, letter__spacing: font.letter__spacing, line__height: font.line__height, usage__text: font.usage__text
+} %}{% endcomponent %}
 {% endfor %}
 
 <article>

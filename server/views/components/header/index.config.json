@@ -1,0 +1,24 @@
+{
+  "name": "header",
+  "handle": "header",
+  "preview": "@preview_no_container",
+  "context": {
+    "navLinks": [{
+      "url": "#",
+      "title": "Visit us"
+    }, {
+      "url": "#",
+      "title": "Library",
+      "isCurrent": true
+    }, {
+      "url": "#",
+      "title": "What's on"
+    }, {
+      "url": "#",
+      "title": "Discover"
+    }, {
+      "url": "#",
+      "title": "Custom"
+    }]
+  }
+}
