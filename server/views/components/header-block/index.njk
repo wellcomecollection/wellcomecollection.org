@@ -3,9 +3,7 @@
   <h1 class="header-block__title">{{ title }}</h1>
   <span class="header-block__outro">
     {% if icon %}
-      <svg class="header-block__icon">
-        <use xlink:href="#{{ icon }}"></use>
-      </svg>
+      {% component 'icon', {icon: icon, extraClasses: ['header-block__icon']} %}{% endcomponent %}
     {% endif %}
     {{ outro }}
   </span>
