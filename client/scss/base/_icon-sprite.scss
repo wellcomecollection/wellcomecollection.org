@@ -10,6 +10,10 @@
   stroke: inherit; //the default for stroke is none, so must specify for instance
 }
 
-.icon__use {
+.icon--fill {
   fill: color('black');
+}
+
+.icon--stroke {
+  stroke: color('black');
 }
