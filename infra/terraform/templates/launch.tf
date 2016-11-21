@@ -59,3 +59,8 @@ resource "aws_autoscaling_group" "wellcomecollection_ecs_asg" {
   vpc_zone_identifier       = ["${aws_subnet.public_a.id}", "${aws_subnet.public_b.id}"]
   target_group_arns         = ["${aws_alb_target_group.wellcomecollection.id}"]
 }
+
+output "ami_id" {
+  value = "${data.aws_ami.ecs_optimized.id}"
+}
+
