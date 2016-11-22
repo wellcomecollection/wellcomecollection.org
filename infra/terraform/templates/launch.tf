@@ -39,7 +39,8 @@ resource "aws_launch_configuration" "wellcomecollection_ecs" {
     "${aws_security_group.ssh_in.id}",
     "${aws_security_group.http.id}",
     "${aws_security_group.https.id}",
-    "${aws_security_group.node_app_port.id}"
+    "${aws_security_group.node_app_port.id}",
+    "${aws_security_group.docker.id}"
   ]
   user_data = <<EOF
 #!/bin/bash
