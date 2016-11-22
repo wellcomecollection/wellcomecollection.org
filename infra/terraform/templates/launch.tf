@@ -56,6 +56,7 @@ resource "aws_autoscaling_group" "wellcomecollection_ecs_asg" {
   desired_capacity = 2
   min_size         = 2
   max_size         = 4
+  health_check_type         = "EC2"
   launch_configuration      = "${aws_launch_configuration.wellcomecollection_ecs.id}"
   vpc_zone_identifier       = ["${aws_subnet.public_a.id}", "${aws_subnet.public_b.id}"]
   target_group_arns         = ["${aws_alb_target_group.wellcomecollection.id}"]
