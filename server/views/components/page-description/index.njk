@@ -1,0 +1,10 @@
+<header class="page-description {% for modifier in modifiers %}page-description--{{ modifier }} {% endfor %}">
+  <span class="page-description__intro {% for modifier in modifiers %}page-description__intro--{{ modifier }} {% endfor %}">{{ intro }}</span>
+  <h1 class="page-description__title {% for modifier in modifiers %}page-description__title--{{ modifier }} {% endfor %}">{{ title }}</h1>
+  <span class="page-description__outro {% for modifier in modifiers %}page-description__outro--{{ modifier }} {% endfor %}">
+    {% if icon %}
+      {% component 'icon', {icon: icon, extraClasses: ['page-description__icon']} %}{% endcomponent %}
+    {% endif %}
+    {{ outro }}
+  </span>
+</header>
