@@ -1,0 +1,64 @@
+//* @define block-description
+
+.block-description {
+  &:not(.block-description--xlarge) {
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid color('keyline-grey');
+  }
+}
+
+.block-description__title {
+  margin-top: 0;
+  margin-left: -0.06em;
+
+  &.block-description__title--small {
+    @include font('WB6');
+    margin-bottom: 0.4em;
+  }
+
+  &.block-description__title--medium {
+    @include font('WB4');
+    margin-bottom: 0.1em;
+  }
+
+  &.block-description__title--large {
+    @include font('WB2');
+    margin-bottom: 0.05em;
+  }
+
+  &.block-description__title--xlarge {
+    @include font('WB1');
+    margin-bottom: 0.03em;
+  }
+}
+
+.block-description__intro {
+  @include font('HNL5');
+  display: block;
+
+  &.block-description__intro--medium & {
+    margin-bottom: -0.4em;
+  }
+
+  &.block-description__intro--large & {
+    margin-bottom: -0.18em;
+  }
+
+  &.block-description__intro--xlarge & {
+    margin-bottom: -1.8em;
+  }
+}
+
+.block-description__outro {
+  display: flex;
+  align-items: center;
+  color: color('accessible-grey-1');
+
+  &.block-description__outro--lr {
+    @include font('LR2');
+  }
+
+  &.block-description__outro--hn {
+    @include font('HNL5');
+  }
+}

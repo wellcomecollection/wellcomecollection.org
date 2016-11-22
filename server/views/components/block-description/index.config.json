@@ -1,0 +1,43 @@
+{
+  "handle": "block-description",
+  "name": "Block description",
+  "context": {
+    "intro": "Additional label",
+    "title": "Block title",
+    "outro": "Incidunt vitae voluptate obcaecati, alias optio pariatur doloremque sint suscipit illo, recusandae labore facere asperiores explicabo expedita hic sit itaque quos. Doloribus."
+  },
+  "variants": [{
+    "name": "default",
+    "label": "Small",
+    "context": {
+      "modifiers": ["small"],
+      "introModifiers": ["small"],
+      "titleModifiers": ["small"],
+      "outroModifiers": ["hn"]
+    }
+  }, {
+    "name": "Medium",
+    "context": {
+      "modifiers": ["medium"],
+      "introModifiers": ["medium"],
+      "titleModifiers": ["medium"],
+      "outroModifiers": ["hn"]
+    }
+  }, {
+    "name": "Large",
+    "context": {
+      "modifiers": ["large"],
+      "introModifiers": ["large"],
+      "titleModifiers": ["large"],
+      "outroModifiers": ["hn"]
+    }
+  }, {
+    "name": "Extra large",
+    "context": {
+      "modifiers": ["xlarge"],
+      "introModifiers": ["xlarge"],
+      "titleModifiers": ["xlarge"],
+      "outroModifiers": ["hn"]
+    }
+  }]
+}
