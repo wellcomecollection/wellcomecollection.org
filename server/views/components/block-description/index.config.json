@@ -10,34 +10,46 @@
     "name": "default",
     "label": "Small",
     "context": {
-      "modifiers": ["small"],
-      "introModifiers": ["small"],
-      "titleModifiers": ["small"],
-      "outroModifiers": ["hn"]
+      "modifiers": ["small"]
     }
   }, {
     "name": "Medium",
     "context": {
-      "modifiers": ["medium"],
-      "introModifiers": ["medium"],
-      "titleModifiers": ["medium"],
-      "outroModifiers": ["hn"]
+      "modifiers": ["medium"]
     }
   }, {
     "name": "Large",
     "context": {
-      "modifiers": ["large"],
-      "introModifiers": ["large"],
-      "titleModifiers": ["large"],
-      "outroModifiers": ["hn"]
+      "modifiers": ["large"]
     }
   }, {
     "name": "Extra large",
     "context": {
-      "modifiers": ["xlarge"],
-      "introModifiers": ["xlarge"],
-      "titleModifiers": ["xlarge"],
-      "outroModifiers": ["hn"]
+      "modifiers": ["xlarge"]
+    }
+  }, {
+    "name": "Small (main)",
+    "label": "Small (main)",
+    "context": {
+      "modifiers": ["small", "main"]
+    }
+  }, {
+    "name": "Medium (main)",
+    "label": "Medium (main)",
+    "context": {
+      "modifiers": ["medium", "main"]
+    }
+  }, {
+    "name": "Large (main)",
+    "label": "Large (main)",
+    "context": {
+      "modifiers": ["large", "main"]
+    }
+  }, {
+    "name": "Extra large (main)",
+    "label": "Extra large (main)",
+    "context": {
+      "modifiers": ["xlarge", "main"]
     }
   }]
 }

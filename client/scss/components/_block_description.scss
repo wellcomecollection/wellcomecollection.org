@@ -11,22 +11,22 @@
   margin-top: 0;
   margin-left: -0.06em;
 
-  &.block-description__title--small {
+  .block-description--small & {
     @include font('WB6');
     margin-bottom: 0.4em;
   }
 
-  &.block-description__title--medium {
+  .block-description--medium & {
     @include font('WB4');
     margin-bottom: 0.1em;
   }
 
-  &.block-description__title--large {
+  .block-description--large & {
     @include font('WB2');
     margin-bottom: 0.05em;
   }
 
-  &.block-description__title--xlarge {
+  .block-description--xlarge & {
     @include font('WB1');
     margin-bottom: 0.03em;
   }
@@ -34,31 +34,33 @@
 
 .block-description__intro {
   @include font('HNL5');
+  color: color('accessible-grey-1');
   display: block;
 
-  &.block-description__intro--medium & {
+  .block-description--medium & {
     margin-bottom: -0.4em;
   }
 
-  &.block-description__intro--large & {
+  .block-description--large & {
     margin-bottom: -0.18em;
   }
 
-  &.block-description__intro--xlarge & {
+  .block-description--xlarge & {
     margin-bottom: -1.8em;
+  }
+
+  .block-description--main & {
+    color: color('black');
   }
 }
 
 .block-description__outro {
+  @include font('HNL5');
   display: flex;
   align-items: center;
   color: color('accessible-grey-1');
 
-  &.block-description__outro--lr {
+  .block-description--main & {
     @include font('LR2');
-  }
-
-  &.block-description__outro--hn {
-    @include font('HNL5');
   }
 }
