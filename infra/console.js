@@ -3,7 +3,7 @@ const red = '\x1b[33m';
 const green = '\x1b[32m';
 
 export function error(m) {
-  console.info(red, m, def);
+  console.error(red, m, def);
 }
 
 export function success(m) {
