@@ -4,10 +4,10 @@
   "label": "Page description",
   "variants": [{
     "name": "default",
-    "label": "Wellcome Bold",
+    "label": "A (article)",
     "notes": "Article title lock-up.",
     "context": {
-      "modifiers": ["wb"],
+      "modifiers": ["a"],
       "intro": "States of Mind",
       "title": "Inspired: Alchemists and housewives around a long table",
       "outro": "September 9th 2016",
@@ -15,10 +15,10 @@
     }
   }, {
     "name": "hn",
-    "label": "Helvetica Neue",
+    "label": "B (library item)",
     "notes": "Library item title.",
     "context": {
-      "modifiers": ["hn"],
+      "modifiers": ["b"],
       "intro": null,
       "title": "On the Origin of Species by Means of Natural Selection, or the Preservation of Favoured Races in the Struggle for Life",
       "outro": null,
