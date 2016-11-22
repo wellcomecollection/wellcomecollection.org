@@ -41,7 +41,7 @@
 .page-description__intro {
   display: block;
 
-  &.page-description__intro--hn {
+  &.page-description__intro--wb {
     @include font('HNL5');
     color: color('action-green-1');
     margin-bottom: 0.4em;
