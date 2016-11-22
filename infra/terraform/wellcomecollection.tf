@@ -18,3 +18,8 @@ module "wellcomecollection" {
   container_tag                = "${var.container_tag}"
   build_state_bucket           = "${var.build_state_bucket}"
 }
+
+output "ami_id" {
+  value = "${module.wellcomecollection.ami_id}"
+}
+

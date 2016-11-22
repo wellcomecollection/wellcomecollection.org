@@ -51,6 +51,8 @@ data "aws_iam_policy_document" "ecs_service_policy" {
       "elasticloadbalancing:Describe*",
       "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
       "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
+      "elasticloadbalancing:DeregisterTargets",
+      "elasticloadbalancing:RegisterTargets",
       "ec2:Describe*",
       "ec2:AuthorizeSecurityGroupIngress"
     ]
