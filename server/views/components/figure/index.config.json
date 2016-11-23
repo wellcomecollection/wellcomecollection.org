@@ -1,0 +1,32 @@
+{
+  "handle": "figure",
+  "name": "Figure",
+  "context": {
+    "sources": [{
+      "src": "http://fillmurray.com/1200/800",
+      "media": "1200"
+    }, {
+      "src": "http://fillmurray.com/600/400",
+      "media": "600"
+    }, {
+      "src": "http://fillmurray.com/300/200",
+      "media": "300"
+    }],
+    "caption": "Bill Murray. He don't need no money."
+  },
+  "variants": [{
+    "name": "default",
+    "label": "Picture",
+    "context": {
+      "type": "picture",
+      "icon": "Picture"
+    }
+  }, {
+    "name": "image",
+    "label": "Image",
+    "context": {
+      "type": "image",
+      "icon": "Picture"
+    }
+  }]
+}
