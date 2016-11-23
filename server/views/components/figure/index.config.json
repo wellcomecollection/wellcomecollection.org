@@ -3,16 +3,16 @@
   "name": "Figure",
   "context": {
     "sources": [{
-      "src": "http://fillmurray.com/1200/800",
-      "media": "1200"
+      "src": "http://placehold.it/1200x800",
+      "size": "1200"
     }, {
-      "src": "http://fillmurray.com/600/400",
-      "media": "600"
+      "src": "http://placehold.it/600x400",
+      "size": "600"
     }, {
-      "src": "http://fillmurray.com/300/200",
-      "media": "300"
+      "src": "http://placehold.it/300x200",
+      "size": "300"
     }],
-    "caption": "Bill Murray. He don't need no money."
+    "caption": "Aspernatur neque debitis atque saepe magni praesentium eos."
   },
   "variants": [{
     "name": "default",

@@ -2,7 +2,7 @@
   {% if type === 'picture' %}
     <picture class="figure__picture">
       {%- for source in sources %}
-        <source media="(min-width: {{ source.media }}px)"
+        <source media="(min-width: {{ source.size }}px)"
           srcset="{{ source.src }}">
       {%- endfor %}
       <img class="figure__image"
@@ -13,7 +13,7 @@
     <img class="figure__image"
       src="{{ sources[(sources | length) - 1].src }}"
       srcset="{%- for source in sources %}
-        {{ source.src }} {{ source.media }}w
+        {{ source.src }} {{ source.size }}w
         {%- if (source !== (sources | last)) %}, {%- endif %}
       {%- endfor %}"
       alt="{{ caption }}" />
