@@ -1,2 +1,4 @@
 node_modules/
 dist/
+app.pack.js
+app.pack.js.map

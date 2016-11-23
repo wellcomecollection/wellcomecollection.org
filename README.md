@@ -17,7 +17,7 @@ npm compile # one-off compile, used on build
 ```bash
 cd server
 npm install
-npm run watch
+npm run dev
 ```
 
 ## infra
