@@ -28,3 +28,13 @@
 @function px-to-unitless($line-height, $font-size) {
   @return $line-height / $font-size;
 }
+
+// Get the width of a number of columns at a given viewport width
+@function span-columns($viewport-size, $number) {
+  $columns-at-size: map-get($total-columns, $viewport-size);
+  $gutter-at-size: map-get($gutter-width, $viewport-size);
+  $total-gutter: $number * $gutter-at-size;
+  $percent-width: (100% / $columns-at-size) * $number;
+
+  @return calc(#{$percent-width} + #{$total-gutter});
+}
