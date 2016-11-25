@@ -1,0 +1,32 @@
+{
+  "handle": "figure",
+  "name": "Figure",
+  "context": {
+    "sources": [{
+      "src": "http://placehold.it/1200x800",
+      "size": "1200"
+    }, {
+      "src": "http://placehold.it/600x400",
+      "size": "600"
+    }, {
+      "src": "http://placehold.it/300x200",
+      "size": "300"
+    }],
+    "caption": "Aspernatur neque debitis atque saepe magni praesentium eos."
+  },
+  "variants": [{
+    "name": "default",
+    "label": "Picture",
+    "context": {
+      "type": "picture",
+      "icon": "Picture"
+    }
+  }, {
+    "name": "image",
+    "label": "Image",
+    "context": {
+      "type": "image",
+      "icon": "Picture"
+    }
+  }]
+}
