@@ -1,4 +1,4 @@
 pushd server
 npm install --production
-npm compile
+npm run compile
 popd
