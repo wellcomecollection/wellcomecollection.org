@@ -4,6 +4,13 @@
   @include font('HNM2');
   text-align: center;
 
+  @include respond-to('large') {
+    border-left: 5px solid color('keyline-grey');
+    border-right: 5px solid color('keyline-grey');
+    padding-left: span-columns('large', 1, true);
+    padding-right: span-columns('large', 1, true);
+  }
+
   &.blockquote--wb {
     @include font('WB5');
   }
@@ -26,7 +33,7 @@
     // stylelint-enable sh-waqar/declaration-use-variable
     line-height: 1;
     display: block;
-    color: color('action-green-1');
+    color: color('turquoise');
     height: 3rem;
   }
 
