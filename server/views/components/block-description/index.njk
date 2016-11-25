@@ -1,0 +1,5 @@
+<header class="block-description {% for modifier in modifiers %}block-description--{{ modifier }} {% endfor %}">
+  <span class="block-description__intro {% for modifier in introModifiers %}block-description__intro--{{ modifier }} {% endfor %}">{{ intro }}</span>
+  <h2 class="block-description__title {% for modifier in titleModifiers %}block-description__title--{{ modifier }} {% endfor %}">{{ title }}</h2>
+  <span class="block-description__outro {% for modifier in outroModifiers %}block-description__outro--{{ modifier }} {% endfor %}">{{ outro }}</span>
+</header>

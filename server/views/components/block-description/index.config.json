@@ -1,0 +1,55 @@
+{
+  "handle": "block-description",
+  "name": "Block description",
+  "context": {
+    "intro": "Additional label",
+    "title": "Block title",
+    "outro": "Incidunt vitae voluptate obcaecati, alias optio pariatur doloremque sint suscipit illo, recusandae labore facere asperiores explicabo expedita hic sit itaque quos. Doloribus."
+  },
+  "variants": [{
+    "name": "default",
+    "label": "Small",
+    "context": {
+      "modifiers": ["small"]
+    }
+  }, {
+    "name": "Medium",
+    "context": {
+      "modifiers": ["medium"]
+    }
+  }, {
+    "name": "Large",
+    "context": {
+      "modifiers": ["large"]
+    }
+  }, {
+    "name": "Extra large",
+    "context": {
+      "modifiers": ["xlarge"]
+    }
+  }, {
+    "name": "Small (main)",
+    "label": "Small (main)",
+    "context": {
+      "modifiers": ["small", "main"]
+    }
+  }, {
+    "name": "Medium (main)",
+    "label": "Medium (main)",
+    "context": {
+      "modifiers": ["medium", "main"]
+    }
+  }, {
+    "name": "Large (main)",
+    "label": "Large (main)",
+    "context": {
+      "modifiers": ["large", "main"]
+    }
+  }, {
+    "name": "Extra large (main)",
+    "label": "Extra large (main)",
+    "context": {
+      "modifiers": ["xlarge", "main"]
+    }
+  }]
+}
