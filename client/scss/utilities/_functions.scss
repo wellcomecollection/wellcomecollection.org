@@ -33,14 +33,8 @@
 @function span-columns($viewport-size, $number, $no-final-gutter: false) {
   $columns-at-size: map-get($total-columns, $viewport-size);
   $gutter-at-size: map-get($gutter-width, $viewport-size);
-  $total-gutter: null;
-
-  @if ($no-final-gutter) {
-    $total-gutter: ($number - 1) * $gutter-at-size;
-  } @else {
-    $total-gutter: $number * $gutter-at-size;
-  }
-
+  $multiplier: if($no-final-gutter, $number - 1, $number);
+  $total-gutter: $multiplier * $gutter-at-size;
   $percent-width: (100% / $columns-at-size) * $number;
 
   @return calc(#{$percent-width} + #{$total-gutter});
