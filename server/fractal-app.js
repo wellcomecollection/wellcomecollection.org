@@ -1,18 +1,22 @@
+import path from 'path';
 import Fractal from '@frctl/fractal';
 import Nunjucks from '@frctl/nunjucks';
 import mandelbrot from '@frctl/mandelbrot';
 import Component from './extensions/component';
+import getEnv from './view/env-utils';
 const fractal = Fractal.create();
+const root = dir('/views');
+const nunjucksEnv = getEnv(root);
 
 fractal.set('project.title', 'Cardigan');
-fractal.components.set('path', __dirname + '/views');
-fractal.docs.set('path', __dirname + '/views/docs');
-fractal.web.set('static.path', __dirname + './../dist');
-fractal.web.set('builder.dest', './../cardigan');
+fractal.components.set('path', root);
+fractal.docs.set('path', dir('/views/docs'));
+fractal.web.set('static.path', dir('./../dist'));
+fractal.web.set('builder.dest', dir('./../cardigan'));
 fractal.components.set('default.status', 'wip');
 
 const nunjucks = Nunjucks({
-    extensions: { componentExtension: Component }
+    extensions: { componentExtension: new Component(nunjucksEnv) }
 });
 
 fractal.components.engine(nunjucks);
@@ -25,3 +29,7 @@ const cardiganTheme = mandelbrot({
 fractal.web.theme(cardiganTheme);
 
 export default fractal;
+
+function dir(relPath) {
+    return path.resolve(`${__dirname}${relPath}`);
+}
