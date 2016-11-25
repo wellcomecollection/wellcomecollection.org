@@ -39,7 +39,8 @@ resource "aws_launch_configuration" "wellcomecollection_ecs" {
     "${aws_security_group.ssh_in.id}",
     "${aws_security_group.http.id}",
     "${aws_security_group.https.id}",
-    "${aws_security_group.node_app_port.id}"
+    "${aws_security_group.node_app_port.id}",
+    "${aws_security_group.docker.id}"
   ]
   user_data = <<EOF
 #!/bin/bash
@@ -55,6 +56,7 @@ resource "aws_autoscaling_group" "wellcomecollection_ecs_asg" {
   desired_capacity = 2
   min_size         = 2
   max_size         = 4
+  health_check_type         = "EC2"
   launch_configuration      = "${aws_launch_configuration.wellcomecollection_ecs.id}"
   vpc_zone_identifier       = ["${aws_subnet.public_a.id}", "${aws_subnet.public_b.id}"]
   target_group_arns         = ["${aws_alb_target_group.wellcomecollection.id}"]

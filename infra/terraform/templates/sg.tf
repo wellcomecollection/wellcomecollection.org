@@ -18,6 +18,26 @@ resource "aws_security_group" "http" {
   }
 }
 
+resource "aws_security_group" "docker" {
+  name = "docker"
+  description = "Allow all docker ports"
+  vpc_id = "${aws_vpc.wellcomecollection.id}"
+
+  # HTTP
+  ingress {
+    from_port = 32768
+    to_port = 61000
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port = 32768
+    to_port = 61000
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 
 resource "aws_security_group" "https" {
   name = "allow-http-s"
