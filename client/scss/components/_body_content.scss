@@ -1,0 +1,38 @@
+.body-content {
+  h2 {
+    @include font('WB5');
+  }
+
+  ul {
+    @include plain-list();
+
+    li {
+      list-style: none;
+
+      &:before {
+        content: '';
+        width: 0.35em;
+        height: 0.35em;
+        display: inline-block;
+        vertical-align: middle;
+        border-radius: 0.1em;
+        background: color('currentColor');
+        margin-right: 0.4em;
+      }
+    }
+  }
+
+  *::selection {
+    background: transparentize(color('turquoise'), 0.7);
+  }
+
+  a:link {
+    text-decoration: none;
+    box-shadow: inset 0 -0.1em 0 0 color('action-green-1');
+
+    &:hover,
+    &:focus {
+      box-shadow: inset 0 -0.2em 0 0 color('action-green-1');
+    }
+  }
+}
