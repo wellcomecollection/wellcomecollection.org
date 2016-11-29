@@ -1,4 +1,4 @@
-<svg class="icon {% for class in extraClasses %}{{ class }} {% endfor %}"{% if title %} role="img"{% else %} aria-hidden="true"{% endif %}>
+<svg class="icon {{ blockClass }}__icon"{% if title %} role="img"{% else %} aria-hidden="true"{% endif %}>
   {% if title %}<title>{{title}}</title>{% endif %}
-  <use class="icon__use" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#{{icon}}"></use>
+  <use class="icon__use {{ blockClass }}__use" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#{{icon}}"></use>
 </svg>

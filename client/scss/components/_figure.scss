@@ -33,6 +33,9 @@
   width: 1.3em;
   height: 1.3em;
   min-width: 1.3em;
-  stroke: color('currentColor');
   margin-right: 0.8em;
+}
+
+.figure__use {
+  fill: color('currentColor');
 }
