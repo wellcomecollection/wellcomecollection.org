@@ -8,6 +8,8 @@ We use Nginx to proxy to our application so that we can make sure we're developi
 
 # Run
 
-  ./setup.sh
+* `./setup.sh`
+* Add `https://dev-wellcomecollection.org` to your `/etc/hosts`
+* Make sure `include /usr/local/etc/nginx/sites-enabled/*;` is included in your `nginx.conf` 
 
 You should now be able to access the site on [https://dev-wellcomecollection.org](https://dev-wellcomecollection.org).

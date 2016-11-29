@@ -1,34 +1,25 @@
 # wellcomecollection.org
 
-The new home of the betanextbest.wellcomecollection.org website.
+The new home of the next.wellcomecollection.org website.
 
-## client
+## Requirements
 
-```bash
-cd client
-npm install
-npm run compile:dev # to watch for changes and compile in local dev
-# or
-npm compile # one-off compile, used on build
-```
+* [Node](https://nodejs.org/en/download/) (or use [NVM](https://github.com/creationix/nvm))
 
-## server
 
-```bash
-cd server
-npm install
-npm run dev
-```
+The project is split into multiple services, follow the `README`s within each project to get started.
 
-## infra
+* [client](./client)
+  Static assets such as SASS, JS, fonts etc. Responsible for their compilation.
 
-```bash
-cd infra
-npm install
-```
+* [server](./server)
+  Runs the server that returns the HTML templates, components and Fractal styleguide
 
-The assets are then compiled to the root `/dist` directory which is then referenced by the server
-app via koa-static.
+* [nginx](./nginx)
+  Used to have local copies of the site running over HTTPS and HTTP/2
+
+* [infra](./infra)
+  Managing our infrastructure within AWS
 
 ## Editor settings
 
