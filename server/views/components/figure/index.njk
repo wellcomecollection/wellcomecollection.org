@@ -1,4 +1,4 @@
-<figure class="figure figure--{{type}}">
+<figure class="figure figure--{{type}} {% if full %}figure--full{% endif %}">
   {% if type === 'picture' %}
     <picture class="figure__picture">
       {%- for source in sources %}
@@ -18,8 +18,10 @@
       {%- endfor %}"
       alt="{{ caption }}" />
   {% endif %}
-  <figcaption class="figure__caption">
-    {% component 'icon', {icon: icon, extraClasses: ['figure__icon']} %}{% endcomponent %}
-    {{ caption }}
-  </figcaption>
+    {% if full %}<div class="container">{% endif %}
+      <figcaption class="figure__caption">
+        {% component 'icon', {icon: icon, extraClasses: ['figure__icon']} %}{% endcomponent %}
+        {{ caption }}
+      </figcaption>
+    {% if full %}</div>{% endif %}
 </figure>

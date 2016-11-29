@@ -1,14 +1,18 @@
 //* @define figure
 
 .figure {
-  @include bleed(map-get($gutter-width, 'small'));
+  margin: 0;
 
-  @include respond-to('medium') {
-    @include bleed(map-get($gutter-width, 'medium'));
-  }
+  &:not(.figure--full) {
+    @include bleed(map-get($gutter-width, 'small'));
 
-  @include respond-to('large') {
-    @include bleed(map-get($gutter-width, 'large'));
+    @include respond-to('medium') {
+      @include bleed(map-get($gutter-width, 'medium'));
+    }
+
+    @include respond-to('large') {
+      @include bleed(map-get($gutter-width, 'large'));
+    }
   }
 }
 

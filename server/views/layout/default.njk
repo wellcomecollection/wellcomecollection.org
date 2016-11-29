@@ -19,10 +19,9 @@
   ]} %}
   {% endcomponent %}
   <body>
-    <div class="container">
-      {% block body %}
-      {% endblock %}
-    </div>
+    {% include "_partials/svg-sprite.njk" %}
+    {% block body %}
+    {% endblock %}
 
     {% include "_partials/analytics.njk" %}
   </body>
