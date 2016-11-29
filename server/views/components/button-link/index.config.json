@@ -21,8 +21,10 @@
             }
         },
         {
-            "preview": "@preview-dark",
             "name": "dark button with icon",
+              "display": {
+              "background": "#000"
+            },
             "context": {
                 "modifierClasses": "btn--dark",
                 "icon": "download-1",

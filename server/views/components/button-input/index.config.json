@@ -1,7 +1,9 @@
 {
   "name": "button-input",
   "handle": "button-input",
-  "preview": "@preview-dark",
+  "display": {
+    "background": "#000"
+  },
   "context": {
     "modifierClasses": "btn--dark",
     "type": "submit",
