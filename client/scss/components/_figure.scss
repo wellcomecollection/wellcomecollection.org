@@ -3,7 +3,7 @@
 .figure {
   margin: 0;
 
-  &:not(.figure--full) {
+  &.figure--bleed {
     @include bleed(map-get($gutter-width, 'small'));
 
     @include respond-to('medium') {

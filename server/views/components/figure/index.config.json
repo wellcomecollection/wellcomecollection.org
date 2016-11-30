@@ -2,6 +2,7 @@
   "handle": "figure",
   "name": "Figure",
   "context": {
+    "bleed": true,
     "sources": [{
       "src": "http://placehold.it/1200x800",
       "size": "1200"
