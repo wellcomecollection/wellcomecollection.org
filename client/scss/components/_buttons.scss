@@ -54,6 +54,8 @@
   @include secondary;
   color: color('black');
   border-color: rgba(color('black'), 0.2);
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: unset;
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
