@@ -1,6 +1,6 @@
 {% for icon in icons %}
 <div class="styleguide__icon">
   <p class="styleguide__icon__id">{{icon.icon}}</p>
-  {% component "icon", {modifierClasses: icon.modifierClasses, icon: icon.icon, title: icon.title} %}{% endcomponent %}
+  {% component "icon", {extraClasses: icon.extraClasses, icon: icon.icon, title: icon.title} %}{% endcomponent %}
 </div>
 {% endfor %}
