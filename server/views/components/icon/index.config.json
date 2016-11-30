@@ -1,24 +1,5 @@
 {
   "name": "icon",
   "handle": "icon",
-  "context": {
-    "icon": "download-1",
-    "title": "Download"
-  },
-  "variants": [{
-    "name": "Print",
-    "context": {
-      "modifierClasses": "icon--stroke",
-      "icon": "print",
-      "title": "Print"
-    }
-  },
-  {
-    "name": "Download",
-    "context": {
-      "modifierClasses": "icon--fill icon--stroke",
-      "icon": "download-1",
-      "title": "Download"
-    }
-  }]
+  "hidden": true
 }

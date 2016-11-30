@@ -2,6 +2,22 @@
   padding-top: 20px;
 }
 
+.styleguide__icon {
+  display: inline-block;
+  margin: 0 10px 20px;
+  text-align: center;
+  width: 140px;
+
+  .icon {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+.styleguide__icon__id {
+  @include font('LR3');
+}
+
 @function color-list($colors) {
   $list: null;
 
