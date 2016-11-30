@@ -1,0 +1,35 @@
+{
+  "name": "button-link",
+  "handle": "button-link",
+  "context": {
+    "href": "wellcomecollection.org",
+    "text": "this is a button"
+  },
+    "variants": [
+        {
+            "name": "with icon",
+            "context": {
+                "icon": "download-1",
+                "text": "this is a link with an icon"
+            }
+        },
+        {
+            "name": "light button",
+            "context": {
+                "modifierClasses": "btn--light",
+                "text": "this is a link"
+            }
+        },
+        {
+            "name": "dark button with icon",
+              "display": {
+              "background": "#000"
+            },
+            "context": {
+                "modifierClasses": "btn--dark",
+                "icon": "download-1",
+                "text": "this is a link"
+            }
+        }
+    ]
+}

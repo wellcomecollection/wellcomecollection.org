@@ -1,0 +1,76 @@
+@mixin secondary {
+  background-color: color('transparent');
+  border-width: 2px;
+
+  &:not([disabled]):hover,
+  &:not([disabled]):focus {
+    background-color: color('transparent');
+  }
+}
+
+.btn {
+  @include font('HNM5');
+  display: inline-block;
+  width: 100%;
+  min-width: 160px;
+  min-height: 42px;
+  padding: 10px 30px;
+  color: color('white');
+  background-color: color('action-green-1');
+  border: 1px solid color('action-green-1');
+  border-radius: 6px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+  outline: none;
+  transition: background 0.7s ease, border-color 0.7s ease, color 0.7s ease;
+
+  &:not([disabled]):hover,
+  &:not([disabled]):focus {
+    background: color('action-green-2');
+    cursor: pointer;
+  }
+
+  &[disabled] {
+    opacity: 0.2;
+  }
+
+  .icon {
+    display: inline-block;
+    width: 26px; //width and height should be same aspect ratio as the icon's viewbox, to avoid excess whitespace in the svg
+    height: 26px;
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+
+  .icon__use {
+    fill: currentColor;
+  }
+}
+
+.btn--light {
+  @include secondary;
+  color: color('black');
+  border-color: rgba(color('black'), 0.2);
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: unset;
+
+  &:not([disabled]):hover,
+  &:not([disabled]):focus {
+    border-color: color('black');
+  }
+}
+
+.btn--dark {
+  @include secondary;
+  color: color('action-green-2');
+  border-color: rgba(color('action-green-2'), 0.4);
+
+  &:not([disabled]):hover,
+  &:not([disabled]):focus {
+    color: color('highlight-green');
+    border-color: color('highlight-green');
+  }
+}
