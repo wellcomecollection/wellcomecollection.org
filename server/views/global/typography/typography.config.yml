@@ -142,6 +142,12 @@ context:
     line__height: 18px
     usage__text: Page jumper in book item viewer • Smallprint • Archive/Collection
       card description • Datestamps on cards/links
+  - font__name: HNL8
+    font__example: Enter your email *
+    font__size: 11px
+    letter__spacing: '80'
+    line__height: 18px
+    usage__text: Active textfield hint text
   - font__name: LR1
     font__example: PP/CRI
     font__size: 18px
