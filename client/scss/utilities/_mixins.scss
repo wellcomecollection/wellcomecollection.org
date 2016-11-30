@@ -111,9 +111,12 @@
 }
 
 // Allow an element to be horizontally stretched outwith its container
-@mixin bleed($amount) {
+@mixin bleed($amount, $use-padding: false) {
   margin-left: -$amount;
   margin-right: -$amount;
-  padding-left: $amount;
-  padding-right: $amount;
+
+  @if ($use-padding) {
+    padding-left: $amount;
+    padding-right: $amount;
+  }
 }
