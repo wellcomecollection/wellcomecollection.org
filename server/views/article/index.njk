@@ -6,25 +6,7 @@
 </div>
 {% for media in mainMedia %}
   {% if media.weighting == 'leading' %}
-
-    {% if media.mediaType == 'image' %}
-      {% component 'figure', {
-        type: 'image',
-        icon: 'Picture',
-        full: true,
-        sources: [{size: 1000, src: media.uri}],
-        caption: media.altText
-      } %}{% endcomponent %}
-    {% endif %}
-
-    {% if media.mediaType == 'audio' %}
-      <audio controls="controls" src="{{media.uri}}"></audio>
-    {% endif %}
-
-    {% if media.mediaType == 'video' %}
-      <iframe width="640" height="360" src="{{media.uri | youtubeEmbedUrl}}" frameborder="0"></iframe>
-    {% endif %}
-
+    {% component "media-item", { media: media } %}{% endcomponent %}
   {% endif %}
 {% endfor %}
 
