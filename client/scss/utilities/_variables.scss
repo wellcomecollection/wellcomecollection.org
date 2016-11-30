@@ -162,6 +162,13 @@ $fonts: (
     'letter-spacing': 80,
     'line-height': 18px
   ),
+  'HNL8': (
+    'font-family-base': $helvetica-neue-light-base,
+    'font-family-web': $helvetica-neue-light,
+    'font-size': 11px,
+    'letter-spacing': 80,
+    'line-height': 18px
+  ),
   'LR1': (
     'font-family-base': $lettera-regular-base,
     'font-family-web': $lettera-regular,
@@ -185,7 +192,7 @@ $fonts: (
   )
 );
 
-$container-width-max: 1424px;
+$container-width-max: 1338px;
 
 $container-padding: (
   'small': 30px,
@@ -255,7 +262,7 @@ $breakpoints: (
   'small': 0,
   'medium': 600px,
   'large': 960px,
-  'xlarge': 1424px
+  'xlarge': $container-width-max
 );
 
 // Empty map for respond-to mixin

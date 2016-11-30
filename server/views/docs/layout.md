@@ -4,7 +4,7 @@ title: Layout grid
 
 ## Width
 
-The layout has a maximum width of 1424px.
+The layout has a maximum width of 1338px.
 
 ## Breakpoints
     
