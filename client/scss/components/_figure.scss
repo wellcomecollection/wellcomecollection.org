@@ -1,14 +1,18 @@
 //* @define figure
 
 .figure {
-  @include bleed(map-get($gutter-width, 'small'));
+  margin: 0;
 
-  @include respond-to('medium') {
-    @include bleed(map-get($gutter-width, 'medium'));
-  }
+  &.figure--bleed {
+    @include bleed(map-get($gutter-width, 'small'));
 
-  @include respond-to('large') {
-    @include bleed(map-get($gutter-width, 'large'));
+    @include respond-to('medium') {
+      @include bleed(map-get($gutter-width, 'medium'));
+    }
+
+    @include respond-to('large') {
+      @include bleed(map-get($gutter-width, 'large'));
+    }
   }
 }
 
@@ -29,6 +33,9 @@
   width: 1.3em;
   height: 1.3em;
   min-width: 1.3em;
-  stroke: color('currentColor');
   margin-right: 0.8em;
+}
+
+.figure__use {
+  fill: color('currentColor');
 }

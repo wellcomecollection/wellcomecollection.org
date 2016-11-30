@@ -1,15 +1,20 @@
 {% extends "layout/default.njk" %}
 
 {% block body %}
-<h1>{{ headline }}</h1>
-
+<div class="container">
+  {% component 'page-description', {title: headline, modifiers: ['a']} %}{% endcomponent %}
+</div>
 {% for media in mainMedia %}
   {% if media.weighting == 'leading' %}
 
     {% if media.mediaType == 'image' %}
-      <picture>
-        <img src="{{media.uri}}" alt="{{media.altText}}" title="{{media.title}}" />
-      </picture>
+      {% component 'figure', {
+        type: 'image',
+        icon: 'Picture',
+        full: true,
+        sources: [{size: 1000, src: media.uri}],
+        caption: media.altText
+      } %}{% endcomponent %}
     {% endif %}
 
     {% if media.mediaType == 'audio' %}
@@ -23,9 +28,15 @@
   {% endif %}
 {% endfor %}
 
-<div>
-  {% for bodyPart in articleBody | parseBody %}
-    {{bodyPart.value | safe}}
-  {% endfor %}
+<div class="row row--cream">
+  <div class="container body-content">
+    <div class="grid grid--spaced">
+      <div class="grid__cell grid__cell--l7  grid__cell--m8">
+        {% for bodyPart in articleBody | parseBody %}
+          {{bodyPart.value | safe}}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
