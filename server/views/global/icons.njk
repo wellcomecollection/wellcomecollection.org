@@ -1,3 +1,6 @@
-{% include "views/partials/svg-sprite.njk" %}
-{# TODO use component instead of javascript #}
-<div data-component="icons"></div>
+{% for icon in icons %}
+<div class="styleguide__icon">
+  <p class="styleguide__icon__id">{{icon.icon}}</p>
+  {% component "icon", {extraClasses: icon.extraClasses, icon: icon.icon, title: icon.title} %}{% endcomponent %}
+</div>
+{% endfor %}

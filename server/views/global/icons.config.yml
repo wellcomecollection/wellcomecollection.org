@@ -1,0 +1,188 @@
+context:
+  icons:
+  - extraClasses: icon--fill
+    icon: arrow-big
+    title: Arrow
+  - extraClasses: icon--fill
+    icon: arrow-small
+    title: Arrow
+  - extraClasses: icon--fill
+    icon: bookmark
+    title: Bookmark
+  - extraClasses: icon--fill
+    icon: chevron-big
+    title: Chevron
+  - extraClasses: icon--fill
+    icon: chevron-medium
+    title: Chevron
+  - extraClasses: icon--fill
+    icon: chevron-small
+    title: Chevron
+  - extraClasses: icon--fill
+    icon: citation
+    title: Citation
+  - extraClasses: icon--fill
+    icon: close
+    title: Close
+  - extraClasses: icon--fill
+    icon: collapse-active
+    title: Collapse Active
+  - extraClasses: icon--fill
+    icon: collapse-hover
+    title: Collapse Hover
+  - extraClasses: icon--fill
+    icon: comments
+    title: Comments
+  - extraClasses: icon--fill
+    icon: contact-1
+    title: Contact
+  - extraClasses: icon--fill
+    icon: contact-2
+    title: Contact
+  - extraClasses: icon--fill
+    icon: cross-big
+    title: Cross
+  - extraClasses: icon--fill
+    icon: cross-small
+    title: Cross
+  - extraClasses: icon--fill
+    icon: download-1
+    title: Download
+  - extraClasses: icon--fill
+    icon: download-2
+    title: Download
+  - extraClasses: icon--fill
+    icon: email
+    title: Email
+  - extraClasses: icon--fill
+    icon: embed
+    title: Embed
+  - extraClasses: icon--fill
+    icon: expand-default
+    title: Expand
+  - extraClasses: icon--fill
+    icon: expand-hover
+    title: Expand
+  - extraClasses: icon--fill
+    icon: filter
+    title: Filter
+  - extraClasses: icon--fill
+    icon: gallery-link
+    title: Gallery
+  - extraClasses: icon--fill
+    icon: grid
+    title: Grid
+  - extraClasses: icon--fill
+    icon: hierarchy-tree
+    title: Hierarchy
+  - extraClasses: icon--fill
+    icon: list
+    title: List
+  - extraClasses: icon--fill
+    icon: maximize
+    title: Maximize
+  - extraClasses: icon--fill
+    icon: menu
+    title: Menu
+  - extraClasses: icon--fill
+    icon: more-1
+    title: More
+  - extraClasses: icon--fill
+    icon: more-2
+    title: More
+  - extraClasses: icon--fill
+    icon: play
+    title: Play
+  - extraClasses: icon--fill
+    icon: plus-medium
+    title: Plus
+  - extraClasses: icon--fill
+    icon: plus-small
+    title: Plus
+  - extraClasses: icon--stroke
+    icon: print
+    title: Print
+  - extraClasses: icon--fill
+    icon: request
+    title: Request
+  - extraClasses: icon--fill
+    icon: save-to-account-1
+    title: Save to account
+  - extraClasses: icon--fill
+    icon: save-to-account-2
+    title: Save to account
+  - extraClasses: icon--fill
+    icon: save-to-account-3
+    title: Save to account
+  - extraClasses: icon--fill
+    icon: search
+    title: Search
+  - extraClasses: icon--fill
+    icon: share-1
+    title: Share
+  - extraClasses: icon--fill
+    icon: share-2
+    title: Share
+  - extraClasses: icon--fill
+    icon: sublevels
+    title: Sub levels
+  - extraClasses: icon--fill
+    icon: user
+    title: User
+  - extraClasses: icon--fill
+    icon: view
+    title: View
+  - extraClasses: icon--fill
+    icon: volume
+    title: Volume
+  - extraClasses: icon--fill
+    icon: audio-1
+    title: Audio
+  - extraClasses: icon--fill
+    icon: audio-2
+    title: Audio
+  - extraClasses: icon--fill
+    icon: audio-3
+    title: Audio
+  - extraClasses: icon--fill
+    icon: book
+    title: Book
+  - extraClasses: icon--fill
+    icon: databases-and-websites
+    title: Databases and websites
+  - extraClasses: icon--fill
+    icon: image
+    title: Image
+  - extraClasses: icon--fill
+    icon: manuscript
+    title: Manuscript
+  - extraClasses: icon--fill
+    icon: map
+    title: Map
+  - extraClasses: icon--fill
+    icon: video
+    title: Video
+  - extraClasses: icon--fill
+    icon: clock
+    title: Clock
+  - extraClasses: icon--fill
+    icon: comments-2
+    title: Comments
+  - extraClasses: icon--fill
+    icon: picture
+    title: Picture
+  - extraClasses: icon--fill
+    icon: facebook
+    title: Facebook
+  - extraClasses: icon--fill
+    icon: google-plus
+    title: Google Plus
+  - extraClasses: icon--fill
+    icon: instagram
+    title: Instagram
+  - extraClasses: icon--fill
+    icon: pinterest
+    title: Pinterest
+  - extraClasses: icon--fill
+    icon: twitter
+    title: Twitter
