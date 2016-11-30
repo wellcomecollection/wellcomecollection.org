@@ -10,6 +10,7 @@
     "test:watch": "ava --watch",
     "compile": "webpack",
     "compile:watch": "webpack --watch",
+    "compile:svg": "node ./compile-svgs.js",
     "dev": "concurrently 'npm run compile:watch' 'npm run start:watch'",
     "fractal": "fractal start —sync --port 3002"
   },
@@ -35,6 +36,7 @@
     "parse5": "^2.2.3",
     "pm2": "^2.1.5",
     "superagent": "^2.3.0",
+    "svgo": "^0.7.1",
     "webpack": "^2.1.0-beta.27"
   },
   "devDependencies": {
