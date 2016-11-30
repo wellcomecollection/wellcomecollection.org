@@ -1,8 +1,14 @@
 {% extends "layout/default.njk" %}
 
 {% block body %}
-<div class="container">
-  {% component 'page-description', {title: headline, modifiers: ['a']} %}{% endcomponent %}
+<div class="row row--lead row--lead--l">
+  <div class="container">
+    <div class="grid">
+      <div class="grid__cell grid__cell--shift-l1">
+        {% component 'page-description', {title: headline, modifiers: ['a']} %}{% endcomponent %}
+      </div>
+    </div>
+  </div>
 </div>
 {% for media in mainMedia %}
   {% if media.weighting == 'leading' %}
