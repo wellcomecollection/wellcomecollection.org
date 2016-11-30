@@ -75,6 +75,10 @@
       flex-basis: ($i / $columns) * 100%;
       max-width: ($i / $columns) * 100%;
     }
+
+    .grid__cell--shift-#{$key}#{$i} {
+      margin-left: ($i / $columns) * 100%;
+    }
   }
 }
 
