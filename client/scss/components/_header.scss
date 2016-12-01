@@ -1,5 +1,9 @@
 //* @define header; weak
 
+$tweakpoints: (
+  'header-medium': 820px
+);
+
 .header {
   padding-top: 0.8rem;
 }
@@ -8,24 +12,22 @@
   border-bottom: 1px solid color('keyline-grey');
 }
 
-.header__inner,
-.header__lower {
-  display: flex;
-}
-
 .header__inner {
+  display: flex;
   padding-bottom: 0.8rem;
   align-items: center;
-  justify-content: center;
-
-  @include respond-to('medium') {
-    justify-content: flex-start;
-  }
 }
 
-.header__lower {
-  justify-content: space-between;
-  position: relative;
+.header__burger {
+  flex: 1;
+
+  .no-js & {
+    display: none;
+  }
+
+  @include respond-to('header-medium') {
+    display: none;
+  }
 }
 
 .header__burger-trigger {
@@ -35,15 +37,6 @@
   appearance: none;
   background: color('transparent');
   border: 0;
-  margin-right: auto;
-
-  .no-js & {
-    display: none;
-  }
-
-  @include respond-to('medium') {
-    display: none;
-  }
 
   // TODO: replace with svg-sprite icon
   span {
@@ -86,9 +79,9 @@
 .header__brand {
   display: flex;
   justify-content: center;
-  margin-right: auto;
+  margin-right: 1rem;
 
-  @include respond-to('medium') {
+  @include respond-to('header-medium') {
     border-right: 1px solid color('keyline-grey');
     flex-basis: auto;
     width: 10rem;
@@ -99,7 +92,7 @@
   width: 100%;
   max-width: 8rem;
 
-  @include respond-to('medium') {
+  @include respond-to('header-medium') {
     margin-right: 1.5rem;
     width: auto;
   }
@@ -114,9 +107,103 @@
     display: block;
   }
 
-  @include respond-to('medium') {
+  @include respond-to('header-medium') {
     display: block;
     margin-top: 0;
+  }
+}
+
+.header__search {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+
+}
+
+.header__form {
+  position: relative;
+}
+
+.header__input-wrap {
+  position: absolute;
+  right: 100%;
+  margin-right: -1px;
+  top: 0;
+  bottom: 0;
+  width: 10rem;
+  display: none;
+
+  .header__form--is-active & {
+    display: block;
+  }
+
+  @include respond-to('header-medium') {
+    width: 20rem;
+  }
+
+  &:before {
+    width: 5rem;
+    pointer-events: none;
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 100%;
+    background: linear-gradient(95deg, transparent, #fff);
+  }
+}
+
+.header__input {
+  @include font('WB7');
+  width: 100%;
+  border: 1px solid color('keyline-grey');
+  padding: calc(1rem - 1px);
+
+  &:focus {
+    outline: 0;
+    border-color: color('action-green-1');
+  }
+}
+
+.header__icon {
+  width: 1.3em;
+  height: 1.3em;
+
+  @include respond-to('header-medium') {
+    margin-right: 1em;
+  }
+}
+
+.header__use {
+  fill: color('currentColor');
+}
+
+.header__button {
+  @include font('WB7');
+  display: flex;
+  align-items: center;
+  padding: 1rem 0 1rem 2rem;
+  appearance: none;
+  border: 0;
+  background: color('transparent');
+
+  &:hover,
+  &:focus {
+    color: color('action-green-1');
+    outline: 0;
+  }
+
+  @include respond-to('header-medium') {
+    border-left: 1px solid color('keyline-grey');
+  }
+}
+
+.header__button-text {
+  // TODO: use the visually-hidden mixin coming soon!
+  display: none;
+
+  @include respond-to('header-medium') {
+    display: block;
   }
 }
 
@@ -125,7 +212,7 @@
   @include font('WB7');
   margin-left: -0.3rem;
 
-  @include respond-to('medium') {
+  @include respond-to('header-medium') {
     display: flex;
   }
 }
@@ -145,7 +232,7 @@
   position: relative;
   transition: color 400ms ease;
 
-  @include respond-to('medium') {
+  @include respond-to('header-medium') {
     padding-top: 1rem;
     padding-bottom: 1rem;
   }
@@ -166,7 +253,7 @@
       background: color('yellow');
       z-index: -1;
 
-      @include respond-to('medium') {
+      @include respond-to('header-medium') {
         bottom: 1rem;
       }
     }
