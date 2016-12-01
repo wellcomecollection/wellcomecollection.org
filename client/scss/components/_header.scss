@@ -1,7 +1,8 @@
 //* @define header; weak
 
 $tweakpoints: (
-  'header-medium': 820px
+  'header-medium': 820px,
+  'small': map-get($breakpoints, 'small')
 );
 
 .header {
@@ -199,11 +200,8 @@ $tweakpoints: (
 }
 
 .header__button-text {
-  // TODO: use the visually-hidden mixin coming soon!
-  display: none;
-
-  @include respond-to('header-medium') {
-    display: block;
+  @include respond-between('small', 'header-medium') {
+    @include visuallyhidden();
   }
 }
 
