@@ -16,10 +16,12 @@
     {% if media.mediaType == 'image' %}
       {% component 'figure', {
         type: 'image',
-        icon: 'Picture',
+        icon: 'picture',
         full: true,
         sources: [{size: 1000, src: media.uri}],
-        caption: media.altText
+        caption: media.altText,
+        captionSizes: ['l7'],
+        captionShifts: ['l1']
       } %}{% endcomponent %}
     {% endif %}
 
