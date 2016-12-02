@@ -13,7 +13,7 @@
 
   <body>
     {% include "components/skip-link/index.njk" %}
-    
+
     {% include "_partials/svg-sprite.njk" %}
     {% component "header", {navLinks: [
       { href: "/visit", title: "Visit us" },
@@ -21,14 +21,15 @@
       { href: "/explore", title: "Explore", isCurrent: true },
       { href: "/what-we-do", title: "What we do" }
     ]} %}
-    
+
     {% endcomponent %}
-    
+
     <div id="main" role="main">
       {% block body %}
       {% endblock %}
     </div>
 
+    <script src="{{ '/assets/js/app.js' }}"></script>
     {% include "_partials/analytics.njk" %}
   </body>
 </html>

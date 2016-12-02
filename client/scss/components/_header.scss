@@ -11,6 +11,7 @@ $tweakpoints: (
 
 .header__upper {
   border-bottom: 1px solid color('keyline-grey');
+  position: relative;
 }
 
 .header__inner {
@@ -102,6 +103,15 @@ $tweakpoints: (
 .header__nav {
   display: none;
   margin-top: 0.5rem;
+  position: absolute;
+  top: 100%;
+  left: map-get($container-padding, 'small');
+  right: map-get($container-padding, 'small');
+
+  @include respond-to('medium') {
+    left: map-get($container-padding, 'medium');
+    right: map-get($container-padding, 'medium');
+  }
 
   .no-js &,
   .header--is-burger-open & {
@@ -109,6 +119,7 @@ $tweakpoints: (
   }
 
   @include respond-to('header-medium') {
+    position: static;
     display: block;
     margin-top: 0;
   }
@@ -177,6 +188,7 @@ $tweakpoints: (
 
 .header__use {
   fill: color('currentColor');
+  transition: fill 200ms ease;
 }
 
 .header__button {
@@ -187,11 +199,11 @@ $tweakpoints: (
   appearance: none;
   border: 0;
   background: color('transparent');
+  transition: color 200ms ease;
 
   &:hover,
   &:focus {
     color: color('action-green-1');
-    outline: 0;
   }
 
   @include respond-to('header-medium') {
@@ -216,7 +228,12 @@ $tweakpoints: (
 }
 
 .header__item {
-  margin-right: 1.5rem;
+  border-bottom: 1px solid color('keyline-grey');
+
+  @include respond-to('header-medium') {
+    border-bottom: 0;
+    margin-right: 1.5rem;
+  }
 
   @include respond-to('large') {
     margin-right: 2rem;
@@ -224,7 +241,7 @@ $tweakpoints: (
 }
 
 .header__link {
-  padding: 0.5rem 0.3rem;
+  padding: 2rem 0.3rem;
   display: block;
   text-decoration: none;
   position: relative;
@@ -241,18 +258,16 @@ $tweakpoints: (
   }
 
   .header__item--is-current & {
-    &:after {
-      content: '';
-      position: absolute;
-      bottom: 0.5rem;
-      height: 0.6rem;
-      left: 0;
-      right: 0;
-      background: color('yellow');
-      z-index: -1;
-
-      @include respond-to('header-medium') {
+    @include respond-to('header-medium') {
+      &:after {
+        content: '';
+        position: absolute;
         bottom: 1rem;
+        height: 0.6rem;
+        left: 0;
+        right: 0;
+        background: color('yellow');
+        z-index: -1;
       }
     }
   }
