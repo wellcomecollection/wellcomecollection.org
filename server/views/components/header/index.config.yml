@@ -1,6 +1,6 @@
 name: header
 handle: header
-preview: "@preview_no_container"
+preview: "@preview-no-container"
 context:
   navLinks:
   - url: "#"

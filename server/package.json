@@ -20,7 +20,7 @@
   "author": "wellcomecollection.dev@wellcome.ac.uk",
   "license": "MIT",
   "dependencies": {
-    "@frctl/fractal": "^1.0.9",
+    "@frctl/fractal": "^1.0.11",
     "@frctl/nunjucks": "https://github.com/gestchild/nunjucks/tarball/66b327d3c9ac24f97784332c09669336fe4c650a",
     "ava": "^0.17.0",
     "babel-core": "^6.18.2",
