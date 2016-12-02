@@ -99,7 +99,7 @@ context:
   - extraClasses: [icon--fill]
     icon: actions/plus-small
     title: Plus
-  - extraClasses: icon--stroke
+  - extraClasses: [icon--stroke]
     icon: actions/print
     title: Print
   - extraClasses: [icon--fill]

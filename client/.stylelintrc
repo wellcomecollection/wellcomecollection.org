@@ -39,7 +39,7 @@
         "initial": "\\.{componentName}(((__|--)(([a-z0-9\\[\\]'=]+(?!-$)-?)+))+)?$"
       },
       "ignoreSelectors": [
-        ".*\\.icon",
+        ".*\\.icon*",
         ".*\\.is-.*",
         ".*\\.no-js.*",
         ".*\\.lt-ie.*"
