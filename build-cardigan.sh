@@ -1,5 +1,5 @@
 pushd server
-npm run build
+npm run fractal-build
 popd
 
 pushd cardigan

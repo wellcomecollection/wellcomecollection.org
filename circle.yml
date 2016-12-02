@@ -9,7 +9,7 @@ dependencies:
     - ./build-server.sh
 deployment:
   cardigan:
-    branch: [master, fractal-deploy]
+    branch: [master]
     commands: 
       - ./build-cardigan.sh
   docker:
