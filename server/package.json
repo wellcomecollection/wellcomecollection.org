@@ -10,7 +10,7 @@
     "test:watch": "ava --watch",
     "compile": "webpack",
     "compile:watch": "webpack --watch",
-    "compile:svg": "node ./compile-svgs.js",
+    "optimise:svg": "node ./optimise-svgs.js",
     "dev": "concurrently 'npm run compile:watch' 'npm run start:watch'",
     "fractal": "fractal start —sync --port 3002"
   },
