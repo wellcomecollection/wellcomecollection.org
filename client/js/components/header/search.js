@@ -32,6 +32,14 @@ const headerSearch = (el) => {
       searchToggle.trigger.focus();
     });
 
+    searchToggle.trigger.addEventListener('keyup', ({ keyCode }) => {
+      if (keyCode !== KEYS.TAB) return;
+      if (searchToggle.getActive()) return;
+
+      searchToggle.setActive(true);
+      searchToggle.drawer.querySelector('input').focus();
+    });
+
     searchToggle.trigger.addEventListener('keydown', ({ keyCode, shiftKey }) => {
       if (keyCode !== KEYS.TAB) return;
       if (shiftKey) return;
