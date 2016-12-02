@@ -8,12 +8,8 @@ export default class Component {
 
   parse(parser, nodes, lexer) {
     const token = parser.nextToken();
-
     const args = parser.parseSignature(null, true);
     parser.advanceAfterBlockEnd(token.value);
-
-    const body = parser.parseUntilBlocks('endcomponent');
-    parser.advanceAfterBlockEnd();
 
     return new nodes.CallExtension(this, 'run', args);
   };

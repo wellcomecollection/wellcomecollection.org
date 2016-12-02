@@ -2,7 +2,7 @@
 
 {% block body %}
 <div class="container">
-  {% component 'page-description', {title: headline, modifiers: ['a']} %}{% endcomponent %}
+  {% component 'page-description', {title: headline, modifiers: ['a']} %}
 </div>
 {% for media in mainMedia %}
   {% if media.weighting == 'leading' %}
@@ -14,7 +14,7 @@
         full: true,
         sources: [{size: 1000, src: media.uri}],
         caption: media.altText
-      } %}{% endcomponent %}
+      } %}
     {% endif %}
 
     {% if media.mediaType == 'audio' %}
