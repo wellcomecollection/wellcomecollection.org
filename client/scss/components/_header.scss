@@ -187,21 +187,6 @@ $tweakpoints: (
   }
 }
 
-// TODO: update to use nested .icon when that PR's in
-.header__icon {
-  width: 1.3em;
-  height: 1.3em;
-
-  @include respond-to('header-medium') {
-    margin-right: 1em;
-  }
-}
-
-.header__use {
-  fill: color('currentColor');
-  transition: fill 200ms ease;
-}
-
 .header__button {
   @include font('WB7');
   display: flex;
@@ -220,6 +205,17 @@ $tweakpoints: (
 
   @include respond-to('header-medium') {
     border-left: 1px solid color('keyline-grey');
+  }
+
+  .icon {
+    width: 1.3em;
+    height: 1.3em;
+    fill: color('currentColor');
+    transition: fill 200ms ease;
+
+    @include respond-to('header-medium') {
+      margin-right: 1em;
+    }
   }
 }
 
