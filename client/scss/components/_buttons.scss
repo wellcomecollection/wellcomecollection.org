@@ -45,8 +45,10 @@
     margin-right: 10px;
   }
 
-  .icon__use {
-    fill: currentColor;
+  .icon--fill {
+    .icon__shape {
+      fill: currentColor;
+    }
   }
 }
 
