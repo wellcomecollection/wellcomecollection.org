@@ -9,7 +9,7 @@
         {
             "name": "with icon",
             "context": {
-                "icon": "download-1",
+                "icon": "actions/download-1",
                 "text": "this is a link with an icon"
             }
         },
@@ -27,7 +27,7 @@
             },
             "context": {
                 "modifierClasses": "btn--dark",
-                "icon": "download-1",
+                "icon": "actions/download-1",
                 "text": "this is a link"
             }
         }

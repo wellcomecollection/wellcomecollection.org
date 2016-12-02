@@ -8,8 +8,6 @@ const sourcemaps = require('gulp-sourcemaps');
 const gutil = require('gulp-util');
 const webpackConfig = require('./webpack.config.js');
 const webpackConfigHead = require('./webpack-head.config.js');
-const svgstore = require('gulp-svgstore');
-const svgmin = require('gulp-svgmin');
 const inject = require('gulp-inject');
 const eslint = require('gulp-eslint');
 const eslintConfig = require('./.eslintrc.json');
@@ -32,13 +30,6 @@ const sources = {
   fonts: {
     srcPath: './fonts/**/*.{woff,woff2}',
     distPath: '../dist/assets/fonts/'
-  },
-  images: {
-    icons: {
-      all: 'images/icons/**/*.svg',
-      srcPath: 'images/icons/svg-sprite.njk',
-      distPath: '../server/views/_partials'
-    }
   }
 };
 
@@ -79,20 +70,6 @@ gulp.task('scss:lint', () => {
     }));
 });
 
-gulp.task('svgstore', function () {
-  const svgs = gulp.src(sources.images.icons.all)
-    .pipe(svgmin())
-    .pipe(svgstore({inlineSvg: true}));
-
-  const fileContents = (filePath, file) => {
-    return file.contents.toString();
-  };
-
-  return gulp.src(sources.images.icons.srcPath)
-    .pipe(inject(svgs, {transform: fileContents}))
-    .pipe(gulp.dest(sources.images.icons.distPath));
-});
-
 gulp.task('js:compile', () => {
   return gulp.src(sources.js.entry)
     .pipe(webpack(webpackConfig))
@@ -121,13 +98,12 @@ gulp.task('browsersync', () => {
 gulp.task('watch', () => {
   gulp.watch(sources.scss.all, ['scss:compile']);
   gulp.watch(sources.js.all, ['js:compile']);
-  gulp.watch(sources.images.icons.all, ['svgstore']);
   gulp.watch(sources.fonts.srcPath, ['fonts:copy']);
 });
 
 gulp.task('js', ['js:lint', 'js:compile']);
 gulp.task('scss', ['scss:lint', 'scss:compile']);
 gulp.task('lint', ['scss:lint', 'js:lint']);
-gulp.task('compile', ['scss:compile', 'js:compile', 'svgstore', 'fonts:copy']);
+gulp.task('compile', ['scss:compile', 'js:compile', 'fonts:copy']);
 gulp.task('build', ['scss', 'js']);
 gulp.task('dev', ['compile', 'browsersync', 'watch']);
