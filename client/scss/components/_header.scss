@@ -171,6 +171,10 @@ $tweakpoints: (
   }
 }
 
+.header__label {
+  @include visuallyhidden();
+}
+
 .header__input {
   @include font('WB7');
   width: 100%;

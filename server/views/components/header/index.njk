@@ -36,7 +36,8 @@
           method="post"
           accept-charset="UTF-8">
           <div class="header__input-wrap js-show-hide-drawer">
-            <input class="header__input js-header-input" placeholder="Search" />
+            <label class="header__label" for="header-input">Search</label>
+            <input id="header-input" class="header__input js-header-input" placeholder="Search" />
           </div>
           <button class="header__button js-show-hide-trigger">
             {% component 'icon', {icon: 'search', blockClass: 'header'} %}{% endcomponent %}
