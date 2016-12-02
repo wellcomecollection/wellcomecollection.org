@@ -145,12 +145,18 @@ $tweakpoints: (
   width: 10rem;
   display: none;
 
+  .no-js &,
   .header__form--is-active & {
     display: block;
   }
 
   @include respond-to('medium') {
     width: 20rem;
+  }
+
+  .no-js & {
+    position: static;
+    width: auto;
   }
 
   &:before {
@@ -177,6 +183,7 @@ $tweakpoints: (
   }
 }
 
+// TODO: update to use nested .icon when that PR's in
 .header__icon {
   width: 1.3em;
   height: 1.3em;
