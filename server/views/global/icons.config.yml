@@ -1,188 +1,188 @@
 context:
   icons:
-  - extraClasses: icon--fill
-    icon: arrow-big
+  - extraClasses: [icon--fill]
+    icon: actions/arrow-big
     title: Arrow
-  - extraClasses: icon--fill
-    icon: arrow-small
+  - extraClasses: [icon--fill]
+    icon: actions/arrow-small
     title: Arrow
-  - extraClasses: icon--fill
-    icon: bookmark
+  - extraClasses: [icon--fill]
+    icon: actions/bookmark
     title: Bookmark
-  - extraClasses: icon--fill
-    icon: chevron-big
+  - extraClasses: [icon--fill]
+    icon: actions/chevron-big
     title: Chevron
-  - extraClasses: icon--fill
-    icon: chevron-medium
+  - extraClasses: [icon--fill]
+    icon: actions/chevron-medium
     title: Chevron
-  - extraClasses: icon--fill
-    icon: chevron-small
+  - extraClasses: [icon--fill]
+    icon: actions/chevron-small
     title: Chevron
-  - extraClasses: icon--fill
-    icon: citation
+  - extraClasses: [icon--fill]
+    icon: actions/citation
     title: Citation
-  - extraClasses: icon--fill
-    icon: close
+  - extraClasses: [icon--fill]
+    icon: actions/close
     title: Close
-  - extraClasses: icon--fill
-    icon: collapse-active
+  - extraClasses: [icon--fill]
+    icon: actions/collapse-active
     title: Collapse Active
-  - extraClasses: icon--fill
-    icon: collapse-hover
+  - extraClasses: [icon--fill]
+    icon: actions/collapse-hover
     title: Collapse Hover
-  - extraClasses: icon--fill
-    icon: comments
+  - extraClasses: [icon--fill]
+    icon: actions/comments
     title: Comments
-  - extraClasses: icon--fill
-    icon: contact-1
+  - extraClasses: [icon--fill]
+    icon: actions/contact-1
     title: Contact
-  - extraClasses: icon--fill
-    icon: contact-2
+  - extraClasses: [icon--fill]
+    icon: actions/contact-2
     title: Contact
-  - extraClasses: icon--fill
-    icon: cross-big
+  - extraClasses: [icon--fill]
+    icon: actions/cross-big
     title: Cross
-  - extraClasses: icon--fill
-    icon: cross-small
+  - extraClasses: [icon--fill]
+    icon: actions/cross-small
     title: Cross
-  - extraClasses: icon--fill
-    icon: download-1
+  - extraClasses: [icon--fill]
+    icon: actions/download-1
     title: Download
-  - extraClasses: icon--fill
-    icon: download-2
+  - extraClasses: [icon--fill]
+    icon: actions/download-2
     title: Download
-  - extraClasses: icon--fill
-    icon: email
+  - extraClasses: [icon--fill]
+    icon: actions/email
     title: Email
-  - extraClasses: icon--fill
-    icon: embed
+  - extraClasses: [icon--fill]
+    icon: actions/embed
     title: Embed
-  - extraClasses: icon--fill
-    icon: expand-default
+  - extraClasses: [icon--fill]
+    icon: actions/expand-default
     title: Expand
-  - extraClasses: icon--fill
-    icon: expand-hover
+  - extraClasses: [icon--fill]
+    icon: actions/expand-hover
     title: Expand
-  - extraClasses: icon--fill
-    icon: filter
+  - extraClasses: [icon--fill]
+    icon: actions/filter
     title: Filter
-  - extraClasses: icon--fill
-    icon: gallery-link
+  - extraClasses: [icon--fill]
+    icon: actions/gallery-link
     title: Gallery
-  - extraClasses: icon--fill
-    icon: grid
+  - extraClasses: [icon--fill]
+    icon: actions/grid
     title: Grid
-  - extraClasses: icon--fill
-    icon: hierarchy-tree
+  - extraClasses: [icon--fill]
+    icon: actions/hierarchy-tree
     title: Hierarchy
-  - extraClasses: icon--fill
-    icon: list
+  - extraClasses: [icon--fill]
+    icon: actions/list
     title: List
-  - extraClasses: icon--fill
-    icon: maximize
+  - extraClasses: [icon--fill]
+    icon: actions/maximize
     title: Maximize
-  - extraClasses: icon--fill
-    icon: menu
+  - extraClasses: [icon--fill]
+    icon: actions/menu
     title: Menu
-  - extraClasses: icon--fill
-    icon: more-1
+  - extraClasses: [icon--fill]
+    icon: actions/more-1
     title: More
-  - extraClasses: icon--fill
-    icon: more-2
+  - extraClasses: [icon--fill]
+    icon: actions/more-2
     title: More
-  - extraClasses: icon--fill
-    icon: play
+  - extraClasses: [icon--fill]
+    icon: actions/play
     title: Play
-  - extraClasses: icon--fill
-    icon: plus-medium
+  - extraClasses: [icon--fill]
+    icon: actions/plus-medium
     title: Plus
-  - extraClasses: icon--fill
-    icon: plus-small
+  - extraClasses: [icon--fill]
+    icon: actions/plus-small
     title: Plus
   - extraClasses: icon--stroke
-    icon: print
+    icon: actions/print
     title: Print
-  - extraClasses: icon--fill
-    icon: request
+  - extraClasses: [icon--fill]
+    icon: actions/request
     title: Request
-  - extraClasses: icon--fill
-    icon: save-to-account-1
+  - extraClasses: [icon--fill]
+    icon: actions/save-to-account-1
     title: Save to account
-  - extraClasses: icon--fill
-    icon: save-to-account-2
+  - extraClasses: [icon--fill]
+    icon: actions/save-to-account-2
     title: Save to account
-  - extraClasses: icon--fill
-    icon: save-to-account-3
+  - extraClasses: [icon--fill]
+    icon: actions/save-to-account-3
     title: Save to account
-  - extraClasses: icon--fill
-    icon: search
+  - extraClasses: [icon--fill]
+    icon: actions/search
     title: Search
-  - extraClasses: icon--fill
-    icon: share-1
+  - extraClasses: [icon--fill]
+    icon: actions/share-1
     title: Share
-  - extraClasses: icon--fill
-    icon: share-2
+  - extraClasses: [icon--fill]
+    icon: actions/share-2
     title: Share
-  - extraClasses: icon--fill
-    icon: sublevels
+  - extraClasses: [icon--fill]
+    icon: actions/sublevels
     title: Sub levels
-  - extraClasses: icon--fill
-    icon: user
+  - extraClasses: [icon--fill]
+    icon: actions/user
     title: User
-  - extraClasses: icon--fill
-    icon: view
+  - extraClasses: [icon--fill]
+    icon: actions/view
     title: View
-  - extraClasses: icon--fill
-    icon: volume
+  - extraClasses: [icon--fill]
+    icon: actions/volume
     title: Volume
-  - extraClasses: icon--fill
-    icon: audio-1
+  - extraClasses: [icon--fill]
+    icon: formats/audio-1
     title: Audio
-  - extraClasses: icon--fill
-    icon: audio-2
+  - extraClasses: [icon--fill]
+    icon: formats/audio-2
     title: Audio
-  - extraClasses: icon--fill
-    icon: audio-3
+  - extraClasses: [icon--fill]
+    icon: formats/audio-3
     title: Audio
-  - extraClasses: icon--fill
-    icon: book
+  - extraClasses: [icon--fill]
+    icon: formats/book
     title: Book
-  - extraClasses: icon--fill
-    icon: databases-and-websites
+  - extraClasses: [icon--fill]
+    icon: formats/databases-and-websites
     title: Databases and websites
-  - extraClasses: icon--fill
-    icon: image
+  - extraClasses: [icon--fill]
+    icon: formats/image
     title: Image
-  - extraClasses: icon--fill
-    icon: manuscript
+  - extraClasses: [icon--fill]
+    icon: formats/manuscript
     title: Manuscript
-  - extraClasses: icon--fill
-    icon: map
+  - extraClasses: [icon--fill]
+    icon: formats/map
     title: Map
-  - extraClasses: icon--fill
-    icon: video
+  - extraClasses: [icon--fill]
+    icon: formats/video
     title: Video
-  - extraClasses: icon--fill
-    icon: clock
+  - extraClasses: [icon--fill]
+    icon: other/clock
     title: Clock
-  - extraClasses: icon--fill
-    icon: comments-2
+  - extraClasses: [icon--fill]
+    icon: other/comments-2
     title: Comments
-  - extraClasses: icon--fill
-    icon: picture
+  - extraClasses: [icon--fill]
+    icon: other/picture
     title: Picture
-  - extraClasses: icon--fill
-    icon: facebook
+  - extraClasses: [icon--fill]
+    icon: social/facebook
     title: Facebook
-  - extraClasses: icon--fill
-    icon: google-plus
+  - extraClasses: [icon--fill]
+    icon: social/google-plus
     title: Google Plus
-  - extraClasses: icon--fill
-    icon: instagram
+  - extraClasses: [icon--fill]
+    icon: social/instagram
     title: Instagram
-  - extraClasses: icon--fill
-    icon: pinterest
+  - extraClasses: [icon--fill]
+    icon: social/pinterest
     title: Pinterest
-  - extraClasses: icon--fill
-    icon: twitter
+  - extraClasses: [icon--fill]
+    icon: social/twitter
     title: Twitter

@@ -1,4 +1,5 @@
-<svg class="icon"{% if title %} role="img"{% else %} aria-hidden="true"{% endif %}
+<svg class="icon{% for class in extraClasses %} {{class}}{% endfor %}"
+    {% if title %} role="img"{% else %} aria-hidden="true"{% endif %}
     {% for attr in attrs %}
         {{attr.name}}="{{attr.value}}"
     {% endfor %}>

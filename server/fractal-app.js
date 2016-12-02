@@ -3,13 +3,17 @@ import Fractal from '@frctl/fractal';
 import Nunjucks from '@frctl/nunjucks';
 import mandelbrot from '@frctl/mandelbrot';
 import Component from './extensions/component';
+import Icon from './extensions/icon';
 import getEnv from './view/env-utils';
 const fractal = Fractal.create();
 const root = dir('/views');
 const nunjucksEnv = getEnv(root);
 
 const nunjucks = Nunjucks({
-    extensions: { componentExtension: new Component(nunjucksEnv) }
+    extensions: {
+        component: new Component(nunjucksEnv),
+        icon: new Icon(nunjucksEnv)
+    }
 });
 fractal.components.engine(nunjucks);
 

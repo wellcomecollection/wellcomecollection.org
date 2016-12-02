@@ -15,7 +15,7 @@ export default class Icon {
     return new nodes.CallExtension(this, 'run', args);
   };
 
-  run(context, name, title) {
+  run(context, name, title, extraClasses) {
     const svgHtml = this.env.render(`icons/${name}.svg`);
     const frag = parse.parseFragment(svgHtml);
     const svgFrag = frag.childNodes[0];
@@ -24,7 +24,7 @@ export default class Icon {
     const pathData = parse.serialize(svgFrag);
 
     const html = this.env.render(`components/icon/index.njk`, {
-      title, pathData, attrs
+      title, pathData, attrs, extraClasses
     });
 
     return new nunjucks.runtime.SafeString(html);
