@@ -1,8 +1,14 @@
 {% extends "layout/default.njk" %}
 
 {% block body %}
-<div class="container">
-  {% component 'page-description', {title: headline, modifiers: ['a']} %}
+<div class="row row--lead row--lead--l">
+  <div class="container">
+    <div class="grid">
+      <div class="grid__cell grid__cell--shift-l1">
+        {% component 'page-description', {title: headline, modifiers: ['a']} %}
+      </div>
+    </div>
+  </div>
 </div>
 {% for media in mainMedia %}
   {% if media.weighting == 'leading' %}
@@ -10,10 +16,12 @@
     {% if media.mediaType == 'image' %}
       {% component 'figure', {
         type: 'image',
-        icon: 'Picture',
+        icon: 'picture',
         full: true,
         sources: [{size: 1000, src: media.uri}],
-        caption: media.altText
+        caption: media.altText,
+        captionSizes: ['l7'],
+        captionShifts: ['l1']
       } %}
     {% endif %}
 

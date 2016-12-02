@@ -1,23 +1,6 @@
 //* @define page-description;
 
 .page-description {
-  &.page-description--a {
-    @include respond-to('large') {
-      position: relative;
-      padding: 1.8rem 0 1.5rem span-columns('large', 1.5);
-
-      &:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        width: span-columns('large', 0.5);
-        background: color('keyline-grey');
-      }
-    }
-  }
-
   &.page-description--b {
     padding-bottom: 1.2rem;
     border-bottom: 1px solid color('keyline-grey');
