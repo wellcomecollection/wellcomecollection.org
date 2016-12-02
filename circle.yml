@@ -8,10 +8,10 @@ dependencies:
     - ./build-client.sh
     - ./build-server.sh
 deployment:
-  fractal:
+  cardigan:
     branch: [master, fractal-deploy]
     commands: 
-      - echo "" 
+      - ./build-cardigan.sh
   docker:
     branch: [master]
     commands:

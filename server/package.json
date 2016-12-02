@@ -11,7 +11,8 @@
     "compile": "webpack",
     "compile:watch": "webpack --watch",
     "dev": "concurrently 'npm run compile:watch' 'npm run start:watch'",
-    "fractal": "fractal start —sync --port 3002"
+    "fractal": "fractal start —sync --port 3002",
+    "build": "fractal build"
   },
   "repository": {
     "type": "git",
