@@ -139,10 +139,10 @@ $tweakpoints: (
 .header__input-wrap {
   position: absolute;
   right: 100%;
-  margin-right: -1px;
+  margin-right: -1rem;
   top: 0;
   bottom: 0;
-  width: 10rem;
+  width: calc(100vw - 6.4rem);
   display: none;
 
   .no-js &,
@@ -151,23 +151,20 @@ $tweakpoints: (
   }
 
   @include respond-to('medium') {
-    width: 20rem;
+    width: calc(100vw - 8rem);
+  }
+
+  @include respond-to('header-medium') {
+    width: calc(100vw - 16.4rem);
+  }
+
+  @include respond-to('large') {
+    width: calc(100vw - 19rem);
   }
 
   .no-js & {
     position: static;
     width: auto;
-  }
-
-  &:before {
-    width: 5rem;
-    pointer-events: none;
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 100%;
-    background: linear-gradient(95deg, transparent, #fff);
   }
 }
 
@@ -176,14 +173,14 @@ $tweakpoints: (
 }
 
 .header__input {
-  @include font('WB7');
+  @include font('HNL2');
   width: 100%;
-  border: 1px solid color('keyline-grey');
-  padding: calc(1rem - 1px);
+  border: 0;
+  border-bottom: 1px solid color('keyline-grey');
+  padding: 0.5rem 0;
 
   &:focus {
     outline: 0;
-    border-color: color('yellow');
   }
 }
 
@@ -196,6 +193,12 @@ $tweakpoints: (
   border: 0;
   background: color('transparent');
   transition: color 200ms ease;
+  position: relative;
+
+  .header__form--is-active & {
+    padding-left: 0;
+    border-left: 0;
+  }
 
   &:hover,
   &:focus {
@@ -216,10 +219,18 @@ $tweakpoints: (
     @include respond-to('header-medium') {
       margin-right: 1em;
     }
+
+    .header__form--is-active & {
+      margin-right: 0;
+    }
   }
 }
 
 .header__button-text {
+  .header__form--is-active & {
+    @include visuallyhidden();
+  }
+
   @include respond-between('small', 'header-medium') {
     @include visuallyhidden();
   }
