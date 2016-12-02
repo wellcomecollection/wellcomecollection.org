@@ -81,7 +81,7 @@ $tweakpoints: (
 .header__brand {
   display: flex;
   justify-content: center;
-  margin-right: 1rem;
+  margin-right: 1.5rem;
 
   @include respond-to('header-medium') {
     border-right: 1px solid color('keyline-grey');
@@ -149,7 +149,7 @@ $tweakpoints: (
     display: block;
   }
 
-  @include respond-to('header-medium') {
+  @include respond-to('medium') {
     width: 20rem;
   }
 
@@ -173,7 +173,7 @@ $tweakpoints: (
 
   &:focus {
     outline: 0;
-    border-color: color('action-green-1');
+    border-color: color('yellow');
   }
 }
 
@@ -195,7 +195,7 @@ $tweakpoints: (
   @include font('WB7');
   display: flex;
   align-items: center;
-  padding: 1rem 0 1rem 2rem;
+  padding: 1rem 0 1rem 1.5rem;
   appearance: none;
   border: 0;
   background: color('transparent');
@@ -203,6 +203,7 @@ $tweakpoints: (
 
   &:hover,
   &:focus {
+    outline: 0;
     color: color('action-green-1');
   }
 

@@ -26,12 +26,12 @@
           {% endfor %}
         </ul>
       </nav>
-      <div class="header__search">
+      <div id="header-search" class="header__search">
         <form class="header__form" action="search">
-          <div class="header__input-wrap">
-            <input class="header__input" placeholder="Search" />
+          <div class="header__input-wrap js-show-hide-drawer">
+            <input class="header__input js-header-input" placeholder="Search" />
           </div>
-          <button class="header__button">
+          <button class="header__button js-show-hide-trigger">
             {% component 'icon', {icon: 'search', blockClass: 'header'} %}{% endcomponent %}
             <span class="header__button-text">Search</search>
           </button>
