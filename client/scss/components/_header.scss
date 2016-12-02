@@ -186,7 +186,6 @@ $tweakpoints: (
 
 .header__button {
   @include font('WB7');
-  display: flex;
   align-items: center;
   padding: 1rem 0 1rem 1.5rem;
   appearance: none;
@@ -224,6 +223,10 @@ $tweakpoints: (
       margin-right: 0;
     }
   }
+}
+
+.header__button-inner {
+  display: flex;
 }
 
 .header__button-text {
