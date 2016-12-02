@@ -81,9 +81,9 @@ $tweakpoints: (
 .header__brand {
   display: flex;
   justify-content: center;
-  margin-right: 1.5rem;
 
   @include respond-to('header-medium') {
+    margin-right: 1.5rem;
     border-right: 1px solid color('keyline-grey');
     flex-basis: auto;
     width: 10rem;
