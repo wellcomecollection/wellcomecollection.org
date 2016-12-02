@@ -250,7 +250,7 @@ $tweakpoints: (
 
 .header__link {
   padding: 2rem 0.3rem;
-  display: block;
+  display: inline-block;
   text-decoration: none;
   position: relative;
   transition: color 400ms ease;
@@ -266,16 +266,18 @@ $tweakpoints: (
   }
 
   .header__item--is-current & {
-    @include respond-to('header-medium') {
-      &:after {
-        content: '';
-        position: absolute;
-        bottom: 1rem;
-        height: 0.6rem;
-        left: 0;
-        right: 0;
-        background: color('yellow');
-        z-index: -1;
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 1.9rem;
+      height: 0.6rem;
+      left: 0;
+      right: 0;
+      background: color('yellow');
+      z-index: -1;
+
+      @include respond-to('header-medium') {
+        bottom: 0.9rem;
       }
     }
   }
