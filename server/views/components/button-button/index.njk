@@ -1,6 +1,6 @@
 <button class="btn {{modifierClasses}}" {{attributes}}>
   {% if icon %}
-    {% icon icon %}
+    {% icon icon, null, iconExtraClasses %}
   {% endif %}
   {{text}}
 </button>

@@ -1,7 +1,7 @@
 {# button-link component data: modifierClasses, href, text, icon #}
 <a class="btn {{modifierClasses}}" href="{{href}}">
   {% if icon %}
-      {% icon icon %}
+    {% icon icon, null, iconExtraClasses %}
   {% endif %}
   {{text}}
 </a>
