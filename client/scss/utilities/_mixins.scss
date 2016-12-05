@@ -23,7 +23,7 @@
       @content;
     }
     // Failing that, check local tweakpoints
-  } @else if map-has-key($tweakpoints, $point) {
+  } @else if map-has-key($tweakpoints, $point1) {
     @media (min-width: map-get($tweakpoints, $point1)) and (max-width: map-get($tweakpoints, $point2) - 1) {
       @content;
     }
