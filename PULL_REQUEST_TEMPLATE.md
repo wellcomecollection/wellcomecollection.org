@@ -2,7 +2,7 @@
 
 ## What does it look like?
 
-## Have the following been considered/are they needed?"
+## Have the following been considered/are they needed?
 
 - [ ] Tests?
 - [ ] Docs?
