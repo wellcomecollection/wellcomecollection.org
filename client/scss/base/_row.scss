@@ -6,6 +6,8 @@
 
 .row--lead {
   position: relative;
+  overflow: hidden;
+  margin-bottom: 1rem;
 
   &:before {
     position: absolute;
