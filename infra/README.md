@@ -13,11 +13,12 @@
 
   They will look something like:
 
-      aws_access_key               = "KEY"
-      aws_secret_key               = "SECRETSHHH"
-      wellcomecollection_key_path  = "/Users/hank/.ssh/key.pub"
-      wellcomecollection_key_name  = "KEY_NAME"
-      build_state_bucket           = "BUCKET_NAME"
+      aws_access_key                  = "KEY"
+      aws_secret_key                  = "SECRETSHHH"
+      wellcomecollection_key_path     = "/Users/hank/.ssh/key.pub"
+      wellcomecollection_ssl_cert_arn = "AWS_CERT_ARN"
+      wellcomecollection_key_name     = "KEY_NAME"
+      build_state_bucket              = "BUCKET_NAME"
 
 - Acquire the public key file from a friendly Wellcome Collection developer near you.
 
