@@ -1,0 +1,15 @@
+//* @define standfirst; weak
+
+.standfirst {
+  @include font('HNL2');
+  border-left: 5px solid color('black');
+  padding-left: 1em;
+
+  p {
+    margin-top: 0;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
