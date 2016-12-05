@@ -20,10 +20,12 @@
   {% endif %}
     <div class="{{ 'container' if full }}">
       <div class="grid">
-        <figcaption class="figure__caption grid__cell {% for size in captionSizes %}grid__cell--{{ size }}{% endfor %} {% for shift in captionShifts %}grid__cell--shift-{{ shift }} {% endfor %}">
-          {% icon icon %}
-          {{ caption }}
-        </figcaption>
+        <div class="grid__cell {% for size in captionSizes %}grid__cell--{{ size }}{% endfor %} {% for shift in captionShifts %}grid__cell--shift-{{ shift }} {% endfor %}">
+          <figcaption class="figure__caption">
+            {% icon icon %}
+            {{ caption }}
+          </figcaption>
+        </div>
       </div>
     </div>
 </figure>
