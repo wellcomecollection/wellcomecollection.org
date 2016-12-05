@@ -8,13 +8,10 @@ dependencies:
     - ./build-client.sh
     - ./build-server.sh
 deployment:
-  cardigan:
-    branch: [master]
-    commands: 
-      - ./build-cardigan.sh
-  docker:
+  master:
     branch: [master]
     commands:
       - docker build --rm=false -t wellcome/wellcomecollection:$CIRCLE_BUILD_NUM .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push wellcome/wellcomecollection:$CIRCLE_BUILD_NUM
+      - ./build-cardigan.sh
