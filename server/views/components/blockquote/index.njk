@@ -1,4 +1,4 @@
-<blockquote class="blockquote {% if modifier %}blockquote--{{ modifier }}{% endif %}">
+<blockquote class="blockquote {% for modifier in modifiers %}blockquote--{{ modifier }} {% endfor %}">
   {{ body }}
   {{ footer }}
 </blockquote>

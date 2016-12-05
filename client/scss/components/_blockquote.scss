@@ -24,27 +24,29 @@
     margin-top: 0;
   }
 
-  &:before,
-  &:after {
-    // stylelint-disable sh-waqar/declaration-use-variable
-    // Decorative quotes – not defined as part of the typography styles
-    font-family: $helvetica-neue-medium-base;
-    font-size: 6rem;
-    // stylelint-enable sh-waqar/declaration-use-variable
-    line-height: 1;
-    display: block;
-    color: color('turquoise');
-    height: 3rem;
-  }
+  &.blockquote--with-marks {
+    &:before,
+    &:after {
+      // stylelint-disable sh-waqar/declaration-use-variable
+      // Decorative quotes – not defined as part of the typography styles
+      font-family: $helvetica-neue-medium-base;
+      font-size: 6rem;
+      // stylelint-enable sh-waqar/declaration-use-variable
+      line-height: 1;
+      display: block;
+      color: color('turquoise');
+      height: 3rem;
+    }
 
-  &:before {
-    content: '\201c';
-    margin-bottom: 1rem;
-  }
+    &:before {
+      content: '\201c';
+      margin-bottom: 1rem;
+    }
 
-  &:after {
-    content: '\201d';
-    margin-top: 0.5rem;
+    &:after {
+      content: '\201d';
+      margin-top: 0.5rem;
+    }
   }
 }
 
