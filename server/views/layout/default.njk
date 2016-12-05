@@ -5,24 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>Wellcome Collection</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    {% include "_partials/css-head.njk" %}
+    {% include "partials/css-head.njk" %}
     <link rel="stylesheet" href="/assets/css/application.css" />
     {# TODO: - come up with better way of including javscript in the head #}
-    {% include "_partials/js-head.njk" %}
+    {% include "partials/js-head.njk" %}
   </head>
 
-  {% component "header", {navLinks: [
-    { href: "/visit", title: "Visit us" },
-    { href: "/whats-on", title: "What's on" },
-    { href: "/explore", title: "Explore", isCurrent: true },
-    { href: "/what-we-do", title: "What we do" }
-  ]} %}
-  {% endcomponent %}
   <body>
-    {% include "_partials/svg-sprite.njk" %}
-    {% block body %}
-    {% endblock %}
+    {% include "components/skip-link/index.njk" %}
 
-    {% include "_partials/analytics.njk" %}
+    {% component "header", {navLinks: [
+      { href: "/visit", title: "Visit us" },
+      { href: "/whats-on", title: "What's on" },
+      { href: "/explore", title: "Explore", isCurrent: true },
+      { href: "/what-we-do", title: "What we do" }
+    ]} %}
+
+    <div id="main" class="main" role="main">
+      {% block body %}
+      {% endblock %}
+    </div>
+    
+    <script src="{{ '/assets/js/app.js' }}"></script>
+    {% include "partials/analytics.njk" %}
   </body>
 </html>

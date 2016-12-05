@@ -1,7 +1,37 @@
 //* @define row
 
-.row {
-  &.row--cream {
-    background: color('cream');
+.row--cream {
+  background: color('cream');
+}
+
+.row--lead {
+  position: relative;
+  margin-bottom: 1rem;
+
+  &:before {
+    position: absolute;
+    content: '';
+    background: color('keyline-grey');
+    top: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  &.row--lead--s:before {
+    @include respond-to('small') {
+      width: map-get($container-padding, 'small');
+    }
+  }
+
+  &.row--lead--m:before {
+    @include respond-to('medium') {
+      width: map-get($container-padding, 'medium');
+    }
+  }
+
+  &.row--lead--l:before {
+    @include respond-to('large') {
+      width: map-get($container-padding, 'large');
+    }
   }
 }

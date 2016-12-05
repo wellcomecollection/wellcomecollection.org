@@ -1,31 +1,51 @@
-<div class="header js-header-burger">
-  <div class="header__upper">
+<div class="header grid js-header-burger">
+  <div class="header__upper grid__cell">
     <div class="header__inner container">
-      <button id="header-burger-trigger"
-        class="header__burger-trigger js-header-burger-trigger"
-        aria-controls="header-nav"
-        aria-label="menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <div class="header__burger">
+        <button id="header-burger-trigger"
+          class="header__burger-trigger js-header-burger-trigger"
+          aria-controls="header-nav"
+          aria-label="menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
       <a href="#" class="header__brand">
         {# TODO: use svg-sprite logo #}
         <img class="header__logo" src="https://wellcomecollection.org/sites/all/themes/col_base/images/wellcomecollection-logo.svg" />
       </a>
+      <nav id="header-nav"
+        class="header__nav js-header-burger-drawer"
+        aria-labelledby="header-burger-trigger">
+        <ul class="header__list">
+          {% for navLink in navLinks %}
+            <li class="header__item {{ "header__item--is-current" if navLink.isCurrent }}">
+              <a href="{{ navLink.href }}"
+                class="header__link js-header-nav-link"
+                {%- if navLink.isCurrent %}
+                  aria-current="true"
+                {%- endif %}>{{ navLink.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+      <div id="header-search" class="header__search">
+        <form class="header__form"
+          action="search"
+          method="post">
+          <div class="header__input-wrap js-show-hide-drawer">
+            <label class="header__label" for="header-input">Search</label>
+            <input id="header-input" class="header__input js-header-input" placeholder="Search" />
+          </div>
+          <button class="header__button js-show-hide-trigger">
+            <span class="header__button-inner">
+              {% icon 'actions/search' %}
+              <span class="header__button-text">Search</search>
+            </span>
+          </button>
+        </form>
+      </div>
     </div>
-  </div>
-  <div class="header__lower container">
-    <nav id="header-nav"
-      class="header__nav js-header-burger-drawer"
-      aria-labelledby="header-burger-trigger">
-      <ul class="header__list">
-        {% for navLink in navLinks %}
-          <li class="header__item {{ "header__item--is-current" if navLink.isCurrent }}">
-            <a href="{{ navLink.href }}" class="header__link js-header-nav-link">{{ navLink.title }}</a>
-          </li>
-        {% endfor %}
-      </ul>
-    </nav>
   </div>
 </div>

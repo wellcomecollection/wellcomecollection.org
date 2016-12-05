@@ -18,10 +18,12 @@
       {%- endfor %}"
       alt="{{ caption }}" />
   {% endif %}
-    {% if full %}<div class="container">{% endif %}
-      <figcaption class="figure__caption">
-        {% component 'icon', {icon: icon, blockClass: 'figure'} %}{% endcomponent %}
-        {{ caption }}
-      </figcaption>
-    {% if full %}</div>{% endif %}
+    <div class="{{ 'container' if full }}">
+      <div class="grid">
+        <figcaption class="figure__caption grid__cell {% for size in captionSizes %}grid__cell--{{ size }}{% endfor %} {% for shift in captionShifts %}grid__cell--shift-{{ shift }} {% endfor %}">
+          {% icon icon %}
+          {{ caption }}
+        </figcaption>
+      </div>
+    </div>
 </figure>

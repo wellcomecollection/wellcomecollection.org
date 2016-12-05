@@ -20,14 +20,14 @@
     "label": "Picture",
     "context": {
       "type": "picture",
-      "icon": "Picture"
+      "icon": "other/picture"
     }
   }, {
     "name": "image",
     "label": "Image",
     "context": {
       "type": "image",
-      "icon": "Picture"
+      "icon": "other/picture"
     }
   }]
 }

@@ -23,7 +23,7 @@
       @content;
     }
     // Failing that, check local tweakpoints
-  } @else if map-has-key($tweakpoints, $point) {
+  } @else if map-has-key($tweakpoints, $point1) {
     @media (min-width: map-get($tweakpoints, $point1)) and (max-width: map-get($tweakpoints, $point2) - 1) {
       @content;
     }
@@ -115,12 +115,37 @@
 }
 
 // Allow an element to be horizontally stretched outwith its container
-@mixin bleed($amount, $use-padding: false) {
+@mixin bleed($amount, $with-padding: false) {
   margin-left: -$amount;
   margin-right: -$amount;
 
-  @if ($use-padding) {
+  @if ($with-padding) {
     padding-left: $amount;
     padding-right: $amount;
+  }
+}
+
+@mixin visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
+}
+
+@mixin visuallyhidden-focusable {
+  &:active,
+  &:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+    white-space: inherit;
   }
 }

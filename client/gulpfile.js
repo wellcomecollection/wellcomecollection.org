@@ -2,14 +2,11 @@ const gulp = require('gulp');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const webpack = require('webpack-stream');
-const browserSync = require('browser-sync').create();
 const gulpStylelint = require('gulp-stylelint');
 const sourcemaps = require('gulp-sourcemaps');
 const gutil = require('gulp-util');
 const webpackConfig = require('./webpack.config.js');
 const webpackConfigHead = require('./webpack-head.config.js');
-const svgstore = require('gulp-svgstore');
-const svgmin = require('gulp-svgmin');
 const inject = require('gulp-inject');
 const eslint = require('gulp-eslint');
 const eslintConfig = require('./.eslintrc.json');
@@ -32,13 +29,6 @@ const sources = {
   fonts: {
     srcPath: './fonts/**/*.{woff,woff2}',
     distPath: '../dist/assets/fonts/'
-  },
-  images: {
-    icons: {
-      all: 'images/icons/**/*.svg',
-      srcPath: 'images/icons/svg-sprite.njk',
-      distPath: '../server/views/_partials'
-    }
   }
 };
 
@@ -65,7 +55,6 @@ gulp.task('scss:compile', () => {
     }))
     .pipe(devMode ? sourcemaps.write() : gutil.noop())
     .pipe(gulp.dest(sources.scss.distPath))
-    .pipe(browserSync.stream());
 });
 
 gulp.task('scss:lint', () => {
@@ -77,20 +66,6 @@ gulp.task('scss:lint', () => {
         {formatter: 'string', console: true}
       ]
     }));
-});
-
-gulp.task('svgstore', function () {
-  const svgs = gulp.src(sources.images.icons.all)
-    .pipe(svgmin())
-    .pipe(svgstore({inlineSvg: true}));
-
-  const fileContents = (filePath, file) => {
-    return file.contents.toString();
-  };
-
-  return gulp.src(sources.images.icons.srcPath)
-    .pipe(inject(svgs, {transform: fileContents}))
-    .pipe(gulp.dest(sources.images.icons.distPath));
 });
 
 gulp.task('js:compile', () => {
@@ -111,23 +86,15 @@ gulp.task('js:lint', () => {
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('browsersync', () => {
-  browserSync.init({
-    open: false,
-    proxy: 'localhost:3000/patterns'
-  });
-});
-
 gulp.task('watch', () => {
   gulp.watch(sources.scss.all, ['scss:compile']);
   gulp.watch(sources.js.all, ['js:compile']);
-  gulp.watch(sources.images.icons.all, ['svgstore']);
   gulp.watch(sources.fonts.srcPath, ['fonts:copy']);
 });
 
 gulp.task('js', ['js:lint', 'js:compile']);
 gulp.task('scss', ['scss:lint', 'scss:compile']);
 gulp.task('lint', ['scss:lint', 'js:lint']);
-gulp.task('compile', ['scss:compile', 'js:compile', 'svgstore', 'fonts:copy']);
+gulp.task('compile', ['scss:compile', 'js:compile', 'fonts:copy']);
 gulp.task('build', ['scss', 'js']);
-gulp.task('dev', ['compile', 'browsersync', 'watch']);
+gulp.task('dev', ['compile', 'watch']);

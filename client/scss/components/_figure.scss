@@ -27,15 +27,15 @@
   color: color('accessible-grey-2');
   padding-bottom: 1rem;
   border-bottom: 1px solid color('keyline-grey');
-}
 
-.figure__icon {
-  width: 1.3em;
-  height: 1.3em;
-  min-width: 1.3em;
-  margin-right: 0.8em;
-}
+  .icon {
+    width: 1.3em;
+    height: 1.3em;
+    min-width: 1.3em;
+    margin-right: 0.8em;
+  }
 
-.figure__use {
-  fill: color('currentColor');
+  .icon__shape {
+    fill: color('currentColor');
+  }
 }
