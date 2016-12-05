@@ -1,13 +1,9 @@
-## Status
-**READY/IN DEVELOPMENT/HOLD**
+## What is this PR trying to achieve?
 
-## Description
-Write a few sentences describing the overall goals of the PR.
+## What does it look like?
 
-## Screenshot(s)
-Drop any relevant screenshots here.
+## Have the following been considered/are they needed?"
 
-## Todos
 - [ ] Tests?
 - [ ] Docs?
 - [ ] A11y?
