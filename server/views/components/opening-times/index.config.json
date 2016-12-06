@@ -2,6 +2,131 @@
   "name": "opening times",
   "handle": "opening-times",
   "context": {
-
+    "places": [{
+      "id": "galleries",
+      "name": "Galleries",
+      "days": [{
+        "name": "Monday",
+        "hours": "Galleries closed"
+      }, {
+        "name": "Tuesday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Wednesday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Thursday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Friday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Saturday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Sunday",
+        "hours": "09:00 - 18:00"
+      }]
+    }, {
+      "id": "library",
+      "name": "Library",
+      "days": [{
+        "name": "Monday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Tuesday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Wednesday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Thursday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Friday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Saturday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Sunday",
+        "hours": "09:00 - 18:00"
+      }]
+    }, {
+      "id": "restaurant",
+      "name": "Restaurant",
+      "days": [{
+        "name": "Monday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Tuesday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Wednesday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Thursday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Friday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Saturday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Sunday",
+        "hours": "09:00 - 18:00"
+      }]
+    }, {
+      "id": "cafe",
+      "name": "Cafe",
+      "days": [{
+        "name": "Monday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Tuesday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Wednesday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Thursday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Friday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Saturday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Sunday",
+        "hours": "09:00 - 18:00"
+      }]
+    }, {
+      "id": "shop",
+      "name": "Shop",
+      "days": [{
+        "name": "Monday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Tuesday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Wednesday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Thursday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Friday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Saturday",
+        "hours": "09:00 - 18:00"
+      }, {
+        "name": "Sunday",
+        "hours": "09:00 - 18:00"
+      }]
+    }]
   }
 }
