@@ -20,14 +20,12 @@
       var HNM = new FontFaceObserver('Helvetica Neue Medium Web');
       var LR = new FontFaceObserver('Lettera Regular Web');
 
-      function addClass() {
-        if (!rootElement.classList.contains(enhancedClass)) {
-          rootElement.className += ' ' + enhancedClass;
-        }
+      function addEnhancedClass() {
+        rootElement.classList.add(enhancedClass);
       }
 
-      function removeClass() {
-        rootElement.className = rootElement.className.replace(enhancedClass, ' ');
+      function removeEnhancedClass() {
+        rootElement.classList.remove(enhancedClass);
       }
 
       function loadJS(src) {
@@ -40,25 +38,25 @@
       };
 
       if (sessionStorage.fontsLoaded) {
-        rootElement.className += ' font-stage-1 font-stage-2';
+        rootElement.classList.add('font-stage-1','font-stage-2');
       } else {
         WBSubset.load().then(function() {
-          rootElement.className += ' font-stage-1';
+          rootElement.classList.add('font-stage-1');
           Promise.all([WB.load(), HNL.load(), HNM.load(), LR.load()]).then(() => {
-            rootElement.className += ' font-stage-2';
+            rootElement.classList.add('font-stage-2');
             sessionStorage.fontsLoaded = true;
           });
         });
       }
 
-      addClass();
+      addEnhancedClass();
 
       var script = loadJS(enhancedScriptPath);
-      var fallback = setTimeout(removeClass, 8000);
+      var fallback = setTimeout(removeEnhancedClass, 8000);
 
       script.onload = function() {
         clearTimeout(fallback);
-        addClass();
+        addEnhancedClass();
       };
     }
   })();
