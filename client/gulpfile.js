@@ -6,7 +6,6 @@ const gulpStylelint = require('gulp-stylelint');
 const sourcemaps = require('gulp-sourcemaps');
 const gutil = require('gulp-util');
 const webpackConfig = require('./webpack.config.js');
-const webpackConfigHead = require('./webpack-head.config.js');
 const eslint = require('gulp-eslint');
 const eslintConfig = require('./.eslintrc.json');
 const devMode = gutil.env.dev;
