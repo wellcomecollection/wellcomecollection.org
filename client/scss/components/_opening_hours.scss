@@ -48,15 +48,22 @@
   @include font('HNL7');
   width: 100%;
   border-collapse: collapse;
+  display: table;
 
-  &.opening-hours__table--is-hidden {
+  .enhanced & {
     display: none;
+  }
+
+  &.opening-hours__table--is-visible {
+    display: table;
   }
 }
 
 .opening-hours__caption,
 .opening-hours__thead {
-  @include visuallyhidden();
+  .enhanced & {
+    @include visuallyhidden();
+  }
 }
 
 .opening-hours__tr {

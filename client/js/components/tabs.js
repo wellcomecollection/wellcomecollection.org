@@ -2,7 +2,7 @@ import { KEYS } from '../util';
 
 const tabs = (el, options = {}) => {
   const defaults = {
-    hiddenClass: 'is-hidden',
+    visibleClass: 'is-visible',
     currentClass: 'is-current'
   };
   const settings = Object.assign(defaults, options);
@@ -12,7 +12,6 @@ const tabs = (el, options = {}) => {
   const tabpanels = el.querySelectorAll('.js-tabpanel');
 
   tabpanels.forEach((item) => {
-    item.classList.add('js-tabpanel', settings.hiddenClass);
     item.setAttribute('aria-hidden', 'true');
   });
 
@@ -32,7 +31,7 @@ const tabs = (el, options = {}) => {
 
       tabpanels.forEach((item) => {
         item.setAttribute('aria-hidden', 'true');
-        item.classList.add(settings.hiddenClass);
+        item.classList.remove(settings.visibleClass);
       });
 
       currentTab = tablist.querySelector(`.${settings.currentClass}`);
@@ -45,7 +44,7 @@ const tabs = (el, options = {}) => {
 
       tabpanel = tabpanels[tabitemsArray.indexOf(tabParent)];
       tabpanel.setAttribute('aria-hidden', 'false');
-      tabpanel.classList.remove(settings.hiddenClass);
+      tabpanel.classList.add(settings.visibleClass);
 
       tab.setAttribute('aria-selected', 'true');
       tabParent.classList.add(settings.currentClass);
@@ -78,7 +77,7 @@ const tabs = (el, options = {}) => {
   // Display first panel
   const firstTabpanel = el.querySelector('.js-tabpanel');
   firstTabpanel.setAttribute('aria-hidden', 'false');
-  firstTabpanel.classList.remove(settings.hiddenClass);
+  firstTabpanel.classList.add(settings.visibleClass);
 
   // Set first tab/link as current/selected
   const firstItem = tablist.querySelector('.js-tabitem');
