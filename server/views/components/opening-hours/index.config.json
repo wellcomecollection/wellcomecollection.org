@@ -1,6 +1,6 @@
 {
-  "name": "opening times",
-  "handle": "opening-times",
+  "handle": "opening-hours",
+  "label": "Opening hours",
   "context": {
     "places": [{
       "id": "galleries",
@@ -10,97 +10,97 @@
         "hours": "Galleries closed"
       }, {
         "name": "Tuesday",
-        "hours": "09:00 - 18:00"
+        "hours": "10:00 - 18:00"
       }, {
         "name": "Wednesday",
-        "hours": "09:00 - 18:00"
+        "hours": "10:00 - 18:00"
       }, {
         "name": "Thursday",
-        "hours": "09:00 - 18:00"
+        "hours": "10:00 - 22:00"
       }, {
         "name": "Friday",
-        "hours": "09:00 - 18:00"
+        "hours": "10:00 - 18:00"
       }, {
         "name": "Saturday",
-        "hours": "09:00 - 18:00"
+        "hours": "10:00 - 18:00"
       }, {
         "name": "Sunday",
-        "hours": "09:00 - 18:00"
+        "hours": "11:00 - 18:00"
       }]
     }, {
       "id": "library",
       "name": "Library",
       "days": [{
         "name": "Monday",
-        "hours": "09:00 - 18:00"
+        "hours": "10:00 - 18:00"
       }, {
         "name": "Tuesday",
-        "hours": "09:00 - 18:00"
+        "hours": "10:00 - 18:00"
       }, {
         "name": "Wednesday",
-        "hours": "09:00 - 18:00"
+        "hours": "10:00 - 18:00"
       }, {
         "name": "Thursday",
-        "hours": "09:00 - 18:00"
+        "hours": "10:00 - 20:00"
       }, {
         "name": "Friday",
-        "hours": "09:00 - 18:00"
+        "hours": "10:00 - 18:00"
       }, {
         "name": "Saturday",
-        "hours": "09:00 - 18:00"
+        "hours": "10:00 - 18:00"
       }, {
         "name": "Sunday",
-        "hours": "09:00 - 18:00"
+        "hours": "10:00 - 16:00"
       }]
     }, {
       "id": "restaurant",
       "name": "Restaurant",
       "days": [{
         "name": "Monday",
-        "hours": "09:00 - 18:00"
+        "hours": "Closed"
       }, {
         "name": "Tuesday",
-        "hours": "09:00 - 18:00"
+        "hours": "11:00 - 18:00"
       }, {
         "name": "Wednesday",
-        "hours": "09:00 - 18:00"
+        "hours": "11:00 - 18:00"
       }, {
         "name": "Thursday",
-        "hours": "09:00 - 18:00"
+        "hours": "11:00 - 22:00"
       }, {
         "name": "Friday",
-        "hours": "09:00 - 18:00"
+        "hours": "11:00 - 18:00"
       }, {
         "name": "Saturday",
-        "hours": "09:00 - 18:00"
+        "hours": "11:00 - 18:00"
       }, {
         "name": "Sunday",
-        "hours": "09:00 - 18:00"
+        "hours": "11:00 - 18:00"
       }]
     }, {
       "id": "cafe",
       "name": "Cafe",
       "days": [{
         "name": "Monday",
-        "hours": "09:00 - 18:00"
+        "hours": "08:30 - 18:00"
       }, {
         "name": "Tuesday",
-        "hours": "09:00 - 18:00"
+        "hours": "08:30 - 18:00"
       }, {
         "name": "Wednesday",
-        "hours": "09:00 - 18:00"
+        "hours": "08:30 - 18:00"
       }, {
         "name": "Thursday",
-        "hours": "09:00 - 18:00"
+        "hours": "08:30 - 22:00"
       }, {
         "name": "Friday",
-        "hours": "09:00 - 18:00"
+        "hours": "08:30 - 18:00"
       }, {
         "name": "Saturday",
-        "hours": "09:00 - 18:00"
+        "hours": "09:30 - 18:00"
       }, {
         "name": "Sunday",
-        "hours": "09:00 - 18:00"
+        "hours": "10:30 - 18:00"
       }]
     }, {
       "id": "shop",
@@ -116,17 +116,28 @@
         "hours": "09:00 - 18:00"
       }, {
         "name": "Thursday",
-        "hours": "09:00 - 18:00"
+        "hours": "09:00 - 22:00"
       }, {
         "name": "Friday",
         "hours": "09:00 - 18:00"
       }, {
         "name": "Saturday",
-        "hours": "09:00 - 18:00"
+        "hours": "10:00 - 18:00"
       }, {
         "name": "Sunday",
-        "hours": "09:00 - 18:00"
+        "hours": "11:00 - 18:00"
       }]
     }]
-  }
+  },
+  "variants": [{
+    "name": "default"
+  }, {
+    "name": "inverted",
+    "display": {
+      "background": "#1d1d1d"
+    },
+    "context": {
+      "modifiers": ["inverted"]
+    }
+  }]
 }

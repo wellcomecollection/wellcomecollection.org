@@ -1,4 +1,4 @@
-<div class="opening-hours js-opening-hours js-tabs">
+<div class="opening-hours js-opening-hours js-tabs {% for modifier in modifiers %}opening-hours--{{ modifier }} %} {% endfor %}">
   <ul class="opening-hours__tablist js-tablist">
     {% for place in places %}
       <li class="opening-hours__tabitem js-tabitem">
