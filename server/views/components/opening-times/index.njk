@@ -8,11 +8,7 @@
   </ul>
   {% for place in places %}
     <table class="opening-hours__table js-tabpanel">
-      <caption class="opening-hours__caption"><h2 class="js-tabfocus" id="{{ place.id }}">{{ place.name }}</h2></caption>
-      <colgroup>
-        <col />
-        <col />
-      </colgroup>
+      <caption id="{{ place.id }}" class="opening-hours__caption js-tabfocus">{{ place.name }}</caption>
       <thead class="opening-hours__thead">
         <tr>
           <th scope="col">Day</th>
