@@ -130,14 +130,9 @@
     }]
   },
   "variants": [{
-    "name": "default"
-  }, {
-    "name": "inverted",
+    "name": "default",
     "display": {
       "background": "#1d1d1d"
-    },
-    "context": {
-      "modifiers": ["inverted"]
     }
   }]
 }

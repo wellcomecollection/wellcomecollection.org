@@ -1,18 +1,12 @@
 .opening-hours {
-  &.opening-hours--inverted {
-    color: color('white');
-  }
+  color: color('white');
 }
 
 .opening-hours__tablist {
   @include plain-list();
   @include font('HNM6');
   display: flex;
-  border-bottom: 1px solid color('black');
-
-  .opening-hours--inverted & {
-    border-bottom-color: color('white');
-  }
+  border-bottom: 1px solid color('charcoal');
 }
 
 .opening-hours__tabitem {
@@ -28,13 +22,8 @@
   }
 
   &.opening-hours__tabitem--is-current {
-    border-color: color('black');
-    border-bottom-color: color('white');
-
-    .opening-hours--inverted & {
-      border-color: color('keyline-grey');
-      border-bottom-color: color('black');
-    }
+    border-color: color('charcoal');
+    border-bottom-color: color('black');
   }
 }
 
@@ -67,11 +56,7 @@
 }
 
 .opening-hours__tr {
-  border-bottom: 1px solid color('black');
-
-  .opening-hours--inverted & {
-    border-bottom-color: color('keyline-grey');
-  }
+  border-bottom: 1px solid color('charcoal');
 }
 
 .opening-hours__td {

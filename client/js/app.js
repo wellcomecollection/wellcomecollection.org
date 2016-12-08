@@ -8,5 +8,14 @@ import './components/opening-hours';
 message();
 
 nodeList(document.querySelectorAll('[data-component="palette"]')).forEach((el) => palette(el));
-headerBurger(document.querySelector('.js-header-burger'));
-headerSearch(document.getElementById('header-search'));
+
+const burgerEl = document.querySelector('.js-header-burger');
+const headerSearchEl = document.getElementById('header-search');
+
+if (burgerEl) {
+  headerBurger(burgerEl);
+}
+
+if (headerSearchEl) {
+  headerSearch(headerSearchEl);
+}

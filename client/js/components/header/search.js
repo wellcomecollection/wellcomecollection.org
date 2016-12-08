@@ -2,8 +2,6 @@ import showHide from './../show-hide';
 import { KEYS } from './../../util';
 
 const headerSearch = (el) => {
-  if (!el) return;
-
   const headerSearchInput = el.querySelector('.js-header-input');
   const searchToggle = showHide({
     el: el,

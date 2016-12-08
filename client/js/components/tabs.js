@@ -1,11 +1,6 @@
 import { KEYS } from '../util';
 
-const tabs = (el, options = {}) => {
-  const defaults = {
-    visibleClass: 'is-visible',
-    currentClass: 'is-current'
-  };
-  const settings = Object.assign(defaults, options);
+const tabs = (el, options) => {
   const tablist = el.querySelector('.js-tablist');
   const tabitems = el.querySelectorAll('.js-tabitem');
   const tablinks = tablist.querySelectorAll('.js-tablink');
@@ -33,11 +28,11 @@ const tabs = (el, options = {}) => {
 
       tabpanels.forEach((item) => {
         item.setAttribute('aria-hidden', 'true');
-        item.classList.remove(settings.visibleClass);
+        item.classList.remove(options.visibleClass);
       });
 
-      currentTab = tablist.querySelector(`.${settings.currentClass}`);
-      currentTab.classList.remove(settings.currentClass);
+      currentTab = tablist.querySelector(`.${options.currentClass}`);
+      currentTab.classList.remove(options.currentClass);
       currentTab.querySelector('.js-tablink')
         .setAttribute('aria-selected', 'false');
 
@@ -46,11 +41,11 @@ const tabs = (el, options = {}) => {
 
       tabpanel = tabpanels[tabitemsArray.indexOf(tabParent)];
       tabpanel.setAttribute('aria-hidden', 'false');
-      tabpanel.classList.add(settings.visibleClass);
+      tabpanel.classList.add(options.visibleClass);
 
       tab.setAttribute('aria-selected', 'true');
       currentTab = tab;
-      tabParent.classList.add(settings.currentClass);
+      tabParent.classList.add(options.currentClass);
 
       const elToFocus = tabpanel.querySelector('.js-tabfocus') || tabpanel.firstElementChild;
       elToFocus.setAttribute('tabindex', '-1');
@@ -91,11 +86,11 @@ const tabs = (el, options = {}) => {
   // Display first panel
   const firstTabpanel = el.querySelector('.js-tabpanel');
   firstTabpanel.setAttribute('aria-hidden', 'false');
-  firstTabpanel.classList.add(settings.visibleClass);
+  firstTabpanel.classList.add(options.visibleClass);
 
   // Set first tab/link as current/selected
   const firstItem = tablist.querySelector('.js-tabitem');
-  firstItem.classList.add(settings.currentClass);
+  firstItem.classList.add(options.currentClass);
 
   const firstLink = firstItem.querySelector('.js-tablink');
   firstLink.setAttribute('aria-selected', 'true');

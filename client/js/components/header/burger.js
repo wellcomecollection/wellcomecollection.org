@@ -2,8 +2,6 @@ import showHide from './../show-hide';
 import { KEYS } from './../../util';
 
 const headerBurger = (el) => {
-  if (!el) return;
-
   const burgerDrawer = el.querySelector('.js-header-burger-drawer');
   const firstNavLink = burgerDrawer.querySelector('.js-header-nav-link');
   const burgerTrigger = el.querySelector('.js-header-burger-trigger');
