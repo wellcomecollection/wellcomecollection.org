@@ -1,8 +1,7 @@
 .new-site-notice-wrap {
-    background: color('yellow');
     position: relative;
     overflow: hidden;
-    padding-top: 1rem;
+    margin-top: -15px; // This moves the bar up snug to the header
 }
 .new-site-notice-wrap:before {
     @include font('WB1');
