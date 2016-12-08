@@ -15,7 +15,7 @@ $mega-w-size: 400px;
   font-size: $mega-w-size;
   content: 'W';
   color: color('white');
-  opacity: .15;
+  opacity: 0.15;
   position: absolute;
   right: 0;
   top: -250px;
@@ -51,7 +51,7 @@ $mega-w-size: 400px;
 
 .new-site-notice__cta {
   @include font('HNM5');
-  margin-right: .5em;
+  margin-right: 0.5em;
   position: relative;
   z-index: 2;
   display: inline-block;
