@@ -4,10 +4,13 @@ import Nunjucks from '@frctl/nunjucks';
 import mandelbrot from '@frctl/mandelbrot';
 import Component from './extensions/component';
 import Icon from './extensions/icon';
-import getEnv from './view/env-utils';
+import {getEnvWithExtensionsAndFilters} from './view/env-utils';
 const fractal = Fractal.create();
 const root = dir('/views');
-const nunjucksEnv = getEnv(root);
+
+// We need to set this up because Fractal doesn't allow us to specify our own
+// nunjucks env, but rather uses config to set it up.
+const nunjucksEnv = getEnvWithExtensionsAndFilters(root);
 
 const nunjucks = Nunjucks({
     extensions: {
