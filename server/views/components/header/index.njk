@@ -39,10 +39,10 @@
           </div>
           <button class="header__button js-show-hide-trigger">
             <span class="header__button-inner">
-              {% icon 'actions/search' %}
-              <span class="header__button-text">Search</search>
-            </span>
+              {% icon 'actions/search', null, ['header__search-button'] %}
+              <span class="header__button-text">Search</span>
           </button>
+          <span role="button" class="header__close-search js-header-close-search">{% icon 'actions/cross-big' %}</span>
         </form>
       </div>
     </div>
