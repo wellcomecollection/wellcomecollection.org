@@ -1,0 +1,12 @@
+<div class="footer-nav">
+  <a href="#" class="footer-nav__brand">
+    {% icon 'icon-wellcome-logo' %}
+  </a>
+  <nav class="footer-nav__nav">
+    <ul class="footer-nav__list">
+      {% for link in navLinks %}
+        <li class="footer-nav__item"><a href="{{ link.url }}" class="footer-nav__link">{{ link.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </nav>
+</div>
