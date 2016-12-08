@@ -172,6 +172,9 @@ context:
     icon: other/picture
     title: Picture
   - extraClasses: [icon--fill]
+    icon: other/location
+    title: Location
+  - extraClasses: [icon--fill]
     icon: social/facebook
     title: Facebook
   - extraClasses: [icon--fill]
