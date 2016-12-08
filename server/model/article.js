@@ -17,6 +17,7 @@ function getMainMedia(associatedMedia) {
   const video = associatedMedia.find(m => m.weighting === 'leading' && m.mediaType === 'video');
   const image = associatedMedia.find(m => m.weighting === 'leading' && m.mediaType === 'image');
   const audio = associatedMedia.find(m => m.weighting === 'leading' && m.mediaType === 'audio');
+  const gallery = associatedMedia.find(m => m.weighting === 'leading' && m.mediaType === 'gallery');
 
-  return [(video || image), audio];
+  return [(gallery || video || image), audio];
 }
