@@ -3,7 +3,9 @@ const KEYS = {
   ENTER: 13,
   ESCAPE: 27,
   LEFT: 37,
-  RIGHT: 39
+  UP: 38,
+  RIGHT: 39,
+  DOWN: 40
 };
 
 const nodeList = (nl) => {
