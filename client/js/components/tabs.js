@@ -56,22 +56,20 @@ const tabs = (el, options = {}) => {
       elToFocus.setAttribute('tabindex', '-1');
       elToFocus.focus();
     });
-  });
 
-  // Allow tab focus with keyboard
-  tablinks.forEach((item) => {
-    item.addEventListener('keydown', ({ keyCode }) => {
+    // Allow tab focus with keyboard
+    tab.addEventListener('keydown', ({ keyCode }) => {
       switch (keyCode) {
         case KEYS.LEFT:
         case KEYS.UP:
-          const prevSibling = item.parentElement.previousElementSibling;
+          const prevSibling = tab.parentElement.previousElementSibling;
           if (!prevSibling) return;
 
           prevSibling.querySelector('.js-tablink').focus();
           break;
         case KEYS.RIGHT:
         case KEYS.DOWN:
-          const nextSibling = item.parentElement.nextElementSibling;
+          const nextSibling = tab.parentElement.nextElementSibling;
           if (!nextSibling) return;
 
           nextSibling.querySelector('.js-tablink').focus();
