@@ -12,7 +12,7 @@
   </head>
 
   <body>
-    {% include "components/skip-link/index.njk" %}
+    {% component "skip-link" %}
 
     {% component "header", {navLinks: [
       { href: "/visit", title: "Visit us" },
@@ -20,6 +20,8 @@
       { href: "/explore", title: "Explore", isCurrent: true },
       { href: "/what-we-do", title: "What we do" }
     ]} %}
+
+    {% component "new-site-notice" %}
 
     <div id="main" class="main" role="main">
       {% block body %}

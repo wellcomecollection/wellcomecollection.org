@@ -1,0 +1,58 @@
+$tweakpoints: (
+  'notification-break': 1080px
+);
+
+$mega-w-size: 400px;
+
+.new-site-notice {
+  position: relative;
+  overflow: hidden;
+  margin-top: -15px; // This moves the bar up snug to the header
+}
+
+.new-site-notice:before {
+  @include font('WB1');
+  font-size: $mega-w-size;
+  content: 'W';
+  color: color('white');
+  opacity: 0.15;
+  position: absolute;
+  right: 0;
+  top: -250px;
+  transform: rotate(-30deg);
+}
+
+.new-site-notice__inner {
+  @include font('HNL6');
+
+  @include respond-to('notification-break') {
+    display: flex;
+  }
+}
+
+.new-site-notice__msg {
+  margin: 0;
+  display: flex;
+  margin-right: 1rem;
+}
+
+.new-site-notice__text {
+  flex-grow: 1;
+}
+
+.new-site-notice__device-ico {
+  min-width: 26px;
+  margin-right: 1em;
+}
+
+.new-site-notice__ctas {
+  white-space: nowrap;
+}
+
+.new-site-notice__cta {
+  @include font('HNM5');
+  margin-right: 0.5em;
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+}
