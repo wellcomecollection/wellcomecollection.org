@@ -28,12 +28,21 @@ const sources = {
   fonts: {
     srcPath: './fonts/**/*.{woff,woff2}',
     distPath: '../dist/assets/fonts/'
+  },
+  images: {
+    srcPath: './images/**/*.*',
+    distPath: '../dist/assets/images/'
   }
 };
 
 gulp.task('fonts:copy', function() {
-   gulp.src(sources.fonts.srcPath)
-   .pipe(gulp.dest(sources.fonts.distPath));
+  gulp.src(sources.fonts.srcPath)
+    .pipe(gulp.dest(sources.fonts.distPath));
+});
+
+gulp.task('images:copy', () => {
+  gulp.src(sources.images.srcPath)
+    .pipe(gulp.dest(sources.images.distPath));
 });
 
 // TODO: pull out autoprefixing / sourcemaps to it's own task
@@ -89,11 +98,12 @@ gulp.task('watch', () => {
   gulp.watch(sources.scss.all, ['scss:compile']);
   gulp.watch(sources.js.all, ['js:compile']);
   gulp.watch(sources.fonts.srcPath, ['fonts:copy']);
+  gulp.watch(sources.images.srcPath, ['images:copy']);
 });
 
 gulp.task('js', ['js:lint', 'js:compile']);
 gulp.task('scss', ['scss:lint', 'scss:compile']);
 gulp.task('lint', ['scss:lint', 'js:lint']);
-gulp.task('compile', ['scss:compile', 'js:compile', 'fonts:copy']);
+gulp.task('compile', ['scss:compile', 'js:compile', 'fonts:copy', 'images:copy']);
 gulp.task('build', ['scss', 'js']);
 gulp.task('dev', ['compile', 'watch']);

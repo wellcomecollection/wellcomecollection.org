@@ -83,24 +83,19 @@ $tweakpoints: (
 }
 
 .header__brand {
-  display: flex;
-  justify-content: center;
-
   @include respond-to('header-medium') {
     margin-right: 1.5rem;
     border-right: 1px solid color('keyline-grey');
-    flex-basis: auto;
     width: 10rem;
   }
-}
 
-.header__logo {
-  width: 100%;
-  max-width: 8rem;
+  .icon {
+    width: 100%;
+    max-width: 8rem;
 
-  @include respond-to('header-medium') {
-    margin-right: 1.5rem;
-    width: auto;
+    @include respond-to('header-medium') {
+      margin-right: 1.5rem;
+    }
   }
 }
 
