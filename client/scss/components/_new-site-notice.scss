@@ -1,3 +1,7 @@
+$tweakpoints: (
+  'notification-break': 1080px
+);
+
 .new-site-notice-wrap {
     position: relative;
     overflow: hidden;
@@ -17,11 +21,16 @@
 
 .new-site-notice {
     @include font('HNL6');
+
+    @include respond-to('notification-break') {
+        display: flex;
+    }
 }
 
 .new-site-notice__msg {
     margin: 0;
     display: flex;
+    margin-right: 1rem;
 }
 .new-site-notice__text {
     flex-grow: 1;
