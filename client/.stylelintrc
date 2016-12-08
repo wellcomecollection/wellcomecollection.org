@@ -41,7 +41,7 @@
       "ignoreSelectors": [
         ".*\\.icon*",
         ".*\\.is-.*",
-        ".*\\.no-js.*",
+        ".*\\.enhanced.*",
         ".*\\.lt-ie.*"
       ]
     },

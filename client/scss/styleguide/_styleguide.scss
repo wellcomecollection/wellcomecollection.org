@@ -18,26 +18,6 @@
   @include font('LR3');
 }
 
-@function color-list($colors) {
-  $list: null;
-
-  @each $color in $colors {
-    $list: append($list, '#{nth($color, 1)}|#{nth($color, 2)}');
-  }
-
-  @return '#{$list}';
-}
-
-.styleguide__palette {
-  &:after {
-    display: block;
-    height: 0;
-    width: 0;
-    overflow: hidden;
-    content: color-list($colors);
-  }
-}
-
 .styleguide__palette__heading {
   @include font('HNM4');
   text-transform: uppercase;
@@ -79,27 +59,12 @@
   }
 }
 
-.styleguide__palette__hyphen {
-  visibility: hidden;
-}
-
 .styleguide__palette__name {
-  @include font('HNM5');
-  color: color('red');
-  text-transform: capitalize;
-
-  &:hover {
-    text-transform: none;
-
-    .styleguide__palette__hyphen {
-      visibility: visible;
-    }
-  }
+  @include font('LR3');
 }
 
 .styleguide__palette__hex {
-  @include font('HNM6');
-  color: color('red');
+  @include font('LR3');
 }
 
 .styleguide__palette__code {

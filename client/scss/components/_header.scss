@@ -15,20 +15,24 @@ $tweakpoints: (
 }
 
 .header__inner {
-  display: flex;
   padding-bottom: 0.8rem;
-  align-items: center;
+
+  .enhanced & {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .header__burger {
+  display: none;
   flex: 1;
 
-  .no-js & {
-    display: none;
-  }
+  .enhanced & {
+    display: block;
 
-  @include respond-to('header-medium') {
-    display: none;
+    @include respond-to('header-medium') {
+      display: none;
+    }
   }
 }
 
@@ -101,9 +105,9 @@ $tweakpoints: (
 }
 
 .header__nav {
-  display: none;
+  display: block;
   margin-top: 0.5rem;
-  position: absolute;
+  position: static;
   top: 100%;
   left: map-get($container-padding, 'small');
   right: map-get($container-padding, 'small');
@@ -113,23 +117,31 @@ $tweakpoints: (
     right: map-get($container-padding, 'medium');
   }
 
-  .no-js &,
-  .header--is-burger-open & {
-    display: block;
+  .enhanced & {
+    display: none;
+    position: absolute;
+
+    @include respond-to('header-medium') {
+      position: static;
+      display: block;
+      margin-top: 0;
+    }
   }
 
-  @include respond-to('header-medium') {
-    position: static;
+  .header--is-burger-open & {
     display: block;
-    margin-top: 0;
   }
 }
 
 .header__search {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
+  margin-top: 1rem;
 
+  .enhanced & {
+    margin-top: 0;
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 
 .header__form {
@@ -137,34 +149,34 @@ $tweakpoints: (
 }
 
 .header__input-wrap {
-  position: absolute;
-  right: 100%;
-  margin-right: -1rem;
-  top: 0;
-  bottom: 0;
-  width: calc(100vw - 6.4rem);
-  display: none;
+  display: inline-block;
+  position: static;
+  width: auto;
 
-  .no-js &,
+  .enhanced & {
+    display: none;
+    position: absolute;
+    right: 100%;
+    top: 0;
+    bottom: 0;
+    margin-right: -1rem;
+    width: calc(100vw - 6.4rem);
+
+    @include respond-to('medium') {
+      width: calc(100vw - 8rem);
+    }
+
+    @include respond-to('header-medium') {
+      width: calc(100vw - 16.4rem);
+    }
+
+    @include respond-to('large') {
+      width: calc(100vw - 19rem);
+    }
+  }
+
   .header__form--is-active & {
     display: block;
-  }
-
-  @include respond-to('medium') {
-    width: calc(100vw - 8rem);
-  }
-
-  @include respond-to('header-medium') {
-    width: calc(100vw - 16.4rem);
-  }
-
-  @include respond-to('large') {
-    width: calc(100vw - 19rem);
-  }
-
-  .no-js & {
-    position: static;
-    width: auto;
   }
 }
 
@@ -173,11 +185,13 @@ $tweakpoints: (
 }
 
 .header__input {
-  @include font('HNL2');
-  width: 100%;
-  border: 0;
-  border-bottom: 1px solid color('keyline-grey');
-  padding: 0.5rem 0;
+  .enhanced & {
+    @include font('HNL2');
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid color('keyline-grey');
+    padding: 0.5rem 0;
+  }
 
   &:focus {
     outline: 0;
@@ -186,27 +200,34 @@ $tweakpoints: (
 
 .header__button {
   @include font('WB7');
+  cursor: pointer;
   align-items: center;
-  padding: 1rem 0 1rem 1.5rem;
   appearance: none;
   border: 0;
   background: color('transparent');
   transition: color 200ms ease;
   position: relative;
 
-  .header__form--is-active & {
+  .enhanced & {
+    padding: 1rem 0 1rem 1.5rem;
+
+    @include respond-to('header-medium') {
+      border-left: 1px solid color('keyline-grey');
+    }
+  }
+
+  .enhanced .header__form--is-active & {
     padding-left: 0;
     border-left: 0;
   }
 
   &:hover,
   &:focus {
-    outline: 0;
     color: color('action-green-1');
-  }
 
-  @include respond-to('header-medium') {
-    border-left: 1px solid color('keyline-grey');
+    .enhanced & {
+      outline: 0;
+    }
   }
 
   .icon {
@@ -242,7 +263,10 @@ $tweakpoints: (
 .header__list {
   @include plain-list();
   @include font('WB7');
-  margin-left: -0.3rem;
+
+  .enhanced & {
+    margin-left: -0.3rem;
+  }
 
   @include respond-to('header-medium') {
     display: flex;
@@ -296,4 +320,3 @@ $tweakpoints: (
     }
   }
 }
-

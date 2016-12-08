@@ -1,0 +1,35 @@
+context:
+  primary:
+  - name: action-green-1
+    hex: "#088574"
+  - name: action-green-2
+    hex: "#0aa38f"
+  - name: white
+    hex: "#fff"
+  - name: cream
+    hex: "#f8f7f4"
+  - name: black
+    hex: "#1d1d1d"
+  secondary:
+  - name: turquoise
+    hex: "#5cb8bf"
+  - name: teal
+    hex: "#006272"
+  - name: collection-teal
+    hex: "#00424d"
+  - name: purple
+    hex: "#8c4799"
+  - name: archive-purple
+    hex: "#46284d"
+  - name: red
+    hex: "#ff4355"
+  - name: orange
+    hex: "#e87500"
+  - name: yellow
+    hex: "#ffce3c"
+  - name: accessible-grey-1
+    hex: "#717171"
+  - name: accessible-grey-2
+    hex: "#8f8f8f"
+  - name: keyline-grey
+    hex: "#e5e5e5"
