@@ -12,7 +12,7 @@
 </div>
 {% for media in mainMedia %}
   {% if media.weighting == 'leading' %}
-    {% component "media-item", { media: media } %}{% endcomponent %}
+    {% component "media-item", { media: media } %}
   {% endif %}
 {% endfor %}
 
