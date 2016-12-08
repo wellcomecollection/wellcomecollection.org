@@ -7,7 +7,7 @@
     {% endfor %}
   </ul>
   {% for place in places %}
-    <table class="opening-hours__table js-tabpanel">
+    <table id="panel-{{ place.id }}"class="opening-hours__table js-tabpanel">
       <caption id="{{ place.id }}" class="opening-hours__caption js-tabfocus">{{ place.name }}</caption>
       <thead class="opening-hours__thead">
         <tr>

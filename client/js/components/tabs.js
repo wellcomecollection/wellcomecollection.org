@@ -10,24 +10,26 @@ const tabs = (el, options = {}) => {
   const tabitems = el.querySelectorAll('.js-tabitem');
   const tablinks = tablist.querySelectorAll('.js-tablink');
   const tabpanels = el.querySelectorAll('.js-tabpanel');
+  const tabfocusers = el.querySelectorAll('.js-tabfocus');
+  let currentTab;
+  let tabpanel;
 
   tabpanels.forEach((item) => {
     item.setAttribute('aria-hidden', 'true');
   });
 
   tablinks.forEach((tab, index) => {
-    const tabId = `tab-${tab.getAttribute('href').slice(1)}`;
+    const id = tab.getAttribute('href').slice(1);
+    const tabId = `tab-${id}`;
 
     tab.id = tabId;
     tab.setAttribute('aria-selected', 'false');
+    tab.setAttribute('aria-controls', `panel-${id}`);
 
     tabpanels[index].setAttribute('aria-labelledby', tabId);
 
     tab.addEventListener('click', (event) => {
       event.preventDefault();
-
-      let tabpanel;
-      let currentTab;
 
       tabpanels.forEach((item) => {
         item.setAttribute('aria-hidden', 'true');
@@ -47,30 +49,44 @@ const tabs = (el, options = {}) => {
       tabpanel.classList.add(settings.visibleClass);
 
       tab.setAttribute('aria-selected', 'true');
+      currentTab = tab;
       tabParent.classList.add(settings.currentClass);
 
       const elToFocus = tabpanel.querySelector('.js-tabfocus') || tabpanel.firstElementChild;
       elToFocus.setAttribute('tabindex', '-1');
       elToFocus.focus();
     });
+  });
 
-    tablinks.forEach((item) => {
-      item.addEventListener('keydown', ({ keyCode }) => {
-        switch (keyCode) {
-          case KEYS.LEFT:
-            const prevSibling = item.parentElement.previousElementSibling;
-            if (!prevSibling) return;
+  // Allow tab focus with keyboard
+  tablinks.forEach((item) => {
+    item.addEventListener('keydown', ({ keyCode }) => {
+      switch (keyCode) {
+        case KEYS.LEFT:
+        case KEYS.UP:
+          const prevSibling = item.parentElement.previousElementSibling;
+          if (!prevSibling) return;
 
-            prevSibling.querySelector('.js-tablink').click();
-            break;
-          case KEYS.RIGHT:
-            const nextSibling = item.parentElement.nextElementSibling;
-            if (!nextSibling) return;
+          prevSibling.querySelector('.js-tablink').focus();
+          break;
+        case KEYS.RIGHT:
+        case KEYS.DOWN:
+          const nextSibling = item.parentElement.nextElementSibling;
+          if (!nextSibling) return;
 
-            nextSibling.querySelector('.js-tablink').click();
-            break;
-        }
-      });
+          nextSibling.querySelector('.js-tablink').focus();
+          break;
+      }
+    });
+  });
+
+  // Return to current tab when tabbing out of the panel
+  tabfocusers.forEach((item) => {
+    item.addEventListener('keydown', (event) => {
+      if (event.keyCode === KEYS.TAB && event.shiftKey) {
+        event.preventDefault();
+        currentTab.focus();
+      }
     });
   });
 
