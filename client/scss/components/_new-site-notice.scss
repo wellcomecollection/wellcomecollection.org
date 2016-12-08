@@ -4,13 +4,13 @@ $tweakpoints: (
 
 $mega-w-size: 400px;
 
-.new-site-notice-wrap {
+.new-site-notice {
   position: relative;
   overflow: hidden;
   margin-top: -15px; // This moves the bar up snug to the header
 }
 
-.new-site-notice-wrap:before {
+.new-site-notice:before {
   @include font('WB1');
   font-size: $mega-w-size;
   content: 'W';
@@ -22,7 +22,7 @@ $mega-w-size: 400px;
   transform: rotate(-30deg);
 }
 
-.new-site-notice {
+.new-site-notice__inner {
   @include font('HNL6');
 
   @include respond-to('notification-break') {
