@@ -1,0 +1,14 @@
+handle: footer-nav
+name: Footer nav
+display:
+  background: "#1d1d1d"
+context:
+  navLinks:
+  - url: "#"
+    title: Visit us
+  - url: "#"
+    title: What's on
+  - url: "#"
+    title: Explore
+  - url: "#"
+    title: What we do

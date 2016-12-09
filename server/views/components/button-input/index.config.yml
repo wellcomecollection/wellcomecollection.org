@@ -1,0 +1,8 @@
+name: button-input
+handle: button-input
+display:
+  background: "#000"
+context:
+  modifierClasses: btn--dark
+  type: submit
+  value: this is an input
