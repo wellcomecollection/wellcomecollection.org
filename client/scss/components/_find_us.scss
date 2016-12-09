@@ -1,0 +1,39 @@
+//* @define find-us;
+
+.find-us {
+  @include font('HNL5');
+  border-top: 1px solid color('charcoal');
+  padding-top: 1.6rem;
+  color: color('white');
+
+  .icon {
+    display: block;
+    float: left;
+    width: 0.875em;
+    height: 1.25em;
+    margin-top: 2px;
+  }
+
+  .icon__shape {
+    fill: currentColor;
+  }
+}
+
+.find-us__address {
+  float: left;
+  margin: 0 0 1.2rem 1rem;
+}
+
+.find-us__street {
+  display: block;
+}
+
+.find-us__link {
+  display: block;
+  clear: both;
+}
+
+.find-us__map {
+  max-width: 100%;
+  border-radius: 10px;
+}
