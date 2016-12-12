@@ -49,7 +49,5 @@ $mega-w-size: 400px;
 .new-site-notice__cta {
   @include font('HNM5');
   margin-right: 0.5em;
-  position: relative;
-  z-index: 2;
   display: inline-block;
 }
