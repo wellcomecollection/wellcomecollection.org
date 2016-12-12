@@ -6,6 +6,6 @@ const r = new Router();
 r.get('/healthcheck', healthcheck);
 r.get('/favicon.ico', favicon);
 r.get('/explore', explore);
-r.get('/articles/:id*', article);
+r.get('/:id*', article);
 
 export const router = r.middleware();
