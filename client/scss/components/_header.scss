@@ -87,6 +87,7 @@ $tweakpoints: (
     margin-right: 1.5rem;
     border-right: 1px solid color('keyline-grey');
     width: 10rem;
+    height: 3.3rem;
   }
 
   .icon {
@@ -101,20 +102,24 @@ $tweakpoints: (
 
 .header__nav {
   display: block;
-  margin-top: 0.5rem;
+  padding-top: 0.5rem;
   position: static;
   top: 100%;
-  left: map-get($container-padding, 'small');
-  right: map-get($container-padding, 'small');
+  left: 0;
+  right: 0;
+  padding-left: map-get($container-padding, 'small');
+  padding-right: map-get($container-padding, 'small');
 
   @include respond-to('medium') {
-    left: map-get($container-padding, 'medium');
-    right: map-get($container-padding, 'medium');
+    padding-left: map-get($container-padding, 'medium');
+    padding-right: map-get($container-padding, 'medium');
   }
 
   .enhanced & {
     display: none;
+    background: color('white');
     position: absolute;
+    z-index: 1;
 
     @include respond-to('header-medium') {
       position: static;

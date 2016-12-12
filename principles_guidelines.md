@@ -86,15 +86,17 @@ In addition, although reliance on client side scripts are permitted in the guide
 
 **We will manually test the site on the following browsers***
 
-| Browser                               | Support Level |
-|:-------------------------------------:|:-------------:|
-| Chrome (latest 2 versions)            | Full          |
-| Safari (latest 2 versions)            | Full          |
-| Firefox (latest 2 versions)           | Full          |
-| Edge (latest 2 versions)              | Full          |
-| Internet Explorer (latest 2 versions) | Full          |
-| Android Browser                       | Full          |
-| Opera Mini (extreme mode)             | Basic         |
+| Browser                                    | Support Level |
+|:------------------------------------------:|:-------------:|
+| Chrome (latest 2 versions)                 | Full          |
+| Safari (latest 2 versions)                 | Full          |
+| Firefox (latest 2 versions)                | Full          |
+| Edge (latest 2 versions)                   | Full          |
+| Internet Explorer (latest 2 versions)      | Full          |
+| Opera Mini (extreme mode)                  | Basic         |
+| iOS 9+ with Safari and Chrome              | Full          |
+| Android 4.4+ with latest version of Chrome | Full          |
+| iOS 8 basic                                | Basic         | 
 
 *subject to 6 month review (next review date: 15/03/17)
 
@@ -112,13 +114,3 @@ These lists were determined from amalgamated analytics data for the Wellcome Col
 The most popular browsers are added to the list, until they make up approximately 95% of traffic. The browser versions of evergreen browsers, i.e. those that automatically update themselves silently without prompting the user, are combined and the latest stable version and the version immediately before that will be tested.
 
 Opera Mini (in Extreme mode) is also included, as this provides an easy way to test the core experience.  In extreme mode, Opera Mini ignores some CSS, doesn't load web fonts, has a low level of Javascript support and an arbitrary Javascript execution timeout.
-
-
-
-
-
-
-
-
-
-

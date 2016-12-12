@@ -1,8 +1,12 @@
 import tabs from './tabs';
+import {nodeList} from '../util';
 
-const options = {
-  currentClass: 'opening-hours__tabitem--is-current',
-  visibleClass: 'opening-hours__table--is-visible'
+const openingHours = (el) => {
+  const options = {
+    currentClass: 'opening-hours__tabitem--is-current',
+    visibleClass: 'opening-hours__table--is-visible'
+  };
+  nodeList(el).forEach((el) => tabs(el, options));
 };
 
-document.querySelectorAll('.js-opening-hours').forEach((el) => tabs(el, options));
+export default openingHours;
