@@ -5,16 +5,24 @@
 .opening-hours__tablist {
   @include plain-list();
   @include font('HNM6');
-  display: flex;
   border-bottom: 1px solid color('charcoal');
 }
 
 .opening-hours__tabitem {
-  flex: 1;
   text-align: center;
   margin-bottom: -1px;
   margin-right: 0.2em;
   border: 1px solid color('transparent');
+  display: inline-block;
+
+  @include respond-to('medium') {
+    padding: 0 0.6em;
+  }
+
+  &:first-child {
+    padding-left: 0;
+    border-left: 0;
+  }
 
   &:last-child {
     margin-right: 0;
@@ -22,8 +30,9 @@
   }
 
   &.opening-hours__tabitem--is-current {
+    color: color('accessible-grey-2');
     border-color: color('charcoal');
-    border-bottom-color: color('black');
+    border-bottom-color: color('dark-black');
   }
 }
 
@@ -34,7 +43,8 @@
 }
 
 .opening-hours__table {
-  @include font('HNL7');
+  @include font('HNL6');
+  color: color('accessible-grey-2');
   width: 100%;
   border-collapse: collapse;
   display: table;
