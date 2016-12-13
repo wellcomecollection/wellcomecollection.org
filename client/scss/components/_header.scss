@@ -152,6 +152,7 @@ $tweakpoints: (
   display: inline-block;
   position: static;
   width: auto;
+  z-index: 1;
 
   .enhanced & {
     display: none;
@@ -161,6 +162,7 @@ $tweakpoints: (
     bottom: 0;
     margin-right: -1rem;
     width: calc(100vw - 6.4rem);
+    max-width: 72rem;
 
     @include respond-to('medium') {
       width: calc(100vw - 8rem);
@@ -207,6 +209,7 @@ $tweakpoints: (
   background: color('transparent');
   transition: color 200ms ease;
   position: relative;
+  z-index: 1;
 
   .enhanced & {
     padding: 1rem 0 1rem 1.5rem;
