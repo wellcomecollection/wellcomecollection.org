@@ -33,3 +33,5 @@ context:
     hex: "#8f8f8f"
   - name: keyline-grey
     hex: "#e5e5e5"
+  - name: charcoal
+    hex: "#323232"
