@@ -1,0 +1,24 @@
+//* @define footer-social
+
+.footer-social__link {
+  @include font('HNM6');
+  color: color('white');
+  text-decoration: none;
+  margin-bottom: 2.3em;
+  display: flex;
+  align-items: center;
+
+  .icon {
+    width: 2em;
+    height: 2em;
+    margin-right: 1.4em;
+  }
+
+  .icon__shape {
+    fill: color('action-green-1');
+  }
+}
+
+.footer-social__service {
+  @include visuallyhidden();
+}
