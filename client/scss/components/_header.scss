@@ -278,6 +278,10 @@ $tweakpoints: (
   }
 }
 
+.header__close-text {
+  @include visuallyhidden();
+}
+
 .header__list {
   @include plain-list();
   @include font('WB7');
