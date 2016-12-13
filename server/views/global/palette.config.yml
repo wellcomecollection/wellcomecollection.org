@@ -10,6 +10,8 @@ context:
     hex: "#f8f7f4"
   - name: black
     hex: "#1d1d1d"
+  - name: dark-black
+    hex: "#010101"
   secondary:
   - name: turquoise
     hex: "#5cb8bf"
