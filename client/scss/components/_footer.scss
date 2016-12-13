@@ -7,7 +7,7 @@
 .footer__heading {
   @include font('HNL5');
   color: color('accessible-grey-2');
-  margin: 0 0 1em 0;
+  margin: 0 0 1em;
 
   @include respond-to('large') {
     margin: 0;
