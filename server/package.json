@@ -8,6 +8,7 @@
     "start:watch": "nodemon app.pack.js -e js,njk",
     "test": "ava",
     "test:watch": "ava --watch",
+    "test:accessibility": "pa11y",
     "compile": "webpack",
     "compile:watch": "webpack --watch",
     "optimise:svg": "node ./optimise-svgs.js",
@@ -42,7 +43,8 @@
   },
   "devDependencies": {
     "concurrently": "^3.1.0",
-    "nodemon": "^1.10.2"
+    "nodemon": "^1.10.2",
+    "pa11y": "^4.2.0"
   },
   "babel": {
     "presets": [
