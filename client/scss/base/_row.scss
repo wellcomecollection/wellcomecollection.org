@@ -1,5 +1,14 @@
 //* @define row
 
+.row {
+  padding-top: $vertical-space-unit;
+  padding-bottom: $vertical-space-unit;
+}
+
+.row--dark-black {
+  background: color('dark-black');
+}
+
 .row--cream {
   background: color('cream');
 }
@@ -8,14 +17,9 @@
   background: color('yellow');
 }
 
-.row--text-bar {
-  padding-top: 1rem;
-  margin-bottom: 15px;
-}
-
 .row--lead {
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: $vertical-space-unit;
 
   &:before {
     position: absolute;

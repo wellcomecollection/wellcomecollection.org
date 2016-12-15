@@ -4,6 +4,7 @@ import Nunjucks from '@frctl/nunjucks';
 import mandelbrot from '@frctl/mandelbrot';
 import Component from './extensions/component';
 import Icon from './extensions/icon';
+import parseBody from './filters/parse-body';
 import {getEnvWithExtensionsAndFilters} from './view/env-utils';
 const fractal = Fractal.create();
 const root = dir('/views');
@@ -13,6 +14,9 @@ const root = dir('/views');
 const nunjucksEnv = getEnvWithExtensionsAndFilters(root);
 
 const nunjucks = Nunjucks({
+    filters: {
+        parseBody: parseBody
+    },
     extensions: {
         component: new Component(nunjucksEnv),
         icon: new Icon(nunjucksEnv)

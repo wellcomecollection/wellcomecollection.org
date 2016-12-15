@@ -115,6 +115,8 @@ $tweakpoints: (
     position: static;
     display: block;
     margin-top: 0;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .header--is-burger-open & {

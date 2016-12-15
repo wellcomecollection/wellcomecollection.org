@@ -27,6 +27,7 @@
       {% block body %}
       {% endblock %}
     </div>
+    {% component "footer", {footerNav: footerNav, openingHours: openingHours} %}
     {% include "partials/analytics.njk" %}
   </body>
 </html>
