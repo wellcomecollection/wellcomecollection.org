@@ -24,15 +24,11 @@ $tweakpoints: (
 }
 
 .header__burger {
-  display: none;
   flex: 1;
+  display: block;
 
-  .enhanced & {
-    display: block;
-
-    @include respond-to('header-medium') {
-      display: none;
-    }
+  @include respond-to('header-medium') {
+    display: none;
   }
 }
 
