@@ -2,13 +2,13 @@
   margin: 0 auto;
   width: 100%;
   max-width: $container-width-max;
-  padding: 0  map-get($container-padding, 'small');
+  padding: 0 map-get($container-padding, 'small');
 
   @include respond-to('medium') {
-    padding: 0  map-get($container-padding, 'medium');
+    padding: 0 map-get($container-padding, 'medium');
   }
 
   @include respond-to('large') {
-    padding: 0  map-get($container-padding, 'large');
+    padding: 0 map-get($container-padding, 'large');
   }
 }
