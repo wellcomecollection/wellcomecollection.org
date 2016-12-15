@@ -11,8 +11,4 @@
   @include respond-to('large') {
     padding: 0  map-get($container-padding, 'large');
   }
-
-  @include respond-to('xlarge') {
-    box-sizing: content-box;
-  }
 }

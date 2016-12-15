@@ -23,7 +23,8 @@ body {
 // end of sticky footer
 
 .is-mobile-nav-visible {
-  .main {
+  .main,
+  .footer {
     display: none;
   }
 }

@@ -27,7 +27,11 @@
       {% block body %}
       {% endblock %}
     </div>
-    {% component "footer", {footerNav: footerNav, openingHours: openingHours} %}
+    {% component "footer", {
+      footerNav: footerNav,
+      openingHours: openingHours,
+      footerSocial: footerSocial
+    } %}
     {% include "partials/analytics.njk" %}
   </body>
 </html>

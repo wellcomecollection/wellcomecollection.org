@@ -16,11 +16,8 @@ $tweakpoints: (
 
 .header__inner {
   padding-bottom: 0.8rem;
-
-  .enhanced & {
-    display: flex;
-    align-items: center;
-  }
+  display: flex;
+  align-items: center;
 }
 
 .header__burger {
@@ -266,6 +263,7 @@ $tweakpoints: (
   display: none;
   position: absolute;
   top: 1rem;
+  z-index: 1;
 
   .icon {
     width: 1em;
