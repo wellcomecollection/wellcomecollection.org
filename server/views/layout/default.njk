@@ -27,9 +27,7 @@
       {% block body %}
       {% endblock %}
     </div>
-    <div class="row row--black">
-      {% component "footer", {footerNav: footerNav, openingHours: openingHours} %}
-    </div>
+    {% component "footer", {footerNav: footerNav, openingHours: openingHours} %}
     {% include "partials/analytics.njk" %}
   </body>
 </html>

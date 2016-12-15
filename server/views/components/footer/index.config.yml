@@ -1,6 +1,6 @@
 name: footer
 handle: footer
-preview: "@preview-footer"
+preview: "@preview-no-container"
 context:
   footerNav: "@footer-nav"
   openingHours: "@opening-hours"

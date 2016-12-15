@@ -6,6 +6,10 @@
   margin-bottom: $vertical-space-unit;
   margin-left: -(map-get($gutter-width, 'small'));
 
+  &:last-child {
+    margin-bottom: 0;
+  }
+
   @include respond-to('medium') {
     margin-left: -(map-get($gutter-width, 'medium'));
   }
