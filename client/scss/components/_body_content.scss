@@ -1,6 +1,7 @@
 .body-content {
   h2 {
     @include font('WB5');
+    margin-top: 0;
   }
 
   ul {

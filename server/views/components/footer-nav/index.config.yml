@@ -1,7 +1,7 @@
 handle: footer-nav
 name: Footer nav
 display:
-  background: "#1d1d1d"
+  background: "#010101"
 context:
   navLinks:
   - url: "#"
