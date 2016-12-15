@@ -1,4 +1,1 @@
-preview: "@preview-no-container"
-context:
-  footerNav: "@footer-nav"
-  openingHours: "@opening-hours"
+hidden: true

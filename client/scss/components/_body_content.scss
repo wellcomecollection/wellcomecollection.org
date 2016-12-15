@@ -6,6 +6,7 @@
 
   ul {
     @include plain-list();
+    margin-bottom: 2em;
 
     li {
       list-style: none;

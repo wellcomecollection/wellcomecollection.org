@@ -1,30 +1,9 @@
-{% extends "layout/default.njk" %}
+{% extends "templates/article.njk" %}
 
-{% block body %}
-<div class="row row--lead row--lead--l">
-  <div class="container">
-    <div class="grid">
-      <div class="grid__cell grid__cell--shift-l1">
-        {% component 'page-description', {title: headline, modifiers: ['a']} %}
-      </div>
-    </div>
+{% block articleBody %}
+  <div class="grid__cell grid__cell--l6 grid__cell--shift-l1  grid__cell--m8">
+    {% for bodyPart in articleBody | parseBody %}
+      {{bodyPart.value | safe}}
+    {% endfor %}
   </div>
-</div>
-{% for media in mainMedia %}
-  {% if media.weighting == 'leading' %}
-    {% component "media-item", { media: media } %}
-  {% endif %}
-{% endfor %}
-
-<div class="row row--cream">
-  <div class="container body-content">
-    <div class="grid grid--spaced">
-      <div class="grid__cell grid__cell--l6 grid__cell--shift-l1  grid__cell--m8">
-        {% for bodyPart in articleBody | parseBody %}
-          {{bodyPart.value | safe}}
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-</div>
 {% endblock %}

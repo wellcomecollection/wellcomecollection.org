@@ -39,3 +39,8 @@
     fill: color('currentColor');
   }
 }
+
+.figure--sticky {
+  position: sticky;
+  top: 10px;
+}
