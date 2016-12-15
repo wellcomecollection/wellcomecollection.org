@@ -42,7 +42,7 @@ context:
     - title: Wellcome Collection
       service: Soundcloud
       url: "#"
-      icon: social/twitter
+      icon: social/soundcloud
   - items:
     - title: Wellcome Library
       service: Google+
@@ -51,4 +51,4 @@ context:
     - title: Wellcome Collection
       service: YouTube
       url: "#"
-      icon: social/twitter
+      icon: social/youtube
