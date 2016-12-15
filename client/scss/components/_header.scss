@@ -258,6 +258,14 @@ $tweakpoints: (
   display: flex;
 }
 
+.header__search-button {
+  position: relative;
+
+  .header__form--is-active & {
+    right: 30px;
+  }
+}
+
 .header__button-text {
   .header__form--is-active & {
     @include visuallyhidden();
@@ -265,6 +273,21 @@ $tweakpoints: (
 
   @include respond-between('small', 'header-medium') {
     @include visuallyhidden();
+  }
+}
+
+.header__close-search {
+  display: none;
+  position: absolute;
+  top: 1rem;
+
+  .icon {
+    width: 1em;
+    height: 1em;
+  }
+
+  .header__form--is-active & {
+    display: flex;
   }
 }
 

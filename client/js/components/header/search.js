@@ -3,6 +3,7 @@ import { KEYS } from './../../util';
 
 const headerSearch = (el) => {
   const headerSearchInput = el.querySelector('.js-header-input');
+  const closeSearchButton = el.querySelector('.js-header-close-search');
   const searchToggle = showHide({
     el: el,
     activeClass: 'header__form--is-active'
@@ -48,6 +49,17 @@ const headerSearch = (el) => {
       if (keyCode !== KEYS.TAB) return;
       if (shiftKey) return;
 
+      searchToggle.setActive(false);
+    });
+
+    // Close search if clicked anywhere outside of search element
+    document.addEventListener('click', (event) => {
+      if (el.contains(event.target)) return;
+
+      searchToggle.setActive(false);
+    });
+
+    closeSearchButton.addEventListener('click', () => {
       searchToggle.setActive(false);
     });
   };
