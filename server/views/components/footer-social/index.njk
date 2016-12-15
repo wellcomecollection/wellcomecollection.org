@@ -1,0 +1,13 @@
+<div class="grid grid--align-end">
+  {% for column in columns %}
+    <div class="grid__cell grid__cell--l3 grid__cell--m4 grid__cell--s4">
+      {% for item in column.items %}
+        <a class="footer-social__link" href="{{ item.url }}">
+          {% icon item.icon %}
+          <span class="footer-social__title">{{ item.title }}</span>
+          <span class="footer-social__service">{{ item.service }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  {% endfor %}
+</div>

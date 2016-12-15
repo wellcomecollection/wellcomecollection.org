@@ -1,0 +1,54 @@
+name: footer-social
+handle: footer-social
+display:
+  background: "#1d1d1d"
+context:
+  columns:
+  - items:
+    - title: Wellcome Collection
+      service: Twitter
+      url: "#"
+      icon: social/twitter
+    - title: Wellcome Collection
+      service: Facebook
+      url: "#"
+      icon: social/facebook
+    - title: Wellcome Collection
+      service: Instagram
+      url: "#"
+      icon: social/instagram
+  - items:
+    - title: Wellcome Library
+      service: Twitter
+      url: "#"
+      icon: social/twitter
+    - title: Wellcome Library
+      service: Facebook
+      url: "#"
+      icon: social/facebook
+    - title: Wellcome Library
+      service: Instagram
+      url: "#"
+      icon: social/instagram
+  - items:
+    - title: Wellcome Digital
+      service: Twitter
+      url: "#"
+      icon: social/twitter
+    - title: Wellcome Collection
+      service: Google+
+      url: "#"
+      icon: social/google-plus
+    - title: Wellcome Collection
+      service: Soundcloud
+      url: "#"
+      icon: social/twitter
+  - items:
+    - title: Wellcome Library
+      service: Google+
+      url: "#"
+      icon: social/twitter
+    - title: Wellcome Collection
+      service: YouTube
+      url: "#"
+      icon: social/twitter

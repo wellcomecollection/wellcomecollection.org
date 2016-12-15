@@ -13,3 +13,12 @@
     min-height: 78px;
   }
 }
+
+.footer__heading--centered {
+  @include respond-to('large') {
+    text-align: center;
+    border-top: 1px solid color('charcoal');
+    margin-top: 2 * $vertical-space-unit;
+    padding-top: $vertical-space-unit;
+  }
+}

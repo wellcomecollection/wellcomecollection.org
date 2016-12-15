@@ -14,6 +14,8 @@ const headerBurger = (el) => {
 
   const init = () => {
     setBurgerAria(isBurgerVisible());
+    burger.trigger.setAttribute('role', 'button');
+    burger.trigger.setAttribute('aria-controls', 'header-nav');
     handleEvents();
   };
 

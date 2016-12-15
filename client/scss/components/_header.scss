@@ -24,15 +24,11 @@ $tweakpoints: (
 }
 
 .header__burger {
-  display: none;
   flex: 1;
+  display: block;
 
-  .enhanced & {
-    display: block;
-
-    @include respond-to('header-medium') {
-      display: none;
-    }
+  @include respond-to('header-medium') {
+    display: none;
   }
 }
 
@@ -40,9 +36,7 @@ $tweakpoints: (
   position: relative;
   width: 1.3rem;
   height: 1rem;
-  appearance: none;
-  background: color('transparent');
-  border: 0;
+  display: block;
 
   // TODO: replace with svg-sprite icon
   span {
@@ -101,9 +95,11 @@ $tweakpoints: (
 }
 
 .header__nav {
-  display: block;
+  display: none;
+  background: color('white');
+  position: absolute;
+  z-index: 1;
   padding-top: 0.5rem;
-  position: static;
   top: 100%;
   left: 0;
   right: 0;
@@ -116,21 +112,11 @@ $tweakpoints: (
   }
 
   @include respond-to('header-medium') {
+    position: static;
+    display: block;
+    margin-top: 0;
     padding-left: 0;
     padding-right: 0;
-  }
-
-  .enhanced & {
-    display: none;
-    background: color('white');
-    position: absolute;
-    z-index: 1;
-
-    @include respond-to('header-medium') {
-      position: static;
-      display: block;
-      margin-top: 0;
-    }
   }
 
   .header--is-burger-open & {
