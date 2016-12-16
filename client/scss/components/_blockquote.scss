@@ -18,8 +18,14 @@
     @include font('LR2');
   }
 
-  p:first-child {
-    margin-top: 0;
+  p {
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   &.blockquote--with-marks {
