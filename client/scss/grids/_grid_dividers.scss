@@ -6,7 +6,7 @@
       position: absolute;
       content: '';
       top: 0;
-      bottom: 0;
+      bottom: $vertical-space-unit;
       width: 1px;
       background: color('keyline-grey');
       left: map-get($gutter-width, 'small') / 2;

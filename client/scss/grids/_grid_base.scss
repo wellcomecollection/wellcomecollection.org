@@ -2,13 +2,7 @@
 .grid {
   display: flex;
   flex-wrap: wrap;
-  margin-top: -$vertical-space-unit;
-  margin-bottom: $vertical-space-unit;
   margin-left: -(map-get($gutter-width, 'small'));
-
-  &:last-child {
-    margin-bottom: 0;
-  }
 
   @include respond-to('medium') {
     margin-left: -(map-get($gutter-width, 'medium'));
@@ -21,7 +15,6 @@
 
 .grid__cell {
   flex: 1;
-  margin-top: $vertical-space-unit;
   padding-left: map-get($gutter-width, 'small');
 
   @include respond-to('medium') {
@@ -30,9 +23,5 @@
 
   @include respond-to('large') {
     padding-left: map-get($gutter-width, 'large');
-  }
-
-  > .grid {
-    margin-bottom: 0;
   }
 }
