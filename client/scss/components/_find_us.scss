@@ -4,6 +4,7 @@
   @include font('HNL5');
   border-top: 1px solid color('charcoal');
   padding-top: 1.6rem;
+  margin-bottom: $vertical-space-unit;
   color: color('white');
 
   .icon {
