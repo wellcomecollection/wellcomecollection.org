@@ -27,3 +27,11 @@
     }
   }
 }
+
+.grid--flush-dividers {
+  + .grid--flush-dividers {
+    .grid__cell:before {
+      top: -$vertical-space-unit;
+    }
+  }
+}
