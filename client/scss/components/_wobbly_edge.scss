@@ -4,6 +4,10 @@
   position: relative;
   z-index: 2;
   transition: clip-path 2000ms ease-in-out;
+
+  @supports not ((clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0))) {
+    display: none;
+  }
 }
 
 .wobbly-edge--cream {
