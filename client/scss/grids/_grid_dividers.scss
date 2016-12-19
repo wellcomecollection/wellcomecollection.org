@@ -20,6 +20,18 @@
       }
     }
 
+    &.grid__cell--s4:before {
+      @include respond-between('small', 'medium') {
+        display: none;
+      }
+    }
+
+    &.grid__cell--m8:before {
+      @include respond-between('medium', 'large') {
+        display: none;
+      }
+    }
+
     &:first-child {
       &:before {
         display: none;
