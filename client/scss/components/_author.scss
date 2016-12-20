@@ -1,7 +1,7 @@
 .author {
   display: flex;
   border-bottom: 1px solid color('keyline-grey');
-  margin-bottom: $vertical-space-unit;
+  margin-bottom: 2 * $vertical-space-unit;
   padding-bottom: 2 * $vertical-space-unit;
   align-items: center;
 }
