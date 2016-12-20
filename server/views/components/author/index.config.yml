@@ -1,0 +1,8 @@
+name: Author bio
+handle: author-bio
+context:
+  name: Gylve Nagell
+  twitterHandle: darkthrone
+  image:
+    url: http://placehold.it/100x100
+    alt: Picture of Gylve Nagell
