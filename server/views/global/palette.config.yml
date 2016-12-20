@@ -7,7 +7,7 @@ context:
   - name: white
     hex: "#fff"
   - name: cream
-    hex: "#f8f7f4"
+    hex: "#eeebe2"
   - name: black
     hex: "#1d1d1d"
   - name: dark-black
