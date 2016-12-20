@@ -2,6 +2,7 @@
 
 .opening-hours {
   color: color('white');
+  margin-bottom: $vertical-space-unit;
 }
 
 .opening-hours__tablist {
@@ -42,6 +43,10 @@
   text-decoration: none;
   display: block;
   padding: 0.5em;
+
+  .opening-hours__tabitem:first-child & {
+    padding-left: 0;
+  }
 }
 
 .opening-hours__table {

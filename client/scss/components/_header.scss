@@ -150,7 +150,7 @@ $tweakpoints: (
     bottom: 0;
     margin-right: -1rem;
     width: calc(100vw - 6.4rem);
-    max-width: 72rem;
+    max-width: 64.6rem;
 
     @include respond-to('medium') {
       width: calc(100vw - 8rem);

@@ -1,0 +1,52 @@
+{% extends "layout/default.njk" %}
+
+{% block body %}
+<div class="row row--lead row--lead--l">
+  <div class="container">
+    <div class="grid">
+      <div class="grid__cell grid__cell--shift-l1">
+        {% component 'page-description', {title: headline, modifiers: ['a']} %}
+      </div>
+    </div>
+  </div>
+</div>
+{% for media in mainMedia %}
+  {% if media.weighting == 'leading' %}
+    {% component "media-item", { media: media } %}
+  {% endif %}
+{% endfor %}
+
+<div class="row row--cream">
+  <div class="container body-content">
+    {% block articleBody %}
+      {% for bodyPart in bodyParts %}
+        <div class="grid grid--dividers grid--flush-dividers">
+        {% if bodyPart.copy %}
+          <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
+            {{ bodyPart.copy | safe }}
+          </div>
+          {% if bodyPart.figure %}
+            <div class="grid__cell grid__cell--xl4 grid__cell--l5 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
+              {% component 'figure', {
+                type: 'picture',
+                sources: bodyPart.figure.sources,
+                caption: bodyPart.figure.caption,
+                modifiers: ['sticky'],
+                icon: bodyPart.figure.icon } %}
+            </div>
+          {% endif %}
+        {% elif bodyPart.figure %}
+          <div class="grid__cell grid__cell--l12 grid__cell--m8, grid__cell--s4">
+            {% component 'figure', {
+              type: 'picture',
+              sources: bodyPart.figure.sources,
+              caption: bodyPart.figure.caption,
+              icon: bodyPart.figure.icon } %}
+          </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    {% endblock %}
+  </div>
+</div>
+{% endblock %}

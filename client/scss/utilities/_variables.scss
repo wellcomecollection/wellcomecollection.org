@@ -230,6 +230,12 @@ $grid-config: (
     'gutter': map-get($gutter-width, 'large'),
     'columns': map-get($total-columns, 'large'),
     'respond': 'large'
+  ),
+  'xl': (
+    'padding': map-get($container-padding, 'large'),
+    'gutter': map-get($gutter-width, 'large'),
+    'columns': map-get($total-columns, 'large'),
+    'respond': 'xlarge'
   )
 );
 

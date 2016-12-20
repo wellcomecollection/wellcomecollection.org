@@ -1,7 +1,7 @@
 //* @define figure
 
 .figure {
-  margin: 0;
+  margin: 0 0 $vertical-space-unit;
 
   &.figure--bleed {
     @include bleed(map-get($gutter-width, 'small'));
@@ -38,4 +38,9 @@
   .icon__shape {
     fill: color('currentColor');
   }
+}
+
+.figure--sticky {
+  position: sticky;
+  top: $vertical-space-unit;
 }

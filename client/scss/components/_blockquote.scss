@@ -2,13 +2,12 @@
 
 .blockquote {
   @include font('HNM2');
-  text-align: center;
+  margin-left: 0;
+  margin-bottom: 2em;
 
-  @include respond-to('large') {
+  @include respond-to('medium') {
     border-left: 5px solid color('keyline-grey');
-    border-right: 5px solid color('keyline-grey');
-    padding-left: span-columns('large', 1, true);
-    padding-right: span-columns('large', 1, true);
+    padding-left: 2em;
   }
 
   &.blockquote--wb {
@@ -17,11 +16,16 @@
 
   &.blockquote--lr {
     @include font('LR2');
-    text-align: left;
   }
 
-  p:first-child {
-    margin-top: 0;
+  p {
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   &.blockquote--with-marks {

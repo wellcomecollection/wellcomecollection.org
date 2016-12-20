@@ -6,7 +6,7 @@
       position: absolute;
       content: '';
       top: 0;
-      bottom: 0;
+      bottom: $vertical-space-unit;
       width: 1px;
       background: color('keyline-grey');
       left: map-get($gutter-width, 'small') / 2;
@@ -20,10 +20,32 @@
       }
     }
 
+    &.grid__cell--s4:before,
+    &[class*='grid__cell--shift-s']:before {
+      @include respond-between('small', 'medium') {
+        display: none;
+      }
+    }
+
+    &.grid__cell--m8:before,
+    &[class*='grid__cell--shift-m']:before {
+      @include respond-between('medium', 'large') {
+        display: none;
+      }
+    }
+
     &:first-child {
       &:before {
         display: none;
       }
+    }
+  }
+}
+
+.grid--flush-dividers {
+  + .grid--flush-dividers {
+    .grid__cell:before {
+      top: -$vertical-space-unit;
     }
   }
 }
