@@ -1,6 +1,7 @@
 name: Article
 handle: article-template
 context:
+  author: "@author"
   headline: AIDS Posters
   mainMedia:
   - mediaType: image

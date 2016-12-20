@@ -1,0 +1,39 @@
+.author {
+  display: flex;
+  border-bottom: 1px solid color('keyline-grey');
+  margin-bottom: 2 * $vertical-space-unit;
+  padding-bottom: 2 * $vertical-space-unit;
+  align-items: center;
+}
+
+.author__image {
+  width: 4rem;
+  border-radius: 5px;
+  margin-right: 1.2rem;
+}
+
+.author__name {
+  @include font('WB6');
+  display: block;
+}
+
+.author__twitter {
+  @include font('HNM6');
+  color: color('action-green-1');
+
+  .icon {
+    width: 2em;
+    height: 2em;
+    margin-right: 0.2em;
+  }
+
+  .icon__shape {
+    fill: color('action-green-1');
+  }
+}
+
+.author__link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
