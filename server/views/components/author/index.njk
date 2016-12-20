@@ -3,7 +3,13 @@
   <div class="author__copy">
     <span class="author__name">{{ name }}</span>
     {% if twitterHandle %}
-      <span class="author__twitter"><a href="https://twitter.com/{{ twitterHandle }}" class="author__link">{% icon 'social/twitter' %} @{{ twitterHandle }}</a></span>
+      <span class="author__twitter">
+        <a href="https://twitter.com/{{ twitterHandle }}"
+          class="author__link"
+          aria-label="{{ name }} (screen name: {{ twitterHandle }})">
+          {% icon 'social/twitter' %} @{{ twitterHandle }}
+        </a>
+      </span>
     {% endif %}
   </div>
 </div>
