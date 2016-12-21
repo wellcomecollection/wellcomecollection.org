@@ -1,10 +1,10 @@
 {% for font in fonts %}
   {% component "font-example", {
-    font__name: font.font__name, 
-    font__example: font.font__example, 
-    font__size: font.font__size, 
-    letter__spacing: font.letter__spacing, 
-    line__height: font.line__height, 
+    font__name: font.font__name,
+    font__example: font.font__example,
+    font__size: font.font__size,
+    letter__spacing: font.letter__spacing,
+    line__height: font.line__height,
     usage__text: font.usage__text
 } %}
 {% endfor %}
@@ -134,10 +134,10 @@ p q r s t u v w x y z { | } ~
   <div class="example">
     <figure>
       <img style="max-width: 100%;"
-        src="http://placehold.it/350x150"
-        srcset="http://placehold.it/350x150 350w,
-                http://placehold.it/700x300 700w,
-                http://placehold.it/1050x450 1050w"
+        src="https://placehold.it/350x150"
+        srcset="https://placehold.it/350x150 350w,
+                https://placehold.it/700x300 700w,
+                https://placehold.it/1050x450 1050w"
         sizes="(min-width: 800px) 50vw, 100vw"
         alt="Example image">
         <!-- Leaving off the sizes attribute, it would default to 100vw (maybe not a bad assumption) -->
@@ -152,12 +152,12 @@ p q r s t u v w x y z { | } ~
     <figure>
       <picture style="max-width: 100%">
         <source media="(min-width: 1000px)"
-                srcset="http://placehold.it/1050/450 1050w,
-                        http://placehold.it/700/300 700w"
+                srcset="https://placehold.it/1050/450 1050w,
+                        https://placehold.it/700/300 700w"
                 sizes="33.3vw" />
-        <source srcset="http://placehold.it/400/800 400w,
-                        http://placehold.it/600/1200 600w" />
-        <img style="max-width: 100%" src="http://placehold.it/700/300" alt="Example image" />
+        <source srcset="https://placehold.it/400/800 400w,
+                        https://placehold.it/600/1200 600w" />
+        <img style="max-width: 100%" src="https://placehold.it/700/300" alt="Example image" />
       </picture>
       <figcaption>
         This is a placeholder "art-directed" image, with supporting caption.
