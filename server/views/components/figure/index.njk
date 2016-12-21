@@ -1,4 +1,4 @@
-<figure class="figure figure--{{type}} {% if bleed %}figure--bleed{% endif %} {% for modifier in modifiers %}figure--{{ modifier }} {% endfor %}">
+<figure class="figure {% if full %} figure--full{% endif %} figure--{{type}} {% if bleed %}figure--bleed{% endif %} {% for modifier in modifiers %}figure--{{ modifier }} {% endfor %}">
   {% if type === 'picture' %}
     <picture class="figure__picture">
       {%- for source in sources %}
@@ -18,6 +18,12 @@
       {%- endfor %}"
       alt="{{ caption }}" />
   {% endif %}
+
+  {% if full %}
+    {% component 'wobbly-edge', {background: 'cream'} %}
+  {% endif %}
+
+  <div class="{{ 'row row--cream' if full }}">
     <div class="{{ 'container' if full }}">
       <div class="grid">
         <div class="grid__cell {% for size in captionSizes %}grid__cell--{{ size }}{% endfor %} {% for shift in captionShifts %}grid__cell--shift-{{ shift }} {% endfor %}">
@@ -28,4 +34,5 @@
         </div>
       </div>
     </div>
+  </div>
 </figure>

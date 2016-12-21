@@ -14,11 +14,20 @@
       @include bleed(map-get($gutter-width, 'large'));
     }
   }
+
+  &.figure--full {
+    margin-bottom: 0;
+  }
 }
 
 .figure__image {
   width: 100%;
+  display: block;
   margin-bottom: 0.7rem;
+
+  .figure--full & {
+    margin-bottom: 0;
+  }
 }
 
 .figure__caption {
