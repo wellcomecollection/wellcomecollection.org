@@ -11,14 +11,14 @@
         </a>
       </div>
       <a href="#" class="header__brand">
-        {% icon 'icon-wellcome-logo', 'Wellcome Collection Logo' %}
+        {% icon 'other/wellcome-collection', 'Wellcome Collection Logo' %}
       </a>
       <nav id="header-nav"
         class="header__nav js-header-burger-drawer"
         aria-labelledby="header-burger-trigger">
         <ul class="header__list">
           {% for navLink in navLinks %}
-            <li class="header__item {{ "header__item--is-current" if navLink.isCurrent }}">
+            <li class="header__item {{ 'header__item--is-current' if navLink.isCurrent }}">
               <a href="{{ navLink.href }}"
                 class="header__link js-header-nav-link"
                 {%- if navLink.isCurrent %}
