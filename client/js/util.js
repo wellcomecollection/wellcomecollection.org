@@ -14,7 +14,6 @@ const nodeList = (nl) => {
 
 const setPropertyPrefixed = (el, property, value) => {
   const cappedProperty = property[0].toUpperCase() + property.substring(1);
-  console.log('yoyo');
   el.style[`Webkit${cappedProperty}`] = value;
   el.style[`moz${cappedProperty}`] = value;
   el.style[`ms${cappedProperty}`] = value;

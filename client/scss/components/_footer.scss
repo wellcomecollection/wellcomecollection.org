@@ -1,5 +1,6 @@
 .footer {
   padding-top: $vertical-space-unit*3;
+  padding-bottom: $vertical-space-unit;
   color: color('white');
 }
 
@@ -20,5 +21,125 @@
     border-top: 1px solid color('charcoal');
     margin-top: 2 * $vertical-space-unit;
     padding-top: $vertical-space-unit;
+  }
+}
+
+.footer__bottom {
+  border-top: 1px solid color('charcoal');
+  padding-top: $vertical-space-unit;
+  padding-bottom: 2 * $vertical-space-unit;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer__strap {
+  @include font('HNM6');
+  display: flex;
+  align-items: center;
+  flex-basis: 100%;
+  margin-bottom: $vertical-space-unit;
+
+  @include respond-to('large') {
+    flex-basis: auto;
+  }
+
+  .icon {
+    width: 2.6rem;
+    margin-right: 0.6rem;
+  }
+
+  .icon__shape {
+    fill: color('white');
+  }
+}
+
+.footer__strap-text {
+  max-width: 10rem;
+}
+
+.footer__hygiene-nav {
+  position: relative;
+  flex-basis: 100%;
+  margin-bottom: $vertical-space-unit;
+  padding-bottom: $vertical-space-unit;
+  border-bottom: 1px solid color('charcoal');
+
+  @include respond-to('large') {
+    padding-bottom: 0;
+    border-bottom: 0;
+    flex-basis: auto;
+  }
+}
+
+.footer__hygiene-list {
+  @include plain-list();
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: $vertical-space-unit;
+  border-top: 1px solid color('charcoal');
+  padding-top: $vertical-space-unit;
+
+  @include respond-to('large') {
+    border-top: 0;
+    padding-top: 0;
+  }
+}
+
+.footer__hygiene-item {
+  @include font('HNM6');
+  width: 100%;
+  text-align: center;
+
+  @include respond-to('large') {
+    width: auto;
+  }
+
+  &:last-child {
+    position: absolute;
+    bottom: - (3 * $vertical-space-unit);
+    left: 0;
+
+    @include respond-to('medium') {
+      position: static;
+    }
+  }
+}
+
+.footer__hygiene-link {
+  padding: 0.5em 0;
+  display: block;
+  text-decoration: none;
+  border-left: 1px solid color('charcoal');
+
+  .footer__hygiene-item:first-child & {
+    border-left: 0;
+  }
+
+  @include respond-to('medium') {
+    padding-left: 2em;
+    padding-right: 2em;
+  }
+
+  &.footer__hygiene-link--back-to-top {
+    color: color('action-green-1');
+    display: flex;
+    align-items: center;
+    border-left: 0;
+
+    @include respond-to('medium') {
+      border-left: 1px solid color('charcoal');
+      justify-content: center;
+    }
+
+    .icon {
+      width: 1em;
+      height: 1em;
+    }
+
+    .icon__shape {
+      fill: color('currentColor');
+    }
   }
 }
