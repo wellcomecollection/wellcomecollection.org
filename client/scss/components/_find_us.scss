@@ -2,10 +2,16 @@
 
 .find-us {
   @include font('HNL5');
-  border-top: 1px solid color('charcoal');
-  padding-top: 1.6rem;
-  margin-bottom: $vertical-space-unit;
+  margin-bottom: 2 * $vertical-space-unit;
   color: color('white');
+  padding-bottom: $vertical-space-unit;
+  border-bottom: 1px solid color('charcoal');
+
+  @include respond-to('large') {
+    border-bottom: 0;
+    padding-top: 1.6rem;
+    border-top: 1px solid color('charcoal');
+  }
 
   .icon {
     display: block;
