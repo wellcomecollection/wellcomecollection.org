@@ -117,7 +117,7 @@
     border-left: 0;
   }
 
-  @include respond-to('medium') {
+  @include respond-to('large') {
     padding-left: 2em;
     padding-right: 2em;
   }
@@ -131,6 +131,10 @@
     @include respond-to('medium') {
       border-left: 1px solid color('charcoal');
       justify-content: center;
+    }
+
+    @include respond-to('large') {
+      padding-right: 0;
     }
 
     .icon {
