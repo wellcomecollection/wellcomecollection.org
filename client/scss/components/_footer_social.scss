@@ -7,15 +7,27 @@
   margin-bottom: 2.3em;
   display: flex;
   align-items: center;
+  transition: color 200ms ease;
 
   .icon {
     width: 2em;
     height: 2em;
     margin-right: 1.4em;
+    position: relative;
+    transition: all 200ms ease;
+    top: 0;
   }
 
   .icon__shape {
-    fill: color('action-green-1');
+    fill: color('action-green-2');
+  }
+
+  &:hover {
+    color: color('action-green-2');
+
+    .icon {
+      top: -0.2em;
+    }
   }
 }
 

@@ -112,6 +112,11 @@
   display: block;
   text-decoration: none;
   border-left: 1px solid color('charcoal');
+  transition: color 200ms ease;
+
+  &:hover {
+    color: color('action-green-2');
+  }
 
   .footer__hygiene-item:first-child & {
     border-left: 0;

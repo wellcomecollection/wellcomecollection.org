@@ -32,4 +32,9 @@
   display: block;
   text-decoration: none;
   padding: 0.6em 0;
+  transition: color 200ms ease;
+
+  &:hover {
+    color: color('action-green-2');
+  }
 }
