@@ -31,7 +31,12 @@
 }
 
 .figure__caption {
-  @include font('LR2');
+  @include font('LR3');
+
+  @include respond-to('medium') {
+    @include font('LR2');
+  }
+
   display: flex;
   color: color('accessible-grey-2');
   padding-bottom: 1rem;

@@ -1,6 +1,11 @@
 .body-content {
   h2 {
-    @include font('WB5');
+    @include font('WB6');
+
+    @include respond-to('medium') {
+      @include font('WB5');
+    }
+
     margin-top: 0;
   }
 
