@@ -214,18 +214,21 @@ $tweakpoints: (
 
   &:hover,
   &:focus {
-    color: color('action-green-1');
+    color: color('action-green-2');
 
     .enhanced & {
       outline: 0;
+    }
+
+    .icon {
+      transform: rotate(45deg);
     }
   }
 
   .icon {
     width: 1.3em;
     height: 1.3em;
-    fill: color('currentColor');
-    transition: fill 200ms ease;
+    transition: transform 200ms ease;
 
     @include respond-to('header-medium') {
       margin-right: 1em;
@@ -233,6 +236,16 @@ $tweakpoints: (
 
     .header__form--is-active & {
       margin-right: 0;
+      transform: rotate(45deg);
+    }
+  }
+
+  .icon__shape {
+    fill: color('currentColor');
+    transition: fill 200ms ease;
+
+    .header__form--is-active & {
+      fill: color('action-green-2');
     }
   }
 }
@@ -268,10 +281,17 @@ $tweakpoints: (
   .icon {
     width: 1em;
     height: 1em;
+    transition: transform 600ms ease;
   }
 
   .header__form--is-active & {
     display: flex;
+  }
+
+  &:hover {
+    .icon {
+      transform: rotate(90deg);
+    }
   }
 }
 
