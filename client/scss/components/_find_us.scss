@@ -6,6 +6,8 @@
   color: color('white');
   padding-bottom: $vertical-space-unit;
   border-bottom: 1px solid color('charcoal');
+  text-decoration: none;
+  display: block;
 
   @include respond-to('large') {
     border-bottom: 0;
@@ -14,11 +16,13 @@
   }
 
   .icon {
-    display: block;
-    float: left;
     width: 0.875em;
     height: 1.25em;
-    margin-top: 2px;
+    margin-right: 1em;
+    margin-top: 0.2em;
+    position: relative;
+    top: 0;
+    transition: top 200ms ease;
   }
 
   .icon__shape {
@@ -27,20 +31,31 @@
 }
 
 .find-us__address {
-  float: left;
-  margin: 0 0 1.2rem 1rem;
+  display: flex;
+  margin-bottom: 1.2rem;
+  transition: color 200ms ease;
+
+  .find-us:hover &,
+  .find-us:focus & {
+    color: color('action-green-2');
+
+    .icon {
+      top: -0.2em;
+    }
+  }
 }
 
 .find-us__street {
   display: block;
 }
 
-.find-us__link {
-  display: block;
-  clear: both;
-}
-
 .find-us__map {
   max-width: 100%;
   border-radius: 6px;
+  transition: transform 200ms ease;
+
+  .find-us:hover &,
+  .find-us:focus & {
+    transform: scale(1.02, 1.02);
+  }
 }
