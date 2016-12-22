@@ -43,6 +43,12 @@
   text-decoration: none;
   display: block;
   padding: 0.5em;
+  transition: color 200ms ease;
+
+  &:hover,
+  &:focus {
+    color: color('action-green-2');
+  }
 
   .opening-hours__tabitem:first-child & {
     padding-left: 0;
@@ -53,15 +59,19 @@
   @include font('HNL6');
   color: color('accessible-grey-2');
   width: 100%;
-  border-collapse: collapse;
-  display: table;
+  display: flex;
 
   .enhanced & {
-    display: none;
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
   }
 
   &.opening-hours__table--is-visible {
-    display: table;
+    width: 100%;
+    height: auto;
+    visibility: visible;
+    overflow: auto;
   }
 }
 
@@ -72,7 +82,13 @@
   }
 }
 
+.opening-hours__tbody {
+  width: 100%;
+}
+
 .opening-hours__tr {
+  display: flex;
+  justify-content: space-between;
   border-bottom: 1px solid color('charcoal');
 }
 
@@ -81,5 +97,11 @@
 
   &:last-child {
     text-align: right;
+    opacity: 0;
+    transition: opacity 500ms ease;
+
+    .opening-hours__table--is-visible & {
+      opacity: 1;
+    }
   }
 }
