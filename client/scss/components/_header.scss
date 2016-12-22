@@ -313,25 +313,32 @@ $tweakpoints: (
     padding-bottom: 1rem;
   }
 
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 1.9rem;
+    height: 0.6rem;
+    left: 0;
+    width: 0;
+    background: color('yellow');
+    z-index: -1;
+    transition: width 200ms ease;
+
+    @include respond-to('header-medium') {
+      bottom: 0.9rem;
+    }
+  }
+
   &:hover,
   &:focus {
-    color: color('action-green-1');
+    &:after {
+      width: 100%;
+    }
   }
 
   .header__item--is-current & {
     &:after {
-      content: '';
-      position: absolute;
-      bottom: 1.9rem;
-      height: 0.6rem;
-      left: 0;
-      right: 0;
-      background: color('yellow');
-      z-index: -1;
-
-      @include respond-to('header-medium') {
-        bottom: 0.9rem;
-      }
+      width: 100%;
     }
   }
 }
