@@ -7,6 +7,7 @@
     @include font('HNM4');
   }
 
+  display: none;
   background: color('teal');
   color: color('white');
   padding: $vertical-space-unit 0;
@@ -15,6 +16,8 @@
   left: 0;
   right: 0;
   z-index: 2;
+  opacity: 1;
+  transition: opacity 600ms ease;
 
   .icon {
     width: 1.3em;
@@ -23,6 +26,14 @@
 
   .icon__shape {
     fill: color('white');
+  }
+
+  &.cookie-notification--is-visible {
+    display: block;
+  }
+
+  &.cookie-notification--is-faded {
+    opacity: 0;
   }
 }
 
