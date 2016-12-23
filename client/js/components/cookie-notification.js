@@ -1,4 +1,5 @@
 import cookie from 'cookie-cutter';
+import { KEYS } from '../util';
 const COOKIE_NAME = 'cookies_accepted';
 
 const cookieNotification = (el) => {
@@ -13,15 +14,27 @@ const cookieNotification = (el) => {
 
   el.classList.add('cookie-notification--is-visible');
 
-  closeButton.addEventListener('click', (event) => {
-    event.preventDefault();
-
+  const setCookie = () => {
     el.classList.add('cookie-notification--is-faded');
 
     cookie.set(COOKIE_NAME, 'true', {
       path: '/',
       expires: 'Fri, 31 Dec 2036 23:59:59 GMT'
     });
+  };
+
+  closeButton.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    setCookie();
+  });
+
+  closeButton.addEventListener('keydown', (event) => {
+    if (event.keyCode === KEYS.ENTER || event.keyCode === KEYS.SPACEBAR) {
+      event.preventDefault();
+
+      setCookie();
+    }
   });
 };
 
