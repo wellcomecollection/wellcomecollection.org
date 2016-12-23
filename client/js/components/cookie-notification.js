@@ -1,5 +1,4 @@
 import cookie from 'cookie-cutter';
-import { KEYS } from '../util';
 const COOKIE_NAME = 'cookies_accepted';
 
 const cookieNotification = (el) => {
@@ -27,14 +26,6 @@ const cookieNotification = (el) => {
     event.preventDefault();
 
     setCookie();
-  });
-
-  closeButton.addEventListener('keydown', (event) => {
-    if (event.keyCode === KEYS.ENTER || event.keyCode === KEYS.SPACEBAR) {
-      event.preventDefault();
-
-      setCookie();
-    }
   });
 };
 
