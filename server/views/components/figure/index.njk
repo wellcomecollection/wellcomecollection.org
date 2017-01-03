@@ -23,16 +23,18 @@
     {% component 'wobbly-edge', {background: 'cream'} %}
   {% endif %}
 
-  <div class="{{ 'row row--cream' if full }}">
-    <div class="{{ 'container' if full }}">
-      <div class="grid">
-        <div class="grid__cell {% for size in captionSizes %}grid__cell--{{ size }}{% endfor %} {% for shift in captionShifts %}grid__cell--shift-{{ shift }} {% endfor %}">
-          <figcaption class="figure__caption">
-            {% icon icon %}
-            {{ caption }}
-          </figcaption>
+  {% if caption %}
+    <div class="{{ 'row row--cream' if full }}">
+      <div class="{{ 'container' if full }}">
+        <div class="grid">
+          <div class="grid__cell {% for size in captionSizes %}grid__cell--{{ size }}{% endfor %} {% for shift in captionShifts %}grid__cell--shift-{{ shift }} {% endfor %}">
+            <figcaption class="figure__caption">
+              {% icon icon %}
+              {{ caption }}
+            </figcaption>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  {% endif %}
 </figure>
