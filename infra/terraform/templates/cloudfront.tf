@@ -6,6 +6,7 @@ resource "aws_cloudfront_distribution" "cardigan" {
 
   enabled             = true
   default_root_object = "index.html"
+  is_ipv6_enabled     = true
 
   aliases = ["cardigan.wellcomecollection.org"]
 
