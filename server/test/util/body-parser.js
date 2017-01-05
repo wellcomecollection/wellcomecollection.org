@@ -37,6 +37,7 @@ test('removeEmptyTextNodes', t => {
 
 test('getImageFromWpNode', t => {
   const i = getImageFromWpNode(wpImageNode);
+  t.is(i.contentUrl, 'https://wellcomecollection.files.wordpress.com/2016/12/865c27bde0241fe5fc47cfb40826.jpg');
   t.is(i.width, 800);
   t.is(i.height, 521);
   t.is(

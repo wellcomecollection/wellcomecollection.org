@@ -3,7 +3,16 @@
 {% block articleBody %}
   <div class="grid__cell grid__cell--l6 grid__cell--shift-l1  grid__cell--m8">
     {% for bodyPart in articleBody | parseBody %}
-      {{bodyPart.value | safe}}
+      {% if bodyPart.nodeName === 'img' %}
+          {% component 'figure', {
+            type: 'picture',
+            sources: [{src: bodyPart.value.contentUrl, size: bodyPart.value.width}],
+            caption: bodyPart.value.caption,
+            icon: 'other/picture'
+          } %}
+      {%  else %}
+        {{bodyPart.html | safe}}
+      {% endif %}
     {% endfor %}
   </div>
 {% endblock %}

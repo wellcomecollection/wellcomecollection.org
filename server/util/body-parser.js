@@ -1,4 +1,5 @@
 import parse from 'parse5';
+import url from 'url';
 import {Image} from '../model/image';
 
 const treeAdapter = parse.treeAdapters.default;
@@ -20,7 +21,8 @@ export function explodeIntoBodyParts(nodes) {
 
     return {
       nodeName: node.nodeName,
-      value: parse.serialize(frag)
+      value: node.value,
+      html: parse.serialize(frag)
     };
   });
 
@@ -49,10 +51,13 @@ function cleanWpImages(nodes) {
 
 export function getImageFromWpNode(node) {
   const img = node.childNodes.find(node => node.nodeName === 'img');
+  const urlObj = url.parse(getAttrVal(img.attrs, 'data-orig-file'));
+  const contentUrl = `https://${urlObj.hostname}${urlObj.pathname}`;
   const caption = getAttrVal(img.attrs, 'data-image-description').replace(/<\/?p>/g, '').trim();
   const [width, height] = getAttrVal(img.attrs, 'data-orig-size').split(',');
 
   return new Image({
+    contentUrl,
     caption,
     width: parseInt(width, 10),
     height: parseInt(height, 10)
