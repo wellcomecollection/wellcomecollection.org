@@ -1,3 +1,5 @@
+import {getWpFeaturedImage} from './media';
+
 export default class Article {
   constructor(headline, articleBody, mainImage, associatedMedia) {
     this.headline = headline;
@@ -9,6 +11,11 @@ export default class Article {
 
   static fromDrupalApi(json) {
     return new Article(json.headline, json.articleBody, json.mainImage, json.associatedMedia);
+  }
+
+  static fromWpApi(json) {
+      const mainImage = getWpFeaturedImage(json.featured_image, json.attachments);
+      return new Article(json.title, json.content, mainImage, [mainImage]);
   }
 }
 
