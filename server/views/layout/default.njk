@@ -22,14 +22,13 @@
     ]} %}
 
     {% component "new-site-notice" %}
-
     <div id="main" class="main" role="main">
       {% block body %}
       {% endblock %}
     </div>
     {% component "footer", {
       footerNav: footerNav,
-      openingHours: openingHours,
+      openingHours: {places: pageConfig.openingHours},
       footerSocial: footerSocial
     } %}
 
