@@ -1,6 +1,6 @@
 import request from 'superagent';
 import Article from '../model/article';
-import {getPosts} from '../services/wordpress';
+import {getPosts, getArticle} from '../services/wordpress';
 
 export const article = async(ctx, next) => {
   const id = ctx.params.id;
@@ -18,16 +18,9 @@ export const article = async(ctx, next) => {
 
 export const wpArticle = async(ctx, next) => {
     const id = ctx.params.id;
-    // TODO: This should be discoverable - not hard-coded
-    const uri = `https://public-api.wordpress.com/rest/v1.1/sites/blog.wellcomecollection.org/posts/slug:${id}`;
-    const response = await request(uri);
-    const valid = response.type === 'application/json' && response.status === 200;
+    const article = await getArticle(id);
 
-    if (valid) {
-        return ctx.render('pages/article', Article.fromWpApi(response.body));
-    } else {
-        return next();
-    }
+    return article ? ctx.render('pages/article', article) : next();
 };
 
 export const explore = async(ctx) => {
