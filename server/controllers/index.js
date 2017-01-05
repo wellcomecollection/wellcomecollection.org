@@ -1,5 +1,6 @@
 import request from 'superagent';
 import Article from '../model/article';
+import {getPosts} from '../services/wordpress';
 
 export const article = async(ctx, next) => {
   const id = ctx.params.id;
@@ -29,6 +30,10 @@ export const wpArticle = async(ctx, next) => {
     }
 };
 
-export const explore = (ctx) => ctx.render('pages/explore');
+export const explore = async(ctx) => {
+  const wpPosts = await getPosts();
+  return ctx.render('pages/explore', {wpPosts});
+};
+
 export const favicon = (ctx) => ctx.body = '';
 export const healthcheck = (ctx) => ctx.body = 'ok';
