@@ -6,7 +6,11 @@ $tweakpoints: (
 );
 
 .header {
-  padding-top: 0.8rem;
+  padding-top: 0.1rem;
+
+  @include respond-to('medium') {
+    padding-top: $vertical-space-unit;
+  }
 }
 
 .header__upper {
@@ -15,7 +19,12 @@ $tweakpoints: (
 }
 
 .header__inner {
-  padding-bottom: 0.8rem;
+  padding-bottom: 0.4rem;
+
+  @include respond-to('medium') {
+    padding-bottom: $vertical-space-unit;
+  }
+
   display: flex;
   align-items: center;
 }
@@ -31,8 +40,8 @@ $tweakpoints: (
 
 .header__burger-trigger {
   position: relative;
-  width: 1.3rem;
-  height: 1rem;
+  width: 1.2rem;
+  height: 0.9rem;
   display: block;
 
   // TODO: replace with svg-sprite icon
@@ -74,6 +83,9 @@ $tweakpoints: (
 }
 
 .header__brand {
+  display: flex;
+  align-items: center;
+
   @include respond-to('header-medium') {
     margin-right: 1.5rem;
     border-right: 1px solid color('keyline-grey');
@@ -83,7 +95,11 @@ $tweakpoints: (
 
   .icon {
     width: 100%;
-    max-width: 8rem;
+    max-width: 6.5rem;
+
+    @include respond-to('medium') {
+      max-width: 8rem;
+    }
 
     @include respond-to('header-medium') {
       margin-right: 1.5rem;
