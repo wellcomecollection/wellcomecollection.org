@@ -3,6 +3,4 @@ handle: author
 context:
   name: Gylve Nagell
   twitterHandle: darkthrone
-  image:
-    url: https://placehold.it/100x100
-    alt: Picture of Gylve Nagell
+  image: https://placehold.it/100x100
