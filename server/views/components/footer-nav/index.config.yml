@@ -4,11 +4,11 @@ display:
   background: "#010101"
 context:
   navLinks:
-  - url: "#"
+  - href: "#"
     title: Visit us
-  - url: "#"
+  - href: "#"
     title: What's on
-  - url: "#"
+  - href: "#"
     title: Explore
-  - url: "#"
+  - href: "#"
     title: What we do
