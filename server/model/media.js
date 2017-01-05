@@ -34,7 +34,6 @@ export default class Media {
 export function getWpFeaturedImage(uri, images) {
   const i = findWpFeaturedImage(uri, images);
   // I wish we had options ;_;
-  console.info(convertWpImageToMedia(i));
   return i ? convertWpImageToMedia(i) : null;
 }
 
