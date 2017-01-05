@@ -13,7 +13,16 @@
   margin-left: -0.06em;
 
   .page-description--a & {
-    @include font('WB3');
+    @include font('WB5');
+
+    @include respond-to('medium') {
+      @include font('WB4');
+    }
+
+    @include respond-to('large') {
+      @include font('WB3');
+    }
+
     margin-bottom: 0.25em;
   }
 
