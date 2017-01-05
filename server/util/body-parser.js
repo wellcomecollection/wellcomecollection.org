@@ -1,4 +1,7 @@
 import parse from 'parse5';
+import url from 'url';
+import {Image} from '../model/image';
+
 const treeAdapter = parse.treeAdapters.default;
 
 export default function bodyParser(bodyText) {
@@ -18,7 +21,8 @@ export function explodeIntoBodyParts(nodes) {
 
     return {
       nodeName: node.nodeName,
-      value: parse.serialize(frag)
+      value: node.value,
+      html: parse.serialize(frag)
     };
   });
 
@@ -29,9 +33,47 @@ export function removeEmptyTextNodes(nodes) {
   return nodes.filter(node => !isEmptyText(node));
 }
 
+function cleanWpImages(nodes) {
+  return nodes.map(node => {
+    const isWpImage = node.attrs && node.attrs.find(attr => attr.name === 'data-shortcode' && attr.value === 'caption');
+
+    if (isWpImage) {
+      const image = getImageFromWpNode(node);
+      return {
+        nodeName: 'img',
+        value: image
+      };
+    } else {
+      return node;
+    }
+  });
+}
+
+export function getImageFromWpNode(node) {
+  const img = node.childNodes.find(node => node.nodeName === 'img');
+  const urlObj = url.parse(getAttrVal(img.attrs, 'data-orig-file'));
+  const contentUrl = `https://${urlObj.hostname}${urlObj.pathname}`;
+  const caption = getAttrVal(img.attrs, 'data-image-description').replace(/<\/?p>/g, '').trim();
+  const [width, height] = getAttrVal(img.attrs, 'data-orig-size').split(',');
+
+  return new Image({
+    contentUrl,
+    caption,
+    width: parseInt(width, 10),
+    height: parseInt(height, 10)
+  });
+}
+
 // This recursively cleans the nodes.
 function cleanNodes(nodes) {
-  return removeEmptyTextNodes(nodes).map(node => {
+  const parsers = [
+    removeEmptyTextNodes,
+    cleanWpImages
+  ];
+
+  return parsers.reduce((nodes, parser) => {
+    return parser(nodes);
+  }, nodes).map(node => {
     if (node.childNodes && node.childNodes.length > 0) {
       const childNodes = cleanNodes(node.childNodes);
       return Object.assign({}, node, {childNodes});
@@ -43,4 +85,9 @@ function cleanNodes(nodes) {
 
 function isEmptyText(node) {
   return node.nodeName === '#text' && node.value.trim() === '';
+}
+
+function getAttrVal(attrs, key) {
+  const attr = attrs.find(attr => attr.name === key);
+  return attr ? attr.value : null;
 }
