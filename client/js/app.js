@@ -6,7 +6,7 @@ import openingHours from './components/opening-hours';
 import wobblyEdge from './components/wobbly-edge';
 import cookieNotification from './components/cookie-notification';
 import preventOverlapping from './components/prevent-overlapping';
-
+import makeSticky from './components/make-sticky.js';
 message();
 
 const init = () => {
@@ -16,6 +16,7 @@ const init = () => {
   const openingHoursEls = document.querySelectorAll('.js-opening-hours');
   const wobblyEdgeEls = document.querySelectorAll('.js-wobbly-edge');
   const overlappingEls = document.querySelectorAll('.article__main .figure--sticky, .article__main .figure--full-width');
+  const stickyEls = document.querySelectorAll('.article__main .figure--sticky');
 
   nodeList(wobblyEdgeEls).forEach((el) => wobblyEdge(el));
 
@@ -37,6 +38,10 @@ const init = () => {
 
   if (overlappingEls) {
     preventOverlapping(overlappingEls);
+  }
+
+  if (stickyEls) {
+    makeSticky(stickyEls);
   }
 };
 
