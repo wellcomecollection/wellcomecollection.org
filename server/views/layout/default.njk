@@ -15,10 +15,10 @@
     {% component "skip-link" %}
 
     {% component "header", {navLinks: [
-      { href: "/visit", title: "Visit us" },
-      { href: "/whats-on", title: "What's on" },
-      { href: "/explore", title: "Explore", isCurrent: true },
-      { href: "/what-we-do", title: "What we do" }
+      { href: "/visit", title: "Visit us",        isCurrent: pageConfig.inSection === 'visit' },
+      { href: "/whats-on", title: "What's on",    isCurrent: pageConfig.inSection === 'whats-on' },
+      { href: "/explore", title: "Explore",       isCurrent: pageConfig.inSection === 'explore' },
+      { href: "/what-we-do", title: "What we do", isCurrent: pageConfig.inSection === 'what-we-do' }
     ]} %}
 
     {% component "new-site-notice" %}

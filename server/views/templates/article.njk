@@ -5,12 +5,12 @@
   <div class="container">
     <div class="grid">
       <div class="grid__cell grid__cell--shift-l1">
-        {% component 'page-description', {title: headline, modifiers: ['a']} %}
+        {% component 'page-description', {title: article.headline, modifiers: ['a']} %}
       </div>
     </div>
   </div>
 </div>
-{% for media in mainMedia %}
+{% for media in article.mainMedia %}
   {% if media.weighting == 'leading' %}
     {% component "media-item", { media: media } %}
   {% endif %}
@@ -22,14 +22,14 @@
       <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
         {% component 'author', {
           name: author.name,
-            twitterHandle: author.twitterHandle,
+          twitterHandle: author.twitterHandle,
           image: author.image
         } %}
       </div>
     </div>
     {% block articleBody %}
       <div class="body-content">
-        {% for bodyPart in bodyParts %}
+        {% for bodyPart in article.bodyParts %}
           <div class="grid grid--dividers grid--flush-dividers">
           {% if bodyPart.copy %}
             <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
