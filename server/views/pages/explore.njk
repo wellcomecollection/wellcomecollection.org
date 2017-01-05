@@ -3,7 +3,16 @@
 {% block body %}
 <div class="row">
   <div class="container">
-    <h1>Explore</h1>
+    <h1>From the Blog</h1>
+    <ul>
+      {% for post in wpPosts %}
+        <li>
+          <a href="/articles/wp/{{ post.slug }}">{{ post.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <h1>From the Collection</h1>
     <ul>
       <li>
         <a href="/articles/john-thomsons-china">John Thomson's China (article)</a>
