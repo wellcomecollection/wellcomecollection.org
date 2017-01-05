@@ -12,13 +12,6 @@ context:
       uri: "https://placehold.it/1200x900"
       altText: "'Choose safer sex' poster with a photograph of two men in bed"
   bodyParts:
-  - copy: "400x300"
-    figure:
-      sources:
-      - src: 'https://dummyimage.com/400x300'
-        size: 1000
-      icon: 'other/picture'
-      caption: 'This is some alt text'
   - copy: "<div class='standfirst'><p>Sometimes provocative and always interesting, this series of shorter stories can be inspired by pretty much anything in Wellcome Collection and offers a quick insight into some of the themes we explore. This one comes from Elissavet Ntoulia.</p></div>"
     figure:
       sources:
@@ -34,9 +27,4 @@ context:
       icon: 'other/picture'
       caption: 'This is some alt text'
   - copy: <p>1200x600 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi quibusdam animi sequi eos, eligendi distinctio cumque ratione voluptate nostrum aliquid, porro nam tempore repellat vero maiores! Earum voluptates illo, hic!</p><p>Vero voluptates, ea quo enim? Ipsa accusamus eum repellendus laborum odit voluptate quaerat cumque, commodi, quia possimus repudiandae neque illum. Omnis, vero perspiciatis earum debitis adipisci autem unde accusantium, laborum.</p><p>Maiores veniam neque quam explicabo culpa, iste dolorem, debitis eaque. Eius obcaecati voluptatibus non, amet, neque quidem fugit doloremque nostrum libero dolore qui porro, asperiores accusantium nemo, quisquam quas accusamus.</p><p>Porro necessitatibus sed voluptate saepe ea asperiores molestias rerum laudantium quaerat quasi, dolores nulla, fuga odio doloremque illo unde dolor autem voluptas alias nisi, repellendus sapiente magnam. Iusto ducimus, accusantium.</p><p>Quibusdam at, voluptate temporibus accusamus perspiciatis cumque aut modi maiores praesentium omnis sint voluptates hic, mollitia id enim incidunt sunt est, eius quidem nostrum neque fugit beatae culpa odio impedit!</p><p>Voluptates natus officiis praesentium qui accusantium iste soluta culpa cumque laborum, voluptate aspernatur rerum alias, consequatur. Ab, deleniti optio. Illo optio recusandae inventore eligendi quas repudiandae, labore tempora quidem quis.</p>
-    figure:
-      sources:
-      - src: 'https://dummyimage.com/1200x600'
-        size: 1000
-      icon: 'other/picture'
-      caption: 'This is some alt text'
+  
