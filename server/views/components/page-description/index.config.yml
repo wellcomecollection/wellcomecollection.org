@@ -10,16 +10,14 @@ variants:
     - a
     intro: States of Mind
     title: 'Inspired: Alchemists and housewives around a long table'
-    outro: September 9th 2016
-    icon: Clock
+    publicationDate: September 9th 2016
 - name: hn
   label: B (library item)
   notes: Library item title.
   context:
     modifiers:
     - b
-    intro: 
+    intro:
     title: On the Origin of Species by Means of Natural Selection, or the Preservation
       of Favoured Races in the Struggle for Life
-    outro: 
-    icon: 
+    publicationDate:

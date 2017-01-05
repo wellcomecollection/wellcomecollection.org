@@ -38,17 +38,17 @@
   margin-bottom: 0.4em;
 }
 
-.page-description__outro {
+.page-description__publication-date {
   @include font('HNL5');
   display: flex;
   align-items: center;
   color: color('accessible-grey-1');
-}
 
-.page-description__icon {
-  margin-right: 0.5em;
-  width: 1.3em;
-  height: 1.3em;
+  .icon {
+    margin-right: 0.5em;
+    width: 1.3em;
+    height: 1.3em;
+  }
 }
 
 .page-description__use {
