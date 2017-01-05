@@ -17,7 +17,7 @@
   right: 0;
   z-index: 2;
   opacity: 1;
-  transition: opacity 600ms ease;
+  transition: opacity 600ms ease, z-index 0ms 600ms;
 
   .icon {
     width: 1.3em;
@@ -34,6 +34,7 @@
 
   &.cookie-notification--is-faded {
     opacity: 0;
+    z-index: -1;
   }
 }
 

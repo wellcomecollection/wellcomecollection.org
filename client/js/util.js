@@ -2,7 +2,6 @@ const KEYS = {
   TAB: 9,
   ENTER: 13,
   ESCAPE: 27,
-  SPACEBAR: 32,
   LEFT: 37,
   UP: 38,
   RIGHT: 39,
