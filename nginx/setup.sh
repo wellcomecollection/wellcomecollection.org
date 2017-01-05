@@ -1,9 +1,11 @@
+#!/usr/bin/env bash
+
 PURPLE='\033[0;35m'
 GREEN='\033[0;32m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 # TODO: Get this from `nginx -V`
-URI=dev-wellcomecollection.org
+URI=next.dev-wellcomecollection.org
 NGINX_CONF_PATH=/usr/local/etc/nginx/
 PEM_PATH=certs/${URI}.pem
 KEY_PATH=certs/${URI}.key
