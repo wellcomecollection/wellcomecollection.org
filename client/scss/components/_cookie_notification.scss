@@ -1,0 +1,69 @@
+//* @define cookie-notification
+
+.cookie-notification {
+  @include font('HNM6');
+
+  @include respond-to('medium') {
+    @include font('HNM4');
+  }
+
+  display: none;
+  background: color('teal');
+  color: color('white');
+  padding: $vertical-space-unit 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  opacity: 1;
+  transition: opacity 600ms ease, z-index 0ms 600ms;
+
+  .icon {
+    width: 1.3em;
+    min-width: 1.3em;
+  }
+
+  .icon__shape {
+    fill: color('white');
+  }
+
+  &.cookie-notification--is-visible {
+    display: block;
+  }
+
+  &.cookie-notification--is-faded {
+    opacity: 0;
+    z-index: -1;
+  }
+}
+
+.cookie-notification__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cookie-notification__content {
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+
+  .icon {
+    margin-right: 1em;
+  }
+}
+
+.cookie-notification__text {
+  margin-bottom: 0;
+}
+
+.cookie-notification__close {
+  display: flex;
+  align-items: center;
+  margin-left: 1em;
+  cursor: pointer;
+  appearance: none;
+  background: none;
+  border: 0;
+}
