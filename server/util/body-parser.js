@@ -21,7 +21,6 @@ export function explodeIntoBodyParts(nodes) {
       value: parse.serialize(frag)
     };
   });
-
   return parts;
 }
 
@@ -29,16 +28,36 @@ export function removeEmptyTextNodes(nodes) {
   return nodes.filter(node => !isEmptyText(node));
 }
 
-// This recursively cleans the nodes.
-function cleanNodes(nodes) {
-  return removeEmptyTextNodes(nodes).map(node => {
-    if (node.childNodes && node.childNodes.length > 0) {
-      const childNodes = cleanNodes(node.childNodes);
-      return Object.assign({}, node, {childNodes});
+function cleanWpImages(nodes) {
+  return nodes.map(node => {
+    const isWpImage = node.attrs && node.attrs.find(attr => attr.name === 'data-shortcode' && attr.value === 'caption');
+
+    if (isWpImage) {
+      // TODO: Tidy this node up
+      return node;
     } else {
       return node;
     }
   });
+}
+
+// This recursively cleans the nodes.
+function cleanNodes(nodes) {
+  const parsers = [
+    removeEmptyTextNodes,
+    cleanWpImages
+  ];
+
+  return parsers.reduce((nodes, parser) => {
+      return parser(nodes);
+    }, nodes).map(node => {
+      if (node.childNodes && node.childNodes.length > 0) {
+        const childNodes = cleanNodes(node.childNodes);
+        return Object.assign({}, node, {childNodes});
+      } else {
+        return node;
+      }
+    });
 }
 
 function isEmptyText(node) {
