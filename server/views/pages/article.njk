@@ -46,7 +46,13 @@
               </div>
             {% else %}
               <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
-                  {{bodyPart.value | safe}}
+                  {% if loop.index === 1 %}
+                    <div class="standfirst">
+                        {{bodyPart.value | safe}}
+                    </div>
+                  {% else %}
+                    {{bodyPart.value | safe}}
+                  {% endif %}
               </div>
             {% endif %}
           </div>
