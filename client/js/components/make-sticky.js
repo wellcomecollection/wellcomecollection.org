@@ -1,5 +1,5 @@
 import {nodeList, featureTest} from '../util';
-import throttle from 'lodash.throttle';
+import debounce from 'lodash.debounce';
 
 const makeSticky = (els) => {
   if (featureTest('position', 'sticky')) {
@@ -15,7 +15,7 @@ const makeSticky = (els) => {
     };
 
     document.addEventListener('readystatechange', applyPositioning);
-    window.addEventListener('resize', throttle(applyPositioning, 500));// or when resizeStopped?
+    window.addEventListener('resize', debounce(applyPositioning, 500));
   }
 };
 
