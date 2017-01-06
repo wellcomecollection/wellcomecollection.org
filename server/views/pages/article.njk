@@ -31,17 +31,22 @@
       <div class="body-content">
         {% for bodyPart in article.articleBody | parseBody %}
           <div class="grid grid--dividers grid--flush-dividers">
-            {% if bodyPart.nodeName === 'img' %}
+            {% if bodyPart.type === 'image' %}
               <div class="grid__cell grid__cell--l12 grid__cell--m8, grid__cell--s4">
                 {% component 'figure', {
                   type: 'picture',
-                  sources: bodyPart.figure.sources,
-                  caption: bodyPart.figure.caption,
-                  icon: bodyPart.figure.icon } %}
+                  sources: [{src: bodyPart.value.contentUrl, size: bodyPart.value.width}],
+                  caption: bodyPart.value.caption,
+                  icon: 'other/picture'
+                } %}
+              </div>
+            {% elif bodyPart.type === 'video' %}
+              <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
+                {% component 'iframed-video', {video: bodyPart.value} %}
               </div>
             {% else %}
               <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
-                  {{bodyPart.html | safe}}
+                  {{bodyPart.value | safe}}
               </div>
             {% endif %}
           </div>
