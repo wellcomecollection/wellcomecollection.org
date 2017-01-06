@@ -32,7 +32,10 @@ export const wpArticle = async(ctx, next) => {
 
 export const explore = async(ctx) => {
   const wpPosts = await getPosts();
-  return ctx.render('pages/explore', {wpPosts});
+  return ctx.render('pages/explore', {
+    pageConfig: new PageConfig({inSection: 'explore'}),
+    wpPosts
+  });
 };
 
 export const index = (ctx) => ctx.render('pages/index');
