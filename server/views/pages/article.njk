@@ -11,9 +11,7 @@
             icon: 'other/picture'
           } %}
       {% elif bodyPart.type === 'video' %}
-          <div class="iframed-video">
-            <iframe src="{{ bodyPart.value.embedUrl }}" frameborder="0" class="iframed-video__iframe"></iframe>
-          </div>
+          {% component 'iframed-video', {video: bodyPart.value} %}
       {%  else %}
         {{ bodyPart.value | safe }}
       {% endif %}
