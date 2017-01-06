@@ -14,12 +14,13 @@
   <body>
     {% component "skip-link" %}
 
-    {% component "header", {navLinks: [
+    {% set navLinks = [
       { href: "/visit", title: "Visit us",        isCurrent: pageConfig.inSection === 'visit' },
       { href: "/whats-on", title: "What's on",    isCurrent: pageConfig.inSection === 'whats-on' },
       { href: "/explore", title: "Explore",       isCurrent: pageConfig.inSection === 'explore' },
       { href: "/what-we-do", title: "What we do", isCurrent: pageConfig.inSection === 'what-we-do' }
-    ]} %}
+    ] %}
+    {% component "header", { navLinks: navLinks } %}
 
     {% component "new-site-notice" %}
     <div id="main" class="main" role="main">
@@ -27,7 +28,7 @@
       {% endblock %}
     </div>
     {% component "footer", {
-      footerNav: footerNav,
+      navLinks: navLinks,
       openingHours: {places: pageConfig.openingHours},
       footerSocial: footerSocial
     } %}

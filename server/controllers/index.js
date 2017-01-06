@@ -1,10 +1,7 @@
 import request from 'superagent';
 import Article from '../model/article';
-<<<<<<< HEAD
-import {PageConfig}from '../model/page-config';
-=======
+import {PageConfig} from '../model/page-config';
 import {getPosts, getArticle} from '../services/wordpress';
->>>>>>> 9e4d3dbc122a26d7909fd358cc9c18625619a76b
 
 export const article = async(ctx, next) => {
   const id = ctx.params.id;
@@ -29,7 +26,7 @@ export const wpArticle = async(ctx, next) => {
 
     return article ? ctx.render('pages/article', {
       pageConfig: new PageConfig({inSection: 'explore'}),
-      article: Article.fromWpApi(response.body)
+      article: article
     }) : next();
 };
 
