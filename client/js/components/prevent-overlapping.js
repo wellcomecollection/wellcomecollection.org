@@ -16,7 +16,7 @@ const preventOverlapping = (els) => {
           nextDomElActualTop: array[index - 1] ? array[index - 1].getBoundingClientRect().top : null,
           prevDomEls: elements.slice(index + 1)
         };
-        if (elementMeta.currentElPosition === 'sticky' && elementMeta.currentElActualTop <= elementMeta.currentElCssTop && elementMeta.nextDomEl !== undefined) {
+        if (elementMeta.currentElPosition.indexOf('sticky') > 0 && elementMeta.currentElActualTop <= elementMeta.currentElCssTop && elementMeta.nextDomEl !== undefined) {
           if (elementMeta.nextDomElActualTop <= elementMeta.currentElHeight + elementMeta.currentElCssTop) {
             elementMeta.currentEl.style.opacity = 0;
           } else {

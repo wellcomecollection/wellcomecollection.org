@@ -7,9 +7,9 @@ const makeSticky = (els) => {
     const applyPositioning = () => {
       elements.map((e) => {
         if (e.offsetHeight > window.innerHeight) {
-          e.style.position = 'static';
+          e.classList.remove('sticky-applied');
         } else {
-          e.style.position = 'sticky';
+          e.classList.add('sticky-applied');
         }
       });
     };

@@ -70,10 +70,15 @@ $large-width: (5/7 * 100)+'%';
       clear: right;
       width: #{$large-width};
       margin-right: calc((#{$large-width} + #{map-get($gutter-width, 'large')} ) * -1);
+    }
+
+    /* stylelint-disable plugin/selector-bem-pattern */
+    .sticky-applied {
       position: sticky;
       top: $vertical-space-unit;
       transition: opacity 0.4s ease;
     }
+    /* stylelint-enable */
 
     .figure--full-width {
       clear: both;
