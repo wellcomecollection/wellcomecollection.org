@@ -3,15 +3,17 @@
 {% block articleBody %}
   <div class="grid__cell grid__cell--l6 grid__cell--shift-l1  grid__cell--m8">
     {% for bodyPart in articleBody | parseBody %}
-      {% if bodyPart.nodeName === 'img' %}
+      {% if bodyPart.type === 'image' %}
           {% component 'figure', {
             type: 'picture',
             sources: [{src: bodyPart.value.contentUrl, size: bodyPart.value.width}],
             caption: bodyPart.value.caption,
             icon: 'other/picture'
           } %}
+      {% elif bodyPart.type === 'video' %}
+        {{ bodyPart.value.embedUrl }}
       {%  else %}
-        {{bodyPart.html | safe}}
+        {{ bodyPart.value | safe }}
       {% endif %}
     {% endfor %}
   </div>
