@@ -32,7 +32,6 @@ export function explodeIntoBodyParts(nodes) {
     }, node);
 
     const bodyPart = maybeBodyPart.type ? maybeBodyPart : convertDomNode(maybeBodyPart);
-    // if (bodyPart.type === 'html') {console.info(bodyPart)}
 
     return bodyPart;
   });
@@ -101,7 +100,7 @@ export function convertWpList(node) {
     return new BodyPart({
       type: 'list',
       value: new List({
-        // TODO: We should be sending a name with al lists
+        // TODO: We should be sending a name with all lists
         name: null,
         items: list
       })
