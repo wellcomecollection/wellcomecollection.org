@@ -44,6 +44,8 @@
               <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
                 {% component 'iframed-video', {video: bodyPart.value} %}
               </div>
+            {% elif bodyPart.type === 'list' %}
+                {% component 'list', {list: bodyPart.value} %}
             {% else %}
               <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
                   {{bodyPart.value | safe}}

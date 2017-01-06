@@ -1,0 +1,8 @@
+<div itemscope itemtype="http://schema.org/ItemList">
+    {%  if (list.name) %}<h2>{{ list.name }}</h2>{% endif %}
+    <ul>
+        {% for item in list.items %}
+            <li itemprop="itemListElement">{{ item | safe }}</li>
+        {% endfor %}
+    </ul>
+</div>

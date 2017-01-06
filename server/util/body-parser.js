@@ -3,13 +3,14 @@ import url from 'url';
 import {Record} from 'immutable';
 import {Image} from '../model/image';
 import {Video} from '../model/video';
+import {List} from '../model/list';
 
 const BodyPart = Record({
   type: null,
   value: null
 });
 
-export default function bodyParser(bodyText) {
+export function bodyParser(bodyText) {
   const fragment = getFragment(bodyText);
   const nodes = explodeIntoBodyParts(cleanNodes(fragment.childNodes));
   return nodes;
@@ -21,7 +22,7 @@ export function getFragment(bodyText) {
 
 export function explodeIntoBodyParts(nodes) {
   const parts = nodes.map(node => {
-    const converters = [convertWpImage, convertWpVideo];
+    const converters = [convertWpImage, convertWpVideo, convertWpList];
 
     // TODO: Tidy up typing here
     const maybeBodyPart = converters.reduce((node, converter) => {
@@ -31,6 +32,7 @@ export function explodeIntoBodyParts(nodes) {
     }, node);
 
     const bodyPart = maybeBodyPart.type ? maybeBodyPart : convertDomNode(maybeBodyPart);
+    // if (bodyPart.type === 'html') {console.info(bodyPart)}
 
     return bodyPart;
   });
@@ -43,14 +45,9 @@ export function removeEmptyTextNodes(nodes) {
 }
 
 export function convertDomNode(node) {
-  const treeAdapter = parse.treeAdapters.default;
-  const frag = treeAdapter.createDocumentFragment();
-
-  treeAdapter.appendChild(frag, node);
-
   return new BodyPart({
     type: 'html',
-    value: parse.serialize(frag)
+    value: serializeNode(node)
   });
 }
 
@@ -81,6 +78,33 @@ export function convertWpVideo(node) {
     return new BodyPart({
       type: 'video',
       value: video
+    });
+  } else {
+    return node;
+  }
+}
+
+export function convertWpList(node) {
+  const isWpList = node.nodeName === 'ul';
+  if (isWpList) {
+    // Make sure it's a list item and not empty
+    const lis = node.childNodes.filter(n => n.nodeName === 'li' && n.childNodes);
+
+    const list = lis.map(li => {
+      const itemVal = li.childNodes.reduce((html, node) => {
+        return `${html}${serializeNode(node)}`;
+      }, '');
+
+      return itemVal;
+    });
+
+    return new BodyPart({
+      type: 'list',
+      value: new List({
+        // TODO: We should be sending a name with al lists
+        name: null,
+        items: list
+      })
     });
   } else {
     return node;
@@ -123,4 +147,13 @@ function isEmptyText(node) {
 function getAttrVal(attrs, key) {
   const attr = attrs.find(attr => attr.name === key);
   return attr ? attr.value : null;
+}
+
+function serializeNode(node) {
+  const treeAdapter = parse.treeAdapters.default;
+  const frag = treeAdapter.createDocumentFragment();
+
+  treeAdapter.appendChild(frag, node);
+
+  return parse.serialize(frag);
 }
