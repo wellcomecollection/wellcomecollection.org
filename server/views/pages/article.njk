@@ -1,18 +1,53 @@
-{% extends "templates/article.njk" %}
+{% extends "layout/default.njk" %}
 
-{% block articleBody %}
-  <div class="grid__cell grid__cell--l6 grid__cell--shift-l1  grid__cell--m8">
-    {% for bodyPart in article.articleBody | parseBody %}
-      {% if bodyPart.nodeName === 'img' %}
-          {% component 'figure', {
-            type: 'picture',
-            sources: [{src: bodyPart.value.contentUrl, size: bodyPart.value.width}],
-            caption: bodyPart.value.caption,
-            icon: 'other/picture'
-          } %}
-      {%  else %}
-        {{bodyPart.html | safe}}
-      {% endif %}
-    {% endfor %}
+{% block body %}
+<div class="row row--lead row--lead--l">
+  <div class="container">
+    <div class="grid">
+      <div class="grid__cell grid__cell--shift-l1">
+        {% component 'page-description', {title: article.headline, modifiers: ['a']} %}
+      </div>
+    </div>
   </div>
+</div>
+{% for media in article.mainMedia %}
+  {% if media.weighting == 'leading' %}
+    {% component "media-item", { media: media } %}
+  {% endif %}
+{% endfor %}
+
+<div class="row row--cream">
+  <div class="container">
+    <div class="grid">
+      <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
+        {% component 'author', {
+          name: article.author.name,
+          twitterHandle: author.twitterHandle,
+          image: article.author.image
+        } %}
+      </div>
+    </div>
+    {% block articleBody %}
+      <div class="body-content">
+        {% for bodyPart in article.articleBody | parseBody %}
+          <div class="grid grid--dividers grid--flush-dividers">
+            {% if bodyPart.nodeName === 'img' %}
+              <div class="grid__cell grid__cell--l12 grid__cell--m8, grid__cell--s4">
+                {% component 'figure', {
+                  type: 'picture',
+                  sources: bodyPart.figure.sources,
+                  caption: bodyPart.figure.caption,
+                  icon: bodyPart.figure.icon } %}
+              </div>
+            {% else %}
+              <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
+                  {{bodyPart.html | safe}}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endblock %}
+  </div>
+</div>
 {% endblock %}
