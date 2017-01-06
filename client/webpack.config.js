@@ -3,6 +3,7 @@ module.exports = {
   output: {
     filename: 'app.js'
   },
+  devtool: 'source-map',
   module: {
     loaders: [{
       test: /\.js$/,
