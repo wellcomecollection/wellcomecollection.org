@@ -38,6 +38,8 @@ export const explore = async(ctx) => {
   });
 };
 
-export const index = (ctx) => ctx.render('pages/index');
+export const index = (ctx) => ctx.render('pages/index', {
+  pageConfig: new PageConfig({inSection: 'explore'})
+});
 export const favicon = (ctx) => ctx.body = '';
 export const healthcheck = (ctx) => ctx.body = 'ok';
