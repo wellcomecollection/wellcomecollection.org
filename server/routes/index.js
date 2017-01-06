@@ -1,8 +1,9 @@
 import Router from 'koa-router';
-import {article, wpArticle, explore, healthcheck, favicon} from '../controllers';
+import {index, article, wpArticle, explore, healthcheck, favicon} from '../controllers';
 
 const r = new Router();
 
+r.get('/', index);
 r.get('/healthcheck', healthcheck);
 r.get('/favicon.ico', favicon);
 r.get('/explore', explore);

@@ -35,5 +35,6 @@ export const explore = async(ctx) => {
   return ctx.render('pages/explore', {wpPosts});
 };
 
+export const index = (ctx) => ctx.render('pages/index');
 export const favicon = (ctx) => ctx.body = '';
 export const healthcheck = (ctx) => ctx.body = 'ok';
