@@ -88,7 +88,12 @@ export function convertWpVideo(node) {
 }
 
 function getImageFromWpNode(node) {
-  const img = node.childNodes.find(node => node.nodeName === 'img');
+  // Some images are wrappers in links
+  const mayBeWrapperA = node.childNodes.find(node => node.nodeName === 'a');
+  const parentNode = mayBeWrapperA || node;
+  const img = parentNode.childNodes.find(node => node.nodeName === 'img');
+  const href = mayBeWrapperA ? getAttrVal(mayBeWrapperA.attrs, 'href') : null;
+
   const urlObj = url.parse(getAttrVal(img.attrs, 'data-orig-file'));
   const contentUrl = `https://${urlObj.hostname}${urlObj.pathname}`;
   const caption = getAttrVal(img.attrs, 'data-image-description').replace(/<\/?p>/g, '').trim();
@@ -97,6 +102,7 @@ function getImageFromWpNode(node) {
   return new Image({
     contentUrl,
     caption,
+    url: href,
     width: parseInt(width, 10),
     height: parseInt(height, 10)
   });
