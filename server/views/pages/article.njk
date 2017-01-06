@@ -1,5 +1,8 @@
 {% extends "templates/article.njk" %}
 
+{% block articleAuthor %}
+{% endblock %}
+
 {% block articleBody %}
   <div class="grid__cell grid__cell--l6 grid__cell--shift-l1  grid__cell--m8">
     {% for bodyPart in article.articleBody | parseBody %}
