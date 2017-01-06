@@ -5,12 +5,12 @@
   <div class="container">
     <div class="grid">
       <div class="grid__cell grid__cell--shift-l1">
-        {% component 'page-description', {title: headline, modifiers: ['a']} %}
+        {% component 'page-description', {title: article.headline, modifiers: ['a']} %}
       </div>
     </div>
   </div>
 </div>
-{% for media in mainMedia %}
+{% for media in article.mainMedia %}
   {% if media.weighting == 'leading' %}
     {% component "media-item", { media: media } %}
   {% endif %}
@@ -29,7 +29,7 @@
     </div>
     {% block articleBody %}
       <div class="body-content">
-        {% for bodyPart in articleBody | parseBody %}
+        {% for bodyPart in article.articleBody | parseBody %}
           <div class="grid grid--dividers grid--flush-dividers">
             {% if bodyPart.nodeName === 'img' %}
               <div class="grid__cell grid__cell--l12 grid__cell--m8, grid__cell--s4">

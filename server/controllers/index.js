@@ -1,5 +1,6 @@
 import request from 'superagent';
 import Article from '../model/article';
+import {PageConfig} from '../model/page-config';
 import {getPosts, getArticle} from '../services/wordpress';
 
 export const article = async(ctx, next) => {
@@ -10,7 +11,10 @@ export const article = async(ctx, next) => {
   const valid = response.type === 'application/json' && response.status === 200;
 
   if (valid) {
-    return ctx.render('pages/article', Article.fromDrupalApi(response.body));
+    return ctx.render('pages/article', {
+      pageConfig: new PageConfig({inSection: 'explore'}),
+      article: Article.fromDrupalApi(response.body)
+    });
   } else {
     return next();
   }
@@ -20,7 +24,10 @@ export const wpArticle = async(ctx, next) => {
     const id = ctx.params.id;
     const article = await getArticle(id);
 
-    return article ? ctx.render('pages/article', article) : next();
+    return article ? ctx.render('pages/article', {
+      pageConfig: new PageConfig({inSection: 'explore'}),
+      article: article
+    }) : next();
 };
 
 export const explore = async(ctx) => {
