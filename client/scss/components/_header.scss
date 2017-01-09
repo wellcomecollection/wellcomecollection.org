@@ -1,30 +1,18 @@
 //* @define header; weak
 
 $tweakpoints: (
-  'header-medium': 820px,
+  'header-medium': 825px,
   'small': map-get($breakpoints, 'small')
 );
 
-.header {
-  padding-top: 0.1rem;
-
-  @include respond-to('medium') {
-    padding-top: $vertical-space-unit;
-  }
-}
-
 .header__upper {
+  padding-top: $vertical-space-unit;
+  padding-bottom: $vertical-space-unit;
   border-bottom: 1px solid color('keyline-grey');
   position: relative;
 }
 
 .header__inner {
-  padding-bottom: 0.4rem;
-
-  @include respond-to('medium') {
-    padding-bottom: $vertical-space-unit;
-  }
-
   display: flex;
   align-items: center;
 }
@@ -112,15 +100,14 @@ $tweakpoints: (
   background: color('white');
   position: absolute;
   z-index: 1;
-  padding-top: 0.5rem;
   top: 100%;
   left: 0;
   right: 0;
-  padding-left: map-get($container-padding, 'small');
+  padding-left: map-get($container-padding, 'small') + map-get($gutter-width, 'small');
   padding-right: map-get($container-padding, 'small');
 
   @include respond-to('medium') {
-    padding-left: map-get($container-padding, 'medium');
+    padding-left: map-get($container-padding, 'medium') + map-get($gutter-width, 'medium');
     padding-right: map-get($container-padding, 'medium');
   }
 
@@ -139,6 +126,7 @@ $tweakpoints: (
 
 .header__search {
   margin-top: 1rem;
+  align-self: stretch;
 
   .enhanced & {
     margin-top: 0;
@@ -150,6 +138,7 @@ $tweakpoints: (
 
 .header__form {
   position: relative;
+  display: flex;
 }
 
 .header__input-wrap {
@@ -196,7 +185,11 @@ $tweakpoints: (
     width: 100%;
     border: 0;
     border-bottom: 1px solid color('keyline-grey');
-    padding: 0.5rem 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 
   &:focus {
@@ -216,7 +209,7 @@ $tweakpoints: (
   z-index: 1;
 
   .enhanced & {
-    padding: 1rem 0 1rem 1.5rem;
+    padding-left: 1.5rem;
 
     @include respond-to('header-medium') {
       border-left: 1px solid color('keyline-grey');
@@ -291,12 +284,17 @@ $tweakpoints: (
 .header__close-search {
   display: none;
   position: absolute;
-  top: 1rem;
+  top: 45%;
+
+  @supports (top: calc(50% - 0.5rem)) {
+    top: calc(50% - 0.5rem);
+  }
+
   z-index: 1;
 
   .icon {
-    width: 1em;
-    height: 1em;
+    width: 1rem;
+    height: 1rem;
     transition: transform 600ms ease;
   }
 
