@@ -7,5 +7,6 @@ export const Image = Record({
   width: 0,
   height: 0,
   copyrightHolder: null,
-  fileFormat: null
+  fileFormat: null,
+  url: null
 });
