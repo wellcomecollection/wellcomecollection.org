@@ -1,8 +1,11 @@
 name: Article
 handle: article-template
 context:
-  author: "@author"
-  headline: AIDS Posters
+  pageConfig:
+    inSection: explore
+  article:
+    author: "@author"
+    headline: AIDS Posters
   mainMedia:
   - mediaType: image
     weighting: leading

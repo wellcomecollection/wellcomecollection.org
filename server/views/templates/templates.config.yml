@@ -1,5 +1,6 @@
 preview: null
 context:
+  pageConfig:
+    openingHours: "@opening-hours.places"
   footerNav: "@footer-nav"
-  openingHours: "@opening-hours"
   footerSocial: "@footer-social"
