@@ -1,7 +1,9 @@
 import test from 'ava';
 import parse from 'parse5';
 import exploreApiResp from '../mocks/explore-api.json';
+import wpApiResp from '../mocks/wp-api.json';
 import {
+  bodyParser,
   getFragment,
   removeEmptyTextNodes,
   convertDomNode,
@@ -46,4 +48,8 @@ test('convertWpVideo', t => {
     v.value.embedUrl,
     'https://www.youtube.com/embed/bfXAlqx0H1g?version=3&rel=1&fs=1&autohide=2&showsearch=0&showinfo=1&iv_load_policy=1&wmode=transparent'
   );
+});
+
+test('wp', t => {
+  const b = bodyParser(wpApiResp.content);
 });
