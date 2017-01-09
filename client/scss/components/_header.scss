@@ -79,10 +79,12 @@ $tweakpoints: (
     border-right: 1px solid color('keyline-grey');
     width: 10rem;
     height: 3.3rem;
+    display: block;
   }
 
   .icon {
     width: 100%;
+    height: 100%;
     max-width: 8rem;
 
     @include respond-to('header-medium') {
