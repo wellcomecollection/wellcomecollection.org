@@ -27,7 +27,11 @@ $mega-w-size: 400px;
 }
 
 .new-site-notice__inner {
-  @include font('HNL6');
+  @include font('HNL7');
+
+  @include respond-to('medium') {
+    @include font('HNL6');
+  }
 
   @include respond-to('notification-break') {
     display: flex;
@@ -38,6 +42,7 @@ $mega-w-size: 400px;
   margin: 0;
   display: flex;
   margin-right: 1rem;
+  margin-bottom: 0.6em;
 }
 
 .new-site-notice__device-ico {
@@ -46,7 +51,12 @@ $mega-w-size: 400px;
 }
 
 .new-site-notice__cta {
-  @include font('HNM5');
+  @include font('HNM6');
+
+  @include respond-to('medium') {
+    @include font('HNM5');
+  }
+
   margin-right: 0.5em;
   display: inline-block;
 }
