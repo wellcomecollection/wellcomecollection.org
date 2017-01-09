@@ -1,26 +1,18 @@
-import request from 'superagent';
-import Article from '../model/article';
 import {PageConfig} from '../model/page-config';
 import {getPosts, getArticle} from '../services/wordpress';
+import {getArtefact} from '../services/artefacts';
 
-export const article = async(ctx, next) => {
+export const artefact = async(ctx, next) => {
   const id = ctx.params.id;
-  // TODO: This should be discoverable - not hard-coded
-  const uri = `https://wellcomecollection.org/api/v0/${id}`;
-  const response = await request(uri);
-  const valid = response.type === 'application/json' && response.status === 200;
+  const artefact = await getArtefact(id);
 
-  if (valid) {
-    return ctx.render('pages/article', {
-      pageConfig: new PageConfig({inSection: 'explore'}),
-      article: Article.fromDrupalApi(response.body)
-    });
-  } else {
-    return next();
-  }
+  return artefact ? ctx.render('pages/article', {
+    pageConfig: new PageConfig({inSection: 'explore'}),
+    article: artefact
+  }) : next();
 };
 
-export const wpArticle = async(ctx, next) => {
+export const article = async(ctx, next) => {
     const id = ctx.params.id;
     const article = await getArticle(id);
 
