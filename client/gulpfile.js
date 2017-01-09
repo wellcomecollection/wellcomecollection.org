@@ -53,12 +53,7 @@ gulp.task('scss:compile', () => {
     }))
     .on('error', sass.logError)
     .pipe(autoprefixer({
-      browsers: [
-        '> 0.01%',
-        'last 2 versions',
-        'Firefox ESR',
-        'IE 9',
-        'opera 12.1']
+      browsers: ['last 2 versions']
     }))
     .pipe(devMode ? sourcemaps.write() : gutil.noop())
     .pipe(gulp.dest(sources.scss.distPath))
