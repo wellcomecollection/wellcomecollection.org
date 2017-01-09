@@ -1,14 +1,30 @@
+import {Person} from './person';
+import {getWpFeaturedImage} from './media';
+
 export default class Article {
-  constructor(headline, articleBody, mainImage, associatedMedia) {
+  constructor(headline, articleBody, mainImage, associatedMedia, author) {
     this.headline = headline;
     this.articleBody = articleBody;
     this.mainImage = mainImage;
     this.associatedMedia = associatedMedia;
     this.mainMedia = getMainMedia(associatedMedia);
+    this.author = author;
   }
 
   static fromDrupalApi(json) {
     return new Article(json.headline, json.articleBody, json.mainImage, json.associatedMedia);
+  }
+
+  static fromWpApi(json) {
+      const mainImage = getWpFeaturedImage(json.featured_image, json.attachments);
+      const author = new Person({
+        givenName: json.author.first_name,
+        familyName: json.author.last_name,
+        name: `${json.author.first_name} ${json.author.last_name}`,
+        image: json.author.avatar_URL,
+        sameAs: [{ wordpress: json.author.URL }]
+      });
+      return new Article(json.title, json.content, mainImage, [mainImage], author);
   }
 }
 

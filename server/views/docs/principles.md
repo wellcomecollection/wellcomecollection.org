@@ -1,6 +1,8 @@
-#Front End Principles and Guidelines
+---
+title: Our Principles
+---
 
-##Intro
+## Intro
 
 This document outlines core concepts that will inform the development of the Wellcome Collection website.
 
@@ -14,10 +16,11 @@ This document outlines core concepts that will inform the development of the Wel
 - [Accessibility](#accessibility)
 - [Browser/device support](#support)
 
-<a name="pe"></a>
-##Progressive Enhancement
-
 [back to top](#index)
+
+
+<a name="pe"></a>
+## Progressive Enhancement
 
 **The site will function without JavaScript or CSS**
 
@@ -27,9 +30,11 @@ In combination with ['cutting the mustard'](http://responsivenews.co.uk/post/189
 
 Opera mini and other [proxy browsers constitute a significant and growing proportion of web browsers](https://www.youtube.com/watch?v=BHO70H9tvqo#t=16m51s) in use. This is particularly true in developing countries where slower network connections and expensive data plans make them appealing.  Using [progressive enhancement is key to making sites that operate well on proxy browsers](https://dev.opera.com/articles/making-sites-work-opera-mini/).
 
+[back to top](#index)
+
 
 <a name="mf"></a>
-##Mobile first
+## Mobile first
 
 **The site will be designed for smallest screens first**
 
@@ -41,7 +46,8 @@ In terms of implementation, it dictates a strategy for the use of media queries.
 
 [back to top](#index)
 
-##Pattern Library
+
+## Pattern Library
 
 **The site will contain a living pattern library**
 
@@ -49,11 +55,11 @@ All components will be displayed in a pattern library, which shares it's code wi
 
 A pattern library will help us to deliver a consistent user experience and promote the reuse of code. It also provides other benefits such as simplifying CSS regression testing.
 
+[back to top](#index)
+
 
 <a name="performance"></a>
 ## Performance
-
-[back to top](#index)
 
 **The site will deliver core content as fast as possible**  - (need to determine exactly what this means - working on separate doc)
 
@@ -61,15 +67,18 @@ Performance needs to be a consideration throughout the build and we should alway
 
 A performance budget should be used against which decesions about design, development, content, or any aspect of a site that may affect performance can be made. 
 
+[back to top](#index)
 
-###Performance budget
+
+### Performance budget
 
 - in progress...
 
+[back to top](#index)
+
+
 <a name="accessibility"></a>
 ## Accessibility
-
-[back to top](#index)
 
 ** The website will conform to WCAG 2.0 - level Double-A **
 
@@ -79,10 +88,11 @@ The only exceptions to this will be where compliance is technically unfeasible a
 
 In addition, although reliance on client side scripts are permitted in the guidelines, we will strive to ensure that core functionality and information is available without them, in keeping with the [commitment to progressive enhancement](#pe), outlined above.
 
-<a name="support"></a>
-##Browser/device support
-
 [back to top](#index)
+
+
+<a name="support"></a>
+## Browser/device support
 
 **We will manually test the site on the following browsers***
 
@@ -114,3 +124,6 @@ These lists were determined from amalgamated analytics data for the Wellcome Col
 The most popular browsers are added to the list, until they make up approximately 95% of traffic. The browser versions of evergreen browsers, i.e. those that automatically update themselves silently without prompting the user, are combined and the latest stable version and the version immediately before that will be tested.
 
 Opera Mini (in Extreme mode) is also included, as this provides an easy way to test the core experience.  In extreme mode, Opera Mini ignores some CSS, doesn't load web fonts, has a low level of Javascript support and an arbitrary Javascript execution timeout.
+
+[back to top](#index)
+
