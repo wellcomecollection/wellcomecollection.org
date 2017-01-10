@@ -84,6 +84,7 @@
 
 .opening-hours__tbody {
   width: 100%;
+  display: block;
 }
 
 .opening-hours__tr {
@@ -94,6 +95,7 @@
 
 .opening-hours__td {
   padding: 1em 0;
+  display: block;
 
   &:last-child {
     text-align: right;

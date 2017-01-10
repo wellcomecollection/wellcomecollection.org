@@ -1,11 +1,11 @@
-import { KEYS } from '../util';
+import { KEYS, nodeList } from '../util';
 
 const tabs = (el, options) => {
   const tablist = el.querySelector('.js-tablist');
   const tabitems = el.querySelectorAll('.js-tabitem');
-  const tablinks = tablist.querySelectorAll('.js-tablink');
-  const tabpanels = el.querySelectorAll('.js-tabpanel');
-  const tabfocusers = el.querySelectorAll('.js-tabfocus');
+  const tablinks = nodeList(tablist.querySelectorAll('.js-tablink'));
+  const tabpanels = nodeList(el.querySelectorAll('.js-tabpanel'));
+  const tabfocusers = nodeList(el.querySelectorAll('.js-tabfocus'));
   let currentTab;
   let tabpanel;
 
