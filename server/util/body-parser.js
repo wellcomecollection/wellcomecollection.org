@@ -1,6 +1,7 @@
 import parse from 'parse5';
 import url from 'url';
 import {Record} from 'immutable';
+import {ImageGallery} from '../model/image-gallery';
 import {Image} from '../model/image';
 import {Video} from '../model/video';
 import {List} from '../model/list';
@@ -22,7 +23,7 @@ export function getFragment(bodyText) {
 
 export function explodeIntoBodyParts(nodes) {
   const parts = nodes.map(node => {
-    const converters = [convertWpImage, convertWpVideo, convertWpList];
+    const converters = [convertWpImage, convertWpVideo, convertWpList, findWpImageGallery];
 
     // TODO: Tidy up typing here
     const maybeBodyPart = converters.reduce((node, converter) => {
@@ -105,6 +106,46 @@ export function convertWpList(node) {
         items: list
       })
     });
+  } else {
+    return node;
+  }
+}
+
+export function findWpImageGallery(node) {
+  const className = getAttrVal(node.attrs, 'class');
+  const isWpImageGallery = Boolean(className && className.match('tiled-gallery'));
+
+  if (isWpImageGallery) {
+    try {
+      const images =
+        node.childNodes.filter(
+          r => r.attrs && getAttrVal(r.attrs, 'class') === 'gallery-row'
+        ).map(
+          r => r.childNodes.filter(n => n.attrs && getAttrVal(n.attrs, 'class').match('gallery-group'))
+        ).reduce((acc, group) => acc.concat(group)).map(group => {
+          const img = group.childNodes[0].childNodes[0].childNodes[0];
+          const width = parseInt(getAttrVal(img.attrs, 'data-original-width'), 10);
+          const height = parseInt(getAttrVal(img.attrs, 'data-original-height'), 10);
+          const contentUrl = getAttrVal(img.attrs, 'data-orig-file');
+          const caption = getAttrVal(img.attrs, 'alt');
+          return new Image({
+            contentUrl,
+            caption,
+            width,
+            height
+          });
+        });
+
+      return new BodyPart({
+        type: 'imageGallery',
+        value: new ImageGallery({
+          name: null,
+          items: images
+        })
+      });
+    } catch(e) {
+      return node;
+    }
   } else {
     return node;
   }
