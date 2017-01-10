@@ -9,7 +9,7 @@ const KEYS = {
 };
 
 const nodeList = (nl) => {
-  return Array.prototype.slice.call(nl || []);
+  return [...nl];
 };
 
 const setPropertyPrefixed = (el, property, value) => {
