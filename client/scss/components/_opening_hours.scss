@@ -59,7 +59,6 @@
   @include font('HNL6');
   color: color('accessible-grey-2');
   width: 100%;
-  display: table;
   margin-bottom: 2 * $vertical-space-unit;
 
   .enhanced & {
