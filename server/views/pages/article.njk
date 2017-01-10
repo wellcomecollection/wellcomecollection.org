@@ -48,6 +48,10 @@
               <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
                 {% component 'list', {list: bodyPart.value} %}
               </div>
+            {% elif bodyPart.type === 'imageGallery' %}
+              <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
+                {% component 'image-gallery', { imageGallery: bodyPart.value } %}
+              </div>
             {% else %}
               <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
                   {% if loop.index === 1 %}
