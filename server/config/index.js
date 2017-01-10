@@ -9,9 +9,11 @@ module.exports = {
   views: {
     path: 'views'
   },
-  static_dir: {
-    root: '../dist',
-    options: {}
+  static: {
+    path: '../dist'
+  },
+  favicon: {
+    path: '../dist/assets/icons'
   },
   session: {
     secretKey: 'myKoajsSecretKey'
