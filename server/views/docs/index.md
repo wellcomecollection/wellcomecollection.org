@@ -2,7 +2,7 @@
 title: Cardigan
 ---
 
-Welcome to Cardigan, a living repository of Wellcome Collection's [principles](/docs/principles)
+Welcome to Cardigan, a living repository of Wellcome Collection's [principles](/docs/principles.html)
 and patterns.
 
 ## Useful links
