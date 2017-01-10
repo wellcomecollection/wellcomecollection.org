@@ -59,12 +59,15 @@
   @include font('HNL6');
   color: color('accessible-grey-2');
   width: 100%;
-  display: flex;
+  display: table;
+  margin-bottom: 2 * $vertical-space-unit;
 
   .enhanced & {
+    display: flex;
     visibility: hidden;
     height: 0;
     overflow: hidden;
+    margin-bottom: 0;
   }
 
   &.opening-hours__table--is-visible {
@@ -82,6 +85,11 @@
   }
 }
 
+.opening-hours__caption {
+  padding-top: $vertical-space-unit;
+  text-decoration: underline;
+}
+
 .opening-hours__tbody {
   width: 100%;
 }
@@ -97,8 +105,11 @@
 
   &:last-child {
     text-align: right;
-    opacity: 0;
     transition: opacity 500ms ease;
+
+    .enhanced & {
+      opacity: 0;
+    }
 
     .opening-hours__table--is-visible & {
       opacity: 1;
