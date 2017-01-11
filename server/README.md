@@ -34,3 +34,17 @@ The test outputs 3 message types:
 It is important to resolve/verify all 3 types in order to achieve standards compliance.
 Additional guidance on manually checking warnings and can be found here:
 https://github.com/wellcometrust/developer-docs/blob/master/front-end/accessibility/Webpage_Accessibility_Audit_Procedure.md 
+
+
+## Cross browser testing
+
+```bash
+npm node test:browsers <url>
+```
+
+The test opens your browser at browserstack.com with screenshots of the url in browsers we test on. You can click 
+
+In order for this to work need to set up environment variables
+
+export BROWSERSTACK_USERNAME="<browserstack_username>"
+export BROWSERSTACK_KEY="<browserstack_key>"
