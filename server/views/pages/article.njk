@@ -31,7 +31,7 @@
   {% block articleBody %}
     <div class="body-content">
       {% for bodyPart in article.articleBody | parseBody %}
-          {% if bodyPart.type === 'image' %}
+          {% if bodyPart.type === 'picure' %}
             <div class="container">
               <div class="grid">
                 <div class="grid__cell grid__cell--l12 grid__cell--m8, grid__cell--s4">
@@ -57,6 +57,14 @@
               <div class="grid">
                 <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
                   {% component 'list', {list: bodyPart.value} %}
+                </div>
+              </div>
+            </div>
+          {% elif bodyPart.type === 'imageGallery' %}
+            <div class="container">
+              <div class="grid">
+                <div class="grid__cell grid__cell--l12 grid__cell--m8, grid__cell--s4">
+                  {% component 'image-gallery', { imageGallery: bodyPart.value } %}
                 </div>
               </div>
             </div>

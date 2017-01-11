@@ -8,7 +8,8 @@ import {
   removeEmptyTextNodes,
   convertDomNode,
   convertWpImage,
-  convertWpVideo
+  convertWpVideo,
+  findWpImageGallery
 } from '../../util/body-parser';
 import {domNodeHtml, wpImageNodeHtml, wpVideoNodeHtml} from '../mocks/dom-nodes';
 
@@ -50,6 +51,8 @@ test('convertWpVideo', t => {
   );
 });
 
-test('wp', t => {
-  const b = bodyParser(wpApiResp.content);
+test('findWpImageGallery', t => {
+  const bodyParts = bodyParser(wpApiResp.content);
+  const wpImageGalleries = bodyParts.filter(part => part.type === 'imageGallery');
+  t.is(wpImageGalleries.length, 1);
 });
