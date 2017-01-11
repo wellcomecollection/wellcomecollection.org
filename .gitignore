@@ -25,3 +25,7 @@ wellcomecollection.org.iml
 .vscode/
 
 cardigan/
+
+/server/local.log
+
+/server/browserstack/browserstack-config.json
