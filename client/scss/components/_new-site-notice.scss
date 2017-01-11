@@ -1,5 +1,5 @@
 $tweakpoints: (
-  'notification-break': 1080px
+  'notification-break': 1160px
 );
 
 $mega-w-size: 400px;
@@ -42,10 +42,15 @@ $mega-w-size: 400px;
   margin: 0;
   display: flex;
   margin-right: 1rem;
-  margin-bottom: 0.6em;
+  margin-bottom: 0.8em;
+
+  @include respond-to('notification-break') {
+    margin-bottom: 0;
+  }
 }
 
 .new-site-notice__device-ico {
+  position: relative;
   min-width: 26px;
   margin-right: 1em;
 }
