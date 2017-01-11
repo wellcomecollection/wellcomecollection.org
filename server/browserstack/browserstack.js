@@ -3,9 +3,7 @@ const browserstack = require('browserstack');
 const open = require('open');
 const testBrowsers = require('./test-browsers.json');
 const url = process.argv[2];
-const browserstackConfig = require('./browserstack-config.json');
-const user = browserstackConfig.username;
-const key = browserstackConfig.key;
+const {username, key} = require('./browserstack-config.json');
 const settings = {
   "local": true,
   "url": url,
@@ -14,7 +12,7 @@ const settings = {
 }
 const bs_local = new browserstackLocal.Local();
 const screenshotClient = browserstack.createScreenshotClient({
-    "username": user,
+    "username": username,
     "password": key
 });
 const quitBrowserstackLocal = (job_id) => {
