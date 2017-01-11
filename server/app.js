@@ -6,7 +6,8 @@ import render from './view/render';
 
 const app = new Koa();
 
-app.use(serve(config.static_dir.root,config.static_dir.options));
+app.use(serve(config.static.path));
+app.use(serve(config.favicon.path));
 app.use(render(config.views.path));
 app.use(router);
 

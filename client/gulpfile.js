@@ -31,6 +31,10 @@ const sources = {
   images: {
     srcPath: './images/**/*.*',
     distPath: '../dist/assets/images/'
+  },
+  icons: {
+    srcPath: './icons/**/*.*',
+    distPath: '../dist/assets/icons/'
   }
 };
 
@@ -42,6 +46,11 @@ gulp.task('fonts:copy', function() {
 gulp.task('images:copy', () => {
   gulp.src(sources.images.srcPath)
     .pipe(gulp.dest(sources.images.distPath));
+});
+
+gulp.task('icons:copy', () => {
+  gulp.src(sources.icons.srcPath)
+    .pipe(gulp.dest(sources.icons.distPath));
 });
 
 // TODO: pull out autoprefixing / sourcemaps to it's own task
@@ -93,11 +102,12 @@ gulp.task('watch', () => {
   gulp.watch(sources.js.all, ['js:compile']);
   gulp.watch(sources.fonts.srcPath, ['fonts:copy']);
   gulp.watch(sources.images.srcPath, ['images:copy']);
+  gulp.watch(sources.icons.srcPath, ['icons:copy']);
 });
 
 gulp.task('js', ['js:lint', 'js:compile']);
 gulp.task('scss', ['scss:lint', 'scss:compile']);
 gulp.task('lint', ['scss:lint', 'js:lint']);
-gulp.task('compile', ['scss:compile', 'js:compile', 'fonts:copy', 'images:copy']);
+gulp.task('compile', ['scss:compile', 'js:compile', 'fonts:copy', 'images:copy', 'icons:copy']);
 gulp.task('build', ['scss', 'js']);
 gulp.task('dev', ['compile', 'watch']);
