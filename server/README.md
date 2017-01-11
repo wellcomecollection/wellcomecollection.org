@@ -42,7 +42,8 @@ https://github.com/wellcometrust/developer-docs/blob/master/front-end/accessibil
 npm node test:browsers <url>
 ```
 
-The test opens your browser at browserstack.com with screenshots of the url in browsers we test on. You can click 
+The test opens your browser at browserstack.com with screenshots of the url in browsers we test on. 
+You can also click through to instances of those browsers.
 
 In order for this to work need to add your browserstack credentials to 'browserstack/browserstack-config.js'
 in the follwing format:
