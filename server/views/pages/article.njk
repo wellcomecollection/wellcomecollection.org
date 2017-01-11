@@ -31,7 +31,7 @@
   {% block articleBody %}
     <div class="body-content">
       {% for bodyPart in article.articleBody | parseBody %}
-          {% if bodyPart.type === 'picure' %}
+          {% if bodyPart.type === 'picture' %}
             <div class="container">
               <div class="grid">
                 <div class="grid__cell grid__cell--l12 grid__cell--m8, grid__cell--s4">

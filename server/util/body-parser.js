@@ -157,10 +157,13 @@ function getImageFromWpNode(node) {
   const parentNode = mayBeWrapperA || node;
   const img = parentNode.childNodes.find(node => node.nodeName === 'img');
   const href = mayBeWrapperA ? getAttrVal(mayBeWrapperA.attrs, 'href') : null;
+  const captionNode = node.childNodes.find(node =>
+    node.attrs && getAttrVal(node.attrs, 'class') === 'wp-caption-text'
+  );
 
   const urlObj = url.parse(getAttrVal(img.attrs, 'data-orig-file'));
   const contentUrl = `https://${urlObj.hostname}${urlObj.pathname}`;
-  const caption = getAttrVal(img.attrs, 'data-image-description').replace(/<\/?p>/g, '').trim();
+  const caption = captionNode.childNodes[0].value;
   const [width, height] = getAttrVal(img.attrs, 'data-orig-size').split(',');
 
   return new Picture({
