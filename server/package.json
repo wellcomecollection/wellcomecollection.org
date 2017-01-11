@@ -9,6 +9,7 @@
     "test": "ava",
     "test:watch": "ava --watch",
     "test:accessibility": "pa11y",
+    "test:browsers": "node ./browserstack/browserstack.js",
     "compile": "webpack",
     "compile:watch": "webpack --watch",
     "optimise:svg": "node ./optimise-svgs.js",
