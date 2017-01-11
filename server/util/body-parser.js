@@ -1,7 +1,8 @@
 import parse from 'parse5';
 import url from 'url';
 import {Record} from 'immutable';
-import {Image} from '../model/image';
+import {ImageGallery} from '../model/image-gallery';
+import {Picture} from '../model/picture';
 import {Video} from '../model/video';
 import {List} from '../model/list';
 
@@ -22,7 +23,7 @@ export function getFragment(bodyText) {
 
 export function explodeIntoBodyParts(nodes) {
   const parts = nodes.map(node => {
-    const converters = [convertWpImage, convertWpVideo, convertWpList];
+    const converters = [convertWpImage, convertWpVideo, convertWpList, findWpImageGallery];
 
     // TODO: Tidy up typing here
     const maybeBodyPart = converters.reduce((node, converter) => {
@@ -54,11 +55,11 @@ export function convertWpImage(node) {
   const isWpImage = node.attrs && node.attrs.find(attr => attr.name === 'data-shortcode' && attr.value === 'caption');
 
   if (isWpImage) {
-    const image = getImageFromWpNode(node);
+    const picture = getImageFromWpNode(node);
 
     return new BodyPart({
-      type: 'image',
-      value: image
+      type: 'picture',
+      value: picture
     });
   } else {
     return node;
@@ -110,6 +111,46 @@ export function convertWpList(node) {
   }
 }
 
+export function findWpImageGallery(node) {
+  const className = getAttrVal(node.attrs, 'class');
+  const isWpImageGallery = Boolean(className && className.match('tiled-gallery'));
+
+  if (isWpImageGallery) {
+    try {
+      const images =
+        node.childNodes.filter(
+          r => r.attrs && getAttrVal(r.attrs, 'class') === 'gallery-row'
+        ).map(
+          r => r.childNodes.filter(n => n.attrs && getAttrVal(n.attrs, 'class').match('gallery-group'))
+        ).reduce((acc, group) => acc.concat(group)).map(group => {
+          const img = group.childNodes[0].childNodes[0].childNodes[0];
+          const width = parseInt(getAttrVal(img.attrs, 'data-original-width'), 10);
+          const height = parseInt(getAttrVal(img.attrs, 'data-original-height'), 10);
+          const contentUrl = getAttrVal(img.attrs, 'data-orig-file');
+          const caption = getAttrVal(img.attrs, 'alt');
+          return new Picture({
+            contentUrl,
+            caption,
+            width,
+            height
+          });
+        });
+
+      return new BodyPart({
+        type: 'imageGallery',
+        value: new ImageGallery({
+          name: null,
+          items: images
+        })
+      });
+    } catch(e) {
+      return node;
+    }
+  } else {
+    return node;
+  }
+}
+
 function getImageFromWpNode(node) {
   // Some images are wrappers in links
   const mayBeWrapperA = node.childNodes.find(node => node.nodeName === 'a');
@@ -122,7 +163,7 @@ function getImageFromWpNode(node) {
   const caption = getAttrVal(img.attrs, 'data-image-description').replace(/<\/?p>/g, '').trim();
   const [width, height] = getAttrVal(img.attrs, 'data-orig-size').split(',');
 
-  return new Image({
+  return new Picture({
     contentUrl,
     caption,
     url: href,

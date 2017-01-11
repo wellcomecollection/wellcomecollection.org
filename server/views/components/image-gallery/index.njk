@@ -1,0 +1,12 @@
+<div class="image-gallery">
+{% for item in imageGallery.items %}
+  <div class="image-gallery__item">
+    {% component 'figure', {
+      type: 'picture',
+      sources: [{src: item.contentUrl, size: item.width}],
+      caption: item.caption,
+      icon: 'other/picture'
+    } %}
+  </div>
+{% endfor %}
+</div>
