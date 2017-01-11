@@ -44,7 +44,12 @@ npm node test:browsers <url>
 
 The test opens your browser at browserstack.com with screenshots of the url in browsers we test on. You can click 
 
-In order for this to work need to set up environment variables
+In order for this to work need to add your browserstack credentials to 'browserstack/browserstack-config.js'
+in the follwing format:
 
-export BROWSERSTACK_USERNAME="<browserstack_username>"
-export BROWSERSTACK_KEY="<browserstack_key>"
+{
+  "username": "<browserstack_username>",
+  "key": "browserstack_key"
+}
+
+**N.B. This file is git ignored, but worth mentioning that it should not be committed**

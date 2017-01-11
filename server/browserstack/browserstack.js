@@ -3,8 +3,9 @@ const browserstack = require('browserstack');
 const open = require('open');
 const testBrowsers = require('./test-browsers.json');
 const url = process.argv[2];
-const user = process.env.BROWSERSTACK_USERNAME;
-const key = process.env.BROWSERSTACK_KEY;
+const browserstackConfig = require('./browserstack-config.json');
+const user = browserstackConfig.username;
+const key = browserstackConfig.key;
 const settings = {
   "local": true,
   "url": url,
