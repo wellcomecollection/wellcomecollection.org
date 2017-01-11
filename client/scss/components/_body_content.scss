@@ -42,4 +42,17 @@
       box-shadow: inset 0 -0.2em 0 0 color('action-green-1');
     }
   }
+
+  .body-content__cell--last {
+    position: relative;
+
+    &:after {
+      content: '';
+      width: 60px;
+      height: 5px;
+      display: block;
+      background: color('black');
+      margin-top: 6 * $vertical-space-unit;
+    }
+  }
 }
