@@ -27,46 +27,64 @@
         } %}
       </div>
     </div>
-    {% block articleBody %}
-      <div class="body-content">
-        {% for bodyPart in article.articleBody | parseBody %}
-          <div class="grid grid--dividers grid--flush-dividers">
-            {% if bodyPart.type === 'picture' %}
-              <div class="grid__cell grid__cell--l12 grid__cell--m8, grid__cell--s4">
-                {% component 'figure', {
-                  type: 'picture',
-                  sources: [{src: bodyPart.value.contentUrl, size: bodyPart.value.width}],
-                  caption: bodyPart.value.caption,
-                  icon: 'other/picture'
-                } %}
-              </div>
-            {% elif bodyPart.type === 'video' %}
-              <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
-                {% component 'iframed-video', {video: bodyPart.value} %}
-              </div>
-            {% elif bodyPart.type === 'list' %}
-              <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
-                {% component 'list', {list: bodyPart.value} %}
-              </div>
-            {% elif bodyPart.type === 'imageGallery' %}
-              <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
-                {% component 'image-gallery', { imageGallery: bodyPart.value } %}
-              </div>
-            {% else %}
-              <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
-                  {% if loop.index === 1 %}
-                    <div class="standfirst">
-                        {{bodyPart.value | safe}}
-                    </div>
-                  {% else %}
-                    {{bodyPart.value | safe}}
-                  {% endif %}
-              </div>
-            {% endif %}
-          </div>
-        {% endfor %}
-      </div>
-    {% endblock %}
   </div>
+  {% block articleBody %}
+    <div class="body-content">
+      {% for bodyPart in article.articleBody | parseBody %}
+          {% if bodyPart.type === 'picure' %}
+            <div class="container">
+              <div class="grid">
+                <div class="grid__cell grid__cell--l12 grid__cell--m8, grid__cell--s4">
+                  {% component 'figure', {
+                    type: 'picture',
+                    sources: [{src: bodyPart.value.contentUrl, size: bodyPart.value.width}],
+                    caption: bodyPart.value.caption,
+                    icon: 'other/picture'
+                  } %}
+                </div>
+              </div>
+            </div>
+          {% elif bodyPart.type === 'video' %}
+            <div class="container">
+              <div class="grid">
+                <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
+                  {% component 'iframed-video', {video: bodyPart.value} %}
+                </div>
+              </div>
+            </div>
+          {% elif bodyPart.type === 'list' %}
+            <div class="container">
+              <div class="grid">
+                <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
+                  {% component 'list', {list: bodyPart.value} %}
+                </div>
+              </div>
+            </div>
+          {% elif bodyPart.type === 'imageGallery' %}
+            <div class="container">
+              <div class="grid">
+                <div class="grid__cell grid__cell--l12 grid__cell--m8, grid__cell--s4">
+                  {% component 'image-gallery', { imageGallery: bodyPart.value } %}
+                </div>
+              </div>
+            </div>
+          {% else %}
+            <div class="container">
+              <div class="grid">
+                <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
+                    {% if loop.index === 1 %}
+                      <div class="standfirst">
+                          {{bodyPart.value | safe}}
+                      </div>
+                    {% else %}
+                      {{bodyPart.value | safe}}
+                    {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+      {% endfor %}
+    </div>
+  {% endblock %}
 </div>
 {% endblock %}
