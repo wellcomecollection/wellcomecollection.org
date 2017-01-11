@@ -2,7 +2,7 @@ import parse from 'parse5';
 import url from 'url';
 import {Record} from 'immutable';
 import {ImageGallery} from '../model/image-gallery';
-import {Image} from '../model/image';
+import {Picture} from '../model/picture';
 import {Video} from '../model/video';
 import {List} from '../model/list';
 
@@ -55,11 +55,11 @@ export function convertWpImage(node) {
   const isWpImage = node.attrs && node.attrs.find(attr => attr.name === 'data-shortcode' && attr.value === 'caption');
 
   if (isWpImage) {
-    const image = getImageFromWpNode(node);
+    const picture = getImageFromWpNode(node);
 
     return new BodyPart({
-      type: 'image',
-      value: image
+      type: 'picture',
+      value: picture
     });
   } else {
     return node;
@@ -128,7 +128,7 @@ export function findWpImageGallery(node) {
           const height = parseInt(getAttrVal(img.attrs, 'data-original-height'), 10);
           const contentUrl = getAttrVal(img.attrs, 'data-orig-file');
           const caption = getAttrVal(img.attrs, 'alt');
-          return new Image({
+          return new Picture({
             contentUrl,
             caption,
             width,
@@ -163,7 +163,7 @@ function getImageFromWpNode(node) {
   const caption = getAttrVal(img.attrs, 'data-image-description').replace(/<\/?p>/g, '').trim();
   const [width, height] = getAttrVal(img.attrs, 'data-orig-size').split(',');
 
-  return new Image({
+  return new Picture({
     contentUrl,
     caption,
     url: href,

@@ -31,7 +31,7 @@
       <div class="body-content">
         {% for bodyPart in article.articleBody | parseBody %}
           <div class="grid grid--dividers grid--flush-dividers">
-            {% if bodyPart.type === 'image' %}
+            {% if bodyPart.type === 'picture' %}
               <div class="grid__cell grid__cell--l12 grid__cell--m8, grid__cell--s4">
                 {% component 'figure', {
                   type: 'picture',
