@@ -56,38 +56,47 @@
 
 $large-width: (5/7 * 100)+'%';
 
-@include respond-to('medium') {
-  .figure--full-width {
+.figure--full-width {
+  @include respond-to('medium') {
     margin-left: -18%;
     margin-right: -18%;
   }
+
+  @include respond-to('large') {
+    clear: both;
+    position: relative;
+    z-index: 1;
+    margin-left: 0;
+    margin-right: calc((#{$large-width} + #{map-get($gutter-width, 'large')})* -1);
+    background-color: color('cream');
+    padding-top: $vertical-space-unit;
+    margin-top: -$vertical-space-unit;
+    border-bottom: $vertical-space-unit solid color('cream');
+    /* stylelint-disable declaration-no-important */
+    opacity: 1 !important;
+    /* stylelint-enable */
+  }
 }
 
-@include respond-to('large') {
-  @supports (width: calc(10px + 10px)) {
-    .figure--sticky {
+.figure--sticky {
+  @include respond-to('large') {
+    @supports (width: calc(10px + 10px)) {
       float: right;
       clear: right;
       width: #{$large-width};
       margin-right: calc((#{$large-width} + #{map-get($gutter-width, 'large')} ) * -1);
+    }
+  }
+}
+
+/* stylelint-disable plugin/selector-bem-pattern */
+.sticky-applied {
+  @include respond-to('large') {
+    @supports (width: calc(10px + 10px)) {
       position: sticky;
       top: $vertical-space-unit;
       transition: opacity 0.4s ease;
     }
-
-    .figure--full-width {
-      clear: both;
-      position: relative;
-      z-index: 1;
-      margin-left: 0;
-      margin-right: calc((#{$large-width} + #{map-get($gutter-width, 'large')})* -1);
-      background-color: color('cream');
-      padding-top: $vertical-space-unit;
-      margin-top: -$vertical-space-unit;
-      border-bottom: $vertical-space-unit solid color('cream');
-      /* stylelint-disable declaration-no-important */
-      opacity: 1 !important;
-      /* stylelint-enable */
-    }
   }
 }
+/* stylelint-enable */

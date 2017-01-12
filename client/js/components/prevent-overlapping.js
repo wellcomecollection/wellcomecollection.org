@@ -9,13 +9,14 @@ const preventOverlapping = (els) => {
         let elementMeta = {
           currentEl: element,
           nextDomEl: array[index - 1],
+          currentElPosition: window.getComputedStyle(element, null).getPropertyValue('position'),
           currentElHeight: element.offsetHeight,
           currentElCssTop: parseInt(window.getComputedStyle(element, null).getPropertyValue('top'), 10),
           currentElActualTop: element.getBoundingClientRect().top,
           nextDomElActualTop: array[index - 1] ? array[index - 1].getBoundingClientRect().top : null,
           prevDomEls: elements.slice(index + 1)
         };
-        if (elementMeta.currentElActualTop <= elementMeta.currentElCssTop && elementMeta.nextDomEl !== undefined) {
+        if (elementMeta.currentElPosition.indexOf('sticky') > -1 && elementMeta.currentElActualTop <= elementMeta.currentElCssTop && elementMeta.nextDomEl !== undefined) {
           if (elementMeta.nextDomElActualTop <= elementMeta.currentElHeight + elementMeta.currentElCssTop) {
             elementMeta.currentEl.style.opacity = 0;
           } else {
