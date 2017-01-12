@@ -47,7 +47,7 @@
     width: 60px;
     height: 5px;
     background: color('black');
-    margin: 6 * $vertical-space-unit 0 0 0;
+    margin: 6 * $vertical-space-unit 0 $vertical-space-unit 0;
     border: 0;
   }
 }
