@@ -2,34 +2,31 @@
 
 {% block articleBody %}
   <div class="body-content">
-    {% for bodyPart in bodyParts %}
-      <div class="container">
-        <div class="grid grid--dividers grid--flush-dividers">
-        {% if bodyPart.copy %}
-          <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
-            {{ bodyPart.copy | safe }}
-          </div>
-          {% if bodyPart.figure %}
-            <div class="grid__cell grid__cell--xl4 grid__cell--l5 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
-              {% component 'figure', {
-                type: 'picture',
-                sources: bodyPart.figure.sources,
-                caption: bodyPart.figure.caption,
-                modifiers: ['sticky'],
-                icon: bodyPart.figure.icon } %}
-            </div>
-          {% endif %}
-        {% elif bodyPart.figure %}
-          <div class="grid__cell grid__cell--l12 grid__cell--m8, grid__cell--s4">
-            {% component 'figure', {
-              type: 'picture',
-              sources: bodyPart.figure.sources,
-              caption: bodyPart.figure.caption,
-              icon: bodyPart.figure.icon } %}
-          </div>
-        {% endif %}
+    <div class="container">
+      <div class="grid grid--dividers grid--flush-dividers">
+        <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4 article__main">
+          {% for bodyPart in bodyParts %}
+              {% if bodyPart.copy %}
+                  {{ bodyPart.copy | safe }}
+                {% if bodyPart.figure %}
+                    {% component 'figure', {
+                      type: 'picture',
+                      sources: bodyPart.figure.sources,
+                      caption: bodyPart.figure.caption,
+                      modifiers: ['sticky'],
+                      icon: bodyPart.figure.icon } %}
+                {% endif %}
+              {% elif bodyPart.figure %}
+                  {% component 'figure', {
+                    type: 'picture',
+                    sources: bodyPart.figure.sources,
+                    caption: bodyPart.figure.caption,
+                    modifiers: ['full-width'],
+                    icon: bodyPart.figure.icon } %}
+              {% endif %}
+          {% endfor %}
         </div>
       </div>
-    {% endfor %}
+    </div>
   </div>
 {% endblock %}
