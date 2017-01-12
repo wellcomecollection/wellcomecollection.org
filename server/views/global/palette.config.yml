@@ -33,6 +33,8 @@ context:
     hex: "#717171"
   - name: accessible-grey-2
     hex: "#8f8f8f"
+  - name: smoke
+    hex: "#e8e8e8"
   - name: keyline-grey
     hex: "#d9d6ce"
   - name: charcoal
