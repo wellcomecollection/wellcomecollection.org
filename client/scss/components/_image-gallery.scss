@@ -13,6 +13,7 @@
 .image-gallery__image {
   height: 204px;
   width: auto;
+
   @include respond-to('large') {
     height: 640px;
   }
