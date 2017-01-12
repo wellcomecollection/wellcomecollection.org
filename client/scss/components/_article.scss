@@ -1,0 +1,13 @@
+@include respond-to('large') {
+  .article__main {// TODO own class not on grid__cell
+    &:after {
+      content: '';
+      position: absolute;
+      right: -(map-get($gutter-width, 'large')/2);
+      top: 0;
+      width: 1px;
+      height: 100%;
+      background: color('keyline-grey');
+    }
+  }
+}
