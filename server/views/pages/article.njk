@@ -63,7 +63,7 @@
           {% elif bodyPart.type === 'imageGallery' %}
             <div class="container">
               <div class="grid">
-                <div class="grid__cell grid__cell--l12 grid__cell--m8, grid__cell--s4">
+                <div class="grid__cell grid__cell--contains-flex grid__cell--l12 grid__cell--m8, grid__cell--s4">
                   {% component 'image-gallery', { imageGallery: bodyPart.value } %}
                 </div>
               </div>
@@ -72,13 +72,13 @@
             <div class="container">
               <div class="grid">
                 <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
-                    {% if loop.index === 1 %}
-                      <div class="standfirst">
-                          {{bodyPart.value | safe}}
-                      </div>
-                    {% else %}
-                      {{bodyPart.value | safe}}
-                    {% endif %}
+                  {% if loop.index === 1 %}
+                    <div class="standfirst">
+                        {{bodyPart.value | safe}}
+                    </div>
+                  {% else %}
+                    {{bodyPart.value | safe}}
+                  {% endif %}
                 </div>
               </div>
             </div>

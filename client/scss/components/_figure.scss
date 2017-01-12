@@ -54,7 +54,20 @@
   }
 }
 
+.figure__caption--no-underline {
+  border-bottom: 0;
+}
+
 .figure--sticky {
   position: sticky;
   top: $vertical-space-unit;
 }
+
+.figcaption {
+  display: flex;
+}
+
+.figcaption__icon {
+
+}
+

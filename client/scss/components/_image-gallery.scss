@@ -1,0 +1,29 @@
+.image-gallery {
+  overflow: scroll;
+  width: 100%;
+  display: flex;
+  margin-bottom: $vertical-space-unit;
+}
+
+.image-gallery__item {
+  flex-shrink: 0;
+  margin-right: map_get($gutter-width, 'small');
+}
+
+.image-gallery__image {
+  height: 204px;
+  width: auto;
+  @include respond-to('large') {
+    height: 640px;
+  }
+}
+
+.image-gallery__figure {
+  display: table;
+}
+
+.image-gallery__figure-caption {
+  display: table-caption;
+  caption-side: bottom;
+}
+
