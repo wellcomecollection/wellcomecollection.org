@@ -6,7 +6,7 @@ const makeSticky = (els) => {
     const elements = nodeList(els);
     const applyPositioning = () => {
       if (document.readyState === 'complete') {
-        elements.map((e) => {
+        elements.forEach((e) => {
           if (e.offsetHeight > window.innerHeight) {
             e.classList.remove('sticky-applied');
           } else {
