@@ -1,5 +1,8 @@
-<ul class="tags">
-  {% for tag in tags %}
-    <li class="tags__item"><a class="tags__link" href="{{ tag.url }}">{{ tag.text }}</a>{{ ', ' if not loop.last }}</li>
-  {% endfor %}
-</ul>
+<div class="tags">
+  <span class="tags__intro">More about</span>
+  <ul class="tags__list">
+    {% for tag in tags %}
+      <li class="tags__item"><a class="tags__link" href="{{ tag.url }}">{{ tag.text }}</a>{{ ', ' if not loop.last }}</li>
+    {% endfor %}
+  </ul>
+</div>

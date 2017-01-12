@@ -87,12 +87,16 @@
       {% endfor %}
     </div>
   {% endblock %}
-  <div class="container">
-    <div class="grid">
-      <div class="{{ gridCellClasses }}">
-        {% component 'tags', { tags: article.tags } %}
+
+  {% if article.tags.length > 0 %}
+    <div class="container">
+      <div class="grid">
+        <div class="{{ gridCellClasses }}">
+          {% component 'tags', { tags: article.tags } %}
+        </div>
       </div>
     </div>
-  </div>
+  {% endif %}
+
 </div>
 {% endblock %}
