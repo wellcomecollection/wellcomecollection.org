@@ -21,8 +21,23 @@ const setPropertyPrefixed = (el, property, value) => {
   el.style[property] = value;
 };
 
+const featureTest = (property, value, noPrefixes) => {
+  // Thanks Modernizr! https://github.com/phistuck/Modernizr/commit/3fb7217f5f8274e2f11fe6cfeda7cfaf9948a1f5
+  const prop = property + ':';
+  const el = document.createElement('test');
+  const mStyle = el.style;
+
+  if (!noPrefixes) {
+    mStyle.cssText = prop + [ '-webkit-', '-moz-', '-ms-', '-o-', '' ].join(value + ';' + prop) + value + ';';
+  } else {
+    mStyle.cssText = prop + value;
+  }
+  return mStyle[ property ].indexOf(value) !== -1;
+};
+
 export {
   nodeList,
   KEYS,
-  setPropertyPrefixed
+  setPropertyPrefixed,
+  featureTest
 };
