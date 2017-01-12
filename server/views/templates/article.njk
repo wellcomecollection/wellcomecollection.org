@@ -28,14 +28,21 @@
         </div>
       </div>
     </div>
-
-    <div class="container">
-      <div class="grid">
-        <div class="{{ gridCellClasses }}">
-          <hr class="body-content__hr" />
-        </div>
+  </div>
+  <div class="container">
+    <div class="grid">
+      <div class="{{ gridCellClasses }}">
+        {% if article.author %}
+          {% component 'author', {
+            name: article.author.name,
+            twitterHandle: article.author.twitterHandle,
+            modifiers: ['border-left'],
+            description: article.author.description,
+            image: article.author.image
+          } %}
+        {% endif %}
+        <hr class="divider" />
       </div>
     </div>
-
   </div>
 {% endblock %}
