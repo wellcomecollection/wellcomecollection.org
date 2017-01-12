@@ -1,15 +1,24 @@
-<div class="author">
-  <img class="author__image" src="{{ image }}" alt="Image of {{ name }}" />
-  <div class="author__copy">
-    <span class="author__name">{{ name }}</span>
-    {% if twitterHandle %}
-      <span class="author__twitter">
-        <a href="https://twitter.com/{{ twitterHandle }}"
-          class="author__link"
-          aria-label="{{ name }} (screen name: {{ twitterHandle }})">
-          {% icon 'social/twitter' %} @{{ twitterHandle }}
-        </a>
-      </span>
+<div class="author {% for modifier in modifiers %} author--{{ modifier }} {% endfor %}">
+  <div class="author__upper">
+    {% if image %}
+      <div class="author__image-wrap">
+        <img class="author__image" src="{{ image }}" alt="Image of {{ name }}" />
+      </div>
     {% endif %}
+    <div class="author__details">
+      <span class="author__name">{{ name }}</span>
+      {% if twitterHandle %}
+        <span class="author__twitter">
+          <a href="https://twitter.com/{{ twitterHandle }}"
+            class="author__link"
+            aria-label="{{ name }} (screen name: {{ twitterHandle }})">
+            {% icon 'social/twitter' %} @{{ twitterHandle }}
+          </a>
+        </span>
+      {% endif %}
+    </div>
   </div>
+  {% if bio %}
+    <div class="author__bio">{{ bio | safe }}</div>
+  {% endif %}
 </div>

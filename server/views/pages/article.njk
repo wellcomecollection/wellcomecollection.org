@@ -18,17 +18,20 @@
 {% endfor %}
 
 <div class="row row--cream">
-  <div class="container">
-    <div class="grid">
-      <div class="{{ gridCellClasses }}">
-        {% component 'author', {
-          name: article.author.name,
-          twitterHandle: author.twitterHandle,
-          image: article.author.image
-        } %}
+  {% if article.author %}
+    <div class="container">
+      <div class="grid">
+        <div class="{{ gridCellClasses }}">
+          {% component 'author', {
+            name: article.author.name,
+            twitterHandle: article.author.twitterHandle,
+            modifiers: ['border-bottom'],
+            image: article.author.image
+          } %}
+        </div>
       </div>
     </div>
-  </div>
+  {% endif %}
   {% block articleBody %}
     <div class="body-content">
       {% for bodyPart in article.articleBody | parseBody %}
@@ -84,16 +87,23 @@
               </div>
             </div>
           {% endif %}
-          {% if loop.last %}
-            <div class="container">
-              <div class="grid">
-                <div class="{{ gridCellClasses }}">
-                  <hr class="body-content__hr" />
-                </div>
-              </div>
-            </div>
-          {% endif %}
       {% endfor %}
+    </div>
+    <div class="container">
+      <div class="grid">
+        <div class="{{ gridCellClasses }}">
+          {% if article.author %}
+            {% component 'author', {
+              name: article.author.name,
+              twitterHandle: article.author.twitterHandle,
+              modifiers: ['border-left'],
+              bio: article.author.bio,
+              image: article.author.image
+            } %}
+          {% endif %}
+          <hr class="divider" />
+        </div>
+      </div>
     </div>
   {% endblock %}
 
