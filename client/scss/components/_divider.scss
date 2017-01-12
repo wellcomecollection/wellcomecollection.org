@@ -4,6 +4,7 @@
   width: 60px;
   height: 5px;
   background: color('black');
-  margin: 4 * $vertical-space-unit 0 $vertical-space-unit 0;
+  margin: 4 * $vertical-space-unit 0 $vertical-space-unit;
+  text-align: left;
   border: 0;
 }
