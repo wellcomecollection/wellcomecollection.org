@@ -9,7 +9,7 @@ const settings = {
   "url": url,
   "wait_time": "10",
   "browsers": testBrowsers
-}
+};
 const bsLocal = new browserstackLocal.Local();
 const screenshotClient = browserstack.createScreenshotClient({
     "username": username,

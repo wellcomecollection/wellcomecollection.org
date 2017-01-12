@@ -27,5 +27,3 @@ wellcomecollection.org.iml
 cardigan/
 
 /server/local.log
-
-/server/browserstack/browserstack-config.json
