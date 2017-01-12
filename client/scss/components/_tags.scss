@@ -1,0 +1,15 @@
+.tags {
+  @include plain-list();
+  @include font('HNL5');
+  padding-bottom: $vertical-space-unit;
+  border-bottom: 1px solid color('keyline-grey');
+}
+
+.tags__item {
+  color: color('action-green-1');
+  display: inline-block;
+}
+
+.tags__link {
+  text-decoration: none;
+}
