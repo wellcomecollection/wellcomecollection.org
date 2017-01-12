@@ -4,7 +4,7 @@
   <div class="body-content">
     <div class="container">
       <div class="grid grid--dividers grid--flush-dividers">
-        <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4 article__main">
+        <div class="{{ gridCellClasses }} article__main">
           {% for bodyPart in bodyParts %}
               {% if bodyPart.copy %}
                   {{ bodyPart.copy | safe }}
@@ -28,5 +28,14 @@
         </div>
       </div>
     </div>
+
+    <div class="container">
+      <div class="grid">
+        <div class="{{ gridCellClasses }}">
+          <hr class="body-content__hr" />
+        </div>
+      </div>
+    </div>
+
   </div>
 {% endblock %}

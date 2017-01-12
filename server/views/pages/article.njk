@@ -84,6 +84,15 @@
               </div>
             </div>
           {% endif %}
+          {% if loop.last %}
+            <div class="container">
+              <div class="grid">
+                <div class="{{ gridCellClasses }}">
+                  <hr class="body-content__hr" />
+                </div>
+              </div>
+            </div>
+          {% endif %}
       {% endfor %}
     </div>
   {% endblock %}
