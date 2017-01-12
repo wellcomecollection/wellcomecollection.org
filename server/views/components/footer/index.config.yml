@@ -2,6 +2,6 @@ name: footer
 handle: footer
 preview: "@preview-no-container"
 context:
-  footerNav: "@footer-nav"
+  navLinks: "@footer-nav.navLinks"
   openingHours: "@opening-hours"
   footerSocial: "@footer-social"

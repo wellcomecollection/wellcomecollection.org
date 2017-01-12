@@ -5,7 +5,8 @@ import headerSearch from './components/header/search';
 import openingHours from './components/opening-hours';
 import wobblyEdge from './components/wobbly-edge';
 import cookieNotification from './components/cookie-notification';
-
+import preventOverlapping from './components/prevent-overlapping';
+import makeSticky from './components/make-sticky.js';
 message();
 
 const init = () => {
@@ -14,6 +15,8 @@ const init = () => {
   const headerSearchEl = document.getElementById('header-search');
   const openingHoursEls = document.querySelectorAll('.js-opening-hours');
   const wobblyEdgeEls = document.querySelectorAll('.js-wobbly-edge');
+  const overlappingEls = document.querySelectorAll('.article__main .figure--sticky, .article__main .figure--full-width');
+  const stickyEls = document.querySelectorAll('.article__main .figure--sticky');
 
   nodeList(wobblyEdgeEls).forEach((el) => wobblyEdge(el));
 
@@ -32,12 +35,18 @@ const init = () => {
   if (openingHoursEls) {
     openingHours(openingHoursEls);
   }
+
+  if (overlappingEls) {
+    preventOverlapping(overlappingEls);
+  }
+
+  if (stickyEls) {
+    makeSticky(stickyEls);
+  }
 };
 
 if (document.readyState !== 'loading') {
   init();
 } else {
-  console.log('loading');
   document.addEventListener('DOMContentLoaded', init);
 }
-
