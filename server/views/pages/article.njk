@@ -34,7 +34,7 @@
           {% if bodyPart.type === 'picture' %}
             <div class="container">
               <div class="grid">
-                <div class="body-content__cell {{ 'body-content__cell--last' if loop.last }} grid__cell grid__cell--l12 grid__cell--m8, grid__cell--s4">
+                <div class="grid__cell grid__cell--l12 grid__cell--m8, grid__cell--s4">
                   {% component 'figure', {
                     type: 'picture',
                     sources: [{src: bodyPart.value.contentUrl, size: bodyPart.value.width}],
@@ -47,7 +47,7 @@
           {% elif bodyPart.type === 'video' %}
             <div class="container">
               <div class="grid">
-                <div class="body-content__cell {{ 'body-content__cell--last' if loop.last }} grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
+                <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
                   {% component 'iframed-video', {video: bodyPart.value} %}
                 </div>
               </div>
@@ -55,7 +55,7 @@
           {% elif bodyPart.type === 'list' %}
             <div class="container">
               <div class="grid">
-                <div class="body-content__cell {{ 'body-content__cell--last' if loop.last }} grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
+                <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
                   {% component 'list', {list: bodyPart.value} %}
                 </div>
               </div>
@@ -63,7 +63,7 @@
           {% elif bodyPart.type === 'imageGallery' %}
             <div class="container">
               <div class="grid">
-                <div class="body-content__cell {{ 'body-content__cell--last' if loop.last }} grid__cell grid__cell--l12 grid__cell--m8, grid__cell--s4">
+                <div class="grid__cell grid__cell--l12 grid__cell--m8, grid__cell--s4">
                   {% component 'image-gallery', { imageGallery: bodyPart.value } %}
                 </div>
               </div>
@@ -71,7 +71,7 @@
           {% else %}
             <div class="container">
               <div class="grid">
-                <div class="body-content__cell {{ 'body-content__cell--last' if loop.last }} grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
+                <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
                     {% if loop.index === 1 %}
                       <div class="standfirst">
                           {{bodyPart.value | safe}}
@@ -79,6 +79,15 @@
                     {% else %}
                       {{bodyPart.value | safe}}
                     {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+          {% if loop.last %}
+            <div class="container">
+              <div class="grid">
+                <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
+                  <hr class="body-content__hr" />
                 </div>
               </div>
             </div>

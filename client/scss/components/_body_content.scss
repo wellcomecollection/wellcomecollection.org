@@ -43,16 +43,11 @@
     }
   }
 
-  .body-content__cell--last {
-    position: relative;
-
-    &:after {
-      content: '';
-      width: 60px;
-      height: 5px;
-      display: block;
-      background: color('black');
-      margin-top: 6 * $vertical-space-unit;
-    }
+  .body-content__hr {
+    width: 60px;
+    height: 5px;
+    background: color('black');
+    margin: 6 * $vertical-space-unit 0 0 0;
+    border: 0;
   }
 }
