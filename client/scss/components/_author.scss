@@ -62,7 +62,7 @@
   text-decoration: none;
 }
 
-.author__bio {
+.author__description {
   @include font('LR3');
 
   @include respond-to('medium') {
