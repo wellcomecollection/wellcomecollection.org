@@ -54,6 +54,10 @@
   }
 }
 
+.figure__caption--no-underline {
+  border-bottom: 0;
+}
+
 $large-width: (5/7 * 100)+'%';
 
 .figure--full-width {
@@ -78,11 +82,25 @@ $large-width: (5/7 * 100)+'%';
   }
 }
 
-.figure__caption--no-underline {
-  border-bottom: 0;
+.figure--sticky {
+  @include respond-to('large') {
+    @supports (width: calc(10px + 10px)) {
+      float: right;
+      clear: right;
+      width: #{$large-width};
+      margin-right: calc((#{$large-width} + #{map-get($gutter-width, 'large')} ) * -1);
+    }
+  }
 }
 
-.figure--sticky {
-  position: sticky;
-  top: $vertical-space-unit;
+/* stylelint-disable plugin/selector-bem-pattern */
+.sticky-applied {
+  @include respond-to('large') {
+    @supports (width: calc(10px + 10px)) {
+      position: sticky;
+      top: $vertical-space-unit;
+      transition: opacity 0.4s ease;
+    }
+  }
 }
+/* stylelint-enable */
