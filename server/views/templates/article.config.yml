@@ -4,6 +4,7 @@ context:
   pageConfig:
     inSection: explore
   article:
+    tags: "@tags.tags"
     author: "@author"
     headline: AIDS Posters
     mainMedia:

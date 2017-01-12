@@ -1,4 +1,5 @@
 {% extends "layout/default.njk" %}
+{% set gridCellClasses = 'grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4' %}
 
 {% block body %}
 <div class="row row--lead row--lead--l">
@@ -19,7 +20,7 @@
 <div class="row row--cream">
   <div class="container">
     <div class="grid">
-      <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
+      <div class="{{ gridCellClasses }}">
         {% component 'author', {
           name: article.author.name,
           twitterHandle: author.twitterHandle,
@@ -34,7 +35,7 @@
           {% if bodyPart.type === 'picture' %}
             <div class="container">
               <div class="grid">
-                <div class="grid__cell grid__cell--l12 grid__cell--m8, grid__cell--s4">
+                <div class="{{ gridCellClasses }}">
                   {% component 'figure', {
                     type: 'picture',
                     sources: [{src: bodyPart.value.contentUrl, size: bodyPart.value.width}],
@@ -47,7 +48,7 @@
           {% elif bodyPart.type === 'video' %}
             <div class="container">
               <div class="grid">
-                <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
+                <div class="{{ gridCellClasses }}">
                   {% component 'iframed-video', {video: bodyPart.value} %}
                 </div>
               </div>
@@ -55,7 +56,7 @@
           {% elif bodyPart.type === 'list' %}
             <div class="container">
               <div class="grid">
-                <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
+                <div class="{{ gridCellClasses }}">
                   {% component 'list', {list: bodyPart.value} %}
                 </div>
               </div>
@@ -63,7 +64,7 @@
           {% elif bodyPart.type === 'imageGallery' %}
             <div class="container">
               <div class="grid">
-                <div class="grid__cell grid__cell--l12 grid__cell--m8, grid__cell--s4">
+                <div class="{{ gridCellClasses }}">
                   {% component 'image-gallery', { imageGallery: bodyPart.value } %}
                 </div>
               </div>
@@ -71,10 +72,10 @@
           {% else %}
             <div class="container">
               <div class="grid">
-                <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
+                <div class="{{ gridCellClasses }}">
                     {% if loop.index === 1 %}
                       <div class="standfirst">
-                          {{bodyPart.value | safe}}
+                        {{bodyPart.value | safe}}
                       </div>
                     {% else %}
                       {{bodyPart.value | safe}}
@@ -86,5 +87,16 @@
       {% endfor %}
     </div>
   {% endblock %}
+
+  {% if article.tags.length > 0 %}
+    <div class="container">
+      <div class="grid">
+        <div class="{{ gridCellClasses }}">
+          {% component 'tags', { tags: article.tags } %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
 </div>
 {% endblock %}

@@ -1,0 +1,24 @@
+.tags {
+  border-bottom: 1px solid color('keyline-grey');
+}
+
+.tags__intro {
+  @include font('HNM5');
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.tags__list {
+  @include font('HNL6');
+  @include plain-list();
+  padding-bottom: $vertical-space-unit;
+}
+
+.tags__item {
+  color: color('action-green-1');
+  display: inline-block;
+}
+
+.tags__link {
+  text-decoration: none;
+}
