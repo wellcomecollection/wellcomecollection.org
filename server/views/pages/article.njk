@@ -1,5 +1,7 @@
 {% extends "layout/default.njk" %}
 
+{% set gridCellClasses = 'grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4' %}
+
 {% block body %}
 <div class="row row--lead row--lead--l">
   <div class="container">
@@ -71,10 +73,10 @@
           {% else %}
             <div class="container">
               <div class="grid">
-                <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
+                <div class="{{ gridCellClasses }}">
                     {% if loop.index === 1 %}
                       <div class="standfirst">
-                          {{bodyPart.value | safe}}
+                        {{bodyPart.value | safe}}
                       </div>
                     {% else %}
                       {{bodyPart.value | safe}}
