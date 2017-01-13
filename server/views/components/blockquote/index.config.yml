@@ -18,7 +18,7 @@ variants:
     - with-marks
     - wb
   notes: For pull quotes. Suited for more informal articles
-- name: Leterra
+- name: Lettera
   context:
     modifiers:
     - lr
