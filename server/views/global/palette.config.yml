@@ -1,3 +1,4 @@
+# TODO: collect these values from client/scss/utilies/_variables.scss
 context:
   primary:
   - name: action-green-1
