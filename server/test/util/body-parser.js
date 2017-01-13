@@ -6,6 +6,7 @@ import {
   bodyParser,
   getFragment,
   removeEmptyTextNodes,
+  removeExtraAttrs,
   convertDomNode,
   convertWpImage,
   convertWpVideo,
@@ -20,6 +21,21 @@ test('removeEmptyTextNodes', t => {
 
   t.is(uncleanNodes.length, 18);
   t.is(cleanNodes.length, 9);
+});
+
+test('removeExtraAttrs', t => {
+  // Not using a string template here to avoid empty text nodes
+  const fragment = getFragment(
+    '<p class="notwelcome">Hello</p>' +
+    '<p style="notwelcome">Hello</p>' +
+    '<p title="notwelcome">Hello</p>'
+  );
+
+  const cleanNodes = removeExtraAttrs(fragment.childNodes);
+
+  t.is(cleanNodes[0].attrs.length, 0);
+  t.is(cleanNodes[1].attrs.length, 0);
+  t.is(cleanNodes[2].attrs.length, 1);
 });
 
 test('convertDomNode', t => {
