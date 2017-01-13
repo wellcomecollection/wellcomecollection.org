@@ -185,10 +185,10 @@ export function convertDomNode(node) {
 }
 
 export function removeExtraAttrs(nodes) {
-  const superflousAttrs = ['class', 'style'];
+  const superfluousAttrs = ['class', 'style'];
   return nodes.map(node => {
     if (node.attrs) {
-      const cleanedAttrs = node.attrs.filter(attr => superflousAttrs.indexOf(attr.name) === -1);
+      const cleanedAttrs = node.attrs.filter(attr => superfluousAttrs.indexOf(attr.name) === -1);
       // Boo! Mutation.
       node.attrs = cleanedAttrs;
       return node;
