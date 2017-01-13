@@ -36,7 +36,7 @@
   {# TODO combine the above with below - rationalise container grids #}
   <div class="body-content">
     <div class="container">
-      <div class="grid grid--dividers grid--flush-dividers">{# TODO what does this do? #}
+      <div class="grid grid--dividers">{# TODO what does this do? #}
         <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4 article__main"> 
         {% block articleBody %}
           {% component 'article-body', { articleBody: article.articleBody | parseBody } %}
