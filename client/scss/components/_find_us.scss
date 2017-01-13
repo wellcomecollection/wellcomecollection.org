@@ -40,7 +40,8 @@
     color: color('action-green-2');
 
     .icon {
-      top: -0.2em;
+      animation-duration: 400ms;
+      animation-name: find-us-icon-bounce;
     }
   }
 }
@@ -58,4 +59,16 @@
   .find-us:focus & {
     transform: scale(1.02, 1.02);
   }
+}
+
+@keyframes find-us-icon-bounce {
+  0% {
+    top: 0;
+    animation-timing-function: ease-in;
+  }
+  50% {
+    top: -0.4em;
+    animation-timing-function: ease-out;
+  }
+  100% { top: 0; }
 }
