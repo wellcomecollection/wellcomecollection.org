@@ -1,5 +1,7 @@
-@include respond-to('large') {
-  .article__main {// TODO own class not on grid__cell
+.article {
+  @include respond-to('large') {
+    position: relative;
+
     &:after {
       content: '';
       position: absolute;

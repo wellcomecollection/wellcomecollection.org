@@ -1,48 +1,5 @@
 {% extends "pages/article.njk" %}
 
 {% block articleBody %}
-  <div class="body-content">
-    <div class="container">
-      <div class="grid grid--dividers grid--flush-dividers">
-        <div class="{{ gridCellClasses }} article__main">
-          {% for bodyPart in bodyParts %}
-              {% if bodyPart.copy %}
-                  {{ bodyPart.copy | safe }}
-                {% if bodyPart.figure %}
-                    {% component 'figure', {
-                      type: 'picture',
-                      sources: bodyPart.figure.sources,
-                      caption: bodyPart.figure.caption,
-                      modifiers: ['sticky'],
-                      icon: bodyPart.figure.icon } %}
-                {% endif %}
-              {% elif bodyPart.figure %}
-                  {% component 'figure', {
-                    type: 'picture',
-                    sources: bodyPart.figure.sources,
-                    caption: bodyPart.figure.caption,
-                    modifiers: ['full-width'],
-                    icon: bodyPart.figure.icon } %}
-              {% endif %}
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="container">
-    <div class="grid">
-      <div class="{{ gridCellClasses }}">
-        {% if article.author %}
-          {% component 'author', {
-            name: article.author.name,
-            twitterHandle: article.author.twitterHandle,
-            modifiers: ['border-left'],
-            description: article.author.description,
-            image: article.author.image
-          } %}
-        {% endif %}
-        <hr class="divider" />
-      </div>
-    </div>
-  </div>
+  {% component 'article-body', { articleBody: article.articleBody } %}
 {% endblock %}
