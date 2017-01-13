@@ -1,23 +1,25 @@
-{% for bodyPart in articleBody %}
-  {% if bodyPart.type === 'picture' %}
-    {% component 'figure', {
-      type: 'picture',
-      sources: [{src: bodyPart.value.contentUrl, size: bodyPart.value.width}],
-      caption: bodyPart.value.caption,
-      modifiers: bodyPart.value.modifiers,
-      icon: 'other/picture'
-    } %}
-  {% elif bodyPart.type === 'video' %}
-    {% component 'iframed-video', {video: bodyPart.value} %}
-  {% elif bodyPart.type === 'list' %}
-    {% component 'list', {list: bodyPart.value} %}
-  {% elif bodyPart.type === 'imageGallery' %}
-    {% component 'image-gallery', { imageGallery: bodyPart.value } %}
-  {% else %}
-    {% if loop.index === 1 %}
-      {% component 'standfirst', { body: bodyPart.value } %}
+<div class="body-content">
+  {% for bodyPart in articleBody %}
+    {% if bodyPart.type === 'picture' %}
+      {% component 'figure', {
+        type: 'picture',
+        sources: [{src: bodyPart.value.contentUrl, size: bodyPart.value.width}],
+        caption: bodyPart.value.caption,
+        modifiers: bodyPart.value.modifiers,
+        icon: 'other/picture'
+      } %}
+    {% elif bodyPart.type === 'video' %}
+      {% component 'iframed-video', {video: bodyPart.value} %}
+    {% elif bodyPart.type === 'list' %}
+      {% component 'list', {list: bodyPart.value} %}
+    {% elif bodyPart.type === 'imageGallery' %}
+      {% component 'image-gallery', { imageGallery: bodyPart.value } %}
     {% else %}
-      {{bodyPart.value | safe}}
+      {% if loop.index === 1 %}
+        {% component 'standfirst', { body: bodyPart.value } %}
+      {% else %}
+        {{bodyPart.value | safe}}
+      {% endif %}
     {% endif %}
-  {% endif %}
-{% endfor %}
+  {% endfor %}
+</div>
