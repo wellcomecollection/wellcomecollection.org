@@ -66,9 +66,13 @@
     top: 0;
     animation-timing-function: ease-in;
   }
+
   50% {
     top: -0.4em;
     animation-timing-function: ease-out;
   }
-  100% { top: 0; }
+
+  100% {
+    top: 0;
+  }
 }
