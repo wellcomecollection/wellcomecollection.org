@@ -4,7 +4,7 @@ handle: article-body
 context: 
   articleBody:
   - type: null
-    value: "<p>First body part without a type will be standfirst</p>"
+    value: "<p>If it's the first body part and it doesn't have a type it will be a standfirst</p>"
   - type: null
     value: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at volutpat erat. Quisque non eros viverra, tincidunt mi a, interdum libero. Vestibulum efficitur ex sed est interdum, ac placerat enim blandit. Phasellus sodales velit non est bibendum tincidunt. Phasellus ut ligula at velit congue lobortis. Fusce at suscipit purus, ac tincidunt orci.</p>"
   - type: picture
