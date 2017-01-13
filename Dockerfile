@@ -14,4 +14,4 @@ EXPOSE 3000
 
 WORKDIR $HOME/server
 
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "app:docker"]
