@@ -15,9 +15,7 @@
     {% component 'image-gallery', { imageGallery: bodyPart.value } %}
   {% else %}
     {% if loop.index === 1 %}
-      <div class="standfirst">
-          {{bodyPart.value | safe}}
-      </div>
+      {% component 'standfirst', { body: bodyPart.value } %}
     {% else %}
       {{bodyPart.value | safe}}
     {% endif %}
