@@ -1,16 +1,16 @@
 {% extends "layout/default.njk" %}
-{% set gridCellClasses = 'grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4' %}
 
 {% block body %}
 <div class="row row--lead row--lead--l">
   <div class="container">
     <div class="grid">
-      <div class="grid__cell grid__cell--shift-l1">
+      <div class="grid__cell grid__cell--shift-l1 grid__cell--xl10 grid__cell--shift-xl1 grid__cell--l10 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
         {% component 'page-description', {title: article.headline, modifiers: ['a']} %}
       </div>
     </div>
   </div>
 </div>
+
 {% for media in article.mainMedia %}
   {% if media.weighting == 'leading' %}
     {% component "media-item", { media: media } %}
@@ -18,88 +18,25 @@
 {% endfor %}
 
 <div class="row row--cream">
-  {% if article.author %}
-    <div class="container">
-      <div class="grid">
-        <div class="{{ gridCellClasses }}">
+  <div class="container">
+    <div class="grid">
+      <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
+
+        {% if article.author %}
           {% component 'author', {
             name: article.author.name,
             twitterHandle: article.author.twitterHandle,
             modifiers: ['border-bottom'],
             image: article.author.image
           } %}
-        </div>
-      </div>
-    </div>
-  {% endif %}
-  {% block articleBody %}
-    <div class="body-content">
-      {% for bodyPart in article.articleBody | parseBody %}
-          {% if bodyPart.type === 'picture' %}
-            <div class="container">
-              <div class="grid">
-                <div class="{{ gridCellClasses }}">
-                  {% component 'figure', {
-                    type: 'picture',
-                    sources: [{src: bodyPart.value.contentUrl, size: bodyPart.value.width}],
-                    caption: bodyPart.value.caption,
-                    icon: 'other/picture'
-                  } %}
-                </div>
-              </div>
-            </div>
-          {% elif bodyPart.type === 'video' %}
-            <div class="container">
-              <div class="grid">
-                <div class="{{ gridCellClasses }}">
-                  {% component 'iframed-video', {video: bodyPart.value} %}
-                </div>
-              </div>
-            </div>
-          {% elif bodyPart.type === 'list' %}
-            <div class="container">
-              <div class="grid">
-                <div class="{{ gridCellClasses }}">
-                  {% component 'list', {list: bodyPart.value} %}
-                </div>
-              </div>
-            </div>
-          {% elif bodyPart.type === 'imageGallery' %}
-            <div class="container">
-              <div class="grid">
-                <div class="{{ gridCellClasses }}">
-                  {% component 'image-gallery', { imageGallery: bodyPart.value } %}
-                </div>
-              </div>
-            </div>
-          {% elif bodyPart.type === 'interview' %}
-            <div class="container">
-              <div class="grid">
-                <div class="{{ gridCellClasses }}">
-                  {% component 'interview', { interview: bodyPart.value } %}
-                </div>
-              </div>
-            </div>
-          {% else %}
-            <div class="container">
-              <div class="grid">
-                <div class="{{ gridCellClasses }}">
-                    {% if loop.index === 1 %}
-                      <div class="standfirst">
-                        {{bodyPart.value | safe}}
-                      </div>
-                    {% else %}
-                      {{bodyPart.value | safe}}
-                    {% endif %}
-                </div>
-              </div>
-            </div>
-          {% endif %}
-      {% endfor %}
-    </div>
-    <div class="container">
-      <div class="grid">
-        <div class="{{ gridCellClasses }}">
+
+        {% endif %}
+
+        <div class="article">
+          {% block articleBody %}
+            {% component 'article-body', { articleBody: article.articleBody | parseBody } %}
+          {% endblock %}
+
           {% if article.author %}
             {% component 'author', {
               name: article.author.name,
@@ -109,21 +46,16 @@
               image: article.author.image
             } %}
           {% endif %}
+
           <hr class="divider" />
+
+          {% if article.tags.length > 0 %}
+            {% component 'tags', { tags: article.tags } %}
+          {% endif %}
         </div>
+
       </div>
     </div>
-  {% endblock %}
-
-  {% if article.tags.length > 0 %}
-    <div class="container">
-      <div class="grid">
-        <div class="{{ gridCellClasses }}">
-          {% component 'tags', { tags: article.tags } %}
-        </div>
-      </div>
-    </div>
-  {% endif %}
-
+  </div>
 </div>
 {% endblock %}
