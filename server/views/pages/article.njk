@@ -72,6 +72,14 @@
                 </div>
               </div>
             </div>
+          {% elif bodyPart.type === 'interview' %}
+            <div class="container">
+              <div class="grid">
+                <div class="{{ gridCellClasses }}">
+                  {% component 'interview', { interview: bodyPart.value } %}
+                </div>
+              </div>
+            </div>
           {% else %}
             <div class="container">
               <div class="grid">

@@ -23,6 +23,8 @@
                     caption: bodyPart.figure.caption,
                     modifiers: ['full-width'],
                     icon: bodyPart.figure.icon } %}
+              {% elif bodyPart.interview %}
+                {% component 'interview', { interview: bodyPart.interview } %}
               {% endif %}
           {% endfor %}
         </div>
