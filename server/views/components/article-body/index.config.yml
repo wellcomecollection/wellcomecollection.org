@@ -1,0 +1,79 @@
+hidden: true
+name: Article body
+handle: article-body
+context: 
+  articleBody:
+  - type: null
+    value: "<p>First body part without a type will be standfirst</p>"
+  - type: null
+    value: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at volutpat erat. Quisque non eros viverra, tincidunt mi a, interdum libero. Vestibulum efficitur ex sed est interdum, ac placerat enim blandit. Phasellus sodales velit non est bibendum tincidunt. Phasellus ut ligula at velit congue lobortis. Fusce at suscipit purus, ac tincidunt orci.</p>"
+  - type: picture
+    value:
+      contentUrl: https://placehold.it/400x300
+      caption: © Copyright Holder
+      author: Author's name
+      width: 400
+      height: 300
+      copyrightHolder: copyright holder
+      fileFormat: png
+      url: null
+      modifiers: ['sticky']
+  - type: picture
+    value:
+      contentUrl: https://placehold.it/400x300
+      caption: © Copyright Holder
+      author: Author's name
+      width: 400
+      height: 300
+      copyrightHolder: copyright holder
+      fileFormat: png
+      url: null
+      modifiers: null
+  - type: picture
+    value:
+      contentUrl: https://placehold.it/1200x600
+      caption: © Copyright Holder
+      author: Author's name
+      width: 1200
+      height: 600
+      copyrightHolder: copyright holder
+      fileFormat: png
+      url: null
+      modifiers: ['full-width']
+  - type: video
+    value:
+      name: Video name
+      description: This is a description of the video
+      embedUrl: https://youtube.com/embed/JMzQiwnQ0Bo
+  - type: imageGallery
+    value: 
+      name: Gallery name
+      items: 
+      - contentUrl: https://placehold.it/400x300
+        caption: © Copyright Holder
+        author: Author's name
+        width: 400
+        height: 300
+        copyrightHolder: copyright holder
+        fileFormat: png
+        url: null 
+      - contentUrl: https://placehold.it/500x200
+        caption: © Copyright Holder
+        author: Author's name
+        width: 500
+        height: 200
+        copyrightHolder: copyright holder
+        fileFormat: png
+        url: null 
+      - contentUrl: https://placehold.it/600x300
+        caption: © Copyright Holder
+        author: Author's name
+        width: 600
+        height: 300
+        copyrightHolder: copyright holder
+        fileFormat: png
+        url: null 
+  - type: list
+    value: 
+      name: List name
+      items: [one, two, three]
