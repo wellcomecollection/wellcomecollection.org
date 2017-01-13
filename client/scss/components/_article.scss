@@ -2,6 +2,11 @@
   @include respond-to('large') {
     position: relative;
 
+    .author + & {
+      margin-top: -2 * $vertical-space-unit;
+      padding-top: 2 * $vertical-space-unit;
+    }
+
     &:after {
       content: '';
       position: absolute;
