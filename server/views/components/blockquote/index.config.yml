@@ -1,10 +1,11 @@
 handle: blockquote
 context:
-  body: "<p>It was a large room, heavily outfitted with the usual badly ventilated
-    furnaces, rows of bubbling crucibles, and one stuffed alligator. Things floated
-    in jars. The air smelled of a limited life expectancy.</p>"
-  footer: "<footer class='blockquote__footer'>Emily Dickinson, <cite class='blockquote__cite'>I
-    felt a funeral in my brain</cite></footer>"
+  body: "<p>Said Hamlet to Ophelia,<br />
+            I'll draw a sketch of thee,<br />
+            What kind of pencil shall I use? <br />
+            2B or not 2B? </p>"
+  footer: "<footer class='blockquote__footer'>Spike Milligan,
+           <cite class='blockquote__cite'>A Silly Poem</cite></footer>"
 notes: For pull quotes. Suited for more serious articles
 variants:
 - name: default
