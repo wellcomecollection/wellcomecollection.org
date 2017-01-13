@@ -13,8 +13,10 @@ const BodyPart = Record({
 
 export function bodyParser(bodyText) {
   const fragment = getFragment(bodyText);
-  const nodes = explodeIntoBodyParts(cleanNodes(fragment.childNodes));
-  return nodes;
+  const preCleaned = cleanNodes(fragment.childNodes, [removeEmptyTextNodes]);
+  const bodyParts = explodeIntoBodyParts(preCleaned);
+
+  return bodyParts;
 }
 
 export function getFragment(bodyText) {
@@ -35,20 +37,13 @@ export function explodeIntoBodyParts(nodes) {
     const bodyPart = maybeBodyPart.type ? maybeBodyPart : convertDomNode(maybeBodyPart);
 
     return bodyPart;
-  });
+  }).filter(part => part); // get rid of any nulls = Maybe.flatten would be good.
 
   return parts;
 }
 
 export function removeEmptyTextNodes(nodes) {
   return nodes.filter(node => !isEmptyText(node));
-}
-
-export function convertDomNode(node) {
-  return new BodyPart({
-    type: 'html',
-    value: serializeNode(node)
-  });
 }
 
 export function convertWpImage(node) {
@@ -112,7 +107,7 @@ export function convertWpList(node) {
 }
 
 export function findWpImageGallery(node) {
-  const className = getAttrVal(node.attrs, 'class');
+  const className = node.attrs && getAttrVal(node.attrs, 'class');
   const isWpImageGallery = Boolean(className && className.match('tiled-gallery'));
 
   if (isWpImageGallery) {
@@ -144,6 +139,7 @@ export function findWpImageGallery(node) {
         })
       });
     } catch(e) {
+      console.info(e)
       return node;
     }
   } else {
@@ -175,13 +171,38 @@ function getImageFromWpNode(node) {
   });
 }
 
-// This recursively cleans the nodes.
-function cleanNodes(nodes) {
-  const cleaners = [removeEmptyTextNodes];
+export function convertDomNode(node) {
+  const cleaned = cleanNodes([node], [removeExtraAttrs]);
 
+  if (cleaned.length === 1) {
+    return new BodyPart({
+      type: 'html',
+      value: serializeNode(cleaned[0])
+    });
+  } else {
+    return null;
+  }
+}
+
+export function removeExtraAttrs(nodes) {
+  const superfluousAttrs = ['class', 'style'];
+  return nodes.map(node => {
+    if (node.attrs) {
+      const cleanedAttrs = node.attrs.filter(attr => superfluousAttrs.indexOf(attr.name) === -1);
+      // Boo! Mutation.
+      node.attrs = cleanedAttrs;
+      return node;
+    } else {
+      return node;
+    }
+  });
+}
+
+// This recursively cleans the nodes.
+function cleanNodes(nodes, cleaners) {
   return cleaners.reduce((nodes, parser) => parser(nodes), nodes).map(node => {
     if (node.childNodes && node.childNodes.length > 0) {
-      const childNodes = cleanNodes(node.childNodes);
+      const childNodes = cleanNodes(node.childNodes, cleaners);
       return Object.assign({}, node, {childNodes});
     } else {
       return node;

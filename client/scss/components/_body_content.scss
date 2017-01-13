@@ -1,4 +1,6 @@
 .body-content {
+  margin-bottom: 2 * $vertical-space-unit;
+
   h2 {
     @include font('WB6');
 
@@ -41,13 +43,5 @@
     &:focus {
       box-shadow: inset 0 -0.2em 0 0 color('action-green-1');
     }
-  }
-
-  .body-content__hr {
-    width: 60px;
-    height: 5px;
-    background: color('black');
-    margin: 6 * $vertical-space-unit 0 $vertical-space-unit 0;
-    border: 0;
   }
 }
