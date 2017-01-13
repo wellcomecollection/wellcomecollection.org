@@ -25,7 +25,7 @@
         {% if article.author %}
           {% component 'author', {
             name: article.author.name,
-            twitterHandle: author.twitterHandle,
+            twitterHandle: article.author.twitterHandle,
             modifiers: ['border-bottom'],
             image: article.author.image
           } %}

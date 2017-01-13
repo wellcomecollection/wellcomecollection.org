@@ -15,8 +15,8 @@ const init = () => {
   const headerSearchEl = document.getElementById('header-search');
   const openingHoursEls = document.querySelectorAll('.js-opening-hours');
   const wobblyEdgeEls = document.querySelectorAll('.js-wobbly-edge');
-  const overlappingEls = document.querySelectorAll('.article .figure--sticky, .article .figure--full-width');
-  const stickyEls = document.querySelectorAll('.article .figure--sticky');
+  const overlappingEls = document.querySelectorAll('.js-sticky, .js-full-width');
+  const stickyEls = document.querySelectorAll('.js-sticky');
 
   nodeList(wobblyEdgeEls).forEach((el) => wobblyEdge(el));
 
