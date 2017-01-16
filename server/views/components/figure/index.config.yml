@@ -9,7 +9,7 @@ context:
     size: '600'
   - src: https://placehold.it/300x200
     size: '300'
-  caption: Aspernatur neque debitis atque saepe magni praesentium eos.
+  caption: <p>Aspernatur neque <a href='#'>debitis atque saepe</a> magni praesentium eos.</p>
 variants:
 - name: default
   label: Picture
