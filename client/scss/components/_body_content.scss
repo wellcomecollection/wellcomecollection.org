@@ -47,6 +47,7 @@
 }
 
 $large-width: (5/7 * 100)+'%';
+
 .body-content__part--full-width {
   @include respond-to('medium') {
     margin-left: -18%;
