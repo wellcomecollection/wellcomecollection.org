@@ -1,6 +1,8 @@
 <div class="body-content">
   {% for bodyPart in articleBody %}
-    {% if bodyPart.type === 'picture' %}
+    {% if bodyPart.type === 'standfirst' %}
+      {% component 'standfirst', { body: bodyPart.value } %}
+    {% elif bodyPart.type === 'picture' %}
       {% component 'figure', {
         type: 'picture',
         sources: [{src: bodyPart.value.contentUrl, size: bodyPart.value.width}],
@@ -18,11 +20,7 @@
     {% elif bodyPart.type === 'interview' %}
       {% component 'interview', { interview: bodyPart.value } %}
     {% else %}
-      {% if loop.index === 1 %}
-        {% component 'standfirst', { body: bodyPart.value } %}
-      {% else %}
-        {{bodyPart.value | safe}}
-      {% endif %}
+      {{bodyPart.value | safe}}
     {% endif %}
   {% endfor %}
 </div>

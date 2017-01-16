@@ -27,11 +27,11 @@ export const defaultPlacesOpeningHours = [
     new Day({name: 'Wednesday', hours: '10:00 - 18:00'}),
     new Day({name: 'Thursday',  hours: '10:00 - 20:00'}),
     new Day({name: 'Friday',    hours: '10:00 - 18:00'}),
-    new Day({name: 'Saturday',  hours: '10:00 - 18:00'}),
-    new Day({name: 'Sunday',    hours: '10:00 - 16:00'})
+    new Day({name: 'Saturday',  hours: '10:00 - 16:00'}),
+    new Day({name: 'Sunday',    hours: 'Library closed'})
   ]}),
   new Place({id: 'restaurant', name: 'Restaurant', days: [
-    new Day({name: 'Monday',    hours: 'Closed'}),
+    new Day({name: 'Monday',    hours: 'Restaurant closed'}),
     new Day({name: 'Tuesday',   hours: '11:00 - 18:00'}),
     new Day({name: 'Wednesday', hours: '11:00 - 18:00'}),
     new Day({name: 'Thursday',  hours: '11:00 - 22:00'}),
