@@ -14,12 +14,22 @@ export const artefact = async(ctx, next) => {
 
 export const article = async(ctx, next) => {
     const id = ctx.params.id;
+    const format = ctx.request.query.format;
     const article = await getArticle(id);
 
-    return article ? ctx.render('pages/article', {
-      pageConfig: new PageConfig({inSection: 'explore'}),
-      article: article
-    }) : next();
+    if (article) {
+      if (format === 'json') {
+        ctx.body = article;
+        return article;
+      } else {
+        return ctx.render('pages/article', {
+          pageConfig: new PageConfig({inSection: 'explore'}),
+          article: article
+        });
+      }
+    } else {
+      return next();
+    }
 };
 
 export const explore = async(ctx) => {
