@@ -36,8 +36,11 @@ fractal.web.set('static.path', dir('./../dist'));
 fractal.web.set('builder.dest', dir('./../cardigan'));
 
 const cardiganTheme = mandelbrot({
-    skin: "navy"
+    skin: "navy",
+    styles: ['default', '/cardigan-theme/tweaks.css']
 });
+
+cardiganTheme.addStatic(path.join(__dirname, '/cardigan-theme'), '/cardigan-theme');
 
 fractal.web.theme(cardiganTheme);
 
