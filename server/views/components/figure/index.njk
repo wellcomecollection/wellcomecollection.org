@@ -7,7 +7,7 @@
       {%- endfor %}
       <img class="figure__image"
         src="{{ sources[(sources | length) - 1].src }}"
-        alt="{{ caption }}" />
+        alt="{{ caption | striptags() }}" />
     </picture>
   {% elif type === 'image' %}
     <img class="figure__image"
@@ -16,7 +16,7 @@
         {{ source.src }} {{ source.size }}w
         {%- if (source !== (sources | last)) %}, {%- endif %}
       {%- endfor %}"
-      alt="{{ caption }}" />
+      alt="{{ caption | striptags() }}" />
   {% endif %}
 
   {% if full %}
@@ -30,7 +30,7 @@
           <div class="grid__cell {% for size in captionSizes %}grid__cell--{{ size }}{% endfor %} {% for shift in captionShifts %}grid__cell--shift-{{ shift }} {% endfor %}">
             <figcaption class="figure__caption">
               {% icon icon %}
-              {{ caption }}
+              {{ caption | safe }}
             </figcaption>
           </div>
         </div>
