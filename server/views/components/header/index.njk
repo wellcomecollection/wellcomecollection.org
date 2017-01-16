@@ -10,7 +10,7 @@
           <span></span>
         </a>
       </div>
-      <a href="/" class="header__brand">
+      <a href="https://wellcomecollection.org" class="header__brand">
         {% icon 'other/wellcome-collection', 'Wellcome Collection Logo' %}
       </a>
       <nav id="header-nav"
@@ -30,11 +30,13 @@
       </nav>
       <div id="header-search" class="header__search">
         <form class="header__form"
-          action="search"
+          action="https://wellcomecollection.org/search"
           method="post">
           <div class="header__input-wrap js-show-hide-drawer">
             <label class="header__label" for="header-input">Search</label>
-            <input id="header-input" class="header__input js-header-input" placeholder="Search" />
+            <input id="header-input" class="header__input js-header-input" placeholder="Search" name="search" />
+            {# This is here as we're sending people back to V1, abd drupal requires it #}
+            <input type="hidden" name="form_id" value="col_search_form" />
           </div>
           <button class="header__button js-show-hide-trigger">
             <span class="header__button-inner">
