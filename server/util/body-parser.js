@@ -24,15 +24,16 @@ export function getFragment(bodyText) {
 }
 
 export function explodeIntoBodyParts(nodes) {
-  const parts = nodes.map(node => {
+  const parts = nodes.map((node, nodeIndex) => {
     const converters = [convertWpImage, convertWpVideo, convertWpList, findWpImageGallery];
 
     // TODO: Tidy up typing here
-    const maybeBodyPart = converters.reduce((node, converter) => {
-      // Don't bother converting if it's been converted
-      // We could use clever typing here, but we don't have to because JS
-      return node.type ? node : converter(node);
-    }, node);
+    const maybeBodyPart = nodeIndex === 0 ? convertWpStandfirst(node) :
+      converters.reduce((node, converter) => {
+        // Don't bother converting if it's been converted
+        // We could use clever typing here, but we don't have to because JS
+        return node.type ? node : converter(node);
+      }, node);
 
     const bodyPart = maybeBodyPart.type ? maybeBodyPart : convertDomNode(maybeBodyPart);
 
@@ -44,6 +45,13 @@ export function explodeIntoBodyParts(nodes) {
 
 export function removeEmptyTextNodes(nodes) {
   return nodes.filter(node => !isEmptyText(node));
+}
+
+function convertWpStandfirst(node) {
+  return new BodyPart({
+    type: 'standfirst',
+    value: serializeAndCleanNode(node)
+  });
 }
 
 export function convertWpImage(node) {
@@ -139,7 +147,6 @@ export function findWpImageGallery(node) {
         })
       });
     } catch(e) {
-      console.info(e)
       return node;
     }
   } else {
@@ -172,12 +179,12 @@ function getImageFromWpNode(node) {
 }
 
 export function convertDomNode(node) {
-  const cleaned = cleanNodes([node], [removeExtraAttrs]);
+  const cleanedNode = serializeAndCleanNode(node);
 
-  if (cleaned.length === 1) {
+  if (cleanedNode) {
     return new BodyPart({
       type: 'html',
-      value: serializeNode(cleaned[0])
+      value: cleanedNode
     });
   } else {
     return null;
@@ -217,6 +224,16 @@ function isEmptyText(node) {
 function getAttrVal(attrs, key) {
   const attr = attrs.find(attr => attr.name === key);
   return attr ? attr.value : null;
+}
+
+function serializeAndCleanNode(node) {
+  const cleaned = cleanNodes([node], [removeExtraAttrs]);
+
+  if (cleaned.length === 1) {
+    return serializeNode(cleaned[0]);
+  } else {
+    return null;
+  }
 }
 
 function serializeNode(node) {
