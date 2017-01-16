@@ -45,3 +45,26 @@
     }
   }
 }
+
+$large-width: (5/7 * 100)+'%';
+.body-content__part--full-width {
+  @include respond-to('medium') {
+    margin-left: -18%;
+    margin-right: -18%;
+  }
+
+  @include respond-to('large') {
+    clear: both;
+    position: relative;
+    z-index: 1;
+    margin-left: 0;
+    margin-right: calc((#{$large-width} + #{map-get($gutter-width, 'large')})* -1);
+    background-color: color('cream');
+    padding-top: $vertical-space-unit;
+    margin-top: -$vertical-space-unit;
+    border-bottom: $vertical-space-unit solid color('cream');
+    /* stylelint-disable declaration-no-important */
+    opacity: 1 !important;
+    /* stylelint-enable */
+  }
+}
