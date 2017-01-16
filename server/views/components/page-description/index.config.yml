@@ -1,6 +1,7 @@
 name: page description
 handle: page-description
 label: Page description
+preview: "@preview-no-container"
 variants:
 - name: default
   label: A (article)
@@ -8,6 +9,7 @@ variants:
   context:
     modifiers:
     - a
+    lead: true
     intro: States of Mind
     title: 'Inspired: Alchemists and housewives around a long table'
     publicationDate: September 9th 2016

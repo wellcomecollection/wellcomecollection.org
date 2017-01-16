@@ -1,9 +1,27 @@
 <header class="page-description {% for modifier in modifiers %}page-description--{{ modifier }} {% endfor %}">
-  <span class="page-description__intro">{{ intro }}</span>
-  <h1 class="page-description__title">{{ title }}</h1>
+  <div class="row row--no-padding {{ 'row--lead row--lead--l page-description__lead' if lead }}">
+    <div class="container">
+      <div class="grid">
+        <div class="grid__cell {{ 'grid__cell--shift-l1' if lead }}">
+          {% if intro %}
+            <span class="page-description__intro">{{ intro }}</span>
+          {% endif %}
+          <h1 class="page-description__title">{{ title }}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
   {% if publicationDate %}
-    <span class="page-description__publication-date">
-      {% icon 'other/clock' %}{{ publicationDate }}
-    </span>
+    <div class="row row--no-padding">
+      <div class="container">
+          <div class="grid">
+            <div class="grid__cell {{ 'grid__cell--shift-l1' if lead }}">
+              <span class="page-description__publication-date">
+                {% icon 'other/clock' %}{{ publicationDate }}
+              </span>
+            </div>
+          </div>
+      </div>
+    </div>
   {% endif %}
 </header>
