@@ -17,9 +17,13 @@
   background: color('yellow');
 }
 
+.row--no-padding {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 .row--lead {
   position: relative;
-  margin-bottom: $vertical-space-unit;
 
   &:before {
     position: absolute;

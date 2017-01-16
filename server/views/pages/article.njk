@@ -1,15 +1,8 @@
 {% extends "layout/default.njk" %}
 
 {% block body %}
-<div class="row row--lead row--lead--l">
-  <div class="container">
-    <div class="grid">
-      <div class="grid__cell grid__cell--shift-l1">
-        {% component 'page-description', {title: article.headline, modifiers: ['a']} %}
-      </div>
-    </div>
-  </div>
-</div>
+
+{% component 'page-description', { title: article.headline, modifiers: ['a'], lead: true } %}
 
 {% for media in article.mainMedia %}
   {% if media.weighting == 'leading' %}
@@ -21,7 +14,7 @@
   <div class="container">
     <div class="grid">
       <div class="grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4">
-        
+
         {% if article.author %}
           {% component 'author', {
             name: article.author.name,
@@ -30,7 +23,7 @@
             image: article.author.image
           } %}
         {% endif %}
-        
+
         <div class="article">
           {% block articleBody %}
             {% component 'article-body', { articleBody: article.articleBody | parseBody } %}
