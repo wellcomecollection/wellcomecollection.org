@@ -14,7 +14,6 @@
   <div class="container">
     <div class="grid grid--no-gutters">
       <div class="grid__cell grid__cell--s4 grid__cell--m6 grid__cell--shift-m1 grid__cell--l7 grid__cell--xl6 grid__cell--shift-xl1">
-
         {% if article.author %}
           {% component 'author', {
             name: article.author.name,
@@ -22,13 +21,13 @@
             modifiers: ['border-bottom'],
             image: article.author.image
           } %}
+
         {% endif %}
 
         <div class="article">
           {% block articleBody %}
             {% component 'article-body', { articleBody: article.articleBody | parseBody } %}
           {% endblock %}
-
 
           {% if article.author %}
             {% component 'author', {

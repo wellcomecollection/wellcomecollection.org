@@ -17,6 +17,8 @@
       {% component 'list', {list: bodyPart.value} %}
     {% elif bodyPart.type === 'imageGallery' %}
       {% component 'image-gallery', { imageGallery: bodyPart.value } %}
+    {% elif bodyPart.type === 'interview' %}
+      {% component 'interview', { interview: bodyPart.value } %}
     {% else %}
       {{bodyPart.value | safe}}
     {% endif %}

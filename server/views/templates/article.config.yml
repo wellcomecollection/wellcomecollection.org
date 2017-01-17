@@ -3,7 +3,7 @@ handle: article-template
 context:
   inSection: explore
   article:
-    headline: AIDS Posters
+    headline: How cultural contexts can shape mental illness
     tags: "@tags.tags"
     author: "@author"
     mainMedia:
@@ -30,6 +30,8 @@ context:
       value: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at volutpat erat. Quisque non eros viverra, tincidunt mi a, interdum libero. Vestibulum efficitur ex sed est interdum, ac placerat enim blandit. Phasellus sodales velit non est bibendum tincidunt. Phasellus ut ligula at velit congue lobortis. Fusce at suscipit purus, ac tincidunt orci.</p>"
     - type: null
       value: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at volutpat erat. Quisque non eros viverra, tincidunt mi a, interdum libero. Vestibulum efficitur ex sed est interdum, ac placerat enim blandit. Phasellus sodales velit non est bibendum tincidunt. Phasellus ut ligula at velit congue lobortis. Fusce at suscipit purus, ac tincidunt orci.</p>"
+    - type: interview
+      value: "@interview.interview"
     - type: null
       value: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at volutpat erat. Quisque non eros viverra, tincidunt mi a, interdum libero. Vestibulum efficitur ex sed est interdum, ac placerat enim blandit. Phasellus sodales velit non est bibendum tincidunt. Phasellus ut ligula at velit congue lobortis. Fusce at suscipit purus, ac tincidunt orci.</p>"
     - type: picture
@@ -77,9 +79,9 @@ context:
     - type: null
       value: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at volutpat erat. Quisque non eros viverra, tincidunt mi a, interdum libero. Vestibulum efficitur ex sed est interdum, ac placerat enim blandit. Phasellus sodales velit non est bibendum tincidunt. Phasellus ut ligula at velit congue lobortis. Fusce at suscipit purus, ac tincidunt orci.</p>"
     - type: imageGallery
-      value: 
+      value:
         name: Gallery name
-        items: 
+        items:
         - contentUrl: https://placehold.it/400x300
           caption: © Copyright Holder
           author: Author's name
@@ -87,7 +89,7 @@ context:
           height: 300
           copyrightHolder: copyright holder
           fileFormat: png
-          url: null 
+          url: null
         - contentUrl: https://placehold.it/500x200
           caption: © Copyright Holder
           author: Author's name
@@ -95,7 +97,7 @@ context:
           height: 200
           copyrightHolder: copyright holder
           fileFormat: png
-          url: null 
+          url: null
         - contentUrl: https://placehold.it/600x300
           caption: © Copyright Holder
           author: Author's name
@@ -103,11 +105,11 @@ context:
           height: 300
           copyrightHolder: copyright holder
           fileFormat: png
-          url: null 
+          url: null
     - type: null
       value: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at volutpat erat. Quisque non eros viverra, tincidunt mi a, interdum libero. Vestibulum efficitur ex sed est interdum, ac placerat enim blandit. Phasellus sodales velit non est bibendum tincidunt. Phasellus ut ligula at velit congue lobortis. Fusce at suscipit purus, ac tincidunt orci.</p>"
     - type: list
-      value: 
+      value:
         name: List name
         items: [one, two, three]
     - type: null

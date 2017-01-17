@@ -1,0 +1,12 @@
+<div class="interview">
+  {% for qAndA in interview %}
+    <p class="interview__question">
+      <span class="interview__participant">{{ qAndA.question.participant }}</span>
+      {{ qAndA.question.content }}
+    </p>
+    <p class="interview__answer">
+      <span class="interview__participant">{{ qAndA.answer.participant }}</span>
+      {{ qAndA.answer.content }}
+    </p>
+  {% endfor %}
+</div>
