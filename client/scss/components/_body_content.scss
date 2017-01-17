@@ -47,11 +47,15 @@
 }
 
 $large-width: (5/7 * 100)+'%';
+$narrow-width: (5/7) * 100%; // calculates the narrow column width as a percentage of the main column.
+$center-width-large: (6/7) * 100%; // calculates the halfway point of the container, as a percentage of the main column.
+$center-width-xlarge: (6/6) * 100%;
 
 .body-part {
   display: block;
 }
 
+// TODO: Update to be like figure--full-width, and then generify
 .body-part--full-width {
   @include respond-to('medium') {
     margin-left: -18%;
@@ -76,6 +80,7 @@ $large-width: (5/7 * 100)+'%';
 
 .body-part__scroller {
   overflow: auto;
+
   @include respond-to('large') {
     margin-left: -60px;
     width: calc(100% + 60px);
@@ -86,6 +91,7 @@ $large-width: (5/7 * 100)+'%';
   @include respond-to('medium') {
     margin-left: 12.5%;
   }
+
   @include respond-to('large') {
     margin-left: 60px;
   }

@@ -9,10 +9,6 @@
   margin-right: map_get($gutter-width, 'small');
 }
 
-.image-gallery__figure-caption {
-  padding-bottom: 0;
-}
-
 .image-gallery__image {
   height: 204px;
   width: auto;
@@ -26,5 +22,6 @@
 .image-gallery__figure-caption {
   display: table-caption;
   caption-side: bottom;
+  padding-bottom: 0;
 }
 
