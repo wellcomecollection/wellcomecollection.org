@@ -8,6 +8,7 @@
 
 // Base
 @import 'base/fonts';
+@import 'base/flex';
 @import 'base/layout';
 @import 'base/container';
 @import 'base/row';
@@ -37,6 +38,7 @@
 @import 'components/footer_social';
 @import 'components/header';
 @import 'components/iframed-video';
+@import 'components/image-gallery';
 @import 'components/interview';
 @import 'components/new-site-notice';
 @import 'components/opening_hours';

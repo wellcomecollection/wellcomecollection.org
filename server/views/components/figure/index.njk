@@ -1,4 +1,4 @@
-<figure class="figure {% if full %} figure--full{% endif %} figure--{{type}} {% if bleed %}figure--bleed{% endif %} {% for modifier in modifiers %}figure--{{ modifier }} {% endfor %} {{jsClass}} ">
+<figure class="figure {% if full %} figure--full{% endif %} figure--{{type}} {% if bleed %}figure--bleed{% endif %} {% for modifier in modifiers %}figure--{{ modifier }} {% endfor %} {{jsClass}}">
   {% if type === 'picture' %}
     <picture class="figure__picture">
       {%- for source in sources %}

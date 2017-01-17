@@ -33,3 +33,7 @@
     padding-left: map-get($gutter-width, 'large');
   }
 }
+
+.grid__cell--contains-flex {
+  min-width: 0;
+}

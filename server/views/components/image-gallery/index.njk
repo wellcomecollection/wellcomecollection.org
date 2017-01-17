@@ -1,12 +1,19 @@
 <div class="image-gallery">
-{% for item in imageGallery.items %}
-  <div class="image-gallery__item">
-    {% component 'figure', {
-      type: 'picture',
-      sources: [{src: item.contentUrl, size: item.width}],
-      caption: item.caption,
-      icon: 'other/picture'
-    } %}
-  </div>
-{% endfor %}
+  {% for item in imageGallery.items %}
+    <div class="image-gallery__item">
+      <figure class="figure image-gallery__figure">
+        <picture class="figure__picture">
+          <source media="(min-width: {{ item.width }}px)" srcset="{{ item.contentUrl }}" />
+          <img class="figure__image image-gallery__image" src="{{ item.contentUrl }}" alt="{{ item.caption }}" />
+        </picture>
+
+        <figcaption class="figure__caption figure__caption--no-underline image-gallery__figure-caption">
+          <div class="flex">
+            <div>{% icon 'other/picture' %}</div>
+            <div>{{ item.caption }}</div>
+          </div>
+        </figcaption>
+      </figure>
+    </div>
+  {% endfor %}
 </div>
