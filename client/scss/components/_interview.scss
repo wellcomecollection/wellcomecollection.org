@@ -1,0 +1,34 @@
+//* @define interview
+
+.interview {
+  border-left: 5px solid color('keyline-grey');
+  padding-left: 1.2rem;
+  margin-bottom: 2em;
+}
+
+.interview__participant {
+  @include font('HNL7');
+  display: block;
+  margin-bottom: 0.4em;
+}
+
+.interview__question,
+.interview__answer {
+  margin-bottom: 0.8em;
+}
+
+.interview__question {
+  @include font('HNL4');
+
+  @include respond-to('medium') {
+    @include font('HNL3');
+  }
+}
+
+.interview__answer {
+  @include font('HNM4');
+
+  @include respond-to('medium') {
+    @include font('HNM3');
+  }
+}

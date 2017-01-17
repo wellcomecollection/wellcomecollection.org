@@ -1,7 +1,7 @@
 hidden: true
 name: Article body
 handle: article-body
-context: 
+context:
   articleBody:
   - type: null
     value: "<p>If it's the first body part and it doesn't have a type it will be a standfirst</p>"
@@ -46,9 +46,9 @@ context:
       description: This is a description of the video
       embedUrl: https://youtube.com/embed/JMzQiwnQ0Bo
   - type: imageGallery
-    value: 
+    value:
       name: Gallery name
-      items: 
+      items:
       - contentUrl: https://placehold.it/400x300
         caption: © Copyright Holder
         author: Author's name
@@ -56,7 +56,7 @@ context:
         height: 300
         copyrightHolder: copyright holder
         fileFormat: png
-        url: null 
+        url: null
       - contentUrl: https://placehold.it/500x200
         caption: © Copyright Holder
         author: Author's name
@@ -64,7 +64,7 @@ context:
         height: 200
         copyrightHolder: copyright holder
         fileFormat: png
-        url: null 
+        url: null
       - contentUrl: https://placehold.it/600x300
         caption: © Copyright Holder
         author: Author's name
@@ -72,8 +72,10 @@ context:
         height: 300
         copyrightHolder: copyright holder
         fileFormat: png
-        url: null 
+        url: null
+  - type: interview
+    value: "@interview.interview"
   - type: list
-    value: 
+    value:
       name: List name
       items: [one, two, three]

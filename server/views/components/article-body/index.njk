@@ -1,6 +1,8 @@
 <div class="body-content">
   {% for bodyPart in articleBody %}
-    {% if bodyPart.type === 'picture' %}
+    {% if bodyPart.type === 'standfirst' %}
+      {% component 'standfirst', { body: bodyPart.value } %}
+    {% elif bodyPart.type === 'picture' %}
       {% component 'figure', {
         type: 'picture',
         sources: [{src: bodyPart.value.contentUrl, size: bodyPart.value.width}],
@@ -13,6 +15,8 @@
       {% component 'iframed-video', {video: bodyPart.value} %}
     {% elif bodyPart.type === 'list' %}
       {% component 'list', {list: bodyPart.value} %}
+    {% elif bodyPart.type === 'interview' %}
+      {% component 'interview', { interview: bodyPart.value } %}
     {% elif bodyPart.type === 'imageGallery' %}
       <div class="body-part body-part--full-width">
         <div class="body-part__scroller">
@@ -22,11 +26,7 @@
         </div>
       </div>
     {% else %}
-      {% if loop.index === 1 %}
-        {% component 'standfirst', { body: bodyPart.value } %}
-      {% else %}
-        {{bodyPart.value | safe}}
-      {% endif %}
+      {{bodyPart.value | safe}}
     {% endif %}
   {% endfor %}
 </div>

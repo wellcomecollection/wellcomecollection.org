@@ -72,3 +72,9 @@ test('findWpImageGallery', t => {
   const wpImageGalleries = bodyParts.filter(part => part.type === 'imageGallery');
   t.is(wpImageGalleries.length, 1);
 });
+
+test('findWpStandfirst', t => {
+  const bodyParts = bodyParser(wpApiResp.content);
+  const wpImageStandFirst = bodyParts.filter(part => part.type === 'standfirst');
+  t.is(wpImageStandFirst.length, 1);
+});
