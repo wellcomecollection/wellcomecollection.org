@@ -7,6 +7,7 @@ import {Video} from '../model/video';
 import {List} from '../model/list';
 
 const BodyPart = Record({
+  weight: 'default',
   type: null,
   value: null
 });

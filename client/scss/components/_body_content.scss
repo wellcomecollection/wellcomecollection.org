@@ -131,4 +131,10 @@ $scroller-offset: map-get($container-padding, 'large');
   @include respond-to('large') {
     margin-left: $scroller-offset;
   }
+
+  @include respond-to('xlarge') {
+    max-width: 1338px;
+    padding-left: 190px; // This isn't completely accurate...
+    margin: 0 auto;
+  }
 }
