@@ -1,8 +1,8 @@
 <div class="body-content">
   {% for bodyPart in articleBody %}
-    <div class="body-block
-                {{- ' body-block--full-width js-full-width' if bodyPart.weight === 'standalone'  -}}
-                {{- ' body-block--sticky js-sticky' if bodyPart.weight === 'supporting'  -}}">
+    <div class="body-part
+                {{- ' body-part--full-width js-full-width' if bodyPart.weight === 'standalone'  -}}
+                {{- ' body-part--sticky js-sticky' if bodyPart.weight === 'supporting'  -}}">
       {% if bodyPart.type === 'standfirst' %}
         {% component 'standfirst', { body: bodyPart.value } %}
       {% elif bodyPart.type === 'picture' %}
@@ -20,8 +20,8 @@
       {% elif bodyPart.type === 'interview' %}
         {% component 'interview', { interview: bodyPart.value } %}
       {% elif bodyPart.type === 'imageGallery' %}
-        <div class="body-block__scroller">
-          <div class="body-block__scroller-content">
+        <div class="body-part__scroller">
+          <div class="body-part__scroller-content">
             {% component 'image-gallery', { imageGallery: bodyPart.value } %}
           </div>
         </div>
