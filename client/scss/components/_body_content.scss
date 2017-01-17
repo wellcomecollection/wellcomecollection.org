@@ -75,12 +75,14 @@ $large-width: (5/7 * 100)+'%';
   }
 }
 
+$scroller-offset: map-get($container-padding, 'large');
+
 .body-part__scroller {
   overflow: auto;
 
   @include respond-to('large') {
-    margin-left: -60px;
-    width: calc(100% + 60px);
+    margin-left: -$scroller-offset;
+    width: calc(100% + #{$scroller-offset});
   }
 }
 
