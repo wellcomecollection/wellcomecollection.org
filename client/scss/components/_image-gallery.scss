@@ -1,31 +1,12 @@
 .image-gallery {
-  overflow: auto;
   width: 100%;
   display: flex;
   margin-bottom: $vertical-space-unit;
-
-  @include respond-to('large') {
-    margin-left: -60px;
-    width: calc(100% + 60px);
-  }
 }
 
 .image-gallery__item {
   flex-shrink: 0;
   margin-right: map_get($gutter-width, 'small');
-}
-
-.image-gallery__item--first {
-  @include respond-to('medium') {
-    margin-left: 12.5%;
-  }
-  @include respond-to('large') {
-    margin-left: 60px;
-  }
-}
-
-.image-gallery__figure {
-  margin-bottom: 0;
 }
 
 .image-gallery__figure-caption {
@@ -38,6 +19,7 @@
 }
 
 .image-gallery__figure {
+  margin-bottom: 0;
   display: table;
 }
 

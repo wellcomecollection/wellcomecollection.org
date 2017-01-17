@@ -48,7 +48,11 @@
 
 $large-width: (5/7 * 100)+'%';
 
-.body-content__part--full-width {
+.body-part {
+  display: block;
+}
+
+.body-part--full-width {
   @include respond-to('medium') {
     margin-left: -18%;
     margin-right: -18%;
@@ -67,5 +71,22 @@ $large-width: (5/7 * 100)+'%';
     /* stylelint-disable declaration-no-important */
     opacity: 1 !important;
     /* stylelint-enable */
+  }
+}
+
+.body-part__scroller {
+  overflow: auto;
+  @include respond-to('large') {
+    margin-left: -60px;
+    width: calc(100% + 60px);
+  }
+}
+
+.body-part__scroller-content {
+  @include respond-to('medium') {
+    margin-left: 12.5%;
+  }
+  @include respond-to('large') {
+    margin-left: 60px;
   }
 }
