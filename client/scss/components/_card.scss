@@ -1,0 +1,70 @@
+//* @define card
+
+.card {
+  padding-bottom: 2 * $vertical-space-unit;
+  border-bottom: 2px solid color('black');
+
+  @include container-query('l', '8') {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  @include container-query('l', '12') {
+    display: flex;
+    align-items: flex-start;
+    border-bottom: 0;
+  }
+}
+
+.card__image {
+  width: 100%;
+  display: block;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+
+  @include container-query('l', '8') {
+    width: percentage(2 / 3);
+    order: 1;
+    margin-bottom: 0;
+  }
+
+  @include container-query('l', '12') {
+    width: percentage(2 / 3);
+    order: 1;
+    margin-bottom: 0;
+  }
+}
+
+.card__intro {
+  @include font('HNL5');
+  color: color('action-green-2');
+  display: block;
+}
+
+.card__title {
+  @include font('WB6');
+  color: color('black');
+  margin-top: 0;
+
+  @include container-query('l', '12') {
+    @include font('WB3');
+  }
+}
+
+.card__link {
+  text-decoration: none;
+}
+
+.card__description {
+  @include font('HNL5');
+  align-items: center;
+  color: color('accessible-grey-1');
+
+  @include container-query('l', '8') {
+    padding-right: map-get($gutter-width, 'large');
+  }
+
+  @include container-query('l', '12') {
+    padding-right: map-get($gutter-width, 'large');
+  }
+}
