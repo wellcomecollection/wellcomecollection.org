@@ -45,6 +45,7 @@ context:
       description: This is a description of the video
       embedUrl: https://youtube.com/embed/JMzQiwnQ0Bo
   - type: imageGallery
+    weight: standalone
     value:
       name: Gallery name
       items:

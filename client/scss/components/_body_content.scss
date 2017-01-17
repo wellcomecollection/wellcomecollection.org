@@ -46,13 +46,14 @@
   }
 }
 
-
 $large-width: (5/7 * 100)+'%';
 $narrow-width: (5/7) * 100%; // calculates the narrow column width as a percentage of the main column.
 $center-width-large: (6/7) * 100%; // calculates the halfway point of the container, as a percentage of the main column.
 $center-width-xlarge: (6/6) * 100%;
 
-.body-block {}
+.body-block {
+  display: block;
+}
 
 .body-block--full-width {
   width: 100vw;
@@ -70,7 +71,7 @@ $center-width-xlarge: (6/6) * 100%;
     position: relative;
     left: $center-width-large;
     z-index: 1;
-    margin-left: 0;
+    margin-left: -50vw;
     margin-right: calc((#{$large-width} + #{map-get($gutter-width, 'large')})* -1);
     background-color: color('cream');
     padding: 0 map-get($container-padding, 'large');
@@ -111,36 +112,9 @@ $center-width-xlarge: (6/6) * 100%;
 }
 /* stylelint-enable */
 
-.body-part {
-  display: block;
-}
-
-// TODO: Update to be like figure--full-width, and then generify
-.body-part--full-width {
-  @include respond-to('medium') {
-    margin-left: -18%;
-    margin-right: -18%;
-  }
-
-  @include respond-to('large') {
-    clear: both;
-    position: relative;
-    z-index: 1;
-    margin-left: 0;
-    margin-right: calc((#{$large-width} + #{map-get($gutter-width, 'large')})* -1);
-    background-color: color('cream');
-    padding-top: $vertical-space-unit;
-    margin-top: -$vertical-space-unit;
-    border-bottom: $vertical-space-unit solid color('cream');
-    /* stylelint-disable declaration-no-important */
-    opacity: 1 !important;
-    /* stylelint-enable */
-  }
-}
-
 $scroller-offset: map-get($container-padding, 'large');
 
-.body-part__scroller {
+.body-block__scroller {
   overflow: auto;
 
   @include respond-to('large') {
@@ -149,12 +123,12 @@ $scroller-offset: map-get($container-padding, 'large');
   }
 }
 
-.body-part__scroller-content {
+.body-block__scroller-content {
   @include respond-to('medium') {
     margin-left: 12.5%;
   }
 
   @include respond-to('large') {
-    margin-left: 60px;
+    margin-left: $scroller-offset;
   }
 }

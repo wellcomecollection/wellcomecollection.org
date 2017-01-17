@@ -76,6 +76,7 @@ context:
     - type: html
       value: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at volutpat erat. Quisque non eros viverra, tincidunt mi a, interdum libero. Vestibulum efficitur ex sed est interdum, ac placerat enim blandit. Phasellus sodales velit non est bibendum tincidunt. Phasellus ut ligula at velit congue lobortis. Fusce at suscipit purus, ac tincidunt orci.</p>"
     - type: imageGallery
+      weight: standalone
       value:
         name: Gallery name
         items:
