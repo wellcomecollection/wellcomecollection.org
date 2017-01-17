@@ -47,9 +47,6 @@
 }
 
 $large-width: (5/7 * 100)+'%';
-$narrow-width: (5/7) * 100%; // calculates the narrow column width as a percentage of the main column.
-$center-width-large: (6/7) * 100%; // calculates the halfway point of the container, as a percentage of the main column.
-$center-width-xlarge: (6/6) * 100%;
 
 .body-part {
   display: block;
