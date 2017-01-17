@@ -141,6 +141,7 @@ export function findWpImageGallery(node) {
 
       return new BodyPart({
         type: 'imageGallery',
+        weight: 'standalone',
         value: new ImageGallery({
           name: null,
           items: images
