@@ -1,8 +1,13 @@
 .image-gallery {
-  overflow: scroll;
+  overflow: auto;
   width: 100%;
   display: flex;
   margin-bottom: $vertical-space-unit;
+
+  @include respond-to('large') {
+    margin-left: -60px;
+    width: calc(100% + 60px);
+  }
 }
 
 .image-gallery__item {
@@ -10,13 +15,26 @@
   margin-right: map_get($gutter-width, 'small');
 }
 
+.image-gallery__item--first {
+  @include respond-to('medium') {
+    margin-left: 12.5%;
+  }
+  @include respond-to('large') {
+    margin-left: 60px;
+  }
+}
+
+.image-gallery__figure {
+  margin-bottom: 0;
+}
+
+.image-gallery__figure-caption {
+  padding-bottom: 0;
+}
+
 .image-gallery__image {
   height: 204px;
   width: auto;
-
-  @include respond-to('large') {
-    height: 640px;
-  }
 }
 
 .image-gallery__figure {
