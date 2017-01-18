@@ -5,9 +5,11 @@
   <ol class="list-card__list">
     {% for item in items %}
       <li class="list-card__item">
-        <span class="list-card__number" aria-hidden="true">{{ loop.index }}</span>
-        <a href="{{ item.url }}" class="list-card__link">{{ item.title }}</a>
-        <span class="list-card__meta">{{ item.meta }}</span>
+        <a href="{{ item.url }}" class="list-card__link">
+          <span class="list-card__number" aria-hidden="true">{{ loop.index }}</span>
+          <span class="list-card__title">{{ item.title }}</span>
+          <span class="list-card__meta">{{ item.meta }}</span>
+        </a>
       </li>
     {% endfor %}
   </ol>

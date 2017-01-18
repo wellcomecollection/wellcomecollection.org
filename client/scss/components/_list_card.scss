@@ -1,5 +1,10 @@
 //* @define list-card
+
 $list-card-number-size: 96px;
+
+.list-card {
+  margin-bottom: 2 * $vertical-space-unit;
+}
 
 .list-card__header {
   border-top-left-radius: $border-radius-unit;
@@ -22,11 +27,7 @@ $list-card-number-size: 96px;
 }
 
 .list-card__item {
-  position: relative;
-  z-index: 0;
-  padding: 1.5rem 2rem;
   border-bottom: 1px solid color('smoke');
-  min-height: calc(#{$list-card-number-size} + 1.6rem);
 
   &:last-child {
     border-bottom: 0;
@@ -40,15 +41,37 @@ $list-card-number-size: 96px;
   color: color('smoke');
   position: absolute;
   right: 1.5rem;
-  top: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: -1;
+  opacity: 0.4;
+  transition: opacity 400ms ease;
+
+  .list-card__link:hover &,
+  .list-card__link:focus & {
+    opacity: 1;
+  }
 }
 
 .list-card__link {
-  @include font('WB7');
+  position: relative;
   text-decoration: none;
   display: block;
+  z-index: 0;
+  padding: 1.5rem 2rem;
+  min-height: calc(#{$list-card-number-size} + 1.6rem);
+}
+
+.list-card__title {
+  @include font('WB7');
+  display: block;
   margin-bottom: 0.3em;
+  transition: color 400ms ease;
+
+  .list-card__link:hover &,
+  .list-card__link:focus & {
+    color: color('action-green-1');
+  }
 }
 
 .list-card__meta {

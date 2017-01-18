@@ -5,16 +5,16 @@ context:
   items:
     - title: "Beatboxing tutorial #1: Using the air in your mouth"
       url: "#"
-      meta: 6 weeks ago
+      meta: Today
     - title: "Lorem ispum dolor sit: Amet"
       url: "#"
-      meta: 2 days ago
+      meta: Yesterday
     - title: "Fusce nunc lectus, rutrum sit amet nisi nec, euismod hendrerit eros"
       url: "#"
-      meta: a week ago
+      meta: A week ago
     - title: "Lorem ispum dolor sit: Amet"
       url: "#"
-      meta: 2 days ago
+      meta: 2 weeks ago
     - title: "Fusce nunc lectus, rutrum sit amet nisi nec, euismod hendrerit eros"
       url: "#"
-      meta: yesterday
+      meta: 3 weeks ago
