@@ -11,7 +11,7 @@ container-query(('s': ('1', '2'), 'm': ('4'), 'l': ('8', '12'))) {
   // styles here will be applied when the component lives inside one of:
   // grid__cell--s1, grid__cell--s2 and the viewport is  0px – 599px wide
   // grid__cell--m4 and the viewport is 600px - 959px wide
-  // grid__cell--l8 or grid__cell--l12 and the viewport is < 960px wide
+  // grid__cell--l8 or grid__cell--l12 and the viewport is > 960px wide
 }
 ```
 
