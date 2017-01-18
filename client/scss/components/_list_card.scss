@@ -1,0 +1,57 @@
+//* @define list-card
+$list-card-number-size: 96px;
+
+.list-card__header {
+  border-top-left-radius: $border-radius-unit;
+  border-top-right-radius: $border-radius-unit;
+  background: color('action-green-2');
+  color: color('white');
+  padding: 1rem 2rem;
+}
+
+.list-card__heading {
+  @include font('WB6');
+  margin: 0;
+}
+
+.list-card__list {
+  @include plain-list();
+  border: 1px solid color('smoke');
+  border-bottom-left-radius: $border-radius-unit;
+  border-bottom-right-radius: $border-radius-unit;
+}
+
+.list-card__item {
+  position: relative;
+  z-index: 0;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid color('smoke');
+  min-height: calc(#{$list-card-number-size} + 1.6rem);
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.list-card__number {
+  @include font('WB1');
+  font-size: $list-card-number-size;
+  line-height: 1;
+  color: color('smoke');
+  position: absolute;
+  right: 1.5rem;
+  top: 0.8rem;
+  z-index: -1;
+}
+
+.list-card__link {
+  @include font('WB7');
+  text-decoration: none;
+  display: block;
+  margin-bottom: 0.3em;
+}
+
+.list-card__meta {
+  @include font('HNL7');
+  display: block;
+}

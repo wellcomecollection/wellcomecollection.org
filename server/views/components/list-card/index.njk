@@ -1,0 +1,14 @@
+<div class="list-card">
+  <header class="list-card__header">
+    <h2 class="list-card__heading">{{ heading }}</h2>
+  </header>
+  <ol class="list-card__list">
+    {% for item in items %}
+      <li class="list-card__item">
+        <span class="list-card__number" aria-hidden="true">{{ loop.index }}</span>
+        <a href="{{ item.url }}" class="list-card__link">{{ item.title }}</a>
+        <span class="list-card__meta">{{ item.meta }}</span>
+      </li>
+    {% endfor %}
+  </ol>
+</div>

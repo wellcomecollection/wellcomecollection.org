@@ -1,0 +1,20 @@
+name: List card
+handle: list-card
+context:
+  heading: Latest
+  items:
+    - title: "Beatboxing tutorial #1: Using the air in your mouth"
+      url: "#"
+      meta: 6 weeks ago
+    - title: "Lorem ispum dolor sit: Amet"
+      url: "#"
+      meta: 2 days ago
+    - title: "Fusce nunc lectus, rutrum sit amet nisi nec, euismod hendrerit eros"
+      url: "#"
+      meta: a week ago
+    - title: "Lorem ispum dolor sit: Amet"
+      url: "#"
+      meta: 2 days ago
+    - title: "Fusce nunc lectus, rutrum sit amet nisi nec, euismod hendrerit eros"
+      url: "#"
+      meta: yesterday
