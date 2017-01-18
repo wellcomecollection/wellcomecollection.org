@@ -74,3 +74,16 @@
 .figure__caption--no-underline {
   border-bottom: 0;
 }
+
+.figure--max-out-height {
+  .figure__image-container {
+    background: color('black');
+  }
+
+  .figure__image {
+    max-height: 70vh;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

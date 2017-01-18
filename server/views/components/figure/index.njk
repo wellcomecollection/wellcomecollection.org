@@ -1,23 +1,29 @@
-<figure class="figure{% if full %} figure--full{% endif %} figure--{{type}}{% if bleed %} figure--bleed{% endif %}">
-  {% if type === 'picture' %}
-    <picture class="figure__picture">
-      {%- for source in sources %}
-        <source media="(min-width: {{ source.size }}px)"
-          srcset="{{ source.src }}">
-      {%- endfor %}
-      <img class="figure__image"
-        src="{{ sources[(sources | length) - 1].src }}"
-        alt="{{ caption | striptags() }}" />
-    </picture>
-  {% elif type === 'image' %}
-    <img class="figure__image"
-      src="{{ sources[(sources | length) - 1].src }}"
-      srcset="{%- for source in sources %}
-        {{ source.src }} {{ source.size }}w
-        {%- if (source !== (sources | last)) %}, {%- endif %}
-      {%- endfor %}"
-      alt="{{ caption | striptags() }}" />
-  {% endif %}
+<figure class="figure figure--{{ type }}
+               {{- ' figure--full' if full -}}
+               {{- ' figure--bleed' if bleed -}}
+               {{- ' figure--max-out-height' if maxOutHeight -}}">
+
+    {% if type === 'picture' %}
+      <picture class="figure__picture figure__image-container">
+        {%- for source in sources %}
+          <source media="(min-width: {{ source.size }}px)"
+            srcset="{{ source.src }}">
+        {%- endfor %}
+        <img class="figure__image"
+          src="{{ sources[(sources | length) - 1].src }}"
+          alt="{{ caption | striptags() }}" />
+      </picture>
+    {% elif type === 'image' %}
+      <div class="figure__image-container">
+        <img class="figure__image"
+          src="{{ sources[(sources | length) - 1].src }}"
+          srcset="{%- for source in sources %}
+            {{ source.src }} {{ source.size }}w
+            {%- if (source !== (sources | last)) %}, {%- endif %}
+          {%- endfor %}"
+          alt="{{ caption | striptags() }}" />
+      </div>
+    {% endif %}
 
   {% if full %}
     {% component 'wobbly-edge', {background: 'cream'} %}
