@@ -121,6 +121,7 @@ $scroller-offset: map-get($container-padding, 'large');
     margin-left: -$scroller-offset;
     width: calc(100% + #{$scroller-offset});
   }
+
 }
 
 .body-part__scroller-content {
@@ -131,10 +132,17 @@ $scroller-offset: map-get($container-padding, 'large');
   @include respond-to('large') {
     margin-left: $scroller-offset;
   }
+}
 
+// This isn't great, it's a bit of a hack around the fact
+// that we have very hard to work with margins when we get to `xlarge`
+// TODO: Let's figure out the best thing here.
+.body-part--imageGallery {
   @include respond-to('xlarge') {
-    max-width: 1338px;
-    padding-left: 190px; // This isn't completely accurate...
-    margin: 0 auto;
+    width: 100%;
+    left: 0;
+    margin-left: 0;
+    padding-left: 0;
+    padding-right: 0;
   }
 }
