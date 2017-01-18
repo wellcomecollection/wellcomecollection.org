@@ -56,16 +56,15 @@ $list-card-number-size: 96px;
   z-index: -1;
   opacity: 0.4;
   transition: opacity 400ms ease;
-
-  .list-card__link:hover &,
-  .list-card__link:focus & {
-    opacity: 1;
-  }
-
   display: none;
 
   @supports (transform: translateY(-50%)) {
     display: block;
+  }
+
+  .list-card__link:hover &,
+  .list-card__link:focus & {
+    opacity: 1;
   }
 }
 
@@ -89,7 +88,7 @@ $list-card-number-size: 96px;
 
 .list-card__title {
   @include font('WB7');
-  display: block;
+  margin-top: 0;
   margin-bottom: 0.3em;
   transition: color 400ms ease;
 
@@ -102,4 +101,5 @@ $list-card-number-size: 96px;
 .list-card__meta {
   @include font('HNL7');
   display: block;
+  margin-bottom: 0;
 }

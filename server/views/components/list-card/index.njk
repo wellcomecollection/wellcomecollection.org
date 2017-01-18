@@ -7,8 +7,8 @@
       <li class="list-card__item">
         <a href="{{ item.url }}" class="list-card__link">
           <span class="list-card__number" aria-hidden="true">{{ loop.index }}</span>
-          <span class="list-card__title">{{ item.title }}</span>
-          <span class="list-card__meta">{{ item.meta }}</span>
+          <h3 class="list-card__title">{{ item.title }}</h3>
+          <p class="list-card__meta">{{ item.meta }}</p>
         </a>
       </li>
     {% endfor %}
