@@ -8,6 +8,7 @@ context:
   - type: null
     value: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at volutpat erat. Quisque non eros viverra, tincidunt mi a, interdum libero. Vestibulum efficitur ex sed est interdum, ac placerat enim blandit. Phasellus sodales velit non est bibendum tincidunt. Phasellus ut ligula at velit congue lobortis. Fusce at suscipit purus, ac tincidunt orci.</p>"
   - type: picture
+    weight: supporting
     value:
       contentUrl: https://placehold.it/400x300
       caption: © Copyright Holder
@@ -17,7 +18,6 @@ context:
       copyrightHolder: copyright holder
       fileFormat: png
       url: null
-      modifiers: ['sticky']
   - type: picture
     value:
       contentUrl: https://placehold.it/400x300
@@ -28,8 +28,8 @@ context:
       copyrightHolder: copyright holder
       fileFormat: png
       url: null
-      modifiers: null
   - type: picture
+    weight: standalone
     value:
       contentUrl: https://placehold.it/1200x600
       caption: © Copyright Holder
@@ -39,13 +39,13 @@ context:
       copyrightHolder: copyright holder
       fileFormat: png
       url: null
-      modifiers: ['full-width']
   - type: video
     value:
       name: Video name
       description: This is a description of the video
       embedUrl: https://youtube.com/embed/JMzQiwnQ0Bo
   - type: imageGallery
+    weight: standalone
     value:
       name: Gallery name
       items:
