@@ -1,0 +1,105 @@
+//* @define list-card
+
+$list-card-number-size: 96px;
+
+.list-card {
+  margin-bottom: 2 * $vertical-space-unit;
+}
+
+.list-card__header {
+  border-top-left-radius: $border-radius-unit;
+  border-top-right-radius: $border-radius-unit;
+  background: color('action-green-2');
+  color: color('white');
+  padding: 1rem 1.2rem;
+
+  @include container-query(('l': ('4'))) {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.list-card__heading {
+  @include font('WB6');
+  margin: 0;
+}
+
+.list-card__list {
+  @include plain-list();
+  border: 1px solid color('smoke');
+  border-bottom-left-radius: $border-radius-unit;
+  border-bottom-right-radius: $border-radius-unit;
+}
+
+.list-card__item {
+  border-bottom: 1px solid color('smoke');
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.list-card__number {
+  @include font('WB1');
+  font-size: $list-card-number-size;
+  line-height: 1;
+  color: color('smoke');
+  position: absolute;
+  right: 0.8rem;
+
+  @include container-query(('l': ('4'))) {
+    right: 1.5rem;
+  }
+
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: -1;
+  opacity: 0.4;
+  transition: opacity 400ms ease;
+  display: none;
+
+  @supports (transform: translateY(-50%)) {
+    display: block;
+  }
+
+  .list-card__link:hover &,
+  .list-card__link:focus & {
+    opacity: 1;
+  }
+}
+
+.list-card__link {
+  position: relative;
+  text-decoration: none;
+  display: block;
+  z-index: 0;
+  padding: 1rem 1.2rem;
+
+  @include container-query(('l': ('4'))) {
+    padding: 1.5rem 2rem;
+  }
+
+  min-height: calc(#{$list-card-number-size} + 0.2rem);
+
+  @include container-query(('l': ('4'))) {
+    min-height: calc(#{$list-card-number-size} + 1.6rem);
+  }
+}
+
+.list-card__title {
+  @include font('WB7');
+  margin-top: 0;
+  margin-bottom: 0.3em;
+  transition: color 400ms ease;
+
+  .list-card__link:hover &,
+  .list-card__link:focus & {
+    color: color('action-green-1');
+  }
+}
+
+.list-card__meta {
+  @include font('HNL7');
+  display: block;
+  margin-bottom: 0;
+}
