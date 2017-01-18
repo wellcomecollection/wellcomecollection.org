@@ -1,4 +1,5 @@
+#!/usr/bin/env bash
 pushd server
-npm install --production
-npm run compile
+  npm install --production
+  npm run app:build
 popd
