@@ -11,7 +11,12 @@ $list-card-number-size: 96px;
   border-top-right-radius: $border-radius-unit;
   background: color('action-green-2');
   color: color('white');
-  padding: 1rem 2rem;
+  padding: 1rem 1.2rem;
+
+  @include respond-to('medium') {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }
 
 .list-card__heading {
@@ -40,7 +45,12 @@ $list-card-number-size: 96px;
   line-height: 1;
   color: color('smoke');
   position: absolute;
-  right: 1.5rem;
+  right: 0.8rem;
+
+  @include respond-to('medium') {
+    right: 1.5rem;
+  }
+
   top: 50%;
   transform: translateY(-50%);
   z-index: -1;
@@ -58,8 +68,17 @@ $list-card-number-size: 96px;
   text-decoration: none;
   display: block;
   z-index: 0;
-  padding: 1.5rem 2rem;
-  min-height: calc(#{$list-card-number-size} + 1.6rem);
+  padding: 1rem 1.2rem;
+
+  @include respond-to('medium') {
+    padding: 1.5rem 2rem;
+  }
+
+  min-height: calc(#{$list-card-number-size} + 0.2rem);
+
+  @include respond-to('medium') {
+    min-height: calc(#{$list-card-number-size} + 1.6rem);
+  }
 }
 
 .list-card__title {
