@@ -77,6 +77,7 @@
 
 $large-width: (5/7 * 100)+'%';
 $narrow-width: (5/7) * 100%; // calculates the narrow column width as a percentage of the main column.
+$narrow-width-xlarge: (4/6) * 100%;
 $center-width-large: (6/7) * 100%; // calculates the halfway point of the container, as a percentage of the main column.
 $center-width-xlarge: (6/6) * 100%;
 
@@ -119,9 +120,14 @@ $center-width-xlarge: (6/6) * 100%;
     @supports (width: calc(10px + 10px)) {
       float: right;
       clear: right;
-      width: #{$narrow-width};
-      margin-right: calc((#{$narrow-width} + #{map-get($gutter-width, 'large')} ) * -1);
+      width: calc(#{$narrow-width} - #{map-get($gutter-width, 'large')});
+      margin-right: -#{$narrow-width};
     }
+  }
+
+  @include respond-to('xlarge') {
+    width: calc(#{$narrow-width-xlarge} - #{map-get($gutter-width, 'large')});
+    margin-right: calc(-#{$narrow-width} + #{map-get($gutter-width, 'large')});
   }
 }
 
