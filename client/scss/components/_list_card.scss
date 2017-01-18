@@ -13,7 +13,7 @@ $list-card-number-size: 96px;
   color: color('white');
   padding: 1rem 1.2rem;
 
-  @include respond-to('medium') {
+  @include container-query(('l': ('4'))) {
     padding-left: 2rem;
     padding-right: 2rem;
   }
@@ -47,7 +47,7 @@ $list-card-number-size: 96px;
   position: absolute;
   right: 0.8rem;
 
-  @include respond-to('medium') {
+  @include container-query(('l': ('4'))) {
     right: 1.5rem;
   }
 
@@ -70,13 +70,13 @@ $list-card-number-size: 96px;
   z-index: 0;
   padding: 1rem 1.2rem;
 
-  @include respond-to('medium') {
+  @include container-query(('l': ('4'))) {
     padding: 1.5rem 2rem;
   }
 
   min-height: calc(#{$list-card-number-size} + 0.2rem);
 
-  @include respond-to('medium') {
+  @include container-query(('l': ('4'))) {
     min-height: calc(#{$list-card-number-size} + 1.6rem);
   }
 }
