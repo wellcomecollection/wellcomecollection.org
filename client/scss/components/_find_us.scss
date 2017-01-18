@@ -52,7 +52,7 @@
 
 .find-us__map {
   max-width: 100%;
-  border-radius: 6px;
+  border-radius: $border-radius-unit;
   transition: transform 200ms ease;
 
   .find-us:hover &,

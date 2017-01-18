@@ -2,13 +2,12 @@ name: promo
 context:
   image:
     sources:
-    - src: https://placehold.it/1200x800
-      size: '1200'
-    - src: https://placehold.it/600x400
-      size: '600'
-    - src: https://placehold.it/300x200
-      size: '300'
-
+      - src: https://placehold.it/1200x900
+        size: '1200'
+      - src: https://placehold.it/900x600
+        size: '900'
+      - src: https://placehold.it/450x300
+        size: '450'
     alt: placeholder image
   intro: Article
   title: Animating the Body
