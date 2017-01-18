@@ -16,10 +16,23 @@
     {% component "skip-link" %}
 
     {% set navLinks = [
-      { href: "/visit", title: "Visit us",        isCurrent: pageConfig.inSection === 'visit' },
-      { href: "/whats-on", title: "What's on",    isCurrent: pageConfig.inSection === 'whats-on' },
-      { href: "/explore", title: "Explore",       isCurrent: pageConfig.inSection === 'explore' },
-      { href: "/what-we-do", title: "What we do", isCurrent: pageConfig.inSection === 'what-we-do' }
+      {
+        href: "https://wellcomecollection.org/visit",
+        title: "Visit us"
+      },
+      {
+        href: "https://wellcomecollection.org/whats-on",
+        title: "What's on"
+      },
+      {
+        href: "/explore",
+        title: "Explore",
+        isCurrent: pageConfig.inSection === 'explore'
+      },
+      {
+        href: "https://wellcomecollection.org/what-we-do",
+        title: "What we do"
+      }
     ] %}
     {% component "header", { navLinks: navLinks } %}
 
