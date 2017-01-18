@@ -12,6 +12,10 @@
 .image-gallery__image {
   height: 204px;
   width: auto;
+
+  @include respond-to('medium') {
+    height: 640px;
+  }
 }
 
 .image-gallery__figure {
@@ -24,4 +28,3 @@
   caption-side: bottom;
   padding-bottom: 0;
 }
-

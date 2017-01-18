@@ -1,0 +1,15 @@
+name: promo
+context:
+  image:
+    sources:
+      - src: https://placehold.it/1200x900
+        size: '1200'
+      - src: https://placehold.it/900x600
+        size: '900'
+      - src: https://placehold.it/450x300
+        size: '450'
+    alt: placeholder image
+  intro: Article
+  title: Animating the Body
+  url: http://google.com
+  copy: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos eius debitis, ad unde laborum assumenda numquam suscipit sint iure itaque aut pariatur, neque omnis vel tenetur sapiente nam iusto quas.

@@ -4,18 +4,19 @@
   "description": "The node server serving content for wellcomecollection.org",
   "main": "app.js",
   "scripts": {
-    "start": "pm2-docker app.pack.js --name 'wellcomecollection.org'",
-    "start:watch": "nodemon app.pack.js -e js,njk",
     "test": "ava",
     "test:watch": "ava --watch",
     "test:accessibility": "pa11y",
     "test:browsers": "node ./browserstack/browserstack.js",
-    "compile": "webpack",
-    "compile:watch": "webpack --watch",
     "optimise:svg": "node ./optimise-svgs.js",
     "dev": "concurrently 'npm run compile:watch' 'npm run start:watch'",
     "fractal": "fractal start —sync --port 3002",
-    "fractal-build": "fractal build"
+    "fractal-build": "fractal build",
+
+    "app:dev": "nodemon app.js -e js,njk --exec babel-node",
+    "app:build": "babel . -d .dist --ignore=node_modules",
+    "app:start": "pm2 start ./.dist/app.js --name 'wellcomecollection.org'",
+    "app:docker": "pm2-docker ./.dist/app.js --name 'wellcomecollection.org'"
   },
   "repository": {
     "type": "git",
@@ -27,11 +28,8 @@
     "@frctl/fractal": "^1.0.11",
     "@frctl/nunjucks": "https://github.com/gestchild/nunjucks/tarball/66b327d3c9ac24f97784332c09669336fe4c650a",
     "ava": "^0.17.0",
-    "babel-core": "^6.18.2",
-    "babel-loader": "^6.2.8",
-    "babel-polyfill": "^6.16.0",
-    "babel-preset-es2015": "^6.18.0",
-    "babel-preset-stage-3": "^6.17.0",
+    "babel-cli": "^6.18.0",
+    "babel-preset-env": "^1.1.8",
     "immutable": "^3.8.1",
     "koa": "^2.0.0",
     "koa-router": "^7.1.0",

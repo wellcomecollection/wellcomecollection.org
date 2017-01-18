@@ -46,26 +46,33 @@
   }
 }
 
-$large-width: (5/7 * 100)+'%';
+$narrow-width: (5/7) * 100%; // calculates the narrow column width as a percentage of the main column.
+$center-width-large: (6/7) * 100%; // calculates the halfway point of the container, as a percentage of the main column.
+$center-width-xlarge: (6/6) * 100%;
 
 .body-part {
   display: block;
 }
 
-// TODO: Update to be like figure--full-width, and then generify
 .body-part--full-width {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  margin-left: -50vw;
+  padding: 0 map-get($container-padding, 'small');
+
   @include respond-to('medium') {
-    margin-left: -18%;
-    margin-right: -18%;
+    padding: 0 map-get($container-padding, 'medium');
   }
 
   @include respond-to('large') {
     clear: both;
     position: relative;
+    left: $center-width-large;
     z-index: 1;
-    margin-left: 0;
-    margin-right: calc((#{$large-width} + #{map-get($gutter-width, 'large')})* -1);
+    margin-right: calc((#{$narrow-width} + #{map-get($gutter-width, 'large')})* -1);
     background-color: color('cream');
+    padding: 0 map-get($container-padding, 'large');
     padding-top: $vertical-space-unit;
     margin-top: -$vertical-space-unit;
     border-bottom: $vertical-space-unit solid color('cream');
@@ -73,25 +80,38 @@ $large-width: (5/7 * 100)+'%';
     opacity: 1 !important;
     /* stylelint-enable */
   }
+
+  @include respond-to('xlarge') {
+    left: $center-width-xlarge;
+    margin-left: calc((50vw + (1/6) * 100%) * -1); // compensates for grid cell shift
+  }
 }
+
+.body-part--sticky {
+  @include respond-to('large') {
+    @supports (width: calc(10px + 10px)) {
+      float: right;
+      clear: right;
+      width: #{$narrow-width};
+      margin-right: calc((#{$narrow-width} + #{map-get($gutter-width, 'large')} ) * -1);
+    }
+  }
+}
+
+/* stylelint-disable plugin/selector-bem-pattern */
+.sticky-applied {
+  @include respond-to('large') {
+    @supports (width: calc(10px + 10px)) {
+      position: sticky;
+      top: $vertical-space-unit;
+      transition: opacity 0.4s ease;
+    }
+  }
+}
+/* stylelint-enable */
 
 $scroller-offset: map-get($container-padding, 'large');
 
 .body-part__scroller {
   overflow: auto;
-
-  @include respond-to('large') {
-    margin-left: -$scroller-offset;
-    width: calc(100% + #{$scroller-offset});
-  }
-}
-
-.body-part__scroller-content {
-  @include respond-to('medium') {
-    margin-left: 12.5%;
-  }
-
-  @include respond-to('large') {
-    margin-left: 60px;
-  }
 }

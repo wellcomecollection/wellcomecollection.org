@@ -5,11 +5,11 @@
   height: 100%;
   background: color('accessible-grey-1');
   padding: 20px;
-  border-radius: 4px;
+  border-radius: $border-radius-unit;
   color: color('white');
 
   // Example used in grids.njk
-  @include container-query('s', '1') {
+  @include container-query(('s': ('1'))) {
     background: color('red');
 
     &:before {
@@ -17,7 +17,7 @@
     }
   }
 
-  @include container-query('m', '5') {
+  @include container-query(('m': ('5'))) {
     background: color('orange');
 
     &:before {
@@ -25,7 +25,7 @@
     }
   }
 
-  @include container-query('l', '3') {
+  @include container-query(('l': ('3'))) {
     background: color('yellow');
 
     &:before {

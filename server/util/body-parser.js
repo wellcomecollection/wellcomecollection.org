@@ -7,6 +7,7 @@ import {Video} from '../model/video';
 import {List} from '../model/list';
 
 const BodyPart = Record({
+  weight: 'default',
   type: null,
   value: null
 });
@@ -141,8 +142,9 @@ export function findWpImageGallery(node) {
 
       return new BodyPart({
         type: 'imageGallery',
+        weight: 'standalone',
         value: new ImageGallery({
-          name: null,
+          name: 'Image gallery', // This is just something generic for now
           items: images
         })
       });
