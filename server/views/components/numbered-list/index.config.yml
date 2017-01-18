@@ -1,5 +1,5 @@
-name: List card
-handle: list-card
+name: Numbered list
+handle: numbered-list
 context:
   heading: Latest
   items:

@@ -1,12 +1,12 @@
-//* @define list-card
+//* @define numbered-list
 
-$list-card-number-size: 96px;
+$numbered-list-number-size: 96px;
 
-.list-card {
+.numbered-list {
   margin-bottom: 2 * $vertical-space-unit;
 }
 
-.list-card__header {
+.numbered-list__header {
   border-top-left-radius: $border-radius-unit;
   border-top-right-radius: $border-radius-unit;
   background: color('action-green-2');
@@ -19,19 +19,19 @@ $list-card-number-size: 96px;
   }
 }
 
-.list-card__heading {
+.numbered-list__heading {
   @include font('WB6');
   margin: 0;
 }
 
-.list-card__list {
+.numbered-list__list {
   @include plain-list();
   border: 1px solid color('smoke');
   border-bottom-left-radius: $border-radius-unit;
   border-bottom-right-radius: $border-radius-unit;
 }
 
-.list-card__item {
+.numbered-list__item {
   border-bottom: 1px solid color('smoke');
 
   &:last-child {
@@ -39,9 +39,9 @@ $list-card-number-size: 96px;
   }
 }
 
-.list-card__number {
+.numbered-list__number {
   @include font('WB1');
-  font-size: $list-card-number-size;
+  font-size: $numbered-list-number-size;
   line-height: 1;
   color: color('smoke');
   position: absolute;
@@ -62,13 +62,13 @@ $list-card-number-size: 96px;
     display: block;
   }
 
-  .list-card__link:hover &,
-  .list-card__link:focus & {
+  .numbered-list__link:hover &,
+  .numbered-list__link:focus & {
     opacity: 1;
   }
 }
 
-.list-card__link {
+.numbered-list__link {
   position: relative;
   text-decoration: none;
   display: block;
@@ -79,26 +79,26 @@ $list-card-number-size: 96px;
     padding: 1.5rem 2rem;
   }
 
-  min-height: calc(#{$list-card-number-size} + 0.2rem);
+  min-height: calc(#{$numbered-list-number-size} + 0.2rem);
 
   @include container-query(('l': ('4'))) {
-    min-height: calc(#{$list-card-number-size} + 1.6rem);
+    min-height: calc(#{$numbered-list-number-size} + 1.6rem);
   }
 }
 
-.list-card__title {
+.numbered-list__title {
   @include font('WB7');
   margin-top: 0;
   margin-bottom: 0.3em;
   transition: color 400ms ease;
 
-  .list-card__link:hover &,
-  .list-card__link:focus & {
+  .numbered-list__link:hover &,
+  .numbered-list__link:focus & {
     color: color('action-green-1');
   }
 }
 
-.list-card__meta {
+.numbered-list__meta {
   @include font('HNL7');
   display: block;
   margin-bottom: 0;
