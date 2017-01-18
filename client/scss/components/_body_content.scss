@@ -46,7 +46,6 @@
   }
 }
 
-$large-width: (5/7 * 100)+'%';
 $narrow-width: (5/7) * 100%; // calculates the narrow column width as a percentage of the main column.
 $center-width-large: (6/7) * 100%; // calculates the halfway point of the container, as a percentage of the main column.
 $center-width-xlarge: (6/6) * 100%;
@@ -71,7 +70,7 @@ $center-width-xlarge: (6/6) * 100%;
     position: relative;
     left: $center-width-large;
     z-index: 1;
-    margin-right: calc((#{$large-width} + #{map-get($gutter-width, 'large')})* -1);
+    margin-right: calc((#{$narrow-width} + #{map-get($gutter-width, 'large')})* -1);
     background-color: color('cream');
     padding: 0 map-get($container-padding, 'large');
     padding-top: $vertical-space-unit;
