@@ -144,7 +144,7 @@ export function findWpImageGallery(node) {
         type: 'imageGallery',
         weight: 'standalone',
         value: new ImageGallery({
-          name: null,
+          name: 'Image gallery', // This is just something generic for now
           items: images
         })
       });
