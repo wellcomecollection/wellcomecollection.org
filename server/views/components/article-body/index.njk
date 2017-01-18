@@ -1,5 +1,8 @@
 <div class="body-content">
   {% for bodyPart in articleBody %}
+    {% if bodyPart.value.name %}
+      <h2>{{ bodyPart.value.name }}</h2>
+    {% endif %}
     <div class="body-part
                 {{- ' body-part--full-width js-full-width' if bodyPart.weight === 'standalone'  -}}
                 {{- ' body-part--sticky js-sticky' if bodyPart.weight === 'supporting'  -}}">
