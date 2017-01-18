@@ -13,7 +13,7 @@
   </head>
 
   <body>
-    {% component "skip-link" %}
+    {% component 'skip-link' %}
 
     {% set navLinks = [
       {
@@ -34,20 +34,20 @@
         title: "What we do"
       }
     ] %}
-    {% component "header", { navLinks: navLinks } %}
+    {% component 'header', { navLinks: navLinks } %}
 
-    {% component "new-site-notice" %}
+    {% component 'new-site-notice' %}
     <div id="main" class="main" role="main">
       {% block body %}
       {% endblock %}
     </div>
-    {% component "footer", {
+    {% component 'footer', {
       navLinks: navLinks,
       openingHours: {places: pageConfig.openingHours},
       footerSocial: footerSocial
     } %}
 
-    {% component "cookie-notification" %}
+    {% component 'cookie-notification' %}
 
     {% include "partials/analytics.njk" %}
   </body>
