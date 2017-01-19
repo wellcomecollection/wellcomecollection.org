@@ -9,13 +9,7 @@
       {% if bodyPart.type === 'standfirst' %}
         {% component 'standfirst', { body: bodyPart.value } %}
       {% elif bodyPart.type === 'picture' %}
-        {% component 'figure', {
-          type: 'picture',
-          sources: [{src: bodyPart.value.contentUrl, size: bodyPart.value.width}],
-          caption: bodyPart.value.caption,
-          modifiers: bodyPart.value.modifiers,
-          icon: 'other/picture'
-        } %}
+        {% component 'image', { image: bodyPart.value } %}
       {% elif bodyPart.type === 'video' %}
         {% component 'iframed-video', {video: bodyPart.value} %}
       {% elif bodyPart.type === 'list' %}
