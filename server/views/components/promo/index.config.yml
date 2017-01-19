@@ -1,4 +1,5 @@
 name: promo
+collated: true
 context:
   modifiers: ['underlined']
   url: http://google.com
@@ -12,8 +13,9 @@ context:
       size: '450'
     alt: image alt text
   meta: 
-    type: type
+    type: gallery
     date: date
+    length: length
   title: Title
   copy: Copy lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos eius debitis, ad unde laborum assumenda numquam suscipit sint iure itaque aut pariatur, neque omnis vel tenetur sapiente nam iusto quas.
 variants:
@@ -37,7 +39,7 @@ variants:
     copy: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos eius debitis, ad unde laborum assumenda numquam suscipit sint iure itaque aut pariatur, neque omnis vel tenetur sapiente nam iusto quas.
 - name: Series article
   context:
-    modifiers: ['series']
+    modifiers: ['series', 'underlined']
     url: http://google.com
     image:
       sources:
@@ -55,7 +57,7 @@ variants:
     copy: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos eius debitis, ad unde laborum assumenda numquam suscipit sint iure itaque aut pariatur, neque omnis vel tenetur sapiente nam iusto quas.
 - name: Latest article
   context:
-    modifiers:
+    modifiers: ['underlined']
     url: http://google.com
     image:
       sources:
@@ -73,7 +75,7 @@ variants:
     copy:
 - name: Gallery
   context:
-    modifiers:
+    modifiers: ['underlined']
     url: http://google.com
     image:
       sources:
@@ -92,7 +94,7 @@ variants:
     copy:
 - name: Podcast
   context:
-    modifiers:
+    modifiers: ['underlined']
     url: http://google.com
     image:
       sources:
@@ -110,7 +112,7 @@ variants:
     title: The designs of the Festival Pattern Group
     copy:
 - name: Video
-  modifiers:
+  modifiers: ['underlined']
   context:
     url: http://google.com
     image:
