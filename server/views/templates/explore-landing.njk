@@ -1,19 +1,20 @@
 {% extends "pages/explore-landing.njk" %}
+{% import "views/macros.njk" as macro %}
 
 {% block body %}
   <div class="row">
     <div class="container">
       <div class="grid">
-        <div class="{{ gridClasses(s=4, m=4, l=12) }}">
+        <div class="{{ macro.gridClasses(s=4, m=4, l=12) }}">
           {% component 'promo', { image: promo.image, intro: promo.intro, title: promo.title, url: promo.url, copy: promo.copy } %}
         </div>
-        <div class="{{ gridClasses(s=4, m=4, l=8) }}">
+        <div class="{{ macro.gridClasses(s=4, m=4, l=8) }}">
           {% component 'promo', { image: promo.image, intro: promo.intro, title: promo.title, url: promo.url, copy: promo.copy } %}
         </div>
-        <div class="{{ gridClasses(s=4, m=4, l=4) }}">
+        <div class="{{ macro.gridClasses(s=4, m=4, l=4) }}">
           {% component 'promo', { image: promo.image, intro: promo.intro, title: promo.title, url: promo.url, copy: promo.copy } %}
         </div>
-        <div class="{{ gridClasses(s=4, m=4, l=4) }}">
+        <div class="{{ macro.gridClasses(s=4, m=4, l=4) }}">
           {% component 'numbered-list', { heading: numbered_list.heading, items: numbered_list.items } %}
         </div>
       </div>
