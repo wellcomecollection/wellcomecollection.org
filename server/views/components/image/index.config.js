@@ -8,5 +8,4 @@ const image = new Picture({
   width: 1380,
   height: 1104
 }).toJS();
-const sizes = [300, 600, 960, 1338];
-export const context = { image, sizes };
+export const context = { image };
