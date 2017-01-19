@@ -165,3 +165,24 @@
     white-space: inherit;
   }
 }
+
+@mixin hover-bounce {
+  animation-duration: 400ms;
+  animation-name: hover-bounce;
+}
+
+@keyframes hover-bounce {
+  0% {
+    top: 0;
+    animation-timing-function: ease-in;
+  }
+
+  50% {
+    top: -0.4em;
+    animation-timing-function: ease-out;
+  }
+
+  100% {
+    top: 0;
+  }
+}
