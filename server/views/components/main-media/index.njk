@@ -1,0 +1,20 @@
+{% extends 'components/image/index.njk' %}
+{% block figcaption %}
+  {% component 'wobbly-edge', {background: 'cream'} %}
+
+  {% if image.caption %}
+    {% set captionSizes = ['xl10', 'm6'] %}
+    {% set captionShifts = ['xl1', 'm1'] %}
+
+    <div class="{{ 'row row--cream' if full }}">
+      <div class="{{ 'container' if full }}">
+        <div class="grid">
+          <div class="grid__cell {% for size in captionSizes %}grid__cell--{{ size }} {% endfor %} {% for shift in captionShifts %}grid__cell--shift-{{ shift }} {% endfor %}">
+            {{ super() }}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}
+

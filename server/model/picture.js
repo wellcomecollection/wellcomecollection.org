@@ -1,6 +1,7 @@
 import {Record} from 'immutable';
 
 export const Picture = Record({
+  fileType: 'image',
   contentUrl: null,
   caption: null,
   author: null,

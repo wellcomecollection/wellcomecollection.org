@@ -1,35 +1,4 @@
-// TODO: This model needs to match Schema.org
-// TODO: Maybe ImmutableJs Records?
-export default class Media {
-  // We use destructuring here as pseudo named arguments functionality
-  constructor({
-    mediaType,
-    uri,
-    mimetype,
-    weighting,
-    altText,
-    filesize,
-    title,
-    author,
-    caption,
-    credit,
-    copyright,
-    dimensions
-  }) {
-    this.mediaType = mediaType;
-    this.uri = uri;
-    this.mimetype = mimetype;
-    this.altText = altText;
-    this.filesize = filesize;
-    this.title = title;
-    this.author = author;
-    this.caption = caption;
-    this.credit = credit;
-    this.copyright = copyright;
-    this.dimensions = dimensions;
-    this.weighting = weighting;
-  }
-}
+import {Picture} from '../model/picture';
 
 export function getWpFeaturedImage(uri, images) {
   const i = findWpFeaturedImage(uri, images);
@@ -43,13 +12,10 @@ function findWpFeaturedImage(uri, images) {
 }
 
 function convertWpImageToMedia(wpImage) {
-  return new Media({
-    mediaType: 'image',
-    weighting: 'leading',
-    uri: wpImage.URL,
-    mimetype: wpImage.mime_type,
+  return new Picture({
+    contentUrl: wpImage.URL,
     caption: wpImage.caption,
-    altText: wpImage.alt,
-    dimensions: { width: wpImage.width, height: wpImage.height }
+    width: wpImage.width,
+    height: wpImage.height
   });
 }
