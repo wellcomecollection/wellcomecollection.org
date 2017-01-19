@@ -1,15 +1,130 @@
 name: promo
 context:
+  modifiers: ['underlined']
+  url: http://google.com
   image:
     sources:
+    - src: https://placehold.it/1200x900
+      size: '1200'
+    - src: https://placehold.it/900x600
+      size: '900'
+    - src: https://placehold.it/450x300
+      size: '450'
+    alt: image alt text
+  meta: 
+    type: type
+    date: date
+  title: Title
+  copy: Copy lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos eius debitis, ad unde laborum assumenda numquam suscipit sint iure itaque aut pariatur, neque omnis vel tenetur sapiente nam iusto quas.
+variants:
+- name: Article
+  context:
+    modifiers: ['underlined']
+    url: http://google.com
+    image:
+      sources:
       - src: https://placehold.it/1200x900
         size: '1200'
       - src: https://placehold.it/900x600
         size: '900'
       - src: https://placehold.it/450x300
         size: '450'
-    alt: placeholder image
-  intro: Article
-  title: Animating the Body
-  url: http://google.com
-  copy: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos eius debitis, ad unde laborum assumenda numquam suscipit sint iure itaque aut pariatur, neque omnis vel tenetur sapiente nam iusto quas.
+      alt: placeholder image
+    meta: 
+      type: article
+      date:
+    title: Animating the body
+    copy: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos eius debitis, ad unde laborum assumenda numquam suscipit sint iure itaque aut pariatur, neque omnis vel tenetur sapiente nam iusto quas.
+- name: Series article
+  context:
+    modifiers: ['series']
+    url: http://google.com
+    image:
+      sources:
+      - src: https://placehold.it/1200x900
+        size: '1200'
+      - src: https://placehold.it/900x600
+        size: '900'
+      - src: https://placehold.it/450x300
+        size: '450'
+      alt: placeholder image
+    meta: 
+      type: 'electricity: part 02'
+      date:
+    title: Frakenstein's Monster
+    copy: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos eius debitis, ad unde laborum assumenda numquam suscipit sint iure itaque aut pariatur, neque omnis vel tenetur sapiente nam iusto quas.
+- name: Latest article
+  context:
+    modifiers: ['underlined']
+    url: http://google.com
+    image:
+      sources:
+      - src: https://placehold.it/1200x900
+        size: '1200'
+      - src: https://placehold.it/900x600
+        size: '900'
+      - src: https://placehold.it/450x300
+        size: '450'
+      alt: placeholder image
+    meta: 
+      type: article
+      date: 2 days ago
+    title: Oops!...I wrote a Britney blog post
+    copy:
+- name: Gallery
+  context:
+    modifiers:
+    url: http://google.com
+    image:
+      sources:
+      - src: https://placehold.it/1200x900
+        size: '1200'
+      - src: https://placehold.it/900x600
+        size: '900'
+      - src: https://placehold.it/450x300
+        size: '450'
+      alt: placeholder image
+    meta: 
+      type: gallery
+      date:
+      length: 37
+    title: Science and art
+    copy:
+- name: Podcast
+  context:
+    modifiers:
+    url: http://google.com
+    image:
+      sources:
+      - src: https://placehold.it/1200x900
+        size: '1200'
+      - src: https://placehold.it/900x600
+        size: '900'
+      - src: https://placehold.it/450x300
+        size: '450'
+      alt: placeholder image
+    meta: 
+      type: podcast
+      date:
+      length: '56:02'
+    title: The designs of the Festival Pattern Group
+    copy:
+- name: Video
+  modifiers:
+  context:
+    url: http://google.com
+    image:
+      sources:
+      - src: https://placehold.it/1200x900
+        size: '1200'
+      - src: https://placehold.it/900x600
+        size: '900'
+      - src: https://placehold.it/450x300
+        size: '450'
+      alt: placeholder image
+    meta: 
+      type: video
+      date:
+      length: '1:37'
+    title: Tomorrow Belongs to Me
+    copy:
