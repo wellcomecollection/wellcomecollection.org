@@ -5,7 +5,7 @@
 }
 
 .page-description__title {
-  margin-top: $vertical-space-unit;
+  margin-top: 0;
   margin-bottom: 0;
   margin-left: -0.06em;
 
@@ -26,7 +26,7 @@
   }
 }
 
-.page-description__lead {
+.page-description__row {
   margin-bottom: 0.6em;
 
   // This aligns the grey lead bar with text baseline
@@ -39,6 +39,10 @@
       bottom: 0.4em;
     }
   }
+}
+
+.page-description__container {
+  padding-top: $vertical-space-unit;
 }
 
 .page-description__intro {
