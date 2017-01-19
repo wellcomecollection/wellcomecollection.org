@@ -1,4 +1,10 @@
-<div class="promo">
+{% set gallery = 'actions/gallery-link' %}
+{% set podcast = 'actions/volume' %}
+{% set video = 'actions/play' %}
+{#TODO block level link?#}
+{#TODO full width variant?#}
+{#TODO full width/dark background variant?#}
+<div class="promo promo--{{meta.type}} {% for modifier in modifiers %}promo--{{ modifier }} {% endfor %} ">
   <img class="promo__image"
     src="{{ image.sources[(image.sources | length) - 1].src }}"
       srcset="{%- for source in image.sources %}
@@ -6,9 +12,23 @@
         {%- if (source !== (image.sources | last)) %}, {%- endif %}
       {%- endfor %}"
       alt="{{ image.alt }}" />
+  {% if meta.type == 'gallery' %}
+    {% icon gallery %}
+  {% elif meta.type == 'podcast' %}
+    {% icon podcast %}
+  {% elif meta.type == 'video' %}
+      {% icon video %}
+  {% endif %}
+  {% if meta.type == 'gallery' and meta.length %}
+    {{ meta.length }} items
+  {% endif %}
+  {% if meta.type == 'podcast' or meta.type == 'video' and meta.length %}
+    {{ meta.length }} time {#TODO timestamp #}
+  {% endif %}
   <header class="promo__description">
-    <span class="promo__intro">{{ intro }}</span>
+    <span class="promo__type">{{ meta.type }}</span>
     <h2 class="promo__title"><a href="{{ url }}" class="promo__link">{{ title }}</a></h2>
+    {{meta.date }}
     <span class="promo__copy">{{ copy }}</span>
   </header>
 </div>
