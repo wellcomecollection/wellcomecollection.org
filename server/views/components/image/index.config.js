@@ -9,3 +9,6 @@ const image = new Picture({
   height: 1104
 }).toJS();
 export const context = { image };
+export const variants = [
+  { name: 'picture', context: { image, type: 'picture' } }
+];
