@@ -1,11 +1,11 @@
-<figure class="figure figure--{{ type }}
+<figure class="figure
                {{ ' figure--full' if full }}
                {{ ' figure--bleed' if bleed }}
                {{ ' figure--max-out-height' if maxOutHeight }}">
-
+  {% set sizes = image | getImageSizesFor %}
   {% if type === 'picture' %}
     <picture class="figure__picture figure__image-container">
-      {%- for size in image | getImageSizesFor -%}
+      {%- for size in sizes -%}
         <source media="(min-width: {{ size }}px)"
                 srcset="{{ image.contentUrl }}?w={{ size }}">
       {%- endfor %}
@@ -15,13 +15,12 @@
     </picture>
   {% else %}
     <div class="figure__image-container">
-      {{ image | getImageSizesFor }}
       {% set comma = joiner() %}
 
       <img class="figure__image"
            src="{{ image.contentUrl }}"
            srcset="
-            {%- for size in image.width | getImageSizesFor -%}
+            {%- for size in sizes -%}
               {{ comma() }}{{ image.contentUrl }}?w={{ size }} {{ size }}w
             {%- endfor %}"
            alt="{{ image.caption | striptags() }}" />
