@@ -1,5 +1,6 @@
 import {Person} from './person';
 import {getWpFeaturedImage} from './media';
+import {bodyParser} from '../util/body-parser';
 
 export default class Article {
   constructor(headline, articleBody, mainImage, associatedMedia, author) {
@@ -7,8 +8,9 @@ export default class Article {
     this.articleBody = articleBody;
     this.mainImage = mainImage;
     this.associatedMedia = associatedMedia;
-    this.mainMedia = getMainMedia(associatedMedia);
     this.author = author;
+    this.mainMedia = getMainMedia(associatedMedia);
+    this.bodyParts = bodyParser(articleBody);
   }
 
   static fromDrupalApi(json) {
