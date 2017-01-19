@@ -13,31 +13,37 @@
   }
 
   .icon {
-    margin-right: 0.8em;
+    vertical-align: middle;
+    margin-right: map-get($gutter-width, 'small')/2;
+
+    @include respond-to('medium') {
+      margin-right: map-get($gutter-width, 'medium')/2;
+    }
+
+    @include respond-to('large') {
+      margin-right: map-get($gutter-width, 'large')/2;
+    }
   }
 }
 
 .promo--gallery {
-  .icon {
-    width: 1.5em;
-    height: 1.187em;
-    min-width: 1.5em;
+  .icon { // aspect ratio: 24 x 19
+    width: (24/19) * 1.6em;
+    height: (19/19) * 1.6em;
   }
 }
 
 .promo--podcast {
-  .icon {
-    width: 1.6875em;
-    height: 1.375em;
-    min-width: 1.6875em;
+  .icon { // aspect ratio: 27 x 22
+    width: (27/22) * 1.6em;
+    height: (22/22) * 1.6em;
   }
 }
 
 .promo--video {
-  .icon {
-    width: 1.0625em;
-    height: 1.187em;
-    min-width: 1.0625em;
+  .icon { // aspect ratio: 17 x 19
+    width: (17/19) * 1.6em;
+    height: (19/19) * 1.6em;
   }
 }
 
@@ -125,10 +131,24 @@
 }
 
 .promo__icon-container {
+  @include font('HNL7');
   background: color('white');
   position: absolute;
   bottom: 0;
   left: 0;
+  padding: map-get($gutter-width, 'small')/2;
+
+  @include respond-to('medium') {
+    padding: map-get($gutter-width, 'medium')/2;
+  }
+
+  @include respond-to('large') {
+    padding: map-get($gutter-width, 'large')/2;
+  }
+}
+
+.promo__length {
+  display: inline-block;
 }
 
 .promo__sr {
@@ -139,6 +159,11 @@
   @include font('HNL5');
   color: color('action-green-2');
   display: block;
+  text-transform: capitalize;
+
+  .promo--series & {
+    color: color('purple');
+  }
 }
 
 .promo__title {
@@ -153,6 +178,7 @@
 }
 
 .promo__date {
+  @include font('HNL5');
   display: block;
 }
 

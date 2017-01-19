@@ -4,7 +4,6 @@
 {#TODO full width variant?#}
 {#TODO full width/dark background variant?#}
 {#TODO Test with screen reader?#}
-{#TODO styling video/podcast/gallery version#}
 <a href="{{ url }}" class="promo  {% if meta.type == 'gallery' or meta.type == 'podcast' or meta.type == 'video' %}promo--{{meta.type}}{% endif %} {% for modifier in modifiers %}promo--{{ modifier }} {% endfor %} ">
   <div class="promo__image-container">
     <img class="promo__image"
@@ -17,7 +16,7 @@
 
     {% for modifier in modifiers %}
       {% if modifier == 'series' %}
-        <svg class="promo__defs">{# TODO proper filter - see Tomi #}
+        <svg class="promo__defs">{# TODO proper filter - see Tomi, only want this on the page once #}
           <filter id="duotone" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
             <feColorMatrix type="matrix"
               values="0.90 0 0 0   0.40 
@@ -40,7 +39,7 @@
             {% icon video %}
         {% endif %}
         {% if meta.type == 'gallery' and meta.length %}
-          <span class="promo__sr">Gallery with</span> {{ meta.length }} <span class="promo__sr">items</span>
+          <span class="promo__length"><span class="promo__sr">Gallery with</span> {{ meta.length }} <span class="promo__sr">items</span></span>
         {% endif %}
         {% if meta.type == 'podcast' or meta.type == 'video' and meta.length %}
           <span class="promo__sr">{% if meta.type == 'podcast' %}Podcast{%else%}Video{% endif %} lasting</span>
