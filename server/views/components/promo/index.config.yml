@@ -13,8 +13,8 @@ context:
       size: '450'
     alt: image alt text
   meta: 
-    type: gallery
-    date: date
+    type: article
+    date: 
     length: length
   title: Title
   copy: Copy lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos eius debitis, ad unde laborum assumenda numquam suscipit sint iure itaque aut pariatur, neque omnis vel tenetur sapiente nam iusto quas.
@@ -89,7 +89,7 @@ variants:
     meta: 
       type: gallery
       date:
-      length: 37
+      length: 1
     title: Science and art
     copy:
 - name: Podcast
