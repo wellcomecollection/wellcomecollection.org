@@ -4,6 +4,7 @@
 {#TODO full width variant?#}
 {#TODO full width/dark background variant?#}
 {#TODO Test with screen reader?#}
+{#TODO styling video/podcast/gallery version#}
 <a href="{{ url }}" class="promo  {% if meta.type == 'gallery' or meta.type == 'podcast' or meta.type == 'video' %}promo--{{meta.type}}{% endif %} {% for modifier in modifiers %}promo--{{ modifier }} {% endfor %} ">
   <div class="promo__image-container">
     <img class="promo__image"
@@ -16,7 +17,7 @@
 
     {% for modifier in modifiers %}
       {% if modifier == 'series' %}
-        <svg class="promo__defs">{# TODO proper filter #}
+        <svg class="promo__defs">{# TODO proper filter - see Tomi #}
           <filter id="duotone" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
             <feColorMatrix type="matrix"
               values="0.90 0 0 0   0.40 
