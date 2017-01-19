@@ -11,12 +11,12 @@ context:
     size: '300'
   caption: <p>Aspernatur neque <a href='#'>debitis atque saepe</a> magni praesentium eos.</p>
 variants:
-- name: default
+- name: figure-picture
   label: Picture
   context:
     type: picture
     icon: other/picture
-- name: image
+- name: figure-image
   label: Image
   context:
     type: image

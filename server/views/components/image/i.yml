@@ -1,0 +1,9 @@
+handle: image
+name: Image
+context:
+  sizes: [300, 600, 960, 1338]
+  image:
+    contentUrl: 'https://wellcomecollection.files.wordpress.com/2016/10/featured-image-dans-blog2.jpg'
+    caption: 'An edited frame from Animating the Body'
+    width: 1380
+    height: 1104

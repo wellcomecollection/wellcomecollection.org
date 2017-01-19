@@ -1,0 +1,28 @@
+<figure class="figure figure--{{ type }}
+               {{ ' figure--full' if full }}
+               {{ ' figure--bleed' if bleed }}
+               {{ ' figure--max-out-height' if maxOutHeight }}">
+
+  {% if type === 'picture' %}
+    <picture class="figure__picture figure__image-container">
+      {%- for size in sizes %}
+        <source media="(min-width: {{ size }}px)"
+                srcset="{{ image.contentUrl }}?w={{ size }}">
+      {%- endfor %}
+      <img class="figure__image"
+           src="{{ image.contentUrl }}"
+           alt="{{ image.caption | striptags() }}" />
+    </picture>
+  {% else %}
+    <div class="figure__image-container">
+      {% set comma = joiner() %}
+      <img class="figure__image"
+           src="{{ image.contentUrl }}"
+           srcset="
+            {%- for size in sizes -%}
+              {{ comma() }}{{ image.contentUrl }}?w={{ size }} {{ size }}w
+            {%- endfor %}"
+           alt="{{ image.caption | striptags() }}" />
+    </div>
+  {% endif %}
+</figure>
