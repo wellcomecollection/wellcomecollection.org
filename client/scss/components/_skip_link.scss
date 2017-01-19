@@ -1,4 +1,4 @@
 .skip-link {
-  @include visuallyhidden;
-  @include visuallyhidden-focusable;
+  @include visually-hidden;
+  @include visually-hidden-focusable;
 }
