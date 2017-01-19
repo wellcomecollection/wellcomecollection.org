@@ -1,8 +1,8 @@
 {% macro colorBlock(name, hex) %}
   <div class="styleguide__palette__block">
-    <h2 class="styleguide__palette__name">{{name}}</h2>
-    <div class="styleguide__palette__color styleguide__palette__color--{{name}}" style="background: {{hex}};"></div>
-    <span class="styleguide__palette__hex">Hex: <code class="styleguide__palette__code">{{hex}}</code></span>
+    <h2 class="styleguide__palette__name">{{ name }}</h2>
+    <div class="styleguide__palette__color styleguide__palette__color--{{ name }}" style="background: {{ hex }};"></div>
+    <span class="styleguide__palette__hex">Hex: <code class="styleguide__palette__code">{{ hex }}</code></span>
   </div>
 {% endmacro %}
 
@@ -15,6 +15,6 @@
 <div class="styleguide__palette__section">
   <h2 class="styleguide__palette__heading">Secondary Colours</h2>
   {% for color in secondary %}
-    {{ colorBlock(name=color.name, hex=color.hex)}}
+    {{ colorBlock(name=color.name, hex=color.hex) }}
   {% endfor %}
 </div>

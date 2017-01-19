@@ -1,4 +1,4 @@
-{% extends "layout/default.njk" %}
+{% extends 'layout/default.njk' %}
 {% set gridCellClasses = 'grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4' %}
 
 {% block body %}
@@ -7,7 +7,7 @@
 
 {% for media in article.mainMedia %}
   {% if media.weighting == 'leading' %}
-    {% component "media-item", { media: media } %}
+    {% component 'media-item', { media: media } %}
   {% endif %}
 {% endfor %}
 
