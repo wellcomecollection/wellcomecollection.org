@@ -1,10 +1,6 @@
 //* @define promo
 
 .promo {
-  padding-bottom: 3 * $vertical-space-unit;
-  margin-bottom: $vertical-space-unit;
-  border-bottom: 2px solid color('black');
-
   @include container-query(('l': ('8', '12'))) {
     display: flex;
     align-items: flex-start;
@@ -13,6 +9,40 @@
   @include container-query(('l': ('12'), 'm': ('8'))) {
     border-bottom: 0;
   }
+
+  .icon {
+    margin-right: 0.8em;
+  }
+}
+
+.promo--gallery {
+  .icon {
+    width: 1.5em;
+    height: 1.187em;
+    min-width: 1.5em;
+  }
+}
+
+.promo--podcast {
+  .icon {
+    width: 1.6875em;
+    height: 1.375em;
+    min-width: 1.6875em;
+  }
+}
+
+.promo--video {
+  .icon {
+    width: 1.0625em;
+    height: 1.187em;
+    min-width: 1.0625em;
+  }
+}
+
+.promo--underlined {
+  padding-bottom: 3 * $vertical-space-unit;
+  margin-bottom: $vertical-space-unit;
+  border-bottom: 2px solid color('black');
 }
 
 .promo__image {
@@ -28,7 +58,7 @@
   }
 }
 
-.promo__intro {
+.promo__type {
   @include font('HNL5');
   color: color('action-green-2');
   display: block;
