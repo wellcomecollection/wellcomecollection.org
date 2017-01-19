@@ -3,27 +3,27 @@
                {{- ' figure--bleed' if bleed -}}
                {{- ' figure--max-out-height' if maxOutHeight -}}">
 
-    {% if type === 'picture' %}
-      <picture class="figure__picture figure__image-container">
-        {%- for source in sources %}
-          <source media="(min-width: {{ source.size }}px)"
-            srcset="{{ source.src }}">
-        {%- endfor %}
-        <img class="figure__image"
-          src="{{ sources[(sources | length) - 1].src }}"
-          alt="{{ caption | striptags() }}" />
-      </picture>
-    {% elif type === 'image' %}
-      <div class="figure__image-container">
-        <img class="figure__image"
-          src="{{ sources[(sources | length) - 1].src }}"
-          srcset="{%- for source in sources %}
-            {{ source.src }} {{ source.size }}w
-            {%- if (source !== (sources | last)) %}, {%- endif %}
-          {%- endfor %}"
-          alt="{{ caption | striptags() }}" />
-      </div>
-    {% endif %}
+  {% if type === 'picture' %}
+    <picture class="figure__picture figure__image-container">
+      {%- for source in sources %}
+        <source media="(min-width: {{ source.size }}px)"
+          srcset="{{ source.src }}">
+      {%- endfor %}
+      <img class="figure__image"
+        src="{{ sources[(sources | length) - 1].src }}"
+        alt="{{ caption | striptags() }}" />
+    </picture>
+  {% elif type === 'image' %}
+    <div class="figure__image-container">
+      <img class="figure__image"
+        src="{{ sources[(sources | length) - 1].src }}"
+        srcset="{%- for source in sources %}
+          {{ source.src }} {{ source.size }}w
+          {%- if (source !== (sources | last)) %}, {%- endif %}
+        {%- endfor %}"
+        alt="{{ caption | striptags() }}" />
+    </div>
+  {% endif %}
 
   {% if full %}
     {% component 'wobbly-edge', {background: 'cream'} %}
@@ -33,7 +33,7 @@
     <div class="{{ 'row row--cream' if full }}">
       <div class="{{ 'container' if full }}">
         <div class="grid">
-          <div class="grid__cell {% for size in captionSizes %}grid__cell--{{ size }}{% endfor %} {% for shift in captionShifts %}grid__cell--shift-{{ shift }} {% endfor %}">
+          <div class="grid__cell {% for size in captionSizes %}grid__cell--{{ size }} {% endfor %} {% for shift in captionShifts %}grid__cell--shift-{{ shift }} {% endfor %}">
             <figcaption class="figure__caption">
               {% icon icon %}
               {{ caption | safe }}

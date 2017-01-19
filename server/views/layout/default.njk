@@ -13,28 +13,41 @@
   </head>
 
   <body>
-    {% component "skip-link" %}
+    {% component 'skip-link' %}
 
     {% set navLinks = [
-      { href: "/visit", title: "Visit us",        isCurrent: pageConfig.inSection === 'visit' },
-      { href: "/whats-on", title: "What's on",    isCurrent: pageConfig.inSection === 'whats-on' },
-      { href: "/explore", title: "Explore",       isCurrent: pageConfig.inSection === 'explore' },
-      { href: "/what-we-do", title: "What we do", isCurrent: pageConfig.inSection === 'what-we-do' }
+      {
+        href: "https://wellcomecollection.org/visit",
+        title: "Visit us"
+      },
+      {
+        href: "https://wellcomecollection.org/whats-on",
+        title: "What's on"
+      },
+      {
+        href: "/explore",
+        title: "Explore",
+        isCurrent: pageConfig.inSection === 'explore'
+      },
+      {
+        href: "https://wellcomecollection.org/what-we-do",
+        title: "What we do"
+      }
     ] %}
-    {% component "header", { navLinks: navLinks } %}
+    {% component 'header', { navLinks: navLinks } %}
 
-    {% component "new-site-notice" %}
+    {% component 'new-site-notice' %}
     <div id="main" class="main" role="main">
       {% block body %}
       {% endblock %}
     </div>
-    {% component "footer", {
+    {% component 'footer', {
       navLinks: navLinks,
       openingHours: {places: pageConfig.openingHours},
       footerSocial: footerSocial
     } %}
 
-    {% component "cookie-notification" %}
+    {% component 'cookie-notification' %}
 
     {% include "partials/analytics.njk" %}
   </body>

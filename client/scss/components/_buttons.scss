@@ -18,7 +18,7 @@
   color: color('white');
   background-color: color('action-green-1');
   border: 1px solid color('action-green-1');
-  border-radius: 6px;
+  border-radius: $border-radius-unit;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: bold;

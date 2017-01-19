@@ -3,7 +3,7 @@
       type: 'image',
       icon: 'other/picture',
       full: true,
-      captionSizes: ['xl6', 'l7'],
+      captionSizes: ['xl10', 'm6'],
       captionShifts: ['xl1', 'm1'],
       sources: [{size: 1000, src: media.uri}],
       caption: media.altText,
@@ -12,13 +12,13 @@
 {% endif %}
 
 {% if media.mediaType == 'audio' %}
-  <audio controls="controls" src="{{media.uri}}"></audio>
+  <audio controls="controls" src="{{ media.uri }}"></audio>
 {% endif %}
 
 {% if media.mediaType == 'video' %}
-  <iframe width="640" height="360" src="{{media.uri | youtubeEmbedUrl}}" frameborder="0"></iframe>
+  <iframe width="640" height="360" src="{{ media.uri | youtubeEmbedUrl }}" frameborder="0"></iframe>
 {% endif %}
 
 {% if media.mediaType == 'gallery' %}
-  {% component "gallery", { items: media.items } %}
+  {% component 'gallery', { items: media.items } %}
 {% endif %}

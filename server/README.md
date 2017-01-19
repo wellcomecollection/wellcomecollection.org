@@ -22,7 +22,7 @@ npm run start
 ## Accessibility testing
 
 ```bash
-npm run test:accessibility <url> 
+npm run test:accessibility <url>
 ```
 
 The test outputs 3 message types:
@@ -33,19 +33,19 @@ The test outputs 3 message types:
 
 It is important to resolve/verify all 3 types in order to achieve standards compliance.
 Additional guidance on manually checking warnings and can be found here:
-https://github.com/wellcometrust/developer-docs/blob/master/front-end/accessibility/Webpage_Accessibility_Audit_Procedure.md 
+https://github.com/wellcometrust/developer-docs/blob/master/front-end/accessibility/Webpage_Accessibility_Audit_Procedure.md
 
 
 ## Cross browser testing
 
 ```bash
-npm node test:browsers <url>
+npm run test:browsers <url>
 ```
 
-The test opens your browser at browserstack.com with screenshots of the url in browsers we test on. 
+The test opens your browser at browserstack.com with screenshots of the url in browsers we test on.
 You can also click through to instances of those browsers.
 
-In order for this to work need to add your browserstack credentials to 'browserstack/browserstack-config.js'
+In order for this to work need to add your browserstack credentials to 'browserstack/browserstack-config.json'
 in the follwing format:
 
 {

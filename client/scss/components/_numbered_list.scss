@@ -1,0 +1,105 @@
+//* @define numbered-list
+
+$numbered-list-number-size: 96px;
+
+.numbered-list {
+  margin-bottom: 2 * $vertical-space-unit;
+}
+
+.numbered-list__header {
+  border-top-left-radius: $border-radius-unit;
+  border-top-right-radius: $border-radius-unit;
+  background: color('action-green-2');
+  color: color('white');
+  padding: 1rem 1.2rem;
+
+  @include container-query(('l': ('4'))) {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.numbered-list__heading {
+  @include font('WB6');
+  margin: 0;
+}
+
+.numbered-list__list {
+  @include plain-list();
+  border: 1px solid color('smoke');
+  border-bottom-left-radius: $border-radius-unit;
+  border-bottom-right-radius: $border-radius-unit;
+}
+
+.numbered-list__item {
+  border-bottom: 1px solid color('smoke');
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.numbered-list__number {
+  @include font('WB1');
+  font-size: $numbered-list-number-size;
+  line-height: 1;
+  color: color('smoke');
+  position: absolute;
+  right: 0.8rem;
+
+  @include container-query(('l': ('4'))) {
+    right: 1.5rem;
+  }
+
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: -1;
+  opacity: 0.4;
+  transition: opacity 400ms ease;
+  display: none;
+
+  @supports (transform: translateY(-50%)) {
+    display: block;
+  }
+
+  .numbered-list__link:hover &,
+  .numbered-list__link:focus & {
+    opacity: 1;
+  }
+}
+
+.numbered-list__link {
+  position: relative;
+  text-decoration: none;
+  display: block;
+  z-index: 0;
+  padding: 1rem 1.2rem;
+
+  @include container-query(('l': ('4'))) {
+    padding: 1.5rem 2rem;
+  }
+
+  min-height: calc(#{$numbered-list-number-size} + 0.2rem);
+
+  @include container-query(('l': ('4'))) {
+    min-height: calc(#{$numbered-list-number-size} + 1.6rem);
+  }
+}
+
+.numbered-list__title {
+  @include font('WB7');
+  margin-top: 0;
+  margin-bottom: 0.3em;
+  transition: color 400ms ease;
+
+  .numbered-list__link:hover &,
+  .numbered-list__link:focus & {
+    color: color('action-green-1');
+  }
+}
+
+.numbered-list__meta {
+  @include font('HNL7');
+  display: block;
+  margin-bottom: 0;
+}
