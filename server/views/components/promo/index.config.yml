@@ -41,11 +41,11 @@ variants:
     url: http://google.com
     image:
       sources:
-      - src: https://placehold.it/1200x900
+      - src: https://wellcomecollection.files.wordpress.com/2017/01/copyright-daniel-regan-2.png?w=1400&h=&crop=1
         size: '1200'
-      - src: https://placehold.it/900x600
+      - src: https://wellcomecollection.files.wordpress.com/2017/01/copyright-daniel-regan-2.png?w=1400&h=&crop=1
         size: '900'
-      - src: https://placehold.it/450x300
+      - src: https://wellcomecollection.files.wordpress.com/2017/01/copyright-daniel-regan-2.png?w=1400&h=&crop=1
         size: '450'
       alt: placeholder image
     meta: 
@@ -55,7 +55,7 @@ variants:
     copy: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos eius debitis, ad unde laborum assumenda numquam suscipit sint iure itaque aut pariatur, neque omnis vel tenetur sapiente nam iusto quas.
 - name: Latest article
   context:
-    modifiers: ['underlined']
+    modifiers:
     url: http://google.com
     image:
       sources:
@@ -67,7 +67,7 @@ variants:
         size: '450'
       alt: placeholder image
     meta: 
-      type: article
+      type:
       date: 2 days ago
     title: Oops!...I wrote a Britney blog post
     copy:
