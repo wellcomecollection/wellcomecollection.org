@@ -1,7 +1,8 @@
+import {Map} from 'immutable';
 import youtubeEmbedUrl from './youtube-embed-url';
+import {getImageSizesFor} from './image-sizes';
 
-// We could do this automatically with `fs`, but that's unnecessary I/O
-// And doesn't allow us to exclude some.
-module.exports = new Map([
-  ['youtubeEmbedUrl', youtubeEmbedUrl]
-]);
+export default Map({
+  youtubeEmbedUrl,
+  getImageSizesFor
+});
