@@ -1,7 +1,0 @@
-{% if media.mediaType == 'audio' %}
-  <audio controls="controls" src="{{ media.uri }}"></audio>
-{% endif %}
-
-{% if media.mediaType == 'video' %}
-  <iframe width="640" height="360" src="{{ media.uri | youtubeEmbedUrl }}" frameborder="0"></iframe>
-{% endif %}
