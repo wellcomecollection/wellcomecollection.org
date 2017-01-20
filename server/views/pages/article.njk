@@ -1,5 +1,5 @@
 {% extends 'layout/default.njk' %}
-{% import 'views/macros.njk' as macro %}
+{% set gridCellClasses = 'grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4' %}
 
 {% block body %}
 
@@ -14,7 +14,7 @@
 <div class="row row--cream">
   <div class="container">
     <div class="grid grid--no-gutters">
-      <div class="{{ macro.gridClasses(s=4, m=6, l=7, xl=6, mShift=1, xlShift=1) }}">
+      <div class="grid__cell grid__cell--s4 grid__cell--m6 grid__cell--shift-m1 grid__cell--l7 grid__cell--xl6 grid__cell--shift-xl1">
         {% if article.author %}
           {% component 'author', {
             name: article.author.name,
