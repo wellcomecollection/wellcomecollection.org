@@ -58,6 +58,7 @@
   width: 100%;
   display: block;
   margin-bottom: 1rem;
+  transform: translateZ(0); // Fixes scale/border-radius overflow bug: http://stackoverflow.com/a/31686781
   border-radius: $border-radius-unit;
   overflow: hidden;
 
@@ -71,6 +72,12 @@
 .promo__image {
   display: block;
   width: 100%;
+  transition: transform 400ms ease;
+
+  .promo:hover &,
+  .promo:focus & {
+    transform: scale(1.2);
+  }
 }
 
 .promo__defs {
@@ -160,9 +167,15 @@
   color: color('action-green-2');
   display: block;
   text-transform: capitalize;
+  transition: color 400ms ease;
 
   .promo--series & {
     color: color('purple');
+  }
+
+  .promo:hover &,
+  .promo:focus & {
+    color: color('black');
   }
 }
 
@@ -171,9 +184,15 @@
   color: color('black');
   margin-top: 0;
   margin-bottom: 0.9em;
+  transition: color 400ms ease;
 
   @include container-query(('l': ('12'))) {
     @include font('WB3');
+  }
+
+  .promo:hover &,
+  .promo:focus & {
+    color: color('action-green-2');
   }
 }
 
