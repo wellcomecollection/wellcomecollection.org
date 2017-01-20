@@ -1,15 +1,8 @@
-{% import 'views/macros.njk' as macro %}
-
 <header class="page-description {% for modifier in modifiers %}page-description--{{ modifier }} {% endfor %}">
   <div class="row row--no-padding page-description__row {{ 'row--lead row--lead--l' if lead }}">
     <div class="container page-description__container">
       <div class="grid">
-        <div class="{{ macro.gridClasses(s=4, m=6, mShift=1) }}
-          {%- if lead -%}
-            {{ macro.gridClasses(l=11, lShift=1, xl=10) }}
-          {%- else -%}
-            {{ macro.gridClasses(l=12, xl=11) }}
-          {%- endif -%}">
+        <div class="grid__cell grid__cell--s4 grid__cell--m6 grid__cell--shift-m1 {{ 'grid__cell--shift-l1 grid__cell--l11 grid__cell--xl10' if lead else 'grid__cell--l12 grid__cell--xl11' }}">
           {% if intro %}
             <span class="page-description__intro">{{ intro }}</span>
           {% endif %}
@@ -22,8 +15,7 @@
     <div class="row row--no-padding">
       <div class="container">
           <div class="grid">
-
-            <div class="{{ macro.gridClasses(mShift=1) }} {{ macro.gridClasses(lShift=1) if lead }}">
+            <div class="grid__cell grid__cell--shift-m1 {{ 'grid__cell--shift-l1' if lead }}">
               <span class="page-description__publication-date">
                 {% icon 'other/clock' %}{{ publicationDate }}
               </span>
