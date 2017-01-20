@@ -2,25 +2,21 @@ import path from 'path';
 import Fractal from '@frctl/fractal';
 import Nunjucks from '@frctl/nunjucks';
 import mandelbrot from '@frctl/mandelbrot';
-import Component from './extensions/component';
-import Icon from './extensions/icon';
-import parseBody from './filters/parse-body';
+import filters from './filters';
+import extensions from './extensions';
 import {getEnvWithExtensionsAndFilters} from './view/env-utils';
+
 const fractal = Fractal.create();
 const root = dir('/views');
 
 // We need to set this up because Fractal doesn't allow us to specify our own
 // nunjucks env, but rather uses config to set it up.
 const nunjucksEnv = getEnvWithExtensionsAndFilters(root);
+const extensionsWithEnv = extensions.map(Extension => new Extension(nunjucksEnv));
 
 const nunjucks = Nunjucks({
-    filters: {
-        parseBody: parseBody
-    },
-    extensions: {
-        component: new Component(nunjucksEnv),
-        icon: new Icon(nunjucksEnv)
-    }
+    filters: filters.toJS(),
+    extensions: extensionsWithEnv.toJS()
 });
 fractal.components.engine(nunjucks);
 

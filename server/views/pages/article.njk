@@ -27,7 +27,7 @@
 
         <div class="article">
           {% block articleBody %}
-            {% component 'article-body', { articleBody: article.articleBody | parseBody } %}
+            {% component 'article-body', { articleBody: article.bodyParts } %}
           {% endblock %}
 
           {% if article.author %}
