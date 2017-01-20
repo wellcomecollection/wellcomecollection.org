@@ -1,3 +1,5 @@
+{% import '../../../views/macros.njk' as macro %}
+
 <button class="btn {{ modifierClasses }}" {{ attributes }}>
   {% if icon %}
     {% icon icon, null, iconExtraClasses %}

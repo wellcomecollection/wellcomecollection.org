@@ -1,7 +1,9 @@
+{% import '../../../views/macros.njk' as macro %}
+
 <figure class="figure figure--{{ type }}
-               {{- ' figure--full' if full -}}
-               {{- ' figure--bleed' if bleed -}}
-               {{- ' figure--max-out-height' if maxOutHeight -}}">
+               {{ ' figure--full' if full }}
+               {{ ' figure--bleed' if bleed }}
+               {{ ' figure--max-out-height' if maxOutHeight }}">
 
   {% if type === 'picture' %}
     <picture class="figure__picture figure__image-container">

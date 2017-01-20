@@ -1,0 +1,12 @@
+{%- macro grid(s, m, l, xl, sShift, mShift, lShift, xlShift) %}
+  {%- set gc="grid__cell" -%}
+  {{ gc }} {# Output as variable to control whitespace #}
+  {%- if s %}grid__cell--s{% for i in range(0, s) -%}{{ i+1 }}{%- endfor %} {% endif %}
+  {%- if m %}grid__cell--m{% for i in range(0, m) -%}{{ i+1 }}{%- endfor %} {% endif %}
+  {%- if l %}grid__cell--l{% for i in range(0, l) -%}{{ i+1 }}{%- endfor %} {% endif %}
+  {%- if xl %}grid__cell--xl{% for i in range(0, xl) -%}{{ i+1 }}{%- endfor %} {% endif %}
+  {%- if sShift %}grid__cell--shift-s{% for i in range(0, sShift) -%}{{ i+1 }}{%- endfor %} {% endif %}
+  {%- if mShift %}grid__cell--shift-m{% for i in range(0, mShift) -%}{{ i+1 }}{%- endfor %} {% endif %}
+  {%- if lShift %}grid__cell--shift-l{% for i in range(0, lShift) -%}{{ i+1 }}{%- endfor %} {% endif %}
+  {%- if xlShift %}grid__cell--shift-xl{% for i in range(0, xlShift) -%}{{ i+1 }}{%- endfor %} {% endif %}
+{%- endmacro %}

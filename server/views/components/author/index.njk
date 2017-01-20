@@ -1,3 +1,5 @@
+{% import '../../../views/macros.njk' as macro %}
+
 <div class="author {% for modifier in modifiers %} author--{{ modifier }} {% endfor %}">
   <div class="author__upper">
     {% if image %}

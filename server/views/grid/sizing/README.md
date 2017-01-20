@@ -3,11 +3,11 @@ Modifier classes can be used to determine exactly how many columns a cell will t
 <small>__N.B. remember that there are different numbers of columns avaliable at each breakpoint:
 <br>small(s) - 4; medium(m) - 8; large(l) - 12. [See layout documentation for details](/docs/layout).__</small>
 
-Size modifier classes take the form `grid__cell--xy`, where `x` is either `s`, `m` or `l` and `y` is the number of columns the cell should span.  Applying a size modifier class to a `grid__cell` div will make the cell span the designated number of columns within the specified breakpoint only.
+Size modifier classes take the form `grid__cell--xy`, where `x` is either `s`, `m` or `l` and `y` is each number of the number of columns the cell should span, in order. Applying a size modifier class to a `grid__cell` div will make the cell span the designated number of columns within the specified breakpoint only.
 
 ```html
 <div class="grid">
-  <div class="grid__cell grid__cell--s2 grid__cell--m2 grid__cell--l4">
+  <div class="grid__cell grid__cell--s12 grid__cell--m12 grid__cell--l1234">
     {content goes here}
   </div>
 </div>

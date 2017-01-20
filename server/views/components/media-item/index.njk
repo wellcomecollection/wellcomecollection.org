@@ -1,3 +1,5 @@
+{% import '../../../views/macros.njk' as macro %}
+
 {% if media.mediaType == 'image' %}
     {% component 'figure', {
       type: 'image',
