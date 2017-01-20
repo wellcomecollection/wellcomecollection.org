@@ -3,12 +3,12 @@
   display: block;
   text-decoration: none;
 
-  @include container-query(('l': (8))) {
+  @include container-query(('l': 8)) {
     display: flex;
     align-items: flex-start;
   }
 
-  @include container-query(('l': (12), 'm': (8))) {
+  @include container-query(('l': 12, 'm': 8)) {
     border-bottom: 0;
   }
 
@@ -62,7 +62,7 @@
   border-radius: $border-radius-unit;
   overflow: hidden;
 
-  @include container-query(('l': (8))) {
+  @include container-query(('l': 8)) {
     order: 1;
     width: percentage(2 / 3);
     margin-bottom: 0;
@@ -186,7 +186,7 @@
   margin-bottom: 0.9em;
   transition: color 400ms ease;
 
-  @include container-query(('l': (12))) {
+  @include container-query(('l': 12)) {
     @include font('WB3');
   }
 
@@ -208,7 +208,7 @@
   min-width: 0;
   flex: 1;
 
-  @include container-query(('l': (8))) {
+  @include container-query(('l': 8)) {
     padding-right: map-get($gutter-width, 'large');
   }
 }

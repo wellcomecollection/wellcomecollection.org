@@ -33,9 +33,6 @@
 }
 
 @mixin container-query($cq-list) {
-  $to-list: null;
-  $between-list: null;
-
   @each $sizes in $cq-list {
     $size-key: nth($sizes, 1);
     $size: map-get($grid-config, $size-key);
@@ -43,33 +40,23 @@
     $col-suffix: null;
 
     @if (length($respond) > 1) {
-      @each $cols in nth($sizes, 2) {
-        @for $i from 1 through $cols {
-          $col-suffix: #{$col-suffix}#{$i}
-        }
-        $between-list: $between-list, unquote('[class*="grid__cell--#{$size-key}#{$col-suffix}"] &');
+      @for $i from 1 through nth($sizes, 2) {
+        $col-suffix: #{$col-suffix}#{$i};
       }
-      // stylelint-disable plugin/declaration-block-order
       @include respond-between(nth($respond, 1), nth($respond, 2)) {
-        #{$between-list} {
+        [class*='grid__cell--#{$size-key}#{$col-suffix}'] & {
           @content;
         }
       }
     } @else {
-      @each $cols in nth($sizes, 2) {
-        @for $i from 1 through $cols {
-          $col-suffix: #{$col-suffix}#{$i}
-        }
-
-        $to-list: $to-list, unquote('[class*="grid__cell--#{$size-key}#{$col-suffix}"] &');
+      @for $i from 1 through nth($sizes, 2) {
+        $col-suffix: #{$col-suffix}#{$i};
       }
-
       @include respond-to($respond) {
-        #{$to-list} {
+        [class*='grid__cell--#{$size-key}#{$col-suffix}'] & {
           @content;
         }
       }
-      // stylelint-enable plugin/declaration-block-order
     }
   }
 }
