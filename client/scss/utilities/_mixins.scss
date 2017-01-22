@@ -43,6 +43,8 @@
       @for $i from 1 through nth($sizes, 2) {
         $col-suffix: #{$col-suffix}#{$i};
       }
+
+      // stylelint-disable plugin/declaration-block-order
       @include respond-between(nth($respond, 1), nth($respond, 2)) {
         [class*='grid__cell--#{$size-key}#{$col-suffix}'] & {
           @content;
@@ -52,11 +54,13 @@
       @for $i from 1 through nth($sizes, 2) {
         $col-suffix: #{$col-suffix}#{$i};
       }
+
       @include respond-to($respond) {
         [class*='grid__cell--#{$size-key}#{$col-suffix}'] & {
           @content;
         }
       }
+      // stylelint-enable plugin/declaration-block-order
     }
   }
 }

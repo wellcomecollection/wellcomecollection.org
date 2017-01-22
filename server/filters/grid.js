@@ -8,11 +8,24 @@ const printUpTo = (max) => {
   return num;
 };
 
+/**
+ * Outputs grid__cell class modifiers.
+ * @param {Object} colsAtSizes - key:value pairs of breakpoints:columns.
+ * @param {boolean} omitGridCell - whether to omit base 'grid__cell' class.
+ */
+
 export default function grid(colsAtSizes, omitGridCell) {
   let retString = omitGridCell ? '' : 'grid__cell';
 
   for (let key in colsAtSizes) {
-    retString += ` grid__cell--${key}${printUpTo(colsAtSizes[key])}`;
+    let size = key;
+
+    if (key.includes('Shift')) {
+      const shiftIndex = key.indexOf('Shift');
+      size = `shift-${key.substr(0, shiftIndex)}`;
+    }
+
+    retString += ` grid__cell--${size}${printUpTo(colsAtSizes[key])}`;
   }
 
   return retString;
