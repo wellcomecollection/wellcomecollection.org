@@ -1,7 +1,5 @@
-{% import '../../../views/macros.njk' as macro %}
-
 <div class="grid grid--justify-start">
-  <div class="{{ macro.grid(s=1, m=5, l=3) }}">
+  <div class="{{ {s:1, m:5, l:3} | grid }}">
     {% include "views/grid/placeholder/placeholder.njk" %}
   </div>
 </div>

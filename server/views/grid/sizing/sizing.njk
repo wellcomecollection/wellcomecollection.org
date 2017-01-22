@@ -1,7 +1,5 @@
-{% import '../../../views/macros.njk' as macro %}
-
 <div class="grid">
-  <div class="{{ macro.grid(s=2, m=2, l=4) }}">
+  <div class="{{ {s:2, m:2, l:2} | grid }}">
     {% include "views/grid/placeholder/placeholder.njk" %}
   </div>
   <div class="grid__cell">

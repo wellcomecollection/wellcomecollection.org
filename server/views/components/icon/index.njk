@@ -1,5 +1,3 @@
-{% import '../../../views/macros.njk' as macro %}
-
 <svg class="icon{% for class in extraClasses %} {{ class }}{% endfor %}"
     {% if title %} role="img"{% else %} aria-hidden="true"{% endif %}
     {% for attr in attrs %}

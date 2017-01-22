@@ -1,8 +1,6 @@
-{% import '../../../views/macros.njk' as macro %}
-
 <div class="grid grid--align-end">
   {% for column in columns %}
-    <div class="{{ macro.grid(s=4, m=4, l=3) }}">
+    <div class="{{ {s:4, m:4, l:3} | grid }}">
       {% for item in column.items %}
         <a class="footer-social__link" href="{{ item.url }}">
           {% icon item.icon %}
