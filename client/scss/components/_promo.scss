@@ -159,7 +159,7 @@
 }
 
 .promo__sr {
-  @include visuallyhidden;
+  @include visually-hidden();
 }
 
 .promo__type {
