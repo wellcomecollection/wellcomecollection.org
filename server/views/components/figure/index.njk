@@ -30,7 +30,7 @@
   {% endif %}
 
   {% if caption %}
-    <div class="{{ 'row row--cream' if full }}">
+    <div class="{{ 'row row--cream row--no-padding' if full }}">
       <div class="{{ 'container' if full }}">
         <div class="grid">
           <div class="grid__cell {% for size in captionSizes %}grid__cell--{{ size }} {% endfor %} {% for shift in captionShifts %}grid__cell--shift-{{ shift }} {% endfor %}">
