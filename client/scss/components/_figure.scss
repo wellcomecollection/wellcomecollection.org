@@ -23,7 +23,7 @@
 .figure__image {
   width: 100%;
   display: block;
-  margin-bottom: 0.7rem;
+  margin-bottom: 1rem;
 
   .figure--full & {
     margin-bottom: 0;
@@ -39,10 +39,13 @@
 
   display: flex;
   color: color('accessible-grey-2');
-  padding-top: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid color('keyline-grey');
-  margin-bottom: 0.5rem;
+
+  .figure--full & {
+    padding-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
 
   .icon {
     width: 1.3em;
