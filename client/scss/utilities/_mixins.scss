@@ -33,32 +33,30 @@
 }
 
 @mixin container-query($cq-list) {
-  $to-list: null;
-  $between-list: null;
-
   @each $sizes in $cq-list {
     $size-key: nth($sizes, 1);
-
     $size: map-get($grid-config, $size-key);
     $respond: map-get($size, 'respond');
+    $col-suffix: null;
 
     @if (length($respond) > 1) {
-      @each $cols in nth($sizes, 2) {
-        $between-list: $between-list, unquote('[class*="grid__cell--#{$size-key}#{$cols}"] &');
+      @for $i from 1 through nth($sizes, 2) {
+        $col-suffix: #{$col-suffix}#{$i};
       }
+
       // stylelint-disable plugin/declaration-block-order
       @include respond-between(nth($respond, 1), nth($respond, 2)) {
-        #{$between-list} {
+        [class*='grid__cell--#{$size-key}#{$col-suffix}'] & {
           @content;
         }
       }
     } @else {
-      @each $cols in nth($sizes, 2) {
-        $to-list: $to-list, unquote('[class*="grid__cell--#{$size-key}#{$cols}"] &');
+      @for $i from 1 through nth($sizes, 2) {
+        $col-suffix: #{$col-suffix}#{$i};
       }
 
       @include respond-to($respond) {
-        #{$to-list} {
+        [class*='grid__cell--#{$size-key}#{$col-suffix}'] & {
           @content;
         }
       }
@@ -87,12 +85,18 @@
 
 @mixin grid-cells($columns, $key) {
   @for $i from 1 through $columns {
-    .grid__cell--#{$key}#{$i} {
+    $col-suffix: null;
+
+    @for $j from 1 through $i {
+      $col-suffix: #{$col-suffix}#{$j};
+    }
+
+    .grid__cell--#{$key}#{$col-suffix} {
       flex-basis: ($i / $columns) * 100%;
       max-width: ($i / $columns) * 100%;
     }
 
-    .grid__cell--shift-#{$key}#{$i} {
+    .grid__cell--shift-#{$key}#{$col-suffix} {
       margin-left: ($i / $columns) * 100%;
     }
   }

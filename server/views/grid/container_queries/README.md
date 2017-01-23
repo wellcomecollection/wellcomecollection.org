@@ -7,25 +7,25 @@ The `container-query()` mixin accepts a list of lists. The key to each inner lis
 For example:
 
 ```scss
-container-query(('s': ('1', '2'), 'm': ('4'), 'l': ('8', '12'))) {
+container-query(('s': 1, 'm': 4, 'l': 8)) {
   // styles here will be applied when the component lives inside one of:
-  // grid__cell--s1, grid__cell--s2 and the viewport is  0px – 599px wide
-  // grid__cell--m4 and the viewport is 600px - 959px wide
-  // grid__cell--l8 or grid__cell--l12 and the viewport is > 960px wide
+  // grid__cell--s1 or more and the viewport is  0px – 599px wide
+  // grid__cell--m1234 or more and the viewport is 600px - 959px wide
+  // grid__cell--l12345678 or more and the viewport is > 960px wide
 }
 ```
 
 ## SCSS in the example on this page
 ```scss
-@include container-query(('s': ('1'))) {
+@include container-query(('s': 1)) {
   background: color('red');
 }
 
-@include container-query(('m': ('5'))) {
+@include container-query(('m': 5)) {
   background: color('orange');
 }
 
-@include container-query(('l': ('3'))) {
+@include container-query(('l': 3)) {
   background: color('yellow');
 }
 ```
