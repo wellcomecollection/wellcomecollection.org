@@ -4,6 +4,10 @@
   margin-bottom: $vertical-space-unit;
 }
 
+.page-description--hidden {
+  @include visually-hidden();
+}
+
 .page-description__title {
   margin-top: 0;
   margin-bottom: 0;

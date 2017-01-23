@@ -80,7 +80,7 @@
 .opening-hours__caption,
 .opening-hours__thead {
   .enhanced & {
-    @include visuallyhidden();
+    @include visually-hidden();
   }
 }
 
