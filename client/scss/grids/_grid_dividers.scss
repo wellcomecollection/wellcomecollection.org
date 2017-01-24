@@ -40,4 +40,10 @@
       }
     }
   }
+
+  &.grid--scroll .grid__cell:not(:first-child):before {
+    @include respond-between('small', 'medium') {
+      display: block;
+    }
+  }
 }

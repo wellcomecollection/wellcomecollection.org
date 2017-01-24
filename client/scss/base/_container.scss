@@ -12,3 +12,11 @@
     padding: 0 map-get($container-padding, 'large');
   }
 }
+
+.container--scroll {
+  overflow: scroll;
+
+  @include respond-to('medium') {
+    overflow: auto;
+  }
+}

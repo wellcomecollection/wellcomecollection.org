@@ -13,6 +13,22 @@
   }
 }
 
+.grid--scroll {
+  width: 250%;
+
+  @include respond-to('medium') {
+    width: auto;
+  }
+
+  .grid__cell {
+    flex-basis: percentage(1 / 3);
+
+    @include respond-to('medium') {
+      flex-basis: inherit;
+    }
+  }
+}
+
 .grid--no-gutters {
   margin-left: 0;
 
