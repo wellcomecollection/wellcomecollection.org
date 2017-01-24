@@ -33,7 +33,7 @@
     <div class="{{ 'row row--cream' if full }}">
       <div class="{{ 'container' if full }}">
         <div class="grid">
-          <div class="{{ captionGrid | gridClasses }}">
+          <div class="{{ {m:6, xl:10, shiftM:1, shiftXl:1} | gridClasses }}">
             <figcaption class="figure__caption">
               {% icon icon %}
               {{ caption | safe }}
