@@ -1,0 +1,10 @@
+<section class="transporter">
+    <h2 class="transporter__title">{{ title }}</h2>
+    <div class="grid">
+    {% for promo in promos %}
+      <div class="{{ {s:4, m:8, l:2} | gridClasses }}">
+        {% component 'promo', {headingLevel: promo.headingLevel, modifiers: promo.modifiers, url: promo.url, image: promo.image, meta: promo.meta, title: promo.title, copy: promo.copy} %}
+      </div>
+    {% endfor %}
+    </div>
+</section>
