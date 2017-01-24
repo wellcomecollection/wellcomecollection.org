@@ -1,29 +1,10 @@
 //* @define divider
 
 .divider {
-  text-align: left;
-  border: 0;
-}
-
-&.divider--narrow,
-&.divider--wide {
-  background: color('black');
-}
-
-&.divider--narrow {
   width: 60px;
   height: 5px;
+  background: color('black');
   margin: 4 * $vertical-space-unit 0 $vertical-space-unit;
-}
-
-&.divider--wide {
-  width: 100%;
-  height: 22px;
-}
-
-&.divider--keyline {
-  width: 100%;
-  height: 1px;
-  background: color('keyline-grey');
-  margin: 0 0 $vertical-space-unit;
+  text-align: left;
+  border: 0;
 }
