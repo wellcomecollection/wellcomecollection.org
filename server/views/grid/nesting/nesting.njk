@@ -1,13 +1,13 @@
 <div class="grid">
-  <div class="{{ {s:4, m:4, l:4} | grid }}">
+  <div class="{{ {s:4, m:4, l:4} | gridClasses }}">
     {% include "views/grid/placeholder/placeholder.njk" %}
   </div>
   <div class="grid__cell">
     <div class="grid">
-      <div class="{{ {m:8} | grid }}">
+      <div class="{{ {m:8} | gridClasses }}">
         {% include "views/grid/placeholder/placeholder.njk" %}
       </div>
-      <div class="{{ {m:8} | grid }}">
+      <div class="{{ {m:8} | gridClasses }}">
         {% include "views/grid/placeholder/placeholder.njk" %}
       </div>
     </div>

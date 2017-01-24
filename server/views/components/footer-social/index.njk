@@ -1,6 +1,6 @@
 <div class="grid grid--align-end">
   {% for column in columns %}
-    <div class="{{ {s:4, m:4, l:3} | grid }}">
+    <div class="{{ {s:4, m:4, l:3} | gridClasses }}">
       {% for item in column.items %}
         <a class="footer-social__link" href="{{ item.url }}">
           {% icon item.icon %}
