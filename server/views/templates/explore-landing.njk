@@ -3,7 +3,7 @@
 {% block body %}
   {% component 'page-description', { title: 'Explore', modifiers: ['hidden'] } %}
 
-  <div class="row row--no-bottom-padding row--cream">
+  <div class="row row--no-bottom-padding row--cream row--has-wobbly-background">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:4, m:8, l:12} | gridClasses }}">
@@ -11,6 +11,7 @@
         </div>
       </div>
     </div>
+    <div class="row__wobbly-background"></div>
   </div>
 
   <div class="row row--cream row--no-padding">
