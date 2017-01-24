@@ -1,3 +1,4 @@
+import boom from 'boom';
 import {PageConfig} from '../model/page-config';
 import {getPosts, getArticle} from '../services/wordpress';
 import {getArtefact} from '../services/artefacts';
@@ -43,4 +44,12 @@ export const explore = async(ctx) => {
 export const index = (ctx) => ctx.render('pages/index', {
   pageConfig: new PageConfig({inSection: 'index'})
 });
+
 export const healthcheck = (ctx) => ctx.body = 'ok';
+
+export const explosion = (ctx) => {
+  const {errorCode} = ctx.params;
+  const message = `Forced explosion of type ${errorCode}`;
+  ctx.status = parseInt(errorCode, 10);
+  ctx.body = { errorCode, message };
+};
