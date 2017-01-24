@@ -43,4 +43,14 @@ export const explore = async(ctx) => {
 export const index = (ctx) => ctx.render('pages/index', {
   pageConfig: new PageConfig({inSection: 'index'})
 });
+
 export const healthcheck = (ctx) => ctx.body = 'ok';
+
+export const performanceTest = (ctx) => {
+  ctx.type = 'application/javascript';
+  ctx.body = `
+    if (console) {
+      console.log('Incoming from next.wellcomecollection.org');
+    }
+  `;
+};
