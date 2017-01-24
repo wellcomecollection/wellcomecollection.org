@@ -214,48 +214,45 @@
 }
 
 .promo--transporter-child {
-  display: flex;
-  align-items: flex-start;
-
-  @include container-query(('l': ('2'))) {
-    display: block;
+  @include container-query(('s': ('4'), 'm': ('8'))) {
+    display: flex;
+    align-items: flex-start;
+    padding-bottom: $vertical-space-unit;
+    border-bottom: 1px solid color('smoke');
+    margin-bottom: $vertical-space-unit;
   }
 
   .promo__image-container {
-    width: percentage(118 / 316);
-
-    @include container-query(('l': ('2'))) {
-      width: auto;
+    @include container-query(('s': ('4'), 'm': ('8'))) {
+      width: percentage(118 / 316);
+      margin-bottom: 0;
     }
   }
 
   .promo__description {
-    padding-left: map-get($gutter-width, 'small');
+    @include container-query(('s': ('4'))) {
+      padding-left: map-get($gutter-width, 'small');
+    }
 
     @include container-query(('m': ('8'))) {
       padding-left: map-get($gutter-width, 'medium');
     }
+  }
 
-    @include container-query(('l': ('2'))) {
-      padding-left: 0;
-    }
-
+  .promo__type {
+    @include font('HNL7');
+    color: color('black');
   }
 
   .promo__title {
-    @include font('HNM5');
+    @include font('WB7');
 
-    @include container-query(('l': ('2'))) {
-      @include font('WB7');
+    @include container-query(('s': ('4'), 'm': ('8'))) {
+      @include font('HNM5');
     }
   }
 
   .promo__date {
-    display: none;
-
-    @include container-query(('m': ('8'), 'l': ('2'))) {
-      @include font('HNL7');
-      display: block;
-    }
+    @include font('HNL7');
   }
 }

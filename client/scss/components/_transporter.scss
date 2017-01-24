@@ -26,7 +26,7 @@
 .transporter__item:nth-last-child(2):first-child ~ .transporter__item,
 .transporter__item:nth-last-child(3):first-child,
 .transporter__item:nth-last-child(3):first-child ~ .transporter__item,
-.transporter__item:nth-last-child(4):first-child, 
+.transporter__item:nth-last-child(4):first-child,
 .transporter__item:nth-last-child(4):first-child ~ .transporter__item {
   .promo__type {
     @include font('HNL5');
