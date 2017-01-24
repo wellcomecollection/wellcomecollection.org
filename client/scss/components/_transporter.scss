@@ -1,0 +1,22 @@
+.transporter {
+  background: color('white');
+  border-radius: $border-radius-unit;
+  padding: $vertical-space-unit map-get($gutter-width, 'small');
+
+  @include respond-to('medium') {
+    padding: $vertical-space-unit map-get($gutter-width, 'medium');
+  }
+
+  @include respond-to('large') {
+    padding: $vertical-space-unit map-get($gutter-width, 'large');
+  }
+}
+
+.transporter__title {
+  @include font('WB5');
+  margin-top: 0;
+
+  @include respond-to('large') {
+    @include font('WB4');
+  }
+}
