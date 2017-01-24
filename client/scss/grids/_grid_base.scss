@@ -14,17 +14,59 @@
 }
 
 .grid--scroll {
-  width: 250%;
+  position: relative;
+  padding-top: $vertical-space-unit;
+  padding-bottom: 5 * $vertical-space-unit;
+  padding-left: map-get($container-padding, 'small');
+  padding-right: map-get($container-padding, 'small');
 
   @include respond-to('medium') {
-    width: auto;
+    padding-left: map-get($container-padding, 'medium');
+    padding-right: map-get($container-padding, 'medium');
+  }
+
+  @include respond-to('large') {
+    padding-left: map-get($container-padding, 'large');
+    padding-right: map-get($container-padding, 'large');
+  }
+
+  @include respond-between('small', 'medium') {
+    width: 250%;
+  }
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    left: map-get($container-padding, 'small') + map-get($gutter-width, 'small');
+    right: map-get($container-padding, 'small');
+
+    @include respond-to('medium') {
+      left: map-get($container-padding, 'medium') + map-get($gutter-width, 'medium');
+      right: map-get($container-padding, 'medium');
+    }
+
+    @include respond-to('large') {
+      left: map-get($container-padding, 'large') + map-get($gutter-width, 'large');
+      right: map-get($container-padding, 'large');
+    }
+  }
+
+  &:before {
+    top: 0;
+    height: 1px;
+    background: color('keyline-grey');
+  }
+
+  &:after {
+    bottom: 2 * $vertical-space-unit;
+    height: 22px;
+    background: color('black');
   }
 
   .grid__cell {
-    flex-basis: percentage(1 / 3);
-
-    @include respond-to('medium') {
-      flex-basis: inherit;
+    @include respond-between('small', 'medium') {
+      flex: 1;
     }
   }
 }

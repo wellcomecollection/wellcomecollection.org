@@ -14,9 +14,6 @@
 }
 
 .container--scroll {
-  overflow: scroll;
-
-  @include respond-to('medium') {
-    overflow: auto;
-  }
+  overflow: auto;
+  padding: 0;
 }

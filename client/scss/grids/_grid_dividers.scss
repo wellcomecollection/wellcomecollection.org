@@ -42,6 +42,7 @@
   }
 
   &.grid--scroll .grid__cell:not(:first-child):before {
+    // Don't hide the dividers on mobile when there's a scrolly grid
     @include respond-between('small', 'medium') {
       display: block;
     }
