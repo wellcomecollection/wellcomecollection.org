@@ -73,26 +73,21 @@ $tweakpoints: (
 .header__brand {
   display: flex;
   align-items: center;
-  width: 6.5rem;
-  height: 2rem;
 
   @include respond-to('header-medium') {
     margin-right: 1.5rem;
+    padding-right: 1.5rem;
     border-right: 1px solid color('keyline-grey');
-    width: 10rem;
-    height: 3.3rem;
+    width: auto;
     display: block;
   }
 
-  .icon {
-    width: 100%;
-
-    @include respond-to('medium') {
-      max-width: 8rem;
-    }
+  .icon--collection {
+    width: 6.5rem;
 
     @include respond-to('header-medium') {
-      margin-right: 1.5rem;
+      width: 128px;
+      height: 42px;
     }
   }
 }

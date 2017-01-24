@@ -1,14 +1,14 @@
 <div class="footer row row--dark-black">
   <div class="container">
     <div class="grid">
-      <div class="grid__cell grid__cell--s4 grid__cell--m4 grid__cell--l3">
+      <div class={{ {s:4, m:4, l:3} | gridClasses }}">
         {% component 'footer-nav', {navLinks: navLinks} %}
       </div>
-      <div class="grid__cell grid__cell--s4 grid__cell--m4 grid__cell--l3">
+      <div class={{ {s:4, m:4, l:3} | gridClasses }}">
         <h3 class="footer__heading">Finding us:</h3>
         {% component 'find-us' %}
       </div>
-      <div class="grid__cell grid__cell--s4">
+      <div class="{{ {s:4} | gridClasses }}">
         <h3 class="footer__heading">Opening times:</h3>
         {% component 'opening-hours', {places: openingHours.places} %}
       </div>
