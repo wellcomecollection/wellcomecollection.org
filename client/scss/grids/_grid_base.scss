@@ -16,11 +16,12 @@
 .grid--scroll {
   position: relative;
   padding-top: $vertical-space-unit;
-  padding-bottom: 5 * $vertical-space-unit;
+  padding-bottom: 4 * $vertical-space-unit;
   padding-left: map-get($container-padding, 'small');
   padding-right: map-get($container-padding, 'small');
 
   @include respond-to('medium') {
+    padding-bottom: 6 * $vertical-space-unit;
     padding-left: map-get($container-padding, 'medium');
     padding-right: map-get($container-padding, 'medium');
   }
@@ -62,6 +63,10 @@
     bottom: 2 * $vertical-space-unit;
     height: 22px;
     background: color('black');
+
+    @include respond-to('medium') {
+      bottom: 4 * $vertical-space-unit;
+    }
   }
 
   .grid__cell {
