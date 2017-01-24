@@ -2,6 +2,7 @@
   background: color('white');
   border-radius: $border-radius-unit;
   padding: $vertical-space-unit map-get($gutter-width, 'small');
+  margin-bottom: $vertical-space-unit;
 
   @include respond-to('medium') {
     padding: $vertical-space-unit map-get($gutter-width, 'medium');
@@ -12,11 +13,74 @@
   }
 }
 
+.transporter__item:first-child:last-child {
+  @include respond-to('large') {
+    max-width: 50%;
+  }
+}
+
+//font-sizes when there are 4 items or fewer
+//TODO change to greater than 4 selector if possible
+.transporter__item:first-child:last-child,
+.transporter__item:nth-last-child(2):first-child,
+.transporter__item:nth-last-child(2):first-child ~ .transporter__item,
+.transporter__item:nth-last-child(3):first-child,
+.transporter__item:nth-last-child(3):first-child ~ .transporter__item,
+.transporter__item:nth-last-child(4):first-child, 
+.transporter__item:nth-last-child(4):first-child ~ .transporter__item {
+  .promo__type {
+    @include font('HNL5');
+  }
+
+  .promo__title {
+    @include font('WB6');
+  }
+}
+
+.transporter__more {
+  @include font('HNM5');
+  margin-bottom: 0.5em;
+}
+
 .transporter__title {
   @include font('WB5');
-  margin-top: 0;
 
   @include respond-to('large') {
     @include font('WB4');
+  }
+
+  margin-top: 0;
+}
+
+.transporter__intro {
+  @include font('HNL5');
+  color: color('accessible-grey-1');
+}
+
+.transporter__link {
+  @include font('HNM5');
+  position: relative;
+  text-decoration: none;
+  padding-left: ((12/12) * 0.8) + 0.5em;
+  color: color('action-green-1');
+
+  &:hover,
+  &:focus {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .icon { // aspect ratio: 12 x 13
+    width: (12/12) * 0.8em;
+    height: (13/12) * 0.8em;
+    transform: rotate(270deg);
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -(13/12) * 0.4em;
+  }
+
+  .icon__shape {
+    fill: currentColor;
   }
 }
