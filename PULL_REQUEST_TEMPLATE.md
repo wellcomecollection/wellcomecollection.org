@@ -8,6 +8,6 @@
 - [ ] A11y testing - Have you run pa11y against the component and fixed/verified all errors, warnings and notices?
 
 ## Have the following been considered/are they needed?
-
 - [ ] Tests?
 - [ ] Docs?
+- [ ] Have you had a conversation with the right people about the implications of this feature?
