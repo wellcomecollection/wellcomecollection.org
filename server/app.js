@@ -4,7 +4,6 @@ import serve from 'koa-static';
 import {router} from './routes';
 import render from './view/render';
 import {enforceSSL} from './middleware/enforce-ssl';
-import enforceHttps from 'koa-sslify';
 
 const app = new Koa();
 
