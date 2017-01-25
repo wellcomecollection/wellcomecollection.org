@@ -279,14 +279,3 @@ function serializeNode(node) {
 
   return parse.serialize(frag);
 }
-
-function getText(nodes) {
-  console.info(nodes)
-  const t = nodes.map(node => {
-    if (node.nodeName === '#text') {
-      return node.value;
-    } else if (node.childNodes) {
-      return getText(child.childNodes);
-    }
-  });
-}
