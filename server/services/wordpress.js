@@ -4,7 +4,7 @@ const baseUri = 'https://public-api.wordpress.com/rest/v1.1/sites/blog.wellcomec
 
 export async function getPosts() {
   const uri = `${baseUri}/posts/`;
-  const response = await request(uri).query({fields: 'slug,title'});
+  const response = await request(uri).query({fields: 'slug,title,excerpt'});
 
   return response.body.posts;
 }
