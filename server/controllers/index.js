@@ -46,13 +46,27 @@ export const index = (ctx) => ctx.render('pages/index', {
 
 export const healthcheck = (ctx) => ctx.body = 'ok';
 
-export const performanceTest = (ctx) => {
+export const performanceTest = async(ctx, next) => {
+  const articleId = 'a-drop-in-the-ocean-daniel-regan';
+  const startTime = process.hrtime();
+  const article = await getArticle(articleId);
+
+  ctx.render('pages/article', {
+    pageConfig: new PageConfig({inSection: 'explore'}),
+    article: article
+  });
+
+  const endTime = process.hrtime(startTime);
+  const endTimeFormatted = `${endTime[0]}s ${endTime[1]/1000000}ms`;
+
   ctx.type = 'application/javascript';
   ctx.body = `
     if (console) {
-      console.log('Incoming from next.wellcomecollection.org');
+      console.log('Incoming from next.wellcomecollection.org, ${articleId} took ${endTimeFormatted}');
     }
   `;
+
+  return next();
 };
 
 export const explosion = (ctx) => {
