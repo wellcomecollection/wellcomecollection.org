@@ -63,7 +63,7 @@ export function convertWpImage(node) {
     const className = getAttrVal(node.attrs, 'class');
     const weights = {
       alignright: 'supporting',
-      aligncenter: 'standalone'
+      alignleft: 'standalone'
     };
 
     const weightKey = Object.keys(weights).find(wpClassName => className.indexOf(wpClassName) !== -1);
