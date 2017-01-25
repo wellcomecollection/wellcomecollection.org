@@ -54,3 +54,10 @@ export const performanceTest = (ctx) => {
     }
   `;
 };
+
+export const explosion = (ctx) => {
+  const {errorCode} = ctx.params;
+  const message = `Forced explosion of type ${errorCode}`;
+  ctx.status = parseInt(errorCode, 10);
+  ctx.body = { errorCode, message };
+};

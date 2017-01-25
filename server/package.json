@@ -12,7 +12,6 @@
     "dev": "concurrently 'npm run compile:watch' 'npm run start:watch'",
     "fractal": "fractal start —sync --port 3002",
     "fractal-build": "fractal build",
-
     "app:dev": "nodemon app.js -e js,njk --exec babel-node",
     "app:build": "babel . -d .dist --ignore=node_modules",
     "app:start": "pm2 start ./.dist/app.js --name 'wellcomecollection.org'",
