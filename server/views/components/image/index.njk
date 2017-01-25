@@ -1,7 +1,8 @@
 <figure class="figure
                {{ ' figure--full' if full }}
                {{ ' figure--bleed' if bleed }}
-               {{ ' figure--max-out-height' if maxOutHeight }}">
+               {{ ' figure--max-out-height' if maxOutHeight }}
+               {{ ' image-gallery__figure' if galleryImage }}">
   {% set sizes = image | getImageSizesFor %}
   {% if type === 'picture' %}
     <picture class="figure__picture figure__image-container">
@@ -9,7 +10,7 @@
         <source media="(min-width: {{ size }}px)"
                 srcset="{{ image.contentUrl }}?w={{ size }}">
       {%- endfor %}
-      <img class="figure__image"
+      <img class="figure__image{{' image-gallery__image' if galleryImage }}"
            src="{{ image.contentUrl }}"
            alt="{{ image.caption | striptags() }}" />
     </picture>
@@ -17,7 +18,7 @@
     <div class="figure__image-container">
       {% set comma = joiner() %}
 
-      <img class="figure__image"
+      <img class="figure__image{{' image-gallery__image' if galleryImage }}"
            src="{{ image.contentUrl }}"
            srcset="
             {%- for size in sizes -%}
@@ -29,7 +30,7 @@
 
   {% block figcaption %}
     {% if image.caption %}
-      <figcaption class="figure__caption">
+      <figcaption class="figure__caption{{' image-gallery__figure-caption' if galleryImage }}">
         <div class="flex">
           <div>{% icon 'other/picture' %}</div>
           <div>{{ image.caption }}</div>
