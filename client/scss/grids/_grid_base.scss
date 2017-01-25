@@ -32,6 +32,9 @@
   }
 
   @include respond-between('small', 'medium') {
+    // This leaves a comfortable amount of the 'next' grid
+    // item displaying in this configuration
+    // TODO: calculate this based on number of contained grid__cells
     width: 250%;
   }
 
