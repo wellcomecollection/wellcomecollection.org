@@ -1,4 +1,3 @@
-import boom from 'boom';
 import {PageConfig} from '../model/page-config';
 import {getPosts, getArticle} from '../services/wordpress';
 import {getArtefact} from '../services/artefacts';
