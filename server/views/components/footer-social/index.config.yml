@@ -52,3 +52,7 @@ context:
       service: YouTube
       url: "#"
       icon: social/youtube
+    - title: Wellcome Collection
+      service: Tumblr
+      url: "#"
+      icon: social/tumblr

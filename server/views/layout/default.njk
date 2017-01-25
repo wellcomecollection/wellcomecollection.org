@@ -1,13 +1,3 @@
-{# TODO: add shift classes and update all templates to use this macro for grid clases #}
-{%- macro gridClasses(s, m, l, xl) %}
-  {%- set gc="grid__cell" -%}
-  {{ gc }} {# Output as variable to control whitespace #}
-  {%- if s %}grid__cell--s{{ s }} {% endif %}
-  {%- if m %}grid__cell--m{{ m }} {% endif %}
-  {%- if l %}grid__cell--l{{ l }} {% endif %}
-  {%- if xl %}grid__cell--xl{{ xl }} {% endif %}
-{%- endmacro %}
-
 <!DOCTYPE html>
 <html id="top" lang="en">
   <head>
@@ -51,6 +41,71 @@
       {% block body %}
       {% endblock %}
     </div>
+
+    {% set footerSocial = {
+      columns: [
+        {
+          items: [
+            {
+              url: "https://twitter.com/explorewellcome",
+              title: "Twitter",
+              service: "Twitter",
+              icon: "social/twitter"
+            },
+            {
+              url: "https://www.facebook.com/wellcomecollection/",
+              title: "Facebook",
+              service: "Facebook",
+              icon: "social/facebook"
+            }
+          ]
+        },
+        {
+          items: [
+            {
+              url: "https://www.instagram.com/wellcomecollection/",
+              title: "Instagram",
+              service: "Instagram",
+              icon: "social/instagram"
+            },
+            {
+              url: "https://soundcloud.com/wellcomecollection",
+              title: "Soundcloud",
+              service: "Soundcloud",
+              icon: "social/soundcloud"
+            }
+          ]
+        },
+        {
+          items: [
+            {
+              url: "http://wellcomecollection.tumblr.com/",
+              title: "Tumblr",
+              service: "Tumblr",
+              icon: "social/tumblr"
+            },
+            {
+              url: "https://www.youtube.com/user/WellcomeCollection",
+              title: "YouTube",
+              service: "YouTube",
+              icon: "social/youtube"
+            }
+          ]
+        },
+        {
+          items: [
+            {
+              url: "https://www.tripadvisor.co.uk/Attraction_Review-g186338-d662065-Reviews-Wellcome_Collection-London_England.html",
+              title: "TripAdvisor",
+              service: "TripAdvisor",
+              icon: "social/tripadvisor"
+            }
+          ]
+        }
+      }
+    ] %}
+
+
     {% component 'footer', {
       navLinks: navLinks,
       openingHours: {places: pageConfig.openingHours},

@@ -60,8 +60,17 @@ export function convertWpImage(node) {
 
   if (isWpImage) {
     const picture = getImageFromWpNode(node);
+    const className = getAttrVal(node.attrs, 'class');
+    const weights = {
+      alignright: 'supporting',
+      aligncenter: 'standalone'
+    };
+
+    const weightKey = Object.keys(weights).find(wpClassName => className.indexOf(wpClassName) !== -1);
+    const weight = weightKey ? weights[weightKey] : 'default';
 
     return new BodyPart({
+      weight,
       type: 'picture',
       value: picture
     });

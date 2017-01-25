@@ -15,14 +15,19 @@
     border-top: 1px solid color('charcoal');
   }
 
+  &:hover,
+  &:focus {
+    .icon {
+      @include hover-bounce;
+    }
+  }
+
   .icon {
+    position: relative;
     width: 0.875em;
     height: 1.25em;
     margin-right: 1em;
     margin-top: 0.2em;
-    position: relative;
-    top: 0;
-    transition: top 200ms ease;
   }
 
   .icon__shape {
@@ -38,11 +43,6 @@
   .find-us:hover &,
   .find-us:focus & {
     color: color('action-green-2');
-
-    .icon {
-      animation-duration: 400ms;
-      animation-name: find-us-icon-bounce;
-    }
   }
 }
 
@@ -58,21 +58,5 @@
   .find-us:hover &,
   .find-us:focus & {
     transform: scale(1.02, 1.02);
-  }
-}
-
-@keyframes find-us-icon-bounce {
-  0% {
-    top: 0;
-    animation-timing-function: ease-in;
-  }
-
-  50% {
-    top: -0.4em;
-    animation-timing-function: ease-out;
-  }
-
-  100% {
-    top: 0;
   }
 }

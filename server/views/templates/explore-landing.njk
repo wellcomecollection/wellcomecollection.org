@@ -1,19 +1,21 @@
 {% extends "pages/explore-landing.njk" %}
 
 {% block body %}
+  {% component 'page-description', { title: 'Explore', modifiers: ['hidden'] } %}
+
   <div class="row">
     <div class="container">
       <div class="grid">
-        <div class="{{ gridClasses(s=4, m=4, l=12) }}">
-          {% component 'promo', { image: promo.image, intro: promo.intro, title: promo.title, url: promo.url, copy: promo.copy } %}
+        <div class="{{ {s:4, m:4, l:12} | gridClasses }}">
+          {% component 'promo', { modifiers: promo.modifiers, image: promo.image, meta: promo.meta, title: promo.title, url: promo.url, copy: promo.copy } %}
         </div>
-        <div class="{{ gridClasses(s=4, m=4, l=8) }}">
-          {% component 'promo', { image: promo.image, intro: promo.intro, title: promo.title, url: promo.url, copy: promo.copy } %}
+        <div class="{{ {s:4, m:4, l:8} | gridClasses }}">
+          {% component 'promo', { modifiers: promo.modifiers, image: promo.image, meta: promo.meta, title: promo.title, url: promo.url, copy: promo.copy } %}
         </div>
-        <div class="{{ gridClasses(s=4, m=4, l=4) }}">
-          {% component 'promo', { image: promo.image, intro: promo.intro, title: promo.title, url: promo.url, copy: promo.copy } %}
+        <div class="{{ {s:4, m:4, l:4} | gridClasses }}">
+          {% component 'promo', { modifiers: promo.modifiers, image: promo.image, meta: promo.meta, title: promo.title, url: promo.url, copy: promo.copy } %}
         </div>
-        <div class="{{ gridClasses(s=4, m=4, l=4) }}">
+        <div class="{{ {s:4, m:4, l:4} | gridClasses }}">
           {% component 'numbered-list', { heading: numbered_list.heading, items: numbered_list.items } %}
         </div>
       </div>

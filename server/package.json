@@ -12,7 +12,6 @@
     "dev": "concurrently 'npm run compile:watch' 'npm run start:watch'",
     "fractal": "fractal start —sync --port 3002",
     "fractal-build": "fractal build",
-
     "app:dev": "nodemon app.js -e js,njk --exec babel-node",
     "app:build": "babel . -d .dist --ignore=node_modules",
     "app:start": "pm2 start ./.dist/app.js --name 'wellcomecollection.org'",
@@ -38,8 +37,7 @@
     "parse5": "^3.0.1",
     "pm2": "^2.1.5",
     "superagent": "^3.3.1",
-    "svgo": "^0.7.1",
-    "webpack": "^2.1.0-beta.27"
+    "svgo": "^0.7.1"
   },
   "devDependencies": {
     "browserstack": "^1.5.0",
