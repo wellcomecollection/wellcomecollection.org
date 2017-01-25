@@ -51,51 +51,6 @@ context:
       type: article
       date: 2 days ago
     title: Oops!...I wrote a Britney blog post
-  - modifiers: ['transporter-child']
-    headingLevel: h3
-    url: http://google.com
-    image:
-      sources:
-      - src: https://placehold.it/1200x900
-        size: '1200'
-      - src: https://placehold.it/900x600
-        size: '900'
-      - src: https://placehold.it/450x300
-        size: '450'
-    meta: 
-      type: article
-      date: 2 days ago
-    title: Oops!...I wrote a Britney blog post
-  - modifiers: ['transporter-child']
-    headingLevel: h3
-    url: http://google.com
-    image:
-      sources:
-      - src: https://placehold.it/1200x900
-        size: '1200'
-      - src: https://placehold.it/900x600
-        size: '900'
-      - src: https://placehold.it/450x300
-        size: '450'
-    meta: 
-      type: article
-      date: 2 days ago
-    title: Oops!...I wrote a Britney blog post
-  - modifiers: ['transporter-child']
-    headingLevel: h3
-    url: http://google.com
-    image:
-      sources:
-      - src: https://placehold.it/1200x900
-        size: '1200'
-      - src: https://placehold.it/900x600
-        size: '900'
-      - src: https://placehold.it/450x300
-        size: '450'
-    meta: 
-      type: article
-      date: 2 days ago
-    title: Oops!...I wrote a Britney blog post
 variants:
   - name: Theme transporter
     context:

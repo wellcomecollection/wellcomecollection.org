@@ -1,11 +1,8 @@
 <section class="transporter">
-    {% if type === 'theme' %}
-      {% set maxNumber = 3 %}
-    {% endif %} 
     {% if type !== 'theme' %}
     <h2 class="transporter__title">{{ title }}</h2>
     {% endif %}
-    <div class="grid transporter__items">
+    <div class="grid">
     {% if type === 'theme' %}
       <div class="{{ {s:4, m:8, l:3} | gridClasses }} transporter__item">
         <p class="transporter__more">More from this theme</p>
@@ -14,17 +11,9 @@
       </div>
     {% endif %}
     {% for promo in promos %}
-      {% if maxNumber %}
-        {%if loop.index <= maxNumber %}
-      <div class="{{ {s:4, m:8} | gridClasses }} transporter__item">
-        {% component 'promo', {headingLevel: promo.headingLevel, modifiers: promo.modifiers, url: promo.url, image: promo.image, meta: promo.meta, title: promo.title, copy: promo.copy} %}
-      </div>
-        {% endif %}
-      {% else %}
         <div class="{{ {s:4, m:8} | gridClasses }} transporter__item">
           {% component 'promo', {headingLevel: promo.headingLevel, modifiers: promo.modifiers, url: promo.url, image: promo.image, meta: promo.meta, title: promo.title, copy: promo.copy} %}
         </div>
-      {% endif %}
     {% endfor %}
     </div>
       {% if themeUrl %}
