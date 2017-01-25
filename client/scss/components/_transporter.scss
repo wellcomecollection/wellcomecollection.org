@@ -19,21 +19,19 @@
   }
 }
 
-//font-sizes when there are 4 items or fewer
-//TODO change to greater than 4 selector if possible
-.transporter__item:first-child:last-child,
-.transporter__item:nth-last-child(2):first-child,
-.transporter__item:nth-last-child(2):first-child ~ .transporter__item,
-.transporter__item:nth-last-child(3):first-child,
-.transporter__item:nth-last-child(3):first-child ~ .transporter__item,
-.transporter__item:nth-last-child(4):first-child,
-.transporter__item:nth-last-child(4):first-child ~ .transporter__item {
+// font-sizes when there are 4 items or fewer
+.transporter__item:nth-last-child(-n+4):first-child,
+.transporter__item:nth-last-child(-n+4):first-child ~ .transporter__item {
   .promo__type {
-    @include font('HNL5');
+    @include respond-to('large') {
+      @include font('HNL5');
+    }
   }
 
   .promo__title {
-    @include font('WB6');
+    @include respond-to('large') {
+      @include font('WB6');
+    }
   }
 }
 
