@@ -256,3 +256,17 @@
     @include font('HNL7');
   }
 }
+
+.promo--large-text {
+  .promo__type {
+    @include respond-to('large') {
+      @include font('HNL5');
+    }
+  }
+
+  .promo__title {
+    @include respond-to('large') {
+      @include font('WB6');
+    }
+  }
+}

@@ -19,22 +19,6 @@
   }
 }
 
-// font-sizes when there are 4 items or fewer
-.transporter__item:nth-last-child(-n+4):first-child,
-.transporter__item:nth-last-child(-n+4):first-child ~ .transporter__item {
-  .promo__type {
-    @include respond-to('large') {
-      @include font('HNL5');
-    }
-  }
-
-  .promo__title {
-    @include respond-to('large') {
-      @include font('WB6');
-    }
-  }
-}
-
 .transporter__more {
   @include font('HNM5');
   margin-bottom: 0.5em;
