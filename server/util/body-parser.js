@@ -56,11 +56,14 @@ function convertWpStandfirst(node) {
 }
 
 export function convertWpImage(node) {
-  const isWpImage = node.attrs && node.attrs.find(attr => attr.name === 'data-shortcode' && attr.value === 'caption');
+  const isWpImage = (
+    (node.attrs && node.attrs.find(attr => attr.name === 'data-shortcode' && attr.value === 'caption'))
+    || (node.childNodes && node.childNodes[0] && node.childNodes[0].nodeName === 'img')
+  );
 
   if (isWpImage) {
     const picture = getImageFromWpNode(node);
-    const className = getAttrVal(node.attrs, 'class');
+    const className = getAttrVal(node.attrs, 'class') || '';
     const weights = {
       alignright: 'supporting',
       aligncenter: 'standalone'
@@ -177,7 +180,7 @@ function getImageFromWpNode(node) {
 
   const urlObj = url.parse(getAttrVal(img.attrs, 'data-orig-file'));
   const contentUrl = `https://${urlObj.hostname}${urlObj.pathname}`;
-  const caption = captionNode.childNodes[0].value;
+  const caption = captionNode ? captionNode.childNodes[0].value : null;
   const [width, height] = getAttrVal(img.attrs, 'data-orig-size').split(',');
 
   return new Picture({
