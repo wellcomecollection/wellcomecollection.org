@@ -53,10 +53,9 @@
     {% if meta.type %}
       <span class="promo__type" aria-hidden="true">{{ meta.type }}</span>
     {% endif %}
-    {% if headingLevel %}
-      <{{ headingLevel }} {% else %}<h2 {% endif %} class="promo__title">
+      <{{ headingLevel or 'h2'}} class="promo__title">
         {{ title }}
-    {% if headingLevel %}</{{ headingLevel }}>{% else %}</h2>{% endif %} 
+      </{{ headingLevel or 'h2'}}>
     {% if meta.date %}
       <span class="promo__date">{{ meta.date }}</span>
     {% endif %}
