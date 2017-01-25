@@ -8,6 +8,8 @@
                 {{- ' body-part--sticky js-sticky' if bodyPart.weight === 'supporting'  -}}">
       {% if bodyPart.type === 'standfirst' %}
         {% component 'standfirst', { body: bodyPart.value } %}
+      {% elif bodyPart.type === 'heading' %}
+        <h2>{{ bodyPart.value.value | safe }}</h2>
       {% elif bodyPart.type === 'picture' %}
         {% component 'image', { image: bodyPart.value } %}
       {% elif bodyPart.type === 'video' %}
