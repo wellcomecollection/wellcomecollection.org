@@ -11,9 +11,9 @@
       </div>
     {% endif %}
     {% for promo in promos %}
-        <div class="{{ {s:4, m:8} | gridClasses }} transporter__item">
-          {% component 'promo', {headingLevel: promo.headingLevel, modifiers: promo.modifiers, url: promo.url, image: promo.image, meta: promo.meta, title: promo.title, copy: promo.copy} %}
-        </div>
+      <div class="{{ {s:4, m:8} | gridClasses }} transporter__item">
+        {% component 'promo', {headingLevel: promo.headingLevel, modifiers: promo.modifiers.concat(['large-text']) if (promos.length <= 4) else promo.modifiers,  url: promo.url, image: promo.image, meta: promo.meta, title: promo.title, copy: promo.copy} %}
+      </div>
     {% endfor %}
     </div>
       {% if themeUrl %}
