@@ -6,8 +6,12 @@
 {% component 'page-description', { title: article.headline, modifiers: ['a'], lead: true } %}
 
 {% for media in article.mainMedia %}
-  {% if media.weighting == 'leading' %}
-    {% component 'media-item', { media: media } %}
+  {% if (media.contentUrl) %}
+    {% component 'main-media', {
+      image: media,
+      full: true,
+      maxOutHeight: true
+    } %}
   {% endif %}
 {% endfor %}
 

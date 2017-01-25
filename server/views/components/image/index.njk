@@ -28,11 +28,13 @@
   {% endif %}
 
   {% block figcaption %}
-    <figcaption class="figure__caption">
-      <div class="flex">
-        <div>{% icon 'other/picture' %}</div>
-        <div>{{ image.caption }}</div>
-      </div>
-    </figcaption>
+    {% if image.caption %}
+      <figcaption class="figure__caption">
+        <div class="flex">
+          <div>{% icon 'other/picture' %}</div>
+          <div>{{ image.caption }}</div>
+        </div>
+      </figcaption>
+    {% endif %}
   {% endblock %}
 </figure>

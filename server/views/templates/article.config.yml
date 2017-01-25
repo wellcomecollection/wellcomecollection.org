@@ -7,10 +7,10 @@ context:
     tags: "@tags.tags"
     author: "@author"
     mainMedia:
-    - mediaType: image
-      weighting: leading
-      uri: "https://placehold.it/1200x900"
-      altText: "'Choose safer sex' poster with a photograph of two men in bed"
+    - contentUrl: "https://placehold.it/1200x900"
+      caption: "'Choose safer sex' poster with a photograph of two men in bed"
+      width: 1200
+      height: 900
     articleBody:
     - type: html
       value: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at volutpat erat. Quisque non eros viverra, tincidunt mi a, interdum libero. Vestibulum efficitur ex sed est interdum, ac placerat enim blandit. Phasellus sodales velit non est bibendum tincidunt. Phasellus ut ligula at velit congue lobortis. Fusce at suscipit purus, ac tincidunt orci.</p>"
