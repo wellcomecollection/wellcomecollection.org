@@ -1,3 +1,5 @@
-.touch-scroll { // Adds momentum scrolling to iOS
+// Adds momentum scrolling to iOS
+// TODO: consider removing if/when scroll snapping is implemented
+.touch-scroll {
   -webkit-overflow-scrolling: touch;
 }
