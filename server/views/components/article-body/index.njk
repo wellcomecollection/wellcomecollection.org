@@ -4,7 +4,7 @@
       <h2>{{ bodyPart.value.name }}</h2>
     {% endif %}
     <div class="body-part
-                {{- ' body-part--full-width touch-scroll js-full-width' if bodyPart.weight === 'standalone'  -}}
+                {{- ' body-part--full-width js-full-width' if bodyPart.weight === 'standalone'  -}}
                 {{- ' body-part--sticky js-sticky' if bodyPart.weight === 'supporting'  -}}">
       {% if bodyPart.type === 'standfirst' %}
         {% component 'standfirst', { body: bodyPart.value } %}
@@ -17,7 +17,7 @@
       {% elif bodyPart.type === 'interview' %}
         {% component 'interview', { interview: bodyPart.value } %}
       {% elif bodyPart.type === 'imageGallery' %}
-        <div class="body-part__scroller">
+        <div class="body-part__scroller touch-scroll">
           <div class="body-part__scroller-content">
             {% component 'image-gallery', { imageGallery: bodyPart.value } %}
           </div>
