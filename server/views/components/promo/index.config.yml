@@ -5,19 +5,19 @@ context:
   url: http://google.com
   image:
     sources:
-    - src: https://placehold.it/1200x900
-      size: '1200'
-    - src: https://placehold.it/900x600
-      size: '900'
-    - src: https://placehold.it/450x300
-      size: '450'
+    - src: https://placehold.it/1600x900
+      size: '1600'
+    - src: https://placehold.it/800x450
+      size: '800'
+    - src: https://placehold.it/400x225
+      size: '400'
     alt: image alt text
-  meta: 
+  meta:
     type: article
-    date: 
+    date:
     length: length
-  title: Title
-  copy: Copy lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos eius debitis, ad unde laborum assumenda numquam suscipit sint iure itaque aut pariatur, neque omnis vel tenetur sapiente nam iusto quas.
+  title: The natural power of electricity
+  copy: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris at hendrerit justo. Donec quis nibh malesuada, accumsan libero eu, commodo.
 variants:
 - name: Article
   context:
@@ -25,14 +25,14 @@ variants:
     url: http://google.com
     image:
       sources:
-      - src: https://placehold.it/1200x900
-        size: '1200'
-      - src: https://placehold.it/900x600
-        size: '900'
-      - src: https://placehold.it/450x300
-        size: '450'
+      - src: https://placehold.it/1600x900
+        size: '1600'
+      - src: https://placehold.it/800x450
+        size: '800'
+      - src: https://placehold.it/400x225
+        size: '400'
       alt: placeholder image
-    meta: 
+    meta:
       type: article
       date:
     title: Animating the body
@@ -50,7 +50,7 @@ variants:
       - src: https://wellcomecollection.files.wordpress.com/2017/01/copyright-daniel-regan-2.png?w=1400&h=&crop=1
         size: '450'
       alt: placeholder image
-    meta: 
+    meta:
       type: 'electricity: part 02'
       date:
     title: Frakenstein's Monster
@@ -61,14 +61,14 @@ variants:
     url: http://google.com
     image:
       sources:
-      - src: https://placehold.it/1200x900
-        size: '1200'
-      - src: https://placehold.it/900x600
-        size: '900'
-      - src: https://placehold.it/450x300
-        size: '450'
+      - src: https://placehold.it/1600x900
+        size: '1600'
+      - src: https://placehold.it/800x450
+        size: '800'
+      - src: https://placehold.it/400x225
+        size: '400'
       alt: placeholder image
-    meta: 
+    meta:
       type:
       date: 2 days ago
     title: Oops!...I wrote a Britney blog post
@@ -79,14 +79,14 @@ variants:
     url: http://google.com
     image:
       sources:
-      - src: https://placehold.it/1200x900
-        size: '1200'
-      - src: https://placehold.it/900x600
-        size: '900'
-      - src: https://placehold.it/450x300
-        size: '450'
+      - src: https://placehold.it/1600x900
+        size: '1600'
+      - src: https://placehold.it/800x450
+        size: '800'
+      - src: https://placehold.it/400x225
+        size: '400'
       alt: placeholder image
-    meta: 
+    meta:
       type: gallery
       date:
       length: 1
@@ -98,14 +98,14 @@ variants:
     url: http://google.com
     image:
       sources:
-      - src: https://placehold.it/1200x900
-        size: '1200'
-      - src: https://placehold.it/900x600
-        size: '900'
-      - src: https://placehold.it/450x300
-        size: '450'
+      - src: https://placehold.it/1600x900
+        size: '1600'
+      - src: https://placehold.it/800x450
+        size: '800'
+      - src: https://placehold.it/400x225
+        size: '400'
       alt: placeholder image
-    meta: 
+    meta:
       type: podcast
       date:
       length: '56:02'
@@ -117,16 +117,35 @@ variants:
     url: http://google.com
     image:
       sources:
-      - src: https://placehold.it/1200x900
-        size: '1200'
-      - src: https://placehold.it/900x600
-        size: '900'
-      - src: https://placehold.it/450x300
-        size: '450'
+      - src: https://placehold.it/1600x900
+        size: '1600'
+      - src: https://placehold.it/800x450
+        size: '800'
+      - src: https://placehold.it/400x225
+        size: '400'
       alt: placeholder image
-    meta: 
+    meta:
       type: video
       date:
       length: '1:37'
     title: Tomorrow Belongs to Me
     copy:
+- name: Standalone series article
+  context:
+    modifiers: ['series']
+    standalone: true
+    url: http://google.com
+    image:
+      sources:
+      - src: https://wellcomecollection.files.wordpress.com/2017/01/copyright-daniel-regan-2.png?w=1400&h=&crop=1
+        size: '1200'
+      - src: https://wellcomecollection.files.wordpress.com/2017/01/copyright-daniel-regan-2.png?w=1400&h=&crop=1
+        size: '900'
+      - src: https://wellcomecollection.files.wordpress.com/2017/01/copyright-daniel-regan-2.png?w=1400&h=&crop=1
+        size: '450'
+      alt: placeholder image
+    meta:
+      type: 'electricity: part 02'
+      date:
+    title: Frakenstein's Monster
+    copy: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos eius debitis, ad unde laborum assumenda numquam suscipit sint iure itaque aut pariatur, neque omnis vel tenetur sapiente nam iusto quas.

@@ -6,7 +6,7 @@
   <div class="row row--no-bottom-padding row--cream row--has-wobbly-background">
     <div class="container">
       <div class="grid">
-        <div class="{{ {s:4, m:8, l:12} | gridClasses }}">
+        <div class="{{ {s:4, m:8, l:12, xl:12} | gridClasses }}">
           {% component 'promo', { modifiers: ['series'], image: promo.image, meta: promo.meta, title: promo.title, url: promo.url, copy: promo.copy } %}
         </div>
       </div>
@@ -35,7 +35,7 @@
   <div class="row">
     <div class="container">
       <div class="grid">
-        <div class="{{ {s:4, m:4, l:12} | gridClasses }}">
+        <div class="{{ {s:4, m:4, l:12, xl:12} | gridClasses }}">
           {% component 'promo', { modifiers: promo.modifiers, image: promo.image, meta: promo.meta, title: promo.title, url: promo.url, copy: promo.copy } %}
         </div>
         <div class="{{ {s:4, m:4, l:8} | gridClasses }}">
@@ -50,4 +50,9 @@
       </div>
     </div>
   </div>
+
+  <div class="row">
+    {% component 'promo', { modifiers: ['series'], standalone: true, image: promo.image, meta: promo.meta, title: promo.title, url: promo.url, copy: promo.copy } %}
+  </div>
+
 {% endblock %}

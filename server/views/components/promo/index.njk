@@ -3,7 +3,10 @@
 {#TODO Test with screen reader#}
 {#TODO jsConfig#}
 {#TODO className unitlity for promo classes#}
-<a href="{{ url }}" class="promo  {% if meta.type === 'gallery' or meta.type === 'podcast' or meta.type === 'video' %}promo--{{meta.type}}{% endif %} {% for modifier in modifiers %}promo--{{ modifier }} {% endfor %} ">
+<a href="{{ url }}" class="promo
+  {% if meta.type %}promo--{{ meta.type }}{% endif %}
+  {{ 'promo--standalone' if standalone }}
+  {% for modifier in modifiers %}promo--{{ modifier }} {% endfor %}">
   <div class="promo__image-container">
     <img class="promo__image"
       src="{{ image.sources[(image.sources | length) - 1].src }}"
@@ -19,9 +22,9 @@
           <defs>
             <filter id="duotone" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
               <feColorMatrix type="matrix"
-                values="0.90 0 0 0   0.40 
-                        0.95 0 0 0  -0.10  
-                      -0.20 0 0 0   0.65 
+                values="0.90 0 0 0   0.40
+                        0.95 0 0 0  -0.10
+                      -0.20 0 0 0   0.65
                           0  0 0 1   0" />
             </filter>
           </defs>
@@ -49,18 +52,34 @@
       </div>
     {% endif %}
   </div>
-  <header class="promo__description">
-    {% if meta.type %}
-      <span class="promo__type" aria-hidden="true">{{ meta.type }}</span>
-    {% endif %}
-      <{{ headingLevel or 'h2'}} class="promo__title">
-        {{ title }}
-      </{{ headingLevel or 'h2'}}>
-    {% if meta.date %}
-      <span class="promo__date">{{ meta.date }}</span>
-    {% endif %}
-    {% if copy %}
-      <span  class="promo__copy">{{ copy }}</span>
-    {% endif %}
-  </header>
+  {% if standalone %}
+  <div class="row row--cream">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {l:10, shiftL:1, m:6, shiftM:1, s:4} | gridClasses }}">
+        {% endif %}
+          <header class="promo__description">
+            <div class="promo__heading">
+              {% if meta.type %}
+                <span class="promo__type" aria-hidden="true">{{ meta.type }}</span>
+              {% endif %}
+                <{{ headingLevel or 'h2'}} class="promo__title">
+                  {{ title }}
+                </{{ headingLevel or 'h2'}}>
+              {% if meta.date %}
+                <span class="promo__date">{{ meta.date }}</span>
+              {% endif %}
+            </div>
+            {% if copy %}
+              <span  class="promo__copy">{{ copy }}</span>
+            {% endif %}
+          </header>
+        {% if standalone %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+
 </a>
