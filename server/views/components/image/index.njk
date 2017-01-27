@@ -19,7 +19,7 @@
       {% set comma = joiner() %}
 
       <img class="figure__image{{' image-gallery__image' if galleryImage }}"
-           src="{{ image.contentUrl }}"
+           src="{{ image.contentUrl }}?w={{ sizes[3] }}"
            srcset="
             {%- for size in sizes -%}
               {{ comma() }}{{ image.contentUrl }}?w={{ size }} {{ size }}w
