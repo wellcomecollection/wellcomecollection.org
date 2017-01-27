@@ -132,8 +132,7 @@ variants:
     copy:
 - name: Standalone series article
   context:
-    modifiers: ['series']
-    standalone: true
+    modifiers: ['series, standalone']
     url: http://google.com
     image:
       sources:

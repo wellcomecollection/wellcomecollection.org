@@ -5,7 +5,6 @@
 {#TODO className unitlity for promo classes#}
 <a href="{{ url }}" class="promo
   {% if meta.type %}promo--{{ meta.type }}{% endif %}
-  {{ 'promo--standalone' if standalone }}
   {% for modifier in modifiers %}promo--{{ modifier }} {% endfor %}">
   <div class="promo__image-container">
     <img class="promo__image"
@@ -52,33 +51,34 @@
       </div>
     {% endif %}
   </div>
-  {% if standalone %}
-  <div class="row row--cream">
-    <div class="container">
-      <div class="grid">
-        <div class="{{ {l:10, shiftL:1, m:6, shiftM:1, s:4} | gridClasses }}">
-        {% endif %}
-          <header class="promo__description">
-            <div class="promo__heading">
-              {% if meta.type %}
-                <span class="promo__type" aria-hidden="true">{{ meta.type }}</span>
+
+  {% if modifiers and modifiers | contains('standalone') %}
+    <div class="row row--cream">
+      <div class="container">
+        <div class="grid">
+          <div class="{{ {l:10, shiftL:1, m:6, shiftM:1, s:4} | gridClasses }}">
+          {% endif %}
+            <header class="promo__description">
+              <div class="promo__heading">
+                {% if meta.type %}
+                  <span class="promo__type" aria-hidden="true">{{ meta.type }}</span>
+                {% endif %}
+                  <{{ headingLevel or 'h2'}} class="promo__title">
+                    {{ title }}
+                  </{{ headingLevel or 'h2'}}>
+                {% if meta.date %}
+                  <span class="promo__date">{{ meta.date }}</span>
+                {% endif %}
+              </div>
+              {% if copy %}
+                <span  class="promo__copy">{{ copy }}</span>
               {% endif %}
-                <{{ headingLevel or 'h2'}} class="promo__title">
-                  {{ title }}
-                </{{ headingLevel or 'h2'}}>
-              {% if meta.date %}
-                <span class="promo__date">{{ meta.date }}</span>
-              {% endif %}
-            </div>
-            {% if copy %}
-              <span  class="promo__copy">{{ copy }}</span>
-            {% endif %}
-          </header>
-        {% if standalone %}
+            </header>
+          {% if modifiers and modifiers | contains('standalone') %}
+          </div>
         </div>
       </div>
     </div>
-  </div>
   {% endif %}
 
 
