@@ -4,7 +4,7 @@
 {#TODO jsConfig#}
 {#TODO className unitlity for promo classes#}
 <a href="{{ url }}" class="promo
-  {% if meta.type %}promo--{{ meta.type }}{% endif %}
+  {% if meta.type and not meta.type | contains(' ') %}promo--{{ meta.type }}{% endif %}
   {% for modifier in modifiers %}promo--{{ modifier }} {% endfor %}">
   <div class="promo__image-container">
     <img class="promo__image"
