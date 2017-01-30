@@ -1,3 +1,4 @@
+/* global Raven */
 import 'core-js/fn/object/assign';
 
 import {message} from './wellcome';
@@ -49,11 +50,10 @@ const init = () => {
   }
 };
 
-
 function initWithRaven() {
   try {
     init();
-  } catch(e) {
+  } catch (e) {
     Raven.captureException(e);
   }
 }
