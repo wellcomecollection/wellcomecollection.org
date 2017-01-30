@@ -1,7 +1,6 @@
-{% extends 'components/image/index.njk' %}
+{% extends 'components/captioned-image/index.njk' %}
 {% block figcaption %}
   {% component 'wobbly-edge', {background: 'cream'} %}
-
   {% if image.caption %}
     <div class="{{ 'row row--cream' if full }}">
       <div class="{{ 'container' if full }}">
@@ -14,4 +13,3 @@
     </div>
   {% endif %}
 {% endblock %}
-

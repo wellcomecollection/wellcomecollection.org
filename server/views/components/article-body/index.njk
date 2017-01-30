@@ -9,7 +9,7 @@
       {% if bodyPart.type === 'standfirst' %}
         {% component 'standfirst', { body: bodyPart.value } %}
       {% elif bodyPart.type === 'picture' %}
-        {% component 'image', { image: bodyPart.value } %}
+        {% component 'captioned-image', { image: bodyPart.value } %}
       {% elif bodyPart.type === 'video' %}
         {% component 'iframed-video', {video: bodyPart.value} %}
       {% elif bodyPart.type === 'list' %}
