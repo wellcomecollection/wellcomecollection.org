@@ -1,0 +1,18 @@
+<figure class="captioned-image
+              {{ ' captioned-image--full' if full }}
+              {{ ' captioned-image--bleed' if bleed }}
+              {{ ' captioned-image--max-out-height' if maxOutHeight }} 
+              image-gallery__captioned-image"> {#this should be passed in#}
+  <div class="captioned-image__image-container">
+    {% component 'image', {classes: imageClasses.concat(['captioned-image__image'])  if imageClasses else ['captioned-image__image'], image: image, sizesQueries: sizesQueries } %}
+  </div>
+
+  {% block figcaption %}
+    <figcaption class="captioned-image__caption">
+      <div class="flex">
+        <div>{% icon 'other/picture' %}</div>
+        <div>{{ image.caption }}</div>
+      </div>
+    </figcaption>
+  {% endblock %}
+</figure>

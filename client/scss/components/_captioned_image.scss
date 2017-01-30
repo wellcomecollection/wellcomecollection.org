@@ -1,9 +1,8 @@
-//* @define figure
-
-.figure {
+//* @define captioned-image
+.captioned-image {
   margin: 0 0 $vertical-space-unit;
 
-  &.figure--bleed {
+  &.captioned-image--bleed {
     @include bleed(map-get($gutter-width, 'small'));
 
     @include respond-to('medium') {
@@ -15,22 +14,22 @@
     }
   }
 
-  &.figure--full {
+  &.captioned-image--full {
     margin-bottom: 0;
   }
 }
 
-.figure__image {
+.captioned-image__image {
   width: 100%;
   display: block;
   margin-bottom: 1rem;
 
-  .figure--full & {
+  .captioned-image--full & {
     margin-bottom: 0;
   }
 }
 
-.figure__caption {
+.captioned-image__caption {
   @include font('LR3');
 
   @include respond-to('medium') {
@@ -42,7 +41,7 @@
   padding-bottom: 1rem;
   border-bottom: 1px solid color('keyline-grey');
 
-  .figure--full & {
+  .captioned-image--full & {
     padding-top: 1rem;
     margin-bottom: 0.5rem;
   }
@@ -76,16 +75,16 @@
   /* stylelint-enable plugin/selector-bem-pattern */
 }
 
-.figure__caption--no-underline {
+.captioned-image__caption--no-underline {
   border-bottom: 0;
 }
 
-.figure--max-out-height {
-  .figure__image-container {
+.captioned-image--max-out-height {
+  .captioned-image__image-container {
     background: color('black');
   }
 
-  .figure__image {
+  .captioned-image__image {
     max-height: 70vh;
     width: auto;
     margin-left: auto;
