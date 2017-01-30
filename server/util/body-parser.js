@@ -1,5 +1,6 @@
 import parse from 'parse5';
 import url from 'url';
+import entities from 'entities';
 import {Record} from 'immutable';
 import {ImageGallery} from '../model/image-gallery';
 import {Picture} from '../model/picture';
@@ -14,7 +15,7 @@ const BodyPart = Record({
 
 export function bodyParser(bodyText) {
   const fragment = getFragment(bodyText);
-  const preCleaned = cleanNodes(fragment.childNodes, [removeEmptyTextNodes]);
+  const preCleaned = cleanNodes(fragment.childNodes, [removeEmptyTextNodes, decodeHtmlEntities]);
   const bodyParts = explodeIntoBodyParts(preCleaned);
 
   return bodyParts;
@@ -46,6 +47,19 @@ export function explodeIntoBodyParts(nodes) {
 
 export function removeEmptyTextNodes(nodes) {
   return nodes.filter(node => !isEmptyText(node));
+}
+
+function decodeHtmlEntities(nodes) {
+  return nodes.map(node => {
+    if (node.nodeName === '#text') {
+      const decodedVal = entities.decodeHTML(node.value);
+      // Bah, more mutation - I wish I had a copy.
+      node.value = decodedVal;
+      return node;
+    } else {
+      return node;
+    }
+  });
 }
 
 function convertWpStandfirst(node) {
