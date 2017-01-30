@@ -1,5 +1,5 @@
 module.exports = {
-  entry: ['babel-polyfill', './js/app.js'],
+  entry: './js/app.js',
   output: {
     filename: 'app.js'
   },
