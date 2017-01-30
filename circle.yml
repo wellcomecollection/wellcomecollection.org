@@ -15,3 +15,4 @@ deployment:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push wellcome/wellcomecollection:$CIRCLE_BUILD_NUM
       - ./build-cardigan.sh
+      - curl https://api.speedtracker.org/v1/test/wellcometrust/speedtracker/master/default?key=$SPEEDTRACKER_KEY
