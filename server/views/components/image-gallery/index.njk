@@ -2,9 +2,9 @@
   {% for item in imageGallery.items %}
   {% set smallWidth = item.width/item.height*204 %}
   {% set largeWidth = item.width/item.height*640 %}
-  {% set queries = ['(max-width: 600px) ', smallWidth, 'px, ', largeWidth, 'px'] %}
+  {% set queries = '(max-width: 600px) ' + smallWidth + 'px, ' + largeWidth + 'px' %}
   <div class="image-gallery__item">
-    {% component 'captioned-image', {modifiers: ['max-out-height'], image: item, sizesQueries: queries | join() } %}
+    {% component 'captioned-image', {modifiers: ['max-out-height'], image: item, sizesQueries: queries } %}
   </div>
   {% endfor %}
 </div>
