@@ -22,6 +22,8 @@
             {% component 'image-gallery', { imageGallery: bodyPart.value } %}
           </div>
         </div>
+      {% elif bodyPart.type === 'tweet' %}
+        {% component 'tweet', { tweet: bodyPart.value } %}
       {% else %}
         {{ bodyPart.value | safe }}
       {% endif %}

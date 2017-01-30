@@ -5,6 +5,7 @@ import {ImageGallery} from '../model/image-gallery';
 import {Picture} from '../model/picture';
 import {Video} from '../model/video';
 import {List} from '../model/list';
+import {Tweet} from '../model/tweet';
 
 const BodyPart = Record({
   weight: 'default',
@@ -26,7 +27,7 @@ export function getFragment(bodyText) {
 
 export function explodeIntoBodyParts(nodes) {
   const parts = nodes.map((node, nodeIndex) => {
-    const converters = [convertWpImage, convertWpVideo, convertWpList, findWpImageGallery];
+    const converters = [convertWpImage, convertWpVideo, convertWpList, findWpImageGallery, convertTweet];
 
     // TODO: Tidy up typing here
     const maybeBodyPart = nodeIndex === 0 ? convertWpStandfirst(node) :
@@ -125,6 +126,24 @@ export function convertWpList(node) {
   } else {
     return node;
   }
+}
+
+function convertTweet(node) {
+  const className = node.attrs && getAttrVal(node.attrs, 'class');
+  const isTweet = Boolean(className && className.match('embed-twitter'));
+
+  if (!isTweet) return node;
+
+  const tweetHtml = node.childNodes.reduce((acc, cur) => {
+    return acc + serializeNode(cur);
+  }, '');
+
+  return new BodyPart({
+    type: 'tweet',
+    value: new Tweet({
+      html: tweetHtml
+    })
+  });
 }
 
 export function findWpImageGallery(node) {
