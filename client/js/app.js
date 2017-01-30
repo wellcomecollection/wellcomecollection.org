@@ -9,7 +9,9 @@ import wobblyEdge from './components/wobbly-edge';
 import cookieNotification from './components/cookie-notification';
 import preventOverlapping from './components/prevent-overlapping';
 import makeSticky from './components/make-sticky.js';
+import lazySizes from 'lazySizes';
 message();
+lazySizes.init();
 
 const init = () => {
   const cookieEl = document.getElementById('cookie-notification');
