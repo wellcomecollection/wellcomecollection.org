@@ -9,8 +9,7 @@
   {% if (media.contentUrl) %}
     {% component 'main-media', {
       image: media,
-      full: true,
-      maxOutHeight: true
+      modifiers: ['full', 'max-out-height']
     } %}
   {% endif %}
 {% endfor %}
