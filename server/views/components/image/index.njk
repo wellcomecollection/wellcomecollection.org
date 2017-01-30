@@ -1,7 +1,7 @@
 {% set sizes = image | getImageSizesFor %}
 {% set comma = joiner() %}
-{% set queryComma = joiner() %}  
-<img class="image{% for class in classes %} {{class}}{% endfor %}"
+{% set queryComma = joiner() %}
+<img class="image"
       src="{{ image.contentUrl }}?w={{ sizes[3] }}"
       srcset="
       {%- for size in sizes -%}

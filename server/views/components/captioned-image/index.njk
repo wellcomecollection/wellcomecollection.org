@@ -1,10 +1,6 @@
-<figure class="captioned-image
-              {{ ' captioned-image--full' if full }}
-              {{ ' captioned-image--bleed' if bleed }}
-              {{ ' captioned-image--max-out-height' if maxOutHeight }} 
-              image-gallery__captioned-image"> {#this should be passed in#}
+<figure class="captioned-image {% for modifier in modifiers %} captioned-image--{{modifier}}{% endfor %}">
   <div class="captioned-image__image-container">
-    {% component 'image', {classes: imageClasses.concat(['captioned-image__image'])  if imageClasses else ['captioned-image__image'], image: image, sizesQueries: sizesQueries } %}
+    {% component 'image', {modifiers: imageModifiers, image: image, sizesQueries: sizesQueries } %}
   </div>
 
   {% block figcaption %}

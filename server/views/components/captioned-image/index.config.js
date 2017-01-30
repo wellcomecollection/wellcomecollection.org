@@ -10,7 +10,7 @@ const image = new Picture({
 }).toJS();
 export const context = { image };
 export const variants = [
-  { name: 'full', context: { image, full: true } },
-  { name: 'bleed', context: { image, bleed: true } },
-  { name: 'max-out-height', context: { image, maxOutHeight: true } }
+  { name: 'full', context: { image, modifiers: ['full'] } },
+  { name: 'bleed', context: { image, modifiers: ['bleed'] } },
+  { name: 'max-out-height', context: { image, modifiers: ['max-out-height'] } }
 ];
