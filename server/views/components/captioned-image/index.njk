@@ -1,6 +1,6 @@
 <figure class="captioned-image {% for modifier in modifiers %} captioned-image--{{modifier}}{% endfor %}">
   <div class="captioned-image__image-container">
-    {% component 'image', {modifiers: imageModifiers, image: image, sizesQueries: sizesQueries } %}
+    {% component 'image', {image: image, sizesQueries: sizesQueries } %}
   </div>
 
   {% block figcaption %}

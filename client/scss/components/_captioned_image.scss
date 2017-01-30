@@ -1,30 +1,29 @@
-//* @define captioned-image
 .captioned-image {
   margin: 0 0 $vertical-space-unit;
 
-  &.captioned-image--bleed {
-    @include bleed(map-get($gutter-width, 'small'));
-
-    @include respond-to('medium') {
-      @include bleed(map-get($gutter-width, 'medium'));
-    }
-
-    @include respond-to('large') {
-      @include bleed(map-get($gutter-width, 'large'));
-    }
-  }
-
-  &.captioned-image--full {
-    margin-bottom: 0;
+  .image {
+    width: 100%;
+    display: block;
+    margin-bottom: 1rem;
   }
 }
 
-.captioned-image__image {
-  width: 100%;
-  display: block;
-  margin-bottom: 1rem;
+.captioned-image--bleed {
+  @include bleed(map-get($gutter-width, 'small'));
 
-  .captioned-image--full & {
+  @include respond-to('medium') {
+    @include bleed(map-get($gutter-width, 'medium'));
+  }
+
+  @include respond-to('large') {
+    @include bleed(map-get($gutter-width, 'large'));
+  }
+}
+
+.captioned-image--full {
+  margin-bottom: 0;
+
+  .image {
     margin-bottom: 0;
   }
 }
@@ -84,7 +83,7 @@
     background: color('black');
   }
 
-  .captioned-image__image {
+  .image {
     max-height: 70vh;
     width: auto;
     margin-left: auto;
