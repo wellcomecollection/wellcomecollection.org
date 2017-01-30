@@ -45,8 +45,17 @@ const init = () => {
   }
 };
 
+
+function initWithRaven() {
+  try {
+    init();
+  } catch(e) {
+    Raven.captureException(e);
+  }
+}
+
 if (document.readyState !== 'loading') {
-  init();
+  initWithRaven();
 } else {
-  document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('DOMContentLoaded', initWithRaven);
 }
