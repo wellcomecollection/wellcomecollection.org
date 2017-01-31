@@ -36,7 +36,7 @@ export const context = { promo };
 export const variants = [
   {
     name: 'series-article',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'series']}, {meta: {date: 'September 09 2016'}})}
+    context: {promo: Object.assign({}, promo, {modifiers: ['series']}, {meta: {type: 'Electricity: part 1', date: 'September 09 2016'}})}
   },
   {
     name: 'gallery',
