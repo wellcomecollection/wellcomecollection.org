@@ -1,3 +1,5 @@
+import 'core-js/fn/object/assign';
+
 import {message} from './wellcome';
 import { nodeList } from './util';
 import headerBurger from './components/header/burger';
