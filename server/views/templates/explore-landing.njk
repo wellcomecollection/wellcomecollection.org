@@ -7,7 +7,7 @@
     <div class="container">
       <div class="grid">
         <div class="{{ {s:4, m:8, l:12, xl:12} | gridClasses }}">
-          {% component 'promo', { modifiers: ['series'], image: promo.image, meta: promo.meta, title: promo.title, url: promo.url, copy: promo.copy } %}
+          {% component 'promo', { promo: seriesArticlePromo } %}
         </div>
       </div>
     </div>
@@ -18,15 +18,15 @@
     <div class="container container--scroll touch-scroll">
       <div class="grid grid--dividers grid--featured">
         <div class="{{ {s:4, m:4, l:4} | gridClasses }}">
-          {% component 'promo', {image: promo.image, meta: promo.meta, title: promo.title, url: promo.url, copy: promo.copy } %}
+          {% component 'promo', { promo: promo } %}
         </div>
 
         <div class="{{ {s:4, m:4, l:4} | gridClasses }}">
-          {% component 'promo', {image: promo.image, meta: promo.meta, title: promo.title, url: promo.url, copy: promo.copy } %}
+          {% component 'promo', { promo: promo } %}
         </div>
 
         <div class="{{ {s:4, m:8, l:4} | gridClasses }}">
-          {% component 'promo', { modifiers: ['series'], image: promo.image, meta: promo.meta, title: promo.title, url: promo.url, copy: promo.copy } %}
+          {% component 'promo', { promo: seriesArticlePromo } %}
         </div>
       </div>
     </div>
@@ -36,23 +36,23 @@
     <div class="container">
       <div class="grid">
         <div class="{{ {s:4, m:4, l:12, xl:12} | gridClasses }}">
-          {% component 'promo', { modifiers: promo.modifiers, image: promo.image, meta: promo.meta, title: promo.title, url: promo.url, copy: promo.copy } %}
+          {% component 'promo', { promo: promo } %}
         </div>
         <div class="{{ {s:4, m:4, l:8} | gridClasses }}">
-          {% component 'promo', { modifiers: promo.modifiers, image: promo.image, meta: promo.meta, title: promo.title, url: promo.url, copy: promo.copy } %}
+          {% component 'promo', { promo: promo } %}
         </div>
         <div class="{{ {s:4, m:4, l:4} | gridClasses }}">
-          {% component 'promo', { modifiers: promo.modifiers, image: promo.image, meta: promo.meta, title: promo.title, url: promo.url, copy: promo.copy } %}
+          {% component 'promo', { promo: promo } %}
         </div>
         <div class="{{ {s:4, m:4, l:4} | gridClasses }}">
-          {% component 'numbered-list', { heading: numbered_list.heading, items: numbered_list.items } %}
+          {% component 'numbered-list', { numberedList: numberedList } %}
         </div>
       </div>
     </div>
   </div>
 
   <div class="row">
-    {% component 'promo', { modifiers: ['series', 'standalone'], image: promo.image, meta: promo.meta, title: promo.title, url: promo.url, copy: promo.copy } %}
+    {% component 'promo', { promo: standaloneArticlePromo } %}
   </div>
 
 {% endblock %}

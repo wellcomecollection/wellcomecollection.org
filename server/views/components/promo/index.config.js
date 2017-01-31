@@ -4,7 +4,7 @@ export const name = 'Promo';
 export const handle = 'promo';
 export const collated = true;
 
-const promo = new Promo({
+export const promo = new Promo({
   url: '#',
   image: {
     sources: [
