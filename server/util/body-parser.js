@@ -132,14 +132,16 @@ function convertTweet(node) {
   const className = node.attrs && getAttrVal(node.attrs, 'class');
   const isTweet = Boolean(className && className.match('embed-twitter'));
 
-  if (!isTweet) return node;
-
-  return new BodyPart({
-    type: 'tweet',
-    value: new Tweet({
-      html: serializeNode(node)
-    })
-  });
+  if (isTweet) {
+    return new BodyPart({
+      type: 'tweet',
+      value: new Tweet({
+        html: serializeNode(node)
+      })
+    });
+  } else {
+    return node;
+  }
 }
 
 export function findWpImageGallery(node) {
