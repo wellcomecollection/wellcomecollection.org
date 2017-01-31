@@ -34,9 +34,24 @@ const promo = new Promo({
 
 export const context = { promo };
 export const variants = [
-  {name: 'series-article', context: {promo, modifiers: ['underlined', 'series']}},
-  {name: 'gallery', context: {promo, type: 'gallery', modifiers: ['underlined', 'gallery']}},
-  {name: 'podcast', context: {promo, type: 'podcast', modifiers: ['underlined', 'podcast']}},
-  {name: 'video', context: {promo, type: 'video', modifiers: ['underlined', 'video']}},
-  {name: 'standalone', context: {promo, modifiers: ['series', 'standalone']}}
+  {
+    name: 'series-article',
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'series']}, {meta: {date: 'September 09 2016'}})}
+  },
+  {
+    name: 'gallery',
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'gallery']}, {meta: {type: 'gallery'}})}
+  },
+  {
+    name: 'podcast',
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'podcast']}, {meta: {type: 'podcast', length: '01:35'}})}
+  },
+  {
+    name: 'video',
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'video']}, {meta: {type: 'video', length: '01:35'}})}
+  },
+  {
+    name: 'standalone',
+    context: {promo: Object.assign({}, promo, {modifiers: ['series', 'standalone']}, {meta: {date: 'September 09 2016'}})}
+  }
 ];

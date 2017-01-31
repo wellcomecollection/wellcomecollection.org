@@ -3,19 +3,17 @@
 {#TODO Test with screen reader#}
 {#TODO jsConfig#}
 {#TODO className unitlity for promo classes#}
-<a href="{{ url }}" class="promo
-  {% if meta.type and not meta.type | contains(' ') %}promo--{{ meta.type }}{% endif %}
-  {% for modifier in modifiers %}promo--{{ modifier }} {% endfor %}">
+<a href="{{ promo.url }}" class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %}">
   <div class="promo__image-container">
     <img class="promo__image"
-      src="{{ image.sources[(image.sources | length) - 1].src }}"
-        srcset="{%- for source in image.sources %}
+      src="{{ promo.image.sources[(promo.image.sources | length) - 1].src }}"
+        srcset="{%- for source in promo.image.sources %}
           {{ source.src }} {{ source.size }}w
-          {%- if (source !== (image.sources | last)) %}, {%- endif %}
+          {%- if (source !== (promo.image.sources | last)) %}, {%- endif %}
         {%- endfor %}"
         alt="" />
 
-    {% for modifier in modifiers %}
+    {% for modifier in promo.modifiers %}
       {% if modifier === 'series' %}
         <svg class="promo__defs">{# TODO proper filter - see Tomi; and only want this on the page once, where's best to move?#}
           <defs>
@@ -28,31 +26,31 @@
             </filter>
           </defs>
         </svg>
-        <img class="promo__image-mask promo__clip-path--{{ [1,2,3,4,5,6,7,8,9,10] | random }}" src="{{image.sources[(image.sources | length) - 1].src}}" alt="" />
+        <img class="promo__image-mask promo__clip-path--{{ [1,2,3,4,5,6,7,8,9,10] | random }}" src="{{promo.image.sources[(promo.image.sources | length) - 1].src}}" alt="" />
       {% endif %}
     {% endfor %}
 
-    {% if meta.type === 'gallery' or meta.type === 'podcast' or meta.type === 'video' %}
+    {% if promo.meta.type === 'gallery' or promo.meta.type === 'podcast' or promo.meta.type === 'video' %}
       <div class="promo__icon-container">
-        {% if meta.type === 'gallery' %}
+        {% if promo.meta.type === 'gallery' %}
           {% icon 'actions/gallery-link' %}
-        {% elif meta.type === 'podcast' %}
+        {% elif promo.meta.type === 'podcast' %}
           {% icon 'actions/volume'  %}
-        {% elif meta.type === 'video' %}
+        {% elif promo.meta.type === 'video' %}
             {% icon 'actions/play' %}
         {% endif %}
-        {% if meta.type === 'gallery' and meta.length %}
-          <span class="promo__length"><span class="promo__sr">Gallery with</span> {{ meta.length }} <span class="promo__sr">item{{ 's' if meta.length > 1 }}</span></span>
+        {% if promo.meta.type === 'gallery' and promo.meta.length %}
+          <span class="promo__length"><span class="promo__sr">Gallery with</span> {{ promo.meta.length }} <span class="promo__sr">item{{ 's' if promo.meta.length > 1 }}</span></span>
         {% endif %}
-        {% if meta.type === 'podcast' or meta.type === 'video' and meta.length %}
-          <span class="promo__sr">{% if meta.type === 'podcast' %}Podcast{%else%}Video{% endif %} lasting</span>
-          {{ meta.length }}
+        {% if promo.meta.type === 'podcast' or promo.meta.type === 'video' and promo.meta.length %}
+          <span class="promo__sr">{% if promo.meta.type === 'podcast' %}Podcast{%else%}Video{% endif %} lasting</span>
+          {{ promo.meta.length }}
         {% endif %}
       </div>
     {% endif %}
   </div>
 
-  {% if modifiers and modifiers | contains('standalone') %}
+  {% if promo.modifiers and promo.modifiers | contains('standalone') %}
     <div class="row row--cream">
       <div class="container">
         <div class="grid">
@@ -60,21 +58,21 @@
           {% endif %}
             <header class="promo__description">
               <div class="promo__heading">
-                {% if meta.type %}
-                  <span class="promo__type" aria-hidden="true">{{ meta.type }}</span>
+                {% if promo.meta.type %}
+                  <span class="promo__type" aria-hidden="true">{{ promo.meta.type }}</span>
                 {% endif %}
                   <{{ headingLevel or 'h2'}} class="promo__title">
-                    {{ title }}
+                    {{ promo.title }}
                   </{{ headingLevel or 'h2'}}>
-                {% if meta.date %}
-                  <span class="promo__date">{{ meta.date }}</span>
+                {% if promo.meta.date %}
+                  <span class="promo__date">{{ promo.meta.date }}</span>
                 {% endif %}
               </div>
               {% if copy %}
-                <span  class="promo__copy">{{ copy }}</span>
+                <span  class="promo__copy">{{ promo.copy }}</span>
               {% endif %}
             </header>
-          {% if modifiers and modifiers | contains('standalone') %}
+          {% if promo.modifiers and promo.modifiers | contains('standalone') %}
           </div>
         </div>
       </div>
