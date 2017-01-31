@@ -134,14 +134,10 @@ function convertTweet(node) {
 
   if (!isTweet) return node;
 
-  const tweetHtml = node.childNodes.reduce((acc, cur) => {
-    return acc + serializeNode(cur);
-  }, '');
-
   return new BodyPart({
     type: 'tweet',
     value: new Tweet({
-      html: tweetHtml
+      html: serializeNode(node)
     })
   });
 }
