@@ -15,7 +15,6 @@ message();
 lazysizes.init();
 
 const init = () => {
-  throw new Error('kabooom')
   const cookieEl = document.getElementById('cookie-notification');
   const burgerEl = document.querySelector('.js-header-burger');
   const headerSearchEl = document.getElementById('header-search');
