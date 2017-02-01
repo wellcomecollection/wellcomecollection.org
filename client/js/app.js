@@ -1,3 +1,6 @@
+/* global Raven */
+import 'core-js/fn/object/assign';
+
 import {message} from './wellcome';
 import { nodeList } from './util';
 import headerBurger from './components/header/burger';
@@ -7,7 +10,9 @@ import wobblyEdge from './components/wobbly-edge';
 import cookieNotification from './components/cookie-notification';
 import preventOverlapping from './components/prevent-overlapping';
 import makeSticky from './components/make-sticky.js';
+import lazysizes from 'lazysizes';
 message();
+lazysizes.init();
 
 const init = () => {
   const cookieEl = document.getElementById('cookie-notification');
@@ -45,8 +50,16 @@ const init = () => {
   }
 };
 
+function initWithRaven() {
+  try {
+    init();
+  } catch (e) {
+    Raven.captureException(e);
+  }
+}
+
 if (document.readyState !== 'loading') {
-  init();
+  initWithRaven();
 } else {
-  document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('DOMContentLoaded', initWithRaven);
 }

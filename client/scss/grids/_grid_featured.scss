@@ -1,0 +1,65 @@
+.grid--featured {
+  position: relative;
+  padding-top: $vertical-space-unit;
+  padding-bottom: 4 * $vertical-space-unit;
+  padding-left: map-get($container-padding, 'small');
+  padding-right: map-get($container-padding, 'small');
+
+  @include respond-to('medium') {
+    padding-bottom: 6 * $vertical-space-unit;
+    padding-left: map-get($container-padding, 'medium');
+    padding-right: map-get($container-padding, 'medium');
+  }
+
+  @include respond-to('large') {
+    padding-left: map-get($container-padding, 'large');
+    padding-right: map-get($container-padding, 'large');
+  }
+
+  @include respond-between('small', 'medium') {
+    // This leaves a comfortable amount of the 'next' grid
+    // item displaying in this configuration
+    // TODO: calculate this based on number of contained grid__cells
+    width: 250%;
+  }
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    left: map-get($container-padding, 'small') + map-get($gutter-width, 'small');
+    right: map-get($container-padding, 'small');
+
+    @include respond-to('medium') {
+      left: map-get($container-padding, 'medium') + map-get($gutter-width, 'medium');
+      right: map-get($container-padding, 'medium');
+    }
+
+    @include respond-to('large') {
+      left: map-get($container-padding, 'large') + map-get($gutter-width, 'large');
+      right: map-get($container-padding, 'large');
+    }
+  }
+
+  &:before {
+    top: 0;
+    height: 1px;
+    background: color('keyline-grey');
+  }
+
+  &:after {
+    bottom: 2 * $vertical-space-unit;
+    height: 22px;
+    background: color('black');
+
+    @include respond-to('medium') {
+      bottom: 4 * $vertical-space-unit;
+    }
+  }
+
+  .grid__cell {
+    @include respond-between('small', 'medium') {
+      flex: 1;
+    }
+  }
+}

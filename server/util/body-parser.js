@@ -1,10 +1,12 @@
 import parse from 'parse5';
 import url from 'url';
+import entities from 'entities';
 import {Record} from 'immutable';
 import {ImageGallery} from '../model/image-gallery';
 import {Picture} from '../model/picture';
 import {Video} from '../model/video';
 import {List} from '../model/list';
+import {Tweet} from '../model/tweet';
 
 const BodyPart = Record({
   weight: 'default',
@@ -19,7 +21,7 @@ const Heading = Record({
 
 export function bodyParser(bodyText) {
   const fragment = getFragment(bodyText);
-  const preCleaned = cleanNodes(fragment.childNodes, [removeEmptyTextNodes]);
+  const preCleaned = cleanNodes(fragment.childNodes, [removeEmptyTextNodes, decodeHtmlEntities]);
   const bodyParts = explodeIntoBodyParts(preCleaned);
 
   return bodyParts;
@@ -31,7 +33,13 @@ export function getFragment(bodyText) {
 
 export function explodeIntoBodyParts(nodes) {
   const parts = nodes.map((node, nodeIndex) => {
-    const converters = [convertWpHeading, convertWpImage, convertWpVideo, convertWpList, findWpImageGallery];
+    const converters = [
+      convertWpHeading,
+      convertWpImage,
+      convertWpVideo,
+      convertWpList,
+      findWpImageGallery
+    ];
 
     // TODO: Tidy up typing here
     const maybeBodyPart = nodeIndex === 0 ? convertWpStandfirst(node) :
@@ -51,6 +59,19 @@ export function explodeIntoBodyParts(nodes) {
 
 export function removeEmptyTextNodes(nodes) {
   return nodes.filter(node => !isEmptyText(node));
+}
+
+function decodeHtmlEntities(nodes) {
+  return nodes.map(node => {
+    if (node.nodeName === '#text') {
+      const decodedVal = entities.decodeHTML(node.value);
+      // Bah, more mutation - I wish I had a copy.
+      node.value = decodedVal;
+      return node;
+    } else {
+      return node;
+    }
+  });
 }
 
 function convertWpStandfirst(node) {
@@ -142,6 +163,22 @@ export function convertWpList(node) {
         // TODO: We should be sending a name with all lists
         name: null,
         items: list
+      })
+    });
+  } else {
+    return node;
+  }
+}
+
+function convertTweet(node) {
+  const className = node.attrs && getAttrVal(node.attrs, 'class');
+  const isTweet = Boolean(className && className.match('embed-twitter'));
+
+  if (isTweet) {
+    return new BodyPart({
+      type: 'tweet',
+      value: new Tweet({
+        html: serializeNode(node)
       })
     });
   } else {

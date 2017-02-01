@@ -1,0 +1,67 @@
+$tweakpoints: (
+  'notification-break': 1160px
+);
+
+$mega-w-size: 400px;
+
+.new-site-notice {
+  position: relative;
+  overflow: hidden;
+
+  .icon {
+    width: 2.142857em; //30/14
+    height: 1.571428em; //22/14
+  }
+}
+
+.new-site-notice:before {
+  @include font('WB1');
+  font-size: $mega-w-size;
+  content: 'W';
+  color: color('white');
+  opacity: 0.15;
+  position: absolute;
+  right: 0;
+  top: -250px;
+  transform: rotate(-30deg);
+}
+
+.new-site-notice__inner {
+  @include font('HNL7');
+
+  @include respond-to('medium') {
+    @include font('HNL6');
+  }
+
+  @include respond-to('notification-break') {
+    display: flex;
+  }
+}
+
+.new-site-notice__msg {
+  margin: 0;
+  display: flex;
+  margin-right: 1rem;
+  margin-bottom: 0.8em;
+
+  @include respond-to('notification-break') {
+    margin-bottom: 0;
+  }
+}
+
+.new-site-notice__device-ico {
+  position: relative;
+  min-width: 26px;
+  margin-right: 1em;
+}
+
+.new-site-notice__cta {
+  @include font('HNM6');
+
+  @include respond-to('medium') {
+    @include font('HNM5');
+  }
+
+  margin-right: 0.5em;
+  display: inline-block;
+}

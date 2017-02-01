@@ -1,0 +1,25 @@
+<section class="transporter">
+  {% if type !== 'theme' %}
+  <h2 class="transporter__title">{{ title }}</h2>
+  {% endif %}
+  <div class="grid">
+    {% if type === 'theme' %}
+    <div class="{{ {s:4, m:8, l:3} | gridClasses }} transporter__item">
+      <p class="transporter__more">More from this theme</p>
+      <h2 class="transporter__title">{{ title }}</h2>
+      <p class="transporter__intro">{{ introCopy }}</p>
+    </div>
+    {% endif %}
+    {% for promo in promos %}
+    <div class="{{ {s:4, m:8} | gridClasses }} transporter__item">
+      {% component 'promo', {headingLevel: promo.headingLevel, modifiers: promo.modifiers.concat(['large-text']) if (promos.length <= 4) else promo.modifiers,  url: promo.url, image: promo.image, meta: promo.meta, title: promo.title, copy: promo.copy} %}
+    </div>
+    {% endfor %}
+  </div>
+  {% if themeUrl %}
+  <a class="transporter__link" href="{{ themeUrl }}">
+    {% icon 'actions/arrow-small' %}
+    Full theme
+  </a>
+  {% endif %}
+</section>

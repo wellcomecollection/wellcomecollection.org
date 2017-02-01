@@ -53,3 +53,27 @@ resource "aws_alb_listener" "wellcomecollection_https" {
     type             = "forward"
   }
 }
+
+# TODO: We are manually applying the email subscription to this topic as terraform doesn't support
+# the email protocol for good reason. See:
+# https://www.terraform.io/docs/providers/aws/r/sns_topic_subscription.html#protocols-supported
+resource "aws_sns_topic" "wellcomecollection_alb_500_alarm" {
+  name = "wellcomecollection-alb-500-alarm"
+}
+
+resource "aws_cloudwatch_metric_alarm" "wellcomecollection_alb_500" {
+  alarm_description = "Monitoring any 500 errors from the ALB"
+  alarm_name = "wellcomecollection-alb-500"
+  alarm_actions = ["${aws_sns_topic.wellcomecollection_alb_500_alarm.arn}"]
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods = "1"
+  metric_name = "HTTPCode_Target_5XX_Count"
+  namespace = "AWS/ApplicationELB"
+  period = "120"
+  statistic = "Sum"
+  threshold = "0"
+
+  dimensions {
+    LoadBalancer = "${replace("${aws_alb.wellcomecollection_alb.arn}", "/arn:.*?:loadbalancer\\/(.*)/", "$1")}"
+  }
+}

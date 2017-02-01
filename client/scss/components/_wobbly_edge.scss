@@ -5,6 +5,11 @@
   top: 2px;
   z-index: 2;
   transition: clip-path 2000ms ease-in-out;
+  display: none;
+
+  .enhanced & {
+    display: block;
+  }
 
   @supports not ((clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0))) {
     display: none;
