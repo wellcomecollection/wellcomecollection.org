@@ -4,7 +4,7 @@ export const name = 'Numbered list';
 export const handle = 'numbered-list';
 
 export const numberedList = new NumberedList({
-  heading: 'Latest',
+  name: 'Latest',
   items: [
     {
       title: 'Beatboxing tutorial #1: Using the air in your mouth',
