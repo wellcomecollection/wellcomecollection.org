@@ -1,5 +1,4 @@
 const webpack = require('webpack');
-const minimise = process.argv.indexOf('--dev') === -1;
 
 module.exports = {
   entry: './js/app.js',
@@ -14,7 +13,7 @@ module.exports = {
       loader: 'babel-loader'
     }]
   },
-  plugins: minimise ? [
+  plugins: [
     new webpack.optimize.UglifyJsPlugin()
-  ] : []
+  ]
 };
