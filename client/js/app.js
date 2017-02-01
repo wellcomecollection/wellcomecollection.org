@@ -55,6 +55,7 @@ function initWithRaven() {
     init();
   } catch (e) {
     Raven.captureException(e);
+    throw e;
   }
 }
 
