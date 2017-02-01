@@ -3,7 +3,7 @@ import url from 'url';
 import entities from 'entities';
 import {Record} from 'immutable';
 import {ImageGallery} from '../model/image-gallery';
-import {Picture} from '../model/picture';
+import {picture} from '../model/picture';
 import {Video} from '../model/video';
 import {List} from '../model/list';
 import {Tweet} from '../model/tweet';
@@ -211,7 +211,7 @@ export function findWpImageGallery(node) {
           const height = parseInt(getAttrVal(img.attrs, 'data-original-height'), 10);
           const contentUrl = getAttrVal(img.attrs, 'data-orig-file');
           const caption = getAttrVal(img.attrs, 'alt');
-          return new Picture({
+          return picture({
             contentUrl,
             caption,
             width,
@@ -249,7 +249,7 @@ function getImageFromWpNode(node) {
   const caption = captionNode ? captionNode.childNodes[0].value : null;
   const [width, height] = getAttrVal(img.attrs, 'data-orig-size').split(',');
 
-  return new Picture({
+  return picture({
     contentUrl,
     caption,
     url: href,
