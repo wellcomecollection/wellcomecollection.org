@@ -1,42 +1,33 @@
 import { Promo } from '../../../model/promo';
+import Article from '../../../model/article';
+import mockJson from '../../../test/mocks/wp-api.json';
+
+const article = Article.fromWpApi(mockJson);
+const image = article.mainImage.get('contentUrl');
+const alt = article.mainImage.get('caption');
+const copy = article.bodyParts.find(part => part.get('type') === 'standfirst').value;
+const title = article.headline;
 
 export const name = 'Promo';
 export const handle = 'promo';
 export const collated = true;
 
 export const promo = new Promo({
+  modifiers: ['underline'],
   url: '#',
-  image: {
-    sources: [
-      {
-        src: 'https://placehold.it/1600x900',
-        size: 1600
-      },
-      {
-        src: 'https://placehold.it/800x450',
-        size: 800
-      },
-      {
-        src: 'https://placehold.it/400x225',
-        size: 400
-      }
-    ],
-    alt: 'image alt text'
-  },
+  image: {sources: [{src: image}], alt: alt},
+  title: title,
+  copy: copy,
   meta: {
-    type: 'article',
-    date: null,
-    length: '01:54'
-  },
-  title: 'The natural power of electricity',
-  copy: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris at hendrerit justo. Donec quis nibh malesuada, accumsan libero eu, commodo.'
+    type: 'article'
+  }
 }).toJS();
 
 export const context = { promo };
 export const variants = [
   {
     name: 'series-article',
-    context: {promo: Object.assign({}, promo, {modifiers: ['series']}, {meta: {type: 'Electricity: part 1', date: 'September 09 2016'}})}
+    context: {promo: Object.assign({}, promo, {modifiers: ['series']}, {meta: {type: 'Electricity: part 1'}})}
   },
   {
     name: 'gallery',
@@ -52,6 +43,6 @@ export const variants = [
   },
   {
     name: 'standalone',
-    context: {promo: Object.assign({}, promo, {modifiers: ['series', 'standalone']}, {meta: {date: 'September 09 2016'}})}
+    context: {promo: Object.assign({}, promo, {modifiers: ['series', 'standalone']})}
   }
 ];

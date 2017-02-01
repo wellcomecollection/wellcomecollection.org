@@ -6,6 +6,5 @@ export const Promo = Record({
   image: null,
   meta: null,
   title: null,
-  copy: null,
-  type: null
+  copy: null
 });
