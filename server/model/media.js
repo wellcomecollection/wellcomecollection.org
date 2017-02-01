@@ -12,7 +12,7 @@ function findWpFeaturedImage(uri, images) {
 }
 
 function convertWpImageToMedia(wpImage) {
-  return new Picture({
+  return Picture({
     contentUrl: wpImage.URL,
     caption: wpImage.caption,
     width: wpImage.width,

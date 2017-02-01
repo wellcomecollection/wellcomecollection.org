@@ -203,7 +203,7 @@ export function findWpImageGallery(node) {
           const height = parseInt(getAttrVal(img.attrs, 'data-original-height'), 10);
           const contentUrl = getAttrVal(img.attrs, 'data-orig-file');
           const caption = getAttrVal(img.attrs, 'alt');
-          return new Picture({
+          return Picture({
             contentUrl,
             caption,
             width,
@@ -241,7 +241,7 @@ function getImageFromWpNode(node) {
   const caption = captionNode ? captionNode.childNodes[0].value : null;
   const [width, height] = getAttrVal(img.attrs, 'data-orig-size').split(',');
 
-  return new Picture({
+  return Picture({
     contentUrl,
     caption,
     url: href,

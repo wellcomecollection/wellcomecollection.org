@@ -1,13 +1,16 @@
-import {Record} from 'immutable';
+// @flow
+export type picture = {|
+  contentUrl: string;
+  width: number;
+  height: number;
+  fileType?: string;
+  caption?: string;
+  author?: string;
+  copyrightHolder?: string;
+  fileFormat?: string;
+  url?: string;
+|}
 
-export const Picture = Record({
-  fileType: 'image',
-  contentUrl: null,
-  caption: null,
-  author: null,
-  width: 0,
-  height: 0,
-  copyrightHolder: null,
-  fileFormat: null,
-  url: null
-});
+export function Picture(data: picture): picture {
+  return (data: picture);
+}
