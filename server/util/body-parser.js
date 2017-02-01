@@ -99,10 +99,7 @@ export function convertWpHeading(node) {
 }
 
 export function convertWpImage(node) {
-  const isWpImage = (
-    (node.attrs && node.attrs.find(attr => attr.name === 'data-shortcode' && attr.value === 'caption'))
-    || (node.childNodes && node.childNodes[0] && node.childNodes[0].nodeName === 'img')
-  );
+  const isWpImage = isCaption(node) || isImg(node);
 
   if (isWpImage) {
     const picture = getImageFromWpNode(node);
@@ -123,6 +120,17 @@ export function convertWpImage(node) {
   } else {
     return node;
   }
+}
+
+function isCaption(node) {
+  return node.attrs && node.attrs.find(attr => attr.name === 'data-shortcode' && attr.value === 'caption');
+}
+
+function isImg(node) {
+  const mayBeWrapperA = node.childNodes.find(node => node.nodeName === 'a');
+  const parentNode = mayBeWrapperA || node;
+
+  return parentNode.childNodes && parentNode.childNodes[0] && parentNode.childNodes[0].nodeName === 'img';
 }
 
 export function convertWpVideo(node) {
