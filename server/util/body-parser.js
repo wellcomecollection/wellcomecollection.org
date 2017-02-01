@@ -14,6 +14,11 @@ const BodyPart = Record({
   value: null
 });
 
+const Heading = Record({
+  level: 1,
+  value: null
+});
+
 export function bodyParser(bodyText) {
   const fragment = getFragment(bodyText);
   const preCleaned = cleanNodes(fragment.childNodes, [removeEmptyTextNodes, decodeHtmlEntities]);
@@ -28,7 +33,13 @@ export function getFragment(bodyText) {
 
 export function explodeIntoBodyParts(nodes) {
   const parts = nodes.map((node, nodeIndex) => {
-    const converters = [convertWpImage, convertWpVideo, convertWpList, findWpImageGallery, convertTweet];
+    const converters = [
+      convertWpHeading,
+      convertWpImage,
+      convertWpVideo,
+      convertWpList,
+      findWpImageGallery
+    ];
 
     // TODO: Tidy up typing here
     const maybeBodyPart = nodeIndex === 0 ? convertWpStandfirst(node) :
@@ -68,6 +79,23 @@ function convertWpStandfirst(node) {
     type: 'standfirst',
     value: serializeAndCleanNode(node)
   });
+}
+
+export function convertWpHeading(node) {
+  const headingMatch = node.nodeName.match(/h(\d)/);
+  const isWpHeading = Boolean(headingMatch);
+
+  if (isWpHeading) {
+    return new BodyPart({
+      type: 'heading',
+      value: new Heading({
+        level: headingMatch[1],
+        value: serializeAndCleanNode(node.childNodes[0])
+      })
+    })
+  } else {
+    return node;
+  }
 }
 
 export function convertWpImage(node) {
@@ -187,7 +215,6 @@ export function findWpImageGallery(node) {
         type: 'imageGallery',
         weight: 'standalone',
         value: new ImageGallery({
-          name: 'Image gallery', // This is just something generic for now
           items: images
         })
       });
