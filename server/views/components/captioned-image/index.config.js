@@ -1,9 +1,9 @@
 // @flow
-import {Picture, type picture} from '../../../model/picture';
+import {picture, type Picture} from '../../../model/picture';
 
 export const name = 'Captioned image';
 export const handle = 'captioned-image';
-const image: picture = Picture({
+const image: Picture = picture({
   contentUrl: 'https://wellcomecollection.files.wordpress.com/2016/10/featured-image-dans-blog2.jpg',
   caption: 'An edited frame from Animating the Body',
   width: 1380,

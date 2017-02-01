@@ -1,4 +1,4 @@
-import {Picture} from '../model/picture';
+import {picture} from '../model/picture';
 
 export function getWpFeaturedImage(uri, images) {
   const i = findWpFeaturedImage(uri, images);
@@ -12,7 +12,7 @@ function findWpFeaturedImage(uri, images) {
 }
 
 function convertWpImageToMedia(wpImage) {
-  return Picture({
+  return picture({
     contentUrl: wpImage.URL,
     caption: wpImage.caption,
     width: wpImage.width,

@@ -1,5 +1,5 @@
 // @flow
-export type picture = {|
+export type Picture = {|
   contentUrl: string;
   width: number;
   height: number;
@@ -11,6 +11,6 @@ export type picture = {|
   url?: string;
 |}
 
-export function Picture(data: picture): picture {
-  return (data: picture);
+export function picture(data: Picture): Picture {
+  return (data: Picture);
 }
