@@ -3,15 +3,12 @@
 {#TODO Test with screen reader#}
 {#TODO jsConfig#}
 {#TODO className unitlity for promo classes#}
+
 <a href="{{ promo.url }}" class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %}">
   <div class="promo__image-container">
     <img class="promo__image"
-      src="{{ promo.image.sources[(promo.image.sources | length) - 1].src }}"
-        srcset="{%- for source in promo.image.sources %}
-          {{ source.src }} {{ source.size }}w
-          {%- if (source !== (promo.image.sources | last)) %}, {%- endif %}
-        {%- endfor %}"
-        alt="" />
+      src="{{ promo.article.mainImage.contentUrl }}"
+      alt="{{ promo.article.mainImage.caption }}" />
 
     {% for modifier in promo.modifiers %}
       {% if modifier === 'series' %}
@@ -26,7 +23,7 @@
             </filter>
           </defs>
         </svg>
-        <img class="promo__image-mask promo__clip-path--{{ [1,2,3,4,5,6,7,8,9,10] | random }}" src="{{promo.image.sources[(promo.image.sources | length) - 1].src}}" alt="" />
+        <img class="promo__image-mask promo__clip-path--{{ [1,2,3,4,5,6,7,8,9,10] | random }}" src="{{ promo.article.mainImage.contentUrl }}" alt="" />
       {% endif %}
     {% endfor %}
 
@@ -62,14 +59,14 @@
                   <span class="promo__type" aria-hidden="true">{{ promo.meta.type }}</span>
                 {% endif %}
                   <{{ headingLevel or 'h2'}} class="promo__title">
-                    {{ promo.title }}
+                    {{ promo.article.headline }}
                   </{{ headingLevel or 'h2'}}>
                 {% if promo.meta.date %}
                   <span class="promo__date">{{ promo.meta.date }}</span>
                 {% endif %}
               </div>
               {% if promo.copy %}
-                <span  class="promo__copy">{{ promo.copy | safe }}</span>
+                <span  class="promo__copy">{{ promo.copy | striptags | safe | truncate(100) }}</span>
               {% endif %}
             </header>
           {% if promo.modifiers and promo.modifiers | contains('standalone') %}
@@ -78,6 +75,4 @@
       </div>
     </div>
   {% endif %}
-
-
 </a>

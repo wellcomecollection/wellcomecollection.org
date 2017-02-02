@@ -2,9 +2,8 @@ import {Record} from 'immutable';
 
 export const Promo = Record({
   modifiers: null,
+  article: null,
+  copy: null,
   url: null,
-  image: null,
-  meta: null,
-  title: null,
-  copy: null
+  meta: null
 });

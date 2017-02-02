@@ -3,21 +3,17 @@ import Article from '../../../model/article';
 import mockJson from '../../../test/mocks/wp-api.json';
 
 const article = Article.fromWpApi(mockJson);
-const image = article.mainImage.get('contentUrl');
-const alt = article.mainImage.get('caption');
 const copy = article.bodyParts.find(part => part.get('type') === 'standfirst').value;
-const title = article.headline;
 
 export const name = 'Promo';
 export const handle = 'promo';
 export const collated = true;
 
 export const promo = new Promo({
-  modifiers: ['underline'],
-  url: '#',
-  image: {sources: [{src: image}], alt: alt},
-  title: title,
+  modifiers: ['underlined'],
+  article: article,
   copy: copy,
+  url: '#',
   meta: {
     type: 'article'
   }
@@ -31,18 +27,18 @@ export const variants = [
   },
   {
     name: 'gallery',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'gallery']}, {meta: {type: 'gallery'}})}
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'gallery']}, {copy: null}, {meta: {type: 'gallery', date: 'A week ago'}})}
   },
   {
     name: 'podcast',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'podcast']}, {meta: {type: 'podcast', length: '01:35'}})}
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'podcast']}, {copy: null}, {meta: {type: 'podcast', length: '01:35', date: 'Yesterday'}})}
   },
   {
     name: 'video',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'video']}, {meta: {type: 'video', length: '01:35'}})}
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'video']}, {copy: null}, {meta: {type: 'video', length: '01:35', date: 'Two days ago'}})}
   },
   {
     name: 'standalone',
-    context: {promo: Object.assign({}, promo, {modifiers: ['series', 'standalone']})}
+    context: {promo: Object.assign({}, promo, {meta: {type: 'article', date: null}}, {modifiers: ['series', 'standalone']})}
   }
 ];
