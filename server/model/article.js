@@ -7,9 +7,10 @@ import {type Picture} from './picture';
 // @flow
 export type Art = {|
   headline: string;
+  standfirst: string;
   articleBody: string;
   associateMedia: Array<Picture>;
-  author?: Person;
+  author: Person;
   bodyParts: Array<BodyPart>;
 |}
 
