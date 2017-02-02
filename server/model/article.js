@@ -1,19 +1,7 @@
-// @flow
 import entities from 'entities';
 import {Person} from './person';
 import {getWpFeaturedImage} from './media';
 import {bodyParser} from '../util/body-parser';
-import {type Picture} from './picture';
-
-export type Art = {|
-  headline: string;
-  standfirst: string;
-  articleBody: string;
-  associateMedia: Array<Picture>;
-  author: Person;
-  bodyParts: Array<BodyPart>;
-|}
-
 
 // TODO: This needs a better model.
 export default class Article {
