@@ -1,6 +1,9 @@
-import {Record} from 'immutable';
+// @flow
+type ImageGallery = {
+  name?: string; // TODO: this probably shouldn't be optional
+  items: Array<any>;
+}
 
-export const ImageGallery = Record({
-  name: null,
-  items: []
-});
+export function imageGallery(data: ImageGallery) {
+  return (data: ImageGallery)
+}

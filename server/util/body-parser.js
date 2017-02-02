@@ -2,7 +2,7 @@ import parse from 'parse5';
 import url from 'url';
 import entities from 'entities';
 import {Record} from 'immutable';
-import {ImageGallery} from '../model/image-gallery';
+import {imageGallery} from '../model/image-gallery';
 import {picture} from '../model/picture';
 import {Video} from '../model/video';
 import {List} from '../model/list';
@@ -222,7 +222,7 @@ export function findWpImageGallery(node) {
       return new BodyPart({
         type: 'imageGallery',
         weight: 'standalone',
-        value: new ImageGallery({
+        value: imageGallery({
           items: images
         })
       });
