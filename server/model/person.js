@@ -1,9 +1,12 @@
-import {Record} from 'immutable';
+// @flow
+export type Person = {|
+  givenName: string;
+  familyName: null;
+  name?: string;
+  image?: string; // TODO: Make this Picture
+  sameAs: Array<any>; //TODO: Make this Array<something>
+|}
 
-export const Person = Record({
-  name: null,
-  givenName: null,
-  familyName: null,
-  image: null,
-  sameAs: []
-});
+export function person(data: Person) {
+  return (data: Person);
+}
