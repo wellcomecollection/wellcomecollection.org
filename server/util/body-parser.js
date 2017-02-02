@@ -1,3 +1,4 @@
+// TODO: Add flow (there is a lot of types to add if we do)
 import parse from 'parse5';
 import url from 'url';
 import entities from 'entities';
