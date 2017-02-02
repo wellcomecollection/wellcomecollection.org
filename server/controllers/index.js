@@ -7,7 +7,10 @@ export const artefact = async(ctx, next) => {
   const artefact = await getArtefact(id);
 
   return artefact ? ctx.render('pages/article', {
-    pageConfig: new PageConfig({inSection: 'explore'}),
+    pageConfig: new PageConfig({
+      title: artefact.title,
+      inSection: 'explore'
+    }),
     article: artefact
   }) : next();
 };
@@ -23,7 +26,10 @@ export const article = async(ctx, next) => {
         return article;
       } else {
         return ctx.render('pages/article', {
-          pageConfig: new PageConfig({inSection: 'explore'}),
+          pageConfig: new PageConfig({
+            title: article.headline,
+            inSection: 'explore'
+          }),
           article: article
         });
       }
@@ -35,7 +41,10 @@ export const article = async(ctx, next) => {
 export const explore = async(ctx) => {
   const wpPosts = await getPosts();
   return ctx.render('pages/explore', {
-    pageConfig: new PageConfig({inSection: 'explore'}),
+    pageConfig: new PageConfig({
+      title: 'Explore',
+      inSection: 'explore'
+    }),
     wpPosts
   });
 };

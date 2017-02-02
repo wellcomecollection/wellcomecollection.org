@@ -1,3 +1,4 @@
+import entities from 'entities';
 import {Person} from './person';
 import {getWpFeaturedImage} from './media';
 import {bodyParser} from '../util/body-parser';
@@ -27,7 +28,7 @@ export default class Article {
         image: json.author.avatar_URL,
         sameAs: [{ wordpress: json.author.URL }]
       });
-      return new Article(json.title, json.content, mainImage, [mainImage], author, [mainImage]);
+      return new Article(entities.decode(json.title), json.content, mainImage, [mainImage], author, [mainImage]);
   }
 }
 

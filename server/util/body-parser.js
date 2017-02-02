@@ -1,10 +1,12 @@
 import parse from 'parse5';
 import url from 'url';
+import entities from 'entities';
 import {Record} from 'immutable';
 import {ImageGallery} from '../model/image-gallery';
-import {Picture} from '../model/picture';
+import {picture} from '../model/picture';
 import {Video} from '../model/video';
 import {List} from '../model/list';
+import {Tweet} from '../model/tweet';
 
 const BodyPart = Record({
   weight: 'default',
@@ -12,9 +14,14 @@ const BodyPart = Record({
   value: null
 });
 
+const Heading = Record({
+  level: 1,
+  value: null
+});
+
 export function bodyParser(bodyText) {
   const fragment = getFragment(bodyText);
-  const preCleaned = cleanNodes(fragment.childNodes, [removeEmptyTextNodes]);
+  const preCleaned = cleanNodes(fragment.childNodes, [removeEmptyTextNodes, decodeHtmlEntities]);
   const bodyParts = explodeIntoBodyParts(preCleaned);
 
   return bodyParts;
@@ -26,7 +33,13 @@ export function getFragment(bodyText) {
 
 export function explodeIntoBodyParts(nodes) {
   const parts = nodes.map((node, nodeIndex) => {
-    const converters = [convertWpImage, convertWpVideo, convertWpList, findWpImageGallery];
+    const converters = [
+      convertWpHeading,
+      convertWpImage,
+      convertWpVideo,
+      convertWpList,
+      findWpImageGallery
+    ];
 
     // TODO: Tidy up typing here
     const maybeBodyPart = nodeIndex === 0 ? convertWpStandfirst(node) :
@@ -48,6 +61,19 @@ export function removeEmptyTextNodes(nodes) {
   return nodes.filter(node => !isEmptyText(node));
 }
 
+function decodeHtmlEntities(nodes) {
+  return nodes.map(node => {
+    if (node.nodeName === '#text') {
+      const decodedVal = entities.decodeHTML(node.value);
+      // Bah, more mutation - I wish I had a copy.
+      node.value = decodedVal;
+      return node;
+    } else {
+      return node;
+    }
+  });
+}
+
 function convertWpStandfirst(node) {
   return new BodyPart({
     type: 'standfirst',
@@ -55,11 +81,25 @@ function convertWpStandfirst(node) {
   });
 }
 
+export function convertWpHeading(node) {
+  const headingMatch = node.nodeName.match(/h(\d)/);
+  const isWpHeading = Boolean(headingMatch);
+
+  if (isWpHeading) {
+    return new BodyPart({
+      type: 'heading',
+      value: new Heading({
+        level: headingMatch[1],
+        value: serializeAndCleanNode(node.childNodes[0])
+      })
+    })
+  } else {
+    return node;
+  }
+}
+
 export function convertWpImage(node) {
-  const isWpImage = (
-    (node.attrs && node.attrs.find(attr => attr.name === 'data-shortcode' && attr.value === 'caption'))
-    || (node.childNodes && node.childNodes[0] && node.childNodes[0].nodeName === 'img')
-  );
+  const isWpImage = isCaption(node) || isImg(node);
 
   if (isWpImage) {
     const picture = getImageFromWpNode(node);
@@ -80,6 +120,17 @@ export function convertWpImage(node) {
   } else {
     return node;
   }
+}
+
+function isCaption(node) {
+  return node.attrs && node.attrs.find(attr => attr.name === 'data-shortcode' && attr.value === 'caption');
+}
+
+function isImg(node) {
+  const mayBeWrapperA = node.childNodes.find(node => node.nodeName === 'a');
+  const parentNode = mayBeWrapperA || node;
+
+  return parentNode.childNodes && parentNode.childNodes[0] && parentNode.childNodes[0].nodeName === 'img';
 }
 
 export function convertWpVideo(node) {
@@ -127,6 +178,22 @@ export function convertWpList(node) {
   }
 }
 
+function convertTweet(node) {
+  const className = node.attrs && getAttrVal(node.attrs, 'class');
+  const isTweet = Boolean(className && className.match('embed-twitter'));
+
+  if (isTweet) {
+    return new BodyPart({
+      type: 'tweet',
+      value: new Tweet({
+        html: serializeNode(node)
+      })
+    });
+  } else {
+    return node;
+  }
+}
+
 export function findWpImageGallery(node) {
   const className = node.attrs && getAttrVal(node.attrs, 'class');
   const isWpImageGallery = Boolean(className && className.match('tiled-gallery'));
@@ -144,7 +211,7 @@ export function findWpImageGallery(node) {
           const height = parseInt(getAttrVal(img.attrs, 'data-original-height'), 10);
           const contentUrl = getAttrVal(img.attrs, 'data-orig-file');
           const caption = getAttrVal(img.attrs, 'alt');
-          return new Picture({
+          return picture({
             contentUrl,
             caption,
             width,
@@ -156,7 +223,6 @@ export function findWpImageGallery(node) {
         type: 'imageGallery',
         weight: 'standalone',
         value: new ImageGallery({
-          name: 'Image gallery', // This is just something generic for now
           items: images
         })
       });
@@ -183,7 +249,7 @@ function getImageFromWpNode(node) {
   const caption = captionNode ? captionNode.childNodes[0].value : null;
   const [width, height] = getAttrVal(img.attrs, 'data-orig-size').split(',');
 
-  return new Picture({
+  return picture({
     contentUrl,
     caption,
     url: href,
