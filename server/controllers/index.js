@@ -1,4 +1,4 @@
-import {PageConfig} from '../model/page-config';
+import {pageConfig} from '../model/page-config';
 import {getPosts, getArticle} from '../services/wordpress';
 import {getArtefact} from '../services/artefacts';
 
@@ -7,7 +7,7 @@ export const artefact = async(ctx, next) => {
   const artefact = await getArtefact(id);
 
   return artefact ? ctx.render('pages/article', {
-    pageConfig: new PageConfig({
+    pageConfig: pageConfig({
       title: artefact.title,
       inSection: 'explore'
     }),
@@ -26,7 +26,7 @@ export const article = async(ctx, next) => {
         return article;
       } else {
         return ctx.render('pages/article', {
-          pageConfig: new PageConfig({
+          pageConfig: pageConfig({
             title: article.headline,
             inSection: 'explore'
           }),
@@ -61,7 +61,7 @@ export const performanceTest = async(ctx, next) => {
   const article = await getArticle(articleId);
 
   ctx.render('pages/article', {
-    pageConfig: new PageConfig({inSection: 'explore'}),
+    pageConfig: pageConfig({inSection: 'explore'}),
     article: article
   });
 

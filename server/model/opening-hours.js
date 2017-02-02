@@ -12,8 +12,10 @@ type Day = {
 }
 function day(data: Day) { return (data: Day); }
 
+export type PlacesOpeningHours = Array<Place>;
 
-export const defaultPlacesOpeningHours = [
+
+export const defaultPlacesOpeningHours: PlacesOpeningHours = [
   place({id: 'galleries', name: 'Galleries', days: [
     day({name: 'Monday',    hours: 'Galleries closed'}),
     day({name: 'Tuesday',   hours: '10:00 - 18:00'}),
