@@ -7,10 +7,7 @@
 
 {% for media in article.mainMedia %}
   {% if (media.contentUrl) %}
-    {% component 'main-media', {
-      image: media,
-      modifiers: ['full', 'max-out-height']
-    } %}
+    {% componentV2 'main-media', media, {'full': true, 'max-out-height': true} %}
   {% endif %}
 {% endfor %}
 
