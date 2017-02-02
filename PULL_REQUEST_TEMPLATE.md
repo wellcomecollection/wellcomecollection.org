@@ -10,4 +10,4 @@
 ## Have the following been considered/are they needed?
 - [ ] Tests?
 - [ ] Docs?
-- [ ] Have you had a conversation with the right people about the implications of this feature?
+- [ ] Spoken to the right people?
