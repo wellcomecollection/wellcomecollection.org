@@ -1,6 +1,8 @@
-import {Record} from 'immutable';
+export type List = {
+  name?: string; // TODO: this probably shouldn't be optional
+  items: Array<any>;
+}
 
-export const List = Record({
-  name: null,
-  items: []
-});
+export function list(data: List) {
+  return (data: List);
+}

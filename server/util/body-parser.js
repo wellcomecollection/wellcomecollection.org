@@ -5,7 +5,7 @@ import {Record} from 'immutable';
 import {imageGallery} from '../model/image-gallery';
 import {picture} from '../model/picture';
 import {Video} from '../model/video';
-import {List} from '../model/list';
+import {list} from '../model/list';
 import {Tweet} from '../model/tweet';
 
 const BodyPart = Record({
@@ -157,7 +157,7 @@ export function convertWpList(node) {
     // Make sure it's a list item and not empty
     const lis = node.childNodes.filter(n => n.nodeName === 'li' && n.childNodes);
 
-    const list = lis.map(li => {
+    const listItems = lis.map(li => {
       const itemVal = li.childNodes.reduce((html, node) => {
         return `${html}${serializeNode(node)}`;
       }, '');
@@ -167,10 +167,10 @@ export function convertWpList(node) {
 
     return new BodyPart({
       type: 'list',
-      value: new List({
+      value: list({
         // TODO: We should be sending a name with all lists
         name: null,
-        items: list
+        items: listItems
       })
     });
   } else {
