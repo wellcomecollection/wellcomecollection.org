@@ -6,7 +6,7 @@ import {imageGallery} from '../model/image-gallery';
 import {picture} from '../model/picture';
 import {Video} from '../model/video';
 import {list} from '../model/list';
-import {Tweet} from '../model/tweet';
+import {createTweet} from '../model/tweet';
 
 const BodyPart = Record({
   weight: 'default',
@@ -38,6 +38,7 @@ export function explodeIntoBodyParts(nodes) {
       convertWpImage,
       convertWpVideo,
       convertWpList,
+      convertTweet,
       findWpImageGallery
     ];
 
@@ -185,7 +186,7 @@ function convertTweet(node) {
   if (isTweet) {
     return new BodyPart({
       type: 'tweet',
-      value: new Tweet({
+      value: createTweet({
         html: serializeNode(node)
       })
     });
