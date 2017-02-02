@@ -41,7 +41,7 @@ export const article = async(ctx, next) => {
 export const explore = async(ctx) => {
   const wpPosts = await getPosts();
   return ctx.render('pages/explore', {
-    pageConfig: new PageConfig({
+    pageConfig: pageConfig({
       title: 'Explore',
       inSection: 'explore'
     }),

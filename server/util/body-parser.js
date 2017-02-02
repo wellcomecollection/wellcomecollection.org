@@ -4,7 +4,7 @@ import entities from 'entities';
 import {Record} from 'immutable';
 import {imageGallery} from '../model/image-gallery';
 import {picture} from '../model/picture';
-import {Video} from '../model/video';
+import {video} from '../model/video';
 import {list} from '../model/list';
 import {createTweet} from '../model/tweet';
 
@@ -141,11 +141,11 @@ export function convertWpVideo(node) {
   if (isWpVideo) {
     const iframe = maybeSpan.childNodes[0];
     const embedUrl = getAttrVal(iframe.attrs, 'src');
-    const video = new Video({ embedUrl });
+    const vid = video({ embedUrl });
 
     return new BodyPart({
       type: 'video',
-      value: video
+      value: vid
     });
   } else {
     return node;
