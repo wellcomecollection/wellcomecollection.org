@@ -7,6 +7,7 @@ import {picture} from '../model/picture';
 import {Video} from '../model/video';
 import {List} from '../model/list';
 import {Tweet} from '../model/tweet';
+import {createInstagramPost} from '../model/instagram-post';
 
 const BodyPart = Record({
   weight: 'default',
@@ -38,6 +39,8 @@ export function explodeIntoBodyParts(nodes) {
       convertWpImage,
       convertWpVideo,
       convertWpList,
+      convertTweet,
+      convertInstagramPost,
       findWpImageGallery
     ];
 
@@ -171,6 +174,22 @@ export function convertWpList(node) {
         // TODO: We should be sending a name with all lists
         name: null,
         items: list
+      })
+    });
+  } else {
+    return node;
+  }
+}
+
+function convertInstagramPost(node) {
+  const className = node.attrs && getAttrVal(node.attrs, 'class');
+  const isInstagramPost = Boolean(className && className.match('instagram-media'));
+
+  if (isInstagramPost) {
+    return new BodyPart({
+      type: 'instagramPost',
+      value: createInstagramPost({
+        html: serializeNode(node)
       })
     });
   } else {
