@@ -1,4 +1,4 @@
-type Heading = {|
+export type Heading = {|
   level: number;
   value: any; // TODO: Make this not `any`
 |}

@@ -1,5 +1,5 @@
 // @flow
-type BodyPart = {|
+export type BodyPart = {|
   weight: string;
   type: string;
   value: any; // TODO: Make this not `any`
