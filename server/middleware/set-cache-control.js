@@ -12,4 +12,3 @@ export default (options) => {
     });
   };
 }
-// TODO use file hash as eTag
