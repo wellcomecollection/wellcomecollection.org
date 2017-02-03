@@ -1,6 +1,5 @@
 import request from 'superagent';
-import Article from '../model/article';
-import {ArticleFactory} from '../model/articleV2';
+import {ArticleFactory} from '../model/article';
 const baseUri = 'https://public-api.wordpress.com/rest/v1.1/sites/blog.wellcomecollection.org';
 
 export async function getPosts() {
