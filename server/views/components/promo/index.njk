@@ -3,64 +3,76 @@
 {#TODO Test with screen reader#}
 {#TODO jsConfig#}
 {#TODO className unitlity for promo classes#}
-<a href="{{ url }}" class="promo  {% if meta.type === 'gallery' or meta.type === 'podcast' or meta.type === 'video' %}promo--{{meta.type}}{% endif %} {% for modifier in modifiers %}promo--{{ modifier }} {% endfor %} ">
+
+<a href="{{ promo.url }}" class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %}">
   <div class="promo__image-container">
     <img class="promo__image"
-      src="{{ image.sources[(image.sources | length) - 1].src }}"
-        srcset="{%- for source in image.sources %}
-          {{ source.src }} {{ source.size }}w
-          {%- if (source !== (image.sources | last)) %}, {%- endif %}
-        {%- endfor %}"
-        alt="" />
+      src="{{ promo.article.mainImage.contentUrl }}"
+      alt="{{ promo.article.mainImage.caption }}" />
 
-    {% for modifier in modifiers %}
+    {% for modifier in promo.modifiers %}
       {% if modifier === 'series' %}
         <svg class="promo__defs">{# TODO proper filter - see Tomi; and only want this on the page once, where's best to move?#}
           <defs>
             <filter id="duotone" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
               <feColorMatrix type="matrix"
-                values="0.90 0 0 0   0.40 
-                        0.95 0 0 0  -0.10  
-                      -0.20 0 0 0   0.65 
+                values="0.90 0 0 0   0.40
+                        0.95 0 0 0  -0.10
+                      -0.20 0 0 0   0.65
                           0  0 0 1   0" />
             </filter>
           </defs>
         </svg>
-        <img class="promo__image-mask promo__clip-path--{{ [1,2,3,4,5,6,7,8,9,10] | random }}" src="{{image.sources[(image.sources | length) - 1].src}}" alt="" />
+        <img class="promo__image-mask promo__clip-path--{{ [1,2,3,4,5,6,7,8,9,10] | random }}" src="{{ promo.article.mainImage.contentUrl }}" alt="" />
       {% endif %}
     {% endfor %}
 
-    {% if meta.type === 'gallery' or meta.type === 'podcast' or meta.type === 'video' %}
+    {% if promo.meta.type === 'gallery' or promo.meta.type === 'podcast' or promo.meta.type === 'video' %}
       <div class="promo__icon-container">
-        {% if meta.type === 'gallery' %}
+        {% if promo.meta.type === 'gallery' %}
           {% icon 'actions/gallery-link' %}
-        {% elif meta.type === 'podcast' %}
+        {% elif promo.meta.type === 'podcast' %}
           {% icon 'actions/volume'  %}
-        {% elif meta.type === 'video' %}
+        {% elif promo.meta.type === 'video' %}
             {% icon 'actions/play' %}
         {% endif %}
-        {% if meta.type === 'gallery' and meta.length %}
-          <span class="promo__length"><span class="promo__sr">Gallery with</span> {{ meta.length }} <span class="promo__sr">item{{ 's' if meta.length > 1 }}</span></span>
+        {% if promo.meta.type === 'gallery' and promo.meta.length %}
+          <span class="promo__length"><span class="promo__sr">Gallery with</span> {{ promo.meta.length }} <span class="promo__sr">item{{ 's' if promo.meta.length > 1 }}</span></span>
         {% endif %}
-        {% if meta.type === 'podcast' or meta.type === 'video' and meta.length %}
-          <span class="promo__sr">{% if meta.type === 'podcast' %}Podcast{%else%}Video{% endif %} lasting</span>
-          {{ meta.length }}
+        {% if promo.meta.type === 'podcast' or promo.meta.type === 'video' and promo.meta.length %}
+          <span class="promo__sr">{% if promo.meta.type === 'podcast' %}Podcast{%else%}Video{% endif %} lasting</span>
+          {{ promo.meta.length }}
         {% endif %}
       </div>
     {% endif %}
   </div>
-  <header class="promo__description">
-    {% if meta.type %}
-      <span class="promo__type" aria-hidden="true">{{ meta.type }}</span>
-    {% endif %}
-      <{{ headingLevel or 'h2'}} class="promo__title">
-        {{ title }}
-      </{{ headingLevel or 'h2'}}>
-    {% if meta.date %}
-      <span class="promo__date">{{ meta.date }}</span>
-    {% endif %}
-    {% if copy %}
-      <span  class="promo__copy">{{ copy }}</span>
-    {% endif %}
-  </header>
+
+  {% if promo.modifiers and promo.modifiers | contains('standalone') %}
+    <div class="row row--cream">
+      <div class="container">
+        <div class="grid">
+          <div class="{{ {l:10, shiftL:1, m:6, shiftM:1, s:4} | gridClasses }}">
+          {% endif %}
+            <header class="promo__description">
+              <div class="promo__heading">
+                {% if promo.meta.type %}
+                  <span class="promo__type" aria-hidden="true">{{ promo.meta.type }}</span>
+                {% endif %}
+                  <{{ headingLevel or 'h2'}} class="promo__title">
+                    {{ promo.article.headline }}
+                  </{{ headingLevel or 'h2'}}>
+                {% if promo.meta.date %}
+                  <span class="promo__date">{{ promo.meta.date }}</span>
+                {% endif %}
+              </div>
+              {% if promo.copy %}
+                <span  class="promo__copy">{{ promo.copy | striptags | safe | truncate(100) }}</span>
+              {% endif %}
+            </header>
+          {% if promo.modifiers and promo.modifiers | contains('standalone') %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
 </a>

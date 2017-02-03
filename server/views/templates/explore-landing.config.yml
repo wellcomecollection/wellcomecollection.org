@@ -1,5 +1,0 @@
-name: Explore landing
-handle: explore-landing-template
-context:
-  promo: "@promo"
-  numbered_list: "@numbered-list"

@@ -1,9 +1,9 @@
 <div class="numbered-list">
   <header class="numbered-list__header">
-    <h2 class="numbered-list__heading">{{ heading }}</h2>
+    <h2 class="numbered-list__heading">{{ numberedList.name }}</h2>
   </header>
   <ol class="numbered-list__list">
-    {% for item in items %}
+    {% for item in numberedList.items %}
       <li class="numbered-list__item">
         <a href="{{ item.url }}" class="numbered-list__link">
           <span class="numbered-list__number" aria-hidden="true">{{ loop.index }}</span>
