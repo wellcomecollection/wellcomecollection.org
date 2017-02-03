@@ -1,7 +1,7 @@
-import {Record} from 'immutable';
+export type Video = {|
+  name?: string;
+  description?: string;
+  embedUrl: string;
+|}
+export function createVideo(data: Video) { return (data: Video); }
 
-export const Video = Record({
-  name: null,
-  description: null,
-  embedUrl: null
-});

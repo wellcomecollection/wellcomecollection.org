@@ -1,5 +1,6 @@
-import {Record} from 'immutable';
+// @flow
+export type Tweet = {|
+  html: string;
+|}
 
-export const Tweet = Record({
-  html: null
-});
+export function createTweet(data: Tweet) { return (data: Tweet); }

@@ -1,23 +1,25 @@
+// TODO: Add flow (there is a lot of types to add if we do)
 import parse from 'parse5';
 import url from 'url';
 import entities from 'entities';
-import {Record} from 'immutable';
-import {ImageGallery} from '../model/image-gallery';
-import {picture} from '../model/picture';
-import {Video} from '../model/video';
-import {List} from '../model/list';
-import {Tweet} from '../model/tweet';
+import {createImageGallery} from '../model/image-gallery';
+import {createPicture} from '../model/picture';
+import {createVideo} from '../model/video';
+import {createList} from '../model/list';
+import {createTweet} from '../model/tweet';
 
-const BodyPart = Record({
-  weight: 'default',
-  type: null,
-  value: null
-});
+type BodyPart = {|
+  weight: string;
+  type: string;
+  value: any; // TODO: Make this not `any`
+|}
+function bodyPart(data: BodyPart) { return (data: BodyPart); }
 
-const Heading = Record({
-  level: 1,
-  value: null
-});
+type Heading = {|
+  level: number;
+  value: any; // TODO: Make this not `any`
+|}
+function heading(data: Heading) { return (data: Heading); }
 
 export function bodyParser(bodyText) {
   const fragment = getFragment(bodyText);
@@ -38,8 +40,8 @@ export function explodeIntoBodyParts(nodes) {
       convertWpImage,
       convertWpVideo,
       convertWpList,
-      findWpImageGallery,
-      convertTweet
+      convertTweet,
+      findWpImageGallery
     ];
 
     // TODO: Tidy up typing here
@@ -76,7 +78,7 @@ function decodeHtmlEntities(nodes) {
 }
 
 function convertWpStandfirst(node) {
-  return new BodyPart({
+  return bodyPart({
     type: 'standfirst',
     value: serializeAndCleanNode(node)
   });
@@ -87,9 +89,9 @@ export function convertWpHeading(node) {
   const isWpHeading = Boolean(headingMatch);
 
   if (isWpHeading) {
-    return new BodyPart({
+    return bodyPart({
       type: 'heading',
-      value: new Heading({
+      value: heading({
         level: headingMatch[1],
         value: serializeAndCleanNode(node.childNodes[0])
       })
@@ -113,7 +115,7 @@ export function convertWpImage(node) {
     const weightKey = Object.keys(weights).find(wpClassName => className.indexOf(wpClassName) !== -1);
     const weight = weightKey ? weights[weightKey] : 'default';
 
-    return new BodyPart({
+    return bodyPart({
       weight,
       type: 'picture',
       value: picture
@@ -141,9 +143,9 @@ export function convertWpVideo(node) {
   if (isWpVideo) {
     const iframe = maybeSpan.childNodes[0];
     const embedUrl = getAttrVal(iframe.attrs, 'src');
-    const video = new Video({ embedUrl });
+    const video = createVideo({ embedUrl });
 
-    return new BodyPart({
+    return bodyPart({
       type: 'video',
       value: video
     });
@@ -158,7 +160,7 @@ export function convertWpList(node) {
     // Make sure it's a list item and not empty
     const lis = node.childNodes.filter(n => n.nodeName === 'li' && n.childNodes);
 
-    const list = lis.map(li => {
+    const listItems = lis.map(li => {
       const itemVal = li.childNodes.reduce((html, node) => {
         return `${html}${serializeNode(node)}`;
       }, '');
@@ -166,12 +168,12 @@ export function convertWpList(node) {
       return itemVal;
     });
 
-    return new BodyPart({
+    return bodyPart({
       type: 'list',
-      value: new List({
+      value: createList({
         // TODO: We should be sending a name with all lists
         name: null,
-        items: list
+        items: listItems
       })
     });
   } else {
@@ -184,9 +186,9 @@ function convertTweet(node) {
   const isTweet = Boolean(className && className.match('embed-twitter'));
 
   if (isTweet) {
-    return new BodyPart({
+    return bodyPart({
       type: 'tweet',
-      value: new Tweet({
+      value: createTweet({
         html: serializeNode(node)
       })
     });
@@ -212,7 +214,7 @@ export function findWpImageGallery(node) {
           const height = parseInt(getAttrVal(img.attrs, 'data-original-height'), 10);
           const contentUrl = getAttrVal(img.attrs, 'data-orig-file');
           const caption = getAttrVal(img.attrs, 'alt');
-          return picture({
+          return createPicture({
             contentUrl,
             caption,
             width,
@@ -220,10 +222,10 @@ export function findWpImageGallery(node) {
           });
         });
 
-      return new BodyPart({
+      return bodyPart({
         type: 'imageGallery',
         weight: 'standalone',
-        value: new ImageGallery({
+        value: createImageGallery({
           items: images
         })
       });
@@ -250,7 +252,7 @@ function getImageFromWpNode(node) {
   const caption = captionNode ? captionNode.childNodes[0].value : null;
   const [width, height] = getAttrVal(img.attrs, 'data-orig-size').split(',');
 
-  return picture({
+  return createPicture({
     contentUrl,
     caption,
     url: href,
@@ -263,7 +265,7 @@ export function convertDomNode(node) {
   const cleanedNode = serializeAndCleanNode(node);
 
   if (cleanedNode) {
-    return new BodyPart({
+    return bodyPart({
       type: 'html',
       value: cleanedNode
     });
