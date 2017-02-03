@@ -1,6 +1,5 @@
 // @flow
-import {type Component} from './component';
-import {type Person, createPerson} from './person';
+import {type Person} from './person';
 import {type Picture} from './picture';
 import {getWpFeaturedImage} from './media';
 import {bodyParser} from '../util/body-parser';
@@ -15,9 +14,9 @@ export type ArticleV2 = {|
   // an audio and image mainMedia.
   mainMedia: Array<Picture>;
   articleBody: string;
-  associatedMedia: Array<Component<Picture>>;
+  associatedMedia: Array<Picture>;
   author: Person;
-  bodyParts: Array<Component<BodyPart>>;
+  bodyParts: Array<BodyPart>;
 |}
 
 function createArticle(data: ArticleV2) {
@@ -29,32 +28,27 @@ export class ArticleFactory {
     const articleBody = json.content;
 
     const mainImage: Picture = getWpFeaturedImage(json.featured_image, json.attachments);
-    const mainImageComponent = ({
-      weight: 'leading',
-      type: 'picture',
-      value: mainImage
-    }: Component<Picture>);
 
-    const author: Person = createPerson({
+    const author: Person = {
       givenName: json.author.first_name,
       familyName: json.author.last_name,
       name: `${json.author.first_name} ${json.author.last_name}`,
       image: json.author.avatar_URL,
       sameAs: [{ wordpress: json.author.URL }]
-    });
+    };
 
     const bodyParts = bodyParser(articleBody);
     const standfirst = bodyParts.find(part => part.type === 'standfirst');
 
-    const article = createArticle({
+    const article: ArticleV2 = {
       headline: json.title,
       standfirst: standfirst,
       mainMedia: [mainImage],
       articleBody: articleBody,
-      associatedMedia: [mainImageComponent],
+      associatedMedia: [mainImage],
       author: author,
       bodyParts: bodyParts
-    });
+    };
 
     return article;
   }
