@@ -1,5 +1,6 @@
 import request from 'superagent';
 import Article from '../model/article';
+import {ArticleFactory} from '../model/articleV2';
 const baseUri = 'https://public-api.wordpress.com/rest/v1.1/sites/blog.wellcomecollection.org';
 
 export async function getPosts() {
@@ -15,6 +16,6 @@ export async function getArticle(id) {
   const valid = response.type === 'application/json' && response.status === 200;
 
   if (valid) {
-    return Article.fromWpApi(response.body);
+    return ArticleFactory.fromWpApi(response.body);
   }
 }
