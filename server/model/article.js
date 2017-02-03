@@ -1,5 +1,5 @@
 import entities from 'entities';
-import {person, type Person} from './person';
+import {createPerson, type Person} from './person';
 import {getWpFeaturedImage} from './media';
 import {bodyParser} from '../util/body-parser';
 
@@ -21,7 +21,7 @@ export default class Article {
 
   static fromWpApi(json) {
       const mainImage = getWpFeaturedImage(json.featured_image, json.attachments);
-      const author: Person = person({
+      const author: Person = createPerson({
         givenName: json.author.first_name,
         familyName: json.author.last_name,
         name: `${json.author.first_name} ${json.author.last_name}`,

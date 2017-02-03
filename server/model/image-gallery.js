@@ -4,6 +4,6 @@ export type ImageGallery = {
   items: Array<any>;
 }
 
-export function imageGallery(data: ImageGallery) {
+export function createImageGallery(data: ImageGallery) {
   return (data: ImageGallery)
 }

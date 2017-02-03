@@ -11,6 +11,6 @@ export type Picture = {|
   url?: string;
 |}
 
-export function picture(data: Picture): Picture {
+export function createPicture(data: Picture): Picture {
   return (data: Picture);
 }

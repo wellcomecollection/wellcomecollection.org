@@ -3,6 +3,6 @@ export type List = {
   items: Array<any>;
 }
 
-export function list(data: List) {
+export function createList(data: List) {
   return (data: List);
 }

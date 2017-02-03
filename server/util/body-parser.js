@@ -2,10 +2,10 @@
 import parse from 'parse5';
 import url from 'url';
 import entities from 'entities';
-import {imageGallery} from '../model/image-gallery';
-import {picture} from '../model/picture';
-import {video} from '../model/video';
-import {list} from '../model/list';
+import {createImageGallery} from '../model/image-gallery';
+import {createPicture} from '../model/picture';
+import {createVideo} from '../model/video';
+import {createList} from '../model/list';
 import {createTweet} from '../model/tweet';
 
 type BodyPart = {|
@@ -143,11 +143,11 @@ export function convertWpVideo(node) {
   if (isWpVideo) {
     const iframe = maybeSpan.childNodes[0];
     const embedUrl = getAttrVal(iframe.attrs, 'src');
-    const vid = video({ embedUrl });
+    const video = createVideo({ embedUrl });
 
     return bodyPart({
       type: 'video',
-      value: vid
+      value: video
     });
   } else {
     return node;
@@ -170,7 +170,7 @@ export function convertWpList(node) {
 
     return bodyPart({
       type: 'list',
-      value: list({
+      value: createList({
         // TODO: We should be sending a name with all lists
         name: null,
         items: listItems
@@ -214,7 +214,7 @@ export function findWpImageGallery(node) {
           const height = parseInt(getAttrVal(img.attrs, 'data-original-height'), 10);
           const contentUrl = getAttrVal(img.attrs, 'data-orig-file');
           const caption = getAttrVal(img.attrs, 'alt');
-          return picture({
+          return createPicture({
             contentUrl,
             caption,
             width,
@@ -225,7 +225,7 @@ export function findWpImageGallery(node) {
       return bodyPart({
         type: 'imageGallery',
         weight: 'standalone',
-        value: imageGallery({
+        value: createImageGallery({
           items: images
         })
       });
@@ -252,7 +252,7 @@ function getImageFromWpNode(node) {
   const caption = captionNode ? captionNode.childNodes[0].value : null;
   const [width, height] = getAttrVal(img.attrs, 'data-orig-size').split(',');
 
-  return picture({
+  return createPicture({
     contentUrl,
     caption,
     url: href,

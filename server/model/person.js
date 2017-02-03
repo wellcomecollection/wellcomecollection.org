@@ -7,6 +7,6 @@ export type Person = {|
   sameAs: Array<any>; //TODO: Make this Array<something>
 |}
 
-export function person(data: Person) {
+export function createPerson(data: Person) {
   return (data: Person);
 }

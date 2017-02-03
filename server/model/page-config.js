@@ -7,7 +7,7 @@ export type PageConfig = {
   openingHours: PlacesOpeningHours;
 };
 
-export function pageConfig(data: PageConfig) {
+export function createPageConfig(data: PageConfig) {
   const withOpeningHours = Object.assign({}, {openingHours: defaultPlacesOpeningHours}, data);
   return (withOpeningHours: PageConfig);
 }
