@@ -5,6 +5,8 @@ const webpack = require('webpack-stream');
 const gulpStylelint = require('gulp-stylelint');
 const sourcemaps = require('gulp-sourcemaps');
 const gutil = require('gulp-util');
+const hash = require('gulp-hash');
+const clean = require('gulp-clean');
 const webpackConfig = require('./webpack.config.js');
 const eslint = require('gulp-eslint');
 const eslintConfig = require('./.eslintrc.json');
@@ -35,6 +37,9 @@ const sources = {
   icons: {
     srcPath: './icons/**/*.*',
     distPath: '../dist/assets/icons/'
+  },
+  cacheJSON: {
+    distPath: '../server/config/'
   }
 };
 
@@ -53,8 +58,19 @@ gulp.task('icons:copy', () => {
     .pipe(gulp.dest(sources.icons.distPath));
 });
 
+// TODO move paths to vars and synchronous stuff
+gulp.task('css:clean', function () {
+  return gulp.src('../dist/assets/css/')
+    .pipe(clean({force: true}));
+});
+
+gulp.task('js:clean', function () {
+  return gulp.src('../dist/assets/js/')
+    .pipe(clean({force: true}));
+});
+
 // TODO: pull out autoprefixing / sourcemaps to it's own task
-gulp.task('scss:compile', () => {
+gulp.task('scss:compile', ['css:clean'], () => {
   return gulp.src(sources.scss.manifests)
     .pipe(devMode ? sourcemaps.init() : gutil.noop())
     .pipe(sass({
@@ -65,7 +81,38 @@ gulp.task('scss:compile', () => {
       browsers: ['last 2 versions']
     }))
     .pipe(devMode ? sourcemaps.write() : gutil.noop())
-    .pipe(gulp.dest(sources.scss.distPath))
+    .pipe(gulp.dest(sources.scss.distPath));
+});
+
+gulp.task('js:compile', ['js:clean'], () => {
+  return gulp.src(sources.js.entry)
+    .pipe(webpack(webpackConfig))
+    .on('error', function(err) {
+      console.log(err.toString());
+      // Allows the stream to continue, thus not breaking watch§
+      this.emit('end');
+    })
+    .pipe(gulp.dest(sources.js.distPath));
+});
+
+gulp.task('css:bust', ['scss:compile'], () => {
+  gulp.src('../dist/assets/css/application.css')
+    .pipe(hash({
+      hashLength: 16
+    }))
+    .pipe(gulp.dest('../dist/assets/css/'))
+    .pipe(hash.manifest('css-assets.json'))
+    .pipe(gulp.dest(sources.cacheJSON.distPath));
+});
+
+gulp.task('js:bust', ['js:compile'], () => {
+  gulp.src('../dist/assets/js/app.js')
+    .pipe(hash({
+      hashlength: 16
+    }))
+    .pipe(gulp.dest('../dist/assets/js/'))
+    .pipe(hash.manifest('js-assets.json', true))
+    .pipe(gulp.dest(sources.cacheJSON.distPath));
 });
 
 gulp.task('scss:lint', () => {
@@ -79,17 +126,6 @@ gulp.task('scss:lint', () => {
     }));
 });
 
-gulp.task('js:compile', () => {
-  return gulp.src(sources.js.entry)
-    .pipe(webpack(webpackConfig))
-    .on('error', function(err) {
-      console.log(err.toString());
-      // Allows the stream to continue, thus not breaking watch§
-      this.emit('end');
-    })
-    .pipe(gulp.dest(sources.js.distPath));
-});
-
 gulp.task('js:lint', () => {
   return gulp.src(sources.js.all)
     .pipe(eslint(eslintConfig))
@@ -98,8 +134,8 @@ gulp.task('js:lint', () => {
 });
 
 gulp.task('watch', () => {
-  gulp.watch(sources.scss.all, ['scss:compile']);
-  gulp.watch(sources.js.all, ['js:compile']);
+  gulp.watch(sources.scss.all, ['css:bust']);
+  gulp.watch(sources.js.all, ['js:bust']);
   gulp.watch(sources.fonts.srcPath, ['fonts:copy']);
   gulp.watch(sources.images.srcPath, ['images:copy']);
   gulp.watch(sources.icons.srcPath, ['icons:copy']);
@@ -108,6 +144,6 @@ gulp.task('watch', () => {
 gulp.task('js', ['js:lint', 'js:compile']);
 gulp.task('scss', ['scss:lint', 'scss:compile']);
 gulp.task('lint', ['scss:lint', 'js:lint']);
-gulp.task('compile', ['scss:compile', 'js:compile', 'fonts:copy', 'images:copy', 'icons:copy']);
+gulp.task('compile', ['css:bust', 'js:bust', 'fonts:copy', 'images:copy', 'icons:copy']);
 gulp.task('build', ['scss', 'js']);
 gulp.task('dev', ['compile', 'watch']);
