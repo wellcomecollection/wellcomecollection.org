@@ -38,7 +38,8 @@ export function explodeIntoBodyParts(nodes) {
       convertWpImage,
       convertWpVideo,
       convertWpList,
-      findWpImageGallery
+      findWpImageGallery,
+      convertTweet
     ];
 
     // TODO: Tidy up typing here
