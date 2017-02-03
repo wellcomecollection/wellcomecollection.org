@@ -59,18 +59,18 @@ gulp.task('icons:copy', () => {
 });
 
 // TODO move paths to vars and synchronous stuff
-gulp.task('cleanCSS', function () {
+gulp.task('css:clean', function () {
   return gulp.src('../dist/assets/css/')
     .pipe(clean({force: true}));
 });
 
-gulp.task('cleanJS', function () {
+gulp.task('js:clean', function () {
   return gulp.src('../dist/assets/js/')
     .pipe(clean({force: true}));
 });
 
 // TODO: pull out autoprefixing / sourcemaps to it's own task
-gulp.task('scss:compile', ['cleanCSS'], () => {
+gulp.task('scss:compile', ['css:clean'], () => {
   return gulp.src(sources.scss.manifests)
     .pipe(devMode ? sourcemaps.init() : gutil.noop())
     .pipe(sass({
@@ -84,7 +84,7 @@ gulp.task('scss:compile', ['cleanCSS'], () => {
     .pipe(gulp.dest(sources.scss.distPath));
 });
 
-gulp.task('js:compile', ['cleanJS'], () => {
+gulp.task('js:compile', ['js:clean'], () => {
   return gulp.src(sources.js.entry)
     .pipe(webpack(webpackConfig))
     .on('error', function(err) {
@@ -95,7 +95,7 @@ gulp.task('js:compile', ['cleanJS'], () => {
     .pipe(gulp.dest(sources.js.distPath));
 });
 
-gulp.task('bustCSS', ['scss:compile'], () => {
+gulp.task('css:bust', ['scss:compile'], () => {
   gulp.src('../dist/assets/css/application.css')
     .pipe(hash({
       hashLength: 16
@@ -105,7 +105,7 @@ gulp.task('bustCSS', ['scss:compile'], () => {
     .pipe(gulp.dest(sources.cacheJSON.distPath));
 });
 
-gulp.task('bustJS', ['js:compile'], () => {
+gulp.task('js:bust', ['js:compile'], () => {
   gulp.src('../dist/assets/js/app.js')
     .pipe(hash({
       hashlength: 16
@@ -134,8 +134,8 @@ gulp.task('js:lint', () => {
 });
 
 gulp.task('watch', () => {
-  gulp.watch(sources.scss.all, ['bustCSS']);
-  gulp.watch(sources.js.all, ['bustJS']);
+  gulp.watch(sources.scss.all, ['css:bust']);
+  gulp.watch(sources.js.all, ['js:bust']);
   gulp.watch(sources.fonts.srcPath, ['fonts:copy']);
   gulp.watch(sources.images.srcPath, ['images:copy']);
   gulp.watch(sources.icons.srcPath, ['icons:copy']);
@@ -144,6 +144,6 @@ gulp.task('watch', () => {
 gulp.task('js', ['js:lint', 'js:compile']);
 gulp.task('scss', ['scss:lint', 'scss:compile']);
 gulp.task('lint', ['scss:lint', 'js:lint']);
-gulp.task('compile', ['bustCSS', 'bustJS', 'fonts:copy', 'images:copy', 'icons:copy']);
+gulp.task('compile', ['css:bust', 'js:bust', 'fonts:copy', 'images:copy', 'icons:copy']);
 gulp.task('build', ['scss', 'js']);
 gulp.task('dev', ['compile', 'watch']);
