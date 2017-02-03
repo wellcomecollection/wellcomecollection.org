@@ -26,8 +26,8 @@
         </div>
       {% elif bodyPart.type === 'tweet' %}
         {% component 'tweet', { tweet: bodyPart.value } %}
-      {% elif bodyPart.type === 'instagramPost' %}
-        {% component 'instagram-post', { instagramPost: bodyPart.value } %}
+      {% elif bodyPart.type === 'instagramEmbed' %}
+        {% component 'instagram-embed', { instagramEmbed: bodyPart.value } %}
       {% else %}
         {{ bodyPart.value | safe }}
       {% endif %}

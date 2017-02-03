@@ -1,7 +1,7 @@
-const instagramPost = document.querySelector('.instagram-media');
-
 function init() {
-  if (instagramPost) {
+  const instagramEmbed = document.querySelector('.instagram-media');
+
+  if (instagramEmbed) {
     const s = document.createElement('script');
     s.type = 'text/javascript';
     s.async = true;

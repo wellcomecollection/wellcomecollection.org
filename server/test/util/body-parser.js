@@ -72,10 +72,10 @@ test('convertTweet', t => {
   t.is(tweets.length, 1);
 });
 
-test('convertInstagramPost', t => {
+test('convertInstagramEmbed', t => {
   const bodyParts = bodyParser(wpApiResp.content);
-  const instagramPosts = bodyParts.filter(part => part.type === 'instagramPost');
-  t.is(instagramPosts.length, 1);
+  const instagramEmbeds = bodyParts.filter(part => part.type === 'instagramEmbed');
+  t.is(instagramEmbeds.length, 1);
 });
 
 test('findWpImageGallery', t => {
