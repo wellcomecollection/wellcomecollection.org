@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "app:build": "babel . -d .dist --ignore=node_modules",
-    "app:dev": "nodemon app.js -e js,njk --exec babel-node",
+    "app:dev": "nodemon --watch app.js --watch config -e js,njk,json --exec babel-node app.js",
     "app:docker": "pm2-docker ./.dist/app.js --name 'wellcomecollection.org'",
     "app:start": "pm2 start ./.dist/app.js --name 'wellcomecollection.org'",
     "fractal": "fractal start —sync --port 3002",

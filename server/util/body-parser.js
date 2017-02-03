@@ -2,6 +2,7 @@
 import parse from 'parse5';
 import url from 'url';
 import entities from 'entities';
+
 import {createImageGallery} from '../model/image-gallery';
 import {createPicture} from '../model/picture';
 import {createVideo} from '../model/video';
@@ -9,6 +10,7 @@ import {createList} from '../model/list';
 import {createTweet} from '../model/tweet';
 import {createBodyPart} from '../model/body-part';
 import {createHeading} from '../model/heading';
+import {createInstagramEmbed} from '../model/instagram-embed';
 
 export function bodyParser(bodyText) {
   const fragment = getFragment(bodyText);
@@ -30,6 +32,7 @@ export function explodeIntoBodyParts(nodes) {
       convertWpVideo,
       convertWpList,
       convertTweet,
+      convertInstagramEmbed,
       findWpImageGallery
     ];
 
@@ -163,6 +166,22 @@ export function convertWpList(node) {
         // TODO: We should be sending a name with all lists
         name: null,
         items: listItems
+      })
+    });
+  } else {
+    return node;
+  }
+}
+
+function convertInstagramEmbed(node) {
+  const className = node.attrs && getAttrVal(node.attrs, 'class');
+  const isInstagramEmbed = Boolean(className && className.match('instagram-media'));
+
+  if (isInstagramEmbed) {
+    return createBodyPart({
+      type: 'instagramEmbed',
+      value: createInstagramEmbed({
+        html: serializeNode(node)
       })
     });
   } else {

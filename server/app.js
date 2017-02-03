@@ -5,9 +5,13 @@ import compress from 'koa-compress';
 import {router} from './routes';
 import render from './view/render';
 import {enforceSSL} from './middleware/enforce-ssl';
+import setCacheControl from './middleware/set-cache-control';
 
 const app = new Koa();
 
+app.use(setCacheControl({
+  files: ['text/css','application/javascript']
+}));
 app.use(compress({
   filter: (content_type) => {
     const typesToCompress = ['text/html','text/css','application/javascript']
