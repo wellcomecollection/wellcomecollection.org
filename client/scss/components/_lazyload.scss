@@ -1,0 +1,8 @@
+.lazyload {
+  display: none;
+
+  &[src],
+  .enhanced & {
+    display: block;
+  }
+}
