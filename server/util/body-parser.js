@@ -189,7 +189,7 @@ function convertInstagramEmbed(node) {
   const isInstagramEmbed = Boolean(className && className.match('instagram-media'));
 
   if (isInstagramEmbed) {
-    return new BodyPart({
+    return bodyPart({
       type: 'instagramEmbed',
       value: createInstagramEmbed({
         html: serializeNode(node)
