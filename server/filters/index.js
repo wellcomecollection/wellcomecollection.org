@@ -5,6 +5,7 @@ import gridClasses from './grid-classes';
 import componentClasses from './component-classes';
 import concat from './concat';
 import contains from './contains';
+import getCacheBustFile from './get-cache-bust-file';
 
 export default Map({
   youtubeEmbedUrl,
@@ -12,5 +13,6 @@ export default Map({
   gridClasses,
   concat,
   contains,
-  componentClasses
+  componentClasses,
+  getCacheBustFile
 });

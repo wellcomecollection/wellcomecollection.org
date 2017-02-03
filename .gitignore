@@ -27,3 +27,6 @@ wellcomecollection.org.iml
 cardigan/
 
 /server/local.log
+
+/server/config/css-assets.json
+/server/config/js-assets.json
