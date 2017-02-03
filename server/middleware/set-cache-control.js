@@ -1,7 +1,5 @@
-export default (options) => {
-  options = options || {};
-
-  const files = options.files;
+export default (options = {}) => {
+  const files = options.files || '';
   const maxAge = options.maxAge || 31536000 // 60*60*24*365, i.e. 1 year
 
   return function setCacheControl(ctx, next) {
