@@ -1,15 +1,15 @@
-import { Promo } from '../../../model/promo';
+import { createPromo } from '../../../model/promo';
 import Article from '../../../model/article';
 import mockJson from '../../../test/mocks/wp-api.json';
 
 const article = Article.fromWpApi(mockJson);
-const copy = article.bodyParts.find(part => part.get('type') === 'standfirst').value;
+const copy = article.bodyParts.find(part => part.type === 'standfirst').value;
 
 export const name = 'Promo';
 export const handle = 'promo';
 export const collated = true;
 
-export const promo = new Promo({
+export const promo = createPromo({
   modifiers: ['underlined'],
   article: article,
   copy: copy,
@@ -17,7 +17,7 @@ export const promo = new Promo({
   meta: {
     type: 'article'
   }
-}).toJS();
+});
 
 export const context = { promo };
 export const variants = [

@@ -51,12 +51,6 @@
     "open": "0.0.5",
     "pa11y": "^4.2.0"
   },
-  "babel": {
-    "presets": [
-      "es2015",
-      "stage-3"
-    ]
-  },
   "ava": {
     "require": [
       "babel-register"

@@ -1,9 +1,9 @@
-import { NumberedList } from '../../../model/numbered-list';
+import { createNumberedList } from '../../../model/numbered-list';
 
 export const name = 'Numbered list';
 export const handle = 'numbered-list';
 
-export const numberedList = new NumberedList({
+export const numberedList = createNumberedList({
   name: 'Latest',
   items: [
     {
@@ -32,6 +32,6 @@ export const numberedList = new NumberedList({
       meta: '3 weeks ago'
     }
   ]
-}).toJS();
+});
 
 export const context = { numberedList };

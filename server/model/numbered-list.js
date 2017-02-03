@@ -1,6 +1,11 @@
-import {Record} from 'immutable';
+// @flow
+export type NumberedList = {|
+  name: string;
+  items: Array<{
+    title: string,
+    url: string,
+    meta: string
+  }>;
+|}
 
-export const NumberedList = Record({
-  name: null,
-  items: null
-});
+export function createNumberedList(data: NumberedList) { return (data: NumberedList); }
