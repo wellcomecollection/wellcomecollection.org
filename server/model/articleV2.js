@@ -43,14 +43,17 @@ export class ArticleFactory {
       sameAs: [{ wordpress: json.author.URL }]
     });
 
+    const bodyParts = bodyParser(articleBody);
+    const standfirst = bodyParts.find(part => part.type === 'standfirst');
+
     const article = createArticle({
       headline: json.title,
-      standfirst: 'standfirst',
+      standfirst: standfirst,
       mainMedia: [mainImage],
       articleBody: articleBody,
       associatedMedia: [mainImageComponent],
       author: author,
-      bodyParts: bodyParser(articleBody)
+      bodyParts: bodyParts
     });
 
     return article;

@@ -4,5 +4,5 @@ import {ArticleFactory} from '../../model/articleV2';
 
 test('articleV2', t => {
   const A = ArticleFactory.fromWpApi(wpApiResp);
-  console.info(A);
+  console.info(A.standfirst);
 });
