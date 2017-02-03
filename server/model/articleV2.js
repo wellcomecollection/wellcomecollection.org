@@ -1,47 +1,30 @@
 // @flow
-import entities from 'entities';
-import {Person} from './person';
+import {type Component} from './component';
+import {type Person, createPerson} from './person';
+import {type Picture} from './picture';
 import {getWpFeaturedImage} from './media';
 import {bodyParser} from '../util/body-parser';
-import {type Picture} from './picture';
-
-type ComponentType =
-  | 'imageGallery'
-  | 'picture'
-  | 'video'
-  | 'list'
-  | 'tweet'
-  | 'heading';
-
-type ComponentWeight =
-  | 'default'
-  | 'leading'
-  | 'standalone'
-  | 'supporting';
 
 export type BodyPart = {};
-
-export type Component<T> = {|
-  weight: ComponentWeight;
-  type: ComponentType;
-  value: T;
-|}
 
 export type ArticleV2 = {|
   headline: string;
   standfirst: string;
+  mainMedia: Picture,
   articleBody: string;
   associatedMedia: Array<Component<Picture>>;
-  // author: Person;
+  author: Person;
   bodyParts: Array<Component<BodyPart>>;
 |}
 
-function article(data: ArticleV2) {
+function createArticle(data: ArticleV2) {
   return (data: ArticleV2);
 }
 
-class ArticleFactory {
-  static fromWpApi(json) {
+export class ArticleFactory {
+  static fromWpApi(json): ArticleV2 {
+    const articleBody = json.content;
+
     const mainImage: Picture = getWpFeaturedImage(json.featured_image, json.attachments);
     const mainImageComponent = ({
       weight: 'leading',
@@ -49,15 +32,24 @@ class ArticleFactory {
       value: mainImage
     }: Component<Picture>);
 
-    const a = article({
-      headline: json.title,
-      standfirst: 'standfirst',
-      articleBody: json.content,
-      associatedMedia: [mainImageComponent],
-      bodyParts: []
+    const author: Person = createPerson({
+      givenName: json.author.first_name,
+      familyName: json.author.last_name,
+      name: `${json.author.first_name} ${json.author.last_name}`,
+      image: json.author.avatar_URL,
+      sameAs: [{ wordpress: json.author.URL }]
     });
 
+    const article = createArticle({
+      headline: json.title,
+      standfirst: 'standfirst',
+      mainMedia: mainImage,
+      articleBody: articleBody,
+      associatedMedia: [mainImageComponent],
+      author: author,
+      bodyParts: bodyParser(articleBody)
+    });
 
-    // const p = article({'ajsdaksjhd': 'aslkdjaslkdj'})
+    return article;
   }
 }
