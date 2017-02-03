@@ -4,7 +4,7 @@
   {% set largeWidth = item.width/item.height*640 %}
   {% set queries = '(max-width: 600px) ' + smallWidth + 'px, ' + largeWidth + 'px' %}
   <div class="image-gallery__item">
-    {% component 'captioned-image', {modifiers: ['max-out-height'], image: item, sizesQueries: queries } %}
+    {% componentV2 'captioned-image', item, {'max-out-height': true}, {sizesQueries: queries} %}
   </div>
   {% endfor %}
 </div>
