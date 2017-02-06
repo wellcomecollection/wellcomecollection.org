@@ -2,6 +2,7 @@
 .*/node_modules/config-chain/test/broken.json
 
 [include]
+.*/node_modules/immutable/dist/immutable.js.flow
 
 [libs]
 

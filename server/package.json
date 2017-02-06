@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "app:build": "babel . -d .dist --ignore=node_modules",
-    "app:dev": "nodemon --watch app.js --watch config -e js,njk,json --exec babel-node app.js",
+    "app:dev": "nodemon -e js,njk,json --exec babel-node app.js",
     "app:docker": "pm2-docker ./.dist/app.js --name 'wellcomecollection.org'",
     "app:start": "pm2 start ./.dist/app.js --name 'wellcomecollection.org'",
     "fractal": "fractal start —sync --port 3002",
@@ -47,6 +47,7 @@
     "browserstack-local": "^1.3.0",
     "concurrently": "^3.1.0",
     "flow-bin": "^0.38.0",
+    "flow-typed": "^2.0.0",
     "nodemon": "^1.10.2",
     "open": "0.0.5",
     "pa11y": "^4.2.0"

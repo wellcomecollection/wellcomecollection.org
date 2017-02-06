@@ -2,43 +2,30 @@
 
 {% block body %}
   {% component 'page-description', { title: 'Explore', modifiers: ['hidden'] } %}
-  <div class="row">
+  <div class="row row--no-bottom-padding row--cream row--has-wobbly-background">
     <div class="container">
       <div class="grid">
-        <div class="grid__cell">
-          <header class="page-description page-description--a">
-            <h1 class="page-description__title">Explore</h1>
-          </header>
+        <div class="{{ {s:4, m:8, l:12, xl:12} | gridClasses }}">
+          {% component 'promo', { promo: top4Promos.first() } %}
         </div>
       </div>
-      <div class="grid">
-        <div class="grid__cell">
+    </div>
+    <div class="row__wobbly-background"></div>
+  </div>
 
-          <h2>From the blog</h2>
-          <ul>
-              {% for post in wpPosts %}
-                <li>
-                  <a href="/articles/{{ post.slug }}">{{ post.title }}</a>
-                </li>
-              {% endfor %}
-          </ul>
+  <div class="row row--cream row--no-padding">
+    <div class="container container--scroll touch-scroll">
+      <div class="grid grid--dividers grid--featured">
+        <div class="{{ {s:4, m:4, l:4} | gridClasses }}">
+          {% component 'promo', { promo: promo } %}
+        </div>
 
-          <h1>From the Collection explore section</h1>
-          <ul>
-            <li>
-              <a href="/artefacts/john-thomsons-china">John Thomson's China (article)</a>
-            </li>
-            <li>
-              <a href="/artefacts/fly-sugar-crystals">A fly on sugar crystals (audio)</a>
-            </li>
-            <li>
-              <a href="/artefacts/david-cotterrell-afghanistan">David Cotterrell on Afghanistan (video)</a>
-            </li>
-            <li>
-              <a href="/artefacts/aids-posters-0">AIDS Posters (image gallery)</a>
-            </li>
-          </ul>
+        <div class="{{ {s:4, m:4, l:4} | gridClasses }}">
+          {% component 'promo', { promo: promo } %}
+        </div>
 
+        <div class="{{ {s:4, m:8, l:4} | gridClasses }}">
+          {% component 'promo', { promo: seriesArticlePromo } %}
         </div>
       </div>
     </div>

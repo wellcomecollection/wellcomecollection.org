@@ -1,3 +1,5 @@
+// TODO: FlowType this module
+import {type Promo} from '../model/promo';
 import {createPageConfig} from '../model/page-config';
 import {getPosts, getArticle} from '../services/wordpress';
 
@@ -26,12 +28,23 @@ export const article = async(ctx, next) => {
 
 export const explore = async(ctx) => {
   const wpPosts = await getPosts();
+  const top4ArticlePromos = wpPosts.take(4);
+  const top4Promos = top4ArticlePromos.map(articlePromo => {
+    const promo: Promo = {
+      modifiers: [],
+      article: articlePromo,
+      url: articlePromo.url,
+      meta: {}
+    };
+    return promo;
+  });
+
   return ctx.render('pages/explore', {
     pageConfig: createPageConfig({
       title: 'Explore',
       inSection: 'explore'
     }),
-    wpPosts
+    top4Promos
   });
 };
 

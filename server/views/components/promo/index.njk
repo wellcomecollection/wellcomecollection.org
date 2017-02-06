@@ -7,8 +7,8 @@
 <a href="{{ promo.url }}" class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %}">
   <div class="promo__image-container">
     <img class="promo__image"
-      src="{{ promo.article.mainImage.contentUrl }}"
-      alt="{{ promo.article.mainImage.caption }}" />
+      src="{{ promo.article.thumbnail.contentUrl }}"
+      alt="{{ promo.article.headline }}" />
 
     {% for modifier in promo.modifiers %}
       {% if modifier === 'series' %}
@@ -23,7 +23,7 @@
             </filter>
           </defs>
         </svg>
-        <img class="promo__image-mask promo__clip-path--{{ [1,2,3,4,5,6,7,8,9,10] | random }}" src="{{ promo.article.mainImage.contentUrl }}" alt="" />
+        <img class="promo__image-mask promo__clip-path--{{ [1,2,3,4,5,6,7,8,9,10] | random }}" src="{{ promo.article.thumbnail.contentUrl }}" alt="" />
       {% endif %}
     {% endfor %}
 
@@ -65,8 +65,8 @@
                   <span class="promo__date">{{ promo.meta.date }}</span>
                 {% endif %}
               </div>
-              {% if promo.copy %}
-                <span  class="promo__copy">{{ promo.copy | striptags | safe | truncate(100) }}</span>
+              {% if promo.article.description %}
+                <span  class="promo__copy">{{ promo.article.description | striptags | safe | truncate(100) }}</span>
               {% endif %}
             </header>
           {% if promo.modifiers and promo.modifiers | contains('standalone') %}
