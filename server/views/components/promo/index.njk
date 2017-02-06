@@ -61,8 +61,8 @@
                   <{{ headingLevel or 'h2'}} class="promo__title">
                     {{ promo.article.headline }}
                   </{{ headingLevel or 'h2'}}>
-                {% if promo.meta.date %}
-                  <span class="promo__date">{{ promo.meta.date }}</span>
+                {% if promo.article.datePublished %}
+                  <span class="promo__date">{{ promo.article.datePublished | formatDate }}</span>
                 {% endif %}
               </div>
               {% if promo.article.description %}

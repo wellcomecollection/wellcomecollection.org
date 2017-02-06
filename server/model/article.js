@@ -1,6 +1,5 @@
 // @flow
 import entities from 'entities';
-import {type ArticlePromo} from './article-promo';
 import {type Person} from './person';
 import {type Picture} from './picture';
 import {getWpFeaturedImage} from './media';
@@ -13,6 +12,7 @@ export type Article = {|
   headline: string;
   standfirst: string;
   description: string;
+  datePublished: Date;
   // TODO: this will probably, at some stage be able to be video/audio/gallery etc
   // It's also an Array because it's not unfathomable to think of having
   // an audio and image mainMedia.
@@ -55,6 +55,7 @@ export class ArticleFactory {
       headline: entities.decode(json.title),
       standfirst: standfirst,
       description: json.excerpt,
+      datePublished: new Date(json.date),
       mainMedia: [mainImage],
       thumbnail: thumbnail,
       articleBody: articleBody,

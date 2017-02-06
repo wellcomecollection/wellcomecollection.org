@@ -7,7 +7,7 @@ const baseUri = 'https://public-api.wordpress.com/rest/v1.1/sites/blog.wellcomec
 
 export async function getPosts(): Promise<List<ArticlePromo>> {
   const uri = `${baseUri}/posts/`;
-  const response = await request(uri).query({fields: 'slug,title,excerpt,post_thumbnail'});
+  const response = await request(uri).query({fields: 'slug,title,excerpt,post_thumbnail,date'});
 
   const posts: List<ArticlePromo> = List(response.body.posts).map(post => {
     return (ArticlePromoFactory.fromWpApi(post): ArticlePromo);
