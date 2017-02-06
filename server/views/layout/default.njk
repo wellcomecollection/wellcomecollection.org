@@ -3,15 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Wellcome Collection</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>{{ pageConfig.title + ' | ' if pageConfig.title }}Wellcome Collection</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     {% include "partials/css-head.njk" %}
-    <link rel="stylesheet" href="/assets/css/application.css" />
-    {# TODO: - come up with better way of including javscript in the head #}
-    {% include "partials/js-head.njk" %}
+    <link rel="stylesheet" href="/assets/css/{{ 'application.css' | getCacheBustFile }}" />
+    {% component 'head-js', { file:  'app.js' | getCacheBustFile  } %}
     {# TODO: Add apple icons, different sizes icons etc #}
   </head>
-
   <body>
     {% component 'skip-link' %}
 
@@ -114,6 +112,7 @@
 
     {% component 'cookie-notification' %}
 
-    {% include "partials/analytics.njk" %}
+    {% include 'partials/analytics.njk' %}
+    {% include 'partials/monitoring.njk' %}
   </body>
 </html>

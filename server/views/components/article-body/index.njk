@@ -8,14 +8,10 @@
                 {{- ' body-part--sticky js-sticky' if bodyPart.weight === 'supporting'  -}}">
       {% if bodyPart.type === 'standfirst' %}
         {% component 'standfirst', { body: bodyPart.value } %}
+      {% elif bodyPart.type === 'heading' %}
+        <h2>{{ bodyPart.value.value | safe }}</h2>
       {% elif bodyPart.type === 'picture' %}
-        {% component 'figure', {
-          type: 'picture',
-          sources: [{src: bodyPart.value.contentUrl, size: bodyPart.value.width}],
-          caption: bodyPart.value.caption,
-          modifiers: bodyPart.value.modifiers,
-          icon: 'other/picture'
-        } %}
+        {% componentV2 'captioned-image', bodyPart.value %}
       {% elif bodyPart.type === 'video' %}
         {% component 'iframed-video', {video: bodyPart.value} %}
       {% elif bodyPart.type === 'list' %}
@@ -23,11 +19,15 @@
       {% elif bodyPart.type === 'interview' %}
         {% component 'interview', { interview: bodyPart.value } %}
       {% elif bodyPart.type === 'imageGallery' %}
-        <div class="body-part__scroller">
+        <div class="body-part__scroller touch-scroll">
           <div class="body-part__scroller-content">
             {% component 'image-gallery', { imageGallery: bodyPart.value } %}
           </div>
         </div>
+      {% elif bodyPart.type === 'tweet' %}
+        {% component 'tweet', { tweet: bodyPart.value } %}
+      {% elif bodyPart.type === 'instagramEmbed' %}
+        {% component 'instagram-embed', { instagramEmbed: bodyPart.value } %}
       {% else %}
         {{ bodyPart.value | safe }}
       {% endif %}

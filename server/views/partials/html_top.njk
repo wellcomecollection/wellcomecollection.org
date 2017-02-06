@@ -4,9 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>Wellcome Collection</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 	{% include "views/partials/css-head.njk" %}
   <link rel="stylesheet" href="{{ '/assets/css/styleguide.css' | path }}">
-  {# TODO: - come up with better way of including javscript in the head #}
-  {% include "views/partials/js-head.njk" %}
+  {% component 'head-js', { file:  'app.js' } %}
 </head>

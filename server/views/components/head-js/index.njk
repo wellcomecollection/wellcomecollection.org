@@ -13,7 +13,7 @@
 
       var rootElement = document.documentElement;
       var enhancedClass = 'enhanced';
-      var enhancedScriptPath = '/assets/js/app.js';
+      var enhancedScriptPath = '/assets/js/{{file}}';
 
       var WBSubset = new FontFaceObserver('Wellcome Bold Web Subset', {weight: 'bold'});
       var WB = new FontFaceObserver('Wellcome Bold Web', {weight: 'bold'});
@@ -35,7 +35,7 @@
         script.src = src;
         ref.parentNode.insertBefore(script, ref);
         return script;
-      };
+      }
 
       if (sessionStorage.fontsLoaded) {
         rootElement.classList.add('font-stage-1','font-stage-2');

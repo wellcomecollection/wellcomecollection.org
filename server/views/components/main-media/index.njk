@@ -1,0 +1,15 @@
+{% extends 'components/captioned-image/index.njk' %}
+{% block figcaption %}
+  {% component 'wobbly-edge', {background: 'cream'} %}
+  {% if model.caption %}
+    <div class="{{ 'row row--cream' if full }}">
+      <div class="{{ 'container' if full }}">
+        <div class="grid">
+          <div class="{{ {m:6, xl:10, shiftM:1, shiftXl:1} | gridClasses }}">
+            {{ super() }}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

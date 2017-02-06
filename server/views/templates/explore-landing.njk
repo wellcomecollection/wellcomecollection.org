@@ -3,22 +3,56 @@
 {% block body %}
   {% component 'page-description', { title: 'Explore', modifiers: ['hidden'] } %}
 
-  <div class="row">
+  <div class="row row--no-bottom-padding row--cream row--has-wobbly-background">
     <div class="container">
       <div class="grid">
-        <div class="{{ {s:4, m:4, l:12} | gridClasses }}">
-          {% component 'promo', { modifiers: promo.modifiers, image: promo.image, meta: promo.meta, title: promo.title, url: promo.url, copy: promo.copy } %}
+        <div class="{{ {s:4, m:8, l:12, xl:12} | gridClasses }}">
+          {% component 'promo', { promo: seriesArticlePromo } %}
         </div>
-        <div class="{{ {s:4, m:4, l:8} | gridClasses }}">
-          {% component 'promo', { modifiers: promo.modifiers, image: promo.image, meta: promo.meta, title: promo.title, url: promo.url, copy: promo.copy } %}
-        </div>
+      </div>
+    </div>
+    <div class="row__wobbly-background"></div>
+  </div>
+
+  <div class="row row--cream row--no-padding">
+    <div class="container container--scroll touch-scroll">
+      <div class="grid grid--dividers grid--featured">
         <div class="{{ {s:4, m:4, l:4} | gridClasses }}">
-          {% component 'promo', { modifiers: promo.modifiers, image: promo.image, meta: promo.meta, title: promo.title, url: promo.url, copy: promo.copy } %}
+          {% component 'promo', { promo: promo } %}
         </div>
+
         <div class="{{ {s:4, m:4, l:4} | gridClasses }}">
-          {% component 'numbered-list', { heading: numbered_list.heading, items: numbered_list.items } %}
+          {% component 'promo', { promo: promo } %}
+        </div>
+
+        <div class="{{ {s:4, m:8, l:4} | gridClasses }}">
+          {% component 'promo', { promo: seriesArticlePromo } %}
         </div>
       </div>
     </div>
   </div>
+
+  <div class="row">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:4, m:4, l:12, xl:12} | gridClasses }}">
+          {% component 'promo', { promo: promo } %}
+        </div>
+        <div class="{{ {s:4, m:4, l:8} | gridClasses }}">
+          {% component 'promo', { promo: promo } %}
+        </div>
+        <div class="{{ {s:4, m:4, l:4} | gridClasses }}">
+          {% component 'promo', { promo: promo } %}
+        </div>
+        <div class="{{ {s:4, m:4, l:4} | gridClasses }}">
+          {% component 'numbered-list', { numberedList: numberedList } %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    {% component 'promo', { promo: standaloneArticlePromo } %}
+  </div>
+
 {% endblock %}

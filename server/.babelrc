@@ -8,5 +8,6 @@
   ],
   "ignore": [
     "node_modules"
-  ]
+  ],
+  "plugins": ["transform-flow-strip-types"]
 }

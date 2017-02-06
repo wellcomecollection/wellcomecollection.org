@@ -9,8 +9,7 @@ import {
   removeExtraAttrs,
   convertDomNode,
   convertWpImage,
-  convertWpVideo,
-  findWpImageGallery
+  convertWpVideo
 } from '../../util/body-parser';
 import {domNodeHtml, wpImageNodeHtml, wpVideoNodeHtml} from '../mocks/dom-nodes';
 
@@ -65,6 +64,18 @@ test('convertWpVideo', t => {
     v.value.embedUrl,
     'https://www.youtube.com/embed/bfXAlqx0H1g?version=3&rel=1&fs=1&autohide=2&showsearch=0&showinfo=1&iv_load_policy=1&wmode=transparent'
   );
+});
+
+test('convertTweet', t => {
+  const bodyParts = bodyParser(wpApiResp.content);
+  const tweets = bodyParts.filter(part => part.type === 'tweet');
+  t.is(tweets.length, 1);
+});
+
+test('convertInstagramEmbed', t => {
+  const bodyParts = bodyParser(wpApiResp.content);
+  const instagramEmbeds = bodyParts.filter(part => part.type === 'instagramEmbed');
+  t.is(instagramEmbeds.length, 1);
 });
 
 test('findWpImageGallery', t => {

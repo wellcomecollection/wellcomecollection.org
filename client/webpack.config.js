@@ -1,5 +1,7 @@
+const webpack = require('webpack');
+
 module.exports = {
-  entry: ['babel-polyfill', './js/app.js'],
+  entry: './js/app.js',
   output: {
     filename: 'app.js'
   },
@@ -10,5 +12,8 @@ module.exports = {
       exclude: /node_modules/,
       loader: 'babel-loader'
     }]
-  }
+  },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin()
+  ]
 };

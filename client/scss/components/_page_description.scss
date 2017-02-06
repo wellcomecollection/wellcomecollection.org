@@ -2,6 +2,10 @@
 
 .page-description {
   margin-bottom: $vertical-space-unit;
+
+  @include respond-to('large') {
+    margin-bottom: 3 * $vertical-space-unit;
+  }
 }
 
 .page-description--hidden {
@@ -31,7 +35,7 @@
 }
 
 .page-description__row {
-  margin-bottom: 0.6em;
+  margin-bottom: 0.3em;
 
   // This aligns the grey lead bar with text baseline
   &:before {
@@ -47,6 +51,10 @@
 
 .page-description__container {
   padding-top: $vertical-space-unit;
+
+  @include respond-to('large') {
+    padding-top: 3 * $vertical-space-unit;
+  }
 }
 
 .page-description__intro {
@@ -61,6 +69,11 @@
   display: flex;
   align-items: center;
   color: color('accessible-grey-1');
+  margin-bottom: 0.3rem;
+
+  @include respond-to('large') {
+    margin-bottom: -1.2rem;
+  }
 
   .icon {
     margin-right: 0.5em;

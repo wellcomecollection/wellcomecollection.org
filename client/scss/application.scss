@@ -5,6 +5,7 @@
 @import 'utilities/variables';
 @import 'utilities/mixins';
 @import 'utilities/functions';
+@import 'utilities/classes';
 
 // Base
 @import 'base/fonts';
@@ -20,6 +21,7 @@
 @import 'grids/grid_alignment';
 @import 'grids/grid_breakout';
 @import 'grids/grid_dividers';
+@import 'grids/grid_featured';
 @import 'grids/grid_size';
 
 // Components
@@ -27,19 +29,19 @@
 @import 'components/author';
 @import 'components/blockquote';
 @import 'components/body_content';
+@import 'components/captioned_image';
 @import 'components/cookie_notification';
 @import 'components/divider';
 @import 'components/buttons';
-@import 'components/figure';
 @import 'components/find_us';
 @import 'components/footer';
 @import 'components/footer_nav';
 @import 'components/footer_social';
 @import 'components/header';
-@import 'components/iframed-video';
-@import 'components/image-gallery';
+@import 'components/iframed_video';
+@import 'components/image_gallery';
 @import 'components/interview';
-@import 'components/new-site-notice';
+@import 'components/new_site_notice';
 @import 'components/numbered_list';
 @import 'components/opening_hours';
 @import 'components/page_description';
@@ -47,4 +49,6 @@
 @import 'components/skip_link';
 @import 'components/standfirst';
 @import 'components/tags';
+@import 'components/transporter';
+@import 'components/tweet';
 @import 'components/wobbly_edge';

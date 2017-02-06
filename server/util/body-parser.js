@@ -1,20 +1,31 @@
+// TODO: Add flow (there is a lot of types to add if we do)
 import parse from 'parse5';
 import url from 'url';
-import {Record} from 'immutable';
-import {ImageGallery} from '../model/image-gallery';
-import {Picture} from '../model/picture';
-import {Video} from '../model/video';
-import {List} from '../model/list';
+import entities from 'entities';
 
-const BodyPart = Record({
-  weight: 'default',
-  type: null,
-  value: null
-});
+import {createImageGallery} from '../model/image-gallery';
+import {createPicture} from '../model/picture';
+import {createVideo} from '../model/video';
+import {createList} from '../model/list';
+import {createTweet} from '../model/tweet';
+import {createInstagramEmbed} from '../model/instagram-embed';
+
+type BodyPart = {|
+  weight: string;
+  type: string;
+  value: any; // TODO: Make this not `any`
+|}
+function bodyPart(data: BodyPart) { return (data: BodyPart); }
+
+type Heading = {|
+  level: number;
+  value: any; // TODO: Make this not `any`
+|}
+function heading(data: Heading) { return (data: Heading); }
 
 export function bodyParser(bodyText) {
   const fragment = getFragment(bodyText);
-  const preCleaned = cleanNodes(fragment.childNodes, [removeEmptyTextNodes]);
+  const preCleaned = cleanNodes(fragment.childNodes, [removeEmptyTextNodes, decodeHtmlEntities]);
   const bodyParts = explodeIntoBodyParts(preCleaned);
 
   return bodyParts;
@@ -26,7 +37,15 @@ export function getFragment(bodyText) {
 
 export function explodeIntoBodyParts(nodes) {
   const parts = nodes.map((node, nodeIndex) => {
-    const converters = [convertWpImage, convertWpVideo, convertWpList, findWpImageGallery];
+    const converters = [
+      convertWpHeading,
+      convertWpImage,
+      convertWpVideo,
+      convertWpList,
+      convertTweet,
+      convertInstagramEmbed,
+      findWpImageGallery
+    ];
 
     // TODO: Tidy up typing here
     const maybeBodyPart = nodeIndex === 0 ? convertWpStandfirst(node) :
@@ -48,26 +67,76 @@ export function removeEmptyTextNodes(nodes) {
   return nodes.filter(node => !isEmptyText(node));
 }
 
+function decodeHtmlEntities(nodes) {
+  return nodes.map(node => {
+    if (node.nodeName === '#text') {
+      const decodedVal = entities.decodeHTML(node.value);
+      // Bah, more mutation - I wish I had a copy.
+      node.value = decodedVal;
+      return node;
+    } else {
+      return node;
+    }
+  });
+}
+
 function convertWpStandfirst(node) {
-  return new BodyPart({
+  return bodyPart({
     type: 'standfirst',
     value: serializeAndCleanNode(node)
   });
 }
 
+export function convertWpHeading(node) {
+  const headingMatch = node.nodeName.match(/h(\d)/);
+  const isWpHeading = Boolean(headingMatch);
+
+  if (isWpHeading) {
+    return bodyPart({
+      type: 'heading',
+      value: heading({
+        level: headingMatch[1],
+        value: serializeAndCleanNode(node.childNodes[0])
+      })
+    })
+  } else {
+    return node;
+  }
+}
+
 export function convertWpImage(node) {
-  const isWpImage = node.attrs && node.attrs.find(attr => attr.name === 'data-shortcode' && attr.value === 'caption');
+  const isWpImage = isCaption(node) || isImg(node);
 
   if (isWpImage) {
     const picture = getImageFromWpNode(node);
+    const className = getAttrVal(node.attrs, 'class') || '';
+    const weights = {
+      alignright: 'supporting',
+      alignleft: 'standalone'
+    };
 
-    return new BodyPart({
+    const weightKey = Object.keys(weights).find(wpClassName => className.indexOf(wpClassName) !== -1);
+    const weight = weightKey ? weights[weightKey] : 'default';
+
+    return bodyPart({
+      weight,
       type: 'picture',
       value: picture
     });
   } else {
     return node;
   }
+}
+
+function isCaption(node) {
+  return node.attrs && node.attrs.find(attr => attr.name === 'data-shortcode' && attr.value === 'caption');
+}
+
+function isImg(node) {
+  const mayBeWrapperA = node.childNodes.find(node => node.nodeName === 'a');
+  const parentNode = mayBeWrapperA || node;
+
+  return parentNode.childNodes && parentNode.childNodes[0] && parentNode.childNodes[0].nodeName === 'img';
 }
 
 export function convertWpVideo(node) {
@@ -77,9 +146,9 @@ export function convertWpVideo(node) {
   if (isWpVideo) {
     const iframe = maybeSpan.childNodes[0];
     const embedUrl = getAttrVal(iframe.attrs, 'src');
-    const video = new Video({ embedUrl });
+    const video = createVideo({ embedUrl });
 
-    return new BodyPart({
+    return bodyPart({
       type: 'video',
       value: video
     });
@@ -94,7 +163,7 @@ export function convertWpList(node) {
     // Make sure it's a list item and not empty
     const lis = node.childNodes.filter(n => n.nodeName === 'li' && n.childNodes);
 
-    const list = lis.map(li => {
+    const listItems = lis.map(li => {
       const itemVal = li.childNodes.reduce((html, node) => {
         return `${html}${serializeNode(node)}`;
       }, '');
@@ -102,12 +171,44 @@ export function convertWpList(node) {
       return itemVal;
     });
 
-    return new BodyPart({
+    return bodyPart({
       type: 'list',
-      value: new List({
+      value: createList({
         // TODO: We should be sending a name with all lists
         name: null,
-        items: list
+        items: listItems
+      })
+    });
+  } else {
+    return node;
+  }
+}
+
+function convertInstagramEmbed(node) {
+  const className = node.attrs && getAttrVal(node.attrs, 'class');
+  const isInstagramEmbed = Boolean(className && className.match('instagram-media'));
+
+  if (isInstagramEmbed) {
+    return bodyPart({
+      type: 'instagramEmbed',
+      value: createInstagramEmbed({
+        html: serializeNode(node)
+      })
+    });
+  } else {
+    return node;
+  }
+}
+
+function convertTweet(node) {
+  const className = node.attrs && getAttrVal(node.attrs, 'class');
+  const isTweet = Boolean(className && className.match('embed-twitter'));
+
+  if (isTweet) {
+    return bodyPart({
+      type: 'tweet',
+      value: createTweet({
+        html: serializeNode(node)
       })
     });
   } else {
@@ -132,7 +233,7 @@ export function findWpImageGallery(node) {
           const height = parseInt(getAttrVal(img.attrs, 'data-original-height'), 10);
           const contentUrl = getAttrVal(img.attrs, 'data-orig-file');
           const caption = getAttrVal(img.attrs, 'alt');
-          return new Picture({
+          return createPicture({
             contentUrl,
             caption,
             width,
@@ -140,11 +241,10 @@ export function findWpImageGallery(node) {
           });
         });
 
-      return new BodyPart({
+      return bodyPart({
         type: 'imageGallery',
         weight: 'standalone',
-        value: new ImageGallery({
-          name: 'Image gallery', // This is just something generic for now
+        value: createImageGallery({
           items: images
         })
       });
@@ -168,10 +268,10 @@ function getImageFromWpNode(node) {
 
   const urlObj = url.parse(getAttrVal(img.attrs, 'data-orig-file'));
   const contentUrl = `https://${urlObj.hostname}${urlObj.pathname}`;
-  const caption = captionNode.childNodes[0].value;
+  const caption = captionNode ? captionNode.childNodes[0].value : null;
   const [width, height] = getAttrVal(img.attrs, 'data-orig-size').split(',');
 
-  return new Picture({
+  return createPicture({
     contentUrl,
     caption,
     url: href,
@@ -184,7 +284,7 @@ export function convertDomNode(node) {
   const cleanedNode = serializeAndCleanNode(node);
 
   if (cleanedNode) {
-    return new BodyPart({
+    return bodyPart({
       type: 'html',
       value: cleanedNode
     });
