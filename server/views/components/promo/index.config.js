@@ -24,18 +24,18 @@ export const variants = [
   },
   {
     name: 'gallery',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'gallery']}, {copy: null}, {meta: {type: 'gallery'}})}
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'gallery']}, {meta: {type: 'gallery'}})}
   },
   {
     name: 'podcast',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'podcast']}, {copy: null}, {meta: {type: 'podcast', length: '01:35'}})}
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'podcast']}, {meta: {type: 'podcast', length: '01:35'}})}
   },
   {
     name: 'video',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'video']}, {copy: null}, {meta: {type: 'video', length: '01:35'}})}
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'video']}, {meta: {type: 'video', length: '01:35'}})}
   },
   {
     name: 'standalone',
-    context: {promo: Object.assign({}, promo, {meta: {type: 'article', date: null}}, {modifiers: ['series', 'standalone']})}
+    context: {promo: Object.assign({}, promo, {meta: {type: 'article'}}, {modifiers: ['series', 'standalone']})}
   }
 ];
