@@ -2,10 +2,8 @@
 import {type ArticlePromo} from './article-promo';
 
 export type Promo = {|
-  modifiers : Array<string>;
+  modifiers: Array<string>;
   article: ArticlePromo;
-  copy?: string;
-  url: string;
   meta?: {
     type?: string,
     date?: string,

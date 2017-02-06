@@ -4,7 +4,7 @@
 {#TODO jsConfig#}
 {#TODO className unitlity for promo classes#}
 
-<a href="{{ promo.url }}" class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %}">
+<a href="{{ promo.article.url }}" class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %}">
   <div class="promo__image-container">
     <img class="promo__image"
       src="{{ promo.article.thumbnail.contentUrl }}"
