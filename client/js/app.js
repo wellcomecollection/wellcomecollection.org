@@ -12,10 +12,10 @@ import makeSticky from './components/make-sticky.js';
 import lazysizes from 'lazysizes';
 import instagram from './components/instagram';
 
-lazysizes.init();
-instagram.init();
-
 const init = () => {
+  lazysizes.init();
+  instagram.init();
+
   const cookieEl = document.getElementById('cookie-notification');
   const burgerEl = document.querySelector('.js-header-burger');
   const headerSearchEl = document.getElementById('header-search');
