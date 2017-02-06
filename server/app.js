@@ -10,7 +10,7 @@ import setCacheControl from './middleware/set-cache-control';
 const app = new Koa();
 
 app.use(setCacheControl({
-  files: ['text/css','application/javascript']
+  files: ['text/css','application/javascript', 'application/font-woff', 'application/font-woff2']
 }));
 app.use(compress({
   filter: (content_type) => {
