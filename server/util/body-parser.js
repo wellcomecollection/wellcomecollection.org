@@ -8,20 +8,9 @@ import {createPicture} from '../model/picture';
 import {createVideo} from '../model/video';
 import {createList} from '../model/list';
 import {createTweet} from '../model/tweet';
+import {createBodyPart} from '../model/body-part';
+import {createHeading} from '../model/heading';
 import {createInstagramEmbed} from '../model/instagram-embed';
-
-type BodyPart = {|
-  weight: string;
-  type: string;
-  value: any; // TODO: Make this not `any`
-|}
-function bodyPart(data: BodyPart) { return (data: BodyPart); }
-
-type Heading = {|
-  level: number;
-  value: any; // TODO: Make this not `any`
-|}
-function heading(data: Heading) { return (data: Heading); }
 
 export function bodyParser(bodyText) {
   const fragment = getFragment(bodyText);
@@ -81,7 +70,7 @@ function decodeHtmlEntities(nodes) {
 }
 
 function convertWpStandfirst(node) {
-  return bodyPart({
+  return createBodyPart({
     type: 'standfirst',
     value: serializeAndCleanNode(node)
   });
@@ -92,9 +81,9 @@ export function convertWpHeading(node) {
   const isWpHeading = Boolean(headingMatch);
 
   if (isWpHeading) {
-    return bodyPart({
+    return createBodyPart({
       type: 'heading',
-      value: heading({
+      value: createHeading({
         level: headingMatch[1],
         value: serializeAndCleanNode(node.childNodes[0])
       })
@@ -118,7 +107,7 @@ export function convertWpImage(node) {
     const weightKey = Object.keys(weights).find(wpClassName => className.indexOf(wpClassName) !== -1);
     const weight = weightKey ? weights[weightKey] : 'default';
 
-    return bodyPart({
+    return createBodyPart({
       weight,
       type: 'picture',
       value: picture
@@ -148,7 +137,7 @@ export function convertWpVideo(node) {
     const embedUrl = getAttrVal(iframe.attrs, 'src');
     const video = createVideo({ embedUrl });
 
-    return bodyPart({
+    return createBodyPart({
       type: 'video',
       value: video
     });
@@ -171,7 +160,7 @@ export function convertWpList(node) {
       return itemVal;
     });
 
-    return bodyPart({
+    return createBodyPart({
       type: 'list',
       value: createList({
         // TODO: We should be sending a name with all lists
@@ -189,7 +178,7 @@ function convertInstagramEmbed(node) {
   const isInstagramEmbed = Boolean(className && className.match('instagram-media'));
 
   if (isInstagramEmbed) {
-    return bodyPart({
+    return createBodyPart({
       type: 'instagramEmbed',
       value: createInstagramEmbed({
         html: serializeNode(node)
@@ -205,7 +194,7 @@ function convertTweet(node) {
   const isTweet = Boolean(className && className.match('embed-twitter'));
 
   if (isTweet) {
-    return bodyPart({
+    return createBodyPart({
       type: 'tweet',
       value: createTweet({
         html: serializeNode(node)
@@ -241,7 +230,7 @@ export function findWpImageGallery(node) {
           });
         });
 
-      return bodyPart({
+      return createBodyPart({
         type: 'imageGallery',
         weight: 'standalone',
         value: createImageGallery({
@@ -284,7 +273,7 @@ export function convertDomNode(node) {
   const cleanedNode = serializeAndCleanNode(node);
 
   if (cleanedNode) {
-    return bodyPart({
+    return createBodyPart({
       type: 'html',
       value: cleanedNode
     });

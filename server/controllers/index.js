@@ -1,19 +1,5 @@
 import {createPageConfig} from '../model/page-config';
 import {getPosts, getArticle} from '../services/wordpress';
-import {getArtefact} from '../services/artefacts';
-
-export const artefact = async(ctx, next) => {
-  const id = ctx.params.id;
-  const artefact = await getArtefact(id);
-
-  return artefact ? ctx.render('pages/article', {
-    pageConfig: createPageConfig({
-      title: artefact.title,
-      inSection: 'explore'
-    }),
-    article: artefact
-  }) : next();
-};
 
 export const article = async(ctx, next) => {
     const id = ctx.params.id;

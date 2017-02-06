@@ -1,15 +1,15 @@
 // @flow
-type Place = {
+type Place = {|
   id: string;
   name: string;
   days: Array<Day>;
-}
+|}
 function createPlace(data: Place) { return (data: Place); }
 
-type Day = {
+type Day = {|
   name: string;
   hours: string;
-}
+|}
 function createDay(data: Day) { return (data: Day); }
 
 export type PlacesOpeningHours = Array<Place>;
