@@ -6,7 +6,6 @@ export type Promo = {|
   article: ArticlePromo;
   meta?: {
     type?: string,
-    date?: string,
     length?: string
   };
 |}
