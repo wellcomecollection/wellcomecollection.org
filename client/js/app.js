@@ -1,7 +1,6 @@
 /* global Raven */
 import 'core-js/fn/object/assign';
 
-import {message} from './wellcome';
 import { nodeList } from './util';
 import headerBurger from './components/header/burger';
 import headerSearch from './components/header/search';
@@ -12,7 +11,7 @@ import preventOverlapping from './components/prevent-overlapping';
 import makeSticky from './components/make-sticky.js';
 import lazysizes from 'lazysizes';
 import instagram from './components/instagram';
-message();
+
 lazysizes.init();
 instagram.init();
 
