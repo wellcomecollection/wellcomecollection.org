@@ -1,0 +1,9 @@
+{% extends 'layout/default.njk' %}
+
+{% block body %}
+  <div class="row row--cream">
+    <div class="container">
+      {% component 'page-description', { title: 'Articles', modifiers: ['a'], publicationDate: '3,896 articles' } %}
+    </div>
+  </div>
+{% endblock %}

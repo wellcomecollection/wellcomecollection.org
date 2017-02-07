@@ -26,6 +26,20 @@ export const article = async(ctx, next) => {
     }
 };
 
+export const articles = async(ctx) => {
+  const wpPosts = await getPosts(32);
+  const promos = postsToPromos(wpPosts);
+
+  // TODO: We might change this to `index`
+  return ctx.render('pages/articles', {
+    pageConfig: createPageConfig({
+      title: 'Explore',
+      inSection: 'explore'
+    }),
+    promos
+  });
+};
+
 function postsToPromos(posts) {
   return posts.map(articlePromo => {
     const promo: Promo = {

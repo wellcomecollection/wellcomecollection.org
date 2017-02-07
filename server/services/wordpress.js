@@ -5,9 +5,12 @@ import request from 'superagent';
 import {ArticleFactory} from '../model/article';
 const baseUri = 'https://public-api.wordpress.com/rest/v1.1/sites/blog.wellcomecollection.org';
 
-export async function getPosts(): Promise<List<ArticlePromo>> {
+export async function getPosts(size: number = 20): Promise<List<ArticlePromo>> {
   const uri = `${baseUri}/posts/`;
-  const response = await request(uri).query({fields: 'slug,title,excerpt,post_thumbnail,date'});
+  const response = await request(uri).query({
+    fields: 'slug,title,excerpt,post_thumbnail,date',
+    number: size
+  });
 
   const posts: List<ArticlePromo> = List(response.body.posts).map(post => {
     return (ArticlePromoFactory.fromWpApi(post): ArticlePromo);
