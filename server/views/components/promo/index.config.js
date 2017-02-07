@@ -1,9 +1,8 @@
+// @flow
 import { createPromo } from '../../../model/promo';
-import { ArticleFactory } from '../../../model/article';
+import { ArticlePromoFactory } from '../../../model/article-promo';
 import mockJson from '../../../test/mocks/wp-api.json';
-
-const article = ArticleFactory.fromWpApi(mockJson);
-const copy = article.bodyParts.find(part => part.type === 'standfirst').value;
+const article = ArticlePromoFactory.fromWpApi(mockJson);
 
 export const name = 'Promo';
 export const handle = 'promo';
@@ -12,8 +11,6 @@ export const collated = true;
 export const promo = createPromo({
   modifiers: ['underlined'],
   article: article,
-  copy: copy,
-  url: '#',
   meta: {
     type: 'article'
   }
@@ -27,18 +24,18 @@ export const variants = [
   },
   {
     name: 'gallery',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'gallery']}, {copy: null}, {meta: {type: 'gallery', date: 'A week ago'}})}
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'gallery']}, {meta: {type: 'gallery'}})}
   },
   {
     name: 'podcast',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'podcast']}, {copy: null}, {meta: {type: 'podcast', length: '01:35', date: 'Yesterday'}})}
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'podcast']}, {meta: {type: 'podcast', length: '01:35'}})}
   },
   {
     name: 'video',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'video']}, {copy: null}, {meta: {type: 'video', length: '01:35', date: 'Two days ago'}})}
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'video']}, {meta: {type: 'video', length: '01:35'}})}
   },
   {
     name: 'standalone',
-    context: {promo: Object.assign({}, promo, {meta: {type: 'article', date: null}}, {modifiers: ['series', 'standalone']})}
+    context: {promo: Object.assign({}, promo, {meta: {type: 'article'}}, {modifiers: ['series', 'standalone']})}
   }
 ];
