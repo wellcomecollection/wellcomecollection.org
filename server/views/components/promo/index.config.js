@@ -1,8 +1,8 @@
 import { createPromo } from '../../../model/promo';
-import Article from '../../../model/article';
+import {ArticleFactory} from '../../../model/article';
 import mockJson from '../../../test/mocks/wp-api.json';
 
-const article = Article.fromWpApi(mockJson);
+const article = ArticleFactory.fromWpApi(mockJson);
 const copy = article.bodyParts.find(part => part.type === 'standfirst').value;
 
 export const name = 'Promo';
