@@ -11,9 +11,8 @@
   {% set accessToken = 'access_token=pk.eyJ1Ijoid2VsbGNvbWVjb2xsZWN0aW9uIiwiYSI6ImNpeGx5eXJubTAwMnkycW4xZHBieTRuZjEifQ.P16Hv5SbMGnteeldt8T-Cw' %}
   {% set sizes = [284, 336, 436] %}
   {% set comma = joiner() %}
-  <img class="find-us__map"
-    src="{{ baseUrl }}284x284.png32?{{ accessToken }}"
-    srcset="
+  <img class="find-us__map lazyload"
+    data-srcset="
       {%- for size in sizes %}
         {{ comma() }}
         {{ baseUrl }}{{ size }}x{{ size }}.png32?{{ accessToken }} {{ size }}w,
