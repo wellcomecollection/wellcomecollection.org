@@ -1,8 +1,7 @@
 // @flow
 import { createPromo } from '../../../model/promo';
-import {ArticlePromoFactory} from '../../../model/article-promo';
+import { ArticlePromoFactory } from '../../../model/article-promo';
 import mockJson from '../../../test/mocks/wp-api.json';
-
 const article = ArticlePromoFactory.fromWpApi(mockJson);
 
 export const name = 'Promo';
