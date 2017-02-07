@@ -3,7 +3,14 @@
 {% block body %}
   <div class="row row--cream">
     <div class="container">
-      {% component 'page-description', { title: 'Articles', modifiers: ['a'], publicationDate: '3,896 articles' } %}
+      {% component 'page-description', {
+        title: 'Articles',
+        modifiers: ['a'],
+        meta: {
+          value: '3,896 articles',
+          type: 'count'
+        }
+      } %}
     </div>
   </div>
 {% endblock %}
