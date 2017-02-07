@@ -6,7 +6,7 @@
     <div class="container">
       <div class="grid">
         <div class="{{ {s:4, m:8, l:12, xl:12} | gridClasses }}">
-          {% component 'promo', { promo: top4Promos.first() } %}
+          {% component 'promo', { promo: topPromo } %}
         </div>
       </div>
     </div>
@@ -16,8 +16,20 @@
   <div class="row row--cream row--no-padding">
     <div class="container container--scroll touch-scroll">
       <div class="grid grid--dividers grid--featured">
-        {% for promo in top4Promos.takeLast(3).toJS() %}
+        {% for promo in second3Promos.toJS() %}
           <div class="{{ {s:4, m:4, l:4} | gridClasses }}">
+            {% component 'promo', { promo: promo } %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="container">
+      <div class="grid">
+        {% for promo in next8Promos.toJS() %}
+          <div class="{{ {s:4, m:4, l:3, xl:3} | gridClasses }}">
             {% component 'promo', { promo: promo } %}
           </div>
         {% endfor %}

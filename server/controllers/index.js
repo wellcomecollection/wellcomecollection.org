@@ -26,25 +26,31 @@ export const article = async(ctx, next) => {
     }
 };
 
-export const explore = async(ctx) => {
-  const wpPosts = await getPosts();
-  const top4ArticlePromos = wpPosts.take(4);
-  const top4Promos = top4ArticlePromos.map(articlePromo => {
+function postsToPromos(posts) {
+  return posts.map(articlePromo => {
     const promo: Promo = {
       modifiers: [],
       article: articlePromo,
-      url: articlePromo.url,
       meta: {}
     };
     return promo;
   });
+}
+
+export const explore = async(ctx) => {
+  const wpPosts = await getPosts();
+  const topPromo = postsToPromos(wpPosts.take(1)).first();
+  const second3Promos = postsToPromos(wpPosts.slice(1, 4));
+  const next8Promos = postsToPromos(wpPosts.slice(4, 12));
 
   return ctx.render('pages/explore', {
     pageConfig: createPageConfig({
       title: 'Explore',
       inSection: 'explore'
     }),
-    top4Promos
+    topPromo,
+    second3Promos,
+    next8Promos
   });
 };
 
