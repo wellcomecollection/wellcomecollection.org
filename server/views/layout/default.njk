@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="/assets/css/{{ 'application.css' | getCacheBustFile }}" />
     {% component 'head-js', { file:  'app.js' | getCacheBustFile  } %}
     {# TODO: Add apple icons, different sizes icons etc #}
+
+    <script type="application/ld+json">
+      {{ pageConfig.organization | jsonLd('Organization') | safe }}
+    </script>
   </head>
   <body>
     {% component 'skip-link' %}

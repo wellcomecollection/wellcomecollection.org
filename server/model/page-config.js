@@ -1,14 +1,20 @@
 // @flow
 import {type PlacesOpeningHours, defaultPlacesOpeningHours} from './opening-hours';
+import {type Organization, wellcomeCollection} from './organization';
 
 // TODO: Make this a strict object, but then we have problems with Object.assign...
 export type PageConfig = {
   title: string;
   inSection?: string;
   openingHours: PlacesOpeningHours;
+  organization: Organization;
 };
 
 export function createPageConfig(data: PageConfig) {
-  const withOpeningHours = Object.assign({}, {openingHours: defaultPlacesOpeningHours}, data);
+  const defaults = {
+    openingHours: defaultPlacesOpeningHours,
+    organization: wellcomeCollection
+  };
+  const withOpeningHours = Object.assign({}, defaults, data);
   return (withOpeningHours: PageConfig);
 }
