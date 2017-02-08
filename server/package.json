@@ -10,7 +10,7 @@
     "app:start": "pm2 start ./.dist/app.js --name 'wellcomecollection.org'",
     "fractal": "fractal start —sync --port 3002",
     "fractal:build": "fractal build",
-    "fractal:watch": "nodemon -e js,njk,yml fractal start —sync --port 3002",
+    "fractal:watch": "nodemon -e js,njk,yml --exec 'fractal start —sync --port 3002'",
     "optimise:svg": "node ./optimise-svgs.js",
     "test": "ava",
     "test:accessibility": "pa11y",

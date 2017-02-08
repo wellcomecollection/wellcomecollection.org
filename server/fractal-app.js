@@ -5,6 +5,7 @@ import mandelbrot from '@frctl/mandelbrot';
 import filters from './filters';
 import extensions from './extensions';
 import {getEnvWithExtensionsAndFilters} from './view/env-utils';
+import {createPageConfig} from './model/page-config';
 
 const fractal = Fractal.create();
 const root = dir('/views');
@@ -15,8 +16,11 @@ const nunjucksEnv = getEnvWithExtensionsAndFilters(root);
 const extensionsWithEnv = extensions.map(Extension => new Extension(nunjucksEnv));
 
 const nunjucks = Nunjucks({
-    filters: filters.toJS(),
-    extensions: extensionsWithEnv.toJS()
+  filters: filters.toJS(),
+  extensions: extensionsWithEnv.toJS(),
+  globals: {
+    pageConfig: createPageConfig({ title: 'Cardigan', inSection: 'explore' })
+  }
 });
 fractal.components.engine(nunjucks);
 
@@ -32,8 +36,8 @@ fractal.web.set('static.path', dir('./../dist'));
 fractal.web.set('builder.dest', dir('./../cardigan'));
 
 const cardiganTheme = mandelbrot({
-    skin: "navy",
-    styles: ['default', '/cardigan-theme/tweaks.css']
+  skin: "navy",
+  styles: ['default', '/cardigan-theme/tweaks.css']
 });
 
 cardiganTheme.addStatic(path.join(__dirname, '/cardigan-theme'), '/cardigan-theme');
@@ -43,5 +47,5 @@ fractal.web.theme(cardiganTheme);
 export default fractal;
 
 function dir(relPath) {
-    return path.resolve(`${__dirname}${relPath}`);
+  return path.resolve(`${__dirname}${relPath}`);
 }
