@@ -4,7 +4,7 @@
   .image {
     width: 100%;
     display: block;
-    margin-bottom: 1rem;
+    margin-bottom: $v-spacing-unit * 3;
   }
 }
 
@@ -37,7 +37,7 @@
 
   display: flex;
   color: color('accessible-grey-2');
-  padding-bottom: 1rem;
+  padding-bottom: $v-spacing-unit * 3;
   border-bottom: 1px solid color('keyline-grey');
 
   .captioned-image--full & {
@@ -72,6 +72,10 @@
     }
   }
   /* stylelint-enable plugin/selector-bem-pattern */
+}
+
+.captioned-image__underline {
+  border-bottom: 1px solid color('keyline-grey');
 }
 
 .captioned-image__caption--no-underline {

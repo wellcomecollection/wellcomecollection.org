@@ -15,11 +15,15 @@
   </div>
 
   {% block figcaption %}
-    <figcaption class="captioned-image__caption">
-      <div class="flex">
-        <div>{% icon 'other/picture' %}</div>
-        <div>{{ model.caption }}</div>
-      </div>
-    </figcaption>
+    {% if model.caption %}
+      <figcaption class="captioned-image__caption">
+        <div class="flex">
+          <div>{% icon 'other/picture' %}</div>
+          <div>{{ model.caption }}</div>
+        </div>
+      </figcaption>
+    {% else %}
+      <div class="captioned-image__underline"></div>
+    {% endif %}
   {% endblock %}
 </figure>
