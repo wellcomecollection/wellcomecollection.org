@@ -10,32 +10,32 @@ context:
   - type: picture
     weight: supporting
     value:
-      contentUrl: https://placehold.it/400x300
+      contentUrl: https://placehold.it/400x225
       caption: © Copyright Holder
       author: Author's name
       width: 400
-      height: 300
+      height: 225
       copyrightHolder: copyright holder
       fileFormat: png
       url: null
   - type: picture
     value:
-      contentUrl: https://placehold.it/400x300
+      contentUrl: https://placehold.it/400x225
       caption: © Copyright Holder
       author: Author's name
       width: 400
-      height: 300
+      height: 225
       copyrightHolder: copyright holder
       fileFormat: png
       url: null
   - type: picture
     weight: standalone
     value:
-      contentUrl: https://placehold.it/1200x600
+      contentUrl: https://placehold.it/1200x675
       caption: © Copyright Holder
       author: Author's name
       width: 1200
-      height: 600
+      height: 675
       copyrightHolder: copyright holder
       fileFormat: png
       url: null
@@ -49,11 +49,11 @@ context:
     value:
       name: Gallery name
       items:
-      - contentUrl: https://placehold.it/400x300
+      - contentUrl: https://placehold.it/400x225
         caption: © Copyright Holder
         author: Author's name
         width: 400
-        height: 300
+        height: 225
         copyrightHolder: copyright holder
         fileFormat: png
         url: null
