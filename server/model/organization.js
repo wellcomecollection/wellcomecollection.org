@@ -8,7 +8,21 @@ export type Organization = {|
   logo: string;
   sameAs: Array<string>;
   openingHoursSpecification: OpeningHours;
+  address: PostalAddress;
 |}
+
+type PostalAddress = {|
+  addressLocality: string;
+  postalCode: string;
+  streetAddress: string;
+|}
+
+export const wellcomeCollectionAddress = {
+  addressLocality: 'London',
+  postalCode: 'NW1 2BE',
+  streetAddress: '183 Euston Road',
+  addressCountry: 'UK'
+};
 
 export const wellcomeCollection: Organization = {
   name: 'Wellcome Collection',
@@ -26,5 +40,6 @@ export const wellcomeCollection: Organization = {
   // Annoyingly, but good for time - this is still passing in Flow.
   openingHoursSpecification: galleryOpeningHours.map(
     openingHoursDay => objToJsonLd(openingHoursDay, 'OpeningHoursSpecification', false)
-  )
+  ),
+  address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
 };

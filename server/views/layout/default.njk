@@ -117,7 +117,8 @@
     {% component 'footer', {
       navLinks: navLinks,
       openingHours: {places: pageConfig.openingHours},
-      footerSocial: footerSocial
+      footerSocial: footerSocial,
+      address: pageConfig.organization.address
     } %}
 
     {% component 'cookie-notification' %}
