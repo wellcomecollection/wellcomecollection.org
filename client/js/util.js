@@ -34,7 +34,7 @@ const featureTest = (property, value, noPrefixes) => {
   }
   return mStyle[ property ].indexOf(value) !== -1;
 };
-z
+
 export {
   nodeList,
   KEYS,
