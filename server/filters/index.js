@@ -7,6 +7,7 @@ import concat from './concat';
 import contains from './contains';
 import getCacheBustFile from './get-cache-bust-file';
 import jsonLd from './json-ld';
+import formatDate from './format-date';
 
 export default Map({
   youtubeEmbedUrl,
@@ -16,5 +17,6 @@ export default Map({
   contains,
   componentClasses,
   getCacheBustFile,
-  jsonLd
+  jsonLd,
+  formatDate
 });

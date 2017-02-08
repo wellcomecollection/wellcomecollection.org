@@ -1,12 +1,11 @@
 // @flow
+import {type ArticlePromo} from './article-promo';
+
 export type Promo = {|
   modifiers: Array<string>;
-  article: null; // TODO: make type for Article?
-  copy?: string;
-  url: string;
+  article: ArticlePromo;
   meta?: {
     type?: string,
-    date?: string,
     length?: string
   };
 |}
