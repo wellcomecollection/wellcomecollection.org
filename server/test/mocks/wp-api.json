@@ -42,14 +42,14 @@
   "is_reblogged": false,
   "is_following": false,
   "global_ID": "5a7bf4afea41fef5f924f2ddb311c5ee",
-  "featured_image": "https://wellcomecollection.files.wordpress.com/2016/10/featured-image-dans-blog2.jpg",
+  "featured_image": "https://placehold.it/1600x900",
   "post_thumbnail": {
     "ID": 11361,
-    "URL": "https://wellcomecollection.files.wordpress.com/2016/10/featured-image-dans-blog2.jpg",
-    "guid": "http://wellcomecollection.files.wordpress.com/2016/10/featured-image-dans-blog2.jpg",
+    "URL": "https://placehold.it/1600x900",
+    "guid": "https://placehold.it/1600x900",
     "mime_type": "image/jpeg",
-    "width": 1250,
-    "height": 1000
+    "width": 1600,
+    "height": 900
   },
   "format": "standard",
   "geo": false,
@@ -455,8 +455,8 @@
     },
     "11361": {
       "ID": 11361,
-      "URL": "https://wellcomecollection.files.wordpress.com/2016/10/featured-image-dans-blog2.jpg",
-      "guid": "http://wellcomecollection.files.wordpress.com/2016/10/featured-image-dans-blog2.jpg",
+      "URL": "https://placehold.it/1600x900",
+      "guid": "https://placehold.it/1600x900",
       "date": "2016-10-24T18:25:50+01:00",
       "post_ID": 11282,
       "author_ID": 12717337,
@@ -468,12 +468,12 @@
       "description": "",
       "alt": "",
       "thumbnails": {
-        "thumbnail": "https://wellcomecollection.files.wordpress.com/2016/10/featured-image-dans-blog2.jpg?w=150",
-        "medium": "https://wellcomecollection.files.wordpress.com/2016/10/featured-image-dans-blog2.jpg?w=300",
-        "large": "https://wellcomecollection.files.wordpress.com/2016/10/featured-image-dans-blog2.jpg?w=1024"
+        "thumbnail": "https://placehold.it/1600x900",
+        "medium": "https://placehold.it/1600x900",
+        "large": "https://placehold.it/1600x900"
       },
-      "height": 1000,
-      "width": 1250,
+      "height": 1600,
+      "width": 900,
       "exif": {
         "aperture": "0",
         "credit": "",

@@ -7,9 +7,9 @@ context:
     tags: "@tags.tags"
     author: "@author"
     mainMedia:
-    - contentUrl: "https://placehold.it/1200x900"
+    - contentUrl: "https://placehold.it/1600x900"
       caption: "'Choose safer sex' poster with a photograph of two men in bed"
-      width: 1200
+      width: 1600
       height: 900
     articleBody:
     - type: html
@@ -17,11 +17,11 @@ context:
     - type: picture
       weight: supporting
       value:
-        contentUrl: https://placehold.it/400x300
+        contentUrl: https://placehold.it/400x225
         caption: © Copyright Holder
         author: Author's name
         width: 400
-        height: 300
+        height: 225
         copyrightHolder: copyright holder
         fileFormat: png
         url: null
@@ -35,11 +35,11 @@ context:
       value: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at volutpat erat. Quisque non eros viverra, tincidunt mi a, interdum libero. Vestibulum efficitur ex sed est interdum, ac placerat enim blandit. Phasellus sodales velit non est bibendum tincidunt. Phasellus ut ligula at velit congue lobortis. Fusce at suscipit purus, ac tincidunt orci.</p>"
     - type: picture
       value:
-        contentUrl: https://placehold.it/400x300
+        contentUrl: https://placehold.it/400x225
         caption: © Copyright Holder
         author: Author's name
         width: 400
-        height: 300
+        height: 225
         copyrightHolder: copyright holder
         fileFormat: png
         url: null
@@ -52,11 +52,11 @@ context:
     - type: picture
       weight: 'standalone'
       value:
-        contentUrl: https://placehold.it/1200x600
+        contentUrl: https://placehold.it/1200x675
         caption: © Copyright Holder
         author: Author's name
         width: 1200
-        height: 600
+        height: 675
         copyrightHolder: copyright holder
         fileFormat: png
         url: null
@@ -80,11 +80,11 @@ context:
       value:
         name: Gallery name
         items:
-        - contentUrl: https://placehold.it/400x300
+        - contentUrl: https://placehold.it/400x225
           caption: © Copyright Holder
           author: Author's name
           width: 400
-          height: 300
+          height: 225
           copyrightHolder: copyright holder
           fileFormat: png
           url: null
@@ -141,11 +141,11 @@ context:
       value:
         name: Gallery name
         items:
-        - contentUrl: https://placehold.it/400x300
+        - contentUrl: https://placehold.it/400x225
           caption: © Copyright Holder
           author: Author's name
           width: 400
-          height: 300
+          height: 225
           copyrightHolder: copyright holder
           fileFormat: png
           url: null

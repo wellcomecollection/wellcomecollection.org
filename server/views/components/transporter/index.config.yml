@@ -11,12 +11,14 @@ context:
     url: http://google.com
     image:
       sources:
-      - src: https://placehold.it/1200x900
+      - src: https://placehold.it/1600x900
+        size: '1600'
+      - src: https://placehold.it/1200x675
         size: '1200'
-      - src: https://placehold.it/900x600
-        size: '900'
-      - src: https://placehold.it/450x300
-        size: '450'
+      - src: https://placehold.it/800x450
+        size: '800'
+      - src: https://placehold.it/400x225
+        size: '400'
     meta: 
       type: article
       date: 2 days ago
@@ -26,12 +28,14 @@ context:
     url: http://google.com
     image:
       sources:
-      - src: https://placehold.it/1200x900
+      - src: https://placehold.it/1600x900
+        size: '1600'
+      - src: https://placehold.it/1200x675
         size: '1200'
-      - src: https://placehold.it/900x600
-        size: '900'
-      - src: https://placehold.it/450x300
-        size: '450'
+      - src: https://placehold.it/800x450
+        size: '800'
+      - src: https://placehold.it/400x225
+        size: '400'
     meta: 
       type: article
       date: 2 days ago
@@ -41,12 +45,14 @@ context:
     url: http://google.com
     image:
       sources:
-      - src: https://placehold.it/1200x900
+      - src: https://placehold.it/1600x900
+        size: '1600'
+      - src: https://placehold.it/1200x675
         size: '1200'
-      - src: https://placehold.it/900x600
-        size: '900'
-      - src: https://placehold.it/450x300
-        size: '450'
+      - src: https://placehold.it/800x450
+        size: '800'
+      - src: https://placehold.it/400x225
+        size: '400'
     meta: 
       type: article
       date: 2 days ago
@@ -64,12 +70,14 @@ variants:
         url: http://google.com
         image:
           sources:
-          - src: https://placehold.it/1200x900
+          - src: https://placehold.it/1600x900
+            size: '1600'
+          - src: https://placehold.it/1200x675
             size: '1200'
-          - src: https://placehold.it/900x600
-            size: '900'
-          - src: https://placehold.it/450x300
-            size: '450'
+          - src: https://placehold.it/800x450
+            size: '800'
+          - src: https://placehold.it/400x225
+            size: '400'
         meta: 
           type: article
           date:
@@ -79,12 +87,14 @@ variants:
         url: http://google.com
         image:
           sources:
-          - src: https://placehold.it/1200x900
+          - src: https://placehold.it/1600x900
+            size: '1600'
+          - src: https://placehold.it/1200x675
             size: '1200'
-          - src: https://placehold.it/900x600
-            size: '900'
-          - src: https://placehold.it/450x300
-            size: '450'
+          - src: https://placehold.it/800x450
+            size: '800'
+          - src: https://placehold.it/400x225
+            size: '400'
         meta: 
           type: video
           length: "1:47"
@@ -95,12 +105,14 @@ variants:
         url: http://google.com
         image:
           sources:
-          - src: https://placehold.it/1200x900
+          - src: https://placehold.it/1600x900
+            size: '1600'
+          - src: https://placehold.it/1200x675
             size: '1200'
-          - src: https://placehold.it/900x600
-            size: '900'
-          - src: https://placehold.it/450x300
-            size: '450'
+          - src: https://placehold.it/800x450
+            size: '800'
+          - src: https://placehold.it/400x225
+            size: '400'
         meta: 
           type: article
           date:
