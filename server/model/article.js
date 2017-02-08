@@ -4,6 +4,7 @@ import {type Person} from './person';
 import {type Picture} from './picture';
 import {getWpFeaturedImage} from './media';
 import {bodyParser} from '../util/body-parser';
+import {authorMap} from '../services/author-lookup';
 
 export type BodyPart = {};
 
@@ -20,7 +21,7 @@ export type Article = {|
   thumbnail: Picture;
   articleBody: string;
   associatedMedia: Array<Picture>;
-  author: Person;
+  author?: Person; // TODO: Make this manditory once we know al the authors
   bodyParts: Array<BodyPart>;
 |}
 
@@ -39,13 +40,7 @@ export class ArticleFactory {
       height: wpThumbnail.height
     };
 
-    const author: Person = {
-      givenName: json.author.first_name,
-      familyName: json.author.last_name,
-      name: `${json.author.first_name} ${json.author.last_name}`,
-      image: json.author.avatar_URL,
-      sameAs: [{ wordpress: json.author.URL }]
-    };
+    const author = authorMap[json.slug];
 
     const bodyParts = bodyParser(articleBody);
     const standfirst = bodyParts.find(part => part.type === 'standfirst');
