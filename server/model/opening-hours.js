@@ -2,63 +2,76 @@
 type Place = {|
   id: string;
   name: string;
-  days: Array<Day>;
+  openingHours: OpeningHours;
 |}
 function createPlace(data: Place) { return (data: Place); }
 
-type Day = {|
-  name: string;
-  hours: string;
-|}
-function createDay(data: Day) { return (data: Day); }
-
 export type PlacesOpeningHours = Array<Place>;
+
+type OpeningHoursDay = {|
+  dayOfWeek: string,
+  closes: string,
+  opens?: string,
+  note?: string
+|};
+
+export type OpeningHours = Array<OpeningHoursDay>;
+
+export const galleryOpeningHours: OpeningHours = [
+  {dayOfWeek: 'Monday',    closes: '00:00', note: 'Galleries closed'},
+  {dayOfWeek: 'Tuesday',   opens: '10:00', closes: '18:00'},
+  {dayOfWeek: 'Wednesday', opens: '10:00', closes: '18:00'},
+  {dayOfWeek: 'Thursday',  opens: '10:00', closes: '22:00'},
+  {dayOfWeek: 'Friday',    opens: '10:00', closes: '18:00'},
+  {dayOfWeek: 'Saturday',  opens: '10:00', closes: '18:00'},
+  {dayOfWeek: 'Sunday',    opens: '11:00', closes: '18:00'}
+];
+
+export const libraryOpeningHours: OpeningHours = [
+  {dayOfWeek: 'Monday',    opens: '10:00', closes: '18:00'},
+  {dayOfWeek: 'Tuesday',   opens: '10:00', closes: '18:00'},
+  {dayOfWeek: 'Wednesday', opens: '10:00', closes: '18:00'},
+  {dayOfWeek: 'Thursday',  opens: '10:00', closes: '20:00'},
+  {dayOfWeek: 'Friday',    opens: '10:00', closes: '18:00'},
+  {dayOfWeek: 'Saturday',  opens: '10:00', closes: '16:00'},
+  {dayOfWeek: 'Monday',    closes: '00:00', note: 'Library closed'}
+];
+
+export const restaurantOpeningHours: OpeningHours = [
+  {dayOfWeek: 'Monday',    closes: '00:00', note: 'Restaurant closed'},
+  {dayOfWeek: 'Tuesday',   opens: '11:00', closes: '18:00'},
+  {dayOfWeek: 'Wednesday', opens: '11:00', closes: '18:00'},
+  {dayOfWeek: 'Thursday',  opens: '11:00', closes: '22:00'},
+  {dayOfWeek: 'Friday',    opens: '11:00', closes: '18:00'},
+  {dayOfWeek: 'Saturday',  opens: '11:00', closes: '18:00'},
+  {dayOfWeek: 'Sunday',    opens: '11:00', closes: '18:00'}
+];
+
+export const cafeOpeningHours: OpeningHours = [
+  {dayOfWeek: 'Monday',    opens: '08:30', closes: '18:00'},
+  {dayOfWeek: 'Tuesday',   opens: '08:30', closes: '18:00'},
+  {dayOfWeek: 'Wednesday', opens: '08:30', closes: '18:00'},
+  {dayOfWeek: 'Thursday',  opens: '08:30', closes: '22:00'},
+  {dayOfWeek: 'Friday',    opens: '08:30', closes: '18:00'},
+  {dayOfWeek: 'Saturday',  opens: '09:30', closes: '18:00'},
+  {dayOfWeek: 'Sunday',    opens: '10:30', closes: '18:00'}
+];
+
+export const shopOpeningHours: OpeningHours = [
+  {dayOfWeek: 'Monday',    opens: '09:00', closes: '18:00'},
+  {dayOfWeek: 'Tuesday',   opens: '09:00', closes: '18:00'},
+  {dayOfWeek: 'Wednesday', opens: '09:00', closes: '18:00'},
+  {dayOfWeek: 'Thursday',  opens: '09:00', closes: '22:00'},
+  {dayOfWeek: 'Friday',    opens: '09:00', closes: '18:00'},
+  {dayOfWeek: 'Saturday',  opens: '10:00', closes: '18:00'},
+  {dayOfWeek: 'Sunday',    opens: '11:00', closes: '18:00'}
+];
 
 
 export const defaultPlacesOpeningHours: PlacesOpeningHours = [
-  createPlace({id: 'galleries', name: 'Galleries', days: [
-    createDay({name: 'Monday',    hours: 'Galleries closed'}),
-    createDay({name: 'Tuesday',   hours: '10:00 - 18:00'}),
-    createDay({name: 'Wednesday', hours: '10:00 - 18:00'}),
-    createDay({name: 'Thursday',  hours: '10:00 - 22:00'}),
-    createDay({name: 'Friday',    hours: '10:00 - 18:00'}),
-    createDay({name: 'Saturday',  hours: '10:00 - 18:00'}),
-    createDay({name: 'Sunday',    hours: '11:00 - 18:00'})
-  ]}),
-  createPlace({id: 'library', name: 'Library', days: [
-    createDay({name: 'Monday',    hours: '10:00 - 18:00'}),
-    createDay({name: 'Tuesday',   hours: '10:00 - 18:00'}),
-    createDay({name: 'Wednesday', hours: '10:00 - 18:00'}),
-    createDay({name: 'Thursday',  hours: '10:00 - 20:00'}),
-    createDay({name: 'Friday',    hours: '10:00 - 18:00'}),
-    createDay({name: 'Saturday',  hours: '10:00 - 16:00'}),
-    createDay({name: 'Sunday',    hours: 'Library closed'})
-  ]}),
-  createPlace({id: 'restaurant', name: 'Restaurant', days: [
-    createDay({name: 'Monday',    hours: 'Restaurant closed'}),
-    createDay({name: 'Tuesday',   hours: '11:00 - 18:00'}),
-    createDay({name: 'Wednesday', hours: '11:00 - 18:00'}),
-    createDay({name: 'Thursday',  hours: '11:00 - 22:00'}),
-    createDay({name: 'Friday',    hours: '11:00 - 18:00'}),
-    createDay({name: 'Saturday',  hours: '11:00 - 18:00'}),
-    createDay({name: 'Sunday',    hours: '11:00 - 18:00'})
-  ]}),
-  createPlace({id: 'café', name: 'Café', days: [
-    createDay({name: 'Monday',    hours: '08:30 - 18:00'}),
-    createDay({name: 'Tuesday',   hours: '08:30 - 18:00'}),
-    createDay({name: 'Wednesday', hours: '08:30 - 18:00'}),
-    createDay({name: 'Thursday',  hours: '08:30 - 22:00'}),
-    createDay({name: 'Friday',    hours: '08:30 - 18:00'}),
-    createDay({name: 'Saturday',  hours: '09:30 - 18:00'}),
-    createDay({name: 'Sunday',    hours: '10:30 - 18:00'})
-  ]}),
-  createPlace({id: 'shop', name: 'Shop', days: [
-    createDay({name: 'Monday',    hours: '09:00 - 18:00'}),
-    createDay({name: 'Tuesday',   hours: '09:00 - 18:00'}),
-    createDay({name: 'Wednesday', hours: '09:00 - 18:00'}),
-    createDay({name: 'Thursday',  hours: '09:00 - 22:00'}),
-    createDay({name: 'Friday',    hours: '09:00 - 18:00'}),
-    createDay({name: 'Saturday',  hours: '10:00 - 18:00'}),
-    createDay({name: 'Sunday',    hours: '11:00 - 18:00'})
-  ]}),
+  createPlace({id: 'galleries', name: 'Galleries', openingHours: galleryOpeningHours}),
+  createPlace({id: 'library', name: 'Library', openingHours: libraryOpeningHours}),
+  createPlace({id: 'restaurant', name: 'Restaurant', openingHours: restaurantOpeningHours}),
+  createPlace({id: 'café', name: 'Café', openingHours: cafeOpeningHours}),
+  createPlace({id: 'shop', name: 'Shop', openingHours: shopOpeningHours}),
 ];

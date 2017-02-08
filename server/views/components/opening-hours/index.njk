@@ -16,10 +16,14 @@
         </tr>
       </thead>
       <tbody class="opening-hours__tbody">
-        {% for day in place.days %}
+        {% for day in place.openingHours %}
           <tr class="opening-hours__tr">
-            <td class="opening-hours__td">{{ day.name }}</td>
-            <td class="opening-hours__td">{{ day.hours }}</td>
+            <td class="opening-hours__td">{{ day.dayOfWeek }}</td>
+            {% if day.opens %}
+              <td class="opening-hours__td">{{ day.opens + ' - ' + day.closes if day.opens }}</td>
+            {% else %}
+              <td class="opening-hours__td">{{ day.note }}</td>
+            {% endif %}
           </tr>
         {% endfor %}
       </tbody>
