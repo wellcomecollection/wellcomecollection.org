@@ -4,7 +4,6 @@ import {ArticlePromoFactory} from '../../../model/article-promo';
 import mockJson from '../../../test/mocks/wp-api.json';
 
 const article = ArticlePromoFactory.fromWpApi(mockJson);
-
 export const name = 'Promo';
 export const handle = 'promo';
 export const collated = true;
