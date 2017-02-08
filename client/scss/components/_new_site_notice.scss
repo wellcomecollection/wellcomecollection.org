@@ -27,6 +27,8 @@ $mega-w-size: 400px;
 }
 
 .new-site-notice__inner {
+  position: relative; // We have this here to ensure we overlap the :before 'W'
+
   @include font('HNL7');
 
   @include respond-to('medium') {
