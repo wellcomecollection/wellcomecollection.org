@@ -11,7 +11,9 @@ variants:
     - a
     lead: true
     title: 'Inspired: Alchemists and housewives around a long table'
-    publicationDate: September 9th 2016
+    meta:
+     type: date
+     value: September 9th 2016
 - name: hn
   label: B (library item)
   notes: Library item title.
@@ -20,4 +22,3 @@ variants:
     - b
     title: On the Origin of Species by Means of Natural Selection, or the Preservation
       of Favoured Races in the Struggle for Life
-    publicationDate:

@@ -8,13 +8,17 @@
       </div>
     </div>
   </div>
-  {% if publicationDate %}
+  {% if meta %}
     <div class="row row--no-padding">
       <div class="container">
           <div class="grid">
             <div class="grid__cell grid__cell--shift-m1 {{ 'grid__cell--shift-l1' if lead }}">
-              <span class="page-description__publication-date">
-                {% icon 'other/clock' %}{{ publicationDate }}
+              <span class="page-description__subtext">
+                {% if meta.type === 'date' %}
+                  {% icon 'other/clock' %}{{ meta.value }}
+                {% else %}
+                  {{ meta.value }}
+                {% endif %}
               </span>
             </div>
           </div>

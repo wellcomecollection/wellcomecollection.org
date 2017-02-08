@@ -1,3 +1,5 @@
+// TODO: FlowType this module
+import {type Promo} from '../model/promo';
 import {createPageConfig} from '../model/page-config';
 import {getPosts, getArticle} from '../services/wordpress';
 
@@ -24,14 +26,47 @@ export const article = async(ctx, next) => {
     }
 };
 
+export const articles = async(ctx) => {
+  const wpPosts = await getPosts(32);
+  const promos = postsToPromos(wpPosts.data);
+
+  // TODO: We might change this to `index`
+  return ctx.render('pages/articles', {
+    pageConfig: createPageConfig({
+      title: 'Explore',
+      inSection: 'explore'
+    }),
+    total: wpPosts.total,
+    promos
+  });
+};
+
+function postsToPromos(posts) {
+  return posts.map(articlePromo => {
+    const promo: Promo = {
+      modifiers: [],
+      article: articlePromo,
+      meta: {}
+    };
+    return promo;
+  });
+}
+
 export const explore = async(ctx) => {
   const wpPosts = await getPosts();
+  const posts = wpPosts.data;
+  const topPromo = postsToPromos(posts.take(1)).first();
+  const second3Promos = postsToPromos(posts.slice(1, 4));
+  const next8Promos = postsToPromos(posts.slice(4, 12));
+
   return ctx.render('pages/explore', {
     pageConfig: createPageConfig({
       title: 'Explore',
       inSection: 'explore'
     }),
-    wpPosts
+    topPromo,
+    second3Promos,
+    next8Promos
   });
 };
 
