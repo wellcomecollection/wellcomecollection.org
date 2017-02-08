@@ -8,7 +8,6 @@
     {% include "partials/css-head.njk" %}
     <link rel="stylesheet" href="/assets/css/{{ 'application.css' | getCacheBustFile }}"/>
     {% component 'head-js', { file:  'app.js' | getCacheBustFile  } %}
-    {# TODO: Add apple icons, different sizes icons etc #}
 
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png"/>
     <link rel="icon" type="image/png" href="/assets/icons/favicon-32x32.png" sizes="32x32"/>
