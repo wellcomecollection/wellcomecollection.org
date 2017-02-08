@@ -3,8 +3,8 @@
     position: relative;
 
     .author + & {
-      margin-top: -2 * $vertical-space-unit;
-      padding-top: 2 * $vertical-space-unit;
+      margin-top: -$article-top-space;
+      padding-top: $article-top-space;
     }
 
     &:after {

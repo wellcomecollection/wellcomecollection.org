@@ -94,6 +94,10 @@ $center-width-xlarge: (6/6) * 100%;
       clear: right;
       width: #{$narrow-width};
       margin-right: calc((#{$narrow-width} + #{map-get($gutter-width, 'large')} ) * -1);
+
+      .author + .article &:first-child {
+        margin-top: -$article-top-space;
+      }
     }
   }
 }
