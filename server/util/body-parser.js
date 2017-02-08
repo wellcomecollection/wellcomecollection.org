@@ -69,10 +69,21 @@ function decodeHtmlEntities(nodes) {
   });
 }
 
+
+function unwrapFromEm(node) {
+  const firstChild = node.childNodes[0];
+
+  if (firstChild.nodeName === 'em') {
+    node.childNodes = firstChild.childNodes;
+  }
+
+  return node;
+}
+
 function convertWpStandfirst(node) {
   return createBodyPart({
     type: 'standfirst',
-    value: serializeAndCleanNode(node)
+    value: serializeAndCleanNode(unwrapFromEm(node))
   });
 }
 
@@ -87,7 +98,7 @@ export function convertWpHeading(node) {
         level: headingMatch[1],
         value: serializeAndCleanNode(node.childNodes[0])
       })
-    })
+    });
   } else {
     return node;
   }
