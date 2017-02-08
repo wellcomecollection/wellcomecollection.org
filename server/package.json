@@ -4,7 +4,7 @@
   "description": "The node server serving content for wellcomecollection.org",
   "main": "app.js",
   "scripts": {
-    "app:build": "babel . -d .dist --ignore=node_modules",
+    "app:build": "babel . -d .dist --ignore=node_modules --copy-files",
     "app:dev": "nodemon -e js,njk,json --exec babel-node app.js",
     "app:docker": "pm2-docker ./.dist/app.js --name 'wellcomecollection.org'",
     "app:start": "pm2 start ./.dist/app.js --name 'wellcomecollection.org'",
