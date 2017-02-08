@@ -1,10 +1,11 @@
 <a href="https://www.google.com/maps/dir//nw12be/" class="find-us">
-  <span class="find-us__address" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+  <span class="find-us__address">
     {% icon 'other/location' %}
     <p>
-      <span class="find-us__street" itemprop="streetAddress">183 Euston Road</span>
-      <span class="find-us__locality" itemprop="addressLocality">London</span>
-      <span class="find-us__postal-code" itemprop="postalCode">NW1 2BE</span>
+      <span class="find-us__street">{{ model.streetAddress }}</span>
+      <span class="find-us__locality">{{ model.addressLocality }}</span>
+      <span class="find-us__postal-code">{{ model.postalCode }}</span>
+      <span class="find-us__country">{{ model.addressCountry }}</span>
     </p>
   </span>
   {% set baseUrl = 'https://api.mapbox.com/v4/mapbox.outdoors/pin-s-building+285A98(-0.133860,51.525840)/-0.133938,51.525883,16/' %}
