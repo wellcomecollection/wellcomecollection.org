@@ -9,12 +9,12 @@
     padding-bottom: 2 * $vertical-space-unit;
   }
 
-  @include container-query(('l': ('8', '12'), 'm': ('8'))) {
+  @include container-query(('l': ('8', '12'))) {
     display: flex;
     align-items: flex-start;
   }
 
-  @include container-query(('l': ('12'), 'm': ('8'))) {
+  @include container-query(('l': ('12'))) {
     border-bottom: 0;
     padding-bottom: 0;
     margin-bottom: $vertical-space-unit;
@@ -24,7 +24,7 @@
     vertical-align: middle;
     margin-right: map-get($gutter-width, 'small')/2;
 
-    @include respond-to('medium') {
+      @include respond-to('medium') {
       margin-right: map-get($gutter-width, 'medium')/2;
     }
 
@@ -49,7 +49,7 @@
     margin-bottom: 0;
   }
 
-  @include container-query(('l': ('8', '12'), 'm': ('8'))) {
+  @include container-query(('l': ('8', '12'))) {
     order: 1;
     width: percentage(2 / 3);
     margin-bottom: 0;
@@ -226,7 +226,7 @@
     }
   }
 
-  @include container-query(('l': ('8', '12'), 'm': ('8'))) {
+  @include container-query(('l': ('8', '12'))) {
     padding-right: map-get($gutter-width, 'large');
   }
 }
@@ -287,7 +287,7 @@
 }
 
 .promo--transporter-child {
-  @include container-query(('s': ('4'), 'm': ('8'))) {
+  @include container-query(('s': ('4'))) {
     display: flex;
     align-items: flex-start;
     padding-bottom: $vertical-space-unit;
@@ -296,7 +296,7 @@
   }
 
   .promo__image-container {
-    @include container-query(('s': ('4'), 'm': ('8'))) {
+    @include container-query(('s': ('4'))) {
       width: percentage(118 / 316);
       margin-bottom: 0;
     }
@@ -305,10 +305,6 @@
   .promo__description {
     @include container-query(('s': ('4'))) {
       padding-left: map-get($gutter-width, 'small');
-    }
-
-    @include container-query(('m': ('8'))) {
-      padding-left: map-get($gutter-width, 'medium');
     }
   }
 
@@ -320,7 +316,7 @@
   .promo__title {
     @include font('WB7');
 
-    @include container-query(('s': ('4'), 'm': ('8'))) {
+    @include container-query(('s': ('4'))) {
       @include font('HNM5');
     }
   }
