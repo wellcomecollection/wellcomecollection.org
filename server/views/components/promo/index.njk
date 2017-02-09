@@ -62,7 +62,7 @@
                     {{ promo.article.headline }}
                   </{{ headingLevel or 'h2'}}>
                 {% if promo.article.datePublished %}
-                  <span class="promo__date">{{ promo.article.datePublished | getDays }}</span>
+                  <span class="promo__date">{{ promo.article.datePublished | formatDate }}</span>
                 {% endif %}
               </div>
               {% if promo.article.description %}
