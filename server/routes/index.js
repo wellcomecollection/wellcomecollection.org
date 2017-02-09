@@ -1,6 +1,6 @@
 import Router from 'koa-router';
 import {index, article, articles, explore, healthcheck, performanceTest,
-        explosion} from '../controllers';
+        explosion, preview} from '../controllers';
 
 const r = new Router();
 
@@ -11,6 +11,6 @@ r.get('/articles', articles);
 r.get('/articles/:slug', article);
 r.get('/performance-test.js', performanceTest);
 r.get('/explosion/:errorCode', explosion);
-r.get('/articles/preview/:id', explosion);
+r.get('/articles/preview/:id', preview);
 
 export const router = r.middleware();
