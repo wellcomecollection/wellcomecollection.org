@@ -8,8 +8,9 @@ r.get('/', index);
 r.get('/healthcheck', healthcheck);
 r.get('/explore', explore);
 r.get('/articles', articles);
-r.get('/articles/:id', article);
+r.get('/articles/:slug', article);
 r.get('/performance-test.js', performanceTest);
 r.get('/explosion/:errorCode', explosion);
+r.get('/preview/:id', explosion);
 
 export const router = r.middleware();

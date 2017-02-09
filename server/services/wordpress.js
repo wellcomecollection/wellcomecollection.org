@@ -31,7 +31,7 @@ export async function getPosts(size: number = 20): Promise<PostsResponse> {
 }
 
 export async function getArticle(id: string) {
-  const uri = `${baseUri}/posts/slug:${id}`;
+  const uri = `${baseUri}/posts/${id}`;
   const response = await request(uri);
   const valid = response.type === 'application/json' && response.status === 200;
 
