@@ -7,8 +7,7 @@
 {% endblock %}
 
 {% block body %}
-
-{% component 'page-description', { title: article.headline, modifiers: ['a'], lead: true } %}
+{% component 'page-description', { title: article.headline, meta: { type: 'date', value: article.datePublished | getDate }, modifiers: ['a'], lead: true } %}
 
 {% for media in article.mainMedia %}
   {% if (media.contentUrl) %}
