@@ -1,8 +1,11 @@
 //* @define row
 
 .row {
-  padding-top: $vertical-space-unit;
-  padding-bottom: $vertical-space-unit;
+  padding-top: $v-spacing-unit * 5;
+
+  @include respond-to('large') {
+    padding-top: $v-spacing-unit * 10;
+  }
 }
 
 .row--dark-black {
@@ -24,6 +27,11 @@
 
 .row--no-bottom-padding {
   padding-bottom: 0;
+}
+
+.row--text-bar {
+  padding-top: $v-spacing-unit * 3;
+  padding-bottom: $v-spacing-unit * 3;
 }
 
 .row--lead {
@@ -87,4 +95,8 @@
     background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMTAwMCAxMDAiPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik0wLDFsMTQyLjgsNTguMmMwLDAsNzQuNi0zNS43LDE2Ny00NC41YzAsMCwyMDEuMSw0Mi45LDI2MS45LDY4LjJTODgyLjksMTUsODgyLjksMTVMMTAwMCwxSDB6Ii8+PC9zdmc+');
     background-size: cover;
   }
+}
+
+.row--extra-top-padding {
+  padding-top: $v-spacing-unit * 10;
 }
