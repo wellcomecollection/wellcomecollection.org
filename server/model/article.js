@@ -2,12 +2,14 @@
 import entities from 'entities';
 import {type Person} from './person';
 import {type Picture} from './picture';
+import {type ContentType} from './content-type';
 import {getWpFeaturedImage} from './media';
 import {bodyParser} from '../util/body-parser';
 
 export type BodyPart = {};
 
 export type Article = {|
+  type: ContentType;
   url: string;
   headline: string;
   standfirst: string;
@@ -51,6 +53,7 @@ export class ArticleFactory {
     const standfirst = bodyParts.find(part => part.type === 'standfirst');
 
     const article: Article = {
+      type: "article",
       url: url,
       headline: entities.decode(json.title),
       standfirst: standfirst,
