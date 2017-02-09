@@ -1,10 +1,10 @@
 //* @define page-description;
 
 .page-description {
-  margin-bottom: $vertical-space-unit;
+  margin-bottom: 3 * $v-spacing-unit;
 
   @include respond-to('large') {
-    margin-bottom: 3 * $vertical-space-unit;
+    margin-bottom: 10 * $v-spacing-unit;
   }
 }
 
@@ -50,10 +50,10 @@
 }
 
 .page-description__container {
-  padding-top: $vertical-space-unit;
+  padding-top: 3 * $v-spacing-unit;
 
   @include respond-to('large') {
-    padding-top: 3 * $vertical-space-unit;
+    padding-top: 5 * $v-spacing-unit;
   }
 }
 
@@ -69,11 +69,6 @@
   display: flex;
   align-items: center;
   color: color('accessible-grey-1');
-  margin-bottom: 0.3rem;
-
-  @include respond-to('large') {
-    margin-bottom: -1.2rem;
-  }
 
   .icon {
     margin-right: 0.5em;
