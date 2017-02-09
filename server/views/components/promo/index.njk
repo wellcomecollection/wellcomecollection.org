@@ -61,9 +61,6 @@
                   <{{ headingLevel or 'h2'}} class="promo__title">
                     {{ promo.article.headline }}
                   </{{ headingLevel or 'h2'}}>
-                {% if promo.article.datePublished %}
-                  <span class="promo__date">{{ promo.article.datePublished | formatDate }}</span>
-                {% endif %}
               </div>
               {% if promo.article.description %}
                 <span  class="promo__copy">{{ promo.article.description | striptags | safe | truncate(100) }}</span>
