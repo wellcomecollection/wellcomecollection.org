@@ -2,8 +2,8 @@
 {% set gridCellClasses = 'grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4' %}
 
 {% block pageMeta %}
-  {% component 'open-graph', { site: site, article: article } %}
-  {% component 'twitter-card', { site: site, article: article } %}
+  {% component 'open-graph', { pageConfig: pageConfig, article: article } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, article: article } %}
 {% endblock %}
 
 {% block body %}

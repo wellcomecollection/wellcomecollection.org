@@ -1,6 +1,6 @@
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:url" content="{{ site.url }}{{ article.url }}" />
-<meta name="twitter:site" content="{{ site.twitterHandle }}" />
+<meta name="twitter:url" content="{{ pageConfig.organization.url }}{{ article.url }}" />
+<meta name="twitter:site" content="{{ pageConfig.organization.twitterHandle }}" />
 <meta name="twitter:title" content="{{ article.headline }}" />
 <meta name="twitter:description" content="{{ article.description | striptags | safe | truncate(200) }}" />
 <meta name="twitter:image" content="{{ article.thumbnail.contentUrl }}?w=600&h=322&crop=1" />

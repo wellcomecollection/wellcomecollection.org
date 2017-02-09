@@ -2,14 +2,14 @@
 import entities from 'entities';
 import {type Person} from './person';
 import {type Picture} from './picture';
-import {type Type} from './type';
+import {type contentType} from './content-type';
 import {getWpFeaturedImage} from './media';
 import {bodyParser} from '../util/body-parser';
 
 export type BodyPart = {};
 
 export type Article = {|
-  type: Type;
+  type: contentType;
   url: string;
   headline: string;
   standfirst: string;

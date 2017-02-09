@@ -1,10 +1,7 @@
 // TODO: FlowType this module
 import {type Promo} from '../model/promo';
-import {wellcomeCollection} from '../model/organization';
 import {createPageConfig} from '../model/page-config';
 import {getPosts, getArticle} from '../services/wordpress';
-
-export const site = wellcomeCollection;
 
 export const article = async(ctx, next) => {
     const id = ctx.params.id;
@@ -21,7 +18,6 @@ export const article = async(ctx, next) => {
             title: article.headline,
             inSection: 'explore'
           }),
-          site: site,
           article: article
         });
       }
