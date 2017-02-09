@@ -7,7 +7,7 @@ import concat from './concat';
 import contains from './contains';
 import getCacheBustFile from './get-cache-bust-file';
 import jsonLd from './json-ld';
-import formatDate from './format-date';
+import getDays from './get-days';
 import getDate from './get-date';
 
 export default Map({
@@ -19,6 +19,6 @@ export default Map({
   componentClasses,
   getCacheBustFile,
   jsonLd,
-  formatDate
+  getDays,
   getDate
 });
