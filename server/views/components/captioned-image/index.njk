@@ -8,7 +8,7 @@
         {%- for size in sizes -%}
           {{ comma() }}{{ model.contentUrl }}?w={{ size }} {{ size }}w
         {%- endfor %}"
-        {% if sizesQueries %}
+        {% if data.sizesQueries %}
           sizes="{{ data.sizesQueries }}"
         {% endif %}
         alt="{{ model.caption | striptags() }}" />
