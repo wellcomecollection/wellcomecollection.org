@@ -30,9 +30,9 @@ export async function getPosts(size: number = 20): Promise<PostsResponse> {
   };
 }
 
-export async function getArticle(id: string) {
+export async function getArticle(id: string, authToken: ?string = null) {
   const uri = `${baseUri}/posts/${id}`;
-  const response = await request(uri);
+  const response = authToken ? await request(uri).set('Authorization', `Bearer ${authToken}`) : await request(uri);
   const valid = response.type === 'application/json' && response.status === 200;
 
   if (valid) {

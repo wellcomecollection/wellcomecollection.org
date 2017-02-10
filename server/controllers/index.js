@@ -108,22 +108,17 @@ export const explosion = (ctx) => {
 
 export const preview = async(ctx) => {
   const id = ctx.params.id;
-  const format = ctx.request.query.format;
-  const article = await getArticle(id);
+  const authToken = ctx.cookies.get('WC_wpAuthToken');
+  const article = await getArticle(id, authToken);
 
   if (article) {
-    if (format === 'json') {
-      ctx.body = article;
-      return article;
-    } else {
-      return ctx.render('pages/article', {
-        pageConfig: createPageConfig({
-          title: article.headline,
-          inSection: 'explore'
-        }),
-        article: article
-      });
-    }
+    return ctx.render('pages/article', {
+      pageConfig: createPageConfig({
+        title: article.headline,
+        inSection: 'explore'
+      }),
+      article: article
+    });
   } else {
     return next();
   }
