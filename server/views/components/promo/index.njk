@@ -1,14 +1,17 @@
-{#TODO full width variant#}
-{#TODO full width/dark background variant#}
-{#TODO Test with screen reader#}
-{#TODO jsConfig#}
-{#TODO className unitlity for promo classes#}
+{% set leadPromoSizes = '(max-width: 599px) 564px, (max-width: 959px) 876px, 812px' %}
+{% set smallPromoSizes = '(max-width: 599px) 564px, (max-width: 959px) 276px, 386px' %}
+{% if promo.meta.displayType === 'lead' %}
+  {% set sizes = leadPromoSizes %}
+{% elseif promo.meta.displayType === 'regular' %}
+  {% set sizes = smallPromoSizes %}
+{% else %}
+  {% set sizes = 100vw %}
+{% endif %}
 
 <a href="{{ promo.article.url }}" class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %}">
   <div class="promo__image-container">
-    <img class="promo__image"
-      src="{{ promo.article.thumbnail.contentUrl }}"
-      alt="{{ promo.article.headline }}" />
+
+    {% component 'image', { image: {url: promo.article.thumbnail.contentUrl, lazyload: true, sizesQueries: sizes } } %}
 
     {% for modifier in promo.modifiers %}
       {% if modifier === 'series' %}
@@ -23,7 +26,7 @@
             </filter>
           </defs>
         </svg>
-        <img class="promo__image-mask promo__clip-path--{{ [1,2,3,4,5,6,7,8,9,10] | random }}" src="{{ promo.article.thumbnail.contentUrl }}" alt="" />
+        <img class="promo__image-mask promo__clip-path--{{ [1,2,3,4,5,6,7,8,9,10] | random }}" src="{{ promo.article.thumbnail.contentUrl }}?w=600" alt="" />
       {% endif %}
     {% endfor %}
 

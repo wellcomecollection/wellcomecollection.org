@@ -37,5 +37,13 @@ export const variants = [
   {
     name: 'standalone',
     context: {promo: Object.assign({}, promo, {meta: {type: 'article'}}, {modifiers: ['series', 'standalone']})}
+  },
+  {
+    name: 'lead',
+    context: {promo: Object.assign({}, promo, {meta: {type: 'article', displayType: 'lead'}})}
+  },
+  {
+    name: 'regular',
+    context: {promo: Object.assign({}, promo, {meta: {type: 'article', displayType: 'regular'}})}
   }
 ];
