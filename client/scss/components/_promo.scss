@@ -20,11 +20,22 @@
     margin-bottom: $vertical-space-unit;
   }
 
+  &:hover .image,
+  &:focus .image {
+    transform: scale(1.2);
+  }
+
+  .image {
+    display: block;
+    width: 100%;
+    transition: transform 400ms ease;
+  }
+
   .icon {
     vertical-align: middle;
     margin-right: map-get($gutter-width, 'small')/2;
 
-      @include respond-to('medium') {
+    @include respond-to('medium') {
       margin-right: map-get($gutter-width, 'medium')/2;
     }
 
@@ -53,17 +64,6 @@
     order: 1;
     width: percentage(2 / 3);
     margin-bottom: 0;
-  }
-}
-
-.promo__image {
-  display: block;
-  width: 100%;
-  transition: transform 400ms ease;
-
-  .promo:hover &,
-  .promo:focus & {
-    transform: scale(1.2);
   }
 }
 
