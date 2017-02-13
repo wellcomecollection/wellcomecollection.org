@@ -24,7 +24,7 @@
     vertical-align: middle;
     margin-right: map-get($gutter-width, 'small')/2;
 
-      @include respond-to('medium') {
+    @include respond-to('medium') {
       margin-right: map-get($gutter-width, 'medium')/2;
     }
 
