@@ -5,12 +5,17 @@ import {error, success, info} from './console';
 
 async function deploy() {
   const tags = await listTags();
+  const tagInts = tags.filter(t => t !== 'latest').map(t => parseInt(t, 10));
+  // Annoyingly `.sort` is mutational
+  tagInts.sort((a, b) => b - a);
+  const tagStrings = tagInts.map(String)
+
 
   const tagsQ = {
     type: 'list',
     name: 'tag',
     message: 'Which tag would you like to deploy:',
-    choices: tags.sort((a, b) => b - a).filter(t => t !== 'latest')
+    choices: tagStrings
   };
 
   const {tag} = await inquirer.prompt(tagsQ);
