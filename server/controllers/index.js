@@ -4,9 +4,9 @@ import {createPageConfig} from '../model/page-config';
 import {getPosts, getArticle} from '../services/wordpress';
 
 export const article = async(ctx, next) => {
-    const id = ctx.params.id;
+    const slug = ctx.params.slug;
     const format = ctx.request.query.format;
-    const article = await getArticle(id);
+    const article = await getArticle(`slug:${slug}`);
 
     if (article) {
       if (format === 'json') {
@@ -77,9 +77,9 @@ export const index = (ctx) => ctx.render('pages/index', {
 export const healthcheck = (ctx) => ctx.body = 'ok';
 
 export const performanceTest = async(ctx, next) => {
-  const articleId = 'a-drop-in-the-ocean-daniel-regan';
+  const slug = 'a-drop-in-the-ocean-daniel-regan';
   const startTime = process.hrtime();
-  const article = await getArticle(articleId);
+  const article = await getArticle(`slug:${slug}`);
 
   ctx.render('pages/article', {
     pageConfig: createPageConfig({inSection: 'explore'}),
@@ -104,4 +104,22 @@ export const explosion = (ctx) => {
   const message = `Forced explosion of type ${errorCode}`;
   ctx.status = parseInt(errorCode, 10);
   ctx.body = { errorCode, message };
+};
+
+export const preview = async(ctx) => {
+  const id = ctx.params.id;
+  const authToken = ctx.cookies.get('WC_wpAuthToken');
+  const article = await getArticle(id, authToken);
+
+  if (article) {
+    return ctx.render('pages/article', {
+      pageConfig: createPageConfig({
+        title: article.headline,
+        inSection: 'explore'
+      }),
+      article: article
+    });
+  } else {
+    return next();
+  }
 };
