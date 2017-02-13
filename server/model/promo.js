@@ -1,13 +1,12 @@
 // @flow
-import {type DisplayType} from './display-type';
+import {type Weight} from './weight';
 import {type ArticlePromo} from './article-promo';
 
 export type Promo = {|
   modifiers: Array<string>;
   article: ArticlePromo;
+  weight?: Weight,
   meta?: {
-    display?: DisplayType,
-    small?: boolean,
     type?: string,
     length?: string
   };

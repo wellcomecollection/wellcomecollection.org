@@ -41,14 +41,12 @@ export const articles = async(ctx) => {
   });
 };
 
-function postsToPromos(posts, display) {
+function postsToPromos(posts, weight) {
   return posts.map(articlePromo => {
     const promo: Promo = {
       modifiers: [],
       article: articlePromo,
-      meta: {
-        displayType: display,
-      }
+      weight: weight
     };
     return promo;
   });
@@ -58,8 +56,8 @@ export const explore = async(ctx) => {
   const wpPosts = await getPosts();
   const posts = wpPosts.data;
   const topPromo = postsToPromos(posts.take(1), 'lead').first();
-  const second3Promos = postsToPromos(posts.slice(1, 4), 'regular');
-  const next8Promos = postsToPromos(posts.slice(4, 12), 'regular');
+  const second3Promos = postsToPromos(posts.slice(1, 4), 'default');
+  const next8Promos = postsToPromos(posts.slice(4, 12), 'default');
 
   return ctx.render('pages/explore', {
     pageConfig: createPageConfig({

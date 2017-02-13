@@ -1,9 +1,9 @@
 {% set leadPromoSizes = '(max-width: 599px) 564px, (max-width: 959px) 876px, 812px' %}
-{% set smallPromoSizes = '(max-width: 599px) 564px, (max-width: 959px) 276px, 386px' %}
-{% if promo.meta.displayType === 'lead' %}
+{% set defaultPromoSizes = '(max-width: 599px) 564px, (max-width: 959px) 276px, 386px' %}
+{% if promo.weight === 'lead' %}
   {% set sizes = leadPromoSizes %}
-{% elseif promo.meta.displayType === 'regular' %}
-  {% set sizes = smallPromoSizes %}
+{% elseif promo.weight === 'default' %}
+  {% set sizes = defaultPromoSizes %}
 {% else %}
   {% set sizes = 100vw %}
 {% endif %}
