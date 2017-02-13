@@ -40,6 +40,8 @@
       },
       "ignoreSelectors": [
         ".*\\.icon*",
+        ".*\\.captioned-image*",
+        ".*\\.image*",
         ".*\\.is-.*",
         ".*\\.enhanced.*",
         ".*\\.lt-ie.*"

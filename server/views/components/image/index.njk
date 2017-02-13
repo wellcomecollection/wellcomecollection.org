@@ -1,0 +1,12 @@
+{% set sizes = image | getImageSizesFor %}
+{% set comma = joiner() %}
+<img class="image{{ ' lazyload' if image.lazyload }}"
+src="{{ image.url }}?w={{ sizes[0] }}"
+data-srcset="
+{%- for size in sizes -%}
+  {{ comma() }}{{ image.url }}?w={{ size }} {{ size }}w
+{%- endfor %}"
+{% if image.sizesQueries %}
+  sizes="{{ image.sizesQueries }}"
+{% endif %}
+alt="{{ 'image.alt' if image.alt }}" />
