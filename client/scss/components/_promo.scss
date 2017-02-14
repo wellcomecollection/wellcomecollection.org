@@ -22,13 +22,14 @@
 
   &:hover .image,
   &:focus .image {
-    transform: scale(1.2);
+    transform: scale(1.02);
   }
 
   .image {
     display: block;
     width: 100%;
-    transition: transform 400ms ease;
+    backface-visibility: hidden; // Fixes chrome bug where image shifts slightly and appears blurry during transition
+    transition: transform 200ms ease;
   }
 
   .icon {
