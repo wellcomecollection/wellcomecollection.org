@@ -186,3 +186,23 @@
     top: 0;
   }
 }
+
+@mixin image-zoom ($interactionElement, $containerElement, $zoomElement) {
+  #{$containerElement} {
+    transform: translateZ(0); // Fixes scale/border-radius overflow bug: http://stackoverflow.com/a/31686781
+    border-radius: $border-radius-unit;
+    overflow: hidden;
+  }
+
+  #{$zoomElement} {
+    display: block;
+    width: 100%;
+    backface-visibility: hidden; // Fixes chrome bug where image shifts slightly and appears blurry during transition
+    transition: transform 200ms ease;
+  }
+
+  #{$interactionElement}:hover #{$zoomElement},
+  #{$interactionElement}:focus #{$zoomElement}, {
+    transform: scale(1.02);
+  }
+};
