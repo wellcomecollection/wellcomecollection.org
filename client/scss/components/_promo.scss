@@ -22,13 +22,13 @@
 
   &:hover .image,
   &:focus .image {
-    transform: scale(1.2);
+    transform: scale(1.02);
   }
 
   .image {
     display: block;
     width: 100%;
-    transition: transform 400ms ease;
+    transition: transform 200ms ease;
   }
 
   .icon {
