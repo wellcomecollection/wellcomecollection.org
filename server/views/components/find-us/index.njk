@@ -10,39 +10,34 @@
         <span class="find-us__country">{{ model.addressCountry }}</span>
       </p>
     </span>
-  {#</a>#}
+    {% set baseUrl = 'https://api.mapbox.com/v4/mapbox.outdoors/pin-s-building+285A98(-0.133860,51.525840)/-0.133938,51.525883,16/' %}
+    {% set accessToken = 'access_token=pk.eyJ1Ijoid2VsbGNvbWVjb2xsZWN0aW9uIiwiYSI6ImNpeGx5eXJubTAwMnkycW4xZHBieTRuZjEifQ.P16Hv5SbMGnteeldt8T-Cw' %}
+    {% set sizes = [563, 425, 282, 600] %}
+    {% set comma = joiner() %}
+    <img class="find-us__map"
+      src="{{ baseUrl }}284x284.png32?{{ accessToken }}"
+      srcset="
+        {%- for size in sizes %}
+          {{ comma() }}
+          {{ baseUrl }}{{ size }}x{{ size }}.png32?{{ accessToken }} {{ size }}w,
+          {{ baseUrl }}{{ size }}x{{ size }}@2x.png32?{{ accessToken }} {{ size * 2 }}w
+        {%- endfor %}
+      "
+      sizes="
+      (min-width: 600px) 563px,
+      (min-width: 780px) 425px,
+      (min-width: 960px) 282px,
+      600px
+      "
+      alt="Directions to Wellcome Collection">
+  </a>
 
-  {#<div class="find-us__map-container">#}
-    {#<a href="{{ findUsMapUrl }}" class="find-us__link">#}
-      {% set baseUrl = 'https://api.mapbox.com/v4/mapbox.outdoors/pin-s-building+285A98(-0.133860,51.525840)/-0.133938,51.525883,16/' %}
-      {% set accessToken = 'access_token=pk.eyJ1Ijoid2VsbGNvbWVjb2xsZWN0aW9uIiwiYSI6ImNpeGx5eXJubTAwMnkycW4xZHBieTRuZjEifQ.P16Hv5SbMGnteeldt8T-Cw' %}
-      {% set sizes = [284, 336, 436] %}
-      {% set comma = joiner() %}
-      <img class="find-us__map"
-        src="{{ baseUrl }}284x284.png32?{{ accessToken }}"
-        srcset="
-          {%- for size in sizes %}
-            {{ comma() }}
-            {{ baseUrl }}{{ size }}x{{ size }}.png32?{{ accessToken }} {{ size }}w,
-            {{ baseUrl }}{{ size }}x{{ size }}@2x.png32?{{ accessToken }} {{ size * 2 }}w
-          {%- endfor %}
-        "
-        sizes="
-        (min-width: 600px) 336px,
-        (min-width: 780px) 436px,
-        (min-width: 960px) 282px,
-        284px
-        "
-        alt="Directions to Wellcome Collection">
-    </a>
-
-    <div class="find-us__mapbox">
-      <a href="http://mapbox.com/about/maps" class="find-us__mapbox-wordmark">Mapbox</a>
-      <div class="find-us__mapbox-attribution-container">
-        <a class="find-us__mapbox-credit-link find-us__mapbox-credit-link--first" href="https://www.mapbox.com/map-feedback/">© Mapbox | </a>
-        <a class="find-us__mapbox-credit-link" href="http://www.openstreetmap.org/copyright">© OpenStreetMap | </a>
-        <a class="find-us__mapbox-credit-link" href="https://www.mapbox.com/map-feedback/"><strong>Improve this map</strong></a>
-      </div>
+  <div class="find-us__mapbox">
+    <a href="http://mapbox.com/about/maps" class="find-us__mapbox-wordmark">Mapbox</a>
+    <div class="find-us__mapbox-attribution-container">
+      <a class="find-us__mapbox-credit-link find-us__mapbox-credit-link--first" href="https://www.mapbox.com/map-feedback/">© Mapbox | </a>
+      <a class="find-us__mapbox-credit-link" href="http://www.openstreetmap.org/copyright">© OpenStreetMap | </a>
+      <a class="find-us__mapbox-credit-link" href="https://www.mapbox.com/map-feedback/"><strong>Improve this map</strong></a>
     </div>
-  {#</div>#}
+  </div>
 </div>
