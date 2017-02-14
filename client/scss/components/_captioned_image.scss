@@ -5,7 +5,6 @@
   .image {
     width: 100%;
     display: block;
-    margin-bottom: $v-spacing-unit * 3;
   }
 }
 
@@ -38,15 +37,12 @@
 
   display: flex;
   color: color('accessible-grey-2');
-  padding-bottom: $v-spacing-unit * 3;
+  padding-top: #{($v-spacing-unit * 4) - 8px}; // - to make to adjust for line-height, want padding from x-height
+  padding-bottom: #{($v-spacing-unit * 4) - 8px};
   border-bottom: 1px solid color('keyline-grey');
 
-  .captioned-image--full & {
-    padding-top: 1rem;
-    margin-bottom: 0.5rem;
-  }
-
   .icon {
+    vertical-align: top;
     width: 1.3em;
     height: 1.3em;
     min-width: 1.3em;
