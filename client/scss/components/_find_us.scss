@@ -55,17 +55,11 @@
   display: block;
 }
 
-.find-us__map {
-  width: 100%;
-  border-top-left-radius: $border-radius-unit;
-  border-top-right-radius: $border-radius-unit;
-  transition: transform 200ms ease;
-  display: block;
+@include image-zoom ($interactionElement: '.find-us', $containerElement: '.find-us__map-container', $zoomElement: '.find-us__map');
 
-  .find-us:hover &,
-  .find-us:focus & {
-    transform: scale(1.02, 1.02);
-  }
+.find-us__map-container {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .find-us__mapbox {
@@ -100,14 +94,8 @@ $tiny-map-font-size: 10px;
   width: 100%;
   padding-left: 0.5em;
   padding-right: 0.5em;
-  transition: transform 200ms ease;
   border-bottom-left-radius: $border-radius-unit;
   border-bottom-right-radius: $border-radius-unit;
-
-  .find-us:hover &,
-  .find-us:focus & {
-    transform: scale(1.02, 1.02);
-  }
 }
 
 .find-us__mapbox-credit-link {
