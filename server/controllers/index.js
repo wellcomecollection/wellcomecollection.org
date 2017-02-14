@@ -92,7 +92,7 @@ export const performanceTest = async(ctx, next) => {
   ctx.type = 'application/javascript';
   ctx.body = `
     if (console) {
-      console.log('Incoming from next.wellcomecollection.org, ${articleId} took ${endTimeFormatted}');
+      console.log('Incoming from next.wellcomecollection.org, ${slug} took ${endTimeFormatted}');
     }
   `;
 
