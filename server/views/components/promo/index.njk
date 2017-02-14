@@ -11,7 +11,7 @@
 <a href="{{ promo.article.url }}" class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %}">
   <div class="promo__image-container">
 
-    {% component 'image', { image: {url: promo.article.thumbnail.contentUrl, lazyload: true, sizesQueries: sizes } } %}
+    {% component 'image', { image: {url: promo.article.thumbnail.contentUrl, width: promo.article.thumbnail.width, lazyload: true, sizesQueries: sizes } } %}
 
     {% for modifier in promo.modifiers %}
       {% if modifier === 'series' %}

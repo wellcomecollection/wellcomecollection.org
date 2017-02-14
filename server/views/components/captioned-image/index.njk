@@ -1,6 +1,6 @@
 <figure class="{{ 'captioned-image' | componentClasses(modifiers) }}">
   <div class="captioned-image__image-container">
-    {% component 'image', { image: {url: model.contentUrl, alt: model.caption | striptags(), lazyload: true, sizesQueries: data.sizesQueries} } %}
+    {% component 'image', { image: {url: model.contentUrl, width: model.width, alt: model.caption | striptags(), lazyload: true, sizesQueries: data.sizesQueries} } %}
   </div>
   {% block figcaption %}
     {% if model.caption %}
