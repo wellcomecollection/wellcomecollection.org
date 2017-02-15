@@ -4,34 +4,33 @@ import {createPageConfig} from '../model/page-config';
 import {getPosts, getArticle} from '../services/wordpress';
 
 export const article = async(ctx, next) => {
-    const slug = ctx.params.slug;
-    const format = ctx.request.query.format;
-    const article = await getArticle(`slug:${slug}`);
+  const slug = ctx.params.slug;
+  const format = ctx.request.query.format;
+  const article = await getArticle(`slug:${slug}`);
 
-    if (article) {
-      if (format === 'json') {
-        ctx.body = article;
-        return article;
-      } else {
-        return ctx.render('pages/article', {
-          pageConfig: createPageConfig({
-            title: article.headline,
-            inSection: 'explore'
-          }),
-          article: article
-        });
-      }
+  if (article) {
+    if (format === 'json') {
+      ctx.body = article;
     } else {
-      return next();
+      ctx.render('pages/article', {
+        pageConfig: createPageConfig({
+          title: article.headline,
+          inSection: 'explore'
+        }),
+        article: article
+      });
     }
+  }
+
+  return next();
 };
 
-export const articles = async(ctx) => {
+export const articles = async(ctx, next) => {
   const wpPosts = await getPosts(32);
   const promos = postsToPromos(wpPosts.data);
 
   // TODO: We might change this to `index`
-  return ctx.render('pages/articles', {
+  ctx.render('pages/articles', {
     pageConfig: createPageConfig({
       title: 'Explore',
       inSection: 'explore'
@@ -39,27 +38,18 @@ export const articles = async(ctx) => {
     total: wpPosts.total,
     promos
   });
+
+  return next();
 };
 
-function postsToPromos(posts, weight) {
-  return posts.map(articlePromo => {
-    const promo: Promo = {
-      modifiers: [],
-      article: articlePromo,
-      weight: weight
-    };
-    return promo;
-  });
-}
-
-export const explore = async(ctx) => {
+export const explore = async(ctx, next) => {
   const wpPosts = await getPosts();
   const posts = wpPosts.data;
   const topPromo = postsToPromos(posts.take(1), 'lead').first();
   const second3Promos = postsToPromos(posts.slice(1, 4), 'default');
   const next8Promos = postsToPromos(posts.slice(4, 12), 'default');
 
-  return ctx.render('pages/explore', {
+  ctx.render('pages/explore', {
     pageConfig: createPageConfig({
       title: 'Explore',
       inSection: 'explore'
@@ -68,13 +58,18 @@ export const explore = async(ctx) => {
     second3Promos,
     next8Promos
   });
+
+  return next();
 };
 
-export const index = (ctx) => ctx.render('pages/index', {
+export const index = (ctx, next) => ctx.render('pages/index', {
   pageConfig: createPageConfig({inSection: 'index'})
-});
+}) && next();
 
-export const healthcheck = (ctx) => ctx.body = 'ok';
+export const healthcheck = (ctx, next) => {
+  ctx.body = 'ok';
+  return next();
+};
 
 export const performanceTest = async(ctx, next) => {
   const slug = 'a-drop-in-the-ocean-daniel-regan';
@@ -99,11 +94,13 @@ export const performanceTest = async(ctx, next) => {
   return next();
 };
 
-export const explosion = (ctx) => {
+export const explosion = (ctx, next) => {
   const {errorCode} = ctx.params;
   const message = `Forced explosion of type ${errorCode}`;
   ctx.status = parseInt(errorCode, 10);
   ctx.body = { errorCode, message };
+
+  return next();
 };
 
 export const preview = async(ctx) => {
@@ -112,14 +109,25 @@ export const preview = async(ctx) => {
   const article = await getArticle(id, authToken);
 
   if (article) {
-    return ctx.render('pages/article', {
+    ctx.render('pages/article', {
       pageConfig: createPageConfig({
         title: article.headline,
         inSection: 'explore'
       }),
       article: article
     });
-  } else {
-    return next();
   }
+
+  return next();
 };
+
+function postsToPromos(posts, weight) {
+  return posts.map(articlePromo => {
+    const promo: Promo = {
+      modifiers: [],
+      article: articlePromo,
+      weight: weight
+    };
+    return promo;
+  });
+}
