@@ -1,7 +1,27 @@
+.icon {
+  height: $v-spacing-unit * 2;
+}
+
 .icon--fill {
   fill: color('black');
 }
 
 .icon--stroke {
   stroke: color('black');
+}
+
+.icon--action {
+  fill: color('action-green-2');
+}
+
+.icon--90 {
+  transform: rotate(90deg);
+}
+
+.icon--180{
+  transform: rotate(180deg);
+}
+
+.icon--270 {
+  transform: rotate(270deg);
 }

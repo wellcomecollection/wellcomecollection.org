@@ -1,0 +1,46 @@
+// Adds momentum scrolling to iOS
+// TODO: consider removing if/when scroll snapping is implemented
+.touch-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+
+.flex {
+  display: flex;
+}
+
+.no-v-margin {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.no-v-padding {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+
+.more-info-link {
+  @include font('HNM6');
+
+  display: inline-flex;
+  color: color('action-green-2');
+  text-decoration: none;
+  align-items: center;
+  margin-top: $spacing-unit * 3;
+}
+
+.more-info-link__text {
+  margin-left: $spacing-unit;
+}
+
+.heading--large {
+  @include font('WB5');
+
+  @include respond-to('medium') {
+    @include font('WB4');
+  }
+
+  @include respond-to('large') {
+    @include font('WB3');
+  }
+}
