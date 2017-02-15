@@ -23,13 +23,14 @@
     </div>
   </div>
 
+  {# Theme #}
   <div class="row">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:4, m:8, l:12, xl: 12} | gridClasses }}">
           <h2 class="heading--large no-v-margin">A drop in the ocean</h2>
         </div>
-        <div class="{{ {s:4, m:4, l:8} | gridClasses }}">
+        <div class="{{ {s:4, m:8, l:8} | gridClasses }}">
           <p class="no-v-margin">
             This series showcases many different voices and perspectives from people with lived
             experience of mental ill health and explores their ideas of personal asylum through
@@ -68,7 +69,24 @@
     </div>
   </div>
 
+  {# Chronological #}
   <div class="row">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:4, m:8, l:12, xl: 12} | gridClasses }}">
+          <h2 class="heading--large no-v-margin">You may have missed</h2>
+        </div>
+        <div class="{{ {s:4, m:8, l:8} | gridClasses }}">
+          <a class="more-info-link" href="/theme/articles">
+            {% icon 'actions/arrow-small', null, ['icon--270', 'icon--action'] %}
+            <span class="more-info-link__text">More articles</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row row--small-pad-top">
     <div class="container">
       <div class="grid">
         {% for promo in next8Promos.toJS() %}
