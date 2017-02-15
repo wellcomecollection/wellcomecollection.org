@@ -47,7 +47,19 @@
   <div class="row row--small-pad-top">
     <div class="container">
       <div class="grid">
-        {% for promo in aDropInTheOcean.toJS() %}
+        {% for promo in aDropInTheOcean.take(3).toJS() %}
+          <div class="{{ {s:4, l:4, xl:4} | gridClasses }}">
+            {% component 'promo', { promo: promo } %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="row row--small-pad-top">
+    <div class="container">
+      <div class="grid">
+        {% for promo in aDropInTheOcean.slice(3, 7).toJS() %}
           <div class="{{ {s:4, m:4, l:3, xl:3} | gridClasses }}">
             {% component 'promo', { promo: promo } %}
           </div>
