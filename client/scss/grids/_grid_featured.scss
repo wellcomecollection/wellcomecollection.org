@@ -1,12 +1,9 @@
 .grid--featured {
   position: relative;
-  padding-top: $vertical-space-unit;
-  padding-bottom: 4 * $vertical-space-unit;
   padding-left: map-get($container-padding, 'small');
   padding-right: map-get($container-padding, 'small');
 
   @include respond-to('medium') {
-    padding-bottom: 6 * $vertical-space-unit;
     padding-left: map-get($container-padding, 'medium');
     padding-right: map-get($container-padding, 'medium');
   }
@@ -26,34 +23,31 @@
   &:before,
   &:after {
     content: '';
-    position: absolute;
-    left: map-get($container-padding, 'small') + map-get($gutter-width, 'small');
-    right: map-get($container-padding, 'small');
+    width: 100%;
+    margin-left: map-get($gutter-width, 'small');
 
     @include respond-to('medium') {
-      left: map-get($container-padding, 'medium') + map-get($gutter-width, 'medium');
-      right: map-get($container-padding, 'medium');
+      margin-left: map-get($gutter-width, 'medium');
     }
 
     @include respond-to('large') {
-      left: map-get($container-padding, 'large') + map-get($gutter-width, 'large');
-      right: map-get($container-padding, 'large');
+      margin-left: map-get($gutter-width, 'large');
     }
   }
 
   &:before {
-    top: 0;
     height: 1px;
     background: color('keyline-grey');
+    margin-bottom: 3 * $v-spacing-unit;;
   }
 
   &:after {
-    bottom: 2 * $vertical-space-unit;
     height: 22px;
     background: color('black');
+    margin-bottom: 5 * $v-spacing-unit;
 
-    @include respond-to('medium') {
-      bottom: 4 * $vertical-space-unit;
+    @include respond-to('large') {
+      margin-bottom: 10 * $v-spacing-unit;
     }
   }
 
