@@ -53,11 +53,14 @@ function postsToPromos(posts, weight) {
 }
 
 export const explore = async(ctx) => {
-  const wpPosts = await getPosts();
-  const posts = wpPosts.data;
-  const topPromo = postsToPromos(posts.take(1), 'lead').first();
-  const second3Promos = postsToPromos(posts.slice(1, 4), 'default');
-  const next8Promos = postsToPromos(posts.slice(4, 12), 'default');
+  const wpPosts = await getPosts(50);
+
+  const grouped = wpPosts.data.groupBy(post => post.headline.indexOf('A drop in the ocean:') === 0);
+  const theRest = grouped.first();
+  const aDropInTheOcean = grouped.last();
+  const topPromo = postsToPromos(theRest.take(1), 'lead').first();
+  const second3Promos = postsToPromos(theRest.slice(1, 4), 'default');
+  const next8Promos = postsToPromos(theRest.slice(4, 12), 'default');
 
   return ctx.render('pages/explore', {
     pageConfig: createPageConfig({
