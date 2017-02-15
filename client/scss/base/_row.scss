@@ -3,7 +3,7 @@
 .row {
   padding-top: $v-spacing-unit * 5;
 
-  @include respond-to('large') {
+  @include respond-to('medium') {
     padding-top: $v-spacing-unit * 10;
   }
 }
@@ -80,13 +80,9 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 70%;
+  height: 20%;
   transition: height 600ms ease;
   background: color('white');
-
-  @include respond-to('medium') {
-    height: 20%;
-  }
 
   &:after {
     position: absolute;
