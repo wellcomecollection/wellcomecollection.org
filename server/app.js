@@ -9,9 +9,9 @@ import setCacheControl from './middleware/set-cache-control';
 
 const app = new Koa();
 
+app.use(enforceSSL());
 app.use(setCacheControl(config.cacheControl));
 app.use(compress(config.compress));
-app.use(enforceSSL());
 app.use(serve(config.static.path));
 app.use(serve(config.favicon.path));
 app.use(render(config.views.path));
