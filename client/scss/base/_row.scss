@@ -3,7 +3,7 @@
 .row {
   padding-top: $v-spacing-unit * 5;
 
-  @include respond-to('large') {
+  @include respond-to('medium') {
     padding-top: $v-spacing-unit * 10;
   }
 }
