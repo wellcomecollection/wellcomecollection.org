@@ -10,6 +10,7 @@ export type Organization = {|
   sameAs: Array<string>;
   openingHoursSpecification: OpeningHours;
   address: PostalAddress;
+  alternateUrl?: string;
 |}
 
 type PostalAddress = {|

@@ -1,0 +1,38 @@
+{% extends 'layout/default.njk' %}
+
+{% block body %}
+  <div class="row row--cream">
+    <div class="container">
+      <div class="grid">
+        <div class="grid__cell">
+          <h1 class="heading--large v-margin-0">{{ list.name }}</h1>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="{{ {s: 4, m: 8, l: 8} | gridClasses }}">
+          <p class="v-margin-0 top-margin-s">{{ list.description }}</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="grid__cell">
+          <p class="text--meta v-margin-s">{{ list.total }} articles</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="container">
+      <div class="grid">
+        {% for promo in list.items.toJS() %}
+          <div class="{{ {s:4, m:4, l:3, xl:3} | gridClasses }}">
+            {% component 'promo', { promo: promo } %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

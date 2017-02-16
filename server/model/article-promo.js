@@ -1,12 +1,14 @@
 // @flow
 import entities from 'entities';
 import {type Picture} from './picture';
+import {type  ArticleSeries} from "./series";
 export type ArticlePromo = {|
   url: string;
   headline: string;
   description: string;
   thumbnail: Picture;
   datePublished: Date;
+  series?: Array<ArticleSeries>;
 |};
 
 export class ArticlePromoFactory {
@@ -21,8 +23,15 @@ export class ArticlePromoFactory {
       height: wpThumbnail.height
     };
     const datePublished = new Date(json.date);
+    const series: Array<ArticleSeries> = Object.values(json.categories).map(cat => {
+      return {
+        url: cat.slug,
+        name: cat.name,
+        description: cat.description
+      }
+    });
 
-    const articlePromo: ArticlePromo = { url, headline, description, thumbnail, datePublished };
+    const articlePromo: ArticlePromo = { url, headline, description, thumbnail, datePublished, series };
     return articlePromo;
   }
 }
