@@ -28,7 +28,7 @@ export const article = async(ctx, next) => {
 
 export const articles = async(ctx, next) => {
   const {page} = ctx.request.query;
-  const wpPosts = await getPosts(32);
+  const wpPosts = await getPosts(24);
   const items = postsToPromos(wpPosts.data);
   const {total} = wpPosts;
   const series: Series = {
@@ -53,7 +53,7 @@ export const articles = async(ctx, next) => {
 
 export const series = async(ctx, next) => {
   const {id, page} = ctx.params;
-  const wpPosts = await getPosts(32, {category: id});
+  const wpPosts = await getPosts(24, {category: id});
   const items = postsToPromos(wpPosts.data);
   // TODO: So So nasty
   const {name, description} = wpPosts.data.first().series[0];

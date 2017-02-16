@@ -2,6 +2,10 @@
   height: $v-spacing-unit * 2;
 }
 
+.icon--2x {
+  height: $v-spacing-unit * 4;
+}
+
 .icon--fill {
   fill: color('black');
 }
@@ -24,4 +28,11 @@
 
 .icon--270 {
   transform: rotate(270deg);
+}
+
+.icon-rounder {
+  border: 1px solid color('accessible-grey-2');
+  border-radius: 50%;
+  width: $spacing-unit * 8;
+  height: $spacing-unit * 8;
 }

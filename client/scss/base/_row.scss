@@ -100,3 +100,7 @@
 .row--extra-top-padding {
   padding-top: $v-spacing-unit * 10;
 }
+
+.row--last {
+  padding-bottom: $spacing-unit * 10;
+}
