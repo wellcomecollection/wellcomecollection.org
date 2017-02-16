@@ -9,6 +9,15 @@ import {authorMap} from '../services/author-lookup';
 
 export type BodyPart = {};
 
+type ArticleSeries = {|
+  name: string;
+  total?: number;
+|}
+
+type Series = ArticleSeries & {|
+  items: Array<Article>;
+|}
+
 export type Article = {|
   type: ContentType;
   url: string;
@@ -23,8 +32,9 @@ export type Article = {|
   thumbnail: Picture;
   articleBody: string;
   associatedMedia: Array<Picture>;
-  author?: Person; // TODO: Make this manditory once we know al the authors
   bodyParts: Array<BodyPart>;
+  author?: Person; // TODO: Make this mandatory once we know all the authors
+  series?: Array<ArticleSeries>;
 |}
 
 function createArticle(data: Article) { return (data: Article); }
