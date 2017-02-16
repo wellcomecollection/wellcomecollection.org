@@ -43,17 +43,21 @@ export const articles = async(ctx, next) => {
 };
 
 export const explore = async(ctx, next) => {
-  const wpPosts = await getPosts();
-  const posts = wpPosts.data;
-  const topPromo = postsToPromos(posts.take(1), 'lead').first();
-  const second3Promos = postsToPromos(posts.slice(1, 4), 'default');
-  const next8Promos = postsToPromos(posts.slice(4, 12), 'default');
+  const wpPosts = await getPosts(50);
+
+  const grouped = wpPosts.data.groupBy(post => post.headline.indexOf('A drop in the ocean:') === 0);
+  const theRest = grouped.first();
+  const aDropInTheOcean = postsToPromos(grouped.last()).take(7);
+  const topPromo = postsToPromos(theRest.take(1), 'lead').first();
+  const second3Promos = postsToPromos(theRest.slice(1, 4), 'default');
+  const next8Promos = postsToPromos(theRest.slice(4, 12), 'default');
 
   ctx.render('pages/explore', {
     pageConfig: createPageConfig({
       title: 'Explore',
       inSection: 'explore'
     }),
+    aDropInTheOcean,
     topPromo,
     second3Promos,
     next8Promos
