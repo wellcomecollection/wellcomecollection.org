@@ -4,20 +4,24 @@ import {List} from 'immutable';
 import request from 'superagent';
 import {ArticleFactory} from '../model/article';
 
-export type PostsResponse = {
+export type WordpressQuery = {|
+  category?: string;
+|}
+
+export type PostsResponse = {|
   length: number;
   total: number;
   data: List<ArticlePromo>;
-}
+|}
 
 const baseUri = 'https://public-api.wordpress.com/rest/v1.1/sites/blog.wellcomecollection.org';
 
-export async function getPosts(size: number = 20): Promise<PostsResponse> {
+export async function getPosts(size: number = 20, q: WordpressQuery = {}): Promise<PostsResponse> {
   const uri = `${baseUri}/posts/`;
-  const response = await request(uri).query({
+  const response = await request(uri).query(Object.assign({}, {
     fields: 'slug,title,excerpt,post_thumbnail,date',
     number: size
-  });
+  }, q);
 
   const posts: List<ArticlePromo> = List(response.body.posts).map(post => {
     return (ArticlePromoFactory.fromWpApi(post): ArticlePromo);
