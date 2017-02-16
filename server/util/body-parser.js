@@ -111,8 +111,8 @@ export function convertWpImage(node) {
     const picture = getImageFromWpNode(node);
     const className = getAttrVal(node.attrs, 'class') || '';
     const weights = {
-      alignright: 'supporting',
-      alignleft: 'standalone'
+      alignleft: 'supporting',
+      alignright: 'standalone'
     };
 
     const weightKey = Object.keys(weights).find(wpClassName => className.indexOf(wpClassName) !== -1);
