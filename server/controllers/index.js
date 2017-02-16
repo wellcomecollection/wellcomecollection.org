@@ -28,16 +28,20 @@ export const article = async(ctx, next) => {
 
 export const articles = async(ctx, next) => {
   const wpPosts = await getPosts(32);
-  const promos = postsToPromos(wpPosts.data);
-
-  // TODO: We might change this to `index`
+  const items = postsToPromos(wpPosts.data);
+  const {total} = wpPosts;
+  const series: Series = {
+    url: '/articles',
+    name: 'Articles',
+    total,
+    items
+  };
   ctx.render('pages/list', {
     pageConfig: createPageConfig({
-      title: 'Explore',
+      title: 'Articles',
       inSection: 'explore'
     }),
-    total: wpPosts.total,
-    list: promos
+    list: series
   });
 
   return next();
@@ -58,7 +62,6 @@ export const series = async(ctx, next) => {
     items
   };
 
-  // TODO: We might change this to `index`
   ctx.render('pages/list', {
     pageConfig: createPageConfig({
       title: name,
