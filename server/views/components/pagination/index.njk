@@ -1,0 +1,11 @@
+<div class="pagination">
+  {% if (model.prevPage) %}
+    <a href="?page={{ model.prevPage }}">prev</a>
+  {% endif %}
+
+  <span>Page {{ model.currentPage }} of {{ model.pageCount }}</span>
+
+  {% if (model.nextPage) %}
+    <a href="?page={{ model.nextPage }}">next</a>
+  {% endif %}
+</div>
