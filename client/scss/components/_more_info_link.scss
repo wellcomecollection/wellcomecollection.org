@@ -1,0 +1,13 @@
+.more-info-link {
+  @include font('HNM6');
+
+  display: inline-flex;
+  color: color('action-green-2');
+  text-decoration: none;
+  align-items: center;
+  margin-top: $spacing-unit * 3;
+}
+
+.more-info-link__text {
+  margin-left: $spacing-unit;
+}
