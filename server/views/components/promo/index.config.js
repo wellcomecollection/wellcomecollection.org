@@ -36,7 +36,7 @@ export const variants = [
   },
   {
     name: 'standalone',
-    context: {promo: Object.assign({}, promo, {meta: {type: 'article'}}, {modifiers: ['series', 'standalone']})}
+    context: {promo: Object.assign({}, promo, {meta: {type: 'article'}}, {modifiers: ['standalone']})}
   },
   {
     name: 'lead',
