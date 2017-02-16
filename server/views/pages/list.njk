@@ -3,14 +3,24 @@
 {% block body %}
   <div class="row row--cream">
     <div class="container">
-      {% component 'page-description', {
-        title: list.name,
-        modifiers: ['a'],
-        meta: {
-          value: list.total + ' articles',
-          type: 'count'
-        }
-      } %}
+      <div class="grid">
+        <div class="grid__cell">
+          <h1 class="heading--large v-margin-0">{{ list.name }}</h1>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="{{ {s: 4, m: 8, l: 8} | gridClasses }}">
+          <p class="v-margin-0 top-margin-s">{{ list.description }}</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="grid__cell">
+          <p class="text--meta v-margin-s">{{ list.total }} articles</p>
+        </div>
+      </div>
+
     </div>
   </div>
 
