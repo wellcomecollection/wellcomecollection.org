@@ -5,6 +5,7 @@ machine:
     version: 6.1.0
 dependencies:
   override:
+    - npm install
     - ./build-client.sh
     - ./build-server.sh
 deployment:
