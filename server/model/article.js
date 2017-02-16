@@ -3,22 +3,12 @@ import entities from 'entities';
 import {type Person} from './person';
 import {type Picture} from './picture';
 import {type ContentType} from './content-type';
+import {type ArticleSeries} from './series';
 import {getWpFeaturedImage} from './media';
 import {bodyParser} from '../util/body-parser';
 import {authorMap} from '../services/author-lookup';
 
 export type BodyPart = {};
-
-type ArticleSeries = {|
-  url: string;
-  name: string;
-  description?: string;
-  total?: number;
-|}
-
-type Series = ArticleSeries & {|
-  items: Array<Article>;
-|}
 
 export type Article = {|
   type: ContentType;

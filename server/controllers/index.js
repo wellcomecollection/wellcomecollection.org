@@ -2,6 +2,7 @@
 import {type Promo} from '../model/promo';
 import {createPageConfig} from '../model/page-config';
 import {getPosts, getArticle} from '../services/wordpress';
+import {Series} from "../model/series";
 
 export const article = async(ctx, next) => {
   const slug = ctx.params.slug;
@@ -47,10 +48,18 @@ export const explore = async(ctx, next) => {
 
   const grouped = wpPosts.data.groupBy(post => post.headline.indexOf('A drop in the ocean:') === 0);
   const theRest = grouped.first();
-  const aDropInTheOcean = postsToPromos(grouped.last()).take(7);
   const topPromo = postsToPromos(theRest.take(1), 'lead').first();
   const second3Promos = postsToPromos(theRest.slice(1, 4), 'default');
   const next8Promos = postsToPromos(theRest.slice(4, 12), 'default');
+  const aDropInTheOceanPromos = postsToPromos(grouped.last()).take(7);
+  const aDropInTheOcean: Series = {
+    url: '/series/a-drop-in-the-ocean',
+    name: 'A drop in the ocean',
+    items: aDropInTheOceanPromos,
+    description: 'This series showcases many different voices and perspectives from people with\
+                  lived experience of mental ill health and explores their ideas of personal asylum\
+                  through sculpture, vlogging, poetry and more.'
+  };
 
   ctx.render('pages/explore', {
     pageConfig: createPageConfig({
