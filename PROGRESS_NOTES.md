@@ -26,6 +26,6 @@ We’ll regularly publish information about new features here.
 ## Tell us what you think
 This is a work in progress, and we’d like to know what you think about the new website. You can get in touch in two ways:
 * Through the feedback module on the site [JPB to put more detail here about how hotjar thing will work]
-* Email us <librarywebeditorial@wellcome.ac.uk>
+* Email us
 
 If you’d like to be involved in usability testing (surveys, in-person and online activities) please email [team] with your contact details and the Digital Experience team will be in touch. 
