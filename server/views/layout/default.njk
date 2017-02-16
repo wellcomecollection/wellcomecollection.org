@@ -124,7 +124,11 @@
 
     {% component 'cookie-notification' %}
 
-    {% include 'partials/analytics.njk' %}
+    <script>
+      if (['localhost', 'cardigan.wellcomecollection.org'].indexOf(document.location.hostname) === -1) {
+        {% include 'partials/analytics.njk' %}
+      }
+    </script>
     {% include 'partials/monitoring.njk' %}
   </body>
 </html>
