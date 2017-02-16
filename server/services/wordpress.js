@@ -21,7 +21,7 @@ export async function getPosts(size: number = 20, q: WordpressQuery = {}): Promi
   const response = await request(uri).query(Object.assign({}, {
     fields: 'slug,title,excerpt,post_thumbnail,date',
     number: size
-  }, q);
+  }, q));
 
   const posts: List<ArticlePromo> = List(response.body.posts).map(post => {
     return (ArticlePromoFactory.fromWpApi(post): ArticlePromo);
