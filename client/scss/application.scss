@@ -5,11 +5,10 @@
 @import 'utilities/variables';
 @import 'utilities/mixins';
 @import 'utilities/functions';
-@import 'utilities/classes';
+@import 'utilities/root-scope-classes';
 
 // Base
 @import 'base/fonts';
-@import 'base/flex';
 @import 'base/layout';
 @import 'base/container';
 @import 'base/row';
