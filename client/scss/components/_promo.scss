@@ -2,11 +2,11 @@
 .promo {
   display: block;
   text-decoration: none;
-  margin-bottom: 2 * $vertical-space-unit;
+  margin-bottom: 5 * $v-spacing-unit;
 
   &.promo--standalone {
-    margin-bottom: -2 * $vertical-space-unit;
-    padding-bottom: 2 * $vertical-space-unit;
+    margin-bottom: -5 * $v-spacing-unit;
+    padding-bottom: 5 * $v-spacing-unit;
   }
 
   @include container-query(('l': ('8', '12'))) {
@@ -17,7 +17,7 @@
   @include container-query(('l': ('12'))) {
     border-bottom: 0;
     padding-bottom: 0;
-    margin-bottom: $vertical-space-unit;
+    margin-bottom: 3 * $v-spacing-unit;;
   }
 
   .icon {
