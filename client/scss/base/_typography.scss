@@ -24,6 +24,18 @@ h6 {
   margin-bottom: 0.6em;
 }
 
+h1 {
+  @include font('WB4');
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+h2 {
+  @include font('WB5');
+}
+
 a {
   color: color('inherit');
   text-decoration: underline;
