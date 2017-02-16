@@ -4,10 +4,6 @@ import {List} from 'immutable';
 import request from 'superagent';
 import {ArticleFactory} from '../model/article';
 
-export type WordpressQuery = {|
-  category?: string;
-|}
-
 export type PostsResponse = {|
   length: number;
   total: number;
@@ -16,10 +12,10 @@ export type PostsResponse = {|
 
 const baseUri = 'https://public-api.wordpress.com/rest/v1.1/sites/blog.wellcomecollection.org';
 
-export async function getPosts(size: number = 20, q: WordpressQuery = {}): Promise<PostsResponse> {
+export async function getPosts(size: number = 20, q: {category?:string}): Promise<PostsResponse> {
   const uri = `${baseUri}/posts/`;
   const response = await request(uri).query(Object.assign({}, {
-    fields: 'slug,title,excerpt,post_thumbnail,date',
+    fields: 'slug,title,excerpt,post_thumbnail,date,categories',
     number: size
   }, q));
 

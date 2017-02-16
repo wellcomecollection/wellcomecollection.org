@@ -37,7 +37,7 @@ export const articles = async(ctx, next) => {
       inSection: 'explore'
     }),
     total: wpPosts.total,
-    promos
+    list: promos
   });
 
   return next();
@@ -46,16 +46,25 @@ export const articles = async(ctx, next) => {
 export const series = async(ctx, next) => {
   const {id} = ctx.params;
   const wpPosts = await getPosts(32, {category: id});
-  const promos = postsToPromos(wpPosts.data);
+  const items = postsToPromos(wpPosts.data);
+  // TODO: So So nasty
+  const {name, description} = wpPosts.data.first().series[0];
+  const {total} = wpPosts;
+  const series: Series = {
+    url: id,
+    name,
+    description,
+    total,
+    items
+  };
 
   // TODO: We might change this to `index`
   ctx.render('pages/list', {
     pageConfig: createPageConfig({
-      title: 'Explore',
+      title: name,
       inSection: 'explore'
     }),
-    total: wpPosts.total,
-    promos
+    list: series
   });
 
   return next();

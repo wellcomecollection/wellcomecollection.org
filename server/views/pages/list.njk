@@ -4,10 +4,10 @@
   <div class="row row--cream">
     <div class="container">
       {% component 'page-description', {
-        title: 'All articles',
+        title: list.name,
         modifiers: ['a'],
         meta: {
-          value: total + ' articles',
+          value: list.total + ' articles',
           type: 'count'
         }
       } %}
@@ -17,7 +17,7 @@
   <div class="row">
     <div class="container">
       <div class="grid">
-        {% for promo in promos.toJS() %}
+        {% for promo in list.items.toJS() %}
           <div class="{{ {s:4, m:4, l:3, xl:3} | gridClasses }}">
             {% component 'promo', { promo: promo } %}
           </div>

@@ -1,11 +1,13 @@
 // @flow
+import {type Promo} from "./promo";
+
 export type ArticleSeries = {|
   url: string;
   name: string;
   description?: string;
-  total?: number;
 |}
 
 export type Series = ArticleSeries & {|
-  items: Array<ArticleSeries>;
+  items: Array<Promo>;
+  total: number;
 |}
