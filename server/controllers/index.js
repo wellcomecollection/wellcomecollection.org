@@ -103,7 +103,7 @@ export const explosion = (ctx, next) => {
   return next();
 };
 
-export const preview = async(ctx) => {
+export const preview = async(ctx, next) => {
   const id = ctx.params.id;
   const authToken = ctx.cookies.get('WC_wpAuthToken');
   const article = await getArticle(id, authToken);
