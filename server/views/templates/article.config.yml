@@ -18,7 +18,7 @@ context:
       weight: supporting
       value:
         contentUrl: https://placehold.it/400x225
-        caption: © Copyright Holder
+        caption: Copyright Holder
         author: Author's name
         width: 400
         height: 225
@@ -36,7 +36,7 @@ context:
     - type: picture
       value:
         contentUrl: https://placehold.it/400x225
-        caption: © Copyright Holder
+        caption: Copyright Holder
         author: Author's name
         width: 400
         height: 225
@@ -53,7 +53,7 @@ context:
       weight: 'standalone'
       value:
         contentUrl: https://placehold.it/1200x675
-        caption: © Copyright Holder
+        caption: Copyright Holder
         author: Author's name
         width: 1200
         height: 675
@@ -81,7 +81,7 @@ context:
         name: Gallery name
         items:
         - contentUrl: https://placehold.it/400x225
-          caption: © Copyright Holder
+          caption: Copyright Holder
           author: Author's name
           width: 400
           height: 225
@@ -89,7 +89,7 @@ context:
           fileFormat: png
           url: null
         - contentUrl: https://placehold.it/500x200
-          caption: © Copyright Holder
+          caption: Copyright Holder
           author: Author's name
           width: 500
           height: 200
@@ -97,7 +97,7 @@ context:
           fileFormat: png
           url: null
         - contentUrl: https://placehold.it/600x300
-          caption: © Copyright Holder
+          caption: Copyright Holder
           author: Author's name
           width: 600
           height: 300
@@ -105,7 +105,7 @@ context:
           fileFormat: png
           url: null
         - contentUrl: https://placehold.it/600x300
-          caption: © Copyright Holder
+          caption: Copyright Holder
           author: Author's name
           width: 600
           height: 300
@@ -113,7 +113,7 @@ context:
           fileFormat: png
           url: null
         - contentUrl: https://placehold.it/600x300
-          caption: © Copyright Holder
+          caption: Copyright Holder
           author: Author's name
           width: 600
           height: 300
@@ -121,7 +121,7 @@ context:
           fileFormat: png
           url: null
         - contentUrl: https://placehold.it/750x250
-          caption: © Copyright Holder
+          caption: Copyright Holder
           author: Author's name
           width: 750
           height: 250
@@ -129,7 +129,7 @@ context:
           fileFormat: png
           url: null
         - contentUrl: https://placehold.it/900x500
-          caption: © Copyright Holder
+          caption: Copyright Holder
           author: Author's name
           width: 900
           height: 500
@@ -142,7 +142,7 @@ context:
         name: Gallery name
         items:
         - contentUrl: https://placehold.it/400x225
-          caption: © Copyright Holder
+          caption: Copyright Holder
           author: Author's name
           width: 400
           height: 225
@@ -150,7 +150,7 @@ context:
           fileFormat: png
           url: null
         - contentUrl: https://placehold.it/300x300
-          caption: © Copyright Holder
+          caption: Copyright Holder
           author: Author's name
           width: 300
           height: 300
