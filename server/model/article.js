@@ -10,7 +10,9 @@ import {authorMap} from '../services/author-lookup';
 export type BodyPart = {};
 
 type ArticleSeries = {|
+  url: string;
   name: string;
+  description?: string;
   total?: number;
 |}
 
