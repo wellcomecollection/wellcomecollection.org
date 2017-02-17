@@ -1,4 +1,5 @@
 .icon:not(.icon--auto) {
+  // TODO: tidy this -- issue is with the header logo on mobile/IE
   // Adding `height: auto;` to override this height doesn't work in IE ¯\_(ツ)_/¯
   // Instead, add a class of 'icon--auto' to prevent the height being added in the first place
   height: $v-spacing-unit * 2;
