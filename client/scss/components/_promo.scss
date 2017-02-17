@@ -186,6 +186,12 @@
   }
 }
 
+.promo__title--lead {
+  @include container-query(('l': ('12'))) {
+    @include font('WB3');
+  }
+}
+
 .promo__date {
   @include font('HNL5');
   display: block;

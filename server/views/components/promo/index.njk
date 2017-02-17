@@ -61,7 +61,7 @@
                 {% if promo.meta.type %}
                   <span class="promo__type" aria-hidden="true">{{ promo.meta.type }}</span>
                 {% endif %}
-                  <{{ headingLevel or 'h2'}} class="promo__title">
+                  <{{ headingLevel or 'h2'}} class="promo__title{{ ' promo__title--lead' if promo.weight === 'lead' }}">
                     {{ promo.article.headline }}
                   </{{ headingLevel or 'h2'}}>
               </div>
