@@ -133,7 +133,7 @@ function isCaption(node) {
 }
 
 function isImg(node) {
-  const mayBeWrapperA = node.childNodes.find(node => node.nodeName === 'a');
+  const mayBeWrapperA = node.childNodes && node.childNodes.find(node => node.nodeName === 'a');
   const parentNode = mayBeWrapperA || node;
 
   return parentNode.childNodes && parentNode.childNodes[0] && parentNode.childNodes[0].nodeName === 'img';
