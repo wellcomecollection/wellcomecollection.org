@@ -1,4 +1,6 @@
-.icon {
+.icon:not(.icon--auto) {
+  // Adding `height: auto;` to override this height doesn't work in IE ¯\_(ツ)_/¯
+  // Instead, add a class of 'icon--auto' to prevent the height being added in the first place
   height: $v-spacing-unit * 2;
 }
 
