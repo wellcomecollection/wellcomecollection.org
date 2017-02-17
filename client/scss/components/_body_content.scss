@@ -1,6 +1,18 @@
 .body-content {
   margin-bottom: 2 * $vertical-space-unit;
 
+  h1 {
+    @include font('WB5');
+
+    @include respond-to('medium') {
+      @include font('WB4');
+    }
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
   h2 {
     @include font('WB6');
 

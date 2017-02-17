@@ -25,6 +25,7 @@ We’ll regularly publish information about new features here.
 
 ## Tell us what you think
 This is a work in progress, and we’d like to know what you think about the new website. You can get in touch in two ways:
+
 * Through the feedback module on the site
 * [Email us](LibraryWebEditorial@wellcome.ac.uk)
 

@@ -1,7 +1,7 @@
 function init() {
-  const instagramEmbed = document.querySelector('.instagram-media');
+  const hasInstagramEmbed = Boolean(document.querySelector('.instagram-media'));
 
-  if (instagramEmbed) {
+  if (hasInstagramEmbed) {
     const s = document.createElement('script');
     s.type = 'text/javascript';
     s.async = true;
