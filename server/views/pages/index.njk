@@ -1,5 +1,8 @@
 {% extends 'layout/default.njk' %}
 
+{% block siteNotice %}
+  {% component 'new-site-notice', {showLink: false} %}
+{% endblock %}
 {% block body %}
 <div class="row">
     <div class="container">
