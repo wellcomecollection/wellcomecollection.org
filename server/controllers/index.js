@@ -28,7 +28,7 @@ export const article = async(ctx, next) => {
 
 export const articles = async(ctx, next) => {
   const wpPosts = await getPosts(32);
-  const items = postsToPromos(wpPosts.data);
+  const items = postsToPromos(wpPosts.data, 'default');
   const {total} = wpPosts;
   const series: Series = {
     url: '/articles',
