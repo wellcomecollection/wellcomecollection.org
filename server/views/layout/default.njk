@@ -45,7 +45,9 @@
     ] %}
     {% component 'header', { navLinks: navLinks } %}
 
-    {% component 'new-site-notice' %}
+    {% block siteNotice %}
+      {% component 'new-site-notice', {showLink: true} %}
+    {% endblock %}
     <div id="main" class="main" role="main">
       {% block body %}
       {% endblock %}
