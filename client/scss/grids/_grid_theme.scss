@@ -1,0 +1,43 @@
+.grid__cell {
+  flex-basis: 100%;
+
+  .grid--theme-3 & {
+    @include respond-to('medium') {
+      &:nth-child(n+2) {
+        flex-basis: 50%;
+      }
+    }
+  }
+
+  .grid--theme-4 & {
+    @include respond-to('medium') {
+      flex-basis: 50%;
+    }
+  }
+
+  .grid--theme-5 & {
+    @include respond-to('medium') {
+      &:nth-child(1),
+      &:nth-child(2) {
+        flex-basis: 50%;
+      }
+
+      &:nth-child(n+3) {
+        flex-basis: percentage(1 / 3);
+      }
+    }
+  }
+
+  .grid--theme-6 & {
+    @include respond-to('medium') {
+      flex-basis: percentage(1 / 3);
+    }
+  }
+
+  .grid--theme-many & {
+    @include respond-to('medium') {
+      flex-basis: percentage(1 / 3);
+    }
+  }
+}
+
