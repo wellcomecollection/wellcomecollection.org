@@ -44,7 +44,7 @@
 
   <div class="row row--small-top-padding">
     <div class="container">
-      <div class="grid">
+      <div class="grid grid--dividers">
         {% for promo in next8Promos.toJS() %}
           <div class="{{ {s:4, m:4, l:3, xl:3} | gridClasses }}">
             {% component 'promo', { promo: promo } %}
