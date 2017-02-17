@@ -13,7 +13,7 @@
     <div class="row__wobbly-background"></div>
 
     <div class="container container--scroll container--scroll-cream touch-scroll">
-      <div class="grid grid--dividers grid--featured">
+      <div class="grid grid--dividers grid--featured grid--top-divider">
         {% for promo in second3Promos.toJS() %}
           <div class="{{ {s:4, l:4} | gridClasses }}">
             {% component 'promo', { promo: promo } %}
