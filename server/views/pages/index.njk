@@ -1,25 +1,23 @@
 {% extends 'layout/default.njk' %}
 
+{% block siteNotice %}
+  {% component 'new-site-notice', {showLink: false} %}
+{% endblock %}
 {% block body %}
+  {% componentV2 'captioned-image', {
+    contentUrl: 'https://wellcomecollection.files.wordpress.com/2017/02/wc_promo_next_02.png',
+    width: 1600,
+    height: 618
+  }, {'full': true} %}
 <div class="row">
     <div class="container">
         <div class="grid">
             <div class="grid__cell">
-                <header class="page-description page-description--a">
-                    <h1 class="page-description__title">Welcome to Wellcome Collection</h1>
-                </header>
-            </div>
-        </div>
-        <div class="grid">
-            <div class="grid__cell">
-                <p>
-                    Take a look at our <a href="/explore">explore page</a> to see how we're getting on with our
-                    editorial content.
-                </p>
-                <p>
-                    You can also head over to our <a href="https://cardigan.wellcomecollection.org">pattern library</a>
-                    to have a play around with any of the components on the site, and some that haven't graduated yet.
-                </p>
+              <div class="body-content">
+                {% markdown %}
+                  {% include '../docs/PROGRESS_NOTES.md' %}
+                {% endmarkdown %}
+              </div>
             </div>
         </div>
     </div>

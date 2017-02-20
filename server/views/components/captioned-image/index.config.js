@@ -13,6 +13,5 @@ const image: Picture = createPicture({
 export const context = { model: image, modifiers: [] };
 export const variants = [
   { name: 'full', context: { model: image, modifiers: ['full'] } },
-  { name: 'bleed', context: { model: image, modifiers: ['bleed'] } },
-  { name: 'max-out-height', context: { model: image, modifiers: ['max-out-height'] } }
+  { name: 'bleed', context: { model: image, modifiers: ['bleed'] } }
 ];

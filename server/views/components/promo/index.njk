@@ -2,10 +2,8 @@
 {% set defaultPromoSizes = '(max-width: 599px) 564px, (max-width: 959px) 276px, 386px' %}
 {% if promo.weight === 'lead' %}
   {% set sizes = leadPromoSizes %}
-{% elseif promo.weight === 'default' %}
-  {% set sizes = defaultPromoSizes %}
 {% else %}
-  {% set sizes = 100vw %}
+  {% set sizes = defaultPromoSizes %}
 {% endif %}
 
 <a href="{{ promo.article.url }}" class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %}">
@@ -61,12 +59,12 @@
                 {% if promo.meta.type %}
                   <span class="promo__type" aria-hidden="true">{{ promo.meta.type }}</span>
                 {% endif %}
-                  <{{ headingLevel or 'h2'}} class="promo__title">
+                  <{{ headingLevel or 'h2'}} class="promo__title{{ ' promo__title--lead' if promo.weight === 'lead' }}">
                     {{ promo.article.headline }}
                   </{{ headingLevel or 'h2'}}>
               </div>
               {% if promo.article.description %}
-                <span  class="promo__copy">{{ promo.article.description | striptags | safe | truncate(100) }}</span>
+                <span  class="promo__copy">{{ promo.article.description | striptags | safe | truncate(140) }}</span>
               {% endif %}
             </header>
           {% if promo.modifiers and promo.modifiers | contains('standalone') %}

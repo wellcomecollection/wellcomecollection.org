@@ -23,7 +23,8 @@ export class ArticlePromoFactory {
       height: wpThumbnail.height
     };
     const datePublished = new Date(json.date);
-    const series: Array<ArticleSeries> = Object.values(json.categories).map(cat => {
+    const series: Array<ArticleSeries> = Object.keys(json.categories).map(catKey => {
+      const cat = json.categories[catKey];
       return {
         url: cat.slug,
         name: cat.name,

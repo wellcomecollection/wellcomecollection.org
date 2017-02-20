@@ -2,7 +2,7 @@
 
 {% block body %}
   {% component 'page-description', { title: 'Explore', modifiers: ['hidden'] } %}
-  <div class="row row--no-bottom-padding row--cream row--has-wobbly-background">
+  <div class="row row--cream row--has-wobbly-background">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:4, m:8, l:12, xl:12} | gridClasses }}">
@@ -26,14 +26,14 @@
   {% componentV2 'series-container', aDropInTheOcean %}
 
   {# Chronological #}
-  <div class="row">
+  <div class="row row--no-padding">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:4, m:8, l:12, xl: 12} | gridClasses }}">
           <h2 class="heading--large v-margin-0">You may have missed</h2>
         </div>
         <div class="{{ {s:4, m:8, l:8} | gridClasses }}">
-          <a class="more-info-link" href="/theme/articles">
+          <a class="more-info-link" href="/articles">
             {% icon 'actions/arrow-small', null, ['icon--270', 'icon--action'] %}
             <span class="more-info-link__text">More articles</span>
           </a>
