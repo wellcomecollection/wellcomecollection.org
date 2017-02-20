@@ -2,10 +2,8 @@
 {% set defaultPromoSizes = '(max-width: 599px) 564px, (max-width: 959px) 276px, 386px' %}
 {% if promo.weight === 'lead' %}
   {% set sizes = leadPromoSizes %}
-{% elseif promo.weight === 'default' %}
-  {% set sizes = defaultPromoSizes %}
 {% else %}
-  {% set sizes = 100vw %}
+  {% set sizes = defaultPromoSizes %}
 {% endif %}
 
 <a href="{{ promo.article.url }}" class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %}">
