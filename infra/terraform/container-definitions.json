@@ -3,7 +3,7 @@
     "name": "wellcomecollection",
     "image": "wellcome/wellcomecollection:${container_tag}",
     "cpu": 512,
-    "memory": 1024,
+    "memory": 768,
     "essential": true,
     "portMappings": [
       {
