@@ -5,9 +5,9 @@
   "main": "app.js",
   "scripts": {
     "app:build": "babel . -d .dist --ignore=node_modules --copy-files",
-    "app:dev": "nodemon -e js,njk,json --exec babel-node app.js",
-    "app:docker": "pm2-docker ./.dist/app.js --name 'wellcomecollection.org'",
-    "app:start": "pm2 start ./.dist/app.js --name 'wellcomecollection.org'",
+    "app:dev": "nodemon -e js,njk,json --exec babel-node run.js",
+    "app:docker": "pm2-docker ./.dist/run.js --name 'wellcomecollection.org'",
+    "app:run": "pm2 start ./.dist/run.js --name 'wellcomecollection.org'",
     "fractal": "fractal start —sync --port 3002",
     "fractal:build": "fractal build",
     "fractal:watch": "nodemon -e js,njk,yml --exec 'fractal start —sync --port 3002'",
@@ -45,6 +45,7 @@
     "parse5": "^3.0.1",
     "pm2": "^2.1.5",
     "superagent": "^3.3.1",
+    "supertest": "^3.0.0",
     "svgo": "^0.7.1"
   },
   "devDependencies": {

@@ -4,7 +4,7 @@
   "description": "The new home of the betanextbest.wellcomecollection.org website.",
   "main": "server/app.js",
   "scripts": {
-    "test": "concurrently './test.sh client' './test.sh server'"
+    "test": "concurrently --kill-others './test.sh client' './test.sh server'"
   },
   "repository": {
     "type": "git",
