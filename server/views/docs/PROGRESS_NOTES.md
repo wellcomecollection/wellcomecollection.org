@@ -27,6 +27,6 @@ We’ll regularly publish information about new features here.
 This is a work in progress, and we’d like to know what you think about the new website. You can get in touch in two ways:
 
 * Through the feedback module on the site
-* [Email us](LibraryWebEditorial@wellcome.ac.uk)
+* [Email us](mailto:DigitalandTechnology-dotorg@wellcome.ac.uk)
 
-If you’d like to be involved in usability testing (surveys, in-person and online activities) please [drop us an email](LibraryWebEditorial@wellcome.ac.uk) with your contact details and the Digital Experience team will be in touch. 
+If you’d like to be involved in usability testing (surveys, in-person and online activities) please [drop us an email](mailto:DigitalandTechnology-dotorg@wellcome.ac.uk) with your contact details and the Digital Experience team will be in touch. 
