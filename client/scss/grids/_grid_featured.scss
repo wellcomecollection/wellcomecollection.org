@@ -23,6 +23,7 @@
   &:before,
   &:after {
     content: '';
+    display: block;
     width: 100%;
     margin-left: map-get($gutter-width, 'small');
 

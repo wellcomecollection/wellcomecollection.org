@@ -14,27 +14,29 @@
     padding-right: map-get($container-padding, 'large');
   }
 
+  @include respond-to('xlarge') {
+    padding-left: calc(((100vw - #{$container-width-max}) / 2) + #{map-get($container-padding, 'large')});
+  }
+
   .grid__cell {
     flex: 1;
     min-width: 66.6666vw;
-
-    @include respond-to('medium') {
-      min-width: calc(33.3333vw - 20px); // TODO: remove magic
-    }
-
-    @include respond-to('large') {
-      min-width: calc(33.3333vw - 30px); // TODO: remove magic
-    }
-
     padding-left: 0;
     padding-right: map-get($gutter-width, 'small');
 
     @include respond-to('medium') {
+      min-width: calc((100vw + #{map-get($gutter-width, 'medium')} - (2 * #{map-get($container-padding, 'medium')})) / 3);
       padding-right: map-get($gutter-width, 'medium');
     }
 
     @include respond-to('large') {
+      min-width: calc((100vw + #{map-get($gutter-width, 'large')} - (2 * #{map-get($container-padding, 'large')})) / 3);
       padding-right: map-get($gutter-width, 'large');
+    }
+
+    @include respond-to('xlarge') {
+      // (100vw - #{$container-width-max}) here accounts for any whitespace wide of the container max-width
+      min-width: calc(((100vw + #{map-get($gutter-width, 'large')} - (2 * #{map-get($container-padding, 'large')})) - (100vw - #{$container-width-max})) / 3);
     }
   }
 }
