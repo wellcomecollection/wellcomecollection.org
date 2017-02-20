@@ -24,17 +24,19 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row row--no-padding">
     <div class="container">
       <div class="grid">
-        <div class="grid__cell">
-          {% componentV2 'pagination', pagination %}
+        <div class="{{ {s:4, m:8, l:12} | gridClasses }}">
+          <div class="v-padding-m keyline-b text--meta flex flex--center">
+            {{ pagination.range.beginning }} - {{ pagination.range.end }}
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="row">
+  <div class="row row--small-top-padding">
     <div class="container">
       <div class="grid">
         {% for promo in list.items.toJS() %}
