@@ -50,7 +50,7 @@ export const articles = async(ctx, next) => {
 export const series = async(ctx, next) => {
   const {id} = ctx.params;
   const wpPosts = await getPosts(32, {category: id});
-  const items = postsToPromos(wpPosts.data);
+  const items = postsToPromos(wpPosts.data, 'default');
   // TODO: So So nasty
   const {name, description} = wpPosts.data.first().series[0];
   const {total} = wpPosts;
@@ -81,7 +81,7 @@ export const explore = async(ctx, next) => {
   const topPromo = postsToPromos(theRest.take(1), 'lead').first();
   const second3Promos = postsToPromos(theRest.slice(1, 4), 'default');
   const next8Promos = postsToPromos(theRest.slice(4, 12), 'default');
-  const aDropInTheOceanPromos = postsToPromos(grouped.last()).take(7);
+  const aDropInTheOceanPromos = postsToPromos(grouped.last().take(7), 'default');
   const aDropInTheOcean: Series = {
     url: '/series/a-drop-in-the-ocean',
     name: 'A drop in the ocean',
