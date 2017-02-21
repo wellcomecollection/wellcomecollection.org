@@ -29,7 +29,7 @@
 {% else %}
   <div class="row row--small-top-padding">
     <div class="container">
-      <div class="grid grid--theme-many">
+      <div class="grid grid--theme-3 grid--dividers">
         {% for promo in model.items.take(3).toJS() %}
           <div class="grid__cell">
             {% component 'promo', { promo: promo } %}
