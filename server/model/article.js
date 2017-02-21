@@ -21,7 +21,7 @@ export type Article = {|
   // It's also an Array because it's not unfathomable to think of having
   // an audio and image mainMedia.
   mainMedia: Array<Picture>;
-  thumbnail: Picture;
+  thumbnail?: Picture;
   articleBody: string;
   associatedMedia: Array<Picture>;
   bodyParts: Array<BodyPart>;
