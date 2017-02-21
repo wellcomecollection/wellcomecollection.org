@@ -47,4 +47,44 @@
       display: block;
     }
   }
+
+  // Margins/padding on grid--scroll are reversed, so the divider offset is opposite
+  &.grid--scroll {
+    .grid__cell:before {
+      left: -(map-get($gutter-width, 'small') / 2);
+
+      @include respond-to('medium') {
+        left: -(map-get($gutter-width, 'medium') / 2);
+      }
+
+      @include respond-to('large') {
+        left: -(map-get($gutter-width, 'large') / 2);
+      }
+    }
+  }
+
+  &[class*='grid--theme-'] {
+    .grid__cell:not(:first-child):before {
+      display: none;
+
+      @include respond-to('medium') {
+        display: block;
+      }
+    }
+  }
+
+  @include respond-to('medium') {
+    &.grid--theme-4,
+    &.grid--theme-5 {
+      .grid__cell:nth-child(3):before {
+        display: none;
+      }
+    }
+
+    &.grid--theme-6 {
+      .grid__cell:nth-child(4):before {
+        display: none;
+      }
+    }
+  }
 }

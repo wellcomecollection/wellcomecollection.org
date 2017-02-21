@@ -11,6 +11,11 @@
   @include respond-to('large') {
     padding: 0 map-get($container-padding, 'large');
   }
+
+  &.container--no-max-width {
+    max-width: none;
+    width: auto;
+  }
 }
 
 .container--scroll {
@@ -26,8 +31,22 @@
     border-radius: 0;
     border-style: solid;
     border-color: color('white');
-    border-width: 0 18px 12px;
+    border-width: 0 map-get($container-padding, 'small') 12px;
     background: color('cotton-seed');
+
+    @include respond-to('medium') {
+      border-left-width: map-get($container-padding, 'medium');
+      border-right-width: map-get($gutter-width, 'medium');
+    }
+
+    @include respond-to('large') {
+      border-left-width: map-get($container-padding, 'large');
+      border-right-width: map-get($gutter-width, 'large');
+    }
+
+    @include respond-to('xlarge') {
+      border-left-width: calc(((100vw - #{$container-width-max}) / 2) + #{map-get($container-padding, 'large')});
+    }
   }
 }
 
