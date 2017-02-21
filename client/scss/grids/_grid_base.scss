@@ -37,3 +37,42 @@
 .grid__cell--contains-flex {
   min-width: 0;
 }
+
+.grid--keyline-top,
+.grid--thick-line-bottom {
+  &:before,
+  &:after {
+    display: block;
+    content: '';
+    width: 100%;
+    margin-left: map-get($gutter-width, 'small');
+
+    @include respond-to('medium') {
+      margin-left: map-get($gutter-width, 'medium');
+    }
+
+    @include respond-to('large') {
+      margin-left: map-get($gutter-width, 'large');
+    }
+  }
+}
+
+.grid--keyline-top {
+  &:before {
+    height: 1px;
+    background: color('keyline-grey');
+    margin-bottom: 3 * $v-spacing-unit;;
+  }
+}
+
+.grid--thick-line-bottom {
+  &:after {
+    height: 22px;
+    background: color('black');
+    margin-bottom: 5 * $v-spacing-unit;
+
+    @include respond-to('large') {
+      margin-bottom: 10 * $v-spacing-unit;
+    }
+  }
+}
