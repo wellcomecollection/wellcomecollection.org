@@ -34,7 +34,7 @@ export const libraryOpeningHours: OpeningHours = [
   {dayOfWeek: 'Thursday',  opens: '10:00', closes: '20:00'},
   {dayOfWeek: 'Friday',    opens: '10:00', closes: '18:00'},
   {dayOfWeek: 'Saturday',  opens: '10:00', closes: '16:00'},
-  {dayOfWeek: 'Monday',    closes: '00:00', note: 'Library closed'}
+  {dayOfWeek: 'Sunday',    closes: '00:00', note: 'Library closed'}
 ];
 
 export const restaurantOpeningHours: OpeningHours = [
