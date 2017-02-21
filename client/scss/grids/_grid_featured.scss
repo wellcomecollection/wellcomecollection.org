@@ -36,12 +36,6 @@
     }
   }
 
-  &:before {
-    height: 1px;
-    background: color('keyline-grey');
-    margin-bottom: 3 * $v-spacing-unit;;
-  }
-
   &:after {
     height: 22px;
     background: color('black');

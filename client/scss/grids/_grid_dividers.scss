@@ -48,3 +48,11 @@
     }
   }
 }
+
+.grid--top-divider {
+  &:before {
+    height: 1px;
+    background: color('keyline-grey');
+    margin-bottom: 3 * $v-spacing-unit;
+  }
+}

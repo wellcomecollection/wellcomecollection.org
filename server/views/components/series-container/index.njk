@@ -1,6 +1,6 @@
 <div class="row">
   <div class="container">
-    <div class="grid">
+    <div class="grid grid--dividers">
       <div class="{{ {s:4, m:8, l:12, xl: 12} | gridClasses }}">
         <h2 class="heading--large v-margin-0">{{ model.name }}</h2>
       </div>
@@ -14,7 +14,7 @@
 
 <div class="row row--small-top-padding">
   <div class="container">
-    <div class="grid">
+    <div class="grid grid--dividers">
       {% for promo in model.items.take(3).toJS() %}
         <div class="{{ {s:4, l:4, xl:4} | gridClasses }}">
           {% component 'promo', { promo: promo } %}
@@ -26,7 +26,7 @@
 
 <div class="row row--no-padding">
   <div class="container container--scroll touch-scroll">
-    <div class="grid grid--featured">
+    <div class="grid grid--dividers grid--featured">
       {% for promo in model.items.skip(3).toJS() %}
         <div class="{{ {s:4, m:4, l:3, xl:3} | gridClasses }}">
           {% component 'promo', { promo: promo } %}
