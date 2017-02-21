@@ -38,11 +38,11 @@ export class ArticleFactory {
 
     const mainImage: Picture = getWpFeaturedImage(json.featured_image, json.attachments);
     const wpThumbnail = json.post_thumbnail;
-    const thumbnail: Picture = {
+    const thumbnail: Picture = wpThumbnail ? {
       contentUrl: wpThumbnail.URL,
       width: wpThumbnail.width,
       height: wpThumbnail.height
-    };
+    } : null;
 
     const author = authorMap[json.slug];
 
