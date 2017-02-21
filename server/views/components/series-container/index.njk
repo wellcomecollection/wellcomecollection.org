@@ -41,9 +41,9 @@
 
   <div class="row row--no-padding">
     <div class="container container--scroll container--no-max-width touch-scroll">
-      <div class="grid grid--scroll">
+      <div class="grid grid--scroll grid--dividers">
         {% for promo in model.items.skip(3).toJS() %}
-          <div class="{{ {s:4, m:4, l:3, xl:3} | gridClasses }}">
+          <div class="grid__cell">
             {% component 'promo', { promo: promo } %}
           </div>
         {% endfor %}

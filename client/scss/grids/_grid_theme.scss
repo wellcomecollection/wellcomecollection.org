@@ -1,4 +1,8 @@
 .grid__cell {
+  [class*='grid--theme-'] & {
+    flex-basis: 100%;
+  }
+
   .grid--theme-2 & {
     @include respond-to('medium') {
       flex-basis: 50%;

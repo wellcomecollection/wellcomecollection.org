@@ -47,4 +47,19 @@
       display: block;
     }
   }
+
+  // Margins/padding on grid--scroll are reversed, so the divider offset is opposite
+  &.grid--scroll {
+    .grid__cell:before {
+      left: -(map-get($gutter-width, 'small') / 2);
+
+      @include respond-to('medium') {
+        left: -(map-get($gutter-width, 'medium') / 2);
+      }
+
+      @include respond-to('large') {
+        left: -(map-get($gutter-width, 'large') / 2);
+      }
+    }
+  }
 }
