@@ -71,9 +71,9 @@ function decodeHtmlEntities(nodes) {
 
 
 function unwrapFromEm(node) {
-  const firstChild = node.childNodes[0];
+  const firstChild = node.childNodes && node.childNodes[0];
 
-  if (firstChild.nodeName === 'em') {
+  if (firstChild && firstChild.nodeName === 'em') {
     node.childNodes = firstChild.childNodes;
   }
 
@@ -90,13 +90,14 @@ function convertWpStandfirst(node) {
 export function convertWpHeading(node) {
   const headingMatch = node.nodeName.match(/h(\d)/);
   const isWpHeading = Boolean(headingMatch);
+  const maybeHeadingContent = node.childNodes && node.childNodes[0];
 
-  if (isWpHeading) {
+  if (isWpHeading && maybeHeadingContent) {
     return createBodyPart({
       type: 'heading',
       value: createHeading({
         level: headingMatch[1],
-        value: serializeAndCleanNode(node.childNodes[0])
+        value: serializeAndCleanNode(maybeHeadingContent)
       })
     });
   } else {
