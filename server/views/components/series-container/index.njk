@@ -14,7 +14,7 @@
 
 <div class="row row--small-top-padding">
   <div class="container container--scroll touch-scroll">
-    <div class="grid grid--dividers grid--scroll grid--theme-{{ model.items.size }}">
+    <div class="grid grid--dividers grid--scroll grid--theme-{{ model.items.size if model.items.size < 8 else '8' }}">
       {% for promo in model.items.take(8).toJS() %}
         <div class="grid__cell">
           {% component 'promo', { promo: promo } %}
