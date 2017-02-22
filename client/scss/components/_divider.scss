@@ -13,13 +13,14 @@
   width: 100%;
   height: 1px;
   background: color('keyline-grey');
-  margin-top: $v-spacing-unit;
+  margin-top: 0;
   margin-bottom: 3 * $v-spacing-unit;
 }
 
 .divider--thick {
   width: 100%;
   height: 22px;
+  margin-top: 0;
   margin-bottom: 5 * $v-spacing-unit;
 
   @include respond-to('large') {
