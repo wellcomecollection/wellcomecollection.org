@@ -11,17 +11,12 @@
   @include respond-to('large') {
     padding: 0 map-get($container-padding, 'large');
   }
-
-  &.container--no-max-width {
-    @include respond-between('small', 'medium') {
-      max-width: none;
-      width: auto;
-    }
-  }
 }
 
 .container--scroll {
   @include respond-between('small', 'medium') {
+    max-width: none;
+    width: auto;
     overflow: auto;
     padding: 0;
 
@@ -62,4 +57,10 @@
   &::-webkit-scrollbar-thumb {
     border-color: color('cream');
   }
+}
+
+.container--no-collapse {
+  // Prevent last child margin from moving outside: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing
+  padding-bottom: 1px;
+  margin-bottom: -1px;
 }

@@ -13,7 +13,7 @@
 </div>
 
 <div class="row row--small-top-padding">
-  <div class="container container--scroll container--no-max-width touch-scroll">
+  <div class="container container--scroll touch-scroll">
     <div class="grid grid--dividers grid--scroll grid--theme-{{ model.items.size }}">
       {% for promo in model.items.take(8).toJS() %}
         <div class="grid__cell">
@@ -22,4 +22,8 @@
       {% endfor %}
     </div>
   </div>
+  <div class="container container--no-collape">
+    <hr class="divider divider--thick" />
+  </div>
 </div>
+
