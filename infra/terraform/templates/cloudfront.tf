@@ -54,7 +54,6 @@ resource "aws_cloudfront_distribution" "next" {
   }
 
   enabled             = true
-  default_root_object = "/"
   is_ipv6_enabled     = true
 
   aliases = ["next.wellcomecollection.org", "wellcomecollection.org"]
