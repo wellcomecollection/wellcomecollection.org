@@ -81,7 +81,8 @@
       }
     }
 
-    &.grid--theme-7 {
+    &.grid--theme-7,
+    &.grid--theme-6-strip {
       .grid__cell:nth-child(3):before,
       .grid__cell:nth-child(5):before {
         display: none;
@@ -103,7 +104,8 @@
       }
     }
 
-    &.grid--theme-7 {
+    &.grid--theme-7,
+    &.grid--theme-6-strip {
       .grid__cell:nth-child(3):before,
       .grid__cell:nth-child(5):before {
         display: block;
@@ -122,6 +124,14 @@
 
       .grid__cell:nth-child(5):before {
         display: none;
+      }
+    }
+  }
+
+  @include respond-to('xlarge') {
+    &.grid--theme-6-strip {
+      .grid__cell:nth-child(4):before {
+        display: block;
       }
     }
   }
