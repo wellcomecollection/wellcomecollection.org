@@ -57,16 +57,6 @@
     }
   }
 
-  &[class*='grid--theme-'] {
-    .grid__cell:not(:first-child):before {
-      display: none;
-
-      @include respond-to('medium') {
-        display: block;
-      }
-    }
-  }
-
   @include respond-to('medium') {
     &.grid--theme-4,
     &.grid--theme-5 {
