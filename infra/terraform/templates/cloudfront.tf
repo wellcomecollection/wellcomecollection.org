@@ -45,6 +45,12 @@ resource "aws_cloudfront_distribution" "next" {
   origin {
     domain_name = "${aws_alb.wellcomecollection_alb.dns_name}"
     origin_id   = "${aws_alb.wellcomecollection_alb.id}"
+    custom_origin_config {
+      origin_protocol_policy = "https-only"
+      http_port = "80"
+      https_port = "443"
+      origin_ssl_protocols = ["TLSv1"]
+    }
   }
 
   enabled             = true
