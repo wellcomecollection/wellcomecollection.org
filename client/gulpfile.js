@@ -26,6 +26,10 @@ const sources = {
     distPath: '../dist/assets/js/',
     all: 'js/**/*.js'
   },
+  libs: {
+    srcPath: './libs/**/*.js',
+    distPath: '../dist/assets/libs/'
+  },
   fonts: {
     srcPath: './fonts/**/*.{woff,woff2}',
     distPath: '../dist/assets/fonts/'
@@ -58,14 +62,19 @@ gulp.task('icons:copy', () => {
     .pipe(gulp.dest(sources.icons.distPath));
 });
 
-// TODO move paths to vars and synchronous stuff
+gulp.task('libs:copy', function() {
+  gulp.src(sources.libs.srcPath)
+    .pipe(gulp.dest(sources.libs.distPath));
+});
+
+// TODO move paths to vars
 gulp.task('css:clean', function () {
   return gulp.src('../dist/assets/css/')
     .pipe(clean({force: true}));
 });
 
 gulp.task('js:clean', function () {
-  return gulp.src('../dist/assets/js/')
+  return gulp.src(['../dist/assets/js/', '!../dist/assets/js/libs/'])
     .pipe(clean({force: true}));
 });
 
@@ -142,11 +151,12 @@ gulp.task('watch', () => {
   gulp.watch(sources.fonts.srcPath, ['fonts:copy']);
   gulp.watch(sources.images.srcPath, ['images:copy']);
   gulp.watch(sources.icons.srcPath, ['icons:copy']);
+  gulp.watch(sources.libs.srcPath, ['libs:copy']);
 });
 
 gulp.task('js', ['js:lint', 'js:compile']);
 gulp.task('scss', ['scss:lint', 'scss:compile']);
 gulp.task('lint', ['scss:lint', 'js:lint']);
-gulp.task('compile', ['css:bust', 'js:bust', 'fonts:copy', 'images:copy', 'icons:copy']);
+gulp.task('compile', ['css:bust', 'js:bust', 'fonts:copy', 'images:copy', 'icons:copy', 'libs:copy']);
 gulp.task('build', ['scss', 'js']);
 gulp.task('dev', ['compile', 'watch']);
