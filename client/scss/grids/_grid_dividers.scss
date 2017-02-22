@@ -41,7 +41,7 @@
     }
   }
 
-  &.grid--featured .grid__cell:not(:first-child):before {
+  &.grid--scroll .grid__cell:not(:first-child):before {
     // Don't hide the dividers on mobile when there's a scrolly grid
     @include respond-between('small', 'medium') {
       display: block;
@@ -50,15 +50,9 @@
 
   // Margins/padding on grid--scroll are reversed, so the divider offset is opposite
   &.grid--scroll {
-    .grid__cell:before {
-      left: -(map-get($gutter-width, 'small') / 2);
-
-      @include respond-to('medium') {
-        left: -(map-get($gutter-width, 'medium') / 2);
-      }
-
-      @include respond-to('large') {
-        left: -(map-get($gutter-width, 'large') / 2);
+    @include respond-between('small', 'medium') {
+      .grid__cell:before {
+        left: -(map-get($gutter-width, 'small') / 2);
       }
     }
   }
@@ -83,6 +77,50 @@
 
     &.grid--theme-6 {
       .grid__cell:nth-child(4):before {
+        display: none;
+      }
+    }
+
+    &.grid--theme-7 {
+      .grid__cell:nth-child(3):before,
+      .grid__cell:nth-child(5):before {
+        display: none;
+      }
+    }
+
+    &.grid--theme-8 {
+      .grid__cell:nth-child(3):before,
+      .grid__cell:nth-child(6):before {
+        display: none;
+      }
+    }
+  }
+
+  @include respond-to('large') {
+    &.grid--theme-4 {
+      .grid__cell:nth-child(3):before {
+        display: block;
+      }
+    }
+
+    &.grid--theme-7 {
+      .grid__cell:nth-child(3):before,
+      .grid__cell:nth-child(5):before {
+        display: block;
+      }
+
+      .grid__cell:nth-child(4):before {
+        display: none;
+      }
+    }
+
+    &.grid--theme-8 {
+      .grid__cell:nth-child(3):before,
+      .grid__cell:nth-child(6):before {
+        display: block;
+      }
+
+      .grid__cell:nth-child(5):before {
         display: none;
       }
     }

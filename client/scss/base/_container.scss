@@ -13,39 +13,43 @@
   }
 
   &.container--no-max-width {
-    max-width: none;
-    width: auto;
+    @include respond-between('small', 'medium') {
+      max-width: none;
+      width: auto;
+    }
   }
 }
 
 .container--scroll {
-  overflow: auto;
-  padding: 0;
+  @include respond-between('small', 'medium') {
+    overflow: auto;
+    padding: 0;
 
-  &::-webkit-scrollbar {
-    height: 18px;
-    background: color('white');
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 0;
-    border-style: solid;
-    border-color: color('white');
-    border-width: 0 map-get($container-padding, 'small') 12px;
-    background: color('cotton-seed');
-
-    @include respond-to('medium') {
-      border-left-width: map-get($container-padding, 'medium');
-      border-right-width: map-get($gutter-width, 'medium');
+    &::-webkit-scrollbar {
+      height: 18px;
+      background: color('white');
     }
 
-    @include respond-to('large') {
-      border-left-width: map-get($container-padding, 'large');
-      border-right-width: map-get($gutter-width, 'large');
-    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 0;
+      border-style: solid;
+      border-color: color('white');
+      border-width: 0 map-get($container-padding, 'small') 12px;
+      background: color('cotton-seed');
 
-    @include respond-to('xlarge') {
-      border-left-width: calc(((100vw - #{$container-width-max}) / 2) + #{map-get($container-padding, 'large')});
+      @include respond-to('medium') {
+        border-left-width: map-get($container-padding, 'medium');
+        border-right-width: map-get($gutter-width, 'medium');
+      }
+
+      @include respond-to('large') {
+        border-left-width: map-get($container-padding, 'large');
+        border-right-width: map-get($gutter-width, 'large');
+      }
+
+      @include respond-to('xlarge') {
+        border-left-width: calc(((100vw - #{$container-width-max}) / 2) + #{map-get($container-padding, 'large')});
+      }
     }
   }
 }

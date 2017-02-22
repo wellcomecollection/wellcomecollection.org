@@ -12,42 +12,14 @@
   </div>
 </div>
 
-{% set themeSize = model.items.size %}
-
-{% if themeSize <= 6 %}
-  <div class="row row--small-top-padding">
-    <div class="container">
-      <div class="grid grid--theme-{{ themeSize }}">
-        {% for promo in model.items.take(6).toJS() %}
-          <div class="grid__cell">
-            {% component 'promo', { promo: promo } %}
-          </div>
-        {% endfor %}
-      </div>
+<div class="row row--small-top-padding">
+  <div class="container container--scroll container--no-max-width touch-scroll">
+    <div class="grid grid--dividers grid--scroll grid--theme-{{ model.items.size }}">
+      {% for promo in model.items.take(8).toJS() %}
+        <div class="grid__cell">
+          {% component 'promo', { promo: promo } %}
+        </div>
+      {% endfor %}
     </div>
   </div>
-{% else %}
-  <div class="row row--small-top-padding">
-    <div class="container">
-      <div class="grid grid--theme-3 grid--dividers">
-        {% for promo in model.items.take(3).toJS() %}
-          <div class="grid__cell">
-            {% component 'promo', { promo: promo } %}
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-
-  <div class="row row--no-padding">
-    <div class="container container--scroll container--no-max-width touch-scroll">
-      <div class="grid grid--scroll grid--dividers">
-        {% for promo in model.items.skip(3).toJS() %}
-          <div class="grid__cell">
-            {% component 'promo', { promo: promo } %}
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-{% endif %}
+</div>
