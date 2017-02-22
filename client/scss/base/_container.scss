@@ -59,3 +59,9 @@
     border-color: color('cream');
   }
 }
+
+.container--no-collapse {
+  // Prevent last child margin from moving outside: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing
+  padding-bottom: 1px;
+  margin-bottom: -1px;
+}
