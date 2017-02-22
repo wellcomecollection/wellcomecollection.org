@@ -35,8 +35,22 @@
     }
 
     @include respond-to('xlarge') {
-      // (100vw - #{$container-width-max}) here accounts for any whitespace wide of the container max-width
-      min-width: calc(((100vw + #{map-get($gutter-width, 'large')} - (2 * #{map-get($container-padding, 'large')})) - (100vw - #{$container-width-max})) / 3);
+      min-width: ($container-width-max - (2 * map-get($container-padding, 'large')) + map-get($gutter-width, 'large')) / 3;
+      max-width: ($container-width-max - (2 * map-get($container-padding, 'large')) + map-get($gutter-width, 'large')) / 3;
+    }
+
+  }
+
+  &.grid--strip {
+    .grid__cell {
+      @include respond-to('large') {
+        min-width: calc((100vw + #{map-get($gutter-width, 'large')} - (2 * #{map-get($container-padding, 'large')})) / 4);
+      }
+
+      @include respond-to('xlarge') {
+        min-width: ($container-width-max - (2 * map-get($container-padding, 'large')) + map-get($gutter-width, 'large')) / 6;
+        max-width: ($container-width-max - (2 * map-get($container-padding, 'large')) + map-get($gutter-width, 'large')) / 6;
+      }
     }
   }
 }
