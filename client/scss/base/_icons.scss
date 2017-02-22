@@ -5,6 +5,10 @@
   height: $v-spacing-unit * 2;
 }
 
+.icon--auto {
+  height: auto;
+}
+
 .icon--fill {
   fill: color('black');
 }

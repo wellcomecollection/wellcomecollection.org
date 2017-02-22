@@ -83,7 +83,8 @@ $tweakpoints: (
   }
 
   .icon--collection {
-    width: 6.5rem;
+    width: 104px;
+    height: #{104/(128/42)}px;
 
     @include respond-to('header-medium') {
       width: 128px;
