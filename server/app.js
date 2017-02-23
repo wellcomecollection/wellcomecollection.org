@@ -17,6 +17,4 @@ app.use(serve(config.favicon.path));
 app.use(render(config.views.path));
 app.use(router);
 
-app.listen(config.server.port);
-
-console.info(`Server up and running on http://localhost:${config.server.port}`);
+export default app;

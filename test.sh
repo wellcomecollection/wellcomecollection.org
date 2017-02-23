@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 pushd $1
-npm test
+  npm test
 popd
