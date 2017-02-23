@@ -78,7 +78,6 @@ $center-width-xlarge: (6/6) * 100%;
   }
 
   @include respond-to('large') {
-    clear: both;
     position: relative;
     left: $center-width-large;
     z-index: 1;
