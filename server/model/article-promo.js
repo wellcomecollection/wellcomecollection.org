@@ -15,7 +15,7 @@ export class ArticlePromoFactory {
   static fromWpApi(json): ArticlePromo {
     const url = `/articles/${json.slug}`; // TODO: this should be discoverable, not hard coded
     const headline = entities.decode(json.title);
-    const description = json.excerpt;
+    const description = entities.decode(json.excerpt);
     const wpThumbnail = json.post_thumbnail;
     const thumbnail: Picture = {
       contentUrl: wpThumbnail.URL,
