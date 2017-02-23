@@ -1,6 +1,6 @@
 {
   "name": "wellcomecollection.org",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "The new home of the betanextbest.wellcomecollection.org website.",
   "main": "server/app.js",
   "scripts": {
