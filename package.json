@@ -4,7 +4,7 @@
   "description": "The new home of the betanextbest.wellcomecollection.org website.",
   "main": "server/app.js",
   "scripts": {
-    "test": "concurrently --kill-others './test.sh client' './test.sh server'"
+    "test": "./test.sh server"
   },
   "repository": {
     "type": "git",
@@ -15,8 +15,5 @@
   "bugs": {
     "url": "https://github.com/wellcometrust/wellcomecollection.org/issues"
   },
-  "homepage": "https://github.com/wellcometrust/wellcomecollection.org#readme",
-  "dependencies": {
-    "concurrently": "^3.3.0"
-  }
+  "homepage": "https://github.com/wellcometrust/wellcomecollection.org#readme"
 }
