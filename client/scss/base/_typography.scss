@@ -10,6 +10,8 @@ body {
   @include respond-to('medium') {
     @include font('HNL3');
   }
+
+  font-variant-ligatures: no-common-ligatures;
 }
 
 h1,
