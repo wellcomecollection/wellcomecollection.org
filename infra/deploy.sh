@@ -22,6 +22,7 @@ pushd terraform
     # Legacy graph is on here due to:
     # https://github.com/hashicorp/terraform/issues/8146
     terraform apply -target=module.wellcomecollection.aws_ecs_task_definition.wellcomecollection \
+                    -target=module.wellcomecollection.aws_ecs_service.wellcomecollection \
                     -Xlegacy-graph \
                     -var "container_tag=$CONTAINER_TAG"
 
