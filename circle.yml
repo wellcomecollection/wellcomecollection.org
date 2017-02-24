@@ -12,7 +12,7 @@ deployment:
   master:
     branch: [master]
     commands:
-      - docker build --rm=false --build-arg KEYMETRICS_PUBLIC=$KEYMETRICS_PUBLIC --build-arg KEYMETRICS_SECRET=$KEYMETRICS_SECRET -t wellcome/wellcomecollection:$CIRCLE_BUILD_NUM .
+      - docker build --rm=false -t wellcome/wellcomecollection:$CIRCLE_BUILD_NUM .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push wellcome/wellcomecollection:$CIRCLE_BUILD_NUM
       - ./build-cardigan.sh
