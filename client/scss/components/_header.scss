@@ -369,6 +369,12 @@ $tweakpoints: (
   &:focus {
     &:after {
       width: 100%;
+
+      // Prevent iOS double-tap link issue
+      // https://css-tricks.com/annoying-mobile-double-tap-link-issue/
+      @media (pointer: coarse) {
+        width: 0;
+      }
     }
   }
 
