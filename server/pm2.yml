@@ -1,5 +1,4 @@
 apps:
   - script   : './.dist/app.js'
     name     : 'wellcomecollection.org'
-    exec_mode: 'cluster'
     instances: 1
