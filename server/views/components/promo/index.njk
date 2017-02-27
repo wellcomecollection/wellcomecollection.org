@@ -28,6 +28,11 @@
       {% endif %}
     {% endfor %}
 
+    {% if promo.meta.chapters %}
+      <img class="promo__image-mask {{'promo__clip-path--chapters-50' if promo.modifiers and promo.modifiers | contains('standalone') else 'promo__clip-path--chapters-30'}}" src="{{ promo.article.thumbnail.contentUrl }}?w=600" alt="" />
+      {% componentV2 'chapter-indicator', promo.meta.chapters, ['large' if promo.modifiers and promo.modifiers | contains('standalone')] %}
+    {% endif %}
+
     {% if promo.meta.type === 'gallery' or promo.meta.type === 'podcast' or promo.meta.type === 'video' %}
       <div class="promo__icon-container">
         {% if promo.meta.type === 'gallery' %}

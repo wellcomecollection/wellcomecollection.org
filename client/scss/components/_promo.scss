@@ -112,6 +112,16 @@
   clip-path: polygon(0% 85%, 0% 100%, 100% 100%, 100% 60%, 90% 50%, 78% 45%, 60% 60%, 55% 66%, 40% 76%, 27% 82%);
 }
 
+.promo__clip-path--chapters-30 {
+  clip-path: polygon(0% 100%, 0% 70%, 100% 70%, 100% 100%);
+  filter: grayscale(1);
+}
+
+.promo__clip-path--chapters-50 {
+  clip-path: polygon(0% 100%, 0% 50%, 100% 50%, 100% 100%);
+  filter: grayscale(1);
+}
+
 .promo__icon-container {
   @include font('HNL7');
   background: color('white');

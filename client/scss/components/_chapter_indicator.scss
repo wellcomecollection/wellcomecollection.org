@@ -1,0 +1,56 @@
+$chapter-indicator-colors: 'purple', 'red', 'orange', 'turquoise';
+$chapter-indicator-small-height: 30%;
+$chapter-indicator-large-height: 50%;
+
+.chapter-indicator {
+  position: absolute;
+  display: flex;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: $chapter-indicator-small-height;
+
+  &.chapter-indicator--large {
+    height: $chapter-indicator-large-height;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0.3;
+  }
+}
+
+@each $color in $chapter-indicator-colors {
+  .chapter-indicator--#{$color} {
+    &:after {
+      background-color: color($color);
+    }
+  }
+}
+
+.chapter-indicator__bar {
+  background-color: color('white');
+  opacity: 0.2;
+  // Bars have aspect of 32:8
+  width: (9 / 16) * (($chapter-indicator-small-height / 32) * 8);
+  margin-right: 3px;
+
+  .chapter-indicator--large & {
+    width: (9 / 16) * (($chapter-indicator-large-height / 32) * 8);
+  }
+
+  &.chapter-indicator__bar--filled {
+    opacity: 1;
+
+    @each $color in $chapter-indicator-colors {
+      .chapter-indicator--#{$color} & {
+        background-color: color($color);
+      }
+    }
+  }
+}
