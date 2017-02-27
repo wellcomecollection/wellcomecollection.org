@@ -3,7 +3,7 @@ import { createNumberedList } from '../../../model/numbered-list';
 export const name = 'Numbered list';
 export const handle = 'numbered-list';
 
-export const numberedList = createNumberedList({
+export const model = createNumberedList({
   name: 'Latest',
   items: [
     {
@@ -34,4 +34,11 @@ export const numberedList = createNumberedList({
   ]
 });
 
-export const context = { numberedList };
+export const context = { model };
+
+export const variants = [
+  {
+    name: 'Horizontal list',
+    context: {model: model, modifiers: ['horizontal']}
+  }
+];
