@@ -1,7 +1,6 @@
 <figure class="{{ 'captioned-image' | componentClasses(modifiers) }}">
   <div class="captioned-image__image-container">
   {% componentV2 'image', model, {}, {lazyload: true, sizesQueries: data.sizesQueries} %}
-  {% componentV2 'chapter-indicator', {number: 3, total: 5, color: 'purple'} %}
   </div>
   {% block figcaption %}
     {% if model.caption %}

@@ -34,15 +34,12 @@ $chapter-indicator-large-height: 50%;
 }
 
 .chapter-indicator__bar {
+  position: relative;
+  display: inline-block;
   background-color: color('white');
   opacity: 0.2;
-  // Bars have aspect of 32:8
-  width: (9 / 16) * (($chapter-indicator-small-height / 32) * 8);
+  height: 100%;
   margin-right: 3px;
-
-  .chapter-indicator--large & {
-    width: (9 / 16) * (($chapter-indicator-large-height / 32) * 8);
-  }
 
   &.chapter-indicator__bar--filled {
     opacity: 1;
@@ -53,4 +50,20 @@ $chapter-indicator-large-height: 50%;
       }
     }
   }
+}
+
+// We use an image for its 'replaced element' intrinsic dimensions in order to
+// calculate the bar's width based on its height
+// http://stackoverflow.com/questions/6148012/setting-element-width-based-on-height-via-css
+
+.chapter-indicator__image {
+  height: 25%;
+}
+
+.chapter-indicator__shim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
