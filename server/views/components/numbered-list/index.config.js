@@ -2,6 +2,7 @@ import { createNumberedList } from '../../../model/numbered-list';
 
 export const name = 'Numbered list';
 export const handle = 'numbered-list';
+export const collated = true;
 
 export const model = createNumberedList({
   name: 'Latest',
@@ -9,27 +10,56 @@ export const model = createNumberedList({
     {
       title: 'Beatboxing tutorial #1: Using the air in your mouth',
       url: '#',
-      meta: 'Today'
+      date: new Date('Wed Feb 22 2017 11:06:25 GMT+0000 (UTC)')
     },
     {
       title: 'Lorem ipsum dolor sit: Amet',
-      url: '#',
-      meta: 'Yesterday'
+
+      date: new Date('Wed Feb 22 2017 11:06:25 GMT+0000 (UTC)')
     },
     {
       title: 'Fusce nunc lectus, rutrum sit amet nisi nec, euismod hendrerit eros',
       url: '#',
-      meta: 'A week ago'
+      date: new Date('Wed Feb 22 2017 11:06:25 GMT+0000 (UTC)')
     },
     {
       title: 'Lorem ipsum dolor sit: Amet',
       url: '#',
-      meta: '2 weeks ago'
+      date: new Date('Wed Feb 22 2017 11:06:25 GMT+0000 (UTC)')
     },
     {
       title: 'Fusce nunc lectus, rutrum sit amet nisi nec, euismod hendrerit eros',
       url: '#',
-      meta: '3 weeks ago'
+      date: new Date('Wed Feb 22 2017 11:06:25 GMT+0000 (UTC)')
+    }
+  ]
+});
+
+export const model2 = createNumberedList({
+  name: 'Making Nature',
+  items: [
+    {
+      title: 'Part 1: Lorem ipsum',
+      url: '#',
+      date: new Date('Wed Feb 22 2017 11:06:25 GMT+0000 (UTC)')
+    },
+    {
+      title: 'Part 2: Lorem ipsum dolor sit amet',
+      url: '#',
+      date: new Date('Wed Feb 22 2017 11:06:25 GMT+0000 (UTC)')
+    },
+    {
+      title: 'Part 3: Fusce nunc lectus',
+      url: '#',
+      date: new Date('Wed Feb 22 2017 11:06:25 GMT+0000 (UTC)')
+    },
+    {
+      title: 'Part 4: Lorem ipsum dolor sit amet',
+      date: new Date('Wed Feb 22 2017 11:06:25 GMT+0000 (UTC)')
+    },
+    {
+      title: 'Part5: Fusce nunc lectus, rutrum sit amet nisi nec, euismod hendrerit eros',
+      date: new Date('Wed Feb 22 2017 11:06:25 GMT+0000 (UTC)')
     }
   ]
 });
@@ -39,6 +69,10 @@ export const context = { model };
 export const variants = [
   {
     name: 'Horizontal list',
-    context: {model: model, modifiers: ['horizontal']}
+    context: {model: model2, modifiers: ['horizontal']}
+  },
+  {
+    name: 'Horizontal list narrow',
+    context: {model: model2, modifiers: ['horizontal-narrow']}
   }
 ];
