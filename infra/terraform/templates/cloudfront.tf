@@ -68,10 +68,12 @@ resource "aws_cloudfront_distribution" "next" {
     max_ttl                = 86400
 
     forwarded_values {
-      query_string = false
+      query_string = true
+      query_string_cache_keys = ["page"]
 
       cookies {
-        forward = "none"
+        forward = "whitelist"
+        whitelisted_names = ["WC_wpAuthToken"]
       }
     }
   }
