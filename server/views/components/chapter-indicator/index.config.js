@@ -1,25 +1,26 @@
 export const name = 'chapter indicator';
 export const handle = 'chapter-indicator';
+export const display = {background: '#1d1d1d'};
 export const variants = [
   {
     name: 'default',
     label: 'Purple',
-    context: {model: {number: 3, total: 5, color: 'purple'}}
+    context: {model: {position: 2, series: {items: ['one', 'two', 'three'], total: 5, color: 'purple'}}}
   },
   {
     name: 'red',
-    context: {model: {number: 3, total: 5, color: 'red'}}
+    context: {model: {position: 2, series: {items: ['one', 'two', 'three'], total: 5, color: 'red'}}}
   },
   {
     name: 'orange',
-    context: {model: {number: 3, total: 5, color: 'orange'}}
+    context: {model: {position: 2, series: {items: ['one', 'two', 'three'], total: 5, color: 'orange'}}}
   },
   {
     name: 'turquoise',
-    context: {model: {number: 3, total: 5, color: 'turquoise'}}
+    context: {model: {position: 2, series: {items: ['one', 'two', 'three'], total: 5, color: 'turquoise'}}}
   },
   {
     name: 'large',
-    context: {model: {number: 3, total: 5, color: 'purple'}, modifiers: ['large']}
+    context: {model: {position: 2, series: {items: ['one', 'two', 'three'], total: 5, color: 'purple'}}, modifiers: ['large']}
   }
 ];

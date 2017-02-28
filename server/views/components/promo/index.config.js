@@ -17,6 +17,18 @@ export const promo = createPromo({
 });
 
 export const context = { promo };
+
+const articleInSeries = Object.assign({}, article, {series: {
+  url: '#',
+  name: 'A series',
+  description: 'This is a series',
+  items: ['promo1', 'promo2', 'promo3'],
+  total: 5,
+  color: 'purple'
+}}, {positionInSeries: 3});
+
+const promoInSeries = Object.assign({}, promo, {article: articleInSeries});
+
 export const variants = [
   {
     name: 'series-article',
@@ -48,10 +60,10 @@ export const variants = [
   },
   {
     name: 'with-chapters',
-    context: {promo: Object.assign({}, promo, {meta: {chapters: {number: 3, total: 5, color: 'purple'}, type: 'article', displayType: 'regular'}})}
+    context: {promo: Object.assign({}, promoInSeries, {type: 'article', displayType: 'regular'})}
   },
   {
     name: 'standalone-with-chapters',
-    context: {promo: Object.assign({}, promo, {meta: {type: 'article', chapters: {number: 1, total: 5, color: 'red'}}}, {modifiers: ['standalone']})}
+    context: {promo: Object.assign({}, promoInSeries, {meta: {type: 'article'}}, {modifiers: ['standalone']})}
   }
 ];

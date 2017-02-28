@@ -28,9 +28,9 @@
       {% endif %}
     {% endfor %}
 
-    {% if promo.meta.chapters %}
-      <img class="promo__image-mask {{'promo__clip-path--chapters-50' if promo.modifiers and promo.modifiers | contains('standalone') else 'promo__clip-path--chapters-30'}}" src="{{ promo.article.thumbnail.contentUrl }}?w=600" alt="" />
-      {% componentV2 'chapter-indicator', promo.meta.chapters, ['large' if promo.modifiers and promo.modifiers | contains('standalone')] %}
+    {% if promo.article.series.items.length and promo.article.positionInSeries %}
+      <img class="promo__image-mask {{'promo__clip-path--chapters-large' if promo.modifiers and promo.modifiers | contains('standalone') else 'promo__clip-path--chapters-small'}}" src="{{ promo.article.thumbnail.contentUrl }}?w=600" alt="" />
+      {% componentV2 'chapter-indicator', {series: promo.article.series, position: promo.article.positionInSeries}, ['large' if promo.modifiers and promo.modifiers | contains('standalone')] %}
     {% endif %}
 
     {% if promo.meta.type === 'gallery' or promo.meta.type === 'podcast' or promo.meta.type === 'video' %}

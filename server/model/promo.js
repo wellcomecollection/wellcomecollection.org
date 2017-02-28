@@ -8,12 +8,7 @@ export type Promo = {|
   weight?: Weight,
   meta?: {
     type?: string,
-    length?: string,
-    chapters?: {
-      number: number,
-      total: number,
-      color: string
-    }
+    length?: string
   };
 |}
 

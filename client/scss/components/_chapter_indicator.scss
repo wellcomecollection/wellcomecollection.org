@@ -1,6 +1,4 @@
 $chapter-indicator-colors: 'purple', 'red', 'orange', 'turquoise';
-$chapter-indicator-small-height: 30%;
-$chapter-indicator-large-height: 50%;
 
 .chapter-indicator {
   position: absolute;
@@ -8,10 +6,10 @@ $chapter-indicator-large-height: 50%;
   bottom: 0;
   left: 0;
   right: 0;
-  height: $chapter-indicator-small-height;
+  height: 30%;
 
   &.chapter-indicator--large {
-    height: $chapter-indicator-large-height;
+    height: 50%;
   }
 
   &:after {
@@ -53,7 +51,7 @@ $chapter-indicator-large-height: 50%;
 }
 
 // We use an image for its 'replaced element' intrinsic dimensions in order to
-// calculate the bar's width based on its height
+// calculate the bar's width based on its height. Bar has 1:4 aspect ratio.
 // http://stackoverflow.com/questions/6148012/setting-element-width-based-on-height-via-css
 
 .chapter-indicator__image {
@@ -63,7 +61,7 @@ $chapter-indicator-large-height: 50%;
 .chapter-indicator__shim {
   position: absolute;
   top: 0;
+  bottom: 0;
   left: 0;
   right: 0;
-  bottom: 0;
 }
