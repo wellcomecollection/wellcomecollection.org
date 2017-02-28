@@ -68,10 +68,32 @@ resource "aws_cloudfront_distribution" "next" {
     max_ttl                = 86400
 
     forwarded_values {
-      query_string = false
+      query_string = true
+      query_string_cache_keys = ["page"]
 
       cookies {
-        forward = "none"
+        forward = "whitelist"
+        whitelisted_names = ["WC_wpAuthToken"]
+      }
+    }
+  }
+
+  cache_behavior {
+    target_origin_id       = "${aws_alb.wellcomecollection_alb.id}"
+    path_pattern           = "/articles/preview/*"
+    allowed_methods        = ["HEAD", "GET"]
+    cached_methods         = ["HEAD", "GET"]
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 3600
+    max_ttl                = 86400
+
+    forwarded_values {
+      query_string = true
+      headers = ["*"]
+
+      cookies {
+        forward = "all"
       }
     }
   }
