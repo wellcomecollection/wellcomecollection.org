@@ -12,8 +12,7 @@ $chapter-indicator-colors: 'purple', 'red', 'orange', 'turquoise';
     height: 50%;
   }
 
-  &:before,
-  &:after {
+  &:before {
     position: absolute;
     content: '';
     top: 0;
@@ -21,29 +20,20 @@ $chapter-indicator-colors: 'purple', 'red', 'orange', 'turquoise';
     left: 0;
     right: 0;
     opacity: 0.3;
-  }
-
-  &:before {
     z-index: 0;
     background: color('black');
-  }
-
-  &:after {
-    z-index: 1;
   }
 }
 
 @each $color in $chapter-indicator-colors {
   .chapter-indicator--#{$color} {
-    &:after {
-      background-color: color($color);
-    }
+    background-color: rgba(color($color), 0.3);
   }
 }
 
 .chapter-indicator__bar {
   position: relative;
-  z-index: 2;
+  z-index: 1;
   fill: color('white');
   opacity: 0.2;
   height: 100%;
