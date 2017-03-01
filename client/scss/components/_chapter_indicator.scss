@@ -12,14 +12,24 @@ $chapter-indicator-colors: 'purple', 'red', 'orange', 'turquoise';
     height: 50%;
   }
 
+  &:before,
   &:after {
-    content: '';
     position: absolute;
+    content: '';
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     opacity: 0.3;
+  }
+
+  &:before {
+    z-index: 0;
+    background: color('black');
+  }
+
+  &:after {
+    z-index: 1;
   }
 }
 
@@ -32,6 +42,8 @@ $chapter-indicator-colors: 'purple', 'red', 'orange', 'turquoise';
 }
 
 .chapter-indicator__bar {
+  position: relative;
+  z-index: 2;
   fill: color('white');
   opacity: 0.2;
   height: 100%;
