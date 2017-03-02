@@ -6,7 +6,7 @@
   "scripts": {
     "app:build": "babel . -d .dist --ignore=node_modules --copy-files",
     "app:dev": "nodemon -e js,njk,json --exec babel-node run.js",
-    "app:docker": "pm2-docker ./.dist/run.js --name 'wellcomecollection.org'",
+    "app:docker": "pm2-docker --json pm2.yml",
     "app:run": "pm2 start ./.dist/run.js --name 'wellcomecollection.org'",
     "fractal": "fractal start —sync --port 3002",
     "fractal:build": "fractal build",

@@ -1,4 +1,4 @@
 apps:
-  - script   : './.dist/app.js'
+  - script   : './.dist/run.js'
     name     : 'wellcomecollection.org'
     instances: 1

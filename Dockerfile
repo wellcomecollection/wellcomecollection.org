@@ -14,4 +14,4 @@ EXPOSE 3000
 
 WORKDIR $HOME/server
 
-CMD ["./node_modules/.bin/pm2-docker", "--json", "pm2.yml"]
+CMD ["npm", "run", "app:docker"]
