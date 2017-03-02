@@ -23,3 +23,7 @@ variants:
     modifiers:
     - lr
   notes: For text references
+- name: Small
+  context:
+    modifiers:
+    - small
