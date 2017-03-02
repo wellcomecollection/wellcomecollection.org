@@ -1,7 +1,7 @@
 // @flow
 import entities from 'entities';
 import {type Picture} from './picture';
-import {type  ArticleSeries} from "./series";
+import {type  ArticleSeries, getSeriesCommissionedLength} from "./series";
 export type ArticleStub = {|
   url: string;
   headline: string;
@@ -28,7 +28,8 @@ export class ArticleStubFactory {
       return {
         url: cat.slug,
         name: cat.name,
-        description: cat.description
+        description: cat.description,
+        commissionedLength: getSeriesCommissionedLength(cat.slug)
       }
     });
 
