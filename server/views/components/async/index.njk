@@ -1,0 +1,6 @@
+<div class="{{ containerClass }}">
+
+</div>
+<script>
+  fetch('{{ endpoint }}').then(resp => resp.json()).then(json => document.querySelector('.{{ containerClass }}').innerHTML = json.html);
+</script>

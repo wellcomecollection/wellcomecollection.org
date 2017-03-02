@@ -100,6 +100,10 @@ export const seriesNav = async(ctx, next) => {
     list: series
   });
 
+  ctx.body = {
+    html: ctx.body
+  };
+
   return next();
 };
 
