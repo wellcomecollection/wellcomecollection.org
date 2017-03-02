@@ -81,14 +81,14 @@ $tweakpoints: (
     width: auto;
     display: block;
   }
+}
 
-  .icon--collection {
-    width: 6.5rem;
+.logo-svg {
+  width: 6.5rem;
 
-    @include respond-to('header-medium') {
-      width: 128px;
-      height: 42px;
-    }
+  @include respond-to('header-medium') {
+    width: 128px;
+    height: 42px;
   }
 }
 
