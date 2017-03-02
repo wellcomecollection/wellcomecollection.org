@@ -80,6 +80,29 @@ export const series = async(ctx, next) => {
   return next();
 };
 
+export const seriesNav = async(ctx, next) => {
+  const {id} = ctx.params;
+  const wpPosts = await getPosts(6, {category: id});
+  const items = mapArticleStubsToPromos(wpPosts.data, 'default');
+
+  // TODO: So So nasty
+  const {name, description} = wpPosts.data.first().series[0];
+  const {total} = wpPosts;
+  const series: Series = {
+    url: id,
+    name,
+    description,
+    total,
+    items
+  };
+
+  ctx.render('components/series-nav/index', {
+    list: series
+  });
+
+  return next();
+};
+
 export const explore = async(ctx, next) => {
   const wpPosts = await getPosts(50);
 
