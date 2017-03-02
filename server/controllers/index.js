@@ -27,6 +27,7 @@ export const article = async(ctx, next) => {
 };
 
 export const articles = async(ctx, next) => {
+  const {page} = ctx.request.query;
   const wpPosts = await getPosts(32);
   const items = postsToPromos(wpPosts.data, 'default');
   const {total} = wpPosts;
@@ -36,21 +37,25 @@ export const articles = async(ctx, next) => {
     total,
     items
   };
+  const pagination = getSeriesPagination(series, parseInt(page, 10) || 1);
+
   ctx.render('pages/list', {
     pageConfig: createPageConfig({
       title: 'Articles',
       inSection: 'explore'
     }),
-    list: series
+    list: series,
+    pagination
   });
 
   return next();
 };
 
 export const series = async(ctx, next) => {
-  const {id} = ctx.params;
+  const {id, page} = ctx.params;
   const wpPosts = await getPosts(32, {category: id});
   const items = postsToPromos(wpPosts.data, 'default');
+
   // TODO: So So nasty
   const {name, description} = wpPosts.data.first().series[0];
   const {total} = wpPosts;
@@ -61,13 +66,15 @@ export const series = async(ctx, next) => {
     total,
     items
   };
+  const pagination = getSeriesPagination(series, parseInt(page, 10) || 1);
 
   ctx.render('pages/list', {
     pageConfig: createPageConfig({
       title: name,
       inSection: 'explore'
     }),
-    list: series
+    list: series,
+    pagination
   });
 
   return next();
@@ -173,4 +180,34 @@ function postsToPromos(posts, weight) {
     };
     return promo;
   });
+}
+
+type Pagination = {|
+  total: number;
+  size: number;
+  range: { beginning: number, end: number },
+  pageCount: number;
+  currentPage: number;
+  nextPage?: number;
+  prevPage?: number;
+|}
+
+function getSeriesPagination(series: Series, currentPage: number): Pagination {
+  const size = series.items.size;
+  const pageCount = Math.ceil(series.total / series.items.size);
+  const prevPage = pageCount > 1 && currentPage !== 1 ? currentPage - 1 : null;
+  const nextPage = pageCount > 1 && currentPage !== pageCount ? currentPage + 1 : null;
+  const range = {
+    beginning: (size * currentPage) - size + 1,
+    end: size * currentPage
+  };
+  const pagination = {
+    range,
+    pageCount,
+    currentPage,
+    nextPage,
+    prevPage
+  };
+
+  return (pagination: Pagination);
 }
