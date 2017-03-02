@@ -1,5 +1,5 @@
 // @flow
-import {type ArticleStub, ArticleStubFactory} from '../model/article-stub§';
+import {type ArticleStub, ArticleStubFactory} from '../model/article-stub';
 import {List} from 'immutable';
 import request from 'superagent';
 import {ArticleFactory} from '../model/article';
