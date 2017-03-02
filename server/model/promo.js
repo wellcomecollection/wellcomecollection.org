@@ -1,10 +1,10 @@
 // @flow
 import {type Weight} from './weight';
-import {type ArticlePromo} from './article-promo';
+import {type ArticleStub} from './article-promo';
 
 export type Promo = {|
   modifiers: Array<string>;
-  article: ArticlePromo;
+  article: ArticleStub;
   weight?: Weight,
   meta?: {
     type?: string,
