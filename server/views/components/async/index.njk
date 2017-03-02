@@ -1,6 +1,1 @@
-<div class="{{ containerClass }}">
-
-</div>
-<script>
-  fetch('{{ endpoint }}').then(resp => resp.json()).then(json => document.querySelector('.{{ containerClass }}').innerHTML = json.html);
-</script>
+<div class="async-content async-content--loading {{ placeholderClassname }}" data-endpoint="{{ endpoint }}"></div>

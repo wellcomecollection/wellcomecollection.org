@@ -9,7 +9,7 @@
 {% block body %}
 {% component 'page-description', { title: article.headline, meta: { type: 'date', value: article.datePublished | formatDate }, modifiers: ['a'], lead: true } %}
 
-{% component 'async', { endpoint: '/series-nav/a-drop-in-the-ocean', containerClass: 'series-navigation' } %}
+{% component 'async', { endpoint: '/series-nav/a-drop-in-the-ocean', placeholderClassname: 'series-nav-placeholder' } %}
 
 
 {% for media in article.mainMedia %}
