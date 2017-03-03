@@ -82,6 +82,7 @@ export const series = async(ctx, next) => {
 
 export const seriesNav = async(ctx, next) => {
   const {id} = ctx.params;
+  const {current} = ctx.request.query;
   const wpPosts = await getPosts(6, {category: id});
   const items = mapArticleStubsToPromos(wpPosts.data, 'default');
 
@@ -97,7 +98,8 @@ export const seriesNav = async(ctx, next) => {
   };
 
   ctx.render('components/series-nav/index', {
-    list: series
+    current,
+    list: series,
   });
 
   ctx.body = {
