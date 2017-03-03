@@ -27,6 +27,7 @@ export type Article = {|
   bodyParts: Array<BodyPart>;
   author?: Person; // TODO: Make this mandatory once we know all the authors
   series?: Array<ArticleSeries>;
+  positionInSeries?: number;
 |}
 
 function createArticle(data: Article) { return (data: Article); }

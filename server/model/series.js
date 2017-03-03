@@ -11,6 +11,7 @@ export type ArticleSeries = {|
 export type Series = ArticleSeries & {|
   items: Array<Promo>;
   total: number;
+  color: string;
 |}
 
 
