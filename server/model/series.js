@@ -17,26 +17,6 @@ export type Series = ArticleSeries & {|
   color: string;
 |}
 
-export function mapSeriesToPagination(series: Series, currentPage: number): Pagination {
-  const size = series.items.size;
-  const pageCount = Math.ceil(series.total / series.items.size);
-  const prevPage = pageCount > 1 && currentPage !== 1 ? currentPage - 1 : null;
-  const nextPage = pageCount > 1 && currentPage !== pageCount ? currentPage + 1 : null;
-  const range = {
-    beginning: (size * currentPage) - size + 1,
-    end: size * currentPage
-  };
-  const pagination = {
-    range,
-    pageCount,
-    currentPage,
-    nextPage,
-    prevPage
-  };
-
-  return (pagination: Pagination);
-}
-
 // Anything below is a massive hack due to the fact that we don't have a CMS that
 // supports our concept or series.
 export function getSeriesCommissionedLength(seriesUrl: string): ?number {
