@@ -6,7 +6,7 @@ export type ArticleStub = {|
   url: string;
   headline: string;
   description: string;
-  thumbnail?: Picture;
+  thumbnail: Picture;
   datePublished: Date;
   series?: Array<ArticleSeries>;
 |};

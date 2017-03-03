@@ -1,8 +1,10 @@
 // @flow
-import {type ArticleStub, ArticleStubFactory} from '../model/article-stub';
 import {List} from 'immutable';
 import request from 'superagent';
+import {type ArticleStub, ArticleStubFactory} from '../model/article-stub';
+import {type Series} from "../model/series";
 import {ArticleFactory} from '../model/article';
+
 
 export type PostsResponse = {|
   length: number;
@@ -38,4 +40,21 @@ export async function getArticle(id: string, authToken: ?string = null) {
   if (valid) {
     return ArticleFactory.fromWpApi(response.body);
   }
+}
+
+
+export async function getSeries(id: string, page: number): Series {
+  const posts = await getPosts(32, {category: id}, page);
+  const {total} = posts;
+  const items = posts.data;
+  // TODO: What a fudge !_!
+  const {name, description} = items.first().series[0];
+
+  return ({
+    url: id,
+    name,
+    description,
+    total,
+    items
+  }: Series);
 }
