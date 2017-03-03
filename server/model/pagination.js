@@ -3,12 +3,11 @@ import {List} from 'immutable';
 
 export type Pagination = {|
   total: number;
-  size: number;
   range: { beginning: number, end: number },
   pageCount: number;
   currentPage: number;
-  nextPage?: number;
-  prevPage?: number;
+  nextPage?: ?number;
+  prevPage?: ?number;
 |}
 
 export class PaginationFactory {
@@ -22,12 +21,14 @@ export class PaginationFactory {
       end: size * currentPage
     };
 
-    return ({
+    const pagination: Pagination = {
+      total,
       range,
       pageCount,
       currentPage,
       nextPage,
       prevPage
-    }: Pagination);
+    };
+    return pagination;
   }
 }
