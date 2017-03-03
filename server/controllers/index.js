@@ -2,7 +2,7 @@
 import {type Promo} from '../model/promo';
 import {createPageConfig} from '../model/page-config';
 import {getPosts, getArticle} from '../services/wordpress';
-import {Series} from "../model/series";
+import {type Series, getForwardFill, getSeriesCommissionedLength} from '../model/series';
 
 export const article = async(ctx, next) => {
   const slug = ctx.params.slug;
@@ -94,8 +94,11 @@ export const seriesNav = async(ctx, next) => {
     name,
     description,
     total,
-    items
+    items,
+    commissionedLength: getSeriesCommissionedLength(id)
   };
+
+  const b = getForwardFill(series);
 
   ctx.render('components/series-nav/index', {
     current,

@@ -25,12 +25,12 @@ export class ArticleStubFactory {
     const datePublished = new Date(json.date);
     const series: Array<ArticleSeries> = Object.keys(json.categories).map(catKey => {
       const cat = json.categories[catKey];
-      return {
+      return ({
         url: cat.slug,
         name: cat.name,
         description: cat.description,
         commissionedLength: getSeriesCommissionedLength(cat.slug)
-      }
+      } : ArticleSeries)
     });
 
     const articleStub: ArticleStub = { url, headline, description, thumbnail, datePublished, series };
