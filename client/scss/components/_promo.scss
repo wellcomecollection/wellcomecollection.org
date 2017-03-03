@@ -260,10 +260,6 @@
       flex-basis: 60%;
       padding-right: 20%;
     }
-
-    @include respond-to('large') {
-      margin-top: 2 * $vertical-space-unit;
-    }
   }
 }
 
