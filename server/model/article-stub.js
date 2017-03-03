@@ -2,7 +2,7 @@
 import entities from 'entities';
 import {type Picture} from './picture';
 import {type  ArticleSeries} from "./series";
-export type ArticlePromo = {|
+export type ArticleStub = {|
   url: string;
   headline: string;
   description: string;
@@ -11,8 +11,8 @@ export type ArticlePromo = {|
   series?: Array<ArticleSeries>;
 |};
 
-export class ArticlePromoFactory {
-  static fromWpApi(json): ArticlePromo {
+export class ArticleStubFactory {
+  static fromWpApi(json): ArticleStub {
     const url = `/articles/${json.slug}`; // TODO: this should be discoverable, not hard coded
     const headline = entities.decode(json.title);
     const description = entities.decode(json.excerpt);
@@ -32,7 +32,7 @@ export class ArticlePromoFactory {
       }
     });
 
-    const articlePromo: ArticlePromo = { url, headline, description, thumbnail, datePublished, series };
-    return articlePromo;
+    const articleStub: ArticleStub = { url, headline, description, thumbnail, datePublished, series };
+    return articleStub;
   }
 }

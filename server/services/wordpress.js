@@ -1,5 +1,5 @@
 // @flow
-import {type ArticlePromo, ArticlePromoFactory} from '../model/article-promo';
+import {type ArticleStub, ArticleStubFactory} from '../model/article-stub';
 import {List} from 'immutable';
 import request from 'superagent';
 import {ArticleFactory} from '../model/article';
@@ -7,7 +7,7 @@ import {ArticleFactory} from '../model/article';
 export type PostsResponse = {|
   length: number;
   total: number;
-  data: List<ArticlePromo>;
+  data: List<ArticleStub>;
 |}
 
 const baseUri = 'https://public-api.wordpress.com/rest/v1.1/sites/blog.wellcomecollection.org';
@@ -19,8 +19,8 @@ export async function getPosts(size: number = 20, q: {category?:string}): Promis
     number: size
   }, q));
 
-  const posts: List<ArticlePromo> = List(response.body.posts).map(post => {
-    return (ArticlePromoFactory.fromWpApi(post): ArticlePromo);
+  const posts: List<ArticleStub> = List(response.body.posts).map(post => {
+    return (ArticleStubFactory.fromWpApi(post): ArticleStub);
   });
 
   return {

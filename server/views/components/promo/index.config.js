@@ -1,9 +1,9 @@
 // @flow
-import { createPromo } from '../../../model/promo';
-import {ArticlePromoFactory} from '../../../model/article-promo';
+import {createPromo} from '../../../model/promo';
+import {ArticleStubFactory} from '../../../model/article-stub';
 import mockJson from '../../../test/mocks/wp-api.json';
 
-const article = ArticlePromoFactory.fromWpApi(mockJson);
+const article = ArticleStubFactory.fromWpApi(mockJson);
 export const name = 'Promo';
 export const handle = 'promo';
 export const collated = true;

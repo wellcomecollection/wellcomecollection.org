@@ -29,7 +29,7 @@ export const article = async(ctx, next) => {
 export const articles = async(ctx, next) => {
   const {page} = ctx.request.query;
   const wpPosts = await getPosts(32);
-  const items = postsToPromos(wpPosts.data, 'default');
+  const items = mapArticleStubsToPromos(wpPosts.data, 'default');
   const {total} = wpPosts;
   const series: Series = {
     url: '/articles',
@@ -54,7 +54,7 @@ export const articles = async(ctx, next) => {
 export const series = async(ctx, next) => {
   const {id, page} = ctx.params;
   const wpPosts = await getPosts(32, {category: id});
-  const items = postsToPromos(wpPosts.data, 'default');
+  const items = mapArticleStubsToPromos(wpPosts.data, 'default');
 
   // TODO: So So nasty
   const {name, description} = wpPosts.data.first().series[0];
@@ -85,10 +85,10 @@ export const explore = async(ctx, next) => {
 
   const grouped = wpPosts.data.groupBy(post => post.headline.indexOf('A drop in the ocean:') === 0);
   const theRest = grouped.first();
-  const topPromo = postsToPromos(theRest.take(1), 'lead').first();
-  const second3Promos = postsToPromos(theRest.slice(1, 4), 'default');
-  const next8Promos = postsToPromos(theRest.slice(4, 12), 'default');
-  const aDropInTheOceanPromos = postsToPromos(grouped.last().take(7), 'default');
+  const topPromo = mapArticleStubsToPromos(theRest.take(1), 'lead').first();
+  const second3Promos = mapArticleStubsToPromos(theRest.slice(1, 4), 'default');
+  const next8Promos = mapArticleStubsToPromos(theRest.slice(4, 12), 'default');
+  const aDropInTheOceanPromos = mapArticleStubsToPromos(grouped.last().take(7), 'default');
   const aDropInTheOcean: Series = {
     url: '/series/a-drop-in-the-ocean',
     name: 'A drop in the ocean',
@@ -171,11 +171,11 @@ export const preview = async(ctx, next) => {
   return next();
 };
 
-function postsToPromos(posts, weight) {
-  return posts.map(articlePromo => {
+function mapArticleStubsToPromos(stubs, weight) {
+  return stubs.map(articleStub => {
     const promo: Promo = {
       modifiers: [],
-      article: articlePromo,
+      article: articleStub,
       weight: weight
     };
     return promo;
