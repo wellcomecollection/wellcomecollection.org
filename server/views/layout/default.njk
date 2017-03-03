@@ -128,8 +128,8 @@
 
     <script>
       if (['localhost', 'cardigan.wellcomecollection.org'].indexOf(document.location.hostname) === -1) {
-	      {% include 'partials/hotjar.js' %}
-        {% include 'partials/analytics.js' %}
+        {% include 'partials/hotjar.js.njk' %}
+        {% include 'partials/analytics.js.njk' %}
       }
     </script>
     {% include 'partials/monitoring.njk' %}
