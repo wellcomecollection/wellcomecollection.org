@@ -21,13 +21,13 @@ export type Promo = UiComponent & {|
 export function createPromo(data: Promo) { return (data: Promo); }
 
 export class PromoFactory {
-  static fromArticleStub(articleStub: ArticleStub): Promo {
+  static fromArticleStub(articleStub: ArticleStub, weight: Weight = 'default'): Promo {
     return ({
       url: articleStub.url,
       title: articleStub.headline,
       image: articleStub.thumbnail,
       contentType: 'article',
-      weight: 'default',
+      weight: weight,
       description: articleStub.description
     } : Promo);
   }

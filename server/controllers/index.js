@@ -1,10 +1,10 @@
 // TODO: FlowType this module
-import {type Promo} from '../model/promo';
+import {type Promo, PromoFactory} from '../model/promo';
 import {createPageConfig} from '../model/page-config';
 import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
 import {type Series, getForwardFill, getSeriesCommissionedLength} from '../model/series';
 import {PromoListFactory} from '../model/promo-list';
-import {PaginationFactory} from "../model/pagination";
+import {PaginationFactory} from '../model/pagination';
 
 export const article = async(ctx, next) => {
   const slug = ctx.params.slug;
@@ -101,29 +101,29 @@ export const seriesNav = async(ctx, next) => {
 };
 
 export const explore = async(ctx, next) => {
-  const wpPosts = await getArticleStubs(50);
-
-  const grouped = wpPosts.data.groupBy(post => post.headline.indexOf('A drop in the ocean:') === 0);
+  const articleStubs = await getArticleStubs(50);
+  const grouped = articleStubs.data.groupBy(stub => stub.headline.indexOf('A drop in the ocean:') === 0);
   const theRest = grouped.first();
-  const topPromo = mapArticleStubsToPromos(theRest.take(1), 'lead').first();
-  const second3Promos = mapArticleStubsToPromos(theRest.slice(1, 4), 'default');
-  const next8Promos = mapArticleStubsToPromos(theRest.slice(4, 12), 'default');
-  const aDropInTheOceanPromos = mapArticleStubsToPromos(grouped.last().take(7), 'default');
-  const aDropInTheOcean: Series = {
+  const topPromo = PromoFactory.fromArticleStub(theRest.first(), 'lead');
+  const second3Promos = theRest.slice(1, 4).map(PromoFactory.fromArticleStub);
+  const next8Promos = theRest.slice(4, 12).map(PromoFactory.fromArticleStub);
+  const aDropInTheOceanStubs = grouped.last().take(7);
+  const aDropInTheOceanSeries: Series = {
     url: '/series/a-drop-in-the-ocean',
     name: 'A drop in the ocean',
-    items: aDropInTheOceanPromos,
+    items: aDropInTheOceanStubs,
     description: 'This series showcases many different voices and perspectives from people with\
                   lived experience of mental ill health and explores their ideas of personal asylum\
                   through sculpture, vlogging, poetry and more.'
   };
+  const aDropInTheOceanPromoList = PromoListFactory.fromSeries(aDropInTheOceanSeries);
 
   ctx.render('pages/explore', {
     pageConfig: createPageConfig({
       title: 'Explore',
       inSection: 'explore'
     }),
-    aDropInTheOcean,
+    aDropInTheOcean: aDropInTheOceanPromoList,
     topPromo,
     second3Promos,
     next8Promos
