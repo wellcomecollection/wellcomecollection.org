@@ -13,7 +13,28 @@
 
   @include respond-to('large') {
     padding-right: 1em;
+  }
 
+  &.blockquote--small {
+    @include font('HNL3');
+    border-left: 0;
+    position: relative;
+
+    &:before {
+      position: absolute;
+      content: '\201c';
+      top: -0.02em;
+      left: -0.05em;
+      // stylelint-disable sh-waqar/declaration-use-variable
+      // Decorative quotes – not defined as part of the typography styles
+      font-size: 3em;
+      // stylelint-enable sh-waqar/declaration-use-variable
+      line-height: 1;
+    }
+
+    p:last-of-type {
+      margin-bottom: 0.4em;
+    }
   }
 
   &.blockquote--wb {
