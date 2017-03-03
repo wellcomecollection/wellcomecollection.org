@@ -1,8 +1,8 @@
 // TODO: FlowType this module
-import {type Promo, PromoFactory} from '../model/promo';
+import {PromoFactory} from '../model/promo';
 import {createPageConfig} from '../model/page-config';
 import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
-import {type Series, getForwardFill, getSeriesCommissionedLength} from '../model/series';
+import {type Series} from '../model/series';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 
@@ -181,43 +181,3 @@ export const preview = async(ctx, next) => {
   return next();
 };
 
-function mapArticleStubsToPromos(stubs, weight) {
-  return stubs.map(articleStub => {
-    const promo: Promo = {
-      modifiers: [],
-      article: articleStub,
-      weight: weight
-    };
-    return promo;
-  });
-}
-
-export type Pagination = {|
-  total: number;
-  size: number;
-  range: { beginning: number, end: number },
-  pageCount: number;
-  currentPage: number;
-  nextPage?: number;
-  prevPage?: number;
-|}
-
-function getSeriesPagination(series: Series, currentPage: number): Pagination {
-  const size = series.items.size;
-  const pageCount = Math.ceil(series.total / series.items.size);
-  const prevPage = pageCount > 1 && currentPage !== 1 ? currentPage - 1 : null;
-  const nextPage = pageCount > 1 && currentPage !== pageCount ? currentPage + 1 : null;
-  const range = {
-    beginning: (size * currentPage) - size + 1,
-    end: size * currentPage
-  };
-  const pagination = {
-    range,
-    pageCount,
-    currentPage,
-    nextPage,
-    prevPage
-  };
-
-  return (pagination: Pagination);
-}
