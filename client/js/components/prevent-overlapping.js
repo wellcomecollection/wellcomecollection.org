@@ -1,35 +1,64 @@
 import {nodeList, featureTest} from '../util';
-import throttle from 'lodash.throttle';
 
 const preventOverlapping = (els) => {
-  if (featureTest('position', 'sticky')) {
-    const elements = nodeList(els).reverse();
-    const hideOverlapping = () => {
-      elements.forEach((element, index, array) => {
-        let elementMeta = {
-          currentEl: element,
-          nextDomEl: array[index - 1],
-          currentElPosition: window.getComputedStyle(element, null).getPropertyValue('position'),
-          currentElHeight: element.offsetHeight,
-          currentElCssTop: parseInt(window.getComputedStyle(element, null).getPropertyValue('top'), 10),
-          currentElActualTop: element.getBoundingClientRect().top,
-          nextDomElActualTop: array[index - 1] ? array[index - 1].getBoundingClientRect().top : null,
-          prevDomEls: elements.slice(index + 1)
-        };
-        if (elementMeta.currentElPosition.indexOf('sticky') > -1 && elementMeta.currentElActualTop <= elementMeta.currentElCssTop && elementMeta.nextDomEl !== undefined) {
-          if (elementMeta.nextDomElActualTop <= elementMeta.currentElHeight + elementMeta.currentElCssTop) {
-            elementMeta.currentEl.style.opacity = 0;
-          } else {
-            elementMeta.currentEl.style.opacity = 1;
-          }
-        } else {
-          elementMeta.currentEl.style.opacity = 1;
-        }
-      });
-    };
-    hideOverlapping();
-    window.addEventListener('scroll', throttle(hideOverlapping, 250));
-  }
+  if (!featureTest('position', 'sticky')) return;
+
+  const elsToStick = nodeList(els);
+  const topOffset = 15;
+  const stuckEls = () => {
+    return elsToStick.map((el) => {
+      if (el.getBoundingClientRect().top <= topOffset) {
+        return el;
+      }
+    }).filter((el) => el !== undefined);
+  };
+  const nextElIndex = () => {
+    return stuckEls().length;
+  };
+  const nextEl = () => {
+    return elsToStick[nextElIndex()];
+  };
+  const nextElFromTop = () => {
+    return nextEl().getBoundingClientRect().top;
+  };
+  const currentEl = () => {
+    return stuckEls()[stuckEls().length - 1];
+  };
+  const previousEl = () => {
+    return stuckEls()[stuckEls().length - 2];
+  };
+  const currentElHeight = () => {
+    return currentEl().offsetHeight;
+  };
+  const fixPreviousTop = () => {
+    if (!previousEl()) return;
+    if (previousEl().classList.contains('js-full-width')) return;
+    if (previousEl().style.top === '-100%') return;
+
+    previousEl().style.top = '-100%';
+  };
+  const fixCurrentTop = () => {
+    if (currentEl().style.top === `${topOffset}px`) return;
+    if (currentEl().classList.contains('js-full-width')) return;
+
+    currentEl().style.top = `${topOffset}px`;
+  };
+  const updateCurrentTop = () => {
+    if (!currentEl()) return;
+
+    fixCurrentTop();
+    fixPreviousTop();
+
+    if (currentEl().classList.contains('js-full-width')) return;
+    if (!nextEl()) return;
+    if (nextElFromTop() > currentElHeight() + topOffset) return;
+
+    currentEl().style.top = `${nextElFromTop() - currentElHeight()}px`;
+  };
+
+  window.addEventListener('scroll', updateCurrentTop);
+  window.addEventListener('resize', updateCurrentTop);
+  updateCurrentTop();
 };
 
 export default preventOverlapping;
