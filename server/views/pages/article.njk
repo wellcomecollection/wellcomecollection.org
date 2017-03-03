@@ -9,9 +9,6 @@
 {% block body %}
 {% component 'page-description', { title: article.headline, meta: { type: 'date', value: article.datePublished | formatDate }, modifiers: ['a'], lead: true } %}
 
-
-  series {{ article.series[0].commissionedLength }}
-
 {% if article.series[0] and article.series[0].commissionedLength %}
   {% component 'async', { endpoint: '/series-nav/' + article.series[0].url, placeholderClassname: 'series-nav-placeholder' } %}
 {% endif %}
