@@ -6,7 +6,7 @@ import {type Series} from "../model/series";
 import {ArticleFactory} from '../model/article';
 
 
-export type PostsResponse = {|
+export type ArticleStubsResponse = {|
   length: number;
   total: number;
   data: List<ArticleStub>;
@@ -14,11 +14,12 @@ export type PostsResponse = {|
 
 const baseUri = 'https://public-api.wordpress.com/rest/v1.1/sites/blog.wellcomecollection.org';
 
-export async function getPosts(size: number = 20, q: {category?:string}): Promise<PostsResponse> {
+export async function getArticleStubs(size: number = 20, q: {category?:string}, page: number = 1): Promise<ArticleStubsResponse> {
   const uri = `${baseUri}/posts/`;
   const response = await request(uri).query(Object.assign({}, {
     fields: 'slug,title,excerpt,post_thumbnail,date,categories',
-    number: size
+    number: size,
+    page
   }, q));
 
   const posts: List<ArticleStub> = List(response.body.posts).map(post => {
@@ -43,8 +44,8 @@ export async function getArticle(id: string, authToken: ?string = null) {
 }
 
 
-export async function getSeries(id: string, page: number): Series {
-  const posts = await getPosts(32, {category: id}, page);
+export async function getSeries(id: string, size: number, page: number): Series {
+  const posts = await getArticleStubs(size, {category: id}, page);
   const {total} = posts;
   const items = posts.data;
   // TODO: What a fudge !_!

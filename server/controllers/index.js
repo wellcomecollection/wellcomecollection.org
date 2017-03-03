@@ -1,7 +1,7 @@
 // TODO: FlowType this module
 import {type Promo} from '../model/promo';
 import {createPageConfig} from '../model/page-config';
-import {getPosts, getArticle, getSeries} from '../services/wordpress';
+import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
 import {type Series, getForwardFill, getSeriesCommissionedLength} from '../model/series';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from "../model/pagination";
@@ -30,23 +30,22 @@ export const article = async(ctx, next) => {
 
 export const articles = async(ctx, next) => {
   const {page} = ctx.request.query;
-  const wpPosts = await getPosts(32);
-  const items = mapArticleStubsToPromos(wpPosts.data, 'default');
-  const {total} = wpPosts;
+  const articleStubsResponse = await getArticleStubs(32, {}, page);
   const series: Series = {
     url: '/articles',
     name: 'Articles',
-    total,
-    items
+    items: articleStubsResponse.data,
+    total: articleStubsResponse.total
   };
-  const pagination = getSeriesPagination(series, parseInt(page, 10) || 1);
+  const promoList = PromoListFactory.fromSeries(series);
+  const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1);
 
   ctx.render('pages/list', {
     pageConfig: createPageConfig({
       title: 'Articles',
       inSection: 'explore'
     }),
-    list: series,
+    list: promoList,
     pagination
   });
 
@@ -55,7 +54,7 @@ export const articles = async(ctx, next) => {
 
 export const series = async(ctx, next) => {
   const {id, page} = ctx.params;
-  const series = await getSeries(id, page);
+  const series = await getSeries(id, 32, page);
   const promoList = PromoListFactory.fromSeries(series);
   const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1);
 
@@ -74,7 +73,7 @@ export const series = async(ctx, next) => {
 export const seriesNav = async(ctx, next) => {
   const {id} = ctx.params;
   const {current} = ctx.request.query;
-  const wpPosts = await getPosts(6, {category: id});
+  const wpPosts = await getArticleStubs(6, {category: id});
   const items = mapArticleStubsToPromos(wpPosts.data, 'default');
 
   // TODO: So So nasty
@@ -102,7 +101,7 @@ export const seriesNav = async(ctx, next) => {
 };
 
 export const explore = async(ctx, next) => {
-  const wpPosts = await getPosts(50);
+  const wpPosts = await getArticleStubs(50);
 
   const grouped = wpPosts.data.groupBy(post => post.headline.indexOf('A drop in the ocean:') === 0);
   const theRest = grouped.first();
