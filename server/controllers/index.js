@@ -73,24 +73,14 @@ export const series = async(ctx, next) => {
 export const seriesNav = async(ctx, next) => {
   const {id} = ctx.params;
   const {current} = ctx.request.query;
-  const wpPosts = await getArticleStubs(6, {category: id});
-  const items = mapArticleStubsToPromos(wpPosts.data, 'default');
-
-  // TODO: So So nasty
-  const {name, description} = wpPosts.data.first().series[0];
-  const {total} = wpPosts;
-  const series: Series = {
-    url: id,
-    name,
-    description,
-    total,
-    items,
-    commissionedLength: getSeriesCommissionedLength(id)
-  };
+  const series = await getSeries(id, 6, 1);
+  const promoList = PromoListFactory.fromSeries(series);
+  // TODO: Commissioned length
+  // TODO: Forward fill
 
   ctx.render('components/series-nav/index', {
     current,
-    list: series,
+    list: promoList,
   });
 
   ctx.body = {
