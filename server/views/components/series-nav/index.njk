@@ -1,0 +1,7 @@
+<div class="series-nav">
+  {% for item in list.items.toJS() %}
+    <div class="series__item{{ " series__item--selected" if current == item.article.url  }}">
+      {{ item.article.headline }}
+    </div>
+  {% endfor %}
+</div>

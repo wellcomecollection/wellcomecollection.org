@@ -3,7 +3,7 @@ import entities from 'entities';
 import {type Person} from './person';
 import {type Picture} from './picture';
 import {type ContentType} from './content-type';
-import {type ArticleSeries} from './series';
+import {type ArticleSeries, getSeriesCommissionedLength} from './series';
 import {getWpFeaturedImage} from './media';
 import {bodyParser} from '../util/body-parser';
 import {authorMap} from '../services/author-lookup';
@@ -46,6 +46,15 @@ export class ArticleFactory {
     } : null;
 
     const author = authorMap[json.slug];
+    const series: Array<ArticleSeries> = Object.keys(json.categories).map(catKey => {
+      const cat = json.categories[catKey];
+      return {
+        url: cat.slug,
+        name: cat.name,
+        description: cat.description,
+        commissionedLength: getSeriesCommissionedLength(cat.slug)
+      };
+    });
 
     const bodyParts = bodyParser(articleBody);
     const standfirst = bodyParts.find(part => part.type === 'standfirst');
@@ -62,7 +71,8 @@ export class ArticleFactory {
       articleBody: articleBody,
       associatedMedia: [mainImage],
       author: author,
-      bodyParts: bodyParts
+      bodyParts: bodyParts,
+      series: series
     };
 
     return article;

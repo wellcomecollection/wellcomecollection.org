@@ -1,5 +1,7 @@
 /* global Raven */
 import 'core-js/fn/object/assign';
+import 'whatwg-fetch';
+import lazysizes from 'lazysizes';
 
 import { nodeList } from './util';
 import headerBurger from './components/header/burger';
@@ -9,10 +11,12 @@ import wobblyEdge from './components/wobbly-edge';
 import cookieNotification from './components/cookie-notification';
 import preventOverlapping from './components/prevent-overlapping';
 import makeSticky from './components/make-sticky.js';
-import lazysizes from 'lazysizes';
 import instagram from './components/instagram';
+import asynContent from './components/async-content';
 
 const init = () => {
+  nodeList(document.querySelectorAll('.async-content')).forEach(asynContent);
+
   lazysizes.init();
   instagram.init();
 

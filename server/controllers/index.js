@@ -2,7 +2,7 @@
 import {type Promo} from '../model/promo';
 import {createPageConfig} from '../model/page-config';
 import {getPosts, getArticle} from '../services/wordpress';
-import {Series} from "../model/series";
+import {type Series, getForwardFill, getSeriesCommissionedLength} from '../model/series';
 
 export const article = async(ctx, next) => {
   const slug = ctx.params.slug;
@@ -76,6 +76,38 @@ export const series = async(ctx, next) => {
     list: series,
     pagination
   });
+
+  return next();
+};
+
+export const seriesNav = async(ctx, next) => {
+  const {id} = ctx.params;
+  const {current} = ctx.request.query;
+  const wpPosts = await getPosts(6, {category: id});
+  const items = mapArticleStubsToPromos(wpPosts.data, 'default');
+
+  // TODO: So So nasty
+  const {name, description} = wpPosts.data.first().series[0];
+  const {total} = wpPosts;
+  const series: Series = {
+    url: id,
+    name,
+    description,
+    total,
+    items,
+    commissionedLength: getSeriesCommissionedLength(id)
+  };
+
+  const b = getForwardFill(series);
+
+  ctx.render('components/series-nav/index', {
+    current,
+    list: series,
+  });
+
+  ctx.body = {
+    html: ctx.body
+  };
 
   return next();
 };
