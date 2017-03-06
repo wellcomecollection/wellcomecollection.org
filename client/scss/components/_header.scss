@@ -94,6 +94,10 @@ $tweakpoints: (
   padding-left: map-get($container-padding, 'small') + map-get($gutter-width, 'small');
   padding-right: map-get($container-padding, 'small');
 
+  @include respond-between('small', 'header-medium') {
+    border-top: 1px solid color('keyline-grey');
+  }
+
   @include respond-to('medium') {
     padding-left: map-get($container-padding, 'medium') + map-get($gutter-width, 'medium');
     padding-right: map-get($container-padding, 'medium');
