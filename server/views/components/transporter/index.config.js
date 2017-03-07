@@ -11,9 +11,10 @@ export const display = {
   background: '#eeebe2'
 };
 
+const articleWithoutDescription = Object.assign({}, article, {description: ''});
 const promo = createPromo({
   modifiers: ['transporter-child'],
-  article: article,
+  article: articleWithoutDescription,
   meta: {
     type: 'article',
     date: '2 days ago'
