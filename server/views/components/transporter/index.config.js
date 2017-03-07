@@ -16,8 +16,7 @@ const promo = createPromo({
   modifiers: ['transporter-child'],
   article: articleWithoutDescription,
   meta: {
-    type: 'article',
-    date: '2 days ago'
+    type: 'article'
   }
 });
 
