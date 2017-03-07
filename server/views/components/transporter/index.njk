@@ -12,7 +12,12 @@
     {% endif %}
     {% for promo in promos %}
     <div class="{{ {s:4, m:8} | gridClasses }} transporter__item">
-      {% component 'promo', {headingLevel: promo.headingLevel, modifiers: promo.modifiers.concat(['large-text']) if (promos.length <= 4) else promo.modifiers,  url: promo.url, image: promo.image, meta: promo.meta, title: promo.title, copy: promo.copy} %}
+      {% set promoModel = {
+        modifiers: promo.modifiers.concat('large-text') if (promos.length <= 4) else promo.modifiers,
+        article: promo.article,
+        meta: promo.meta
+      } %}
+      {% component 'promo', { promo: promoModel } %}
     </div>
     {% endfor %}
   </div>
