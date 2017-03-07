@@ -7,9 +7,6 @@ const article = ArticleStubFactory.fromWpApi(mockJson);
 export const name = 'Transporter';
 export const handle = 'transporter';
 export const collated = true;
-export const display = {
-  background: '#eeebe2'
-};
 
 const articleWithoutDescription = Object.assign({}, article, {description: ''});
 const promo = createPromo({

@@ -1,16 +1,7 @@
 .transporter {
   background: color('white');
-  border-radius: $border-radius-unit;
-  padding: $vertical-space-unit map-get($gutter-width, 'small');
   margin-bottom: $vertical-space-unit;
-
-  @include respond-to('medium') {
-    padding: $vertical-space-unit map-get($gutter-width, 'medium');
-  }
-
-  @include respond-to('large') {
-    padding: $vertical-space-unit map-get($gutter-width, 'large');
-  }
+  border-bottom: 2px solid color('black');
 }
 
 .transporter__item:first-child:last-child {

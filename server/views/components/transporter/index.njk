@@ -2,7 +2,7 @@
   {% if type !== 'theme' %}
   <h2 class="transporter__title">{{ title }}</h2>
   {% endif %}
-  <div class="grid">
+  <div class="grid grid--dividers">
     {% if type === 'theme' %}
     <div class="{{ {s:4, m:8, l:3} | gridClasses }} transporter__item">
       <p class="transporter__more">More from this theme</p>
