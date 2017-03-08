@@ -1,7 +1,9 @@
 import { nodeList, featureTest } from '../util';
 import debounce from 'lodash.debounce';
 import Hammer from 'hammerjs';
+// TODO all visible slides should have aria-hidden changed to false
 // TODO if slidesWidth <= containerWidth get rid of buttons etc., poss. destroy function, opposite of setup
+// TODO create a reversed position array for use with previous?
 const contentSlider = (el, options) => {
   if (!featureTest('transform', 'translateX(0px)') && !featureTest('transition', 'transform 0.3s ease')) return;
   // Establish settings
@@ -169,7 +171,7 @@ const contentSlider = (el, options) => {
     }
   }
 
-  function changeCurrentItemClass(items, n, className) {
+  function changeCurrentItemsStatus(items, n, className) { //get widths from n, if they fit in container, then they're current
     removeClass(className, items[n].parentNode);
     addAttrToElements(sliderElements.slideItems, 'aria-hidden', 'true');
     addClass(items[n], className);
@@ -195,7 +197,7 @@ const contentSlider = (el, options) => {
       positionIndex = n;
     }
     changePosition(positionIndex, positionArray, settings.speed);
-    changeCurrentItemClass(sliderElements.slideItems, positionIndex, classes.currentItem);
+    changeCurrentItemsStatus(sliderElements.slideItems, positionIndex, classes.currentItem);
     changeInactiveControlClass(sliderElements.prevControl, sliderElements.nextControl, positionIndex, positionArray, classes.sliderControlInActive);
   };
 
