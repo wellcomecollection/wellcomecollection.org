@@ -14,6 +14,7 @@ import makeSticky from './components/make-sticky.js';
 import instagram from './components/instagram';
 import asynContent from './components/async-content';
 import shrinkStoriesNav from './components/shrink-stories-nav';
+import contentSlider from './components/content-slider';
 
 const init = () => {
   nodeList(document.querySelectorAll('.async-content')).forEach(asynContent);
@@ -29,6 +30,7 @@ const init = () => {
   const overlappingEls = document.querySelectorAll('.js-sticky, .js-full-width');
   const stickyEls = document.querySelectorAll('.js-sticky');
   const seriesNav = document.querySelector('.js-series-nav');
+  const sliders = document.querySelectorAll('.js-series-slider');
 
   nodeList(wobblyEdgeEls).forEach((el) => wobblyEdge(el));
 
@@ -55,19 +57,34 @@ const init = () => {
   if (stickyEls) {
     makeSticky(stickyEls);
   }
+
+  if (seriesNav) {
+    shrinkStoriesNav(seriesNav);
+  }
+
+  if (sliders) {
+    sliders.forEach(function(e) {
+      contentSlider(e, {
+        transitionSpeed: 0.7,
+        startPosition: 0,
+        cssPrefix: 'numbered-list__'
+      });
+    });
+  }
 };
 
-function initWithRaven() {
-  try {
-    init();
-  } catch (e) {
-    Raven.captureException(e);
-    throw e;
-  }
-}
+// function initWithRaven() {
+//   try {
+//     init();
+//   } catch (e) {
+//     Raven.captureException(e);
+//     throw e;
+//   }
+// }
 
 if (document.readyState !== 'loading') {
-  initWithRaven();
+  // initWithRaven();
+  init();
 } else {
-  document.addEventListener('DOMContentLoaded', initWithRaven);
+  document.addEventListener('DOMContentLoaded', init); //initWithRaven
 }
