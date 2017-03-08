@@ -1,9 +1,6 @@
 import { nodeList, featureTest } from '../util';
 import debounce from 'lodash.debounce';
 import Hammer from 'hammerjs';
-// TODO - accessibility (aria-labels) 1hr
-// Test with voiceOver
-// TODO - cross browser testing
 // TODO if slidesWidth <= containerWidth get rid of buttons etc., poss. destroy function, opposite of setup
 const contentSlider = (el, options) => {
   if (!featureTest('transform', 'translateX(0px)') && !featureTest('transition', 'transform 0.3s ease')) return;
@@ -57,6 +54,15 @@ const contentSlider = (el, options) => {
     sliderElements.nextControl.className = classes.nextControl;
     addClassToElements(sliderElements.slideItems, classes.sliderItem);
 
+    // Add ARIA attributes
+    sliderElements.slidesContainer.setAttribute('aria-live', 'polite');
+    sliderElements.slidesContainer.setAttribute('aria-label', 'carousel');
+    sliderElements.prevControl.setAttribute('aria-controls', sliderElements.slidesContainer.getAttribute('id'));
+    sliderElements.prevControl.setAttribute('aria-label', 'previous item');
+    sliderElements.nextControl.setAttribute('aria-controls', sliderElements.slidesContainer.getAttribute('id'));
+    sliderElements.nextControl.setAttribute('aria-label', 'next item');
+    addAttrToElements(sliderElements.slideItems, 'aria-hidden', 'true');
+
     // Place slider elements into DOM
     sliderElements.slidesContainer.parentNode.insertBefore(sliderElements.slider, sliderElements.slidesContainer);
     sliderElements.slider.appendChild(sliderElements.slidesContainer);
@@ -73,7 +79,7 @@ const contentSlider = (el, options) => {
     sliderElements.slidesContainer.style.OTransition =
     sliderElements.slidesContainer.Transition = `transform ${settings.transitionSpeed}s ease`;
 
-    addIndexToSlides(sliderElements.slideItems, indexAttr);
+    addAttrToElements(sliderElements.slideItems, indexAttr);
     calculateDimensions();
     updatePosition(positionIndex, positionArray);
   }
@@ -97,10 +103,12 @@ const contentSlider = (el, options) => {
     });
   }
 
-  function addIndexToSlides(elements, attr) {
-    nodeList(elements).forEach(function(e, i) {
-      e.setAttribute(attr, i);
-    });
+  function addAttrToElements(elements, attr, value) {
+    if (elements.forEach) {
+      nodeList(elements).forEach(function(e, i) {
+        e.setAttribute(attr, value || i);
+      });
+    }
   }
 
   function createWidthArray(slidesArray) {
@@ -163,7 +171,9 @@ const contentSlider = (el, options) => {
 
   function changeCurrentItemClass(items, n, className) {
     removeClass(className, items[n].parentNode);
+    addAttrToElements(sliderElements.slideItems, 'aria-hidden', 'true');
     addClass(items[n], className);
+    items[n].setAttribute('aria-hidden', 'false');
   }
 
   function changeInactiveControlClass(prevControl, nextControl, n, items, className) {
