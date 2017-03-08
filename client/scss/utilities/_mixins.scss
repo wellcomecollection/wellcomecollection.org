@@ -200,7 +200,9 @@
 
   .#{$prefix}slider-control--inactive {
     opacity: 0.5;
-    cursor: default;
+    // stylelint-disable declaration-no-important
+    cursor: default !important;
+    // stylelint-enable declaration-no-important
   }
 }
 
