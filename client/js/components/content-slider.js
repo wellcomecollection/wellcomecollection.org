@@ -1,8 +1,8 @@
-import { featureTest } from '../util';
+import { nodeList, featureTest } from '../util';
 import debounce from 'lodash.debounce';
 import Hammer from 'hammerjs';
-// TODo - get startPosition from data-current?
 // TODO - accessibility (aria-labels) 1hr
+// Test with voiceOver
 // TODO - cross browser testing
 // TODO if slidesWidth <= containerWidth get rid of buttons etc., poss. destroy function, opposite of setup
 const contentSlider = (el, options) => {
@@ -92,20 +92,20 @@ const contentSlider = (el, options) => {
   }
 
   function addClassToElements(elements, className) {
-    elements.forEach(function(e) {
+    nodeList(elements).forEach(function(e) {
       e.classList.add(className);
     });
   }
 
   function addIndexToSlides(elements, attr) {
-    elements.forEach(function(e, i) {
+    nodeList(elements).forEach(function(e, i) {
       e.setAttribute(attr, i);
     });
   }
 
   function createWidthArray(slidesArray) {
     const widthArray = [];
-    slidesArray.forEach((e, i) => {
+    nodeList(slidesArray).forEach((e, i) => {
       const elementWidth = e.getBoundingClientRect().width;
       widthArray.push(elementWidth);
     });
