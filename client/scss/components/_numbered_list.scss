@@ -45,17 +45,6 @@ $numbered-list-number-size: 96px;
 .numbered-list__item--inactive {
   background: color('smoke');
   border-color: color('white');
-  padding: 1rem 1.2rem;
-
-  @include container-query(('l': ('4'))) {
-    padding: 1.5rem 2rem;
-  }
-
-  min-height: calc(#{$numbered-list-number-size} + 0.2rem);
-
-  @include container-query(('l': ('4'))) {
-    min-height: calc(#{$numbered-list-number-size} + 1.6rem);
-  }
 
   .numbered-list__number {
     color: color('white');
@@ -91,7 +80,8 @@ $numbered-list-number-size: 96px;
   }
 }
 
-.numbered-list__link {
+.numbered-list__link,
+.numbered-list__link-surrogate {
   position: relative;
   z-index: 1;
   text-decoration: none;
