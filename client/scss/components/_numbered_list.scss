@@ -239,6 +239,7 @@ $numbered-list-number-size: 96px;
   border: 1px solid color('smoke');
   border-width: 1px;
   background: color('white');
+  min-height: 40px;
 
   @include respond-to('medium') {
     flex-direction: column;
