@@ -55,6 +55,11 @@
   }
 
   .promo--transporter-child & {
+    @include container-query(('s': ('4'))) {
+      width: percentage(118 / 316);
+      margin-bottom: 0;
+    }
+
     @include container-query(('m': ('8'))) {
       order: 0;
       width: percentage(1 / 3);
@@ -246,6 +251,10 @@
   }
 
   .promo--transporter-child & {
+    @include container-query(('s': ('4'))) {
+      padding-left: map-get($gutter-width, 'small');
+    }
+
     @include container-query(('m': ('8'))) {
       padding-right: 0;
       padding-left: map-get($gutter-width, 'medium');
@@ -311,19 +320,6 @@
     padding-bottom: $vertical-space-unit;
     border-bottom: 1px solid color('smoke');
     margin-bottom: $vertical-space-unit;
-  }
-
-  .promo__image-container {
-    @include container-query(('s': ('4'))) {
-      width: percentage(118 / 316);
-      margin-bottom: 0;
-    }
-  }
-
-  .promo__description {
-    @include container-query(('s': ('4'))) {
-      padding-left: map-get($gutter-width, 'small');
-    }
   }
 
   .promo__type {
