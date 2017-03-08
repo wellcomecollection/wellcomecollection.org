@@ -3,7 +3,7 @@
 {% block body %}
   {% component 'page-description', { title: 'Explore', modifiers: ['hidden'] } %}
 
-  <div class="row row--no-bottom-padding row--cream row--has-wobbly-background">
+  <div class="row row--cream row--has-wobbly-background padding-top-10">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:4, m:8, l:12, xl:12} | gridClasses }}">
@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row padding-top-10">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:4, m:4, l:12, xl:12} | gridClasses }}">
@@ -51,7 +51,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row padding-top-10">
     {% component 'promo', { promo: standaloneArticlePromo } %}
   </div>
 

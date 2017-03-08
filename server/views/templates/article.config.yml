@@ -2,6 +2,11 @@ name: Article
 handle: article-template
 context:
   inSection: explore
+<<<<<<< Updated upstream
+=======
+  transporter: "@transporter--theme"
+  promo: "@promo.promo"
+>>>>>>> Stashed changes
   article:
     headline: How cultural contexts can shape mental illness
     tags: "@tags.tags"

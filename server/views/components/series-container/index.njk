@@ -1,18 +1,18 @@
-<div class="row">
+<div class="row padding-top-10">
   <div class="container">
     <div class="grid">
       <div class="{{ {s:4, m:8, l:12, xl: 12} | gridClasses }}">
-        <h2 class="heading--large v-margin-0">{{ model.name }}</h2>
+        <h2 class="heading--large margin-top-0 margin-bottom-0">{{ model.name }}</h2>
       </div>
       <div class="{{ {s:4, m:8, l:8} | gridClasses }}">
-        <p class="v-margin-0">{{ model.description }}</p>
+        <p class="margin-top-0 margin-bottom-0">{{ model.description }}</p>
         {% componentV2 'more-info-link', model %}
       </div>
     </div>
   </div>
 </div>
 
-<div class="row row--small-top-padding">
+<div class="row padding-top-4">
   <div class="container container--scroll touch-scroll">
     <div class="grid grid--dividers grid--scroll grid--theme-{{ model.items.size if model.items.size < 8 else '8' }}">
       {% for promo in model.items.take(8).toJS() %}
@@ -23,7 +23,7 @@
     </div>
   </div>
   <div class="container container--no-collape">
-    <hr class="divider divider--thick" />
+    <hr class="divider divider--thick divider--black margin-bottom-5" />
   </div>
 </div>
 

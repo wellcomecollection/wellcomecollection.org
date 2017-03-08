@@ -1,23 +1,23 @@
 {% extends 'layout/default.njk' %}
 
 {% block body %}
-  <div class="row row--cream">
+  <div class="row row--cream padding-top-10">
     <div class="container">
       <div class="grid">
         <div class="grid__cell">
-          <h1 class="heading--large v-margin-0">{{ list.name }}</h1>
+          <h1 class="heading--large margin-top-0 margin-bottom-0">{{ list.name }}</h1>
         </div>
       </div>
 
       <div class="grid">
         <div class="{{ {s: 4, m: 8, l: 8} | gridClasses }}">
-          <p class="v-margin-0 top-margin-s">{{ list.description }}</p>
+          <p class="margin-bottom-0 margin-top-2">{{ list.description }}</p>
         </div>
       </div>
 
       <div class="grid">
         <div class="grid__cell">
-          <p class="text--meta v-margin-s">{{ list.total }} articles</p>
+          <p class="text--meta margin-top-2 margin-bottom-2">{{ list.total }} articles</p>
         </div>
       </div>
 
@@ -28,7 +28,7 @@
     <div class="container">
       <div class="grid">
         <div class="{{ {s:4, m:8, l:12} | gridClasses }}">
-          <div class="v-padding-m keyline-b text--meta flex flex--center">
+          <div class="padding-top-5 padding-bottom-5 keyline-b text--meta flex flex--center">
             {{ pagination.range.beginning }} - {{ pagination.range.end }}
           </div>
         </div>
@@ -36,7 +36,7 @@
     </div>
   </div>
 
-  <div class="row row--small-top-padding">
+  <div class="row padding-top-4">
     <div class="container">
       <div class="grid">
         {% for promo in list.items.toJS() %}
@@ -48,7 +48,7 @@
     </div>
   </div>
 
-  <div class="row row--last">
+  <div class="row padding-top-10 padding-bottom-10">
     <div class="container">
       <div class="grid">
         <div class="grid__cell">

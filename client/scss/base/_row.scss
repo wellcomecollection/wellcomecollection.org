@@ -1,11 +1,14 @@
 //* @define row
 
 .row {
-  padding-top: $v-spacing-unit * 5;
-
-  @include respond-to('medium') {
-    padding-top: $v-spacing-unit * 10;
+  @include respond-between('small', 'medium') {
+    padding-top: $v-spacing-unit * 5;
   }
+}
+
+.row--no-padding {
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .row--dark-black {
@@ -18,20 +21,6 @@
 
 .row--yellow {
   background: color('yellow');
-}
-
-.row--no-padding {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-.row--small-top-padding {
-  padding-top: $v-spacing-unit * 4;
-}
-
-.row--text-bar {
-  padding-top: $v-spacing-unit * 3;
-  padding-bottom: $v-spacing-unit * 3;
 }
 
 .row--lead {
@@ -91,12 +80,4 @@
     background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMTAwMCAxMDAiPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik0wLDFsMTQyLjgsNTguMmMwLDAsNzQuNi0zNS43LDE2Ny00NC41YzAsMCwyMDEuMSw0Mi45LDI2MS45LDY4LjJTODgyLjksMTUsODgyLjksMTVMMTAwMCwxSDB6Ii8+PC9zdmc+');
     background-size: cover;
   }
-}
-
-.row--extra-top-padding {
-  padding-top: $v-spacing-unit * 10;
-}
-
-.row--last {
-  padding-bottom: $spacing-unit * 10;
 }
