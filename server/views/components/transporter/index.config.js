@@ -26,7 +26,7 @@ export const context = transporter;
 
 export const variants = [
   {
-    name: 'Theme transporter',
+    name: 'theme',
     context: Object.assign({}, transporter, {
       type: 'theme',
       title: 'Mind control',
