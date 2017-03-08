@@ -30,7 +30,7 @@ const init = () => {
   const overlappingEls = document.querySelectorAll('.js-sticky, .js-full-width');
   const stickyEls = document.querySelectorAll('.js-sticky');
   const seriesNav = document.querySelector('.js-series-nav');
-  const sliders = document.querySelectorAll('.js-series-slider');
+  const seriesSlider = document.querySelector('.js-series-slider');
 
   nodeList(wobblyEdgeEls).forEach((el) => wobblyEdge(el));
 
@@ -62,13 +62,11 @@ const init = () => {
     shrinkStoriesNav(seriesNav);
   }
 
-  if (sliders) {
-    sliders.forEach(function(e) {
-      contentSlider(e, {
-        transitionSpeed: 0.7,
-        startPosition: 0,
-        cssPrefix: 'numbered-list__'
-      });
+  if (seriesSlider) {
+    contentSlider(seriesSlider, {
+      transitionSpeed: 0.7,
+      startPosition: 0,
+      cssPrefix: 'numbered-list__'
     });
   }
 };
