@@ -1,13 +1,13 @@
-<div class="numbered-list{% for modifier in modifiers %} numbered-list--{{modifier}}{% endfor %}">
+<div class="numbered-list{% for modifier in modifiers %} numbered-list--{{modifier}}{% endfor %} {% for class in data.classes %} {{class}}{% endfor %}">
   <header class="numbered-list__header">
     <h2 class="numbered-list__heading">{{ model.name }}</h2>
   </header>
-  <ol class="numbered-list__list">
-    {% for item in model.items %}
-      <li class="numbered-list__item {{ 'numbered-list__item--inactive' if not item.url }}">
+  <ol class="numbered-list__list js-series-slider">
+    {% for item in model.items -%}
+      <li class="numbered-list__item {{ 'numbered-list__item--inactive' if not item.url }}"> {#//TODO have nested span instead of link and remove this#}
         <span class="numbered-list__number" aria-hidden="true">{{ loop.index }}</span>
       {% if item.url %}
-        <a href="{{ item.url }}" class="numbered-list__link">
+        <a href="{{ item.url }}" class="numbered-list__link">{#//TODO have nested span instead of link with it's own class#}
       {% endif %}
           <h3 class="numbered-list__title">{{ item.title }}</h3>
           <p class="numbered-list__date">{{ item.date | formatDate }}</p>
@@ -15,6 +15,32 @@
         </a>
       {% endif %}
       </li>
-    {% endfor %}
+    {%- endfor %}
+        {% for item in model.items -%}
+      <li class="numbered-list__item {{ 'numbered-list__item--inactive' if not item.url }}"> {#//TODO have nested span instead of link and remove this#}
+        <span class="numbered-list__number" aria-hidden="true">{{ loop.index }}</span>
+      {% if item.url %}
+        <a href="{{ item.url }}" class="numbered-list__link">{#//TODO have nested span instead of link with it's own class#}
+      {% endif %}
+          <h3 class="numbered-list__title">{{ item.title }}</h3>
+          <p class="numbered-list__date">{{ item.date | formatDate }}</p>
+      {% if item.url %}
+        </a>
+      {% endif %}
+      </li>
+    {%- endfor %}
+        {% for item in model.items -%}
+      <li class="numbered-list__item {{ 'numbered-list__item--inactive' if not item.url }}"> {#//TODO have nested span instead of link and remove this#}
+        <span class="numbered-list__number" aria-hidden="true">{{ loop.index }}</span>
+      {% if item.url %}
+        <a href="{{ item.url }}" class="numbered-list__link">{#//TODO have nested span instead of link with it's own class#}
+      {% endif %}
+          <h3 class="numbered-list__title">{{ item.title }}</h3>
+          <p class="numbered-list__date">{{ item.date | formatDate }}</p>
+      {% if item.url %}
+        </a>
+      {% endif %}
+      </li>
+    {%- endfor %}
   </ol>
 </div>
