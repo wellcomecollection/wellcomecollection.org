@@ -1,4 +1,4 @@
-/* global Raven */
+// /* global Raven */
 import 'core-js/fn/object/assign';
 import 'whatwg-fetch';
 import lazysizes from 'lazysizes';
@@ -86,5 +86,5 @@ if (document.readyState !== 'loading') {
   // initWithRaven();
   init();
 } else {
-  document.addEventListener('DOMContentLoaded', init); //initWithRaven
+  document.addEventListener('DOMContentLoaded', init); // initWithRaven
 }
