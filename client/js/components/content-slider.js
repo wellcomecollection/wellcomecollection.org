@@ -1,6 +1,6 @@
 import { featureTest } from '../util';
 import debounce from 'lodash.debounce';
-// TODO add touch stuff
+import Hammer from 'hammerjs';
 // TODo - get startPosition from data-current?
 // TODO - accessibility (aria-labels) 1hr
 // TODO - cross browser testing
@@ -38,6 +38,7 @@ const contentSlider = (el, options) => {
     sliderControlInActive: `${settings.cssPrefix}slider-control--inactive`
   };
   // Define vars
+  const sliderTouch = new Hammer(sliderElements.slidesContainer);
   const indexAttr = 'data-slide-index';
   let containerWidth;
   let slidesWidthArray;
@@ -214,8 +215,14 @@ const contentSlider = (el, options) => {
   }
 
   setup();
+
+  // Handle click
   sliderElements.prevControl.addEventListener('click', prevSlide, true);
   sliderElements.nextControl.addEventListener('click', nextSlide, true);
+
+  // Handle touch
+  sliderTouch.on('swiperight', prevSlide);
+  sliderTouch.on('swipeleft', nextSlide);
 
   // Handle tabbing onto elements contained inside a slide
   sliderElements.slidesContainer.addEventListener('focus', function(event) {
