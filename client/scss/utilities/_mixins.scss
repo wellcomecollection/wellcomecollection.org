@@ -187,6 +187,23 @@
   }
 }
 
+@mixin slider ($prefix: '') {
+  .#{$prefix}slider {
+    overflow: hidden;
+  }
+
+  .#{$prefix}slides-container {
+    // stylelint-disable declaration-no-important
+    overflow: visible !important;
+    // stylelint-enable declaration-no-important
+  }
+
+  .#{$prefix}slider-control--inactive {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
 @mixin image-zoom ($interactionElement, $containerElement, $zoomElement) {
   #{$containerElement} {
     transform: translateZ(0); // Fixes scale/border-radius overflow bug: http://stackoverflow.com/a/31686781

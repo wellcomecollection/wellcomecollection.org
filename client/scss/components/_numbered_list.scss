@@ -1,5 +1,5 @@
 //* @define numbered-list
-
+// TODO styling - arrows and bit of a tidy
 $numbered-list-number-size: 96px;
 
 .numbered-list {
@@ -32,6 +32,7 @@ $numbered-list-number-size: 96px;
 }
 
 .numbered-list__item {
+  background-color: color('white');
   border: 1px solid color('smoke');
   border-width: 0 0 1px;
   position: relative;
@@ -142,8 +143,8 @@ $numbered-list-number-size: 96px;
   .numbered-list__list {
     display: flex;
     flex-wrap: nowrap;
-    overflow: auto;
     border-radius: 0;
+    overflow: auto;
   }
 
   .numbered-list__item {
@@ -225,3 +226,54 @@ $numbered-list-number-size: 96px;
   position: sticky;
   top: 0;
 }
+
+// javascript slider styles
+@include slider('numbered-list__');
+
+.numbered-list__slider {
+  border: 1px solid color('smoke');
+  border-width: 1px 0;
+}
+
+.numbered-list__slides-container {
+  border: 0;
+}
+
+.numbered-list__slider-controls {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid color('smoke');
+
+  .numbered-list--horizontal-narrow & {
+    flex-direction: row;
+  }
+}
+
+.numbered-list__slider-control--prev,
+.numbered-list__slider-control--next {
+  height: 50%;
+  width: 50px;
+  cursor: pointer;
+  background: color('white');
+  outline: none;
+  overflow: hidden;
+  border: 0;
+
+  // &:focus {
+  //   background: color('smoke');
+  // }
+
+  .numbered-list--horizontal-narrow & {
+    height: 100%;
+  }
+}
+
+.numbered-list__slider-control--prev {
+  border: 1px solid color('smoke');
+  border-width: 0 0 1px;
+
+  .numbered-list--horizontal-narrow & {
+    border-width: 0 1px 0 0;
+  }
+}
+
