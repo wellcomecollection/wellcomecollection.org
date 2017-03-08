@@ -1,17 +1,8 @@
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
 <div class="numbered-list{% for modifier in modifiers %} numbered-list--{{modifier}}{% endfor %} {% for class in data.classes %} {{class}}{% endfor %}">
   <header class="numbered-list__header">
     <h2 class="numbered-list__heading">{{ model.name }}</h2>
   </header>
-  <ol class="numbered-list__list js-series-slider">
+  <ol class="numbered-list__list js-series-slider"{% if data.sliderId %} id="{{data.sliderId}}" {% endif %}>
     {% for item in model.items -%}
       <li class="numbered-list__item {{ 'numbered-list__item--inactive' if not item.url }}">
         <span class="numbered-list__number" aria-hidden="true">{{ loop.index }}</span>
@@ -29,38 +20,3 @@
     {%- endfor %}
   </ol>
 </div>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
