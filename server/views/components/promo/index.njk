@@ -54,7 +54,7 @@
   </div>
 
   {% if promo.modifiers and promo.modifiers | contains('standalone') %}
-    <div class="row row--cream padding-top-10">
+    <div class="row row--cream {{ {s:10, m:10, l:10} | spacingClasses('padding', 'top') }} ">
       <div class="container">
         <div class="grid">
           <div class="{{ {l:10, shiftL:1, m:6, shiftM:1, s:4} | gridClasses }}">

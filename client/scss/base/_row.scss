@@ -1,16 +1,5 @@
 //* @define row
 
-.row {
-  @include respond-between('small', 'medium') {
-    padding-top: $v-spacing-unit * 5;
-  }
-}
-
-.row--no-padding {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
 .row--dark-black {
   background: color('dark-black');
 }
