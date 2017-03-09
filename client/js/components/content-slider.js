@@ -37,14 +37,16 @@ const contentSlider = (el, options) => {
   };
   // Define vars
   const sliderTouch = new Hammer(sliderElements.slidesContainer);
-  const indexAttr = 'data-slide-index';
+  const indexAttr = 'data-slide-index'; // Added to slide items to help with tabbing
   let containerWidth;
   let slidesWidthArray;
+  let slidesWidthArrayInverted;
   let slidesCombinedWidth;
-  let positionArrayBySlide;
-  let positionArrayByContainer;
+  let positionArrayBySlide; // An array of positions if we move the slider by the width of each slide
+  let positionArrayByContainer; // An array of positions if we move the slider by the width of the container
+  let positionArrayByContainerInverted;
   let positionIndex = settings.startPosition;
-  let positionArray;
+  let positionArray; // Holds either positionArrayBySlide or positionArrayByContainer depending on settings
 
   function setup() {
     // Add classes
@@ -53,9 +55,9 @@ const contentSlider = (el, options) => {
     sliderElements.sliderControls.className = classes.sliderControls;
     sliderElements.prevControl.className = classes.prevControl;
     sliderElements.nextControl.className = classes.nextControl;
-    addClassToElements(sliderElements.slideItems, classes.sliderItem);
+    addClassesToElements(sliderElements.slideItems, classes.sliderItem);
 
-    // Add attributes
+    // Add ARIA attributes
     sliderElements.slidesContainer.setAttribute('aria-live', 'polite');
     sliderElements.slidesContainer.setAttribute('aria-label', 'carousel');
     sliderElements.prevControl.setAttribute('aria-controls', sliderElements.slidesContainer.getAttribute('id'));
@@ -72,61 +74,32 @@ const contentSlider = (el, options) => {
     sliderElements.prevControl.innerHTML = sliderElements.arrow;
     sliderElements.nextControl.innerHTML = sliderElements.arrow;
 
-    // Set transition styles
+    // Set transition style for slider
     sliderElements.slidesContainer.style.webkitTransition =
     sliderElements.slidesContainer.style.msTransition =
     sliderElements.slidesContainer.style.MozTransition =
     sliderElements.slidesContainer.style.OTransition =
     sliderElements.slidesContainer.Transition = `transform ${settings.transitionSpeed}s ease`;
 
-    calculateDimensions();
-    toggleControls(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
+    calculateDimensions(); // Dimensions which determine movement amounts
+    toggleControlsVisibility(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
     updatePosition(positionIndex, positionArray);
   }
 
-  function calculateDimensions() {
+  function calculateDimensions() { // Dimensions which determine movement amounts
     containerWidth = calculateContainerWidth(sliderElements.slidesContainer);
     slidesWidthArray = createWidthArray(sliderElements.slideItems);
+    slidesWidthArrayInverted = slidesWidthArray.slice().reverse();
+    console.log(slidesWidthArray, slidesWidthArrayInverted);
     slidesCombinedWidth = calculateCombinedWidth(slidesWidthArray);
     positionArrayBySlide = calculateSlidePositionArray(slidesWidthArray);
     positionArrayByContainer = calculatePositionArrayByContainer(slidesWidthArray, slidesCombinedWidth, containerWidth, sliderElements, indexAttr);
+    positionArrayByContainerInverted = calculatePositionArrayByContainer(slidesWidthArrayInverted, slidesCombinedWidth, containerWidth, sliderElements, indexAttr);
+    console.log(positionArrayByContainer, positionArrayByContainerInverted);
     if (settings.movementType === 'by-slide') {
       positionArray = positionArrayBySlide;
     } else {
       positionArray = positionArrayByContainer;
-    }
-  }
-
-  function toggleControls(slidesCombinedWidth, containerWidth, controls) {
-    if (slidesCombinedWidth <= containerWidth) {
-      controls.style.visibility = 'hidden';
-    } else {
-      controls.style.removeProperty('visibility');
-    }
-  }
-
-  function addClassToElements(elements, className) {
-    nodeList(elements).forEach(function(e) {
-      e.classList.add(className);
-    });
-  }
-
-  function addAttrToElements(elements, attr, value) {
-    if (elements.length) {
-      nodeList(elements).forEach((e, i) => {
-        e.setAttribute(attr, value || i);
-      });
-    } else {
-      elements.setAttribute(attr, value);
-    }
-  }
-
-  function removeAttrFromElements(parent, attr) {
-    const elements = parent.querySelectorAll(`[${attr}`);
-    if (elements.length) {
-      nodeList(elements).forEach((e, i) => {
-        e.removeAttribute(attr);
-      });
     }
   }
 
@@ -140,7 +113,7 @@ const contentSlider = (el, options) => {
   };
 
   function calculateCombinedWidth(widthArray) {
-    const width = widthArray.reduce(function(acc, val, i) {
+    const width = widthArray.reduce((acc, val, i) => {
       return acc + val;
     }, 0);
     return width;
@@ -152,7 +125,7 @@ const contentSlider = (el, options) => {
 
   function calculateSlidePositionArray(widthArray) {
     const positionArrayBySlide = [];
-    widthArray.reduce(function(acc, val, i) {
+    widthArray.reduce((acc, val, i) => {
       return positionArrayBySlide[i] = acc + val;
     }, 0);
     positionArrayBySlide.pop();
@@ -163,12 +136,12 @@ const contentSlider = (el, options) => {
   function calculatePositionArrayByContainer(widthArray, slidesWidth, containerWidth, sliderElements, indexAttr) {
     const positionArrayByContainer = [0];
     let start = 0;
-    widthArray.reduce(function(acc, val, i) {
+    widthArray.reduce((acc, val, i) => {
       if (acc + val - start > containerWidth) {
         positionArrayByContainer.push(acc);
         start = acc;
       }
-      addAttrToElements(sliderElements.slideItems[i], indexAttr, positionArrayByContainer.length - 1); // TODO better home for this?
+      addAttrToElements(sliderElements.slideItems[i], indexAttr, positionArrayByContainer.length - 1); // TODO better home for this? - needs own function - update on widthChange too
       return acc + val;
     }, 0);
     positionArrayByContainer.pop();
@@ -176,22 +149,53 @@ const contentSlider = (el, options) => {
     return positionArrayByContainer;
   };
 
-  function removeClass(className, parent) {
-    const element = parent.querySelectorAll(`.${className}`);
-    if (element.length === 1) {
-      element[0].classList.remove(className);
-    } else {
-      nodeList(element).forEach((e) => {
-        e.classList.remove(className);
+  function addClassesToElements(elements, className) {
+    if (elements.length) {
+      nodeList(elements).forEach((e) => {
+        e.classList.add(className);
       });
+    } else {
+      elements.classList.add(className);
     }
   }
 
-  function addClass(element, className) {
-    if (element) {
-      element.classList.add(className);
+  function removeClassesFromElements(elements, className) {
+    if (elements.length) {
+      nodeList(elements).forEach((e) => {
+        e.classList.remove(className);
+      });
+    } else {
+      elements.classList.remove(className);
     }
-  };
+  }
+
+  function addAttrToElements(elements, attr, value) {
+    if (elements.length) {
+      nodeList(elements).forEach((e, i) => {
+        e.setAttribute(attr, value || i);
+      });
+    } else {
+      elements.setAttribute(attr, value);
+    }
+  }
+
+  function removeAttrFromElements(elements, attr) {
+    if (elements.length) {
+      nodeList(elements).forEach((e, i) => {
+        e.removeAttribute(attr);
+      });
+    } else {
+      elements.removeAttribute(attr);
+    }
+  }
+
+  function toggleControlsVisibility(slidesCombinedWidth, containerWidth, controls) {
+    if (slidesCombinedWidth <= containerWidth) {
+      controls.style.visibility = 'hidden';
+    } else {
+      controls.style.removeProperty('visibility');
+    }
+  }
 
   function changeCurrentItemsStatus(items, n, className, positionArrayBySlide, positionArray, slidesWidthArray, containerWidth) {
     const positionValue = positionArray[n];
@@ -206,23 +210,23 @@ const contentSlider = (el, options) => {
       return nextLength;
     }, 0);
 
-    removeClass(className, items[0].parentNode);
+    removeClassesFromElements(items, className);
     addAttrToElements(sliderElements.slideItems, 'aria-hidden', 'true');
     nodeList(currentItems).forEach((item) => {
-      addClass(item, className);
+      addClassesToElements(item, className);
       item.setAttribute('aria-hidden', 'false');
     });
   }
 
   function changeInactiveControlClass(prevControl, nextControl, n, items, className) {
-    removeClass(className, prevControl.parentNode);
-    removeAttrFromElements(prevControl.parentNode, 'disabled');
+    removeClassesFromElements([prevControl, nextControl], className);
+    removeAttrFromElements([prevControl, nextControl], 'disabled');
     if (n === 0) {
-      addClass(prevControl, className);
+      addClassesToElements(prevControl, className);
       addAttrToElements(prevControl, 'disabled', 'true');
     }
     if (n === items.length - 1) {
-      addClass(nextControl, className);
+      addClassesToElements(nextControl, className);
       addAttrToElements(nextControl, 'disabled', 'true');
     }
   }
@@ -262,7 +266,7 @@ const contentSlider = (el, options) => {
 
   function onWidthChange() {
     calculateDimensions();
-    toggleControls(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
+    toggleControlsVisibility(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
     updatePosition(positionIndex, positionArray);
   }
 
@@ -277,7 +281,7 @@ const contentSlider = (el, options) => {
   sliderTouch.on('swipeleft', nextSlide);
 
   // Handle tabbing onto elements contained inside a slide
-  sliderElements.slidesContainer.addEventListener('focus', function(event) {
+  sliderElements.slidesContainer.addEventListener('focus', (event) => {
     updatePosition(event.target.closest(`.${classes.sliderItem}`).getAttribute(indexAttr), positionArray);
   }, true);
 
