@@ -20,7 +20,8 @@ const contentSlider = (el, options) => {
     sliderInner: document.createElement('div'),
     sliderControls: document.createElement('div'),
     prevControl: document.createElement('button'),
-    nextControl: document.createElement('button')
+    nextControl: document.createElement('button'),
+    arrow: '<svg class="control-arrow" aria-hidden="true" viewBox="0 0 12 13"><path d="M10.95 6.05a1 1 0 0 0-1.41 0L7 8.59V2a1 1 0 0 0-2 0v6.59L2.46 6.05a1 1 0 0 0-1.41 1.41l4.24 4.24a1 1 0 0 0 1.41 0l4.24-4.24a1 1 0 0 0 .01-1.41z"></path></svg>'
   };
   // Generate classes for slider elements
   const classes = {
@@ -45,7 +46,7 @@ const contentSlider = (el, options) => {
   let positionArray;
 
   function setup() {
-    // Add classes to elements
+    // Add classes
     sliderElements.slider.className = classes.slider;
     sliderElements.slidesContainer.classList.add(classes.slidesContainer);
     sliderElements.sliderControls.className = classes.sliderControls;
@@ -53,13 +54,14 @@ const contentSlider = (el, options) => {
     sliderElements.nextControl.className = classes.nextControl;
     addClassToElements(sliderElements.slideItems, classes.sliderItem);
 
-    // Add ARIA attributes
+    // Add attributes
     sliderElements.slidesContainer.setAttribute('aria-live', 'polite');
     sliderElements.slidesContainer.setAttribute('aria-label', 'carousel');
     sliderElements.prevControl.setAttribute('aria-controls', sliderElements.slidesContainer.getAttribute('id'));
     sliderElements.prevControl.setAttribute('aria-label', 'previous item');
     sliderElements.nextControl.setAttribute('aria-controls', sliderElements.slidesContainer.getAttribute('id'));
     sliderElements.nextControl.setAttribute('aria-label', 'next item');
+    addAttrToElements(sliderElements.slideItems, indexAttr);
 
     // Place slider elements into DOM
     sliderElements.slidesContainer.parentNode.insertBefore(sliderElements.slider, sliderElements.slidesContainer);
@@ -67,8 +69,8 @@ const contentSlider = (el, options) => {
     sliderElements.slider.parentNode.insertBefore(sliderElements.sliderControls, sliderElements.slider.nextSibling);
     sliderElements.sliderControls.appendChild(sliderElements.prevControl);
     sliderElements.sliderControls.appendChild(sliderElements.nextControl);
-    sliderElements.prevControl.innerHTML = '<svg class="control-arrow" aria-hidden="true" viewBox="0 0 12 13"><path d="M10.95 6.05a1 1 0 0 0-1.41 0L7 8.59V2a1 1 0 0 0-2 0v6.59L2.46 6.05a1 1 0 0 0-1.41 1.41l4.24 4.24a1 1 0 0 0 1.41 0l4.24-4.24a1 1 0 0 0 .01-1.41z"></path></svg>';
-    sliderElements.nextControl.innerHTML = '<svg class="control-arrow" aria-hidden="true" viewBox="0 0 12 13"><path d="M10.95 6.05a1 1 0 0 0-1.41 0L7 8.59V2a1 1 0 0 0-2 0v6.59L2.46 6.05a1 1 0 0 0-1.41 1.41l4.24 4.24a1 1 0 0 0 1.41 0l4.24-4.24a1 1 0 0 0 .01-1.41z"></path></svg>';
+    sliderElements.prevControl.innerHTML = sliderElements.arrow;
+    sliderElements.nextControl.innerHTML = sliderElements.arrow;
 
     // Set transition styles
     sliderElements.slidesContainer.style.webkitTransition =
@@ -77,7 +79,6 @@ const contentSlider = (el, options) => {
     sliderElements.slidesContainer.style.OTransition =
     sliderElements.slidesContainer.Transition = `transform ${settings.transitionSpeed}s ease`;
 
-    addAttrToElements(sliderElements.slideItems, indexAttr);
     calculateDimensions();
     toggleControls(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
     updatePosition(positionIndex, positionArray);
