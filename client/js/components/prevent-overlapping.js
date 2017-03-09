@@ -1,4 +1,4 @@
-import {nodeList, featureTest} from '../util';
+import { nodeList, featureTest } from '../util';
 
 const preventOverlapping = (els) => {
   if (!featureTest('position', 'sticky')) return;
@@ -53,7 +53,9 @@ const preventOverlapping = (els) => {
     if (!nextEl()) return;
     if (nextElFromTop() > currentElHeight() + topOffset) return;
 
-    currentEl().style.top = `${nextElFromTop() - currentElHeight()}px`;
+    window.requestAnimationFrame(() => {
+      currentEl().style.top = `${nextElFromTop() - currentElHeight()}px`;
+    });
   };
 
   window.addEventListener('scroll', updateCurrentTop);
