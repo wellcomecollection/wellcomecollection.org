@@ -40,11 +40,11 @@ const contentSlider = (el, options) => {
   const indexAttr = 'data-slide-index'; // Added to slide items to help with tabbing
   let containerWidth;
   let slidesWidthArray;
-  let slidesWidthArrayInverted;
+  // let slidesWidthArrayInverted;
   let slidesCombinedWidth;
   let positionArrayBySlide; // An array of positions if we move the slider by the width of each slide
   let positionArrayByContainer; // An array of positions if we move the slider by the width of the container
-  let positionArrayByContainerInverted;
+  // let positionArrayByContainerInverted;
   let positionIndex = settings.startPosition;
   let positionArray; // Holds either positionArrayBySlide or positionArrayByContainer depending on settings
 
@@ -89,13 +89,11 @@ const contentSlider = (el, options) => {
   function calculateDimensions() { // Dimensions which determine movement amounts
     containerWidth = calculateContainerWidth(sliderElements.slidesContainer);
     slidesWidthArray = createWidthArray(sliderElements.slideItems);
-    slidesWidthArrayInverted = slidesWidthArray.slice().reverse();
-    console.log(slidesWidthArray, slidesWidthArrayInverted);
+    // slidesWidthArrayInverted = slidesWidthArray.slice().reverse();
     slidesCombinedWidth = calculateCombinedWidth(slidesWidthArray);
     positionArrayBySlide = calculateSlidePositionArray(slidesWidthArray);
     positionArrayByContainer = calculatePositionArrayByContainer(slidesWidthArray, slidesCombinedWidth, containerWidth, sliderElements, indexAttr);
-    positionArrayByContainerInverted = calculatePositionArrayByContainer(slidesWidthArrayInverted, slidesCombinedWidth, containerWidth, sliderElements, indexAttr);
-    console.log(positionArrayByContainer, positionArrayByContainerInverted);
+    // positionArrayByContainerInverted = calculatePositionArrayByContainerInverted(calculatePositionArrayByContainer(slidesWidthArrayInverted, slidesCombinedWidth, containerWidth, sliderElements, indexAttr), slidesCombinedWidth, containerWidth);
     if (settings.movementType === 'by-slide') {
       positionArray = positionArrayBySlide;
     } else {
@@ -148,6 +146,13 @@ const contentSlider = (el, options) => {
     positionArrayByContainer.push(slidesWidth - containerWidth);
     return positionArrayByContainer;
   };
+
+  // function calculatePositionArrayByContainerInverted(positions, totalWidth, containerWidth) {
+  //   const newArray = positions.map((value) => {
+  //     return totalWidth - value - containerWidth;
+  //   });
+  //   return newArray.reverse();
+  // }
 
   function addClassesToElements(elements, className) {
     if (elements.length) {
@@ -224,10 +229,16 @@ const contentSlider = (el, options) => {
     if (n === 0) {
       addClassesToElements(prevControl, className);
       addAttrToElements(prevControl, 'disabled', 'true');
+      // if (settings.movementType !== 'by-slide') { // TODO put somewhere better
+      //   positionArray = positionArrayByContainer;
+      // }
     }
     if (n === items.length - 1) {
       addClassesToElements(nextControl, className);
       addAttrToElements(nextControl, 'disabled', 'true');
+      // if (settings.movementType !== 'by-slide') { // TODO put somewhere better
+      //   positionArray = positionArrayByContainerInverted;
+      // }
     }
   }
 
