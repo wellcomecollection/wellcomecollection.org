@@ -30,7 +30,7 @@ const init = () => {
   const overlappingEls = document.querySelectorAll('.js-sticky, .js-full-width');
   const stickyEls = document.querySelectorAll('.js-sticky');
   const seriesNav = document.querySelector('.js-series-nav');
-  const seriesSlider = document.querySelector('.js-series-slider');
+  const seriesSlider = document.querySelector('.js-numbered-slider');
 
   nodeList(wobblyEdgeEls).forEach((el) => wobblyEdge(el));
 

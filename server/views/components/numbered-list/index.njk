@@ -2,7 +2,7 @@
   <header class="numbered-list__header">
     <h2 class="numbered-list__heading">{{ model.name }}</h2>
   </header>
-  <ol class="numbered-list__list js-series-slider"{% if data.sliderId %} id="{{data.sliderId}}" {% endif %}>
+  <ol class="numbered-list__list{% if data.sliderId %} js-numbered-slider{% endif %}"{% if data.sliderId %} id="{{data.sliderId}}" {% endif %}>
     {% for item in model.items -%}
       <li class="numbered-list__item {{ 'numbered-list__item--inactive' if not item.url }}">
         <span class="numbered-list__number" aria-hidden="true">{{ loop.index }}</span>
