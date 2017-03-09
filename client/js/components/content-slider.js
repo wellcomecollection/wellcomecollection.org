@@ -62,7 +62,6 @@ const contentSlider = (el, options) => {
     sliderElements.prevControl.setAttribute('aria-label', 'previous item');
     sliderElements.nextControl.setAttribute('aria-controls', sliderElements.slidesContainer.getAttribute('id'));
     sliderElements.nextControl.setAttribute('aria-label', 'next item');
-    addAttrToElements(sliderElements.slideItems, indexAttr);
 
     // Place slider elements into DOM
     sliderElements.slidesContainer.parentNode.insertBefore(sliderElements.slider, sliderElements.slidesContainer);
@@ -90,7 +89,7 @@ const contentSlider = (el, options) => {
     slidesWidthArray = createWidthArray(sliderElements.slideItems);
     slidesCombinedWidth = calculateCombinedWidth(slidesWidthArray);
     positionArrayBySlide = calculateSlidePositionArray(slidesWidthArray);
-    positionArrayByContainer = calculatepositionArrayByContainer(slidesWidthArray, slidesCombinedWidth, containerWidth);
+    positionArrayByContainer = calculatePositionArrayByContainer(slidesWidthArray, slidesCombinedWidth, containerWidth, sliderElements, indexAttr);
     if (settings.movementType === 'by-slide') {
       positionArray = positionArrayBySlide;
     } else {
@@ -161,19 +160,20 @@ const contentSlider = (el, options) => {
     return positionArrayBySlide;
   };
 
-  function calculatepositionArrayByContainer(widthArray, slidesWidth, containerWidth) {
-    const positionArrayBySlide = [0];
+  function calculatePositionArrayByContainer(widthArray, slidesWidth, containerWidth, sliderElements, indexAttr) {
+    const positionArrayByContainer = [0];
     let start = 0;
     widthArray.reduce(function(acc, val, i) {
       if (acc + val - start > containerWidth) {
-        positionArrayBySlide.push(acc);
+        positionArrayByContainer.push(acc);
         start = acc;
       }
+      addAttrToElements(sliderElements.slideItems[i], indexAttr, positionArrayByContainer.length - 1); // TODO better home for this?
       return acc + val;
     }, 0);
-    positionArrayBySlide.pop();
-    positionArrayBySlide.push(slidesWidth - containerWidth);
-    return positionArrayBySlide;
+    positionArrayByContainer.pop();
+    positionArrayByContainer.push(slidesWidth - containerWidth);
+    return positionArrayByContainer;
   };
 
   function removeClass(className, parent) {
@@ -198,7 +198,6 @@ const contentSlider = (el, options) => {
     const lowerBoundary = positionValue;
     const upperBoundary = containerWidth + positionValue;
     const currentItems = [];
-
     slidesWidthArray.reduce((acc, curr) => {
       const nextLength = acc + curr;
       if (acc >= lowerBoundary && nextLength <= upperBoundary) {
