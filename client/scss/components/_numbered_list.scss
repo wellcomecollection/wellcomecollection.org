@@ -153,17 +153,8 @@ $numbered-list-number-size: 96px;
     // }
   }
 
-  .numbered-list__item--inactive {
-    padding: $v-spacing-unit*3 map-get($gutter-width, 'small');
-    padding-right: 60px;
-
-    @include respond-to('large') {
-      padding: $v-spacing-unit*3 map-get($gutter-width, 'large');
-      padding-right: 80px;
-    }
-  }
-
-  .numbered-list__link {
+  .numbered-list__link,
+  .numbered-list__link-surrogate {
     width: 100%;
     height: 100%;
     padding: $v-spacing-unit*3 map-get($gutter-width, 'small');
@@ -199,7 +190,8 @@ $numbered-list-number-size: 96px;
     min-height: 0;
   }
 
-  .numbered-list__link {
+  .numbered-list__link,
+  .numbered-list__link-surrogate {
     min-height: 0;
     padding-right: map-get($gutter-width, 'small');
 

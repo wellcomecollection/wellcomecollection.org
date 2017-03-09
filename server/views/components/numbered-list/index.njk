@@ -9,7 +9,7 @@
       {% if item.url %}
         <a href="{{ item.url }}" class="numbered-list__link">
       {% else %}
-        <span class="numbered-list__link--inactive">
+        <span class="numbered-list__link-surrogate">
       {% endif %}
           <h3 class="numbered-list__title">{{ item.title }}</h3>
           <p class="numbered-list__date">{{ item.date | formatDate }}</p>
