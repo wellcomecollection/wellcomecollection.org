@@ -82,6 +82,7 @@ const contentSlider = (el, options) => {
     sliderElements.slidesContainer.Transition = `transform ${settings.transitionSpeed}s ease`;
 
     calculateDimensions(); // Dimensions which determine movement amounts
+    setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr);
     toggleControlsVisibility(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
     updatePosition(positionIndex, positionArray);
   }
@@ -131,7 +132,23 @@ const contentSlider = (el, options) => {
     return positionArrayBySlide;
   };
 
-  function calculatePositionArrayByContainer(widthArray, slidesWidth, containerWidth, sliderElements, indexAttr) {
+  function setSlideIndexes(widthArray, containerWidth, sliderElements, indexAttr) {
+    let counter = 0;
+    let start = 0;
+    widthArray.reduce((acc, val, i) => {
+      if (acc + val - start > containerWidth) {
+        counter++;
+      }
+      if (settings.movementType === 'by-slide') {
+        addAttrToElements(sliderElements.slideItems[i], indexAttr, i);
+      } else {
+        addAttrToElements(sliderElements.slideItems[i], indexAttr, counter);
+      }
+      return acc + val;
+    }, 0);
+  }
+
+  function calculatePositionArrayByContainer(widthArray, slidesWidth, containerWidth) {
     const positionArrayByContainer = [0];
     let start = 0;
     widthArray.reduce((acc, val, i) => {
@@ -139,7 +156,6 @@ const contentSlider = (el, options) => {
         positionArrayByContainer.push(acc);
         start = acc;
       }
-      addAttrToElements(sliderElements.slideItems[i], indexAttr, positionArrayByContainer.length - 1); // TODO better home for this? - needs own function - update on widthChange too
       return acc + val;
     }, 0);
     positionArrayByContainer.pop();
@@ -277,6 +293,7 @@ const contentSlider = (el, options) => {
 
   function onWidthChange() {
     calculateDimensions();
+    setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr);
     toggleControlsVisibility(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
     updatePosition(positionIndex, positionArray);
   }
