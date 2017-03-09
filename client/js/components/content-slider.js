@@ -94,9 +94,9 @@ const contentSlider = (el, options) => {
 
   function toggleControls(slidesCombinedWidth, containerWidth, controls) {
     if (slidesCombinedWidth <= containerWidth) {
-      controls.style.display = 'none';
+      controls.style.visibility = 'hidden';
     } else {
-      controls.style.display = 'block';
+      controls.style.removeProperty('visibility');
     }
   }
 
@@ -160,9 +160,13 @@ const contentSlider = (el, options) => {
   };
 
   function removeClass(className, parent) {
-    const element = parent.querySelector(`.${className}`);
-    if (element) {
-      element.classList.remove(className);
+    const element = parent.querySelectorAll(`.${className}`);
+    if (element.length === 1) {
+      element[0].classList.remove(className);
+    } else {
+      nodeList(element).forEach((e) => {
+        e.classList.remove(className);
+      });
     }
   }
 
@@ -186,9 +190,7 @@ const contentSlider = (el, options) => {
       return nextLength;
     }, 0);
 
-    nodeList(items).forEach((item) => {
-      removeClass(className, item.parentNode);
-    });
+    removeClass(className, items[0].parentNode);
     addAttrToElements(sliderElements.slideItems, 'aria-hidden', 'true');
     nodeList(currentItems).forEach((item) => {
       addClass(item, className);
