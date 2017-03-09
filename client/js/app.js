@@ -1,5 +1,4 @@
-// TODO put RAVEN back
-// /* global Raven */
+/* global Raven */
 import 'core-js/fn/object/assign';
 import 'whatwg-fetch';
 import lazysizes from 'lazysizes';
@@ -72,18 +71,18 @@ const init = () => {
   }
 };
 
-// function initWithRaven() {
-//   try {
-//     init();
-//   } catch (e) {
-//     Raven.captureException(e);
-//     throw e;
-//   }
-// }
+function initWithRaven() {
+  try {
+    init();
+  } catch (e) {
+    Raven.captureException(e);
+    throw e;
+  }
+}
 
 if (document.readyState !== 'loading') {
-  // initWithRaven();
+  initWithRaven();
   init();
 } else {
-  document.addEventListener('DOMContentLoaded', init); // initWithRaven
+  document.addEventListener('DOMContentLoaded', initWithRaven);
 }
