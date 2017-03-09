@@ -82,7 +82,6 @@ function initWithRaven() {
 
 if (document.readyState !== 'loading') {
   initWithRaven();
-  init();
 } else {
   document.addEventListener('DOMContentLoaded', initWithRaven);
 }
