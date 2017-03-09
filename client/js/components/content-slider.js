@@ -67,8 +67,8 @@ const contentSlider = (el, options) => {
     sliderElements.slider.parentNode.insertBefore(sliderElements.sliderControls, sliderElements.slider.nextSibling);
     sliderElements.sliderControls.appendChild(sliderElements.prevControl);
     sliderElements.sliderControls.appendChild(sliderElements.nextControl);
-    sliderElements.prevControl.innerHTML = 'previous';
-    sliderElements.nextControl.innerHTML = 'next';
+    sliderElements.prevControl.innerHTML = '<svg class="control-arrow" aria-hidden="true" viewBox="0 0 12 13"><path d="M10.95 6.05a1 1 0 0 0-1.41 0L7 8.59V2a1 1 0 0 0-2 0v6.59L2.46 6.05a1 1 0 0 0-1.41 1.41l4.24 4.24a1 1 0 0 0 1.41 0l4.24-4.24a1 1 0 0 0 .01-1.41z"></path></svg>';
+    sliderElements.nextControl.innerHTML = '<svg class="control-arrow" aria-hidden="true" viewBox="0 0 12 13"><path d="M10.95 6.05a1 1 0 0 0-1.41 0L7 8.59V2a1 1 0 0 0-2 0v6.59L2.46 6.05a1 1 0 0 0-1.41 1.41l4.24 4.24a1 1 0 0 0 1.41 0l4.24-4.24a1 1 0 0 0 .01-1.41z"></path></svg>';
 
     // Set transition styles
     sliderElements.slidesContainer.style.webkitTransition =

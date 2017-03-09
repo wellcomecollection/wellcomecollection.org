@@ -198,8 +198,27 @@
     // stylelint-enable declaration-no-important
   }
 
+  .#{$prefix}slider-controls {
+    .control-arrow {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .#{$prefix}slider-control--prev {
+    .control-arrow {
+      transform: rotate(90deg);
+    }
+  }
+
+  .#{$prefix}slider-control--next {
+    .control-arrow {
+      transform: rotate(-90deg);
+    }
+  }
+
   .#{$prefix}slider-control--inactive {
-    opacity: 0.5;
+    opacity: 0.3;
     // stylelint-disable declaration-no-important
     cursor: default !important;
     // stylelint-enable declaration-no-important
