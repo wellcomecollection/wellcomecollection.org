@@ -1,7 +1,6 @@
 import { nodeList, featureTest } from '../util';
 import debounce from 'lodash.debounce';
 import Hammer from 'hammerjs';
-// TODO all visible slides should have aria-hidden changed to false
 // TODO if slidesWidth <= containerWidth get rid of buttons etc., poss. destroy function, opposite of setup
 const contentSlider = (el, options) => {
   if (!featureTest('transform', 'translateX(0px)') && !featureTest('transition', 'transform 0.3s ease')) return;
@@ -61,7 +60,6 @@ const contentSlider = (el, options) => {
     sliderElements.prevControl.setAttribute('aria-label', 'previous item');
     sliderElements.nextControl.setAttribute('aria-controls', sliderElements.slidesContainer.getAttribute('id'));
     sliderElements.nextControl.setAttribute('aria-label', 'next item');
-    addAttrToElements(sliderElements.slideItems, 'aria-hidden', 'true');
 
     // Place slider elements into DOM
     sliderElements.slidesContainer.parentNode.insertBefore(sliderElements.slider, sliderElements.slidesContainer);
@@ -152,12 +150,6 @@ const contentSlider = (el, options) => {
     return positionArrayBySlide;
   };
 
-  function addClass(element, className) {
-    if (element) {
-      element.classList.add(className);
-    }
-  };
-
   function removeClass(className, parent) {
     const element = parent.querySelector(`.${className}`);
     if (element) {
@@ -165,11 +157,34 @@ const contentSlider = (el, options) => {
     }
   }
 
-  function changeCurrentItemsStatus(items, n, className) { //get widths from n, if they fit in container, then they're current
-    removeClass(className, items[n].parentNode);
+  function addClass(element, className) {
+    if (element) {
+      element.classList.add(className);
+    }
+  };
+
+  function changeCurrentItemsStatus(items, n, className, positionArrayBySlide, positionArray, slidesWidthArray, containerWidth) {
+    const positionValue = positionArray[n];
+    const lowerBoundary = positionValue;
+    const upperBoundary = containerWidth + positionValue;
+    const currentItems = [];
+
+    slidesWidthArray.reduce((acc, curr) => {
+      const nextLength = acc + curr;
+      if (acc >= lowerBoundary && nextLength <= upperBoundary) {
+        currentItems.push(items[positionArrayBySlide.indexOf(acc)]);
+      }
+      return nextLength;
+    }, 0);
+
+    nodeList(items).forEach((item) => {
+      removeClass(className, item.parentNode);
+    });
     addAttrToElements(sliderElements.slideItems, 'aria-hidden', 'true');
-    addClass(items[n], className);
-    items[n].setAttribute('aria-hidden', 'false');
+    nodeList(currentItems).forEach((item) => {
+      addClass(item, className);
+      item.setAttribute('aria-hidden', 'false');
+    });
   }
 
   function changeInactiveControlClass(prevControl, nextControl, n, items, className) {
@@ -191,7 +206,7 @@ const contentSlider = (el, options) => {
       positionIndex = n;
     }
     changePosition(positionIndex, positionArray, settings.speed);
-    changeCurrentItemsStatus(sliderElements.slideItems, positionIndex, classes.currentItem);
+    changeCurrentItemsStatus(sliderElements.slideItems, positionIndex, classes.currentItem, positionArrayBySlide, positionArray, slidesWidthArray, containerWidth);
     changeInactiveControlClass(sliderElements.prevControl, sliderElements.nextControl, positionIndex, positionArray, classes.sliderControlInActive);
   };
 
