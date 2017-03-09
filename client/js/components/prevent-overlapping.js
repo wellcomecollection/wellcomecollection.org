@@ -19,6 +19,8 @@ const preventOverlapping = (els) => {
     return elsToStick[nextElIndex()];
   };
   const nextElFromTop = () => {
+    if (!nextEl()) return 0;
+
     return nextEl().getBoundingClientRect().top;
   };
   const currentEl = () => {
@@ -38,20 +40,18 @@ const preventOverlapping = (els) => {
     previousEl().style.top = '-100%';
   };
   const fixCurrentTop = () => {
-    if (currentEl().style.top === `${topOffset}px`) return;
-    if (currentEl().classList.contains('js-full-width')) return;
+    if (!currentEl()) return;
 
     currentEl().style.top = `${topOffset}px`;
   };
   const updateCurrentTop = () => {
     if (!currentEl()) return;
 
-    fixCurrentTop();
     fixPreviousTop();
 
     if (currentEl().classList.contains('js-full-width')) return;
     if (!nextEl()) return;
-    if (nextElFromTop() > currentElHeight() + topOffset) return;
+    if (nextElFromTop() > currentElHeight() + topOffset) return fixCurrentTop();
 
     window.requestAnimationFrame(() => {
       currentEl().style.top = `${nextElFromTop() - currentElHeight()}px`;
