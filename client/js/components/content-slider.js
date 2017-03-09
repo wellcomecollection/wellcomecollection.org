@@ -107,9 +107,20 @@ const contentSlider = (el, options) => {
   }
 
   function addAttrToElements(elements, attr, value) {
-    if (elements.forEach) {
-      nodeList(elements).forEach(function(e, i) {
+    if (elements.length) {
+      nodeList(elements).forEach((e, i) => {
         e.setAttribute(attr, value || i);
+      });
+    } else {
+      elements.setAttribute(attr, value);
+    }
+  }
+
+  function removeAttrFromElements(parent, attr) {
+    const elements = parent.querySelectorAll(`[${attr}`);
+    if (elements.length) {
+      nodeList(elements).forEach((e, i) => {
+        e.removeAttribute(attr);
       });
     }
   }
@@ -200,11 +211,14 @@ const contentSlider = (el, options) => {
 
   function changeInactiveControlClass(prevControl, nextControl, n, items, className) {
     removeClass(className, prevControl.parentNode);
+    removeAttrFromElements(prevControl.parentNode, 'disabled');
     if (n === 0) {
       addClass(prevControl, className);
+      addAttrToElements(prevControl, 'disabled', 'true');
     }
     if (n === items.length - 1) {
       addClass(nextControl, className);
+      addAttrToElements(nextControl, 'disabled', 'true');
     }
   }
 
