@@ -3,7 +3,6 @@ import debounce from 'lodash.debounce';
 import Hammer from 'hammerjs';
 // TODO all visible slides should have aria-hidden changed to false
 // TODO if slidesWidth <= containerWidth get rid of buttons etc., poss. destroy function, opposite of setup
-// TODO create a reversed position array for use with previous?
 const contentSlider = (el, options) => {
   if (!featureTest('transform', 'translateX(0px)') && !featureTest('transition', 'transform 0.3s ease')) return;
   // Establish settings
@@ -11,8 +10,7 @@ const contentSlider = (el, options) => {
     startPosition: 0,
     transitionSpeed: 0.7,
     slideSelector: 'li',
-    cssPrefix: '',
-    movementType: 'default'
+    cssPrefix: ''
   };
   const settings = Object.assign({}, defaults, options);
   // Grab/create necessary slider elements
@@ -91,12 +89,8 @@ const contentSlider = (el, options) => {
     slidesWidthArray = createWidthArray(sliderElements.slideItems);
     slidesCombinedWidth = calculateCombinedWidth(slidesWidthArray);
     positionArrayBySlide = calculateSlidePositionArray(slidesWidthArray);
-    if (settings.movementType === 'by-slide') {
-      positionArray = positionArrayBySlide;
-    } else {
-      positionArrayByContainer = calculatepositionArrayByContainer(slidesWidthArray, slidesCombinedWidth, containerWidth);
-      positionArray = positionArrayByContainer;
-    }
+    positionArrayByContainer = calculatepositionArrayByContainer(slidesWidthArray, slidesCombinedWidth, containerWidth);
+    positionArray = positionArrayByContainer;
   }
 
   function addClassToElements(elements, className) {
