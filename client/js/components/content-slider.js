@@ -9,7 +9,8 @@ const contentSlider = (el, options) => {
     startPosition: 0,
     transitionSpeed: 0.7,
     slideSelector: 'li',
-    cssPrefix: ''
+    cssPrefix: '',
+    movementType: 'default'
   };
   const settings = Object.assign({}, defaults, options);
   // Grab/create necessary slider elements
@@ -90,7 +91,11 @@ const contentSlider = (el, options) => {
     slidesCombinedWidth = calculateCombinedWidth(slidesWidthArray);
     positionArrayBySlide = calculateSlidePositionArray(slidesWidthArray);
     positionArrayByContainer = calculatepositionArrayByContainer(slidesWidthArray, slidesCombinedWidth, containerWidth);
-    positionArray = positionArrayByContainer;
+    if (settings.movementType === 'by-slide') {
+      positionArray = positionArrayBySlide;
+    } else {
+      positionArray = positionArrayByContainer;
+    }
   }
 
   function toggleControls(slidesCombinedWidth, containerWidth, controls) {
