@@ -1,7 +1,7 @@
 import { nodeList, featureTest } from '../util';
 import debounce from 'lodash.debounce';
 import Hammer from 'hammerjs';
-// TODO if slidesWidth <= containerWidth get rid of buttons etc., poss. destroy function, opposite of setup
+
 const contentSlider = (el, options) => {
   if (!featureTest('transform', 'translateX(0px)') && !featureTest('transition', 'transform 0.3s ease')) return;
   // Establish settings
@@ -79,6 +79,7 @@ const contentSlider = (el, options) => {
 
     addAttrToElements(sliderElements.slideItems, indexAttr);
     calculateDimensions();
+    toggleControls(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
     updatePosition(positionIndex, positionArray);
   }
 
@@ -89,6 +90,14 @@ const contentSlider = (el, options) => {
     positionArrayBySlide = calculateSlidePositionArray(slidesWidthArray);
     positionArrayByContainer = calculatepositionArrayByContainer(slidesWidthArray, slidesCombinedWidth, containerWidth);
     positionArray = positionArrayByContainer;
+  }
+
+  function toggleControls(slidesCombinedWidth, containerWidth, controls) {
+    if (slidesCombinedWidth <= containerWidth) {
+      controls.style.display = 'none';
+    } else {
+      controls.style.display = 'block';
+    }
   }
 
   function addClassToElements(elements, className) {
@@ -232,6 +241,7 @@ const contentSlider = (el, options) => {
 
   function onWidthChange() {
     calculateDimensions();
+    toggleControls(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
     updatePosition(positionIndex, positionArray);
   }
 
