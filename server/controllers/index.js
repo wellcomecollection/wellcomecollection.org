@@ -4,6 +4,8 @@ import {createPageConfig} from '../model/page-config';
 import {getPosts, getArticle} from '../services/wordpress';
 import {type Series, getForwardFill, getSeriesCommissionedLength} from '../model/series';
 
+const maxItemsPerPage = 32;
+
 export const article = async(ctx, next) => {
   const slug = ctx.params.slug;
   const format = ctx.request.query.format;
@@ -28,7 +30,7 @@ export const article = async(ctx, next) => {
 
 export const articles = async(ctx, next) => {
   const {page} = ctx.request.query;
-  const wpPosts = await getPosts(32);
+  const wpPosts = await getPosts(maxItemsPerPage, {page: page});
   const items = mapArticleStubsToPromos(wpPosts.data, 'default');
   const {total} = wpPosts;
   const series: Series = {
@@ -53,7 +55,7 @@ export const articles = async(ctx, next) => {
 
 export const series = async(ctx, next) => {
   const {id, page} = ctx.params;
-  const wpPosts = await getPosts(32, {category: id});
+  const wpPosts = await getPosts(maxItemsPerPage, {category: id, page: page});
   const items = mapArticleStubsToPromos(wpPosts.data, 'default');
 
   // TODO: So So nasty
@@ -224,14 +226,14 @@ type Pagination = {|
   prevPage?: number;
 |}
 
-function getSeriesPagination(series: Series, currentPage: number): Pagination {
+function getSeriesPagination(series: Series, currentPage: number, maxPerPage: number = maxItemsPerPage): Pagination {
   const size = series.items.size;
-  const pageCount = Math.ceil(series.total / series.items.size);
+  const pageCount = Math.ceil(series.total / maxPerPage);
   const prevPage = pageCount > 1 && currentPage !== 1 ? currentPage - 1 : null;
   const nextPage = pageCount > 1 && currentPage !== pageCount ? currentPage + 1 : null;
   const range = {
-    beginning: (size * currentPage) - size + 1,
-    end: size * currentPage
+    beginning: (maxPerPage * currentPage) - maxPerPage + 1,
+    end: maxPerPage * currentPage - (maxPerPage - size)
   };
   const pagination = {
     range,
