@@ -1,66 +1,27 @@
-import { nodeList, featureTest } from '../util';
+import { nodeList } from '../util';
 
 const preventOverlapping = (els) => {
-  if (!featureTest('position', 'sticky')) return;
+  const stickies = nodeList(els);
 
-  const elsToStick = nodeList(els);
-  const topOffset = 15;
-  const stuckEls = () => {
-    return elsToStick.map((el) => {
-      if (el.getBoundingClientRect().top <= topOffset) {
-        return el;
-      }
-    }).filter((el) => el !== undefined);
-  };
-  const nextElIndex = () => {
-    return stuckEls().length;
-  };
-  const nextEl = () => {
-    return elsToStick[nextElIndex()];
-  };
-  const nextElFromTop = () => {
-    if (!nextEl()) return 0;
+  const setsOfElsToWrap = stickies.map((sticky) => {
+    const initialEl = sticky;
+    const nextEls = [];
 
-    return nextEl().getBoundingClientRect().top;
-  };
-  const currentEl = () => {
-    return stuckEls()[stuckEls().length - 1];
-  };
-  const previousEl = () => {
-    return stuckEls()[stuckEls().length - 2];
-  };
-  const currentElHeight = () => {
-    return currentEl().offsetHeight;
-  };
-  const fixPreviousTop = () => {
-    if (!previousEl()) return;
-    if (previousEl().classList.contains('js-full-width')) return;
-    if (previousEl().style.top === '-100%') return;
+    while (sticky.nextElementSibling && !sticky.nextElementSibling.matches('.js-sticky') && !sticky.nextElementSibling.matches('.js-full-width')) {
+      nextEls.push(sticky = sticky.nextElementSibling);
+    }
 
-    previousEl().style.top = '-100%';
-  };
-  const fixCurrentTop = () => {
-    if (!currentEl()) return;
+    return [ initialEl ].concat(nextEls);
+  });
 
-    currentEl().style.top = `${topOffset}px`;
-  };
-  const updateCurrentTop = () => {
-    if (!currentEl()) return;
+  setsOfElsToWrap.forEach((elsToWrap) => {
+    const wrapper = document.createElement('div');
 
-    fixPreviousTop();
+    wrapper.classList.add('sticky-wrapper');
 
-    if (currentEl().classList.contains('js-full-width')) return;
-    if (!nextEl()) return;
-    if (nextElFromTop() > currentElHeight() + topOffset) return fixCurrentTop();
-
-    window.requestAnimationFrame(() => {
-      currentEl().style.top = `${nextElFromTop() - currentElHeight()}px`;
-    });
-  };
-
-  window.addEventListener('scroll', updateCurrentTop);
-  window.addEventListener('resize', updateCurrentTop);
-  updateCurrentTop();
+    elsToWrap[0].before(wrapper);
+    elsToWrap.forEach(x => wrapper.append(x));
+  });
 };
 
 export default preventOverlapping;
