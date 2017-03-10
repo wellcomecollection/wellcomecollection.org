@@ -229,7 +229,9 @@ export function findWpImageGallery(node) {
         ).map(
           r => r.childNodes.filter(n => n.attrs && getAttrVal(n.attrs, 'class').match('gallery-group'))
         ).reduce((acc, group) => acc.concat(group)).map(group => {
-          const img = group.childNodes[0].childNodes[0].childNodes[0];
+          const img = group.childNodes[0].childNodes[0].childNodes.find((node) => {
+            return node.nodeName === 'img';
+          });
           const width = parseInt(getAttrVal(img.attrs, 'data-original-width'), 10);
           const height = parseInt(getAttrVal(img.attrs, 'data-original-height'), 10);
           const contentUrl = getAttrVal(img.attrs, 'data-orig-file');

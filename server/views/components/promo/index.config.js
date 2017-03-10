@@ -9,7 +9,6 @@ export const handle = 'promo';
 export const collated = true;
 
 export const promo = createPromo({
-  modifiers: ['underlined'],
   article: article,
   meta: {
     type: 'article'
