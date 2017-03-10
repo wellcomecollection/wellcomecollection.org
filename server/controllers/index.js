@@ -129,6 +129,20 @@ export const explore = async(ctx, next) => {
                   lived experience of mental ill health and explores their ideas of personal asylum\
                   through sculpture, vlogging, poetry and more.'
   };
+  const collectorsPromo: Promo = {
+    modifiers: ['standalone'],
+    article: {
+      url: 'http://digitalstories.wellcomecollection.org/pathways/2-the-collectors/',
+      headline: 'The Collectors',
+      description: 'Lorem ipsum dolor sit amet.',
+      thumbnail: {
+        contentUrl: '/assets/images/temp/the_collectors_promo.jpg',
+        width: 1600,
+        height: 900
+      },
+      datePublished: ''
+    }
+  };
 
   ctx.render('pages/explore', {
     pageConfig: createPageConfig({
@@ -138,7 +152,8 @@ export const explore = async(ctx, next) => {
     aDropInTheOcean,
     topPromo,
     second3Promos,
-    next8Promos
+    next8Promos,
+    collectorsPromo
   });
 
   return next();
