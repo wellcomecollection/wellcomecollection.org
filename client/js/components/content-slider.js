@@ -1,4 +1,4 @@
-import { nodeList, featureTest } from '../util';
+import { nodeList, setPropertyPrefixed, featureTest } from '../util';
 import debounce from 'lodash.debounce';
 import Hammer from 'hammerjs';
 
@@ -18,7 +18,6 @@ const contentSlider = (el, options) => {
     slidesContainer: el,
     slideItems: el.querySelectorAll(settings.slideSelector),
     slider: document.createElement('div'),
-    sliderInner: document.createElement('div'),
     sliderControls: document.createElement('div'),
     prevControl: document.createElement('button'),
     nextControl: document.createElement('button'),
@@ -75,11 +74,7 @@ const contentSlider = (el, options) => {
     sliderElements.nextControl.innerHTML = sliderElements.arrow;
 
     // Set transition style for slider
-    sliderElements.slidesContainer.style.webkitTransition =
-    sliderElements.slidesContainer.style.msTransition =
-    sliderElements.slidesContainer.style.MozTransition =
-    sliderElements.slidesContainer.style.OTransition =
-    sliderElements.slidesContainer.Transition = `transform ${settings.transitionSpeed}s ease`;
+    setPropertyPrefixed(sliderElements.slidesContainer, 'transition', `transform ${settings.transitionSpeed}s ease`);
 
     calculateDimensions(); // Dimensions which determine movement amounts
     setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr);
@@ -132,7 +127,7 @@ const contentSlider = (el, options) => {
     return positionArrayBySlide;
   };
 
-  function setSlideIndexes(widthArray, containerWidth, sliderElements, indexAttr) {
+  function setSlideIndexes(widthArray, containerWidth, sliderElements, indexAttr) { // TODO check this is doing what I think it is
     let counter = 0;
     let start = 0;
     widthArray.reduce((acc, val, i) => {
@@ -271,14 +266,10 @@ const contentSlider = (el, options) => {
     changeInactiveControlClass(sliderElements.prevControl, sliderElements.nextControl, positionIndex, positionArray, classes.sliderControlInActive);
   };
 
-  function changePosition (n, positionArray, speed) {
+  function changePosition (n, positionArray) {
     let leftPosition = 0;
     leftPosition = positionArray[n] * -1;
-    sliderElements.slidesContainer.style.webkitTransform = 'translate(' + leftPosition + 'px,0) translateZ(0)';
-    sliderElements.slidesContainer.style.msTransform =
-    sliderElements.slidesContainer.style.MozTransform =
-    sliderElements.slidesContainer.style.OTransform =
-    sliderElements.slidesContainer.Transform = 'translateX(' + leftPosition + 'px)';
+    setPropertyPrefixed(sliderElements.slidesContainer, 'transform', `translate(${leftPosition}px,0) translateZ(0)`);
   };
 
   function nextSlide(e) {
