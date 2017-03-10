@@ -3,6 +3,10 @@ handle: article-template
 context:
   inSection: explore
   article:
+    positionInSeries: 3
+    series:
+      total: 5
+      color: 'purple'
     headline: How cultural contexts can shape mental illness
     tags: "@tags.tags"
     author: "@author"
