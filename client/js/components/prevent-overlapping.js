@@ -1,6 +1,8 @@
-import { nodeList } from '../util';
+import { nodeList, featureTest } from '../util';
 
 const preventOverlapping = (els) => {
+  if (!featureTest('position', 'sticky')) return;
+
   const stickies = nodeList(els);
 
   const setsOfElsToWrap = stickies.map((sticky) => {
