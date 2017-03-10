@@ -136,11 +136,16 @@ export const explore = async(ctx, next) => {
       headline: 'The Collectors',
       description: 'Lorem ipsum dolor sit amet.',
       thumbnail: {
-        contentUrl: '/assets/images/temp/the_collectors_promo.jpg',
+        contentUrl: 'https://wellcomecollection.files.wordpress.com/2017/03/the-collectors-promo.jpg',
         width: 1600,
         height: 900
       },
-      datePublished: ''
+      positionInSeries: 1,
+      series: {
+        items: ['one'],
+        color: 'purple',
+        total: 1
+      }
     }
   };
 
