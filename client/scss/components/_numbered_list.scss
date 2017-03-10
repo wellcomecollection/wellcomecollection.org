@@ -214,3 +214,8 @@ $numbered-list-number-size: 96px;
     display: none;
   }
 }
+
+.numbered-list--sticky {
+  position: sticky;
+  top: 0;
+}
