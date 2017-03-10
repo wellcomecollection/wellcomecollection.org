@@ -18,6 +18,7 @@ const makeSticky = (els) => {
 
     document.addEventListener('readystatechange', applyPositioning);
     window.addEventListener('resize', debounce(applyPositioning, 500));
+    window.addEventListener('orientationchange', applyPositioning);
   }
 };
 
