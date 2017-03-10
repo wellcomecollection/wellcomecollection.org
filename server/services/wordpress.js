@@ -12,11 +12,12 @@ export type PostsResponse = {|
 
 const baseUri = 'https://public-api.wordpress.com/rest/v1.1/sites/blog.wellcomecollection.org';
 
-export async function getPosts(size: number = 20, q: {category?:string}): Promise<PostsResponse> {
+export async function getPosts(size: number = 20, q: {category?:string}, page: number = 1): Promise<PostsResponse> {
   const uri = `${baseUri}/posts/`;
   const response = await request(uri).query(Object.assign({}, {
     fields: 'slug,title,excerpt,post_thumbnail,date,categories',
-    number: size
+    number: size,
+    page
   }, q));
 
   const posts: List<ArticleStub> = List(response.body.posts).map(post => {
