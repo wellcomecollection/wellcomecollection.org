@@ -4,7 +4,7 @@ export type NumberedList = {|
   items: Array<{
     title: string,
     url: string,
-    meta: string
+    date: Date
   }>;
 |}
 
