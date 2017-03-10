@@ -54,7 +54,6 @@
       </div>
     {% endif %}
   </div>
-
   {% if promo.modifiers and promo.modifiers | contains('standalone') %}
     <div class="row row--cream">
       <div class="container">
@@ -71,7 +70,7 @@
                   </{{ headingLevel or 'h2'}}>
               </div>
               {% if promo.article.description %}
-                <span  class="promo__copy">{{ promo.article.description | striptags | safe | truncate(140) }}</span>
+                <span class="promo__copy">{{ promo.article.description | striptags | safe | truncate(140) }}</span>
               {% endif %}
             </header>
           {% if promo.modifiers and promo.modifiers | contains('standalone') %}
