@@ -143,7 +143,7 @@ export const explore = async(ctx, next) => {
       positionInSeries: 1,
       series: {
         items: ['one'],
-        color: 'purple',
+        color: 'turquoise',
         total: 1
       }
     }
