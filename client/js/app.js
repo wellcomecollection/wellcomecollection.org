@@ -2,6 +2,8 @@
 import 'core-js/fn/object/assign';
 import 'whatwg-fetch';
 import lazysizes from 'lazysizes';
+import '../libs/before-polyfill';
+import '../libs/append-polyfill';
 
 import { nodeList } from './util';
 import headerBurger from './components/header/burger';
