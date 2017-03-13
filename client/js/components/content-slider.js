@@ -32,7 +32,7 @@ const contentSlider = (el, options) => {
     sliderControls: `${settings.cssPrefix}slider-controls`,
     prevControl: `${settings.cssPrefix}slider-control--prev`,
     nextControl: `${settings.cssPrefix}slider-control--next`,
-    sliderControlInActive: `${settings.cssPrefix}slider-control--inactive`
+    sliderControlInactive: `${settings.cssPrefix}slider-control--inactive`
   };
   // Define vars
   const sliderTouch = new Hammer(sliderElements.slidesContainer);
@@ -264,7 +264,7 @@ const contentSlider = (el, options) => {
     }
     changePosition(positionIndex, positionArray, settings.speed);
     changeCurrentItemsStatus(sliderElements.slideItems, positionIndex, classes.currentItem, positionArrayBySlide, positionArray, slidesWidthArray, containerWidth);
-    changeInactiveControlClass(sliderElements.prevControl, sliderElements.nextControl, positionIndex, positionArray, classes.sliderControlInActive);
+    changeInactiveControlClass(sliderElements.prevControl, sliderElements.nextControl, positionIndex, positionArray, classes.sliderControlInactive);
   };
 
   function changePosition (n, positionArray) {
@@ -274,12 +274,12 @@ const contentSlider = (el, options) => {
   };
 
   function nextSlide(e) {
-    if (e.target.classList.contains(classes.sliderControlInActive)) return;
+    if (e.target.classList.contains(classes.sliderControlInactive)) return;
     return updatePosition(positionIndex + 1, positionArray);
   }
 
   function prevSlide(e) {
-    if (e.target.classList.contains(classes.sliderControlInActive)) return;
+    if (e.target.classList.contains(classes.sliderControlInactive)) return;
     return updatePosition(positionIndex - 1, positionArray);
   }
 
