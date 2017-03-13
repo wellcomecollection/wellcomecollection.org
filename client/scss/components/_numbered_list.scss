@@ -141,16 +141,6 @@ $numbered-list-number-size: 96px;
     min-width: 300px;
     max-width: 300px;
     border-width: 0 1px 0 0;
-
-    // &:nth-child(3) {
-    //   min-width: 100px;
-    //   max-width: 100px;
-    // }
-
-    // &:nth-child(1) {
-    //   min-width: 500px;
-    //   max-width: 500px;
-    // }
   }
 
   .numbered-list__link,
@@ -219,3 +209,66 @@ $numbered-list-number-size: 96px;
   position: sticky;
   top: 0;
 }
+
+// javascript slider styles
+@include slider('numbered-list__');
+
+.numbered-list__slider {
+  border: 1px solid color('smoke');
+  border-width: 1px 1px 0;
+
+  @include respond-to('medium') {
+    border-width: 1px;
+  }
+}
+
+.numbered-list__slides-container {
+  border: 0;
+}
+
+.numbered-list__slider-controls {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid color('smoke');
+  border-width: 1px;
+  background: color('white');
+  min-height: 40px;
+
+  @include respond-to('medium') {
+    flex-direction: column;
+    border-width: 1px 1px 1px 0;
+  }
+
+  .numbered-list--horizontal-narrow & {
+    flex-direction: row;
+  }
+}
+
+.numbered-list__slider-control--prev,
+.numbered-list__slider-control--next {
+  background: color('white');
+  flex-grow: 1;
+  width: 50px;
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+  border: 0;
+
+  // &:focus {
+  //  TODO need focus style
+  // }
+}
+
+.numbered-list__slider-control--prev {
+  border: 1px solid color('smoke');
+  border-width: 0 1px 0 0;
+
+  @include respond-to('medium') {
+    border-width: 0 0 1px;
+  }
+
+  .numbered-list--horizontal-narrow & {
+    border-width: 0 1px 0 0;
+  }
+}
+
