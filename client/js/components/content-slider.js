@@ -133,6 +133,7 @@ const contentSlider = (el, options) => {
     widthArray.reduce((acc, val, i) => {
       if (acc + val - start > containerWidth) {
         counter++;
+        start = acc;
       }
       if (settings.movementType === 'by-slide') {
         addAttrToElements(sliderElements.slideItems[i], indexAttr, i);
