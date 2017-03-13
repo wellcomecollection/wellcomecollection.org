@@ -219,14 +219,19 @@ const contentSlider = (el, options) => {
     const lowerBoundary = positionValue;
     const upperBoundary = containerWidth + positionValue;
     const currentItems = [];
-    slidesWidthArray.reduce((acc, curr) => {
+    slidesWidthArray.reduce((acc, curr, i) => {
       const nextLength = acc + curr;
-      if (acc >= lowerBoundary && nextLength <= upperBoundary) {
-        currentItems.push(items[positionArrayBySlide.indexOf(acc)]);
+      if (settings.movementType !== 'by-slide') {
+        if (acc >= lowerBoundary && nextLength <= upperBoundary) {
+          currentItems.push(items[positionArrayBySlide.indexOf(acc)]);
+        }
+      } else {
+        if (n === i) {
+          currentItems.push(items[i]);
+        }
       }
       return nextLength;
     }, 0);
-
     removeClassesFromElements(items, className);
     addAttrToElements(sliderElements.slideItems, 'aria-hidden', 'true');
     nodeList(currentItems).forEach((item) => {
