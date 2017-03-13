@@ -99,9 +99,10 @@ const contentSlider = (el, options) => {
 
   function createWidthArray(slidesArray) {
     const widthArray = [];
-    nodeList(slidesArray).forEach((e, i) => {
-      const elementWidth = e.getBoundingClientRect().width;
-      widthArray.push(elementWidth);
+    nodeList(slidesArray).forEach((el, i) => {
+      const width = el.offsetWidth;
+      const style = window.getComputedStyle(el);
+      widthArray.push(width + parseInt(style.marginLeft) + parseInt(style.marginRight));
     });
     return widthArray;
   };
