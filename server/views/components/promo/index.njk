@@ -9,7 +9,9 @@
 <a href="{{ promo.article.url }}" class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %}">
   <div class="promo__image-container">
 
-    {% componentV2 'image', promo.article.thumbnail, {}, {lazyload: true, sizesQueries: sizes} %}
+    {% if promo.article.thumbnail.contentUrl %}
+      {% componentV2 'image', promo.article.thumbnail, {}, {lazyload: true, sizesQueries: sizes} %}
+    {% endif %}
 
     {% for modifier in promo.modifiers %}
       {% if modifier === 'series' %}
@@ -52,7 +54,6 @@
       </div>
     {% endif %}
   </div>
-
   {% if promo.modifiers and promo.modifiers | contains('standalone') %}
     <div class="row row--cream {{ {s:10, m:10, l:10} | spacingClasses('padding', 'top') }} ">
       <div class="container">
@@ -69,7 +70,7 @@
                   </{{ headingLevel or 'h2'}}>
               </div>
               {% if promo.article.description %}
-                <span  class="promo__copy">{{ promo.article.description | striptags | safe | truncate(140) }}</span>
+                <span class="promo__copy">{{ promo.article.description | striptags | safe | truncate(140) }}</span>
               {% endif %}
             </header>
           {% if promo.modifiers and promo.modifiers | contains('standalone') %}

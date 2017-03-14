@@ -17,3 +17,13 @@
 .wobbly-edge--cream {
   background: color('cream');
 }
+
+.wobbly-edge--rotated {
+  transform: rotate(180deg);
+  margin-top: 0;
+  top: -2px;
+}
+
+.wobbly-edge--small {
+  height: 5vw;
+}

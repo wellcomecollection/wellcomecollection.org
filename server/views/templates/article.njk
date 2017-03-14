@@ -3,3 +3,39 @@
 {% block articleBody %}
   {% component 'article-body', { articleBody: article.articleBody } %}
 {% endblock %}
+
+
+{% block transporters %}
+  <div class="row">
+    <div class="wobbly-edge wobbly-edge--rotated wobbly-edge--cream wobbly-edge--small js-wobbly-edge"></div>
+    <div class="container">
+      {% component 'transporter', transporter %}
+      <hr class="divider divider--thin" />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:4, m:8, l:12, xl: 12} | gridClasses }}">
+          <h2 class="heading--large v-margin-0">Latest</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row {{ {s:4, m:4, l:4} | spacingClasses('padding', 'top') }}">
+    <div class="container container--scroll touch-scroll">
+      <div class="grid grid--scroll grid--dividers grid--theme-6-strip">
+        {% for i in range(0, 6) %}
+          <div class="grid__cell">
+            {% component 'promo', { promo: promo } %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="container container--no-collapse">
+      <hr class="divider divider--thin" />
+    </div>
+  </div>
+{% endblock %}

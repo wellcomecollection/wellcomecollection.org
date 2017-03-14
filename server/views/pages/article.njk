@@ -17,7 +17,11 @@
 
 {% for media in article.mainMedia %}
   {% if (media.contentUrl) %}
-    {% componentV2 'main-media', media, {'full': true} %}
+    {% set seriesData = {
+      positionInSeries: article.positionInSeries,
+      series: article.series
+    } %}
+    {% componentV2 'main-media', media, {'full': true}, seriesData %}
   {% endif %}
 {% endfor %}
 
@@ -61,4 +65,6 @@
     </div>
   </div>
 </div>
+
+{% block transporters %}{% endblock %}
 {% endblock %}

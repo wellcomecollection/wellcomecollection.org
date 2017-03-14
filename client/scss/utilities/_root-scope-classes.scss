@@ -42,14 +42,14 @@
 }
 
 .heading--large {
-  @include font('WB5');
+  @include font('WB6');
 
   @include respond-to('medium') {
-    @include font('WB4');
+    @include font('WB5');
   }
 
   @include respond-to('large') {
-    @include font('WB3');
+    @include font('WB4');
   }
 }
 

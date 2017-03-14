@@ -187,6 +187,44 @@
   }
 }
 
+@mixin slider ($prefix: '') {
+  .#{$prefix}slider {
+    overflow: hidden;
+  }
+
+  .#{$prefix}slides-container {
+    // stylelint-disable declaration-no-important
+    overflow: visible !important;
+    // stylelint-enable declaration-no-important
+  }
+
+  .#{$prefix}slider-controls {
+    .control-arrow {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .#{$prefix}slider-control--prev {
+    .control-arrow {
+      transform: rotate(90deg);
+    }
+  }
+
+  .#{$prefix}slider-control--next {
+    .control-arrow {
+      transform: rotate(-90deg);
+    }
+  }
+
+  .#{$prefix}slider-control--inactive {
+    opacity: 0.3;
+    // stylelint-disable declaration-no-important
+    cursor: default !important;
+    // stylelint-enable declaration-no-important
+  }
+}
+
 @mixin image-zoom ($interactionElement, $containerElement, $zoomElement) {
   #{$containerElement} {
     transform: translateZ(0); // Fixes scale/border-radius overflow bug: http://stackoverflow.com/a/31686781
