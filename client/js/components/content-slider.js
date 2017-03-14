@@ -84,7 +84,7 @@ const contentSlider = (el, options) => {
 
   function calculateDimensions() { // Dimensions which determine movement amounts
     containerWidth = calculateContainerWidth(sliderElements.slidesContainer);
-    slidesWidthArray = createWidthArray(sliderElements.slideItems);
+    slidesWidthArray = createWidthArray(sliderElements.slideItems, containerWidth);
     // slidesWidthArrayInverted = slidesWidthArray.slice().reverse();
     slidesCombinedWidth = calculateCombinedWidth(slidesWidthArray);
     positionArrayBySlide = calculateSlidePositionArray(slidesWidthArray);
@@ -97,12 +97,32 @@ const contentSlider = (el, options) => {
     }
   }
 
-  function createWidthArray(slidesArray) {
+  function createWidthArray(slidesArray, containerWidth) { // TODO break this function up - breakout the bit that sets size of images if they're wider than the container width
     const widthArray = [];
+    const maxWidth = containerWidth;
     nodeList(slidesArray).forEach((el, i) => {
       const width = el.offsetWidth;
       const style = window.getComputedStyle(el);
-      widthArray.push(width + parseInt(style.marginLeft) + parseInt(style.marginRight));
+      const horizontalMargins = parseInt(style.marginLeft) + parseInt(style.marginRight);
+      const image = el.getElementsByTagName('img')[0];
+      if (image) {
+        image.style.removeProperty('width');
+        image.style.removeProperty('height');
+        const cssHeight = parseInt(window.getComputedStyle(image).getPropertyValue('height'), 10);
+        const imageWidth = image.getAttribute('data-width');
+        const imageHeight = image.getAttribute('data-height');
+        const widthByHeight = imageWidth / imageHeight * cssHeight;
+
+        if (widthByHeight <= maxWidth) {
+          widthArray.push(widthByHeight + horizontalMargins);
+        } else {
+          widthArray.push(maxWidth);
+          image.style.width = `${maxWidth - horizontalMargins}px`;
+          image.style.height = 'auto';
+        }
+      } else {
+        widthArray.push(width + horizontalMargins);
+      }
     });
     return widthArray;
   };
