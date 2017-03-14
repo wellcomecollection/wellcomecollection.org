@@ -25,7 +25,7 @@
   {% endif %}
 {% endfor %}
 
-<div class="row row--cream {{ {s:10, m:10, l:10} | spacingClasses('padding', 'top') }} {{ {s:10, m:10, l:10} | spacingClasses('padding', 'bottom') }} ">
+<div class="row row--cream {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top', 'bottom']}) }} ">
   <div class="container">
     <div class="grid grid--no-gutters">
       <div class="grid__cell grid__cell--s4 grid__cell--m6 grid__cell--shift-m1 grid__cell--l7 grid__cell--xl6 grid__cell--shift-xl1">
@@ -54,7 +54,7 @@
             } %}
           {% endif %}
 
-          <hr class="divider divider--stub divider--black {{ {s:4, m:4, l:4} | spacingClasses('margin', 'top') }} {{ {s:1, m:1, l:1} | spacingClasses('margin', 'bottom') }}" />
+          <hr class="divider divider--stub divider--black {{ {s:4, m:4, l:4} | spacingClasses({margin: ['top']}) }} {{ {s:1, m:1, l:1} | spacingClasses({margin: ['bottom']}) }}" />
 
           {% if article.tags.length > 0 %}
             {% component 'tags', { tags: article.tags } %}

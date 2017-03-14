@@ -3,7 +3,7 @@
 {% block body %}
   {% component 'page-description', { title: 'Explore', modifiers: ['hidden'] } %}
 
-  <div class="row row--cream row--has-wobbly-background {{ {s:10, m:10, l:10} | spacingClasses('padding', 'top') }}">
+  <div class="row row--cream row--has-wobbly-background {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top']}) }}">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:4, m:8, l:12, xl:12} | gridClasses }}">
@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <div class="row {{ {s:10, m:10, l:10} | spacingClasses('padding', 'top') }}">
+  <div class="row {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top']}) }}">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:4, m:4, l:12, xl:12} | gridClasses }}">
@@ -51,7 +51,7 @@
     </div>
   </div>
 
-  <div class="row {{ {s:10, m:10, l:10} | spacingClasses('padding', 'top') }}">
+  <div class="row {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top']}) }}">
     {% component 'promo', { promo: standaloneArticlePromo } %}
   </div>
 

@@ -1,18 +1,18 @@
-<div class="row {{ {s:10, m:10, l:10} | spacingClasses('padding', 'top') }} ">
+<div class="row {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top']}) }} ">
   <div class="container">
     <div class="grid">
       <div class="{{ {s:4, m:8, l:12, xl: 12} | gridClasses }}">
-        <h2 class="heading--large {{ {s:0, m:0, l:0} | spacingClasses('margin', 'top') }} {{ {s:0, m:0, l:0} | spacingClasses('margin', 'bottom') }}">{{ model.name }}</h2>
+        <h2 class="heading--large {{ {s:0, m:0, l:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{ model.name }}</h2>
       </div>
       <div class="{{ {s:4, m:8, l:8} | gridClasses }}">
-        <p class="{{ {s:0, m:0, l:0} | spacingClasses('margin', 'top') }} {{ {s:0, m:0, l:0} | spacingClasses('margin', 'bottom') }}">{{ model.description }}</p>
+        <p class="{{ {s:0, m:0, l:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{ model.description }}</p>
         {% componentV2 'more-info-link', model %}
       </div>
     </div>
   </div>
 </div>
 
-<div class="row {{ {s:4, m:4, l:4} | spacingClasses('padding', 'top') }} ">
+<div class="row {{ {s:4, m:4, l:4} | spacingClasses({padding: ['top']}) }} ">
   <div class="container container--scroll touch-scroll">
     <div class="grid grid--dividers grid--scroll grid--theme-{{ model.items.size if model.items.size < 8 else '8' }}">
       {% for promo in model.items.take(8).toJS() %}
@@ -23,7 +23,7 @@
     </div>
   </div>
   <div class="container container--no-collape">
-    <hr class="divider divider--thick divider--black {{ {s:5, m:5, l:5} | spacingClasses('margin', 'bottom') }}" />
+    <hr class="divider divider--thick divider--black {{ {s:5, m:5, l:5} | spacingClasses({margin: ['bottom']}) }}" />
   </div>
 </div>
 
