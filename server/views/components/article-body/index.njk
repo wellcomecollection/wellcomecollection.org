@@ -20,11 +20,7 @@
       {% elif bodyPart.type === 'interview' %}
         {% component 'interview', { interview: bodyPart.value } %}
       {% elif bodyPart.type === 'imageGallery' %}
-        <div class="body-part__scroller touch-scroll">
-          <div class="body-part__scroller-content">
-            {% component 'image-gallery', { imageGallery: bodyPart.value } %}
-          </div>
-        </div>
+        {% component 'image-gallery', { imageGallery: bodyPart.value } %}
       {% elif bodyPart.type === 'tweet' %}
         {% component 'tweet', { tweet: bodyPart.value } %}
       {% elif bodyPart.type === 'instagramEmbed' %}
@@ -35,3 +31,4 @@
     </div>
   {% endfor %}
 </div>
+
