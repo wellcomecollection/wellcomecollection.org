@@ -243,4 +243,18 @@
   #{$interactionElement}:focus #{$zoomElement}, {
     transform: scale(1.02);
   }
-};
+}
+
+@mixin spacing-classes($spacing-size-key) {
+  @each $spacing-direction in $spacing-directions {
+    @for $i from 0 through 10 {
+      .margin-#{$spacing-direction}-#{$spacing-size-key}#{$i} {
+        margin-#{$spacing-direction}: #{$i * $spacing-unit};
+      }
+
+      .padding-#{$spacing-direction}-#{$spacing-size-key}#{$i} {
+        padding-#{$spacing-direction}: #{$i * $spacing-unit};
+      }
+    }
+  }
+}
