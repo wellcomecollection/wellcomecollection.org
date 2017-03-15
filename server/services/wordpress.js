@@ -42,11 +42,12 @@ export async function getArticle(id: string, authToken: ?string = null) {
 }
 
 
-export async function getSeries(id: string, size: number): Series {
+export async function getSeries(id: string, size: number, page: number = 1): Promise<Series> {
   const posts = await getArticleStubs(size, {category: id, page});
   const {total} = posts;
   const items = posts.data;
   // TODO: What a fudge !_!
+  // $FlowFixMe as this is a hack
   const {name, description} = items.first().series[0];
 
   return ({
@@ -54,6 +55,7 @@ export async function getSeries(id: string, size: number): Series {
     name,
     description,
     total,
-    items
+    items,
+    color: 'purple'
   }: Series);
 }

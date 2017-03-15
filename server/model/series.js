@@ -4,6 +4,12 @@ import {type Promo} from './promo';
 import {type ArticleStub} from './article-stub';
 import {type Pagination} from '../controllers/index';
 
+type ChapterColor =
+  | 'purple'
+  | 'red'
+  | 'orange'
+  | 'turquoise';
+
 export type ArticleSeries = {|
   url: string;
   name: string;
@@ -18,7 +24,7 @@ export type Series = {|
   commissionedLength?: ?number;
   items: List<ArticleStub>;
   total: number;
-  color: string;
+  color: ChapterColor;
 |}
 
 // Anything below is a massive hack due to the fact that we don't have a CMS that
@@ -29,14 +35,14 @@ export function getSeriesCommissionedLength(seriesUrl: string): ?number {
 }
 
 export function getForwardFill(series: Series): Series {
-  const lookup: { [key: string]: List<Promo> } = {
+  const lookup: { [key: string]: List<ArticleStub> } = {
     'electricity': List([])
   };
 
   const forwardFill = lookup[series.url];
 
   if (forwardFill) {
-    const missingCount = series.commissionedLength - series.items.size;
+    const missingCount = series.commissionedLength || series.items.size - series.items.size;
     const usefulForwardFill = forwardFill.takeLast(missingCount);
     const newSeriesItems = series.items.concat(usefulForwardFill);
     series.items = newSeriesItems;

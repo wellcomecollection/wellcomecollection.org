@@ -14,7 +14,7 @@ type PromoList = {|
 
 export class PromoListFactory {
   static fromSeries(series: Series): PromoList {
-    const promos: List<Promo> = series.items.map(PromoFactory.fromArticleStub);
+    const promos: List<Promo> = series.items.map(p => PromoFactory.fromArticleStub(p));
     return ({
       name: series.name,
       description: series.description,

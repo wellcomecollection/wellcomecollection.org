@@ -7,7 +7,7 @@ import {type Chapter} from './chapter';
 import {type ContentType} from './content-type';
 import {type ArticleStub} from './article-stub';
 
-export type Promo = UiComponent & {|
+export type Promo = UiComponent & {
   url: string;
   title: string;
   image: Picture;
@@ -16,7 +16,7 @@ export type Promo = UiComponent & {|
   description?: string;
   chapter?: Chapter;
   length?: number;
-|}
+}
 
 export function createPromo(data: Promo) { return (data: Promo); }
 
