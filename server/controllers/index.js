@@ -6,6 +6,8 @@ import {type Series} from '../model/series';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 
+const maxItemsPerPage = 32;
+
 export const article = async(ctx, next) => {
   const slug = ctx.params.slug;
   const format = ctx.request.query.format;
@@ -30,7 +32,7 @@ export const article = async(ctx, next) => {
 
 export const articles = async(ctx, next) => {
   const {page} = ctx.request.query;
-  const articleStubsResponse = await getArticleStubs(32, {}, page);
+  const articleStubsResponse = await getArticleStubs(maxItemsPerPage, {page});
   const series: Series = {
     url: '/articles',
     name: 'Articles',
@@ -54,7 +56,7 @@ export const articles = async(ctx, next) => {
 
 export const series = async(ctx, next) => {
   const {id, page} = ctx.params;
-  const series = await getSeries(id, 32, page);
+  const series = await getSeries(id, maxItemsPerPage, page);
   const promoList = PromoListFactory.fromSeries(series);
   const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1);
 

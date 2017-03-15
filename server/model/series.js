@@ -11,8 +11,12 @@ export type ArticleSeries = {|
   commissionedLength?: ?number;
 |}
 
-export type Series = ArticleSeries & {|
-  items: Array<ArticleStub>;
+export type Series = {|
+  url: string;
+  name: string;
+  description?: string;
+  commissionedLength?: ?number;
+  items: List<ArticleStub>;
   total: number;
   color: string;
 |}

@@ -16,7 +16,7 @@ export class ArticleStubFactory {
     const url = `/articles/${json.slug}`; // TODO: this should be discoverable, not hard coded
     const headline = entities.decode(json.title);
     const description = entities.decode(json.excerpt);
-    const wpThumbnail = json.post_thumbnail;
+    const wpThumbnail = json.post_thumbnail || {};
     const thumbnail: Picture = {
       contentUrl: wpThumbnail.URL,
       width: wpThumbnail.width,

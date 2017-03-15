@@ -1,16 +1,22 @@
-<div class="numbered-list">
+<div class="numbered-list{% for modifier in modifiers %} numbered-list--{{modifier}}{% endfor %} {% for class in data.classes %} {{class}}{% endfor %}">
   <header class="numbered-list__header">
-    <h2 class="numbered-list__heading">{{ numberedList.name }}</h2>
+    <h2 class="numbered-list__heading">{{ model.name }}</h2>
   </header>
-  <ol class="numbered-list__list">
-    {% for item in numberedList.items %}
-      <li class="numbered-list__item">
+  <ol class="numbered-list__list{% if data.sliderId %} js-numbered-slider{% endif %}"{% if data.sliderId %} id="{{data.sliderId}}" {% endif %}>
+    {% for item in model.items -%}
+      <li class="numbered-list__item {{ 'numbered-list__item--inactive' if not item.url }}">
+        <span class="numbered-list__number" aria-hidden="true">{{ loop.index }}</span>
+      {% if item.url %}
         <a href="{{ item.url }}" class="numbered-list__link">
-          <span class="numbered-list__number" aria-hidden="true">{{ loop.index }}</span>
+      {% else %}
+        <span class="numbered-list__link-surrogate">
+      {% endif %}
           <h3 class="numbered-list__title">{{ item.title }}</h3>
-          <p class="numbered-list__meta">{{ item.meta }}</p>
+          <p class="numbered-list__date">{{ item.date | formatDate }}</p>
+      {% if item.url %}
         </a>
+      {% endif %}
       </li>
-    {% endfor %}
+    {%- endfor %}
   </ol>
 </div>

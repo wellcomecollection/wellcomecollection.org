@@ -6,15 +6,15 @@ import {type Series} from './series';
 
 type PromoList = {|
   name: string;
-  description: string;
   total: number;
-  url?: string;
   items: List<Promo>;
+  url?: string;
+  description?: string;
 |}
 
 export class PromoListFactory {
   static fromSeries(series: Series): PromoList {
-    const promos = series.items.map(PromoFactory.fromArticleStub);
+    const promos: List<Promo> = series.items.map(PromoFactory.fromArticleStub);
     return ({
       name: series.name,
       description: series.description,
