@@ -1,5 +1,5 @@
 // @flow
-import {createPromo} from '../../../model/promo';
+import {type Promo, createPromo} from '../../../model/promo';
 import {ArticleStubFactory} from '../../../model/article-stub';
 import mockJson from '../../../test/mocks/wp-api.json';
 
@@ -8,12 +8,12 @@ export const name = 'Promo';
 export const handle = 'promo';
 export const collated = true;
 
-export const promo = createPromo({
-  article: article,
-  meta: {
-    type: 'article'
-  }
-});
+export const promo = createPromo(({
+  contentType: 'article',
+  image: article.thumbnail,
+  title: article.headline,
+  url: article.url
+}: Promo));
 
 export const context = { promo };
 

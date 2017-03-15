@@ -12,7 +12,6 @@ export type Promo = UiComponent & {
   title: string;
   image: Picture;
   contentType: ContentType;
-  weight: Weight,
   description?: string;
   chapter?: Chapter;
   length?: number;
