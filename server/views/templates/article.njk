@@ -14,7 +14,7 @@
     </div>
   </div>
 
-  <div class="row row--no-padding">
+  <div class="row">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:4, m:8, l:12, xl: 12} | gridClasses }}">
@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <div class="row row--small-top-padding">
+  <div class="row {{ {s:4, m:4, l:4} | spacingClasses({padding: ['top']}) }}">
     <div class="container container--scroll touch-scroll">
       <div class="grid grid--scroll grid--dividers grid--theme-6-strip">
         {% for i in range(0, 6) %}

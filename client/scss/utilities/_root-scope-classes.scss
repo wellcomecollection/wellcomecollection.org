@@ -1,3 +1,19 @@
+@each $spacing-size in $grid-config {
+  $spacing-size-key: nth($spacing-size, 1);
+  $spacing-size-map: nth($spacing-size, 2);
+  $spacing-size-respond: map-get($spacing-size-map, 'respond');
+
+  @if (length($spacing-size-respond) > 1) {
+    @include respond-between(nth($spacing-size-respond, 1), nth($spacing-size-respond, 2)) {
+      @include spacing-classes($spacing-size-key);
+    }
+  } @else {
+    @include respond-to($spacing-size-respond) {
+      @include spacing-classes($spacing-size-key);
+    }
+  }
+}
+
 // Adds momentum scrolling to iOS
 // TODO: consider removing if/when scroll snapping is implemented
 .touch-scroll {
@@ -20,44 +36,9 @@
   float: right;
 }
 
-.v-margin-0 {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.v-margin-s {
-  margin-top: $spacing-unit * 2;
-  margin-bottom: $spacing-unit * 2;
-}
-
-.l-margin-s {
-  margin-left: $spacing-unit * 2;
-}
-
-.r-margin-s {
-  margin-right: $spacing-unit * 2;
-}
-
-.v-padding-m {
-  padding-top: $spacing-unit * 5;
-  padding-bottom: $spacing-unit * 5;
-}
-
 .h-center {
   margin-left: auto;
   margin-right: auto;
-}
-
-.top-margin-s {
-  margin-top: $spacing-unit * 2;
-}
-
-.top-margin-m {
-  margin-top: $spacing-unit * 3;
-}
-
-.keyline-b {
-  border-bottom: 1px solid color('keyline-grey');
 }
 
 .heading--large {
