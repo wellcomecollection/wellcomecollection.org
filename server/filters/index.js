@@ -9,6 +9,7 @@ import contains from './contains';
 import getCacheBustFile from './get-cache-bust-file';
 import jsonLd from './json-ld';
 import formatDate from './format-date';
+import {objectAssign} from './object-assign';
 
 export default Map({
   youtubeEmbedUrl,
@@ -20,5 +21,6 @@ export default Map({
   componentClasses,
   getCacheBustFile,
   jsonLd,
-  formatDate
+  formatDate,
+  objectAssign
 });

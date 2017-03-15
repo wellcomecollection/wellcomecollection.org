@@ -10,14 +10,12 @@
       <p class="transporter__intro">{{ introCopy }}</p>
     </div>
     {% endif %}
+
     {% for promo in promos %}
     <div class="{{ {s:4, m:8} | gridClasses }} transporter__item">
-      {% set promoModel = {
-        modifiers: promo.modifiers.concat('large-text') if (promos.length <= 4) else promo.modifiers,
-        article: promo.article,
-        meta: promo.meta
-      } %}
-      {% component 'promo', { promo: promoModel } %}
+      {% set modifiers = promo.modifiers.concat('large-text') if (promos.length <= 4) else promo.modifiers %}
+
+      {% component 'promo', { promo: promo | objectAssign({ modifiers: modifiers }) } %}
     </div>
     {% endfor %}
   </div>
