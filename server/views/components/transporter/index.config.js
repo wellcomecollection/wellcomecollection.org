@@ -10,11 +10,11 @@ export const collated = true;
 
 const articleWithoutDescription = Object.assign({}, article, {description: ''});
 const promo = createPromo({
+  contentType: 'article',
   modifiers: ['transporter-child'],
-  article: articleWithoutDescription,
-  meta: {
-    type: 'article'
-  }
+  image: article.thumbnail,
+  title: article.headline,
+  url: article.url
 });
 
 export const transporter = {
