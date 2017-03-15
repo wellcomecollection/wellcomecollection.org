@@ -1,9 +1,12 @@
-<header class="page-description {% for modifier in modifiers %}page-description--{{ modifier }} {% endfor %}">
-  <div class="row page-description__row {{ 'row--lead row--lead--l' if lead }}">
+<header class="page-description {{ 'page-description' | componentClasses(modifiers) }}">
+  <div class="row page-description__row {{ 'row--lead row--lead--l' if model.lead }}">
     <div class="container page-description__container">
       <div class="grid">
-        <div class="grid__cell grid__cell--s4 grid__cell--m6 grid__cell--shift-m1 {{ 'grid__cell--shift-l1 grid__cell--l11 grid__cell--xl10' if lead else 'grid__cell--l12 grid__cell--xl11' }}">
-          <h1 class="page-description__title">{{ title }}</h1>
+        <div class="grid__cell grid__cell--s4 grid__cell--m6 grid__cell--shift-m1 {{ 'grid__cell--shift-l1 grid__cell--l11 grid__cell--xl10' if model.lead else 'grid__cell--l12 grid__cell--xl11' }}">
+          <h1 class="page-description__title">
+            {% if data.icon %}{% icon data.icon %}{% endif %}
+            {{ model.title }}
+          </h1>
         </div>
       </div>
     </div>
@@ -11,17 +14,17 @@
   {% if meta %}
     <div class="row">
       <div class="container">
-          <div class="grid">
-            <div class="grid__cell grid__cell--shift-m1 {{ 'grid__cell--shift-l1' if lead }}">
-              <span class="page-description__subtext">
-                {% if meta.type === 'date' %}
-                  {% icon 'other/clock' %}{{ meta.value }}
-                {% else %}
-                  {{ meta.value }}
-                {% endif %}
-              </span>
-            </div>
+        <div class="grid">
+          <div class="grid__cell grid__cell--shift-m1 {{ 'grid__cell--shift-l1' if model.lead }}">
+            <span class="page-description__subtext">
+              {% if model.meta.type === 'date' %}
+                {% icon 'other/clock' %}{{ model.meta.value }}
+              {% else %}
+                {{ model.meta.value }}
+              {% endif %}
+            </span>
           </div>
+        </div>
       </div>
     </div>
   {% endif %}

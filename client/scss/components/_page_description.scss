@@ -17,6 +17,11 @@
   margin-bottom: 0;
   margin-left: -0.06em;
 
+  .icon {
+    width: 0.8em;
+    height: 0.8em;
+  }
+
   .page-description--a & {
     @include font('WB5');
 
