@@ -7,35 +7,21 @@
 {% endblock %}
 
 {% block body %}
-{% componentV2 'page-description', {title: article.headline, meta: {type: 'date', value: article.datePublished | formatDate}, lead: true}, {'a': true}, {icon: 'actions/play'} %}
+
+{% componentV2 'page-description', {title: article.headline, meta: {type: 'date', value: article.datePublished | formatDate}, lead: true}, {'a': true}, {icon: article.contentType | getIconForContentType} %}
 
 {% if article.series[0] and article.series[0].commissionedLength %}
   {% set asyncContentEndpoint = '/series-nav/' + article.series[0].url + '?current=' + article.url %}
   {% component 'async', { endpoint: asyncContentEndpoint, placeholderClassname: 'series-nav-placeholder' } %}
 {% endif %}
 
-
 {% for media in article.mainMedia %}
-  {% if (media.contentUrl) %}
+  {% if (media.contentUrl) or (media.embedUrl) %}
     {% set seriesData = {
       positionInSeries: article.positionInSeries,
       series: article.series
     } %}
-
-    <div class="row row--dark-black {{ {s:4, m:8, l:10} | spacingClasses({padding: ['top', 'bottom']}) }}">
-      <div class="container">
-        <div class="grid">
-          <div class="{{ {s:4, m:8, l:8, shiftL:2} | gridClasses }}">
-            {% componentV2 'iframed-video', {
-              embedUrl: 'https://www.youtube.com/embed/bfXAlqx0H1g?version=3&rel=1&fs=1&autohide=2&showsearch=0&showinfo=1&iv_load_policy=1&wmode=transparent'
-            } %}
-          </div>
-        </div>
-      </div>
-    </div>
-    {% component 'wobbly-edge', {background: 'cream'} %}
-
-    {#{% componentV2 'main-media', media, {'full': true}, seriesData %}#}
+    {% componentV2 'main-media', media, {'full': true}, seriesData %}
   {% endif %}
 {% endfor %}
 

@@ -20,7 +20,7 @@ export type Article = {|
   // TODO: this will probably, at some stage be able to be video/audio/gallery etc
   // It's also an Array because it's not unfathomable to think of having
   // an audio and image mainMedia.
-  mainMedia: Array<Picture>;
+  mainMedia: Array<Picture | Video>;
   thumbnail?: ?Picture;
   articleBody: string;
   associatedMedia: Array<Picture>;

@@ -1,6 +1,7 @@
 import {Map} from 'immutable';
 import youtubeEmbedUrl from './youtube-embed-url';
 import {getImageSizesFor} from './image-sizes';
+import getIconForContentType from './get-icon-for-content-type';
 import gridClasses from './grid-classes';
 import spacingClasses from './spacing-classes';
 import componentClasses from './component-classes';
@@ -13,6 +14,7 @@ import formatDate from './format-date';
 export default Map({
   youtubeEmbedUrl,
   getImageSizesFor,
+  getIconForContentType,
   gridClasses,
   spacingClasses,
   concat,

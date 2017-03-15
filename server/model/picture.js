@@ -1,5 +1,6 @@
 // @flow
 export type Picture = {|
+  type: 'picture';
   contentUrl: string;
   width: number;
   height: number;
