@@ -29,9 +29,10 @@
       {% endif %}
     {% endfor %}
 
-    {% if false or promo.article.series.items.length and promo.article.positionInSeries %}
-      <img class="promo__image-mask {{'promo__clip-path--chapters-half' if promo.modifiers and promo.modifiers | contains('standalone') else 'promo__clip-path--chapters-third'}}" src="{{ promo.article.thumbnail.contentUrl }}?w=600" alt="" />
-      {% componentV2 'chapter-indicator', {series: promo.article.series, position: promo.article.positionInSeries}, ['large' if promo.modifiers and promo.modifiers | contains('standalone')] %}
+
+    {% if promo.series.items.size and promo.positionInSeries %}
+      <img class="promo__image-mask {{'promo__clip-path--chapters-half' if promo.modifiers and promo.modifiers | contains('standalone') else 'promo__clip-path--chapters-third'}}" src="{{ promo.image.contentUrl }}?w=600" alt="" />
+      {% componentV2 'chapter-indicator', {series: promo.series, position: promo.positionInSeries}, ['large' if promo.modifiers and promo.modifiers | contains('standalone')] %}
     {% endif %}
 
     {% if promo.meta.contentType === 'gallery' or promo.meta.contentType === 'podcast' or promo.meta.contentType === 'video' %}
