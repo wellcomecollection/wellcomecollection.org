@@ -1,3 +1,6 @@
 // @flow
-export type ContentType = 
-  | "article"; // at the moment article is all we have
+export type ContentType =
+  | 'article'
+  | 'podcast'
+  | 'video'
+  | 'gallery'; // at the moment article is all we have

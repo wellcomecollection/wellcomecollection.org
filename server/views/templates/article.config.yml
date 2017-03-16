@@ -2,7 +2,22 @@ name: Article
 handle: article-template
 context:
   inSection: explore
+  transporter: "@transporter--theme"
+  promo:
+    meta:
+      type: 'article'
+    article:
+      url: '#'
+      headline: 'Promo title'
+      thumbnail:
+        contentUrl: 'https://placehold.it/1600x900'
+        width: 1600
+        height: 900
   article:
+    positionInSeries: 3
+    series:
+      total: 5
+      color: 'purple'
     headline: How cultural contexts can shape mental illness
     tags: "@tags.tags"
     author: "@author"

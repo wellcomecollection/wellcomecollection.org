@@ -1,8 +1,12 @@
 // TODO: FlowType this module
-import {type Promo} from '../model/promo';
+import {PromoFactory} from '../model/promo';
 import {createPageConfig} from '../model/page-config';
-import {getPosts, getArticle} from '../services/wordpress';
-import {type Series, getForwardFill, getSeriesCommissionedLength} from '../model/series';
+import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
+import {type Series} from '../model/series';
+import {PromoListFactory} from '../model/promo-list';
+import {PaginationFactory} from '../model/pagination';
+
+const maxItemsPerPage = 32;
 
 export const article = async(ctx, next) => {
   const slug = ctx.params.slug;
@@ -28,23 +32,22 @@ export const article = async(ctx, next) => {
 
 export const articles = async(ctx, next) => {
   const {page} = ctx.request.query;
-  const wpPosts = await getPosts(32);
-  const items = mapArticleStubsToPromos(wpPosts.data, 'default');
-  const {total} = wpPosts;
+  const articleStubsResponse = await getArticleStubs(maxItemsPerPage, {page});
   const series: Series = {
     url: '/articles',
     name: 'Articles',
-    total,
-    items
+    items: articleStubsResponse.data,
+    total: articleStubsResponse.total
   };
-  const pagination = getSeriesPagination(series, parseInt(page, 10) || 1);
+  const promoList = PromoListFactory.fromSeries(series);
+  const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1);
 
   ctx.render('pages/list', {
     pageConfig: createPageConfig({
       title: 'Articles',
       inSection: 'explore'
     }),
-    list: series,
+    list: promoList,
     pagination
   });
 
@@ -53,27 +56,16 @@ export const articles = async(ctx, next) => {
 
 export const series = async(ctx, next) => {
   const {id, page} = ctx.params;
-  const wpPosts = await getPosts(32, {category: id});
-  const items = mapArticleStubsToPromos(wpPosts.data, 'default');
-
-  // TODO: So So nasty
-  const {name, description} = wpPosts.data.first().series[0];
-  const {total} = wpPosts;
-  const series: Series = {
-    url: id,
-    name,
-    description,
-    total,
-    items
-  };
-  const pagination = getSeriesPagination(series, parseInt(page, 10) || 1);
+  const series = await getSeries(id, maxItemsPerPage, page);
+  const promoList = PromoListFactory.fromSeries(series);
+  const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1);
 
   ctx.render('pages/list', {
     pageConfig: createPageConfig({
-      title: name,
+      title: series.name,
       inSection: 'explore'
     }),
-    list: series,
+    list: promoList,
     pagination
   });
 
@@ -83,26 +75,14 @@ export const series = async(ctx, next) => {
 export const seriesNav = async(ctx, next) => {
   const {id} = ctx.params;
   const {current} = ctx.request.query;
-  const wpPosts = await getPosts(6, {category: id});
-  const items = mapArticleStubsToPromos(wpPosts.data, 'default');
-
-  // TODO: So So nasty
-  const {name, description} = wpPosts.data.first().series[0];
-  const {total} = wpPosts;
-  const series: Series = {
-    url: id,
-    name,
-    description,
-    total,
-    items,
-    commissionedLength: getSeriesCommissionedLength(id)
-  };
-
-  const b = getForwardFill(series);
+  const series = await getSeries(id, 6, 1);
+  const promoList = PromoListFactory.fromSeries(series);
+  // TODO: Commissioned length
+  // TODO: Forward fill
 
   ctx.render('components/series-nav/index', {
     current,
-    list: series,
+    list: promoList,
   });
 
   ctx.body = {
@@ -113,48 +93,50 @@ export const seriesNav = async(ctx, next) => {
 };
 
 export const explore = async(ctx, next) => {
-  const wpPosts = await getPosts(50);
-
-  const grouped = wpPosts.data.groupBy(post => post.headline.indexOf('A drop in the ocean:') === 0);
+  const articleStubs = await getArticleStubs(50);
+  const grouped = articleStubs.data.groupBy(stub => stub.headline.indexOf('A drop in the ocean:') === 0);
   const theRest = grouped.first();
-  const topPromo = mapArticleStubsToPromos(theRest.take(1), 'lead').first();
-  const second3Promos = mapArticleStubsToPromos(theRest.slice(1, 4), 'default');
-  const next8Promos = mapArticleStubsToPromos(theRest.slice(4, 12), 'default');
-  const aDropInTheOceanPromos = mapArticleStubsToPromos(grouped.last().take(7), 'default');
-  const aDropInTheOcean: Series = {
+  const topPromo = PromoFactory.fromArticleStub(theRest.first(), 'lead');
+  const second3Promos = theRest.slice(1, 4).map(PromoFactory.fromArticleStub);
+  const next8Promos = theRest.slice(4, 12).map(PromoFactory.fromArticleStub);
+  const aDropInTheOceanStubs = grouped.last().take(7);
+  const aDropInTheOceanSeries: Series = {
     url: '/series/a-drop-in-the-ocean',
     name: 'A drop in the ocean',
-    items: aDropInTheOceanPromos,
+    items: aDropInTheOceanStubs,
     description: 'This series showcases many different voices and perspectives from people with\
                   lived experience of mental ill health and explores their ideas of personal asylum\
                   through sculpture, vlogging, poetry and more.'
   };
+
   const collectorsPromo: Promo = {
     modifiers: ['standalone'],
-    article: {
-      url: 'http://digitalstories.wellcomecollection.org/pathways/2-the-collectors/',
-      headline: 'The Collectors',
-      description: 'Searchers, secrets and the power of curiosity.',
-      thumbnail: {
-        contentUrl: 'https://wellcomecollection.files.wordpress.com/2017/03/the-collectors-promo.jpg',
-        width: 1600,
-        height: 900
-      },
-      positionInSeries: 1,
-      series: {
-        items: ['one'],
-        color: 'turquoise',
-        total: 1
+    url: 'http://digitalstories.wellcomecollection.org/pathways/2-the-collectors/',
+    title: 'The Collectors',
+    description: 'Searchers, secrets and the power of curiosity.',
+    image: {
+      contentUrl: 'https://wellcomecollection.files.wordpress.com/2017/03/the-collectors-promo.jpg',
+      width: 1600,
+      height: 900
+    },
+    positionInSeries: 1,
+    series: {
+      color: 'turquoise',
+      total: 1,
+      items: {
+        size: 1
       }
     }
   };
+
+  const aDropInTheOceanPromoList = PromoListFactory.fromSeries(aDropInTheOceanSeries);
 
   ctx.render('pages/explore', {
     pageConfig: createPageConfig({
       title: 'Explore',
       inSection: 'explore'
     }),
-    aDropInTheOcean,
+    aDropInTheOcean: aDropInTheOceanPromoList,
     topPromo,
     second3Promos,
     next8Promos,
@@ -223,43 +205,3 @@ export const preview = async(ctx, next) => {
   return next();
 };
 
-function mapArticleStubsToPromos(stubs, weight) {
-  return stubs.map(articleStub => {
-    const promo: Promo = {
-      modifiers: [],
-      article: articleStub,
-      weight: weight
-    };
-    return promo;
-  });
-}
-
-type Pagination = {|
-  total: number;
-  size: number;
-  range: { beginning: number, end: number },
-  pageCount: number;
-  currentPage: number;
-  nextPage?: number;
-  prevPage?: number;
-|}
-
-function getSeriesPagination(series: Series, currentPage: number): Pagination {
-  const size = series.items.size;
-  const pageCount = Math.ceil(series.total / series.items.size);
-  const prevPage = pageCount > 1 && currentPage !== 1 ? currentPage - 1 : null;
-  const nextPage = pageCount > 1 && currentPage !== pageCount ? currentPage + 1 : null;
-  const range = {
-    beginning: (size * currentPage) - size + 1,
-    end: size * currentPage
-  };
-  const pagination = {
-    range,
-    pageCount,
-    currentPage,
-    nextPage,
-    prevPage
-  };
-
-  return (pagination: Pagination);
-}

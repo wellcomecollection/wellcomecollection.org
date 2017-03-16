@@ -1,69 +1,70 @@
 // @flow
-import {createPromo} from '../../../model/promo';
+import {List} from 'immutable';
+import {type Promo, createPromo} from '../../../model/promo';
 import {ArticleStubFactory} from '../../../model/article-stub';
 import mockJson from '../../../test/mocks/wp-api.json';
+import {type Series} from "../../../model/series";
 
 const article = ArticleStubFactory.fromWpApi(mockJson);
 export const name = 'Promo';
 export const handle = 'promo';
 export const collated = true;
 
-export const promo = createPromo({
-  modifiers: ['underlined'],
-  article: article,
-  meta: {
-    type: 'article'
-  }
-});
+export const promo = createPromo(({
+  contentType: 'article',
+  image: article.thumbnail,
+  title: article.headline,
+  url: article.url
+}: Promo));
 
 export const context = { promo };
 
-const articleInSeries = Object.assign({}, article, {series: {
-  url: '#',
-  name: 'A series',
-  description: 'This is a series',
-  items: ['promo1', 'promo2', 'promo3'],
+const series: Series = {
+  url: '/series/electricity',
+  name: 'Electricity',
   total: 5,
-  color: 'purple'
-}}, {positionInSeries: 3});
+  color: 'purple',
+  // $FlowFixMe for the items
+  items: List([1,2,3,4,5])
+};
 
-const promoInSeries = Object.assign({}, promo, {article: articleInSeries});
+const promoWithSeries = Object.assign({}, promo, {series, positionInSeries: 3});
 
 export const variants = [
   {
     name: 'series-article',
-    context: {promo: Object.assign({}, promo, {modifiers: ['series']}, {meta: {type: 'Electricity: part 1'}})}
+    context: {promo: Object.assign({}, promo, {modifiers: ['series']}, {contentType: 'series'})}
   },
   {
     name: 'gallery',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'gallery']}, {meta: {type: 'gallery'}})}
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'gallery']}, {contentType: 'gallery'})}
   },
   {
     name: 'podcast',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'podcast']}, {meta: {type: 'podcast', length: '01:35'}})}
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'podcast']}, { contentType: 'podcast', length: '01:35' })}
   },
   {
     name: 'video',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'video']}, {meta: {type: 'video', length: '01:35'}})}
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'video']}, { contentType: 'video', length: '01:35' })}
   },
   {
     name: 'standalone',
-    context: {promo: Object.assign({}, promo, {meta: {type: 'article'}}, {modifiers: ['standalone']})}
+    context: {promo: Object.assign({}, promo, {contentType: 'article'}, {modifiers: ['standalone']})}
   },
   {
     name: 'lead',
-    context: {promo: Object.assign({}, promo, {meta: {type: 'article', displayType: 'lead'}})}
+    context: {promo: Object.assign({}, promo, {contentType: 'article', weight: 'lead'})}
   },
   {
     name: 'regular',
-    context: {promo: Object.assign({}, promo, {meta: {type: 'article', displayType: 'regular'}})}
+    context: {promo: Object.assign({}, promo, {contentType: 'article', weight: 'regular'})}
   },
   {
     name: 'with-chapters',
-    context: {promo: Object.assign({}, promoInSeries, {type: 'article', displayType: 'regular'})}
+    context: {promo: Object.assign({}, promoWithSeries, {contentType: 'article', weight: 'lead'})}
   },
   {
     name: 'standalone-with-chapters',
-    context: {promo: Object.assign({}, promoInSeries, {meta: {type: 'article'}}, {modifiers: ['standalone']})}
+    context: {promo: Object.assign({}, promoWithSeries, {contentType: 'article', weight: 'lead'}, {modifiers: ['standalone']})}
   }
 ];

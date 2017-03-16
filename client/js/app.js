@@ -13,6 +13,7 @@ import preventOverlapping from './components/prevent-overlapping';
 import makeSticky from './components/make-sticky.js';
 import instagram from './components/instagram';
 import asynContent from './components/async-content';
+import shrinkStoriesNav from './components/shrink-stories-nav';
 
 const init = () => {
   nodeList(document.querySelectorAll('.async-content')).forEach(asynContent);
@@ -27,6 +28,7 @@ const init = () => {
   const wobblyEdgeEls = document.querySelectorAll('.js-wobbly-edge');
   const overlappingEls = document.querySelectorAll('.js-sticky, .js-full-width');
   const stickyEls = document.querySelectorAll('.js-sticky');
+  const seriesNav = document.querySelector('.js-series-nav');
 
   nodeList(wobblyEdgeEls).forEach((el) => wobblyEdge(el));
 
@@ -52,6 +54,10 @@ const init = () => {
 
   if (stickyEls) {
     makeSticky(stickyEls);
+  }
+
+  if (seriesNav) {
+    shrinkStoriesNav(seriesNav);
   }
 };
 

@@ -119,7 +119,6 @@ $center-width-xlarge: (6/6) * 100%;
     @supports (width: calc(10px + 10px)) {
       position: sticky;
       top: $vertical-space-unit;
-      transition: opacity 0.4s ease;
     }
   }
 }
