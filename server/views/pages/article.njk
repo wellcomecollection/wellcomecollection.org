@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block body %}
-
+{% block seriesNavigation %}{% endblock %}
 {% componentV2 'page-description', {title: article.headline, meta: {type: 'date', value: article.datePublished}, lead: true}, {'a': true}, {icon: article.contentType | getIconForContentType} %}
 
 {% if article.series[0] and article.series[0].commissionedLength %}
