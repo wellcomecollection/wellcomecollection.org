@@ -32,7 +32,7 @@ const contentSlider = (el, options) => {
     sliderControls: `${settings.cssPrefix}slider-controls`,
     prevControl: `${settings.cssPrefix}slider-control--prev`,
     nextControl: `${settings.cssPrefix}slider-control--next`,
-    sliderControlInActive: `${settings.cssPrefix}slider-control--inactive`
+    sliderControlInactive: `${settings.cssPrefix}slider-control--inactive`
   };
   // Define vars
   const sliderTouch = new Hammer(sliderElements.slidesContainer);
@@ -133,6 +133,7 @@ const contentSlider = (el, options) => {
     widthArray.reduce((acc, val, i) => {
       if (acc + val - start > containerWidth) {
         counter++;
+        start = acc;
       }
       if (settings.movementType === 'by-slide') {
         addAttrToElements(sliderElements.slideItems[i], indexAttr, i);

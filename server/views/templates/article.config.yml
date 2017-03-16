@@ -2,12 +2,24 @@ name: Article
 handle: article-template
 context:
   inSection: explore
+  transporter: "@transporter--theme"
+  promo:
+    meta:
+      type: 'article'
+    article:
+      url: '#'
+      headline: 'Promo title'
+      thumbnail:
+        contentUrl: 'https://placehold.it/1600x900'
+        width: 1600
+        height: 900
   article:
     headline: How cultural contexts can shape mental illness
     tags: "@tags.tags"
     author: "@author"
     mainMedia:
     - contentUrl: "https://placehold.it/1600x900"
+      type: 'picture'
       caption: "'Choose safer sex' poster with a photograph of two men in bed"
       width: 1600
       height: 900
@@ -165,3 +177,26 @@ context:
         items: [one, two, three]
     - type: html
       value: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at volutpat erat. Quisque non eros viverra, tincidunt mi a, interdum libero. Vestibulum efficitur ex sed est interdum, ac placerat enim blandit. Phasellus sodales velit non est bibendum tincidunt. Phasellus ut ligula at velit congue lobortis. Fusce at suscipit purus, ac tincidunt orci.</p>"
+
+variants:
+  - name: 'Digital story'
+    context:
+      seriesNav: "@numbered-list--horizontal"
+      article:
+        positionInSeries: 3
+        series:
+          total: 5
+          color: 'purple'
+  - name: 'Video'
+    context:
+      article:
+        contentType: 'video'
+        heading: 'This is a video'
+        mainMedia:
+          - type: 'video'
+            embedUrl: 'https://youtube.com/embed/JMzQiwnQ0Bo'
+        articleBody:
+          - type: standfirst
+            value: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at volutpat erat. Quisque non eros viverra, tincidunt mi a, interdum libero. Vestibulum efficitur ex sed est interdum, ac placerat enim blandit. Phasellus sodales velit non est bibendum tincidunt. Phasellus ut ligula at velit congue lobortis. Fusce at suscipit purus, ac tincidunt orci.</p>"
+          - type: html
+            value: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at volutpat erat. Quisque non eros viverra, tincidunt mi a, interdum libero. Vestibulum efficitur ex sed est interdum, ac placerat enim blandit. Phasellus sodales velit non est bibendum tincidunt. Phasellus ut ligula at velit congue lobortis. Fusce at suscipit purus, ac tincidunt orci.</p>"

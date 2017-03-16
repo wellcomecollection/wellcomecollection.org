@@ -68,11 +68,11 @@ export const context = { model };
 
 export const variants = [
   {
-    name: 'Horizontal list',
-    context: {model: model2, modifiers: ['horizontal','sticky'], data: { classes: ['js-series-nav'], sliderId: 'id'}}
+    name: 'horizontal',
+    context: {model: model2, modifiers: ['horizontal', 'sticky'], data: {classes: ['js-series-nav'], sliderId: 'id'}}
   },
   {
-    name: 'Horizontal list narrow',
+    name: 'horizontal-narrow',
     context: {model: model2, modifiers: ['horizontal-narrow']}
   }
 ];

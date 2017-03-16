@@ -1,8 +1,8 @@
 {% extends 'layout/default.njk' %}
 
 {% block body %}
-  {% component 'page-description', { title: 'Explore', modifiers: ['hidden'] } %}
-  <div class="row row--cream row--has-wobbly-background">
+  {% componentV2 'page-description', { title: 'Explore' }, {'hidden': true} %}
+  <div class="row row--cream row--has-wobbly-background {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top']}) }}">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:4, m:8, l:12, xl:12} | gridClasses }}">
@@ -12,7 +12,7 @@
     </div>
     <div class="row__wobbly-background"></div>
     <div class="container">
-      <hr class="divider divider--keyline" />
+      <hr class="divider divider--keyline divider--keyline-grey {{ {s:3, m:3, l:3} | spacingClasses({margin: ['bottom']}) }}" />
     </div>
     <div class="container container--scroll container--scroll-cream touch-scroll">
       <div class="grid grid--dividers grid--scroll">
@@ -24,18 +24,18 @@
       </div>
     </div>
     <div class="container container--no-collapse">
-      <hr class="divider divider--thick" />
+      <hr class="divider divider--thick divider--black {{ {s:5, m:5, l:5} | spacingClasses({margin: ['bottom']}) }}" />
     </div>
   </div>
 
   {% componentV2 'series-container', aDropInTheOcean %}
 
   {# Chronological #}
-  <div class="row row--no-padding">
+  <div class="row">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:4, m:8, l:12, xl: 12} | gridClasses }}">
-          <h2 class="heading--large v-margin-0">You may have missed</h2>
+          <h2 class="heading--large {{ {s:0, m:0, l:0} | spacingClasses({margin: ['top', 'bottom']}) }}">You may have missed</h2>
         </div>
         <div class="{{ {s:4, m:8, l:8} | gridClasses }}">
           <a class="more-info-link" href="/articles">
@@ -47,7 +47,7 @@
     </div>
   </div>
 
-  <div class="row row--small-top-padding">
+  <div class="row {{ {s:4, m:4, l:4} | spacingClasses({padding: ['top']}) }} ">
     <div class="container container--scroll touch-scroll">
       <div class="grid grid--scroll grid--dividers grid--theme-6-strip">
         {% for promo in next8Promos.take(6).toJS() %}
@@ -58,4 +58,6 @@
       </div>
     </div>
   </div>
+
+  {% component 'promo', { promo: collectorsPromo } %}
 {% endblock %}

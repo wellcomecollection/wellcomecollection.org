@@ -1,5 +1,35 @@
 //* @define footer-social
 
+.footer-social {
+  display: flex;
+  flex-wrap: wrap;
+
+  @include respond-to('xlarge') {
+    justify-content: space-between;
+    flex-wrap: nowrap;
+  }
+}
+
+.footer-social__cell {
+  flex-basis: 100%;
+  min-width: 100%;
+
+  @include respond-to('medium') {
+    flex-basis: 50%;
+    min-width: 50%;
+  }
+
+  @include respond-to('large') {
+    flex-basis: 25%;
+    min-width: 25%;
+  }
+
+  @include respond-to('xlarge') {
+    flex-basis: auto;
+    min-width: 0;
+  }
+}
+
 .footer-social__link {
   @include font('HNM6');
   color: color('white');

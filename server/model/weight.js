@@ -1,6 +1,6 @@
 // @flow
-export type Weight = 
-  | "lead"
-  | "standalone"
-  | "default"
-  | "supporting";
+export type Weight =
+  | 'lead'
+  | 'standalone'
+  | 'supporting'
+  | 'default';

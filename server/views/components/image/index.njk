@@ -1,6 +1,6 @@
 {% set sizes = model | getImageSizesFor %}
 {% set comma = joiner() %}
-<img class="image{{ ' lazyload' if data.lazyload }}"
+<img class="image{{ ' lazyload' if data.lazyload }} {{ 'image--clip-mask' if data.clipMask }}"
 src="{{ model.contentUrl }}?w={{ sizes[0] }}"
 data-srcset="
 {%- for size in sizes -%}

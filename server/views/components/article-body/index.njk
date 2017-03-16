@@ -13,7 +13,7 @@
       {% elif bodyPart.type === 'picture' %}
         {% componentV2 'captioned-image', bodyPart.value, {}, {sizesQueries: '(min-width: 960px) 710px, 100vw'} %}
       {% elif bodyPart.type === 'video' %}
-        {% component 'iframed-video', {video: bodyPart.value} %}
+        {% componentV2 'iframed-video', bodyPart.value %}
       {% elif bodyPart.type === 'list' %}
         {% component 'list', {list: bodyPart.value} %}
       {% elif bodyPart.type === 'interview' %}
