@@ -79,7 +79,7 @@ const getInitType = () => {
 };
 
 if (document.readyState !== 'loading') {
-  getInitType();
+  getInitType()();
 } else {
-  document.addEventListener('DOMContentLoaded', getInitType);
+  document.addEventListener('DOMContentLoaded', getInitType());
 }
