@@ -16,13 +16,11 @@
 {% endif %}
 
 {% for media in article.mainMedia %}
-  {% if (media.contentUrl) or (media.embedUrl) %}
-    {% set seriesData = {
-      positionInSeries: article.positionInSeries,
-      series: article.series
-    } %}
-    {% componentV2 'main-media', media, {'full': true}, seriesData %}
-  {% endif %}
+  {% set seriesData = {
+    positionInSeries: article.positionInSeries,
+    series: article.series
+  } %}
+  {% componentV2 'main-media', media, {'full': true}, seriesData %}
 {% endfor %}
 
 <div class="row row--cream {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top', 'bottom']}) }} ">
