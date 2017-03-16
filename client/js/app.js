@@ -70,8 +70,16 @@ function initWithRaven() {
   }
 }
 
+const getInitType = () => {
+  if (['localhost', 'cardigan.wellcomecollection.org'].indexOf(document.location.hostname) === -1) {
+    return initWithRaven;
+  }
+
+  return init;
+};
+
 if (document.readyState !== 'loading') {
-  initWithRaven();
+  getInitType();
 } else {
-  document.addEventListener('DOMContentLoaded', initWithRaven);
+  document.addEventListener('DOMContentLoaded', getInitType);
 }
