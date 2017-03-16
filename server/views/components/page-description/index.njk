@@ -18,7 +18,7 @@
           <div class="grid__cell grid__cell--shift-m1 {{ 'grid__cell--shift-l1' if model.lead }}">
             <span class="page-description__subtext">
               {% if model.meta.type === 'date' %}
-                {% icon 'other/clock' %}{{ model.meta.value }}
+                {% icon 'other/clock' %}{{ model.meta.value | formatDate }}
               {% else %}
                 {{ model.meta.value }}
               {% endif %}
