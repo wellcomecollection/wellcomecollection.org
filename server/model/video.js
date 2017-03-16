@@ -1,4 +1,6 @@
+// @flow
 export type Video = {|
+  type: 'video';
   name?: string;
   description?: string;
   embedUrl: string;

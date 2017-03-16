@@ -7,22 +7,20 @@
 {% endblock %}
 
 {% block body %}
-{% component 'page-description', { title: article.headline, meta: { type: 'date', value: article.datePublished | formatDate }, modifiers: ['a'], lead: true } %}
+
+{% componentV2 'page-description', {title: article.headline, meta: {type: 'date', value: article.datePublished}, lead: true}, {'a': true}, {icon: article.contentType | getIconForContentType} %}
 
 {% if article.series[0] and article.series[0].commissionedLength %}
   {% set asyncContentEndpoint = '/series-nav/' + article.series[0].url + '?current=' + article.url %}
   {% component 'async', { endpoint: asyncContentEndpoint, placeholderClassname: 'series-nav-placeholder' } %}
 {% endif %}
 
-
 {% for media in article.mainMedia %}
-  {% if (media.contentUrl) %}
-    {% set seriesData = {
-      positionInSeries: article.positionInSeries,
-      series: article.series
-    } %}
-    {% componentV2 'main-media', media, {'full': true}, seriesData %}
-  {% endif %}
+  {% set seriesData = {
+    positionInSeries: article.positionInSeries,
+    series: article.series
+  } %}
+  {% componentV2 'main-media', media, {'full': true}, seriesData %}
 {% endfor %}
 
 <div class="row row--cream {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top', 'bottom']}) }} ">

@@ -1,7 +1,7 @@
 {% extends "layout/default.njk" %}
 
 {% block body %}
-  {% component 'page-description', { title: 'Explore', modifiers: ['hidden'] } %}
+  {% componentV2 'page-description', { title: 'Explore' }, {'hidden': true} %}
 
   <div class="row row--cream row--has-wobbly-background {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top']}) }}">
     <div class="container">

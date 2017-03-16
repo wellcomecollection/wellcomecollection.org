@@ -16,6 +16,7 @@ function convertWpImageToMedia(wpImage) {
     contentUrl: wpImage.URL,
     caption: wpImage.caption,
     width: wpImage.width,
-    height: wpImage.height
+    height: wpImage.height,
+    type: 'picture'
   });
 }
