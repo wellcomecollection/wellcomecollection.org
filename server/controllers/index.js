@@ -134,7 +134,7 @@ export const explore = async(ctx, next) => {
     article: {
       url: 'http://digitalstories.wellcomecollection.org/pathways/2-the-collectors/',
       headline: 'The Collectors',
-      description: 'Lorem ipsum dolor sit amet.',
+      description: 'Searchers, secrets and the power of curiosity.',
       thumbnail: {
         contentUrl: 'https://wellcomecollection.files.wordpress.com/2017/03/the-collectors-promo.jpg',
         width: 1600,
