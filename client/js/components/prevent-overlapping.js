@@ -1,7 +1,9 @@
+/* global Element */
 import { nodeList, featureTest } from '../util';
 
 const preventOverlapping = (els) => {
   if (!featureTest('position', 'sticky')) return;
+  if (!Element.prototype.hasOwnProperty('before')) return;
 
   const stickies = nodeList(els);
 
