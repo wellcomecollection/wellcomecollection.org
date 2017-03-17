@@ -1,0 +1,14 @@
+{% extends 'layout/default.njk' %}
+
+{% block body %}
+  {% componentV2 'page-description', { title: '😊Oopsy something went amis😊' } %}
+{% endblock %}
+
+{% block jsEnd %}
+  <script>
+    Raven.captureException(
+      new Error('Server error.js: ' + {{ error.status }}),
+      {extra: {stack: '{{ error.stack | replace('\n', '') }}'}}
+    );
+  </script>
+{% endblock %}
