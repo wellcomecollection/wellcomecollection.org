@@ -2,24 +2,32 @@ import { featureTest } from '../util';
 import throttle from 'lodash.throttle';
 
 const shrinkStoriesNav = (el) => {
-  if (featureTest('position', 'sticky')) {
-    const hitTop = () => {
-      if (document.readyState === 'complete') {
-        const top = el.getBoundingClientRect().top;
-        if (top === 0) {
-          const scrollPosition = window.pageYOffset;
-          el.classList.add('numbered-list--horizontal-narrow');
-          document.body.scrollTop = scrollPosition;
-        } else {
-          const scrollPosition = window.pageYOffset;
-          el.classList.remove('numbered-list--horizontal-narrow');
-          document.body.scrollTop = scrollPosition;
-        }
-      }
-    };
+  if (!featureTest('position', 'sticky')) return;
 
-    window.addEventListener('scroll', throttle(hitTop, 100));
-  }
+  const getIsNarrow = () => {
+    return el.classList.contains('numbered-list--horizontal-narrow');
+  };
+  const elFromTop = el.offsetTop;
+  const elHeight = el.offsetHeight;
+  const distanceScrolled = () => {
+    return window.pageYOffset;
+  };
+  const isScrolledEnough = () => {
+    return (distanceScrolled() > elFromTop + elHeight);
+  };
+  const setIsNarrow = (value) => {
+    if (value && isScrolledEnough() && !getIsNarrow()) {
+      el.classList.add('numbered-list--horizontal-narrow');
+    } else if (!value && getIsNarrow()) {
+      el.classList.remove('numbered-list--horizontal-narrow');
+    }
+  };
+
+  window.addEventListener('scroll', throttle(() => {
+    if (!document.readyState === 'complete') return;
+
+    setIsNarrow(distanceScrolled() > elFromTop);
+  }, 100));
 };
 
 export default shrinkStoriesNav;

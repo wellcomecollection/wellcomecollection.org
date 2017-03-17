@@ -2,10 +2,6 @@
 // TODO styling - arrows and bit of a tidy
 $numbered-list-number-size: 96px;
 
-.numbered-list {
-  margin-bottom: 2 * $vertical-space-unit;
-}
-
 .numbered-list__header {
   border-top-left-radius: $border-radius-unit;
   border-top-right-radius: $border-radius-unit;
@@ -218,6 +214,7 @@ $numbered-list-number-size: 96px;
 .numbered-list--sticky {
   position: sticky;
   top: 0;
+  z-index: 3;
 }
 
 // javascript slider styles
