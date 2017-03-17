@@ -7,13 +7,13 @@ export default function deployTag(tag) {
       if (error) {
         reject({
           error,
-          message: 'Airbag error.js: Application not deployed.'
+          message: 'Airbag error: Application not deployed.'
         });
       }
       if (stderr) {
         reject({
           error: stderr,
-          message: 'Terraform error.js: Application not deployed, there was a Terraform error.js.'
+          message: 'Terraform error: Application not deployed, there was a Terraform error.'
         });
       }
       if (!(error || stderr)) {

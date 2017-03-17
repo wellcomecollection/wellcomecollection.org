@@ -7,7 +7,7 @@
 {% block jsEnd %}
   <script>
     Raven.captureException(
-      new Error('Server error.js: ' + {{ error.status }}),
+      new Error('Server error: ' + {{ error.status }}),
       {extra: {stack: '{{ error.stack | replace('\n', '') }}'}}
     );
   </script>
