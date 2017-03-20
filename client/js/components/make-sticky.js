@@ -1,24 +1,26 @@
 import {nodeList, featureTest} from '../util';
 import debounce from 'lodash.debounce';
+import { toObservable } from '../redux/store';
 
+const initialPxFromTop = 15;
 const makeSticky = (els, store) => {
   if (!featureTest('position', 'sticky')) return;
 
   els = nodeList(els);
 
   const applyPositioning = () => {
-    if (document.readyState === 'complete') {
-      els.forEach((el) => {
-        const isEnoughRoom = el.offsetHeight > (window.innerHeight - store.getState().stickyNav.height);
+    if (document.readyState !== 'complete') return;
 
-        el.classList[isEnoughRoom ? 'remove' : 'add']('sticky-applied');
-      });
-    }
+    els.forEach((el) => {
+      const isEnoughRoom = el.offsetHeight > (window.innerHeight - store.getState().stickyNav.height);
+
+      el.classList[isEnoughRoom ? 'remove' : 'add']('sticky-applied');
+    });
   };
 
   const updateStickyTops = () => {
     els.forEach((el) => {
-      el.style.top = `${store.getState().stickyNav.height + 15}px`;
+      el.style.top = `${store.getState().stickyNav.height + initialPxFromTop}px`;
     });
   };
 
@@ -26,8 +28,12 @@ const makeSticky = (els, store) => {
   window.addEventListener('resize', debounce(applyPositioning, 500));
   window.addEventListener('orientationchange', applyPositioning);
 
-  store.subscribe(updateStickyTops);
-  store.subscribe(applyPositioning);
+  toObservable(store).subscribe({
+    onNext: () => {
+      updateStickyTops();
+      applyPositioning();
+    }
+  });
 };
 
 export default makeSticky;

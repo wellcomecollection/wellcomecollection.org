@@ -2,7 +2,7 @@
 import 'core-js/fn/object/assign';
 import 'whatwg-fetch';
 import lazysizes from 'lazysizes';
-import store from './redux/store';
+import { store } from './redux/store';
 
 import { nodeList } from './util';
 import headerBurger from './components/header/burger';
