@@ -153,7 +153,7 @@ export function convertWpVideo(node) {
   if (isWpVideo) {
     const iframe = maybeSpan.childNodes[0];
     const embedUrl = getAttrVal(iframe.attrs, 'src');
-    const video = createVideo({ embedUrl });
+    const video = createVideo({ type: 'video', embedUrl });
 
     return createBodyPart({
       type: 'video',
@@ -281,6 +281,7 @@ function getImageFromWpNode(node) {
   const [width, height] = getAttrVal(img.attrs, 'data-orig-size').split(',');
 
   return createPicture({
+    type: 'picture',
     contentUrl,
     caption,
     url: href,

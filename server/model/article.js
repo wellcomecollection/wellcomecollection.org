@@ -44,6 +44,8 @@ export class ArticleFactory {
 
     const mainImage: ?Picture = getWpFeaturedImage(json.featured_image, json.attachments);
     const mainVideo: ?Video = bodyParts[0] && bodyParts[0].type === 'video' ? bodyParts[0].value : null;
+    const mainMedia: Array<Video | Picture> = [mainImage, mainVideo].filter(Boolean);
+    console.info(mainMedia);
 
 
     const wpThumbnail = json.post_thumbnail;
@@ -72,7 +74,7 @@ export class ArticleFactory {
       standfirst: entities.decode(standfirst),
       description: entities.decode(json.excerpt),
       datePublished: new Date(json.date),
-      mainMedia: mainImage ? [mainImage] : [],
+      mainMedia: mainMedia,
       thumbnail: thumbnail,
       articleBody: articleBody,
       associatedMedia: mainImage ? [mainImage] : [],
