@@ -39,14 +39,16 @@ export class ArticleFactory {
     const url = `/articles/${json.slug}`; // TODO: this should be discoverable, not hard coded
     const articleBody = json.content;
 
-    const bodyParts = bodyParser(articleBody);
-    const standfirst = bodyParts.find(part => part.type === 'standfirst');
+    const bodyPartsRaw = bodyParser(articleBody);
+    const standfirst = bodyPartsRaw.find(part => part.type === 'standfirst');
 
     const mainImage: ?Picture = getWpFeaturedImage(json.featured_image, json.attachments);
-    const mainVideo: ?Video = bodyParts[0] && bodyParts[0].type === 'video' ? bodyParts[0].value : null;
+    const mainVideo: ?Video = bodyPartsRaw[0] && bodyPartsRaw[0].type === 'video' ? bodyPartsRaw[0].value : null;
     const mainMedia: Array<Video | Picture> = [mainImage, mainVideo].filter(Boolean);
-    console.info(mainMedia);
 
+    // If we have a video as the main media, remove it from the bodyParts to not let it show twice
+    // This is due to the fact that WP doesn't allow you to set mainMedia as Youtube embeds.
+    const bodyParts = mainVideo ? List(bodyPartsRaw).skip(1).toJS() : bodyPartsRaw;
 
     const wpThumbnail = json.post_thumbnail;
     const thumbnail: ?Picture = wpThumbnail ? {
