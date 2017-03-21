@@ -26,6 +26,8 @@ export function getFragment(bodyText) {
 
 export function explodeIntoBodyParts(nodes) {
   const parts = nodes.map((node, nodeIndex) => {
+    // Note to self - the type here should be:
+    // (node: Node) => ?BodyPart
     const converters = [
       convertWpHeading,
       convertWpImage,
@@ -37,16 +39,20 @@ export function explodeIntoBodyParts(nodes) {
     ];
 
     // TODO: Tidy up typing here
-    const maybeBodyPart = nodeIndex === 0 ? convertWpStandfirst(node) :
-      converters.reduce((node, converter) => {
+    if (nodeIndex === 0) {
+      const maybeVideoNode = convertWpVideo(node);
+      return maybeVideoNode.type ? maybeVideoNode : convertWpStandfirst(node);
+    } else {
+      const maybeBodyPart = converters.reduce((node, converter) => {
         // Don't bother converting if it's been converted
         // We could use clever typing here, but we don't have to because JS
         return node.type ? node : converter(node);
       }, node);
 
-    const bodyPart = maybeBodyPart.type ? maybeBodyPart : convertDomNode(maybeBodyPart);
+      const bodyPart = maybeBodyPart.type ? maybeBodyPart : convertDomNode(maybeBodyPart);
 
-    return bodyPart;
+      return bodyPart;
+    }
   }).filter(part => part); // get rid of any nulls = Maybe.flatten would be good.
 
   return parts;

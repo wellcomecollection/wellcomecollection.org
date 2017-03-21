@@ -1,5 +1,6 @@
 // @flow
 import entities from 'entities';
+import {List} from 'immutable';
 import {type Person} from './person';
 import {type Picture} from './picture';
 import {type ContentType} from './content-type';
@@ -42,6 +43,9 @@ export class ArticleFactory {
     const standfirst = bodyParts.find(part => part.type === 'standfirst');
 
     const mainImage: ?Picture = getWpFeaturedImage(json.featured_image, json.attachments);
+    const mainVideo: ?Video = bodyParts[0] && bodyParts[0].type === 'video' ? bodyParts[0].value : null;
+
+
     const wpThumbnail = json.post_thumbnail;
     const thumbnail: ?Picture = wpThumbnail ? {
       type: 'picture',
