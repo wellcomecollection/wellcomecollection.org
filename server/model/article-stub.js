@@ -18,6 +18,7 @@ export class ArticleStubFactory {
     const description = entities.decode(json.excerpt);
     const wpThumbnail = json.post_thumbnail || {};
     const thumbnail: Picture = {
+      type: 'picture',
       contentUrl: wpThumbnail.URL,
       width: wpThumbnail.width,
       height: wpThumbnail.height

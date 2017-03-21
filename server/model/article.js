@@ -3,6 +3,7 @@ import entities from 'entities';
 import {type Person} from './person';
 import {type Picture} from './picture';
 import {type ContentType} from './content-type';
+import {type Video} from './video';
 import {type ArticleSeries, getSeriesCommissionedLength} from './series';
 import {getWpFeaturedImage} from './media';
 import {bodyParser} from '../util/body-parser';
@@ -37,9 +38,13 @@ export class ArticleFactory {
     const url = `/articles/${json.slug}`; // TODO: this should be discoverable, not hard coded
     const articleBody = json.content;
 
+    const bodyParts = bodyParser(articleBody);
+    const standfirst = bodyParts.find(part => part.type === 'standfirst');
+
     const mainImage: Picture = getWpFeaturedImage(json.featured_image, json.attachments);
     const wpThumbnail = json.post_thumbnail;
     const thumbnail: ?Picture = wpThumbnail ? {
+      type: 'picture',
       contentUrl: wpThumbnail.URL,
       width: wpThumbnail.width,
       height: wpThumbnail.height
@@ -55,9 +60,6 @@ export class ArticleFactory {
         commissionedLength: getSeriesCommissionedLength(cat.slug)
       };
     });
-
-    const bodyParts = bodyParser(articleBody);
-    const standfirst = bodyParts.find(part => part.type === 'standfirst');
 
     const article: Article = {
       type: "article",
