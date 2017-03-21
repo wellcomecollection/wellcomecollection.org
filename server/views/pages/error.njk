@@ -3,12 +3,3 @@
 {% block body %}
   {% componentV2 'page-description', { title: '😊Oopsy something went amis😊' } %}
 {% endblock %}
-
-{% block jsEnd %}
-  <script>
-    Raven.captureException(
-      new Error('Server error: ' + {{ error.status }}),
-      {extra: {stack: '{{ error.stack | replace('\n', '') }}'}}
-    );
-  </script>
-{% endblock %}
