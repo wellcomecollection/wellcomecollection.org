@@ -1,17 +1,17 @@
 import {nodeList, featureTest} from '../util';
 import debounce from 'lodash.debounce';
-import { toObservable } from '../redux/store';
+import watch from 'redux-watch';
 
 const initialPxFromTop = 15; // TODO: remove magic
 const makeSticky = (els, store) => {
   if (!featureTest('position', 'sticky')) return;
 
-  els = nodeList(els);
+  const elements = nodeList(els);
 
   const applyPositioning = () => {
     if (document.readyState !== 'complete') return;
 
-    els.forEach((el) => {
+    elements.forEach((el) => {
       const isEnoughRoom = el.offsetHeight > (window.innerHeight - store.getState().stickyNav.height);
 
       el.classList[isEnoughRoom ? 'remove' : 'add']('sticky-applied');
@@ -19,7 +19,7 @@ const makeSticky = (els, store) => {
   };
 
   const updateStickyTops = () => {
-    els.forEach((el) => {
+    elements.forEach((el) => {
       el.style.top = `${store.getState().stickyNav.height + initialPxFromTop}px`;
     });
   };
@@ -28,12 +28,12 @@ const makeSticky = (els, store) => {
   window.addEventListener('resize', debounce(applyPositioning, 500));
   window.addEventListener('orientationchange', applyPositioning);
 
-  toObservable(store).subscribe({
-    onNext: () => {
-      updateStickyTops();
-      applyPositioning();
-    }
-  });
+  const watchNavHeight = watch(store.getState, 'stickyNav.height');
+
+  store.subscribe(watchNavHeight(() => {
+    updateStickyTops();
+    applyPositioning();
+  }));
 };
 
 export default makeSticky;
