@@ -2,7 +2,7 @@ import {nodeList, featureTest} from '../util';
 import debounce from 'lodash.debounce';
 import { toObservable } from '../redux/store';
 
-const initialPxFromTop = 15;
+const initialPxFromTop = 15; // TODO: remove magic
 const makeSticky = (els, store) => {
   if (!featureTest('position', 'sticky')) return;
 

@@ -20,7 +20,11 @@ export const variants = [
     context: {model: {position: 2, series: {items: ['one', 'two', 'three'], total: 5, color: 'turquoise'}}}
   },
   {
-    name: 'large',
-    context: {model: {position: 2, series: {items: ['one', 'two', 'three'], total: 5, color: 'purple'}}, modifiers: ['large']}
+    name: 'half',
+    context: {model: {position: 2, series: {items: ['one', 'two', 'three'], total: 5, color: 'purple'}}, modifiers: {'half': true}}
+  },
+  {
+    name: 'full',
+    context: {model: {position: 2, series: {items: ['one', 'two', 'three'], total: 5, color: 'purple'}}, modifiers: {'full': true}}
   }
 ];

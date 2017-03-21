@@ -4,7 +4,7 @@
     {% if model.imageUrl %}
       <img class="numbered-list__image" src="{{ model.imageUrl }}" alt="" />
       {% set seriesInfo = {color: 'purple', items: ['1', '2', '3', '4', '5'], total: 5} %}
-      {% componentV2 'chapter-indicator', {position: 5, series: seriesInfo}, ['full']  %}
+      {% componentV2 'chapter-indicator', {position: 5, series: seriesInfo}, {'full': true} %}
     {% endif %}
   </header>
   <ol class="numbered-list__list{% if data.sliderId %} js-numbered-slider{% endif %}"{% if data.sliderId %} id="{{data.sliderId}}" {% endif %}>

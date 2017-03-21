@@ -5,7 +5,7 @@
   turquoise: 'Fy4vwAAACH5BAAAAAAALAAAAAABAAQAAAIChFEAOw==',
   orange: 'Oh1AAAAACH5BAAAAAAALAAAAAABAAQAAAIChFEAOw=='
 } %}
-<div aria-label="part {{ model.position }} of {{ model.series.total }}" class="chapter-indicator chapter-indicator--{{ model.series.color }} {% for modifier in modifiers %}chapter-indicator--{{ modifier }} {% endfor %}">
+<div aria-label="part {{ model.position }} of {{ model.series.total }}" class="chapter-indicator chapter-indicator--{{ model.series.color }} {{ 'chapter-indicator' | componentClasses(modifiers) if modifiers }}">
   {% for chapter in range(0, model.series.total) %}
     <img class="chapter-indicator__bar {{ 'chapter-indicator__bar--filled' if loop.index <= model.position }}" src="data:image/gif;base64,R0lGODlhAQAEAIAAA{{ colorDataUris[model.series.color] if loop.index <= model.position else colorDataUris.white }}" alt="" />
   {% endfor %}
