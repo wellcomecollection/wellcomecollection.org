@@ -37,7 +37,11 @@ export const model = createNumberedList({
 
 export const model2 = createNumberedList({
   name: 'Making Nature',
-  imageUrl: 'https://placehold.it/1600x900',
+  image: {
+    contentUrl: 'https://placehold.it/800x450',
+    width: 800,
+    height: 450
+  },
   items: [
     {
       title: 'Part 1: Lorem ipsum',

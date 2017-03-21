@@ -1,8 +1,8 @@
 <div class="numbered-list{% for modifier in modifiers %} numbered-list--{{modifier}}{% endfor %} {% for class in data.classes %} {{class}}{% endfor %}">
-  <header class="numbered-list__header {{ 'numbered-list__header--has-image' if model.imageUrl }}">
+  <header class="numbered-list__header {{ 'numbered-list__header--has-image' if model.image }}">
     <h2 class="numbered-list__heading">{{ model.name }}</h2>
-    {% if model.imageUrl %}
-      <img class="numbered-list__image" src="{{ model.imageUrl }}" alt="" />
+    {% if model.image %}
+      <img class="numbered-list__image" src="{{ model.image.contentUrl }}" alt="" />
       {% set seriesInfo = {color: 'purple', total: model.items.length} %}
       {% componentV2 'chapter-indicator', {series: seriesInfo}, {'full': true}, {showTotal: true} %}
     {% endif %}
