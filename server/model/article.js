@@ -41,7 +41,7 @@ export class ArticleFactory {
     const bodyParts = bodyParser(articleBody);
     const standfirst = bodyParts.find(part => part.type === 'standfirst');
 
-    const mainImage: Picture = getWpFeaturedImage(json.featured_image, json.attachments);
+    const mainImage: ?Picture = getWpFeaturedImage(json.featured_image, json.attachments);
     const wpThumbnail = json.post_thumbnail;
     const thumbnail: ?Picture = wpThumbnail ? {
       type: 'picture',
@@ -68,10 +68,10 @@ export class ArticleFactory {
       standfirst: entities.decode(standfirst),
       description: entities.decode(json.excerpt),
       datePublished: new Date(json.date),
-      mainMedia: [mainImage],
+      mainMedia: mainImage ? [mainImage] : [],
       thumbnail: thumbnail,
       articleBody: articleBody,
-      associatedMedia: [mainImage],
+      associatedMedia: mainImage ? [mainImage] : [],
       author: author,
       bodyParts: bodyParts,
       series: series

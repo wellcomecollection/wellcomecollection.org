@@ -1,17 +1,18 @@
-import {createPicture} from '../model/picture';
+// @flow
+import {type Picture, createPicture} from '../model/picture';
 
-export function getWpFeaturedImage(uri, images) {
+export function getWpFeaturedImage(uri: string, images: Object): ?Picture {
   const i = findWpFeaturedImage(uri, images);
   // I wish we had options ;_;
-  return i ? convertWpImageToMedia(i) : null;
+  return i ? convertWpImageToPicture(i) : null;
 }
 
-function findWpFeaturedImage(uri, images) {
+function findWpFeaturedImage(uri, images): ?Object {
   const imagesArr = Object.keys(images).map(k => images[k]);
   return imagesArr.find(i => i.URL === uri);
 }
 
-function convertWpImageToMedia(wpImage) {
+function convertWpImageToPicture(wpImage) {
   return createPicture({
     contentUrl: wpImage.URL,
     caption: wpImage.caption,
