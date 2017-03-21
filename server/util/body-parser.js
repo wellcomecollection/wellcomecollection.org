@@ -4,7 +4,7 @@ import url from 'url';
 import entities from 'entities';
 
 import {createImageGallery} from '../model/image-gallery';
-import {createPicture} from '../model/picture';
+import {createPicture, type Picture} from '../model/picture';
 import {createVideo} from '../model/video';
 import {createList} from '../model/list';
 import {createTweet} from '../model/tweet';
@@ -26,6 +26,8 @@ export function getFragment(bodyText) {
 
 export function explodeIntoBodyParts(nodes) {
   const parts = nodes.map((node, nodeIndex) => {
+    // Note to self - the type here should be:
+    // (node: Node) => ?BodyPart
     const converters = [
       convertWpHeading,
       convertWpImage,
@@ -37,16 +39,20 @@ export function explodeIntoBodyParts(nodes) {
     ];
 
     // TODO: Tidy up typing here
-    const maybeBodyPart = nodeIndex === 0 ? convertWpStandfirst(node) :
-      converters.reduce((node, converter) => {
+    if (nodeIndex === 0) {
+      const maybeVideoNode = convertWpVideo(node);
+      return maybeVideoNode.type ? maybeVideoNode : convertWpStandfirst(node);
+    } else {
+      const maybeBodyPart = converters.reduce((node, converter) => {
         // Don't bother converting if it's been converted
         // We could use clever typing here, but we don't have to because JS
         return node.type ? node : converter(node);
       }, node);
 
-    const bodyPart = maybeBodyPart.type ? maybeBodyPart : convertDomNode(maybeBodyPart);
+      const bodyPart = maybeBodyPart.type ? maybeBodyPart : convertDomNode(maybeBodyPart);
 
-    return bodyPart;
+      return bodyPart;
+    }
   }).filter(part => part); // get rid of any nulls = Maybe.flatten would be good.
 
   return parts;
@@ -147,7 +153,14 @@ export function convertWpVideo(node) {
   if (isWpVideo) {
     const iframe = maybeSpan.childNodes[0];
     const embedUrl = getAttrVal(iframe.attrs, 'src');
-    const video = createVideo({ embedUrl });
+    const youtubeId = embedUrl.match(/embed\/[^\?](.*)\?/)[1];
+    const posterImage: Picture = {
+      type: 'picture',
+      contentUrl: `https://i3.ytimg.com/vi/${youtubeId}/hqdefault.jpg`,
+      width: 480,
+      height: 360
+    };
+    const video = createVideo({ type: 'video', embedUrl, posterImage });
 
     return createBodyPart({
       type: 'video',
@@ -275,6 +288,7 @@ function getImageFromWpNode(node) {
   const [width, height] = getAttrVal(img.attrs, 'data-orig-size').split(',');
 
   return createPicture({
+    type: 'picture',
     contentUrl,
     caption,
     url: href,

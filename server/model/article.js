@@ -1,8 +1,10 @@
 // @flow
 import entities from 'entities';
+import {List} from 'immutable';
 import {type Person} from './person';
 import {type Picture} from './picture';
 import {type ContentType} from './content-type';
+import {type Video} from './video';
 import {type ArticleSeries, getSeriesCommissionedLength} from './series';
 import {getWpFeaturedImage} from './media';
 import {bodyParser} from '../util/body-parser';
@@ -37,13 +39,26 @@ export class ArticleFactory {
     const url = `/articles/${json.slug}`; // TODO: this should be discoverable, not hard coded
     const articleBody = json.content;
 
-    const mainImage: Picture = getWpFeaturedImage(json.featured_image, json.attachments);
+    const bodyPartsRaw = bodyParser(articleBody);
+    const standfirst = bodyPartsRaw.find(part => part.type === 'standfirst');
+
+    const mainImage: ?Picture = getWpFeaturedImage(json.featured_image, json.attachments);
+    const mainVideo: ?Video = bodyPartsRaw[0] && bodyPartsRaw[0].type === 'video' ? bodyPartsRaw[0].value : null;
+    const mainMedia: Array<Video | Picture> = [mainImage, mainVideo].filter(Boolean);
+
+    // If we have a video as the main media, remove it from the bodyParts to not let it show twice
+    // This is due to the fact that WP doesn't allow you to set mainMedia as Youtube embeds.
+    const bodyParts = mainVideo ? List(bodyPartsRaw).skip(1).toJS() : bodyPartsRaw;
+
     const wpThumbnail = json.post_thumbnail;
-    const thumbnail: ?Picture = wpThumbnail ? {
-      contentUrl: wpThumbnail.URL,
-      width: wpThumbnail.width,
-      height: wpThumbnail.height
-    } : null;
+    const thumbnail: ?Picture =
+      mainVideo ? mainVideo.posterImage :
+      (wpThumbnail ? {
+        type: 'picture',
+        contentUrl: wpThumbnail.URL,
+        width: wpThumbnail.width,
+        height: wpThumbnail.height
+      } : null);
 
     const author = authorMap[json.slug];
     const series: Array<ArticleSeries> = Object.keys(json.categories).map(catKey => {
@@ -56,9 +71,6 @@ export class ArticleFactory {
       };
     });
 
-    const bodyParts = bodyParser(articleBody);
-    const standfirst = bodyParts.find(part => part.type === 'standfirst');
-
     const article: Article = {
       type: "article",
       url: url,
@@ -66,10 +78,10 @@ export class ArticleFactory {
       standfirst: entities.decode(standfirst),
       description: entities.decode(json.excerpt),
       datePublished: new Date(json.date),
-      mainMedia: [mainImage],
+      mainMedia: mainMedia,
       thumbnail: thumbnail,
       articleBody: articleBody,
-      associatedMedia: [mainImage],
+      associatedMedia: mainImage ? [mainImage] : [],
       author: author,
       bodyParts: bodyParts,
       series: series
