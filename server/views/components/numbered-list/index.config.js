@@ -37,6 +37,7 @@ export const model = createNumberedList({
 
 export const model2 = createNumberedList({
   name: 'Making Nature',
+  imageUrl: 'http://fillmurray.com/1600/900',
   items: [
     {
       title: 'Part 1: Lorem ipsum',

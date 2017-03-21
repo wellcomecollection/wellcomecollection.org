@@ -18,6 +18,8 @@ $numbered-list-number-size: 96px;
 .numbered-list__heading {
   @include font('WB6');
   margin: 0;
+  position: relative;
+  z-index: 2;
 }
 
 .numbered-list__list {
@@ -115,6 +117,14 @@ $numbered-list-number-size: 96px;
   margin-bottom: 0;
 }
 
+.numbered-list__image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  filter: grayscale(1);
+}
+
 .numbered-list--horizontal,
 .numbered-list--horizontal-narrow {
   @include respond-to('medium') {
@@ -124,6 +134,8 @@ $numbered-list-number-size: 96px;
   .numbered-list__header {
     min-width: 300px;
     border-radius: 0;
+    position: relative;
+    overflow: hidden;
   }
 
   .numbered-list__list {
