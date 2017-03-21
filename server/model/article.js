@@ -51,12 +51,14 @@ export class ArticleFactory {
     const bodyParts = mainVideo ? List(bodyPartsRaw).skip(1).toJS() : bodyPartsRaw;
 
     const wpThumbnail = json.post_thumbnail;
-    const thumbnail: ?Picture = wpThumbnail ? {
-      type: 'picture',
-      contentUrl: wpThumbnail.URL,
-      width: wpThumbnail.width,
-      height: wpThumbnail.height
-    } : null;
+    const thumbnail: ?Picture =
+      mainVideo ? mainVideo.posterImage :
+      (wpThumbnail ? {
+        type: 'picture',
+        contentUrl: wpThumbnail.URL,
+        width: wpThumbnail.width,
+        height: wpThumbnail.height
+      } : null);
 
     const author = authorMap[json.slug];
     const series: Array<ArticleSeries> = Object.keys(json.categories).map(catKey => {

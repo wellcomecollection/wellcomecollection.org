@@ -4,7 +4,7 @@ import url from 'url';
 import entities from 'entities';
 
 import {createImageGallery} from '../model/image-gallery';
-import {createPicture} from '../model/picture';
+import {createPicture, type Picture} from '../model/picture';
 import {createVideo} from '../model/video';
 import {createList} from '../model/list';
 import {createTweet} from '../model/tweet';
@@ -153,7 +153,14 @@ export function convertWpVideo(node) {
   if (isWpVideo) {
     const iframe = maybeSpan.childNodes[0];
     const embedUrl = getAttrVal(iframe.attrs, 'src');
-    const video = createVideo({ type: 'video', embedUrl });
+    const youtubeId = embedUrl.match(/embed\/[^\?](.*)\?/)[1];
+    const posterImage: Picture = {
+      type: 'picture',
+      contentUrl: `https://i3.ytimg.com/vi/${youtubeId}/hqdefault.jpg`,
+      width: 480,
+      height: 360
+    };
+    const video = createVideo({ type: 'video', embedUrl, posterImage });
 
     return createBodyPart({
       type: 'video',
