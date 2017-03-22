@@ -1,9 +1,8 @@
 import { featureTest } from '../util';
 import throttle from 'lodash.throttle';
 import { setStickyNavHeight } from '../reducers/sticky-nav-height';
-import { dispatch } from '../store';
 
-const shrinkStoriesNav = (el) => {
+const shrinkStoriesNav = (el, dispatch) => {
   if (!featureTest('position', 'sticky')) return;
 
   const getIsNarrow = () => {

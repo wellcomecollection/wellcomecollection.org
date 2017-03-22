@@ -6,7 +6,7 @@ import sampleCombine from 'xstream/extra/sampleCombine';
 
 const initialPxFromTop = 15; // TODO: remove magic
 
-const makeSticky = (els) => {
+const makeSticky = (els, store$) => {
   if (!featureTest('position', 'sticky')) return;
 
   const elements = nodeList(els);
