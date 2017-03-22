@@ -35,15 +35,9 @@
       {% componentV2 'chapter-indicator', {series: promo.series, position: promo.positionInSeries}, ['large' if promo.modifiers and promo.modifiers | contains('standalone')] %}
     {% endif %}
 
-    {% if promo.meta.contentType === 'gallery' or promo.meta.contentType === 'podcast' or promo.meta.contentType === 'video' %}
+    {% if promo.contentType === 'gallery' or promo.contentType === 'podcast' or promo.contentType === 'video' %}
       <div class="promo__icon-container">
-        {% if promo.meta.contentType === 'gallery' %}
-          {% icon 'actions/gallery-link' %}
-        {% elif promo.contentType === 'podcast' %}
-          {% icon 'actions/volume'  %}
-        {% elif promo.contentType === 'video' %}
-            {% icon 'actions/play' %}
-        {% endif %}
+        {% icon promo.contentType | getIconForContentType %}
         {% if promo.contentType === 'gallery' and promo.length %}
           <span class="promo__length"><span class="promo__sr">Gallery with</span> {{ promo.length }} <span class="promo__sr">item{{ 's' if promo.length > 1 }}</span></span>
         {% endif %}
