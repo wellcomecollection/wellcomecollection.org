@@ -2,7 +2,6 @@
 import 'core-js/fn/object/assign';
 import 'whatwg-fetch';
 import lazysizes from 'lazysizes';
-import { store } from './redux/store';
 
 import { nodeList } from './util';
 import headerBurger from './components/header/burger';
@@ -56,11 +55,11 @@ const init = () => {
   }
 
   if (stickyEls) {
-    makeSticky(stickyEls, store);
+    makeSticky(stickyEls);
   }
 
   if (seriesNav) {
-    shrinkStoriesNav(seriesNav, store);
+    shrinkStoriesNav(seriesNav);
   }
 
   if (seriesSlider) {

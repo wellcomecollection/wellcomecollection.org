@@ -1,7 +1,9 @@
 import { featureTest } from '../util';
 import throttle from 'lodash.throttle';
+import { setStickyNavHeight } from '../reducers/sticky-nav-height';
+import { dispatch } from '../store';
 
-const shrinkStoriesNav = (el, store) => {
+const shrinkStoriesNav = (el) => {
   if (!featureTest('position', 'sticky')) return;
 
   const getIsNarrow = () => {
@@ -18,19 +20,21 @@ const shrinkStoriesNav = (el, store) => {
   const setIsNarrow = (value) => {
     if (value && isScrolledEnough() && !getIsNarrow()) {
       el.classList.add('numbered-list--horizontal-narrow');
-      store.dispatch({type: 'UPDATE_STICKY_NAV_HEIGHT', value: el.offsetHeight});
+
+      dispatch(setStickyNavHeight(el.offsetHeight));
     } else if (!value && getIsNarrow()) {
       el.classList.remove('numbered-list--horizontal-narrow');
-      store.dispatch({type: 'UPDATE_STICKY_NAV_HEIGHT', value: el.offsetHeight});
+
+      dispatch(setStickyNavHeight(el.offsetHeight));
     }
   };
 
   window.addEventListener('scroll', throttle(() => {
     if (!document.readyState === 'complete') return;
-
     setIsNarrow(distanceScrolled() > elFromTop);
   }, 100));
-  store.dispatch({type: 'UPDATE_STICKY_NAV_HEIGHT', value: el.offsetHeight});
+
+  dispatch(setStickyNavHeight(el.offsetHeight));
 };
 
 export default shrinkStoriesNav;
