@@ -37,7 +37,28 @@
 @include slider('image-gallery__');
 
 .image-gallery__slider {
-  overflow: hidden;
+  overflow: visible;
+}
+
+.image-gallery__slides-container {
+  position: relative;
+  width: calc(100vw - #{map-get($container-padding, 'small')});
+
+  @include respond-to('medium') {
+    width: calc(100vw - #{map-get($container-padding, 'medium')} - 12.5%);
+    margin-left: 12.5%;
+  }
+
+  @include respond-to('large') {
+    width: calc(100vw - #{map-get($container-padding, 'large')});
+    margin-left: 0;
+  }
+
+  @include respond-to('xlarge') {
+    width: $container-width-max - (map-get($container-padding, 'large') * 2);
+    margin-left: 50%;
+    left: (($container-width-max - (map-get($container-padding, 'large') * 2)) / 2) * (-5/6);
+  }
 }
 
 .image-gallery__slide-item {

@@ -67,6 +67,7 @@ $center-width-xlarge: (6/6) * 100%;
 }
 
 .body-part--full-width {
+  overflow: hidden;
   width: 100vw;
   position: relative;
   left: 50%;
