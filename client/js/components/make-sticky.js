@@ -1,5 +1,4 @@
 import {nodeList, featureTest} from '../util';
-import {store$} from '../store';
 import dropRepeats from 'xstream/extra/dropRepeats';
 import {windowOrientationChange$, windowResize$} from '../utils/dom-events';
 import sampleCombine from 'xstream/extra/sampleCombine';
