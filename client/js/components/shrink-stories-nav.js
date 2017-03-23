@@ -1,6 +1,6 @@
 import { featureTest } from '../util';
-import throttle from 'lodash.throttle';
 import { setStickyNavHeight } from '../reducers/sticky-nav-height';
+import { windowScroll$ } from '../utils/dom-events';
 
 const shrinkStoriesNav = (el, dispatch) => {
   if (!featureTest('position', 'sticky')) return;
@@ -28,10 +28,9 @@ const shrinkStoriesNav = (el, dispatch) => {
     }
   };
 
-  window.addEventListener('scroll', throttle(() => {
-    if (!document.readyState === 'complete') return;
-    setIsNarrow(distanceScrolled() > elFromTop);
-  }, 100));
+  windowScroll$.subscribe({
+    next: (_) => setIsNarrow(distanceScrolled() > elFromTop)
+  });
 
   dispatch(setStickyNavHeight(el.offsetHeight));
 };
