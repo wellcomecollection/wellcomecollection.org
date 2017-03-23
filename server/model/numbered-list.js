@@ -1,11 +1,8 @@
-import { type Picture } from './picture';
-
 // @flow
-import type Picture from './picture';
+import { type Picture } from './picture';
 
 export type NumberedList = {|
   name: string;
-  image?: Picture;
   image?: ?Picture;
   items: Array<{
     title: string,
