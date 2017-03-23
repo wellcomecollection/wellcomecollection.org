@@ -38,7 +38,7 @@ const makeSticky = (els, store$) => {
   stickyNavHeight$.subscribe({ next: applyPositioning });
   windowResize$.compose(sampleCombine(stickyNavHeight$)).subscribe(applyPositioningListener);
   windowOrientationChange$.compose(sampleCombine(stickyNavHeight$)).subscribe(applyPositioningListener);
-  documentReadyState$.filter(state => state === 'complete').subscribe({ next: applyPositioning });
+  documentReadyState$.compose(sampleCombine(stickyNavHeight$)).filter(state => state === 'complete').subscribe(applyPositioningListener);
 };
 
 export default makeSticky;

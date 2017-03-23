@@ -29,7 +29,7 @@ const shrinkStoriesNav = (el, dispatch) => {
   };
 
   windowScroll$.subscribe({
-    next: (_) => setIsNarrow(distanceScrolled() > elFromTop)
+    next: () => setIsNarrow(distanceScrolled() > elFromTop)
   });
 
   dispatch(setStickyNavHeight(el.offsetHeight));
