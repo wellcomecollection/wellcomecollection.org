@@ -1,7 +1,7 @@
 import Raven from 'raven';
 import {createPageConfig} from '../model/page-config';
 
-Raven.config('https://f756b8d4b492473782987a054aa9a347@sentry.io/133634').install();
+Raven.config('https://605190088e024c3187592cbeca6d2b1d:8405497d82c243f48ef8546c93ba7f49@sentry.io/133634').install();
 export default function() {
   return async function(ctx, next) {
     try {
