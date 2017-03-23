@@ -31,5 +31,5 @@ pushd terraform
                   -Xlegacy-graph \
                   -var "container_tag=$CONTAINER_TAG"
 
-  terraform remote pull
+  terraform remote push
 popd
