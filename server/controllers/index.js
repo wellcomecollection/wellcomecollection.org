@@ -5,6 +5,7 @@ import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
 import {type Series} from '../model/series';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
+import {createNumberedList} from '../model/numbered-list';
 
 const maxItemsPerPage = 32;
 
@@ -79,16 +80,17 @@ export const seriesNav = async(ctx, next) => {
   const promoList = PromoListFactory.fromSeries(series);
   const items = promoList.items.toJS();
   const image = items[0].image;
+  const seriesNavModel = createNumberedList({
+    name: promoList.name,
+    image: image,
+    items: items
+  });
   // TODO: Commissioned length
   // TODO: Forward fill
 
   ctx.render('components/numbered-list/index', {
     current,
-    model: {
-      name: promoList.name,
-      image: image,
-      items: items
-    },
+    model: seriesNavModel,
     modifiers: ['horizontal', 'sticky'],
     data: {
       classes: ['js-series-nav'],
