@@ -9,6 +9,8 @@
         "hostPort": 80,
         "protocol": "tcp"
       }
+    ],
+    "links": ["wellcomecollection"]
   },
   {
     "name": "wellcomecollection",
