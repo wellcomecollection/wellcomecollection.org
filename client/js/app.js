@@ -70,8 +70,5 @@ function initWithRaven() {
   }
 }
 
-if (document.readyState !== 'loading') {
-  initWithRaven();
-} else {
-  document.addEventListener('DOMContentLoaded', initWithRaven);
-}
+document.addEventListener('DOMContentLoaded', initWithRaven);
+
