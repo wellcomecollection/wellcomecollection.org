@@ -1,6 +1,6 @@
+// @flow
 import { type Picture } from './picture';
 
-// @flow
 export type NumberedList = {|
   name: string;
   image?: ?Picture;

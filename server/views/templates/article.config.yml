@@ -181,6 +181,7 @@ context:
 variants:
   - name: 'Digital story'
     context:
+      seriesNav: "@numbered-list--horizontal"
       article:
         url: 'lorem-ipsum'
         positionInSeries: 3

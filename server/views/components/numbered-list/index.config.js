@@ -37,6 +37,11 @@ export const model = createNumberedList({
 
 export const model2 = createNumberedList({
   name: 'Making Nature',
+  image: {
+    contentUrl: 'https://placehold.it/800x450',
+    width: 800,
+    height: 450
+  },
   items: [
     {
       title: 'Part 1: Lorem ipsum',
@@ -68,11 +73,11 @@ export const context = { model };
 
 export const variants = [
   {
-    name: 'Horizontal list',
-    context: {model: model2, modifiers: ['horizontal','sticky'], data: { classes: ['js-series-nav'], sliderId: 'id'}}
+    name: 'horizontal',
+    context: {model: model2, modifiers: ['horizontal', 'sticky'], data: {classes: ['js-series-nav'], sliderId: 'id'}}
   },
   {
-    name: 'Horizontal list narrow',
+    name: 'horizontal-narrow',
     context: {model: model2, modifiers: ['horizontal-narrow']}
   }
 ];

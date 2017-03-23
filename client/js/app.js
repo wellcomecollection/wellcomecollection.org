@@ -3,6 +3,7 @@ import 'core-js/fn/object/assign';
 import 'whatwg-fetch';
 import lazysizes from 'lazysizes';
 
+import { store$, dispatch } from './store';
 import { nodeList } from './util';
 import headerBurger from './components/header/burger';
 import headerSearch from './components/header/search';
@@ -14,6 +15,7 @@ import makeSticky from './components/make-sticky.js';
 import instagram from './components/instagram';
 import asynContent from './components/async-content';
 import shrinkStoriesNav from './components/shrink-stories-nav';
+import contentSlider from './components/content-slider';
 
 const init = () => {
   nodeList(document.querySelectorAll('.async-content')).forEach(asynContent);
@@ -29,6 +31,7 @@ const init = () => {
   const overlappingEls = document.querySelectorAll('.js-sticky, .js-full-width');
   const stickyEls = document.querySelectorAll('.js-sticky');
   const seriesNav = document.querySelector('.js-series-nav');
+  const seriesSlider = document.querySelector('.js-numbered-slider');
 
   nodeList(wobblyEdgeEls).forEach((el) => wobblyEdge(el));
 
@@ -53,11 +56,19 @@ const init = () => {
   }
 
   if (stickyEls) {
-    makeSticky(stickyEls);
+    makeSticky(stickyEls, store$);
   }
 
   if (seriesNav) {
-    shrinkStoriesNav(seriesNav);
+    shrinkStoriesNav(seriesNav, dispatch);
+  }
+
+  if (seriesSlider) {
+    contentSlider(seriesSlider, {
+      transitionSpeed: 0.7,
+      startPosition: 0,
+      cssPrefix: 'numbered-list__'
+    });
   }
 };
 

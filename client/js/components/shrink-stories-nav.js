@@ -1,25 +1,38 @@
 import { featureTest } from '../util';
-import throttle from 'lodash.throttle';
+import { setStickyNavHeight } from '../reducers/sticky-nav-height';
+import { onWindowScroll$ } from '../utils/dom-events';
 
-const shrinkStoriesNav = (el) => {
-  if (featureTest('position', 'sticky')) {
-    const hitTop = () => {
-      if (document.readyState === 'complete') {
-        const top = el.getBoundingClientRect().top;
-        if (top === 0) {
-          const scrollPosition = window.pageYOffset;
-          el.classList.add('numbered-list--horizontal-narrow');
-          document.body.scrollTop = scrollPosition;
-        } else {
-          const scrollPosition = window.pageYOffset;
-          el.classList.remove('numbered-list--horizontal-narrow');
-          document.body.scrollTop = scrollPosition;
-        }
-      }
-    };
+const shrinkStoriesNav = (el, dispatch) => {
+  if (!featureTest('position', 'sticky')) return;
 
-    window.addEventListener('scroll', throttle(hitTop, 100));
-  }
+  const getIsNarrow = () => {
+    return el.classList.contains('numbered-list--horizontal-narrow');
+  };
+  const elFromTop = el.offsetTop;
+  const elHeight = el.offsetHeight;
+  const distanceScrolled = () => {
+    return window.pageYOffset;
+  };
+  const isScrolledEnough = () => {
+    return (distanceScrolled() > elFromTop + elHeight);
+  };
+  const setIsNarrow = (value) => {
+    if (value && isScrolledEnough() && !getIsNarrow()) {
+      el.classList.add('numbered-list--horizontal-narrow');
+
+      dispatch(setStickyNavHeight(el.offsetHeight));
+    } else if (!value && getIsNarrow()) {
+      el.classList.remove('numbered-list--horizontal-narrow');
+
+      dispatch(setStickyNavHeight(el.offsetHeight));
+    }
+  };
+
+  onWindowScroll$.subscribe({
+    next: () => setIsNarrow(distanceScrolled() > elFromTop)
+  });
+
+  dispatch(setStickyNavHeight(el.offsetHeight));
 };
 
 export default shrinkStoriesNav;

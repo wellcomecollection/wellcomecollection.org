@@ -1,5 +1,11 @@
 {% extends 'pages/article.njk' %}
 
+{% block seriesNavigation %}
+  {% if seriesNav %}
+    {% componentV2 'numbered-list', seriesNav.model, seriesNav.modifiers, seriesNav.data %}
+  {% endif %}
+{% endblock %}
+
 {% block articleBody %}
   {% component 'article-body', { articleBody: article.articleBody } %}
 {% endblock %}

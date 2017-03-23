@@ -40,6 +40,8 @@
     "lazysizes": "^3.0.0-rc3",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
-    "whatwg-fetch": "^2.0.3"
+    "redux": "^3.6.0",
+    "whatwg-fetch": "^2.0.3",
+    "xstream": "^10.3.0"
   }
 }
