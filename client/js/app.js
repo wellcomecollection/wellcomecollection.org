@@ -59,13 +59,16 @@ const init = () => {
     makeSticky(stickyEls, store$);
   }
 
-  nodeList(galleries).forEach((gallery) => {
-    contentSlider(gallery, {
-      slideSelector: '.image-gallery__item',
-      cssPrefix: 'image-gallery__',
-      movementType: 'by-slide'
+
+  if (galleries) {
+    nodeList(galleries).forEach((gallery) => {
+      contentSlider(gallery, {
+        slideSelector: '.image-gallery__item',
+        cssPrefix: 'image-gallery__',
+        movementType: 'by-slide'
+      });
     });
-  });
+  }
 };
 
 function initWithRaven() {

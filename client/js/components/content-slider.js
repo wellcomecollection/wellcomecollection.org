@@ -10,7 +10,8 @@ const contentSlider = (el, options) => {
     transitionSpeed: 0.7,
     slideSelector: 'li',
     cssPrefix: '',
-    movementType: 'default'
+    movementType: 'default',
+    arrowType: 'thick'
   };
   const settings = Object.assign({}, defaults, options);
   // Grab/create necessary slider elements
@@ -22,7 +23,8 @@ const contentSlider = (el, options) => {
     sliderControls: document.createElement('div'),
     prevControl: document.createElement('button'),
     nextControl: document.createElement('button'),
-    arrow: '<svg class="control-arrow" aria-hidden="true" viewBox="0 0 12 13"><path d="M10.95 6.05a1 1 0 0 0-1.41 0L7 8.59V2a1 1 0 0 0-2 0v6.59L2.46 6.05a1 1 0 0 0-1.41 1.41l4.24 4.24a1 1 0 0 0 1.41 0l4.24-4.24a1 1 0 0 0 .01-1.41z"></path></svg>'
+    arrowThick: '<svg class="control-arrow" aria-hidden="true" viewBox="0 0 12 13"><path d="M10.95 6.05a1 1 0 0 0-1.41 0L7 8.59V2a1 1 0 0 0-2 0v6.59L2.46 6.05a1 1 0 0 0-1.41 1.41l4.24 4.24a1 1 0 0 0 1.41 0l4.24-4.24a1 1 0 0 0 .01-1.41z"></path></svg>',
+    arrowThin: '<svg class="control-arrow" aria-hidden="true" viewBox="0 0 20 26"><path class="icon__shape" d="M18.71 15.29a1 1 0 0 0-1.41 0l-6.3 6.3V2a1 1 0 0 0-2 0v19.59l-6.29-6.3A1 1 0 0 0 1.3 16.7l8 8a1 1 0 0 0 1.41 0l8-8a1 1 0 0 0 0-1.41z"></path></svg>'
   };
   // Generate classes for slider elements
   const classes = {
@@ -74,8 +76,13 @@ const contentSlider = (el, options) => {
     sliderElements.slider.parentNode.insertBefore(sliderElements.sliderControls, sliderElements.slider.nextSibling);
     sliderElements.sliderControls.appendChild(sliderElements.prevControl);
     sliderElements.sliderControls.appendChild(sliderElements.nextControl);
-    sliderElements.prevControl.innerHTML = sliderElements.arrow;
-    sliderElements.nextControl.innerHTML = sliderElements.arrow;
+    if (settings.arrowType === 'thin') {
+      sliderElements.prevControl.innerHTML = sliderElements.arrowThin;
+      sliderElements.nextControl.innerHTML = sliderElements.arrowThin;
+    } else {
+      sliderElements.prevControl.innerHTML = sliderElements.arrowThick;
+      sliderElements.nextControl.innerHTML = sliderElements.arrowThick;
+    }
 
     // Set transition style for slider
     setPropertyPrefixed(sliderElements.slidesContainer, 'transition', `transform ${settings.transitionSpeed}s ease`);
