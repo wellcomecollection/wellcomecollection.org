@@ -1,6 +1,6 @@
 import { featureTest } from '../util';
 import { setStickyNavHeight } from '../reducers/sticky-nav-height';
-import { windowScroll$ } from '../utils/dom-events';
+import { onWindowScroll$ } from '../utils/dom-events';
 
 const shrinkStoriesNav = (el, dispatch) => {
   if (!featureTest('position', 'sticky')) return;
@@ -28,7 +28,7 @@ const shrinkStoriesNav = (el, dispatch) => {
     }
   };
 
-  windowScroll$.subscribe({
+  onWindowScroll$.subscribe({
     next: () => setIsNarrow(distanceScrolled() > elFromTop)
   });
 
