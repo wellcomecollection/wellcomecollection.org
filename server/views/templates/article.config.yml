@@ -183,10 +183,13 @@ variants:
     context:
       seriesNav: "@numbered-list--horizontal"
       article:
+        url: 'lorem-ipsum'
         positionInSeries: 3
         series:
-          total: 5
-          color: 'purple'
+          - commissionedLength: 5
+            total: 5
+            color: 'purple'
+            url: 'a-drop-in-the-ocean'
   - name: 'Video'
     context:
       article:
