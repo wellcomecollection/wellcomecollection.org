@@ -108,7 +108,7 @@ const contentSlider = (el, options) => {
     }
   }
 
-  function createWidthArray(slidesArray, containerWidth) { // TODO break this function up - breakout the bit that sets size of images if they're wider than the container width
+  function createWidthArray(slidesArray, containerWidth) {
     const widthArray = [];
     const maxWidth = containerWidth;
     nodeList(slidesArray).forEach((el, i) => {
@@ -159,7 +159,7 @@ const contentSlider = (el, options) => {
     return positionArrayBySlide;
   };
 
-  function setSlideIndexes(widthArray, containerWidth, sliderElements, indexAttr) { // TODO check this is doing what I think it is
+  function setSlideIndexes(widthArray, containerWidth, sliderElements, indexAttr) {
     let counter = 0;
     let start = 0;
     widthArray.reduce((acc, val, i) => {

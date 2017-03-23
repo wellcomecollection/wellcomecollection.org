@@ -69,15 +69,17 @@
   padding: 100px map-get($container-padding, 'small') 0;
 
   @include respond-to('medium') {
-    padding: 100px map-get($container-padding, 'medium') 0;
+    padding-left: map-get($container-padding, 'medium');
+    padding-right: map-get($container-padding, 'medium');
   }
 
   @include respond-to('large') {
-    padding: 100px map-get($container-padding, 'large') 0;
+    padding-left: map-get($container-padding, 'large');
+    padding-right: map-get($container-padding, 'large');
   }
 }
 
-.image-gallery__slides-container {
+.image-gallery__slides-container { // these width and left calculations are related to the gallery appearing in the article template
   margin: 0;
   position: relative;
   width: calc(100vw - #{map-get($container-padding, 'small')});
@@ -165,7 +167,7 @@
   outline: none;
   overflow: hidden;
   position: relative;
-
+  // these left calculations are related to the gallery appearing in the article template
   @include respond-to('medium') {
     margin-left: 12.5%;
   }
