@@ -1,12 +1,13 @@
 [
   {
     "name": "nginx-proxy",
-    "image": "wellcome/wellcomecollection:latest",
-    "memory": 256,
+    "image": "wellcome/wellcomecollection-nginx-proxy:latest",
+    "memory": 232,
+    "cpu": 128,
     "portMappings": [
       {
         "containerPort": 80,
-        "hostPort": 80,
+        "hostPort": 0,
         "protocol": "tcp"
       }
     ],
@@ -15,7 +16,7 @@
   {
     "name": "wellcomecollection",
     "image": "wellcome/wellcomecollection:${container_tag}",
-    "cpu": 512,
+    "cpu": 384,
     "memory": 768,
     "essential": true,
     "portMappings": [
