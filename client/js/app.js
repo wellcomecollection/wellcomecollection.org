@@ -4,6 +4,7 @@ import 'whatwg-fetch';
 import lazysizes from 'lazysizes';
 
 import { store$, dispatch } from './store';
+import dropRepeats from 'xstream/extra/dropRepeats';
 import { nodeList } from './util';
 import headerBurger from './components/header/burger';
 import headerSearch from './components/header/search';
@@ -18,7 +19,9 @@ import shrinkStoriesNav from './components/shrink-stories-nav';
 import contentSlider from './components/content-slider';
 
 const init = () => {
-  nodeList(document.querySelectorAll('.async-content')).forEach(asynContent);
+  nodeList(document.querySelectorAll('.async-content')).forEach((el) => {
+    asynContent(el, dispatch);
+  });
 
   lazysizes.init();
   instagram.init();
@@ -30,8 +33,6 @@ const init = () => {
   const wobblyEdgeEls = document.querySelectorAll('.js-wobbly-edge');
   const overlappingEls = document.querySelectorAll('.js-sticky, .js-full-width');
   const stickyEls = document.querySelectorAll('.js-sticky');
-  const seriesNav = document.querySelector('.js-series-nav');
-  const seriesSlider = document.querySelector('.js-numbered-slider');
 
   nodeList(wobblyEdgeEls).forEach((el) => wobblyEdge(el));
 
@@ -59,17 +60,27 @@ const init = () => {
     makeSticky(stickyEls, store$);
   }
 
-  if (seriesNav) {
-    shrinkStoriesNav(seriesNav, dispatch);
-  }
 
-  if (seriesSlider) {
-    contentSlider(seriesSlider, {
-      transitionSpeed: 0.7,
-      startPosition: 0,
-      cssPrefix: 'numbered-list__'
-    });
-  }
+  const asyncContentAdded$ = store$.map(state => state.asynContentAdded).compose(dropRepeats());
+
+  asyncContentAdded$.subscribe({
+    next() {
+      const seriesSlider = document.querySelector('.js-numbered-slider');
+      const seriesNav = document.querySelector('.js-series-nav');
+
+      if (seriesSlider) {
+        contentSlider(seriesSlider, {
+          transitionSpeed: 0.7,
+          startPosition: 0,
+          cssPrefix: 'numbered-list__'
+        });
+      }
+
+      if (seriesNav) {
+        shrinkStoriesNav(seriesNav, dispatch);
+      }
+    }
+  });
 };
 
 function initWithRaven() {

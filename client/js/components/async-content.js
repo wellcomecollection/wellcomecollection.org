@@ -1,7 +1,9 @@
 /* global fetch */
-export default function asyncContent(el) {
+import { setAsyncContentAdded } from '../reducers/async-content-added';
+
+export default function asyncContent(el, dispatch) {
   return fetch(el.getAttribute('data-endpoint')).then(resp => resp.json()).then(json => {
     el.outerHTML = json.html;
-    // TODO: dispatch action here/subscribe to setup contentSlider
+    dispatch(setAsyncContentAdded(true));
   });
 }
