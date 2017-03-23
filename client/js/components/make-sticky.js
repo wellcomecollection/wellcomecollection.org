@@ -11,8 +11,6 @@ const makeSticky = (els, store$) => {
   const elements = nodeList(els);
 
   const applyPositioning = (stickyNavHeight) => {
-    if (document.readyState !== 'complete') return;
-
     elements.forEach((el) => {
       const isEnoughRoom = el.offsetHeight > (window.innerHeight - stickyNavHeight);
       el.classList[isEnoughRoom ? 'remove' : 'add']('sticky-applied');
@@ -33,13 +31,13 @@ const makeSticky = (els, store$) => {
     }
   });
 
-  windowResize$.compose(sampleCombine(stickyNavHeight$)).subscribe({
+  const applyPositioningListener = {
     next: ([_, stickyNavHeight]) => applyPositioning(stickyNavHeight)
-  });
+  };
 
-  windowOrientationChange$.compose(sampleCombine(stickyNavHeight$)).subscribe({
-    next: ([_, stickyNavHeight]) => applyPositioning(stickyNavHeight)
-  });
+  stickyNavHeight$.subscribe(applyPositioningListener);
+  windowResize$.compose(sampleCombine(stickyNavHeight$)).subscribe(applyPositioningListener);
+  windowOrientationChange$.compose(sampleCombine(stickyNavHeight$)).subscribe(applyPositioningListener);
 };
 
 export default makeSticky;
