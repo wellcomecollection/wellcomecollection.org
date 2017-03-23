@@ -77,12 +77,23 @@ export const seriesNav = async(ctx, next) => {
   const {current} = ctx.request.query;
   const series = await getSeries(id, 6, 1);
   const promoList = PromoListFactory.fromSeries(series);
+  const items = promoList.items.toJS();
+  const image = items[0].image;
   // TODO: Commissioned length
   // TODO: Forward fill
 
-  ctx.render('components/series-nav/index', {
+  ctx.render('components/numbered-list/index', {
     current,
-    list: promoList,
+    model: {
+      name: promoList.name,
+      image: image,
+      items: items
+    },
+    modifiers: ['horizontal', 'sticky'],
+    data: {
+      classes: ['js-series-nav'],
+      sliderId: 'id'
+    }
   });
 
   ctx.body = {
