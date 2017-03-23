@@ -18,6 +18,7 @@ const contentSlider = (el, options) => {
     slidesContainer: el,
     slideItems: el.querySelectorAll(settings.slideSelector),
     slider: document.createElement('div'),
+    sliderInner: document.createElement('div'),
     sliderControls: document.createElement('div'),
     prevControl: document.createElement('button'),
     nextControl: document.createElement('button'),
@@ -26,6 +27,7 @@ const contentSlider = (el, options) => {
   // Generate classes for slider elements
   const classes = {
     slider: `${settings.cssPrefix}slider`,
+    sliderInner: `${settings.cssPrefix}slider-inner`,
     slidesContainer: `${settings.cssPrefix}slides-container`,
     sliderItem: `${settings.cssPrefix}slide-item`,
     currentItem: `${settings.cssPrefix}slide-item--current`,
@@ -50,6 +52,7 @@ const contentSlider = (el, options) => {
   function setup() {
     // Add classes
     sliderElements.slider.className = classes.slider;
+    sliderElements.sliderInner.className = classes.sliderInner;
     sliderElements.slidesContainer.classList.add(classes.slidesContainer);
     sliderElements.sliderControls.className = classes.sliderControls;
     sliderElements.prevControl.className = classes.prevControl;
@@ -66,7 +69,8 @@ const contentSlider = (el, options) => {
 
     // Place slider elements into DOM
     sliderElements.slidesContainer.parentNode.insertBefore(sliderElements.slider, sliderElements.slidesContainer);
-    sliderElements.slider.appendChild(sliderElements.slidesContainer);
+    sliderElements.slider.appendChild(sliderElements.sliderInner);
+    sliderElements.sliderInner.appendChild(sliderElements.slidesContainer);
     sliderElements.slider.parentNode.insertBefore(sliderElements.sliderControls, sliderElements.slider.nextSibling);
     sliderElements.sliderControls.appendChild(sliderElements.prevControl);
     sliderElements.sliderControls.appendChild(sliderElements.nextControl);
