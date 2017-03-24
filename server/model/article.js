@@ -23,7 +23,6 @@ export type Article = {|
   // It's also an Array because it's not unfathomable to think of having
   // an audio and image mainMedia.
   mainMedia: Array<Picture | Video>;
-  principleMainMedia: string;
   thumbnail?: ?Picture;
   articleBody: string;
   associatedMedia: Array<Picture>;
@@ -46,7 +45,6 @@ export class ArticleFactory {
     const mainImage: ?Picture = getWpFeaturedImage(json.featured_image, json.attachments);
     const mainVideo: ?Video = bodyPartsRaw[0] && bodyPartsRaw[0].type === 'video' ? bodyPartsRaw[0].value : null;
     const mainMedia: Array<Video | Picture> = [mainImage, mainVideo].filter(Boolean);
-    const principleMainMedia = mainVideo ? 'video' : 'picture';
 
     // If we have a video as the main media, remove it from the bodyParts to not let it show twice
     // This is due to the fact that WP doesn't allow you to set mainMedia as Youtube embeds.
@@ -81,7 +79,6 @@ export class ArticleFactory {
       description: entities.decode(json.excerpt),
       datePublished: new Date(json.date),
       mainMedia: mainMedia,
-      principleMainMedia: principleMainMedia,
       thumbnail: thumbnail,
       articleBody: articleBody,
       associatedMedia: mainImage ? [mainImage] : [],
