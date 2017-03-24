@@ -1,17 +1,17 @@
 import { ASYNC_CONTENT_ADDED } from '../actions';
-const initialState = false;
+const initialState = null;
 
-export function setAsyncContentAdded(value) {
+export function setAsyncContentAdded(component) {
   return {
     type: ASYNC_CONTENT_ADDED,
-    value
+    component
   };
 }
 
 export const asyncContentAdded = (state = initialState, action) => {
   switch (action.type) {
     case ASYNC_CONTENT_ADDED:
-      return action.value;
+      return action.component;
     default:
       return state;
   }

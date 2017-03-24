@@ -4,7 +4,6 @@ import 'whatwg-fetch';
 import lazysizes from 'lazysizes';
 
 import { store$, dispatch } from './store';
-import dropRepeats from 'xstream/extra/dropRepeats';
 import { nodeList } from './util';
 import headerBurger from './components/header/burger';
 import headerSearch from './components/header/search';
@@ -60,10 +59,11 @@ const init = () => {
     makeSticky(stickyEls, store$);
   }
 
+  const asyncSeriesNavAdded$ = store$.map((state) => {
+    return state.asyncContentAdded === 'series-nav';
+  }).take(1);
 
-  const asyncContentAdded$ = store$.map(state => state.asynContentAdded).compose(dropRepeats());
-
-  asyncContentAdded$.subscribe({
+  asyncSeriesNavAdded$.subscribe({
     next() {
       const seriesSlider = document.querySelector('.js-numbered-slider');
       const seriesNav = document.querySelector('.js-series-nav');
