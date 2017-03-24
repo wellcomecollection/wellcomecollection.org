@@ -21,7 +21,14 @@
     positionInSeries: article.positionInSeries,
     series: article.series
   } %}
-  {% componentV2 'main-media', media, {'full': true}, seriesData %}
+
+  {% if article.principleMainMedia === 'video' and media.type === 'video'%}
+    {% componentV2 'main-media', media, {'full': true}, seriesData %}
+  {% elif article.principleMainMedia === 'picture' %}
+    pictures
+    {% componentV2 'main-media', media, {'full': true}, seriesData %}
+  {% endif %}
+
 {% endfor %}
 
 <div class="row row--cream {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top', 'bottom']}) }} ">
