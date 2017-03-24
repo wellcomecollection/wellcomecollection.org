@@ -60,7 +60,9 @@ const init = () => {
   }
 
   const asyncSeriesNavAdded$ = store$.map((state) => {
-    return state.asyncContentAdded === 'series-nav';
+    return state.asyncContentAdded.some((item) => {
+      return item === 'series-nav';
+    });
   }).take(1);
 
   asyncSeriesNavAdded$.subscribe({

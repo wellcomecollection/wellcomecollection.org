@@ -1,5 +1,5 @@
 import { ASYNC_CONTENT_ADDED } from '../actions';
-const initialState = null;
+const initialState = [];
 
 export function setAsyncContentAdded(component) {
   return {
@@ -11,7 +11,7 @@ export function setAsyncContentAdded(component) {
 export const asyncContentAdded = (state = initialState, action) => {
   switch (action.type) {
     case ASYNC_CONTENT_ADDED:
-      return action.component;
+      return state.concat(action.component);
     default:
       return state;
   }
