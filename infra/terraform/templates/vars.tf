@@ -5,7 +5,5 @@ variable "wellcomecollection_key_name" {}
 variable "wellcomecollection_key_path" {}
 variable "wellcomecollection_ssl_cert_arn" {}
 variable "aws_region" {}
-variable "aws_node_ami" {}
 variable "container_tag" {}
 variable "container_definitions" {}
-variable "build_state_bucket" {}
