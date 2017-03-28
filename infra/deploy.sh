@@ -5,14 +5,15 @@ set -e
 set -o errexit
 set -o nounset
 
-if [ $# -lt 1 ]; then
-    echo "⚡ Usage: deploy.sh <CONTAINER_TAG>"
+if [ $# -lt 2 ]; then
+    echo "⚡ Usage: deploy.sh <prod|dev> <CONTAINER_TAG>"
     exit 1
 fi
 
-CONTAINER_TAG=$1
+DEPLOY_ENV=$1
+CONTAINER_TAG=$2
 
-pushd terraform
+pushd terraform/$DEPLOY_ENV
   terraform init
   terraform get
   terraform apply -target=module.wellcomecollection.aws_ecs_task_definition.wellcomecollection \

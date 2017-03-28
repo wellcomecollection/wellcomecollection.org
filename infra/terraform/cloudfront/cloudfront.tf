@@ -1,3 +1,8 @@
+variable "wellcomecollection_ssl_cert_arn" {}
+variable "website_uri" {}
+variable "dns_name" {}
+variable "alb_id" {}
+
 resource "aws_cloudfront_distribution" "cardigan" {
   origin {
     domain_name = "cardigan.wellcomecollection.org.s3.amazonaws.com"
@@ -39,12 +44,15 @@ resource "aws_cloudfront_distribution" "cardigan" {
       restriction_type = "none"
     }
   }
+
+  retain_on_delete = true
 }
 
 resource "aws_cloudfront_distribution" "next" {
+
   origin {
-    domain_name = "${aws_alb.wellcomecollection_alb.dns_name}"
-    origin_id   = "${aws_alb.wellcomecollection_alb.id}"
+    domain_name = "${var.dns_name}"
+    origin_id   = "${var.alb_id}"
     custom_origin_config {
       origin_protocol_policy = "http-only"
       http_port = "80"
@@ -56,13 +64,13 @@ resource "aws_cloudfront_distribution" "next" {
   enabled             = true
   is_ipv6_enabled     = true
 
-  aliases = ["next.wellcomecollection.org", "wellcomecollection.org"]
+  aliases = ["${var.website_uri}", "wellcomecollection.org"]
 
   default_cache_behavior {
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
     viewer_protocol_policy = "redirect-to-https"
-    target_origin_id       = "${aws_alb.wellcomecollection_alb.id}"
+    target_origin_id       = "${var.alb_id}"
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
@@ -79,7 +87,7 @@ resource "aws_cloudfront_distribution" "next" {
   }
 
   cache_behavior {
-    target_origin_id       = "${aws_alb.wellcomecollection_alb.id}"
+    target_origin_id       = "${var.alb_id}"
     path_pattern           = "/articles/preview/*"
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
@@ -109,4 +117,6 @@ resource "aws_cloudfront_distribution" "next" {
       restriction_type = "none"
     }
   }
+
+  retain_on_delete = true
 }
