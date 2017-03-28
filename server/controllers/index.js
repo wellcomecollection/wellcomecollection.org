@@ -109,10 +109,8 @@ export const explore = async(ctx, next) => {
   const articleStubs = await getArticleStubs(50);
   const grouped = articleStubs.data.groupBy(stub => stub.headline.indexOf('A drop in the ocean:') === 0);
   const theRest = grouped.first();
-  const topPromo = Object.assign({}, PromoFactory.fromArticleStub(theRest.first(), 'lead'), {modifiers: ['on-cream']});
-  const second3Promos = theRest.slice(1, 4).map((item) => {
-    return Object.assign({}, PromoFactory.fromArticleStub(item), {modifiers: ['on-cream']});
-  });
+  const topPromo = PromoFactory.fromArticleStub(theRest.first(), 'lead');
+  const second3Promos = theRest.slice(1, 4).map(PromoFactory.fromArticleStub);
   const next8Promos = theRest.slice(4, 12).map(PromoFactory.fromArticleStub);
   const aDropInTheOceanStubs = grouped.last().take(7);
   const aDropInTheOceanSeries: Series = {
