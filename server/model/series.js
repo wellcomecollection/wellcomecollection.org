@@ -3,6 +3,7 @@ import {List} from 'immutable';
 import {type Promo} from './promo';
 import {type ArticleStub} from './article-stub';
 import {type Pagination} from '../controllers/index';
+import {series} from '../data/series';
 
 type ChapterColor =
   | 'purple'
@@ -29,31 +30,8 @@ export type Series = {|
 
 // Anything below is a massive hack due to the fact that we don't have a CMS that
 // supports our concept or series.
-const hardcodedHackySeries = List([
-  ({
-    url: 'electric-sublime',
-    name: 'Electric Sublime',
-    commissionedLength: getSeriesCommissionedLength('electric-sublime'),
-    color: 'purple',
-    items: List([
-      ({
-        contentType: 'article',
-        headline: 'Thunderbolts and lightning',
-        url: '',
-        description: '',
-        datePublished: new Date('2017-03-30')
-      }: ArticleStub)
-    ])
-  }: Series)
-]);
-
-export function getSeriesCommissionedLength(seriesUrl: string): ?number {
-  const lookup = { 'electric-sublime': 6 };
-  return lookup[seriesUrl];
-}
-
 export function getUnpublishedSeries(seriesId: String): ?Series {
-  return hardcodedHackySeries.find(s => s.url === seriesId);
+  return series.find(s => s.url === seriesId);
 }
 
 export function getForwardFill(series: Series): List<ArticleStub> {
