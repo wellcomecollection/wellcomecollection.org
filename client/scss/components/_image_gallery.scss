@@ -106,16 +106,15 @@
   transition: opacity 0.7s ease;
   align-self: flex-start;
 
+  .image {
+    height: auto;
+  }
+
   .captioned-image__image-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     background: color('smoke');
-    height: 204px;
-
-    @include respond-to('medium') {
-      height: 640px;
-    }
   }
 }
 

@@ -17,6 +17,9 @@ const contentSlider = (el, options) => {
   const sliderElements = {
     slidesContainer: el,
     slideItems: el.querySelectorAll(settings.slideSelector),
+    slideImages: nodeList(el.querySelectorAll(settings.slideSelector)).map((item) => {
+      return item.getElementsByTagName('img')[0];
+    }),
     slider: document.createElement('div'),
     sliderInner: document.createElement('div'),
     sliderControls: document.createElement('div'),
@@ -25,6 +28,7 @@ const contentSlider = (el, options) => {
     arrowThick: '<svg class="control-arrow" aria-hidden="true" viewBox="0 0 12 13"><path d="M10.95 6.05a1 1 0 0 0-1.41 0L7 8.59V2a1 1 0 0 0-2 0v6.59L2.46 6.05a1 1 0 0 0-1.41 1.41l4.24 4.24a1 1 0 0 0 1.41 0l4.24-4.24a1 1 0 0 0 .01-1.41z"></path></svg>',
     arrowThin: '<svg class="control-arrow" aria-hidden="true" viewBox="0 0 20 26"><path class="icon__shape" d="M18.71 15.29a1 1 0 0 0-1.41 0l-6.3 6.3V2a1 1 0 0 0-2 0v19.59l-6.29-6.3A1 1 0 0 0 1.3 16.7l8 8a1 1 0 0 0 1.41 0l8-8a1 1 0 0 0 0-1.41z"></path></svg>'
   };
+
   // Generate classes for slider elements
   const classes = {
     slider: `${settings.cssPrefix}slider`,
@@ -94,11 +98,8 @@ const contentSlider = (el, options) => {
 
   function calculateDimensions() { // Dimensions which determine movement amounts
     containerWidth = calculateContainerWidth(sliderElements.slidesContainer);
-    if (settings.sliderType === 'gallery') {
-      slidesWidthArray = createGalleryWidthArray(sliderElements.slideItems, containerWidth);
-    } else {
-      slidesWidthArray = createDefaultWidthArray(sliderElements.slideItems, containerWidth);
-    }
+    containImages(sliderElements.slideImages, containerWidth, document.documentElement.clientHeight);
+    slidesWidthArray = createItemsWidthArray(sliderElements.slideItems);
     // slidesWidthArrayInverted = slidesWidthArray.slice().reverse();
     slidesCombinedWidth = calculateCombinedWidth(slidesWidthArray);
     positionArrayBySlide = calculateSlidePositionArray(slidesWidthArray);
@@ -111,7 +112,7 @@ const contentSlider = (el, options) => {
     }
   }
 
-  function createDefaultWidthArray(slidesArray, containerWidth) {
+  function createItemsWidthArray(slidesArray) {
     return nodeList(slidesArray).map((el) => {
       const width = el.offsetWidth;
       const style = window.getComputedStyle(el);
@@ -120,25 +121,21 @@ const contentSlider = (el, options) => {
     });
   };
 
-  function createGalleryWidthArray(slidesArray, containerWidth) {
+  function containImages(imagesArray, containerWidth, screenHeight) {
     const maxWidth = containerWidth;
-    return nodeList(slidesArray).map((el) => {
-      const style = window.getComputedStyle(el);
-      const horizontalMargins = parseInt(style.marginLeft) + parseInt(style.marginRight);
-      const image = el.getElementsByTagName('img')[0];
-      image.style.removeProperty('width');
-      image.style.removeProperty('height');
-      const cssHeight = parseInt(window.getComputedStyle(image).getPropertyValue('height'), 10);
-      const imageWidth = image.getAttribute('data-width');
-      const imageHeight = image.getAttribute('data-height');
-      const widthByHeight = imageWidth / imageHeight * cssHeight;
-
-      if (widthByHeight <= maxWidth) {
-        return widthByHeight + horizontalMargins;
-      } else {
-        image.style.width = `${maxWidth - horizontalMargins}px`;
-        image.style.height = 'auto';
-        return maxWidth;
+    const maxHeight = screenHeight * 0.7 < 640 ? screenHeight * 0.7 : 640;
+    nodeList(imagesArray).forEach((img) => {
+      if (img) {
+        const imgHeight = maxHeight;
+        const imageWidth = img.getAttribute('data-width');
+        const imageHeight = img.getAttribute('data-height');
+        const widthByHeight = imageWidth / imageHeight * imgHeight;
+        img.parentNode.style.height = imgHeight + 'px';
+        if (widthByHeight <= maxWidth) {
+          img.style.width = widthByHeight + 'px';
+        } else {
+          img.style.width = maxWidth + 'px';
+        }
       }
     });
   };
