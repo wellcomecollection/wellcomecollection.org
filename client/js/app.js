@@ -14,8 +14,6 @@ import preventOverlapping from './components/prevent-overlapping';
 import makeSticky from './components/make-sticky.js';
 import instagram from './components/instagram';
 import asynContent from './components/async-content';
-import shrinkStoriesNav from './components/shrink-stories-nav';
-import contentSlider from './components/content-slider';
 
 const init = () => {
   nodeList(document.querySelectorAll('.async-content')).forEach((el) => {
@@ -58,32 +56,6 @@ const init = () => {
   if (stickyEls) {
     makeSticky(stickyEls, store$);
   }
-
-  const asyncSeriesNavAdded$ = store$.map((state) => {
-    return state.asyncComponents.some((item) => {
-      return item === 'series-nav';
-    });
-  }).take(1);
-
-  asyncSeriesNavAdded$.subscribe({
-    next() {
-      // TODO: account for these components being added at another time
-      const seriesSlider = document.querySelector('.js-numbered-slider');
-      const seriesNav = document.querySelector('.js-series-nav');
-
-      if (seriesSlider) {
-        contentSlider(seriesSlider, {
-          transitionSpeed: 0.7,
-          startPosition: 0,
-          cssPrefix: 'numbered-list__'
-        });
-      }
-
-      if (seriesNav) {
-        shrinkStoriesNav(seriesNav, dispatch);
-      }
-    }
-  });
 };
 
 function initWithRaven() {

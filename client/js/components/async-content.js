@@ -1,11 +1,28 @@
 /* global fetch */
-import { setAsyncComponents } from '../reducers/async-components';
+import contentSlider from './content-slider';
+import shrinkStoriesNav from './shrink-stories-nav';
 
 export default function asyncContent(el, dispatch) {
   const component = el.getAttribute('data-component');
 
   return fetch(el.getAttribute('data-endpoint')).then(resp => resp.json()).then(json => {
     el.outerHTML = json.html;
-    dispatch(setAsyncComponents(component));
+
+    if (component === 'series-nav') {
+      const seriesSlider = document.querySelector('.js-numbered-slider');
+      const seriesNav = document.querySelector('.js-series-nav');
+
+      if (seriesSlider) {
+        contentSlider(seriesSlider, {
+          transitionSpeed: 0.7,
+          startPosition: 0,
+          cssPrefix: 'numbered-list__'
+        });
+      }
+
+      if (seriesNav) {
+        shrinkStoriesNav(seriesNav, dispatch);
+      }
+    }
   });
 }
