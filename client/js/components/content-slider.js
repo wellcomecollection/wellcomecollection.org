@@ -136,7 +136,7 @@ const contentSlider = (el, options) => {
       if (widthByHeight <= maxWidth) {
         return widthByHeight + horizontalMargins;
       } else {
-        image.style.width = `${maxWidth - horizontalMargins}px`; //TODO move this
+        image.style.width = `${maxWidth - horizontalMargins}px`;
         image.style.height = 'auto';
         return maxWidth;
       }
