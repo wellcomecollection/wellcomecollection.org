@@ -2,6 +2,8 @@
 import 'core-js/fn/object/assign';
 import 'whatwg-fetch';
 import lazysizes from 'lazysizes';
+import '../libs/before-polyfill';
+import '../libs/append-polyfill';
 
 import { store$, dispatch } from './store';
 import { nodeList } from './util';
