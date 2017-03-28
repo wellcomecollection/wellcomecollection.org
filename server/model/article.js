@@ -13,7 +13,7 @@ import {authorMap} from '../services/author-lookup';
 export type BodyPart = {};
 
 export type Article = {|
-  type: ContentType;
+  contentType: ContentType;
   url: string;
   headline: string;
   standfirst: string;
