@@ -2,6 +2,8 @@
 <html id="top" lang="en">
   <head>
     <meta charset="utf-8" />
+    {% include 'partials/analytics.njk' %}
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>{{ pageConfig.title + ' | ' if pageConfig.title }}Wellcome Collection</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -114,7 +116,6 @@
     <script>
       if (['localhost', 'cardigan.wellcomecollection.org'].indexOf(document.location.hostname) === -1) {
         {% include 'partials/hotjar.js.njk' %}
-        {% include 'partials/analytics.js.njk' %}
       }
     </script>
     {% include 'partials/monitoring.njk' %}
