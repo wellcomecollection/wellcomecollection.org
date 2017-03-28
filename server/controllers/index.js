@@ -2,7 +2,7 @@
 import {PromoFactory} from '../model/promo';
 import {createPageConfig} from '../model/page-config';
 import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
-import {type Series} from '../model/series';
+import {type Series, getForwardFill, getUnpublishedSeries} from '../model/series';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {createNumberedList} from '../model/numbered-list';
@@ -76,7 +76,9 @@ export const series = async(ctx, next) => {
 export const seriesNav = async(ctx, next) => {
   const {id} = ctx.params;
   const {current} = ctx.request.query;
-  const series = await getSeries(id, 6, 1);
+  const seriesResponse = await getSeries(id, 6, 1);
+  const series = seriesResponse ? getForwardFill(seriesResponse) : getUnpublishedSeries(id);
+
   const promoList = PromoListFactory.fromSeries(series);
   const items = promoList.items.toJS();
   const image = items[0].image;
@@ -202,17 +204,22 @@ export const explosion = (ctx, next) => {
 
 export const preview = async(ctx, next) => {
   const id = ctx.params.id;
+  const format = ctx.request.query.format;
   const authToken = ctx.cookies.get('WC_wpAuthToken');
   const article = await getArticle(id, authToken);
 
   if (article) {
-    ctx.render('pages/article', {
-      pageConfig: createPageConfig({
-        title: article.headline,
-        inSection: 'explore'
-      }),
-      article: article
-    });
+    if (format === 'json') {
+      ctx.body = article;
+    } else {
+      ctx.render('pages/article', {
+        pageConfig: createPageConfig({
+          title: article.headline,
+          inSection: 'explore'
+        }),
+        article: article
+      });
+    }
   }
 
   return next();
