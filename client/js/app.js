@@ -67,6 +67,7 @@ const init = () => {
 
   asyncSeriesNavAdded$.subscribe({
     next() {
+      // TODO: account for these components being added at another time
       const seriesSlider = document.querySelector('.js-numbered-slider');
       const seriesNav = document.querySelector('.js-series-nav');
 
