@@ -6,7 +6,7 @@
   {% set sizes = defaultPromoSizes %}
 {% endif %}
 
-<a href="{{ promo.url }}" class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %}">
+<a href="{{ promo.url }}" class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %} promo--{{ promo.contentType }}">
   <div class="promo__image-container">
     {% if promo.image %}
       {% componentV2 'image', promo.image, {}, {lazyload: true, sizesQueries: sizes} %}
@@ -28,7 +28,6 @@
         <img class="promo__image-mask promo__clip-path--{{ [1,2,3,4,5,6,7,8,9,10] | random }}" src="{{ promo.article.thumbnail.contentUrl }}?w=600" alt="" />
       {% endif %}
     {% endfor %}
-
 
     {% if promo.series.items.size and promo.positionInSeries %}
       <img class="promo__image-mask {{'promo__clip-path--chapters-half' if promo.modifiers and promo.modifiers | contains('standalone') else 'promo__clip-path--chapters-third'}}" src="{{ promo.image.contentUrl }}?w=600" alt="" />
