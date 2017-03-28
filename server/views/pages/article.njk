@@ -16,13 +16,7 @@
 {% endblock %}
 {% componentV2 'page-description', {title: article.headline, meta: {type: 'date', value: article.datePublished}, lead: true}, {'a': true}, {icon: article.contentType | getIconForContentType} %}
 
-{% for media in article.mainMedia %}
-  {% set seriesData = {
-    positionInSeries: article.positionInSeries,
-    series: article.series
-  } %}
-  {% componentV2 'main-media', media, {'full': true}, seriesData %}
-{% endfor %}
+{% componentV2 'main-media', article.mainMedia | getPrincipleMainMedia, {'full': true}, seriesData %}
 
 <div class="row row--cream {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top', 'bottom']}) }} ">
   <div class="container">

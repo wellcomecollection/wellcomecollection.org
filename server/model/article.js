@@ -13,7 +13,7 @@ import {authorMap} from '../services/author-lookup';
 export type BodyPart = {};
 
 export type Article = {|
-  type: ContentType;
+  contentType: ContentType;
   url: string;
   headline: string;
   standfirst: string;
@@ -38,6 +38,7 @@ export class ArticleFactory {
   static fromWpApi(json): Article {
     const url = `/articles/${json.slug}`; // TODO: this should be discoverable, not hard coded
     const articleBody = json.content;
+    const contentType = json.format === 'standard' ? 'article' : json.format;
 
     const bodyPartsRaw = bodyParser(articleBody);
     const standfirst = bodyPartsRaw.find(part => part.type === 'standfirst');
@@ -72,7 +73,7 @@ export class ArticleFactory {
     });
 
     const article: Article = {
-      type: "article",
+      contentType: contentType,
       url: url,
       headline: entities.decode(json.title),
       standfirst: entities.decode(standfirst),
