@@ -1,5 +1,5 @@
 data "aws_acm_certificate" "next_wellcomecollection_org" {
-  domain = "next.wellcomecollection.org"
+  domain = "${var.website_uri}"
   statuses = ["ISSUED"]
 }
 
@@ -76,4 +76,12 @@ resource "aws_cloudwatch_metric_alarm" "wellcomecollection_alb_500" {
   dimensions {
     LoadBalancer = "${replace("${aws_alb.wellcomecollection_alb.arn}", "/arn:.*?:loadbalancer\\/(.*)/", "$1")}"
   }
+}
+
+output "alb_id" {
+  value = "${aws_alb.wellcomecollection_alb.id}"
+}
+
+output "dns_name" {
+  value = "${aws_alb.wellcomecollection_alb.dns_name}"
 }
