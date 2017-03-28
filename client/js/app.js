@@ -61,15 +61,14 @@ const init = () => {
 
 
   if (galleries) {
-    nodeList(galleries).forEach((gallery) => {
-      contentSlider(gallery, {
-        slideSelector: '.image-gallery__item',
-        cssPrefix: 'image-gallery__',
-        movementType: 'by-slide',
-        arrowType: 'thin'
-      });
+
+  nodeList(galleries).forEach((gallery) => {
+    contentSlider(gallery, {
+      slideSelector: '.image-gallery__item',
+      cssPrefix: 'image-gallery__',
+      sliderType: 'gallery'
     });
-  }
+  });
 };
 
 function initWithRaven() {

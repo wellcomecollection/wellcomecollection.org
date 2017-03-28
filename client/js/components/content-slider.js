@@ -10,8 +10,7 @@ const contentSlider = (el, options) => {
     transitionSpeed: 0.7,
     slideSelector: 'li',
     cssPrefix: '',
-    movementType: 'default',
-    arrowType: 'thick'
+    sliderType: 'default'
   };
   const settings = Object.assign({}, defaults, options);
   // Grab/create necessary slider elements
@@ -76,7 +75,7 @@ const contentSlider = (el, options) => {
     sliderElements.slider.parentNode.insertBefore(sliderElements.sliderControls, sliderElements.slider.nextSibling);
     sliderElements.sliderControls.appendChild(sliderElements.prevControl);
     sliderElements.sliderControls.appendChild(sliderElements.nextControl);
-    if (settings.arrowType === 'thin') {
+    if (settings.sliderType === 'gallery') {
       sliderElements.prevControl.innerHTML = sliderElements.arrowThin;
       sliderElements.nextControl.innerHTML = sliderElements.arrowThin;
     } else {
@@ -95,44 +94,54 @@ const contentSlider = (el, options) => {
 
   function calculateDimensions() { // Dimensions which determine movement amounts
     containerWidth = calculateContainerWidth(sliderElements.slidesContainer);
-    slidesWidthArray = createWidthArray(sliderElements.slideItems, containerWidth);
+    if (settings.sliderType === 'gallery') {
+      slidesWidthArray = createGalleryWidthArray(sliderElements.slideItems, containerWidth);
+    } else {
+      slidesWidthArray = createDefaultWidthArray(sliderElements.slideItems, containerWidth);
+    }
     // slidesWidthArrayInverted = slidesWidthArray.slice().reverse();
     slidesCombinedWidth = calculateCombinedWidth(slidesWidthArray);
     positionArrayBySlide = calculateSlidePositionArray(slidesWidthArray);
     positionArrayByContainer = calculatePositionArrayByContainer(slidesWidthArray, slidesCombinedWidth, containerWidth, sliderElements, indexAttr);
     // positionArrayByContainerInverted = calculatePositionArrayByContainerInverted(calculatePositionArrayByContainer(slidesWidthArrayInverted, slidesCombinedWidth, containerWidth, sliderElements, indexAttr), slidesCombinedWidth, containerWidth);
-    if (settings.movementType === 'by-slide') {
+    if (settings.sliderType === 'gallery') {
       positionArray = positionArrayBySlide;
     } else {
       positionArray = positionArrayByContainer;
     }
   }
 
-  function createWidthArray(slidesArray, containerWidth) {
+  function createDefaultWidthArray(slidesArray, containerWidth) {
     const widthArray = [];
-    const maxWidth = containerWidth;
     nodeList(slidesArray).forEach((el, i) => {
       const width = el.offsetWidth;
       const style = window.getComputedStyle(el);
       const horizontalMargins = parseInt(style.marginLeft) + parseInt(style.marginRight);
-      const image = el.getElementsByTagName('img')[0];
-      if (image) {
-        image.style.removeProperty('width');
-        image.style.removeProperty('height');
-        const cssHeight = parseInt(window.getComputedStyle(image).getPropertyValue('height'), 10);
-        const imageWidth = image.getAttribute('data-width');
-        const imageHeight = image.getAttribute('data-height');
-        const widthByHeight = imageWidth / imageHeight * cssHeight;
+      widthArray.push(width + horizontalMargins);
+    });
+    return widthArray;
+  };
 
-        if (widthByHeight <= maxWidth) {
-          widthArray.push(widthByHeight + horizontalMargins);
-        } else {
-          widthArray.push(maxWidth);
-          image.style.width = `${maxWidth - horizontalMargins}px`;
-          image.style.height = 'auto';
-        }
+  function createGalleryWidthArray(slidesArray, containerWidth) {
+    const widthArray = [];
+    const maxWidth = containerWidth;
+    nodeList(slidesArray).forEach((el, i) => {
+      const style = window.getComputedStyle(el);
+      const horizontalMargins = parseInt(style.marginLeft) + parseInt(style.marginRight);
+      const image = el.getElementsByTagName('img')[0];
+      image.style.removeProperty('width');
+      image.style.removeProperty('height');
+      const cssHeight = parseInt(window.getComputedStyle(image).getPropertyValue('height'), 10);
+      const imageWidth = image.getAttribute('data-width');
+      const imageHeight = image.getAttribute('data-height');
+      const widthByHeight = imageWidth / imageHeight * cssHeight;
+
+      if (widthByHeight <= maxWidth) {
+        widthArray.push(widthByHeight + horizontalMargins);
       } else {
-        widthArray.push(width + horizontalMargins);
+        widthArray.push(maxWidth);
+        image.style.width = `${maxWidth - horizontalMargins}px`;
+        image.style.height = 'auto';
       }
     });
     return widthArray;
@@ -167,7 +176,7 @@ const contentSlider = (el, options) => {
         counter++;
         start = acc;
       }
-      if (settings.movementType === 'by-slide') {
+      if (settings.sliderType === 'gallery') {
         addAttrToElements(sliderElements.slideItems[i], indexAttr, i);
       } else {
         addAttrToElements(sliderElements.slideItems[i], indexAttr, counter);
@@ -253,13 +262,13 @@ const contentSlider = (el, options) => {
     const currentItems = [];
     slidesWidthArray.reduce((acc, curr, i) => {
       const nextLength = acc + curr;
-      if (settings.movementType !== 'by-slide') {
-        if (acc >= lowerBoundary && nextLength <= upperBoundary) {
-          currentItems.push(items[positionArrayBySlide.indexOf(acc)]);
-        }
-      } else {
+      if (settings.sliderType === 'gallery') {
         if (n === i) {
           currentItems.push(items[i]);
+        }
+      } else {
+        if (acc >= lowerBoundary && nextLength <= upperBoundary) {
+          currentItems.push(items[positionArrayBySlide.indexOf(acc)]);
         }
       }
       return nextLength;
@@ -278,14 +287,14 @@ const contentSlider = (el, options) => {
     if (n === 0) {
       addClassesToElements(prevControl, className);
       addAttrToElements(prevControl, 'disabled', 'true');
-      // if (settings.movementType !== 'by-slide') { // TODO put somewhere better
+      // if (settings.sliderType !== 'gallery') { // TODO put somewhere better
       //   positionArray = positionArrayByContainer;
       // }
     }
     if (n === items.length - 1) {
       addClassesToElements(nextControl, className);
       addAttrToElements(nextControl, 'disabled', 'true');
-      // if (settings.movementType !== 'by-slide') { // TODO put somewhere better
+      // if (settings.sliderType !== 'gallery') { // TODO put somewhere better
       //   positionArray = positionArrayByContainerInverted;
       // }
     }
