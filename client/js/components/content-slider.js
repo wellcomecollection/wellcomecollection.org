@@ -112,20 +112,17 @@ const contentSlider = (el, options) => {
   }
 
   function createDefaultWidthArray(slidesArray, containerWidth) {
-    const widthArray = [];
-    nodeList(slidesArray).forEach((el, i) => {
+    return nodeList(slidesArray).map((el) => {
       const width = el.offsetWidth;
       const style = window.getComputedStyle(el);
       const horizontalMargins = parseInt(style.marginLeft) + parseInt(style.marginRight);
-      widthArray.push(width + horizontalMargins);
+      return width + horizontalMargins;
     });
-    return widthArray;
   };
 
   function createGalleryWidthArray(slidesArray, containerWidth) {
-    const widthArray = [];
     const maxWidth = containerWidth;
-    nodeList(slidesArray).forEach((el, i) => {
+    return nodeList(slidesArray).map((el) => {
       const style = window.getComputedStyle(el);
       const horizontalMargins = parseInt(style.marginLeft) + parseInt(style.marginRight);
       const image = el.getElementsByTagName('img')[0];
@@ -137,14 +134,13 @@ const contentSlider = (el, options) => {
       const widthByHeight = imageWidth / imageHeight * cssHeight;
 
       if (widthByHeight <= maxWidth) {
-        widthArray.push(widthByHeight + horizontalMargins);
+        return widthByHeight + horizontalMargins;
       } else {
-        widthArray.push(maxWidth);
-        image.style.width = `${maxWidth - horizontalMargins}px`;
+        image.style.width = `${maxWidth - horizontalMargins}px`; //TODO move this
         image.style.height = 'auto';
+        return maxWidth;
       }
     });
-    return widthArray;
   };
 
   function calculateCombinedWidth(widthArray) {
