@@ -65,7 +65,8 @@ const init = () => {
       contentSlider(gallery, {
         slideSelector: '.image-gallery__item',
         cssPrefix: 'image-gallery__',
-        movementType: 'by-slide'
+        movementType: 'by-slide',
+        arrowType: 'thin'
       });
     });
   }
