@@ -30,10 +30,8 @@ but probably worth mentioning.
 
 Once that's done run:
 
-    `./airbag.js`
+    `./deploy.sh <dev|prod> DOCKER_TAG`
 
-You'll be asked to select the build bucket and build number.
-You can ge the build number from [cirleci](https://circleci.com/gh/wellcometrust/wellcomecollection.org).
-__Please only deploy master, as those are the only artifacts that exist__.
+You can ge the `DOCKER_TAG` from [Docker Hub](https://hub.docker.com/r/wellcome/wellcomecollection/tags/).
 
 That should deploy your changes once all the LBs and instances are reporting healthy.
