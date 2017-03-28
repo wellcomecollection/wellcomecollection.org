@@ -37,15 +37,15 @@ export const variants = [
   },
   {
     name: 'gallery',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'gallery']}, {contentType: 'gallery'})}
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined']}, {contentType: 'gallery'})}
   },
   {
     name: 'audio',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'audio']}, { contentType: 'audio', length: '01:35' })}
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined']}, { contentType: 'audio', length: '01:35' })}
   },
   {
     name: 'video',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined', 'video']}, { contentType: 'video', length: '01:35' })}
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined']}, { contentType: 'video', length: '01:35' })}
   },
   {
     name: 'standalone',

@@ -16,7 +16,7 @@ const baseUri = 'https://public-api.wordpress.com/rest/v1.1/sites/blog.wellcomec
 export async function getArticleStubs(size: number = 20, q: {category?:string, page?:number}): Promise<ArticleStubsResponse> {
   const uri = `${baseUri}/posts/`;
   const response = await request(uri).query(Object.assign({}, {
-    fields: 'slug,title,excerpt,post_thumbnail,date,categories',
+    fields: 'slug,title,excerpt,post_thumbnail,date,categories,format',
     number: size
   }, q));
 

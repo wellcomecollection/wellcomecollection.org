@@ -1,8 +1,10 @@
 // @flow
 import entities from 'entities';
+import {type ContentType} from './content-type';
 import {type Picture} from './picture';
 import {type  ArticleSeries, getSeriesCommissionedLength} from "./series";
 export type ArticleStub = {|
+  contentType: ContentType;
   url: string;
   headline: string;
   description: string;
@@ -13,6 +15,7 @@ export type ArticleStub = {|
 
 export class ArticleStubFactory {
   static fromWpApi(json): ArticleStub {
+    const contentType = json.format === 'standard' ? 'article' : json.format;
     const url = `/articles/${json.slug}`; // TODO: this should be discoverable, not hard coded
     const headline = entities.decode(json.title);
     const description = entities.decode(json.excerpt);
@@ -34,7 +37,7 @@ export class ArticleStubFactory {
       } : ArticleSeries)
     });
 
-    const articleStub: ArticleStub = { url, headline, description, thumbnail, datePublished, series };
+    const articleStub: ArticleStub = { contentType, url, headline, description, thumbnail, datePublished, series };
     return articleStub;
   }
 }

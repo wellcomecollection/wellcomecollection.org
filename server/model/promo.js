@@ -25,7 +25,7 @@ export class PromoFactory {
       url: articleStub.url,
       title: articleStub.headline,
       image: articleStub.thumbnail,
-      contentType: 'article',
+      contentType: articleStub.contentType,
       weight: weight,
       description: articleStub.description
     } : Promo);
