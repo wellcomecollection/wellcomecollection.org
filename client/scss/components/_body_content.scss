@@ -64,8 +64,14 @@ $center-width-xlarge: (6/6) * 100%;
 
 .body-part {
   display: block;
-  position: relative;
   z-index: 2;
+  position: relative;
+
+  @include respond-between('small', 'large') {
+    /* stylelint-disable declaration-no-important */
+    top: 0 !important;
+    /* stylelint-enable */
+  }
 }
 
 .body-part--full-width {
