@@ -20,3 +20,36 @@ export const ruthGarde: Person = {
                'extensively with Wellcome Collection, writing and curating a variety of projects' +
                'encompassing history, human health, art and science.'
 };
+
+export const chrisChapman: Person = {
+  givenName: 'Chris',
+  familyName: 'Chapman',
+  name: 'Chris Chapman',
+  twitterHandle: 'chimpy',
+  image: 'https://wellcomecollection.files.wordpress.com/2017/03/chrisc-mugshot_400x400.jpg'
+};
+
+export const robBidder: Person = {
+  givenName: 'Rob',
+  familyName: 'Bidder',
+  name: 'Rob Bidder',
+  twitterHandle: 'robertbidder'
+};
+
+export const rockWebb: Person = {
+  givenName: 'Rock',
+  familyName: 'Webb',
+  name: 'Rock Webb'
+};
+
+export const sarahBentley: Person = {
+  givenName: 'Sarah',
+  familyName: 'Bentley',
+  name: 'Sarah Bentley'
+};
+
+export const sarahJaffray: Person = {
+  givenName: 'Sarah',
+  familyName: 'Jaffray',
+  name: 'Sarah Jaffray'
+};
