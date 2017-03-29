@@ -59,9 +59,6 @@ const init = () => {
     makeSticky(stickyEls, store$);
   }
 
-
-  if (galleries) {
-
   nodeList(galleries).forEach((gallery) => {
     contentSlider(gallery, {
       slideSelector: '.image-gallery__item',
