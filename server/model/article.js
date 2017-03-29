@@ -44,23 +44,22 @@ export class ArticleFactory {
     const bodyPartsRaw = bodyParser(articleBody);
     const standfirst = bodyPartsRaw.find(part => part.type === 'standfirst');
 
-    const mainImage: ?Picture = getWpFeaturedImage(json.featured_image, json.attachments);
     const mainVideo: ?Video = bodyPartsRaw[0] && bodyPartsRaw[0].type === 'video' ? bodyPartsRaw[0].value : null;
+    const wpThumbnail = json.post_thumbnail;
+    const thumbnail: ?Picture = mainVideo ? mainVideo.posterImage : (wpThumbnail ? {
+      type: 'picture',
+      contentUrl: wpThumbnail.URL,
+      width: wpThumbnail.width,
+      height: wpThumbnail.height
+    } : null);
+    // Annoyingly Wordpress doesn't always send the featured image over with the attachments,
+    // so we revert to the thumbnail.
+    const mainImage: ?Picture = getWpFeaturedImage(json.featured_image, json.attachments) || thumbnail;
     const mainMedia: Array<Video | Picture> = [mainImage, mainVideo].filter(Boolean);
 
     // If we have a video as the main media, remove it from the bodyParts to not let it show twice
     // This is due to the fact that WP doesn't allow you to set mainMedia as Youtube embeds.
     const bodyParts = mainVideo ? List(bodyPartsRaw).skip(1).toJS() : bodyPartsRaw;
-
-    const wpThumbnail = json.post_thumbnail;
-    const thumbnail: ?Picture =
-      mainVideo ? mainVideo.posterImage :
-      (wpThumbnail ? {
-        type: 'picture',
-        contentUrl: wpThumbnail.URL,
-        width: wpThumbnail.width,
-        height: wpThumbnail.height
-      } : null);
 
     const author = authorMap[json.slug];
     const series: Array<ArticleSeries> = Object.keys(json.categories).map(catKey => {
