@@ -41,6 +41,7 @@ export function getForwardFill(series: Series): List<ArticleStub> {
     const missingCount = forwardFill.commissionedLength - series.items.size;
     const usefulForwardFill = forwardFill.items.takeLast(missingCount);
     const newSeriesItems = series.items.concat(usefulForwardFill);
+    series.name = forwardFill.name;
     series.items = newSeriesItems;
   }
 
