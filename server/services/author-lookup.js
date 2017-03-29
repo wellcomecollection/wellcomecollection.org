@@ -5,6 +5,7 @@ import * as people from '../data/people';
 export const authorMap: { [key: string]: Person } = {
   'oops-i-wrote-a-britney-blog-post': people.russellDornan,
   'something-in-the-air': people.ruthGarde,
+  'thunderbolts-and-lightning': people.ruthGarde,
   'john-gerrard-frogs-in-space': people.chrisChapman,
   'a-body-apart-from-the-head': people.robBidder,
   'inspired-tattoos-as-pain-relief': people.rockWebb,
