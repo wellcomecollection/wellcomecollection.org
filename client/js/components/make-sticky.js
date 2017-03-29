@@ -1,6 +1,6 @@
 import {nodeList, featureTest} from '../util';
 import dropRepeats from 'xstream/extra/dropRepeats';
-import {onWindowOrientationChange$, onWindowResize$, documentReadyState$} from '../utils/dom-events';
+import {onWindowOrientationChange$, onWindowResizeDebounce$, documentReadyState$} from '../utils/dom-events';
 import sampleCombine from 'xstream/extra/sampleCombine';
 
 const initialPxFromTop = 15; // TODO: remove magic
@@ -36,7 +36,7 @@ const makeSticky = (els, store$) => {
   };
 
   stickyNavHeight$.subscribe({ next: applyPositioning });
-  onWindowResize$.compose(sampleCombine(stickyNavHeight$)).subscribe(applyPositioningListener);
+  onWindowResizeDebounce$.compose(sampleCombine(stickyNavHeight$)).subscribe(applyPositioningListener);
   onWindowOrientationChange$.compose(sampleCombine(stickyNavHeight$)).subscribe(applyPositioningListener);
   documentReadyState$.compose(sampleCombine(stickyNavHeight$)).filter(state => state === 'complete').subscribe(applyPositioningListener);
 };
