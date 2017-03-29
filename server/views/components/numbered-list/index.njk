@@ -24,7 +24,7 @@
               {{ item.title }}
             {%- endif -%}
           </h3>
-          <p class="numbered-list__date">{{ item.date | formatDate }}</p>
+          <p class="numbered-list__date">{{ item.datePublished | formatDateWithComingSoon }}</p>
       {% if item.url %}
         </a>
       {% else %}

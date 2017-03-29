@@ -1,6 +1,11 @@
 // @flow
 import moment from 'moment';
 
-export default function formatDate(date: Date): string {
-  return moment(date).format('Do MMMM YYYY');
+export function formatDate(date: Date): string {
+  return moment(date).format('D MMMM YYYY');
+}
+
+export function formatDateWithComingSoon(date: Date): string {
+  const isFuture = moment().diff(date) < 0;
+  return (isFuture ? 'Coming soon: ' : '') + formatDate(date);
 }
