@@ -35,11 +35,11 @@ export function getUnpublishedSeries(seriesId: String): ?Series {
 }
 
 export function getForwardFill(series: Series): List<ArticleStub> {
-  const forwardFill = getUnpublishedSeries[series.url];
+  const forwardFill = getUnpublishedSeries(series.url);
 
   if (forwardFill) {
-    const missingCount = series.commissionedLength || series.items.size - series.items.size;
-    const usefulForwardFill = forwardFill.takeLast(missingCount);
+    const missingCount = forwardFill.commissionedLength - series.items.size;
+    const usefulForwardFill = forwardFill.items.takeLast(missingCount);
     const newSeriesItems = series.items.concat(usefulForwardFill);
     series.items = newSeriesItems;
   }
