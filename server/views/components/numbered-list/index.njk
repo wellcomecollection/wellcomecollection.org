@@ -17,7 +17,7 @@
       {% else %}
         <span class="numbered-list__link-surrogate">
       {% endif %}
-          <h3 class="numbered-list__title {% if current === item.url %}numbered-list__title--{{ seriesInfo.color }}{% endif %}">
+          <h3 class="numbered-list__title">
             {%- if current === item.url -%}
               Currently viewing<span class="numbered-list__visually-hidden-title"> {{ item.title }}</span>
             {%- else -%}
