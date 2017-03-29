@@ -3,6 +3,7 @@ import {List} from 'immutable';
 import {type Promo} from './promo';
 import {type ArticleStub} from './article-stub';
 import {type Pagination} from '../controllers/index';
+import {series} from '../data/series';
 
 type ChapterColor =
   | 'purple'
@@ -29,17 +30,12 @@ export type Series = {|
 
 // Anything below is a massive hack due to the fact that we don't have a CMS that
 // supports our concept or series.
-export function getSeriesCommissionedLength(seriesUrl: string): ?number {
-  const lookup = { 'electricity': 6 };
-  return lookup[seriesUrl];
+export function getUnpublishedSeries(seriesId: String): ?Series {
+  return series.find(s => s.url === seriesId);
 }
 
-export function getForwardFill(series: Series): Series {
-  const lookup: { [key: string]: List<ArticleStub> } = {
-    'electricity': List([])
-  };
-
-  const forwardFill = lookup[series.url];
+export function getForwardFill(series: Series): List<ArticleStub> {
+  const forwardFill = getUnpublishedSeries[series.url];
 
   if (forwardFill) {
     const missingCount = series.commissionedLength || series.items.size - series.items.size;
