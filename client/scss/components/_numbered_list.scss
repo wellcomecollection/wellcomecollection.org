@@ -110,6 +110,10 @@ $numbered-list-number-size: 96px;
   }
 }
 
+.numbered-list__visually-hidden-title {
+  @include visually-hidden();
+}
+
 .numbered-list__date {
   @include font('HNL7');
   position: relative;
