@@ -2,7 +2,8 @@
 import entities from 'entities';
 import {type ContentType} from './content-type';
 import {type Picture} from './picture';
-import {type  ArticleSeries, getSeriesCommissionedLength} from "./series";
+import {type  ArticleSeries } from "./series";
+import { getSeriesCommissionedLength } from "../data/series";
 export type ArticleStub = {|
   contentType: ContentType;
   url: string;
