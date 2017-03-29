@@ -15,6 +15,7 @@ export type Promo = UiComponent & {
   description?: string;
   chapter?: Chapter;
   length?: number;
+  datePublished?: ?Date
 }
 
 export function createPromo(data: Promo) { return (data: Promo); }
@@ -27,7 +28,8 @@ export class PromoFactory {
       image: articleStub.thumbnail,
       contentType: articleStub.contentType,
       weight: weight,
-      description: articleStub.description
+      description: articleStub.description,
+      datePublished: articleStub.datePublished
     } : Promo);
   }
 }
