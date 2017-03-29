@@ -1,7 +1,9 @@
 {% if model.type === 'picture' %}
   {% extends 'components/captioned-image/index.njk' %}
   {% block figcaption %}
-    {% component 'wobbly-edge', {background: 'cream'} %}
+    {% if data.contentType === 'article' %}
+      {% component 'wobbly-edge', {background: 'cream'} %}
+    {% endif %}
     {% if model.caption %}
       <div class="row row--cream">
         <div class="container">
@@ -26,5 +28,4 @@
       </div>
     </div>
   </div>
-  {% component 'wobbly-edge', {background: 'cream'} %}
 {% endif %}
