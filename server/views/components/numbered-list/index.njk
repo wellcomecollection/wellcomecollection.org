@@ -4,7 +4,7 @@
     {% if model.image %}
       <img class="numbered-list__image" src="{{ model.image.contentUrl }}?w=300" alt="" />
       {# TODO: don't hardcode series colour #}
-      {% set seriesInfo = {color: 'purple', total: model.items.length} %}
+      {% set seriesInfo = {color: 'turquoise', total: model.items.length} %}
       {% componentV2 'chapter-indicator', {series: seriesInfo}, {'full': true}, {showTotal: true} %}
     {% endif %}
   </header>
@@ -17,10 +17,18 @@
       {% else %}
         <span class="numbered-list__link-surrogate">
       {% endif %}
-          <h3 class="numbered-list__title">{{ item.title }}</h3>
+          <h3 class="numbered-list__title {% if current === item.url %}numbered-list__title--{{ seriesInfo.color }}{% endif %}">
+            {%- if current === item.url -%}
+              Currently viewing<span class="numbered-list__visually-hidden-title"> {{ item.title }}</span>
+            {%- else -%}
+              {{ item.title }}
+            {%- endif -%}
+          </h3>
           <p class="numbered-list__date">{{ item.date | formatDate }}</p>
       {% if item.url %}
         </a>
+      {% else %}
+        </span>
       {% endif %}
       </li>
     {%- endfor %}
