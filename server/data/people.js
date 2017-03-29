@@ -6,7 +6,7 @@ export const russellDornan: Person = {
   familyName: 'Dornan',
   name: 'Russell Dornan',
   twitterHandle: 'RussellDornan',
-  image: 'https://0.gravatar.com/avatar/9da762e9919b09b8d0c0b3f006c354f2?s=96&d=identicon&r=G'
+  image: 'https://wellcomecollection.files.wordpress.com/2017/03/russell-dornan-face2.jpg'
 };
 
 export const ruthGarde: Person = {
