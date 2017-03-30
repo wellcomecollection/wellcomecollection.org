@@ -1,7 +1,7 @@
 [
   {
     "name": "nginx-proxy",
-    "image": "wellcome/wellcomecollection-nginx-proxy:latest",
+    "image": "wellcome/wellcomecollection-nginx-proxy:${container_tag}",
     "memory": 232,
     "cpu": 128,
     "portMappings": [
