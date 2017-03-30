@@ -21,14 +21,11 @@ export async function getArticleStubs(size: number = 20, page: number = 1, q: st
     const newKey = queryToWpQueryMap[key] || key;
     return Object.assign({}, acc, {[newKey]: queryObj[key]});
   }, {});
-  console.info(wpQueryObject)
 
   const query = Object.assign({}, {
     fields: 'slug,title,excerpt,post_thumbnail,date,categories,format',
     number: size
   }, {page}, wpQueryObject);
-
-  // console.info(query);
 
   const response = await request(uri).query(query);
 
