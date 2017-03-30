@@ -32,8 +32,9 @@ export const article = async(ctx, next) => {
 };
 
 export const articles = async(ctx, next) => {
-  const {page} = ctx.request.query;
-  const articleStubsResponse = await getArticleStubs(maxItemsPerPage, {page});
+  const {page, q} = ctx.request.query;
+  console.info(q)
+  const articleStubsResponse = await getArticleStubs(maxItemsPerPage, page, q);
   const series: Series = {
     url: '/articles',
     name: 'Articles',
