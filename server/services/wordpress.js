@@ -80,7 +80,7 @@ export async function getSeries(id: string, size: number, page: number = 1): Pro
 export function constructQueryFromQueryString(q: string): { page?: number, categories?: string, tags?: string } {
   const allowedProps = ['categories', 'tags'];
 
-  return q.split(' ').reduce((acc, keyAndValue) => {
+  return q.split(';').reduce((acc, keyAndValue) => {
     const [key, value] = keyAndValue.split(':');
     return allowedProps.indexOf(key) !== -1 && value ? Object.assign({}, acc, {[key]: value}) : acc;
   }, {});
