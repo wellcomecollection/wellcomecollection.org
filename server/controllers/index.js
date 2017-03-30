@@ -87,8 +87,6 @@ export const seriesNav = async(ctx, next) => {
     image: image,
     items: items
   });
-  // TODO: Commissioned length
-  // TODO: Forward fill
 
   ctx.render('components/numbered-list/index', {
     current,
