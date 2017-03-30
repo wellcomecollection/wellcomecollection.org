@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -x
-set -e
 set -o errexit
 set -o nounset
 

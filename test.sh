@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -o errexit
 pushd $1
   npm test
 popd
