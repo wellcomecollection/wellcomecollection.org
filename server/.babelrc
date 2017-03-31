@@ -11,5 +11,5 @@
     "views/partials/analytics.js.njk",
     "views/partials/hotjar.js.njk"
   ],
-  "plugins": ["transform-flow-strip-types"]
+  "plugins": ["inferno", "transform-flow-strip-types"]
 }
