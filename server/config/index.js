@@ -20,14 +20,6 @@ const config = {
   },
   cacheControl: {
     files: ['text/css','application/javascript', 'application/font-woff', 'application/font-woff2']
-  },
-  compress: {
-    filter: (content_type) => {
-      const typesToCompress = ['text/html','text/css','application/javascript'];
-      if (typesToCompress.indexOf(content_type) > -1) {
-        return true;
-      }
-    }
   }
 };
 
