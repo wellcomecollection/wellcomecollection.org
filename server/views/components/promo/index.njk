@@ -42,7 +42,7 @@
         {% endif %}
         {% if promo.contentType === 'audio' or promo.contentType === 'video' and promo.length %}
           <span class="promo__sr">{% if promo.contentType === 'audio' %}Audio{% else %}Video{% endif %} lasting</span>
-          {{ promo.length }}
+          <span class="promo__length">{{ promo.length }}</span>
         {% endif %}
       </div>
     {% endif %}
