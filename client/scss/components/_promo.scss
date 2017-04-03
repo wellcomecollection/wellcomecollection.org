@@ -22,15 +22,6 @@
 
   .icon {
     vertical-align: middle;
-    margin-right: map-get($gutter-width, 'small')/2;
-
-    @include respond-to('medium') {
-      margin-right: map-get($gutter-width, 'medium')/2;
-    }
-
-    @include respond-to('large') {
-      margin-right: map-get($gutter-width, 'large')/2;
-    }
   }
 }
 
@@ -153,6 +144,15 @@
 
 .promo__length {
   display: inline-block;
+  margin-left: map-get($gutter-width, 'small')/2;
+
+  @include respond-to('medium') {
+    margin-left: map-get($gutter-width, 'medium')/2;
+  }
+
+  @include respond-to('large') {
+    margin-left: map-get($gutter-width, 'large')/2;
+  }
 }
 
 .promo__sr {

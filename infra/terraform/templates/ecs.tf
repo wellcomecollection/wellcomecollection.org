@@ -18,8 +18,8 @@ resource "aws_ecs_service" "wellcomecollection" {
 
   load_balancer {
     target_group_arn = "${aws_alb_target_group.wellcomecollection.id}"
-    container_name = "wellcomecollection"
-    container_port = "3000"
+    container_name = "nginx-proxy"
+    container_port = "80"
   }
 
   depends_on = [
