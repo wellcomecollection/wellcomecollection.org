@@ -32,8 +32,8 @@ export const article = async(ctx, next) => {
 };
 
 export const articles = async(ctx, next) => {
-  const {page} = ctx.request.query;
-  const articleStubsResponse = await getArticleStubs(maxItemsPerPage, {page});
+  const {page, q} = ctx.request.query;
+  const articleStubsResponse = await getArticleStubs(maxItemsPerPage, page, q);
   const series: Series = {
     url: '/articles',
     name: 'Articles',
@@ -87,8 +87,6 @@ export const seriesNav = async(ctx, next) => {
     image: image,
     items: items
   });
-  // TODO: Commissioned length
-  // TODO: Forward fill
 
   ctx.render('components/numbered-list/index', {
     current,
