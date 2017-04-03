@@ -1,3 +1,4 @@
+/* global Element */
 import {nodeList, featureTest} from '../util';
 import dropRepeats from 'xstream/extra/dropRepeats';
 import {onWindowOrientationChange$, onWindowResizeDebounce$, documentReadyState$} from '../utils/dom-events';
@@ -7,6 +8,7 @@ const initialPxFromTop = 15; // TODO: remove magic
 
 const makeSticky = (els, store$) => {
   if (!featureTest('position', 'sticky')) return;
+  if (!Element.prototype.hasOwnProperty('before')) return;
 
   const elements = nodeList(els);
 
