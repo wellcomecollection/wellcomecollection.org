@@ -38,10 +38,10 @@ jobs:
               export PATH=~/.local/bin:$PATH
               pip install awscli --upgrade --user
 
-              docker build -t wellcome/wellcomecollection:test .
+              docker build -t wellcome/wellcomecollection:$CIRCLE_BUILD_NUM .
               docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-              docker push wellcome/wellcomecollection:test
-              pushd nginx-proxy && ./docker-build.sh test && ./docker-push.sh && popd
+              docker push wellcome/wellcomecollection:$CIRCLE_BUILD_NUM
+              pushd nginx-proxy && ./docker-build.sh $CIRCLE_BUILD_NUM && ./docker-push.sh && popd
 
               ./build-cardigan.sh
               ./build-speedtracker.sh
