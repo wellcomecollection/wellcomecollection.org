@@ -1,7 +1,6 @@
 import Koa from 'koa';
 import config from './config';
 import serve from 'koa-static';
-import compress from 'koa-compress';
 import {router} from './routes';
 import render from './view/render';
 import {enforceSSL} from './middleware/enforce-ssl';
@@ -12,7 +11,6 @@ const app = new Koa();
 
 app.use(enforceSSL());
 app.use(setCacheControl(config.cacheControl));
-app.use(compress(config.compress));
 app.use(serve(config.static.path));
 app.use(serve(config.favicon.path));
 app.use(render(config.views.path));
