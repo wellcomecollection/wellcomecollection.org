@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: node:6.1.0
+      - image: node:6.10
     working_directory: ~/wellcomecollection.org
     steps:
       - checkout
@@ -29,10 +29,19 @@ jobs:
           name: Deploy
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              docker build -t wellcome/wellcomecollection:$CIRCLE_BUILD_NUM .
+              # Install AWS CLI. Taken from:
+              # http://docs.aws.amazon.com/cli/latest/userguide/awscli-install-linux.html
+              apt-get -y -qq update
+              apt-get -y -qq install python3.4-dev
+              curl -O https://bootstrap.pypa.io/get-pip.py
+              python3.4 get-pip.py --user
+              export PATH=~/.local/bin:$PATH
+              pip install awscli --upgrade --user
+
+              docker build -t wellcome/wellcomecollection:test .
               docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-              docker push wellcome/wellcomecollection:$CIRCLE_BUILD_NUM
-              pushd nginx-proxy && ./docker-build.sh $CIRCLE_BUILD_NUM && ./docker-push.sh && popd
+              docker push wellcome/wellcomecollection:test
+              pushd nginx-proxy && ./docker-build.sh test && ./docker-push.sh && popd
 
               ./build-cardigan.sh
               ./build-speedtracker.sh
