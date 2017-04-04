@@ -29,7 +29,9 @@ export class PromoFactory {
       contentType: articleStub.contentType,
       weight: weight,
       description: articleStub.description,
-      datePublished: articleStub.datePublished
+      datePublished: articleStub.datePublished,
+      series: articleStub.series,
+      positionInSeries: articleStub.positionInSeries
     } : Promo);
   }
 }

@@ -3,8 +3,7 @@
     <h2 class="numbered-list__heading">{{ model.name }}</h2>
     {% if model.image %}
       <img class="numbered-list__image" src="{{ model.image.contentUrl }}?w=300" alt="" />
-      {# TODO: don't hardcode series colour #}
-      {% set seriesInfo = {color: 'turquoise', commissionedLength: model.items.length} %}
+      {% set seriesInfo = {color: model.color, commissionedLength: model.items.length} %}
       {% componentV2 'chapter-indicator', {series: seriesInfo}, {'full': true}, {showTotal: true} %}
     {% endif %}
   </header>

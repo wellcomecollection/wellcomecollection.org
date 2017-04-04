@@ -6,7 +6,7 @@ import {type Picture} from './picture';
 import {type ContentType} from './content-type';
 import {type Video} from './video';
 import {type ArticleSeries} from './series';
-import {getSeriesCommissionedLength, getSeriesColor} from '../data/series';
+import {getSeriesCommissionedLength, getSeriesColor, getPositionInSeries} from '../data/series';
 import {getWpFeaturedImage} from './media';
 import {bodyParser} from '../util/body-parser';
 import {authorMap} from '../services/author-lookup';
@@ -37,8 +37,7 @@ function createArticle(data: Article) { return (data: Article); }
 
 export class ArticleFactory {
   static fromWpApi(json): Article {
-    const chapterTag = Object.keys(json.tags).find((tag) => tag.toLowerCase().startsWith('chapter'));
-    const positionInSeries = chapterTag ? parseInt(chapterTag.slice(7), 10) : null;
+    const positionInSeries = getPositionInSeries(json.tags);
     const url = `/articles/${json.slug}`; // TODO: this should be discoverable, not hard coded
     const articleBody = json.content;
     const contentType = json.format === 'standard' ? 'article' : json.format;

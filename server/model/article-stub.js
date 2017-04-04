@@ -3,7 +3,7 @@ import entities from 'entities';
 import {type ContentType} from './content-type';
 import {type Picture} from './picture';
 import {type  ArticleSeries } from "./series";
-import { getSeriesCommissionedLength } from "../data/series";
+import { getSeriesCommissionedLength, getPositionInSeries, getSeriesColor } from "../data/series";
 export type ArticleStub = {|
   contentType: ContentType;
   url: string;
@@ -12,10 +12,12 @@ export type ArticleStub = {|
   thumbnail?: ?Picture;
   datePublished: Date;
   series?: Array<ArticleSeries>;
+  positionInSeries?: ?number;
 |};
 
 export class ArticleStubFactory {
   static fromWpApi(json): ArticleStub {
+    const positionInSeries = getPositionInSeries(json.tags);
     const contentType = json.format === 'standard' ? 'article' : json.format;
     const url = `/articles/${json.slug}`; // TODO: this should be discoverable, not hard coded
     const headline = entities.decode(json.title);
@@ -34,11 +36,12 @@ export class ArticleStubFactory {
         url: cat.slug,
         name: cat.name,
         description: cat.description,
-        commissionedLength: getSeriesCommissionedLength(cat.slug)
+        commissionedLength: getSeriesCommissionedLength(cat.slug),
+        color: getSeriesColor(cat.slug)
       } : ArticleSeries)
     });
 
-    const articleStub: ArticleStub = { contentType, url, headline, description, thumbnail, datePublished, series };
+    const articleStub: ArticleStub = { contentType, url, headline, description, thumbnail, datePublished, series, positionInSeries };
     return articleStub;
   }
 }
