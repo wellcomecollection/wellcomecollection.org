@@ -23,7 +23,7 @@ export async function getArticleStubs(size: number = 20, page: number = 1, q: st
   }, {});
 
   const query = Object.assign({}, {
-    fields: 'slug,title,excerpt,post_thumbnail,date,categories,format',
+    fields: 'slug,title,excerpt,post_thumbnail,date,categories,format,tags',
     number: size
   }, {page}, wpQueryObject);
 

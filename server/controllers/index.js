@@ -3,6 +3,7 @@ import {PromoFactory} from '../model/promo';
 import {createPageConfig} from '../model/page-config';
 import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
 import {type Series, getForwardFill, getUnpublishedSeries} from '../model/series';
+import { getSeriesColor } from '../data/series';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {createNumberedList} from '../model/numbered-list';
@@ -78,14 +79,15 @@ export const seriesNav = async(ctx, next) => {
   const {current} = ctx.request.query;
   const seriesResponse = await getSeries(id, 6, 1);
   const series = seriesResponse ? getForwardFill(seriesResponse) : getUnpublishedSeries(id);
-
+  const color = getSeriesColor(id);
   const promoList = PromoListFactory.fromSeries(series);
   const items = promoList.items.toJS();
   const image = items[0].image;
   const seriesNavModel = createNumberedList({
     name: promoList.name,
     image: image,
-    items: items
+    items: items,
+    color: color
   });
 
   ctx.render('components/numbered-list/index', {
@@ -133,13 +135,13 @@ export const explore = async(ctx, next) => {
       height: 900
     },
     positionInSeries: 1,
-    series: {
+    series: [{
       color: 'turquoise',
-      total: 1,
+      commissionedLength: 1,
       items: {
         size: 1
       }
-    }
+    }]
   };
 
   const aDropInTheOceanPromoList = PromoListFactory.fromSeries(aDropInTheOceanSeries);

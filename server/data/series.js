@@ -1,5 +1,17 @@
 import {List} from 'immutable';
 
+export function getPositionInSeries(tags: {}): ?number {
+  const chapterString = 'chapter';
+  const chapterTag = Object.keys(tags).find((tag) => tag.toLowerCase().startsWith(chapterString));
+
+  return chapterTag ? parseInt(chapterTag.slice(chapterString.length), 10) : null;
+}
+
+export function getSeriesColor(seriesUrl: string): ?string {
+  const lookup = { 'electric-sublime': 'turquoise' };
+  return lookup[seriesUrl];
+}
+
 export function getSeriesCommissionedLength(seriesUrl: string): ?number {
   const lookup = { 'electric-sublime': 6 };
   return lookup[seriesUrl];
@@ -10,7 +22,7 @@ export const series = List([
     url: 'electric-sublime',
     name: 'Electric Sublime',
     commissionedLength: getSeriesCommissionedLength('electric-sublime'),
-    color: 'purple',
+    color: 'turquoise',
     items: List([
       ({
         contentType: 'article',

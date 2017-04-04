@@ -16,6 +16,7 @@ export type ArticleSeries = {|
   name: string;
   description?: string;
   commissionedLength?: ?number;
+  color?: ChapterColor;
 |}
 
 export type Series = {|

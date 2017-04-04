@@ -3,6 +3,7 @@ import youtubeEmbedUrl from './youtube-embed-url';
 import {getImageSizesFor} from './image-sizes';
 import getIconForContentType from './get-icon-for-content-type';
 import getPrincipleMainMedia from './get-principle-main-media';
+import getCommissionedSeries from './get-commissioned-series';
 import gridClasses from './grid-classes';
 import spacingClasses from './spacing-classes';
 import componentClasses from './component-classes';
@@ -18,6 +19,7 @@ export default Map({
   getImageSizesFor,
   getIconForContentType,
   getPrincipleMainMedia,
+  getCommissionedSeries,
   gridClasses,
   spacingClasses,
   concat,
