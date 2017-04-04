@@ -6,7 +6,7 @@ import {type Picture} from './picture';
 import {type ContentType} from './content-type';
 import {type Video} from './video';
 import {type ArticleSeries} from './series';
-import {getSeriesCommissionedLength} from '../data/series';
+import {getSeriesCommissionedLength, getSeriesColor} from '../data/series';
 import {getWpFeaturedImage} from './media';
 import {bodyParser} from '../util/body-parser';
 import {authorMap} from '../services/author-lookup';
@@ -30,13 +30,15 @@ export type Article = {|
   bodyParts: Array<BodyPart>;
   author?: Person; // TODO: Make this mandatory once we know all the authors
   series?: Array<ArticleSeries>;
-  positionInSeries?: number;
+  positionInSeries?: ?number;
 |}
 
 function createArticle(data: Article) { return (data: Article); }
 
 export class ArticleFactory {
   static fromWpApi(json): Article {
+    const chapterTag = Object.keys(json.tags).find((tag) => tag.toLowerCase().startsWith('chapter'));
+    const positionInSeries = chapterTag ? parseInt(chapterTag.slice(7), 10) : null;
     const url = `/articles/${json.slug}`; // TODO: this should be discoverable, not hard coded
     const articleBody = json.content;
     const contentType = json.format === 'standard' ? 'article' : json.format;
@@ -68,7 +70,8 @@ export class ArticleFactory {
         url: cat.slug,
         name: cat.name,
         description: cat.description,
-        commissionedLength: getSeriesCommissionedLength(cat.slug)
+        commissionedLength: getSeriesCommissionedLength(cat.slug),
+        color: getSeriesColor(cat.slug)
       };
     });
 
@@ -85,7 +88,8 @@ export class ArticleFactory {
       associatedMedia: mainImage ? [mainImage] : [],
       author: author,
       bodyParts: bodyParts,
-      series: series
+      series: series,
+      positionInSeries: positionInSeries
     };
 
     return article;

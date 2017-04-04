@@ -5,12 +5,17 @@ export function getSeriesCommissionedLength(seriesUrl: string): ?number {
   return lookup[seriesUrl];
 }
 
+export function getSeriesColor(seriesUrl: string): ?string {
+  const lookup = { 'electric-sublime': 'turquoise' };
+  return lookup[seriesUrl];
+}
+
 export const series = List([
   ({
     url: 'electric-sublime',
     name: 'Electric Sublime',
     commissionedLength: getSeriesCommissionedLength('electric-sublime'),
-    color: 'purple',
+    color: 'turquoise',
     items: List([
       ({
         contentType: 'article',

@@ -21,7 +21,7 @@
 {% set mainMediaData = {
   contentType: article.contentType,
   positionInSeries: article.positionInSeries,
-  series: article.series
+  series: article.series | getCommissionedSeries
 } %}
 
 {% componentV2 'main-media', article.mainMedia | getPrincipleMainMedia, {'full': true}, mainMediaData %}
