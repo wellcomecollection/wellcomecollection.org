@@ -14,6 +14,7 @@ import preventOverlapping from './components/prevent-overlapping';
 import makeSticky from './components/make-sticky.js';
 import instagram from './components/instagram';
 import asynContent from './components/async-content';
+import contentSlider from './components/content-slider';
 
 const init = () => {
   nodeList(document.querySelectorAll('.async-content')).forEach((el) => {
@@ -30,6 +31,7 @@ const init = () => {
   const wobblyEdgeEls = document.querySelectorAll('.js-wobbly-edge');
   const overlappingEls = document.querySelectorAll('.js-sticky, .js-full-width');
   const stickyEls = document.querySelectorAll('.js-sticky');
+  const galleries = document.querySelectorAll('.js-image-gallery');
 
   nodeList(wobblyEdgeEls).forEach((el) => wobblyEdge(el));
 
@@ -56,6 +58,14 @@ const init = () => {
   if (stickyEls) {
     makeSticky(stickyEls, store$);
   }
+
+  nodeList(galleries).forEach((gallery) => {
+    contentSlider(gallery, {
+      slideSelector: '.image-gallery__item',
+      cssPrefix: 'image-gallery__',
+      sliderType: 'gallery'
+    });
+  });
 };
 
 function initWithRaven() {

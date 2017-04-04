@@ -10,22 +10,29 @@ const contentSlider = (el, options) => {
     transitionSpeed: 0.7,
     slideSelector: 'li',
     cssPrefix: '',
-    movementType: 'default'
+    sliderType: 'default'
   };
   const settings = Object.assign({}, defaults, options);
   // Grab/create necessary slider elements
   const sliderElements = {
     slidesContainer: el,
     slideItems: el.querySelectorAll(settings.slideSelector),
+    slideImages: nodeList(el.querySelectorAll(settings.slideSelector)).map((item) => {
+      return item.getElementsByTagName('img')[0];
+    }),
     slider: document.createElement('div'),
+    sliderInner: document.createElement('div'),
     sliderControls: document.createElement('div'),
     prevControl: document.createElement('button'),
     nextControl: document.createElement('button'),
-    arrow: '<svg class="control-arrow" aria-hidden="true" viewBox="0 0 12 13"><path d="M10.95 6.05a1 1 0 0 0-1.41 0L7 8.59V2a1 1 0 0 0-2 0v6.59L2.46 6.05a1 1 0 0 0-1.41 1.41l4.24 4.24a1 1 0 0 0 1.41 0l4.24-4.24a1 1 0 0 0 .01-1.41z"></path></svg>'
+    arrowThick: '<svg class="control-arrow" aria-hidden="true" viewBox="0 0 12 13"><path d="M10.95 6.05a1 1 0 0 0-1.41 0L7 8.59V2a1 1 0 0 0-2 0v6.59L2.46 6.05a1 1 0 0 0-1.41 1.41l4.24 4.24a1 1 0 0 0 1.41 0l4.24-4.24a1 1 0 0 0 .01-1.41z"></path></svg>',
+    arrowThin: '<svg class="control-arrow" aria-hidden="true" viewBox="0 0 20 26"><path class="icon__shape" d="M18.71 15.29a1 1 0 0 0-1.41 0l-6.3 6.3V2a1 1 0 0 0-2 0v19.59l-6.29-6.3A1 1 0 0 0 1.3 16.7l8 8a1 1 0 0 0 1.41 0l8-8a1 1 0 0 0 0-1.41z"></path></svg>'
   };
+
   // Generate classes for slider elements
   const classes = {
     slider: `${settings.cssPrefix}slider`,
+    sliderInner: `${settings.cssPrefix}slider-inner`,
     slidesContainer: `${settings.cssPrefix}slides-container`,
     sliderItem: `${settings.cssPrefix}slide-item`,
     currentItem: `${settings.cssPrefix}slide-item--current`,
@@ -50,6 +57,7 @@ const contentSlider = (el, options) => {
   function setup() {
     // Add classes
     sliderElements.slider.className = classes.slider;
+    sliderElements.sliderInner.className = classes.sliderInner;
     sliderElements.slidesContainer.classList.add(classes.slidesContainer);
     sliderElements.sliderControls.className = classes.sliderControls;
     sliderElements.prevControl.className = classes.prevControl;
@@ -66,12 +74,18 @@ const contentSlider = (el, options) => {
 
     // Place slider elements into DOM
     sliderElements.slidesContainer.parentNode.insertBefore(sliderElements.slider, sliderElements.slidesContainer);
-    sliderElements.slider.appendChild(sliderElements.slidesContainer);
+    sliderElements.slider.appendChild(sliderElements.sliderInner);
+    sliderElements.sliderInner.appendChild(sliderElements.slidesContainer);
     sliderElements.slider.parentNode.insertBefore(sliderElements.sliderControls, sliderElements.slider.nextSibling);
     sliderElements.sliderControls.appendChild(sliderElements.prevControl);
     sliderElements.sliderControls.appendChild(sliderElements.nextControl);
-    sliderElements.prevControl.innerHTML = sliderElements.arrow;
-    sliderElements.nextControl.innerHTML = sliderElements.arrow;
+    if (settings.sliderType === 'gallery') {
+      sliderElements.prevControl.innerHTML = sliderElements.arrowThin;
+      sliderElements.nextControl.innerHTML = sliderElements.arrowThin;
+    } else {
+      sliderElements.prevControl.innerHTML = sliderElements.arrowThick;
+      sliderElements.nextControl.innerHTML = sliderElements.arrowThick;
+    }
 
     // Set transition style for slider
     setPropertyPrefixed(sliderElements.slidesContainer, 'transition', `transform ${settings.transitionSpeed}s ease`);
@@ -84,26 +98,46 @@ const contentSlider = (el, options) => {
 
   function calculateDimensions() { // Dimensions which determine movement amounts
     containerWidth = calculateContainerWidth(sliderElements.slidesContainer);
-    slidesWidthArray = createWidthArray(sliderElements.slideItems);
+    containImages(sliderElements.slideImages, containerWidth, document.documentElement.clientHeight);
+    slidesWidthArray = createItemsWidthArray(sliderElements.slideItems);
     // slidesWidthArrayInverted = slidesWidthArray.slice().reverse();
     slidesCombinedWidth = calculateCombinedWidth(slidesWidthArray);
     positionArrayBySlide = calculateSlidePositionArray(slidesWidthArray);
     positionArrayByContainer = calculatePositionArrayByContainer(slidesWidthArray, slidesCombinedWidth, containerWidth, sliderElements, indexAttr);
     // positionArrayByContainerInverted = calculatePositionArrayByContainerInverted(calculatePositionArrayByContainer(slidesWidthArrayInverted, slidesCombinedWidth, containerWidth, sliderElements, indexAttr), slidesCombinedWidth, containerWidth);
-    if (settings.movementType === 'by-slide') {
+    if (settings.sliderType === 'gallery') {
       positionArray = positionArrayBySlide;
     } else {
       positionArray = positionArrayByContainer;
     }
   }
 
-  function createWidthArray(slidesArray) {
-    const widthArray = [];
-    nodeList(slidesArray).forEach((e, i) => {
-      const elementWidth = e.getBoundingClientRect().width;
-      widthArray.push(elementWidth);
+  function createItemsWidthArray(slidesArray) {
+    return nodeList(slidesArray).map((el) => {
+      const width = el.offsetWidth;
+      const style = window.getComputedStyle(el);
+      const horizontalMargins = parseInt(style.marginLeft) + parseInt(style.marginRight);
+      return width + horizontalMargins;
     });
-    return widthArray;
+  };
+
+  function containImages(imagesArray, containerWidth, screenHeight) {
+    const maxWidth = containerWidth;
+    const maxHeight = screenHeight * 0.7 < 640 ? screenHeight * 0.7 : 640;
+    nodeList(imagesArray).forEach((img) => {
+      if (img) {
+        const imgHeight = maxHeight;
+        const imageWidth = img.getAttribute('data-width');
+        const imageHeight = img.getAttribute('data-height');
+        const widthByHeight = imageWidth / imageHeight * imgHeight;
+        img.parentNode.style.height = imgHeight + 'px';
+        if (widthByHeight <= maxWidth) {
+          img.style.width = widthByHeight + 'px';
+        } else {
+          img.style.width = maxWidth + 'px';
+        }
+      }
+    });
   };
 
   function calculateCombinedWidth(widthArray) {
@@ -127,7 +161,7 @@ const contentSlider = (el, options) => {
     return positionArrayBySlide;
   };
 
-  function setSlideIndexes(widthArray, containerWidth, sliderElements, indexAttr) { // TODO check this is doing what I think it is
+  function setSlideIndexes(widthArray, containerWidth, sliderElements, indexAttr) {
     let counter = 0;
     let start = 0;
     widthArray.reduce((acc, val, i) => {
@@ -135,7 +169,7 @@ const contentSlider = (el, options) => {
         counter++;
         start = acc;
       }
-      if (settings.movementType === 'by-slide') {
+      if (settings.sliderType === 'gallery') {
         addAttrToElements(sliderElements.slideItems[i], indexAttr, i);
       } else {
         addAttrToElements(sliderElements.slideItems[i], indexAttr, counter);
@@ -219,14 +253,19 @@ const contentSlider = (el, options) => {
     const lowerBoundary = positionValue;
     const upperBoundary = containerWidth + positionValue;
     const currentItems = [];
-    slidesWidthArray.reduce((acc, curr) => {
+    slidesWidthArray.reduce((acc, curr, i) => {
       const nextLength = acc + curr;
-      if (acc >= lowerBoundary && nextLength <= upperBoundary) {
-        currentItems.push(items[positionArrayBySlide.indexOf(acc)]);
+      if (settings.sliderType === 'gallery') {
+        if (n === i) {
+          currentItems.push(items[i]);
+        }
+      } else {
+        if (acc >= lowerBoundary && nextLength <= upperBoundary) {
+          currentItems.push(items[positionArrayBySlide.indexOf(acc)]);
+        }
       }
       return nextLength;
     }, 0);
-
     removeClassesFromElements(items, className);
     addAttrToElements(sliderElements.slideItems, 'aria-hidden', 'true');
     nodeList(currentItems).forEach((item) => {
@@ -241,14 +280,14 @@ const contentSlider = (el, options) => {
     if (n === 0) {
       addClassesToElements(prevControl, className);
       addAttrToElements(prevControl, 'disabled', 'true');
-      // if (settings.movementType !== 'by-slide') { // TODO put somewhere better
+      // if (settings.sliderType !== 'gallery') { // TODO put somewhere better
       //   positionArray = positionArrayByContainer;
       // }
     }
     if (n === items.length - 1) {
       addClassesToElements(nextControl, className);
       addAttrToElements(nextControl, 'disabled', 'true');
-      // if (settings.movementType !== 'by-slide') { // TODO put somewhere better
+      // if (settings.sliderType !== 'gallery') { // TODO put somewhere better
       //   positionArray = positionArrayByContainerInverted;
       // }
     }
