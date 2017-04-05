@@ -1,8 +1,10 @@
 import xstream from 'xstream';
 import {onWindowOrientationChange$, onWindowResizeDebounce$} from '../utils/dom-events';
 import {nodeList} from '../util';
-
-const truncateText = (elements) => {
+// TODO ARIA
+// TODO cross browser testing
+// TODO fix content slider stuff
+const truncateText = (elements) => { // TODO pass in class prefix?
   const truncateClass = 'captioned-image__caption-text--truncate';
   const moreText = '+ More';
   const lessText = '- Less';
