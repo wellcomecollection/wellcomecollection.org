@@ -190,22 +190,18 @@ $numbered-list-number-size: 96px;
 }
 
 .numbered-list--horizontal-narrow {
-  .numbered-list__header {
-    display: none;
-
-    @include respond-to('medium') {
-      display: block;
-    }
-  }
-
   .numbered-list__item {
-    min-height: 0;
+    @include respond-to('medium') {
+      min-height: 0;
+    }
   }
 
   .numbered-list__link,
   .numbered-list__link-surrogate {
-    min-height: 0;
-    padding-right: map-get($gutter-width, 'small');
+    @include respond-to('medium') {
+      min-height: 0;
+      padding-right: map-get($gutter-width, 'small');
+    }
 
     @include respond-to('large') {
       padding-right: map-get($gutter-width, 'large');
@@ -219,18 +215,24 @@ $numbered-list-number-size: 96px;
   }
 
   .numbered-list__date {
-    display: none;
+    @include respond-to('medium') {
+      display: none;
+    }
   }
 
   .numbered-list__number {
-    display: none;
+    @include respond-to('medium') {
+      display: none;
+    }
   }
 }
 
 .numbered-list--sticky {
-  position: sticky;
-  top: 0;
-  z-index: 3;
+  @include respond-to('medium') {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+  }
 }
 
 // javascript slider styles
