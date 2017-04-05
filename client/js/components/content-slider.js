@@ -270,7 +270,14 @@ const contentSlider = (el, options) => {
     }, 0);
     removeClassesFromElements(items, className);
     addAttrToElements(sliderElements.slideItems, 'aria-hidden', 'true');
+    nodeList(sliderElements.slidesContainer.querySelectorAll('a, button')).forEach(function(e) {
+      e.setAttribute('tabindex', -1); // only elements in visible slides should be tabbable
+    });
     nodeList(currentItems).forEach((item) => {
+      const tabbables = item.querySelectorAll('a, button');
+      nodeList(tabbables).forEach(function(e) {
+        e.setAttribute('tabindex', 0); // make visible elements tabbable
+      });
       addClassesToElements(item, className);
       item.setAttribute('aria-hidden', 'false');
     });

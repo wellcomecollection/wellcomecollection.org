@@ -30,6 +30,7 @@ const truncateText = (elements) => { // TODO pass in class prefix?
     nodeList(els).forEach(function(e) {
       e.classList.add(truncateClass);
       const textControl = e.nextSibling;
+      textControl.setAttribute('tabindex', -1); // This is ok as long as these are only used in galleries, as that will change the tabindex of elements in visible items
       textControl.innerHTML = moreText;
       const isEllipsisActive = e => (e.offsetWidth < e.scrollWidth);
       const showHideControl = function(text, control) {

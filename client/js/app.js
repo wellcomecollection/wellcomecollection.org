@@ -61,6 +61,10 @@ const init = () => {
     makeSticky(stickyEls, store$);
   }
 
+  if (galleryCaptions) {
+    truncateText(galleryCaptions);
+  }
+
   nodeList(galleries).forEach((gallery) => {
     contentSlider(gallery, {
       slideSelector: '.image-gallery__item',
@@ -68,10 +72,6 @@ const init = () => {
       sliderType: 'gallery'
     });
   });
-
-  if (galleryCaptions) {
-    truncateText(galleryCaptions);
-  }
 };
 
 function initWithRaven() {
