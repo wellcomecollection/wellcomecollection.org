@@ -25,12 +25,12 @@
             </filter>
           </defs>
         </svg>
-        <img class="promo__image-mask promo__clip-path--{{ [1,2,3,4,5,6,7,8,9,10] | random }}" src="{{ promo.article.thumbnail.contentUrl }}?w=600" alt="" />
+        <img class="image promo__image-mask promo__clip-path--{{ [1,2,3,4,5,6,7,8,9,10] | random }}" src="{{ promo.article.thumbnail.contentUrl }}?w=600" alt="" />
       {% endif %}
     {% endfor %}
     {% set commissionedSeries = promo.series | getCommissionedSeries %}
     {% if commissionedSeries and promo.positionInSeries %}
-      <img class="promo__image-mask {{'promo__clip-path--chapters-half' if promo.modifiers and promo.modifiers | contains('standalone') else 'promo__clip-path--chapters-third'}}" src="{{ promo.image.contentUrl }}?w=600" alt="" />
+      <img class="image promo__image-mask {{'promo__clip-path--chapters-half' if promo.modifiers and promo.modifiers | contains('standalone') else 'promo__clip-path--chapters-third'}}" src="{{ promo.image.contentUrl }}?w=600" alt="" />
       {% componentV2 'chapter-indicator', {series: commissionedSeries, position: promo.positionInSeries}, {'half': promo.modifiers and promo.modifiers | contains('standalone')}, {showSingle: promo.modifiers and promo.modifiers | contains('standalone')} %}
     {% endif %}
 
