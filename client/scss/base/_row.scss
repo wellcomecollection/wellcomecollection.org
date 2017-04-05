@@ -12,6 +12,12 @@
   background: color('yellow');
 }
 
+.row--mobile-only {
+  @include respond-to('medium') {
+    display: none;
+  }
+}
+
 .row--lead {
   position: relative;
 
