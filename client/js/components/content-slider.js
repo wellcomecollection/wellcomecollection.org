@@ -341,11 +341,6 @@ const contentSlider = (el, options) => {
   sliderTouch.on('swiperight', prevSlide);
   sliderTouch.on('swipeleft', nextSlide);
 
-  // Handle tabbing onto elements contained inside a slide
-  // sliderElements.slidesContainer.addEventListener('focus', (event) => {
-  //   updatePosition(event.target.closest(`.${classes.sliderItem}`).getAttribute(indexAttr), positionArray);
-  // }, true);
-
   // Handle slider width changes
   window.addEventListener('resize', debounce(onWidthChange, 500));
   window.addEventListener('orientationchange', onWidthChange);
