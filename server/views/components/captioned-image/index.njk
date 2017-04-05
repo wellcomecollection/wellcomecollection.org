@@ -13,9 +13,9 @@
   {% block figcaption %}
     {% if model.caption %}
       <figcaption class="captioned-image__caption">
-        <div class="flex">
-          <div>{% icon 'other/picture' %}</div>
-          <div>{{ model.caption }}</div>
+        {% icon 'other/picture' %}
+        <div class="captioned-image__caption-text">
+          {{ model.caption }}
         </div>
       </figcaption>
     {% else %}

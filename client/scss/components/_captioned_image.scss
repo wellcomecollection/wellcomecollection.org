@@ -43,13 +43,13 @@
 }
 
 .captioned-image__caption {
+  @include clearfix;
   @include font('LR3');
 
   @include respond-to('medium') {
     @include font('LR2');
   }
 
-  display: flex;
   color: color('accessible-grey-2');
   padding-top: #{($v-spacing-unit * 4) - 8px}; // - to make to adjust for line-height, want padding from x-height
   padding-bottom: #{($v-spacing-unit * 4) - 8px};
@@ -61,6 +61,7 @@
     height: 1.3em;
     min-width: 1.3em;
     margin-right: 0.8em;
+    float: left;
   }
 
   .icon__shape {
@@ -85,6 +86,40 @@
   /* stylelint-enable plugin/selector-bem-pattern */
 }
 
+.captioned-image__caption-text {
+  float: left;
+  width: calc(100% - 2.1em);
+  padding-right: map-get($gutter-width , 'small');
+
+  @include respond-to('medium') {
+    padding-right: map-get($gutter-width , 'medium');
+  }
+
+  @include respond-to('large') {
+    padding-right: map-get($gutter-width , 'large');
+  }
+}
+
+.captioned-image__caption-text--truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.captioned-image__truncate-control {
+  background: none;
+  color: color('action-green-1');
+  border: 0;
+  padding: $v-spacing-unit 0;
+  margin-left: 2.1em;
+  outline: none;
+  cursor: pointer;
+
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
 .captioned-image__underline {
   border-bottom: 1px solid color('keyline-grey');
 }
@@ -92,3 +127,4 @@
 .captioned-image__caption--no-underline {
   border-bottom: 0;
 }
+
