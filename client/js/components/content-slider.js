@@ -133,8 +133,10 @@ const contentSlider = (el, options) => {
         img.parentNode.style.height = imgHeight + 'px';
         if (widthByHeight <= maxWidth) {
           img.style.width = widthByHeight + 'px';
+          img.parentNode.parentNode.style.width = widthByHeight + 'px';
         } else {
           img.style.width = maxWidth + 'px';
+          img.parentNode.parentNode.style.width = maxWidth + 'px';
         }
       }
     });

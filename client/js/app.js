@@ -15,6 +15,7 @@ import makeSticky from './components/make-sticky.js';
 import instagram from './components/instagram';
 import asynContent from './components/async-content';
 import contentSlider from './components/content-slider';
+import truncateText from './components/truncate-text';
 
 const init = () => {
   nodeList(document.querySelectorAll('.async-content')).forEach((el) => {
@@ -32,6 +33,7 @@ const init = () => {
   const overlappingEls = document.querySelectorAll('.js-sticky, .js-full-width');
   const stickyEls = document.querySelectorAll('.js-sticky');
   const galleries = document.querySelectorAll('.js-image-gallery');
+  const galleryCaptions = document.querySelectorAll('.js-image-gallery .captioned-image__caption-text');
 
   nodeList(wobblyEdgeEls).forEach((el) => wobblyEdge(el));
 
@@ -66,6 +68,10 @@ const init = () => {
       sliderType: 'gallery'
     });
   });
+
+  if (galleryCaptions) {
+    truncateText(galleryCaptions);
+  }
 };
 
 function initWithRaven() {
