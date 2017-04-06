@@ -210,6 +210,10 @@
 
 .promo__title--lead {
   @include container-query(('l': ('12'))) {
+    @include font('WB4');
+  }
+
+  @include container-query(('xl': ('12'))) {
     @include font('WB3');
   }
 }
