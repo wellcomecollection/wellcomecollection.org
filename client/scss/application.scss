@@ -57,6 +57,4 @@
 @import 'components/wobbly_edge';
 
 // Tests
-// TODO: compile each test to its own css file and load that
-// in conditionally with JS at the same time the test is triggered?
-@import 'tests/numbered_list_test_sticky_mobile';
+@import 'tests/numbered_list_test_non_stick_mobile';
