@@ -13,7 +13,7 @@
 }
 
 .row--mobile-only {
-  @include respond-to('medium') {
+  @include respond-to('large') {
     display: none;
   }
 }
