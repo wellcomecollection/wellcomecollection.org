@@ -13,7 +13,7 @@ export type ArticleStubsResponse = {|
 
 const baseUri = 'https://public-api.wordpress.com/rest/v1.1/sites/blog.wellcomecollection.org';
 
-export async function getArticleStubs(size: number = 20, page: number = 1, q: string = ''): Promise<ArticleStubsResponse> {
+export async function getArticleStubs(size: number = 20, {page = 1, order = 'DESC'}, q: string = ''): Promise<ArticleStubsResponse> {
   const uri = `${baseUri}/posts/`;
   const queryObj = constructQueryFromQueryString(q);
   const queryToWpQueryMap = { categories: 'category', tags: 'tag' };
@@ -25,7 +25,7 @@ export async function getArticleStubs(size: number = 20, page: number = 1, q: st
   const query = Object.assign({}, {
     fields: 'slug,title,excerpt,post_thumbnail,date,categories,format,tags',
     number: size
-  }, {page}, wpQueryObject);
+  }, {page, order}, wpQueryObject);
 
   const response = await request(uri).query(query);
 
@@ -51,8 +51,8 @@ export async function getArticle(id: string, authToken: ?string = null) {
 }
 
 
-export async function getSeries(id: string, size: number, page: number = 1): Promise<?Series> {
-  const posts = await getArticleStubs(size, page, `categories:${id}`);
+export async function getSeries(id: string, size: number, {page = 1, order = 'ASC'}): Promise<?Series> {
+  const posts = await getArticleStubs(size, {page, order}, `categories:${id}`);
   const {total} = posts;
   const items = posts.data;
 

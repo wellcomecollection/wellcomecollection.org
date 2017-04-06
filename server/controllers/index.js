@@ -34,7 +34,7 @@ export const article = async(ctx, next) => {
 
 export const articles = async(ctx, next) => {
   const {page, q} = ctx.request.query;
-  const articleStubsResponse = await getArticleStubs(maxItemsPerPage, page, q);
+  const articleStubsResponse = await getArticleStubs(maxItemsPerPage, {page}, q);
   const series: Series = {
     url: '/articles',
     name: 'Articles',
@@ -79,6 +79,7 @@ export const seriesNav = async(ctx, next) => {
   const {current} = ctx.request.query;
   const seriesResponse = await getSeries(id, 6, 1);
   const series = seriesResponse ? getForwardFill(seriesResponse) : getUnpublishedSeries(id);
+
   const color = getSeriesColor(id);
   const promoList = PromoListFactory.fromSeries(series);
   const items = promoList.items.toJS();
