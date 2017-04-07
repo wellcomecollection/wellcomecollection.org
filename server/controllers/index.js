@@ -97,7 +97,7 @@ export const seriesNav = async(ctx, next) => {
     modifiers: ['horizontal', 'sticky'],
     data: {
       classes: ['js-series-nav'],
-      sliderId: 'id'
+      sliderId: id
     }
   });
 

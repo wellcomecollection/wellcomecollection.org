@@ -1,6 +1,7 @@
-import { nodeList, setPropertyPrefixed, featureTest } from '../util';
 import debounce from 'lodash.debounce';
 import Hammer from 'hammerjs';
+import { nodeList, setPropertyPrefixed, featureTest } from '../util';
+import { trackEvent } from '../utils/track-event';
 
 const contentSlider = (el, options) => {
   if (!featureTest('transform', 'translateX(0px)') && !featureTest('transition', 'transform 0.3s ease')) return;
@@ -44,6 +45,7 @@ const contentSlider = (el, options) => {
   // Define vars
   const sliderTouch = new Hammer(sliderElements.slidesContainer);
   const indexAttr = 'data-slide-index'; // Added to slide items to help with tabbing
+  const id = sliderElements.slidesContainer.getAttribute('id');
   let containerWidth;
   let slidesWidthArray;
   // let slidesWidthArrayInverted;
@@ -67,9 +69,9 @@ const contentSlider = (el, options) => {
     // Add ARIA attributes
     sliderElements.slidesContainer.setAttribute('aria-live', 'polite');
     sliderElements.slidesContainer.setAttribute('aria-label', 'carousel');
-    sliderElements.prevControl.setAttribute('aria-controls', sliderElements.slidesContainer.getAttribute('id'));
+    sliderElements.prevControl.setAttribute('aria-controls', id);
     sliderElements.prevControl.setAttribute('aria-label', 'previous item');
-    sliderElements.nextControl.setAttribute('aria-controls', sliderElements.slidesContainer.getAttribute('id'));
+    sliderElements.nextControl.setAttribute('aria-controls', id);
     sliderElements.nextControl.setAttribute('aria-label', 'next item');
 
     // Place slider elements into DOM
@@ -314,12 +316,16 @@ const contentSlider = (el, options) => {
 
   function nextSlide(e) {
     if (e.target.classList.contains(classes.sliderControlInactive)) return;
-    return updatePosition(positionIndex + 1, positionArray);
+    const moveToPosition = positionIndex + 1;
+    trackEvent(getTrackingEvent('next', {moveToPosition}));
+    return updatePosition(moveToPosition, positionArray);
   }
 
   function prevSlide(e) {
     if (e.target.classList.contains(classes.sliderControlInactive)) return;
-    return updatePosition(positionIndex - 1, positionArray);
+    const moveToPosition = positionIndex - 1;
+    trackEvent(getTrackingEvent('next', {moveToPosition}));
+    return updatePosition(moveToPosition, positionArray);
   }
 
   function onWidthChange() {
@@ -327,6 +333,17 @@ const contentSlider = (el, options) => {
     setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr);
     toggleControlsVisibility(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
     updatePosition(positionIndex, positionArray);
+  }
+
+  function getTrackingEvent(action, data) {
+    return Object.assign({}, {
+      name: 'Content slider',
+      properties: {
+        id,
+        action,
+        numberOfItems: sliderElements.slideImages.length
+      }
+    }, data);
   }
 
   setup();
