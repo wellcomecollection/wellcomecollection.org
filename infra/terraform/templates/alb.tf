@@ -1,5 +1,5 @@
-data "aws_acm_certificate" "next_wellcomecollection_org" {
-  domain = "${var.website_uri}"
+data "aws_acm_certificate" "star_wellcomecollection_org" {
+  domain = "*.wellcomecollection.org"
   statuses = ["ISSUED"]
 }
 
@@ -46,7 +46,7 @@ resource "aws_alb_listener" "wellcomecollection_https" {
   port              = 443
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2015-05"
-  certificate_arn   = "${data.aws_acm_certificate.next_wellcomecollection_org.arn}"
+  certificate_arn   = "${data.aws_acm_certificate.star_wellcomecollection_org.arn}"
 
   default_action {
     target_group_arn = "${aws_alb_target_group.wellcomecollection.id}"
