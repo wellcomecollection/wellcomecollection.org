@@ -15,6 +15,7 @@ import makeSticky from './components/make-sticky.js';
 import instagram from './components/instagram';
 import asynContent from './components/async-content';
 import contentSlider from './components/content-slider';
+import gaScrollDepth from '../libs/gascrolldepth';
 
 const init = () => {
   nodeList(document.querySelectorAll('.async-content')).forEach((el) => {
@@ -23,6 +24,7 @@ const init = () => {
 
   lazysizes.init();
   instagram.init();
+  gaScrollDepth.init();
 
   const cookieEl = document.getElementById('cookie-notification');
   const burgerEl = document.querySelector('.js-header-burger');
