@@ -12,6 +12,7 @@ export const authorMap: { [key: string]: Person } = {
   'dazzling-luxury': people.ruthGarde,
   'titans-in-the-landscape': people.ruthGarde,
   'john-gerrard-frogs-in-space': people.chrisChapman,
+  'bill-morrison-domesticating-electricity': people.chrisChapman,
   'a-body-apart-from-the-head': people.robBidder,
   'inspired-tattoos-as-pain-relief': people.rockWebb,
   'obsessed-with-buffy-much': people.russellDornan,
