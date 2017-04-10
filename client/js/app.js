@@ -15,7 +15,7 @@ import makeSticky from './components/make-sticky.js';
 import instagram from './components/instagram';
 import asynContent from './components/async-content';
 import contentSlider from './components/content-slider';
-import gaScrollDepth from '../libs/gascrolldepth';
+import gaScrollDepth from '../libs/ga-scroll-depth';
 
 const init = () => {
   nodeList(document.querySelectorAll('.async-content')).forEach((el) => {

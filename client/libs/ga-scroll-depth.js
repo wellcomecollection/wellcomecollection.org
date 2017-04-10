@@ -1,13 +1,10 @@
 // Simplified/rewritten from https://github.com/leighmcculloch/gascrolldepth.js
 
-import { onWindowScrollThrottleDebounce$ } from '../js/utils/dom-events';
+import { onWindowScrollDebounce$ } from '../js/utils/dom-events';
 
-const getDocumentHeight = () => {
-  return Math.max(
-    document.documentElement['scrollHeight'], document.body['scrollHeight'],
-    document.documentElement['offsetHeight'], document.body['offsetHeight'],
-    document.documentElement['clientHeight']
-  );
+const mainEl = document.getElementById('main');
+const getMainHeight = () => {
+  return mainEl.offsetHeight + mainEl.offsetTop;
 };
 
 const getWindowHeight = () => {
@@ -29,12 +26,12 @@ const sendEvent = (action, label) => {
   });
 };
 
-const calculateMarks = (docHeight) => {
+const calculateMarks = (mainHeight) => {
   return {
-    '25%': parseInt(docHeight * 0.25, 10),
-    '50%': parseInt(docHeight * 0.5, 10),
-    '75%': parseInt(docHeight * 0.75, 10),
-    '100%': docHeight - 5
+    '25%': parseInt(mainHeight * 0.25, 10),
+    '50%': parseInt(mainHeight * 0.5, 10),
+    '75%': parseInt(mainHeight * 0.75, 10),
+    '100%': mainHeight
   };
 };
 
@@ -51,17 +48,19 @@ const checkMarks = (marks, scrollDistance) => {
 };
 
 const handler = function() {
-  const docHeight = getDocumentHeight();
+  const mainHeight = getMainHeight();
   const winHeight = getWindowHeight();
   const scrollDistance = getPageYOffset() + winHeight;
-  const marks = calculateMarks(docHeight);
+  const marks = calculateMarks(mainHeight);
 
   checkMarks(marks, scrollDistance);
 };
 
 const init = () => {
-  onWindowScrollThrottleDebounce$.subscribe({
+  onWindowScrollDebounce$.subscribe({
     next() {
+      if (!mainEl) return;
+
       handler();
     }
   });
