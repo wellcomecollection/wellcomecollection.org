@@ -15,17 +15,17 @@ const getWindowHeight = () => {
 };
 
 const getPageYOffset = () => {
-  return window.pageYOffset || (document.compatMode === 'CSS1Compat' ? document.documentElement.scrollTop : document.body.scrollTop);
+  return window.pageYOffset;
 };
 
 const sendEvent = (action, label) => {
-  window.dataLayer.push({
-    'event': 'ScrollDistance',
-    'eventCategory': 'Scroll Depth',
-    'eventAction': action,
-    'eventLabel': label,
-    'eventValue': 1,
-    'eventNonInteraction': true
+  window.ga('send', {
+    hitType: 'event',
+    eventCategory: 'Scroll Depth',
+    eventAction: action,
+    eventLabel: label,
+    eventValue: 1,
+    eventNonInteraction: true
   });
 };
 
