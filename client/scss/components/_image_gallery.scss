@@ -105,6 +105,14 @@
   transition: opacity 0.7s ease;
   align-self: flex-start;
 
+  .captioned-image {
+    display: block;
+
+    .captioned-image__caption {
+      display: block;
+    }
+  }
+
   .image {
     height: auto;
   }
