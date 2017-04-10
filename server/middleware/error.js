@@ -9,7 +9,7 @@ export default function() {
       if (404 === ctx.response.status && !ctx.response.body) ctx.throw(404);
     } catch (err) {
       if (404 !== err.status) {
-        Raven.captureException(err);
+        Raven.captureException(err, {url: ctx.request.url});
       }
 
       ctx.status = err.status || 500;
