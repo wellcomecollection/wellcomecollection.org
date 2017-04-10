@@ -51,7 +51,7 @@ export async function getArticle(id: string, authToken: ?string = null) {
 }
 
 
-export async function getSeries(id: string, size: number, {page = 1, order = 'ASC'}): Promise<?Series> {
+export async function getSeries(id: string, size: number, {page = 1, order = 'ASC'} = {}): Promise<?Series> {
   const posts = await getArticleStubs(size, {page, order}, `categories:${id}`);
   const {total} = posts;
   const items = posts.data;

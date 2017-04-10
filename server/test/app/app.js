@@ -18,3 +18,8 @@ test('/articles/:slug', async t => {
   const res = await request.get('/articles/a-drop-in-the-ocean-daniel-regan');
   t.is(res.status, 200);
 });
+
+test('/series/:id', async t => {
+  const res = await request.get('/series/a-drop-in-the-ocean');
+  t.is(res.status, 200);
+});
