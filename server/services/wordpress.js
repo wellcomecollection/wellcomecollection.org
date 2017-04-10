@@ -59,7 +59,7 @@ export async function getSeries(id: string, size: number, {page = 1, order = 'AS
   if (items.size !== 0) {
     // TODO: What a fudge !_!
     // $FlowFixMe as this is a hack
-    const {name, description} = items.first().series[0];
+    const {name, description} = items.first().series.find(s => s.url === id);
 
     return ({
       url: id,
