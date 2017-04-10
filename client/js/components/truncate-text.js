@@ -1,9 +1,10 @@
 import fromEvent from 'xstream/extra/fromEvent';
 
+const truncateClass = 'captioned-image__caption-text--truncate';
+const moreText = '+ More';
+const lessText = '- Less';
+
 const truncateText = (caption) => {
-  const truncateClass = 'captioned-image__caption-text--truncate';
-  const moreText = '+ More';
-  const lessText = '- Less';
   const toggleTruncate = function(isTruncated, control, className) {
     const textElement = control.previousSibling;
     if (isTruncated) {
