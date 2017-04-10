@@ -15,7 +15,6 @@ import makeSticky from './components/make-sticky.js';
 import instagram from './components/instagram';
 import asynContent from './components/async-content';
 import contentSlider from './components/content-slider';
-import truncateText from './components/truncate-text';
 
 const init = () => {
   nodeList(document.querySelectorAll('.async-content')).forEach((el) => {
@@ -59,10 +58,6 @@ const init = () => {
 
   if (stickyEls) {
     makeSticky(stickyEls, store$);
-  }
-
-  if (galleryCaptions) {
-    truncateText(galleryCaptions);
   }
 
   nodeList(galleries).forEach((gallery) => {

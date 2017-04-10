@@ -1,4 +1,5 @@
 import { nodeList, setPropertyPrefixed, featureTest } from '../util';
+import truncateText from '../components/truncate-text';
 import debounce from 'lodash.debounce';
 import Hammer from 'hammerjs';
 
@@ -137,6 +138,9 @@ const contentSlider = (el, options) => {
         } else {
           img.style.width = maxWidth + 'px';
           img.parentNode.parentNode.style.width = maxWidth + 'px';
+        }
+        if (!img.parentNode.parentNode.querySelector('.captioned-image__truncate-control')) {
+          truncateText(img.parentNode.parentNode.querySelector('.captioned-image__caption-text'));
         }
       }
     });
