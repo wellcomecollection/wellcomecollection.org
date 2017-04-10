@@ -1,51 +1,44 @@
-import xstream from 'xstream';
-import {onWindowOrientationChange$, onWindowResizeDebounce$} from '../utils/dom-events';
-import {nodeList} from '../util';
-// TODO ARIA
-// TODO cross browser testing
-// TODO fix content slider stuff
-const truncateText = (elements) => { // TODO pass in class prefix?
+import fromEvent from 'xstream/extra/fromEvent';
+
+const truncateText = (caption) => {
   const truncateClass = 'captioned-image__caption-text--truncate';
   const moreText = '+ More';
   const lessText = '- Less';
-
-  nodeList(elements).forEach(function(text) {
-    const truncateControl = document.createElement('button');
-    const toggleText = function(control, element, className) {
-      element.classList.toggle(className);
-      if (element.classList.contains(className)) {
-        control.innerHTML = moreText;
-      } else {
-        control.innerHTML = lessText;
-      }
-    };
-    truncateControl.className = 'captioned-image__truncate-control';
-    truncateControl.innerHTML = moreText;
-    text.parentNode.insertBefore(truncateControl, text.nextSibling);
-    text.classList.add(truncateClass);
-    truncateControl.addEventListener('click', function(e) { toggleText(e.target, text, truncateClass); });
-  });
-
-  const truncate = function(els) {
-    nodeList(els).forEach(function(e) {
-      e.classList.add(truncateClass);
-      const textControl = e.nextSibling;
-      textControl.setAttribute('tabindex', -1); // This is ok as long as these are only used in galleries, as that will change the tabindex of elements in visible items
-      textControl.innerHTML = moreText;
-      const isEllipsisActive = e => (e.offsetWidth < e.scrollWidth);
-      const showHideControl = function(text, control) {
-        if (isEllipsisActive(text)) {
-          control.style.display = 'block';
-        } else {
-          control.style.display = 'none';
-        }
-      };
-      showHideControl(e, textControl);
-    });
+  const toggleTruncate = function(isTruncated, control, className) {
+    const textElement = control.previousSibling;
+    if (isTruncated) {
+      control.innerHTML = lessText;
+      textElement.classList.remove(className);
+    } else {
+      control.innerHTML = moreText;
+      textElement.classList.add(className);
+    }
   };
+  const hasBeenEllipsified = (e) => {
+    return (e.scrollWidth > e.offsetWidth);
+  };
+  const createControl = (controlledElement) => {
+    const control = document.createElement('button');
+    control.className = 'captioned-image__truncate-control';
+    control.innerHTML = moreText;
+    control.setAttribute('tabindex', -1);
+    return control;
+  };
+  const truncateControl = createControl();
 
-  const windowResizes$ = xstream.merge(onWindowOrientationChange$, onWindowResizeDebounce$).startWith(null);
-  windowResizes$.subscribe({ next: function() { truncate(elements); } });
+  caption.classList.add(truncateClass);
+
+  if (hasBeenEllipsified(caption)) {
+    caption.parentNode.insertBefore(truncateControl, caption.nextSibling);
+    const truncated$ = fromEvent(truncateControl, 'click').fold((isClosed) => !isClosed, false);
+
+    truncated$.subscribe({
+      next: (isClosed) => {
+        toggleTruncate(isClosed, truncateControl, truncateClass);
+      }
+    });
+  }
 };
 
 export default truncateText;
+
