@@ -1,5 +1,6 @@
 import debounce from 'lodash.debounce';
 import Hammer from 'hammerjs';
+import truncateText from '../components/truncate-text';
 import { nodeList, setPropertyPrefixed, featureTest } from '../util';
 import { trackEvent } from '../utils/track-event';
 
@@ -135,8 +136,13 @@ const contentSlider = (el, options) => {
         img.parentNode.style.height = imgHeight + 'px';
         if (widthByHeight <= maxWidth) {
           img.style.width = widthByHeight + 'px';
+          img.parentNode.parentNode.style.width = widthByHeight + 'px';
         } else {
           img.style.width = maxWidth + 'px';
+          img.parentNode.parentNode.style.width = maxWidth + 'px';
+        }
+        if (!img.parentNode.parentNode.querySelector('.captioned-image__truncate-control')) {
+          truncateText(img.parentNode.parentNode.querySelector('.captioned-image__caption-text'));
         }
       }
     });
@@ -270,7 +276,14 @@ const contentSlider = (el, options) => {
     }, 0);
     removeClassesFromElements(items, className);
     addAttrToElements(sliderElements.slideItems, 'aria-hidden', 'true');
+    nodeList(sliderElements.slidesContainer.querySelectorAll('a, button')).forEach(function(e) {
+      e.setAttribute('tabindex', -1); // only elements in visible slides should be tabbable
+    });
     nodeList(currentItems).forEach((item) => {
+      const tabbables = item.querySelectorAll('a, button');
+      nodeList(tabbables).forEach(function(e) {
+        e.setAttribute('tabindex', 0); // make visible elements tabbable
+      });
       addClassesToElements(item, className);
       item.setAttribute('aria-hidden', 'false');
     });
@@ -355,11 +368,6 @@ const contentSlider = (el, options) => {
   // Handle touch
   sliderTouch.on('swiperight', prevSlide);
   sliderTouch.on('swipeleft', nextSlide);
-
-  // Handle tabbing onto elements contained inside a slide
-  sliderElements.slidesContainer.addEventListener('focus', (event) => {
-    updatePosition(event.target.closest(`.${classes.sliderItem}`).getAttribute(indexAttr), positionArray);
-  }, true);
 
   // Handle slider width changes
   window.addEventListener('resize', debounce(onWidthChange, 500));
