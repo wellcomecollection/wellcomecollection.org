@@ -1,4 +1,4 @@
-<div class="image-gallery touch-scroll js-image-gallery">
+<div class="image-gallery touch-scroll js-image-gallery" id="{{ id }}">
   {% for item in imageGallery.items %}
   {% set smallWidth = item.width/item.height*204 %}
   {% set largeWidth = item.width/item.height*640 %}

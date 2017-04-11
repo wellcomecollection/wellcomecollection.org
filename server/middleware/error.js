@@ -6,9 +6,11 @@ export default function() {
   return async function(ctx, next) {
     try {
       await next();
-      if (404 == ctx.response.status && !ctx.response.body) ctx.throw(404);
+      if (404 === ctx.response.status && !ctx.response.body) ctx.throw(404);
     } catch (err) {
-      Raven.captureException(err);
+      if (404 !== err.status) {
+        Raven.captureException(err, {url: ctx.request.url});
+      }
 
       ctx.status = err.status || 500;
       ctx.render('pages/error', {
