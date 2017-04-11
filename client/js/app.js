@@ -15,6 +15,7 @@ import makeSticky from './components/make-sticky.js';
 import instagram from './components/instagram';
 import asynContent from './components/async-content';
 import contentSlider from './components/content-slider';
+import gaScrollDepth from '../libs/ga-scroll-depth';
 
 const init = () => {
   nodeList(document.querySelectorAll('.async-content')).forEach((el) => {
@@ -32,8 +33,13 @@ const init = () => {
   const overlappingEls = document.querySelectorAll('.js-sticky, .js-full-width');
   const stickyEls = document.querySelectorAll('.js-sticky');
   const galleries = document.querySelectorAll('.js-image-gallery');
+  const mainEl = document.getElementById('main');
 
   nodeList(wobblyEdgeEls).forEach((el) => wobblyEdge(el));
+
+  if (mainEl) {
+    gaScrollDepth(mainEl);
+  }
 
   if (cookieEl) {
     cookieNotification(cookieEl);
