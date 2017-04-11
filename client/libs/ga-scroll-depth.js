@@ -2,10 +2,7 @@
 
 import { onWindowScrollDebounce$ } from '../js/utils/dom-events';
 const startTime = new Date().getTime();
-const mainEl = document.getElementById('main');
-const getMainHeight = () => {
-  return mainEl.offsetHeight + mainEl.offsetTop;
-};
+const getElHeight = el => el.offsetHeight + el.offsetTop;
 
 const getWindowHeight = () => {
   return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -15,24 +12,30 @@ const getPageYOffset = () => {
   return window.pageYOffset;
 };
 
-const sendEvent = (action, label, timing) => {
+const sendEvent = (distance, timing) => {
   window.ga('send', {
     hitType: 'event',
     eventCategory: 'Scroll Depth',
-    eventAction: action,
-    eventTiming: timing,
-    eventLabel: label,
+    eventAction: 'Percentage',
+    eventLabel: distance,
     eventValue: 1,
     eventNonInteraction: true
   });
+
+  window.ga('send', {
+    hitType: 'timing',
+    timingCategory: 'Scroll Timing',
+    timingVar: `Milliseconds to ${distance}`,
+    timingValue: timing
+  });
 };
 
-const calculateMarks = (mainHeight) => {
+const calculateMarks = (elHeight) => {
   return {
-    '25%': parseInt(mainHeight * 0.25, 10),
-    '50%': parseInt(mainHeight * 0.5, 10),
-    '75%': parseInt(mainHeight * 0.75, 10),
-    '100%': mainHeight
+    '25%': parseInt(elHeight * 0.25, 10),
+    '50%': parseInt(elHeight * 0.5, 10),
+    '75%': parseInt(elHeight * 0.75, 10),
+    '100%': elHeight
   };
 };
 
@@ -43,30 +46,25 @@ const checkMarks = (marks, scrollDistance, timing) => {
 
     if (cache.indexOf(mark) === -1 && scrollDistance >= val) {
       cache.push(mark);
-      console.log(mark, timing);
-      // sendEvent('Percentage', mark, timing);
+      sendEvent(mark, timing);
     }
   });
 };
 
-const handler = function() {
-  const timing = Math.floor((new Date().getTime() - startTime) / 1000);
-  const mainHeight = getMainHeight();
+const handler = function(el) {
+  const timing = new Date().getTime() - startTime;
+  const elHeight = getElHeight(el);
   const winHeight = getWindowHeight();
   const scrollDistance = getPageYOffset() + winHeight;
-  const marks = calculateMarks(mainHeight);
+  const marks = calculateMarks(elHeight);
 
   checkMarks(marks, scrollDistance, timing);
 };
 
-const init = () => {
+export default (el) => {
   onWindowScrollDebounce$.subscribe({
     next() {
-      if (!mainEl) return;
-
-      handler();
+      handler(el);
     }
   });
 };
-
-export default { init };

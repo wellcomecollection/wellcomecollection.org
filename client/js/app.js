@@ -24,7 +24,6 @@ const init = () => {
 
   lazysizes.init();
   instagram.init();
-  gaScrollDepth.init();
 
   const cookieEl = document.getElementById('cookie-notification');
   const burgerEl = document.querySelector('.js-header-burger');
@@ -34,8 +33,13 @@ const init = () => {
   const overlappingEls = document.querySelectorAll('.js-sticky, .js-full-width');
   const stickyEls = document.querySelectorAll('.js-sticky');
   const galleries = document.querySelectorAll('.js-image-gallery');
+  const mainEl = document.getElementById('main');
 
   nodeList(wobblyEdgeEls).forEach((el) => wobblyEdge(el));
+
+  if (mainEl) {
+    gaScrollDepth(mainEl);
+  }
 
   if (cookieEl) {
     cookieNotification(cookieEl);
