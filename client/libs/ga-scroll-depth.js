@@ -8,10 +8,6 @@ const getWindowHeight = () => {
   return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 };
 
-const getPageYOffset = () => {
-  return window.pageYOffset;
-};
-
 const sendEvent = (distance, timing) => {
   window.ga('send', {
     hitType: 'event',
@@ -55,7 +51,7 @@ const handler = function(el) {
   const timing = new Date().getTime() - startTime;
   const elHeight = getElHeight(el);
   const winHeight = getWindowHeight();
-  const scrollDistance = getPageYOffset() + winHeight;
+  const scrollDistance = window.pageYOffset + winHeight;
   const marks = calculateMarks(elHeight);
 
   checkMarks(marks, scrollDistance, timing);
