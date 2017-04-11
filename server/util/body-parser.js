@@ -285,10 +285,17 @@ function getImageFromWpNode(node) {
     node.attrs && getAttrVal(node.attrs, 'class') === 'wp-caption-text'
   );
 
-  const urlObj = url.parse(getAttrVal(img.attrs, 'data-orig-file'));
+  if(!getAttrVal(img.attrs, 'data-orig-file')) {
+    console.log(img);
+  }
+  // We need to lookup the src for images that aren't from the Wellcome Collection Wordpress
+  const imgSrc = getAttrVal(img.attrs, 'data-orig-file') || getAttrVal(img.attrs, 'src');
+  const urlObj = url.parse(imgSrc);
+
   const contentUrl = `https://${urlObj.hostname}${urlObj.pathname}`;
   const caption = captionNode ? captionNode.childNodes[0].value : null;
-  const [width, height] = getAttrVal(img.attrs, 'data-orig-size').split(',');
+  // We need to lookup the dims for images that aren't from the Wellcome Collection Wordpress
+  const [width, height] = (getAttrVal(img.attrs, 'data-orig-size') || `${getAttrVal(img.attrs, 'width')},${getAttrVal(img.attrs, 'height')}`).split(',');
 
   return createPicture({
     type: 'picture',
