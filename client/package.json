@@ -38,8 +38,10 @@
     "core-js": "^2.4.1",
     "hammerjs": "^2.0.8",
     "lazysizes": "^3.0.0",
+    "ldclient-js": "^1.1.8",
     "lodash.debounce": "^4.0.8",
     "redux": "^3.6.0",
+    "uuid": "^3.0.1",
     "whatwg-fetch": "^2.0.3",
     "xstream": "^10.3.0"
   }
