@@ -50,7 +50,7 @@
     @include font('LR2');
   }
 
-  color: color('accessible-grey-1');
+  color: color('black');
   padding-top: #{($v-spacing-unit * 4) - 8px}; // - to make to adjust for line-height, want padding from x-height
   padding-bottom: #{($v-spacing-unit * 4) - 8px};
   border-bottom: 1px solid color('keyline-grey');
@@ -109,7 +109,7 @@
 
 .captioned-image__truncate-control {
   background: none;
-  color: color('charcoal');
+  color: color('action-green-1');
   border: 0;
   padding: $v-spacing-unit 0;
   margin-left: 2.1em;
