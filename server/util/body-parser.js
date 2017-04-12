@@ -130,7 +130,7 @@ function splitBlockquote(blockquote) {
 
   if (quoteAndTags) {
     const wrapper = getWrappingTags(quoteAndTags);
-    const quote = blockquote.match(quoteAndTagsRegex)[0].replace(/[“”]/g, '');
+    const quote = quoteAndTags[0].replace(/[“”]/g, '');
     const tagsRegex = new RegExp(/<[\s\S]*?>/, 'g');
     const citation = blockquote
     .slice(blockquote.lastIndexOf('”') + 1)
