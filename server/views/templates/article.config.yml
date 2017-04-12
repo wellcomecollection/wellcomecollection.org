@@ -4,19 +4,24 @@ context:
   inSection: explore
   transporter: "@transporter--theme"
   promo:
-    meta:
-      type: 'article'
-    article:
-      url: '#'
-      headline: 'Promo title'
-      thumbnail:
-        contentUrl: 'https://placehold.it/1600x900'
-        width: 1600
-        height: 900
+    contentType: 'article'
+    image:
+      contentUrl: https://placehold.it/400x225
+      caption: Copyright Holder
+      author: Author's name
+      width: 400
+      height: 225
+      copyrightHolder: copyright holder
+      fileFormat: png
+      url: null
+    title: 'Promo title'
+    url: '#'
+    series: []
   article:
     headline: How cultural contexts can shape mental illness
     tags: "@tags.tags"
     author: "@author"
+    series: []
     mainMedia:
     - contentUrl: "https://placehold.it/1600x900"
       type: 'picture'
@@ -195,6 +200,7 @@ variants:
       article:
         contentType: 'video'
         heading: 'This is a video'
+        series: []
         mainMedia:
           - type: 'video'
             embedUrl: 'https://youtube.com/embed/JMzQiwnQ0Bo'

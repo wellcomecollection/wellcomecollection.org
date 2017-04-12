@@ -14,7 +14,8 @@ const promo = createPromo({
   modifiers: ['transporter-child'],
   image: article.thumbnail,
   title: article.headline,
-  url: article.url
+  url: article.url,
+  series: []
 });
 
 export const transporter = {
