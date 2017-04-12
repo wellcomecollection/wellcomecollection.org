@@ -46,7 +46,6 @@ $numbered-list-number-size: 96px;
 
   .numbered-list__number {
     color: color('white');
-    opacity: 1;
   }
 }
 
@@ -64,17 +63,10 @@ $numbered-list-number-size: 96px;
 
   top: 50%;
   transform: translateY(-50%);
-  opacity: 0.4;
-  transition: opacity 400ms ease;
   display: none;
 
   @supports (transform: translateY(-50%)) {
     display: block;
-  }
-
-  .numbered-list__link:hover &,
-  .numbered-list__link:focus & {
-    opacity: 1;
   }
 }
 
