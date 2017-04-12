@@ -21,7 +21,7 @@ const sendEvent = (distance, timing) => {
   window.ga('send', {
     hitType: 'timing',
     timingCategory: 'Scroll Timing',
-    timingVar: `Milliseconds to ${distance}`,
+    timingVar: `Scrolled ${distance}`,
     timingValue: timing
   });
 };
