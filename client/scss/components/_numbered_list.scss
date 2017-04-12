@@ -41,7 +41,7 @@ $numbered-list-number-size: 96px;
 }
 
 .numbered-list__item--inactive {
-  background: color('smoke');
+  background: color('accessible-grey-2');
   border-color: color('white');
 
   .numbered-list__number {
@@ -53,7 +53,7 @@ $numbered-list-number-size: 96px;
   @include font('WB1');
   font-size: $numbered-list-number-size;
   line-height: 1;
-  color: color('smoke');
+  color: color('accessible-grey-2');
   position: absolute;
   right: 0.8rem;
 
