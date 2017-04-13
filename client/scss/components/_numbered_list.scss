@@ -122,6 +122,8 @@ $numbered-list-number-size-large: 96px;
 
 .numbered-list--horizontal,
 .numbered-list--horizontal-narrow {
+  background: color('keyline-grey');// Chrome has bug where borders sometimes disappear on elements with position:sticky, this compensates
+
   @include respond-to('medium') {
     display: flex;
   }
