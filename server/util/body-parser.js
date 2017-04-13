@@ -129,17 +129,23 @@ function splitBlockquote(blockquote) {
   const quoteAndTags = blockquote.match(quoteAndTagsRegex);
 
   if (quoteAndTags) {
-    const wrapper = getWrappingTags(quoteAndTags);
-    const quote = quoteAndTags[0].replace(/[“”]/g, '');
-    const tagsRegex = new RegExp(/<[\s\S]*?>/, 'g');
-    const citation = blockquote
-    .slice(blockquote.lastIndexOf('”') + 1)
-    .replace(tagsRegex, '');
+    try {
+      const wrapper = getWrappingTags(quoteAndTags);
+      const quote = quoteAndTags[0].replace(/[“”]/g, '');
+      const tagsRegex = new RegExp(/<[\s\S]*?>/, 'g');
+      const citation = blockquote
+      .slice(blockquote.lastIndexOf('”') + 1)
+      .replace(tagsRegex, '');
 
-    const body = `${wrapper.open}${quote}${wrapper.close}`;
-    const cite = citation.length > 1 ? `<cite class="blockquote__cite">${citation}</cite>`: null;
+      const body = `${wrapper.open}${quote}${wrapper.close}`;
+      const cite = citation.length > 1 ? `<cite class="blockquote__cite">${citation}</cite>`: null;
 
-    return { body, cite };
+      return { body, cite };
+    } catch(err) {
+      return {
+        body: blockquote
+      }
+    }
   } else {
     return {
       body: blockquote
