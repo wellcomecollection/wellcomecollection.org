@@ -138,29 +138,29 @@ function splitBlockquote(blockquote) {
       .replace(tagsRegex, '');
 
       const body = `${wrapper.open}${quote}${wrapper.close}`;
-      const cite = citation.length > 1 ? `<footer class="blockquote__footer"><cite class="blockquote__cite">${citation}</cite></footer>`: null;
+      const footer = citation.length > 1 ? `<footer class="quote__footer"><cite class="quote__cite">${citation}</cite></footer>`: null;
 
-      return { body, cite };
+      return { body, footer };
     } catch(err) {
       return {
-        body: blockquote
+        body: quote
       }
     }
   } else {
     return {
-      body: blockquote
+      body: quote
     };
   }
 }
 
 export function convertQuote(node) {
-  const isBlockquote = node.nodeName === 'blockquote';
+  const isQuote = node.nodeName === 'blockquote';
 
-  if (isBlockquote) {
+  if (isQuote) {
     const content = serializeAndCleanNode(node.childNodes && node.childNodes[0]);
 
     return createBodyPart({
-      type: 'blockquote',
+      type: 'quote',
       value: splitBlockquote(content)
     });
   } else {
