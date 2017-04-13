@@ -56,7 +56,13 @@
             <header class="promo__description">
               <div class="promo__heading">
                 {% if promo.contentType %}
-                  <span class="promo__type" aria-hidden="true">{{ promo.contentType }}</span>
+                  <span class="promo__type" aria-hidden="true">
+                    {% if commissionedSeries and promo.positionInSeries %}
+                      {{ commissionedSeries.name }}: Part {{ promo.positionInSeries }}
+                    {% else %}
+                      {{ promo.contentType }}
+                    {% endif %}
+                  </span>
                 {% endif %}
                   <{{ headingLevel or 'h2'}} class="promo__title{{ ' promo__title--lead' if promo.weight === 'lead' }}">
                     {{ promo.title }}
