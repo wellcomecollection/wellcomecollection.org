@@ -161,8 +161,6 @@ $numbered-list-number-size-large: 96px;
   }
 
   .numbered-list__number {
-    top: 0.5rem;
-    transform: none;
     right: map-get($gutter-width, 'small');
 
     @include respond-to('large') {
@@ -192,12 +190,6 @@ $numbered-list-number-size-large: 96px;
 
   .numbered-list__number {
     font-size: $numbered-list-number-size-small;
-  }
-
-  .numbered-list__title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   .numbered-list__date {
