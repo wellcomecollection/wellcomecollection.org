@@ -16,8 +16,8 @@
   min-height: 42px;
   padding: 10px 30px;
   color: color('white');
-  background-color: color('action-green-1');
-  border: 1px solid color('action-green-1');
+  background-color: color('seaweed');
+  border: 1px solid color('seaweed');
   border-radius: $border-radius-unit;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -29,7 +29,7 @@
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
-    background: color('action-green-2');
+    background: color('mint');
     cursor: pointer;
   }
 
@@ -65,12 +65,12 @@
 
 .btn--dark {
   @include secondary;
-  color: color('action-green-2');
-  border-color: rgba(color('action-green-2'), 0.4);
+  color: color('mint');
+  border-color: rgba(color('mint'), 0.4);
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
-    color: color('highlight-green');
-    border-color: color('highlight-green');
+    color: color('java');
+    border-color: color('java');
   }
 }

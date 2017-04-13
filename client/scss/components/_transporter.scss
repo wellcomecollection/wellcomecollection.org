@@ -26,7 +26,7 @@
 
 .transporter__intro {
   @include font('HNL5');
-  color: color('accessible-grey-1');
+  color: color('pewter');
 }
 
 .transporter__link {
@@ -34,7 +34,7 @@
   position: relative;
   text-decoration: none;
   padding-left: ((12/12) * 0.8) + 0.5em;
-  color: color('action-green-1');
+  color: color('seaweed');
 
   &:hover,
   &:focus {
