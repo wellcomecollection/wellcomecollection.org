@@ -17,6 +17,7 @@
         <span class="numbered-list__link-surrogate">
       {% endif %}
           <h3 class="numbered-list__title">
+            {% if data.sliderId %}Part {{ loop.index }}: {% endif %}
             {%- if current === item.url -%}
               Currently viewing<span class="numbered-list__visually-hidden-title"> {{ item.title }}</span>
             {%- else -%}
