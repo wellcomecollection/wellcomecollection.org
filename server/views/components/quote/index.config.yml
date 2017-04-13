@@ -1,11 +1,11 @@
-handle: blockquote
+handle: quote
 context:
   body: "<p>Said Hamlet to Ophelia,<br />
             I'll draw a sketch of thee,<br />
             What kind of pencil shall I use? <br />
             2B or not 2B? </p>"
-  footer: "<footer class='blockquote__footer'>Spike Milligan,
-           <cite class='blockquote__cite'>A Silly Poem</cite></footer>"
+  footer: "<footer class='quote__footer'>Spike Milligan,
+           <cite class='quote__cite'>A Silly Poem</cite></footer>"
 notes: For pull quotes. Suited for more serious articles
 variants:
 - name: default
@@ -23,7 +23,7 @@ variants:
     modifiers:
     - lr
   notes: For text references
-- name: Small
+- name: Block
   context:
     modifiers:
-    - small
+    - block
