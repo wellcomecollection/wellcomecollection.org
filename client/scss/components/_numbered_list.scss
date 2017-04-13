@@ -41,12 +41,11 @@ $numbered-list-number-size: 96px;
 }
 
 .numbered-list__item--inactive {
-  background: color('smoke');
+  background: color('accessible-grey-2');
   border-color: color('white');
 
   .numbered-list__number {
     color: color('white');
-    opacity: 1;
   }
 }
 
@@ -54,7 +53,7 @@ $numbered-list-number-size: 96px;
   @include font('WB1');
   font-size: $numbered-list-number-size;
   line-height: 1;
-  color: color('smoke');
+  color: color('accessible-grey-2');
   position: absolute;
   right: 0.8rem;
 
@@ -64,17 +63,10 @@ $numbered-list-number-size: 96px;
 
   top: 50%;
   transform: translateY(-50%);
-  opacity: 0.4;
-  transition: opacity 400ms ease;
   display: none;
 
   @supports (transform: translateY(-50%)) {
     display: block;
-  }
-
-  .numbered-list__link:hover &,
-  .numbered-list__link:focus & {
-    opacity: 1;
   }
 }
 

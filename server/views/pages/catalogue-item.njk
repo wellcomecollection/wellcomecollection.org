@@ -1,0 +1,11 @@
+{% extends 'layout/default.njk' %}
+{% set gridCellClasses = 'grid__cell grid__cell--xl6 grid__cell--shift-xl1 grid__cell--l7 grid__cell--m6 grid__cell--shift-m1 grid__cell--s4' %}
+
+{% block pageMeta %}{% endblock %}
+
+{% block body %}
+  {% componentV2 'page-description', {title: item.title, meta: {type: 'date', value: item.date}, lead: true}, {'a': true} %}
+
+  {% componentV2 'main-media', {contentUrl: item.media[0], type: 'picture', width: 500, height: 250} %}
+
+{% endblock %}

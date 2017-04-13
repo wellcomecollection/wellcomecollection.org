@@ -15,7 +15,8 @@ export type Promo = UiComponent & {
   description?: string;
   chapter?: Chapter;
   length?: number;
-  datePublished?: ?Date
+  datePublished?: ?Date;
+  series?: Array<ArticleSeries>;
 }
 
 export function createPromo(data: Promo) { return (data: Promo); }

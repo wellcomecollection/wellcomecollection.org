@@ -1,6 +1,6 @@
-//* @define blockquote; weak
+//* @define quote; weak
 
-.blockquote {
+.quote {
   @include font('HNM3');
 
   @include respond-to('medium') {
@@ -15,7 +15,7 @@
     padding-right: 1em;
   }
 
-  &.blockquote--small {
+  &.quote--block {
     @include font('HNL3');
     border-left: 0;
     position: relative;
@@ -37,11 +37,11 @@
     }
   }
 
-  &.blockquote--wb {
+  &.quote--wb {
     @include font('WB5');
   }
 
-  &.blockquote--lr {
+  &.quote--lr {
     @include font('LR2');
   }
 
@@ -55,7 +55,7 @@
     }
   }
 
-  &.blockquote--with-marks {
+  &.quote--with-marks {
     &:before,
     &:after {
       // stylelint-disable sh-waqar/declaration-use-variable
@@ -81,7 +81,7 @@
   }
 }
 
-.blockquote__footer {
+.quote__footer {
   @include font('HNM5');
 
   &:before {
@@ -90,7 +90,7 @@
   }
 }
 
-.blockquote__cite {
+.quote__cite {
   @include font('HNL5');
   font-style: normal;
 }
