@@ -24,14 +24,14 @@ $numbered-list-number-size: 96px;
 
 .numbered-list__list {
   @include plain-list();
-  border: 1px solid color('smoke');
+  border: 1px solid color('keyline-grey');
   border-bottom-left-radius: $border-radius-unit;
   border-bottom-right-radius: $border-radius-unit;
 }
 
 .numbered-list__item {
   background-color: color('white');
-  border: 1px solid color('smoke');
+  border: 1px solid color('keyline-grey');
   border-width: 0 0 1px;
   position: relative;
 
@@ -42,7 +42,6 @@ $numbered-list-number-size: 96px;
 
 .numbered-list__item--inactive {
   background: color('accessible-grey-2');
-  border-color: color('white');
 
   .numbered-list__number {
     color: color('white');
@@ -145,16 +144,6 @@ $numbered-list-number-size: 96px;
     min-width: 300px;
     max-width: 300px;
     border-width: 0 1px 0 0;
-
-    // &:nth-child(3) {
-    //   min-width: 100px;
-    //   max-width: 100px;
-    // }
-
-    // &:nth-child(1) {
-    //   min-width: 500px;
-    //   max-width: 500px;
-    // }
   }
 
   .numbered-list__link,
@@ -229,7 +218,7 @@ $numbered-list-number-size: 96px;
 @include slider('numbered-list__');
 
 .numbered-list__slider {
-  border: 1px solid color('smoke');
+  border: 1px solid color('keyline-grey');
   border-width: 1px 1px 0;
 
   @include respond-to('medium') {
@@ -244,7 +233,7 @@ $numbered-list-number-size: 96px;
 .numbered-list__slider-controls {
   display: flex;
   flex-direction: row;
-  border: 1px solid color('smoke');
+  border: 1px solid color('keyline-grey');
   border-width: 1px;
   background: color('white');
   min-height: 40px;
@@ -275,7 +264,7 @@ $numbered-list-number-size: 96px;
 }
 
 .numbered-list__slider-control--prev {
-  border: 1px solid color('smoke');
+  border: 1px solid color('keyline-grey');
   border-width: 0 1px 0 0;
 
   @include respond-to('medium') {
