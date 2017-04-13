@@ -218,10 +218,12 @@
   }
 
   .#{$prefix}slider-control--inactive {
-    opacity: 0.3;
     // stylelint-disable declaration-no-important
     cursor: default !important;
     // stylelint-enable declaration-no-important
+    .control-arrow {
+      opacity: 0.3;
+    }
   }
 }
 
