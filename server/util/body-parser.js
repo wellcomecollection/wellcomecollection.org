@@ -35,7 +35,8 @@ export function explodeIntoBodyParts(nodes) {
       convertWpList,
       convertTweet,
       convertInstagramEmbed,
-      findWpImageGallery
+      findWpImageGallery,
+      convertQuote
     ];
 
     // TODO: Tidy up typing here
@@ -105,6 +106,62 @@ export function convertWpHeading(node) {
         level: headingMatch[1],
         value: serializeAndCleanNode(maybeHeadingContent)
       })
+    });
+  } else {
+    return node;
+  }
+}
+
+function getWrappingTags(match) {
+  const maybeTag = match[1];
+  const isMatch = (maybeTag && maybeTag === match[2]);
+
+  return {
+    open: isMatch ? `<p><${maybeTag}>` : `<p>`,
+    close: isMatch ? `</${maybeTag}></p>` : `</p>`
+  };
+}
+
+function splitBlockquote(blockquote) {
+  // Match a string within quote marks and capture possible non-<p> wrapping tags
+  // Visualisation: https://regexper.com/#(%3F%3A%3C(%3F!p)(.*%3F)%3E)%3F%E2%80%9C%5B%5Cs%5CS%5D*%3F%E2%80%9D(%3F%3A.*%3C%5C%2F(%3F!p)(.*%3F)%3E)%3F
+  const quoteAndTagsRegex = new RegExp(/(?:<(?!p)(.*?)>)?“[\s\S]*?”(?:.*<\/(?!p)(.*?)>)?/);
+  const quoteAndTags = blockquote.match(quoteAndTagsRegex);
+
+  if (quoteAndTags) {
+    try {
+      const wrapper = getWrappingTags(quoteAndTags);
+      const quote = quoteAndTags[0].replace(/[“”]/g, '');
+      const tagsRegex = new RegExp(/<[\s\S]*?>/, 'g');
+      const citation = blockquote
+      .slice(blockquote.lastIndexOf('”') + 1)
+      .replace(tagsRegex, '');
+
+      const body = `${wrapper.open}${quote}${wrapper.close}`;
+      const footer = citation.length > 1 ? `<footer class="quote__footer"><cite class="quote__cite">${citation}</cite></footer>`: null;
+
+      return { body, footer };
+    } catch(err) {
+      return {
+        body: quote
+      }
+    }
+  } else {
+    return {
+      body: quote
+    };
+  }
+}
+
+export function convertQuote(node) {
+  const isQuote = node.nodeName === 'blockquote';
+
+  if (isQuote) {
+    const content = serializeAndCleanNode(node.childNodes && node.childNodes[0]);
+
+    return createBodyPart({
+      type: 'quote',
+      value: splitBlockquote(content)
     });
   } else {
     return node;

@@ -25,6 +25,8 @@
         {% component 'tweet', { tweet: bodyPart.value } %}
       {% elif bodyPart.type === 'instagramEmbed' %}
         {% component 'instagram-embed', { instagramEmbed: bodyPart.value } %}
+      {% elif bodyPart.type === 'quote' %}
+        {% component 'quote', { body: bodyPart.value.body | safe, footer: bodyPart.value.footer | safe, modifiers: ['block'] } %}
       {% else %}
         {{ bodyPart.value | safe }}
       {% endif %}
