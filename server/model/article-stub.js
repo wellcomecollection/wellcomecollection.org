@@ -1,8 +1,8 @@
 // @flow
 import entities from 'entities';
-import {type ContentType} from './content-type';
-import {type Picture} from './picture';
-import {type  ArticleSeries } from "./series";
+import type {ContentType} from './content-type';
+import type {Picture} from './picture';
+import type {ArticleSeries} from "./series";
 import { getSeriesCommissionedLength, getPositionInSeries, getSeriesColor } from "../data/series";
 export type ArticleStub = {|
   contentType: ContentType;

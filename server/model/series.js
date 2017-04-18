@@ -1,8 +1,6 @@
 // @flow
 import {List} from 'immutable';
-import {type Promo} from './promo';
-import {type ArticleStub} from './article-stub';
-import {type Pagination} from '../controllers/index';
+import type {ArticleStub} from './article-stub';
 import {series} from '../data/series';
 
 type ChapterColor =

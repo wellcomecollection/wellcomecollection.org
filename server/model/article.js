@@ -1,11 +1,11 @@
 // @flow
 import entities from 'entities';
 import {List} from 'immutable';
-import {type Person} from './person';
-import {type Picture} from './picture';
-import {type ContentType} from './content-type';
-import {type Video} from './video';
-import {type ArticleSeries} from './series';
+import type {Person} from './person';
+import type {Picture} from './picture';
+import type {ContentType} from './content-type';
+import type {Video} from './video';
+import type {ArticleSeries} from './series';
 import {getSeriesCommissionedLength, getSeriesColor, getPositionInSeries} from '../data/series';
 import {getWpFeaturedImage} from './media';
 import {bodyParser} from '../util/body-parser';

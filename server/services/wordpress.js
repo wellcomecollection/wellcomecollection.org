@@ -1,8 +1,9 @@
 // @flow
 import {List} from 'immutable';
 import request from 'superagent';
-import {type ArticleStub, ArticleStubFactory} from '../model/article-stub';
-import {type Series} from "../model/series";
+import type {ArticleStub} from '../model/article-stub';
+import type {Series} from "../model/series";
+import {ArticleStubFactory} from '../model/article-stub';
 import {ArticleFactory} from '../model/article';
 
 export type ArticleStubsResponse = {|

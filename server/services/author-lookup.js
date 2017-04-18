@@ -1,5 +1,5 @@
 // @flow
-import {type Person} from '../model/person';
+import type {Person} from '../model/person';
 import * as people from '../data/people';
 
 export const authorMap: { [key: string]: Person } = {
