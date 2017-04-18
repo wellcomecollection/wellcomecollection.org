@@ -1,6 +1,6 @@
 // Simplified/rewritten from https://github.com/leighmcculloch/gascrolldepth.js
 import { onWindowScrollDebounce$ } from '../js/utils/dom-events';
-import getFlags from '../js/components/launchdarkly';
+import getFlags from '../js/components/featureflags';
 
 const startTime = new Date().getTime();
 const getElHeight = el => el.offsetHeight + el.offsetTop;
