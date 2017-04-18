@@ -2,13 +2,8 @@ import LDClient from 'ldclient-js';
 import uuidV1 from 'uuid/v1';
 
 const LDUserKey = 'LDUserKey';
-
-let uuid = window.localStorage.getItem(LDUserKey);
-
-if (!uuid) {
-  uuid = uuidV1();
-  window.localStorage.setItem(LDUserKey, uuid);
-}
+const uuid = window.localStorage.getItem(LDUserKey) || uuidV1();
+window.localStorage.setItem(LDUserKey, uuid);
 
 const user = {
   key: uuid,
