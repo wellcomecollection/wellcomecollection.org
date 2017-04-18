@@ -10,7 +10,9 @@ const getWindowHeight = () => {
 };
 
 const sendEvent = (distance, timing, flags) => {
-  if (flags['ga-scroll-depth']) {
+  const depthFlag = flags['ga-scroll-depth'] || false;
+  const timingFlag = flags['ga-scroll-timing'] || false;
+  if (depthFlag) {
     window.ga('send', {
       hitType: 'event',
       eventCategory: 'Scroll Depth',
@@ -20,7 +22,7 @@ const sendEvent = (distance, timing, flags) => {
       eventNonInteraction: true
     });
   }
-  if (flags['ga-scroll-timing']) {
+  if (timingFlag) {
     window.ga('send', {
       hitType: 'timing',
       timingCategory: 'Scroll Timing',
