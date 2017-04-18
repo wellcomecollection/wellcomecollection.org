@@ -148,7 +148,7 @@ function splitBlockquote(blockquote) {
     }
   } else {
     return {
-      body: quote
+      body: blockquote
     };
   }
 }
