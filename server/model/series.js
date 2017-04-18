@@ -31,15 +31,15 @@ export type Series = {|
 
 // Anything below is a massive hack due to the fact that we don't have a CMS that
 // supports our concept or series.
-export function getUnpublishedSeries(seriesId: String): ?Series {
+export function getUnpublishedSeries(seriesId: string): ?Series {
   return series.find(s => s.url === seriesId);
 }
 
-export function getForwardFill(series: Series): List<ArticleStub> {
+export function getForwardFill(series: Series): Series {
   const forwardFill = getUnpublishedSeries(series.url);
 
   if (forwardFill) {
-    const missingCount = forwardFill.commissionedLength - series.items.size;
+    const missingCount = (forwardFill.commissionedLength || series.items.size) - series.items.size;
     const usefulForwardFill = forwardFill.items.takeLast(missingCount);
     const newSeriesItems = series.items.concat(usefulForwardFill);
     series.name = forwardFill.name;

@@ -6,8 +6,8 @@ import {type Organization, wellcomeCollection} from './organization';
 export type PageConfig = {
   title: string;
   inSection?: string;
-  openingHours: PlacesOpeningHours;
-  organization: Organization;
+  openingHours?: PlacesOpeningHours;
+  organization?: Organization;
 };
 
 export function createPageConfig(data: PageConfig) {
