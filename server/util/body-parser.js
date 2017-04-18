@@ -143,7 +143,7 @@ function splitBlockquote(blockquote) {
       return { body, footer };
     } catch(err) {
       return {
-        body: quote
+        body: blockquote
       }
     }
   } else {
