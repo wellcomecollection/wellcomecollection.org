@@ -365,6 +365,14 @@ const contentSlider = (el, options) => {
   sliderElements.prevControl.addEventListener('click', prevSlide, true);
   sliderElements.nextControl.addEventListener('click', nextSlide, true);
 
+  nodeList(sliderElements.slideItems).forEach((item) => {
+    item.addEventListener('click', ({ currentTarget }) => {
+      const slideIndex = parseInt(currentTarget.getAttribute(indexAttr), 10);
+
+      updatePosition(slideIndex, positionArray);
+    });
+  });
+
   // Handle touch
   sliderTouch.on('swiperight', prevSlide);
   sliderTouch.on('swipeleft', nextSlide);
