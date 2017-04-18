@@ -120,6 +120,10 @@ $center-width-xlarge: (6/6) * 100%;
 }
 
 /* stylelint-disable plugin/selector-bem-pattern */
+.sticky-wrapper:last-of-type {
+  @include clearfix;
+}
+
 .sticky-applied {
   @include respond-to('large') {
     @supports (width: calc(10px + 10px)) {
