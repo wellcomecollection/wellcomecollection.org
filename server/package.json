@@ -33,7 +33,6 @@
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-env": "^1.1.8",
     "entities": "^1.1.1",
-    "eslint": "^3.19.0",
     "immutable": "^3.8.1",
     "koa": "^2.0.0",
     "koa-router": "^7.1.0",
