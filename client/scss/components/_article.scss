@@ -11,7 +11,7 @@
       content: '';
       position: absolute;
       z-index: 0;
-      right: -(map-get($gutter-width, 'large')/2);
+      right: map-get($gutter-width, 'large') / 2;
       top: 0;
       width: 1px;
       height: 100%;
