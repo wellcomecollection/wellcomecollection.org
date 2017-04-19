@@ -49,11 +49,11 @@
 
   a:link {
     text-decoration: none;
-    box-shadow: inset 0 -0.1em 0 0 color('action-green-1');
+    box-shadow: inset 0 -0.1em 0 0 color('seaweed');
 
     &:hover,
     &:focus {
-      box-shadow: inset 0 -0.2em 0 0 color('action-green-1');
+      box-shadow: inset 0 -0.2em 0 0 color('seaweed');
     }
   }
 }
@@ -120,6 +120,10 @@ $center-width-xlarge: (6/6) * 100%;
 }
 
 /* stylelint-disable plugin/selector-bem-pattern */
+.sticky-wrapper:last-of-type {
+  @include clearfix;
+}
+
 .sticky-applied {
   @include respond-to('large') {
     @supports (width: calc(10px + 10px)) {

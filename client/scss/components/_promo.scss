@@ -161,7 +161,7 @@
 
 .promo__type {
   @include font('HNL5');
-  color: color('action-green-2');
+  color: color('mint');
   display: block;
   text-transform: capitalize;
   transition: color 400ms ease;
@@ -189,7 +189,7 @@
 
   .promo:hover &,
   .promo:focus & {
-    color: color('action-green-2');
+    color: color('mint');
   }
 
   .promo--standalone & {
@@ -226,7 +226,7 @@
 .promo__description {
   @include font('HNL5');
   align-items: center;
-  color: color('accessible-grey-1');
+  color: color('pewter');
   min-width: 0;
   flex: 1;
   position: relative;
