@@ -366,10 +366,10 @@ const contentSlider = (el, options) => {
   sliderElements.nextControl.addEventListener('click', nextSlide, true);
 
   nodeList(sliderElements.slideItems).forEach((item) => {
-    item.addEventListener('click', ({ currentTarget }) => {
-      const slideIndex = parseInt(currentTarget.getAttribute(indexAttr), 10);
+    item.addEventListener('click', ({ target, currentTarget }) => {
+      if (!target.matches('img')) return;
 
-      updatePosition(slideIndex, positionArray);
+      updatePosition(parseInt(currentTarget.getAttribute(indexAttr), 10), positionArray);
     });
   });
 

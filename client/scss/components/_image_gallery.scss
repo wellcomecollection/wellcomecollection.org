@@ -126,13 +126,40 @@ $image-gallery-control-margin: 18px;
     justify-content: center;
     background: color('smoke');
   }
+
+  .captioned-image__caption {
+    position: relative;
+    opacity: 0;
+    z-index: 0;
+    transition: opacity 700ms ease;
+    width: calc(100vw - #{(map-get($container-padding, 'small') * 2)});
+
+    @include respond-to('medium') {
+      width: calc(100vw - (#{map-get($container-padding, 'medium')} * 2) - 12.5%);
+    }
+
+    @include respond-to('large') {
+      width: calc(((100vw - #{map-get($container-padding, 'large')}  * 2) / 12) * 10);
+    }
+
+    @include respond-to('xlarge') {
+      width: ($container-width-max / 12) * 7;
+    }
+  }
 }
 
 .image-gallery__slide-item--current {
   opacity: 1;
+
+  .captioned-image__caption {
+    opacity: 1;
+    z-index: 1;
+  }
 }
 
 .image-gallery__slider-controls {
+  top: -190px;
+  position: relative;
 
   /* stylelint-disable plugin/selector-bem-pattern */
   .control-arrow {
@@ -154,7 +181,6 @@ $image-gallery-control-margin: 18px;
   outline: none;
   overflow: hidden;
   position: relative;
-  top: -130px;
   margin-left: calc(100% - (2 * #{$image-gallery-control-size} + #{$image-gallery-control-margin}));
 
   // this calculation is related to the gallery appearing in the article template
