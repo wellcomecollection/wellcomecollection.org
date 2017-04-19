@@ -15,7 +15,6 @@ export default function asyncContent(el, dispatch) {
       if (seriesSlider) {
         contentSlider(seriesSlider, {
           transitionSpeed: 0.7,
-          startPosition: 0,
           cssPrefix: 'numbered-list__'
         });
       }
