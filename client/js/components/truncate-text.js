@@ -2,7 +2,6 @@ import fromEvent from 'xstream/extra/fromEvent';
 import { onWindowResizeDebounce$ } from '../utils/dom-events';
 
 const truncateClass = 'captioned-image__caption-text--truncate';
-const hiddenControlClass = 'captioned-image__truncate-control--is-hidden';
 const moreText = '+ More';
 const lessText = '- Less';
 
@@ -45,9 +44,9 @@ const truncateText = (caption) => {
   onWindowResizeDebounce$.subscribe({
     next() {
       if (hasBeenEllipsified(caption)) {
-        truncateControl.classList.remove(hiddenControlClass);
+        truncateControl.classList.remove('is-hidden');
       } else {
-        truncateControl.classList.add(hiddenControlClass);
+        truncateControl.classList.add('is-hidden');
       }
     }
   });
