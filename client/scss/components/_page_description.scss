@@ -65,7 +65,7 @@
 .page-description__intro {
   @include font('HNL5');
   display: block;
-  color: color('action-green-1');
+  color: color('seaweed');
   margin-bottom: 0.4em;
 }
 
@@ -73,7 +73,7 @@
   @include font('HNL5');
   display: flex;
   align-items: center;
-  color: color('accessible-grey-1');
+  color: color('pewter');
 
   .icon {
     margin-right: 0.5em;

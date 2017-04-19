@@ -56,7 +56,7 @@
 .text--meta {
   @include font('LR3');
 
-  color: color('accessible-grey-1');
+  color: color('pewter');
 
   @include respond-to('medium') {
     @include font('LR2');

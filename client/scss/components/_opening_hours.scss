@@ -33,7 +33,7 @@
   }
 
   &.opening-hours__tabitem--is-current {
-    color: color('accessible-grey-2');
+    color: color('silver');
     border-color: color('charcoal');
     border-bottom-color: color('dark-black');
   }
@@ -47,7 +47,7 @@
 
   &:hover,
   &:focus {
-    color: color('action-green-2');
+    color: color('mint');
   }
 
   .opening-hours__tabitem:first-child & {
@@ -57,7 +57,7 @@
 
 .opening-hours__table {
   @include font('HNL6');
-  color: color('accessible-grey-2');
+  color: color('silver');
   width: 100%;
   margin-bottom: 2 * $vertical-space-unit;
 
