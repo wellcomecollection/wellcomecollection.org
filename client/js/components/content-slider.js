@@ -366,6 +366,8 @@ const contentSlider = (el, options) => {
 
   nodeList(sliderElements.slideItems).forEach((item) => {
     item.addEventListener('click', ({ target, currentTarget }) => {
+      // We only want to match clicks on the img, because clicks on the
+      // caption could be on the 'more/less' controls
       if (!target.matches('img')) return;
 
       updatePosition(parseInt(currentTarget.getAttribute(indexAttr), 10), positionArray);
