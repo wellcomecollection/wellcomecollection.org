@@ -6,7 +6,7 @@
 
 .footer__heading {
   @include font('HNL5');
-  color: color('accessible-grey-2');
+  color: color('silver');
   margin: 0 0 1em;
 
   @include respond-to('large') {
@@ -116,7 +116,7 @@
   transition: color 200ms ease;
 
   &:hover {
-    color: color('action-green-2');
+    color: color('mint');
   }
 
   .footer__hygiene-item:first-child & {

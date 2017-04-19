@@ -6,7 +6,7 @@ $numbered-list-number-size-large: 96px;
 .numbered-list__header {
   border-top-left-radius: $border-radius-unit;
   border-top-right-radius: $border-radius-unit;
-  background: color('action-green-2');
+  background: color('mint');
   color: color('white');
   padding: 1rem 1.2rem;
 
@@ -25,14 +25,14 @@ $numbered-list-number-size-large: 96px;
 
 .numbered-list__list {
   @include plain-list();
-  border: 1px solid color('keyline-grey');
+  border: 1px solid color('pumice');
   border-bottom-left-radius: $border-radius-unit;
   border-bottom-right-radius: $border-radius-unit;
 }
 
 .numbered-list__item {
   background-color: color('white');
-  border: 1px solid color('keyline-grey');
+  border: 1px solid color('pumice');
   border-width: 0 0 1px;
   position: relative;
 
@@ -42,7 +42,7 @@ $numbered-list-number-size-large: 96px;
 }
 
 .numbered-list__item--inactive {
-  background: color('accessible-grey-2');
+  background: color('silver');
 
   .numbered-list__number {
     color: color('white');
@@ -53,7 +53,7 @@ $numbered-list-number-size-large: 96px;
   @include font('WB1');
   font-size: $numbered-list-number-size-large;
   line-height: 1;
-  color: color('accessible-grey-2');
+  color: color('silver');
   position: absolute;
   right: 0.8rem;
 
@@ -97,7 +97,7 @@ $numbered-list-number-size-large: 96px;
 
   .numbered-list__link:hover &,
   .numbered-list__link:focus & {
-    color: color('action-green-1');
+    color: color('seaweed');
   }
 }
 
@@ -122,7 +122,7 @@ $numbered-list-number-size-large: 96px;
 
 .numbered-list--horizontal,
 .numbered-list--horizontal-narrow {
-  background: color('keyline-grey');// Chrome has bug where borders sometimes disappear on elements with position:sticky, this compensates
+  background: color('pumice');// Chrome has bug where borders sometimes disappear on elements with position:sticky, this compensates
 
   @include respond-to('medium') {
     display: flex;
@@ -208,7 +208,7 @@ $numbered-list-number-size-large: 96px;
 @include slider('numbered-list__');
 
 .numbered-list__slider {
-  border: 1px solid color('keyline-grey');
+  border: 1px solid color('pumice');
   border-width: 1px 1px 0;
 
   @include respond-to('medium') {
@@ -223,7 +223,7 @@ $numbered-list-number-size-large: 96px;
 .numbered-list__slider-controls {
   display: flex;
   flex-direction: row;
-  border: 1px solid color('keyline-grey');
+  border: 1px solid color('pumice');
   border-width: 1px;
   background: color('white');
   min-height: 40px;
@@ -254,7 +254,7 @@ $numbered-list-number-size-large: 96px;
 }
 
 .numbered-list__slider-control--prev {
-  border: 1px solid color('keyline-grey');
+  border: 1px solid color('pumice');
   border-width: 0 1px 0 0;
 
   @include respond-to('medium') {

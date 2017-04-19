@@ -8,7 +8,7 @@ $tweakpoints: (
 .header__upper {
   padding-top: $vertical-space-unit;
   padding-bottom: $vertical-space-unit;
-  border-bottom: 1px solid color('keyline-grey');
+  border-bottom: 1px solid color('pumice');
   position: relative;
 }
 
@@ -77,7 +77,7 @@ $tweakpoints: (
   @include respond-to('header-medium') {
     margin-right: 1.5rem;
     padding-right: 1.5rem;
-    border-right: 1px solid color('keyline-grey');
+    border-right: 1px solid color('pumice');
     width: auto;
     display: block;
   }
@@ -95,7 +95,7 @@ $tweakpoints: (
   padding-right: map-get($container-padding, 'small');
 
   @include respond-between('small', 'header-medium') {
-    border-top: 1px solid color('keyline-grey');
+    border-top: 1px solid color('pumice');
   }
 
   @include respond-to('medium') {
@@ -178,7 +178,7 @@ $tweakpoints: (
     height: 100%;
     padding: 0 50px 0 0;
     border: 0;
-    border-bottom: 1px solid color('keyline-grey');
+    border-bottom: 1px solid color('pumice');
     border-radius: 0;
     position: absolute;
     top: 0;
@@ -207,7 +207,7 @@ $tweakpoints: (
     padding-left: 1.5rem;
 
     @include respond-to('header-medium') {
-      border-left: 1px solid color('keyline-grey');
+      border-left: 1px solid color('pumice');
     }
   }
 
@@ -218,7 +218,7 @@ $tweakpoints: (
 
   &:hover,
   &:focus {
-    color: color('action-green-2');
+    color: color('mint');
 
     .enhanced & {
       outline: 0;
@@ -249,7 +249,7 @@ $tweakpoints: (
     transition: fill 200ms ease;
 
     .header__form--is-active & {
-      fill: color('action-green-2');
+      fill: color('mint');
     }
   }
 }
@@ -319,7 +319,7 @@ $tweakpoints: (
 }
 
 .header__item {
-  border-bottom: 1px solid color('keyline-grey');
+  border-bottom: 1px solid color('pumice');
 
   @include respond-to('header-medium') {
     border-bottom: 0;

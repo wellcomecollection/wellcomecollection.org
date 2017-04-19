@@ -6,7 +6,7 @@
 
   &.author--border-bottom {
     padding-bottom: 1.2rem;
-    border-bottom: 1px solid color('keyline-grey');
+    border-bottom: 1px solid color('pumice');
 
     @include respond-to('medium') {
       padding-bottom: 1.5rem;
@@ -16,7 +16,7 @@
   &.author--border-left {
     padding-top: 0;
     padding-left: 1.2rem;
-    border-left: 5px solid color('keyline-grey');
+    border-left: 5px solid color('pumice');
   }
 }
 
@@ -43,7 +43,7 @@
 
 .author__twitter {
   @include font('HNM6');
-  color: color('action-green-1');
+  color: color('seaweed');
 
   .icon {
     width: 2em;
@@ -52,7 +52,7 @@
   }
 
   .icon__shape {
-    fill: color('action-green-1');
+    fill: color('seaweed');
   }
 }
 
