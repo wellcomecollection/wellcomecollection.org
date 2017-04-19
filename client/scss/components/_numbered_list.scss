@@ -148,6 +148,22 @@ $numbered-list-number-size-large: 96px;
     border-width: 0 1px 0 0;
   }
 
+  .numbered-list__item--turquoise {
+    border-bottom: $v-spacing-unit solid color('turquoise');
+  }
+
+  .numbered-list__item--orange {
+    border-bottom: $v-spacing-unit  solid color('orange');
+  }
+
+  .numbered-list__item--red {
+    border-bottom: $v-spacing-unit  solid color('red');
+  }
+
+  .numbered-list__item--purple {
+    border-bottom: $v-spacing-unit  solid color('purple');
+  }
+
   .numbered-list__link,
   .numbered-list__link-surrogate {
     width: 100%;

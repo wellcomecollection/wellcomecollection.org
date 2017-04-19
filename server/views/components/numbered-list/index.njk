@@ -9,7 +9,11 @@
   </header>
   <ol class="numbered-list__list{% if data.sliderId %} js-numbered-slider{% endif %}"{% if data.sliderId %} id="{{data.sliderId}}" {% endif %}>
     {% for item in model.items -%}
-      <li class="numbered-list__item {{ 'numbered-list__item--inactive' if not item.url }}">
+      {% set isCurrent = current === item.url %}
+      <li class="numbered-list__item
+          {{ 'numbered-list__item--inactive' if not item.url }}
+          {% if isCurrent %}  numbered-list__item--{{model.color}}{% endif %}"
+          {% if isCurrent %} data-current="true"{% endif %}>
         <span class="numbered-list__number" aria-hidden="true">{{ loop.index }}</span>
       {% if item.url %}
         <a href="{{ item.url }}" class="numbered-list__link">
@@ -18,7 +22,7 @@
       {% endif %}
           <h3 class="numbered-list__title">
             {% if data.sliderId %}Part {{ loop.index }}: {% endif %}
-            {%- if current === item.url -%}
+            {%- if isCurrent -%}
               Currently viewing<span class="numbered-list__visually-hidden-title"> {{ item.title }}</span>
             {%- else -%}
               {{ item.title }}
