@@ -119,6 +119,10 @@
   &:focus {
     text-decoration: underline;
   }
+
+  &.captioned-image__truncate-control--is-hidden {
+    display: none;
+  }
 }
 
 .captioned-image__underline {
