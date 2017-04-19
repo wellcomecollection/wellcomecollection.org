@@ -1,10 +1,11 @@
 <div class="image-gallery touch-scroll js-image-gallery {{ {s:5, m:10, l:10} | spacingClasses({padding: ['top', 'bottom']}) }}" id="{{ id }}">
   {% for item in imageGallery.items %}
-  {% set smallWidth = item.width/item.height*204 %}
-  {% set largeWidth = item.width/item.height*640 %}
-  {% set queries = '(max-width: 600px) ' + smallWidth + 'px, ' + largeWidth + 'px' %}
-  <div class="image-gallery__item">
-    {% componentV2 'captioned-image', item, {}, {sizesQueries: queries} %}
-  </div>
+    {% set slideNumbers = {current: loop.index, total: loop.length} %}
+    {% set smallWidth = item.width/item.height*204 %}
+    {% set largeWidth = item.width/item.height*640 %}
+    {% set queries = '(max-width: 600px) ' + smallWidth + 'px, ' + largeWidth + 'px' %}
+    <div class="image-gallery__item">
+      {% componentV2 'captioned-image', item, {}, {sizesQueries: queries, slideNumbers: slideNumbers} %}
+    </div>
   {% endfor %}
 </div>

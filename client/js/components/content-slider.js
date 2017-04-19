@@ -92,7 +92,6 @@ const contentSlider = (el, options) => {
 
     // Set transition style for slider
     setPropertyPrefixed(sliderElements.slidesContainer, 'transition', `transform ${settings.transitionSpeed}s ease`);
-
     calculateDimensions(); // Dimensions which determine movement amounts
     setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr);
     toggleControlsVisibility(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);

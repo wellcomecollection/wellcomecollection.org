@@ -123,8 +123,8 @@ $image-gallery-control-margin: 18px;
   .captioned-image__image-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    background: color('smoke');
+    justify-content: flex-end;
+    background: color('cream');
   }
 
   .captioned-image__caption {

@@ -86,6 +86,12 @@
   /* stylelint-enable plugin/selector-bem-pattern */
 }
 
+.captioned-image__number {
+  @include font('HNM5');
+  display: inline-block;
+  border-right: 1px solid color('keyline-grey');
+}
+
 .captioned-image__caption-text {
   float: left;
   width: calc(100% - 2.1em);
