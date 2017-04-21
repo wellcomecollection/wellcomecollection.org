@@ -5,7 +5,7 @@ import type {Picture} from './picture';
 import type {Chapter} from './chapter';
 import type {ContentType} from './content-type';
 import type {ArticleSeries} from "./series";
-import type {ArticleStub} from "./article-stub";
+import type {ArticleStub} from './article-stub';
 
 export type Promo = UiComponent & {
   url: string;
