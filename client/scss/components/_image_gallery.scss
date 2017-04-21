@@ -1,4 +1,7 @@
 //* @define image-gallery
+$image-gallery-control-size: 48px;
+$image-gallery-control-margin: 18px;
+
 .image-gallery {
   width: 100%;
   display: flex;
@@ -101,7 +104,7 @@
 }
 
 .image-gallery__slide-item {
-  opacity: 0.2;
+  opacity: 0.5;
   transition: opacity 0.7s ease;
   align-self: flex-start;
 
@@ -120,38 +123,44 @@
   .captioned-image__image-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    background: color('smoke');
+    justify-content: flex-end;
+    background: color('cream');
+  }
+
+  .captioned-image__caption {
+    position: relative;
+    opacity: 0;
+    z-index: 0;
+    transition: opacity 700ms ease;
+    width: calc(100vw - #{(map-get($container-padding, 'small') * 2)});
+
+    @include respond-to('medium') {
+      width: calc(100vw - (#{map-get($container-padding, 'medium')} * 2) - 12.5%);
+    }
+
+    @include respond-to('large') {
+      width: calc(((100vw - #{map-get($container-padding, 'large')}  * 2) / 12) * 10);
+    }
+
+    @include respond-to('xlarge') {
+      width: ($container-width-max / 12) * 7;
+    }
   }
 }
 
 .image-gallery__slide-item--current {
   opacity: 1;
+
+  .captioned-image__caption {
+    opacity: 1;
+    z-index: 1;
+  }
 }
 
 .image-gallery__slider-controls {
-  background: color('white');
-  min-height: 40px;
-  padding: $v-spacing-unit * 3 map-get($container-padding, 'small');
-  margin-bottom: $v-spacing-unit * 3;
-  margin-left: map-get($container-padding, 'small') * -1;
-  margin-right: map-get($container-padding, 'small') * -1;
-  text-align: right;
+  top: -190px;
+  position: relative;
 
-  @include respond-to('medium') {
-    margin-left: map-get($container-padding, 'medium') * -1;
-    margin-right: map-get($container-padding, 'medium') * -1;
-    padding-left: map-get($container-padding, 'medium');
-    padding-right: map-get($container-padding, 'medium');
-    text-align: left;
-  }
-
-  @include respond-to('large') {
-    margin-left: map-get($container-padding, 'large') * -1;
-    margin-right: map-get($container-padding, 'large') * -1;
-    padding-left: map-get($container-padding, 'large');
-    padding-right: map-get($container-padding, 'large');
-  }
   /* stylelint-disable plugin/selector-bem-pattern */
   .control-arrow {
     width: 20px;
@@ -163,28 +172,21 @@
 .image-gallery__slider-control--prev,
 .image-gallery__slider-control--next {
   background: color('white');
-  width: 48px;
-  height: 48px;
+  width: $image-gallery-control-size;
+  height: $image-gallery-control-size;
   line-height: 0;
-  padding: 0;
   border-radius: 50%;
   border: 2px solid color('silver');
   cursor: pointer;
   outline: none;
   overflow: hidden;
   position: relative;
-  // these left calculations are related to the gallery appearing in the article template
-  @include respond-to('medium') {
-    margin-left: 12.5%;
-  }
+  margin-left: calc(100% - (2 * #{$image-gallery-control-size} + #{$image-gallery-control-margin}));
 
-  @include respond-to('large') {
-    margin-left: 0;
-  }
-
+  // this calculation is related to the gallery appearing in the article template
   @include respond-to('xlarge') {
     margin-left: 50%;
-    left: (($container-width-max - (map-get($container-padding, 'large') * 2)) / 2) * (-5/6);
+    left: -(($container-width-max - (map-get($container-padding, 'large') * 2)) / 2) * (-5/6) - ((2 * $image-gallery-control-size) + $image-gallery-control-margin);
   }
 
   &:focus {
@@ -193,5 +195,5 @@
 }
 
 .image-gallery__slider-control--next {
-  margin-left: map-get($gutter-width , 'small') * 2;
+  margin-left: $image-gallery-control-margin;
 }

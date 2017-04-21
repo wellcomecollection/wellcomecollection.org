@@ -1,4 +1,5 @@
 import fromEvent from 'xstream/extra/fromEvent';
+import { onWindowResizeDebounce$ } from '../utils/dom-events';
 
 const truncateClass = 'captioned-image__caption-text--truncate';
 const moreText = '+ More';
@@ -18,7 +19,7 @@ const truncateText = (caption) => {
   const hasBeenEllipsified = (e) => {
     return (e.scrollWidth > e.offsetWidth);
   };
-  const createControl = (controlledElement) => {
+  const createControl = () => {
     const control = document.createElement('button');
     control.className = 'captioned-image__truncate-control';
     control.innerHTML = moreText;
@@ -39,6 +40,16 @@ const truncateText = (caption) => {
       }
     });
   }
+
+  onWindowResizeDebounce$.subscribe({
+    next() {
+      if (hasBeenEllipsified(caption)) {
+        truncateControl.classList.remove('is-hidden');
+      } else {
+        truncateControl.classList.add('is-hidden');
+      }
+    }
+  });
 };
 
 export default truncateText;

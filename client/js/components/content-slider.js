@@ -92,7 +92,6 @@ const contentSlider = (el, options) => {
 
     // Set transition style for slider
     setPropertyPrefixed(sliderElements.slidesContainer, 'transition', `transform ${settings.transitionSpeed}s ease`);
-
     calculateDimensions(); // Dimensions which determine movement amounts
     toggleControlsVisibility(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
     updatePosition(setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr) || positionIndex, positionArray);
@@ -371,6 +370,16 @@ const contentSlider = (el, options) => {
   // Handle click
   sliderElements.prevControl.addEventListener('click', prevSlide, true);
   sliderElements.nextControl.addEventListener('click', nextSlide, true);
+
+  nodeList(sliderElements.slideItems).forEach((item) => {
+    item.addEventListener('click', ({ target, currentTarget }) => {
+      // We only want to match clicks on the img, because clicks on the
+      // caption could be on the 'more/less' controls
+      if (!target.matches('img')) return;
+
+      updatePosition(parseInt(currentTarget.getAttribute(indexAttr), 10), positionArray);
+    });
+  });
 
   // Handle touch
   sliderTouch.on('swiperight', prevSlide);
