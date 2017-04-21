@@ -4,20 +4,42 @@
   margin-bottom: 2 * $vertical-space-unit;
   padding-bottom: 0.2rem;
 
-  &.author--border-bottom {
-    padding-bottom: 1.2rem;
-    border-bottom: 1px solid color('pumice');
-
-    @include respond-to('medium') {
-      padding-bottom: 1.5rem;
+  .grid--no-gutters & {
+    @include respond-to('large') {
+      padding-right: map-get($gutter-width, 'large');
     }
   }
+}
 
-  &.author--border-left {
-    padding-top: 0;
-    padding-left: 1.2rem;
-    border-left: 5px solid color('pumice');
+.author--border-bottom {
+  padding-bottom: 1.2rem;
+  position: relative;
+
+  @include respond-to('medium') {
+    padding-bottom: 1.5rem;
   }
+
+  &:after {
+    position: absolute;
+    content: '';
+    height: 1px;
+    background: color('pumice');
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    .grid--no-gutters & {
+      @include respond-to('large') {
+        right: map-get($gutter-width, 'large');
+      }
+    }
+  }
+}
+
+.author--border-left {
+  padding-top: 0;
+  padding-left: 1.2rem;
+  border-left: 5px solid color('pumice');
 }
 
 .author__upper {

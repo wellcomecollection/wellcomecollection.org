@@ -59,6 +59,7 @@
 }
 
 $narrow-width: (5/7) * 100%; // calculates the narrow column width as a percentage of the main column.
+$narrow-width-xlarge: (4/6) * 100%;
 $center-width-large: (6/7) * 100%; // calculates the halfway point of the container, as a percentage of the main column.
 $center-width-xlarge: (6/6) * 100%;
 
@@ -71,6 +72,10 @@ $center-width-xlarge: (6/6) * 100%;
     /* stylelint-disable declaration-no-important */
     top: 0 !important;
     /* stylelint-enable */
+  }
+
+  @include respond-to('large') {
+    padding-right: map-get($gutter-width, 'large');
   }
 }
 
@@ -87,7 +92,7 @@ $center-width-xlarge: (6/6) * 100%;
 
   @include respond-to('large') {
     left: $center-width-large;
-    margin-right: calc((#{$narrow-width} + #{map-get($gutter-width, 'large')})* -1);
+    margin-right: calc((#{$narrow-width} + #{map-get($gutter-width, 'large')}) * -1);
     background-color: color('cream');
     padding: 0 map-get($container-padding, 'large');
     padding-top: $vertical-space-unit;
@@ -106,16 +111,23 @@ $center-width-xlarge: (6/6) * 100%;
 
 .body-part--sticky {
   @include respond-to('large') {
+    padding-right: 0;
+
     @supports (width: calc(10px + 10px)) {
       float: right;
       clear: right;
-      width: #{$narrow-width};
-      margin-right: calc((#{$narrow-width} + #{map-get($gutter-width, 'large')} ) * -1);
+      width: $narrow-width;
+      margin-right: -$narrow-width;
 
       .author + .article &:first-child {
         margin-top: -$article-top-space;
       }
     }
+  }
+
+  @include respond-to('xlarge') {
+    width: $narrow-width-xlarge;
+    margin-right: -$narrow-width-xlarge;
   }
 }
 
