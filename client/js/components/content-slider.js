@@ -94,9 +94,8 @@ const contentSlider = (el, options) => {
     setPropertyPrefixed(sliderElements.slidesContainer, 'transition', `transform ${settings.transitionSpeed}s ease`);
 
     calculateDimensions(); // Dimensions which determine movement amounts
-    setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr);
     toggleControlsVisibility(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
-    updatePosition(positionIndex, positionArray);
+    updatePosition(setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr) || positionIndex, positionArray);
   }
 
   function calculateDimensions() { // Dimensions which determine movement amounts
@@ -172,18 +171,27 @@ const contentSlider = (el, options) => {
   function setSlideIndexes(widthArray, containerWidth, sliderElements, indexAttr) {
     let counter = 0;
     let start = 0;
+    let current;
     widthArray.reduce((acc, val, i) => {
+      const slide = sliderElements.slideItems[i];
       if (acc + val - start > containerWidth) {
         counter++;
         start = acc;
       }
       if (settings.sliderType === 'gallery') {
-        addAttrToElements(sliderElements.slideItems[i], indexAttr, i);
+        addAttrToElements(slide, indexAttr, i);
+        if (slide.hasAttribute('data-current')) {
+          current = i;
+        }
       } else {
-        addAttrToElements(sliderElements.slideItems[i], indexAttr, counter);
+        addAttrToElements(slide, indexAttr, counter);
+        if (slide.hasAttribute('data-current')) {
+          current = counter;
+        }
       }
       return acc + val;
     }, 0);
+    if (current !== undefined) return current;
   }
 
   function calculatePositionArrayByContainer(widthArray, slidesWidth, containerWidth) {
@@ -343,9 +351,8 @@ const contentSlider = (el, options) => {
 
   function onWidthChange() {
     calculateDimensions();
-    setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr);
     toggleControlsVisibility(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
-    updatePosition(positionIndex, positionArray);
+    updatePosition(setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr) || positionIndex, positionArray);
   }
 
   function getTrackingEvent(action, data) {
