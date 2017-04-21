@@ -1,9 +1,10 @@
 // @flow
 import {List} from 'immutable';
-import {type Promo, createPromo} from '../../../model/promo';
+import type {Promo} from '../../../model/promo';
+import type {Series} from "../../../model/series";
+import {createPromo} from '../../../model/promo';
 import {ArticleStubFactory} from '../../../model/article-stub';
 import mockJson from '../../../test/mocks/wp-api.json';
-import {type Series} from "../../../model/series";
 
 const article = ArticleStubFactory.fromWpApi(mockJson);
 export const name = 'Promo';

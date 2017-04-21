@@ -1,8 +1,9 @@
 // @flow
 import {List} from 'immutable';
 import request from 'superagent';
-import {type ArticleStub, ArticleStubFactory} from '../model/article-stub';
-import {type Series} from "../model/series";
+import type {ArticleStub} from '../model/article-stub';
+import type {Series} from "../model/series";
+import {ArticleStubFactory} from '../model/article-stub';
 import {ArticleFactory} from '../model/article';
 
 export type ArticleStubsResponse = {|
@@ -13,11 +14,12 @@ export type ArticleStubsResponse = {|
 
 const baseUri = 'https://public-api.wordpress.com/rest/v1.1/sites/blog.wellcomecollection.org';
 
-export async function getArticleStubs(size: number = 20, {page = 1, order = 'DESC'} = {}, q: string = ''): Promise<ArticleStubsResponse> {
+type WordpressQuery = {| page?: number; order? :string |};
+export async function getArticleStubs(size: number = 20, {page = 1, order = 'DESC'}: WordpressQuery = {}, q: string = ''): Promise<ArticleStubsResponse> {
   const uri = `${baseUri}/posts/`;
   const queryObj = constructQueryFromQueryString(q);
   const queryToWpQueryMap = { categories: 'category', tags: 'tag' };
-  const wpQueryObject = Object.keys(queryObj).reduce((acc, key) => {
+  const wpQueryObject = Object.keys(queryObj).reduce((acc, key: string) => {
     const newKey = queryToWpQueryMap[key] || key;
     return Object.assign({}, acc, {[newKey]: queryObj[key]});
   }, {});
@@ -51,7 +53,7 @@ export async function getArticle(id: string, authToken: ?string = null) {
 }
 
 
-export async function getSeries(id: string, size: number, {page = 1, order = 'ASC'} = {}): Promise<?Series> {
+export async function getSeries(id: string, size: number, {page = 1, order = 'ASC'}: WordpressQuery = {}): Promise<?Series> {
   const posts = await getArticleStubs(size, {page, order}, `categories:${id}`);
   const {total} = posts;
   const items = posts.data;

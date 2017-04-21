@@ -1,5 +1,5 @@
 // @flow
-import {type Person} from '../model/person';
+import type {Person} from '../model/person';
 
 export const russellDornan: Person = {
   givenName: 'Russell',

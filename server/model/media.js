@@ -1,5 +1,6 @@
 // @flow
-import {type Picture, createPicture} from '../model/picture';
+import type {Picture} from '../model/picture';
+import {createPicture} from '../model/picture';
 
 export function getWpFeaturedImage(uri: string, images: Object): ?Picture {
   const i = findWpFeaturedImage(uri, images);

@@ -1,5 +1,5 @@
 // @flow
-import {type Picture} from './picture';
+import type {Picture} from './picture';
 export type Video = {|
   type: 'video';
   embedUrl: string;

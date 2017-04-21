@@ -1,8 +1,7 @@
-// @flow
 import {createPageConfig} from '../model/page-config';
 import {getCatalogueItem} from '../services/wellcomecollection-api';
 
-export async function catalogueItem(ctx, next) {
+export const catalogueItem = async(ctx, next) => {
   const id = ctx.params.id;
   const item = await getCatalogueItem(id);
 
@@ -15,4 +14,4 @@ export async function catalogueItem(ctx, next) {
   });
 
   return next();
-}
+};

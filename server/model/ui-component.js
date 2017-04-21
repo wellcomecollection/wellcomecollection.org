@@ -1,6 +1,6 @@
 // @flow
 // type: ui-component
-import {type Weight} from "./weight";
+import type {Weight} from './weight';
 
 // Annoyingly exact object intersetion is not supported, so UiComponents will have to remain inexact
 // for now.

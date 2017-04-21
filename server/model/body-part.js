@@ -1,5 +1,5 @@
 // @flow
-import {type Weight} from './weight';
+import type {Weight} from './weight';
 
 export type BodyPart = {|
   weight: Weight;

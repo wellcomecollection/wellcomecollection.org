@@ -2,7 +2,7 @@
 import {PromoFactory} from '../model/promo';
 import {createPageConfig} from '../model/page-config';
 import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
-import {type Series, getForwardFill, getUnpublishedSeries} from '../model/series';
+import type {Series, getForwardFill, getUnpublishedSeries} from '../model/series';
 import { getSeriesColor } from '../data/series';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';

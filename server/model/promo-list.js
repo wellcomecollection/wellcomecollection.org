@@ -1,8 +1,9 @@
 // @flow
 // type: ui-component
 import {List} from 'immutable';
-import {type Promo, PromoFactory} from './promo';
-import {type Series} from './series';
+import type {Promo} from './promo';
+import type {Series} from './series';
+import {PromoFactory} from './promo';
 
 type PromoList = {|
   name: string;
