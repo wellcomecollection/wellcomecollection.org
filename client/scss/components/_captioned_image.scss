@@ -94,7 +94,6 @@
 
 .captioned-image__caption-text {
   float: left;
-  width: calc(100% - 2.1em);
   overflow: hidden;
   padding-right: map-get($gutter-width , 'small');
 

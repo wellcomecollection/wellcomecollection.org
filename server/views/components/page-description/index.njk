@@ -3,6 +3,9 @@
     <div class="container page-description__container">
       <div class="grid">
         <div class="grid__cell grid__cell--s4 grid__cell--m6 grid__cell--shift-m1 {{ 'grid__cell--shift-l1 grid__cell--l11 grid__cell--xl10' if model.lead else 'grid__cell--l12 grid__cell--xl11' }}">
+          {% if model.intro %}
+            <span class="page-description__intro {{ {s:1, m:1, l:2} | spacingClasses({margin: ['bottom']}) }}">{{ model.intro }}</span>
+          {% endif %}
           <h1 class="page-description__title">
             {% if data.icon %}{% icon data.icon %}{% endif %}
             {{ model.title }}

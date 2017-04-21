@@ -12,6 +12,20 @@
   @include visually-hidden();
 }
 
+.page-description__intro {
+  display: block;
+
+  @include font('WB7');
+
+  @include respond-to('medium') {
+    @include font('WB6');
+  }
+
+  @include respond-to('large') {
+    @include font('WB5');
+  }
+}
+
 .page-description__title {
   margin-top: 0;
   margin-bottom: 0;
@@ -60,13 +74,6 @@
   @include respond-to('large') {
     padding-top: 5 * $v-spacing-unit;
   }
-}
-
-.page-description__intro {
-  @include font('HNL5');
-  display: block;
-  color: color('seaweed');
-  margin-bottom: 0.4em;
 }
 
 .page-description__subtext {

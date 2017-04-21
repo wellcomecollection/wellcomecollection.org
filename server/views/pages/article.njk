@@ -16,7 +16,7 @@
     {% endif %}
   {% endfor %}
 {% endblock %}
-{% componentV2 'page-description', {title: article.headline, meta: {type: 'date', value: article.datePublished}, lead: true}, {'a': true}, {icon: article.contentType | getIconForContentType} %}
+{% componentV2 'page-description', {intro: article.headlineIntro, title: article.headline, meta: {type: 'date', value: article.datePublished}, lead: true}, {'a': true}, {icon: article.contentType | getIconForContentType} %}
 
 {% set mainMediaData = {
   contentType: article.contentType,
