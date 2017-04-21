@@ -6,10 +6,12 @@ export const handle = 'explore-landing-template';
 
 const seriesArticlePromo = promoVariants.find(v => v.name === 'series-article').context.promo;
 const standaloneArticlePromo = promoVariants.find(v => v.name === 'standalone').context.promo;
+const comicPromo = promoVariants.find(v => v.name === 'comic').context.promo;
 
 export const context = {
   promo,
   seriesArticlePromo,
   standaloneArticlePromo,
+  comicPromo,
   numberedList
 };
