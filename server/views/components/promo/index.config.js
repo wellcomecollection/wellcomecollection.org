@@ -14,7 +14,8 @@ export const promo = createPromo(({
   contentType: 'article',
   image: article.thumbnail,
   title: article.headline,
-  url: article.url
+  url: article.url,
+  description: article.description
 }: Promo));
 
 export const context = { promo };
@@ -33,7 +34,7 @@ const promoWithSeries = Object.assign({}, promo, {series: [series], positionInSe
 export const variants = [
   {
     name: 'series-article',
-    context: {promo: Object.assign({}, promo, {modifiers: ['series']}, {contentType: 'series'})}
+    context: {promo: Object.assign({}, promoWithSeries, {modifiers: ['series']}, {contentType: 'series'})}
   },
   {
     name: 'gallery',
@@ -49,7 +50,7 @@ export const variants = [
   },
   {
     name: 'comic',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined']}, {contentType: 'comic'})}
+    context: {promo: Object.assign({}, promo, {contentType: 'comic'})}
   },
   {
     name: 'standalone',
