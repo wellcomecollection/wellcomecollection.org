@@ -22,13 +22,13 @@ export const context = { promo };
 const series: Series = {
   url: '/series/electricity',
   name: 'Electricity',
-  total: 5,
+  commissionedLength: 5,
   color: 'purple',
   // $FlowFixMe for the items
   items: List([1,2,3,4,5])
 };
 
-const promoWithSeries = Object.assign({}, promo, {series, positionInSeries: 3});
+const promoWithSeries = Object.assign({}, promo, {series: [series], positionInSeries: 3});
 
 export const variants = [
   {
@@ -46,6 +46,10 @@ export const variants = [
   {
     name: 'video',
     context: {promo: Object.assign({}, promo, {modifiers: ['underlined']}, { contentType: 'video', length: '01:35' })}
+  },
+  {
+    name: 'comic',
+    context: {promo: Object.assign({}, promo, {modifiers: ['underlined']}, {contentType: 'comic'})}
   },
   {
     name: 'standalone',
