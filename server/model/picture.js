@@ -7,6 +7,7 @@ export type Picture = {|
   fileType?: string;
   caption?: string;
   alt?: string;
+  description?: string;
   author?: string;
   copyrightHolder?: string;
   fileFormat?: string;

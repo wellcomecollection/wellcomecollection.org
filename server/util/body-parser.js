@@ -76,7 +76,6 @@ function decodeHtmlEntities(nodes) {
   });
 }
 
-
 function unwrapFromEm(node) {
   const firstChild = node.childNodes && node.childNodes[0];
 
@@ -138,13 +137,13 @@ function splitBlockquote(blockquote) {
       .replace(tagsRegex, '');
 
       const body = `${wrapper.open}${quote}${wrapper.close}`;
-      const footer = citation.length > 1 ? `<footer class="quote__footer"><cite class="quote__cite">${citation}</cite></footer>`: null;
+      const footer = citation.length > 1 ? `<footer class="quote__footer"><cite class="quote__cite">${citation}</cite></footer>` : null;
 
       return { body, footer };
-    } catch(err) {
+    } catch (err) {
       return {
         body: blockquote
-      }
+      };
     }
   } else {
     return {
@@ -210,7 +209,7 @@ export function convertWpVideo(node) {
   if (isWpVideo) {
     const iframe = maybeSpan.childNodes[0];
     const embedUrl = getAttrVal(iframe.attrs, 'src');
-    const youtubeId = embedUrl.match(/embed\/[^\?](.*)\?/)[1];
+    const youtubeId = embedUrl.match(/embed\/[^?](.*)\?/)[1];
     const posterImage: Picture = {
       type: 'picture',
       contentUrl: `https://i3.ytimg.com/vi/${youtubeId}/hqdefault.jpg`,
@@ -324,7 +323,7 @@ export function findWpImageGallery(node) {
           items: images
         })
       });
-    } catch(e) {
+    } catch (e) {
       return node;
     }
   } else {
@@ -342,8 +341,9 @@ function getImageFromWpNode(node) {
     node.attrs && getAttrVal(node.attrs, 'class') === 'wp-caption-text'
   );
   const alt = getAttrVal(img.attrs, 'alt');
+  const description = getAttrVal(img.attrs, 'data-image-description');
 
-  if(!getAttrVal(img.attrs, 'data-orig-file')) {
+  if (!getAttrVal(img.attrs, 'data-orig-file')) {
     console.log(img);
   }
   // We need to lookup the src for images that aren't from the Wellcome Collection Wordpress
@@ -360,6 +360,7 @@ function getImageFromWpNode(node) {
     contentUrl,
     caption,
     alt,
+    description,
     url: href,
     width: parseInt(width, 10),
     height: parseInt(height, 10)
