@@ -341,6 +341,7 @@ function getImageFromWpNode(node) {
   const captionNode = node.childNodes.find(node =>
     node.attrs && getAttrVal(node.attrs, 'class') === 'wp-caption-text'
   );
+  const alt = getAttrVal(img.attrs, 'alt');
 
   if(!getAttrVal(img.attrs, 'data-orig-file')) {
     console.log(img);
@@ -358,6 +359,7 @@ function getImageFromWpNode(node) {
     type: 'picture',
     contentUrl,
     caption,
+    alt,
     url: href,
     width: parseInt(width, 10),
     height: parseInt(height, 10)
