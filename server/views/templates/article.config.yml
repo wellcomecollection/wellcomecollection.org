@@ -18,6 +18,7 @@ context:
     url: '#'
     series: []
   article:
+    contentType: 'article'
     headline: How cultural contexts can shape mental illness
     tags: "@tags.tags"
     author: "@author"

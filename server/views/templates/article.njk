@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block articleBody %}
-  {% component 'article-body', { articleBody: article.articleBody } %}
+  {% component 'article-body', { articleBody: article.articleBody, contentType: article.contentType } %}
 {% endblock %}
 
 

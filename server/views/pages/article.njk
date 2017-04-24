@@ -42,7 +42,7 @@
 
         <div class="article">
           {% block articleBody %}
-            {% component 'article-body', { articleBody: article.bodyParts } %}
+            {% component 'article-body', {articleBody: article.bodyParts, contentType: article.contentType} %}
           {% endblock %}
 
           {% if article.author %}

@@ -41,7 +41,6 @@ export class ArticleFactory {
     const url = `/articles/${json.slug}`; // TODO: this should be discoverable, not hard coded
     const articleBody = json.content;
     const contentType = json.format === 'standard' ? 'article' : json.format;
-
     const bodyPartsRaw = bodyParser(articleBody);
     const standfirst = bodyPartsRaw.find(part => part.type === 'standfirst');
 
