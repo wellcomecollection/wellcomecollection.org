@@ -38,6 +38,18 @@
   }
 }
 
+.captioned-image--comic {
+  @include respond-to('large') {
+    background: color('black');
+
+    .image {
+      max-height: 100vh;
+      width: auto;
+      margin: 0 auto;
+    }
+  }
+}
+
 .captioned-image__image-container {
   position: relative;
 }

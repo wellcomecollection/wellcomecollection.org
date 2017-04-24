@@ -24,7 +24,7 @@
   series: article.series | getCommissionedSeries
 } %}
 
-{% componentV2 'main-media', article.mainMedia | getPrincipleMainMedia, {'full': true}, mainMediaData %}
+{% componentV2 'main-media', article.mainMedia | getPrincipleMainMedia, {'full': true, 'comic': article.contentType === 'comic'}, mainMediaData %}
 
 <div class="row row--cream {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top', 'bottom']}) }} ">
   <div class="container">
