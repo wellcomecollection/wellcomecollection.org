@@ -1,0 +1,12 @@
+{
+  "parser": "babel-eslint",
+  "plugins": [
+    "flowtype",
+    "import"
+  ],
+  "extends": ["wellcome"],
+  "rules": {
+    "no-duplicate-imports": "off",
+    "import/no-duplicates": "error"
+  }
+}

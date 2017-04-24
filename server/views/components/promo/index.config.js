@@ -1,8 +1,8 @@
 // @flow
 import {List} from 'immutable';
 import type {Promo} from '../../../model/promo';
-import type {Series} from "../../../model/series";
 import {createPromo} from '../../../model/promo';
+import type {Series} from '../../../model/series';
 import {ArticleStubFactory} from '../../../model/article-stub';
 import mockJson from '../../../test/mocks/wp-api.json';
 
@@ -27,7 +27,7 @@ const commissionedSeries: Series = {
   commissionedLength: 5,
   color: 'purple',
   // $FlowFixMe for the items
-  items: List([1,2,3,4,5])
+  items: List([{}, {}, {}])
 };
 const namedSeries: Series = Object.assign({}, commissionedSeries, {name: 'Body Squabbles'});
 
