@@ -30,6 +30,7 @@
     {% endfor %}
 
     {% if promo.series %}
+      {% set seriesTitle = promo.series | getSeriesTitle %}
       {% set commissionedSeries = promo.series | getCommissionedSeries %}
       {% if commissionedSeries and promo.positionInSeries %}
         <img class="image promo__image-mask {{'promo__clip-path--chapters-half' if promo.modifiers and promo.modifiers | contains('standalone') else 'promo__clip-path--chapters-third'}}" src="{{ promo.image.contentUrl }}?w=600" alt="" />
@@ -62,6 +63,8 @@
                   <span class="promo__type" aria-hidden="true">
                     {% if commissionedSeries and promo.positionInSeries %}
                       {{ commissionedSeries.name }}: Part {{ promo.positionInSeries }}
+                    {% elif seriesTitle %}
+                      {{ seriesTitle }}
                     {% else %}
                       {{ promo.contentType }}
                     {% endif %}

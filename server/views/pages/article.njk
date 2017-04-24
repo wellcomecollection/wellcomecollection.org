@@ -16,12 +16,19 @@
     {% endif %}
   {% endfor %}
 {% endblock %}
-{% componentV2 'page-description', {intro: article.headlineIntro, title: article.headline, meta: {type: 'date', value: article.datePublished}, lead: true}, {'a': true}, {icon: article.contentType | getIconForContentType} %}
+
+{% set commissionedSeries = article.series | getCommissionedSeries %}
+{% set seriesTitle = article.series | getSeriesTitle %}
+{% if commissionedSeries %}
+  {% set seriesTitle = null %}
+{% endif %}
+
+{% componentV2 'page-description', {intro: seriesTitle, title: article.headline, meta: {type: 'date', value: article.datePublished}, lead: true}, {'a': true}, {icon: article.contentType | getIconForContentType} %}
 
 {% set mainMediaData = {
   contentType: article.contentType,
   positionInSeries: article.positionInSeries,
-  series: article.series | getCommissionedSeries
+  series: commissionedSeries
 } %}
 
 {% componentV2 'main-media', article.mainMedia | getPrincipleMainMedia, {'full': true, 'comic': article.contentType === 'comic'}, mainMediaData %}

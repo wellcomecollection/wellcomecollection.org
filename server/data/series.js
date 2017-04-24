@@ -19,6 +19,17 @@ export function getSeriesCommissionedLength(seriesUrl: string): ?number {
 
 export const series = List([
   ({
+    url: 'body-squabbles',
+    name: 'Body Squabbles',
+    items: List([
+      ({
+        contentType: 'comic',
+        headline: 'Demodicid Navigation',
+        url: ''
+      }: ArticleStub)
+    ])
+  }: Series),
+  ({
     url: 'electric-sublime',
     name: 'Electric Sublime',
     commissionedLength: getSeriesCommissionedLength('electric-sublime'),
