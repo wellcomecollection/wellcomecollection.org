@@ -6,6 +6,7 @@ export type Picture = {|
   height: number;
   fileType?: string;
   caption?: string;
+  alt?: string;
   author?: string;
   copyrightHolder?: string;
   fileFormat?: string;

@@ -14,12 +14,13 @@
     {% if model.caption %}
       <figcaption class="captioned-image__caption">
         {% icon 'other/picture' %}
-        {#TODO: data.license?#}
+
         {% if data.contentType === 'comic' %}
           {% icon 'other/cc' %}
           {% icon 'other/cc_money' %}
           {% icon 'other/cc_person' %}
         {% endif %}
+
         <div class="captioned-image__caption-text" tabindex="0">
           {% if data.slideNumbers %}
             <span class="captioned-image__number {{ {s:2, m:2, l:2} | spacingClasses({padding: ['right']}) }}"
@@ -27,7 +28,7 @@
               <span aria-hidden="true">{{ data.slideNumbers.current }}/{{ data.slideNumbers.total }}</span>
             </span>
           {% endif %}
-          {{ model.caption }}
+          {{ model.caption | safe }}
         </div>
       </figcaption>
     {% else %}

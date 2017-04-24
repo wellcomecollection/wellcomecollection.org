@@ -1,5 +1,6 @@
 {% set sizes = model | getImageSizesFor %}
 {% set comma = joiner() %}
+
 <img data-width="{{model.width}}" data-height="{{model.height}}" class="image{{ ' lazyload' if data.lazyload }} {{ 'image--clip-mask' if data.clipMask }}"
 src="{{ model.contentUrl }}?w={{ sizes[0] }}"
 data-srcset="
@@ -9,4 +10,4 @@ data-srcset="
 {% if data.sizesQueries %}
   sizes="{{ data.sizesQueries }}"
 {% endif %}
-alt="{{ model.caption | striptags() if model.caption }}" />
+alt="{% if model.alt %} {{ model.alt | striptags() }}{% elif model.caption %} {{ model.caption | striptags() }}{% endif %}" />

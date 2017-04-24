@@ -221,7 +221,8 @@ variants:
         mainMedia:
         - contentUrl: "https://placehold.it/900x900"
           type: 'picture'
-          caption: "CC-BY-NC 4.0"
+          caption: "<a href='https://creativecommons.org/licenses/by-nc/4.0/'>CC-BY-NC 4.0</a>"
+          alt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at volutpat erat. Quisque non eros viverra, tincidunt mi a, interdum libero. Vestibulum efficitur ex sed est interdum, ac placerat enim blandit. Phasellus sodales velit non est bibendum tincidunt. Phasellus ut ligula at velit congue lobortis. Fusce at suscipit purus, ac tincidunt orci.'
           width: 1600
           height: 900
         articleBody:
