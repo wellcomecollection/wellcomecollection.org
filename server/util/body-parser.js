@@ -341,7 +341,7 @@ function getImageFromWpNode(node) {
     node.attrs && getAttrVal(node.attrs, 'class') === 'wp-caption-text'
   );
   const alt = getAttrVal(img.attrs, 'alt');
-  const description = getAttrVal(img.attrs, 'data-image-description');
+  const copyright = getAttrVal(img.attrs, 'data-image-description');
 
   if (!getAttrVal(img.attrs, 'data-orig-file')) {
     console.log(img);
@@ -360,7 +360,7 @@ function getImageFromWpNode(node) {
     contentUrl,
     caption,
     alt,
-    description,
+    copyright,
     url: href,
     width: parseInt(width, 10),
     height: parseInt(height, 10)

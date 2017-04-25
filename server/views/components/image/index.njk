@@ -10,7 +10,7 @@ data-srcset="
 {% if data.sizesQueries %}
   sizes="{{ data.sizesQueries }}"
 {% endif %}
-{% if model.description %}
-  data-description="{{ model.description }}"
+{% if model.copyright %}
+  data-copyright="{{ model.copyright }}"
 {% endif %}
 alt="{% if model.alt %} {{ model.alt | striptags() }}{% elif model.caption %} {{ model.caption | striptags() }}{% endif %}" />
