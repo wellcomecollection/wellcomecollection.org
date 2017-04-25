@@ -12,6 +12,10 @@ resource "aws_alb" "wellcomecollection_alb" {
     "${aws_security_group.node_app_port.id}",
     "${aws_security_group.docker.id}"
   ]
+  access_logs {
+    bucket = "wellcomecollection-logs"
+    prefix = "dotorg-alb"
+  }
 }
 
 resource "aws_alb_target_group" "wellcomecollection" {
