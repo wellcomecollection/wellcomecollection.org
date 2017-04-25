@@ -7,7 +7,7 @@ export const wpImageNodeHtml = `
         <p class="wp-caption-text">The typical canon-ball shaped plum pudding pictured as the grand finale of the British Christmas feast.</p>
     </div>`.trim();
 
-export const wpVideoNodeHtml = `<p><span class=\"embed-youtube\" style=\"text-align:center; display: block;\"><iframe class='youtube-player' type='text/html' width='640' height='390' src='https://www.youtube.com/embed/bfXAlqx0H1g?version=3&#038;rel=1&#038;fs=1&#038;autohide=2&#038;showsearch=0&#038;showinfo=1&#038;iv_load_policy=1&#038;wmode=transparent' allowfullscreen='true' style='border:0;'></iframe></span></p>`;
+export const wpVideoNodeHtml = `<p><span class="embed-youtube" style="text-align:center; display: block;"><iframe class='youtube-player' type='text/html' width='640' height='390' src='https://www.youtube.com/embed/bfXAlqx0H1g?version=3&#038;rel=1&#038;fs=1&#038;autohide=2&#038;showsearch=0&#038;showinfo=1&#038;iv_load_policy=1&#038;wmode=transparent' allowfullscreen='true' style='border:0;'></iframe></span></p>`;
 
 export const domNodeHtml = `<p>We recently held a weekend of hands-on creative activities and thoughtful conversations exploring how we communicate through posture, gesture and facial expression. One of these activities included re-animating a film from Wellcome’s archive of moving images, featuring a range of body language. Dan Brown from Mash Cinema tells us more.  When I was asked to develop a [&hellip;]</p>`;
 

@@ -5,5 +5,5 @@ export type ImageGallery = {|
 |}
 
 export function createImageGallery(data: ImageGallery) {
-  return (data: ImageGallery)
+  return (data: ImageGallery);
 }

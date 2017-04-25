@@ -6,6 +6,7 @@
   ],
   "extends": ["wellcome"],
   "rules": {
+    "no-multi-str": "off",
     "no-duplicate-imports": "off",
     "import/no-duplicates": "error"
   }

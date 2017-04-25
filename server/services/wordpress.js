@@ -2,7 +2,7 @@
 import {List} from 'immutable';
 import request from 'superagent';
 import type {ArticleStub} from '../model/article-stub';
-import type {Series} from "../model/series";
+import type {Series} from '../model/series';
 import {ArticleStubFactory} from '../model/article-stub';
 import {ArticleFactory} from '../model/article';
 
@@ -51,7 +51,6 @@ export async function getArticle(id: string, authToken: ?string = null) {
     return ArticleFactory.fromWpApi(response.body);
   }
 }
-
 
 export async function getSeries(id: string, size: number, {page = 1, order = 'ASC'}: WordpressQuery = {}): Promise<?Series> {
   const posts = await getArticleStubs(size, {page, order}, `categories:${id}`);

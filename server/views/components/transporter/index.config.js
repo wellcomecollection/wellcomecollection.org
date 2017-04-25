@@ -8,7 +8,6 @@ export const name = 'Transporter';
 export const handle = 'transporter';
 export const collated = true;
 
-const articleWithoutDescription = Object.assign({}, article, {description: ''});
 const promo = createPromo({
   contentType: 'article',
   modifiers: ['transporter-child'],
