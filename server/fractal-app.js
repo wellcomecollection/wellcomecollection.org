@@ -24,7 +24,7 @@ const nunjucks = Nunjucks({
 });
 fractal.components.engine(nunjucks);
 
-fractal.set('project.title', 'Cardigan');
+fractal.set('project.title', 'pattern library');
 
 fractal.components.set('path', root);
 fractal.components.set('default.status', 'wip');
@@ -39,7 +39,8 @@ const cardiganTheme = mandelbrot({
   skin: "navy",
   styles: ['default', '/cardigan-theme/tweaks.css']
 });
-
+cardiganTheme.addLoadPath(`${__dirname}/cardigan-theme`);
+cardiganTheme.addLoadPath(`${__dirname}/views`);
 cardiganTheme.addStatic(path.join(__dirname, '/cardigan-theme'), '/cardigan-theme');
 
 fractal.web.theme(cardiganTheme);
