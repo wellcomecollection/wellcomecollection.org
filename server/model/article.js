@@ -4,6 +4,7 @@ import {List} from 'immutable';
 import type {Person} from './person';
 import type {Picture} from './picture';
 import type {ContentType} from './content-type';
+import { getContentType } from './content-type';
 import type {Video} from './video';
 import type {ArticleSeries} from './series';
 import {getSeriesCommissionedLength, getSeriesColor, getPositionInSeries} from '../data/series';
@@ -33,14 +34,12 @@ export type Article = {|
   positionInSeries?: ?number;
 |}
 
-function createArticle(data: Article) { return (data: Article); }
-
 export class ArticleFactory {
   static fromWpApi(json): Article {
     const positionInSeries = getPositionInSeries(json.tags);
     const url = `/articles/${json.slug}`; // TODO: this should be discoverable, not hard coded
     const articleBody = json.content;
-    const contentType = json.format === 'standard' ? 'article' : json.format;
+    const contentType = getContentType(json.format);
     const bodyPartsRaw = bodyParser(articleBody);
     const standfirst = bodyPartsRaw.find(part => part.type === 'standfirst');
 
