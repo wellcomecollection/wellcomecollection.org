@@ -5,11 +5,13 @@ export type Picture = {|
   width: number;
   height: number;
   fileType?: string;
-  caption?: string;
+  caption?: ?string;
+  alt?: ?string;
+  copyright?: ?string;
   author?: string;
   copyrightHolder?: string;
   fileFormat?: string;
-  url?: string;
+  url?: ?string;
 |}
 
 export function createPicture(data: Picture): Picture {

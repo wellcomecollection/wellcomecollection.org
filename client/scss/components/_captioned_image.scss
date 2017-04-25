@@ -38,6 +38,18 @@
   }
 }
 
+.captioned-image--comic {
+  @include respond-to('large') {
+    background: color('black');
+
+    .image {
+      max-height: 100vh;
+      width: auto;
+      margin: 0 auto;
+    }
+  }
+}
+
 .captioned-image__image-container {
   position: relative;
 }
@@ -93,8 +105,6 @@
 }
 
 .captioned-image__caption-text {
-  float: left;
-  width: calc(100% - 2.1em);
   overflow: hidden;
   padding-right: map-get($gutter-width , 'small');
 

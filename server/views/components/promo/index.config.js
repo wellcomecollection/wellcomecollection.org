@@ -1,8 +1,8 @@
 // @flow
 import {List} from 'immutable';
 import type {Promo} from '../../../model/promo';
-import type {Series} from "../../../model/series";
 import {createPromo} from '../../../model/promo';
+import type {Series} from '../../../model/series';
 import {ArticleStubFactory} from '../../../model/article-stub';
 import mockJson from '../../../test/mocks/wp-api.json';
 
@@ -21,21 +21,23 @@ export const promo = createPromo(({
 
 export const context = { promo };
 
-const series: Series = {
+const commissionedSeries: Series = {
   url: '/series/electricity',
   name: 'Electricity',
   commissionedLength: 5,
   color: 'purple',
   // $FlowFixMe for the items
-  items: List([1,2,3,4,5])
+  items: List([{}, {}, {}])
 };
+const namedSeries: Series = Object.assign({}, commissionedSeries, {name: 'Body Squabbles'});
 
-const promoWithSeries = Object.assign({}, promo, {series: [series], positionInSeries: 3});
+const promoWithCommissionedSeries = Object.assign({}, promo, {series: [commissionedSeries], positionInSeries: 3});
+const promoWithNamedSeries = Object.assign({}, promo, {series: [namedSeries]});
 
 export const variants = [
   {
     name: 'series-article',
-    context: {promo: Object.assign({}, promoWithSeries, {modifiers: ['series']}, {contentType: 'series'})}
+    context: {promo: Object.assign({}, promoWithCommissionedSeries, {modifiers: ['series']}, {contentType: 'series'})}
   },
   {
     name: 'gallery',
@@ -51,7 +53,7 @@ export const variants = [
   },
   {
     name: 'comic',
-    context: {promo: Object.assign({}, promo, {contentType: 'comic'})}
+    context: {promo: Object.assign({}, promoWithNamedSeries, {contentType: 'comic'})}
   },
   {
     name: 'standalone',
@@ -67,10 +69,10 @@ export const variants = [
   },
   {
     name: 'with-chapters',
-    context: {promo: Object.assign({}, promoWithSeries, {contentType: 'article', weight: 'lead'})}
+    context: {promo: Object.assign({}, promoWithCommissionedSeries, {contentType: 'article', weight: 'lead'})}
   },
   {
     name: 'standalone-with-chapters',
-    context: {promo: Object.assign({}, promoWithSeries, {contentType: 'article', weight: 'lead'}, {modifiers: ['standalone']})}
+    context: {promo: Object.assign({}, promoWithCommissionedSeries, {contentType: 'article', weight: 'lead'}, {modifiers: ['standalone']})}
   }
 ];

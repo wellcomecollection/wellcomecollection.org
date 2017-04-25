@@ -16,15 +16,22 @@
     {% endif %}
   {% endfor %}
 {% endblock %}
-{% componentV2 'page-description', {title: article.headline, meta: {type: 'date', value: article.datePublished}, lead: true}, {'a': true}, {icon: article.contentType | getIconForContentType} %}
+
+{% set commissionedSeries = article.series | getCommissionedSeries %}
+{% set seriesTitle = article.series | getSeriesTitle %}
+{% if commissionedSeries %}
+  {% set seriesTitle = null %}
+{% endif %}
+
+{% componentV2 'page-description', {intro: seriesTitle, title: article.headline, meta: {type: 'date', value: article.datePublished}, lead: true}, {'a': true}, {icon: article.contentType | getIconForContentType} %}
 
 {% set mainMediaData = {
   contentType: article.contentType,
   positionInSeries: article.positionInSeries,
-  series: article.series | getCommissionedSeries
+  series: commissionedSeries
 } %}
 
-{% componentV2 'main-media', article.mainMedia | getPrincipleMainMedia, {'full': true}, mainMediaData %}
+{% componentV2 'main-media', article.mainMedia | getPrincipleMainMedia, {'full': true, 'comic': article.contentType === 'comic'}, mainMediaData %}
 
 <div class="row row--cream {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top', 'bottom']}) }} ">
   <div class="container">
@@ -42,7 +49,7 @@
 
         <div class="article">
           {% block articleBody %}
-            {% component 'article-body', { articleBody: article.bodyParts } %}
+            {% component 'article-body', {articleBody: article.bodyParts, contentType: article.contentType} %}
           {% endblock %}
 
           {% if article.author %}

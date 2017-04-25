@@ -9,7 +9,7 @@ const hash = require('gulp-hash');
 const clean = require('gulp-clean');
 const webpackConfig = require('./webpack.config.js');
 const eslint = require('gulp-eslint');
-const eslintConfig = require('./.eslintrc.json');
+const eslintConfig = require('../.eslintrc.json');
 const devMode = gutil.env.dev;
 
 const sources = {

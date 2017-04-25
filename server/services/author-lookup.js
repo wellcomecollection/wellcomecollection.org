@@ -20,5 +20,6 @@ export const authorMap: { [key: string]: Person } = {
   'the-phenomenal-dr-price': people.sarahBentley,
   'varieties-of-love': people.sarahJaffray,
   'the-ladies-of-llangollen': people.sarahBentley,
-  'queer-territory-claude-cahun-and-a-land-without-labels': people.sarahJaffray
+  'queer-territory-claude-cahun-and-a-land-without-labels': people.sarahJaffray,
+  'demodicid-navigation': people.robBidder
 };

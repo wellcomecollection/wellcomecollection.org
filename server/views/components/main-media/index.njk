@@ -4,17 +4,15 @@
     {% if data.contentType === 'article' %}
       {% component 'wobbly-edge', {background: 'cream'} %}
     {% endif %}
-    {% if model.caption %}
-      <div class="row row--cream">
-        <div class="container">
-          <div class="grid">
-            <div class="{{ {m:6, xl:10, shiftM:1, shiftXl:1} | gridClasses }}">
-              {{ super() }}
-            </div>
+    <div class="row row--cream">
+      <div class="container">
+        <div class="grid">
+          <div class="{{ {m:6, xl:10, shiftM:1, shiftXl:1} | gridClasses }}">
+            {{ super() }}
           </div>
         </div>
       </div>
-    {% endif %}
+    </div>
   {% endblock %}
 {% elif model.type === 'video' %}
   <div class="row row--dark-black {{ {s:4, m:8, l:10} | spacingClasses({padding: ['top', 'bottom']}) }}">
