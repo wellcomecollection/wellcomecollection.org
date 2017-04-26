@@ -47,7 +47,7 @@ const sources = {
   }
 };
 
-gulp.task('fonts:copy', function() {
+gulp.task('fonts:copy', () => {
   gulp.src(sources.fonts.srcPath)
     .pipe(gulp.dest(sources.fonts.distPath));
 });
@@ -62,18 +62,18 @@ gulp.task('icons:copy', () => {
     .pipe(gulp.dest(sources.icons.distPath));
 });
 
-gulp.task('libs:copy', function() {
+gulp.task('libs:copy', () => {
   gulp.src(sources.libs.srcPath)
     .pipe(gulp.dest(sources.libs.distPath));
 });
 
 // TODO move paths to vars
-gulp.task('css:clean', function () {
+gulp.task('css:clean', () => {
   return gulp.src('../dist/assets/css/')
     .pipe(clean({force: true}));
 });
 
-gulp.task('js:clean', function () {
+gulp.task('js:clean', () => {
   return gulp.src(['../dist/assets/js/', '!../dist/assets/js/libs/'])
     .pipe(clean({force: true}));
 });
@@ -99,7 +99,7 @@ gulp.task('scss:compile', ['css:clean'], () => {
 gulp.task('js:compile', ['js:clean'], () => {
   return gulp.src(sources.js.entry)
     .pipe(webpack(webpackConfig))
-    .on('error', function(err) {
+    .on('error', (err) => {
       console.log(err.toString());
       // Allows the stream to continue, thus not breaking watch§
       this.emit('end');

@@ -67,11 +67,10 @@ export const shopOpeningHours: OpeningHours = [
   {dayOfWeek: 'Sunday',    opens: '11:00', closes: '18:00'}
 ];
 
-
 export const defaultPlacesOpeningHours: PlacesOpeningHours = [
   createPlace({id: 'galleries', name: 'Galleries', openingHours: galleryOpeningHours}),
   createPlace({id: 'library', name: 'Library', openingHours: libraryOpeningHours}),
   createPlace({id: 'restaurant', name: 'Restaurant', openingHours: restaurantOpeningHours}),
   createPlace({id: 'café', name: 'Café', openingHours: cafeOpeningHours}),
-  createPlace({id: 'shop', name: 'Shop', openingHours: shopOpeningHours}),
+  createPlace({id: 'shop', name: 'Shop', openingHours: shopOpeningHours})
 ];

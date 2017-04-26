@@ -6,7 +6,7 @@ export type Person = {|
   name?: string;
   description?: string;
   image?: string; // TODO: Make this Picture
-  sameAs?: Array<any>; //TODO: Make this Array<something>
+  sameAs?: Array<any>; // TODO: Make this Array<something>
 |}
 
 export function createPerson(data: Person) {

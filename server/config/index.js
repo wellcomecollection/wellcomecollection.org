@@ -19,7 +19,7 @@ const config = {
     secretKey: 'myKoajsSecretKey'
   },
   cacheControl: {
-    files: ['text/css','application/javascript', 'application/font-woff', 'application/font-woff2']
+    files: ['text/css', 'application/javascript', 'application/font-woff', 'application/font-woff2']
   }
 };
 

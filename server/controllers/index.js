@@ -1,5 +1,6 @@
 // TODO: FlowType this module
 import type {Series} from '../model/series';
+import type {Promo} from '../model/promo';
 import {PromoFactory} from '../model/promo';
 import {createPageConfig} from '../model/page-config';
 import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
@@ -183,7 +184,7 @@ export const performanceTest = async(ctx, next) => {
   });
 
   const endTime = process.hrtime(startTime);
-  const endTimeFormatted = `${endTime[0]}s ${endTime[1]/1000000}ms`;
+  const endTimeFormatted = `${endTime[0]}s ${endTime[1] / 1000000}ms`;
 
   ctx.type = 'application/javascript';
   ctx.body = `

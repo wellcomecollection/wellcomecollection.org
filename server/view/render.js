@@ -8,5 +8,5 @@ export default function render(root) {
     ctx.render = (relPath, templateData) => ctx.body = env.render(`${relPath}.njk`, templateData);
     markdown.register(env, marked);
     return next();
-  }
+  };
 }
