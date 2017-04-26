@@ -125,6 +125,10 @@ $image-gallery-control-margin: 18px;
     flex-direction: column;
     justify-content: flex-end;
     background: color('cream');
+
+    .enhanced & {
+      cursor: pointer;
+    }
   }
 
   .captioned-image__caption {
