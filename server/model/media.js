@@ -17,6 +17,8 @@ function convertWpImageToPicture(wpImage) {
   return createPicture({
     contentUrl: wpImage.URL,
     caption: wpImage.caption,
+    alt: wpImage.alt,
+    copyright: wpImage.description,
     width: wpImage.width,
     height: wpImage.height,
     type: 'picture'
