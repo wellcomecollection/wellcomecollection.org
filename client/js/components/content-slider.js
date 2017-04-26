@@ -334,24 +334,6 @@ const contentSlider = (el, options) => {
     setPropertyPrefixed(sliderElements.slidesContainer, 'transform', `translate(${leftPosition}px,0) translateZ(0)`);
   };
 
-  // function moveSlide(isPrev, event) {
-  //   if (event.currentTarget.classList.contains(classes.sliderControlInactive)) return;
-
-  //   const nextPosition = isPrev ? positionIndex - 1 : positionIndex + 1;
-
-  //   trackEvent(getTrackingEvent('next', {nextPosition}));
-
-  //   if (event.keyCode) {
-  //     if (event.keyCode !== KEYS.ENTER || event.keyCode !== KEYS.SPACE) return;
-
-  //     event.currentTarget.blur();
-
-  //     return updatePosition(nextPosition, positionArray);
-  //   }
-
-  //   return updatePosition(nextPosition, positionArray);
-  // }
-
   function nextSlide(e) {
     if (e.target.classList.contains(classes.sliderControlInactive)) return;
     const moveToPosition = positionIndex + 1;
