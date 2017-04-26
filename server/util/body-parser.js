@@ -4,7 +4,8 @@ import url from 'url';
 import entities from 'entities';
 
 import {createImageGallery} from '../model/image-gallery';
-import {createPicture, type Picture} from '../model/picture';
+import type {Picture} from '../model/picture';
+import {createPicture} from '../model/picture';
 import {createVideo} from '../model/video';
 import {createList} from '../model/list';
 import {createTweet} from '../model/tweet';
