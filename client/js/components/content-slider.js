@@ -334,6 +334,24 @@ const contentSlider = (el, options) => {
     setPropertyPrefixed(sliderElements.slidesContainer, 'transform', `translate(${leftPosition}px,0) translateZ(0)`);
   };
 
+  // function moveSlide(isPrev, event) {
+  //   if (event.currentTarget.classList.contains(classes.sliderControlInactive)) return;
+
+  //   const nextPosition = isPrev ? positionIndex - 1 : positionIndex + 1;
+
+  //   trackEvent(getTrackingEvent('next', {nextPosition}));
+
+  //   if (event.keyCode) {
+  //     if (event.keyCode !== KEYS.ENTER || event.keyCode !== KEYS.SPACE) return;
+
+  //     event.currentTarget.blur();
+
+  //     return updatePosition(nextPosition, positionArray);
+  //   }
+
+  //   return updatePosition(nextPosition, positionArray);
+  // }
+
   function nextSlide(e) {
     if (e.target.classList.contains(classes.sliderControlInactive)) return;
     const moveToPosition = positionIndex + 1;
@@ -365,11 +383,17 @@ const contentSlider = (el, options) => {
     }, data);
   }
 
+  function blurCurrentTarget({ currentTarget }) {
+    currentTarget.blur();
+  }
+
   setup();
 
   // Handle click
   sliderElements.prevControl.addEventListener('click', prevSlide, true);
+  sliderElements.prevControl.addEventListener('mouseup', blurCurrentTarget);
   sliderElements.nextControl.addEventListener('click', nextSlide, true);
+  sliderElements.nextControl.addEventListener('mouseup', blurCurrentTarget);
 
   nodeList(sliderElements.slideItems).forEach((item) => {
     item.addEventListener('click', ({ target, currentTarget }) => {
