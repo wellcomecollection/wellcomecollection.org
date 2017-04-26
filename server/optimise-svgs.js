@@ -11,11 +11,11 @@ const svgo = new SVGO({
 });
 // TODO: Promisify (pify)
 glob(`${root}/**/*.svg`, (err, files) => {
-  if (err) return new Error(err);
+  if (err) throw err;
 
   files.forEach(file => {
     fs.readFile(file, 'utf8', (err, data) => {
-      if (err) return new Error(err);
+      if (err) throw err;
 
       mkdirp(path.dirname(file), () => {
         svgo.optimize(data, optimisedFile => {
