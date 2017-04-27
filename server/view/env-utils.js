@@ -1,9 +1,15 @@
 import nunjucks from 'nunjucks';
 import extensions from '../extensions';
 import filters from '../filters';
+import {intervalCache} from '../cache/interval-cache';
 
 export default function getEnv(root) {
   return nunjucks.configure(root);
+}
+
+export function addGlobals(env) {
+  env.addGlobal('featureFlags', intervalCache.get('flags'));
+  return env;
 }
 
 export function addExtensions(env) {
@@ -16,6 +22,6 @@ export function addFilters(env) {
   return env;
 }
 
-export function getEnvWithExtensionsAndFilters(root) {
-  return addFilters(addExtensions(getEnv(root)));
+export function getEnvWithGlobalsExtensionsAndFilters(root) {
+  return addFilters(addExtensions(addGlobals(getEnv(root))));
 }
