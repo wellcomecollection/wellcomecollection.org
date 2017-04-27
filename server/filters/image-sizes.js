@@ -1,6 +1,7 @@
 import {Set} from 'immutable';
 
-export const supportedSizes = Set([320, 420, 600, 880, 960, 1024, 1338]);
+// We add 2048 as Wordpresses image service only supports image resizing up till then
+export const supportedSizes = Set([320, 420, 600, 880, 960, 1024, 1338, 2048]);
 
 export function getImageSizesFor(image) {
   const { width } = image;
