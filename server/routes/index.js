@@ -1,5 +1,5 @@
 import Router from 'koa-router';
-import {index, article, articles, explore, healthcheck, performanceTest,
+import {index, article, articles, explore, healthcheck, featureFlags, performanceTest,
         explosion, preview, series, seriesNav, prismicArticle} from '../controllers';
 import {catalogueItem} from '../controllers/catalogue';
 
@@ -17,5 +17,6 @@ r.get('/performance-test.js', performanceTest);
 r.get('/explosion/:errorCode', explosion);
 r.get('/articles/preview/:id', preview);
 r.get('/catalogue/:id', catalogueItem);
+r.get('/flags', featureFlags);
 
 export const router = r.middleware();
