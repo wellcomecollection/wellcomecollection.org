@@ -365,11 +365,17 @@ const contentSlider = (el, options) => {
     }, data);
   }
 
+  function blurCurrentTarget({ currentTarget }) {
+    currentTarget.blur();
+  }
+
   setup();
 
   // Handle click
   sliderElements.prevControl.addEventListener('click', prevSlide, true);
+  sliderElements.prevControl.addEventListener('mouseup', blurCurrentTarget); // Don't blur for keyboard navigation
   sliderElements.nextControl.addEventListener('click', nextSlide, true);
+  sliderElements.nextControl.addEventListener('mouseup', blurCurrentTarget); // Don't blur for keyboard navigation
 
   nodeList(sliderElements.slideItems).forEach((item) => {
     item.addEventListener('click', ({ target, currentTarget }) => {
