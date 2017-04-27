@@ -42,8 +42,16 @@ export function explodeIntoBodyParts(nodes) {
 
     // TODO: Tidy up typing here
     if (nodeIndex === 0) {
+      const maybeImageNode = convertWpImage(node);
       const maybeVideoNode = convertWpVideo(node);
-      return maybeVideoNode.type ? maybeVideoNode : convertWpStandfirst(node);
+
+      if (maybeVideoNode.type) {
+        return maybeVideoNode;
+      } else if (maybeImageNode.type) {
+        return maybeImageNode;
+      } else {
+        return convertWpStandfirst(node);
+      }
     } else {
       const maybeBodyPart = converters.reduce((node, converter) => {
         // Don't bother converting if it's been converted

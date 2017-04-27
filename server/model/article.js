@@ -42,9 +42,16 @@ export class ArticleFactory {
     const contentType = getContentType(json.format);
     const bodyPartsRaw = bodyParser(articleBody);
     const standfirst = bodyPartsRaw.find(part => part.type === 'standfirst');
+    const mainComic: ?Picture = bodyPartsRaw[0] && bodyPartsRaw[0].type === 'picture' && contentType === 'comic' ? bodyPartsRaw[0].value : null;
+
+    if (mainComic) {
+      mainComic.isMain = true;
+    }
 
     const mainVideo: ?Video = bodyPartsRaw[0] && bodyPartsRaw[0].type === 'video' ? bodyPartsRaw[0].value : null;
+    console.log(mainVideo);
     const wpThumbnail = json.post_thumbnail;
+
     const thumbnail: ?Picture = mainVideo ? mainVideo.posterImage : (wpThumbnail ? {
       type: 'picture',
       contentUrl: wpThumbnail.URL,
@@ -54,11 +61,11 @@ export class ArticleFactory {
     // Annoyingly Wordpress doesn't always send the featured image over with the attachments,
     // so we revert to the thumbnail.
     const mainImage: ?Picture = getWpFeaturedImage(json.featured_image, json.attachments) || thumbnail;
-    const mainMedia: Array<Video | Picture> = [mainImage, mainVideo].filter(Boolean);
+    const mainMedia: Array<Video | Picture> = [mainImage, mainVideo, mainComic].filter(Boolean);
 
     // If we have a video as the main media, remove it from the bodyParts to not let it show twice
     // This is due to the fact that WP doesn't allow you to set mainMedia as Youtube embeds.
-    const bodyParts = mainVideo ? List(bodyPartsRaw).skip(1).toJS() : bodyPartsRaw;
+    const bodyParts = (mainVideo || mainComic) ? List(bodyPartsRaw).skip(1).toJS() : bodyPartsRaw;
 
     const author = authorMap[json.slug];
     const series: Array<ArticleSeries> = Object.keys(json.categories).map(catKey => {

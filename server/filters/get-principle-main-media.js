@@ -1,10 +1,7 @@
-export default function getPrincipleMainMedia(arr) {
-  const video = arr.find((item) => {
-    return item.type === 'video';
-  });
-  const picture = arr.find((item) => {
-    return item.type === 'picture';
-  });
+export default function getPrincipleMainMedia(arr: []) {
+  const video = arr.find(item => item.type === 'video');
+  const mainPicture = arr.find(item => item.isMain);
+  const picture = arr.find(item => item.type === 'picture');
 
-  return video || picture;
+  return video || mainPicture || picture;
 }

@@ -11,6 +11,7 @@ export type Picture = {|
   author?: string;
   copyrightHolder?: string;
   fileFormat?: string;
+  isMain?: boolean;
   url?: ?string;
 |}
 
