@@ -49,7 +49,6 @@ export class ArticleFactory {
     }
 
     const mainVideo: ?Video = bodyPartsRaw[0] && bodyPartsRaw[0].type === 'video' ? bodyPartsRaw[0].value : null;
-    console.log(mainVideo);
     const wpThumbnail = json.post_thumbnail;
 
     const thumbnail: ?Picture = mainVideo ? mainVideo.posterImage : (wpThumbnail ? {
