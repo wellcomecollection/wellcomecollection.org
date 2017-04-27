@@ -21,5 +21,6 @@ export const authorMap: { [key: string]: Person } = {
   'varieties-of-love': people.sarahJaffray,
   'the-ladies-of-llangollen': people.sarahBentley,
   'queer-territory-claude-cahun-and-a-land-without-labels': people.sarahJaffray,
-  'demodicid-navigation': people.robBidder
+  'demodicid-navigation': people.robBidder,
+  'body-squabbles-foot': people.robBidder
 };
