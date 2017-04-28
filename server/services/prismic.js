@@ -1,5 +1,6 @@
 import Prismic from 'prismic.io';
 
+// TODO: DMC commented this because it wasn't being used
 // function removeParagraphs(string) {
 //   return string.replace(/<\/?p>/g, '');
 // }
@@ -33,6 +34,7 @@ export async function getItem(id) {
       case 'embeddedImage':
         const images = slice.value.toArray().map(embeddedImage => {
           const image = embeddedImage.getImage('asset');
+          // TODO: DMC commented this because it wasn't being used
           // const maybeCaption = removeParagraphs(embeddedImage.getStructuredText('caption').asHtml());
           // const caption = maybeCaption !== '' ? maybeCaption : null;
           return convertPrismicImageToPicture(image);
