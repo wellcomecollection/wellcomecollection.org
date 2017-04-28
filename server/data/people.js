@@ -33,7 +33,8 @@ export const robBidder: Person = {
   givenName: 'Rob',
   familyName: 'Bidder',
   name: 'Rob Bidder',
-  twitterHandle: 'robertbidder'
+  twitterHandle: 'robertbidder',
+  description: 'Rob Bidder is a Visitor Experience Assistant at Wellcome Collection.'
 };
 
 export const rockWebb: Person = {
