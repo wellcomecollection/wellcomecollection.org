@@ -37,14 +37,13 @@
   <div class="container">
     <div class="grid grid--no-gutters">
       <div class="grid__cell grid__cell--s4 grid__cell--m6 grid__cell--shift-m1 grid__cell--l7 grid__cell--xl6 grid__cell--shift-xl1">
-        {% if article.author %}
+        {% if article.author and article.bodyParts.length > 0  %}
           {% component 'author', {
             name: article.author.name,
             twitterHandle: article.author.twitterHandle,
             modifiers: ['border-bottom'],
             image: article.author.image
           } %}
-
         {% endif %}
 
         <div class="article">
