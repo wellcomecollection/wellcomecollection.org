@@ -1,8 +1,8 @@
 import Prismic from 'prismic.io';
 
-function removeParagraphs(string) {
-  return string.replace(/<\/?p>/g, '');
-}
+// function removeParagraphs(string) {
+//   return string.replace(/<\/?p>/g, '');
+// }
 
 function convertPrismicImageToPicture(image) {
   return {
@@ -33,17 +33,15 @@ export async function getItem(id) {
       case 'embeddedImage':
         const images = slice.value.toArray().map(embeddedImage => {
           const image = embeddedImage.getImage('asset');
-          const maybeCaption = removeParagraphs(embeddedImage.getStructuredText('caption').asHtml());
-          const caption = maybeCaption !== '' ? maybeCaption : null;
+          // const maybeCaption = removeParagraphs(embeddedImage.getStructuredText('caption').asHtml());
+          // const caption = maybeCaption !== '' ? maybeCaption : null;
           return convertPrismicImageToPicture(image);
         });
         return images;
-        break;
 
       case 'youtubeVideo':
         // TODO
         return [];
-        break;
 
       default:
         return [];
@@ -55,7 +53,6 @@ export async function getItem(id) {
       case 'embeddedImage':
         const image = slice.value;
         return convertPrismicImageToPicture(image);
-        break;
 
       default:
         return [];
