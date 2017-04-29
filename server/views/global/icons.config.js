@@ -5,27 +5,22 @@ const iconsPath = path.join(__dirname, '../icons');
 
 function walk(dir) {
   const list = fs.readdirSync(dir);
-  let results = [];
 
-  list.forEach(function(item) {
-    const dirOrFile = path.join(dir, '/', item);
+  return list.reduce((acc, curr) => {
+    const dirOrFile = path.join(dir, '/', curr);
     const stat = fs.statSync(dirOrFile);
 
     if (stat && stat.isDirectory()) {
-      results = results.concat(walk(dirOrFile));
-    } else {
-      if (path.extname(dirOrFile) === '.svg') {
-        const item = {
-          extraClasses: ['icon--fill'],
-          icon: path.join(path.basename(dir), path.basename(dirOrFile, '.svg'))
-        };
-
-        results.push(item);
-      }
+      return acc.concat(walk(dirOrFile));
+    } else if (path.extname(dirOrFile) === '.svg') {
+      return acc.concat({
+        extraClasses: ['icon--fill'],
+        icon: path.join(path.basename(dir), path.basename(dirOrFile, '.svg'))
+      });
     }
-  });
 
-  return results;
+    return acc;
+  }, []);
 }
 
 const icons = walk(iconsPath);
