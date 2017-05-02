@@ -29,12 +29,13 @@ export const chrisChapman: Person = {
   image: 'https://wellcomecollection.files.wordpress.com/2017/03/chrisc-mugshot_400x400.jpg'
 };
 
-export const robBidder: Person = {
-  givenName: 'Rob',
+export const robertBidder: Person = {
+  givenName: 'Robert',
   familyName: 'Bidder',
   name: 'Rob Bidder',
   twitterHandle: 'robertbidder',
-  description: 'Rob Bidder is a Visitor Experience Assistant at Wellcome Collection.'
+  description: 'Robert is a Visitor Experience Assistant at Wellcome Collection. When not in the museum he is making art and music at home.',
+  image: 'https://wellcomecollection.files.wordpress.com/2017/05/curiousconvo_letterbox5b15d.jpg'
 };
 
 export const rockWebb: Person = {
@@ -46,7 +47,9 @@ export const rockWebb: Person = {
 export const sarahBentley: Person = {
   givenName: 'Sarah',
   familyName: 'Bentley',
-  name: 'Sarah Bentley'
+  name: 'Sarah Bentley',
+  image: 'https://wellcomecollection.files.wordpress.com/2017/05/sarah2.jpg',
+  description: 'Sarah is a Visitor Experience Assistant at Wellcome Collection.'
 };
 
 export const sarahJaffray: Person = {
