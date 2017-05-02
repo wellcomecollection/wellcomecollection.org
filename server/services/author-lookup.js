@@ -13,7 +13,7 @@ export const authorMap: { [key: string]: Person } = {
   'titans-in-the-landscape': people.ruthGarde,
   'john-gerrard-frogs-in-space': people.chrisChapman,
   'bill-morrison-domesticating-electricity': people.chrisChapman,
-  'a-body-apart-from-the-head': people.robBidder,
+  'a-body-apart-from-the-head': people.robertBidder,
   'inspired-tattoos-as-pain-relief': people.rockWebb,
   'obsessed-with-buffy-much': people.russellDornan,
   'the-adamson-collection-5womenartists': people.russellDornan,
@@ -21,6 +21,6 @@ export const authorMap: { [key: string]: Person } = {
   'varieties-of-love': people.sarahJaffray,
   'the-ladies-of-llangollen': people.sarahBentley,
   'queer-territory-claude-cahun-and-a-land-without-labels': people.sarahJaffray,
-  'demodicid-navigation': people.robBidder,
-  'body-squabbles-foot': people.robBidder
+  'demodicid-navigation': people.robertBidder,
+  'body-squabbles-foot': people.robertBidder
 };
