@@ -125,7 +125,7 @@ const contentSlider = (el, options) => {
   function containImages(imagesArray, containerWidth, screenHeight) {
     const maxWidth = containerWidth;
     const maxHeight = screenHeight * 0.7 < 640 ? screenHeight * 0.7 : 640;
-    nodeList(imagesArray).forEach((img) => {
+    nodeList(imagesArray).forEach((img, imageIndex) => {
       if (img) {
         const imgHeight = maxHeight;
         const imageWidth = img.getAttribute('data-width');
@@ -140,11 +140,19 @@ const contentSlider = (el, options) => {
           img.parentNode.parentNode.style.width = maxWidth + 'px';
         }
         if (!img.parentNode.parentNode.querySelector('.captioned-image__truncate-control')) {
-          truncateText(img.parentNode.parentNode.querySelector('.captioned-image__caption-text'));
+          const maybeTruncateControl$ = truncateText(img.parentNode.parentNode.querySelector('.captioned-image__caption-text'));
+          if (maybeTruncateControl$) {
+            // We drop one as the initial we don't care about for tracking
+            maybeTruncateControl$.drop(1).subscribe({
+              next: (isClosed) => {
+                trackEvent(getTrackingEvent(isClosed ? 'more' : 'less', {imageIndex}));
+              }
+            });
+          }
         }
       }
     });
-  };
+  }
 
   function calculateCombinedWidth(widthArray) {
     const width = widthArray.reduce((acc, val, i) => {
@@ -196,7 +204,7 @@ const contentSlider = (el, options) => {
   function calculatePositionArrayByContainer(widthArray, slidesWidth, containerWidth) {
     const positionArrayByContainer = [0];
     let start = 0;
-    widthArray.reduce((acc, val, i) => {
+    widthArray.reduce((acc, val) => {
       if (acc + val - start > containerWidth) {
         positionArrayByContainer.push(acc);
         start = acc;
@@ -326,13 +334,13 @@ const contentSlider = (el, options) => {
     changePosition(positionIndex, positionArray, settings.speed);
     changeCurrentItemsStatus(sliderElements.slideItems, positionIndex, classes.currentItem, positionArrayBySlide, positionArray, slidesWidthArray, containerWidth);
     changeInactiveControlClass(sliderElements.prevControl, sliderElements.nextControl, positionIndex, positionArray, classes.sliderControlInactive);
-  };
+  }
 
   function changePosition (n, positionArray) {
     let leftPosition = 0;
     leftPosition = positionArray[n] * -1;
     setPropertyPrefixed(sliderElements.slidesContainer, 'transform', `translate(${leftPosition}px,0) translateZ(0)`);
-  };
+  }
 
   function nextSlide(e) {
     if (e.target.classList.contains(classes.sliderControlInactive)) return;
