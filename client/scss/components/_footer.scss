@@ -1,4 +1,4 @@
-$footer-strap-width: 200px;
+$footer-strap-width: 220px;
 
 .footer {
   padding-top: $vertical-space-unit*3;
@@ -56,6 +56,14 @@ $footer-strap-width: 200px;
   align-items: center;
   margin-bottom: $vertical-space-unit;
   min-width: $footer-strap-width;
+  border-bottom: 1px solid color('charcoal');
+  width: 100%;
+
+  @include respond-to('medium') {
+    width: auto;
+    border-bottom: 0;
+    border-right: 1px solid color('charcoal');
+  }
 
   .icon {
     width: 2.6rem;
