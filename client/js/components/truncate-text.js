@@ -5,27 +5,30 @@ const truncateClass = 'captioned-image__caption-text--truncate';
 const moreText = '+ More';
 const lessText = '- Less';
 
-const truncateText = (caption) => {
-  const toggleTruncate = function(isTruncated, control, className) {
-    const textElement = control.previousSibling;
-    if (isTruncated) {
-      control.innerHTML = lessText;
-      textElement.classList.remove(className);
-    } else {
-      control.innerHTML = moreText;
-      textElement.classList.add(className);
-    }
-  };
-  const hasBeenEllipsified = (e) => {
-    return (e.scrollWidth > e.offsetWidth);
-  };
-  const createControl = () => {
-    const control = document.createElement('button');
-    control.className = 'captioned-image__truncate-control';
+const toggleTruncate = function(isTruncated, control, className) {
+  const textElement = control.previousSibling;
+  if (isTruncated) {
+    control.innerHTML = lessText;
+    textElement.classList.remove(className);
+  } else {
     control.innerHTML = moreText;
-    control.setAttribute('tabindex', -1);
-    return control;
-  };
+    textElement.classList.add(className);
+  }
+};
+
+const hasBeenEllipsified = (e) => {
+  return (e.scrollWidth > e.offsetWidth);
+};
+
+const createControl = () => {
+  const control = document.createElement('button');
+  control.className = 'captioned-image__truncate-control';
+  control.innerHTML = moreText;
+  control.setAttribute('tabindex', -1);
+  return control;
+};
+
+const truncateText = (caption) => {
   const truncateControl = createControl();
 
   caption.classList.add(truncateClass);
@@ -39,6 +42,8 @@ const truncateText = (caption) => {
         toggleTruncate(isClosed, truncateControl, truncateClass);
       }
     });
+
+    return truncated$;
   }
 
   onWindowResizeDebounce$.subscribe({
