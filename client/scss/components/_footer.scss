@@ -33,7 +33,7 @@ $footer-strap-width: 220px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .footer__left {
@@ -103,6 +103,7 @@ $footer-strap-width: 220px;
 .footer__licensing-link {
   color: color('mint');
   transition: color 600ms ease;
+  text-decoration: none;
 
   &:hover,
   &:focus {
