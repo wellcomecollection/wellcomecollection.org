@@ -32,3 +32,7 @@ context:
       service: TripAdvisor
       url: "#"
       icon: social/tripadvisor
+    - title: RSS
+      service: RSS
+      url: "#"
+      icon: social/rss

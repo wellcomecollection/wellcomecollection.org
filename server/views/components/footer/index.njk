@@ -21,9 +21,18 @@
     {% component 'footer-social', {items: footerSocial.items} %}
 
     <div class="footer__bottom">
-      <div class="footer__strap">
-        {% icon 'other/wellcome' %}
-        <span class="footer__strap-text">The free museum and library from Wellcome</span>
+      <div class="footer__left {{ {s:2, m:2} | spacingClasses({margin: ['bottom']}) }}">
+        <div class="footer__strap {{ {m:4, l:6} | spacingClasses({margin: ['right']}) }} {{ {s:2} | spacingClasses({padding: ['bottom']}) }}">
+          {% icon 'other/wellcome' %}
+          <span class="footer__strap-text">The free museum and library from Wellcome</span>
+        </div>
+        <div class="footer__licensing {{ {l:2} | spacingClasses({padding: ['right']}) }}">
+          <div class="footer__licensing-icons">
+            {% icon 'other/cc_logo' %}
+            {% icon 'other/cc_attribution' %}
+          </div>
+          <p class="footer__licensing-copy">Except where otherwise noted, content on this site is licenced under a <a class="footer__licensing-link" href="https://creativecommons.org/licenses/by/4.0/"> Creative Commons Attribution 4.0 International License</a></p>
+        </div>
       </div>
       <nav class="footer__hygiene-nav">
         <ul class="footer__hygiene-list">

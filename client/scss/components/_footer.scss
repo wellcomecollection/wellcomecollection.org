@@ -1,3 +1,5 @@
+$footer-strap-width: 220px;
+
 .footer {
   padding-top: $vertical-space-unit*3;
   padding-bottom: $vertical-space-unit;
@@ -31,18 +33,36 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+}
+
+.footer__left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+
+  @include respond-to('medium') {
+    flex-wrap: nowrap;
+  }
+
+  @include respond-to('xlarge') {
+    flex-basis: percentage(2 / 3);
+  }
 }
 
 .footer__strap {
   @include font('HNM6');
   display: flex;
   align-items: center;
-  flex-basis: 100%;
   margin-bottom: $vertical-space-unit;
+  min-width: $footer-strap-width;
+  border-bottom: 1px solid color('charcoal');
+  width: 100%;
 
-  @include respond-to('large') {
-    flex-basis: auto;
+  @include respond-to('medium') {
+    width: auto;
+    border-bottom: 0;
+    border-right: 1px solid color('charcoal');
   }
 
   .icon {
@@ -53,6 +73,41 @@
 
   .icon__shape {
     fill: color('white');
+  }
+}
+
+.footer__licensing {
+  @include font('HNM6');
+  display: flex;
+  align-items: center;
+}
+
+.footer__licensing-icons {
+  display: flex;
+
+  .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .icon__shape {
+    fill: color('white');
+  }
+}
+
+.footer__licensing-copy {
+  margin-bottom: 0;
+}
+
+.footer__licensing-link {
+  color: color('mint');
+  transition: color 600ms ease;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    color: color('white');
   }
 }
 
@@ -67,7 +122,7 @@
   padding-bottom: $vertical-space-unit;
   border-bottom: 1px solid color('charcoal');
 
-  @include respond-to('large') {
+  @include respond-to('xlarge') {
     padding-bottom: 0;
     border-bottom: 0;
     flex-basis: auto;
@@ -82,7 +137,7 @@
   border-top: 1px solid color('charcoal');
   padding-top: $vertical-space-unit;
 
-  @include respond-to('large') {
+  @include respond-to('xlarge') {
     border-top: 0;
     padding-top: 0;
   }
@@ -93,7 +148,7 @@
   width: 100%;
   text-align: center;
 
-  @include respond-to('large') {
+  @include respond-to('xlarge') {
     width: auto;
   }
 
@@ -123,7 +178,7 @@
     border-left: 0;
   }
 
-  @include respond-to('large') {
+  @include respond-to('xlarge') {
     padding-left: 2em;
     padding-right: 2em;
   }
@@ -138,7 +193,7 @@
       justify-content: center;
     }
 
-    @include respond-to('large') {
+    @include respond-to('xlarge') {
       padding-right: 0;
     }
 
