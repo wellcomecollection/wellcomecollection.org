@@ -16,6 +16,7 @@
 
 .styleguide__icon__id {
   @include font('LR3');
+  hyphens: auto;
 }
 
 .styleguide__palette__heading {
