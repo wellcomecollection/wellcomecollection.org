@@ -131,22 +131,7 @@ export const explore = async(ctx, next) => {
   const articleStubs = await getArticleStubs(50);
   const grouped = articleStubs.data.groupBy(stub => stub.headline.indexOf('A drop in the ocean:') === 0);
   const theRest = grouped.first();
-  const topPromo = PromoFactory.fromArticleStub({
-    url: '/articles/preview/15095',
-    headline: 'Foot',
-    thumbnail: {
-      type: 'picture',
-      contentUrl: 'https://i0.wp.com/wellcomecollection.files.wordpress.com/2017/04/bodysquabbles-0-foot-thumb.jpg?ssl=1',
-      width: 1600,
-      height: 900
-    },
-    contentType: 'comic',
-    weight: 'lead',
-    description: 'A long life living under a toenail. Sheltered from the terrible world outside.',
-    datePublished: Date.now(),
-    series: [{name: 'Body Squabbles'}]
-  });
-  // const topPromo = PromoFactory.fromArticleStub(theRest.first(), 'lead');
+  const topPromo = PromoFactory.fromArticleStub(theRest.first(), 'lead');
   const second3Promos = theRest.slice(1, 4).map(PromoFactory.fromArticleStub);
   const next8Promos = theRest.slice(4, 12).map(PromoFactory.fromArticleStub);
   const aDropInTheOceanStubs = grouped.last().take(7);
