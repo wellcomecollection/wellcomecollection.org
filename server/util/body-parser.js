@@ -352,9 +352,6 @@ function getImageFromWpNode(node) {
   const alt = getAttrVal(img.attrs, 'alt');
   const copyright = getAttrVal(img.attrs, 'data-image-description');
 
-  if (!getAttrVal(img.attrs, 'data-orig-file')) {
-    console.log(img);
-  }
   // We need to lookup the src for images that aren't from the Wellcome Collection Wordpress
   const imgSrc = getAttrVal(img.attrs, 'data-orig-file') || getAttrVal(img.attrs, 'src');
   const urlObj = url.parse(imgSrc);
