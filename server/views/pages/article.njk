@@ -75,7 +75,7 @@
 
 
 {% for series in article.series %}
-  {% if series.commissionedLength %}
+  {% if series.commissionedLength and article.positionInSeries !== series.commissionedLength %}
     <div class="row row--mobile-only {{ {s:4, m:4, l:4} | spacingClasses({padding: ['top', 'bottom', 'left', 'right'], margin: ['top', 'bottom']}) }}" style="background: #5cb8bf; color: white;">
       <p class="text--white">Don't miss out on the next article in this series. Enter your email and we will notify you when the next part is out.</p>
       <form action="//wellcomecollection.us15.list-manage.com/subscribe/post?u=4c18829323bb4eb8093d7d418&amp;id=e7d5a9c839" method="post" name="mc-embedded-subscribe-form" target="_blank">
