@@ -5,5 +5,5 @@ export const supportedSizes = Set([320, 420, 600, 880, 960, 1024, 1338, 2048]);
 
 export function getImageSizesFor(image) {
   const { width } = image;
-  return supportedSizes.add(width).toJS();
+  return supportedSizes.add(width).sort().toJS();
 }
