@@ -1,1 +1,4 @@
-export const featureFlags = window.featureFlags;
+const featureGroup = window.featureGroup;
+const featureFlags = window.featureFlags;
+
+export {featureGroup, featureFlags};
