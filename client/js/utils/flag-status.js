@@ -5,6 +5,3 @@ export const isFlagEnabled = (userGroup, flagName, flags) => {
   }
   return false;
 };
-
-// import {isFlagEnabled} from '../util/flag-status';
-// isFlagEnabled('beta', 'testFlag', config.intervalCache.get('flags'));
