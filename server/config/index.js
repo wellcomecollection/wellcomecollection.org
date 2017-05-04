@@ -1,3 +1,5 @@
+import {intervalCache} from '../cache/interval-cache';
+
 const config = {
   app: {
     name: 'wellcomecollection.org',
@@ -20,7 +22,8 @@ const config = {
   },
   cacheControl: {
     files: ['text/css', 'application/javascript', 'application/font-woff', 'application/font-woff2']
-  }
+  },
+  intervalCache: intervalCache
 };
 
 export default config;

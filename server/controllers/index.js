@@ -10,6 +10,7 @@ import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {createNumberedList} from '../model/numbered-list';
 import {getItem as getPrismicItem} from '../services/prismic';
+import config from '../config';
 
 const maxItemsPerPage = 32;
 
@@ -187,6 +188,11 @@ export const index = (ctx, next) => ctx.render('pages/index', {
 
 export const healthcheck = (ctx, next) => {
   ctx.body = 'ok';
+  return next();
+};
+
+export const featureFlags = (ctx, next) => {
+  ctx.body = config.intervalCache.get('flags');
   return next();
 };
 

@@ -22,6 +22,9 @@
     <script type="application/ld+json">
       {{ pageConfig.organization | jsonLd('Museum') | safe }}
     </script>
+    <script>
+      window.featureFlags = {{featureFlags | dump | safe}};
+    </script>
   </head>
   <body>
     {% component 'skip-link' %}
