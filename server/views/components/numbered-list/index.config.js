@@ -1,4 +1,29 @@
 import { createNumberedList } from '../../../model/numbered-list';
+import { createPromo } from '../../../model/promo';
+import { createPicture } from '../../../model/picture';
+
+const picture = createPicture({
+  type: 'picture',
+  contentUrl: 'http://placehold.it/1600x900',
+  width: 1600,
+  height: 900
+});
+
+const promo = createPromo({
+  type: 'promo',
+  url: '#',
+  title: 'Title',
+  image: picture,
+  contentType: 'article',
+  description: 'Lorem ipsum, dolor sit amet, yeah?',
+  chapter: {
+    current: 1,
+    total: 5,
+    color: 'orange'
+  },
+  length: 5,
+  datePublished: new Date(2017, 5, 3)
+});
 
 export const name = 'Numbered list';
 export const handle = 'numbered-list';
@@ -69,6 +94,11 @@ export const model2 = createNumberedList({
   ]
 });
 
+const model3 = createNumberedList({
+  name: null,
+  items: [promo, promo, promo, promo, promo, promo]
+});
+
 export const context = { model };
 
 export const variants = [
@@ -79,5 +109,9 @@ export const variants = [
   {
     name: 'horizontal-narrow',
     context: {model: model2, modifiers: ['horizontal-narrow']}
+  },
+  {
+    name: 'transporter',
+    context: {model: model3, modifiers: ['transporter']}
   }
 ];
