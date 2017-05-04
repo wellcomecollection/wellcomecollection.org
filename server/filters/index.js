@@ -13,6 +13,7 @@ import contains from './contains';
 import getCacheBustFile from './get-cache-bust-file';
 import jsonLd from './json-ld';
 import {formatDate, formatDateWithComingSoon} from './format-date';
+import {isFlagEnabled} from '../util/flag-status';
 import {objectAssign} from './object-assign';
 
 export default Map({
@@ -31,5 +32,6 @@ export default Map({
   jsonLd,
   formatDate,
   formatDateWithComingSoon,
+  isFlagEnabled,
   objectAssign
 });
