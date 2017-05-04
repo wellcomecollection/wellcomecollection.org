@@ -30,11 +30,12 @@ export const chrisChapman: Person = {
 };
 
 export const robertBidder: Person = {
-  givenName: 'Robert',
+  givenName: 'Rob',
   familyName: 'Bidder',
   name: 'Rob Bidder',
   twitterHandle: 'robertbidder',
-  description: 'Robert is a Visitor Experience Assistant at Wellcome Collection. When not in the museum he is making art and music at home.',
+  description: 'Rob is an artist based in South-east London and a Visitor Experience Assistant at Wellcome Collection. '+
+               'He also plays music in a ramshackle manner. He is a Gemini with a Libra ascendant.',
   image: 'https://wellcomecollection.files.wordpress.com/2017/05/curiousconvo_letterbox5b15d.jpg'
 };
 
