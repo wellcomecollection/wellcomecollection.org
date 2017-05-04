@@ -36,7 +36,7 @@ export const robertBidder: Person = {
   twitterHandle: 'robertbidder',
   description: 'Rob is an artist based in South-east London and a Visitor Experience Assistant at Wellcome Collection. '+
                'He also plays music in a ramshackle manner. He is a Gemini with a Libra ascendant.',
-  image: 'https://wellcomecollection.files.wordpress.com/2017/05/curiousconvo_letterbox5b15d.jpg'
+  image: 'https://wellcomecollection.files.wordpress.com/2017/05/robbidder.jpg'
 };
 
 export const rockWebb: Person = {
