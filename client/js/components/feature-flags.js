@@ -1,4 +1,4 @@
-const featureGroup = window.featureGroup;
+const featuresCohort = window.featuresCohort;
 const featureFlags = window.featureFlags;
 
-export {featureGroup, featureFlags};
+export {featuresCohort, featureFlags};

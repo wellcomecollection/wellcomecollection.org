@@ -23,7 +23,7 @@
       {{ pageConfig.organization | jsonLd('Museum') | safe }}
     </script>
     <script>
-      window.featureGroup = '{{featureGroup | safe}}';
+      window.featuresCohort = '{{featuresCohort | safe}}';
       window.featureFlags = {{featureFlags | dump | safe}};
     </script>
   </head>
