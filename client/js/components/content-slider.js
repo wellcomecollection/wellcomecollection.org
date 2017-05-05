@@ -12,7 +12,11 @@ const contentSlider = (el, options) => {
     transitionSpeed: 0.7,
     slideSelector: 'li',
     cssPrefix: '',
-    sliderType: 'default'
+    sliderType: 'default',
+    containImages: true,
+    truncateText: true,
+    controlsInSliderInner: false,
+    scrollToClickedItem: true
   };
   const settings = Object.assign({}, defaults, options);
   // Grab/create necessary slider elements
@@ -79,7 +83,12 @@ const contentSlider = (el, options) => {
     sliderElements.slidesContainer.parentNode.insertBefore(sliderElements.slider, sliderElements.slidesContainer);
     sliderElements.slider.appendChild(sliderElements.sliderInner);
     sliderElements.sliderInner.appendChild(sliderElements.slidesContainer);
-    sliderElements.slider.parentNode.insertBefore(sliderElements.sliderControls, sliderElements.slider.nextSibling);
+    if (settings.controlsInSliderInner) {
+      sliderElements.sliderInner.appendChild(sliderElements.sliderControls);
+    } else {
+      sliderElements.slider.parentNode.insertBefore(sliderElements.sliderControls, sliderElements.slider.nextSibling);
+    }
+
     sliderElements.sliderControls.appendChild(sliderElements.prevControl);
     sliderElements.sliderControls.appendChild(sliderElements.nextControl);
     if (settings.sliderType === 'gallery') {
@@ -99,7 +108,9 @@ const contentSlider = (el, options) => {
 
   function calculateDimensions() { // Dimensions which determine movement amounts
     containerWidth = calculateContainerWidth(sliderElements.slidesContainer);
-    containImages(sliderElements.slideImages, containerWidth, document.documentElement.clientHeight);
+    if (settings.containImages) {
+      containImages(sliderElements.slideImages, containerWidth, document.documentElement.clientHeight);
+    }
     slidesWidthArray = createItemsWidthArray(sliderElements.slideItems);
     // slidesWidthArrayInverted = slidesWidthArray.slice().reverse();
     slidesCombinedWidth = calculateCombinedWidth(slidesWidthArray);
@@ -139,7 +150,7 @@ const contentSlider = (el, options) => {
           img.style.width = maxWidth + 'px';
           img.parentNode.parentNode.style.width = maxWidth + 'px';
         }
-        if (!img.parentNode.parentNode.querySelector('.captioned-image__truncate-control')) {
+        if (settings.truncateText && !img.parentNode.parentNode.querySelector('.captioned-image__truncate-control')) {
           const maybeTruncateControl$ = truncateText(img.parentNode.parentNode.querySelector('.captioned-image__caption-text'));
           if (maybeTruncateControl$) {
             // We drop one as the initial we don't care about for tracking
@@ -385,15 +396,18 @@ const contentSlider = (el, options) => {
   sliderElements.nextControl.addEventListener('click', nextSlide, true);
   sliderElements.nextControl.addEventListener('mouseup', blurCurrentTarget); // Don't blur for keyboard navigation
 
-  nodeList(sliderElements.slideItems).forEach((item) => {
-    item.addEventListener('click', ({ target, currentTarget }) => {
-      // We only want to match clicks on the img, because clicks on the
-      // caption could be on the 'more/less' controls
-      if (!target.matches('img')) return;
+  if (settings.scrollToClickedItem) {
+    console.log('yo');
+    nodeList(sliderElements.slideItems).forEach((item) => {
+      item.addEventListener('click', ({ target, currentTarget }) => {
+        // We only want to match clicks on the img, because clicks on the
+        // caption could be on the 'more/less' controls
+        if (!target.matches('img')) return;
 
-      updatePosition(parseInt(currentTarget.getAttribute(indexAttr), 10), positionArray);
+        updatePosition(parseInt(currentTarget.getAttribute(indexAttr), 10), positionArray);
+      });
     });
-  });
+  }
 
   // Handle touch
   sliderTouch.on('swiperight', prevSlide);

@@ -34,6 +34,7 @@ const init = () => {
   const stickyEls = document.querySelectorAll('.js-sticky');
   const galleries = document.querySelectorAll('.js-image-gallery');
   const mainEl = document.getElementById('main');
+  const numberedListTransporters = document.querySelectorAll('.js-numbered-list-transporter');
 
   nodeList(wobblyEdgeEls).forEach((el) => wobblyEdge(el));
 
@@ -64,6 +65,18 @@ const init = () => {
   if (stickyEls) {
     makeSticky(stickyEls, store$);
   }
+
+  nodeList(numberedListTransporters).forEach((transporter) => {
+    contentSlider(transporter, {
+      slideSelector: '.numbered-list__item',
+      cssPrefix: 'transporter__',
+      transitionSpeed: 0.7,
+      truncateText: false,
+      containImages: false,
+      controlsInSliderInner: true,
+      scrollToClickedItem: false
+    });
+  });
 
   nodeList(galleries).forEach((gallery) => {
     contentSlider(gallery, {

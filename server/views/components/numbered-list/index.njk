@@ -1,3 +1,5 @@
+{% set isTransporter = modifiers and modifiers | contains('transporter') %}
+
 <div class="numbered-list{% for modifier in modifiers %} numbered-list--{{modifier}}{% endfor %} {% for class in data.classes %} {{class}}{% endfor %}">
   {% if model.name %}
     <header class="numbered-list__header {{ 'numbered-list__header--has-image' if model.image }}">
@@ -9,37 +11,44 @@
       {% endif %}
     </header>
   {% endif %}
-  <ol class="numbered-list__list{% if data.sliderId %} js-numbered-slider{% endif %}"{% if data.sliderId %} id="{{data.sliderId}}" {% endif %}>
+  <ol class="numbered-list__list{% if data.sliderId %} js-numbered-slider{% endif %} {{ 'grid grid--dividers' if isTransporter }}"
+    {% if data.sliderId %} id="{{data.sliderId}}" {% endif %}>
     {% for item in model.items -%}
       {% set isCurrent = current === item.url %}
 
-      <li class="numbered-list__item
+        <li class="numbered-list__item
           {{ 'numbered-list__item--inactive' if not item.url }}
-          {% if isCurrent %}  numbered-list__item--{{model.color}}{% endif %}"
-          {% if isCurrent %} data-current="true"{% endif %}>
-        <span class="numbered-list__number" aria-hidden="true">{{ loop.index }}</span>
-      {% if item.url %}
-        <a href="{{ item.url }}" class="numbered-list__link">
-      {% else %}
-        <span class="numbered-list__link-surrogate">
-      {% endif %}
-          <h3 class="numbered-list__title">
-            {% if data.sliderId %}Part {{ loop.index }}: {% endif %}
-            {%- if isCurrent -%}
-              Currently viewing<span class="numbered-list__visually-hidden-title"> {{ item.title }}</span>
-            {%- else -%}
-              {{ item.title }}
-            {%- endif -%}
-          </h3>
-          <p class="numbered-list__date">{{ item.datePublished | formatDateWithComingSoon }}</p>
-      {% if item.url %}
-        </a>
-      {% else %}
-        </span>
-      {% endif %}
-      </li>
+          {{ 'grid__cell' if isTransporter }}
+          {% if isCurrent %} numbered-list__item--{{model.color}}  data-current="true"{% endif %}">
 
+          <span class="numbered-list__number" aria-hidden="true">{{ loop.index }}</span>
 
+          {% if isTransporter %}
+            {% component 'promo', {promo: item} %}
+          {% else %}
+            {% if item.url %}
+              <a href="{{ item.url }}" class="numbered-list__link">
+            {% else %}
+              <span class="numbered-list__link-surrogate">
+            {% endif %}
+
+            <h3 class="numbered-list__title">
+              {% if data.sliderId %}Part {{ loop.index }}: {% endif %}
+              {%- if isCurrent -%}
+                Currently viewing<span class="numbered-list__visually-hidden-title"> {{ item.title }}</span>
+              {%- else -%}
+                {{ item.title }}
+              {%- endif -%}
+            </h3>
+
+            <p class="numbered-list__date">{{ item.datePublished | formatDateWithComingSoon }}</p>
+            {% if item.url %}
+              </a>
+            {% else %}
+              </span>
+            {% endif %}
+          {% endif %}
+        </li>
 
     {%- endfor %}
   </ol>

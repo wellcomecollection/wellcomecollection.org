@@ -1,6 +1,5 @@
 // @flow
 import { type Picture } from './picture';
-import { type Promo } from './promo';
 
 export type NumberedList = {|
   name?: ?string;
@@ -9,7 +8,7 @@ export type NumberedList = {|
     title: string,
     url?: ?string,
     date: Date
-  } | Promo>;
+  }>;
 |}
 
 export function createNumberedList(data: NumberedList) { return (data: NumberedList); }

@@ -56,3 +56,37 @@
     fill: currentColor;
   }
 }
+
+@include slider('transporter__');
+
+.transporter__slider-inner {
+  position: relative;
+}
+
+.transporter__slider-controls {
+  position: absolute;
+  bottom: 2 * $spacing-unit;
+  right: 0;
+}
+
+.transporter__slider-control--prev,
+.transporter__slider-control--next {
+  background: color('white');
+  width: 6 * $spacing-unit;
+  height: 6 * $spacing-unit;
+  line-height: 0;
+  border-radius: 50%;
+  border: 2px solid color('silver');
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+  position: relative;
+
+  &:focus {
+    background: color('smoke');
+  }
+}
+
+.transporter__slider-control--prev {
+  margin-right: $spacing-unit;
+}

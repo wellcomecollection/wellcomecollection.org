@@ -1,4 +1,5 @@
 import { createNumberedList } from '../../../model/numbered-list';
+import type { Promo } from '../../../model/promo';
 import { createPromo } from '../../../model/promo';
 import { createPicture } from '../../../model/picture';
 
@@ -9,25 +10,38 @@ const picture = createPicture({
   height: 900
 });
 
-const promo = createPromo({
+const articleSeries = {
+  url: '#',
+  name: 'test',
+  commissionedLength: 6,
+  color: 'orange'
+};
+
+const promo: Promo = createPromo({
   type: 'promo',
   url: '#',
   title: 'Title',
   image: picture,
   contentType: 'article',
   description: 'Lorem ipsum, dolor sit amet, yeah?',
-  chapter: {
-    current: 1,
-    total: 5,
-    color: 'orange'
-  },
-  length: 5,
-  datePublished: new Date(2017, 5, 3)
+  length: 6,
+  series: [articleSeries]
 });
+
+const promos: Array<Promo> = new Array(6)
+  .fill(undefined)
+  .map((item, index) => {
+    const datePublished = index < 3 ? new Date(2017, 5, index) : null;
+    return Object.assign(
+      {},
+      promo,
+      {positionInSeries: index + 1},
+      {datePublished: datePublished}
+    );
+  });
 
 export const name = 'Numbered list';
 export const handle = 'numbered-list';
-export const collated = true;
 
 export const model = createNumberedList({
   name: 'Latest',
@@ -96,7 +110,7 @@ export const model2 = createNumberedList({
 
 const model3 = createNumberedList({
   name: null,
-  items: [promo, promo, promo, promo, promo, promo]
+  items: promos
 });
 
 export const context = { model };
@@ -112,6 +126,6 @@ export const variants = [
   },
   {
     name: 'transporter',
-    context: {model: model3, modifiers: ['transporter']}
+    context: {model: model3, modifiers: ['transporter'], data: {classes: ['js-numbered-list-transporter'], sliderId: 'id'}}
   }
 ];
