@@ -192,7 +192,7 @@ export const healthcheck = (ctx, next) => {
 };
 
 export const featureFlags = (ctx, next) => {
-  ctx.body = config.intervalCache.get('flags');
+  ctx.body = config.intervalCache.get('flags');// isFlagEnabled(config.featuresCohort, 'testFlag', config.intervalCache.get('flags'));
   return next();
 };
 
