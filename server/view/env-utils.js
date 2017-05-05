@@ -9,7 +9,7 @@ export default function getEnv(root) {
 
 export function addGlobals(env) {
   env.addGlobal('featureFlags', config.intervalCache.get('flags'));
-  env.addGlobal('featureGroup', 'beta');// TODO make this group dynamic;
+  env.addGlobal('featureCohort', config.featuresCohort);
   return env;
 }
 
