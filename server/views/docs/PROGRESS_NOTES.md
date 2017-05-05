@@ -23,6 +23,12 @@ We’ll regularly publish information about new features here.
 * Designed an enhanced reading experience for mobile and desktop users, improving legibility, image and video presentation.
 * Introduced new visual design, including fonts, colour palette, bigger and bolder images.
 
+**March-April 2017: Enhancements and Infrastructure**
+* Released a six-part story, [Electric Sublime](https://next.wellcomecollection.org/series/electric-sublime), publishing a new part every Thursday.
+* Made improvements to site functionality and accessibility. 
+* Redirected all visitors to blog.wellcomecollection.org to our new site.
+* Continued the essential infrastructure work to decouple our content management architecture from the site code. 
+
 ## Tell us what you think
 This is a work in progress, and we’d like to know what you think about the new website. You can get in touch in two ways:
 
