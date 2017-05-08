@@ -113,7 +113,6 @@ export const model2 = createNumberedList({
 });
 
 const model3 = createNumberedList({
-  name: null,
   items: promos
 });
 

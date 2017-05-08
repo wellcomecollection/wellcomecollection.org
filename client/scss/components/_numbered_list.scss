@@ -36,6 +36,10 @@ $numbered-list-number-size-large: 96px;
   border-width: 0 0 1px;
   position: relative;
 
+  .numbered-list--transporter & {
+    background-color: color('transparent');
+  }
+
   &:last-child {
     border-bottom: 0;
   }

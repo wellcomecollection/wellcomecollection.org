@@ -1,7 +1,7 @@
 {% set isTransporter = modifiers and modifiers | contains('transporter') %}
 
 <div class="numbered-list{% for modifier in modifiers %} numbered-list--{{modifier}}{% endfor %} {% for class in data.classes %} {{class}}{% endfor %}">
-  {% if model.name %}
+  {% if model.name and not isTransporter %}
     <header class="numbered-list__header {{ 'numbered-list__header--has-image' if model.image }}">
       <h2 class="numbered-list__heading">{{ model.name }}</h2>
       {% if model.image %}

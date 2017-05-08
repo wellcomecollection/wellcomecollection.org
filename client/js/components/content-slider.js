@@ -397,7 +397,6 @@ const contentSlider = (el, options) => {
   sliderElements.nextControl.addEventListener('mouseup', blurCurrentTarget); // Don't blur for keyboard navigation
 
   if (settings.scrollToClickedItem) {
-    console.log('yo');
     nodeList(sliderElements.slideItems).forEach((item) => {
       item.addEventListener('click', ({ target, currentTarget }) => {
         // We only want to match clicks on the img, because clicks on the
