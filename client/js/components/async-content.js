@@ -26,7 +26,7 @@ export default function asyncContent(el, dispatch) {
 
     if (component === 'series-transporter') {
       const numberedListTransporter = document.querySelector('.js-numbered-list-transporter');
-      console.log(numberedListTransporter);
+
       if (numberedListTransporter) {
         contentSlider(numberedListTransporter, {
           slideSelector: '.numbered-list__item',

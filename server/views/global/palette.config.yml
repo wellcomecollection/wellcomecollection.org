@@ -15,7 +15,7 @@ context:
     hex: "#010101"
   secondary:
   - name: turquoise
-    hex: "#5cb8bf"
+    hex: "#489199"
   - name: teal
     hex: "#006272"
   - name: petrol

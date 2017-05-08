@@ -14,7 +14,7 @@ const articleSeries = {
   url: '#',
   name: 'Testing Digital Story Transporter',
   commissionedLength: 6,
-  color: 'orange'
+  color: 'turquoise'
 };
 
 const promo: Promo = createPromo({
@@ -113,6 +113,7 @@ export const model2 = createNumberedList({
 });
 
 const model3 = createNumberedList({
+  color: 'turquoise',
   items: promos
 });
 
