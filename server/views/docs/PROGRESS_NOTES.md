@@ -30,9 +30,6 @@ We’ll regularly publish information about new features here.
 * Continued the essential infrastructure work to decouple our content management architecture from the site code. 
 
 ## Tell us what you think
-This is a work in progress, and we’d like to know what you think about the new website. You can get in touch in two ways:
-
-* Through the feedback module on the site
-* [Email us](mailto:DigitalandTechnology-dotorg@wellcome.ac.uk)
+This is a work in progress, and we’d like to know what you think about the new website. Please [email us](mailto:DigitalandTechnology-dotorg@wellcome.ac.uk) your feedback and ideas.
 
 If you’d like to be involved in usability testing (surveys, in-person and online activities) please [drop us an email](mailto:DigitalandTechnology-dotorg@wellcome.ac.uk) with your contact details and the Digital Experience team will be in touch. 
