@@ -9,7 +9,7 @@ import type {ArticleStub} from './article-stub';
 
 export type Promo = UiComponent & {
   type?: 'promo';
-  url: string;
+  url?: ?string;
   title: string;
   image?: ?Picture;
   contentType: ContentType;

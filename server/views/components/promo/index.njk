@@ -6,7 +6,9 @@
   {% set sizes = defaultPromoSizes %}
 {% endif %}
 
-<a href="{{ promo.url }}" class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %} promo--{{ promo.contentType }}">
+<{{ 'a' if promo.url else 'span' }}
+  {% if promo.url %}href="{{ promo.url }}"{% endif %}
+  class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %} promo--{{ promo.contentType }} {{ 'promo--surrogate' if not promo.url }}">
   <div class="promo__image-container">
     {% if promo.image %}
       {% componentV2 'image', promo.image, {}, {lazyload: true, sizesQueries: sizes} %}
@@ -29,7 +31,7 @@
       {% endif %}
     {% endfor %}
 
-    {% if promo.series %}
+    {% if promo.series and promo.url %}
       {% set seriesTitle = promo.series | getSeriesTitle %}
       {% set commissionedSeries = promo.series | getCommissionedSeries %}
       {% if commissionedSeries and promo.positionInSeries %}
@@ -84,4 +86,4 @@
       </div>
     </div>
   {% endif %}
-</a>
+</{{ 'a' if promo.url else 'span' }}>

@@ -47,6 +47,14 @@ $numbered-list-number-size-large: 96px;
   .numbered-list__number {
     color: color('white');
   }
+
+  .numbered-list--transporter & {
+    background: color('inherit');
+
+    .numbered-list__number {
+      color: color('silver');
+    }
+  }
 }
 
 .numbered-list__number {

@@ -12,18 +12,16 @@ const picture = createPicture({
 
 const articleSeries = {
   url: '#',
-  name: 'test',
+  name: 'Testing Digital Story Transporter',
   commissionedLength: 6,
   color: 'orange'
 };
 
 const promo: Promo = createPromo({
   type: 'promo',
-  url: '#',
   title: 'Title',
   image: picture,
   contentType: 'article',
-  description: 'Lorem ipsum, dolor sit amet, yeah?',
   length: 6,
   series: [articleSeries]
 });
@@ -32,10 +30,16 @@ const promos: Array<Promo> = new Array(6)
   .fill(undefined)
   .map((item, index) => {
     const datePublished = index < 3 ? new Date(2017, 5, index) : null;
+    const url = index < 3 ? '#' : null;
+    const description = index < 3 ? 'Lorem ipsum, dolor sit amet' : null;
+    const title = index < 3 ? 'Title' : 'Coming soon…';
     return Object.assign(
       {},
       promo,
+      {title: title},
       {positionInSeries: index + 1},
+      {description: description},
+      {url: url},
       {datePublished: datePublished}
     );
   });

@@ -170,8 +170,8 @@
     color: color('purple');
   }
 
-  .promo:hover &,
-  .promo:focus & {
+  .promo:not(.promo--surrogate):hover &,
+  .promo:not(.promo--surrogate):focus & {
     color: color('black');
   }
 }
@@ -183,12 +183,16 @@
   margin-bottom: 0.9em;
   transition: color 400ms ease;
 
+  .promo--surrogate & {
+    color: color('silver');
+  }
+
   @include container-query(('xl': ('12'))) {
     @include font('WB3');
   }
 
-  .promo:hover &,
-  .promo:focus & {
+  .promo:not(.promo--surrogate):hover &,
+  .promo:not(.promo--surrogate):focus & {
     color: color('mint');
   }
 
