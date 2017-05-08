@@ -11,7 +11,7 @@ import {PaginationFactory} from '../model/pagination';
 import {createNumberedList} from '../model/numbered-list';
 import {getItem as getPrismicItem} from '../services/prismic';
 import config from '../config';
-
+import {isFlagEnabled} from '../util/flag-status';
 const maxItemsPerPage = 32;
 
 export const article = async(ctx, next) => {
@@ -192,7 +192,7 @@ export const healthcheck = (ctx, next) => {
 };
 
 export const featureFlags = (ctx, next) => {
-  ctx.body = config.intervalCache.get('flags');// isFlagEnabled(config.featuresCohort, 'testFlag', config.intervalCache.get('flags'));
+  ctx.body = isFlagEnabled(config.featuresCohort, 'testFlag', config.intervalCache.get('flags'));
   return next();
 };
 

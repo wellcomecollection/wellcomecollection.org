@@ -1,10 +1,17 @@
+const flagBoolean = (value) => {
+  if (value === 'on') {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 export const isFlagEnabled = (userGroup, flagName, flags) => {
   const flagConfig = flags[flagName];
   if (flagConfig) {
-    return flagConfig[userGroup] || flagConfig['default'] || false;
+    return flagBoolean(flagConfig[userGroup]) || flagBoolean(flagConfig['default']) || false;
   }
   return false;
 };
 
-// import {isFlagEnabled} from '../util/flag-status';
-// isFlagEnabled('beta', 'testFlag', config.intervalCache.get('flags'));
+// TODO use a shared component on both server and client
