@@ -193,7 +193,8 @@ export const healthcheck = (ctx, next) => {
 export const featureFlags = (ctx, next) => {
   ctx.render('pages/flags', {
     pageConfig: createPageConfig({inSection: 'index'}),
-    flags: config.intervalCache.get('flags')
+    flags: config.intervalCache.get('flags'),
+    cohorts: config.intervalCache.get('cohorts')
   });
   return next();
 };
