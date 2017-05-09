@@ -68,7 +68,8 @@ const init = () => {
   nodeList(galleries).forEach((gallery) => {
     contentSlider(gallery, {
       slideSelector: '.image-gallery__item',
-      cssPrefix: 'image-gallery__',
+      cssPrefix: 'slider__',
+      modifiers: ['gallery'],
       sliderType: 'gallery'
     });
   });

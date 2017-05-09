@@ -15,7 +15,8 @@ const contentSlider = (el, options) => {
     sliderType: 'default',
     containImages: true,
     truncateText: true,
-    scrollToClickedItem: true
+    scrollToClickedItem: true,
+    modifiers: []
   };
   const settings = Object.assign({}, defaults, options);
   // Grab/create necessary slider elements
@@ -34,14 +35,23 @@ const contentSlider = (el, options) => {
     arrowThin: '<svg class="control-arrow" aria-hidden="true" viewBox="0 0 20 26"><path class="icon__shape" d="M18.71 15.29a1 1 0 0 0-1.41 0l-6.3 6.3V2a1 1 0 0 0-2 0v19.59l-6.29-6.3A1 1 0 0 0 1.3 16.7l8 8a1 1 0 0 0 1.41 0l8-8a1 1 0 0 0 0-1.41z"></path></svg>'
   };
 
+  function setModifiers(cssBlock) {
+    return settings.modifiers.reduce((acc, curr) => {
+      return `${acc} ${settings.cssPrefix}${cssBlock}--${curr}`;
+    }, '');
+  }
+
+  const sliderModifiers = setModifiers('slider');
+  const sliderControlsModifiers = setModifiers('slider-controls');
+
   // Generate classes for slider elements
   const classes = {
-    slider: `${settings.cssPrefix}slider`,
+    slider: `${settings.cssPrefix}slider ${sliderModifiers}`,
     sliderInner: `${settings.cssPrefix}slider-inner`,
     slidesContainer: `${settings.cssPrefix}slides-container`,
     sliderItem: `${settings.cssPrefix}slide-item`,
     currentItem: `${settings.cssPrefix}slide-item--current`,
-    sliderControls: `${settings.cssPrefix}slider-controls`,
+    sliderControls: `${settings.cssPrefix}slider-controls  ${sliderControlsModifiers}`,
     prevControl: `${settings.cssPrefix}slider-control--prev`,
     nextControl: `${settings.cssPrefix}slider-control--next`,
     sliderControlInactive: `${settings.cssPrefix}slider-control--inactive`

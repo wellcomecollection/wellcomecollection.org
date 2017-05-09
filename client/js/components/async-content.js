@@ -30,7 +30,8 @@ export default function asyncContent(el, dispatch) {
       if (numberedListTransporter) {
         contentSlider(numberedListTransporter, {
           slideSelector: '.numbered-list__item',
-          cssPrefix: 'transporter__',
+          cssPrefix: 'slider__',
+          modifiers: ['transporter'],
           transitionSpeed: 0.7,
           truncateText: false,
           containImages: false,
