@@ -17,7 +17,10 @@ provider "aws" {
 module "wellcomecollection" {
   source                          = "../templates"
   project_name                    = "wellcomecollection"
+  ssl_cert_name                   = "*.dev-wellcomecollection.org"
+  alb_log_bucket                  = "wellcomecollection-dev-logs"
   container_definitions           = "${file("../container-definitions.json")}"
+  container_definitions_thumbor   = "${file("../container-definitions-thumbor.json")}"
   wellcomecollection_key_path     = "${var.wellcomecollection_key_path}"
   wellcomecollection_key_name     = "${var.wellcomecollection_key_name}"
   wellcomecollection_ssl_cert_arn = "${var.wellcomecollection_ssl_cert_arn}"
