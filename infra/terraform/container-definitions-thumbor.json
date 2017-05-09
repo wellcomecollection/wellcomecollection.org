@@ -1,7 +1,7 @@
 [
   {
     "name": "thumbor",
-    "image": "wellcome/wellcomecollection-thumbor:test",
+    "image": "wellcome/wellcomecollection-thumbor:${container_tag}",
     "cpu": 512,
     "memory": 1000,
     "essential": true,
