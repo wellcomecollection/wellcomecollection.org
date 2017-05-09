@@ -1,5 +1,5 @@
 data "aws_acm_certificate" "star_wellcomecollection_org" {
-  domain = "*.wellcomecollection.org"
+  domain = "${var.ssl_cert_name}"
   statuses = ["ISSUED"]
 }
 
@@ -13,8 +13,12 @@ resource "aws_alb" "wellcomecollection_alb" {
     "${aws_security_group.docker.id}"
   ]
   access_logs {
-    bucket = "wellcomecollection-logs"
+    bucket = "${aws_s3_bucket.alb_log_bucket.bucket}"
     prefix = "dotorg-alb"
+  }
+
+  lifecycle {
+    prevent_destroy = true
   }
 }
 
@@ -55,6 +59,37 @@ resource "aws_alb_listener" "wellcomecollection_https" {
   default_action {
     target_group_arn = "${aws_alb_target_group.wellcomecollection.id}"
     type             = "forward"
+  }
+}
+
+resource "aws_alb_listener_rule" "thumbor" {
+  listener_arn = "${aws_alb_listener.wellcomecollection_https.arn}"
+  priority     = 99
+
+  action {
+    type             = "forward"
+    target_group_arn = "${aws_alb_target_group.thumbor.arn}"
+  }
+
+  condition {
+    field  = "host-header"
+    values = ["img.wellcomecollection.org"]
+  }
+}
+
+resource "aws_alb_target_group" "thumbor" {
+  name     = "thumbor"
+  port     = 8000
+  protocol = "HTTP"
+  vpc_id   = "${aws_vpc.wellcomecollection.id}"
+
+  health_check {
+    healthy_threshold   = 5
+    unhealthy_threshold = 2
+    timeout             = 5
+    protocol            = "HTTP"
+    path                = "/unsafe/300x300/wellcomecollection.files.wordpress.com/2017/04/es-05-04-l0086283-16-9.jpg"
+    interval            = 30
   }
 }
 

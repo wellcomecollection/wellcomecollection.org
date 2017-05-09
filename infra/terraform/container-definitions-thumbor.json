@@ -1,0 +1,17 @@
+[
+  {
+    "name": "thumbor",
+    "image": "wellcome/wellcomecollection-thumbor:${container_tag}",
+    "cpu": 512,
+    "memory": 1000,
+    "essential": true,
+    "portMappings": [
+      {
+        "containerPort": 8000,
+        "hostPort": 0,
+        "protocol": "tcp"
+      }
+    ],
+    "environment": []
+  }
+]
