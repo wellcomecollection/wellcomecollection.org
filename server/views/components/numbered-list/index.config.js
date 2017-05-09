@@ -12,7 +12,7 @@ const picture = createPicture({
 
 const articleSeries = {
   url: '#',
-  name: 'Testing Digital Story Transporter',
+  name: 'Making Nature',
   commissionedLength: 6,
   color: 'turquoise'
 };
@@ -32,11 +32,13 @@ const promos: Array<Promo> = new Array(6)
     const datePublished = index < 3 ? new Date(2017, 5, index) : null;
     const url = index < 3 ? '#' : null;
     const description = index < 3 ? 'Lorem ipsum, dolor sit amet' : null;
-    const title = index < 3 ? 'Title' : 'Coming soon…';
+    const title = index < 3 ? 'Title' : null;
+    const image = index < 3 ? picture : null;
     return Object.assign(
       {},
       promo,
       {title: title},
+      {image: image},
       {positionInSeries: index + 1},
       {description: description},
       {url: url},
@@ -113,6 +115,7 @@ export const model2 = createNumberedList({
 });
 
 const model3 = createNumberedList({
+  name: 'Making Nature',
   color: 'turquoise',
   items: promos
 });

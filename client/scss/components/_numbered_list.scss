@@ -206,6 +206,16 @@ $numbered-list-number-size-large: 96px;
       background: color('pumice');
     }
 
+    &:first-child:after {
+      @include respond-to('medium') {
+        left: map-get($gutter-width, 'medium');
+      }
+
+      @include respond-to('large') {
+        left: map-get($gutter-width, 'large');
+      }
+    }
+
     @include respond-to('medium') {
       flex-basis: 60%;
       min-width: 60%;

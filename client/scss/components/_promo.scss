@@ -27,6 +27,27 @@
 
 @include image-zoom ($interactionElement: '.promo', $containerElement: '.promo__image-container', $zoomElement: '.image');
 
+.promo__image-surrogate {
+  position: relative;
+
+  &:before {
+    display: block;
+    content: '';
+    width: 100%;
+    padding-top: (9 / 16) * 100%;
+  }
+}
+
+.promo__image-surrogate-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: $border-radius-unit;
+  background: repeating-linear-gradient(-45deg, color('smoke'), color('smoke') 2px, color('transparent') 2px, color('transparent') 4px);
+}
+
 .promo__image-container {
   position: relative;
   width: 100%;
