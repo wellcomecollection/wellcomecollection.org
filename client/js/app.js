@@ -16,6 +16,7 @@ import instagram from './components/instagram';
 import asynContent from './components/async-content';
 import contentSlider from './components/content-slider';
 import gaScrollDepth from '../libs/ga-scroll-depth';
+import joinCohort from './components/join-cohort';
 
 const init = () => {
   nodeList(document.querySelectorAll('.async-content')).forEach((el) => {
@@ -34,6 +35,7 @@ const init = () => {
   const stickyEls = document.querySelectorAll('.js-sticky');
   const galleries = document.querySelectorAll('.js-image-gallery');
   const mainEl = document.getElementById('main');
+  const cohortButtons = document.querySelectorAll('.js-cohort-button');
 
   nodeList(wobblyEdgeEls).forEach((el) => wobblyEdge(el));
 
@@ -71,6 +73,10 @@ const init = () => {
       cssPrefix: 'image-gallery__',
       sliderType: 'gallery'
     });
+  });
+
+  nodeList(cohortButtons).forEach((button) => {
+    joinCohort(button);
   });
 };
 
