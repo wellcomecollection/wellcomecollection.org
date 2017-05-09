@@ -59,6 +59,11 @@
 
 @include slider('transporter__');
 
+.transporter__slide-item {
+  padding-bottom: 5 * $spacing-unit;
+}
+
+// TODO: Below is very similar to image-gallery. DRY it.
 .transporter__slider {
   overflow: hidden;
   position: relative;
@@ -126,16 +131,25 @@
 }
 
 .transporter__slider-controls {
-  position: absolute;
-  bottom: 2 * $spacing-unit;
-  right: 0;
+  top: -60px;
+  position: relative;
+
+  /* stylelint-disable plugin/selector-bem-pattern */
+  .control-arrow {
+    width: 20px;
+    height: 26px;
+  }
+  /* stylelint-enable */
 }
+
+$transporter-control-size: 48px;
+$transporter-control-margin: 18px;
 
 .transporter__slider-control--prev,
 .transporter__slider-control--next {
   background: color('white');
-  width: 6 * $spacing-unit;
-  height: 6 * $spacing-unit;
+  width: $transporter-control-size;
+  height: $transporter-control-size;
   line-height: 0;
   border-radius: 50%;
   border: 2px solid color('silver');
@@ -143,12 +157,19 @@
   outline: none;
   overflow: hidden;
   position: relative;
+  margin-left: calc(100% - (2 * #{$transporter-control-size} + #{$transporter-control-margin}));
+
+  // this calculation is related to the gallery appearing in the article template
+  @include respond-to('xlarge') {
+    margin-left: 50%;
+    left: -(($container-width-max - (map-get($container-padding, 'large') * 2)) / 2) * (-5/6) - ((2 * $transporter-control-size) + $transporter-control-margin);
+  }
 
   &:focus {
     background: color('smoke');
   }
 }
 
-.transporter__slider-control--prev {
-  margin-right: $spacing-unit;
+.transporter__slider-control--next {
+  margin-left: $transporter-control-margin;
 }

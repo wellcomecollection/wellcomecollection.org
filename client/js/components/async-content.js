@@ -34,7 +34,6 @@ export default function asyncContent(el, dispatch) {
           transitionSpeed: 0.7,
           truncateText: false,
           containImages: false,
-          controlsInSliderInner: true,
           scrollToClickedItem: false
         });
       }

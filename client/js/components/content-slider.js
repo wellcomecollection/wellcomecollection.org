@@ -15,7 +15,6 @@ const contentSlider = (el, options) => {
     sliderType: 'default',
     containImages: true,
     truncateText: true,
-    controlsInSliderInner: false,
     scrollToClickedItem: true
   };
   const settings = Object.assign({}, defaults, options);
@@ -83,11 +82,7 @@ const contentSlider = (el, options) => {
     sliderElements.slidesContainer.parentNode.insertBefore(sliderElements.slider, sliderElements.slidesContainer);
     sliderElements.slider.appendChild(sliderElements.sliderInner);
     sliderElements.sliderInner.appendChild(sliderElements.slidesContainer);
-    if (settings.controlsInSliderInner) {
-      sliderElements.sliderInner.appendChild(sliderElements.sliderControls);
-    } else {
-      sliderElements.slider.parentNode.insertBefore(sliderElements.sliderControls, sliderElements.slider.nextSibling);
-    }
+    sliderElements.slider.parentNode.insertBefore(sliderElements.sliderControls, sliderElements.slider.nextSibling);
 
     sliderElements.sliderControls.appendChild(sliderElements.prevControl);
     sliderElements.sliderControls.appendChild(sliderElements.nextControl);
