@@ -1,0 +1,28 @@
+{% extends 'layout/default.njk' %}
+
+{% block body %}
+<div class="row">
+  <div class="container">
+    <div class="grid">
+      <div class="{{ {s:4, m:8, l:12, xl: 12} | gridClasses }}">
+        <h1 class="flags-title">Feature flags status</h1>
+        {% for name, flag in flags %}
+        <table class="flag-table {{ {s:2, m:4, l:4, xl:4} | spacingClasses({margin: ['top','bottom']})}}">
+          <caption class="flag-table__caption {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}"><strong>{{name}}</strong></caption>
+          <tr class="flag-table__row">
+            <th class="flag-table__heading {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">cohort</th>
+            <th class="flag-table__heading {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">status</th>
+          </tr>
+          {% for name, status in flag %}
+            <tr class="flag-table__row">
+              <td class="flag-table__cell {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">{{name}}</td>
+              <td class="flag-table__cell flag-table__cell--{{status}} {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">{{status}}</td>
+            </tr>
+          {% endfor %}
+          </table>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
