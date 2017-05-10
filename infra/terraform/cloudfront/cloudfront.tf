@@ -81,7 +81,7 @@ resource "aws_cloudfront_distribution" "next" {
 
       cookies {
         forward = "whitelist"
-        whitelisted_names = ["WC_wpAuthToken"]
+        whitelisted_names = ["WC_wpAuthToken", "WC_featuresCohort"]
       }
     }
   }

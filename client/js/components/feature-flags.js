@@ -1,1 +1,3 @@
-export const featureFlags = window.featureFlags;
+const {featuresCohort, featureFlags} = window.WC;
+
+export {featuresCohort, featureFlags};

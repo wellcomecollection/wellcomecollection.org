@@ -9,6 +9,7 @@ export default function getEnv(root) {
 
 export function addGlobals(env) {
   env.addGlobal('featureFlags', config.intervalCache.get('flags'));
+  env.addGlobal('featuresCohort', config.featuresCohort);
   return env;
 }
 
