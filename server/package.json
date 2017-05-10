@@ -9,7 +9,7 @@
     "app:docker": "pm2-docker --json pm2.yml",
     "app:run": "pm2 start ./.dist/run.js --name 'wellcomecollection.org'",
     "fractal": "fractal start —sync --port 3002",
-    "fractal:build": "fractal build",
+    "fractal:build": "node ./build-cardigan.js",
     "fractal:watch": "nodemon -e js,njk,yml,md --exec 'fractal start —sync --port 3002'",
     "optimise:svg": "node ./optimise-svgs.js",
     "test": "ava",
@@ -26,7 +26,7 @@
   "author": "wellcomecollection.dev@wellcome.ac.uk",
   "license": "MIT",
   "dependencies": {
-    "@frctl/fractal": "^1.1.3",
+    "@frctl/fractal": "^1.1.4",
     "@frctl/nunjucks": "https://github.com/gestchild/nunjucks/tarball/66b327d3c9ac24f97784332c09669336fe4c650a",
     "ava": "^0.17.0",
     "babel-cli": "^6.18.0",
