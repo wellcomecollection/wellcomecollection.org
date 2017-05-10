@@ -1,0 +1,30 @@
+.gif-video {
+  video {
+    width: 100%;
+  }
+
+  .vjs-gifplayer {
+    width: auto;
+    height: auto;
+
+    &:after {
+      @include font('WB6');
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      background-color: rgba(color('black'), 0.5);
+      color: color('white');
+      content: 'GIF';
+      padding: $spacing-unit;
+      border-radius: $border-radius-unit;
+      opacity: 0.85;
+    }
+  }
+
+  .vjs-big-play-button,
+  .vjs-control-bar,
+  .vjs-error-display,
+  .vjs-caption-settings {
+    display: none;
+  }
+}

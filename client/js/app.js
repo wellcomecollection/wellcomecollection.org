@@ -16,6 +16,14 @@ import instagram from './components/instagram';
 import asynContent from './components/async-content';
 import contentSlider from './components/content-slider';
 import gaScrollDepth from '../libs/ga-scroll-depth';
+import videojs from 'video.js';
+import '../libs/gif-video';
+
+const gifVideos = document.querySelectorAll('.js-gif-video');
+nodeList(gifVideos).forEach((gifVideo) => {
+  const player = videojs(gifVideo);
+  player.gifplayer({controls: true});
+});
 
 const init = () => {
   nodeList(document.querySelectorAll('.async-content')).forEach((el) => {

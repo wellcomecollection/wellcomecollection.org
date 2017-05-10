@@ -1,0 +1,11 @@
+<div class="gif-video">
+  <video class="js-gif-video" controls preload="auto"
+    poster="{{ model.poster }}"
+    data-setup='{}'>
+
+    {% for source in model.sources %}
+      <source src="{{ source.url }}" type='{{ source.type }}'>
+    {% endfor %}
+    <p class="vjs-no-js">Your browser can't handle our gifs</p>
+  </video>
+</div>
