@@ -1,35 +1,34 @@
 {% extends 'layout/default.njk' %}
 
 {% block body %}
+<div class="feature-flags">
   <div class="row">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:4, m:8, l:12, xl: 12} | gridClasses }}">
-          <h2 class="flags-title">Feature Flags</h2>
+          <h2 class="feature-flags__title">Feature Flags</h2>
         </div>
       </div>
       <div class="grid">
         <div class="{{ {s:4, m:4, l:4, xl: 4} | gridClasses }}">
-          <div class="cohort">
-            <p>You currently belong to the <span class="cohort-current">{{ featuresCohort  if featuresCohort else
+            <p>You currently belong to the <span class="feature-flags__current-cohort">{{ featuresCohort  if featuresCohort else
              'default' }}</span> group.</p>
             {% for cohort in cohorts %}
               <button class="btn btn--light {{ {s:2, m:4, l:4, xl:4} | spacingClasses({margin: ['bottom']})}} js-cohort-button" data-cohort="{{cohort}}">Join the {{cohort}} group</button>
             {% endfor %}
-          </div>
         </div>
         <div class="{{ {s:4, m:4, l:8, xl: 8} | gridClasses }}">
           {% for name, flag in flags %}
-          <table class="flag-table {{ {s:2, m:4, l:4, xl:4} | spacingClasses({margin: ['bottom']})}}">
-            <caption class="flag-table__caption {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}"><strong>{{name}}</strong></caption>
-            <tr class="flag-table__row">
-              <th class="flag-table__heading {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">cohort</th>
-              <th class="flag-table__heading {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">status</th>
+          <table class="feature-flags__table {{ {s:2, m:4, l:4, xl:4} | spacingClasses({margin: ['bottom']})}}">
+            <caption class="feature-flags__caption {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}"><strong>{{name}}</strong></caption>
+            <tr class="feature-flags__row">
+              <th class="feature-flags__heading {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">cohort</th>
+              <th class="feature-flags__heading {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">status</th>
             </tr>
             {% for name, status in flag %}
-              <tr class="flag-table__row">
-                <td class="flag-table__cell {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">{{name}}</td>
-                <td class="flag-table__cell flag-table__cell--{{status}} {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">{{status}}</td>
+              <tr class="feature-flags__row">
+                <td class="feature-flags__cell {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">{{name}}</td>
+                <td class="feature-flags__cell feature-flags__cell--{{status}} {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">{{status}}</td>
               </tr>
             {% endfor %}
             </table>
@@ -38,4 +37,5 @@
       </div>
     </div>
   </div>
+</div>
 {% endblock %}

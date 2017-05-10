@@ -1,4 +1,8 @@
-.flags-title {
+.feature-flags {
+  @include font('HNL3');
+}
+
+.feature-flags__title {
   @include font('WB5');
 
   @include respond-to('medium') {
@@ -10,14 +14,18 @@
   }
 }
 
-.flag-table__caption {
+.feature-flags__current-cohort {
+  @include font('HNM3');
+}
+
+.feature-flags__caption {
   background: color('black');
   border-radius: $border-radius-unit $border-radius-unit 0 0;
   color: color('white');
   text-align: left;
 }
 
-.flag-table {
+.feature-flags__table {
   min-width: 100%;
   text-align: left;
   border-spacing: 0;
@@ -25,7 +33,7 @@
   border: 1px solid color('pumice');
 }
 
-.flag-table__heading {
+.feature-flags__heading {
   @include font('HNM4');
   border-bottom: 2px solid color('black');
 
@@ -34,7 +42,7 @@
   }
 }
 
-.flag-table__cell {
+.feature-flags__cell {
   @include font('HNL4');
   border-bottom: 1px solid color('pumice');
 
@@ -42,20 +50,20 @@
     background: color('smoke');
   }
 
-  &.flag-table__cell--on {
+  &.feature-flags__cell--on {
     background: color('java');
   }
 
-  &.flag-table__cell--off {
+  &.feature-flags__cell--off {
     background: color('red');
     color: color('white');
   }
 
-  .flag-table__row:last-child & {
+  .feature-flags__row:last-child & {
     border: 0;
   }
 
-  .flag-table__row:last-child &:last-child {
+  .feature-flags__row:last-child &:last-child {
     border-radius: 0 0 $border-radius-unit 0;
   }
 }
