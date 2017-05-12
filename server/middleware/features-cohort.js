@@ -1,6 +1,6 @@
-export function determineFeaturesCohort(config) {
+export function determineFeaturesCohort() {
   return (ctx, next) => {
-    config.featuresCohort = ctx.cookies.get('WC_featuresCohort') || 'default';
+    ctx.featuresCohort = ctx.cookies.get('WC_featuresCohort') || 'default';
     return next();
   };
 }

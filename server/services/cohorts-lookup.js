@@ -1,8 +1,9 @@
 // @flow
 import Prismic from 'prismic.io';
+import {prismicApi} from '../services/prismic-api';
 
 export const getCohorts = async () => {
-  const api = await Prismic.api('http://wellcomecollection.prismic.io/api');
+  const api = await prismicApi();
   const response = await api.query(Prismic.Predicates.at('document.type', 'featurescohort'));
   const results = response.results;
   const cohorts = results.map((item) => {

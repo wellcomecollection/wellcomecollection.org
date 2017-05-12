@@ -1,15 +1,13 @@
 import nunjucks from 'nunjucks';
 import extensions from '../extensions';
 import filters from '../filters';
-import config from '../config';
 
 export default function getEnv(root) {
   return nunjucks.configure(root);
 }
 
-export function addGlobals(env) {
-  env.addGlobal('featureFlags', config.intervalCache.get('flags'));
-  env.addGlobal('featuresCohort', config.featuresCohort);
+export function addGlobals(env, globals) {
+  globals.forEach((v, k) => env.addGlobal(k, v));
   return env;
 }
 
@@ -23,6 +21,10 @@ export function addFilters(env) {
   return env;
 }
 
-export function getEnvWithGlobalsExtensionsAndFilters(root) {
-  return addFilters(addExtensions(addGlobals(getEnv(root))));
+export function getEnvWithGlobalsExtensionsAndFilters(root, globals) {
+  return addFilters(
+    addExtensions(
+      addGlobals(getEnv(root), globals)
+    )
+  );
 }
