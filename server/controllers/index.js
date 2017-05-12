@@ -9,7 +9,6 @@ import { getSeriesColor } from '../data/series';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {createNumberedList} from '../model/numbered-list';
-import {getItem as getPrismicItem} from '../services/prismic';
 import config from '../config';
 const maxItemsPerPage = 32;
 
@@ -32,22 +31,6 @@ export const article = async(ctx, next) => {
     }
   }
 
-  return next();
-};
-
-export const prismicArticle = async(ctx, next) => {
-  const {id} = ctx.params;
-  const item = await getPrismicItem(id);
-
-  ctx.render('pages/article', {
-    pageConfig: createPageConfig({
-      title: article.headline,
-      inSection: 'explore'
-    }),
-    article: item
-  });
-
-  // ctx.body = item;
   return next();
 };
 
