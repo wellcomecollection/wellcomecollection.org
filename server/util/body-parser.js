@@ -148,15 +148,15 @@ function splitBlockquote(blockquote) {
       const body = `${wrapper.open}${quote}${wrapper.close}`;
       const footer = citation.length > 1 ? `<footer class="quote__footer"><cite class="quote__cite">${citation}</cite></footer>` : null;
 
-      return { body, footer };
+      return { body, footer, quote, citation };
     } catch (err) {
       return {
-        body: blockquote
+        body: blockquote, quote: blockquote
       };
     }
   } else {
     return {
-      body: blockquote
+      body: blockquote, quote: blockquote
     };
   }
 }

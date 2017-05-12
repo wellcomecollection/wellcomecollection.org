@@ -6,7 +6,8 @@ export const russellDornan: Person = {
   familyName: 'Dornan',
   name: 'Russell Dornan',
   twitterHandle: 'RussellDornan',
-  image: 'https://wellcomecollection.files.wordpress.com/2017/03/russell-dornan-face2.jpg'
+  image: 'https://wellcomecollection.files.wordpress.com/2017/03/russell-dornan-face2.jpg',
+  prismicId: 'WRwwFiUAACMADHP6'
 };
 
 export const ruthGarde: Person = {
@@ -15,6 +16,7 @@ export const ruthGarde: Person = {
   name: 'Ruth Garde',
   twitterHandle: 'ruthgarde',
   image: 'https://wellcomecollection.files.wordpress.com/2017/02/fullsizerender.jpg',
+  prismicId: 'WRRvYiYAACYAGxY0',
   description: 'Ruth Garde is a freelance curator and writer, focusing on the fields of history, ' +
                'art, architecture and heritage. Over the past fourteen years she has worked ' +
                'extensively with Wellcome Collection, writing and curating a variety of projects ' +
@@ -36,7 +38,8 @@ export const robertBidder: Person = {
   twitterHandle: 'robertbidder',
   description: 'Rob is an artist based in South-east London and a Visitor Experience Assistant at Wellcome Collection. '+
                'He also plays music in a ramshackle manner. He is a Gemini with a Libra ascendant.',
-  image: 'https://wellcomecollection.files.wordpress.com/2017/05/robbidder.jpg'
+  image: 'https://wellcomecollection.files.wordpress.com/2017/05/robbidder.jpg',
+  prismicId: 'WRwwYSUAACcADHVK'
 };
 
 export const rockWebb: Person = {
@@ -49,12 +52,14 @@ export const sarahBentley: Person = {
   givenName: 'Sarah',
   familyName: 'Bentley',
   name: 'Sarah Bentley',
+  description: 'Sarah is a Visitor Experience Assistant at Wellcome Collection.',
   image: 'https://wellcomecollection.files.wordpress.com/2017/05/sarah2.jpg',
-  description: 'Sarah is a Visitor Experience Assistant at Wellcome Collection.'
+  prismicId: 'WRww4SUAACUADHeI'
 };
 
 export const sarahJaffray: Person = {
   givenName: 'Sarah',
   familyName: 'Jaffray',
-  name: 'Sarah Jaffray'
+  name: 'Sarah Jaffray',
+  prismicId: 'WRwxJSUAACUADHi9'
 };
