@@ -17,6 +17,8 @@ Throughout 2017, you’ll be introduced to:
 
 We’ll regularly publish information about new features here. 
 
+You can also sign up to take part in user research (surveys, in-person and online activities). [Register for the Wellcome Collection User Panel](https://www.surveymonkey.co.uk/r/WQXZT8R) to contribute to our exciting redevelopment. 
+
 ## Progress Notes
 **February 2017: Launched a new Explore section**
 * Began publishing Wellcome Collection’s blog to the [Explore](https://next.wellcomecollection.org/explore) section. 
@@ -31,5 +33,3 @@ We’ll regularly publish information about new features here.
 
 ## Tell us what you think
 This is a work in progress, and we’d like to know what you think about the new website. Please [email us](mailto:DigitalandTechnology-dotorg@wellcome.ac.uk) your feedback and ideas.
-
-If you’d like to be involved in usability testing (surveys, in-person and online activities) please [drop us an email](mailto:DigitalandTechnology-dotorg@wellcome.ac.uk) with your contact details and the Digital Experience team will be in touch. 
