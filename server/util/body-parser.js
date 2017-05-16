@@ -37,7 +37,8 @@ export function explodeIntoBodyParts(nodes) {
       convertTweet,
       convertInstagramEmbed,
       findWpImageGallery,
-      convertQuote
+      convertQuote,
+      convertPreformatedText
     ];
 
     // TODO: Tidy up typing here
@@ -171,6 +172,24 @@ export function convertQuote(node) {
       type: 'quote',
       value: splitBlockquote(content)
     });
+  } else {
+    return node;
+  }
+}
+
+export function convertPreformatedText(node) {
+  const isPre = node.nodeName === 'pre';
+  if (isPre) {
+    const content = node.childNodes && node.childNodes[0];
+
+    if (content) {
+      return createBodyPart({
+        type: 'pre',
+        value: content.value
+      });
+    } else {
+      return node;
+    }
   } else {
     return node;
   }
