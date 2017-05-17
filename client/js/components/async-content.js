@@ -23,5 +23,21 @@ export default function asyncContent(el, dispatch) {
         shrinkStoriesNav(seriesNav, dispatch);
       }
     }
+
+    if (component === 'series-transporter') {
+      const numberedListTransporter = document.querySelector('.js-numbered-list-transporter');
+
+      if (numberedListTransporter) {
+        contentSlider(numberedListTransporter, {
+          slideSelector: '.numbered-list__item',
+          cssPrefix: 'slider__',
+          modifiers: ['transporter'],
+          transitionSpeed: 0.7,
+          truncateText: false,
+          containImages: false,
+          scrollToClickedItem: false
+        });
+      }
+    }
   });
-}
+};

@@ -6,10 +6,16 @@
   {% set sizes = defaultPromoSizes %}
 {% endif %}
 
-<a href="{{ promo.url }}" class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %} promo--{{ promo.contentType }}">
+<{{ 'a' if promo.url else 'span' }}
+  {% if promo.url %}href="{{ promo.url }}"{% endif %}
+  class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %} promo--{{ promo.contentType }} {{ 'promo--surrogate' if not promo.url }}">
   <div class="promo__image-container">
     {% if promo.image %}
       {% componentV2 'image', promo.image, {}, {lazyload: true, sizesQueries: sizes} %}
+    {% else %}
+      <div class="promo__image-surrogate">
+        <div class="promo__image-surrogate-inner"></div>
+      </div>
     {% endif %}
 
     {% for modifier in promo.modifiers %}
@@ -32,7 +38,7 @@
     {% if promo.series %}
       {% set seriesTitle = promo.series | getSeriesTitle %}
       {% set commissionedSeries = promo.series | getCommissionedSeries %}
-      {% if commissionedSeries and promo.positionInSeries %}
+      {% if commissionedSeries and promo.positionInSeries and promo.url %}
         <img class="image promo__image-mask {{'promo__clip-path--chapters-half' if promo.modifiers and promo.modifiers | contains('standalone') else 'promo__clip-path--chapters-third'}}" src="{{ promo.image.contentUrl }}?w=600" alt="" />
         {% componentV2 'chapter-indicator', {series: commissionedSeries, position: promo.positionInSeries}, {'half': promo.modifiers and promo.modifiers | contains('standalone')}, {showSingle: promo.modifiers and promo.modifiers | contains('standalone')} %}
       {% endif %}
@@ -71,7 +77,7 @@
                   </span>
                 {% endif %}
                   <{{ headingLevel or 'h2'}} class="promo__title{{ ' promo__title--lead' if promo.weight === 'lead' }}">
-                    {{ promo.title }}
+                    {{ promo.title if promo.url else 'Coming soon…' }}
                   </{{ headingLevel or 'h2'}}>
               </div>
               {% if promo.description %}
@@ -84,4 +90,4 @@
       </div>
     </div>
   {% endif %}
-</a>
+</{{ 'a' if promo.url else 'span' }}>

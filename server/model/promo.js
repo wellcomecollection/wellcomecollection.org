@@ -8,7 +8,8 @@ import type {ArticleSeries} from './series';
 import type {ArticleStub} from './article-stub';
 
 export type Promo = UiComponent & {
-  url: string;
+  type?: 'promo';
+  url?: ?string;
   title: string;
   image?: ?Picture;
   contentType: ContentType;
@@ -24,6 +25,7 @@ export function createPromo(data: Promo) { return (data: Promo); }
 export class PromoFactory {
   static fromArticleStub(articleStub: ArticleStub, weight: Weight = 'default'): Promo {
     return ({
+      type: 'promo',
       url: articleStub.url,
       title: articleStub.headline,
       image: articleStub.thumbnail,
