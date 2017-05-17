@@ -2,6 +2,7 @@ import path from 'path';
 import Fractal from '@frctl/fractal';
 import Nunjucks from '@frctl/nunjucks';
 import mandelbrot from '@frctl/mandelbrot';
+import {Map} from 'immutable';
 import filters from './filters';
 import extensions from './extensions';
 import {getEnvWithGlobalsExtensionsAndFilters} from './view/env-utils';
@@ -12,7 +13,7 @@ const root = dir('/views');
 
 // We need to set this up because Fractal doesn't allow us to specify our own
 // nunjucks env, but rather uses config to set it up.
-const nunjucksEnv = getEnvWithGlobalsExtensionsAndFilters(root);
+const nunjucksEnv = getEnvWithGlobalsExtensionsAndFilters(root, Map());
 const extensionsWithEnv = extensions.map(Extension => new Extension(nunjucksEnv));
 
 const nunjucks = Nunjucks({
