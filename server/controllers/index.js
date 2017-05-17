@@ -151,6 +151,7 @@ export const explore = async(ctx, next) => {
   const topPromo = PromoFactory.fromArticleStub(theRest.first(), 'lead');
   const second3Promos = theRest.slice(1, 4).map(PromoFactory.fromArticleStub);
   const next8Promos = theRest.slice(4, 12).map(PromoFactory.fromArticleStub);
+  const digitalStoryUrl = 'electric-sublime';
   const aDropInTheOceanStubs = grouped.last().take(7);
   const aDropInTheOceanSeries: Series = {
     url: '/series/a-drop-in-the-ocean',
@@ -188,6 +189,7 @@ export const explore = async(ctx, next) => {
       title: 'Explore',
       inSection: 'explore'
     }),
+    digitalStoryUrl,
     aDropInTheOcean: aDropInTheOceanPromoList,
     topPromo,
     second3Promos,
