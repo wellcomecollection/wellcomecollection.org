@@ -4,7 +4,7 @@ import Prismic from 'prismic.io';
 let memoizedPrismic;
 export async function prismicApi() {
   if (!memoizedPrismic) {
-    memoizedPrismic = await Prismic.api('http://wellcomecollection.prismic.io/api');
+    memoizedPrismic = await Prismic.api('https://wellcomecollection.prismic.io/api');
   }
 
   return memoizedPrismic;
