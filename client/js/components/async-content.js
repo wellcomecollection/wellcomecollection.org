@@ -1,8 +1,6 @@
 /* global fetch */
 import contentSlider from './content-slider';
 import shrinkStoriesNav from './shrink-stories-nav';
-import { nodeList } from '../util';
-import { trackEvent } from '../utils/track-event';
 
 export default function asyncContent(el, dispatch) {
   const component = el.getAttribute('data-component');
@@ -38,15 +36,6 @@ export default function asyncContent(el, dispatch) {
           truncateText: false,
           containImages: false,
           scrollToClickedItem: false
-        });
-
-        const transporterPromos = document.querySelectorAll('[data-track="transporter-promo"]');
-        nodeList(transporterPromos).forEach((transporterPromo) => {
-          const url = transporterPromo.href;
-
-          transporterPromo.addEventListener('click', () => {
-            trackEvent({name: 'Transporter promo', properties: {url}});
-          });
         });
       }
     }

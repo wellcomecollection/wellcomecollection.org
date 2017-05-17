@@ -17,6 +17,7 @@ import asynContent from './components/async-content';
 import contentSlider from './components/content-slider';
 import gaScrollDepth from '../libs/ga-scroll-depth';
 import joinCohort from './components/join-cohort';
+import './tracking';
 
 const init = () => {
   nodeList(document.querySelectorAll('.async-content')).forEach((el) => {

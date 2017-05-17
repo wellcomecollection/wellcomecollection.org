@@ -12,6 +12,7 @@
     </header>
   {% endif %}
   <ol class="numbered-list__list{% if data.sliderId %} js-numbered-slider{% endif %} {{ 'grid grid--dividers' if isTransporter }}"
+    {% if isTransporter %}data-track="transporter" {% endif %}
     {% if data.sliderId %} id="{{data.sliderId}}" {% endif %}>
     {% for item in model.items -%}
       {% set isCurrent = current === item.url %}
@@ -24,7 +25,7 @@
           <span class="numbered-list__number" aria-hidden="true">{{ loop.index }}</span>
 
           {% if isTransporter %}
-            {% component 'promo', {promo: item, trackingLabel: 'transporter-promo'} %}
+            {% component 'promo', {promo: item} %}
           {% else %}
             {% if item.url %}
               <a href="{{ item.url }}" class="numbered-list__link">
