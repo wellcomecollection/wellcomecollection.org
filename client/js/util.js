@@ -43,25 +43,25 @@ export {
 };
 
 // Event delegation
-function checkTarget(baseElement, target, possibleTarget) {
-  if (target === baseElement) {
+function checkTarget(delegateEl, eventEl, possibleTarget) {
+  if (eventEl === delegateEl) {
     return;
-  } else if (target === possibleTarget) {
+  } else if (eventEl === possibleTarget) {
     return possibleTarget;
   } else {
-    return checkTarget(baseElement, target.parentNode, possibleTarget);
+    return checkTarget(delegateEl, eventEl.parentNode, possibleTarget);
   }
 }
 
-export function on(elSelector, eventName, selector, fn) {
-  const element = document.querySelector(elSelector);
+export function on(delegateElSelector, eventName, eventElSelector, fn) {
+  const delegateEl = document.querySelector(delegateElSelector);
 
-  element.addEventListener(eventName, (event) => {
-    const possibleTargets = nodeList(element.querySelectorAll(selector));
-    const target = event.target;
+  delegateEl.addEventListener(eventName, (event) => {
+    const possibleTargets = nodeList(delegateEl.querySelectorAll(eventElSelector));
+    const eventEl = event.target;
 
     possibleTargets.forEach((possibleTarget) => {
-      const correctTarget = checkTarget(element, target, possibleTarget);
+      const correctTarget = checkTarget(delegateEl, eventEl, possibleTarget);
 
       if (correctTarget) {
         return fn.call(correctTarget, event);
