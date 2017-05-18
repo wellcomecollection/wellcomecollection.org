@@ -54,7 +54,7 @@ function getTarget(delegateEl: HTMLElement, eventEl: HTMLElement, possibleTarget
   }
 }
 
-export function on(delegateElSelector: string, eventName: Event, eventElSelector: string, fn: () => mixed): ?() => mixed {
+export function on(delegateElSelector: string, eventName: Event, eventElSelector: string, fn: () => mixed): void {
   const delegateEl = document.querySelector(delegateElSelector);
 
   delegateEl.addEventListener(eventName, (event) => {
@@ -69,15 +69,4 @@ export function on(delegateElSelector: string, eventName: Event, eventElSelector
       }
     });
   });
-}
-
-// Simple jQuery .closest() equivalent
-export function getClosest(el: HTMLElement, selector: string): ?HTMLElement {
-  if (el === document) return;
-
-  if (el.matches(selector)) {
-    return el;
-  } else {
-    return getClosest(el.parentNode, selector);
-  }
 }
