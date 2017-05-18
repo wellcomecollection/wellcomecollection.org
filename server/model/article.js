@@ -40,62 +40,57 @@ export class ArticleFactory {
     const url = `/articles/${json.slug}`; // TODO: this should be discoverable, not hard coded
     const articleBody = json.content;
     const contentType = getContentType(json.format);
-    try {
-      const bodyPartsRaw = bodyParser(articleBody);
-      const standfirst = bodyPartsRaw.find(part => part.type === 'standfirst');
-      const mainComic: ?Picture = bodyPartsRaw[0] && bodyPartsRaw[0].type === 'picture' && contentType === 'comic' ? bodyPartsRaw[0].value : null;
+    const bodyPartsRaw = bodyParser(articleBody);
+    const standfirst = bodyPartsRaw.find(part => part.type === 'standfirst');
+    const mainComic: ?Picture = bodyPartsRaw[0] && bodyPartsRaw[0].type === 'picture' && contentType === 'comic' ? bodyPartsRaw[0].value : null;
 
-      const mainVideo: ?Video = bodyPartsRaw[0] && bodyPartsRaw[0].type === 'video' ? bodyPartsRaw[0].value : null;
-      const wpThumbnail = json.post_thumbnail;
+    const mainVideo: ?Video = bodyPartsRaw[0] && bodyPartsRaw[0].type === 'video' ? bodyPartsRaw[0].value : null;
+    const wpThumbnail = json.post_thumbnail;
 
-      const thumbnail: ?Picture = wpThumbnail ? {
-        type: 'picture',
-        contentUrl: wpThumbnail.URL,
-        width: wpThumbnail.width,
-        height: wpThumbnail.height
-      } : null;
-      // Annoyingly Wordpress doesn't always send the featured image over with the attachments,
-      // so we revert to the thumbnail.
-      const mainImage: ?Picture = getWpFeaturedImage(json.featured_image, json.attachments) || thumbnail;
-      const mainMedia: Array<Video | Picture> = [(mainComic || mainImage), mainVideo].filter(Boolean);
+    const thumbnail: ?Picture = wpThumbnail ? {
+      type: 'picture',
+      contentUrl: wpThumbnail.URL,
+      width: wpThumbnail.width,
+      height: wpThumbnail.height
+    } : null;
+    // Annoyingly Wordpress doesn't always send the featured image over with the attachments,
+    // so we revert to the thumbnail.
+    const mainImage: ?Picture = getWpFeaturedImage(json.featured_image, json.attachments) || thumbnail;
+    const mainMedia: Array<Video | Picture> = [(mainComic || mainImage), mainVideo].filter(Boolean);
 
-      // If we have a video as the main media, remove it from the bodyParts to not let it show twice
-      // This is due to the fact that WP doesn't allow you to set mainMedia as Youtube embeds.
-      const bodyParts = (mainVideo || mainComic) ? List(bodyPartsRaw).skip(1).toJS() : bodyPartsRaw;
+    // If we have a video as the main media, remove it from the bodyParts to not let it show twice
+    // This is due to the fact that WP doesn't allow you to set mainMedia as Youtube embeds.
+    const bodyParts = (mainVideo || mainComic) ? List(bodyPartsRaw).skip(1).toJS() : bodyPartsRaw;
 
-      const author = authorMap[json.slug];
-      const series: Array<ArticleSeries> = Object.keys(json.categories).map(catKey => {
-        const cat = json.categories[catKey];
-        return {
-          url: cat.slug,
-          name: cat.name,
-          description: cat.description,
-          commissionedLength: getSeriesCommissionedLength(cat.slug),
-          color: getSeriesColor(cat.slug)
-        };
-      });
-
-      const article: Article = {
-        contentType: contentType,
-        url: url,
-        headline: entities.decode(json.title),
-        standfirst: entities.decode(standfirst),
-        description: entities.decode(json.excerpt),
-        datePublished: new Date(json.date),
-        mainMedia: mainMedia,
-        thumbnail: thumbnail,
-        articleBody: articleBody,
-        associatedMedia: mainImage ? [mainImage] : [],
-        author: author,
-        bodyParts: bodyParts,
-        series: series,
-        positionInSeries: positionInSeries
+    const author = authorMap[json.slug];
+    const series: Array<ArticleSeries> = Object.keys(json.categories).map(catKey => {
+      const cat = json.categories[catKey];
+      return {
+        url: cat.slug,
+        name: cat.name,
+        description: cat.description,
+        commissionedLength: getSeriesCommissionedLength(cat.slug),
+        color: getSeriesColor(cat.slug)
       };
+    });
 
-      return article;
-    } catch (e) {
-      console.info(json.slug);
-      throw e;
-    }
+    const article: Article = {
+      contentType: contentType,
+      url: url,
+      headline: entities.decode(json.title),
+      standfirst: entities.decode(standfirst),
+      description: entities.decode(json.excerpt),
+      datePublished: new Date(json.date),
+      mainMedia: mainMedia,
+      thumbnail: thumbnail,
+      articleBody: articleBody,
+      associatedMedia: mainImage ? [mainImage] : [],
+      author: author,
+      bodyParts: bodyParts,
+      series: series,
+      positionInSeries: positionInSeries
+    };
+
+    return article;
   }
 }
