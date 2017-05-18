@@ -36,7 +36,7 @@ export const robertBidder: Person = {
   familyName: 'Bidder',
   name: 'Rob Bidder',
   twitterHandle: 'robertbidder',
-  description: 'Rob is an artist based in South-east London and a Visitor Experience Assistant at Wellcome Collection. '+
+  description: 'Rob is an artist based in South-east London and a Visitor Experience Assistant at Wellcome Collection. ' +
                'He also plays music in a ramshackle manner. He is a Gemini with a Libra ascendant.',
   image: 'https://wellcomecollection.files.wordpress.com/2017/05/robbidder.jpg',
   prismicId: 'WRwwYSUAACcADHVK'
@@ -62,4 +62,12 @@ export const sarahJaffray: Person = {
   familyName: 'Jaffray',
   name: 'Sarah Jaffray',
   prismicId: 'WRwxJSUAACUADHi9'
+};
+
+export const elissavetNtoulia: Person = {
+  givenName: 'Elissavet',
+  familyName: 'Ntoulia',
+  name: 'Elissavet Ntoulia',
+  image: 'https://wellcomecollection.files.wordpress.com/2017/05/elissavetntoulia.jpg',
+  description: 'Elissavet Ntoulia is a Visitor Experience Assistant at Wellcome Collection.'
 };
