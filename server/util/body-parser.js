@@ -15,7 +15,7 @@ import {createInstagramEmbed} from '../model/instagram-embed';
 
 export function bodyParser(bodyText) {
   const fragment = getFragment(bodyText);
-  const preCleaned = cleanNodes(fragment.childNodes, [removeEmptyTextNodes, decodeHtmlEntities]);
+  const preCleaned = cleanNodes(fragment.childNodes, [removeEmptyTextNodes, decodeHtmlEntities, removeHrs, removeScripts]);
   const bodyParts = explodeIntoBodyParts(preCleaned);
 
   return bodyParts;
@@ -32,18 +32,19 @@ export function explodeIntoBodyParts(nodes) {
     const converters = [
       convertWpHeading,
       convertWpImage,
-      convertWpVideo,
+      convertWpYtVideo,
       convertWpList,
       convertTweet,
       convertInstagramEmbed,
       findWpImageGallery,
-      convertQuote
+      convertQuote,
+      convertWpVideo
     ];
 
     // TODO: Tidy up typing here
     if (nodeIndex === 0) {
       const maybeImageNode = convertWpImage(node);
-      const maybeVideoNode = convertWpVideo(node);
+      const maybeVideoNode = convertWpYtVideo(node);
 
       if (maybeVideoNode.type) {
         return maybeVideoNode;
@@ -70,6 +71,14 @@ export function explodeIntoBodyParts(nodes) {
 
 export function removeEmptyTextNodes(nodes) {
   return nodes.filter(node => !isEmptyText(node));
+}
+
+function removeHrs(nodes) {
+  return nodes.filter(node => node.nodeName !== 'hr');
+}
+
+function removeScripts(nodes) {
+  return nodes.filter(node => node.nodeName !== 'scripts');
 }
 
 function decodeHtmlEntities(nodes) {
@@ -211,7 +220,7 @@ function isImg(node) {
   return parentNode.childNodes && parentNode.childNodes[0] && parentNode.childNodes[0].nodeName === 'img';
 }
 
-export function convertWpVideo(node) {
+export function convertWpYtVideo(node) {
   const maybeSpan = node.childNodes && node.childNodes[0];
   const isWpVideo = maybeSpan && maybeSpan.attrs && getAttrVal(maybeSpan.attrs, 'class') === 'embed-youtube';
 
@@ -235,6 +244,19 @@ export function convertWpVideo(node) {
     return node;
   }
 }
+
+function convertWpVideo(node) {
+  const wpVideoMatch = node.nodeName === 'iframe' && getAttrVal(node.attrs, 'src').match(/^https:\/\/videopress.com\/embed/);
+  if (wpVideoMatch) {
+    return createBodyPart({
+      type: 'wpVideo',
+      value: serializeAndCleanNode(node)
+    });
+  } else {
+    return node;
+  }
+}
+
 
 export function convertWpList(node) {
   const isWpList = node.nodeName === 'ul';
