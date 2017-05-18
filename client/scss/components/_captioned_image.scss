@@ -62,6 +62,7 @@
     @include font('LR2');
   }
 
+  display: inline-block;
   color: color('black');
   padding-top: #{($v-spacing-unit * 4) - 8px}; // - to make to adjust for line-height, want padding from x-height
   padding-bottom: #{($v-spacing-unit * 4) - 8px};
