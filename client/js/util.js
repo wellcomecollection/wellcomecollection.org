@@ -1,3 +1,4 @@
+// @flow
 const KEYS = {
   TAB: 9,
   ENTER: 13,
@@ -43,17 +44,17 @@ export {
 };
 
 // Event delegation
-function checkTarget(delegateEl, eventEl, possibleTarget) {
+function getTarget(delegateEl: HTMLElement, eventEl: HTMLElement, possibleTarget: HTMLElement): ?HTMLElement {
   if (eventEl === delegateEl) {
     return;
   } else if (eventEl === possibleTarget) {
     return possibleTarget;
   } else {
-    return checkTarget(delegateEl, eventEl.parentNode, possibleTarget);
+    return getTarget(delegateEl, eventEl.parentNode, possibleTarget);
   }
 }
 
-export function on(delegateElSelector, eventName, eventElSelector, fn) {
+export function on(delegateElSelector: string, eventName: Event, eventElSelector: string, fn: () => mixed): ?() => mixed {
   const delegateEl = document.querySelector(delegateElSelector);
 
   delegateEl.addEventListener(eventName, (event) => {
@@ -61,11 +62,22 @@ export function on(delegateElSelector, eventName, eventElSelector, fn) {
     const eventEl = event.target;
 
     possibleTargets.forEach((possibleTarget) => {
-      const correctTarget = checkTarget(delegateEl, eventEl, possibleTarget);
+      const correctTarget = getTarget(delegateEl, eventEl, possibleTarget);
 
       if (correctTarget) {
         return fn.call(correctTarget, event);
       }
     });
   });
+}
+
+// Simple jQuery .closest() equivalent
+export function getClosest(el: HTMLElement, selector: string): ?HTMLElement {
+  if (el === document) return;
+
+  if (el.matches(selector)) {
+    return el;
+  } else {
+    return getClosest(el.parentNode, selector);
+  }
 }
