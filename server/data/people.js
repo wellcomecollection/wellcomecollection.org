@@ -58,3 +58,11 @@ export const sarahJaffray: Person = {
   familyName: 'Jaffray',
   name: 'Sarah Jaffray'
 };
+
+export const elissavetNtoulia: Person = {
+  givenName: 'Elissavet',
+  familyName: 'Ntoulia',
+  name: 'Elissavet Ntoulia',
+  image: 'https://wellcomecollection.files.wordpress.com/2017/05/elissavetntoulia.jpg',
+  description: 'Elissavet Ntoulia is a Visitor Experience Assistant at Wellcome Collection.'
+};
