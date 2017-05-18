@@ -67,7 +67,7 @@ function convertImageGallery(value, weight) {
     value: {
       repeat: items
     }
-  }
+  };
 }
 
 function convertQuote(value, weight) {
@@ -84,7 +84,7 @@ function convertQuote(value, weight) {
           }
         }],
         source: [{
-          type: "paragraph",
+          type: 'paragraph',
           content: {
             text: value.citation ? deSpan(deBr(deP(value.citation))) : null,
             spans: []
@@ -93,7 +93,7 @@ function convertQuote(value, weight) {
         citation: value.citation
       }
     }
-  }
+  };
 }
 
 function createPrismicImageWithCaption(image: Picture) {
@@ -116,7 +116,7 @@ function createPrismicImageWithCaption(image: Picture) {
       height: image.height,
       url: image.contentUrl,
       edit: {
-        background: "transparent",
+        background: 'transparent',
         zoom: 1.0,
         crop: {
           x: 0,
@@ -170,7 +170,7 @@ function convertTweet(value, weight) {
     value: {
       'non-repeat': {
         weight,
-          embed: {
+        embed: {
           type: 'video',
           embed_url: `https://twitter.com/${twitterMatch}`
         }
@@ -186,7 +186,7 @@ function convertPromo(image, text) {
     value: {
       'non-repeat': createPrismicImageWithCaption(newImage)
     }
-  }
+  };
 }
 
 function convertAuthor(author: Person) {
@@ -194,10 +194,10 @@ function convertAuthor(author: Person) {
     key: 'person',
     value: {
       'non-repeat': {
-        role: "author",
-          person: {
-            id: author.prismicId,
-            mask: 'people'
+        role: 'author',
+        person: {
+          id: author.prismicId,
+          mask: 'people'
         }
       }
     }
@@ -208,7 +208,7 @@ function convertList(value, weight) {
   const listItems = value.items.map(item => {
     return {
       listItem: [{
-        type: "paragraph",
+        type: 'paragraph',
         content: {
           text: item,
           spans: []
@@ -231,11 +231,10 @@ function convertList(value, weight) {
         }]
       }
     }
-  }
+  };
 }
 
 export function prismicParser(slug: string, article: Article) {
-
   const standfirst = article.bodyParts.find(part => part.type === 'standfirst');
 
   const mainMediaVideo = article.mainMedia.find(media => media.type === 'video');

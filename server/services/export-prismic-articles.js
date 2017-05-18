@@ -1,13 +1,13 @@
 import request from 'superagent';
-import {ArticleFactory} from "../model/article";
+import {ArticleFactory} from '../model/article';
 import {prismicParser} from '../util/prismic-parser';
 
 export async function exportPrismicArticles() {
   const uri = `https://public-api.wordpress.com/rest/v1.1/sites/blog.wellcomecollection.org/posts?number=1&fields=slug`;
   const resp = await request(uri);
   const total = resp.body.found;
-  const numberOfRequests = Math.ceil(total/100);
-  const requests = new Array(numberOfRequests).fill().map((_, i) => getArticles(i+1)); // no zero index for pages
+  const numberOfRequests = Math.ceil(total / 100);
+  const requests = new Array(numberOfRequests).fill().map((_, i) => getArticles(i + 1)); // no zero index for pages
   const allTheArticlesInArrays = await Promise.all(requests);
   const allTheArticles = allTheArticlesInArrays.reduce((all, articles) => all.concat(articles));
 

@@ -257,7 +257,6 @@ function convertWpVideo(node) {
   }
 }
 
-
 export function convertWpList(node) {
   const isWpList = node.nodeName === 'ul';
   if (isWpList) {

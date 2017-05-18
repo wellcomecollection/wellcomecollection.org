@@ -1,7 +1,6 @@
 import Router from 'koa-router';
 import {index, article, articles, explore, healthcheck, featureFlags, performanceTest, explosion, preview, series, seriesNav, seriesTransporter} from '../controllers';
 import {catalogueItem} from '../controllers/catalogue';
-import {exportPrismicArticles} from '../services/export-prismic-articles';
 
 const r = new Router();
 
