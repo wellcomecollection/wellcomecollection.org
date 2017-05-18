@@ -9,6 +9,8 @@ data-srcset="
 {%- endfor %}"
 {% if data.sizesQueries %}
   sizes="{{ data.sizesQueries }}"
+{% else %}
+  sizes="100vw"
 {% endif %}
 {% if model.copyright %}
   data-copyright="{{ model.copyright }}"
