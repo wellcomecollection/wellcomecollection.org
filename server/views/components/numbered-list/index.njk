@@ -24,7 +24,7 @@
           <span class="numbered-list__number" aria-hidden="true">{{ loop.index }}</span>
 
           {% if isTransporter %}
-            {% component 'promo', {promo: item} %}
+            {% component 'promo', {promo: item | objectAssign({ modifiers: ['slider-transporter-child'] })} %}
           {% else %}
             {% if item.url %}
               <a href="{{ item.url }}" class="numbered-list__link">

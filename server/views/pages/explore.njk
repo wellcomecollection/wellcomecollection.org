@@ -28,10 +28,10 @@
     </div>
   </div>
 
-  <div class="container">
-    <div class="grid grid--no-gutters">
-      <div class="{{ {s: 4, m: 6, shiftM: 1, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
-        <div class="body-part body-part--full-width">
+  <div class="row {{ {s:2, m:2, l:2} | spacingClasses({padding:['top']}) }}">
+    <div class="container container--scroll-xl">
+      <div class="grid grid--no-gutters">
+        <div class="{{ {s: 4, m: 8, l: 12, xl: 12} | gridClasses }}">
           {% set asyncContentEndpoint = '/series-transporter/' + digitalStoryUrl %}
           {% component 'async', { endpoint: asyncContentEndpoint, component: 'series-transporter' } %}
         </div>

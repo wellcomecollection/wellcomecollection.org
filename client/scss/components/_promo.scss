@@ -52,7 +52,7 @@
   position: relative;
   width: 100%;
   display: block;
-  margin-bottom: 1rem;
+  margin-bottom: 2 * $spacing-unit;
   z-index: 0;
 
   .promo--standalone & {
@@ -379,6 +379,31 @@
   .promo__title {
     @include respond-to('large') {
       @include font('WB6');
+    }
+  }
+}
+
+.promo--slider-transporter-child {
+  @include container-query(('m': ('8'), 'l': ('8', '12'))) {
+    display: block;
+  }
+
+  .promo__image-container {
+    @include container-query(('m': ('8'), 'l': ('8', '12'))) {
+      width: 100%;
+      margin-bottom: 2 * $spacing-unit;
+    }
+  }
+
+  .promo__title {
+    @include container-query(('xl': ('12'))) {
+      @include font('WB6');
+    }
+  }
+
+  .promo__description {
+    @include container-query(('l': ('8', '12'))) {
+      padding: 0;
     }
   }
 }

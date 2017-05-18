@@ -49,6 +49,13 @@
   }
 }
 
+.container--scroll-xl {
+  @include respond-to('xlarge') {
+    max-width: none;
+    overflow: auto;
+  }
+}
+
 .container--scroll-cream {
   &::-webkit-scrollbar {
     background: color('cream');

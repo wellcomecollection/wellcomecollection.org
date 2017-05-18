@@ -23,14 +23,16 @@ $slider-control-margin: 18px;
     margin-top: 0;
   }
 
-  &:before {
-    height: 60px;
-    display: block;
-    width: 100%;
-    content: '';
-    background: color('white');
-    margin-bottom: -5px;
-    clip-path: polygon(0% 75%, 0% 100%, 100% 100%, 100% 60%, 92% 85%, 70% 67%, 57% 90%, 45% 59%, 20% 72%);
+  &.slider__slider--with-wobbly-line {
+    &:before {
+      height: 60px;
+      display: block;
+      width: 100%;
+      content: '';
+      background: color('white');
+      margin-bottom: -5px;
+      clip-path: polygon(0% 75%, 0% 100%, 100% 100%, 100% 60%, 92% 85%, 70% 67%, 57% 90%, 45% 59%, 20% 72%);
+    }
   }
 }
 
@@ -55,25 +57,37 @@ $slider-control-margin: 18px;
   }
 }
 
-.slider__slides-container { // these width and left calculations are related to the slider appearing in the article template
+.slider__slides-container {
   margin: 0;
   position: relative;
   width: calc(100vw - #{map-get($container-padding, 'small')});
 
   @include respond-to('medium') {
-    width: calc(100vw - #{map-get($container-padding, 'medium')} - 12.5%);
-    margin-left: 12.5%;
+    width: calc(100vw - #{map-get($container-padding, 'medium')});
+
+    .slider__slider--in-article & {
+      width: calc(100vw - #{map-get($container-padding, 'medium')} - 12.5%);
+      margin-left: 12.5%;
+    }
   }
 
   @include respond-to('large') {
     width: calc(100vw - #{map-get($container-padding, 'large')});
-    margin-left: 0;
+
+    .slider__slider--in-article & {
+      margin-left: 0;
+    }
   }
 
   @include respond-to('xlarge') {
-    width: $container-width-max - (map-get($container-padding, 'large') * 2);
-    margin-left: 50%;
-    left: (($container-width-max - (map-get($container-padding, 'large') * 2)) / 2) * (-5/6);
+    width: calc(100vw - ((100vw - #{$container-width-max}) / 2) - #{map-get($container-padding, 'large')});
+    left: calc((100vw - #{$container-width-max}) / 2);
+
+    .slider__slider--in-article & {
+      width: $container-width-max - (map-get($container-padding, 'large') * 2);
+      margin-left: 50%;
+      left: (($container-width-max - (map-get($container-padding, 'large') * 2)) / 2) * (-5/6);
+    }
   }
 }
 
@@ -84,7 +98,7 @@ $slider-control-margin: 18px;
   }
 
   &.slider__slider-controls--transporter {
-    margin-top: -60px;
+    margin-top: -(8 * $spacing-unit);
   }
 
   /* stylelint-disable plugin/selector-bem-pattern */
@@ -126,7 +140,7 @@ $slider-control-margin: 18px;
 
 .slider__slide-item {
   .slider__slider--transporter & {
-    padding-bottom: 5 * $spacing-unit;
+    padding-bottom: 8 * $spacing-unit;
   }
 
   .slider__slider--gallery & {
