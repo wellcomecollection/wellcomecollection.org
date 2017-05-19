@@ -32,7 +32,7 @@
     <div class="container container--scroll-xl">
       <div class="grid grid--no-gutters">
         <div class="{{ {s: 4, m: 8, l: 12, xl: 12} | gridClasses }}">
-          {% set asyncContentEndpoint = '/series-transporter/' + latestDigitalStory.url %}
+          {% set asyncContentEndpoint = '/series-transporter/' + latestDigitalStory %}
           {% component 'async', { endpoint: asyncContentEndpoint, component: 'series-transporter' } %}
         </div>
       </div>
