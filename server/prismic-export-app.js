@@ -1,4 +1,6 @@
 import fs from 'fs';
+import mkdirp from 'mkdirp';
+import rimraf from 'rimraf';
 import Prismic from 'prismic-javascript';
 import {exportPrismicArticles} from './services/export-prismic-articles';
 
@@ -24,13 +26,21 @@ export async function go() {
     } else {
       return article;
     }
-  }).filter(a => a.id);
+  });
 
-  articlesWithIds.forEach(article => {
-    fs.writeFile(`${__dirname}/.prismic-export/${article.id || article.uid}.json`, JSON.stringify(article), err => {
-      if (err) {
-        console.error(err);
-      }
+  const dir = `${__dirname}/.prismic-export/`;
+  rimraf.sync(dir);
+
+  console.info(articlesWithIds.length);
+
+  mkdirp(dir, () => {
+    articlesWithIds.forEach(article => {
+      console.info(`${dir}/${article.id || article.uid}.json`);
+      fs.writeFile(`${dir}/${article.id || article.uid}.json`, JSON.stringify(article), err => {
+        if (err) {
+          console.error(err);
+        }
+      });
     });
   });
 }
