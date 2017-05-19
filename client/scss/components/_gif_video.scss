@@ -18,12 +18,19 @@
   bottom: 10px;
   left: 10px;
   opacity: 0;
+  display: none;
   transition: opacity 600ms ease;
+
+  .enhanced & {
+    display: block;
+  }
 
   &:hover,
   &:focus,
   .gif-video:hover & {
-    opacity: 1;
+    .enhanced & {
+      opacity: 1;
+    }
   }
 }
 
