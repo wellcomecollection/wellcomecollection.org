@@ -31,8 +31,6 @@ export async function go() {
   const dir = `${__dirname}/.prismic-export/`;
   rimraf.sync(dir);
 
-  console.info(articlesWithIds.length);
-
   mkdirp(dir, () => {
     articlesWithIds.forEach(article => {
       console.info(`${dir}/${article.id || article.uid}.json`);
