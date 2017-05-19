@@ -1,4 +1,4 @@
-import { onWindowScrollDebounce$, onWindowResizeDebounce$ } from '../utils/dom-events';
+import { onWindowScrollThrottle$, onWindowResizeDebounce$ } from '../utils/dom-events';
 
 let shouldAutoPlay = true;
 
@@ -42,7 +42,7 @@ export default function(el) {
     }
   });
 
-  onWindowScrollDebounce$.subscribe({
+  onWindowScrollThrottle$.subscribe({
     next() {
       autoPlayGif(video);
     }

@@ -1,4 +1,4 @@
-<figure class="js-gif-video gif-video">
+<figure class="js-gif-video gif-video {{ {s:3, m:3, l:3} | spacingClasses({margin: ['bottom']}) }}">
   <video class="gif-video__video js-gif-video__video"
     poster="{{ model.poster }}" >
     {% for source in model.sources %}
