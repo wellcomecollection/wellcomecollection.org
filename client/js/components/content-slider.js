@@ -144,15 +144,13 @@ const contentSlider = (el, options) => {
     nodeList(imagesArray).forEach((img, imageIndex) => {
       if (img) {
         const imgHeight = maxHeight;
-        const imageWidth = img.getAttribute('data-width');
-        const imageHeight = img.getAttribute('data-height');
+        const imageWidth = img.getAttribute('width');
+        const imageHeight = img.getAttribute('height');
         const widthByHeight = imageWidth / imageHeight * imgHeight;
         img.parentNode.style.height = imgHeight + 'px';
         if (widthByHeight <= maxWidth) {
-          img.style.width = widthByHeight + 'px';
           img.parentNode.parentNode.style.width = widthByHeight + 'px';
         } else {
-          img.style.width = maxWidth + 'px';
           img.parentNode.parentNode.style.width = maxWidth + 'px';
         }
         if (settings.truncateText && !img.parentNode.parentNode.querySelector('.captioned-image__truncate-control')) {
