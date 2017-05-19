@@ -3,3 +3,5 @@
 /server/middleware/
 /**/node_modules/
 /**/libs/
+/server/prismic-export.js
+/server/prismic-export-app.js

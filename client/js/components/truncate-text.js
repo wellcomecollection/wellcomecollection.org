@@ -29,32 +29,33 @@ const createControl = () => {
 };
 
 const truncateText = (caption) => {
-  const truncateControl = createControl();
+  if (caption) {
+    const truncateControl = createControl();
 
-  caption.classList.add(truncateClass);
+    caption.classList.add(truncateClass);
 
-  if (hasBeenEllipsified(caption)) {
-    caption.parentNode.insertBefore(truncateControl, caption.nextSibling);
-    const truncated$ = fromEvent(truncateControl, 'click').fold((isClosed) => !isClosed, false);
+    if (hasBeenEllipsified(caption)) {
+      caption.parentNode.insertBefore(truncateControl, caption.nextSibling);
+      const truncated$ = fromEvent(truncateControl, 'click').fold((isClosed) => !isClosed, false);
 
-    truncated$.subscribe({
-      next: (isClosed) => {
-        toggleTruncate(isClosed, truncateControl, truncateClass);
+      truncated$.subscribe({
+        next: (isClosed) => {
+          toggleTruncate(isClosed, truncateControl, truncateClass);
+        }
+      });
+      return truncated$;
+    }
+
+    onWindowResizeDebounce$.subscribe({
+      next() {
+        if (hasBeenEllipsified(caption)) {
+          truncateControl.classList.remove('is-hidden');
+        } else {
+          truncateControl.classList.add('is-hidden');
+        }
       }
     });
-
-    return truncated$;
   }
-
-  onWindowResizeDebounce$.subscribe({
-    next() {
-      if (hasBeenEllipsified(caption)) {
-        truncateControl.classList.remove('is-hidden');
-      } else {
-        truncateControl.classList.add('is-hidden');
-      }
-    }
-  });
 };
 
 export default truncateText;

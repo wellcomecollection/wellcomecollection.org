@@ -97,7 +97,6 @@ $center-width-xlarge: (6/6) * 100%;
     padding: 0 map-get($container-padding, 'large');
     padding-top: $vertical-space-unit;
     margin-top: -$vertical-space-unit;
-    border-bottom: $vertical-space-unit solid color('cream');
     /* stylelint-disable declaration-no-important */
     opacity: 1 !important;
     /* stylelint-enable */

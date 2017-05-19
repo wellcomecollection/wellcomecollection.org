@@ -1,8 +1,53 @@
 import { createNumberedList } from '../../../model/numbered-list';
+import type { Promo } from '../../../model/promo';
+import { createPromo } from '../../../model/promo';
+import { createPicture } from '../../../model/picture';
+
+const picture = createPicture({
+  type: 'picture',
+  contentUrl: 'http://placehold.it/1600x900',
+  width: 1600,
+  height: 900
+});
+
+const articleSeries = {
+  url: '#',
+  name: 'Making Nature',
+  commissionedLength: 6,
+  color: 'turquoise'
+};
+
+const promo: Promo = createPromo({
+  type: 'promo',
+  title: 'Title',
+  image: picture,
+  contentType: 'article',
+  length: 6,
+  series: [articleSeries]
+});
+
+const promos: Array<Promo> = new Array(6)
+  .fill(undefined)
+  .map((item, index) => {
+    const datePublished = index < 3 ? new Date(2017, 5, index) : null;
+    const url = index < 3 ? '#' : null;
+    const description = index < 3 ? 'Lorem ipsum, dolor sit amet' : null;
+    const title = index < 3 ? 'Title' : null;
+    const image = index < 3 ? picture : null;
+    return Object.assign(
+      {},
+      promo,
+      {title: title},
+      {image: image},
+      {positionInSeries: index + 1},
+      {description: description},
+      {url: url},
+      {datePublished: datePublished}
+    );
+  });
 
 export const name = 'Numbered list';
 export const handle = 'numbered-list';
-export const collated = true;
 
 export const model = createNumberedList({
   name: 'Latest',
@@ -69,6 +114,12 @@ export const model2 = createNumberedList({
   ]
 });
 
+const model3 = createNumberedList({
+  name: 'Making Nature',
+  color: 'turquoise',
+  items: promos
+});
+
 export const context = { model };
 
 export const variants = [
@@ -79,5 +130,9 @@ export const variants = [
   {
     name: 'horizontal-narrow',
     context: {model: model2, modifiers: ['horizontal-narrow']}
+  },
+  {
+    name: 'transporter',
+    context: {model: model3, modifiers: ['transporter'], data: {classes: ['js-numbered-list-transporter'], sliderId: 'id'}}
   }
 ];

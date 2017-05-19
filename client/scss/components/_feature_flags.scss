@@ -1,0 +1,70 @@
+.feature-flags {
+  @include font('HNL3');
+}
+
+.feature-flags__title {
+  @include font('WB5');
+
+  @include respond-to('medium') {
+    @include font('WB4');
+  }
+
+  @include respond-to('large') {
+    @include font('WB3');
+  }
+}
+
+.feature-flags__current-cohort {
+  @include font('HNM3');
+}
+
+.feature-flags__caption {
+  background: color('black');
+  border-radius: $border-radius-unit $border-radius-unit 0 0;
+  color: color('white');
+  text-align: left;
+}
+
+.feature-flags__table {
+  min-width: 100%;
+  text-align: left;
+  border-spacing: 0;
+  border-radius: 0 0 $border-radius-unit $border-radius-unit;
+  border: 1px solid color('pumice');
+}
+
+.feature-flags__heading {
+  @include font('HNM4');
+  border-bottom: 2px solid color('black');
+
+  &:nth-of-type(even) {
+    background: color('smoke');
+  }
+}
+
+.feature-flags__cell {
+  @include font('HNL4');
+  border-bottom: 1px solid color('pumice');
+
+  &:nth-of-type(even) {
+    background: color('smoke');
+  }
+
+  &.feature-flags__cell--on {
+    background: color('java');
+  }
+
+  &.feature-flags__cell--off {
+    background: color('red');
+    color: color('white');
+  }
+
+  .feature-flags__row:last-child & {
+    border: 0;
+  }
+
+  .feature-flags__row:last-child &:last-child {
+    border-radius: 0 0 $border-radius-unit 0;
+  }
+}
+

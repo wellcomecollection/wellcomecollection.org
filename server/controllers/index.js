@@ -9,9 +9,7 @@ import { getSeriesColor } from '../data/series';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {createNumberedList} from '../model/numbered-list';
-import {getItem as getPrismicItem} from '../services/prismic';
 import config from '../config';
-
 const maxItemsPerPage = 32;
 
 export const article = async(ctx, next) => {
@@ -33,22 +31,6 @@ export const article = async(ctx, next) => {
     }
   }
 
-  return next();
-};
-
-export const prismicArticle = async(ctx, next) => {
-  const {id} = ctx.params;
-  const item = await getPrismicItem(id);
-
-  ctx.render('pages/article', {
-    pageConfig: createPageConfig({
-      title: article.headline,
-      inSection: 'explore'
-    }),
-    article: item
-  });
-
-  // ctx.body = item;
   return next();
 };
 
@@ -128,6 +110,40 @@ export const seriesNav = async(ctx, next) => {
   return next();
 };
 
+export const seriesTransporter = async(ctx, next) => {
+  const { id } = ctx.params;
+  const { current } = ctx.request.query;
+  const seriesResponse = await getSeries(id, 6, {page: 1});
+  const series = seriesResponse ? getForwardFill(seriesResponse) : getUnpublishedSeries(id);
+
+  const color = getSeriesColor(id);
+  const promoList = PromoListFactory.fromSeries(series);
+  const items = promoList.items.toJS();
+  const image = items[0].image;
+  const seriesNavModel = createNumberedList({
+    name: promoList.name,
+    image: image,
+    items: items,
+    color: color
+  });
+
+  ctx.render('components/numbered-list/index', {
+    current,
+    model: seriesNavModel,
+    modifiers: ['transporter'],
+    data: {
+      classes: ['js-numbered-list-transporter'],
+      sliderId: `transporter--${id}`
+    }
+  });
+
+  ctx.body = {
+    html: ctx.body
+  };
+
+  return next();
+};
+
 export const explore = async(ctx, next) => {
   const articleStubs = await getArticleStubs(50);
   const grouped = articleStubs.data.groupBy(stub => stub.headline.indexOf('A drop in the ocean:') === 0);
@@ -192,7 +208,11 @@ export const healthcheck = (ctx, next) => {
 };
 
 export const featureFlags = (ctx, next) => {
-  ctx.body = config.intervalCache.get('flags');
+  ctx.render('pages/flags', {
+    pageConfig: createPageConfig({inSection: 'index'}),
+    flags: config.intervalCache.get('flags'),
+    cohorts: config.intervalCache.get('cohorts')
+  });
   return next();
 };
 

@@ -34,6 +34,7 @@
 @import 'components/cookie_notification';
 @import 'components/divider';
 @import 'components/buttons';
+@import 'components/feature_flags';
 @import 'components/find_us';
 @import 'components/footer';
 @import 'components/footer_nav';
@@ -51,6 +52,7 @@
 @import 'components/promo';
 @import 'components/series-nav';
 @import 'components/skip_link';
+@import 'components/slider';
 @import 'components/standfirst';
 @import 'components/tags';
 @import 'components/transporter';
@@ -58,4 +60,4 @@
 @import 'components/wobbly_edge';
 
 // Tests
-@import 'tests/numbered_list_test_non_stick_mobile';
+@import 'tests/digital_story_transporter';

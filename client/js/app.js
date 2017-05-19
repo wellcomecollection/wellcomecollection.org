@@ -16,6 +16,7 @@ import instagram from './components/instagram';
 import asynContent from './components/async-content';
 import contentSlider from './components/content-slider';
 import gaScrollDepth from '../libs/ga-scroll-depth';
+import joinCohort from './components/join-cohort';
 
 const gifVideos = document.querySelectorAll('.js-gif-video');
 console.log(gifVideos);
@@ -37,6 +38,7 @@ const init = () => {
   const stickyEls = document.querySelectorAll('.js-sticky');
   const galleries = document.querySelectorAll('.js-image-gallery');
   const mainEl = document.getElementById('main');
+  const cohortButtons = document.querySelectorAll('.js-cohort-button');
 
   nodeList(wobblyEdgeEls).forEach((el) => wobblyEdge(el));
 
@@ -71,9 +73,14 @@ const init = () => {
   nodeList(galleries).forEach((gallery) => {
     contentSlider(gallery, {
       slideSelector: '.image-gallery__item',
-      cssPrefix: 'image-gallery__',
+      cssPrefix: 'slider__',
+      modifiers: ['gallery'],
       sliderType: 'gallery'
     });
+  });
+
+  nodeList(cohortButtons).forEach((button) => {
+    joinCohort(button);
   });
 };
 
