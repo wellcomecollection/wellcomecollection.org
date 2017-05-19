@@ -42,6 +42,7 @@ const contentSlider = (el, options) => {
   }
 
   const sliderModifiers = setModifiers('slider');
+  const slidesContainerModifiers = setModifiers('slides-container');
   const sliderControlsModifiers = setModifiers('slider-controls');
 
   // Generate classes for slider elements
@@ -75,6 +76,11 @@ const contentSlider = (el, options) => {
     sliderElements.slider.className = classes.slider;
     sliderElements.sliderInner.className = classes.sliderInner;
     sliderElements.slidesContainer.classList.add(classes.slidesContainer);
+    slidesContainerModifiers.split(' ').forEach((modifier) => {
+      if (modifier.trim() !== '') {
+        sliderElements.slidesContainer.classList.add(modifier);
+      }
+    });
     sliderElements.sliderControls.className = classes.sliderControls;
     sliderElements.prevControl.className = classes.prevControl;
     sliderElements.nextControl.className = classes.nextControl;

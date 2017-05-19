@@ -65,7 +65,7 @@ $slider-control-margin: 18px;
   @include respond-to('medium') {
     width: calc(100vw - #{map-get($container-padding, 'medium')});
 
-    .slider__slider--in-article & {
+    &.slider__slides-container--in-article {
       width: calc(100vw - #{map-get($container-padding, 'medium')} - 12.5%);
       margin-left: 12.5%;
     }
@@ -74,7 +74,7 @@ $slider-control-margin: 18px;
   @include respond-to('large') {
     width: calc(100vw - #{map-get($container-padding, 'large')});
 
-    .slider__slider--in-article & {
+    &.slider__slides-container--in-article {
       margin-left: 0;
     }
   }
@@ -83,7 +83,7 @@ $slider-control-margin: 18px;
     width: calc(100vw - ((100vw - #{$container-width-max}) / 2) - #{map-get($container-padding, 'large')});
     left: calc((100vw - #{$container-width-max}) / 2);
 
-    .slider__slider--in-article & {
+    &.slider__slides-container--in-article {
       width: $container-width-max - (map-get($container-padding, 'large') * 2);
       margin-left: 50%;
       left: (($container-width-max - (map-get($container-padding, 'large') * 2)) / 2) * (-5/6);
