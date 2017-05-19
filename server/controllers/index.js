@@ -5,7 +5,7 @@ import {PromoFactory} from '../model/promo';
 import {createPageConfig} from '../model/page-config';
 import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
 import {getForwardFill, getUnpublishedSeries} from '../model/series';
-import { getSeriesColor } from '../data/series';
+import { getSeriesColor, series as commissionedSeries } from '../data/series';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {createNumberedList} from '../model/numbered-list';
@@ -151,7 +151,6 @@ export const explore = async(ctx, next) => {
   const topPromo = PromoFactory.fromArticleStub(theRest.first(), 'lead');
   const second3Promos = theRest.slice(1, 4).map(PromoFactory.fromArticleStub);
   const next8Promos = theRest.slice(4, 12).map(PromoFactory.fromArticleStub);
-  const digitalStoryUrl = 'electric-sublime';
   const aDropInTheOceanStubs = grouped.last().take(7);
   const aDropInTheOceanSeries: Series = {
     url: '/series/a-drop-in-the-ocean',
@@ -183,13 +182,20 @@ export const explore = async(ctx, next) => {
   };
 
   const aDropInTheOceanPromoList = PromoListFactory.fromSeries(aDropInTheOceanSeries);
+  const digitalStories = commissionedSeries.filter(s => s.commissionedLength);
+  const latestDigitalStoryChapter = digitalStories
+    .map(i => i.items).flatten(true)
+    .sort((a, b) => a.datePublished < b.datePublished)
+    .first();
+  const latestDigitalStory = digitalStories
+    .find(s => s.items.indexOf(latestDigitalStoryChapter) > -1);
 
   ctx.render('pages/explore', {
     pageConfig: createPageConfig({
       title: 'Explore',
       inSection: 'explore'
     }),
-    digitalStoryUrl,
+    latestDigitalStory,
     aDropInTheOcean: aDropInTheOceanPromoList,
     topPromo,
     second3Promos,
