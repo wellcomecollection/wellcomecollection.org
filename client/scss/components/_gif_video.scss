@@ -1,30 +1,30 @@
 .gif-video {
-  video {
-    width: 100%;
-  }
+  margin: 0;
+  position: relative;
+}
 
-  .vjs-gifplayer {
-    width: auto;
-    height: auto;
+.gif-video__video {
+  display: block;
+  width: 100%;
+}
 
-    &:after {
-      @include font('WB6');
-      position: absolute;
-      bottom: 15px;
-      right: 15px;
-      background-color: rgba(color('black'), 0.5);
-      color: color('white');
-      content: 'GIF';
-      padding: $spacing-unit;
-      border-radius: $border-radius-unit;
-      opacity: 0.85;
-    }
-  }
+.gif-video__play-pause {
+  background: transparent;
+  border: 0;
+  appearance: none;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  opacity: 0;
+  transition: opacity 600ms ease;
 
-  .vjs-big-play-button,
-  .vjs-control-bar,
-  .vjs-error-display,
-  .vjs-caption-settings {
-    display: none;
+  &:hover,
+  &:focus,
+  .gif-video:hover & {
+    opacity: 1;
   }
+}
+
+.gif-video__button-text {
+  @include visually-hidden();
 }

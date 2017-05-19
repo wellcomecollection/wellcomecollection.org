@@ -17,9 +17,7 @@ import asynContent from './components/async-content';
 import contentSlider from './components/content-slider';
 import gaScrollDepth from '../libs/ga-scroll-depth';
 import joinCohort from './components/join-cohort';
-
-const gifVideos = document.querySelectorAll('.js-gif-video');
-console.log(gifVideos);
+import gifVideo from './components/gif-video';
 
 const init = () => {
   nodeList(document.querySelectorAll('.async-content')).forEach((el) => {
@@ -39,6 +37,9 @@ const init = () => {
   const galleries = document.querySelectorAll('.js-image-gallery');
   const mainEl = document.getElementById('main');
   const cohortButtons = document.querySelectorAll('.js-cohort-button');
+  const gifVideoEls = document.querySelectorAll('.js-gif-video');
+
+  nodeList(gifVideoEls).forEach(gifVideo);
 
   nodeList(wobblyEdgeEls).forEach((el) => wobblyEdge(el));
 

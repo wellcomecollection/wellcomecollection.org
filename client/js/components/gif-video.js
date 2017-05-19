@@ -1,15 +1,9 @@
 import { onWindowScrollDebounce$, onWindowResizeDebounce$ } from '../utils/dom-events';
-import { nodeList } from '../util';
 
-const defaults = {
-  controls: false,
-  loop: true,
-  restartOnPause: true,
-  ignoreScroll: true
-};
+let shouldAutoPlay = true;
 
 function inViewport(el) {
-  let rect = el.getBoundingClientRect();
+  const rect = el.getBoundingClientRect();
 
   return (
     rect.top >= 0 &&
@@ -19,129 +13,47 @@ function inViewport(el) {
   );
 }
 
-function getScrollElement(node) {
-  if (node === null) {
-    return null;
+function autoPlayGif(video) {
+  if (inViewport(video)) {
+    if (video.paused && shouldAutoPlay) {
+      video.play();
+    }
+  } else {
+    video.pause();
   }
+};
 
-  if (node.scrollHeight > node.clientHeight) {
-    return node;
-  }
+export default function(el) {
+  const video = el.querySelector('.js-gif-video__video');
+  const playPause = el.querySelector('.js-gif-video__play-pause');
 
-  return getScrollElement(node.parentNode);
-}
+  video.volume = 0.0;
+  video.loop = true;
 
-function inScroll(el, player) {
-  const elRect = el.getBoundingClientRect();
-  const scrollEl = getScrollElement(el);
-
-  if (scrollEl) {
-    const scrollRect = scrollEl.getBoundingClientRect();
-
-    return (
-      scrollRect.top <= elRect.top &&
-      scrollRect.left <= elRect.left &&
-      scrollRect.bottom >= elRect.bottom &&
-      scrollRect.right >= elRect.right
-    );
-  }
-
-  return true;
-}
-
-function inUserView(el, { ignoreScroll }) {
-  return ignoreScroll ? inViewport(el) : inViewport(el) && inScroll(el);
-}
-
-const autoPlayGifs = () => {
-  const gifPlayers = nodeList(document.querySelectorAll('.vjs-gifplayer'));
-
-  gifPlayers.forEach((gifPlayer) => {
-    const player = gifPlayer.player;
-    if (player) {
-      if (inUserView(gifPlayer, player)) {
-        if (player.paused()) {
-          if (player.getAttribute('data-restartOnPause')) {
-            player.currentTime(0);
-          }
-          player.play();
-        }
-      } else {
-        player.pause();
-      }
+  // If the user stops the video, don't autoplay
+  // unless they restart the video manually
+  playPause.addEventListener('click', () => {
+    if (video.paused) {
+      video.play();
+      shouldAutoPlay = true;
+    } else {
+      video.pause();
+      shouldAutoPlay = false;
     }
   });
-};
 
-// https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
-let hidden;
-let visibilityChange;
-
-if (typeof document.hidden !== 'undefined') {
-  // Opera 12.10 and Firefox 18 and later support
-  hidden = 'hidden';
-  visibilityChange = 'visibilitychange';
-} else if (typeof document.msHidden !== 'undefined') {
-  hidden = 'msHidden';
-  visibilityChange = 'msvisibilitychange';
-} else if (typeof document.webkitHidden !== 'undefined') {
-  hidden = 'webkitHidden';
-  visibilityChange = 'webkitvisibilitychange';
-}
-
-// If the page is hidden, pause the video
-// if the page is shown, play the video
-function handleVisibilityChange() {
-  if (document[hidden]) {
-    const gifPlayers = nodeList(document.querySelectorAll('.vjs-gifplayer'));
-
-    gifPlayers.forEach((gifPlayer) => {
-      const player = gifPlayer.player;
-
-      if (player) {
-        player.pause();
-      }
-    });
-  } else {
-    autoPlayGifs();
-  }
-}
-
-// Play every gif that is in the viewport, and
-// pause every gif that is out of the viewport
-onWindowScrollDebounce$.subscribe({
-  next() {
-    autoPlayGifs();
-  }
-});
-
-onWindowResizeDebounce$.subscribe({
-  next() {
-    autoPlayGifs();
-  }
-});
-
-document.addEventListener(visibilityChange, handleVisibilityChange, false);
-
-const onPlayerReady = (player, options) => {
-  player.addClass('vjs-gifplayer');
-  player.loop(options.loop);
-  player.controls(options.controls);
-  player.ignoreScroll = options.ignoreScroll;
-
-  if (options.restartOnPause) {
-    player.setAttribute('data-restartOnPause', 'true');
-  }
-
-  autoPlayGifs();
-};
-
-const gifplayer = function(options) {
-  this.ready(() => {
-    onPlayerReady(this, videojs.mergeOptions(defaults, options));
+  onWindowScrollDebounce$.subscribe({
+    next() {
+      autoPlayGif(video);
+    }
   });
-};
 
-videojs.plugin('gifplayer', gifplayer);
+  onWindowResizeDebounce$.subscribe({
+    next() {
+      autoPlayGif(video);
+    }
+  });
 
-export default gifplayer;
+  autoPlayGif(video);
+}
+
