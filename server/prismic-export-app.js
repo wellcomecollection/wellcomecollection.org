@@ -2,6 +2,7 @@ import fs from 'fs';
 import mkdirp from 'mkdirp';
 import rimraf from 'rimraf';
 import Prismic from 'prismic-javascript';
+import {List} from 'immutable';
 import {exportPrismicArticles} from './services/export-prismic-articles';
 
 
@@ -19,21 +20,20 @@ export async function go() {
     return all.concat(one.results);
   }, []);
 
-  const articlesWithIds = articles.map(article => {
+  const articlesWithIds = List(articles.map(article => {
     const matchedPrismicArticle = prismicArticles.find(pa => pa.uid === article.uid);
     if (matchedPrismicArticle) {
       return Object.assign({}, articles, {id: matchedPrismicArticle.id});
     } else {
       return article;
     }
-  });
+  }));
 
   const dir = `${__dirname}/.prismic-export/`;
   rimraf.sync(dir);
 
   mkdirp(dir, () => {
     articlesWithIds.forEach(article => {
-      console.info(`${dir}/${article.id || article.uid}.json`);
       fs.writeFile(`${dir}/${article.id || article.uid}.json`, JSON.stringify(article), err => {
         if (err) {
           console.error(err);
