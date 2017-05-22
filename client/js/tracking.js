@@ -3,18 +3,15 @@ import { trackEvent } from './utils/track-event';
 
 export default {
   init: () => {
-    // Transporter
-    on('body', 'click', '[data-track="transporter"]', (event) => {
-      const transporter = event.target.closest('[data-track="transporter"]');
-      const promos = nodeList(transporter.querySelectorAll('.promo'));
-      const promo = event.target.closest('.promo');
-      const link = promo ? promo.href : null;
-      const position = promo ? promos.indexOf(promo) : null;
-      const properties = {componentId: transporter.id, link, position};
+    on('body', 'click', '[data-track-click]', ({ target }) => {
+      const component = target.closest('[data-component]');
+      const clicked = target.closest('[data-track-click]');
+      const componentName = component.getAttribute('data-component');
+      const componentId = component.getAttribute('data-component-id');
+      const clickedProperties = JSON.parse(clicked.getAttribute('data-track-click'));
+      const properties = Object.assign({}, clickedProperties, {componentId});
 
-      if (link) {
-        trackEvent({name: 'Transporter', properties});
-      }
+      trackEvent({name: componentName, properties});
     });
   }
 };
