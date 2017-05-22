@@ -8,8 +8,7 @@
 
 <{{ 'a' if promo.url else 'span' }}
   {% if promo.url %}href="{{ promo.url }}"{% endif %}
-  class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %} promo--{{ promo.contentType }} {{ 'promo--surrogate' if not promo.url }}"
-  {% if trackingLabel %}data-track="{{ trackingLabel }}" {% endif %}>
+  class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %} promo--{{ promo.contentType }} {{ 'promo--surrogate' if not promo.url }}">
   <div class="promo__image-container">
     {% if promo.image %}
       {% componentV2 'image', promo.image, {}, {lazyload: true, sizesQueries: sizes} %}
