@@ -20,23 +20,6 @@
       </div>
     {% endif %}
 
-    {% for modifier in promo.modifiers %}
-      {% if modifier === 'series' %}
-        <svg class="promo__defs">{# TODO proper filter - see Tomi; and only want this on the page once, where's best to move?#}
-          <defs>
-            <filter id="duotone" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
-              <feColorMatrix type="matrix"
-                values="0.90 0 0 0   0.40
-                        0.95 0 0 0  -0.10
-                      -0.20 0 0 0   0.65
-                          0  0 0 1   0" />
-            </filter>
-          </defs>
-        </svg>
-        <img class="image promo__image-mask promo__clip-path--{{ [1,2,3,4,5,6,7,8,9,10] | random }}" src="{{ promo.article.thumbnail.contentUrl }}?w=600" alt="" />
-      {% endif %}
-    {% endfor %}
-
     {% if promo.series %}
       {% set seriesTitle = promo.series | getSeriesTitle %}
       {% set commissionedSeries = promo.series | getCommissionedSeries %}
