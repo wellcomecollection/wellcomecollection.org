@@ -71,3 +71,21 @@ export const elissavetNtoulia: Person = {
   image: 'https://wellcomecollection.files.wordpress.com/2017/05/elissavetntoulia.jpg',
   description: 'Elissavet Ntoulia is a Visitor Experience Assistant at Wellcome Collection.'
 };
+
+export const lalitaKaplish: Person = {
+  givenName: 'Lalita',
+  familyName: 'Kaplish',
+  name: 'Lalita Kaplish',
+  twitterHandle: 'LalitaKaplish',
+  image: 'https://wellcomecollection.files.wordpress.com/2017/05/lkphoto.jpg',
+  description: 'Lalita is a web editor at Wellcome Collection.'
+};
+
+export const brionyHudson: Person = {
+  givenName: 'Briony',
+  familyName: 'Hudson',
+  name: 'Briony Hudson',
+  twitterHandle: 'brionyhudson2',
+  image: 'https://wellcomecollection.files.wordpress.com/2017/05/briony.jpg',
+  description: 'Briony is a pharmacy historian, curator, lecturer, and past President of the British Society for the History of Pharmacy.'
+};
