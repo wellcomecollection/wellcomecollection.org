@@ -27,7 +27,7 @@ export default function(el) {
   const video = el.querySelector('.js-gif-video__video');
   const playPause = el.querySelector('.js-gif-video__play-pause');
 
-  video.volume = 0.0;
+  video.muted = true;
   video.loop = true;
 
   // If the user stops the video, don't autoplay
