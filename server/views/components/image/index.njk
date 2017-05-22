@@ -1,5 +1,6 @@
 {% set sizes = model | getImageSizesFor %}
 {% set comma = joiner() %}
+{# Note to future selves - having the clipPathClass means we need 2 images on the page (with slightly different classes). Creating an array here, so can loop over the image code instead of repeating it. #}
 {% if data.clipPathClass %}
   {% set loop = [1,2] %}
 {% else %}
