@@ -35,7 +35,7 @@
             <h3 class="numbered-list__title">
               {% if data.sliderId %}Part {{ loop.index }}: {% endif %}
               {%- if isCurrent -%}
-                Currently viewing<span class="numbered-list__visually-hidden-title"> {{ item.title }}</span>
+                Currently reading<span class="numbered-list__visually-hidden-title"> {{ item.title }}</span>
               {%- else -%}
                 {{ item.title }}
               {%- endif -%}
