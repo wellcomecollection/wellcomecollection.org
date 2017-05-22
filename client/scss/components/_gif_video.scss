@@ -2,6 +2,9 @@
   margin-top: 0;
   margin-left: 0;
   margin-right: 0;
+}
+
+.gif-video__inner {
   position: relative;
 }
 
@@ -36,4 +39,23 @@
 
 .gif-video__button-text {
   @include visually-hidden();
+}
+
+.gif-video__caption {
+  @include font('LR3');
+
+  @include respond-to('medium') {
+    @include font('LR2');
+  }
+
+  border-bottom: 1px solid color('pumice');
+
+  .icon {
+    vertical-align: top;
+    width: 1.3em;
+    height: 1.3em;
+    min-width: 1.3em;
+    margin-right: 0.8em;
+    float: left;
+  }
 }

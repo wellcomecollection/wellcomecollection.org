@@ -1,13 +1,18 @@
 <figure class="js-gif-video gif-video {{ {s:3, m:3, l:3} | spacingClasses({margin: ['bottom']}) }}">
-  <video class="gif-video__video js-gif-video__video"
-    poster="{{ model.poster }}" >
-    {% for source in model.sources %}
-      <source src="{{ source.url }}" type='{{ source.type }}'>
-    {% endfor %}
-    <p class="gif-video__unsupported">Your browser can't handle our GIFs.</p>
-  </video>
-  <button class="gif-video__play-pause js-gif-video__play-pause" type="button" tabindex="0">
-    {% icon 'actions/play' %}
-    <span class="gif-video__button-text">play/pause</span>
-  </button>
+  <div class="gif-video__inner">
+    <video class="gif-video__video js-gif-video__video"
+      poster="{{ model.posterImage.contentUrl }}" >
+      {% for source in model.sources %}
+        <source src="{{ source.url }}" type='{{ source.fileFormat }}'>
+      {% endfor %}
+      <p class="gif-video__unsupported">Your browser can't handle our GIFs.</p>
+    </video>
+    <button class="gif-video__play-pause js-gif-video__play-pause" type="button" tabindex="0">
+      {% icon 'actions/play' %}
+      <span class="gif-video__button-text">play/pause</span>
+    </button>
+  </div>
+  <figcaption class="gif-video__caption {{ {s:3, m:3, l:3} | spacingClasses({padding: ['top', 'bottom']}) }} ">
+    {% icon 'other/picture' %}{{ model.caption }}
+  </figcaption>
 </figure>

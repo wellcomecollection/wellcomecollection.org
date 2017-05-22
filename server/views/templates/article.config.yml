@@ -35,10 +35,15 @@ context:
     - type: gif-video
       weight: supporting
       value:
-        poster: 'https://pbs.twimg.com/tweet_video_thumb/C_YvyiGXgAA7Arj.jpg'
+        posterImage:
+          type: 'picture'
+          width: 1600
+          height: 900
+          contentUrl: https://pbs.twimg.com/tweet_video_thumb/C_YvyiGXgAA7Arj.jpg
         sources:
           - url: 'https://video.twimg.com/tweet_video/C_YvyiGXgAA7Arj.mp4'
-            type: 'video/mp4'
+            fileFormat: 'video/mp4'
+        caption: Cats because it's the internet
     - type: html
       value: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at volutpat erat. Quisque non eros viverra, tincidunt mi a, interdum libero. Vestibulum efficitur ex sed est interdum, ac placerat enim blandit. Phasellus sodales velit non est bibendum tincidunt. Phasellus ut ligula at velit congue lobortis. Fusce at suscipit purus, ac tincidunt orci.</p>"
     - type: html
