@@ -1,11 +1,6 @@
 //* @define captioned-image
 .captioned-image {
   margin: 0 0 $vertical-space-unit;
-
-  .image {
-    width: 100%;
-    display: block;
-  }
 }
 
 .captioned-image--bleed {

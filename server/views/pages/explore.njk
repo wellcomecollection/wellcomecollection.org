@@ -6,7 +6,7 @@
     <div class="container">
       <div class="grid">
         <div class="{{ {s:4, m:8, l:12, xl:12} | gridClasses }}">
-          {% component 'promo', { promo: topPromo } %}
+          {% componentV2 'promo', topPromo, {}, {sizes: '(min-width: 1420px) 812px, (min-width: 600px) 58.5vw, calc(100vw - 36px)'} %}
         </div>
       </div>
     </div>
@@ -18,7 +18,7 @@
       <div class="grid grid--dividers grid--scroll">
         {% for promo in second3Promos.toJS() %}
           <div class="grid__cell">
-            {% component 'promo', { promo: promo } %}
+            {% componentV2 'promo', promo, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(33.24vw - 43px), calc(66.79vw - 18px)'} %}
           </div>
         {% endfor %}
       </div>
@@ -52,12 +52,12 @@
       <div class="grid grid--scroll grid--dividers grid--theme-6-strip">
         {% for promo in next8Promos.take(6).toJS() %}
           <div class="grid__cell">
-            {% component 'promo', { promo: promo } %}
+            {% componentV2 'promo', promo, {}, {sizes: '(min-width: 1340px) 178px, (min-width: 960px) calc(33.33vw - 60px), (min-width: 600px) calc(50vw - 54px), calc(66.79vw - 18px)'} %}
           </div>
         {% endfor %}
       </div>
     </div>
   </div>
 
-  {% component 'promo', { promo: collectorsPromo } %}
+  {% componentV2 'promo', collectorsPromo, {}, {sizes: '100vw'} %}
 {% endblock %}
