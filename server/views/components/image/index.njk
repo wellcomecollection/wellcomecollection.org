@@ -1,14 +1,16 @@
 {% set sizes = model | getImageSizesFor %}
 {% set comma = joiner() %}
 
-<img data-width="{{model.width}}" data-height="{{model.height}}" class="image{{ ' lazyload' if data.lazyload }} {{ 'image--clip-mask' if data.clipMask }}"
-src="{{ model.contentUrl }}?w={{ sizes[0] }}"
+<img width="{{model.width}}" height="{{model.height}}" class="image{{ ' lazyload' if data.lazyload }} {{ 'image--clip-mask' if data.clipMask }}"
+src="{{ model.contentUrl }}?w=600"
 data-srcset="
 {%- for size in sizes -%}
   {{ comma() }}{{ model.contentUrl }}?w={{ size }} {{ size }}w
 {%- endfor %}"
 {% if data.sizesQueries %}
   sizes="{{ data.sizesQueries }}"
+{% else %}
+  sizes="100vw"
 {% endif %}
 {% if model.copyright %}
   data-copyright="{{ model.copyright }}"
