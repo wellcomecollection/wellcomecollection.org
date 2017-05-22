@@ -6,16 +6,12 @@
   {% set loop = [1] %}
 {% endif %}
 <noscript>
-  <img data-width="{{model.width}}" data-height="{{model.height}}" class="image
-  {#{{ 'image--clip-mask' if data.clipMask }}#}
-  "
-  src="{{ model.contentUrl }}?w=320"
+  <img data-width="{{model.width}}" data-height="{{model.height}}" class="image" src="{{ model.contentUrl }}?w=320"
 alt="{% if model.alt %} {{ model.alt | striptags() }}{% elif model.caption %} {{ model.caption | striptags() }}{% endif %}" />
 </noscript>
 
 {% for item in loop %}
   <img width="{{model.width}}" height="{{model.height}}" class="image{{ ' lazy-image lazyload' if data.lazyload }}
-  {#{{ 'image--clip-mask' if data.clipMask }}#}
   {% if loop.index0 === 1 %}
     promo__image-mask {{data.clipPathClass}}
   {% endif %}
