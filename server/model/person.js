@@ -3,6 +3,7 @@ export type Person = {|
   givenName: string;
   familyName: string;
   twitterHandle?: string;
+  prismicId?: string;
   name?: string;
   description?: string;
   image?: string; // TODO: Make this Picture

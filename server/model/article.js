@@ -47,12 +47,12 @@ export class ArticleFactory {
     const mainVideo: ?Video = bodyPartsRaw[0] && bodyPartsRaw[0].type === 'video' ? bodyPartsRaw[0].value : null;
     const wpThumbnail = json.post_thumbnail;
 
-    const thumbnail: ?Picture = mainVideo ? mainVideo.posterImage : (wpThumbnail ? {
+    const thumbnail: ?Picture = wpThumbnail ? {
       type: 'picture',
       contentUrl: wpThumbnail.URL,
       width: wpThumbnail.width,
       height: wpThumbnail.height
-    } : null);
+    } : null;
     // Annoyingly Wordpress doesn't always send the featured image over with the attachments,
     // so we revert to the thumbnail.
     const mainImage: ?Picture = getWpFeaturedImage(json.featured_image, json.attachments) || thumbnail;

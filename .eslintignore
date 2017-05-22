@@ -4,3 +4,5 @@
 /**/node_modules/
 /**/libs/
 /client/js/polyfills.js
+/server/prismic-export.js
+/server/prismic-export-app.js
