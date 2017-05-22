@@ -1,4 +1,4 @@
-import { on, nodeList } from './util';
+import { on } from './util';
 import { trackEvent } from './utils/track-event';
 
 export default {
