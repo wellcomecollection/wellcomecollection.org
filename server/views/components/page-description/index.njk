@@ -6,7 +6,7 @@
           {% if model.intro %}
             <span class="page-description__intro {{ {s:1, m:1, l:2} | spacingClasses({margin: ['bottom']}) }}">{{ model.intro }}</span>
           {% endif %}
-          <h1 class="page-description__title">
+          <h1 class="page-description__title" itemprop="headline">
             {% if data.icon %}{% icon data.icon %}{% endif %}
             {{ model.title }}
           </h1>
