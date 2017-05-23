@@ -1,16 +1,34 @@
 {% set sizes = model | getImageSizesFor %}
 {% set comma = joiner() %}
-
-<img data-width="{{model.width}}" data-height="{{model.height}}" class="image{{ ' lazyload' if data.lazyload }} {{ 'image--clip-mask' if data.clipMask }}"
-src="{{ model.contentUrl }}?w={{ sizes[0] }}"
-data-srcset="
-{%- for size in sizes -%}
-  {{ comma() }}{{ model.contentUrl }}?w={{ size }} {{ size }}w
-{%- endfor %}"
-{% if data.sizesQueries %}
-  sizes="{{ data.sizesQueries }}"
+{# Note to future selves - having the clipPathClass means we need 2 images on the page (with slightly different classes). Creating an array here, so can loop over the image code instead of repeating it. #}
+{% if data.clipPathClass %}
+  {% set loop = [1,2] %}
+{% else %}
+  {% set loop = [1] %}
 {% endif %}
-{% if model.copyright %}
-  data-copyright="{{ model.copyright }}"
-{% endif %}
+<noscript>
+  <img data-width="{{model.width}}" data-height="{{model.height}}" class="image" src="{{ model.contentUrl }}?w=320"
 alt="{% if model.alt %} {{ model.alt | striptags() }}{% elif model.caption %} {{ model.caption | striptags() }}{% endif %}" />
+</noscript>
+
+{% for item in loop %}
+  <img width="{{model.width}}" height="{{model.height}}" class="image{{ ' lazy-image lazyload' if data.lazyload }}
+  {% if loop.index0 === 1 %}
+    promo__image-mask {{data.clipPathClass}}
+  {% endif %}
+  "
+  src="{{ model.contentUrl }}?w=30"
+  data-srcset="
+  {%- for size in sizes -%}
+    {{ comma() }}{{ model.contentUrl }}?w={{ size }} {{ size }}w
+  {%- endfor %}"
+  {% if data.sizesQueries %}
+    sizes="{{ data.sizesQueries }}"
+  {% else %}
+    sizes="100vw"
+  {% endif %}
+  {% if model.copyright %}
+    data-copyright="{{ model.copyright }}"
+  {% endif %}
+  alt="{% if model.alt %} {{ model.alt | striptags() }}{% elif model.caption %} {{ model.caption | striptags() }}{% endif %}" />
+{% endfor %}

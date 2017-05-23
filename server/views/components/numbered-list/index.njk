@@ -12,7 +12,8 @@
     </header>
   {% endif %}
   <ol class="numbered-list__list{% if data.sliderId %} js-numbered-slider{% endif %} {{ 'grid grid--dividers' if isTransporter }}"
-    {% if data.sliderId %} id="{{data.sliderId}}" {% endif %}>
+    {% if isTransporter %}data-component="Transporter" {% endif %}
+    {% if data.sliderId %} id="{{data.sliderId}}" data-component-id="{{ data.sliderId }}" {% endif %}>
     {% for item in model.items -%}
       {% set isCurrent = current === item.url %}
 
@@ -24,7 +25,9 @@
           <span class="numbered-list__number" aria-hidden="true">{{ loop.index }}</span>
 
           {% if isTransporter %}
-            {% component 'promo', {promo: item | objectAssign({ modifiers: ['slider-transporter-child'] })} %}
+            <span data-track-click='{"position": {{ loop.index }}, "url": "{{ item.url }}" }'>
+              {% componentV2 'promo', item | objectAssign({ modifiers: ['slider-transporter-child'] }) %}
+            </span>
           {% else %}
             {% if item.url %}
               <a href="{{ item.url }}" class="numbered-list__link">
@@ -35,7 +38,7 @@
             <h3 class="numbered-list__title">
               {% if data.sliderId %}Part {{ loop.index }}: {% endif %}
               {%- if isCurrent -%}
-                Currently viewing<span class="numbered-list__visually-hidden-title"> {{ item.title }}</span>
+                Currently reading<span class="numbered-list__visually-hidden-title"> {{ item.title }}</span>
               {%- else -%}
                 {{ item.title }}
               {%- endif -%}

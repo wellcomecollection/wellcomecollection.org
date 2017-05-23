@@ -10,13 +10,23 @@
         {# checking the index here is a bit of a hack around when we have a video as the mainMedia #}
         {% if contentType === 'comic' %}
           {{ bodyPart.value | safe }}
+        {% elif bodyPart.type === 'picture' %}
+          {# On old content, the first paragraph is sometimes a picture #}
+          {% componentV2 'captioned-image', bodyPart.value, {}, {sizesQueries: '(min-width: 960px) 710px, 100vw'} %}
         {% else %}
           {% component 'standfirst', { body: bodyPart.value } %}
         {% endif %}
       {% elif bodyPart.type === 'heading' %}
         <h2>{{ bodyPart.value.value | safe }}</h2>
       {% elif bodyPart.type === 'picture' %}
-        {% componentV2 'captioned-image', bodyPart.value, {}, {sizesQueries: '(min-width: 960px) 710px, 100vw'} %}
+        {% if bodyPart.weight === 'standalone' %}
+          {% set sizes = '100vw' %}
+        {% elif bodyPart.weight === 'supporting' %}
+          {% set sizes = '(min-width: 1340px) 406px, (min-width: 960px) calc(41.67vw - 50px), (min-width: 600px) calc(75vw - 63px), calc(100vw - 36px)' %}
+        {% else %}
+          {% set sizes ='(min-width: 1340px) 579px, (min-width: 960px) calc(58.33vw - 100px), (min-width: 600px) calc(75vw - 63px), calc(100vw - 36px)' %}
+        {% endif %}
+        {% componentV2 'captioned-image', bodyPart.value, {}, {sizesQueries: sizes} %}
       {% elif bodyPart.type === 'video' %}
         {% componentV2 'iframed-video', bodyPart.value %}
       {% elif bodyPart.type === 'list' %}

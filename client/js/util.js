@@ -1,3 +1,4 @@
+// @flow
 const KEYS = {
   TAB: 9,
   ENTER: 13,
@@ -41,3 +42,31 @@ export {
   setPropertyPrefixed,
   featureTest
 };
+
+// Event delegation
+function getTarget(delegateEl: HTMLElement, eventEl: HTMLElement, possibleTarget: HTMLElement): ?HTMLElement {
+  if (eventEl === delegateEl) {
+    return;
+  } else if (eventEl === possibleTarget) {
+    return possibleTarget;
+  } else {
+    return getTarget(delegateEl, eventEl.parentNode, possibleTarget);
+  }
+}
+
+export function on(delegateElSelector: string, eventName: Event, eventElSelector: string, fn: () => mixed): void {
+  const delegateEl = document.querySelector(delegateElSelector);
+
+  delegateEl.addEventListener(eventName, (event) => {
+    const possibleTargets = nodeList(delegateEl.querySelectorAll(eventElSelector));
+    const eventEl = event.target;
+
+    possibleTargets.forEach((possibleTarget) => {
+      const correctTarget = getTarget(delegateEl, eventEl, possibleTarget);
+
+      if (correctTarget) {
+        return fn.call(correctTarget, event);
+      }
+    });
+  });
+}

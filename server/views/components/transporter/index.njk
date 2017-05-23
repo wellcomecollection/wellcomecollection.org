@@ -14,8 +14,7 @@
     {% for promo in promos %}
     <div class="{{ {s:4, m:8} | gridClasses }} transporter__item">
       {% set modifiers = promo.modifiers.concat('large-text') if (promos.length <= 4) else promo.modifiers %}
-
-      {% component 'promo', { promo: promo | objectAssign({ modifiers: modifiers }) } %}
+      {% componentV2 'promo', promo | objectAssign({ modifiers: modifiers }) %}
     </div>
     {% endfor %}
   </div>

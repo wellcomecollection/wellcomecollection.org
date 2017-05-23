@@ -9,7 +9,7 @@ import {
   removeExtraAttrs,
   convertDomNode,
   convertWpImage,
-  convertWpVideo
+  convertWpYtVideo
 } from '../../util/body-parser';
 import {domNodeHtml, wpImageNodeHtml, wpVideoNodeHtml} from '../mocks/dom-nodes';
 
@@ -56,9 +56,9 @@ test('convertWpImage', t => {
   );
 });
 
-test('convertWpVideo', t => {
+test('convertWpYtVideo', t => {
   const wpVideoNode = parse.parseFragment(wpVideoNodeHtml).childNodes[0];
-  const v = convertWpVideo(wpVideoNode);
+  const v = convertWpYtVideo(wpVideoNode);
 
   t.is(
     v.value.embedUrl,
