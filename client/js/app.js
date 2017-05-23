@@ -1,5 +1,6 @@
 /* global Raven */
 import 'core-js/fn/object/assign';
+import 'core-js/fn/promise';
 import 'whatwg-fetch';
 import lazysizes from 'lazysizes';
 
@@ -20,6 +21,7 @@ import joinCohort from './components/join-cohort';
 import gifVideo from './components/gif-video';
 import tracking from './tracking';
 import polyfills from './polyfills';
+import fontObserver from './utils/font-observer';
 
 const init = () => {
   nodeList(document.querySelectorAll('.async-content')).forEach((el) => {
@@ -30,6 +32,7 @@ const init = () => {
   lazysizes.init();
   instagram.init();
   tracking.init();
+  fontObserver.init();
 
   const cookieEl = document.getElementById('cookie-notification');
   const burgerEl = document.querySelector('.js-header-burger');
