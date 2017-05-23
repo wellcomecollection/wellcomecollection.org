@@ -15,7 +15,8 @@ const devMode = gutil.env.dev;
 const sources = {
   scss: {
     manifests: [
-      'scss/application.scss',
+      'scss/critical.scss',
+      'scss/non-critical.scss',
       'scss/styleguide.scss'
     ],
     all: 'scss/**/*.scss',
@@ -108,7 +109,7 @@ gulp.task('js:compile', ['js:clean'], () => {
 });
 
 gulp.task('css:bust', ['scss:compile'], () => {
-  gulp.src('../dist/assets/css/application.css')
+  gulp.src('../dist/assets/css/non-critical.css')
     .pipe(hash({
       hashLength: 16
     }))
