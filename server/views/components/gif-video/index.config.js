@@ -1,8 +1,8 @@
-import type { GifVideo } from '../../../model/gif-video';
-import { createGifVideo } from '../../../model/gif-video';
+import type { Video } from '../../../model/video';
+import { createVideo } from '../../../model/video';
 import { createPicture } from '../../../model/picture';
 
-const context: GifVideo = createGifVideo({
+const context: Video = createVideo({
   sources: [{
     url: 'https://video.twimg.com/tweet_video/C_YvyiGXgAA7Arj.mp4',
     fileFormat: 'video/mp4'

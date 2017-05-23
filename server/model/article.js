@@ -5,7 +5,7 @@ import type {Person} from './person';
 import type {Picture} from './picture';
 import type {ContentType} from './content-type';
 import { getContentType } from './content-type';
-import type {Video} from './video';
+import type {VideoEmbed} from './video-embed';
 import type {ArticleSeries} from './series';
 import {getSeriesCommissionedLength, getSeriesColor, getPositionInSeries} from '../data/series';
 import {getWpFeaturedImage} from './media';
@@ -24,7 +24,7 @@ export type Article = {|
   // TODO: this will probably, at some stage be able to be video/audio/gallery etc
   // It's also an Array because it's not unfathomable to think of having
   // an audio and image mainMedia.
-  mainMedia: Array<Picture | Video>;
+  mainMedia: Array<Picture | VideoEmbed>;
   thumbnail?: ?Picture;
   articleBody: string;
   associatedMedia: Array<Picture>;
@@ -44,7 +44,7 @@ export class ArticleFactory {
     const standfirst = bodyPartsRaw.find(part => part.type === 'standfirst');
     const mainComic: ?Picture = bodyPartsRaw[0] && bodyPartsRaw[0].type === 'picture' && contentType === 'comic' ? bodyPartsRaw[0].value : null;
 
-    const mainVideo: ?Video = bodyPartsRaw[0] && bodyPartsRaw[0].type === 'video' ? bodyPartsRaw[0].value : null;
+    const mainVideo: ?VideoEmbed = bodyPartsRaw[0] && bodyPartsRaw[0].type === 'video-embed' ? bodyPartsRaw[0].value : null;
     const wpThumbnail = json.post_thumbnail;
 
     const thumbnail: ?Picture = wpThumbnail ? {
@@ -56,7 +56,7 @@ export class ArticleFactory {
     // Annoyingly Wordpress doesn't always send the featured image over with the attachments,
     // so we revert to the thumbnail.
     const mainImage: ?Picture = getWpFeaturedImage(json.featured_image, json.attachments) || thumbnail;
-    const mainMedia: Array<Video | Picture> = [(mainComic || mainImage), mainVideo].filter(Boolean);
+    const mainMedia: Array<VideoEmbed | Picture> = [(mainComic || mainImage), mainVideo].filter(Boolean);
 
     // If we have a video as the main media, remove it from the bodyParts to not let it show twice
     // This is due to the fact that WP doesn't allow you to set mainMedia as Youtube embeds.
