@@ -69,7 +69,8 @@ export const elissavetNtoulia: Person = {
   familyName: 'Ntoulia',
   name: 'Elissavet Ntoulia',
   image: 'https://wellcomecollection.files.wordpress.com/2017/05/elissavetntoulia.jpg',
-  description: 'Elissavet Ntoulia is a Visitor Experience Assistant at Wellcome Collection.'
+  description: 'Elissavet Ntoulia is a Visitor Experience Assistant at Wellcome Collection.',
+  prismicId: 'WSPupR8AACAA5dP4'
 };
 
 export const lalitaKaplish: Person = {
@@ -78,7 +79,8 @@ export const lalitaKaplish: Person = {
   name: 'Lalita Kaplish',
   twitterHandle: 'LalitaKaplish',
   image: 'https://wellcomecollection.files.wordpress.com/2017/05/lkphoto.jpg',
-  description: 'Lalita is a web editor at Wellcome Collection.'
+  description: 'Lalita is a web editor at Wellcome Collection.',
+  prismicId: 'WSPtqx8AAB8A5dGb'
 };
 
 export const brionyHudson: Person = {
@@ -87,5 +89,6 @@ export const brionyHudson: Person = {
   name: 'Briony Hudson',
   twitterHandle: 'brionyhudson2',
   image: 'https://wellcomecollection.files.wordpress.com/2017/05/briony.jpg',
-  description: 'Briony is a pharmacy historian, curator, lecturer, and past President of the British Society for the History of Pharmacy.'
+  description: 'Briony is a pharmacy historian, curator, lecturer, and past President of the British Society for the History of Pharmacy.',
+  prismicId: 'WSPttB8AAB4A5dG3'
 };
