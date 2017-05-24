@@ -98,12 +98,12 @@
 
 .styleguide__font__name {
   @include font('HNM5');
-  color: color('red');
+  color: color('red-foreground');
 }
 
 .styleguide__font__properties {
   margin: 10px 0 0;
-  color: color('red');
+  color: color('red-foreground');
 }
 
 .styleguide__font__property {

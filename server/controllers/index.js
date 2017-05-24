@@ -9,7 +9,7 @@ import { getSeriesColor } from '../data/series';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {createNumberedList} from '../model/numbered-list';
-import config from '../config';
+
 const maxItemsPerPage = 32;
 
 export const article = async(ctx, next) => {
@@ -182,12 +182,14 @@ export const explore = async(ctx, next) => {
   };
 
   const aDropInTheOceanPromoList = PromoListFactory.fromSeries(aDropInTheOceanSeries);
+  const latestDigitalStory = 'electric-sublime';
 
   ctx.render('pages/explore', {
     pageConfig: createPageConfig({
       title: 'Explore',
       inSection: 'explore'
     }),
+    latestDigitalStory,
     aDropInTheOcean: aDropInTheOceanPromoList,
     topPromo,
     second3Promos,
@@ -210,8 +212,8 @@ export const healthcheck = (ctx, next) => {
 export const featureFlags = (ctx, next) => {
   ctx.render('pages/flags', {
     pageConfig: createPageConfig({inSection: 'index'}),
-    flags: config.intervalCache.get('flags'),
-    cohorts: config.intervalCache.get('cohorts')
+    flags: ctx.intervalCache.get('flags'),
+    cohorts: ctx.intervalCache.get('cohorts')
   });
   return next();
 };

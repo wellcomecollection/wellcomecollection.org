@@ -18,14 +18,18 @@ import contentSlider from './components/content-slider';
 import gaScrollDepth from '../libs/ga-scroll-depth';
 import joinCohort from './components/join-cohort';
 import gifVideo from './components/gif-video';
+import tracking from './tracking';
+import polyfills from './polyfills';
 
 const init = () => {
   nodeList(document.querySelectorAll('.async-content')).forEach((el) => {
     asynContent(el, dispatch);
   });
 
+  polyfills.init();
   lazysizes.init();
   instagram.init();
+  tracking.init();
 
   const cookieEl = document.getElementById('cookie-notification');
   const burgerEl = document.querySelector('.js-header-burger');
@@ -75,7 +79,7 @@ const init = () => {
     contentSlider(gallery, {
       slideSelector: '.image-gallery__item',
       cssPrefix: 'slider__',
-      modifiers: ['gallery'],
+      modifiers: ['in-article', 'gallery', 'with-wobbly-line'],
       sliderType: 'gallery'
     });
   });

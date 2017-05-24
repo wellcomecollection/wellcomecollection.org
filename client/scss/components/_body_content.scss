@@ -44,7 +44,7 @@
   }
 
   *::selection {
-    background: transparentize(color('turquoise'), 0.7);
+    background: transparentize(color('turquoise-background'), 0.7);
   }
 
   a:link {

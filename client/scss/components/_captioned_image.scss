@@ -1,11 +1,10 @@
 //* @define captioned-image
 .captioned-image {
   margin: 0 0 $vertical-space-unit;
+}
 
-  .image {
-    width: 100%;
-    display: block;
-  }
+.captioned-image--has-border-bottom {
+  border-bottom: 1px solid color('pumice');
 }
 
 .captioned-image--bleed {
@@ -66,7 +65,6 @@
   color: color('black');
   padding-top: #{($v-spacing-unit * 4) - 8px}; // - to make to adjust for line-height, want padding from x-height
   padding-bottom: #{($v-spacing-unit * 4) - 8px};
-  border-bottom: 1px solid color('pumice');
 
   .icon {
     vertical-align: top;
@@ -141,12 +139,3 @@
     display: none;
   }
 }
-
-.captioned-image__underline {
-  border-bottom: 1px solid color('pumice');
-}
-
-.captioned-image__caption--no-underline {
-  border-bottom: 0;
-}
-

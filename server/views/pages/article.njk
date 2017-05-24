@@ -23,65 +23,69 @@
   {% set seriesTitle = null %}
 {% endif %}
 
-{% componentV2 'page-description', {intro: seriesTitle, title: article.headline, meta: {type: 'date', value: article.datePublished}, lead: true}, {'a': true}, {icon: article.contentType | getIconForContentType} %}
+<article itemscope itemtype="http://schema.org/Article">
+  {% componentV2 'page-description', {intro: seriesTitle, title: article.headline, meta: {type: 'date', value: article.datePublished}, lead: true}, {'a': true}, {icon: article.contentType | getIconForContentType} %}
 
-{% set mainMediaData = {
-  contentType: article.contentType,
-  positionInSeries: article.positionInSeries,
-  series: commissionedSeries
-} %}
+  {% set mainMediaData = {
+    contentType: article.contentType,
+    positionInSeries: article.positionInSeries,
+    series: commissionedSeries
+  } %}
 
-{% componentV2 'main-media', article.mainMedia | getPrincipleMainMedia, {'full': true, 'comic': article.contentType === 'comic'}, mainMediaData %}
+  {% componentV2 'main-media', article.mainMedia | getPrincipleMainMedia, {'full': true, 'comic': article.contentType === 'comic'}, mainMediaData %}
 
-<div class="row row--cream {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top', 'bottom']}) }} ">
-  <div class="container">
-    <div class="grid grid--no-gutters">
-      <div class="grid__cell grid__cell--s4 grid__cell--m6 grid__cell--shift-m1 grid__cell--l7 grid__cell--xl6 grid__cell--shift-xl1">
-        {% if article.author and article.bodyParts.length > 0  %}
-          {% component 'author', {
-            name: article.author.name,
-            twitterHandle: article.author.twitterHandle,
-            modifiers: ['border-bottom'],
-            image: article.author.image
-          } %}
-        {% endif %}
-
-        <div class="article">
-          {% block articleBody %}
-            {% component 'article-body', {articleBody: article.bodyParts, contentType: article.contentType} %}
-          {% endblock %}
-
-          {% if article.author %}
+  <div class="row row--cream {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top', 'bottom']}) }} ">
+    <div class="container">
+      <div class="grid grid--no-gutters">
+        <div class="grid__cell grid__cell--s4 grid__cell--m6 grid__cell--shift-m1 grid__cell--l7 grid__cell--xl6 grid__cell--shift-xl1">
+          {% if article.author and article.bodyParts.length > 0  %}
             {% component 'author', {
               name: article.author.name,
               twitterHandle: article.author.twitterHandle,
-              modifiers: ['border-left'],
-              description: article.author.description,
+              modifiers: ['border-bottom'],
               image: article.author.image
             } %}
           {% endif %}
 
-          <hr class="divider divider--stub divider--black {{ {s:4, m:4, l:4} | spacingClasses({margin: ['top']}) }} {{ {s:1, m:1, l:1} | spacingClasses({margin: ['bottom']}) }}" />
+          <div class="article" itemprop="articleBody">
+            {% block articleBody %}
+              {% component 'article-body', {articleBody: article.bodyParts, contentType: article.contentType} %}
+            {% endblock %}
 
-          {% if article.tags.length > 0 %}
-            {% component 'tags', { tags: article.tags } %}
-          {% endif %}
+            {% if article.author %}
+              {% component 'author', {
+                name: article.author.name,
+                twitterHandle: article.author.twitterHandle,
+                modifiers: ['border-left'],
+                description: article.author.description,
+                image: article.author.image
+              } %}
+            {% endif %}
+
+            <hr class="divider divider--stub divider--black {{ {s:4, m:4, l:4} | spacingClasses({margin: ['top']}) }} {{ {s:1, m:1, l:1} | spacingClasses({margin: ['bottom']}) }}" />
+
+            {% if article.tags.length > 0 %}
+              {% component 'tags', { tags: article.tags } %}
+            {% endif %}
+          </div>
+
         </div>
-
       </div>
     </div>
   </div>
-</div>
+</article>
 
 {% block transporters %}
   {% for series in article.series %}
     {% if series.commissionedLength %}
-      <div class="container digital-story-transporter">
-        <div class="grid grid--no-gutters">
-          <div class="{{ {s: 4, m: 6, shiftM: 1, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
-            <div class="body-part body-part--full-width">
-              {% set asyncContentEndpoint = '/series-transporter/' + series.url + '?current=' + article.url %}
-              {% component 'async', { endpoint: asyncContentEndpoint, component: 'series-transporter' } %}
+      <div class="row {{ {s:4, m:4, l:4} | spacingClasses({padding: ['bottom']}) }}">
+        <div class="container digital-story-transporter">
+          <div class="grid grid--no-gutters">
+            <div class="{{ {s: 4, m: 6, shiftM: 1, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
+              <div class="body-part body-part--full-width">
+                {% set asyncContentEndpoint = '/series-transporter/' + series.url + '?current=' + article.url %}
+                {% component 'async', { endpoint: asyncContentEndpoint, component: 'series-transporter', modifiers: '{"in-article": true, "with-wobbly-line": true}' } %}
+              </div>
             </div>
           </div>
         </div>

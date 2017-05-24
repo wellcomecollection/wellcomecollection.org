@@ -35,13 +35,15 @@ const contentSlider = (el, options) => {
     arrowThin: '<svg class="control-arrow" aria-hidden="true" viewBox="0 0 20 26"><path class="icon__shape" d="M18.71 15.29a1 1 0 0 0-1.41 0l-6.3 6.3V2a1 1 0 0 0-2 0v19.59l-6.29-6.3A1 1 0 0 0 1.3 16.7l8 8a1 1 0 0 0 1.41 0l8-8a1 1 0 0 0 0-1.41z"></path></svg>'
   };
 
+  // TODO: remove this when removing data-modifiers from async. It smells.
   function setModifiers(cssBlock) {
     return settings.modifiers.reduce((acc, curr) => {
       return `${acc} ${settings.cssPrefix}${cssBlock}--${curr}`;
-    }, '');
+    }, '').trim();
   }
 
   const sliderModifiers = setModifiers('slider');
+  const slidesContainerModifiers = setModifiers('slides-container');
   const sliderControlsModifiers = setModifiers('slider-controls');
 
   // Generate classes for slider elements
@@ -75,6 +77,9 @@ const contentSlider = (el, options) => {
     sliderElements.slider.className = classes.slider;
     sliderElements.sliderInner.className = classes.sliderInner;
     sliderElements.slidesContainer.classList.add(classes.slidesContainer);
+    slidesContainerModifiers.split(' ').forEach((modifier) => {
+      sliderElements.slidesContainer.classList.add(modifier);
+    });
     sliderElements.sliderControls.className = classes.sliderControls;
     sliderElements.prevControl.className = classes.prevControl;
     sliderElements.nextControl.className = classes.nextControl;
@@ -144,15 +149,13 @@ const contentSlider = (el, options) => {
     nodeList(imagesArray).forEach((img, imageIndex) => {
       if (img) {
         const imgHeight = maxHeight;
-        const imageWidth = img.getAttribute('data-width');
-        const imageHeight = img.getAttribute('data-height');
+        const imageWidth = img.getAttribute('width');
+        const imageHeight = img.getAttribute('height');
         const widthByHeight = imageWidth / imageHeight * imgHeight;
         img.parentNode.style.height = imgHeight + 'px';
         if (widthByHeight <= maxWidth) {
-          img.style.width = widthByHeight + 'px';
           img.parentNode.parentNode.style.width = widthByHeight + 'px';
         } else {
-          img.style.width = maxWidth + 'px';
           img.parentNode.parentNode.style.width = maxWidth + 'px';
         }
         if (settings.truncateText && !img.parentNode.parentNode.querySelector('.captioned-image__truncate-control')) {

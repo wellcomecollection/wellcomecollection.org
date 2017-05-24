@@ -1,63 +1,53 @@
-{% set leadPromoSizes = '(max-width: 599px) 564px, (max-width: 959px) 876px, 812px' %}
-{% set defaultPromoSizes = '(max-width: 599px) 564px, (max-width: 959px) 276px, 386px' %}
-{% if promo.weight === 'lead' %}
-  {% set sizes = leadPromoSizes %}
+{% if data.sizes %}
+  {% set sizes = data.sizes %}
 {% else %}
-  {% set sizes = defaultPromoSizes %}
+  {% set sizes = '100vw' %}
 {% endif %}
 
-<{{ 'a' if promo.url else 'span' }}
-  {% if promo.url %}href="{{ promo.url }}"{% endif %}
-  class="promo {% for modifier in promo.modifiers %}promo--{{ modifier }} {% endfor %} promo--{{ promo.contentType }} {{ 'promo--surrogate' if not promo.url }}">
+{% if model.series %}
+  {% set seriesTitle = model.series | getSeriesTitle %}
+  {% set commissionedSeries = model.series | getCommissionedSeries %}
+  {% if commissionedSeries and model.positionInSeries and model.url %}
+    {% set addImageMask = true %}
+    {% set addIndicatorBars = true %}
+    {% if model.modifiers and model.modifiers | contains('standalone') %}
+      {% set clipPathClass = 'promo__clip-path--chapters-half' %}
+    {% else %}
+      {% set clipPathClass = 'promo__clip-path--chapters-third' %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+
+<{{ 'a' if model.url else 'span' }}
+  {% if model.url %}href="{{ model.url }}"{% endif %}
+  class="promo {% for modifier in model.modifiers %}promo--{{ modifier }} {% endfor %} promo--{{ model.contentType }} {{ 'promo--surrogate' if not model.url }}">
   <div class="promo__image-container">
-    {% if promo.image %}
-      {% componentV2 'image', promo.image, {}, {lazyload: true, sizesQueries: sizes} %}
+    {% if model.image %}
+      {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, clipPathClass: clipPathClass} %}
     {% else %}
       <div class="promo__image-surrogate">
         <div class="promo__image-surrogate-inner"></div>
       </div>
     {% endif %}
 
-    {% for modifier in promo.modifiers %}
-      {% if modifier === 'series' %}
-        <svg class="promo__defs">{# TODO proper filter - see Tomi; and only want this on the page once, where's best to move?#}
-          <defs>
-            <filter id="duotone" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
-              <feColorMatrix type="matrix"
-                values="0.90 0 0 0   0.40
-                        0.95 0 0 0  -0.10
-                      -0.20 0 0 0   0.65
-                          0  0 0 1   0" />
-            </filter>
-          </defs>
-        </svg>
-        <img class="image promo__image-mask promo__clip-path--{{ [1,2,3,4,5,6,7,8,9,10] | random }}" src="{{ promo.article.thumbnail.contentUrl }}?w=600" alt="" />
-      {% endif %}
-    {% endfor %}
-
-    {% if promo.series %}
-      {% set seriesTitle = promo.series | getSeriesTitle %}
-      {% set commissionedSeries = promo.series | getCommissionedSeries %}
-      {% if commissionedSeries and promo.positionInSeries and promo.url %}
-        <img class="image promo__image-mask {{'promo__clip-path--chapters-half' if promo.modifiers and promo.modifiers | contains('standalone') else 'promo__clip-path--chapters-third'}}" src="{{ promo.image.contentUrl }}?w=600" alt="" />
-        {% componentV2 'chapter-indicator', {series: commissionedSeries, position: promo.positionInSeries}, {'half': promo.modifiers and promo.modifiers | contains('standalone')}, {showSingle: promo.modifiers and promo.modifiers | contains('standalone')} %}
-      {% endif %}
+    {% if addIndicatorBars %}
+        {% componentV2 'chapter-indicator', {series: commissionedSeries, position: model.positionInSeries}, {'half': model.modifiers and model.modifiers | contains('standalone')}, {showSingle: model.modifiers and model.modifiers | contains('standalone')} %}
     {% endif %}
 
-    {% if promo.contentType === 'gallery' or promo.contentType === 'audio' or promo.contentType === 'video' %}
+    {% if model.contentType === 'gallery' or model.contentType === 'audio' or model.contentType === 'video' %}
       <div class="promo__icon-container">
-        {% icon promo.contentType | getIconForContentType %}
-        {% if promo.contentType === 'gallery' and promo.length %}
-          <span class="promo__length"><span class="promo__sr">Gallery with</span> {{ promo.length }} <span class="promo__sr">item{{ 's' if promo.length > 1 }}</span></span>
+        {% icon model.contentType | getIconForContentType %}
+        {% if model.contentType === 'gallery' and model.length %}
+          <span class="promo__length"><span class="promo__sr">Gallery with</span> {{ model.length }} <span class="promo__sr">item{{ 's' if model.length > 1 }}</span></span>
         {% endif %}
-        {% if promo.contentType === 'audio' or promo.contentType === 'video' and promo.length %}
-          <span class="promo__sr">{% if promo.contentType === 'audio' %}Audio{% else %}Video{% endif %} lasting</span>
-          <span class="promo__length">{{ promo.length }}</span>
+        {% if model.contentType === 'audio' or model.contentType === 'video' and model.length %}
+          <span class="promo__sr">{% if model.contentType === 'audio' %}Audio{% else %}Video{% endif %} lasting</span>
+          <span class="promo__length">{{ model.length }}</span>
         {% endif %}
       </div>
     {% endif %}
   </div>
-  {% if promo.modifiers and promo.modifiers | contains('standalone') %}
+  {% if model.modifiers and model.modifiers | contains('standalone') %}
     <div class="row row--cream {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top']}) }} ">
       <div class="container">
         <div class="grid">
@@ -65,29 +55,29 @@
           {% endif %}
             <header class="promo__description">
               <div class="promo__heading">
-                {% if promo.contentType %}
+                {% if model.contentType %}
                   <span class="promo__type" aria-hidden="true">
-                    {% if commissionedSeries and promo.positionInSeries %}
-                      {{ commissionedSeries.name }}: Part {{ promo.positionInSeries }}
+                    {% if commissionedSeries and model.positionInSeries %}
+                      {{ commissionedSeries.name }}: Part {{ model.positionInSeries }}
                     {% elif seriesTitle %}
                       {{ seriesTitle }}
                     {% else %}
-                      {{ promo.contentType }}
+                      {{ model.contentType }}
                     {% endif %}
                   </span>
                 {% endif %}
-                  <{{ headingLevel or 'h2'}} class="promo__title{{ ' promo__title--lead' if promo.weight === 'lead' }}">
-                    {{ promo.title if promo.url else 'Coming soon…' }}
+                  <{{ headingLevel or 'h2'}} class="promo__title{{ ' promo__title--lead' if model.weight === 'lead' }}">
+                    {{ model.title if model.url else 'Coming soon…' }}
                   </{{ headingLevel or 'h2'}}>
               </div>
-              {% if promo.description %}
-                <span class="promo__copy">{{ promo.description | striptags | safe | truncate(140) }}</span>
+              {% if model.description %}
+                <span class="promo__copy">{{ model.description | striptags | safe | truncate(140) }}</span>
               {% endif %}
             </header>
-          {% if promo.modifiers and promo.modifiers | contains('standalone') %}
+          {% if model.modifiers and model.modifiers | contains('standalone') %}
           </div>
         </div>
       </div>
     </div>
   {% endif %}
-</{{ 'a' if promo.url else 'span' }}>
+</{{ 'a' if model.url else 'span' }}>

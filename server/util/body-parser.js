@@ -332,8 +332,9 @@ export function findWpImageGallery(node) {
             const img = galleryItem.childNodes[0].childNodes.find((node) => {
               return node.nodeName === 'img';
             });
-            const width = parseInt(getAttrVal(img.attrs, 'data-original-width'), 10);
-            const height = parseInt(getAttrVal(img.attrs, 'data-original-height'), 10);
+            const dimensions = JSON.parse(`[${getAttrVal(img.attrs, 'data-orig-size')}]`);
+            const width = dimensions[0];
+            const height = dimensions[1];
             const contentUrl = getAttrVal(img.attrs, 'data-orig-file');
             const caption = getAttrVal(img.attrs, 'alt');
             return createPicture({
@@ -378,7 +379,7 @@ function getImageFromWpNode(node) {
   const urlObj = url.parse(imgSrc);
 
   const contentUrl = `https://${urlObj.hostname}${urlObj.pathname}`;
-  const caption = captionNode ? captionNode.childNodes[0].value : null;
+  const caption = captionNode ? serializeAndCleanNode(captionNode) : null;
   // We need to lookup the dims for images that aren't from the Wellcome Collection Wordpress
   const [width, height] = (getAttrVal(img.attrs, 'data-orig-size') || `${getAttrVal(img.attrs, 'width')},${getAttrVal(img.attrs, 'height')}`).split(',');
 

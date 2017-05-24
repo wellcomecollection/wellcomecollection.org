@@ -26,11 +26,6 @@ $image-gallery-control-margin: 18px;
   }
 
   .image {
-    height: 204px;
-    width: auto;
-
-    @include respond-to('medium') {
-      height: 640px;
-    }
+    max-height: 70vh;
   }
 }
