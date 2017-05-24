@@ -18,6 +18,8 @@
         {% endif %}
       {% elif bodyPart.type === 'heading' %}
         <h2>{{ bodyPart.value.value | safe }}</h2>
+      {% elif bodyPart.type === 'gif-video' %}
+        {% componentV2 'gif-video', bodyPart.value %}
       {% elif bodyPart.type === 'picture' %}
         {% if bodyPart.weight === 'standalone' %}
           {% set sizes = '100vw' %}
@@ -27,7 +29,7 @@
           {% set sizes ='(min-width: 1340px) 579px, (min-width: 960px) calc(58.33vw - 100px), (min-width: 600px) calc(75vw - 63px), calc(100vw - 36px)' %}
         {% endif %}
         {% componentV2 'captioned-image', bodyPart.value, {'has-border-bottom': bodyPart.value.caption}, {sizesQueries: sizes} %}
-      {% elif bodyPart.type === 'video' %}
+      {% elif bodyPart.type === 'video-embed' %}
         {% componentV2 'iframed-video', bodyPart.value %}
       {% elif bodyPart.type === 'list' %}
         {% component 'list', {list: bodyPart.value} %}

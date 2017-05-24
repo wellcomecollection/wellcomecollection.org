@@ -6,7 +6,7 @@ import entities from 'entities';
 import {createImageGallery} from '../model/image-gallery';
 import type {Picture} from '../model/picture';
 import {createPicture} from '../model/picture';
-import {createVideo} from '../model/video';
+import {createVideoEmbed} from '../model/video-embed';
 import {createList} from '../model/list';
 import {createTweet} from '../model/tweet';
 import {createBodyPart} from '../model/body-part';
@@ -234,10 +234,10 @@ export function convertWpYtVideo(node) {
       width: 480,
       height: 360
     };
-    const video = createVideo({ type: 'video', embedUrl, posterImage });
+    const video = createVideoEmbed({ type: 'video-embed', embedUrl, posterImage });
 
     return createBodyPart({
-      type: 'video',
+      type: 'video-embed',
       value: video
     });
   } else {
