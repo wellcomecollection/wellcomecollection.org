@@ -18,7 +18,7 @@ const sources = {
     all: 'scss/**/*.scss',
     critical: {
       manifests: [
-        'scss/critical.scss',
+        'scss/critical.scss'
       ],
       distPath: '../server/views/partials/'
     },
@@ -112,10 +112,6 @@ gulp.task('scss:compileCritical', () => {
     .pipe(sass({
       outputStyle: 'compressed'
     }))
-    .pipe(rename(function (path) {
-      path.basename += path.extname;
-      path.extname = ".njk"
-    }))
     .on('error', sass.logError)
     .pipe(autoprefixer({
       browsers: [
@@ -124,6 +120,10 @@ gulp.task('scss:compileCritical', () => {
       ]
     }))
     .pipe(devMode ? sourcemaps.write() : gutil.noop())
+    .pipe(rename(function (path) {
+      path.basename += path.extname;
+      path.extname = ".njk"
+    }))
     .pipe(gulp.dest(sources.scss.critical.distPath));
 });
 
