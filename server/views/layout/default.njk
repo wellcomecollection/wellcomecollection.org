@@ -120,6 +120,9 @@
 
     {% component 'cookie-notification' %}
 
+    <noscript>
+      <link rel="stylesheet" href="/assets/css/{{ 'non-critical.css' | getCacheBustFile }}">
+    </noscript>
     <script>
       if (['localhost', 'cardigan.wellcomecollection.org'].indexOf(document.location.hostname) === -1) {
         {% include 'partials/hotjar.js.njk' %}
