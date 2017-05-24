@@ -7,6 +7,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const gutil = require('gulp-util');
 const hash = require('gulp-hash');
 const clean = require('gulp-clean');
+const rename = require('gulp-rename');
 const webpackConfig = require('./webpack.config.js');
 const eslint = require('gulp-eslint');
 const eslintConfig = require('../.eslintrc.json');
@@ -14,13 +15,21 @@ const devMode = gutil.env.dev;
 
 const sources = {
   scss: {
-    manifests: [
-      'scss/critical.scss',
-      'scss/non-critical.scss',
-      'scss/styleguide.scss'
-    ],
     all: 'scss/**/*.scss',
-    distPath: '../dist/assets/css'
+    critical: {
+      manifests: [
+        'scss/critical.scss',
+      ],
+      distPath: '../server/views/partials/'
+    },
+    nonCritical: {
+      manifests: [
+        'scss/non-critical.scss',
+        'scss/styleguide.scss'
+      ],
+      all: ['scss/**/*.scss', '!scss/critical.scss'],
+      distPath: '../dist/assets/css'
+    }
   },
   js: {
     entry: './js/app.js',
@@ -81,7 +90,7 @@ gulp.task('js:clean', () => {
 
 // TODO: pull out autoprefixing / sourcemaps to it's own task
 gulp.task('scss:compile', ['css:clean'], () => {
-  return gulp.src(sources.scss.manifests)
+  return gulp.src(sources.scss.nonCritical.manifests)
     .pipe(devMode ? sourcemaps.init() : gutil.noop())
     .pipe(sass({
       outputStyle: 'compressed'
@@ -94,7 +103,28 @@ gulp.task('scss:compile', ['css:clean'], () => {
       ]
     }))
     .pipe(devMode ? sourcemaps.write() : gutil.noop())
-    .pipe(gulp.dest(sources.scss.distPath));
+    .pipe(gulp.dest(sources.scss.nonCritical.distPath));
+});
+
+gulp.task('scss:compileCritical', () => {
+  return gulp.src(sources.scss.critical.manifests)
+    .pipe(devMode ? sourcemaps.init() : gutil.noop())
+    .pipe(sass({
+      outputStyle: 'compressed'
+    }))
+    .pipe(rename(function (path) {
+      path.basename += path.extname;
+      path.extname = ".njk"
+    }))
+    .on('error', sass.logError)
+    .pipe(autoprefixer({
+      browsers: [
+        'last 2 versions',
+        'iOS 8'
+      ]
+    }))
+    .pipe(devMode ? sourcemaps.write() : gutil.noop())
+    .pipe(gulp.dest(sources.scss.critical.distPath));
 });
 
 gulp.task('js:compile', ['js:clean'], () => {
@@ -147,7 +177,8 @@ gulp.task('js:lint', () => {
 });
 
 gulp.task('watch', () => {
-  gulp.watch(sources.scss.all, ['css:bust']);
+  gulp.watch(sources.scss.nonCritical.all, ['css:bust']);
+  gulp.watch(sources.scss.critical.manifests, ['scss:compileCritical']);
   gulp.watch(sources.js.all, ['js:bust']);
   gulp.watch(sources.fonts.srcPath, ['fonts:copy']);
   gulp.watch(sources.images.srcPath, ['images:copy']);
@@ -156,8 +187,8 @@ gulp.task('watch', () => {
 });
 
 gulp.task('js', ['js:lint', 'js:compile']);
-gulp.task('scss', ['scss:lint', 'scss:compile']);
+gulp.task('scss', ['scss:lint', 'scss:compile', 'scss:compileCritical']);
 gulp.task('lint', ['scss:lint', 'js:lint']);
-gulp.task('compile', ['css:bust', 'js:bust', 'fonts:copy', 'images:copy', 'icons:copy', 'libs:copy']);
+gulp.task('compile', ['css:bust', 'js:bust', 'scss:compileCritical', 'fonts:copy', 'images:copy', 'icons:copy', 'libs:copy']);
 gulp.task('build', ['scss', 'js']);
 gulp.task('dev', ['compile', 'watch']);
