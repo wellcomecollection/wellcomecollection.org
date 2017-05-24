@@ -379,7 +379,7 @@ function getImageFromWpNode(node) {
   const urlObj = url.parse(imgSrc);
 
   const contentUrl = `https://${urlObj.hostname}${urlObj.pathname}`;
-  const caption = captionNode ? captionNode.childNodes[0].value : null;
+  const caption = captionNode ? serializeAndCleanNode(captionNode) : null;
   // We need to lookup the dims for images that aren't from the Wellcome Collection Wordpress
   const [width, height] = (getAttrVal(img.attrs, 'data-orig-size') || `${getAttrVal(img.attrs, 'width')},${getAttrVal(img.attrs, 'height')}`).split(',');
 
