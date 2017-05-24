@@ -28,6 +28,22 @@
     </div>
   </div>
 
+  <div class="row {{ {s:2, m:2, l:2} | spacingClasses({padding:['top']}) }}">
+    <div class="container container--scroll-xl">
+      <div class="grid grid--no-gutters">
+        <div class="{{ {s: 4, m: 8, l: 12, xl: 12} | gridClasses }}">
+          {% set asyncContentEndpoint = '/series-transporter/' + latestDigitalStory %}
+          {% component 'async', { endpoint: asyncContentEndpoint, component: 'series-transporter' } %}
+        </div>
+      </div>
+    </div>
+    <div class="{{ {s:4, m:4, l:4} | spacingClasses({margin:['top']}) }}">
+      <div class="container container--no-collapse">
+        <hr class="divider divider--thick divider--black {{ {s:5, m:5, l:5} | spacingClasses({margin: ['bottom']}) }}" />
+      </div>
+    </div>
+  </div>
+
   {% componentV2 'series-container', aDropInTheOcean %}
 
   {# Chronological #}

@@ -182,12 +182,14 @@ export const explore = async(ctx, next) => {
   };
 
   const aDropInTheOceanPromoList = PromoListFactory.fromSeries(aDropInTheOceanSeries);
+  const latestDigitalStory = 'electric-sublime';
 
   ctx.render('pages/explore', {
     pageConfig: createPageConfig({
       title: 'Explore',
       inSection: 'explore'
     }),
+    latestDigitalStory,
     aDropInTheOcean: aDropInTheOceanPromoList,
     topPromo,
     second3Promos,
