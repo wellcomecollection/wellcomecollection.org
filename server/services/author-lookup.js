@@ -28,5 +28,6 @@ export const authorMap: { [key: string]: Person } = {
   'the-electric-age': people.lalitaKaplish,
   'electric-age-the-electrified-garden': people.lalitaKaplish,
   'electric-age-hairbrush-wars': people.brionyHudson,
-  'electric-age-the-electropoise': people.helenBabbs
+  'electric-age-the-electropoise': people.helenBabbs,
+  'electric-age-cornelius-b-harness-and-his-electropathic-belt': people.lalitaKaplish
 };
