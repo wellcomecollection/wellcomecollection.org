@@ -38,7 +38,7 @@ const contentSlider = (el, options) => {
   function setModifiers(cssBlock) {
     return settings.modifiers.reduce((acc, curr) => {
       return `${acc} ${settings.cssPrefix}${cssBlock}--${curr}`;
-    }, '');
+    }, '').trim();
   }
 
   const sliderModifiers = setModifiers('slider');
@@ -77,9 +77,7 @@ const contentSlider = (el, options) => {
     sliderElements.sliderInner.className = classes.sliderInner;
     sliderElements.slidesContainer.classList.add(classes.slidesContainer);
     slidesContainerModifiers.split(' ').forEach((modifier) => {
-      if (modifier.trim() !== '') {
-        sliderElements.slidesContainer.classList.add(modifier);
-      }
+      sliderElements.slidesContainer.classList.add(modifier);
     });
     sliderElements.sliderControls.className = classes.sliderControls;
     sliderElements.prevControl.className = classes.prevControl;
