@@ -35,6 +35,7 @@ const contentSlider = (el, options) => {
     arrowThin: '<svg class="control-arrow" aria-hidden="true" viewBox="0 0 20 26"><path class="icon__shape" d="M18.71 15.29a1 1 0 0 0-1.41 0l-6.3 6.3V2a1 1 0 0 0-2 0v19.59l-6.29-6.3A1 1 0 0 0 1.3 16.7l8 8a1 1 0 0 0 1.41 0l8-8a1 1 0 0 0 0-1.41z"></path></svg>'
   };
 
+  // TODO: remove this when removing data-modifiers from async. It smells.
   function setModifiers(cssBlock) {
     return settings.modifiers.reduce((acc, curr) => {
       return `${acc} ${settings.cssPrefix}${cssBlock}--${curr}`;
