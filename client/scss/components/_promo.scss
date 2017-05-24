@@ -188,7 +188,7 @@
   transition: color 400ms ease;
 
   .promo--series & {
-    color: color('purple');
+    color: color('purple-foreground');
   }
 
   .promo:not(.promo--surrogate):hover &,
