@@ -52,7 +52,7 @@ test('convertWpImage', t => {
   t.is(i.value.height, 521);
   t.is(
     i.value.caption,
-    'The typical canon-ball shaped plum pudding pictured as the grand finale of the British Christmas feast.'
+    '<p>The typical canon-ball shaped <em>plum pudding</em> pictured as the grand finale of the British Christmas feast.</p>'
   );
 });
 
