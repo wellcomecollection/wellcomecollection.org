@@ -114,17 +114,15 @@
   line-height: $line-height;
 
   @if($font-family-subset) {
-    .font-stage-1 & {
-      font-family: #{$font-family-subset + ',' + $font-family-base};
-    }
+    font-family: #{$font-family-subset + ',' + $font-family-base};
   }
 
   @if($font-family-web and $font-family-subset) {
-    .font-stage-2 & {
+    .fonts-loaded & {
       font-family: #{$font-family-web + ',' + $font-family-subset + ',' + $font-family-base};
     }
   } @else if ($font-family-web) {
-    .font-stage-2 & {
+    .fonts-loaded & {
       font-family: #{$font-family-web + ',' + $font-family-base};
     }
   }
