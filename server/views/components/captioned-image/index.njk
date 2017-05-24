@@ -28,7 +28,7 @@
       <figcaption class="captioned-image__caption">
         {% icon 'other/picture' %}
 
-        <div class="captioned-image__caption-text" tabindex="0">
+        <div class="captioned-image__caption-text{{ ' js-truncate-text' if data.truncateCaption }}" tabindex="0">
           {% if data.slideNumbers %}
             <span class="captioned-image__number {{ {s:2, m:2, l:2} | spacingClasses({padding: ['right']}) }}"
               aria-label="slide {{ data.slideNumbers.current }} of {{ data.slideNumbers.total }}">

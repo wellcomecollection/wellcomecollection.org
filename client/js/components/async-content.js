@@ -39,7 +39,6 @@ export default function asyncContent(el, dispatch) {
           cssPrefix: 'slider__',
           modifiers: modifiers,
           transitionSpeed: 0.7,
-          truncateText: false,
           containImages: false,
           scrollToClickedItem: false
         });

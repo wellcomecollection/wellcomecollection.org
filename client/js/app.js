@@ -19,6 +19,7 @@ import gaScrollDepth from '../libs/ga-scroll-depth';
 import joinCohort from './components/join-cohort';
 import tracking from './tracking';
 import polyfills from './polyfills';
+import truncateText from './components/truncate-text';
 
 const init = () => {
   nodeList(document.querySelectorAll('.async-content')).forEach((el) => {
@@ -83,6 +84,9 @@ const init = () => {
   nodeList(cohortButtons).forEach((button) => {
     joinCohort(button);
   });
+
+  const truncateTextNodes = document.querySelectorAll('.js-truncate-text');
+  nodeList(truncateTextNodes).forEach(truncateText);
 };
 
 function initWithRaven() {
