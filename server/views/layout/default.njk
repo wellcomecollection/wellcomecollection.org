@@ -9,8 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000"/>
     {% block pageMeta %}{% endblock %}
-    {% include "partials/css-head.njk" %}
-    <link rel="stylesheet" href="/assets/css/{{ 'application.css' | getCacheBustFile }}"/>
+    <style>
+      {% include "partials/critical.css.njk" %}
+    </style>
+    <link rel="preload" href="/assets/css/{{ 'non-critical.css' | getCacheBustFile }}" as="style" onload="this.rel='stylesheet'">
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png"/>
     <link rel="icon" type="image/png" href="/assets/icons/favicon-32x32.png" sizes="32x32"/>
     <link rel="icon" type="image/png" href="/assets/icons/favicon-16x16.png" sizes="16x16"/>
@@ -118,6 +120,9 @@
 
     {% component 'cookie-notification' %}
 
+    <noscript>
+      <link rel="stylesheet" href="/assets/css/{{ 'non-critical.css' | getCacheBustFile }}">
+    </noscript>
     <script>
       if (['localhost', 'cardigan.wellcomecollection.org'].indexOf(document.location.hostname) === -1) {
         {% include 'partials/hotjar.js.njk' %}
