@@ -122,7 +122,7 @@ gulp.task('scss:compileCritical', () => {
     .pipe(devMode ? sourcemaps.write() : gutil.noop())
     .pipe(rename(function (path) {
       path.basename += path.extname;
-      path.extname = ".njk"
+      path.extname = '.njk';
     }))
     .pipe(gulp.dest(sources.scss.critical.distPath));
 });
