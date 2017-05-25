@@ -15,9 +15,13 @@
     {% set sizes = [563, 425, 282, 600] %}
     {% set comma = joiner() %}
     <div class="find-us__map-container">
-      <img class="find-us__map"
-        src="{{ baseUrl }}284x284.png32?{{ accessToken }}"
-        srcset="
+      <noscript>
+        <img width="282" height="282" class="image" src="{{ baseUrl }}285x285.png32?{{ accessToken }}"
+      alt="Street map showing Wellcome Collection's location" />
+      </noscript>
+      <img class="find-us__map lazy-image lazyload"
+        src="{{ baseUrl }}10x10.png32?{{ accessToken }}"
+        data-srcset="
           {%- for size in sizes %}
             {{ comma() }}
             {{ baseUrl }}{{ size }}x{{ size }}.png32?{{ accessToken }} {{ size }}w,
