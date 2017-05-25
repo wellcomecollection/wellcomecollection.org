@@ -18,6 +18,10 @@
   background: color('cream');
 }
 
+.wobbly-edge--white {
+  background: color('white');
+}
+
 .wobbly-edge--rotated {
   transform: rotate(180deg);
   margin-top: 0;
