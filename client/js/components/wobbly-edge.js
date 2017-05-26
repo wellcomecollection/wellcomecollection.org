@@ -11,14 +11,10 @@ const wobblyEdge = (el) => {
     options.numberOfPoints = el.getAttribute('data-number-of-points');
   }
 
-  if (el.getAttribute('data-is-static') === 'true') {
-    options.isStatic = true;
-  }
-
   const defaults = {
     maxIntensity: 50,
     numberOfPoints: 5,
-    isStatic: false
+    isStatic: el.getAttribute('data-is-static') === 'true'
   };
   const settings = Object.assign({}, defaults, options);
 
