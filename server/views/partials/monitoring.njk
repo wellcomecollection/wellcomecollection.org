@@ -1,6 +1,18 @@
 <script src="https://cdn.ravenjs.com/3.9.2/raven.min.js"></script>
 <script>
+  var oldMobileSafari = /^.*AppleWebKit.*Version\/[0-8].*Mobile.*$/;
+  var ignoredUserAgentRegex = [
+    oldMobileSafari
+  ];
+
+  var shouldIgnore = ignoredUserAgentRegex.some(function(regex) {
+    return regex.test(window.navigator.userAgent)
+  });
+
   Raven.config('https://f756b8d4b492473782987a054aa9a347@sentry.io/133634', {
-    whitelistUrls: [/next\.wellcomecollection\.org/]
+    whitelistUrls: [/next\.wellcomecollection\.org/],
+    shouldSendCallback: function(data) {
+      return !shouldIgnore;
+    }
   }).install();
 </script>
