@@ -3,7 +3,7 @@
     {% set slideNumbers = {current: loop.index, total: loop.length} %}
     {% set queries = '(max-width: 600px) 100vw, ' + (item.width/item.height)*640 + 'px' %}
     <div class="image-gallery__item">
-      {% componentV2 'captioned-image', item, {}, {sizesQueries: queries, slideNumbers: slideNumbers} %}
+      {% componentV2 'captioned-image', item, [], {truncateCaption: true, sizesQueries: queries, slideNumbers: slideNumbers} %}
     </div>
   {% endfor %}
 </div>

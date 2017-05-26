@@ -1,6 +1,5 @@
 import debounce from 'lodash.debounce';
 import Hammer from 'hammerjs';
-import truncateText from '../components/truncate-text';
 import { nodeList, setPropertyPrefixed, featureTest } from '../util';
 import { trackEvent } from '../utils/track-event';
 
@@ -14,7 +13,6 @@ const contentSlider = (el, options) => {
     cssPrefix: '',
     sliderType: 'default',
     containImages: true,
-    truncateText: true,
     scrollToClickedItem: true,
     modifiers: []
   };
@@ -160,17 +158,6 @@ const contentSlider = (el, options) => {
           img.parentNode.parentNode.style.width = widthByHeight + 'px';
         } else {
           img.parentNode.parentNode.style.width = maxWidth + 'px';
-        }
-        if (settings.truncateText && !img.parentNode.parentNode.querySelector('.captioned-image__truncate-control')) {
-          const maybeTruncateControl$ = truncateText(img.parentNode.parentNode.querySelector('.captioned-image__caption-text'));
-          if (maybeTruncateControl$) {
-            // We drop one as the initial we don't care about for tracking
-            maybeTruncateControl$.drop(1).subscribe({
-              next: (isClosed) => {
-                trackEvent(getTrackingEvent(isClosed ? 'more' : 'less', {imageIndex}));
-              }
-            });
-          }
         }
       }
     });

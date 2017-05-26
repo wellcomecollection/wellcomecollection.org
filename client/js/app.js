@@ -21,6 +21,7 @@ import joinCohort from './components/join-cohort';
 import gifVideo from './components/gif-video';
 import tracking from './tracking';
 import polyfills from './polyfills';
+import truncateText from './components/truncate-text';
 import fontObserver from './utils/font-observer';
 
 const init = () => {
@@ -90,6 +91,9 @@ const init = () => {
   nodeList(cohortButtons).forEach((button) => {
     joinCohort(button);
   });
+
+  const truncateTextNodes = document.querySelectorAll('.js-truncate-text');
+  nodeList(truncateTextNodes).forEach(truncateText);
 };
 
 function initWithRaven() {
