@@ -1,8 +1,8 @@
 <script src="https://cdn.ravenjs.com/3.9.2/raven.min.js"></script>
 <script>
-  var oldMobileSafari = /^.*AppleWebKit.*Version\/[0-8].*Mobile.*$/;
+  var oldSafari = /^.*Version\/[0-8].*Safari.*$/;
   var ignoredUserAgentRegex = [
-    oldMobileSafari
+    oldSafari
   ];
 
   var shouldIgnore = ignoredUserAgentRegex.some(function(regex) {
