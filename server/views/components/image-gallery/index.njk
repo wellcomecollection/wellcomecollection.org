@@ -1,9 +1,11 @@
-<div class="image-gallery touch-scroll js-image-gallery {{ {s:5, m:10, l:10} | spacingClasses({padding: ['top', 'bottom']}) }}" id="{{ id }}">
-  {% for item in imageGallery.items %}
-    {% set slideNumbers = {current: loop.index, total: loop.length} %}
-    {% set queries = '(max-width: 600px) 100vw, ' + (item.width/item.height)*640 + 'px' %}
-    <div class="image-gallery__item">
-      {% componentV2 'captioned-image', item, [], {truncateCaption: true, sizesQueries: queries, slideNumbers: slideNumbers} %}
-    </div>
-  {% endfor %}
+<div class="image-gallery-slider">
+  <div class="image-gallery touch-scroll js-image-gallery {{ {s:5, m:10, l:10} | spacingClasses({padding: ['top', 'bottom']}) }}" id="{{ id }}">
+    {% for item in imageGallery.items %}
+      {% set slideNumbers = {current: loop.index, total: loop.length} %}
+      {% set queries = '(max-width: 600px) 100vw, ' + (item.width/item.height)*640 + 'px' %}
+      <div class="image-gallery__item">
+        {% componentV2 'captioned-image', item, [], {truncateCaption: true, sizesQueries: queries, slideNumbers: slideNumbers} %}
+      </div>
+    {% endfor %}
+  </div>
 </div>

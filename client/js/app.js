@@ -82,8 +82,7 @@ const init = () => {
   nodeList(galleries).forEach((gallery) => {
     contentSlider(gallery, {
       slideSelector: '.image-gallery__item',
-      cssPrefix: 'slider__',
-      modifiers: ['in-article', 'gallery', 'with-wobbly-line'],
+      modifiers: ['in-article', 'in-content', 'gallery', 'with-wobbly-line'],
       sliderType: 'gallery'
     });
   });

@@ -15,7 +15,7 @@ export default function asyncContent(el, dispatch) {
       if (seriesSlider) {
         contentSlider(seriesSlider, {
           transitionSpeed: 0.7,
-          cssPrefix: 'numbered-list__'
+          modifiers: ['numbered-list']
         });
       }
 
@@ -29,14 +29,13 @@ export default function asyncContent(el, dispatch) {
       const parsedModifiers = JSON.parse(dataModifiers);
       const modifiers = Object.keys(parsedModifiers)
         .filter(modifier => modifier)
-        .concat(['transporter']);
+        .concat(['transporter', 'in-content']);
 
       const numberedListTransporter = document.querySelector('.js-numbered-list-transporter');
 
       if (numberedListTransporter) {
         contentSlider(numberedListTransporter, {
           slideSelector: '.numbered-list__item',
-          cssPrefix: 'slider__',
           modifiers: modifiers,
           transitionSpeed: 0.7,
           containImages: false,

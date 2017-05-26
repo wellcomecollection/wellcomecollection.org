@@ -10,7 +10,6 @@ const contentSlider = (el, options) => {
     startPosition: 0,
     transitionSpeed: 0.7,
     slideSelector: 'li',
-    cssPrefix: '',
     sliderType: 'default',
     containImages: true,
     scrollToClickedItem: true,
@@ -36,7 +35,7 @@ const contentSlider = (el, options) => {
   // TODO: remove this when removing data-modifiers from async. It smells.
   function setModifiers(cssBlock) {
     return settings.modifiers.reduce((acc, curr) => {
-      return `${acc} ${settings.cssPrefix}${cssBlock}--${curr}`;
+      return `${acc} ${cssBlock}--${curr}`;
     }, '');
   }
 
@@ -46,15 +45,15 @@ const contentSlider = (el, options) => {
 
   // Generate classes for slider elements
   const classes = {
-    slider: `${settings.cssPrefix}slider ${sliderModifiers}`,
-    sliderInner: `${settings.cssPrefix}slider-inner`,
-    slidesContainer: `${settings.cssPrefix}slides-container`,
-    sliderItem: `${settings.cssPrefix}slide-item`,
-    currentItem: `${settings.cssPrefix}slide-item--current`,
-    sliderControls: `${settings.cssPrefix}slider-controls  ${sliderControlsModifiers}`,
-    prevControl: `${settings.cssPrefix}slider-control--prev`,
-    nextControl: `${settings.cssPrefix}slider-control--next`,
-    sliderControlInactive: `${settings.cssPrefix}slider-control--inactive`
+    slider: `slider ${sliderModifiers}`,
+    sliderInner: `slider-inner`,
+    slidesContainer: `slides-container`,
+    sliderItem: `slide-item`,
+    currentItem: `slide-item--current`,
+    sliderControls: `slider-controls  ${sliderControlsModifiers}`,
+    prevControl: `slider-control--prev`,
+    nextControl: `slider-control--next`,
+    sliderControlInactive: `slider-control--inactive`
   };
   // Define vars
   const sliderTouch = new Hammer(sliderElements.slidesContainer);

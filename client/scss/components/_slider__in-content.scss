@@ -1,0 +1,105 @@
+$slider-control-size: 48px;
+$slider-control-margin: 18px;
+
+.slider--in-content {
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+  margin: 0 map-get($container-padding, 'small') * -1 0;
+
+  @include respond-to('medium') {
+    margin-left: map-get($container-padding, 'medium') * -1;
+    margin-right: map-get($container-padding, 'medium') * -1;
+  }
+
+  @include respond-to('large') {
+    margin-left: map-get($container-padding, 'large') * -1;
+    margin-right: map-get($container-padding, 'large') * -1;
+  }
+
+  &.slider--with-wobbly-line {
+    &:before {
+      height: 60px;
+      display: block;
+      width: 100%;
+      content: '';
+      background: color('white');
+      margin-bottom: -5px;
+      clip-path: polygon(0% 75%, 0% 100%, 100% 100%, 100% 60%, 92% 85%, 70% 67%, 57% 90%, 45% 59%, 20% 72%);
+    }
+  }
+
+  .slider-inner {
+    position: relative;
+    overflow: visible;
+    background: color('white');
+    padding: 100px map-get($container-padding, 'small') 0;
+
+    @include respond-to('medium') {
+      padding-left: map-get($container-padding, 'medium');
+      padding-right: map-get($container-padding, 'medium');
+    }
+
+    @include respond-to('large') {
+      padding-left: map-get($container-padding, 'large');
+      padding-right: map-get($container-padding, 'large');
+    }
+  }
+
+  .slides-container {
+    margin: 0;
+    position: relative;
+    width: calc(100vw - #{map-get($container-padding, 'small')});
+
+    @include respond-to('medium') {
+      width: calc(100vw - #{map-get($container-padding, 'medium')});
+    }
+
+    @include respond-to('large') {
+      width: calc(100vw - #{map-get($container-padding, 'large')});
+    }
+
+    @include respond-to('xlarge') {
+      width: calc(100vw - ((100vw - #{$container-width-max}) / 2) - #{map-get($container-padding, 'large')});
+      left: calc((100vw - #{$container-width-max}) / 2);
+    }
+  }
+}
+
+.slider-controls--in-content {
+  /* stylelint-disable plugin/selector-bem-pattern */
+  .control-arrow {
+    width: 20px;
+    height: 26px;
+  }
+  /* stylelint-enable */
+
+  .slider-control--prev,
+  .slider-control--next {
+    background: color('white');
+    width: $slider-control-size;
+    height: $slider-control-size;
+    line-height: 0;
+    border-radius: 50%;
+    border: 2px solid color('silver');
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+    position: relative;
+    margin-left: calc(100% - (2 * #{$slider-control-size} + #{$slider-control-margin}));
+
+    // this calculation is related to the gallery appearing in the article template
+    @include respond-to('xlarge') {
+      margin-left: 50%;
+      left: -(($container-width-max - (map-get($container-padding, 'large') * 2)) / 2) * (-5/6) - ((2 * $slider-control-size) + $slider-control-margin);
+    }
+
+    &:focus {
+      background: color('smoke');
+    }
+  }
+
+  .slider-control--next {
+    margin-left: $slider-control-margin;
+  }
+}

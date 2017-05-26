@@ -1,0 +1,15 @@
+.slider--transporter {
+  margin-top: 0;
+
+  .slider-inner {
+    padding-top: 0;
+  }
+
+  .slide-item {
+    padding-bottom: 8 * $spacing-unit;
+  }
+}
+
+.slider-controls--transporter {
+  margin-top: -(8 * $spacing-unit);
+}
