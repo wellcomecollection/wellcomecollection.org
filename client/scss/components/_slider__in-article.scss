@@ -1,0 +1,18 @@
+.slider--in-article {
+  .slides-container {
+    @include respond-to('medium') {
+      width: calc(100vw - #{map-get($container-padding, 'medium')} - 12.5%);
+      margin-left: 12.5%;
+    }
+
+    @include respond-to('large') {
+      margin-left: 0;
+    }
+
+    @include respond-to('xlarge') {
+      width: $container-width-max - (map-get($container-padding, 'large') * 2);
+      margin-left: 50%;
+      left: (($container-width-max - (map-get($container-padding, 'large') * 2)) / 2) * (-5/6);
+    }
+  }
+}

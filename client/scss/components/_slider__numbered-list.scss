@@ -1,0 +1,58 @@
+.slider--numbered-list {
+  border: 1px solid color('pumice');
+  border-width: 1px 1px 0;
+
+  @include respond-to('medium') {
+    border-width: 1px;
+  }
+}
+
+.slides-container--numbered-list {
+  border: 0;
+}
+
+.slider-controls--numbered-list {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid color('pumice');
+  border-width: 1px;
+  background: color('white');
+  min-height: 40px;
+
+  @include respond-to('medium') {
+    flex-direction: column;
+    border-width: 1px 1px 1px 0;
+  }
+
+  .numbered-list--horizontal-narrow & {
+    flex-direction: row;
+  }
+
+  .slider-control--prev,
+  .slider-control--next {
+    background: color('white');
+    flex-grow: 1;
+    width: 50px;
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+    border: 0;
+
+    // &:focus {
+    //  TODO need focus style
+    // }
+  }
+
+  .slider-control--prev {
+    border: 1px solid color('pumice');
+    border-width: 0 1px 0 0;
+
+    @include respond-to('medium') {
+      border-width: 0 0 1px;
+    }
+
+    .numbered-list--horizontal-narrow & {
+      border-width: 0 1px 0 0;
+    }
+  }
+}
