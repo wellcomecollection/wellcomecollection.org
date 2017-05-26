@@ -13,7 +13,8 @@ const wobblyEdge = (el) => {
 
   const defaults = {
     maxIntensity: 50,
-    numberOfPoints: 5
+    numberOfPoints: 5,
+    isStatic: el.getAttribute('data-is-static') === 'true'
   };
   const settings = Object.assign({}, defaults, options);
 
@@ -48,23 +49,25 @@ const wobblyEdge = (el) => {
   let timer;
   let isActive = false;
 
-  window.addEventListener('scroll', () => {
-    if (!isActive) {
-      // Change path when scroll starts
-      setPropertyPrefixed(el, 'clipPath', polygonPoints(settings.numberOfPoints, settings.maxIntensity));
-      isActive = true;
-    }
+  if (!settings.isStatic) {
+    window.addEventListener('scroll', () => {
+      if (!isActive) {
+        // Change path when scroll starts
+        setPropertyPrefixed(el, 'clipPath', polygonPoints(settings.numberOfPoints, settings.maxIntensity));
+        isActive = true;
+      }
 
-    if (timer) {
-      clearTimeout(timer);
-    }
+      if (timer) {
+        clearTimeout(timer);
+      }
 
-    timer = setTimeout(() => {
-      // Change path when scroll stops
-      setPropertyPrefixed(el, 'clipPath', polygonPoints(settings.numberOfPoints, settings.maxIntensity));
-      isActive = false;
-    }, 150);
-  });
+      timer = setTimeout(() => {
+        // Change path when scroll stops
+        setPropertyPrefixed(el, 'clipPath', polygonPoints(settings.numberOfPoints, settings.maxIntensity));
+        isActive = false;
+      }, 150);
+    });
+  }
 };
 
 export default wobblyEdge;

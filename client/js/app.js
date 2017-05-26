@@ -83,7 +83,7 @@ const init = () => {
     contentSlider(gallery, {
       slideSelector: '.image-gallery__item',
       cssPrefix: 'slider__',
-      modifiers: ['in-article', 'gallery', 'with-wobbly-line'],
+      modifiers: ['in-article', 'gallery'],
       sliderType: 'gallery'
     });
   });

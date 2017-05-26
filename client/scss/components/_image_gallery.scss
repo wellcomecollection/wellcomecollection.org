@@ -7,6 +7,11 @@ $image-gallery-control-margin: 18px;
   display: flex;
   margin-bottom: $vertical-space-unit;
   overflow: scroll;
+  padding: 60px 0;
+
+  @include respond-to('medium') {
+    padding-top: 120px;
+  }
 }
 
 .image-gallery__item {
