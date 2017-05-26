@@ -1,4 +1,6 @@
 // @flow
+import type {Article} from './article';
+import getCommissionedSeries from '../filters/get-commissioned-series';
 import type {PlacesOpeningHours} from './opening-hours';
 import type {Organization} from './organization';
 import {defaultPlacesOpeningHours} from './opening-hours';
@@ -10,6 +12,7 @@ export type PageConfig = {
   inSection?: string;
   openingHours?: PlacesOpeningHours;
   organization?: Organization;
+  gaContentType?: string;
 };
 
 export function createPageConfig(data: PageConfig) {
@@ -19,4 +22,10 @@ export function createPageConfig(data: PageConfig) {
   };
   const withOpeningHours = Object.assign({}, defaults, data);
   return (withOpeningHours: PageConfig);
+}
+
+export function getGaContentType(article: Article) {
+  const digitalStory = getCommissionedSeries(article.series);
+
+  return digitalStory ? `digital story: ${digitalStory.name}` : article.contentType;
 }

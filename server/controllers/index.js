@@ -2,7 +2,7 @@
 import type {Series} from '../model/series';
 import type {Promo} from '../model/promo';
 import {PromoFactory} from '../model/promo';
-import {createPageConfig} from '../model/page-config';
+import {createPageConfig, getGaContentType} from '../model/page-config';
 import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
 import {getForwardFill, getUnpublishedSeries} from '../model/series';
 import { getSeriesColor } from '../data/series';
@@ -24,7 +24,8 @@ export const article = async(ctx, next) => {
       ctx.render('pages/article', {
         pageConfig: createPageConfig({
           title: article.headline,
-          inSection: 'explore'
+          inSection: 'explore',
+          gaContentType: getGaContentType(article)
         }),
         article: article
       });
@@ -49,7 +50,8 @@ export const articles = async(ctx, next) => {
   ctx.render('pages/list', {
     pageConfig: createPageConfig({
       title: 'Articles',
-      inSection: 'explore'
+      inSection: 'explore',
+      gaContentType: 'article list'
     }),
     list: promoList,
     pagination
@@ -67,7 +69,8 @@ export const series = async(ctx, next) => {
   ctx.render('pages/list', {
     pageConfig: createPageConfig({
       title: series.name,
-      inSection: 'explore'
+      inSection: 'explore',
+      gaContentType: 'series list'
     }),
     list: promoList,
     pagination
