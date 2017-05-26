@@ -9,6 +9,7 @@ import { getSeriesColor } from '../data/series';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {createNumberedList} from '../model/numbered-list';
+
 const maxItemsPerPage = 32;
 
 export const article = async(ctx, next) => {

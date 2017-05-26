@@ -30,3 +30,5 @@ cardigan/
 
 /server/config/css-assets.json
 /server/config/js-assets.json
+
+/server/views/partials/critical.css.njk

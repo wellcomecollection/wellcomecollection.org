@@ -92,3 +92,12 @@ export const brionyHudson: Person = {
   description: 'Briony is a pharmacy historian, curator, lecturer, and past President of the British Society for the History of Pharmacy.',
   prismicId: 'WSPttB8AAB4A5dG3'
 };
+
+export const helenBabbs: Person = {
+  givenName: 'Helen',
+  familyName: 'Babbs',
+  name: 'Helen Babbs',
+  image: 'https://wellcomecollection.files.wordpress.com/2017/05/helen-babbs_square.jpg',
+  description: 'Helen is a web editor at Wellcome Collection.',
+  prismicId: 'WSRjBCgAAKpwt6w9'
+};
