@@ -25,11 +25,12 @@ import truncateText from './components/truncate-text';
 import fontObserver from './utils/font-observer';
 
 const init = () => {
+  polyfills.init();
+
   nodeList(document.querySelectorAll('.async-content')).forEach((el) => {
     asynContent(el, dispatch);
   });
 
-  polyfills.init();
   lazysizes.init();
   instagram.init();
   tracking.init();
