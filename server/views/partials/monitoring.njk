@@ -1,18 +1,31 @@
 <script src="https://cdn.ravenjs.com/3.9.2/raven.min.js"></script>
 <script>
   var oldSafari = /^.*Version\/[0-8].*Safari.*$/;
+  var bingPreview = /^.*BingPreview.*$/;
+
   var ignoredUserAgentRegex = [
-    oldSafari
+    oldSafari,
+    bingPreview
   ];
 
-  var shouldIgnore = ignoredUserAgentRegex.some(function(regex) {
-    return regex.test(window.navigator.userAgent)
-  });
+  var googleTranslate = /^.*translate\.google.*$/;
+
+  var ignoredUrlsRegex = [
+    googleTranslate
+  ];
+
+  function shouldIgnore(regexArray, stringToMatch) {
+    return regexArray.some(function(regex) {
+      return regex.test(stringToMatch);
+    });
+  }
+
+  var shouldIgnoreBrowsers = shouldIgnore(ignoredUserAgentRegex, window.navigator.userAgent);
+  var shouldIgnoreUrls = shouldIgnore(ignoredUrlsRegex, window.location.href);
 
   Raven.config('https://f756b8d4b492473782987a054aa9a347@sentry.io/133634', {
-    whitelistUrls: [/next\.wellcomecollection\.org/],
     shouldSendCallback: function(data) {
-      return !shouldIgnore;
+      return !shouldIgnoreBrowsers && !shouldIgnoreUrls;
     }
   }).install();
 </script>
