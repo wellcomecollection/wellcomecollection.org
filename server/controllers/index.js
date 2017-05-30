@@ -51,7 +51,7 @@ export const articles = async(ctx, next) => {
     pageConfig: createPageConfig({
       title: 'Articles',
       inSection: 'explore',
-      gaContentType: 'article list'
+      gaContentType: 'list:articles'
     }),
     list: promoList,
     pagination
@@ -70,7 +70,7 @@ export const series = async(ctx, next) => {
     pageConfig: createPageConfig({
       title: series.name,
       inSection: 'explore',
-      gaContentType: 'series list'
+      gaContentType: 'list:series'
     }),
     list: promoList,
     pagination
