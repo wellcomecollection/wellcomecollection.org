@@ -1,8 +1,11 @@
 <script src="https://cdn.ravenjs.com/3.9.2/raven.min.js"></script>
 <script>
   var oldSafari = /^.*Version\/[0-8].*Safari.*$/;
+  var bingPreview = /^.*BingPreview.*$/;
+
   var ignoredUserAgentRegex = [
-    oldSafari
+    oldSafari,
+    bingPreview
   ];
 
   var shouldIgnore = ignoredUserAgentRegex.some(function(regex) {
