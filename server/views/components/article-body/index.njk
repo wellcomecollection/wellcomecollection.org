@@ -7,7 +7,7 @@
           <h2>{{ bodyPart.value.name }}</h2>
         {% endif %}
         <div class="body-part
-                {{- ' body-part--full-width js-full-width' if bodyPart.weight === 'standalone'  -}}
+                {{- ' body-part--full-width' if bodyPart.weight === 'standalone'  -}}
                 {{- ' body-part--sticky js-sticky' if bodyPart.weight === 'supporting'  -}}">
           {% if bodyPart.type === 'standfirst' or (mainLoopsIndex === 1 and loop.index === 1) %}
             {# checking the index here is a bit of a hack around when we have a video as the mainMedia #}
