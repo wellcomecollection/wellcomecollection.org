@@ -50,7 +50,7 @@
     </div>
   </div>
   <div class="container container--no-collape">
-    <hr class="divider divider--thick divider--black {{ {s:5, m:5, l:5} | spacingClasses({margin: ['bottom']}) }}" />
+    {% componentV2 'divider', {}, {'thick': true, 'black': true}, {extraClasses: [{s:5, m:5, l:5} | spacingClasses({margin: ['bottom']})]} %}
   </div>
 </div>
 

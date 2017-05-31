@@ -16,7 +16,7 @@
     <div class="wobbly-edge wobbly-edge--rotated wobbly-edge--cream wobbly-edge--small js-wobbly-edge"></div>
     <div class="container">
       {% component 'transporter', transporter %}
-      <hr class="divider divider--thin" />
+      {% componentV2 'divider', null, {'thin': true} %}
     </div>
   </div>
 
@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="container container--no-collapse">
-      <hr class="divider divider--thin" />
+      {% componentV2 'divider', null, {'thin': true} %}
     </div>
   </div>
 {% endblock %}

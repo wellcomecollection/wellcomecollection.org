@@ -12,7 +12,7 @@
     </div>
     <div class="row__wobbly-background"></div>
     <div class="container">
-      <hr class="divider divider--keyline divider--pumice {{ {s:3, m:3, l:3} | spacingClasses({margin: ['bottom']}) }}" />
+      {% componentV2 'divider', null, {'keyline': true, 'pumice': true}, {extraClasses: [{s:3, m:3, l:3} | spacingClasses({margin: ['bottom']})]} %}
     </div>
     <div class="container container--scroll container--scroll-cream touch-scroll">
       <div class="grid grid--dividers grid--scroll">
@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="container container--no-collapse">
-      <hr class="divider divider--thick divider--black {{ {s:5, m:5, l:5} | spacingClasses({margin: ['bottom']}) }}" />
+      {% componentV2 'divider', null, {'thick': true, 'black': true}, {extraClasses: [{s:5, m:5, l:5} | spacingClasses({margin: ['bottom']})]} %}
     </div>
   </div>
 
@@ -39,7 +39,7 @@
     </div>
     <div class="{{ {s:4, m:4, l:4} | spacingClasses({margin:['top']}) }}">
       <div class="container container--no-collapse">
-        <hr class="divider divider--thick divider--black {{ {s:5, m:5, l:5} | spacingClasses({margin: ['bottom']}) }}" />
+        {% componentV2 'divider', null, {'thick': true, 'black': true}, {extraClasses: [{s:5, m:5, l:5} | spacingClasses({margin: ['bottom']})]} %}
       </div>
     </div>
   </div>
