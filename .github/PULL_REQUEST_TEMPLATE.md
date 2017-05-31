@@ -1,44 +1,27 @@
-Fixes / References #
+Fixes/Closes/References #
 
-## What's the purpose of this?
-This is a:
-- [ ] feature
-- [ ] fix
-- [ ] test
-- [ ] health
+## Type
+<!-- delete as appropriate -->
+✨ Feature  
+🔧 Fix  
+📈 Test  
+🚑 Health
 
-which adds value by…
+## Value
+<!-- how does this add value? -->
 
+## Screenshot
+<!-- drag screenshot here -->
 
-# Q & A
-## Has this been demoed this to the relevant people?
-- [ ] Yes
-- [ ] No
+## Checklist
+### All
+- [ ] Demoed to the relevant people
+- [ ] PR labelled and assigned
+- [ ] Any introduced code complexity has been flagged
 
-## Is this introducing code complexity?
-- [ ] Yes
-- [ ] No
-
-## Is this PR labelled and assigned?
-- [ ] Yes
-- [ ] No
-
-## Is this A11y tested `npm run test:accessibility <URL>`?
-- [ ] Yes
-- [ ] No
-- [ ] Not a UI component
-
-## Is this browser tested `npm run test:browsers <URL>`?
-- [ ] Yes
-- [ ] No
-- [ ] Not a UI component
-
-## Does this work without JS in the client?
-- [ ] Yes
-- [ ] No
-- [ ] Not a UI component
-
-## Is there a screenshot attached?
-- [ ] Yes
-- [ ] No
-- [ ] Not a UI component
+<!-- delete below if not UI -->
+### UI component only
+- [ ] A11y tested: `npm run test:accessibility <URL>`
+- [ ] Browser tested: `npm run test:browsers <URL>`
+- [ ] Works without JS in the client
+- [ ] Relevant tracking/monitoring has been considered
