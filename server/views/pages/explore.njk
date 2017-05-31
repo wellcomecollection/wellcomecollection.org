@@ -33,7 +33,7 @@
       <div class="grid grid--no-gutters">
         <div class="{{ {s: 4, m: 8, l: 12, xl: 12} | gridClasses }}">
           {% set asyncContentEndpoint = '/series-transporter/' + latestDigitalStory %}
-          {% component 'async', { endpoint: asyncContentEndpoint, component: 'series-transporter' } %}
+          {% component 'async', { endpoint: asyncContentEndpoint, component: 'series-transporter', modifiers: '{"in-explore": true}' } %}
         </div>
       </div>
     </div>

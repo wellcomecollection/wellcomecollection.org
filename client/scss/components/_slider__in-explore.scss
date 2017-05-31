@@ -1,0 +1,20 @@
+.slider--in-explore {
+  .slides-container {
+    margin: 0;
+    position: relative;
+    width: calc(100vw - #{map-get($container-padding, 'small')});
+
+    @include respond-to('medium') {
+      width: calc(100vw - #{map-get($container-padding, 'medium')});
+    }
+
+    @include respond-to('large') {
+      width: calc(100vw - #{map-get($container-padding, 'large')});
+    }
+
+    @include respond-to('xlarge') {
+      width: calc(100vw - ((100vw - #{$container-width-max}) / 2) - #{map-get($container-padding, 'large')});
+      left: calc((100vw - #{$container-width-max}) / 2);
+    }
+  }
+}
