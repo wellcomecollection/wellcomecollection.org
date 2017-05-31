@@ -108,6 +108,28 @@ $center-width-xlarge: (6/6) * 100%;
   }
 }
 
+.body-part--no-pad {
+  padding: 0;
+}
+
+.body-part__extend-to-right {
+  @include respond-to('medium') {
+    padding-left: calc(12.5% + #{map-get($container-padding, 'medium') - 10});
+  }
+
+  @include respond-to('large') {
+    padding-left: map-get($container-padding, 'large');
+  }
+
+  @include respond-to('xlarge') {
+    position: relative;
+    width: $container-width-max - (map-get($container-padding, 'large') * 2);
+    margin-left: 50%;
+    left: (($container-width-max - (map-get($container-padding, 'large') * 2)) / 2) * (-5/6);
+    padding: 0;
+  }
+}
+
 .body-part--sticky {
   @include respond-to('large') {
     padding-right: 0;
