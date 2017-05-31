@@ -1,11 +1,13 @@
-# This is a (please label accordingly):
-- [ ] feature
-- [ ] bug
-- [ ] health report
+## Type
+<!-- delete as appropriate -->
+- ✨ Feature
+- 🐛 Bug
+- 🚑 Health report
 
-# It needs
-- [ ] user research
-- [ ] content requirements from Content Team
-- [ ] new component(s) built
-- [ ] new visual design
-- [ ] event tracking in GA/Mixpanel
+## Requirements
+<!-- delete unneeded -->
+- [ ] User research
+- [ ] Content requirements from Content Team
+- [ ] New component(s) built
+- [ ] New visual design
+- [ ] Event tracking in GA/Mixpanel
