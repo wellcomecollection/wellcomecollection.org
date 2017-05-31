@@ -37,7 +37,7 @@
   <div class="row row--cream">
     <div class="container">
       <div class="{{ {s:6, m:6, l:6} | spacingClasses({padding: ['top']}) }}">
-        <hr class="divider divider--pumice divider--keyline" />
+        {% componentV2 'divider', null, {'pumice': true, 'keyline': true} %}
       </div>
     </div>
   </div>
@@ -70,7 +70,7 @@
               } %}
             {% endif %}
 
-            <hr class="divider divider--stub divider--black {{ {s:4, m:4, l:4} | spacingClasses({margin: ['top']}) }} {{ {s:1, m:1, l:1} | spacingClasses({margin: ['bottom']}) }}" />
+            {% componentV2 'divider', null, {'stub': true, 'black': true}, {extraClasses: [{s:4, m:4, l:4} | spacingClasses({margin: ['top']})]} %}
 
             {% if article.tags.length > 0 %}
               {% component 'tags', { tags: article.tags } %}

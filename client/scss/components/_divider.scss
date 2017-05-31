@@ -29,3 +29,8 @@
 .divider--thick {
   height: 22px;
 }
+
+.divider--dashed {
+  height: 2 * $spacing-unit;
+  background: repeating-linear-gradient(90deg, color('black'), color('black') 1px, color('transparent') 1px, color('transparent') $spacing-unit);
+}
