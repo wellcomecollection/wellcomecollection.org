@@ -15,6 +15,7 @@ import jsonLd from './json-ld';
 import {formatDate, formatDateWithComingSoon} from './format-date';
 import {isFlagEnabled} from '../util/flag-status';
 import {objectAssign} from './object-assign';
+import {groupBodyParts} from './group-body-parts';
 
 export default Map({
   youtubeEmbedUrl,
@@ -33,5 +34,6 @@ export default Map({
   formatDate,
   formatDateWithComingSoon,
   isFlagEnabled,
-  objectAssign
+  objectAssign,
+  groupBodyParts
 });
