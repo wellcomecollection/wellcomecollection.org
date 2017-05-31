@@ -141,28 +141,28 @@ $numbered-list-number-size-large: 96px;
   &.numbered-list--turquoise {
     .numbered-list__header,
     .numbered-list__number {
-      color: color('turquoise-foreground');
+      color: color('turquoise-text');
     }
   }
 
   &.numbered-list--orange {
     .numbered-list__header,
     .numbered-list__number {
-      color: color('orange-foreground');
+      color: color('orange-text');
     }
   }
 
   &.numbered-list--red {
     .numbered-list__header,
     .numbered-list__number {
-      color: color('red-foreground');
+      color: color('red-text');
     }
   }
 
   &.numbered-list--purple {
     .numbered-list__header,
     .numbered-list__number {
-      color: color('purple-foreground');
+      color: color('purple-text');
     }
   }
 
@@ -269,19 +269,19 @@ $numbered-list-number-size-large: 96px;
   }
 
   .numbered-list__item--turquoise {
-    border-bottom: $v-spacing-unit solid color('turquoise-foreground');
+    border-bottom: $v-spacing-unit solid color('turquoise-graphics');
   }
 
   .numbered-list__item--orange {
-    border-bottom: $v-spacing-unit solid color('orange-foreground');
+    border-bottom: $v-spacing-unit solid color('orange-graphics');
   }
 
   .numbered-list__item--red {
-    border-bottom: $v-spacing-unit solid color('red-foreground');
+    border-bottom: $v-spacing-unit solid color('red-graphics');
   }
 
   .numbered-list__item--purple {
-    border-bottom: $v-spacing-unit solid color('purple-foreground');
+    border-bottom: $v-spacing-unit solid color('purple-graphics');
   }
 
   .numbered-list__link,

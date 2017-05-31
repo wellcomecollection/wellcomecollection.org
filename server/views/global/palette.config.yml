@@ -14,27 +14,27 @@ context:
   - name: dark-black
     hex: "#010101"
   secondary:
-  - name: turquoise-background
+  - name: turquoise-graphics
     hex: "#5cb8bf"
-  - name: turquoise-foreground
+  - name: turquoise-text
     hex: "#367378"
   - name: teal
     hex: "#006272"
   - name: petrol
     hex: "#00424d"
-  - name: purple-background
+  - name: purple-graphics
     hex: "#b67bc2"
-  - name: purple-foreground
+  - name: purple-text
     hex: "#895791"
   - name: indigo
     hex: "#46284d"
-  - name: red-background
+  - name: red-graphics
     hex: "#ff4355"
-  - name: red-foreground
+  - name: red-text
     hex: "#c72e3d"
-  - name: orange-background
+  - name: orange-graphics
     hex: "#e87500"
-  - name: orange-foreground
+  - name: orange-text
     hex: "#ad4e00"
   - name: yellow
     hex: "#ffce3c"
