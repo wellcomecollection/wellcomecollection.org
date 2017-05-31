@@ -1,6 +1,6 @@
 Fixes/Closes/References #
 
-## Purpose
+## Type
 <!-- delete as appropriate -->
 ✨ Feature  
 🔧 Fix  
