@@ -19,6 +19,7 @@ Fixes/Closes/References #
 - [ ] PR labelled and assigned
 - [ ] Any introduced code complexity has been flagged
 
+<!-- delete below if not UI -->
 ### UI component only
 - [ ] A11y tested: `npm run test:accessibility <URL>`
 - [ ] Browser tested: `npm run test:browsers <URL>`
