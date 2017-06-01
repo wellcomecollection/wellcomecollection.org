@@ -22,6 +22,7 @@ export const authorMap: { [key: string]: Person } = {
   'the-ladies-of-llangollen': people.sarahBentley,
   'queer-territory-claude-cahun-and-a-land-without-labels': people.sarahJaffray,
   'demodicid-navigation': people.robertBidder,
+  'body-squabbles-crisps': people.robertBidder,
   'body-squabbles-foot': people.robertBidder,
   'body-squabbles-thirst': people.robertBidder,
   'museums-in-context-the-birth-of-the-public-museum': people.elissavetNtoulia,
