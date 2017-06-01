@@ -6,6 +6,7 @@
   // stylelint-disable declaration-no-important
   overflow: visible !important;
   // stylelint-enable declaration-no-important
+  transition: transform 700ms ease;
 }
 
 .slider-controls {
