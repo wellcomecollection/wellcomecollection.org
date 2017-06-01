@@ -32,8 +32,12 @@
   display: inline-flex;
 }
 
-.flex--center {
+.flex--v-center {
   align-items: center;
+}
+
+.flex--h-center {
+  justify-content: center;
 }
 
 .float-r {

@@ -1,14 +1,14 @@
-<div class="social-media-block">
+<div class="tweet-block">
   <div class="row row--cream row--has-wobbly-background {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top', 'bottom']}) }}">
     <div class="row__wobbly-background"></div>
     <div class="container">
       {% componentV2 'divider', null, {'dashed': true} %}
-      <div class="social-media-block__platform">{% icon 'social/twitter' %}Follow us on Twitter</div>
-      <a href="#" class="social-media-block__handle">@explorewellcome</a>
+      <div class="tweet-block__intro flex flex--v-center flex--h-center {{ {s:4, m:4, l:4} | spacingClasses({margin: ['top']}) }}">{% icon 'social/twitter' %}Follow us on Twitter</div>
+      <a href="https://twitter.com/explorewellcome" class="tweet-block__handle flex flex--v-center flex--h-center {{ {s:6, m:6, l:6} | spacingClasses({margin: ['bottom']}) }}">@explorewellcome</a>
       <div class="grid {{ {s:10, m:10, l:10} | spacingClasses({padding: ['bottom']}) }}">
         {% for tweet in model.tweets %}
           <div class="{{ {s:4, m:4, l:6, xl:3} | gridClasses }}">
-            {% component 'tweet', { tweet: tweet } %}
+            {% componentV2 'tweet', tweet %}
           </div>
         {% endfor %}
       </div>

@@ -38,7 +38,7 @@
       {% elif bodyPart.type === 'imageGallery' %}
         {% component 'image-gallery', { imageGallery: bodyPart.value, id: 'article-body-image-gallery--' + loop.index } %}
       {% elif bodyPart.type === 'tweet' %}
-        {% component 'tweet', { tweet: bodyPart.value } %}
+        {% componentV2 'tweet', bodyPart.value %}
       {% elif bodyPart.type === 'instagramEmbed' %}
         {% component 'instagram-embed', { instagramEmbed: bodyPart.value } %}
       {% elif bodyPart.type === 'quote' %}
