@@ -235,7 +235,7 @@
       display: block;
       width: 100%;
       backface-visibility: hidden; // Fixes chrome bug where image shifts slightly and appears blurry during transition
-      transition: transform 200ms ease;
+      transition: transform 200ms ease, opacity 500ms ease;
     }
   }
 
