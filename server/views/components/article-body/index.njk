@@ -4,8 +4,9 @@
       <h2>{{ bodyPart.value.name }}</h2>
     {% endif %}
     <div class="body-part
-                {{- ' body-part--full-width js-full-width' if bodyPart.weight === 'standalone'  -}}
-                {{- ' body-part--sticky js-sticky' if bodyPart.weight === 'supporting'  -}}">
+                {{- ' body-part--no-pad' if bodyPart.type === 'pre' -}}
+                {{- ' body-part--full-width js-full-width' if bodyPart.weight === 'standalone' -}}
+                {{- ' body-part--sticky js-sticky' if bodyPart.weight === 'supporting' -}}">
       {% if bodyPart.type === 'standfirst' or loop.index === 1 %}
         {# checking the index here is a bit of a hack around when we have a video as the mainMedia #}
         {% if contentType === 'comic' %}
@@ -43,6 +44,16 @@
         {% component 'instagram-embed', { instagramEmbed: bodyPart.value } %}
       {% elif bodyPart.type === 'quote' %}
         {% component 'quote', { body: bodyPart.value.body | safe, footer: bodyPart.value.footer | safe, modifiers: ['block'] } %}
+      {% elif bodyPart.type === 'pre' %}
+        <div class="bg-white">
+          <div class="body-part__extend-to-right">
+            <div class="{{ {s:3, m:3, l:3} | spacingClasses({padding: ['top', 'bottom'], margin: ['bottom']}) }}">
+              <pre class="pre border-left border-left--smoke {{ {s:3, m:3, l:3} | spacingClasses({padding: ['left', 'right']}) }}">
+                {{- bodyPart.value -}}
+              </pre>
+            </div>
+          </div>
+        </div>
       {% else %}
         {{ bodyPart.value | safe }}
       {% endif %}

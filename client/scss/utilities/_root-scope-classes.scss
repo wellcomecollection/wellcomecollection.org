@@ -66,3 +66,15 @@
     @include font('LR2');
   }
 }
+
+.border-left {
+  border-left: 5px solid color('black');
+}
+
+.border-left--smoke {
+  border-left: 5px solid color('smoke');
+}
+
+.bg-white {
+  background: color('white');
+}

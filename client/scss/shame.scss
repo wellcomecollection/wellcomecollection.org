@@ -1,0 +1,7 @@
+// This is here as a precaution to unwanted iframes
+// TODO: Don't allow unwanted / unparsed iframes
+.body-part {
+  iframe {
+    max-width: 100%;
+  }
+}
