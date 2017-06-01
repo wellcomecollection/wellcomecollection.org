@@ -12,6 +12,11 @@
       }
     }
 
+    .image {
+      display: block;
+      width: 100%;
+    }
+
     .captioned-image__image-container {
       display: flex;
       flex-direction: column;
