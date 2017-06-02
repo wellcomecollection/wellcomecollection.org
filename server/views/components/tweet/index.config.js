@@ -7,4 +7,6 @@ const tweet = createTweet({
 </blockquote>`
 });
 
-export const context = { tweet };
+export const context = {
+  model: tweet
+};
