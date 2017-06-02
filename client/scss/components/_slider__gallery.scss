@@ -1,7 +1,8 @@
 .slider--gallery {
+
   .slide-item {
     opacity: 0.5;
-    transition: opacity 0.7s ease;
+    transition: opacity 700ms ease;
     align-self: flex-start;
 
     .captioned-image {
@@ -10,6 +11,11 @@
       .captioned-image__caption {
         display: block;
       }
+    }
+
+    .image {
+      display: block;
+      width: 100%;
     }
 
     .captioned-image__image-container {
@@ -47,7 +53,7 @@
     opacity: 1;
 
     .captioned-image__caption {
-      opacity: 1;
+      opacity: inherit;
       z-index: 1;
     }
   }

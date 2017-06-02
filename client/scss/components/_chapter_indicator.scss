@@ -7,6 +7,7 @@ $chapter-indicator-colors: 'purple-graphics', 'red-graphics', 'orange-graphics',
   left: 0;
   right: 0;
   height: 33%;
+  transform: translateZ(0);
 
   &.chapter-indicator--half {
     height: 50%;

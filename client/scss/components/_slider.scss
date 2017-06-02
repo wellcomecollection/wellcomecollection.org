@@ -6,9 +6,14 @@
   // stylelint-disable declaration-no-important
   overflow: visible !important;
   // stylelint-enable declaration-no-important
+  will-change: transform;
+  transform: translateZ(0);
+  transition: transform 700ms ease;
 }
 
 .slider-controls {
+  will-change: opacity;
+  transform: translateZ(0);
   .control-arrow {
     width: 16px;
     height: 16px;

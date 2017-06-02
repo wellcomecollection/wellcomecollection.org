@@ -110,7 +110,6 @@ const contentSlider = (el, options) => {
     }
 
     // Set transition style for slider
-    setPropertyPrefixed(sliderElements.slidesContainer, 'transition', `transform ${settings.transitionSpeed}s ease`);
     calculateDimensions(); // Dimensions which determine movement amounts
     toggleControlsVisibility(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
     updatePosition(setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr) || positionIndex, positionArray);
@@ -347,7 +346,7 @@ const contentSlider = (el, options) => {
   function changePosition (n, positionArray) {
     let leftPosition = 0;
     leftPosition = positionArray[n] * -1;
-    setPropertyPrefixed(sliderElements.slidesContainer, 'transform', `translate(${leftPosition}px,0) translateZ(0)`);
+    setPropertyPrefixed(sliderElements.slidesContainer, 'transform', `translateX(${leftPosition}px)`);
   }
 
   function nextSlide(e) {
