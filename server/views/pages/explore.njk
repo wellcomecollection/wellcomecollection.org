@@ -74,6 +74,8 @@
       </div>
     </div>
   </div>
-
+  {% for tweet in latestTweets %}
+    {% component 'tweet', {tweet: tweet} %}
+  {% endfor %}
   {% componentV2 'promo', collectorsPromo, {}, {sizes: '100vw'} %}
 {% endblock %}

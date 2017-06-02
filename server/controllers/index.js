@@ -9,6 +9,7 @@ import { getSeriesColor } from '../data/series';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {createNumberedList} from '../model/numbered-list';
+import { getLatestTweets } from '../services/twitter';
 
 const maxItemsPerPage = 32;
 
@@ -181,6 +182,7 @@ export const explore = async(ctx, next) => {
     }]
   };
 
+  const latestTweets = await getLatestTweets();
   const aDropInTheOceanPromoList = PromoListFactory.fromSeries(aDropInTheOceanSeries);
   const latestDigitalStory = 'electric-sublime';
 
@@ -194,7 +196,8 @@ export const explore = async(ctx, next) => {
     topPromo,
     second3Promos,
     next8Promos,
-    collectorsPromo
+    collectorsPromo,
+    latestTweets
   });
 
   return next();
