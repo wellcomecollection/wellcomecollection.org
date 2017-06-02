@@ -177,7 +177,7 @@ gulp.task('js:lint', () => {
 });
 
 gulp.task('watch', () => {
-  gulp.watch(sources.scss.nonCritical.all, ['css:bust']);
+  gulp.watch(sources.scss.nonCritical.all, ['css:bust', 'scss:compileCritical']);
   gulp.watch(sources.scss.critical.manifests, ['scss:compileCritical']);
   gulp.watch(sources.js.all, ['js:bust']);
   gulp.watch(sources.fonts.srcPath, ['fonts:copy']);
