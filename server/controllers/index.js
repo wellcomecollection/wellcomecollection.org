@@ -145,6 +145,19 @@ export const seriesTransporter = async(ctx, next) => {
   return next();
 };
 
+export const latestTweets = async(ctx, next) => {
+  const count = ctx.params.count || 4;
+  const tweets = await getLatestTweets(count);
+
+  ctx.render('components/tweet-block/index', {
+    model: { tweets }
+  });
+
+  ctx.body = {
+    html: ctx.body
+  };
+};
+
 export const explore = async(ctx, next) => {
   const articleStubs = await getArticleStubs(50);
   const grouped = articleStubs.data.groupBy(stub => stub.headline.indexOf('A drop in the ocean:') === 0);
@@ -182,7 +195,6 @@ export const explore = async(ctx, next) => {
     }]
   };
 
-  const latestTweets = await getLatestTweets();
   const aDropInTheOceanPromoList = PromoListFactory.fromSeries(aDropInTheOceanSeries);
   const latestDigitalStory = 'electric-sublime';
 

@@ -8,7 +8,9 @@
       <div class="grid {{ {s:10, m:10, l:10} | spacingClasses({padding: ['bottom']}) }}">
         {% for tweet in model.tweets %}
           <div class="{{ {s:4, m:4, l:6, xl:3} | gridClasses }}">
-            {% componentV2 'tweet', tweet %}
+            <div data-track-click='{"screenName": "{{ tweet.screenName }}", "createdAt": "{{ tweet.createdAt }}", "statusId": {{ tweet.id }} }'>
+              {% componentV2 'tweet', tweet %}
+            </div>
           </div>
         {% endfor %}
       </div>

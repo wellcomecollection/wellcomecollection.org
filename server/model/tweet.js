@@ -1,5 +1,8 @@
 // @flow
 export type Tweet = {|
+  id: string;
+  screenName: string;
+  createdAt: Date;
   html: string;
 |}
 
