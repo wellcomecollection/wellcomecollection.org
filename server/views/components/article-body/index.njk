@@ -1,62 +1,66 @@
 <div class="body-content">
-  {% for bodyPart in articleBody %}
-    {% if bodyPart.value.name %}
-      <h2>{{ bodyPart.value.name }}</h2>
-    {% endif %}
-    <div class="body-part
-                {{- ' body-part--no-pad' if bodyPart.type === 'pre' -}}
-                {{- ' body-part--full-width js-full-width' if bodyPart.weight === 'standalone' -}}
-                {{- ' body-part--sticky js-sticky' if bodyPart.weight === 'supporting' -}}">
-      {% if bodyPart.type === 'standfirst' or loop.index === 1 %}
-        {# checking the index here is a bit of a hack around when we have a video as the mainMedia #}
-        {% if contentType === 'comic' %}
-          {{ bodyPart.value | safe }}
-        {% elif bodyPart.type === 'picture' %}
-          {# On old content, the first paragraph is sometimes a picture #}
-          {% componentV2 'captioned-image', bodyPart.value, {}, {sizesQueries: '(min-width: 960px) 710px, 100vw'} %}
-        {% else %}
-          {% component 'standfirst', { body: bodyPart.value } %}
+  {% for bodyPartGroup in (articleBody | groupBodyParts) %}
+    <div class="sticky-wrapper">
+      {% for bodyPart in bodyPartGroup %}
+        {% set mainLoopIndex = loop.index %}
+        {% if bodyPart.value.name %}
+          <h2>{{ bodyPart.value.name }}</h2>
         {% endif %}
-      {% elif bodyPart.type === 'heading' %}
-        <h2>{{ bodyPart.value.value | safe }}</h2>
-      {% elif bodyPart.type === 'gif-video' %}
-        {% componentV2 'gif-video', bodyPart.value %}
-      {% elif bodyPart.type === 'picture' %}
-        {% if bodyPart.weight === 'standalone' %}
-          {% set sizes = '100vw' %}
-        {% elif bodyPart.weight === 'supporting' %}
-          {% set sizes = '(min-width: 1340px) 406px, (min-width: 960px) calc(41.67vw - 50px), (min-width: 600px) calc(75vw - 63px), calc(100vw - 36px)' %}
-        {% else %}
-          {% set sizes ='(min-width: 1340px) 579px, (min-width: 960px) calc(58.33vw - 100px), (min-width: 600px) calc(75vw - 63px), calc(100vw - 36px)' %}
-        {% endif %}
-        {% componentV2 'captioned-image', bodyPart.value, {'has-border-bottom': bodyPart.value.caption}, {sizesQueries: sizes} %}
-      {% elif bodyPart.type === 'video-embed' %}
-        {% componentV2 'iframed-video', bodyPart.value %}
-      {% elif bodyPart.type === 'list' %}
-        {% component 'list', {list: bodyPart.value} %}
-      {% elif bodyPart.type === 'interview' %}
-        {% component 'interview', { interview: bodyPart.value } %}
-      {% elif bodyPart.type === 'imageGallery' %}
-        {% component 'image-gallery', { imageGallery: bodyPart.value, id: 'article-body-image-gallery--' + loop.index } %}
-      {% elif bodyPart.type === 'tweet' %}
-        {% component 'tweet', { tweet: bodyPart.value } %}
-      {% elif bodyPart.type === 'instagramEmbed' %}
-        {% component 'instagram-embed', { instagramEmbed: bodyPart.value } %}
-      {% elif bodyPart.type === 'quote' %}
-        {% component 'quote', { body: bodyPart.value.body | safe, footer: bodyPart.value.footer | safe, modifiers: ['block'] } %}
-      {% elif bodyPart.type === 'pre' %}
-        <div class="bg-white">
-          <div class="body-part__extend-to-right">
-            <div class="{{ {s:3, m:3, l:3} | spacingClasses({padding: ['top', 'bottom'], margin: ['bottom']}) }}">
-              <pre class="pre border-left border-left--smoke {{ {s:3, m:3, l:3} | spacingClasses({padding: ['left', 'right']}) }}">
-                {{- bodyPart.value -}}
-              </pre>
+        <div class="body-part
+                {{- ' body-part--full-width' if bodyPart.weight === 'standalone'  -}}
+                {{- ' body-part--sticky js-sticky' if bodyPart.weight === 'supporting'  -}}">
+          {% if bodyPart.type === 'standfirst' or (mainLoopsIndex === 1 and loop.index === 1) %}
+            {# checking the index here is a bit of a hack around when we have a video as the mainMedia #}
+            {% if contentType === 'comic' %}
+              {{ bodyPart.value | safe }}
+            {% elif bodyPart.type === 'picture' %}
+                {# On old content, the first paragraph is sometimes a picture #}
+                {% componentV2 'captioned-image', bodyPart.value, {}, {sizesQueries: '(min-width: 960px) 710px, 100vw'} %}
+            {% else %}
+                {% component 'standfirst', { body: bodyPart.value } %}
+            {% endif %}
+          {% elif bodyPart.type === 'heading' %}
+            <h2>{{ bodyPart.value.value | safe }}</h2>
+          {% elif bodyPart.type === 'gif-video' %}
+            {% componentV2 'gif-video', bodyPart.value %}
+          {% elif bodyPart.type === 'picture' %}
+            {% if bodyPart.weight === 'standalone' %}
+              {% set sizes = '100vw' %}
+              {% elif bodyPart.weight === 'supporting' %}
+              {% set sizes = '(min-width: 1340px) 406px, (min-width: 960px) calc(41.67vw - 50px), (min-width: 600px) calc(75vw - 63px), calc(100vw - 36px)' %}
+            {% else %}
+              {% set sizes ='(min-width: 1340px) 579px, (min-width: 960px) calc(58.33vw - 100px), (min-width: 600px) calc(75vw - 63px), calc(100vw - 36px)' %}
+            {% endif %}
+            {% componentV2 'captioned-image', bodyPart.value, {'has-border-bottom': bodyPart.value.caption}, {sizesQueries: sizes} %}
+          {% elif bodyPart.type === 'video-embed' %}
+            {% componentV2 'iframed-video', bodyPart.value %}
+          {% elif bodyPart.type === 'list' %}
+            {% component 'list', {list: bodyPart.value} %}
+          {% elif bodyPart.type === 'interview' %}
+            {% component 'interview', { interview: bodyPart.value } %}
+          {% elif bodyPart.type === 'imageGallery' %}
+            {% component 'image-gallery', { imageGallery: bodyPart.value, id: 'article-body-image-gallery--' + loop.index } %}
+          {% elif bodyPart.type === 'tweet' %}
+            {% component 'tweet', { tweet: bodyPart.value } %}
+          {% elif bodyPart.type === 'instagramEmbed' %}
+            {% component 'instagram-embed', { instagramEmbed: bodyPart.value } %}
+          {% elif bodyPart.type === 'quote' %}
+            {% component 'quote', { body: bodyPart.value.body | safe, footer: bodyPart.value.footer | safe, modifiers: ['block'] } %}
+          {% elif bodyPart.type === 'pre' %}
+            <div class="bg-white">
+              <div class="body-part__extend-to-right">
+                <div class="{{ {s:3, m:3, l:3} | spacingClasses({padding: ['top', 'bottom'], margin: ['bottom']}) }}">
+                  <pre class="pre border-left border-left--smoke {{ {s:3, m:3, l:3} | spacingClasses({padding: ['left', 'right']}) }}">
+                    {{- bodyPart.value -}}
+                  </pre>
+                </div>
+              </div>
             </div>
-          </div>
+          {% else %}
+            {{ bodyPart.value | safe }}
+          {% endif %}
         </div>
-      {% else %}
-        {{ bodyPart.value | safe }}
-      {% endif %}
+      {% endfor %}
     </div>
   {% endfor %}
 </div>
