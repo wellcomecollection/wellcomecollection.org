@@ -1,5 +1,6 @@
 /* eslint-disable no-irregular-whitespace */
 import { createTweet } from '../../../model/tweet';
+export const status = 'testing';
 
 const tweet1 = createTweet({
   html: `<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">We&#39;re calling out to disabled visitors to help us test designs for an upcoming exhibition. Sign up or find out more: <a href="https://t.co/tf0y8uRjiQ">https://t.co/tf0y8uRjiQ</a> <a href="https://t.co/H6Iv9uzelV">pic.twitter.com/H6Iv9uzelV</a></p>&mdash; Wellcome Collection (@ExploreWellcome) <a href="https://twitter.com/ExploreWellcome/status/870219590281945089">June 1, 2017</a></blockquote><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>`

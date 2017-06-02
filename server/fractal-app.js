@@ -28,9 +28,32 @@ fractal.components.engine(nunjucks);
 fractal.set('project.title', 'pattern library');
 
 fractal.components.set('path', root);
+fractal.components.set('statuses', {
+  wip: {
+    label: 'WIP',
+    description: 'Work in progress',
+    color: '#ad4e00'
+  },
+  testing: {
+    label: 'Testing',
+    description: 'Being tested',
+    color: '#895791'
+  },
+  graduated: {
+    label: 'Graduated',
+    description: 'Implemented',
+    color: '#367378'
+  },
+  deprecated: {
+    label: 'Deprecated',
+    description: 'Deprecated',
+    color: '#c72e3d'
+  }
+});
 fractal.components.set('default.status', 'wip');
 fractal.components.set('ext', '.njk');
 fractal.components.set('default.preview', '@preview');
+
 
 fractal.docs.set('path', dir('/views/docs'));
 fractal.web.set('static.path', dir('./../dist'));
