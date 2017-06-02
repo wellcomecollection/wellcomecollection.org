@@ -20,7 +20,7 @@ async function getTwitterAccessToken() {
   });
 }
 
-export async function getLatestTweetDetails(count) {
+async function getLatestTweetDetails(count) {
   const accessToken = await getTwitterAccessToken();
 
   return new Promise((resolve, reject) => {
