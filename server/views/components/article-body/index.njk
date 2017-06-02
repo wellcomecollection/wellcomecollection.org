@@ -46,6 +46,17 @@
             {% component 'instagram-embed', { instagramEmbed: bodyPart.value } %}
           {% elif bodyPart.type === 'quote' %}
             {% component 'quote', { body: bodyPart.value.body | safe, footer: bodyPart.value.footer | safe, modifiers: ['block'] } %}
+          {% elif bodyPart.type === 'pre' %}
+            <div class="bg-white">
+              <div class="body-part__extend-to-right">
+                <div class="{{ {s:3, m:3, l:3} | spacingClasses({padding: ['top', 'bottom'], margin: ['bottom']}) }}">
+                  <pre class="pre border-left border-left--smoke {{ {s:3, m:3, l:3} | spacingClasses({padding: ['left', 'right']}) }}">
+                    {{- bodyPart.value -}}
+                  </pre>
+                </div>
+              </div>
+            </div>
+          {% else %}
           {% else %}
             {{ bodyPart.value | safe }}
           {% endif %}

@@ -15,6 +15,7 @@
 @import 'components/image_gallery';
 @import 'components/more_info_link';
 @import 'components/opening_hours';
+@import 'components/pre';
 @import 'components/quote';
 @import 'components/slider';
 @import 'components/slider__gallery';
@@ -29,3 +30,6 @@
 
 // Tests
 @import 'tests/digital_story_transporter';
+
+// TODO: Remove this
+@import 'shame';

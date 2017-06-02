@@ -38,7 +38,8 @@ export function explodeIntoBodyParts(nodes) {
       convertInstagramEmbed,
       findWpImageGallery,
       convertQuote,
-      convertWpVideo
+      convertWpVideo,
+      convertPreformatedText
     ];
 
     // TODO: Tidy up typing here
@@ -252,6 +253,25 @@ function convertWpVideo(node) {
       type: 'wpVideo',
       value: serializeAndCleanNode(node)
     });
+  } else {
+    return node;
+  }
+}
+
+export function convertPreformatedText(node) {
+  const isPre = node.nodeName === 'pre';
+  if (isPre) {
+    const content = node.childNodes && node.childNodes[0];
+
+    if (content) {
+      return createBodyPart({
+        type: 'pre',
+        value: content.value,
+        weight: 'standalone'
+      });
+    } else {
+      return node;
+    }
   } else {
     return node;
   }
