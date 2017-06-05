@@ -27,5 +27,5 @@ export function createPageConfig(data: PageConfig) {
 export function getGaContentType(article: Article) {
   const digitalStory = getCommissionedSeries(article.series);
 
-  return digitalStory ? `content:article:digital-story:${digitalStory.url}` : `content:${article.contentType}`;
+  return digitalStory ? `editorial:chapter:${digitalStory.url}` : `editorial:${article.contentType}`;
 }
