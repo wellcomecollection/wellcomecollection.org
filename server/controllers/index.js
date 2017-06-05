@@ -155,7 +155,7 @@ export const latestTweets = async(ctx, next) => {
       service: 'Twitter',
       icon: 'social/twitter',
       url: 'https://twitter.com/explorewellcome',
-      handle: '@explorewellcome'
+      handle: 'explorewellcome'
     }
   });
 

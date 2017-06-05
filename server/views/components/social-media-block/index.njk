@@ -8,7 +8,7 @@
       </div>
       <a href="{{ model.url }}"
         class="social-media-block__handle flex flex--v-center flex--h-center {{ {s:6, m:6, l:6} | spacingClasses({margin: ['bottom']}) }}">
-        {{ model.handle }}
+        @{{ model.handle }}
       </a>
       <div class="grid {{ {s:10, m:10, l:10} | spacingClasses({padding: ['bottom']}) }}">
         {% for post in model.posts %}
@@ -16,6 +16,11 @@
             {% if model.service === 'Twitter' %}
               <div data-track-click='{"screenName": "{{ post.screenName }}", "createdAt": "{{ post.createdAt }}", "statusId": {{ post.id }} }'>
                 {% componentV2 'tweet', post %}
+              </div>
+            {% elif model.service === 'Instagram' %}
+              {# TODO: add info to track #}
+              <div data-track-click='{}'>
+                {% componentV2 'instagram-embed', post %}
               </div>
             {% endif %}
           </div>
