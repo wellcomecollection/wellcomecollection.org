@@ -10,6 +10,7 @@ import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {createNumberedList} from '../model/numbered-list';
 import { getLatestTweets } from '../services/twitter';
+import { getLatestInstagramPosts } from '../services/instagram';
 
 const maxItemsPerPage = 32;
 
@@ -143,6 +144,24 @@ export const seriesTransporter = async(ctx, next) => {
   };
 
   return next();
+};
+
+export const latestInstagramPosts = async(ctx, next) => {
+  const instagramPosts = await getLatestInstagramPosts();
+
+  ctx.render('components/social-media-block/index', {
+    model: {
+      posts: instagramPosts,
+      service: 'Instagram',
+      icon: 'social/instagram',
+      url: 'https://instagram.com/wellcomecollection',
+      handle: 'wellcomecollection'
+    }
+  });
+
+  ctx.body = {
+    html: ctx.body
+  };
 };
 
 export const latestTweets = async(ctx, next) => {
