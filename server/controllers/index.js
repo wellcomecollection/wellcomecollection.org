@@ -149,8 +149,14 @@ export const latestTweets = async(ctx, next) => {
   const count = ctx.params.count || 4;
   const tweets = await getLatestTweets(count);
 
-  ctx.render('components/tweet-block/index', {
-    model: { tweets }
+  ctx.render('components/social-media-block/index', {
+    model: {
+      posts: tweets,
+      service: 'Twitter',
+      icon: 'social/twitter',
+      url: 'https://twitter.com/explorewellcome',
+      handle: '@explorewellcome'
+    }
   });
 
   ctx.body = {

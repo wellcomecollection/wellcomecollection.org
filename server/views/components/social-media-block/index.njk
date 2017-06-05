@@ -1,0 +1,27 @@
+<div class="social-media-block">
+  <div class="row row--cream row--has-wobbly-background {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top', 'bottom']}) }}">
+    <div class="row__wobbly-background"></div>
+    <div class="container">
+      {% componentV2 'divider', null, {'dashed': true} %}
+      <div class="social-media-block__intro flex flex--v-center flex--h-center {{ {s:4, m:4, l:4} | spacingClasses({margin: ['top']}) }}">
+        {% icon model.icon %}Follow us on {{ model.service }}
+      </div>
+      <a href="{{ model.url }}"
+        class="social-media-block__handle flex flex--v-center flex--h-center {{ {s:6, m:6, l:6} | spacingClasses({margin: ['bottom']}) }}">
+        {{ model.handle }}
+      </a>
+      <div class="grid {{ {s:10, m:10, l:10} | spacingClasses({padding: ['bottom']}) }}">
+        {% for post in model.posts %}
+          <div class="{{ {s:4, m:4, l:6, xl:3} | gridClasses }}">
+            {% if model.service === 'Twitter' %}
+              <div data-track-click='{"screenName": "{{ post.screenName }}", "createdAt": "{{ post.createdAt }}", "statusId": {{ post.id }} }'>
+                {% componentV2 'tweet', post %}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      {% componentV2 'divider', null, {'dashed': true} %}
+    </div>
+  </div>
+</div>

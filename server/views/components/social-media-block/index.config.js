@@ -18,10 +18,14 @@ const tweet4 = createTweet({
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>`
 });
 
-export const name = 'tweet-block';
+export const name = 'social-media-block';
 export const preview = '@preview-no-container';
 export const context = {
   model: {
-    tweets: [tweet1, tweet2, tweet3, tweet4]
+    service: 'Twitter',
+    handle: '@explorewellcome',
+    icon: 'social/twitter',
+    url: 'https://twitter.com/explorewellcome',
+    posts: [tweet1, tweet2, tweet3, tweet4]
   }
 };
