@@ -13,10 +13,7 @@ const shrinkStoriesNav = (el, dispatch) => {
     return el.offsetHeight;
   });
 
-  Promise.all([elFromTop, elHeight]).then(values => {
-    const fromTop = values[0];
-    const height = values[1];
-
+  Promise.all([elFromTop, elHeight]).then(([fromTop, height]) => {
     const getIsNarrow = () => {
       return el.classList.contains('numbered-list--horizontal-narrow');
     };
