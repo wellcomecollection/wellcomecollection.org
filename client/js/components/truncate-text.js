@@ -1,5 +1,6 @@
 import fromEvent from 'xstream/extra/fromEvent';
 import { onWindowResizeDebounce$ } from '../utils/dom-events';
+import fastdom from '../utils/fastdom-promise';
 
 const truncateClass = 'captioned-image__caption-text--truncate';
 const moreText = '+ More';
@@ -17,7 +18,9 @@ const toggleTruncate = function(isTruncated, control, className) {
 };
 
 const hasBeenEllipsified = (e) => {
-  return (e.scrollWidth > e.offsetWidth);
+  return fastdom.measure(() => {
+    return (e.scrollWidth > e.offsetWidth);
+  });
 };
 
 const createControl = () => {
@@ -28,13 +31,12 @@ const createControl = () => {
   return control;
 };
 
-const truncateText = (caption) => {
+const truncateText = async (caption) => {
   if (caption) {
     const truncateControl = createControl();
 
     caption.classList.add(truncateClass);
-
-    if (hasBeenEllipsified(caption)) {
+    if (await hasBeenEllipsified(caption)) {
       caption.parentNode.insertBefore(truncateControl, caption.nextSibling);
       const truncated$ = fromEvent(truncateControl, 'click').fold((isClosed) => !isClosed, false);
 
@@ -48,11 +50,13 @@ const truncateText = (caption) => {
 
     onWindowResizeDebounce$.subscribe({
       next() {
-        if (hasBeenEllipsified(caption)) {
-          truncateControl.classList.remove('is-hidden');
-        } else {
-          truncateControl.classList.add('is-hidden');
-        }
+        (async () => {
+          if (await hasBeenEllipsified(caption)) {
+            truncateControl.classList.remove('is-hidden');
+          } else {
+            truncateControl.classList.add('is-hidden');
+          }
+        })();
       }
     });
   }
