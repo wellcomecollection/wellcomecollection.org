@@ -61,11 +61,9 @@ const contentSlider = (el, options) => {
   const id = sliderElements.slidesContainer.getAttribute('id');
   let containerWidth;
   let slidesWidthArray;
-  // let slidesWidthArrayInverted;
   let slidesCombinedWidth;
   let positionArrayBySlide; // An array of positions if we move the slider by the width of each slide
   let positionArrayByContainer; // An array of positions if we move the slider by the width of the container
-  // let positionArrayByContainerInverted;
   let positionIndex = settings.startPosition;
   let positionArray; // Holds either positionArrayBySlide or positionArrayByContainer depending on settings
 
@@ -121,11 +119,9 @@ const contentSlider = (el, options) => {
       containImages(sliderElements.slideImages, containerWidth, document.documentElement.clientHeight);
     }
     slidesWidthArray = createItemsWidthArray(sliderElements.slideItems);
-    // slidesWidthArrayInverted = slidesWidthArray.slice().reverse();
     slidesCombinedWidth = calculateCombinedWidth(slidesWidthArray);
     positionArrayBySlide = calculateSlidePositionArray(slidesWidthArray);
     positionArrayByContainer = calculatePositionArrayByContainer(slidesWidthArray, slidesCombinedWidth, containerWidth, sliderElements, indexAttr);
-    // positionArrayByContainerInverted = calculatePositionArrayByContainerInverted(calculatePositionArrayByContainer(slidesWidthArrayInverted, slidesCombinedWidth, containerWidth, sliderElements, indexAttr), slidesCombinedWidth, containerWidth);
     if (settings.sliderType === 'gallery') {
       positionArray = positionArrayBySlide;
     } else {
@@ -223,13 +219,6 @@ const contentSlider = (el, options) => {
     return positionArrayByContainer;
   };
 
-  // function calculatePositionArrayByContainerInverted(positions, totalWidth, containerWidth) {
-  //   const newArray = positions.map((value) => {
-  //     return totalWidth - value - containerWidth;
-  //   });
-  //   return newArray.reverse();
-  // }
-
   function toggleControlsVisibility(slidesCombinedWidth, containerWidth, controls) {
     if (slidesCombinedWidth <= containerWidth) {
       controls.style.visibility = 'hidden';
@@ -277,16 +266,10 @@ const contentSlider = (el, options) => {
     if (n === 0) {
       addClassesToElements(prevControl, className);
       addAttrToElements(prevControl, 'disabled', 'true');
-      // if (settings.sliderType !== 'gallery') { // TODO put somewhere better
-      //   positionArray = positionArrayByContainer;
-      // }
     }
     if (n === items.length - 1) {
       addClassesToElements(nextControl, className);
       addAttrToElements(nextControl, 'disabled', 'true');
-      // if (settings.sliderType !== 'gallery') { // TODO put somewhere better
-      //   positionArray = positionArrayByContainerInverted;
-      // }
     }
   }
 
