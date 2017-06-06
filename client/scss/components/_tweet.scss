@@ -3,10 +3,14 @@
 .tweet {
   letter-spacing: normal;
 
-  /* stylelint-disable plugin/selector-bem-pattern */
+  /* stylelint-disable */
+  .twitter-tweet {
+    width: 100% !important;
+  }
+
   twitterwidget::shadow .EmbeddedTweet {
     width: 100%;
     max-width: none;
   }
-  /* stylelint-enable plugin/selector-bem-pattern */
+  /* stylelint-enable */
 }
