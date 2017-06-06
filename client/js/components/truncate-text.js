@@ -31,32 +31,35 @@ const createControl = () => {
   return control;
 };
 
-const truncateText = async (caption) => {
+const truncateText = (caption) => {
   if (caption) {
     const truncateControl = createControl();
 
     caption.classList.add(truncateClass);
-    if (await hasBeenEllipsified(caption)) {
-      caption.parentNode.insertBefore(truncateControl, caption.nextSibling);
-      const truncated$ = fromEvent(truncateControl, 'click').fold((isClosed) => !isClosed, false);
 
-      truncated$.subscribe({
-        next: (isClosed) => {
-          toggleTruncate(isClosed, truncateControl, truncateClass);
-        }
-      });
-      return truncated$;
-    }
+    hasBeenEllipsified(caption).then((value) => {
+      if (value) {
+        caption.parentNode.insertBefore(truncateControl, caption.nextSibling);
+        const truncated$ = fromEvent(truncateControl, 'click').fold((isClosed) => !isClosed, false);
+
+        truncated$.subscribe({
+          next: (isClosed) => {
+            toggleTruncate(isClosed, truncateControl, truncateClass);
+          }
+        });
+        return truncated$;
+      }
+    });
 
     onWindowResizeDebounce$.subscribe({
       next() {
-        (async () => {
-          if (await hasBeenEllipsified(caption)) {
+        hasBeenEllipsified(caption).then((value) => {
+          if (value) {
             truncateControl.classList.remove('is-hidden');
           } else {
             truncateControl.classList.add('is-hidden');
           }
-        })();
+        });
       }
     });
   }
