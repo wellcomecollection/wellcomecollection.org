@@ -6,6 +6,8 @@ import {createPageConfig, getEditorialAnalyticsInfo} from '../model/page-config'
 import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
+import {createNumberedList} from '../model/numbered-list';
+import {getContent} from '../services/prismic-content';
 
 const maxItemsPerPage = 32;
 
@@ -25,6 +27,29 @@ export const article = async(ctx, next) => {
       ctx.body = article;
     } else {
       ctx.render('pages/article', {pageConfig, article});
+    }
+  }
+
+  return next();
+};
+
+export const prismicArticle = async(ctx, next) => {
+  // We rehydrate the `W` here as we take it off when we have the route.
+  const id = `W${ctx.params.id}`;
+  const article = await getContent(id);
+  const format = ctx.request.query.format;
+
+  if (article) {
+    if (format === 'json') {
+      ctx.body = article;
+    } else {
+      ctx.render('pages/article', {
+        pageConfig: createPageConfig({
+          title: article.headline,
+          inSection: 'explore'
+        }),
+        article: article
+      });
     }
   }
 
