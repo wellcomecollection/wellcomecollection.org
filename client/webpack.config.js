@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 
 module.exports = {
-  entry: ['babel-regenerator-runtime', './js/app.js'],
+  entry: './js/app.js',
   output: {
     filename: 'app.js'
   },
