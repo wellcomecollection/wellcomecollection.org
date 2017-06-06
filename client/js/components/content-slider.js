@@ -1,6 +1,6 @@
 import debounce from 'lodash.debounce';
 import Hammer from 'hammerjs';
-import { nodeList, setPropertyPrefixed, featureTest } from '../util';
+import { nodeList, setPropertyPrefixed, featureTest, addClassesToElements, removeClassesFromElements, addAttrToElements, removeAttrFromElements } from '../util';
 import { trackEvent } from '../utils/track-event';
 
 const contentSlider = (el, options) => {
@@ -229,46 +229,6 @@ const contentSlider = (el, options) => {
   //   });
   //   return newArray.reverse();
   // }
-
-  function addClassesToElements(elements, className) {
-    if (elements.length) {
-      nodeList(elements).forEach((e) => {
-        e.classList.add(className);
-      });
-    } else {
-      elements.classList.add(className);
-    }
-  }
-
-  function removeClassesFromElements(elements, className) {
-    if (elements.length) {
-      nodeList(elements).forEach((e) => {
-        e.classList.remove(className);
-      });
-    } else {
-      elements.classList.remove(className);
-    }
-  }
-
-  function addAttrToElements(elements, attr, value) {
-    if (elements.length) {
-      nodeList(elements).forEach((e, i) => {
-        e.setAttribute(attr, value || i);
-      });
-    } else {
-      elements.setAttribute(attr, value);
-    }
-  }
-
-  function removeAttrFromElements(elements, attr) {
-    if (elements.length) {
-      nodeList(elements).forEach((e, i) => {
-        e.removeAttribute(attr);
-      });
-    } else {
-      elements.removeAttribute(attr);
-    }
-  }
 
   function toggleControlsVisibility(slidesCombinedWidth, containerWidth, controls) {
     if (slidesCombinedWidth <= containerWidth) {
