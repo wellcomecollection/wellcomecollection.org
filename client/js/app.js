@@ -1,7 +1,6 @@
 /* global Raven */
 import 'core-js/fn/object/assign';
 import 'core-js/fn/promise';
-import 'core-js/fn/map';
 import 'whatwg-fetch';
 import lazysizes from 'lazysizes';
 
