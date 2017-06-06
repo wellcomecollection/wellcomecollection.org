@@ -2,6 +2,7 @@ import debounce from 'lodash.debounce';
 import Hammer from 'hammerjs';
 import { nodeList, setPropertyPrefixed, featureTest, addClassesToElements, removeClassesFromElements, addAttrToElements, removeAttrFromElements } from '../util';
 import { trackEvent } from '../utils/track-event';
+import fastdom from '../utils/fastdom-promise';
 
 const contentSlider = (el, options) => {
   if (!featureTest('transform', 'translateX(0px)') && !featureTest('transition', 'transform 0.3s ease')) return;
@@ -59,7 +60,6 @@ const contentSlider = (el, options) => {
   const sliderTouch = new Hammer(sliderElements.slidesContainer);
   const indexAttr = 'data-slide-index'; // Added to slide items to help with tabbing
   const id = sliderElements.slidesContainer.getAttribute('id');
-  let containerWidth;
   let slidesWidthArray;
   let slidesCombinedWidth;
   let positionArrayBySlide; // An array of positions if we move the slider by the width of each slide
@@ -68,6 +68,7 @@ const contentSlider = (el, options) => {
   let positionArray; // Holds either positionArrayBySlide or positionArrayByContainer depending on settings
 
   function setup() {
+    window.performance.mark('setupStart');
     // Add classes
     sliderElements.slider.className = classes.slider;
     sliderElements.sliderInner.className = classes.sliderInner;
@@ -109,24 +110,27 @@ const contentSlider = (el, options) => {
 
     // Set transition style for slider
     calculateDimensions(); // Dimensions which determine movement amounts
-    toggleControlsVisibility(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
-    updatePosition(setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr) || positionIndex, positionArray);
+    window.performance.mark('setupStop');
+    window.performance.measure('setupSlider', 'setupStart', 'setupStop');
   }
 
   function calculateDimensions() { // Dimensions which determine movement amounts
-    containerWidth = calculateContainerWidth(sliderElements.slidesContainer);
-    if (settings.containImages) {
-      containImages(sliderElements.slideImages, containerWidth, document.documentElement.clientHeight);
-    }
-    slidesWidthArray = createItemsWidthArray(sliderElements.slideItems);
-    slidesCombinedWidth = calculateCombinedWidth(slidesWidthArray);
-    positionArrayBySlide = calculateSlidePositionArray(slidesWidthArray);
-    positionArrayByContainer = calculatePositionArrayByContainer(slidesWidthArray, slidesCombinedWidth, containerWidth, sliderElements, indexAttr);
-    if (settings.sliderType === 'gallery') {
-      positionArray = positionArrayBySlide;
-    } else {
-      positionArray = positionArrayByContainer;
-    }
+    calculateContainerWidth(sliderElements.slidesContainer).then((containerWidth) => {
+      if (settings.containImages) {
+        containImages(sliderElements.slideImages, containerWidth, document.documentElement.clientHeight);
+      }
+      slidesWidthArray = createItemsWidthArray(sliderElements.slideItems);
+      slidesCombinedWidth = calculateCombinedWidth(slidesWidthArray);
+      positionArrayBySlide = calculateSlidePositionArray(slidesWidthArray);
+      positionArrayByContainer = calculatePositionArrayByContainer(slidesWidthArray, slidesCombinedWidth, containerWidth, sliderElements, indexAttr);
+      if (settings.sliderType === 'gallery') {
+        positionArray = positionArrayBySlide;
+      } else {
+        positionArray = positionArrayByContainer;
+      }
+      toggleControlsVisibility(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
+      updatePosition(setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr) || positionIndex, positionArray);
+    });
   }
 
   function createItemsWidthArray(slidesArray) {
@@ -165,8 +169,10 @@ const contentSlider = (el, options) => {
   };
 
   function calculateContainerWidth(element) {
-    return element.getBoundingClientRect().width;
-  }
+    return fastdom.measure(() => {
+      return element.getBoundingClientRect().width;
+    });
+  };
 
   function calculateSlidePositionArray(widthArray) {
     const positionArrayBySlide = [];
@@ -273,7 +279,7 @@ const contentSlider = (el, options) => {
     }
   }
 
-  function updatePosition(n, positionArray) {
+  function updatePosition(n, positionArray, containerWidth) {
     if (n < 0) {
       positionIndex = 0;
     } else if (n >= positionArray.length) {
@@ -308,8 +314,6 @@ const contentSlider = (el, options) => {
 
   function onWidthChange() {
     calculateDimensions();
-    toggleControlsVisibility(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
-    updatePosition(setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr) || positionIndex, positionArray);
   }
 
   function getTrackingEvent(action, data) {
