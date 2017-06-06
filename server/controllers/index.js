@@ -162,6 +162,8 @@ export const latestInstagramPosts = async(ctx, next) => {
   ctx.body = {
     html: ctx.body
   };
+
+  return next();
 };
 
 export const latestTweets = async(ctx, next) => {
@@ -181,6 +183,8 @@ export const latestTweets = async(ctx, next) => {
   ctx.body = {
     html: ctx.body
   };
+
+  return next();
 };
 
 export const explore = async(ctx, next) => {
