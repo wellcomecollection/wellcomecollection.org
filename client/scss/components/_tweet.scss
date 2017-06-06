@@ -2,4 +2,11 @@
 
 .tweet {
   letter-spacing: normal;
+
+  /* stylelint-disable plugin/selector-bem-pattern */
+  twitterwidget::shadow .EmbeddedTweet {
+    width: 100%;
+    max-width: none;
+  }
+  /* stylelint-enable plugin/selector-bem-pattern */
 }

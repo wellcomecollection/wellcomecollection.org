@@ -147,7 +147,7 @@ export const seriesTransporter = async(ctx, next) => {
 };
 
 export const latestInstagramPosts = async(ctx, next) => {
-  const instagramPosts = await getLatestInstagramPosts();
+  const instagramPosts = await getLatestInstagramPosts(10);
 
   ctx.render('components/social-media-block/index', {
     model: {
