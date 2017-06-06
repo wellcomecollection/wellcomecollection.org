@@ -19,6 +19,7 @@
     <link rel="manifest" href="/assets/icons/manifest.json"/>
     <link rel="mask-icon" href="/assets/icons/safari-pinned-tab.svg" color="#000000"/>
     <script src="/assets/libs/picturefill.min.js" async></script>
+    <script async defer src="//platform.twitter.com/widgets.js"></script>
     {% component 'head-js', { file:  'app.js' | getCacheBustFile  } %}
     <script type="application/ld+json">
       {{ pageConfig.organization | jsonLd('Museum') | safe }}

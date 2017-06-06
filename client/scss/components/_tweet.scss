@@ -2,4 +2,15 @@
 
 .tweet {
   letter-spacing: normal;
+
+  /* stylelint-disable */
+  .twitter-tweet {
+    width: 100% !important;
+  }
+
+  twitterwidget::shadow .EmbeddedTweet {
+    width: 100%;
+    max-width: none;
+  }
+  /* stylelint-enable */
 }

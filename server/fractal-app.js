@@ -54,7 +54,6 @@ fractal.components.set('default.status', 'wip');
 fractal.components.set('ext', '.njk');
 fractal.components.set('default.preview', '@preview');
 
-
 fractal.docs.set('path', dir('/views/docs'));
 fractal.web.set('static.path', dir('./../dist'));
 fractal.web.set('builder.dest', dir('./../cardigan'));

@@ -1,4 +1,5 @@
 /* global fetch */
+/* global twttr */
 import contentSlider from './content-slider';
 import shrinkStoriesNav from './shrink-stories-nav';
 
@@ -22,6 +23,10 @@ export default function asyncContent(el, dispatch) {
       if (seriesNav) {
         shrinkStoriesNav(seriesNav, dispatch);
       }
+    }
+
+    if (component === 'tweet-block') {
+      twttr.widgets.load();
     }
 
     if (component === 'series-transporter') {

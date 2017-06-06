@@ -9,6 +9,7 @@ import { getSeriesColor } from '../data/series';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {createNumberedList} from '../model/numbered-list';
+import { getLatestTweets } from '../services/twitter';
 
 const maxItemsPerPage = 32;
 
@@ -144,6 +145,19 @@ export const seriesTransporter = async(ctx, next) => {
   return next();
 };
 
+export const latestTweets = async(ctx, next) => {
+  const count = ctx.params.count || 4;
+  const tweets = await getLatestTweets(count);
+
+  ctx.render('components/tweet-block/index', {
+    model: { tweets }
+  });
+
+  ctx.body = {
+    html: ctx.body
+  };
+};
+
 export const explore = async(ctx, next) => {
   const articleStubs = await getArticleStubs(50);
   const grouped = articleStubs.data.groupBy(stub => stub.headline.indexOf('A drop in the ocean:') === 0);
@@ -194,7 +208,8 @@ export const explore = async(ctx, next) => {
     topPromo,
     second3Promos,
     next8Promos,
-    collectorsPromo
+    collectorsPromo,
+    latestTweets
   });
 
   return next();
