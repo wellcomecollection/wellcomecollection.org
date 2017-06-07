@@ -101,3 +101,15 @@ export const helenBabbs: Person = {
   description: 'Helen is a web editor at Wellcome Collection.',
   prismicId: 'WSRjBCgAAKpwt6w9'
 };
+
+export const sarahJames: Person = {
+  givenName: 'Sarah',
+  familyName: 'James',
+  name: 'Sarah James',
+  image: 'https://wellcomecollection.files.wordpress.com/2017/06/sarah-james_square.jpg',
+  description: 'Sarah James (also published as Sarah Leavesley) is an award-winning poet, fiction writer, journalist ' +
+               'and photographer. She has written five poetry collections, a novella and a touring poetry-play. Also ' +
+               'an editor, her unpublished memoir was recently longlisted in the New Welsh Writing Awards. ' +
+               '<a href="http://www.sarah-james.co.uk/">www.sarah-james.co.uk</a>',
+  prismicId: 'WSRjBCgAAKpwt6w9'
+};
