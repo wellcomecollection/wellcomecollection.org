@@ -16,8 +16,8 @@ app.use(setCacheControl(config.cacheControl));
 app.use(intervalCache());
 app.use(serve(config.static.path));
 app.use(serve(config.favicon.path));
-app.use(render(config.views.path));
 app.use(determineFeaturesCohort());
+app.use(render(config.views.path));
 app.use(router);
 app.use(error());
 
