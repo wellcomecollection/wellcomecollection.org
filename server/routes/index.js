@@ -1,5 +1,6 @@
 import Router from 'koa-router';
-import {index, article, articles, explore, healthcheck, featureFlags, performanceTest, explosion, preview, series, seriesNav, seriesTransporter, latestTweets, latestInstagramPosts} from '../controllers';
+import {index, article, articles, explore, healthcheck, featureFlags, performanceTest, explosion, preview, series} from '../controllers';
+import {seriesNav, seriesTransporter, latestTweets, latestInstagramPosts} from '../controllers/async-controllers';
 import {catalogueItem} from '../controllers/catalogue';
 
 const r = new Router();
