@@ -118,25 +118,37 @@ const contentSlider = (el, options) => {
     calculateContainerWidth(sliderElements.slidesContainer).then((containerWidth) => {
       containImages(sliderElements.slideImages, containerWidth, document.documentElement.clientHeight, settings);
       slidesWidthArray = createItemsWidthArray(sliderElements.slideItems);
-      slidesCombinedWidth = calculateCombinedWidth(slidesWidthArray);
-      positionArrayBySlide = calculateSlidePositionArray(slidesWidthArray);
-      positionArrayByContainer = calculatePositionArrayByContainer(slidesWidthArray, slidesCombinedWidth, containerWidth, sliderElements, indexAttr);
-      if (settings.sliderType === 'gallery') {
-        positionArray = positionArrayBySlide;
-      } else {
-        positionArray = positionArrayByContainer;
-      }
-      toggleControlsVisibility(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
-      updatePosition(setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr) || positionIndex, positionArray);
+      Promise.all(slidesWidthArray.map((promise) => {
+        return promise.then((width) => {
+          return width;
+        });
+      })).then((slidesWidthArray) => {
+        slidesCombinedWidth = calculateCombinedWidth(slidesWidthArray);
+        positionArrayBySlide = calculateSlidePositionArray(slidesWidthArray);
+        positionArrayByContainer = calculatePositionArrayByContainer(slidesWidthArray, slidesCombinedWidth, containerWidth, sliderElements, indexAttr);
+        if (settings.sliderType === 'gallery') {
+          positionArray = positionArrayBySlide;
+        } else {
+          positionArray = positionArrayByContainer;
+        }
+        toggleControlsVisibility(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
+        updatePosition(setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr) || positionIndex, positionArray);
+      });
     });
   }
 
   function createItemsWidthArray(slidesArray) {
     return nodeList(slidesArray).map((el) => {
-      const width = el.offsetWidth;
-      const style = window.getComputedStyle(el);
-      const horizontalMargins = parseInt(style.marginLeft) + parseInt(style.marginRight);
-      return width + horizontalMargins;
+      const width = fastdom.measure(() => {
+        return el.offsetWidth;
+      });
+      const style =  fastdom.measure(() => {
+        return window.getComputedStyle(el);
+      });
+      return Promise.all([width, style]).then(([width, style]) => {
+        const horizontalMargins = parseInt(style.marginLeft) + parseInt(style.marginRight);
+        return width + horizontalMargins;
+      });
     });
   };
 
