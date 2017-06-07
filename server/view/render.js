@@ -7,7 +7,8 @@ export default function render(root) {
   return (ctx, next) => {
     const globals = Map({
       featuresCohort: ctx.featuresCohort,
-      featureFlags: ctx.intervalCache.get('flags')
+      featureFlags: ctx.intervalCache.get('flags'),
+      cohorts: ctx.intervalCache.get('cohorts')
     });
 
     const env = getEnvWithGlobalsExtensionsAndFilters(root, globals);
