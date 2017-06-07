@@ -1,4 +1,6 @@
 export const name = 'instagram-thumbnail';
+export const handle = 'instagram-thumbnail';
+
 export const context = {
   model: {
     id: '1523127055099876608_974226659',
