@@ -68,7 +68,6 @@ const contentSlider = (el, options) => {
   let positionArray; // Holds either positionArrayBySlide or positionArrayByContainer depending on settings
 
   function setup() {
-    window.performance.mark('setupStart');
     // Add classes
     sliderElements.slider.className = classes.slider;
     sliderElements.sliderInner.className = classes.sliderInner;
@@ -110,8 +109,6 @@ const contentSlider = (el, options) => {
 
     // Set transition style for slider
     calculateDimensions(); // Dimensions which determine movement amounts
-    window.performance.mark('setupStop');
-    window.performance.measure('setupSlider', 'setupStart', 'setupStop');
   }
 
   function calculateDimensions() { // Dimensions which determine movement amounts
