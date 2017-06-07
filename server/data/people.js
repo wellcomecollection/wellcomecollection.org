@@ -110,6 +110,13 @@ export const sarahJames: Person = {
   description: 'Sarah James (also published as Sarah Leavesley) is an award-winning poet, fiction writer, journalist ' +
                'and photographer. She has written five poetry collections, a novella and a touring poetry-play. Also ' +
                'an editor, her unpublished memoir was recently longlisted in the New Welsh Writing Awards. ' +
-               '<a href="http://www.sarah-james.co.uk/">www.sarah-james.co.uk</a>',
-  prismicId: 'WSRjBCgAAKpwt6w9'
+               '<a href="http://www.sarah-james.co.uk/">www.sarah-james.co.uk</a>'
+};
+
+export const dannyBirchall: Person = {
+  givenName: 'Danny',
+  familyName: 'Birchall',
+  name: 'Danny Birchall',
+  image: 'https://wellcomecollection.files.wordpress.com/2017/06/003_dany_birchall-5060_sq.jpg',
+  description: 'Danny is Wellcome Collection\'s digital content manager.'
 };
