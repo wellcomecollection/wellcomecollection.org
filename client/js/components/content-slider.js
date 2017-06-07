@@ -116,9 +116,7 @@ const contentSlider = (el, options) => {
 
   function calculateDimensions() { // Dimensions which determine movement amounts
     calculateContainerWidth(sliderElements.slidesContainer).then((containerWidth) => {
-      if (settings.containImages) {
-        containImages(sliderElements.slideImages, containerWidth, document.documentElement.clientHeight);
-      }
+      containImages(sliderElements.slideImages, containerWidth, document.documentElement.clientHeight, settings);
       slidesWidthArray = createItemsWidthArray(sliderElements.slideItems);
       slidesCombinedWidth = calculateCombinedWidth(slidesWidthArray);
       positionArrayBySlide = calculateSlidePositionArray(slidesWidthArray);
@@ -142,23 +140,25 @@ const contentSlider = (el, options) => {
     });
   };
 
-  function containImages(imagesArray, containerWidth, screenHeight) {
-    const maxWidth = containerWidth;
-    const maxHeight = screenHeight * 0.7 < 640 ? screenHeight * 0.7 : 640;
-    nodeList(imagesArray).forEach((img, imageIndex) => {
-      if (img) {
-        const imgHeight = maxHeight;
-        const imageWidth = img.getAttribute('width');
-        const imageHeight = img.getAttribute('height');
-        const widthByHeight = imageWidth / imageHeight * imgHeight;
-        img.parentNode.style.height = imgHeight + 'px';
-        if (widthByHeight <= maxWidth) {
-          img.parentNode.parentNode.style.width = widthByHeight + 'px';
-        } else {
-          img.parentNode.parentNode.style.width = maxWidth + 'px';
+  function containImages(imagesArray, containerWidth, screenHeight, settings) {
+    if (settings.containImages) {
+      const maxWidth = containerWidth;
+      const maxHeight = screenHeight * 0.7 < 640 ? screenHeight * 0.7 : 640;
+      nodeList(imagesArray).forEach((img, imageIndex) => {
+        if (img) {
+          const imgHeight = maxHeight;
+          const imageWidth = img.getAttribute('width');
+          const imageHeight = img.getAttribute('height');
+          const widthByHeight = imageWidth / imageHeight * imgHeight;
+          img.parentNode.style.height = imgHeight + 'px';
+          if (widthByHeight <= maxWidth) {
+            img.parentNode.parentNode.style.width = widthByHeight + 'px';
+          } else {
+            img.parentNode.parentNode.style.width = maxWidth + 'px';
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   function calculateCombinedWidth(widthArray) {
