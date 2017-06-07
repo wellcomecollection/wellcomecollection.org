@@ -26,9 +26,9 @@ export const variants = [{
   context: {
     model: {
       service: 'Instagram',
-      handle: 'explorewellcome',
+      handle: 'wellcomecollection',
       icon: 'social/instagram',
-      url: '#',
+      url: 'https://www.instagram.com/wellcomecollection/',
       posts: latestInstagramPosts
     }
   }
