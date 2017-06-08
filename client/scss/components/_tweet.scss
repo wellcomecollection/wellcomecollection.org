@@ -7,10 +7,6 @@
   .twitter-tweet {
     min-width: 100% !important;
   }
-
-  twitterwidget::shadow .EmbeddedTweet {
-    width: 100%;
-    max-width: none;
-  }
+  // TODO: style tweet with restriction of embed being max-width 520px
   /* stylelint-enable */
 }
