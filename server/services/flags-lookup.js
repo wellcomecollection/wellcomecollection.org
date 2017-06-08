@@ -3,9 +3,9 @@ import Prismic from 'prismic.io';
 
 export const getFlags = async () => {
   const api = await Prismic.api('https://wellcomecollection.prismic.io/api');
-  const response = await api.query(Prismic.Predicates.at('document.type', 'featureflag'));
-  const results = response.results;
-  const flags = results.reduce((result, item) => {
+  const flagsResponse = await api.query(Prismic.Predicates.at('document.type', 'featureflag'));
+  const cohortsResponse = await api.query(Prismic.Predicates.at('document.type', 'featurescohort'));
+  const flags = flagsResponse.results.reduce((result, item) => {
     const flag = item.rawJSON.featureflag;
     const flagName = flag.flagName.value;
     const cohortSettings = flag.flagCohortSettings.value;
@@ -19,6 +19,10 @@ export const getFlags = async () => {
     result[flagName] = settings;
     return result;
   }, {});
-
-  return flags;
+  const cohorts = cohortsResponse.results.map((item) => {
+    const cohort = item.rawJSON.featurescohort;
+    const cohortName = cohort.cohortName.value;
+    return cohortName;
+  });
+  return [flags, cohorts];
 };
