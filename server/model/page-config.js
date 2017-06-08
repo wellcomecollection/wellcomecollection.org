@@ -1,6 +1,5 @@
 // @flow
 import type {Article} from './article';
-import getCommissionedSeries from '../filters/get-commissioned-series';
 import type {PlacesOpeningHours} from './opening-hours';
 import type {Organization} from './organization';
 import {defaultPlacesOpeningHours} from './opening-hours';
@@ -12,7 +11,10 @@ export type PageConfig = {
   inSection?: string;
   openingHours?: PlacesOpeningHours;
   organization?: Organization;
-  gaContentType?: string;
+  category?: 'editorial' | 'list' | 'info' | 'item';
+  series?: ?string;
+  positionInSeries?: ?number;
+  featuredContent?: ?string;
 };
 
 export function createPageConfig(data: PageConfig) {
@@ -24,8 +26,18 @@ export function createPageConfig(data: PageConfig) {
   return (withOpeningHours: PageConfig);
 }
 
-export function getGaContentType(article: Article) {
-  const digitalStory = getCommissionedSeries(article.series);
+const seriesUrls = [
+  'a-drop-in-the-ocean',
+  'electric-sublime',
+  'body-squabbles',
+  'electric-age'
+];
 
-  return digitalStory ? `editorial:chapter:${digitalStory.url}` : `editorial:${article.contentType}`;
+export function getEditorialAnalyticsInfo(article: Article) {
+  const series = article.series.find(a => seriesUrls.indexOf(a.url) > -1);
+  const seriesUrl = series.url;
+  const positionInSeries = article.positionInSeries;
+  const featuredContent = article.contentType;
+
+  return {seriesUrl, positionInSeries, featuredContent};
 }
