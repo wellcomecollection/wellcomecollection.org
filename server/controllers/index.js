@@ -226,9 +226,7 @@ export const healthcheck = (ctx, next) => {
 
 export const featureFlags = (ctx, next) => {
   ctx.render('pages/flags', {
-    pageConfig: createPageConfig({inSection: 'index'}),
-    flags: ctx.intervalCache.get('flags'),
-    cohorts: ctx.intervalCache.get('cohorts')
+    pageConfig: createPageConfig({inSection: 'index'})
   });
   return next();
 };
