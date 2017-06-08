@@ -1,8 +1,8 @@
-FROM node:6.10
+FROM node:8-alpine
 
 # setup a user so as not to run as root
 # see: https://github.com/nodejs/docker-node/blob/master/docs/BestPractices.md#non-root-user
-RUN useradd --create-home --user-group wellcomecollection
+RUN adduser -S wellcomecollection
 ENV HOME=/home/wellcomecollection
 USER wellcomecollection
 WORKDIR $HOME
