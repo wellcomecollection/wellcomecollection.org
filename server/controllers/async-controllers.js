@@ -95,8 +95,7 @@ export const latestInstagramPosts = async(ctx, next) => {
 };
 
 export const latestTweets = async(ctx, next) => {
-  const count = ctx.params.count || 4;
-  const tweets = await getLatestTweets(count);
+  const tweets = await getLatestTweets(4);
 
   ctx.render('components/social-media-block/index', {
     model: {

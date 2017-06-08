@@ -18,7 +18,7 @@ r.get('/explosion/:errorCode', explosion);
 r.get('/articles/preview/:id', preview);
 r.get('/catalogue/:id', catalogueItem);
 r.get('/flags', featureFlags);
-r.get('/latest-tweets/:count?', latestTweets);
+r.get('/latest-tweets/', latestTweets);
 r.get('/latest-instagram-posts', latestInstagramPosts);
 
 export const router = r.middleware();
