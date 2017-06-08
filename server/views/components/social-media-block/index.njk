@@ -14,9 +14,7 @@
         {% if model.service === 'Twitter' %}
           {% for post in model.posts %}
             <div class="{{ {s:4, m:4, l:6, xl:3} | gridClasses }}">
-              <div data-track-click='{"screenName": "{{ post.screenName }}", "createdAt": "{{ post.createdAt }}", "postId": {{ post.id }}}'>
-                {% componentV2 'tweet', post %}
-              </div>
+              {% componentV2 'tweet', post %}
             </div>
           {% endfor %}
         {% elif model.service === 'Instagram' %}
