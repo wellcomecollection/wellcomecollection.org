@@ -25,7 +25,7 @@ export default function asyncContent(el, dispatch) {
       }
     }
 
-    if (component === 'tweet-block') {
+    if (component === 'social-media-block-twitter') {
       twttr.widgets.load();
     }
 

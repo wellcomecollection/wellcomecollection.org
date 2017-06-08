@@ -5,11 +5,12 @@ import marked from 'marked';
 
 export default function render(root) {
   return (ctx, next) => {
+    const [flags, cohorts] = ctx.intervalCache.get('flags');
     const globals = Map({
       featuresCohort: ctx.featuresCohort,
-      featureFlags: ctx.intervalCache.get('flags')
+      featureFlags: flags,
+      cohorts: cohorts
     });
-
     const env = getEnvWithGlobalsExtensionsAndFilters(root, globals);
     ctx.render = (relPath, templateData) => ctx.body = env.render(`${relPath}.njk`, templateData);
     markdown.register(env, marked);

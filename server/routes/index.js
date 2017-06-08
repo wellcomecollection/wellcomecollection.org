@@ -1,5 +1,6 @@
 import Router from 'koa-router';
-import {index, article, articles, explore, healthcheck, featureFlags, performanceTest, explosion, preview, series, seriesNav, seriesTransporter, latestTweets} from '../controllers';
+import {index, article, articles, explore, healthcheck, featureFlags, performanceTest, explosion, preview, series} from '../controllers';
+import {seriesNav, seriesTransporter, latestTweets, latestInstagramPosts} from '../controllers/async-controllers';
 import {catalogueItem} from '../controllers/catalogue';
 
 const r = new Router();
@@ -18,5 +19,6 @@ r.get('/articles/preview/:id', preview);
 r.get('/catalogue/:id', catalogueItem);
 r.get('/flags', featureFlags);
 r.get('/latest-tweets/:count?', latestTweets);
+r.get('/latest-instagram-posts', latestInstagramPosts);
 
 export const router = r.middleware();
