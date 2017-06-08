@@ -1,5 +1,5 @@
 <a href="{{ model.url }}" class="instagram-thumbnail"
-  data-track-click='{"screenName": "{{ model.screenName }}", "createdAt": "{{ model.createdAt }}", "postId": {{ model.id }}}'>
+  data-track-click='{"screenName": "{{ model.screenName }}", "postId": {{ model.id }}}'>
   <div class="instagram-thumbnail__type">
     <span class="instagram-thumbnail__type-text">{{ model.type }}</span>
     {% if model.type === 'carousel' %}
