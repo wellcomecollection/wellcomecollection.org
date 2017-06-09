@@ -1,7 +1,8 @@
 import debounce from 'lodash.debounce';
 import Hammer from 'hammerjs';
-import { nodeList, setPropertyPrefixed, featureTest } from '../util';
+import { nodeList, setPropertyPrefixed, featureTest, addClassesToElements, removeClassesFromElements, addAttrToElements, removeAttrFromElements } from '../util';
 import { trackEvent } from '../utils/track-event';
+import fastdom from '../utils/fastdom-promise';
 
 const contentSlider = (el, options) => {
   if (!featureTest('transform', 'translateX(0px)') && !featureTest('transition', 'transform 0.3s ease')) return;
@@ -59,13 +60,10 @@ const contentSlider = (el, options) => {
   const sliderTouch = new Hammer(sliderElements.slidesContainer);
   const indexAttr = 'data-slide-index'; // Added to slide items to help with tabbing
   const id = sliderElements.slidesContainer.getAttribute('id');
-  let containerWidth;
   let slidesWidthArray;
-  // let slidesWidthArrayInverted;
   let slidesCombinedWidth;
   let positionArrayBySlide; // An array of positions if we move the slider by the width of each slide
   let positionArrayByContainer; // An array of positions if we move the slider by the width of the container
-  // let positionArrayByContainerInverted;
   let positionIndex = settings.startPosition;
   let positionArray; // Holds either positionArrayBySlide or positionArrayByContainer depending on settings
 
@@ -111,54 +109,65 @@ const contentSlider = (el, options) => {
 
     // Set transition style for slider
     calculateDimensions(); // Dimensions which determine movement amounts
-    toggleControlsVisibility(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
-    updatePosition(setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr) || positionIndex, positionArray);
   }
 
   function calculateDimensions() { // Dimensions which determine movement amounts
-    containerWidth = calculateContainerWidth(sliderElements.slidesContainer);
-    if (settings.containImages) {
-      containImages(sliderElements.slideImages, containerWidth, document.documentElement.clientHeight);
-    }
-    slidesWidthArray = createItemsWidthArray(sliderElements.slideItems);
-    // slidesWidthArrayInverted = slidesWidthArray.slice().reverse();
-    slidesCombinedWidth = calculateCombinedWidth(slidesWidthArray);
-    positionArrayBySlide = calculateSlidePositionArray(slidesWidthArray);
-    positionArrayByContainer = calculatePositionArrayByContainer(slidesWidthArray, slidesCombinedWidth, containerWidth, sliderElements, indexAttr);
-    // positionArrayByContainerInverted = calculatePositionArrayByContainerInverted(calculatePositionArrayByContainer(slidesWidthArrayInverted, slidesCombinedWidth, containerWidth, sliderElements, indexAttr), slidesCombinedWidth, containerWidth);
-    if (settings.sliderType === 'gallery') {
-      positionArray = positionArrayBySlide;
-    } else {
-      positionArray = positionArrayByContainer;
-    }
+    calculateContainerWidth(sliderElements.slidesContainer).then((containerWidth) => {
+      containImages(sliderElements.slideImages, containerWidth, document.documentElement.clientHeight, settings);
+      slidesWidthArray = createItemsWidthArray(sliderElements.slideItems);
+      Promise.all(slidesWidthArray.map((promise) => {
+        return promise.then((width) => {
+          return width;
+        });
+      })).then((slidesWidthArray) => {
+        slidesCombinedWidth = calculateCombinedWidth(slidesWidthArray);
+        positionArrayBySlide = calculateSlidePositionArray(slidesWidthArray);
+        positionArrayByContainer = calculatePositionArrayByContainer(slidesWidthArray, slidesCombinedWidth, containerWidth, sliderElements, indexAttr);
+        if (settings.sliderType === 'gallery') {
+          positionArray = positionArrayBySlide;
+        } else {
+          positionArray = positionArrayByContainer;
+        }
+        toggleControlsVisibility(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
+        updatePosition(setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr) || positionIndex, positionArray);
+      });
+    });
   }
 
   function createItemsWidthArray(slidesArray) {
     return nodeList(slidesArray).map((el) => {
-      const width = el.offsetWidth;
-      const style = window.getComputedStyle(el);
-      const horizontalMargins = parseInt(style.marginLeft) + parseInt(style.marginRight);
-      return width + horizontalMargins;
+      const width = fastdom.measure(() => {
+        return el.offsetWidth;
+      });
+      const style =  fastdom.measure(() => {
+        return window.getComputedStyle(el);
+      });
+      return Promise.all([width, style]).then(([width, style]) => {
+        const horizontalMargins = parseInt(style.marginLeft) + parseInt(style.marginRight);
+        return width + horizontalMargins;
+      });
     });
   };
 
-  function containImages(imagesArray, containerWidth, screenHeight) {
-    const maxWidth = containerWidth;
-    const maxHeight = screenHeight * 0.7 < 640 ? screenHeight * 0.7 : 640;
-    nodeList(imagesArray).forEach((img, imageIndex) => {
-      if (img) {
-        const imgHeight = maxHeight;
-        const imageWidth = img.getAttribute('width');
-        const imageHeight = img.getAttribute('height');
-        const widthByHeight = imageWidth / imageHeight * imgHeight;
-        img.parentNode.style.height = imgHeight + 'px';
-        if (widthByHeight <= maxWidth) {
-          img.parentNode.parentNode.style.width = widthByHeight + 'px';
-        } else {
-          img.parentNode.parentNode.style.width = maxWidth + 'px';
+  function containImages(imagesArray, containerWidth, screenHeight, settings) {
+    if (settings.containImages) {
+      const maxWidth = containerWidth;
+      const maxHeight = screenHeight * 0.7 < 640 ? screenHeight * 0.7 : 640;
+      nodeList(imagesArray).forEach((img, imageIndex) => {
+        if (img) {
+          const imgHeight = maxHeight;
+          const imageWidth = img.getAttribute('width');
+          const imageHeight = img.getAttribute('height');
+          const widthByHeight = imageWidth / imageHeight * imgHeight;
+          img.parentNode.style.height = imgHeight + 'px';
+          if (widthByHeight <= maxWidth) {
+            img.parentNode.parentNode.style.width = widthByHeight + 'px';
+          } else {
+            img.parentNode.parentNode.style.width = maxWidth + 'px';
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   function calculateCombinedWidth(widthArray) {
@@ -169,8 +178,10 @@ const contentSlider = (el, options) => {
   };
 
   function calculateContainerWidth(element) {
-    return element.getBoundingClientRect().width;
-  }
+    return fastdom.measure(() => {
+      return element.getBoundingClientRect().width;
+    });
+  };
 
   function calculateSlidePositionArray(widthArray) {
     const positionArrayBySlide = [];
@@ -223,53 +234,6 @@ const contentSlider = (el, options) => {
     return positionArrayByContainer;
   };
 
-  // function calculatePositionArrayByContainerInverted(positions, totalWidth, containerWidth) {
-  //   const newArray = positions.map((value) => {
-  //     return totalWidth - value - containerWidth;
-  //   });
-  //   return newArray.reverse();
-  // }
-
-  function addClassesToElements(elements, className) {
-    if (elements.length) {
-      nodeList(elements).forEach((e) => {
-        e.classList.add(className);
-      });
-    } else {
-      elements.classList.add(className);
-    }
-  }
-
-  function removeClassesFromElements(elements, className) {
-    if (elements.length) {
-      nodeList(elements).forEach((e) => {
-        e.classList.remove(className);
-      });
-    } else {
-      elements.classList.remove(className);
-    }
-  }
-
-  function addAttrToElements(elements, attr, value) {
-    if (elements.length) {
-      nodeList(elements).forEach((e, i) => {
-        e.setAttribute(attr, value || i);
-      });
-    } else {
-      elements.setAttribute(attr, value);
-    }
-  }
-
-  function removeAttrFromElements(elements, attr) {
-    if (elements.length) {
-      nodeList(elements).forEach((e, i) => {
-        e.removeAttribute(attr);
-      });
-    } else {
-      elements.removeAttribute(attr);
-    }
-  }
-
   function toggleControlsVisibility(slidesCombinedWidth, containerWidth, controls) {
     if (slidesCombinedWidth <= containerWidth) {
       controls.style.visibility = 'hidden';
@@ -317,20 +281,14 @@ const contentSlider = (el, options) => {
     if (n === 0) {
       addClassesToElements(prevControl, className);
       addAttrToElements(prevControl, 'disabled', 'true');
-      // if (settings.sliderType !== 'gallery') { // TODO put somewhere better
-      //   positionArray = positionArrayByContainer;
-      // }
     }
     if (n === items.length - 1) {
       addClassesToElements(nextControl, className);
       addAttrToElements(nextControl, 'disabled', 'true');
-      // if (settings.sliderType !== 'gallery') { // TODO put somewhere better
-      //   positionArray = positionArrayByContainerInverted;
-      // }
     }
   }
 
-  function updatePosition(n, positionArray) {
+  function updatePosition(n, positionArray, containerWidth) {
     if (n < 0) {
       positionIndex = 0;
     } else if (n >= positionArray.length) {
@@ -365,8 +323,6 @@ const contentSlider = (el, options) => {
 
   function onWidthChange() {
     calculateDimensions();
-    toggleControlsVisibility(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
-    updatePosition(setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr) || positionIndex, positionArray);
   }
 
   function getTrackingEvent(action, data) {
