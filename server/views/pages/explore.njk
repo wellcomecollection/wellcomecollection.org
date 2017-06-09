@@ -75,9 +75,7 @@
     </div>
   </div>
 
-  <div data-component-name="Social media block" data-component-id="explore-twitter">
-    {% component 'async', { endpoint: '/latest-tweets', component: 'social-media-block-twitter' } %}
-  </div>
+  {% component 'async', { endpoint: '/latest-tweets', component: 'social-media-block-twitter' } %}
 
   {% componentV2 'promo', collectorsPromo, {}, {sizes: '100vw'} %}
 {% endblock %}

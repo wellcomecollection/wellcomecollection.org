@@ -1,3 +1,3 @@
-<div class="tweet" {% if model.id %}data-track-click='{"screenName": "{{ model.screenName }}", "postId": {{ model.id }}}'{% endif %}>
+<div class="tweet">
   {{ model.html | safe}}
 </div>
