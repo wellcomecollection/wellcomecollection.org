@@ -120,3 +120,12 @@ export const dannyBirchall: Person = {
   image: 'https://wellcomecollection.files.wordpress.com/2017/06/003_dany_birchall-5060_sq.jpg',
   description: 'Danny is Wellcome Collection\'s digital content manager.'
 };
+
+export const annaFaherty: Person = {
+  givenName: 'Anna',
+  familyName: 'Faherty',
+  name: 'Anna Faherty',
+  twitterHandle: 'mafunyane',
+  image: '',
+  description: ''
+};
