@@ -36,11 +36,55 @@ const featureTest = (property, value, noPrefixes) => {
   return mStyle[ property ].indexOf(value) !== -1;
 };
 
+const addClassesToElements = (elements, className) => {
+  if (elements.length) {
+    nodeList(elements).forEach((e) => {
+      e.classList.add(className);
+    });
+  } else {
+    elements.classList.add(className);
+  }
+};
+
+const removeClassesFromElements = (elements, className) => {
+  if (elements.length) {
+    nodeList(elements).forEach((e) => {
+      e.classList.remove(className);
+    });
+  } else {
+    elements.classList.remove(className);
+  }
+};
+
+const addAttrToElements = (elements, attr, value) => {
+  if (elements.length) {
+    nodeList(elements).forEach((e, i) => {
+      e.setAttribute(attr, value || i);
+    });
+  } else {
+    elements.setAttribute(attr, value);
+  }
+};
+
+const removeAttrFromElements = (elements, attr) => {
+  if (elements.length) {
+    nodeList(elements).forEach((e, i) => {
+      e.removeAttribute(attr);
+    });
+  } else {
+    elements.removeAttribute(attr);
+  }
+};
+
 export {
   nodeList,
   KEYS,
   setPropertyPrefixed,
-  featureTest
+  featureTest,
+  addClassesToElements,
+  removeClassesFromElements,
+  addAttrToElements,
+  removeAttrFromElements
 };
 
 // Event delegation

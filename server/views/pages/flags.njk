@@ -18,7 +18,7 @@
             {% endfor %}
         </div>
         <div class="{{ {s:4, m:4, l:8, xl: 8} | gridClasses }}">
-          {% for name, flag in flags %}
+          {% for name, flag in featureFlags %}
           <table class="feature-flags__table {{ {s:2, m:4, l:4, xl:4} | spacingClasses({margin: ['bottom']})}}">
             <caption class="feature-flags__caption {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}"><strong>{{name}}</strong></caption>
             <tr class="feature-flags__row">

@@ -12,7 +12,23 @@ h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 ga('create', 'UA-55614-6', 'auto');
-ga('set', 'dimension1', '2');
+
+if ('{{ pageConfig.category }}') {
+  ga('set', 'dimension2', '{{ pageConfig.category }}');
+}
+
+if ('{{ pageConfig.seriesUrl }}') {
+  ga('set', 'dimension3', '{{ pageConfig.seriesUrl }}');
+}
+
+if ('{{ pageConfig.positionInSeries }}') {
+  ga('set', 'dimension4', '{{ pageConfig.positionInSeries }}');
+}
+
+if ('{{ pageConfig.featuredContent }}') {
+  ga('set', 'dimension5', '{{ pageConfig.featuredContent }}');
+}
+
 ga('require', 'GTM-NXMJ6D9');
 ga('send', 'pageview');
 </script>

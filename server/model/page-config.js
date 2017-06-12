@@ -1,4 +1,5 @@
 // @flow
+import type {Article} from './article';
 import type {PlacesOpeningHours} from './opening-hours';
 import type {Organization} from './organization';
 import {defaultPlacesOpeningHours} from './opening-hours';
@@ -10,6 +11,10 @@ export type PageConfig = {
   inSection?: string;
   openingHours?: PlacesOpeningHours;
   organization?: Organization;
+  category?: 'editorial' | 'list' | 'info' | 'item';
+  series?: ?string;
+  positionInSeries?: ?number;
+  featuredContent?: ?string;
 };
 
 export function createPageConfig(data: PageConfig) {
@@ -19,4 +24,20 @@ export function createPageConfig(data: PageConfig) {
   };
   const withOpeningHours = Object.assign({}, defaults, data);
   return (withOpeningHours: PageConfig);
+}
+
+const seriesUrls = [
+  'a-drop-in-the-ocean',
+  'electric-sublime',
+  'body-squabbles',
+  'electric-age'
+];
+
+export function getEditorialAnalyticsInfo(article: Article) {
+  const series = article.series.find(a => seriesUrls.indexOf(a.url) > -1);
+  const seriesUrl = series ? series.url : null;
+  const positionInSeries = article.positionInSeries;
+  const featuredContent = article.contentType;
+
+  return {seriesUrl, positionInSeries, featuredContent};
 }

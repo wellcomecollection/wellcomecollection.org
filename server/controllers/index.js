@@ -2,7 +2,7 @@
 import type {Series} from '../model/series';
 import type {Promo} from '../model/promo';
 import {PromoFactory} from '../model/promo';
-import {createPageConfig} from '../model/page-config';
+import {createPageConfig, getEditorialAnalyticsInfo} from '../model/page-config';
 import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
@@ -13,18 +13,18 @@ export const article = async(ctx, next) => {
   const slug = ctx.params.slug;
   const format = ctx.request.query.format;
   const article = await getArticle(`slug:${slug}`);
+  const editorialAnalyticsInfo = getEditorialAnalyticsInfo(article);
+  const pageConfig = createPageConfig(Object.assign({}, {
+    title: article.headline,
+    inSection: 'explore',
+    category: 'editorial'
+  }, editorialAnalyticsInfo));
 
   if (article) {
     if (format === 'json') {
       ctx.body = article;
     } else {
-      ctx.render('pages/article', {
-        pageConfig: createPageConfig({
-          title: article.headline,
-          inSection: 'explore'
-        }),
-        article: article
-      });
+      ctx.render('pages/article', {pageConfig, article});
     }
   }
 
@@ -46,7 +46,8 @@ export const articles = async(ctx, next) => {
   ctx.render('pages/list', {
     pageConfig: createPageConfig({
       title: 'Articles',
-      inSection: 'explore'
+      inSection: 'explore',
+      category: 'list'
     }),
     list: promoList,
     pagination
@@ -64,7 +65,9 @@ export const series = async(ctx, next) => {
   ctx.render('pages/list', {
     pageConfig: createPageConfig({
       title: series.name,
-      inSection: 'explore'
+      inSection: 'explore',
+      category: 'list',
+      seriesUrl: id
     }),
     list: promoList,
     pagination
@@ -140,9 +143,7 @@ export const healthcheck = (ctx, next) => {
 
 export const featureFlags = (ctx, next) => {
   ctx.render('pages/flags', {
-    pageConfig: createPageConfig({inSection: 'index'}),
-    flags: ctx.intervalCache.get('flags'),
-    cohorts: ctx.intervalCache.get('cohorts')
+    pageConfig: createPageConfig({inSection: 'index'})
   });
   return next();
 };
