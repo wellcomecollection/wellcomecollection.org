@@ -71,7 +71,7 @@ export const series = async(ctx, next) => {
       title: series.name,
       inSection: 'explore',
       category: 'list',
-      series: id
+      seriesUrl: id
     }),
     list: promoList,
     pagination
