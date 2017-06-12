@@ -75,7 +75,7 @@
     </div>
   </div>
 
-  {% component 'async', { endpoint: '/latest-tweets', component: 'social-media-block-twitter' } %}
+  {% componentV2 'social-media-block', {service: 'Twitter', handle: 'explorewellcome', icon: 'social/twitter', posts: latestTweets} %}
 
   {% componentV2 'promo', collectorsPromo, {}, {sizes: '100vw'} %}
 {% endblock %}
