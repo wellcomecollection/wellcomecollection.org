@@ -35,7 +35,7 @@ const seriesUrls = [
 
 export function getEditorialAnalyticsInfo(article: Article) {
   const series = article.series.find(a => seriesUrls.indexOf(a.url) > -1);
-  const seriesUrl = series.url;
+  const seriesUrl = series ? series.url : null;
   const positionInSeries = article.positionInSeries;
   const featuredContent = article.contentType;
 
