@@ -115,6 +115,7 @@ export const explore = async(ctx, next) => {
 
   const aDropInTheOceanPromoList = PromoListFactory.fromSeries(aDropInTheOceanSeries);
   const latestDigitalStory = 'electric-sublime';
+  const latestTweets = ctx.intervalCache.get('tweets');
 
   ctx.render('pages/explore', {
     pageConfig: createPageConfig({
@@ -126,7 +127,8 @@ export const explore = async(ctx, next) => {
     topPromo,
     second3Promos,
     next8Promos,
-    collectorsPromo
+    collectorsPromo,
+    latestTweets
   });
 
   return next();
