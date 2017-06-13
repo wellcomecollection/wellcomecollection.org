@@ -27,6 +27,7 @@ export const authorMap: { [key: string]: Person } = {
   'body-squabbles-thirst': people.robertBidder,
   'body-squabbles-teeth': people.robertBidder,
   'body-squabbles-keyholes': people.robertBidder,
+  'body-squabbles-pundit': people.robertBidder,
   'museums-in-context-the-birth-of-the-public-museum': people.elissavetNtoulia,
   'the-electric-age': people.lalitaKaplish,
   'electric-age-the-electrified-garden': people.lalitaKaplish,
