@@ -37,5 +37,11 @@ export const authorMap: { [key: string]: Person } = {
   'blackout': people.helenBabbs,
   'creative-energy': people.sarahJames,
   'electropoise': people.helenBabbs,
-  'electric-age-condenser-couch': people.dannyBirchall
+  'electric-age-condenser-couch': people.dannyBirchall,
+  'outsiders-the-stranger': people.annaFaherty,
+  'outsiders-the-tradesman': people.annaFaherty,
+  'outsiders-the-cook': people.annaFaherty,
+  'outsiders-the-colonist': people.annaFaherty,
+  'outsiders-the-child': people.annaFaherty,
+  'outsiders-the-prostitute': people.annaFaherty
 };

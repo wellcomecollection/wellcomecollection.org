@@ -30,7 +30,8 @@ const seriesUrls = [
   'a-drop-in-the-ocean',
   'electric-sublime',
   'body-squabbles',
-  'electric-age'
+  'electric-age',
+  'outsiders'
 ];
 
 export function getEditorialAnalyticsInfo(article: Article) {

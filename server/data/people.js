@@ -120,3 +120,13 @@ export const dannyBirchall: Person = {
   image: 'https://wellcomecollection.files.wordpress.com/2017/06/003_dany_birchall-5060_sq.jpg',
   description: 'Danny is Wellcome Collection\'s digital content manager.'
 };
+
+export const annaFaherty: Person = {
+  givenName: 'Anna',
+  familyName: 'Faherty',
+  name: 'Anna Faherty',
+  twitterHandle: 'mafunyane',
+  image: 'https://wellcomecollection.files.wordpress.com/2017/06/anna-faherty-150x150.jpg',
+  description: 'Anna Faherty is a writer and lecturer who collaborates with museums on an eclectic range of exhibition, digital and print projects. She is the author of the <cite>Reading Room Companion</cite> and the editor of <cite>States of Mind</cite>, both published by Wellcome Collection.',
+  prismicId: 'WT5y6S0AACwAdxSL'
+};
