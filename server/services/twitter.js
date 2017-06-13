@@ -17,7 +17,7 @@ async function getTwitterAccessToken() {
 
 async function getLatestTweetDetails(count) {
   const accessToken = await getTwitterAccessToken();
-  const latestTweetDetails = await superagent.get(`https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=explorewellcome&include_rts=false`)
+  const latestTweetDetails = await superagent.get(`https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=explorewellcome&include_rts=false&exclude_replies=true`)
     .set('Authorization', `Bearer ${accessToken}`)
     .then(data => {
       return data.body
