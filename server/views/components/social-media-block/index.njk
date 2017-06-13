@@ -1,0 +1,38 @@
+<div class="social-media-block">
+  <div class="row row--cream row--has-wobbly-background {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top', 'bottom']}) }}">
+    <div class="row__wobbly-background"></div>
+    <div class="container">
+      {% componentV2 'divider', null, {'dashed': true} %}
+      <div class="social-media-block__intro flex flex--v-center flex--h-center {{ {s:4, m:4, l:4} | spacingClasses({margin: ['top']}) }}">
+        {% icon model.icon %}Follow us on {{ model.service }}
+      </div>
+      <a href="{{ model.url }}"
+        class="social-media-block__handle flex flex--v-center flex--h-center {{ {s:6, m:6, l:6} | spacingClasses({margin: ['bottom']}) }}">
+        @{{ model.handle }}
+      </a>
+      <div class="grid {{ {s:10, m:10, l:10} | spacingClasses({padding: ['bottom']}) }}">
+        {% if model.service === 'Twitter' %}
+          {% for post in model.posts %}
+            <div class="{{ {s:4, m:4, l:6, xl:3} | gridClasses }}">
+              {% componentV2 'tweet', post %}
+            </div>
+          {% endfor %}
+        {% elif model.service === 'Instagram' %}
+          {% for i in range(0, 4) %}
+            <div class="{{ {s:4, m:4, l:3, xl:3} | gridClasses }} {{ {s:5, m:5, l:5} | spacingClasses({padding: ['bottom']}) }}">
+              {% componentV2 'instagram-thumbnail', model.posts[i], null, {sizes: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'} %}
+            </div>
+          {% endfor %}
+
+          {% for i in range(4, 10) %}
+            {% set post = model.posts[i] %}
+            <div class="{{ {s:2, m:4, l:2} | gridClasses }} {{ {s:5, m:5, l:5} | spacingClasses({padding: ['bottom']}) }}">
+              {% componentV2 'instagram-thumbnail', model.posts[i], null, {sizes: '(min-width: 1420px) 178px, (min-width: 960px) calc(14.32vw - 22px), (min-width: 600px) calc(50vw - 54px), calc(50vw - 27px)'} %}
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+      {% componentV2 'divider', null, {'dashed': true} %}
+    </div>
+  </div>
+</div>

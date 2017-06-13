@@ -1,0 +1,30 @@
+<a href="{{ model.url }}" class="instagram-thumbnail">
+  <div class="instagram-thumbnail__type">
+    <span class="instagram-thumbnail__type-text">{{ model.type }}</span>
+    {% if model.type === 'carousel' %}
+      {% icon 'actions/gallery-link' %}
+    {% elif model.type === 'video' %}
+      {% icon 'actions/play' %}
+    {% endif %}
+  </div>
+  <div class="instagram-thumbnail__overlay flex flex--h-center flex--v-center">
+    <div class="instagram-thumbnail__count flex flex--v-center">
+      <span class="instagram-thumbnail__type-text">likes</span>
+      {% icon 'actions/likes' %} {{ model.likes.count }}
+    </div>
+    <div class="instagram-thumbnail__count flex flex--v-center">
+      <span class="instagram-thumbnail__type-text">comments</span>
+      {% icon 'actions/comments' %} {{ model.comments.count }}
+    </div>
+  </div>
+  <img width="{{ model.images.thumbnail.width }}"
+    height="{{ model.images.thumbnail.height }}"
+    class="instagram-thumbnail__image lazy-image lazyload"
+    src="{{ model.images.thumbnail.url }}"
+    data-srcset="
+      {{ model.images.thumbnail.url }} {{ model.images.thumbnail.width }}w,
+      {{ model.images.low_resolution.url }} {{ model.images.low_resolution.width }}w,
+      {{ model.images.standard_resolution.url }} {{ model.images.standard_resolution.width }}w"
+    sizes="{{ data.sizes }}"
+    alt="{{ model.caption.text }}" />
+</a>

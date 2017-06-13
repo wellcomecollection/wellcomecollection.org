@@ -17,17 +17,19 @@ async function getTwitterAccessToken() {
 
 async function getLatestTweetDetails(count) {
   const accessToken = await getTwitterAccessToken();
-  const latestTweetDetails = await superagent.get(`https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=explorewellcome&count=${count}`)
+  const latestTweetDetails = await superagent.get(`https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=explorewellcome&include_rts=false`)
     .set('Authorization', `Bearer ${accessToken}`)
     .then(data => {
-      return data.body.map(i => {
-        return {
-          id: i.id_str,
-          text: i.text,
-          screenName: i.user.screen_name,
-          createdAt: new Date(i.created_at)
-        };
-      });
+      return data.body
+        .filter((item, index) => index < count)
+        .map(i => {
+          return {
+            id: i.id_str,
+            text: i.text,
+            screenName: i.user.screen_name,
+            createdAt: new Date(i.created_at)
+          };
+        });
     });
 
   return latestTweetDetails;

@@ -1,4 +1,4 @@
-.tweet-block__intro {
+.social-media-block__intro {
   @include font('HNL5');
 
   .icon {
@@ -8,7 +8,7 @@
   }
 }
 
-.tweet-block__handle {
+.social-media-block__handle {
   @include font('WB6');
 
   @include respond-to('medium') {

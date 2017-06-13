@@ -1,0 +1,51 @@
+.instagram-thumbnail {
+  display: block;
+  position: relative;
+
+  .icon {
+    width: 1em;
+    height: 1em;
+    margin-right: 0.2em;
+  }
+
+  .icon__shape {
+    fill: color('white');
+  }
+}
+
+.instagram-thumbnail__type {
+  position: absolute;
+  top: 2 * $spacing-unit;
+  right: 2 * $spacing-unit;
+  z-index: 1;
+}
+
+.instagram-thumbnail__type-text {
+  @include visually-hidden;
+}
+
+.instagram-thumbnail__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(color('black'), 0.5);
+  opacity: 0;
+  transition: opacity 700ms ease;
+
+  .instagram-thumbnail:hover &,
+  .instagram-thumbnail:focus & {
+    opacity: 1;
+  }
+}
+
+.instagram-thumbnail__count {
+  @include font('HNL4');
+  color: color('white');
+  margin-right: $spacing-unit;
+}
+
+.instagram-thumbnail__image {
+  width: 100%;
+}
