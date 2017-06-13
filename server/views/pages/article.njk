@@ -45,7 +45,7 @@
   <div class="row row--cream {{ {s:4, m:4, l:4} | spacingClasses({padding: ['top', 'bottom']}) }} ">
     <div class="container">
       <div class="grid grid--no-gutters">
-        <div class="{{ {s: 4, m: 6, shiftM: 1, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
+        <div class="{{ {s: 12, m: 10, shiftM: 1, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
           {% if article.author and article.bodyParts.length > 0  %}
             {% component 'author', {
               name: article.author.name,
@@ -89,7 +89,7 @@
       <div class="row {{ {s:8, m:8, l:8} | spacingClasses({padding: ['top', 'bottom']}) }}">
         <div class="container digital-story-transporter">
           <div class="grid grid--no-gutters">
-            <div class="{{ {s: 4, m: 6, shiftM: 1, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
+            <div class="{{ {s: 12, m: 10, shiftM: 1, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
               <div class="body-part body-part--full-width">
                 <div class="wobbly-edge wobbly-edge--white wobbly-edge--small js-wobbly-edge" data-is-static="true"></div>
                 {% set asyncContentEndpoint = '/series-transporter/' + series.url + '?current=' + article.url %}

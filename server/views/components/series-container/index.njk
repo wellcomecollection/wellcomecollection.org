@@ -6,10 +6,10 @@
 <div class="row {{ {s:4, m:4, l:4} | spacingClasses({padding: ['top']}) }} ">
   <div class="container">
     <div class="grid">
-      <div class="{{ {s:4, m:8, l:12, xl: 12} | gridClasses }}">
+      <div class="{{ {s:12, m:12, l:12, xl: 12} | gridClasses }}">
         <h2 class="heading--large {{ {s:0, m:0, l:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{ model.name }}</h2>
       </div>
-      <div class="{{ {s:4, m:8, l:8} | gridClasses }}">
+      <div class="{{ {s:12, m:12, l:8} | gridClasses }}">
         <p class="{{ {s:0, m:0, l:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{ model.description }}</p>
         {% componentV2 'more-info-link', model %}
       </div>
