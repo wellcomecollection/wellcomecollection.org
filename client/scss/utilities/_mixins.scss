@@ -36,14 +36,13 @@
   $to-list: null;
   $between-list: null;
 
-  @each $sizes in $cq-list {
-    $size-key: nth($sizes, 1);
+  @each $size-key, $sizes-value in $cq-list {
 
     $size: map-get($grid-config, $size-key);
     $respond: map-get($size, 'respond');
 
     @if (length($respond) > 1) {
-      @each $cols in nth($sizes, 2) {
+      @each $cols in $sizes-value {
         $between-list: $between-list, unquote('[class*="grid__cell--#{$size-key}#{$cols}"] &');
       }
       // stylelint-disable plugin/declaration-block-order
@@ -53,7 +52,7 @@
         }
       }
     } @else {
-      @each $cols in nth($sizes, 2) {
+      @each $cols in $sizes-value {
         $to-list: $to-list, unquote('[class*="grid__cell--#{$size-key}#{$cols}"] &');
       }
 
