@@ -4,18 +4,6 @@ import Prismic from 'prismic-javascript';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
 import {prismicApiV2} from './prismic-api';
 
-function prismicImageToPicture(prismicImage) {
-  return ({
-    type: 'picture',
-    contentUrl: prismicImage.image.url, // TODO: Send this through the img.wc.org
-    width: prismicImage.image.dimensions.width,
-    height: prismicImage.image.dimensions.height,
-    caption: RichText.asHtml(prismicImage.caption),
-    alt: prismicImage.image.alt,
-    copyrightHolder: prismicImage.image.copyright
-  }: Picture);
-}
-
 export async function getContent(id) {
   const prismic = await prismicApiV2();
   const fetchLinks = [
@@ -50,11 +38,12 @@ export async function getContent(id) {
   // TODO: Support creator's role
   // TODO: For some reason person.image isn't coming through
   const creator = prismicArticle.data.creators.find(creator => creator.slice_type === 'person');
-  const person = creator && creator.primary.person.data.people;
+  const person = creator && creator.primary.person.data;
   const author = person && {
-      name: person.name,
-      twitterHandle: person.twitterHandle
-    };
+    name: person.name,
+    twitterHandle: person.twitterHandle,
+    image: person.image.url
+  };
 
   const series = [] || prismicArticle.data.series.length > 0 && prismicArticle.data.series.map(prismicSeries => {
       const seriesData = prismicSeries.primary.series.data;
@@ -100,7 +89,7 @@ export async function getContent(id) {
           type: 'imageGallery',
           weight: 'standalone',
           value: {
-            name: slice.primary.title,
+            name: RichText.asText(slice.primary.title),
             items: slice.items.map(prismicImageToPicture)
           }
         };
@@ -176,4 +165,16 @@ export async function getContent(id) {
   };
 
   return article;server/controllers/index.js
+}
+
+function prismicImageToPicture(prismicImage) {
+  return ({
+    type: 'picture',
+    contentUrl: prismicImage.image.url, // TODO: Send this through the img.wc.org
+    width: prismicImage.image.dimensions.width,
+    height: prismicImage.image.dimensions.height,
+    caption: RichText.asHtml(prismicImage.caption),
+    alt: prismicImage.image.alt,
+    copyrightHolder: prismicImage.image.copyright
+  }: Picture);
 }
