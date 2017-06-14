@@ -4,7 +4,7 @@
   {% endif %}
   <div class="grid grid--dividers">
     {% if type === 'theme' %}
-    <div class="{{ {s:4, m:8, l:3} | gridClasses }} transporter__item">
+    <div class="{{ {s:12, m:12, l:3} | gridClasses }} transporter__item">
       <p class="transporter__more">More from this theme</p>
       <h2 class="transporter__title">{{ title }}</h2>
       <p class="transporter__intro">{{ introCopy }}</p>
@@ -12,7 +12,7 @@
     {% endif %}
 
     {% for promo in promos %}
-    <div class="{{ {s:4, m:8} | gridClasses }} transporter__item">
+    <div class="{{ {s:12, m:12} | gridClasses }} transporter__item">
       {% set modifiers = promo.modifiers.concat('large-text') if (promos.length <= 4) else promo.modifiers %}
       {% componentV2 'promo', promo | objectAssign({ modifiers: modifiers }) %}
     </div>
