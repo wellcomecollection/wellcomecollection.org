@@ -198,13 +198,15 @@ $border-radius-unit: 6px;
 $container-padding: (
   'small': 18px,
   'medium': 42px,
-  'large': 60px
+  'large': 60px,
+  'xlarge': 60px
 );
 
 $gutter-width: (
   'small': 18px,
   'medium': 24px,
-  'large': 30px
+  'large': 30px,
+  'xlarge': 30px
 );
 
 $total-columns: 12;
@@ -229,8 +231,8 @@ $grid-config: (
     'respond': 'large'
   ),
   'xl': (
-    'padding': map-get($container-padding, 'large'),
-    'gutter': map-get($gutter-width, 'large'),
+    'padding': map-get($container-padding, 'xlarge'),
+    'gutter': map-get($gutter-width, 'xlarge'),
     'columns': $total-columns,
     'respond': 'xlarge'
   )
