@@ -10,3 +10,10 @@ export async function getWork(id: string): Promise<Work> {
 
   return request.body;
 }
+
+export async function getWorks(query: string): Promise<Work> {
+  const request = await superagent.get(`${baseUri}/works`)
+    .query({query, includes: 'identifiers'});
+
+  return request.body;
+}
