@@ -43,5 +43,6 @@ export const authorMap: { [key: string]: Person } = {
   'outsiders-the-cook': people.annaFaherty,
   'outsiders-the-colonist': people.annaFaherty,
   'outsiders-the-child': people.annaFaherty,
-  'outsiders-the-prostitute': people.annaFaherty
+  'outsiders-the-prostitute': people.annaFaherty,
+  'wonder-womans-wonder-women': people.elissavetNtoulia
 };
