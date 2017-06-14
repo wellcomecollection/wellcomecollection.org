@@ -18,7 +18,8 @@ export const work = async(ctx, next) => {
 
 export const search = async (ctx, next) => {
   const { query } = ctx.query;
-  const results = await getWorks(query);
+  const results = query && query.trim() !== '' ? await getWorks(query) : null;
+
   ctx.render('pages/search', {
     pageConfig: createPageConfig({inSection: 'index'}),
     results: results
