@@ -10,7 +10,7 @@ r.get('/healthcheck', healthcheck);
 r.get('/explore', explore);
 r.get('/articles', articles);
 r.get('/articles/(W):id', prismicArticle);
-r.get('/articles/([^W]):slug', article);
+r.get('/articles/:slug', article);
 r.get('/series/:id', series);
 r.get('/series-nav/:id', seriesNav);
 r.get('/series-transporter/:id', seriesTransporter);

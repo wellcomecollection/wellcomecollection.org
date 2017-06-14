@@ -13,6 +13,7 @@ const maxItemsPerPage = 32;
 
 export const article = async(ctx, next) => {
   const slug = ctx.params.slug;
+  console.info(slug)
   const format = ctx.request.query.format;
   const article = await getArticle(`slug:${slug}`);
   const editorialAnalyticsInfo = getEditorialAnalyticsInfo(article);
@@ -34,6 +35,7 @@ export const article = async(ctx, next) => {
 };
 
 export const prismicArticle = async(ctx, next) => {
+  console.info('prismic')
   // We rehydrate the `W` here as we take it off when we have the route.
   const id = `W${ctx.params.id}`;
   const article = await getContent(id);
@@ -52,8 +54,8 @@ export const prismicArticle = async(ctx, next) => {
       });
     }
   }
-
-  return next();
+  // We don't return next, as we don't want to move onto the next route, which would match the WP controller
+  // return next();
 };
 
 export const articles = async(ctx, next) => {
