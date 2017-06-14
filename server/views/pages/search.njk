@@ -3,14 +3,14 @@
 {% block body %}
   <div class="row">
     <div class="container">
+      {% componentV2 'search' %}
       <div class="grid">
-        <div class="grid__cell">
-          {% componentV2 'search' %}
           {% for result in results %}
+          <div class="{{ {s:6, m:4, l:3 , xl:2} | gridClasses }}">
           {% set img = {contentUrl: result.imgLink, width: 300, height: 300} %}
-            {% componentV2 'promo', {title: result.label, image: img} %}
+            {% componentV2 'promo', {title: result.label, url: '/', image: img} %}
+          </div>
           {% endfor %}
-        </div>
       </div>
     </div>
   </div>
