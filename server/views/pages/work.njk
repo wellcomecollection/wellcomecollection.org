@@ -1,0 +1,8 @@
+{% extends 'layout/default.njk' %}
+
+{% block pageMeta %}{% endblock %}
+
+{% block body %}
+  {% componentV2 'page-description', {title: work.label, lead: true}, {'b': true} %}
+  <p>{{work.description}}</p>
+{% endblock %}
