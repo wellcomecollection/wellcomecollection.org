@@ -1,0 +1,13 @@
+<div class="search">
+  <form class="search__form"
+    action="/search"
+    method="get">
+      <label class="search__label" for="search-input">Search</label>
+      <input id="search-input" class="search__input" placeholder="Search" name="query" />
+    </div>
+    <button class="search__button">
+        {% icon 'actions/search', null, ['search__search-button'] %}
+        <span class="search__button-text">Search</span>
+    </button>
+  </form>
+</div>
