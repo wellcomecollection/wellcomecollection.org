@@ -1,5 +1,5 @@
 import {createPageConfig} from '../model/page-config';
-import {getWork} from '../services/wellcomecollection-api';
+import {getWork, getWorks} from '../services/wellcomecollection-api';
 
 export const work = async(ctx, next) => {
   const id = ctx.params.id;
@@ -13,5 +13,15 @@ export const work = async(ctx, next) => {
     work: singleWork
   });
 
+  return next();
+};
+
+export const search = async (ctx, next) => {
+  const { query } = ctx.query;
+  const results = await getWorks(query);
+  ctx.render('pages/search', {
+    pageConfig: createPageConfig({inSection: 'index'}),
+    results: results
+  });
   return next();
 };
