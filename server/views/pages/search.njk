@@ -6,8 +6,10 @@
       <div class="grid">
         <div class="grid__cell">
           {% componentV2 'search' %}
-
-          {{ results | dump }}
+          {% for result in results %}
+          {% set img = {contentUrl: result.imgLink, width: 300, height: 300} %}
+            {% componentV2 'promo', {title: result.label, image: img} %}
+          {% endfor %}
         </div>
       </div>
     </div>
