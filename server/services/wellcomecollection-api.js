@@ -1,11 +1,12 @@
 // @flow
 import superagent from 'superagent';
-import type {CatalogueItem} from '../model/catalogue-item';
+import type {Work} from '../model/work';
 
 const version = 'v0';
 const baseUri = `https://api.wellcomecollection.org/catalogue/${version}`;
 
-export async function getCatalogueItem(id: string): Promise<CatalogueItem> {
-  const request = await superagent.get(`${baseUri}/${id}`);
+export async function getWork(id: string): Promise<Work> {
+  const request = await superagent.get(`${baseUri}/works/${id}`);
+
   return request.body;
 }
