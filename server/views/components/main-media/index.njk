@@ -7,7 +7,7 @@
     <div class="row row--cream">
       <div class="container">
         <div class="grid">
-          <div class="{{ {m:6, xl:10, shiftM:1, shiftXl:1} | gridClasses }}">
+          <div class="{{ {m:10, xl:10, shiftM:1, shiftXl:1} | gridClasses }}">
             {{ super() }}
           </div>
         </div>
@@ -18,7 +18,7 @@
   <div class="row row--dark-black {{ {s:4, m:8, l:10} | spacingClasses({padding: ['top', 'bottom']}) }}">
     <div class="container">
       <div class="grid">
-        <div class="{{ {s:4, m:8, l:8, shiftL:2} | gridClasses }}">
+        <div class="{{ {s:12, m:12, l:8, shiftL:2} | gridClasses }}">
           {% componentV2 'iframed-video', {
             embedUrl: model.embedUrl
           } %}

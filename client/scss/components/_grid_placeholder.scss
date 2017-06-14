@@ -9,11 +9,11 @@
   color: color('white');
 
   // Example used in grids.njk
-  @include container-query(('s': ('1'))) {
+  @include container-query(('s': ('3'))) {
     background: color('red-graphics');
 
     &:before {
-      content: 's1';
+      content: 's3';
     }
   }
 

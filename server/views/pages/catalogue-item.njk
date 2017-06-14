@@ -1,0 +1,10 @@
+{% extends 'layout/default.njk' %}
+
+{% block pageMeta %}{% endblock %}
+
+{% block body %}
+  {% componentV2 'page-description', {title: item.title, meta: {type: 'date', value: item.date}, lead: true}, {'a': true} %}
+
+  {% componentV2 'main-media', {contentUrl: item.media[0], type: 'picture', width: 500, height: 250} %}
+
+{% endblock %}

@@ -17,7 +17,7 @@ container-query(('s': ('1', '2'), 'm': ('4'), 'l': ('8', '12'))) {
 
 ## SCSS in the example on this page
 ```scss
-@include container-query(('s': ('1'))) {
+@include container-query(('s': ('3'))) {
   background: color('red-graphics');
 }
 

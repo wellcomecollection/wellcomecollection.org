@@ -198,44 +198,42 @@ $border-radius-unit: 6px;
 $container-padding: (
   'small': 18px,
   'medium': 42px,
-  'large': 60px
+  'large': 60px,
+  'xlarge': 60px
 );
 
 $gutter-width: (
   'small': 18px,
   'medium': 24px,
-  'large': 30px
+  'large': 30px,
+  'xlarge': 30px
 );
 
-$total-columns: (
-  'small': 4,
-  'medium': 8,
-  'large': 12
-);
+$total-columns: 12;
 
 $grid-config: (
   's': (
     'padding': map-get($container-padding, 'small'),
     'gutter': map-get($gutter-width, 'small'),
-    'columns': map-get($total-columns, 'small'),
+    'columns': $total-columns,
     'respond': ('small', 'medium')
   ),
   'm': (
     'padding': map-get($container-padding, 'medium'),
     'gutter': map-get($gutter-width, 'medium'),
-    'columns': map-get($total-columns, 'medium'),
+    'columns': $total-columns,
     'respond': ('medium', 'large')
   ),
   'l': (
     'padding': map-get($container-padding, 'large'),
     'gutter': map-get($gutter-width, 'large'),
-    'columns': map-get($total-columns, 'large'),
+    'columns': $total-columns,
     'respond': 'large'
   ),
   'xl': (
-    'padding': map-get($container-padding, 'large'),
-    'gutter': map-get($gutter-width, 'large'),
-    'columns': map-get($total-columns, 'large'),
+    'padding': map-get($container-padding, 'xlarge'),
+    'gutter': map-get($gutter-width, 'xlarge'),
+    'columns': $total-columns,
     'respond': 'xlarge'
   )
 );
