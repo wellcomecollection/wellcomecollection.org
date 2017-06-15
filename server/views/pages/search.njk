@@ -1,13 +1,13 @@
 {% extends 'layout/default.njk' %}
 
 {% block body %}
-  <div class="row">
+  <div class="row {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top']}) }}">
     <div class="container">
       <div class="grid">
           {% for result in results %}
           <div class="{{ {s:6, m:4, l:3 , xl:2} | gridClasses }}">
           {% set img = {contentUrl: result.imgLink, width: 300, height: 300} %}
-            {% componentV2 'promo', {title: result.label, url: '/', image: img} %}
+            {% componentV2 'promo', {title: result.label, url: '/', image: img, description: result.description} %}
           </div>
           {% endfor %}
       </div>
