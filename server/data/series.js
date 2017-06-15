@@ -45,7 +45,7 @@ export const series = List([
     items: List([
       ({
         contentType: 'article',
-        headline: 'The stranger who sparked an epidemic',
+        headline: 'The stranger who started an epidemic',
         // url: 'the-stranger',
         url: '',
         description: '',
