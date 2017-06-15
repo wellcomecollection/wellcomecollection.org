@@ -20,9 +20,10 @@ export const search = async (ctx, next) => {
   const { query } = ctx.query;
   const results = query && query.trim() !== '' ? await getWorks(query) : null;
   const resultsWithImages = results ? results.results.map((result) => {
-    const miroID = result.identifiers[0].value;
-    const miroFolder = `${miroID.slice(0, -3)}000`;
-    const imgLink = `http://s3-eu-west-1.amazonaws.com/miro-images-public/${miroFolder}/${miroID}.jpg`;
+    const miroId = result.identifiers[0].value;
+    const cleanedMiroId = miroId.match(/(^\w{1}[0-9]*)+/g, '')[0];
+    const miroFolder = `${cleanedMiroId.slice(0, -3)}000`;
+    const imgLink = `http://s3-eu-west-1.amazonaws.com/miro-images-public/${miroFolder}/${miroId}.jpg`;
     return Object.assign({}, result, {imgLink});
   }) : null;
   ctx.render('pages/search', {
