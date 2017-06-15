@@ -1,15 +1,25 @@
 {% extends 'layout/default.njk' %}
 
 {% block body %}
-  <div class="row {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top']}) }}">
+  {% componentV2 'page-description', {title: 'Search', lead: true}, {'b': true} %}
+  <div class="row">
     <div class="container">
       <div class="grid">
-          {% for result in results %}
-          <div class="{{ {s:6, m:4, l:3 , xl:2} | gridClasses }}">
-          {% set img = {contentUrl: result.imgLink, width: 300, height: 300} %}
-            {% componentV2 'promo', {title: result.label, url: '/', image: img, description: result.description} %}
-          </div>
-          {% endfor %}
+        <div class="{{ {s:12, m:12, l:12 , xl:12} | gridClasses }} {{ {s:10, m:10, l:10} | spacingClasses({margin: ['bottom']}) }}">
+
+          {% if query %}
+            <p>You searched for {{ query }} – there were {{ resultsList.totalResults }} results</p>
+          {% endif %}
+          pageSize: {{ resultsList.pageSize }}
+          totalPages: {{ resultsList.totalPages }}
+        </div>
+
+        {% for result in resultsList.results %}
+        <div class="{{ {s:6, m:4, l:3 , xl:2} | gridClasses }}">
+        {% set img = {contentUrl: result.imgLink, width: 300, height: 300} %}
+          {% componentV2 'promo', {title: result.label, url: '/', image: img, description: result.description} %}
+        </div>
+        {% endfor %}
       </div>
     </div>
   </div>

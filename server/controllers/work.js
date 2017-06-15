@@ -1,5 +1,6 @@
 import {createPageConfig} from '../model/page-config';
 import {getWork, getWorks} from '../services/wellcomecollection-api';
+import {createResultsList} from '../model/results-list';
 
 export const work = async(ctx, next) => {
   const id = ctx.params.id;
@@ -16,19 +17,35 @@ export const work = async(ctx, next) => {
   return next();
 };
 
-export const search = async (ctx, next) => {
-  const { query } = ctx.query;
-  const results = query && query.trim() !== '' ? await getWorks(query) : null;
-  const resultsWithImages = results ? results.results.map((result) => {
+function getResultsWithImages(results) {
+  if (!results) return;
+
+  return results.results.map((result) => {
     const miroId = result.identifiers[0].value;
     const cleanedMiroId = miroId.match(/(^\w{1}[0-9]*)+/g, '')[0];
     const miroFolder = `${cleanedMiroId.slice(0, -3)}000`;
     const imgLink = `http://s3-eu-west-1.amazonaws.com/miro-images-public/${miroFolder}/${miroId}.jpg`;
     return Object.assign({}, result, {imgLink});
-  }) : null;
+  });
+}
+
+export const search = async (ctx, next) => {
+  const { query } = ctx.query;
+  const results = query && query.trim() !== '' ? await getWorks(query) : null;
+  const resultsWithImages = getResultsWithImages(results);
+  const pageSize = results && results.pageSize ? results.pageSize : null;
+  const totalPages = results && results.totalPages ? results.totalPages : null;
+  const totalResults = results && results.totalResults ? results.totalResults : null;
+  const resultsList = createResultsList({
+    results: resultsWithImages,
+    pageSize,
+    totalPages,
+    totalResults
+  });
   ctx.render('pages/search', {
     pageConfig: createPageConfig({inSection: 'index'}),
-    results: resultsWithImages
+    resultsList,
+    query
   });
   return next();
 };
