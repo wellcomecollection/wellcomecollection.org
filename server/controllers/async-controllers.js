@@ -11,7 +11,6 @@ export const seriesNav = async(ctx, next) => {
   const {current} = ctx.request.query;
   const seriesResponse = await getSeries(id, 6, 1);
   const series = seriesResponse ? getForwardFill(seriesResponse) : getUnpublishedSeries(id);
-
   const color = getSeriesColor(id);
   const promoList = PromoListFactory.fromSeries(series);
   const items = promoList.items.toJS();

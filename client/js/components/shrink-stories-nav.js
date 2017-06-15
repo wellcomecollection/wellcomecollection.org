@@ -27,11 +27,15 @@ const shrinkStoriesNav = (el, dispatch) => {
       if (value && isScrolledEnough() && !getIsNarrow()) {
         el.classList.add('numbered-list--horizontal-narrow');
 
-        dispatch(setStickyNavHeight(height));
+        fastdom.measure(() => {
+          dispatch(setStickyNavHeight(el.offsetHeight));
+        });
       } else if (!value && getIsNarrow()) {
         el.classList.remove('numbered-list--horizontal-narrow');
 
-        dispatch(setStickyNavHeight(height));
+        fastdom.measure(() => {
+          dispatch(setStickyNavHeight(el.offsetHeight));
+        });
       }
     };
 

@@ -10,14 +10,17 @@ export function getPositionInSeries(tags: {}): ?number {
 }
 
 export function getSeriesColor(seriesUrl: string): ?string {
-  const lookup = { 'electric-sublime': 'turquoise' };
+  const lookup = {
+    'electric-sublime': 'turquoise',
+    'the-outsiders': 'orange'
+  };
   return lookup[seriesUrl];
 }
 
 export function getSeriesCommissionedLength(seriesUrl: string): ?number {
   const lookup = {
     'electric-sublime': 6,
-    'outsiders': 6
+    'the-outsiders': 6
   };
   return lookup[seriesUrl];
 }
@@ -35,14 +38,14 @@ export const series = List([
     ])
   }: Series),
   ({
-    url: 'outsiders',
-    name: 'Outsiders',
-    commissionedLength: getSeriesCommissionedLength('outsiders'),
+    url: 'the-outsiders',
+    name: 'The Outsiders',
+    commissionedLength: getSeriesCommissionedLength('the-outsiders'),
     color: 'orange',
     items: List([
       ({
         contentType: 'article',
-        headline: 'The Stranger',
+        headline: 'The stranger who started an epidemic',
         // url: 'the-stranger',
         url: '',
         description: '',
@@ -50,7 +53,7 @@ export const series = List([
       }: ArticleStub),
       ({
         contentType: 'article',
-        headline: 'The Tradesman',
+        headline: 'The tradesman who confronted the pestilence',
         // url: 'outsiders-the-tradesman',
         url: '',
         description: '',
@@ -58,7 +61,7 @@ export const series = List([
       }: ArticleStub),
       ({
         contentType: 'article',
-        headline: 'The Cook',
+        headline: 'The cook who became a pariah',
         // url: 'outsiders-the-cook',
         url: '',
         description: '',
@@ -66,7 +69,7 @@ export const series = List([
       }: ArticleStub),
       ({
         contentType: 'article',
-        headline: 'The Colonist',
+        headline: 'The colonist who faced the blue terror',
         // url: 'outsiders-the-colonist',
         url: '',
         description: '',
@@ -74,7 +77,7 @@ export const series = List([
       }: ArticleStub),
       ({
         contentType: 'article',
-        headline: 'The Child',
+        headline: 'The child whose town rejected vaccines',
         // url: 'outsiders-the-child',
         url: '',
         description: '',
@@ -82,7 +85,7 @@ export const series = List([
       }: ArticleStub),
       ({
         contentType: 'article',
-        headline: 'The Prostitute',
+        headline: 'The prostitute whose pox inspired feminists',
         // url: 'outsiders-the-prostitute',
         url: '',
         description: '',
