@@ -11,9 +11,9 @@ export async function getWork(id: string): Promise<Work> {
   return request.body;
 }
 
-export async function getWorks(query: string): Promise<Work> {
+export async function getWorks(query: string, page: string): Promise<Work> {
   const request = await superagent.get(`${baseUri}/works`)
-    .query({query, includes: 'identifiers'});
+    .query({query, includes: 'identifiers', page});
 
   return request.body;
 }

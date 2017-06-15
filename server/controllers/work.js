@@ -1,6 +1,8 @@
 import {createPageConfig} from '../model/page-config';
 import {getWork, getWorks} from '../services/wellcomecollection-api';
 import {createResultsList} from '../model/results-list';
+import {PaginationFactory} from '../model/pagination';
+import {List} from 'immutable';
 
 export const work = async(ctx, next) => {
   const id = ctx.params.id;
@@ -30,8 +32,8 @@ function getResultsWithImages(results) {
 }
 
 export const search = async (ctx, next) => {
-  const { query } = ctx.query;
-  const results = query && query.trim() !== '' ? await getWorks(query) : null;
+  const { query, page } = ctx.query;
+  const results = query && query.trim() !== '' ? await getWorks(query, page) : null;
   const resultsWithImages = getResultsWithImages(results);
   const pageSize = results && results.pageSize ? results.pageSize : null;
   const totalPages = results && results.totalPages ? results.totalPages : null;
@@ -42,10 +44,12 @@ export const search = async (ctx, next) => {
     totalPages,
     totalResults
   });
+  const pagination = PaginationFactory.fromList(List(resultsWithImages), parseInt(totalResults, 10) || 1, parseInt(page, 10) || 1);
   ctx.render('pages/search', {
     pageConfig: createPageConfig({inSection: 'index'}),
     resultsList,
-    query
+    query,
+    pagination
   });
   return next();
 };
