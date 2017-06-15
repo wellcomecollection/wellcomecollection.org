@@ -130,3 +130,10 @@ export const annaFaherty: Person = {
   description: 'Anna Faherty is a writer and lecturer who collaborates with museums on an eclectic range of exhibition, digital and print projects. She is the author of the <cite>Reading Room Companion</cite> and the editor of <cite>States of Mind</cite>, both published by Wellcome Collection.',
   prismicId: 'WT5y6S0AACwAdxSL'
 };
+
+export const markThomas: Person = {
+  givenName: 'Mark',
+  familyName: 'Thomas',
+  name: 'Mark Thomas',
+  description: 'Mark Thomas contributed his article and photo in Sharing Nature.'
+};
