@@ -39,13 +39,13 @@ export const series = List([
   }: Series),
   ({
     url: 'the-outsiders',
-    name: 'Outsiders',
+    name: 'The Outsiders',
     commissionedLength: getSeriesCommissionedLength('the-outsiders'),
     color: 'orange',
     items: List([
       ({
         contentType: 'article',
-        headline: 'The Stranger',
+        headline: 'The stranger who sparked an epidemic',
         // url: 'the-stranger',
         url: '',
         description: '',
@@ -53,7 +53,7 @@ export const series = List([
       }: ArticleStub),
       ({
         contentType: 'article',
-        headline: 'The Tradesman',
+        headline: 'The tradesman who confronted the pestilence',
         // url: 'outsiders-the-tradesman',
         url: '',
         description: '',
@@ -61,7 +61,7 @@ export const series = List([
       }: ArticleStub),
       ({
         contentType: 'article',
-        headline: 'The Cook',
+        headline: 'The cook who became a pariah',
         // url: 'outsiders-the-cook',
         url: '',
         description: '',
@@ -69,7 +69,7 @@ export const series = List([
       }: ArticleStub),
       ({
         contentType: 'article',
-        headline: 'The Colonist',
+        headline: 'The colonist who faced the blue terror',
         // url: 'outsiders-the-colonist',
         url: '',
         description: '',
@@ -77,7 +77,7 @@ export const series = List([
       }: ArticleStub),
       ({
         contentType: 'article',
-        headline: 'The Child',
+        headline: 'The child whose town rejected vaccines',
         // url: 'outsiders-the-child',
         url: '',
         description: '',
@@ -85,7 +85,7 @@ export const series = List([
       }: ArticleStub),
       ({
         contentType: 'article',
-        headline: 'The Prostitute',
+        headline: 'The prostitute whose pox inspired feminists',
         // url: 'outsiders-the-prostitute',
         url: '',
         description: '',
