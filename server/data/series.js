@@ -10,14 +10,17 @@ export function getPositionInSeries(tags: {}): ?number {
 }
 
 export function getSeriesColor(seriesUrl: string): ?string {
-  const lookup = { 'electric-sublime': 'turquoise' };
+  const lookup = {
+    'electric-sublime': 'turquoise',
+    'the-outsiders': 'orange'
+  };
   return lookup[seriesUrl];
 }
 
 export function getSeriesCommissionedLength(seriesUrl: string): ?number {
   const lookup = {
     'electric-sublime': 6,
-    'outsiders': 6
+    'the-outsiders': 6
   };
   return lookup[seriesUrl];
 }
@@ -35,9 +38,9 @@ export const series = List([
     ])
   }: Series),
   ({
-    url: 'outsiders',
+    url: 'the-outsiders',
     name: 'Outsiders',
-    commissionedLength: getSeriesCommissionedLength('outsiders'),
+    commissionedLength: getSeriesCommissionedLength('the-outsiders'),
     color: 'orange',
     items: List([
       ({
