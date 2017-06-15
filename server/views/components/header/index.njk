@@ -28,27 +28,7 @@
           {% endfor %}
         </ul>
       </nav>
-      <div id="header-search" class="header__search">
-        <form class="header__form"
-          action="https://wellcomecollection.org/search"
-          method="post">
-          <div class="header__input-wrap js-show-hide-drawer">
-            <label class="header__label" for="header-input">Search</label>
-            <input id="header-input" class="header__input js-header-input" placeholder="Search" name="search" />
-            {# This is here as we're sending people back to V1, and drupal requires it #}
-            {# TODO: remove once we build our own search interface #}
-            <input type="hidden" name="form_id" value="col_search_form" />
-          </div>
-          <button class="header__button js-show-hide-trigger">
-            <span class="header__button-inner">
-              {% icon 'actions/search', null, ['header__search-button'] %}
-              <span class="header__button-text">Search</span>
-          </button>
-          <span role="button" aria-controls="header-input" class="header__close-search js-header-close-search">
-            {% icon 'actions/cross-big', 'Close search box' %}
-          </span>
-        </form>
-      </div>
+      {% componentV2 'search' %}
     </div>
   </div>
 </div>
