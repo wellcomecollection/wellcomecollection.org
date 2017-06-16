@@ -45,13 +45,12 @@ export async function getContent(id) {
     image: person.image.url
   };
 
-  const series = [] || prismicArticle.data.series.length > 0 && prismicArticle.data.series.map(prismicSeries => {
+  const series = prismicArticle.data.series.length > 0 && prismicArticle.data.series.map(prismicSeries => {
     const seriesData = prismicSeries.primary.series.data;
+    // TODO: Support commissionedLength and positionInSeries
     return {
       name: seriesData.name,
-      description: seriesData.description,
-      commissionedLength: seriesData.commissionedLength,
-      positionInSeries: prismicSeries.primary.positionInSeries
+      description: seriesData.description
     };
   });
 
