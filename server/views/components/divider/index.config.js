@@ -1,5 +1,6 @@
 export const name = 'divider';
 export const collated = true;
+export const status = 'graduated';
 export const context = {
   modifiers: {}
 };
