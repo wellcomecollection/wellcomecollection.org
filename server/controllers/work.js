@@ -51,7 +51,7 @@ export const search = async (ctx, next) => {
     totalPages,
     totalResults
   });
-  const pagination = PaginationFactory.fromList(List(resultsWithImages), parseInt(totalResults, 10) || 1, parseInt(page, 10) || 1);
+  const pagination = PaginationFactory.fromList(List(resultsWithImages), parseInt(totalResults, 10) || 1, parseInt(page, 10) || 1, pageSize || 1);
   ctx.render('pages/search', {
     pageConfig: createPageConfig({inSection: 'index'}),
     resultsList,
