@@ -12,8 +12,9 @@ export type Pagination = {|
 
 export class PaginationFactory {
   static fromList(l: List<any>, total: number, currentPage: number = 1): Pagination {
-    const size = l.size;
-    const pageCount = Math.ceil(total / l.size);
+    const size = l.size || 1;
+    console.log(size);
+    const pageCount = Math.ceil(total / size);
     const prevPage = pageCount > 1 && currentPage !== 1 ? currentPage - 1 : null;
     const nextPage = pageCount > 1 && currentPage !== pageCount ? currentPage + 1 : null;
     const range = {
