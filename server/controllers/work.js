@@ -4,20 +4,29 @@ import {createResultsList} from '../model/results-list';
 import {PaginationFactory} from '../model/pagination';
 import {List} from 'immutable';
 
+function imageUrlFromMiroId(id) {
+  const cleanedMiroId = id.match(/(^\w{1}[0-9]*)+/g, '')[0];
+  const miroFolder = `${cleanedMiroId.slice(0, -3)}000`;
+  return `http://s3-eu-west-1.amazonaws.com/miro-images-public/${miroFolder}/${id}.jpg`;
+}
+
 export const work = async(ctx, next) => {
   const id = ctx.params.id;
   const singleWork = await getWork(id);
+  const miroId = singleWork.identifiers[0].value;
+  const imgLink = imageUrlFromMiroId(miroId);
 
   ctx.render('pages/work', {
     pageConfig: createPageConfig({
       title: 'Work',
       inSection: 'explore'
     }),
-    work: singleWork
+    work: Object.assign({}, singleWork, {imgLink})
   });
 
   return next();
 };
+
 
 function getResultsWithImages(results) {
   if (!results) return;
@@ -31,9 +40,7 @@ function getResultsWithImages(results) {
 
   return results.results.map((result) => {
     const miroId = result.identifiers[0].value;
-    const cleanedMiroId = miroId.match(/(^\w{1}[0-9]*)+/g, '')[0];
-    const miroFolder = `${cleanedMiroId.slice(0, -3)}000`;
-    const imgLink = `http://s3-eu-west-1.amazonaws.com/miro-images-public/${miroFolder}/${miroId}.jpg`;
+    const imgLink = imageUrlFromMiroId(miroId);
     return Object.assign({}, result, {imgLink});
   });
 }
