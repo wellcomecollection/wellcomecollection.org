@@ -164,7 +164,7 @@ export async function getContent(id) {
     mainMedia: mainMedia
   };
 
-  return article;server/controllers/index.js
+  return article;
 }
 
 function prismicImageToPicture(prismicImage) {
