@@ -11,7 +11,7 @@
       </div>
       <div class="grid">
         <div class="{{ {s:12, m:6, l:4, xl: 4} | gridClasses }}">
-            <p>You currently belong to the <span class="feature-flags__current-cohort">{{ featuresCohort  if featuresCohort else
+            <p>You currently belong to the <span class="feature-flags__current-cohort js-current-cohort">{{ featuresCohort  if featuresCohort else
              'default' }}</span> group.</p>
             {% for cohort in cohorts %}
               <button class="btn btn--light {{ {s:2, m:4, l:4, xl:4} | spacingClasses({margin: ['bottom']})}} js-cohort-button" data-cohort="{{cohort}}">Join the {{cohort}} group</button>
