@@ -13,6 +13,7 @@ export const authorMap: { [key: string]: Person } = {
   'titans-in-the-landscape': people.ruthGarde,
   'john-gerrard-frogs-in-space': people.chrisChapman,
   'bill-morrison-domesticating-electricity': people.chrisChapman,
+  'camille-henrot-animating-horoscopes': people.chrisChapman,
   'a-body-apart-from-the-head': people.robertBidder,
   'inspired-tattoos-as-pain-relief': people.rockWebb,
   'obsessed-with-buffy-much': people.russellDornan,
