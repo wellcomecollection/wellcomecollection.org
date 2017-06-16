@@ -31,8 +31,8 @@ export async function getContent(id) {
   });
 
   // TODO: Don't convert this into thumbnail
-  const promo = prismicArticle.data.promo.find(slice => slice.slice_type === 'embeddedImage').primary;
-  const thumbnail = prismicImageToPicture(promo);
+  const promo = prismicArticle.data.promo.find(slice => slice.slice_type === 'embeddedImage');
+  const thumbnail = promo && prismicImageToPicture(promo.primary);
 
   // TODO: Support more than 1 author
   // TODO: Support creator's role
@@ -46,14 +46,14 @@ export async function getContent(id) {
   };
 
   const series = [] || prismicArticle.data.series.length > 0 && prismicArticle.data.series.map(prismicSeries => {
-      const seriesData = prismicSeries.primary.series.data;
-      return {
-        name: seriesData.name,
-        description: seriesData.description,
-        commissionedLength: seriesData.commissionedLength,
-        positionInSeries: prismicSeries.primary.positionInSeries
-      };
-    });
+    const seriesData = prismicSeries.primary.series.data;
+    return {
+      name: seriesData.name,
+      description: seriesData.description,
+      commissionedLength: seriesData.commissionedLength,
+      positionInSeries: prismicSeries.primary.positionInSeries
+    };
+  });
 
   const bodyParts = prismicArticle.data.body.map(slice => {
     switch (slice.slice_type) {
