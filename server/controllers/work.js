@@ -22,6 +22,13 @@ export const work = async(ctx, next) => {
 function getResultsWithImages(results) {
   if (!results) return;
 
+  if (results.error) {
+    // Display some error messaging to the user here?
+    console.error(results.error);
+
+    return;
+  }
+
   return results.results.map((result) => {
     const miroId = result.identifiers[0].value;
     const cleanedMiroId = miroId.match(/(^\w{1}[0-9]*)+/g, '')[0];
