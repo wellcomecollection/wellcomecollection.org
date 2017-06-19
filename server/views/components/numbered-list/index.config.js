@@ -54,6 +54,7 @@ export const handle = 'numbered-list';
 
 export const model = createNumberedList({
   name: 'Latest',
+  color: 'turquoise',
   items: [
     {
       title: 'Beatboxing tutorial #1: Using the air in your mouth',
@@ -62,7 +63,7 @@ export const model = createNumberedList({
     },
     {
       title: 'Lorem ipsum dolor sit: Amet',
-
+      url: '#',
       date: new Date('Wed Feb 22 2017 11:06:25 GMT+0000 (UTC)')
     },
     {
@@ -85,6 +86,7 @@ export const model = createNumberedList({
 
 export const model2 = createNumberedList({
   name: 'Making Nature',
+  color: 'turquoise',
   image: {
     contentUrl: 'https://placehold.it/800x450',
     width: 800,

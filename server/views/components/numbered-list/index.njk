@@ -7,6 +7,7 @@
       {% if model.image and not isTransporter %}
         <img class="numbered-list__image" src="{{ model.image.contentUrl }}?w=300" alt="" />
         {% set seriesInfo = {color: model.color, commissionedLength: model.items.length} %}
+        {{ seriesInfo | dump }}
         {% componentV2 'chapter-indicator', {series: seriesInfo}, {'full': true}, {showTotal: true} %}
       {% endif %}
     </header>

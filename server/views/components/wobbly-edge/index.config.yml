@@ -1,6 +1,0 @@
-name: Wobbly edge
-handle: wobbly-edge
-context:
-  background: cream
-  points: 10
-  intensity: 50
