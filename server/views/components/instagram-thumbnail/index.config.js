@@ -1,5 +1,6 @@
 export const name = 'instagram-thumbnail';
 export const handle = 'instagram-thumbnail';
+export const collated = true;
 
 export const context = {
   model: {

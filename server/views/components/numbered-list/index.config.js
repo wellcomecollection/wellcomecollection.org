@@ -3,6 +3,9 @@ import type { Promo } from '../../../model/promo';
 import { createPromo } from '../../../model/promo';
 import { createPicture } from '../../../model/picture';
 
+export const collated = true;
+export const status = 'graduated';
+
 const picture = createPicture({
   type: 'picture',
   contentUrl: 'http://placehold.it/1600x900',
@@ -120,9 +123,12 @@ const model3 = createNumberedList({
   items: promos
 });
 
-export const context = { model };
-
 export const variants = [
+  {
+    name: 'default',
+    label: 'vertical',
+    context: { model }
+  },
   {
     name: 'horizontal',
     context: {model: model2, modifiers: ['horizontal', 'sticky'], data: {classes: ['js-series-nav'], sliderId: 'id'}}

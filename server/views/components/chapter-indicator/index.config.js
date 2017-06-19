@@ -1,6 +1,6 @@
 export const name = 'chapter indicator';
 export const handle = 'chapter-indicator';
-export const display = {background: '#1d1d1d'};
+export const hidden = true;
 export const status = 'graduated';
 export const variants = [
   {

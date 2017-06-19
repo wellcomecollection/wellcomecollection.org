@@ -48,6 +48,11 @@ fractal.components.set('statuses', {
     label: 'Deprecated',
     description: 'Deprecated',
     color: '#c72e3d'
+  },
+  benched: {
+    label: 'Benched',
+    desciption: 'Has previously been used, but is not currently; maybe be used in future',
+    color: '#006272'
   }
 });
 fractal.components.set('default.status', 'wip');
