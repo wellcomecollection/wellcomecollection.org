@@ -51,17 +51,17 @@ export async function setContentPreviewSession(ctx, next) {
 async function getPreviewSession(token) {
   const prismic = await prismicApiV2();
 
-  return new Promise((success, failure) => {
+  return new Promise((resolve, reject) => {
     prismic.previewSession(token, (doc) => {
       switch (doc.type) {
-        case 'content': return `/preview/${doc.id}`
+        case 'content': return `/preview/${doc.id}`;
       }
     }, '/', (err, redirectUrl) => {
       if (err) {
-        failure(err)
+        resolve(err);
       } else {
-        success(redirectUrl);
+        reject(redirectUrl);
       }
     });
-  })
+  });
 }
