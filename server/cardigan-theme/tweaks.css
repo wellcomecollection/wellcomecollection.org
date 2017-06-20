@@ -1,7 +1,33 @@
 /* TODO: use scss variables file */
 html {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #1d1d1d;
+}
+
+.Tree-title,
+.Tree-collectionLabel,
+.Tree-item,
+.Pen-title,
+.Status-label,
+.Browser-tab a,
+.Meta-key,
+.Meta-value {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.Tree-title {
+  font-weight: 700;
+}
+
+.Tree-collectionLabel,
+.Tree-item,
+.Pen-title,
+.Status-label {
+  font-weight: 500;
+}
+
+.Tree-collectionLabel span:before {
+  top: 0.35rem;
 }
 
 a,
