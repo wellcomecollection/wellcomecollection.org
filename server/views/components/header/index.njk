@@ -28,10 +28,12 @@
           {% endfor %}
         </ul>
       </nav>
-      {% if featuresCohort | isFlagEnabled('searchWorks', featureFlags) %}
-        {% componentV2 'works-search' %}
-      {% else %}
-        {% componentV2 'search' %}
+      {% if featureFlags and featuresCohort %}
+        {% if featuresCohort | isFlagEnabled('searchWorks', featureFlags) %}
+          {% componentV2 'works-search' %}
+        {% else %}
+          {% componentV2 'search' %}
+        {% endif %}
       {% endif %}
     </div>
   </div>
