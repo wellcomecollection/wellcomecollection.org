@@ -6,6 +6,8 @@ import {createPageConfig, getEditorialAnalyticsInfo} from '../model/page-config'
 import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
+import {createNumberedList} from '../model/numbered-list';
+import {getContent} from '../services/prismic-content';
 
 const maxItemsPerPage = 32;
 
@@ -29,6 +31,29 @@ export const article = async(ctx, next) => {
   }
 
   return next();
+};
+
+export const prismicArticle = async(ctx, next) => {
+  // We rehydrate the `W` here as we take it off when we have the route.
+  const id = `W${ctx.params.id}`;
+  const article = await getContent(id);
+  const format = ctx.request.query.format;
+
+  if (article) {
+    if (format === 'json') {
+      ctx.body = article;
+    } else {
+      ctx.render('pages/article', {
+        pageConfig: createPageConfig({
+          title: article.headline,
+          inSection: 'explore'
+        }),
+        article: article
+      });
+    }
+  }
+  // We don't return next, as we don't want to move onto the next route, which would match the WP controller
+  // return next();
 };
 
 export const articles = async(ctx, next) => {
@@ -60,7 +85,7 @@ export const series = async(ctx, next) => {
   const {id, page} = ctx.params;
   const series = await getSeries(id, maxItemsPerPage, page);
   const promoList = PromoListFactory.fromSeries(series);
-  const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1);
+  const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1, maxItemsPerPage);
 
   ctx.render('pages/list', {
     pageConfig: createPageConfig({

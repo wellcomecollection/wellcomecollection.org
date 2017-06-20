@@ -1,0 +1,59 @@
+{% extends 'layout/default.njk' %}
+
+{% block body %}
+  <div class="row row--cream {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top']}) }}">
+    <div class="container">
+      <div class="grid">
+        <div class="grid__cell">
+          <h1 class="heading--large {{ {s:0, m:0, l:0} | spacingClasses({margin: ['top']}) }} {{ {s:0, m:0, l:0} | spacingClasses({margin: ['bottom']}) }}">Search</h1>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="grid__cell">
+          <p class="text--meta {{ {s:2, m:2, l:2} | spacingClasses({margin: ['top']}) }} {{ {s:2, m:2, l:2} | spacingClasses({margin: ['bottom']}) }}">
+            {{ resultsList.totalResults if resultsList.totalResults > 0 else 'No' }} results for "{{ query }}"
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if resultsList.totalResults > 0 %}
+    <div class="row">
+      <div class="container">
+        <div class="grid">
+          <div class="{{ {s:12, m:12, l:12} | gridClasses }}">
+            <div class="{{ {s:5, m:5, l:5} | spacingClasses({padding: ['top']}) }}  {{ {s:5, m:5, l:5} | spacingClasses({padding: ['bottom']}) }} text--meta flex flex--v-center">
+                {{ pagination.range.beginning }} - {{ pagination.range.end }}
+            </div>
+          </div>
+        </div>
+        {% componentV2 'divider', null, {'keyline': true, 'pumice': true} %}
+      </div>
+    </div>
+
+    <div class="row {{ {s:4, m:4, l:4} | spacingClasses({padding: ['top']}) }} ">
+      <div class="container">
+        <div class="grid">
+          {% for result in resultsList.results %}
+          <div class="{{ {s:6, m:4, l:3 , xl:2} | gridClasses }}">
+          {% set img = {contentUrl: result.imgLink, width: 300, height: 300} %}
+            {% componentV2 'promo', {title: result.label, url: '/works/'+result.id, image: img, description: result.description} %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="row {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top']}) }} {{ {s:10, m:10, l:10} | spacingClasses({padding: ['bottom']}) }} ">
+      <div class="container">
+        <div class="grid">
+          <div class="grid__cell">
+            {% componentV2 'pagination', pagination, null, {query: query} %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

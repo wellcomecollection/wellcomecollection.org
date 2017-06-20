@@ -21,6 +21,9 @@ build/
 wellcomecollection.org.iml
 .idea/
 
+# NPM
+package-lock.json
+
 #VS Code
 .vscode/
 
