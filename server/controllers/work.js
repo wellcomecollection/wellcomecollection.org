@@ -48,9 +48,9 @@ export const search = async (ctx, next) => {
   const { query, page } = ctx.query;
   const results = query && query.trim() !== '' ? await getWorks(query, page) : null;
   const resultsWithImages = getResultsWithImages(results);
-  const pageSize = results && results.pageSize ? results.pageSize : null;
-  const totalPages = results && results.totalPages ? results.totalPages : null;
-  const totalResults = results && results.totalResults ? results.totalResults : null;
+  const pageSize = results && results.pageSize;
+  const totalPages = results && results.totalPages;
+  const totalResults = results && results.totalResults;
   const resultsList = createResultsList({
     results: resultsWithImages,
     pageSize,
