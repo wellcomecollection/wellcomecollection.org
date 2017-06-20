@@ -20,6 +20,14 @@ html {
 .Meta-value,
 .Prose {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.Document-title,
+.Prose h1,
+.Prose h2,
+.Prose h3 {
+  font-family: 'Wellcome Bold Web';
 }
 
 .Tree-title,
