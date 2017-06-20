@@ -8,6 +8,7 @@ export const handle = 'article-template';
 export const status = 'graduated';
 
 const article = ArticleStubFactory.fromWpApi(mockJson);
+console.log(article);
 const promo = createPromo({
   contentType: 'article',
   image: article.thumbnail,
@@ -134,11 +135,11 @@ export const variants = [
       article: {
         url: 'lorem-ipsum',
         positionInSeries: 3,
-        series: {
+        series: [{
           commissionedLength: 5,
           color: 'purple',
           url: 'a-drop-in-the-ocean'
-        }
+        }]
       }
     }
   },
