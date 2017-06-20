@@ -8,7 +8,7 @@ export const handle = 'article-template';
 export const status = 'graduated';
 
 const article = ArticleStubFactory.fromWpApi(mockJson);
-console.log(article);
+
 const promo = createPromo({
   contentType: 'article',
   image: article.thumbnail,
