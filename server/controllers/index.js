@@ -6,7 +6,6 @@ import {createPageConfig, getEditorialAnalyticsInfo} from '../model/page-config'
 import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
-import {createNumberedList} from '../model/numbered-list';
 import {getContent} from '../services/prismic-content';
 
 const maxItemsPerPage = 32;

@@ -21,6 +21,13 @@ The project is split into multiple services, follow the `README`s within each pr
 * [infra](./infra)
   Managing our infrastructure within AWS
 
-## Editor settings
+## Linting
 
-Be aware that the Sass (`.stylelintrc`) and JS (`.eslintrc.json`) lint config files – and their node module dependencies – are contained within the `client` directory. You should configure your editor to resolve the correct node modules path in order for linting to work with your editor open at the root of the project.
+If you're having troubled with your husky linting, you might not have your git hooks setup correctly.
+You can rectify this by running:
+
+  rm -rf .git/hooks && npm install husky
+
+Be aware that the Sass (`.stylelintrc`) and JS (`.eslintrc.json`) lint config files – and their node module
+dependencies – are contained within the `client` directory. You should configure your editor to resolve the correct node
+modules path in order for linting to work with your editor open at the root of the project.
