@@ -18,21 +18,21 @@ export async function getParsedContent(prismic, id: string) {
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle',
     'books.title', 'books.title', 'books.author', 'books.isbn', 'books.publisher', 'books.link', 'books.cover',
-    'series.name','series.description', 'series.color', 'series.commissionedLength'
+    'series.name', 'series.description', 'series.color', 'series.commissionedLength'
   ];
   const articles = await prismic.query(Prismic.Predicates.at('document.id', id), {fetchLinks});
   const prismicArticle = articles.total_results_size === 1 ? articles.results[0] : null;
 
   if (!prismicArticle) {
-    return next();
+    return null;
   }
 
   // TODO : construct this not from strings
   const url = `/articles/${id}`;
 
   // TODO: Leave this in the flow of the body
-  const prismicStandfirst = prismicArticle.data.body.find(slice => slice.slice_type === 'standfirst');
-  const standfirst = prismicStandfirst && RichText.asText(prismicStandfirst.primary.text);
+  // const prismicStandfirst = prismicArticle.data.body.find(slice => slice.slice_type === 'standfirst');
+  // const standfirst = prismicStandfirst && RichText.asText(prismicStandfirst.primary.text);
 
   // TODO: Add this to the article body
   // TODO: potentially get rid of this
@@ -75,7 +75,6 @@ export async function getParsedContent(prismic, id: string) {
           weight: 'default',
           value: RichText.asHtml(slice.primary.text)
         };
-        break;
 
       case 'text':
         return {
@@ -83,7 +82,6 @@ export async function getParsedContent(prismic, id: string) {
           weight: 'default',
           value: RichText.asHtml(slice.primary.text)
         };
-        break;
 
       case 'embeddedImage':
         // TODO: This shouldn't really be here
@@ -93,7 +91,6 @@ export async function getParsedContent(prismic, id: string) {
           type: 'picture',
           value: prismicImageToPicture(slice.primary)
         };
-        break;
 
       case 'embeddedImageGallery':
         // TODO: add support for ~title~ & description / caption
@@ -105,7 +102,6 @@ export async function getParsedContent(prismic, id: string) {
             items: slice.items.map(prismicImageToPicture)
           }
         };
-        break;
 
       case 'quote':
         // TODO: Support citation link
@@ -119,7 +115,6 @@ export async function getParsedContent(prismic, id: string) {
             citation: `${slice.primary.citation} - ${slice.primary.source}`
           }
         };
-        break;
 
       case 'excerpt':
         return {
@@ -128,7 +123,6 @@ export async function getParsedContent(prismic, id: string) {
           weight: 'standalone',
           value: RichText.asText(slice.primary.content)
         };
-        break;
 
       case 'instagramEmbed':
         return {
@@ -137,7 +131,6 @@ export async function getParsedContent(prismic, id: string) {
             html: slice.primary.embed.html
           }
         };
-        break;
 
       case 'twitterEmbed':
         return {
@@ -146,18 +139,16 @@ export async function getParsedContent(prismic, id: string) {
             html: slice.primary.embed.html
           }
         };
-        break;
 
       case 'youtubeVideoEmbed':
         // TODO: Not this ;﹏;
-        const embedUrl = slice.primary.embed.html.match(/src="([a-zA-Z0-9:\/\/.]+)?/)[1];
+        const embedUrl = slice.primary.embed.html.match(/src="([a-zA-Z0-9://.]+)?/)[1];
         return {
           type: 'video-embed',
           value: {
             embedUrl: embedUrl
           }
         };
-        break;
 
       default:
         break;
