@@ -14,6 +14,10 @@ export async function getContent(id) {
   const articles = await prismic.query(Prismic.Predicates.at('document.id', id), {fetchLinks});
   const prismicArticle = articles.total_results_size === 1 ? articles.results[0] : null;
 
+  if (!prismicArticle) {
+    return next();
+  }
+
   // TODO : construct this not from strings
   const url = `/articles/${id}`;
 
