@@ -106,6 +106,7 @@ export const sarahJames: Person = {
   givenName: 'Sarah',
   familyName: 'James',
   name: 'Sarah James',
+  twitterHandle: 'Sarah_James',
   image: 'https://wellcomecollection.files.wordpress.com/2017/06/sarah-james_square.jpg',
   description: 'Sarah James (also published as Sarah Leavesley) is an award-winning poet, fiction writer, journalist ' +
                'and photographer. She has written five poetry collections, a novella and a touring poetry-play. Also ' +
