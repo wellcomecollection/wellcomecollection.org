@@ -2,10 +2,19 @@ import type {Article} from '../model/article';
 import type {Picture} from '../model/picture';
 import Prismic from 'prismic-javascript';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
-import {prismicApiV2} from './prismic-api';
+import {prismicApiV2, prismicPreviewApi} from './prismic-api';
 
-export async function getContent(id) {
+export async function getPreviewContent(id: string, req) {
+  const prismic = await prismicPreviewApi(req);
+  return getParsedContent(prismic, id);
+}
+
+export async function getContent(id: string) {
   const prismic = await prismicApiV2();
+  return getParsedContent(prismic, id);
+}
+
+export async function getParsedContent(prismic, id: string) {
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle',
     'books.title', 'books.title', 'books.author', 'books.isbn', 'books.publisher', 'books.link', 'books.cover',
@@ -176,7 +185,7 @@ function prismicImageToPicture(prismicImage) {
     contentUrl: prismicImage.image.url, // TODO: Send this through the img.wc.org
     width: prismicImage.image.dimensions.width,
     height: prismicImage.image.dimensions.height,
-    caption: RichText.asHtml(prismicImage.caption),
+    caption: RichText.asText(prismicImage.caption), // TODO: Support HTML
     alt: prismicImage.image.alt,
     copyrightHolder: prismicImage.image.copyright
   }: Picture);
