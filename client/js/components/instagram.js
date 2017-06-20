@@ -1,7 +1,6 @@
 function init() {
   const hasInstagramEmbed = Boolean(document.querySelector('.instagram-media')) || Boolean(document.querySelector('[data-type="instapp:photo"]'));
-  console.info(hasInstagramEmbed);
-
+  
   if (hasInstagramEmbed) {
     const s = document.createElement('script');
     s.type = 'text/javascript';
