@@ -11,11 +11,17 @@ export async function prismicApi() {
   return memoizedPrismic;
 }
 
+// TODO: Setup interval to update this every now and then.
+const apiV2Uri = 'https://wellcomecollection.prismic.io/api/v2';
 let memoizedPrismicV2;
 export async function prismicApiV2() {
   if (!memoizedPrismicV2) {
-    memoizedPrismicV2 = await PrismicV2.api('https://wellcomecollection.prismic.io/api/v2');
+    memoizedPrismicV2 = await PrismicV2.getApi(apiV2Uri);
   }
 
   return memoizedPrismicV2;
+}
+
+export async function prismicPreviewApi(req) {
+  return await PrismicV2.getApi(apiV2Uri, {req});
 }

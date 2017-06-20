@@ -1,6 +1,7 @@
 import Router from 'koa-router';
-import {index, article, articles, explore, healthcheck, featureFlags, performanceTest, explosion, preview, series, prismicArticle} from '../controllers';
+import {index, article, articles, explore, healthcheck, featureFlags, performanceTest, explosion, preview, series} from '../controllers';
 import {seriesNav, seriesTransporter, latestTweets, latestInstagramPosts} from '../controllers/async-controllers';
+import {renderPrismicArticle, renderPreviewPrismicArticle, setContentPreviewSession} from '../controllers/content';
 import {work, search} from '../controllers/work';
 
 const r = new Router();
@@ -9,7 +10,9 @@ r.get('/', index);
 r.get('/healthcheck', healthcheck);
 r.get('/explore', explore);
 r.get('/articles', articles);
-r.get('/articles/(W):id', prismicArticle);
+r.get('/articles/(W):id', renderPrismicArticle);
+r.get('/preview/:id', renderPreviewPrismicArticle);
+r.get('/preview', setContentPreviewSession);
 r.get('/articles/:slug', article);
 r.get('/series/:id', series);
 r.get('/series-nav/:id', seriesNav);
