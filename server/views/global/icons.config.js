@@ -1,6 +1,8 @@
 import path from 'path';
 import fs from 'fs';
 
+export const status = 'graduated';
+
 const iconsPath = path.join(__dirname, '../icons');
 
 function walk(dir) {

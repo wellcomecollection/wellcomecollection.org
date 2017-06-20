@@ -3,6 +3,9 @@ import type { Promo } from '../../../model/promo';
 import { createPromo } from '../../../model/promo';
 import { createPicture } from '../../../model/picture';
 
+export const collated = true;
+export const status = 'graduated';
+
 const picture = createPicture({
   type: 'picture',
   contentUrl: 'http://placehold.it/1600x900',
@@ -51,6 +54,7 @@ export const handle = 'numbered-list';
 
 export const model = createNumberedList({
   name: 'Latest',
+  color: 'turquoise',
   items: [
     {
       title: 'Beatboxing tutorial #1: Using the air in your mouth',
@@ -59,7 +63,7 @@ export const model = createNumberedList({
     },
     {
       title: 'Lorem ipsum dolor sit: Amet',
-
+      url: '#',
       date: new Date('Wed Feb 22 2017 11:06:25 GMT+0000 (UTC)')
     },
     {
@@ -82,6 +86,7 @@ export const model = createNumberedList({
 
 export const model2 = createNumberedList({
   name: 'Making Nature',
+  color: 'turquoise',
   image: {
     contentUrl: 'https://placehold.it/800x450',
     width: 800,
@@ -120,9 +125,12 @@ const model3 = createNumberedList({
   items: promos
 });
 
-export const context = { model };
-
 export const variants = [
+  {
+    name: 'default',
+    label: 'vertical',
+    context: { model }
+  },
   {
     name: 'horizontal',
     context: {model: model2, modifiers: ['horizontal', 'sticky'], data: {classes: ['js-series-nav'], sliderId: 'id'}}

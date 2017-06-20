@@ -1,7 +1,61 @@
 /* TODO: use scss variables file */
+@font-face {
+  font-family: 'Wellcome Bold Web';
+  src: url('/assets/fonts/wellcome-bold.woff2') format('woff2'),
+    url('/assets/fonts/wellcome-bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
 html {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #1d1d1d;
+}
+
+.Tree-title,
+.Tree-collectionLabel,
+.Tree-item,
+.Browser-tab a,
+.Meta-key,
+.Meta-value,
+.Prose {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.Document-title,
+.Prose h1,
+.Prose h2,
+.Prose h3 {
+  font-family: 'Wellcome Bold Web';
+}
+
+.Tree-title,
+.Pen-title,
+.Status-label {
+  font-family: 'Wellcome Bold Web';
+  text-transform: capitalize;
+  letter-spacing: 0;
+  font-size: 1em;
+}
+
+.Tree-title {
+  color: #1d1d1d;
+}
+
+.Tree-collectionLabel,
+.Tree-item,
+.Pen-title,
+.Status-label {
+  font-weight: 500;
+}
+
+.Tree-collectionLabel span:before {
+  top: 0.35rem;
+}
+
+[dir='ltr'] .Tree-collectionLabel span {
+  margin-left: -1.25rem;
 }
 
 a,

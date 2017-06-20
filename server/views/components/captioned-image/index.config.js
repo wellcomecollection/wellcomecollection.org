@@ -3,6 +3,8 @@ import {createPicture, type Picture} from '../../../model/picture';
 
 export const name = 'Captioned image';
 export const handle = 'captioned-image';
+export const status = 'graduated';
+export const collated = true;
 const image: Picture = createPicture({
   type: 'picture',
   contentUrl: 'https://wellcomecollection.files.wordpress.com/2016/10/featured-image-dans-blog2.jpg',

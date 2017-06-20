@@ -1,8 +1,0 @@
-name: button-button
-handle: button-button
-context: 
-  modifierClasses: "btn--light"
-  attributes: "disabled"
-  icon: "actions/download-1"
-  iconExtraClasses: [icon--fill]
-  text: "this is a disabled button"

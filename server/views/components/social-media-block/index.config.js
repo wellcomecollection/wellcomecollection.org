@@ -2,6 +2,7 @@ import { getLatestInstagramPosts } from '../../../services/instagram';
 import { getLatestTweets } from '../../../services/twitter';
 
 export const status = 'testing';
+export const collated = true;
 
 const latestInstagramPosts = getLatestInstagramPosts(10);
 const latestTweets = getLatestTweets(4);

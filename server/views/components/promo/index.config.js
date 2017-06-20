@@ -6,10 +6,12 @@ import type {Series} from '../../../model/series';
 import {ArticleStubFactory} from '../../../model/article-stub';
 import mockJson from '../../../test/mocks/wp-api.json';
 
-const article = ArticleStubFactory.fromWpApi(mockJson);
 export const name = 'Promo';
 export const handle = 'promo';
 export const collated = true;
+export const status = 'graduated';
+
+const article = ArticleStubFactory.fromWpApi(mockJson);
 
 export const promo = createPromo(({
   contentType: 'article',
@@ -19,7 +21,7 @@ export const promo = createPromo(({
   description: article.description
 }: Promo));
 
-export const context = { promo };
+export const context = { model: promo };
 
 const commissionedSeries: Series = {
   url: '/series/electricity',
@@ -37,42 +39,42 @@ const promoWithNamedSeries = Object.assign({}, promo, {series: [namedSeries]});
 export const variants = [
   {
     name: 'series-article',
-    context: {promo: Object.assign({}, promoWithCommissionedSeries, {modifiers: ['series']}, {contentType: 'series'})}
+    context: {model: Object.assign({}, promoWithCommissionedSeries, {modifiers: ['series']}, {contentType: 'series'})}
   },
   {
     name: 'gallery',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined']}, {contentType: 'gallery'})}
+    context: {model: Object.assign({}, promo, {modifiers: ['underlined']}, {contentType: 'gallery'})}
   },
   {
     name: 'audio',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined']}, { contentType: 'audio', length: '01:35' })}
+    context: {model: Object.assign({}, promo, {modifiers: ['underlined']}, { contentType: 'audio', length: '01:35' })}
   },
   {
     name: 'video',
-    context: {promo: Object.assign({}, promo, {modifiers: ['underlined']}, { contentType: 'video', length: '01:35' })}
+    context: {model: Object.assign({}, promo, {modifiers: ['underlined']}, { contentType: 'video', length: '01:35' })}
   },
   {
     name: 'comic',
-    context: {promo: Object.assign({}, promoWithNamedSeries, {contentType: 'comic'})}
+    context: {model: Object.assign({}, promoWithNamedSeries, {contentType: 'comic'})}
   },
   {
     name: 'standalone',
-    context: {promo: Object.assign({}, promo, {contentType: 'article'}, {modifiers: ['standalone']})}
+    context: {model: Object.assign({}, promo, {contentType: 'article'}, {modifiers: ['standalone']})}
   },
   {
     name: 'lead',
-    context: {promo: Object.assign({}, promo, {contentType: 'article', weight: 'lead'})}
+    context: {model: Object.assign({}, promo, {contentType: 'article', weight: 'lead'})}
   },
   {
     name: 'regular',
-    context: {promo: Object.assign({}, promo, {contentType: 'article', weight: 'regular'})}
+    context: {model: Object.assign({}, promo, {contentType: 'article', weight: 'regular'})}
   },
   {
     name: 'with-chapters',
-    context: {promo: Object.assign({}, promoWithCommissionedSeries, {contentType: 'article', weight: 'lead'})}
+    context: {model: Object.assign({}, promoWithCommissionedSeries, {contentType: 'article', weight: 'lead'})}
   },
   {
     name: 'standalone-with-chapters',
-    context: {promo: Object.assign({}, promoWithCommissionedSeries, {contentType: 'article', weight: 'lead'}, {modifiers: ['standalone']})}
+    context: {model: Object.assign({}, promoWithCommissionedSeries, {contentType: 'article', weight: 'lead'}, {modifiers: ['standalone']})}
   }
 ];
