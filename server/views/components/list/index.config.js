@@ -1,2 +1,2 @@
 export const hidden = true;
-export const status = 'graudated';
+export const status = 'graduated';

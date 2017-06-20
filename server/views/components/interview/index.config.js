@@ -3,7 +3,7 @@ export const handle = 'interview';
 export const context = {
   interview: [{
     question: {
-      participant: 'Wellcoem',
+      participant: 'Wellcome',
       content: 'We all come to NY with a dream. What was yours? What did you hope to accomplish here?'
     },
     answer: {
