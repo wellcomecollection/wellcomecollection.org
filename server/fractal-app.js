@@ -59,7 +59,13 @@ fractal.components.set('default.status', 'wip');
 fractal.components.set('ext', '.njk');
 fractal.components.set('default.preview', '@preview');
 fractal.components.set('default.collator', function(markup, item) {
-  return `<!-- Start: @${item.handle} -->\n${markup}\n yo<!-- End: @${item.handle} -->\n`
+  return (`
+    <hr class="divider divider--keyline divider--pumice" style="margin: 6px 0;" />
+    <h2 class="styleguide__font__example--HNM5" style="margin-bottom: 24px;">${item.label}</h2>
+    <div style="margin-botom: 24px;">
+      ${markup}
+    </div>
+  `);
 });
 
 fractal.docs.set('path', dir('/views/docs'));
