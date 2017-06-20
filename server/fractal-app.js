@@ -58,6 +58,9 @@ fractal.components.set('statuses', {
 fractal.components.set('default.status', 'wip');
 fractal.components.set('ext', '.njk');
 fractal.components.set('default.preview', '@preview');
+fractal.components.set('default.collator', function(markup, item) {
+  return `<!-- Start: @${item.handle} -->\n${markup}\n yo<!-- End: @${item.handle} -->\n`
+});
 
 fractal.docs.set('path', dir('/views/docs'));
 fractal.web.set('static.path', dir('./../dist'));
