@@ -1,5 +1,6 @@
 // TODO: FlowType this module
 import type {Series} from '../model/series';
+import { series as seriesData } from '../data/series';
 import type {Promo} from '../model/promo';
 import {PromoFactory} from '../model/promo';
 import {createPageConfig, getEditorialAnalyticsInfo} from '../model/page-config';
@@ -83,7 +84,7 @@ export const explore = async(ctx, next) => {
   const topPromo = PromoFactory.fromArticleStub(theRest.first(), 'lead');
   const second3Promos = theRest.slice(1, 4).map(PromoFactory.fromArticleStub);
   const next8Promos = theRest.slice(4, 12).map(PromoFactory.fromArticleStub);
-  const aDropInTheOceanStubs = grouped.last().take(7);
+  const aDropInTheOceanStubs = seriesData.find(s => s.url === 'a-drop-in-the-ocean').items;
   const aDropInTheOceanSeries: Series = {
     url: '/series/a-drop-in-the-ocean',
     name: 'A drop in the ocean',
