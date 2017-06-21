@@ -93,7 +93,6 @@ $center-width-xlarge: (6/6) * 100%;
   @include respond-to('large') {
     left: $center-width-large;
     margin-right: calc((#{$narrow-width} + #{map-get($gutter-width, 'large')}) * -1);
-    background-color: color('cream');
     padding: 0 map-get($container-padding, 'large');
     padding-top: $vertical-space-unit;
     margin-top: -$vertical-space-unit;
