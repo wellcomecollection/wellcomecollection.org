@@ -58,9 +58,9 @@ async function getPreviewSession(token) {
       }
     }, '/', (err, redirectUrl) => {
       if (err) {
-        resolve(err);
+        reject(err);
       } else {
-        reject(redirectUrl);
+        resolve(redirectUrl);
       }
     });
   });
