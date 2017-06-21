@@ -46,7 +46,7 @@ $footer-strap-width: 220px;
   }
 
   @include respond-to('xlarge') {
-    flex-basis: percentage(2 / 3);
+    flex-basis: 60%;
   }
 }
 
