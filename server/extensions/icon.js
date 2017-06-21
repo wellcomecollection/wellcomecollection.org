@@ -23,7 +23,7 @@ export default class Icon {
     const attrs = svgFrag.attrs;
     const pathData = parse.serialize(svgFrag);
 
-    const html = this.env.render(`components/icon/index.njk`, {
+    const html = this.env.render(`components/icon/icon.njk`, {
       title, pathData, attrs, extraClasses
     });
 
