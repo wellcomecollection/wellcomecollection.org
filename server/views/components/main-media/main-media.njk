@@ -1,5 +1,5 @@
 {% if model.type === 'picture' %}
-  {% extends 'components/captioned-image/index.njk' %}
+  {% extends 'components/captioned-image/captioned-image.njk' %}
   {% block figcaption %}
     {% if data.contentType === 'article' %}
       {% component 'wobbly-edge', {background: 'cream'} %}
