@@ -4,7 +4,9 @@ import {seriesNav, seriesTransporter, latestTweets, latestInstagramPosts} from '
 import {renderPrismicArticle, renderPreviewPrismicArticle, setContentPreviewSession} from '../controllers/content';
 import {work, search} from '../controllers/work';
 
-const r = new Router();
+const r = new Router({
+  sensitive: true
+});
 
 r.get('/', index);
 r.get('/healthcheck', healthcheck);
