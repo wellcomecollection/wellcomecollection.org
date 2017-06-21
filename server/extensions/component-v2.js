@@ -15,7 +15,7 @@ export default class Component {
   };
 
   run(context, name, model, modifiers = [], data = {}) {
-    const html = this.env.render(`components/${name}/index.njk`, {model, modifiers, data});
+    const html = this.env.render(`components/${name}/${name}.njk`, {model, modifiers, data});
     return new nunjucks.runtime.SafeString(html);
   };
 };

@@ -15,7 +15,7 @@ export default class Component {
   };
 
   run(context, name, data) {
-    const html = this.env.render(`components/${name}/index.njk`, data);
+    const html = this.env.render(`components/${name}/${name}.njk`, data);
     return new nunjucks.runtime.SafeString(html);
   };
 };
