@@ -98,7 +98,7 @@ export async function getParsedContent(prismic, id: string) {
           type: 'imageGallery',
           weight: 'standalone',
           value: {
-            name: RichText.asText(slice.primary.title),
+            name: RichText.asText(slice.primary.heading),
             items: slice.items.map(prismicImageToPicture)
           }
         };
