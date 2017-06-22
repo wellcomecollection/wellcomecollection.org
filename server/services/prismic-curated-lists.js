@@ -1,6 +1,5 @@
 import Prismic from 'prismic-javascript';
-import {RichText, Date as PrismicDate} from 'prismic-dom';
-import {prismicApiV2, prismicPreviewApi} from './prismic-api';
+import {prismicApiV2} from './prismic-api';
 
 export async function getCuratedList(id: string) {
   const fetchLinks = [
