@@ -44,7 +44,7 @@ export async function getParsedContent(prismic, id: string) {
   });
 
   // TODO: Don't convert this into thumbnail
-  const promo = prismicArticle.data.promo.find(slice => slice.slice_type === 'embeddedImage');
+  const promo = prismicArticle.data.promo.find(slice => slice.slice_type === 'editorialImage');
   const thumbnail = promo && prismicImageToPicture(promo.primary);
 
   // TODO: Support more than 1 author
@@ -83,7 +83,7 @@ export async function getParsedContent(prismic, id: string) {
           value: RichText.asHtml(slice.primary.text)
         };
 
-      case 'embeddedImage':
+      case 'editorialImage':
         // TODO: This shouldn't really be here
         if (slice.primary.weight === 'featured') return;
         return {
@@ -92,7 +92,7 @@ export async function getParsedContent(prismic, id: string) {
           value: prismicImageToPicture(slice.primary)
         };
 
-      case 'embeddedImageGallery':
+      case 'editorialImageGallery':
         // TODO: add support for ~title~ & description / caption
         return {
           type: 'imageGallery',
