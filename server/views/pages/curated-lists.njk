@@ -36,7 +36,7 @@
           <div class="container container--scroll-xl">
             <div class="grid grid--no-gutters">
               <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
-                {% set asyncContentEndpoint = '/series-transporter/' + section.value.slug %}
+                {% set asyncContentEndpoint = '/series-transporter/' + section.value.data.wordpressSlug %}
                 {% component 'async', { endpoint: asyncContentEndpoint, component: 'series-transporter', modifiers: '{"in-explore": true}' } %}
               </div>
             </div>
