@@ -5,9 +5,10 @@ import {createPageConfig} from '../model/page-config';
 import {collectorsPromo} from '../data/series';
 
 export async function explore(ctx, next) {
-  const curatedList = await getCuratedList('explore');
   // TODO: Remove WP content
-  const articleStubs = await getArticleStubs(10);
+  const listRequests = [getCuratedList('explore'), getArticleStubs(10)];
+  const [curatedList, articleStubs] = await Promise.all(listRequests)
+
   const promos = articleStubs.data.map(PromoFactory.fromArticleStub);
   // TODO: Remove this, make it automatic
   const latestTweets = ctx.intervalCache.get('tweets');
