@@ -1,5 +1,5 @@
 import Prismic from 'prismic-javascript';
-import {prismicApiV2} from '../services/prismic-api';
+import {prismicApi} from '../services/prismic-api';
 import {getContent, getPreviewContent} from '../services/prismic-content';
 import {createPageConfig} from '../model/page-config';
 
@@ -49,7 +49,7 @@ export async function setContentPreviewSession(ctx, next) {
 }
 
 async function getPreviewSession(token) {
-  const prismic = await prismicApiV2();
+  const prismic = await prismicApi();
 
   return new Promise((resolve, reject) => {
     prismic.previewSession(token, (doc) => {
