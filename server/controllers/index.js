@@ -6,6 +6,7 @@ import {createPageConfig, getEditorialAnalyticsInfo} from '../model/page-config'
 import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
+import {collectorsPromo} from '../data/series';
 
 const maxItemsPerPage = 32;
 
@@ -91,26 +92,6 @@ export const explore = async(ctx, next) => {
     description: 'This series showcases many different voices and perspectives from people with\
                   lived experience of mental ill health and explores their ideas of personal asylum\
                   through sculpture, vlogging, poetry and more.'
-  };
-
-  const collectorsPromo: Promo = {
-    modifiers: ['standalone'],
-    url: 'http://digitalstories.wellcomecollection.org/pathways/2-the-collectors/',
-    title: 'The Collectors',
-    description: 'Searchers, secrets and the power of curiosity.',
-    image: {
-      contentUrl: 'https://wellcomecollection.files.wordpress.com/2017/03/the-collectors-promo.jpg',
-      width: 1600,
-      height: 900
-    },
-    positionInSeries: 1,
-    series: [{
-      color: 'turquoise',
-      commissionedLength: 1,
-      items: {
-        size: 1
-      }
-    }]
   };
 
   const aDropInTheOceanPromoList = PromoListFactory.fromSeries(aDropInTheOceanSeries);

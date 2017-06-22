@@ -150,3 +150,23 @@ export const series = List([
     ])
   }: Series)
 ]);
+
+export const collectorsPromo: Promo = {
+  modifiers: ['standalone'],
+  url: 'http://digitalstories.wellcomecollection.org/pathways/2-the-collectors/',
+  title: 'The Collectors',
+  description: 'Searchers, secrets and the power of curiosity.',
+  image: {
+    contentUrl: 'https://wellcomecollection.files.wordpress.com/2017/03/the-collectors-promo.jpg',
+    width: 1600,
+    height: 900
+  },
+  positionInSeries: 1,
+  series: [{
+    color: 'turquoise',
+    commissionedLength: 1,
+    items: {
+      size: 1
+    }
+  }]
+};
