@@ -22,7 +22,7 @@ export const seriesNav = async(ctx, next) => {
     color: color
   });
 
-  ctx.render('components/numbered-list/index', {
+  ctx.render('components/numbered-list/numbered-list', {
     current,
     model: seriesNavModel,
     modifiers: ['horizontal', 'sticky'],
@@ -56,7 +56,7 @@ export const seriesTransporter = async(ctx, next) => {
     color: color
   });
 
-  ctx.render('components/numbered-list/index', {
+  ctx.render('components/numbered-list/numbered-list', {
     current,
     model: seriesNavModel,
     modifiers: ['transporter'],
@@ -76,7 +76,7 @@ export const seriesTransporter = async(ctx, next) => {
 export const latestInstagramPosts = async(ctx, next) => {
   const instagramPosts = await getLatestInstagramPosts(10);
 
-  ctx.render('components/social-media-block/index', {
+  ctx.render('components/social-media-block/social-media-block', {
     model: {
       posts: instagramPosts,
       service: 'Instagram',
@@ -96,7 +96,7 @@ export const latestInstagramPosts = async(ctx, next) => {
 export const latestTweets = async(ctx, next) => {
   const tweets = await getLatestTweets(4);
 
-  ctx.render('components/social-media-block/index', {
+  ctx.render('components/social-media-block/social-media-block', {
     model: {
       posts: tweets,
       service: 'Twitter',

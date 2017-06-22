@@ -30,6 +30,7 @@ export const authorMap: { [key: string]: Person } = {
   'body-squabbles-keyholes': people.robertBidder,
   'body-squabbles-pundit': people.robertBidder,
   'body-squabbles-medal': people.robertBidder,
+  'body-squabbles-pots': people.robertBidder,
   'museums-in-context-the-birth-of-the-public-museum': people.elissavetNtoulia,
   'the-electric-age': people.lalitaKaplish,
   'electric-age-the-electrified-garden': people.lalitaKaplish,
@@ -47,5 +48,6 @@ export const authorMap: { [key: string]: Person } = {
   'outsiders-the-child': people.annaFaherty,
   'outsiders-the-prostitute': people.annaFaherty,
   'wonder-womans-wonder-women': people.elissavetNtoulia,
-  'sharing-nature-wild': people.markThomas
+  'sharing-nature-wild': people.markThomas,
+  'digital-pets': people.jennaJovi
 };

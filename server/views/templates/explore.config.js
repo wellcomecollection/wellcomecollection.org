@@ -1,5 +1,5 @@
-import { promo, variants as promoVariants } from '../components/promo/index.config';
-import { model as numberedList } from '../components/numbered-list/index.config';
+import { promo, variants as promoVariants } from '../components/promo/promo.config';
+import { model as numberedList } from '../components/numbered-list/numbered-list.config';
 
 export const name = 'explore';
 export const handle = 'explore-template';
