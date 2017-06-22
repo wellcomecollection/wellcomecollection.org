@@ -7,7 +7,7 @@ import {collectorsPromo} from '../data/series';
 export async function explore(ctx, next) {
   // TODO: Remove WP content
   const listRequests = [getCuratedList('explore'), getArticleStubs(10)];
-  const [curatedList, articleStubs] = await Promise.all(listRequests)
+  const [curatedList, articleStubs] = await Promise.all(listRequests);
 
   const promos = articleStubs.data.map(PromoFactory.fromArticleStub);
   // TODO: Remove this, make it automatic
