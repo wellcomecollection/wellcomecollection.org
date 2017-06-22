@@ -138,3 +138,12 @@ export const markThomas: Person = {
   name: 'Mark Thomas',
   description: 'Mark Thomas contributed his article and photo in Sharing Nature.'
 };
+
+export const jennaJovi: Person = {
+  givenName: 'Jenna',
+  familyName: 'Jovi',
+  name: 'Jenna Jovi',
+  image: 'https://wellcomecollection.files.wordpress.com/2017/06/jenna_jovi_-_1_1024.jpg',
+  description: 'Jenna Jovi is a screenwriter working across TV, film, games and VR. She can mostly be found writing at her computer, except when she’s at her other computer(s) playing video games. P.E.T., which Jenna is developing with Xylophone Games and Wellcome, is due to be released later this year.',
+  twitterHandle: 'jennajovi'
+};
