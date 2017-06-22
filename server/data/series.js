@@ -1,6 +1,7 @@
 import {List} from 'immutable';
 import type {ArticleStub} from '../model/article-stub';
 import type {Series} from '../model/series';
+import type {Promo} from '../model/promo';
 
 export function getPositionInSeries(tags: {}): ?number {
   const chapterString = 'chapter';

@@ -3,7 +3,7 @@ import {prismicApiV2} from './prismic-api';
 
 export async function getCuratedList(id: string) {
   const fetchLinks = [
-    'series.name', 'series.description', 'series.commissionedLength', 'series.color'
+    'series.name', 'series.description', 'series.commissionedLength', 'series.color', 'series.wordpressSlug'
   ];
   const prismic = await prismicApiV2();
   const curatedLists = await prismic.query([

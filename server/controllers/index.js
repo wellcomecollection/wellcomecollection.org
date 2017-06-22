@@ -1,6 +1,5 @@
 // TODO: FlowType this module
 import type {Series} from '../model/series';
-import type {Promo} from '../model/promo';
 import {PromoFactory} from '../model/promo';
 import {createPageConfig, getEditorialAnalyticsInfo} from '../model/page-config';
 import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
