@@ -1,0 +1,89 @@
+{% extends 'layout/default.njk' %}
+
+{% block body %}
+  {% componentV2 'page-description', { title: 'Explore' }, {'hidden': true} %}
+  <div class="row row--cream row--has-wobbly-background {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top']}) }}">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+          {% componentV2 'promo', promos.first(), {}, {sizes: '(min-width: 1420px) 812px, (min-width: 600px) 58.5vw, calc(100vw - 36px)'} %}
+        </div>
+      </div>
+    </div>
+    <div class="row__wobbly-background"></div>
+    <div class="container">
+      {% componentV2 'divider', null, {'keyline': true, 'pumice': true}, {extraClasses: [{s:3, m:3, l:3} | spacingClasses({margin: ['bottom']})]} %}
+    </div>
+    <div class="container container--scroll container--scroll-cream touch-scroll">
+      <div class="grid grid--dividers grid--scroll">
+        {% for promo in promos.slice(1, 4).toJS() %}
+          <div class="grid__cell">
+            {% componentV2 'promo', promo, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(33.24vw - 43px), calc(66.79vw - 18px)'} %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="container container--no-collapse">
+      {% componentV2 'divider', null, {'thick': true, 'black': true}, {extraClasses: [{s:5, m:5, l:5} | spacingClasses({margin: ['bottom']})]} %}
+    </div>
+  </div>
+
+  {% for section in curatedList.data.section %}
+    {% if section.slice_type === 'series' %}
+      {% if section.value.data.commissionedLength %}
+        {# Digital stories #}
+        <div class="row {{ {s:2, m:2, l:2} | spacingClasses({padding:['top']}) }}">
+          <div class="container container--scroll-xl">
+            <div class="grid grid--no-gutters">
+              <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
+                {% set asyncContentEndpoint = '/series-transporter/' + section.value.slug %}
+                {% component 'async', { endpoint: asyncContentEndpoint, component: 'series-transporter', modifiers: '{"in-explore": true}' } %}
+              </div>
+            </div>
+          </div>
+          <div class="{{ {s:4, m:4, l:4} | spacingClasses({margin:['top']}) }}">
+            <div class="container container--no-collapse">
+              {% componentV2 'divider', null, {'thick': true, 'black': true}, {extraClasses: [{s:5, m:5, l:5} | spacingClasses({margin: ['bottom']})]} %}
+            </div>
+          </div>
+        </div>
+      {% else %}
+        {# Generic series #}
+        {% componentV2 'series-container-async', section.value %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+
+  {# Chronological #}
+  <div class="row">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:12, m:12, l:12, xl: 12} | gridClasses }}">
+          <h2 class="heading--large {{ {s:0, m:0, l:0} | spacingClasses({margin: ['top', 'bottom']}) }}">You may have missed</h2>
+        </div>
+        <div class="{{ {s:12, m:12, l:8} | gridClasses }}">
+          <a class="more-info-link" href="/articles">
+            {% icon 'actions/arrow-small', null, ['icon--270', 'icon--action'] %}
+            <span class="more-info-link__text">More articles</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row {{ {s:4, m:4, l:4} | spacingClasses({padding: ['top']}) }} ">
+    <div class="container container--scroll touch-scroll">
+      <div class="grid grid--scroll grid--dividers grid--theme-6-strip">
+        {% for promo in promos.slice(4, 11).toJS() %}
+          <div class="grid__cell">
+            {% componentV2 'promo', promo, {}, {sizes: '(min-width: 1340px) 178px, (min-width: 960px) calc(33.33vw - 60px), (min-width: 600px) calc(50vw - 54px), calc(66.79vw - 18px)'} %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  {% componentV2 'social-media-block', {service: 'Twitter', handle: 'explorewellcome', url: 'https://twitter.com/explorewellcome', icon: 'social/twitter', posts: latestTweets} %}
+
+  {#{% componentV2 'promo', collectorsPromo, {}, {sizes: '100vw'} %}#}
+{% endblock %}
