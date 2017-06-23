@@ -1,11 +1,11 @@
 import Prismic from 'prismic-javascript';
-import {prismicApiV2} from './prismic-api';
+import {prismicApi} from './prismic-api';
 
 export async function getCuratedList(id: string) {
   const fetchLinks = [
     'series.name', 'series.description', 'series.commissionedLength', 'series.color', 'series.wordpressSlug'
   ];
-  const prismic = await prismicApiV2();
+  const prismic = await prismicApi();
   const curatedLists = await prismic.query([
     Prismic.Predicates.at('my.curatedLists.uid', id),
     Prismic.Predicates.at('document.type', 'curatedLists')
