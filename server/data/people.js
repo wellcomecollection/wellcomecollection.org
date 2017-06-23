@@ -128,7 +128,9 @@ export const annaFaherty: Person = {
   name: 'Anna Faherty',
   twitterHandle: 'mafunyane',
   image: 'https://wellcomecollection.files.wordpress.com/2017/06/anna-faherty-150x150.jpg',
-  description: 'Anna Faherty is a writer and lecturer who collaborates with museums on an eclectic range of exhibition, digital and print projects. She is the author of the <cite>Reading Room Companion</cite> and the editor of <cite>States of Mind</cite>, both published by Wellcome Collection.',
+  description: 'Anna Faherty is a writer and lecturer who collaborates with museums on an eclectic range of ' +
+               'exhibition, digital and print projects. She is the author of the <cite>Reading Room Companion</cite> ' +
+               'and the editor of <cite>States of Mind</cite>, both published by Wellcome Collection.',
   prismicId: 'WT5y6S0AACwAdxSL'
 };
 
@@ -144,7 +146,20 @@ export const jennaJovi: Person = {
   familyName: 'Jovi',
   name: 'Jenna Jovi',
   image: 'https://wellcomecollection.files.wordpress.com/2017/06/jenna_jovi_-_1_1024.jpg',
-  description: 'Jenna Jovi is a screenwriter working across TV, film, games and VR. She can mostly be found writing at her computer, except when she’s at her other computer(s) playing video games. P.E.T., which Jenna is developing with Xylophone Games and Wellcome, is due to be released later this year.',
+  description: 'Jenna Jovi is a screenwriter working across TV, film, games and VR. She can mostly be found writing ' +
+               'at her computer, except when she’s at her other computer(s) playing video games. P.E.T., which Jenna ' +
+               'is developing with Xylophone Games and Wellcome, is due to be released later this year.',
   twitterHandle: 'jennajovi',
   prismicId: 'WUusNyMAADdMpqcW'
+};
+
+export const wendyMoore: Person = {
+  givenName: 'Wendy',
+  familyName: 'Moore',
+  name: 'JeWendy Moore',
+  image: 'https://wellcomecollection.files.wordpress.com/2017/06/wendymoore.jpg',
+  description: 'Wendy Moore is a freelance author and journalist. Her new book, ' +
+               '"The Mesmerist: The Society Doctor who held Victorian London Spellbound" is published by Weidenfeld ' +
+               '& Nicolson. Her research was supported by a Wellcome Trust Medical Humanities Research grant.',
+  twitterHandle: 'wendymoore99'
 };
