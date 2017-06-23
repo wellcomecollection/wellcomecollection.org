@@ -3,7 +3,7 @@ Fixes/Closes/References #
 ## Type
 <!-- delete as appropriate -->
 ✨ Feature  
-🔧 Fix  
+🐛 Bugfix  
 📈 Test  
 🚑 Health
 
