@@ -49,5 +49,6 @@ export const authorMap: { [key: string]: Person } = {
   'outsiders-the-prostitute': people.annaFaherty,
   'wonder-womans-wonder-women': people.elissavetNtoulia,
   'sharing-nature-wild': people.markThomas,
-  'digital-pets': people.jennaJovi
+  'digital-pets': people.jennaJovi,
+  'research-notes-a-chance-discovery': people.wendyMoore
 };
