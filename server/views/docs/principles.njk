@@ -1,0 +1,56 @@
+{% extends './cardigan.njk' %}
+
+{% block body %}
+  <h2>Index</h2>
+  <a name="index"></a>
+  <ul>
+    {% for pageSection in pageSections %}
+      <li><a href="#{{ pageSection.url }}">{{ pageSection.name }}</a></li>
+    {% endfor %}
+  </ul>
+
+  {% for pageSection in pageSections %}
+    <h2>{{ pageSection.name }}</h2>
+    <a name="{{ pageSection.url }}"></a>
+
+    {% if pageSection.url === 'support' %}
+      <p><strong>We will manually test the site on the following browsers<sup>\*</sup></strong></p>
+
+      <table>
+        <thead>
+          <tr>
+            <td>Browser</td>
+            <td>Support Level</td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for browser in supportedBrowsers %}
+            <tr>
+              <td>{{ browser.type }}</td>
+              <td>{{ browser.supportLevel }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <p><sup>\*</sup>subject to 6 month review (next review date: 15/03/17)</p>
+
+      <p>Support is divided into 2 categories, <strong>Basic</strong> and <strong>Full</strong>:</p>
+
+      <dl>
+        <dt><p><strong>Basic</strong></p></dt>
+        <dd><p>All content is accessible, but more advanced user interactions will be missing and there may be minor display issues</p></dd>
+        <dt><p><strong>Full</strong></p></dt>
+        <dd><p>All content is accessible and the site is visually and functionally complete</p></dd>
+      </dl>
+
+      <p>These lists were determined from amalgamated analytics data for the Wellcome Collection, Wellcome Library and Wellcome Images websites for the 6 months to 15/09/16.</p>
+      <p>The most popular browsers are added to the list, until they make up approximately 95% of traffic. The browser versions of evergreen browsers, i.e. those that automatically update themselves silently without prompting the user, are combined and the latest stable version and the version immediately before that will be tested.</p>
+      <p>Opera Mini (in Extreme mode) is also included, as this provides an easy way to test the core experience.  In extreme mode, Opera Mini ignores some CSS, doesn't load web fonts, has a low level of Javascript support and an arbitrary Javascript execution timeout.</p>
+
+    {% else %}
+      {{ pageSection.content }}
+    {% endif %}
+
+    <sup>{% icon 'actions/arrow-big-up' %}</sup><a href="#index">back to top</a>
+  {% endfor %}
+{% endblock %}

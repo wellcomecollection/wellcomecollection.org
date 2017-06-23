@@ -1,0 +1,71 @@
+{% extends './cardigan.njk' %}
+
+{% block body %}
+  <p>The architecture we have composed consists of two parts. [Structure](#structure) and [Style](#style).</p>
+
+  <h2>Structure</h2>
+
+  <h3>App shell</h3>
+
+  <p>The app shell contains parts of the layout that rarely change as the app is used.</p>
+  <p>This may contain small state changes, such as the selected state of a navigation changing.</p>
+  <p>The app shell will also have a placeholder for the <a href="#page">page</a>.</p>
+  <p>The app shell may also contain <a href="#layout-elements">layouts</a>.</p>
+  <p><a href="https://developers.google.com/web/fundamentals/architecture/app-shell">You can read this article for a more detailed description for an app shell model and it's benefits</a>.</p>
+
+  <h3>Page</h3>
+
+  <p>The page is the content that is loaded dependant on the route requested by the client, e.g. `/explore`.</p>
+  <p>The page can consist of one or more <a href="#layout-elements">layouts</a>.</p>
+  <p>The page will rarely, if ever, have <a href="#style">styles</a>.</p>
+
+  <h3>Layout elements</h3>
+
+  <p>Elements are intentionally stupid objects, including:</p>
+  <ul>
+    <li>Rows: allows styling of full width</li>
+    <li>Containers: Constrains the contained content to a certain width or behavior.</li>
+  </ul>
+
+  <p>Layout elements may contain <a href="#components">components</a>, but may not contain themselves.</p>
+  <p>Layout elements will always manage their own [style](#style), but have access to <a href="#global-styles">global styles</a>.</p>
+
+  <h3>Components</h3>
+
+  <p>Components are the pieces of the puzzle that make up the great chunk of information within the
+  application. TODO: add info.</p>
+
+  <hr class="divider divider--keyline divider--pumice" />
+
+  <h2>Style</h2>
+
+  <h3>Global style</h3>
+
+  <p>Globally accessible, reusable styles are defined in
+  <a href="https://github.com/wellcometrust/wellcomecollection.org/blob/master/client/scss/utilities/_root-scope-classes.scss">`_root-scope-classes.scss`</a>.</p>
+
+  <h3>Width</h3>
+
+  <p>The layout has a maximum width of {{ gridConfig[gridConfig.length - 1].breakpoint }}.</p>
+
+  <h3>Breakpoints</h3>
+
+  <p>The layout utilises {{ gridConfig.length }} breakpoints:</p>
+
+  <ul>
+    {% for gridSize in gridConfig %}
+      <li>`{{ gridSize.name }}`: {% if gridSize.name === 'xlarge' %} > {% else %} >= {% endif %} {{ gridSize.breakpoint }}</li>
+    {% endfor %}
+  </ul>
+
+  <h3>Grid columns/spacing</h3>
+  <p>The grid consists of 12 columns and breakpoints determine the spacing between the columns, i.e. gutters, and the space either side of the layout, i.e. margins.</p>
+
+  {% for gridSize in gridConfig %}
+    <h4>{{ gridSize.name }}</h4>
+    <ul>
+      <li>gutter widths: {{ gridSize.gutterWidth }}</li>
+      <li>margin widths: {{ gridSize.marginWidth }}</li>
+    </ul>
+  {% endfor %}
+{% endblock %}
