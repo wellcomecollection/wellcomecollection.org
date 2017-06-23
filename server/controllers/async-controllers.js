@@ -118,7 +118,7 @@ export const seriesContainerPromoList = async(ctx, next) => {
   const series = await getSeries(id, 8, {page: 1});
   const promos = PromoListFactory.fromSeries(series);
 
-  ctx.render('components/series-container-async/promos-list', {
+  ctx.render('components/series-container/promos-list', {
     promos: promos.items.toJS()
   });
 
