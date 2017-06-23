@@ -112,3 +112,20 @@ export const latestTweets = async(ctx, next) => {
 
   return next();
 };
+
+export const seriesContainerPromoList = async(ctx, next) => {
+  const {id} = ctx.params;
+  const series = await getSeries(id, 8, {page: 1});
+  const promos = PromoListFactory.fromSeries(series);
+
+  ctx.render('components/series-container-async/promos-list', {
+    promos: promos.items.toJS()
+  });
+
+  ctx.body = {
+    html: ctx.body
+  };
+
+  return next();
+};
+
