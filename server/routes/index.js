@@ -1,8 +1,8 @@
 import Router from 'koa-router';
-import {index, article, articles, explore, healthcheck, featureFlags, performanceTest, explosion, preview, series} from '../controllers';
+import {index, article, articles, healthcheck, featureFlags, performanceTest, explosion, preview, series} from '../controllers';
 import {seriesNav, seriesTransporter, latestTweets, latestInstagramPosts, seriesContainerPromoList} from '../controllers/async-controllers';
 import {renderPrismicArticle, renderPreviewPrismicArticle, setContentPreviewSession} from '../controllers/content';
-import {explore as exploreList} from '../controllers/lists';
+import {explore} from '../controllers/lists';
 import {work, search} from '../controllers/work';
 
 const r = new Router({
@@ -28,7 +28,6 @@ r.get('/flags', featureFlags);
 r.get('/latest-tweets/', latestTweets);
 r.get('/latest-instagram-posts', latestInstagramPosts);
 r.get('/search', search);
-r.get('/curated-lists/explore', exploreList);
 r.get('/series-container-promos-list/:id', seriesContainerPromoList);
 
 export const router = r.middleware();

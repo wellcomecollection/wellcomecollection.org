@@ -15,7 +15,7 @@ export async function explore(ctx, next) {
 
   ctx.render('pages/curated-lists', {
     pageConfig: createPageConfig({
-      title: 'Articles',
+      title: 'Explore',
       inSection: 'explore',
       category: 'list'
     }),

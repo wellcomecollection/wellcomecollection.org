@@ -1,11 +1,9 @@
 // TODO: FlowType this module
 import type {Series} from '../model/series';
-import {PromoFactory} from '../model/promo';
 import {createPageConfig, getEditorialAnalyticsInfo} from '../model/page-config';
 import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
-import {collectorsPromo} from '../data/series';
 
 const maxItemsPerPage = 32;
 
@@ -71,44 +69,6 @@ export const series = async(ctx, next) => {
     }),
     list: promoList,
     pagination
-  });
-
-  return next();
-};
-
-export const explore = async(ctx, next) => {
-  const articleStubs = await getArticleStubs(50);
-  const grouped = articleStubs.data.groupBy(stub => stub.headline.indexOf('A drop in the ocean:') === 0);
-  const theRest = grouped.first();
-  const topPromo = PromoFactory.fromArticleStub(theRest.first(), 'lead');
-  const second3Promos = theRest.slice(1, 4).map(PromoFactory.fromArticleStub);
-  const next8Promos = theRest.slice(4, 12).map(PromoFactory.fromArticleStub);
-  const aDropInTheOceanStubs = grouped.last().take(7);
-  const aDropInTheOceanSeries: Series = {
-    url: '/series/a-drop-in-the-ocean',
-    name: 'A drop in the ocean',
-    items: aDropInTheOceanStubs,
-    description: 'This series showcases many different voices and perspectives from people with\
-                  lived experience of mental ill health and explores their ideas of personal asylum\
-                  through sculpture, vlogging, poetry and more.'
-  };
-
-  const aDropInTheOceanPromoList = PromoListFactory.fromSeries(aDropInTheOceanSeries);
-  const latestDigitalStory = 'electric-sublime';
-  const latestTweets = ctx.intervalCache.get('tweets');
-
-  ctx.render('pages/explore', {
-    pageConfig: createPageConfig({
-      title: 'Explore',
-      inSection: 'explore'
-    }),
-    latestDigitalStory,
-    aDropInTheOcean: aDropInTheOceanPromoList,
-    topPromo,
-    second3Promos,
-    next8Promos,
-    collectorsPromo,
-    latestTweets
   });
 
   return next();
