@@ -2,7 +2,7 @@ import type {Article} from '../model/article';
 import type {Picture} from '../model/picture';
 import Prismic from 'prismic-javascript';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
-import {prismicApiV2, prismicPreviewApi} from './prismic-api';
+import {prismicApi, prismicPreviewApi} from './prismic-api';
 
 export async function getPreviewContent(id: string, req) {
   const prismic = await prismicPreviewApi(req);
@@ -10,7 +10,7 @@ export async function getPreviewContent(id: string, req) {
 }
 
 export async function getContent(id: string) {
-  const prismic = await prismicApiV2();
+  const prismic = await prismicApi();
   return getParsedContent(prismic, id);
 }
 
