@@ -1,8 +1,8 @@
 {% for promo in promos %}
-  {% if loop.length % 3 == 0 %}
+  {% if loop.length % 3 === 0 %}
     {% set sizes = sizes2 %}
   {% endif %}
-  {% if loop.length % 4 == 0 %}
+  {% if loop.length % 4 === 0 %}
     {% set sizes = sizes3 %}
   {% endif %}
   {% if loop.length === 5 %}
