@@ -77,7 +77,7 @@ resource "aws_cloudfront_distribution" "next" {
 
     forwarded_values {
       query_string = true
-      query_string_cache_keys = ["page", "current", "q", "format"]
+      query_string_cache_keys = ["page", "current", "q", "format", "query"]
 
       cookies {
         forward = "whitelist"
