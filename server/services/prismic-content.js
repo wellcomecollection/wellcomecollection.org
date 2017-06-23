@@ -170,10 +170,17 @@ export async function getParsedContent(prismic, id: string) {
   return article;
 }
 
+const prismicImageUri = 'https://prismic-io.s3.amazonaws.com/wellcomecollection';
+const imgIxUri = 'https://wellcomecollection-prismic.imgix.net';
+
+function convertPrismicToImgIxUri(uri) {
+  return uri.replace(prismicImageUri, imgIxUri);
+}
+
 function prismicImageToPicture(prismicImage) {
   return ({
     type: 'picture',
-    contentUrl: prismicImage.image.url, // TODO: Send this through the img.wc.org
+    contentUrl: convertPrismicToImgIxUri(prismicImage.image.url), // TODO: Send this through the img.wc.org
     width: prismicImage.image.dimensions.width,
     height: prismicImage.image.dimensions.height,
     caption: RichText.asText(prismicImage.caption), // TODO: Support HTML
