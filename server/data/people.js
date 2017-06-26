@@ -156,7 +156,7 @@ export const jennaJovi: Person = {
 export const wendyMoore: Person = {
   givenName: 'Wendy',
   familyName: 'Moore',
-  name: 'JeWendy Moore',
+  name: 'Wendy Moore',
   image: 'https://wellcomecollection.files.wordpress.com/2017/06/wendymoore.jpg',
   description: 'Wendy Moore is a freelance author and journalist. Her new book, ' +
                '"The Mesmerist: The Society Doctor who held Victorian London Spellbound" is published by Weidenfeld ' +
