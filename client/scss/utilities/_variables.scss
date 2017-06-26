@@ -195,48 +195,7 @@ $fonts: (
 $container-width-max: 1338px;
 $border-radius-unit: 6px;
 
-$container-padding: (
-  'small': 18px,
-  'medium': 42px,
-  'large': 60px,
-  'xlarge': 60px
-);
-
-$gutter-width: (
-  'small': 18px,
-  'medium': 24px,
-  'large': 30px,
-  'xlarge': 30px
-);
-
 $total-columns: 12;
-
-$grid-config: (
-  's': (
-    'padding': map-get($container-padding, 'small'),
-    'gutter': map-get($gutter-width, 'small'),
-    'columns': $total-columns,
-    'respond': ('small', 'medium')
-  ),
-  'm': (
-    'padding': map-get($container-padding, 'medium'),
-    'gutter': map-get($gutter-width, 'medium'),
-    'columns': $total-columns,
-    'respond': ('medium', 'large')
-  ),
-  'l': (
-    'padding': map-get($container-padding, 'large'),
-    'gutter': map-get($gutter-width, 'large'),
-    'columns': $total-columns,
-    'respond': 'large'
-  ),
-  'xl': (
-    'padding': map-get($container-padding, 'xlarge'),
-    'gutter': map-get($gutter-width, 'xlarge'),
-    'columns': $total-columns,
-    'respond': 'xlarge'
-  )
-);
 
 $vertical-space-unit: 15px; // Deprecated - please use a multiple of $v-spacing-unit
 $v-spacing-unit: 6px;
@@ -244,37 +203,6 @@ $spacing-unit: 6px;
 $article-top-space: 2 * $vertical-space-unit;
 $border-radius-unit: 6px;
 $spacing-directions: ('top', 'right', 'bottom', 'left');
-
-$colors: (
-  'seaweed': (#034e44, 'primary'),
-  'mint': (#0aa38f, 'primary'),
-  'white': (#fff, 'primary'),
-  'cream': (#f0ede3, 'primary'),
-  'black': (#1d1d1d, 'primary'),
-  'dark-black': (#010101, 'primary'),
-  'turquoise-graphics': (#5cb8bf, 'secondary'),
-  'turquoise-text': (#367378, 'secondary'),
-  'teal': (#006272, 'secondary'),
-  'petrol': (#00424d, 'secondary'),
-  'purple-graphics': (#b67bc2, 'secondary'),
-  'purple-text': (#895791, 'secondary'),
-  'indigo': (#46284d, 'secondary'),
-  'red-graphics': (#ff4355, 'secondary'),
-  'red-text': (#c72e3d, 'secondary'),
-  'orange-graphics': (#e87500, 'secondary'),
-  'orange-text': (#ad4e00, 'secondary'),
-  'yellow': (#ffce3c, 'secondary'),
-  'pewter': (#717171, 'secondary'),
-  'silver': (#8f8f8f, 'secondary'),
-  'smoke': (#e8e8e8, 'secondary'),
-  'pumice': (#d9d6ce, 'secondary'),
-  'charcoal': (#323232, 'secondary'),
-  'transparent': (transparent, 'secondary'),
-  'inherit': (inherit, 'secondary'),
-  'currentColor': (currentColor, 'secondary'),
-  'java': (#1fbea9, 'tertiary'),
-  'cotton-seed': (#bcbab5, 'tertiary')
-);
 
 $breakpoints: (
   'small': 0,

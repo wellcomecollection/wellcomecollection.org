@@ -11,6 +11,10 @@ const rename = require('gulp-rename');
 const webpackConfig = require('./webpack.config.js');
 const eslint = require('gulp-eslint');
 const eslintConfig = require('../.eslintrc.json');
+const jsonSass = require('json-sass');
+const source = require('vinyl-source-stream');
+const fs = require('fs');
+const path = require('path');
 const devMode = gutil.env.dev;
 
 const sources = {
@@ -56,6 +60,39 @@ const sources = {
     distPath: '../server/config/'
   }
 };
+
+gulp.task('scss:compileJsToJson', () => {
+  const variablesConfigPath = 'scss/utilities/variables_config';
+  const files = fs.readdirSync(`${variablesConfigPath}/js`);
+
+  return files.forEach((file) => {
+    const fileName = path.basename(file, '.js');
+    const fileExport = require(path.join(__dirname, `${variablesConfigPath}/js/${file}`));
+    fs.writeFile(`${variablesConfigPath}/${fileName}.json`, JSON.stringify(fileExport));
+  });
+});
+
+gulp.task('scss:compileJsonToScss', () => {
+  const variablesConfigPath = 'scss/utilities/variables_config';
+  const files = fs.readdirSync(variablesConfigPath);
+
+  return files.forEach((file) => {
+    if (fs.statSync(`${variablesConfigPath}/${file}`).isFile()) {
+      const fileName = path.basename(file, '.json');
+      const underscoredFilename = fileName.replace(/-/g, '_');
+      const prefix = `$${fileName}: `;
+
+      return fs.createReadStream(`${variablesConfigPath}/${fileName}.json`)
+        .pipe(jsonSass({
+          prefix: prefix,
+          suffix: ';\n'
+        }))
+        .pipe(source(`${variablesConfigPath}/${fileName}.json`))
+        .pipe(rename(`_${underscoredFilename}.scss`))
+        .pipe(gulp.dest(`scss/utilities/compiled_variables/`));
+    }
+  });
+});
 
 gulp.task('fonts:copy', () => {
   gulp.src(sources.fonts.srcPath)
@@ -186,9 +223,10 @@ gulp.task('watch', () => {
   gulp.watch(sources.libs.srcPath, ['libs:copy']);
 });
 
+gulp.task('scss:compileVariables', ['scss:compileJsToJson', 'scss:compileJsonToScss']);
 gulp.task('js', ['js:lint', 'js:compile']);
-gulp.task('scss', ['scss:lint', 'scss:compile', 'scss:compileCritical']);
-gulp.task('lint', ['scss:lint', 'js:lint']);
-gulp.task('compile', ['css:bust', 'js:bust', 'scss:compileCritical', 'fonts:copy', 'images:copy', 'icons:copy', 'libs:copy']);
+gulp.task('scss', ['scss:compileVariables', 'scss:lint', 'scss:compile', 'scss:compileCritical']);
+gulp.task('lint', ['scss:compileVariables', 'scss:lint', 'js:lint']);
+gulp.task('compile', ['css:bust', 'js:bust', 'scss:compileVariables', 'scss:compileCritical', 'fonts:copy', 'images:copy', 'icons:copy', 'libs:copy']);
 gulp.task('build', ['scss', 'js']);
 gulp.task('dev', ['compile', 'watch']);
