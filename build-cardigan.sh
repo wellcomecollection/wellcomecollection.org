@@ -2,10 +2,10 @@
 
 set -o errexit
 
-pushd server
-  npm run fractal:build
-popd
+pushd cardigan
+  npm run app:build
 
-pushd cardigan-dist
-  aws s3 sync . s3://cardigan.wellcomecollection.org
+  pushd .dist
+    aws s3 sync . s3://cardigan.wellcomecollection.org
+  popd
 popd
