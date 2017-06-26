@@ -69,17 +69,20 @@ fractal.components.set('default.collator', function(markup, item) {
 });
 
 fractal.docs.set('path', dir('/views/docs'));
+fractal.docs.set('ext', 'njk');
+fractal.docs.engine(nunjucks);
+
 fractal.web.set('static.path', dir('./../dist'));
 fractal.web.set('builder.dest', dir('./../cardigan'));
 
 const cardiganTheme = mandelbrot({
   skin: 'navy',
-  styles: ['default', '/cardigan-theme/tweaks.css']
+  styles: ['default', 'dist-styles/styleguide.css']
 });
 cardiganTheme.addLoadPath(`${__dirname}/cardigan-theme`);
 cardiganTheme.addLoadPath(`${__dirname}/views`);
 cardiganTheme.addStatic(path.join(__dirname, '/cardigan-theme'), '/cardigan-theme');
-
+cardiganTheme.addStatic(path.join(__dirname, '../dist/assets/css/'), '/dist-styles');
 fractal.web.theme(cardiganTheme);
 
 export default fractal;

@@ -130,3 +130,134 @@
 }
 
 @import 'components/grid_placeholder';
+
+// FRACTAL TWEAKS... SHIELD YOUR EYES
+// stylelint-disable
+
+html {
+  font-family: $helvetica-neue-medium, $helvetica-neue-medium-base;
+  color: color('black');
+  -webkit-font-smoothing: auto;
+}
+
+.Tree-title,
+.Tree-collectionLabel,
+.Tree-item,
+.Browser-tab a,
+.Meta-key,
+.Meta-value {
+  font-family: $helvetica-neue-medium, $helvetica-neue-medium-base;
+  letter-spacing: 0.02em;
+}
+
+.Prose {
+  font-family: $helvetica-neue-light, $helvetica-neue-light-base;
+  letter-spacing: 0.02em;
+  max-width: none;
+  font-size: 1em;
+
+  strong {
+    font-family: $helvetica-neue-medium, $helvetica-neue-medium-base;
+  }
+}
+
+[dir='ltr'] {
+  .Prose ul,
+  .Prose ol {
+    padding-left: 0;
+  }
+}
+
+.Status {
+  font-size: 0.7em;
+}
+
+.Code {
+  font-size: 0.8em;
+}
+
+.Document {
+  padding: 0;
+}
+
+.Document-header {
+  display: none;
+}
+
+.Document-title,
+.Prose h1,
+.Prose h2,
+.Prose h3 {
+  font-family: $wellcome-bold, $wellcome-bold-base;
+}
+
+.Tree-title,
+.Pen-title,
+.Status-label {
+  font-family: $wellcome-bold, $wellcome-bold-base;
+  text-transform: capitalize;
+  letter-spacing: 0;
+  font-size: 1em;
+}
+
+.Tree-title {
+  color: color('black');
+}
+
+.Tree-collectionLabel,
+.Tree-item,
+.Pen-title,
+.Status-label {
+  font-weight: 500;
+}
+
+.Tree-collectionLabel {
+  color: color('black');
+
+  span:before {
+    top: 0.35rem;
+    background-size: 0.7rem;
+    opacity: 1;
+  }
+}
+
+h4.Tree-collectionLabel {
+  margin-bottom: 0;
+}
+
+[dir='ltr'] .Tree-collectionLabel span {
+  margin-left: -1.25rem;
+}
+
+.Header {
+  background-color: color('yellow');
+  color: color('black');
+  box-shadow: none;
+  padding: 5px 0;
+  justify-content: space-between;
+}
+
+.Header-cardigan {
+  margin-right: 10px;
+}
+
+[dir='ltr'] .Frame-panel--sidebar {
+  background-color: color('cream');
+  border-right: 0;
+}
+
+::-webkit-scrollbar {
+  width: 0.7rem;
+}
+
+[dir='ltr']  .Header-button {
+  border-right-color: color('black');
+}
+
+.icon-fill svg {
+  fill: color('black');
+}
+
+[dir="ltr"] .Tree-collectionLabel span {
+  padding-left: 0.85rem;
+}

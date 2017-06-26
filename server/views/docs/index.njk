@@ -1,0 +1,17 @@
+{% extends './cardigan.njk' %}
+
+{% block mainMedia %}
+  <div class="{{ {s:3, m:5, l:10} | spacingClasses({margin: ['top']}) }}">
+    <img src="/cardigan-theme/assets/images/cardigan.jpg" alt="" />
+  </div>
+{% endblock %}
+
+{% block body %}
+  <h2>Useful links</h2>
+  <ul>
+    <li><a href="https://next.wellcomecollection.org">New version of wellcomecollection.org</a></li>
+    <li><a href="https://github.com/wellcometrust/wellcomecollection.org">GitHub Repository</a></li>
+    <li><a href="https://circleci.com/gh/wellcometrust/wellcomecollection.org">CIrcleCi build</a></li>
+  </ul>
+{% endblock %}
+

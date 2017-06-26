@@ -1,0 +1,22 @@
+{% block header %}
+  {% componentV2 'page-description', pageDescription, {'a': true} %}
+{% endblock %}
+
+{% block mainMedia %}{% endblock %}
+
+<div class="row {{ {s:3, m:5, l:10} | spacingClasses({padding: ['top']}) }}">
+  <div class="container">
+    <div class="grid">
+      <div class="{{ {s:12, m:10, shiftM:1, l:10, shiftL:1, xl:8, shiftXl:1} | gridClasses }} ">
+        <div class="body-content">
+          {% block body %}{% endblock %}
+
+          <div class="{{ {s:3, m:5, l:10} | spacingClasses({margin: ['top', 'bottom']}) }}">
+            <hr class="divider divider--stub divider--black" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
