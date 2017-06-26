@@ -27,7 +27,7 @@ package-lock.json
 #VS Code
 .vscode/
 
-cardigan/
+cardigan-dist/
 
 /server/local.log
 
