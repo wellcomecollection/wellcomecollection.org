@@ -13,7 +13,7 @@ export async function explore(ctx, next) {
   const wpPromos = articleStubs.data.map(PromoFactory.fromArticleStub);
   const contentPromos = contentList.map(PromoFactory.fromArticleStub);
   const promos = wpPromos.concat(contentPromos).sort((a, b) => {
-    return a.datePublished.getTime() - b.datePublished.getTime()
+    return a.datePublished.getTime() - b.datePublished.getTime();
   }).reverse();
 
   // TODO: Remove this, make it automatic
