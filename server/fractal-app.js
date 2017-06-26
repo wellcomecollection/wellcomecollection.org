@@ -73,7 +73,7 @@ fractal.docs.set('ext', 'njk');
 fractal.docs.engine(nunjucks);
 
 fractal.web.set('static.path', dir('./../dist'));
-fractal.web.set('builder.dest', dir('./../cardigan'));
+fractal.web.set('builder.dest', dir('./../cardigan-dist'));
 
 const cardiganTheme = mandelbrot({
   skin: 'navy',
