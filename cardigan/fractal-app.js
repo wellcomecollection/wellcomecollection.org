@@ -78,7 +78,8 @@ fractal.web.set('builder.dest', '.dist');
 
 const cardiganTheme = mandelbrot({
   skin: 'navy',
-  styles: ['default', '/dist-styles/styleguide.css']
+  styles: ['default', '/dist-styles/styleguide.css'],
+  favicon: '/cardigan-theme/assets/favicon.ico'
 });
 cardiganTheme.addLoadPath(serverDir('cardigan-theme'));
 cardiganTheme.addLoadPath(serverDir('views'));
