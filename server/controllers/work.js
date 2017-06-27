@@ -7,7 +7,7 @@ import {List} from 'immutable';
 function imageUrlFromMiroId(id) {
   const cleanedMiroId = id.match(/(^\w{1}[0-9]*)+/g, '')[0];
   const miroFolder = `${cleanedMiroId.slice(0, -3)}000`;
-  return `https://s3-eu-west-1.amazonaws.com/miro-images-public/${miroFolder}/${id}.jpg`;
+  return `https://wellcomecollection-miro-images.imgix.net/${miroFolder}/${id}.jpg`;
 }
 
 export const work = async(ctx, next) => {
