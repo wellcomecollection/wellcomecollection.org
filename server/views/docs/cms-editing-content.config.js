@@ -1,3 +1,5 @@
+export const order = 11;
+export const label = 'CMS: Editing content';
 export const context = {
   pageDescription: {
     title: 'CMS',

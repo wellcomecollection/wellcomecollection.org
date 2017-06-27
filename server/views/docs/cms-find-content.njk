@@ -1,0 +1,60 @@
+{% extends 'docs/cardigan.njk' %}
+
+{% block body %}
+  <p>Content management is being handled through <a href="https://prismic.io">Prismic</a>.</p>
+  <p>
+    We will run through the specific steps to content management for
+    <a href="https://next.wellcomecollection.org">Wellcome Collection</a>
+    but you can find more thorough documentation in the
+    <a href="https://intercom.help/prismicio">Prismic documentation</a>
+  </p>
+
+  <h2>Editorial content</h2>
+
+  <p>To get started creating or editing editorial content, follow the steps below:</p>
+
+  <h3>Login</h3>
+  <p>
+    Login to <a href="https://wellcomecollection.prismic.io">Prismic</a>.
+    If you don't have a login, please email the
+  </p>
+
+  <h3>Find and edit your content</h3>
+  <p>On the content list, you can either find a piece of content to edit, or create a new piece.</p>
+  <p>
+    If you are <b>editing content</b>, select
+    <a href="https://wellcomecollection.prismic.io/documents/working~k=content&t=articles&l=en-gb/">"Editorial content"</a>
+    from the Collection filter.
+  </p>
+
+  <p>
+    <div class="flex">
+      <div class="flex-grow">⬇️</div>
+      <div class="flex-grow text-center">Use this bookmarklet to go to the editorial content list directly</div>
+      <div>⬇️</div>
+    </div>
+  </p>
+  <p><a href="https://wellcomecollection.prismic.io/documents/working~k=content&t=editorial&l=en-gb/" class="btn btn--light">Editorial content list</a></p>
+
+  <p>
+    You can further filter your results by selecting the editor of the content in the "Author" filter, or by using the
+    free text search in the top right.
+  </p>
+
+  <p>If you're creating a new piece of content, click the "New" button, then select "Content".</p>
+  <p>Tag your content with the "editorial" tag if hasn't been already.</p>
+
+  <p>
+    <div class="flex">
+      <div class="flex-grow">⬇️</div>
+      <div class="flex-grow text-center">Use this bookmarklet to create an editorial content piece directly</div>
+      <div>⬇️</div>
+    </div>
+  </p>
+  <p><a href="https://wellcomecollection.prismic.io/documents~k=content&t=editorial&b=working&c=unclassified&l=en-gb/new-content*new/" class="btn btn--light">New editorial content piece</a></p>
+
+  <a class="btn" href="/docs/cms-editing-content">
+    <b>Read on:</b> Creating and editing content
+  </a>
+
+{% endblock %}

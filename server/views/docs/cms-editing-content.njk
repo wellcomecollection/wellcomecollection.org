@@ -1,0 +1,77 @@
+{% extends 'docs/cardigan.njk' %}
+
+{% block body %}
+  <p>Each piece of content consists of two segmentations, it's <i>info</i> and it's <i>body</i>.</p>
+  <p>The info about the content is the metadata the content carries around with it.</p>
+  <p>This includes:</p>
+  <ul>
+    <li>Headline</li>
+    <li>Publish date</li>
+    <li>
+      Promo
+      <ul>
+        <li>Promo text</li>
+        <li>Promo image</li>
+      </ul>
+    </li>
+    <li>
+      Creators
+      <ul>
+        <li>Role</li>
+        <li>Person</li>
+      </ul>
+    </li>
+    <li>Series</li>
+  </ul>
+
+  <p>The body of the content consists of a list of content blocks.</p>
+  <p>Each content block may have:</p>
+  <ul>
+    <li>Weight</li>
+    <li>Title</li>
+    <li>Caption</li>
+  </ul>
+
+  <p>The currently supported content blocks at the moment are:</p>
+  <ul>
+    <li>Text</li>
+    <li>Editorial images</li>
+    <li>Editorial image galleries</li>
+    <li>Standfirst</li>
+    <li>Quotes</li>
+    <li>Excerpts</li>
+    <li>Lists</li>
+    <li>Embeds</li>
+    <li>Youtube embeds</li>
+    <li>Instagram embeds</li>
+    <li>Twitter embeds</li>
+  </ul>
+
+  <p class="text text--meta">
+    Please note that these are subject to change as the model is a living thing to which we
+    respond and react to on the needs of our users.
+  </p>
+  <p class="text text--meta">
+    If you notice anything out of date, please let us know.
+  </p>
+
+  <p>
+    A list of bugs, known issues, and improvements can be
+    <a href="https://github.com/wellcometrust/wellcomecollection.org/issues?q=is%3Aopen+is%3Aissue+project%3Awellcometrust%2Fwellcomecollection.org%2F5+label%3Abug">found and reported on Github</a>.
+  </p>
+
+
+  <p>
+    <div class="flex">
+      <div class="flex-grow">⬇️</div>
+      <div class="flex-grow text-center">Use this bookmarklet to create an editorial content piece directly</div>
+      <div>⬇️</div>
+    </div>
+  </p>
+  <p><a href="https://wellcomecollection.prismic.io/documents~k=content&t=editorial&b=working&c=unclassified&l=en-gb/new-content*new/" class="btn btn--light">Create new editorial content piece</a></p>
+
+  {#<a class="btn" href="/docs/">#}
+    {#Read on: <i>Creating and editing content</i>#}
+  {#</a>#}
+
+{% endblock %}
