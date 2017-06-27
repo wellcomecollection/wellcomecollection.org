@@ -3,6 +3,7 @@
 set -o errexit
 
 pushd cardigan
+  npm install
   npm run app:build
 
   pushd .dist
