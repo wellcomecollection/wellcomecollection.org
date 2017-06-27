@@ -27,8 +27,6 @@ package-lock.json
 #VS Code
 .vscode/
 
-cardigan/
-
 /server/local.log
 
 /server/config/css-assets.json
