@@ -6,17 +6,17 @@ import {prismicApi, prismicPreviewApi} from './prismic-api';
 
 export async function getPreviewContent(id: string, req) {
   const prismic = await prismicPreviewApi(req);
-  return getParsedContent(prismic, id);
+  return getContentAsArticle(prismic, id);
 }
 
 export async function getContent(id: string) {
   const prismic = await prismicApi();
-  return getParsedContent(prismic, id);
+  return getContentAsArticle(prismic, id);
 }
 
-export async function getParsedContent(prismic, id: string) {
+async function getContentAsArticle(prismic, id: string) {
   const fetchLinks = [
-    'people.name', 'people.image', 'people.twitterHandle',
+    'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'books.title', 'books.title', 'books.author', 'books.isbn', 'books.publisher', 'books.link', 'books.cover',
     'series.name', 'series.description', 'series.color', 'series.commissionedLength'
   ];
@@ -27,8 +27,12 @@ export async function getParsedContent(prismic, id: string) {
     return null;
   }
 
+  return parseContentAsArticle(prismicArticle);
+}
+
+function parseContentAsArticle(prismicArticle) {
   // TODO : construct this not from strings
-  const url = `/articles/${id}`;
+  const url = `/articles/${prismicArticle.id}`;
 
   // TODO: Leave this in the flow of the body
   // const prismicStandfirst = prismicArticle.data.body.find(slice => slice.slice_type === 'standfirst');
@@ -46,16 +50,17 @@ export async function getParsedContent(prismic, id: string) {
   // TODO: Don't convert this into thumbnail
   const promo = prismicArticle.data.promo.find(slice => slice.slice_type === 'editorialImage');
   const thumbnail = promo && prismicImageToPicture(promo.primary);
+  const description = promo && RichText.asText(promo.primary.caption); // TODO: Do not use description
 
   // TODO: Support more than 1 author
   // TODO: Support creator's role
-  // TODO: For some reason person.image isn't coming through
   const creator = prismicArticle.data.creators.find(creator => creator.slice_type === 'person');
   const person = creator && creator.primary.person.data;
   const author = person && {
     name: person.name,
     twitterHandle: person.twitterHandle,
-    image: person.image.url
+    image: person.image.url,
+    description: RichText.asText(person.description)
   };
 
   const series = prismicArticle.data.series.length > 0 && prismicArticle.data.series.map(prismicSeries => {
@@ -164,7 +169,8 @@ export async function getParsedContent(prismic, id: string) {
     author: author,
     series: series,
     bodyParts: bodyParts,
-    mainMedia: mainMedia
+    mainMedia: mainMedia,
+    description: description
   };
 
   return article;
@@ -187,4 +193,17 @@ function prismicImageToPicture(prismicImage) {
     alt: prismicImage.image.alt,
     copyrightHolder: prismicImage.image.copyright
   }: Picture);
+}
+
+export async function getContentList() {
+  const fetchLinks = [
+    'series.name', 'series.description', 'series.color', 'series.commissionedLength'
+  ];
+  const prismic = await prismicApi();
+  const contentList = await prismic.query([
+    Prismic.Predicates.at('document.type', 'content')
+  ], {fetchLinks});
+
+  const contentAsArticles = contentList.results.map(parseContentAsArticle);
+  return contentAsArticles;
 }
