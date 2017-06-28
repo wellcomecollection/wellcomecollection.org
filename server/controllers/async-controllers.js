@@ -3,7 +3,6 @@ import { PromoListFactory } from '../model/promo-list';
 import { getForwardFill, getUnpublishedSeries } from '../model/series';
 import { getSeriesColor } from '../data/series';
 import { createNumberedList } from '../model/numbered-list';
-import { getLatestTweets } from '../services/twitter';
 import { getLatestInstagramPosts } from '../services/instagram';
 
 export const seriesNav = async(ctx, next) => {
