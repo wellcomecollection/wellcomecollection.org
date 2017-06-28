@@ -11,7 +11,7 @@
       </div>
       <div class="{{ {s:12, m:12, l:8} | gridClasses }}">
         <p class="{{ {s:0, m:0, l:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{ model.data.description }}</p>
-        {% componentV2 'more-info-link', model.data | objectAssign({url: model.data.wordpressSlug}) %}
+        {% componentV2 'more-info-link', model.data | objectAssign({url: '/series/' + model.data.wordpressSlug}) %}
       </div>
     </div>
   </div>

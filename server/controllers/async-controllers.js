@@ -93,26 +93,6 @@ export const latestInstagramPosts = async(ctx, next) => {
   return next();
 };
 
-export const latestTweets = async(ctx, next) => {
-  const tweets = await getLatestTweets(4);
-
-  ctx.render('components/social-media-block/social-media-block', {
-    model: {
-      posts: tweets,
-      service: 'Twitter',
-      icon: 'social/twitter',
-      url: 'https://twitter.com/explorewellcome',
-      handle: 'explorewellcome'
-    }
-  });
-
-  ctx.body = {
-    html: ctx.body
-  };
-
-  return next();
-};
-
 export const seriesContainerPromoList = async(ctx, next) => {
   const {id} = ctx.params;
   const series = await getSeries(id, 8, {page: 1});
