@@ -11,8 +11,7 @@ const rename = require('gulp-rename');
 const webpackConfig = require('./webpack.config.js');
 const eslint = require('gulp-eslint');
 const eslintConfig = require('../.eslintrc.json');
-const jsonSass = require('json-sass');
-const source = require('vinyl-source-stream');
+const jsToSassString = require('json-sass/lib/jsToSassString');
 const fs = require('fs');
 const path = require('path');
 const devMode = gutil.env.dev;
@@ -68,23 +67,11 @@ gulp.task('scss:compileJsToScss', () => {
   return files.filter(file => path.extname(file) === '.js')
     .forEach((file) => {
       const fileName = path.basename(file, '.js');
-      const jsonFilePath = path.join(variablesConfigPath, `${fileName}.json`);
       const scssFileName = `_${fileName.replace(/-/g, '_')}.scss`;
       const fileExport = require(path.join(__dirname, variablesConfigPath, file));
+      const scssString = `$${fileName}: ${jsToSassString(fileExport)};\n`;
 
-      fs.writeFileSync(path.join(jsonFilePath), JSON.stringify(fileExport));
-      fs.createReadStream(path.join(jsonFilePath))
-        .pipe(jsonSass({
-          prefix: `$${fileName}: `,
-          suffix: ';\n'
-        }))
-        .pipe(source(path.join(jsonFilePath)))
-        .pipe(rename(scssFileName))
-        .pipe(gulp.dest(path.join(variablesConfigPath, '../compiled_variables')));
-
-      fs.unlink(jsonFilePath, (err) => { // Delete json file from intermediary step
-        if (err) throw err;
-      });
+      fs.writeFile(path.join(variablesConfigPath, '../compiled_variables', scssFileName), scssString);
     });
 });
 
