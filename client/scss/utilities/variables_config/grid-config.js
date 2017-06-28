@@ -1,5 +1,5 @@
-const containerPadding = require('../container-padding.json');
-const gutterWidth = require('../gutter-width.json');
+const containerPadding = require('./container-padding');
+const gutterWidth = require('./gutter-width');
 
 const gridConfig = {
   s: {

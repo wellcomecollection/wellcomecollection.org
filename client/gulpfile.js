@@ -61,37 +61,31 @@ const sources = {
   }
 };
 
-gulp.task('scss:compileJsToJson', () => {
-  const variablesConfigPath = 'scss/utilities/variables_config';
-  const files = fs.readdirSync(`${variablesConfigPath}/js`);
-
-  return files.forEach((file) => {
-    const fileName = path.basename(file, '.js');
-    const fileExport = require(path.join(__dirname, `${variablesConfigPath}/js/${file}`));
-    fs.writeFile(`${variablesConfigPath}/${fileName}.json`, JSON.stringify(fileExport));
-  });
-});
-
-gulp.task('scss:compileJsonToScss', () => {
+gulp.task('scss:compileJsToScss', () => {
   const variablesConfigPath = 'scss/utilities/variables_config';
   const files = fs.readdirSync(variablesConfigPath);
 
-  return files.forEach((file) => {
-    if (fs.statSync(`${variablesConfigPath}/${file}`).isFile()) {
-      const fileName = path.basename(file, '.json');
-      const underscoredFilename = fileName.replace(/-/g, '_');
-      const prefix = `$${fileName}: `;
+  return files.filter(file => path.extname(file) === '.js')
+    .forEach((file) => {
+      const fileName = path.basename(file, '.js');
+      const jsonFilePath = path.join(variablesConfigPath, `${fileName}.json`);
+      const scssFileName = `_${fileName.replace(/-/g, '_')}.scss`;
+      const fileExport = require(path.join(__dirname, variablesConfigPath, file));
 
-      return fs.createReadStream(`${variablesConfigPath}/${fileName}.json`)
+      fs.writeFileSync(path.join(jsonFilePath), JSON.stringify(fileExport));
+      fs.createReadStream(path.join(jsonFilePath))
         .pipe(jsonSass({
-          prefix: prefix,
+          prefix: `$${fileName}: `,
           suffix: ';\n'
         }))
-        .pipe(source(`${variablesConfigPath}/${fileName}.json`))
-        .pipe(rename(`_${underscoredFilename}.scss`))
-        .pipe(gulp.dest(`scss/utilities/compiled_variables/`));
-    }
-  });
+        .pipe(source(path.join(jsonFilePath)))
+        .pipe(rename(scssFileName))
+        .pipe(gulp.dest(path.join(variablesConfigPath, '../compiled_variables')));
+
+      fs.unlink(jsonFilePath, (err) => { // Delete json file from intermediary step
+        if (err) throw err;
+      });
+    });
 });
 
 gulp.task('fonts:copy', () => {
@@ -223,10 +217,9 @@ gulp.task('watch', () => {
   gulp.watch(sources.libs.srcPath, ['libs:copy']);
 });
 
-gulp.task('scss:compileVariables', ['scss:compileJsToJson', 'scss:compileJsonToScss']);
 gulp.task('js', ['js:lint', 'js:compile']);
-gulp.task('scss', ['scss:compileVariables', 'scss:lint', 'scss:compile', 'scss:compileCritical']);
-gulp.task('lint', ['scss:compileVariables', 'scss:lint', 'js:lint']);
-gulp.task('compile', ['css:bust', 'js:bust', 'scss:compileVariables', 'scss:compileCritical', 'fonts:copy', 'images:copy', 'icons:copy', 'libs:copy']);
+gulp.task('scss', ['scss:compileJsToScss', 'scss:lint', 'scss:compile', 'scss:compileCritical']);
+gulp.task('lint', ['scss:compileJsToScss', 'scss:lint', 'js:lint']);
+gulp.task('compile', ['css:bust', 'js:bust', 'scss:compileJsToScss', 'scss:compileCritical', 'fonts:copy', 'images:copy', 'icons:copy', 'libs:copy']);
 gulp.task('build', ['scss', 'js']);
 gulp.task('dev', ['compile', 'watch']);
