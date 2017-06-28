@@ -1,3 +1,6 @@
+import breakpoints from '../../../client/scss/utilities/variables_config/breakpoints';
+import gridConfig from '../../../client/scss/utilities/variables_config/grid-config';
+
 export const context = {
   pageDescription: {
     title: 'Visual Architecture',
@@ -7,30 +10,17 @@ export const context = {
 others direction.`
     }
   },
-  gridConfig: [
-    {
-      name: 'small',
-      breakpoint: '0px',
-      gutterWidth: '18px',
-      marginWidth: '30px'
-    },
-    {
-      name: 'medium',
-      breakpoint: '600px',
-      gutterWidth: '24px',
-      marginWidth: '42px'
-    },
-    {
-      name: 'large',
-      breakpoint: '960px',
-      gutterWidth: '30px',
-      marginWidth: '60px'
-    },
-    {
-      name: 'xlarge',
-      breakpoint: '1338px',
-      gutterWidth: '30px',
-      marginWidth: '60px'
-    }
-  ]
+  breakpoints: Object.keys(breakpoints).map((key) => {
+    return {
+      name: key,
+      size: breakpoints[key]
+    };
+  }),
+  gridConfig: Object.keys(gridConfig).map((key) => {
+    return {
+      name: key,
+      gutterWidth: gridConfig[key].gutter,
+      marginWidth: gridConfig[key].padding
+    };
+  })
 };
