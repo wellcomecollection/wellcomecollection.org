@@ -1,5 +1,5 @@
-import breakpoints from '../../../client/scss/utilities/variables_config/breakpoints';
-import gridConfig from '../../../client/scss/utilities/variables_config/grid-config';
+import breakpoints from '../../../client/config/breakpoints';
+import gridConfig from '../../../client/config/grid-config';
 
 export const context = {
   pageDescription: {

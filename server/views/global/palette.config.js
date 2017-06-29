@@ -1,4 +1,4 @@
-import colors from '../../../client/scss/utilities/variables_config/colors.js';
+import colors from '../../../client/config/colors.js';
 
 const colorsArray = Object.keys(colors).map(key => {
   return {
