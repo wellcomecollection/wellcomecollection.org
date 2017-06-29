@@ -1,6 +1,6 @@
 import Prismic from 'prismic-javascript';
 import {prismicApi} from '../services/prismic-api';
-import {getContent, getPreviewContent} from '../services/prismic-content';
+import {getContent, getEvent, getPreviewContent} from '../services/prismic-content';
 import {createPageConfig} from '../model/page-config';
 
 export const renderPrismicArticle = async(ctx, next) => {
@@ -64,4 +64,12 @@ async function getPreviewSession(token) {
       }
     });
   });
+}
+
+export async function renderEvent(ctx, next) {
+  const id = `${ctx.params.id}`;
+  const event = await getEvent(id);
+  const format = ctx.request.query.format;
+  
+  renderContent(ctx, event, format);
 }

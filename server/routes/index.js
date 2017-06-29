@@ -1,7 +1,10 @@
 import Router from 'koa-router';
 import {index, article, articles, healthcheck, featureFlags, performanceTest, explosion, preview, series} from '../controllers';
 import {seriesNav, seriesTransporter, latestTweets, latestInstagramPosts, seriesContainerPromoList} from '../controllers/async-controllers';
-import {renderPrismicArticle, renderPreviewPrismicArticle, setContentPreviewSession} from '../controllers/content';
+import {
+  renderPrismicArticle, renderPreviewPrismicArticle, setContentPreviewSession,
+  renderEvent
+} from '../controllers/content';
 import {explore} from '../controllers/lists';
 import {work, search} from '../controllers/work';
 
@@ -29,5 +32,8 @@ r.get('/latest-tweets/', latestTweets);
 r.get('/latest-instagram-posts', latestInstagramPosts);
 r.get('/search', search);
 r.get('/series-container-promos-list/:id', seriesContainerPromoList);
+
+
+r.get('/events/:id', renderEvent);
 
 export const router = r.middleware();

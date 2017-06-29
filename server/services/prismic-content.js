@@ -34,10 +34,6 @@ function parseContentAsArticle(prismicArticle) {
   // TODO : construct this not from strings
   const url = `/articles/${prismicArticle.id}`;
 
-  // TODO: Leave this in the flow of the body
-  // const prismicStandfirst = prismicArticle.data.body.find(slice => slice.slice_type === 'standfirst');
-  // const standfirst = prismicStandfirst && RichText.asText(prismicStandfirst.primary.text);
-
   // TODO: Add this to the article body
   // TODO: potentially get rid of this
   const publishDate = PrismicDate(prismicArticle.data.publishDate || prismicArticle.first_publication_date);
@@ -206,4 +202,45 @@ export async function getContentList() {
 
   const contentAsArticles = contentList.results.map(parseContentAsArticle);
   return contentAsArticles;
+}
+
+
+export async function getEvent(id) {
+  const prismic = await prismicApi();
+  const fetchLinks = ['people.name', 'people.image', 'people.twitterHandle', 'people.description'];
+  const events = await prismic.query(Prismic.Predicates.at('document.id', id), {fetchLinks});
+  const event = events.total_results_size === 1 ? events.results[0] : null;
+
+  if (!event) {
+    return null;
+  }
+  const promo = event.data.promo.find(slice => slice.slice_type === 'editorialImage');
+  const thumbnail = promo && prismicImageToPicture(promo.primary);
+
+  const creator = event.data.contributors.find(creator => creator.slice_type === 'person');
+  const person = creator && creator.primary.person.data;
+  const author = person && {
+    name: person.name,
+    twitterHandle: person.twitterHandle,
+    image: person.image.url,
+    description: RichText.asText(person.description)
+  };
+
+  const article: Article = {
+    contentType: 'article',
+    headline: event.data.title,
+    url: '',
+    datePublished: PrismicDate(event.data.startDate),
+    thumbnail: thumbnail,
+    author: author,
+    bodyParts: [{
+      type: 'text',
+      weight: 'default',
+      value: RichText.asHtml(event.data.description)
+    }] ,
+    mainMedia: [thumbnail],
+    series: []
+  };
+
+  return article;
 }
