@@ -231,6 +231,9 @@ export async function getEvent(id) {
     headline: event.data.title,
     url: '',
     datePublished: PrismicDate(event.data.startDate),
+    startDate: PrismicDate(event.data.startDate),
+    endDate: PrismicDate(event.data.endDate),
+    eventbriteId: event.data.eventbriteId,
     thumbnail: thumbnail,
     author: author,
     bodyParts: [{

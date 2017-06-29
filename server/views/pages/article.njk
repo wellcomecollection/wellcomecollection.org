@@ -1,4 +1,4 @@
-{% extends 'layout/default.njk' %}
+q{% extends 'layout/default.njk' %}
 
 {% block pageMeta %}
   {% component 'open-graph', { pageConfig: pageConfig, article: article } %}
@@ -22,8 +22,19 @@
   {% set seriesTitle = null %}
 {% endif %}
 
-<article itemscope itemtype="http://schema.org/Article">
-  {% componentV2 'page-description', {intro: seriesTitle, title: article.headline, meta: {type: 'date', value: article.datePublished}, lead: true}, {'a': true}, {icon: article.contentType | getIconForContentType} %}
+  <article itemscope itemtype="http://schema.org/Article">
+  {% set pageDescriptionMeta =
+    {value: (article.startDate | formatDateTime) + ' - ' +  (article.endDate | formatDateTime) + (' | <a href="https://eventbrite.com/e/' + article.eventbriteId + '">Ticketed</a>' if article.eventbriteId else '')}
+    if article.startDate else {type: 'date', value: article.datePublished}
+  %}
+  {% componentV2 'page-description', {
+    intro: seriesTitle,
+    title: article.headline,
+    meta: pageDescriptionMeta,
+    lead: true},
+    {'a': true},
+    {icon: article.contentType | getIconForContentType}
+  %}
 
   {% set mainMediaData = {
     contentType: article.contentType,

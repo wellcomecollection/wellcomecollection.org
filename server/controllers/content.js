@@ -70,6 +70,6 @@ export async function renderEvent(ctx, next) {
   const id = `${ctx.params.id}`;
   const event = await getEvent(id);
   const format = ctx.request.query.format;
-  
+
   renderContent(ctx, event, format);
 }
