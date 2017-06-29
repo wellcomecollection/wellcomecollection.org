@@ -10,9 +10,9 @@ export async function explore(ctx, next) {
   // TODO: Remove WP content
   const [flags] = ctx.intervalCache.get('flags');
   const prismicArticlesOnExploreFlag = isFlagEnabled(ctx.featuresCohort, 'prismicArticlesOnExplore', flags);
-  const curatedListPromise = prismicArticlesOnExploreFlag ? getCuratedList('explore') : Promise.resolve([]);
+  const contentListPromise = prismicArticlesOnExploreFlag ? getContentList() : Promise.resolve([]);
 
-  const listRequests = [curatedListPromise, getArticleStubs(10), getContentList()];
+  const listRequests = [getCuratedList('explore'), getArticleStubs(10), contentListPromise];
   const [curatedList, articleStubs, contentList] = await Promise.all(listRequests);
 
   const wpPromos = articleStubs.data.map(PromoFactory.fromArticleStub);
