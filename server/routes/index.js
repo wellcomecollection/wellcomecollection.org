@@ -33,7 +33,6 @@ r.get('/latest-instagram-posts', latestInstagramPosts);
 r.get('/search', search);
 r.get('/series-container-promos-list/:id', seriesContainerPromoList);
 
-
 r.get('/events/:id', renderEvent);
 
 export const router = r.middleware();

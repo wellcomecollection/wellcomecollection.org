@@ -204,7 +204,6 @@ export async function getContentList() {
   return contentAsArticles;
 }
 
-
 export async function getEvent(id) {
   const prismic = await prismicApi();
   const fetchLinks = ['people.name', 'people.image', 'people.twitterHandle', 'people.description'];
@@ -240,7 +239,7 @@ export async function getEvent(id) {
       type: 'text',
       weight: 'default',
       value: RichText.asHtml(event.data.description)
-    }] ,
+    }],
     mainMedia: [thumbnail],
     series: []
   };
