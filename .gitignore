@@ -35,4 +35,4 @@ cardigan/
 /server/config/js-assets.json
 
 /server/views/partials/critical.css.njk
-/client/scss/utilities/compiled_variables/
+/client/scss/utilities/compiled_variables/*.scss
