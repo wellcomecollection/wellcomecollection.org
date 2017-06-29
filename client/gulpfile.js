@@ -19,6 +19,7 @@ const devMode = gutil.env.dev;
 const sources = {
   scss: {
     all: 'scss/**/*.scss',
+    jsConfig: 'scss/**/*.js',
     critical: {
       manifests: [
         'scss/critical.scss'
@@ -62,7 +63,12 @@ const sources = {
 
 gulp.task('scss:compileJsToScss', () => {
   const variablesConfigPath = 'scss/utilities/variables_config';
+  const compiledVariablesPath = 'scss/utilities/compiled_variables';
   const files = fs.readdirSync(variablesConfigPath);
+
+  if (!fs.existsSync(compiledVariablesPath)) {
+    fs.mkdirSync(compiledVariablesPath);
+  }
 
   return files.filter(file => path.extname(file) === '.js')
     .forEach((file) => {
@@ -195,6 +201,7 @@ gulp.task('js:lint', () => {
 });
 
 gulp.task('watch', () => {
+  gulp.watch(sources.scss.jsConfig, ['scss:compileJsToScss']);
   gulp.watch(sources.scss.nonCritical.all, ['css:bust', 'scss:compileCritical']);
   gulp.watch(sources.scss.critical.manifests, ['scss:compileCritical']);
   gulp.watch(sources.js.all, ['js:bust']);
