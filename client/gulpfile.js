@@ -71,7 +71,7 @@ gulp.task('scss:compileJsToScss', () => {
       const fileExport = require(path.join(__dirname, variablesConfigPath, file));
       const scssString = `$${fileName}: ${jsToSassString(fileExport)};\n`;
 
-      fs.writeFile(path.join(variablesConfigPath, '../compiled_variables', scssFileName), scssString);
+      fs.writeFileSync(path.join(variablesConfigPath, '../compiled_variables', scssFileName), scssString);
     });
 });
 
