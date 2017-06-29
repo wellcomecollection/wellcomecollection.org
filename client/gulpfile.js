@@ -11,11 +11,15 @@ const rename = require('gulp-rename');
 const webpackConfig = require('./webpack.config.js');
 const eslint = require('gulp-eslint');
 const eslintConfig = require('../.eslintrc.json');
+const jsToSassString = require('json-sass/lib/jsToSassString');
+const fs = require('fs');
+const path = require('path');
 const devMode = gutil.env.dev;
 
 const sources = {
   scss: {
     all: 'scss/**/*.scss',
+    jsConfig: 'scss/**/*.js',
     critical: {
       manifests: [
         'scss/critical.scss'
@@ -56,6 +60,26 @@ const sources = {
     distPath: '../server/config/'
   }
 };
+
+gulp.task('scss:compileJsToScss', () => {
+  const variablesConfigPath = 'scss/utilities/variables_config';
+  const compiledVariablesPath = 'scss/utilities/compiled_variables';
+  const files = fs.readdirSync(variablesConfigPath);
+
+  if (!fs.existsSync(compiledVariablesPath)) {
+    fs.mkdirSync(compiledVariablesPath);
+  }
+
+  return files.filter(file => path.extname(file) === '.js')
+    .forEach((file) => {
+      const fileName = path.basename(file, '.js');
+      const scssFileName = `_${fileName.replace(/-/g, '_')}.scss`;
+      const fileExport = require(path.join(__dirname, variablesConfigPath, file));
+      const scssString = `$${fileName}: ${jsToSassString(fileExport)};\n`;
+
+      fs.writeFile(path.join(variablesConfigPath, '../compiled_variables', scssFileName), scssString);
+    });
+});
 
 gulp.task('fonts:copy', () => {
   gulp.src(sources.fonts.srcPath)
@@ -177,6 +201,7 @@ gulp.task('js:lint', () => {
 });
 
 gulp.task('watch', () => {
+  gulp.watch(sources.scss.jsConfig, ['scss:compileJsToScss']);
   gulp.watch(sources.scss.nonCritical.all, ['css:bust', 'scss:compileCritical']);
   gulp.watch(sources.scss.critical.manifests, ['scss:compileCritical']);
   gulp.watch(sources.js.all, ['js:bust']);
@@ -187,8 +212,8 @@ gulp.task('watch', () => {
 });
 
 gulp.task('js', ['js:lint', 'js:compile']);
-gulp.task('scss', ['scss:lint', 'scss:compile', 'scss:compileCritical']);
-gulp.task('lint', ['scss:lint', 'js:lint']);
-gulp.task('compile', ['css:bust', 'js:bust', 'scss:compileCritical', 'fonts:copy', 'images:copy', 'icons:copy', 'libs:copy']);
+gulp.task('scss', ['scss:compileJsToScss', 'scss:lint', 'scss:compile', 'scss:compileCritical']);
+gulp.task('lint', ['scss:compileJsToScss', 'scss:lint', 'js:lint']);
+gulp.task('compile', ['css:bust', 'js:bust', 'scss:compileJsToScss', 'scss:compileCritical', 'fonts:copy', 'images:copy', 'icons:copy', 'libs:copy']);
 gulp.task('build', ['scss', 'js']);
 gulp.task('dev', ['compile', 'watch']);
