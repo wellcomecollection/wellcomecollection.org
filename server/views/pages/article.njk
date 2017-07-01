@@ -3,6 +3,7 @@
 {% block pageMeta %}
   {% component 'open-graph', { pageConfig: pageConfig, article: article } %}
   {% component 'twitter-card', { pageConfig: pageConfig, article: article } %}
+  <meta name="description" content="{{ article.description | safe | striptags }}" />
 {% endblock %}
 
 {% block body %}
