@@ -62,9 +62,9 @@ const sources = {
 };
 
 gulp.task('scss:compileJsToScss', () => {
-  const variablesConfigPath = 'scss/utilities/variables_config';
+  const configPath = 'config';
   const compiledVariablesPath = 'scss/utilities/compiled_variables';
-  const files = fs.readdirSync(variablesConfigPath);
+  const files = fs.readdirSync(configPath);
 
   if (!fs.existsSync(compiledVariablesPath)) {
     fs.mkdirSync(compiledVariablesPath);
@@ -74,10 +74,10 @@ gulp.task('scss:compileJsToScss', () => {
     .forEach((file) => {
       const fileName = path.basename(file, '.js');
       const scssFileName = `_${fileName.replace(/-/g, '_')}.scss`;
-      const fileExport = require(path.join(__dirname, variablesConfigPath, file));
+      const fileExport = require(path.join(__dirname, configPath, file));
       const scssString = `$${fileName}: ${jsToSassString(fileExport)};\n`;
 
-      fs.writeFile(path.join(variablesConfigPath, '../compiled_variables', scssFileName), scssString);
+      fs.writeFile(path.join(compiledVariablesPath, scssFileName), scssString);
     });
 });
 
