@@ -15,6 +15,7 @@ import jsonLd from './json-ld';
 import {formatDate, formatDateWithComingSoon} from './format-date';
 import {isFlagEnabled} from '../util/flag-status';
 import {objectAssign} from './object-assign';
+import {arrayFromObject} from './array-from-object';
 import {groupBodyParts} from './group-body-parts';
 
 export default Map({
@@ -35,5 +36,6 @@ export default Map({
   formatDateWithComingSoon,
   isFlagEnabled,
   objectAssign,
+  arrayFromObject,
   groupBodyParts
 });

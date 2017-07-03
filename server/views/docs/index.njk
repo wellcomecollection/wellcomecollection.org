@@ -13,5 +13,18 @@
     <li><a href="https://github.com/wellcometrust/wellcomecollection.org">GitHub Repository</a></li>
     <li><a href="https://circleci.com/gh/wellcometrust/wellcomecollection.org">CIrcleCi build</a></li>
   </ul>
+
+  <h2>Status codes</h2>
+  <p>Components and their variants have been given statuses reflecting their state of completion. The available statuses are listed below.</p>
+  <table>
+    <tbody>
+      {% for status in statuses | arrayFromObject %}
+        <tr>
+          <td><span style="background: {{ status.color }}; display: inline-block; padding: 0.2em 0.5em; border-radius: 6px; color: #fff; font-family: 'Wellcome Bold Web'">{{ status.label }}</span></td>
+          <td>{{ status.description }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
 

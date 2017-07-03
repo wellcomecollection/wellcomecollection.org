@@ -7,6 +7,7 @@ import filters from '../server/filters';
 import extensions from '../server/extensions';
 import {getEnvWithGlobalsExtensionsAndFilters} from '../server/view/env-utils';
 import {createPageConfig} from '../server/model/page-config';
+import statuses from './config/statuses';
 
 const fractal = Fractal.create();
 const root = serverDir('views');
@@ -29,33 +30,7 @@ fractal.components.engine(nunjucks);
 fractal.set('project.title', 'pattern library');
 
 fractal.components.set('path', root);
-fractal.components.set('statuses', {
-  wip: {
-    label: 'WIP',
-    description: 'Work in progress',
-    color: '#ad4e00'
-  },
-  testing: {
-    label: 'Testing',
-    description: 'Being tested',
-    color: '#895791'
-  },
-  graduated: {
-    label: 'Graduated',
-    description: 'Implemented',
-    color: '#367378'
-  },
-  deprecated: {
-    label: 'Deprecated',
-    description: 'Deprecated',
-    color: '#c72e3d'
-  },
-  benched: {
-    label: 'Benched',
-    desciption: 'Has previously been used, but is not currently; maybe be used in future',
-    color: '#006272'
-  }
-});
+fractal.components.set('statuses', statuses);
 fractal.components.set('default.status', 'wip');
 fractal.components.set('ext', '.njk');
 fractal.components.set('default.preview', '@preview');
