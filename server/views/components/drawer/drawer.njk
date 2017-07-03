@@ -1,0 +1,12 @@
+<div class="drawer js-drawer">
+  <header class="drawer__header js-show-hide-trigger">
+    {% block header %}
+      {% componentV2 headerComponent %}
+    {% endblock %}
+  </header>
+  <div class="drawer__body js-show-hide-drawer">
+    {% block body %}
+      {% componentV2 bodyComponent %}
+    {% endblock %}
+  </div>
+</div>

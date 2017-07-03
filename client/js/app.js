@@ -23,6 +23,7 @@ import tracking from './tracking';
 import polyfills from './polyfills';
 import truncateText from './components/truncate-text';
 import fontObserver from './utils/font-observer';
+import drawer from './components/drawer';
 
 const init = () => {
   polyfills.init();
@@ -46,6 +47,7 @@ const init = () => {
   const mainEl = document.getElementById('main');
   const cohortButtons = document.querySelectorAll('.js-cohort-button');
   const gifVideoEls = document.querySelectorAll('.js-gif-video');
+  const drawerEls = document.querySelectorAll('.js-drawer');
 
   nodeList(gifVideoEls).forEach(gifVideo);
 
@@ -82,6 +84,8 @@ const init = () => {
       sliderType: 'gallery'
     });
   });
+
+  nodeList(drawerEls).forEach(drawer);
 
   nodeList(cohortButtons).forEach((button) => {
     joinCohort(button);

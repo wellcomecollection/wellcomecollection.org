@@ -1,0 +1,14 @@
+.drawer__body {
+  .enhanced & {
+    display: none;
+  }
+
+  .is-active & {
+    display: block;
+  }
+}
+
+.drawer__icon {
+  width: 1em;
+  height: 1em;
+}
