@@ -30,7 +30,9 @@ export const wellcomeCollectionAddress = {
 export const wellcomeCollection: Organization = {
   name: 'Wellcome Collection',
   url: 'https://next.wellcomecollection.org',
-  logo: 'https://wellcomecollection.org/client/icons/apple-touch-icon.png',
+  logo: {
+    url: 'https://wellcomecollection.org/assets/icons/apple-touch-icon.png'
+  },
   twitterHandle: '@ExploreWellcome',
   sameAs: [
     'https://twitter.com/ExploreWellcome',

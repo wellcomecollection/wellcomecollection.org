@@ -17,7 +17,7 @@ export function contentLd(content) {
     image: imageLd(content.thumbnail),
     datePublished: content.datePublished,
     dateModified: content.datePublished,
-    publisher: museumLd(wellcomeCollection)
+    publisher: orgLd(wellcomeCollection)
   }, 'Article');
 }
 
@@ -29,9 +29,18 @@ export function museumLd(museum) {
       opens: ohs.opens
     };
   });
-  const newOrg = Object.assign({}, museum, {openingHoursSpecification});
-  delete newOrg.twitterHandle;
-  return objToJsonLd(newOrg, 'Museum');
+  const newMuseum = Object.assign({}, museum, {openingHoursSpecification, logo: imageLd(museum.logo)});
+  delete newMuseum.twitterHandle;
+  return objToJsonLd(newMuseum, 'Museum');
+}
+
+function orgLd(org) {
+  return objToJsonLd({
+    name: org.name,
+    url: org.url,
+    logo: imageLd(org.logo),
+    sameAs: org.sameAs
+  }, 'Organization');
 }
 
 function personLd(person) {
@@ -44,7 +53,7 @@ function personLd(person) {
 
 function imageLd(image) {
   return objToJsonLd({
-    url: image.contentUrl,
+    url: image.contentUrl || image.url,
     width: image.width,
     height: image.height
   }, 'ImageObject');
