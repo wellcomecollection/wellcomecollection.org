@@ -16,7 +16,6 @@ import {formatDate, formatDateWithComingSoon} from './format-date';
 import {isFlagEnabled} from '../util/flag-status';
 import {objectAssign} from './object-assign';
 import {groupBodyParts} from './group-body-parts';
-import {contentLd, museumLd} from '../util/json-ld';
 
 export default Map({
   youtubeEmbedUrl,
@@ -36,7 +35,5 @@ export default Map({
   formatDateWithComingSoon,
   isFlagEnabled,
   objectAssign,
-  groupBodyParts,
-  contentLd,
-  museumLd
+  groupBodyParts
 });
