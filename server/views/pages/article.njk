@@ -23,7 +23,10 @@
   {% set seriesTitle = null %}
 {% endif %}
 
-<article itemscope itemtype="http://schema.org/Article">
+<script type="application/ld+json">
+  {{ article | contentLd | dump | safe }}
+</script>
+<article>
   {% componentV2 'page-description', {intro: seriesTitle, title: article.headline, meta: {type: 'date', value: article.datePublished}, lead: true}, {'a': true}, {icon: article.contentType | getIconForContentType} %}
 
   {% set mainMediaData = {
