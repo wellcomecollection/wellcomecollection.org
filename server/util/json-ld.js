@@ -58,8 +58,3 @@ function imageLd(image) {
     height: image.height
   }, 'ImageObject');
 }
-
-function openingHoursLd(oh) {
-
-}
-
