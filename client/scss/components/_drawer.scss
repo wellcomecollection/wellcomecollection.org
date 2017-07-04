@@ -1,3 +1,14 @@
+.drawer__header {
+  appearance: none;
+  border: 0;
+  background: color('transparent');
+  width: 100%;
+
+  &:focus {
+    outline: none;
+  }
+}
+
 .drawer__body {
   .enhanced & {
     display: none;
@@ -6,9 +17,4 @@
   .is-active & {
     display: block;
   }
-}
-
-.drawer__icon {
-  width: 1em;
-  height: 1em;
 }

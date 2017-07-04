@@ -1,12 +1,12 @@
 <div class="drawer js-drawer">
-  <header class="drawer__header js-show-hide-trigger">
+  <button class="drawer__header js-show-hide-trigger">
     {% block header %}
-      {% componentV2 headerComponent %}
+      {% componentV2 headerComponent.name, headerComponent.model, headerComponent.data %}
     {% endblock %}
-  </header>
+  </button>
   <div class="drawer__body js-show-hide-drawer">
     {% block body %}
-      {% componentV2 bodyComponent %}
+      {% componentV2 bodyComponent.name, bodyComponent.model, bodyComponent.data %}
     {% endblock %}
   </div>
 </div>

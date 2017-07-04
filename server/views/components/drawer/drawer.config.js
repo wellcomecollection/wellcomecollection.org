@@ -1,4 +1,12 @@
 export const context = {
-  headerComponent: 'filter-form-header',
-  bodyComponent: 'form'
+  headerComponent: {
+    name: 'filter-form-header',
+    model: null,
+    data: null
+  },
+  bodyComponent: {
+    name: 'form',
+    model: '@form',
+    data: null
+  }
 };

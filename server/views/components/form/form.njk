@@ -1,28 +1,29 @@
-<form class="form">
-  <fieldset class="form__fieldset">
-    <span class="form__heading">Type</span>
-    <div class="form__group">
-      <input type="radio" name="type" id="type-match" />
-      <label for="type-match">Best match</label>
-    </div>
-    <div class="form__group">
-      <input type="radio" name="type" id="type-oldest" />
-      <label for="type-oldest">Oldest first</label>
-    </div>
-    <div class="form__group">
-      <input type="radio" name="type" id="type-newest" />
-      <label for="type-newest">Newest first</label>
-    </div>
-  </fieldset>
-  <fieldset class="form__fieldset">
-    <span class="form__heading">License</span>
-    <div class="form__group">
-      <input type="radio" name="license-search" id="license-search-rights" />
-      <label for="license-search-rights">Rights managed</label>
-    </div>
-    <div class="form__group">
-      <input type="radio" name="license-search" id="license-search-free" />
-      <label for="license-search-free">Free</label>
-    </div>
-  </fieldset>
+<form class="form" method="{{ model.method }}" action="{{ model.action }}">
+  {% for fieldset in model.fieldsets %}
+    <fieldset class="form__fieldset {{ {s:2, m:2, l:2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+      <span class="form__heading">{{ fieldset.heading }}:</span>
+      {% for element in fieldset.elements %}
+        <div class="form__group flex flex--v-center">
+          {% if ['radio', 'checkbox'] | contains(element.type) %}
+            <input
+              id="{{ element.id }}"
+              class="form__input form__input--{{ element.type }}"
+              type="{{ element.type }}" name="{{ element.name }}" />
+            <span class="form__control-indicator form__control-indicator--{{ element.type }}"></span>
+            <label
+              class="form__label {{ {s:1, m:1, l:1} | spacingClasses({margin: ['left']}) }}"
+              for="{{ element.id }}">
+              {{ element.label }}
+            </label>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </fieldset>
+  {% endfor %}
+
+  <hr class="divider divider--pumice divider--keyline" />
+
+  <div class="{{ {s:4, m:4, l:4} | spacingClasses({padding: ['right'], margin: ['top']}) }}">
+    {% component 'button-button', {text: model.buttonText, modifierClasses: 'btn--light'} %}
+  </div>
 </form>

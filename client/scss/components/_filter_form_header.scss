@@ -1,6 +1,20 @@
+.filter-form-header {
+  @include font('HNL5');
+
+  .is-active & {
+    color: color('turquoise-text');
+  }
+}
+
 .filter-form-header__icon {
   width: 1em;
   height: 1em;
+
+  .icon__shape {
+    .is-active & {
+      fill: color('turquoise-text');
+    }
+  }
 }
 
 .filter-form-header__cross {
