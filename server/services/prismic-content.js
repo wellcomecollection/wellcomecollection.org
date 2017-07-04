@@ -203,7 +203,7 @@ export async function getEditorialList() {
     Prismic.Predicates.at('document.type', 'editorial')
   ], {fetchLinks});
 
-  const editorialAsArticles = editorialList.results.map(parseContentAsArticle);
+  const editorialAsArticles = editorialList.results.map(parseEditorialAsArticle);
   return editorialAsArticles;
 }
 
