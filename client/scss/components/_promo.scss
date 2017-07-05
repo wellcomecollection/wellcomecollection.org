@@ -25,7 +25,7 @@
   }
 }
 
-@include image-zoom ($interactionElement: '.promo', $containerElement: '.promo__image-container', $zoomElement: '.image');
+@include image-zoom ($interactionElement: '.promo', $containerElement: '.promo__image-container:not(.promo__image-container--constrained)', $zoomElement: '.image:not(.promo__image-container--constrained .image)');
 
 .promo__image-surrogate {
   position: relative;
@@ -76,6 +76,25 @@
       order: 0;
       width: percentage(1 / 3);
     }
+  }
+}
+
+.promo__image-container--constrained {
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  height: 0;
+  padding-top: 150%;
+  border-radius: 0;
+
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 30%;
+    background: linear-gradient(color('white'), color('transparent'));
   }
 }
 
