@@ -1,9 +1,13 @@
 .sort-search {
-  @include font('HNM5');
+  @include font('HNL5');
 
   .icon {
-    width: 1em;
-    height: 1em;
+    width: 1.2em;
+    height: 1.2em;
+  }
+
+  .icon__shape {
+    fill: color('turquoise-text');
   }
 
   @include respond-to('medium') {
@@ -16,7 +20,18 @@
   }
 }
 
+.sort-search__close-icon {
+  display: none;
+
+  @include respond-between('small', 'medium') {
+    .is-sort-search-active & {
+      display: block;
+    }
+  }
+}
+
 .sort-search__header {
+  color: color('turquoise-text');
   appearance: none;
   font-family: inherit;
   background: color('transparent');
@@ -34,17 +49,25 @@
   }
 }
 
-.sort-search__inputs {
-  display: none;
+.sort-search__form {
+  .enhanced & {
+    display: none;
+
+    @include respond-to('medium') {
+      display: inline-flex;
+    }
+  }
 
   .is-sort-search-active & {
     @include respond-between('small', 'medium') {
       display: block;
     }
   }
+}
 
-  @include respond-to('medium') {
-    display: inline-flex;
+.sort-search__button {
+  .enhanced & {
+    display: none;
   }
 }
 
