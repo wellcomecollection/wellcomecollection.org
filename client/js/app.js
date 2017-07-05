@@ -23,6 +23,7 @@ import tracking from './tracking';
 import polyfills from './polyfills';
 import truncateText from './components/truncate-text';
 import fontObserver from './utils/font-observer';
+import backToTop from './components/back-to-top';
 
 const init = () => {
   polyfills.init();
@@ -46,6 +47,7 @@ const init = () => {
   const mainEl = document.getElementById('main');
   const cohortButtons = document.querySelectorAll('.js-cohort-button');
   const gifVideoEls = document.querySelectorAll('.js-gif-video');
+  const backToTopEl = document.querySelector('.js-back-to-top');
 
   nodeList(gifVideoEls).forEach(gifVideo);
 
@@ -73,6 +75,10 @@ const init = () => {
 
   if (stickyEls) {
     makeSticky(stickyEls, store$);
+  }
+
+  if (backToTopEl) {
+    backToTop(backToTopEl, 'back-to-top--visible');
   }
 
   nodeList(galleries).forEach((gallery) => {
