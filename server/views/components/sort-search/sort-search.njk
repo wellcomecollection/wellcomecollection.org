@@ -1,0 +1,16 @@
+<div class="sort-search js-sort-search">
+  <button class="sort-search__header flex flex--v-center flex--h-space-between js-show-hide-trigger">
+    <div class="flex flex--v-center {{ {s:2, m:2, l:2} | spacingClasses({margin: ['right']}) }}">
+      <span class="flex-inline {{ {s:1} | spacingClasses({margin: ['right']}) }}">Sort:</span>
+      {% icon 'actions/filter', null, ['sort-search__filter-icon'] %}
+    </div>
+    {% icon 'actions/cross-big', null, ['sort-search__close-icon'] %}
+  </button>
+  <div class="sort-search__inputs js-show-hide-drawer">
+    {% for input in model.inputs %}
+      <div class="sort-search__group {{ {s:2, m:2, l:2} | spacingClasses({margin: ['right']}) }}">
+        {% componentV2 'input', input %}
+      </div>
+    {% endfor %}
+  </div>
+</div>

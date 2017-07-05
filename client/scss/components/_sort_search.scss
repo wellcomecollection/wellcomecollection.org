@@ -1,0 +1,55 @@
+.sort-search {
+  @include font('HNM5');
+
+  .icon {
+    width: 1em;
+    height: 1em;
+  }
+
+  @include respond-to('medium') {
+    display: flex;
+    align-items: center;
+
+    .icon {
+      display: none;
+    }
+  }
+}
+
+.sort-search__header {
+  appearance: none;
+  font-family: inherit;
+  background: color('transparent');
+  border: 0;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+
+  &:focus {
+    outline: 0;
+  }
+
+  @include respond-to('medium') {
+    width: auto;
+  }
+}
+
+.sort-search__inputs {
+  display: none;
+
+  .is-sort-search-active & {
+    @include respond-between('small', 'medium') {
+      display: block;
+    }
+  }
+
+  @include respond-to('medium') {
+    display: inline-flex;
+  }
+}
+
+.sort-search__group {
+  @include respond-to('medium') {
+    display: inline-flex;
+  }
+}
