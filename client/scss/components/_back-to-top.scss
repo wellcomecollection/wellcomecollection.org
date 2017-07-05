@@ -1,7 +1,7 @@
-$linkDimension: $spacing-unit * 7;
+$link-dimension: $spacing-unit * 7;
 
 $tweakpoints: (
-  'back-to-top-xlarge': map-get($breakpoints, 'xlarge') + map-get($gutter-width, 'xlarge') + $linkDimension
+  'back-to-top-xlarge': map-get($breakpoints, 'xlarge') + map-get($gutter-width, 'xlarge') + $link-dimension
 );
 
 .back-to-top {
@@ -10,8 +10,8 @@ $tweakpoints: (
   right: #{map-get($container-padding, 'small')};
   z-index: 2;
   backface-visibility: hidden; // prevents flicker as page is scrolled
-  width: $linkDimension;
-  height: $linkDimension;
+  width: $link-dimension;
+  height: $link-dimension;
   border-radius: 50%;
   background: color('black');
 
@@ -30,10 +30,10 @@ $tweakpoints: (
 
   .enhanced & {
     transition: opacity 0.25s, transform 0.25s;
-    transform: scale(0) translateX($linkDimension / 2);
+    transform: scale(0) translateX($link-dimension / 2);
 
     @include respond-to('back-to-top-xlarge') {
-      transform: scale(0) translateX(map-get($gutter-width, 'xlarge') + $linkDimension);
+      transform: scale(0) translateX(map-get($gutter-width, 'xlarge') + $link-dimension);
     }
     opacity: 0;
   }
@@ -42,10 +42,10 @@ $tweakpoints: (
 .back-to-top--visible {
   .enhanced & {
     opacity: 0.7;
-    transform: scale(1) translateX($linkDimension / 2);
+    transform: scale(1) translateX($link-dimension / 2);
 
     @include respond-to('back-to-top-xlarge') {
-      transform: scale(1) translateX(map-get($gutter-width, 'xlarge') + $linkDimension);
+      transform: scale(1) translateX(map-get($gutter-width, 'xlarge') + $link-dimension);
     }
   }
 }
