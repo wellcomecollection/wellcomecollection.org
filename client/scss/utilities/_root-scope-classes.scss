@@ -44,6 +44,16 @@
   justify-content: space-between;
 }
 
+.plain-button {
+  appearance: none;
+  font-family: inherit;
+  letter-spacing: inherit;
+  background: color('transparent');
+  border: 0;
+  padding: 0;
+  text-align: left;
+}
+
 .float-r {
   float: right;
 }
