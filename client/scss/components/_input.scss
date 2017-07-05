@@ -14,7 +14,7 @@
   }
 
   &:focus {
-    ~ .input__control-indicator--radio {
+    ~ .input__control-indicator {
       border-color: color('turquoise-graphics');
     }
   }
