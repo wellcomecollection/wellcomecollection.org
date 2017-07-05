@@ -5,19 +5,22 @@ export const context = {
         label: 'Best match',
         type: 'radio',
         id: 'sort-best-match',
-        name: 'sort'
+        name: 'sort',
+        value: ''
       },
       {
         label: 'Newest',
         type: 'radio',
         id: 'sort-newest',
-        name: 'sort'
+        name: 'sort',
+        value: 'DESC'
       },
       {
         label: 'Oldest',
         type: 'radio',
         id: 'sort-oldest',
-        name: 'sort'
+        name: 'sort',
+        value: 'ASC'
       }
     ]
   }

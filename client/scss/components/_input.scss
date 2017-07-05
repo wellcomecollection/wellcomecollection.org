@@ -4,7 +4,7 @@
   }
 
   &:checked {
-    ~ .control-indicator {
+    ~ .input__control-indicator {
       border-color: color('turquoise-text');
     }
 

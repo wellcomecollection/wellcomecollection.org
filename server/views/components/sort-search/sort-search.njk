@@ -7,7 +7,7 @@
     </div>
     {% icon 'actions/cross-big', null, ['sort-search__close-icon'] %}
   </button>
-  <form action="" class="sort-search__form js-sort-search-form js-show-hide-drawer">
+  <form action="" method="get" class="sort-search__form js-sort-search-form js-show-hide-drawer">
     {% for input in model.inputs %}
       <div class="sort-search__group {{ {s:2, m:2, l:2} | spacingClasses({margin: ['right']}) }}">
         {% componentV2 'input', input %}

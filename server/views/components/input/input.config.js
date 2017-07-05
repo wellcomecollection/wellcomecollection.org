@@ -14,7 +14,8 @@ export const variants = [
       model: {
         id: 'radio',
         type: 'radio',
-        name: 'radio'
+        name: 'radio',
+        value: 'radio'
       }
     }
   }, {
@@ -23,7 +24,8 @@ export const variants = [
       model: {
         id: 'checkbox',
         type: 'checkbox',
-        name: 'checkbox'
+        name: 'checkbox',
+        value: 'checkbox'
       }
     }
   }
