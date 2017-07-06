@@ -9,12 +9,15 @@
   </button>
   <span class="sort-search__label flex-inline {{ {m:1, l:1} | spacingClasses({margin: ['right']}) }}">Sort:</span>
   <form action="" method="get" class="sort-search__form js-sort-search-form js-show-hide-drawer">
-    {% for input in model.inputs %}
-      <div class="sort-search__group {{ {s:2, m:2, l:2} | spacingClasses({margin: ['right']}) }}">
-        {% componentV2 'input', input %}
-      </div>
-    {% endfor %}
-
+    <div class="sort-search__group {{ {s:2, m:2, l:2} | spacingClasses({margin: ['right']}) }}">
+      {% componentV2 'input', {label: 'Best match', type: 'radio', id: 'sort-best-match', name: 'sort', value: ''} %}
+    </div>
+    <div class="sort-search__group {{ {s:2, m:2, l:2} | spacingClasses({margin: ['right']}) }}">
+      {% componentV2 'input', {label: 'Newest', type: 'radio', id: 'sort-newest', name: 'sort', value: 'DESC'} %}
+    </div>
+    <div class="sort-search__group {{ {s:2, m:2, l:2} | spacingClasses({margin: ['right']}) }}">
+      {% componentV2 'input', {label: 'Oldest', type: 'radio', id: 'sort-oldest', name: 'sort', value: 'ASC'} %}
+    </div>
     {% component 'button-button', {text: 'Apply', modifierClasses: 'sort-search__submit'} %}
   </form>
 </div>
