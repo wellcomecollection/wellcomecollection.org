@@ -52,5 +52,6 @@ export const authorMap: { [key: string]: Person } = {
   'sharing-nature-wild': people.markThomas,
   'digital-pets': people.jennaJovi,
   'research-notes-a-chance-discovery': people.wendyMoore,
-  'sharing-nature-emotion': people.helenBabbs
+  'sharing-nature-emotion': people.helenBabbs,
+  'animal-doctors': people.helenBabbs
 };

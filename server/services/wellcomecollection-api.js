@@ -17,7 +17,7 @@ export async function getWork(id: string): Promise<Work> {
 
 export async function getWorks(query: string, page: string): Promise<Work> {
   return await superagent.get(`${baseUri}/works`)
-    .query({query, includes: 'identifiers', page})
+    .query({query, includes: 'identifiers', page, pageSize: 96})
     .then((request) => {
       return request.body;
     }).catch((error) => {

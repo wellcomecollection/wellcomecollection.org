@@ -1,5 +1,5 @@
 import {getCuratedList} from '../services/prismic-curated-lists';
-import {getContentList} from '../services/prismic-content';
+import {getEditorialList} from '../services/prismic-content';
 import {getArticleStubs} from '../services/wordpress';
 import {PromoFactory} from '../model/promo';
 import {createPageConfig} from '../model/page-config';
@@ -10,7 +10,7 @@ export async function explore(ctx, next) {
   // TODO: Remove WP content
   const [flags] = ctx.intervalCache.get('flags');
   const prismicArticlesOnExploreFlag = isFlagEnabled(ctx.featuresCohort, 'prismicArticlesOnExplore', flags);
-  const contentListPromise = prismicArticlesOnExploreFlag ? getContentList() : Promise.resolve([]);
+  const contentListPromise = prismicArticlesOnExploreFlag ? getEditorialList() : Promise.resolve([]);
 
   const listRequests = [getCuratedList('explore'), getArticleStubs(10), contentListPromise];
   const [curatedList, articleStubs, contentList] = await Promise.all(listRequests);

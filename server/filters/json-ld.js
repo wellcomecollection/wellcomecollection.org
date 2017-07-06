@@ -1,8 +1,8 @@
 // @flow
-import {objToJsonLd} from '../util/json-ld';
+import * as parsers from '../util/json-ld';
 
-export default function jsonLd<T>(obj: T, type: string) {
-  const o = objToJsonLd(obj, type);
+export default function jsonLd<T>(obj: T, parserName: string) {
+  const o = parsers[parserName](obj);
   return JSON.stringify(o);
 }
 
