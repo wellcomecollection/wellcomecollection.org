@@ -1,4 +1,5 @@
 import showHide from './show-hide';
+import fastdom from 'fastdom';
 import { nodeList } from '../util';
 
 const sortSearch = (el) => {
@@ -7,12 +8,14 @@ const sortSearch = (el) => {
     activeClass: 'is-sort-search-active'
   });
 
-  const form = el.querySelector('.js-sort-search-form');
-  const inputEls = nodeList(form.getElementsByTagName('input'));
+  fastdom.measure(() => {
+    const form = el.querySelector('.js-sort-search-form');
+    const inputEls = nodeList(form.getElementsByTagName('input'));
 
-  inputEls.forEach((el) => {
-    el.addEventListener('change', () => {
-      form.submit();
+    inputEls.forEach((el) => {
+      el.addEventListener('change', () => {
+        form.submit();
+      });
     });
   });
 
