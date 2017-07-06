@@ -23,7 +23,8 @@ async function getEditorialAsArticle(prismic, id: string) {
   ];
 
   const articles = await prismic.query([
-    Prismic.Predicates.at('document.id', id)
+    Prismic.Predicates.at('document.id', id),
+    Prismic.Predicates.any('document.type', ['editorial', 'events'])
   ], {fetchLinks});
   const prismicArticle = articles.total_results_size === 1 ? articles.results[0] : null;
 
