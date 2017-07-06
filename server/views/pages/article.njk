@@ -28,10 +28,12 @@
 </script>
 <article>
   <article itemscope itemtype="http://schema.org/Article">
-  {% set pageDescriptionMeta =
-    {value: (article.startDate | formatDateTime) + ' - ' +  (article.endDate | formatDateTime) + (' | <a href="https://eventbrite.com/e/' + article.eventbriteId + '">Ticketed</a>' if article.eventbriteId else '')}
-    if article.startDate else {type: 'date', value: article.datePublished}
-  %}
+  {% if article.when %}
+    {% set pageDescriptionMeta = {value: (article.eventFormat | title) + '<br />' + article.when[0]} %}
+  {% else %}
+    {% set pageDescriptionMeta = {type: 'date', value: article.datePublished} %}
+  {% endif %}
+
   {% componentV2 'page-description', {
     intro: seriesTitle,
     title: article.headline,

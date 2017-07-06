@@ -253,14 +253,18 @@ export async function getEvent(id) {
     headline: event.data.title,
     url: '',
     datePublished: PrismicDate(event.data.startDate),
-    startDate: PrismicDate(event.data.startDate),
-    endDate: PrismicDate(event.data.endDate),
-    eventbriteId: event.data.eventbriteId,
     thumbnail: thumbnail,
     author: author,
     bodyParts: convertContentToBodyParts(event.data.content),
     mainMedia: [thumbnail],
-    series: []
+    series: [],
+
+    // Not part of the standard model
+    when: event.data.when.map(slice =>
+      `${moment(slice.primary.start).format('dddd MM MMMM YYYY HH:mm')} – ${moment(slice.primary.end).format('HH:mm')}`
+    ),
+    eventbriteId: event.data.eventbriteId,
+    eventFormat: event.data.format
   };
 
   return article;
