@@ -3,7 +3,6 @@ import { PromoListFactory } from '../model/promo-list';
 import { getForwardFill, getUnpublishedSeries } from '../model/series';
 import { getSeriesColor } from '../data/series';
 import { createNumberedList } from '../model/numbered-list';
-import { getLatestTweets } from '../services/twitter';
 import { getLatestInstagramPosts } from '../services/instagram';
 
 export const seriesNav = async(ctx, next) => {
@@ -83,26 +82,6 @@ export const latestInstagramPosts = async(ctx, next) => {
       icon: 'social/instagram',
       url: 'https://instagram.com/wellcomecollection',
       handle: 'wellcomecollection'
-    }
-  });
-
-  ctx.body = {
-    html: ctx.body
-  };
-
-  return next();
-};
-
-export const latestTweets = async(ctx, next) => {
-  const tweets = await getLatestTweets(4);
-
-  ctx.render('components/social-media-block/social-media-block', {
-    model: {
-      posts: tweets,
-      service: 'Twitter',
-      icon: 'social/twitter',
-      url: 'https://twitter.com/explorewellcome',
-      handle: 'explorewellcome'
     }
   });
 

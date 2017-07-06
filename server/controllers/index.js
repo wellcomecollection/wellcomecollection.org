@@ -78,50 +78,6 @@ export const index = (ctx, next) => ctx.render('pages/index', {
   pageConfig: createPageConfig({inSection: 'index'})
 }) && next();
 
-export const healthcheck = (ctx, next) => {
-  ctx.body = 'ok';
-  return next();
-};
-
-export const featureFlags = (ctx, next) => {
-  ctx.render('pages/flags', {
-    pageConfig: createPageConfig({inSection: 'index'})
-  });
-  return next();
-};
-
-export const performanceTest = async(ctx, next) => {
-  const slug = 'a-drop-in-the-ocean-daniel-regan';
-  const startTime = process.hrtime();
-  const article = await getArticle(`slug:${slug}`);
-
-  ctx.render('pages/article', {
-    pageConfig: createPageConfig({inSection: 'explore'}),
-    article: article
-  });
-
-  const endTime = process.hrtime(startTime);
-  const endTimeFormatted = `${endTime[0]}s ${endTime[1] / 1000000}ms`;
-
-  ctx.type = 'application/javascript';
-  ctx.body = `
-    if (console) {
-      console.log('Incoming from next.wellcomecollection.org, ${slug} took ${endTimeFormatted}');
-    }
-  `;
-
-  return next();
-};
-
-export const explosion = (ctx, next) => {
-  const {errorCode} = ctx.params;
-  const message = `Forced explosion of type ${errorCode}`;
-  ctx.status = parseInt(errorCode, 10);
-  ctx.body = { errorCode, message };
-
-  return next();
-};
-
 export const preview = async(ctx, next) => {
   const id = ctx.params.id;
   const format = ctx.request.query.format;

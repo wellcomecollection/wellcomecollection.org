@@ -1,36 +1,40 @@
 import Router from 'koa-router';
-import {index, article, articles, healthcheck, featureFlags, performanceTest, explosion, preview, series} from '../controllers';
-import {seriesNav, seriesTransporter, latestTweets, latestInstagramPosts, seriesContainerPromoList} from '../controllers/async-controllers';
-import {
-  renderPrismicArticle, renderPreviewPrismicArticle, setContentPreviewSession,
-  renderEvent
-} from '../controllers/content';
+import {healthcheck, featureFlags} from '../controllers/utils';
+import {seriesNav, seriesTransporter, latestInstagramPosts, seriesContainerPromoList} from '../controllers/async-controllers';
+import {renderPrismicContent, renderPreviewPrismicContent, setContentPreviewSession, renderEvent} from '../controllers/content';
 import {explore} from '../controllers/lists';
 import {work, search} from '../controllers/work';
+import {index, article, articles, preview, series} from '../controllers'; // Deprecated
 
 const r = new Router({
   sensitive: true
 });
 
+// Util / function
 r.get('/', index);
 r.get('/healthcheck', healthcheck);
+r.get('/flags', featureFlags);
+
+// Content
+r.get('/editorial/(W):id', renderPrismicContent);
+r.get('/preview/:id', renderPreviewPrismicContent);
 r.get('/explore', explore);
-r.get('/articles', articles);
-r.get('/articles/(W):id', renderPrismicArticle);
-r.get('/preview/:id', renderPreviewPrismicArticle);
 r.get('/preview', setContentPreviewSession);
+
+// API
+r.get('/search', search);
+r.get('/works/:id', work);
+
+// Deprecated: Wordpress content
 r.get('/articles/:slug', article);
+r.get('/articles/preview/:id', preview);
 r.get('/series/:id', series);
+r.get('/articles', articles);
+
+// Async
 r.get('/series-nav/:id', seriesNav);
 r.get('/series-transporter/:id', seriesTransporter);
-r.get('/performance-test.js', performanceTest);
-r.get('/explosion/:errorCode', explosion);
-r.get('/articles/preview/:id', preview);
-r.get('/works/:id', work);
-r.get('/flags', featureFlags);
-r.get('/latest-tweets/', latestTweets);
 r.get('/latest-instagram-posts', latestInstagramPosts);
-r.get('/search', search);
 r.get('/series-container-promos-list/:id', seriesContainerPromoList);
 
 r.get('/events/:id', renderEvent);

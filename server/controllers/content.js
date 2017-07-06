@@ -3,7 +3,7 @@ import {prismicApi} from '../services/prismic-api';
 import {getContent, getEvent, getPreviewContent} from '../services/prismic-content';
 import {createPageConfig} from '../model/page-config';
 
-export const renderPrismicArticle = async(ctx, next) => {
+export const renderPrismicContent = async(ctx, next) => {
   const format = ctx.request.query.format;
   // We rehydrate the `W` here as we take it off when we have the route.
   const id = `W${ctx.params.id}`;
@@ -12,7 +12,7 @@ export const renderPrismicArticle = async(ctx, next) => {
   renderContent(ctx, content, format);
 };
 
-export async function renderPreviewPrismicArticle(ctx, next) {
+export async function renderPreviewPrismicContent(ctx, next) {
   const format = ctx.request.query.format;
   const id = `${ctx.params.id}`;
   const content = await getPreviewContent(id, ctx.request);

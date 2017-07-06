@@ -46,26 +46,24 @@
 
   <h3>Width</h3>
 
-  <p>The layout has a maximum width of {{ gridConfig[gridConfig.length - 1].breakpoint }}.</p>
+  <p>The layout has a maximum width of {{ breakpoints[breakpoints.length - 1].size }}.</p>
 
   <h3>Breakpoints</h3>
 
-  <p>The layout utilises {{ gridConfig.length }} breakpoints:</p>
+  <p>The layout utilises {{ breakpoints.length }} breakpoints:</p>
 
   <ul>
-    {% for gridSize in gridConfig %}
-      <li>`{{ gridSize.name }}`: {% if gridSize.name === 'xlarge' %} > {% else %} >= {% endif %} {{ gridSize.breakpoint }}</li>
+    {% for breakpoint in breakpoints %}
+      <li>`{{ breakpoint.name }}`: {% if breakpoint.name === 'xlarge' %} > {% else %} >= {% endif %} {{ breakpoint.size }}</li>
     {% endfor %}
   </ul>
 
   <h3>Grid columns/spacing</h3>
   <p>The grid consists of 12 columns and breakpoints determine the spacing between the columns, i.e. gutters, and the space either side of the layout, i.e. margins.</p>
 
-  {% for gridSize in gridConfig %}
-    <h4>{{ gridSize.name }}</h4>
-    <ul>
-      <li>gutter widths: {{ gridSize.gutterWidth }}</li>
-      <li>margin widths: {{ gridSize.marginWidth }}</li>
-    </ul>
-  {% endfor %}
+  <ul>
+    {% for gridSize in gridConfig %}
+      <li><strong>{{ gridSize.name }}:</strong> {{ gridSize.gutterWidth }} gutters, {{ gridSize.marginWidth }} margins</li>
+    {% endfor %}
+  </ul>
 {% endblock %}

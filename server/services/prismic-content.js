@@ -50,7 +50,7 @@ function parseContentAsArticle(prismicArticle) {
 
   // TODO: Support more than 1 author
   // TODO: Support creator's role
-  const creator = prismicArticle.data.creators.find(creator => creator.slice_type === 'person');
+  const creator = prismicArticle.data.contributors.find(creator => creator.slice_type === 'person');
   const person = creator && creator.primary.person.data;
   const author = person && {
     name: person.name,
@@ -235,11 +235,7 @@ export async function getEvent(id) {
     eventbriteId: event.data.eventbriteId,
     thumbnail: thumbnail,
     author: author,
-    bodyParts: [{
-      type: 'text',
-      weight: 'default',
-      value: RichText.asHtml(event.data.description)
-    }],
+    bodyParts: [],
     mainMedia: [thumbnail],
     series: []
   };

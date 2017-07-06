@@ -39,7 +39,7 @@
           {% for result in resultsList.results %}
           <div class="{{ {s:6, m:4, l:3 , xl:2} | gridClasses }}">
           {% set img = {contentUrl: result.imgLink, width: 300, height: 300} %}
-            {% componentV2 'promo', {title: result.label, url: '/works/'+result.id, image: img, description: result.description}, {}, {sizes: '(min-width: 1340px) 178px, (min-width: 960px) calc(25vw - 52px), (min-width: 600px) calc(33.24vw - 43px), calc(50vw - 27px)'} %}
+            {% componentV2 'promo', {title: result.label, url: '/works/'+result.id, image: img}, {}, {isConstrained: true, sizes: '(min-width: 1340px) 178px, (min-width: 960px) calc(25vw - 52px), (min-width: 600px) calc(33.24vw - 43px), calc(50vw - 27px)'} %}
           </div>
           {% endfor %}
         </div>
@@ -55,5 +55,7 @@
         </div>
       </div>
     </div>
+
+    {% componentV2 'back-to-top' %}
   {% endif %}
 {% endblock %}

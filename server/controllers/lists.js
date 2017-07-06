@@ -4,10 +4,15 @@ import {getArticleStubs} from '../services/wordpress';
 import {PromoFactory} from '../model/promo';
 import {createPageConfig} from '../model/page-config';
 import {collectorsPromo} from '../data/series';
+import {isFlagEnabled} from '../util/flag-status';
 
 export async function explore(ctx, next) {
   // TODO: Remove WP content
-  const listRequests = [getCuratedList('explore'), getArticleStubs(10), getContentList()];
+  const [flags] = ctx.intervalCache.get('flags');
+  const prismicArticlesOnExploreFlag = isFlagEnabled(ctx.featuresCohort, 'prismicArticlesOnExplore', flags);
+  const contentListPromise = prismicArticlesOnExploreFlag ? getContentList() : Promise.resolve([]);
+
+  const listRequests = [getCuratedList('explore'), getArticleStubs(10), contentListPromise];
   const [curatedList, articleStubs, contentList] = await Promise.all(listRequests);
 
   const wpPromos = articleStubs.data.map(PromoFactory.fromArticleStub);

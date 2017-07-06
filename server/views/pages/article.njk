@@ -1,8 +1,9 @@
-q{% extends 'layout/default.njk' %}
+{% extends 'layout/default.njk' %}
 
 {% block pageMeta %}
   {% component 'open-graph', { pageConfig: pageConfig, article: article } %}
   {% component 'twitter-card', { pageConfig: pageConfig, article: article } %}
+  <meta name="description" content="{{ article.description | safe | striptags }}" />
 {% endblock %}
 
 {% block body %}
@@ -22,6 +23,10 @@ q{% extends 'layout/default.njk' %}
   {% set seriesTitle = null %}
 {% endif %}
 
+<script type="application/ld+json">
+  {{ article | jsonLd('contentLd') | safe }}
+</script>
+<article>
   <article itemscope itemtype="http://schema.org/Article">
   {% set pageDescriptionMeta =
     {value: (article.startDate | formatDateTime) + ' - ' +  (article.endDate | formatDateTime) + (' | <a href="https://eventbrite.com/e/' + article.eventbriteId + '">Ticketed</a>' if article.eventbriteId else '')}
