@@ -1,0 +1,17 @@
+.search-box {
+  position: relative;
+
+  .input {
+    padding-right: 2em;
+  }
+}
+
+.search-box__button {
+  position: absolute;
+  right: 0.6em;
+
+  .icon {
+    width: 1em;
+    height: 1em;
+  }
+}

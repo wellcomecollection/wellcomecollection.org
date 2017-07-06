@@ -1,0 +1,6 @@
+<form class="search-box" action="{{ model.action }}">
+  {% componentV2 'input', {id: model.id, type: 'text', name: model.name, value: model.query, placeholder: 'Search'}, null, {isLabelHidden: true} %}
+  <button class="search-box__button plain-button v-center">
+    {% icon 'actions/search', 'Search' %}
+  </button>
+</form>
