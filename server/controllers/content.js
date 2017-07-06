@@ -1,42 +1,42 @@
 import Prismic from 'prismic-javascript';
 import {prismicApi} from '../services/prismic-api';
-import {getContent, getEvent, getPreviewContent} from '../services/prismic-content';
+import {getEditorial, getEditorialPreview, getEvent} from '../services/prismic-content';
 import {createPageConfig} from '../model/page-config';
 
-export const renderPrismicContent = async(ctx, next) => {
+export const renderEditorial = async(ctx, next) => {
   const format = ctx.request.query.format;
   // We rehydrate the `W` here as we take it off when we have the route.
   const id = `W${ctx.params.id}`;
-  const content = await getContent(id);
+  const editorial = await getEditorial(id);
 
-  renderContent(ctx, content, format);
+  render(ctx, editorial, format);
 };
 
-export async function renderPreviewPrismicContent(ctx, next) {
+export async function renderEditorialPreview(ctx, next) {
   const format = ctx.request.query.format;
   const id = `${ctx.params.id}`;
-  const content = await getPreviewContent(id, ctx.request);
+  const editorial = await getEditorialPreview(id, ctx.request);
 
-  renderContent(ctx, content, format);
+  render(ctx, editorial, format);
 }
 
-function renderContent(ctx, content, format) {
-  if (content) {
+function render(ctx, editorial, format) {
+  if (editorial) {
     if (format === 'json') {
-      ctx.body = content;
+      ctx.body = editorial;
     } else {
       ctx.render('pages/article', {
         pageConfig: createPageConfig({
-          title: content.headline,
+          title: editorial.headline,
           inSection: 'explore'
         }),
-        article: content
+        article: editorial
       });
     }
   }
 }
 
-export async function setContentPreviewSession(ctx, next) {
+export async function setPreviewSession(ctx, next) {
   const {token} = ctx.request.query;
   ctx.cookies.set(Prismic.previewCookie, token, {
     maxAge: 60 * 30 * 1000,
@@ -71,5 +71,5 @@ export async function renderEvent(ctx, next) {
   const event = await getEvent(id);
   const format = ctx.request.query.format;
 
-  renderContent(ctx, event, format);
+  render(ctx, event, format);
 }
