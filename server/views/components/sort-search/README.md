@@ -1,0 +1,1 @@
+This component is a pared down version of a more in-depth proposed filter/sort. This markup, along with `_sort_search.scss` and `sort-search.js` should be removed as and when the new component is created.

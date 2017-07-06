@@ -1,5 +1,9 @@
 {% extends 'layout/default.njk' %}
 
+{% block pageMeta %}
+  <meta name="description" content="Exploration for the incurably curious" />
+{% endblock %}
+
 {% block body %}
   {% componentV2 'page-description', { title: 'Explore' }, {'hidden': true} %}
   <div class="row row--cream row--has-wobbly-background {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top']}) }}">

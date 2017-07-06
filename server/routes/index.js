@@ -1,7 +1,7 @@
 import Router from 'koa-router';
 import {healthcheck, featureFlags} from '../controllers/utils';
 import {seriesNav, seriesTransporter, latestInstagramPosts, seriesContainerPromoList} from '../controllers/async-controllers';
-import {renderPrismicContent, renderPreviewPrismicContent, setContentPreviewSession} from '../controllers/content';
+import {renderEditorial, renderEditorialPreview, setPreviewSession} from '../controllers/content';
 import {explore} from '../controllers/lists';
 import {work, search} from '../controllers/work';
 import {index, article, articles, preview, series} from '../controllers'; // Deprecated
@@ -16,10 +16,10 @@ r.get('/healthcheck', healthcheck);
 r.get('/flags', featureFlags);
 
 // Content
-r.get('/editorial/(W):id', renderPrismicContent);
-r.get('/preview/:id', renderPreviewPrismicContent);
+r.get('/editorial/(W):id', renderEditorial);
+r.get('/preview/:id', renderEditorialPreview);
 r.get('/explore', explore);
-r.get('/preview', setContentPreviewSession);
+r.get('/preview', setPreviewSession);
 
 // API
 r.get('/search', search);

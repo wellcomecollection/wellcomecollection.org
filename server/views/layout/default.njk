@@ -22,7 +22,7 @@
     <script async defer src="//platform.twitter.com/widgets.js"></script>
     {% component 'head-js', { file:  'app.js' | getCacheBustFile  } %}
     <script type="application/ld+json">
-      {{ pageConfig.organization | jsonLd('Museum') | safe }}
+      {{ pageConfig.organization | jsonLd('museumLd') | safe }}
     </script>
     <script>
       window.WC = {
