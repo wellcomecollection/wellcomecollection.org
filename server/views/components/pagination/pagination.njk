@@ -1,8 +1,8 @@
-<div class="pagination float-r flex-inline flex--v-center text--meta {{ {s:2, m:2, l:2} | spacingClasses({margin: ['top', 'bottom']}) }}">
+<div class="pagination float-r flex-inline flex--v-center text--meta">
   {% if (model.prevPage) %}
     <a href="{{ model.prevQueryString }}" rel="prev" class="{{ {s:2, m:2, l:2} | spacingClasses({margin: ['right']}) }}">
       <div class="icon-rounder flex flex--v-center">
-        {% icon 'actions/arrow-big', 'Previous (page '+ model.prevPage +')', ['icon--90', 'icon--2x', 'h-center'] %}
+        {% icon 'actions/arrow-small', 'Previous (page '+ model.prevPage +')', ['icon--90', 'h-center'] %}
       </div>
     </a>
   {% endif %}
@@ -11,7 +11,7 @@
   {% if (model.nextPage) %}
     <a href="{{ model.nextQueryString }}" rel="next" class="{{ {s:2, m:2, l:2} | spacingClasses({margin: ['left']}) }}">
       <div class="icon-rounder flex flex--v-center">
-        {% icon 'actions/arrow-big', 'Next (page '+ model.nextPage +')', ['icon--270', 'icon--2x', 'h-center'] %}
+        {% icon 'actions/arrow-small', 'Next (page '+ model.nextPage +')', ['icon--270', 'h-center'] %}
       </div>
     </a>
   {% endif %}
