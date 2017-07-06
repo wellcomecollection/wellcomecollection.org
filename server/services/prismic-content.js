@@ -3,6 +3,7 @@ import type {Picture} from '../model/picture';
 import Prismic from 'prismic-javascript';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
+import moment from 'moment';
 
 export async function getEditorialPreview(id: string, req) {
   const prismic = await prismicPreviewApi(req);
@@ -70,7 +71,26 @@ function parseEditorialAsArticle(prismicArticle) {
     };
   });
 
-  const bodyParts = prismicArticle.data.content.map(slice => {
+  const bodyParts = convertContentToBodyParts(prismicArticle.data.content);
+
+  const article: Article = {
+    contentType: 'article',
+    headline: asText(prismicArticle.data.title),
+    url: url,
+    datePublished: publishDate,
+    thumbnail: thumbnail,
+    author: author,
+    series: series,
+    bodyParts: bodyParts,
+    mainMedia: mainMedia,
+    description: description
+  };
+
+  return article;
+}
+
+function convertContentToBodyParts(content) {
+  return content.map(slice => {
     switch (slice.slice_type) {
       case 'standfirst':
         return {
@@ -153,25 +173,22 @@ function parseEditorialAsArticle(prismicArticle) {
           }
         };
 
+      case 'schedule':
+        // TODO: Not this ;﹏;
+        const schedule = slice.items.map(item => ({
+          when: `${moment(item.start).format('HH:mm')} – ${moment(item.end).format('HH:mm')}`,
+          what: asText(item.what)
+        }));
+
+        return {
+          type: 'schedule',
+          value: schedule
+        };
+
       default:
         break;
     }
   }).filter(_ => _);
-
-  const article: Article = {
-    contentType: 'article',
-    headline: asText(prismicArticle.data.title),
-    url: url,
-    datePublished: publishDate,
-    thumbnail: thumbnail,
-    author: author,
-    series: series,
-    bodyParts: bodyParts,
-    mainMedia: mainMedia,
-    description: description
-  };
-
-  return article;
 }
 
 const prismicImageUri = 'https://prismic-io.s3.amazonaws.com/wellcomecollection';
@@ -241,7 +258,7 @@ export async function getEvent(id) {
     eventbriteId: event.data.eventbriteId,
     thumbnail: thumbnail,
     author: author,
-    bodyParts: [],
+    bodyParts: convertContentToBodyParts(event.data.content),
     mainMedia: [thumbnail],
     series: []
   };
