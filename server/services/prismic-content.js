@@ -230,7 +230,10 @@ function asText(maybeContent) {
 
 export async function getEvent(id) {
   const prismic = await prismicApi();
-  const fetchLinks = ['people.name', 'people.image', 'people.twitterHandle', 'people.description'];
+  const fetchLinks = [
+    'people.name', 'people.image', 'people.twitterHandle', 'people.description',
+    'access-statements.title', 'access-statements.description',
+  ];
   const events = await prismic.query(Prismic.Predicates.at('document.id', id), {fetchLinks});
   const event = events.total_results_size === 1 ? events.results[0] : null;
 
@@ -265,7 +268,13 @@ export async function getEvent(id) {
       `${moment(slice.primary.start).format('dddd MM MMMM YYYY HH:mm')} – ${moment(slice.primary.end).format('HH:mm')}`
     ),
     eventbriteId: event.data.eventbriteId,
-    eventFormat: event.data.format
+    eventFormat: event.data.format,
+    accessStatements: event.data.accessStatements.map(accessStatement => {
+      return {
+        title: asText(accessStatement.value.data.title),
+        description: RichText.asHtml(accessStatement.value.data.description)
+      };
+    })
   };
 
   return article;

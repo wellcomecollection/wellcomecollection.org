@@ -27,7 +27,7 @@ function render(ctx, editorial, format) {
     } else {
       ctx.render('pages/article', {
         pageConfig: createPageConfig({
-          title: editorial.headline,
+          title: editorial.title,
           inSection: 'explore'
         }),
         article: editorial
@@ -71,5 +71,17 @@ export async function renderEvent(ctx, next) {
   const event = await getEvent(id);
   const format = ctx.request.query.format;
 
-  render(ctx, event, format);
+  if (event) {
+    if (format === 'json') {
+      ctx.body = event;
+    } else {
+      ctx.render('pages/event', {
+        pageConfig: createPageConfig({
+          title: event.title,
+          inSection: 'explore'
+        }),
+        article: event
+      });
+    }
+  }
 }
