@@ -14,6 +14,24 @@
   }
 }
 
+@each $font-key, $font-value in $fonts {
+  @each $breakpoint-key, $breakpoint-value in $grid-config {
+    $breakpoint-respond: map-get($breakpoint-value, 'respond');
+
+    .font-#{$font-key}-#{$breakpoint-key} {
+      @if (length($breakpoint-respond) > 1) {
+        @include respond-between(nth($breakpoint-respond, 1), nth($breakpoint-respond, 2)) {
+          @include font($font-key);
+        }
+      } @else {
+        @include respond-to($breakpoint-respond) {
+          @include font($font-key);
+        }
+      }
+    }
+  }
+}
+
 .is-hidden {
   display: none;
 }
