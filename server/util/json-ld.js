@@ -35,7 +35,7 @@ export function museumLd(museum) {
 }
 
 function orgLd(org) {
-  return objToJsonLd({
+  return org && objToJsonLd({
     name: org.name,
     url: org.url,
     logo: imageLd(org.logo),
@@ -44,7 +44,7 @@ function orgLd(org) {
 }
 
 function personLd(person) {
-  return objToJsonLd({
+  return person && objToJsonLd({
     name: person.name,
     description: person.description,
     image: person.image
@@ -52,7 +52,7 @@ function personLd(person) {
 }
 
 function imageLd(image) {
-  return objToJsonLd({
+  return image && objToJsonLd({
     url: image.contentUrl || image.url,
     width: image.width,
     height: image.height
