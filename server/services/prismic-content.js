@@ -232,7 +232,7 @@ export async function getEvent(id) {
   const prismic = await prismicApi();
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
-    'access-statements.title', 'access-statements.description',
+    'access-statements.title', 'access-statements.description'
   ];
   const events = await prismic.query(Prismic.Predicates.at('document.id', id), {fetchLinks});
   const event = events.total_results_size === 1 ? events.results[0] : null;
