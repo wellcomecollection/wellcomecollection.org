@@ -1,14 +1,16 @@
 <label class="input__label flex flex--v-center" for="{{ model.id }}">
   <input id="{{ model.id }}"
     class="input input--{{ model.type }}"
-    type="{{ model.type }}" name="{{ model.name }}"
-    value="{{ model.value }}" />
+    type="{{ model.type }}"
+    name="{{ model.name }}"
+    value="{{ model.value }}"
+    placeholder="{{ model.placeholder }}" />
 
   {% if ['radio', 'checkbox'] | contains(model.type) %}
     <span class="input__control-indicator input__control-indicator--{{ model.type }}"></span>
   {% endif %}
 
-  <span class="input__label-wrap {{ {s:1, m:1, l:1} | spacingClasses({margin: ['left']}) }}">
+  <span class="input__label-wrap {{ {s:1, m:1, l:1} | spacingClasses({margin: ['left']}) }} {{ 'input__label-wrap--hidden' if data.isLabelHidden }}">
     {{ model.label }}
   </span>
 </label>

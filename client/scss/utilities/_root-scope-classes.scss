@@ -24,6 +24,11 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.v-center {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .flex {
   display: flex;
 }

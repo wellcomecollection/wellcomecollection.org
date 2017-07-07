@@ -28,5 +28,19 @@ export const variants = [
         value: 'checkbox'
       }
     }
+  }, {
+    name: 'text',
+    context: {
+      model: {
+        id: 'search',
+        type: 'text',
+        name: 'text',
+        value: '',
+        placeholder: 'Search'
+      },
+      data: {
+        isLabelHidden: true
+      }
+    }
   }
 ];
