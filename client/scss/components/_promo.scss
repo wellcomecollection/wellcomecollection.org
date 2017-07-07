@@ -426,3 +426,10 @@
     }
   }
 }
+
+.promo--work {
+  .promo__title {
+    @include font('HNL5');
+    margin-bottom: 0;
+  }
+}
