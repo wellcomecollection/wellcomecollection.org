@@ -20,16 +20,21 @@
   </div>
 
   {% if resultsList.totalResults > 0 %}
-    <div class="row">
+    <div class="row {{ {s:3, m:3, l:3} | spacingClasses({padding: ['top']}) }}">
       <div class="container">
         <div class="grid">
-          <div class="{{ {s:12, m:12, l:12} | gridClasses }}">
-            <div class="{{ {s:5, m:5, l:5} | spacingClasses({padding: ['top']}) }}  {{ {s:5, m:5, l:5} | spacingClasses({padding: ['bottom']}) }} text--meta flex flex--v-center">
-                {{ pagination.range.beginning }} - {{ pagination.range.end }}
+          <div class="grid__cell">
+            <div class="flex flex--h-space-between flex--v-center">
+              <div class="text--meta flex flex--v-center">
+                Showing {{ pagination.range.beginning }} - {{ pagination.range.end }}
+              </div>
+              {% componentV2 'pagination', pagination, null, {query: query} %}
             </div>
           </div>
         </div>
-        {% componentV2 'divider', null, {'keyline': true, 'pumice': true} %}
+        <div class="{{ {s:3, m:3, l:3} | spacingClasses({margin: ['top']}) }}">
+          {% componentV2 'divider', null, {'keyline': true, 'pumice': true} %}
+        </div>
       </div>
     </div>
 
