@@ -4,6 +4,7 @@
   <p>The architecture we have composed consists of two parts. [Structure](#structure) and [Style](#style).</p>
 
   <h2>Structure</h2>
+  <a name="structure"></a>
 
   <h3>App shell</h3>
 
@@ -14,12 +15,14 @@
   <p><a href="https://developers.google.com/web/fundamentals/architecture/app-shell">You can read this article for a more detailed description for an app shell model and it's benefits</a>.</p>
 
   <h3>Page</h3>
+  <a name="page"></a>
 
-  <p>The page is the content that is loaded dependant on the route requested by the client, e.g. `/explore`.</p>
+  <p>The page is the content that is loaded dependent on the route requested by the client, e.g. `/explore`.</p>
   <p>The page can consist of one or more <a href="#layout-elements">layouts</a>.</p>
   <p>The page will rarely, if ever, have <a href="#style">styles</a>.</p>
 
   <h3>Layout elements</h3>
+  <a name="layout-elements"></a>
 
   <p>Elements are intentionally stupid objects, including:</p>
   <ul>
@@ -31,6 +34,7 @@
   <p>Layout elements will always manage their own [style](#style), but have access to <a href="#global-styles">global styles</a>.</p>
 
   <h3>Components</h3>
+  <a name="components"></a>
 
   <p>Components are the pieces of the puzzle that make up the great chunk of information within the
   application. TODO: add info.</p>
@@ -38,8 +42,10 @@
   <hr class="divider divider--keyline divider--pumice" />
 
   <h2>Style</h2>
+  <a name="style"></a>
 
   <h3>Global style</h3>
+  <a name="global-styles"></a>
 
   <p>Globally accessible, reusable styles are defined in
   <a href="https://github.com/wellcometrust/wellcomecollection.org/blob/master/client/scss/utilities/_root-scope-classes.scss">`_root-scope-classes.scss`</a>.</p>
