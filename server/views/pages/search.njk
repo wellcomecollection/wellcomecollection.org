@@ -43,8 +43,9 @@
         <div class="grid">
           {% for result in resultsList.results %}
           <div class="{{ {s:6, m:4, l:3 , xl:2} | gridClasses }}">
-          {% set img = {contentUrl: result.imgLink, width: 300, height: 300} %}
-            {% componentV2 'promo', {title: result.label, url: '/works/'+result.id, image: img}, {}, {isConstrained: true, sizes: '(min-width: 1340px) 178px, (min-width: 960px) calc(25vw - 52px), (min-width: 600px) calc(33.24vw - 43px), calc(50vw - 27px)'} %}
+            {% set img = {contentUrl: result.imgLink, width: 300, height: 300} %}
+            {% set type = result.type | lower %}
+            {% componentV2 'promo', {contentType: type, title: result.label, url: '/works/'+result.id, image: img, datePublished: result.createdDate.label}, {}, {isConstrained: true, sizes: '(min-width: 1340px) 178px, (min-width: 960px) calc(25vw - 52px), (min-width: 600px) calc(33.24vw - 43px), calc(50vw - 27px)'} %}
           </div>
           {% endfor %}
         </div>
