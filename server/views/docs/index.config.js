@@ -1,4 +1,7 @@
+import statuses from '../../../cardigan/config/statuses';
+
 export const context = {
+  statuses,
   pageDescription: {
     intro: 'Wellcome Collection pattern library',
     title: 'Cardigan',
