@@ -3,13 +3,14 @@
 {% block pageMeta %}{% endblock %}
 
 {% block body %}
-<div class="row {{ {s:10, m:10, l:10, xl: 10} | spacingClasses({padding: ['top']}) }}">
-  <div class="container">
-    <div class="grid">
-      <div class="{{ {s:12, m:12, l:12, xl: 12} | gridClasses }}">
-        {% componentV2 'captioned-image', {contentUrl: work.imgLink, caption: work.description, width: 2048}, {}, {sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
+  {% componentV2 'return-to-results' %}
+  <div class="row {{ {s:10, m:10, l:10, xl: 10} | spacingClasses({padding: ['top']}) }}">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:12, m:12, l:12, xl: 12} | gridClasses }}">
+          {% componentV2 'captioned-image', {contentUrl: work.imgLink, caption: work.description, width: 2048}, {}, {sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
+        </div>
       </div>
     </div>
   </div>
-</div>
 {% endblock %}
