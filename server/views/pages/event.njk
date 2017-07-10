@@ -104,6 +104,20 @@
             </div>
           {% endfor %}
 
+          <div class="{{ {s:6, m:6, l:6} | spacingClasses({padding: ['top']}) }}">
+            {% if (article.eventbriteId) %}
+              <iframe id="eventbrite-iframe-{{ eventbriteId }}" src="/eventbrite-event-embed/{{ article.eventbriteId }}" frameborder="0" width="100%" vspace="0" hspace="0" marginheight="5" marginwidth="5" scrolling="auto" allowtransparency="true"></iframe>
+              <script>
+                (function() {
+                  var iframe = document.getElementById('eventbrite-iframe-{{ eventbriteId }}');
+                  iframe.addEventListener('load', function() {
+                    iframe.height = iframe.contentWindow.document.body.scrollHeight;
+                  });
+                })();
+              </script>
+            {% endif %}
+            <p>This event is <b>FREE</b>. <a href="https://wellcomecollection.org/visit-us/tickets">Find out more about events</a>.</p>
+          </div>
         </div>
       </div>
     </div>

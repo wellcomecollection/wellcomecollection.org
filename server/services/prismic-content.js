@@ -248,7 +248,7 @@ export async function getEvent(id) {
   const author = person && {
     name: person.name,
     twitterHandle: person.twitterHandle,
-    image: person.image.url,
+    image: person.image && person.image.url,
     description: RichText.asText(person.description)
   };
 
