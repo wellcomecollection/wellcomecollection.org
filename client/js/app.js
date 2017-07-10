@@ -25,7 +25,6 @@ import truncateText from './components/truncate-text';
 import fontObserver from './utils/font-observer';
 import sortSearch from './components/sort-search';
 import backToTop from './components/back-to-top';
-import returnToResults from './components/return-to-results';
 
 const init = () => {
   polyfills.init();
@@ -51,7 +50,6 @@ const init = () => {
   const gifVideoEls = document.querySelectorAll('.js-gif-video');
   const sortSearchEls = document.querySelectorAll('.js-sort-search');
   const backToTopEl = document.querySelector('.js-back-to-top');
-  const returnToResultEls = document.querySelectorAll('.js-return-to-results');
 
   nodeList(gifVideoEls).forEach(gifVideo);
 
@@ -100,8 +98,6 @@ const init = () => {
 
   const truncateTextNodes = document.querySelectorAll('.js-truncate-text');
   nodeList(truncateTextNodes).forEach(truncateText);
-
-  nodeList(returnToResultEls).forEach(returnToResults);
 };
 
 function initWithRaven() {
