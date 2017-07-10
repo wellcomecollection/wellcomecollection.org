@@ -1,9 +1,9 @@
-import { getSeries } from '../services/wordpress';
-import { PromoListFactory } from '../model/promo-list';
-import { getForwardFill, getUnpublishedSeries } from '../model/series';
-import { getSeriesColor } from '../data/series';
-import { createNumberedList } from '../model/numbered-list';
-import { getLatestInstagramPosts } from '../services/instagram';
+import {getSeries} from '../services/wordpress';
+import {PromoListFactory} from '../model/promo-list';
+import {getForwardFill, getUnpublishedSeries} from '../model/series';
+import {getSeriesColor} from '../data/series';
+import {createNumberedList} from '../model/numbered-list';
+import {getLatestInstagramPosts} from '../services/instagram';
 
 export const seriesNav = async(ctx, next) => {
   const {id} = ctx.params;
@@ -107,4 +107,3 @@ export const seriesContainerPromoList = async(ctx, next) => {
 
   return next();
 };
-
