@@ -1,7 +1,10 @@
 import Router from 'koa-router';
 import {healthcheck, featureFlags} from '../controllers/utils';
 import {seriesNav, seriesTransporter, latestInstagramPosts, seriesContainerPromoList} from '../controllers/async-controllers';
-import {renderEditorial, renderEditorialPreview, setPreviewSession, renderEvent} from '../controllers/content';
+import {
+  renderEditorial, renderEditorialPreview, setPreviewSession, renderEvent,
+  renderEventbriteEmbed
+} from '../controllers/content';
 import {explore} from '../controllers/lists';
 import {work, search} from '../controllers/work';
 import {index, article, articles, preview, series} from '../controllers'; // Deprecated
@@ -38,5 +41,6 @@ r.get('/latest-instagram-posts', latestInstagramPosts);
 r.get('/series-container-promos-list/:id', seriesContainerPromoList);
 
 r.get('/events/:id', renderEvent);
+r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 
 export const router = r.middleware();

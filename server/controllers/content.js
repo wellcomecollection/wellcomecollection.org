@@ -2,6 +2,7 @@ import Prismic from 'prismic-javascript';
 import {prismicApi} from '../services/prismic-api';
 import {getEditorial, getEditorialPreview, getEvent} from '../services/prismic-content';
 import {createPageConfig} from '../model/page-config';
+import {getEventbriteEventEmbed} from '../services/eventbrite';
 
 export const renderEditorial = async(ctx, next) => {
   const format = ctx.request.query.format;
@@ -85,3 +86,11 @@ export async function renderEvent(ctx, next) {
     }
   }
 }
+
+export const renderEventbriteEmbed = async(ctx, next) => {
+  const {id} = ctx.params;
+  const eventEmbedHtml = await getEventbriteEventEmbed(id);
+  ctx.body = eventEmbedHtml;
+
+  return next();
+};
