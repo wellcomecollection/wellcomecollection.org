@@ -1,6 +1,6 @@
 import Prismic from 'prismic-javascript';
 import {prismicApi} from '../services/prismic-api';
-import {getEditorial, getEditorialPreview} from '../services/prismic-content';
+import {getEditorial, getEditorialPreview, getEvent} from '../services/prismic-content';
 import {createPageConfig} from '../model/page-config';
 
 export const renderEditorial = async(ctx, next) => {
@@ -27,7 +27,7 @@ function render(ctx, editorial, format) {
     } else {
       ctx.render('pages/article', {
         pageConfig: createPageConfig({
-          title: editorial.headline,
+          title: editorial.title,
           inSection: 'explore'
         }),
         article: editorial
@@ -64,4 +64,24 @@ async function getPreviewSession(token) {
       }
     });
   });
+}
+
+export async function renderEvent(ctx, next) {
+  const id = `${ctx.params.id}`;
+  const event = await getEvent(id);
+  const format = ctx.request.query.format;
+
+  if (event) {
+    if (format === 'json') {
+      ctx.body = event;
+    } else {
+      ctx.render('pages/event', {
+        pageConfig: createPageConfig({
+          title: event.title,
+          inSection: 'explore'
+        }),
+        article: event
+      });
+    }
+  }
 }

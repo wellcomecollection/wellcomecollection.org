@@ -3,6 +3,7 @@ import type {Picture} from '../model/picture';
 import Prismic from 'prismic-javascript';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
+import moment from 'moment';
 
 export async function getEditorialPreview(id: string, req) {
   const prismic = await prismicPreviewApi(req);
@@ -20,9 +21,10 @@ async function getEditorialAsArticle(prismic, id: string) {
     'books.title', 'books.title', 'books.author', 'books.isbn', 'books.publisher', 'books.link', 'books.cover',
     'series.name', 'series.description', 'series.color', 'series.commissionedLength'
   ];
+
   const articles = await prismic.query([
     Prismic.Predicates.at('document.id', id),
-    Prismic.Predicates.at('document.type', 'editorial')
+    Prismic.Predicates.any('document.type', ['editorial', 'events'])
   ], {fetchLinks});
   const prismicArticle = articles.total_results_size === 1 ? articles.results[0] : null;
 
@@ -37,7 +39,6 @@ function parseEditorialAsArticle(prismicArticle) {
   // TODO : construct this not from strings
   const url = `/editorial/${prismicArticle.id}`;
 
-  // TODO: Add this to the article content
   // TODO: potentially get rid of this
   const publishDate = PrismicDate(prismicArticle.data.publishDate || prismicArticle.first_publication_date);
 
@@ -71,7 +72,26 @@ function parseEditorialAsArticle(prismicArticle) {
     };
   });
 
-  const bodyParts = prismicArticle.data.content.map(slice => {
+  const bodyParts = convertContentToBodyParts(prismicArticle.data.content);
+
+  const article: Article = {
+    contentType: 'article',
+    headline: asText(prismicArticle.data.title),
+    url: url,
+    datePublished: publishDate,
+    thumbnail: thumbnail,
+    author: author,
+    series: series,
+    bodyParts: bodyParts,
+    mainMedia: mainMedia,
+    description: description
+  };
+
+  return article;
+}
+
+function convertContentToBodyParts(content) {
+  return content.map(slice => {
     switch (slice.slice_type) {
       case 'standfirst':
         return {
@@ -154,25 +174,22 @@ function parseEditorialAsArticle(prismicArticle) {
           }
         };
 
+      case 'schedule':
+        // TODO: Not this ;﹏;
+        const schedule = slice.items.map(item => ({
+          when: `${moment(item.start).format('HH:mm')} – ${moment(item.end).format('HH:mm')}`,
+          what: asText(item.what)
+        }));
+
+        return {
+          type: 'schedule',
+          value: schedule
+        };
+
       default:
         break;
     }
   }).filter(_ => _);
-
-  const article: Article = {
-    contentType: 'article',
-    headline: asText(prismicArticle.data.title),
-    url: url,
-    datePublished: publishDate,
-    thumbnail: thumbnail,
-    author: author,
-    series: series,
-    bodyParts: bodyParts,
-    mainMedia: mainMedia,
-    description: description
-  };
-
-  return article;
 }
 
 const prismicImageUri = 'https://prismic-io.s3.amazonaws.com/wellcomecollection';
@@ -209,4 +226,56 @@ export async function getEditorialList() {
 
 function asText(maybeContent) {
   return maybeContent && RichText.asText(maybeContent);
+}
+
+export async function getEvent(id) {
+  const prismic = await prismicApi();
+  const fetchLinks = [
+    'people.name', 'people.image', 'people.twitterHandle', 'people.description',
+    'access-statements.title', 'access-statements.description'
+  ];
+  const events = await prismic.query(Prismic.Predicates.at('document.id', id), {fetchLinks});
+  const event = events.total_results_size === 1 ? events.results[0] : null;
+
+  if (!event) {
+    return null;
+  }
+  const promo = event.data.promo.find(slice => slice.slice_type === 'editorialImage');
+  const thumbnail = promo && prismicImageToPicture(promo.primary);
+
+  const creator = event.data.contributors.find(creator => creator.slice_type === 'person');
+  const person = creator && creator.primary.person.data;
+  const author = person && {
+    name: person.name,
+    twitterHandle: person.twitterHandle,
+    image: person.image.url,
+    description: RichText.asText(person.description)
+  };
+
+  const article: Article = {
+    contentType: 'article',
+    headline: event.data.title,
+    url: '',
+    datePublished: PrismicDate(event.data.startDate),
+    thumbnail: thumbnail,
+    author: author,
+    bodyParts: convertContentToBodyParts(event.data.content),
+    mainMedia: [thumbnail],
+    series: [],
+
+    // Not part of the standard model
+    when: event.data.when.map(slice =>
+      `${moment(slice.primary.start).format('dddd MM MMMM YYYY HH:mm')} – ${moment(slice.primary.end).format('HH:mm')}`
+    ),
+    eventbriteId: event.data.eventbriteId,
+    eventFormat: event.data.format,
+    accessStatements: event.data.accessStatements.map(accessStatement => {
+      return {
+        title: asText(accessStatement.value.data.title),
+        description: RichText.asHtml(accessStatement.value.data.description)
+      };
+    })
+  };
+
+  return article;
 }

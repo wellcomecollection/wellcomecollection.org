@@ -6,6 +6,10 @@
   height: $v-spacing-unit * 4;
 }
 
+.icon--huge {
+  height: $v-spacing-unit * 16;
+}
+
 .icon--fill {
   fill: color('black');
 }
