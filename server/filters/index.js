@@ -7,6 +7,7 @@ import getCommissionedSeries from './get-commissioned-series';
 import getSeriesTitle from './get-series-title';
 import gridClasses from './grid-classes';
 import spacingClasses from './spacing-classes';
+import fontClasses from './font-classes';
 import componentClasses from './component-classes';
 import concat from './concat';
 import contains from './contains';
@@ -27,6 +28,7 @@ export default Map({
   getSeriesTitle,
   gridClasses,
   spacingClasses,
+  fontClasses,
   concat,
   contains,
   componentClasses,
