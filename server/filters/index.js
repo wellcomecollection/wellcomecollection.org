@@ -13,7 +13,7 @@ import concat from './concat';
 import contains from './contains';
 import getCacheBustFile from './get-cache-bust-file';
 import jsonLd from './json-ld';
-import {formatDate, formatDateWithComingSoon} from './format-date';
+import {formatDate, formatDateTime, formatDateWithComingSoon} from './format-date';
 import {isFlagEnabled} from '../util/flag-status';
 import {objectAssign} from './object-assign';
 import {arrayFromObject} from './array-from-object';
@@ -35,6 +35,7 @@ export default Map({
   getCacheBustFile,
   jsonLd,
   formatDate,
+  formatDateTime,
   formatDateWithComingSoon,
   isFlagEnabled,
   objectAssign,

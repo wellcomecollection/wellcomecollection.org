@@ -23,7 +23,7 @@
               {% if model.meta.type === 'date' %}
                 {% icon 'other/clock' %}{{ model.meta.value | formatDate }}
               {% else %}
-                {{ model.meta.value }}
+                {{ model.meta.value | safe }}
               {% endif %}
             </span>
           </div>

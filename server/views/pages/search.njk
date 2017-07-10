@@ -3,7 +3,7 @@
 {% block body %}
   {% componentV2 'page-description', { title: 'Search' }, {'hidden': true} %}
   <div class="row row--cream
-    {{ {s:5, m:7, l:10} | spacingClasses({padding: ['top']}) }}
+    {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top']}) }}
     {{ {s:3, m:4, l:6} | spacingClasses({padding: ['bottom']}) }}">
     <div class="container">
       <div class="grid">
@@ -20,7 +20,7 @@
   </div>
 
   {% if resultsList.totalResults > 0 %}
-    <div class="row {{ {s:3, m:3, l:3} | spacingClasses({padding: ['top']}) }}">
+    <div class="row {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top']}) }}">
       <div class="container">
         <div class="grid">
           <div class="grid__cell">
@@ -31,9 +31,6 @@
               {% componentV2 'pagination', pagination, null, {query: query} %}
             </div>
           </div>
-        </div>
-        <div class="{{ {s:3, m:3, l:3} | spacingClasses({margin: ['top']}) }}">
-          {% componentV2 'divider', null, {'keyline': true, 'pumice': true} %}
         </div>
       </div>
     </div>
@@ -62,6 +59,6 @@
       </div>
     </div>
 
-    {% componentV2 'back-to-top' %}
+    {% componentV2 'back-to-top', {}, {trackId: 'search'} %}
   {% endif %}
 {% endblock %}
