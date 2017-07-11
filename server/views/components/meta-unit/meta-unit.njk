@@ -1,0 +1,19 @@
+<div>
+  <{{headingLevel or 'h2'}} class="{{ {s:'HNM5' , m:'HNM4', l:'HNM4'} | fontClasses }}">
+    More about
+  </{{headingLevel or 'h2'}}>
+  {% if text %}
+  <p class="{{ {s:'HNL5' , m:'HNL4', l:'HNL4'} | fontClasses }}">{{text}}</p>
+  {% endif %}
+  {% if links %}
+  <ul class="plain-list">
+    {% for link in links %}
+      <li><a class="{{ {s:'HNM5' , m:'HNM4', l:'HNM4'} | fontClasses }}" href="{{ link.url }}">{{ link.text }}</a>{{ ', ' if not loop.last }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% if includeDivider %}
+    {% componentV2 'divider', null, {'pumice': true, 'keyline': true}, {extraClasses: [{s:1, m:1, l:1} | spacingClasses({margin: ['top']}), {s:1, m:1, l:1} | spacingClasses({margin: ['bottom']})]}  %}
+  {% endif %}
+</div>
+{#TODO spacing classes for heading, list and paragraph#}
