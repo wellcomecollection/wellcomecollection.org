@@ -17,7 +17,6 @@ export async function renderEditorialPreview(ctx, next) {
   const format = ctx.request.query.format;
   const id = `${ctx.params.id}`;
   const editorial = await getEditorialPreview(id, ctx.request);
-
   render(ctx, editorial, format);
 }
 
@@ -55,7 +54,7 @@ async function getPreviewSession(token) {
   return new Promise((resolve, reject) => {
     prismic.previewSession(token, (doc) => {
       switch (doc.type) {
-        case 'content': return `/preview/${doc.id}`;
+        case 'editorial': return `/preview/${doc.id}`;
       }
     }, '/', (err, redirectUrl) => {
       if (err) {
