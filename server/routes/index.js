@@ -20,9 +20,9 @@ r.get('/flags', featureFlags);
 
 // Content
 r.get('/editorial/(W):id', renderEditorial);
-r.get('/preview/:id', renderEditorialPreview);
 r.get('/explore', explore);
 r.get('/preview', setPreviewSession);
+r.get('/preview/:id', renderEditorialPreview);
 
 // API
 r.get('/search', search);
