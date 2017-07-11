@@ -3,7 +3,6 @@ import {getWork, getWorks} from '../services/wellcomecollection-api';
 import {createResultsList} from '../model/results-list';
 import {PaginationFactory} from '../model/pagination';
 import {List} from 'immutable';
-import {getQueryString} from './utils';
 
 function imageUrlFromMiroId(id) {
   const cleanedMiroId = id.match(/(^\w{1}[0-9]*)+/g, '')[0];
@@ -13,13 +12,13 @@ function imageUrlFromMiroId(id) {
 
 export const work = async(ctx, next) => {
   const id = ctx.params.id;
-  const query = getQueryString(ctx.query);
+  const queryString = ctx.search;
   const singleWork = await getWork(id);
   const miroId = singleWork.identifiers[0].value;
   const imgLink = imageUrlFromMiroId(miroId);
 
   ctx.render('pages/work', {
-    query,
+    queryString,
     pageConfig: createPageConfig({
       title: 'Work',
       inSection: 'explore'
@@ -49,7 +48,7 @@ function getResultsWithImages(results) {
 
 export const search = async (ctx, next) => {
   const { query, page } = ctx.query;
-  const fullQuery = getQueryString(ctx.query);
+  const queryString = ctx.search;
   const results = query && query.trim() !== '' ? await getWorks(query, page) : null;
   const resultsWithImages = getResultsWithImages(results);
   const pageSize = results && results.pageSize;
@@ -68,7 +67,7 @@ export const search = async (ctx, next) => {
     resultsList,
     query,
     pagination,
-    fullQuery
+    queryString
   });
   return next();
 };

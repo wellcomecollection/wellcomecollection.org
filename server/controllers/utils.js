@@ -11,9 +11,3 @@ export const featureFlags = (ctx, next) => {
   });
   return next();
 };
-
-export const getQueryString = function(query) {
-  return Object.keys(query)
-    .map(key => `${key}=${query[key]}`)
-    .join('&');
-};

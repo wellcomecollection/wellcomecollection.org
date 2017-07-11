@@ -3,12 +3,12 @@
 {% block pageMeta %}{% endblock %}
 
 {% block body %}
-  {% if query %}
+  {% if queryString %}
     <div class="row row--dark-black {{ {s:5, m:5, l:5, xl: 5} | spacingClasses({padding: ['top', 'bottom']}) }}">
       <div class="container">
         <div class="grid">
           <div class="{{ {s:12, m:12, l:12, xl: 12} | gridClasses }}">
-            {% componentV2 'return-to-results', {query: query} %}
+            {% componentV2 'return-to-results', {queryString: queryString} %}
           </div>
         </div>
       </div>
