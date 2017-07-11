@@ -59,28 +59,22 @@
     <div class="container">
       <div class="grid grid--no-gutters">
         <div class="{{ {s: 12, m: 10, shiftM: 1, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
-          {% if article.author and article.bodyParts.length > 0  %}
-            {% component 'author', {
-              name: article.author.name,
-              twitterHandle: article.author.twitterHandle,
-              modifiers: ['border-bottom'],
-              image: article.author.image
-            } %}
-          {% endif %}
-
           <div class="article" itemprop="articleBody">
             {% block articleBody %}
               {% component 'article-body', {articleBody: article.bodyParts, contentType: article.contentType} %}
             {% endblock %}
 
-            {% if article.author %}
-              {% component 'author', {
-                name: article.author.name,
-                twitterHandle: article.author.twitterHandle,
-                modifiers: ['border-left'],
-                description: article.author.description,
-                image: article.author.image
-              } %}
+            {% if article.contributors.length > 0 %}
+              <h2 class="{{ {s: 'HNM4', m: 'HNM4', l: 'HNM4'} | fontClasses }}"><b>Contributors</b></h2>
+              {% for contributor in article.contributors %}
+                {% component 'author', {
+                  name: contributor.name,
+                  twitterHandle: contributor.twitterHandle,
+                  modifiers: ['border-left'],
+                  description: contributor.description,
+                  image: contributor.image
+                } %}
+              {% endfor %}
             {% endif %}
 
             {% componentV2 'divider', null, {'stub': true, 'black': true}, {extraClasses: [{s:4, m:4, l:4} | spacingClasses({margin: ['top']})]} %}

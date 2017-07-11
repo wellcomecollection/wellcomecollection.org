@@ -243,22 +243,21 @@ export async function getEvent(id) {
   const promo = event.data.promo.find(slice => slice.slice_type === 'editorialImage');
   const thumbnail = promo && prismicImageToPicture(promo.primary);
 
-  const creator = event.data.contributors.find(creator => creator.slice_type === 'person');
-  const person = creator && creator.primary.person.data;
-  const author = person && {
-    name: person.name,
-    twitterHandle: person.twitterHandle,
-    image: person.image && person.image.url,
-    description: RichText.asText(person.description)
-  };
-
+  const contributors = event.data.contributors.filter(contrib => contrib.slice_type === 'person').map(contrib => {
+    return {
+      name: contrib.primary.person.data.name,
+      twitterHandle: contrib.primary.person.data.twitterHandle,
+      image: contrib.primary.person.data.image && contrib.image.url,
+      description: RichText.asText(contrib.primary.person.data.description)
+    };
+  });
   const article: Article = {
     contentType: 'article',
-    headline: event.data.title,
+    headline: asText(event.data.title),
     url: '',
     datePublished: PrismicDate(event.data.startDate),
     thumbnail: thumbnail,
-    author: author,
+    author: null, // We don't want author
     bodyParts: convertContentToBodyParts(event.data.content),
     mainMedia: [thumbnail],
     series: [],
@@ -274,7 +273,8 @@ export async function getEvent(id) {
         title: asText(accessStatement.value.data.title),
         description: RichText.asHtml(accessStatement.value.data.description)
       };
-    })
+    }),
+    contributors: contributors
   };
 
   return article;
