@@ -32,8 +32,19 @@
   }
 }
 
+@each $color-key, $color-value in $colors {
+  .font--#{$color-key} {
+    // stylelint-disable sh-waqar/declaration-use-variable
+    color: nth($color-value, 1);
+    // stylelint-enable sh-waqar/declaration-use-variable
+  }
+}
+
 .is-hidden {
-  display: none;
+  // This should trump other display styles
+  // stylelint-disable declaration-no-important
+  display: none !important;
+  // stylelint-enable declaration-no-important
 }
 
 // Adds momentum scrolling to iOS
@@ -75,6 +86,10 @@
   border: 0;
   padding: 0;
   text-align: left;
+}
+
+.plain-link {
+  text-decoration: none;
 }
 
 .float-r {
@@ -119,3 +134,4 @@
 .bg-white {
   background: color('white');
 }
+

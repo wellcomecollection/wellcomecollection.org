@@ -10,8 +10,18 @@
   height: $v-spacing-unit * 16;
 }
 
+.icon--match-text {
+  height: 1em;
+}
+
 .icon--fill {
   fill: color('black');
+}
+
+@each $color-key, $color-value in $colors {
+  .icon--#{$color-key} {
+    fill: nth($color-value, 1);
+  }
 }
 
 .icon--stroke {
