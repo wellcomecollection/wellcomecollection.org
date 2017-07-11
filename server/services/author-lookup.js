@@ -54,5 +54,6 @@ export const authorMap: { [key: string]: Person } = {
   'digital-pets': people.jennaJovi,
   'research-notes-a-chance-discovery': people.wendyMoore,
   'sharing-nature-emotion': people.helenBabbs,
-  'animal-doctors': people.helenBabbs
+  'animal-doctors': people.helenBabbs,
+  '10-reasons-to-wear-sunglasses': people.lalitaKaplish
 };
