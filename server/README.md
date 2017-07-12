@@ -11,6 +11,14 @@ npm install
 npm run app:dev
 ```
 
+If you get this error when running `app`:
+
+```
+Error: Cannot find module '../config/css-assets.json'
+```
+
+You need to compile the assets [in the client directory](../client).
+
 
 ## Prod (uses PM2)
 
