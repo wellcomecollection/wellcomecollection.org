@@ -22,22 +22,9 @@ $numbered-list-number-size-large: 96px;
 }
 
 .numbered-list__heading {
-  @include font('WB6');
   margin: 0;
   position: relative;
   z-index: 2;
-
-  .numbered-list--transporter & {
-    @include font('WB5');
-
-    @include respond-to('medium') {
-      @include font('WB4');
-    }
-
-    @include respond-to('large') {
-      @include font('WB3');
-    }
-  }
 }
 
 .numbered-list__list {
@@ -67,7 +54,6 @@ $numbered-list-number-size-large: 96px;
 }
 
 .numbered-list__number {
-  @include font('WB1');
   font-size: $numbered-list-number-size-large;
   line-height: 1;
   color: color('silver');
@@ -106,7 +92,6 @@ $numbered-list-number-size-large: 96px;
 }
 
 .numbered-list__title {
-  @include font('WB7');
   position: relative;
   margin-top: 0;
   margin-bottom: 0.3em;
@@ -123,7 +108,6 @@ $numbered-list-number-size-large: 96px;
 }
 
 .numbered-list__date {
-  @include font('HNL7');
   position: relative;
   display: block;
   margin-bottom: 0;
