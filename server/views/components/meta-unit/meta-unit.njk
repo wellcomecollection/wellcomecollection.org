@@ -1,19 +1,28 @@
 <div>
-  <{{headingLevel or 'h2'}} class="{{ {s:'HNM5' , m:'HNM4', l:'HNM4'} | fontClasses }}">
-    More about
+  <{{headingLevel or 'h2'}} class="
+    {{ {s:'HNM5' , m:'HNM4', l:'HNM4'} | fontClasses }}
+    {{ {s:0, m:0, l:0, xl: 0} | spacingClasses({margin: ['top']}) }}
+    {{ {s:1, m:1, l:1, xl: 1} | spacingClasses({margin: ['bottom']}) }}">
+   {{ headingText }}
   </{{headingLevel or 'h2'}}>
+  {% if dates %}
+    <p class="{{ {s:'HNL5' , m:'HNL4', l:'HNL4', xl:'HNL4'} | fontClasses }} {{ {s:1, m:1, l:1, xl: 1} | spacingClasses({margin: ['bottom']}) }}">
+      {% for date in dates %}
+        <time datetime="{{ date.datetime }}">{{ date.text }}</time>{{ ' - ' if not loop.last }}
+      {% endfor %}
+    </p>
+  {% endif %}
   {% if text %}
-  <p class="{{ {s:'HNL5' , m:'HNL4', l:'HNL4'} | fontClasses }}">{{text}}</p>
+  <p class="{{ {s:'HNL5' , m:'HNL4', l:'HNL4', xl:'HNL4'} | fontClasses }} {{ {s:1, m:1, l:1, xl: 1} | spacingClasses({margin: ['bottom']}) }}">{{text}}</p>
   {% endif %}
   {% if links %}
-  <ul class="plain-list">
+  <ul class="plain-list {{ {s:1, m:1, l:1, xl: 1} | spacingClasses({margin: ['bottom']}) }}">
     {% for link in links %}
-      <li><a class="{{ {s:'HNM5' , m:'HNM4', l:'HNM4'} | fontClasses }}" href="{{ link.url }}">{{ link.text }}</a>{{ ', ' if not loop.last }}</li>
+      <li class="inline"><a class="plain-link font--elf-green font-hover--mint {{ {s:'HNM5' , m:'HNM4', l:'HNM4', xl: 'HNM4'} | fontClasses }}" href="{{ link.url }}">{{ link.text }}</a>{{ ', ' if not loop.last }}</li>
     {% endfor %}
   </ul>
   {% endif %}
   {% if includeDivider %}
-    {% componentV2 'divider', null, {'pumice': true, 'keyline': true}, {extraClasses: [{s:1, m:1, l:1} | spacingClasses({margin: ['top']}), {s:1, m:1, l:1} | spacingClasses({margin: ['bottom']})]}  %}
+    {% componentV2 'divider', null, {'pumice': true, 'keyline': true}, {extraClasses: [{s:1, m:1, l:1, xl: 1} | spacingClasses({margin: ['top']}), {s:1, m:1, l:1, xl: 1} | spacingClasses({margin: ['bottom']})]}  %}
   {% endif %}
 </div>
-{#TODO spacing classes for heading, list and paragraph#}
