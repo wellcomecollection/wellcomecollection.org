@@ -11,7 +11,9 @@ fi
 DEPLOY_ENV=$1
 CONTAINER_TAG=$2
 
-pushd terraform/$DEPLOY_ENV
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+pushd "$DIR/terraform/$DEPLOY_ENV"
   terraform init
   terraform get
   terraform apply -target=module.wellcomecollection.aws_ecs_task_definition.wellcomecollection \
