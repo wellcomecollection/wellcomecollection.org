@@ -14,7 +14,7 @@
             <p>You currently belong to the <span class="feature-flags__current-cohort js-current-cohort">{{ featuresCohort  if featuresCohort else
              'default' }}</span> group.</p>
             {% for cohort in cohorts %}
-              <button class="btn btn--light {{ {s:2, m:4, l:4, xl:4} | spacingClasses({margin: ['bottom']})}} js-cohort-button" data-cohort="{{cohort}}">Join the {{cohort}} group</button>
+              <button class="btn btn--light {{ 'HNM5' | fontClasses }} {{ {s:2, m:4, l:4, xl:4} | spacingClasses({margin: ['bottom']})}} js-cohort-button" data-cohort="{{cohort}}">Join the {{cohort}} group</button>
             {% endfor %}
         </div>
         <div class="{{ {s:12, m:6, l:8, xl: 8} | gridClasses }}">
