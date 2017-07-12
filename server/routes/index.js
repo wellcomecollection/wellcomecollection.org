@@ -17,6 +17,9 @@ const r = new Router({
 r.get('/', index);
 r.get('/healthcheck', healthcheck);
 r.get('/flags', featureFlags);
+r.get('/kaboom', (ctx, next) => {
+  ctx.throw('Error Message', 500);
+});
 
 // Content
 r.get('/editorial/(W):id', renderEditorial);
