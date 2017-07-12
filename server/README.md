@@ -8,7 +8,7 @@ This project works best if you have compiled the [static](../static) project int
 
 ```bash
 npm install
-npm run dev
+npm run app:dev
 ```
 
 
