@@ -6,7 +6,6 @@ The new home of the next.wellcomecollection.org website.
 
 * [Node](https://nodejs.org/en/download/) (or use [NVM](https://github.com/creationix/nvm))
 
-
 The project is split into multiple services, follow the `README`s within each project to get started.
 
 * [client](./client)
