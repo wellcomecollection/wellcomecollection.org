@@ -1,56 +1,58 @@
 resource "aws_security_group" "http" {
-  name = "allow-http"
+  name        = "allow-http"
   description = "Allow http traffic"
-  vpc_id = "${aws_vpc.wellcomecollection.id}"
+  vpc_id      = "${aws_vpc.wellcomecollection.id}"
 
   # HTTP
   ingress {
-    from_port = 80
-    to_port = 80
-    protocol = "tcp"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
   egress {
-    from_port = 80
-    to_port = 80
-    protocol = "tcp"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
 resource "aws_security_group" "docker" {
-  name = "docker"
+  name        = "docker"
   description = "Allow all docker ports"
-  vpc_id = "${aws_vpc.wellcomecollection.id}"
+  vpc_id      = "${aws_vpc.wellcomecollection.id}"
 
   # HTTP
   ingress {
-    from_port = 32768
-    to_port = 61000
-    protocol = "tcp"
+    from_port   = 32768
+    to_port     = 61000
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
   egress {
-    from_port = 32768
-    to_port = 61000
-    protocol = "tcp"
+    from_port   = 32768
+    to_port     = 61000
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
-
 resource "aws_security_group" "https" {
-  name = "allow-http-s"
+  name        = "allow-http-s"
   description = "Allow https traffic"
-  vpc_id = "${aws_vpc.wellcomecollection.id}"
+  vpc_id      = "${aws_vpc.wellcomecollection.id}"
 
   # HTTPS
   ingress {
-    from_port = 443
-    to_port = 443
-    protocol = "tcp"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
   egress {
     from_port   = 443
     to_port     = 443
@@ -59,23 +61,23 @@ resource "aws_security_group" "https" {
   }
 }
 
-
 resource "aws_security_group" "node_app_port" {
-  name = "allow-3000"
+  name        = "allow-3000"
   description = "Allow node app (:3000) traffic"
-  vpc_id = "${aws_vpc.wellcomecollection.id}"
+  vpc_id      = "${aws_vpc.wellcomecollection.id}"
 
   # Our apps run on port 3000
   ingress {
-    from_port = 3000
-    to_port = 3000
-    protocol = "tcp"
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
   egress {
-    from_port = 3000
-    to_port = 3000
-    protocol = "tcp"
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }

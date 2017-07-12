@@ -10,7 +10,7 @@ data "template_file" "website_policy" {
 
 resource "aws_s3_bucket" "website_bucket" {
   bucket = "${var.website_uri}"
-  acl = "public-read"
+  acl    = "public-read"
   policy = "${data.template_file.website_policy.rendered}"
 
   website {
