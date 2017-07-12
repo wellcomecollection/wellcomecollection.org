@@ -1,7 +1,6 @@
 //* @define find-us;
 
 .find-us {
-  @include font('HNL5');
   margin-bottom: 5 * $v-spacing-unit;
   padding-bottom: 2 * $v-spacing-unit;
   color: color('white');
@@ -87,7 +86,6 @@
 $tiny-map-font-size: 10px;
 
 .find-us__mapbox-attribution-container {
-  @include font('HNL8');
   font-size: $tiny-map-font-size;
   bottom: 20px;
   background: color('white');
