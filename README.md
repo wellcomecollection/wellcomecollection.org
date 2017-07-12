@@ -15,9 +15,6 @@ The project is split into multiple services, follow the `README`s within each pr
 * [server](./server)
   Runs the server that returns the HTML templates, components and Fractal styleguide
 
-* [nginx](./nginx)
-  Used to have local copies of the site running over HTTPS and HTTP/2
-
 * [infra](./infra)
   Managing our infrastructure within AWS
 
