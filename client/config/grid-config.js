@@ -18,7 +18,7 @@ const gridConfig = {
     padding: containerPadding.large,
     gutter: gutterWidth.large,
     columns: 12,
-    respond: 'large'
+    respond: ['large', 'xlarge']
   },
   xl: {
     padding: containerPadding.xlarge,

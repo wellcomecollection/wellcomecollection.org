@@ -1,3 +1,31 @@
+{# TODO: pass in font sizes as data? #}
+{% if model.modifiers and model.modifiers | contains('large-text') %}
+  {% set typeFontSizes = {s:'HNL7', m:'HNL7', l:'HNL5'} %}
+{% elif model.modifiers and model.modifiers | contains('transporter-child') %}
+  {% set typeFontSizes = 'HNL7' %}
+{% else %}
+  {% set typeFontSizes = 'HNL5' %}
+{% endif %}
+
+{% if model.modifiers and model.modifiers | contains('large-text') %}
+  {% set titleFontSizes = {s:'WB7', m:'WB7', l:'WB6'} %}
+{% elif model.modifiers and model.modifiers | contains('transporter-child') %}
+  {% set titleFontSizes = 'WB7' %}
+{% elif model.modifiers and model.modifiers | contains('standalone') %}
+  {% set titleFontSizes = {s:'WB6', m:'WB4', l:'WB6', xl:'WB4'} %}
+{% elif model.modifiers and model.modifiers | contains('work') %}
+  {% set titleFontSizes = 'HNL5' %}
+{% else %}
+  {% set titleFontSizes = 'WB6' %}
+{% endif %}
+
+{% if model.modifiers and model.modifiers | contains('transporter-child') %}
+  {% set dateFontSizes = 'HNL7' %}
+{% else %}
+  {% set dateFontSizes = 'HNL5' %}
+{% endif %}
+
+
 {% if data.sizes %}
   {% set sizes = data.sizes %}
 {% else %}
@@ -35,7 +63,7 @@
       {% endif %}
 
       {% if model.contentType === 'gallery' or model.contentType === 'audio' or model.contentType === 'video' %}
-        <div class="promo__icon-container">
+        <div class="promo__icon-container {{ 'HNL7' | fontClasses }}">
           {% icon model.contentType | getIconForContentType %}
           {% if model.contentType === 'gallery' and model.length %}
             <span class="promo__length"><span class="promo__sr">Gallery with</span> {{ model.length }} <span class="promo__sr">item{{ 's' if model.length > 1 }}</span></span>
@@ -53,10 +81,10 @@
         <div class="grid">
           <div class="{{ {l:10, shiftL:1, m:10, shiftM:1, s:12} | gridClasses }}">
           {% endif %}
-            <header class="promo__description">
+            <header class="promo__description {{ 'HNL5' | fontClasses }}">
               <div class="promo__heading">
                 {% if model.contentType %}
-                  <span class="promo__type" aria-hidden="true">
+                  <span class="promo__type {{ typeFontSizes | fontClasses }}" aria-hidden="true">
                     {% if commissionedSeries and model.positionInSeries %}
                       {{ commissionedSeries.name }}: Part {{ model.positionInSeries }}
                     {% elif seriesTitle %}
@@ -66,12 +94,12 @@
                     {% endif %}
                   </span>
                 {% endif %}
-                  <{{ headingLevel or 'h2'}} class="promo__title{{ ' promo__title--lead' if model.weight === 'lead' }}">
+                  <{{ headingLevel or 'h2'}} class="promo__title{{ ' promo__title--lead' if data.weight === 'lead' }} {{ titleFontSizes | fontClasses }}">
                     {{ model.title if model.url else 'Coming soon…' }}
                   </{{ headingLevel or 'h2'}}>
               </div>
               {% if model.datePublished and model.contentType == 'work' %}
-                <p class="promo__date text--meta">{{ model.datePublished }}</p>
+                <p class="promo {{ dateFontSizes | fontClasses }} text--meta">{{ model.datePublished }}</p>
               {% endif %}
               {% if model.description %}
                 <span class="promo__copy">{{ model.description | striptags | safe | truncate(140) }}</span>

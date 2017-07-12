@@ -1,8 +1,8 @@
 <div class="sort-search js-sort-search">
   <button class="sort-search__toggle plain-button flex flex--v-center flex--h-space-between js-show-hide-trigger
-    {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
+    {{ {s:2} | spacingClasses({margin: ['bottom']}, false) }}">
     <div class="flex flex--v-center {{ {s:2, m:2, l:2} | spacingClasses({margin: ['right']}) }}">
-      <span class="flex-inline {{ {s:1} | spacingClasses({margin: ['right']}) }}">Sort:</span>
+      <span class="flex-inline {{ {s:1} | spacingClasses({margin: ['right']}, false) }}">Sort:</span>
       {% icon 'actions/sort', null, ['sort-search__sort-icon'] %}
     </div>
     {% icon 'actions/cross-big', null, ['sort-search__close-icon'] %}

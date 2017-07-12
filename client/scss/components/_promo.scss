@@ -9,12 +9,12 @@
     padding-bottom: 5 * $v-spacing-unit;
   }
 
-  @include container-query(('m': ('12'), 'l': ('8', '12'))) {
+  @include container-query(('m': ('12'), 'l': ('8', '12'), 'xl': ('8', '12'))) {
     display: flex;
     align-items: flex-start;
   }
 
-  @include container-query(('l': ('12'))) {
+  @include container-query(('l': ('12'), 'xl': ('12'))) {
     border-bottom: 0;
     padding-bottom: 0;
     margin-bottom: 3 * $v-spacing-unit;;
@@ -60,7 +60,7 @@
     margin-bottom: 0;
   }
 
-  @include container-query(('m': ('12'), 'l': ('8', '12'))) {
+  @include container-query(('m': ('12'), 'l': ('8', '12'), 'xl': ('8', '12'))) {
     order: 1;
     width: percentage(2 / 3);
     margin-bottom: 0;
@@ -156,7 +156,6 @@
 }
 
 .promo__icon-container {
-  @include font('HNL7');
   background: color('white');
   position: absolute;
   bottom: 0;
@@ -190,7 +189,6 @@
 }
 
 .promo__type {
-  @include font('HNL5');
   color: color('mint');
   display: block;
   text-transform: capitalize;
@@ -207,7 +205,6 @@
 }
 
 .promo__title {
-  @include font('WB6');
   color: color('black');
   margin-top: 0;
   margin-bottom: 0.9em;
@@ -227,17 +224,8 @@
   }
 
   .promo--standalone & {
-    @include respond-to('medium') {
-      @include font('WB4');
-    }
-
     @include respond-to('large') {
-      @include font('WB6');
       padding-right: 1em;
-    }
-
-    @include respond-to('xlarge') {
-      @include font('WB4');
     }
   }
 }
@@ -253,12 +241,10 @@
 }
 
 .promo__date {
-  @include font('HNL5');
   display: block;
 }
 
 .promo__description {
-  @include font('HNL5');
   align-items: center;
   color: color('pewter');
   min-width: 0;
@@ -280,7 +266,7 @@
     }
   }
 
-  @include container-query(('l': ('8', '12'))) {
+  @include container-query(('l': ('8', '12'), 'xl': ('8', '12'))) {
     padding-right: map-get($gutter-width, 'large');
   }
 
@@ -361,44 +347,23 @@
   }
 
   .promo__type {
-    @include font('HNL7');
     color: color('black');
   }
 
   .promo__title {
-    @include font('WB7');
-
     @include container-query(('s': ('12'))) {
       @include font('HNM5');
-    }
-  }
-
-  .promo__date {
-    @include font('HNL7');
-  }
-}
-
-.promo--large-text {
-  .promo__type {
-    @include respond-to('large') {
-      @include font('HNL5');
-    }
-  }
-
-  .promo__title {
-    @include respond-to('large') {
-      @include font('WB6');
     }
   }
 }
 
 .promo--slider-transporter-child {
-  @include container-query(('m': ('12'), 'l': ('8', '12'))) {
+  @include container-query(('m': ('12'), 'l': ('8', '12'), 'xl': ('8', '12'))) {
     display: block;
   }
 
   .promo__image-container {
-    @include container-query(('m': ('12'), 'l': ('8', '12'))) {
+    @include container-query(('m': ('12'), 'l': ('8', '12'), 'xl': ('8', '12'))) {
       width: 100%;
       margin-bottom: 2 * $spacing-unit;
     }
@@ -411,7 +376,7 @@
   }
 
   .promo__description {
-    @include container-query(('l': ('8', '12'))) {
+    @include container-query(('l': ('8', '12'), 'xl': ('8', '12'))) {
       padding: 0;
     }
   }
@@ -419,7 +384,6 @@
 
 .promo--work {
   .promo__title {
-    @include font('HNL5');
     margin-bottom: 0;
   }
 }
