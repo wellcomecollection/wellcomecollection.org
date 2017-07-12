@@ -25,7 +25,7 @@
         </div>
       </figcaption>
     {% elif model.caption %}
-      <figcaption class="captioned-image__caption">
+      <figcaption class="captioned-image__caption {{ {s:'LR3', m:'LR2', l:'LR2'} | fontClasses }}">
         {% icon 'other/picture' %}
 
         <div class="captioned-image__caption-text{{ ' js-truncate-text' if data.truncateCaption }}" tabindex="0">
