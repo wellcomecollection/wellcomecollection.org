@@ -1,7 +1,6 @@
 # wellcomecollection.org client
 
 ```bash
-cd client
 npm install
 npm run compile:dev # to watch for changes and compile in local dev
 # or
