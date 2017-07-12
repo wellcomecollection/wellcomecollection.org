@@ -1,5 +1,5 @@
 <div class="opening-hours js-opening-hours js-tabs">
-  <ul class="opening-hours__tablist js-tablist">
+  <ul class="opening-hours__tablist {{ 'HNM6' | fontClasses }} js-tablist">
     {% for place in places %}
       <li class="opening-hours__tabitem js-tabitem">
         <a class="opening-hours__tablink js-tablink" href="#{{ place.id }}">{{ place.name }}</a>
@@ -7,7 +7,7 @@
     {% endfor %}
   </ul>
   {% for place in places %}
-    <table id="panel-{{ place.id }}" class="opening-hours__table js-tabpanel">
+    <table id="panel-{{ place.id }}" class="opening-hours__table {{ 'HNL6' | fontClasses }} js-tabpanel">
       <caption id="{{ place.id }}" class="opening-hours__caption js-tabfocus">{{ place.name }}</caption>
       <thead class="opening-hours__thead">
         <tr class="opening-hours__tr">
