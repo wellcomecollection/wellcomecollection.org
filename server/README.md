@@ -8,7 +8,7 @@ This project works best if you have compiled the [static](../static) project int
 
 ```bash
 npm install
-npm run dev
+npm run app:dev
 ```
 
 
@@ -16,7 +16,9 @@ npm run dev
 
 ```bash
 npm install
-npm run start
+npm run app:run
+# Or in a docker
+npm run app:docker
 ```
 
 ## Accessibility testing
