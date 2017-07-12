@@ -12,7 +12,7 @@
       <span class="gif-video__button-text">play/pause</span>
     </button>
   </div>
-  <figcaption class="gif-video__caption {{ {s:3, m:3, l:3} | spacingClasses({padding: ['top', 'bottom']}) }} ">
+  <figcaption class="gif-video__caption {{ {s:'LR3', m:'LR2', l:'LR2'} | fontClasses }} {{ {s:3, m:3, l:3} | spacingClasses({padding: ['top', 'bottom']}) }} ">
     {% icon 'other/picture' %}{{ model.caption }}
   </figcaption>
 </figure>
