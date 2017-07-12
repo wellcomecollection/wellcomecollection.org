@@ -127,7 +127,7 @@
   }
 }
 
-// Allow an element to be horizontally stretched outwith its container
+// Allow an element to be horizontally stretched out with its container
 @mixin bleed($amount, $with-padding: false) {
   margin-left: -$amount;
   margin-right: -$amount;
