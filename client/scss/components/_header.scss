@@ -173,7 +173,6 @@ $tweakpoints: (
 
 .header__input {
   .enhanced & {
-    @include font('HNL2');
     width: 100%;
     height: 100%;
     padding: 0 50px 0 0;
@@ -192,7 +191,6 @@ $tweakpoints: (
 }
 
 .header__button {
-  @include font('WB7');
   cursor: pointer;
   align-items: center;
   appearance: none;
@@ -307,7 +305,6 @@ $tweakpoints: (
 
 .header__list {
   @include plain-list();
-  @include font('WB7');
 
   .enhanced & {
     margin-left: -0.3rem;
