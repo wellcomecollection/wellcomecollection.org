@@ -1,28 +1,35 @@
 <div>
-  <{{headingLevel or 'h2'}} class="
+  <{{model.headingLevel or 'h2'}} class="
     {{ {s:'HNM5' , m:'HNM4', l:'HNM4'} | fontClasses }}
     {{ {s:0, m:0, l:0, xl: 0} | spacingClasses({margin: ['top']}) }}
     {{ {s:1, m:1, l:1, xl: 1} | spacingClasses({margin: ['bottom']}) }}">
-   {{ headingText }}
-  </{{headingLevel or 'h2'}}>
-  {% if dates %}
-    <p class="{{ {s:'HNL5' , m:'HNL4', l:'HNL4', xl:'HNL4'} | fontClasses }} {{ {s:1, m:1, l:1, xl: 1} | spacingClasses({margin: ['bottom']}) }}">
-      {% for date in dates %}
-        <time datetime="{{ date.datetime }}">{{ date.text }}</time>{{ ' - ' if not loop.last }}
-      {% endfor %}
-    </p>
-  {% endif %}
-  {% if text %}
-  <p class="{{ {s:'HNL5' , m:'HNL4', l:'HNL4', xl:'HNL4'} | fontClasses }} {{ {s:1, m:1, l:1, xl: 1} | spacingClasses({margin: ['bottom']}) }}">{{text}}</p>
-  {% endif %}
-  {% if links %}
-  <ul class="plain-list {{ {s:1, m:1, l:1, xl: 1} | spacingClasses({margin: ['bottom']}) }}">
-    {% for link in links %}
-      <li class="inline"><a class="plain-link font--elf-green font-hover--mint {{ {s:'HNM5' , m:'HNM4', l:'HNM4', xl: 'HNM4'} | fontClasses }}" href="{{ link.url }}">{{ link.text }}</a>{{ ', ' if not loop.last }}</li>
+   {{ model.headingText }}
+  </{{model.headingLevel or 'h2'}}>
+  {% if model.content | isString %}
+    <p class="{{ {s:'HNL5' , m:'HNL4', l:'HNL4', xl:'HNL4'} | fontClasses }} {{ {s:1, m:1, l:1, xl: 1} | spacingClasses({margin: ['bottom']}) }}">{{model.content}}</p>
+  {% else %}
+    {% for item in model.content %}
+      {% if item.datetime %}
+        {% if loop.first %}
+          <p class="{{ {s:'HNL5' , m:'HNL4', l:'HNL4', xl:'HNL4'} | fontClasses }} {{ {s:1, m:1, l:1, xl: 1} | spacingClasses({margin: ['bottom']}) }}">
+        {% endif %}
+            <time datetime="{{ item.datetime }} ">{{ item.text }}</time>{{ ' - ' if not loop.last }}
+        {% if loop.last %}
+          </p>
+        {% endif %}
+      {% else %}
+          {% if loop.first %}
+          <ul class="plain-list {{ {s:1, m:1, l:1, xl: 1} | spacingClasses({margin: ['bottom']}) }}">
+          {% endif %}
+            <li class="inline"><a class="plain-link font--elf-green font-hover--mint {{ {s:'HNM5' , m:'HNM4', l:'HNM4', xl: 'HNM4'} | fontClasses }}" href="{{ item.url }}">{{ item.text }}</a>{{ ', ' if not loop.last }}</li>
+          {% if loop.last %}
+          </ul>
+          {% endif %}
+      {% endif %}
     {% endfor %}
-  </ul>
   {% endif %}
-  {% if includeDivider %}
+
+  {% if model.includeDivider %}
     {% componentV2 'divider', null, {'pumice': true, 'keyline': true}, {extraClasses: [{s:1, m:1, l:1, xl: 1} | spacingClasses({margin: ['top']}), {s:1, m:1, l:1, xl: 1} | spacingClasses({margin: ['bottom']})]}  %}
   {% endif %}
 </div>
