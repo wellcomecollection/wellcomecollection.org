@@ -1,5 +1,9 @@
+import { getSizesAsObject } from './utils';
+
 export default function fontClasses(sizes) {
-  return Object.keys(sizes).map(key => {
-    return `font-${sizes[key]}-${key}`;
+  const sizesObject = getSizesAsObject(sizes);
+
+  return Object.keys(sizesObject).map(key => {
+    return `font-${sizesObject[key]}-${key}`;
   }).join(' ');
 }

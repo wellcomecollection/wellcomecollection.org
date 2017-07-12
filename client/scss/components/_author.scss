@@ -59,12 +59,10 @@
 }
 
 .author__name {
-  @include font('WB6');
   display: block;
 }
 
 .author__twitter {
-  @include font('HNM6');
   color: color('seaweed');
 
   .icon {
@@ -85,12 +83,6 @@
 }
 
 .author__description {
-  @include font('LR3');
-
-  @include respond-to('medium') {
-    @include font('LR2');
-  }
-
   margin-top: 2 * $vertical-space-unit;
 
   :last-child {
