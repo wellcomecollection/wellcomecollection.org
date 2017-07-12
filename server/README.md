@@ -46,11 +46,13 @@ The test opens your browser at browserstack.com with screenshots of the url in b
 You can also click through to instances of those browsers.
 
 In order for this to work need to add your browserstack credentials to 'browserstack/browserstack-config.json'
-in the follwing format:
+in the following format:
 
+```json
 {
   "username": "<browserstack_username>",
   "key": "browserstack_key"
 }
+```
 
 **N.B. This file is git ignored, but worth mentioning that it should not be committed**

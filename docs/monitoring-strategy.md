@@ -29,7 +29,7 @@ soon as possible that our product is unhealthy. A healthy system is a quiet syst
 We should also be able to diagnose where repeated unhealthy spots are to
 retrospectively go back and put more permanent solutions.
 
-This will ultimately mean more time on new features rather than maintaing
+This will ultimately mean more time on new features rather than maintaining
 <abbr title="business as usual">BAU</abbr>.
 
 __Links__
