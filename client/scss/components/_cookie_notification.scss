@@ -1,12 +1,6 @@
 //* @define cookie-notification
 
 .cookie-notification {
-  @include font('HNM6');
-
-  @include respond-to('medium') {
-    @include font('HNM4');
-  }
-
   display: none;
   background: color('teal');
   color: color('white');

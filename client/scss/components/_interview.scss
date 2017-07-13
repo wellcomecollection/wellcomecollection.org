@@ -7,14 +7,6 @@
 }
 
 .interview__participant {
-  .interview__question & {
-    @include font('HNM6');
-  }
-
-  .interview__answer & {
-    @include font('HNL7');
-  }
-
   display: block;
   margin-bottom: 0.4em;
 }
@@ -22,20 +14,4 @@
 .interview__question,
 .interview__answer {
   margin-bottom: 0.8em;
-}
-
-.interview__question {
-  @include font('HNM4');
-
-  @include respond-to('medium') {
-    @include font('HNM3');
-  }
-}
-
-.interview__answer {
-  @include font('HNL4');
-
-  @include respond-to('medium') {
-    @include font('HNL3');
-  }
 }

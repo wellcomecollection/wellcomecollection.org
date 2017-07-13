@@ -1,11 +1,11 @@
 <div class="interview">
   {% for qAndA in interview %}
-    <p class="interview__question">
-      <span class="interview__participant">{{ qAndA.question.participant }}</span>
+    <p class="interview__question {{ {s:'HNM4', m:'HNM3', l:'HNM3'} | fontClasses }}">
+      <span class="interview__participant {{ 'HNM6' | fontClasses }}">{{ qAndA.question.participant }}</span>
       {{ qAndA.question.content }}
     </p>
-    <p class="interview__answer">
-      <span class="interview__participant">{{ qAndA.answer.participant }}</span>
+    <p class="interview__answer {{ {s:'HNL4', m:'HNL3', l:'HNL3'} | fontClasses }}">
+      <span class="interview__participant {{ 'HNL7' | fontClasses }}">{{ qAndA.answer.participant }}</span>
       {{ qAndA.answer.content }}
     </p>
   {% endfor %}
