@@ -78,12 +78,6 @@
   }
 }
 
-@mixin plain-list() {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
 @mixin grid-cells($columns, $key) {
   @for $i from 1 through $columns {
     .grid__cell--#{$key}#{$i} {
@@ -127,7 +121,7 @@
   }
 }
 
-// Allow an element to be horizontally stretched outwith its container
+// Allow an element to be horizontally stretched outside of its container
 @mixin bleed($amount, $with-padding: false) {
   margin-left: -$amount;
   margin-right: -$amount;

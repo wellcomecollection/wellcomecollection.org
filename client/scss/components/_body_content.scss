@@ -24,8 +24,9 @@
   }
 
   ul {
-    @include plain-list();
-    margin-bottom: 2em;
+    list-style: none;
+    margin: 0 0 2em;
+    padding: 0;
 
     li {
       list-style: none;

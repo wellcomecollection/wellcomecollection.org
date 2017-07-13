@@ -127,7 +127,6 @@ $footer-strap-width: 220px;
 }
 
 .footer__hygiene-list {
-  @include plain-list();
   display: flex;
   justify-content: space-between;
   margin-bottom: $vertical-space-unit;
