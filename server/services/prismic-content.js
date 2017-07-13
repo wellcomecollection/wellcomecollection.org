@@ -45,7 +45,7 @@ function parseEditorialAsArticle(prismicArticle) {
   const publishDate = PrismicDate(prismicArticle.data.publishDate || prismicArticle.first_publication_date);
 
   // TODO:
-  const mainMedia = prismicArticle.data.content.filter(slice => slice.primary.weight === 'featured').map(slice => {
+  const mainMedia = prismicArticle.data.content.filter(slice => slice.slice_label === 'featured').map(slice => {
     return prismicImageToPicture(slice.primary);
   });
 
@@ -111,9 +111,9 @@ function convertContentToBodyParts(content) {
 
       case 'editorialImage':
         // TODO: This shouldn't really be here
-        if (slice.primary.weight === 'featured') return;
+        if (slice.slice_label === 'featured') return;
         return {
-          weight: slice.primary.weight,
+          weight: slice.slice_label,
           type: 'picture',
           value: prismicImageToPicture(slice.primary)
         };
