@@ -50,6 +50,29 @@
   <p>Globally accessible, reusable styles are defined in
   <a href="https://github.com/wellcometrust/wellcomecollection.org/blob/master/client/scss/utilities/_root-scope-classes.scss">`_root-scope-classes.scss`</a>.</p>
 
+  <h4>Typography classes</h4>
+  <p>We have a <a href="/components/detail/typography.html">predefined set of typography styles</a>. This means we can avoid redeclaring font properties every time we create a new component.</p>
+  <p>Instead, there is a class for each typography style at each breakpoint, and a <code>fontClasses</code> nunjucks filter that simplifies the process of adding these classes to the markup.</p>
+  <p>Each typography style has a name, e.g. <code>WB3</code> (the third largest Wellcome Bold style). If we want the same typography style to be output at every breakpoint, we can write the following:
+  <br /><br />
+  {% raw %}
+  <code>{{ 'WB3' | fontClasses }}</code>
+  <br /><br />
+  Alternatively, if we want to have different styles at each breakpoint, we can write:
+  <br /><br />
+  <code>{{ {s:'WB4', m:'WB3', l:'WB2', xl:'WB1'} | fontClasses }}</code>
+  <br /><br />
+  Finally, if we want to change type style between, say, the small and the medium breakpoint, then keep the style the same at all larger breakpoints, we can leave off the keys we don't want to change:
+  <br /><br />
+  <code>{{ {s:'WB3', m:'WB2'} | fontClasses }}</code>
+  <br /><br />
+  which is equivalent to:
+  <br /><br />
+  <code>{{ {s:'WB3', m:'WB2', l:'WB2', xl:'WB2'} | fontClasses }}</code>
+  {% endraw %}
+  </p>
+
+
   <h3>Width</h3>
 
   <p>The layout has a maximum width of {{ breakpoints[breakpoints.length - 1].size }}.</p>
