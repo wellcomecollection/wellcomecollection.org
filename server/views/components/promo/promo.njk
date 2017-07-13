@@ -94,7 +94,7 @@
                     {% endif %}
                   </span>
                 {% endif %}
-                  <{{ headingLevel or 'h2'}} class="promo__title{{ ' promo__title--lead' if data.weight === 'lead' }} {{ titleFontSizes | fontClasses }}">
+                  <{{ headingLevel or 'h2'}} class="promo__title{{ ' promo__title--lead' if model.weight === 'lead' }} {{ titleFontSizes | fontClasses }}">
                     {{ model.title if model.url else 'Coming soon…' }}
                   </{{ headingLevel or 'h2'}}>
               </div>
