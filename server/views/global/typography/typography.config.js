@@ -50,6 +50,7 @@ export const context = {
       usage: 'Article link title (1 of many) • Discover Landing page label (S) name: WB7'
     },
     {
+      name: 'WB7',
       example: 'Oops!...I wrote a Britney blog post',
       size: '15px',
       spacing: '20',
