@@ -32,6 +32,6 @@ Once that's done run:
 
     `./deploy.sh <dev|prod> DOCKER_TAG`
 
-You can ge the `DOCKER_TAG` from [Docker Hub](https://hub.docker.com/r/wellcome/wellcomecollection/tags/).
+You can get the `DOCKER_TAG` from [Docker Hub](https://hub.docker.com/r/wellcome/wellcomecollection/tags/).
 
 That should deploy your changes once all the LBs and instances are reporting healthy.

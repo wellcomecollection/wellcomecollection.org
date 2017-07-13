@@ -49,20 +49,20 @@ resource "aws_cloudfront_distribution" "cardigan" {
 }
 
 resource "aws_cloudfront_distribution" "next" {
-
   origin {
     domain_name = "${var.dns_name}"
     origin_id   = "${var.alb_id}"
+
     custom_origin_config {
       origin_protocol_policy = "http-only"
-      http_port = "80"
-      https_port = "443"
-      origin_ssl_protocols = ["TLSv1", "TLSv1.1", "TLSv1.2"]
+      http_port              = "80"
+      https_port             = "443"
+      origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
     }
   }
 
-  enabled             = true
-  is_ipv6_enabled     = true
+  enabled         = true
+  is_ipv6_enabled = true
 
   aliases = ["${var.website_uri}", "wellcomecollection.org"]
 
@@ -76,11 +76,11 @@ resource "aws_cloudfront_distribution" "next" {
     max_ttl                = 86400
 
     forwarded_values {
-      query_string = true
+      query_string            = true
       query_string_cache_keys = ["page", "current", "q", "format", "query"]
 
       cookies {
-        forward = "whitelist"
+        forward           = "whitelist"
         whitelisted_names = ["WC_wpAuthToken", "WC_featuresCohort"]
       }
     }
@@ -99,7 +99,7 @@ resource "aws_cloudfront_distribution" "next" {
 
     forwarded_values {
       query_string = true
-      headers = ["*"]
+      headers      = ["*"]
 
       cookies {
         forward = "all"
@@ -119,13 +119,14 @@ resource "aws_cloudfront_distribution" "next" {
 
     forwarded_values {
       query_string = true
-      headers = ["*"]
+      headers      = ["*"]
 
       cookies {
         forward = "all"
       }
     }
   }
+
   cache_behavior {
     target_origin_id       = "${var.alb_id}"
     path_pattern           = "/preview"
@@ -138,7 +139,7 @@ resource "aws_cloudfront_distribution" "next" {
 
     forwarded_values {
       query_string = true
-      headers = ["*"]
+      headers      = ["*"]
 
       cookies {
         forward = "all"

@@ -4,7 +4,11 @@ variable "aws_profile" {}
 variable "wellcomecollection_key_path" {}
 variable "wellcomecollection_key_name" {}
 variable "wellcomecollection_ssl_cert_arn" {}
-variable "website_uri" { default = "next.dev-wellcomecollection.org" }
+
+variable "website_uri" {
+  default = "next.dev-wellcomecollection.org"
+}
+
 variable "container_tag" {}
 
 provider "aws" {
@@ -26,6 +30,7 @@ module "wellcomecollection" {
   wellcomecollection_ssl_cert_arn = "${var.wellcomecollection_ssl_cert_arn}"
   website_uri                     = "${var.website_uri}"
   container_tag                   = "${var.container_tag}"
+  platform_team_account_id        = "${var.platform_team_account_id}"
 }
 
 output "ami_id" {

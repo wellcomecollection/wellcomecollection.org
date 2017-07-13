@@ -1,17 +1,19 @@
 data "aws_acm_certificate" "star_wellcomecollection_org" {
-  domain = "${var.ssl_cert_name}"
+  domain   = "${var.ssl_cert_name}"
   statuses = ["ISSUED"]
 }
 
 resource "aws_alb" "wellcomecollection_alb" {
-  name            = "wellcomecollection-alb"
-  subnets         = ["${aws_subnet.public_a.id}", "${aws_subnet.public_b.id}"]
+  name    = "wellcomecollection-alb"
+  subnets = ["${aws_subnet.public_a.id}", "${aws_subnet.public_b.id}"]
+
   security_groups = [
     "${aws_security_group.https.id}",
     "${aws_security_group.http.id}",
     "${aws_security_group.node_app_port.id}",
-    "${aws_security_group.docker.id}"
+    "${aws_security_group.docker.id}",
   ]
+
   access_logs {
     bucket = "${aws_s3_bucket.alb_log_bucket.bucket}"
     prefix = "dotorg-alb"
@@ -101,16 +103,16 @@ resource "aws_sns_topic" "wellcomecollection_alb_500_alarm" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "wellcomecollection_alb_500" {
-  alarm_description = "Monitoring any 500 errors from the ALB"
-  alarm_name = "wellcomecollection-alb-500"
-  alarm_actions = ["${aws_sns_topic.wellcomecollection_alb_500_alarm.arn}"]
+  alarm_description   = "Monitoring any 500 errors from the ALB"
+  alarm_name          = "wellcomecollection-alb-500"
+  alarm_actions       = ["${aws_sns_topic.wellcomecollection_alb_500_alarm.arn}"]
   comparison_operator = "GreaterThanThreshold"
-  evaluation_periods = "1"
-  metric_name = "HTTPCode_Target_5XX_Count"
-  namespace = "AWS/ApplicationELB"
-  period = "120"
-  statistic = "Sum"
-  threshold = "0"
+  evaluation_periods  = "1"
+  metric_name         = "HTTPCode_Target_5XX_Count"
+  namespace           = "AWS/ApplicationELB"
+  period              = "120"
+  statistic           = "Sum"
+  threshold           = "0"
 
   dimensions {
     LoadBalancer = "${replace("${aws_alb.wellcomecollection_alb.arn}", "/arn:.*?:loadbalancer\\/(.*)/", "$1")}"

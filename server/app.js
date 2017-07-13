@@ -11,6 +11,7 @@ import {intervalCache} from './middleware/interval-cache';
 
 const app = new Koa();
 
+app.use(error());
 app.use(enforceSSL());
 app.use(setCacheControl(config.cacheControl));
 app.use(intervalCache());
@@ -19,6 +20,5 @@ app.use(serve(config.favicon.path));
 app.use(determineFeaturesCohort());
 app.use(render(config.views.path));
 app.use(router);
-app.use(error());
 
 export default app;

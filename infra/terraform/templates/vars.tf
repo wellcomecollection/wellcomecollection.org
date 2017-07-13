@@ -8,4 +8,9 @@ variable "container_definitions" {}
 variable "container_definitions_thumbor" {}
 variable "ssl_cert_name" {}
 variable "alb_log_bucket" {}
-variable "alb_log_prefix" { default = "dotorg-alb" }
+
+variable "alb_log_prefix" {
+  default = "dotorg-alb"
+}
+
+variable "platform_team_account_id" {}

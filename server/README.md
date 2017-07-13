@@ -8,15 +8,25 @@ This project works best if you have compiled the [static](../static) project int
 
 ```bash
 npm install
-npm run dev
+npm run app:dev
 ```
+
+If you get this error when running `app`:
+
+```
+Error: Cannot find module '../config/css-assets.json'
+```
+
+You need to compile the assets [in the client directory](../client).
 
 
 ## Prod (uses PM2)
 
 ```bash
 npm install
-npm run start
+npm run app:run
+# Or in a docker
+npm run app:docker
 ```
 
 ## Accessibility testing
@@ -46,11 +56,13 @@ The test opens your browser at browserstack.com with screenshots of the url in b
 You can also click through to instances of those browsers.
 
 In order for this to work need to add your browserstack credentials to 'browserstack/browserstack-config.json'
-in the follwing format:
+in the following format:
 
+```json
 {
   "username": "<browserstack_username>",
   "key": "browserstack_key"
 }
+```
 
 **N.B. This file is git ignored, but worth mentioning that it should not be committed**
