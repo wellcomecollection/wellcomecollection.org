@@ -1,20 +1,7 @@
 .social-media-block__intro {
-  @include font('HNL5');
-
   .icon {
     margin-right: 0.5em;
     width: 1.4em;
     height: 1.4em;
   }
-}
-
-.social-media-block__handle {
-  @include font('WB6');
-
-  @include respond-to('medium') {
-    @include font('WB4');
-  }
-
-  color: color('turquoise-text');
-  text-decoration: none;
 }
