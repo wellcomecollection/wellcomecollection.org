@@ -156,7 +156,7 @@ function splitBlockquote(blockquote) {
       .replace(tagsRegex, '');
 
       const body = `${wrapper.open}${quote}${wrapper.close}`;
-      const footer = citation.length > 1 ? `<footer class="quote__footer"><cite class="quote__cite">${citation}</cite></footer>` : null;
+      const footer = citation.length > 1 ? citation : null;
 
       return { body, footer, quote, citation };
     } catch (err) {

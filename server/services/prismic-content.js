@@ -136,7 +136,7 @@ function convertContentToBodyParts(content) {
           weight: 'default',
           value: {
             body: RichText.asHtml(slice.primary.quote),
-            footer: `<footer class="quote__footer"><cite class="quote__cite">${slice.primary.citation} - ${slice.primary.source}</cite></footer>`,
+            footer: `${slice.primary.citation} - ${slice.primary.source}`,
             quote: RichText.asHtml(slice.primary.quote),
             citation: `${slice.primary.citation} - ${slice.primary.source}`
           }
