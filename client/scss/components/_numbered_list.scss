@@ -41,7 +41,6 @@ $numbered-list-number-size-large: 96px;
 }
 
 .numbered-list__list {
-  @include plain-list();
   border: 1px solid color('pumice');
   border-bottom-left-radius: $border-radius-unit;
   border-bottom-right-radius: $border-radius-unit;

@@ -304,7 +304,6 @@ $tweakpoints: (
 }
 
 .header__list {
-  @include plain-list();
 
   .enhanced & {
     margin-left: -0.3rem;
