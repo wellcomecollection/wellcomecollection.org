@@ -1,3 +1,3 @@
-export function isString(string) {
-  return typeof string === 'string';
+export function isString(input) {
+  return typeof input === 'string';
 }

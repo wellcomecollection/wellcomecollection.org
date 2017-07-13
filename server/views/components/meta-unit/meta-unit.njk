@@ -1,10 +1,10 @@
 <div>
-  <{{model.headingLevel or 'h2'}} class="
+  <h{{model.headingLevel or '2'}} class="
     {{ {s:'HNM5' , m:'HNM4', l:'HNM4'} | fontClasses }}
     {{ {s:0, m:0, l:0, xl: 0} | spacingClasses({margin: ['top']}) }}
     {{ {s:1, m:1, l:1, xl: 1} | spacingClasses({margin: ['bottom']}) }}">
    {{ model.headingText }}
-  </{{model.headingLevel or 'h2'}}>
+  </h{{model.headingLevel or '2'}}>
   {% if model.content | isString %}
     <p class="{{ {s:'HNL5' , m:'HNL4', l:'HNL4', xl:'HNL4'} | fontClasses }} {{ {s:1, m:1, l:1, xl: 1} | spacingClasses({margin: ['bottom']}) }}">{{model.content}}</p>
   {% else %}

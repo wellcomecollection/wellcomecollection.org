@@ -8,7 +8,7 @@ export const collated = true;
 
 export const metaUnit = createMetaUnit(({
   type: 'text',
-  headingLevel: 'h3',
+  headingLevel: 3,
   headingText: 'Curabitur quis',
   content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis mollis turpis, eu facilisis ex. Vivamus sollicitudin pulvinar arcu sagittis posuere. Fusce a congue mauris. Vestibulum faucibus vel nibh ut commodo.',
   includeDivider: true
