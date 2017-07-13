@@ -72,6 +72,21 @@
   {% endraw %}
   </p>
 
+  <h4>Spacing classes</h4>
+  <p>In a similar manner to the typography classes above, we have helper classes that apply various amounts of margins and padding to an element at each breakpoint.</p>
+  <p>Where possible, these classes should be used in preference to adding margins and padding within component scss files.</p>
+  <p>There is also a <code>spacingClasses</code> nunjucks filter which should be used to apply these classes to the markup. The resulting classes apply multiples of our base spacing unit (6px) to any margin or padding direction up to 60px.</p>
+  <p>The filter operates on an object of breakpoint keys and values. It also takes an object as an argument, which can contain 'margin' and/or 'padding' keys, which in turn take an array of directions ('top', 'bottom', 'left', 'right') on which to operate. The breakpoint values are multiplied by our base spacing unit (6px) and the resulting amount will be used as the value for whichever properties are specified in the parameter object.</p>
+  <p>For example, if an element should have 12px top and bottom padding at the small and medium breakpoints, then 24px top and bottom padding at large and xlarge breakpoints, we can write:
+  <br /><br />
+  {% raw %}
+  <code>{{ {s:2, m:2, l:4, xl:4} | spacingClasses({padding: ['top', 'bottom']}) }}</code>
+  </p>
+  <p>Or if an element should have 6px, 12px, 24px and 48px bottom margin at small, medium, large and xlarge breakpoints respectively, we can write:
+  <br /><br />
+  <code>{{ {s:1, m:2, l:4, xl:8} | spacingClasses({margin: ['bottom']}) }}</code>
+  {% endraw %}
+  </p>
 
   <h3>Width</h3>
 
