@@ -1,6 +1,5 @@
 .transporter {
   background: color('white');
-  margin-bottom: $vertical-space-unit;
 }
 
 .transporter__item:first-child:last-child {
@@ -9,32 +8,9 @@
   }
 }
 
-.transporter__more {
-  @include font('HNM5');
-  margin-bottom: 0.5em;
-}
-
-.transporter__title {
-  @include font('WB5');
-
-  @include respond-to('large') {
-    @include font('WB4');
-  }
-
-  margin-top: 0;
-}
-
-.transporter__intro {
-  @include font('HNL5');
-  color: color('pewter');
-}
-
 .transporter__link {
-  @include font('HNM5');
   position: relative;
-  text-decoration: none;
   padding-left: ((12/12) * 0.8) + 0.5em;
-  color: color('seaweed');
 
   &:hover,
   &:focus {
