@@ -1,6 +1,4 @@
 .sort-search {
-  @include font('HNL5');
-
   @include respond-to('medium') {
     display: flex;
     align-items: center;
