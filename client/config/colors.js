@@ -1,6 +1,7 @@
 const colors = {
   'seaweed': ['#034e44', 'primary'],
   'mint': ['#0aa38f', 'primary'],
+  'elf-green': ['#088574', 'primary'],
   'white': ['#ffffff', 'primary'],
   'cream': ['#f0ede3', 'primary'],
   'black': ['#1d1d1d', 'primary'],

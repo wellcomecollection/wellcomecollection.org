@@ -6,7 +6,6 @@
 }
 
 .opening-hours__tablist {
-  @include plain-list();
   border-bottom: 1px solid color('charcoal');
 }
 

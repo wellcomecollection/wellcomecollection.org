@@ -16,7 +16,7 @@
       <nav id="header-nav"
         class="header__nav js-header-burger-drawer"
         aria-labelledby="header-burger-trigger">
-        <ul class="header__list {{ 'WB7' | fontClasses }}">
+        <ul class="plain-list header__list {{ 'WB7' | fontClasses }}">
           {% for navLink in navLinks %}
             <li class="header__item {{ 'header__item--is-current' if navLink.isCurrent }}">
               <a href="{{ navLink.href }}"

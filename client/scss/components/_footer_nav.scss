@@ -24,10 +24,6 @@
   border-bottom: 1px solid color('charcoal');
 }
 
-.footer-nav__list {
-  @include plain-list();
-}
-
 .footer-nav__link {
   display: block;
   text-decoration: none;

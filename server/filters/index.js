@@ -18,6 +18,7 @@ import {isFlagEnabled} from '../util/flag-status';
 import {objectAssign} from './object-assign';
 import {arrayFromObject} from './array-from-object';
 import {groupBodyParts} from './group-body-parts';
+import {isString} from './is-string';
 
 export default Map({
   youtubeEmbedUrl,
@@ -40,5 +41,6 @@ export default Map({
   isFlagEnabled,
   objectAssign,
   arrayFromObject,
-  groupBodyParts
+  groupBodyParts,
+  isString
 });
