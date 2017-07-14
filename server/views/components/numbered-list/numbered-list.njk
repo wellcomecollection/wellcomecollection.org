@@ -20,7 +20,7 @@
         <li class="numbered-list__item
           {{ 'numbered-list__item--inactive' if not item.url }}
           {{ 'grid__cell' if isTransporter }}
-          {% if isCurrent %} numbered-list__item--{{model.color}}  data-current="true"{% endif %}">
+          {% if isCurrent %} numbered-list__item--{{model.color}}{% endif %}"{% if isCurrent %}data-current="true" {% endif %}>
 
           <span class="numbered-list__number {{ 'WB1' | fontClasses }}" aria-hidden="true">{{ loop.index }}</span>
 
