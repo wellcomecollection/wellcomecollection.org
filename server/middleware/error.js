@@ -13,6 +13,8 @@ export default function() {
       }
 
       ctx.status = err.status || 500;
+      console.error(err);
+
       ctx.render('pages/error', {
         pageConfig: createPageConfig({
           title: `We did a ${err.status} oopsy`
