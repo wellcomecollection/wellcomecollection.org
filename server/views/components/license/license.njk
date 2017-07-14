@@ -1,31 +1,53 @@
-<div class="flex flex--v-center" about="{{model.subject}}">
+{% if model.licenseType === 'PDM' %}
+  {% set licenseText = 'Public Domain' %}
+{% else %}
+  {% set licenseText = model.licenseType %}
+{% endif %}
+
+{% set iconClasses = ['icon--2x', 'margin-right-s1', 'margin-right-m1', 'margin-right-l1', 'margin-right-xl1'] %}
+
+<p class="{{ {s:'LR2', m:'LR2', l:'LR2', xl:'LR2'} | fontClasses }}"{% if model.subject %} about="{{model.subject}}{% endif %}">
   {% if model.licenseType === 'copyright-not-cleared' %}
     Copyright Not Cleared
+  {% else %}
+    {% if model.licenseType === 'PDM' %}
+      {% set licenseHref = 'https://creativecommons.org/publicdomain/mark/1.0/' %}
+    {% endif %}
+    {% if model.licenseType === 'CC0' %}
+      {% set licenseHref = 'https://creativecommons.org/publicdomain/zero/1.0/' %}
+    {% endif %}
+    {% if model.licenseType === 'CC-BY' %}
+      {% set licenseHref = 'https://creativecommons.org/licenses/by/4.0/' %}
+    {% endif %}
+    {% if model.licenseType === 'CC-BY-NC' %}
+      {% set licenseHref = 'https://creativecommons.org/licenses/by-nc/4.0/' %}
+    {% endif %}
+    {% if model.licenseType === 'CC-BY-NC-ND' %}
+      {% set licenseHref = 'https://creativecommons.org/licenses/by-nc-nd/4.0/' %}
+    {% endif %}
+      <a rel="license" class="flex felx-v-center plain-link {{ {s:'LR2', m:'LR2', l:'LR2', xl:'LR2'} | fontClasses }}" href="{{ licenseHref }}">
+        {% if model.licenseType === 'PDM' %}
+          {% icon 'other/cc_pdm', null, iconClasses %}
+        {% endif %}
+        {% if model.licenseType === 'CC0' %}
+          {% icon 'other/cc_zero', null, iconClasses %}
+        {% endif %}
+        {% if model.licenseType === 'CC-BY' %}
+          {% icon 'other/cc', null, iconClasses %}
+          {% icon 'other/cc_by', null, iconClasses %}
+        {% endif %}
+        {% if model.licenseType === 'CC-BY-NC' %}
+          {% icon 'other/cc', null, iconClasses %}
+          {% icon 'other/cc_by', null, iconClasses %}
+          {% icon 'other/cc_nc', null, iconClasses %}
+        {% endif %}
+        {% if model.licenseType === 'CC-BY-NC-ND' %}
+          {% icon 'other/cc', null, iconClasses %}
+          {% icon 'other/cc_by', null, iconClasses %}
+          {% icon 'other/cc_nc', null, iconClasses %}
+          {% icon 'other/cc_nd', null, iconClasses %}
+    {% endif %}
+        {{ licenseText }}
+      </a>
   {% endif %}
-  {% if model.licenseType === 'PDM' %}
-    {% icon 'other/cc_pdm', null, ['icon--2x'] %}
-    <a rel="license" class="{{ {s:'LR2' , m:'LR2', l:'LR2', xl:'LR2'} | fontClasses }}" href="https://creativecommons.org/publicdomain/mark/1.0/">Creative Commons License, {{model.licenseType}}</a>
-  {% endif %}
-  {% if model.licenseType === 'CC0' %}
-    {% icon 'other/cc_zero', null, ['icon--2x'] %}
-    <a rel="license" class="{{ {s:'LR2' , m:'LR2', l:'LR2', xl:'LR2'} | fontClasses }}" href="https://creativecommons.org/publicdomain/zero/1.0/">Creative Commons License, {{model.licenseType}}</a>
-  {% endif %}
-  {% if model.licenseType === 'CC-BY' %}
-    {% icon 'other/cc', null, ['icon--2x'] %}
-    {% icon 'other/cc_by', null, ['icon--2x'] %}
-    <a rel="license" class="{{ {s:'LR2' , m:'LR2', l:'LR2', xl:'LR2'} | fontClasses }}" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons License, {{model.licenseType}}</a>
-  {% endif %}
-  {% if model.licenseType === 'CC-BY-NC' %}
-    {% icon 'other/cc', null, ['icon--2x'] %}
-    {% icon 'other/cc_by', null, ['icon--2x'] %}
-    {% icon 'other/cc_nc', null, ['icon--2x'] %}
-    <a rel="license" class="{{ {s:'LR2' , m:'LR2', l:'LR2', xl:'LR2'} | fontClasses }}" href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons License, {{model.licenseType}}</a>
-  {% endif %}
-  {% if model.licenseType === 'CC-BY-NC-ND' %}
-    {% icon 'other/cc', null, ['icon--2x'] %}
-    {% icon 'other/cc_by', null, ['icon--2x'] %}
-    {% icon 'other/cc_nc', null, ['icon--2x'] %}
-    {% icon 'other/cc_nd', null, ['icon--2x'] %}
-    <a rel="license" class="{{ {s:'LR2' , m:'LR2', l:'LR2', xl:'LR2'} | fontClasses }}" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons License, {{model.licenseType}}</a>
-  {% endif %}
-</div>
+</p>
