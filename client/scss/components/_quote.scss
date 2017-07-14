@@ -1,12 +1,6 @@
 //* @define quote; weak
 
 .quote {
-  @include font('HNM3');
-
-  @include respond-to('medium') {
-    @include font('HNM2');
-  }
-
   margin: 0 0 2em;
   border-left: 5px solid color('pumice');
   padding-left: 1.2em;
@@ -16,7 +10,6 @@
   }
 
   &.quote--block {
-    @include font('HNL3');
     border-left: 0;
     position: relative;
 
@@ -35,14 +28,6 @@
     p:last-of-type {
       margin-bottom: 0.4em;
     }
-  }
-
-  &.quote--wb {
-    @include font('WB5');
-  }
-
-  &.quote--lr {
-    @include font('LR2');
   }
 
   p {
@@ -82,8 +67,6 @@
 }
 
 .quote__footer {
-  @include font('HNM5');
-
   &:before {
     content: '\2015';
     margin-right: 0.5em;
@@ -91,6 +74,5 @@
 }
 
 .quote__cite {
-  @include font('HNL5');
   font-style: normal;
 }

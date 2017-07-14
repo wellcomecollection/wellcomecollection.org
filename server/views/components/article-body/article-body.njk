@@ -45,7 +45,7 @@
           {% elif bodyPart.type === 'instagramEmbed' %}
             {% componentV2 'instagram-embed', bodyPart.value %}
           {% elif bodyPart.type === 'quote' %}
-            {% component 'quote', { body: bodyPart.value.body | safe, footer: bodyPart.value.footer | safe, modifiers: ['block'] } %}
+            {% componentV2 'quote', {body: bodyPart.value.body | safe, footer: bodyPart.value.footer | safe}, {'block': true}, {fontStyles: 'HNL3'} %}
           {% elif bodyPart.type === 'pre' %}
             <div class="bg-white">
               <div class="body-part__extend-to-right">
