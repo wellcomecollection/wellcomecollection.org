@@ -11,7 +11,7 @@ export default function() {
       if (404 !== err.status) {
         Raven.captureException(err, {extra: {url: ctx.request.href}});
       }
-
+      console.error(err)
       ctx.status = err.status || 500;
       ctx.render('pages/error', {
         pageConfig: createPageConfig({

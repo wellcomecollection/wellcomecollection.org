@@ -12,19 +12,7 @@
   {% endif %}
   </div>
   {% block figcaption %}
-    {# TODO: separate licensing info from the fact that the content type is 'comic' #}
-    {% if data.contentType === 'comic' %}
-      <figcaption class="captioned-image__caption {{ {s:'LR3', m:'LR2'} | fontClasses }}">
-        {% icon 'other/picture' %}
-        {% icon 'other/cc_logo' %}
-        {% icon 'other/cc_non_commercial' %}
-        {% icon 'other/cc_attribution' %}
-        <div class="captioned-image__caption-text" tabindex="0">
-          <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>
-          {{ model.caption | safe }}
-        </div>
-      </figcaption>
-    {% elif model.caption %}
+    {% if model.caption %}
       <figcaption class="captioned-image__caption {{ {s:'LR3', m:'LR2'} | fontClasses }}">
         {% icon 'other/picture' %}
 
