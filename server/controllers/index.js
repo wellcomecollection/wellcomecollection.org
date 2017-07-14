@@ -57,19 +57,22 @@ export const articles = async(ctx, next) => {
 export const series = async(ctx, next) => {
   const {id, page} = ctx.params;
   const series = await getSeries(id, maxItemsPerPage, page);
-  const promoList = PromoListFactory.fromSeries(series);
-  const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1, maxItemsPerPage);
 
-  ctx.render('pages/list', {
-    pageConfig: createPageConfig({
-      title: series.name,
-      inSection: 'explore',
-      category: 'list',
-      seriesUrl: id
-    }),
-    list: promoList,
-    pagination
-  });
+  if (series) {
+    const promoList = PromoListFactory.fromSeries(series);
+    const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1, maxItemsPerPage);
+
+    ctx.render('pages/list', {
+      pageConfig: createPageConfig({
+        title: series.name,
+        inSection: 'explore',
+        category: 'list',
+        seriesUrl: id
+      }),
+      list: promoList,
+      pagination
+    });
+  }
 
   return next();
 };
