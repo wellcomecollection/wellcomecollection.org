@@ -8,7 +8,6 @@ export default function() {
       await next();
       if (404 === ctx.response.status && !ctx.response.body) ctx.throw(404);
     } catch (err) {
-      console.log(err);
       if (404 !== err.status) {
         Raven.captureException(err, {extra: {url: ctx.request.href}});
       }
