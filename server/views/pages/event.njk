@@ -64,7 +64,7 @@
             {% endblock %}
 
             {% if article.contributors.length > 0 %}
-              <h2 class="{{ {s: 'HNM4', m: 'HNM4', l: 'HNM4'} | fontClasses }}"><b>Contributors</b></h2>
+              <h2 class="{{ {s: 'HNM4'} | fontClasses }}"><b>Contributors</b></h2>
               {% for contributor in article.contributors %}
                 {% component 'author', {
                   name: contributor.name,

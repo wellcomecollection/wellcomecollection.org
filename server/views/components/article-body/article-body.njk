@@ -45,12 +45,13 @@
           {% elif bodyPart.type === 'instagramEmbed' %}
             {% componentV2 'instagram-embed', bodyPart.value %}
           {% elif bodyPart.type === 'quote' %}
-            {% componentV2 'quote', {body: bodyPart.value.body | safe, footer: bodyPart.value.footer | safe}, {'block': true}, {fontStyles: 'HNL3'} %}
+            {% set fontStyles = {s:'HNL3'} %}
+            {% componentV2 'quote', {body: bodyPart.value.body | safe, footer: bodyPart.value.footer | safe}, {'block': true}, {fontStyles: fontStyles} %}
           {% elif bodyPart.type === 'pre' %}
             <div class="bg-white">
               <div class="body-part__extend-to-right">
                 <div class="{{ {s:3, m:3, l:3} | spacingClasses({padding: ['top', 'bottom'], margin: ['bottom']}) }}">
-                  <pre class="pre {{ 'LR3' | fontClasses }} border-left border-left--smoke {{ {s:3, m:3, l:3} | spacingClasses({padding: ['left', 'right']}) }}">
+                  <pre class="pre {{ {s:'LR3'} | fontClasses }} border-left border-left--smoke {{ {s:3, m:3, l:3} | spacingClasses({padding: ['left', 'right']}) }}">
                     {{- bodyPart.value -}}
                   </pre>
                 </div>

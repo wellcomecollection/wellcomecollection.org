@@ -27,7 +27,7 @@ export const variants = [
     context: {
       modifiers: {'with-marks': true, 'wb': true},
       data: {
-        fontStyles: 'WB5'
+        fontStyles: {s: 'WB5'}
       }
     }
   },
@@ -36,7 +36,7 @@ export const variants = [
     context: {
       modifiers: {'lr': true},
       data: {
-        fontStyles: 'LR2'
+        fontStyles: {s: 'LR2'}
       }
     }
   },
@@ -45,7 +45,7 @@ export const variants = [
     context: {
       modifiers: {'block': true},
       data: {
-        fontStyles: 'HNL3'
+        fontStyles: {s: 'HNL3'}
       }
     }
   }

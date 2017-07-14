@@ -19,7 +19,7 @@
       <div class="container">
         <div class="grid">
           <div class="grid__cell grid__cell--shift-m1 {{ 'grid__cell--shift-l1' if model.lead }}">
-            <span class="page-description__subtext {{ 'HNL5' | fontClasses }}">
+            <span class="page-description__subtext {{ {s:'HNL5'} | fontClasses }}">
               {% if model.meta.type === 'date' %}
                 {% icon 'other/clock' %}{{ model.meta.value | formatDate }}
               {% else %}

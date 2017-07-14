@@ -1,7 +1,7 @@
 <div class="footer-social">
   {% for item in items %}
     <div class="footer-social__cell">
-      <a class="footer-social__link {{ 'HNM6' | fontClasses }}" href="{{ item.url }}">
+      <a class="footer-social__link {{ {s:'HNM6'} | fontClasses }}" href="{{ item.url }}">
         {% icon item.icon %}
         <span class="footer-social__title">{{ item.title }}</span>
         <span class="footer-social__service">{{ item.service }}</span>

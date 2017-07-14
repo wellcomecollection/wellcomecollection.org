@@ -1,13 +1,13 @@
 <section class="transporter {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
   {% if type !== 'theme' %}
-  <h2 class="transporter__title {{ {s:'WB5', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ title }}</h2>
+  <h2 class="transporter__title {{ {s:'WB5', l:'WB4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ title }}</h2>
   {% endif %}
   <div class="grid grid--dividers">
     {% if type === 'theme' %}
     <div class="{{ {s:12, m:12, l:3} | gridClasses }} transporter__item">
-      <p class="transporter__more {{ 'HNM5' | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">More from this theme</p>
-      <h2 class="transporter__title {{ {s:'WB5', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ title }}</h2>
-      <p class="transporter__intro font--pewter {{ 'HNL5' | fontClasses }}">{{ introCopy }}</p>
+      <p class="transporter__more {{ {s:'HNM5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">More from this theme</p>
+      <h2 class="transporter__title {{ {s:'WB5', l:'WB4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ title }}</h2>
+      <p class="transporter__intro font--pewter {{ {s:'HNL5'} | fontClasses }}">{{ introCopy }}</p>
     </div>
     {% endif %}
 
@@ -19,7 +19,7 @@
     {% endfor %}
   </div>
   {% if themeUrl %}
-  <a class="transporter__link font--seaweed plain-link {{ 'HNM5' | fontClasses }}" href="{{ themeUrl }}">
+  <a class="transporter__link font--seaweed plain-link {{ {s:'HNM5'} | fontClasses }}" href="{{ themeUrl }}">
     {% icon 'actions/arrow-small' %}
     Full theme
   </a>

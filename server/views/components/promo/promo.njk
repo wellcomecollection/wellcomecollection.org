@@ -1,28 +1,28 @@
 {# TODO: pass in font sizes as data? #}
 {% if model.modifiers and model.modifiers | contains('large-text') %}
-  {% set typeFontSizes = {s:'HNL7', m:'HNL7', l:'HNL5'} %}
+  {% set typeFontSizes = {s:'HNL7', l:'HNL5'} %}
 {% elif model.modifiers and model.modifiers | contains('transporter-child') %}
-  {% set typeFontSizes = 'HNL7' %}
+  {% set typeFontSizes = {s:'HNL7'} %}
 {% else %}
-  {% set typeFontSizes = 'HNL5' %}
+  {% set typeFontSizes = {s:'HNL5'} %}
 {% endif %}
 
 {% if model.modifiers and model.modifiers | contains('large-text') %}
-  {% set titleFontSizes = {s:'WB7', m:'WB7', l:'WB6'} %}
+  {% set titleFontSizes = {s:'WB7', l:'WB6'} %}
 {% elif model.modifiers and model.modifiers | contains('transporter-child') %}
-  {% set titleFontSizes = 'WB7' %}
+  {% set titleFontSizes = {s:'WB7'} %}
 {% elif model.modifiers and model.modifiers | contains('standalone') %}
   {% set titleFontSizes = {s:'WB6', m:'WB4', l:'WB6', xl:'WB4'} %}
 {% elif model.modifiers and model.modifiers | contains('work') %}
-  {% set titleFontSizes = 'HNL5' %}
+  {% set titleFontSizes = {s:'HNL5'} %}
 {% else %}
-  {% set titleFontSizes = 'WB6' %}
+  {% set titleFontSizes = {s:'WB6'} %}
 {% endif %}
 
 {% if model.modifiers and model.modifiers | contains('transporter-child') %}
-  {% set dateFontSizes = 'HNL7' %}
+  {% set dateFontSizes = {s:'HNL7'} %}
 {% else %}
-  {% set dateFontSizes = 'HNL5' %}
+  {% set dateFontSizes = {s:'HNL5'} %}
 {% endif %}
 
 
@@ -63,7 +63,7 @@
       {% endif %}
 
       {% if model.contentType === 'gallery' or model.contentType === 'audio' or model.contentType === 'video' %}
-        <div class="promo__icon-container {{ 'HNL7' | fontClasses }}">
+        <div class="promo__icon-container {{ {s:'HNL7'} | fontClasses }}">
           {% icon model.contentType | getIconForContentType %}
           {% if model.contentType === 'gallery' and model.length %}
             <span class="promo__length"><span class="promo__sr">Gallery with</span> {{ model.length }} <span class="promo__sr">item{{ 's' if model.length > 1 }}</span></span>
@@ -81,7 +81,7 @@
         <div class="grid">
           <div class="{{ {l:10, shiftL:1, m:10, shiftM:1, s:12} | gridClasses }}">
           {% endif %}
-            <header class="promo__description {{ 'HNL5' | fontClasses }}">
+            <header class="promo__description {{ {s:'HNL5'} | fontClasses }}">
               <div class="promo__heading">
                 {% if model.contentType %}
                   <span class="promo__type {{ typeFontSizes | fontClasses }}" aria-hidden="true">

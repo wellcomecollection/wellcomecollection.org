@@ -8,11 +8,11 @@
     {% endif %}
   </div>
   <div class="instagram-thumbnail__overlay flex flex--h-center flex--v-center">
-    <div class="instagram-thumbnail__count {{ 'HNL4' | fontClasses }} flex flex--v-center">
+    <div class="instagram-thumbnail__count {{ {s:'HNL4'} | fontClasses }} flex flex--v-center">
       <span class="instagram-thumbnail__type-text">likes</span>
       {% icon 'actions/likes' %} {{ model.likes.count }}
     </div>
-    <div class="instagram-thumbnail__count {{ 'HNL4' | fontClasses }} flex flex--v-center">
+    <div class="instagram-thumbnail__count {{ {s:'HNL4'} | fontClasses }} flex flex--v-center">
       <span class="instagram-thumbnail__type-text">comments</span>
       {% icon 'actions/comments' %} {{ model.comments.count }}
     </div>

@@ -6,9 +6,9 @@
       </div>
     {% endif %}
     <div class="author__details">
-      <span class="author__name {{ 'WB6' | fontClasses }}">{{ name }}</span>
+      <span class="author__name {{ {s:'WB6'} | fontClasses }}">{{ name }}</span>
       {% if twitterHandle %}
-        <span class="author__twitter {{  'HNM6' | fontClasses }}">
+        <span class="author__twitter {{  {s:'HNM6'} | fontClasses }}">
           <a href="https://twitter.com/{{ twitterHandle }}"
             class="author__link"
             aria-label="{{ name }} (screen name: {{ twitterHandle }})">
@@ -19,6 +19,6 @@
     </div>
   </div>
   {% if description %}
-    <div class="author__description {{ {s:'LR3', m:'LR2', l:'LR2'} | fontClasses }}">{{ description | safe }}</div>
+    <div class="author__description {{ {s:'LR3', m:'LR2'} | fontClasses }}">{{ description | safe }}</div>
   {% endif %}
 </div>
