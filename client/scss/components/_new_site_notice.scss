@@ -29,12 +29,6 @@ $mega-w-size: 400px;
 .new-site-notice__inner {
   position: relative; // We have this here to ensure we overlap the :before 'W'
 
-  @include font('HNL7');
-
-  @include respond-to('medium') {
-    @include font('HNL6');
-  }
-
   @include respond-to('notification-break') {
     display: flex;
     align-items: center;
@@ -60,11 +54,5 @@ $mega-w-size: 400px;
 }
 
 .new-site-notice__cta {
-  @include font('HNM6');
-
-  @include respond-to('medium') {
-    @include font('HNM5');
-  }
-
   display: inline-block;
 }

@@ -112,7 +112,15 @@ export async function renderExplore(ctx, next) {
   const contentPromos = contentList.map(PromoFactory.fromArticleStub);
   const promos = wpPromos.concat(contentPromos).sort((a, b) => {
     return a.datePublished.getTime() - b.datePublished.getTime();
-  }).reverse();
+  })
+  .reverse()
+  .map((promo, index) => {
+    if (index === 0) { // First promo on Explore page is treated differently
+      return Object.assign({}, promo, {weight: 'lead'});
+    } else {
+      return promo;
+    }
+  });
 
   // TODO: Remove this, make it automatic
   const latestTweets = ctx.intervalCache.get('tweets');

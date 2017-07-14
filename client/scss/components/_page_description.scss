@@ -14,16 +14,6 @@
 
 .page-description__intro {
   display: block;
-
-  @include font('WB7');
-
-  @include respond-to('medium') {
-    @include font('WB6');
-  }
-
-  @include respond-to('large') {
-    @include font('WB5');
-  }
 }
 
 .page-description__title {
@@ -35,22 +25,6 @@
     width: 0.8em;
     height: 0.8em;
   }
-
-  .page-description--a & {
-    @include font('WB5');
-
-    @include respond-to('medium') {
-      @include font('WB4');
-    }
-
-    @include respond-to('large') {
-      @include font('WB3');
-    }
-  }
-
-  .page-description--b & {
-    @include font('HNM1');
-  }
 }
 
 .page-description__row {
@@ -58,13 +32,7 @@
 
   // This aligns the grey lead bar with text baseline
   &:before {
-    .page-description--a & {
-      bottom: 0.6em;
-    }
-
-    .page-description--b & {
-      bottom: 0.4em;
-    }
+    bottom: 0.6em;
   }
 }
 
@@ -77,7 +45,6 @@
 }
 
 .page-description__subtext {
-  @include font('HNL5');
   display: flex;
   align-items: center;
   color: color('pewter');

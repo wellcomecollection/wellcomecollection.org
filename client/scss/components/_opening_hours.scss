@@ -6,7 +6,6 @@
 }
 
 .opening-hours__tablist {
-  @include font('HNM6');
   border-bottom: 1px solid color('charcoal');
 }
 
@@ -55,7 +54,6 @@
 }
 
 .opening-hours__table {
-  @include font('HNL6');
   color: color('silver');
   width: 100%;
   margin-bottom: 2 * $vertical-space-unit;

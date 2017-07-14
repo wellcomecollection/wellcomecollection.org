@@ -10,7 +10,7 @@ $numbered-list-number-size-large: 96px;
   color: color('white');
   padding: 1rem 1.2rem;
 
-  @include container-query(('l': ('4'))) {
+  @include container-query(('l': ('4'), 'xl': ('4'))) {
     padding-left: 2rem;
     padding-right: 2rem;
   }
@@ -22,22 +22,9 @@ $numbered-list-number-size-large: 96px;
 }
 
 .numbered-list__heading {
-  @include font('WB6');
   margin: 0;
   position: relative;
   z-index: 2;
-
-  .numbered-list--transporter & {
-    @include font('WB5');
-
-    @include respond-to('medium') {
-      @include font('WB4');
-    }
-
-    @include respond-to('large') {
-      @include font('WB3');
-    }
-  }
 }
 
 .numbered-list__list {
@@ -66,14 +53,13 @@ $numbered-list-number-size-large: 96px;
 }
 
 .numbered-list__number {
-  @include font('WB1');
   font-size: $numbered-list-number-size-large;
   line-height: 1;
   color: color('silver');
   position: absolute;
   right: 0.8rem;
 
-  @include container-query(('l': ('4'))) {
+  @include container-query(('l': ('4'), 'xl': ('4'))) {
     right: 1.5rem;
   }
 
@@ -93,19 +79,15 @@ $numbered-list-number-size-large: 96px;
   display: block;
   padding: 1rem 1.2rem;
 
-  @include container-query(('l': ('4'))) {
-    padding: 1.5rem 2rem;
-  }
-
   min-height: calc(#{$numbered-list-number-size-large} + 0.2rem);
 
-  @include container-query(('l': ('4'))) {
+  @include container-query(('l': ('4'), 'xl': ('4'))) {
+    padding: 1.5rem 2rem;
     min-height: calc(#{$numbered-list-number-size-large} + 1.6rem);
   }
 }
 
 .numbered-list__title {
-  @include font('WB7');
   position: relative;
   margin-top: 0;
   margin-bottom: 0.3em;
@@ -122,7 +104,6 @@ $numbered-list-number-size-large: 96px;
 }
 
 .numbered-list__date {
-  @include font('HNL7');
   position: relative;
   display: block;
   margin-bottom: 0;

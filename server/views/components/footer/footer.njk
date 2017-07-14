@@ -21,12 +21,12 @@
     {% component 'footer-social', {items: footerSocial.items} %}
 
     <div class="footer__bottom">
-      <div class="footer__left {{ {s:2, m:2} | spacingClasses({margin: ['bottom']}) }}">
-        <div class="footer__strap {{ 'HNM6' | fontClasses }} {{ {m:4, l:6} | spacingClasses({margin: ['right']}) }} {{ {s:2} | spacingClasses({padding: ['bottom']}) }}">
+      <div class="footer__left {{ {s:2, m:2} | spacingClasses({margin: ['bottom']}, false) }}">
+        <div class="footer__strap {{ 'HNM6' | fontClasses }} {{ {m:4, l:6} | spacingClasses({margin: ['right']}) }} {{ {s:2} | spacingClasses({padding: ['bottom']}, false) }}">
           {% icon 'other/wellcome' %}
           <span class="footer__strap-text">The free museum and library from Wellcome</span>
         </div>
-        <div class="footer__licensing {{ 'HNM6' | fontClasses }} {{ {l:2} | spacingClasses({padding: ['right']}) }}">
+        <div class="footer__licensing {{ 'HNM6' | fontClasses }} {{ {l:2} | spacingClasses({padding: ['right']}, false) }}">
           <div class="footer__licensing-icons">
             {% icon 'other/cc_logo' %}
             {% icon 'other/cc_attribution' %}

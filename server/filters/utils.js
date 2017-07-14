@@ -1,7 +1,34 @@
-export function getSizesAsObject(sizes) {
-  if (typeof sizes === 'object') {
-    return sizes;
-  }
+import { default as gridConfig } from '../../client/config/grid-config';
 
-  return {s: sizes, m: sizes, l: sizes};
+export function getSizesAsObject(sizes) {
+  const gridConfigKeys = Object.keys(gridConfig);
+
+  if (typeof sizes === 'object') {
+    const sizesKeys = Object.keys(sizes);
+    const sizesLength = sizesKeys.length;
+    const lastKey = sizesKeys[sizesLength - 1];
+    const lastValue = sizes[lastKey];
+    const remainingKeys = gridConfigKeys
+      .filter((key, index) => index >= sizesLength)
+      .map((key) => {
+        return {
+          key: key,
+          value: lastValue
+        };
+      })
+      .reduce((acc, curr) => {
+        return Object.assign(acc, {[curr.key]: curr.value});
+      }, {});
+
+    return Object.assign({}, sizes, remainingKeys);
+  } else {
+    return gridConfigKeys.map((key) => {
+      return {
+        key: key,
+        value: sizes
+      };
+    }).reduce((acc, curr) => {
+      return Object.assign(acc, {[curr.key]: curr.value});
+    }, {});
+  }
 }
