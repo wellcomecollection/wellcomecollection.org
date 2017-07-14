@@ -22,7 +22,7 @@ export async function explore(ctx, next) {
   })
   .reverse()
   .map((promo, index) => {
-    if (index === 0) {
+    if (index === 0) { // First promo on Explore page is treated differently
       return Object.assign({}, promo, {weight: 'lead'});
     } else {
       return promo;
