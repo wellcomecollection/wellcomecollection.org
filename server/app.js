@@ -11,14 +11,16 @@ import {intervalCache} from './middleware/interval-cache';
 
 const app = new Koa();
 
+app.use(intervalCache());
+app.use(render(config.views.path));
+// `error` is only after `intervalCache` and `render` as there's a dependency chain there
+// TODO: remove dependency chain
 app.use(error());
 app.use(enforceSSL());
 app.use(setCacheControl(config.cacheControl));
-app.use(intervalCache());
 app.use(serve(config.static.path));
 app.use(serve(config.favicon.path));
 app.use(determineFeaturesCohort());
-app.use(render(config.views.path));
 app.use(router);
 
 export default app;
