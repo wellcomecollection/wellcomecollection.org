@@ -14,13 +14,13 @@
   }
 }
 
-@each $font-key, $font-value in $fonts {
-  @each $breakpoint-key, $breakpoint-value in $grid-config {
+@each $breakpoint-key, $breakpoint-value in $grid-config {
+  @each $font-key, $font-value in $fonts {
     $breakpoint-respond: map-get($breakpoint-value, 'respond');
 
     .font-#{$font-key}-#{$breakpoint-key} {
       @if (length($breakpoint-respond) > 1) {
-        @include respond-between(nth($breakpoint-respond, 1), nth($breakpoint-respond, 2)) {
+        @include respond-to(nth($breakpoint-respond, 1)) {
           @include font($font-key);
         }
       } @else {

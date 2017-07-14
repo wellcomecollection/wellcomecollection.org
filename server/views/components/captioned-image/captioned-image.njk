@@ -14,7 +14,7 @@
   {% block figcaption %}
     {# TODO: separate licensing info from the fact that the content type is 'comic' #}
     {% if data.contentType === 'comic' %}
-      <figcaption class="captioned-image__caption {{ {s:'LR3', m:'LR2', l:'LR2'} | fontClasses }}">
+      <figcaption class="captioned-image__caption {{ {s:'LR3', m:'LR2'} | fontClasses }}">
         {% icon 'other/picture' %}
         {% icon 'other/cc_logo' %}
         {% icon 'other/cc_non_commercial' %}
@@ -25,12 +25,12 @@
         </div>
       </figcaption>
     {% elif model.caption %}
-      <figcaption class="captioned-image__caption {{ {s:'LR3', m:'LR2', l:'LR2'} | fontClasses }}">
+      <figcaption class="captioned-image__caption {{ {s:'LR3', m:'LR2'} | fontClasses }}">
         {% icon 'other/picture' %}
 
         <div class="captioned-image__caption-text{{ ' js-truncate-text' if data.truncateCaption }}" tabindex="0">
           {% if data.slideNumbers %}
-            <span class="captioned-image__number {{ 'HNM5' | fontClasses }} {{ {s:2, m:2, l:2} | spacingClasses({padding: ['right']}) }}"
+            <span class="captioned-image__number {{ {s:'HNM5'} | fontClasses }} {{ {s:2, m:2, l:2} | spacingClasses({padding: ['right']}) }}"
               aria-label="slide {{ data.slideNumbers.current }} of {{ data.slideNumbers.total }}">
               <span aria-hidden="true">{{ data.slideNumbers.current }}/{{ data.slideNumbers.total }}</span>
             </span>

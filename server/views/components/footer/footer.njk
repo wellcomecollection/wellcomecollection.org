@@ -5,28 +5,28 @@
         {% component 'footer-nav', {navLinks: navLinks} %}
       </div>
       <div class="{{ {s:12, m:6, l:3} | gridClasses }}">
-        <h3 class="footer__heading {{ 'HNL5' | fontClasses }}">Finding us:</h3>
+        <h3 class="footer__heading {{ {s:'HNL5'} | fontClasses }}">Finding us:</h3>
         {% componentV2 'find-us', address %}
       </div>
       <div class="{{ {s:12} | gridClasses }}">
-        <h3 class="footer__heading {{ 'HNL5' | fontClasses }}">Opening times:</h3>
+        <h3 class="footer__heading {{ {s:'HNL5'} | fontClasses }}">Opening times:</h3>
         {% component 'opening-hours', {places: openingHours.places} %}
       </div>
     </div>
     <div class="grid">
       <div class="grid__cell">
-        <h3 class="footer__heading {{ 'HNL5' | fontClasses }}">Connect with us:</h3>
+        <h3 class="footer__heading {{ {s:'HNL5'} | fontClasses }}">Connect with us:</h3>
       </div>
     </div>
     {% component 'footer-social', {items: footerSocial.items} %}
 
     <div class="footer__bottom">
       <div class="footer__left {{ {s:2, m:2} | spacingClasses({margin: ['bottom']}, false) }}">
-        <div class="footer__strap {{ 'HNM6' | fontClasses }} {{ {m:4, l:6} | spacingClasses({margin: ['right']}) }} {{ {s:2} | spacingClasses({padding: ['bottom']}, false) }}">
+        <div class="footer__strap {{ {s:'HNM6'} | fontClasses }} {{ {m:4, l:6} | spacingClasses({margin: ['right']}) }} {{ {s:2} | spacingClasses({padding: ['bottom']}, false) }}">
           {% icon 'other/wellcome' %}
           <span class="footer__strap-text">The free museum and library from Wellcome</span>
         </div>
-        <div class="footer__licensing {{ 'HNM6' | fontClasses }} {{ {l:2} | spacingClasses({padding: ['right']}, false) }}">
+        <div class="footer__licensing {{ {s:'HNM6'} | fontClasses }} {{ {l:2} | spacingClasses({padding: ['right']}, false) }}">
           <div class="footer__licensing-icons">
             {% icon 'other/cc_logo' %}
             {% icon 'other/cc_attribution' %}
@@ -36,19 +36,19 @@
       </div>
       <nav class="footer__hygiene-nav">
         <ul class="plain-list footer__hygiene-list">
-          <li class="footer__hygiene-item {{ 'HNM6' | fontClasses }}">
+          <li class="footer__hygiene-item {{ {s:'HNM6'} | fontClasses }}">
             <a href="https://wellcome.ac.uk/jobs" class="footer__hygiene-link">Jobs</a>
           </li>
-          <li class="footer__hygiene-item {{ 'HNM6' | fontClasses }}">
+          <li class="footer__hygiene-item {{ {s:'HNM6'} | fontClasses }}">
             <a href="https://wellcome.ac.uk/about-us/terms-use" class="footer__hygiene-link">Privacy</a>
           </li>
-          <li class="footer__hygiene-item {{ 'HNM6' | fontClasses }}">
+          <li class="footer__hygiene-item {{ {s:'HNM6'} | fontClasses }}">
             <a href="https://wellcome.ac.uk/about-us/terms-use" class="footer__hygiene-link">Cookies</a>
           </li>
-          <li class="footer__hygiene-item {{ 'HNM6' | fontClasses }}">
+          <li class="footer__hygiene-item {{ {s:'HNM6'} | fontClasses }}">
             <a href="https://wellcomecollection.org/press/press-releases" class="footer__hygiene-link">Press</a>
           </li>
-          <li class="footer__hygiene-item {{ 'HNM6' | fontClasses }}">
+          <li class="footer__hygiene-item {{ {s:'HNM6'} | fontClasses }}">
             <a href="#top" class="footer__hygiene-link  footer__hygiene-link--back-to-top"><span>Back to top</span>{% icon 'actions/arrow-big-up' %}</a>
           </li>
         </ul>

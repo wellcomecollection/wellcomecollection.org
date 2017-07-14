@@ -3,7 +3,7 @@
     <div class="row__wobbly-background"></div>
     <div class="container">
       {% componentV2 'divider', null, {'dashed': true} %}
-      <div class="social-media-block__intro {{ 'HNL5' | fontClasses }} flex flex--v-center flex--h-center {{ {s:4, m:4, l:4} | spacingClasses({margin: ['top']}) }}">
+      <div class="social-media-block__intro {{ {s:'HNL5'} | fontClasses }} flex flex--v-center flex--h-center {{ {s:4, m:4, l:4} | spacingClasses({margin: ['top']}) }}">
         {% icon model.icon %}Follow us on {{ model.service }}
       </div>
       <a href="{{ model.url }}"

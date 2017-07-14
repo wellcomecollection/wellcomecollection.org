@@ -1,5 +1,5 @@
 {% set findUsMapUrl = 'https://www.google.co.uk/maps/dir//Wellcome+Collection,+Euston+Road,+London/@51.5258128,-0.136211,17z/data=!4m8!4m7!1m0!1m5!1m1!1s0x48761b25f10b008f:0xed51ac6f865b038a!2m2!1d-0.133945!2d51.525851' %}
-<div class="find-us {{ 'HNL5' | fontClasses }}">
+<div class="find-us {{ {s:'HNL5'} | fontClasses }}">
   <a href="{{ findUsMapUrl }}" class="find-us__link">
     <span class="find-us__address">
       {% icon 'other/location' %}
@@ -35,7 +35,7 @@
 
   <div class="find-us__mapbox">
     <a href="http://mapbox.com/about/maps" class="find-us__mapbox-wordmark">Mapbox</a>
-    <div class="find-us__mapbox-attribution-container {{ 'HNL8' | fontClasses }}">
+    <div class="find-us__mapbox-attribution-container {{ {s:'HNL8'} | fontClasses }}">
       <a class="find-us__mapbox-credit-link find-us__mapbox-credit-link--first" href="https://www.mapbox.com/map-feedback/">© Mapbox | </a>
       <a class="find-us__mapbox-credit-link" href="http://www.openstreetmap.org/copyright">© OpenStreetMap | </a>
       <a class="find-us__mapbox-credit-link" href="https://www.mapbox.com/map-feedback/"><strong>Improve this map</strong></a>
