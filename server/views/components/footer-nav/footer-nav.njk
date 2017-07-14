@@ -3,7 +3,7 @@
     {% include "icons/other/wellcome-collection-white.svg.njk" %}
   </a>
   <nav class="footer-nav__nav">
-    <ul class="footer-nav__list">
+    <ul class="plain-list footer-nav__list">
       {% for link in navLinks %}
         <li class="footer-nav__item"><a id="footer-nav-{{ loop.index }}" href="{{ link.href }}" class="footer-nav__link {{ 'WB7' | fontClasses }}">{{ link.title }}</a></li>
       {% endfor %}

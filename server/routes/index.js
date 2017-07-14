@@ -3,9 +3,8 @@ import {healthcheck, featureFlags} from '../controllers/utils';
 import {seriesNav, seriesTransporter, latestInstagramPosts, seriesContainerPromoList} from '../controllers/async-controllers';
 import {
   renderEditorial, renderEditorialPreview, setPreviewSession, renderEvent,
-  renderEventbriteEmbed
+  renderEventbriteEmbed, renderExplore
 } from '../controllers/content';
-import {explore} from '../controllers/lists';
 import {work, search} from '../controllers/work';
 import {index, article, articles, preview, series} from '../controllers'; // Deprecated
 
@@ -23,9 +22,11 @@ r.get('/kaboom', (ctx, next) => {
 
 // Content
 r.get('/editorial/(W):id', renderEditorial);
-r.get('/explore', explore);
+r.get('/explore', renderExplore);
 r.get('/preview', setPreviewSession);
 r.get('/preview/:id', renderEditorialPreview);
+r.get('/events/:id', renderEvent);
+r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 
 // API
 r.get('/search', search);
@@ -42,8 +43,5 @@ r.get('/series-nav/:id', seriesNav);
 r.get('/series-transporter/:id', seriesTransporter);
 r.get('/latest-instagram-posts', latestInstagramPosts);
 r.get('/series-container-promos-list/:id', seriesContainerPromoList);
-
-r.get('/events/:id', renderEvent);
-r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 
 export const router = r.middleware();

@@ -40,6 +40,14 @@
   }
 }
 
+@each $color-key, $color-value in $colors {
+  .font-hover--#{$color-key}:hover {
+    // stylelint-disable sh-waqar/declaration-use-variable
+    color: nth($color-value, 1);
+    // stylelint-enable sh-waqar/declaration-use-variable
+  }
+}
+
 .is-hidden {
   // This should trump other display styles
   // stylelint-disable declaration-no-important
@@ -90,6 +98,16 @@
 
 .plain-link {
   text-decoration: none;
+}
+
+.plain-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.inline {
+  display: inline;
 }
 
 .float-r {
