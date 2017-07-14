@@ -56,19 +56,11 @@
   <p>Each typography style has a name, e.g. <code>WB3</code> (the third largest Wellcome Bold style). If we want the same typography style to be output at every breakpoint, we can write the following:
   <br /><br />
   {% raw %}
-  <code>{{ 'WB3' | fontClasses }}</code>
+  <code>{{ {s:'WB3'} | fontClasses }}</code>
   <br /><br />
-  Alternatively, if we want to have different styles at each breakpoint, we can write:
+  Alternatively, if we want to have the same style to cover both the small and medium breakpoints, and another to cover both the large and xlarge breakpoints we can write:
   <br /><br />
-  <code>{{ {s:'WB4', m:'WB3', l:'WB2', xl:'WB1'} | fontClasses }}</code>
-  <br /><br />
-  Finally, if we want to change type style between, say, the small and the medium breakpoint, then keep the style the same at all larger breakpoints, we can leave off the keys we don't want to change:
-  <br /><br />
-  <code>{{ {s:'WB3', m:'WB2'} | fontClasses }}</code>
-  <br /><br />
-  which is equivalent to:
-  <br /><br />
-  <code>{{ {s:'WB3', m:'WB2', l:'WB2', xl:'WB2'} | fontClasses }}</code>
+  <code>{{ {s:'WB4', l:'WB2'} | fontClasses }}</code>
   {% endraw %}
   </p>
 
