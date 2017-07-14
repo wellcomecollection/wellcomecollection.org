@@ -1,20 +1,36 @@
+// @flow
+import type {License} from '../../../model/license';
+
 export const name = 'license';
 export const handle = 'license';
 export const collated = true;
 
-export const context = {
-  model: {
-    license: 'CC-BY'
-  }
-};
+const license = ({
+  subject: 'image.jpg',
+  licenseType: 'CC0'
+}: License);
 
-// export const variants = [
-//   {
-//     name: 'date',
-//     context: {model: Object.assign({}, metaUnit, {type: 'date', content: [{text: '1731', datetime: '1731'}, {text: '1743', datetime: '1743'}]})}
-//   },
-//   {
-//     name: 'links',
-//     context: {model: Object.assign({}, metaUnit, {type: 'links', content: [{text: 'Warlock', url: '#'}, {text: 'Witch', url: '#'}, {text: 'Gallows', url: '#'}]})}
-//   }
-// ];
+export const context = { model: license };
+
+export const variants = [
+  {
+    name: 'CC BY',
+    context: { model: Object.assign({}, license, {licenseType: 'CC-BY'}) }
+  },
+  {
+    name: 'CC BY NC',
+    context: { model: Object.assign({}, license, {licenseType: 'CC-BY-NC'}) }
+  },
+  {
+    name: 'CC BY NC ND',
+    context: { model: Object.assign({}, license, {licenseType: 'CC-BY-NC-ND'}) }
+  },
+  {
+    name: 'PDM',
+    context: { model: Object.assign({}, license, {licenseType: 'PDM'}) }
+  },
+  {
+    name: 'copyright not cleared',
+    context: { model: Object.assign({}, license, {licenseType: 'copyright-not-cleared'}) }
+  }
+];
