@@ -1,0 +1,27 @@
+.drawer__header {
+  width: 100%;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.drawer__icon {
+  .icon {
+    transition: transform 400ms ease;
+
+    .is-drawer-open & {
+      transform: rotate(45deg);
+    }
+  }
+}
+
+.drawer__body {
+  .enhanced & {
+    display: none;
+  }
+
+  .is-drawer-open & {
+    display: block;
+  }
+}
