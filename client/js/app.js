@@ -25,7 +25,7 @@ import truncateText from './components/truncate-text';
 import fontObserver from './utils/font-observer';
 import sortSearch from './components/sort-search';
 import backToTop from './components/back-to-top';
-import drawer from './components/drawer';
+import toggleShowHide from './components/toggle-show-hide';
 
 const init = () => {
   polyfills.init();
@@ -51,13 +51,13 @@ const init = () => {
   const gifVideoEls = document.querySelectorAll('.js-gif-video');
   const sortSearchEls = document.querySelectorAll('.js-sort-search');
   const backToTopEl = document.querySelector('.js-back-to-top');
-  const drawerEls = document.querySelectorAll('.js-drawer');
+  const toggleShowHideEls = document.querySelectorAll('.js-show-hide');
 
   nodeList(gifVideoEls).forEach(gifVideo);
 
   nodeList(wobblyEdgeEls).forEach((el) => wobblyEdge(el));
 
-  nodeList(drawerEls).forEach(drawer);
+  nodeList(toggleShowHideEls).forEach(toggleShowHide);
 
   if (mainEl) {
     gaScrollDepth(mainEl);

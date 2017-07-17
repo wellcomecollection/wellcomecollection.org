@@ -10,7 +10,7 @@
   .icon {
     transition: transform 400ms ease;
 
-    .is-drawer-open & {
+    .drawer.is-active & {
       transform: rotate(45deg);
     }
   }
@@ -21,7 +21,7 @@
     display: none;
   }
 
-  .is-drawer-open & {
+  .drawer.is-active & {
     display: block;
   }
 }
