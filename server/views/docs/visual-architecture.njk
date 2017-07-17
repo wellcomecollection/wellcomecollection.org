@@ -50,9 +50,11 @@
   <p>Globally accessible, reusable styles are defined in
   <a href="https://github.com/wellcometrust/wellcomecollection.org/blob/master/client/scss/utilities/_root-scope-classes.scss">`_root-scope-classes.scss`</a>.</p>
 
+  <p>Where possible, we want to limit the amount of styles that need to be written when creating a new component. To this end, we have created a finite set of spacing (margin/padding) and typography classes, as well as Nunjucks filters that simplify the process of adding these classes directly to the markup.</p>
+
   <h4>Typography classes</h4>
   <p>We have a <a href="/components/detail/typography.html">predefined set of typography styles</a>. This means we can avoid redeclaring font properties every time we create a new component.</p>
-  <p>Instead, there is a class for each typography style at each breakpoint, and a <code>fontClasses</code> nunjucks filter that simplifies the process of adding these classes to the markup.</p>
+  <p>Instead, there is a class for each typography style at each breakpoint, and a <code>fontClasses</code> Nunjucks filter that simplifies the process of adding these classes to the markup.</p>
   <p>Each typography style has a name, e.g. <code>WB3</code> (the third largest Wellcome Bold style). If we want the same typography style to be output at every breakpoint, we can write the following:
   <br /><br />
   {% raw %}
@@ -67,7 +69,7 @@
   <h4>Spacing classes</h4>
   <p>In a similar manner to the typography classes above, we have helper classes that apply various amounts of margins and padding to an element at each breakpoint.</p>
   <p>Where possible, these classes should be used in preference to adding margins and padding within component scss files.</p>
-  <p>There is also a <code>spacingClasses</code> nunjucks filter which should be used to apply these classes to the markup. The resulting classes apply multiples of our base spacing unit (6px) to any margin or padding direction up to 60px.</p>
+  <p>There is also a <code>spacingClasses</code> Nunjucks filter which should be used to apply these classes to the markup. The resulting classes apply multiples of our base spacing unit (6px) to any margin or padding direction up to 60px.</p>
   <p>The filter operates on an object of breakpoint keys and values. It also takes an object as an argument, which can contain 'margin' and/or 'padding' keys, which in turn take an array of directions ('top', 'bottom', 'left', 'right') on which to operate. The breakpoint values are multiplied by our base spacing unit (6px) and the resulting amount will be used as the value for whichever properties are specified in the parameter object.</p>
   <p>For example, if an element should have 12px top and bottom padding at the small and medium breakpoints, then 24px top and bottom padding at large and xlarge breakpoints, we can write:
   <br /><br />
