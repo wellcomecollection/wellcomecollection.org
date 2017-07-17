@@ -16,8 +16,8 @@
     {% if data.contentType === 'comic' %}
       <figcaption class="captioned-image__caption {{ {s:'LR3', m:'LR2'} | fontClasses }}">
         {% icon 'other/picture' %}
-          {% componentV2 'license', {subject: model.contentUrl, licenseType: 'CC-BY-NC'} %}
-          {{ model.caption | safe }}
+        {% componentV2 'license', {subject: model.contentUrl, licenseType: 'CC-BY-NC'} %}
+        {{ model.caption | safe }}
       </figcaption>
     {% elif model.caption %}
       <figcaption class="captioned-image__caption {{ {s:'LR3', m:'LR2'} | fontClasses }}">
