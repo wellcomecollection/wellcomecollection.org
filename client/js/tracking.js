@@ -11,9 +11,19 @@ export default {
       const componentName = component.getAttribute('data-component-name');
       const componentId = component.getAttribute('data-component-id');
       const clickedProperties = JSON.parse(clicked.getAttribute('data-track-click'));
-      const properties = Object.assign({}, clickedProperties, {componentId, action: 'click'});
+      const properties = Object.assign(
+        {},
+        clickedProperties,
+        {componentId, action: 'click'}
+      );
+      const ariaExpanded = clicked.getAttribute('aria-expanded');
+      const propertiesWithAria = ariaExpanded ? Object.assign(
+        {},
+        properties,
+        {ariaExpanded}
+      ) : properties;
 
-      trackEvent({name: componentName, properties});
+      trackEvent({name: componentName, propertiesWithAria});
     });
   }
 };
