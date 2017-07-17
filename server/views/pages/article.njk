@@ -27,15 +27,26 @@
   {{ article | jsonLd('contentLd') | safe }}
 </script>
   <article>
-    {% componentV2 'page-description', {intro: seriesTitle, title: article.headline, meta: {type: 'date', value: article.datePublished}, lead: true}, {icon: article.contentType | getIconForContentType} %}
+    {% componentV2 'page-description', {
+      intro: seriesTitle,
+      title: article.headline,
+      meta: {type: 'date', value: article.datePublished},
+      lead: true
+    }, {icon: article.contentType | getIconForContentType} %}
 
     {% set mainMediaData = {
-    contentType: article.contentType,
-    positionInSeries: article.positionInSeries,
-    series: commissionedSeries
+      contentType: article.contentType,
+      positionInSeries: article.positionInSeries,
+      series: commissionedSeries
     } %}
 
-    {% componentV2 'main-media', article.mainMedia | getPrincipleMainMedia, {'full': true, 'comic': article.contentType === 'comic'}, mainMediaData %}
+    {% if (article.contentType === 'comic') %}
+      {% componentV2 'main-media-comic', article.mainMedia | getPrincipleMainMedia, {full: true, comic: true}, mainMediaData %}
+    {% elif (article.contentType === 'video') %}
+      {% componentV2 'main-media-video', article.mainMedia | getPrincipleMainMedia, {full: true}, mainMediaData %}
+    {% else %}
+      {% componentV2 'main-media', article.mainMedia | getPrincipleMainMedia, {full: true}, mainMediaData %}
+    {% endif %}
 
     <div class="row row--cream">
       <div class="container">
