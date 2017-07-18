@@ -16,14 +16,7 @@ export default {
         clickedProperties,
         {componentId, action: 'click'}
       );
-      const ariaExpanded = clicked.getAttribute('aria-expanded');
-      const propertiesWithAria = ariaExpanded ? Object.assign(
-        {},
-        properties,
-        {ariaExpanded}
-      ) : properties;
-
-      trackEvent({name: componentName, propertiesWithAria});
+      trackEvent({name: componentName, properties});
     });
   }
 };
