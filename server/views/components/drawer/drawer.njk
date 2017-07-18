@@ -3,11 +3,13 @@
   data-component-name="Drawer"
   data-component-id="{{ model.id }}">
   <button
-    class="drawer__header flex flex--v-center flex--h-space-between plain-button {{ {s:0} | spacingClasses({padding: ['left', 'right']}) }} {{ {s:2} | spacingClasses({padding: ['top', 'bottom']}) }} js-show-hide-trigger {{ {s:'LR2'} | fontClasses }}"
+    class="drawer__header plain-button {{ {s:0} | spacingClasses({padding: ['left', 'right']}) }} {{ {s:2} | spacingClasses({padding: ['top', 'bottom']}) }} js-show-hide-trigger {{ {s:'LR2'} | fontClasses }}"
     data-track-click='{"section": "{{ model.heading }}"}'>
-    <span class="drawer__heading">{{ model.heading }}</span>
-    <span class="drawer__icon">
-      {% icon 'actions/more-2', null, ['icon--match-text'] %}
+    <span class="flex flex--v-center flex--h-space-between">
+      <div class="drawer__heading">{{ model.heading }}</div>
+      <div class="drawer__icon">
+        {% icon 'actions/more-2', null, ['icon--match-text'] %}
+      </div>
     </span>
   </button>
   <div class="drawer__body {{ {s:2} | spacingClasses({padding: ['top', 'bottom']}) }} js-show-hide-drawer">
