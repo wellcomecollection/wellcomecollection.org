@@ -15,14 +15,13 @@
     {# TODO: separate licensing info from the fact that the content type is 'comic' #}
     {% if data.contentType === 'comic' %}
       <figcaption class="captioned-image__caption {{ {s:'LR3', m:'LR2'} | fontClasses }}">
-        {% icon 'other/picture' %}
+        {% icon 'other/picture', {}, ['float-l', 'margin-right-s2', 'margin-right-m2', 'margin-right-l2', 'margin-right-xl2'] %}
         {% componentV2 'license', {subject: model.contentUrl, licenseType: 'CC-BY-NC'} %}
         {{ model.caption | safe }}
       </figcaption>
     {% elif model.caption %}
       <figcaption class="captioned-image__caption {{ {s:'LR3', m:'LR2'} | fontClasses }}">
-        {% icon 'other/picture' %}
-
+        {% icon 'other/picture', {}, ['float-l', 'margin-right-s2', 'margin-right-m2', 'margin-right-l2', 'margin-right-xl2'] %}
         <div class="captioned-image__caption-text{{ ' js-truncate-text' if data.truncateCaption }}" tabindex="0">
           {% if data.slideNumbers %}
             <span class="captioned-image__number {{ {s:'HNM5'} | fontClasses }} {{ {s:2, m:2, l:2} | spacingClasses({padding: ['right']}) }}"

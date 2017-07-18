@@ -56,7 +56,7 @@
 
 .captioned-image__caption {
   @include clearfix;
-  display: inline-block; // this style is required to fix a firefox bug: https://github.com/wellcometrust/wellcomecollection.org/pull/906
+  display: inline-flex; // this style is required to fix a firefox bug, no idea why it works: https://github.com/wellcometrust/wellcomecollection.org/pull/906
   color: color('black');
   padding-top: #{($v-spacing-unit * 4) - 8px}; // - to make to adjust for line-height, want padding from x-height
   padding-bottom: #{($v-spacing-unit * 4) - 8px};
