@@ -11,7 +11,7 @@ export const variants = [{
   name: 'with-icon',
   context: {
     icon: 'actions/download-1',
-    iconExtraClasses: ['icon--fill'],
+    iconExtraClasses: ['icon--fill', 'icon--2x'],
     text: 'this is a link with an icon'
   }
 }, {
@@ -28,7 +28,7 @@ export const variants = [{
   context: {
     modifierClasses: 'btn--dark',
     icon: 'actions/download-1',
-    iconExtraClasses: ['icon--fill'],
+    iconExtraClasses: ['icon--fill', 'icon--2x'],
     text: 'this is a link'
   }
 }];
