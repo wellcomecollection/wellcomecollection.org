@@ -10,14 +10,11 @@
 }
 
 .sort-search__sort-icon {
-  width: 1.5em;
   height: 1.5em;
 }
 
 .sort-search__close-icon {
   display: none;
-  width: 1em;
-  height: 1em;
 
   .is-sort-search-active & {
     display: block;

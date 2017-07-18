@@ -1,42 +1,55 @@
 .icon {
-  height: $v-spacing-unit * 2;
+  display: inline-block;
+  height: 1em;
+  position: relative;
+  user-select: none;
+}
+
+.icon__canvas {
+  display: block;
+  height: 100%;
+  visibility: hidden;
+}
+
+.icon__svg {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
 }
 
 .icon--2x {
-  height: $v-spacing-unit * 4;
+  height: 2em;
 }
 
-.icon--huge {
-  height: $v-spacing-unit * 16;
+.icon--4x {
+  height: 4em;
 }
 
-.icon--match-text {
-  height: 1em;
-}
-
-.icon--fill {
+.icon--fill svg {
   fill: color('black');
 }
 
 @each $color-key, $color-value in $colors {
-  .icon--#{$color-key} {
+  .icon--#{$color-key} svg {
     fill: nth($color-value, 1);
   }
 }
 
-.icon--stroke {
+.icon--stroke svg {
   stroke: color('black');
 }
 
-.icon--fill-negative {
+.icon--fill-negative svg {
   fill: color('white');
 }
 
-.icon--stroke-negative {
+.icon--stroke-negative svg {
   stroke: color('white');
 }
 
-.icon--action {
+.icon--action svg {
   fill: color('mint');
 }
 
