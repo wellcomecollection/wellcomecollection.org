@@ -2,7 +2,7 @@
 <div class="find-us {{ {s:'HNL5'} | fontClasses }}">
   <a href="{{ findUsMapUrl }}" class="find-us__link">
     <span class="find-us__address">
-      {% icon 'other/location' %}
+      {% icon 'other/location', {}, ['float-l', 'margin-right-s2', 'margin-right-m2', 'margin-right-l2', 'margin-right-xl2'] %}
       <p>
         <span class="find-us__street">{{ model.streetAddress }}</span>
         <span class="find-us__locality">{{ model.addressLocality }}</span>
