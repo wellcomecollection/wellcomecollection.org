@@ -111,6 +111,7 @@ export async function renderExplore(ctx, next) {
   const wpPromos = articleStubs.data.map(PromoFactory.fromArticleStub);
   const contentPromos = contentList.map(PromoFactory.fromArticleStub);
   const promos = wpPromos.concat(contentPromos).sort((a, b) => {
+    console.info(a.datePublished);
     return a.datePublished.getTime() - b.datePublished.getTime();
   })
   .reverse()

@@ -219,10 +219,15 @@ export async function getEditorialList() {
   ];
   const prismic = await prismicApi();
   const editorialList = await prismic.query([
-    Prismic.Predicates.at('document.type', 'editorial')
+    Prismic.Predicates.any('document.type', ['editorial', 'webcomics'])
   ], {fetchLinks});
 
-  const editorialAsArticles = editorialList.results.map(parseEditorialAsArticle);
+  const editorialAsArticles = editorialList.results.map(result => {
+    switch (result.type) {
+      case 'editorial': return parseEditorialAsArticle(result);
+      case 'webcomics': return parseWebcomicAsArticle(result);
+    }
+  });
   return editorialAsArticles;
 }
 
@@ -277,6 +282,56 @@ export async function getEvent(id) {
       };
     }),
     contributors: contributors
+  };
+
+  return article;
+}
+
+// TODO: There's some abstracting to do here
+function parseWebcomicAsArticle(prismicArticle) {
+  // TODO : construct this not from strings
+  const url = `/webcomic/${prismicArticle.id}`;
+
+  // TODO: potentially get rid of this
+  const publishDate = PrismicDate(prismicArticle.data.publishDate || prismicArticle.first_publication_date);
+  const mainMedia = [prismicImageToPicture({ image: prismicArticle.data.asset })];
+
+  // TODO: Don't convert this into thumbnail
+  const promo = prismicArticle.data.promo.find(slice => slice.slice_type === 'editorialImage');
+  const thumbnail = promo && prismicImageToPicture(promo.primary);
+  const description = asText(promo.primary.caption); // TODO: Do not use description
+
+  // TODO: Support more than 1 author
+  // TODO: Support creator's role
+  const creator = prismicArticle.data.contributors.find(creator => creator.slice_type === 'person');
+  const person = creator && creator.primary.person.data;
+  const author = person && {
+    name: person.name,
+    twitterHandle: person.twitterHandle,
+    image: person.image.url,
+    description: asText(person.description)
+  };
+
+  const series = prismicArticle.data.series.length > 0 && prismicArticle.data.series.map(prismicSeries => {
+    const seriesData = prismicSeries.primary.series.data;
+    // TODO: Support commissionedLength and positionInSeries
+    return {
+      name: seriesData.name,
+      description: seriesData.description
+    };
+  });
+
+  const article: Article = {
+    contentType: 'article',
+    headline: asText(prismicArticle.data.title),
+    url: url,
+    datePublished: publishDate,
+    thumbnail: thumbnail,
+    author: author,
+    series: series,
+    bodyParts: [],
+    mainMedia: mainMedia,
+    description: description
   };
 
   return article;
