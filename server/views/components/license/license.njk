@@ -6,42 +6,34 @@
 
 {% set iconClasses = ['icon--2x', 'v-align-middle'] %}
 
-<span class="{{ {s:'LR2', m:'LR2', l:'LR2', xl:'LR2'} | fontClasses }}"{% if model.subject %} about="{{model.subject}}{% endif %}">
+<span class="{{ {s:'LR2'} | fontClasses }}"{% if model.subject %} about="{{model.subject}}{% endif %}">
   {% if model.licenseType === 'copyright-not-cleared' %}
     Copyright Not Cleared
   {% else %}
     {% if model.licenseType === 'PDM' %}
       {% set licenseHref = 'https://creativecommons.org/publicdomain/mark/1.0/' %}
-    {% endif %}
-    {% if model.licenseType === 'CC0' %}
+    {% elif model.licenseType === 'CC0' %}
       {% set licenseHref = 'https://creativecommons.org/publicdomain/zero/1.0/' %}
-    {% endif %}
-    {% if model.licenseType === 'CC-BY' %}
+    {% elif model.licenseType === 'CC-BY' %}
       {% set licenseHref = 'https://creativecommons.org/licenses/by/4.0/' %}
-    {% endif %}
-    {% if model.licenseType === 'CC-BY-NC' %}
+    {% elif model.licenseType === 'CC-BY-NC' %}
       {% set licenseHref = 'https://creativecommons.org/licenses/by-nc/4.0/' %}
-    {% endif %}
-    {% if model.licenseType === 'CC-BY-NC-ND' %}
+    {% elif model.licenseType === 'CC-BY-NC-ND' %}
       {% set licenseHref = 'https://creativecommons.org/licenses/by-nc-nd/4.0/' %}
     {% endif %}
-    <a rel="license" class="plain-link {{ {s:'LR2', m:'LR2', l:'LR2', xl:'LR2'} | fontClasses }}" href="{{ licenseHref }}">
+    <a rel="license" class="plain-link {{ {s:'LR2'} | fontClasses }}" href="{{ licenseHref }}">
       {% if model.licenseType === 'PDM' %}
         {% icon 'other/cc_pdm', null, iconClasses %}
-      {% endif %}
-      {% if model.licenseType === 'CC0' %}
+      {% elif model.licenseType === 'CC0' %}
         {% icon 'other/cc_zero', null, iconClasses %}
-      {% endif %}
-      {% if model.licenseType === 'CC-BY' %}
+      {% elif model.licenseType === 'CC-BY' %}
         {% icon 'other/cc', null, iconClasses %}
         {% icon 'other/cc_by', null, iconClasses %}
-      {% endif %}
-      {% if model.licenseType === 'CC-BY-NC' %}
+      {% elif model.licenseType === 'CC-BY-NC' %}
         {% icon 'other/cc', null, iconClasses %}
         {% icon 'other/cc_by', null, iconClasses %}
         {% icon 'other/cc_nc', null, iconClasses %}
-      {% endif %}
-      {% if model.licenseType === 'CC-BY-NC-ND' %}
+      {% elif model.licenseType === 'CC-BY-NC-ND' %}
         {% icon 'other/cc', null, iconClasses %}
         {% icon 'other/cc_by', null, iconClasses %}
         {% icon 'other/cc_nc', null, iconClasses %}
