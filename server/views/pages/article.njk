@@ -41,7 +41,7 @@
     } %}
     {% if (article.mainMedia.length > 0) %}
       {% if (article.contentType === 'comic') %}
-        {% componentV2 'main-media-comic', article.mainMedia | getPrincipleMainMedia, {full: true, comic: true}, mainMediaData %}
+        {% componentV2 'main-media-comic', article.mainMedia | getPrincipleMainMedia, {full: true, 'fit-vh': true}, mainMediaData %}
       {% elif (article.contentType === 'video') %}
         {% componentV2 'main-media-video', article.mainMedia | getPrincipleMainMedia, {full: true}, mainMediaData %}
       {% else %}
