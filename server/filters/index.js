@@ -20,7 +20,7 @@ import {objectAssign} from './object-assign';
 import {arrayFromObject} from './array-from-object';
 import {groupBodyParts} from './group-body-parts';
 import {isString} from './is-string';
-import {getLinkObjects} from './get-link-objects';
+import {createLinkObject, getLinkObjects} from './get-link-objects';
 
 export default Map({
   youtubeEmbedUrl,
@@ -46,5 +46,6 @@ export default Map({
   arrayFromObject,
   groupBodyParts,
   isString,
+  createLinkObject,
   getLinkObjects
 });

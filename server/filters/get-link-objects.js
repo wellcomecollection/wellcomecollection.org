@@ -1,7 +1,7 @@
 // @flow
 import type {Link} from '../model/link';
 
-const createLinkObject = function(val: string): Link {
+export function createLinkObject(val: string): Link {
   return {
     text: val,
     url: `/search?query=${encodeURI(val)}`
