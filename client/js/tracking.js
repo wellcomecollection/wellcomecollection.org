@@ -11,8 +11,11 @@ export default {
       const componentName = component.getAttribute('data-component-name');
       const componentId = component.getAttribute('data-component-id');
       const clickedProperties = JSON.parse(clicked.getAttribute('data-track-click'));
-      const properties = Object.assign({}, clickedProperties, {componentId, action: 'click'});
-
+      const properties = Object.assign(
+        {},
+        clickedProperties,
+        {componentId, action: 'click'}
+      );
       trackEvent({name: componentName, properties});
     });
   }
