@@ -11,23 +11,7 @@ const showHide = (state) => {
   const init = () => {
     el.setAttribute('aria-haspopup', 'true');
     options.trigger.setAttribute('aria-expanded', getActive());
-
-    setDataTrackAria(getActive());
   };
-
-  function setDataTrackAria(value) {
-    const dataTrackOptions = options.trigger.getAttribute('data-track-click');
-
-    if (!dataTrackOptions) return;
-
-    const updatedTrackOptions = JSON.stringify(Object.assign(
-      {},
-      JSON.parse(dataTrackOptions),
-      {actionFromAriaExpanded: value ? 'open' : 'close'}
-    ));
-
-    options.trigger.setAttribute('data-track-click', updatedTrackOptions);
-  }
 
   const setActive = (value) => {
     if (value) {
@@ -37,8 +21,6 @@ const showHide = (state) => {
       el.classList.remove(options.activeClass);
       options.trigger.setAttribute('aria-expanded', 'false');
     }
-
-    setDataTrackAria(value);
   };
 
   const getActive = () => {
