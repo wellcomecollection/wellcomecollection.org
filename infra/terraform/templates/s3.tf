@@ -26,3 +26,12 @@ resource "aws_s3_bucket_policy" "alb_log_bucket_policy" {
   bucket = "${aws_s3_bucket.alb_log_bucket.id}"
   policy = "${data.aws_iam_policy_document.alb_log_bucket_policy_document.json}"
 }
+
+resource "aws_s3_bucket" "infra" {
+  bucket = "${var.infra_bucket}"
+  acl    = "private"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}

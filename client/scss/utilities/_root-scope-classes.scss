@@ -61,6 +61,10 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.v-align-middle {
+  vertical-align: middle;
+}
+
 .v-center {
   top: 50%;
   transform: translateY(-50%);
@@ -100,6 +104,18 @@
   text-decoration: none;
 }
 
+.link-underline {
+  text-decoration: none;
+  box-shadow: inset 0 -1px 0 0 color('teal');
+
+  &[href]:hover,
+  &[href]:focus,
+  [href] &:hover,
+  [href] &:focus {
+    box-shadow: inset 0 -2px 0 0 color('teal');
+  }
+}
+
 .plain-list {
   list-style: none;
   margin: 0;
@@ -112,6 +128,10 @@
 
 .float-r {
   float: right;
+}
+
+.float-l {
+  float: left;
 }
 
 .h-center {

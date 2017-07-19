@@ -14,6 +14,11 @@ CONTAINER_TAG=$2
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 pushd "$DIR/terraform/$DEPLOY_ENV"
+  rm -f "terraform.tfvars"
+  echo "Getting variables from S3"
+  aws s3 cp s3://wellcomecollection-infra/terraform.tfvars .
+
+  echo "Terraforming"
   terraform init
   terraform get
   terraform apply -target=module.wellcomecollection.aws_ecs_task_definition.wellcomecollection \
@@ -21,5 +26,8 @@ pushd "$DIR/terraform/$DEPLOY_ENV"
                   -target=module.wellcomecollection.aws_ecs_task_definition.thumbor \
                   -target=module.wellcomecollection.aws_ecs_service.thumbor \
                   -var "container_tag=$CONTAINER_TAG"
+
+  rm -f "terraform.tfvars"
 popd
 
+echo "Deployed $CONTAINER_TAG"

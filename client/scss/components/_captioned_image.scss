@@ -37,7 +37,7 @@
   }
 }
 
-.captioned-image--comic {
+.captioned-image--fit-vh {
   @include respond-to('large') {
     background: color('black');
 
@@ -56,18 +56,15 @@
 
 .captioned-image__caption {
   @include clearfix;
-  display: inline-block; // this style is required to fix a firefox bug: https://github.com/wellcometrust/wellcomecollection.org/pull/906
+  display: inline-flex; // this style is required to fix a firefox bug, no idea why it works: https://github.com/wellcometrust/wellcomecollection.org/pull/906
   color: color('black');
   padding-top: #{($v-spacing-unit * 4) - 8px}; // - to make to adjust for line-height, want padding from x-height
   padding-bottom: #{($v-spacing-unit * 4) - 8px};
 
   .icon {
     vertical-align: top;
-    width: 1.3em;
     height: 1.3em;
-    min-width: 1.3em;
-    margin-right: 0.8em;
-    float: left;
+
   }
 
   .icon__shape {
@@ -79,16 +76,6 @@
     margin-bottom: 0;
   }
 
-  a:link {
-    color: color('black');
-    text-decoration: none;
-    box-shadow: inset 0 -1px 0 0 color('teal');
-
-    &:hover,
-    &:focus {
-      box-shadow: inset 0 -2px 0 0 color('teal');
-    }
-  }
   /* stylelint-enable plugin/selector-bem-pattern */
 }
 
@@ -133,3 +120,9 @@
     display: none;
   }
 }
+
+.captioned-image__copyright-holder {
+  text-align: right;
+  // TODO: This needs design
+}
+

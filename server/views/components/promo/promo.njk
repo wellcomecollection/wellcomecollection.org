@@ -13,10 +13,12 @@
   {% set titleFontSizes = {s:'WB7'} %}
 {% elif model.modifiers and model.modifiers | contains('standalone') %}
   {% set titleFontSizes = {s:'WB6', m:'WB4', l:'WB6', xl:'WB4'} %}
-{% elif model.modifiers and model.modifiers | contains('work') %}
-  {% set titleFontSizes = {s:'HNL5'} %}
 {% else %}
   {% set titleFontSizes = {s:'WB6'} %}
+{% endif %}
+
+{% if model.contentType and model.contentType === 'work' %}
+  {% set titleFontSizes = {s:'HNL5'} %}
 {% endif %}
 
 {% if model.modifiers and model.modifiers | contains('transporter-child') %}

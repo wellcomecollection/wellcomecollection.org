@@ -1,4 +1,4 @@
-import colors from '../../../client/config/colors.js';
+import colors from 'wellcomecollection-config/colors.js';
 
 const colorsArray = Object.keys(colors).map(key => {
   return {

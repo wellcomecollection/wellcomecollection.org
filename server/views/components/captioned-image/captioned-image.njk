@@ -1,21 +1,27 @@
 <figure class="{{ 'captioned-image' | componentClasses(modifiers) }}">
   <div class="captioned-image__image-container">
-  {% if data.positionInSeries and data.series.commissionedLength and data.series.color and data.contentType === 'article' %}
-    {% componentV2 'image', model, {}, {lazyload: true, sizesQueries: data.sizesQueries, clipPathClass: 'promo__clip-path--chapters-third'} %}
-    {% set chapterIndicatorModel = {
-      position: data.positionInSeries,
-      series: data.series
-    } %}
-    {% componentV2 'chapter-indicator', chapterIndicatorModel %}
-  {% else %}
-    {% componentV2 'image', model, {}, {lazyload: true, sizesQueries: data.sizesQueries} %}
-  {% endif %}
+    {% if data.positionInSeries and data.series.commissionedLength and data.series.color and data.contentType === 'article' %}
+      {% componentV2 'image', model, {}, {lazyload: true, sizesQueries: data.sizesQueries, clipPathClass: 'promo__clip-path--chapters-third'} %}
+      {% set chapterIndicatorModel = {
+        position: data.positionInSeries,
+        series: data.series
+      } %}
+      {% componentV2 'chapter-indicator', chapterIndicatorModel %}
+    {% else %}
+      {% componentV2 'image', model, {}, {lazyload: true, sizesQueries: data.sizesQueries} %}
+    {% endif %}
+    {% if (model.copyrightHolder) %}
+      <div class="captioned-image__copyright-holder
+        {{ {s:1, m:1, l:1} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }}
+        {{ {s:'HNM6', m:'HNM6', l:'HNM6'} | fontClasses }}">
+        Credit: {{ model.copyrightHolder }}
+      </div>
+    {% endif %}
   </div>
   {% block figcaption %}
     {% if model.caption %}
       <figcaption class="captioned-image__caption {{ {s:'LR3', m:'LR2'} | fontClasses }}">
-        {% icon 'other/picture' %}
-
+        {% icon 'other/picture', {}, ['float-l', 'margin-right-s2', 'margin-right-m2', 'margin-right-l2', 'margin-right-xl2'] %}
         <div class="captioned-image__caption-text{{ ' js-truncate-text' if data.truncateCaption }}" tabindex="0">
           {% if data.slideNumbers %}
             <span class="captioned-image__number {{ {s:'HNM5'} | fontClasses }} {{ {s:2, m:2, l:2} | spacingClasses({padding: ['right']}) }}"

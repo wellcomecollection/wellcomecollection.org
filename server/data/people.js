@@ -163,3 +163,10 @@ export const wendyMoore: Person = {
                '& Nicolson. Her research was supported by a Wellcome Trust Medical Humanities Research grant.',
   twitterHandle: 'wendymoore99'
 };
+
+// FIXME: double author hack
+export const nicolaCookAndLoesjaVigour: Person = {
+  givenName: 'Nicola/Loesja',
+  familyName: 'Cook/Vigour',
+  name: 'Nicola Cook and Loesja Vigour'
+};
