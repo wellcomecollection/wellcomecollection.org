@@ -62,7 +62,7 @@ const sources = {
 };
 
 gulp.task('scss:compileJsToScss', () => {
-  const configPath = 'config';
+  const configPath = '../config';
   const compiledVariablesPath = 'scss/utilities/compiled_variables';
   const files = fs.readdirSync(configPath);
 
@@ -77,7 +77,7 @@ gulp.task('scss:compileJsToScss', () => {
       const fileExport = require(path.join(__dirname, configPath, file));
       const scssString = `$${fileName}: ${jsToSassString(fileExport)};\n`;
 
-      fs.writeFile(path.join(compiledVariablesPath, scssFileName), scssString);
+      fs.writeFile(path.join(compiledVariablesPath, scssFileName), scssString, () => {});
     });
 });
 
