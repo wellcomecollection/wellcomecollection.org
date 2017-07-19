@@ -57,5 +57,6 @@ export const authorMap: { [key: string]: Person } = {
   'sharing-nature-emotion': people.helenBabbs,
   'animal-doctors': people.helenBabbs,
   '10-reasons-to-wear-sunglasses': people.lalitaKaplish,
-  'sharing-nature-relationships': people.dannyBirchall
+  'sharing-nature-relationships': people.dannyBirchall,
+  'six-personal-health-zines-that-might-change-your-life': people.nicolaCookAndLoesjaVigour
 };
