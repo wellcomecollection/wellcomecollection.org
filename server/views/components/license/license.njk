@@ -6,7 +6,7 @@
 
 {% set iconClasses = ['icon--2x', 'v-align-middle'] %}
 
-<p class="{{ {s:'LR2', m:'LR2', l:'LR2', xl:'LR2'} | fontClasses }}"{% if model.subject %} about="{{model.subject}}{% endif %}">
+<span class="{{ {s:'LR2'} | fontClasses }}"{% if model.subject %} about="{{model.subject}}{% endif %}">
   {% if model.licenseType === 'copyright-not-cleared' %}
     Copyright Not Cleared
   {% else %}
