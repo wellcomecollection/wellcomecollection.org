@@ -10,7 +10,9 @@
     </span>
   </button>
   <div class="drawer__body {{ {s:2} | spacingClasses({padding: ['top', 'bottom']}) }} js-show-hide-drawer">
-    {{ model.body }}
+    {% block drawerBody %}
+      {{ model.body }}
+    {% endblock %}
   </div>
   <hr class="divider divider--black divider--keyline" />
 </div>
