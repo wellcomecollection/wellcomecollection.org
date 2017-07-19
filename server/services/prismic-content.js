@@ -52,7 +52,7 @@ function parseEditorialAsArticle(prismicArticle) {
   // TODO: Don't convert this into thumbnail
   const promo = prismicArticle.data.promo.find(slice => slice.slice_type === 'editorialImage');
   const thumbnail = promo && prismicImageToPicture(promo.primary);
-  const description = asText(promo.primary.caption); // TODO: Do not use description
+  const description = promo && asText(promo.primary.caption); // TODO: Do not use description
 
   // TODO: Support more than 1 author
   // TODO: Support creator's role
@@ -207,7 +207,7 @@ function prismicImageToPicture(prismicImage) {
     contentUrl: convertPrismicToImgIxUri(prismicImage.image.url), // TODO: Send this through the img.wc.org
     width: prismicImage.image.dimensions.width,
     height: prismicImage.image.dimensions.height,
-    caption: asText(prismicImage.caption), // TODO: Support HTML
+    caption: prismicImage.caption.length !== 0 ? asText(prismicImage.caption) : prismicImage.image.alt, // TODO: Support HTML
     alt: prismicImage.image.alt,
     copyrightHolder: prismicImage.image.copyright
   }: Picture);

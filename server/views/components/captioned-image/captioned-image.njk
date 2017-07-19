@@ -1,15 +1,22 @@
 <figure class="{{ 'captioned-image' | componentClasses(modifiers) }}">
   <div class="captioned-image__image-container">
-  {% if data.positionInSeries and data.series.commissionedLength and data.series.color and data.contentType === 'article' %}
-    {% componentV2 'image', model, {}, {lazyload: true, sizesQueries: data.sizesQueries, clipPathClass: 'promo__clip-path--chapters-third'} %}
-    {% set chapterIndicatorModel = {
-      position: data.positionInSeries,
-      series: data.series
-    } %}
-    {% componentV2 'chapter-indicator', chapterIndicatorModel %}
-  {% else %}
-    {% componentV2 'image', model, {}, {lazyload: true, sizesQueries: data.sizesQueries} %}
-  {% endif %}
+    {% if data.positionInSeries and data.series.commissionedLength and data.series.color and data.contentType === 'article' %}
+      {% componentV2 'image', model, {}, {lazyload: true, sizesQueries: data.sizesQueries, clipPathClass: 'promo__clip-path--chapters-third'} %}
+      {% set chapterIndicatorModel = {
+        position: data.positionInSeries,
+        series: data.series
+      } %}
+      {% componentV2 'chapter-indicator', chapterIndicatorModel %}
+    {% else %}
+      {% componentV2 'image', model, {}, {lazyload: true, sizesQueries: data.sizesQueries} %}
+    {% endif %}
+    {% if (model.copyrightHolder) %}
+      <div class="captioned-image__copyright-holder
+        {{ {s:1, m:1, l:1} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }}
+        {{ {s:'HNM6', m:'HNM6', l:'HNM6'} | fontClasses }}">
+        Credit: {{ model.copyrightHolder }}
+      </div>
+    {% endif %}
   </div>
   {% block figcaption %}
     {# TODO: separate licensing info from the fact that the content type is 'comic' #}
