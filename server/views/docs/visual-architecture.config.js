@@ -1,5 +1,5 @@
-import breakpoints from '../../../client/config/breakpoints';
-import gridConfig from '../../../client/config/grid-config';
+import breakpoints from 'wellcomecollection-config/breakpoints';
+import gridConfig from 'wellcomecollection-config/grid-config';
 
 export const context = {
   pageDescription: {
