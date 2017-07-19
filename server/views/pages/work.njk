@@ -23,13 +23,13 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div class="row {{ {s:3, m:3, l:3, xl: 3} | spacingClasses({padding: ['top', 'bottom']}) }}">
     <div class="container">
       <div class="grid">
         <div class="{{ {s: 12, m: 6, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
           <h1 class="{{ {s:'HNM3', m:'HNM1', l:'HNM1', xl:'HNM1'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{work.label}}</h1>
-          {% if work.license > 0 %}
-            {% componentV2 'license', {subject: work.imgLink, licenseType: work.licence} %} {# - license from API #}
+          {% if work.license.length > 0 %}
+            {% componentV2 'license', {subject: work.imgLink, licenseType: work.license} %} {# - license from API #}
           {% endif %}
         </div>
         <div class="{{ {s: 12, m: 6, l: 5, xl: 4} | gridClasses }}">
@@ -45,7 +45,7 @@
 
           {% if work.genre.length > 0 %}
             {% set needsDivider = work.subjects.length > 0 or work.lettering > 0 %}
-            {% componentV2 'meta-unit', {headingText: 'Genre', content: work.genre, includeDivider: needsDivider} %}
+            {% componentV2 'meta-unit', {headingText: 'Genre', content: [work.genre | createLinkObject], includeDivider: needsDivider} %}
           {% endif %}
 
           {% if work.subjects.length > 0 %}
