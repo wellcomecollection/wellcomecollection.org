@@ -51,13 +51,13 @@
 
     <div class="row row--cream">
       <div class="container">
-        <div class="{{ {s:6, m:6, l:6} | spacingClasses({padding: ['top']}) }}">
+        <div class="{{ {s:6} | spacingClasses({padding: ['top']}) }}">
           {% componentV2 'divider', null, {'pumice': true, 'keyline': true} %}
         </div>
       </div>
     </div>
 
-    <div class="row row--cream {{ {s:8, m:8, l:8} | spacingClasses({padding: ['top', 'bottom']}) }} ">
+    <div class="row row--cream {{ {s:8} | spacingClasses({padding: ['top', 'bottom']}) }} ">
       <div class="container">
         <div class="grid grid--no-gutters">
           <div class="{{ {s: 12, m: 10, shiftM: 1, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
@@ -85,7 +85,7 @@
                 } %}
               {% endif %}
 
-              {% componentV2 'divider', null, {'stub': true, 'black': true}, {extraClasses: [{s:4, m:4, l:4} | spacingClasses({margin: ['top']})]} %}
+              {% componentV2 'divider', null, {'stub': true, 'black': true}, {extraClasses: [{s:4} | spacingClasses({margin: ['top']})]} %}
 
               {% if article.tags.length > 0 %}
                 {% component 'tags', { tags: article.tags } %}
@@ -101,7 +101,7 @@
   {% block transporters %}
     {% for series in article.series %}
       {% if series.commissionedLength %}
-        <div class="row {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top']}) }} {{ {s:5, m:5, l:5} | spacingClasses({padding: ['bottom']}) }}">
+        <div class="row {{ {s:10} | spacingClasses({padding: ['top']}) }} {{ {s:5} | spacingClasses({padding: ['bottom']}) }}">
           <div class="container digital-story-transporter">
             <div class="grid grid--no-gutters">
               <div class="{{ {s: 12, m: 10, shiftM: 1, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">

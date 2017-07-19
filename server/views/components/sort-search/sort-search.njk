@@ -1,21 +1,21 @@
 <div class="sort-search {{ {s:'HNL5'} | fontClasses }} js-sort-search">
   <button class="sort-search__toggle plain-button flex flex--v-center flex--h-space-between js-show-hide-trigger
-    {{ {s:2} | spacingClasses({margin: ['bottom']}, false) }} {{ {s:0} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }}">
-    <div class="flex flex--v-center {{ {s:2, m:2, l:2} | spacingClasses({margin: ['right']}) }}">
-      <span class="flex-inline {{ {s:1} | spacingClasses({margin: ['right']}, false) }}">Sort:</span>
+    {{ {s:2, m:0} | spacingClasses({margin: ['bottom']}) }} {{ {s:0} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }}">
+    <div class="flex flex--v-center {{ {s:2} | spacingClasses({margin: ['right']}) }}">
+      <span class="flex-inline {{ {s:1, m:0} | spacingClasses({margin: ['right']}) }}">Sort:</span>
       {% icon 'actions/sort', null, ['sort-search__sort-icon'] %}
     </div>
     {% icon 'actions/cross-big', null, ['sort-search__close-icon'] %}
   </button>
-  <span class="sort-search__label flex-inline {{ {m:1, l:1} | spacingClasses({margin: ['right']}) }}">Sort:</span>
+  <span class="sort-search__label flex-inline {{ {m:1} | spacingClasses({margin: ['right']}) }}">Sort:</span>
   <form action="" method="get" class="sort-search__form js-sort-search-form js-show-hide-drawer">
-    <div class="sort-search__group {{ {s:2, m:2, l:2} | spacingClasses({margin: ['right']}) }}">
+    <div class="sort-search__group {{ {s:2} | spacingClasses({margin: ['right']}) }}">
       {% componentV2 'input', {label: 'Best match', type: 'radio', id: 'sort-best-match', name: 'sort', value: ''} %}
     </div>
-    <div class="sort-search__group {{ {s:2, m:2, l:2} | spacingClasses({margin: ['right']}) }}">
+    <div class="sort-search__group {{ {s:2} | spacingClasses({margin: ['right']}) }}">
       {% componentV2 'input', {label: 'Newest', type: 'radio', id: 'sort-newest', name: 'sort', value: 'DESC'} %}
     </div>
-    <div class="sort-search__group {{ {s:2, m:2, l:2} | spacingClasses({margin: ['right']}) }}">
+    <div class="sort-search__group {{ {s:2} | spacingClasses({margin: ['right']}) }}">
       {% componentV2 'input', {label: 'Oldest', type: 'radio', id: 'sort-oldest', name: 'sort', value: 'ASC'} %}
     </div>
     {% component 'button-button', {text: 'Apply', modifierClasses: 'sort-search__submit'} %}
