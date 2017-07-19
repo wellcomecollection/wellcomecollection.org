@@ -1,11 +1,6 @@
-resource "aws_key_pair" "wellcomecollection" {
-  key_name   = "${var.wellcomecollection_key_name}"
-  public_key = "${file(var.wellcomecollection_key_path)}"
-}
-
 resource "aws_iam_instance_profile" "wellcomecollection" {
   name  = "wellcomecollection-app"
-  roles = ["${aws_iam_role.wellcomecollection_instance.name}"]
+  role = "${aws_iam_role.wellcomecollection_instance.name}"
 
   lifecycle {
     create_before_destroy = true
@@ -25,7 +20,7 @@ data "aws_ami" "ecs_optimized" {
 
 resource "aws_launch_configuration" "wellcomecollection_ecs" {
   name_prefix          = "wellcomecollection-ecs-instance-"
-  key_name             = "${aws_key_pair.wellcomecollection.id}"
+  key_name             = "wellcomecollection.org"
   image_id             = "${data.aws_ami.ecs_optimized.id}"
   instance_type        = "t2.small"
   iam_instance_profile = "${aws_iam_instance_profile.wellcomecollection.id}"

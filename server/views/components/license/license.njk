@@ -1,0 +1,45 @@
+{% if model.licenseType === 'PDM' %}
+  {% set licenseText = 'Public Domain' %}
+{% else %}
+  {% set licenseText = model.licenseType %}
+{% endif %}
+
+{% set iconClasses = ['icon--2x', 'v-align-middle'] %}
+
+<span class="{{ {s:'LR2'} | fontClasses }}"{% if model.subject %} about="{{model.subject}}{% endif %}">
+  {% if model.licenseType === 'copyright-not-cleared' %}
+    Copyright Not Cleared
+  {% else %}
+    {% if model.licenseType === 'PDM' %}
+      {% set licenseHref = 'https://creativecommons.org/publicdomain/mark/1.0/' %}
+    {% elif model.licenseType === 'CC0' %}
+      {% set licenseHref = 'https://creativecommons.org/publicdomain/zero/1.0/' %}
+    {% elif model.licenseType === 'CC-BY' %}
+      {% set licenseHref = 'https://creativecommons.org/licenses/by/4.0/' %}
+    {% elif model.licenseType === 'CC-BY-NC' %}
+      {% set licenseHref = 'https://creativecommons.org/licenses/by-nc/4.0/' %}
+    {% elif model.licenseType === 'CC-BY-NC-ND' %}
+      {% set licenseHref = 'https://creativecommons.org/licenses/by-nc-nd/4.0/' %}
+    {% endif %}
+    <a rel="license" class="plain-link {{ {s:'LR2'} | fontClasses }}" href="{{ licenseHref }}">
+      {% if model.licenseType === 'PDM' %}
+        {% icon 'other/cc_pdm', null, iconClasses %}
+      {% elif model.licenseType === 'CC0' %}
+        {% icon 'other/cc_zero', null, iconClasses %}
+      {% elif model.licenseType === 'CC-BY' %}
+        {% icon 'other/cc', null, iconClasses %}
+        {% icon 'other/cc_by', null, iconClasses %}
+      {% elif model.licenseType === 'CC-BY-NC' %}
+        {% icon 'other/cc', null, iconClasses %}
+        {% icon 'other/cc_by', null, iconClasses %}
+        {% icon 'other/cc_nc', null, iconClasses %}
+      {% elif model.licenseType === 'CC-BY-NC-ND' %}
+        {% icon 'other/cc', null, iconClasses %}
+        {% icon 'other/cc_by', null, iconClasses %}
+        {% icon 'other/cc_nc', null, iconClasses %}
+        {% icon 'other/cc_nd', null, iconClasses %}
+      {% endif %}
+      <span class="link-underline">{{ licenseText }}</a>
+    </a>
+  {% endif %}
+</span>

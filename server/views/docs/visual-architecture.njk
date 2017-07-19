@@ -50,6 +50,38 @@
   <p>Globally accessible, reusable styles are defined in
   <a href="https://github.com/wellcometrust/wellcomecollection.org/blob/master/client/scss/utilities/_root-scope-classes.scss">`_root-scope-classes.scss`</a>.</p>
 
+  <p>Where possible, we want to limit the amount of styles that need to be written when creating a new component. To this end, we have created a finite set of spacing (margin/padding) and typography classes, as well as Nunjucks filters that simplify the process of adding these classes directly to the markup.</p>
+
+  <h4>Typography classes</h4>
+  <p>We have a <a href="/components/detail/typography.html">predefined set of typography styles</a>. This means we can avoid redeclaring font properties every time we create a new component.</p>
+  <p>Instead, there is a class for each typography style at each breakpoint, and a <code>fontClasses</code> Nunjucks filter that simplifies the process of adding these classes to the markup.</p>
+  <p>Each typography style has a name, e.g. <code>WB3</code> (the third largest Wellcome Bold style). If we want the same typography style to be output at every breakpoint, we can write the following:
+  <br /><br />
+  {% raw %}
+  <code>{{ {s:'WB3'} | fontClasses }}</code>
+  <br /><br />
+  Alternatively, if we want to have the same style to cover both the small and medium breakpoints, and another to cover both the large and xlarge breakpoints we can write:
+  <br /><br />
+  <code>{{ {s:'WB4', l:'WB2'} | fontClasses }}</code>
+  {% endraw %}
+  </p>
+
+  <h4>Spacing classes</h4>
+  <p>In a similar manner to the typography classes above, we have helper classes that apply various amounts of margins and padding to an element at each breakpoint.</p>
+  <p>Where possible, these classes should be used in preference to adding margins and padding within component scss files.</p>
+  <p>There is also a <code>spacingClasses</code> Nunjucks filter which should be used to apply these classes to the markup. The resulting classes apply multiples of our base spacing unit (6px) to any margin or padding direction up to 60px.</p>
+  <p>The filter operates on an object of breakpoint keys and values. It also takes an object as an argument, which can contain 'margin' and/or 'padding' keys, which in turn take an array of directions ('top', 'bottom', 'left', 'right') on which to operate. The breakpoint values are multiplied by our base spacing unit (6px) and the resulting amount will be used as the value for whichever properties are specified in the parameter object.</p>
+  <p>For example, if an element should have 12px top and bottom padding at the small and medium breakpoints, then 24px top and bottom padding at large and xlarge breakpoints, we can write:
+  <br /><br />
+  {% raw %}
+  <code>{{ {s:2, m:2, l:4, xl:4} | spacingClasses({padding: ['top', 'bottom']}) }}</code>
+  </p>
+  <p>Or if an element should have 6px, 12px, 24px and 48px bottom margin at small, medium, large and xlarge breakpoints respectively, we can write:
+  <br /><br />
+  <code>{{ {s:1, m:2, l:4, xl:8} | spacingClasses({margin: ['bottom']}) }}</code>
+  {% endraw %}
+  </p>
+
   <h3>Width</h3>
 
   <p>The layout has a maximum width of {{ breakpoints[breakpoints.length - 1].size }}.</p>

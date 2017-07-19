@@ -1,4 +1,4 @@
-import { default as gridConfig } from '../../client/config/grid-config';
+import { default as gridConfig } from 'wellcomecollection-config/grid-config';
 
 export function getSizesAsObject(sizes) {
   const gridConfigKeys = Object.keys(gridConfig);

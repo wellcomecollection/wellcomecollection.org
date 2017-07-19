@@ -4,14 +4,6 @@
   text-decoration: none;
   align-items: center;
   margin-top: $spacing-unit * 3;
-
-  .icon {
-    // The icon's viewBox is 0 0 12 13 so x=12 y=13
-    // Default icon height is (2 * $v-spacing-unit)
-    // TODO: find a way that we don't have to set
-    // both svg height and width for IE -- this is silly/brittle.
-    width: 12 / 13 * (2 * $v-spacing-unit);
-  }
 }
 
 .more-info-link__text {

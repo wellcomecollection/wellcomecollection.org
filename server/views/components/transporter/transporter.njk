@@ -19,9 +19,6 @@
     {% endfor %}
   </div>
   {% if themeUrl %}
-  <a class="transporter__link font--seaweed plain-link {{ {s:'HNM5'} | fontClasses }}" href="{{ themeUrl }}">
-    {% icon 'actions/arrow-small' %}
-    Full theme
-  </a>
+    {% componentV2 'more-info-link', {name: 'Full theme', url: themeUrl} %}
   {% endif %}
 </section>

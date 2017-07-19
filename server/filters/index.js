@@ -5,6 +5,7 @@ import getIconForContentType from './get-icon-for-content-type';
 import getPrincipleMainMedia from './get-principle-main-media';
 import getCommissionedSeries from './get-commissioned-series';
 import getSeriesTitle from './get-series-title';
+import getViewBox from './get-viewbox';
 import gridClasses from './grid-classes';
 import spacingClasses from './spacing-classes';
 import fontClasses from './font-classes';
@@ -27,6 +28,7 @@ export default Map({
   getPrincipleMainMedia,
   getCommissionedSeries,
   getSeriesTitle,
+  getViewBox,
   gridClasses,
   spacingClasses,
   fontClasses,
