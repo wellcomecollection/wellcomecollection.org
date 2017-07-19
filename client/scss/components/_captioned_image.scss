@@ -37,7 +37,7 @@
   }
 }
 
-.captioned-image--comic {
+.captioned-image--fit-vh {
   @include respond-to('large') {
     background: color('black');
 
