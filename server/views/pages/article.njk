@@ -39,13 +39,14 @@
       positionInSeries: article.positionInSeries,
       series: commissionedSeries
     } %}
-
-    {% if (article.contentType === 'comic') %}
-      {% componentV2 'main-media-comic', article.mainMedia | getPrincipleMainMedia, {full: true, comic: true}, mainMediaData %}
-    {% elif (article.contentType === 'video') %}
-      {% componentV2 'main-media-video', article.mainMedia | getPrincipleMainMedia, {full: true}, mainMediaData %}
-    {% else %}
-      {% componentV2 'main-media', article.mainMedia | getPrincipleMainMedia, {full: true}, mainMediaData %}
+    {% if (article.mainMedia.length > 0) %}
+      {% if (article.contentType === 'comic') %}
+        {% componentV2 'main-media-comic', article.mainMedia | getPrincipleMainMedia, {full: true, comic: true}, mainMediaData %}
+      {% elif (article.contentType === 'video') %}
+        {% componentV2 'main-media-video', article.mainMedia | getPrincipleMainMedia, {full: true}, mainMediaData %}
+      {% else %}
+        {% componentV2 'main-media', article.mainMedia | getPrincipleMainMedia, {full: true}, mainMediaData %}
+      {% endif %}
     {% endif %}
 
     <div class="row row--cream">
