@@ -23,4 +23,41 @@
       </div>
     </div>
   </div>
+  <div class="row {{ {s:3, m:3, l:3, xl: 3} | spacingClasses({padding: ['top', 'bottom']}) }}">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s: 12, m: 6, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
+          <h1 class="{{ {s:'HNM3', m:'HNM1', l:'HNM1', xl:'HNM1'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{work.label}}</h1>
+          {% if work.license.length > 0 %}
+            {% componentV2 'license', {subject: work.imgLink, licenseType: work.license} %} {# - license from API #}
+          {% endif %}
+        </div>
+        <div class="{{ {s: 12, m: 6, l: 5, xl: 4} | gridClasses }}">
+          {% if work.creators.length > 0 %}
+            {% set needsDivider = work.createdDate.label.length > 0 or work.genre.length > 0 or work.subjects.length > 0 or work.lettering > 0 %}
+            {% componentV2 'meta-unit', {headingText: 'Author', content: work.creators | getLinkObjects('label'), includeDivider: needsDivider} %}
+          {% endif %}
+
+          {% if work.createdDate.label.length > 0 %}
+            {% set needsDivider = work.genre.length > 0 or work.subjects.length > 0 or work.lettering > 0 %}
+            {% componentV2 'meta-unit', {headingText: 'Date', content: work.createdDate.label, includeDivider: needsDivider} %}
+          {% endif %}
+
+          {% if work.genre.length > 0 %}
+            {% set needsDivider = work.subjects.length > 0 or work.lettering > 0 %}
+            {% componentV2 'meta-unit', {headingText: 'Genre', content: [work.genre | createLinkObject], includeDivider: needsDivider} %}
+          {% endif %}
+
+          {% if work.subjects.length > 0 %}
+            {% set needsDivider = work.lettering > 0 %}
+            {% componentV2 'meta-unit', {headingText: 'Subject', content: work.subjects | getLinkObjects('label'), includeDivider: needsDivider} %}
+          {% endif %}
+
+          {% if work.lettering > 0 %}
+            {% componentV2 'meta-unit', {headingText: 'Lettering', content: work.lettering, includeDivider: false} %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
