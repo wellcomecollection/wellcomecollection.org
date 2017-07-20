@@ -1,4 +1,5 @@
 import Prismic from 'prismic-javascript';
+import {List, OrderedMap} from 'immutable';
 import {prismicApi} from '../services/prismic-api';
 import {getEditorial, getEditorialList, getEditorialPreview, getEvent} from '../services/prismic-content';
 import {createPageConfig} from '../model/page-config';
@@ -111,7 +112,6 @@ export async function renderExplore(ctx, next) {
   const wpPromos = articleStubs.data.map(PromoFactory.fromArticleStub);
   const contentPromos = contentList.map(PromoFactory.fromArticleStub);
   const promos = wpPromos.concat(contentPromos).sort((a, b) => {
-    console.info(a.datePublished);
     return a.datePublished.getTime() - b.datePublished.getTime();
   })
   .reverse()
@@ -123,6 +123,14 @@ export async function renderExplore(ctx, next) {
     }
   });
 
+  const dedupedPromos = promos.reduce((promoMap, promo) => {
+    if (promo.url.match('/articles/W*') || !promoMap.has(promo.title)) {
+      return promoMap.set(promo.title, promo);
+    } else {
+      return promoMap;
+    }
+  }, OrderedMap()).toList();
+
   // TODO: Remove this, make it automatic
   const latestTweets = ctx.intervalCache.get('tweets');
 
@@ -132,7 +140,7 @@ export async function renderExplore(ctx, next) {
       inSection: 'explore',
       category: 'list'
     }),
-    promos,
+    promos: dedupedPromos,
     curatedList,
     collectorsPromo, // TODO: Remove this, make it automatic
     latestTweets

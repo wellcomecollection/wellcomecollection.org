@@ -12,6 +12,7 @@ export async function getEditorialPreview(id: string, req) {
 
 export async function getEditorial(id: string) {
   const prismic = await prismicApi();
+
   return getEditorialAsArticle(prismic, id);
 }
 
@@ -34,6 +35,10 @@ async function getEditorialAsArticle(prismic, id: string) {
     return null;
   }
 
+  switch (prismicArticle.type) {
+    case 'editorial': return parseEditorialAsArticle(prismicArticle);
+    case 'webcomics': return parseWebcomicAsArticle(prismicArticle);
+  }
   return parseEditorialAsArticle(prismicArticle);
 }
 
@@ -207,7 +212,8 @@ function prismicImageToPicture(prismicImage) {
     contentUrl: convertPrismicToImgIxUri(prismicImage.image.url), // TODO: Send this through the img.wc.org
     width: prismicImage.image.dimensions.width,
     height: prismicImage.image.dimensions.height,
-    caption: prismicImage.caption.length !== 0 ? asText(prismicImage.caption) : prismicImage.image.alt, // TODO: Support HTML
+    caption: prismicImage.caption && prismicImage.caption.length !== 0
+             ? asText(prismicImage.caption) : prismicImage.image.alt, // TODO: Support HTML
     alt: prismicImage.image.alt,
     copyrightHolder: prismicImage.image.copyright
   }: Picture);
@@ -232,7 +238,7 @@ export async function getEditorialList() {
 }
 
 function asText(maybeContent) {
-  return maybeContent && RichText.asText(maybeContent);
+  return maybeContent && RichText.asText(maybeContent).trim();
 }
 
 export async function getEvent(id) {
@@ -290,7 +296,7 @@ export async function getEvent(id) {
 // TODO: There's some abstracting to do here
 function parseWebcomicAsArticle(prismicArticle) {
   // TODO : construct this not from strings
-  const url = `/webcomic/${prismicArticle.id}`;
+  const url = `/articles/${prismicArticle.id}`;
 
   // TODO: potentially get rid of this
   const publishDate = PrismicDate(prismicArticle.data.publishDate || prismicArticle.first_publication_date);

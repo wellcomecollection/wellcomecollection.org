@@ -21,6 +21,7 @@ r.get('/kaboom', (ctx, next) => {
 });
 
 // Content
+r.get('/articles/(W):id', renderEditorial);
 r.get('/editorial/(W):id', renderEditorial);
 r.get('/explore', renderExplore);
 r.get('/preview', setPreviewSession);
