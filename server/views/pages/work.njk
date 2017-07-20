@@ -49,11 +49,11 @@
           {% endif %}
 
           {% if work.subjects.length > 0 %}
-            {% set needsDivider = work.lettering > 0 %}
+            {% set needsDivider = work.lettering.length > 0 %}
             {% componentV2 'meta-unit', {headingText: 'Subject', content: work.subjects | getLinkObjects('label'), includeDivider: needsDivider} %}
           {% endif %}
 
-          {% if work.lettering > 0 %}
+          {% if work.lettering.length > 0 %}
             {% componentV2 'meta-unit', {headingText: 'Lettering', content: work.lettering, includeDivider: false} %}
           {% endif %}
         </div>
