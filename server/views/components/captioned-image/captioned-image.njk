@@ -8,7 +8,11 @@
       } %}
       {% componentV2 'chapter-indicator', chapterIndicatorModel %}
     {% else %}
-      {% componentV2 'image', model, {}, {lazyload: true, sizesQueries: data.sizesQueries} %}
+        {% if model.isIiif %}
+          {% componentV2 'image-iiif', model, {}, {lazyload: true, sizesQueries: data.sizesQueries} %}
+        {% else %}
+          {% componentV2 'image', model, {}, {lazyload: true, sizesQueries: data.sizesQueries} %}
+        {% endif %}
     {% endif %}
     {% if (model.copyrightHolder) %}
       <div class="captioned-image__copyright-holder
