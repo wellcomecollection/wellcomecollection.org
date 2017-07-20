@@ -22,7 +22,7 @@
           {{ 'grid__cell' if isTransporter }}
           {% if isCurrent %} numbered-list__item--{{model.color}}{% endif %}"{% if isCurrent %}data-current="true" {% endif %}>
 
-          <span class="numbered-list__number {{ {s:'WB1'} | fontClasses }}" aria-hidden="true">{{ loop.index }}</span>
+          <span class="numbered-list__number" aria-hidden="true">{{ loop.index }}</span>
 
           {% if isTransporter %}
             <span data-track-click='{"position": {{ loop.index }}, "url": "{{ item.url }}" }'>

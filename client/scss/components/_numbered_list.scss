@@ -53,6 +53,7 @@ $numbered-list-number-size-large: 96px;
 }
 
 .numbered-list__number {
+  font-family: $wellcome-bold, $wellcome-bold-subset, $wellcome-bold-base;
   font-size: $numbered-list-number-size-large;
   line-height: 1;
   color: color('silver');
