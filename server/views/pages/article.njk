@@ -61,13 +61,15 @@
       <div class="container">
         <div class="grid grid--no-gutters">
           <div class="{{ {s: 12, m: 10, shiftM: 1, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
-            {% if article.author and article.bodyParts.length > 0  %}
-              {% component 'author', {
-              name: article.author.name,
-              twitterHandle: article.author.twitterHandle,
-              modifiers: ['border-bottom'],
-              image: article.author.image
-              } %}
+            {% if article.bodyParts.length > 0  %}
+              {% for author in article.author %}
+                {% component 'author', {
+                  name: author.name,
+                  twitterHandle: author.twitterHandle,
+                  modifiers: ['border-bottom'] if loop.last else [],
+                  image: author.image
+                } %}
+              {% endfor %}
             {% endif %}
 
             <div class="article" itemprop="articleBody">
