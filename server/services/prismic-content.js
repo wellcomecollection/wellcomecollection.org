@@ -40,9 +40,8 @@ async function getEditorialAsArticle(prismic, id: string) {
 function parseEditorialAsArticle(prismicArticle) {
   // TODO : construct this not from strings
   const url = `/editorial/${prismicArticle.id}`;
-
-  // TODO: potentially get rid of this
-  const publishDate = PrismicDate(prismicArticle.data.publishDate || prismicArticle.first_publication_date);
+  // We fallback to `Date.now()` in case we're in preview and don't have a published date
+  const publishDate = PrismicDate(prismicArticle.data.publishDate || prismicArticle.first_publication_date || Date.now());
 
   // TODO:
   const mainMedia = prismicArticle.data.content.filter(slice => slice.slice_label === 'featured').map(slice => {
