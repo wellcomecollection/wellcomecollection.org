@@ -8,7 +8,7 @@
         <h3 class="footer__heading {{ {s:'HNL5'} | fontClasses }}">Finding us:</h3>
         {% componentV2 'find-us', address %}
       </div>
-      <div class="{{ {s:12} | gridClasses }}">
+      <div class="{{ {s:12, l:6, xl:6} | gridClasses }}">
         <h3 class="footer__heading {{ {s:'HNL5'} | fontClasses }}">Opening times:</h3>
         {% component 'opening-hours', {places: openingHours.places} %}
       </div>
