@@ -328,7 +328,7 @@ function parseWebcomicAsArticle(prismicArticle) {
   });
 
   const article: Article = {
-    contentType: 'article',
+    contentType: 'comic',
     headline: asText(prismicArticle.data.title),
     url: url,
     datePublished: publishDate,
