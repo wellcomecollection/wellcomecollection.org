@@ -1,5 +1,5 @@
 import Prismic from 'prismic-javascript';
-import {List, OrderedMap} from 'immutable';
+import {OrderedMap} from 'immutable';
 import {prismicApi} from '../services/prismic-api';
 import {getEditorial, getEditorialList, getEditorialPreview, getEvent} from '../services/prismic-content';
 import {createPageConfig} from '../model/page-config';
