@@ -65,6 +65,7 @@
   <code>{{ {s:'WB4', l:'WB2'} | fontClasses }}</code>
   {% endraw %}
   </p>
+  <p>Occasionally, we may want to reset a type style's line-height to `1`, to prevent it from introducing extra space when used in non-flowing copy. For this, we have the `line-height-1` class.</p>
 
   <h4>Spacing classes</h4>
   <p>In a similar manner to the typography classes above, we have helper classes that apply various amounts of margins and padding to an element at each breakpoint.</p>
@@ -74,7 +75,7 @@
   <p>For example, if an element should have 12px top and bottom padding at the small and medium breakpoints, then 24px top and bottom padding at large and xlarge breakpoints, we can write:
   <br /><br />
   {% raw %}
-  <code>{{ {s:2, m:2, l:4, xl:4} | spacingClasses({padding: ['top', 'bottom']}) }}</code>
+  <code>{{ {s:2, m:2, l:4} | spacingClasses({padding: ['top', 'bottom']}) }}</code>
   </p>
   <p>Or if an element should have 6px, 12px, 24px and 48px bottom margin at small, medium, large and xlarge breakpoints respectively, we can write:
   <br /><br />
