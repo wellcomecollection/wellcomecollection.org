@@ -1,4 +1,4 @@
-<div class="footer row row--dark-black {{ {s:5, m:10, l:10} | spacingClasses({padding: ['top']}) }}">
+<div class="footer row row--dark-black {{ {s:5, m:10} | spacingClasses({padding: ['top']}) }}">
   <div class="container">
     <div class="grid">
       <div class="{{ {s:12, m:6, l:3} | gridClasses }}">
@@ -8,7 +8,7 @@
         <h3 class="footer__heading {{ {s:'HNL5'} | fontClasses }}">Finding us:</h3>
         {% componentV2 'find-us', address %}
       </div>
-      <div class="{{ {s:12} | gridClasses }}">
+      <div class="{{ {s:12, l:6, xl:6} | gridClasses }}">
         <h3 class="footer__heading {{ {s:'HNL5'} | fontClasses }}">Opening times:</h3>
         {% component 'opening-hours', {places: openingHours.places} %}
       </div>
@@ -21,12 +21,12 @@
     {% component 'footer-social', {items: footerSocial.items} %}
 
     <div class="footer__bottom">
-      <div class="footer__left {{ {s:2, m:2} | spacingClasses({margin: ['bottom']}, false) }}">
-        <div class="footer__strap {{ {s:'HNM6'} | fontClasses }} {{ {m:4, l:6} | spacingClasses({margin: ['right']}) }} {{ {s:2} | spacingClasses({padding: ['bottom']}, false) }}">
+      <div class="footer__left {{ {s:2, l:0} | spacingClasses({margin: ['bottom']}) }}">
+        <div class="footer__strap {{ {s:'HNM6'} | fontClasses }} {{ {m:4, l:6} | spacingClasses({margin: ['right']}) }} {{ {s:2, m:0} | spacingClasses({padding: ['bottom']}) }}">
           {% icon 'other/wellcome' %}
           <span class="footer__strap-text">The free museum and library from Wellcome</span>
         </div>
-        <div class="footer__licensing {{ {s:'HNM6'} | fontClasses }} {{ {l:2} | spacingClasses({padding: ['right']}, false) }}">
+        <div class="footer__licensing {{ {s:'HNM6'} | fontClasses }} {{ {xl:2} | spacingClasses({padding: ['right']}) }}">
           <div class="footer__licensing-icons">
             {% icon 'other/cc', null, ['icon--2x'] %}
             {% icon 'other/cc_by', null, ['icon--2x'] %}

@@ -10,7 +10,7 @@
     <span class="input__control-indicator input__control-indicator--{{ model.type }}"></span>
   {% endif %}
 
-  <span class="input__label-wrap {{ {s:1, m:1, l:1} | spacingClasses({margin: ['left']}) }} {{ 'input__label-wrap--hidden' if data.isLabelHidden }}">
+  <span class="input__label-wrap {{ {s:1} | spacingClasses({margin: ['left']}) }} {{ 'input__label-wrap--hidden' if data.isLabelHidden }}">
     {{ model.label }}
   </span>
 </label>

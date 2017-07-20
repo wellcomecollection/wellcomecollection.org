@@ -48,13 +48,13 @@
 
   <div class="row row--cream">
     <div class="container">
-      <div class="{{ {s:6, m:6, l:6} | spacingClasses({padding: ['top']}) }}">
+      <div class="{{ {s:6} | spacingClasses({padding: ['top']}) }}">
         {% componentV2 'divider', null, {'pumice': true, 'keyline': true} %}
       </div>
     </div>
   </div>
 
-  <div class="row row--cream {{ {s:8, m:8, l:8} | spacingClasses({padding: ['top', 'bottom']}) }} ">
+  <div class="row row--cream {{ {s:8} | spacingClasses({padding: ['top', 'bottom']}) }} ">
     <div class="container">
       <div class="grid grid--no-gutters">
         <div class="{{ {s: 12, m: 10, shiftM: 1, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
@@ -76,16 +76,16 @@
               {% endfor %}
             {% endif %}
 
-            {% componentV2 'divider', null, {'stub': true, 'black': true}, {extraClasses: [{s:4, m:4, l:4} | spacingClasses({margin: ['top']})]} %}
+            {% componentV2 'divider', null, {'stub': true, 'black': true}, {extraClasses: [{s:4} | spacingClasses({margin: ['top']})]} %}
 
             {% if article.tags.length > 0 %}
               {% component 'tags', { tags: article.tags } %}
             {% endif %}
           </div>
           {% for accessStatement in article.accessStatements %}
-            <div class="access-statement {{ {s:6, m:6, l:6} | spacingClasses({padding: ['top']}) }}">
+            <div class="access-statement {{ {s:6} | spacingClasses({padding: ['top']}) }}">
               <div class="flex">
-                <div class="{{ {s:6, m:6, l:6} | spacingClasses({margin: ['right']}) }}">
+                <div class="{{ {s:6} | spacingClasses({margin: ['right']}) }}">
                   {% if accessStatement.title === ' British Sign Language tour' %}
                     {% icon 'a11y/sign_language', "British Sign Language tour", ['icon--4x'] %}
                   {% endif %}
@@ -97,7 +97,7 @@
             </div>
           {% endfor %}
 
-          <div class="{{ {s:6, m:6, l:6} | spacingClasses({padding: ['top']}) }}">
+          <div class="{{ {s:6} | spacingClasses({padding: ['top']}) }}">
             {% if (article.eventbriteId) %}
               <iframe id="eventbrite-iframe-{{ eventbriteId }}" src="/eventbrite-event-embed/{{ article.eventbriteId }}" frameborder="0" width="100%" vspace="0" hspace="0" marginheight="5" marginwidth="5" scrolling="auto" allowtransparency="true"></iframe>
               <script>
@@ -120,7 +120,7 @@
 {% block transporters %}
   {% for series in article.series %}
     {% if series.commissionedLength %}
-      <div class="row {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top']}) }} {{ {s:5, m:5, l:5} | spacingClasses({padding: ['bottom']}) }}">
+      <div class="row {{ {s:10} | spacingClasses({padding: ['top']}) }} {{ {s:5} | spacingClasses({padding: ['bottom']}) }}">
         <div class="container digital-story-transporter">
           <div class="grid grid--no-gutters">
             <div class="{{ {s: 12, m: 10, shiftM: 1, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">

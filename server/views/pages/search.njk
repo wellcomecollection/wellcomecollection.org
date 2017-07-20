@@ -3,14 +3,14 @@
 {% block body %}
   {% componentV2 'page-description', { title: 'Search' }, {'hidden': true} %}
   <div class="row row--cream
-    {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top']}) }}
+    {{ {s:3, m:5} | spacingClasses({padding: ['top']}) }}
     {{ {s:3, m:4, l:6} | spacingClasses({padding: ['bottom']}) }}">
     <div class="container">
       <div class="grid">
         <div class="grid__cell">
           {% componentV2 'search-box', {id: 'search-works', action: '', name: 'query', query: query} %}
           {% if query %}
-            <p class="text--meta {{ {s:2, m:2, l:2} | spacingClasses({margin: ['top']}) }} {{ {s:2, m:2, l:2} | spacingClasses({margin: ['bottom']}) }}">
+            <p class="text--meta {{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
               {{ resultsList.totalResults if resultsList.totalResults > 0 else 'No' }} results for "{{ query }}"
             </p>
           {% endif %}
@@ -20,7 +20,7 @@
   </div>
 
   {% if resultsList.totalResults > 0 %}
-    <div class="row {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top']}) }}">
+    <div class="row {{ {s:3, m:5} | spacingClasses({padding: ['top']}) }}">
       <div class="container">
         <div class="grid">
           <div class="grid__cell">
@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <div class="row {{ {s:4, m:4, l:4} | spacingClasses({padding: ['top']}) }} ">
+    <div class="row {{ {s:4} | spacingClasses({padding: ['top']}) }} ">
       <div class="container">
         <div class="grid">
           {% for result in resultsList.results %}
@@ -43,14 +43,14 @@
             {% set img = {contentUrl: result.imgLink, width: 300, height: 300} %}
             {% set type = result.type | lower %}
             {% set url = '/works/' + result.id + queryString %}
-            {% componentV2 'promo', {contentType: type, title: result.label, url: url, image: img, datePublished: result.createdDate.label}, {}, {isConstrained: true, sizes: '(min-width: 1340px) 178px, (min-width: 960px) calc(25vw - 52px), (min-width: 600px) calc(33.24vw - 43px), calc(50vw - 27px)'} %}
+            {% componentV2 'promo', {contentType: type, title: result.label, url: url, image: img | objectAssign({ isIiif: true }), datePublished: result.createdDate.label}, {}, {isConstrained: true, sizes: '(min-width: 1340px) 178px, (min-width: 960px) calc(25vw - 52px), (min-width: 600px) calc(33.24vw - 43px), calc(50vw - 27px)'} %}
           </div>
           {% endfor %}
         </div>
       </div>
     </div>
 
-    <div class="row {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top']}) }} {{ {s:10, m:10, l:10} | spacingClasses({padding: ['bottom']}) }} ">
+    <div class="row {{ {s:10} | spacingClasses({padding: ['top']}) }} {{ {s:10} | spacingClasses({padding: ['bottom']}) }} ">
       <div class="container">
         <div class="grid">
           <div class="grid__cell">

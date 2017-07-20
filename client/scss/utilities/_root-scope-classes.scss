@@ -4,7 +4,7 @@
   $spacing-size-respond: map-get($spacing-size-map, 'respond');
 
   @if (length($spacing-size-respond) > 1) {
-    @include respond-between(nth($spacing-size-respond, 1), nth($spacing-size-respond, 2)) {
+    @include respond-to(nth($spacing-size-respond, 1)) {
       @include spacing-classes($spacing-size-key);
     }
   } @else {

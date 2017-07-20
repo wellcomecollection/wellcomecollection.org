@@ -85,7 +85,7 @@ export class ArticleFactory {
       thumbnail: thumbnail,
       articleBody: articleBody,
       associatedMedia: mainImage ? [mainImage] : [],
-      author: author,
+      author: [author],
       bodyParts: bodyParts,
       series: series,
       positionInSeries: positionInSeries
