@@ -1,0 +1,15 @@
+@keyframes scrollToWobble {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.scroll-to--work-info {
+  position: relative;
+  transform: translateY(0);
+  animation: scrollToWobble 2s ease-in-out 3 forwards;
+}
