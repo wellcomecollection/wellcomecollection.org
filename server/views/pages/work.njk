@@ -35,7 +35,7 @@
         <div class="{{ {s: 12, m: 6, l: 5, xl: 4} | gridClasses }}">
           {% if work.creators.length > 0 %}
             {% set needsDivider = work.createdDate.label.length > 0 or work.genre.length > 0 or work.subjects.length > 0 or work.lettering > 0 %}
-            {% componentV2 'meta-unit', {headingText: 'Author', content: work.creators | getLinkObjects('label'), includeDivider: needsDivider} %}
+            {% componentV2 'meta-unit', {headingText: 'Author', content: work.creators | getLinkObjects('label', 'creators:'), includeDivider: needsDivider} %}
           {% endif %}
 
           {% if work.createdDate.label.length > 0 %}
