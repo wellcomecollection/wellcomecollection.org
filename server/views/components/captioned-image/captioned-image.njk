@@ -8,11 +8,15 @@
       } %}
       {% componentV2 'chapter-indicator', chapterIndicatorModel %}
     {% else %}
-      {% componentV2 'image', model, {}, {lazyload: true, sizesQueries: data.sizesQueries} %}
+        {% if model.isIiif %}
+          {% componentV2 'image-iiif', model, {}, {lazyload: true, sizesQueries: data.sizesQueries} %}
+        {% else %}
+          {% componentV2 'image', model, {}, {lazyload: true, sizesQueries: data.sizesQueries} %}
+        {% endif %}
     {% endif %}
     {% if (model.copyrightHolder) %}
       <div class="captioned-image__copyright-holder
-        {{ {s:1, m:1, l:1} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }}
+        {{ {s:1} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }}
         {{ {s:'HNM6', m:'HNM6', l:'HNM6'} | fontClasses }}">
         Credit: {{ model.copyrightHolder }}
       </div>
@@ -24,7 +28,7 @@
         {% icon 'other/picture', {}, ['float-l', 'margin-right-s2', 'margin-right-m2', 'margin-right-l2', 'margin-right-xl2'] %}
         <div class="captioned-image__caption-text{{ ' js-truncate-text' if data.truncateCaption }}" tabindex="0">
           {% if data.slideNumbers %}
-            <span class="captioned-image__number {{ {s:'HNM5'} | fontClasses }} {{ {s:2, m:2, l:2} | spacingClasses({padding: ['right']}) }}"
+            <span class="captioned-image__number {{ {s:'HNM5'} | fontClasses }} {{ {s:2} | spacingClasses({padding: ['right']}) }}"
               aria-label="slide {{ data.slideNumbers.current }} of {{ data.slideNumbers.total }}">
               <span aria-hidden="true">{{ data.slideNumbers.current }}/{{ data.slideNumbers.total }}</span>
             </span>

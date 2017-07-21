@@ -53,7 +53,11 @@
   class="promo {% for modifier in model.modifiers %}promo--{{ modifier }} {% endfor %} promo--{{ model.contentType }} {{ 'promo--surrogate' if not model.url }}">
     <div class="promo__image-container {% if data.isConstrained %} promo__image-container--constrained {% endif %}">
       {% if model.image %}
-        {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, clipPathClass: clipPathClass} %}
+        {% if model.image.isIiif %}
+          {% componentV2 'image-iiif', model.image, {}, {lazyload: true, sizesQueries: sizes, clipPathClass: clipPathClass} %}
+        {% else %}
+          {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, clipPathClass: clipPathClass} %}
+        {% endif %}
       {% else %}
         <div class="promo__image-surrogate">
           <div class="promo__image-surrogate-inner"></div>
@@ -78,7 +82,7 @@
       {% endif %}
   </div>
   {% if model.modifiers and model.modifiers | contains('standalone') %}
-    <div class="row row--cream {{ {s:10, m:10, l:10} | spacingClasses({padding: ['top']}) }} ">
+    <div class="row row--cream {{ {s:10} | spacingClasses({padding: ['top']}) }} ">
       <div class="container">
         <div class="grid">
           <div class="{{ {l:10, shiftL:1, m:10, shiftM:1, s:12} | gridClasses }}">

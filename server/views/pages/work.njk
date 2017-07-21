@@ -4,7 +4,7 @@
 
 {% block body %}
   {% if queryString %}
-    <div class="row row--black {{ {s:2, m:2, l:2, xl: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+    <div class="row row--black {{ {s:2} | spacingClasses({padding: ['top', 'bottom']}) }}">
       <div class="container">
         <div class="grid">
           <div class="{{ {s:12, m:12, l:12, xl: 12} | gridClasses }}">
@@ -14,13 +14,59 @@
       </div>
     </div>
   {% endif %}
-  <div class="row row--black {% if not queryString %}{{ {s:8, m:8, l:8, xl: 8} | spacingClasses({padding: ['top']}) }}{% endif %}">
+  <div class="row row--black {% if not queryString %}{{ {s:8} | spacingClasses({padding: ['top']}) }}{% endif %}">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:12, m:12, l:10, xl:10, shiftL:1, shiftXl:1} | gridClasses }}">
-          {% componentV2 'main-media-work', {contentUrl: work.imgLink, caption: work.description, width: 2048}, {'fit-vh': true}, {sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
+          {% componentV2 'main-media-work', {contentUrl: work.imgLink, caption: work.description, width: 2048, isIiif: true}, {'fit-vh': true}, {sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
         </div>
       </div>
     </div>
   </div>
+  <div class="row {{ {s:3, m:3, l:3, xl: 3} | spacingClasses({padding: ['top', 'bottom']}) }}">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s: 12, m: 6, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
+          <h1 class="{{ {s:'HNM3', m:'HNM1', l:'HNM1', xl:'HNM1'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{work.label}}</h1>
+          {% if work.license.length > 0 %}
+            {% componentV2 'license', {subject: work.imgLink, licenseType: work.license} %} {# - license from API #}
+          {% endif %}
+        </div>
+        <div class="{{ {s: 12, m: 6, l: 5, xl: 4} | gridClasses }}">
+          {% if work.creators.length > 0 %}
+            {% set needsDivider = work.createdDate.label.length > 0 or work.genre.length > 0 or work.subjects.length > 0 or work.lettering > 0 %}
+            {% componentV2 'meta-unit', {headingText: 'Author', content: work.creators | getLinkObjects('label'), includeDivider: needsDivider} %}
+          {% endif %}
+
+          {% if work.createdDate.label.length > 0 %}
+            {% set needsDivider = work.genre.length > 0 or work.subjects.length > 0 or work.lettering > 0 %}
+            {% componentV2 'meta-unit', {headingText: 'Date', content: work.createdDate.label, includeDivider: needsDivider} %}
+          {% endif %}
+
+          {% if work.genre.length > 0 %}
+            {% set needsDivider = work.subjects.length > 0 or work.lettering > 0 %}
+            {% componentV2 'meta-unit', {headingText: 'Genre', content: [work.genre | createLinkObject], includeDivider: needsDivider} %}
+          {% endif %}
+
+          {% if work.subjects.length > 0 %}
+            {% set needsDivider = work.lettering.length > 0 %}
+            {% componentV2 'meta-unit', {headingText: 'Subject', content: work.subjects | getLinkObjects('label'), includeDivider: needsDivider} %}
+          {% endif %}
+
+          {% if work.lettering.length > 0 %}
+            {% componentV2 'meta-unit', {headingText: 'Lettering', content: work.lettering, includeDivider: false} %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if work.moreInfo %}
+    {% componentV2 'work-drawer', {id: 'more-info', heading: 'More information'}, null, {data: work.moreInfo, topDivider: true} %}
+  {% endif %}
+
+  {% if work.usingImage %}
+    {% componentV2 'work-drawer', {id: 'using-image', heading: 'Using this image'}, null, {data: work.usingImage, bottomSpacing: true} %}
+  {% endif %}
+
 {% endblock %}

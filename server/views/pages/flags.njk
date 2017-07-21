@@ -14,21 +14,21 @@
             <p>You currently belong to the <span class="feature-flags__current-cohort {{ {s:'HNM3'} | fontClasses }} js-current-cohort">{{ featuresCohort  if featuresCohort else
              'default' }}</span> group.</p>
             {% for cohort in cohorts %}
-              <button class="btn btn--light {{ {s:'HNM5'} | fontClasses }} {{ {s:2, m:4, l:4, xl:4} | spacingClasses({margin: ['bottom']})}} js-cohort-button" data-cohort="{{cohort}}">Join the {{cohort}} group</button>
+              <button class="btn btn--light {{ {s:'HNM5'} | fontClasses }} {{ {s:2, m:4} | spacingClasses({margin: ['bottom']})}} js-cohort-button" data-cohort="{{cohort}}">Join the {{cohort}} group</button>
             {% endfor %}
         </div>
         <div class="{{ {s:12, m:6, l:8, xl: 8} | gridClasses }}">
           {% for name, flag in featureFlags %}
-          <table class="feature-flags__table {{ {s:2, m:4, l:4, xl:4} | spacingClasses({margin: ['bottom']})}}">
-            <caption class="feature-flags__caption {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}"><strong>{{name}}</strong></caption>
+          <table class="feature-flags__table {{ {s:2, m:4} | spacingClasses({margin: ['bottom']})}}">
+            <caption class="feature-flags__caption {{ {s:1, m:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}"><strong>{{name}}</strong></caption>
             <tr class="feature-flags__row">
-              <th class="feature-flags__heading {{ {s:'HNM4'} | fontClasses }} {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">cohort</th>
-              <th class="feature-flags__heading {{ {s:'HNM4'} | fontClasses }} {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">status</th>
+              <th class="feature-flags__heading {{ {s:'HNM4'} | fontClasses }} {{ {s:1, m:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">cohort</th>
+              <th class="feature-flags__heading {{ {s:'HNM4'} | fontClasses }} {{ {s:1, m:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">status</th>
             </tr>
             {% for name, status in flag %}
               <tr class="feature-flags__row">
-                <td class="feature-flags__cell {{ {s:'HNL4'} | fontClasses }} {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">{{name}}</td>
-                <td class="feature-flags__cell {{ {s:'HNL4'} | fontClasses }} feature-flags__cell--{{status}} {{ {s:1, m:2, l:2, xl:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">{{status}}</td>
+                <td class="feature-flags__cell {{ {s:'HNL4'} | fontClasses }} {{ {s:1, m:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">{{name}}</td>
+                <td class="feature-flags__cell {{ {s:'HNL4'} | fontClasses }} feature-flags__cell--{{status}} {{ {s:1, m:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">{{status}}</td>
               </tr>
             {% endfor %}
             </table>

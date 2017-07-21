@@ -42,8 +42,8 @@ function parseEditorialAsArticle(prismicArticle) {
   // TODO : construct this not from strings
   const url = `/articles/${prismicArticle.id}`;
 
-  // TODO: potentially get rid of this
-  const publishDate = PrismicDate(prismicArticle.data.publishDate || prismicArticle.first_publication_date);
+  // We fallback to `Date.now()` in case we're in preview and don't have a published date
+  const publishDate = PrismicDate(prismicArticle.data.publishDate || prismicArticle.first_publication_date || Date.now());
 
   // TODO:
   const mainMedia = prismicArticle.data.content.filter(slice => slice.slice_label === 'featured').map(slice => {
@@ -55,16 +55,18 @@ function parseEditorialAsArticle(prismicArticle) {
   const thumbnail = promo && prismicImageToPicture(promo.primary);
   const description = promo && asText(promo.primary.caption); // TODO: Do not use description
 
-  // TODO: Support more than 1 author
   // TODO: Support creator's role
-  const creator = prismicArticle.data.contributors.find(creator => creator.slice_type === 'person');
-  const person = creator && creator.primary.person.data;
-  const author = person && {
-    name: person.name,
-    twitterHandle: person.twitterHandle,
-    image: person.image.url,
-    description: asText(person.description)
-  };
+  const authors = prismicArticle.data.contributors
+    .filter(creator => creator.slice_type === 'person')
+    .map(slice => slice.primary.person.data)
+    .map(person => {
+      return {
+        name: person.name,
+        twitterHandle: person.twitterHandle,
+        image: person.image && person.image.url,
+        description: asText(person.description)
+      };
+    });
 
   const series = prismicArticle.data.series.length > 0 && prismicArticle.data.series.map(prismicSeries => {
     const seriesData = prismicSeries.primary.series.data;
@@ -83,7 +85,7 @@ function parseEditorialAsArticle(prismicArticle) {
     url: url,
     datePublished: publishDate,
     thumbnail: thumbnail,
-    author: author,
+    author: authors,
     series: series,
     bodyParts: bodyParts,
     mainMedia: mainMedia,

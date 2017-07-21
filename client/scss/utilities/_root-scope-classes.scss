@@ -4,7 +4,7 @@
   $spacing-size-respond: map-get($spacing-size-map, 'respond');
 
   @if (length($spacing-size-respond) > 1) {
-    @include respond-between(nth($spacing-size-respond, 1), nth($spacing-size-respond, 2)) {
+    @include respond-to(nth($spacing-size-respond, 1)) {
       @include spacing-classes($spacing-size-key);
     }
   } @else {
@@ -55,6 +55,10 @@
   // stylelint-enable declaration-no-important
 }
 
+.line-height-1 {
+  line-height: 1;
+}
+
 // Adds momentum scrolling to iOS
 // TODO: consider removing if/when scroll snapping is implemented
 .touch-scroll {
@@ -96,7 +100,6 @@
   letter-spacing: inherit;
   background: color('transparent');
   border: 0;
-  padding: 0;
   text-align: left;
 }
 
