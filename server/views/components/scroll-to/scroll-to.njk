@@ -1,3 +1,8 @@
-<a href="#{{ model.elementId }}" class="scroll-to js-scroll-to plain-link {% for class in data.extraClasses %}{{ class }} {% endfor %}" data-element="{{ model.elementId }}">
+<a
+  href="#{{ model.elementId }}"
+  class="scroll-to js-scroll-to plain-link {% for class in data.extraClasses %}{{ class }} {% endfor %}"
+  data-speed="{{ model.speed }}"
+  data-easing="{{ model.easing }}"
+  data-element="{{ model.elementId }}">
   {% icon 'actions/chevron-big', null, data.extraIconClasses %}
 </a>
