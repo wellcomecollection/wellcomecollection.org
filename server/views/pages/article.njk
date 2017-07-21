@@ -77,15 +77,15 @@
                 {% component 'article-body', {articleBody: article.bodyParts, contentType: article.contentType} %}
               {% endblock %}
 
-              {% if article.author %}
+              {% for author in article.author %}
                 {% component 'author', {
-                name: article.author.name,
-                twitterHandle: article.author.twitterHandle,
-                modifiers: ['border-left'],
-                description: article.author.description,
-                image: article.author.image
+                  name: author.name,
+                  twitterHandle: author.twitterHandle,
+                  modifiers: ['border-left'],
+                  description: article.author.description,
+                  image: author.image
                 } %}
-              {% endif %}
+              {% endfor %}
 
               {% componentV2 'divider', null, {'stub': true, 'black': true}, {extraClasses: [{s:4} | spacingClasses({margin: ['top']})]} %}
 
