@@ -4,8 +4,8 @@ import {seriesNav, seriesTransporter, latestInstagramPosts, seriesContainerPromo
 import {work, search} from '../controllers/work';
 import {index, article, articles, preview, series} from '../controllers'; // Deprecated
 import {
-  renderEditorial,
-  renderEditorialPreview,
+  renderArticle,
+  renderArticlePreview,
   setPreviewSession,
   renderEvent,
   renderEventbriteEmbed,
@@ -26,11 +26,11 @@ r.get('/kaboom', (ctx, next) => {
 });
 
 // Content
-r.get('/articles/(W):id', renderEditorial);
+r.get('/articles/(W):id', renderArticle);
 r.get('/webcomics/:id', renderWebcomic);
 r.get('/explore', renderExplore);
 r.get('/preview', setPreviewSession);
-r.get('/preview/:id', renderEditorialPreview);
+r.get('/preview/:id', renderArticlePreview);
 r.get('/events/:id', renderEvent);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 

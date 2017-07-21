@@ -5,18 +5,18 @@ import {RichText, Date as PrismicDate} from 'prismic-dom';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import moment from 'moment';
 
-export async function getEditorialPreview(id: string, req) {
+export async function getArticlePreview(id: string, req) {
   const prismic = await prismicPreviewApi(req);
-  return getEditorialAsArticle(prismic, id);
+  return getArticleAsArticle(prismic, id);
 }
 
-export async function getEditorial(id: string) {
+export async function getArticle(id: string) {
   const prismic = await prismicApi();
 
-  return getEditorialAsArticle(prismic, id);
+  return getArticleAsArticle(prismic, id);
 }
 
-async function getEditorialAsArticle(prismic, id: string) {
+async function getArticleAsArticle(prismic, id: string) {
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'books.title', 'books.title', 'books.author', 'books.isbn', 'books.publisher', 'books.link', 'books.cover',
@@ -27,7 +27,7 @@ async function getEditorialAsArticle(prismic, id: string) {
     Prismic.Predicates.at('document.id', id)
     // This should be here, but Prismic is borked, and I need this to work now.
     // TODO: Put this back once Prismic are on it.
-    // Prismic.Predicates.any('document.type', ['editorial', 'events'])
+    // Prismic.Predicates.any('document.type', ['article', 'events'])
   ], {fetchLinks});
   const prismicArticle = articles.total_results_size === 1 ? articles.results[0] : null;
 
@@ -35,10 +35,10 @@ async function getEditorialAsArticle(prismic, id: string) {
     return null;
   }
 
-  return parseEditorialAsArticle(prismicArticle);
+  return parseArticleAsArticle(prismicArticle);
 }
 
-function parseEditorialAsArticle(prismicArticle) {
+function parseArticleAsArticle(prismicArticle) {
   // TODO : construct this not from strings
   const url = `/articles/${prismicArticle.id}`;
 
@@ -216,22 +216,22 @@ function prismicImageToPicture(prismicImage) {
   }: Picture);
 }
 
-export async function getEditorialList() {
+export async function getArticleList() {
   const fetchLinks = [
     'series.name', 'series.description', 'series.color', 'series.commissionedLength'
   ];
   const prismic = await prismicApi();
-  const editorialList = await prismic.query([
-    Prismic.Predicates.any('document.type', ['editorial', 'webcomics'])
+  const articlesList = await prismic.query([
+    Prismic.Predicates.any('document.type', ['articles', 'webcomics'])
   ], {fetchLinks});
 
-  const editorialAsArticles = editorialList.results.map(result => {
+  const articlesAsArticles = articlesList.results.map(result => {
     switch (result.type) {
-      case 'editorial': return parseEditorialAsArticle(result);
+      case 'articles': return parseArticleAsArticle(result);
       case 'webcomics': return parseWebcomicAsArticle(result);
     }
   });
-  return editorialAsArticles;
+  return articlesAsArticles;
 }
 
 function asText(maybeContent) {

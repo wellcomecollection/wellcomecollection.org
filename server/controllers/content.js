@@ -9,40 +9,40 @@ import {getCuratedList} from '../services/prismic-curated-lists';
 import {isFlagEnabled} from '../util/flag-status';
 import {collectorsPromo} from '../data/series';
 import {
-  getEditorial,
-  getEditorialList,
-  getEditorialPreview,
+  getArticle,
+  getArticleList,
+  getArticlePreview,
   getEvent,
   getWebcomic
 } from '../services/prismic-content';
 
-export const renderEditorial = async(ctx, next) => {
+export const renderArticle = async(ctx, next) => {
   const format = ctx.request.query.format;
   // We rehydrate the `W` here as we take it off when we have the route.
   const id = `W${ctx.params.id}`;
-  const editorial = await getEditorial(id);
+  const article = await getArticle(id);
 
-  render(ctx, editorial, format);
+  render(ctx, article, format);
 };
 
-export async function renderEditorialPreview(ctx, next) {
+export async function renderArticlePreview(ctx, next) {
   const format = ctx.request.query.format;
   const id = `${ctx.params.id}`;
-  const editorial = await getEditorialPreview(id, ctx.request);
-  render(ctx, editorial, format);
+  const article = await getArticlePreview(id, ctx.request);
+  render(ctx, article, format);
 }
 
-function render(ctx, editorial, format) {
-  if (editorial) {
+function render(ctx, article, format) {
+  if (article) {
     if (format === 'json') {
-      ctx.body = editorial;
+      ctx.body = article;
     } else {
       ctx.render('pages/article', {
         pageConfig: createPageConfig({
-          title: editorial.title,
+          title: article.title,
           inSection: 'explore'
         }),
-        article: editorial
+        article: article
       });
     }
   }
@@ -66,7 +66,7 @@ async function getPreviewSession(token) {
   return new Promise((resolve, reject) => {
     prismic.previewSession(token, (doc) => {
       switch (doc.type) {
-        case 'editorial': return `/preview/${doc.id}`;
+        case 'article': return `/preview/${doc.id}`;
       }
     }, '/', (err, redirectUrl) => {
       if (err) {
@@ -130,7 +130,7 @@ export async function renderExplore(ctx, next) {
   // TODO: Remove WP content
   const [flags] = ctx.intervalCache.get('flags');
   const prismicArticlesOnExploreFlag = isFlagEnabled(ctx.featuresCohort, 'prismicArticlesOnExplore', flags);
-  const contentListPromise = prismicArticlesOnExploreFlag ? getEditorialList() : Promise.resolve([]);
+  const contentListPromise = prismicArticlesOnExploreFlag ? getArticleList() : Promise.resolve([]);
 
   const listRequests = [getCuratedList('explore'), getArticleStubs(10), contentListPromise];
   const [curatedList, articleStubs, contentList] = await Promise.all(listRequests);
