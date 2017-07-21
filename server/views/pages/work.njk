@@ -18,7 +18,7 @@
     <div class="container">
       <div class="grid">
         <div class="{{ {s:12, m:12, l:10, xl:10, shiftL:1, shiftXl:1} | gridClasses }}">
-          {% componentV2 'main-media-work', {contentUrl: work.imgLink, caption: work.description, width: 2048}, {'fit-vh': true}, {sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
+          {% componentV2 'main-media-work', {contentUrl: work.imgLink, caption: work.description, width: 2048, isIiif: true}, {'fit-vh': true}, {sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
         </div>
       </div>
     </div>
@@ -71,4 +71,13 @@
       </div>
     </div>
   </div>
+
+  {% if work.moreInfo %}
+    {% componentV2 'work-drawer', {id: 'more-info', heading: 'More information'}, null, {data: work.moreInfo, topDivider: true} %}
+  {% endif %}
+
+  {% if work.usingImage %}
+    {% componentV2 'work-drawer', {id: 'using-image', heading: 'Using this image'}, null, {data: work.usingImage, bottomSpacing: true} %}
+  {% endif %}
+
 {% endblock %}
