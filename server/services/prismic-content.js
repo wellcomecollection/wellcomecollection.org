@@ -46,7 +46,7 @@ function parseArticleAsArticle(prismicArticle) {
   const publishDate = PrismicDate(prismicArticle.data.publishDate || prismicArticle.first_publication_date || Date.now());
 
   // TODO:
-  const mainMedia = prismicArticle.data.content.filter(slice => slice.slice_label === 'featured').map(slice => {
+  const mainMedia = prismicArticle.data.body.filter(slice => slice.slice_label === 'featured').map(slice => {
     return prismicImageToPicture(slice.primary);
   });
 
@@ -77,7 +77,7 @@ function parseArticleAsArticle(prismicArticle) {
     };
   });
 
-  const bodyParts = convertContentToBodyParts(prismicArticle.data.content);
+  const bodyParts = convertContentToBodyParts(prismicArticle.data.body);
 
   const article: Article = {
     contentType: 'article',
@@ -150,7 +150,7 @@ function convertContentToBodyParts(content) {
           type: 'pre',
           name: '',
           weight: 'standalone',
-          value: asText(slice.primary.content)
+          value: asText(slice.primary.body)
         };
 
       case 'instagramEmbed':
@@ -268,7 +268,7 @@ export async function getEvent(id) {
     datePublished: PrismicDate(event.data.startDate),
     thumbnail: thumbnail,
     author: null, // We don't want author
-    bodyParts: convertContentToBodyParts(event.data.content),
+    bodyParts: convertContentToBodyParts(event.data.body),
     mainMedia: [thumbnail],
     series: [],
 
