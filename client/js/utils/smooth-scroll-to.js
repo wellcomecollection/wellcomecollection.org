@@ -43,7 +43,6 @@ export function smoothScrollTo(destination, duration = 200, easing = 'linear', c
 
   const start = window.pageYOffset;
   const startTime = 'now' in window.performance ? window.performance.now() : new Date().getTime();
-
   const documentHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
   const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
   const destinationOffset = typeof destination === 'number' ? destination : destination.offsetTop;
@@ -62,7 +61,11 @@ export function smoothScrollTo(destination, duration = 200, easing = 'linear', c
 
     window.scroll(0, Math.ceil((timeFunction * (destinationOffsetToScroll - start)) + start));
 
-    if (window.pageYOffset === destinationOffsetToScroll && callback) return callback();
+    if (window.pageYOffset === destinationOffsetToScroll) {
+      if (callback) callback();
+
+      return;
+    }
 
     window.requestAnimationFrame(scroll);
   }

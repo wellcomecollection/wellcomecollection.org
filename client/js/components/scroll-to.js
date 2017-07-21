@@ -7,6 +7,8 @@ export default (el) => {
   el.addEventListener('click', (event) => {
     event.preventDefault();
 
-    smoothScrollTo(elToScrollTo, 600, 'easeInOutQuad');
+    smoothScrollTo(elToScrollTo, 600, 'easeInOutQuad', () => {
+      console.log('done');
+    });
   });
 };
