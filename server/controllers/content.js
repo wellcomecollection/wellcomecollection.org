@@ -1,7 +1,6 @@
 import Prismic from 'prismic-javascript';
 import {OrderedMap} from 'immutable';
 import {prismicApi} from '../services/prismic-api';
-import {getEditorial, getEditorialList, getEditorialPreview, getEvent} from '../services/prismic-content';
 import {createPageConfig} from '../model/page-config';
 import {getEventbriteEventEmbed} from '../services/eventbrite';
 import {PromoFactory} from '../model/promo';
@@ -9,6 +8,13 @@ import {getArticleStubs} from '../services/wordpress';
 import {getCuratedList} from '../services/prismic-curated-lists';
 import {isFlagEnabled} from '../util/flag-status';
 import {collectorsPromo} from '../data/series';
+import {
+  getEditorial,
+  getEditorialList,
+  getEditorialPreview,
+  getEvent,
+  getWebcomic
+} from '../services/prismic-content';
 
 export const renderEditorial = async(ctx, next) => {
   const format = ctx.request.query.format;
@@ -100,6 +106,26 @@ export const renderEventbriteEmbed = async(ctx, next) => {
   return next();
 };
 
+export async function renderWebcomic(ctx, next) {
+  const id = `${ctx.params.id}`;
+  const webcomic = await getWebcomic(id);
+  const format = ctx.request.query.format;
+
+  if (webcomic) {
+    if (format === 'json') {
+      ctx.body = webcomic;
+    } else {
+      ctx.render('pages/article', {
+        pageConfig: createPageConfig({
+          title: webcomic.title,
+          inSection: 'explore'
+        }),
+        article: webcomic
+      });
+    }
+  }
+}
+
 export async function renderExplore(ctx, next) {
   // TODO: Remove WP content
   const [flags] = ctx.intervalCache.get('flags');
@@ -124,7 +150,7 @@ export async function renderExplore(ctx, next) {
   });
 
   const dedupedPromos = promos.reduce((promoMap, promo) => {
-    if (promo.url.match('/articles/W*') || !promoMap.has(promo.title)) {
+    if (promo.url.match('/articles|webcomics/W*') || !promoMap.has(promo.title)) {
       return promoMap.set(promo.title, promo);
     } else {
       return promoMap;

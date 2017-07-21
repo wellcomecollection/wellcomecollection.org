@@ -1,12 +1,17 @@
 import Router from 'koa-router';
 import {healthcheck, featureFlags} from '../controllers/utils';
 import {seriesNav, seriesTransporter, latestInstagramPosts, seriesContainerPromoList} from '../controllers/async-controllers';
-import {
-  renderEditorial, renderEditorialPreview, setPreviewSession, renderEvent,
-  renderEventbriteEmbed, renderExplore
-} from '../controllers/content';
 import {work, search} from '../controllers/work';
 import {index, article, articles, preview, series} from '../controllers'; // Deprecated
+import {
+  renderEditorial,
+  renderEditorialPreview,
+  setPreviewSession,
+  renderEvent,
+  renderEventbriteEmbed,
+  renderExplore,
+  renderWebcomic
+} from '../controllers/content';
 
 const r = new Router({
   sensitive: true
@@ -22,7 +27,7 @@ r.get('/kaboom', (ctx, next) => {
 
 // Content
 r.get('/articles/(W):id', renderEditorial);
-r.get('/editorial/(W):id', renderEditorial);
+r.get('/webcomics/:id', renderWebcomic);
 r.get('/explore', renderExplore);
 r.get('/preview', setPreviewSession);
 r.get('/preview/:id', renderEditorialPreview);
