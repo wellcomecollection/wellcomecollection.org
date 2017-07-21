@@ -29,7 +29,8 @@ export const work = async(ctx, next) => {
   const singleWork = await getWork(id);
   const miroId = singleWork.identifiers[0].value;
   const imgLink = imageUrlFromMiroId(miroId, shouldUseIiif(ctx));
-  const urlWithoutQuery = ctx.originalUrl.split('?')[0];
+  const requestOrigin = ctx.request.origin;
+  const requestPath = ctx.request.path;
 
   ctx.render('pages/work', {
     queryString,
@@ -37,7 +38,7 @@ export const work = async(ctx, next) => {
       title: 'Work',
       inSection: 'explore'
     }),
-    work: Object.assign({}, singleWork, {imgLink, urlWithoutQuery})
+    work: Object.assign({}, singleWork, {imgLink, requestOrigin, requestPath})
   });
 
   return next();

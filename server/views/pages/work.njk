@@ -1,7 +1,7 @@
 {% extends 'layout/default.njk' %}
 
 {% block pageMeta %}
-  <link rel="canonical" href="{{ pageConfig.organization.url }}{{ work.urlWithoutQuery }}" />
+  <link rel="canonical" href="{{ work.requestOrigin }}{{ work.requestPath }}" />
 {% endblock %}
 
 {% block body %}
