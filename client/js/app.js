@@ -26,7 +26,7 @@ import fontObserver from './utils/font-observer';
 import sortSearch from './components/sort-search';
 import backToTop from './components/back-to-top';
 import toggleShowHide from './components/toggle-show-hide';
-import scrollTo from './components/scroll-to';
+import scrollToInfo from './components/scroll-to-info';
 
 const init = () => {
   polyfills.init();
@@ -53,7 +53,7 @@ const init = () => {
   const sortSearchEls = document.querySelectorAll('.js-sort-search');
   const backToTopEl = document.querySelector('.js-back-to-top');
   const toggleShowHideEls = document.querySelectorAll('.js-show-hide');
-  const scrollToEls = document.querySelectorAll('.js-scroll-to');
+  const scrollToInfoEls = document.querySelectorAll('.js-scroll-to-info');
 
   nodeList(gifVideoEls).forEach(gifVideo);
 
@@ -61,7 +61,7 @@ const init = () => {
 
   nodeList(toggleShowHideEls).forEach(toggleShowHide);
 
-  nodeList(scrollToEls).forEach(scrollTo);
+  nodeList(scrollToInfoEls).forEach(scrollToInfo);
 
   if (mainEl) {
     gaScrollDepth(mainEl);

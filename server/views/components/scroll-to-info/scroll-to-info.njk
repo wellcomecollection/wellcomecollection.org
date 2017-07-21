@@ -1,0 +1,9 @@
+<a
+  href="#{{ model.elementId }}"
+  class="scroll-to-info js-scroll-to-info plain-link flex flex--column {{ 'scroll-to-info' | componentClasses(modifiers) if modifiers }} {% for class in data.extraClasses %}{{ class }} {% endfor %}"
+  data-speed="{{ model.speed }}"
+  data-easing="{{ model.easing }}"
+  data-element="{{ model.elementId }}">
+  {% icon 'actions/information', 'scroll to more information', data.extraInformationIconClasses %}
+  {% icon 'actions/chevron-medium', null, data.extraChevronIconClasses %}
+</a>
