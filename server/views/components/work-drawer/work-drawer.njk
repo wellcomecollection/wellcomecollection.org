@@ -1,0 +1,47 @@
+{% extends '../drawer/drawer.njk' %}
+
+{% block drawerHeader %}
+  <div class="row">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s: 12, xl: 10, shiftXl: 1} | gridClasses }}">
+          {% if data.topDivider %}
+            <hr class="divider divider--black divider--keyline" />
+          {% endif %}
+          {{ super() }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block drawerBody %}
+  <div class="row">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s: 12, m: 6, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
+          {% for item in data.data %}
+            {% set needsDivider = loop.index % 2 === 1 and loop.index < data.data.length %}
+            {% componentV2 'meta-unit', {headingText: item.title, content: item.content, includeDivider: needsDivider} %}
+            {% if loop.index % 2 === 0 and loop.index < data.data.length %}
+        </div>
+        <div class="{{ {s: 12, m: 6, l: 5, xl: 4} | gridClasses }}">
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block drawerDivider %}
+  <div class="row {% if data.bottomSpacing %} {{ {s:3, m:3, l:3, xl: 3} | spacingClasses({padding: ['bottom']}) }}{% endif %}">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s: 12, xl: 10, shiftXl: 1} | gridClasses }}">
+          {{ super() }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

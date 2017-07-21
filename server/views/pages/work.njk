@@ -60,4 +60,13 @@
       </div>
     </div>
   </div>
+
+  {% if work.moreInfo %}
+    {% componentV2 'work-drawer', {id: 'more-info', heading: 'More information'}, null, {data: work.moreInfo, topDivider: true} %}
+  {% endif %}
+
+  {% if work.usingImage %}
+    {% componentV2 'work-drawer', {id: 'using-image', heading: 'Using this image'}, null, {data: work.usingImage, bottomSpacing: true} %}
+  {% endif %}
+
 {% endblock %}
