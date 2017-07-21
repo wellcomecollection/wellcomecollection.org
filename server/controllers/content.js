@@ -142,7 +142,7 @@ export async function renderExplore(ctx, next) {
   }).reverse();
 
   const dedupedPromos = promos.reduce((promoMap, promo) => {
-    if (promo.url.match('/articles|webcomics/W*') || !promoMap.has(promo.title)) {
+    if (promo.url.match('/webcomics') || !promoMap.has(promo.title)) {
       return promoMap.set(promo.title, promo);
     } else {
       return promoMap;
