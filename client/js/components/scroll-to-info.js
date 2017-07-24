@@ -5,8 +5,8 @@ import { getDocumentHeight, getWindowHeight } from '../util';
 
 export default (el) => {
   const elToScrollTo = document.querySelector(el.getAttribute('href'));
-  const speed = 1000;
-  const easing = 'inOutQuad';
+  const duration = 1000;
+  const ease = 'inOutQuad';
 
   el.addEventListener('click', (event) => {
     event.preventDefault();
@@ -16,13 +16,12 @@ export default (el) => {
     const elOffset = elToScrollTo.offsetTop;
     const scrollTop = Math.round(documentHeight - elOffset < windowHeight ? documentHeight - windowHeight : elOffset);
 
-    anim(document.documentElement, 'scrollTop', scrollTop, {
-      duration: speed,
-      ease: easing
-    }, () => {
-      elToScrollTo.classList.add('no-visible-focus');
-      elToScrollTo.setAttribute('tabindex', -1);
-      elToScrollTo.focus();
+    [document.documentElement, document.body].forEach(el => {
+      anim(el, 'scrollTop', scrollTop, {duration, ease}, () => {
+        elToScrollTo.classList.add('no-visible-focus');
+        elToScrollTo.setAttribute('tabindex', -1);
+        elToScrollTo.focus();
+      });
     });
   });
 };
