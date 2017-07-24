@@ -1,8 +1,8 @@
 {# TODO: pass in font sizes as data? #}
 {% if model.modifiers and model.modifiers | contains('large-text') %}
-  {% set typeFontSizes = {s:'HNL7', l:'HNL5'} %}
+  {% set typeFontSizes = {s:'HNL6', l:'HNL5'} %}
 {% elif model.modifiers and model.modifiers | contains('transporter-child') %}
-  {% set typeFontSizes = {s:'HNL7'} %}
+  {% set typeFontSizes = {s:'HNL6'} %}
 {% else %}
   {% set typeFontSizes = {s:'HNL5'} %}
 {% endif %}
@@ -22,7 +22,7 @@
 {% endif %}
 
 {% if model.modifiers and model.modifiers | contains('transporter-child') %}
-  {% set dateFontSizes = {s:'HNL7'} %}
+  {% set dateFontSizes = {s:'HNL6'} %}
 {% else %}
   {% set dateFontSizes = {s:'HNL5'} %}
 {% endif %}
@@ -69,7 +69,7 @@
       {% endif %}
 
       {% if model.contentType === 'gallery' or model.contentType === 'audio' or model.contentType === 'video' %}
-        <div class="promo__icon-container {{ {s:'HNL7'} | fontClasses }}">
+        <div class="promo__icon-container {{ {s:'HNL6'} | fontClasses }}">
           {% icon model.contentType | getIconForContentType %}
           {% if model.contentType === 'gallery' and model.length %}
             <span class="promo__length"><span class="promo__sr">Gallery with</span> {{ model.length }} <span class="promo__sr">item{{ 's' if model.length > 1 }}</span></span>
