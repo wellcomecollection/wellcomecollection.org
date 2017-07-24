@@ -23,8 +23,6 @@ pushd "$DIR/terraform/$DEPLOY_ENV"
   terraform get
   terraform apply -target=module.wellcomecollection.aws_ecs_task_definition.wellcomecollection \
                   -target=module.wellcomecollection.aws_ecs_service.wellcomecollection \
-                  -target=module.wellcomecollection.aws_ecs_task_definition.thumbor \
-                  -target=module.wellcomecollection.aws_ecs_service.thumbor \
                   -var "container_tag=$CONTAINER_TAG"
 
   rm -f "terraform.tfvars"
