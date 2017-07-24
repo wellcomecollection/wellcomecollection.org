@@ -5,17 +5,18 @@ import {RichText, Date as PrismicDate} from 'prismic-dom';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import moment from 'moment';
 
-export async function getEditorialPreview(id: string, req) {
+export async function getArticlePreview(id: string, req) {
   const prismic = await prismicPreviewApi(req);
-  return getEditorialAsArticle(prismic, id);
+  return getArticleAsArticle(prismic, id);
 }
 
-export async function getEditorial(id: string) {
+export async function getArticle(id: string) {
   const prismic = await prismicApi();
-  return getEditorialAsArticle(prismic, id);
+
+  return getArticleAsArticle(prismic, id);
 }
 
-async function getEditorialAsArticle(prismic, id: string) {
+async function getArticleAsArticle(prismic, id: string) {
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'books.title', 'books.title', 'books.author', 'books.isbn', 'books.publisher', 'books.link', 'books.cover',
@@ -26,7 +27,7 @@ async function getEditorialAsArticle(prismic, id: string) {
     Prismic.Predicates.at('document.id', id)
     // This should be here, but Prismic is borked, and I need this to work now.
     // TODO: Put this back once Prismic are on it.
-    // Prismic.Predicates.any('document.type', ['editorial', 'events'])
+    // Prismic.Predicates.any('document.type', ['article', 'events'])
   ], {fetchLinks});
   const prismicArticle = articles.total_results_size === 1 ? articles.results[0] : null;
 
@@ -34,12 +35,13 @@ async function getEditorialAsArticle(prismic, id: string) {
     return null;
   }
 
-  return parseEditorialAsArticle(prismicArticle);
+  return parseArticleAsArticle(prismicArticle);
 }
 
-function parseEditorialAsArticle(prismicArticle) {
+function parseArticleAsArticle(prismicArticle) {
   // TODO : construct this not from strings
-  const url = `/editorial/${prismicArticle.id}`;
+  const url = `/articles/${prismicArticle.id}`;
+
   // We fallback to `Date.now()` in case we're in preview and don't have a published date
   const publishDate = PrismicDate(prismicArticle.data.publishDate || prismicArticle.first_publication_date || Date.now());
 
@@ -208,27 +210,32 @@ function prismicImageToPicture(prismicImage) {
     contentUrl: convertPrismicToImgIxUri(prismicImage.image.url), // TODO: Send this through the img.wc.org
     width: prismicImage.image.dimensions.width,
     height: prismicImage.image.dimensions.height,
-    caption: prismicImage.caption.length !== 0 ? asText(prismicImage.caption) : prismicImage.image.alt, // TODO: Support HTML
+    caption: prismicImage.caption && prismicImage.caption.length !== 0 && asText(prismicImage.caption), // TODO: Support HTML
     alt: prismicImage.image.alt,
     copyrightHolder: prismicImage.image.copyright
   }: Picture);
 }
 
-export async function getEditorialList() {
+export async function getArticleList(documentTypes = ['articles', 'webcomics']) {
   const fetchLinks = [
     'series.name', 'series.description', 'series.color', 'series.commissionedLength'
   ];
   const prismic = await prismicApi();
-  const editorialList = await prismic.query([
-    Prismic.Predicates.at('document.type', 'editorial')
+  const articlesList = await prismic.query([
+    Prismic.Predicates.any('document.type', documentTypes)
   ], {fetchLinks});
 
-  const editorialAsArticles = editorialList.results.map(parseEditorialAsArticle);
-  return editorialAsArticles;
+  const articlesAsArticles = articlesList.results.map(result => {
+    switch (result.type) {
+      case 'articles': return parseArticleAsArticle(result);
+      case 'webcomics': return parseWebcomicAsArticle(result);
+    }
+  });
+  return articlesAsArticles;
 }
 
 function asText(maybeContent) {
-  return maybeContent && RichText.asText(maybeContent);
+  return maybeContent && RichText.asText(maybeContent).trim();
 }
 
 export async function getEvent(id) {
@@ -278,6 +285,68 @@ export async function getEvent(id) {
       };
     }),
     contributors: contributors
+  };
+
+  return article;
+}
+
+export async function getWebcomic(id) {
+  const prismic = await prismicApi();
+  const fetchLinks = [
+    'people.name', 'people.image', 'people.twitterHandle', 'people.description',
+    'access-statements.title', 'access-statements.description',
+    'series.name', 'series.description', 'series.color', 'series.commissionedLength'
+  ];
+  const webcomics = await prismic.query(Prismic.Predicates.at('document.id', id), {fetchLinks});
+  const webcomic = webcomics.total_results_size === 1 ? webcomics.results[0] : null;
+
+  return parseWebcomicAsArticle(webcomic);
+}
+
+// TODO: There's some abstracting to do here
+function parseWebcomicAsArticle(prismicDoc) {
+  // TODO : construct this not from strings
+  const url = `/webcomics/${prismicDoc.id}`;
+
+  // TODO: potentially get rid of this
+  const publishDate = PrismicDate(prismicDoc.data.publishDate || prismicDoc.first_publication_date);
+  const mainMedia = [prismicImageToPicture({ image: prismicDoc.data.image })];
+
+  // TODO: Don't convert this into thumbnail
+  const promo = prismicDoc.data.promo.find(slice => slice.slice_type === 'editorialImage');
+  const thumbnail = promo && prismicImageToPicture(promo.primary);
+  const description = asText(promo.primary.caption); // TODO: Do not use description
+
+  // TODO: Support more than 1 author
+  // TODO: Support creator's role
+  const creator = prismicDoc.data.contributors.find(creator => creator.slice_type === 'person');
+  const person = creator && creator.primary.person.data;
+  const author = person && {
+    name: person.name,
+    twitterHandle: person.twitterHandle,
+    image: person.image.url,
+    description: asText(person.description)
+  };
+
+  const series = prismicDoc.data.series.length > 0 && prismicDoc.data.series.map(prismicSeries => {
+    const seriesData = prismicSeries.primary.series.data;
+    return {
+      name: seriesData.name,
+      description: seriesData.description
+    };
+  });
+
+  const article: Article = {
+    contentType: 'comic',
+    headline: asText(prismicDoc.data.title),
+    url: url,
+    datePublished: publishDate,
+    thumbnail: thumbnail,
+    author: author,
+    series: series,
+    bodyParts: [],
+    mainMedia: mainMedia,
+    description: description
   };
 
   return article;

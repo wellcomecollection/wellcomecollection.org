@@ -1,6 +1,6 @@
 import Prismic from 'prismic-javascript';
+import {OrderedMap} from 'immutable';
 import {prismicApi} from '../services/prismic-api';
-import {getEditorial, getEditorialList, getEditorialPreview, getEvent} from '../services/prismic-content';
 import {createPageConfig} from '../model/page-config';
 import {getEventbriteEventEmbed} from '../services/eventbrite';
 import {PromoFactory} from '../model/promo';
@@ -8,34 +8,41 @@ import {getArticleStubs} from '../services/wordpress';
 import {getCuratedList} from '../services/prismic-curated-lists';
 import {isFlagEnabled} from '../util/flag-status';
 import {collectorsPromo} from '../data/series';
+import {
+  getArticle,
+  getArticleList,
+  getArticlePreview,
+  getEvent,
+  getWebcomic
+} from '../services/prismic-content';
 
-export const renderEditorial = async(ctx, next) => {
+export const renderArticle = async(ctx, next) => {
   const format = ctx.request.query.format;
   // We rehydrate the `W` here as we take it off when we have the route.
   const id = `W${ctx.params.id}`;
-  const editorial = await getEditorial(id);
+  const article = await getArticle(id);
 
-  render(ctx, editorial, format);
+  render(ctx, article, format);
 };
 
-export async function renderEditorialPreview(ctx, next) {
+export async function renderArticlePreview(ctx, next) {
   const format = ctx.request.query.format;
   const id = `${ctx.params.id}`;
-  const editorial = await getEditorialPreview(id, ctx.request);
-  render(ctx, editorial, format);
+  const article = await getArticlePreview(id, ctx.request);
+  render(ctx, article, format);
 }
 
-function render(ctx, editorial, format) {
-  if (editorial) {
+function render(ctx, article, format) {
+  if (article) {
     if (format === 'json') {
-      ctx.body = editorial;
+      ctx.body = article;
     } else {
       ctx.render('pages/article', {
         pageConfig: createPageConfig({
-          title: editorial.title,
+          title: article.title,
           inSection: 'explore'
         }),
-        article: editorial
+        article: article
       });
     }
   }
@@ -99,11 +106,35 @@ export const renderEventbriteEmbed = async(ctx, next) => {
   return next();
 };
 
+export async function renderWebcomic(ctx, next) {
+  const id = `${ctx.params.id}`;
+  const webcomic = await getWebcomic(id);
+  const format = ctx.request.query.format;
+
+  if (webcomic) {
+    if (format === 'json') {
+      ctx.body = webcomic;
+    } else {
+      ctx.render('pages/article', {
+        pageConfig: createPageConfig({
+          title: webcomic.title,
+          inSection: 'explore'
+        }),
+        article: webcomic
+      });
+    }
+  }
+}
+
 export async function renderExplore(ctx, next) {
   // TODO: Remove WP content
   const [flags] = ctx.intervalCache.get('flags');
   const prismicArticlesOnExploreFlag = isFlagEnabled(ctx.featuresCohort, 'prismicArticlesOnExplore', flags);
-  const contentListPromise = prismicArticlesOnExploreFlag ? getEditorialList() : Promise.resolve([]);
+  const webcomicsFromPrismicFlag = isFlagEnabled(ctx.featuresCohort, 'webcomicsFromPrismic', flags);
+  const contentListPromise =
+    prismicArticlesOnExploreFlag ? getArticleList()
+    : webcomicsFromPrismicFlag ? getArticleList(['webcomics'])
+    : Promise.resolve([]);
 
   const listRequests = [getCuratedList('explore'), getArticleStubs(10), contentListPromise];
   const [curatedList, articleStubs, contentList] = await Promise.all(listRequests);
@@ -112,9 +143,15 @@ export async function renderExplore(ctx, next) {
   const contentPromos = contentList.map(PromoFactory.fromArticleStub);
   const promos = wpPromos.concat(contentPromos).sort((a, b) => {
     return a.datePublished.getTime() - b.datePublished.getTime();
-  })
-  .reverse()
-  .map((promo, index) => {
+  }).reverse();
+
+  const dedupedPromos = promos.reduce((promoMap, promo) => {
+    if (promo.url.match(/articles\/W|webcomics\//) || !promoMap.has(promo.title)) {
+      return promoMap.set(promo.title, promo);
+    } else {
+      return promoMap;
+    }
+  }, OrderedMap()).toList().map((promo, index) => {
     if (index === 0) { // First promo on Explore page is treated differently
       return Object.assign({}, promo, {weight: 'lead'});
     } else {
@@ -131,7 +168,7 @@ export async function renderExplore(ctx, next) {
       inSection: 'explore',
       category: 'list'
     }),
-    promos,
+    promos: dedupedPromos,
     curatedList,
     collectorsPromo, // TODO: Remove this, make it automatic
     latestTweets
