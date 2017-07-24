@@ -21,7 +21,7 @@ pushd "$DIR/terraform/$DEPLOY_ENV"
   echo "Terraforming"
   terraform init
   terraform get
-  terraform plan
+  terraform plan -var "container_tag=$CONTAINER_TAG"
   rm -f "terraform.tfvars"
 popd
 
