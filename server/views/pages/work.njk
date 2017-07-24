@@ -3,12 +3,12 @@
 {% block pageMeta %}{% endblock %}
 
 {% block body %}
-  {% if queryString %}
+  {% if pageConfig.referer | isRefererSearch(pageConfig.requestOrigin) %}
     <div class="row row--black {{ {s:2} | spacingClasses({padding: ['top', 'bottom']}) }}">
       <div class="container">
         <div class="grid">
           <div class="{{ {s:12, m:12, l:12, xl: 12} | gridClasses }}">
-            {% componentV2 'return-to-results', {queryString: queryString} %}
+            {% componentV2 'return-to-results', {referer: pageConfig.referer} %}
           </div>
         </div>
       </div>

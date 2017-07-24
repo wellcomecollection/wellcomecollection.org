@@ -25,16 +25,18 @@ function shouldUseIiif(ctx) {
 
 export const work = async(ctx, next) => {
   const id = ctx.params.id;
-  const queryString = ctx.search;
   const singleWork = await getWork(id);
   const miroId = singleWork.identifiers[0].value;
   const imgLink = imageUrlFromMiroId(miroId, shouldUseIiif(ctx));
+  const referer = ctx.request.header.referer;
+  const requestOrigin = ctx.request.origin;
 
   ctx.render('pages/work', {
-    queryString,
     pageConfig: createPageConfig({
       title: 'Work',
-      inSection: 'explore'
+      inSection: 'explore',
+      referer,
+      requestOrigin
     }),
     work: Object.assign({}, singleWork, {imgLink})
   });

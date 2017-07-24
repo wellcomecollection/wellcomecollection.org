@@ -21,6 +21,7 @@ import {arrayFromObject} from './array-from-object';
 import {groupBodyParts} from './group-body-parts';
 import {isString} from './is-string';
 import {createLinkObject, getLinkObjects} from './get-link-objects';
+import {isRefererSearch} from './is-referer-search';
 
 export default Map({
   youtubeEmbedUrl,
@@ -47,5 +48,6 @@ export default Map({
   groupBodyParts,
   isString,
   createLinkObject,
-  getLinkObjects
+  getLinkObjects,
+  isRefererSearch
 });
