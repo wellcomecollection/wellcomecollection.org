@@ -48,6 +48,14 @@
   }
 }
 
+@each $color-key, $color-value in $colors {
+  .bg-#{$color-key} {
+    // stylelint-disable sh-waqar/declaration-use-variable
+    background: nth($color-value, 1);
+    // stylelint-enable sh-waqar/declaration-use-variable
+  }
+}
+
 .is-hidden {
   // This should trump other display styles
   // stylelint-disable declaration-no-important
