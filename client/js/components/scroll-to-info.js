@@ -1,5 +1,3 @@
-// TODO: work out how to reduce motion for a user who
-// 'prefers-reduced-motion' - https://css-tricks.com/introduction-reduced-motion-media-query/
 import anim from 'anim';
 import { getDocumentHeight, getWindowHeight } from '../util';
 
@@ -7,8 +5,11 @@ export default (el) => {
   const elToScrollTo = document.querySelector(el.getAttribute('href'));
   const duration = 1000;
   const ease = 'inOutQuad';
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion)').matches;
 
   el.addEventListener('click', (event) => {
+    if (prefersReducedMotion) return;
+
     event.preventDefault();
 
     const documentHeight = getDocumentHeight();
