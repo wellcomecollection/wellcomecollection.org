@@ -150,7 +150,7 @@ function convertContentToBodyParts(content) {
           type: 'pre',
           name: '',
           weight: 'standalone',
-          value: asText(slice.primary.body)
+          value: asText(slice.primary.content)
         };
 
       case 'instagramEmbed':
