@@ -130,7 +130,11 @@ export async function renderExplore(ctx, next) {
   // TODO: Remove WP content
   const [flags] = ctx.intervalCache.get('flags');
   const prismicArticlesOnExploreFlag = isFlagEnabled(ctx.featuresCohort, 'prismicArticlesOnExplore', flags);
-  const contentListPromise = prismicArticlesOnExploreFlag ? getArticleList() : Promise.resolve([]);
+  const webcomicsFromPrismicFlag = isFlagEnabled(ctx.featuresCohort, 'webcomicsFromPrismic', flags);
+  const contentListPromise =
+    prismicArticlesOnExploreFlag ? getArticleList()
+    : webcomicsFromPrismicFlag ? getArticleList(['webcomics'])
+    : Promise.resolve([]);
 
   const listRequests = [getCuratedList('explore'), getArticleStubs(10), contentListPromise];
   const [curatedList, articleStubs, contentList] = await Promise.all(listRequests);

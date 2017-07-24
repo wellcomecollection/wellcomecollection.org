@@ -216,13 +216,13 @@ function prismicImageToPicture(prismicImage) {
   }: Picture);
 }
 
-export async function getArticleList() {
+export async function getArticleList(documentTypes = ['articles', 'webcomics']) {
   const fetchLinks = [
     'series.name', 'series.description', 'series.color', 'series.commissionedLength'
   ];
   const prismic = await prismicApi();
   const articlesList = await prismic.query([
-    Prismic.Predicates.any('document.type', ['articles', 'webcomics'])
+    Prismic.Predicates.any('document.type', documentTypes)
   ], {fetchLinks});
 
   const articlesAsArticles = articlesList.results.map(result => {
