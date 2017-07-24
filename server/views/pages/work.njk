@@ -1,6 +1,8 @@
 {% extends 'layout/default.njk' %}
 
-{% block pageMeta %}{% endblock %}
+{% block pageMeta %}
+  <link rel="canonical" href="{{ work.requestOrigin }}{{ work.requestPath }}" />
+{% endblock %}
 
 {% block body %}
   {% if queryString %}
