@@ -54,7 +54,6 @@ jobs:
               docker push wellcome/wellcomecollection:$CIRCLE_BUILD_NUM
 
               pushd nginx-proxy && ./docker-build.sh $CIRCLE_BUILD_NUM && ./docker-push.sh $CIRCLE_BUILD_NUM && popd
-              pushd thumbor && ./docker-build.sh $CIRCLE_BUILD_NUM && ./docker-push.sh $CIRCLE_BUILD_NUM && popd
 
               ./build-cardigan.sh
               ./build-speedtracker.sh

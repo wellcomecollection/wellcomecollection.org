@@ -64,37 +64,6 @@ resource "aws_alb_listener" "wellcomecollection_https" {
   }
 }
 
-resource "aws_alb_listener_rule" "thumbor" {
-  listener_arn = "${aws_alb_listener.wellcomecollection_https.arn}"
-  priority     = 99
-
-  action {
-    type             = "forward"
-    target_group_arn = "${aws_alb_target_group.thumbor.arn}"
-  }
-
-  condition {
-    field  = "host-header"
-    values = ["img.wellcomecollection.org"]
-  }
-}
-
-resource "aws_alb_target_group" "thumbor" {
-  name     = "thumbor"
-  port     = 8000
-  protocol = "HTTP"
-  vpc_id   = "${aws_vpc.wellcomecollection.id}"
-
-  health_check {
-    healthy_threshold   = 5
-    unhealthy_threshold = 2
-    timeout             = 5
-    protocol            = "HTTP"
-    path                = "/unsafe/300x300/wellcomecollection.files.wordpress.com/2017/04/es-05-04-l0086283-16-9.jpg"
-    interval            = 30
-  }
-}
-
 # TODO: We are manually applying the email subscription to this topic as terraform doesn't support
 # the email protocol for good reason. See:
 # https://www.terraform.io/docs/providers/aws/r/sns_topic_subscription.html#protocols-supported
