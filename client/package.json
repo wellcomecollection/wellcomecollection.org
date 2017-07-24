@@ -34,6 +34,7 @@
     "compile:dev": "gulp dev --dev"
   },
   "dependencies": {
+    "anim": "0.0.1",
     "cookie-cutter": "^0.2.0",
     "core-js": "^2.4.1",
     "fastdom": "^1.0.6",
