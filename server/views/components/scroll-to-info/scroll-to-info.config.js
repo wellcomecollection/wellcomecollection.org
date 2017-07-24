@@ -5,8 +5,8 @@ export const display = {
 export const context = {
   model: {
     elementId: 'work-info',
-    speed: 1000,
-    easing: 'easeInOutQuad'
+    speed: 1,
+    easing: 'ease'
   },
   modifiers: {
     'work': true
