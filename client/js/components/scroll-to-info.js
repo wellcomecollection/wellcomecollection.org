@@ -1,3 +1,5 @@
+// TODO: work out how to reduce motion for a user who
+// 'prefers-reduced-motion' - https://css-tricks.com/introduction-reduced-motion-media-query/
 import anim from 'anim';
 import { getDocumentHeight, getWindowHeight } from '../util';
 
