@@ -49,9 +49,9 @@ EOF
 
 resource "aws_autoscaling_group" "wellcomecollection_ecs_asg" {
   name                 = "wellcomecollection-cluster-instances"
-  desired_capacity     = 3
-  min_size             = 3
-  max_size             = 6
+  desired_capacity     = 2
+  min_size             = 2
+  max_size             = 4
   health_check_type    = "EC2"
   launch_configuration = "${aws_launch_configuration.wellcomecollection_ecs.id}"
   vpc_zone_identifier  = ["${aws_subnet.public_a.id}", "${aws_subnet.public_b.id}"]
