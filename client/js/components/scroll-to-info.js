@@ -2,10 +2,10 @@ import anim from 'anim';
 import { getDocumentHeight, getWindowHeight } from '../util';
 
 export default (el) => {
-  const idToScrollTo = el.getAttribute('data-element');
+  const idToScrollTo = el.getAttribute('href').slice(1);
   const elToScrollTo = document.getElementById(idToScrollTo);
-  const speed = el.getAttribute('data-speed') || 1000;
-  const easing = el.getAttribute('data-easing') || 'linear';
+  const speed = 1000;
+  const easing = 'inOutQuad';
 
   el.addEventListener('click', (event) => {
     event.preventDefault();
