@@ -11,5 +11,8 @@
 .scroll-to-info--work {
   position: relative;
   transform: translateY(0);
-  animation: scrollToWobble 2s ease-in-out 3 forwards;
+
+  .icon {
+    animation: scrollToWobble 2s ease-in-out 3 forwards;
+  }
 }
