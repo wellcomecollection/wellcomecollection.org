@@ -2,8 +2,7 @@ import anim from 'anim';
 import { getDocumentHeight, getWindowHeight } from '../util';
 
 export default (el) => {
-  const idToScrollTo = el.getAttribute('href').slice(1);
-  const elToScrollTo = document.getElementById(idToScrollTo);
+  const elToScrollTo = document.querySelector(el.getAttribute('href'));
   const speed = 1000;
   const easing = 'inOutQuad';
 
