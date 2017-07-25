@@ -1,4 +1,4 @@
-@keyframes scrollToWobble {
+@keyframes scroll-to-info-animate-icons {
   0% {
     transform: translateY(0);
   }
@@ -13,6 +13,6 @@
   transform: translateY(0);
 
   .icon {
-    animation: scrollToWobble 2s ease-in-out 3 forwards;
+    animation: scroll-to-info-animate-icons 2s ease-in-out 3 forwards;
   }
 }
