@@ -86,6 +86,10 @@
   display: flex;
 }
 
+.flex--column {
+  flex-direction: column;
+}
+
 .flex-inline {
   display: inline-flex;
 }
@@ -113,6 +117,13 @@
 
 .plain-link {
   text-decoration: none;
+}
+
+.no-visible-focus {
+  &,
+  &:focus {
+    outline: 0;
+  }
 }
 
 .link-underline {

@@ -5,7 +5,6 @@ import {work, search} from '../controllers/work';
 import {index, article, articles, preview, series} from '../controllers'; // Deprecated
 import {
   renderArticle,
-  renderArticlePreview,
   setPreviewSession,
   renderEvent,
   renderEventbriteEmbed,
@@ -26,11 +25,11 @@ r.get('/kaboom', (ctx, next) => {
 });
 
 // Content
-r.get('/articles/(W):id', renderArticle);
-r.get('/webcomics/:id', renderWebcomic);
+//
+r.get('/:preview?/articles/(W):id', renderArticle);
+r.get('/:preview?/webcomics/:id', renderWebcomic);
 r.get('/explore', renderExplore);
 r.get('/preview', setPreviewSession);
-r.get('/preview/:id', renderArticlePreview);
 r.get('/events/:id', renderEvent);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 

@@ -60,7 +60,7 @@
     "no-missing-end-of-source-newline": true,
     "color-no-invalid-hex": true,
     "color-hex-case": "lower",
-    "selector-no-id": true,
+    "selector-max-id": 0,
     "declaration-no-important": true,
     "number-leading-zero": "always",
     "no-duplicate-selectors": true,

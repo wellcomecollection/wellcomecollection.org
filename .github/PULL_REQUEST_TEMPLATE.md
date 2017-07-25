@@ -7,6 +7,8 @@ Fixes/Closes/References #
 📈 Test  
 🚑 Health
 
+- [ ] Demoed to @
+
 ## Value
 <!-- how does this add value? -->
 
@@ -15,7 +17,6 @@ Fixes/Closes/References #
 
 ## Checklist
 ### All
-- [ ] Demoed to the relevant people
 - [ ] PR labelled and assigned
 - [ ] Any introduced code complexity has been flagged
 

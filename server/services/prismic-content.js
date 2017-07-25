@@ -5,18 +5,24 @@ import {RichText, Date as PrismicDate} from 'prismic-dom';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import moment from 'moment';
 
-export async function getArticlePreview(id: string, req) {
-  const prismic = await prismicPreviewApi(req);
-  return getArticleAsArticle(prismic, id);
+function getContributors(doc) {
+  // TODO: Support creator's role
+  return doc.data.contributors
+    .filter(creator => creator.slice_type === 'person')
+    .map(slice => slice.primary.person.data)
+    .map(person => {
+      return {
+        name: person.name,
+        twitterHandle: person.twitterHandle,
+        image: person.image && person.image.url,
+        description: asText(person.description)
+      };
+    });
 }
 
-export async function getArticle(id: string) {
-  const prismic = await prismicApi();
+export async function getArticle(id: string, req: Request) {
+  const prismic = req ? await prismicPreviewApi(req) : await prismicApi();
 
-  return getArticleAsArticle(prismic, id);
-}
-
-async function getArticleAsArticle(prismic, id: string) {
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'books.title', 'books.title', 'books.author', 'books.isbn', 'books.publisher', 'books.link', 'books.cover',
@@ -54,19 +60,7 @@ function parseArticleAsArticle(prismicArticle) {
   const promo = prismicArticle.data.promo.find(slice => slice.slice_type === 'editorialImage');
   const thumbnail = promo && prismicImageToPicture(promo.primary);
   const description = promo && asText(promo.primary.caption); // TODO: Do not use description
-
-  // TODO: Support creator's role
-  const authors = prismicArticle.data.contributors
-    .filter(creator => creator.slice_type === 'person')
-    .map(slice => slice.primary.person.data)
-    .map(person => {
-      return {
-        name: person.name,
-        twitterHandle: person.twitterHandle,
-        image: person.image && person.image.url,
-        description: asText(person.description)
-      };
-    });
+  const contributors = getContributors(prismicArticle);
 
   const series = prismicArticle.data.series.length > 0 && prismicArticle.data.series.map(prismicSeries => {
     const seriesData = prismicSeries.primary.series.data;
@@ -85,7 +79,7 @@ function parseArticleAsArticle(prismicArticle) {
     url: url,
     datePublished: publishDate,
     thumbnail: thumbnail,
-    author: authors,
+    author: contributors,
     series: series,
     bodyParts: bodyParts,
     mainMedia: mainMedia,
@@ -218,6 +212,7 @@ function prismicImageToPicture(prismicImage) {
 
 export async function getArticleList(documentTypes = ['articles', 'webcomics']) {
   const fetchLinks = [
+    'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'series.name', 'series.description', 'series.color', 'series.commissionedLength'
   ];
   const prismic = await prismicApi();
@@ -252,15 +247,8 @@ export async function getEvent(id) {
   }
   const promo = event.data.promo.find(slice => slice.slice_type === 'editorialImage');
   const thumbnail = promo && prismicImageToPicture(promo.primary);
+  const contributors = getContributors(event);
 
-  const contributors = event.data.contributors.filter(contrib => contrib.slice_type === 'person').map(contrib => {
-    return {
-      name: contrib.primary.person.data.name,
-      twitterHandle: contrib.primary.person.data.twitterHandle,
-      image: contrib.primary.person.data.image && contrib.image.url,
-      description: RichText.asText(contrib.primary.person.data.description)
-    };
-  });
   const article: Article = {
     contentType: 'article',
     headline: asText(event.data.title),
@@ -290,8 +278,8 @@ export async function getEvent(id) {
   return article;
 }
 
-export async function getWebcomic(id) {
-  const prismic = await prismicApi();
+export async function getWebcomic(id: string, req: Request) {
+  const prismic = req ? await prismicPreviewApi(req) : await prismicApi();
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'access-statements.title', 'access-statements.description',
@@ -316,18 +304,7 @@ function parseWebcomicAsArticle(prismicDoc) {
   const promo = prismicDoc.data.promo.find(slice => slice.slice_type === 'editorialImage');
   const thumbnail = promo && prismicImageToPicture(promo.primary);
   const description = asText(promo.primary.caption); // TODO: Do not use description
-
-  // TODO: Support more than 1 author
-  // TODO: Support creator's role
-  const creator = prismicDoc.data.contributors.find(creator => creator.slice_type === 'person');
-  const person = creator && creator.primary.person.data;
-  const author = person && {
-    name: person.name,
-    twitterHandle: person.twitterHandle,
-    image: person.image.url,
-    description: asText(person.description)
-  };
-
+  const contributors = getContributors(prismicDoc);
   const series = prismicDoc.data.series.length > 0 && prismicDoc.data.series.map(prismicSeries => {
     const seriesData = prismicSeries.primary.series.data;
     return {
@@ -342,7 +319,7 @@ function parseWebcomicAsArticle(prismicDoc) {
     url: url,
     datePublished: publishDate,
     thumbnail: thumbnail,
-    author: author,
+    author: contributors,
     series: series,
     bodyParts: [],
     mainMedia: mainMedia,

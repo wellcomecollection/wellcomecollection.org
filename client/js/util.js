@@ -114,3 +114,11 @@ export function on(delegateElSelector: string, eventName: Event, eventElSelector
     });
   });
 }
+
+export function getDocumentHeight() {
+  return Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
+}
+
+export function getWindowHeight() {
+  return window.innerHeight;
+}
