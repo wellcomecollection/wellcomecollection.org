@@ -112,7 +112,7 @@
 }
 
 .styleguide__font__value {
-  @include font('HNL7');
+  @include font('HNL6');
   display: inline;
   margin: 0 20px 0 0;
 }
@@ -123,7 +123,7 @@
 }
 
 .styleguide__font__usage-text {
-  @include font('HNL7');
+  @include font('HNL6');
   color: color('silver');
   display: inline;
 }

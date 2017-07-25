@@ -139,14 +139,6 @@ export const context = {
     },
     {
       name: 'HNL5',
-      example: 'Featured Series',
-      size: '14px',
-      spacing: '80',
-      lineHeight: '24px',
-      usage: 'Library main body/data copy • Label when Helv Neue Medium is used for button (e.g. Sort by) • Article label • Article datestamp'
-    },
-    {
-      name: 'HNL6',
       example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris at hendrerit justo. Donec quis nibh malesuada, accumsan libero eu, commodo.',
       size: '14px',
       spacing: '40',
@@ -154,7 +146,7 @@ export const context = {
       usage: 'Article card/link descriptions • Descriptive copy in cards/thumb links'
     },
     {
-      name: 'HNL7',
+      name: 'HNL6',
       example: 'of 400',
       size: '12px',
       spacing: '80',
@@ -162,7 +154,7 @@ export const context = {
       usage: 'Page jumper in book item viewer • Smallprint • Archive/Collection card description • Datestamps on cards/links'
     },
     {
-      name: 'HNL8',
+      name: 'HNL7',
       example: 'Enter your email *',
       size: '11px',
       spacing: '80',
