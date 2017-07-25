@@ -5,17 +5,6 @@ import {RichText, Date as PrismicDate} from 'prismic-dom';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import moment from 'moment';
 
-export async function getArticlePreview(id: string, req) {
-  const prismic = await prismicPreviewApi(req);
-  return getArticleAsArticle(prismic, id);
-}
-
-export async function getArticle(id: string) {
-  const prismic = await prismicApi();
-
-  return getArticleAsArticle(prismic, id);
-}
-
 function getContributors(doc) {
   // TODO: Support creator's role
   return doc.data.contributors
@@ -31,7 +20,9 @@ function getContributors(doc) {
     });
 }
 
-async function getArticleAsArticle(prismic, id: string) {
+export async function getArticle(id: string, req: Request) {
+  const prismic = req ? await prismicPreviewApi(req) : await prismicApi();
+
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'books.title', 'books.title', 'books.author', 'books.isbn', 'books.publisher', 'books.link', 'books.cover',
@@ -287,8 +278,8 @@ export async function getEvent(id) {
   return article;
 }
 
-export async function getWebcomic(id) {
-  const prismic = await prismicApi();
+export async function getWebcomic(id: string, req: Request) {
+  const prismic = req ? await prismicPreviewApi(req) : await prismicApi();
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'access-statements.title', 'access-statements.description',
