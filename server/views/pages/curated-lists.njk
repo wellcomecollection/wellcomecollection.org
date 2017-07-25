@@ -78,7 +78,7 @@
   <div class="row {{ {s:4} | spacingClasses({padding: ['top']}) }} ">
     <div class="container container--scroll touch-scroll">
       <div class="grid grid--scroll grid--dividers grid--theme-6-strip">
-        {% for promo in promos.slice(4, 11).toJS() %}
+        {% for promo in promos.slice(4, 10).toJS() %}
           <div class="grid__cell">
             {% componentV2 'promo', promo, {}, {sizes: '(min-width: 1340px) 178px, (min-width: 960px) calc(33.33vw - 60px), (min-width: 600px) calc(50vw - 54px), calc(66.79vw - 18px)'} %}
           </div>
