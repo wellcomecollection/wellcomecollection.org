@@ -11,7 +11,6 @@ import {collectorsPromo} from '../data/series';
 import {
   getArticle,
   getArticleList,
-  getArticlePreview,
   getEvent,
   getWebcomic
 } from '../services/prismic-content';
@@ -20,19 +19,9 @@ export const renderArticle = async(ctx, next) => {
   const format = ctx.request.query.format;
   // We rehydrate the `W` here as we take it off when we have the route.
   const id = `W${ctx.params.id}`;
-  const article = await getArticle(id);
+  const preview = Boolean(ctx.params.preview);
+  const article = await getArticle(id, preview ? ctx.request : null);
 
-  render(ctx, article, format);
-};
-
-export async function renderArticlePreview(ctx, next) {
-  const format = ctx.request.query.format;
-  const id = `${ctx.params.id}`;
-  const article = await getArticlePreview(id, ctx.request);
-  render(ctx, article, format);
-}
-
-function render(ctx, article, format) {
   if (article) {
     if (format === 'json') {
       ctx.body = article;
@@ -43,6 +32,27 @@ function render(ctx, article, format) {
           inSection: 'explore'
         }),
         article: article
+      });
+    }
+  }
+};
+
+export async function renderWebcomic(ctx, next) {
+  const format = ctx.request.query.format;
+  const id = ctx.params.id;
+  const preview = Boolean(ctx.params.preview);
+  const webcomic = await getWebcomic(id, preview ? ctx.request : null);
+
+  if (webcomic) {
+    if (format === 'json') {
+      ctx.body = webcomic;
+    } else {
+      ctx.render('pages/article', {
+        pageConfig: createPageConfig({
+          title: webcomic.title,
+          inSection: 'explore'
+        }),
+        article: webcomic
       });
     }
   }
@@ -66,7 +76,8 @@ async function getPreviewSession(token) {
   return new Promise((resolve, reject) => {
     prismic.previewSession(token, (doc) => {
       switch (doc.type) {
-        case 'articles': return `/preview/${doc.id}`;
+        case 'articles': return `/preview/articles/${doc.id}`;
+        case 'webcomics': return `/preview/webcomics/${doc.id}`;
       }
     }, '/', (err, redirectUrl) => {
       if (err) {
@@ -105,26 +116,6 @@ export const renderEventbriteEmbed = async(ctx, next) => {
 
   return next();
 };
-
-export async function renderWebcomic(ctx, next) {
-  const id = `${ctx.params.id}`;
-  const webcomic = await getWebcomic(id);
-  const format = ctx.request.query.format;
-
-  if (webcomic) {
-    if (format === 'json') {
-      ctx.body = webcomic;
-    } else {
-      ctx.render('pages/article', {
-        pageConfig: createPageConfig({
-          title: webcomic.title,
-          inSection: 'explore'
-        }),
-        article: webcomic
-      });
-    }
-  }
-}
 
 export async function renderExplore(ctx, next) {
   // TODO: Remove WP content
