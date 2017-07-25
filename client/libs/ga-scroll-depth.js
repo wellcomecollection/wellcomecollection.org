@@ -1,12 +1,9 @@
 // Simplified/rewritten from https://github.com/leighmcculloch/gascrolldepth.js
+import { getWindowHeight } from '../js/util';
 
 import { onWindowScrollDebounce$ } from '../js/utils/dom-events';
 const startTime = new Date().getTime();
 const getElHeight = el => el.offsetHeight + el.offsetTop;
-
-const getWindowHeight = () => {
-  return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-};
 
 const sendEvent = (distance, timing) => {
   window.ga('send', {

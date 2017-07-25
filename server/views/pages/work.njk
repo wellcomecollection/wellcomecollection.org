@@ -25,11 +25,22 @@
       </div>
     </div>
   </div>
+
+  <div class="row row--black {{ {s:2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:12, m:12, l:12, xl: 12} | gridClasses }}">
+          {% componentV2 'scroll-to-info', {elementId: 'work-info'}, {'work': true}, {extraClasses: ['float-r'], extraInformationIconClasses: ['icon--2x', 'icon--white'], extraChevronIconClasses: ['icon--white']} %}
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="row {{ {s:3, m:3, l:3, xl: 3} | spacingClasses({padding: ['top', 'bottom']}) }}">
     <div class="container">
       <div class="grid">
         <div class="{{ {s: 12, m: 6, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
-          <h1 class="{{ {s:'HNM3', m:'HNM1', l:'HNM1', xl:'HNM1'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{work.label}}</h1>
+          <h1 id="work-info" class="{{ {s:'HNM3', m:'HNM1', l:'HNM1', xl:'HNM1'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{work.label}}</h1>
           {% if work.license.length > 0 %}
             {% componentV2 'license', {subject: work.imgLink, licenseType: work.license} %} {# - license from API #}
           {% endif %}
