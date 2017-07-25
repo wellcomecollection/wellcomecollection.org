@@ -1,4 +1,4 @@
-<div class="icon {% for class in extraClasses %}{{ class }} {% endfor %}">
+<div class="icon {% for class in extraClasses %}{{ class }} {% endfor %}"{% if not title %} aria-hidden="true"{% endif %}>
   {% set viewBox = attrs | getViewBox %}
   <canvas class="icon__canvas" height="{{ viewBox.height }}" width="{{ viewBox.width }}"></canvas>
   <svg class="icon__svg"
