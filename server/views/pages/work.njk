@@ -6,7 +6,7 @@
 
 {% block body %}
   {% if queryString %}
-    <div class="row row--black {{ {s:2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+    <div class="row bg-black {{ {s:2} | spacingClasses({padding: ['top', 'bottom']}) }}">
       <div class="container">
         <div class="grid">
           <div class="{{ {s:12, m:12, l:12, xl: 12} | gridClasses }}">
@@ -16,7 +16,7 @@
       </div>
     </div>
   {% endif %}
-  <div class="row row--black {% if not queryString %}{{ {s:8} | spacingClasses({padding: ['top']}) }}{% endif %}">
+  <div class="row bg-black {% if not queryString %}{{ {s:8} | spacingClasses({padding: ['top']}) }}{% endif %}">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:12, m:12, l:10, xl:10, shiftL:1, shiftXl:1} | gridClasses }}">
@@ -26,7 +26,7 @@
     </div>
   </div>
 
-  <div class="row row--black {{ {s:2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+  <div class="row bg-black {{ {s:2} | spacingClasses({padding: ['top', 'bottom']}) }}">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:12, m:12, l:12, xl: 12} | gridClasses }}">
