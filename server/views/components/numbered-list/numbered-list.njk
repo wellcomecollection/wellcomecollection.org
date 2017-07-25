@@ -11,7 +11,7 @@
       {% endif %}
     </header>
   {% endif %}
-  <ol class="plain-list numbered-list__list{% if data.sliderId %} js-numbered-slider{% endif %} {{ 'grid grid--dividers' if isTransporter }}"
+  <ol class="plain-list numbered-list__list{% if data.sliderId %} js-numbered-slider{% endif %} {{ 'grid grid--dividers' if isTransporter }} {{ {s:0} | spacingClasses({margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']}) }}"
     {% if isTransporter %}data-component-name="Transporter" {% endif %}
     {% if data.sliderId %} id="{{data.sliderId}}" data-component-id="{{ data.sliderId }}" {% endif %}>
     {% for item in model.items -%}
