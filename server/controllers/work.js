@@ -68,7 +68,7 @@ export const search = async (ctx, next) => {
   const resultsWithImages = getResultsWithImages(results, shouldUseIiif(ctx));
   const pageSize = results && results.pageSize;
   const totalPages = results && results.totalPages;
-  const totalResults = results && results.totalResults;
+  const totalResults = (results && results.totalResults) || 0;
   const resultsList = createResultsList({
     results: resultsWithImages,
     pageSize,
