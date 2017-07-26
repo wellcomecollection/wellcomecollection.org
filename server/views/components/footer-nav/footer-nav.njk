@@ -3,7 +3,7 @@
     {% include "icons/other/wellcome-collection-white.svg.njk" %}
   </a>
   <nav class="footer-nav__nav">
-    <ul class="plain-list footer-nav__list">
+    <ul class="plain-list footer-nav__list {{ {s:0} | spacingClasses({margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']}) }}">
       {% for link in navLinks %}
         <li class="footer-nav__item"><a id="footer-nav-{{ loop.index }}" href="{{ link.href }}" class="footer-nav__link {{ {s:'WB7'} | fontClasses }}">{{ link.title }}</a></li>
       {% endfor %}
