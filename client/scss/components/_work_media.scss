@@ -4,11 +4,11 @@
 
   @include respond-to('medium') {
     height: auto;
-    max-height: 80vh;
+    max-height: 90vh;
   }
 
   .image {
-    max-height: 80vh;
+    max-height: 90vh;
     width: auto;
     height: auto;
     max-width: 100%;
