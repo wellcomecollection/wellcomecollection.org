@@ -30,7 +30,7 @@
     <div class="container">
       <div class="grid">
         <div class="{{ {s:12, m:12, l:12, xl: 12} | gridClasses }}">
-          {% componentV2 'scroll-to-info', {elementId: 'work-info'}, {'work': true}, {extraClasses: ['float-r'], extraInformationIconClasses: ['icon--2x', 'icon--white'], extraChevronIconClasses: ['icon--white']} %}
+          {% componentV2 'scroll-to-info', {elementId: 'work-info'}, {'work': true}, {extraClasses: ['float-r'], extraIconClasses: ['icon--2x', 'icon--white']} %}
         </div>
       </div>
     </div>
@@ -40,9 +40,11 @@
     <div class="container">
       <div class="grid">
         <div class="{{ {s: 12, m: 6, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
-          <h1 id="work-info" class="{{ {s:'HNM3', m:'HNM1', l:'HNM1', xl:'HNM1'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{work.label}}</h1>
+          <h1 id="work-info" class="{{ {s:'HNM3', m:'HNM2', l:'HNM1'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{work.label}}</h1>
           {% if work.license.length > 0 %}
-            {% componentV2 'license', {subject: work.imgLink, licenseType: work.license} %} {# - license from API #}
+            <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              {% componentV2 'license', {subject: work.imgLink, licenseType: work.license} %} {# - license from API #}
+            </div>
           {% endif %}
         </div>
         <div class="{{ {s: 12, m: 6, l: 5, xl: 4} | gridClasses }}">

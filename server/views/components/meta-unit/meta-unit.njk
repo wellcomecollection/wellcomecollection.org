@@ -6,12 +6,12 @@
    {{ model.headingText }}
   </h{{model.headingLevel or '2'}}>
   {% if model.content | isString %}
-    <p class="{{ {s:'HNL5' , m:'HNL4'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">{{model.content}}</p>
+    <p class="{{ {s:'HNL5' , m:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">{{model.content}}</p>
   {% else %}
     {% for item in model.content %}
       {% if item.datetime %}
         {% if loop.first %}
-          <p class="{{ {s:'HNL5' , m:'HNL4'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
+          <p class="{{ {s:'HNL5' , m:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
         {% endif %}
             <time datetime="{{ item.datetime }} ">{{ item.text }}</time>{{ ' - ' if not loop.last }}
         {% if loop.last %}
@@ -19,7 +19,7 @@
         {% endif %}
       {% else %}
           {% if loop.first %}
-          <ul class="plain-list {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
+          <ul class="plain-list {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:0} | spacingClasses({margin: ['top', 'left', 'right'], padding: ['top', 'left', 'right']}) }}">
           {% endif %}
             <li class="inline"><a class="plain-link font-elf-green font-hover-mint {{ {s:'HNM5' , m:'HNM4'} | fontClasses }}" href="{{ item.url }}">{{ item.text }}</a>{{ ', ' if not loop.last }}</li>
           {% if loop.last %}
