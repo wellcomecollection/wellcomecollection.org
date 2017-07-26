@@ -3,18 +3,19 @@ import fastdom from '../utils/fastdom-promise';
 
 export default (el) => {
   let timeout;
-  const controls = el.querySelectorAll('.js-work-media-control');
+  const container = el.querySelector('.js-work-media-controls');
+  const controls = container.querySelectorAll('.js-work-media-control');
 
   function showHideControls() {
     clearTimeout(timeout);
 
     fastdom.mutate(() => {
-      el.classList.add('work-media--is-controls-visible');
+      container.classList.add('is-active');
     });
 
     timeout = setTimeout(() => {
       fastdom.mutate(() => {
-        el.classList.remove('work-media--is-controls-visible');
+        container.classList.remove('is-active');
       });
     }, 3000);
   }

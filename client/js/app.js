@@ -55,9 +55,9 @@ const init = () => {
   const backToTopEl = document.querySelector('.js-back-to-top');
   const toggleShowHideEls = document.querySelectorAll('.js-show-hide');
   const scrollToInfoEls = document.querySelectorAll('.js-scroll-to-info');
-  const workMediaControlsEls = document.querySelectorAll('.js-work-media-controls');
+  const workMediaEls = document.querySelectorAll('.js-work-media');
 
-  nodeList(workMediaControlsEls).forEach(workMediaControls);
+  nodeList(workMediaEls).forEach(workMediaControls);
 
   nodeList(gifVideoEls).forEach(gifVideo);
 

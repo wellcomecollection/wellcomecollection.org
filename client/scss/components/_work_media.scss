@@ -40,12 +40,13 @@
   bottom: 0;
   left: 0;
   transition: opacity 400ms ease;
+  pointer-events: none;
 
   .enhanced & {
     opacity: 0;
   }
 
-  .work-media--is-controls-visible & {
+  &.is-active {
     opacity: 1;
   }
 }
