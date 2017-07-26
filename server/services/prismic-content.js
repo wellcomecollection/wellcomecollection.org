@@ -2,8 +2,9 @@ import type {Article} from '../model/article';
 import type {Picture} from '../model/picture';
 import Prismic from 'prismic-javascript';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
-import {prismicApi, prismicPreviewApi} from './prismic-api';
 import moment from 'moment';
+import {prismicApi, prismicPreviewApi} from './prismic-api';
+import {isEmptyObj} from '../util/is-empty-obj';
 
 function getContributors(doc) {
   // TODO: Support creator's role
@@ -198,15 +199,16 @@ function convertPrismicToImgIxUri(uri) {
   return uri.replace(prismicImageUri, imgIxUri);
 }
 
-function prismicImageToPicture(prismicImage) {
+function prismicImageToPicture(captionedImage) {
+  const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
   return ({
     type: 'picture',
-    contentUrl: convertPrismicToImgIxUri(prismicImage.image.url), // TODO: Send this through the img.wc.org
-    width: prismicImage.image.dimensions.width,
-    height: prismicImage.image.dimensions.height,
-    caption: prismicImage.caption && prismicImage.caption.length !== 0 && asText(prismicImage.caption), // TODO: Support HTML
-    alt: prismicImage.image.alt,
-    copyrightHolder: prismicImage.image.copyright
+    contentUrl: image && convertPrismicToImgIxUri(image.url), // TODO: Send this through the img.wc.org
+    width: image && image.dimensions.width,
+    height: image && image.dimensions.height,
+    caption: captionedImage.caption && captionedImage.caption.length !== 0 && asText(captionedImage.caption), // TODO: Support HTML
+    alt: image && image.alt,
+    copyrightHolder: image && image.copyright
   }: Picture);
 }
 
