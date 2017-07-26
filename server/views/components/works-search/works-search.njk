@@ -3,14 +3,12 @@
 {% set name = 'query' %}
 
 <div id="header-search" class="header__search">
-  <form class="header__form"
-    action="{{action}}"
-    method="{{method}}">
-    <div class="header__input-wrap js-show-hide-drawer">
+  <a href="/search" class="header__form">
+    <div class="header__input-wrap">
       <label class="header__label" for="header-input">Search</label>
-      <input id="header-input" class="header__input {{ {s:'HNL2'} | fontClasses }} js-header-input" placeholder="Search" name="{{name}}" />
+      <input id="header-input" class="header__input {{ {s:'HNL2'} | fontClasses }}" placeholder="Search" name="{{name}}" />
     </div>
-    <button class="header__button {{ {s:'WB7'} | fontClasses }} js-show-hide-trigger">
+    <button class="header__button {{ {s:'WB7'} | fontClasses }}">
       <span class="header__button-inner">
         {% icon 'actions/search', null, ['header__search-button'] %}
         <span class="header__button-text">Search</span>
@@ -18,5 +16,5 @@
     <span role="button" aria-controls="header-input" class="header__close-search js-header-close-search">
       {% icon 'actions/cross-big', 'Close search box' %}
     </span>
-  </form>
+  </a>
 </div>

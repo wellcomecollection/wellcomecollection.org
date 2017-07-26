@@ -8,7 +8,7 @@
     <div class="container">
       <div class="grid">
         <div class="grid__cell">
-          {% componentV2 'search-box', {id: 'search-works', action: '', name: 'query', query: query} %}
+          {% componentV2 'search-box', {id: 'search-works', action: '', name: 'query', query: query, autofocus: true} %}
           {% if query %}
             <p class="text--meta {{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
               {{ resultsList.totalResults if resultsList.totalResults > 0 else 'No' }} results for "{{ query }}"

@@ -2,8 +2,9 @@ import type {Article} from '../model/article';
 import type {Picture} from '../model/picture';
 import Prismic from 'prismic-javascript';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
-import {prismicApi, prismicPreviewApi} from './prismic-api';
 import moment from 'moment';
+import {prismicApi, prismicPreviewApi} from './prismic-api';
+import {isEmptyObj} from '../util/is-empty-obj';
 
 function getContributors(doc) {
   // TODO: Support creator's role
@@ -18,6 +19,10 @@ function getContributors(doc) {
         description: asText(person.description)
       };
     });
+}
+
+function getPublishedDate(doc) {
+  return PrismicDate(doc.data.publishDate || doc.first_publication_date || Date.now());
 }
 
 export async function getArticle(id: string, req: Request) {
@@ -49,7 +54,7 @@ function parseArticleAsArticle(prismicArticle) {
   const url = `/articles/${prismicArticle.id}`;
 
   // We fallback to `Date.now()` in case we're in preview and don't have a published date
-  const publishDate = PrismicDate(prismicArticle.data.publishDate || prismicArticle.first_publication_date || Date.now());
+  const publishDate = getPublishedDate(prismicArticle);
 
   // TODO:
   const mainMedia = prismicArticle.data.body.filter(slice => slice.slice_label === 'featured').map(slice => {
@@ -198,15 +203,16 @@ function convertPrismicToImgIxUri(uri) {
   return uri.replace(prismicImageUri, imgIxUri);
 }
 
-function prismicImageToPicture(prismicImage) {
+function prismicImageToPicture(captionedImage) {
+  const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
   return ({
     type: 'picture',
-    contentUrl: convertPrismicToImgIxUri(prismicImage.image.url), // TODO: Send this through the img.wc.org
-    width: prismicImage.image.dimensions.width,
-    height: prismicImage.image.dimensions.height,
-    caption: prismicImage.caption && prismicImage.caption.length !== 0 && asText(prismicImage.caption), // TODO: Support HTML
-    alt: prismicImage.image.alt,
-    copyrightHolder: prismicImage.image.copyright
+    contentUrl: image && convertPrismicToImgIxUri(image.url), // TODO: Send this through the img.wc.org
+    width: image && image.dimensions.width,
+    height: image && image.dimensions.height,
+    caption: captionedImage.caption && captionedImage.caption.length !== 0 && asText(captionedImage.caption), // TODO: Support HTML
+    alt: image && image.alt,
+    copyrightHolder: image && image.copyright
   }: Picture);
 }
 
@@ -297,7 +303,7 @@ function parseWebcomicAsArticle(prismicDoc) {
   const url = `/webcomics/${prismicDoc.id}`;
 
   // TODO: potentially get rid of this
-  const publishDate = PrismicDate(prismicDoc.data.publishDate || prismicDoc.first_publication_date);
+  const publishDate = getPublishedDate(prismicDoc);
   const mainMedia = [prismicImageToPicture({ image: prismicDoc.data.image })];
 
   // TODO: Don't convert this into thumbnail
