@@ -16,7 +16,7 @@ export default (el) => {
       fastdom.mutate(() => {
         el.classList.remove('work-media--is-controls-visible');
       });
-    }, 2000);
+    }, 3000);
   }
 
   el.addEventListener('mousemove', showHideControls);

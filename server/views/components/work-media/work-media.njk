@@ -1,5 +1,5 @@
-<div class="row bg-black work-media js-work-media">
-  <div class="work-media__overlay">
+<div class="row bg-black work-media">
+  <div class="work-media__controls js-work-media-controls">
     {% if model.queryString %}
       <div class="container work-media__return {{ {s:2} | spacingClasses({padding: ['top', 'bottom']}) }}">
         {% componentV2 'return-to-results', {queryString: model.queryString}, null, {extraClasses: ['js-work-media-control']} %}

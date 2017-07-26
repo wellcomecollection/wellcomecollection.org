@@ -27,7 +27,7 @@ import sortSearch from './components/sort-search';
 import backToTop from './components/back-to-top';
 import toggleShowHide from './components/toggle-show-hide';
 import scrollToInfo from './components/scroll-to-info';
-import workMedia from './components/work-media';
+import workMediaControls from './components/work-media-controls';
 
 const init = () => {
   polyfills.init();
@@ -55,9 +55,9 @@ const init = () => {
   const backToTopEl = document.querySelector('.js-back-to-top');
   const toggleShowHideEls = document.querySelectorAll('.js-show-hide');
   const scrollToInfoEls = document.querySelectorAll('.js-scroll-to-info');
-  const workMediaEls = document.querySelectorAll('.js-work-media');
+  const workMediaControlsEls = document.querySelectorAll('.js-work-media-controls');
 
-  nodeList(workMediaEls).forEach(workMedia);
+  nodeList(workMediaControlsEls).forEach(workMediaControls);
 
   nodeList(gifVideoEls).forEach(gifVideo);
 
