@@ -35,18 +35,19 @@ export async function getArticle(id: string, req: Request) {
   ];
 
   const articles = await prismic.query([
-    Prismic.Predicates.at('document.id', id)
-    // This should be here, but Prismic is borked, and I need this to work now.
-    // TODO: Put this back once Prismic are on it.
-    // Prismic.Predicates.any('document.type', ['article', 'events'])
+    Prismic.Predicates.at('document.id', id),
+    Prismic.Predicates.any('document.type', ['articles', 'webcomics'])
   ], {fetchLinks});
-  const prismicArticle = articles.total_results_size === 1 ? articles.results[0] : null;
+  const prismicDoc = articles.total_results_size === 1 ? articles.results[0] : null;
 
-  if (!prismicArticle) {
+  if (!prismicDoc) {
     return null;
   }
 
-  return parseArticleAsArticle(prismicArticle);
+  switch (prismicDoc.type) {
+    case 'articles': return parseArticleAsArticle(prismicDoc);
+    case 'webcomics': return parseWebcomicAsArticle(prismicDoc);
+  }
 }
 
 function parseArticleAsArticle(prismicArticle) {
@@ -288,7 +289,6 @@ export async function getWebcomic(id: string, req: Request) {
   const prismic = req ? await prismicPreviewApi(req) : await prismicApi();
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
-    'access-statements.title', 'access-statements.description',
     'series.name', 'series.description', 'series.color', 'series.commissionedLength'
   ];
   const webcomics = await prismic.query(Prismic.Predicates.at('document.id', id), {fetchLinks});
@@ -300,7 +300,7 @@ export async function getWebcomic(id: string, req: Request) {
 // TODO: There's some abstracting to do here
 function parseWebcomicAsArticle(prismicDoc) {
   // TODO : construct this not from strings
-  const url = `/webcomics/${prismicDoc.id}`;
+  const url = `/articles/${prismicDoc.id}`;
 
   // TODO: potentially get rid of this
   const publishDate = getPublishedDate(prismicDoc);
