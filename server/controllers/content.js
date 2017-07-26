@@ -124,8 +124,8 @@ export async function renderExplore(ctx, next) {
   const webcomicsFromPrismicFlag = isFlagEnabled(ctx.featuresCohort, 'webcomicsFromPrismic', flags);
   const contentListPromise =
     prismicArticlesOnExploreFlag ? getArticleList()
-    : webcomicsFromPrismicFlag ? getArticleList(['webcomics'])
-    : Promise.resolve([]);
+      : webcomicsFromPrismicFlag ? getArticleList(['webcomics'])
+        : Promise.resolve([]);
 
   const listRequests = [getCuratedList('explore'), getArticleStubs(10), contentListPromise];
   const [curatedList, articleStubs, contentList] = await Promise.all(listRequests);
