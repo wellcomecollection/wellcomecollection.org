@@ -95,6 +95,7 @@ function parseArticleAsArticle(prismicArticle) {
 }
 
 function convertContentToBodyParts(content) {
+  // TODO: Add these as ContentBlocks when the model is in
   return content.map(slice => {
     switch (slice.slice_type) {
       case 'standfirst':
@@ -129,6 +130,18 @@ function convertContentToBodyParts(content) {
             name: asText(slice.primary.heading),
             items: slice.items.map(prismicImageToPicture)
           }
+        };
+
+      case 'imageList':
+        return {
+          weight: 'default',
+          type: 'imageList',
+          value: slice.items.map(item => {
+            const image = prismicImageToPicture(item);
+            const description = RichText.asHtml(item.description);
+            const title = asText(item.title);
+            return { title, image, description };
+          })
         };
 
       case 'quote':

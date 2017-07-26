@@ -1,7 +1,7 @@
 <div itemscope itemtype="http://schema.org/ItemList">
-  <ul>
+  <ul class="body-content-list">
     {% for item in list.items %}
-      <li itemprop="itemListElement">{{ item | safe }}</li>
+      <li class="body-content-list__item" itemprop="itemListElement">{{ item | safe }}</li>
     {% endfor %}
   </ul>
 </div>
