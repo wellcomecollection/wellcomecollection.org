@@ -1,12 +1,12 @@
 <div class="row bg-black work-media js-work-media">
   <div class="work-media__controls js-work-media-controls pointer-events-none">
     {% if model.queryString %}
-      <div class="container work-media__return {{ {s:2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+      <div class="flush-grid-left {{ {s:2} | spacingClasses({padding: ['top']}) }}">
         {% componentV2 'return-to-results', {queryString: model.queryString}, null, {extraClasses: ['js-work-media-control', 'pointer-events-all']} %}
       </div>
     {% endif %}
 
-    {% componentV2 'scroll-to-info', {elementId: 'work-info'}, {'work': true}, {extraClasses: ['js-work-media-control', 'pointer-events-all'], extraIconClasses: ['icon--2x', 'icon--white']} %}
+    {% componentV2 'scroll-to-info', {elementId: 'work-info'}, {'work': true}, {extraClasses: ['flush-grid-right','js-work-media-control', 'pointer-events-all'], extraIconClasses: ['icon--2x', 'icon--white']} %}
   </div>
 
   {% componentV2 'image-iiif', model.iiifModel, {test: true}, model.iiifData %}
