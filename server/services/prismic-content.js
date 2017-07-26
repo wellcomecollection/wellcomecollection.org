@@ -21,6 +21,10 @@ function getContributors(doc) {
     });
 }
 
+function getPublishedDate(doc) {
+  return PrismicDate(doc.data.publishDate || doc.first_publication_date || Date.now());
+}
+
 export async function getArticle(id: string, req: Request) {
   const prismic = req ? await prismicPreviewApi(req) : await prismicApi();
 
@@ -50,7 +54,7 @@ function parseArticleAsArticle(prismicArticle) {
   const url = `/articles/${prismicArticle.id}`;
 
   // We fallback to `Date.now()` in case we're in preview and don't have a published date
-  const publishDate = PrismicDate(prismicArticle.data.publishDate || prismicArticle.first_publication_date || Date.now());
+  const publishDate = getPublishedDate(prismicArticle);
 
   // TODO:
   const mainMedia = prismicArticle.data.body.filter(slice => slice.slice_label === 'featured').map(slice => {
@@ -299,7 +303,7 @@ function parseWebcomicAsArticle(prismicDoc) {
   const url = `/webcomics/${prismicDoc.id}`;
 
   // TODO: potentially get rid of this
-  const publishDate = PrismicDate(prismicDoc.data.publishDate || prismicDoc.first_publication_date);
+  const publishDate = getPublishedDate(prismicDoc);
   const mainMedia = [prismicImageToPicture({ image: prismicDoc.data.image })];
 
   // TODO: Don't convert this into thumbnail

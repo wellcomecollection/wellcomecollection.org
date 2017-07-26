@@ -37,7 +37,8 @@
     {% set mainMediaData = {
       contentType: article.contentType,
       positionInSeries: article.positionInSeries,
-      series: commissionedSeries
+      series: commissionedSeries,
+      showCopyright: article.contentType !== 'comic'
     } %}
     {% if (article.mainMedia.length > 0) %}
       {% if (article.contentType === 'comic') %}
