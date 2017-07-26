@@ -116,6 +116,7 @@ $fonts: (
   'HNL1': (
     'font-family-base': $helvetica-neue-light-base,
     'font-family-web': $helvetica-neue-light,
+    'font-weight': normal,
     'font-size': 36px,
     'letter-spacing': 40,
     'line-height': 48px
@@ -123,6 +124,7 @@ $fonts: (
   'HNL2': (
     'font-family-base': $helvetica-neue-light-base,
     'font-family-web': $helvetica-neue-light,
+    'font-weight': normal,
     'font-size': 26px,
     'letter-spacing': 40,
     'line-height': 38px
@@ -130,6 +132,7 @@ $fonts: (
   'HNL3': (
     'font-family-base': $helvetica-neue-light-base,
     'font-family-web': $helvetica-neue-light,
+    'font-weight': normal,
     'font-size': 20px,
     'letter-spacing': 40,
     'line-height': 32px
@@ -138,12 +141,14 @@ $fonts: (
     'font-family-base': $helvetica-neue-light-base,
     'font-family-web': $helvetica-neue-light,
     'font-size': 16px,
+    'font-weight': normal,
     'letter-spacing': 40,
     'line-height': 24px
   ),
   'HNL5': (
     'font-family-base': $helvetica-neue-light-base,
     'font-family-web': $helvetica-neue-light,
+    'font-weight': normal,
     'font-size': 14px,
     'letter-spacing': 40,
     'line-height': 24px
@@ -151,6 +156,7 @@ $fonts: (
   'HNL6': (
     'font-family-base': $helvetica-neue-light-base,
     'font-family-web': $helvetica-neue-light,
+    'font-weight': normal,
     'font-size': 12px,
     'letter-spacing': 80,
     'line-height': 18px
@@ -158,6 +164,7 @@ $fonts: (
   'HNL7': (
     'font-family-base': $helvetica-neue-light-base,
     'font-family-web': $helvetica-neue-light,
+    'font-weight': normal,
     'font-size': 11px,
     'letter-spacing': 80,
     'line-height': 18px
