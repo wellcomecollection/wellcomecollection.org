@@ -11,8 +11,7 @@ import {collectorsPromo} from '../data/series';
 import {
   getArticle,
   getArticleList,
-  getEvent,
-  getWebcomic
+  getEvent
 } from '../services/prismic-content';
 
 export const renderArticle = async(ctx, next) => {

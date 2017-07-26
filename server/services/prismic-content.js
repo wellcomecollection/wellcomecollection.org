@@ -285,18 +285,6 @@ export async function getEvent(id) {
   return article;
 }
 
-export async function getWebcomic(id: string, req: Request) {
-  const prismic = req ? await prismicPreviewApi(req) : await prismicApi();
-  const fetchLinks = [
-    'people.name', 'people.image', 'people.twitterHandle', 'people.description',
-    'series.name', 'series.description', 'series.color', 'series.commissionedLength'
-  ];
-  const webcomics = await prismic.query(Prismic.Predicates.at('document.id', id), {fetchLinks});
-  const webcomic = webcomics.total_results_size === 1 ? webcomics.results[0] : null;
-
-  return parseWebcomicAsArticle(webcomic);
-}
-
 // TODO: There's some abstracting to do here
 function parseWebcomicAsArticle(prismicDoc) {
   // TODO : construct this not from strings
