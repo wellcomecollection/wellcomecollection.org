@@ -8,13 +8,17 @@
   }
 
   .image {
-    max-height: 90vh;
+    max-height: 80vh;
     width: auto;
     height: auto;
     max-width: 100%;
     margin: 0 auto;
     display: block;
     padding: 10 * $spacing-unit;
+
+    @include respond-to('medium') {
+      max-height: 90vh;
+    }
 
     .enhanced & {
       padding: 0;
