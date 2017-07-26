@@ -9,8 +9,10 @@
 }
 
 .scroll-to-info--work {
-  position: relative;
+  position: absolute;
   transform: translateY(0);
+  bottom: 4 * $spacing-unit;
+  right: 4 * $spacing-unit;
 
   .icon {
     animation: scroll-to-info-animate-icons 2s ease-in-out 3 forwards;
