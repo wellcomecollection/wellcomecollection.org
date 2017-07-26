@@ -152,8 +152,8 @@ function splitBlockquote(blockquote) {
       const quote = quoteAndTags[0].replace(/[“”]/g, '');
       const tagsRegex = new RegExp(/<[\s\S]*?>/, 'g');
       const citation = blockquote
-      .slice(blockquote.lastIndexOf('”') + 1)
-      .replace(tagsRegex, '');
+        .slice(blockquote.lastIndexOf('”') + 1)
+        .replace(tagsRegex, '');
 
       const body = `${wrapper.open}${quote}${wrapper.close}`;
       const footer = citation.length > 1 ? citation : null;
