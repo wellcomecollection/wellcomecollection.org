@@ -23,27 +23,6 @@
     margin-top: 0;
   }
 
-  ul {
-    list-style: none;
-    margin: 0 0 2em;
-    padding: 0;
-
-    li {
-      list-style: none;
-
-      &:before {
-        content: '';
-        width: 0.35em;
-        height: 0.35em;
-        display: inline-block;
-        vertical-align: middle;
-        border-radius: 0.1em;
-        background: color('currentColor');
-        margin-right: 0.4em;
-      }
-    }
-  }
-
   *::selection {
     background: transparentize(color('turquoise-graphics'), 0.7);
   }
@@ -176,4 +155,25 @@ $scroller-offset: map-get($container-padding, 'large');
 
 .body-part__scroller {
   overflow: auto;
+}
+
+.body-content-list {
+  list-style: none;
+  margin: 0 0 2em;
+  padding: 0;
+}
+
+.body-content-list__item {
+  list-style: none;
+
+  &:before {
+    content: '';
+    width: 0.35em;
+    height: 0.35em;
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 0.1em;
+    background: color('currentColor');
+    margin-right: 0.4em;
+  }
 }
