@@ -22,12 +22,12 @@ function imageUrlFromMiroId(id, useIiif) {
 // Or have the image dimensions available in the wellcomecollection API
 async function imageWidthFromMiroId(id) {
   return await superagent.get(`https://iiif.wellcomecollection.org/image/${id}.jpg/info.json`)
-  .then((request) => {
-    return request.body.width;
-  }).catch((error) => {
-    console.error(error);
-    return '648';
-  });
+    .then((request) => {
+      return request.body.width;
+    }).catch((error) => {
+      console.error(error);
+      return '648';
+    });
 }
 
 function shouldUseIiif(ctx) {
@@ -83,7 +83,7 @@ export const search = async (ctx, next) => {
   const resultsWithImages = getResultsWithImages(results, shouldUseIiif(ctx));
   const pageSize = results && results.pageSize;
   const totalPages = results && results.totalPages;
-  const totalResults = results && results.totalResults;
+  const totalResults = (results && results.totalResults) || 0;
   const resultsList = createResultsList({
     results: resultsWithImages,
     pageSize,

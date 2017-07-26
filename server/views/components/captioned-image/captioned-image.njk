@@ -14,7 +14,7 @@
           {% componentV2 'image', model, {}, {lazyload: true, sizesQueries: data.sizesQueries} %}
         {% endif %}
     {% endif %}
-    {% if (model.copyrightHolder) %}
+    {% if (model.copyrightHolder and data.showCopyright) %}
       <div class="captioned-image__copyright-holder
         {{ {s:1} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }}
         {{ {s:'HNM6', m:'HNM6', l:'HNM6'} | fontClasses }}">
