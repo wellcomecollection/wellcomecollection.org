@@ -98,11 +98,17 @@
   $font-family-subset: map-get($font, 'font-family-subset');
   $font-family-web: map-get($font, 'font-family-web');
   $font-size: px-to-rem(map-get($font, 'font-size'));
+  $font-weight: map-get($font, 'font-weight');
   $letter-spacing: tracking-to-em(map-get($font, 'letter-spacing'));
   $line-height: px-to-unitless(map-get($font, 'line-height'), map-get($font, 'font-size'));
 
   font-family: $font-family-base;
   font-size: $font-size;
+
+  @if ($font-weight) {
+    font-weight: $font-weight;
+  }
+
   letter-spacing: $letter-spacing;
   line-height: $line-height;
 
