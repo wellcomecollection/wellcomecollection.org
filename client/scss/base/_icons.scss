@@ -19,6 +19,10 @@
   width: 100%;
 }
 
+.icon--halfx {
+  height: 0.5em;
+}
+
 .icon--2x {
   height: 2em;
 }
@@ -29,6 +33,10 @@
 
 .icon--fill svg {
   fill: color('black');
+}
+
+.icon--inactive {
+  opacity: 0.3;
 }
 
 @each $color-key, $color-value in $colors {
