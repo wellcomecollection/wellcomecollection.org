@@ -1,11 +1,15 @@
 // @flow
 /* eslint-disable */
+import type {Person} from '../model/person';
+import type {Picture} from '../model/picture';
 import {List} from 'immutable';
 
+type ContentBlockType = 'events' | 'webcomics' | 'articles'
+
 type ContentBlock = {|
+  blockType: ContentBlockType,
   id: string,
   title: string,
-  type: ContentBlockType,
 |}
 
 type ContributorRole = 'author' | 'photographer' | 'speaker'
@@ -15,9 +19,9 @@ type Contributor = {|
   person: Person,
 |}
 
-type Promo = {|
+export type ImagePromo = {|
   text: string,
-  media: Picture | Video,
+  media: Picture,
 |}
 
 type SeriesColour = 'turquoise' | 'red' | 'orange' | 'purple'
@@ -28,18 +32,18 @@ type Series = {
   colour: SeriesColour,
 }
 
-type DateRange = {|
+export type DateRange = {|
   start: Date,
   end: Date,
 |}
 
-type EventFormat = 'workshop' | 'discussion' | 'walkingtour'
-type EventBookingType = 'dropin' | 'ticketed' | 'enquire' | 'firstcomefirstseated'
+export type EventFormat = 'workshop' | 'discussion' | 'walkingtour'
+export type EventBookingType = 'dropin' | 'ticketed' | 'enquire' | 'firstcomefirstseated'
 
-type Event = {| ...ContentBlock, ...{|
-  format: EventFormat,
-  bookingType: EventBookingType,
+export type Event = {| ...ContentBlock, ...{|
+  format: ?EventFormat,
+  bookingType: ?EventBookingType,
   when: List<DateRange>,
   contributors: List<Contributor>,
-  promo: List<Promo>,
+  promo: ?ImagePromo,
 |}|}

@@ -1,15 +1,7 @@
 // @flow
 export type Person = {|
-  givenName: string;
-  familyName: string;
-  twitterHandle?: string;
-  prismicId?: string;
-  name?: string;
-  description?: string;
-  image?: string; // TODO: Make this Picture
-  sameAs?: Array<any>; // TODO: Make this Array<something>
+  twitterHandle: ?string,
+  name: ?string,
+  description: ?string,
+  image: ?string, // TODO: Make this Picture
 |}
-
-export function createPerson(data: Person) {
-  return (data: Person);
-}

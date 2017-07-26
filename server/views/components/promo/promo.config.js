@@ -1,4 +1,3 @@
-// @flow
 import {List} from 'immutable';
 import type {Promo} from '../../../model/promo';
 import {createPromo} from '../../../model/promo';

@@ -1,4 +1,3 @@
-// @flow
 import {wellcomeCollection} from '../model/organization';
 
 export function objToJsonLd<T>(obj: T, type: string, root: boolean = true) {

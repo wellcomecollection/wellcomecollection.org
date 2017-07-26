@@ -1,4 +1,3 @@
-// @flow
 import type {Article} from './article';
 import type {PlacesOpeningHours} from './opening-hours';
 import type {Organization} from './organization';

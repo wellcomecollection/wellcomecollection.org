@@ -1,12 +1,15 @@
+import type {ImagePromo} from '../content-model/content-blocks';
 import type {Article} from '../model/article';
 import type {Picture} from '../model/picture';
+import type {Person} from '../model/person';
 import Prismic from 'prismic-javascript';
+import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
 import moment from 'moment';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import {isEmptyObj} from '../util/is-empty-obj';
 
-function getContributors(doc) {
+export function getContributors(doc): List<Person> {
   // TODO: Support creator's role
   return doc.data.contributors
     .filter(creator => creator.slice_type === 'person')
@@ -21,8 +24,29 @@ function getContributors(doc) {
     });
 }
 
-function getPublishedDate(doc) {
+export function getPublishedDate(doc) {
   return PrismicDate(doc.data.publishDate || doc.first_publication_date || Date.now());
+}
+
+export function getPromo(doc): ?ImagePromo {
+  const maybePromo = doc.data.promo.find(slice => slice.slice_type === 'editorialImage');
+  return maybePromo && ({
+    text: asText(maybePromo.primary.caption),
+    media: prismicImageToPicture({image: maybePromo.primary.image})
+  }: ImagePromo);
+}
+
+function prismicImageToPicture(captionedImage) {
+  const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
+  return ({
+    type: 'picture',
+    contentUrl: image && convertPrismicToImgIxUri(image.url), // TODO: Send this through the img.wc.org
+    width: image && image.dimensions.width,
+    height: image && image.dimensions.height,
+    caption: captionedImage.caption && captionedImage.caption.length !== 0 && asText(captionedImage.caption), // TODO: Support HTML
+    alt: image && image.alt,
+    copyrightHolder: image && image.copyright
+  }: Picture);
 }
 
 export async function getArticle(id: string, req: Request) {
@@ -201,19 +225,6 @@ const imgIxUri = 'https://wellcomecollection-prismic.imgix.net';
 
 function convertPrismicToImgIxUri(uri) {
   return uri.replace(prismicImageUri, imgIxUri);
-}
-
-function prismicImageToPicture(captionedImage) {
-  const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
-  return ({
-    type: 'picture',
-    contentUrl: image && convertPrismicToImgIxUri(image.url), // TODO: Send this through the img.wc.org
-    width: image && image.dimensions.width,
-    height: image && image.dimensions.height,
-    caption: captionedImage.caption && captionedImage.caption.length !== 0 && asText(captionedImage.caption), // TODO: Support HTML
-    alt: image && image.alt,
-    copyrightHolder: image && image.copyright
-  }: Picture);
 }
 
 export async function getArticleList(documentTypes = ['articles', 'webcomics']) {
