@@ -278,13 +278,16 @@ const contentSlider = (el, options) => {
   function changeInactiveControlClass(prevControl, nextControl, n, items, className) {
     removeClassesFromElements([prevControl, nextControl], className);
     removeAttrFromElements([prevControl, nextControl], 'disabled');
+    removeAttrFromElements([prevControl, nextControl], 'aria-hidden');
     if (n === 0) {
       addClassesToElements(prevControl, className);
       addAttrToElements(prevControl, 'disabled', 'true');
+      addAttrToElements(prevControl, 'aria-hidden', 'true');
     }
     if (n === items.length - 1) {
       addClassesToElements(nextControl, className);
       addAttrToElements(nextControl, 'disabled', 'true');
+      addAttrToElements(nextControl, 'aria-hidden', 'true');
     }
   }
 

@@ -20,6 +20,11 @@
   }
 }
 
+.slider-control--prev,
+.slider-control--next {
+  transition: opacity 400ms ease;
+}
+
 .slider-control--prev {
   .control-arrow {
     transform: rotate(90deg);
@@ -33,7 +38,7 @@
 }
 
 .slider-control--inactive {
-  visibility: hidden;
+  opacity: 0;
 }
 
 /*

@@ -59,7 +59,7 @@
   }
 
   .slider-control--inactive {
-    visibility: visible;
+    opacity: 1;
     // stylelint-disable declaration-no-important
     cursor: default !important;
     // stylelint-enable declaration-no-important

@@ -35,10 +35,6 @@
   fill: color('black');
 }
 
-.icon--inactive {
-  opacity: 0.3;
-}
-
 @each $color-key, $color-value in $colors {
   .icon--#{$color-key} {
     svg,
