@@ -21,7 +21,7 @@
           {% if loop.first %}
           <ul class="plain-list {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
           {% endif %}
-            <li class="inline"><a class="plain-link font--elf-green font-hover--mint {{ {s:'HNM5' , m:'HNM4'} | fontClasses }}" href="{{ item.url }}">{{ item.text }}</a>{{ ', ' if not loop.last }}</li>
+            <li class="inline"><a class="plain-link font-elf-green font-hover-mint {{ {s:'HNM5' , m:'HNM4'} | fontClasses }}" href="{{ item.url }}">{{ item.text }}</a>{{ ', ' if not loop.last }}</li>
           {% if loop.last %}
           </ul>
           {% endif %}
