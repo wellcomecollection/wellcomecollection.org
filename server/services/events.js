@@ -3,12 +3,11 @@ import type {Event, EventFormat, EventBookingType, DateRange} from '../content-m
 import type {IApi} from 'prismic-javascript';
 import {List} from 'immutable';
 import Prismic from 'prismic-javascript';
-import {RichText, Date as PrismicDate} from 'prismic-dom';
+import {RichText} from 'prismic-dom';
 import {prismicApi} from './prismic-api';
 import {getContributors, getPromo} from './prismic-content';
 
 export async function getEvent(id: string): Promise<?Event> {
-
   const prismic: IApi = await prismicApi();
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
