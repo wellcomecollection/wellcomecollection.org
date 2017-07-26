@@ -33,12 +33,7 @@
 }
 
 .slider-control--inactive {
-  // stylelint-disable declaration-no-important
-  cursor: default !important;
-  // stylelint-enable declaration-no-important
-  .control-arrow {
-    opacity: 0.3;
-  }
+  visibility: hidden;
 }
 
 /*
