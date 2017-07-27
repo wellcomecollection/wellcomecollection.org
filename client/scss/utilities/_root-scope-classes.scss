@@ -33,7 +33,7 @@
 }
 
 @each $color-key, $color-value in $colors {
-  .font--#{$color-key} {
+  .font-#{$color-key} {
     // stylelint-disable sh-waqar/declaration-use-variable
     color: nth($color-value, 1);
     // stylelint-enable sh-waqar/declaration-use-variable
@@ -41,7 +41,7 @@
 }
 
 @each $color-key, $color-value in $colors {
-  .font-hover--#{$color-key}:hover {
+  .font-hover-#{$color-key}:hover {
     // stylelint-disable sh-waqar/declaration-use-variable
     color: nth($color-value, 1);
     // stylelint-enable sh-waqar/declaration-use-variable
@@ -140,8 +140,6 @@
 
 .plain-list {
   list-style: none;
-  margin: 0;
-  padding: 0;
 }
 
 .inline {
@@ -195,3 +193,10 @@
   background: color('white');
 }
 
+.no-margin {
+  margin: 0;
+}
+
+.no-padding {
+  padding: 0;
+}

@@ -1,5 +1,5 @@
 <div class="social-media-block">
-  <div class="row row--cream row--has-wobbly-background {{ {s:10} | spacingClasses({padding: ['top', 'bottom']}) }}">
+  <div class="row bg-cream row--has-wobbly-background {{ {s:10} | spacingClasses({padding: ['top', 'bottom']}) }}">
     <div class="row__wobbly-background"></div>
     <div class="container">
       {% componentV2 'divider', null, {'dashed': true} %}
@@ -7,7 +7,7 @@
         {% icon model.icon %}Follow us on {{ model.service }}
       </div>
       <a href="{{ model.url }}"
-        class="social-media-block__handle font--turquoise-text plain-link {{ {s:'WB6', m:'WB4'} | fontClasses }} flex flex--v-center flex--h-center {{ {s:6} | spacingClasses({margin: ['bottom']}) }}">
+        class="social-media-block__handle font-turquoise-text plain-link {{ {s:'WB6', m:'WB4'} | fontClasses }} flex flex--v-center flex--h-center {{ {s:6} | spacingClasses({margin: ['bottom']}) }}">
         @{{ model.handle }}
       </a>
       <div class="grid {{ {s:10} | spacingClasses({padding: ['bottom']}) }}">

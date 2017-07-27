@@ -20,6 +20,11 @@
   }
 }
 
+.slider-control--prev,
+.slider-control--next {
+  transition: opacity 400ms ease;
+}
+
 .slider-control--prev {
   .control-arrow {
     transform: rotate(90deg);
@@ -33,12 +38,7 @@
 }
 
 .slider-control--inactive {
-  // stylelint-disable declaration-no-important
-  cursor: default !important;
-  // stylelint-enable declaration-no-important
-  .control-arrow {
-    opacity: 0.3;
-  }
+  opacity: 0;
 }
 
 /*

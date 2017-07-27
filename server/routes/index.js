@@ -8,8 +8,7 @@ import {
   setPreviewSession,
   renderEvent,
   renderEventbriteEmbed,
-  renderExplore,
-  renderWebcomic
+  renderExplore
 } from '../controllers/content';
 
 const r = new Router({
@@ -27,7 +26,6 @@ r.get('/kaboom', (ctx, next) => {
 // Content
 //
 r.get('/:preview?/articles/(W):id', renderArticle);
-r.get('/:preview?/webcomics/:id', renderWebcomic);
 r.get('/explore', renderExplore);
 r.get('/preview', setPreviewSession);
 r.get('/events/:id', renderEvent);

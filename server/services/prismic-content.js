@@ -49,7 +49,7 @@ function prismicImageToPicture(captionedImage) {
   }: Picture);
 }
 
-export async function getArticle(id: string, req: Request) {
+export async function getArticle(id: string, req: ?Request) {
   const prismic = req ? await prismicPreviewApi(req) : await prismicApi();
 
   const fetchLinks = [
@@ -59,18 +59,19 @@ export async function getArticle(id: string, req: Request) {
   ];
 
   const articles = await prismic.query([
-    Prismic.Predicates.at('document.id', id)
-    // This should be here, but Prismic is borked, and I need this to work now.
-    // TODO: Put this back once Prismic are on it.
-    // Prismic.Predicates.any('document.type', ['article', 'events'])
+    Prismic.Predicates.at('document.id', id),
+    Prismic.Predicates.any('document.type', ['articles', 'webcomics'])
   ], {fetchLinks});
-  const prismicArticle = articles.total_results_size === 1 ? articles.results[0] : null;
+  const prismicDoc = articles.total_results_size === 1 ? articles.results[0] : null;
 
-  if (!prismicArticle) {
+  if (!prismicDoc) {
     return null;
   }
 
-  return parseArticleAsArticle(prismicArticle);
+  switch (prismicDoc.type) {
+    case 'articles': return parseArticleAsArticle(prismicDoc);
+    case 'webcomics': return parseWebcomicAsArticle(prismicDoc);
+  }
 }
 
 function parseArticleAsArticle(prismicArticle) {
@@ -119,6 +120,7 @@ function parseArticleAsArticle(prismicArticle) {
 }
 
 function convertContentToBodyParts(content) {
+  // TODO: Add these as ContentBlocks when the model is in
   return content.map(slice => {
     switch (slice.slice_type) {
       case 'standfirst':
@@ -153,6 +155,18 @@ function convertContentToBodyParts(content) {
             name: asText(slice.primary.heading),
             items: slice.items.map(prismicImageToPicture)
           }
+        };
+
+      case 'imageList':
+        return {
+          weight: 'default',
+          type: 'imageList',
+          value: slice.items.map(item => {
+            const image = prismicImageToPicture(item);
+            const description = RichText.asHtml(item.description);
+            const title = asText(item.title);
+            return { title, image, description };
+          })
         };
 
       case 'quote':
@@ -295,23 +309,10 @@ export async function getEvent(id) {
   return article;
 }
 
-export async function getWebcomic(id: string, req: Request) {
-  const prismic = req ? await prismicPreviewApi(req) : await prismicApi();
-  const fetchLinks = [
-    'people.name', 'people.image', 'people.twitterHandle', 'people.description',
-    'access-statements.title', 'access-statements.description',
-    'series.name', 'series.description', 'series.color', 'series.commissionedLength'
-  ];
-  const webcomics = await prismic.query(Prismic.Predicates.at('document.id', id), {fetchLinks});
-  const webcomic = webcomics.total_results_size === 1 ? webcomics.results[0] : null;
-
-  return parseWebcomicAsArticle(webcomic);
-}
-
 // TODO: There's some abstracting to do here
 function parseWebcomicAsArticle(prismicDoc) {
   // TODO : construct this not from strings
-  const url = `/webcomics/${prismicDoc.id}`;
+  const url = `/articles/${prismicDoc.id}`;
 
   // TODO: potentially get rid of this
   const publishDate = getPublishedDate(prismicDoc);

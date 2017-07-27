@@ -9,6 +9,7 @@ export const context = {
   work: Object.assign({}, mockJson, {
     license: 'CC-BY-NC',
     imgLink: 'https://wellcomecollection-miro-images.imgix.net/V0047000/V0047696.jpg',
+    imgWidth: 1000,
     moreInfo: [
       {
         title: "Curator's intro",

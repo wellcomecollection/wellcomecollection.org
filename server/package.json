@@ -46,7 +46,6 @@
     "rimraf": "^2.6.1",
     "superagent": "^3.3.1",
     "supertest": "^3.0.0",
-    "svgo": "^0.7.1",
     "wellcomecollection-config": "file:../config"
   },
   "devDependencies": {
@@ -57,7 +56,8 @@
     "flow-typed": "^2.1.5",
     "nodemon": "^1.10.2",
     "open": "0.0.5",
-    "pa11y": "^4.2.0"
+    "pa11y": "^4.2.0",
+    "svgo": "^0.7.2"
   },
   "ava": {
     "require": [

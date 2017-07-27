@@ -47,6 +47,18 @@
             {% componentV2 'tweet', bodyPart.value %}
           {% elif bodyPart.type === 'instagramEmbed' %}
             {% componentV2 'instagram-embed', bodyPart.value %}
+          {% elif bodyPart.type === 'imageList' %}
+            {% if(bodyPart.value.length > 0) %}
+            <ul class="plain-list no-margin no-padding">
+              {% for item in bodyPart.value %}
+                <li>
+                  <h2>{{ loop.index }}. {{ item.title }}</h2>
+                  {% componentV2 'captioned-image', item.image, {'has-border-bottom': item.image.caption}, {showCopyright: true} %}
+                  {{item.description | safe}}
+                </li>
+              {% endfor %}
+            </ul>
+            {% endif %}
           {% elif bodyPart.type === 'quote' %}
             {% set fontStyles = {s:'HNL3'} %}
             {% componentV2 'quote', {body: bodyPart.value.body | safe, footer: bodyPart.value.footer | safe}, {'block': true}, {fontStyles: fontStyles} %}

@@ -12,7 +12,6 @@ export const context = {
     'work': true
   },
   data: {
-    extraInformationIconClasses: ['icon--white', 'icon--2x'],
-    extraChevronIconClasses: ['icon--white']
+    extraIconClasses: ['icon--2x', 'icon--white']
   }
 };
