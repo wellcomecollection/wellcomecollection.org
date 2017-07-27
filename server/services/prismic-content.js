@@ -25,7 +25,7 @@ function getPublishedDate(doc) {
   return PrismicDate(doc.data.publishDate || doc.first_publication_date || Date.now());
 }
 
-export async function getArticle(id: string, req: Request) {
+export async function getArticle(id: string, req: ?Request) {
   const prismic = req ? await prismicPreviewApi(req) : await prismicApi();
 
   const fetchLinks = [
