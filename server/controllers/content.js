@@ -11,8 +11,7 @@ import {collectorsPromo} from '../data/series';
 import {
   getArticle,
   getArticleList,
-  getEvent,
-  getWebcomic
+  getEvent
 } from '../services/prismic-content';
 
 export const renderArticle = async(ctx, next) => {
@@ -37,27 +36,6 @@ export const renderArticle = async(ctx, next) => {
   }
 };
 
-export async function renderWebcomic(ctx, next) {
-  const format = ctx.request.query.format;
-  const id = ctx.params.id;
-  const preview = Boolean(ctx.params.preview);
-  const webcomic = await getWebcomic(id, preview ? ctx.request : null);
-
-  if (webcomic) {
-    if (format === 'json') {
-      ctx.body = webcomic;
-    } else {
-      ctx.render('pages/article', {
-        pageConfig: createPageConfig({
-          title: webcomic.title,
-          inSection: 'explore'
-        }),
-        article: webcomic
-      });
-    }
-  }
-}
-
 export async function setPreviewSession(ctx, next) {
   const {token} = ctx.request.query;
   ctx.cookies.set(Prismic.previewCookie, token, {
@@ -77,7 +55,7 @@ async function getPreviewSession(token) {
     prismic.previewSession(token, (doc) => {
       switch (doc.type) {
         case 'articles': return `/preview/articles/${doc.id}`;
-        case 'webcomics': return `/preview/webcomics/${doc.id}`;
+        case 'webcomics': return `/preview/articles/${doc.id}`;
       }
     }, '/', (err, redirectUrl) => {
       if (err) {
