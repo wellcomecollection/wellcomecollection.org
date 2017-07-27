@@ -1,4 +1,3 @@
-// @flow
 import entities from 'entities';
 import {List} from 'immutable';
 import type {Person} from './person';

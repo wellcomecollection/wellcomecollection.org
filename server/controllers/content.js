@@ -10,9 +10,9 @@ import {isFlagEnabled} from '../util/flag-status';
 import {collectorsPromo} from '../data/series';
 import {
   getArticle,
-  getArticleList,
-  getEvent
+  getArticleList
 } from '../services/prismic-content';
+import {getEvent} from '../services/events';
 
 export const renderArticle = async(ctx, next) => {
   const format = ctx.request.query.format;
@@ -81,7 +81,7 @@ export async function renderEvent(ctx, next) {
           title: event.title,
           inSection: 'explore'
         }),
-        article: event
+        event: event
       });
     }
   }

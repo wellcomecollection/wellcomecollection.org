@@ -1,4 +1,3 @@
-// @flow
 import type {OpeningHours} from './opening-hours';
 import {galleryOpeningHours} from './opening-hours';
 import {objToJsonLd} from '../util/json-ld';
