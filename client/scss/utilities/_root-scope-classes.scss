@@ -48,6 +48,10 @@
   }
 }
 
+.caps {
+  text-transform: uppercase;
+}
+
 @each $color-key, $color-value in $colors {
   .bg-#{$color-key} {
     // stylelint-disable sh-waqar/declaration-use-variable
@@ -187,6 +191,14 @@
 
 .border-left--smoke {
   border-left: 5px solid color('smoke');
+}
+
+.border-top {
+  border-top: 1px solid color('silver');
+}
+
+.border-bottom {
+  border-bottom: 1px solid color('silver');
 }
 
 .bg-white {

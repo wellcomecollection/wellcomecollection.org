@@ -14,7 +14,8 @@
 
 </style>
 <article itemscope itemtype="http://schema.org/Event">
-  <div class="row {{{s: 4} | spacingClasses({ padding: ['left', 'right', 'top'] })}}">
+
+  <div class="row {{{s: 2} | spacingClasses({ margin: ['left', 'right', 'top'] })}}">
     <div class="container">
       <div class="rounded-container">
         {% if event.featuredMedia %}
@@ -23,14 +24,75 @@
       </div>
     </div>
   </div>
-  {# {% componentV2 'page-description', {
-      title: event.title,
-      lead: true
-    },
-    { icon: event.contentType | getIconForContentType }
-  %}
-  <pre>
-    {{event | prettyDump | safe}}
-  </pre> #}
+
+
+  <div class="row {{{s: 2} | spacingClasses({ margin: ['left', 'right', 'top'] })}}">
+    <div class="container">
+      <div class="flex flex--v-center font-elf-green {{ {s:'HNM4'} | fontClasses }}">
+        {% icon 'other/ticket', null, ['icon--2x', 'icon--teal'] %}
+        <strong class="caps {{ {s: 2}| spacingClasses({margin: ['left']}) }}">Free</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="row {{{s: 2} | spacingClasses({ margin: ['left', 'right', 'top'] })}}">
+    <div class="container">
+      <h1 class="{{ {s:'WB4'} | fontClasses }} no-margin" itemprop="headline">
+        {{ event.title }}
+      </h1>
+    </div>
+  </div>
+
+  <div class="row {{{s: 2} | spacingClasses({ margin: ['left', 'right', 'top'] })}}">
+    <div class="container">
+      {# TODO: Tidy up. This is a bit weird, but works  #}
+      {% for dateRange in event.when.toJS() %}
+        <div class="{{ {s: 'HNM3'} | fontClasses }}">
+          {{ dateRange.start | formatAndDedupeOnDate(dateRange.end) | join(' - ') }}
+        </div>
+        <div class="{{ {s: 'HNL3'} | fontClasses }}">
+          {{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | join(' - ') }}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="row border-top border-bottom
+    {{ {s: 2} | spacingClasses({ margin: ['left', 'right', 'top', 'bottom'], padding: ['top', 'bottom'] })}}
+    {{ {s: 'HNL4'} | fontClasses }}
+  ">
+    <div class="container">
+      <div class="flex {{ {s: 1} | spacingClasses({margin: ['top', 'bottom']}) }}">
+        <div class="{{ {s:1} | spacingClasses({margin:['right']}) }} {{ {s: 'HNL3'} | fontClasses }}">{% icon 'a11y/a11y' %}</div>
+        <p class="no-margin">Step-free access is available to all floors of the building</p>
+      </div>
+
+      <div class="flex {{ {s: 1} | spacingClasses({margin: ['top', 'bottom']}) }}">
+        <div class="{{ {s:1} | spacingClasses({margin:['right']}) }} {{ {s: 'HNL3'} | fontClasses }}">{% icon 'a11y/a11y_visual' %}</div>
+        <p class="no-margin">Magnifying glasses and sheets are available to borrow</p>
+      </div>
+
+      <p class="{{ {s: 4} | spacingClasses({margin: ['top', 'bottom']}) }}">
+        <a href="https://wellcomecollection.org/visit-us/accessibility" class="font-elf-green">
+          <b>Find out more about accessiblity here</b>
+        </a>
+      </p>
+    </div>
+  </div>
+
+  {# TODO: This data isn't real  #}
+  <div class="row
+    {{ {s: 2} | spacingClasses({ margin: ['left', 'right', 'top', 'bottom'] })}}
+    {{ {s: 'HNL3'} | fontClasses }}
+  ">
+    <div class="container">
+      <p>These events are <b class="caps">free</b>. Tickets will become available below from 11.00 on Friday 30 June.</p>
+      <a class="btn font-HNM5-s btn--dark" href="wellcomecollection.org">
+        {% icon 'other/ticket', null, ['icon--2x', 'icon--teal'] %}
+        Reserve free tickets
+      </a>
+    </div>
+  </div>
+
 </article>
 {% endblock %}
