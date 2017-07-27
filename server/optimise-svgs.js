@@ -19,7 +19,9 @@ glob(`${root}/**/*.svg`, (err, files) => {
 
       mkdirp(path.dirname(file), () => {
         svgo.optimize(data, optimisedFile => {
-          fs.writeFile(file, optimisedFile.data);
+          fs.writeFile(file, optimisedFile.data, (err) => {
+            if (err) throw err;
+          });
         });
       });
     });
