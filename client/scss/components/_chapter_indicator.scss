@@ -41,7 +41,9 @@ $chapter-indicator-colors: 'purple-graphics', 'red-graphics', 'orange-graphics',
   z-index: 1;
   background: color('white');
   opacity: 0.2;
+  width: auto;
   min-width: auto;
+  max-width: 100%;
   height: 100%;
   margin-right: 1%;
 
