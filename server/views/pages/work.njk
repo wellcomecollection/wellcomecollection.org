@@ -5,36 +5,9 @@
 {% endblock %}
 
 {% block body %}
-  {% if queryString %}
-    <div class="row bg-black {{ {s:2} | spacingClasses({padding: ['top', 'bottom']}) }}">
-      <div class="container">
-        <div class="grid">
-          <div class="{{ {s:12, m:12, l:12, xl: 12} | gridClasses }}">
-            {% componentV2 'return-to-results', {queryString: queryString} %}
-          </div>
-        </div>
-      </div>
-    </div>
-  {% endif %}
-  <div class="row bg-black {% if not queryString %}{{ {s:8} | spacingClasses({padding: ['top']}) }}{% endif %}">
-    <div class="container">
-      <div class="grid">
-        <div class="{{ {s:12, m:12, l:10, xl:10, shiftL:1, shiftXl:1} | gridClasses }}">
-          {% componentV2 'main-media-work', {contentUrl: work.imgLink, caption: work.description, width: work.imgWidth, isIiif: true}, {'fit-vh': true}, {sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row bg-black {{ {s:2} | spacingClasses({padding: ['top', 'bottom']}) }}">
-    <div class="container">
-      <div class="grid">
-        <div class="{{ {s:12, m:12, l:12, xl: 12} | gridClasses }}">
-          {% componentV2 'scroll-to-info', {elementId: 'work-info'}, {'work': true}, {extraClasses: ['float-r'], extraIconClasses: ['icon--2x', 'icon--white']} %}
-        </div>
-      </div>
-    </div>
-  </div>
+  {% set iiifModel = {contentUrl: work.imgLink, caption: work.description, width: work.imgWidth} %}
+  {% set iiifData = {lazyload: true, sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
+  {% componentV2 'work-media', {queryString: queryString, iiifModel: iiifModel, iiifData: iiifData} %}
 
   <div class="row {{ {s:3, m:3, l:3, xl: 3} | spacingClasses({padding: ['top', 'bottom']}) }}">
     <div class="container">
