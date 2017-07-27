@@ -10,7 +10,11 @@ $tweakpoints: (
   // the rest of the viewport with a work image
   .enhanced & {
     @include respond-to('medium') {
-      height: $header-height-fixed;
+      height: $header-height-fixed-small;
+    }
+
+    @include respond-to('header-medium') {
+      height: $header-height-fixed-large;
     }
   }
 }
