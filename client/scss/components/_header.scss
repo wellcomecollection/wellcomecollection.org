@@ -5,6 +5,16 @@ $tweakpoints: (
   'small': map-get($breakpoints, 'small')
 );
 
+.header {
+  // Setting this allows us to use calc() in order to e.g. fill
+  // the rest of the viewport with a work image
+  .enhanced & {
+    @include respond-to('medium') {
+      height: $header-height-fixed;
+    }
+  }
+}
+
 .header__upper {
   padding-top: $vertical-space-unit;
   padding-bottom: $vertical-space-unit;

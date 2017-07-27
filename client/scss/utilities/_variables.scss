@@ -202,6 +202,7 @@ $spacing-unit: 6px;
 $article-top-space: 2 * $vertical-space-unit;
 $border-radius-unit: 6px;
 $spacing-directions: ('top', 'right', 'bottom', 'left');
+$header-height-fixed: 87px; // The calculated value, i.e. the height the header would be even if this wasn't set
 
 $container-padding-s: map-get($container-padding, 'small');
 $container-padding-m: map-get($container-padding, 'medium');

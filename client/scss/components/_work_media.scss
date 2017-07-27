@@ -3,7 +3,7 @@
   height: 80vh;
 
   @include respond-to('medium') {
-    height: 90vh;
+    height: calc(100vh - #{$header-height-fixed});
   }
 
   .image {
@@ -16,7 +16,7 @@
     padding: 10 * $spacing-unit;
 
     @include respond-to('medium') {
-      max-height: 90vh;
+      max-height: calc(100vh - #{$header-height-fixed});
     }
 
     .enhanced & {
