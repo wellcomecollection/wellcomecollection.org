@@ -78,7 +78,7 @@ export const context = {
       example: 'Library Item Group Info Label',
       size: '20px',
       spacing: '40',
-      lineHeight: '32px',
+      lineHeight: '30px',
       usage: 'Library group info label • Bold option in article body • Bold option in Library item lead description • Transporter title for library things'
     },
     {
@@ -94,7 +94,7 @@ export const context = {
       example: 'Filter',
       size: '14px',
       spacing: '80',
-      lineHeight: '24px',
+      lineHeight: '20px',
       usage: 'Pimary, secondary & tertiary buttons • Labels/optional labels • Bold option in library data'
     },
     {
@@ -126,7 +126,7 @@ export const context = {
       example: 'By discovering (with James Watson) the double helix of DNA, and helping to crack its code, Francis Crick laid the foundations of modern molecular biology.',
       size: '20px',
       spacing: '40',
-      lineHeight: '32px',
+      lineHeight: '30px',
       usage: 'Article lead paragraph • Main description in archives & items etc • Article body copy'
     },
     {
@@ -134,7 +134,7 @@ export const context = {
       example: 'Mental health : facing the challenges, building solutions : report from the WHO European Ministerial Conference',
       size: '16px',
       spacing: '40',
-      lineHeight: '24px',
+      lineHeight: '20px',
       usage: 'Library item title on card/search result'
     },
     {
