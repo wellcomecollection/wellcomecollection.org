@@ -36,6 +36,12 @@ export function getPromo(doc): ?ImagePromo {
   }: ImagePromo);
 }
 
+export function getFeaturedMediaFromBody(doc): ?Picture {
+  return List(doc.data.body.filter(slice => slice.slice_label === 'featured')
+    .map(slice => slice.primary)
+    .map(prismicImageToPicture)).first();
+}
+
 function prismicImageToPicture(captionedImage) {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
   return ({

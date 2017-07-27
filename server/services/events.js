@@ -5,7 +5,7 @@ import {List} from 'immutable';
 import Prismic from 'prismic-javascript';
 import {RichText} from 'prismic-dom';
 import {prismicApi} from './prismic-api';
-import {getContributors, getPromo} from './prismic-content';
+import {getContributors, getPromo, getFeaturedMediaFromBody} from './prismic-content';
 
 export async function getEvent(id: string): Promise<?Event> {
   const prismic: IApi = await prismicApi();
@@ -28,6 +28,7 @@ export async function getEvent(id: string): Promise<?Event> {
       end: new Date(slice.primary.end)
     }: DateRange);
   }));
+  const featuredMedia = getFeaturedMediaFromBody(event);
 
   const e = ({
     blockType: 'events',
@@ -37,7 +38,8 @@ export async function getEvent(id: string): Promise<?Event> {
     bookingType: (event.data.bookingType: EventBookingType),
     when: when,
     contributors: contributors,
-    promo: promo
+    promo: promo,
+    featuredMedia: featuredMedia
   }: Event);
 
   return e;

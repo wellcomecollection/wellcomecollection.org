@@ -46,4 +46,5 @@ export type Event = {| ...ContentBlock, ...{|
   when: List<DateRange>,
   contributors: List<Contributor>,
   promo: ?ImagePromo,
+  featuredMedia: ?Picture,
 |}|}

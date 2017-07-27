@@ -1,8 +1,8 @@
 {% extends 'layout/default.njk' %}
 
 {% block pageMeta %}
-  {% component 'open-graph', { pageConfig: pageConfig, article: article } %}
-  {% component 'twitter-card', { pageConfig: pageConfig, article: article } %}
+  {% component 'open-graph', { pageConfig: pageConfig, article: event } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, article: event } %}
   <meta name="description" content="{{ event.description | safe | striptags }}" />
 {% endblock %}
 
@@ -10,9 +10,20 @@
 <script type="application/ld+json">
   {{ event | jsonLd('contentLd') | safe }}
 </script>
-<article>
-  <article itemscope itemtype="http://schema.org/Article">
-  {% componentV2 'page-description', {
+<style>
+
+</style>
+<article itemscope itemtype="http://schema.org/Event">
+  <div class="row {{{s: 4} | spacingClasses({ padding: ['left', 'right', 'top'] })}}">
+    <div class="container">
+      <div class="rounded-container">
+        {% if event.featuredMedia %}
+          {% componentV2 'image', event.featuredMedia, {lazyload: true} %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {# {% componentV2 'page-description', {
       title: event.title,
       lead: true
     },
@@ -20,6 +31,6 @@
   %}
   <pre>
     {{event | prettyDump | safe}}
-  </pre>
+  </pre> #}
 </article>
 {% endblock %}
