@@ -3,8 +3,7 @@
   height: 80vh;
 
   @include respond-to('medium') {
-    height: auto;
-    max-height: 90vh;
+    height: 90vh;
   }
 
   .image {
