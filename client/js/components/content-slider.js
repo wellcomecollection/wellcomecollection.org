@@ -1,5 +1,4 @@
 import debounce from 'lodash.debounce';
-import Hammer from 'hammerjs';
 import { nodeList, setPropertyPrefixed, featureTest, addClassesToElements, removeClassesFromElements, addAttrToElements, removeAttrFromElements } from '../util';
 import { trackEvent } from '../utils/track-event';
 import fastdom from '../utils/fastdom-promise';
@@ -57,7 +56,6 @@ const contentSlider = (el, options) => {
     sliderControlInactive: `slider-control--inactive`
   };
   // Define vars
-  const sliderTouch = new Hammer(sliderElements.slidesContainer);
   const indexAttr = 'data-slide-index'; // Added to slide items to help with tabbing
   const id = sliderElements.slidesContainer.getAttribute('id');
   let slidesWidthArray;
@@ -362,10 +360,6 @@ const contentSlider = (el, options) => {
       });
     });
   }
-
-  // Handle touch
-  sliderTouch.on('swiperight', prevSlide);
-  sliderTouch.on('swipeleft', nextSlide);
 
   // Handle slider width changes
   window.addEventListener('resize', debounce(onWidthChange, 500));

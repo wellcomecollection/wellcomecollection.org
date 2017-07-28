@@ -39,7 +39,6 @@
     "core-js": "^2.4.1",
     "fastdom": "^1.0.6",
     "fontfaceobserver": "^2.0.9",
-    "hammerjs": "^2.0.8",
     "lazysizes": "^3.0.0",
     "lodash.debounce": "^4.0.8",
     "redux": "^3.6.0",
