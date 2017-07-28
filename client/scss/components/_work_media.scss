@@ -1,9 +1,17 @@
+$tweakpoints: (
+  'header-medium': 825px,
+);
+
 .work-media {
   position: relative;
   height: 80vh;
 
   @include respond-to('medium') {
-    height: 90vh;
+    height: calc(100vh - #{$header-height-fixed-small});
+  }
+
+  @include respond-to('header-medium') {
+    height: calc(100vh - #{$header-height-fixed-large});
   }
 
   .image {
@@ -16,7 +24,11 @@
     padding: 10 * $spacing-unit;
 
     @include respond-to('medium') {
-      max-height: 90vh;
+      max-height: calc(100vh - #{$header-height-fixed-small});
+    }
+
+    @include respond-to('header-medium') {
+      max-height: calc(100vh - #{$header-height-fixed-large});
     }
 
     .enhanced & {
