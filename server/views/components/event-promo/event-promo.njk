@@ -1,0 +1,33 @@
+<div class="event-promo">
+  <div class="event-promo__featured-media {{ {s:2, m:0} | spacingClasses({margin: ['top', 'bottom']}) }}">
+    {% if model.featuredMedia %}
+      {% componentV2 'image', model.featuredMedia, {lazyload: true}, {extraClasses: ['rounded-corners']} %}
+    {% endif %}
+  </div>
+
+  <div class="event-promo__details">
+    <div class="{{ {s:2, m:1, l:2} | spacingClasses({margin: ['bottom']}) }}">
+      <div class="flex flex--v-center font-elf-green {{ data.ticketInfoFont | fontClasses }}">
+        {% icon 'other/ticket', null, ['icon--2x', 'icon--teal'] %}
+        <strong class="caps {{ {s: 2}| spacingClasses({margin: ['left']}) }}">{{ model.ticketInfo }}</strong>
+      </div>
+    </div>
+
+    <div class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
+      <h1 class="{{ data.titleFont | fontClasses }} no-margin" itemprop="headline">
+        {{ model.title }}
+      </h1>
+    </div>
+
+    {% for dateRange in model.when.toJS() %}
+      <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
+        <div class="{{ data.dateFont | fontClasses }}">
+          {{ dateRange.start | formatAndDedupeOnDate(dateRange.end) | join(' - ') }}
+        </div>
+        <div class="{{ data.timeFont | fontClasses }}">
+          {{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | join(' - ') }}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
