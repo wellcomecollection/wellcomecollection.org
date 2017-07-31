@@ -15,18 +15,16 @@
 </style>
 <article itemscope itemtype="http://schema.org/Event">
 
-  <div class="row {{{s: 2} | spacingClasses({ margin: ['left', 'right', 'top'] })}}">
+  <div class="row {{ {s:2} | spacingClasses({margin: ['top', 'bottom']}) }}">
     <div class="container">
-      <div class="rounded-container">
-        {% if event.featuredMedia %}
-          {% componentV2 'image', event.featuredMedia, {lazyload: true} %}
-        {% endif %}
-      </div>
+      {% if event.featuredMedia %}
+        {% componentV2 'image', event.featuredMedia, {lazyload: true}, {extraClasses: ['rounded-corners']} %}
+      {% endif %}
     </div>
   </div>
 
 
-  <div class="row {{{s: 2} | spacingClasses({ margin: ['left', 'right', 'top'] })}}">
+  <div class="row {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
     <div class="container">
       <div class="flex flex--v-center font-elf-green {{ {s:'HNM4'} | fontClasses }}">
         {% icon 'other/ticket', null, ['icon--2x', 'icon--teal'] %}
@@ -35,7 +33,7 @@
     </div>
   </div>
 
-  <div class="row {{{s: 2} | spacingClasses({ margin: ['left', 'right', 'top'] })}}">
+  <div class="row {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
     <div class="container">
       <h1 class="{{ {s:'WB4'} | fontClasses }} no-margin" itemprop="headline">
         {{ event.title }}
@@ -43,25 +41,25 @@
     </div>
   </div>
 
-  <div class="row {{{s: 2} | spacingClasses({ margin: ['left', 'right', 'top'] })}}">
+  <div class="row {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
     <div class="container">
       {# TODO: Tidy up. This is a bit weird, but works  #}
       {% for dateRange in event.when.toJS() %}
-        <div class="{{ {s: 'HNM3'} | fontClasses }}">
-          {{ dateRange.start | formatAndDedupeOnDate(dateRange.end) | join(' - ') }}
-        </div>
-        <div class="{{ {s: 'HNL3'} | fontClasses }}">
-          {{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | join(' - ') }}
+        <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
+          <div class="{{ {s: 'HNM3'} | fontClasses }}">
+            {{ dateRange.start | formatAndDedupeOnDate(dateRange.end) | join(' - ') }}
+          </div>
+          <div class="{{ {s: 'HNL3'} | fontClasses }}">
+            {{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | join(' - ') }}
+          </div>
         </div>
       {% endfor %}
     </div>
   </div>
 
-  <div class="row border-top border-bottom
-    {{ {s: 2} | spacingClasses({ margin: ['left', 'right', 'top', 'bottom'], padding: ['top', 'bottom'] })}}
-    {{ {s: 'HNL4'} | fontClasses }}
-  ">
+  <div class="row {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s: 'HNL4'} | fontClasses }}">
     <div class="container">
+      <hr class="divider divider--pumice divider--keyline" />
       <div class="flex {{ {s: 1} | spacingClasses({margin: ['top', 'bottom']}) }}">
         <div class="{{ {s:1} | spacingClasses({margin:['right']}) }} {{ {s: 'HNL3'} | fontClasses }}">{% icon 'a11y/a11y' %}</div>
         <p class="no-margin">Step-free access is available to all floors of the building</p>
@@ -77,14 +75,12 @@
           <b>Find out more about accessiblity here</b>
         </a>
       </p>
+      <hr class="divider divider--pumice divider--keyline" />
     </div>
   </div>
 
   {# TODO: This data isn't real  #}
-  <div class="row
-    {{ {s: 2} | spacingClasses({ margin: ['left', 'right', 'top', 'bottom'] })}}
-    {{ {s: 'HNL3'} | fontClasses }}
-  ">
+  <div class="row {{ {s:10} | spacingClasses({margin: ['bottom']}) }} {{ {s: 'HNL3'} | fontClasses }}">
     <div class="container">
       <p>These events are <b class="caps">free</b>. Tickets will become available below from 11.00 on Friday 30 June.</p>
       <a class="btn font-HNM5-s btn--dark" href="wellcomecollection.org">
