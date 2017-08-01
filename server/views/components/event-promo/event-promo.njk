@@ -1,4 +1,8 @@
 <div class="event-promo">
+  {% if data.isLink %}
+    <a href="/events/{{ model.id }}" class="plain-link event-promo__link">
+  {% endif %}
+
   <div class="event-promo__featured-media {{ {s:2, m:0} | spacingClasses({margin: ['top', 'bottom']}) }}">
     {% if model.featuredMedia %}
       {% componentV2 'image', model.featuredMedia, {lazyload: true}, {extraClasses: ['rounded-corners']} %}
@@ -30,4 +34,7 @@
       </div>
     {% endfor %}
   </div>
+  {% if data.isLink %}
+    </a>
+  {% endif %}
 </div>
