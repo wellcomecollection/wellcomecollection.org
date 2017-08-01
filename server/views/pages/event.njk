@@ -20,6 +20,7 @@
     <div class="container">
       <div class="grid">
         <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+          {% block tags %}{% endblock %}
           {% set eventPromoData = {
             ticketInfoFont: {s:'HNM4', m:'HNM6', l:'HNM4'},
             titleFont: {s:'WB4', m:'WB6', l:'WB4', xl:'WB3'},
@@ -27,6 +28,7 @@
             timeFont: {s: 'HNL3', m:'HNL5', l:'HNL3'}
           } %}
           {% componentV2 'event-promo', {
+            id: event.id,
             featuredMedia: event.featuredMedia,
             title: event.title,
             ticketInfo: 'Free',
