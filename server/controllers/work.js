@@ -17,9 +17,6 @@ function imageUrlFromMiroId(id, useIiif) {
   }
 }
 
-// Hackety Hack, to deal with the fact we get broken images if we request an image that is larger than the original
-// We either need the iiif API to return the largest image possible in this case: https://github.com/wellcometrust/platform-api/issues/698
-// Or have the image dimensions available in the wellcomecollection API
 async function imageWidthFromMiroId(id) {
   return await superagent.get(`https://iiif.wellcomecollection.org/image/${id}.jpg/info.json`)
     .then((request) => {
