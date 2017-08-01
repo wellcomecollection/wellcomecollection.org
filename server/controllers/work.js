@@ -5,15 +5,26 @@ import {createResultsList} from '../model/results-list';
 import {PaginationFactory} from '../model/pagination';
 import {isFlagEnabled} from '../util/flag-status';
 
-function imageUrlFromMiroId(id, useIiif) {
+function imageUrlFromMiroId(id, useIiif, useOrigin) {
   const cleanedMiroId = id.match(/(^\w{1}[0-9]*)+/g, '')[0];
   const miroFolder = `${cleanedMiroId.slice(0, -3)}000`;
 
   if (useIiif) {
-    return `https://iiif.wellcomecollection.org/image/${id}.jpg/full/WIDTH,/0/default.jpg`;
+    if (useOrigin) {
+      return `https://iiif.wellcomecollection.org/image/${id}.jpg/full/WIDTH,/0/default.jpg/origin`;
+    } else {
+      return `https://iiif.wellcomecollection.org/image/${id}.jpg/full/WIDTH,/0/default.jpg`;
+    }
   } else {
     return `https://s3-eu-west-1.amazonaws.com/miro-images-public/${miroFolder}/${id}.jpg`;
   }
+}
+
+function shouldGetImageFromOrigin(ctx) {
+  const [flags] = ctx.intervalCache.get('flags');
+  const useOrigin = isFlagEnabled(ctx.featuresCohort, 'imagesFromOrigin', flags);
+
+  return useOrigin;
 }
 
 function shouldUseIiif(ctx) {
@@ -45,7 +56,7 @@ export const work = async(ctx, next) => {
   return next();
 };
 
-function getResultsWithImages(results, useIiif) {
+function getResultsWithImages(results, useIiif, useOrigin) {
   if (!results) return;
 
   if (results.error) {
@@ -57,7 +68,8 @@ function getResultsWithImages(results, useIiif) {
 
   return results.results.map((result) => {
     const miroId = result.identifiers[0].value;
-    const imgLink = imageUrlFromMiroId(miroId, useIiif);
+    const imgLink = imageUrlFromMiroId(miroId, useIiif, useOrigin
+    );
     return Object.assign({}, result, {imgLink});
   });
 }
@@ -66,7 +78,7 @@ export const search = async (ctx, next) => {
   const { query, page } = ctx.query;
   const queryString = ctx.search;
   const results = query && query.trim() !== '' ? await getWorks(query, page) : null;
-  const resultsWithImages = getResultsWithImages(results, shouldUseIiif(ctx));
+  const resultsWithImages = getResultsWithImages(results, shouldUseIiif(ctx), shouldGetImageFromOrigin(ctx));
   const pageSize = results && results.pageSize;
   const totalPages = results && results.totalPages;
   const totalResults = (results && results.totalResults) || 0;
