@@ -203,6 +203,11 @@ $article-top-space: 2 * $vertical-space-unit;
 $border-radius-unit: 6px;
 $spacing-directions: ('top', 'right', 'bottom', 'left');
 
+$container-padding-s: map-get($container-padding, 'small');
+$container-padding-m: map-get($container-padding, 'medium');
+$container-padding-l: map-get($container-padding, 'large');
+$container-padding-xl: map-get($container-padding, 'xlarge');
+
 $breakpoints: (
   'small': 0,
   'medium': 600px,

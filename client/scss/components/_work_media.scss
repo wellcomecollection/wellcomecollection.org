@@ -1,0 +1,51 @@
+.work-media {
+  position: relative;
+  height: 80vh;
+
+  @include respond-to('medium') {
+    height: 90vh;
+  }
+
+  .image {
+    max-height: 80vh;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    margin: 0 auto;
+    display: block;
+    padding: 10 * $spacing-unit;
+
+    @include respond-to('medium') {
+      max-height: 90vh;
+    }
+
+    .enhanced & {
+      padding: 0;
+    }
+
+    @supports (object-fit: contain) {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+}
+
+.work-media__controls {
+  background: linear-gradient(color('black'), color('transparent') 20%, color('transparent') 80%, color('black'));
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transition: opacity 400ms ease;
+  pointer-events: none;
+
+  .enhanced & {
+    opacity: 0;
+  }
+
+  &.is-active {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,16 @@
+<div class="row bg-black work-media js-work-media">
+  <div class="work-media__controls js-work-media-controls pointer-events-none">
+    {% if model.queryString %}
+      <div class="flush-container-left {{ {s:2} | spacingClasses({padding: ['top']}) }}">
+        <a href="/search{{ model.queryString }}"
+          class="flex flex--v-center {{ {s:'HNM6', m:'HNM5'} | fontClasses }} font-white plain-link pointer-events-all js-work-media-control">
+          {% icon 'actions/arrow-small', null, ['icon--match-text', 'icon--white', 'icon--90', 'margin-right-s1', 'margin-right-m1', 'margin-right-l1', 'margin-right-xl1'] %}Return to results
+        </a>
+      </div>
+    {% endif %}
+
+    {% componentV2 'scroll-to-info', {elementId: 'work-info'}, {'work': true}, {extraClasses: ['flush-container-right','js-work-media-control', 'pointer-events-all'], extraIconClasses: ['icon--2x', 'icon--white']} %}
+  </div>
+
+  {% componentV2 'image-iiif', model.iiifModel, {test: true}, model.iiifData %}
+</div>
