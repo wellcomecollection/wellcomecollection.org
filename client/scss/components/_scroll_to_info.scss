@@ -1,18 +1,3 @@
-@keyframes scroll-to-info-animate-icons {
-  0% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
 .scroll-to-info--work {
-  transform: translateY(0);
   bottom: 4 * $spacing-unit;
-
-  .icon {
-    animation: scroll-to-info-animate-icons 2s ease-in-out 3 forwards;
-  }
 }
