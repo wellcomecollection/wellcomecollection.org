@@ -1,0 +1,9 @@
+<ul class="organization-list plain-list no-margin no-padding flex flex--v-center">
+  {% for organization in model %}
+    <li style="max-width: 200px;" class="orginization-list__item {{ {s:4} | spacingClasses({margin: ['right']}) }}">
+      <a href="{{ organization.url }}" class="organization-list__link">
+        <img src="{{ organization.logo }}" alt="{{ organization.name }}" />
+      </a>
+    </li>
+  {% endfor %}
+</ul>

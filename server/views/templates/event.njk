@@ -111,7 +111,8 @@
 
   <div class="row bg-cream {{ {s:10} | spacingClasses({padding: ['bottom']}) }} {{ {s:2} | spacingClasses({padding: ['top']}) }}">
     <div class="container">
-      <h2 class="{{ {s:'WB6'} | fontClasses }}">Partners</h2>
+      <h2 class="{{ {s:'WB6'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">Partners</h2>
+      {% componentV2 'organization-list', partners %}
     </div>
   </div>
 {% endblock %}
