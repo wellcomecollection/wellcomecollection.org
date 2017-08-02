@@ -13,6 +13,7 @@ import {
   getArticleList
 } from '../services/prismic-content';
 import {getEvent} from '../services/events';
+import {getExhibition} from '../services/exhibition';
 
 export const renderArticle = async(ctx, next) => {
   const format = ctx.request.query.format;
@@ -79,9 +80,29 @@ export async function renderEvent(ctx, next) {
       ctx.render('pages/event', {
         pageConfig: createPageConfig({
           title: event.title,
-          inSection: 'explore'
+          inSection: 'whatson'
         }),
         event: event
+      });
+    }
+  }
+}
+
+export async function renderExhibition(ctx, next) {
+  const id = `${ctx.params.id}`;
+  const exhibition = await getExhibition(id);
+  const format = ctx.request.query.format;
+
+  if (exhibition) {
+    if (format === 'json') {
+      ctx.body = exhibition;
+    } else {
+      ctx.render('pages/exhibition', {
+        pageConfig: createPageConfig({
+          title: exhibition.title,
+          inSection: 'whatson'
+        }),
+        exhibition: exhibition
       });
     }
   }

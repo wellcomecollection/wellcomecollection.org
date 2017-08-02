@@ -213,6 +213,10 @@
   background: color('white');
 }
 
+.relative {
+  position: relative;
+}
+
 .flush-container-left {
   position: absolute;
   left: $container-padding-s;
@@ -261,4 +265,17 @@
 
 .round {
   border-radius: 50%;
+}
+
+// TODO: is this a root-scope-class too far?
+.s-relative {
+  @include respond-to('small') {
+    position: relative;
+  }
+}
+
+.m-absolute {
+  @include respond-to('medium') {
+    position: absolute;
+  }
 }
