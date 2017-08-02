@@ -43,7 +43,7 @@ function prismicImageToPicture(captionedImage) {
     contentUrl: image && convertPrismicToImgIxUri(image.url), // TODO: Send this through the img.wc.org
     width: image && image.dimensions.width,
     height: image && image.dimensions.height,
-    caption: captionedImage.caption && captionedImage.caption.length !== 0 && asText(captionedImage.caption), // TODO: Support HTML
+    caption: captionedImage.caption && captionedImage.caption.length !== 0 && asHtml(captionedImage.caption),
     alt: image && image.alt,
     copyrightHolder: image && image.copyright
   }: Picture);
@@ -262,6 +262,10 @@ export async function getArticleList(documentTypes = ['articles', 'webcomics']) 
 
 function asText(maybeContent) {
   return maybeContent && RichText.asText(maybeContent).trim();
+}
+
+function asHtml(maybeContent) {
+  return maybeContent && RichText.asHtml(maybeContent).trim();
 }
 
 export async function getEvent(id) {
