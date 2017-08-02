@@ -69,5 +69,5 @@ function dir(relPath) {
 }
 
 function serverDir(relPath) {
-  return dir(`./../server/${relPath}`)
+  return dir(`./../server/${relPath}`);
 }
