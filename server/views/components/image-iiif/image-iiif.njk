@@ -7,7 +7,7 @@
   {% set loop = [1] %}
 {% endif %}
 <noscript>
-  <img width="{{model.width}}" height="{{model.height}}" class="image" src="{{ model.contentUrl | replace('WIDTH', 320) }}?w=320"
+  <img width="{{model.width}}" height="{{model.height}}" class="image" src="{{ model.contentUrl | replace('WIDTH', 320) }}"
 alt="{% if model.alt %} {{ model.alt | striptags() }}{% elif model.caption %} {{ model.caption | striptags() }}{% endif %}" />
 </noscript>
 
@@ -17,7 +17,7 @@ alt="{% if model.alt %} {{ model.alt | striptags() }}{% elif model.caption %} {{
     promo__image-mask {{data.clipPathClass}}
   {% endif %}
   "
-  src="{{ model.contentUrl | replace('WIDTH', 30) }}?w=30"
+  src="{{ model.contentUrl | replace('WIDTH', 30) }}"
   data-srcset="
   {%- for size in sizes -%}
     {{ comma() }}{{ model.contentUrl | replace('WIDTH', size) }} {{ size }}w
