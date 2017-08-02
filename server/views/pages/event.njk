@@ -1,8 +1,8 @@
 {% extends 'layout/default.njk' %}
 
 {% block pageMeta %}
-  {% component 'open-graph', { pageConfig: pageConfig, article: article } %}
-  {% component 'twitter-card', { pageConfig: pageConfig, article: article } %}
+  {% component 'open-graph', { pageConfig: pageConfig, article: event } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, article: event } %}
   <meta name="description" content="{{ event.description | safe | striptags }}" />
 {% endblock %}
 
@@ -10,16 +10,71 @@
 <script type="application/ld+json">
   {{ event | jsonLd('contentLd') | safe }}
 </script>
-<article>
-  <article itemscope itemtype="http://schema.org/Article">
-  {% componentV2 'page-description', {
-      title: event.title,
-      lead: true
-    },
-    { icon: event.contentType | getIconForContentType }
-  %}
-  <pre>
-    {{event | prettyDump | safe}}
-  </pre>
+<style>
+
+</style>
+<article itemscope itemtype="http://schema.org/Event">
+
+
+  <div class="row {{ {s:4} | spacingClasses({padding: ['top', 'bottom']}) }}">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+          {% block tags %}{% endblock %}
+          {% set eventPromoData = {
+            ticketInfoFont: {s:'HNM4', m:'HNM6', l:'HNM4'},
+            titleFont: {s:'WB4', m:'WB6', l:'WB4', xl:'WB3'},
+            dateFont: {s: 'HNM3', m: 'HNM5', l:'HNM3'},
+            timeFont: {s: 'HNL3', m:'HNL5', l:'HNL3'}
+          } %}
+          {% componentV2 'event-promo', {
+            id: event.id,
+            featuredMedia: event.featuredMedia,
+            title: event.title,
+            ticketInfo: 'Free',
+            when: event.when
+          }, {}, eventPromoData %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row {{ {s:10} | spacingClasses({padding: ['bottom']}) }}">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:12, m:5, l:5, xl:5} | gridClasses }} {{ {s:'HNM4'} | fontClasses}}">
+          {% block eventDescription %}{% endblock %}
+        </div>
+        <div class="{{ {s:12, m:7, l:7, xl:7} | gridClasses }}">
+          <div class="grid">
+            <div class="{{ {s:12, m:12, l:12, xl:7} | gridClasses }} {{ {s:'HNL3', m:'HNL4'} | fontClasses }}">
+
+              <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }}">
+                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y' %}</div>
+                <p class="no-margin">Step-free access is available to all floors of the building</p>
+              </div>
+
+              <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }}">
+                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y_visual' %}</div>
+                <p class="no-margin">Magnifying glasses and sheets are available to borrow</p>
+              </div>
+
+              <p class="{{ {s:'HNM3', m:'HNM4'} | fontClasses }}">
+                <a href="https://wellcomecollection.org/visit-us/accessibility" class="font-elf-green">Find out more about accessiblity here</a>
+              </p>
+
+            </div>
+            <div class="{{ {s:12, m:12, l:12, xl:5} | gridClasses }}">
+              {% block bookTickets %}{% endblock %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
 </article>
 {% endblock %}
+

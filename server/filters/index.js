@@ -14,7 +14,6 @@ import concat from './concat';
 import contains from './contains';
 import getCacheBustFile from './get-cache-bust-file';
 import jsonLd from './json-ld';
-import {formatDate, formatDateTime, formatDateWithComingSoon} from './format-date';
 import {isFlagEnabled} from '../util/flag-status';
 import {objectAssign} from './object-assign';
 import {arrayFromObject} from './array-from-object';
@@ -22,6 +21,13 @@ import {groupBodyParts} from './group-body-parts';
 import {isString} from './is-string';
 import {createLinkObject, getLinkObjects} from './get-link-objects';
 import {prettyDump} from './pretty-dump';
+import {
+  formatDate,
+  formatDateTime,
+  formatDateWithComingSoon,
+  formatAndDedupeOnDate,
+  formatAndDedupeOnTime
+} from './format-date';
 
 export default Map({
   youtubeEmbedUrl,
@@ -42,6 +48,8 @@ export default Map({
   formatDate,
   formatDateTime,
   formatDateWithComingSoon,
+  formatAndDedupeOnDate,
+  formatAndDedupeOnTime,
   isFlagEnabled,
   objectAssign,
   arrayFromObject,

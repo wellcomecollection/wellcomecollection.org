@@ -1,0 +1,118 @@
+{% extends 'pages/event.njk' %}
+
+{% block tags %}
+  {% componentV2 'tags', tags %}
+{% endblock %}
+
+{% block eventDescription %}
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, placeat doloremque? Sapiente voluptates quis laboriosam vitae nobis facilis magnam, voluptas dolorem earum animi asperiores accusantium, commodi ipsa provident odio incidunt.</p>
+{% endblock %}
+
+{% block bookTickets %}
+  <p class="{{ {s:'HNL3', m:'HNL4'} | fontClasses }}">These events are <strong class="{{ {s:'HNM3', m:'HNM4'} | fontClasses }} caps">free</strong>. Tickets will become available below from 11.00 on Friday 30 June.</p>
+  <a class="btn font-HNM5-s btn--dark" href="wellcomecollection.org">{% icon 'other/ticket', null, ['icon--2x', 'icon--teal'] %}Reserve free tickets</a>
+{% endblock %}
+
+{% block body %}
+  {{ super() }}
+
+
+  <div class="row bg-black {{ {s:2} | spacingClasses({padding: ['top'], margin: ['bottom']}) }} {{ {s:10} | spacingClasses({padding: ['bottom']}) }}">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:12, m:8, shiftM:2, l:8, shiftL:2, xl:6, shiftXl:3} | gridClasses }}">
+          <h2 class="{{ {s:'WB6'} | fontClasses }} font-white">Making Nature: Behind the scenes</h2>
+          {% componentV2 'iframed-video', video %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
+    <div class="container">
+      <h2 class="{{ {s:'WB6'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">Speakers</h2>
+      <div class="grid">
+        <div class="{{ {s:12, m:6, l:6} | gridClasses }}">
+          <div class="grid">
+            <div class="{{ {s:6, m:8, l:4, xl:4} | gridClasses }}">
+              <img class="round" src="http://fillmurray.com/300/300" alt="" />
+            </div>
+            <div class="{{ {s:12, m:12, l:8, xl:8} | gridClasses }}">
+              <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+                <h3 class="{{ {s:'HNM3'} | fontClasses }}">Bill Murray</h3>
+                <span class="{{ {s:'HNL3'} | fontClasses }}">Head of Money</span>
+              </div>
+              <div class="{{ {s: 'HNL4'} | fontClasses }}">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente ut temporibus, molestiae perspiciatis ipsum quaerat, consequatur, adipisci amet rem tenetur quasi nemo, possimus! Quidem quas neque tenetur veritatis rerum, repudiandae?</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="{{ {s:12, m:6, l:6} | gridClasses }}">
+          <div class="grid">
+            <div class="{{ {s:6, m:8, l:4, xl:4} | gridClasses }}">
+              <img class="round" src="http://placebeyonce.com/300-300" alt="" />
+            </div>
+            <div class="{{ {s:12, m:12, l:8, xl:8} | gridClasses }}">
+              <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+                <h3 class="{{ {s:'HNM3'} | fontClasses }}">Beyoncé</h3>
+                <span class="{{ {s:'HNL3'} | fontClasses }}">Crazy in Love</span>
+              </div>
+              <div class="{{ {s: 'HNL4'} | fontClasses }}">
+                <p>Qui, sunt, quam vero blanditiis recusandae perferendis nisi voluptates quas rerum id, quisquam quo! Deleniti odio cupiditate, ex hic omnis iure enim.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="container">
+      <hr class="divider divider--dashed" />
+      <h2 class="{{ {s:'WB6'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">Related events</h2>
+    </div>
+  </div>
+  <div class="row {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
+    <div class="container container--scroll touch-scroll">
+      <div class="grid grid--scroll">
+        {% set eventPromoModel = {
+          id: event.id,
+          featuredMedia: event.featuredMedia,
+          title: event.title,
+          ticketInfo: 'Free',
+          when: event.when
+        } %}
+        {% set eventPromoData = {
+          ticketInfoFont: {s:'HNM6'},
+          titleFont: {s:'WB6'},
+          dateFont: {s: 'HNM5'},
+          timeFont: {s: 'HNL5'},
+          isLink: true
+        } %}
+        <div class="{{ {s:12, m:6, l:3} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+          {% componentV2 'event-promo', eventPromoModel, {}, eventPromoData %}
+        </div>
+
+        <div class="{{ {s:12, m:6, l:3} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+          {% componentV2 'event-promo', eventPromoModel, {}, eventPromoData %}
+        </div>
+
+        <div class="{{ {s:12, m:6, l:3} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+          {% componentV2 'event-promo', eventPromoModel, {}, eventPromoData %}
+        </div>
+
+        <div class="{{ {s:12, m:6, l:3} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+          {% componentV2 'event-promo', eventPromoModel, {}, eventPromoData %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row bg-cream {{ {s:10} | spacingClasses({padding: ['bottom']}) }} {{ {s:2} | spacingClasses({padding: ['top']}) }}">
+    <div class="container">
+      <h2 class="{{ {s:'WB6'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">Partners</h2>
+      {% componentV2 'organization-list', partners %}
+    </div>
+  </div>
+{% endblock %}

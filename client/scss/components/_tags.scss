@@ -1,0 +1,10 @@
+.tags__list {
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.tags__tag {
+  overflow: hidden;
+  border-top-left-radius: $border-radius-unit;
+  border-bottom-right-radius: $border-radius-unit;
+}
