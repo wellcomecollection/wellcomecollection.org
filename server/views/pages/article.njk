@@ -64,12 +64,14 @@
           <div class="{{ {s: 12, m: 10, shiftM: 1, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
             {% if article.bodyParts.length > 0  %}
               {% for author in article.author %}
-                {% component 'author', {
-                  name: author.name,
-                  twitterHandle: author.twitterHandle,
-                  modifiers: ['border-bottom'] if loop.last else [],
-                  image: author.image
-                } %}
+                {% if author %}
+                  {% component 'author', {
+                    name: author.name,
+                    twitterHandle: author.twitterHandle,
+                    modifiers: ['border-bottom'] if loop.last else [],
+                    image: author.image
+                  } %}
+                {% endif %}
               {% endfor %}
             {% endif %}
 
@@ -79,13 +81,15 @@
               {% endblock %}
 
               {% for author in article.author %}
-                {% component 'author', {
-                  name: author.name,
-                  twitterHandle: author.twitterHandle,
-                  modifiers: ['border-left'],
-                  description: author.description,
-                  image: author.image
-                } %}
+                {% if author %}
+                  {% component 'author', {
+                    name: author.name,
+                    twitterHandle: author.twitterHandle,
+                    modifiers: ['border-left'],
+                    description: author.description,
+                    image: author.image
+                  } %}
+                {% endif %}
               {% endfor %}
 
               {% componentV2 'divider', null, {'stub': true, 'black': true}, {extraClasses: [{s:4} | spacingClasses({margin: ['top']})]} %}
