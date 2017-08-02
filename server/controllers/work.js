@@ -1,4 +1,3 @@
-import superagent from 'superagent';
 import {List} from 'immutable';
 import {createPageConfig} from '../model/page-config';
 import {getWork, getWorks} from '../services/wellcomecollection-api';
@@ -17,19 +16,6 @@ function imageUrlFromMiroId(id, useIiif) {
   }
 }
 
-// Hackety Hack, to deal with the fact we get broken images if we request an image that is larger than the original
-// We either need the iiif API to return the largest image possible in this case: https://github.com/wellcometrust/platform-api/issues/698
-// Or have the image dimensions available in the wellcomecollection API
-async function imageWidthFromMiroId(id) {
-  return await superagent.get(`https://iiif.wellcomecollection.org/image/${id}.jpg/info.json`)
-    .then((request) => {
-      return request.body.width;
-    }).catch((error) => {
-      console.error(error);
-      return '648';
-    });
-}
-
 function shouldUseIiif(ctx) {
   const [flags] = ctx.intervalCache.get('flags');
   const useIiif = isFlagEnabled(ctx.featuresCohort, 'useIiif', flags);
@@ -42,7 +28,7 @@ export const work = async(ctx, next) => {
   const queryString = ctx.search;
   const singleWork = await getWork(id);
   const miroId = singleWork.identifiers[0].value;
-  const imgWidth = shouldUseIiif(ctx) ? await imageWidthFromMiroId(miroId) : '648';
+  const imgWidth = '648';
   const imgLink = imageUrlFromMiroId(miroId, shouldUseIiif(ctx));
   const requestOrigin = ctx.request.origin;
   const requestPath = ctx.request.path;
