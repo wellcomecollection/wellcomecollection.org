@@ -267,7 +267,6 @@
   border-radius: 50%;
 }
 
-// TODO: is this a root-scope-class too far?
 .relative-s {
   @include respond-to('small') {
     position: relative;
