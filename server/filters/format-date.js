@@ -23,7 +23,7 @@ export function formatDateWithComingSoon(date: Date): string {
   return (isFuture ? 'Coming soon: ' : '') + formatDate(date);
 }
 
-export function formatDateRangeWithMessage({start, end}: {start: string, end: string}) {
+export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date}): string {
   const momentNow = moment();
   const momentStart = moment(start);
   const momentEnd = moment(end);
