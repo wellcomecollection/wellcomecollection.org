@@ -4,6 +4,7 @@ import type {Person} from '../model/person';
 import type {Picture} from '../model/picture';
 import {List} from 'immutable';
 
+// TODO: should these be plural or not?
 type ContentBlockType = 'events' | 'webcomics' | 'articles' | 'exhibition'
 
 type ContentBlock = {|

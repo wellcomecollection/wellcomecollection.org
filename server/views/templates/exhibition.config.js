@@ -1,4 +1,4 @@
-import {getExhibition} from '../../services/exhibition';
+import {getExhibition} from '../../services/exhibitions';
 import {getEvent} from '../../services/events';
 
 export const name = 'exhibition';

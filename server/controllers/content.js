@@ -13,7 +13,7 @@ import {
   getArticleList
 } from '../services/prismic-content';
 import {getEvent} from '../services/events';
-import {getExhibition} from '../services/exhibition';
+import {getExhibition} from '../services/exhibitions';
 
 export const renderArticle = async(ctx, next) => {
   const format = ctx.request.query.format;
