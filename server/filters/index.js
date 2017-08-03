@@ -26,6 +26,7 @@ import getA11yIcon from './get-a11y-icon';
 import {
   formatDate,
   formatDateTime,
+  formatDateRangeWithMessage,
   formatDateWithComingSoon,
   formatAndDedupeOnDate,
   formatAndDedupeOnTime
@@ -50,6 +51,7 @@ export default Map({
   jsonLd,
   formatDate,
   formatDateTime,
+  formatDateRangeWithMessage,
   formatDateWithComingSoon,
   formatAndDedupeOnDate,
   formatAndDedupeOnTime,

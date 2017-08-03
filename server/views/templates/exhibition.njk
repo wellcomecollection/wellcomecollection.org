@@ -1,7 +1,7 @@
 {% extends 'pages/exhibition.njk' %}
 
 {% block tags %}
-  <div class="flush-container-left s-relative m-absolute {{ {s:2} | spacingClasses({margin: ['top']}) }}">
+  <div class="flush-container-left relative-s absolute-m {{ {s:2} | spacingClasses({margin: ['top']}) }}">
     {% componentV2 'tags', tags, {exhibition: true} %}
   </div>
 {% endblock %}
@@ -10,8 +10,17 @@
   <p>Our summer exhibition shines a light on how each of us connects with nature. We are displaying objects borrowed from members of the public that tell a story about their relationship with nature. Together they create a collective snapshot of how we think about nature in the 21st century and explore how the health of our planet is intricately bound up with the behaviours and values of the people who inhabit it.</p>
 {% endblock %}
 
-{% block timingMessage %}
-  <strong>Open now</strong>
+{% block social %}
+  <div class="{{ {s:'WB6'} | fontClasses }}">
+    <p class="{{ {s:2} | spacingClasses({margin: ['top', 'bottom']}) }}">Share your story</p>
+    <p class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }}"><a href="#" class="plain-link font-elf-green">#ModernNature</a></p>
+    <div class="flex">
+      <a href="#" class="{{ {s:2} | spacingClasses({margin: ['right']}) }}">{% icon 'social/twitter', null, ['icon--elf-green'] %}</a>
+      <a href="#" class="{{ {s:2} | spacingClasses({margin: ['right']}) }}">{% icon 'social/facebook', null, ['icon--elf-green'] %}</a>
+      <a href="#" class="{{ {s:2} | spacingClasses({margin: ['right']}) }}">{% icon 'social/instagram', null, ['icon--elf-green'] %}</a>
+      <a href="#" class="{{ {s:2} | spacingClasses({margin: ['right']}) }}">{% icon 'social/youtube', null, ['icon--elf-green'] %}</a>
+    </div>
+  </div>
 {% endblock %}
 
 {% block body %}

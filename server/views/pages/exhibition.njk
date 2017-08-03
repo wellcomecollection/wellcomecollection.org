@@ -24,7 +24,7 @@
           <div class="flex flex--v-center font-elf-green {{ {s:'HNM4'} | fontClasses }}">
             {% icon 'other/ticket', null, ['icon--2x', 'icon--teal'] %}
             <strong class="caps {{ {s: 2}| spacingClasses({margin: ['left', 'right']}) }}">Free</strong>
-            {% block timingMessage %}{% endblock %}
+            <strong>{{ {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage }}</strong>
           </div>
           <h1 class="{{ {s:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
           <span class="{{ {s:'HNM3'} | fontClasses }}">
@@ -38,7 +38,7 @@
   <div class="row {{ {s:10} | spacingClasses({padding: ['bottom']}) }}">
     <div class="container">
       <div class="grid">
-        <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:'HNL2'} | fontClasses}}">
+        <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:'HNL3', m:'HNL2'} | fontClasses}}">
           {% block exhibitionDescription %}{% endblock %}
         </div>
         <div class="{{ {s:12, m:10, shiftM:1, l:5, xl:5} | gridClasses }}">
@@ -55,6 +55,7 @@
           </p>
 
           <hr class="divider divider--pumice divider--keyline" />
+          {% block social %}{% endblock %}
         </div>
       </div>
     </div>

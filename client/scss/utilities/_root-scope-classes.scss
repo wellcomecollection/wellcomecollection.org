@@ -268,13 +268,13 @@
 }
 
 // TODO: is this a root-scope-class too far?
-.s-relative {
+.relative-s {
   @include respond-to('small') {
     position: relative;
   }
 }
 
-.m-absolute {
+.absolute-m {
   @include respond-to('medium') {
     position: absolute;
   }
