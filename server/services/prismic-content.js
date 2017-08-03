@@ -42,7 +42,7 @@ export function getFeaturedMediaFromBody(doc): ?Picture {
     .map(prismicImageToPicture)).first();
 }
 
-function prismicImageToPicture(captionedImage) {
+export function prismicImageToPicture(captionedImage) {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
   return ({
     type: 'picture',

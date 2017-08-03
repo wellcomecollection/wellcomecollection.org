@@ -1,0 +1,82 @@
+{% extends 'pages/exhibition.njk' %}
+
+{% block tags %}
+  <div class="flush-container-left relative-s absolute-m {{ {s:2} | spacingClasses({margin: ['top']}) }}">
+    {% componentV2 'tags', tags %}
+  </div>
+{% endblock %}
+
+{% block exhibitionDescription %}
+  <p>Our summer exhibition shines a light on how each of us connects with nature. We are displaying objects borrowed from members of the public that tell a story about their relationship with nature. Together they create a collective snapshot of how we think about nature in the 21st century and explore how the health of our planet is intricately bound up with the behaviours and values of the people who inhabit it.</p>
+{% endblock %}
+
+{% block social %}
+  <div class="{{ {s:'WB6'} | fontClasses }}">
+    <p class="{{ {s:2} | spacingClasses({margin: ['top', 'bottom']}) }}">Share your story</p>
+    <p class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }}"><a href="#" class="plain-link font-elf-green">#ModernNature</a></p>
+    <div class="flex">
+      <a href="#" class="{{ {s:2} | spacingClasses({margin: ['right']}) }}">{% icon 'social/twitter', null, ['icon--elf-green'] %}</a>
+      <a href="#" class="{{ {s:2} | spacingClasses({margin: ['right']}) }}">{% icon 'social/facebook', null, ['icon--elf-green'] %}</a>
+      <a href="#" class="{{ {s:2} | spacingClasses({margin: ['right']}) }}">{% icon 'social/instagram', null, ['icon--elf-green'] %}</a>
+      <a href="#" class="{{ {s:2} | spacingClasses({margin: ['right']}) }}">{% icon 'social/youtube', null, ['icon--elf-green'] %}</a>
+    </div>
+  </div>
+{% endblock %}
+
+{% block body %}
+  {{ super() }}
+
+  <div class="row bg-black {{ {s:2} | spacingClasses({padding: ['top'], margin: ['bottom']}) }} {{ {s:10} | spacingClasses({padding: ['bottom']}) }}">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:12, m:8, shiftM:2, l:8, shiftL:2, xl:6, shiftXl:3} | gridClasses }}">
+          <h2 class="{{ {s:'WB6'} | fontClasses }} font-white">Making Nature: Behind the scenes</h2>
+          {% componentV2 'iframed-video', video %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="container">
+      <h2 class="{{ {s:'WB4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">Related events</h2>
+    </div>
+  </div>
+
+  <div class="row {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
+    <div class="container container--scroll touch-scroll">
+      <div class="grid grid--scroll">
+        {% set eventPromoModel = {
+          id: event.id,
+          featuredMedia: event.featuredMedia,
+          title: event.title,
+          ticketInfo: 'Free',
+          when: event.when
+        } %}
+        {% set eventPromoData = {
+          ticketInfoFont: {s:'HNM6'},
+          titleFont: {s:'WB6'},
+          dateFont: {s: 'HNM5'},
+          timeFont: {s: 'HNL5'},
+          isLink: true
+        } %}
+        <div class="{{ {s:12, m:6, l:3} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+          {% componentV2 'event-promo', eventPromoModel, {}, eventPromoData %}
+        </div>
+
+        <div class="{{ {s:12, m:6, l:3} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+          {% componentV2 'event-promo', eventPromoModel, {}, eventPromoData %}
+        </div>
+
+        <div class="{{ {s:12, m:6, l:3} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+          {% componentV2 'event-promo', eventPromoModel, {}, eventPromoData %}
+        </div>
+
+        <div class="{{ {s:12, m:6, l:3} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+          {% componentV2 'event-promo', eventPromoModel, {}, eventPromoData %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

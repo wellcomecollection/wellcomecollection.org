@@ -23,6 +23,26 @@ export function formatDateWithComingSoon(date: Date): string {
   return (isFuture ? 'Coming soon: ' : '') + formatDate(date);
 }
 
+export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date}): string {
+  const momentNow = moment();
+  const momentStart = moment(start);
+  const momentEnd = moment(end);
+  const momentWeekBeforeEnd = moment(end).subtract(7, 'd');
+  const isFuture = momentStart.isAfter(momentNow);
+  const isPast = momentEnd.isBefore(momentNow);
+  const isLastWeek = momentNow.isBetween(momentWeekBeforeEnd, momentEnd);
+
+  if (isFuture) {
+    return 'Coming soon';
+  } else if (isPast) {
+    return 'Past exhibition';
+  } else if (isLastWeek) {
+    return 'Last chance';
+  } else {
+    return 'Current';
+  }
+}
+
 export function formatAndDedupeOnDate(d1: Date, d2: Date): List<string> {
   return List([d1, d2]).map(formatDayDate).toSet().toList();
 }

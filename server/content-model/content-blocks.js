@@ -4,7 +4,8 @@ import type {Person} from '../model/person';
 import type {Picture} from '../model/picture';
 import {List} from 'immutable';
 
-type ContentBlockType = 'events' | 'webcomics' | 'articles'
+// TODO: should these be plural or not?
+type ContentBlockType = 'events' | 'webcomics' | 'articles' | 'exhibition'
 
 type ContentBlock = {|
   blockType: ContentBlockType,
@@ -47,4 +48,11 @@ export type Event = {| ...ContentBlock, ...{|
   contributors: List<Contributor>,
   promo: ?ImagePromo,
   featuredMedia: ?Picture,
+|}|}
+
+export type Exhibition = {| ...ContentBlock, ...{|
+  start: DateRange,
+  end: DateRange,
+  accessStatements: any,
+  featuredImage: Picture
 |}|}

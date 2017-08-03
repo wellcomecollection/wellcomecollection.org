@@ -213,6 +213,10 @@
   background: color('white');
 }
 
+.relative {
+  position: relative;
+}
+
 .flush-container-left {
   position: absolute;
   left: $container-padding-s;
@@ -261,4 +265,16 @@
 
 .round {
   border-radius: 50%;
+}
+
+.relative-s {
+  @include respond-to('small') {
+    position: relative;
+  }
+}
+
+.absolute-m {
+  @include respond-to('medium') {
+    position: absolute;
+  }
 }

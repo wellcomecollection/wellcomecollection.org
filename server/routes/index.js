@@ -7,6 +7,7 @@ import {
   renderArticle,
   setPreviewSession,
   renderEvent,
+  renderExhibition,
   renderEventbriteEmbed,
   renderExplore
 } from '../controllers/content';
@@ -24,11 +25,11 @@ r.get('/kaboom', (ctx, next) => {
 });
 
 // Content
-//
 r.get('/:preview?/articles/(W):id', renderArticle);
 r.get('/explore', renderExplore);
 r.get('/preview', setPreviewSession);
 r.get('/events/:id', renderEvent);
+r.get('/exhibitions/:id', renderExhibition);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 
 // API

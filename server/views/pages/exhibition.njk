@@ -1,0 +1,66 @@
+{% extends 'layout/default.njk' %}
+
+{% block pageMeta %}
+  {% component 'open-graph', { pageConfig: pageConfig, article: exhibition } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, article: exhibition } %}
+  {# <meta name="description" content="{{ exhibition.description | safe | striptags }}" /> #}
+{% endblock %}
+
+{% block body %}
+<script type="application/ld+json">
+  {{ exhibition | jsonLd('contentLd') | safe }}
+</script>
+
+<article itemscope itemtype="http://schema.org/ExhibitionEvent">
+  <div class="row relative">
+    {% block tags %}{% endblock %}
+    {% componentV2 'image', exhibition.featuredImage, {}, {lazyload: true} %}
+    {% component 'wobbly-edge', {background: 'white'} %}
+  </div>
+  <div class="row {{ {s:4} | spacingClasses({padding: ['top', 'bottom']}) }}">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
+          <div class="flex flex--v-center font-elf-green {{ {s:'HNM4'} | fontClasses }}">
+            {% icon 'other/ticket', null, ['icon--2x', 'icon--teal'] %}
+            <strong class="caps {{ {s: 2}| spacingClasses({margin: ['left', 'right']}) }}">Free</strong>
+            <strong>{{ {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage }}</strong>
+          </div>
+          <h1 class="{{ {s:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
+          <span class="{{ {s:'HNM3'} | fontClasses }}">
+            <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time> &ndash; <time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row {{ {s:10} | spacingClasses({padding: ['bottom']}) }}">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:'HNL3', m:'HNL2'} | fontClasses}}">
+          {% block exhibitionDescription %}{% endblock %}
+        </div>
+        <div class="{{ {s:12, m:10, shiftM:1, l:5, xl:5} | gridClasses }}">
+
+          {% for statement in exhibition.accessStatements %}
+            <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
+              <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon statement.value.slug | getA11yIcon %}</div>
+              {{ statement.value.data.description | prismicAsHtml | safe  }}
+            </div>
+          {% endfor %}
+
+          <p class="{{ {s:'HNL4'} | fontClasses}}">
+            <a class="plain-link font-elf-green" href="https://wellcomecollection.org/visit-us/accessibility" class="font-elf-green">Find out more about accessiblity here</a>
+          </p>
+
+          <hr class="divider divider--pumice divider--keyline" />
+          {% block social %}{% endblock %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</article>
+{% endblock %}
+
