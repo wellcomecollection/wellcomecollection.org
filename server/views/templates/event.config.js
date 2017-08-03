@@ -1,9 +1,11 @@
+import {createPageConfig} from '../../model/page-config';
 import {getEvent} from '../../services/events';
 
 export const name = 'event';
 export const handle = 'event-template';
 
 export const context = {
+  pageConfig: createPageConfig({inSection: 'whatson'}),
   event: getEvent('WXmdTioAAJWWjZdH'),
   tags: '@tags.model',
   video: {

@@ -1,3 +1,4 @@
+import {createPageConfig} from '../../model/page-config';
 import {getExhibition} from '../../services/exhibitions';
 import {getEvent} from '../../services/events';
 
@@ -5,6 +6,7 @@ export const name = 'exhibition';
 export const handle = 'exhibition-template';
 
 export const context = {
+  pageConfig: createPageConfig({inSection: 'whatson'}),
   event: getEvent('WXmdTioAAJWWjZdH'),
   exhibition: getExhibition('WYH6Px8AAH9Ic4Mf'),
   tags: '@tags.model',
