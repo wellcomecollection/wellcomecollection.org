@@ -28,6 +28,7 @@ import backToTop from './components/back-to-top';
 import toggleShowHide from './components/toggle-show-hide';
 import scrollToInfo from './components/scroll-to-info';
 import workMediaControls from './components/work-media-controls';
+import copyUrl from './components/copy-url';
 
 const init = () => {
   polyfills.init();
@@ -56,6 +57,9 @@ const init = () => {
   const toggleShowHideEls = document.querySelectorAll('.js-show-hide');
   const scrollToInfoEls = document.querySelectorAll('.js-scroll-to-info');
   const workMediaEls = document.querySelectorAll('.js-work-media');
+  const copyUrlEls = document.querySelectorAll('.js-copy-url');
+
+  nodeList(copyUrlEls).forEach(copyUrl);
 
   nodeList(workMediaEls).forEach(workMediaControls);
 
