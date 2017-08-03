@@ -3,8 +3,8 @@
     {% for tag in model %}
       <li class="tags__tag {{ {s:'HNL5', m:'WB7'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['right', 'bottom']}) }}">
         <{{'a' if tag.url else 'div'}}
-          {% if tag.url %}href="{{ model.url }}"{% endif %}
-          class="flex">
+          {% if tag.url %}href="{{ tag.url }}"{% endif %}
+          class="flex plain-link">
           {% if tag.prefix %}
             <span class="tags__inner font-white bg-black {{ {s:1} | spacingClasses({padding: ['left', 'right', 'top', 'bottom']}) }}">{{ tag.prefix }}</span>
           {% endif %}
