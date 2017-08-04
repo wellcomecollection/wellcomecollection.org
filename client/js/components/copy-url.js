@@ -16,6 +16,6 @@ export default (el) => {
       el.innerHTML = 'Copy failed';
     }
 
-    textarea.blur();
+    el.focus();
   });
 };
