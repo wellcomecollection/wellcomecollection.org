@@ -11,7 +11,7 @@ function imageUrlFromMiroId(id, useIiif, useOrigin) {
 
   if (useIiif) {
     if (useOrigin) {
-      return `https://iiif.wellcomecollection.org/image/${id}.jpg/full/WIDTH,/0/default.jpg/origin`;
+      return `https://iiif-origin.wellcomecollection.org/image/${id}.jpg/full/WIDTH,/0/default.jpg/`;
     } else {
       return `https://iiif.wellcomecollection.org/image/${id}.jpg/full/WIDTH,/0/default.jpg`;
     }
