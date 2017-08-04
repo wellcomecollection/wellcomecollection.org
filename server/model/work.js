@@ -2,7 +2,6 @@
 
 export type Work = {|
   id: string;
-  label: string,
   title: string;
   description: string;
   createdDate: {
