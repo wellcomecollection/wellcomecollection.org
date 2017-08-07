@@ -32,7 +32,7 @@ export const wellcomeCollection: Organization = {
   logo: {
     url: 'https://wellcomecollection.org/assets/icons/apple-touch-icon.png'
   },
-  twitterHandle: '@ExploreWellcome',
+  twitterHandle: 'ExploreWellcome',
   sameAs: [
     'https://twitter.com/ExploreWellcome',
     'https://www.facebook.com/wellcomecollection',

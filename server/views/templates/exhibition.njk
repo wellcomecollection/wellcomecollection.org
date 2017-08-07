@@ -7,7 +7,9 @@
 {% endblock %}
 
 {% block exhibitionDescription %}
-  <p>Our summer exhibition shines a light on how each of us connects with nature. We are displaying objects borrowed from members of the public that tell a story about their relationship with nature. Together they create a collective snapshot of how we think about nature in the 21st century and explore how the health of our planet is intricately bound up with the behaviours and values of the people who inhabit it.</p>
+  <p class="no-margin">Our summer exhibition shines a light on how each of us connects with nature. We are displaying objects borrowed from members of the public that tell a story about their relationship with nature.</p>
+
+  {% componentV2 'more-info-link', {name: 'More information', url: '#'} %}
 {% endblock %}
 
 {% block social %}
@@ -23,8 +25,45 @@
   </div>
 {% endblock %}
 
+{% block accessStatements %}
+  <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
+    <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y' %}</div>
+    <p class="no-margin">Step-free access is available to all floors of the building</p>
+  </div>
+  <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
+    <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y_visual' %}</div>
+    <p>Magnifying glasses and sheets are available to borrow</p>
+  </div>
+
+  <p class="{{ {s:'HNL4'} | fontClasses}}">
+    <a class="plain-link font-elf-green" href="https://wellcomecollection.org/visit-us/accessibility" class="font-elf-green">Find out more about accessiblity here</a>
+  </p>
+{% endblock %}
+
 {% block body %}
   {{ super() }}
+
+  <div class="row {{ {s:4} | spacingClasses({padding: ['top', 'bottom']}) }}">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:12} | gridClasses }}">
+          <nav>
+            <ul class="plain-list no-margin no-padding flex flex--wrap flex--h-center {{ {s:'WB6'} | fontClasses }}">
+              <li><a class="plain-link font-elf-green {{ {s:6} | spacingClasses({margin: ['right']}) }}" href="#">Review</a></li>
+              <li><a class="plain-link font-elf-green {{ {s:6} | spacingClasses({margin: ['right']}) }}" href="#">Video</a></li>
+              <li><a class="plain-link font-elf-green {{ {s:6} | spacingClasses({margin: ['right']}) }}" href="#">Photo Gallery</a></li>
+              <li><a class="plain-link font-elf-green {{ {s:6} | spacingClasses({margin: ['right']}) }}" href="#">Books</a></li>
+              <li><a class="plain-link font-elf-green {{ {s:6} | spacingClasses({margin: ['right']}) }}" href="#">Related Events</a></li>
+              <li><a class="plain-link font-elf-green" href="#">Related Articles</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {#static image for usablilty testing#}
+  <img src="/cardigan-theme/assets/images/temp/reviews.jpg" alt="" style="width:1362px; display:block; margin: 0 auto;" />
 
   <div class="row bg-black {{ {s:2} | spacingClasses({padding: ['top'], margin: ['bottom']}) }} {{ {s:10} | spacingClasses({padding: ['bottom']}) }}">
     <div class="container">
@@ -36,6 +75,11 @@
       </div>
     </div>
   </div>
+
+  {#static imagea for usablilty testing#}
+  <img src="/cardigan-theme/assets/images/temp/gallery.jpg" alt="" style="width:1362px; display:block; margin: 0 auto;" />
+  <img src="/cardigan-theme/assets/images/temp/objects.jpg" alt="" style="width:1362px; display:block; margin: 0 auto;" />
+  <img src="/cardigan-theme/assets/images/temp/books.jpg" alt="" style="width:1362px; display:block; margin: 0 auto;" />
 
   <div class="row">
     <div class="container">
@@ -75,6 +119,26 @@
         <div class="{{ {s:12, m:6, l:3} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
           {% componentV2 'event-promo', eventPromoModel, {}, eventPromoData %}
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="container">
+      <hr class="divider divider--dashed" />
+      <h2 class="{{ {s:'WB4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">Related Articles</h2>
+    </div>
+  </div>
+
+  <div class="row {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
+    <div class="container container--scroll touch-scroll">
+      <div class="grid grid--scroll">
+        {% for articlePromo in articlePromos %}
+          <div class="{{ {s:12, m:6, l:3} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+            {% componentV2 'promo', articlePromo %}
+          </div>
+        {% endfor %}
+
       </div>
     </div>
   </div>
