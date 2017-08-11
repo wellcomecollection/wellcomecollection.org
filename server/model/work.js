@@ -11,8 +11,7 @@ export type Work = {|
   creators: Array<string>;
   type: string;
   identifiers?: ?Array<{
-    source: string,
-    name: string,
+    identifierScheme: string,
     value: string,
     type: string
   }>;
