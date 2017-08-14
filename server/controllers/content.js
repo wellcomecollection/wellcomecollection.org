@@ -6,7 +6,6 @@ import {getEventbriteEventEmbed} from '../services/eventbrite';
 import {PromoFactory} from '../model/promo';
 import {getArticleStubs} from '../services/wordpress';
 import {getCuratedList} from '../services/prismic-curated-lists';
-import {isFlagEnabled} from '../util/flag-status';
 import {collectorsPromo} from '../data/series';
 import {
   getArticle,
@@ -118,13 +117,7 @@ export const renderEventbriteEmbed = async(ctx, next) => {
 
 export async function renderExplore(ctx, next) {
   // TODO: Remove WP content
-  const [flags] = ctx.intervalCache.get('flags');
-  const prismicArticlesOnExploreFlag = isFlagEnabled(ctx.featuresCohort, 'prismicArticlesOnExplore', flags);
-  const webcomicsFromPrismicFlag = isFlagEnabled(ctx.featuresCohort, 'webcomicsFromPrismic', flags);
-  const contentListPromise =
-    prismicArticlesOnExploreFlag ? getArticleList()
-      : webcomicsFromPrismicFlag ? getArticleList(['webcomics'])
-        : Promise.resolve([]);
+  const contentListPromise = getArticleList();
 
   const listRequests = [getCuratedList('explore'), getArticleStubs(10), contentListPromise];
   const [curatedList, articleStubs, contentList] = await Promise.all(listRequests);
