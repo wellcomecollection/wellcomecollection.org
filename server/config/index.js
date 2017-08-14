@@ -18,9 +18,22 @@ const config = {
   session: {
     secretKey: 'myKoajsSecretKey'
   },
-  cacheControl: {
-    files: ['text/css', 'application/javascript', 'application/font-woff', 'application/font-woff2']
-  }
+  cacheControl: [{
+    contentType: 'text/css'
+  },
+  {
+    contentType: 'application/javascript'
+  },
+  {
+    contentType: 'application/font-woff'
+  },
+  {
+    contentType: 'application/font-woff2'
+  },
+  {
+    contentType: 'text/html',
+    maxAge: 1800
+  }]
 };
 
 export default config;
