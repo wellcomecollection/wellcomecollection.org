@@ -5,15 +5,15 @@
 "identifiers": [
 {
 "label": "V0006724",
-"authority": "MIRO"
+"identifierScheme": "miro-image-number"
 },
 {
 "label": "ICV No 6939",
-"authority": "Videodisk"
+"identifierScheme": "Videodisk"
 },
 {
 "label": "b11579328",
-"authority": "Sierra"
+"identifierScheme": "Sierra"
 }
 ],
 "title": "A lecture on pneumatics at the Royal Institution, London. Co",
@@ -78,7 +78,7 @@
 "identifiers": [
 {
 "label": "V0006724",
-"authority": "MIRO"
+"identifierScheme": "miro-image-number"
 }
 ],
 "status": "Open"
