@@ -5,7 +5,7 @@ html {
 }
 
 body {
-  @include font('HNL5');
+  @include font('HNL4');
 
   @include respond-to('medium') {
     @include font('HNL3');
