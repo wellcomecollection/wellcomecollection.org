@@ -46,6 +46,15 @@
           {% endif %}
 
           {% componentV2 'copy-url', {id: 'work'} %}
+
+          <a href="/download?uri={{ work.imgLink | replace('WIDTH,', 'full') | urlencode }}"
+             download="{{ work.id }}.jpg"
+             rel="noopener noreferrer"
+             class="btn btn--dark {{ {s:4} | spacingClasses({margin: ['top']}) }}"
+             data-track-event='{"category": "works", "action": "download", "label": "{{ work.id }}"}'>
+             {% icon 'actions/download-1' %}
+              Download full size image
+          </a>
         </div>
       </div>
     </div>
