@@ -1,7 +1,7 @@
 <div class="tags {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
   <ul class="tags__list plain-list no-margin no-padding flex">
     {% for tag in model %}
-      <li class="tags__tag {{ {s:'HNL5', m:'WB7'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['right', 'bottom']}) }}">
+      <li class="tags__tag {{ {s:'HNL5', m:'WB7'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['right', 'bottom']}) }}">
         <{{'a' if tag.url else 'div'}}
           {% if tag.url %}href="{{ tag.url }}"{% endif %}
           class="flex plain-link">
