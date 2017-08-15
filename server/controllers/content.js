@@ -1,7 +1,7 @@
 import Prismic from 'prismic-javascript';
 import {OrderedMap} from 'immutable';
 import {prismicApi} from '../services/prismic-api';
-import {createPageConfig} from '../model/page-config';
+import {createPageConfig, getEditorialAnalyticsInfo} from '../model/page-config';
 import {getEventbriteEventEmbed} from '../services/eventbrite';
 import {PromoFactory} from '../model/promo';
 import {getArticleStubs} from '../services/wordpress';
@@ -26,10 +26,11 @@ export const renderArticle = async(ctx, next) => {
       ctx.body = article;
     } else {
       ctx.render('pages/article', {
-        pageConfig: createPageConfig({
+        pageConfig: Object.assign({}, createPageConfig({
           title: article.title,
-          inSection: 'explore'
-        }),
+          inSection: 'explore',
+          category: 'editorial'
+        }), getEditorialAnalyticsInfo(article)),
         article: article
       });
     }
@@ -79,7 +80,9 @@ export async function renderEvent(ctx, next) {
       ctx.render('pages/event', {
         pageConfig: createPageConfig({
           title: event.title,
-          inSection: 'whatson'
+          inSection: 'whatson',
+          category: 'publicprograms',
+          contentType: 'event'
         }),
         event: event
       });
@@ -99,7 +102,9 @@ export async function renderExhibition(ctx, next) {
       ctx.render('pages/exhibition', {
         pageConfig: createPageConfig({
           title: exhibition.title,
-          inSection: 'whatson'
+          inSection: 'whatson',
+          category: 'publicprograms',
+          contentType: 'exhibitions'
         }),
         exhibition: exhibition
       });
