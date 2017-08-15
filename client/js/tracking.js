@@ -5,6 +5,7 @@ import { trackEvent } from './utils/track-event';
 
 export default {
   init: () => {
+    // Mixpanel events
     on('body', 'click', '[data-track-click]', ({ target }) => {
       const component = target.closest('[data-component-name]');
       const clicked = target.closest('[data-track-click]');
@@ -17,6 +18,11 @@ export default {
         {componentId, action: 'click'}
       );
       trackEvent({name: componentName, properties});
+    });
+
+    // GA events
+    on('body', 'click', '[data-track-event]', ({ target }) => {
+      trackGaEvent(JSON.parse(target.getAttribute('data-track-event')));
     });
   }
 };
@@ -36,6 +42,15 @@ function getDomain(url) {
 
 function isExternal(url) {
   return getDomain(document.location.href) !== getDomain(url);
+}
+
+function trackGaEvent({category, action, label}) {
+  ga('send', {
+    hitType: 'event',
+    eventCategory: category,
+    eventAction: action,
+    eventLabel: label
+  });
 }
 
 on('body', 'click', 'a', ({ target }) => {
