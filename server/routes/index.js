@@ -26,7 +26,11 @@ r.get('/kaboom', (ctx, next) => {
 });
 r.get('/download', (ctx, next) => {
   const uri = ctx.request.query.uri;
-  ctx.body = request(uri);
+  if (uri.match('https://iiif.wellcomecollection.org')) {
+    ctx.body = request(uri);
+  } else {
+    ctx.throw('Invalid image host', 422);
+  }
 });
 
 // Content
