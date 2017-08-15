@@ -32,13 +32,13 @@
         <div class="grid">
           <div class="grid__cell">
             <h3 class="{{ {s:'WB6'} | fontClasses }}">Suggested Topics</h3>
-            {% componentV2 'tags', [
+            {% componentV2 'tags', {id: 'search-landing', tags: [
               {text: 'Health', url: '/search?query=health', bgColor: 'turquoise-text'},
               {text: 'Medicine', url: '/search?query=medicine', bgColor: 'turquoise-text'},
               {text: 'Nature', url: '/search?query=nature', bgColor: 'turquoise-text'},
               {text: 'Paintings', url: '/search?query=paintings', bgColor: 'turquoise-text'},
               {text: 'Science', url: '/search?query=science', bgColor: 'turquoise-text'}
-            ] %}
+            ]} %}
           </div>
         </div>
       </div>

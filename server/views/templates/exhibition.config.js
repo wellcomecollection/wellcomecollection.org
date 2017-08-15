@@ -19,8 +19,9 @@ export const context = {
   event: getEvent('WXmdTioAAJWWjZdH'),
   exhibition: getExhibition('WYH6Px8AAH9Ic4Mf'),
   articlePromos: getFourArticlePromos(),
-  tags: [
-    {
+  tags: {
+    id: 'cardigan-exhibition',
+    tags: [{
       text: 'Exhibition',
       url: '#'
     },
@@ -29,8 +30,8 @@ export const context = {
       text: 'A Museum of Modern Nature',
       url: '/components/preview/exhibition-template.html',
       bgColor: 'teal'
-    }
-  ],
+    }]
+  },
   video: {
     embedUrl: `https://www.youtube.com/embed/gyZBueN3ArU?version=3&rel=1&fs=1&autohide=2&showsearch=0&showinfo=1&iv_load_policy=1&wmode=transparent`
   }
