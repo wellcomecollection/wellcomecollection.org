@@ -13,7 +13,7 @@ export type PageConfig = {
   category?: 'editorial' | 'list' | 'info' | 'item';
   series?: ?string;
   positionInSeries?: ?number;
-  featuredContent?: ?string;
+  contentType?: ?string;
 };
 
 export function createPageConfig(data: PageConfig) {
@@ -37,7 +37,7 @@ export function getEditorialAnalyticsInfo(article: Article) {
   const series = article.series.find(a => seriesUrls.indexOf(a.url) > -1);
   const seriesUrl = series ? series.url : null;
   const positionInSeries = article.positionInSeries;
-  const featuredContent = article.contentType;
+  const contentType = article.contentType;
 
-  return {seriesUrl, positionInSeries, featuredContent};
+  return {seriesUrl, positionInSeries, contentType};
 }
