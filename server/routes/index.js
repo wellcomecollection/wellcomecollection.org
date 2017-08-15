@@ -1,4 +1,5 @@
 import Router from 'koa-router';
+import request from 'request';
 import {healthcheck, featureFlags} from '../controllers/utils';
 import {seriesNav, seriesTransporter, latestInstagramPosts, seriesContainerPromoList} from '../controllers/async-controllers';
 import {work, search} from '../controllers/work';
@@ -22,6 +23,10 @@ r.get('/healthcheck', healthcheck);
 r.get('/flags', featureFlags);
 r.get('/kaboom', (ctx, next) => {
   ctx.throw('Error Message', 500);
+});
+r.get('/download', (ctx, next) => {
+  const uri = ctx.request.query.uri;
+  ctx.body = request(uri);
 });
 
 // Content
