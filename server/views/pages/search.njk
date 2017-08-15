@@ -7,9 +7,16 @@
     {{ {s:3, m:4, l:6} | spacingClasses({padding: ['bottom']}) }}">
     <div class="container">
       <div class="grid">
-        <div class="grid__cell">
+        <div class="{{ {s:12, m:10, l:8, xl:8} | gridClasses }}">
+          {% if not query %}
+            <span class="font-turquoise-text caps {{ {s:'WB7', l:'WB6'} | fontClasses }}">New</span>
+            <h2 class="no-margin {{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">Explore 53,000 Artworks and Photos</h2>
+            <p class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }}">Images are free to download and use under Creative Commons licences.</p>
+          {% endif %}
           {% componentV2 'search-box', {id: 'search-works', action: '', name: 'query', query: query, autofocus: true} %}
-          {% if query %}
+          {% if not query %}
+            <p class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['top']}) }}">Or, visit <a class="font-elf-green" href="https://wellcomeimages.org/">Wellcome Images</a> to search all images from the collection.</p>
+          {% else %}
             <p class="text--meta {{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
               {{ resultsList.totalResults if resultsList.totalResults > 0 else 'No' }} results for "{{ query }}"
             </p>
@@ -18,6 +25,25 @@
       </div>
     </div>
   </div>
+
+  {% if not query %}
+    <div class="row {{ {s:3, m:5} | spacingClasses({padding: ['top']}) }} {{ {s:10} | spacingClasses({padding: ['bottom'], margin: ['bottom']}) }}">
+      <div class="container">
+        <div class="grid">
+          <div class="grid__cell">
+            <h3 class="{{ {s:'WB6'} | fontClasses }}">Suggested Topics</h3>
+            {% componentV2 'tags', {id: 'search-landing', tags: [
+              {text: 'Health', url: '/search?query=health', bgColor: 'turquoise-text'},
+              {text: 'Medicine', url: '/search?query=medicine', bgColor: 'turquoise-text'},
+              {text: 'Nature', url: '/search?query=nature', bgColor: 'turquoise-text'},
+              {text: 'Paintings', url: '/search?query=paintings', bgColor: 'turquoise-text'},
+              {text: 'Science', url: '/search?query=science', bgColor: 'turquoise-text'}
+            ]} %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
 
   {% if resultsList.totalResults > 0 %}
     <div class="row {{ {s:3, m:5} | spacingClasses({padding: ['top']}) }}">
