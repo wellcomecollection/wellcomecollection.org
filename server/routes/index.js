@@ -1,5 +1,5 @@
 import Router from 'koa-router';
-import request from 'request';
+import request from 'superagent';
 import {healthcheck, featureFlags} from '../controllers/utils';
 import {seriesNav, seriesTransporter, latestInstagramPosts, seriesContainerPromoList} from '../controllers/async-controllers';
 import {work, search} from '../controllers/work';
