@@ -68,8 +68,7 @@ function getResultsWithImages(results, useIiif, useOrigin) {
 
   return results.results.map((result) => {
     const miroId = result.identifiers[0].value;
-    const imgLink = imageUrlFromMiroId(miroId, useIiif, useOrigin
-    );
+    const imgLink = imageUrlFromMiroId(miroId, useIiif, useOrigin);
     return Object.assign({}, result, {imgLink});
   });
 }
