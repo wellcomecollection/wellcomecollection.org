@@ -105,7 +105,7 @@ function parseArticleAsArticle(prismicArticle) {
       name: seriesData.name,
       description: seriesData.description
     };
-  });
+  }) || [];
 
   const bodyParts = convertContentToBodyParts(prismicArticle.data.body);
 
@@ -339,7 +339,7 @@ function parseWebcomicAsArticle(prismicDoc) {
       name: seriesData.name,
       description: seriesData.description
     };
-  });
+  }) || [];
 
   const article: Article = {
     contentType: 'comic',
