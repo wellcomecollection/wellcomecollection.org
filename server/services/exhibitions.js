@@ -18,7 +18,7 @@ export async function getExhibition(id: string): Promise<?Exhibition> {
   const featuredImage = prismicImageToPicture({image: exhibition.data.featuredImage});
 
   return ({
-    blockType: 'exhibition',
+    blockType: 'exhibitions',
     id: exhibition.id,
     title: RichText.asText(exhibition.data.title),
     start: exhibition.data.start,
