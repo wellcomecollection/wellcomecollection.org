@@ -17,7 +17,7 @@ export default (el) => {
       fastdom.mutate(() => {
         container.classList.remove('is-active');
       });
-    }, 3000);
+    }, 1000);
   }
 
   el.addEventListener('mousemove', showHideControls);
