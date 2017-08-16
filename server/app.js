@@ -11,6 +11,7 @@ import {intervalCache} from './middleware/interval-cache';
 
 const app = new Koa();
 
+app.proxy = true;
 app.use(intervalCache());
 app.use(determineFeaturesCohort());
 app.use(render(config.views.path));
