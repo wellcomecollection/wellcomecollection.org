@@ -76,6 +76,7 @@ resource "aws_cloudfront_distribution" "next" {
     max_ttl                = 86400
 
     forwarded_values {
+      headers                 = ["Host"]
       query_string            = true
       query_string_cache_keys = ["page", "current", "q", "format", "query", "cohort"]
 
