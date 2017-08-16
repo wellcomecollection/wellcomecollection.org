@@ -1,1 +1,6 @@
-<button data-component-name="Copy URL button" data-component-id="{{ model.id }}" data-track-click="{}" class="btn btn--dark is-hidden js-copy-url">Copy URL</button>
+<div class="flex">
+  <input style="flex-grow: 1;" type="text" value="{{ model.url }}" />
+  <button
+    data-copy-text="{{ model.url }}"
+    class="btn btn--dark is-hidden js-copy-url">Copy link</button>
+</div>

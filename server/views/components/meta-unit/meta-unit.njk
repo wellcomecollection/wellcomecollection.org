@@ -30,6 +30,6 @@
   {% endif %}
 
   {% if model.includeDivider %}
-    {% componentV2 'divider', null, {'pumice': true, 'keyline': true}, {extraClasses: [{s:1} | spacingClasses({margin: ['top']}), {s:1} | spacingClasses({margin: ['bottom']})]}  %}
+    {% componentV2 'divider', null, {'pumice': true, 'keyline': true}, {extraClasses: [{s:1} | spacingClasses({margin: ['top', 'bottom']})]}  %}
   {% endif %}
 </div>
