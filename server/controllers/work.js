@@ -41,7 +41,7 @@ export const work = async(ctx, next) => {
   const miroId = singleWork.identifiers[0].value;
   const imgWidth = '2048';
   const imgLink = imageUrlFromMiroId(miroId, shouldUseIiif(ctx));
-  const requestOrigin = ctx.request.origin;
+  const requestHost = ctx.request.host;
   const requestPath = ctx.request.path;
 
   ctx.render('pages/work', {
@@ -50,7 +50,7 @@ export const work = async(ctx, next) => {
       title: 'Work',
       inSection: 'explore'
     }),
-    work: Object.assign({}, singleWork, {imgLink, imgWidth, requestOrigin, requestPath})
+    work: Object.assign({}, singleWork, {imgLink, imgWidth, requestHost, requestPath})
   });
 
   return next();
