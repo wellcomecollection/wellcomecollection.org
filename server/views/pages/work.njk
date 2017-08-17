@@ -57,7 +57,7 @@
             href="/download?uri={{ work.imgLink | replace('WIDTH,', 'full') | urlencode }}"
             download="{{ work.id }}.jpg"
             rel="noopener noreferrer"
-            data-track-event='{"category": "works", "action": "download", "label": "{{ work.id }}"}'>
+            data-track-event='{"category": "work", "action": "download", "label": "full:{{ work.id }}"}'>
             {% icon 'actions/download-1', null, ['icon--elf-green'] %}
             <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
               Original image
@@ -69,7 +69,7 @@
             href="/download?uri={{ work.imgLink | replace('WIDTH', 760) | urlencode }}"
             download="{{ work.id }}.jpg"
             rel="noopener noreferrer"
-            data-track-event='{"category": "works", "action": "download", "label": "{{ work.id }}"}'>
+            data-track-event='{"category": "work", "action": "download", "label": "760:{{ work.id }}"}'>
             {% icon 'actions/download-1', null, ['icon--elf-green'] %}
             <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
               Smaller image (760px)
@@ -84,7 +84,7 @@
               {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
                 Share
             </h2>
-            {% componentV2 'copy-url', {id: 'work', url: work.requestHost + work.requestPath} %}
+            {% componentV2 'copy-url', {id: work.id, url: work.requestHost + work.requestPath} %}
           </div>
         </div>
       </div>
