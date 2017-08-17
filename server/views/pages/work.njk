@@ -1,7 +1,7 @@
 {% extends 'layout/default.njk' %}
 
 {% block pageMeta %}
-  <link rel="canonical" href="{{ work.requestHost }}{{ work.requestPath }}" />
+  <link rel="canonical" href="{{ requestHost }}{{ requestPath }}" />
 {% endblock %}
 
 {% block body %}
@@ -84,7 +84,7 @@
               {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
                 Share
             </h2>
-            {% componentV2 'copy-url', {id: work.id, url: work.requestHost + work.requestPath} %}
+            {% componentV2 'copy-url', {id: work.id, url: requestHost + requestPath} %}
           </div>
         </div>
       </div>

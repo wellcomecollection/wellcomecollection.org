@@ -46,12 +46,17 @@ export const work = async(ctx, next) => {
 
   ctx.render('pages/work', {
     queryString,
+    requestHost,
+    requestPath,
     pageConfig: createPageConfig({
       title: 'Work',
       inSection: 'explore',
       category: 'collections'
     }),
-    work: Object.assign({}, singleWork, {imgLink, imgWidth, requestHost, requestPath})
+    work: Object.assign({}, singleWork, {
+      imgLink,
+      imgWidth
+    })
   });
 
   return next();
