@@ -1,10 +1,11 @@
 <label class="input__label flex flex--v-center" for="{{ model.id }}">
   <input id="{{ model.id }}"
-    class="input input--{{ model.type }} {{ {s:'HNL3', m:'HNL2'} | fontClasses }}"
+    class="input input--{{ model.type }} {{ data.fontStyles or {s:'HNL3', m:'HNL2'} | fontClasses }}"
     type="{{ model.type }}"
     name="{{ model.name }}"
     value="{{ model.value }}"
     placeholder="{{ model.placeholder }}"
+    {{ 'disabled' if model.disabled }}
     {{ 'autofocus' if model.autofocus  }} />
   {% if ['radio', 'checkbox'] | contains(model.type) %}
     <span class="input__control-indicator input__control-indicator--{{ model.type }}"></span>

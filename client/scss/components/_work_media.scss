@@ -2,10 +2,6 @@
   position: relative;
   height: 80vh;
 
-  @include respond-to('medium') {
-    height: 90vh;
-  }
-
   .image {
     max-height: 80vh;
     width: auto;
@@ -14,10 +10,6 @@
     margin: 0 auto;
     display: block;
     padding: 10 * $spacing-unit;
-
-    @include respond-to('medium') {
-      max-height: 90vh;
-    }
 
     .enhanced & {
       padding: 0;
@@ -32,7 +24,7 @@
 }
 
 .work-media__controls {
-  background: linear-gradient(color('black'), color('transparent') 20%, color('transparent') 80%, color('black'));
+  background: linear-gradient(color('black'), color('transparent') 15%, color('transparent') 85%, color('black'));
   position: absolute;
   top: 0;
   right: 0;

@@ -1,6 +1,9 @@
-<div class="flex">
-  <input style="flex-grow: 1;" type="text" value="{{ model.url }}" />
-  <button
-    data-copy-text="{{ model.url }}"
-    class="btn btn--dark is-hidden js-copy-url">Copy link</button>
-</div>
+{% set fontStyles = {s:'HNL4', m:'HNL3'} %}
+{% componentV2 'input', {id:'share', type: 'text', label: 'share url', value: model.url}, null, {isLabelHidden: true, fontStyles: fontStyles} %}
+<button
+  data-copy-text="{{ model.url }}"
+  class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-button font-elf-green is-hidden js-copy-url">
+  {% icon 'actions/link', null, ['icon--elf-green'] %}
+  Copy link
+</button>
+

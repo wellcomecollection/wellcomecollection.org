@@ -12,18 +12,12 @@
   <div class="row {{ {s:3, m:3, l:3, xl: 3} | spacingClasses({padding: ['top', 'bottom']}) }}">
     <div class="container">
       <div class="grid">
-        <div class="{{ {s: 12, m: 6, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
+        <div class="{{ {s: 12, m: 6, l: 7, xl: 6, shiftXl: 1} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
           <h1 id="work-info" class="{{ {s:'HNM3', m:'HNM2', l:'HNM1'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{work.title}}</h1>
-          {% if work.license.length > 0 %}
-            <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-              {% componentV2 'license', {subject: work.imgLink, licenseType: work.license} %} {# - license from API #}
-            </div>
-          {% endif %}
-        </div>
-        <div class="{{ {s: 12, m: 6, l: 5, xl: 4} | gridClasses }}">
+
           {% if work.creators.length > 0 %}
             {% set needsDivider = work.createdDate.label.length > 0 or work.genre.length > 0 or work.subjects.length > 0 or work.lettering > 0 %}
-            {% componentV2 'meta-unit', {headingText: 'Author', content: work.creators | getLinkObjects('label', 'creators:'), includeDivider: needsDivider} %}
+            {% componentV2 'meta-unit', {headingText: 'By', content: work.creators | getLinkObjects('label', 'creators:'), includeDivider: needsDivider} %}
           {% endif %}
 
           {% if work.createdDate.label.length > 0 %}
@@ -44,52 +38,43 @@
           {% if work.lettering.length > 0 %}
             {% componentV2 'meta-unit', {headingText: 'Lettering', content: work.lettering, includeDivider: false} %}
           {% endif %}
+        </div>
 
-          <div>
-            {% componentV2 'divider', null, {'pumice': true, 'keyline': true}, {extraClasses: [{s:1} | spacingClasses({margin: ['top', 'bottom']})]}  %}
-            <h2 class="
-              {{ {s:'HNM5' , m:'HNM4'} | fontClasses }}
-              {{ {s:0} | spacingClasses({margin: ['top']}) }}
-              {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
-              Download
-            </h2>
-            <div>
-              <p class="no-margin">This image is free to use with attribution</p>
-              {% componentV2 'license', {subject: work.imgLink, licenseType: 'CC-BY-NC'} %}
-            </div>
-
-            <h3 class="
-              {{ {s:'HNM6' , m:'HNM5'} | fontClasses }}
-              {{ {s:2} | spacingClasses({margin: ['top']}) }}
-              {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
-              Options
-            </h3>
-            <div class="flex">
-              <a
-                class="flex flex--v-center"
-                href="/download?uri={{ work.imgLink | replace('WIDTH', 760) | urlencode }}"
-                download="{{ work.id }}.jpg"
-                rel="noopener noreferrer"
-                data-track-event='{"category": "works", "action": "download", "label": "{{ work.id }}"}'>
-                {% icon 'actions/download-1' %}
-                <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
-                  Standard (760px)
-                </div>
-              </a>
-
-              <a
-                class="flex flex--v-center {{{s: 2} | spacingClasses({ margin: ['left'] })}}"
-                href="/download?uri={{ work.imgLink | replace('WIDTH,', 'full') | urlencode }}"
-                download="{{ work.id }}.jpg"
-                rel="noopener noreferrer"
-                data-track-event='{"category": "works", "action": "download", "label": "{{ work.id }}"}'>
-                {% icon 'actions/download-1' %}
-                <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
-                  Original
-                </div>
-              </a>
-            </div>
+        <div class="{{ {s: 12, m: 6, l: 5, xl: 4} | gridClasses }}">
+          <h2 class="
+            {{ {s:'HNM5' , m:'HNM4'} | fontClasses }}
+            {{ {s:0} | spacingClasses({margin: ['top']}) }}
+            {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
+            Download
+          </h2>
+          <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+            <p class="{{ {s:'HNL5' , m:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">This image is free to use with attribution</p>
+            {% componentV2 'license',  {subject: work.imgLink, licenseType: 'CC-BY-NC'} %}
           </div>
+
+          <a
+            class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-link font-elf-green flex flex--v-center"
+            href="/download?uri={{ work.imgLink | replace('WIDTH,', 'full') | urlencode }}"
+            download="{{ work.id }}.jpg"
+            rel="noopener noreferrer"
+            data-track-event='{"category": "works", "action": "download", "label": "{{ work.id }}"}'>
+            {% icon 'actions/download-1', null, ['icon--elf-green'] %}
+            <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
+              Original image
+            </div>
+          </a>
+
+          <a
+            class="{{ {s:8} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-link font-elf-green flex flex--v-center"
+            href="/download?uri={{ work.imgLink | replace('WIDTH', 760) | urlencode }}"
+            download="{{ work.id }}.jpg"
+            rel="noopener noreferrer"
+            data-track-event='{"category": "works", "action": "download", "label": "{{ work.id }}"}'>
+            {% icon 'actions/download-1', null, ['icon--elf-green'] %}
+            <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
+              Smaller image (760px)
+            </div>
+          </a>
 
           <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
             {% componentV2 'divider', null, {'pumice': true, 'keyline': true}, {extraClasses: [{s:1} | spacingClasses({margin: ['top', 'bottom']})]}  %}
@@ -114,4 +99,5 @@
     {% componentV2 'work-drawer', {id: 'using-image', heading: 'Using this image'}, null, {data: work.usingImage, bottomSpacing: true} %}
   {% endif %}
 
+  {% componentV2 'back-to-top', {}, {trackId: 'work'} %}
 {% endblock %}
