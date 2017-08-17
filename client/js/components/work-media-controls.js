@@ -7,11 +7,15 @@ export default (el) => {
   const controls = container.querySelectorAll('.js-work-media-control');
 
   function showHideControls() {
+    const activeControl = container.classList.contains('is-control-active');
+
     clearTimeout(timeout);
 
     fastdom.mutate(() => {
       container.classList.add('is-active');
     });
+
+    if (activeControl) return;
 
     timeout = setTimeout(() => {
       fastdom.mutate(() => {
@@ -24,6 +28,16 @@ export default (el) => {
 
   nodeList(controls).forEach(control => {
     control.addEventListener('keyup', showHideControls);
+    control.addEventListener('mouseenter', () => {
+      fastdom.mutate(() => {
+        container.classList.add('is-control-active');
+      });
+    });
+    control.addEventListener('mouseleave', () => {
+      fastdom.mutate(() => {
+        container.classList.remove('is-control-active');
+      });
+    });
   });
 
   showHideControls();
