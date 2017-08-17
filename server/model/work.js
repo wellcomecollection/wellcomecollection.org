@@ -15,5 +15,23 @@ export type Work = {|
     value: string,
     type: string
   }>;
+  items: Array<Item>
 |};
 
+type Item = {| id: string; locations: Array<Location> |};
+
+type LocationType = 'thumbnail-image' | 'iiif-image';
+
+type Location = {|
+  locationType: LocationType;
+  url: string;
+  license:
+|};
+
+type LicenseType = 'CC-BY' | 'CC-BY-NC';
+
+type License = {|
+  licenseType: LicenseType;
+  label: string;
+  url: string;
+|};
