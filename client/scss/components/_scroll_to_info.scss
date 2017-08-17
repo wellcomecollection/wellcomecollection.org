@@ -1,3 +1,7 @@
 .scroll-to-info--work {
+  border: 2px solid color('white');
+  border-radius: 50%;
+  width: $spacing-unit * 7;
+  height: $spacing-unit * 7;
   bottom: 4 * $spacing-unit;
 }
