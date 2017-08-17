@@ -126,7 +126,7 @@ const contentSlider = (el, options) => {
         } else {
           positionArray = positionArrayByContainer;
         }
-        toggleControlsVisibility(slidesCombinedWidth, containerWidth, sliderElements.sliderControls);
+
         updatePosition(setSlideIndexes(slidesWidthArray, containerWidth, sliderElements, indexAttr) || positionIndex, positionArray);
       });
     });
@@ -231,14 +231,6 @@ const contentSlider = (el, options) => {
     positionArrayByContainer.push(slidesWidth - containerWidth);
     return positionArrayByContainer;
   };
-
-  function toggleControlsVisibility(slidesCombinedWidth, containerWidth, controls) {
-    if (slidesCombinedWidth <= containerWidth) {
-      controls.style.visibility = 'hidden';
-    } else {
-      controls.style.removeProperty('visibility');
-    }
-  }
 
   function changeCurrentItemsStatus(items, n, className, positionArrayBySlide, positionArray, slidesWidthArray, containerWidth) {
     const positionValue = positionArray[n];
