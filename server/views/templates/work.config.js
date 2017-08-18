@@ -7,7 +7,7 @@ export const status = 'wip';
 export const context = {
   // temp license, img, etc. data until we know how this is coming from the API
   work: Object.assign({}, mockJson, {
-    license: 'CC-BY-NC',
+    license: 'CC BY-NC',
     requestHost: 'https://next.wellcomecollection.org',
     requestPath: '/works/a22au6yn',
     imgLink: 'https://wellcomecollection-miro-images.imgix.net/V0047000/V0047696.jpg',
@@ -29,7 +29,7 @@ export const context = {
     usingImage: [
       {
         title: 'License type',
-        licenseType: 'CC-BY-NC',
+        licenseType: 'CC BY-NC',
         content: 'Phasellus a tortor ac lacus ultricies rhoncus. Maecenas dictum, velit luctus tempor scelerisque, est ligula laoreet arcu, vitae sollicitudin urna magna placerat purus.'
       }
     ]
