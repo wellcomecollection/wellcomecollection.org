@@ -10,7 +10,7 @@
         <div class="{{ {s:12, m:10, l:8, xl:8} | gridClasses }}">
           {% if not query %}
             <span class="font-turquoise-text caps {{ {s:'WB7', l:'WB6'} | fontClasses }}">New</span>
-            <h2 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">Explore 53,000 Artworks and Photos</h2>
+            <h2 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">Explore {{ totalWorks }} Artworks and Photos</h2>
           {% endif %}
           {% componentV2 'search-box', {id: 'search-works', action: '', name: 'query', query: query, autofocus: true} %}
           {% if not query %}

@@ -5,6 +5,15 @@ import type {Work} from '../model/work';
 const version = 'v0';
 const baseUri = `https://api.wellcomecollection.org/catalogue/${version}`;
 
+export async function getTotalWorks() {
+  return await superagent.get(`${baseUri}/works`)
+    .then((request) => {
+      return request.body.totalResults;
+    }).catch((error) => {
+      return { error };
+    });
+}
+
 export async function getWork(id: string): Promise<Work> {
   return await superagent.get(`${baseUri}/works/${id}`)
     .query({includes: 'identifiers'})

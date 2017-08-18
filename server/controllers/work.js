@@ -87,6 +87,7 @@ export const search = async (ctx, next) => {
   const pageSize = results && results.pageSize;
   const totalPages = results && results.totalPages;
   const totalResults = (results && results.totalResults) || 0;
+  const totalWorks = ctx.intervalCache.get('totalWorks');
   const resultsList = createResultsList({
     results: resultsWithImages,
     pageSize,
@@ -99,6 +100,7 @@ export const search = async (ctx, next) => {
     pageConfig: createPageConfig({
       inSection: 'index'
     }),
+    totalWorks,
     resultsList,
     query,
     pagination,
