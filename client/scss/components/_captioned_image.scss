@@ -121,15 +121,23 @@
 }
 
 .captioned-image__copyright-holder {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
   text-align: right;
+
+  .enhanced & {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
 }
 
 .captioned-image__icon {
-  width: 2em;
-  height: 2em;
-  border-radius: 50%;
-  background: rgba(color('black'), 0.5);
+  display: none;
+
+  .enhanced & {
+    display: block;
+    width: 2em;
+    height: 2em;
+    border-radius: 50%;
+    background: rgba(color('black'), 0.5);
+  }
 }

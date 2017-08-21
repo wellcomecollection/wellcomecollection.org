@@ -15,7 +15,11 @@
         {% endif %}
     {% endif %}
     {% if (model.copyrightHolder and data.showCopyright) %}
-      <div class="captioned-image__copyright-holder {{ {s:'HNM6', m:'HNM6', l:'HNM6'} | fontClasses }} drawer js-show-hide">
+      <div
+        data-component-name="Image credit drawer"
+        data-component-id="image-credit"
+        data-track-click='{"imageUrl": "{{ model.contentUrl }}"}'
+        class="captioned-image__copyright-holder {{ {s:'HNM6', m:'HNM6', l:'HNM6'} | fontClasses }} drawer js-show-hide">
         <button class="plain-button js-show-hide-trigger">
           <span class="captioned-image__icon flex flex--v-center flex--h-center">
             {% icon 'actions/information', 'information', ['icon--white', 'icon--2x'] %}
