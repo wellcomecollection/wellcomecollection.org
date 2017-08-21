@@ -1,8 +1,14 @@
 {% extends 'layout/default.njk' %}
 
 {% block pageMeta %}
-  {% component 'open-graph', { pageConfig: pageConfig, article: exhibition } %}
-  {% component 'twitter-card', { pageConfig: pageConfig, article: exhibition } %}
+  {% set metaContent = {
+    type: 'wellcome:exhibition',
+    title: exhibition.title,
+    image: exhibition.featuredImage.contentUrl,
+    url: '/exhibitions/' + exhibition.id
+  } %}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
   {# <meta name="description" content="{{ exhibition.description | safe | striptags }}" /> #}
 {% endblock %}
 

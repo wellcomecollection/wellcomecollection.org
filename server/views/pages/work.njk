@@ -1,6 +1,15 @@
 {% extends 'layout/default.njk' %}
 
 {% block pageMeta %}
+  {% set metaContent = {
+    type: 'wellcome:work',
+    title: work.title,
+    image: work.imgLink | replace('WIDTH', 1200),
+    url: '/works/' + work.id,
+    description: work.description
+  } %}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
   <link rel="canonical" href="{{ requestHost }}{{ requestPath }}" />
 {% endblock %}
 
