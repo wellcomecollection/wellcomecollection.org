@@ -121,8 +121,15 @@
 }
 
 .captioned-image__copyright-holder {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
   text-align: right;
-  background: color('white');
-  // TODO: This needs design
 }
 
+.captioned-image__icon {
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  background: rgba(color('black'), 0.5);
+}
