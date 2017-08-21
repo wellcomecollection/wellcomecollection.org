@@ -5,8 +5,16 @@
   margin-bottom: 2 * $vertical-space-unit;
 }
 
+.opening-hours--light {
+  color: color('pewter');
+}
+
 .opening-hours__tablist {
   border-bottom: 1px solid color('charcoal');
+
+  .opening-hours--light & {
+    border-bottom-color: color('pewter');
+  }
 }
 
 .opening-hours__tabitem {
@@ -18,6 +26,10 @@
 
   @include respond-to('medium') {
     padding: 0 0.6em;
+
+    .opening-hours--compressed & {
+      padding: 0;
+    }
   }
 
   &:first-child {
@@ -34,6 +46,12 @@
     color: color('silver');
     border-color: color('charcoal');
     border-bottom-color: color('dark-black');
+
+    .opening-hours--light & {
+      color: color('black');
+      border-color: color('pewter');
+      border-bottom-color: color('white');
+    }
   }
 }
 
@@ -43,9 +61,17 @@
   padding: 0.5em;
   transition: color 200ms ease;
 
+  .opening-hours--compressed & {
+    padding: $spacing-unit;
+  }
+
   &:hover,
   &:focus {
     color: color('mint');
+
+    .opening-hours--light & {
+      color: color('black');
+    }
   }
 
   .opening-hours__tabitem:first-child & {
@@ -57,6 +83,10 @@
   color: color('silver');
   width: 100%;
   margin-bottom: 2 * $vertical-space-unit;
+
+  .opening-hours--light & {
+    color: color('black');
+  }
 
   .enhanced & {
     display: flex;
@@ -95,11 +125,19 @@
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid color('charcoal');
+
+  .opening-hours--light & {
+    border-bottom-color: color('pewter');
+  }
 }
 
 .opening-hours__td {
   padding: 1em 0;
   display: block;
+
+  .opening-hours--compressed & {
+    padding: $spacing-unit 0;
+  }
 
   &:last-child {
     text-align: right;

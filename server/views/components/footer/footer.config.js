@@ -4,6 +4,6 @@ export const status = 'graduated';
 export const preview = '@preview-no-container';
 export const context = {
   navLinks: '@footer-nav.navLinks',
-  openingHours: '@opening-hours',
+  openingHours: '@opening-hours.model',
   footerSocial: '@footer-social'
 };

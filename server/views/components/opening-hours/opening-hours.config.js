@@ -5,5 +5,7 @@ export const label = 'opening-hours';
 export const status = 'graduated';
 export const hidden = true;
 export const context = {
-  places: defaultPlacesOpeningHours
+  model: {
+    places: defaultPlacesOpeningHours
+  }
 };
