@@ -1,12 +1,12 @@
-<div class="opening-hours js-opening-hours js-tabs">
+<div class="opening-hours {{ 'opening-hours' | componentClasses(modifiers) }} js-opening-hours js-tabs">
   <ul class="plain-list opening-hours__tablist {{ {s:'HNM6'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']}) }} js-tablist">
-    {% for place in places %}
+    {% for place in model.places %}
       <li class="opening-hours__tabitem js-tabitem">
         <a class="opening-hours__tablink js-tablink" href="#{{ place.id }}">{{ place.name }}</a>
       </li>
     {% endfor %}
   </ul>
-  {% for place in places %}
+  {% for place in model.places %}
     <table id="panel-{{ place.id }}" class="opening-hours__table {{ {s:'HNL5'} | fontClasses }} js-tabpanel">
       <caption id="{{ place.id }}" class="opening-hours__caption js-tabfocus">{{ place.name }}</caption>
       <thead class="opening-hours__thead">

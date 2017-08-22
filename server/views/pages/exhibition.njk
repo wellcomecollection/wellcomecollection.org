@@ -38,11 +38,17 @@
   <div class="row {{ {s:10} | spacingClasses({padding: ['bottom']}) }}">
     <div class="container">
       <div class="grid">
-        <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:'HNL3', m:'HNL2'} | fontClasses}}">
+        <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:'HNL3', m:'HNL2'} | fontClasses}} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
           {% block exhibitionDescription %}{% endblock %}
         </div>
         <div class="{{ {s:12, m:10, shiftM:1, l:5, xl:5} | gridClasses }}">
-
+          <div class="drawer js-show-hide">
+            <button data-component-name="Opening times drawer" data-component-id="exhibition" data-track-click='{}' class="plain-button no-padding pointer js-show-hide-trigger font-elf-green {{ {s:4} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5'} | fontClasses }}">{% icon 'actions/more-2', null, ['icon--elf-green'] %}Opening times</button>
+            <div class="drawer__body js-show-hide-drawer">
+              {% componentV2 'opening-hours', {places: pageConfig.openingHours}, {'light': true, 'compressed': true} %}
+            </div>
+          </div>
+          <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
           {% block accessStatements %}
             {% for statement in exhibition.accessStatements %}
               <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
@@ -58,7 +64,6 @@
 
 
           <hr class="divider divider--pumice divider--keyline" />
-          {% block social %}{% endblock %}
         </div>
       </div>
     </div>
