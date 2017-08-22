@@ -1,5 +1,23 @@
 {% extends 'layout/default.njk' %}
 
+{% set metaTitle = 'Wellcome Collection search' %}
+{% if query %}
+  {% set metaTitle = 'Wellcome Collection search: ' + query %}
+{% endif %}
+
+{% block pageMeta %}
+  {% set metaContent = {
+    type: 'website',
+    title: metaTitle,
+    image: resultsList.results[0].imgLink | replace('WIDTH', 1200),
+    url: '/search' + queryString
+  } %}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
+
+  <meta name="description" content="A Wellcome Collection search for '{{ query }}'" />
+{% endblock %}
+
 {% block body %}
   {% componentV2 'page-description', { title: 'Search' }, {'hidden': true} %}
   <div class="row bg-cream
