@@ -3,10 +3,10 @@ import type {Exhibition} from '../content-model/content-blocks';
 import type {IApi} from 'prismic-javascript';
 import {prismicImageToPicture} from '../services/prismic-content';
 import {RichText} from 'prismic-dom';
-import {prismicApi} from './prismic-api';
+import {prismicApi, prismicPreviewApi} from './prismic-api';
 
-export async function getExhibition(id: string): Promise<?Exhibition> {
-  const prismic: IApi = await prismicApi();
+export async function getExhibition(id: string, previewReq: ?Request): Promise<?Exhibition> {
+  const prismic: IApi = previewReq ? await prismicPreviewApi(previewReq) : await prismicApi();
   const fetchLinks = [
     'access-statements.title',
     'access-statements.description'

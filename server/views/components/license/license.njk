@@ -1,14 +1,12 @@
+{% set licenseInfo = model.licenseType | getLicenseInfo %}
 {% set iconClasses = ['icon--2x', 'v-align-middle'] %}
 
 <span class="{{ {s:'LR2'} | fontClasses }}"{% if model.subject %} about="{{model.subject}}{% endif %}">
-  {% set licenseInfo = model.licenseType | getLicenseInfo %}
-
-  <{{ 'a' if licenseInfo.url else 'span' }}
-    class="plain-link {{ {s:'LR2'} | fontClasses }}"
-    {% if licenseInfo.url %}
-      rel="license"
-      href="{{ licenseInfo.url }}"
-    {% endif %}>
+  {% if licenseInfo.url %}
+    <a class="plain-link {{ {s:'LR2'} | fontClasses }}" rel="license" href="{{ licenseInfo.url }}">
+  {% else %}
+    <span class="{{ {s:'LR2'} | fontClasses }}">
+  {% endif %}
     {% for icon in licenseInfo.icons %}
       {% icon 'other/' + icon, null, iconClasses %}
     {% endfor %}
