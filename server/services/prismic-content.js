@@ -125,7 +125,7 @@ function parseArticleAsArticle(prismicArticle) {
   return article;
 }
 
-function convertContentToBodyParts(content) {
+export function convertContentToBodyParts(content) {
   // TODO: Add these as ContentBlocks when the model is in
   return content.map(slice => {
     switch (slice.slice_type) {
@@ -158,7 +158,7 @@ function convertContentToBodyParts(content) {
           type: 'imageGallery',
           weight: 'standalone',
           value: {
-            name: asText(slice.primary.heading),
+            title: asText(slice.primary.title),
             items: slice.items.map(prismicImageToPicture)
           }
         };
