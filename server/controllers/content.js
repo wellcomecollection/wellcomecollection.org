@@ -55,8 +55,9 @@ async function getPreviewSession(token) {
   return new Promise((resolve, reject) => {
     prismic.previewSession(token, (doc) => {
       switch (doc.type) {
-        case 'articles': return `/preview/articles/${doc.id}`;
-        case 'webcomics': return `/preview/articles/${doc.id}`;
+        case 'articles'    : return `/preview/articles/${doc.id}`;
+        case 'webcomics'   : return `/preview/articles/${doc.id}`;
+        case 'exhibitions' : return `/preview/exhibitions/${doc.id}`;
       }
     }, '/', (err, redirectUrl) => {
       if (err) {
@@ -92,7 +93,8 @@ export async function renderEvent(ctx, next) {
 
 export async function renderExhibition(ctx, next) {
   const id = `${ctx.params.id}`;
-  const exhibition = await getExhibition(id);
+  const preview = Boolean(ctx.params.preview);
+  const exhibition = await getExhibition(id, preview ? ctx.request : null);
   const format = ctx.request.query.format;
 
   if (exhibition) {

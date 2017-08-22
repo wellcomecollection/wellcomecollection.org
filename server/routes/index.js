@@ -38,7 +38,7 @@ r.get('/:preview?/articles/(W):id', renderArticle);
 r.get('/explore', renderExplore);
 r.get('/preview', setPreviewSession);
 r.get('/events/:id', renderEvent);
-r.get('/exhibitions/:id', renderExhibition);
+r.get('/:preview?/exhibitions/:id', renderExhibition);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 
 // API
