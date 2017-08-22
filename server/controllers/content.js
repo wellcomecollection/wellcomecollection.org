@@ -55,8 +55,9 @@ async function getPreviewSession(token) {
   return new Promise((resolve, reject) => {
     prismic.previewSession(token, (doc) => {
       switch (doc.type) {
-        case 'articles': return `/preview/articles/${doc.id}`;
-        case 'webcomics': return `/preview/articles/${doc.id}`;
+        case 'articles'    : return `/preview/articles/${doc.id}`;
+        case 'webcomics'   : return `/preview/articles/${doc.id}`;
+        case 'exhibitions' : return `/preview/exhibitions/${doc.id}`;
       }
     }, '/', (err, redirectUrl) => {
       if (err) {
