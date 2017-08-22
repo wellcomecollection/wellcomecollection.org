@@ -51,7 +51,7 @@ export const work = async(ctx, next) => {
     requestPath,
     pageConfig: createPageConfig({
       title: 'Work',
-      inSection: 'explore',
+      inSection: 'images',
       category: 'collections'
     }),
     work: Object.assign({}, singleWork, {
@@ -98,7 +98,7 @@ export const search = async (ctx, next) => {
   const pagination = PaginationFactory.fromList(List(resultsWithImages), parseInt(totalResults, 10) || 1, parseInt(page, 10) || 1, pageSize || 1, ctx.query);
   ctx.render('pages/search', {
     pageConfig: createPageConfig({
-      inSection: 'index'
+      inSection: 'images'
     }),
     resultsList,
     query,
