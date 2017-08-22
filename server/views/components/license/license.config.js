@@ -7,26 +7,34 @@ export const collated = true;
 
 const license = ({
   subject: 'image.jpg',
-  licenseType: 'CC0'
+  licenseType: 'CC0',
+  label: 'CC0'
 }: License);
-
-export const context = { model: license };
 
 export const variants = [
   {
+    name: 'default',
+    label: 'CC0',
+    context: { model: license }
+  },
+  {
     name: 'CC BY',
+    label: 'CC BY',
     context: { model: Object.assign({}, license, {licenseType: 'CC-BY'}) }
   },
   {
     name: 'CC BY-NC',
+    label: 'CC BY-NC',
     context: { model: Object.assign({}, license, {licenseType: 'CC-BY-NC'}) }
   },
   {
     name: 'CC BY-NC-ND',
+    label: 'CC BY-NC-ND',
     context: { model: Object.assign({}, license, {licenseType: 'CC-BY-NC-ND'}) }
   },
   {
     name: 'PDM',
+    label: 'PDM',
     context: { model: Object.assign({}, license, {licenseType: 'PDM'}) }
   },
   {
