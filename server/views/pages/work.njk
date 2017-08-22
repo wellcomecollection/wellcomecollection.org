@@ -49,7 +49,7 @@
           </h2>
           <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
             <p class="{{ {s:'HNL5' , m:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">This image is free to use with attribution</p>
-            {% componentV2 'license',  {subject: work.imgLink, licenseType: 'CC-BY'} %}
+            {% componentV2 'license',  {subject: work.imgLink, licenseType: work.thumbnail.license.licenseType} %}
           </div>
 
           <a
