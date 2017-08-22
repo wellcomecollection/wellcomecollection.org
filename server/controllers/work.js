@@ -38,6 +38,7 @@ export const work = async(ctx, next) => {
   const id = ctx.params.id;
   const queryString = ctx.search;
   const singleWork = await getWork(id);
+
   const miroId = singleWork.identifiers[0].value;
   const imgWidth = '2048';
   const imgLink = imageUrlFromMiroId(miroId, shouldUseIiif(ctx));
