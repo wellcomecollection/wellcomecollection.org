@@ -29,7 +29,7 @@ export const context = {
     usingImage: [
       {
         title: 'License type',
-        licenseType: 'CC BY-NC',
+        licenseType: 'CC-BY-NC',
         content: 'Phasellus a tortor ac lacus ultricies rhoncus. Maecenas dictum, velit luctus tempor scelerisque, est ligula laoreet arcu, vitae sollicitudin urna magna placerat purus.'
       }
     ]
