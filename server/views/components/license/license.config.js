@@ -18,11 +18,11 @@ export const variants = [
     context: { model: Object.assign({}, license, {licenseType: 'CC-BY'}) }
   },
   {
-    name: 'CC BY NC',
+    name: 'CC BY-NC',
     context: { model: Object.assign({}, license, {licenseType: 'CC-BY-NC'}) }
   },
   {
-    name: 'CC BY NC ND',
+    name: 'CC BY-NC-ND',
     context: { model: Object.assign({}, license, {licenseType: 'CC-BY-NC-ND'}) }
   },
   {
