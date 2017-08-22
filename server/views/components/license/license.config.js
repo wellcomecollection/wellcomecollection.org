@@ -15,15 +15,15 @@ export const context = { model: license };
 export const variants = [
   {
     name: 'CC BY',
-    context: { model: Object.assign({}, license, {licenseType: 'CC-BY'}) }
+    context: { model: Object.assign({}, license, {licenseType: 'CC BY'}) }
   },
   {
     name: 'CC BY NC',
-    context: { model: Object.assign({}, license, {licenseType: 'CC-BY-NC'}) }
+    context: { model: Object.assign({}, license, {licenseType: 'CC BY-NC'}) }
   },
   {
     name: 'CC BY NC ND',
-    context: { model: Object.assign({}, license, {licenseType: 'CC-BY-NC-ND'}) }
+    context: { model: Object.assign({}, license, {licenseType: 'CC BY-NC-ND'}) }
   },
   {
     name: 'PDM',
