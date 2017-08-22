@@ -31,6 +31,7 @@ import {
   formatAndDedupeOnDate,
   formatAndDedupeOnTime
 } from './format-date';
+import getLicenseInfo from './get-license-info';
 
 export default Map({
   youtubeEmbedUrl,
@@ -63,5 +64,6 @@ export default Map({
   createLinkObject,
   getLinkObjects,
   prettyDump,
-  prismicAsHtml
+  prismicAsHtml,
+  getLicenseInfo
 });
