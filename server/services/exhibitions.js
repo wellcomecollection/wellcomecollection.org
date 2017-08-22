@@ -20,7 +20,6 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
   const video = bodyParts.find(p => p.type === 'video-embed');
   const text = bodyParts.find(p => p.type === 'text');
   const imageGallery = bodyParts.find(p => p.type === 'imageGallery');
-  console.info(bodyParts, imageGallery);
 
   return ({
     blockType: 'exhibitions',
