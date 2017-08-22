@@ -55,8 +55,8 @@ export function prismicImageToPicture(captionedImage) {
   }: Picture);
 }
 
-export async function getArticle(id: string, req: ?Request) {
-  const prismic = req ? await prismicPreviewApi(req) : await prismicApi();
+export async function getArticle(id: string, previewReq: ?Request) {
+  const prismic = previewReq ? await prismicPreviewApi(previewReq) : await prismicApi();
 
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',

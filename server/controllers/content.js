@@ -93,7 +93,8 @@ export async function renderEvent(ctx, next) {
 
 export async function renderExhibition(ctx, next) {
   const id = `${ctx.params.id}`;
-  const exhibition = await getExhibition(id);
+  const preview = Boolean(ctx.params.preview);
+  const exhibition = await getExhibition(id, preview ? ctx.request : null);
   const format = ctx.request.query.format;
 
   if (exhibition) {
