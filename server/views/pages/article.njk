@@ -30,8 +30,8 @@
   {% endif %}
 
   <script type="application/ld+json">
-  {{ article | jsonLd('contentLd') | safe }}
-</script>
+    {{ article | jsonLd('contentLd') | safe }}
+  </script>
   <article>
     {% componentV2 'page-description', {
       intro: seriesTitle,
@@ -81,7 +81,7 @@
               {% endfor %}
             {% endif %}
 
-            <div class="article" itemprop="articleBody">
+            <div class="article">
               {% block articleBody %}
                 {% component 'article-body', {articleBody: article.bodyParts, contentType: article.contentType} %}
               {% endblock %}
