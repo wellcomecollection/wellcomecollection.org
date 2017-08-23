@@ -52,9 +52,9 @@ r.get('/series/:id', series);
 r.get('/articles', articles);
 
 // Async
-r.get('/series-nav/:id', seriesNav);
-r.get('/series-transporter/:id', seriesTransporter);
-r.get('/latest-instagram-posts', latestInstagramPosts);
-r.get('/series-container-promos-list/:id', seriesContainerPromoList);
+r.get('/async/series-nav/:id', seriesNav);
+r.get('/async/series-transporter/:id', seriesTransporter);
+r.get('/async/latest-instagram-posts', latestInstagramPosts);
+r.get('/async/series-container-promos-list/:id', seriesContainerPromoList);
 
 export const router = r.middleware();

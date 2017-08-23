@@ -5,7 +5,7 @@ import shrinkStoriesNav from './shrink-stories-nav';
 export default function asyncContent(el, dispatch) {
   const component = el.getAttribute('data-component');
 
-  return fetch(el.getAttribute('data-endpoint')).then(resp => resp.json()).then(json => {
+  return fetch(`/async${el.getAttribute('data-endpoint')}`).then(resp => resp.json()).then(json => {
     el.outerHTML = json.html;
 
     if (component === 'series-nav') {
