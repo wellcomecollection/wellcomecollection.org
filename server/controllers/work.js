@@ -46,6 +46,7 @@ export const work = async(ctx, next) => {
   const requestPath = ctx.request.path;
 
   ctx.render('pages/work', {
+    id,
     queryString,
     requestHost,
     requestPath,
