@@ -2,3 +2,5 @@ apps:
   - script   : './.dist/run.js'
     name     : 'wellcomecollection.org'
     instances: 1
+    env:
+      NODE_ENV: "production"

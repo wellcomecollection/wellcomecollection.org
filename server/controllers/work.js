@@ -42,14 +42,10 @@ export const work = async(ctx, next) => {
   const miroId = singleWork.identifiers[0].value;
   const imgWidth = '2048';
   const imgLink = imageUrlFromMiroId(miroId, shouldUseIiif(ctx));
-  const requestHost = `${ctx.request.protocol}://${ctx.request.host}`;
-  const requestPath = ctx.request.path;
 
   ctx.render('pages/work', {
     id,
     queryString,
-    requestHost,
-    requestPath,
     pageConfig: createPageConfig({
       title: 'Work',
       inSection: 'explore',

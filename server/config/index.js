@@ -3,6 +3,16 @@ const config = {
     name: 'wellcomecollection.org',
     version: '0.0.1'
   },
+  globals: {
+    development: {
+      rootDomain: '',
+      nextDomain: ''
+    },
+    production: {
+      rootDomain: 'https://wellcomecollection.org',
+      nextDomain: 'https://next.wellcomecollection.org'
+    }
+  },
   server: {
     port: 3000
   },
