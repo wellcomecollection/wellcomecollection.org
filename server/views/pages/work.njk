@@ -18,7 +18,7 @@
 {% block body %}
   {% set iiifModel = {contentUrl: work.imgLink, caption: work.description, width: work.imgWidth} %}
   {% set iiifData = {lazyload: true, sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
-  {% componentV2 'work-media', {queryString: queryString, iiifModel: iiifModel, iiifData: iiifData} %}
+  {% componentV2 'work-media', {id: id, queryString: queryString, iiifModel: iiifModel, iiifData: iiifData} %}
 
   <div class="row {{ {s:3, m:3, l:3, xl: 3} | spacingClasses({padding: ['top', 'bottom']}) }}">
     <div class="container">
