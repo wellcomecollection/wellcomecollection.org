@@ -16,7 +16,8 @@ export function contentLd(content) {
     image: imageLd(content.thumbnail),
     datePublished: content.datePublished,
     dateModified: content.datePublished,
-    publisher: orgLd(wellcomeCollection)
+    publisher: orgLd(wellcomeCollection),
+    mainEntityOfPage: `https://wellcomecollection.org${content.url}`
   }, 'Article');
 }
 
