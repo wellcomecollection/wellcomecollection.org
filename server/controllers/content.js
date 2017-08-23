@@ -16,6 +16,7 @@ import {getExhibition} from '../services/exhibitions';
 
 export const renderArticle = async(ctx, next) => {
   const format = ctx.request.query.format;
+  const path = ctx.request.url;
   // We rehydrate the `W` here as we take it off when we have the route.
   const id = `W${ctx.params.id}`;
   const preview = Boolean(ctx.params.preview);
@@ -27,6 +28,7 @@ export const renderArticle = async(ctx, next) => {
     } else {
       ctx.render('pages/article', {
         pageConfig: Object.assign({}, createPageConfig({
+          path: path,
           title: article.title,
           inSection: 'explore',
           category: 'editorial'
@@ -73,6 +75,7 @@ export async function renderEvent(ctx, next) {
   const id = `${ctx.params.id}`;
   const event = await getEvent(id);
   const format = ctx.request.query.format;
+  const path = ctx.request.url;
 
   if (event) {
     if (format === 'json') {
@@ -80,6 +83,7 @@ export async function renderEvent(ctx, next) {
     } else {
       ctx.render('pages/event', {
         pageConfig: createPageConfig({
+          path: path,
           title: event.title,
           inSection: 'whatson',
           category: 'publicprograms',
@@ -96,6 +100,7 @@ export async function renderExhibition(ctx, next) {
   const preview = Boolean(ctx.params.preview);
   const exhibition = await getExhibition(id, preview ? ctx.request : null);
   const format = ctx.request.query.format;
+  const path = ctx.request.url;
 
   if (exhibition) {
     if (format === 'json') {
@@ -103,6 +108,7 @@ export async function renderExhibition(ctx, next) {
     } else {
       ctx.render('pages/exhibition', {
         pageConfig: createPageConfig({
+          path: path,
           title: exhibition.title,
           inSection: 'whatson',
           category: 'publicprograms',
@@ -151,9 +157,11 @@ export async function renderExplore(ctx, next) {
 
   // TODO: Remove this, make it automatic
   const latestTweets = ctx.intervalCache.get('tweets');
+  const path = ctx.request.url;
 
   ctx.render('pages/curated-lists', {
     pageConfig: createPageConfig({
+      path: path,
       title: 'Explore',
       inSection: 'explore',
       category: 'list'

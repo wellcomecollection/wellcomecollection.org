@@ -6,6 +6,7 @@ import {wellcomeCollection} from './organization';
 
 // TODO: Make this a strict object, but then we have problems with Object.assign...
 export type PageConfig = {
+  path: string;
   title: string;
   inSection?: string;
   openingHours?: PlacesOpeningHours;

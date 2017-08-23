@@ -22,7 +22,7 @@ const nunjucks = Nunjucks({
   filters: filters.toJS(),
   extensions: extensionsWithEnv.toJS(),
   globals: {
-    pageConfig: createPageConfig({ title: 'Cardigan', inSection: 'explore' })
+    pageConfig: createPageConfig({ title: 'Cardigan', inSection: 'explore', path: '/' })
   }
 });
 fractal.components.engine(nunjucks);
