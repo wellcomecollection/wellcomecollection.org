@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block body %}
-  {% set iiifModel = {contentUrl: work.imgLink, caption: work.description, width: work.imgWidth} %}
+  {% set iiifModel = {contentUrl: mainImageLink, caption: work.description, width: 2048} %}
   {% set iiifData = {lazyload: true, sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
   {% componentV2 'work-media', {id: id, queryString: queryString, iiifModel: iiifModel, iiifData: iiifData} %}
 
@@ -51,42 +51,50 @@
           {% endif %}
         </div>
 
+        {# TODO: We'll want a more elegant UI when we have more than 1 item #}
         <div class="{{ {s: 12, m: 5, l: 4, xl: 3} | gridClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}">
-          <h2 class="
-            {{ {s:'HNM5' , m:'HNM4'} | fontClasses }}
-            {{ {s:0} | spacingClasses({margin: ['top']}) }}
-            {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
-            Download
-          </h2>
-          <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-            <p class="{{ {s:'HNL5' , m:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">This image is free to use with attribution</p>
-            {% componentV2 'license',  {subject: work.imgLink, licenseType: work.thumbnail.license.licenseType} %}
-          </div>
+          {% for item in work.items %}
 
-          <a
-            class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-link font-elf-green flex flex--v-center"
-            href="/download?uri={{ work.imgLink | replace('WIDTH,', 'full') | urlencode }}"
-            download="{{ work.id }}.jpg"
-            rel="noopener noreferrer"
-            data-track-event='{"category": "work", "action": "download", "label": "full:{{ work.id }}"}'>
-            {% icon 'actions/download-1', null, ['icon--elf-green'] %}
-            <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
-              Original image
-            </div>
-          </a>
+            {% for location in item.locations %}
+              {% if location.locationType === 'iiif-image' %}
+                <h2 class="
+                  {{ {s:'HNM5' , m:'HNM4'} | fontClasses }}
+                  {{ {s:0} | spacingClasses({margin: ['top']}) }}
+                  {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
+                  Download
+                </h2>
 
-          <a
-            class="{{ {s:8} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-link font-elf-green flex flex--v-center"
-            href="/download?uri={{ work.imgLink | replace('WIDTH', 760) | urlencode }}"
-            download="{{ work.id }}.jpg"
-            rel="noopener noreferrer"
-            data-track-event='{"category": "work", "action": "download", "label": "760:{{ work.id }}"}'>
-            {% icon 'actions/download-1', null, ['icon--elf-green'] %}
-            <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
-              Smaller image (760px)
-            </div>
-          </a>
+                <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+                  <p class="{{ {s:'HNL5' , m:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">This image is free to use with attribution</p>
+                  {% componentV2 'license',  {subject: work.imgLink, licenseType: work.thumbnail.license.licenseType} %}
+                </div>
 
+                <a
+                  class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-link font-elf-green flex flex--v-center"
+                  href="/download?uri={{ location.url | replace('WIDTH,', 'full') | urlencode }}"
+                  download="{{ work.id }}.jpg"
+                  rel="noopener noreferrer"
+                  data-track-event='{"category": "work", "action": "download", "label": "full:{{ work.id }}"}'>
+                  {% icon 'actions/download-1', null, ['icon--elf-green'] %}
+                  <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
+                    Original image
+                  </div>
+                </a>
+
+                <a
+                  class="{{ {s:8} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-link font-elf-green flex flex--v-center"
+                  href="/download?uri={{ location.url | replace('WIDTH', 760) | urlencode }}"
+                  download="{{ work.id }}.jpg"
+                  rel="noopener noreferrer"
+                  data-track-event='{"category": "work", "action": "download", "label": "760:{{ work.id }}"}'>
+                  {% icon 'actions/download-1', null, ['icon--elf-green'] %}
+                  <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
+                    Smaller image (760px)
+                  </div>
+                </a>
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
           <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
             {% componentV2 'divider', null, {'pumice': true, 'keyline': true}, {extraClasses: [{s:1} | spacingClasses({margin: ['top', 'bottom']})]}  %}
             <h2 class="

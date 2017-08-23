@@ -40,24 +40,41 @@ export const work = async(ctx, next) => {
   const singleWork = await getWork(id);
 
   const miroId = singleWork.identifiers[0].value;
-  const imgWidth = '2048';
-  const imgLink = imageUrlFromMiroId(miroId, shouldUseIiif(ctx));
   const requestHost = `${ctx.request.protocol}://${ctx.request.host}`;
   const requestPath = ctx.request.path;
+  const mainImageLink = imageUrlFromMiroId(miroId, shouldUseIiif(ctx));
+
+  const tempItems = [{
+    id: 'tempId',
+    locations: [{
+      type: 'Location',
+      locationType: 'iiif-image',
+      // This isn't actually a true representation of what we'll get from the API
+      // but it'll do - what we get is something more like:
+      // 'https://iiif.wellcomecollection.org/image/V0006724.jpg/info.json'
+      url: mainImageLink,
+      license: {
+        type: 'License',
+        licenseType: 'CC-BY',
+        label: 'Attribution 4.0 International (CC BY 4.0)',
+        url: 'http://creativecommons.org/licenses/by/4.0/'
+      }
+    }]
+  }];
 
   ctx.render('pages/work', {
     id,
     queryString,
     requestHost,
     requestPath,
+    mainImageLink,
     pageConfig: createPageConfig({
       title: 'Work',
       inSection: 'explore',
       category: 'collections'
     }),
     work: Object.assign({}, singleWork, {
-      imgLink,
-      imgWidth
+      items: tempItems
     })
   });
 
