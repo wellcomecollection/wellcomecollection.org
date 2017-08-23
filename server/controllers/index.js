@@ -11,17 +11,18 @@ export const article = async(ctx, next) => {
   const slug = ctx.params.slug;
   const format = ctx.request.query.format;
   const article = await getArticle(`slug:${slug}`);
-  const editorialAnalyticsInfo = getEditorialAnalyticsInfo(article);
-  const pageConfig = createPageConfig(Object.assign({}, {
-    title: article.headline,
-    inSection: 'explore',
-    category: 'editorial'
-  }, editorialAnalyticsInfo));
 
   if (article) {
     if (format === 'json') {
       ctx.body = article;
     } else {
+      const editorialAnalyticsInfo = getEditorialAnalyticsInfo(article);
+      const pageConfig = createPageConfig(Object.assign({}, {
+        title: article.headline,
+        inSection: 'explore',
+        category: 'editorial'
+      }, editorialAnalyticsInfo));
+
       ctx.render('pages/article', {pageConfig, article});
     }
   }

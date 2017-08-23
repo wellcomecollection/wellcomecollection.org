@@ -71,10 +71,13 @@
   }
 
   /* stylelint-disable plugin/selector-bem-pattern */
-  p:last-child {
-    margin-bottom: 0;
-  }
+  p {
+    display: inline;
 
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
   /* stylelint-enable plugin/selector-bem-pattern */
 }
 
@@ -122,7 +125,22 @@
 
 .captioned-image__copyright-holder {
   text-align: right;
-  background: color('white');
-  // TODO: This needs design
+
+  .enhanced & {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
 }
 
+.captioned-image__icon {
+  display: none;
+
+  .enhanced & {
+    display: block;
+    width: 2em;
+    height: 2em;
+    border-radius: 50%;
+    background: rgba(color('black'), 0.5);
+  }
+}

@@ -48,7 +48,7 @@
   {% endif %}
 {% endif %}
 
-<{{ 'a' if model.url else 'span' }}
+<{{ 'a' if model.url else 'span' }} id="{{model.id}}"
   {% if model.url %}href="{{ model.url }}"{% endif %}
   class="promo {% for modifier in model.modifiers %}promo--{{ modifier }} {% endfor %} promo--{{ model.contentType }} {{ 'promo--surrogate' if not model.url }}">
     <div class="promo__image-container {% if data.isConstrained %} promo__image-container--constrained {% endif %}">

@@ -1,5 +1,23 @@
 {% extends 'layout/default.njk' %}
 
+{% set metaTitle = 'Wellcome Collection search' %}
+{% if query %}
+  {% set metaTitle = 'Wellcome Collection search: ' + query %}
+{% endif %}
+
+{% block pageMeta %}
+  {% set metaContent = {
+    type: 'website',
+    title: metaTitle,
+    image: resultsList.results[0].imgLink | replace('WIDTH', 1200),
+    url: '/search' + queryString
+  } %}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
+
+  <meta name="description" content="A Wellcome Collection search for '{{ query }}'" />
+{% endblock %}
+
 {% block body %}
   {% componentV2 'page-description', { title: 'Search' }, {'hidden': true} %}
   <div class="row bg-cream
@@ -33,9 +51,12 @@
           <div class="grid__cell">
             <h3 class="{{ {s:'WB6'} | fontClasses }}">Suggested Topics</h3>
             {% componentV2 'tags', {id: 'search-landing', tags: [
+              {text: 'Quacks', url: '/search?query=quack+OR+quacks', bgColor: 'turquoise-text'},
+              {text: 'James Gillray', url: '/search?query=creator%3Ajames+gillray', bgColor: 'turquoise-text'},
+              {text: 'Botany', url: '/search?query=botany', bgColor: 'turquoise-text'},
+              {text: 'Optics', url: '/search?query=optics', bgColor: 'turquoise-text'},
+              {text: 'Sun', url: '/search?query=Sun', bgColor: 'turquoise-text'},
               {text: 'Health', url: '/search?query=health', bgColor: 'turquoise-text'},
-              {text: 'Medicine', url: '/search?query=medicine', bgColor: 'turquoise-text'},
-              {text: 'Nature', url: '/search?query=nature', bgColor: 'turquoise-text'},
               {text: 'Paintings', url: '/search?query=paintings', bgColor: 'turquoise-text'},
               {text: 'Science', url: '/search?query=science', bgColor: 'turquoise-text'}
             ]} %}
@@ -69,7 +90,7 @@
             {% set img = {contentUrl: result.imgLink, width: 300, height: 300} %}
             {% set type = result.type | lower %}
             {% set url = '/works/' + result.id + queryString %}
-            {% componentV2 'promo', {contentType: type, title: result.title, url: url, image: img | objectAssign({ isIiif: true }), datePublished: result.createdDate.label}, {}, {isConstrained: true, sizes: '(min-width: 1340px) 178px, (min-width: 960px) calc(25vw - 52px), (min-width: 600px) calc(33.24vw - 43px), calc(50vw - 27px)'} %}
+            {% componentV2 'promo', {id: result.id, contentType: type, title: result.title, url: url, image: img | objectAssign({ isIiif: true }), datePublished: result.createdDate.label}, {}, {isConstrained: true, sizes: '(min-width: 1340px) 178px, (min-width: 960px) calc(25vw - 52px), (min-width: 600px) calc(33.24vw - 43px), calc(50vw - 27px)'} %}
           </div>
           {% endfor %}
         </div>

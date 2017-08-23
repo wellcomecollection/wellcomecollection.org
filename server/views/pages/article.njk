@@ -1,13 +1,19 @@
 {% extends 'layout/default.njk' %}
 
 {% block pageMeta %}
-  {% component 'open-graph', { pageConfig: pageConfig, article: article } %}
-  {% component 'twitter-card', { pageConfig: pageConfig, article: article } %}
+  {% set metaContent = {
+    type: 'article',
+    title: article.headline,
+    image: article.thumbnail.contentUrl,
+    url: article.url,
+    description: article.description
+  } %}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
   <meta name="description" content="{{ article.description | safe | striptags }}" />
 {% endblock %}
 
 {% block body %}
-
   {% block seriesNavigation %}
     {% for series in article.series %}
       {% if series.commissionedLength %}

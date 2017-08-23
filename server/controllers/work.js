@@ -38,6 +38,7 @@ export const work = async(ctx, next) => {
   const id = ctx.params.id;
   const queryString = ctx.search;
   const singleWork = await getWork(id);
+
   const miroId = singleWork.identifiers[0].value;
   const requestHost = `${ctx.request.protocol}://${ctx.request.host}`;
   const requestPath = ctx.request.path;
@@ -62,6 +63,7 @@ export const work = async(ctx, next) => {
   }];
 
   ctx.render('pages/work', {
+    id,
     queryString,
     requestHost,
     requestPath,

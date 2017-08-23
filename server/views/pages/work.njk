@@ -1,18 +1,29 @@
 {% extends 'layout/default.njk' %}
 
 {% block pageMeta %}
+  {% set metaContent = {
+    type: 'website',
+    title: work.title,
+    image: work.imgLink | replace('WIDTH', 1200),
+    url: '/works/' + work.id,
+    description: work.description
+  } %}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
+
+  <meta name="description" content="{{ work.description }}" />
   <link rel="canonical" href="{{ requestHost }}{{ requestPath }}" />
 {% endblock %}
 
 {% block body %}
   {% set iiifModel = {contentUrl: mainImageLink, caption: work.description, width: 2048} %}
   {% set iiifData = {lazyload: true, sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
-  {% componentV2 'work-media', {queryString: queryString, iiifModel: iiifModel, iiifData: iiifData} %}
+  {% componentV2 'work-media', {id: id, queryString: queryString, iiifModel: iiifModel, iiifData: iiifData} %}
 
   <div class="row {{ {s:3, m:3, l:3, xl: 3} | spacingClasses({padding: ['top', 'bottom']}) }}">
     <div class="container">
       <div class="grid">
-        <div class="{{ {s: 12, m: 6, l: 7, xl: 6, shiftXl: 1} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+        <div class="{{ {s: 12, m: 7, l: 8, xl: 7, shiftXl: 1} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
           <h1 id="work-info" class="{{ {s:'HNM3', m:'HNM2', l:'HNM1'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{work.title}}</h1>
 
           {% if work.creators.length > 0 %}
@@ -41,9 +52,7 @@
         </div>
 
         {# TODO: We'll want a more elegant UI when we have more than 1 item #}
-
-
-        <div class="{{ {s: 12, m: 6, l: 5, xl: 4} | gridClasses }}">
+        <div class="{{ {s: 12, m: 5, l: 4, xl: 3} | gridClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}">
           {% for item in work.items %}
 
             {% for location in item.locations %}
@@ -57,7 +66,7 @@
 
                 <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
                   <p class="{{ {s:'HNL5' , m:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">This image is free to use with attribution</p>
-                  {% componentV2 'license',  {subject: location.url, licenseType: location.license.licenseType} %}
+                  {% componentV2 'license',  {subject: work.imgLink, licenseType: work.thumbnail.license.licenseType} %}
                 </div>
 
                 <a

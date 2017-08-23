@@ -1,8 +1,14 @@
 {% extends 'layout/default.njk' %}
 
 {% block pageMeta %}
-  {% component 'open-graph', { pageConfig: pageConfig, article: event } %}
-  {% component 'twitter-card', { pageConfig: pageConfig, article: event } %}
+  {% set metaContent = {
+    type: 'website',
+    title: event.title,
+    image: event.promo.media.contentUrl,
+    url: '/events/' + event.id
+  } %}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
   <meta name="description" content="{{ event.description | safe | striptags }}" />
 {% endblock %}
 
@@ -14,8 +20,6 @@
 
 </style>
 <article itemscope itemtype="http://schema.org/Event">
-
-
   <div class="row {{ {s:4} | spacingClasses({padding: ['top', 'bottom']}) }}">
     <div class="container">
       <div class="grid">
