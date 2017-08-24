@@ -42,7 +42,7 @@ r.get('/:preview?/exhibitions/:id', renderExhibition);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 
 // API
-r.get('/search', search);
+r.get('/works', search);
 r.get('/works/:id', work);
 
 // Deprecated: Wordpress content
