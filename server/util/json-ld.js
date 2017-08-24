@@ -12,11 +12,12 @@ export function objToJsonLd<T>(obj: T, type: string, root: boolean = true) {
 export function contentLd(content) {
   return objToJsonLd({
     headline: content.headline,
-    author: content.author && personLd(content.author),
+    author: content.author && content.author.map(personLd),
     image: imageLd(content.thumbnail),
     datePublished: content.datePublished,
     dateModified: content.datePublished,
-    publisher: orgLd(wellcomeCollection)
+    publisher: orgLd(wellcomeCollection),
+    mainEntityOfPage: `https://wellcomecollection.org${content.url}`
   }, 'Article');
 }
 
