@@ -31,7 +31,8 @@ export const renderArticle = async(ctx, next) => {
           path: path,
           title: article.title,
           inSection: 'explore',
-          category: 'editorial'
+          category: 'editorial',
+          canonicalUri: `${ctx.globals.rootDomain}/articles/${id}`
         }), getEditorialAnalyticsInfo(article)),
         article: article
       });
@@ -87,7 +88,8 @@ export async function renderEvent(ctx, next) {
           title: event.title,
           inSection: 'whatson',
           category: 'publicprograms',
-          contentType: 'event'
+          contentType: 'event',
+          canonicalUri: `${ctx.globals.rootDomain}/events/${event.id}`
         }),
         event: event
       });
@@ -112,7 +114,8 @@ export async function renderExhibition(ctx, next) {
           title: exhibition.title,
           inSection: 'whatson',
           category: 'publicprograms',
-          contentType: 'exhibitions'
+          contentType: 'exhibitions',
+          canonicalUri: `${ctx.globals.rootDomain}/exhibitions/${exhibition.id}`
         }),
         exhibition: exhibition
       });
@@ -164,7 +167,8 @@ export async function renderExplore(ctx, next) {
       path: path,
       title: 'Explore',
       inSection: 'explore',
-      category: 'list'
+      category: 'list',
+      canonicalUri: `${ctx.globals.rootDomain}/explore`
     }),
     promos: dedupedPromos,
     curatedList,

@@ -15,6 +15,7 @@ export type PageConfig = {
   series?: ?string;
   positionInSeries?: ?number;
   contentType?: ?string;
+  canonicalUri?: ?string;
 };
 
 export function createPageConfig(data: PageConfig) {
