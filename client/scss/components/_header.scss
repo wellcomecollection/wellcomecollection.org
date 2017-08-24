@@ -2,6 +2,7 @@
 
 $tweakpoints: (
   'header-medium': 825px,
+  'large': map-get($breakpoints, 'large'),
   'small': map-get($breakpoints, 'small')
 );
 
@@ -316,6 +317,9 @@ $tweakpoints: (
 .header__item {
   border-bottom: 1px solid color('pumice');
 
+  // TODO: the vw units below are tightly coupled to the
+  // number of nav items and number of characters in them.
+  // This is a stop-gap ahead of nav design rework.
   @include respond-to('header-medium') {
     border-bottom: 0;
     margin-right: 1vw;
@@ -324,6 +328,12 @@ $tweakpoints: (
   @include respond-to('large') {
     margin-right: 2vw;
   }
+
+  // stylelint-disable
+  @include respond-between('header-medium', 'large') {
+    font-size: 1.6vw;
+  }
+  // stylelint-enable
 
   @include respond-to('xlarge') {
     margin-right: 2rem;
