@@ -1,4 +1,6 @@
 {% extends 'layout/default.njk' %}
+{# TODO: Maybe set this on the actual work? #}
+{% set canonicalUri = rootDomain + '/works/' + work.id %}
 
 {% block pageMeta %}
   {% set metaContent = {
@@ -12,7 +14,7 @@
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
 
   <meta name="description" content="{{ work.description }}" />
-  <link rel="canonical" href="{{ requestHost }}{{ requestPath }}" />
+  <link rel="canonical" href="{{ canonicalUri }}" />
 {% endblock %}
 
 {% block body %}
@@ -94,7 +96,7 @@
               {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
                 Share
             </h2>
-            {% componentV2 'copy-url', {id: work.id, url: requestHost + requestPath} %}
+            {% componentV2 'copy-url', {id: work.id, url: canonicalUri} %}
           </div>
         </div>
       </div>

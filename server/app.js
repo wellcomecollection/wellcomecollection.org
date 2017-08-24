@@ -14,7 +14,7 @@ const app = new Koa();
 app.proxy = true;
 app.use(intervalCache());
 app.use(determineFeaturesCohort());
-app.use(render(config.views.path));
+app.use(render(config.views.path, config.globals[app.env]));
 // `error` is only after `intervalCache` and `render` as there's a dependency chain there
 // TODO: remove dependency chain
 app.use(error());
