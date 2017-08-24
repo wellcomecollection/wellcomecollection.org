@@ -5,7 +5,7 @@
     type: 'website',
     title: exhibition.title,
     image: exhibition.featuredImage.contentUrl,
-    url: '/exhibitions/' + exhibition.id
+    url: pageConfig.path
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}

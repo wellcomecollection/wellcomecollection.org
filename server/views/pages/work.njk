@@ -5,7 +5,7 @@
     type: 'website',
     title: work.title,
     image: work.imgLink | replace('WIDTH', 1200),
-    url: '/works/' + work.id,
+    url: pageConfig.path,
     description: work.description
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}

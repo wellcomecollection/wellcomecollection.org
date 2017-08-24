@@ -6,8 +6,10 @@ export const healthcheck = (ctx, next) => {
 };
 
 export const featureFlags = (ctx, next) => {
+  const path = ctx.request.url;
+
   ctx.render('pages/flags', {
-    pageConfig: createPageConfig({inSection: 'index'})
+    pageConfig: createPageConfig({inSection: 'index', path: path})
   });
   return next();
 };
