@@ -28,7 +28,7 @@ export const wellcomeCollectionAddress = {
 
 export const wellcomeCollection: Organization = {
   name: 'Wellcome Collection',
-  url: 'https://next.wellcomecollection.org',
+  url: 'https://wellcomecollection.org',
   logo: {
     url: 'https://wellcomecollection.org/assets/icons/apple-touch-icon.png'
   },

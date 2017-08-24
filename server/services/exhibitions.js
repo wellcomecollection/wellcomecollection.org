@@ -1,7 +1,7 @@
 // @flow
 import type {Exhibition} from '../content-model/content-blocks';
 import type {IApi} from 'prismic-javascript';
-import {prismicImageToPicture} from '../services/prismic-content';
+import {prismicImageToPicture, convertContentToBodyParts} from '../services/prismic-content';
 import {RichText} from 'prismic-dom';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 
@@ -16,6 +16,10 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
   if (!exhibition) return;
 
   const featuredImage = prismicImageToPicture({image: exhibition.data.featuredImage});
+  const bodyParts = convertContentToBodyParts(exhibition.data.body);
+  const video = bodyParts.find(p => p.type === 'video-embed');
+  const text = bodyParts.find(p => p.type === 'text');
+  const imageGallery = bodyParts.find(p => p.type === 'imageGallery');
 
   return ({
     blockType: 'exhibitions',
@@ -24,6 +28,10 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
     start: exhibition.data.start,
     end: exhibition.data.end,
     featuredImage: featuredImage,
-    accessStatements: exhibition.data.accessStatements
+    accessStatements: exhibition.data.accessStatements,
+    description: exhibition.data.description && RichText.asHtml(exhibition.data.description),
+    video: video,
+    text: text,
+    imageGallery: imageGallery
   }: Exhibition);
 }

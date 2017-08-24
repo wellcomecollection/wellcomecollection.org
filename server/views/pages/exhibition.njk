@@ -1,8 +1,14 @@
 {% extends 'layout/default.njk' %}
 
 {% block pageMeta %}
-  {% component 'open-graph', { pageConfig: pageConfig, article: exhibition } %}
-  {% component 'twitter-card', { pageConfig: pageConfig, article: exhibition } %}
+  {% set metaContent = {
+    type: 'website',
+    title: exhibition.title,
+    image: exhibition.featuredImage.contentUrl,
+    url: pageConfig.path
+  } %}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
   {# <meta name="description" content="{{ exhibition.description | safe | striptags }}" /> #}
 {% endblock %}
 
@@ -39,7 +45,9 @@
     <div class="container">
       <div class="grid">
         <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:'HNL3', m:'HNL2'} | fontClasses}} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-          {% block exhibitionDescription %}{% endblock %}
+          {% block exhibitionDescription %}
+            {{ exhibition.text.value | safe }}
+          {% endblock %}
         </div>
         <div class="{{ {s:12, m:10, shiftM:1, l:5, xl:5} | gridClasses }}">
           <div class="drawer js-show-hide">
@@ -50,6 +58,14 @@
           </div>
           <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
           {% block accessStatements %}
+            <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
+              <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y' %}</div>
+              <p class="no-margin">Step-free access is available to all floors of the building</p>
+            </div>
+            <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
+              <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y_visual' %}</div>
+              <p>Magnifying glasses and sheets are available to borrow</p>
+            </div>
             {% for statement in exhibition.accessStatements %}
               <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
                 <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon statement.value.slug | getA11yIcon %}</div>
@@ -68,6 +84,29 @@
       </div>
     </div>
   </div>
+
+  {% if exhibition.video %}
+    <div class="row bg-black {{ {s:2} | spacingClasses({padding: ['top'], margin: ['bottom']}) }} {{ {s:10} | spacingClasses({padding: ['bottom']}) }}">
+      <div class="container">
+        <div class="grid">
+          <div class="{{ {s:12, m:8, shiftM:2, l:8, shiftL:2, xl:6, shiftXl:3} | gridClasses }}">
+            {% if exhibition.video.value.title %}
+              <h2 class="{{ {s:'WB6'} | fontClasses }} font-white">{{ exhibition.video.value.title }}</h2>
+            {% endif %}
+            {% componentV2 'iframed-video', exhibition.video.value %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if exhibition.imageGallery %}
+    <div class="row {{ {s:2} | spacingClasses({padding: ['top'], margin: ['bottom']}) }} {{ {s:10} | spacingClasses({padding: ['bottom']}) }}">
+      <div class="container">
+        {% component 'image-gallery', { imageGallery: exhibition.imageGallery.value, id: 'article-body-image-gallery--' + exhibition.id } %}
+      </div>
+    </div>
+  {% endif %}
 
 </article>
 {% endblock %}

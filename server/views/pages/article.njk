@@ -1,13 +1,19 @@
 {% extends 'layout/default.njk' %}
 
 {% block pageMeta %}
-  {% component 'open-graph', { pageConfig: pageConfig, article: article } %}
-  {% component 'twitter-card', { pageConfig: pageConfig, article: article } %}
+  {% set metaContent = {
+    type: 'article',
+    title: article.headline,
+    image: article.thumbnail.contentUrl,
+    url: pageConfig.path,
+    description: article.description
+  } %}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
   <meta name="description" content="{{ article.description | safe | striptags }}" />
 {% endblock %}
 
 {% block body %}
-
   {% block seriesNavigation %}
     {% for series in article.series %}
       {% if series.commissionedLength %}
@@ -24,8 +30,8 @@
   {% endif %}
 
   <script type="application/ld+json">
-  {{ article | jsonLd('contentLd') | safe }}
-</script>
+    {{ article | jsonLd('contentLd') | safe }}
+  </script>
   <article>
     {% componentV2 'page-description', {
       intro: seriesTitle,
@@ -75,7 +81,7 @@
               {% endfor %}
             {% endif %}
 
-            <div class="article" itemprop="articleBody">
+            <div class="article">
               {% block articleBody %}
                 {% component 'article-body', {articleBody: article.bodyParts, contentType: article.contentType} %}
               {% endblock %}

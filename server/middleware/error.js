@@ -11,12 +11,14 @@ export default function() {
       if (404 !== err.status) {
         Raven.captureException(err, {extra: {url: ctx.request.href}});
       }
+      const path = ctx.request.url;
       console.error(err)
       ctx.status = err.status || 500;
 
       ctx.render('pages/error', {
         errorStatus: ctx.status,
         pageConfig: createPageConfig({
+          path: path,
           title: `${err.status} error`
         })
       });

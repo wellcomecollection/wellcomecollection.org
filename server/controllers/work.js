@@ -46,10 +46,12 @@ export const work = async(ctx, next) => {
   const requestPath = ctx.request.path;
 
   ctx.render('pages/work', {
+    id,
     queryString,
     requestHost,
     requestPath,
     pageConfig: createPageConfig({
+      path: requestPath,
       title: 'Work',
       inSection: 'images',
       category: 'collections'
@@ -94,10 +96,12 @@ export const search = async (ctx, next) => {
     totalPages,
     totalResults
   });
+  const path = ctx.request.url;
 
   const pagination = PaginationFactory.fromList(List(resultsWithImages), parseInt(totalResults, 10) || 1, parseInt(page, 10) || 1, pageSize || 1, ctx.query);
   ctx.render('pages/search', {
     pageConfig: createPageConfig({
+      path: path,
       inSection: 'images'
     }),
     resultsList,
