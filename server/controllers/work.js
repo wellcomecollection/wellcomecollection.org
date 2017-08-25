@@ -4,7 +4,7 @@ import {getWork, getWorks} from '../services/wellcomecollection-api';
 import {createResultsList} from '../model/results-list';
 import {PaginationFactory} from '../model/pagination';
 
-function imageUrlFromMiroId(id, useIiif, useOrigin) {
+function imageUrlFromMiroId(id) {
   const cleanedMiroId = id.match(/(^\w{1}[0-9]*)+/g, '')[0];
   const miroFolder = `${cleanedMiroId.slice(0, -3)}000`;
 
