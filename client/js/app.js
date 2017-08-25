@@ -101,9 +101,11 @@ const init = () => {
   }
 
   nodeList(galleries).forEach((gallery) => {
+    const dataModifiers = gallery.getAttribute('data-modifiers').split(' ');
+
     contentSlider(gallery, {
       slideSelector: '.image-gallery__item',
-      modifiers: ['in-article', 'in-content', 'gallery'],
+      modifiers: dataModifiers.concat('gallery'),
       sliderType: 'gallery'
     });
   });

@@ -59,7 +59,7 @@ export const context = {
     contentType: 'article',
     headline: 'How cultural contexts can shape mental illness',
     tags: '@meta-unit.links',
-    author: '@author',
+    author: ['@author'],
     mainMedia: [mainMediaPicture],
     bodyParts: [
       standfirst,
@@ -177,6 +177,21 @@ export const variants = [
           width: 900,
           height: 900
         }],
+        bodyParts: [
+          standfirst,
+          htmlBlock
+        ]
+      }
+    }
+  },
+  {
+    name: 'gallery',
+    context: {
+      article: {
+        contentType: 'gallery',
+        headline: 'Diseases linked to marginalised groups',
+        tags: null,
+        mainMedia: ['@image-gallery.imageGallery'],
         bodyParts: [
           standfirst,
           htmlBlock

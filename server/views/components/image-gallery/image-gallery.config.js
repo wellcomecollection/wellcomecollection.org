@@ -27,5 +27,6 @@ export const context = {
       width: 2000,
       height: 2828
     }]
-  }
+  },
+  modifiers: ['in-content']
 };

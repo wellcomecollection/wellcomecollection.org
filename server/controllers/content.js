@@ -29,7 +29,7 @@ export const renderArticle = async(ctx, next) => {
       ctx.render('pages/article', {
         pageConfig: Object.assign({}, createPageConfig({
           path: path,
-          title: article.title,
+          title: article.headline,
           inSection: 'explore',
           category: 'editorial',
           canonicalUri: `${ctx.globals.rootDomain}/articles/${id}`

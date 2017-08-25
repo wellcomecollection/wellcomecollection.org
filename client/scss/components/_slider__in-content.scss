@@ -36,6 +36,8 @@ $slider-control-margin: 18px;
 }
 
 .slider-controls--in-content {
+  bottom: $spacing-unit * 6;
+
   /* stylelint-disable plugin/selector-bem-pattern */
   .control-arrow {
     width: 16px;
@@ -54,14 +56,6 @@ $slider-control-margin: 18px;
     cursor: pointer;
     outline: none;
     overflow: hidden;
-    position: relative;
-    margin-left: calc(100% - (2 * #{$slider-control-size} + #{$slider-control-margin}));
-
-    // this calculation is related to the gallery appearing in the article template
-    @include respond-to('xlarge') {
-      margin-left: 50%;
-      left: -(($container-width-max - (map-get($container-padding, 'large') * 2)) / 2) * (-5/6) - ((2 * $slider-control-size) + $slider-control-margin);
-    }
 
     &:focus {
       background: color('smoke');

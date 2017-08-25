@@ -45,7 +45,7 @@
     {% if section.slice_type === 'series' %}
       {% if section.value.data.commissionedLength %}
         {# Digital stories #}
-        <div class="row {{ {s:2} | spacingClasses({padding:['top']}) }}">
+        <div class="row {{ {s:2} | spacingClasses({padding:['top']}) }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }} relative">
           <div class="container container--scroll-xl">
             <div class="grid grid--no-gutters">
               <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
@@ -56,7 +56,7 @@
           </div>
           <div class="{{ {s:4} | spacingClasses({margin:['top']}) }}">
             <div class="container container--no-collapse">
-              {% componentV2 'divider', null, {'thick': true, 'black': true}, {extraClasses: [{s:5} | spacingClasses({margin: ['bottom']})]} %}
+              {% componentV2 'divider', null, {'thick': true, 'black': true} %}
             </div>
           </div>
         </div>
