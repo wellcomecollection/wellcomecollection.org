@@ -53,11 +53,7 @@
   class="promo {% for modifier in model.modifiers %}promo--{{ modifier }} {% endfor %} promo--{{ model.contentType }} {{ 'promo--surrogate' if not model.url }}">
     <div class="promo__image-container {% if data.isConstrained %} promo__image-container--constrained {% endif %}">
       {% if model.image %}
-        {% if model.image.isIiif %}
-          {% componentV2 'image-iiif', model.image, {}, {lazyload: true, sizesQueries: sizes, clipPathClass: clipPathClass} %}
-        {% else %}
-          {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, clipPathClass: clipPathClass} %}
-        {% endif %}
+        {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, clipPathClass: clipPathClass} %}
       {% else %}
         <div class="promo__image-surrogate">
           <div class="promo__image-surrogate-inner"></div>
