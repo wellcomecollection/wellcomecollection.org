@@ -44,6 +44,8 @@ export function getFeaturedMediaFromBody(doc): ?Picture {
 
 export function prismicImageToPicture(captionedImage) {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
+  const attribute = image && image.copyright && getTaslFromCopyright(image.copyright);
+
   return ({
     type: 'picture',
     contentUrl: image && convertPrismicToImgIxUri(image.url), // TODO: Send this through the img.wc.org
@@ -51,8 +53,22 @@ export function prismicImageToPicture(captionedImage) {
     height: image && image.dimensions.height,
     caption: captionedImage.caption && captionedImage.caption.length !== 0 && asHtml(captionedImage.caption),
     alt: image && image.alt,
-    copyrightHolder: image && image.copyright
+    copyrightHolder: image && image.copyright,
+    attribute
   }: Picture);
+}
+
+function getTaslFromCopyright(copyright) {
+  // We expect a string of title\author\source\license
+  // e.g. \Rob Bidder\\CC-BY-NC
+  const list = copyright.split('\\');
+  const v = list
+    .concat(Array(4 - list.length))
+    .map(v => !v ? null : v.trim());
+
+  const [title, author, source, license] = v;
+
+  return {title, author, source, license};
 }
 
 export async function getArticle(id: string, previewReq: ?Request) {
