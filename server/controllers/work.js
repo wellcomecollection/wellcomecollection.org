@@ -3,28 +3,12 @@ import {createPageConfig} from '../model/page-config';
 import {getWork, getWorks} from '../services/wellcomecollection-api';
 import {createResultsList} from '../model/results-list';
 import {PaginationFactory} from '../model/pagination';
-import {isFlagEnabled} from '../util/flag-status';
 
 function imageUrlFromMiroId(id, useIiif, useOrigin) {
   const cleanedMiroId = id.match(/(^\w{1}[0-9]*)+/g, '')[0];
   const miroFolder = `${cleanedMiroId.slice(0, -3)}000`;
 
-  if (useIiif) {
-    if (useOrigin) {
-      return `https://iiif-origin.wellcomecollection.org/image/${id}.jpg/full/WIDTH,/0/default.jpg/`;
-    } else {
-      return `https://iiif.wellcomecollection.org/image/${id}.jpg/full/WIDTH,/0/default.jpg`;
-    }
-  } else {
-    return `https://s3-eu-west-1.amazonaws.com/miro-images-public/${miroFolder}/${id}.jpg`;
-  }
-}
-
-function shouldUseIiif(ctx) {
-  const [flags] = ctx.intervalCache.get('flags');
-  const useIiif = isFlagEnabled(ctx.featuresCohort, 'useIiif', flags);
-
-  return useIiif;
+  return `https://s3-eu-west-1.amazonaws.com/miro-images-public/${miroFolder}/${id}.jpg`;
 }
 
 export const work = async(ctx, next) => {
@@ -34,7 +18,7 @@ export const work = async(ctx, next) => {
 
   const miroId = singleWork.identifiers[0].value;
   const imgWidth = '2048';
-  const imgLink = imageUrlFromMiroId(miroId, shouldUseIiif(ctx));
+  const imgLink = imageUrlFromMiroId(miroId);
 
   ctx.render('pages/work', {
     id,
