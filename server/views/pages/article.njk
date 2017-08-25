@@ -52,7 +52,7 @@
       {% elif (article.contentType === 'video') %}
         {% componentV2 'main-media-video', article.mainMedia | getPrincipleMainMedia, {full: true}, mainMediaData %}
       {% elif (article.contentType === 'gallery') %}
-        {% component 'main-media-gallery', {imageGallery: article.mainMedia[0]} %}
+        {% component 'main-media-gallery', {imageGallery: article.mainMedia[0], id: 'main-media-image-gallery--' + id} %}
       {% else %}
         {% componentV2 'main-media', article.mainMedia | getPrincipleMainMedia, {full: true}, mainMediaData %}
       {% endif %}

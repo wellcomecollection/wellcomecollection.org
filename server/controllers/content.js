@@ -34,7 +34,8 @@ export const renderArticle = async(ctx, next) => {
           category: 'editorial',
           canonicalUri: `${ctx.globals.rootDomain}/articles/${id}`
         }), getEditorialAnalyticsInfo(article)),
-        article: article
+        article: article,
+        id: id
       });
     }
   }
