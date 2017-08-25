@@ -10,11 +10,15 @@ import {determineFeaturesCohort} from './middleware/features-cohort';
 import {intervalCache} from './middleware/interval-cache';
 
 const app = new Koa();
-
+const globals = config.globals[app.env];
 app.proxy = true;
+app.use((ctx, next) => {
+  ctx.globals = globals;
+  return next();
+});
 app.use(intervalCache());
 app.use(determineFeaturesCohort());
-app.use(render(config.views.path, config.globals[app.env]));
+app.use(render(config.views.path, globals));
 // `error` is only after `intervalCache` and `render` as there's a dependency chain there
 // TODO: remove dependency chain
 app.use(error());
