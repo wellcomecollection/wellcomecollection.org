@@ -47,10 +47,10 @@ export const work = async(ctx, next) => {
     id,
     queryString,
     pageConfig: createPageConfig({
-      path: requestPath,
       title: 'Work',
       inSection: 'explore',
-      category: 'collections'
+      category: 'collections',
+      canonicalUri: `${ctx.globals.rootDomain}/works/${singleWork.id}`
     }),
     work: Object.assign({}, singleWork, {
       imgLink,
@@ -98,7 +98,8 @@ export const search = async (ctx, next) => {
   ctx.render('pages/search', {
     pageConfig: createPageConfig({
       path: path,
-      inSection: 'index'
+      inSection: 'index',
+      canonicalUri: `${ctx.globals.rootDomain}/works`
     }),
     resultsList,
     query,
