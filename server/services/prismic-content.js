@@ -46,7 +46,7 @@ export function prismicImageToPicture(captionedImage) {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
   return ({
     type: 'picture',
-    contentUrl: image && convertPrismicToImgIxUri(image.url), // TODO: Send this through the img.wc.org
+    contentUrl: image && image.url,
     width: image && image.dimensions.width,
     height: image && image.dimensions.height,
     caption: captionedImage.caption && captionedImage.caption.length !== 0 && asHtml(captionedImage.caption),
@@ -238,13 +238,6 @@ export function convertContentToBodyParts(content) {
         break;
     }
   }).filter(_ => _);
-}
-
-const prismicImageUri = 'https://prismic-io.s3.amazonaws.com/wellcomecollection';
-const imgIxUri = 'https://wellcomecollection-prismic.imgix.net';
-
-function convertPrismicToImgIxUri(uri) {
-  return uri.replace(prismicImageUri, imgIxUri);
 }
 
 export async function getArticleList(documentTypes = ['articles', 'webcomics']) {
