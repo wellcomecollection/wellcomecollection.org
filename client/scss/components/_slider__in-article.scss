@@ -17,3 +17,9 @@
     }
   }
 }
+
+.slider-controls--in-article {
+  @include respond-to('xlarge') {
+    margin-right: ($container-width-max / 12) * 1;
+  }
+}

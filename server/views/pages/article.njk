@@ -119,7 +119,7 @@
             <div class="grid grid--no-gutters">
               <div class="{{ {s: 12, m: 10, shiftM: 1, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
                 <div class="body-part body-part--full-width">
-                  <div class="{{ {s:10} | spacingClasses({padding: ['bottom']}) }} relative">
+                  <div class="{{ {s:8} | spacingClasses({padding: ['bottom']}) }}">
                     <div class="wobbly-edge wobbly-edge--white wobbly-edge--small js-wobbly-edge" data-is-static="true"></div>
                     {% set asyncContentEndpoint = '/series-transporter/' + series.url + '?current=' + article.url %}
                     {% component 'async', { endpoint: asyncContentEndpoint, component: 'series-transporter', modifiers: '{"in-article": true}' } %}
