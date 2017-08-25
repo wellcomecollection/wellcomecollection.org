@@ -12,6 +12,7 @@ import fontClasses from './font-classes';
 import componentClasses from './component-classes';
 import concat from './concat';
 import contains from './contains';
+import convertImageUri from './convert-image-uri';
 import getCacheBustFile from './get-cache-bust-file';
 import jsonLd from './json-ld';
 import {isFlagEnabled} from '../util/flag-status';
@@ -48,6 +49,7 @@ export default Map({
   concat,
   contains,
   componentClasses,
+  convertImageUri,
   getCacheBustFile,
   jsonLd,
   formatDate,
