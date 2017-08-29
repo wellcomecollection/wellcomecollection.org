@@ -1,4 +1,7 @@
 {% set sizes = model | getImageSizesFor %}
+{% set useIiif = featuresCohort | isFlagEnabled('useIiif', featureFlags) %}
+{% set useIiifOrigin = featuresCohort | isFlagEnabled('imagesFromOrigin', featureFlags) %}
+
 {% set comma = joiner() %}
 {# Note to future selves - having the clipPathClass means we need 2 images on the page (with slightly different classes). Creating an array here, so can loop over the image code instead of repeating it. #}
 {% if data.clipPathClass %}
@@ -7,7 +10,7 @@
   {% set loop = [1] %}
 {% endif %}
 <noscript>
-  <img width="{{model.width}}" height="{{model.height}}" class="image" src="{{ model.contentUrl | convertImageUri(320) }}"
+  <img width="{{model.width}}" height="{{model.height}}" class="image" src="{{ model.contentUrl | convertImageUri(320, useIiif, useIiifOrigin) }}"
 alt="{% if model.alt %} {{ model.alt | striptags() }}{% elif model.caption %} {{ model.caption | striptags() }}{% endif %}" />
 </noscript>
 
@@ -17,10 +20,10 @@ alt="{% if model.alt %} {{ model.alt | striptags() }}{% elif model.caption %} {{
     promo__image-mask {{data.clipPathClass}}
   {% endif %}
   "
-  src="{{ model.contentUrl | convertImageUri(30) }}"
+  src="{{ model.contentUrl | convertImageUri(30, useIiif, useIiifOrigin) }}"
   data-srcset="
   {%- for size in sizes -%}
-    {{ comma() }}{{ model.contentUrl | convertImageUri(size) }} {{ size }}w
+    {{ comma() }}{{ model.contentUrl | convertImageUri(size, useIiif, useIiifOrigin) }} {{ size }}w
   {%- endfor %}"
   {% if data.sizesQueries %}
     sizes="{{ data.sizesQueries }}"

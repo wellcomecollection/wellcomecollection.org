@@ -1,5 +1,5 @@
 
-export default function convertImageUri(originalUri, requiredSize, useIiif, useOrigin) {
+export default function convertImageUri(originalUri, requiredSize, useIiif, useIiifOrigin) {
 
   const wordpressImageRoot = 'https://wellcomecollection.files.wordpress.com/';
   const prismicImageRoot = 'https://prismic-io.s3.amazonaws.com/wellcomecollection/';
@@ -11,20 +11,20 @@ export default function convertImageUri(originalUri, requiredSize, useIiif, useO
   const iiifMiroSrcRoot = '';
 
   if (originalUri.startsWith(wordpressImageRoot)) {
-    if (true) {
+    if (useIiif) {
       return convertPathToIiifUri(originalUri.split(wordpressImageRoot)[1], iiifWordpressSrcRoot, requiredSize, false);
     } else {
       return originalUri + `?w=${requiredSize}`;
     }
   } else if (originalUri.startsWith(prismicImageRoot)) {
-    if (true) {
+    if (useIiif) {
       return convertPathToIiifUri(originalUri.split(prismicImageRoot)[1], iiifPrismicSrcRoot, requiredSize, false);
     } else {
       return convertPathToImgixUri(originalUri.split(prismicImageRoot)[1], imgixPrismicSrcRoot, requiredSize);
     }
   } else if (originalUri.startsWith(miroImageRoot)) {
-    if (true) {
-      return convertPathToIiifUri(originalUri.split(miroImageRoot)[1].split('/', 2)[1], iiifMiroSrcRoot, requiredSize, false);
+    if (useIiif) {
+      return convertPathToIiifUri(originalUri.split(miroImageRoot)[1].split('/', 2)[1], iiifMiroSrcRoot, requiredSize, useIiifOrigin);
     } else {
       return convertPathToImgixUri(originalUri.split(miroImageRoot)[1].split('/', 2)[1], imgixMiroSrcRoot, requiredSize);
     }
@@ -37,8 +37,8 @@ function convertPathToImgixUri(originalUriPath, imgixSrc, size) {
   return `${imgixSrc}/${originalUriPath}?w=${size}`;
 }
 
-function convertPathToIiifUri(originalUriPath, iiifSrc, size, useOrigin) {
-  if (useOrigin) {
+function convertPathToIiifUri(originalUriPath, iiifSrc, size, useIiifOrigin) {
+  if (useIiifOrigin) {
     return `https://iiif-origin.wellcomecollection.org/image/${iiifSrc}${originalUriPath}/full/${size},/0/default.jpg`;
   } else {
     return `https://iiif.wellcomecollection.org/image/${iiifSrc}${originalUriPath}/full/${size},/0/default.jpg`;
