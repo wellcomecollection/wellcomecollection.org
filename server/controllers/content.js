@@ -7,6 +7,7 @@ import {PromoFactory} from '../model/promo';
 import {getArticleStubs} from '../services/wordpress';
 import {getCuratedList} from '../services/prismic-curated-lists';
 import {collectorsPromo} from '../data/series';
+import {prismicAsText} from '../filters/prismic';
 import {
   getArticle,
   getArticleList
@@ -165,7 +166,7 @@ export async function renderExplore(ctx, next) {
   ctx.render('pages/curated-lists', {
     pageConfig: createPageConfig({
       path: path,
-      title: 'Explore',
+      title: prismicAsText(curatedList.data.title),
       inSection: 'explore',
       category: 'list',
       canonicalUri: `${ctx.globals.rootDomain}/explore`
