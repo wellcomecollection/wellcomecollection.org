@@ -20,13 +20,6 @@ function imageUrlFromMiroId(id, useIiif, useOrigin) {
   }
 }
 
-function shouldGetImageFromOrigin(ctx) {
-  const [flags] = ctx.intervalCache.get('flags');
-  const useOrigin = isFlagEnabled(ctx.featuresCohort, 'imagesFromOrigin', flags);
-
-  return useOrigin;
-}
-
 function shouldUseIiif(ctx) {
   const [flags] = ctx.intervalCache.get('flags');
   const useIiif = isFlagEnabled(ctx.featuresCohort, 'useIiif', flags);
@@ -61,40 +54,22 @@ export const work = async(ctx, next) => {
   return next();
 };
 
-function getResultsWithImages(results, useIiif, useOrigin) {
-  if (!results) return;
-
-  if (results.error) {
-    // Display some error messaging to the user here?
-    console.error(results.error);
-
-    return;
-  }
-
-  return results.results.map((result) => {
-    const miroId = result.identifiers[0].value;
-    const imgLink = imageUrlFromMiroId(miroId, useIiif, useOrigin);
-    return Object.assign({}, result, {imgLink});
-  });
-}
-
 export const search = async (ctx, next) => {
   const { query, page } = ctx.query;
   const queryString = ctx.search;
   const results = query && query.trim() !== '' ? await getWorks(query, page) : null;
-  const resultsWithImages = getResultsWithImages(results, shouldUseIiif(ctx), shouldGetImageFromOrigin(ctx));
+  const resultsArray = results && results.results || [];
   const pageSize = results && results.pageSize;
   const totalPages = results && results.totalPages;
   const totalResults = (results && results.totalResults) || 0;
   const resultsList = createResultsList({
-    results: resultsWithImages,
+    results: resultsArray,
     pageSize,
     totalPages,
     totalResults
   });
   const path = ctx.request.url;
-
-  const pagination = PaginationFactory.fromList(List(resultsWithImages), parseInt(totalResults, 10) || 1, parseInt(page, 10) || 1, pageSize || 1, ctx.query);
+  const pagination = PaginationFactory.fromList(List(resultsArray), parseInt(totalResults, 10) || 1, parseInt(page, 10) || 1, pageSize || 1, ctx.query);
   ctx.render('pages/search', {
     pageConfig: createPageConfig({
       path: path,
