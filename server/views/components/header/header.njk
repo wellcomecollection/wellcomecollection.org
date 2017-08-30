@@ -28,15 +28,7 @@
           {% endfor %}
         </ul>
       </nav>
-      {% if featureFlags and featuresCohort %}
-        {% if featuresCohort | isFlagEnabled('searchWorks', featureFlags) %}
-          {% componentV2 'works-search' %}
-        {% else %}
-          {% componentV2 'search' %}
-        {% endif %}
-      {% else %}
-        {% componentV2 'search' %}
-      {% endif %}
+      {% componentV2 'search' %}
     </div>
   </div>
 </div>
