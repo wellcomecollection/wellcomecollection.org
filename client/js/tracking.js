@@ -22,7 +22,8 @@ export default {
 
     // GA events
     on('body', 'click', '[data-track-event]', ({ target }) => {
-      trackGaEvent(JSON.parse(target.getAttribute('data-track-event')));
+      const el = target.closest('[data-track-event]');
+      trackGaEvent(JSON.parse(el.getAttribute('data-track-event')));
     });
   }
 };
