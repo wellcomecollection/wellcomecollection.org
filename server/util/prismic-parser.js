@@ -123,7 +123,7 @@ function createPrismicImageWithCaption(image: Picture) {
           y: 0
         }
       },
-      credits: image.copyrightHolder,
+      credits: image.attribute.copyrightHolder,
       alt: image.alt,
       thumbnails: {}
     }

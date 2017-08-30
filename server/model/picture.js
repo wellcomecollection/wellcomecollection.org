@@ -10,10 +10,9 @@ export type Picture = {|
   alt?: ?string;
   copyright?: ?string;
   author?: string;
-  copyrightHolder?: string;
   fileFormat?: string;
   url?: ?string;
-  attribute?: {title: ?string, author: ?string, source: ?string, license: LicenseType};
+  attribute?: {title: ?string, author: ?string, sourceName: ?string, sourceLink: ?string, license: LicenseType, copyrightHolder: ?string, copyrightLink: ?string};
 |}
 
 export function createPicture(data: Picture): Picture {

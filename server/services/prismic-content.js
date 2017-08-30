@@ -53,22 +53,21 @@ export function prismicImageToPicture(captionedImage) {
     height: image && image.dimensions.height,
     caption: captionedImage.caption && captionedImage.caption.length !== 0 && asHtml(captionedImage.caption),
     alt: image && image.alt,
-    copyrightHolder: image && image.copyright,
     attribute
   }: Picture);
 }
 
 function getTaslFromCopyright(copyright) {
-  // We expect a string of title|author|source|license
-  // e.g. |Rob Bidder||CC-BY-NC
+  // We expect a string of title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
+  // e.g. Self|Rob Bidder|||CC-BY-NC
   const list = copyright.split('|');
   const v = list
-    .concat(Array(4 - list.length))
+    .concat(Array(7 - list.length))
     .map(v => !v.trim() ? null : v);
 
-  const [title, author, source, license] = v;
+  const [title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink] = v;
 
-  return {title, author, source, license};
+  return {title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink};
 }
 
 export async function getArticle(id: string, previewReq: ?Request) {

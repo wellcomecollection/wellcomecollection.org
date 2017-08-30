@@ -37,7 +37,15 @@ const smallPicture = createPicture({
   author: `Author's name`,
   width: 400,
   height: 225,
-  copyrightHolder: 'copyright holder',
+  attribute: {
+    title: 'A Work',
+    author: 'Jo Bloggs',
+    sourceName: 'Wellcome Collection',
+    sourceLink: 'https://next.wellcomecollection.org/works/wygx8v4v',
+    license: 'CC-BY',
+    copyrightHolder: 'Wellcome Collection',
+    copyrightLink: 'http://wellcomecollection.org'
+  },
   fileFormat: 'png'
 });
 
