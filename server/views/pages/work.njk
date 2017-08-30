@@ -1,4 +1,5 @@
 {% extends 'layout/default.njk' %}
+{# TODO: Maybe set this on the actual work? #}
 
 {% block pageMeta %}
   {% set metaContent = {
@@ -12,7 +13,6 @@
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
 
   <meta name="description" content="{{ work.description }}" />
-  <link rel="canonical" href="{{ requestHost }}{{ requestPath }}" />
 {% endblock %}
 
 {% block body %}
@@ -32,12 +32,12 @@
           {% endif %}
 
           {% if work.createdDate.label.length > 0 %}
-            {% set needsDivider = work.genre.length > 0 or work.subjects.length > 0 or work.lettering > 0 %}
+            {% set needsDivider = work.genre.length > 0 or work.subjects.length > 0 or work.lettering.length > 0 %}
             {% componentV2 'meta-unit', {headingText: 'Date', content: work.createdDate.label, includeDivider: needsDivider} %}
           {% endif %}
 
           {% if work.genre.length > 0 %}
-            {% set needsDivider = work.subjects.length > 0 or work.lettering > 0 %}
+            {% set needsDivider = work.subjects.length > 0 or work.lettering.length > 0 %}
             {% componentV2 'meta-unit', {headingText: 'Genre', content: [work.genre | createLinkObject], includeDivider: needsDivider} %}
           {% endif %}
 
@@ -59,7 +59,6 @@
             Download
           </h2>
           <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-            <p class="{{ {s:'HNL5' , m:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">This image is free to use with attribution</p>
             {% componentV2 'license',  {subject: work.imgLink, licenseType: work.thumbnail.license.licenseType} %}
           </div>
 
@@ -95,7 +94,7 @@
               {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
                 Share
             </h2>
-            {% componentV2 'copy-url', {id: work.id, url: requestHost + requestPath} %}
+            {% componentV2 'copy-url', {id: work.id, url: pageConfig.canonicalUri} %}
           </div>
         </div>
       </div>

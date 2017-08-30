@@ -30,6 +30,9 @@
         featureFlags: {{featureFlags | dump | safe}}
       }
     </script>
+    {% if pageConfig.canonicalUri %}
+      <link rel="canonical" href="{{ pageConfig.canonicalUri }}" />
+    {% endif %}
   </head>
   <body>
     {% component 'skip-link' %}

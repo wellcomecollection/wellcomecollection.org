@@ -42,6 +42,8 @@ const contentSlider = (el, options) => {
   const sliderModifiers = setModifiers('slider');
   const slidesContainerModifiers = setModifiers('slides-container');
   const sliderControlsModifiers = setModifiers('slider-controls');
+  const inContent = settings.modifiers.indexOf('in-content') > -1;
+  const flushRightClass = inContent ? 'flush-container-right' : '';
 
   // Generate classes for slider elements
   const classes = {
@@ -50,7 +52,7 @@ const contentSlider = (el, options) => {
     slidesContainer: `slides-container`,
     sliderItem: `slide-item`,
     currentItem: `slide-item--current`,
-    sliderControls: `slider-controls  ${sliderControlsModifiers}`,
+    sliderControls: `slider-controls  ${sliderControlsModifiers} ${flushRightClass}`,
     prevControl: `slider-control--prev`,
     nextControl: `slider-control--next`,
     sliderControlInactive: `slider-control--inactive`

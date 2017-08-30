@@ -5,6 +5,8 @@
   {% set metaTitle = 'Wellcome Collection search: ' + query %}
 {% endif %}
 
+{% set description = 'Explore 53,000 Artworks and Photos' %}
+
 {% block pageMeta %}
   {% set metaContent = {
     type: 'website',
@@ -15,7 +17,11 @@
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
 
+  {% if query %}
   <meta name="description" content="A Wellcome Collection search for '{{ query }}'" />
+  {% else %}
+  <meta name="description" content="{{ description }}">
+  {% endif %}
 {% endblock %}
 
 {% block body %}
@@ -28,7 +34,7 @@
         <div class="{{ {s:12, m:10, l:8, xl:8} | gridClasses }}">
           {% if not query %}
             <span class="font-turquoise-text caps {{ {s:'WB7', l:'WB6'} | fontClasses }}">New</span>
-            <h2 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">Explore 53,000 Artworks and Photos</h2>
+            <h2 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ description }}</h2>
           {% endif %}
           {% componentV2 'search-box', {id: 'search-works', action: '', name: 'query', query: query, autofocus: true} %}
           {% if not query %}
@@ -51,14 +57,14 @@
           <div class="grid__cell">
             <h3 class="{{ {s:'WB6'} | fontClasses }}">Suggested Topics</h3>
             {% componentV2 'tags', {id: 'search-landing', tags: [
-              {text: 'Quacks', url: '/search?query=quack+OR+quacks', bgColor: 'turquoise-text'},
-              {text: 'James Gillray', url: '/search?query=creator%3Ajames+gillray', bgColor: 'turquoise-text'},
-              {text: 'Botany', url: '/search?query=botany', bgColor: 'turquoise-text'},
-              {text: 'Optics', url: '/search?query=optics', bgColor: 'turquoise-text'},
-              {text: 'Sun', url: '/search?query=Sun', bgColor: 'turquoise-text'},
-              {text: 'Health', url: '/search?query=health', bgColor: 'turquoise-text'},
-              {text: 'Paintings', url: '/search?query=paintings', bgColor: 'turquoise-text'},
-              {text: 'Science', url: '/search?query=science', bgColor: 'turquoise-text'}
+              {text: 'Quacks', url: '/works?query=quack+OR+quacks', bgColor: 'turquoise-text'},
+              {text: 'James Gillray', url: '/works?query=creator%3Ajames+gillray', bgColor: 'turquoise-text'},
+              {text: 'Botany', url: '/works?query=botany', bgColor: 'turquoise-text'},
+              {text: 'Optics', url: '/works?query=optics', bgColor: 'turquoise-text'},
+              {text: 'Sun', url: '/works?query=Sun', bgColor: 'turquoise-text'},
+              {text: 'Health', url: '/works?query=health', bgColor: 'turquoise-text'},
+              {text: 'Paintings', url: '/works?query=paintings', bgColor: 'turquoise-text'},
+              {text: 'Science', url: '/works?query=science', bgColor: 'turquoise-text'}
             ]} %}
           </div>
         </div>
@@ -87,7 +93,7 @@
         <div class="grid">
           {% for result in resultsList.results %}
           <div class="{{ {s:6, m:4, l:3 , xl:2} | gridClasses }}">
-            {% set img = {contentUrl: result.imgLink, width: 300, height: 300} %}
+            {% set img = {contentUrl: result.thumbnail.url, width: 300, height: 300} %}
             {% set type = result.type | lower %}
             {% set url = '/works/' + result.id + queryString %}
             {% componentV2 'promo', {id: result.id, contentType: type, title: result.title, url: url, image: img | objectAssign({ isIiif: true }), datePublished: result.createdDate.label}, {}, {isConstrained: true, sizes: '(min-width: 1340px) 178px, (min-width: 960px) calc(25vw - 52px), (min-width: 600px) calc(33.24vw - 43px), calc(50vw - 27px)'} %}
