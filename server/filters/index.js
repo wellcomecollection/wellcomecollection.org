@@ -21,7 +21,7 @@ import {groupBodyParts} from './group-body-parts';
 import {isString} from './is-string';
 import {createLinkObject, getLinkObjects} from './get-link-objects';
 import {prettyDump} from './pretty-dump';
-import {prismicAsHtml} from './prismic';
+import {prismicAsHtml, prismicAsText} from './prismic';
 import getA11yIcon from './get-a11y-icon';
 import {
   formatDate,
@@ -66,6 +66,7 @@ export default Map({
   getLinkObjects,
   prettyDump,
   prismicAsHtml,
+  prismicAsText,
   getLicenseInfo,
   getTaslMarkup
 });
