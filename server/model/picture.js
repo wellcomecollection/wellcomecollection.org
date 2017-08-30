@@ -15,7 +15,7 @@ export type Picture = {|
   title?: ?string;
   author?: ?string;
   source?: ?{name?: ?string, link?: ?string};
-  license?: ?string;
+  license?: ?LicenseType;
   copyright?: ?{holder?: string, link?: string};
 |}
 
