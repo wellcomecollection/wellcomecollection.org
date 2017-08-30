@@ -15,6 +15,11 @@ const imageMap = {
     imigixRoot: 'https://wellcomecollection-miro-images.imgix.net',
     iiifRoot: 'https://iiif.wellcomecollection.org/image/',
     iiifOriginRoot: 'https://iiif-origin.wellcomecollection.org/image/'
+  },
+  iiif: { // sometimes we already have the iiif url, but we may want to convert it to use the origin
+    root: 'https://iiif.wellcomecollection.org/image/',
+    iiifRoot: 'https://iiif.wellcomecollection.org/image/',
+    iiifOriginRoot: 'https://iiif-origin.wellcomecollection.org/image/'
   }
 };
 
@@ -25,6 +30,8 @@ function determineSrc(url) {
     return 'prismic';
   } else if (url.startsWith(imageMap.miro.root)) {
     return 'miro';
+  } else if (url.startsWith(imageMap.iiif.root)) {
+    return 'iiif';
   } else {
     return 'unknown';
   }
@@ -50,11 +57,14 @@ export default function convertImageUri(originalUri, requiredSize, useIiif, useI
   } else {
     if (useIiif) {
       const imagePath = imageSrc === 'miro' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[1] : originalUri.split(imageMap[imageSrc].root)[1];
+      console.log(imagePath);
       const iiifRoot = useIiifOrigin ? imageMap[imageSrc].iiifOriginRoot : imageMap[imageSrc].iiifRoot;
 
       return convertPathToIiifUri(imagePath, iiifRoot, requiredSize);
     } else {
-      if (imageSrc === 'wordpress') {
+      if (imageSrc === 'iiif') { // we have to use the iiif uri as that is all we have
+        return originalUri;
+      } else if (imageSrc === 'wordpress') {
         return convertPathToWordpressUri(originalUri, requiredSize);
       } else {
         return convertPathToImgixUri(originalUri.split(imageMap[imageSrc].root)[1], imageMap[imageSrc].imigixRoot, requiredSize);
