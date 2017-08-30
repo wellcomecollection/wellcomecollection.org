@@ -8,7 +8,8 @@ export default function() {
       await next();
       if (404 === ctx.response.status && !ctx.response.body) ctx.throw(404);
     } catch (err) {
-      if (404 !== err.status) {
+      // We don't want to alert on 4xx errors, although they will be tracked in GA
+      if (err.status && (err.status < 400 || err.status > 499)) {
         Raven.captureException(err, {extra: {url: ctx.request.href}});
       }
       const path = ctx.request.url;
