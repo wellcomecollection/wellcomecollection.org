@@ -32,6 +32,7 @@ import {
   formatAndDedupeOnTime
 } from './format-date';
 import getLicenseInfo from './get-license-info';
+import getTaslMarkup from './get-tasl-markup';
 
 export default Map({
   youtubeEmbedUrl,
@@ -65,5 +66,6 @@ export default Map({
   getLinkObjects,
   prettyDump,
   prismicAsHtml,
-  getLicenseInfo
+  getLicenseInfo,
+  getTaslMarkup
 });
