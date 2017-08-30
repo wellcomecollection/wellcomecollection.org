@@ -1,6 +1,6 @@
 import getLicenseInfo from './get-license-info';
 
-function setTitle(title, author, sourceLink) {
+function getTitleHtml(title, author, sourceLink) {
   if (!title) return '';
 
   const byAuthor = author ? `, by ${author}` : '';
@@ -12,7 +12,7 @@ function setTitle(title, author, sourceLink) {
   }
 }
 
-function setSource(sourceName, sourceLink) {
+function getSourceHtml(sourceName, sourceLink) {
   if (!sourceName) return '';
 
   if (sourceLink) {
@@ -22,22 +22,22 @@ function setSource(sourceName, sourceLink) {
   }
 }
 
-function setCopyright(copyrightHolder, copyrightLink) {
+function getCopyrightHtml(copyrightHolder, copyrightLink) {
   if (!copyrightHolder) return '';
 
   if (copyrightLink) {
-    return `Copyright: <a href="${copyrightLink}">${copyrightHolder}</a>. `;
+    return `&copy; <a href="${copyrightLink}">${copyrightHolder}</a>. `;
   } else {
-    return `Copyright: ${copyrightHolder}. `;
+    return `&copy; ${copyrightHolder}. `;
   }
 }
 
 export default function({title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink}) {
-  const titleMarkup = setTitle(title, author, sourceLink);
-  const sourceMarkup = setSource(sourceName, sourceLink);
+  const titleHtml = getTitleHtml(title, author, sourceLink);
+  const sourceHtml = getSourceHtml(sourceName, sourceLink);
   const licenseInfo = license && getLicenseInfo(license);
-  const copyrightMarkup = setCopyright(copyrightHolder, copyrightLink);
-  const licenseMarkup = licenseInfo ? `<a rel="license" href="${licenseInfo.url}">${licenseInfo.text}</a>.` : '';
+  const copyrightHtml = getCopyrightHtml(copyrightHolder, copyrightLink);
+  const licenseHtml = licenseInfo ? `<a rel="license" href="${licenseInfo.url}">${licenseInfo.text}</a>.` : '';
 
-  return `${titleMarkup}${sourceMarkup}${copyrightMarkup}${licenseMarkup}`;
+  return `${titleHtml}${sourceHtml}${copyrightHtml}${licenseHtml}`;
 }
