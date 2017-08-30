@@ -14,7 +14,7 @@
           {% componentV2 'image', model, {}, {lazyload: true, sizesQueries: data.sizesQueries} %}
         {% endif %}
     {% endif %}
-    {% if (model.attribute and data.showCopyright) %}
+    {% if ((model.title or model.source.name or model.copyright.name or model.license) and data.showCopyright) %}
       <div
         data-component-name="Image credit drawer"
         data-component-id="image-credit"
@@ -26,7 +26,17 @@
           </span>
         </button>
         <div class="drawer__body js-show-hide-drawer bg-white {{ {s:1} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }}">
-          {{ model.attribute | getTaslMarkup | safe }}
+          {% set tasl = {
+            title: model.title,
+            author: model.author,
+            sourceName: model.source.name,
+            sourceLink: model.source.link,
+            license: model.license,
+            copyrightHolder: model.copyright.holder,
+            copyrightLink: model.copyright.link
+          } %}
+
+          {{ tasl | getTaslMarkup | safe }}
         </div>
       </div>
     {% endif %}

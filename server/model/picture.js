@@ -12,7 +12,11 @@ export type Picture = {|
   author?: string;
   fileFormat?: string;
   url?: ?string;
-  attribute?: {title: ?string, author: ?string, sourceName: ?string, sourceLink: ?string, license: LicenseType, copyrightHolder: ?string, copyrightLink: ?string};
+  title?: ?string;
+  author?: ?string;
+  source?: ?{name?: ?string, link?: ?string};
+  license?: ?string;
+  copyright?: ?{holder?: string, link?: string};
 |}
 
 export function createPicture(data: Picture): Picture {

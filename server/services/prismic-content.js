@@ -44,7 +44,7 @@ export function getFeaturedMediaFromBody(doc): ?Picture {
 
 export function prismicImageToPicture(captionedImage) {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
-  const attribute = image && image.copyright && getTaslFromCopyright(image.copyright);
+  const tasl = image && image.copyright && getTaslFromCopyright(image.copyright);
 
   return ({
     type: 'picture',
@@ -53,7 +53,17 @@ export function prismicImageToPicture(captionedImage) {
     height: image && image.dimensions.height,
     caption: captionedImage.caption && captionedImage.caption.length !== 0 && asHtml(captionedImage.caption),
     alt: image && image.alt,
-    attribute
+    title: tasl && tasl.title,
+    author: tasl && tasl.author,
+    source: {
+      name: tasl && tasl.sourceName,
+      link: tasl && tasl.sourceLink
+    },
+    license: tasl && tasl.license,
+    copyright: {
+      holder: tasl && tasl.copyrightHolder,
+      link: tasl && tasl.copyrightLink
+    }
   }: Picture);
 }
 
