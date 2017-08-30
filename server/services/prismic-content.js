@@ -59,12 +59,12 @@ export function prismicImageToPicture(captionedImage) {
 }
 
 function getTaslFromCopyright(copyright) {
-  // We expect a string of title\author\source\license
-  // e.g. \Rob Bidder\\CC-BY-NC
-  const list = copyright.split('\\');
+  // We expect a string of title|author|source|license
+  // e.g. |Rob Bidder||CC-BY-NC
+  const list = copyright.split('|');
   const v = list
     .concat(Array(4 - list.length))
-    .map(v => !v ? null : v.trim());
+    .map(v => !v.trim() ? null : v);
 
   const [title, author, source, license] = v;
 
