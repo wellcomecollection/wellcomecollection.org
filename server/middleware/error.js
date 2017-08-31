@@ -13,7 +13,7 @@ export default function() {
         Raven.captureException(err, {extra: {url: ctx.request.href}});
       }
       const path = ctx.request.url;
-      console.error(err)
+      console.error(err, path);
       ctx.status = err.status || 500;
 
       ctx.render('pages/error', {
