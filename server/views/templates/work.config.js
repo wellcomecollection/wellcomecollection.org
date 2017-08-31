@@ -8,7 +8,7 @@ export const context = {
   // temp license, img, etc. data until we know how this is coming from the API
   work: Object.assign({}, mockJson, {
     license: 'CC BY-NC',
-    imgLink: 'https://wellcomecollection-miro-images.imgix.net/V0047000/V0047696.jpg',
+    imgLink: 'https://s3-eu-west-1.amazonaws.com/miro-images-public/V0047000/V0047696.jpg',
     imgWidth: 1000,
     moreInfo: [
       {
