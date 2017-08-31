@@ -5,7 +5,7 @@
     type: 'website',
     title: list.name,
     image: list.items.first().image.contentUrl,
-    url: pageConfig.path,
+    url: pageConfig.canonicalUri,
     description: list.description
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}

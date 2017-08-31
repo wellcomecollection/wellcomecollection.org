@@ -6,7 +6,7 @@
     type: 'website',
     title: pageConfig.title,
     image: promos.first().image.contentUrl,
-    url: pageConfig.path,
+    url: pageConfig.canonicalUri,
     description: description
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}

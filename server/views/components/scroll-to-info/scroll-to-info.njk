@@ -1,6 +1,6 @@
 <a
   href="#{{ model.elementId }}"
   class="scroll-to-info js-scroll-to-info plain-link flex--v-center flex--h-center flex {{ 'scroll-to-info' | componentClasses(modifiers) if modifiers }} {% for class in data.extraClasses %}{{ class }} {% endfor %}"
-  data-track-event='{"category": "component", "action": "scroll-to-link", "label": "{{ model.id }}"}'>
+  data-track-event='{"category": "component", "action": "scroll-to-info:click", "label": "id:{{ model.id }}"}'>
   {% icon 'actions/chevron-medium', 'scroll to more information', data.extraIconClasses %}
 </a>

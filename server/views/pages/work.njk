@@ -6,7 +6,7 @@
     type: 'website',
     title: work.title,
     image: work.imgLink | replace('WIDTH', 1200),
-    url: pageConfig.path,
+    url: pageConfig.canonicalUri,
     description: work.description or work.title
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
@@ -67,7 +67,7 @@
             href="/download?uri={{ work.imgLink | replace('WIDTH,', 'full') | urlencode }}"
             download="{{ work.id }}.jpg"
             rel="noopener noreferrer"
-            data-track-event='{"category": "work", "action": "download", "label": "full:{{ work.id }}"}'>
+            data-track-event='{"category": "component", "action": "download-button:click", "label": "id:{{ work.id }}, size:original"}'>
             {% icon 'actions/download-1', null, ['icon--elf-green'] %}
             <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
               Original image
@@ -79,7 +79,7 @@
             href="/download?uri={{ work.imgLink | replace('WIDTH', 760) | urlencode }}"
             download="{{ work.id }}.jpg"
             rel="noopener noreferrer"
-            data-track-event='{"category": "work", "action": "download", "label": "760:{{ work.id }}"}'>
+            data-track-event='{"category": "component", "action": "download-button:click", "label": "id:{{ work.id }}, size:760"}'>
             {% icon 'actions/download-1', null, ['icon--elf-green'] %}
             <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
               Smaller image (760px)
@@ -109,5 +109,5 @@
     {% componentV2 'work-drawer', {id: 'using-image', heading: 'Using this image'}, null, {data: work.usingImage, bottomSpacing: true} %}
   {% endif %}
 
-  {% componentV2 'back-to-top', {}, {trackId: 'work'} %}
+  {% componentV2 'back-to-top', {}, {trackId: pageConfig.canonicalUri} %}
 {% endblock %}
