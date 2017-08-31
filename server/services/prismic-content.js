@@ -171,7 +171,8 @@ export function convertContentToBodyParts(content) {
             const image = prismicImageToPicture(item);
             const description = RichText.asHtml(item.description);
             const title = asText(item.title);
-            return { title, image, description };
+            const subtitle = asText(item.subtitle);
+            return { title, subtitle, image, description };
           })
         };
 
