@@ -7,7 +7,7 @@
     title: work.title,
     image: work.imgLink | replace('WIDTH', 1200),
     url: pageConfig.path,
-    description: work.description
+    description: work.description or work.title
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
