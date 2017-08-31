@@ -52,7 +52,20 @@
             <ul class="plain-list no-margin no-padding">
               {% for item in bodyPart.value %}
                 <li>
-                  <h2>{{ loop.index }}. {{ item.title }}</h2>
+                  <h2>
+                    <div class="flex">
+                      <div class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{{ loop.index }}.</div>
+                      <div>
+                        <div>
+                          {{ item.title }}
+                        </div>
+                        {% if item.subtitle %}
+                          <div>
+                            {{ item.subtitle }}
+                          </div>
+                        {% endif %}
+                      </div>
+                  </h2>
                   {% componentV2 'captioned-image', item.image, {'has-border-bottom': item.image.caption}, {showCopyright: true} %}
                   {{item.description | safe}}
                 </li>
