@@ -2,6 +2,6 @@
 <meta name="twitter:url" content="{{ pageConfig.organization.url }}{{ metaContent.url }}" />
 <meta name="twitter:site" content="{{ pageConfig.organization.twitterHandle }}" />
 <meta name="twitter:title" content="{{ metaContent.title }}" />
-<meta name="twitter:description" content="{{ metaContent.description | striptags | safe | truncate(200) }}" />
+<meta name="twitter:description" content="{{ (metaContent.description | striptags | safe | truncate(200)) or metaContent.title }}" />
 <meta name="twitter:image" content="{{ metaContent.image }}?w=600&h=322&crop=1" />
 {#<meta name="twitter:image:alt" content=" {{ article.thumbnailAlt }}" />#}{# TODO not available from wordpress #}
