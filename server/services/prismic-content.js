@@ -44,6 +44,8 @@ export function getFeaturedMediaFromBody(doc): ?Picture {
 
 export function prismicImageToPicture(captionedImage) {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
+  const tasl = image && image.copyright && getTaslFromCopyright(image.copyright);
+
   return ({
     type: 'picture',
     contentUrl: image && image.url,
@@ -51,8 +53,31 @@ export function prismicImageToPicture(captionedImage) {
     height: image && image.dimensions.height,
     caption: captionedImage.caption && captionedImage.caption.length !== 0 && asHtml(captionedImage.caption),
     alt: image && image.alt,
-    copyrightHolder: image && image.copyright
+    title: tasl && tasl.title,
+    author: tasl && tasl.author,
+    source: {
+      name: tasl && tasl.sourceName,
+      link: tasl && tasl.sourceLink
+    },
+    license: tasl && tasl.license,
+    copyright: {
+      holder: tasl && tasl.copyrightHolder,
+      link: tasl && tasl.copyrightLink
+    }
   }: Picture);
+}
+
+function getTaslFromCopyright(copyright) {
+  // We expect a string of title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
+  // e.g. Self|Rob Bidder|||CC-BY-NC
+  const list = copyright.split('|');
+  const v = list
+    .concat(Array(7 - list.length))
+    .map(v => !v.trim() ? null : v);
+
+  const [title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink] = v;
+
+  return {title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink};
 }
 
 export async function getArticle(id: string, previewReq: ?Request) {

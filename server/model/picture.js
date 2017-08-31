@@ -1,4 +1,5 @@
 // @flow
+import type {LicenseType} from './license';
 export type Picture = {|
   type: 'picture';
   contentUrl: ?string;
@@ -9,9 +10,13 @@ export type Picture = {|
   alt?: ?string;
   copyright?: ?string;
   author?: string;
-  copyrightHolder?: string;
   fileFormat?: string;
   url?: ?string;
+  title?: ?string;
+  author?: ?string;
+  source?: ?{name?: ?string, link?: ?string};
+  license?: ?LicenseType;
+  copyright?: ?{holder?: string, link?: string};
 |}
 
 export function createPicture(data: Picture): Picture {
