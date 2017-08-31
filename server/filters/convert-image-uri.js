@@ -57,7 +57,6 @@ export default function convertImageUri(originalUri, requiredSize, useIiif, useI
   } else {
     if (useIiif) {
       const imagePath = imageSrc === 'miro' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[1] : originalUri.split(imageMap[imageSrc].root)[1];
-      console.log(imagePath);
       const iiifRoot = useIiifOrigin ? imageMap[imageSrc].iiifOriginRoot : imageMap[imageSrc].iiifRoot;
 
       return convertPathToIiifUri(imagePath, iiifRoot, requiredSize);
