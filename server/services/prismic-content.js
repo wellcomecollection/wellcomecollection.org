@@ -38,8 +38,12 @@ export function getPromo(doc): ?ImagePromo {
 
 export function getFeaturedMediaFromBody(doc): ?Picture {
   return List(doc.data.body.filter(slice => slice.slice_label === 'featured')
-    .map(slice => slice.primary)
-    .map(prismicImageToPicture)).first();
+    .map(slice => {
+      switch (slice.slice_type) {
+        case 'editorialImage': return prismicImageToPicture(slice.primary);
+        case 'imageList': return convertPrismicImageList(slice);
+      }
+    })).first();
 }
 
 export function prismicImageToPicture(captionedImage) {
@@ -65,6 +69,16 @@ export function prismicImageToPicture(captionedImage) {
       link: tasl && tasl.copyrightLink
     }
   }: Picture);
+}
+
+function convertPrismicImageList(slice) {
+  return slice.items.map(item => {
+    const image = prismicImageToPicture(item);
+    const description = RichText.asHtml(item.description);
+    const title = asText(item.title);
+    const subtitle = asText(item.subtitle);
+    return { title, subtitle, image, description };
+  });
 }
 
 function getTaslFromCopyright(copyright) {
@@ -188,13 +202,7 @@ export function convertContentToBodyParts(content) {
         return {
           weight: 'default',
           type: 'imageList',
-          value: slice.items.map(item => {
-            const image = prismicImageToPicture(item);
-            const description = RichText.asHtml(item.description);
-            const title = asText(item.title);
-            const subtitle = asText(item.subtitle);
-            return { title, subtitle, image, description };
-          })
+          value: convertPrismicImageList(slice)
         };
 
       case 'quote':
