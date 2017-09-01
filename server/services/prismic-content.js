@@ -273,7 +273,8 @@ export async function getArticleList(documentTypes = ['articles', 'webcomics']) 
   ];
   const prismic = await prismicApi();
   const articlesList = await prismic.query([
-    Prismic.Predicates.any('document.type', documentTypes)
+    Prismic.Predicates.any('document.type', documentTypes),
+    Prismic.Predicates.not('document.tags', ['delist'])
   ], {fetchLinks});
 
   const articlesAsArticles = articlesList.results.map(result => {
