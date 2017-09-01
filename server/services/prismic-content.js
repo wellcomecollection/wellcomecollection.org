@@ -1,4 +1,4 @@
-import type {ImagePromo} from '../content-model/content-blocks';
+import type {ImagePromo, ImageList} from '../content-model/content-blocks';
 import type {Article} from '../model/article';
 import type {Picture} from '../model/picture';
 import type {Person} from '../model/person';
@@ -36,7 +36,7 @@ export function getPromo(doc): ?ImagePromo {
   }: ImagePromo);
 }
 
-export function getFeaturedMediaFromBody(doc): ?Picture {
+export function getFeaturedMediaFromBody(doc): ?(Picture | ImageList) {
   return List(doc.data.body.filter(slice => slice.slice_label === 'featured')
     .map(slice => {
       switch (slice.slice_type) {
@@ -71,14 +71,19 @@ export function prismicImageToPicture(captionedImage) {
   }: Picture);
 }
 
-function convertPrismicImageList(slice) {
-  return slice.items.map(item => {
-    const image = prismicImageToPicture(item);
-    const description = RichText.asHtml(item.description);
-    const title = asText(item.title);
-    const subtitle = asText(item.subtitle);
-    return { title, subtitle, image, description };
-  });
+function convertPrismicImageList(slice): ImageList {
+  return ({
+    // TODO: We need to move things to using block types
+    type: 'image-lists',
+    blockType: 'image-lists',
+    items: slice.items.map(item => {
+      const image = prismicImageToPicture(item);
+      const description = RichText.asHtml(item.description);
+      const title = asText(item.title);
+      const subtitle = asText(item.subtitle);
+      return { title, subtitle, image, description };
+    })
+  }: ImageList);
 }
 
 function getTaslFromCopyright(copyright) {

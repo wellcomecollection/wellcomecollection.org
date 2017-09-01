@@ -46,14 +46,41 @@
       series: commissionedSeries,
       showCopyright: article.contentType !== 'comic'
     } %}
+
     {% if (article.mainMedia.length > 0) %}
-      {% if (article.contentType === 'comic') %}
-        {% componentV2 'main-media-comic', article.mainMedia | getPrincipleMainMedia, {full: true, 'fit-vh': true}, mainMediaData %}
-      {% elif (article.contentType === 'video') %}
-        {% componentV2 'main-media-video', article.mainMedia | getPrincipleMainMedia, {full: true}, mainMediaData %}
-      {% else %}
-        {% componentV2 'main-media', article.mainMedia | getPrincipleMainMedia, {full: true}, mainMediaData %}
-      {% endif %}
+      {% for mm in article.mainMedia %}
+        {# TODO: Make this a type, rather than on the article #}
+        {% if (article.contentType === 'comic') %}
+          {% componentV2 'main-media-comic', article.mainMedia | getPrincipleMainMedia, {full: true, 'fit-vh': true}, mainMediaData %}
+        {% elif mm.type === 'video-embed' %}
+          {% componentV2 'main-media-video', article.mainMedia | getPrincipleMainMedia, {full: true}, mainMediaData %}
+        {% elif mm.type === 'image-lists' %}
+          <ul class="plain-list no-margin no-padding">
+            {% for item in mm.items %}
+              <li>
+                <h2>
+                  <div class="flex">
+                    <div class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{{ loop.index }}.</div>
+                    <div>
+                      <div>
+                        {{ item.title }}
+                      </div>
+                      {% if item.subtitle %}
+                        <div>
+                          {{ item.subtitle }}
+                        </div>
+                      {% endif %}
+                    </div>
+                </h2>
+                {% componentV2 'captioned-image', item.image, {'has-border-bottom': item.image.caption}, {showCopyright: true} %}
+                {{item.description | safe}}
+              </li>
+            {% endfor %}
+          </ul>
+        {% elif mm.type === 'picture' %}
+          {% componentV2 'main-media', article.mainMedia | getPrincipleMainMedia, {full: true}, mainMediaData %}
+        {% endif %}
+      {% endfor %}
     {% endif %}
 
     <div class="row bg-cream">
