@@ -11,7 +11,11 @@ export default (el) => {
       const extraLabel =  trackingLabel ? `${trackingLabel}, ` : '';
       const isActive = toggle.getActive();
 
-      trackGaEvent('component', `${trackingAction}:click`, `${extraLabel}click-action:${isActive ? 'did close' : 'did open'}`);
+      trackGaEvent({
+        category: 'component',
+        action: `${trackingAction}:click`,
+        label: `${extraLabel}click-action:${isActive ? 'did close' : 'did open'}`
+      });
     }
 
     toggle.toggleActive();

@@ -305,14 +305,22 @@ const contentSlider = (el, options) => {
   function nextSlide(e) {
     if (e.target.classList.contains(classes.sliderControlInactive)) return;
     const moveToPosition = positionIndex + 1;
-    trackGaEvent('component', `content-slider-button:${e.type}`, `id:${id}, type:next, to-position:${moveToPosition}, total-items:${sliderElements.slideImages.length}`);
+    trackGaEvent({
+      category: 'component',
+      action: `content-slider-button:${e.type}`,
+      label: `id:${id}, type:next, to-position:${moveToPosition}, total-items:${sliderElements.slideImages.length}`
+    });
     return updatePosition(moveToPosition, positionArray);
   }
 
   function prevSlide(e) {
     if (e.target.classList.contains(classes.sliderControlInactive)) return;
     const moveToPosition = positionIndex - 1;
-    trackGaEvent('component', `content-slider-button:${e.type}`, `id:${id}, type:prev, to-position:${moveToPosition}, total-items:${sliderElements.slideImages.length}`);
+    trackGaEvent({
+      category: 'component',
+      action: `content-slider-button:${e.type}`,
+      label: `id:${id}, type:prev, to-position:${moveToPosition}, total-items:${sliderElements.slideImages.length}`
+    });
     return updatePosition(moveToPosition, positionArray);
   }
 
