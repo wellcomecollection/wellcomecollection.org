@@ -113,9 +113,7 @@ function parseArticleAsArticle(prismicArticle) {
   const publishDate = getPublishedDate(prismicArticle);
 
   // TODO:
-  const mainMedia = prismicArticle.data.body.filter(slice => slice.slice_label === 'featured').map(slice => {
-    return prismicImageToPicture(slice.primary);
-  });
+  const featuredMedia = getFeaturedMediaFromBody(prismicArticle);
 
   // TODO: Don't convert this into thumbnail
   const promo = prismicArticle.data.promo.find(slice => slice.slice_type === 'editorialImage');
@@ -143,7 +141,7 @@ function parseArticleAsArticle(prismicArticle) {
     author: contributors,
     series: series,
     bodyParts: bodyParts,
-    mainMedia: mainMedia,
+    mainMedia: [featuredMedia],
     description: description
   };
 
@@ -152,7 +150,7 @@ function parseArticleAsArticle(prismicArticle) {
 
 export function convertContentToBodyParts(content) {
   // TODO: Add these as ContentBlocks when the model is in
-  return content.map(slice => {
+  return content.filter(slice => slice.slice_label !== 'featured').map(slice => {
     switch (slice.slice_type) {
       case 'standfirst':
         return {
@@ -169,8 +167,6 @@ export function convertContentToBodyParts(content) {
         };
 
       case 'editorialImage':
-        // TODO: This shouldn't really be here
-        if (slice.slice_label === 'featured') return;
         return {
           weight: slice.slice_label,
           type: 'picture',
