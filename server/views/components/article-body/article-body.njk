@@ -42,7 +42,8 @@
           {% elif bodyPart.type === 'interview' %}
             {% component 'interview', { interview: bodyPart.value } %}
           {% elif bodyPart.type === 'imageGallery' %}
-            {% component 'image-gallery', { imageGallery: bodyPart.value, id: 'article-body-image-gallery--' + loop.index } %}
+            <div class="wobbly-edge wobbly-edge--white wobbly-edge--small js-wobbly-edge" data-is-static="true"></div>
+            {% component 'image-gallery', { imageGallery: bodyPart.value, id: 'article-body-image-gallery--' + loop.index, modifiers: ['in-article', 'in-content'] } %}
           {% elif bodyPart.type === 'tweet' %}
             {% componentV2 'tweet', bodyPart.value %}
           {% elif bodyPart.type === 'instagramEmbed' %}
