@@ -25,7 +25,7 @@
           <span class="numbered-list__number {{ {s:'WB1'} | fontClasses }} line-height-1" aria-hidden="true">{{ loop.index }}</span>
 
           {% if isTransporter %}
-            <span data-track-click='{"position": {{ loop.index }}, "url": "{{ item.url }}" }'>
+            <span data-track-event='{"category": "component", "action": "transporter-promo:click", "label": "position:{{ loop.index }}, url:{{ item.url }}"}'>
               {% componentV2 'promo', item | objectAssign({ modifiers: ['slider-transporter-child'] }), {} , {sizes: '(min-width: 1340px) calc(15vw + 120px), (min-width: 960px) calc(40vw - 84px), (min-width: 600px) calc(60vw - 83px), calc(75vw - 72px)'} %}
             </span>
           {% else %}

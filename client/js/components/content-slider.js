@@ -1,6 +1,6 @@
 import debounce from 'lodash.debounce';
 import { nodeList, setPropertyPrefixed, featureTest, addClassesToElements, removeClassesFromElements, addAttrToElements, removeAttrFromElements } from '../util';
-import { trackEvent } from '../utils/track-event';
+import { trackGaEvent } from '../tracking';
 import fastdom from '../utils/fastdom-promise';
 
 const contentSlider = (el, options) => {
@@ -305,30 +305,19 @@ const contentSlider = (el, options) => {
   function nextSlide(e) {
     if (e.target.classList.contains(classes.sliderControlInactive)) return;
     const moveToPosition = positionIndex + 1;
-    trackEvent(getTrackingEvent('next', {moveToPosition}));
+    trackGaEvent('component', `content-slider-button:${e.type}`, `id:${id}, type:next, to-position:${moveToPosition}, total-items:${sliderElements.slideImages.length}`);
     return updatePosition(moveToPosition, positionArray);
   }
 
   function prevSlide(e) {
     if (e.target.classList.contains(classes.sliderControlInactive)) return;
     const moveToPosition = positionIndex - 1;
-    trackEvent(getTrackingEvent('next', {moveToPosition}));
+    trackGaEvent('component', `content-slider-button:${e.type}`, `id:${id}, type:prev, to-position:${moveToPosition}, total-items:${sliderElements.slideImages.length}`);
     return updatePosition(moveToPosition, positionArray);
   }
 
   function onWidthChange() {
     calculateDimensions();
-  }
-
-  function getTrackingEvent(action, data) {
-    return Object.assign({}, {
-      name: 'Content slider',
-      properties: {
-        id,
-        action,
-        numberOfItems: sliderElements.slideImages.length
-      }
-    }, data);
   }
 
   function blurCurrentTarget({ currentTarget }) {
