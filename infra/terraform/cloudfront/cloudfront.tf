@@ -54,7 +54,7 @@ resource "aws_cloudfront_distribution" "next" {
     origin_id   = "${var.alb_id}"
 
     custom_origin_config {
-      origin_protocol_policy = "http-only"
+      origin_protocol_policy = "https-only"
       http_port              = "80"
       https_port             = "443"
       origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
@@ -76,7 +76,7 @@ resource "aws_cloudfront_distribution" "next" {
     max_ttl                = 86400
 
     forwarded_values {
-      headers                 = ["Host", "HTTP_X_FORWARDED_PROTO"]
+      headers                 = ["Host"]
       query_string            = true
       query_string_cache_keys = ["page", "current", "q", "format", "query", "cohort", "uri"]
 
