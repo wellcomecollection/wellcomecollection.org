@@ -6,7 +6,7 @@
     value="{{ model.value }}"
     placeholder="{{ model.placeholder }}"
     {{ 'disabled' if model.disabled }}
-    {{ 'autofocus' if model.autofocus  }} />
+    {{ 'autofocus' if model.autofocus and not model.value }} />
   {% if ['radio', 'checkbox'] | contains(model.type) %}
     <span class="input__control-indicator input__control-indicator--{{ model.type }}"></span>
   {% endif %}
