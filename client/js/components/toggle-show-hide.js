@@ -1,20 +1,17 @@
 import showHide from './show-hide';
-import { trackEvent } from '../utils/track-event';
+import { trackGaEvent } from '../tracking';
 
 export default (el) => {
   const toggle = showHide({el});
-  const trackingJson = el.getAttribute('data-tracking-info');
-  const trackingName = el.getAttribute('data-component-name');
+  const trackingAction = el.getAttribute('data-track-action');
+  const trackingLabel = el.getAttribute('data-track-label');
 
   toggle.trigger.addEventListener('click', () => {
-    if (trackingJson && trackingName) {
-      const trackingInfo = JSON.parse(trackingJson);
+    if (trackingAction) {
+      const extraLabel =  trackingLabel ? `${trackingLabel}, ` : '';
       const isActive = toggle.getActive();
 
-      trackEvent({
-        name: trackingName,
-        properties: Object.assign({}, trackingInfo, {clickAction: isActive ? 'didClose' : 'didOpen'})
-      });
+      trackGaEvent('component', `${trackingAction}:click`, `${extraLabel}click-action:${isActive ? 'did close' : 'did open'}`);
     }
 
     toggle.toggleActive();
