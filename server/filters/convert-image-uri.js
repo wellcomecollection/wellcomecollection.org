@@ -61,7 +61,7 @@ export default function convertImageUri(originalUri, requiredSize, useIiif, useI
     return originalUri;
   } else {
     if (useIiif && !isGif) {
-      const imagePath = imageSrc === 'miro' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[1] : originalUri.split(imageMap[imageSrc].root)[1];
+      const imagePath = imageSrc === 'miro' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[1] : imageSrc === 'iiif' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[0] : originalUri.split(imageMap[imageSrc].root)[1];
       const iiifRoot = useIiifOrigin ? imageMap[imageSrc].iiifOriginRoot : imageMap[imageSrc].iiifRoot;
 
       return convertPathToIiifUri(imagePath, iiifRoot, requiredSize);

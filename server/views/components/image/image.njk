@@ -15,12 +15,13 @@ alt="{% if model.alt %} {{ model.alt | striptags() }}{% elif model.caption %} {{
 </noscript>
 
  {% for item in loop %}
+  {% set defaultSize = data.defaultSize or 30 %}
   <img width="{{model.width}}" height="{{model.height}}" class="image{{ ' lazy-image lazyload' if data.lazyload }}
   {% if loop.index0 === 1 %}
     promo__image-mask {{data.clipPathClass}}
   {% endif %}
   "
-  src="{{ model.contentUrl | convertImageUri(30, useIiif, useIiifOrigin) }}"
+  src="{{ model.contentUrl | convertImageUri(defaultSize, useIiif, useIiifOrigin) }}"
   data-srcset="
   {%- for size in sizes -%}
     {{ comma() }}{{ model.contentUrl | convertImageUri(size, useIiif, useIiifOrigin) }} {{ size }}w
