@@ -3,7 +3,7 @@
     {% if model.queryString %}
       <div class="flush-container-left {{ {s:2} | spacingClasses({padding: ['top']}) }}">
         <a href="/works{{ model.queryString }}#{{model.id}}"
-          data-track-event='{"category": "component", "action": "return-to-results:click", "label": "id:{{ model.id }}, query:{{ model.queryString }}"}'
+          data-track-event='{"category": "component", "action": "return-to-results:click", "label": "id:{{ model.id }}, query:{{ model.queryString }}, title:{{ model.trackTitle }}"}'
           class="flex flex--v-center {{ {s:'HNM6', m:'HNM5'} | fontClasses }} font-white plain-link pointer-events-all js-work-media-control">
           {% icon 'actions/arrow-small', null, ['icon--match-text', 'icon--white', 'icon--90', 'margin-right-s1', 'margin-right-m1', 'margin-right-l1', 'margin-right-xl1'] %}Return to results
         </a>

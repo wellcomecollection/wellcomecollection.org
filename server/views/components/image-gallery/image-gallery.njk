@@ -1,5 +1,5 @@
 <div class="wobbly-edge wobbly-edge--white wobbly-edge--small js-wobbly-edge" data-is-static="true"></div>
-<div class="image-gallery touch-scroll js-image-gallery" id="{{ id }}">
+<div class="image-gallery touch-scroll js-image-gallery" data-id="{{ id }}" id="{{ id }}">
   {% for item in imageGallery.items %}
     {% set slideNumbers = {current: loop.index, total: loop.length} %}
     {% set queries = '(max-width: 600px) 100vw, ' + (item.width/item.height)*640 + 'px' %}

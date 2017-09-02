@@ -59,7 +59,8 @@ const contentSlider = (el, options) => {
   };
   // Define vars
   const indexAttr = 'data-slide-index'; // Added to slide items to help with tabbing
-  const id = sliderElements.slidesContainer.getAttribute('id');
+  const id = el.getAttribute('data-id');
+
   let slidesWidthArray;
   let slidesCombinedWidth;
   let positionArrayBySlide; // An array of positions if we move the slider by the width of each slide
@@ -308,7 +309,7 @@ const contentSlider = (el, options) => {
     trackGaEvent({
       category: 'component',
       action: `content-slider-button:${e.type}`,
-      label: `id:${id}, type:next, to-position:${moveToPosition}, total-items:${sliderElements.slideImages.length}`
+      label: `id:${id}, type:next, to-position:${moveToPosition + 1}, total-items:${sliderElements.slideImages.length}`
     });
     return updatePosition(moveToPosition, positionArray);
   }
@@ -319,7 +320,7 @@ const contentSlider = (el, options) => {
     trackGaEvent({
       category: 'component',
       action: `content-slider-button:${e.type}`,
-      label: `id:${id}, type:prev, to-position:${moveToPosition}, total-items:${sliderElements.slideImages.length}`
+      label: `id:${id}, type:prev, to-position:${moveToPosition + 1}, total-items:${sliderElements.slideImages.length}`
     });
     return updatePosition(moveToPosition, positionArray);
   }
