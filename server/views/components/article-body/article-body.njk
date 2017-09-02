@@ -1,15 +1,15 @@
 <div class="body-content">
   {% for bodyPartGroup in (articleBody | groupBodyParts) %}
+    {% set mainLoopIndex = loop.index %}
     <div class="sticky-wrapper">
       {% for bodyPart in bodyPartGroup %}
-        {% set mainLoopIndex = loop.index %}
         {% if bodyPart.value.name %}
           <h2>{{ bodyPart.value.name }}</h2>
         {% endif %}
         <div class="body-part
                 {{- ' body-part--full-width' if bodyPart.weight === 'standalone'  -}}
                 {{- ' body-part--sticky js-sticky' if bodyPart.weight === 'supporting'  -}}">
-          {% if bodyPart.type === 'standfirst' or (mainLoopsIndex === 1 and loop.index === 1) %}
+          {% if bodyPart.type === 'standfirst' or (mainLoopIndex === 1 and loop.index === 1) %}
             {# checking the index here is a bit of a hack around when we have a video as the mainMedia #}
             {% if contentType === 'comic' %}
               {{ bodyPart.value | safe }}
@@ -42,7 +42,8 @@
           {% elif bodyPart.type === 'interview' %}
             {% component 'interview', { interview: bodyPart.value } %}
           {% elif bodyPart.type === 'imageGallery' %}
-            {% component 'image-gallery', { imageGallery: bodyPart.value, id: 'article-body-image-gallery--' + loop.index } %}
+          {% set idNumber = mainLoopIndex - 1 %}
+            {% component 'image-gallery', { imageGallery: bodyPart.value, id: 'article-body-image-gallery--' + idNumber } %}
           {% elif bodyPart.type === 'tweet' %}
             {% componentV2 'tweet', bodyPart.value %}
           {% elif bodyPart.type === 'instagramEmbed' %}
