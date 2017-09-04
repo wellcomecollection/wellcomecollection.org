@@ -14,6 +14,7 @@ export function getContributors(doc): List<Person> {
   return doc.data.contributors
     .filter(creator => creator.slice_type === 'person')
     .map(slice => slice.primary.person.data)
+    .filter(_ => _)
     .map(person => {
       return {
         name: person.name,
