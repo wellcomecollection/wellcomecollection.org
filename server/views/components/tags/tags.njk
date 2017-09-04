@@ -2,7 +2,7 @@
   <ul class="tags__list plain-list no-margin no-padding flex">
     {% for tag in model.tags %}
       <li class="tags__tag {{ {s:'HNL5', m:'WB7'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['right', 'bottom']}) }}"
-        data-track-event='{"category": "component", "action": "tag:click", "label": "text:{{ tag.prefix }}{{ tag.text }}, url:{{ tag.url }}"}'>
+        data-track-event='{"category": "component", "action": "tag:click", "label": "text:{{ tag.prefix + ' ' if tag.prefix }}{{ tag.text }}, url:{{ tag.url }}"}'>
         <{{'a' if tag.url else 'div'}}
           {% if tag.url %}href="{{ tag.url }}"{% endif %}
           class="flex plain-link">
