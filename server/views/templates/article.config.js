@@ -68,7 +68,7 @@ export const context = {
     contentType: 'article',
     headline: 'How cultural contexts can shape mental illness',
     tags: '@meta-unit.links',
-    author: '@author',
+    author: ['@author'],
     mainMedia: [mainMediaPicture],
     bodyParts: [
       standfirst,
