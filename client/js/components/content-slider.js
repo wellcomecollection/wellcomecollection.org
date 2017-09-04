@@ -1,6 +1,6 @@
 import debounce from 'lodash.debounce';
 import { nodeList, setPropertyPrefixed, featureTest, addClassesToElements, removeClassesFromElements, addAttrToElements, removeAttrFromElements } from '../util';
-import { trackEvent } from '../utils/track-event';
+import { trackGaEvent } from '../tracking';
 import fastdom from '../utils/fastdom-promise';
 
 const contentSlider = (el, options) => {
@@ -59,7 +59,8 @@ const contentSlider = (el, options) => {
   };
   // Define vars
   const indexAttr = 'data-slide-index'; // Added to slide items to help with tabbing
-  const id = sliderElements.slidesContainer.getAttribute('id');
+  const id = el.getAttribute('data-id');
+
   let slidesWidthArray;
   let slidesCombinedWidth;
   let positionArrayBySlide; // An array of positions if we move the slider by the width of each slide
@@ -296,39 +297,40 @@ const contentSlider = (el, options) => {
     changeInactiveControlClass(sliderElements.prevControl, sliderElements.nextControl, positionIndex, positionArray, classes.sliderControlInactive);
   }
 
-  function changePosition (n, positionArray) {
+  function changePosition(n, positionArray) {
     let leftPosition = 0;
     leftPosition = positionArray[n] * -1;
     setPropertyPrefixed(sliderElements.slidesContainer, 'transform', `translateX(${leftPosition}px)`);
   }
 
+  function getOneIndex(number) {
+    return number + 1;
+  }
+
   function nextSlide(e) {
     if (e.target.classList.contains(classes.sliderControlInactive)) return;
     const moveToPosition = positionIndex + 1;
-    trackEvent(getTrackingEvent('next', {moveToPosition}));
+    trackGaEvent({
+      category: 'component',
+      action: `content-slider-button:${e.type}`,
+      label: `id:${id}, type:next, to-position:${getOneIndex(moveToPosition)}, total-items:${sliderElements.slideImages.length}`
+    });
     return updatePosition(moveToPosition, positionArray);
   }
 
   function prevSlide(e) {
     if (e.target.classList.contains(classes.sliderControlInactive)) return;
     const moveToPosition = positionIndex - 1;
-    trackEvent(getTrackingEvent('next', {moveToPosition}));
+    trackGaEvent({
+      category: 'component',
+      action: `content-slider-button:${e.type}`,
+      label: `id:${id}, type:prev, to-position:${getOneIndex(moveToPosition)}, total-items:${sliderElements.slideImages.length}`
+    });
     return updatePosition(moveToPosition, positionArray);
   }
 
   function onWidthChange() {
     calculateDimensions();
-  }
-
-  function getTrackingEvent(action, data) {
-    return Object.assign({}, {
-      name: 'Content slider',
-      properties: {
-        id,
-        action,
-        numberOfItems: sliderElements.slideImages.length
-      }
-    }, data);
   }
 
   function blurCurrentTarget({ currentTarget }) {

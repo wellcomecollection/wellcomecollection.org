@@ -1,6 +1,6 @@
 {% set isTransporter = modifiers and modifiers | contains('transporter') %}
 
-<div class="numbered-list{% for modifier in modifiers %} numbered-list--{{modifier}}{% endfor %} {% for class in data.classes %} {{class}}{% endfor %} numbered-list--{{ model.color }}">
+<div {% if data.sliderId %}data-id="{{ data.sliderId }}"{% endif %} class="numbered-list{% for modifier in modifiers %} numbered-list--{{modifier}}{% endfor %} {% for class in data.classes %} {{class}}{% endfor %} numbered-list--{{ model.color }}">
   {% if model.name %}
     <header class="numbered-list__header {{ 'numbered-list__header--has-image' if model.image }}">
       <h2 class="numbered-list__heading {{ {s:'WB5', m:'WB4', l:'WB3'} | fontClasses if isTransporter else {s:'WB6'} | fontClasses }}">{{ model.name }}</h2>
@@ -12,8 +12,7 @@
     </header>
   {% endif %}
   <ol class="plain-list numbered-list__list{% if data.sliderId %} js-numbered-slider{% endif %} {{ 'grid grid--dividers' if isTransporter }} {{ {s:0} | spacingClasses({margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']}) }}"
-    {% if isTransporter %}data-component-name="Transporter" {% endif %}
-    {% if data.sliderId %} id="{{data.sliderId}}" data-component-id="{{ data.sliderId }}" {% endif %}>
+    {% if data.sliderId %}data-id="{{ data.sliderId }}"{% endif %}>
     {% for item in model.items -%}
       {% set isCurrent = current === item.url %}
 
@@ -25,7 +24,7 @@
           <span class="numbered-list__number {{ {s:'WB1'} | fontClasses }} line-height-1" aria-hidden="true">{{ loop.index }}</span>
 
           {% if isTransporter %}
-            <span data-track-click='{"position": {{ loop.index }}, "url": "{{ item.url }}" }'>
+            <span data-track-event='{"category": "component", "action": "transporter-promo:click", "label": "position:{{ loop.index }}, url:{{ item.url }}"}'>
               {% componentV2 'promo', item | objectAssign({ modifiers: ['slider-transporter-child'] }), {} , {sizes: '(min-width: 1340px) calc(15vw + 120px), (min-width: 960px) calc(40vw - 84px), (min-width: 600px) calc(60vw - 83px), calc(75vw - 72px)'} %}
             </span>
           {% else %}

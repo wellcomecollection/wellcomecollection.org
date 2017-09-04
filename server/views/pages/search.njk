@@ -12,7 +12,7 @@
     type: 'website',
     title: metaTitle,
     image: resultsList.results[0].imgLink | replace('WIDTH', 1200),
-    url: pageConfig.path
+    url: pageConfig.canonicalUri
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
@@ -112,7 +112,6 @@
         </div>
       </div>
     </div>
-
-    {% componentV2 'back-to-top', {}, {trackId: 'search'} %}
+    {% componentV2 'back-to-top', {}, {}, {trackId: pageConfig.canonicalUri} %}
   {% endif %}
 {% endblock %}

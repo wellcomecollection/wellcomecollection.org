@@ -5,7 +5,7 @@
     type: 'website',
     title: exhibition.title,
     image: exhibition.featuredImage.contentUrl,
-    url: pageConfig.path
+    url: pageConfig.canonicalUri
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
@@ -50,8 +50,9 @@
           {% endblock %}
         </div>
         <div class="{{ {s:12, m:10, shiftM:1, l:5, xl:5} | gridClasses }}">
-          <div class="drawer js-show-hide">
-            <button data-component-name="Opening times drawer" data-component-id="exhibition" data-track-click='{}' class="plain-button no-padding pointer js-show-hide-trigger font-elf-green {{ {s:4} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5'} | fontClasses }}">{% icon 'actions/more-2', null, ['icon--elf-green'] %}Opening times</button>
+          <div class="drawer js-show-hide"
+            data-track-action="opening-times-drawer">
+            <button class="plain-button no-padding pointer js-show-hide-trigger font-elf-green {{ {s:4} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5'} | fontClasses }}">{% icon 'actions/more-2', null, ['icon--elf-green'] %}Opening times</button>
             <div class="drawer__body js-show-hide-drawer">
               {% componentV2 'opening-hours', {places: pageConfig.openingHours}, {'light': true, 'compressed': true} %}
             </div>

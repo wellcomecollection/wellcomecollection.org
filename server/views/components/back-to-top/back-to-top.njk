@@ -1,8 +1,6 @@
 <a href="#top"
    class="back-to-top js-back-to-top flex flex--v-center flex--h-center"
-   data-track-click="{}"
-   data-component-name="Back to top"
-   data-component-id="{{ data.trackId }}">
+   data-track-event='{"category": "component", "action": "back-to-top:click", "label": "url:{{ data.trackId }}"}'>
   <span class="back-to-top__text">back to top</span>
   {% icon 'actions/chevron-medium', null, ['icon--halfx', 'icon--180', 'icon--fill-negative'] %}
 </a>
