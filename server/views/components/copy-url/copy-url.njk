@@ -3,7 +3,7 @@
 <button
   data-copy-text="{{ model.url }}"
   data-track-event='{"category": "component", "action": "copy-url:click", "label": "id:{{ model.id }}"}'
-  class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-button font-elf-green is-hidden js-copy-url">
+  class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-button font-elf-green is-hidden js-copy-url pointer">
   {% icon 'actions/link', null, ['icon--elf-green'] %}
   Copy link
 </button>
