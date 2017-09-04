@@ -297,10 +297,14 @@ const contentSlider = (el, options) => {
     changeInactiveControlClass(sliderElements.prevControl, sliderElements.nextControl, positionIndex, positionArray, classes.sliderControlInactive);
   }
 
-  function changePosition (n, positionArray) {
+  function changePosition(n, positionArray) {
     let leftPosition = 0;
     leftPosition = positionArray[n] * -1;
     setPropertyPrefixed(sliderElements.slidesContainer, 'transform', `translateX(${leftPosition}px)`);
+  }
+
+  function getOneIndex(number) {
+    return number + 1;
   }
 
   function nextSlide(e) {
@@ -309,7 +313,7 @@ const contentSlider = (el, options) => {
     trackGaEvent({
       category: 'component',
       action: `content-slider-button:${e.type}`,
-      label: `id:${id}, type:next, to-position:${moveToPosition + 1}, total-items:${sliderElements.slideImages.length}`
+      label: `id:${id}, type:next, to-position:${getOneIndex(moveToPosition)}, total-items:${sliderElements.slideImages.length}`
     });
     return updatePosition(moveToPosition, positionArray);
   }
@@ -320,7 +324,7 @@ const contentSlider = (el, options) => {
     trackGaEvent({
       category: 'component',
       action: `content-slider-button:${e.type}`,
-      label: `id:${id}, type:prev, to-position:${moveToPosition + 1}, total-items:${sliderElements.slideImages.length}`
+      label: `id:${id}, type:prev, to-position:${getOneIndex(moveToPosition)}, total-items:${sliderElements.slideImages.length}`
     });
     return updatePosition(moveToPosition, positionArray);
   }
