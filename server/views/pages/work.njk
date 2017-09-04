@@ -105,11 +105,11 @@
   <div class="{{ {s:10} | spacingClasses({margin: ['bottom']}) }}">
     {% if work.description %}
       {% set descriptionData = [{title: 'Description', content: work.description}] %}
-      {% componentV2 'work-drawer', {id: 'more-info', heading: 'More information'}, null, {data: descriptionData, topDivider: true} %}
+      {% componentV2 'work-drawer', {id: 'work-more-info', heading: 'More information'}, null, {data: descriptionData, topDivider: true} %}
     {% endif %}
 
     {% if work.usingImage %}
-      {% componentV2 'work-drawer', {id: 'using-image', heading: 'Using this image'}, null, {data: work.usingImage} %}
+      {% componentV2 'work-drawer', {id: 'work-using-image', heading: 'Using this image'}, null, {data: work.usingImage} %}
     {% endif %}
   </div>
 
