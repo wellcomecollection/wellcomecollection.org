@@ -41,6 +41,14 @@ function determineIfGif(originalUriPath) {
   return originalUriPath.slice(-4) === '.gif';
 }
 
+function determineFinalFormat(originalUriPath) {
+  if (originalUriPath.slice(-4) === '.png') {
+    return 'png';
+  } else {
+    return 'jpg';
+  }
+}
+
 function convertPathToWordpressUri(originalUriPath, size) {
   return originalUriPath + `?w=${size}`;
 }
@@ -50,7 +58,8 @@ function convertPathToImgixUri(originalUriPath, imgixRoot, size) {
 }
 
 function convertPathToIiifUri(originalUriPath, iiifRoot, size) {
-  return `${iiifRoot}${originalUriPath}/full/${size},/0/default.jpg`;
+  const format = determineFinalFormat(originalUriPath);
+  return `${iiifRoot}${originalUriPath}/full/${size},/0/default.${format}`;
 }
 
 export default function convertImageUri(originalUri, requiredSize, useIiif, useIiifOrigin) {
