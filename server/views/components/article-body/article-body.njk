@@ -9,7 +9,7 @@
         <div class="body-part
                 {{- ' body-part--full-width' if bodyPart.weight === 'standalone'  -}}
                 {{- ' body-part--sticky js-sticky' if bodyPart.weight === 'supporting'  -}}">
-          {% if bodyPart.type === 'standfirst' or (mainLoopIndex === 1 and loop.index === 1) %}
+          {% if bodyPart.type === 'standfirst' or ((mainLoopIndex === 1 and loop.index === 1) and bodyPart.type !== 'imageList' ) %}
             {# checking the index here is a bit of a hack around when we have a video as the mainMedia #}
             {% if contentType === 'comic' %}
               {{ bodyPart.value | safe }}
