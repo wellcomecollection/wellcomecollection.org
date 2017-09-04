@@ -63,24 +63,26 @@ function convertPathToIiifUri(originalUriPath, iiifRoot, size) {
 }
 
 export default function convertImageUri(originalUri, requiredSize, useIiif, useIiifOrigin) {
-  const imageSrc = determineSrc(originalUri);
-  const isGif = determineIfGif(originalUri);
+  if (originalUri) {
+    const imageSrc = determineSrc(originalUri);
+    const isGif = determineIfGif(originalUri);
 
-  if (imageSrc === 'unknown') {
-    return originalUri;
-  } else {
-    if (useIiif && !isGif) {
-      const imagePath = imageSrc === 'miro' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[1] : imageSrc === 'iiif' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[0] : originalUri.split(imageMap[imageSrc].root)[1];
-      const iiifRoot = useIiifOrigin ? imageMap[imageSrc].iiifOriginRoot : imageMap[imageSrc].iiifRoot;
-
-      return convertPathToIiifUri(imagePath, iiifRoot, requiredSize);
+    if (imageSrc === 'unknown') {
+      return originalUri;
     } else {
-      if (imageSrc === 'iiif') { // we have to use the iiif uri as that is all we have
-        return originalUri;
-      } else if (imageSrc === 'wordpress') {
-        return convertPathToWordpressUri(originalUri, requiredSize);
+      if (useIiif && !isGif) {
+        const imagePath = imageSrc === 'miro' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[1] : imageSrc === 'iiif' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[0] : originalUri.split(imageMap[imageSrc].root)[1];
+        const iiifRoot = useIiifOrigin ? imageMap[imageSrc].iiifOriginRoot : imageMap[imageSrc].iiifRoot;
+
+        return convertPathToIiifUri(imagePath, iiifRoot, requiredSize);
       } else {
-        return convertPathToImgixUri(originalUri.split(imageMap[imageSrc].root)[1], imageMap[imageSrc].imigixRoot, requiredSize);
+        if (imageSrc === 'iiif') { // we have to use the iiif uri as that is all we have
+          return originalUri;
+        } else if (imageSrc === 'wordpress') {
+          return convertPathToWordpressUri(originalUri, requiredSize);
+        } else {
+          return convertPathToImgixUri(originalUri.split(imageMap[imageSrc].root)[1], imageMap[imageSrc].imigixRoot, requiredSize);
+        }
       }
     }
   }
