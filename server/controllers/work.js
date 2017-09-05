@@ -11,11 +11,19 @@ function imageUrlFromMiroId(id) {
   return `https://s3-eu-west-1.amazonaws.com/miro-images-public/${miroFolder}/${id}.jpg`;
 }
 
+function getTruncatedTitle(title) {
+  if (title.length <= 20) {
+    return title;
+  } else {
+    return `${title.slice(0, 20)}…`;
+  }
+}
+
 export const work = async(ctx, next) => {
   const id = ctx.params.id;
   const queryString = ctx.search;
   const singleWork = await getWork(id);
-
+  const truncatedTitle = getTruncatedTitle(singleWork.title);
   const miroId = singleWork.identifiers[0].value;
   const imgWidth = '2048';
   const imgLink = imageUrlFromMiroId(miroId);
@@ -24,7 +32,7 @@ export const work = async(ctx, next) => {
     id,
     queryString,
     pageConfig: createPageConfig({
-      title: 'Work',
+      title: `Work: ${truncatedTitle}`,
       inSection: 'images',
       category: 'collections',
       canonicalUri: `${ctx.globals.rootDomain}/works/${singleWork.id}`
@@ -56,6 +64,7 @@ export const search = async (ctx, next) => {
   const pagination = PaginationFactory.fromList(List(resultsArray), parseInt(totalResults, 10) || 1, parseInt(page, 10) || 1, pageSize || 1, ctx.query);
   ctx.render('pages/search', {
     pageConfig: createPageConfig({
+      title: query ? `Collections search: ${query}` : 'Collections search',
       path: path,
       inSection: 'images',
       canonicalUri: `${ctx.globals.rootDomain}/works`
