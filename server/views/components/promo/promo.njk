@@ -101,7 +101,7 @@
                   </{{ headingLevel or 'h2'}}>
               </div>
               {% if model.datePublished and model.contentType == 'work' %}
-                <p class="promo {{ dateFontSizes | fontClasses }} text--meta relative">{{ model.datePublished }}</p>
+                <p class="promo {{ dateFontSizes | fontClasses }}  font-pewter relative">{{ model.datePublished }}</p>
               {% endif %}
               {% if model.description %}
                 <span class="promo__copy">{{ model.description | striptags | safe | truncate(140) }}</span>

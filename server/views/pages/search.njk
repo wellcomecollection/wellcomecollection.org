@@ -41,7 +41,7 @@
             <p class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">Images are free to download and use under Creative Commons licences.</p>
             <p class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }}">Visit <a class="font-elf-green" href="https://wellcomeimages.org/">Wellcome Images</a> to search all images from the collection.</p>
           {% else %}
-            <p class="text--meta {{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
+            <p class="font-charcoal-text {{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'LR3', m:'LR2'} | fontClasses }}">
               {{ resultsList.totalResults if resultsList.totalResults > 0 else 'No' }} results for "{{ query }}"
             </p>
           {% endif %}
@@ -78,7 +78,7 @@
         <div class="grid">
           <div class="grid__cell">
             <div class="flex flex--h-space-between flex--v-center">
-              <div class="text--meta flex flex--v-center">
+              <div class="flex flex--v-center font-pewter {{ {s:'LR3', m:'LR2'} | fontClasses }}">
                 Showing {{ pagination.range.beginning }} - {{ pagination.range.end }}
               </div>
               {% componentV2 'pagination', pagination, null, {query: query} %}
