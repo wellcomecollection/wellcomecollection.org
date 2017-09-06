@@ -86,7 +86,7 @@
             <header class="promo__description {{ {s:'HNL5'} | fontClasses }}">
               <div class="promo__heading">
                 {% if model.contentType %}
-                  <span class="promo__type {{ typeFontSizes | fontClasses }}" aria-hidden="true">
+                  <span class="promo__type font-charcoal {{ typeFontSizes | fontClasses }}" aria-hidden="true">
                     {% if commissionedSeries and model.positionInSeries %}
                       {{ commissionedSeries.name }}: Part {{ model.positionInSeries }}
                     {% elif seriesTitle %}

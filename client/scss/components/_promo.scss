@@ -190,19 +190,8 @@
 }
 
 .promo__type {
-  color: color('turquoise-text');
   display: block;
   text-transform: capitalize;
-  transition: color 400ms ease;
-
-  .promo--series & {
-    color: color('purple-text');
-  }
-
-  .promo:not(.promo--surrogate):hover &,
-  .promo:not(.promo--surrogate):focus & {
-    color: color('black');
-  }
 }
 
 .promo__title {
