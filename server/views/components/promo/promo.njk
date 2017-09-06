@@ -86,7 +86,7 @@
             <header class="promo__description {{ {s:'HNL5'} | fontClasses }}">
               <div class="promo__heading">
                 {% if model.contentType %}
-                  <span class="promo__type {{ typeFontSizes | fontClasses }}" aria-hidden="true">
+                  <span class="promo__type font-charcoal {{ {s:1} | spacingClasses({margin: ['bottom']}) }} {{ typeFontSizes | fontClasses }}" aria-hidden="true">
                     {% if commissionedSeries and model.positionInSeries %}
                       {{ commissionedSeries.name }}: Part {{ model.positionInSeries }}
                     {% elif seriesTitle %}
@@ -101,7 +101,7 @@
                   </{{ headingLevel or 'h2'}}>
               </div>
               {% if model.datePublished and model.contentType == 'work' %}
-                <p class="promo {{ dateFontSizes | fontClasses }} text--meta relative">{{ model.datePublished }}</p>
+                <p class="promo {{ dateFontSizes | fontClasses }}  font-pewter relative">{{ model.datePublished }}</p>
               {% endif %}
               {% if model.description %}
                 <span class="promo__copy">{{ model.description | striptags | safe | truncate(140) }}</span>

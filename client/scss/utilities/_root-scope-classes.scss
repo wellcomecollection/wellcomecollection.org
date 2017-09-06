@@ -179,28 +179,6 @@
   margin-right: auto;
 }
 
-.heading--large {
-  @include font('WB6');
-
-  @include respond-to('medium') {
-    @include font('WB5');
-  }
-
-  @include respond-to('large') {
-    @include font('WB4');
-  }
-}
-
-.text--meta {
-  @include font('LR3');
-
-  color: color('pewter');
-
-  @include respond-to('medium') {
-    @include font('LR2');
-  }
-}
-
 .text--truncate {
   max-height: 80px;
   overflow: hidden;
