@@ -20,25 +20,40 @@
 <article itemscope itemtype="http://schema.org/ExhibitionEvent">
   <div class="row relative">
     {% block tags %}{% endblock %}
-    {% componentV2 'image', exhibition.featuredImage, {}, {lazyload: true} %}
-    {% component 'wobbly-edge', {background: 'white'} %}
-  </div>
-  <div class="row {{ {s:4} | spacingClasses({padding: ['top', 'bottom']}) }}">
-    <div class="container">
-      <div class="grid">
-        <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
-          <div class="flex flex--v-center font-elf-green {{ {s:'HNM4'} | fontClasses }}">
-            {% icon 'other/ticket', null, ['icon--2x', 'icon--teal'] %}
-            <strong class="caps {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free</strong>
-            <strong>{{ {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage }}</strong>
+
+    <div class="exhibition-hero">
+      <picture class="exhibition-hero__picture">
+        <source srcset="https://placehold.it/900x400" media="(min-width: 600px)">
+        <img src="https://placehold.it/400x600" alt="MDN">
+      </picture>
+      <div class="exhibition-hero__copy">
+
+        <div class="container">
+          <div class="grid">
+            <div class="{{ {s:12, m:10, shiftM:1} | gridClasses }}">
+
+              <div class="bg-white {{ {l:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }}">
+                <div class="flex flex--v-center font-elf-green {{ {s:'HNM4'} | fontClasses }}">
+                  {% icon 'other/ticket', null, ['icon--2x', 'icon--teal'] %}
+                  <strong class="caps {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free</strong>
+                  <strong>{{ {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage }}</strong>
+                </div>
+                <h1 class="{{ {s:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
+                <span class="{{ {s:'HNM3'} | fontClasses }}">
+                  <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time> &ndash; <time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
+                </span>
+              </div>
+
+            </div>
           </div>
-          <h1 class="{{ {s:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
-          <span class="{{ {s:'HNM3'} | fontClasses }}">
-            <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time> &ndash; <time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
-          </span>
         </div>
+
       </div>
     </div>
+
+
+    {# {% componentV2 'image', exhibition.featuredImage, {}, {lazyload: true} %} #}
+    {% component 'wobbly-edge', {background: 'white'} %}
   </div>
 
   <div class="row {{ {s:10} | spacingClasses({padding: ['bottom']}) }}">
