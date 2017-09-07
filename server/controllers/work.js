@@ -24,7 +24,10 @@ export const work = async(ctx, next) => {
   const queryString = ctx.search;
   const singleWork = await getWork(id);
   const truncatedTitle = getTruncatedTitle(singleWork.title);
-  const miroId = singleWork.identifiers[0].value;
+  const miroIdObject = singleWork.identifiers.find(identifier => {
+    return identifier.identifierScheme === 'miro-image-number';
+  });
+  const miroId = miroIdObject && miroIdObject.value;
   const imgWidth = '2048';
   const imgLink = imageUrlFromMiroId(miroId);
 
