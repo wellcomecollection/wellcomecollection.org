@@ -20,28 +20,44 @@
 <article itemscope itemtype="http://schema.org/ExhibitionEvent">
   <div class="row relative">
     {% block tags %}{% endblock %}
-    {% componentV2 'image', exhibition.featuredImage, {}, {lazyload: true} %}
-    {% component 'wobbly-edge', {background: 'white'} %}
-  </div>
-  <div class="row {{ {s:4} | spacingClasses({padding: ['top', 'bottom']}) }}">
-    <div class="container">
-      <div class="grid">
-        <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
-          <div class="flex flex--v-center font-elf-green {{ {s:'HNM4'} | fontClasses }}">
-            {% icon 'other/ticket', null, ['icon--2x', 'icon--teal'] %}
-            <strong class="caps {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free</strong>
-            <strong>{{ {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage }}</strong>
-          </div>
-          <h1 class="{{ {s:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
-          <span class="{{ {s:'HNM3'} | fontClasses }}">
-            <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time> &ndash; <time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
-          </span>
+    <div class="exhibition-hero">
+      {% componentV2 'picture', {images: exhibition.featuredImages}, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
+
+      <div class="exhibition-hero__copy">
+        <div class="is-hidden-l is-hidden-xl">
+          {% component 'wobbly-edge', {background: 'white'} %}
         </div>
+        <div class="container">
+          <div class="grid">
+            <div class="{{ {s:12, m:10, shiftM:1} | gridClasses }}">
+
+              <div class="bg-white inline-block {{ {l:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }}">
+                <div class="flex flex--v-center font-elf-green {{ {s:'HNM4'} | fontClasses }}">
+                  {% icon 'other/ticket', null, ['icon--2x', 'icon--teal'] %}
+                  <strong class="caps {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free</strong>
+                  <strong>{{ {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage }}</strong>
+                </div>
+                <h1 class="{{ {s:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
+                <span class="{{ {s:'HNM3'} | fontClasses }}">
+                  <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time> &ndash; <time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
+                </span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
       </div>
+    </div>
+
+
+    {# {% componentV2 'image', exhibition.featuredImage, {}, {lazyload: true} %} #}
+    <div class="is-hidden-s is-hidden-m">
+      {% component 'wobbly-edge', {background: 'white'} %}
     </div>
   </div>
 
-  <div class="row {{ {s:10} | spacingClasses({padding: ['bottom']}) }}">
+  <div class="row {{ {s:10} | spacingClasses({padding: ['bottom']}) }} {{ {s:5} | spacingClasses({padding: ['top']}) }}">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:'HNL3', m:'HNL2'} | fontClasses}} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
@@ -54,7 +70,7 @@
             data-track-action="opening-times-drawer">
             <button class="plain-button no-padding pointer js-show-hide-trigger font-elf-green {{ {s:4} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5'} | fontClasses }}">{% icon 'actions/more-2', null, ['icon--elf-green'] %}Opening times</button>
             <div class="drawer__body js-show-hide-drawer">
-              {% componentV2 'opening-hours', {places: pageConfig.openingHours}, {'light': true, 'compressed': true} %}
+              {% componentV2 'opening-hours', {places: pageConfig.openingHours, id: 'exhibition-page'}, {'light': true, 'compressed': true} %}
             </div>
           </div>
           <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />

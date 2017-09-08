@@ -1,0 +1,29 @@
+.exhibition-hero {
+  background: color('white');
+  margin: 0 auto;
+
+  @include respond-to('large') {
+    // TODO: this colour maybe going to be per-exhibition configurable
+    // decide if we're going to have class themes, or inline-styles
+    background: color('orange-graphics');
+    display: flex;
+  }
+}
+
+.exhibition-hero__picture {
+  width: 100%;
+
+  img {
+    display: block;
+  }
+}
+
+.exhibition-hero__copy {
+  @include respond-to('large') {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    margin-left: -50%;
+    max-width: $container-width-max / 2;
+  }
+}

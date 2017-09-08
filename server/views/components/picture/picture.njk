@@ -1,0 +1,34 @@
+{% set useIiif = featuresCohort | isFlagEnabled('useIiif', featureFlags) %}
+{% set useIiifOrigin = featuresCohort | isFlagEnabled('imagesFromOrigin', featureFlags) %}
+{% set comma = joiner() %}
+
+<picture class="{% for class in data.extraClasses %}{{ class }} {% endfor %}">
+  {% for image in model.images %}
+    {% set sizes = image | getImageSizesFor %}
+    <source media="(min-width: {{ image.minWidth }})"
+      {% if data.lazyload %}
+        data-srcset="
+        {%- for size in sizes -%}
+          {{ comma() }}{{ image.contentUrl | convertImageUri(size, useIiif, useIiifOrigin) }} {{ size }}w
+        {%- endfor %}"
+      {% else %}
+        srcset="
+        {%- for size in sizes -%}
+          {{ comma() }}{{ image.contentUrl | convertImageUri(size, useIiif, useIiifOrigin) }} {{ size }}w
+        {%- endfor %}"
+      {% endif %}>
+
+    {% if loop.last %}
+      <img
+        height="{{ image.height }}"
+        width="{{ image.width }}"
+        class="image {{ 'lazy-image lazyload' if data.lazyload }}"
+        {% if data.lazyload %}
+          data-src="{{ image.contentUrl | convertImageUri(image.width, useIiif, useIiifOrigin) }}"
+        {% else %}
+          src="{{ image.contentUrl | convertImageUri(image.width, useIiif, useIiifOrigin) }}"
+        {% endif %}
+        alt="{{ image.alt }}" />
+    {% endif %}
+  {% endfor %}
+</picture>

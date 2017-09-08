@@ -60,12 +60,36 @@
   }
 }
 
+// This should trump other display styles
+// stylelint-disable declaration-no-important
 .is-hidden {
-  // This should trump other display styles
-  // stylelint-disable declaration-no-important
   display: none !important;
-  // stylelint-enable declaration-no-important
 }
+
+.is-hidden-s {
+  @include respond-between('small', 'medium') {
+    display: none !important;
+  }
+}
+
+.is-hidden-m {
+  @include respond-between('medium', 'large') {
+    display: none !important;
+  }
+}
+
+.is-hidden-l {
+  @include respond-between('large', 'xlarge') {
+    display: none !important;
+  }
+}
+
+.is-hidden-xl {
+  @include respond-to('xlarge') {
+    display: none !important;
+  }
+}
+// stylelint-enable declaration-no-important
 
 .line-height-1 {
   line-height: 1;
@@ -164,6 +188,10 @@
 
 .inline {
   display: inline;
+}
+
+.inline-block {
+  display: inline-block;
 }
 
 .float-r {
