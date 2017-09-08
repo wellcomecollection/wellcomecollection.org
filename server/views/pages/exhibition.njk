@@ -70,7 +70,7 @@
             data-track-action="opening-times-drawer">
             <button class="plain-button no-padding pointer js-show-hide-trigger font-elf-green {{ {s:4} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5'} | fontClasses }}">{% icon 'actions/more-2', null, ['icon--elf-green'] %}Opening times</button>
             <div class="drawer__body js-show-hide-drawer">
-              {% componentV2 'opening-hours', {places: pageConfig.openingHours}, {'light': true, 'compressed': true} %}
+              {% componentV2 'opening-hours', {places: pageConfig.openingHours, id: 'exhibition-page'}, {'light': true, 'compressed': true} %}
             </div>
           </div>
           <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
