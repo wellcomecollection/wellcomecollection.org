@@ -21,12 +21,7 @@
   <div class="row relative">
     {% block tags %}{% endblock %}
     <div class="exhibition-hero">
-      {% set pictureImages = [
-        exhibition.featuredImage | objectAssign({minWidth: 'medium' | getBreakpoint}),
-        exhibition.featuredImageMobileCrop | objectAssign({minWidth: 'small' | getBreakpoint})
-      ] %}
-
-      {% componentV2 'picture', {images: pictureImages}, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
+      {% componentV2 'picture', {images: exhibition.featuredImages}, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
 
       <div class="exhibition-hero__copy">
         <div class="is-hidden-l is-hidden-xl">
