@@ -1,11 +1,16 @@
 const flagBoolean = (value) => value === 'on';
 
-export const isFlagEnabled = (userGroup, flagName, flags) => {
+export const isFlagEnabled = (userGroup, flagName = 'default', flags = {}) => {
   const flagConfig = flags[flagName];
-  if (flagConfig) {
-    return flagBoolean(flagConfig[userGroup]) || flagBoolean(flagConfig['default']) || false;
+  const flagCondition = flagConfig[userGroup];
+
+  if (flagCondition !== undefined) {
+    return flagBoolean(flagCondition);
+  } else if (flagConfig['default'] !== undefined) {
+    return flagBoolean(flagConfig['default']);
+  } else {
+    return false;
   }
-  return false;
 };
 
 // TODO use a shared component on both server and client
