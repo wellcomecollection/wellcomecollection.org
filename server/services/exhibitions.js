@@ -16,6 +16,7 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
   if (!exhibition) return;
 
   const featuredImage = prismicImageToPicture({image: exhibition.data.featuredImage});
+  const featuredImageMobileCrop = prismicImageToPicture({image: exhibition.data.featuredImageMobileCrop});
   const bodyParts = convertContentToBodyParts(exhibition.data.body);
   const video = bodyParts.find(p => p.type === 'video-embed');
   const text = bodyParts.find(p => p.type === 'text');
@@ -28,6 +29,7 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
     start: exhibition.data.start,
     end: exhibition.data.end,
     featuredImage: featuredImage,
+    featuredImageMobileCrop: featuredImageMobileCrop,
     accessStatements: exhibition.data.accessStatements,
     description: exhibition.data.description && RichText.asHtml(exhibition.data.description),
     video: video,

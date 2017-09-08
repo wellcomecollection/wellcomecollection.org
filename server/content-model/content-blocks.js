@@ -54,5 +54,6 @@ export type Exhibition = {| ...ContentBlock, ...{|
   end: DateRange,
   accessStatements: any,
   featuredImage: Picture,
+  featuredImageMobileCrop: Picture,
   description: ?string,
 |}|}

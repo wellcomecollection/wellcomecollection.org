@@ -20,14 +20,18 @@
 <article itemscope itemtype="http://schema.org/ExhibitionEvent">
   <div class="row relative">
     {% block tags %}{% endblock %}
-
     <div class="exhibition-hero">
-      <picture class="exhibition-hero__picture">
-        <source srcset="https://placehold.it/900x400" media="(min-width: 600px)">
-        <img src="https://placehold.it/400x600" alt="MDN">
-      </picture>
-      <div class="exhibition-hero__copy">
+      {% set pictureImages = [
+        exhibition.featuredImage | objectAssign({minWidth: 'medium' | getBreakpoint}),
+        exhibition.featuredImageMobileCrop | objectAssign({minWidth: 'small' | getBreakpoint})
+      ] %}
 
+      {% componentV2 'picture', {images: pictureImages}, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
+
+      <div class="exhibition-hero__copy">
+        <div class="is-hidden-l is-hidden-xl">
+          {% component 'wobbly-edge', {background: 'white'} %}
+        </div>
         <div class="container">
           <div class="grid">
             <div class="{{ {s:12, m:10, shiftM:1} | gridClasses }}">
@@ -53,10 +57,12 @@
 
 
     {# {% componentV2 'image', exhibition.featuredImage, {}, {lazyload: true} %} #}
-    {% component 'wobbly-edge', {background: 'white'} %}
+    <div class="is-hidden-s is-hidden-m">
+      {% component 'wobbly-edge', {background: 'white'} %}
+    </div>
   </div>
 
-  <div class="row {{ {s:10} | spacingClasses({padding: ['bottom']}) }}">
+  <div class="row {{ {s:10} | spacingClasses({padding: ['bottom']}) }} {{ {s:5} | spacingClasses({padding: ['top']}) }}">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:'HNL3', m:'HNL2'} | fontClasses}} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">

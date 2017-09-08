@@ -34,6 +34,7 @@ import {
 } from './format-date';
 import getLicenseInfo from './get-license-info';
 import getTaslMarkup from './get-tasl-markup';
+import getBreakpoint from './get-breakpoint';
 
 export default Map({
   youtubeEmbedUrl,
@@ -70,5 +71,6 @@ export default Map({
   prismicAsHtml,
   prismicAsText,
   getLicenseInfo,
-  getTaslMarkup
+  getTaslMarkup,
+  getBreakpoint
 });
