@@ -35,11 +35,11 @@ export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date
   if (isFuture) {
     return 'Coming soon';
   } else if (isPast) {
-    return 'Past exhibition';
+    return 'Now closed';
   } else if (isLastWeek) {
-    return 'Last chance';
+    return 'Final week';
   } else {
-    return 'Current';
+    return 'Open now';
   }
 }
 
