@@ -2,7 +2,7 @@
   background: color('white');
   margin: 0 auto;
 
-  @include respond-to('large') {
+  @include respond-to('medium') {
     // TODO: this colour maybe going to be per-exhibition configurable
     // decide if we're going to have class themes, or inline-styles
     background: color('orange-graphics');
@@ -19,7 +19,7 @@
 }
 
 .exhibition-hero__copy {
-  @include respond-to('large') {
+  @include respond-to('medium') {
     display: flex;
     align-items: center;
     width: 50%;
