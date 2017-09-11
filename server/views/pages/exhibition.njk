@@ -39,7 +39,7 @@
         <div class="is-hidden-m is-hidden-l is-hidden-xl">
           {% component 'wobbly-edge', {background: 'white'} %}
         </div>
-        <div class="container {{ {m:0} | spacingClasses({margin: ['top', 'right', 'bottom', 'left'], padding: ['top', 'right', 'bottom', 'left']}) }}">
+        <div class="container bg-white {{ {m:0} | spacingClasses({margin: ['top', 'right', 'bottom', 'left'], padding: ['top', 'right', 'bottom', 'left']}) }}">
           <div class="grid">
             <div class="{{ {s:12} | gridClasses }}">
 
@@ -47,11 +47,17 @@
                 <div class="flex flex--v-center font-elf-green {{ {s:'HNM4', m:'HNM5', l:'HNM4'} | fontClasses }}">
                   {% icon 'other/ticket', null, ['icon--2x', 'icon--teal'] %}
                   <strong class="caps {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free</strong>
-                  <strong>{{ {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage }}</strong>
+                  {% if exhibition.end %}
+                    <strong>{{ {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage }}</strong>
+                  {% endif %}
                 </div>
                 <h1 class="{{ {s:'WB4', m:'WB5', l:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
                 <span class="{{ {s:'HNM4', m:'HNM5', l:'HNM3'} | fontClasses }}">
-                  <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time> &ndash; <time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
+                  {% if exhibition.end %}
+                    <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time> &ndash; <time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
+                  {% else %}
+                    Permanent exhibition
+                  {% endif %}
                 </span>
               </div>
 
