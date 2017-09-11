@@ -24,21 +24,21 @@
       {% componentV2 'picture', {images: exhibition.featuredImages}, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
 
       <div class="exhibition-hero__copy">
-        <div class="is-hidden-l is-hidden-xl">
+        <div class="is-hidden-m is-hidden-l is-hidden-xl">
           {% component 'wobbly-edge', {background: 'white'} %}
         </div>
-        <div class="container">
+        <div class="container {{ {m:0} | spacingClasses({margin: ['top', 'right', 'bottom', 'left'], padding: ['top', 'right', 'bottom', 'left']}) }}">
           <div class="grid">
-            <div class="{{ {s:12, m:10, shiftM:1} | gridClasses }}">
+            <div class="{{ {s:12} | gridClasses }}">
 
-              <div class="bg-white inline-block {{ {l:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }}">
-                <div class="flex flex--v-center font-elf-green {{ {s:'HNM4'} | fontClasses }}">
+              <div class="bg-white inline-block {{ {m:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }}">
+                <div class="flex flex--v-center font-elf-green {{ {s:'HNM4', m:'HNM5', l:'HNM4'} | fontClasses }}">
                   {% icon 'other/ticket', null, ['icon--2x', 'icon--teal'] %}
                   <strong class="caps {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free</strong>
                   <strong>{{ {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage }}</strong>
                 </div>
-                <h1 class="{{ {s:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
-                <span class="{{ {s:'HNM3'} | fontClasses }}">
+                <h1 class="{{ {s:'WB4', m:'WB5', l:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
+                <span class="{{ {s:'HNM4', m:'HNM5', l:'HNM3'} | fontClasses }}">
                   <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time> &ndash; <time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
                 </span>
               </div>
@@ -52,7 +52,7 @@
 
 
     {# {% componentV2 'image', exhibition.featuredImage, {}, {lazyload: true} %} #}
-    <div class="is-hidden-s is-hidden-m">
+    <div class="is-hidden-s">
       {% component 'wobbly-edge', {background: 'white'} %}
     </div>
   </div>
