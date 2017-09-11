@@ -19,7 +19,19 @@
 
 <article itemscope itemtype="http://schema.org/ExhibitionEvent">
   <div class="row relative">
-    {% block tags %}{% endblock %}
+    {# TODO: Tags will probably need to be passed in from the model. Just hard-coding a link to all exhibitions (fair to assume that should be on every exhibition page) for now  #}
+    {% set tags = {
+      id: 'exhibition-tags',
+      tags: [{
+        text: 'exhibition',
+        url: '/whats-on/exhibitions/all-exhibitions'
+      }]
+    } %}
+
+    <div class="flush-container-left absolute {{ {s:2} | spacingClasses({margin: ['top']}) }}">
+      {% componentV2 'tags', tags %}
+    </div>
+
     <div class="exhibition-hero">
       {% componentV2 'picture', {images: exhibition.featuredImages}, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
 

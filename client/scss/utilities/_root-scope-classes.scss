@@ -296,14 +296,6 @@
   border-radius: 50%;
 }
 
-.relative-s {
-  @include respond-to('small') {
-    position: relative;
-  }
-}
-
-.absolute-m {
-  @include respond-to('medium') {
-    position: absolute;
-  }
+.absolute {
+  position: absolute;
 }
