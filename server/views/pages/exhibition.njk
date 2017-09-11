@@ -75,13 +75,20 @@
           </div>
           <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
           {% block accessStatements %}
+            <h2 class="{{ {s:'HNM4'} | fontClasses }}">Accessibility information</h2>
+            {% if exhibition.galleryLevel %}
+              <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
+                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/lifts' %}</div>
+                <p class="no-margin">This exhibition is on level {{ exhibition.galleryLevel }}</p>
+              </div>
+            {% endif %}
             <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
               <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y' %}</div>
               <p class="no-margin">Step-free access is available to all floors of the building</p>
             </div>
             <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
               <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y_visual' %}</div>
-              <p>Magnifying glasses and sheets are available to borrow</p>
+              <p>Magnifying glasses and sheets are available to borrow inside the gallery</p>
             </div>
             {% for statement in exhibition.accessStatements %}
               <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
@@ -91,7 +98,7 @@
             {% endfor %}
 
             <p class="{{ {s:'HNL4'} | fontClasses}}">
-              <a class="plain-link font-elf-green" href="https://wellcomecollection.org/visit-us/accessibility" class="font-elf-green">Find out more about accessiblity here</a>
+              <a class="plain-link font-elf-green" href="https://wellcomecollection.org/visit-us/accessibility" class="font-elf-green">Find out more about accessiblity</a>
             </p>
           {% endblock %}
 

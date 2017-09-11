@@ -55,4 +55,5 @@ export type Exhibition = {| ...ContentBlock, ...{|
   accessStatements: any,
   featuredImages: Array<Picture>,
   description: ?string,
+  galleryLevel: ?number
 |}|}

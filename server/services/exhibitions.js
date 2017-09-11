@@ -38,6 +38,7 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
     description: exhibition.data.description && RichText.asHtml(exhibition.data.description),
     video: video,
     text: text,
-    imageGallery: imageGallery
+    imageGallery: imageGallery,
+    galleryLevel: exhibition.data.gallery_level
   }: Exhibition);
 }
