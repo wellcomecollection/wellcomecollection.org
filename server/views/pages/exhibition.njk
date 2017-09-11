@@ -76,10 +76,12 @@
           <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
           {% block accessStatements %}
             <h2 class="{{ {s:'HNM4'} | fontClasses }}">Accessibility information</h2>
-            <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-              <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/lifts' %}</div>
-              <p class="no-margin">This exhibition is on level 0</p>
-            </div>
+            {% if exhibition.galleryLevel %}
+              <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
+                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/lifts' %}</div>
+                <p class="no-margin">This exhibition is on level {{ exhibition.galleryLevel }}</p>
+              </div>
+            {% endif %}
             <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
               <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y' %}</div>
               <p class="no-margin">Step-free access is available to all floors of the building</p>
