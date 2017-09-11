@@ -58,8 +58,9 @@ function convertPathToImgixUri(originalUriPath, imgixRoot, size) {
 }
 
 function convertPathToIiifUri(originalUriPath, iiifRoot, size) {
+  const isFullSize = size === 'full';
   const format = determineFinalFormat(originalUriPath);
-  return `${iiifRoot}${originalUriPath}/full/${size},/0/default.${format}`;
+  return `${iiifRoot}${originalUriPath}/full/${size}${isFullSize ? '' : ','}/0/default.${format}`;
 }
 
 export default function convertImageUri(originalUri, requiredSize, useIiif, useIiifOrigin) {
