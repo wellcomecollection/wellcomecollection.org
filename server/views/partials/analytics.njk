@@ -1,3 +1,4 @@
+{% if featuresCohort | isFlagEnabled('includeGA', featureFlags) %}
 <style>.async-hide .header__nav{ opacity: 0 !important} </style>
 <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
 h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
@@ -34,4 +35,4 @@ if ('{{ pageConfig.contentType }}') {
 ga('require', 'GTM-NXMJ6D9');
 ga('send', 'pageview');
 </script>
-
+{% endif %}

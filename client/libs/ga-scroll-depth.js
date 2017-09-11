@@ -1,27 +1,37 @@
 // Simplified/rewritten from https://github.com/leighmcculloch/gascrolldepth.js
 import { getWindowHeight } from '../js/util';
-
 import { onWindowScrollDebounce$ } from '../js/utils/dom-events';
+
 const startTime = new Date().getTime();
 const getElHeight = el => el.offsetHeight + el.offsetTop;
 
-const sendEvent = (distance, timing) => {
-  window.ga('send', {
-    hitType: 'event',
-    eventCategory: 'Scroll Depth',
-    eventAction: 'Percentage',
-    eventLabel: distance,
-    eventValue: 1,
-    eventNonInteraction: true
-  });
+const maybeSendEvent = (hasAnalytics) => {
+  if (hasAnalytics) {
+    const actuallySendEvent = (distance, timing) => {
+      window.ga('send', {
+        hitType: 'event',
+        eventCategory: 'Scroll Depth',
+        eventAction: 'Percentage',
+        eventLabel: distance,
+        eventValue: 1,
+        eventNonInteraction: true
+      });
 
-  window.ga('send', {
-    hitType: 'timing',
-    timingCategory: 'Scroll Timing',
-    timingVar: `Scrolled ${distance}`,
-    timingValue: timing
-  });
+      window.ga('send', {
+        hitType: 'timing',
+        timingCategory: 'Scroll Timing',
+        timingVar: `Scrolled ${distance}`,
+        timingValue: timing
+      });
+    };
+    return actuallySendEvent;
+  } else {
+    const noop = () => {};
+    return noop;
+  }
 };
+
+const sendEvent = maybeSendEvent(window.ga);
 
 const calculateMarks = (elHeight) => {
   return {
