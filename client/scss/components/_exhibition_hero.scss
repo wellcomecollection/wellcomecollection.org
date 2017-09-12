@@ -26,4 +26,8 @@
     margin-left: -50%;
     max-width: $container-width-max / 2;
   }
+
+  @include respond-to('large') {
+    align-items: flex-end;
+  }
 }
