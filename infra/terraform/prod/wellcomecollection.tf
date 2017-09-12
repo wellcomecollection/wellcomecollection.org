@@ -10,6 +10,7 @@ variable "platform_team_account_id" {}
 
 provider "aws" {
   region     = "eu-west-1"
+  version = "~> 0.1"
 }
 
 module "wellcomecollection" {
