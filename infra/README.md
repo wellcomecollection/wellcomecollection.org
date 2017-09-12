@@ -19,7 +19,7 @@ To do this run [`./setup.sh`](setup.sh)
 
     `./deploy.sh <dev|prod> <DOCKER_TAG>`
 
-# Deplying infrustructure changes
+# Deploying infrastructure changes
 ```bash
   # to check your changes
   ./plan.sh <dev|prod> <DOCKER_TAG>
