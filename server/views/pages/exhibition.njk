@@ -48,6 +48,10 @@
                   {% icon 'other/ticket', null, ['icon--2x', 'icon--teal'] %}
                   <strong class="caps {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free</strong>
                   <strong>{{ {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage }}</strong>
+                    <span class="{{ {s:2} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
+                      {% set statusColor = 'icon--' + {start: exhibition.start, end: exhibition.end} | formatDateRangeWithColor %}
+                      {% icon 'other/status-indicator', null, [statusColor] %}
+                    </span>
                 </div>
                 <h1 class="{{ {s:'WB4', m:'WB5', l:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
                 <span class="{{ {s:'HNM4', m:'HNM5', l:'HNM3'} | fontClasses }}">
