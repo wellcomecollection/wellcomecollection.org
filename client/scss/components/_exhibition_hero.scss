@@ -31,3 +31,9 @@
     align-items: flex-end;
   }
 }
+
+.exhibition-hero__box {
+  // Fixes IE bug where background colour doesn't display on block flex items
+  // but does on 100%-width inline block items (ノಠ益ಠ)ノ彡┻━┻
+  width: 100%;
+}
