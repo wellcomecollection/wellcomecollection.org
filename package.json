@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/wellcometrust/wellcomecollection.org#readme",
   "devDependencies": {
-    "babel-eslint": "^7.2.3",
+    "babel-eslint": "^8.0.0",
     "eslint": "^4.1.1",
     "eslint-config-wellcome": "^1.0.8",
     "eslint-plugin-flowtype": "^2.32.1",
