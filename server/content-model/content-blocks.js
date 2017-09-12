@@ -53,6 +53,7 @@ export type Exhibition = {| ...ContentBlock, ...{|
   start: DateRange,
   end: DateRange,
   accessStatements: any,
+  standfirst: ?string,
   featuredImages: Array<Picture>,
   description: ?string,
   galleryLevel: ?number

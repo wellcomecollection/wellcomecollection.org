@@ -77,6 +77,9 @@
     <div class="container">
       <div class="grid">
         <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:'HNL3', m:'HNL2'} | fontClasses}} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+          {% if exhibition.standfirst %}
+            {% component 'standfirst', {body: exhibition.standfirst.value | safe} %}
+          {% endif %}
           {% block exhibitionDescription %}
             {{ exhibition.text.value | safe }}
           {% endblock %}

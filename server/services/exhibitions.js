@@ -25,6 +25,7 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
   const bodyParts = convertContentToBodyParts(exhibition.data.body);
   const video = bodyParts.find(p => p.type === 'video-embed');
   const text = bodyParts.find(p => p.type === 'text');
+  const standfirst = bodyParts.find(p => p.type === 'standfirst');
   const imageGallery = bodyParts.find(p => p.type === 'imageGallery');
 
   return ({
@@ -37,6 +38,7 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
     accessStatements: exhibition.data.accessStatements,
     description: exhibition.data.description && RichText.asHtml(exhibition.data.description),
     video: video,
+    standfirst: standfirst,
     text: text,
     imageGallery: imageGallery,
     galleryLevel: exhibition.data.gallery_level
