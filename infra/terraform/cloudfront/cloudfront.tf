@@ -67,8 +67,8 @@ resource "aws_cloudfront_distribution" "next" {
   aliases = ["${var.website_uri}", "wellcomecollection.org"]
 
   default_cache_behavior {
-    allowed_methods        = ["HEAD", "GET"]
-    cached_methods         = ["HEAD", "GET"]
+    allowed_methods        = ["HEAD", "GET", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    cached_methods         = ["HEAD", "GET", "OPTIONS"]
     viewer_protocol_policy = "redirect-to-https"
     target_origin_id       = "${var.alb_id}"
     min_ttl                = 0
