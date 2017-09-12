@@ -2,7 +2,6 @@
 /* eslint-disable */
 import type {Person} from '../model/person';
 import type {Picture} from '../model/picture';
-import type {LicenseType} from '../model/license';
 import {List} from 'immutable';
 
 type ContentBlockType = 'events' | 'webcomics' | 'articles' | 'exhibitions' | 'image-lists'
