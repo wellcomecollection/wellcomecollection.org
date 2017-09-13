@@ -76,6 +76,7 @@ function convertPrismicImageList(slice): ImageList {
     // TODO: We need to move things to using block types
     type: 'image-lists',
     blockType: 'image-lists',
+    description: asText(slice.primary.description),
     items: slice.items.map(item => {
       const image = prismicImageToPicture(item);
       const description = RichText.asHtml(item.description);

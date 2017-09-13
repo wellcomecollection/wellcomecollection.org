@@ -55,29 +55,32 @@
         {% elif mm.type === 'video-embed' %}
           {% componentV2 'main-media-video', article.mainMedia | getPrincipleMainMedia, {full: true}, mainMediaData %}
         {% elif mm.type === 'image-lists' %}
-          <ul class="plain-list no-margin no-padding">
-            {% for item in mm.items %}
-              <li>
-                <h2>
-                  <div class="flex">
-                    <div class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{{ loop.index }}.</div>
-                    <div>
+          <div class="{{ {s: 12, m: 10, l: 11, xl: 10, shiftM: 1, shiftL: 1, shiftXl: 1} | gridClasses }}">
+            <ul class="plain-list no-margin no-padding">
+              <p>{{ mm.description }}</p>
+              {% for item in mm.items %}
+                <li>
+                  <h2>
+                    <div class="flex">
+                      <div class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{{ loop.index }}.</div>
                       <div>
-                        {{ item.title }}
-                      </div>
-                      {% if item.subtitle %}
                         <div>
-                          {{ item.subtitle }}
+                          {{ item.title }}
                         </div>
-                      {% endif %}
+                        {% if item.subtitle %}
+                          <div>
+                            {{ item.subtitle }}
+                          </div>
+                        {% endif %}
+                      </div>
                     </div>
-                  </div>
-                </h2>
-                {% componentV2 'captioned-image', item.image, {'has-border-bottom': item.image.caption}, {showCopyright: true} %}
-                {{item.description | safe}}
-              </li>
-            {% endfor %}
-          </ul>
+                  </h2>
+                  {% componentV2 'captioned-image', item.image, {'has-border-bottom': item.image.caption}, {showCopyright: true} %}
+                  {{item.description | safe}}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
         {% elif mm.type === 'picture' %}
           {% componentV2 'main-media', article.mainMedia | getPrincipleMainMedia, {full: true}, mainMediaData %}
         {% endif %}

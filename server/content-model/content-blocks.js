@@ -59,6 +59,7 @@ export type Exhibition = {| ...ContentBlock, ...{|
 |}|}
 
 export type ImageList = {| ...ContentBlock, ...{|
+  description: ?string,
   items: List<{
     title: string,
     subtitle: ?string,
