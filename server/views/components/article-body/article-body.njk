@@ -49,29 +49,29 @@
           {% elif bodyPart.type === 'instagramEmbed' %}
             {% componentV2 'instagram-embed', bodyPart.value %}
           {% elif bodyPart.type === 'imageList' %}
-            {% if(bodyPart.value.length > 0) %}
-            <ul class="plain-list no-margin no-padding">
-              {% for item in bodyPart.value %}
-                <li>
-                  <h2>
-                    <div class="flex">
-                      <div class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{{ loop.index }}.</div>
-                      <div>
+            {% if bodyPart.value.items.length > 0 %}
+              <ul class="plain-list no-margin no-padding">
+                {% for item in bodyPart.value.items %}
+                  <li>
+                    <h2>
+                      <div class="flex">
+                        <div class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{{ loop.index }}.</div>
                         <div>
-                          {{ item.title }}
-                        </div>
-                        {% if item.subtitle %}
                           <div>
-                            {{ item.subtitle }}
+                            {{ item.title }}
                           </div>
-                        {% endif %}
-                      </div>
-                  </h2>
-                  {% componentV2 'captioned-image', item.image, {'has-border-bottom': item.image.caption}, {showCopyright: true} %}
-                  {{item.description | safe}}
-                </li>
-              {% endfor %}
-            </ul>
+                          {% if item.subtitle %}
+                            <div>
+                              {{ item.subtitle }}
+                            </div>
+                          {% endif %}
+                        </div>
+                    </h2>
+                    {% componentV2 'captioned-image', item.image, {'has-border-bottom': item.image.caption}, {showCopyright: true} %}
+                    {{item.description | safe}}
+                  </li>
+                {% endfor %}
+              </ul>
             {% endif %}
           {% elif bodyPart.type === 'quote' %}
             {% set fontStyles = {s:'HNL3'} %}

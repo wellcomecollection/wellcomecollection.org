@@ -39,6 +39,7 @@
         <div class="is-hidden-m is-hidden-l is-hidden-xl">
           {% component 'wobbly-edge', {background: 'white'} %}
         </div>
+
         <div class="container {{ {m:0} | spacingClasses({padding: ['left']}) }}">
           <div class="grid">
             <div class="{{ {s:12} | gridClasses }}">
@@ -58,14 +59,16 @@
                 </div>
                 <h1 class="{{ {s:'WB5', m:'WB6', l:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
                 <span class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
-                  <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time> &ndash; <time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
+                  {% if exhibition.end %}
+                    <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time> &ndash; <time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
+                  {% else %}
+                    Permanent exhibition
+                  {% endif %}
                 </span>
               </div>
-
             </div>
           </div>
         </div>
-
       </div>
     </div>
 

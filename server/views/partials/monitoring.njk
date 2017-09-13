@@ -26,6 +26,9 @@
   Raven.config('https://f756b8d4b492473782987a054aa9a347@sentry.io/133634', {
     shouldSendCallback: function(data) {
       return !shouldIgnoreBrowsers && !shouldIgnoreUrls;
-    }
+    },
+    ignoreErrors: [
+      /SecurityError\: Blocked a frame with origin "https:\/\/wellcomecollection\.org" from accessing a frame with origin "https:\/\/vars\.hotjar\.com"\. Protocols, domains, and ports must match\.$/
+    ]
   }).install();
 </script>

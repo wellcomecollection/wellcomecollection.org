@@ -45,11 +45,11 @@ export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date
   if (relativeTime.isFuture) {
     return 'Coming soon';
   } else if (relativeTime.isPast) {
-    return 'Past exhibition';
+    return 'Now closed';
   } else if (relativeTime.isLastWeek) {
-    return 'Last chance';
+    return 'Final week';
   } else {
-    return 'Current';
+    return 'Open now';
   }
 }
 
