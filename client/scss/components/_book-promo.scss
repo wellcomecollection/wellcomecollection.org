@@ -4,24 +4,23 @@
   display: block;
   text-decoration: none;
 
-  //@include container-query(('m': ('6'), 'l': ('6'), 'xl': ('6'))) {
-  // .test & {
-  //   background: color('cream');
-  //   display: flex;
-  //   align-items: flex-start;
-  //   padding-bottom: (map-get($gutter-width, 'medium'));
-  // }
+  @include container-query(('m': ('6'), 'l': ('6'), 'xl': ('6'))) {
+    background: color('cream');
+    display: flex;
+    align-items: flex-start;
+    padding-bottom: (map-get($gutter-width, 'medium'));
+  }
 }
 
 .book-promo__image-container {
   background: color('transparent');
   .image {
     width: 127px;
-    //@include container-query(('m': ('6'), 'l': ('6'), 'xl': ('6'))) {
-    //.test & {
-    //   width: 178px;
-    //   min-width: 178px;
-    // }
+
+    @include container-query(('m': ('6'), 'l': ('6'), 'xl': ('6'))) {
+      width: 178px;
+      min-width: 178px;
+    }
   }
 }
 
@@ -30,15 +29,13 @@
   margin-top: -(map-get($gutter-width, 'small'));
   padding-top: (map-get($gutter-width, 'small'))*2;
 
-  //@include container-query(('m': ('6'), 'l': ('6'), 'xl': ('6'))) {
-  // .test & {
-  //   background: none;
-  // }
+  @include container-query(('m': ('6'), 'l': ('6'), 'xl': ('6'))) {
+    background: none;
+  }
 }
 
 .book-promo__item-number {
-  //@include container-query(('m': ('6'), 'l': ('6'), 'xl': ('6'))) {
-  // .test & {
-  //   display: none;
-  // }
+  @include container-query(('m': ('6'), 'l': ('6'), 'xl': ('6'))) {
+    display: none;
+  }
 }
