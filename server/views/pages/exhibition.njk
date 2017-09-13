@@ -168,8 +168,23 @@
 {% endmacro %}
 
 {# TODO pass proper sizes attribute, to promo #}
+  {% if exhibition.relatedGalleries.length > 0 %}
+    <div class="row {{ {s:10} | spacingClasses({padding: ['bottom']}) }} {{ {s:5} | spacingClasses({padding: ['top']}) }}">
+      <div class="container">
+        <h2 class="{{ {s:'WB4'} | fontClasses }}">Gallery</h2>
+        <div class="grid">
+          {% for promo in exhibition.relatedGalleries %}
+            <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+              <a href="{{ promo.url }}">
+                {% componentV2 'image', promo.image, null, {'lazyload': true} %}
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
 
-{{ relatedMarkup(exhibition.relatedGalleries, 'galleries', 'promo', {s:12, m:6, l:3, xl:3}) }}
 {{ relatedMarkup(exhibition.relatedBooks, 'books', 'book-promo', {s:12, m:6, l:6, xl:6}) }}
 {{ relatedMarkup(exhibition.relatedEvents, 'events', 'promo', {s:12, m:6, l:3, xl:3}) }}
 {{ relatedMarkup(exhibition.relatedArticles, 'article', 'promo', {s:12, m:6, l:3, xl:3}) }}
