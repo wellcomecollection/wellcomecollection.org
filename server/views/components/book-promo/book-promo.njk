@@ -7,7 +7,7 @@ class="book-promo"
     {% componentV2 'image', model.image, {}, {lazyload: true} %}
   </div>
   <div class="book-promo__text-container {{ {s:4} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }}">
-    {% if data.index and data.total %}
+    {% if data.index and data.total and data.total > 1 %}
       <p class="book-promo__item-number {{ {s:'HNM4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{data.index}}/{{data.total}}</p>
     {% endif %}
     <h3 class="{{ {s:'HNM3'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{model.title}}</h3>
