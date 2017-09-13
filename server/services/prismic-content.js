@@ -1,4 +1,4 @@
-import type {ImagePromo} from '../content-model/content-blocks';
+import type {ImagePromo, ImageList} from '../content-model/content-blocks';
 import type {Article} from '../model/article';
 import type {Picture} from '../model/picture';
 import type {Person} from '../model/person';
@@ -37,10 +37,14 @@ export function getPromo(doc): ?ImagePromo {
   }: ImagePromo);
 }
 
-export function getFeaturedMediaFromBody(doc): ?Picture {
+export function getFeaturedMediaFromBody(doc): ?(Picture | ImageList) {
   return List(doc.data.body.filter(slice => slice.slice_label === 'featured')
-    .map(slice => slice.primary)
-    .map(prismicImageToPicture)).first();
+    .map(slice => {
+      switch (slice.slice_type) {
+        case 'editorialImage': return prismicImageToPicture(slice.primary);
+        case 'imageList': return convertPrismicImageList(slice);
+      }
+    })).first();
 }
 
 export function prismicImageToPicture(captionedImage) {
@@ -66,6 +70,22 @@ export function prismicImageToPicture(captionedImage) {
       link: tasl && tasl.copyrightLink
     }
   }: Picture);
+}
+
+function convertPrismicImageList(slice): ImageList {
+  return ({
+    // TODO: We need to move things to using block types
+    type: 'image-lists',
+    blockType: 'image-lists',
+    description: asText(slice.primary.description),
+    items: slice.items.map(item => {
+      const image = prismicImageToPicture(item);
+      const description = RichText.asHtml(item.description);
+      const title = asText(item.title);
+      const subtitle = asText(item.subtitle);
+      return { title, subtitle, image, description };
+    })
+  }: ImageList);
 }
 
 function getTaslFromCopyright(copyright) {
@@ -114,9 +134,7 @@ function parseArticleAsArticle(prismicArticle) {
   const publishDate = getPublishedDate(prismicArticle);
 
   // TODO:
-  const mainMedia = prismicArticle.data.body.filter(slice => slice.slice_label === 'featured').map(slice => {
-    return prismicImageToPicture(slice.primary);
-  });
+  const featuredMedia = getFeaturedMediaFromBody(prismicArticle);
 
   // TODO: Don't convert this into thumbnail
   const promo = prismicArticle.data.promo.find(slice => slice.slice_type === 'editorialImage');
@@ -144,7 +162,7 @@ function parseArticleAsArticle(prismicArticle) {
     author: contributors,
     series: series,
     bodyParts: bodyParts,
-    mainMedia: mainMedia,
+    mainMedia: [featuredMedia],
     description: description
   };
 
@@ -153,7 +171,7 @@ function parseArticleAsArticle(prismicArticle) {
 
 export function convertContentToBodyParts(content) {
   // TODO: Add these as ContentBlocks when the model is in
-  return content.map(slice => {
+  return content.filter(slice => slice.slice_label !== 'featured').map(slice => {
     switch (slice.slice_type) {
       case 'standfirst':
         return {
@@ -170,8 +188,6 @@ export function convertContentToBodyParts(content) {
         };
 
       case 'editorialImage':
-        // TODO: This shouldn't really be here
-        if (slice.slice_label === 'featured') return;
         return {
           weight: slice.slice_label,
           type: 'picture',
@@ -193,13 +209,7 @@ export function convertContentToBodyParts(content) {
         return {
           weight: 'default',
           type: 'imageList',
-          value: slice.items.map(item => {
-            const image = prismicImageToPicture(item);
-            const description = RichText.asHtml(item.description);
-            const title = asText(item.title);
-            const subtitle = asText(item.subtitle);
-            return { title, subtitle, image, description };
-          })
+          value: convertPrismicImageList(slice)
         };
 
       case 'quote':
