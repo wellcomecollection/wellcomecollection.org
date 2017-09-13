@@ -162,7 +162,7 @@
     </div>
   {% endif %}
 
-{% macro relatedMarkup(promoList, promoType) %}
+{% macro relatedMarkup(promoList, promoType, promoComponent) %}
   {% if promoList.length > 0 %}
     <div class="row {{ {s:10} | spacingClasses({padding: ['bottom']}) }} {{ {s:5} | spacingClasses({padding: ['top']}) }}">
       <div class="container">
@@ -170,7 +170,7 @@
         <div class="grid">
           {% for promo in promoList %}
             <div class="{{ {s:12, m:6, l:3, xl:3} | gridClasses }}">
-              {% componentV2 'promo', promo %}
+              {% componentV2 promoComponent, promo %}
             </div>
           {% endfor %}
         </div>
@@ -179,10 +179,10 @@
   {% endif %}
 {% endmacro %}
 
-{{ relatedMarkup(exhibition.relatedGalleries, 'galleries') }}
-{{ relatedMarkup(exhibition.relatedBooks, 'books') }}
-{{ relatedMarkup(exhibition.relatedEvents, 'events') }}
-{{ relatedMarkup(exhibition.relatedArticles, 'article') }}
+{{ relatedMarkup(exhibition.relatedGalleries, 'galleries', 'promo') }}
+{{ relatedMarkup(exhibition.relatedBooks, 'books', 'book-promo') }}
+{{ relatedMarkup(exhibition.relatedEvents, 'events', 'promo') }}
+{{ relatedMarkup(exhibition.relatedArticles, 'article', 'promo') }}
 
 </article>
 {% endblock %}
