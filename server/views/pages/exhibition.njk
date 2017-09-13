@@ -158,15 +158,15 @@
     </div>
   {% endif %}
 
-{% macro relatedMarkup(promoList, promoType, promoComponent) %}
+{% macro relatedMarkup(promoList, promoType, promoComponent, gridSizes) %}
   {% if promoList.length > 0 %}
     <div class="row {{ {s:10} | spacingClasses({padding: ['bottom']}) }} {{ {s:5} | spacingClasses({padding: ['top']}) }}">
       <div class="container">
         <h2 class="{{ {s:'WB4'} | fontClasses }}">Related {{promoType}}</h2>
         <div class="grid">
           {% for promo in promoList %}
-            <div class="{{ {s:12, m:6, l:3, xl:3} | gridClasses }}">
-              {% componentV2 promoComponent, promo %}
+            <div class="{{ gridSizes | gridClasses }}">
+              {% componentV2 promoComponent, promo,  {},  {index: loop.index, total: loop.length} %}
             </div>
           {% endfor %}
         </div>
@@ -175,10 +175,12 @@
   {% endif %}
 {% endmacro %}
 
-{{ relatedMarkup(exhibition.relatedGalleries, 'galleries', 'promo') }}
-{{ relatedMarkup(exhibition.relatedBooks, 'books', 'book-promo') }}
-{{ relatedMarkup(exhibition.relatedEvents, 'events', 'promo') }}
-{{ relatedMarkup(exhibition.relatedArticles, 'article', 'promo') }}
+{# TODO pass proper sizes attribute, to promo #}
+
+{{ relatedMarkup(exhibition.relatedGalleries, 'galleries', 'promo', {s:12, m:6, l:3, xl:3}) }}
+{{ relatedMarkup(exhibition.relatedBooks, 'books', 'book-promo', {s:12, m:6, l:6, xl:6}) }}
+{{ relatedMarkup(exhibition.relatedEvents, 'events', 'promo', {s:12, m:6, l:3, xl:3}) }}
+{{ relatedMarkup(exhibition.relatedArticles, 'article', 'promo', {s:12, m:6, l:3, xl:3}) }}
 
 </article>
 {% endblock %}
