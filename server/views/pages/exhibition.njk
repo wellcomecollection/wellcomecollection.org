@@ -167,10 +167,10 @@
   {% endif %}
 {% endmacro %}
 
-{{ relatedMarkup(exhibition.relatedArticles, 'article') }}
-{{ relatedMarkup(exhibition.relatedEvents, 'events') }}
 {{ relatedMarkup(exhibition.relatedGalleries, 'galleries') }}
 {{ relatedMarkup(exhibition.relatedBooks, 'books') }}
+{{ relatedMarkup(exhibition.relatedEvents, 'events') }}
+{{ relatedMarkup(exhibition.relatedArticles, 'article') }}
 
 </article>
 {% endblock %}
