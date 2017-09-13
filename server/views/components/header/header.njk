@@ -21,6 +21,7 @@
             <li class="header__item {{ 'header__item--is-current' if navLink.isCurrent }}">
               <a href="{{ navLink.href }}"
                 class="header__link js-header-nav-link"
+                data-track-event='{"category": "A/B", "action": "nav-link:click", "label": "url:{{ navLink.href }}"}'
                 {%- if navLink.isCurrent %}
                   aria-current="true"
                 {%- endif %}>{{ navLink.title }}</a>
