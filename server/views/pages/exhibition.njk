@@ -158,6 +158,22 @@
     </div>
   {% endif %}
 
+  {% if exhibition.relatedArticles.length > 0 %}
+    <div class="row {{ {s:10} | spacingClasses({padding: ['bottom']}) }} {{ {s:5} | spacingClasses({padding: ['top']}) }}">
+      <div class="container">
+        <h2 class="{{ {s:'WB4'} | fontClasses }}">Related articles</h2>
+        <div class="grid">
+          {% for article in exhibition.relatedArticles %}
+            <div class="{{ {s:12, m:6, l:3, xl:3} | gridClasses }}">
+              {% set promoImage = {contentUrl: article.image.url} %}
+              {% componentV2 'promo', {image: promoImage, url: article.link.url, title: article.title[0].text, description: article.text[0].text} %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
 </article>
 {% endblock %}
 

@@ -28,6 +28,18 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
   const standfirst = bodyParts.find(p => p.type === 'standfirst');
   const imageGallery = bodyParts.find(p => p.type === 'imageGallery');
 
+  const relatedContent = exhibition.data.related;
+  const relatedBooks = relatedContent.filter(x => x.type === 'book');
+  const relatedEvents = relatedContent.filter(x => x.type === 'event');
+  const relatedGalleries = relatedContent.filter(x => x.type === 'gallery');
+  const relatedArticles = relatedContent.filter(x => x.type === 'article')
+    .map(i => {
+      const picture = prismicImageToPicture(i);
+      return picture;
+    });
+
+    console.log(relatedArticles);
+
   return ({
     blockType: 'exhibitions',
     id: exhibition.id,
@@ -41,6 +53,10 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
     standfirst: standfirst,
     text: text,
     imageGallery: imageGallery,
-    galleryLevel: exhibition.data.gallery_level
+    galleryLevel: exhibition.data.gallery_level,
+    relatedBooks: relatedBooks,
+    relatedEvents: relatedEvents,
+    relatedGalleries: relatedGalleries,
+    relatedArticles: relatedArticles
   }: Exhibition);
 }
