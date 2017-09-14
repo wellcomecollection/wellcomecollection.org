@@ -271,6 +271,13 @@ export function convertContentToBodyParts(content) {
           value: schedule
         };
 
+      case 'html':
+        return {
+          type: 'html',
+          weight: 'default',
+          value: slice.primary.text.map(i => i.text)
+        };
+
       default:
         break;
     }
