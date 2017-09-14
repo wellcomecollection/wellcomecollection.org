@@ -78,7 +78,7 @@
     </div>
   </div>
 
-  <div class="row {{ {s:5} | spacingClasses({padding: ['top']}) }}">
+  <div class="row {{ {s:5} | spacingClasses({margin: ['top']}) }}">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
@@ -128,7 +128,6 @@
             </div>
           {% endblock %}
 
-
           <hr class="divider divider--pumice divider--keyline" />
         </div>
       </div>
@@ -136,7 +135,7 @@
   </div>
 
   {% if exhibition.video %}
-    <div class="row bg-black {{ {s:2} | spacingClasses({padding: ['top'], margin: ['bottom']}) }}">
+    <div class="row bg-black {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
       <div class="container">
         <div class="grid">
           <div class="{{ {s:12, m:8, shiftM:2, l:8, shiftL:2, xl:6, shiftXl:3} | gridClasses }}">
@@ -151,34 +150,23 @@
   {% endif %}
 
   {% if exhibition.imageGallery %}
-    <div class="row {{ {s:2} | spacingClasses({padding: ['top'], margin: ['bottom']}) }}">
+    <div class="row {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
       <div class="container">
-        {% component 'image-gallery', { imageGallery: exhibition.imageGallery.value, id: 'article-body-image-gallery--' + exhibition.id } %}
-      </div>
-    </div>
-  {% endif %}
-
-{% macro relatedMarkup(promoList, promoType, promoComponent, gridSizes, data) %}
-  {% if promoList.length > 0 %}
-    <div class="row">
-      <div class="container">
-        <h2 class="{{ {s:'WB4'} | fontClasses }}">Related {{promoType}}</h2>
         <div class="grid">
-          {% for promo in promoList %}
-            <div class="{{ gridSizes | gridClasses }}">
-              {% componentV2 promoComponent, promo,  {}, data %}
-            </div>
-          {% endfor %}
+          {% component 'image-gallery', { imageGallery: exhibition.imageGallery.value, id: 'article-body-image-gallery--' + exhibition.id } %}
         </div>
       </div>
     </div>
   {% endif %}
-{% endmacro %}
 
   {% if exhibition.relatedGalleries.length > 0 %}
-    <div class="row {{ {s:10} | spacingClasses({padding: ['bottom']}) }} {{ {s:5} | spacingClasses({padding: ['top']}) }}">
+    <div class="row {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
       <div class="container">
-        <h2 class="{{ {s:'WB4'} | fontClasses }}">Gallery highlights</h2>
+        <div class="grid">
+          <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+            <h2 class="{{ {s:'WB4'} | fontClasses }}">Gallery highlights</h2>
+          </div>
+        </div>
         <div class="grid">
           {% for promo in exhibition.relatedGalleries %}
             <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
@@ -192,11 +180,36 @@
     </div>
   {% endif %}
 
-{{ relatedMarkup(exhibition.relatedBooks, 'books', 'book-promo', {s:12, m:6, l:6, xl:6}, {'lazyload': true, index: loop.index, total: loop.total, sizesQueries: '(min-width: 960px) 178px, 127px'}) }}
+  {% macro relatedMarkup(promoList, promoType, promoComponent, gridSizes, data) %}
+    {% if promoList.length > 0 %}
+      <div class="row">
+        <div class="container">
+          <div class="grid">
+            <div class="{{ {s:12} | gridClasses }}">
+              <h2 class="{{ {s:'WB4'} | fontClasses }}">Related {{promoType}}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="container container--scroll">
+          <div class="grid grid--scroll">
+            {% for promo in promoList %}
+              <div class="{{ gridSizes | gridClasses }}">
+                {% componentV2 promoComponent, promo,  {}, data %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endmacro %}
 
-{{ relatedMarkup(exhibition.relatedEvents, 'events', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
+  {{ relatedMarkup(exhibition.relatedBooks, 'books', 'book-promo', {s:12, m:6, l:6, xl:6}, {'lazyload': true, index: loop.index, total: loop.total, sizesQueries: '(min-width: 960px) 178px, 127px'}) }}
 
-{{ relatedMarkup(exhibition.relatedArticles, 'articles', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
+  {{ relatedMarkup(exhibition.relatedEvents, 'events', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
+
+  {{ relatedMarkup(exhibition.relatedArticles, 'articles', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
 
 </article>
 {% endblock %}

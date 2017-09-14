@@ -1,5 +1,4 @@
-// TODO: Colours still being worked on by Tomi - using '.bg-cream' temporarily
-// mixing root-scope classes and overrides in here?
+// TODO: Colours still being worked on by Tomi - using 'smoke' temporarily
 .book-promo {
   display: block;
   text-decoration: none;
@@ -9,7 +8,7 @@
   }
 
   @include container-query(('l': ('6'), 'xl': ('6'))) {
-    background: color('cream');
+    background: color('smoke');
     display: flex;
     align-items: flex-start;
     padding-bottom: (map-get($gutter-width, 'medium'));
@@ -29,7 +28,7 @@
 }
 
 .book-promo__text-container {
-  background: color('cream');
+  background: color('smoke');
   margin-top: -(map-get($gutter-width, 'small'));
   padding-top: (map-get($gutter-width, 'small'))*2;
 
@@ -49,6 +48,6 @@
 
   .book-promo:hover &,
   .book-promo:focus & {
-    color: color('mint');
+    color: color('smoke');
   }
 }
