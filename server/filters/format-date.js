@@ -23,7 +23,7 @@ export function formatDateWithComingSoon(date: Date): string {
   return (isFuture ? 'Coming soon: ' : '') + formatDate(date);
 }
 
-export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date}): string {
+function getRelativeTime({start, end}: {start: Date, end: Date}): {} {
   const momentNow = moment();
   const momentStart = moment(start);
   const momentEnd = moment(end);
@@ -32,15 +32,31 @@ export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date
   const isPast = momentEnd.isBefore(momentNow);
   const isLastWeek = momentNow.isBetween(momentWeekBeforeEnd, momentEnd);
 
-  if (isFuture) {
+  return {
+    isFuture,
+    isPast,
+    isLastWeek
+  };
+}
+
+export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date}): string {
+  const relativeTime = getRelativeTime({start, end});
+
+  if (relativeTime.isFuture) {
     return 'Coming soon';
-  } else if (isPast) {
+  } else if (relativeTime.isPast) {
     return 'Now closed';
-  } else if (isLastWeek) {
+  } else if (relativeTime.isLastWeek) {
     return 'Final week';
   } else {
     return 'Open now';
   }
+}
+
+export function formatDateRangeWithColor({start, end}: {start: Date, end: Date}): string {
+  const relativeTime = getRelativeTime({start, end});
+
+  return relativeTime.isPast ? 'red-graphics' : 'java';
 }
 
 export function formatAndDedupeOnDate(d1: Date, d2: Date): List<string> {
