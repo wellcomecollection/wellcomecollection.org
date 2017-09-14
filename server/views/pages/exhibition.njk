@@ -175,16 +175,15 @@
   {% endif %}
 {% endmacro %}
 
-{# TODO pass proper sizes attribute, to promo #}
   {% if exhibition.relatedGalleries.length > 0 %}
     <div class="row {{ {s:10} | spacingClasses({padding: ['bottom']}) }} {{ {s:5} | spacingClasses({padding: ['top']}) }}">
       <div class="container">
-        <h2 class="{{ {s:'WB4'} | fontClasses }}">Gallery</h2>
+        <h2 class="{{ {s:'WB4'} | fontClasses }}">Gallery highlights</h2>
         <div class="grid">
           {% for promo in exhibition.relatedGalleries %}
             <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
               <a href="{{ promo.url }}">
-                {% componentV2 'image', promo.image, null, {'lazyload': true} %}
+                {% componentV2 'image', promo.image, null, {'lazyload': true, sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
               </a>
             </div>
           {% endfor %}
@@ -193,9 +192,11 @@
     </div>
   {% endif %}
 
-{{ relatedMarkup(exhibition.relatedBooks, 'books', 'book-promo', {s:12, m:6, l:6, xl:6}, {index: loop.index, total: loop.total}) }}
-{{ relatedMarkup(exhibition.relatedEvents, 'events', 'promo', {s:12, m:6, l:3, xl:3}) }}
-{{ relatedMarkup(exhibition.relatedArticles, 'articles', 'promo', {s:12, m:6, l:3, xl:3}) }}
+{{ relatedMarkup(exhibition.relatedBooks, 'books', 'book-promo', {s:12, m:6, l:6, xl:6}, {'lazyload': true, index: loop.index, total: loop.total, sizesQueries: '(min-width: 960px) 178px, 127px'}) }}
+
+{{ relatedMarkup(exhibition.relatedEvents, 'events', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
+
+{{ relatedMarkup(exhibition.relatedArticles, 'articles', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
 
 </article>
 {% endblock %}
