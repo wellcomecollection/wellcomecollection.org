@@ -4,7 +4,11 @@
   display: block;
   text-decoration: none;
 
-  @include container-query(('m': ('6'), 'l': ('6'), 'xl': ('6'))) {
+  @include container-query(('m': ('6'))) {
+    margin-bottom: 0;
+  }
+
+  @include container-query(('l': ('6'), 'xl': ('6'))) {
     background: color('cream');
     display: flex;
     align-items: flex-start;
@@ -17,7 +21,7 @@
   .image {
     width: 127px;
 
-    @include container-query(('m': ('6'), 'l': ('6'), 'xl': ('6'))) {
+    @include container-query(('l': ('6'), 'xl': ('6'))) {
       width: 178px;
       min-width: 178px;
     }
@@ -29,13 +33,22 @@
   margin-top: -(map-get($gutter-width, 'small'));
   padding-top: (map-get($gutter-width, 'small'))*2;
 
-  @include container-query(('m': ('6'), 'l': ('6'), 'xl': ('6'))) {
+  @include container-query(('l': ('6'), 'xl': ('6'))) {
     background: none;
   }
 }
 
 .book-promo__item-number {
-  @include container-query(('m': ('6'), 'l': ('6'), 'xl': ('6'))) {
+  @include container-query(('l': ('6'), 'xl': ('6'))) {
     display: none;
+  }
+}
+
+.book-promo__title {
+  transition: color 400ms ease;
+
+  .book-promo:hover &,
+  .book-promo:focus & {
+    color: color('mint');
   }
 }
