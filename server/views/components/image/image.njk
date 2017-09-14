@@ -1,5 +1,4 @@
 {% set sizes = model | getImageSizesFor %}
-{% set useIiif = featuresCohort | isFlagEnabled('useIiif', featureFlags) %}
 {% set useIiifOrigin = featuresCohort | isFlagEnabled('imagesFromOrigin', featureFlags) %}
 
 {% set comma = joiner() %}
@@ -10,7 +9,7 @@
   {% set loop = [1] %}
 {% endif %}
 <noscript>
-  <img width="{{model.width}}" height="{{model.height}}" class="image" src="{{ model.contentUrl | convertImageUri(320, useIiif, useIiifOrigin) }}"
+  <img width="{{model.width}}" height="{{model.height}}" class="image" src="{{ model.contentUrl | convertImageUri(320, useIiifOrigin) }}"
 alt="{% if model.alt %} {{ model.alt | striptags() }}{% elif model.caption %} {{ model.caption | striptags() }}{% endif %}" />
 </noscript>
 
@@ -21,10 +20,10 @@ alt="{% if model.alt %} {{ model.alt | striptags() }}{% elif model.caption %} {{
     promo__image-mask {{data.clipPathClass}}
   {% endif %}
   "
-  src="{{ model.contentUrl | convertImageUri(defaultSize, useIiif, useIiifOrigin) }}"
+  src="{{ model.contentUrl | convertImageUri(defaultSize, useIiifOrigin) }}"
   data-srcset="
   {%- for size in sizes -%}
-    {{ comma() }}{{ model.contentUrl | convertImageUri(size, useIiif, useIiifOrigin) }} {{ size }}w
+    {{ comma() }}{{ model.contentUrl | convertImageUri(size, useIiifOrigin) }} {{ size }}w
   {%- endfor %}"
   {% if data.sizesQueries %}
     sizes="{{ data.sizesQueries }}"

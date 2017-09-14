@@ -1,4 +1,3 @@
-{% set useIiif = featuresCohort | isFlagEnabled('useIiif', featureFlags) %}
 {% set useIiifOrigin = featuresCohort | isFlagEnabled('imagesFromOrigin', featureFlags) %}
 {% set comma = joiner() %}
 
@@ -9,12 +8,12 @@
       {% if data.lazyload %}
         data-srcset="
         {%- for size in sizes -%}
-          {{ comma() }}{{ image.contentUrl | convertImageUri(size, useIiif, useIiifOrigin) }} {{ size }}w
+          {{ comma() }}{{ image.contentUrl | convertImageUri(size, useIiifOrigin) }} {{ size }}w
         {%- endfor %}"
       {% else %}
         srcset="
         {%- for size in sizes -%}
-          {{ comma() }}{{ image.contentUrl | convertImageUri(size, useIiif, useIiifOrigin) }} {{ size }}w
+          {{ comma() }}{{ image.contentUrl | convertImageUri(size, useIiifOrigin) }} {{ size }}w
         {%- endfor %}"
       {% endif %}>
 
@@ -24,9 +23,9 @@
         width="{{ image.width }}"
         class="image {{ 'lazy-image lazyload' if data.lazyload }}"
         {% if data.lazyload %}
-          data-src="{{ image.contentUrl | convertImageUri(image.width, useIiif, useIiifOrigin) }}"
+          data-src="{{ image.contentUrl | convertImageUri(image.width, useIiifOrigin) }}"
         {% else %}
-          src="{{ image.contentUrl | convertImageUri(image.width, useIiif, useIiifOrigin) }}"
+          src="{{ image.contentUrl | convertImageUri(image.width, useIiifOrigin) }}"
         {% endif %}
         alt="{{ image.alt }}" />
     {% endif %}
