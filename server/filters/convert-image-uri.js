@@ -6,13 +6,11 @@ const imageMap = {
   },
   prismic: {
     root: 'https://prismic-io.s3.amazonaws.com/wellcomecollection/',
-    imigixRoot: 'https://wellcomecollection-prismic.imgix.net',
     iiifRoot: 'https://iiif.wellcomecollection.org/image/prismic:',
     iiifOriginRoot: 'https://iiif-origin.wellcomecollection.org/image/prismic:'
   },
   miro: {
     root: 'https://s3-eu-west-1.amazonaws.com/miro-images-public/',
-    imigixRoot: 'https://wellcomecollection-miro-images.imgix.net',
     iiifRoot: 'https://iiif.wellcomecollection.org/image/',
     iiifOriginRoot: 'https://iiif-origin.wellcomecollection.org/image/'
   },
@@ -53,17 +51,13 @@ function convertPathToWordpressUri(originalUriPath, size) {
   return originalUriPath + `?w=${size}`;
 }
 
-function convertPathToImgixUri(originalUriPath, imgixRoot, size) {
-  return `${imgixRoot}/${originalUriPath}?w=${size}`;
-}
-
 function convertPathToIiifUri(originalUriPath, iiifRoot, size) {
   const isFullSize = size === 'full';
   const format = determineFinalFormat(originalUriPath);
   return `${iiifRoot}${originalUriPath}/full/${size}${isFullSize ? '' : ','}/0/default.${format}`;
 }
 
-export default function convertImageUri(originalUri, requiredSize, useIiif, useIiifOrigin) {
+export default function convertImageUri(originalUri, requiredSize, useIiifOrigin) {
   if (originalUri) {
     const imageSrc = determineSrc(originalUri);
     const isGif = determineIfGif(originalUri);
@@ -71,18 +65,16 @@ export default function convertImageUri(originalUri, requiredSize, useIiif, useI
     if (imageSrc === 'unknown') {
       return originalUri;
     } else {
-      if (useIiif && !isGif) {
+      if (!isGif) {
         const imagePath = imageSrc === 'miro' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[1] : imageSrc === 'iiif' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[0] : originalUri.split(imageMap[imageSrc].root)[1];
         const iiifRoot = useIiifOrigin ? imageMap[imageSrc].iiifOriginRoot : imageMap[imageSrc].iiifRoot;
 
         return convertPathToIiifUri(imagePath, iiifRoot, requiredSize);
       } else {
-        if (imageSrc === 'iiif') { // we have to use the iiif uri as that is all we have
-          return originalUri;
-        } else if (imageSrc === 'wordpress') {
+        if (imageSrc === 'wordpress') {
           return convertPathToWordpressUri(originalUri, requiredSize);
         } else {
-          return convertPathToImgixUri(originalUri.split(imageMap[imageSrc].root)[1], imageMap[imageSrc].imigixRoot, requiredSize);
+          return originalUri;
         }
       }
     }

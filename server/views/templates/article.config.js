@@ -40,7 +40,7 @@ const smallPicture = createPicture({
   author: 'Jo Bloggs',
   source: {
     name: 'Wellcome Collection',
-    link: 'https://next.wellcomecollection.org/works/wygx8v4v'
+    link: 'https://wellcomecollection.org/works/wygx8v4v'
   },
   license: 'CC-BY',
   copyright: {

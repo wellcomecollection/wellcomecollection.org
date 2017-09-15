@@ -39,11 +39,11 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
   const standfirst = bodyParts.find(p => p.type === 'standfirst');
   const imageGallery = bodyParts.find(p => p.type === 'imageGallery');
 
-  const relatedContent = exhibition.data.related;
-  const relatedArticles = relatedContent.filter(x => x.type === 'article').map(exhibitionPromoToPromo);
-  const relatedEvents = relatedContent.filter(x => x.type === 'event').map(exhibitionPromoToPromo);
-  const relatedBooks = relatedContent.filter(x => x.type === 'book').map(exhibitionPromoToPromo);
-  const relatedGalleries = relatedContent.filter(x => x.type === 'gallery').map(exhibitionPromoToPromo);
+  const promoList = exhibition.data.promoList;
+  const relatedArticles = promoList.filter(x => x.type === 'article').map(exhibitionPromoToPromo);
+  const relatedEvents = promoList.filter(x => x.type === 'event').map(exhibitionPromoToPromo);
+  const relatedBooks = promoList.filter(x => x.type === 'book').map(exhibitionPromoToPromo);
+  const relatedGalleries = promoList.filter(x => x.type === 'gallery').map(exhibitionPromoToPromo);
 
   const sizeInKb = Math.round(exhibition.data.textAndCaptionsDocument.size / 1024);
   const textAndCaptionsDocument = Object.assign({}, exhibition.data.textAndCaptionsDocument, {sizeInKb});
