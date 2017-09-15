@@ -292,6 +292,14 @@
   border-radius: $border-radius-unit;
 }
 
+.rounded-top-left {
+  border-top-left-radius: $border-radius-unit;
+}
+
+.rounded-bottom-right {
+  border-bottom-right-radius: $border-radius-unit;
+}
+
 .round {
   border-radius: 50%;
 }

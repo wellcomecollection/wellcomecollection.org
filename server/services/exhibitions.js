@@ -5,6 +5,17 @@ import {prismicImageToPicture, convertContentToBodyParts} from '../services/pris
 import {RichText} from 'prismic-dom';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import getBreakpoint from '../filters/get-breakpoint';
+import type {Promo} from '../model/promo';
+
+function exhibitionPromoToPromo(item) {
+  return ({
+    contentType: item.type,
+    url: item.link.url,
+    title: item.title[0].text,
+    description: item.description[0].text,
+    image: prismicImageToPicture(item)
+  } : Promo);
+};
 
 function exhibitionPromoToPromo(item) {
   const promo = {
@@ -35,6 +46,7 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
   const bodyParts = convertContentToBodyParts(exhibition.data.body);
   const video = bodyParts.find(p => p.type === 'video-embed');
   const text = bodyParts.find(p => p.type === 'text');
+  const standfirst = bodyParts.find(p => p.type === 'standfirst');
   const imageGallery = bodyParts.find(p => p.type === 'imageGallery');
 
   const relatedContent = exhibition.data.related;
@@ -53,6 +65,7 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
     accessStatements: exhibition.data.accessStatements,
     description: exhibition.data.description && RichText.asHtml(exhibition.data.description),
     video: video,
+    standfirst: standfirst,
     text: text,
     imageGallery: imageGallery,
     galleryLevel: exhibition.data.gallery_level,

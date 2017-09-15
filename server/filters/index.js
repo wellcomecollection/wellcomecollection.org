@@ -30,7 +30,8 @@ import {
   formatDateRangeWithMessage,
   formatDateWithComingSoon,
   formatAndDedupeOnDate,
-  formatAndDedupeOnTime
+  formatAndDedupeOnTime,
+  formatDateRangeWithColor
 } from './format-date';
 import getLicenseInfo from './get-license-info';
 import getTaslMarkup from './get-tasl-markup';
@@ -60,6 +61,7 @@ export default Map({
   formatDateWithComingSoon,
   formatAndDedupeOnDate,
   formatAndDedupeOnTime,
+  formatDateRangeWithColor,
   isFlagEnabled,
   objectAssign,
   arrayFromObject,

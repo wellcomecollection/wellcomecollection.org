@@ -35,24 +35,30 @@
     <div class="exhibition-hero">
       {% componentV2 'picture', {images: exhibition.featuredImages}, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
 
-      <div class="exhibition-hero__copy">
+      <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">
         <div class="is-hidden-m is-hidden-l is-hidden-xl">
           {% component 'wobbly-edge', {background: 'white'} %}
         </div>
-        <div class="container bg-white {{ {m:0} | spacingClasses({margin: ['top', 'right', 'bottom', 'left'], padding: ['top', 'right', 'bottom', 'left']}) }}">
+
+        <div class="container {{ {m:0} | spacingClasses({padding: ['left']}) }}">
           <div class="grid">
             <div class="{{ {s:12} | gridClasses }}">
-
-              <div class="bg-white inline-block {{ {m:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }}">
-                <div class="flex flex--v-center font-elf-green {{ {s:'HNM4', m:'HNM5', l:'HNM4'} | fontClasses }}">
-                  {% icon 'other/ticket', null, ['icon--2x', 'icon--teal'] %}
-                  <strong class="caps {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free</strong>
-                  {% if exhibition.end %}
+              <div class="bg-white inline-block exhibition-hero__box {{ {m:3, l:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }} rounded-top-left rounded-bottom-right">
+                <div class="flex flex--v-center flex--h-space-between {{ {s:'HNM4', m:'HNM5', l:'HNM4'} | fontClasses }}">
+                  <span class="flex flex--v-center">
+                    {% icon 'other/ticket', null, ['icon--2x'] %}
+                    <strong class="{{ {s:'WB7', l:'WB6'} | fontClasses }} caps {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free</strong>
+                  </span>
+                  <span class="flex flex--v-center">
+                    <span class="{{ {s:2} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
+                      {% set statusColor = 'icon--' + {start: exhibition.start, end: exhibition.end} | formatDateRangeWithColor %}
+                      {% icon 'other/status-indicator', null, [statusColor] %}
+                    </span>
                     <strong>{{ {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage }}</strong>
-                  {% endif %}
+                  </span>
                 </div>
-                <h1 class="{{ {s:'WB4', m:'WB5', l:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
-                <span class="{{ {s:'HNM4', m:'HNM5', l:'HNM3'} | fontClasses }}">
+                <h1 class="{{ {s:'WB5', m:'WB6', l:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
+                <span class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
                   {% if exhibition.end %}
                     <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time> &ndash; <time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
                   {% else %}
@@ -60,66 +66,67 @@
                   {% endif %}
                 </span>
               </div>
-
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
 
-    {# {% componentV2 'image', exhibition.featuredImage, {}, {lazyload: true} %} #}
     <div class="is-hidden-s">
-      {% component 'wobbly-edge', {background: 'white'} %}
+      {% component 'wobbly-edge', {background: 'white', intensity: 30} %}
     </div>
   </div>
 
-  <div class="row {{ {s:5} | spacingClasses({padding: ['top']}) }}">
+  <div class="row {{ {s:5} | spacingClasses({margin: ['top']}) }}">
     <div class="container">
       <div class="grid">
-        <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:'HNL3', m:'HNL2'} | fontClasses}} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+        <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+          {% if exhibition.standfirst %}
+            {% component 'standfirst', {body: exhibition.standfirst.value | safe} %}
+          {% endif %}
           {% block exhibitionDescription %}
             {{ exhibition.text.value | safe }}
           {% endblock %}
         </div>
         <div class="{{ {s:12, m:10, shiftM:1, l:5, xl:5} | gridClasses }}">
+          <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
           <div class="drawer js-show-hide"
             data-track-action="opening-times-drawer">
-            <button class="plain-button no-padding pointer js-show-hide-trigger font-elf-green {{ {s:4} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5'} | fontClasses }}">{% icon 'actions/more-2', null, ['icon--elf-green'] %}Opening times</button>
+            <button class="plain-button no-padding pointer js-show-hide-trigger font-elf-green {{ {s:4} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5'} | fontClasses }}">
+              <span class="flex flex--v-center">{% icon 'actions/more-2', null, ['icon--elf-green', 'margin-right-s1'] %}Opening times</span>
+            </button>
             <div class="drawer__body js-show-hide-drawer">
               {% componentV2 'opening-hours', {places: pageConfig.openingHours, id: 'exhibition-page'}, {'light': true, 'compressed': true} %}
             </div>
           </div>
           <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
           {% block accessStatements %}
-            <h2 class="{{ {s:'HNM4'} | fontClasses }}">Accessibility information</h2>
+            <h2 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Accessibility information</h2>
             {% if exhibition.galleryLevel %}
               <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/lifts' %}</div>
+                <div class="{{ {s:2} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/lifts', null, ['icon--1point5x'] %}</div>
                 <p class="no-margin">This exhibition is on level {{ exhibition.galleryLevel }}</p>
               </div>
             {% endif %}
             <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-              <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y' %}</div>
+              <div class="{{ {s:2} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y', null, ['icon--1point5x'] %}</div>
               <p class="no-margin">Step-free access is available to all floors of the building</p>
             </div>
             <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-              <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y_visual' %}</div>
-              <p>Magnifying glasses and sheets are available to borrow inside the gallery</p>
+              <div class="{{ {s:2} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y_visual', null, ['icon--1point5x'] %}</div>
+              <p class="no-margin">Magnifying glasses and sheets are available to borrow inside the gallery</p>
             </div>
             {% for statement in exhibition.accessStatements %}
               <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon statement.value.slug | getA11yIcon %}</div>
+                <div class="{{ {s:2} | spacingClasses({margin:['right']}) }}">{% icon statement.value.slug | getA11yIcon %}</div>
                 {{ statement.value.data.description | prismicAsHtml | safe  }}
               </div>
             {% endfor %}
-
-            <p class="{{ {s:'HNL4'} | fontClasses}}">
-              <a class="plain-link font-elf-green" href="https://wellcomecollection.org/visit-us/accessibility" class="font-elf-green">Find out more about accessiblity</a>
-            </p>
+            <div class="{{ {s:4} | spacingClasses({margin: ['top', 'bottom']}) }}">
+              {% componentV2 'more-info-link', {name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
+            </div>
           {% endblock %}
-
 
           <hr class="divider divider--pumice divider--keyline" />
         </div>
@@ -128,7 +135,7 @@
   </div>
 
   {% if exhibition.video %}
-    <div class="row bg-black {{ {s:2} | spacingClasses({padding: ['top'], margin: ['bottom']}) }}">
+    <div class="row bg-black {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
       <div class="container">
         <div class="grid">
           <div class="{{ {s:12, m:8, shiftM:2, l:8, shiftL:2, xl:6, shiftXl:3} | gridClasses }}">
@@ -143,37 +150,29 @@
   {% endif %}
 
   {% if exhibition.imageGallery %}
-    <div class="row {{ {s:2} | spacingClasses({padding: ['top'], margin: ['bottom']}) }}">
+    <div class="row {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
       <div class="container">
-        {% component 'image-gallery', { imageGallery: exhibition.imageGallery.value, id: 'article-body-image-gallery--' + exhibition.id } %}
-      </div>
-    </div>
-  {% endif %}
-
-{% macro relatedMarkup(promoList, promoType, promoComponent, gridSizes, data) %}
-  {% if promoList.length > 0 %}
-    <div class="row">
-      <div class="container">
-        <h2 class="{{ {s:'WB4'} | fontClasses }}">Related {{promoType}}</h2>
         <div class="grid">
-          {% for promo in promoList %}
-            <div class="{{ gridSizes | gridClasses }}">
-              {% componentV2 promoComponent, promo,  {}, data %}
-            </div>
-          {% endfor %}
+          {% component 'image-gallery', { imageGallery: exhibition.imageGallery.value, id: 'article-body-image-gallery--' + exhibition.id } %}
         </div>
       </div>
     </div>
   {% endif %}
-{% endmacro %}
 
   {% if exhibition.relatedGalleries.length > 0 %}
-    <div class="row {{ {s:10} | spacingClasses({padding: ['bottom']}) }} {{ {s:5} | spacingClasses({padding: ['top']}) }}">
+    <div class="row {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
       <div class="container">
-        <h2 class="{{ {s:'WB4'} | fontClasses }}">Gallery highlights</h2>
+        <div class="grid">
+          <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+            <h2 class="{{ {s:'WB4'} | fontClasses }} flex flex--v-center {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">{% icon 'actions/gallery-link', null, ['margin-right-s2'] %}Gallery highlights</h2>
+          </div>
+        </div>
         <div class="grid">
           {% for promo in exhibition.relatedGalleries %}
             <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+              <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
+                {% componentV2 'more-info-link', {name: 'View all images', url: promo.url} %}
+              </div>
               <a href="{{ promo.url }}">
                 {% componentV2 'image', promo.image, null, {'lazyload': true, sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
               </a>
@@ -184,11 +183,36 @@
     </div>
   {% endif %}
 
-{{ relatedMarkup(exhibition.relatedBooks, 'books', 'book-promo', {s:12, m:6, l:6, xl:6}, {'lazyload': true, index: loop.index, total: loop.total, sizesQueries: '(min-width: 960px) 178px, 127px'}) }}
+  {% macro relatedMarkup(promoList, promoType, promoComponent, gridSizes, data) %}
+    {% if promoList.length > 0 %}
+      <div class="row">
+        <div class="container">
+          <div class="grid">
+            <div class="{{ {s:12} | gridClasses }}">
+              <h2 class="{{ {s:'WB4'} | fontClasses }}">Related {{promoType}}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="container container--scroll">
+          <div class="grid grid--scroll">
+            {% for promo in promoList %}
+              <div class="{{ gridSizes | gridClasses }}">
+                {% componentV2 promoComponent, promo,  {}, data %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endmacro %}
 
-{{ relatedMarkup(exhibition.relatedEvents, 'events', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
+  {{ relatedMarkup(exhibition.relatedBooks, 'books', 'book-promo', {s:12, m:6, l:6, xl:6}, {'lazyload': true, index: loop.index, total: loop.total, sizesQueries: '(min-width: 960px) 178px, 127px'}) }}
 
-{{ relatedMarkup(exhibition.relatedArticles, 'articles', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
+  {{ relatedMarkup(exhibition.relatedEvents, 'events', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
+
+  {{ relatedMarkup(exhibition.relatedArticles, 'articles', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
 
 </article>
 {% endblock %}

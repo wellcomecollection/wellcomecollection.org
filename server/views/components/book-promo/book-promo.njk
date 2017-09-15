@@ -1,5 +1,4 @@
 {% set hasLink = model.url %}
-<div class="test">
 <{{'a' if hasLink else 'div'}}
 class="book-promo {{ {s:4, m:5} | spacingClasses({margin: ['bottom']}) }}"
 {% if hasLink %} href="{{model.url}}"{% endif %}>
@@ -21,4 +20,3 @@ class="book-promo {{ {s:4, m:5} | spacingClasses({margin: ['bottom']}) }}"
     {% endif %}
   </div>
 </{{'a' if hasLink else 'div'}}>
-</div>
