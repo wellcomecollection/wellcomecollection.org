@@ -5,15 +5,16 @@ import {prismicImageToPicture, convertContentToBodyParts} from '../services/pris
 import {RichText} from 'prismic-dom';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import getBreakpoint from '../filters/get-breakpoint';
+import type {Promo} from '../model/promo';
 
 function exhibitionPromoToPromo(item) {
-  const promo = {
+  return ({
+    contentType: item.type,
     url: item.link.url,
-    title: item.title[0].text, // why is title an array?
+    title: item.title[0].text,
     description: item.description[0].text,
     image: prismicImageToPicture(item)
-  };
-  return promo;
+  } : Promo);
 };
 
 export async function getExhibition(id: string, previewReq: ?Request): Promise<?Exhibition> {
