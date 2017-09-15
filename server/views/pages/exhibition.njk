@@ -102,7 +102,7 @@
           </div>
           <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
           {% block accessStatements %}
-            <h2 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Accessibility information</h2>
+            <h2 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Access information</h2>
             {% if exhibition.galleryLevel %}
               <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
                 <div class="{{ {s:2} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/lifts', null, ['icon--1point5x'] %}</div>
@@ -123,7 +123,11 @@
                 {{ statement.value.data.description | prismicAsHtml | safe  }}
               </div>
             {% endfor %}
-            <div class="{{ {s:4} | spacingClasses({margin: ['top', 'bottom']}) }}">
+            <a href="#" class="plain-link font-mint flex {{ {s:5} | spacingClasses({margin: ['top']}) }} {{ {s:'HNM4'} | fontClasses}}">
+              <div class="{{ {s:2} | spacingClasses({margin:['right']}) }}">{% icon 'formats/pdf_download', null, ['icon--mint'] %}</div>
+              <span class="no-margin">Exhibition text and captions (pdf 127KB)</span>
+            </a>
+            <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
               {% componentV2 'more-info-link', {name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
             </div>
           {% endblock %}
