@@ -1,0 +1,22 @@
+{% set hasLink = model.url %}
+<{{'a' if hasLink else 'div'}}
+class="book-promo {{ {s:4, m:5} | spacingClasses({margin: ['bottom']}) }}"
+{% if hasLink %} href="{{model.url}}"{% endif %}>
+  <div class="book-promo__image-container {{ {s:4} | spacingClasses({padding: ['top', 'left']}) }}">
+    {% componentV2 'image', model.image, {}, {lazyload: true} %}
+  </div>
+  <div class="book-promo__text-container {{ {s:4} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }}">
+    {% if data.index and data.total and data.total > 1 %}
+      <p class="book-promo__item-number {{ {s:'HNM4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{data.index}}/{{data.total}}</p>
+    {% endif %}
+    {% if model.title %}
+      <h3 class="book-promo__title {{ {s:'HNM3'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{model.title}}</h3>
+    {% endif %}
+    {% if model.subTitle %}
+      <h4 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{model.subTitle}}</h4>
+    {% endif %}
+    {% if model.description %}
+       <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:0} | spacingClasses({margin: ['bottom']}) }}">{{model.description}}</p>
+    {% endif %}
+  </div>
+</{{'a' if hasLink else 'div'}}>

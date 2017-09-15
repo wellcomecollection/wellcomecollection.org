@@ -4,14 +4,18 @@ export type ContentType =
   | 'article'
   | 'audio'
   | 'video'
-  | 'gallery'; // So far we use article, comic and video
+  | 'gallery'
+  | 'book'
+  | 'event';
 
 const contentTypeMap = {
   'standard': 'article',
   'image': 'comic',
   'video': 'video',
   'audio': 'audio',
-  'gallery': 'gallery'
+  'gallery': 'gallery',
+  'book': 'book',
+  'event': 'event'
 };
 
 export function getContentType(wpType: string): ContentType {

@@ -5,6 +5,17 @@ import {prismicImageToPicture, convertContentToBodyParts} from '../services/pris
 import {RichText} from 'prismic-dom';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import getBreakpoint from '../filters/get-breakpoint';
+import type {Promo} from '../model/promo';
+
+function exhibitionPromoToPromo(item) {
+  return ({
+    contentType: item.type,
+    url: item.link.url,
+    title: item.title[0].text,
+    description: item.description[0].text,
+    image: prismicImageToPicture(item)
+  } : Promo);
+};
 
 export async function getExhibition(id: string, previewReq: ?Request): Promise<?Exhibition> {
   const prismic: IApi = previewReq ? await prismicPreviewApi(previewReq) : await prismicApi();
@@ -28,6 +39,12 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
   const standfirst = bodyParts.find(p => p.type === 'standfirst');
   const imageGallery = bodyParts.find(p => p.type === 'imageGallery');
 
+  const relatedContent = exhibition.data.related;
+  const relatedArticles = relatedContent.filter(x => x.type === 'article').map(exhibitionPromoToPromo);
+  const relatedEvents = relatedContent.filter(x => x.type === 'event').map(exhibitionPromoToPromo);
+  const relatedBooks = relatedContent.filter(x => x.type === 'book').map(exhibitionPromoToPromo);
+  const relatedGalleries = relatedContent.filter(x => x.type === 'gallery').map(exhibitionPromoToPromo);
+
   return ({
     blockType: 'exhibitions',
     id: exhibition.id,
@@ -41,6 +58,10 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
     standfirst: standfirst,
     text: text,
     imageGallery: imageGallery,
-    galleryLevel: exhibition.data.gallery_level
+    galleryLevel: exhibition.data.gallery_level,
+    relatedBooks: relatedBooks,
+    relatedEvents: relatedEvents,
+    relatedGalleries: relatedGalleries,
+    relatedArticles: relatedArticles
   }: Exhibition);
 }
