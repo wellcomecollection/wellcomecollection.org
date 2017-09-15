@@ -96,11 +96,8 @@
 }
 
 .width-1-em {
-  width: 1em;
-}
-
-.width-1point5-em {
-  width: 1em;
+  min-width: 1em;
+  max-width: 1em;
 }
 
 // Adds momentum scrolling to iOS
