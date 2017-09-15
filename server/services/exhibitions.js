@@ -45,6 +45,9 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
   const relatedBooks = promoList.filter(x => x.type === 'book').map(exhibitionPromoToPromo);
   const relatedGalleries = promoList.filter(x => x.type === 'gallery').map(exhibitionPromoToPromo);
 
+  const sizeInKb = Math.round(exhibition.data.textAndCaptionsDocument.size / 1024);
+  const textAndCaptionsDocument = Object.assign({}, exhibition.data.textAndCaptionsDocument, {sizeInKb});
+
   return ({
     blockType: 'exhibitions',
     id: exhibition.id,
@@ -59,6 +62,7 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
     text: text,
     imageGallery: imageGallery,
     galleryLevel: exhibition.data.gallery_level,
+    textAndCaptionsDocument: textAndCaptionsDocument,
     relatedBooks: relatedBooks,
     relatedEvents: relatedEvents,
     relatedGalleries: relatedGalleries,
