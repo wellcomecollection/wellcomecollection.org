@@ -1,6 +1,6 @@
 # wellcomecollection.org
 
-The new home of the next.wellcomecollection.org website.
+The thing that makes the Wellcome Collection available to the public.
 
 ## Requirements
 
