@@ -2,38 +2,31 @@
 .book-promo {
   display: block;
   text-decoration: none;
-
-  @include container-query(('m': ('6'))) {
-    margin-bottom: 0;
-  }
+  background: color('cream');
 
   @include container-query(('l': ('6'), 'xl': ('6'))) {
-    background: color('smoke');
     display: flex;
     align-items: flex-start;
-    padding-bottom: (map-get($gutter-width, 'medium'));
   }
 }
 
 .book-promo__image-container {
-  background: color('transparent');
+
+  margin-top: -(60px + ($spacing-unit * 4));
+
+  @include container-query(('l': ('6'), 'xl': ('6'))) {
+    margin-bottom: 0;
+  }
+
   .image {
     width: 127px;
 
     @include container-query(('l': ('6'), 'xl': ('6'))) {
       width: 178px;
       min-width: 178px;
+      margin-bottom: 0;
     }
-  }
-}
 
-.book-promo__text-container {
-  background: color('smoke');
-  margin-top: -(map-get($gutter-width, 'small'));
-  padding-top: (map-get($gutter-width, 'small'))*2;
-
-  @include container-query(('l': ('6'), 'xl': ('6'))) {
-    background: none;
   }
 }
 
