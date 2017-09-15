@@ -208,12 +208,11 @@
     {% endif %}
   {% endmacro %}
 
-  {{ relatedMarkup(exhibition.relatedBooks, 'books', 'book-promo', {s:12, m:6, l:6, xl:6}, {'lazyload': true, index: loop.index, total: loop.total, sizesQueries: '(min-width: 960px) 178px, 127px'}) }}
-
   {{ relatedMarkup(exhibition.relatedEvents, 'events', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
 
   {{ relatedMarkup(exhibition.relatedArticles, 'articles', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
 
+  {{ relatedMarkup(exhibition.relatedBooks, 'books', 'book-promo', {s:12, m:6, l:6, xl:6}, {'lazyload': true, index: loop.index, total: loop.total, sizesQueries: '(min-width: 960px) 178px, 127px'}) }}
 </article>
 {% endblock %}
 
