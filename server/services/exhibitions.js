@@ -62,7 +62,7 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
     text: text,
     imageGallery: imageGallery,
     galleryLevel: exhibition.data.gallery_level,
-    textAndCaptionsDocument: textAndCaptionsDocument,
+    textAndCaptionsDocument: textAndCaptionsDocument.url && textAndCaptionsDocument,
     relatedBooks: relatedBooks,
     relatedEvents: relatedEvents,
     relatedGalleries: relatedGalleries,
