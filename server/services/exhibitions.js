@@ -17,16 +17,6 @@ function exhibitionPromoToPromo(item) {
   } : Promo);
 };
 
-function exhibitionPromoToPromo(item) {
-  const promo = {
-    url: item.link.url,
-    title: item.title[0].text, // why is title an array?
-    description: item.description[0].text,
-    image: prismicImageToPicture(item)
-  };
-  return promo;
-};
-
 export async function getExhibition(id: string, previewReq: ?Request): Promise<?Exhibition> {
   const prismic: IApi = previewReq ? await prismicPreviewApi(previewReq) : await prismicApi();
   const fetchLinks = [
