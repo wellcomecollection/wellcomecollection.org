@@ -105,27 +105,27 @@
             <h2 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Access information</h2>
             {% if exhibition.galleryLevel %}
               <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-                <div class="{{ {s:2} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/lifts', null, ['icon--1point5x'] %}</div>
+                <div class="width-1point5-em {{ {s:2} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/lifts', null, ['icon--1point5x'] %}</div>
                 <p class="no-margin">This exhibition is on level {{ exhibition.galleryLevel }}</p>
               </div>
             {% endif %}
             <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-              <div class="{{ {s:2} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y', null, ['icon--1point5x'] %}</div>
+              <div class="width-1point5-em {{ {s:2} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y', null, ['icon--1point5x'] %}</div>
               <p class="no-margin">Step-free access is available to all floors of the building</p>
             </div>
             <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-              <div class="{{ {s:2} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y_visual', null, ['icon--1point5x'] %}</div>
+              <div class="width-1point5-em {{ {s:2} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y_visual', null, ['icon--1point5x'] %}</div>
               <p class="no-margin">Magnifying glasses and sheets are available to borrow inside the gallery</p>
             </div>
             {% for statement in exhibition.accessStatements %}
               <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-                <div class="{{ {s:2} | spacingClasses({margin:['right']}) }}">{% icon statement.value.slug | getA11yIcon %}</div>
+                <div class="width-1point5-em {{ {s:2} | spacingClasses({margin:['right']}) }}">{% icon statement.value.slug | getA11yIcon %}</div>
                 {{ statement.value.data.description | prismicAsHtml | safe  }}
               </div>
             {% endfor %}
-            <a href="#" class="plain-link font-mint flex {{ {s:5} | spacingClasses({margin: ['top']}) }} {{ {s:'HNM4'} | fontClasses}}">
-              <div class="{{ {s:2} | spacingClasses({margin:['right']}) }}">{% icon 'formats/pdf_download', null, ['icon--mint'] %}</div>
-              <span class="no-margin">Exhibition text and captions (pdf 127KB)</span>
+            <a href="#" class="plain-link font-mint flex {{ {s:5} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses}}">
+              <div class="width-1-em {{ {s:1} | spacingClasses({margin:['right']}) }} flex flex--v-center">{% icon 'formats/pdf_download', null, ['icon--mint'] %}</div>
+              <span>Exhibition text and captions (pdf 127KB)</span>
             </a>
             <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
               {% componentV2 'more-info-link', {name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
