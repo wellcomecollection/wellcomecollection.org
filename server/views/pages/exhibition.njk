@@ -123,16 +123,19 @@
                 {{ statement.value.data.description | prismicAsHtml | safe  }}
               </div>
             {% endfor %}
-            {% if exhibition.textAndCaptionsDocument %}
-              <a href="/download?uri={{ exhibition.textAndCaptionsDocument.url }}"
-                download="{{ exhibition.textAndCaptionsDocument.name }}"
-                class="plain-link font-mint flex {{ {s:5} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses}}">
-                <div class="width-1-em {{ {s:1} | spacingClasses({margin:['right']}) }} flex flex--v-center">{% icon 'formats/pdf_download', null, ['icon--mint'] %}</div>
-                <span>Download exhibition texts (PDF {{ exhibition.textAndCaptionsDocument.sizeInKb }}KB)</span>
-              </a>
-            {% endif %}
-            <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-              {% componentV2 'more-info-link', {name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
+
+            <div class="{{ {s:5} | spacingClasses({margin: ['top']}) }}">
+              {% if exhibition.textAndCaptionsDocument %}
+                <a href="/download?uri={{ exhibition.textAndCaptionsDocument.url }}"
+                  download="{{ exhibition.textAndCaptionsDocument.name }}"
+                  class="plain-link font-mint flex {{ {s:1} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses}}">
+                  <div class="width-1-em {{ {s:1} | spacingClasses({margin:['right']}) }} flex flex--v-center">{% icon 'formats/pdf_download', null, ['icon--mint'] %}</div>
+                  <span>Download exhibition texts (PDF {{ exhibition.textAndCaptionsDocument.sizeInKb }}KB)</span>
+                </a>
+              {% endif %}
+              <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+                {% componentV2 'more-info-link', {name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
+              </div>
             </div>
           {% endblock %}
 
