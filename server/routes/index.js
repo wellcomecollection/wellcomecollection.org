@@ -26,7 +26,12 @@ r.get('/kaboom', (ctx, next) => {
 });
 r.get('/download', (ctx, next) => {
   const uri = ctx.request.query.uri;
-  if (uri.match('https://iiif.wellcomecollection.org') || uri.match('https://prismic-io.s3.amazonaws.com/wellcomecollection')) {
+  const allowedDomains = [
+    'https://iiif.wellcomecollection.org',
+    'https://prismic-io.s3.amazonaws.com/wellcomecollection'
+  ];
+
+  if (uri.match(new RegExp(allowedDomains.join('|')))) {
     ctx.body = request(uri);
   } else {
     ctx.throw('Invalid image host', 422);
