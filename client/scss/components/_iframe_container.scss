@@ -1,11 +1,11 @@
-.iframed-video {
+.iframe-container {
   position: relative;
   padding-bottom: 56.25%; /* 16:9 */
   height: 0;
   margin-bottom: $vertical-space-unit;
 }
 
-.iframed-video__iframe {
+.iframe-container__iframe {
   position: absolute;
   top: 0;
   left: 0;
