@@ -64,7 +64,7 @@
 
           <a
             class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-link font-elf-green flex flex--v-center"
-            href="/download?uri={{ work.imgLink | convertImageUri('full', true) | urlencode }}"
+            href="/download?uri={{ work.imgLink | convertImageUri('full', false) | urlencode }}"
             download="{{ work.id }}.jpg"
             rel="noopener noreferrer"
             data-track-event='{"category": "component", "action": "download-button:click", "label": "id:{{ work.id }}, size:original, title:{{ work.title | truncate(50) }}"}'>
@@ -76,7 +76,7 @@
 
           <a
             class="{{ {s:8} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-link font-elf-green flex flex--v-center"
-            href="/download?uri={{ work.imgLink | convertImageUri(760, true) | urlencode }}"
+            href="/download?uri={{ work.imgLink | convertImageUri(760, false) | urlencode }}"
             download="{{ work.id }}.jpg"
             rel="noopener noreferrer"
             data-track-event='{"category": "component", "action": "download-button:click", "label": "id:{{ work.id }}, size:760"}, title:{{ work.title | truncate(50) }}'>
