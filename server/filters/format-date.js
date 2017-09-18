@@ -1,33 +1,38 @@
 // @flow
+import 'moment-timezone';
 import moment from 'moment';
 import {List} from 'immutable';
 
+function london(d) {
+  return moment.tz(d, 'Europe/London');
+}
+
 export function formatDate(date: Date): string {
-  return moment(date).format('D MMMM YYYY');
+  return london(date).format('D MMMM YYYY');
 }
 
 export function formatDateTime(date: Date): string {
-  return moment(date).format('D MMMM YYYY HH:mm');
+  return london(date).format('D MMMM YYYY HH:mm');
 }
 
 export function formatTime(date: Date): string {
-  return moment(date).format('HH:mm');
+  return london(date).format('HH:mm');
 }
 
 export function formatDayDate(date: Date): string {
-  return moment(date).format('dddd D MMMM YYYY');
+  return london(date).format('dddd D MMMM YYYY');
 }
 
 export function formatDateWithComingSoon(date: Date): string {
-  const isFuture = moment().diff(date) < 0;
+  const isFuture = london().diff(date) < 0;
   return (isFuture ? 'Coming soon: ' : '') + formatDate(date);
 }
 
 function getRelativeTime({start, end}: {start: Date, end: Date}): {} {
-  const momentNow = moment();
-  const momentStart = moment(start);
-  const momentEnd = moment(end);
-  const momentWeekBeforeEnd = moment(end).subtract(7, 'd');
+  const momentNow = london();
+  const momentStart = london(start);
+  const momentEnd = london(end);
+  const momentWeekBeforeEnd = london(end).subtract(7, 'd');
   const isFuture = momentStart.isAfter(momentNow);
   const isPast = momentEnd.isBefore(momentNow);
   const isLastWeek = momentNow.isBetween(momentWeekBeforeEnd, momentEnd);
