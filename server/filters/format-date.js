@@ -49,7 +49,7 @@ export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date
   } else if (relativeTime.isLastWeek) {
     return 'Final week';
   } else {
-    return 'Open now';
+    return 'Current exhibition';
   }
 }
 

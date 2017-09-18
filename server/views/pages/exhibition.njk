@@ -175,14 +175,14 @@
       <div class="container">
         <div class="grid">
           <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
-            <h2 class="{{ {s:'WB4'} | fontClasses }} flex flex--v-center {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">{% icon 'actions/gallery-link', null, ['margin-right-s2'] %}Gallery highlights</h2>
+            <h2 class="{{ {s:'WB5', m:'WB6', l:'WB4', xl:'WB3'} | fontClasses }} flex flex--v-center {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">{% icon 'actions/gallery-link', null, ['margin-right-s2'] %}Exhibition highlights</h2>
           </div>
         </div>
         <div class="grid">
           {% for promo in exhibition.relatedGalleries %}
             <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
               <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
-                {% componentV2 'more-info-link', {name: 'View all images', url: promo.url} %}
+                {% componentV2 'more-info-link', {name: 'View highlights', url: promo.url} %}
               </div>
               <a href="{{ promo.url }}">
                 {% componentV2 'image', promo.image, null, {'lazyload': true, sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
@@ -194,13 +194,13 @@
     </div>
   {% endif %}
 
-  {% macro relatedMarkup(promoList, promoType, promoComponent, gridSizes, data) %}
+  {% macro relatedMarkup(promoList, heading, promoComponent, gridSizes, data) %}
     {% if promoList.length > 0 %}
       <div class="row">
         <div class="container">
           <div class="grid">
             <div class="{{ {s:12} | gridClasses }}">
-              <h2 class="{{ {s:'WB4'} | fontClasses }}">Related {{promoType}}</h2>
+              <h2 class="{{ {s:'WB5', m:'WB6', l:'WB4', xl:'WB3'} | fontClasses }}">{{ heading }}</h2>
             </div>
           </div>
         </div>
@@ -219,7 +219,7 @@
     {% endif %}
   {% endmacro %}
 
-  {{ relatedMarkup(exhibition.relatedEvents, 'events', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
+  {{ relatedMarkup(exhibition.relatedEvents, 'Workshops, talks and tours', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
 
   <div class="row">
     <div class="container">
@@ -227,7 +227,7 @@
     </div>
   </div>
 
-  {{ relatedMarkup(exhibition.relatedArticles, 'articles', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
+  {{ relatedMarkup(exhibition.relatedArticles, 'Read and explore', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
 
   <div class="row">
     <div class="container">
@@ -235,7 +235,7 @@
     </div>
   </div>
 
-  {{ relatedMarkup(exhibition.relatedBooks, 'books', 'book-promo', {s:12, m:6, l:6, xl:6}, {'lazyload': true, index: loop.index, total: loop.total, sizesQueries: '(min-width: 960px) 178px, 127px'}) }}
+  {{ relatedMarkup(exhibition.relatedBooks, 'From the bookshop', 'book-promo', {s:12, m:6, l:6, xl:6}, {'lazyload': true, index: loop.index, total: loop.total, sizesQueries: '(min-width: 960px) 178px, 127px'}) }}
 </article>
 {% endblock %}
 
