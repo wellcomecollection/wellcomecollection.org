@@ -92,6 +92,10 @@
                 <li><b>{{ item.when }}</b> {{ item.what }}</li>
               {% endfor %}
             </ul>
+          {% elif bodyPart.type === 'html' %}
+            {% for htmlPart in bodyPart.value %}
+              {{ htmlPart | safe }}
+            {% endfor %}
           {% else %}
             {{ bodyPart.value | safe }}
           {% endif %}
