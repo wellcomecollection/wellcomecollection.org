@@ -352,7 +352,15 @@ const contentSlider = (el, options) => {
         // caption could be on the 'more/less' controls
         if (!target.matches('img')) return;
 
-        updatePosition(parseInt(currentTarget.getAttribute(indexAttr), 10), positionArray);
+        const slideIndex = parseInt(currentTarget.getAttribute(indexAttr), 10);
+
+        trackGaEvent({
+          category: 'component',
+          action: `content-slider-image:click`,
+          label: `id:${id}, to-position:${getOneIndex(slideIndex)}, total-items:${sliderElements.slideImages.length}`
+        });
+
+        updatePosition(slideIndex, positionArray);
       });
     });
   }
