@@ -94,6 +94,8 @@
             </ul>
           {% elif bodyPart.type === 'iframe' %}
             {% componentV2 'iframe', bodyPart.value %}
+          {% elif bodyPart.type === 'audio' %}
+            {% componentV2 'audio', bodyPart.value %}
           {% else %}
             {{ bodyPart.value | safe }}
           {% endif %}
