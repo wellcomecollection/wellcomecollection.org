@@ -35,7 +35,8 @@ export const renderArticle = async(ctx, next) => {
           category: 'editorial',
           canonicalUri: `${ctx.globals.rootDomain}/articles/${id}`
         }), getEditorialAnalyticsInfo(article)),
-        article: article
+        article: article,
+        isPreview: preview
       });
     }
   }
@@ -118,7 +119,8 @@ export async function renderExhibition(ctx, next, overrideId) {
           contentType: 'exhibitions',
           canonicalUri: `${ctx.globals.rootDomain}/exhibitions/${exhibition.id}`
         }),
-        exhibition: exhibition
+        exhibition: exhibition,
+        isPreview: preview
       });
     }
   }

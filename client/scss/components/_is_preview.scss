@@ -1,0 +1,6 @@
+.is-preview {
+  [alt=''] {
+    background: repeating-linear-gradient(-45deg, color('orange-graphics'), color('orange-graphics') 10px, color('teal') 10px, color('teal') 20px);
+    padding: 50px;
+  }
+}

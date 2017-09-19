@@ -34,7 +34,7 @@
       <link rel="canonical" href="{{ pageConfig.canonicalUri }}" />
     {% endif %}
   </head>
-  <body>
+  <body {% if isPreview %}class="is-preview"{% endif %}>
     {% component 'skip-link' %}
 
     {% set navLinks = [
