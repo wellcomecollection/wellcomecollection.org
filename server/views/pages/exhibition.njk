@@ -14,7 +14,7 @@
 
 {% block body %}
 <script type="application/ld+json">
-  {{ exhibition | jsonLd('contentLd') | safe }}
+  {{ exhibition | jsonLd('exhibitionLd') | safe }}
 </script>
 
 <article itemscope itemtype="http://schema.org/ExhibitionEvent">

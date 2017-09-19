@@ -1,4 +1,4 @@
-import {wellcomeCollection} from '../model/organization';
+import {wellcomeCollection, wellcomeCollectionAddress} from '../model/organization';
 
 export function objToJsonLd<T>(obj: T, type: string, root: boolean = true) {
   const jsonObj = JSON.parse(JSON.stringify(obj));
@@ -19,6 +19,19 @@ export function contentLd(content) {
     publisher: orgLd(wellcomeCollection),
     mainEntityOfPage: `https://wellcomecollection.org${content.url}`
   }, 'Article');
+}
+
+export function exhibitionLd(content) {
+  return objToJsonLd({
+    name: content.title,
+    description: content.description,
+    image: content.featuredImages[0].contentUrl,
+    location: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false),
+    startDate: content.start,
+    endDate: content.end,
+    url: `https://wellcomecollection.org/exhibitions/${content.id}`,
+    isAccessibleForFree: true
+  }, 'ExhibitionEvent');
 }
 
 export function museumLd(museum) {
