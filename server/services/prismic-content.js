@@ -142,7 +142,6 @@ function parseArticleAsArticle(prismicArticle) {
   const description = promo && asText(promo.primary.caption); // TODO: Do not use description
   const contributors = getContributors(prismicArticle);
 
-
   const series = prismicArticle.data.series.length > 0 && prismicArticle.data.series.map(prismicSeries => {
     const seriesData = prismicSeries.primary.series.data;
     // TODO: Support commissionedLength and positionInSeries
