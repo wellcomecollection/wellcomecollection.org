@@ -22,6 +22,7 @@ type EventBookingEnquiryTeam = {|
 type EventContributorRole = 'sst-designer' | 'ad-designer'
 
 export type Event = {|
+  id: string;
   title: ?string;
   format: ?EventFormat;
   when: List<DateRange>;
@@ -37,5 +38,4 @@ export type Event = {|
     person: Person;
   }>;
   promo: ?ImagePromo;
-  featuredMedia: ?Picture;
 |}
