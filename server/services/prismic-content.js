@@ -305,11 +305,11 @@ export async function getArticleList(documentTypes = ['articles', 'webcomics']) 
   return articlesAsArticles;
 }
 
-function asText(maybeContent) {
+export function asText(maybeContent) {
   return maybeContent && RichText.asText(maybeContent).trim();
 }
 
-function asHtml(maybeContent) {
+export function asHtml(maybeContent) {
   return maybeContent && RichText.asHtml(maybeContent).trim();
 }
 

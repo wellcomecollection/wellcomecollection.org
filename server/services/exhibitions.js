@@ -1,11 +1,23 @@
 // @flow
-import type {Exhibition} from '../content-model/content-blocks';
+import type {Exhibition} from '../content-model/exhibition';
 import type {IApi} from 'prismic-javascript';
-import {prismicImageToPicture, convertContentToBodyParts} from '../services/prismic-content';
-import {RichText} from 'prismic-dom';
+import {List} from 'immutable';
+import {prismicImageToPicture, convertContentToBodyParts, getPromo, asHtml, asText} from '../services/prismic-content';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import getBreakpoint from '../filters/get-breakpoint';
 import type {Promo} from '../model/promo';
+
+type ExhibitionContent = {|
+    exhibition: Exhibition;
+    galleryLevel: string;
+    relatedBooks: Array<Promo>;
+    relatedEvents: Array<Promo>;
+    relatedGalleries: Array<Promo>;
+    relatedArticles: Array<Promo>;
+
+    imageGallery: any;
+    textAndCaptionsDocument: any;
+|}
 
 function exhibitionPromoToPromo(item) {
   return ({
@@ -17,7 +29,7 @@ function exhibitionPromoToPromo(item) {
   } : Promo);
 };
 
-export async function getExhibition(id: string, previewReq: ?Request): Promise<?Exhibition> {
+export async function getExhibition(id: string, previewReq: ?Request): Promise<?ExhibitionContent> {
   const prismic: IApi = previewReq ? await prismicPreviewApi(previewReq) : await prismicApi();
   const fetchLinks = [
     'access-statements.title',
@@ -34,9 +46,6 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
   const featuredImages = [featuredImageWithBreakpoint, featuredImageMobileCropWithBreakpoint].filter(_ => _);
 
   const bodyParts = convertContentToBodyParts(exhibition.data.body);
-  const video = bodyParts.find(p => p.type === 'video-embed');
-  const text = bodyParts.find(p => p.type === 'text');
-  const standfirst = bodyParts.find(p => p.type === 'standfirst');
   const imageGallery = bodyParts.find(p => p.type === 'imageGallery');
 
   const promoList = exhibition.data.promoList;
@@ -48,24 +57,27 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
   const sizeInKb = Math.round(exhibition.data.textAndCaptionsDocument.size / 1024);
   const textAndCaptionsDocument = Object.assign({}, exhibition.data.textAndCaptionsDocument, {sizeInKb});
 
-  return ({
-    blockType: 'exhibitions',
+  const promo = getPromo(exhibition);
+
+  const ex = ({
     id: exhibition.id,
-    title: RichText.asText(exhibition.data.title),
+    title: asText(exhibition.data.title),
+    subtitle: asText(exhibition.data.subtitle),
     start: exhibition.data.start,
     end: exhibition.data.end,
-    featuredImages: featuredImages,
-    accessStatements: exhibition.data.accessStatements,
-    description: exhibition.data.description && RichText.asHtml(exhibition.data.description),
-    video: video,
-    standfirst: standfirst,
-    text: text,
+    featuredImages: List(featuredImages),
+    description: asHtml(exhibition.data.description),
+    promo: promo
+  }: Exhibition);
+
+  return {
+    exhibition: ex,
     imageGallery: imageGallery,
-    galleryLevel: exhibition.data.gallery_level,
+    galleryLevel: '0',
     textAndCaptionsDocument: textAndCaptionsDocument.url && textAndCaptionsDocument,
     relatedBooks: relatedBooks,
     relatedEvents: relatedEvents,
     relatedGalleries: relatedGalleries,
     relatedArticles: relatedArticles
-  }: Exhibition);
+  };
 }
