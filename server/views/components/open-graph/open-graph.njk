@@ -1,6 +1,6 @@
 <meta property="og:type" content="{{ metaContent.type }}" />
 <meta property="og:title" content="{{ metaContent.title }}" />
-<meta property="og:image" content="{{ metaContent.image }}?w=1200&crop=1" />
+<meta property="og:image" content="{{ metaContent.image | convertImageUri(1200, false) }}" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:url" content="{{ pageConfig.organization.url }}{{ metaContent.url }}" />
 <meta property="og:site_name" content="{{ pageConfig.organization.name }}" />
