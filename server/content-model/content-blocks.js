@@ -4,6 +4,7 @@ import type {Person} from '../model/person';
 import type {Picture} from '../model/picture';
 import {List} from 'immutable';
 
+export type HTMLString = string;
 type ContentBlockType = 'events' | 'webcomics' | 'articles' | 'exhibitions' | 'image-lists'
 
 type ContentBlock = {|
@@ -14,13 +15,13 @@ type ContentBlock = {|
 type ContributorRole = 'author' | 'photographer' | 'speaker'
 
 type Contributor = {|
-  role: ContributorRole,
-  person: Person,
+  role: ContributorRole;
+  person: Person;
 |}
 
 export type ImagePromo = {|
-  text: string,
-  media: Picture,
+  caption: string;
+  image: Picture;
 |}
 
 type SeriesColour = 'turquoise' | 'red' | 'orange' | 'purple'
@@ -35,19 +36,37 @@ export type DateRange = {|
   start: Date,
   end: Date,
 |}
-
-export type EventFormat = 'workshop' | 'discussion' | 'walkingtour'
-export type EventBookingType = 'dropin' | 'ticketed' | 'enquire' | 'firstcomefirstseated'
-
-export type Event = {| ...ContentBlock, ...{|
-  title: string,
-  format: ?EventFormat,
-  bookingType: ?EventBookingType,
-  when: List<DateRange>,
-  contributors: List<Contributor>,
-  promo: ?ImagePromo,
-  featuredMedia: ?Picture,
-|}|}
+export type EventFormat = {|
+  title: string;
+|}
+type EventAccessOption = {|
+  title: string;
+  acronym: string;
+|}
+type EventBookingEnquiryTeam = {|
+  title: string;
+  email: string;
+  phone: string;
+|}
+type EventContributorRole = 'sst-designer' | 'ad-designer'
+export type Event = {|
+  title: string;
+  format: EventFormat;
+  when: List<DateRange>;
+  description: HTMLString;
+  accessOptions: List<{
+    accessOption: EventAccessOption;
+    designer: Person;
+  }>;
+  bookingEnquiryTeam: EventBookingEnquiryTeam;
+  bookingInformation: HTMLString;
+  contributors: List<{
+    role: EventContributorRole;
+    person: Person;
+  }>;
+  promo: ?ImagePromo;
+  featuredMedia: ?Picture;
+|}
 
 export type Exhibition = {| ...ContentBlock, ...{|
   title: string,
