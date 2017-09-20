@@ -20,8 +20,8 @@ export const renderArticle = async(ctx, next) => {
   const path = ctx.request.url;
   // We rehydrate the `W` here as we take it off when we have the route.
   const id = `W${ctx.params.id}`;
-  const preview = Boolean(ctx.params.preview);
-  const article = await getArticle(id, preview ? ctx.request : null);
+  const isPreview = Boolean(ctx.params.preview);
+  const article = await getArticle(id, isPreview ? ctx.request : null);
 
   if (article) {
     if (format === 'json') {
@@ -36,7 +36,7 @@ export const renderArticle = async(ctx, next) => {
           canonicalUri: `${ctx.globals.rootDomain}/articles/${id}`
         }), getEditorialAnalyticsInfo(article)),
         article: article,
-        isPreview: preview
+        isPreview: isPreview
       });
     }
   }
@@ -101,8 +101,8 @@ export async function renderEvent(ctx, next) {
 
 export async function renderExhibition(ctx, next, overrideId) {
   const id = overrideId || `${ctx.params.id}`;
-  const preview = Boolean(ctx.params.preview);
-  const exhibition = await getExhibition(id, preview ? ctx.request : null);
+  const isPreview = Boolean(ctx.params.preview);
+  const exhibition = await getExhibition(id, isPreview ? ctx.request : null);
   const format = ctx.request.query.format;
   const path = ctx.request.url;
 
@@ -120,7 +120,7 @@ export async function renderExhibition(ctx, next, overrideId) {
           canonicalUri: `${ctx.globals.rootDomain}/exhibitions/${exhibition.id}`
         }),
         exhibition: exhibition,
-        isPreview: preview
+        isPreview: isPreview
       });
     }
   }
