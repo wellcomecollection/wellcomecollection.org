@@ -2,7 +2,6 @@
 import {List} from 'immutable';
 import type {DateRange, HTMLString, ImagePromo} from './content-blocks';
 import type {Person} from '../model/person';
-import type {Picture} from '../model/picture';
 
 export type EventFormat = {|
   title: string;
