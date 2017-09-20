@@ -4,11 +4,11 @@ import type {IApi} from 'prismic-javascript';
 import {List} from 'immutable';
 import Prismic from 'prismic-javascript';
 import {RichText} from 'prismic-dom';
-import {prismicApi} from './prismic-api';
-import {getContributors, getPromo, getFeaturedMediaFromBody} from './prismic-content';
+import {prismicApi, prismicPreviewApi} from './prismic-api';
+import {getContributors, getPromo} from './prismic-content';
 
-export async function getEvent(id: string): Promise<?Event> {
-  const prismic: IApi = await prismicApi();
+export async function getEvent(id: string, previewReq: ?Request): Promise<?Event> {
+  const prismic: IApi = previewReq ? await prismicPreviewApi(previewReq) : await prismicApi();
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'access-statements.title', 'access-statements.description'
@@ -28,7 +28,6 @@ export async function getEvent(id: string): Promise<?Event> {
       end: new Date(slice.primary.end)
     }: DateRange);
   }));
-  const featuredMedia = getFeaturedMediaFromBody(event);
 
   const e = ({
     blockType: 'events',
@@ -38,8 +37,7 @@ export async function getEvent(id: string): Promise<?Event> {
     bookingType: (event.data.bookingType: EventBookingType),
     when: when,
     contributors: contributors,
-    promo: promo,
-    featuredMedia: featuredMedia
+    promo: promo
   }: Event);
 
   return e;
