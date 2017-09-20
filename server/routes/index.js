@@ -48,7 +48,7 @@ r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 
 // Vanity URLs - should redirect
 r.get('/graphicdesign', async (ctx, next) => {
-  return renderExhibition(ctx, next, 'WZwh4ioAAJ3usf86');
+  return renderExhibition(ctx, next, 'WZwh4ioAAJ3usf86', 'VSiVotDVSbeOS9orRMI-Wg.1');
 });
 
 // API

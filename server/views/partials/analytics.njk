@@ -32,6 +32,10 @@ if ('{{ pageConfig.contentType }}') {
   ga('set', 'dimension6', '{{ pageConfig.contentType }}');
 }
 
+{% if pageConfig.gaExp %}
+  ga('set', 'exp', '{{ pageConfig.gaExp }}');
+{% endif %}
+
 ga('require', 'GTM-NXMJ6D9');
 ga('send', 'pageview');
 </script>
