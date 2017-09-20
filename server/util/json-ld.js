@@ -26,7 +26,11 @@ export function exhibitionLd(content) {
     name: content.title,
     description: content.description,
     image: content.featuredImages[0].contentUrl,
-    location: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false),
+    location: {
+      '@type': 'Place',
+      name: 'Wellcome Collection',
+      address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
+    },
     startDate: content.start,
     endDate: content.end,
     url: `https://wellcomecollection.org/exhibitions/${content.id}`,
