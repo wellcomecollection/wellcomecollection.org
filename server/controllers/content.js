@@ -106,8 +106,6 @@ export async function renderExhibition(ctx, next, overrideId, gaExp) {
   const format = ctx.request.query.format;
   const path = ctx.request.url;
 
-
-
   if (exhibitionContent) {
     if (format === 'json') {
       ctx.body = exhibitionContent;
