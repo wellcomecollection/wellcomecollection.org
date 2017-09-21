@@ -2,7 +2,7 @@
 import superagent from 'superagent';
 import type {Work} from '../model/work';
 
-const version = 'v0';
+const version = 'v1';
 const baseUri = `https://api.wellcomecollection.org/catalogue/${version}`;
 
 export async function getWork(id: string): Promise<Work> {
