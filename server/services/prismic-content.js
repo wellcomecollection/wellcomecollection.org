@@ -26,6 +26,7 @@ export function getContributors(doc): List<Person> {
 }
 
 export function getPublishedDate(doc) {
+  // This is because we need to have a separeate `publishDate` for articles imported from WP
   return PrismicDate(doc.data.publishDate || doc.first_publication_date || Date.now());
 }
 
@@ -285,16 +286,17 @@ export function convertContentToBodyParts(content) {
   }).filter(_ => _);
 }
 
-export async function getArticleList(documentTypes = ['articles', 'webcomics']) {
+export async function getArticleList(documentTypes = ['articles', 'webcomics'], pageSize = 10) {
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'series.name', 'series.description', 'series.color', 'series.commissionedLength'
   ];
+  const orderings = '[document.first_publication_date desc, my.articles.publishDate desc, my.webcomics.publishDate desc]';
   const prismic = await prismicApi();
   const articlesList = await prismic.query([
     Prismic.Predicates.any('document.type', documentTypes),
     Prismic.Predicates.not('document.tags', ['delist'])
-  ], {fetchLinks});
+  ], {fetchLinks, orderings, pageSize});
 
   const articlesAsArticles = articlesList.results.map(result => {
     switch (result.type) {
