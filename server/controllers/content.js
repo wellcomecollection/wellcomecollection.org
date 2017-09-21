@@ -102,25 +102,25 @@ export async function renderEvent(ctx, next) {
 export async function renderExhibition(ctx, next, overrideId, gaExp) {
   const id = overrideId || `${ctx.params.id}`;
   const isPreview = Boolean(ctx.params.preview);
-  const exhibition = await getExhibition(id, isPreview ? ctx.request : null);
+  const exhibitionContent = await getExhibition(id, isPreview ? ctx.request : null);
   const format = ctx.request.query.format;
   const path = ctx.request.url;
 
-  if (exhibition) {
+  if (exhibitionContent) {
     if (format === 'json') {
-      ctx.body = exhibition;
+      ctx.body = exhibitionContent;
     } else {
       ctx.render('pages/exhibition', {
         pageConfig: createPageConfig({
           path: path,
-          title: exhibition.title,
+          title: exhibitionContent.exhibition.title,
           inSection: 'whatson',
           category: 'publicprograms',
           contentType: 'exhibitions',
-          canonicalUri: `${ctx.globals.rootDomain}/exhibitions/${exhibition.id}`,
+          canonicalUri: `${ctx.globals.rootDomain}/exhibitions/${exhibitionContent.exhibition.id}`,
           gaExp
         }),
-        exhibition: exhibition,
+        exhibitionContent: exhibitionContent,
         isPreview: isPreview
       });
     }

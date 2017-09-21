@@ -1,5 +1,5 @@
 {% extends 'layout/default.njk' %}
-
+{% set exhibition = exhibitionContent.exhibition %}
 {% block pageMeta %}
   {% set metaContent = {
     type: 'website',
@@ -33,7 +33,7 @@
     </div>
 
     <div class="exhibition-hero">
-      {% componentV2 'picture', {images: exhibition.featuredImages}, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
+      {% componentV2 'picture', {images: exhibition.featuredImages.toJS()}, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
 
       <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">
         <div class="is-hidden-m is-hidden-l is-hidden-xl">
@@ -82,11 +82,11 @@
     <div class="container">
       <div class="grid">
         <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-          {% if exhibition.standfirst %}
-            {% component 'standfirst', {body: exhibition.standfirst.value | safe} %}
+          {% if exhibition.subtitle %}
+            {% component 'standfirst', {body: exhibition.subtitle | safe} %}
           {% endif %}
           {% block exhibitionDescription %}
-            {{ exhibition.text.value | safe }}
+            {{ exhibition.description | safe }}
           {% endblock %}
         </div>
         <div class="{{ {s:12, m:10, shiftM:1, l:5, xl:5} | gridClasses }}">
@@ -103,10 +103,10 @@
           <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
           {% block accessStatements %}
             <h2 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Access information</h2>
-            {% if exhibition.galleryLevel %}
+            {% if exhibitionContent.galleryLevel %}
               <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
                 <div class="width-1-em {{ {s:2} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/lifts', null, ['icon--1point5x'] %}</div>
-                <p class="no-margin">This exhibition is on level {{ exhibition.galleryLevel }}</p>
+                <p class="no-margin">This exhibition is on level {{ exhibitionContent.galleryLevel }}</p>
               </div>
             {% endif %}
             <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
@@ -117,20 +117,14 @@
               <div class="width-1-em {{ {s:2} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y_visual', null, ['icon--1point5x'] %}</div>
               <p class="no-margin">Large print guides, transcripts and magnifiers are available in the gallery</p>
             </div>
-            {% for statement in exhibition.accessStatements %}
-              <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-                <div class="width-1-em {{ {s:2} | spacingClasses({margin:['right']}) }}">{% icon statement.value.slug | getA11yIcon %}</div>
-                {{ statement.value.data.description | prismicAsHtml | safe  }}
-              </div>
-            {% endfor %}
 
             <div class="{{ {s:5} | spacingClasses({margin: ['top']}) }}">
-              {% if exhibition.textAndCaptionsDocument %}
-                <a href="/download?uri={{ exhibition.textAndCaptionsDocument.url }}"
-                  download="{{ exhibition.textAndCaptionsDocument.name }}"
+              {% if exhibitionContent.textAndCaptionsDocument %}
+                <a href="/download?uri={{ exhibitionContent.textAndCaptionsDocument.url }}"
+                  download="{{ exhibitionContent.textAndCaptionsDocument.name }}"
                   class="plain-link font-mint flex {{ {s:1} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses}}">
                   <div class="width-1-em {{ {s:1} | spacingClasses({margin:['right']}) }} flex flex--v-center">{% icon 'formats/pdf_download', null, ['icon--mint'] %}</div>
-                  <span>Download exhibition texts (PDF {{ exhibition.textAndCaptionsDocument.sizeInKb }}KB)</span>
+                  <span>Download exhibition texts (PDF {{ exhibitionContent.textAndCaptionsDocument.sizeInKb }}KB)</span>
                 </a>
               {% endif %}
               <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
@@ -160,17 +154,17 @@
     </div>
   {% endif %}
 
-  {% if exhibition.imageGallery %}
+  {% if exhibitionContent.imageGallery %}
     <div class="row {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
       <div class="container">
         <div class="grid">
-          {% component 'image-gallery', { imageGallery: exhibition.imageGallery.value, id: 'article-body-image-gallery--' + exhibition.id } %}
+          {% component 'image-gallery', { imageGallery: exhibitionContent.imageGallery.value, id: 'article-body-image-gallery--' + exhibition.id } %}
         </div>
       </div>
     </div>
   {% endif %}
 
-  {% if exhibition.relatedGalleries.length > 0 %}
+  {% if exhibitionContent.relatedGalleries.length > 0 %}
     <div class="row {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
       <div class="container">
         <div class="grid">
@@ -179,7 +173,7 @@
           </div>
         </div>
         <div class="grid">
-          {% for promo in exhibition.relatedGalleries %}
+          {% for promo in exhibitionContent.relatedGalleries %}
             <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
               <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
                 {% componentV2 'more-info-link', {name: 'View highlights', url: promo.url} %}
@@ -219,7 +213,7 @@
     {% endif %}
   {% endmacro %}
 
-  {{ relatedMarkup(exhibition.relatedEvents, 'Workshops, talks and tours', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
+  {{ relatedMarkup(exhibitionContent.relatedEvents, 'Workshops, talks and tours', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
 
   <div class="row">
     <div class="container">
@@ -227,7 +221,7 @@
     </div>
   </div>
 
-  {{ relatedMarkup(exhibition.relatedArticles, 'Read and explore', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
+  {{ relatedMarkup(exhibitionContent.relatedArticles, 'Read and explore', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
 
   <div class="row">
     <div class="container">
@@ -235,7 +229,7 @@
     </div>
   </div>
 
-  {{ relatedMarkup(exhibition.relatedBooks, 'From the bookshop', 'book-promo', {s:12, m:6, l:6, xl:6}, {'lazyload': true, index: loop.index, total: loop.total, sizesQueries: '(min-width: 960px) 178px, 127px'}) }}
+  {{ relatedMarkup(exhibitionContent.relatedBooks, 'From the bookshop', 'book-promo', {s:12, m:6, l:6, xl:6}, {'lazyload': true, index: loop.index, total: loop.total, sizesQueries: '(min-width: 960px) 178px, 127px'}) }}
 </article>
 {% endblock %}
 
