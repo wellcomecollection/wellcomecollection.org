@@ -23,6 +23,7 @@ Fixes/Closes/References #
 <!-- delete below if not UI -->
 ### UI component only
 - [ ] A11y tested: `npm run test:accessibility <URL>`
+- [ ] Structured data tested: https://search.google.com/structured-data/testing-tool 
 - [ ] Browser tested: `npm run test:browsers <URL>`
 - [ ] Works without JS in the client
 - [ ] Relevant tracking/monitoring has been considered
