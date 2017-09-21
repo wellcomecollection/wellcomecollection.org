@@ -124,6 +124,7 @@
               {% if exhibitionContent.textAndCaptionsDocument %}
                 <a href="/download?uri={{ exhibitionContent.textAndCaptionsDocument.url }}"
                   download="{{ exhibitionContent.textAndCaptionsDocument.name }}"
+                  data-track-event='{"category": "component", "action": "download-pdf:click", "label": "name:{{ exhibitionContent.textAndCaptionsDocument.name }}, url:{{ exhibitionContent.textAndCaptionsDocument.url }}"}'
                   class="plain-link font-mint flex {{ {s:1} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses}}">
                   <div class="width-1-em {{ {s:1} | spacingClasses({margin:['right']}) }} flex flex--v-center">{% icon 'formats/pdf_download', null, ['icon--mint'] %}</div>
                   <span>Download exhibition texts (PDF {{ exhibitionContent.textAndCaptionsDocument.sizeInKb }}KB)</span>
