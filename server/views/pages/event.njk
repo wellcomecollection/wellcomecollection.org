@@ -40,6 +40,10 @@
             ticketInfo: 'Free',
             when: event.when
           }, {}, eventPromoData %}
+
+          {% for accessOption in event.accessOptions.toJS() %}
+            {% icon 'a11y/' + (accessOption.accessOption.acronym | lower), accessOption.accessOption.title %}
+          {% endfor %}
         </div>
       </div>
     </div>

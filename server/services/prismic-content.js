@@ -51,6 +51,8 @@ export function prismicImageToPicture(captionedImage) {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
   const tasl = image && image.copyright && getTaslFromCopyright(image.copyright);
 
+  console.info(image);
+
   return ({
     type: 'picture',
     contentUrl: image && image.url,
@@ -334,6 +336,8 @@ function parseWebcomicAsArticle(prismicDoc) {
       description: seriesData.description
     };
   }) || [];
+
+  console.info(mainMedia);
 
   const article: Article = {
     contentType: 'comic',
