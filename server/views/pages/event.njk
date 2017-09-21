@@ -24,13 +24,15 @@
     <div class="container">
       <div class="grid">
         <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
-          {% block tags %}{% endblock %}
+          {% componentV2 'tags', tags %}
+
           {% set eventPromoData = {
             ticketInfoFont: {s:'HNM4', m:'HNM6', l:'HNM4'},
             titleFont: {s:'WB4', m:'WB6', l:'WB4', xl:'WB3'},
             dateFont: {s: 'HNM3', m: 'HNM5', l:'HNM3'},
             timeFont: {s: 'HNL3', m:'HNL5', l:'HNL3'}
           } %}
+
           {% componentV2 'event-promo', {
             id: event.id,
             featuredMedia: event.featuredMedia,
@@ -47,7 +49,9 @@
     <div class="container">
       <div class="grid">
         <div class="{{ {s:12, m:5, l:5, xl:5} | gridClasses }} {{ {s:'HNL3', m:'HNL2'} | fontClasses}}">
-          {% block eventDescription %}{% endblock %}
+          {% block eventDescription %}
+            {{ event.description | safe }}
+          {% endblock %}
         </div>
         <div class="{{ {s:12, m:7, l:7, xl:7} | gridClasses }}">
           <div class="grid">
