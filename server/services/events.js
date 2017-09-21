@@ -41,7 +41,11 @@ export async function getEvent(id: string, previewReq: ?Request): Promise<?Event
       accessOption: { title: asText(ao.accessOption.data.title), acronym: ao.accessOption.data.acronym },
       designer: ao.designer.data && { name: ao.designer.data.name }
     }))),
-    bookingEnquiryTeam: null, // TODO: Wait till we have an event that has this
+    bookingEnquiryTeam: event.data.bookingEnquiryTeam.data && {
+      title: asText(event.data.bookingEnquiryTeam.data.title),
+      email: event.data.bookingEnquiryTeam.data.email,
+      phone: event.data.bookingEnquiryTeam.data.phone
+    },
     bookingInformation: asHtml(event.data.bookingInformation),
     contributors: contributors,
     promo: promo
