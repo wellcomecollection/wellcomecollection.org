@@ -313,51 +313,6 @@ export function asHtml(maybeContent) {
   return maybeContent && RichText.asHtml(maybeContent).trim();
 }
 
-export async function getEvent(id) {
-  const prismic = await prismicApi();
-  const fetchLinks = [
-    'people.name', 'people.image', 'people.twitterHandle', 'people.description',
-    'access-statements.title', 'access-statements.description'
-  ];
-  const events = await prismic.query(Prismic.Predicates.at('document.id', id), {fetchLinks});
-  const event = events.total_results_size === 1 ? events.results[0] : null;
-
-  if (!event) {
-    return null;
-  }
-  const promo = event.data.promo.find(slice => slice.slice_type === 'editorialImage');
-  const thumbnail = promo && prismicImageToPicture(promo.primary);
-  const contributors = getContributors(event);
-
-  const article: Article = {
-    contentType: 'article',
-    headline: asText(event.data.title),
-    url: '',
-    datePublished: PrismicDate(event.data.startDate),
-    thumbnail: thumbnail,
-    author: null, // We don't want author
-    bodyParts: convertContentToBodyParts(event.data.body),
-    mainMedia: [thumbnail],
-    series: [],
-
-    // Not part of the standard model
-    when: event.data.when.map(slice =>
-      `${moment(slice.primary.start).format('dddd MM MMMM YYYY HH:mm')} – ${moment(slice.primary.end).format('HH:mm')}`
-    ),
-    eventbriteId: event.data.eventbriteId,
-    eventFormat: event.data.format,
-    accessStatements: event.data.accessStatements.map(accessStatement => {
-      return {
-        title: asText(accessStatement.value.data.title),
-        description: RichText.asHtml(accessStatement.value.data.description)
-      };
-    }),
-    contributors: contributors
-  };
-
-  return article;
-}
-
 // TODO: There's some abstracting to do here
 function parseWebcomicAsArticle(prismicDoc) {
   // TODO : construct this not from strings

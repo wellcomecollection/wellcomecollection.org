@@ -63,6 +63,7 @@ async function getPreviewSession(token) {
         case 'articles'    : return `/preview/articles/${doc.id}`;
         case 'webcomics'   : return `/preview/articles/${doc.id}`;
         case 'exhibitions' : return `/preview/exhibitions/${doc.id}`;
+        case 'events' : return `/preview/events/${doc.id}`;
       }
     }, '/', (err, redirectUrl) => {
       if (err) {
@@ -76,8 +77,9 @@ async function getPreviewSession(token) {
 
 export async function renderEvent(ctx, next) {
   const id = `${ctx.params.id}`;
-  const event = await getEvent(id);
   const format = ctx.request.query.format;
+  const isPreview = Boolean(ctx.params.preview);
+  const event = await getEvent(id, isPreview ? ctx.request : null);
   const path = ctx.request.url;
 
   if (event) {

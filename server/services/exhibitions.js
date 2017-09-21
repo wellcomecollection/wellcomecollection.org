@@ -31,10 +31,7 @@ function exhibitionPromoToPromo(item) {
 
 export async function getExhibition(id: string, previewReq: ?Request): Promise<?ExhibitionContent> {
   const prismic: IApi = previewReq ? await prismicPreviewApi(previewReq) : await prismicApi();
-  const fetchLinks = [
-    'access-statements.title',
-    'access-statements.description'
-  ];
+  const fetchLinks = [];
   const exhibition = await prismic.getByID(id, {fetchLinks});
 
   if (!exhibition) return;

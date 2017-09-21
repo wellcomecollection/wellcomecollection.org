@@ -1,17 +1,19 @@
 // @flow
-import type {Event, EventFormat, EventBookingType, DateRange} from '../content-model/content-blocks';
+import type {DateRange} from '../content-model/content-blocks';
+import type {Event, EventFormat} from '../content-model/event';
 import type {IApi} from 'prismic-javascript';
 import {List} from 'immutable';
 import Prismic from 'prismic-javascript';
-import {RichText} from 'prismic-dom';
-import {prismicApi} from './prismic-api';
-import {getContributors, getPromo, getFeaturedMediaFromBody} from './prismic-content';
+import {prismicApi, prismicPreviewApi} from './prismic-api';
+import {getContributors, getPromo, asText, asHtml} from './prismic-content';
 
-export async function getEvent(id: string): Promise<?Event> {
-  const prismic: IApi = await prismicApi();
+export async function getEvent(id: string, previewReq: ?Request): Promise<?Event> {
+  const prismic: IApi = previewReq ? await prismicPreviewApi(previewReq) : await prismicApi();
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
-    'access-statements.title', 'access-statements.description'
+    'event-access-options.title', 'event-access-options.acronym',
+    'event-booking-enquiry-teams.title', 'event-booking-enquiry-teams.email', 'event-booking-enquiry-teams.phone',
+    'event-formats.title'
   ];
   const events: Object = await prismic.query(Prismic.Predicates.at('document.id', id), {fetchLinks});
   const event: ?Object = events.total_results_size === 1 ? events.results[0] : null;
@@ -28,18 +30,21 @@ export async function getEvent(id: string): Promise<?Event> {
       end: new Date(slice.primary.end)
     }: DateRange);
   }));
-  const featuredMedia = getFeaturedMediaFromBody(event);
 
   const e = ({
-    blockType: 'events',
     id: event.id,
-    title: RichText.asText(event.data.title),
-    format: (event.data.format: EventFormat),
-    bookingType: (event.data.bookingType: EventBookingType),
+    title: asText(event.data.title),
+    format: ({ title: asText(event.data.format.data.title) }: EventFormat),
     when: when,
+    description: asHtml(event.data.description),
+    accessOptions: List(event.data.accessOptions.map(ao => ({
+      accessOption: { title: asText(ao.accessOption.data.title), acronym: ao.accessOption.data.acronym },
+      designer: ao.designer.data && { name: ao.designer.data.name }
+    }))),
+    bookingEnquiryTeam: null, // TODO: Wait till we have an event that has this
+    bookingInformation: asHtml(event.data.bookingInformation),
     contributors: contributors,
-    promo: promo,
-    featuredMedia: featuredMedia
+    promo: promo
   }: Event);
 
   return e;
