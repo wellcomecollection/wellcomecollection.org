@@ -9,15 +9,17 @@
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
-  {# <meta name="description" content="{{ exhibition.description | safe | striptags }}" /> #}
+  <meta name="description" content="{{ exhibition.description | safe | striptags }}" />
 {% endblock %}
 
 {% block body %}
+{% set jsonLdExhibition = exhibition | objectAssign({safeDescription: exhibition.description | safe | striptags}) %}
+
 <script type="application/ld+json">
-  {{ exhibition | jsonLd('exhibitionLd') | safe }}
+  {{ jsonLdExhibition | jsonLd('exhibitionLd') | safe }}
 </script>
 
-<article itemscope itemtype="http://schema.org/ExhibitionEvent">
+<article>
   <div class="row relative">
     {# TODO: Tags will probably need to be passed in from the model. Just hard-coding a link to all exhibitions (fair to assume that should be on every exhibition page) for now  #}
     {% set tags = {
