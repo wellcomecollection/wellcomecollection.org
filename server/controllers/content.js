@@ -80,6 +80,14 @@ export async function renderEvent(ctx, next) {
   const isPreview = Boolean(ctx.params.preview);
   const event = await getEvent(id, isPreview ? ctx.request : null);
   const path = ctx.request.url;
+  // TODO: add the `Part of:` tag, we don't have a way of doing this in the model
+  const tags = [{
+    text: 'Event',
+    url: 'https://wellcomecollection.org/whats-on/events/all-events'
+  }, {
+    text: event.format.title
+    // TODO: link through to others of this type?
+  }];
 
   if (event) {
     if (format === 'json') {
@@ -94,7 +102,8 @@ export async function renderEvent(ctx, next) {
           contentType: 'event',
           canonicalUri: `${ctx.globals.rootDomain}/events/${event.id}`
         }),
-        event: event
+        event: event,
+        tags: tags
       });
     }
   }

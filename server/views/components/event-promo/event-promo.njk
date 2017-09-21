@@ -24,13 +24,19 @@
     </div>
 
     {% for dateRange in model.when.toJS() %}
+      {% set formattedDateRange = dateRange.start | formatAndDedupeOnDate(dateRange.end) %}
       <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
         <div class="{{ data.dateFont | fontClasses }}">
-          {{ dateRange.start | formatAndDedupeOnDate(dateRange.end) | join(' - ') }}
+          {{ formattedDateRange | joinDateStrings }}
         </div>
-        <div class="{{ data.timeFont | fontClasses }}">
-          {{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | join(' - ') }}
-        </div>
+
+        {# This is going on the assumption that if we are over multiple days, we don't want to show the date #}
+        {# This is an unsafe assuption, but works for now #}
+        {% if (formattedDateRange.size === 1) %}
+          <div class="{{ data.timeFont | fontClasses }}">
+            {{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | joinDateStrings }}
+          </div>
+        {% endif %}
       </div>
     {% endfor %}
   </div>

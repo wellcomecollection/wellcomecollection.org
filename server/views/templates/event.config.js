@@ -16,7 +16,7 @@ export const handle = 'event-template';
 export const context = {
   pageConfig: createPageConfig({inSection: 'whatson', path: '/cardigan/event'}),
   articlePromos: getFourArticlePromos(),
-  event: getEvent('WXmdTioAAJWWjZdH'),
+  event: getEvent('WcKl4CsAALN8A8BS'),
   tags: '@tags.model',
   video: {
     embedUrl: `https://www.youtube.com/embed/gyZBueN3ArU?version=3&rel=1&fs=1&autohide=2&showsearch=0&showinfo=1&iv_load_policy=1&wmode=transparent`
