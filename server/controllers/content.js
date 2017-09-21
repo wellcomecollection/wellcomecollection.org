@@ -1,10 +1,9 @@
 import Prismic from 'prismic-javascript';
-import {OrderedMap} from 'immutable';
+import {List} from 'immutable';
 import {prismicApi} from '../services/prismic-api';
 import {createPageConfig, getEditorialAnalyticsInfo} from '../model/page-config';
 import {getEventbriteEventEmbed} from '../services/eventbrite';
 import {PromoFactory} from '../model/promo';
-import {getArticleStubs} from '../services/wordpress';
 import {getCuratedList} from '../services/prismic-curated-lists';
 import {collectorsPromo} from '../data/series';
 import {prismicAsText} from '../filters/prismic';
@@ -141,28 +140,18 @@ export async function renderExplore(ctx, next) {
   // TODO: Remove WP content
   const contentListPromise = getArticleList();
 
-  const listRequests = [getCuratedList('explore'), getArticleStubs(10), contentListPromise];
-  const [curatedList, articleStubs, contentList] = await Promise.all(listRequests);
+  const listRequests = [getCuratedList('explore'), contentListPromise];
+  const [curatedList, contentList] = await Promise.all(listRequests);
 
-  const wpPromos = articleStubs.data.map(PromoFactory.fromArticleStub);
   const contentPromos = contentList.map(PromoFactory.fromArticleStub);
-  const promos = wpPromos.concat(contentPromos).sort((a, b) => {
-    return a.datePublished.getTime() - b.datePublished.getTime();
-  }).reverse();
-
-  const dedupedPromos = promos.reduce((promoMap, promo) => {
-    if (promo.url.match(/articles\/W|webcomics\//) || !promoMap.has(promo.title)) {
-      return promoMap.set(promo.title, promo);
-    } else {
-      return promoMap;
-    }
-  }, OrderedMap()).toList().map((promo, index) => {
-    if (index === 0) { // First promo on Explore page is treated differently
+  const promos = List(contentPromos.map((promo, index) => {
+    // First promo on Explore page is treated differently
+    if (index === 0) {
       return Object.assign({}, promo, {weight: 'lead'});
     } else {
       return promo;
     }
-  });
+  }));
 
   // TODO: Remove this, make it automatic
   const latestTweets = ctx.intervalCache.get('tweets');
@@ -176,7 +165,7 @@ export async function renderExplore(ctx, next) {
       category: 'list',
       canonicalUri: `${ctx.globals.rootDomain}/explore`
     }),
-    promos: dedupedPromos,
+    promos: promos,
     curatedList,
     collectorsPromo, // TODO: Remove this, make it automatic
     latestTweets
