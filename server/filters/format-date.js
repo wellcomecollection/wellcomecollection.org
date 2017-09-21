@@ -71,3 +71,7 @@ export function formatAndDedupeOnDate(d1: Date, d2: Date): List<string> {
 export function formatAndDedupeOnTime(d1: Date, d2: Date): List<string> {
   return List([d1, d2]).map(formatTime).toSet().toList();
 }
+
+export function joinDateStrings(d1: string, d2: string): string {
+  return [d1, d2].join(' – ');
+}

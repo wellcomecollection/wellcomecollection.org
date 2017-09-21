@@ -31,7 +31,8 @@ import {
   formatDateWithComingSoon,
   formatAndDedupeOnDate,
   formatAndDedupeOnTime,
-  formatDateRangeWithColor
+  formatDateRangeWithColor,
+  joinDateStrings
 } from './format-date';
 import getLicenseInfo from './get-license-info';
 import getTaslMarkup from './get-tasl-markup';
@@ -74,5 +75,6 @@ export default Map({
   prismicAsText,
   getLicenseInfo,
   getTaslMarkup,
-  getBreakpoint
+  getBreakpoint,
+  joinDateStrings
 });

@@ -60,7 +60,7 @@
                 <h1 class="{{ {s:'WB5', m:'WB6', l:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
                 <span class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
                   {% if exhibition.end %}
-                    <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time> &ndash; <time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
+                    <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time> – <time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
                   {% else %}
                     Permanent exhibition
                   {% endif %}

@@ -27,14 +27,14 @@
       {% set formattedDateRange = dateRange.start | formatAndDedupeOnDate(dateRange.end) %}
       <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
         <div class="{{ data.dateFont | fontClasses }}">
-          {{ formattedDateRange | join(' - ') }}
+          {{ formattedDateRange | joinDateStrings }}
         </div>
 
         {# This is going on the assumption that if we are over multiple days, we don't want to show the date #}
         {# This is an unsafe assuption, but works for now #}
         {% if (formattedDateRange.size === 1) %}
           <div class="{{ data.timeFont | fontClasses }}">
-            {{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | join(' - ') }}
+            {{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | joinDateStrings }}
           </div>
         {% endif %}
       </div>
