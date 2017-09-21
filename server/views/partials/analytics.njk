@@ -16,21 +16,21 @@ ga('create', 'UA-55614-6', 'auto');
 
 ga('set', 'dimension1', '2');
 
-if ('{{ pageConfig.category }}') {
+{% if pageConfig.category %}
   ga('set', 'dimension2', '{{ pageConfig.category }}');
-}
+{% endif %}
 
-if ('{{ pageConfig.seriesUrl }}') {
+{% if pageConfig.seriesUrl %}
   ga('set', 'dimension3', '{{ pageConfig.seriesUrl }}');
-}
+{% endif %}
 
-if ('{{ pageConfig.positionInSeries }}') {
+{% if pageConfig.positionInSeries %}
   ga('set', 'dimension4', '{{ pageConfig.positionInSeries }}');
-}
+{% endif %}
 
-if ('{{ pageConfig.contentType }}') {
+{% if pageConfig.contentType %}
   ga('set', 'dimension6', '{{ pageConfig.contentType }}');
-}
+{% endif %}
 
 {% if pageConfig.gaExp %}
   ga('set', 'exp', '{{ pageConfig.gaExp }}');
