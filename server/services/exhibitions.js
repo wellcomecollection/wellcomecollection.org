@@ -2,7 +2,7 @@
 import type {Exhibition} from '../content-model/exhibition';
 import type {IApi} from 'prismic-javascript';
 import {List} from 'immutable';
-import {prismicImageToPicture, convertContentToBodyParts, getPromo, asHtml, asText} from '../services/prismic-content';
+import {prismicImageToPicture, getPromo, asHtml, asText} from '../services/prismic-content';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import getBreakpoint from '../filters/get-breakpoint';
 import type {Promo} from '../model/promo';
@@ -40,10 +40,7 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
   const featuredImageMobileCrop = prismicImageToPicture({image: exhibition.data.featuredImageMobileCrop});
   const featuredImageWithBreakpoint = featuredImage.contentUrl && Object.assign({}, featuredImage, {minWidth: getBreakpoint('medium')});
   const featuredImageMobileCropWithBreakpoint = featuredImageMobileCrop.contentUrl && Object.assign({}, featuredImageMobileCrop, {minWidth: getBreakpoint('small')});
-  const featuredImages = [featuredImageWithBreakpoint, featuredImageMobileCropWithBreakpoint].filter(_ => _);
-
-  const bodyParts = convertContentToBodyParts(exhibition.data.body);
-  const imageGallery = bodyParts.find(p => p.type === 'imageGallery');
+  const featuredImages = List([featuredImageWithBreakpoint, featuredImageMobileCropWithBreakpoint].filter(_ => _));
 
   const promoList = exhibition.data.promoList;
   const relatedArticles = promoList.filter(x => x.type === 'article').map(exhibitionPromoToPromo);
@@ -62,14 +59,14 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
     subtitle: asText(exhibition.data.subtitle),
     start: exhibition.data.start,
     end: exhibition.data.end,
-    featuredImages: List(featuredImages),
+    featuredImages: featuredImages,
+    featuredImage: featuredImages.first(),
     description: asHtml(exhibition.data.description),
     promo: promo
   }: Exhibition);
 
   return {
     exhibition: ex,
-    imageGallery: imageGallery,
     galleryLevel: '0',
     textAndCaptionsDocument: textAndCaptionsDocument.url && textAndCaptionsDocument,
     relatedBooks: relatedBooks,
