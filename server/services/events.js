@@ -34,7 +34,7 @@ export async function getEvent(id: string, previewReq: ?Request): Promise<?Event
   const e = ({
     id: event.id,
     title: asText(event.data.title),
-    format: ({ title: asText(event.data.format.data.title) }: EventFormat),
+    format: event.data.format.data && ({ title: asText(event.data.format.data.title) }: EventFormat),
     when: when,
     description: asHtml(event.data.description),
     accessOptions: List(event.data.accessOptions.map(ao => ({

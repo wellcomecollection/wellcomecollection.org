@@ -84,10 +84,10 @@ export async function renderEvent(ctx, next) {
   const tags = [{
     text: 'Event',
     url: 'https://wellcomecollection.org/whats-on/events/all-events'
-  }, {
+  }].concat(event.format ? [{
     text: event.format.title
     // TODO: link through to others of this type?
-  }];
+  }] : []);
 
   if (event) {
     if (format === 'json') {
