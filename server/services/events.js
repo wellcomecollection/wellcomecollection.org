@@ -14,7 +14,7 @@ export async function getEvent(id: string, previewReq: ?Request): Promise<?Event
     'event-access-options.title', 'event-access-options.acronym',
     'event-booking-enquiry-teams.title', 'event-booking-enquiry-teams.email', 'event-booking-enquiry-teams.phone',
     'event-formats.title',
-    'editorial-contributor-roles.title', 'event-contributor-roles'
+    'editorial-contributor-roles.title', 'event-contributor-roles.title'
   ];
 
   const events: Object = await prismic.query(Prismic.Predicates.at('document.id', id), {fetchLinks});

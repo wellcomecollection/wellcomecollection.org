@@ -9,7 +9,7 @@ import moment from 'moment';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import {isEmptyObj} from '../util/is-empty-obj';
 
-export function getContributors(doc): List<Contributor> {
+export function getContributors(doc): Array<Contributor> {
   // TODO: Support creator's role
   return doc.data.contributors
     .filter(creator => creator.slice_type === 'person')
@@ -17,13 +17,13 @@ export function getContributors(doc): List<Contributor> {
       const personData = slice.primary.person && slice.primary.person.data;
       const roleData = slice.primary.role && slice.primary.role.data;
       const role = roleData && {
-        title: roleData && roleData.title
+        title: roleData && asText(roleData.title)
       };
       const person = personData && {
-        name: person.name,
-        twitterHandle: person.twitterHandle,
-        image: person.image && person.image.url,
-        description: asText(person.description)
+        name: personData.name,
+        twitterHandle: personData.twitterHandle,
+        image: personData.image && personData.image.url,
+        description: asText(personData.description)
       };
 
       return {person, role};
