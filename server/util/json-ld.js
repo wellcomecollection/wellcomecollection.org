@@ -1,3 +1,4 @@
+import type {Event} from '../content-model/event';
 import {wellcomeCollection, wellcomeCollectionAddress} from '../model/organization';
 
 export function objToJsonLd<T>(obj: T, type: string, root: boolean = true) {
@@ -51,8 +52,19 @@ export function museumLd(museum) {
   return objToJsonLd(newMuseum, 'Museum');
 }
 
-export function eventLd(event) {
-  return objToJsonLd({}, 'Event');
+export function eventLd(event: Event) {
+  return objToJsonLd({
+    name: event.title,
+    // TODO: This is not always at Wellcome, but we don't collect that yet
+    location: {
+      '@type': 'Place',
+      name: 'Wellcome Collection',
+      address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
+    },
+    startDate: event.when.map(range => range.start),
+    endDate: event.when.map(range => range.start),
+    description: event.description
+  }, 'Event');
 }
 
 function orgLd(org) {
