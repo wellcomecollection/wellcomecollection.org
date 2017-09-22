@@ -5,7 +5,6 @@ import type {Person} from '../model/person';
 import Prismic from 'prismic-javascript';
 import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
-import moment from 'moment';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import {isEmptyObj} from '../util/is-empty-obj';
 
