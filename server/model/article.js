@@ -61,7 +61,6 @@ export class ArticleFactory {
     // This is due to the fact that WP doesn't allow you to set mainMedia as Youtube embeds.
     const bodyParts = (mainVideo || mainComic) ? List(bodyPartsRaw).skip(1).toJS() : bodyPartsRaw;
 
-    const author = authorMap[json.slug];
     const series: Array<ArticleSeries> = Object.keys(json.categories).map(catKey => {
       const cat = json.categories[catKey];
       return {
@@ -84,7 +83,7 @@ export class ArticleFactory {
       thumbnail: thumbnail,
       articleBody: articleBody,
       associatedMedia: mainImage ? [mainImage] : [],
-      author: [author],
+      author: [],
       bodyParts: bodyParts,
       series: series,
       positionInSeries: positionInSeries
