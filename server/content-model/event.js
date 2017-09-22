@@ -1,6 +1,6 @@
 // @flow
 import {List} from 'immutable';
-import type {DateRange, HTMLString, ImagePromo} from './content-blocks';
+import type {DateRange, HTMLString, ImagePromo, Contributor} from './content-blocks';
 import type {Person} from '../model/person';
 
 export type EventFormat = {|
@@ -18,8 +18,6 @@ type EventBookingEnquiryTeam = {|
   phone: string;
 |}
 
-type EventContributorRole = 'sst-designer' | 'ad-designer'
-
 export type Event = {|
   id: string;
   title: ?string;
@@ -33,7 +31,7 @@ export type Event = {|
   bookingEnquiryTeam: ?EventBookingEnquiryTeam;
   bookingInformation: ?HTMLString;
   contributors: List<{
-    role: EventContributorRole;
+    role: Contributor;
     person: Person;
   }>;
   promo: ?ImagePromo;

@@ -13,8 +13,10 @@ export async function getEvent(id: string, previewReq: ?Request): Promise<?Event
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'event-access-options.title', 'event-access-options.acronym',
     'event-booking-enquiry-teams.title', 'event-booking-enquiry-teams.email', 'event-booking-enquiry-teams.phone',
-    'event-formats.title'
+    'event-formats.title',
+    'editorial-contributor-roles.title', 'event-contributor-roles.title'
   ];
+
   const events: Object = await prismic.query(Prismic.Predicates.at('document.id', id), {fetchLinks});
   const event: ?Object = events.total_results_size === 1 ? events.results[0] : null;
 
@@ -38,8 +40,7 @@ export async function getEvent(id: string, previewReq: ?Request): Promise<?Event
     when: when,
     description: asHtml(event.data.description),
     accessOptions: List(event.data.accessOptions.map(ao => ({
-      accessOption: { title: asText(ao.accessOption.data.title), acronym: ao.accessOption.data.acronym },
-      designer: ao.designer.data && { name: ao.designer.data.name }
+      accessOption: { title: asText(ao.accessOption.data.title), acronym: ao.accessOption.data.acronym }
     }))),
     bookingEnquiryTeam: event.data.bookingEnquiryTeam.data && {
       title: asText(event.data.bookingEnquiryTeam.data.title),
