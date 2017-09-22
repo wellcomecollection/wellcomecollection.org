@@ -31,7 +31,7 @@ export type Event = {|
   bookingEnquiryTeam: ?EventBookingEnquiryTeam;
   bookingInformation: ?HTMLString;
   contributors: List<{
-    role: EventContributorRole;
+    role: Contributor;
     person: Person;
   }>;
   promo: ?ImagePromo;

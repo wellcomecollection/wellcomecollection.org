@@ -14,20 +14,19 @@ export function getContributors(doc): List<Contributor> {
   return doc.data.contributors
     .filter(creator => creator.slice_type === 'person')
     .map(slice => {
-      const person = slice.primary.person && slice.primary.person.data;
-      const role = slice.primary.role && slice.primary.role.data;
-
-      return {
-        role: {
-          title: role && role.title
-        },
-        person: {
-          name: person.name,
-          twitterHandle: person.twitterHandle,
-          image: person.image && person.image.url,
-          description: asText(person.description)
-        }
+      const personData = slice.primary.person && slice.primary.person.data;
+      const roleData = slice.primary.role && slice.primary.role.data;
+      const role = roleData && {
+        title: roleData && roleData.title
       };
+      const person = personData && {
+        name: person.name,
+        twitterHandle: person.twitterHandle,
+        image: person.image && person.image.url,
+        description: asText(person.description)
+      };
+
+      return {person, role};
     });
 }
 
