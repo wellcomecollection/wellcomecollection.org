@@ -12,9 +12,11 @@ type ContentBlock = {|
   id: string,
 |}
 
-type ContributorRole = 'author' | 'photographer' | 'speaker'
+type ContributorRole = {|
+  title: string;
+|}
 
-type Contributor = {|
+export type Contributor = {|
   role: ContributorRole;
   person: Person;
 |}

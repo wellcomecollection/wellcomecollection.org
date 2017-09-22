@@ -1,4 +1,4 @@
-import type {ImagePromo, ImageList} from '../content-model/content-blocks';
+import type {ImagePromo, ImageList, Contributor} from '../content-model/content-blocks';
 import type {Article} from '../model/article';
 import type {Picture} from '../model/picture';
 import type {Person} from '../model/person';
@@ -9,18 +9,24 @@ import moment from 'moment';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import {isEmptyObj} from '../util/is-empty-obj';
 
-export function getContributors(doc): List<Person> {
+export function getContributors(doc): List<Contributor> {
   // TODO: Support creator's role
   return doc.data.contributors
     .filter(creator => creator.slice_type === 'person')
-    .map(slice => slice.primary.person.data)
-    .filter(_ => _)
-    .map(person => {
+    .map(slice => {
+      const person = slice.primary.person && slice.primary.person.data;
+      const role = slice.primary.role && slice.primary.role.data;
+
       return {
-        name: person.name,
-        twitterHandle: person.twitterHandle,
-        image: person.image && person.image.url,
-        description: asText(person.description)
+        role: {
+          title: role && role.title
+        },
+        person: {
+          name: person.name,
+          twitterHandle: person.twitterHandle,
+          image: person.image && person.image.url,
+          description: asText(person.description)
+        }
       };
     });
 }
@@ -108,7 +114,8 @@ export async function getArticle(id: string, previewReq: ?Request) {
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'books.title', 'books.title', 'books.author', 'books.isbn', 'books.publisher', 'books.link', 'books.cover',
-    'series.name', 'series.description', 'series.color', 'series.commissionedLength'
+    'series.name', 'series.description', 'series.color', 'series.commissionedLength',
+    'editorial-contributor-roles.title', 'event-contributor-roles'
   ];
 
   const articles = await prismic.query([

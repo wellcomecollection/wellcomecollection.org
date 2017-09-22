@@ -101,12 +101,12 @@
           <div class="{{ {s: 12, m: 10, shiftM: 1, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
             {% if article.bodyParts.length > 0  %}
               {% for author in article.author %}
-                {% if author %}
+                {% if author.person %}
                   {% component 'author', {
-                    name: author.name,
-                    twitterHandle: author.twitterHandle,
+                    name: author.person.name,
+                    twitterHandle: author.person.twitterHandle,
                     modifiers: ['border-bottom'] if loop.last else [],
-                    image: author.image
+                    image: author.person.image
                   } %}
                 {% endif %}
               {% endfor %}
@@ -118,13 +118,13 @@
               {% endblock %}
 
               {% for author in article.author %}
-                {% if author %}
+                {% if author.person %}
                   {% component 'author', {
-                    name: author.name,
-                    twitterHandle: author.twitterHandle,
+                    name: author.person.name,
+                    twitterHandle: author.person.twitterHandle,
                     modifiers: ['border-left'],
-                    description: author.description,
-                    image: author.image
+                    description: author.person.description,
+                    image: author.person.image
                   } %}
                 {% endif %}
               {% endfor %}
