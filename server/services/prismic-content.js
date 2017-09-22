@@ -1,7 +1,6 @@
 import type {ImagePromo, ImageList, Contributor} from '../content-model/content-blocks';
 import type {Article} from '../model/article';
 import type {Picture} from '../model/picture';
-import type {Person} from '../model/person';
 import Prismic from 'prismic-javascript';
 import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
