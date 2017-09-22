@@ -260,18 +260,6 @@ export function convertContentToBodyParts(content) {
           }
         };
 
-      case 'schedule':
-        // TODO: Not this ;﹏;
-        const schedule = slice.items.map(item => ({
-          when: `${moment(item.start).format('HH:mm')} – ${moment(item.end).format('HH:mm')}`,
-          what: asText(item.what)
-        }));
-
-        return {
-          type: 'schedule',
-          value: schedule
-        };
-
       case 'iframeSrc':
         return {
           type: 'iframe',
