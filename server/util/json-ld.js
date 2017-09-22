@@ -51,6 +51,10 @@ export function museumLd(museum) {
   return objToJsonLd(newMuseum, 'Museum');
 }
 
+export function eventLd(event) {
+  return objToJsonLd({}, 'Event');
+}
+
 function orgLd(org) {
   return org && objToJsonLd({
     name: org.name,
