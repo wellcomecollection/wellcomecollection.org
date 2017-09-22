@@ -5,7 +5,6 @@ import type {Person} from '../model/person';
 import Prismic from 'prismic-javascript';
 import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
-import moment from 'moment';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import {isEmptyObj} from '../util/is-empty-obj';
 
@@ -258,18 +257,6 @@ export function convertContentToBodyParts(content) {
           value: {
             embedUrl: embedUrl
           }
-        };
-
-      case 'schedule':
-        // TODO: Not this ;﹏;
-        const schedule = slice.items.map(item => ({
-          when: `${moment(item.start).format('HH:mm')} – ${moment(item.end).format('HH:mm')}`,
-          what: asText(item.what)
-        }));
-
-        return {
-          type: 'schedule',
-          value: schedule
         };
 
       case 'iframeSrc':

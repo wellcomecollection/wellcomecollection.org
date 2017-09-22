@@ -86,12 +86,6 @@
                 </div>
               </div>
             </div>
-          {% elif bodyPart.type === 'schedule' %}
-            <ul>
-              {% for item in bodyPart.value %}
-                <li><b>{{ item.when }}</b> {{ item.what }}</li>
-              {% endfor %}
-            </ul>
           {% elif bodyPart.type === 'iframe' %}
             {% componentV2 'iframe', bodyPart.value %}
           {% else %}
