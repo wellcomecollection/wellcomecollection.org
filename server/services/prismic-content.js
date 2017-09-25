@@ -278,11 +278,12 @@ export function convertContentToBodyParts(content) {
   }).filter(_ => _);
 }
 
-export async function getArticleList(documentTypes = ['articles', 'webcomics'], pageSize = 10) {
+export async function getArticleList(documentTypes = ['articles', 'webcomics'], pageSize = 10, page = 1) {
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'series.name', 'series.description', 'series.color', 'series.commissionedLength'
   ];
+  // TODO: This order is not really doing what we expect it to do.
   const orderings = '[document.first_publication_date desc, my.articles.publishDate desc, my.webcomics.publishDate desc]';
   const prismic = await prismicApi();
   const articlesList = await prismic.query([
@@ -296,7 +297,15 @@ export async function getArticleList(documentTypes = ['articles', 'webcomics'], 
       case 'webcomics': return parseWebcomicAsArticle(result);
     }
   });
-  return articlesAsArticles;
+
+  // This shape matches the works API
+  return {
+    currentPage: page,
+    results: articlesAsArticles,
+    pageSize: articlesList.results_per_page,
+    totalResults: articlesList.total_results_size,
+    totalPages: articlesList.total_pages
+  };
 }
 
 export function asText(maybeContent) {
