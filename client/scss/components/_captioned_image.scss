@@ -128,8 +128,19 @@
 
   .enhanced & {
     position: absolute;
-    bottom: 0;
     width: 100%;
+  }
+}
+
+.captioned-image__copyright-holder--bottom {
+  .enhanced & {
+    bottom: 0;
+  }
+}
+
+.captioned-image__copyright-holder--top {
+  .enhanced & {
+    top: 0;
   }
 }
 
