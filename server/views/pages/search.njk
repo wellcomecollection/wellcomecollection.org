@@ -56,7 +56,7 @@
         <div class="grid">
           <div class="grid__cell">
             <h3 class="{{ {s:'WB6'} | fontClasses }}">Suggested Topics</h3>
-            {% componentV2 'tags', {id: 'search-landing', tags: [
+            {% componentV2 'tags', [
               {text: 'Quacks', url: '/works?query=quack+OR+quacks', bgColor: 'turquoise-text'},
               {text: 'James Gillray', url: '/works?query=creator%3Ajames+gillray', bgColor: 'turquoise-text'},
               {text: 'Botany', url: '/works?query=botany', bgColor: 'turquoise-text'},
@@ -65,7 +65,7 @@
               {text: 'Health', url: '/works?query=health', bgColor: 'turquoise-text'},
               {text: 'Paintings', url: '/works?query=paintings', bgColor: 'turquoise-text'},
               {text: 'Science', url: '/works?query=science', bgColor: 'turquoise-text'}
-            ]} %}
+            ] %}
           </div>
         </div>
       </div>
