@@ -40,11 +40,11 @@ r.get('/download', (ctx, next) => {
 
 // Content
 
-r.get('/(preview)?/articles/(W):id', renderArticle);
+r.get('/:preview(preview)?/articles/(W):id', renderArticle);
 r.get('/explore', renderExplore);
 r.get('/preview', setPreviewSession);
-r.get('/(preview)?/events/:id', renderEvent);
-r.get('/(preview)?/exhibitions/:id', renderExhibition);
+r.get('/:preview(preview)?/events/:id', renderEvent);
+r.get('/:preview(preview)?/exhibitions/:id', renderExhibition);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 
 // Vanity URLs - should redirect
