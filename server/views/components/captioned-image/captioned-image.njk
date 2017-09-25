@@ -11,14 +11,16 @@
       {% componentV2 'image', model, {}, {lazyload: true, sizesQueries: data.sizesQueries} %}
     {% endif %}
     {% if ((model.title or model.source.name or model.copyright.name or model.license) and data.showCopyright) %}
-      <div class="captioned-image__copyright-holder {{ {s:'HNM6', m:'HNM6', l:'HNM6'} | fontClasses }} drawer js-show-hide"
+      <div class="captioned-image__copyright-holder {% if modifiers.full %}captioned-image__copyright-holder--top{% else %}captioned-image__copyright-holder--bottom{% endif %} {{ {s:'HNM6', m:'HNM6', l:'HNM6'} | fontClasses }} drawer js-show-hide"
         data-track-action="toggle-image-credit",
         data-track-label="image:{{ model.contentUrl }}">
-        <button class="plain-button js-show-hide-trigger">
-          <span class="captioned-image__icon flex flex--v-center flex--h-center">
-            {% icon 'actions/information', 'information', ['icon--white', 'icon--2x'] %}
-          </span>
-        </button>
+        {% if not modifiers.full %}
+          <button class="plain-button js-show-hide-trigger">
+            <span class="captioned-image__icon flex flex--v-center flex--h-center">
+              {% icon 'actions/information', 'information', ['icon--white', 'icon--2x'] %}
+            </span>
+          </button>
+        {% endif %}
         <div class="drawer__body js-show-hide-drawer bg-white {{ {s:1} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }}">
           {% set tasl = {
             title: model.title,
@@ -32,6 +34,13 @@
 
           {{ tasl | getTaslMarkup | safe }}
         </div>
+        {% if modifiers.full %}
+          <button class="plain-button js-show-hide-trigger">
+            <span class="captioned-image__icon flex flex--v-center flex--h-center">
+              {% icon 'actions/information', 'information', ['icon--white', 'icon--2x'] %}
+            </span>
+          </button>
+        {% endif %}
       </div>
     {% endif %}
   </div>
