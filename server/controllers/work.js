@@ -3,6 +3,7 @@ import {createPageConfig} from '../model/page-config';
 import {getWork, getWorks} from '../services/wellcomecollection-api';
 import {createResultsList} from '../model/results-list';
 import {PaginationFactory} from '../model/pagination';
+import {isFlagEnabled} from '../util/flag-status';
 
 function imageUrlFromMiroId(id) {
   const cleanedMiroId = id.match(/(^\w{1}[0-9]*)+/g, '')[0];
@@ -17,6 +18,13 @@ function getTruncatedTitle(title) {
   } else {
     return `${title.slice(0, 20)}…`;
   }
+}
+
+function shouldShowMoreImages(ctx) {
+  const [flags] = ctx.intervalCache.get('flags');
+  const moreImages = isFlagEnabled(ctx.featuresCohort, 'moreImages', flags);
+
+  return moreImages;
 }
 
 export const work = async(ctx, next) => {
@@ -52,7 +60,7 @@ export const work = async(ctx, next) => {
 export const search = async (ctx, next) => {
   const { query, page } = ctx.query;
   const queryString = ctx.search;
-  const results = query && query.trim() !== '' ? await getWorks(query, page) : null;
+  const results = query && query.trim() !== '' ? await getWorks(query, page, shouldShowMoreImages(ctx)) : null;
   const resultsArray = results && results.results || [];
   const pageSize = results && results.pageSize;
   const totalPages = results && results.totalPages;

@@ -11,9 +11,12 @@ export async function getWork(id: string): Promise<Work> {
     .then((request) => request.body);
 }
 
-export async function getWorks(query: string, page: string): Promise<Work> {
+export async function getWorks(query: string, page: string, moreImages: Boolean): Promise<Work> {
+  const moreParams = moreImages ? {test: 'true'} : {};
+  const totalQuery = Object.assign(moreParams, {query, includes: 'identifiers,thumbnail', page, pageSize: 96});
+  console.log(totalQuery); // TODO remove this
   return await superagent.get(`${baseUri}/works`)
-    .query({query, includes: 'identifiers,thumbnail', page, pageSize: 96})
+    .query(totalQuery)
     .then((request) => {
       return request.body;
     }).catch((error) => {
