@@ -57,6 +57,7 @@ export function workLd(content) {
     dateCreated: null, // TODO: needs API
     dateModified: null, // TODO: needs API
     alternativeHeadline: null, // TODO: needs API
+    publishedBy: null, // TODO: needs API
     creator: creators,
     keywords: keywords,
     name: content.title,
