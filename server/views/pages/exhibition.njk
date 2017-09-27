@@ -94,7 +94,7 @@
           <div class="drawer js-show-hide"
             data-track-action="opening-times-drawer">
             <button class="plain-button no-padding pointer js-show-hide-trigger font-elf-green {{ {s:3} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses }}">
-              <span class="flex flex--v-center">{% icon 'actions/more-2', null, ['icon--elf-green', 'margin-right-s1'] %}Opening times</span>
+              <span class="flex flex--v-center">{% icon 'actions/plus', null, ['icon--elf-green', 'margin-right-s1'] %}Opening times</span>
             </button>
             <div class="drawer__body js-show-hide-drawer">
               {% componentV2 'opening-hours', {places: pageConfig.openingHours, id: 'exhibition-page'}, {'light': true, 'compressed': true} %}
@@ -124,7 +124,7 @@
                   download="{{ exhibitionContent.textAndCaptionsDocument.name }}"
                   data-track-event='{"category": "component", "action": "download-pdf:click", "label": "name:{{ exhibitionContent.textAndCaptionsDocument.name }}, url:{{ exhibitionContent.textAndCaptionsDocument.url }}"}'
                   class="plain-link font-mint flex {{ {s:1} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses}}">
-                  <div class="width-1-em {{ {s:1} | spacingClasses({margin:['right']}) }} flex flex--v-center">{% icon 'formats/pdf_download', null, ['icon--mint'] %}</div>
+                  <div class="width-1-em {{ {s:1} | spacingClasses({margin:['right']}) }} flex flex--v-center">{% icon 'formats/pdf', null, ['icon--mint'] %}</div>
                   <span>Download exhibition texts (PDF {{ exhibitionContent.textAndCaptionsDocument.sizeInKb }}KB)</span>
                 </a>
               {% endif %}
@@ -170,7 +170,7 @@
       <div class="container">
         <div class="grid">
           <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
-            <h2 class="{{ {s:'WB5', m:'WB6', l:'WB4', xl:'WB3'} | fontClasses }} flex flex--v-center {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">{% icon 'actions/gallery-link', null, ['margin-right-s2'] %}Exhibition highlights</h2>
+            <h2 class="{{ {s:'WB5', m:'WB6', l:'WB4', xl:'WB3'} | fontClasses }} flex flex--v-center {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">{% icon 'actions/gallery', null, ['margin-right-s2'] %}Exhibition highlights</h2>
           </div>
         </div>
         <div class="grid">

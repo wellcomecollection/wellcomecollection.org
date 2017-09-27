@@ -1,1 +1,6 @@
-<svg viewBox="0 0 22 22"><path class="icon__shape" fill="#1d1d1d" d="M18 1H4a3 3 0 0 0-3 3v16a1 1 0 0 0 1.37.93L7.19 19H18a3 3 0 0 0 3-3V4a3 3 0 0 0-3-3zm1 15a1 1 0 0 1-1 1H7a1 1 0 0 0-.17 0h-.21L3 18.52V4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1z"/><path class="icon__shape" fill="#1d1d1d" d="M5 5h12v2H5zm0 4h12v2H5zm0 4h8v2H5z"/></svg>
+<svg viewBox="0 0 26 26">
+  <path fill="#1d1d1d" class="icon__shape" d="M20,3.46H6a3,3,0,0,0-3,3v16a1,1,0,0,0,1.37.93l4.82-1.93H20a3,3,0,0,0,3-3v-12A3,3,0,0,0,20,3.46Zm1,15a1,1,0,0,1-1,1H9a1,1,0,0,0-.16,0,.94.94,0,0,0-.21,0h0L5,21V6.46a1,1,0,0,1,1-1H20a1,1,0,0,1,1,1Z"/>
+  <rect fill="#1d1d1d" class="icon__shape" x="7" y="7.46" width="12" height="2"/>
+  <rect fill="#1d1d1d" class="icon__shape" x="7" y="11.46" width="12" height="2"/>
+  <rect fill="#1d1d1d" class="icon__shape" x="7" y="15.46" width="8" height="2"/>
+</svg>
