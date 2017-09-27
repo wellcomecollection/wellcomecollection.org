@@ -92,7 +92,7 @@
                     <p class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }}">These events are <strong class="{{ {s:'HNM3', m:'HNM4'} | fontClasses }} caps">free</strong>, but booking is essential.</p>
                     <p>Please enquire below, or call <a href="tel:{{ team.phone }}">{{ team.phone }}</a></p>
 
-                    <a class="btn font-HNM5-s btn--dark" href="mailto:{{team.email}}?subject=Booking for {{ event.title }}">{% icon 'other/ticket', null, ['icon--2x', 'icon--teal'] %}Reserve free tickets</a>
+                    <a class="btn font-HNM5-s btn--dark" href="mailto:{{team.email}}?subject=Booking for {{ event.title }}">{% icon 'other/ticket', null, ['icon--teal'] %}Reserve free tickets</a>
                   </div>
                 {% endif %}
               {% endblock %}

@@ -230,7 +230,6 @@ $tweakpoints: (
   }
 
   .icon {
-    height: 1.3em;
     transition: transform 200ms ease;
 
     @include respond-to('header-medium') {

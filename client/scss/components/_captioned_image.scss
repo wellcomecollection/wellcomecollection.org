@@ -61,11 +61,6 @@
   padding-top: #{($v-spacing-unit * 4) - 8px}; // - to make to adjust for line-height, want padding from x-height
   padding-bottom: #{($v-spacing-unit * 4) - 8px};
 
-  .icon {
-    vertical-align: top;
-    height: 1.3em;
-  }
-
   .icon__shape {
     fill: color('currentColor');
   }
@@ -149,8 +144,8 @@
 
   .enhanced & {
     display: block;
-    width: 2em;
-    height: 2em;
+    width: $icon-dimension;
+    height: $icon-dimension;
     border-radius: 50%;
     background: rgba(color('black'), 0.5);
   }

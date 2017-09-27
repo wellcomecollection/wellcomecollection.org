@@ -1,6 +1,6 @@
 .icon {
   display: inline-block;
-  height: 1em;
+  height: $icon-dimension;
   position: relative;
   user-select: none;
 }
@@ -17,22 +17,6 @@
   position: absolute;
   top: 0;
   width: 100%;
-}
-
-.icon--point5x {
-  height: 0.5em;
-}
-
-.icon--1point5x {
-  height: 1.5em;
-}
-
-.icon--2x {
-  height: 2em;
-}
-
-.icon--4x {
-  height: 4em;
 }
 
 .icon--fill svg {

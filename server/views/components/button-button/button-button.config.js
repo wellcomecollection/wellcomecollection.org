@@ -5,6 +5,6 @@ export const context = {
   modifierClasses: 'btn--light',
   attributes: 'disabled',
   icon: 'actions/download',
-  iconExtraClasses: ['icon--fill', 'icon--2x'],
+  iconExtraClasses: ['icon--fill'],
   text: 'this is a disabled button'
 };

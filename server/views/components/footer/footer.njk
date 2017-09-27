@@ -22,14 +22,14 @@
 
     <div class="footer__bottom">
       <div class="footer__left {{ {s:2, l:0} | spacingClasses({margin: ['bottom']}) }}">
-        <div class="footer__strap {{ {s:'HNM6'} | fontClasses }} {{ {m:4, l:6} | spacingClasses({margin: ['right']}) }} {{ {s:2, m:0} | spacingClasses({padding: ['bottom']}) }}">
+        <div class="footer__strap {{ {s:'HNM6'} | fontClasses }} {{ {m:4} | spacingClasses({margin: ['right']}) }} {{ {s:2, m:0} | spacingClasses({padding: ['bottom']}) }}">
           {% icon 'other/wellcome' %}
           <span class="footer__strap-text">The free museum and library from Wellcome</span>
         </div>
         <div class="footer__licensing {{ {s:'HNM6'} | fontClasses }} {{ {xl:2} | spacingClasses({padding: ['right']}) }}">
           <div class="footer__licensing-icons">
-            {% icon 'other/cc', null, ['icon--2x'] %}
-            {% icon 'other/cc_by', null, ['icon--2x'] %}
+            {% icon 'other/cc' %}
+            {% icon 'other/cc_by' %}
           </div>
           <p class="footer__licensing-copy">Except where otherwise noted, content on this site is licensed under a <a class="footer__licensing-link" href="https://creativecommons.org/licenses/by/4.0/"> Creative Commons Attribution 4.0 International Licence</a></p>
         </div>
