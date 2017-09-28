@@ -11,10 +11,9 @@ export async function getWork(id: string): Promise<Work> {
     .then((request) => request.body);
 }
 
-export async function getWorks(query: string, page: string, moreImages: Boolean): Promise<Work> {
-  const moreParams = moreImages ? {test: 'true'} : {};
-  const totalQuery = Object.assign(moreParams, {query, includes: 'identifiers,thumbnail', page, pageSize: 96});
-  console.log(totalQuery); // TODO remove this
+export async function getWorks(query: string, page: string, imageIndex: string): Promise<Work> {
+  const indexParam = imageIndex ? {'_index': imageIndex} : {};
+  const totalQuery = Object.assign(indexParam, {query, includes: 'identifiers,thumbnail', page, pageSize: 96});
   return await superagent.get(`${baseUri}/works`)
     .query(totalQuery)
     .then((request) => {
