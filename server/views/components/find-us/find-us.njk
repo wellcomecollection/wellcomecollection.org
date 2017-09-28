@@ -10,22 +10,21 @@
         <span class="find-us__country">{{ model.addressCountry }}</span>
       </p>
     </span>
-    {% set baseUrl = 'https://api.mapbox.com/v4/mapbox.outdoors/pin-s-building+285A98(-0.133860,51.525840)/-0.133938,51.525883,16/' %}
-    {% set accessToken = 'access_token=pk.eyJ1Ijoid2VsbGNvbWVjb2xsZWN0aW9uIiwiYSI6ImNpeGx5eXJubTAwMnkycW4xZHBieTRuZjEifQ.P16Hv5SbMGnteeldt8T-Cw' %}
+    {% set baseUrl = 'https://prismic-io.s3.amazonaws.com/wellcomecollection/7a5b0931-e8b0-4568-8f46-9cb3f430bdb9_map.png' %}
     {% set sizes = [563, 425, 282, 600] %}
     {% set comma = joiner() %}
+
     <div class="find-us__map-container">
       <noscript>
-        <img width="282" height="282" class="image" src="{{ baseUrl }}285x285.png32?{{ accessToken }}"
-      alt="Street map showing Wellcome Collection's location" />
+        <img width="282" height="282" class="image" src="{{ baseUrl | convertImageUri(282) }}"
+             alt="Street map showing Wellcome Collection's location" />
       </noscript>
       <img class="find-us__map lazy-image lazyload"
-        src="{{ baseUrl }}10x10.png32?{{ accessToken }}"
+        src="{{ baseUrl | convertImageUri(282) }}"
         data-srcset="
           {%- for size in sizes %}
             {{ comma() }}
-            {{ baseUrl }}{{ size }}x{{ size }}.png32?{{ accessToken }} {{ size }}w,
-            {{ baseUrl }}{{ size }}x{{ size }}@2x.png32?{{ accessToken }} {{ size * 2 }}w
+            {{ baseUrl | convertImageUri(size) }} {{ size }}w
           {%- endfor %}
         "
         sizes="(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)"
