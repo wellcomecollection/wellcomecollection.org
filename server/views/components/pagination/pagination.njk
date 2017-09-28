@@ -1,7 +1,7 @@
 <div class="pagination float-r flex-inline flex--v-center font-pewter {{ {s:'LR3', m:'LR2'} | fontClasses }}">
   {% if (model.prevPage) %}
     <a href="{{ model.prevQueryString }}" rel="prev" class="{{ {s:2} | spacingClasses({margin: ['right']}) }}">
-      <div class="icon-rounder border-color--silver flex flex--v-center">
+      <div class="icon-rounder border-color-silver flex flex--v-center">
         {% icon 'actions/arrow-small', 'Previous (page '+ model.prevPage +')', ['icon--90', 'h-center'] %}
       </div>
     </a>
@@ -10,7 +10,7 @@
   <span>Page {{ model.currentPage }} of {{ model.pageCount }}</span>
   {% if (model.nextPage) %}
     <a href="{{ model.nextQueryString }}" rel="next" class="{{ {s:2} | spacingClasses({margin: ['left']}) }}">
-      <div class="icon-rounder border-color--silver flex flex--v-center">
+      <div class="icon-rounder border-color-silver flex flex--v-center">
         {% icon 'actions/arrow-small', 'Next (page '+ model.nextPage +')', ['icon--270', 'h-center'] %}
       </div>
     </a>
