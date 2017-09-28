@@ -1,5 +1,6 @@
 // @flow
 import Prismic from 'prismic-javascript';
+import {RichText} from 'prismic-dom';
 
 export const getFlags = async () => {
   const api = await Prismic.api('https://wellcomecollection.prismic.io/api/v2');
@@ -12,10 +13,14 @@ export const getFlags = async () => {
     const flagName = flag.flagName;
     const cohortSettings = flag.flagCohortSettings;
     const settings = cohortSettings.reduce((result, item) => {
-      const cohortName = item.featuresCohort.data.cohortName;
-      const cohortSetting = item.flagStatus;
-      result[cohortName] = cohortSetting;
-      return result;
+      if (item.featuresCohort.data) {
+        const cohortName = item.featuresCohort.data.cohortName;
+        const cohortBooleanSetting = item.flagStatus;
+        const cohortValue = RichText.asText(item.flagValue).trim();
+        result[`${cohortName}Boolean`] = cohortBooleanSetting;
+        result[`${cohortName}Value`] = cohortValue;
+        return result;
+      }
     }, {});
 
     result[flagName] = settings;
