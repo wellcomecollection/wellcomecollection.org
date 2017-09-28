@@ -16,6 +16,10 @@
 {% endblock %}
 
 {% block body %}
+  <script type="application/ld+json">
+    {{ work | jsonLd('workLd') | safe }}
+  </script>
+
   {% set iiifModel = {contentUrl: work.imgLink, caption: work.description, width: work.imgWidth} %}
   {% set iiifData = {lazyload: true, sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
   {% componentV2 'work-media', {id: id, queryString: queryString, iiifModel: iiifModel, iiifData: iiifData, trackTitle: work.title | truncate(50)} %}
