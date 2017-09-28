@@ -14,10 +14,6 @@
 .slider-controls {
   will-change: opacity;
   transform: translateZ(0);
-  .control-arrow {
-    width: 16px;
-    height: 16px;
-  }
 }
 
 .slider-control--prev,
@@ -27,13 +23,7 @@
 
 .slider-control--prev {
   .control-arrow {
-    transform: rotate(90deg);
-  }
-}
-
-.slider-control--next {
-  .control-arrow {
-    transform: rotate(-90deg);
+    transform: rotate(180deg);
   }
 }
 

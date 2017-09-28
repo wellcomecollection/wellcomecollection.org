@@ -287,7 +287,6 @@ $tweakpoints: (
   z-index: 1;
 
   .icon {
-    height: 1rem;
     transition: transform 600ms ease;
   }
 
@@ -303,7 +302,6 @@ $tweakpoints: (
 }
 
 .header__list {
-
   .enhanced & {
     margin-left: -0.3rem;
   }

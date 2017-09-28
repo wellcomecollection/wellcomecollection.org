@@ -22,7 +22,7 @@
 
     <div class="footer__bottom">
       <div class="footer__left {{ {s:2, l:0} | spacingClasses({margin: ['bottom']}) }}">
-        <div class="footer__strap {{ {s:'HNM6'} | fontClasses }} {{ {m:4} | spacingClasses({margin: ['right']}) }} {{ {s:2, m:0} | spacingClasses({padding: ['bottom']}) }}">
+        <div class="footer__strap {{ {s:'HNM6'} | fontClasses }} {{ {m:4, l:6} | spacingClasses({margin: ['right']}) }} {{ {s:2, m:0} | spacingClasses({padding: ['bottom']}) }}">
           {% icon 'other/wellcome' %}
           <span class="footer__strap-text">The free museum and library from Wellcome</span>
         </div>
@@ -49,7 +49,7 @@
             <a href="https://wellcomecollection.org/press/press-releases" class="footer__hygiene-link">Press</a>
           </li>
           <li class="footer__hygiene-item {{ {s:'HNM6'} | fontClasses }}">
-            <a href="#top" class="footer__hygiene-link  footer__hygiene-link--back-to-top"><span>Back to top</span>{% icon 'actions/arrow-big-up' %}</a>
+            <a href="#top" class="footer__hygiene-link  footer__hygiene-link--back-to-top"><span>Back to top</span>{% icon 'actions/arrow', null, ['icon--270'] %}</a>
           </li>
         </ul>
       </nav>

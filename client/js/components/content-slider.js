@@ -28,8 +28,7 @@ const contentSlider = (el, options) => {
     sliderControls: document.createElement('div'),
     prevControl: document.createElement('button'),
     nextControl: document.createElement('button'),
-    arrowThick: '<svg class="control-arrow" aria-hidden="true" viewBox="0 0 12 13"><path d="M10.95 6.05a1 1 0 0 0-1.41 0L7 8.59V2a1 1 0 0 0-2 0v6.59L2.46 6.05a1 1 0 0 0-1.41 1.41l4.24 4.24a1 1 0 0 0 1.41 0l4.24-4.24a1 1 0 0 0 .01-1.41z"></path></svg>',
-    arrowThin: '<svg class="control-arrow" aria-hidden="true" viewBox="0 0 20 26"><path class="icon__shape" d="M18.71 15.29a1 1 0 0 0-1.41 0l-6.3 6.3V2a1 1 0 0 0-2 0v19.59l-6.29-6.3A1 1 0 0 0 1.3 16.7l8 8a1 1 0 0 0 1.41 0l8-8a1 1 0 0 0 0-1.41z"></path></svg>'
+    arrow: '<svg class="control-arrow icon" aria-hidden="true" viewBox="0 0 26 26"><path d="M22.7,12.6l-7.5-7.5c-0.4-0.4-1-0.4-1.4,0c-0.4,0.4-0.4,1,0,1.4l5.8,5.8H3.9c-0.6,0-1,0.4-1,1s0.4,1,1,1h15.7l-5.8,5.8c-0.4,0.4-0.4,1,0,1.4c0.2,0.2,0.5,0.3,0.7,0.3s0.5-0.1,0.7-0.3l7.5-7.5C23.1,13.6,23.1,13,22.7,12.6z"/></svg>'
   };
 
   // TODO: remove this when removing data-modifiers from async. It smells.
@@ -100,13 +99,8 @@ const contentSlider = (el, options) => {
 
     sliderElements.sliderControls.appendChild(sliderElements.prevControl);
     sliderElements.sliderControls.appendChild(sliderElements.nextControl);
-    if (settings.sliderType === 'gallery') {
-      sliderElements.prevControl.innerHTML = sliderElements.arrowThin;
-      sliderElements.nextControl.innerHTML = sliderElements.arrowThin;
-    } else {
-      sliderElements.prevControl.innerHTML = sliderElements.arrowThick;
-      sliderElements.nextControl.innerHTML = sliderElements.arrowThick;
-    }
+    sliderElements.prevControl.innerHTML = sliderElements.arrow;
+    sliderElements.nextControl.innerHTML = sliderElements.arrow;
 
     // Set transition style for slider
     calculateDimensions(); // Dimensions which determine movement amounts
