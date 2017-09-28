@@ -1,0 +1,39 @@
+{
+  "@title": "Promos",
+  "@repeatable": true,
+  "Main" : {
+    "url" : {
+      "type" : "Link",
+      "config" : {
+        "select" : "web",
+        "label" : "URL"
+      }
+    },
+    "title" : {
+      "config" : {
+        "label" : "Title",
+        "useAsTitle" : true
+      },
+      "type" : "Text"
+    },
+    "description" : {
+      "config" : {
+        "label" : "Description"
+      },
+      "type" : "Text"
+    },
+    "image" : {
+      "type" : "Image",
+      "config" : {
+        "label" : "Image"
+      }
+    },
+    "contentType" : {
+      "type" : "Select",
+      "fieldset" : "Role",
+      "config" : {
+        "options" : [ "article", "comic", "audio", "video", "gallery", "exhibition", "discussion", "book" ]
+      }
+    }
+  }
+}

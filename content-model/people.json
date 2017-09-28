@@ -1,0 +1,37 @@
+{
+  "@title": "Person",
+  "@repeatable": true,
+  "Main" : {
+    "name" : {
+      "config" : {
+        "label" : "Full name",
+        "useAsTitle" : true
+      },
+      "type" : "Text"
+    },
+    "description" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : "paragraph, strong, em, hyperlink",
+        "label" : "Description"
+      }
+    },
+    "image" : {
+      "type" : "Image",
+      "config" : {
+        "constraint" : {
+          "width" : null,
+          "height" : null
+        },
+        "thumbnails" : [ ],
+        "label" : "image"
+      }
+    },
+    "twitterHandle" : {
+      "config" : {
+        "label" : "Twitter handle"
+      },
+      "type" : "Text"
+    }
+  }
+}

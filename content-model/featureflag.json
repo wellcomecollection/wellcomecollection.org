@@ -1,0 +1,41 @@
+{
+  "@title": "Feature flag",
+  "@repeatable": true,
+  "Main" : {
+    "flagName" : {
+      "config" : {
+        "label" : "Flag name"
+      },
+      "type" : "Text"
+    },
+    "flagDescription" : {
+      "type" : "Text",
+      "config" : {
+        "label" : "Flag description"
+      }
+    },
+    "flagCohortSettings" : {
+      "type" : "Group",
+      "config" : {
+        "fields" : {
+          "featuresCohort" : {
+            "type" : "Link",
+            "fieldset" : "Features cohort",
+            "config" : {
+              "select" : "document",
+              "customtypes" : [ "featurescohort" ]
+            }
+          },
+          "flagStatus" : {
+            "type" : "Select",
+            "config" : {
+              "options" : [ "on", "off" ],
+              "label" : "Flag status"
+            }
+          }
+        },
+        "label" : "Cohort settings"
+      }
+    }
+  }
+}

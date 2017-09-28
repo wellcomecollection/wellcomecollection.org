@@ -1,0 +1,63 @@
+{
+  "@title": "Book",
+  "@repeatable": true,
+  "Book" : {
+    "title" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : " ",
+        "label" : "Title",
+        "useAsTitle" : true
+      }
+    },
+    "author" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : " ",
+        "label" : "author"
+      }
+    },
+    "isbn" : {
+      "type" : "Text",
+      "config" : {
+        "label" : "ISBN"
+      }
+    },
+    "publisher" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : " ",
+        "label" : "Publisher"
+      }
+    },
+    "link" : {
+      "type" : "Link",
+      "config" : {
+        "label" : "link"
+      }
+    },
+    "publishedDate" : {
+      "type" : "Date",
+      "config" : {
+        "label" : "Published date"
+      }
+    },
+    "cover" : {
+      "type" : "Image",
+      "config" : {
+        "constraint" : {
+          "width" : null,
+          "height" : null
+        },
+        "thumbnails" : [],
+        "label" : "cover"
+      }
+    },
+    "price": {
+      "type": "Number",
+      "config": {
+        "label": "price"
+      }
+    }
+  }
+}
