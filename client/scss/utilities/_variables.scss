@@ -209,6 +209,7 @@ $container-padding-l: map-get($container-padding, 'large');
 $container-padding-xl: map-get($container-padding, 'xlarge');
 
 $icon-dimension: 26px;
+$icon-container-dimension: 46px;
 
 $breakpoints: (
   'small': 0,

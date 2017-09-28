@@ -16,7 +16,6 @@ function walk(dir) {
       return acc.concat(walk(dirOrFile));
     } else if (path.extname(dirOrFile) === '.svg') {
       return acc.concat({
-        extraClasses: ['icon--fill'],
         icon: path.join(path.basename(dir), path.basename(dirOrFile, '.svg'))
       });
     }

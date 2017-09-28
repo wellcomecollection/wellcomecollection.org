@@ -19,10 +19,6 @@
   width: 100%;
 }
 
-.icon--fill svg {
-  fill: color('black');
-}
-
 @each $color-key, $color-value in $colors {
   .icon--#{$color-key} {
     svg,
@@ -30,22 +26,6 @@
       fill: nth($color-value, 1);
     }
   }
-}
-
-.icon--stroke svg {
-  stroke: color('black');
-}
-
-.icon--fill-negative svg {
-  fill: color('white');
-}
-
-.icon--stroke-negative svg {
-  stroke: color('white');
-}
-
-.icon--action svg {
-  fill: color('mint');
 }
 
 .icon--90 {
@@ -61,8 +41,8 @@
 }
 
 .icon-rounder {
-  border: 1px solid color('silver');
+  border: 2px solid color('currentColor');
   border-radius: 50%;
-  width: $spacing-unit * 5;
-  height: $spacing-unit * 5;
+  width: $icon-container-dimension;
+  height: $icon-container-dimension;
 }
