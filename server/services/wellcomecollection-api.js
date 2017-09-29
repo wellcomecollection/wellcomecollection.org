@@ -5,9 +5,11 @@ import type {Work} from '../model/work';
 const version = 'v1';
 const baseUri = `https://api.wellcomecollection.org/catalogue/${version}`;
 
-export async function getWork(id: string): Promise<Work> {
+export async function getWork(id: string, imageIndex: string): Promise<Work> {
+  const indexParam = imageIndex ? {'_index': imageIndex} : {};
+  const totalQuery = Object.assign(indexParam, {includes: 'identifiers,thumbnail'});
   return await superagent.get(`${baseUri}/works/${id}`)
-    .query({includes: 'identifiers,thumbnail'})
+    .query(totalQuery)
     .then((request) => request.body);
 }
 

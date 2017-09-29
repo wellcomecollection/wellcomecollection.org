@@ -29,7 +29,7 @@ function getImageIndex(ctx) {
 export const work = async(ctx, next) => {
   const id = ctx.params.id;
   const queryString = ctx.search;
-  const singleWork = await getWork(id);
+  const singleWork = await getWork(id, getImageIndex(ctx));
   const truncatedTitle = getTruncatedTitle(singleWork.title);
   const miroIdObject = singleWork.identifiers.find(identifier => {
     return identifier.identifierScheme === 'miro-image-number';
