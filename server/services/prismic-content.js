@@ -149,7 +149,6 @@ function parseArticleAsArticle(prismicArticle) {
   // We fallback to `Date.now()` in case we're in preview and don't have a published date
   const publishDate = getPublishedDate(prismicArticle);
 
-  // TODO:
   const featuredMedia = getFeaturedMediaFromBody(prismicArticle);
 
   // TODO: Don't convert this into thumbnail
@@ -289,7 +288,7 @@ type PaginatedResults = {|
   totalPages: number
 |};
 
-export async function getArticleList(documentTypes = ['articles', 'webcomics'], pageSize = 10, page = 1) {
+export async function getArticleList(page = 1, {pageSize = 10, predicates = []}) {
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'series.name', 'series.description', 'series.color', 'series.commissionedLength'
@@ -298,9 +297,9 @@ export async function getArticleList(documentTypes = ['articles', 'webcomics'], 
   const orderings = '[document.first_publication_date desc, my.articles.publishDate desc, my.webcomics.publishDate desc]';
   const prismic = await prismicApi();
   const articlesList = await prismic.query([
-    Prismic.Predicates.any('document.type', documentTypes),
+    Prismic.Predicates.any('document.type', ['articles', 'webcomics']),
     Prismic.Predicates.not('document.tags', ['delist'])
-  ], {fetchLinks, orderings, pageSize, page});
+  ].concat(predicates), {fetchLinks, page, pageSize, orderings});
 
   const articlesAsArticles = articlesList.results.map(result => {
     switch (result.type) {
@@ -319,26 +318,15 @@ export async function getArticleList(documentTypes = ['articles', 'webcomics'], 
   }: PaginatedResults);
 }
 
-export async function getSeriesArticles(id: string, pageSize = 10, page = 1) {
-  const fetchLinks = [
-    'people.name', 'people.image', 'people.twitterHandle', 'people.description',
-    'series.name', 'series.description', 'series.color', 'series.commissionedLength'
-  ];
-  const prismic = await prismicApi();
-  const articlesList = await prismic.query([
-    Prismic.Predicates.at('document.type', 'articles'),
-    Prismic.Predicates.at('my.articles.series.series', id)
-  ], {fetchLinks, pageSize, page});
+export async function getSeriesArticles(id: string, page = 1) {
+  const articlesList = await getArticleList(page, {predicates: [Prismic.Predicates.at('my.articles.series.series', id)]});
 
-  const articlesAsArticles = articlesList.results.map(result => {
-    return parseArticleAsArticle(result);
-  });
+  if (articlesList.totalResults > 0) {
+    const series = articlesList.results[0].series[0];
 
-  if (articlesAsArticles.length > 0) {
-    const series = articlesAsArticles[0].series[0];
     const paginatedResults = ({
       currentPage: page,
-      results: articlesAsArticles,
+      results: articlesList.results,
       pageSize: articlesList.results_per_page,
       totalResults: articlesList.total_results_size,
       totalPages: articlesList.total_pages
