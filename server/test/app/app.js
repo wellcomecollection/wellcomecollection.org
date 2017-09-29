@@ -9,10 +9,10 @@ test('/', async t => {
   t.is(res.status, 200);
 });
 
-// test('/explore', async t => {
-//   const res = await request.get('/explore');
-//   t.is(res.status, 200);
-// });
+test('/explore', async t => {
+  const res = await request.get('/explore');
+  t.is(res.status, 200);
+});
 
 test('/articles/:slug', async t => {
   const res = await request.get('/articles/a-drop-in-the-ocean-daniel-regan');
