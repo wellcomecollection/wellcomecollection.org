@@ -7,6 +7,16 @@ import {RichText, Date as PrismicDate} from 'prismic-dom';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import {isEmptyObj} from '../util/is-empty-obj';
 
+function getSeries(doc) {
+  return doc.data.series.map(seriesGroup => {
+    const series = seriesGroup.series;
+    return series && series.data && {
+      name: series.data.name,
+      description: series.data.description
+    };
+  }).filter(_ => _);
+}
+
 export function getContributors(doc): Array<Contributor> {
   // TODO: Support creator's role
   return doc.data.contributors
@@ -146,15 +156,7 @@ function parseArticleAsArticle(prismicArticle) {
   const thumbnail = promo && prismicImageToPicture(promo.primary);
   const description = promo && asText(promo.primary.caption); // TODO: Do not use description
   const contributors = getContributors(prismicArticle);
-
-  const series = prismicArticle.data.series.length > 0 && prismicArticle.data.series.map(prismicSeries => {
-    const seriesData = prismicSeries.primary.series.data;
-    // TODO: Support commissionedLength and positionInSeries
-    return {
-      name: seriesData.name,
-      description: seriesData.description
-    };
-  }) || [];
+  const series = getSeries(prismicArticle);
 
   const bodyParts = convertContentToBodyParts(prismicArticle.data.body);
 
@@ -330,13 +332,7 @@ function parseWebcomicAsArticle(prismicDoc) {
   const thumbnail = promo && prismicImageToPicture(promo.primary);
   const description = asText(promo.primary.caption); // TODO: Do not use description
   const contributors = getContributors(prismicDoc);
-  const series = prismicDoc.data.series.length > 0 && prismicDoc.data.series.map(prismicSeries => {
-    const seriesData = prismicSeries.primary.series.data;
-    return {
-      name: seriesData.name,
-      description: seriesData.description
-    };
-  }) || [];
+  const series = getSeries(prismicDoc);
 
   const article: Article = {
     contentType: 'comic',
