@@ -10,7 +10,8 @@ import {
   renderEvent,
   renderExhibition,
   renderEventbriteEmbed,
-  renderExplore
+  renderExplore,
+  renderSeries
 } from '../controllers/content';
 
 const r = new Router({
@@ -59,7 +60,7 @@ r.get('/works/:id', work);
 // Deprecated: Wordpress content
 r.get('/articles/:slug', article);
 r.get('/articles/preview/:id', preview);
-r.get('/series/:id', series);
+r.get('/series/:id', renderSeries);
 r.get('/articles', articles);
 
 // Async

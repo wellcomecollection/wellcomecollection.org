@@ -9,7 +9,8 @@ import {collectorsPromo} from '../data/series';
 import {prismicAsText} from '../filters/prismic';
 import {
   getArticle,
-  getArticleList
+  getArticleList,
+  getSeriesArticles
 } from '../services/prismic-content';
 import {getEvent} from '../services/events';
 import {getExhibition} from '../services/exhibitions';
@@ -181,4 +182,21 @@ export async function renderExplore(ctx, next) {
   });
 
   return next();
+}
+
+export async function renderSeries(ctx, next) {
+  const {id, page} = ctx.params;
+
+  const seriesArticles = await getSeriesArticles(id);
+
+  if (seriesArticles) {
+    const series: Series = {
+      url: '/articles',
+      name: 'Articles',
+      items: seriesArticles.results
+      // total: seriesArticles.totalResults
+    };
+
+    return next();
+  }
 }

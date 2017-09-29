@@ -371,29 +371,17 @@
   },
   "Series" : {
     "series" : {
-      "type" : "Slices",
+      "type" : "Group",
+      "fieldset" : "Series",
       "config" : {
-        "label" : "Series",
-        "choices" : {
+        "fields" : {
           "series" : {
-            "type" : "Slice",
-            "fieldset" : "Series",
-            "non-repeat" : {
-              "series" : {
-                "type" : "Link",
-                "config" : {
-                  "label" : "Series",
-                  "select" : "document",
-                  "customtypes" : [ "series" ],
-                  "placeholder" : "Select an series…"
-                }
-              },
-              "positionInSeries" : {
-                "type" : "Number",
-                "config" : {
-                  "label" : "Position in series"
-                }
-              }
+            "type" : "Link",
+            "fieldset": "Series",
+            "config" : {
+              "select" : "document",
+              "customtypes" : [ "series" ],
+              "label" : "Series"
             }
           }
         }

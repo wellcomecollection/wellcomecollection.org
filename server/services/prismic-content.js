@@ -148,8 +148,7 @@ function parseArticleAsArticle(prismicArticle) {
   const contributors = getContributors(prismicArticle);
 
   const series = prismicArticle.data.series.length > 0 && prismicArticle.data.series.map(prismicSeries => {
-    const seriesData = prismicSeries.primary.series.data;
-    // TODO: Support commissionedLength and positionInSeries
+    const seriesData = prismicSeries.series.data;
     return {
       name: seriesData.name,
       description: seriesData.description
@@ -297,6 +296,24 @@ export async function getArticleList(documentTypes = ['articles', 'webcomics'], 
     }
   });
   return articlesAsArticles;
+}
+
+export async function getSeriesArticles(id: string) {
+  const fetchLinks = [
+    'people.name', 'people.image', 'people.twitterHandle', 'people.description',
+    'series.name', 'series.description', 'series.color', 'series.commissionedLength'
+  ];
+  const prismic = await prismicApi();
+  const articlesList = await prismic.query([
+    Prismic.Predicates.at('document.type', 'articles'),
+    Prismic.Predicates.at('my.articles.series.series', id)
+  ], {fetchLinks});
+
+  const articlesAsArticles = articlesList.results.map(result => {
+    return parseArticleAsArticle(result);
+  });
+
+  return articlesAsArticles.length > 0 ? {series: articlesAsArticles[0].series, results: articlesAsArticles} : null;
 }
 
 export function asText(maybeContent) {
