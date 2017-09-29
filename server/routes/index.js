@@ -3,14 +3,15 @@ import request from 'superagent';
 import {healthcheck, featureFlags} from '../controllers/utils';
 import {seriesNav, seriesTransporter, latestInstagramPosts, seriesContainerPromoList} from '../controllers/async-controllers';
 import {work, search} from '../controllers/work';
-import {index, article, articles, preview, series} from '../controllers'; // Deprecated
+import {index, article, preview, series, articles} from '../controllers'; // Deprecated
 import {
   renderArticle,
   setPreviewSession,
   renderEvent,
   renderExhibition,
   renderEventbriteEmbed,
-  renderExplore
+  renderExplore,
+  renderArticlesList
 } from '../controllers/content';
 
 const r = new Router({
@@ -60,7 +61,15 @@ r.get('/works/:id', work);
 r.get('/articles/:slug', article);
 r.get('/articles/preview/:id', preview);
 r.get('/series/:id', series);
-r.get('/articles', articles);
+r.get('/articles', async (ctx, next) => {
+  const format = ctx.query.format;
+
+  if (format === 'archive') {
+    return articles(ctx, next);
+  } else {
+    return renderArticlesList(ctx, next);
+  }
+});
 
 // Async
 r.get('/async/series-nav/:id', seriesNav);

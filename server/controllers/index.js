@@ -43,7 +43,7 @@ export const articles = async(ctx, next) => {
     total: articleStubsResponse.total
   };
   const promoList = PromoListFactory.fromSeries(series);
-  const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1);
+  const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1, 32, { format: 'archive' });
 
   ctx.render('pages/list', {
     pageConfig: createPageConfig({
