@@ -9,9 +9,10 @@ import {isEmptyObj} from '../util/is-empty-obj';
 
 function getSeries(doc) {
   return doc.data.series.map(seriesGroup => {
-    return seriesGroup.data && {
-      name: seriesGroup.data.name,
-      description: seriesGroup.data.description
+    const series = seriesGroup.series;
+    return series && series.data && {
+      name: series.data.name,
+      description: series.data.description
     };
   }).filter(_ => _);
 }
@@ -155,7 +156,6 @@ function parseArticleAsArticle(prismicArticle) {
   const thumbnail = promo && prismicImageToPicture(promo.primary);
   const description = promo && asText(promo.primary.caption); // TODO: Do not use description
   const contributors = getContributors(prismicArticle);
-
   const series = getSeries(prismicArticle);
 
   const bodyParts = convertContentToBodyParts(prismicArticle.data.body);
@@ -280,6 +280,14 @@ export function convertContentToBodyParts(content) {
   }).filter(_ => _);
 }
 
+type PaginatedResults = {|
+  currentPage: number,
+  results: List<Articles>,
+  pageSize: number,
+  totalResults: number,
+  totalPages: number
+|};
+
 export async function getArticleList(documentTypes = ['articles', 'webcomics'], pageSize = 10, page = 1) {
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
@@ -301,13 +309,13 @@ export async function getArticleList(documentTypes = ['articles', 'webcomics'], 
   });
 
   // This shape matches the works API
-  return {
+  return ({
     currentPage: page,
     results: articlesAsArticles,
     pageSize: articlesList.results_per_page,
     totalResults: articlesList.total_results_size,
     totalPages: articlesList.total_pages
-  };
+  }: PaginatedResults);
 }
 
 export async function getSeriesArticles(id: string) {

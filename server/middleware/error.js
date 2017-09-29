@@ -1,28 +1,41 @@
 import Raven from 'raven';
 import {createPageConfig} from '../model/page-config';
 
-Raven.config('https://605190088e024c3187592cbeca6d2b1d:8405497d82c243f48ef8546c93ba7f49@sentry.io/133634').install();
-export default function() {
-  return async function(ctx, next) {
+Raven.config('https://2cfb7b8ceb0a4549a4de2010b219a65d:5b48d985281a47e095a73df871b59149@sentry.io/223943').install();
+export function serverError(beaconError) {
+  return async (ctx, next) => {
     try {
       await next();
-      if (404 === ctx.response.status && !ctx.response.body) ctx.throw(404);
     } catch (err) {
-      // We don't want to alert on 4xx errors, although they will be tracked in GA
-      if (err.status && (err.status < 400 || err.status > 499)) {
+      const url = ctx.request.href;
+      ctx.status = err.status || 500;
+
+      console.error(err, url);
+      if (beaconError) {
         Raven.captureException(err, {extra: {url: ctx.request.href}});
       }
-      const path = ctx.request.url;
-      console.error(err, path);
-      ctx.status = err.status || 500;
 
       ctx.render('pages/error', {
         errorStatus: ctx.status,
         pageConfig: createPageConfig({
-          path: path,
-          title: `${err.status} error`
+          title: `${ctx.status} error`
         })
       });
     }
+  }
+}
+
+export function notFound() {
+  return async (ctx, next) => {
+    await next();
+    if (404 === ctx.response.status && !ctx.response.body) {
+
+      ctx.render('pages/error', {
+        errorStatus: ctx.status,
+        pageConfig: createPageConfig({
+          title: `${ctx.status} error`
+        })
+      });
+    };
   }
 }

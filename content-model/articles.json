@@ -377,7 +377,7 @@
         "fields" : {
           "series" : {
             "type" : "Link",
-            "fieldset": "Series",
+            "fieldset" : "Series",
             "config" : {
               "select" : "document",
               "customtypes" : [ "series" ],
