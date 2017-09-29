@@ -189,7 +189,7 @@ export async function renderExplore(ctx, next) {
 export async function renderSeries(ctx, next) {
   const {id, page} = ctx.params;
 
-  const seriesArticles = await getSeriesArticles(id);
+  const seriesArticles = await getSeriesArticles(`W${id}`);
 
   if (seriesArticles) {
     const {series, paginatedResults} = seriesArticles;
