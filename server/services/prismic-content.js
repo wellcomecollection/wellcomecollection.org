@@ -319,19 +319,10 @@ export async function getArticleList(page = 1, {pageSize = 10, predicates = []})
 }
 
 export async function getSeriesArticles(id: string, page = 1) {
-  const articlesList = await getArticleList(page, {predicates: [Prismic.Predicates.at('my.articles.series.series', id)]});
+  const paginatedResults = await getArticleList(page, {predicates: [Prismic.Predicates.at('my.articles.series.series', id)]});
 
-  if (articlesList.totalResults > 0) {
-    const series = articlesList.results[0].series[0];
-
-    const paginatedResults = ({
-      currentPage: page,
-      results: articlesList.results,
-      pageSize: articlesList.results_per_page,
-      totalResults: articlesList.total_results_size,
-      totalPages: articlesList.total_pages
-    }: PaginatedResults);
-
+  if (paginatedResults.totalResults > 0) {
+    const series = paginatedResults.results[0].series[0];
     return {series, paginatedResults};
   }
 }
