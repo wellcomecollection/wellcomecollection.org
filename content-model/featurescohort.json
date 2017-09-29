@@ -1,0 +1,18 @@
+{
+  "@title": "Feature cohort",
+  "@repeatable": true,
+  "Main" : {
+    "cohortName" : {
+      "type" : "Text",
+      "config" : {
+        "label" : "Cohort name"
+      }
+    },
+    "cohortDescription" : {
+      "type" : "Text",
+      "config" : {
+        "label" : "Cohort description"
+      }
+    }
+  }
+}

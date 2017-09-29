@@ -1,0 +1,130 @@
+{
+  "@title": "Webcomic",
+  "@repeatable": true,
+  "Content": {
+    "title": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Title",
+        "single": "heading1",
+        "useAsTitle": true
+      }
+    },
+    "image": {
+      "type": "Image",
+      "config": {
+        "label": "Webcomic"
+      }
+    }
+  },
+  "Promo": {
+    "promo": {
+      "type": "Slices",
+      "config": {
+        "label": "Promo",
+        "choices": {
+          "editorialImage": {
+            "type": "Slice",
+            "fieldset": "Editorial image",
+            "config": {
+              "label": "Editorial image"
+            },
+            "non-repeat": {
+              "caption": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Promo text",
+                  "single": "hyperlink, strong, em"
+                }
+              },
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Promo image"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Contributors": {
+    "contributors": {
+      "type": "Slices",
+      "fieldset": "Contributors",
+      "config": {
+        "choices": {
+          "person": {
+            "type": "Slice",
+            "fieldset": "Person",
+            "non-repeat": {
+              "role": {
+                "type": "Select",
+                "fieldset": "Role",
+                "config": {
+                  "options": [
+                    "author",
+                    "photographer"
+                  ]
+                }
+              },
+              "person": {
+                "type": "Link",
+                "config": {
+                  "label": "Person",
+                  "select": "document",
+                  "customtypes": [
+                    "people"
+                  ],
+                  "placeholder": "Select a person…"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Series": {
+    "series": {
+      "type": "Slices",
+      "config": {
+        "label": "Series",
+        "choices": {
+          "series": {
+            "type": "Slice",
+            "fieldset": "Series",
+            "non-repeat": {
+              "series": {
+                "type": "Link",
+                "config": {
+                  "label": "Series",
+                  "select": "document",
+                  "customtypes": [
+                    "series"
+                  ],
+                  "placeholder": "Select an series…"
+                }
+              },
+              "positionInSeries": {
+                "type": "Number",
+                "config": {
+                  "label": "Position in series"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Metadata": {
+    "publishDate": {
+      "config": {
+        "label": "Override publish date"
+      },
+      "type": "Timestamp"
+    }
+  }
+}
