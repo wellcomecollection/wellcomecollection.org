@@ -11,6 +11,7 @@ function getSeries(doc) {
   return doc.data.series.map(seriesGroup => {
     const series = seriesGroup.series;
     return series && series.data && {
+      id: series.id,
       name: series.data.name,
       description: series.data.description
     };
@@ -299,7 +300,7 @@ export async function getArticleList(documentTypes = ['articles', 'webcomics'], 
   const articlesList = await prismic.query([
     Prismic.Predicates.any('document.type', documentTypes),
     Prismic.Predicates.not('document.tags', ['delist'])
-  ], {fetchLinks, orderings, pageSize});
+  ], {fetchLinks, orderings, pageSize, page});
 
   const articlesAsArticles = articlesList.results.map(result => {
     switch (result.type) {
@@ -318,7 +319,7 @@ export async function getArticleList(documentTypes = ['articles', 'webcomics'], 
   }: PaginatedResults);
 }
 
-export async function getSeriesArticles(id: string) {
+export async function getSeriesArticles(id: string, pageSize = 10, page = 1) {
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'series.name', 'series.description', 'series.color', 'series.commissionedLength'
@@ -327,13 +328,24 @@ export async function getSeriesArticles(id: string) {
   const articlesList = await prismic.query([
     Prismic.Predicates.at('document.type', 'articles'),
     Prismic.Predicates.at('my.articles.series.series', id)
-  ], {fetchLinks});
+  ], {fetchLinks, pageSize, page});
 
   const articlesAsArticles = articlesList.results.map(result => {
     return parseArticleAsArticle(result);
   });
 
-  return articlesAsArticles.length > 0 ? {series: articlesAsArticles[0].series, results: articlesAsArticles} : null;
+  if (articlesAsArticles.length > 0) {
+    const series = articlesAsArticles[0].series[0];
+    const paginatedResults = ({
+      currentPage: page,
+      results: articlesAsArticles,
+      pageSize: articlesList.results_per_page,
+      totalResults: articlesList.total_results_size,
+      totalPages: articlesList.total_pages
+    }: PaginatedResults);
+
+    return {series, paginatedResults};
+  }
 }
 
 export function asText(maybeContent) {

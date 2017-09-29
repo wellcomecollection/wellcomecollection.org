@@ -192,12 +192,29 @@ export async function renderSeries(ctx, next) {
   const seriesArticles = await getSeriesArticles(id);
 
   if (seriesArticles) {
-    const series: Series = {
-      url: '/articles',
-      name: 'Articles',
-      items: seriesArticles.results
-      // total: seriesArticles.totalResults
+    const {series, paginatedResults} = seriesArticles;
+    const pageSeries: Series = {
+      url: `/series/${series.id}`,
+      name: series.name,
+      description: series.description,
+      items: List(paginatedResults.results),
+      total: paginatedResults.totalResults
     };
+
+    const promoList = PromoListFactory.fromSeries(pageSeries);
+    const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1);
+    const path = ctx.request.url;
+
+    ctx.render('pages/list', {
+      pageConfig: createPageConfig({
+        path: path,
+        title: 'Articles',
+        inSection: 'explore',
+        category: 'list'
+      }),
+      list: promoList,
+      pagination
+    });
 
     return next();
   }
