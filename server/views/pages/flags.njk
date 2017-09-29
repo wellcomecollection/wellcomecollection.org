@@ -23,7 +23,7 @@
             <caption class="feature-flags__caption {{ {s:1, m:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}"><strong>{{name}}</strong></caption>
             <tr class="feature-flags__row">
               <th class="feature-flags__heading {{ {s:'HNM4'} | fontClasses }} {{ {s:1, m:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">cohort</th>
-              <th class="feature-flags__heading {{ {s:'HNM4'} | fontClasses }} {{ {s:1, m:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">status</th>
+              <th class="feature-flags__heading {{ {s:'HNM4'} | fontClasses }} {{ {s:1, m:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">status/value</th>
             </tr>
             {% for name, status in flag %}
               <tr class="feature-flags__row">

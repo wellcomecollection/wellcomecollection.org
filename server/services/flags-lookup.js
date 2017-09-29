@@ -17,8 +17,11 @@ export const getFlags = async () => {
         const cohortName = item.featuresCohort.data.cohortName;
         const cohortBooleanSetting = item.flagStatus;
         const cohortValue = RichText.asText(item.flagValue).trim();
-        result[`${cohortName}Boolean`] = cohortBooleanSetting;
-        result[`${cohortName}Value`] = cohortValue;
+        if (cohortValue.length > 0) {
+          result[cohortName] = cohortValue;
+        } else {
+          result[cohortName] = cohortBooleanSetting;
+        }
         return result;
       }
     }, {});
