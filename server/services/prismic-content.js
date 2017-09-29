@@ -7,6 +7,15 @@ import {RichText, Date as PrismicDate} from 'prismic-dom';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import {isEmptyObj} from '../util/is-empty-obj';
 
+function getSeries(doc) {
+  return doc.data.series.map(seriesGroup => {
+    return seriesGroup.data && {
+      name: seriesGroup.data.name,
+      description: seriesGroup.data.description
+    };
+  }).filter(_ => _);
+}
+
 export function getContributors(doc): Array<Contributor> {
   // TODO: Support creator's role
   return doc.data.contributors
@@ -147,13 +156,7 @@ function parseArticleAsArticle(prismicArticle) {
   const description = promo && asText(promo.primary.caption); // TODO: Do not use description
   const contributors = getContributors(prismicArticle);
 
-  const series = prismicArticle.data.series.length > 0 && prismicArticle.data.series.map(prismicSeries => {
-    const seriesData = prismicSeries.series.data;
-    return {
-      name: seriesData.name,
-      description: seriesData.description
-    };
-  }) || [];
+  const series = getSeries(prismicArticle);
 
   const bodyParts = convertContentToBodyParts(prismicArticle.data.body);
 
@@ -277,11 +280,12 @@ export function convertContentToBodyParts(content) {
   }).filter(_ => _);
 }
 
-export async function getArticleList(documentTypes = ['articles', 'webcomics'], pageSize = 10) {
+export async function getArticleList(documentTypes = ['articles', 'webcomics'], pageSize = 10, page = 1) {
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'series.name', 'series.description', 'series.color', 'series.commissionedLength'
   ];
+  // TODO: This order is not really doing what we expect it to do.
   const orderings = '[document.first_publication_date desc, my.articles.publishDate desc, my.webcomics.publishDate desc]';
   const prismic = await prismicApi();
   const articlesList = await prismic.query([
@@ -295,7 +299,15 @@ export async function getArticleList(documentTypes = ['articles', 'webcomics'], 
       case 'webcomics': return parseWebcomicAsArticle(result);
     }
   });
-  return articlesAsArticles;
+
+  // This shape matches the works API
+  return {
+    currentPage: page,
+    results: articlesAsArticles,
+    pageSize: articlesList.results_per_page,
+    totalResults: articlesList.total_results_size,
+    totalPages: articlesList.total_pages
+  };
 }
 
 export async function getSeriesArticles(id: string) {
@@ -338,13 +350,7 @@ function parseWebcomicAsArticle(prismicDoc) {
   const thumbnail = promo && prismicImageToPicture(promo.primary);
   const description = asText(promo.primary.caption); // TODO: Do not use description
   const contributors = getContributors(prismicDoc);
-  const series = prismicDoc.data.series.length > 0 && prismicDoc.data.series.map(prismicSeries => {
-    const seriesData = prismicSeries.primary.series.data;
-    return {
-      name: seriesData.name,
-      description: seriesData.description
-    };
-  }) || [];
+  const series = getSeries(prismicDoc);
 
   const article: Article = {
     contentType: 'comic',

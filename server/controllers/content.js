@@ -14,6 +14,8 @@ import {
 } from '../services/prismic-content';
 import {getEvent} from '../services/events';
 import {getExhibition} from '../services/exhibitions';
+import {PromoListFactory} from '../model/promo-list';
+import {PaginationFactory} from '../model/pagination';
 
 export const renderArticle = async(ctx, next) => {
   const format = ctx.request.query.format;
@@ -153,7 +155,7 @@ export async function renderExplore(ctx, next) {
   const listRequests = [getCuratedList('explore'), contentListPromise];
   const [curatedList, contentList] = await Promise.all(listRequests);
 
-  const contentPromos = contentList.map(PromoFactory.fromArticleStub);
+  const contentPromos = contentList.results.map(PromoFactory.fromArticleStub);
   const promos = List(contentPromos.map((promo, index) => {
     // First promo on Explore page is treated differently
     if (index === 0) {
@@ -199,4 +201,36 @@ export async function renderSeries(ctx, next) {
 
     return next();
   }
+}
+
+export async function renderArticlesList(ctx, next) {
+  // TODO: Remove WP content
+  const {page} = ctx.request.query;
+  const articlesList = await getArticleList(['articles', 'webcomics'], 96, page);
+  const contentPromos = List(articlesList.results);
+
+  const series: Series = {
+    url: '/articles',
+    name: 'Articles',
+    items: contentPromos,
+    total: articlesList.totalResults
+  };
+  const promoList = PromoListFactory.fromSeries(series);
+  const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1);
+  const path = ctx.request.url;
+  const moreLink = articlesList.totalPages === 1 || articlesList.currentPage === articlesList.totalPages ? '/articles?format=archive' : null;
+
+  ctx.render('pages/list', {
+    pageConfig: createPageConfig({
+      path: path,
+      title: 'Articles',
+      inSection: 'explore',
+      category: 'list'
+    }),
+    list: promoList,
+    pagination,
+    moreLink
+  });
+
+  return next();
 }
