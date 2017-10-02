@@ -15,7 +15,7 @@ import contains from './contains';
 import convertImageUri from './convert-image-uri';
 import getCacheBustFile from './get-cache-bust-file';
 import jsonLd from './json-ld';
-import {isFlagEnabled} from '../util/flag-status';
+import {isFlagEnabled, getFlagValue} from '../util/flag-status';
 import {objectAssign} from './object-assign';
 import {arrayFromObject} from './array-from-object';
 import {groupBodyParts} from './group-body-parts';
@@ -55,6 +55,7 @@ export default Map({
   componentClasses,
   convertImageUri,
   getCacheBustFile,
+  getFlagValue,
   jsonLd,
   formatDate,
   formatDateTime,
