@@ -4,7 +4,7 @@ export const isFlagEnabled = (userGroup, flagName = 'default', flags = {}) => {
   const flagConfig = flags[flagName];
   if (flagConfig === undefined) return false;
 
-  const flagCondition = flagConfig[`${userGroup}`];
+  const flagCondition = flagConfig[userGroup];
 
   if (flagCondition !== undefined) {
     return flagBoolean(flagCondition);
@@ -18,7 +18,7 @@ export const isFlagEnabled = (userGroup, flagName = 'default', flags = {}) => {
 export const getFlagValue = (userGroup, flagName = 'default', flags = {}) => {
   const flagConfig = flags[flagName];
   if (flagConfig === undefined) return '';
-  const flagValue = flagConfig[`${userGroup}`];
+  const flagValue = flagConfig[userGroup];
   return flagValue;
 };
 
