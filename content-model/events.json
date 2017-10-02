@@ -1,0 +1,152 @@
+{
+  "Event" : {
+    "title" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : "heading1",
+        "label" : "Title"
+      }
+    },
+    "format" : {
+      "type" : "Link",
+      "config" : {
+        "label" : "Format",
+        "select" : "document",
+        "customtypes" : [ "event-formats" ]
+      }
+    },
+    "when" : {
+      "type" : "Slices",
+      "fieldset" : "When",
+      "config" : {
+        "choices" : {
+          "dateRange" : {
+            "type" : "Slice",
+            "fieldset" : "Start / End times",
+            "non-repeat" : {
+              "start" : {
+                "type" : "Timestamp",
+                "config" : {
+                  "label" : "Start date"
+                }
+              },
+              "end" : {
+                "type" : "Timestamp",
+                "config" : {
+                  "label" : "End date"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "description": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Description",
+        "multi" : "heading2,paragraph,strong,em,hyperlink"
+      }
+    }
+  },
+  "Access" : {
+    "accessOptions" : {
+      "type" : "Group",
+      "fieldset" : "Access options",
+      "config" : {
+        "fields" : {
+          "accessOption" : {
+            "type" : "Link",
+            "fieldset": "Access option",
+            "config" : {
+              "select" : "document",
+              "customtypes" : [ "event-access-options" ],
+              "label" : "Access option"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Booking": {
+    "bookingEnquiryTeam": {
+      "type" : "Link",
+      "config" : {
+        "label" : "Booking enquiry team",
+        "select" : "document",
+        "customtypes" : [ "event-booking-enquiry-teams" ]
+      }
+    },
+    "bookingInformation": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Booking information",
+        "multi" : "paragraph,strong,em,hyperlink"
+      }
+    }
+  },
+  "Contributors" : {
+    "contributors" : {
+      "type" : "Slices",
+      "fieldset" : "Contributors",
+      "config" : {
+        "choices" : {
+          "person" : {
+            "type" : "Slice",
+            "fieldset" : "Person",
+            "non-repeat" : {
+              "role" : {
+                "type" : "Link",
+                "config" : {
+                  "label" : "Role",
+                  "select" : "document",
+                  "customtypes" : [ "event-contributor-roles" ]
+                }
+              },
+              "person" : {
+                "type" : "Link",
+                "config" : {
+                  "label" : "Person",
+                  "select" : "document",
+                  "customtypes" : [ "people" ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Promo" : {
+    "promo" : {
+      "type" : "Slices",
+      "config" : {
+        "label" : "Promo",
+        "choices" : {
+          "editorialImage" : {
+            "type" : "Slice",
+            "fieldset" : "Editorial image",
+            "config" : {
+              "label" : "Editorial image"
+            },
+            "non-repeat" : {
+              "caption" : {
+                "type" : "StructuredText",
+                "config" : {
+                  "label" : "Promo text",
+                  "single" : "hyperlink, strong, em"
+                }
+              },
+              "image" : {
+                "type" : "Image",
+                "config" : {
+                  "label" : "Promo image"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

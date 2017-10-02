@@ -1,0 +1,133 @@
+{
+  "Exhibition" : {
+    "title" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : "heading1",
+        "label" : "Title"
+      }
+    },
+    "subtitle" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : "heading2",
+        "label" : "Subtitle"
+      }
+    },
+    "start" : {
+      "type" : "Timestamp",
+      "config" : {
+        "label" : "Start date"
+      }
+    },
+    "end" : {
+      "type" : "Timestamp",
+      "config" : {
+        "label" : "End date"
+      }
+    },
+    "description": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Description",
+        "multi" : "heading2,paragraph,strong,em,hyperlink"
+      }
+    },
+    "featuredImage" : {
+      "type" : "Image",
+      "config" : {
+        "label" : "Featured image"
+      }
+    },
+    "featuredImageMobileCrop" : {
+      "type" : "Image",
+      "config" : {
+        "label" : "Featured image, mobile crop"
+      }
+    },
+    "textAndCaptionsDocument" : {
+      "type" : "Link",
+      "config" : {
+        "select" : "media",
+        "label" : "Text and captions document",
+        "placeholder" : "Text and captions document"
+      }
+    }
+  },
+  "Promo" : {
+    "promo" : {
+      "type" : "Slices",
+      "config" : {
+        "label" : "Promo",
+        "choices" : {
+          "editorialImage" : {
+            "type" : "Slice",
+            "fieldset" : "Editorial image",
+            "config" : {
+              "label" : "Editorial image"
+            },
+            "non-repeat" : {
+              "caption" : {
+                "type" : "StructuredText",
+                "config" : {
+                  "label" : "Promo text",
+                  "single" : "paragraph"
+                }
+              },
+              "image" : {
+                "type" : "Image",
+                "config" : {
+                  "label" : "Promo image"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Related Promos" : {
+    "promoList" : {
+      "type" : "Group",
+      "config" : {
+        "label" : "Related Promos",
+        "fields" : {
+          "image" : {
+            "type" : "Image",
+            "config" : {
+              "label" : "Image"
+            }
+          },
+          "type" : {
+            "type" : "Select",
+            "config" : {
+              "label" : "Type",
+              "options" : [ "gallery", "book", "event", "article" ]
+            }
+          },
+          "title" : {
+            "type" : "StructuredText",
+            "config" : {
+              "single" : "heading3",
+              "label" : "Title"
+            }
+          },
+          "description" : {
+            "type" : "StructuredText",
+            "config" : {
+              "single" : "strong, em, hyperlink",
+              "label" : "Description"
+            }
+          },
+          "link" : {
+            "config" : {
+              "label" : "Link",
+              "select" : "web"
+            },
+            "type" : "Link"
+          }
+        }
+      }
+    }
+  }
+}

@@ -22,7 +22,7 @@ resource "aws_launch_configuration" "wellcomecollection_ecs" {
   name_prefix          = "wellcomecollection-ecs-instance-"
   key_name             = "wellcomecollection.org"
   image_id             = "${data.aws_ami.ecs_optimized.id}"
-  instance_type        = "t2.small"
+  instance_type        = "t2.medium"
   iam_instance_profile = "${aws_iam_instance_profile.wellcomecollection.id}"
 
   security_groups = [

@@ -65,11 +65,19 @@
 
   <div class="row {{ {s:2, m:2, l:2} | spacingClasses({padding: ['top']}) }} {{ {s:3, m:3, l:3} | spacingClasses({padding: ['bottom']}) }} ">
     <div class="container">
-      <div class="grid">
-        <div class="grid__cell">
-          {% componentV2 'pagination', pagination %}
+      {% if moreLink %}
+        <div class="grid">
+          <div class="grid__cell" style="text-align: right">
+            <a href="{{moreLink}}">More articles from the archive</a>
+          </div>
         </div>
-      </div>
+      {% else %}
+        <div class="grid">
+          <div class="grid__cell">
+            {% componentV2 'pagination', pagination %}
+          </div>
+        </div>
+      {% endif %}
     </div>
   </div>
 {% endblock %}

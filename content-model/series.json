@@ -1,0 +1,72 @@
+{
+  "@title": "Editorial series",
+  "@repeatable": true,
+  "Main" : {
+    "name" : {
+      "type" : "Text",
+      "config" : {
+        "label" : "Name",
+        "useAsTitle" : true
+      }
+    },
+    "description" : {
+      "type" : "Text",
+      "config" : {
+        "label" : "Description"
+      }
+    },
+    "color" : {
+      "type" : "Select",
+      "config" : {
+        "options" : [ "turquoise", "red", "orange", "purple" ],
+        "label" : "color"
+      }
+    },
+    "wordpressSlug" : {
+      "type" : "Text",
+      "config" : {
+        "label" : "Wordpress slug"
+      }
+    }
+  },
+  "Schedule": {
+    "schedule": {
+      "type" : "Slices",
+      "fieldset" : "Slice zone",
+      "config" : {
+        "choices" : {
+          "content" : {
+            "type" : "Slice",
+            "fieldset" : "Articles",
+            "description" : "List of articles",
+            "icon" : "adjust",
+            "non-repeat" : {
+              "title" : {
+                "type" : "StructuredText",
+                "config" : {
+                  "multi" : "heading1",
+                  "label" : "title"
+                }
+              },
+              "publishdate" : {
+                "config" : {
+                  "label" : "publishDate"
+                },
+                "type" : "Timestamp"
+              },
+              "article" : {
+                "type" : "Link",
+                "config" : {
+                  "select" : "document",
+                  "customtypes" : [ "articles" ],
+                  "label" : "article"
+                }
+              }
+            },
+            "repeat" : { }
+          }
+        }
+      }
+    }
+  }
+}

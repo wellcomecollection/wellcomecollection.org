@@ -5,10 +5,12 @@ const config = {
   },
   globals: {
     development: {
-      rootDomain: ''
+      rootDomain: '',
+      beaconErrors: false
     },
     production: {
-      rootDomain: 'https://wellcomecollection.org'
+      rootDomain: 'https://wellcomecollection.org',
+      beaconErrors: true
     }
   },
   server: {
