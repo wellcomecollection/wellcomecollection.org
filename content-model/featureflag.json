@@ -32,7 +32,7 @@
             }
           },
           "flagValue" : {
-            "type" : "StructuredText",
+            "type" : "Text",
             "config" : {
               "label" : "Flag value"
             }
