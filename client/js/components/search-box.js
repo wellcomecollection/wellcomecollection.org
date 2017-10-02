@@ -10,6 +10,7 @@ export default (el) => {
     event.preventDefault();
     input.value = '';
     setShowButton(false);
+    input.focus();
   });
 
   setShowButton(Boolean(input.value.length));
