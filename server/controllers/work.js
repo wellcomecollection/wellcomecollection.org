@@ -3,7 +3,7 @@ import {createPageConfig} from '../model/page-config';
 import {getWork, getWorks} from '../services/wellcomecollection-api';
 import {createResultsList} from '../model/results-list';
 import {PaginationFactory} from '../model/pagination';
-import {getFlagValue} from '../util/flag-status';
+import {isFlagEnabled, getFlagValue} from '../util/flag-status';
 
 function imageUrlFromMiroId(id) {
   const cleanedMiroId = id.match(/(^\w{1}[0-9]*)+/g, '')[0];
@@ -22,7 +22,7 @@ function getTruncatedTitle(title) {
 
 function getImageIndex(ctx) {
   const [flags] = ctx.intervalCache.get('flags');
-  const imageIndex = getFlagValue(ctx.featuresCohort, 'imageIndex', flags);
+  const imageIndex = isFlagEnabled(ctx.featuresCohort, 'imageIndex', flags) && getFlagValue(ctx.featuresCohort, 'imageIndex', flags);
   return imageIndex;
 }
 
