@@ -23,3 +23,8 @@ test('/series/:id', async t => {
   const res = await request.get('/series/a-drop-in-the-ocean');
   t.is(res.status, 200);
 });
+
+test('404', async t => {
+  const res = await request.get('/exhibitions/medicine-man');
+  t.is(res.status, 404);
+});
