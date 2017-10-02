@@ -288,7 +288,7 @@ type PaginatedResults = {|
   totalPages: number
 |};
 
-export async function getArticleList(page = 1, {pageSize = 10, predicates = []}) {
+export async function getArticleList(page = 1, {pageSize = 10, predicates = []} = {}) {
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'series.name', 'series.description', 'series.color', 'series.commissionedLength'
