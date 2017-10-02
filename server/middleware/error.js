@@ -29,6 +29,7 @@ export function notFound() {
   return async (ctx, next) => {
     await next();
     if (404 === ctx.response.status && !ctx.response.body) {
+      ctx.throw(404);
 
       ctx.render('pages/error', {
         errorStatus: ctx.status,
