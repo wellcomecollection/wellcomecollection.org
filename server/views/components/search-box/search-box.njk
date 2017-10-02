@@ -1,6 +1,9 @@
-<form class="search-box" action="{{ model.action }}">
+<form class="search-box js-search-box" action="{{ model.action }}">
   {% componentV2 'input', {id: model.id, type: 'text', name: model.name, value: model.query, placeholder: 'Search image collections', autofocus: model.autofocus}, null, {isLabelHidden: true} %}
-  <button class="search-box__button plain-button v-center {{ {s:0} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }} {{ {s:'HNL3', m:'HNL2'} | fontClasses }}">
+  <button class="search-box__clear absolute line-height-1 plain-button v-center no-padding js-clear">
+    {% icon 'actions/clear', 'Clear', ['icon--pewter'] %}
+  </button>
+  <button class="search-box__button absolute line-height-1 plain-button v-center no-padding {{ {s:'HNL3', m:'HNL2'} | fontClasses }}">
     {% icon 'actions/search', 'Search' %}
   </button>
 </form>
