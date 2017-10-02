@@ -5,11 +5,10 @@ export const isFlagEnabled = (userGroup, flagName = 'default', flags = {}) => {
   if (flagConfig === undefined) return false;
 
   const flagCondition = flagConfig[userGroup];
-
   if (flagCondition !== undefined) {
-    return flagBoolean(flagCondition);
+    return flagBoolean(flagCondition.status);
   } else if (flagConfig['default'] !== undefined) {
-    return flagBoolean(flagConfig['default']);
+    return flagBoolean(flagConfig['default'].status);
   } else {
     return false;
   }
@@ -17,9 +16,10 @@ export const isFlagEnabled = (userGroup, flagName = 'default', flags = {}) => {
 
 export const getFlagValue = (userGroup, flagName = 'default', flags = {}) => {
   const flagConfig = flags[flagName];
-  if (flagConfig === undefined) return '';
-  const flagValue = flagConfig[userGroup];
-  return flagValue;
+  if (flagConfig !== undefined) {
+    const flagValue = flagConfig[userGroup] ? flagConfig[userGroup].value : null;
+    return flagValue;
+  }
 };
 
 // TODO use a shared component on both server and client

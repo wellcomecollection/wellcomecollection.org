@@ -14,13 +14,13 @@ export const getFlags = async () => {
     const settings = cohortSettings.reduce((result, item) => {
       if (item.featuresCohort.data) {
         const cohortName = item.featuresCohort.data.cohortName;
-        const cohortBooleanSetting = item.flagStatus;
-        const cohortValue = item.flagValue ? item.flagValue.trim() : null;
-        if (cohortValue) {
-          result[cohortName] = cohortValue;
-        } else {
-          result[cohortName] = cohortBooleanSetting;
-        }
+        const cohortFlagStatus = item.flagStatus;
+        const cohortFlagValue = item.flagValue ? item.flagValue.trim() : null;
+        const settings = {
+          'status': cohortFlagStatus,
+          'value': cohortFlagValue
+        };
+        result[cohortName] = settings;
         return result;
       }
     }, {});
