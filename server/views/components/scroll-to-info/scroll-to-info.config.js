@@ -12,6 +12,6 @@ export const context = {
     'work': true
   },
   data: {
-    extraIconClasses: ['icon--2x', 'icon--white']
+    extraIconClasses: ['icon--white']
   }
 };

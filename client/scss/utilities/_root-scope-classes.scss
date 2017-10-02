@@ -32,32 +32,37 @@
   }
 }
 
-@each $color-key, $color-value in $colors {
-  .font-#{$color-key} {
-    // stylelint-disable sh-waqar/declaration-use-variable
-    color: nth($color-value, 1);
-    // stylelint-enable sh-waqar/declaration-use-variable
+@for $i from 1 through 5 {
+  @each $direction in $spacing-directions {
+    .border-#{$direction}-width-#{$i} {
+      border-#{$direction}-width: #{$i}px;
+      border-#{$direction}-style: solid;
+    }
   }
 }
 
+// stylelint-disable sh-waqar/declaration-use-variable
 @each $color-key, $color-value in $colors {
-  .font-hover-#{$color-key}:hover {
-    // stylelint-disable sh-waqar/declaration-use-variable
+  .font-#{$color-key} {
     color: nth($color-value, 1);
-    // stylelint-enable sh-waqar/declaration-use-variable
+  }
+
+  .font-hover-#{$color-key}:hover {
+    color: nth($color-value, 1);
+  }
+
+  .bg-#{$color-key} {
+    background: nth($color-value, 1);
+  }
+
+  .border-color-#{$color-key} {
+    border-color: nth($color-value, 1);
   }
 }
+// stylelint-enable sh-waqar/declaration-use-variable
 
 .caps {
   text-transform: uppercase;
-}
-
-@each $color-key, $color-value in $colors {
-  .bg-#{$color-key} {
-    // stylelint-disable sh-waqar/declaration-use-variable
-    background: nth($color-value, 1);
-    // stylelint-enable sh-waqar/declaration-use-variable
-  }
 }
 
 // This should trump other display styles
@@ -93,11 +98,6 @@
 
 .line-height-1 {
   line-height: 1;
-}
-
-.width-1-em {
-  min-width: 1em;
-  max-width: 1em;
 }
 
 // Adds momentum scrolling to iOS
@@ -227,30 +227,6 @@
   }
 }
 
-.border-left {
-  border-left: 5px solid color('black');
-}
-
-.border-left--smoke {
-  border-left: 5px solid color('smoke');
-}
-
-.border-top {
-  border-top: 1px solid color('silver');
-}
-
-.border-bottom {
-  border-bottom: 1px solid color('silver');
-}
-
-.bg-white {
-  background: color('white');
-}
-
-.relative {
-  position: relative;
-}
-
 .flush-container-left {
   position: absolute;
   left: $container-padding-s;
@@ -307,6 +283,10 @@
 
 .round {
   border-radius: 50%;
+}
+
+.relative {
+  position: relative;
 }
 
 .absolute {

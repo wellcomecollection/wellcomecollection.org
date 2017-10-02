@@ -5,7 +5,7 @@ export default function getIconForContentType(type) {
     case 'audio':
       return 'actions/volume';
     case 'gallery':
-      return 'actions/gallery-link';
+      return 'actions/gallery';
     default:
       return false;
   }

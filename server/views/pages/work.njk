@@ -72,7 +72,7 @@
             download="{{ work.id }}.jpg"
             rel="noopener noreferrer"
             data-track-event='{"category": "component", "action": "download-button:click", "label": "id:{{ work.id }}, size:original, title:{{ work.title | truncate(50) }}"}'>
-            {% icon 'actions/download-1', null, ['icon--elf-green'] %}
+            {% icon 'actions/download', null, ['icon--elf-green'] %}
             <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
               Original image
             </div>
@@ -84,7 +84,7 @@
             download="{{ work.id }}.jpg"
             rel="noopener noreferrer"
             data-track-event='{"category": "component", "action": "download-button:click", "label": "id:{{ work.id }}, size:760"}, title:{{ work.title | truncate(50) }}'>
-            {% icon 'actions/download-1', null, ['icon--elf-green'] %}
+            {% icon 'actions/download', null, ['icon--elf-green'] %}
             <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
               Smaller image (760px)
             </div>

@@ -4,7 +4,7 @@
     <div class="container">
       {% componentV2 'divider', null, {'dashed': true} %}
       <div class="social-media-block__intro {{ {s:'HNL5'} | fontClasses }} flex flex--v-center flex--h-center {{ {s:4} | spacingClasses({margin: ['top']}) }}">
-        {% icon model.icon %}Follow us on {{ model.service }}
+        {% icon model.icon, null, ['margin-right-s1'] %}Follow us on {{ model.service }}
       </div>
       <a href="{{ model.url }}"
         class="social-media-block__handle font-turquoise-text plain-link {{ {s:'WB6', m:'WB4'} | fontClasses }} flex flex--v-center flex--h-center {{ {s:6} | spacingClasses({margin: ['bottom']}) }}">

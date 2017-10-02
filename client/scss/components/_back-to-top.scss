@@ -10,10 +10,6 @@ $tweakpoints: (
   right: #{map-get($container-padding, 'small')};
   z-index: 2;
   backface-visibility: hidden; // prevents flicker as page is scrolled
-  width: $link-dimension;
-  height: $link-dimension;
-  border-radius: 50%;
-  background: color('black');
 
   @include respond-to('medium') {
     right: #{map-get($container-padding, 'medium')};
