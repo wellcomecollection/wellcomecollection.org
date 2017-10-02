@@ -9,7 +9,8 @@ import {collectorsPromo} from '../data/series';
 import {prismicAsText} from '../filters/prismic';
 import {
   getArticle,
-  getArticleList
+  getArticleList,
+  getSeriesArticles
 } from '../services/prismic-content';
 import {getEvent} from '../services/events';
 import {getExhibition} from '../services/exhibitions';
@@ -185,10 +186,44 @@ export async function renderExplore(ctx, next) {
   return next();
 }
 
+export async function renderSeries(ctx, next) {
+  const page = Number(ctx.request.query.page);
+  const {id} = ctx.params;
+  const seriesArticles = await getSeriesArticles(`W${id}`);
+
+  if (seriesArticles) {
+    const {series, paginatedResults} = seriesArticles;
+    const pageSeries: Series = {
+      url: `/series/${series.id}`,
+      name: series.name,
+      description: series.description,
+      items: List(paginatedResults.results),
+      total: paginatedResults.totalResults
+    };
+
+    const promoList = PromoListFactory.fromSeries(pageSeries);
+    const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1);
+    const path = ctx.request.url;
+
+    ctx.render('pages/list', {
+      pageConfig: createPageConfig({
+        path: path,
+        title: 'Articles',
+        inSection: 'explore',
+        category: 'list'
+      }),
+      list: promoList,
+      pagination
+    });
+
+    return next();
+  }
+}
+
 export async function renderArticlesList(ctx, next) {
   // TODO: Remove WP content
-  const {page} = ctx.request.query;
-  const articlesList = await getArticleList(['articles', 'webcomics'], 96, page);
+  const page = Number(ctx.request.query.page);
+  const articlesList = await getArticleList(page, {pageSize: 96});
   const contentPromos = List(articlesList.results);
 
   const series: Series = {
@@ -198,7 +233,7 @@ export async function renderArticlesList(ctx, next) {
     total: articlesList.totalResults
   };
   const promoList = PromoListFactory.fromSeries(series);
-  const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1);
+  const pagination = PaginationFactory.fromList(promoList.items, articlesList.totalResults, page || 1, articlesList.pageSize);
   const path = ctx.request.url;
   const moreLink = articlesList.totalPages === 1 || articlesList.currentPage === articlesList.totalPages ? '/articles?format=archive' : null;
 

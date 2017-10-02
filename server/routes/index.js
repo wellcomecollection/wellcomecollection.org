@@ -11,6 +11,7 @@ import {
   renderExhibition,
   renderEventbriteEmbed,
   renderExplore,
+  renderSeries,
   renderArticlesList
 } from '../controllers/content';
 
@@ -47,6 +48,7 @@ r.get('/preview', setPreviewSession);
 r.get('/:preview(preview)?/events/:id', renderEvent);
 r.get('/:preview(preview)?/exhibitions/:id', renderExhibition);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
+r.get('/series/(W):id', renderSeries);
 
 // Vanity URLs - should redirect
 r.get('/graphicdesign', async (ctx, next) => {
@@ -61,9 +63,9 @@ r.get('/works/:id', work);
 r.get('/articles/:slug', article);
 r.get('/articles/preview/:id', preview);
 r.get('/series/:id', series);
+r.get('/articles', articles);
 r.get('/articles', async (ctx, next) => {
   const format = ctx.query.format;
-
   if (format === 'archive') {
     return articles(ctx, next);
   } else {

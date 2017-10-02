@@ -11,6 +11,7 @@ function getSeries(doc) {
   return doc.data.series.map(seriesGroup => {
     const series = seriesGroup.series;
     return series && series.data && {
+      id: series.id,
       name: series.data.name,
       description: series.data.description
     };
@@ -148,7 +149,6 @@ function parseArticleAsArticle(prismicArticle) {
   // We fallback to `Date.now()` in case we're in preview and don't have a published date
   const publishDate = getPublishedDate(prismicArticle);
 
-  // TODO:
   const featuredMedia = getFeaturedMediaFromBody(prismicArticle);
 
   // TODO: Don't convert this into thumbnail
@@ -280,7 +280,15 @@ export function convertContentToBodyParts(content) {
   }).filter(_ => _);
 }
 
-export async function getArticleList(documentTypes = ['articles', 'webcomics'], pageSize = 10, page = 1) {
+type PaginatedResults = {|
+  currentPage: number,
+  results: List<Articles>,
+  pageSize: number,
+  totalResults: number,
+  totalPages: number
+|};
+
+export async function getArticleList(page = 1, {pageSize = 10, predicates = []} = {}) {
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'series.name', 'series.description', 'series.color', 'series.commissionedLength'
@@ -289,9 +297,9 @@ export async function getArticleList(documentTypes = ['articles', 'webcomics'], 
   const orderings = '[document.first_publication_date desc, my.articles.publishDate desc, my.webcomics.publishDate desc]';
   const prismic = await prismicApi();
   const articlesList = await prismic.query([
-    Prismic.Predicates.any('document.type', documentTypes),
+    Prismic.Predicates.any('document.type', ['articles', 'webcomics']),
     Prismic.Predicates.not('document.tags', ['delist'])
-  ], {fetchLinks, orderings, pageSize});
+  ].concat(predicates), {fetchLinks, page, pageSize, orderings});
 
   const articlesAsArticles = articlesList.results.map(result => {
     switch (result.type) {
@@ -301,13 +309,22 @@ export async function getArticleList(documentTypes = ['articles', 'webcomics'], 
   });
 
   // This shape matches the works API
-  return {
+  return ({
     currentPage: page,
     results: articlesAsArticles,
     pageSize: articlesList.results_per_page,
     totalResults: articlesList.total_results_size,
     totalPages: articlesList.total_pages
-  };
+  }: PaginatedResults);
+}
+
+export async function getSeriesArticles(id: string, page = 1) {
+  const paginatedResults = await getArticleList(page, {predicates: [Prismic.Predicates.at('my.articles.series.series', id)]});
+
+  if (paginatedResults.totalResults > 0) {
+    const series = paginatedResults.results[0].series[0];
+    return {series, paginatedResults};
+  }
 }
 
 export function asText(maybeContent) {

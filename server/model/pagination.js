@@ -13,7 +13,13 @@ export type Pagination = {|
 |}
 
 export class PaginationFactory {
-  static fromList(l: List<any>, total: number, currentPage: number = 1, pageSize: number = 32, getParams: {} = {}): Pagination {
+  static fromList(
+    l: List<any>,
+    total: number,
+    currentPage: number = 1,
+    pageSize: number = 32,
+    getParams: {} = {}
+  ): Pagination {
     const size = l.size;
     const pageCount = Math.ceil(total / pageSize);
     const prevPage = pageCount > 1 && currentPage !== 1 ? currentPage - 1 : null;
