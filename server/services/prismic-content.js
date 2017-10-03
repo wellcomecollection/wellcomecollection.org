@@ -263,7 +263,7 @@ export function convertContentToBodyParts(content) {
         return {
           type: 'soundcloudEmbed',
           value: {
-            trackId: slice.primary.number
+            iframeSrc: slice.primary.iframeSrc
           }
         };
 
