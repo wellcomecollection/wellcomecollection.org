@@ -6,8 +6,15 @@
   }
 }
 
+.search-box__clear {
+  right: $icon-dimension + ($spacing-unit * 4);
+  display: none;
+
+  .search-box.is-active & {
+    display: block;
+  }
+}
+
 .search-box__button {
-  position: absolute;
-  right: 0.6em;
-  height: 1em;
+  right: $spacing-unit * 2;
 }
