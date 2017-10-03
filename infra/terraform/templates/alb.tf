@@ -35,7 +35,7 @@ resource "aws_alb_target_group" "wellcomecollection" {
     unhealthy_threshold = 2
     timeout             = 5
     protocol            = "HTTP"
-    path                = "/healthcheck"
+    path                = "/management/healthcheck"
     interval            = 30
   }
 }

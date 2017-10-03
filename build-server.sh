@@ -8,6 +8,6 @@ pushd server
   npm install --production
   npm run app:build
   # TODO: knowledge of the folder structure here?
-  touch .dist/management.json
-  echo "{ \"version\": \"${VERSION}\" }" > .dist/management.json
+  touch .dist/management/manifest.json
+  echo "{ \"version\": \"${VERSION}\" }" > .dist/management/manifest.json
 popd
