@@ -21,11 +21,6 @@ const r = new Router({
 
 // Util / function
 r.get('/', index);
-r.get('/healthcheck', healthcheck);
-r.get('/management', async (ctx, next) => {
-  const data = await require('../management');
-  ctx.body = data;
-});
 r.get('/flags', featureFlags);
 r.get('/kaboom', (ctx, next) => {
   ctx.throw('Error Message', 500);
@@ -42,6 +37,11 @@ r.get('/download', (ctx, next) => {
   } else {
     ctx.throw('Invalid image host', 422);
   }
+});
+r.get('/management/healthcheck', healthcheck);
+r.get('/management/manifest', async (ctx, next) => {
+  const data = await require('../management/manifest');
+  ctx.body = data;
 });
 
 // Content

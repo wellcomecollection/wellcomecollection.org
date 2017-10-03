@@ -174,6 +174,28 @@ resource "aws_cloudfront_distribution" "next" {
     }
   }
 
+  cache_behavior {
+    target_origin_id       = "${var.alb_id}"
+    path_pattern           = "/management/*"
+    allowed_methods        = ["HEAD", "GET"]
+    cached_methods         = ["HEAD", "GET"]
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 3600
+    max_ttl                = 86400
+
+    forwarded_values {
+      query_string = true
+      headers      = ["*"]
+
+      cookies {
+        forward = "all"
+      }
+    }
+  }
+
+
+
   # This is all for Drupal...
   cache_behavior {
     target_origin_id       = "${var.alb_id}"
