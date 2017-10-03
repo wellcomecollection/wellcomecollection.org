@@ -264,9 +264,11 @@
             "type" : "Slice",
             "fieldset" : "SoundCloud embed",
             "non-repeat" : {
-              "embed" : {
-                "type" : "Embed",
-                "fieldset" : "SoundCloud embed"
+              "number" : {
+                "type" : "Number",
+                "config" : {
+                  "label" : "Track ID"
+                }
               }
             }
           },
