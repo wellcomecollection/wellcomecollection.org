@@ -256,6 +256,14 @@ export function convertContentToBodyParts(content) {
           }
         };
 
+      case 'soundcloudEmbed':
+        return {
+          type: 'soundcloudEmbed',
+          value: {
+            html: slice.primary.embed.html
+          }
+        };
+
       case 'youtubeVideoEmbed':
         // TODO: Not this ;﹏;
         const embedUrl = slice.primary.embed.html.match(/src="([a-zA-Z0-9://.]+)?/)[1];
