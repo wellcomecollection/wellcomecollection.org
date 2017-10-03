@@ -57,7 +57,7 @@
     </div>
   </div>
 
-  <div class="row {{ {s:10} | spacingClasses({padding: ['bottom']}) }}">
+  <div class="row {{ {s:0} | spacingClasses({padding: ['bottom']}) }}">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:12} | gridClasses }} {{{s:'HNL3'} | fontClasses}} first-para-bold">
@@ -87,25 +87,24 @@
   </div>
 
   {% if event.contributors.length > 0 %}
+    <hr class="divider divider--keyline divider--pumice margin-bottom-s2">
     <div class="row {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
       <div class="container">
         <h2 class="{{ {s:'WB6'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">Contributors</h2>
         <div class="grid">
           {% for contributor in event.contributors %}
-            <div class="{{ {s:12, m:6, l:6} | gridClasses }}">
-              <div class="grid">
-                <div class="{{ {s:6, m:8, l:4, xl:4} | gridClasses }}">
-                  <img class="round" src="{{ contributor.person.image | convertImageUri(300) }}" alt="" />
-                </div>
-                <div class="{{ {s:12, m:12, l:8, xl:8} | gridClasses }}">
-                  <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-                    <h3 class="{{ {s:'HNM3'} | fontClasses }}">{{ contributor.person.name }}</h3>
-                    <span class="{{ {s:'HNL3'} | fontClasses }}">{{ contributor.role.title }}</span>
-                  </div>
-                  <div class="{{ {s: 'HNL4'} | fontClasses }}">
-                    {{ contributor.person.description | safe }}
-                  </div>
-                </div>
+            <div class="{{ {s:4} | gridClasses }}">
+              <img class="round" src="{{ contributor.person.image | convertImageUri(300) }}" alt="" />
+            </div>
+            <div class="{{ {s:8} | gridClasses }}">
+              <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+                <h3 class="{{ {s:'HNM3'} | fontClasses }} no-margin">{{ contributor.person.name }}</h3>
+                <span class="{{ {s:'HNL3'} | fontClasses }}">{{ contributor.role.title }}</span>
+              </div>
+            </div>
+            <div class="{{{s: 12} | gridClasses}} {{{s: 8} | spacingClasses({margin: ['bottom']})}}">
+              <div class="{{ {s: 'HNL4'} | fontClasses }}">
+                {{ contributor.person.description | safe }}
               </div>
             </div>
           {% endfor %}
