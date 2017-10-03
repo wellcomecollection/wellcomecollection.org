@@ -262,21 +262,21 @@
           },
           "soundcloudEmbed" : {
             "type" : "Slice",
-            "fieldset" : "Soundcloud embed",
+            "fieldset" : "SoundCloud embed",
             "non-repeat" : {
               "embed" : {
                 "type" : "Embed",
-                "fieldset" : "Soundcloud embed"
+                "fieldset" : "SoundCloud embed"
               }
             }
           },
           "youtubeVideoEmbed" : {
             "type" : "Slice",
-            "fieldset" : "Youtube video",
+            "fieldset" : "YouTube video",
             "non-repeat" : {
               "embed" : {
                 "type" : "Embed",
-                "fieldset" : "Youtube embed"
+                "fieldset" : "YouTube embed"
               }
             }
           },
@@ -286,7 +286,7 @@
             "non-repeat" : {
               "embed" : {
                 "type" : "Embed",
-                "fieldset" : "Videmo embed"
+                "fieldset" : "Vimeo embed"
               }
             }
           },
