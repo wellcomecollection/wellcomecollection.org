@@ -93,9 +93,15 @@ export async function renderEvent(ctx, next) {
         text: 'Event',
         url: 'https://wellcomecollection.org/whats-on/events/all-events'
       }].concat(event.format ? [{
-        text: event.format.title
+        text: event.format.title,
+        bgColor: 'purple-text'
         // TODO: link through to others of this type?
-      }] : []);
+      }] : []).concat([{
+        prefix: 'Part of: ',
+        text: 'Can graphic design save your life',
+        url: '/graphicdesign'
+      }]);
+
       ctx.render('pages/event', {
         pageConfig: createPageConfig({
           path: path,

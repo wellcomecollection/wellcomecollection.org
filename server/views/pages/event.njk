@@ -23,7 +23,7 @@
   <div class="row {{ {s:4} | spacingClasses({padding: ['top', 'bottom']}) }}">
     <div class="container">
       <div class="grid">
-        <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+        <div class="{{ {s:12} | gridClasses }}">
           {% componentV2 'tags', tags %}
 
           {% set eventPromoData = {
@@ -60,39 +60,22 @@
   <div class="row {{ {s:10} | spacingClasses({padding: ['bottom']}) }}">
     <div class="container">
       <div class="grid">
-        <div class="{{ {s:12, m:5, l:5, xl:5} | gridClasses }} {{ {s:'HNL3', m:'HNL2'} | fontClasses}}">
+        <div class="{{ {s:12} | gridClasses }} {{{s:'HNL3'} | fontClasses}} first-para-bold">
           {% block eventDescription %}
             {{ event.description | safe }}
           {% endblock %}
         </div>
-        <div class="{{ {s:12, m:7, l:7, xl:7} | gridClasses }}">
+        <div class="{{ {s:12} | gridClasses }}">
           <div class="grid">
-            <div class="{{ {s:12, m:12, l:12, xl:7} | gridClasses }} {{ {s:'HNL3', m:'HNL4'} | fontClasses }}">
-
-              <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }}">
-                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y' %}</div>
-                <p class="no-margin">Step-free access is available to all floors of the building</p>
-              </div>
-
-              <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }}">
-                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y_visual' %}</div>
-                <p class="no-margin">Magnifying glasses and sheets are available to borrow</p>
-              </div>
-
-              <p class="{{ {s:'HNM3', m:'HNM4'} | fontClasses }}">
-                <a href="https://wellcomecollection.org/visit-us/accessibility" class="plain-link font-elf-green">Find out more about accessiblity here</a>
-              </p>
-
-            </div>
-            <div class="{{ {s:12, m:12, l:12, xl:5} | gridClasses }}">
+            <div class="{{ {s:12} | gridClasses }}">
               {% block bookTickets %}
                 {% if event.bookingEnquiryTeam %}
                   {% set team = event.bookingEnquiryTeam %}
                   <div class="{{ {s:'HNL3', m:'HNL4'} | fontClasses }}">
-                    <p class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }}">These events are <strong class="{{ {s:'HNM3', m:'HNM4'} | fontClasses }} caps">free</strong>, but booking is essential.</p>
-                    <p>Please enquire below, or call <a href="tel:{{ team.phone }}">{{ team.phone }}</a></p>
+                    <a class="btn font-HNM5-s" href="mailto:{{team.email}}?subject=Booking for {{ event.title }}">{% icon 'other/ticket', null, ['icon--teal'] %}Enquire to book</a>
 
-                    <a class="btn font-HNM5-s btn--dark" href="mailto:{{team.email}}?subject=Booking for {{ event.title }}">{% icon 'other/ticket', null, ['icon--teal'] %}Reserve free tickets</a>
+                    <p class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{{s:'HNL4'} | fontClasses}}">or call <a href="tel:{{ team.phone }}">{{ team.phone }}</a></p>
+                    <p class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{{s:'HNL4'} | fontClasses}}">Places are free but limited.</p>
                   </div>
                 {% endif %}
               {% endblock %}

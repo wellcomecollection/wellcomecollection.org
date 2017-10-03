@@ -292,3 +292,10 @@
 .absolute {
   position: absolute;
 }
+
+// This is for when we receive content from a CMS,
+// making it easier to style the first node
+.first-para-bold p:first-of-type {
+  @include font('HNM3');
+  font-weight: bold;
+}
