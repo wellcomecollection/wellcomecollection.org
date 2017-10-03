@@ -106,14 +106,17 @@ function convertPrismicImageList(slice): ImageList {
 function getTaslFromCopyright(copyright) {
   // We expect a string of title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
   // e.g. Self|Rob Bidder|||CC-BY-NC
-  const list = copyright.split('|');
-  const v = list
-    .concat(Array(7 - list.length))
-    .map(v => !v.trim() ? null : v.trim());
+  try {
+    const list = copyright.split('|');
+    const v = list
+      .concat(Array(7 - list.length))
+      .map(v => !v.trim() ? null : v.trim());
 
-  const [title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink] = v;
-
-  return {title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink};
+    const [title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink] = v;
+    return {title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink};
+  } catch (e) {
+    return copyright;
+  }
 }
 
 export async function getArticle(id: string, previewReq: ?Request) {
