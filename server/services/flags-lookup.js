@@ -12,10 +12,17 @@ export const getFlags = async () => {
     const flagName = flag.flagName;
     const cohortSettings = flag.flagCohortSettings;
     const settings = cohortSettings.reduce((result, item) => {
-      const cohortName = item.featuresCohort.data.cohortName;
-      const cohortSetting = item.flagStatus;
-      result[cohortName] = cohortSetting;
-      return result;
+      if (item.featuresCohort.data) {
+        const cohortName = item.featuresCohort.data.cohortName;
+        const cohortFlagStatus = item.flagStatus;
+        const cohortFlagValue = item.flagValue ? item.flagValue.trim() : null;
+        const settings = {
+          'status': cohortFlagStatus,
+          'value': cohortFlagValue
+        };
+        result[cohortName] = settings;
+        return result;
+      }
     }, {});
 
     result[flagName] = settings;

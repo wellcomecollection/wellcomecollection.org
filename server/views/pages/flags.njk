@@ -24,11 +24,13 @@
             <tr class="feature-flags__row">
               <th class="feature-flags__heading {{ {s:'HNM4'} | fontClasses }} {{ {s:1, m:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">cohort</th>
               <th class="feature-flags__heading {{ {s:'HNM4'} | fontClasses }} {{ {s:1, m:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">status</th>
+              <th class="feature-flags__heading {{ {s:'HNM4'} | fontClasses }} {{ {s:1, m:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">value</th>
             </tr>
-            {% for name, status in flag %}
+            {% for name, settings in flag %}
               <tr class="feature-flags__row">
                 <td class="feature-flags__cell {{ {s:'HNL4'} | fontClasses }} {{ {s:1, m:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">{{name}}</td>
-                <td class="feature-flags__cell {{ {s:'HNL4'} | fontClasses }} feature-flags__cell--{{status}} {{ {s:1, m:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">{{status}}</td>
+                <td class="feature-flags__cell {{ {s:'HNL4'} | fontClasses }} feature-flags__cell--{{settings.status}} {{ {s:1, m:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">{{settings.status}}</td>
+                <td class="feature-flags__cell {{ {s:'HNL4'} | fontClasses }} {{ {s:1, m:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})}}">{{settings.value}}</td>
               </tr>
             {% endfor %}
             </table>

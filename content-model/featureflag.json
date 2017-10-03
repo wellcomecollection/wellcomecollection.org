@@ -1,6 +1,4 @@
 {
-  "@title": "Feature flag",
-  "@repeatable": true,
   "Main" : {
     "flagName" : {
       "config" : {
@@ -31,6 +29,12 @@
             "config" : {
               "options" : [ "on", "off" ],
               "label" : "Flag status"
+            }
+          },
+          "flagValue" : {
+            "type" : "Text",
+            "config" : {
+              "label" : "Flag value"
             }
           }
         },
