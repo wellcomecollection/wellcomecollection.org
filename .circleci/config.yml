@@ -11,7 +11,7 @@ jobs:
           command: ./build-client.sh
       - run:
           name: Build server
-          command: ./build-server.sh
+          command: ./build-server.sh $CIRCLE_BUILD_NUM
       - run:
           name: Test server
           command: ./test.sh server
