@@ -260,6 +260,16 @@
               }
             }
           },
+          "soundcloudEmbed" : {
+            "type" : "Slice",
+            "fieldset" : "Soundcloud embed",
+            "non-repeat" : {
+              "embed" : {
+                "type" : "Embed",
+                "fieldset" : "Soundcloud embed"
+              }
+            }
+          },
           "youtubeVideoEmbed" : {
             "type" : "Slice",
             "fieldset" : "Youtube video",
