@@ -48,6 +48,8 @@
             {% componentV2 'tweet', bodyPart.value %}
           {% elif bodyPart.type === 'instagramEmbed' %}
             {% componentV2 'instagram-embed', bodyPart.value %}
+          {% elif bodyPart.type === 'soundcloudEmbed' %}
+            {% componentV2 'soundcloud-embed', bodyPart.value %}
           {% elif bodyPart.type === 'imageList' %}
             {% if bodyPart.value.items.length > 0 %}
               <ul class="plain-list no-margin no-padding">
