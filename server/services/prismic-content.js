@@ -285,6 +285,15 @@ export function convertContentToBodyParts(content) {
           }
         };
 
+      case 'audio':
+        return {
+          type: 'audio',
+          value: {
+            title: slice.value.name,
+            url: slice.value.url
+          }
+        };
+
       default:
         break;
     }
