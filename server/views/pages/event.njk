@@ -43,7 +43,7 @@
 
 
           {% if (event.accessOptions.size !== 0) %}
-            <div class="{{ {s:'HNL3', m:'HNL4'} | fontClasses }}">
+            <div class="{{ {s:'HNL3', m:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['top']}) }}">
               {% for accessOption in event.accessOptions.toJS() %}
                 <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }}">
                   <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/' + (accessOption.accessOption.acronym | lower), accessOption.accessOption.title %}</div>
