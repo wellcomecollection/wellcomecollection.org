@@ -12,6 +12,10 @@ function imageUrlFromMiroId(id) {
   return `https://s3-eu-west-1.amazonaws.com/miro-images-public/${miroFolder}/${id}.jpg`;
 }
 
+function encoreLinkFromSierraId(id) {
+  return `http://search.wellcomelibrary.org/iii/encore/record/C__R${id}`;
+}
+
 function getTruncatedTitle(title) {
   if (title.length <= 20) {
     return title;
@@ -35,8 +39,13 @@ export const work = async(ctx, next) => {
     return identifier.identifierScheme === 'miro-image-number';
   });
   const miroId = miroIdObject && miroIdObject.value;
+  const sierraIdObject = singleWork.identifiers.find(identifier => {
+    return identifier.identifierScheme === 'sierra-system-number';
+  });
+  const sierraId = sierraIdObject && sierraIdObject.value;
   const imgWidth = '2048';
   const imgLink = imageUrlFromMiroId(miroId);
+  const encoreLink = sierraId && encoreLinkFromSierraId(sierraId);
 
   ctx.render('pages/work', {
     id,
@@ -49,7 +58,8 @@ export const work = async(ctx, next) => {
     }),
     work: Object.assign({}, singleWork, {
       imgLink,
-      imgWidth
+      imgWidth,
+      encoreLink
     })
   });
 
