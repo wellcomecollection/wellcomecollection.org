@@ -54,17 +54,20 @@
             {% componentV2 'meta-unit', {headingText: 'Lettering', content: work.lettering, includeDivider: false} %}
           {% endif %}
 
-          {% if work.description or work.encoreLink %}
+          {% if work.descriptionArray.length > 0 %}
             <div>
               <h2 class="{{ {s:'HNM5' , m:'HNM4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
                 Description
               </h2>
-              <p class="{{ {s:'HNL5' , m:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">{{work.description}}</p>
-              {% if work.encoreLink %}
-                <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
-                  {% componentV2 'more-info-link', {name: 'Find out more about work in Wellcome Library', url: work.encoreLink} %}
-                </div>
-              {% endif %}
+              {% for paragraph in work.descriptionArray %}
+              <p class="{{ {s:'HNL5' , m:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">{{paragraph}}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          {% if work.encoreList %}
+            <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
+              {% componentV2 'more-info-link', {name: 'Find out more about work in Wellcome Library', url: work.encoreLink} %}
             </div>
           {% endif %}
 
