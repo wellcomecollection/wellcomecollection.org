@@ -42,7 +42,7 @@
 
           {% if work.genre.length > 0 %}
             {% set needsDivider = work.subjects.length > 0 or work.lettering.length > 0 %}
-            {% componentV2 'meta-unit', {headingText: 'Genre', content: [work.genre | createLinkObject], includeDivider: needsDivider} %}
+            {% componentV2 'meta-unit', {headingText: 'Genre', content: work.genres | getLinkObjects('label'), includeDivider: needsDivider} %}
           {% endif %}
 
           {% if work.subjects.length > 0 %}
