@@ -92,9 +92,8 @@ export async function renderEvent(ctx, next) {
       const tags = [{
         text: 'Event',
         url: 'https://wellcomecollection.org/whats-on/events/all-events'
-      }].concat(event.format ? [{
-        text: event.format.title,
-        bgColor: 'purple-text'
+      }].concat(event.programme ? [{
+        text: event.programme.title
         // TODO: link through to others of this type?
       }] : []).concat([{
         prefix: 'Part of: ',

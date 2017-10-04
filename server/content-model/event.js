@@ -7,6 +7,10 @@ export type EventFormat = {|
   title: string;
 |}
 
+export type EventProgramme = {|
+  title: string;
+|}
+
 type EventAccessOption = {|
   title: string;
   acronym: string;
@@ -22,6 +26,7 @@ export type Event = {|
   id: string;
   title: ?string;
   format: ?EventFormat;
+  programme: ?EventProgramme;
   when: List<DateRange>;
   description: ?HTMLString;
   accessOptions: List<{
