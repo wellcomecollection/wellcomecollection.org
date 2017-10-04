@@ -95,8 +95,11 @@
           {{ event.description | safe }}
         </div>
 
+
+
         <div class="{{ {s:12, m:10, shiftM:1, l:5, xl:5} | gridClasses }}">
           {% if event.bookingEnquiryTeam %}
+            <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
             {% set team = event.bookingEnquiryTeam %}
             <div>
               <a class="btn font-HNM5-s" href="mailto:{{team.email}}?subject=Booking for {{ event.title }}">{% icon 'other/ticket', null, ['icon--teal'] %}Enquire to book</a>
