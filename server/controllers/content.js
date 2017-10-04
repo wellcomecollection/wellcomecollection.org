@@ -145,6 +145,8 @@ export async function renderExhibition(ctx, next, overrideId, gaExp) {
       });
     }
   }
+
+  return next();
 }
 
 export const renderEventbriteEmbed = async(ctx, next) => {
