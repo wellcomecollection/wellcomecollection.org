@@ -294,12 +294,6 @@
   margin-top: -50px;
 }
 
-.show-to-l {
-  @include respond-to('large') {
-    display: none;
-  }
-}
-
 .person-image {
   max-width: 100px;
 }
