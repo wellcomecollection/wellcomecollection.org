@@ -38,7 +38,7 @@
         <div class="container {{ {l:0} | spacingClasses({padding: ['left']}) }}">
           <div class="grid">
             <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
-              <div class="bg-white inline-block exhibition-hero__box {{ {m:3, l:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }} rounded-top-left rounded-bottom-right">
+              <div class="bg-white inline-block exhibition-hero__box {{ {m:3, l:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }} rounded-diagonal">
                 <div class="flex flex--v-center flex--h-space-between {{ {s:'HNM4', m:'HNM5', l:'HNM4'} | fontClasses }}">
                   <span class="flex flex--v-center">
                     {% icon 'other/ticket' %}
@@ -84,7 +84,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row {{ {l:5} | spacingClasses({margin: ['top']}) }}">
     <div class="container">
       <div class="grid">
 
@@ -96,10 +96,9 @@
         </div>
 
 
-
         <div class="{{ {s:12, m:10, shiftM:1, l:5, xl:5} | gridClasses }}">
           {% if event.bookingEnquiryTeam %}
-            <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
+            <hr class="divider divider--keyline divider--pumice show-to-l {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
             {% set team = event.bookingEnquiryTeam %}
             <div>
 
@@ -112,30 +111,33 @@
               {% componentV2 'more-info-link', {name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
             </div>
           {% endif %}
+        </div>
 
-          {% if event.contributors.length > 0 %}
+
+        {% if event.contributors.length > 0 %}
+          <div class="{{ {s:12} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
             <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
+
             <h2 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Contributors</h2>
             <div class="grid">
               {% for contributor in event.contributors %}
-                <div class="{{ {s:4} | gridClasses }}">
-                  <img class="round" src="{{ contributor.person.image | convertImageUri(300) }}" alt="" />
-                </div>
-                <div class="{{ {s:8} | gridClasses }}">
-                  <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-                    <h3 class="{{ {s:'HNM3'} | fontClasses }} no-margin">{{ contributor.person.name }}</h3>
-                    <span class="{{ {s:'HNL3'} | fontClasses }}">{{ contributor.role.title }}</span>
-                  </div>
-                </div>
-                <div class="{{{s: 12} | gridClasses}} {{{s: 8} | spacingClasses({margin: ['bottom']})}}">
-                  <div class="{{ {s: 'HNL4'} | fontClasses }}">
-                    {{ contributor.person.description | safe }}
+                <div class="{{ {l:6, xl:6} | gridClasses }}">
+                  <div class="bg-cream rounded-diagonal half-in-image-container {{ {s:2} | spacingClasses({padding: ['top', 'bottom', 'left', 'right']}) }}">
+                    <img class="round half-in-image person-image" src="{{ contributor.person.image | convertImageUri(300) }}" alt="" />
+                    <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+                      <h3 class="{{ {s:'HNM3'} | fontClasses }} no-margin">{{ contributor.person.name }}</h3>
+                      <span class="{{ {s:'HNL3'} | fontClasses }}">{{ contributor.role.title }}</span>
+                    </div>
+                    <div class="{{ {s: 'HNL4'} | fontClasses }}">
+                      {{ contributor.person.description | safe }}
+                    </div>
                   </div>
                 </div>
               {% endfor %}
             </div>
-          {% endif %}
-        </div>
+          </div>
+        {% endif %}
+
       </div>
     </div>
   </div>
