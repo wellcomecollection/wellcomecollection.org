@@ -27,7 +27,7 @@
     <div class="exhibition-hero">
       {% componentV2 'picture', {
           images: [{
-            contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection/838f6b93b37910338e39dc8e84f8e4b4655891c7_1600x900v2.jpg',
+            contentUrl: 'https://a.travel-assets.com/findyours-php/viewfinder/images/res60/241000/241872-New-Museum.jpg',
             type: 'picture',
             width: 3200,
             height: 1490
@@ -35,10 +35,6 @@
         }, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
 
       <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">
-        <div class="is-hidden-m is-hidden-l is-hidden-xl">
-          {% component 'wobbly-edge', {background: 'white'} %}
-        </div>
-
         <div class="container {{ {m:0} | spacingClasses({padding: ['left']}) }}">
           <div class="grid">
             <div class="{{ {s:12} | gridClasses }}">
@@ -53,16 +49,36 @@
                       {% set statusColor = 'icon--' + {start: exhibition.start, end: exhibition.end} | formatDateRangeWithColor %}
                       {% icon 'other/status-indicator', null, [statusColor] %}
                     </span>
-                    <strong>{{ {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage }}</strong>
                   </span>
                 </div>
+
                 <h1 class="{{ {s:'WB5', m:'WB6', l:'WB4', xl:'WB3'} | fontClasses }}">{{ event.title }}</h1>
+
+                {% if (event.accessOptions.size !== 0) %}
+                  <div class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
+                    {% for accessOption in event.accessOptions.toJS() %}
+                      <div class="flex">
+                        <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/' + (accessOption.accessOption.acronym | lower), accessOption.accessOption.title %}</div>
+                        <p class="no-margin">{{ accessOption.accessOption.title }}</p>
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
+
                 <span class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
                   {% for dateRange in event.when.toJS() %}
                     {% set formattedDateRange = dateRange.start | formatAndDedupeOnDate(dateRange.end) %}
-                    <div>
-                      <time>{{ formattedDateRange | joinDateStrings }}</time>
-                      <time>{{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | joinDateStrings }}</time>
+                    <div class="{{ {s: 2} | spacingClasses({margin: ['top']}) }}">
+                      <div>
+                        <time class="{{ {s:'HNM4', m:'HNM5', l:'HNM3', xl:'HNM2'} | fontClasses }}">
+                          <b>{{ formattedDateRange | joinDateStrings }}</b>
+                        </time>
+                      </div>
+
+                      {% if (formattedDateRange.size === 1) %}
+                        <div><time>{{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | joinDateStrings }}</time></div>
+                      {% endif %}
                     </div>
                   {% endfor %}
                 </span>
@@ -77,11 +93,50 @@
   <div class="row {{ {s:5} | spacingClasses({margin: ['top']}) }}">
     <div class="container">
       <div class="grid">
+
         <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-          {% if exhibition.subtitle %}
+          {% if event.subtitle %}
             {% component 'standfirst', {body: exhibition.subtitle | safe} %}
           {% endif %}
           {{ event.description | safe }}
+        </div>
+
+        <div class="{{ {s:12, m:10, shiftM:1, l:5, xl:5} | gridClasses }}">
+          {% if event.bookingEnquiryTeam %}
+            {% set team = event.bookingEnquiryTeam %}
+            <div>
+              <a class="btn font-HNM5-s" href="mailto:{{team.email}}?subject=Booking for {{ event.title }}">{% icon 'other/ticket', null, ['icon--teal'] %}Enquire to book</a>
+
+              <p class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{{s:'HNL4'} | fontClasses}}">or call <a href="tel:{{ team.phone }}">{{ team.phone }}</a></p>
+              <p class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{{s:'HNL4'} | fontClasses}}">Places are free but limited.</p>
+            </div>
+            <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              {% componentV2 'more-info-link', {name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
+            </div>
+          {% endif %}
+
+          {% if event.contributors.length > 0 %}
+            <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
+            <h2 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Contributors</h2>
+            <div class="grid">
+              {% for contributor in event.contributors %}
+                <div class="{{ {s:4} | gridClasses }}">
+                  <img class="round" src="{{ contributor.person.image | convertImageUri(300) }}" alt="" />
+                </div>
+                <div class="{{ {s:8} | gridClasses }}">
+                  <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+                    <h3 class="{{ {s:'HNM3'} | fontClasses }} no-margin">{{ contributor.person.name }}</h3>
+                    <span class="{{ {s:'HNL3'} | fontClasses }}">{{ contributor.role.title }}</span>
+                  </div>
+                </div>
+                <div class="{{{s: 12} | gridClasses}} {{{s: 8} | spacingClasses({margin: ['bottom']})}}">
+                  <div class="{{ {s: 'HNL4'} | fontClasses }}">
+                    {{ contributor.person.description | safe }}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
       </div>
     </div>
