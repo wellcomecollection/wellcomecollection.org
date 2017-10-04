@@ -34,6 +34,7 @@ export const work = async(ctx, next) => {
   const id = ctx.params.id;
   const queryString = ctx.search;
   const singleWork = await getWork(id, getImageIndex(ctx));
+  const descriptionArray = singleWork.description.split('\n');
   const truncatedTitle = getTruncatedTitle(singleWork.title);
   const miroIdObject = singleWork.identifiers.find(identifier => {
     return identifier.identifierScheme === 'miro-image-number';
@@ -57,6 +58,7 @@ export const work = async(ctx, next) => {
       canonicalUri: `${ctx.globals.rootDomain}/works/${singleWork.id}`
     }),
     work: Object.assign({}, singleWork, {
+      descriptionArray,
       imgLink,
       imgWidth,
       encoreLink
