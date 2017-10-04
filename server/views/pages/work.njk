@@ -99,6 +99,12 @@
                 Share
             </h2>
             {% componentV2 'copy-url', {id: work.id, url: pageConfig.canonicalUri} %}
+            {% if work.encoreLink %}
+              <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
+                {% componentV2 'divider', null, {'pumice': true, 'keyline': true}, {extraClasses: [{s:1} | spacingClasses({margin: ['top', 'bottom']})]}  %}
+                <a class="{{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-link font-elf-green" href="{{work.encoreLink}}">More information about this work</a>
+              </div>
+            {% endif %}
           </div>
         </div>
       </div>
