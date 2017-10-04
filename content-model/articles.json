@@ -23,6 +23,13 @@
             "name" : "standalone",
             "display" : "Standalone"
           } ],
+          "iframeSrc" : [ {
+            "name" : "supporting",
+            "display" : "Supporting"
+          }, {
+            "name" : "standalone",
+            "display" : "Standalone"
+          } ],
           "imageList" : [ {
             "name" : "featured",
             "display" : "Featured"
