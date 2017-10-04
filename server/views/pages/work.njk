@@ -53,6 +53,21 @@
           {% if work.lettering.length > 0 %}
             {% componentV2 'meta-unit', {headingText: 'Lettering', content: work.lettering, includeDivider: false} %}
           {% endif %}
+
+          {% if work.description or work.encoreLink %}
+            <div>
+              <h2 class="{{ {s:'HNM5' , m:'HNM4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
+                Description
+              </h2>
+              <p class="{{ {s:'HNL5' , m:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">{{work.description}}</p>
+              {% if work.encoreLink %}
+                <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
+                  {% componentV2 'more-info-link', {name: 'Find out more about work in Wellcome Library', url: work.encoreLink} %}
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+
         </div>
 
         <div class="{{ {s: 12, m: 5, l: 4, xl: 3} | gridClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}">
@@ -99,12 +114,6 @@
                 Share
             </h2>
             {% componentV2 'copy-url', {id: work.id, url: pageConfig.canonicalUri} %}
-            {% if work.encoreLink %}
-              <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
-                {% componentV2 'divider', null, {'pumice': true, 'keyline': true}, {extraClasses: [{s:1} | spacingClasses({margin: ['top', 'bottom']})]}  %}
-                <a class="{{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-link font-elf-green" href="{{work.encoreLink}}">More information about this work</a>
-              </div>
-            {% endif %}
           </div>
         </div>
       </div>
@@ -113,11 +122,6 @@
 
 
   <div class="{{ {s:10} | spacingClasses({margin: ['bottom']}) }}">
-    {% if work.description %}
-      {% set descriptionData = [{title: 'Description', content: work.description}] %}
-      {% componentV2 'work-drawer', {id: 'work-more-info', heading: 'More information'}, null, {data: descriptionData, topDivider: true} %}
-    {% endif %}
-
     {% if work.usingImage %}
       {% componentV2 'work-drawer', {id: 'work-using-image', heading: 'Using this image'}, null, {data: work.usingImage} %}
     {% endif %}
