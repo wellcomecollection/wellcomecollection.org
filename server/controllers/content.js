@@ -115,6 +115,8 @@ export async function renderEvent(ctx, next) {
       });
     }
   }
+
+  return next();
 }
 
 export async function renderExhibition(ctx, next, overrideId, gaExp) {
