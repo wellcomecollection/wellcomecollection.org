@@ -22,9 +22,9 @@
   "homepage": "https://github.com/wellcometrust/wellcomecollection.org#readme",
   "devDependencies": {
     "babel-eslint": "^8.0.0",
-    "eslint": "^4.1.1",
+    "eslint": "^4.8.0",
     "eslint-config-wellcome": "^1.0.8",
-    "eslint-plugin-flowtype": "^2.32.1",
+    "eslint-plugin-flowtype": "^2.37.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-standard": "^3.0.1",
     "husky": "^0.14.0"
