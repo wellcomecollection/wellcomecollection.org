@@ -31,27 +31,28 @@
           <h1 id="work-info" class="{{ {s:'HNM3', m:'HNM2', l:'HNM1'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{work.title}}</h1>
 
           {% if work.creators.length > 0 %}
-            {% set needsDivider = work.createdDate.label.length > 0 or work.genre.length > 0 or work.subjects.length > 0 or work.lettering > 0 %}
+            {% set needsDivider = work.createdDate.label or work.genres.length > 0 or work.subjects.length > 0 or work.lettering > 0 or work.descriptionArray.length > 0 %}
             {% componentV2 'meta-unit', {headingText: 'By', content: work.creators | getLinkObjects('label', 'creators:'), includeDivider: needsDivider} %}
           {% endif %}
 
-          {% if work.createdDate.label.length > 0 %}
-            {% set needsDivider = work.genre.length > 0 or work.subjects.length > 0 or work.lettering.length > 0 %}
+          {% if work.createdDate.label %}
+            {% set needsDivider = work.genres.length > 0 or work.subjects.length > 0 or work.lettering.length > 0 or work.descriptionArray.length > 0 %}
             {% componentV2 'meta-unit', {headingText: 'Date', content: work.createdDate.label, includeDivider: needsDivider} %}
           {% endif %}
 
-          {% if work.genre.length > 0 %}
-            {% set needsDivider = work.subjects.length > 0 or work.lettering.length > 0 %}
+          {% if work.genres.length > 0 %}
+            {% set needsDivider = work.subjects.length > 0 or work.lettering.length > 0 or work.descriptionArray.length > 0 %}
             {% componentV2 'meta-unit', {headingText: 'Genre', content: work.genres | getLinkObjects('label'), includeDivider: needsDivider} %}
           {% endif %}
 
           {% if work.subjects.length > 0 %}
-            {% set needsDivider = work.lettering.length > 0 %}
+            {% set needsDivider = work.lettering.length > 0 or work.descriptionArray.length > 0 %}
             {% componentV2 'meta-unit', {headingText: 'Subject', content: work.subjects | getLinkObjects('label'), includeDivider: needsDivider} %}
           {% endif %}
 
           {% if work.lettering.length > 0 %}
-            {% componentV2 'meta-unit', {headingText: 'Lettering', content: work.lettering, includeDivider: false} %}
+            {% set needsDivider = work.descriptionArray.length > 0 %}
+            {% componentV2 'meta-unit', {headingText: 'Lettering', content: work.lettering, includeDivider: needsDivider} %}
           {% endif %}
 
           {% if work.descriptionArray.length > 0 %}
