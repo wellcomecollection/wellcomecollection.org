@@ -280,6 +280,7 @@ export function convertContentToBodyParts(content) {
       case 'iframeSrc':
         return {
           type: 'iframe',
+          weight: slice.slice_label,
           value: {
             src: slice.value
           }
