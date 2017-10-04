@@ -31,6 +31,11 @@ module "wellcomecollection_cardigan" {
   website_uri = "cardigan.wellcomecollection.org"
 }
 
+module "wellcomecollection_static" {
+  source      = "../website-bucket"
+  website_uri = "static.wellcomecollection.org"
+}
+
 module "wellcomecollection_cloudformation" {
   source                          = "../cloudfront"
   wellcomecollection_ssl_cert_arn = "${var.wellcomecollection_ssl_cert_arn}"
