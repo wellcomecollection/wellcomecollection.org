@@ -70,3 +70,11 @@
     border-color: color('java');
   }
 }
+
+.btn--full-width-s {
+  width: 100%;
+
+  @include respond-to('medium') {
+    width: auto;
+  }
+}
