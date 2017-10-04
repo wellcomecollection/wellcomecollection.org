@@ -46,7 +46,8 @@
                   </span>
                 </div>
 
-                <h1 class="{{ {s:'WB5', m:'WB6', l:'WB4', xl:'WB3'} | fontClasses }}">{{ event.title }}</h1>
+                <h1 class="{{ {s:'WB5', m:'WB6', l:'WB4', xl:'WB3'} | fontClasses }} {{ {s: 0} | spacingClasses({margin:['bottom']}) }}">{{ event.title }}</h1>
+                <div>{{ event.format.title }}</div>
 
                 {% if (event.accessOptions.size !== 0) %}
                   <div class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
@@ -100,13 +101,13 @@
           {% if event.bookingEnquiryTeam %}
             <hr class="divider divider--keyline divider--pumice show-to-l {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
             {% set team = event.bookingEnquiryTeam %}
+
             <div>
-
               <a class="btn btn--full-width-s font-HNM5-s" href="mailto:{{team.email}}?subject=Booking for {{ event.title }}">{% icon 'other/ticket', null, ['icon--teal'] %}Enquire to book</a>
-
               <p class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{{s:'HNL4'} | fontClasses}}">or call <a href="tel:{{ team.phone }}">{{ team.phone }}</a></p>
               <p class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{{s:'HNL4'} | fontClasses}}">Places are free but limited.</p>
             </div>
+
             <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
               {% componentV2 'more-info-link', {name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
             </div>
