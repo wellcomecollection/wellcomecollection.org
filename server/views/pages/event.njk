@@ -16,12 +16,77 @@
 <script type="application/ld+json">
   {{ event | jsonLd('eventLd') | safe }}
 </script>
-<style>
 
-</style>
 <article>
-  <div class="row {{ {s:4} | spacingClasses({padding: ['top', 'bottom']}) }}">
+  <div class="row relative">
+
+    <div class="flush-container-left absolute {{ {s:2} | spacingClasses({margin: ['top']}) }}">
+      {% componentV2 'tags', tags %}
+    </div>
+
+    <div class="exhibition-hero">
+      {% componentV2 'picture', {
+          images: [{
+            contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection/838f6b93b37910338e39dc8e84f8e4b4655891c7_1600x900v2.jpg',
+            type: 'picture',
+            width: 3200,
+            height: 1490
+          }]
+        }, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
+
+      <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">
+        <div class="is-hidden-m is-hidden-l is-hidden-xl">
+          {% component 'wobbly-edge', {background: 'white'} %}
+        </div>
+
+        <div class="container {{ {m:0} | spacingClasses({padding: ['left']}) }}">
+          <div class="grid">
+            <div class="{{ {s:12} | gridClasses }}">
+              <div class="bg-white inline-block exhibition-hero__box {{ {m:3, l:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }} rounded-top-left rounded-bottom-right">
+                <div class="flex flex--v-center flex--h-space-between {{ {s:'HNM4', m:'HNM5', l:'HNM4'} | fontClasses }}">
+                  <span class="flex flex--v-center">
+                    {% icon 'other/ticket' %}
+                    <strong class="{{ {s:'WB7', l:'WB6'} | fontClasses }} caps {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free</strong>
+                  </span>
+                  <span class="flex flex--v-center">
+                    <span class="{{ {s:2} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
+                      {% set statusColor = 'icon--' + {start: exhibition.start, end: exhibition.end} | formatDateRangeWithColor %}
+                      {% icon 'other/status-indicator', null, [statusColor] %}
+                    </span>
+                    <strong>{{ {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage }}</strong>
+                  </span>
+                </div>
+                <h1 class="{{ {s:'WB5', m:'WB6', l:'WB4', xl:'WB3'} | fontClasses }}">{{ event.title }}</h1>
+                <span class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
+                  {% for dateRange in event.when.toJS() %}
+                    {% set formattedDateRange = dateRange.start | formatAndDedupeOnDate(dateRange.end) %}
+                    <div>
+                      <time>{{ formattedDateRange | joinDateStrings }}</time>
+                      <time>{{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | joinDateStrings }}</time>
+                    </div>
+                  {% endfor %}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row {{ {s:5} | spacingClasses({margin: ['top']}) }}">
     <div class="container">
+      <div class="grid">
+        <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+          {% if exhibition.subtitle %}
+            {% component 'standfirst', {body: exhibition.subtitle | safe} %}
+          {% endif %}
+          {{ event.description | safe }}
+        </div>
+      </div>
+    </div>
+  </div>
+    {# <div class="container">
       <div class="grid">
         <div class="{{ {s:12} | gridClasses }}">
           {% componentV2 'tags', tags %}
@@ -111,7 +176,7 @@
         </div>
       </div>
     </div>
-  {% endif %}
+  {% endif %} #}
 
 </article>
 {% endblock %}
