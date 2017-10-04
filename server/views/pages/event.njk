@@ -16,86 +16,68 @@
 <script type="application/ld+json">
   {{ event | jsonLd('eventLd') | safe }}
 </script>
-<style>
 
-</style>
 <article>
-  <div class="row {{ {s:4} | spacingClasses({padding: ['top', 'bottom']}) }}">
-    <div class="container">
-      <div class="grid">
-        <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
-          {% componentV2 'tags', tags %}
+  <div class="row relative">
 
-          {% set eventPromoData = {
-            ticketInfoFont: {s:'HNM4', m:'HNM6', l:'HNM4'},
-            titleFont: {s:'WB4', m:'WB6', l:'WB4', xl:'WB3'},
-            dateFont: {s: 'HNM3', m: 'HNM5', l:'HNM3'},
-            timeFont: {s: 'HNL3', m:'HNL5', l:'HNL3'}
-          } %}
-
-          {% componentV2 'event-promo', {
-            id: event.id,
-            featuredMedia: event.featuredMedia,
-            title: event.title,
-            ticketInfo: 'Free',
-            when: event.when
-          }, {}, eventPromoData %}
-
-
-          {% if (event.accessOptions.size !== 0) %}
-            <div class="{{ {s:'HNL3', m:'HNL4'} | fontClasses }}">
-              {% for accessOption in event.accessOptions.toJS() %}
-                <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }}">
-                  <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/' + (accessOption.accessOption.acronym | lower), accessOption.accessOption.title %}</div>
-                  <p class="no-margin">{{ accessOption.accessOption.title }}</p>
-                </div>
-              {% endfor %}
-            </div>
-          {% endif %}
-        </div>
-      </div>
+    <div class="flush-container-left absolute {{ {s:2} | spacingClasses({margin: ['top']}) }}">
+      {% componentV2 'tags', tags %}
     </div>
-  </div>
 
-  <div class="row {{ {s:10} | spacingClasses({padding: ['bottom']}) }}">
-    <div class="container">
-      <div class="grid">
-        <div class="{{ {s:12, m:5, l:5, xl:5} | gridClasses }} {{ {s:'HNL3', m:'HNL2'} | fontClasses}}">
-          {% block eventDescription %}
-            {{ event.description | safe }}
-          {% endblock %}
-        </div>
-        <div class="{{ {s:12, m:7, l:7, xl:7} | gridClasses }}">
+    <div class="exhibition-hero">
+      {% componentV2 'picture', {
+          images: [{
+            contentUrl: 'https://a.travel-assets.com/findyours-php/viewfinder/images/res60/241000/241872-New-Museum.jpg',
+            type: 'picture',
+            width: 3200,
+            height: 1490
+          }]
+        }, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
+
+      <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">
+        <div class="container {{ {l:0} | spacingClasses({padding: ['left']}) }}">
           <div class="grid">
-            <div class="{{ {s:12, m:12, l:12, xl:7} | gridClasses }} {{ {s:'HNL3', m:'HNL4'} | fontClasses }}">
+            <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
+              <div class="bg-white inline-block exhibition-hero__box {{ {m:3, l:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }} rounded-diagonal">
+                <div class="flex flex--v-center flex--h-space-between {{ {s:'HNM4', m:'HNM5', l:'HNM4'} | fontClasses }}">
+                  <span class="flex flex--v-center">
+                    {% icon 'other/ticket' %}
+                    <strong class="{{ {s:'WB7', l:'WB6'} | fontClasses }} caps {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free</strong>
+                  </span>
+                </div>
 
-              <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }}">
-                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y' %}</div>
-                <p class="no-margin">Step-free access is available to all floors of the building</p>
-              </div>
+                <h1 class="{{ {s:'WB5', m:'WB6', l:'WB4', xl:'WB3'} | fontClasses }} {{ {s: 0} | spacingClasses({margin:['bottom']}) }}">{{ event.title }}</h1>
+                <div>{{ event.format.title }}</div>
 
-              <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }}">
-                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y_visual' %}</div>
-                <p class="no-margin">Magnifying glasses and sheets are available to borrow</p>
-              </div>
-
-              <p class="{{ {s:'HNM3', m:'HNM4'} | fontClasses }}">
-                <a href="https://wellcomecollection.org/visit-us/accessibility" class="plain-link font-elf-green">Find out more about accessiblity here</a>
-              </p>
-
-            </div>
-            <div class="{{ {s:12, m:12, l:12, xl:5} | gridClasses }}">
-              {% block bookTickets %}
-                {% if event.bookingEnquiryTeam %}
-                  {% set team = event.bookingEnquiryTeam %}
-                  <div class="{{ {s:'HNL3', m:'HNL4'} | fontClasses }}">
-                    <p class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }}">These events are <strong class="{{ {s:'HNM3', m:'HNM4'} | fontClasses }} caps">free</strong>, but booking is essential.</p>
-                    <p>Please enquire below, or call <a href="tel:{{ team.phone }}">{{ team.phone }}</a></p>
-
-                    <a class="btn font-HNM5-s btn--dark" href="mailto:{{team.email}}?subject=Booking for {{ event.title }}">{% icon 'other/ticket', null, ['icon--teal'] %}Reserve free tickets</a>
+                {% if (event.accessOptions.size !== 0) %}
+                  <div class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
+                    {% for accessOption in event.accessOptions.toJS() %}
+                      <div class="flex">
+                        <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/' + (accessOption.accessOption.acronym | lower), accessOption.accessOption.title %}</div>
+                        <p class="no-margin">{{ accessOption.accessOption.title }}</p>
+                      </div>
+                    {% endfor %}
                   </div>
                 {% endif %}
-              {% endblock %}
+
+
+                <span class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
+                  {% for dateRange in event.when.toJS() %}
+                    {% set formattedDateRange = dateRange.start | formatAndDedupeOnDate(dateRange.end) %}
+                    <div class="{{ {s: 2} | spacingClasses({margin: ['top']}) }}">
+                      <div>
+                        <time class="{{ {s:'HNM4', m:'HNM5', l:'HNM3', xl:'HNM2'} | fontClasses }}">
+                          <b>{{ formattedDateRange | joinDateStrings }}</b>
+                        </time>
+                      </div>
+
+                      {% if (formattedDateRange.size === 1) %}
+                        <div><time>{{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | joinDateStrings }}</time></div>
+                      {% endif %}
+                    </div>
+                  {% endfor %}
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -103,33 +85,63 @@
     </div>
   </div>
 
-  {% if event.contributors.length > 0 %}
-    <div class="row {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
-      <div class="container">
-        <h2 class="{{ {s:'WB6'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">Contributors</h2>
-        <div class="grid">
-          {% for contributor in event.contributors %}
-            <div class="{{ {s:12, m:6, l:6} | gridClasses }}">
-              <div class="grid">
-                <div class="{{ {s:6, m:8, l:4, xl:4} | gridClasses }}">
-                  <img class="round" src="{{ contributor.person.image | convertImageUri(300) }}" alt="" />
-                </div>
-                <div class="{{ {s:12, m:12, l:8, xl:8} | gridClasses }}">
-                  <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-                    <h3 class="{{ {s:'HNM3'} | fontClasses }}">{{ contributor.person.name }}</h3>
-                    <span class="{{ {s:'HNL3'} | fontClasses }}">{{ contributor.role.title }}</span>
-                  </div>
-                  <div class="{{ {s: 'HNL4'} | fontClasses }}">
-                    {{ contributor.person.description | safe }}
-                  </div>
-                </div>
-              </div>
-            </div>
-          {% endfor %}
+  <div class="row {{ {l:5} | spacingClasses({margin: ['top']}) }}">
+    <div class="container">
+      <div class="grid">
+
+        <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+          {% if event.subtitle %}
+            {% component 'standfirst', {body: exhibition.subtitle | safe} %}
+          {% endif %}
+          {{ event.description | safe }}
         </div>
+
+
+        <div class="{{ {s:12, m:10, shiftM:1, l:5, xl:5} | gridClasses }}">
+          {% if event.bookingEnquiryTeam %}
+            <hr class="divider divider--keyline divider--pumice is-hidden-l is-hidden-xl {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
+            {% set team = event.bookingEnquiryTeam %}
+
+            <div>
+              <a class="btn btn--full-width-s font-HNM5-s" href="mailto:{{team.email}}?subject=Booking for {{ event.title }}">{% icon 'other/ticket', null, ['icon--teal'] %}Enquire to book</a>
+              <p class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{{s:'HNL4'} | fontClasses}}">or call <a href="tel:{{ team.phone }}">{{ team.phone }}</a></p>
+              <p class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{{s:'HNL4'} | fontClasses}}">Places are free but limited.</p>
+            </div>
+
+            <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              {% componentV2 'more-info-link', {name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
+            </div>
+          {% endif %}
+        </div>
+
+
+        {% if event.contributors.length > 0 %}
+          <div class="{{ {s:12} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+            <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
+
+            <h2 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Contributors</h2>
+            <div class="grid">
+              {% for contributor in event.contributors %}
+                <div class="{{ {l:6, xl:6} | gridClasses }}">
+                  <div class="bg-cream rounded-diagonal half-in-image-container {{ {s:2} | spacingClasses({padding: ['top', 'bottom', 'left', 'right']}) }}">
+                    <img class="round half-in-image person-image" src="{{ contributor.person.image | convertImageUri(300) }}" alt="" />
+                    <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+                      <h3 class="{{ {s:'HNM3'} | fontClasses }} no-margin">{{ contributor.person.name }}</h3>
+                      <span class="{{ {s:'HNL3'} | fontClasses }}">{{ contributor.role.title }}</span>
+                    </div>
+                    <div class="{{ {s: 'HNL4'} | fontClasses }}">
+                      {{ contributor.person.description | safe }}
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
       </div>
     </div>
-  {% endif %}
+  </div>
 
 </article>
 {% endblock %}

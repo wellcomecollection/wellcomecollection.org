@@ -92,10 +92,15 @@ export async function renderEvent(ctx, next) {
       const tags = [{
         text: 'Event',
         url: 'https://wellcomecollection.org/whats-on/events/all-events'
-      }].concat(event.format ? [{
-        text: event.format.title
+      }].concat(event.programme ? [{
+        text: event.programme.title
         // TODO: link through to others of this type?
-      }] : []);
+      }] : []).concat([{
+        prefix: 'Part of: ',
+        text: 'Can graphic design save your life',
+        url: '/graphicdesign'
+      }]);
+
       ctx.render('pages/event', {
         pageConfig: createPageConfig({
           path: path,
@@ -110,6 +115,8 @@ export async function renderEvent(ctx, next) {
       });
     }
   }
+
+  return next();
 }
 
 export async function renderExhibition(ctx, next, overrideId, gaExp) {
@@ -138,6 +145,8 @@ export async function renderExhibition(ctx, next, overrideId, gaExp) {
       });
     }
   }
+
+  return next();
 }
 
 export const renderEventbriteEmbed = async(ctx, next) => {

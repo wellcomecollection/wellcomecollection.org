@@ -15,6 +15,14 @@
         "customtypes" : [ "event-formats" ]
       }
     },
+    "programme" : {
+      "type" : "Link",
+      "config" : {
+        "label" : "Programme",
+        "select" : "document",
+        "customtypes" : [ "event-programmes" ]
+      }
+    },
     "when" : {
       "type" : "Slices",
       "fieldset" : "When",

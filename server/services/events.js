@@ -13,7 +13,7 @@ export async function getEvent(id: string, previewReq: ?Request): Promise<?Event
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'event-access-options.title', 'event-access-options.acronym',
     'event-booking-enquiry-teams.title', 'event-booking-enquiry-teams.email', 'event-booking-enquiry-teams.phone',
-    'event-formats.title',
+    'event-formats.title', 'event-programmes.title',
     'editorial-contributor-roles.title', 'event-contributor-roles.title'
   ];
 
@@ -37,6 +37,7 @@ export async function getEvent(id: string, previewReq: ?Request): Promise<?Event
     id: event.id,
     title: asText(event.data.title),
     format: event.data.format.data && ({ title: asText(event.data.format.data.title) }: EventFormat),
+    programme: event.data.programme.data && ({ title: asText(event.data.programme.data.title) }: EventFormat),
     when: when,
     description: asHtml(event.data.description),
     accessOptions: List(event.data.accessOptions.map(ao => ({
