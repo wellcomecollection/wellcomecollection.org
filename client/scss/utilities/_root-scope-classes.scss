@@ -290,12 +290,15 @@
   position: absolute;
 }
 
-.half-in-image {
-  margin-top: -50px;
-}
 
+// These classes should probably become something generic
+// that we can look at when we look at having more breakout type content.
 .person-image {
   max-width: 100px;
+}
+
+.half-in-image {
+  margin-top: -50px;
 }
 
 .half-in-image-container {
