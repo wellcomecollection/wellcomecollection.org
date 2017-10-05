@@ -270,7 +270,16 @@
 }
 
 .bg-transparent-black {
-  background: color('transparent-black');;
+  background: color('transparent-black');
+}
+
+.bg-transparent-black--hover {
+  transition: background 0.7s ease;
+
+  &[href]:hover,
+  &[href]:focus {
+    background: color('black');
+  }
 }
 
 .rounded-corners {
