@@ -1,6 +1,6 @@
 {
   "Main" : {
-    "title" : {
+    "name" : {
       "type" : "Text",
       "config" : {
         "label" : "Name",

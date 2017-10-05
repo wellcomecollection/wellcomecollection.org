@@ -13,7 +13,10 @@ function getSeries(doc) {
     return series && series.data && {
       id: series.id,
       name: series.data.name,
-      description: series.data.description
+      description: series.data.description,
+      schedule: series.data.schedule && series.data.schedule.map(comingSoon => {
+        console.info(comingSoon)
+      })
     };
   }).filter(_ => _);
 }
@@ -121,11 +124,10 @@ function getTaslFromCopyright(copyright) {
 
 export async function getArticle(id: string, previewReq: ?Request) {
   const prismic = previewReq ? await prismicPreviewApi(previewReq) : await prismicApi();
-
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'books.title', 'books.title', 'books.author', 'books.isbn', 'books.publisher', 'books.link', 'books.cover',
-    'series.name', 'series.description', 'series.color', 'series.commissionedLength',
+    'series.name', 'series.description', 'series.color', 'series.schedule', 'series.schedule.title', 'series.schedule.publishDate',
     'editorial-contributor-roles.title', 'event-contributor-roles'
   ];
 
