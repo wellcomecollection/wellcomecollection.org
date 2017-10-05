@@ -1,5 +1,5 @@
 .iframe-container {
-  // absolute
+  // relative
   padding-bottom: 56.25%; /* 16:9 */
   height: 0;
 }
@@ -16,6 +16,7 @@
 }
 
 .iframe-container__trigger {
+  // relative
   z-index: 2;
 
   &:hover,
@@ -28,6 +29,18 @@
       background: color('transparent');
     }
   }
+}
+
+.iframe-container__play {
+  // absolute
+  z-index: 1;
+}
+
+.iframe-container__close {
+  // absolute
+  top: 2 * $spacing-unit;
+  right: 2 * $spacing-unit;
+  z-index: 2;
 }
 
 .iframe-container__iframe {
