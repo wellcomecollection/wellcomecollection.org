@@ -110,10 +110,11 @@
             }
           },
           "iframeSrc" : {
-            "type" : "Text",
+            "type" : "Link",
+            "fieldset" : "Iframe",
             "config" : {
-              "label" : "iframe src",
-              "placeholder" : "iframe src"
+              "select" : "document",
+              "customtypes" : [ "iframes" ]
             }
           },
           "imageList" : {
@@ -403,10 +404,10 @@
               "label" : "Series"
             }
           },
-          "positionInSeries": {
-            "type": "Number",
-            "config": {
-              "label": "Position in series"
+          "positionInSeries" : {
+            "type" : "Number",
+            "config" : {
+              "label" : "Position in series"
             }
           }
         }
