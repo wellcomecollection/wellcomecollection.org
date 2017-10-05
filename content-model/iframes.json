@@ -1,0 +1,24 @@
+{
+  "Iframe" : {
+    "launchButtonText" : {
+      "type" : "Text",
+      "config" : {
+        "label" : "Launch button text",
+        "placeholder" : "launch button text"
+      }
+    },
+    "iframeSrc" : {
+      "type" : "Text",
+      "config" : {
+        "label" : "iframe src",
+        "placeholder" : "iframe src"
+      }
+    },
+    "previewImage" : {
+      "type" : "Image",
+      "config" : {
+        "label" : "Preview image"
+      }
+    }
+  }
+}

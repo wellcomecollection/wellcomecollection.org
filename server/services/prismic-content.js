@@ -62,6 +62,17 @@ export function getFeaturedMediaFromBody(doc): ?(Picture | ImageList) {
     })).first();
 }
 
+export function prismicImageToImage(prismicImage) {
+  const image = isEmptyObj(prismicImage) ? null : prismicImage;
+
+  return {
+    width: image && image.dimensions.width,
+    height: image && image.dimensions.height,
+    alt: image && image.alt,
+    contentUrl: image && image.url
+  };
+}
+
 export function prismicImageToPicture(captionedImage) {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
   const tasl = image && image.copyright && getTaslFromCopyright(image.copyright);
@@ -126,7 +137,7 @@ export async function getArticle(id: string, previewReq: ?Request) {
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'books.title', 'books.title', 'books.author', 'books.isbn', 'books.publisher', 'books.link', 'books.cover',
     'series.name', 'series.description', 'series.color', 'series.commissionedLength',
-    'editorial-contributor-roles.title', 'event-contributor-roles'
+    'editorial-contributor-roles.title', 'event-contributor-roles', 'iframes.launchButtonText', 'iframes.iframeSrc', 'iframes.previewImage'
   ];
 
   const articles = await prismic.query([
@@ -282,7 +293,9 @@ export function convertContentToBodyParts(content) {
           type: 'iframe',
           weight: slice.slice_label,
           value: {
-            src: slice.value
+            launchButtonText: slice.value.data.launchButtonText,
+            src: slice.value.data.iframeSrc,
+            image: prismicImageToImage(slice.value.data.previewImage)
           }
         };
 

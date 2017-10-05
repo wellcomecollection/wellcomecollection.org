@@ -1,12 +1,37 @@
 .iframe-container {
-  position: relative;
+  // absolute
   padding-bottom: 56.25%; /* 16:9 */
   height: 0;
-  margin-bottom: $vertical-space-unit;
+}
+
+.iframe-container__overlay {
+  // absolute
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  transition: background 600ms ease;
+}
+
+.iframe-container__trigger {
+  z-index: 2;
+
+  &:hover,
+  &:focus {
+    .iframe-container__play {
+      background: color('elf-green');
+    }
+
+    .iframe-container__overlay {
+      background: color('transparent');
+    }
+  }
 }
 
 .iframe-container__iframe {
-  position: absolute;
+  // relative
   top: 0;
   left: 0;
   width: 100%;

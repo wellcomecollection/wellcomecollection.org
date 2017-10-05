@@ -89,7 +89,9 @@
               </div>
             </div>
           {% elif bodyPart.type === 'iframe' %}
-            {% componentV2 'iframe', bodyPart.value %}
+            <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              {% componentV2 'iframe', bodyPart.value %}
+            </div>
           {% else %}
             {{ bodyPart.value | safe }}
           {% endif %}

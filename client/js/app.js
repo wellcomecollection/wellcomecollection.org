@@ -30,6 +30,7 @@ import scrollToInfo from './components/scroll-to-info';
 import workMediaControls from './components/work-media-controls';
 import copyUrl from './components/copy-url';
 import searchBox from './components/search-box';
+import iframeContainer from './components/iframe-container';
 
 const init = () => {
   polyfills.init();
@@ -60,6 +61,9 @@ const init = () => {
   const workMediaEls = document.querySelectorAll('.js-work-media');
   const copyUrlEls = document.querySelectorAll('.js-copy-url');
   const searchBoxEls = document.querySelectorAll('.js-search-box');
+  const iframeContainerEls = document.querySelectorAll('.js-iframe-container');
+
+  nodeList(iframeContainerEls).forEach(iframeContainer);
 
   nodeList(searchBoxEls).forEach(searchBox);
 
