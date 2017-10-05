@@ -1,6 +1,4 @@
 {
-  "@title": "Book",
-  "@repeatable": true,
   "Book" : {
     "title" : {
       "type" : "StructuredText",
@@ -49,14 +47,14 @@
           "width" : null,
           "height" : null
         },
-        "thumbnails" : [],
+        "thumbnails" : [ ],
         "label" : "cover"
       }
     },
-    "price": {
-      "type": "Number",
-      "config": {
-        "label": "price"
+    "price" : {
+      "type" : "Number",
+      "config" : {
+        "label" : "price"
       }
     }
   }

@@ -1,6 +1,4 @@
 {
-  "@title": "Feature cohort",
-  "@repeatable": true,
   "Main" : {
     "cohortName" : {
       "type" : "Text",

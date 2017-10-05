@@ -1,0 +1,23 @@
+{
+  "Main" : {
+    "title" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : "heading1",
+        "label" : "Title"
+      }
+    },
+    "email" : {
+      "type" : "Text",
+      "config" : {
+        "label" : "email"
+      }
+    },
+    "phone" : {
+      "type" : "Text",
+      "config" : {
+        "label" : "Phone"
+      }
+    }
+  }
+}
