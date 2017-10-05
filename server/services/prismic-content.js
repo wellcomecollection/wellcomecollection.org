@@ -1,11 +1,8 @@
 import type {ImagePromo, ImageList} from '../content-model/content-blocks';
 import type {Picture} from '../model/picture';
-import Prismic from 'prismic-javascript';
 import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
-import {prismicApi} from './prismic-api';
 import {isEmptyObj} from '../util/is-empty-obj';
-import {parseArticleDoc, parseWebcomicDoc} from './prismic-parsers';
 
 export function getPublishedDate(doc) {
   // We fallback to `Date.now()` in case we're in preview and don't have a published date
