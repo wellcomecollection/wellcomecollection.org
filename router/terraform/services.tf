@@ -1,5 +1,5 @@
 module "router" {
-  source             = "github.com/wellcometrust/platform//terraform/services"
+  source             = "git::https://github.com/wellcometrust/terraform.git//terraform/services?ref=v1.0.0"
   name               = "loris"
   cluster_id         = "${aws_ecs_cluster.router.id}"
   task_role_arn      = "${module.ecs_router_iam.task_role_arn}"

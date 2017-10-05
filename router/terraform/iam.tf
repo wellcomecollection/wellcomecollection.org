@@ -1,4 +1,4 @@
 module "ecs_router_iam" {
-  source = "github.com/wellcometrust/platform//terraform/ecs_iam"
+  source = "git::https://github.com/wellcometrust/terraform.git//terraform/ecs_iam?ref=v1.0.0"
   name   = "router"
 }

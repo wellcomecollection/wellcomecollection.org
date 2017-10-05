@@ -1,5 +1,5 @@
 module "router_alb" {
-  source  = "github.com/wellcometrust/platform//terraform/ecs_alb"
+  source  = "git::https://github.com/wellcometrust/terraform.git//terraform/ecs_alb?ref=v1.0.0"
   name    = "loris"
   subnets = ["${module.vpc_router.subnets}"]
 
