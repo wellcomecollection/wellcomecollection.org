@@ -1,12 +1,10 @@
 // @flow
 import {List} from 'immutable';
+import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
 import getBreakpoint from '../filters/get-breakpoint';
-import {
-  getPromo, asText, asHtml, prismicImageToPicture, getPublishedDate,
-  getFeaturedMediaFromBody, convertContentToBodyParts, getTaslFromCopyright
-} from './prismic-content';
-import type {Contributor, DateRange} from '../content-model/content-blocks';
+import {parseBody} from './prismic-body-parser';
+import type {Contributor, DateRange, ImagePromo} from '../content-model/content-blocks';
 import type {EventFormat} from '../content-model/event';
 import type {Article} from '../model/article';
 import type {Promo} from '../model/promo';
@@ -19,12 +17,12 @@ type PrismicDoc = Object<any>;
 type PrismicDocFragment = Object<any> | Array<any>;
 
 export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
-  const featuredImage = prismicImageToPicture({image: doc.data.featuredImage});
-  const featuredImageMobileCrop = prismicImageToPicture({image: doc.data.featuredImageMobileCrop});
+  const featuredImage = parsePicture({image: doc.data.featuredImage});
+  const featuredImageMobileCrop = parsePicture({image: doc.data.featuredImageMobileCrop});
   const featuredImageWithBreakpoint = featuredImage.contentUrl && Object.assign({}, featuredImage, {minWidth: getBreakpoint('medium')});
   const featuredImageMobileCropWithBreakpoint = featuredImageMobileCrop.contentUrl && Object.assign({}, featuredImageMobileCrop, {minWidth: getBreakpoint('small')});
   const featuredImages = List([featuredImageWithBreakpoint, featuredImageMobileCropWithBreakpoint].filter(_ => _));
-  const promo = getPromo(doc);
+  const promo = parseImagePromo(doc.data.promo);
 
   const exhibition = ({
     id: doc.id,
@@ -43,7 +41,7 @@ export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
 
 export function parseEventDoc(doc: PrismicDoc): Event {
   const contributors = parseContributors(doc.data.contributors);
-  const promo = getPromo(doc);
+  const promo = parseImagePromo(doc.data.promo);
   const when: List<DateRange> = List(doc.data.when.map(slice => {
     return ({
       start: new Date(slice.primary.start),
@@ -78,17 +76,17 @@ export function parseArticleDoc(doc: PrismicDoc): Article {
   // TODO : construct this not from strings
   const url = `/articles/${doc.id}`;
 
-  const publishDate = getPublishedDate(doc);
-  const featuredMedia = getFeaturedMediaFromBody(doc);
+  const publishDate = parsePublishedDate(doc);
+  const featuredMedia = parseFeaturedMediaFromBody(doc);
 
   // TODO: Don't convert this into thumbnail
   const promo = doc.data.promo.find(slice => slice.slice_type === 'editorialImage');
-  const thumbnail = promo && prismicImageToPicture(promo.primary);
+  const thumbnail = promo && parsePicture(promo.primary);
   const description = promo && asText(promo.primary.caption); // TODO: Do not use description
   const contributors = parseContributors(doc.data.contributors);
   const series = parseSeries(doc.data.series);
 
-  const bodyParts = convertContentToBodyParts(doc.data.body);
+  const bodyParts = parseBody(doc.data.body);
 
   // TODO: The whole scheduled content has some work to be getting on with
   const seriesWithCommissionedLength = series.find(series => series.commissionedLength);
@@ -116,12 +114,12 @@ export function parseWebcomicDoc(doc: PrismicDoc): Article {
   const url = `/articles/${doc.id}`;
 
   // TODO: potentially get rid of this
-  const publishDate = getPublishedDate(doc);
-  const mainMedia = [prismicImageToPicture({ image: doc.data.image })];
+  const publishDate = parsePublishedDate(doc);
+  const mainMedia = [parsePicture({ image: doc.data.image })];
 
   // TODO: Don't convert this into thumbnail
   const promo = doc.data.promo.find(slice => slice.slice_type === 'editorialImage');
-  const thumbnail = promo && prismicImageToPicture(promo.primary);
+  const thumbnail = promo && parsePicture(promo.primary);
   const description = asText(promo.primary.caption); // TODO: Do not use description
   const contributors = parseContributors(doc.data.contributors);
   const series = parseSeries(doc.data.series);
@@ -148,50 +146,13 @@ export function parsePromoListItem(item): Promo {
     url: item.link.url,
     title: item.title[0].text,
     description: item.description[0].text,
-    image: prismicImageToPicture(item)
+    image: parsePicture(item)
   } : Promo);
-}
-
-function parseSeries(doc: ?PrismicDocFragment): Series {
-  return doc && doc.map(seriesGroup => {
-    const series = seriesGroup.series;
-    return series && series.data && {
-      url: series.id,
-      id: series.id,
-      name: series.data.name,
-      description: asText(series.data.description),
-      color: series.data.color,
-      commissionedLength: series.data.commissionedLength,
-      schedule: series.data.schedule && series.data.schedule.map(comingSoon => {
-        // TODO
-      })
-    };
-  }).filter(_ => _);
-}
-
-export function parseContributors(doc: ?PrismicDocFragment): Array<Contributor> {
-  return doc && doc
-    .filter(creator => creator.slice_type === 'person')
-    .map(slice => {
-      const personData = slice.primary.person && slice.primary.person.data;
-      const roleData = slice.primary.role && slice.primary.role.data;
-      const role = roleData && {
-        title: roleData && asText(roleData.title)
-      };
-      const person = personData && {
-        name: personData.name,
-        twitterHandle: personData.twitterHandle,
-        image: personData.image && personData.image.url,
-        description: asText(personData.description)
-      };
-
-      return {person, role};
-    });
 }
 
 export function parsePicture(captionedImage): Picture {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
-  const tasl = image && image.copyright && getTaslFromCopyright(image.copyright);
+  const tasl = image && image.copyright && parseTaslFromCopyright(image.copyright);
 
   return ({
     type: 'picture',
@@ -212,4 +173,89 @@ export function parsePicture(captionedImage): Picture {
       link: tasl && tasl.copyrightLink
     }
   }: Picture);
+}
+
+function parseSeries(doc: ?PrismicDocFragment): Series {
+  return doc && doc.map(seriesGroup => {
+    const series = seriesGroup.series;
+    return series && series.data && {
+      url: series.id,
+      id: series.id,
+      name: series.data.name,
+      description: asText(series.data.description),
+      color: series.data.color,
+      commissionedLength: series.data.commissionedLength,
+      schedule: series.data.schedule && series.data.schedule.map(comingSoon => {
+        // TODO
+      })
+    };
+  }).filter(_ => _);
+}
+
+function parseContributors(doc: ?PrismicDocFragment): Array<Contributor> {
+  return doc && doc
+    .filter(creator => creator.slice_type === 'person')
+    .map(slice => {
+      const personData = slice.primary.person && slice.primary.person.data;
+      const roleData = slice.primary.role && slice.primary.role.data;
+      const role = roleData && {
+        title: roleData && asText(roleData.title)
+      };
+      const person = personData && {
+        name: personData.name,
+        twitterHandle: personData.twitterHandle,
+        image: personData.image && personData.image.url,
+        description: asText(personData.description)
+      };
+
+      return {person, role};
+    });
+}
+
+function parseImagePromo(doc: ?PrismicDocFragment): ?ImagePromo {
+  const maybePromo = doc && doc.find(slice => slice.slice_type === 'editorialImage');
+  return maybePromo && ({
+    text: asText(maybePromo.primary.caption),
+    media: parsePicture({image: maybePromo.primary.image})
+  }: ImagePromo);
+}
+
+function parsePublishedDate(doc) {
+  // We fallback to `Date.now()` in case we're in preview and don't have a published date
+  // This is because we need to have a separate `publishDate` for articles imported from WP
+  return PrismicDate(doc.data.publishDate || doc.first_publication_date || Date.now());
+}
+
+function parseFeaturedMediaFromBody(doc: PrismicDoc): ?Picture {
+  return List(doc.data.body.filter(slice => slice.slice_label === 'featured')
+    .map(slice => {
+      switch (slice.slice_type) {
+        case 'editorialImage': return parsePicture(slice.primary);
+      }
+    })).first();
+}
+
+function parseTaslFromCopyright(copyright) {
+  // We expect a string of title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
+  // e.g. Self|Rob Bidder|||CC-BY-NC
+  try {
+    const list = copyright.split('|');
+    const v = list
+      .concat(Array(7 - list.length))
+      .map(v => !v.trim() ? null : v.trim());
+
+    const [title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink] = v;
+    return {title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink};
+  } catch (e) {
+    return copyright;
+  }
+}
+
+// This purposefully isn't named `parseText` | `parseHtml` to match the prismic API.
+export function asText(maybeContent) {
+  return maybeContent && RichText.asText(maybeContent).trim();
+}
+
+export function asHtml(maybeContent) {
+  return maybeContent && RichText.asHtml(maybeContent).trim();
 }

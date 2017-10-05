@@ -4,10 +4,9 @@ import {prismicApi} from '../services/prismic-api';
 import {createPageConfig, getEditorialAnalyticsInfo} from '../model/page-config';
 import {getEventbriteEventEmbed} from '../services/eventbrite';
 import {PromoFactory} from '../model/promo';
-import {getCuratedList} from '../services/prismic-curated-lists';
 import {collectorsPromo} from '../data/series';
 import {prismicAsText} from '../filters/prismic';
-import {getArticle, getEvent, getExhibition, getSeriesAndArticles, getArticleList} from '../services/prismic';
+import {getArticle, getEvent, getExhibition, getSeriesAndArticles, getArticleList, getCuratedList} from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 
