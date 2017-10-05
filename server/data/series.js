@@ -31,7 +31,7 @@ export function getSeriesCommissionedLength(seriesUrl: string): ?number {
 export const series = List([
   ({
     url: 'WcpOjygAAJsLEXTc',
-    name: 'Pharmagraphic',
+    name: 'Pharmagraphics',
     commissionedLength: 6,
     color: 'red',
     items: List([
@@ -48,7 +48,42 @@ export const series = List([
           height: 900,
           description: 'Medieval herbal image of mandrake'
         }
-      })
+      }: ArticleStub),
+      ({
+        contentType: 'article',
+        headline: 'The Poor Child\'s Nurse',
+        url: '',
+        description: '',
+        datePublished: new Date('2017-10-12')
+      }: ArticleStub),
+      ({
+        contentType: 'article',
+        headline: 'Theriac: an ancient pharmaceutical brand?',
+        url: '',
+        description: '',
+        datePublished: new Date('2017-10-19')
+      }: ArticleStub),
+      ({
+        contentType: 'article',
+        headline: 'Richard Siddall\'s Business Card',
+        url: '',
+        description: '',
+        datePublished: new Date('2017-10-26')
+      }: ArticleStub),
+      ({
+        contentType: 'article',
+        headline: 'Graphic Battles in Pharmacy',
+        url: '',
+        description: '',
+        datePublished: new Date('2017-11-02')
+      }: ArticleStub),
+      ({
+        contentType: 'article',
+        headline: 'Symbolic Animals and Graphic Signs',
+        url: '',
+        description: '',
+        datePublished: new Date('2017-11-09')
+      }: ArticleStub)
     ])
   }: Series),
   ({
