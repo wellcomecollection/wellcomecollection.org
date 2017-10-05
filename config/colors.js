@@ -26,6 +26,8 @@ const colors = {
   'java': ['#1fbea9', 'secondary'],
   'cotton-seed': ['#bcbab5', 'secondary'],
   'transparent': ['transparent', 'tertiary'],
+  'transparent-black': ['rgba(29, 29, 29, 0.61)', 'tertiary'],
+  // Opacity value explanation; We use transparent to provide a background to white text which overlays a variety of images (therefore unknown colour contrast).  This opacity is the lightest we can go, while still providing sufficient contrast to pass WCAG guidlines, when it is displayed above a white background, i.e. worst case scenario.
   'inherit': ['inherit', 'tertiary'],
   'currentColor': ['currentColor', 'tertiary']
 };

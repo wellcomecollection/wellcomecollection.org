@@ -270,8 +270,7 @@
 }
 
 .bg-transparent-black {
-  background: rgba(color('black'), 0.61);
-  // Opacity value explanation; We use this class to provide a background to white text which overlays a variety of images (therefore unknown colour contrast).  This opacity is the lightest we can go, while still providing sufficient contrast to pass WCAG guidlines, when it is displayed above a white background, i.e. worst case scenario.
+  background: color('transparent-black');;
 }
 
 .rounded-corners {

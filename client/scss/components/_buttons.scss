@@ -75,7 +75,7 @@
   @include secondary;
   color: color('white');
   border-color: color('transparent');
-  background-color: rgba(color('black'), 0.61);
+  background-color: color('transparent-black');
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
