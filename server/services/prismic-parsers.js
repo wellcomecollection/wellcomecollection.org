@@ -1,12 +1,10 @@
 // @flow
 import {List} from 'immutable';
 import type {Exhibition} from '../content-model/exhibition';
-import {prismicImageToPicture} from './prismic-content';
 import getBreakpoint from '../filters/get-breakpoint';
-import {getPromo, asText, asHtml} from '../services/prismic-content';
+import {getPromo, asText, asHtml, prismicImageToPicture} from './prismic-content';
 
 export function parseExhibitionsDoc(doc): Exhibition {
-
   const featuredImage = prismicImageToPicture({image: doc.data.featuredImage});
   const featuredImageMobileCrop = prismicImageToPicture({image: doc.data.featuredImageMobileCrop});
   const featuredImageWithBreakpoint = featuredImage.contentUrl && Object.assign({}, featuredImage, {minWidth: getBreakpoint('medium')});
