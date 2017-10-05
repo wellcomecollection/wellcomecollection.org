@@ -1,8 +1,6 @@
 {
-  "@title": "Editorial series",
-  "@repeatable": true,
   "Main" : {
-    "name" : {
+    "title" : {
       "type" : "Text",
       "config" : {
         "label" : "Name",
@@ -10,8 +8,9 @@
       }
     },
     "description" : {
-      "type" : "Text",
+      "type" : "StructuredText",
       "config" : {
+        "single": "paragraph",
         "label" : "Description"
       }
     },
@@ -31,39 +30,22 @@
   },
   "Schedule": {
     "schedule": {
-      "type" : "Slices",
-      "fieldset" : "Slice zone",
+      "type" : "Group",
+      "fieldset" : "Schedule",
       "config" : {
-        "choices" : {
-          "content" : {
-            "type" : "Slice",
-            "fieldset" : "Articles",
-            "description" : "List of articles",
-            "icon" : "adjust",
-            "non-repeat" : {
-              "title" : {
-                "type" : "StructuredText",
-                "config" : {
-                  "multi" : "heading1",
-                  "label" : "title"
-                }
-              },
-              "publishdate" : {
-                "config" : {
-                  "label" : "publishDate"
-                },
-                "type" : "Timestamp"
-              },
-              "article" : {
-                "type" : "Link",
-                "config" : {
-                  "select" : "document",
-                  "customtypes" : [ "articles" ],
-                  "label" : "article"
-                }
-              }
-            },
-            "repeat" : { }
+        "fields" : {
+          "title" : {
+            "type" : "StructuredText",
+            "config" : {
+              "single" : "heading1",
+              "label" : "title"
+            }
+          },
+          "publishDate" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "publishDate"
+            }
           }
         }
       }
