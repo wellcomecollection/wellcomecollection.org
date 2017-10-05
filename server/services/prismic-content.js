@@ -1,13 +1,13 @@
 import type {ImagePromo, ImageList, Contributor} from '../content-model/content-blocks';
-import type {Article} from '../model/article';
 import type {Picture} from '../model/picture';
 import Prismic from 'prismic-javascript';
 import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
-import {prismicApi, prismicPreviewApi} from './prismic-api';
+import {prismicApi} from './prismic-api';
 import {isEmptyObj} from '../util/is-empty-obj';
+import {parseArticleDoc, parseWebcomicDoc} from './prismic-parsers';
 
-function getSeries(doc) {
+export function getSeries(doc) {
   return doc.data.series.map(seriesGroup => {
     const series = seriesGroup.series;
     return series && series.data && {
@@ -46,6 +46,7 @@ export function getContributors(doc): Array<Contributor> {
 }
 
 export function getPublishedDate(doc) {
+  // We fallback to `Date.now()` in case we're in preview and don't have a published date
   // This is because we need to have a separeate `publishDate` for articles imported from WP
   return PrismicDate(doc.data.publishDate || doc.first_publication_date || Date.now());
 }
@@ -123,70 +124,6 @@ function getTaslFromCopyright(copyright) {
   } catch (e) {
     return copyright;
   }
-}
-
-export async function getArticle(id: string, previewReq: ?Request) {
-  const prismic = previewReq ? await prismicPreviewApi(previewReq) : await prismicApi();
-  const fetchLinks = [
-    'people.name', 'people.image', 'people.twitterHandle', 'people.description',
-    'books.title', 'books.title', 'books.author', 'books.isbn', 'books.publisher', 'books.link', 'books.cover',
-    'series.name', 'series.description', 'series.color', 'series.schedule', 'series.commissionedLength',
-    'editorial-contributor-roles.title', 'event-contributor-roles'
-  ];
-
-  const articles = await prismic.query([
-    Prismic.Predicates.at('document.id', id),
-    Prismic.Predicates.any('document.type', ['articles', 'webcomics'])
-  ], {fetchLinks});
-  const prismicDoc = articles.total_results_size === 1 ? articles.results[0] : null;
-
-  if (!prismicDoc) {
-    return null;
-  }
-
-  switch (prismicDoc.type) {
-    case 'articles': return parseArticleAsArticle(prismicDoc);
-    case 'webcomics': return parseWebcomicAsArticle(prismicDoc);
-  }
-}
-
-function parseArticleAsArticle(prismicArticle) {
-  // TODO : construct this not from strings
-  const url = `/articles/${prismicArticle.id}`;
-
-  // We fallback to `Date.now()` in case we're in preview and don't have a published date
-  const publishDate = getPublishedDate(prismicArticle);
-
-  const featuredMedia = getFeaturedMediaFromBody(prismicArticle);
-
-  // TODO: Don't convert this into thumbnail
-  const promo = prismicArticle.data.promo.find(slice => slice.slice_type === 'editorialImage');
-  const thumbnail = promo && prismicImageToPicture(promo.primary);
-  const description = promo && asText(promo.primary.caption); // TODO: Do not use description
-  const contributors = getContributors(prismicArticle);
-  const series = getSeries(prismicArticle);
-
-  const bodyParts = convertContentToBodyParts(prismicArticle.data.body);
-
-  // TODO: The whole scheduled content has some work to be getting on with
-  const seriesWithCommissionedLength = series.find(series => series.commissionedLength);
-  const positionInSeries = seriesWithCommissionedLength && (seriesWithCommissionedLength.positionInSeries || 1);
-
-  const article: Article = {
-    contentType: 'article',
-    headline: asText(prismicArticle.data.title),
-    url: url,
-    datePublished: publishDate,
-    thumbnail: thumbnail,
-    author: contributors,
-    series: series,
-    bodyParts: bodyParts,
-    mainMedia: [featuredMedia],
-    description: description,
-    positionInSeries: positionInSeries
-  };
-
-  return article;
 }
 
 export function convertContentToBodyParts(content) {
@@ -325,8 +262,8 @@ export async function getArticleList(page = 1, {pageSize = 10, predicates = [], 
 
   const articlesAsArticles = articlesList.results.map(result => {
     switch (result.type) {
-      case 'articles': return parseArticleAsArticle(result);
-      case 'webcomics': return parseWebcomicAsArticle(result);
+      case 'articles': return parseArticleDoc(result);
+      case 'webcomics': return parseWebcomicDoc(result);
     }
   });
 
@@ -359,36 +296,4 @@ export function asText(maybeContent) {
 
 export function asHtml(maybeContent) {
   return maybeContent && RichText.asHtml(maybeContent).trim();
-}
-
-// TODO: There's some abstracting to do here
-function parseWebcomicAsArticle(prismicDoc) {
-  // TODO : construct this not from strings
-  const url = `/articles/${prismicDoc.id}`;
-
-  // TODO: potentially get rid of this
-  const publishDate = getPublishedDate(prismicDoc);
-  const mainMedia = [prismicImageToPicture({ image: prismicDoc.data.image })];
-
-  // TODO: Don't convert this into thumbnail
-  const promo = prismicDoc.data.promo.find(slice => slice.slice_type === 'editorialImage');
-  const thumbnail = promo && prismicImageToPicture(promo.primary);
-  const description = asText(promo.primary.caption); // TODO: Do not use description
-  const contributors = getContributors(prismicDoc);
-  const series = getSeries(prismicDoc);
-
-  const article: Article = {
-    contentType: 'comic',
-    headline: asText(prismicDoc.data.title),
-    url: url,
-    datePublished: publishDate,
-    thumbnail: thumbnail,
-    author: contributors,
-    series: series,
-    bodyParts: [],
-    mainMedia: mainMedia,
-    description: description
-  };
-
-  return article;
 }

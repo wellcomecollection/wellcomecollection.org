@@ -8,10 +8,11 @@ import {getCuratedList} from '../services/prismic-curated-lists';
 import {collectorsPromo} from '../data/series';
 import {prismicAsText} from '../filters/prismic';
 import {
-  getArticle,
+  // getArticle,
   getArticleList,
   getSeriesArticles
 } from '../services/prismic-content';
+import {getArticle} from '../services/prismic';
 import {getEvent} from '../services/events';
 import {getExhibition} from '../services/exhibitions';
 import {PromoListFactory} from '../model/promo-list';
