@@ -1,4 +1,4 @@
-import type {ImagePromo, ImageList, Contributor} from '../content-model/content-blocks';
+import type {ImagePromo, ImageList} from '../content-model/content-blocks';
 import type {Picture} from '../model/picture';
 import Prismic from 'prismic-javascript';
 import {List} from 'immutable';
