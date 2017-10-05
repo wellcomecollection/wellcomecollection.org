@@ -33,7 +33,6 @@ export function parseExhibitionsDoc(doc): Exhibition {
   return exhibition;
 }
 
-
 export function parseEventDoc(doc): Event {
   const contributors = getContributors(doc);
   const promo = getPromo(doc);
