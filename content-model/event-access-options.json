@@ -4,7 +4,13 @@
       "type" : "StructuredText",
       "config" : {
         "single" : "heading1",
-        "label" : "title"
+        "label" : "Title"
+      }
+    },
+    "acronym" : {
+      "type" : "Text",
+      "config" : {
+        "label" : "acronym"
       }
     }
   }

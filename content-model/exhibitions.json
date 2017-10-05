@@ -26,10 +26,10 @@
         "label" : "End date"
       }
     },
-    "description": {
-      "type": "StructuredText",
-      "config": {
-        "label": "Description",
+    "description" : {
+      "type" : "StructuredText",
+      "config" : {
+        "label" : "Description",
         "multi" : "heading2,paragraph,strong,em,hyperlink"
       }
     },
