@@ -4,7 +4,7 @@ module "router" {
   cluster_id         = "${aws_ecs_cluster.router.id}"
   task_role_arn      = "${module.ecs_router_iam.task_role_arn}"
   template_name      = "nginx_standalone"
-  vpc_id             = "${module.vpc_router.vpc_id}"
+  vpc_id             = "${var.vpc_id}"
   nginx_uri          = "${var.nginx_uri}"
   listener_https_arn = "${module.router_alb.listener_https_arn}"
   listener_http_arn  = "${module.router_alb.listener_http_arn}"

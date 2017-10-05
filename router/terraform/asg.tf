@@ -1,11 +1,11 @@
 module "router_cluster_asg" {
   source                = "git::https://github.com/wellcometrust/terraform.git//terraform/ecs_asg?ref=v1.0.0"
   asg_name              = "loris-cluster"
-  subnet_list           = ["${module.vpc_router.subnets}"]
+  subnet_list           = ["${var.vpc_subnets}"]
   key_name              = "${var.key_name}"
   instance_profile_name = "${module.ecs_router_iam.instance_profile_name}"
   user_data             = "${module.router_userdata.rendered}"
-  vpc_id                = "${module.vpc_router.vpc_id}"
+  vpc_id                = "${var.vpc_id}"
 
   asg_desired = "2"
   asg_max     = "2"
