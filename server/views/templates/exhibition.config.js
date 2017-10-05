@@ -1,6 +1,5 @@
 import {createPageConfig} from '../../model/page-config';
-import {getExhibition} from '../../services/exhibitions';
-import {getEvent} from '../../services/prismic';
+import {getEvent, getExhibition} from '../../services/prismic';
 import {getArticleStubs} from '../../services/wordpress';
 import {PromoFactory} from '../../model/promo';
 

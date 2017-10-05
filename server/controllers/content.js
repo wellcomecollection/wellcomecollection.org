@@ -12,8 +12,7 @@ import {
   getArticleList,
   getSeriesArticles
 } from '../services/prismic-content';
-import {getArticle, getEvent} from '../services/prismic';
-import {getExhibition} from '../services/exhibitions';
+import {getArticle, getEvent, getExhibition} from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 

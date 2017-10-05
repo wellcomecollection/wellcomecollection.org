@@ -9,6 +9,7 @@ import {
 import type {DateRange} from '../content-model/content-blocks';
 import type {EventFormat} from '../content-model/event';
 import type {Article} from '../model/article';
+import type {Promo} from '../model/promo';
 
 export function parseExhibitionsDoc(doc): Exhibition {
   const featuredImage = prismicImageToPicture({image: doc.data.featuredImage});
@@ -132,4 +133,14 @@ export function parseWebcomicDoc(doc): Article {
   };
 
   return article;
+}
+
+export function parsePromoListItem(item): Promo {
+  return ({
+    contentType: item.type,
+    url: item.link.url,
+    title: item.title[0].text,
+    description: item.description[0].text,
+    image: prismicImageToPicture(item)
+  } : Promo);
 }
