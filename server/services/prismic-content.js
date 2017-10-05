@@ -11,11 +11,14 @@ function getSeries(doc) {
   return doc.data.series.map(seriesGroup => {
     const series = seriesGroup.series;
     return series && series.data && {
+      url: series.id,
       id: series.id,
       name: series.data.name,
-      description: series.data.description,
+      description: asText(series.data.description),
+      color: series.data.color,
+      commissionedLength: series.data.commissionedLength,
       schedule: series.data.schedule && series.data.schedule.map(comingSoon => {
-        console.info(comingSoon)
+        console.info(comingSoon);
       })
     };
   }).filter(_ => _);
@@ -127,7 +130,7 @@ export async function getArticle(id: string, previewReq: ?Request) {
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'books.title', 'books.title', 'books.author', 'books.isbn', 'books.publisher', 'books.link', 'books.cover',
-    'series.name', 'series.description', 'series.color', 'series.schedule', 'series.schedule.title', 'series.schedule.publishDate',
+    'series.name', 'series.description', 'series.color', 'series.schedule', 'series.commissionedLength',
     'editorial-contributor-roles.title', 'event-contributor-roles'
   ];
 
@@ -165,6 +168,10 @@ function parseArticleAsArticle(prismicArticle) {
 
   const bodyParts = convertContentToBodyParts(prismicArticle.data.body);
 
+  // TODO: The whole scheduled content has some work to be getting on with
+  const seriesWithCommissionedLength = series.find(series => series.commissionedLength);
+  const positionInSeries = seriesWithCommissionedLength && (seriesWithCommissionedLength.positionInSeries || 1);
+
   const article: Article = {
     contentType: 'article',
     headline: asText(prismicArticle.data.title),
@@ -175,7 +182,8 @@ function parseArticleAsArticle(prismicArticle) {
     series: series,
     bodyParts: bodyParts,
     mainMedia: [featuredMedia],
-    description: description
+    description: description,
+    positionInSeries: positionInSeries
   };
 
   return article;

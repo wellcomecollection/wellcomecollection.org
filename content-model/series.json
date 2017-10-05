@@ -21,6 +21,12 @@
         "label" : "color"
       }
     },
+    "commissionedLength" : {
+      "type" : "Number",
+      "config" : {
+        "label" : "Number of articles in digital story"
+      }
+    },
     "wordpressSlug" : {
       "type" : "Text",
       "config" : {
