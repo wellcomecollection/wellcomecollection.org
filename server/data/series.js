@@ -13,7 +13,8 @@ export function getPositionInSeries(tags: {}): ?number {
 export function getSeriesColor(seriesUrl: string): ?string {
   const lookup = {
     'electric-sublime': 'turquoise',
-    'the-outsiders': 'orange'
+    'the-outsiders': 'orange',
+    'WcpOjygAAJsLEXTc': 'red'
   };
   return lookup[seriesUrl];
 }
@@ -21,7 +22,8 @@ export function getSeriesColor(seriesUrl: string): ?string {
 export function getSeriesCommissionedLength(seriesUrl: string): ?number {
   const lookup = {
     'electric-sublime': 6,
-    'the-outsiders': 6
+    'the-outsiders': 6,
+    'WcpOjygAAJsLEXTc': 6
   };
   return lookup[seriesUrl];
 }
@@ -39,7 +41,13 @@ export const series = List([
         url: '/articles/WcI28ysAAGxmAdVX',
         description: '',
         datePublished: new Date('2017-10-05'),
-        image: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F18bbca40-26e9-4946-9624-4b717f063438_mandrake-feature.jpg'
+        thumbnail: {
+          type: 'picture',
+          contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection/18bbca40-26e9-4946-9624-4b717f063438_mandrake-feature.jpg',
+          width: 1600,
+          height: 900,
+          description: 'Medieval herbal image of mandrake'
+        }
       })
     ])
   }: Series),
