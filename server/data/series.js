@@ -25,7 +25,7 @@ export function getSeriesCommissionedLength(seriesUrl: string): ?number {
   };
   return lookup[seriesUrl];
 }
-
+  
 export const series = List([
   ({
     url: 'body-squabbles',
