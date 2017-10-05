@@ -3,7 +3,7 @@
     "name": "nginx-proxy",
     "image": "wellcome/wellcomecollection-nginx-proxy:${container_tag}",
     "cpu": 512,
-    "memory": 1000,
+    "memory": 950,
     "portMappings": [
       {
         "containerPort": 80,
@@ -17,7 +17,7 @@
     "name": "wellcomecollection",
     "image": "wellcome/wellcomecollection:${container_tag}",
     "cpu": 512,
-    "memory": 1000,
+    "memory": 950,
     "essential": true,
     "portMappings": [
       {
