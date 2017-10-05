@@ -18,7 +18,7 @@ function getSeries(doc) {
       color: series.data.color,
       commissionedLength: series.data.commissionedLength,
       schedule: series.data.schedule && series.data.schedule.map(comingSoon => {
-        console.info(comingSoon);
+        // TODO
       })
     };
   }).filter(_ => _);
@@ -310,17 +310,17 @@ type PaginatedResults = {|
   totalPages: number
 |};
 
-export async function getArticleList(page = 1, {pageSize = 10, predicates = []} = {}) {
+export async function getArticleList(page = 1, {pageSize = 10, predicates = [], delisted = false} = {}) {
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
-    'series.name', 'series.description', 'series.color', 'series.commissionedLength'
+    'series.name', 'series.description', 'series.color', 'series.commissionedLength', 'series.schedule'
   ];
   // TODO: This order is not really doing what we expect it to do.
   const orderings = '[document.first_publication_date desc, my.articles.publishDate desc, my.webcomics.publishDate desc]';
   const prismic = await prismicApi();
   const articlesList = await prismic.query([
     Prismic.Predicates.any('document.type', ['articles', 'webcomics']),
-    Prismic.Predicates.not('document.tags', ['delist'])
+    Prismic.Predicates.not('document.tags', [delisted ? '' : 'delist'])
   ].concat(predicates), {fetchLinks, page, pageSize, orderings});
 
   const articlesAsArticles = articlesList.results.map(result => {
@@ -341,7 +341,11 @@ export async function getArticleList(page = 1, {pageSize = 10, predicates = []} 
 }
 
 export async function getSeriesArticles(id: string, page = 1) {
-  const paginatedResults = await getArticleList(page, {predicates: [Prismic.Predicates.at('my.articles.series.series', id)]});
+  const paginatedResults = await getArticleList(page, {
+    predicates: [Prismic.Predicates.at('my.articles.series.series', id)],
+    // This is only because of a publishing quirk by the editorial team, please remove
+    delisted: true
+  });
 
   if (paginatedResults.totalResults > 0) {
     const series = paginatedResults.results[0].series[0];

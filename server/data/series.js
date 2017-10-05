@@ -28,6 +28,22 @@ export function getSeriesCommissionedLength(seriesUrl: string): ?number {
 
 export const series = List([
   ({
+    url: 'WcpOjygAAJsLEXTc',
+    name: 'Pharmagraphic',
+    commissionedLength: 6,
+    color: 'red',
+    items: List([
+      ({
+        contentType: 'article',
+        headline: 'Plant portraits',
+        url: '/articles/WcI28ysAAGxmAdVX',
+        description: '',
+        datePublished: new Date('2017-10-05'),
+        image: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F18bbca40-26e9-4946-9624-4b717f063438_mandrake-feature.jpg'
+      })
+    ])
+  }: Series),
+  ({
     url: 'body-squabbles',
     name: 'Body Squabbles',
     items: List([
