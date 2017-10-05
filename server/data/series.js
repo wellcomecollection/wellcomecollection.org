@@ -13,7 +13,8 @@ export function getPositionInSeries(tags: {}): ?number {
 export function getSeriesColor(seriesUrl: string): ?string {
   const lookup = {
     'electric-sublime': 'turquoise',
-    'the-outsiders': 'orange'
+    'the-outsiders': 'orange',
+    'WcpOjygAAJsLEXTc': 'red'
   };
   return lookup[seriesUrl];
 }
@@ -21,12 +22,70 @@ export function getSeriesColor(seriesUrl: string): ?string {
 export function getSeriesCommissionedLength(seriesUrl: string): ?number {
   const lookup = {
     'electric-sublime': 6,
-    'the-outsiders': 6
+    'the-outsiders': 6,
+    'WcpOjygAAJsLEXTc': 6
   };
   return lookup[seriesUrl];
 }
 
 export const series = List([
+  ({
+    url: 'WcpOjygAAJsLEXTc',
+    name: 'Pharmagraphics',
+    commissionedLength: 6,
+    color: 'red',
+    items: List([
+      ({
+        contentType: 'article',
+        headline: 'Plant portraits',
+        url: '/articles/WcI28ysAAGxmAdVX',
+        description: '',
+        datePublished: new Date('2017-10-05'),
+        thumbnail: {
+          type: 'picture',
+          contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection/18bbca40-26e9-4946-9624-4b717f063438_mandrake-feature.jpg',
+          width: 1600,
+          height: 900,
+          description: 'Medieval herbal image of mandrake'
+        }
+      }: ArticleStub),
+      ({
+        contentType: 'article',
+        headline: 'The Poor Child\'s Nurse',
+        url: '',
+        description: '',
+        datePublished: new Date('2017-10-12')
+      }: ArticleStub),
+      ({
+        contentType: 'article',
+        headline: 'Theriac: an ancient pharmaceutical brand?',
+        url: '',
+        description: '',
+        datePublished: new Date('2017-10-19')
+      }: ArticleStub),
+      ({
+        contentType: 'article',
+        headline: 'Richard Siddall\'s Business Card',
+        url: '',
+        description: '',
+        datePublished: new Date('2017-10-26')
+      }: ArticleStub),
+      ({
+        contentType: 'article',
+        headline: 'Graphic Battles in Pharmacy',
+        url: '',
+        description: '',
+        datePublished: new Date('2017-11-02')
+      }: ArticleStub),
+      ({
+        contentType: 'article',
+        headline: 'Symbolic Animals and Graphic Signs',
+        url: '',
+        description: '',
+        datePublished: new Date('2017-11-09')
+      }: ArticleStub)
+    ])
+  }: Series),
   ({
     url: 'body-squabbles',
     name: 'Body Squabbles',
