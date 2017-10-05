@@ -1,4 +1,3 @@
-import Prismic from 'prismic-javascript';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import {parseArticleDoc, parseEventDoc, parseWebcomicDoc} from './prismic-parsers';
 
