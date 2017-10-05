@@ -48,7 +48,6 @@ export async function getEvent(id: string, previewReq: ?Request): Promise<?Event
   return parseEventDoc(event);
 }
 
-
 type ExhibitionContent = {|
   exhibition: Exhibition;
   galleryLevel: string;
@@ -63,7 +62,7 @@ type ExhibitionContent = {|
 export async function getExhibition(id: string, previewReq: ?Request): Promise<?ExhibitionContent> {
   const exhibition = await getTypeById(previewReq, ['exhibitions'], id, {});
 
-  if (!exhibition) { return null }
+  if (!exhibition) { return null; }
 
   const ex = parseExhibitionsDoc(exhibition);
 

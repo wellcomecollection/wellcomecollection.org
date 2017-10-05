@@ -7,44 +7,6 @@ import {prismicApi} from './prismic-api';
 import {isEmptyObj} from '../util/is-empty-obj';
 import {parseArticleDoc, parseWebcomicDoc} from './prismic-parsers';
 
-export function getSeries(doc) {
-  return doc.data.series.map(seriesGroup => {
-    const series = seriesGroup.series;
-    return series && series.data && {
-      url: series.id,
-      id: series.id,
-      name: series.data.name,
-      description: asText(series.data.description),
-      color: series.data.color,
-      commissionedLength: series.data.commissionedLength,
-      schedule: series.data.schedule && series.data.schedule.map(comingSoon => {
-        // TODO
-      })
-    };
-  }).filter(_ => _);
-}
-
-export function getContributors(doc): Array<Contributor> {
-  // TODO: Support creator's role
-  return doc.data.contributors
-    .filter(creator => creator.slice_type === 'person')
-    .map(slice => {
-      const personData = slice.primary.person && slice.primary.person.data;
-      const roleData = slice.primary.role && slice.primary.role.data;
-      const role = roleData && {
-        title: roleData && asText(roleData.title)
-      };
-      const person = personData && {
-        name: personData.name,
-        twitterHandle: personData.twitterHandle,
-        image: personData.image && personData.image.url,
-        description: asText(personData.description)
-      };
-
-      return {person, role};
-    });
-}
-
 export function getPublishedDate(doc) {
   // We fallback to `Date.now()` in case we're in preview and don't have a published date
   // This is because we need to have a separeate `publishDate` for articles imported from WP

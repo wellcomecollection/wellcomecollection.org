@@ -3,15 +3,21 @@ import {List} from 'immutable';
 import type {Exhibition} from '../content-model/exhibition';
 import getBreakpoint from '../filters/get-breakpoint';
 import {
-  getPromo, asText, asHtml, prismicImageToPicture, getContributors, getPublishedDate,
-  getFeaturedMediaFromBody, convertContentToBodyParts, getSeries
+  getPromo, asText, asHtml, prismicImageToPicture, getPublishedDate,
+  getFeaturedMediaFromBody, convertContentToBodyParts
 } from './prismic-content';
-import type {DateRange} from '../content-model/content-blocks';
+import type {Contributor, DateRange} from '../content-model/content-blocks';
 import type {EventFormat} from '../content-model/event';
 import type {Article} from '../model/article';
 import type {Promo} from '../model/promo';
+import type {Picture} from '../model/picture';
 
-export function parseExhibitionsDoc(doc): Exhibition {
+// This is just JSON
+type PrismicDoc = Object<any>;
+// This is because it could be any part of a JSON doc
+type PrismicDocFragment = Object<any> | Array<any>;
+
+export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
   const featuredImage = prismicImageToPicture({image: doc.data.featuredImage});
   const featuredImageMobileCrop = prismicImageToPicture({image: doc.data.featuredImageMobileCrop});
   const featuredImageWithBreakpoint = featuredImage.contentUrl && Object.assign({}, featuredImage, {minWidth: getBreakpoint('medium')});
@@ -34,8 +40,8 @@ export function parseExhibitionsDoc(doc): Exhibition {
   return exhibition;
 }
 
-export function parseEventDoc(doc): Event {
-  const contributors = getContributors(doc);
+export function parseEventDoc(doc: PrismicDoc): Event {
+  const contributors = parseContributors(doc.data.contributors);
   const promo = getPromo(doc);
   const when: List<DateRange> = List(doc.data.when.map(slice => {
     return ({
@@ -67,7 +73,7 @@ export function parseEventDoc(doc): Event {
   return e;
 }
 
-export function parseArticleDoc(doc): Article {
+export function parseArticleDoc(doc: PrismicDoc): Article {
   // TODO : construct this not from strings
   const url = `/articles/${doc.id}`;
 
@@ -78,8 +84,8 @@ export function parseArticleDoc(doc): Article {
   const promo = doc.data.promo.find(slice => slice.slice_type === 'editorialImage');
   const thumbnail = promo && prismicImageToPicture(promo.primary);
   const description = promo && asText(promo.primary.caption); // TODO: Do not use description
-  const contributors = getContributors(doc);
-  const series = getSeries(doc);
+  const contributors = parseContributors(doc.data.contributors);
+  const series = parseSeries(doc.data.series);
 
   const bodyParts = convertContentToBodyParts(doc.data.body);
 
@@ -104,7 +110,7 @@ export function parseArticleDoc(doc): Article {
   return article;
 }
 
-export function parseWebcomicDoc(doc): Article {
+export function parseWebcomicDoc(doc: PrismicDoc): Article {
   // TODO : construct this not from strings
   const url = `/articles/${doc.id}`;
 
@@ -116,8 +122,8 @@ export function parseWebcomicDoc(doc): Article {
   const promo = doc.data.promo.find(slice => slice.slice_type === 'editorialImage');
   const thumbnail = promo && prismicImageToPicture(promo.primary);
   const description = asText(promo.primary.caption); // TODO: Do not use description
-  const contributors = getContributors(doc);
-  const series = getSeries(doc);
+  const contributors = parseContributors(doc.data.contributors);
+  const series = parseSeries(doc.data.series);
 
   const article: Article = {
     contentType: 'comic',
@@ -143,4 +149,66 @@ export function parsePromoListItem(item): Promo {
     description: item.description[0].text,
     image: prismicImageToPicture(item)
   } : Promo);
+}
+
+function parseSeries(doc: ?PrismicDocFragment): Series {
+  return doc && doc.map(seriesGroup => {
+    const series = seriesGroup.series;
+    return series && series.data && {
+      url: series.id,
+      id: series.id,
+      name: series.data.name,
+      description: asText(series.data.description),
+      color: series.data.color,
+      commissionedLength: series.data.commissionedLength,
+      schedule: series.data.schedule && series.data.schedule.map(comingSoon => {
+        // TODO
+      })
+    };
+  }).filter(_ => _);
+}
+
+export function parseContributors(doc: ?PrismicDocFragment): Array<Contributor> {
+  return doc && doc
+    .filter(creator => creator.slice_type === 'person')
+    .map(slice => {
+      const personData = slice.primary.person && slice.primary.person.data;
+      const roleData = slice.primary.role && slice.primary.role.data;
+      const role = roleData && {
+        title: roleData && asText(roleData.title)
+      };
+      const person = personData && {
+        name: personData.name,
+        twitterHandle: personData.twitterHandle,
+        image: personData.image && personData.image.url,
+        description: asText(personData.description)
+      };
+
+      return {person, role};
+    });
+}
+
+export function parsePicture(captionedImage): Picture {
+  const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
+  const tasl = image && image.copyright && getTaslFromCopyright(image.copyright);
+
+  return ({
+    type: 'picture',
+    contentUrl: image && image.url,
+    width: image && image.dimensions.width,
+    height: image && image.dimensions.height,
+    caption: captionedImage.caption && captionedImage.caption.length !== 0 && asHtml(captionedImage.caption),
+    alt: image && image.alt,
+    title: tasl && tasl.title,
+    author: tasl && tasl.author,
+    source: {
+      name: tasl && tasl.sourceName,
+      link: tasl && tasl.sourceLink
+    },
+    license: tasl && tasl.license,
+    copyright: {
+      holder: tasl && tasl.copyrightHolder,
+      link: tasl && tasl.copyrightLink
+    }
+  }: Picture);
 }
