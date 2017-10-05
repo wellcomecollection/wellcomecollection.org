@@ -7,10 +7,7 @@ import {PromoFactory} from '../model/promo';
 import {getCuratedList} from '../services/prismic-curated-lists';
 import {collectorsPromo} from '../data/series';
 import {prismicAsText} from '../filters/prismic';
-import {
-  getArticleList
-} from '../services/prismic-content';
-import {getArticle, getEvent, getExhibition, getSeriesAndArticles} from '../services/prismic';
+import {getArticle, getEvent, getExhibition, getSeriesAndArticles, getArticleList} from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 

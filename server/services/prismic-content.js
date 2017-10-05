@@ -201,44 +201,6 @@ export function convertContentToBodyParts(content) {
   }).filter(_ => _);
 }
 
-type PaginatedResults = {|
-  currentPage: number,
-  results: List<Articles>,
-  pageSize: number,
-  totalResults: number,
-  totalPages: number
-|};
-
-export async function getArticleList(page = 1, {pageSize = 10, predicates = []} = {}) {
-  const fetchLinks = [
-    'people.name', 'people.image', 'people.twitterHandle', 'people.description',
-    'series.name', 'series.description', 'series.color', 'series.commissionedLength', 'series.schedule'
-  ];
-  // TODO: This order is not really doing what we expect it to do.
-  const orderings = '[document.first_publication_date desc, my.articles.publishDate desc, my.webcomics.publishDate desc]';
-  const prismic = await prismicApi();
-  const articlesList = await prismic.query([
-    Prismic.Predicates.any('document.type', ['articles', 'webcomics']),
-    Prismic.Predicates.not('document.tags', ['delist'])
-  ].concat(predicates), {fetchLinks, page, pageSize, orderings});
-
-  const articlesAsArticles = articlesList.results.map(result => {
-    switch (result.type) {
-      case 'articles': return parseArticleDoc(result);
-      case 'webcomics': return parseWebcomicDoc(result);
-    }
-  });
-
-  // This shape matches the works API
-  return ({
-    currentPage: page,
-    results: articlesAsArticles,
-    pageSize: articlesList.results_per_page,
-    totalResults: articlesList.total_results_size,
-    totalPages: articlesList.total_pages
-  }: PaginatedResults);
-}
-
 export function asText(maybeContent) {
   return maybeContent && RichText.asText(maybeContent).trim();
 }
