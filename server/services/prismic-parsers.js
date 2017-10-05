@@ -4,13 +4,14 @@ import type {Exhibition} from '../content-model/exhibition';
 import getBreakpoint from '../filters/get-breakpoint';
 import {
   getPromo, asText, asHtml, prismicImageToPicture, getPublishedDate,
-  getFeaturedMediaFromBody, convertContentToBodyParts
+  getFeaturedMediaFromBody, convertContentToBodyParts, getTaslFromCopyright
 } from './prismic-content';
 import type {Contributor, DateRange} from '../content-model/content-blocks';
 import type {EventFormat} from '../content-model/event';
 import type {Article} from '../model/article';
 import type {Promo} from '../model/promo';
 import type {Picture} from '../model/picture';
+import {isEmptyObj} from '../util/is-empty-obj';
 
 // This is just JSON
 type PrismicDoc = Object<any>;

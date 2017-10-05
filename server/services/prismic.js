@@ -1,9 +1,11 @@
+import Prismic from 'prismic-javascript';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import {
   parseArticleDoc, parseEventDoc, parseExhibitionsDoc, parsePromoListItem,
   parseWebcomicDoc
 } from './prismic-parsers';
 import type {Promo} from '../model/promo';
+import {getArticleList} from './prismic-content';
 
 type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
 
@@ -84,4 +86,15 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
     relatedGalleries: relatedGalleries,
     relatedArticles: relatedArticles
   };
+}
+
+export async function getSeriesAndArticles(id: string, page = 1) {
+  const paginatedResults = await getArticleList(page, {
+    predicates: [Prismic.Predicates.at('my.articles.series.series', id)]
+  });
+
+  if (paginatedResults.totalResults > 0) {
+    const series = paginatedResults.results[0].series[0];
+    return {series, paginatedResults};
+  }
 }

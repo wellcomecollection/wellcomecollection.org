@@ -8,11 +8,9 @@ import {getCuratedList} from '../services/prismic-curated-lists';
 import {collectorsPromo} from '../data/series';
 import {prismicAsText} from '../filters/prismic';
 import {
-  // getArticle,
-  getArticleList,
-  getSeriesArticles
+  getArticleList
 } from '../services/prismic-content';
-import {getArticle, getEvent, getExhibition} from '../services/prismic';
+import {getArticle, getEvent, getExhibition, getSeriesAndArticles} from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 
@@ -197,7 +195,7 @@ export async function renderExplore(ctx, next) {
 export async function renderSeries(ctx, next) {
   const page = Number(ctx.request.query.page);
   const {id} = ctx.params;
-  const seriesArticles = await getSeriesArticles(`W${id}`);
+  const seriesArticles = await getSeriesAndArticles(`W${id}`);
 
   if (seriesArticles) {
     const {series, paginatedResults} = seriesArticles;

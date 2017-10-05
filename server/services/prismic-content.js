@@ -72,7 +72,7 @@ function convertPrismicImageList(slice): ImageList {
   }: ImageList);
 }
 
-function getTaslFromCopyright(copyright) {
+export function getTaslFromCopyright(copyright) {
   // We expect a string of title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
   // e.g. Self|Rob Bidder|||CC-BY-NC
   try {
@@ -209,7 +209,7 @@ type PaginatedResults = {|
   totalPages: number
 |};
 
-export async function getArticleList(page = 1, {pageSize = 10, predicates = [], delisted = false} = {}) {
+export async function getArticleList(page = 1, {pageSize = 10, predicates = []} = {}) {
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'series.name', 'series.description', 'series.color', 'series.commissionedLength', 'series.schedule'
@@ -219,7 +219,7 @@ export async function getArticleList(page = 1, {pageSize = 10, predicates = [], 
   const prismic = await prismicApi();
   const articlesList = await prismic.query([
     Prismic.Predicates.any('document.type', ['articles', 'webcomics']),
-    Prismic.Predicates.not('document.tags', [delisted ? '' : 'delist'])
+    Prismic.Predicates.not('document.tags', ['delist'])
   ].concat(predicates), {fetchLinks, page, pageSize, orderings});
 
   const articlesAsArticles = articlesList.results.map(result => {
@@ -237,19 +237,6 @@ export async function getArticleList(page = 1, {pageSize = 10, predicates = [], 
     totalResults: articlesList.total_results_size,
     totalPages: articlesList.total_pages
   }: PaginatedResults);
-}
-
-export async function getSeriesArticles(id: string, page = 1) {
-  const paginatedResults = await getArticleList(page, {
-    predicates: [Prismic.Predicates.at('my.articles.series.series', id)],
-    // This is only because of a publishing quirk by the editorial team, please remove
-    delisted: true
-  });
-
-  if (paginatedResults.totalResults > 0) {
-    const series = paginatedResults.results[0].series[0];
-    return {series, paginatedResults};
-  }
 }
 
 export function asText(maybeContent) {
