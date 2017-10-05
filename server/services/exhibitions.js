@@ -1,11 +1,10 @@
 // @flow
 import type {Exhibition} from '../content-model/exhibition';
 import type {IApi} from 'prismic-javascript';
-import {List} from 'immutable';
-import {prismicImageToPicture, getPromo, asHtml, asText} from '../services/prismic-content';
+import {prismicImageToPicture} from '../services/prismic-content';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
-import getBreakpoint from '../filters/get-breakpoint';
 import type {Promo} from '../model/promo';
+import {parseExhibitionsDoc} from './prismic-parsers';
 
 type ExhibitionContent = {|
     exhibition: Exhibition;
@@ -14,7 +13,6 @@ type ExhibitionContent = {|
     relatedEvents: Array<Promo>;
     relatedGalleries: Array<Promo>;
     relatedArticles: Array<Promo>;
-
     imageGallery: any;
     textAndCaptionsDocument: any;
 |}
@@ -27,7 +25,7 @@ function exhibitionPromoToPromo(item) {
     description: item.description[0].text,
     image: prismicImageToPicture(item)
   } : Promo);
-};
+}
 
 export async function getExhibition(id: string, previewReq: ?Request): Promise<?ExhibitionContent> {
   const prismic: IApi = previewReq ? await prismicPreviewApi(previewReq) : await prismicApi();
@@ -36,11 +34,7 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
 
   if (!exhibition) return;
 
-  const featuredImage = prismicImageToPicture({image: exhibition.data.featuredImage});
-  const featuredImageMobileCrop = prismicImageToPicture({image: exhibition.data.featuredImageMobileCrop});
-  const featuredImageWithBreakpoint = featuredImage.contentUrl && Object.assign({}, featuredImage, {minWidth: getBreakpoint('medium')});
-  const featuredImageMobileCropWithBreakpoint = featuredImageMobileCrop.contentUrl && Object.assign({}, featuredImageMobileCrop, {minWidth: getBreakpoint('small')});
-  const featuredImages = List([featuredImageWithBreakpoint, featuredImageMobileCropWithBreakpoint].filter(_ => _));
+  const ex = parseExhibitionsDoc(exhibition);
 
   const promoList = exhibition.data.promoList;
   const relatedArticles = promoList.filter(x => x.type === 'article').map(exhibitionPromoToPromo);
@@ -50,20 +44,6 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
 
   const sizeInKb = Math.round(exhibition.data.textAndCaptionsDocument.size / 1024);
   const textAndCaptionsDocument = Object.assign({}, exhibition.data.textAndCaptionsDocument, {sizeInKb});
-
-  const promo = getPromo(exhibition);
-
-  const ex = ({
-    id: exhibition.id,
-    title: asText(exhibition.data.title),
-    subtitle: asText(exhibition.data.subtitle),
-    start: exhibition.data.start,
-    end: exhibition.data.end,
-    featuredImages: featuredImages,
-    featuredImage: featuredImages.first(),
-    description: asHtml(exhibition.data.description),
-    promo: promo
-  }: Exhibition);
 
   return {
     exhibition: ex,
