@@ -1,6 +1,6 @@
-<a class="more-info-link {{ {s:'HNM4'} | fontClasses }}" href="{{ model.url }}">
+<a class="flex-inline .flex--v-center {{ {s:'HNM4'} | fontClasses }} plain-link font-elf-green font-hover-mint" href="{{ model.url }}">
   <span class="width-1-em flex flex--v-center">
-    {% icon 'actions/arrow', null, ['icon--mint'] %}
+    {% icon 'actions/arrow', null, ['icon--elf-green'] %}
   </span>
-  <span class="more-info-link__text">{{ model.name }}</span>
+  <span class="{{ {s:1} | spacingClasses({margin: ['left']}) }}">{{ model.name }}</span>
 </a>
