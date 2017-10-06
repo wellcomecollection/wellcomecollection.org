@@ -85,6 +85,10 @@ export const context = {
         }
       },
       htmlBlock,
+      {
+        type: 'soundcloudEmbed',
+        value: '@soundcloud-embed.model'
+      },
       htmlBlock,
       {
         type: 'interview',
