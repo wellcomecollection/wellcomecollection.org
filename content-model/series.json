@@ -10,7 +10,7 @@
     "description" : {
       "type" : "StructuredText",
       "config" : {
-        "single": "paragraph",
+        "single" : "paragraph",
         "label" : "Description"
       }
     },
@@ -34,8 +34,8 @@
       }
     }
   },
-  "Schedule": {
-    "schedule": {
+  "Schedule" : {
+    "schedule" : {
       "type" : "Group",
       "fieldset" : "Schedule",
       "config" : {

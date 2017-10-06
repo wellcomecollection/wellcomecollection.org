@@ -49,10 +49,10 @@
         }
       }
     },
-    "description": {
-      "type": "StructuredText",
-      "config": {
-        "label": "Description",
+    "description" : {
+      "type" : "StructuredText",
+      "config" : {
+        "label" : "Description",
         "multi" : "heading2,paragraph,strong,em,hyperlink"
       }
     }
@@ -65,7 +65,7 @@
         "fields" : {
           "accessOption" : {
             "type" : "Link",
-            "fieldset": "Access option",
+            "fieldset" : "Access option",
             "config" : {
               "select" : "document",
               "customtypes" : [ "event-access-options" ],
@@ -76,8 +76,8 @@
       }
     }
   },
-  "Booking": {
-    "bookingEnquiryTeam": {
+  "Booking" : {
+    "bookingEnquiryTeam" : {
       "type" : "Link",
       "config" : {
         "label" : "Booking enquiry team",
@@ -85,10 +85,10 @@
         "customtypes" : [ "event-booking-enquiry-teams" ]
       }
     },
-    "bookingInformation": {
-      "type": "StructuredText",
-      "config": {
-        "label": "Booking information",
+    "bookingInformation" : {
+      "type" : "StructuredText",
+      "config" : {
+        "label" : "Booking information",
         "multi" : "paragraph,strong,em,hyperlink"
       }
     }

@@ -4,7 +4,7 @@
       "type" : "StructuredText",
       "config" : {
         "single" : "heading1",
-        "label" : "title"
+        "label" : "Title"
       }
     }
   }

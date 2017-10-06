@@ -142,8 +142,7 @@ export async function getArticle(id: string, previewReq: ?Request) {
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'books.title', 'books.title', 'books.author', 'books.isbn', 'books.publisher', 'books.link', 'books.cover',
     'series.name', 'series.description', 'series.color', 'series.schedule', 'series.commissionedLength',
-    'editorial-contributor-roles.title', 'event-contributor-roles', 'iframes.launchButtonText', 'iframes.iframeSrc',
-    'iframes.previewImage'
+    'editorial-contributor-roles.title', 'event-contributor-roles'
   ];
 
   const articles = await prismic.query([

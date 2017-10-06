@@ -1,6 +1,4 @@
 {
-  "@title": "Person",
-  "@repeatable": true,
   "Main" : {
     "name" : {
       "config" : {
