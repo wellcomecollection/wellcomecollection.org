@@ -44,7 +44,7 @@ export const work = async(ctx, next) => {
     return identifier.identifierScheme === 'sierra-system-number';
   });
   const sierraId = sierraIdObject && sierraIdObject.value;
-  const imgWidth = '2048';
+  const imgWidth = '800';
   const imgLink = imageUrlFromMiroId(miroId);
   const encoreLink = sierraId && encoreLinkFromSierraId(sierraId);
 
