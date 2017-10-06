@@ -1,10 +1,10 @@
 <div class="iframe-container relative js-iframe-container">
-  <button class="iframe-container__trigger plain-button pointer no-padding no-visible-focus relative js-iframe-trigger">
+  <button class="iframe-container__trigger plain-button no-padding no-visible-focus absolute js-iframe-trigger">
     <div class="iframe-container__overlay absolute"></div>
-    <span class="flex flex--v-center flex--h-center">
-      <span class="iframe-container__launch absolute btn js-iframe-launch">{{ model.launchButtonText }}</span>
-      {% componentV2 'image', model.image, {}, {lazyload: true} %}
+    <span class="iframe-container__launch absolute btn js-iframe-launch">
+      {{ model.launchButtonText }}
     </span>
+    {% componentV2 'image', model.image, {}, {lazyload: true} %}
   </button>
   <button class="iframe-container__close icon-rounder plain-button pointer no-padding absolute is-hidden js-iframe-close">
     {% icon 'actions/clear', 'Close', ['icon--white'] %}

@@ -28,6 +28,7 @@ export default (el) => {
     iframeTrigger.classList.remove('is-hidden');
 
     el.removeChild(iframe);
+    originalIframe.setAttribute('src', ''); // IE 11 requires this to unload the iframe properly
     el.appendChild(originalIframe);
   }
 
