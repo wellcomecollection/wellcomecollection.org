@@ -21,7 +21,7 @@
 
   &:hover,
   &:focus {
-    .iframe-container__play {
+    .iframe-container__launch {
       background: color('elf-green');
     }
 
@@ -31,7 +31,7 @@
   }
 }
 
-.iframe-container__play {
+.iframe-container__launch {
   // absolute
   z-index: 1;
 }

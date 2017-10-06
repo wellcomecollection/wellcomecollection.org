@@ -1,8 +1,8 @@
 export default (el) => {
   const iframeTrigger = el.querySelector('.js-iframe-trigger');
   const originalIframe = el.querySelector('.js-iframe');
-  const play = el.querySelector('.js-play');
-  const originalPlayText = play.innerHTML;
+  const launch = el.querySelector('.js-iframe-launch');
+  const originalLaunchText = launch.innerHTML;
   const close = el.querySelector('.js-iframe-close');
 
   iframeTrigger.addEventListener('click', loadIframe);
@@ -12,7 +12,7 @@ export default (el) => {
     const iframe = el.querySelector('.js-iframe');
     const iframeSrc = iframe.getAttribute('data-src');
 
-    play.innerHTML = 'Loading…';
+    launch.innerHTML = 'Loading…';
 
     iframe.setAttribute('src', iframeSrc);
     iframe.addEventListener('load', hideTrigger);
@@ -24,7 +24,7 @@ export default (el) => {
     iframe.removeEventListener('load', hideTrigger);
 
     close.classList.add('is-hidden');
-    play.innerHTML = originalPlayText;
+    launch.innerHTML = originalLaunchText;
     iframeTrigger.classList.remove('is-hidden');
 
     el.removeChild(iframe);

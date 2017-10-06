@@ -2,7 +2,7 @@
   <button class="iframe-container__trigger plain-button pointer no-padding no-visible-focus relative js-iframe-trigger">
     <div class="iframe-container__overlay absolute"></div>
     <span class="flex flex--v-center flex--h-center">
-      <span class="iframe-container__play absolute btn js-play">{{ model.launchButtonText }}</span>
+      <span class="iframe-container__launch absolute btn js-iframe-launch">{{ model.launchButtonText }}</span>
       {% componentV2 'image', model.image, {}, {lazyload: true} %}
     </span>
   </button>

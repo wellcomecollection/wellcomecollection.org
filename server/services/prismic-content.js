@@ -299,14 +299,14 @@ export function convertContentToBodyParts(content) {
           }
         };
 
-      case 'iframeSrc':
+      case 'iframe':
         return {
           type: 'iframe',
           weight: slice.slice_label,
           value: {
-            launchButtonText: slice.value.data.launchButtonText,
-            src: slice.value.data.iframeSrc,
-            image: prismicImageToImage(slice.value.data.previewImage)
+            launchButtonText: slice.primary.launchButtonText,
+            src: slice.primary.iframeSrc,
+            image: prismicImageToImage(slice.primary.previewImage)
           }
         };
 
