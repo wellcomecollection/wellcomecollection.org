@@ -3,7 +3,7 @@ variable "key_name" {
 }
 
 variable "nginx_uri" {
-  default = "wellcome/wellcomecollection-router:prod"
+  default = "wellcome/wellcomecollection-router:test"
 }
 
 variable "vpc_subnets" {}
