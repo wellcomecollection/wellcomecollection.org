@@ -175,6 +175,17 @@ export function parsePicture(captionedImage): Picture {
   }: Picture);
 }
 
+export function prismicImage(prismicImage) {
+  const image = isEmptyObj(prismicImage) ? null : prismicImage;
+
+  return {
+    width: image && image.dimensions.width,
+    height: image && image.dimensions.height,
+    alt: image && image.alt,
+    contentUrl: image && image.url
+  };
+}
+
 function parseSeries(doc: ?PrismicDocFragment): Series {
   return doc && doc.map(seriesGroup => {
     const series = seriesGroup.series;

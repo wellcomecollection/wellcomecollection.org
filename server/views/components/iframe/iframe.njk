@@ -6,12 +6,13 @@
       {% componentV2 'image', model.image, {}, {lazyload: true} %}
     </span>
   </button>
-  <button class="iframe-container__close plain-button pointer no-padding absolute is-hidden js-iframe-close">
+  <button class="iframe-container__close icon-rounder plain-button pointer no-padding absolute is-hidden js-iframe-close">
     {% icon 'actions/clear', 'Close', ['icon--white'] %}
   </button>
   <iframe class="iframe-container__iframe absolute js-iframe"
     data-src="{{ model.src }}"
     frameborder="0"
+    scrolling="no"
     allowvr
     allowfullscreen
     mozallowfullscreen="true"

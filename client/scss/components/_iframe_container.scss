@@ -41,6 +41,9 @@
   top: 2 * $spacing-unit;
   right: 2 * $spacing-unit;
   z-index: 2;
+  background: rgba(0, 0, 0, 0.6);
+  width: $icon-dimension;
+  height: $icon-dimension;
 }
 
 .iframe-container__iframe {

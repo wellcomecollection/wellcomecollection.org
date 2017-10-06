@@ -1,6 +1,6 @@
 import type {ImageList} from '../content-model/content-blocks';
 import {RichText} from 'prismic-dom';
-import {asHtml, asText, parsePicture} from './prismic-parsers';
+import {asHtml, asText, parsePicture, prismicImage} from './prismic-parsers';
 
 export function parseBody(content) {
   // TODO: Add these as ContentBlocks when the model is in
@@ -112,12 +112,14 @@ export function parseBody(content) {
           }
         };
 
-      case 'iframeSrc':
+      case 'iframe':
         return {
           type: 'iframe',
           weight: slice.slice_label,
           value: {
-            src: slice.value
+            launchButtonText: slice.primary.launchButtonText,
+            src: slice.primary.iframeSrc,
+            image: prismicImage(slice.primary.previewImage)
           }
         };
 
