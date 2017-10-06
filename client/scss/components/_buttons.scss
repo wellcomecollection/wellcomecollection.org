@@ -15,7 +15,7 @@
   padding: 10px 30px;
   color: color('white');
   background-color: color('seaweed');
-  border: 1px solid color('seaweed');
+  border: 2px solid color('seaweed');
   border-radius: $border-radius-unit;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -68,6 +68,19 @@
   &:not([disabled]):focus {
     color: color('java');
     border-color: color('java');
+  }
+}
+
+.btn--transparent-black {
+  @include secondary;
+  color: color('white');
+  border-color: color('transparent');
+  background-color: color('transparent-black');
+
+  &:not([disabled]):hover,
+  &:not([disabled]):focus {
+    border-color: color('transparent');
+    background-color: color('black');
   }
 }
 

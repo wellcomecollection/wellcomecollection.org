@@ -20,6 +20,12 @@ export const variants = [{
     text: 'this is a link'
   }
 }, {
+  name: 'transparent-button',
+  context: {
+    modifierClasses: 'btn--transparent-black',
+    text: 'this is a link'
+  }
+}, {
   name: 'dark-button-with-icon',
   display: {
     background: '#000'
