@@ -323,3 +323,7 @@
   @include font('HNM3');
   font-weight: bold;
 }
+
+.visually-hidden {
+  @include visually-hidden;
+}
