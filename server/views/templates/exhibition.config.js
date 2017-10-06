@@ -15,9 +15,7 @@ export const handle = 'exhibition-template';
 
 export const context = {
   pageConfig: createPageConfig({inSection: 'whatson', path: '/cardigan/exhibition'}),
-  event: getEvent('WXmdTioAAJWWjZdH'),
-  exhibition: getExhibition('WZwh4ioAAJ3usf86'),
-  articlePromos: getFourArticlePromos(),
+  exhibitionContent: getExhibition('WZwh4ioAAJ3usf86'),
   tags: {
     id: 'cardigan-exhibition',
     tags: [{
