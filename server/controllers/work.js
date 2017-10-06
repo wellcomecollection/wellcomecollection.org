@@ -48,6 +48,8 @@ export const work = async(ctx, next) => {
   const imgLink = imageUrlFromMiroId(miroId);
   const encoreLink = sierraId && encoreLinkFromSierraId(sierraId);
 
+  console.info(imgWidth, imgLink, encoreLink);
+
   ctx.render('pages/work', {
     id,
     queryString,

@@ -27,7 +27,7 @@ const nunjucks = Nunjucks({
 });
 fractal.components.engine(nunjucks);
 
-fractal.set('project.title', 'pattern library');
+fractal.set('project.title', 'Design system');
 
 fractal.components.set('path', root);
 fractal.components.set('statuses', statuses);

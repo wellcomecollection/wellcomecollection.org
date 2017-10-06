@@ -1,23 +1,12 @@
 import {createPageConfig} from '../../model/page-config';
-import {getEvent, getExhibition} from '../../services/prismic';
-import {getArticleStubs} from '../../services/wordpress';
-import {PromoFactory} from '../../model/promo';
-
-async function getFourArticlePromos() {
-  const fourArticlePromos = await getArticleStubs(4);
-  return fourArticlePromos.data.map(item => {
-    return PromoFactory.fromArticleStub(item);
-  }).toJS();
-}
+import {getExhibition} from '../../services/prismic';
 
 export const name = 'exhibition';
 export const handle = 'exhibition-template';
 
 export const context = {
   pageConfig: createPageConfig({inSection: 'whatson', path: '/cardigan/exhibition'}),
-  event: getEvent('WXmdTioAAJWWjZdH'),
-  exhibition: getExhibition('WZwh4ioAAJ3usf86'),
-  articlePromos: getFourArticlePromos(),
+  exhibitionContent: getExhibition('WZwh4ioAAJ3usf86'),
   tags: {
     id: 'cardigan-exhibition',
     tags: [{

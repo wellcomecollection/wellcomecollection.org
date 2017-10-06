@@ -64,8 +64,8 @@ export function workLd(content) {
     name: content.title,
     description: content.description,
     image: content.imgLink,
-    thumbnailUrl: content.thumbnail.url,
-    license: content.thumbnail.license.url
+    thumbnailUrl: content.thumbnail && content.thumbnail.url,
+    license: content.thumbnail && content.thumbnail.license.url
   }, 'CreativeWork');
 }
 
