@@ -16,7 +16,7 @@ export default (el) => {
       document.execCommand('copy');
       btnIcon.classList.remove('is-hidden');
       el.classList.add('plain-button');
-      btnText.innerHTML = 'Copied';
+      btnText.innerHTML = '<span class="visually-hidden">link has been</span>Copied';
     } catch (err) {
       btnText.innerHTML = 'Copy failed';
     }
