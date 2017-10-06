@@ -1,5 +1,6 @@
 <div class="iframe-container relative js-iframe-container">
-  <button class="iframe-container__trigger plain-button no-padding no-visible-focus absolute js-iframe-trigger">
+  <button class="iframe-container__trigger plain-button no-padding no-visible-focus absolute js-iframe-trigger"
+    data-track-event='{"category": "component", "action": "launch-iframe:click", "label": "iframeSrc:{{ model.src }}"}'>
     <div class="iframe-container__overlay absolute"></div>
     <span class="iframe-container__launch absolute btn js-iframe-launch">
       {{ model.launchButtonText }}
