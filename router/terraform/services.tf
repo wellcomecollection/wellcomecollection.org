@@ -22,4 +22,5 @@ module "router" {
   client_error_alarm_topic_arn = "${module.alb_client_error_alarm.arn}"
 
   memory = "490"
+  primary_container_port = "80"
 }
