@@ -4,16 +4,9 @@ import {prismicApi} from '../services/prismic-api';
 import {createPageConfig, getEditorialAnalyticsInfo} from '../model/page-config';
 import {getEventbriteEventEmbed} from '../services/eventbrite';
 import {PromoFactory} from '../model/promo';
-import {getCuratedList} from '../services/prismic-curated-lists';
 import {collectorsPromo} from '../data/series';
 import {prismicAsText} from '../filters/prismic';
-import {
-  getArticle,
-  getArticleList,
-  getSeriesArticles
-} from '../services/prismic-content';
-import {getEvent} from '../services/events';
-import {getExhibition} from '../services/exhibitions';
+import {getArticle, getEvent, getExhibition, getSeriesAndArticles, getArticleList, getCuratedList} from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 
@@ -198,7 +191,7 @@ export async function renderExplore(ctx, next) {
 export async function renderSeries(ctx, next) {
   const page = Number(ctx.request.query.page);
   const {id} = ctx.params;
-  const seriesArticles = await getSeriesArticles(`W${id}`);
+  const seriesArticles = await getSeriesAndArticles(`W${id}`);
 
   if (seriesArticles) {
     const {series, paginatedResults} = seriesArticles;
