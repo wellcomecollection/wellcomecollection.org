@@ -1,5 +1,5 @@
 module "router_cluster_asg" {
-  source                = "git::https://github.com/wellcometrust/terraform.git//terraform/ecs_asg?ref=v1.0.0"
+  source                = "git::https://github.com/wellcometrust/terraform.git//ecs_asg?ref=v1.0.0"
   asg_name              = "loris-cluster"
   subnet_list           = ["${var.vpc_subnets}"]
   key_name              = "${var.key_name}"
