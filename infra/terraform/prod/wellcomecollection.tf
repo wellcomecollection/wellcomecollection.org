@@ -44,6 +44,14 @@ module "wellcomecollection_cloudformation" {
   alb_id                          = "${module.wellcomecollection.alb_id}"
 }
 
+output "vpc_id" {
+  value = "${module.wellcomecollection.vpc_id}"
+}
+
+output "vpc_subnets" {
+  value = "${module.wellcomecollection.vpc_subnets}"
+}
+
 output "ami_id" {
   value = "${module.wellcomecollection.ami_id}"
 }

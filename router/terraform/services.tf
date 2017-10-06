@@ -1,10 +1,10 @@
 module "router" {
   source             = "git::https://github.com/wellcometrust/terraform.git//services?ref=v1.0.0"
-  name               = "loris"
+  name               = "router"
   cluster_id         = "${aws_ecs_cluster.router.id}"
   task_role_arn      = "${module.ecs_router_iam.task_role_arn}"
   template_name      = "nginx_standalone"
-  vpc_id             = "${var.vpc_id}"
+  vpc_id             = "${local.vpc_id}"
   nginx_uri          = "${var.nginx_uri}"
   listener_https_arn = "${module.router_alb.listener_https_arn}"
   listener_http_arn  = "${module.router_alb.listener_http_arn}"
@@ -20,4 +20,6 @@ module "router" {
 
   server_error_alarm_topic_arn = "${module.alb_server_error_alarm.arn}"
   client_error_alarm_topic_arn = "${module.alb_client_error_alarm.arn}"
+
+  memory = "490"
 }
