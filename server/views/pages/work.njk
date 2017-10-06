@@ -68,7 +68,7 @@
 
           {% if work.encoreLink %}
             <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
-              {% componentV2 'more-info-link', {name: 'View more information at Wellcome Library', url: work.encoreLink} %}
+              {% componentV2 'more-info-link', {name: 'View Wellcome Library catalogue record', url: work.encoreLink} %}
             </div>
           {% endif %}
 
@@ -76,11 +76,12 @@
 
         <div class="{{ {s: 12, m: 5, l: 4, xl: 3} | gridClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}">
           <h2 class="
-            {{ {s:'HNM5' , m:'HNM4'} | fontClasses }}
+            {{ {s:'HNM4' , m:'HNM3'} | fontClasses }}
             {{ {s:0} | spacingClasses({margin: ['top']}) }}
             {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
-            Download
+            Use this image
           </h2>
+
           <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
             {% componentV2 'license',  {subject: work.imgLink, licenseType: work.thumbnail.license.licenseType} %}
           </div>
@@ -93,27 +94,27 @@
             data-track-event='{"category": "component", "action": "download-button:click", "label": "id:{{ work.id }}, size:original, title:{{ work.title | truncate(50) }}"}'>
             {% icon 'actions/download', null, ['icon--elf-green'] %}
             <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
-              Original image
+              Download original
             </div>
           </a>
 
           <a
-            class="{{ {s:8} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-link font-elf-green flex flex--v-center"
+            class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-link font-elf-green flex flex--v-center"
             href="/download?uri={{ work.imgLink | convertImageUri(760, false) | urlencode }}"
             download="{{ work.id }}.jpg"
             rel="noopener noreferrer"
             data-track-event='{"category": "component", "action": "download-button:click", "label": "id:{{ work.id }}, size:760"}, title:{{ work.title | truncate(50) }}'>
             {% icon 'actions/download', null, ['icon--elf-green'] %}
             <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
-              Smaller image (760px)
+              Download small (760px)
             </div>
           </a>
 
           <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
             {% componentV2 'divider', null, {'pumice': true, 'keyline': true}, {extraClasses: [{s:1} | spacingClasses({margin: ['top', 'bottom']})]}  %}
             <h2 class="
-              {{ {s:'HNM5' , m:'HNM4'} | fontClasses }}
-              {{ {s:0} | spacingClasses({margin: ['top']}) }}
+              {{ {s:'HNM4' , m:'HNM3'} | fontClasses }}
+              {{ {s:2} | spacingClasses({margin: ['top']}) }}
               {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
                 Share
             </h2>

@@ -1,12 +1,9 @@
-{% set fontStyles = {s:'HNL4', m:'HNL3'} %}
+{% set fontStyles = {s:'HNL5', m:'HNL4'} %}
 {% componentV2 'input', {id:'share', type: 'text', label: 'share url', value: model.url}, null, {isLabelHidden: true, fontStyles: fontStyles} %}
-<button
+<button aria-live="polite"
   data-copy-text="{{ model.url }}"
   data-track-event='{"category": "component", "action": "copy-url:click", "label": "id:{{ model.id }}"}'
-  class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-button font-elf-green is-hidden js-copy-url pointer">
-  <span class="flex flex--v-center">
-    {% icon 'actions/link', null, ['icon--elf-green', 'margin-right-s1'] %}
-    <span>Copy link</span>
-  </span>
+  class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} btn btn--light is-hidden js-copy-url pointer">
+    {% icon 'other/check', null, ['icon--black', 'is-hidden'] -%}
+    <span class="js-copy-text">Copy link</span>
 </button>
-

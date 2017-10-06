@@ -3,7 +3,7 @@ import statuses from '../../../cardigan/config/statuses';
 export const context = {
   statuses,
   pageDescription: {
-    intro: 'Wellcome Collection pattern library',
+    intro: 'Wellcome Collection\'s design system',
     title: 'Cardigan',
     lead: true,
     meta: {

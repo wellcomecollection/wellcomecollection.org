@@ -134,6 +134,14 @@ resource "aws_route_table_association" "private_b" {
   route_table_id = "${aws_route_table.private_b.id}"
 }
 
+output "vpc_id" {
+  value = "${aws_vpc.wellcomecollection.id}"
+}
+
+output "vpc_subnets" {
+  value = ["${aws_subnet.public_a.*.id}", "${aws_subnet.public_b.*.id}"]
+}
+
 # 172.20.96.0/20 Potential data layer
 # 172.20.112.0/20 Spare
 

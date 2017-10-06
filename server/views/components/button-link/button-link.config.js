@@ -1,7 +1,7 @@
 export const name = 'button-link';
 export const handle = 'button-link';
 export const status = 'graduated';
-export const collated = true;
+export const collated = false;
 export const context = {
   href: 'wellcomecollection.org',
   text: 'this is a button'
@@ -26,7 +26,7 @@ export const variants = [{
     text: 'this is a link'
   }
 }, {
-  name: 'dark-button-with-icon',
+  name: 'button-for-dark-bg-with-icon',
   display: {
     background: '#000'
   },
