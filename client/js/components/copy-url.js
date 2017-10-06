@@ -4,6 +4,8 @@ export default (el) => {
   el.addEventListener('click', (e) => {
     const copyText = e.currentTarget.getAttribute('data-copy-text');
     const textarea = document.createElement('textarea');
+    const btnText = el.querySelector('.js-copy-text');
+    const btnIcon = el.querySelector('.icon');
 
     textarea.setAttribute('style', 'position: fixed; left: -9999px;');
     el.parentNode.insertBefore(textarea, el.nextSibling);
@@ -12,9 +14,11 @@ export default (el) => {
 
     try {
       document.execCommand('copy');
-      el.innerHTML = 'Copied';
+      btnIcon.classList.remove('is-hidden');
+      el.classList.add('plain-button');
+      btnText.innerHTML = 'Copied';
     } catch (err) {
-      el.innerHTML = 'Copy failed';
+      btnText.innerHTML = 'Copy failed';
     }
 
     el.focus();
