@@ -1,14 +1,5 @@
 import {createPageConfig} from '../../model/page-config';
-import {getEvent, getExhibition} from '../../services/prismic';
-import {getArticleStubs} from '../../services/wordpress';
-import {PromoFactory} from '../../model/promo';
-
-async function getFourArticlePromos() {
-  const fourArticlePromos = await getArticleStubs(4);
-  return fourArticlePromos.data.map(item => {
-    return PromoFactory.fromArticleStub(item);
-  }).toJS();
-}
+import {getExhibition} from '../../services/prismic';
 
 export const name = 'exhibition';
 export const handle = 'exhibition-template';
