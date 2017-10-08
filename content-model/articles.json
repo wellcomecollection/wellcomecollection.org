@@ -100,13 +100,6 @@
             "type" : "Slice",
             "fieldset" : "Iframe",
             "non-repeat" : {
-              "launchButtonText" : {
-                "type" : "Text",
-                "config" : {
-                  "label" : "Launch button text",
-                  "placeholder" : "launch button text"
-                }
-              },
               "iframeSrc" : {
                 "type" : "Text",
                 "config" : {

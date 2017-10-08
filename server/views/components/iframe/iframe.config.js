@@ -1,7 +1,6 @@
 
 export const context = {
   model: {
-    launchButtonText: 'Launch panorama viewer',
     src: 'https://static.wellcomecollection.org/why_music/genome_books/index.html',
     image: {
       width: 1600,

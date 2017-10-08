@@ -117,7 +117,6 @@ export function parseBody(content) {
           type: 'iframe',
           weight: slice.slice_label,
           value: {
-            launchButtonText: slice.primary.launchButtonText,
             src: slice.primary.iframeSrc,
             image: prismicImage(slice.primary.previewImage)
           }
