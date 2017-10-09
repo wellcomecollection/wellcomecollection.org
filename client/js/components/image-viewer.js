@@ -5,14 +5,14 @@ import OpenSeadragon from 'openseadragon';
 // tracking on fullscreen and controls
 // catch error
 // controls placement and wording
-// tidy js function
+// tidy js function / DOM performance read/write stuff - batched together
 
 // Stretch:
 // improve no js styling for entire page
 // fix button icon spacing
-// have rotation controls? - do we have icons for the controls?
-// tidy component
+// tidy component - use button component
 // fullscreen Vs in page option
+// have rotation controls? - do we have icons for the controls?
 
 function setupViewer(imageInfoSrc, viewer, viewerId) { // TODO pass in params
   if (viewer.querySelector('.openseadragon-container')) return;
@@ -57,20 +57,27 @@ function setupViewer(imageInfoSrc, viewer, viewerId) { // TODO pass in params
 
 const createImageViewer = (viewer/*, fullscreen or in page option */) => { // fullscreen adds button to launch a veiwer, in page replaces image with viewer
   // TODO check for support for fetch, fullscreen, first and just return
-  const viewerId = viewer.querySelector('.fullscreen-viewer-content').getAttribute('id'); // TODO pass these to the function?
+  const image = viewer.previousElementSibling;
+  const viewerContent = viewer.querySelector('.fullscreen-viewer-content');
+  const viewerId = viewerContent.getAttribute('id'); // TODO pass these to the function?
   const imageInfoSrc = document.getElementById(viewerId).getAttribute('data-info-src');
   const enterFullscreenButton = viewer.querySelector('.js-enter-fullscreen');
   const exitFullscreenButton = viewer.querySelector('.js-exit-fullscreen');
 
-  enterFullscreenButton.addEventListener('click', (e) => {
-    const target = document.getElementById(e.currentTarget.getAttribute('data-target'));
+  image.addEventListener('dblclick', (e) => { // TODO tidy this up
     setupViewer(imageInfoSrc, viewer, viewerId);
-    enterFullscreen(target);
+    enterFullscreen(viewerContent);
+  });
+
+  enterFullscreenButton.addEventListener('click', (e) => {
+    // const target = document.getElementById(e.currentTarget.getAttribute('data-target'));
+    setupViewer(imageInfoSrc, viewer, viewerId);
+    enterFullscreen(viewerContent);
   });
 
   exitFullscreenButton.addEventListener('click', (e) => {
-    const target = e.currentTarget.parentNode.getAttribute('id');
-    exitFullscreen(target);
+    // const target = e.currentTarget.parentNode.getAttribute('id');
+    exitFullscreen(viewer);
   });
 };
 
