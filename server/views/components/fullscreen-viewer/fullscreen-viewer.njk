@@ -1,7 +1,7 @@
 {% set viewerId = '' | generateId %}
 {# TODO - use button component? #}
 <div class="js-fullscreen-viewer fullscreen-viewer">
-  <button role="button" class="{{ {s:'HNM5'} | fontClasses }} btn btn--transparent-black enter-fullscreen js-enter-fullscreen" data-target="{{viewerId}}">
+  <button role="button" class="{{ {s:'HNM5'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['top']}) }} btn btn--dark fullscreen-viewer__launch-button js-enter-fullscreen" data-target="{{viewerId}}">
     {% icon 'actions/expand', null, extraIconClasses %}
     <span class="button-text">view larger image</span>
   </button>

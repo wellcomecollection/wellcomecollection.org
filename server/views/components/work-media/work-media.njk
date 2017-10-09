@@ -1,11 +1,10 @@
-<div class="row bg-black work-media js-work-media">
+<div class="row bg-black work-media js-work-media {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
   <div class="work-media__controls js-work-media-controls pointer-events-none">
     {% if model.queryString %}
       <div class="flush-container-left {{ {s:2} | spacingClasses({padding: ['top']}) }}">
       {% set btnHref = '/works' + model.queryString + '#' + model.id %}
       {% set btnTracking = '{"category": "component", "action": "return-to-results:click", "label": "id:' + model.id + ', query:' + model.queryString + ', title:' + model.trackTitle +'"}' %}
-
-      {% component 'button-link', {href: btnHref, text: 'Return to results', icon: 'actions/arrow', modifierClasses: 'btn--transparent-black pointer-events-all', eventTracking: btnTracking, extraIconClasses: ['icon--180'] } %}
+      {% component 'button-link', {href: btnHref, text: 'Return to results', icon: 'actions/arrow', modifierClasses: 'btn--transparent-black pointer-events-all js-work-media-control', eventTracking: btnTracking, extraIconClasses: ['icon--180'] } %}
       </div>
     {% endif %}
   </div>
