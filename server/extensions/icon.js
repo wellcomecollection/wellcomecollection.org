@@ -16,7 +16,6 @@ export default class Icon {
   };
 
   run(context, name, title, extraClasses) {
-    console.info(name)
     const svgHtml = this.env.render(`icons/${name}.svg`);
     const frag = parse.parseFragment(svgHtml);
     const svgFrag = frag.childNodes[0];
