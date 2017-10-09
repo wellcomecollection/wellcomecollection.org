@@ -8,13 +8,13 @@ jobs:
       - checkout
       - run:
           name: Build client
-          command: ./build-client.sh
+          command: ./dot_org/build-client.sh
       - run:
           name: Build server
-          command: ./build-server.sh $CIRCLE_BUILD_NUM
+          command: ./dot_org/build-server.sh $CIRCLE_BUILD_NUM
       - run:
           name: Test server
-          command: ./test.sh server
+          command: ./dot_org/test.sh server
       - add_ssh_keys
       - setup_remote_docker
       - run:
@@ -53,8 +53,8 @@ jobs:
               docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
               docker push wellcome/wellcomecollection:$CIRCLE_BUILD_NUM
 
-              pushd nginx-proxy && ./docker-build.sh $CIRCLE_BUILD_NUM && ./docker-push.sh $CIRCLE_BUILD_NUM && popd
+              pushd nginx-proxy && ./dot_org/docker-build.sh $CIRCLE_BUILD_NUM && ./dot_org/docker-push.sh $CIRCLE_BUILD_NUM && popd
 
-              ./build-cardigan.sh
-              ./build-speedtracker.sh
+              ./dot_org/build-cardigan.sh
+              ./dot_org/build-speedtracker.sh
             fi

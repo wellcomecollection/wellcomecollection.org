@@ -1,10 +1,10 @@
-module "router_cluster_asg" {
+module "dot_org_cluster_asg" {
   source                = "git::https://github.com/wellcometrust/terraform.git//ecs_asg?ref=v1.0.0"
-  asg_name              = "router-cluster"
+  asg_name              = "dot_org-cluster"
   subnet_list           = "${local.vpc_subnets}"
   key_name              = "${var.key_name}"
-  instance_profile_name = "${module.ecs_router_iam.instance_profile_name}"
-  user_data             = "${module.router_userdata.rendered}"
+  instance_profile_name = "${module.ecs_dot_org_iam.instance_profile_name}"
+  user_data             = "${module.dot_org_userdata.rendered}"
   vpc_id                = "${local.vpc_id}"
 
   asg_desired = "2"
