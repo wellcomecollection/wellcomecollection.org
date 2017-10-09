@@ -1,3 +1,4 @@
+export const status = 'benched';
 export const display = {
   background: '#1d1d1d'
 };
