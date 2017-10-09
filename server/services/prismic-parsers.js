@@ -2,6 +2,7 @@
 import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
+import type {Event} from '../content-model/event';
 import getBreakpoint from '../filters/get-breakpoint';
 import {parseBody} from './prismic-body-parser';
 import type {Contributor, DateRange, ImagePromo} from '../content-model/content-blocks';
@@ -48,6 +49,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
       end: new Date(slice.primary.end)
     }: DateRange);
   }));
+  const featuredImage = parsePicture({image: doc.data.featuredImage});
 
   const e = ({
     id: doc.id,
@@ -56,6 +58,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     programme: doc.data.programme.data && ({ title: asText(doc.data.programme.data.title) }: EventFormat),
     when: when,
     description: asHtml(doc.data.description),
+    featuredImage: featuredImage,
     accessOptions: List(doc.data.accessOptions.map(ao => ({
       accessOption: { title: asText(ao.accessOption.data.title), acronym: ao.accessOption.data.acronym }
     }))),

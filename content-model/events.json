@@ -49,6 +49,12 @@
         }
       }
     },
+    "featuredImage" : {
+      "type" : "Image",
+      "config" : {
+        "label" : "Featured image"
+      }
+    },
     "description" : {
       "type" : "StructuredText",
       "config" : {
