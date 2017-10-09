@@ -21,7 +21,7 @@
   </script>
 
   {% set iiifModel = {contentUrl: work.imgLink, caption: work.description, width: work.imgWidth} %}
-  {% set iiifData = {lazyload: true, sizesQueries: '(min-width: 860px) 800px, calc(92.59vw + 22px)'} %}
+  {% set iiifData = {fullscreenViewer: true, infoUrl: work.imgInfo, lazyload: true, sizesQueries: '(min-width: 860px) 800px, calc(92.59vw + 22px)'} %}
   {% componentV2 'work-media', {id: id, queryString: queryString, iiifModel: iiifModel, iiifData: iiifData, trackTitle: work.title | truncate(50)} %}
 
   <div class="row {{ {s:3, m:3, l:3, xl: 3} | spacingClasses({padding: ['top', 'bottom']}) }}">

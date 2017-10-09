@@ -8,6 +8,7 @@
 {% else %}
   {% set loop = [1] %}
 {% endif %}
+
 <noscript>
   <img width="{{model.width}}" height="{{model.height}}" class="image" src="{{ model.contentUrl | convertImageUri(320, useIiifOrigin) }}"
 alt="{% if model.alt %} {{ model.alt | striptags() }}{% elif model.caption %} {{ model.caption | striptags() }}{% endif %}" />
@@ -35,3 +36,7 @@ alt="{% if model.alt %} {{ model.alt | striptags() }}{% elif model.caption %} {{
   {% endif %}
   alt="{% if model.alt %} {{ model.alt | striptags() }}{% elif model.caption %} {{ model.caption | striptags() }}{% endif %}" />
 {% endfor %}
+
+{% if data.fullscreenViewer %}
+  {% componentV2 'fullscreen-viewer', {imageUrl: model.contentUrl} %} {# TODO - possibly generate buttons/viewer div on the front end (JSX)? #}
+{% endif %}
