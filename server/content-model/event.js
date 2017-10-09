@@ -38,6 +38,7 @@ export type Event = {|
   }>;
   bookingEnquiryTeam: ?EventBookingEnquiryTeam;
   bookingInformation: ?HTMLString;
+  isDropIn: boolean,
   contributors: List<{
     role: Contributor;
     person: Person;

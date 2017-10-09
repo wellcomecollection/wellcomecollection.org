@@ -16,6 +16,48 @@ type PrismicDoc = Object<any>;
 // This is because it could be any part of a JSON doc
 type PrismicDocFragment = Object<any> | Array<any>;
 
+export function parseEventDoc(doc: PrismicDoc): Event {
+  const contributors = parseContributors(doc.data.contributors);
+  const promo = parseImagePromo(doc.data.promo);
+  const when: List<DateRange> = List(doc.data.when.map(slice => {
+    return ({
+      start: new Date(slice.primary.start),
+      end: new Date(slice.primary.end)
+    }: DateRange);
+  }));
+  const featuredImage = parsePicture({image: doc.data.featuredImage});
+  const bookingEnquiryTeam = doc.data.bookingEnquiryTeam.data && {
+    title: asText(doc.data.bookingEnquiryTeam.data.title),
+    email: doc.data.bookingEnquiryTeam.data.email,
+    phone: doc.data.bookingEnquiryTeam.data.phone
+  };
+
+  // This is progromatic, basically if there is no way to book, it's drop in.
+  // We will add a check for tickets here too
+  const isDropIn = !bookingEnquiryTeam;
+
+  const e = ({
+    id: doc.id,
+    title: asText(doc.data.title),
+    format: doc.data.format.data && ({ title: asText(doc.data.format.data.title) }: EventFormat),
+    programme: doc.data.programme.data && ({ title: asText(doc.data.programme.data.title) }: EventFormat),
+    when: when,
+    subtitle: asText(doc.data.subtitle),
+    description: asHtml(doc.data.description),
+    featuredImage: featuredImage,
+    accessOptions: List(doc.data.accessOptions.map(ao => ({
+      accessOption: { title: asText(ao.accessOption.data.title), acronym: ao.accessOption.data.acronym }
+    }))),
+    bookingEnquiryTeam: bookingEnquiryTeam,
+    bookingInformation: asHtml(doc.data.bookingInformation),
+    isDropIn: isDropIn,
+    contributors: contributors,
+    promo: promo
+  }: Event);
+
+  return e;
+}
+
 export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
   const featuredImage = parsePicture({image: doc.data.featuredImage});
   const featuredImageMobileCrop = parsePicture({image: doc.data.featuredImageMobileCrop});
@@ -37,42 +79,6 @@ export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
   }: Exhibition);
 
   return exhibition;
-}
-
-export function parseEventDoc(doc: PrismicDoc): Event {
-  const contributors = parseContributors(doc.data.contributors);
-  const promo = parseImagePromo(doc.data.promo);
-  const when: List<DateRange> = List(doc.data.when.map(slice => {
-    return ({
-      start: new Date(slice.primary.start),
-      end: new Date(slice.primary.end)
-    }: DateRange);
-  }));
-  const featuredImage = parsePicture({image: doc.data.featuredImage});
-
-  const e = ({
-    id: doc.id,
-    title: asText(doc.data.title),
-    format: doc.data.format.data && ({ title: asText(doc.data.format.data.title) }: EventFormat),
-    programme: doc.data.programme.data && ({ title: asText(doc.data.programme.data.title) }: EventFormat),
-    when: when,
-    subtitle: asText(doc.data.subtitle),
-    description: asHtml(doc.data.description),
-    featuredImage: featuredImage,
-    accessOptions: List(doc.data.accessOptions.map(ao => ({
-      accessOption: { title: asText(ao.accessOption.data.title), acronym: ao.accessOption.data.acronym }
-    }))),
-    bookingEnquiryTeam: doc.data.bookingEnquiryTeam.data && {
-      title: asText(doc.data.bookingEnquiryTeam.data.title),
-      email: doc.data.bookingEnquiryTeam.data.email,
-      phone: doc.data.bookingEnquiryTeam.data.phone
-    },
-    bookingInformation: asHtml(doc.data.bookingInformation),
-    contributors: contributors,
-    promo: promo
-  }: Event);
-
-  return e;
 }
 
 export function parseArticleDoc(doc: PrismicDoc): Article {
