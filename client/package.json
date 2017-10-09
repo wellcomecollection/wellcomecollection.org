@@ -41,6 +41,7 @@
     "fontfaceobserver": "^2.0.9",
     "lazysizes": "^3.0.0",
     "lodash.debounce": "^4.0.8",
+    "openseadragon": "^2.3.1",
     "redux": "^3.6.0",
     "whatwg-fetch": "^2.0.3",
     "xstream": "^10.3.0"

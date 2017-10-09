@@ -17,6 +17,7 @@ import instagram from './components/instagram';
 import asynContent from './components/async-content';
 import contentSlider from './components/content-slider';
 import gaScrollDepth from '../libs/ga-scroll-depth';
+import createImageViewer from './components/image-viewer';
 import joinCohort from './components/join-cohort';
 import gifVideo from './components/gif-video';
 import tracking from './tracking';
@@ -62,6 +63,7 @@ const init = () => {
   const copyUrlEls = document.querySelectorAll('.js-copy-url');
   const searchBoxEls = document.querySelectorAll('.js-search-box');
   const iframeContainerEls = document.querySelectorAll('.js-iframe-container');
+  const fullscreenViewers = document.querySelectorAll('.js-fullscreen-viewer');
 
   nodeList(iframeContainerEls).forEach(iframeContainer);
 
@@ -78,6 +80,8 @@ const init = () => {
   nodeList(toggleShowHideEls).forEach(toggleShowHide);
 
   nodeList(scrollToInfoEls).forEach(scrollToInfo);
+
+  nodeList(fullscreenViewers).forEach((viewer) => createImageViewer(viewer));
 
   if (mainEl) {
     gaScrollDepth(mainEl);
