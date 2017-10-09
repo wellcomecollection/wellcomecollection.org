@@ -15,6 +15,13 @@
   }
 }
 
+// this is something we want to test on events,
+// and sort out and move to exhibitions
+.exhibition-hero__picture--restrict-width {
+  max-width: $container-width-max;
+  margin: 0 auto;
+}
+
 .exhibition-hero__copy {
   @include respond-to('large') {
     display: flex;
