@@ -23,7 +23,7 @@
             "name" : "standalone",
             "display" : "Standalone"
           } ],
-          "iframeSrc" : [ {
+          "iframe" : [ {
             "name" : "supporting",
             "display" : "Supporting"
           }, {
@@ -96,6 +96,25 @@
               }
             }
           },
+          "iframe" : {
+            "type" : "Slice",
+            "fieldset" : "Iframe",
+            "non-repeat" : {
+              "iframeSrc" : {
+                "type" : "Text",
+                "config" : {
+                  "label" : "iframe src",
+                  "placeholder" : "iframe src"
+                }
+              },
+              "previewImage" : {
+                "type" : "Image",
+                "config" : {
+                  "label" : "Preview image"
+                }
+              }
+            }
+          },
           "standfirst" : {
             "type" : "Slice",
             "fieldset" : "Standfirst",
@@ -107,13 +126,6 @@
                   "label" : "Standfirst"
                 }
               }
-            }
-          },
-          "iframeSrc" : {
-            "type" : "Text",
-            "config" : {
-              "label" : "iframe src",
-              "placeholder" : "iframe src"
             }
           },
           "imageList" : {
