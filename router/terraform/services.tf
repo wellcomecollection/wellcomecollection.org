@@ -18,8 +18,8 @@ module "router" {
 
   loadbalancer_cloudwatch_id   = "${module.router_alb.cloudwatch_id}"
 
-  server_error_alarm_topic_arn = "${module.alb_server_error_alarm.arn}"
-  client_error_alarm_topic_arn = "${module.alb_client_error_alarm.arn}"
+  server_error_alarm_topic_arn = "${local.alb_server_error_alarm_arn}"
+  client_error_alarm_topic_arn = "${local.alb_client_error_alarm_arn}"
 
   memory = "490"
   primary_container_port = "80"
