@@ -7,12 +7,13 @@ import getCommissionedSeries from './get-commissioned-series';
 import getSeriesTitle from './get-series-title';
 import getViewBox from './get-viewbox';
 import gridClasses from './grid-classes';
+import generateId from './generate-id';
 import spacingClasses from './spacing-classes';
 import fontClasses from './font-classes';
 import componentClasses from './component-classes';
 import concat from './concat';
 import contains from './contains';
-import convertImageUri from './convert-image-uri';
+import {convertImageUri, convertIiifUriToInfoUri} from './convert-image-uri';
 import getCacheBustFile from './get-cache-bust-file';
 import jsonLd from './json-ld';
 import {isFlagEnabled, getFlagValue} from '../util/flag-status';
@@ -48,12 +49,14 @@ export default Map({
   getViewBox,
   getA11yIcon,
   gridClasses,
+  generateId,
   spacingClasses,
   fontClasses,
   concat,
   contains,
   componentClasses,
   convertImageUri,
+  convertIiifUriToInfoUri,
   getCacheBustFile,
   getFlagValue,
   jsonLd,
