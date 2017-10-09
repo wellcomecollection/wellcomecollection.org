@@ -29,6 +29,7 @@ export type Event = {|
   format: ?EventFormat;
   programme: ?EventProgramme;
   when: List<DateRange>;
+  subtitle: ?HTMLString;
   description: ?HTMLString;
   featuredImage: ?Picture;
   accessOptions: List<{

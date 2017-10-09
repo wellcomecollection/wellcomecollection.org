@@ -55,6 +55,13 @@
         "label" : "Featured image"
       }
     },
+    "subtitle" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : "heading2",
+        "label" : "Summary"
+      }
+    },
     "description" : {
       "type" : "StructuredText",
       "config" : {

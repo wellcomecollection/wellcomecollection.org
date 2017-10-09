@@ -56,6 +56,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     format: doc.data.format.data && ({ title: asText(doc.data.format.data.title) }: EventFormat),
     programme: doc.data.programme.data && ({ title: asText(doc.data.programme.data.title) }: EventFormat),
     when: when,
+    subtitle: asText(doc.data.subtitle),
     description: asHtml(doc.data.description),
     featuredImage: featuredImage,
     accessOptions: List(doc.data.accessOptions.map(ao => ({
