@@ -20,6 +20,9 @@ export default function asyncContent(el, dispatch) {
       }
 
       if (seriesNav) {
+        // TODO: remove this check after sticky nav a/b test
+        if (document.body.classList.contains('is-digital-story-nav-static')) return;
+
         shrinkStoriesNav(seriesNav, dispatch);
       }
     }
