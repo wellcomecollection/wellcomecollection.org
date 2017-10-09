@@ -17,6 +17,10 @@
   {% block seriesNavigation %}
     {% for series in article.series %}
       {% if series.commissionedLength %}
+        {# TODO: This is for Google Optimize. Find a better way to do it! #}
+        <script>
+          window.isDigitalStory = true;
+        </script>
         {% set asyncContentEndpoint = '/series-nav/' + series.url + '?current=' + article.url %}
         {% component 'async', { endpoint: asyncContentEndpoint, component: 'series-nav' } %}
       {% endif %}
