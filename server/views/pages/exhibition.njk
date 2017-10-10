@@ -4,7 +4,7 @@
   {% set metaContent = {
     type: 'website',
     title: exhibition.title,
-    image: exhibition.featuredImage.contentUrl,
+    image: exhibition.featuredImage and exhibition.featuredImage.contentUrl,
     url: pageConfig.canonicalUri
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}

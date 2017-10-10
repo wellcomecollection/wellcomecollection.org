@@ -24,58 +24,67 @@
       {% componentV2 'tags', tags %}
     </div>
 
-    <div class="exhibition-hero">
+
+    <div class="exhibition-hero exhibition-hero--restrict-width">
       {% componentV2 'picture', {
-          images: [{
-            contentUrl: 'https://a.travel-assets.com/findyours-php/viewfinder/images/res60/241000/241872-New-Museum.jpg',
-            type: 'picture',
-            width: 3200,
-            height: 1490
-          }]
-        }, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
+        images: [event.featuredImage]
+      }, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
 
       <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">
+        <div class="is-hidden-m is-hidden-l is-hidden-xl">
+          {% component 'wobbly-edge', {background: 'white'} %}
+        </div>
+
         <div class="container {{ {l:0} | spacingClasses({padding: ['left']}) }}">
           <div class="grid">
             <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
-              <div class="bg-white inline-block exhibition-hero__box {{ {m:3, l:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }} rounded-diagonal">
+              <div class="bg-white inline-block exhibition-hero__box {{ {l:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }} rounded-diagonal">
                 <div class="flex flex--v-center flex--h-space-between {{ {s:'HNM4', m:'HNM5', l:'HNM4'} | fontClasses }}">
                   <span class="flex flex--v-center">
-                    {% icon 'other/ticket' %}
-                    <strong class="{{ {s:'WB7', l:'WB6'} | fontClasses }} caps {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free</strong>
+                    <div>{{ event.format.title }}</div>
+                  </span>
+                  <span>
+                    {% if (event.accessOptions.size !== 0) %}
+                      <div class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
+                        {% for accessOption in event.accessOptions.toJS() %}
+                          <div class="flex">
+                            <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/' + (accessOption.accessOption.acronym | lower), accessOption.accessOption.title %}</div>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
                   </span>
                 </div>
 
-                <h1 class="{{ {s:'WB5', m:'WB6', l:'WB4', xl:'WB3'} | fontClasses }} {{ {s: 0} | spacingClasses({margin:['bottom']}) }}">{{ event.title }}</h1>
-                <div>{{ event.format.title }}</div>
 
-                {% if (event.accessOptions.size !== 0) %}
-                  <div class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
-                    {% for accessOption in event.accessOptions.toJS() %}
-                      <div class="flex">
-                        <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/' + (accessOption.accessOption.acronym | lower), accessOption.accessOption.title %}</div>
-                        <p class="no-margin">{{ accessOption.accessOption.title }}</p>
+                <h1 class="{{ {s:'WB5', m:'WB6', l:'WB4', xl:'WB3'} | fontClasses }} {{ {s: 0} | spacingClasses({margin:['bottom', 'top']}) }}">{{ event.title }}</h1>
+
+                <div class="flex flex--v-center {{ {s: 2} | spacingClasses({margin: ['top']}) }}">
+                  {% icon 'other/ticket' %}
+                  <strong class="{{ {s:'WB7', l:'WB6'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">
+                    <span class="caps">Free</span>
+                    {{ ' / Drop in' if event.isDropIn }}
+                  </strong>
+                </div>
+
+                <span class="flex {{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['top']}) }}">
+                  <div>
+                    {% icon 'other/calendar' %}
+                  </div>
+                  <div class="{{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">
+                    {% for dateRange in event.when.toJS() %}
+                      {% set formattedDateRange = dateRange.start | formatAndDedupeOnDate(dateRange.end) %}
+                      <div class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
+                        <time>
+                          {{ formattedDateRange | joinDateStrings }}
+                        </time>
+
+                        {% if (formattedDateRange.size === 1) %}
+                          <div><time>{{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | joinDateStrings }}</time></div>
+                        {% endif %}
                       </div>
                     {% endfor %}
                   </div>
-                {% endif %}
-
-
-                <span class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
-                  {% for dateRange in event.when.toJS() %}
-                    {% set formattedDateRange = dateRange.start | formatAndDedupeOnDate(dateRange.end) %}
-                    <div class="{{ {s: 2} | spacingClasses({margin: ['top']}) }}">
-                      <div>
-                        <time class="{{ {s:'HNM4', m:'HNM5', l:'HNM3', xl:'HNM2'} | fontClasses }}">
-                          <b>{{ formattedDateRange | joinDateStrings }}</b>
-                        </time>
-                      </div>
-
-                      {% if (formattedDateRange.size === 1) %}
-                        <div><time>{{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | joinDateStrings }}</time></div>
-                      {% endif %}
-                    </div>
-                  {% endfor %}
                 </span>
               </div>
             </div>
@@ -91,7 +100,7 @@
 
         <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
           {% if event.subtitle %}
-            {% component 'standfirst', {body: exhibition.subtitle | safe} %}
+            {% component 'standfirst', {body: event.subtitle | safe} %}
           {% endif %}
           {{ event.description | safe }}
         </div>

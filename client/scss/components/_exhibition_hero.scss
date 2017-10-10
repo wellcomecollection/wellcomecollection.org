@@ -7,6 +7,13 @@
   }
 }
 
+// this is something we want to test on events,
+// and sort out and move to exhibitions
+.exhibition-hero--restrict-width {
+  max-width: $container-width-max;
+  margin: 0 auto;
+}
+
 .exhibition-hero__picture {
   width: 100%;
 
