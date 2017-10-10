@@ -5,7 +5,7 @@
   {% set metaTitle = 'Wellcome Collection search: ' + query %}
 {% endif %}
 
-{% set description = 'Explore 53,000 Artworks and Photos' %}
+{% set description = 'Discover our collections' %}
 
 {% block pageMeta %}
   {% set metaContent = {
@@ -39,7 +39,6 @@
           {% componentV2 'search-box', {id: 'search-works', action: '', name: 'query', query: query, autofocus: true} %}
           {% if not query %}
             <p class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">Images are free to download and use under Creative Commons licences.</p>
-            <p class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }}">Visit <a class="font-elf-green" href="https://wellcomeimages.org/">Wellcome Images</a> to search all images from the collection.</p>
           {% else %}
             <p class="font-charcoal-text {{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'LR3', m:'LR2'} | fontClasses }}">
               {{ resultsList.totalResults if resultsList.totalResults > 0 else 'No' }} results for "{{ query }}"
@@ -55,7 +54,7 @@
       <div class="container">
         <div class="grid">
           <div class="grid__cell">
-            <h3 class="{{ {s:'WB6'} | fontClasses }}">Suggested Topics</h3>
+            <h3 class="{{ {s:'WB6'} | fontClasses }}">Feeling curious?</h3>
             {% componentV2 'tags', [
               {text: 'Quacks', url: '/works?query=quack+OR+quacks', bgColor: 'turquoise-text'},
               {text: 'James Gillray', url: '/works?query=creator%3Ajames+gillray', bgColor: 'turquoise-text'},
