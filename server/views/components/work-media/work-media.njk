@@ -7,6 +7,9 @@
       {% component 'button-link', {href: btnHref, text: 'Return to results', icon: 'actions/arrow', modifierClasses: 'btn--transparent-black pointer-events-all js-work-media-control', eventTracking: btnTracking, extraIconClasses: ['icon--180'] } %}
       </div>
     {% endif %}
+
+    {% componentV2 'scroll-to-info', {elementId: 'work-info'}, {'work': true}, {extraClasses: ['flush-container-right','js-work-media-control', 'pointer-events-all', 'icon-rounder', 'border-color-white'], extraIconClasses: ['icon--white']} %}
   </div>
+
   {% componentV2 'image', model.iiifModel, {}, model.iiifData %}
 </div>
