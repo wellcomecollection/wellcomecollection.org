@@ -1,18 +1,17 @@
 import { enterFullscreen, exitFullscreen } from '../util';
 import OpenSeadragon from 'openseadragon';
 
-// centre fullscreen button under image - dark-btn style
-// tracking on fullscreen and controls
-// catch error
-// controls placement and wording
-// tidy js function / DOM performance read/write stuff - batched together
+// utilise button component > then >
+// tracking on fullscreen button and controls
+// no navigator on mobile
+// check for support for fetch, fullscreen, first and just return
+// improve no js styling for entire page
+// tidy js function / TODO check for support for fetch, fullscreen, first and just return
+// utilise fastdom
+// cross browser checks
 
 // Stretch:
-// improve no js styling for entire page
-// fix button icon spacing
-// tidy component - use button component
-// fullscreen Vs in page option
-// have rotation controls? - do we have icons for the controls?
+// fullscreen VS in page option
 
 function setupViewer(imageInfoSrc, viewer, viewerId) { // TODO pass in params
   if (viewer.querySelector('.openseadragon-container')) return;
@@ -23,19 +22,11 @@ function setupViewer(imageInfoSrc, viewer, viewerId) { // TODO pass in params
   .then((response) => {
     OpenSeadragon({
       id: `image-viewer-${viewerId}`,
-      visibilityRatio: 1, // TODO add links which explain these settings?
+      visibilityRatio: 1,
       showFullPageControl: false,
       showHomeControl: false,
       zoomInButton: `zoom-in-${viewerId}`,
       zoomOutButton: `zoom-out-${viewerId}`,
-      // homeButton: `zoom-reset-${viewerId}`,
-      // rotateLeftButton: `rotate-l-${viewerId}`,
-      // rotateRightButton: `rotate-r-${viewerId}`,
-      // degrees: 0,
-      // showRotationControl: true,
-      // gestureSettingsTouch: {
-      //   pinchRotate: true
-      // },
       showNavigator: true,
       controlsFadeDelay: 0,
       tileSources: [{
@@ -51,11 +42,10 @@ function setupViewer(imageInfoSrc, viewer, viewerId) { // TODO pass in params
         }]
       }]
     });
-  });
-  // TODO .catch(err => { throw err; });
+  }).catch(err => { throw err; });
 }
 
-const createImageViewer = (viewer/*, fullscreen or in page option */) => { // fullscreen adds button to launch a veiwer, in page replaces image with viewer
+const createImageViewer = (viewer) => {
   // TODO check for support for fetch, fullscreen, first and just return
   const image = viewer.previousElementSibling;
   const viewerContent = viewer.querySelector('.fullscreen-viewer-content');
@@ -64,19 +54,17 @@ const createImageViewer = (viewer/*, fullscreen or in page option */) => { // fu
   const enterFullscreenButton = viewer.querySelector('.js-enter-fullscreen');
   const exitFullscreenButton = viewer.querySelector('.js-exit-fullscreen');
 
-  image.addEventListener('dblclick', (e) => { // TODO tidy this up
+  image.addEventListener('dblclick', (e) => {
     setupViewer(imageInfoSrc, viewer, viewerId);
     enterFullscreen(viewerContent);
   });
 
   enterFullscreenButton.addEventListener('click', (e) => {
-    // const target = document.getElementById(e.currentTarget.getAttribute('data-target'));
     setupViewer(imageInfoSrc, viewer, viewerId);
     enterFullscreen(viewerContent);
   });
 
   exitFullscreenButton.addEventListener('click', (e) => {
-    // const target = e.currentTarget.parentNode.getAttribute('id');
     exitFullscreen(viewer);
   });
 };
