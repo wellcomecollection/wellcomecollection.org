@@ -16,8 +16,8 @@ Run:
 Update `./terraform/variables.tf`:
 
 ```
-variable "nginx_uri" {
-  default = "wellcome/wellcomecollection-router:my-tag"
+variable "key_name" {
+  default = "KEY_NAME"
 }
 ```
 
