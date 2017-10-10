@@ -2,6 +2,7 @@
 import {List} from 'immutable';
 import type {DateRange, HTMLString, ImagePromo, Contributor} from './content-blocks';
 import type {Person} from '../model/person';
+import type {Picture} from '../model/picture';
 
 export type EventFormat = {|
   title: string;
@@ -28,13 +29,16 @@ export type Event = {|
   format: ?EventFormat;
   programme: ?EventProgramme;
   when: List<DateRange>;
+  subtitle: ?HTMLString;
   description: ?HTMLString;
+  featuredImage: ?Picture;
   accessOptions: List<{
     accessOption: EventAccessOption;
     designer: Person;
   }>;
   bookingEnquiryTeam: ?EventBookingEnquiryTeam;
   bookingInformation: ?HTMLString;
+  isDropIn: boolean,
   contributors: List<{
     role: Contributor;
     person: Person;

@@ -2,10 +2,10 @@
 import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
+import type {Event, EventFormat} from '../content-model/event';
 import getBreakpoint from '../filters/get-breakpoint';
 import {parseBody} from './prismic-body-parser';
 import type {Contributor, DateRange, ImagePromo} from '../content-model/content-blocks';
-import type {EventFormat} from '../content-model/event';
 import type {Article} from '../model/article';
 import type {Promo} from '../model/promo';
 import type {Picture} from '../model/picture';
@@ -15,6 +15,48 @@ import {isEmptyObj} from '../util/is-empty-obj';
 type PrismicDoc = Object<any>;
 // This is because it could be any part of a JSON doc
 type PrismicDocFragment = Object<any> | Array<any>;
+
+export function parseEventDoc(doc: PrismicDoc): Event {
+  const contributors = parseContributors(doc.data.contributors);
+  const promo = parseImagePromo(doc.data.promo);
+  const when: List<DateRange> = List(doc.data.when.map(slice => {
+    return ({
+      start: new Date(slice.primary.start),
+      end: new Date(slice.primary.end)
+    }: DateRange);
+  }));
+  const featuredImage = parsePicture({image: doc.data.featuredImage});
+  const bookingEnquiryTeam = doc.data.bookingEnquiryTeam.data && {
+    title: asText(doc.data.bookingEnquiryTeam.data.title),
+    email: doc.data.bookingEnquiryTeam.data.email,
+    phone: doc.data.bookingEnquiryTeam.data.phone
+  };
+
+  // This is progromatic, basically if there is no way to book, it's drop in.
+  // We will add a check for tickets here too
+  const isDropIn = !bookingEnquiryTeam;
+
+  const e = ({
+    id: doc.id,
+    title: asText(doc.data.title),
+    format: doc.data.format.data && ({ title: asText(doc.data.format.data.title) }: EventFormat),
+    programme: doc.data.programme.data && ({ title: asText(doc.data.programme.data.title) }: EventFormat),
+    when: when,
+    subtitle: asText(doc.data.subtitle),
+    description: asHtml(doc.data.description),
+    featuredImage: featuredImage,
+    accessOptions: List(doc.data.accessOptions.map(ao => ({
+      accessOption: { title: asText(ao.accessOption.data.title), acronym: ao.accessOption.data.acronym }
+    }))),
+    bookingEnquiryTeam: bookingEnquiryTeam,
+    bookingInformation: asHtml(doc.data.bookingInformation),
+    isDropIn: isDropIn,
+    contributors: contributors,
+    promo: promo
+  }: Event);
+
+  return e;
+}
 
 export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
   const featuredImage = parsePicture({image: doc.data.featuredImage});
@@ -37,39 +79,6 @@ export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
   }: Exhibition);
 
   return exhibition;
-}
-
-export function parseEventDoc(doc: PrismicDoc): Event {
-  const contributors = parseContributors(doc.data.contributors);
-  const promo = parseImagePromo(doc.data.promo);
-  const when: List<DateRange> = List(doc.data.when.map(slice => {
-    return ({
-      start: new Date(slice.primary.start),
-      end: new Date(slice.primary.end)
-    }: DateRange);
-  }));
-
-  const e = ({
-    id: doc.id,
-    title: asText(doc.data.title),
-    format: doc.data.format.data && ({ title: asText(doc.data.format.data.title) }: EventFormat),
-    programme: doc.data.programme.data && ({ title: asText(doc.data.programme.data.title) }: EventFormat),
-    when: when,
-    description: asHtml(doc.data.description),
-    accessOptions: List(doc.data.accessOptions.map(ao => ({
-      accessOption: { title: asText(ao.accessOption.data.title), acronym: ao.accessOption.data.acronym }
-    }))),
-    bookingEnquiryTeam: doc.data.bookingEnquiryTeam.data && {
-      title: asText(doc.data.bookingEnquiryTeam.data.title),
-      email: doc.data.bookingEnquiryTeam.data.email,
-      phone: doc.data.bookingEnquiryTeam.data.phone
-    },
-    bookingInformation: asHtml(doc.data.bookingInformation),
-    contributors: contributors,
-    promo: promo
-  }: Event);
-
-  return e;
 }
 
 export function parseArticleDoc(doc: PrismicDoc): Article {
