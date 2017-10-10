@@ -36,7 +36,6 @@ alt="{% if model.alt %} {{ model.alt | striptags() }}{% elif model.caption %} {{
   {% endif %}
   alt="{% if model.alt %} {{ model.alt | striptags() }}{% elif model.caption %} {{ model.caption | striptags() }}{% endif %}" />
 {% endfor %}
-
-{% if data.fullscreenViewer %}
+{% if data.fullscreenViewer and featuresCohort | isFlagEnabled('zoomImages', featureFlags) %}
   {% componentV2 'fullscreen-viewer', {imageUrl: model.contentUrl} %} {# TODO - possibly generate buttons/viewer div on the front end (JSX)? #}
 {% endif %}
