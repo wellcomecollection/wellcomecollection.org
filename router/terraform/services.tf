@@ -5,7 +5,7 @@ module "router" {
   task_role_arn      = "${module.ecs_router_iam.task_role_arn}"
   template_name      = "nginx_standalone"
   vpc_id             = "${local.vpc_id}"
-  nginx_uri          = "${var.nginx_uri}"
+  nginx_uri          = "wellcome/wellcomecollection-router:${var.nginx_docker_tag}"
   listener_https_arn = "${module.router_alb.listener_https_arn}"
   listener_http_arn  = "${module.router_alb.listener_http_arn}"
   is_config_managed  = false
