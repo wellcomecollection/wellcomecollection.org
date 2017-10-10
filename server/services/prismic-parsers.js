@@ -153,8 +153,8 @@ export function parsePromoListItem(item): Promo {
   return ({
     contentType: item.type,
     url: item.link.url,
-    title: item.title[0].text,
-    description: item.description[0].text,
+    title: asText(item.title),
+    description: asText(item.description),
     image: parsePicture(item)
   } : Promo);
 }
