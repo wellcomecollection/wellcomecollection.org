@@ -78,7 +78,7 @@
                         <time>
                           {{ formattedDateRange | joinDateStrings }}
                         </time>
-                        
+
                         {% if (formattedDateRange.size === 1) %}
                           <div><time>{{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | joinDateStrings }}</time></div>
                         {% endif %}
