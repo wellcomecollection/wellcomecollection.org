@@ -74,13 +74,11 @@
                   <div class="{{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">
                     {% for dateRange in event.when.toJS() %}
                       {% set formattedDateRange = dateRange.start | formatAndDedupeOnDate(dateRange.end) %}
-                      <div>
-                        <div>
-                          <time class="{{ {s:'HNM4', m:'HNM5', l:'HNM3', xl:'HNM2'} | fontClasses }}">
-                            <b>{{ formattedDateRange | joinDateStrings }}</b>
-                          </time>
-                        </div>
-
+                      <div class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
+                        <time>
+                          {{ formattedDateRange | joinDateStrings }}
+                        </time>
+                        
                         {% if (formattedDateRange.size === 1) %}
                           <div><time>{{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | joinDateStrings }}</time></div>
                         {% endif %}
