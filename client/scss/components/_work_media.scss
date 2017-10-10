@@ -37,10 +37,6 @@
   pointer-events: none;
 
   .enhanced & {
-    opacity: 0;
-  }
-
-  &.is-active {
     opacity: 1;
   }
 }
