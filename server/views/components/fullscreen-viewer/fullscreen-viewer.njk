@@ -3,30 +3,34 @@
 <div class="js-fullscreen-viewer fullscreen-viewer">
   <button role="button" class="{{ {s:'HNM5'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['top']}) }} btn btn--dark fullscreen-viewer__launch-button js-enter-fullscreen" data-target="{{viewerId}}">
     {% icon 'actions/expand', null, extraIconClasses %}
-    <span class="button-text">view larger image</span>
+    <span class="button-text">View larger image</span>
   </button>
   <div class="fullscreen-viewer-content" id="{{viewerId}}" data-info-src="{{model.imageUrl | convertImageUri(full, false) | convertIiifUriToInfoUri}}">
-    <div class="fullscreen-viewer__controls flex flex-end flex--v-center {{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
-      <button class="{{ {s:'HNM5'} | fontClasses }} {{ {s: 1} | spacingClasses({margin: ['left']}) }} btn btn--dark" id="zoom-in-{{viewerId}}">
-        {% icon 'actions/zoom-in' %}
-        <span class="button-text">zoom in</span>
+    <div class="fullscreen-viewer__controls flex flex-end flex--v-center">
+      <button role="button" title="exit fullscreen" class="{{ {s:'HNM5'} | fontClasses }} {{ {s: 1} | spacingClasses({margin: ['top', 'right', 'bottom', 'left']}) }} btn btn--dark js-exit-fullscreen" id="zoom-reset-{{viewerId}}">
+        {% icon 'actions/clear' %}
+        <span class="button-text">Exit fullscreen</span>
       </button>
-      <button class="{{ {s:'HNM5'} | fontClasses }} {{ {s: 1} | spacingClasses({margin: ['left']}) }} btn btn--dark" id="zoom-out-{{viewerId}}">
+    </div>
+    {% componentV2 'divider', null, {'charcoal': true, 'keyline': true}  %}
+    <div class="fullscreen-viewer__image" id="image-viewer-{{viewerId}}"></div>
+    {% componentV2 'divider', null, {'charcoal': true, 'keyline': true}  %}
+    <div class="fullscreen-viewer__controls flex flex-end flex--v-center">
+      <button class="{{ {s:'HNM5'} | fontClasses }} {{ {s: 1} | spacingClasses({margin: ['top', 'right', 'bottom', 'left']}) }} btn btn--dark" id="zoom-out-{{viewerId}}">
         {% icon 'actions/zoom-out' %}
-        <span class="button-text">zoom out</span>
+        <span class="button-text">Zoom out</span>
       </button>
-      {# <button class="{{ {s:'HNM5'} | fontClasses }} {{ {s: 1} | spacingClasses({margin: ['left']}) }} btn btn--dark" id="zoom-reset-{{viewerId}}">
+      <button class="{{ {s:'HNM5'} | fontClasses }} {{ {s: 1} | spacingClasses({margin: ['top', 'right', 'bottom', 'left']}) }} btn btn--dark" id="zoom-in-{{viewerId}}">
+        {% icon 'actions/zoom-in' %}
+        <span class="button-text">Zoom in</span>
+      </button>
+      {# <button class="{{ {s:'HNM5'} | fontClasses }} {{ {s: 1} | spacingClasses({margin: ['top', 'right', 'bottom', 'left']}) }} btn btn--dark" id="zoom-reset-{{viewerId}}">
         {% icon 'actions/refresh' %}
         <span class="button-text">zoom reset</span>
       </button> #}
-      {# <button class="{{ {s:'HNM5'} | fontClasses }} {{ {s: 1} | spacingClasses({margin: ['left']}) }} btn btn--dark" id="rotate-l-{{viewerId}}">rotate left</button>
-      <button class="{{ {s:'HNM5'} | fontClasses }} {{ {s: 1} | spacingClasses({margin: ['left']}) }} btn btn--dark" id="rotate-r-{{viewerId}}">rotate right</button> #}
-      <button role="button" title="exit fullscreen" class="{{ {s:'HNM5'} | fontClasses }} {{ {s: 1} | spacingClasses({margin: ['left']}) }} btn btn--dark js-exit-fullscreen" id="zoom-reset-{{viewerId}}">
-        {% icon 'actions/clear' %}
-        <span class="button-text">exit fullscreen</span>
-      </button>
+      {# <button class="{{ {s:'HNM5'} | fontClasses }} {{ {s: 1} | spacingClasses({margin: ['top', 'right', 'bottom', 'left']}) }} btn btn--dark" id="rotate-l-{{viewerId}}">Rotate anticlockwise</button>
+      <button class="{{ {s:'HNM5'} | fontClasses }} {{ {s: 1} | spacingClasses({margin: ['top', 'right', 'bottom', 'left']}) }} btn btn--dark" id="rotate-r-{{viewerId}}">Rotate clockwise</button> #}
     </div>
-    <div class="fullscreen-viewer__image" id="image-viewer-{{viewerId}}"></div>
   </div>
 </div>
 {# TODO rename classes? #}

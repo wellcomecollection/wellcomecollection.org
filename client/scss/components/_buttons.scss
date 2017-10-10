@@ -73,12 +73,12 @@
 .btn--transparent-black {
   @include secondary;
   color: color('white');
-  border-color: color('transparent');
+  border-color: color('charcoal');
   background-color: color('transparent-black');
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
-    border-color: color('transparent');
+    border-color: color('white');
     background-color: color('black');
   }
 }

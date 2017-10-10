@@ -19,7 +19,14 @@
 
 .fullscreen-viewer__controls {
   height: 3em;
-  border-bottom: 1px solid color('charcoal');
+
+  .icon {
+    margin: 0;
+
+    @include respond-to('medium') {
+      margin-right: $spacing-unit;
+    }
+  }
 
   .button-text {
     display: none;
@@ -33,7 +40,7 @@
 .fullscreen-viewer__image {
   background: #1d1d1d;
   width: 100%;
-  height: calc(100vh - 3em);
+  height: calc(100vh - 6em);
 }
 
 .fullscreen-viewer__launch-button {
