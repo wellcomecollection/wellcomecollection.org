@@ -68,6 +68,7 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
 
   const ex = parseExhibitionsDoc(exhibition);
 
+  const galleryLevel = exhibition.data.galleryLevel;
   const promoList = exhibition.data.promoList;
   const relatedArticles = promoList.filter(x => x.type === 'article').map(parsePromoListItem);
   const relatedEvents = promoList.filter(x => x.type === 'event').map(parsePromoListItem);
@@ -79,7 +80,7 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
 
   return {
     exhibition: ex,
-    galleryLevel: '0',
+    galleryLevel: galleryLevel,
     textAndCaptionsDocument: textAndCaptionsDocument.url && textAndCaptionsDocument,
     relatedBooks: relatedBooks,
     relatedEvents: relatedEvents,

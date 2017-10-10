@@ -54,6 +54,14 @@
       }
     }
   },
+  "Access": {
+    "galleryLevel": {
+      "type": "Number",
+      "config": {
+        "label": "Gallery level"
+      }
+    }
+  },
   "Promo" : {
     "promo" : {
       "type" : "Slices",
