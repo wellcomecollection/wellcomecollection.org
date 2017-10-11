@@ -1,4 +1,4 @@
-import { enterFullscreen, exitFullscreen } from '../util';
+import { hasFullscreen, enterFullscreen, exitFullscreen } from '../util';
 import OpenSeadragon from 'openseadragon';
 
 // utilise button component > then >
@@ -46,27 +46,30 @@ function setupViewer(imageInfoSrc, viewer, viewerId) { // TODO pass in params
 }
 
 const createImageViewer = (viewer) => {
-  // TODO check for support for fetch, fullscreen, first and just return
-  const image = viewer.previousElementSibling;
-  const viewerContent = viewer.querySelector('.fullscreen-viewer-content');
-  const viewerId = viewerContent.getAttribute('id'); // TODO pass these to the function?
-  const imageInfoSrc = document.getElementById(viewerId).getAttribute('data-info-src');
-  const enterFullscreenButton = viewer.querySelector('.js-enter-fullscreen');
-  const exitFullscreenButton = viewer.querySelector('.js-exit-fullscreen');
+  if (window.fetch && hasFullscreen()) {
+    const image = viewer.previousElementSibling; // better way to get this
+    const viewerContent = viewer.querySelector('.fullscreen-viewer-content');
+    const viewerId = viewerContent.getAttribute('id'); // TODO pass these to the function?
+    const imageInfoSrc = document.getElementById(viewerId).getAttribute('data-info-src');
+    const enterFullscreenButton = viewer.querySelector('.js-enter-fullscreen');
+    const exitFullscreenButton = viewer.querySelector('.js-exit-fullscreen');
 
-  image.addEventListener('dblclick', (e) => {
-    setupViewer(imageInfoSrc, viewer, viewerId);
-    enterFullscreen(viewerContent);
-  });
+    viewer.style.display = 'block';
 
-  enterFullscreenButton.addEventListener('click', (e) => {
-    setupViewer(imageInfoSrc, viewer, viewerId);
-    enterFullscreen(viewerContent);
-  });
+    image.addEventListener('dblclick', (e) => {
+      setupViewer(imageInfoSrc, viewer, viewerId);
+      enterFullscreen(viewerContent);
+    });
 
-  exitFullscreenButton.addEventListener('click', (e) => {
-    exitFullscreen(viewer);
-  });
+    enterFullscreenButton.addEventListener('click', (e) => {
+      setupViewer(imageInfoSrc, viewer, viewerId);
+      enterFullscreen(viewerContent);
+    });
+
+    exitFullscreenButton.addEventListener('click', (e) => {
+      exitFullscreen(viewer);
+    });
+  }
 };
 
 export default createImageViewer;

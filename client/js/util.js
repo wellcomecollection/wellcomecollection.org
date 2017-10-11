@@ -123,6 +123,10 @@ export function getWindowHeight() {
   return window.innerHeight;
 }
 
+export function hasFullscreen() {
+  return document.exitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen || document.msExitFullscreen;
+}
+
 export function enterFullscreen(element) {
   if (element.requestFullscreen) {
     element.requestFullscreen();
@@ -142,6 +146,8 @@ export function exitFullscreen() {
     document.mozCancelFullScreen();
   } else if (document.webkitExitFullscreen) {
     document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) {
+    document.msExitFullscreen();
   }
 }
 

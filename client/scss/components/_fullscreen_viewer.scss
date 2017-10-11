@@ -1,9 +1,5 @@
 .fullscreen-viewer {
-  display: none;
-
-  .enhanced & {
-    display: block;
-  }
+  display: none; // shown with javascript if browser has the required support
 }
 
 .fullscreen-viewer-content {
