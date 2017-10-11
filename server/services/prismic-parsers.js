@@ -38,7 +38,6 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     thinVideoImage,
     squareImage
   ]).filter(_ => _);
-  console.info(featuredImages.toJS())
 
   // This is programmatic, basically if there is no way to book, it's drop in.
   // We will add a check for tickets here too
