@@ -93,7 +93,7 @@ export async function renderEvent(ctx, next) {
         // TODO: link through to others of this type?
       }] : []).concat([{
         prefix: 'Part of: ',
-        text: 'Can graphic design save your life',
+        text: 'Can Graphic Design Save Your Life',
         url: '/graphicdesign'
       }]);
 
