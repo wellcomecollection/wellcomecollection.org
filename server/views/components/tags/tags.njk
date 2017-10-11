@@ -6,9 +6,6 @@
         <{{'a' if tag.url else 'div'}}
           {% if tag.url %}href="{{ tag.url }}"{% endif %}
           class="flex plain-link">
-          {% if tag.prefix %}
-            <span class="tags__inner font-white bg-black {{ {s:1} | spacingClasses({padding: ['left', 'right', 'top', 'bottom']}) }}">{{ tag.prefix }}</span>
-          {% endif %}
           <span class="tags__inner font-white bg-{{ tag.bgColor or 'black' }} {{ {s:1} | spacingClasses({padding: ['left', 'right', 'top', 'bottom']}) }}">{{ tag.text }}</span>
         </{{'a' if tag.url else 'div'}}>
       </li>
