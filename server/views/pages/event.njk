@@ -61,10 +61,12 @@
 
                 <div class="flex flex--v-center {{ {s: 2} | spacingClasses({margin: ['top']}) }}">
                   {% icon 'other/ticket' %}
-                  <strong class="{{ {s:'WB7', l:'WB6'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">
+                  <span class="{{ {s:'HNM4', m:'HNM5', l:'HNM3', xl:'HNM2'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">
                     <span class="caps">Free</span>
                     {{ ' / Drop in' if event.isDropIn }}
-                  </strong>
+                    {{ ' / Booking required' if event.bookingEnquiryTeam }}
+
+                  </span>
                 </div>
 
                 <span class="flex {{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['top']}) }}">
@@ -74,13 +76,15 @@
                   <div class="{{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">
                     {% for dateRange in event.when.toJS() %}
                       {% set formattedDateRange = dateRange.start | formatAndDedupeOnDate(dateRange.end) %}
-                      <div class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
-                        <time>
+                      <div>
+                        <time class="{{ {s:'HNM4', m:'HNM5', l:'HNM3', xl:'HNM2'} | fontClasses }}">
                           {{ formattedDateRange | joinDateStrings }}
                         </time>
 
                         {% if (formattedDateRange.size === 1) %}
-                          <div><time>{{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | joinDateStrings }}</time></div>
+                          <div class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
+                            <time>{{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | joinDateStrings }}</time>
+                          </div>
                         {% endif %}
                       </div>
                     {% endfor %}
