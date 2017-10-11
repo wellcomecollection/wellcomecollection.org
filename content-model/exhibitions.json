@@ -38,7 +38,7 @@
       "config" : {
         "label" : "Featured image",
         "thumbnails" : [ {
-          "name" : "thinVideo",
+          "name" : "32:15",
           "width" : 3200,
           "height" : 1500
         }, {
