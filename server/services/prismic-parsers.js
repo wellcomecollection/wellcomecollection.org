@@ -25,14 +25,21 @@ export function parseEventDoc(doc: PrismicDoc): Event {
       end: new Date(slice.primary.end)
     }: DateRange);
   }));
-  const featuredImage = parsePicture({image: doc.data.featuredImage});
   const bookingEnquiryTeam = doc.data.bookingEnquiryTeam.data && {
     title: asText(doc.data.bookingEnquiryTeam.data.title),
     email: doc.data.bookingEnquiryTeam.data.email,
     phone: doc.data.bookingEnquiryTeam.data.phone
   };
 
-  // This is progromatic, basically if there is no way to book, it's drop in.
+  const featuredImage = doc.data.featuredImage && parsePicture({ image: doc.data.featuredImage });
+  const thinVideoImage = featuredImage && parsePicture({image: doc.data.featuredImage.thinVideo}, getBreakpoint('medium'));
+  const squareImage = featuredImage && parsePicture({image: doc.data.featuredImage.square}, getBreakpoint('small'));
+  const featuredImages = List([
+    thinVideoImage,
+    squareImage
+  ]).filter(_ => _);
+
+  // This is programmatic, basically if there is no way to book, it's drop in.
   // We will add a check for tickets here too
   const isDropIn = !bookingEnquiryTeam;
 
@@ -45,6 +52,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     subtitle: asText(doc.data.subtitle),
     description: asHtml(doc.data.description),
     featuredImage: featuredImage,
+    featuredImages: featuredImages,
     accessOptions: List(doc.data.accessOptions.map(ao => ({
       accessOption: { title: asText(ao.accessOption.data.title), acronym: ao.accessOption.data.acronym }
     }))),
@@ -59,12 +67,18 @@ export function parseEventDoc(doc: PrismicDoc): Event {
 }
 
 export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
-  const featuredImage = parsePicture({image: doc.data.featuredImage});
   const featuredImageMobileCrop = parsePicture({image: doc.data.featuredImageMobileCrop});
-  const featuredImageWithBreakpoint = featuredImage.contentUrl && Object.assign({}, featuredImage, {minWidth: getBreakpoint('medium')});
   const featuredImageMobileCropWithBreakpoint = featuredImageMobileCrop.contentUrl && Object.assign({}, featuredImageMobileCrop, {minWidth: getBreakpoint('small')});
-  const featuredImages = List([featuredImageWithBreakpoint, featuredImageMobileCropWithBreakpoint].filter(_ => _));
   const promo = parseImagePromo(doc.data.promo);
+
+  const featuredImage = doc.data.featuredImage && parsePicture({ image: doc.data.featuredImage });
+  const thinVideoImage = featuredImage && parsePicture({image: doc.data.featuredImage.thinVideo}, getBreakpoint('medium'));
+  const squareImage = featuredImage && parsePicture({image: doc.data.featuredImage.square}, getBreakpoint('small'));
+  const featuredImages = List([
+    thinVideoImage,
+    // we use the "creative" crop first, but it seems that people would rather have it automatically.
+    featuredImageMobileCropWithBreakpoint || squareImage
+  ]).filter(_ => _);
 
   const exhibition = ({
     id: doc.id,
@@ -159,7 +173,7 @@ export function parsePromoListItem(item): Promo {
   } : Promo);
 }
 
-export function parsePicture(captionedImage): Picture {
+export function parsePicture(captionedImage, minWidth): Picture {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
   const tasl = image && image.copyright && parseTaslFromCopyright(image.copyright);
 
@@ -180,7 +194,8 @@ export function parsePicture(captionedImage): Picture {
     copyright: {
       holder: tasl && tasl.copyrightHolder,
       link: tasl && tasl.copyrightLink
-    }
+    },
+    minWidth
   }: Picture);
 }
 

@@ -32,6 +32,7 @@ export type Event = {|
   subtitle: ?HTMLString;
   description: ?HTMLString;
   featuredImage: ?Picture;
+  featuredImages: List<Picture>;
   accessOptions: List<{
     accessOption: EventAccessOption;
     designer: Person;

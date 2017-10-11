@@ -27,7 +27,7 @@
 
     <div class="exhibition-hero exhibition-hero--restrict-width">
       {% componentV2 'picture', {
-        images: [event.featuredImage]
+        images: event.featuredImages.toJS()
       }, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
 
       <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">
