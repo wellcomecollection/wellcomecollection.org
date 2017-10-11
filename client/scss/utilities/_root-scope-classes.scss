@@ -53,6 +53,16 @@
 
   .bg-#{$color-key} {
     background: nth($color-value, 1);
+
+    // Don't attempt to darken e.g 'currentColor'
+    @if (str-index(quote(nth($color-value, 1)), '#') == 1) {
+      &.bg-darken-hover {
+        &:hover,
+        &:focus {
+          background: darken(nth($color-value, 1), 10%);
+        }
+      }
+    }
   }
 
   .border-color-#{$color-key} {
@@ -60,6 +70,10 @@
   }
 }
 // stylelint-enable sh-waqar/declaration-use-variable
+
+.transition-bg {
+  transition: background 600ms ease;
+}
 
 .caps {
   text-transform: uppercase;

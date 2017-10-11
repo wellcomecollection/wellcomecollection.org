@@ -5,8 +5,8 @@
         data-track-event='{"category": "component", "action": "tag:click", "label": "text:{{ tag.prefix + ' ' if tag.prefix }}{{ tag.text }}, url:{{ tag.url }}"}'>
         <{{'a' if tag.url else 'div'}}
           {% if tag.url %}href="{{ tag.url }}"{% endif %}
-          class="flex plain-link">
-          <span class="tags__inner font-white bg-{{ tag.bgColor or 'black' }} {{ {s:1} | spacingClasses({padding: ['left', 'right', 'top', 'bottom']}) }}">{{ tag.text }}</span>
+          class="flex plain-link {{ {s:1} | spacingClasses({padding: ['left', 'right', 'top', 'bottom']}) }} font-white bg-{{ tag.bgColor or 'charcoal' }} {% if tag.url %}bg-darken-hover transition-bg{% endif %}">
+          {{ tag.text }}
         </{{'a' if tag.url else 'div'}}>
       </li>
     {% endfor %}
