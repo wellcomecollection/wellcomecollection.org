@@ -1,6 +1,6 @@
-<button class="btn {{ {s:'HNM5'} | fontClasses }} {{ modifierClasses }}" {{ attributes }}>
+<button {{ 'id='+ buttonId if buttonId }} class="btn {{ {s:'HNM5'} | fontClasses }} {{ modifierClasses }}" {{ attributes }}{% if eventTracking %} data-event-tracking="{{eventTracking}}" {% endif %}>
   {% if icon %}
     {% icon icon, null, extraIconClasses %}
   {% endif %}
-  {{text}}
+  <span class="btn__text">{{text}}</span>
 </button>

@@ -28,7 +28,7 @@
     }
   }
 
-  .button-text {
+  .button__text {
     display: none;
 
     @include respond-to('medium') {
