@@ -12,4 +12,8 @@
   </div>
 
   {% componentV2 'image', model.iiifModel, {}, model.iiifData %}
+
+  {% if featuresCohort | isFlagEnabled('zoomImages', featureFlags) %}
+    {% componentV2 'fullscreen-viewer', {imageUrl: model.iiifModel.contentUrl}, null, {id: model.id, trackTitle: model.trackTitle} %}
+  {% endif %}
 </div>
