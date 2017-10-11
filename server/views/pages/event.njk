@@ -131,7 +131,7 @@
             <h2 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }}  {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Contributors</h2>
             <div class="grid">
               {% for contributor in event.contributors %}
-                <div class="{{ {l:6, xl:6} | gridClasses }}">
+                <div class="{{ {s:12, l:6} | gridClasses }}">
                   <div class="bg-cream rounded-diagonal half-in-image-container {{ {s:2} | spacingClasses({padding: ['top', 'bottom', 'left', 'right']}) }}">
                     <img class="round half-in-image person-image" src="{{ contributor.person.image | convertImageUri(300) }}" alt="" />
                     <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
