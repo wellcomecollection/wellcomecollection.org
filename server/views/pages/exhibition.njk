@@ -57,7 +57,7 @@
                     <strong>{{ {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage }}</strong>
                   </span>
                 </div>
-                <h1 class="{{ {s:'WB5', m:'WB6', l:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
+                <h1 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
                 <span class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
                   {% if exhibition.end %}
                     <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time> – <time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
@@ -170,7 +170,9 @@
       <div class="container">
         <div class="grid">
           <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
-            <h2 class="{{ {s:'WB5', m:'WB6', l:'WB4', xl:'WB3'} | fontClasses }} flex flex--v-center {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">{% icon 'actions/gallery_filled', null, ['margin-right-s2', 'icon--match-text'] %}Exhibition highlights</h2>
+            <h2 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }} flex flex--v-center {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
+              {% icon 'actions/gallery_filled', null, ['margin-right-s2', 'icon--match-text'] %}Exhibition highlights
+            </h2>
           </div>
         </div>
         <div class="grid">
@@ -195,7 +197,7 @@
         <div class="container">
           <div class="grid">
             <div class="{{ {s:12} | gridClasses }}">
-              <h2 class="{{ {s:'WB5', m:'WB6', l:'WB4', xl:'WB3'} | fontClasses }}">{{ heading }}</h2>
+              <h2 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }}">{{ heading }}</h2>
             </div>
           </div>
         </div>
