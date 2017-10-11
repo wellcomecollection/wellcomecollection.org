@@ -8,7 +8,6 @@
     height: auto;
     max-width: 800px;
     margin: 0 auto;
-    display: block;
     padding: 10 * $spacing-unit;
 
     .enhanced & {
@@ -24,6 +23,10 @@
       height: 100%;
       object-fit: contain;
     }
+  }
+
+  .image--noscript {
+    display: block;
   }
 }
 

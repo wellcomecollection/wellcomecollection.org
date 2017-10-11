@@ -46,8 +46,6 @@
   display: block;
 }
 
-@include image-zoom ($interactionElement: '.find-us', $containerElement: '.find-us__map-container', $zoomElement: '.find-us__map');
-
 .find-us__map-container {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
