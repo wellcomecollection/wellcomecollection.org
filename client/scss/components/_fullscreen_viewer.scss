@@ -40,6 +40,8 @@
 }
 
 .fullscreen-viewer__launch-button {
-  display: block;
-  margin: 0 auto;
+  position: absolute;
+  bottom: $v-spacing-unit*4;
+  left: 50%;
+  transform: translateX(-50%);
 }
