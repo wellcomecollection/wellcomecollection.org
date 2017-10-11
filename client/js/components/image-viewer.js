@@ -1,19 +1,14 @@
 import { hasFullscreen, enterFullscreen, exitFullscreen } from '../util';
 import OpenSeadragon from 'openseadragon';
 
-// utilise button component > then >
-// tracking on fullscreen button and controls
-// no navigator on mobile
-// check for support for fetch, fullscreen, first and just return
+// interface changes
 // improve no js styling for entire page
-// tidy js function / TODO check for support for fetch, fullscreen, first and just return
-// utilise fastdom
+// tidy js function / utilise fastdom
 // cross browser checks
 
-// Stretch:
-// fullscreen VS in page option
+// tracking on other gestures, and/or fullscreen open (and action that initiated it)
 
-function setupViewer(imageInfoSrc, viewer, viewerId) { // TODO pass in params
+function setupViewer(imageInfoSrc, viewer, viewerId) {
   if (viewer.querySelector('.openseadragon-container')) return;
   window.fetch(imageInfoSrc)
   .then(function(response) {
@@ -47,9 +42,9 @@ function setupViewer(imageInfoSrc, viewer, viewerId) { // TODO pass in params
 
 const createImageViewer = (viewer) => {
   if (window.fetch && hasFullscreen()) {
-    const image = viewer.previousElementSibling; // better way to get this
+    const image = viewer.previousElementSibling; // TODO better way to get this
     const viewerContent = viewer.querySelector('.fullscreen-viewer-content');
-    const viewerId = viewerContent.getAttribute('id'); // TODO pass these to the function?
+    const viewerId = viewerContent.getAttribute('id');
     const imageInfoSrc = document.getElementById(viewerId).getAttribute('data-info-src');
     const enterFullscreenButton = viewer.querySelector('.js-enter-fullscreen');
     const exitFullscreenButton = viewer.querySelector('.js-exit-fullscreen');
