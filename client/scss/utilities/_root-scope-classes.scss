@@ -59,7 +59,7 @@
       &.bg-darken-hover {
         &:hover,
         &:focus {
-          background: darken(nth($color-value, 1), 10%);
+          background: darken(nth($color-value, 1), 15%);
         }
       }
     }
