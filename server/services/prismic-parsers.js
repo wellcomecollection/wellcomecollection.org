@@ -32,7 +32,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
   };
 
   const featuredImage = doc.data.featuredImage && parsePicture({ image: doc.data.featuredImage });
-  const thinVideoImage = featuredImage && parsePicture({image: doc.data.featuredImage.thinVideo}, getBreakpoint('medium'));
+  const thinVideoImage = featuredImage && parsePicture({image: doc.data.featuredImage['32:15']}, getBreakpoint('medium'));
   const squareImage = featuredImage && parsePicture({image: doc.data.featuredImage.square}, getBreakpoint('small'));
   const featuredImages = List([
     thinVideoImage,
@@ -72,7 +72,7 @@ export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
   const promo = parseImagePromo(doc.data.promo);
 
   const featuredImage = doc.data.featuredImage && parsePicture({ image: doc.data.featuredImage });
-  const thinVideoImage = featuredImage && parsePicture({image: doc.data.featuredImage.thinVideo}, getBreakpoint('medium'));
+  const thinVideoImage = featuredImage && parsePicture({image: doc.data.featuredImage['32:15']}, getBreakpoint('medium'));
   const squareImage = featuredImage && parsePicture({image: doc.data.featuredImage.square}, getBreakpoint('small'));
   const featuredImages = List([
     thinVideoImage,
