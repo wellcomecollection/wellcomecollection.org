@@ -36,7 +36,16 @@
     "featuredImage" : {
       "type" : "Image",
       "config" : {
-        "label" : "Featured image"
+        "label" : "Featured image",
+        "thumbnails" : [ {
+          "name" : "exhibition",
+          "width" : 3200,
+          "height" : 1500
+        }, {
+          "name" : "square",
+          "width" : 3200,
+          "height" : 3200
+        } ]
       }
     },
     "featuredImageMobileCrop" : {
