@@ -17,6 +17,7 @@ export type Picture = {|
   source?: ?{name?: ?string, link?: ?string};
   license?: ?LicenseType;
   copyright?: ?{holder?: string, link?: string};
+  minWidth?: ?string; // This must have a CSS unit attached
 |}
 
 export function createPicture(data: Picture): Picture {
