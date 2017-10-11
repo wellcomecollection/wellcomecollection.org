@@ -38,7 +38,7 @@ export const series = List([
       ({
         contentType: 'article',
         headline: 'Plant portraits',
-        url: '/articles/WcI28ysAAGxmAdVX',
+        url: '/articles/WaAiJycAAF2MuN0M',
         description: '',
         datePublished: new Date('2017-10-05'),
         thumbnail: {
