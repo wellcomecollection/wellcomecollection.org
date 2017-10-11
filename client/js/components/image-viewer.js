@@ -2,10 +2,9 @@ import { hasFullscreen, enterFullscreen, exitFullscreen } from '../util';
 import OpenSeadragon from 'openseadragon';
 
 // interface changes
-// improve no js styling for entire page
-// tidy js function / utilise fastdom
 // cross browser checks
 
+// tidy js function / utilise fastdom
 // tracking on other gestures, and/or fullscreen open (and action that initiated it)
 
 function setupViewer(imageInfoSrc, viewer, viewerId) {

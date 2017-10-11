@@ -4,24 +4,21 @@
 {% set commonBtnTracking = '"category": "component", "label": "id:' + data.id + ', title:' + data.trackTitle + '"' %}
 <div class="js-fullscreen-viewer fullscreen-viewer">
 
-  {% component 'button-button', {text: 'View larger image', icon: 'actions/expand', modifierClasses: buttonFontClasses + buttonSpacingClasses + ' btn--dark fullscreen-viewer__launch-button js-enter-fullscreen', eventTracking: '{' + commonBtnTracking + ', "action": "work-enter-fullscreen-button:click"}' } %}
+  {% component 'button-button', {text: 'View larger image', icon: 'actions/expand', modifierClasses: buttonFontClasses + ' ' + buttonSpacingClasses + ' fullscreen-viewer__launch-button js-enter-fullscreen', eventTracking: '{' + commonBtnTracking + ', "action": "work-enter-fullscreen-button:click"}' } %}
 
   <div class="fullscreen-viewer-content" id="{{viewerId}}" data-info-src="{{model.imageUrl | convertImageUri(full, false) | convertIiifUriToInfoUri}}">
     <div class="fullscreen-viewer__controls flex flex-end flex--v-center">
-      {% component 'button-button', {text: 'Exit fullscreen', icon: 'actions/clear', modifierClasses: buttonFontClasses + buttonSpacingClasses + ' btn--dark js-exit-fullscreen', eventTracking: '{' + commonBtnTracking + ', "action": "work-exit-fullscreen-button:click"}' } %}
+      {% component 'button-button', {text: 'Zoom in', buttonId: 'zoom-in-' + viewerId, icon: 'actions/zoom-in', modifierClasses: buttonFontClasses + ' ' + buttonSpacingClasses, eventTracking: '{' + commonBtnTracking + ', "action": "work-zoom-in-button:click"}' } %}
+
+      {% component 'button-button', {text: 'Zoom out', buttonId: 'zoom-out-' + viewerId, icon: 'actions/zoom-out', modifierClasses: buttonFontClasses + ' ' + buttonSpacingClasses, eventTracking: '{' + commonBtnTracking + ', "action": "work-zoom-out-button:click"}' } %}
+
+      {% component 'button-button', {text: 'Exit fullscreen', icon: 'actions/clear', modifierClasses: buttonFontClasses + ' ' + buttonSpacingClasses + ' btn--transparent-black js-exit-fullscreen', eventTracking: '{' + commonBtnTracking + ', "action": "work-exit-fullscreen-button:click"}' } %}
     </div>
 
     {% componentV2 'divider', null, {'charcoal': true, 'keyline': true}  %}
 
     <div class="fullscreen-viewer__image" id="image-viewer-{{viewerId}}"></div>
 
-    {% componentV2 'divider', null, {'charcoal': true, 'keyline': true}  %}
-
-    <div class="fullscreen-viewer__controls flex flex-end flex--v-center">
-      {% component 'button-button', {text: 'Zoom out', buttonId: 'zoom-out-' + viewerId, icon: 'actions/zoom-out', modifierClasses: buttonFontClasses + buttonSpacingClasses + ' btn--dark', eventTracking: '{' + commonBtnTracking + ', "action": "work-zoom-out-button:click"}' } %}
-
-      {% component 'button-button', {text: 'Zoom in', buttonId: 'zoom-in-' + viewerId, icon: 'actions/zoom-in', modifierClasses: buttonFontClasses + buttonSpacingClasses + ' btn--dark', eventTracking: '{' + commonBtnTracking + ', "action": "work-zoom-in-button:click"}' } %}
-    </div>
   </div>
 
 </div>
