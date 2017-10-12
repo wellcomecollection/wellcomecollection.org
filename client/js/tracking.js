@@ -1,6 +1,6 @@
 /* global ga */
 
-import { on } from './util';
+import { on, fullscreenchange, fullscreenEnabled } from './util';
 
 const maybeTrackEvent = (hasAnalytics) => {
   if (hasAnalytics) {
@@ -48,6 +48,18 @@ export const trackGaEvent = maybeTrackEvent(window.ga);
 
 export const trackOutboundLink = maybeTrackOutboundLinks(window.ga);
 
+
+
+    // on fullscreenChange - add method to utils for this
+    // if if ( document.fullscreen ) { - add method to utils for this
+    // {set entering else exiting}
+
+// //     trackGaEvent({
+//   category: 'component',
+//   action: `content-slider-button:${e.type}`,
+//   label: `id:${id}, type:next, to-position:${getOneIndex(moveToPosition)}, total-items:${sliderElements.slideImages.length}`
+// });
+
 export default {
   init: () => {
     // GA events
@@ -62,6 +74,17 @@ export default {
       if (isExternal(url)) {
         trackOutboundLink(url);
       }
+    });
+
+    fullscreenchange.forEach((eventName) => {
+      document.addEventListener(eventName, (event) => {
+        const status  = fullscreenEnabled() ? 'opened' : 'closed';
+        trackGaEvent({
+          category: 'component',
+          action: `fullscreen:${status}`,
+          label: `title:${document.title}, fullscreenElement:${event.target.className}`
+        });
+      });
     });
   }
 };

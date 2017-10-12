@@ -151,3 +151,8 @@ export function exitFullscreen() {
   }
 }
 
+export function fullscreenEnabled() {
+  return document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+}
+
+export const fullscreenchange = ['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange'];
