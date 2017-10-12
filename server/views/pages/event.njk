@@ -125,6 +125,14 @@
               {% componentV2 'more-info-link', {name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
             </div>
           {% endif %}
+
+          {% if event.bookingInformation %}
+            <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
+            <h2 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Booking information</h2>
+            <div class="{{ {s:'HNL4'} | fontClasses}}">
+              {{ event.bookingInformation | safe }}
+            </div>
+          {% endif %}
         </div>
 
 
