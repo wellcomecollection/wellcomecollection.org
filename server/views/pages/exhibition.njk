@@ -21,13 +21,6 @@
 
 <article>
   <div class="row relative">
-    {# TODO: Tags will probably need to be passed in from the model. Just hard-coding a link to all exhibitions (fair to assume that should be on every exhibition page) for now  #}
-    {% set tags = [{
-        text: 'Exhibition',
-        url: '/whats-on/exhibitions/all-exhibitions'
-      }]
-    %}
-
     <div class="flush-container-left absolute {{ {s:2} | spacingClasses({margin: ['top']}) }}">
       {% componentV2 'tags', tags %}
     </div>
