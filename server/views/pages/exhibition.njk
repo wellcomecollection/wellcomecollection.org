@@ -162,7 +162,7 @@
     <div class="row {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
       <div class="container">
         <div class="grid">
-          <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+          <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
             <h2 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }} flex flex--v-center {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
               {% icon 'actions/gallery_filled', null, ['margin-right-s2', 'icon--match-text'] %}Exhibition highlights
             </h2>
@@ -170,7 +170,7 @@
         </div>
         <div class="grid">
           {% for promo in exhibitionContent.relatedGalleries %}
-            <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+            <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
               <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
                 {% componentV2 'more-info-link', {name: 'View highlights', url: promo.url} %}
               </div>
@@ -189,7 +189,7 @@
       <div class="row">
         <div class="container">
           <div class="grid">
-            <div class="{{ {s:12} | gridClasses }}">
+            <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
               <h2 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }}">{{ heading }}</h2>
             </div>
           </div>
@@ -197,12 +197,16 @@
       </div>
       <div class="row">
         <div class="container container--scroll touch-scroll">
-          <div class="grid grid--scroll">
-            {% for promo in promoList %}
-              <div class="{{ gridSizes | gridClasses }}">
-                {% componentV2 promoComponent, promo,  {}, data %}
+          <div class="grid">
+            <div class="{{ {s:12, m:10, shiftM:1} | gridClasses }}">
+              <div class="grid grid--scroll">
+                {% for promo in promoList %}
+                  <div class="{{ gridSizes | gridClasses }}">
+                    {% componentV2 promoComponent, promo,  {}, data %}
+                  </div>
+                {% endfor %}
               </div>
-            {% endfor %}
+            </div>
           </div>
         </div>
       </div>
@@ -213,19 +217,29 @@
 
   <div class="row">
     <div class="container">
-      <hr class="divider divider--dashed {{ {s:5} | spacingClasses({margin: ['top']}) }}" />
+      <div class="grid">
+        <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
+          <hr class="divider divider--dashed {{ {s:5} | spacingClasses({margin: ['top']}) }}" />
+        </div>
+      </div>
     </div>
   </div>
+
 
   {{ relatedMarkup(exhibitionContent.relatedArticles, 'Read and explore', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
 
   <div class="row">
     <div class="container">
-      <hr class="divider divider--dashed {{ {s:5} | spacingClasses({margin: ['top']}) }}" />
+      <div class="grid">
+        <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
+          <hr class="divider divider--dashed {{ {s:5} | spacingClasses({margin: ['top']}) }}" />
+        </div>
+      </div>
     </div>
   </div>
 
   {{ relatedMarkup(exhibitionContent.relatedBooks, 'From the bookshop', 'book-promo', {s:12, m:6, l:6, xl:6}, {'lazyload': true, index: loop.index, total: loop.total, sizesQueries: '(min-width: 960px) 178px, 127px'}) }}
+
 </article>
 {% endblock %}
 
