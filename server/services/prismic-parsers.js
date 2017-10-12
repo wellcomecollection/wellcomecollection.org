@@ -28,7 +28,8 @@ export function parseEventDoc(doc: PrismicDoc): Event {
   const bookingEnquiryTeam = doc.data.bookingEnquiryTeam.data && {
     title: asText(doc.data.bookingEnquiryTeam.data.title),
     email: doc.data.bookingEnquiryTeam.data.email,
-    phone: doc.data.bookingEnquiryTeam.data.phone
+    phone: doc.data.bookingEnquiryTeam.data.phone,
+    url: doc.data.bookingEnquiryTeam.data.url
   };
 
   const featuredImage = doc.data.featuredImage && parsePicture({ image: doc.data.featuredImage });

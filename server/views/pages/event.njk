@@ -61,11 +61,10 @@
 
                 <div class="flex flex--v-center {{ {s: 2} | spacingClasses({margin: ['top']}) }}">
                   {% icon 'other/ticket' %}
-                  <span class="{{ {s:'HNM4', m:'HNM5', l:'HNM3', xl:'HNM2'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">
+                  <span class="{{ {s:'HNM4', m:'HNM4', l:'HNM3', xl:'HNM2'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">
                     <span class="caps">Free</span>
                     {{ ' / Drop in' if event.isDropIn }}
                     {{ ' / Booking in advance' if event.bookingEnquiryTeam }}
-
                   </span>
                 </div>
 
@@ -121,8 +120,18 @@
               <p class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{{s:'HNL4'} | fontClasses}}">Places are free but limited.</p>
             </div>
 
-            <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-              {% componentV2 'more-info-link', {name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
+            {% if event.bookingEnquiryTeam.url %}
+              <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+                {% componentV2 'more-info-link', {name: 'Find out more about ' + (event.bookingEnquiryTeam.title | lower), url: event.bookingEnquiryTeam.url} %}
+              </div>
+            {% endif %}
+          {% endif %}
+
+          {% if event.bookingInformation %}
+            <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
+            <h2 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Booking information</h2>
+            <div class="{{ {s:'HNL4'} | fontClasses}}">
+              {{ event.bookingInformation | safe }}
             </div>
           {% endif %}
         </div>
@@ -132,7 +141,7 @@
           <div class="{{ {s:12} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
             <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
 
-            <h2 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }}  {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Contributors</h2>
+            <h2 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }}  {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">The team</h2>
             <div class="grid">
               {% for contributor in event.contributors %}
                 <div class="{{ {s:12, l:6} | gridClasses }}">
@@ -140,7 +149,7 @@
                     <img class="round half-in-image person-image" src="{{ contributor.person.image | convertImageUri(300) }}" alt="" />
                     <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
                       <h3 class="{{ {s:'HNM3'} | fontClasses }} no-margin">{{ contributor.person.name }}</h3>
-                      <span class="{{ {s:'HNL3'} | fontClasses }}">{{ contributor.role.title }}</span>
+                      <span class="{{ {s:'HNL4'} | fontClasses }}">{{ contributor.role.title }}</span>
                     </div>
                     <div class="{{ {s: 'HNL4'} | fontClasses }}">
                       {{ contributor.person.description | safe }}

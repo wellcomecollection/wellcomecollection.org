@@ -86,7 +86,7 @@ export async function renderEvent(ctx, next) {
     } else {
       // TODO: add the `Part of:` tag, we don't have a way of doing this in the model
       const tags = [{
-        text: 'Event',
+        text: 'Events',
         url: 'https://wellcomecollection.org/whats-on/events/all-events'
       }].concat(event.programme ? [{
         text: event.programme.title
@@ -120,6 +120,10 @@ export async function renderExhibition(ctx, next, overrideId, gaExp) {
   const exhibitionContent = await getExhibition(id, isPreview ? ctx.request : null);
   const format = ctx.request.query.format;
   const path = ctx.request.url;
+  const tags = [{
+    text: 'Exhibitions',
+    url: '/whats-on/exhibitions/all-exhibitions'
+  }];
 
   if (exhibitionContent) {
     if (format === 'json') {
@@ -136,7 +140,8 @@ export async function renderExhibition(ctx, next, overrideId, gaExp) {
           gaExp
         }),
         exhibitionContent: exhibitionContent,
-        isPreview: isPreview
+        isPreview: isPreview,
+        tags
       });
     }
   }
