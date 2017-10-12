@@ -1,4 +1,5 @@
-<button {{ 'id='+ buttonId if buttonId }} class="btn {{ modifierClasses }} {{ {s:'HNM5'} | fontClasses }}" {{ attributes }}{% if eventTracking %} data-track-event="{{eventTracking}}"{% endif %}>
+{% set idAttr = 'id="'+ buttonId + '"' %}
+<button {{ idAttr | safe if buttonId }} class="btn {{ modifierClasses }} {{ {s:'HNM5'} | fontClasses }}" {{ attributes }}{% if eventTracking %} data-track-event="{{eventTracking}}"{% endif %}>
   {% if icon %}
     {% icon icon, null, extraIconClasses %}
   {% endif %}

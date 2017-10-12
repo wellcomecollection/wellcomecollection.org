@@ -48,18 +48,6 @@ export const trackGaEvent = maybeTrackEvent(window.ga);
 
 export const trackOutboundLink = maybeTrackOutboundLinks(window.ga);
 
-
-
-    // on fullscreenChange - add method to utils for this
-    // if if ( document.fullscreen ) { - add method to utils for this
-    // {set entering else exiting}
-
-// //     trackGaEvent({
-//   category: 'component',
-//   action: `content-slider-button:${e.type}`,
-//   label: `id:${id}, type:next, to-position:${getOneIndex(moveToPosition)}, total-items:${sliderElements.slideImages.length}`
-// });
-
 export default {
   init: () => {
     // GA events

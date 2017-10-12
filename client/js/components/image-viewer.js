@@ -6,9 +6,7 @@ import OpenSeadragon from 'openseadragon';
 function setupViewer(imageInfoSrc, viewer, viewerId) {
   if (viewer.querySelector('.openseadragon-container')) return;
   window.fetch(imageInfoSrc)
-  .then(function(response) {
-    return response.json();
-  })
+  .then(response => response.json())
   .then((response) => {
     OpenSeadragon({
       id: `image-viewer-${viewerId}`,

@@ -61,7 +61,7 @@ const init = () => {
   const copyUrlEls = document.querySelectorAll('.js-copy-url');
   const searchBoxEls = document.querySelectorAll('.js-search-box');
   const iframeContainerEls = document.querySelectorAll('.js-iframe-container');
-  const fullscreenViewers = document.querySelectorAll('.js-image-viewer-fullscreen');
+  const viewersFullscreen = document.querySelectorAll('.js-image-viewer-fullscreen');
 
   nodeList(iframeContainerEls).forEach(iframeContainer);
 
@@ -77,7 +77,7 @@ const init = () => {
 
   nodeList(scrollToInfoEls).forEach(scrollToInfo);
 
-  nodeList(fullscreenViewers).forEach((viewer) => createImageViewer(viewer));
+  nodeList(viewersFullscreen).forEach((viewer) => createImageViewer(viewer));
 
   if (mainEl) {
     gaScrollDepth(mainEl);

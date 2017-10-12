@@ -45,7 +45,6 @@
     "prismic-javascript": "^1.3.0",
     "raven": "^2.1.2",
     "rimraf": "^2.6.1",
-    "shortid": "^2.2.8",
     "superagent": "^3.6.0",
     "supertest": "^3.0.0",
     "wellcomecollection-config": "file:../config"

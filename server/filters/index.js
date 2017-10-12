@@ -7,7 +7,6 @@ import getCommissionedSeries from './get-commissioned-series';
 import getSeriesTitle from './get-series-title';
 import getViewBox from './get-viewbox';
 import gridClasses from './grid-classes';
-import generateId from './generate-id';
 import spacingClasses from './spacing-classes';
 import fontClasses from './font-classes';
 import componentClasses from './component-classes';
@@ -49,7 +48,6 @@ export default Map({
   getViewBox,
   getA11yIcon,
   gridClasses,
-  generateId,
   spacingClasses,
   fontClasses,
   concat,
