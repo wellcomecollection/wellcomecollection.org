@@ -13,7 +13,7 @@ export function getPositionInSeries(tags: {}): ?number {
 export function getPositionInPrismicSeries(headline, seriesUrl) {
   const currentSeries = series.find(s => s.url === seriesUrl);
   const item = currentSeries && currentSeries.items.find(i => i.headline === headline);
-  const itemIndex = currentSeries.items.indexOf(item);
+  const itemIndex = item && currentSeries.items.indexOf(item);
 
   return itemIndex && itemIndex + 1;
 }
