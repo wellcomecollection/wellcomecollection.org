@@ -6,5 +6,9 @@
 
   .enhanced & {
     display: flex;
+
+    @include respond-to('large') {
+      display: none;
+    }
   }
 }
