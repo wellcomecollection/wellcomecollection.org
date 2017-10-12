@@ -21,6 +21,7 @@ type EventBookingEnquiryTeam = {|
   title: string;
   email: string;
   phone: string;
+  url: string;
 |}
 
 export type Event = {|

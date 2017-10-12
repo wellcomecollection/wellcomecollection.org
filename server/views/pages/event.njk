@@ -61,11 +61,10 @@
 
                 <div class="flex flex--v-center {{ {s: 2} | spacingClasses({margin: ['top']}) }}">
                   {% icon 'other/ticket' %}
-                  <span class="{{ {s:'HNM4', m:'HNM5', l:'HNM3', xl:'HNM2'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">
+                  <span class="{{ {s:'HNM4', m:'HNM4', l:'HNM3', xl:'HNM2'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">
                     <span class="caps">Free</span>
                     {{ ' / Drop in' if event.isDropIn }}
                     {{ ' / Booking in advance' if event.bookingEnquiryTeam }}
-
                   </span>
                 </div>
 
@@ -121,9 +120,11 @@
               <p class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{{s:'HNL4'} | fontClasses}}">Places are free but limited.</p>
             </div>
 
-            <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-              {% componentV2 'more-info-link', {name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
-            </div>
+            {% if event.bookingEnquiryTeam.url %}
+              <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+                {% componentV2 'more-info-link', {name: 'Find out more about ' + (event.bookingEnquiryTeam.title | lower), url: event.bookingEnquiryTeam.url} %}
+              </div>
+            {% endif %}
           {% endif %}
 
           {% if event.bookingInformation %}
