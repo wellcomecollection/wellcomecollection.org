@@ -51,8 +51,8 @@ export const series = List([
       }: ArticleStub),
       ({
         contentType: 'article',
-        headline: 'Theriac: an ancient pharmaceutical brand?',
-        url: '/articles/Wc5IPScAACgANNYO',
+        headline: 'The poor child\'s nurse',
+        url: '/articles/WckzzigAACe3DJPD',
         description: '',
         datePublished: new Date('2017-10-12')
       }: ArticleStub),
