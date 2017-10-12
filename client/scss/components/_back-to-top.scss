@@ -5,6 +5,7 @@ $tweakpoints: (
 );
 
 .back-to-top {
+  display: none;
   position: fixed;
   bottom: 1vh;
   right: #{map-get($container-padding, 'small')};
@@ -25,6 +26,7 @@ $tweakpoints: (
   }
 
   .enhanced & {
+    display: flex;
     transition: opacity 0.25s, transform 0.25s;
     transform: scale(0) translateX($link-dimension / 2);
 

@@ -1,0 +1,63 @@
+.image-viewer-fullscreen {
+  display: none; // shown with javascript if browser has the required support
+}
+
+.image-viewer-fullscreen__content {
+  background-color: color('black');
+  width: 100vw;
+  height: 100vh;
+  display: none;
+
+  &:fullscreen {
+    display: block;
+  }
+}
+
+.image-viewer-fullscreen__controls {
+  height: 3em;
+
+  .icon {
+    margin: 0;
+
+    @include respond-to('medium') {
+      margin-right: $spacing-unit;
+    }
+  }
+
+  .btn__text {
+    display: none;
+
+    @include respond-to('medium') {
+      display: inline-block;
+    }
+  }
+}
+
+.image-viewer-fullscreen__image {
+  background: #1d1d1d;
+  width: 100%;
+  height: calc(100vh - 3em);
+}
+
+.image-viewer-fullscreen__launch-button {
+  position: absolute;
+  bottom: $v-spacing-unit*4;
+  left: 50%;
+  transform: translateX(-50%);
+
+  .icon {
+    margin: 0;
+
+    @include respond-to('medium') {
+      margin-right: $spacing-unit;
+    }
+  }
+
+  .btn__text {
+    display: none;
+
+    @include respond-to('medium') {
+      display: inline-block;
+    }
+  }
+}
