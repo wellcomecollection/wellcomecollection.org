@@ -16,11 +16,11 @@ module "router" {
   deployment_minimum_healthy_percent = "50"
   deployment_maximum_percent         = "200"
 
-  loadbalancer_cloudwatch_id   = "${module.router_alb.cloudwatch_id}"
+  loadbalancer_cloudwatch_id = "${module.router_alb.cloudwatch_id}"
 
   server_error_alarm_topic_arn = "${module.alb_server_error_alarm.arn}"
   client_error_alarm_topic_arn = "${module.alb_client_error_alarm.arn}"
 
-  memory = "490"
+  memory                 = "490"
   primary_container_port = "80"
 }
