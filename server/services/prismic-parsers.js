@@ -10,6 +10,7 @@ import type {Article} from '../model/article';
 import type {Promo} from '../model/promo';
 import type {Picture} from '../model/picture';
 import {isEmptyObj} from '../util/is-empty-obj';
+import {getPositionInPrismicSeries} from '../data/series';
 
 // This is just JSON
 type PrismicDoc = Object<any>;
@@ -111,14 +112,14 @@ export function parseArticleDoc(doc: PrismicDoc): Article {
   const series = parseSeries(doc.data.series);
 
   const bodyParts = parseBody(doc.data.body);
-
+  const headline = asText(doc.data.title);
   // TODO: The whole scheduled content has some work to be getting on with
   const seriesWithCommissionedLength = series.find(series => series.commissionedLength);
-  const positionInSeries = seriesWithCommissionedLength && (seriesWithCommissionedLength.positionInSeries || 1);
+  const positionInSeries = seriesWithCommissionedLength && getPositionInPrismicSeries(headline, seriesWithCommissionedLength.url) || 1;
 
   const article: Article = {
     contentType: 'article',
-    headline: asText(doc.data.title),
+    headline: headline,
     url: url,
     datePublished: publishDate,
     thumbnail: thumbnail,
