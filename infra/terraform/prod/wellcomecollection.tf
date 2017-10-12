@@ -26,11 +26,6 @@ module "wellcomecollection" {
   infra_bucket                    = "wellcomecollection-infra"
 }
 
-module "wellcomecollection_static" {
-  source      = "../website-bucket"
-  website_uri = "static.wellcomecollection.org"
-}
-
 module "wellcomecollection_cloudformation" {
   source                          = "../cloudfront"
   wellcomecollection_ssl_cert_arn = "${var.wellcomecollection_ssl_cert_arn}"
