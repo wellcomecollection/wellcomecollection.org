@@ -54,7 +54,14 @@ export const series = List([
         headline: 'The poor child\'s nurse',
         url: '/articles/WckzzigAACe3DJPD',
         description: '',
-        datePublished: new Date('2017-10-12')
+        datePublished: new Date('2017-10-12'),
+        thumbnail: {
+          type: 'picture',
+          contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ffac9fd42-ed7f-4984-be3c-e0bb4a3aef48_syrup-feat.jpg',
+          width: 1600,
+          height: 900,
+          descrption: 'Advert for Mrs Winslow\'s Soothing Syrup'
+        }
       }: ArticleStub),
       ({
         contentType: 'article',
