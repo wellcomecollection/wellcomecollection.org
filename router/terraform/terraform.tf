@@ -20,6 +20,12 @@ data "terraform_remote_state" "wellcomecollection" {
 }
 
 provider "aws" {
-  region     = "eu-west-1"
   version = "~> 0.1"
+  region  = "eu-west-1"
+}
+
+provider "aws" {
+  version = "~> 0.1"
+  region  = "us-east-1"
+  alias   = "us-east-1"
 }

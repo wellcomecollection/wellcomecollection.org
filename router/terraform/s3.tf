@@ -5,7 +5,7 @@ resource "aws_s3_bucket" "alb-logs" {
   policy = "${data.aws_iam_policy_document.alb_logs.json}"
 
   lifecycle {
-//    prevent_destroy = true
+    //    prevent_destroy = true
   }
 
   lifecycle_rule {
