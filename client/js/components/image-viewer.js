@@ -33,8 +33,16 @@ function setupViewer(imageInfoSrc, viewer, viewerId) {
   }).catch(err => { throw err; });
 }
 
+function showViewerOnPage(viewerContent) {
+  viewerContent.style.display = 'block';
+}
+
+function hideViewerOnPage(viewerContent) {
+  viewerContent.style.display = 'none';
+}
+
 const createImageViewer = (viewer) => {
-  if (window.fetch && hasFullscreen()) {
+  if (window.fetch) {
     const image = viewer.previousElementSibling;
     const viewerContent = viewer.querySelector('.image-viewer-fullscreen__content');
     const viewerId = viewerContent.getAttribute('id');
@@ -47,22 +55,35 @@ const createImageViewer = (viewer) => {
     });
 
     image.addEventListener('dblclick', (e) => {
-      setupViewer(imageInfoSrc, viewer, viewerId);
-      enterFullscreen(viewerContent);
-      trackGaEvent({
+      const gaData = {
         category: 'component',
         action: 'work-enter-fullscreen-image:dblclick',
         label: `id:${window.location.pathname.match(/\/works\/(.+)/)[1]}, title:${document.title}`
-      });
+      };
+      setupViewer(imageInfoSrc, viewer, viewerId);
+      if (hasFullscreen()) {
+        enterFullscreen(viewerContent);
+      } else {
+        showViewerOnPage(viewerContent);
+      }
+      trackGaEvent(gaData);
     });
 
     enterFullscreenButton.addEventListener('click', (e) => {
       setupViewer(imageInfoSrc, viewer, viewerId);
-      enterFullscreen(viewerContent);
+      if (hasFullscreen()) {
+        enterFullscreen(viewerContent);
+      } else {
+        showViewerOnPage(viewerContent);
+      }
     });
 
     exitFullscreenButton.addEventListener('click', (e) => {
-      exitFullscreen(viewer);
+      if (hasFullscreen()) {
+        exitFullscreen(viewer);
+      } else {
+        hideViewerOnPage(viewerContent);
+      }
     });
   }
 };
