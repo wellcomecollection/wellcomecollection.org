@@ -1,11 +1,6 @@
 import { hasFullscreen, enterFullscreen, exitFullscreen } from '../util';
+import fastdom from '../utils/fastdom-promise';
 import OpenSeadragon from 'openseadragon';
-
-// interface changes
-// cross browser checks
-
-// tidy js function / utilise fastdom
-// tracking on other gestures, and/or fullscreen open (and action that initiated it)
 
 function setupViewer(imageInfoSrc, viewer, viewerId) {
   if (viewer.querySelector('.openseadragon-container')) return;
@@ -41,14 +36,16 @@ function setupViewer(imageInfoSrc, viewer, viewerId) {
 
 const createImageViewer = (viewer) => {
   if (window.fetch && hasFullscreen()) {
-    const image = viewer.previousElementSibling; // TODO better way to get this
+    const image = viewer.previousElementSibling;
     const viewerContent = viewer.querySelector('.fullscreen-viewer-content');
     const viewerId = viewerContent.getAttribute('id');
     const imageInfoSrc = document.getElementById(viewerId).getAttribute('data-info-src');
     const enterFullscreenButton = viewer.querySelector('.js-enter-fullscreen');
     const exitFullscreenButton = viewer.querySelector('.js-exit-fullscreen');
 
-    viewer.style.display = 'block';
+    fastdom.mutate(() => {
+      viewer.style.display = 'block';
+    });
 
     image.addEventListener('dblclick', (e) => {
       setupViewer(imageInfoSrc, viewer, viewerId);
