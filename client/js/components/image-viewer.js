@@ -1,5 +1,6 @@
 import { hasFullscreen, enterFullscreen, exitFullscreen } from '../util';
 import fastdom from '../utils/fastdom-promise';
+import { trackGaEvent } from '../tracking';
 import OpenSeadragon from 'openseadragon';
 
 function setupViewer(imageInfoSrc, viewer, viewerId) {
@@ -50,6 +51,11 @@ const createImageViewer = (viewer) => {
     image.addEventListener('dblclick', (e) => {
       setupViewer(imageInfoSrc, viewer, viewerId);
       enterFullscreen(viewerContent);
+      trackGaEvent({
+        category: 'component',
+        action: 'work-enter-fullscreen-image:dblclick',
+        label: `id:${window.location.pathname.match(/\/works\/(.+)/)[1]}, title:${document.title}`
+      });
     });
 
     enterFullscreenButton.addEventListener('click', (e) => {
