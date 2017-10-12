@@ -26,11 +26,6 @@ module "wellcomecollection" {
   infra_bucket                    = "wellcomecollection-infra"
 }
 
-module "wellcomecollection_cardigan" {
-  source      = "../website-bucket"
-  website_uri = "cardigan.wellcomecollection.org"
-}
-
 module "wellcomecollection_static" {
   source      = "../website-bucket"
   website_uri = "static.wellcomecollection.org"
