@@ -61,7 +61,7 @@ const init = () => {
   const copyUrlEls = document.querySelectorAll('.js-copy-url');
   const searchBoxEls = document.querySelectorAll('.js-search-box');
   const iframeContainerEls = document.querySelectorAll('.js-iframe-container');
-  const fullscreenViewers = document.querySelectorAll('.js-fullscreen-viewer');
+  const fullscreenViewers = document.querySelectorAll('.js-image-viewer-fullscreen');
 
   nodeList(iframeContainerEls).forEach(iframeContainer);
 

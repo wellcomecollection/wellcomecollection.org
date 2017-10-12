@@ -1,8 +1,8 @@
-.fullscreen-viewer {
+.image-viewer-fullscreen {
   display: none; // shown with javascript if browser has the required support
 }
 
-.fullscreen-viewer-content {
+.image-viewer-fullscreen__content {
   background-color: color('black');
   width: 100vw;
   height: 100vh;
@@ -13,7 +13,7 @@
   }
 }
 
-.fullscreen-viewer__controls {
+.image-viewer-fullscreen__controls {
   height: 3em;
 
   .icon {
@@ -33,13 +33,13 @@
   }
 }
 
-.fullscreen-viewer__image {
+.image-viewer-fullscreen__image {
   background: #1d1d1d;
   width: 100%;
   height: calc(100vh - 3em);
 }
 
-.fullscreen-viewer__launch-button {
+.image-viewer-fullscreen__launch-button {
   position: absolute;
   bottom: $v-spacing-unit*4;
   left: 50%;

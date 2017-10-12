@@ -37,7 +37,7 @@ function setupViewer(imageInfoSrc, viewer, viewerId) {
 const createImageViewer = (viewer) => {
   if (window.fetch && hasFullscreen()) {
     const image = viewer.previousElementSibling;
-    const viewerContent = viewer.querySelector('.fullscreen-viewer-content');
+    const viewerContent = viewer.querySelector('.image-viewer-fullscreen__content');
     const viewerId = viewerContent.getAttribute('id');
     const imageInfoSrc = document.getElementById(viewerId).getAttribute('data-info-src');
     const enterFullscreenButton = viewer.querySelector('.js-enter-fullscreen');
