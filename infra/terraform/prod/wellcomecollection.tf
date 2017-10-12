@@ -10,7 +10,7 @@ variable "platform_team_account_id" {}
 
 provider "aws" {
   region     = "eu-west-1"
-  version = "~> 0.1"
+  version = "~> 1.0"
 }
 
 module "wellcomecollection" {
@@ -24,11 +24,6 @@ module "wellcomecollection" {
   container_tag                   = "${var.container_tag}"
   platform_team_account_id        = "${var.platform_team_account_id}"
   infra_bucket                    = "wellcomecollection-infra"
-}
-
-module "wellcomecollection_cardigan" {
-  source      = "../website-bucket"
-  website_uri = "cardigan.wellcomecollection.org"
 }
 
 module "wellcomecollection_static" {
