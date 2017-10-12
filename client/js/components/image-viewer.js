@@ -55,19 +55,18 @@ const createImageViewer = (viewer) => {
     });
 
     image.addEventListener('dblclick', (e) => {
-      setupViewer(imageInfoSrc, viewer, viewerId);
       const gaData = {
         category: 'component',
         action: 'work-enter-fullscreen-image:dblclick',
         label: `id:${window.location.pathname.match(/\/works\/(.+)/)[1]}, title:${document.title}`
       };
+      setupViewer(imageInfoSrc, viewer, viewerId);
       if (hasFullscreen()) {
         enterFullscreen(viewerContent);
-        trackGaEvent(gaData);
       } else {
         showViewerOnPage(viewerContent);
-        trackGaEvent(gaData);
       }
+      trackGaEvent(gaData);
     });
 
     enterFullscreenButton.addEventListener('click', (e) => {
