@@ -40,9 +40,9 @@
                 <div class="flex flex--v-center flex--h-space-between">
                   <span class="flex flex--v-center">
                     {% icon 'other/ticket' %}
-                    <span class="{{ {s:'WB7', m:'WB6'} | fontClasses }} caps {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free</span>
+                    <span class="{{ {s:'HNM4', m:'HNM3'} | fontClasses }} caps {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free</span>
                   </span>
-                  <span class="flex flex--v-center {{ {s:'HNM4', m:'HNM4'} | fontClasses }}">
+                  <span class="flex flex--v-center {{ {s:'HNM4'} | fontClasses }}">
                     <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
                       {% set statusColor = 'icon--' + {start: exhibition.start, end: exhibition.end} | formatDateRangeWithColor %}
                       {% icon 'other/status-indicator', null, [statusColor, 'icon--match-text'] %}
