@@ -4,12 +4,13 @@ import {getForwardFill, getUnpublishedSeries} from '../model/series';
 import {getSeriesColor} from '../data/series';
 import {createNumberedList} from '../model/numbered-list';
 import {getLatestInstagramPosts} from '../services/instagram';
+import {getArticleSeries} from '../services/prismic';
 
 export const seriesNav = async(ctx, next) => {
   const {id} = ctx.params;
   const {current} = ctx.request.query;
   const seriesResponse = await getSeries(id, 6, 1);
-  const series = seriesResponse ? getForwardFill(seriesResponse) : getUnpublishedSeries(id);
+  const series = seriesResponse ? getForwardFill(seriesResponse) : await getArticleSeries(id);
   const color = getSeriesColor(id);
   const promoList = PromoListFactory.fromSeries(series);
   const items = promoList.items.toJS();
