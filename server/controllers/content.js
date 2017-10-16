@@ -114,8 +114,8 @@ export async function renderEvent(ctx, next) {
   return next();
 }
 
-export async function renderExhibition(ctx, next, overrideId, gaExp) {
-  const id = overrideId || `${ctx.params.id}`;
+export async function renderExhibition(ctx, next) {
+  const id = `${ctx.params.id}`;
   const isPreview = Boolean(ctx.params.preview);
   const exhibitionContent = await getExhibition(id, isPreview ? ctx.request : null);
   const format = ctx.request.query.format;
@@ -136,8 +136,7 @@ export async function renderExhibition(ctx, next, overrideId, gaExp) {
           inSection: 'whatson',
           category: 'publicprograms',
           contentType: 'exhibitions',
-          canonicalUri: `${ctx.globals.rootDomain}/exhibitions/${exhibitionContent.exhibition.id}`,
-          gaExp
+          canonicalUri: `${ctx.globals.rootDomain}/exhibitions/${exhibitionContent.exhibition.id}`
         }),
         exhibitionContent: exhibitionContent,
         isPreview: isPreview,
