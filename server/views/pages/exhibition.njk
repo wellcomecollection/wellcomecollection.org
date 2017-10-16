@@ -37,21 +37,21 @@
           <div class="grid">
             <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
               <div class="bg-white inline-block exhibition-hero__box {{ {l:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }} rounded-diagonal">
-                <div class="flex flex--v-center flex--h-space-between {{ {s:'HNM4', m:'HNM5', l:'HNM4'} | fontClasses }}">
+                <div class="flex flex--v-center flex--h-space-between">
                   <span class="flex flex--v-center">
                     {% icon 'other/ticket' %}
-                    <strong class="{{ {s:'WB7', l:'WB6'} | fontClasses }} caps {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free</strong>
+                    <span class="{{ {s:'HNM4', m:'HNM3'} | fontClasses }} caps {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free</span>
                   </span>
-                  <span class="flex flex--v-center">
-                    <span class="{{ {s:2} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
+                  <span class="flex flex--v-center {{ {s:'HNM4'} | fontClasses }}">
+                    <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
                       {% set statusColor = 'icon--' + {start: exhibition.start, end: exhibition.end} | formatDateRangeWithColor %}
-                      {% icon 'other/status-indicator', null, [statusColor] %}
+                      {% icon 'other/status-indicator', null, [statusColor, 'icon--match-text'] %}
                     </span>
-                    <strong>{{ {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage }}</strong>
+                    <span>{{ {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage }}</span>
                   </span>
                 </div>
-                <h1 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
-                <span class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
+                <h1 class="{{ {s:'WB5', m:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
+                <span class="{{ {s:'HNL4', m:'HNL3', l:'HNL3', xl:'HNL2'} | fontClasses }}">
                   {% if exhibition.end %}
                     <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time> – <time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
                   {% else %}
@@ -116,8 +116,8 @@
                 <a href="/download?uri={{ exhibitionContent.textAndCaptionsDocument.url }}"
                   download="{{ exhibitionContent.textAndCaptionsDocument.name }}"
                   data-track-event='{"category": "component", "action": "download-pdf:click", "label": "name:{{ exhibitionContent.textAndCaptionsDocument.name }}, url:{{ exhibitionContent.textAndCaptionsDocument.url }}"}'
-                  class="plain-link font-mint flex {{ {s:1} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses}}">
-                  <div class="{{ {s:1} | spacingClasses({margin:['right']}) }} flex flex--v-center">{% icon 'formats/pdf', null, ['icon--mint'] %}</div>
+                  class="plain-link font-elf-green font-hover-mint flex {{ {s:1} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses}}">
+                  <div class="{{ {s:1} | spacingClasses({margin:['right']}) }} flex flex--v-center">{% icon 'formats/pdf', null, ['icon--elf-green'] %}</div>
                   <span>Download exhibition texts (PDF {{ exhibitionContent.textAndCaptionsDocument.sizeInKb }}KB)</span>
                 </a>
               {% endif %}
