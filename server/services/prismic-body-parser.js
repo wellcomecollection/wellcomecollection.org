@@ -103,6 +103,7 @@ export function parseBody(content) {
         };
 
       case 'youtubeVideoEmbed':
+      case 'vimeoVideoEmbed':
         // TODO: Not this ;﹏;
         const embedUrl = slice.primary.embed.html.match(/src="([a-zA-Z0-9://.]+)?/)[1];
         return {
