@@ -21,7 +21,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
 
   aliases = [
     "wellcomecollection.org",
-    "next.wellcomecollection.net",
+    "next.wellcomecollection.org",
     "blog.wellcomecollection.org"
   ]
 
