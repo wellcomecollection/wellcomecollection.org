@@ -9,10 +9,11 @@
     "app:docker": "pm2-docker --json pm2.yml",
     "app:run": "pm2 start pm2.yml",
     "optimise:svg": "node ./optimise-svgs.js",
-    "test": "ava",
+    "test": "ava && flow",
     "test:accessibility": "pa11y",
     "test:browsers": "node ./browserstack/browserstack.js",
-    "test:typecheck:setup": "flow-typed install",
+    "test:typecheck-setup": "flow-typed install",
+    "test:typecheck-watch": "flow-bro watch",
     "test:typecheck": "flow status",
     "test:watch": "ava --watch"
   },
