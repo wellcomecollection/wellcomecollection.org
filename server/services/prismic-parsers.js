@@ -55,9 +55,9 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     description: asHtml(doc.data.description),
     featuredImage: featuredImage,
     featuredImages: featuredImages,
-    accessOptions: List(doc.data.accessOptions.map(ao => ({
+    accessOptions: List(doc.data.accessOptions.map(ao => !isEmptyDocLink(ao.accessOption) ? ({
       accessOption: { title: asText(ao.accessOption.data.title), acronym: ao.accessOption.data.acronym }
-    }))),
+    }) : null).filter(_ => _)),
     bookingEnquiryTeam: bookingEnquiryTeam,
     bookingInformation: asHtml(doc.data.bookingInformation),
     isDropIn: isDropIn,
@@ -295,4 +295,8 @@ export function asText(maybeContent) {
 
 export function asHtml(maybeContent) {
   return maybeContent && RichText.asHtml(maybeContent).trim();
+}
+
+function isEmptyDocLink(fragment) {
+  return fragment.link_type === 'Document' && !fragment.data;
 }
