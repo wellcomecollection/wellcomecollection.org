@@ -97,7 +97,7 @@
                   </span>
                 {% endif %}
                   <{{ headingLevel or 'h2'}} class="promo__title{{ ' promo__title--lead' if model.weight === 'lead' }} {{ titleFontSizes | fontClasses }}{%if model.contentType == 'work'%} text--truncate {% endif %}">
-                    {{ model.title if model.url else 'Coming soon…' }}
+                    {{ model.title if model.title else 'Coming soon…' }}
                   </{{ headingLevel or 'h2'}}>
               </div>
               {% if model.datePublished and model.contentType == 'work' %}

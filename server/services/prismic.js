@@ -7,6 +7,7 @@ import {
 import type {Promo} from '../model/promo';
 import type {Article} from '../model/article';
 import {List} from 'immutable';
+import { getContentTypeFromPrismicType } from '../model/content-type';
 
 type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
 
@@ -151,6 +152,7 @@ export async function getArticleSeries(seriesId) {
 
     return {
       url: matchingArticle ? `/articles/${matchingArticle.id}` : null,
+      contentType: matchingArticle ? getContentTypeFromPrismicType(matchingArticle.type) : null,
       thumbnail: matchingArticle ? prismicImage(matchingArticle.data.promo[0].primary.image) : null,
       headline: articleInSchedule.title,
       datePublished: articleInSchedule.publishDate
