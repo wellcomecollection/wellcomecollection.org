@@ -19,7 +19,11 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   enabled         = true
   is_ipv6_enabled = true
 
-  aliases = ["wellcomecollection.org", "next.wellcomecollection.net"]
+  aliases = [
+    "wellcomecollection.org",
+    "next.wellcomecollection.org",
+    "blog.wellcomecollection.org"
+  ]
 
   default_cache_behavior {
     allowed_methods        = ["HEAD", "GET", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
