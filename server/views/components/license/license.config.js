@@ -7,8 +7,7 @@ export const collated = true;
 
 const license = ({
   subject: 'image.jpg',
-  licenseType: 'CC0',
-  label: 'CC0'
+  licenseType: 'CC0'
 }: License);
 
 export const variants = [

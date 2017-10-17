@@ -18,6 +18,7 @@ export type ArticleSeries = {|
 |}
 
 export type Series = {|
+  id: string;
   url: string;
   name: string;
   description?: string;

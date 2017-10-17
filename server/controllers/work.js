@@ -73,7 +73,7 @@ export const work = async(ctx, next) => {
 export const search = async (ctx, next) => {
   const { query, page } = ctx.query;
   const queryString = ctx.search;
-  const results = query && query.trim() !== '' ? await getWorks(query, page, getImageIndex(ctx)) : null;
+  const results = query && query.trim() !== '' ? await getWorks(query, Number(page), getImageIndex(ctx)) : null;
   const resultsArray = results && results.results || [];
   const pageSize = results && results.pageSize;
   const totalPages = results && results.totalPages;
