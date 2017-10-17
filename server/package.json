@@ -29,7 +29,6 @@
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-env": "^1.1.8",
     "entities": "^1.1.1",
-    "flow-bro": "^0.4.1",
     "immutable": "^3.8.1",
     "interval-cache": "0.0.1",
     "koa": "^2.0.0",
@@ -60,7 +59,8 @@
     "nodemon": "^1.10.2",
     "open": "0.0.5",
     "pa11y": "^4.12.1",
-    "svgo": "^0.7.2"
+    "svgo": "^0.7.2",
+    "flow-bro": "^0.4.1"
   },
   "ava": {
     "require": [
