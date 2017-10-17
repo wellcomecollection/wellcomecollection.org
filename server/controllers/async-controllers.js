@@ -13,7 +13,7 @@ const getSeriesData = async(ctx) => {
   const promoList = PromoListFactory.fromSeries(series);
   const items = promoList.items.toJS();
   const image =  items[0].image;
-  const color = getSeriesColor(id);
+  const color = seriesResponse ? getSeriesColor(id) : series.color;
   return {
     current: ctx.request.query.current,
     model: createNumberedList({
