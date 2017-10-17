@@ -108,6 +108,7 @@ export function parseBody(content) {
         const embedUrl = slice.primary.embed.html.match(/src="([a-zA-Z0-9://.]+)?/)[1];
         return {
           type: 'video-embed',
+          weight: slice.slice_label,
           value: {
             embedUrl: embedUrl
           }

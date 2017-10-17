@@ -36,7 +36,9 @@
               {% componentV2 'captioned-image', bodyPart.value, {'has-border-bottom': bodyPart.value.caption}, {sizesQueries: sizes, showCopyright: true} %}
             </div>
           {% elif bodyPart.type === 'video-embed' %}
-            {% componentV2 'iframed-video', bodyPart.value %}
+            <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              {% componentV2 'iframed-video', bodyPart.value %}
+            </div>
           {% elif bodyPart.type === 'list' %}
             {% component 'list', {list: bodyPart.value} %}
           {% elif bodyPart.type === 'interview' %}
