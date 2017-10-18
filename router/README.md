@@ -4,6 +4,23 @@ An nginx proxy to route traffic for wellcomecollection.org
 
 This application is split into a seperate stack.
 
+
+## To run a dev version
+
+You can run a dev version by installing Nginx, and starting it with
+the router's conf file:
+
+```sh
+nginx -c /path/to/project/wellcomecollection.org/router/nginx.conf
+```
+
+If you need to test changes on the app too,
+you can then set the v2 upstream to `localhost:3000`. 
+
+
+_TODO:_ Improve dev experience.
+
+
 ## Deploying
 
 Run:
