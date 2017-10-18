@@ -1,10 +1,5 @@
-# Ignore all logfiles and tempfiles.
-/log/*
-!/log/.gitkeep
-/tmp
-npm-debug.log
-
 #ignore node modules
+npm-debug.log
 node_modules/
 
 #ignore built files
