@@ -38,7 +38,7 @@
         <div class="{{ {s:12, m:10, l:8, xl:8} | gridClasses }}">
           {% if not query %}
             <h2 class="{{ {s:'WB6', m:'WB4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ description }}</h2>
-            <p class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }}">Thousands of images and centuries of medicine, science, society and culture.</p>
+            <p class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNL3', m:'HNL2'} | fontClasses }}">Thousands of images and centuries of medicine, science, society and culture.</p>
           {% endif %}
           {% componentV2 'search-box', {id: 'search-works', action: '', name: 'query', query: query, autofocus: true} %}
           {% if not query %}
@@ -59,7 +59,7 @@
         <div class="grid">
           <div class="grid__cell">
             <h3 class="{{ {s:'WB6', m:'WB4'} | fontClasses }}">Feeling curious?</h3>
-            <p>Discover our collections through these topics.</p>
+            <p class="{{ {s:'HNL3', m:'HNL2'} | fontClasses }}">Discover our collections through these topics.</p>
             {% componentV2 'tags', [
               {text: 'Quacks', url: '/works?query=quack+OR+quacks', bgColor: 'turquoise-text'},
               {text: 'James Gillray', url: '/works?query=james+gillray', bgColor: 'turquoise-text'},
@@ -82,47 +82,42 @@
         <div class="row__wobbly-background"></div>
         <div class="grid grid--dividers">
           <div class="{{ {s: 12, m:10, l: 7, xl: 7} | gridClasses }}">
-            <h2 class="{{ {s:'WB6', m:'WB4'} | fontClasses }} {{ {s:6} | spacingClasses({margin: ['bottom']}) }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">Where do these images come from?</h2>
+            <h2 class="{{ {s:'WB6', m:'WB4'} | fontClasses }} {{ {s:6} | spacingClasses({margin: ['bottom']}) }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">Wellcome Collection – Images</h2>
             <div class="body-content">
               <div class="standfirst {{ {s:'HNL3', m:'HNL2'} | fontClasses }}">
-                <p>The artworks and photos are from the library at Wellcome Collection and have been gathered over several decades of collecting activity.</p>
+                <p>These artworks and photographs are from the library at Wellcome Collection and have been collected over several decades. </p>
               </div>
-              <p>Much of the collection was acquired during the late nineteenth and early twentieth centuries, with the aim to present issues of medical interest. There are some representations of people and cultures that today may be considered offensive or distressing. On occasion individuals are depicted as research subjects, and the collection includes some images of nakedness, medical conditions and surgical interventions.</p>
-              <p>Most of the works were acquired between 1890 and 1936 by Sir Henry Wellcome and his employed agents across the globe. The images largely reflect Wellcome’s collecting interests and were designed to form a documentary resource that reflects the cultural and historical contexts of health and medicine.</p>
-              <p>Henry Wellcome had a personal interest in medical and ethnographical objects and the objects, artworks and photographs he collected were initially presented in the Wellcome Historical Medical Museum. Over the subsequent decades the library and its collections developed to become the Wellcome Collection as it is now: a free museum and library exploring health, life and our place in the world.</p>
-              <p>Many of the images on this site were digitised during the 1990sand first made available online in 2002. Recent developments to the site have made these images more easily discoverable, but have also brought to the surface legacy issues such as the sensitive nature some of the content, and the poor quality of some of the early digitisation. As we aim to make more images from the library collections available over the coming months, we have planned a programme of work to enable us to identify and consider these issues in a systematic and consistent manner We would like to include a range a voices from inside and outside of Wellcome to assist us with this. If you would like to get involved and have information about an image which might help us to understand it better, please email <a href="mailto:collections@wellcome.ac.uk">collections@wellcome.ac.uk</a>.</p>
-              <p>Visit the pages below for more information about the history of Sir Henry Wellcome, Wellcome Collection and Wellcome Library.</p>
-            </div>
 
-            <div class="{{ {s:6, l:0} | spacingClasses({margin: ['bottom']}) }}">
-              <div>
-                {% componentV2 'more-info-link', {name: 'History of Wellcome', url: 'https://wellcome.ac.uk/about-us/history-wellcome'} %}
-              </div>
-              <div>
-                {% componentV2 'more-info-link', {name: 'Introducing Henry Wellcome', url: 'https://wellcomecollection.org/what-we-do/introducing-henry-wellcome'} %}
-              </div>
-              <div>
-                {% componentV2 'more-info-link', {name: 'History of Wellcome Library', url: 'https://wellcomelibrary.org/what-we-do/history-of-wellcome-library/'} %}
-              </div>
+              <p>Most of the works were acquired between 1890 and 1936 by Sir Henry Wellcome and his agents across the globe. The images reflect Wellcome’s collecting interests and were intended to form a documentary resource that reflects the cultural and historical contexts of health and medicine.</p>
+
+              <p>You may find some of these representations of people and cultures offensive or distressing. On occasion individuals are depicted as research subjects, and the collection includes images of nakedness, medical conditions and surgical interventions.</p>
+
+              <p>Wellcome had a personal interest in medical and ethnographic objects and the objects, artworks and photographs he collected were initially presented in the Wellcome Historical Medical Museum. Over the subsequent decades the library and its collections developed to become Wellcome Collection as it now is: a free museum and library exploring health, life and our place in the world.</p>
+
+              <p>Many of the images on this site were digitised during the 1990s, and first made available online in 2002. Recent developments to the site have made these images more easily discoverable, but have also made the sensitive nature of some content more visible, and revealed the poor quality of some of the early digitisation.</p>
+
+              <p>As we make more images from our collections available over the coming months, we will identify and consider these issues in a systematic and consistent manner. We want to include a range of voices from inside and outside Wellcome Collection to help us with this. If you would like to get involved or have information about an image which might help us to understand it better, please email <a href="mailto:collections@wellcome.ac.uk">collections@wellcome.ac.uk</a>.</p>
+
+              <p>Please visit the pages below for more information about the history of Sir Henry Wellcome, Wellcome Collection and Wellcome Library.</p>
             </div>
           </div>
           <div class="{{ {s: 12, m: 8, l: 5, xl: 5} | gridClasses }}">
-            {% set henryImage = {
-              type: 'picture',
-              contentUrl: 'https://s3-eu-west-1.amazonaws.com/miro-images-public/V0027000/V0027772.jpg',
-              width: 1600,
-              height: 1068,
-              caption: 'Sir Henry Solomon Wellcome',
-              alt: 'Portrait of Henry Wellcome',
-              title: 'Sir Henry Solomon Wellcome. Photograph by Lafayette Ltd',
-              source: {
-                name: 'Wellcome Collection',
-                link: 'https://wellcomecollection.org/works/a2d9ywt8'
-              },
-              copyright: {}
-            } %}
             {% componentV2 'captioned-image', henryImage, null, {showCopyright: true} %}
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row bg-cream {{ {s:10}  | spacingClasses({padding: ['bottom']}) }}">
+      <div class="container container--scroll container--scroll-cream touch-scroll">
+        <div class="grid grid--scroll">
+
+          {% for promo in promos %}
+            <div class="grid__cell">
+              {% componentV2 'promo', promo, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(33.24vw - 43px), calc(66.79vw - 18px)'} %}
+            </div>
+          {% endfor %}
+
         </div>
       </div>
     </div>

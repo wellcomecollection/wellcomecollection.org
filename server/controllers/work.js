@@ -4,6 +4,7 @@ import {getWork, getWorks} from '../services/wellcomecollection-api';
 import {createResultsList} from '../model/results-list';
 import {PaginationFactory} from '../model/pagination';
 import {isFlagEnabled, getFlagValue} from '../util/flag-status';
+import {worksLandingPromos, henryImage} from '../data/works';
 
 function imageUrlFromMiroId(id) {
   const cleanedMiroId = id.match(/(^\w{1}[0-9]*)+/g, '')[0];
@@ -96,7 +97,9 @@ export const search = async (ctx, next) => {
     resultsList,
     query,
     pagination,
-    queryString
+    queryString,
+    promos: worksLandingPromos,
+    henryImage: henryImage
   });
   return next();
 };
