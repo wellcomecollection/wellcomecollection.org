@@ -111,8 +111,11 @@
             {% set team = event.bookingEnquiryTeam %}
 
             <div>
-              <a class="btn btn--full-width-s font-HNM5-s" href="mailto:{{team.email}}?subject=Booking for {{ event.title }}">{% icon 'other/ticket', null, ['icon--teal'] %}Enquire to book</a>
-              <p class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{{s:'HNL4'} | fontClasses}}">or call <a href="tel:{{ team.phone }}">{{ team.phone }}</a></p>
+              <a class="btn btn--full-width-s font-HNM5-s" href="mailto:{{team.email}}?subject=Booking for {{ event.title }}">{% icon 'other/ticket', null, ['icon--teal'] %}Email to book</a>
+              <p class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{{s:'HNL4'} | fontClasses}}">
+                Email <a href="mailto:{{team.email}}?subject=Booking for {{ event.title }}">{{ team.email }}</a>
+                or call {{ team.phone }}
+              </p>
               <p class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{{s:'HNL4'} | fontClasses}}">Places are free but limited.</p>
             </div>
 
