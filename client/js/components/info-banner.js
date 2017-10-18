@@ -1,9 +1,9 @@
 import cookie from 'cookie-cutter';
-const cookieName = 'cookies_accepted';
 
-const cookieNotification = (el) => {
+const infoBanner = (el) => {
+  const cookieName = el.getAttribute('data-cookie-name');
   const isAccepted = cookie.get(cookieName);
-  const closeButton = document.getElementById('cookie-notification-close');
+  const closeButton = el.querySelector('.js-info-banner-close');
 
   if (isAccepted) {
     el.parentNode.removeChild(el);
@@ -11,12 +11,12 @@ const cookieNotification = (el) => {
     return;
   }
 
-  el.classList.add('cookie-notification--is-visible');
+  el.classList.remove('is-hidden');
 
   closeButton.addEventListener('click', (event) => {
     event.preventDefault();
 
-    el.classList.add('cookie-notification--is-faded');
+    el.classList.add('is-hidden');
 
     cookie.set(cookieName, 'true', {
       path: '/',
@@ -25,4 +25,4 @@ const cookieNotification = (el) => {
   });
 };
 
-export default cookieNotification;
+export default infoBanner;

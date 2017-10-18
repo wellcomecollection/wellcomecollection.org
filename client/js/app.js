@@ -11,8 +11,8 @@ import headerBurger from './components/header/burger';
 import headerSearch from './components/header/search';
 import openingHours from './components/opening-hours';
 import wobblyEdge from './components/wobbly-edge';
-import cookieNotification from './components/cookie-notification';
-import makeSticky from './components/make-sticky.js';
+import infoBanner from './components/info-banner';
+import makeSticky from './components/make-sticky';
 import instagram from './components/instagram';
 import asynContent from './components/async-content';
 import contentSlider from './components/content-slider';
@@ -44,7 +44,6 @@ const init = () => {
   tracking.init();
   fontObserver.init();
 
-  const cookieEl = document.getElementById('cookie-notification');
   const burgerEl = document.querySelector('.js-header-burger');
   const headerSearchEl = document.getElementById('header-search');
   const openingHoursEls = document.querySelectorAll('.js-opening-hours');
@@ -62,6 +61,9 @@ const init = () => {
   const searchBoxEls = document.querySelectorAll('.js-search-box');
   const iframeContainerEls = document.querySelectorAll('.js-iframe-container');
   const viewersFullscreen = document.querySelectorAll('.js-image-viewer-fullscreen');
+  const infoBannerEls = document.querySelectorAll('.js-info-banner');
+
+  nodeList(infoBannerEls).forEach(infoBanner);
 
   nodeList(iframeContainerEls).forEach(iframeContainer);
 
@@ -81,10 +83,6 @@ const init = () => {
 
   if (mainEl) {
     gaScrollDepth(mainEl);
-  }
-
-  if (cookieEl) {
-    cookieNotification(cookieEl);
   }
 
   if (burgerEl) {

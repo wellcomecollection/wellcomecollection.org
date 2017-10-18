@@ -26,7 +26,9 @@
 
 {% block body %}
   {% componentV2 'page-description', {title: 'Collections search'}, {'hidden': true} %}
-  {% componentV2 'info-banner', {text: "Hello Wellcome Images user, we've moved to a new home…"} %}
+
+  {# TODO: only render this markup if we've been reidrected from Wellcome Images #}
+  {% componentV2 'info-banner', {text: "Hello Wellcome Images user, we've moved to a new home…", cookieName: "wellcome_images_redirect"} %}
 
   <div class="row bg-cream
     {{ {s:3, m:5} | spacingClasses({padding: ['top']}) }}
@@ -36,7 +38,7 @@
         <div class="{{ {s:12, m:10, l:8, xl:8} | gridClasses }}">
           {% if not query %}
             <h2 class="{{ {s:'WB6', m:'WB4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ description }}</h2>
-            <p class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }}">Thousands of images and centuries of medicine, science, society and culture</p>
+            <p class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }}">Thousands of images and centuries of medicine, science, society and culture.</p>
           {% endif %}
           {% componentV2 'search-box', {id: 'search-works', action: '', name: 'query', query: query, autofocus: true} %}
           {% if not query %}
