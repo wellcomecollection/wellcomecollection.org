@@ -93,5 +93,4 @@ eventsTestMap.forEach((prismicId, drupalRoute) => {
   r.get(`/events/${drupalRoute}`, async (ctx, next) => renderEvent(ctx, next, prismicId, gaExp));
 });
 
-
 export const router = r.middleware();
