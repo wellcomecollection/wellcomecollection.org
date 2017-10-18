@@ -99,7 +99,8 @@ export const search = async (ctx, next) => {
     pagination,
     queryString,
     promos: worksLandingPromos,
-    henryImage: henryImage
+    henryImage: henryImage,
+    redirectedFrom: null // TODO: update with WI path if it's a redirect
   });
   return next();
 };

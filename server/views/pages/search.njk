@@ -27,8 +27,9 @@
 {% block body %}
   {% componentV2 'page-description', {title: 'Collections search'}, {'hidden': true} %}
 
-  {# TODO: only render this markup if we've been reidrected from Wellcome Images #}
-  {% componentV2 'info-banner', {text: "Hello Wellcome Images user, we've moved to a new home…", cookieName: "wellcome_images_redirect"} %}
+  {% if redirectedFrom %}
+    {% componentV2 'info-banner', {text: "Hello Wellcome Images user, we've moved to a new home…", cookieName: "wellcome_images_redirect"} %}
+  {% endif %}
 
   <div class="row bg-cream
     {{ {s:3, m:5} | spacingClasses({padding: ['top']}) }}
