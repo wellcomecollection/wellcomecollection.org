@@ -47,7 +47,8 @@
     color: nth($color-value, 1);
   }
 
-  .font-hover-#{$color-key}:hover {
+  .font-hover-#{$color-key}:hover,
+  .font-hover-#{$color-key}:focus {
     color: nth($color-value, 1);
   }
 
@@ -56,6 +57,11 @@
   }
 
   .border-color-#{$color-key} {
+    border-color: nth($color-value, 1);
+  }
+
+  .border-hover-color-#{$color-key}:hover,
+  .border-hover-color-#{$color-key}:focus {
     border-color: nth($color-value, 1);
   }
 }
@@ -141,6 +147,10 @@
 
 .flex--h-space-between {
   justify-content: space-between;
+}
+
+.flex-end {
+  justify-content: flex-end;
 }
 
 .pointer {

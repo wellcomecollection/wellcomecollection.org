@@ -27,19 +27,15 @@
 
     <div class="exhibition-hero exhibition-hero--restrict-width">
       {% componentV2 'picture', {
-        images: [event.featuredImage]
+        images: event.featuredImages.toJS()
       }, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
 
       <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">
-        <div class="is-hidden-m is-hidden-l is-hidden-xl">
-          {% component 'wobbly-edge', {background: 'white'} %}
-        </div>
-
         <div class="container {{ {l:0} | spacingClasses({padding: ['left']}) }}">
           <div class="grid">
             <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
               <div class="bg-white inline-block exhibition-hero__box {{ {l:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }} rounded-diagonal">
-                <div class="flex flex--v-center flex--h-space-between {{ {s:'HNM4', m:'HNM5', l:'HNM4'} | fontClasses }}">
+                <div class="flex flex--v-center flex--h-space-between {{ {s:'HNM4'} | fontClasses }}">
                   <span class="flex flex--v-center">
                     <div>{{ event.format.title }}</div>
                   </span>
@@ -57,30 +53,33 @@
                 </div>
 
 
-                <h1 class="{{ {s:'WB5', m:'WB6', l:'WB4', xl:'WB3'} | fontClasses }} {{ {s: 0} | spacingClasses({margin:['bottom', 'top']}) }}">{{ event.title }}</h1>
+                <h1 class="{{ {s:'WB5', m:'WB4', xl:'WB3'} | fontClasses }} {{ {s: 0} | spacingClasses({margin:['bottom', 'top']}) }}">{{ event.title }}</h1>
 
                 <div class="flex flex--v-center {{ {s: 2} | spacingClasses({margin: ['top']}) }}">
                   {% icon 'other/ticket' %}
-                  <strong class="{{ {s:'WB7', l:'WB6'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">
+                  <span class="{{ {s:'HNM4', m:'HNM3', xl:'HNM2'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">
                     <span class="caps">Free</span>
                     {{ ' / Drop in' if event.isDropIn }}
-                  </strong>
+                    {{ ' / Booking in advance' if event.bookingEnquiryTeam }}
+                  </span>
                 </div>
 
-                <span class="flex {{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['top']}) }}">
+                <span class="flex {{ {s:'HNM4', m:'HNM3', xl:'HNM2'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['top']}) }}">
                   <div>
                     {% icon 'other/calendar' %}
                   </div>
                   <div class="{{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">
                     {% for dateRange in event.when.toJS() %}
                       {% set formattedDateRange = dateRange.start | formatAndDedupeOnDate(dateRange.end) %}
-                      <div class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
+                      <div>
                         <time>
                           {{ formattedDateRange | joinDateStrings }}
                         </time>
 
                         {% if (formattedDateRange.size === 1) %}
-                          <div><time>{{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | joinDateStrings }}</time></div>
+                          <div class="{{ {s:'HNL4', m:'HNL3', xl:'HNL2'} | fontClasses }}">
+                            <time>{{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | joinDateStrings }}</time>
+                          </div>
                         {% endif %}
                       </div>
                     {% endfor %}
@@ -117,8 +116,18 @@
               <p class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{{s:'HNL4'} | fontClasses}}">Places are free but limited.</p>
             </div>
 
-            <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-              {% componentV2 'more-info-link', {name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
+            {% if event.bookingEnquiryTeam.url %}
+              <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+                {% componentV2 'more-info-link', {name: 'Find out more about ' + (event.bookingEnquiryTeam.title | lower), url: event.bookingEnquiryTeam.url} %}
+              </div>
+            {% endif %}
+          {% endif %}
+
+          {% if event.bookingInformation %}
+            <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
+            <h2 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Booking information</h2>
+            <div class="{{ {s:'HNL4'} | fontClasses}}">
+              {{ event.bookingInformation | safe }}
             </div>
           {% endif %}
         </div>
@@ -128,15 +137,15 @@
           <div class="{{ {s:12} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
             <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
 
-            <h2 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Contributors</h2>
+            <h2 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }}  {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">The team</h2>
             <div class="grid">
               {% for contributor in event.contributors %}
-                <div class="{{ {l:6, xl:6} | gridClasses }}">
+                <div class="{{ {s:12, l:6} | gridClasses }}">
                   <div class="bg-cream rounded-diagonal half-in-image-container {{ {s:2} | spacingClasses({padding: ['top', 'bottom', 'left', 'right']}) }}">
                     <img class="round half-in-image person-image" src="{{ contributor.person.image | convertImageUri(300) }}" alt="" />
                     <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
                       <h3 class="{{ {s:'HNM3'} | fontClasses }} no-margin">{{ contributor.person.name }}</h3>
-                      <span class="{{ {s:'HNL3'} | fontClasses }}">{{ contributor.role.title }}</span>
+                      <span class="{{ {s:'HNL4'} | fontClasses }}">{{ contributor.role.title }}</span>
                     </div>
                     <div class="{{ {s: 'HNL4'} | fontClasses }}">
                       {{ contributor.person.description | safe }}

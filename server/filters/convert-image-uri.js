@@ -57,7 +57,15 @@ function convertPathToIiifUri(originalUriPath, iiifRoot, size) {
   return `${iiifRoot}${originalUriPath}/full/${size}${isFullSize ? '' : ','}/0/default.${format}`;
 }
 
-export default function convertImageUri(originalUri, requiredSize, useIiifOrigin) {
+export function convertIiifUriToInfoUri(originalUriPath) {
+  if (originalUriPath.startsWith('https://iiif')) {
+    return (`${originalUriPath.match(/^https:\/\/iiif\.wellcomecollection\.org\/image\/(.+?\.[a-z]{3})/)[0]}/info.json`);
+  } else {
+    return null;
+  }
+};
+
+export function convertImageUri(originalUri, requiredSize, useIiifOrigin) {
   if (originalUri) {
     const imageSrc = determineSrc(originalUri);
     const isGif = determineIfGif(originalUri);

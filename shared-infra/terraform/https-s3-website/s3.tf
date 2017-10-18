@@ -1,7 +1,5 @@
-variable "website_uri" {}
-
 data "template_file" "website_policy" {
-  template = "${file("../website-bucket/website-policy.json")}"
+  template = "${file("${path.module}/s3-website-policy.json")}"
 
   vars {
     website_uri = "${var.website_uri}"

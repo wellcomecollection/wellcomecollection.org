@@ -30,6 +30,20 @@
             "name" : "standalone",
             "display" : "Standalone"
           } ],
+          "vimeoVideoEmbed" : [ {
+            "name" : "supporting",
+            "display" : "Supporting"
+          }, {
+            "name" : "standalone",
+            "display" : "Standalone"
+          } ],
+          "youtubeVideoEmbed" : [ {
+            "name" : "supporting",
+            "display" : "Supporting"
+          }, {
+            "name" : "standalone",
+            "display" : "Standalone"
+          } ],
           "imageList" : [ {
             "name" : "featured",
             "display" : "Featured"

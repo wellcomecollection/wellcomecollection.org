@@ -10,6 +10,14 @@ export function getPositionInSeries(tags: {}): ?number {
   return chapterTag ? parseInt(chapterTag.slice(chapterString.length), 10) : null;
 }
 
+export function getPositionInPrismicSeries(headline, seriesUrl) {
+  const currentSeries = series.find(s => s.url === seriesUrl);
+  const item = currentSeries && currentSeries.items.find(i => i.headline === headline);
+  const itemIndex = item && currentSeries.items.indexOf(item);
+
+  return itemIndex && itemIndex + 1;
+}
+
 export function getSeriesColor(seriesUrl: string): ?string {
   const lookup = {
     'electric-sublime': 'turquoise',
@@ -38,7 +46,7 @@ export const series = List([
       ({
         contentType: 'article',
         headline: 'Plant portraits',
-        url: '/articles/WcI28ysAAGxmAdVX',
+        url: '/articles/WaAiJycAAF2MuN0M',
         description: '',
         datePublished: new Date('2017-10-05'),
         thumbnail: {
@@ -51,10 +59,17 @@ export const series = List([
       }: ArticleStub),
       ({
         contentType: 'article',
-        headline: 'The Poor Child\'s Nurse',
-        url: '',
+        headline: 'The poor child\'s nurse',
+        url: '/articles/WckzzigAACe3DJPD',
         description: '',
-        datePublished: new Date('2017-10-12')
+        datePublished: new Date('2017-10-12'),
+        thumbnail: {
+          type: 'picture',
+          contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ffac9fd42-ed7f-4984-be3c-e0bb4a3aef48_syrup-feat.jpg',
+          width: 1600,
+          height: 900,
+          descrption: 'Advert for Mrs Winslow\'s Soothing Syrup'
+        }
       }: ArticleStub),
       ({
         contentType: 'article',

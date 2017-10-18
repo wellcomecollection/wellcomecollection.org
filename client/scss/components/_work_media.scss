@@ -1,18 +1,21 @@
 .work-media {
   position: relative;
-  height: 80vh;
 
   .image {
-    max-height: 80vh;
+    min-height: 200px;
+    max-height: calc(100vh - 120px);
     width: auto;
     height: auto;
-    max-width: 100%;
+    max-width: 800px;
     margin: 0 auto;
-    display: block;
     padding: 10 * $spacing-unit;
 
     .enhanced & {
       padding: 0;
+    }
+
+    @include respond-to(medium) {
+      max-height: calc(100vh - 140px);
     }
 
     @supports (object-fit: contain) {
@@ -20,6 +23,10 @@
       height: 100%;
       object-fit: contain;
     }
+  }
+
+  .image--noscript {
+    display: block;
   }
 }
 
@@ -33,10 +40,6 @@
   pointer-events: none;
 
   .enhanced & {
-    opacity: 0;
-  }
-
-  &.is-active {
     opacity: 1;
   }
 }

@@ -21,6 +21,7 @@ type EventBookingEnquiryTeam = {|
   title: string;
   email: string;
   phone: string;
+  url: string;
 |}
 
 export type Event = {|
@@ -32,6 +33,7 @@ export type Event = {|
   subtitle: ?HTMLString;
   description: ?HTMLString;
   featuredImage: ?Picture;
+  featuredImages: List<Picture>;
   accessOptions: List<{
     accessOption: EventAccessOption;
     designer: Person;
@@ -39,9 +41,6 @@ export type Event = {|
   bookingEnquiryTeam: ?EventBookingEnquiryTeam;
   bookingInformation: ?HTMLString;
   isDropIn: boolean,
-  contributors: List<{
-    role: Contributor;
-    person: Person;
-  }>;
+  contributors: List<Contributor>;
   promo: ?ImagePromo;
 |}

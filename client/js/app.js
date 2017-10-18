@@ -17,6 +17,7 @@ import instagram from './components/instagram';
 import asynContent from './components/async-content';
 import contentSlider from './components/content-slider';
 import gaScrollDepth from '../libs/ga-scroll-depth';
+import createImageViewer from './components/image-viewer';
 import joinCohort from './components/join-cohort';
 import gifVideo from './components/gif-video';
 import tracking from './tracking';
@@ -27,7 +28,6 @@ import sortSearch from './components/sort-search';
 import backToTop from './components/back-to-top';
 import toggleShowHide from './components/toggle-show-hide';
 import scrollToInfo from './components/scroll-to-info';
-import workMediaControls from './components/work-media-controls';
 import copyUrl from './components/copy-url';
 import searchBox from './components/search-box';
 import iframeContainer from './components/iframe-container';
@@ -58,18 +58,16 @@ const init = () => {
   const backToTopEl = document.querySelector('.js-back-to-top');
   const toggleShowHideEls = document.querySelectorAll('.js-show-hide');
   const scrollToInfoEls = document.querySelectorAll('.js-scroll-to-info');
-  const workMediaEls = document.querySelectorAll('.js-work-media');
   const copyUrlEls = document.querySelectorAll('.js-copy-url');
   const searchBoxEls = document.querySelectorAll('.js-search-box');
   const iframeContainerEls = document.querySelectorAll('.js-iframe-container');
+  const viewersFullscreen = document.querySelectorAll('.js-image-viewer-fullscreen');
 
   nodeList(iframeContainerEls).forEach(iframeContainer);
 
   nodeList(searchBoxEls).forEach(searchBox);
 
   nodeList(copyUrlEls).forEach(copyUrl);
-
-  nodeList(workMediaEls).forEach(workMediaControls);
 
   nodeList(gifVideoEls).forEach(gifVideo);
 
@@ -78,6 +76,8 @@ const init = () => {
   nodeList(toggleShowHideEls).forEach(toggleShowHide);
 
   nodeList(scrollToInfoEls).forEach(scrollToInfo);
+
+  nodeList(viewersFullscreen).forEach((viewer) => createImageViewer(viewer));
 
   if (mainEl) {
     gaScrollDepth(mainEl);

@@ -12,10 +12,12 @@ type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
 const peopleFields = ['people.name', 'people.image', 'people.twitterHandle', 'people.description'];
 const booksFields = ['books.title', 'books.title', 'books.author', 'books.isbn', 'books.publisher', 'books.link', 'books.cover'];
 const seriesFields = ['series.name', 'series.description', 'series.color', 'series.schedule', 'series.commissionedLength'];
-const contributorFields = ['editorial-contributor-roles.title', 'event-contributor-roles'];
+const contributorFields = ['editorial-contributor-roles.title'];
 const eventFields = [
   'event-access-options.title', 'event-access-options.acronym',
   'event-booking-enquiry-teams.title', 'event-booking-enquiry-teams.email', 'event-booking-enquiry-teams.phone',
+  'event-booking-enquiry-teams.url',
+  'event-contributor-roles.title',
   'event-formats.title', 'event-programmes.title'
 ];
 
@@ -68,6 +70,7 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
 
   const ex = parseExhibitionsDoc(exhibition);
 
+  const galleryLevel = exhibition.data.galleryLevel;
   const promoList = exhibition.data.promoList;
   const relatedArticles = promoList.filter(x => x.type === 'article').map(parsePromoListItem);
   const relatedEvents = promoList.filter(x => x.type === 'event').map(parsePromoListItem);
@@ -79,7 +82,7 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
 
   return {
     exhibition: ex,
-    galleryLevel: '0',
+    galleryLevel: galleryLevel,
     textAndCaptionsDocument: textAndCaptionsDocument.url && textAndCaptionsDocument,
     relatedBooks: relatedBooks,
     relatedEvents: relatedEvents,

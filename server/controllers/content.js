@@ -59,6 +59,9 @@ async function getPreviewSession(token) {
         case 'webcomics'   : return `/preview/articles/${doc.id}`;
         case 'exhibitions' : return `/preview/exhibitions/${doc.id}`;
         case 'events' : return `/preview/events/${doc.id}`;
+        // We don't use a `/preview` prefix here.
+        // It's just a way for editors to get to the content via Prismic
+        case 'series' : return `/series/${doc.id}`;
       }
     }, '/', (err, redirectUrl) => {
       if (err) {
@@ -83,14 +86,13 @@ export async function renderEvent(ctx, next) {
     } else {
       // TODO: add the `Part of:` tag, we don't have a way of doing this in the model
       const tags = [{
-        text: 'Event',
+        text: 'Events',
         url: 'https://wellcomecollection.org/whats-on/events/all-events'
       }].concat(event.programme ? [{
         text: event.programme.title
         // TODO: link through to others of this type?
       }] : []).concat([{
-        prefix: 'Part of: ',
-        text: 'Can graphic design save your life',
+        text: 'Part of: Can Graphic Design Save Your Life',
         url: '/graphicdesign'
       }]);
 
@@ -112,12 +114,16 @@ export async function renderEvent(ctx, next) {
   return next();
 }
 
-export async function renderExhibition(ctx, next, overrideId, gaExp) {
-  const id = overrideId || `${ctx.params.id}`;
+export async function renderExhibition(ctx, next) {
+  const id = `${ctx.params.id}`;
   const isPreview = Boolean(ctx.params.preview);
   const exhibitionContent = await getExhibition(id, isPreview ? ctx.request : null);
   const format = ctx.request.query.format;
   const path = ctx.request.url;
+  const tags = [{
+    text: 'Exhibitions',
+    url: '/whats-on/exhibitions/all-exhibitions'
+  }];
 
   if (exhibitionContent) {
     if (format === 'json') {
@@ -130,11 +136,11 @@ export async function renderExhibition(ctx, next, overrideId, gaExp) {
           inSection: 'whatson',
           category: 'publicprograms',
           contentType: 'exhibitions',
-          canonicalUri: `${ctx.globals.rootDomain}/exhibitions/${exhibitionContent.exhibition.id}`,
-          gaExp
+          canonicalUri: `${ctx.globals.rootDomain}/exhibitions/${exhibitionContent.exhibition.id}`
         }),
         exhibitionContent: exhibitionContent,
-        isPreview: isPreview
+        isPreview: isPreview,
+        tags
       });
     }
   }

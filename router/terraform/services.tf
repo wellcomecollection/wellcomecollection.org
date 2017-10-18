@@ -5,7 +5,7 @@ module "router" {
   task_role_arn      = "${module.ecs_router_iam.task_role_arn}"
   template_name      = "nginx_standalone"
   vpc_id             = "${local.vpc_id}"
-  nginx_uri          = "${var.nginx_uri}"
+  nginx_uri          = "wellcome/wellcomecollection-router:${var.nginx_docker_tag}"
   listener_https_arn = "${module.router_alb.listener_https_arn}"
   listener_http_arn  = "${module.router_alb.listener_http_arn}"
   is_config_managed  = false
@@ -16,11 +16,11 @@ module "router" {
   deployment_minimum_healthy_percent = "50"
   deployment_maximum_percent         = "200"
 
-  loadbalancer_cloudwatch_id   = "${module.router_alb.cloudwatch_id}"
+  loadbalancer_cloudwatch_id = "${module.router_alb.cloudwatch_id}"
 
   server_error_alarm_topic_arn = "${module.alb_server_error_alarm.arn}"
   client_error_alarm_topic_arn = "${module.alb_client_error_alarm.arn}"
 
-  memory = "490"
+  memory                 = "490"
   primary_container_port = "80"
 }

@@ -54,11 +54,6 @@ r.get('/:preview(preview)?/exhibitions/:id', renderExhibition);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 r.get('/series/(W):id', renderSeries);
 
-// Vanity URLs - should redirect
-r.get('/graphicdesign', async (ctx, next) => {
-  return renderExhibition(ctx, next, 'WZwh4ioAAJ3usf86', 'VSiVotDVSbeOS9orRMI-Wg.1');
-});
-
 // API
 r.get('/works', search);
 r.get('/works/:id', work);

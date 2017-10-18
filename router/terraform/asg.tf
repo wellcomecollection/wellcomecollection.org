@@ -16,5 +16,5 @@ module "router_cluster_asg" {
   sns_topic_arn         = "${module.ec2_terminating_topic.arn}"
   publish_to_sns_policy = "${module.ec2_terminating_topic.publish_policy}"
 
-  alarm_topic_arn       = "${module.ec2_instance_terminating_for_too_long_alarm.arn}"
+  alarm_topic_arn = "${module.ec2_instance_terminating_for_too_long_alarm.arn}"
 }

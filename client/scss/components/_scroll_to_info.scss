@@ -1,3 +1,14 @@
 .scroll-to-info {
+  display: none;
   bottom: 4 * $spacing-unit;
+  outline: none;
+  transition: background 0.7s ease, border-color 0.7s ease, color 0.7s ease;
+
+  .enhanced & {
+    display: flex;
+
+    @include respond-to('large') {
+      display: none;
+    }
+  }
 }

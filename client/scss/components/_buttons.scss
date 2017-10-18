@@ -10,9 +10,8 @@
 
 .btn {
   display: inline-block;
-  min-width: 160px;
   min-height: 42px;
-  padding: 10px 30px;
+  padding: $v-spacing-unit $spacing-unit*2;
   color: color('white');
   background-color: color('seaweed');
   border: 2px solid color('seaweed');
@@ -38,7 +37,7 @@
   .icon {
     display: inline-block;
     vertical-align: middle;
-    margin-right: 10px;
+    margin-right: $spacing-unit;
   }
 
   .icon__shape {
@@ -74,12 +73,12 @@
 .btn--transparent-black {
   @include secondary;
   color: color('white');
-  border-color: color('transparent');
+  border-color: color('charcoal');
   background-color: color('transparent-black');
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
-    border-color: color('transparent');
+    border-color: color('white');
     background-color: color('black');
   }
 }

@@ -18,6 +18,12 @@
       "config" : {
         "label" : "Phone"
       }
+    },
+    "url" : {
+      "type" : "Text",
+      "config" : {
+        "label" : "Web address"
+      }
     }
   }
 }
