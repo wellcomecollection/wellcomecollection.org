@@ -1,33 +1,13 @@
-# Ignore all logfiles and tempfiles.
-/log/*
-!/log/.gitkeep
-/tmp
-npm-debug.log
-
 #ignore node modules
+npm-debug.log
 node_modules/
 
 #ignore built files
 dist/
-build/
+.dist/
 
 # Ignore .sass-cache
 *.sass-cache*
-
-# Ignore Mac system files
-.DS_Store
-
-# intelliJ
-wellcomecollection.org.iml
-.idea/
-
-# NPM
-package-lock.json
-
-#VS Code
-.vscode/
-
-/server/local.log
 
 /server/config/css-assets.json
 /server/config/js-assets.json
