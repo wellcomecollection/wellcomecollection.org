@@ -2,10 +2,11 @@ import Prismic from 'prismic-javascript';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import {
   parseArticleDoc, parseEventDoc, parseExhibitionsDoc, parsePromoListItem,
-  parseWebcomicDoc
+  parseWebcomicDoc, asText, prismicImage
 } from './prismic-parsers';
 import type {Promo} from '../model/promo';
 import type {Article} from '../model/article';
+import {List} from 'immutable';
 
 type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
 
@@ -127,6 +128,42 @@ export async function getArticleList(page = 1, {pageSize = 10, predicates = []} 
     totalResults: articlesList.total_results_size,
     totalPages: articlesList.total_pages
   }: PaginatedResults);
+}
+
+export async function getArticleSeries(seriesId) {
+  const prismic = await prismicApi();
+
+  const articlesSchedule = await prismic.getByID(seriesId).then(s =>  {
+    const schedule = s.data.schedule.map(a => {
+      return Object.assign({}, a, {title: asText(a.title)});
+    });
+    return Object.assign({}, s.data, {schedule});
+  });
+
+  const publishedFromSeries = await prismic.query([
+    Prismic.Predicates.at('my.articles.series.series', seriesId)
+  ]);
+
+  const scheduleItems = articlesSchedule.schedule.map(articleInSchedule => {
+    const matchingArticle = publishedFromSeries.results.find(publishedArticle => {
+      return asText(publishedArticle.data.title) === articleInSchedule.title;
+    });
+
+    return {
+      url: matchingArticle ? `/articles/${matchingArticle.id}` : null,
+      contentType: matchingArticle ? 'Article' : null,
+      thumbnail: matchingArticle ? prismicImage(matchingArticle.data.promo[0].primary.image) : null,
+      headline: articleInSchedule.title,
+      datePublished: articleInSchedule.publishDate
+    };
+  });
+
+  return Object.assign({}, {
+    name: articlesSchedule.name,
+    description: articlesSchedule.description,
+    color: articlesSchedule.color,
+    commissionedLength: articlesSchedule.commisionedLength
+  }, {items: List(scheduleItems)}, {id: seriesId});
 }
 
 export async function getSeriesAndArticles(id: string, page = 1) {

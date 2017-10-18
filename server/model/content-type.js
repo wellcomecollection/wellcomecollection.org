@@ -8,7 +8,7 @@ export type ContentType =
   | 'book'
   | 'event';
 
-const contentTypeMap = {
+const contentTypeMapWP = {
   'standard': 'article',
   'image': 'comic',
   'video': 'video',
@@ -18,6 +18,6 @@ const contentTypeMap = {
   'event': 'event'
 };
 
-export function getContentType(wpType: string): ContentType {
-  return contentTypeMap[wpType];
+export function getContentTypeFromWPType(wpType: string): ContentType {
+  return contentTypeMapWP[wpType];
 }
