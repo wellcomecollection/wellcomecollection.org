@@ -6,6 +6,7 @@ import {createNumberedList} from '../model/numbered-list';
 import {getLatestInstagramPosts} from '../services/instagram';
 import {getArticleSeries} from '../services/prismic';
 
+// Performance alert: we're having to make a call to wordpress and then if that fails, we have 2 API calls to Prismic in 'getArticleSeries' in order to get the info we need to display the series nav
 const getSeriesData = async(ctx) => {
   const {id} = ctx.params;
   const seriesResponse = await getSeries(id, 6, 1);
