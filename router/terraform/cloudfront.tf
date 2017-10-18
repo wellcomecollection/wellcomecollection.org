@@ -45,10 +45,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         whitelisted_names = [
           "WC_wpAuthToken",
           "WC_featuresCohort",
-          "*SESS*",
-
-          # A/B tests
-          "WC_graphicdesign",
+          "*SESS*", # Drupal
+          "WC_*_test", # A/B tests
         ]
       }
     }
