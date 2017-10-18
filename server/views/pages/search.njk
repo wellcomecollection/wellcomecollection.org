@@ -26,20 +26,20 @@
 
 {% block body %}
   {% componentV2 'page-description', { title: 'Collections search' }, {'hidden': true} %}
-  <div class="row bg-teal
+  <div class="row bg-cream
     {{ {s:3, m:5} | spacingClasses({padding: ['top']}) }}
     {{ {s:3, m:4, l:6} | spacingClasses({padding: ['bottom']}) }}">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:12, m:10, l:8, xl:8} | gridClasses }}">
           {% if not query %}
-            <h2 class="font-white {{ {s:'WB6', m:'WB4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ description }}</h2>
+            <h2 class="{{ {s:'WB6', m:'WB4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ description }}</h2>
           {% endif %}
           {% componentV2 'search-box', {id: 'search-works', action: '', name: 'query', query: query, autofocus: true} %}
           {% if not query %}
-            <p class="font-white {{ {s:'HNL5', m:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">Images are free to download and use under Creative Commons licences.</p>
+            <p class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">Images are free to download and use under Creative Commons licences.</p>
           {% else %}
-            <p class="font-white {{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'LR3', m:'LR2'} | fontClasses }}">
+            <p class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'LR3', m:'LR2'} | fontClasses }}">
               {{ resultsList.totalResults if resultsList.totalResults > 0 else 'No' }} results for "{{ query }}"
             </p>
           {% endif %}
@@ -54,7 +54,7 @@
         <div class="grid">
           <div class="grid__cell">
             <h3 class="{{ {s:'WB6', m:'WB4'} | fontClasses }}">Feeling curious?</h3>
-
+            <p>Discover our collections through these topics.</p>
             {% componentV2 'tags', [
               {text: 'Quacks', url: '/works?query=quack+OR+quacks', bgColor: 'turquoise-text'},
               {text: 'James Gillray', url: '/works?query=james+gillray', bgColor: 'turquoise-text'},
