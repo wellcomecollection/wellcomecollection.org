@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-./node_modules/.bin/stylelint ../client/scss/**/*.scss --fix
-./node_modules/.bin/eslint ../server ../client --fix
+./node_modules/.bin/eslint -c ./.eslintrc.json ../server ../client --fix

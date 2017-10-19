@@ -11,6 +11,10 @@
     "no-multi-str": "off",
     "flowtype/define-flow-type": "warn",
     "no-duplicate-imports": "off",
-    "import/no-duplicates": "error"
+    "import/no-duplicates": "error",
+    "space-before-function-paren": "off",
+    "no-return-assign": "off",
+    "no-return-await": "off",
+    "no-mixed-operators": "off"
   }
 }
