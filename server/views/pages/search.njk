@@ -61,17 +61,19 @@
         <div class="grid">
           <div class="grid__cell">
             <h3 class="{{ {s:'WB6', m:'WB4'} | fontClasses }}">Feeling curious?</h3>
-            <p class="{{ {s:'HNL3', m:'HNL2'} | fontClasses }}">Discover our collections through these topics.</p>
-            {% componentV2 'tags', [
-              {text: 'Quacks', url: '/works?query=quack+OR+quacks', bgColor: 'turquoise-text'},
-              {text: 'James Gillray', url: '/works?query=james+gillray', bgColor: 'turquoise-text'},
-              {text: 'Botany', url: '/works?query=botany', bgColor: 'turquoise-text'},
-              {text: 'Optics', url: '/works?query=optics', bgColor: 'turquoise-text'},
-              {text: 'Sun', url: '/works?query=sun', bgColor: 'turquoise-text'},
-              {text: 'Health', url: '/works?query=health', bgColor: 'turquoise-text'},
-              {text: 'Paintings', url: '/works?query=paintings', bgColor: 'turquoise-text'},
-              {text: 'Science', url: '/works?query=science', bgColor: 'turquoise-text'}
-            ] %}
+            <p class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNL3', m:'HNL2'} | fontClasses }}">Discover our collections through these topics.</p>
+            <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              {% componentV2 'tags', [
+                {text: 'Quacks', url: '/works?query=quack+OR+quacks', bgColor: 'turquoise-text'},
+                {text: 'James Gillray', url: '/works?query=james+gillray', bgColor: 'turquoise-text'},
+                {text: 'Botany', url: '/works?query=botany', bgColor: 'turquoise-text'},
+                {text: 'Optics', url: '/works?query=optics', bgColor: 'turquoise-text'},
+                {text: 'Sun', url: '/works?query=sun', bgColor: 'turquoise-text'},
+                {text: 'Health', url: '/works?query=health', bgColor: 'turquoise-text'},
+                {text: 'Paintings', url: '/works?query=paintings', bgColor: 'turquoise-text'},
+                {text: 'Science', url: '/works?query=science', bgColor: 'turquoise-text'}
+              ] %}
+            </div>
 
             <hr class="divider divider--dashed {{ {s:6} | spacingClasses({margin: ['bottom']}) }}" />
           </div>
