@@ -1,0 +1,16 @@
+{
+  "parser": "babel-eslint",
+  "plugins": [
+    "flowtype",
+    "import"
+  ],
+  "extends": ["standard"],
+  "rules": {
+    "semi": ["error", "always"],
+    "no-multi-spaces": "off",
+    "no-multi-str": "off",
+    "flowtype/define-flow-type": "warn",
+    "no-duplicate-imports": "off",
+    "import/no-duplicates": "error"
+  }
+}
