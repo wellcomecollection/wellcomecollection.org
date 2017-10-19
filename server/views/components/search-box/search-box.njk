@@ -1,6 +1,6 @@
 <div class="search-box js-search-box">
   <form action="{{ model.action }}">
-    {% componentV2 'input', {id: model.id, type: 'text', name: model.name, value: model.query, placeholder: 'Search images', autofocus: model.autofocus}, null, {isLabelHidden: true} %}
+    {% componentV2 'input', {id: model.id, type: 'text', name: model.name, value: model.query, placeholder: 'Search for artworks, photos and more', autofocus: model.autofocus}, null, {isLabelHidden: true} %}
     <div class="search-box__button-wrap absolute bg-elf-green">
       <button class="search-box__button line-height-1 plain-button no-padding {{ {s:'HNL3', m:'HNL2'} | fontClasses }}">
         <span class="flex flex--v-center flex--h-center">
