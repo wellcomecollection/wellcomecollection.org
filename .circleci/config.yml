@@ -7,6 +7,7 @@ jobs:
     steps:
       - checkout
       - save_cache:
+          key: repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             -  ~/wellcomecollection.org
   build:
