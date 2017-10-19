@@ -6,9 +6,9 @@ jobs:
     working_directory: ~/wellcomecollection.org
     steps:
       - checkout
-    save_cache:
-      paths:
-        -  ~/wellcomecollection.org
+      - save_cache:
+          paths:
+            -  ~/wellcomecollection.org
   build:
     docker:
       - image: node:6.10
