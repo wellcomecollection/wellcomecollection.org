@@ -35,7 +35,7 @@ jobs:
           name: Install client modules
           command: npm install
       - save_cache:
-          key: cient_modules_{{ .Environment.CIRCLE_SHA1 }}
+          key: client_modules_{{ .Environment.CIRCLE_SHA1 }}
           paths:
             -  ~/wellcomecollection.org/client/node_modules
   build:
@@ -47,6 +47,8 @@ jobs:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: server_modules_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: client_modules_{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Build client
           command: ./build-client.sh
