@@ -113,7 +113,7 @@ workflows:
   build_and_lint:
     jobs:
       - checkout_code
-      - install_server_modules
+      - install_server_modules:
           requires:
             - checkout_code
       - test:
