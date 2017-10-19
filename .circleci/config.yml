@@ -19,7 +19,7 @@ jobs:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Install server package
-        command: npm install --production
+          command: npm install --production
       - save_cache:
           key: server_modules_{{ .Environment.CIRCLE_SHA1 }}
           paths:
