@@ -157,7 +157,7 @@ jobs:
           command: ./build-cardigan.sh
 workflows:
   version: 2
-  build_and_lint:
+  build_and_deploy:
     jobs:
       - checkout_code
       - install_server_modules:
@@ -192,4 +192,3 @@ workflows:
             branches:
               only:
                 - master
-                - linter
