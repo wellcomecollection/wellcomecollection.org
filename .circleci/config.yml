@@ -90,7 +90,7 @@ jobs:
       - run:
           name: Lint
           command: ./lint.sh
-  deploy:
+  deploy_app:
     docker:
       - image: node:8.4.0
     working_directory: ~/wellcomecollection.org
@@ -112,17 +112,6 @@ jobs:
             tar -xz -C /tmp -f /tmp/docker-$VER.tgz
             mv /tmp/docker/* /usr/bin
       - run:
-          name: Install AWS CLI
-          command: |
-            # Taken from
-            # http://docs.aws.amazon.com/cli/latest/userguide/awscli-install-linux.html
-            apt-get -y -qq update
-            apt-get -y -qq install python3.4-dev
-            curl -O https://bootstrap.pypa.io/get-pip.py
-            python3.4 get-pip.py --user
-            export PATH=~/.local/bin:$PATH
-            pip install awscli --upgrade --user
-      - run:
           name: Deploy
           command: |
             # Install AWS CLI. Taken from:
@@ -141,8 +130,31 @@ jobs:
             pushd nginx-proxy && ./docker-build.sh $CIRCLE_BUILD_NUM && ./docker-push.sh $CIRCLE_BUILD_NUM && popd
             pushd router && ./docker-build.sh $CIRCLE_BUILD_NUM && ./docker-push.sh $CIRCLE_BUILD_NUM && popd
 
-            ./build-cardigan.sh
             ./build-speedtracker.sh
+  deploy_cardigan:
+    docker:
+      - image: node:8.4.0
+    working_directory: ~/wellcomecollection.org
+      steps:
+        - restore_cache:
+            key: repo_{{ .Environment.CIRCLE_SHA1 }}
+        - restore_cache:
+            key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
+        - add_ssh_keys
+        - run:
+            name: Install AWS CLI
+            command: |
+              # Taken from
+              # http://docs.aws.amazon.com/cli/latest/userguide/awscli-install-linux.html
+              apt-get -y -qq update
+              apt-get -y -qq install python3.4-dev
+              curl -O https://bootstrap.pypa.io/get-pip.py
+              python3.4 get-pip.py --user
+              export PATH=~/.local/bin:$PATH
+              pip install awscli --upgrade --user
+        - run:
+            name: Button up Cardigan
+            command: ./build-cardigan.sh
 workflows:
   version: 2
   build_and_lint:
@@ -166,7 +178,14 @@ workflows:
       - lint:
           requires:
             - checkout_code
-      - deploy:
+      - deploy_app:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+      - deploy_cardigan:
           requires:
             - test
           filters:
