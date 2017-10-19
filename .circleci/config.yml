@@ -15,6 +15,8 @@ jobs:
       - image: node:6.10
     working_directory: ~/wellcomecollection.org
     steps:
+      - restore_cache:
+          key: repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Build client
           command: ./build-client.sh
@@ -73,6 +75,8 @@ jobs:
       - image: node:latest
     working_directory: ~/wellcomecollection.org/linter
     steps:
+      - restore_cache:
+          key: repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Install deps
           command: npm install
