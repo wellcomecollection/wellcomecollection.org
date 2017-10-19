@@ -154,9 +154,7 @@ jobs:
             python3.4 get-pip.py --user
             export PATH=~/.local/bin:$PATH
             pip install awscli --upgrade --user
-      - run:
-          name: Button up Cardigan
-          command: ./build-cardigan.sh
+            ./build-cardigan.sh
 workflows:
   version: 2
   build_and_deploy:
