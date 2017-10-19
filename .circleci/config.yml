@@ -82,5 +82,10 @@ workflows:
   version: 2
   build_and_lint:
     jobs:
-      - build
-      - lint
+      - checkout_code
+      - build:
+          requires:
+            - checkout_code
+      - lint:
+          requires:
+            - checkout_code
