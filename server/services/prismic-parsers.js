@@ -51,7 +51,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     format: doc.data.format.data && ({ title: asText(doc.data.format.data.title) }: EventFormat),
     programme: doc.data.programme.data && ({ title: asText(doc.data.programme.data.title) }: EventFormat),
     when: when,
-    subtitle: asText(doc.data.subtitle),
+    intro: asText(doc.data.intro),
     description: asHtml(doc.data.description),
     featuredImage: featuredImage,
     featuredImages: featuredImages,
@@ -90,6 +90,7 @@ export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
     end: doc.data.end,
     featuredImages: featuredImages,
     featuredImage: featuredImages.first(),
+    intro: asText(doc.data.intro),
     description: asHtml(doc.data.description),
     promo: promo
   }: Exhibition);
