@@ -130,7 +130,7 @@ workflows:
       - install_server_modules:
           requires:
             - checkout_code
-      - install_server_modules:
+      - install_client_modules:
           requires:
             - checkout_code
       - build:
