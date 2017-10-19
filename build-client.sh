@@ -3,6 +3,6 @@
 set -o errexit
 
 pushd client
-  npm install
+  npm install --production
   npm run compile
 popd
