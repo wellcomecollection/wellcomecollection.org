@@ -92,7 +92,7 @@ jobs:
           command: ./lint.sh
   deploy:
     docker:
-        - image: node:8.4.0
+      - image: node:8.4.0
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
