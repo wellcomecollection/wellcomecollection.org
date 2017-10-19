@@ -101,7 +101,7 @@ jobs:
     working_directory: ~/wellcomecollection.org/linter
     steps:
       - restore_cache:
-          key: repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Install deps
           command: npm install
