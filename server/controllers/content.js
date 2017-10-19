@@ -73,8 +73,8 @@ async function getPreviewSession(token) {
   });
 }
 
-export async function renderEvent(ctx, next) {
-  const id = `${ctx.params.id}`;
+export async function renderEvent(ctx, next, overrideId, gaExp) {
+  const id = overrideId || `${ctx.params.id}`;
   const format = ctx.request.query.format;
   const isPreview = Boolean(ctx.params.preview);
   const event = await getEvent(id, isPreview ? ctx.request : null);
@@ -103,7 +103,8 @@ export async function renderEvent(ctx, next) {
           inSection: 'whatson',
           category: 'publicprograms',
           contentType: 'event',
-          canonicalUri: `${ctx.globals.rootDomain}/events/${event.id}`
+          canonicalUri: `${ctx.globals.rootDomain}/events/${event.id}`,
+          gaExp
         }),
         event: event,
         tags: tags
