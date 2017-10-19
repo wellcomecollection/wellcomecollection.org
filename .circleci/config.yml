@@ -7,25 +7,50 @@ jobs:
     steps:
       - checkout
       - save_cache:
-          key: repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
           paths:
             -  ~/wellcomecollection.org
+  install_server_modules:
+    docker:
+      - image: node:8.4.0
+    working_directory: ~/wellcomecollection.org/server
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Install server package
+        command: npm install --production
+      - save_cache:
+          key: server_modules_{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            -  ~/wellcomecollection.org/server/node_modules
+  test:
+    docker:
+      - image: node:8.4.0
+    working_directory: ~/wellcomecollection.org
+    steps:
+    - restore_cache:
+        key: repo_{{ .Environment.CIRCLE_SHA1 }}
+    - restore_cache:
+        key: server_modules_{{ .Environment.CIRCLE_SHA1 }}
+    - run:
+        name: Test server
+        command: pushd server && npm run test && popd
   build:
     docker:
       - image: node:8.4.0
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
-          key: repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: server_modules_{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Build client
           command: ./build-client.sh
       - run:
           name: Build server
           command: ./build-server.sh $CIRCLE_BUILD_NUM
-      - run:
-          name: Test server
-          command: ./test.sh server
       - add_ssh_keys
       - setup_remote_docker
       - run:
@@ -72,7 +97,7 @@ jobs:
             fi
   lint:
     docker:
-      - image: node:latest
+      - image: node:8.4.0
     working_directory: ~/wellcomecollection.org/linter
     steps:
       - restore_cache:
@@ -88,9 +113,15 @@ workflows:
   build_and_lint:
     jobs:
       - checkout_code
+      - install_server_modules
+      - test:
+          requires:
+            - checkout_code
+            - install_server_modules
       - build:
           requires:
             - checkout_code
+            - test
       - lint:
           requires:
             - checkout_code
