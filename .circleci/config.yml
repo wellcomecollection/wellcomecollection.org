@@ -18,12 +18,26 @@ jobs:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - run:
-          name: Install server package
+          name: Install server modules
           command: npm install --production
       - save_cache:
           key: server_modules_{{ .Environment.CIRCLE_SHA1 }}
           paths:
             -  ~/wellcomecollection.org/server/node_modules
+  install_client_modules:
+    docker:
+      - image: node:8.4.0
+    working_directory: ~/wellcomecollection.org/client
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Install client modules
+          command: npm install
+      - save_cache:
+          key: cient_modules_{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            -  ~/wellcomecollection.org/client/node_modules
   build:
     docker:
       - image: node:8.4.0
@@ -116,9 +130,13 @@ workflows:
       - install_server_modules:
           requires:
             - checkout_code
+      - install_server_modules:
+          requires:
+            - checkout_code
       - build:
           requires:
             - checkout_code
+            - install_client_modules
             - install_server_modules
       - test:
           requires:

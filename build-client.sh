@@ -3,6 +3,5 @@
 set -o errexit
 
 pushd client
-  npm install
   npm run compile
 popd
