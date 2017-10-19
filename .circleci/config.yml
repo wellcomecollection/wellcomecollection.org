@@ -1,11 +1,19 @@
 version: 2
 jobs:
+  checkout_code:
+    docker:
+      - image: node:6.10
+      working_directory: ~/wellcomecollection.org
+      steps:
+        - checkout
+      save_cache:
+        paths:
+          -  ~/wellcomecollection.org
   build:
     docker:
       - image: node:6.10
     working_directory: ~/wellcomecollection.org
     steps:
-      - checkout
       - run:
           name: Build client
           command: ./build-client.sh
@@ -59,3 +67,20 @@ jobs:
               ./build-cardigan.sh
               ./build-speedtracker.sh
             fi
+  lint:
+    docker:
+      - image: node:latest
+    working_directory: ~/wellcomecollection.org/linter
+    steps:
+      - run:
+          name: Install deps
+          command: npm install
+      - run:
+          name: Lint
+          command: ./lint.sh
+workflows:
+  version: 2
+  build_and_lint:
+    jobs:
+      - build
+      - lint
