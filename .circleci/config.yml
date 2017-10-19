@@ -192,4 +192,3 @@ workflows:
             branches:
               only:
                 - master
-                - linter
