@@ -114,6 +114,8 @@ workflows:
     jobs:
       - checkout_code
       - install_server_modules
+          requires:
+            - checkout_code
       - test:
           requires:
             - checkout_code
