@@ -26,6 +26,13 @@
         "label" : "End date"
       }
     },
+    "intro" : {
+      "type" : "StructuredText",
+      "config" : {
+        "label" : "Intro",
+        "multi" : "heading2"
+      }
+    },
     "description" : {
       "type" : "StructuredText",
       "config" : {

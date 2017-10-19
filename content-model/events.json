@@ -64,11 +64,11 @@
         } ]
       }
     },
-    "subtitle" : {
+    "intro" : {
       "type" : "StructuredText",
       "config" : {
         "single" : "heading2",
-        "label" : "Summary"
+        "label" : "Intro"
       }
     },
     "description" : {
