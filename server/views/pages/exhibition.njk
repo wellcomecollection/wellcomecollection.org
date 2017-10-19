@@ -75,8 +75,8 @@
     <div class="container">
       <div class="grid">
         <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-          {% if exhibition.subtitle or exhibitions.intro %}
-            {% component 'standfirst', {body: exhibition.subtitle or exhibition.intro | safe} %}
+          {% if exhibitions.intro %}
+            {% component 'standfirst', {body: exhibition.intro | safe} %}
           {% endif %}
 
           {{ exhibition.description | safe }}
