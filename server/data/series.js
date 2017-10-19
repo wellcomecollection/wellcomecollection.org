@@ -73,7 +73,7 @@ export const series = List([
       }: ArticleStub),
       ({
         contentType: 'article',
-        headline: 'Theriac: an ancient pharmaceutical brand?',
+        headline: 'Theriac: an ancient brand?',
         url: '',
         description: '',
         datePublished: new Date('2017-10-19')
