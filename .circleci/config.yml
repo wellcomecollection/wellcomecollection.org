@@ -24,18 +24,6 @@ jobs:
           key: server_modules_{{ .Environment.CIRCLE_SHA1 }}
           paths:
             -  ~/wellcomecollection.org/server/node_modules
-  test:
-    docker:
-      - image: node:8.4.0
-    working_directory: ~/wellcomecollection.org
-    steps:
-    - restore_cache:
-        key: repo_{{ .Environment.CIRCLE_SHA1 }}
-    - restore_cache:
-        key: server_modules_{{ .Environment.CIRCLE_SHA1 }}
-    - run:
-        name: Test server
-        command: pushd server && npm run test && popd
   build:
     docker:
       - image: node:8.4.0
@@ -95,6 +83,18 @@ jobs:
               ./build-cardigan.sh
               ./build-speedtracker.sh
             fi
+  test:
+    docker:
+      - image: node:8.4.0
+    working_directory: ~/wellcomecollection.org
+    steps:
+    - restore_cache:
+        key: repo_{{ .Environment.CIRCLE_SHA1 }}
+    - restore_cache:
+        key: server_modules_{{ .Environment.CIRCLE_SHA1 }}
+    - run:
+        name: Test server
+        command: pushd server && npm run test && popd
   lint:
     docker:
       - image: node:8.4.0
@@ -116,14 +116,14 @@ workflows:
       - install_server_modules:
           requires:
             - checkout_code
-      - test:
-          requires:
-            - checkout_code
-            - install_server_modules
       - build:
           requires:
             - checkout_code
-            - test
+            - install_server_modules
+      - test:
+          requires:
+            - checkout_code
+            - build
       - lint:
           requires:
             - checkout_code
