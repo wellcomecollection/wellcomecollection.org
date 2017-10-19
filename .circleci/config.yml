@@ -2,7 +2,7 @@ version: 2
 jobs:
   checkout_code:
     docker:
-      - image: node:6.10
+      - image: node:8.4.0
     working_directory: ~/wellcomecollection.org
     steps:
       - checkout
@@ -12,7 +12,7 @@ jobs:
             -  ~/wellcomecollection.org
   build:
     docker:
-      - image: node:6.10
+      - image: node:8.4.0
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
