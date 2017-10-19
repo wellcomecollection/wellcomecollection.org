@@ -206,7 +206,7 @@ export async function renderSeries(ctx, next) {
       url: `/series/${series.id}`,
       name: series.name,
       description: series.description,
-      items: List(paginatedResults.results),
+      items: List(paginatedResults.results.reverse()),
       total: paginatedResults.totalResults
     };
 
