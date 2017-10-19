@@ -3,12 +3,12 @@ jobs:
   checkout_code:
     docker:
       - image: node:6.10
-      working_directory: ~/wellcomecollection.org
-      steps:
-        - checkout
-      save_cache:
-        paths:
-          -  ~/wellcomecollection.org
+    working_directory: ~/wellcomecollection.org
+    steps:
+      - checkout
+    save_cache:
+      paths:
+        -  ~/wellcomecollection.org
   build:
     docker:
       - image: node:6.10
