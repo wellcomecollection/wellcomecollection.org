@@ -11,7 +11,7 @@
       "type" : "StructuredText",
       "config" : {
         "single" : "heading2",
-        "label" : "Summary"
+        "label" : "Subtitle"
       }
     },
     "start" : {
