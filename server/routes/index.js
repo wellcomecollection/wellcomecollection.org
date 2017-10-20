@@ -61,7 +61,6 @@ r.get('/works/:id', work);
 r.get('/articles/:slug', article);
 r.get('/articles/preview/:id', preview);
 r.get('/series/:id', series);
-r.get('/articles', articles);
 r.get('/articles', async (ctx, next) => {
   const format = ctx.query.format;
   if (format === 'archive') {
