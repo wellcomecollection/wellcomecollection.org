@@ -21,3 +21,4 @@ The project is split into multiple services, follow the `README`s within each pr
 ## Editor settings
 
 Be aware that the Sass (`.stylelintrc`) and JS (`.eslintrc.json`) lint config files – and their node module dependencies – are contained within the `client` directory. You should configure your editor to resolve the correct node modules path in order for linting to work with your editor open at the root of the project.
+
