@@ -1,13 +1,14 @@
-<div class="tags {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
-  <ul class="tags__list plain-list no-margin no-padding flex">
+<div class="tags">
+  <ul class="tags__list plain-list no-margin no-padding flex flex--wrap">
     {% for tag in model %}
-      <li class="tags__tag {{ {s:'HNL5'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['right', 'bottom']}) }} rounded-diagonal"
+      {% set isLink = tag.url %}
+      <li class="tags__tag {{ {s:'HNL5'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['right', 'bottom']}) }}"
         data-track-event='{"category": "component", "action": "tag:click", "label": "text:{{ tag.prefix + ' ' if tag.prefix }}{{ tag.text }}, url:{{ tag.url }}"}'>
-        <{{'a' if tag.url else 'div'}}
-          {% if tag.url %}href="{{ tag.url }}"{% endif %}
-          class="flex plain-link">
-          <span class="tags__inner font-white bg-{{ tag.bgColor or 'black' }} {{ {s:1} | spacingClasses({padding: ['left', 'right', 'top', 'bottom']}) }}">{{ tag.text }}</span>
-        </{{'a' if tag.url else 'div'}}>
+        <{{'a' if isLink else 'div'}}
+          {% if isLink %}href="{{ tag.url }}"{% endif %}
+          class="plain-link flex font-white bg-{{ tag.bgColor or 'black' }} {{ {s:1} | spacingClasses({padding: ['left', 'right', 'top', 'bottom']}) }} {{ {l:2} | spacingClasses({padding: ['left', 'right']}) }} rounded-diagonal">
+          {{ tag.text }}
+        </{{'a' if isLink else 'div'}}>
       </li>
     {% endfor %}
   </ul>

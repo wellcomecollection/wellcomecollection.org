@@ -2,12 +2,12 @@
   position: relative;
 
   .input {
-    padding-right: 2em;
+    padding-right: 100px;
   }
 }
 
 .search-box__clear {
-  right: $icon-dimension + ($spacing-unit * 4);
+  right: $icon-dimension + ($spacing-unit * 8);
   display: none;
 
   .search-box.is-active & {
@@ -15,6 +15,18 @@
   }
 }
 
+.search-box__button-wrap {
+  height: 100%;
+  top: 0;
+  right: 0;
+  width: 8 * $spacing-unit;
+
+  @include respond-to('medium') {
+    width: 10 * $spacing-unit;
+  }
+}
+
 .search-box__button {
-  right: $spacing-unit * 2;
+  width: 100%;
+  height: 100%;
 }

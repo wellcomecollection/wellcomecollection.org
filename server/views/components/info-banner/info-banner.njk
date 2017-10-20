@@ -1,0 +1,26 @@
+  <div class="row bg-yellow is-hidden {{ {s:3} | spacingClasses({padding: ['top', 'bottom']}) }} js-info-banner"
+    {% if model.cookieName %}data-cookie-name="{{model.cookieName}}"{% endif %}>
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+          <div class="flex flex--v-center flex--h-space-between {{ {s:'HNL5', m:'HNL4'} | fontClasses }}">
+            <div>
+              <span class="flex flex--v-center">
+                <div class="flex flex--v-center {{ {s:2} | spacingClasses({margin: ['right']}) }}">
+                  {% icon 'actions/information' %}
+                </div>
+                <p class="no-margin">{{model.text}}</p>
+              </span>
+            </div>
+            {% if model.cookieName %}
+              <div>
+                <button class="no-margin no-padding plain-button pointer js-info-banner-close">
+                  {% icon 'actions/cross', 'Close notification' %}
+                </button>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

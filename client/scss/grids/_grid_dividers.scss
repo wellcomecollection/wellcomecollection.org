@@ -20,14 +20,14 @@
       }
     }
 
-    &.grid__cell--s4:before,
+    &.grid__cell--s12:before,
     &[class*='grid__cell--shift-s']:before {
       @include respond-between('small', 'medium') {
         display: none;
       }
     }
 
-    &.grid__cell--m8:before,
+    &.grid__cell--m12:before,
     &[class*='grid__cell--shift-m']:before {
       @include respond-between('medium', 'large') {
         display: none;

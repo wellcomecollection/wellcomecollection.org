@@ -1,4 +1,5 @@
-<div id="cookie-notification" class="cookie-notification {{ {s:'HNM6', m:'HNM4'} | fontClasses }}">
+<div class="cookie-notification is-hidden {{ {s:'HNM6', m:'HNM4'} | fontClasses }} js-info-banner"
+  data-cookie-name="WC_cookiesAccepted">
   <div class="container">
     <div class="grid">
       <div class="grid__cell">
@@ -6,7 +7,7 @@
           <span class="cookie-notification__content">
             {% icon 'other/cookies' %}<p class="cookie-notification__text">Wellcome uses cookies. <a href="https://wellcome.ac.uk/about-us/terms-use#cookies">Read our policy</a>.</p>
           </span>
-          <button id="cookie-notification-close" class="cookie-notification__close">
+          <button class="cookie-notification__close js-info-banner-close">
             {% icon 'actions/cross', 'Close cookie notification' %}
           </button>
         </div>
