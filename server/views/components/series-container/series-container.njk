@@ -10,7 +10,7 @@
         <h2 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{ model.data.name }}</h2>
       </div>
       <div class="{{ {s:12, m:12, l:8} | gridClasses }}">
-        <p class="{{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{ model.data.description }}</p>
+        {% if model.data.description %}<p class="{{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{ model.data.description | prismicAsText }}</p>{% endif %}
         {% componentV2 'more-info-link', model.data | objectAssign({url: '/series/' + model.id}) %}
       </div>
     </div>

@@ -47,7 +47,6 @@ r.get('/management/manifest', async (ctx, next) => {
 // Content
 r.get('/:preview(preview)?/articles/(W):id', renderArticle);
 r.get('/explore', renderExplore);
-r.get('/explore-test', async (ctx, next) => renderExplore(ctx, next, 'explore-test'));
 r.get('/preview', setPreviewSession);
 r.get('/:preview(preview)?/events/:id', renderEvent);
 r.get('/:preview(preview)?/exhibitions/:id', renderExhibition);
