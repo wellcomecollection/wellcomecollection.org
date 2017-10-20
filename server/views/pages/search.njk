@@ -5,7 +5,7 @@
   {% set metaTitle = 'Wellcome Collection search: ' + query %}
 {% endif %}
 
-{% set description = 'Collections Search' %}
+{% set description = 'Search our images' %}
 
 {% block pageMeta %}
   {% set metaContent = {
@@ -25,7 +25,7 @@
 {% endblock %}
 
 {% block body %}
-  {% componentV2 'page-description', {title: 'Collections search'}, {'hidden': true} %}
+  {% componentV2 'page-description', {title: 'Search our images'}, {'hidden': true} %}
 
   {% if redirectedFrom %}
     {% componentV2 'info-banner', {text: "Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily", cookieName: "wellcome_images_redirect"} %}
@@ -42,8 +42,7 @@
           {% endif %}
           {% componentV2 'search-box', {id: 'search-works', action: '', name: 'query', query: query, autofocus: true} %}
           {% if not query %}
-            <p class="{{ {s:4} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNL5', m:'HNL4'} | fontClasses }}">Find over 50,000 images from historical library materials and museum objects to contemporary digital photographs.</p>
-            <p class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">Images are free to download and use under Creative Commons licences.</p>
+            <p class="{{ {s:4} | spacingClasses({margin: ['top']}) }} {{ {s:'HNL5', m:'HNL4'} | fontClasses }}">Find thousands of Creative Commons licensed images from historical library materials and museum objects to contemporary digital photographs.</p>
           {% else %}
             <p class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'LR3', m:'LR2'} | fontClasses }}">
               {{ resultsList.totalResults if resultsList.totalResults > 0 else 'No' }} results for "{{ query }}"
@@ -85,7 +84,7 @@
         <div class="row__wobbly-background"></div>
         <div class="grid grid--dividers">
           <div class="{{ {s: 12, m:10, l: 7, xl: 7} | gridClasses }}">
-            <h2 class="{{ {s:'WB6', m:'WB4'} | fontClasses }} {{ {s:6} | spacingClasses({margin: ['bottom']}) }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">Wellcome Collection – Images</h2>
+            <h2 class="{{ {s:'WB6', m:'WB4'} | fontClasses }} {{ {s:6} | spacingClasses({margin: ['bottom']}) }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">About the historical images</h2>
             <div class="body-content">
               <div class="standfirst {{ {s:'HNL3', m:'HNL2'} | fontClasses }}">
                 <p>These artworks and photographs are from the library at Wellcome Collection and have been collected over several decades. </p>

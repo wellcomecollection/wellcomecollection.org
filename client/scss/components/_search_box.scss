@@ -19,7 +19,11 @@
   height: 100%;
   top: 0;
   right: 0;
-  width: 10 * $spacing-unit;
+  width: 8 * $spacing-unit;
+
+  @include respond-to('medium') {
+    width: 10 * $spacing-unit;
+  }
 }
 
 .search-box__button {
