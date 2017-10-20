@@ -31,7 +31,7 @@
     "entities": "^1.1.1",
     "flow-bin": "^0.57.3",
     "flow-typed": "^2.2.0",
-    "immutable": "^3.8.1",
+    "immutable": "^4.0.0-rc.9",
     "interval-cache": "0.0.1",
     "koa": "^2.0.0",
     "koa-router": "^7.1.0",

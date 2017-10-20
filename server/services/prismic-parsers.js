@@ -98,9 +98,10 @@ export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
   return exhibition;
 }
 
-export function getPositionInPrismicSeries(seriesId, seriesList) {
-  return seriesList.find((s) => s.series.id === seriesId).positionInSeries;
-};
+export function getPositionInPrismicSeries(seriesId: string, seriesList: List<number>): ?number {
+  const maybeSeries = seriesList.find((s) => s.series.id === seriesId);
+  return maybeSeries && maybeSeries.positionInSeries;
+}
 
 export function parseArticleDoc(doc: PrismicDoc): Article {
   // TODO : construct this not from strings
