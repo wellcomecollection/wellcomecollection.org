@@ -4,7 +4,8 @@ import {getForwardFill} from '../model/series';
 import {getSeriesColor} from '../data/series';
 import {createNumberedList} from '../model/numbered-list';
 import {getLatestInstagramPosts} from '../services/instagram';
-import {getArticleSeries} from '../services/prismic';
+import {getArticleSeries, getSeriesAndArticles} from '../services/prismic';
+import {PromoFactory} from '../model/promo';
 
 // Performance alert: we're having to make a call to wordpress and then if that fails, we have 2 API calls to Prismic in 'getArticleSeries' in order to get the info we need to display the series nav
 const getSeriesData = async(ctx) => {
@@ -84,11 +85,11 @@ export const latestInstagramPosts = async(ctx, next) => {
 
 export const seriesContainerPromoList = async(ctx, next) => {
   const {id} = ctx.params;
-  const series = await getSeries(id, 8, {page: 1});
-  const promos = PromoListFactory.fromSeries(series);
+  const series = await getSeriesAndArticles(id);
+  const promos = series.paginatedResults.results.map(PromoFactory.fromArticleStub);
 
   ctx.render('components/series-container/promos-list', {
-    promos: promos.items.toJS()
+    promos: promos
   });
 
   ctx.body = {
