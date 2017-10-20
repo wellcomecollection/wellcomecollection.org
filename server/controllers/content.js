@@ -157,11 +157,11 @@ export const renderEventbriteEmbed = async(ctx, next) => {
   return next();
 };
 
-export async function renderExplore(ctx, next, curatedListUid = 'explore') {
+export async function renderExplore(ctx, next) {
   // TODO: Remove WP content
   const contentListPromise = getArticleList();
 
-  const listRequests = [getCuratedList(curatedListUid), contentListPromise];
+  const listRequests = [getCuratedList('explore'), contentListPromise];
   const [curatedList, contentList] = await Promise.all(listRequests);
 
   const contentPromos = contentList.results.map(PromoFactory.fromArticleStub);
