@@ -98,7 +98,7 @@ export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
   return exhibition;
 }
 
-export function getPositionInPrismicSeries(seriesId: string, seriesList: List<number>): ?number {
+export function getPositionInPrismicSeries(seriesId: string, seriesList: PrismicDocFragment): ?number {
   const maybeSeries = seriesList.find((s) => s.series.id === seriesId);
   return maybeSeries && maybeSeries.positionInSeries;
 }
