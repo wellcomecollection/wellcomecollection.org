@@ -2,7 +2,7 @@ import Prismic from 'prismic-javascript';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import {
   parseArticleDoc, parseEventDoc, parseExhibitionsDoc, parsePromoListItem,
-  parseWebcomicDoc, asText, prismicImage
+  parseWebcomicDoc, asText, prismicImage, getPositionInPrismicSeries
 } from './prismic-parsers';
 import type {Promo} from '../model/promo';
 import type {Article} from '../model/article';
@@ -133,12 +133,13 @@ export async function getArticleList(page = 1, {pageSize = 10, predicates = []} 
 export async function getArticleSeries(seriesId) {
   const prismic = await prismicApi();
 
-  const articlesSchedule = await prismic.getByID(seriesId).then(s =>  {
-    const schedule = s.data.schedule.map(a => {
-      return Object.assign({}, a, {title: asText(a.title)});
-    });
-    return Object.assign({}, s.data, {schedule});
+  const series = await prismic.getByID(seriesId);
+
+  const schedule = series.data.schedule.map(a => {
+    return Object.assign({}, a, {title: asText(a.title)});
   });
+
+  const articlesSchedule = Object.assign({}, series.data, {schedule});
 
   const publishedFromSeries = await prismic.query([
     Prismic.Predicates.at('my.articles.series.series', seriesId)
@@ -154,7 +155,9 @@ export async function getArticleSeries(seriesId) {
       contentType: matchingArticle ? 'Article' : null,
       thumbnail: matchingArticle ? prismicImage(matchingArticle.data.promo[0].primary.image) : null,
       headline: articleInSchedule.title,
-      datePublished: articleInSchedule.publishDate
+      datePublished: articleInSchedule.publishDate,
+      series: [series.data],
+      positionInSeries: matchingArticle ? getPositionInPrismicSeries(series.id, matchingArticle.data.series) : null
     };
   });
 

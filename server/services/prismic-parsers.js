@@ -97,8 +97,8 @@ export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
   return exhibition;
 }
 
-function getPositionInPrismicSeries(series, doc) {
-  return doc.data.series.find((s) => s.series.id === series[0].id).positionInSeries;
+export function getPositionInPrismicSeries(seriesId, seriesList) {
+  return seriesList.find((s) => s.series.id === seriesId).positionInSeries;
 };
 
 export function parseArticleDoc(doc: PrismicDoc): Article {
@@ -119,7 +119,7 @@ export function parseArticleDoc(doc: PrismicDoc): Article {
   const headline = asText(doc.data.title);
   // TODO: The whole scheduled content has some work to be getting on with
   const seriesWithCommissionedLength = series.find(series => series.commissionedLength);
-  const positionInSeries = seriesWithCommissionedLength && getPositionInPrismicSeries(series, doc) || null;
+  const positionInSeries = seriesWithCommissionedLength && getPositionInPrismicSeries(series[0].id, doc.data.series) || null;
 
   const article: Article = {
     contentType: 'article',
