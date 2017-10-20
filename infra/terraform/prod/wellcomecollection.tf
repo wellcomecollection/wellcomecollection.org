@@ -26,14 +26,6 @@ module "wellcomecollection" {
   infra_bucket                    = "wellcomecollection-infra"
 }
 
-module "wellcomecollection_cloudformation" {
-  source                          = "../cloudfront"
-  wellcomecollection_ssl_cert_arn = "${var.wellcomecollection_ssl_cert_arn}"
-  website_uri                     = "${var.website_uri}"
-  dns_name                        = "${module.wellcomecollection.dns_name}"
-  alb_id                          = "${module.wellcomecollection.alb_id}"
-}
-
 output "vpc_id" {
   value = "${module.wellcomecollection.vpc_id}"
 }

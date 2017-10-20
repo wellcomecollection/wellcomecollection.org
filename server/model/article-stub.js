@@ -1,7 +1,7 @@
 // @flow
 import entities from 'entities';
 import type {ContentType} from './content-type';
-import { getContentType } from './content-type';
+import { getContentTypeFromWPType } from './content-type';
 import type {Picture} from './picture';
 import type {ArticleSeries} from './series';
 import { getSeriesCommissionedLength, getPositionInSeries, getSeriesColor } from '../data/series';
@@ -19,7 +19,7 @@ export type ArticleStub = {|
 export class ArticleStubFactory {
   static fromWpApi(json): ArticleStub {
     const positionInSeries = getPositionInSeries(json.tags);
-    const contentType = getContentType(json.format);
+    const contentType = getContentTypeFromWPType(json.format);
     const url = `/articles/${json.slug}`; // TODO: this should be discoverable, not hard coded
     const headline = entities.decode(json.title);
     const description = entities.decode(json.excerpt);

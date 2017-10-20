@@ -3,7 +3,7 @@ import {List} from 'immutable';
 import type {Person} from './person';
 import type {Picture} from './picture';
 import type {ContentType} from './content-type';
-import { getContentType } from './content-type';
+import { getContentTypeFromWPType } from './content-type';
 import type {VideoEmbed} from './video-embed';
 import type {ArticleSeries} from './series';
 import {getSeriesCommissionedLength, getSeriesColor, getPositionInSeries} from '../data/series';
@@ -37,7 +37,7 @@ export class ArticleFactory {
     const positionInSeries = getPositionInSeries(json.tags);
     const url = `/articles/${json.slug}`; // TODO: this should be discoverable, not hard coded
     const articleBody = json.content;
-    const contentType = getContentType(json.format);
+    const contentType = getContentTypeFromWPType(json.format);
     const bodyPartsRaw = bodyParser(articleBody);
     const standfirst = bodyPartsRaw.find(part => part.type === 'standfirst');
     const mainComic: ?Picture = bodyPartsRaw[0] && bodyPartsRaw[0].type === 'picture' && contentType === 'comic' ? bodyPartsRaw[0].value : null;

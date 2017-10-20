@@ -19,7 +19,11 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   enabled         = true
   is_ipv6_enabled = true
 
-  aliases = ["nut.wellcomecollection.org"]
+  aliases = [
+    "wellcomecollection.org",
+    "next.wellcomecollection.org",
+    "blog.wellcomecollection.org"
+  ]
 
   default_cache_behavior {
     allowed_methods        = ["HEAD", "GET", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
@@ -41,10 +45,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         whitelisted_names = [
           "WC_wpAuthToken",
           "WC_featuresCohort",
-          "*SESS*",
-
-          # A/B tests
-          "WC_graphicdesign",
+          "*SESS*", # Drupal
+          "WC_*_test", # A/B tests
         ]
       }
     }

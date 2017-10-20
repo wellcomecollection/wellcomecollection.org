@@ -10,7 +10,6 @@ import type {Article} from '../model/article';
 import type {Promo} from '../model/promo';
 import type {Picture} from '../model/picture';
 import {isEmptyObj} from '../util/is-empty-obj';
-import {getPositionInPrismicSeries} from '../data/series';
 import type {Series} from '../model/series';
 
 // This is just JSON
@@ -52,13 +51,13 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     format: doc.data.format.data && ({ title: asText(doc.data.format.data.title) }: EventFormat),
     programme: doc.data.programme.data && ({ title: asText(doc.data.programme.data.title) }: EventFormat),
     when: when,
-    subtitle: asText(doc.data.subtitle),
+    intro: asText(doc.data.intro),
     description: asHtml(doc.data.description),
     featuredImage: featuredImage,
     featuredImages: featuredImages,
-    accessOptions: List(doc.data.accessOptions.map(ao => ({
+    accessOptions: List(doc.data.accessOptions.map(ao => !isEmptyDocLink(ao.accessOption) ? ({
       accessOption: { title: asText(ao.accessOption.data.title), acronym: ao.accessOption.data.acronym }
-    }))),
+    }) : null).filter(_ => _)),
     bookingEnquiryTeam: bookingEnquiryTeam,
     bookingInformation: asHtml(doc.data.bookingInformation),
     isDropIn: isDropIn,
@@ -91,12 +90,17 @@ export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
     end: doc.data.end,
     featuredImages: featuredImages,
     featuredImage: featuredImages.first(),
+    intro: asText(doc.data.intro),
     description: asHtml(doc.data.description),
     promo: promo
   }: Exhibition);
 
   return exhibition;
 }
+
+export function getPositionInPrismicSeries(seriesId, seriesList) {
+  return seriesList.find((s) => s.series.id === seriesId).positionInSeries;
+};
 
 export function parseArticleDoc(doc: PrismicDoc): Article {
   // TODO : construct this not from strings
@@ -116,7 +120,7 @@ export function parseArticleDoc(doc: PrismicDoc): Article {
   const headline = asText(doc.data.title);
   // TODO: The whole scheduled content has some work to be getting on with
   const seriesWithCommissionedLength = series.find(series => series.commissionedLength);
-  const positionInSeries = seriesWithCommissionedLength && getPositionInPrismicSeries(headline, seriesWithCommissionedLength.url) || 1;
+  const positionInSeries = seriesWithCommissionedLength && getPositionInPrismicSeries(series[0].id, doc.data.series) || null;
 
   const article: Article = {
     contentType: 'article',
@@ -295,4 +299,8 @@ export function asText(maybeContent: any) {
 
 export function asHtml(maybeContent: any) {
   return maybeContent && RichText.asHtml(maybeContent).trim();
+}
+
+function isEmptyDocLink(fragment) {
+  return fragment.link_type === 'Document' && !fragment.data;
 }

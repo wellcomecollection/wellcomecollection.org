@@ -57,7 +57,7 @@
 
                 <div class="flex flex--v-center {{ {s: 2} | spacingClasses({margin: ['top']}) }}">
                   {% icon 'other/ticket' %}
-                  <span class="{{ {s:'HNM4', l:'HNM3', xl:'HNM2'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">
+                  <span class="{{ {s:'HNM4', m:'HNM3', xl:'HNM2'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">
                     <span class="caps">Free</span>
                     {{ ' / Drop in' if event.isDropIn }}
                     {{ ' / Booking in advance' if event.bookingEnquiryTeam }}
@@ -98,8 +98,8 @@
       <div class="grid">
 
         <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-          {% if event.subtitle %}
-            {% component 'standfirst', {body: event.subtitle | safe} %}
+          {% if event.intro %}
+            {% component 'standfirst', {body: event.intro | safe} %}
           {% endif %}
           {{ event.description | safe }}
         </div>
@@ -111,8 +111,11 @@
             {% set team = event.bookingEnquiryTeam %}
 
             <div>
-              <a class="btn btn--full-width-s font-HNM5-s" href="mailto:{{team.email}}?subject=Booking for {{ event.title }}">{% icon 'other/ticket', null, ['icon--teal'] %}Enquire to book</a>
-              <p class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{{s:'HNL4'} | fontClasses}}">or call <a href="tel:{{ team.phone }}">{{ team.phone }}</a></p>
+              <a class="btn btn--full-width-s font-HNM5-s" href="mailto:{{team.email}}?subject=Booking for {{ event.title }}">{% icon 'other/ticket', null, ['icon--teal'] %}Email to book</a>
+              <p class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{{s:'HNL4'} | fontClasses}}">
+                Email <a href="mailto:{{team.email}}?subject=Booking for {{ event.title }}">{{ team.email }}</a>
+                or call {{ team.phone }}
+              </p>
               <p class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{{s:'HNL4'} | fontClasses}}">Places are free but limited.</p>
             </div>
 

@@ -45,7 +45,6 @@ r.get('/management/manifest', async (ctx, next) => {
 });
 
 // Content
-
 r.get('/:preview(preview)?/articles/(W):id', renderArticle);
 r.get('/explore', renderExplore);
 r.get('/preview', setPreviewSession);
@@ -53,11 +52,6 @@ r.get('/:preview(preview)?/events/:id', renderEvent);
 r.get('/:preview(preview)?/exhibitions/:id', renderExhibition);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 r.get('/series/(W):id', renderSeries);
-
-// Vanity URLs - should redirect
-r.get('/graphicdesign', async (ctx, next) => {
-  return renderExhibition(ctx, next, 'WZwh4ioAAJ3usf86', 'VSiVotDVSbeOS9orRMI-Wg.1');
-});
 
 // API
 r.get('/works', search);
@@ -67,7 +61,6 @@ r.get('/works/:id', work);
 r.get('/articles/:slug', article);
 r.get('/articles/preview/:id', preview);
 r.get('/series/:id', series);
-r.get('/articles', articles);
 r.get('/articles', async (ctx, next) => {
   const format = ctx.query.format;
   if (format === 'archive') {
@@ -82,5 +75,21 @@ r.get('/async/series-nav/:id', seriesNav);
 r.get('/async/series-transporter/:id', seriesTransporter);
 r.get('/async/latest-instagram-posts', latestInstagramPosts);
 r.get('/async/series-container-promos-list/:id', seriesContainerPromoList);
+
+// A/B testing events
+const gaExp = '99LTzxwAQU-AU1RUdvyFmQ.1'; // TODO: We need to start the test to get this
+const eventsTestMap = new Map([
+  ['designing-health-pop-studio', 'WcKl4CsAALN8A8BS'],
+  ['design-for-life', 'WcPkKygAAH8Q9Ss1'],
+  ['bsl-tour-can-graphic-design-save-your-life', 'WcPx8ygAAH4Q9WgN'],
+  ['stt-tour-can-graphic-design-save-your-life', 'WdOiZScAAF6cTGe2'],
+  ['ad-tour-can-graphic-design-save-your-life', 'WdOizycAAF2cTGmN'],
+  ['saturday-studio-emoji-design', 'WdTMsycAAL20UYr1'],
+  ['perspective-speaker-tour-malcolm-gaskin', 'WecYjiQAADDcM7vq'],
+  ['perspective-speaker-tour-dr-alex-mold', 'WecaRyQAAIm4M8Px']
+]);
+eventsTestMap.forEach((prismicId, drupalRoute) => {
+  r.get(`/events/${drupalRoute}`, async (ctx, next) => renderEvent(ctx, next, prismicId, gaExp));
+});
 
 export const router = r.middleware();

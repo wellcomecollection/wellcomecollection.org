@@ -75,12 +75,11 @@
     <div class="container">
       <div class="grid">
         <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-          {% if exhibition.subtitle %}
-            {% component 'standfirst', {body: exhibition.subtitle | safe} %}
+          {% if exhibition.intro %}
+            {% component 'standfirst', {body: exhibition.intro | safe} %}
           {% endif %}
-          {% block exhibitionDescription %}
-            {{ exhibition.description | safe }}
-          {% endblock %}
+
+          {{ exhibition.description | safe }}
         </div>
         <div class="{{ {s:12, m:10, shiftM:1, l:5, xl:5} | gridClasses }}">
           <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
