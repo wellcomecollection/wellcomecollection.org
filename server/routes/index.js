@@ -80,7 +80,6 @@ r.get('/async/series-container-promos-list/:id', seriesContainerPromoList);
 // A/B testing events
 const gaExp = '99LTzxwAQU-AU1RUdvyFmQ'; // TODO: We need to start the test to get this
 const eventsTestMap = new Map([
-  ['designing-health-pop-studio', 'WcKl4CsAALN8A8BS'],
   ['design-for-life', 'WcPkKygAAH8Q9Ss1'],
   ['bsl-tour-can-graphic-design-save-your-life', 'WcPx8ygAAH4Q9WgN'],
   ['stt-tour-can-graphic-design-save-your-life', 'WdOiZScAAF6cTGe2'],
