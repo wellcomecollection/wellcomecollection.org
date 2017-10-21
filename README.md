@@ -1,5 +1,7 @@
 # wellcomecollection.org
 
+[![Join the chat at https://gitter.im/wellcometrust/wellcomecollection.org](https://badges.gitter.im/wellcometrust/wellcomecollection.org.svg)](https://gitter.im/wellcometrust/wellcomecollection.org?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 The thing that makes the Wellcome Collection available to the public.
 
 ## Requirements
