@@ -147,7 +147,7 @@ export async function getArticleSeries(seriesId) {
 
   const scheduleItems = articlesSchedule.schedule.map(articleInSchedule => {
     const matchingArticle = publishedFromSeries.results.find(publishedArticle => {
-      return asText(publishedArticle.data.title) === articleInSchedule.title;
+      return asText(publishedArticle.data.title).toLowerCase() === articleInSchedule.title.toLowerCase();
     });
 
     return {
