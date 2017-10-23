@@ -6,6 +6,9 @@ jobs:
     working_directory: ~/wellcomecollection.org
     steps:
       - checkout
+      - run:
+          name: Nonesense
+          command: ./.circleci/test.sh
       - save_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
           paths:
