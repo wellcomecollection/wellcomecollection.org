@@ -5,9 +5,7 @@
   "main": "server/app.js",
   "scripts": {
     "lint:scss": "cd client && gulp scss:lint",
-    "lint:js": "eslint --fix server client",
-    "lint": "npm run lint:scss && npm run lint:js",
-    "prepush": "npm run lint",
+    "prepush": "npm run lint:scss",
     "test": "./test.sh server"
   },
   "repository": {
