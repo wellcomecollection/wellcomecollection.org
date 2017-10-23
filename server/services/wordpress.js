@@ -1,4 +1,3 @@
-// @flow
 import {List} from 'immutable';
 import request from 'superagent';
 import type {ArticleStub} from '../model/article-stub';

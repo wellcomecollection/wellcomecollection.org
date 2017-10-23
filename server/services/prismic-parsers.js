@@ -10,11 +10,12 @@ import type {Article} from '../model/article';
 import type {Promo} from '../model/promo';
 import type {Picture} from '../model/picture';
 import {isEmptyObj} from '../util/is-empty-obj';
+import type {Series} from '../model/series';
 
 // This is just JSON
-type PrismicDoc = Object<any>;
+type PrismicDoc = Object;
 // This is because it could be any part of a JSON doc
-type PrismicDocFragment = Object<any> | Array<any>;
+type PrismicDocFragment = Object | Array<any>;
 
 export function parseEventDoc(doc: PrismicDoc): Event {
   const contributors = parseContributors(doc.data.contributors);
@@ -97,9 +98,10 @@ export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
   return exhibition;
 }
 
-export function getPositionInPrismicSeries(seriesId, seriesList) {
-  return seriesList.find((s) => s.series.id === seriesId).positionInSeries;
-};
+export function getPositionInPrismicSeries(seriesId: string, seriesList: PrismicDocFragment): ?number {
+  const maybeSeries = seriesList.find((s) => s.series.id === seriesId);
+  return maybeSeries && maybeSeries.positionInSeries;
+}
 
 export function parseArticleDoc(doc: PrismicDoc): Article {
   // TODO : construct this not from strings
@@ -169,7 +171,7 @@ export function parseWebcomicDoc(doc: PrismicDoc): Article {
   return article;
 }
 
-export function parsePromoListItem(item): Promo {
+export function parsePromoListItem(item: Object): Promo {
   return ({
     contentType: item.type,
     url: item.link.url,
@@ -179,7 +181,7 @@ export function parsePromoListItem(item): Promo {
   } : Promo);
 }
 
-export function parsePicture(captionedImage, minWidth): Picture {
+export function parsePicture(captionedImage: Object, minWidth: ?string = null): Picture {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
   const tasl = image && image.copyright && parseTaslFromCopyright(image.copyright);
 
@@ -188,7 +190,7 @@ export function parsePicture(captionedImage, minWidth): Picture {
     contentUrl: image && image.url,
     width: image && image.dimensions.width,
     height: image && image.dimensions.height,
-    caption: captionedImage.caption && captionedImage.caption.length !== 0 && asHtml(captionedImage.caption),
+    caption: captionedImage.caption && captionedImage.caption.length !== 0 ? asHtml(captionedImage.caption) : null,
     alt: image && image.alt,
     title: tasl && tasl.title,
     author: tasl && tasl.author,
@@ -205,7 +207,7 @@ export function parsePicture(captionedImage, minWidth): Picture {
   }: Picture);
 }
 
-export function prismicImage(prismicImage) {
+export function prismicImage(prismicImage: Object) { // TODO: wrong typedef
   const image = isEmptyObj(prismicImage) ? null : prismicImage;
 
   return {
@@ -216,25 +218,24 @@ export function prismicImage(prismicImage) {
   };
 }
 
-function parseSeries(doc: ?PrismicDocFragment): Series {
+function parseSeries(doc: ?PrismicDocFragment): Array<Series> {
   return doc && doc.map(seriesGroup => {
     const series = seriesGroup.series;
     return series && series.data && {
-      url: series.id,
       id: series.id,
+      url: series.id,
       name: series.data.name,
       description: asText(series.data.description),
       color: series.data.color,
       commissionedLength: series.data.commissionedLength,
-      schedule: series.data.schedule && series.data.schedule.map(comingSoon => {
-        // TODO
-      })
+      total: 0,
+      items: List()
     };
-  }).filter(_ => _);
+  }).filter(_ => _) || [];
 }
 
-function parseContributors(doc: ?PrismicDocFragment): Array<Contributor> {
-  return doc && doc
+function parseContributors(doc: ?PrismicDocFragment): List<Contributor> {
+  return doc && List(doc
     .filter(creator => creator.slice_type === 'person')
     .map(slice => {
       const personData = slice.primary.person && slice.primary.person.data;
@@ -250,14 +251,14 @@ function parseContributors(doc: ?PrismicDocFragment): Array<Contributor> {
       };
 
       return {person, role};
-    });
+    })) || List();
 }
 
 function parseImagePromo(doc: ?PrismicDocFragment): ?ImagePromo {
   const maybePromo = doc && doc.find(slice => slice.slice_type === 'editorialImage');
   return maybePromo && ({
-    text: asText(maybePromo.primary.caption),
-    media: parsePicture({image: maybePromo.primary.image})
+    caption: asText(maybePromo.primary.caption),
+    image: parsePicture({image: maybePromo.primary.image})
   }: ImagePromo);
 }
 
@@ -293,11 +294,11 @@ function parseTaslFromCopyright(copyright) {
 }
 
 // This purposefully isn't named `parseText` | `parseHtml` to match the prismic API.
-export function asText(maybeContent) {
+export function asText(maybeContent: any) {
   return maybeContent && RichText.asText(maybeContent).trim();
 }
 
-export function asHtml(maybeContent) {
+export function asHtml(maybeContent: any) {
   return maybeContent && RichText.asHtml(maybeContent).trim();
 }
 
