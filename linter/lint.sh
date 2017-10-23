@@ -11,6 +11,8 @@ JS_FILES=$(git diff --name-only --diff-filter=ACM | grep '\.js\?$' | tr '\n' ' '
 # Add back the modified/prettified files to staging
 git config user.email "circle@wellcome.ac.uk"
 git config user.name "Circle CI"
+git config --global push.default simple
+
 git add -A
 git commit -am "Linting the JS"
 git push
