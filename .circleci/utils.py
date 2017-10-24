@@ -6,3 +6,4 @@ def build_and_push_docker(dir, container, tag):
     push_command = ['docker', 'push', '%s:%s' % (container, tag)]
     subprocess.check_call(build_command)
     subprocess.check_call(push_command)
+    return 0
