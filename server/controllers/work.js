@@ -53,7 +53,7 @@ export const work = async(ctx, next) => {
     id,
     queryString,
     pageConfig: createPageConfig({
-      title: `Work: ${truncatedTitle}`,
+      title: truncatedTitle,
       inSection: 'images',
       category: 'collections',
       canonicalUri: `${ctx.globals.rootDomain}/works/${singleWork.id}`
