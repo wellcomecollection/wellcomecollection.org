@@ -16,7 +16,10 @@ export type Picture = {|
   author?: ?string;
   source?: ?{name?: ?string, link?: ?string};
   license?: ?LicenseType;
-  copyright?: ?{holder?: string, link?: string};
+  copyright?: ?{
+    holder?: ?string,
+    link?: ?string
+  };
   minWidth?: ?string; // This must have a CSS unit attached
 |}
 

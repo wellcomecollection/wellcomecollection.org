@@ -1,20 +1,96 @@
 version: 2
 jobs:
-  build:
+  checkout_code:
     docker:
-      - image: node:6.10
+      - image: node:8.4.0
     working_directory: ~/wellcomecollection.org
     steps:
       - checkout
+      - save_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            -  ~/wellcomecollection.org
+  install_server_modules:
+    docker:
+      - image: node:8.4.0
+    working_directory: ~/wellcomecollection.org/server
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Install server modules
+          command: npm install --production
+      - save_cache:
+          key: server_modules_{{ checksum "server/package.json" }}
+          paths:
+            -  ~/wellcomecollection.org/server/node_modules
+  install_client_modules:
+    docker:
+      - image: node:8.4.0
+    working_directory: ~/wellcomecollection.org/client
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Install client modules
+          command: npm install
+      - save_cache:
+          key: client_modules_{{ checksum "client/package.json" }}
+          paths:
+            -  ~/wellcomecollection.org/client/node_modules
+  build:
+    docker:
+      - image: node:8.4.0
+    working_directory: ~/wellcomecollection.org
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: server_modules_{{ checksum "server/package.json" }}
+          key: server_modules_
+      - restore_cache:
+          key: client_modules_{{ checksum "client/package.json" }}
+          key: client_modules_
       - run:
           name: Build client
           command: ./build-client.sh
       - run:
           name: Build server
           command: ./build-server.sh $CIRCLE_BUILD_NUM
+      - save_cache:
+          key: built_server_{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            -  ~/wellcomecollection.org/server
+      - save_cache:
+          key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            -  ~/wellcomecollection.org/dist
+  test:
+    docker:
+      - image: node:8.4.0
+    working_directory: ~/wellcomecollection.org
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: server_modules_{{ checksum "server/package.json" }}
+          key: server_modules_
+      - restore_cache:
+          key: built_server_{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Test server
-          command: ./test.sh server
+          command: pushd server && npm run test && popd
+  deploy_app:
+    docker:
+      - image: node:8.4.0
+    working_directory: ~/wellcomecollection.org
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: built_server_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
       - add_ssh_keys
       - setup_remote_docker
       - run:
@@ -25,7 +101,36 @@ jobs:
             curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
             tar -xz -C /tmp -f /tmp/docker-$VER.tgz
             mv /tmp/docker/* /usr/bin
-      - deploy:
+      - run:
+          name: Deploy
+          command: |
+            # Install AWS CLI. Taken from:
+            # http://docs.aws.amazon.com/cli/latest/userguide/awscli-install-linux.html
+            apt-get -y -qq update
+            apt-get -y -qq install python3.4-dev
+            curl -O https://bootstrap.pypa.io/get-pip.py
+            python3.4 get-pip.py --user
+            export PATH=~/.local/bin:$PATH
+            pip install awscli --upgrade --user
+            docker build -t wellcome/wellcomecollection:$CIRCLE_BUILD_NUM .
+            docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+            docker push wellcome/wellcomecollection:$CIRCLE_BUILD_NUM
+            pushd nginx-proxy && ./docker-build.sh $CIRCLE_BUILD_NUM && ./docker-push.sh $CIRCLE_BUILD_NUM && popd
+            pushd router && ./docker-build.sh $CIRCLE_BUILD_NUM && ./docker-push.sh $CIRCLE_BUILD_NUM && popd
+            ./build-speedtracker.sh
+  deploy_cardigan:
+    docker:
+      - image: node:8.4.0
+    working_directory: ~/wellcomecollection.org
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: built_server_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
+      - add_ssh_keys
+      - run:
           name: Install AWS CLI
           command: |
             # Taken from
@@ -36,26 +141,38 @@ jobs:
             python3.4 get-pip.py --user
             export PATH=~/.local/bin:$PATH
             pip install awscli --upgrade --user
-      - deploy:
-          name: Deploy
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              # Install AWS CLI. Taken from:
-              # http://docs.aws.amazon.com/cli/latest/userguide/awscli-install-linux.html
-              apt-get -y -qq update
-              apt-get -y -qq install python3.4-dev
-              curl -O https://bootstrap.pypa.io/get-pip.py
-              python3.4 get-pip.py --user
-              export PATH=~/.local/bin:$PATH
-              pip install awscli --upgrade --user
-
-              docker build -t wellcome/wellcomecollection:$CIRCLE_BUILD_NUM .
-              docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-              docker push wellcome/wellcomecollection:$CIRCLE_BUILD_NUM
-
-              pushd nginx-proxy && ./docker-build.sh $CIRCLE_BUILD_NUM && ./docker-push.sh $CIRCLE_BUILD_NUM && popd
-              pushd router && ./docker-build.sh $CIRCLE_BUILD_NUM && ./docker-push.sh $CIRCLE_BUILD_NUM && popd
-
-              ./build-cardigan.sh
-              ./build-speedtracker.sh
-            fi
+            ./build-cardigan.sh
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - checkout_code
+      - install_server_modules:
+          requires:
+            - checkout_code
+      - install_client_modules:
+          requires:
+            - checkout_code
+      - build:
+          requires:
+            - checkout_code
+            - install_client_modules
+            - install_server_modules
+      - test:
+          requires:
+            - checkout_code
+            - build
+      - deploy_app:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+      - deploy_cardigan:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
