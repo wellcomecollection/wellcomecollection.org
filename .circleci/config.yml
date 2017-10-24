@@ -6,9 +6,6 @@ jobs:
     working_directory: ~/wellcomecollection.org
     steps:
       - checkout
-      - run:
-          name: Nonesense
-          command: ./.circleci/test.sh
       - save_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
           paths:
@@ -115,11 +112,10 @@ jobs:
             python3.4 get-pip.py --user
             export PATH=~/.local/bin:$PATH
             pip install awscli --upgrade --user
-            docker build -t wellcome/wellcomecollection:$CIRCLE_BUILD_NUM .
             docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-            docker push wellcome/wellcomecollection:$CIRCLE_BUILD_NUM
-            pushd nginx-proxy && ./docker-build.sh $CIRCLE_BUILD_NUM && ./docker-push.sh $CIRCLE_BUILD_NUM && popd
-            pushd router && ./docker-build.sh $CIRCLE_BUILD_NUM && ./docker-push.sh $CIRCLE_BUILD_NUM && popd
+            python ./.circleci/deploy_and_build_docker.py './' 'wellcome/wellcomecollection' 'test'
+            python ./.circleci/deploy_and_build_docker.py './nginx-proxy' 'wellcome/wellcomecollection-nginx-proxy' 'test'
+            python ./.circleci/deploy_and_build_docker.py './router' 'wellcome/wellcomecollection-router' 'test'
             ./build-speedtracker.sh
   deploy_cardigan:
     docker:
@@ -150,32 +146,33 @@ workflows:
   build_and_deploy:
     jobs:
       - checkout_code
-#      - install_server_modules:
-#          requires:
-#            - checkout_code
-#      - install_client_modules:
-#          requires:
-#            - checkout_code
-#      - build:
-#          requires:
-#            - checkout_code
-#            - install_client_modules
-#            - install_server_modules
-#      - test:
-#          requires:
-#            - checkout_code
-#            - build
-#      - deploy_app:
-#          requires:
-#            - test
-#          filters:
-#            branches:
-#              only:
-#                - master
-#      - deploy_cardigan:
-#          requires:
-#            - test
-#          filters:
-#            branches:
-#              only:
-#                - master
+      - install_server_modules:
+          requires:
+            - checkout_code
+      - install_client_modules:
+          requires:
+            - checkout_code
+      - build:
+          requires:
+            - checkout_code
+            - install_client_modules
+            - install_server_modules
+      - test:
+          requires:
+            - checkout_code
+            - build
+      - deploy_app:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+      - deploy_cardigan:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+                - better-deployment
