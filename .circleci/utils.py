@@ -12,4 +12,4 @@ def build_and_push_docker(dir, container, tag):
   push_command = ['docker', 'push', '%s:%s' % (container, tag)]
   build_code = subprocess.call(build_command)
   push_code = subprocess.call(push_command)
-  return build_code is 0 and push_code is 0
+  return 0 if build_code is 0 and push_code is 0 else 1
