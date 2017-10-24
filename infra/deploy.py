@@ -6,10 +6,10 @@ url = 'https://registry.hub.docker.com/v2/repositories/wellcome/wellcomecollecti
 response = urllib.urlopen(url)
 data = json.loads(response.read())
 releases = [result for result in data.get('results') if result.get('name') != 'test']
-lateset_release = releases[0].get('name')
+latest_release = releases[0].get('name')
 
-forward_march = raw_input('Deploy %s (y/N): ' % lateset_release)
+forward_march = raw_input('Deploy %s (y/N): ' % latest_release)
 
-if forward_march.lower() == 'y':
+if forward_march.lower().strip() == 'y':
     print 'Off we go!'
-    subprocess.check_call(['./apply_task_definition.sh', lateset_release])
+    subprocess.check_call(['./apply_task_definition.sh', latest_release])
