@@ -1,6 +1,6 @@
 import cookie from 'cookie-cutter';
 
-const infoBanner = (el) => {
+const infoBanner = el => {
   const cookieName = el.getAttribute('data-cookie-name');
   const isAccepted = cookie.get(cookieName);
   const closeButton = el.querySelector('.js-info-banner-close');
@@ -11,9 +11,12 @@ const infoBanner = (el) => {
     return;
   }
 
+  // TODO: remove line below after Wellcome Images redirect has bedded in
+  if (!window.location.search.match('wellcomeImagesUrl') && cookieName === 'WC_wellcomeImagesRedirect') return;
+
   el.classList.remove('is-hidden');
 
-  closeButton.addEventListener('click', (event) => {
+  closeButton.addEventListener('click', event => {
     event.preventDefault();
 
     el.classList.add('is-hidden');
