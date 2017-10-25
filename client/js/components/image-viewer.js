@@ -56,7 +56,7 @@ const createImageViewer = (viewer) => {
     image.addEventListener('click', (e) => {
       const gaData = {
         category: 'component',
-        action: 'work-enter-fullscreen-image:imgclick',
+        action: 'work-launch-image-viewer:imgClick',
         label: `id:${window.location.pathname.match(/\/works\/(.+)/)[1]}, title:${document.title}`
       };
       setupViewer(imageInfoSrc, viewer, viewerId);
