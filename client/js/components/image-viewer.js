@@ -1,4 +1,3 @@
-import { hasFullscreen, enterFullscreen, exitFullscreen } from '../util';
 import fastdom from '../utils/fastdom-promise';
 import { trackGaEvent } from '../tracking';
 import OpenSeadragon from 'openseadragon';
@@ -61,29 +60,17 @@ const createImageViewer = (viewer) => {
         label: `id:${window.location.pathname.match(/\/works\/(.+)/)[1]}, title:${document.title}`
       };
       setupViewer(imageInfoSrc, viewer, viewerId);
-      if (hasFullscreen()) {
-        enterFullscreen(viewerContent);
-      } else {
-        showViewerOnPage(viewerContent);
-      }
+      showViewerOnPage(viewerContent);
       trackGaEvent(gaData);
     });
 
     enterFullscreenButton.addEventListener('click', (e) => {
       setupViewer(imageInfoSrc, viewer, viewerId);
-      if (hasFullscreen()) {
-        enterFullscreen(viewerContent);
-      } else {
-        showViewerOnPage(viewerContent);
-      }
+      showViewerOnPage(viewerContent);
     });
 
     exitFullscreenButton.addEventListener('click', (e) => {
-      if (hasFullscreen()) {
-        exitFullscreen(viewer);
-      } else {
-        hideViewerOnPage(viewerContent);
-      }
+      hideViewerOnPage(viewerContent);
     });
   }
 };
