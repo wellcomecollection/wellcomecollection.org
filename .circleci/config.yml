@@ -56,7 +56,7 @@ jobs:
           command: ./build-client.sh
       - run:
           name: Build server
-          command: ./build-server.sh $CIRCLE_BUILD_NUM
+          command: ./build-server.sh $CIRCLE_SHA1
       - save_cache:
           key: built_server_{{ .Environment.CIRCLE_SHA1 }}
           paths:
@@ -112,11 +112,11 @@ jobs:
             python3.4 get-pip.py --user
             export PATH=~/.local/bin:$PATH
             pip install awscli --upgrade --user
-            docker build -t wellcome/wellcomecollection:$CIRCLE_BUILD_NUM .
+            docker build -t wellcome/wellcomecollection:$CIRCLE_SHA1 .
             docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-            docker push wellcome/wellcomecollection:$CIRCLE_BUILD_NUM
-            pushd nginx-proxy && ./docker-build.sh $CIRCLE_BUILD_NUM && ./docker-push.sh $CIRCLE_BUILD_NUM && popd
-            pushd router && ./docker-build.sh $CIRCLE_BUILD_NUM && ./docker-push.sh $CIRCLE_BUILD_NUM && popd
+            docker push wellcome/wellcomecollection:$CIRCLE_SHA1
+            pushd nginx-proxy && ./docker-build.sh $CIRCLE_SHA1 && ./docker-push.sh $CIRCLE_SHA1 && popd
+            pushd router && ./docker-build.sh $CIRCLE_SHA1 && ./docker-push.sh $CIRCLE_SHA1 && popd
             ./build-speedtracker.sh
   deploy_cardigan:
     docker:

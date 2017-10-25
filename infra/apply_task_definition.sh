@@ -3,17 +3,16 @@
 set -o errexit
 set -o nounset
 
-if [ $# -lt 2 ]; then
-    echo "⚡ Usage: deploy.sh <prod|dev> <CONTAINER_TAG>"
+if [ $# -lt 1 ]; then
+    echo "⚡ Usage: apply_task_definition.sh <CONTAINER_TAG>"
     exit 1
 fi
 
-DEPLOY_ENV=$1
-CONTAINER_TAG=$2
+CONTAINER_TAG=$1
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-pushd "$DIR/terraform/$DEPLOY_ENV"
+pushd "$DIR/terraform/prod"
   rm -f "terraform.tfvars"
   echo "Getting variables from S3"
   aws s3 cp s3://wellcomecollection-infra/terraform.tfvars .
