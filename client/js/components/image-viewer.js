@@ -1,6 +1,7 @@
 import fastdom from '../utils/fastdom-promise';
 import { trackGaEvent } from '../tracking';
 import OpenSeadragon from 'openseadragon';
+import { KEYS } from '../util';
 
 function setupViewer(imageInfoSrc, viewer, viewerId) {
   if (viewer.querySelector('.openseadragon-container')) return;
@@ -48,7 +49,8 @@ const createImageViewer = (viewer) => {
     const imageInfoSrc = document.getElementById(viewerId).getAttribute('data-info-src');
     const launchImageViewerButton = viewer.querySelector('.js-image-viewer__launch-button');
     const exitImageViewerButton = viewer.querySelector('.js-image-viewer__exit-button');
-
+    const pageTitle = document.title;
+    const workId = window.location.pathname.match(/\/works\/(.+)/)[1];
     fastdom.mutate(() => {
       viewer.style.display = 'block';
     });
@@ -57,7 +59,7 @@ const createImageViewer = (viewer) => {
       const gaData = {
         category: 'component',
         action: 'work-launch-image-viewer:imgClick',
-        label: `id:${window.location.pathname.match(/\/works\/(.+)/)[1]}, title:${document.title}`
+        label: `id:${workId}, title:${pageTitle}`
       };
       setupViewer(imageInfoSrc, viewer, viewerId);
       showViewerOnPage(viewerContent);
@@ -71,6 +73,18 @@ const createImageViewer = (viewer) => {
 
     exitImageViewerButton.addEventListener('click', (e) => {
       hideViewerOnPage(viewerContent);
+    });
+
+    document.addEventListener('keydown', ({ keyCode }) => {
+      if (keyCode === KEYS.ESCAPE && viewerContent.style.display === 'block') {
+        const gaData = {
+          category: 'component',
+          action: 'work-exit-image-viewer:escKey',
+          label: `id:${workId}, title:${pageTitle}`
+        };
+        hideViewerOnPage(viewerContent);
+        trackGaEvent(gaData);
+      }
     });
   }
 };
