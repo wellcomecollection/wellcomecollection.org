@@ -43,11 +43,11 @@ function hideViewerOnPage(viewerContent) {
 const createImageViewer = (viewer) => {
   if (window.fetch) {
     const image = viewer.previousElementSibling;
-    const viewerContent = viewer.querySelector('.image-viewer-fullscreen__content');
+    const viewerContent = viewer.querySelector('.image-viewer__content');
     const viewerId = viewerContent.getAttribute('id');
     const imageInfoSrc = document.getElementById(viewerId).getAttribute('data-info-src');
-    const enterFullscreenButton = viewer.querySelector('.js-enter-fullscreen');
-    const exitFullscreenButton = viewer.querySelector('.js-exit-fullscreen');
+    const enterFullscreenButton = viewer.querySelector('.js-image-viewer__launch-button');
+    const exitFullscreenButton = viewer.querySelector('.js-image-viewer__exit-button');
 
     fastdom.mutate(() => {
       viewer.style.display = 'block';

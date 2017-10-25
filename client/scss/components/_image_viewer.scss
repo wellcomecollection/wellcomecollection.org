@@ -1,8 +1,8 @@
-.image-viewer-fullscreen {
+.image-viewer {
   display: none; // shown with javascript if browser has the required support
 }
 
-.image-viewer-fullscreen__content {
+.image-viewer__content {
   background-color: color('black');
   width: 100vw;
   height: 100vh;
@@ -11,14 +11,9 @@
   z-index: 1000;
   top: 0;
   left: 0;
-
-  &:fullscreen {
-    position: static;
-    display: block;
-  }
 }
 
-.image-viewer-fullscreen__controls {
+.image-viewer__controls {
   height: 3em;
 
   .icon {
@@ -38,13 +33,13 @@
   }
 }
 
-.image-viewer-fullscreen__image {
+.image-viewer__image {
   background: #1d1d1d;
   width: 100%;
   height: calc(100vh - 3em);
 }
 
-.image-viewer-fullscreen__launch-button {
+.image-viewer__launch-button {
   position: absolute;
   bottom: $v-spacing-unit*4;
   left: 50%;
