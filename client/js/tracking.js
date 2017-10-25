@@ -1,6 +1,6 @@
 /* global ga */
 
-import { on, fullscreenchange, fullscreenEnabled } from './util';
+import { on } from './util';
 
 const maybeTrackEvent = (hasAnalytics) => {
   if (hasAnalytics) {
