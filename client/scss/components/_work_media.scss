@@ -1,5 +1,13 @@
 .work-media {
   position: relative;
+  min-height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  @include respond-to(medium) {
+    min-height: calc(100vh - 140px);
+  }
 
   .image {
     min-height: 200px;
