@@ -5,6 +5,7 @@ const defaultConfig = {
     version: '0.0.1'
   },
   globals: {
+    // TODO: ove these bits into prod.json
     development: {
       rootDomain: '',
       beaconErrors: false
