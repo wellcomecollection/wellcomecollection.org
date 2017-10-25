@@ -22,7 +22,7 @@
     <link rel="mask-icon" href="/assets/icons/safari-pinned-tab.svg" color="#000000"/>
     <script src="/assets/libs/picturefill.min.js" async></script>
     <script async defer src="//platform.twitter.com/widgets.js"></script>
-    {% component 'head-js', { file:  'app.js' | getCacheBustFile  } %}
+    {% component 'head-js', { file: ('app.js' | getHashedFile) } %}
     <script type="application/ld+json">
       {{ pageConfig.organization | jsonLd('museumLd') | safe }}
     </script>

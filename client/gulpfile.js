@@ -151,7 +151,7 @@ gulp.task('scss:compileCritical', () => {
     .pipe(gulp.dest(sources.scss.critical.distPath));
 });
 
-gulp.task('js:compile', ['js:clean'], () => {
+gulp.task('js:compile', () => {
   return gulp.src(sources.js.entry)
     .pipe(webpack(webpackConfig))
     .on('error', (err) => {
@@ -172,14 +172,14 @@ gulp.task('css:bust', ['scss:compile'], () => {
     .pipe(gulp.dest(sources.cacheJSON.distPath));
 });
 
-gulp.task('js:bust', ['js:compile'], () => {
+gulp.task('js:bust', ['js:clean', 'js:compile'], () => {
   gulp.src('../dist/assets/js/app.js')
     .pipe(hash({
       hashlength: 16
     }))
     .pipe(gulp.dest('../dist/assets/js/'))
-    .pipe(hash.manifest('js-assets.json', true))
-    .pipe(gulp.dest(sources.cacheJSON.distPath));
+    .pipe(hash.manifest('js-hash.json', true))
+    .pipe(gulp.dest('../dist/'));
 });
 
 gulp.task('scss:lint', () => {

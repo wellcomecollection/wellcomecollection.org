@@ -1,4 +1,5 @@
-const config = {
+import prodConfig from './prod.json';
+const defaultConfig = {
   app: {
     name: 'wellcomecollection.org',
     version: '0.0.1'
@@ -13,6 +14,7 @@ const config = {
       beaconErrors: true
     }
   },
+  hashedAssets: {},
   server: {
     port: 3000
   },
@@ -46,4 +48,4 @@ const config = {
   }]
 };
 
-export default config;
+export default Object.assign({}, defaultConfig, prodConfig);
