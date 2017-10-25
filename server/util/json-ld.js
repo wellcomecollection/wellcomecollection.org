@@ -83,7 +83,6 @@ export function museumLd(museum) {
 }
 
 export function eventLd(event: Event) {
-  console.info(event)
   return objToJsonLd({
     name: event.title,
     // TODO: This is not always at Wellcome, but we don't collect that yet
