@@ -2,7 +2,7 @@ version: 2
 jobs:
   checkout_code:
     docker:
-      - image: node:8.4.0
+      - image: node:6.10
     working_directory: ~/wellcomecollection.org
     steps:
       - checkout
@@ -12,7 +12,7 @@ jobs:
             -  ~/wellcomecollection.org
   install_server_modules:
     docker:
-      - image: node:8.4.0
+      - image: node:6.10
     working_directory: ~/wellcomecollection.org/server
     steps:
       - restore_cache:
@@ -26,7 +26,7 @@ jobs:
             -  ~/wellcomecollection.org/server/node_modules
   install_client_modules:
     docker:
-      - image: node:8.4.0
+      - image: node:6.10
     working_directory: ~/wellcomecollection.org/client
     steps:
       - restore_cache:
@@ -40,7 +40,7 @@ jobs:
             -  ~/wellcomecollection.org/client/node_modules
   build:
     docker:
-      - image: node:8.4.0
+      - image: node:6.10
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -67,7 +67,7 @@ jobs:
             -  ~/wellcomecollection.org/dist
   test:
     docker:
-      - image: node:8.4.0
+      - image: node:6.10
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -82,7 +82,7 @@ jobs:
           command: pushd server && npm run test && popd
   deploy_app:
     docker:
-      - image: node:8.4.0
+      - image: node:6.10
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -120,7 +120,7 @@ jobs:
             ./build-speedtracker.sh
   deploy_cardigan:
     docker:
-      - image: node:8.4.0
+      - image: node:6.10
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
