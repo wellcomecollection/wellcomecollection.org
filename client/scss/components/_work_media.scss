@@ -6,7 +6,7 @@
   justify-content: center;
 
   @include respond-to(medium) {
-    min-height: calc(100vh - 140px);
+    min-height: calc(100vh - 180px);
   }
 
   .image {
@@ -24,7 +24,7 @@
     }
 
     @include respond-to(medium) {
-      max-height: calc(100vh - 140px);
+      max-height: calc(100vh - 180px);
     }
 
     @supports (object-fit: contain) {
@@ -36,19 +36,5 @@
 
   .image--noscript {
     display: block;
-  }
-}
-
-.work-media__controls {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  transition: opacity 400ms ease;
-  pointer-events: none;
-
-  .enhanced & {
-    opacity: 1;
   }
 }
