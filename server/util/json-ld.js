@@ -83,6 +83,7 @@ export function museumLd(museum) {
 }
 
 export function eventLd(event: Event) {
+  console.info(event)
   return objToJsonLd({
     name: event.title,
     // TODO: This is not always at Wellcome, but we don't collect that yet
@@ -93,7 +94,8 @@ export function eventLd(event: Event) {
     },
     startDate: event.when.map(range => range.start),
     endDate: event.when.map(range => range.start),
-    description: event.description
+    description: event.description,
+    image: event.featuredImage && event.featuredImage.contentUrl
   }, 'Event');
 }
 
