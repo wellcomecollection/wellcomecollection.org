@@ -2,6 +2,8 @@
 
 import urllib, json, subprocess
 
+# It is assumed this is returning by last_updated
+# We also filter out the test tag, as that's used for testing >.<
 url = 'https://registry.hub.docker.com/v2/repositories/wellcome/wellcomecollection/tags/'
 response = urllib.urlopen(url)
 data = json.loads(response.read())
