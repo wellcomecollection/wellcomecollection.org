@@ -9,9 +9,6 @@ dist/
 # Ignore .sass-cache
 *.sass-cache*
 
-/server/config/css-assets.json
-/server/config/js-assets.json
-
 /server/views/partials/critical.css.njk
 /client/scss/utilities/compiled_variables/
 

@@ -17,6 +17,7 @@ const path = require('path');
 const devMode = gutil.env.dev;
 
 const sources = {
+  dist: '../dist',
   scss: {
     all: 'scss/**/*.scss',
     jsConfig: 'scss/**/*.js',
@@ -113,7 +114,7 @@ gulp.task('js:clean', () => {
 });
 
 // TODO: pull out autoprefixing / sourcemaps to it's own task
-gulp.task('scss:compile', ['css:clean'], () => {
+gulp.task('scss:compile', () => {
   return gulp.src(sources.scss.nonCritical.manifests)
     .pipe(devMode ? sourcemaps.init() : gutil.noop())
     .pipe(sass({
@@ -156,20 +157,20 @@ gulp.task('js:compile', () => {
     .pipe(webpack(webpackConfig))
     .on('error', (err) => {
       console.log(err.toString());
-      // Allows the stream to continue, thus not breaking watch§
+      // Allows the stream to continue, thus not breaking watch
       this.emit('end');
     })
     .pipe(gulp.dest(sources.js.distPath));
 });
 
-gulp.task('css:bust', ['scss:compile'], () => {
+gulp.task('css:bust', ['css:clean', 'scss:compile'], () => {
   gulp.src('../dist/assets/css/non-critical.css')
     .pipe(hash({
       hashLength: 16
     }))
     .pipe(gulp.dest('../dist/assets/css/'))
-    .pipe(hash.manifest('css-assets.json'))
-    .pipe(gulp.dest(sources.cacheJSON.distPath));
+    .pipe(hash.manifest('css-hash.json', true))
+    .pipe(gulp.dest(distDir('/')));
 });
 
 gulp.task('js:bust', ['js:clean', 'js:compile'], () => {
@@ -179,7 +180,7 @@ gulp.task('js:bust', ['js:clean', 'js:compile'], () => {
     }))
     .pipe(gulp.dest('../dist/assets/js/'))
     .pipe(hash.manifest('js-hash.json', true))
-    .pipe(gulp.dest('../dist/'));
+    .pipe(gulp.dest(distDir('/')));
 });
 
 gulp.task('scss:lint', () => {
@@ -217,3 +218,7 @@ gulp.task('lint', ['scss:compileJsToScss', 'scss:lint', 'js:lint']);
 gulp.task('compile', ['css:bust', 'js:bust', 'scss:compileJsToScss', 'scss:compileCritical', 'fonts:copy', 'images:copy', 'icons:copy', 'libs:copy']);
 gulp.task('build', ['scss', 'js']);
 gulp.task('dev', ['compile', 'watch']);
+
+function distDir(folder) {
+  return path.resolve(`${sources.dist}${folder || ''}`);
+}
