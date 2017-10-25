@@ -53,7 +53,7 @@ export const work = async(ctx, next) => {
     id,
     queryString,
     pageConfig: createPageConfig({
-      title: `Work: ${truncatedTitle}`,
+      title: truncatedTitle,
       inSection: 'images',
       category: 'collections',
       canonicalUri: `${ctx.globals.rootDomain}/works/${singleWork.id}`
@@ -72,7 +72,7 @@ export const work = async(ctx, next) => {
 export const search = async (ctx, next) => {
   const { query, page } = ctx.query;
   const queryString = ctx.search;
-  const results = query && query.trim() !== '' ? await getWorks(query, Number(page), getImageIndex(ctx)) : null;
+  const results = query && query.trim() !== '' ? await getWorks(query, page && Number(page), getImageIndex(ctx)) : null;
   const resultsArray = results && results.results || [];
   const pageSize = results && results.pageSize;
   const totalPages = results && results.totalPages;

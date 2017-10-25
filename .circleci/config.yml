@@ -2,7 +2,7 @@ version: 2
 jobs:
   checkout_code:
     docker:
-      - image: node:8.4.0
+      - image: node:6.10
     working_directory: ~/wellcomecollection.org
     steps:
       - checkout
@@ -12,7 +12,7 @@ jobs:
             -  ~/wellcomecollection.org
   install_server_modules:
     docker:
-      - image: node:8.4.0
+      - image: node:6.10
     working_directory: ~/wellcomecollection.org/server
     steps:
       - restore_cache:
@@ -21,12 +21,12 @@ jobs:
           name: Install server modules
           command: npm install --production
       - save_cache:
-          key: server_modules_{{ checksum "server/package.json" }}
+          key: server_modules_node_6_{{ checksum "server/package.json" }}
           paths:
             -  ~/wellcomecollection.org/server/node_modules
   install_client_modules:
     docker:
-      - image: node:8.4.0
+      - image: node:6.10
     working_directory: ~/wellcomecollection.org/client
     steps:
       - restore_cache:
@@ -35,28 +35,28 @@ jobs:
           name: Install client modules
           command: npm install
       - save_cache:
-          key: client_modules_{{ checksum "client/package.json" }}
+          key: client_modules_node_6_{{ checksum "client/package.json" }}
           paths:
             -  ~/wellcomecollection.org/client/node_modules
   build:
     docker:
-      - image: node:8.4.0
+      - image: node:6.10
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: server_modules_{{ checksum "server/package.json" }}
-          key: server_modules_
+          key: server_modules_node_6_{{ checksum "server/package.json" }}
+          key: server_modules_node_6_
       - restore_cache:
-          key: client_modules_{{ checksum "client/package.json" }}
-          key: client_modules_
+          key: client_modules_node_6_{{ checksum "client/package.json" }}
+          key: client_modules_node_6_
       - run:
           name: Build client
           command: ./build-client.sh
       - run:
           name: Build server
-          command: ./build-server.sh $CIRCLE_BUILD_NUM
+          command: ./build-server.sh $CIRCLE_SHA1
       - save_cache:
           key: built_server_{{ .Environment.CIRCLE_SHA1 }}
           paths:
@@ -67,14 +67,14 @@ jobs:
             -  ~/wellcomecollection.org/dist
   test:
     docker:
-      - image: node:8.4.0
+      - image: node:6.10
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: server_modules_{{ checksum "server/package.json" }}
-          key: server_modules_
+          key: server_modules_node_6_{{ checksum "server/package.json" }}
+          key: server_modules_node_6_
       - restore_cache:
           key: built_server_{{ .Environment.CIRCLE_SHA1 }}
       - run:
@@ -82,7 +82,7 @@ jobs:
           command: pushd server && npm run test && popd
   deploy_app:
     docker:
-      - image: node:8.4.0
+      - image: node:6.10
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -113,13 +113,13 @@ jobs:
             export PATH=~/.local/bin:$PATH
             pip install awscli --upgrade --user
             docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-            python ./.circleci/deploy_and_build_docker.py './' 'wellcome/wellcomecollection' $CIRCLE_BUILD_NUM
-            python ./.circleci/deploy_and_build_docker.py './nginx-proxy' 'wellcome/wellcomecollection-nginx-proxy' $CIRCLE_BUILD_NUM
-            python ./.circleci/deploy_and_build_docker.py './router' 'wellcome/wellcomecollection-router' $CIRCLE_BUILD_NUM
+            python ./.circleci/deploy_and_build_docker.py './' 'wellcome/wellcomecollection' $CIRCLE_SHA1
+            python ./.circleci/deploy_and_build_docker.py './nginx-proxy' 'wellcome/wellcomecollection-nginx-proxy' $CIRCLE_SHA1
+            python ./.circleci/deploy_and_build_docker.py './router' 'wellcome/wellcomecollection-router' $CIRCLE_SHA1
             ./build-speedtracker.sh
   deploy_cardigan:
     docker:
-      - image: node:8.4.0
+      - image: node:6.10
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
