@@ -289,7 +289,7 @@ function parseTaslFromCopyright(copyright) {
     const [title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink] = v;
     return {title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink};
   } catch (e) {
-    return copyright;
+    return {title: copyright};
   }
 }
 
