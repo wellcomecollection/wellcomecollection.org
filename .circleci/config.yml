@@ -112,11 +112,10 @@ jobs:
             python3.4 get-pip.py --user
             export PATH=~/.local/bin:$PATH
             pip install awscli --upgrade --user
-            docker build -t wellcome/wellcomecollection:$CIRCLE_SHA1 .
             docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-            docker push wellcome/wellcomecollection:$CIRCLE_SHA1
-            pushd nginx-proxy && ./docker-build.sh $CIRCLE_SHA1 && ./docker-push.sh $CIRCLE_SHA1 && popd
-            pushd router && ./docker-build.sh $CIRCLE_SHA1 && ./docker-push.sh $CIRCLE_SHA1 && popd
+            python ./.circleci/deploy_and_build_docker.py './' 'wellcome/wellcomecollection' $CIRCLE_SHA1
+            python ./.circleci/deploy_and_build_docker.py './nginx-proxy' 'wellcome/wellcomecollection-nginx-proxy' $CIRCLE_SHA1
+            python ./.circleci/deploy_and_build_docker.py './router' 'wellcome/wellcomecollection-router' $CIRCLE_SHA1
             ./build-speedtracker.sh
   deploy_cardigan:
     docker:
