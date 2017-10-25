@@ -27,6 +27,7 @@
   &:not([disabled]):hover,
   &:not([disabled]):focus {
     background: color('mint');
+    border-color: color('mint');
     cursor: pointer;
   }
 
