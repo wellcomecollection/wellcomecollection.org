@@ -12,6 +12,7 @@
 
     .enhanced & {
       padding: 0;
+      cursor: zoom-in;
     }
 
     @include respond-to(medium) {

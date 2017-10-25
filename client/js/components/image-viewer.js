@@ -54,10 +54,10 @@ const createImageViewer = (viewer) => {
       viewer.style.display = 'block';
     });
 
-    image.addEventListener('dblclick', (e) => {
+    image.addEventListener('click', (e) => {
       const gaData = {
         category: 'component',
-        action: 'work-enter-fullscreen-image:dblclick',
+        action: 'work-enter-fullscreen-image:imgclick',
         label: `id:${window.location.pathname.match(/\/works\/(.+)/)[1]}, title:${document.title}`
       };
       setupViewer(imageInfoSrc, viewer, viewerId);
