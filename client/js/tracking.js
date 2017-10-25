@@ -63,17 +63,6 @@ export default {
         trackOutboundLink(url);
       }
     });
-
-    fullscreenchange.forEach((eventName) => {
-      document.addEventListener(eventName, (event) => {
-        const status  = fullscreenEnabled() ? 'opened' : 'closed';
-        trackGaEvent({
-          category: 'component',
-          action: `fullscreen:${status}`,
-          label: `title:${document.title}, fullscreenElement:${event.target.className}`
-        });
-      });
-    });
   }
 };
 
