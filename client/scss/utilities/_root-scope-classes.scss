@@ -334,6 +334,11 @@
   font-weight: bold;
 }
 
+// This removes the element from the flow, as well as it's visibility
 .visually-hidden {
   @include visually-hidden;
+}
+
+.hidden {
+  visibility: hidden;
 }
