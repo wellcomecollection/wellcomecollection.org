@@ -149,7 +149,7 @@
   {% block transporters %}
     {% for series in article.series %}
       {% if series.commissionedLength %}
-        <div class="row {{ {s:10} | spacingClasses({padding: ['top']}) }}">
+        <div class="row">
           <div class="container digital-story-transporter">
             <div class="grid grid--no-gutters">
               <div class="{{ {s: 12, m: 10, shiftM: 1, l: 7, xl: 6, shiftXl: 1} | gridClasses }}">
