@@ -1,9 +1,8 @@
 {% set buttonFontClasses =  {s:'HNM5'} | fontClasses %}
-{% set buttonSpacingClasses =  {s: 1} | spacingClasses({margin: ['top', 'right', 'bottom', 'left']}) %}
 {% set commonBtnTracking = '"category": "component", "label": "id:' + data.id + ', title:' + data.trackTitle + '"' %}
 <div class="js-image-viewer image-viewer">
 
-  {% component 'button-button', {text: 'View larger image', icon: 'actions/zoom-in', modifierClasses: buttonFontClasses + ' ' + buttonSpacingClasses + ' image-viewer__launch-button js-image-viewer__launch-button', eventTracking: '{' + commonBtnTracking + ', "action": "work-launch-image-viewer:btnClick"}' } %}
+  {% component 'button-button', {text: 'View larger image', icon: 'actions/zoom-in', modifierClasses: ' btn--round ' + buttonFontClasses + ' image-viewer__launch-button js-image-viewer__launch-button', eventTracking: '{' + commonBtnTracking + ', "action": "work-launch-image-viewer:btnClick"}' } %}
 
   <div class="image-viewer__content" id="{{data.id}}" data-info-src="{{model.imageUrl | convertImageUri(full, false) | convertIiifUriToInfoUri}}">
     <div class="image-viewer__controls flex flex-end flex--v-center">

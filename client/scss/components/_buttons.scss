@@ -46,6 +46,17 @@
   }
 }
 
+.btn--round {
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+
+  .icon {
+    margin: 0;
+  }
+}
+
 .btn--light {
   @include secondary;
   color: color('black');

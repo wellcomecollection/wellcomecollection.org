@@ -40,7 +40,7 @@ $tweakpoints: (
 .back-to-top--visible {
   .enhanced & {
     opacity: 1;
-    transform: scale(1) translateX($link-dimension / 2);
+    transform: scale(1);
 
     @include respond-to('back-to-top-xlarge') {
       transform: scale(1) translateX(map-get($gutter-width, 'xlarge') + $link-dimension);

@@ -16,7 +16,7 @@
 {% endif %}
 <div class="row bg-black work-media js-work-media">
   <div class="pointer-events-none">
-    {% componentV2 'scroll-to-info', {elementId: 'work-info'}, {'work': true}, {extraClasses: ['flush-container-right','js-work-media-control', 'pointer-events-all', 'icon-rounder', 'border-color-charcoal border-hover-color-white'], extraIconClasses: ['icon--white']} %}
+    {% componentV2 'scroll-to-info', {elementId: 'work-info'}, {'work': true}, {extraClasses: ['flush-container-right','js-work-media-control', 'pointer-events-all'], extraIconClasses: ['icon--white']} %}
   </div>
 
   {% componentV2 'image', model.iiifModel, {}, model.iiifData %}

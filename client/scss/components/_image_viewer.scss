@@ -34,9 +34,13 @@
 .image-viewer__launch-button {
   position: absolute;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%) translateY(50%);
-  margin: 0;
+  right: $container-padding-s;
+  transform: translateX(-120%) translateY(50%);
+
+  @include respond-to('medium') {
+    right: 50%;
+    transform: translateX(50%) translateY(50%);
+  }
 
   .icon {
     margin: 0;
