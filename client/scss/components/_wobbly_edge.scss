@@ -36,4 +36,8 @@
 .wobbly-edge--small {
   height: 5vw;
   margin-top: -5vw;
+
+  @include respond-to('large') {
+    margin-top: -60px;
+  }
 }
