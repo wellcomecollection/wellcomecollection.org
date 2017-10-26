@@ -3,7 +3,7 @@
 }
 
 .image-viewer__content {
-  background-color: color('black');
+  background-color: color('charcoal');
   width: 100vw;
   height: 100vh;
   display: none;
@@ -26,7 +26,7 @@
 }
 
 .image-viewer__image {
-  background: #1d1d1d;
+  background: color('charcoal');
   width: 100%;
   height: calc(100vh - 3em);
 }
