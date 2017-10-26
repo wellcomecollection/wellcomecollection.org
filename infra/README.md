@@ -18,11 +18,11 @@ To do this run [`./setup.sh`](setup.sh)
 # Deploying a build
 
     `./deploy.py`
-    
+
 You should then be prompted to deploy the latest tag from the [Docker Registry](https://registry.hub.docker.com/v2/repositories/wellcome/wellcomecollection/tags/).
 
 If you'd like to commit a specific tag,
-you can use the [`./apply_task_definition.sh prod <CONTAINER_TAG>`](apply_task_definition.sh).   
+you can use the [`./apply_task_definition.sh <CONTAINER_TAG>`](apply_task_definition.sh).
 
 
 # Deploying infrastructure changes
