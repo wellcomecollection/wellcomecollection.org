@@ -6,11 +6,11 @@
 
   <div class="image-viewer__content" id="{{data.id}}" data-info-src="{{model.imageUrl | convertImageUri(full, false) | convertIiifUriToInfoUri}}">
     <div class="image-viewer__controls flex flex-end flex--v-center">
-      {% component 'button-button', {text: 'Zoom in', buttonId: 'zoom-in-' + data.id, icon: 'actions/zoom-in', modifierClasses: buttonFontClasses + ' ' + buttonSpacingClasses, eventTracking: '{' + commonBtnTracking + ', "action": "work-zoom-in-button:click"}' } %}
+      {% component 'button-button', {text: 'Zoom in', buttonId: 'zoom-in-' + data.id, icon: 'actions/zoom-in', modifierClasses: buttonFontClasses + ' btn--round btn--charcoal ' + {s: 1} | spacingClasses({margin: ['right']}), eventTracking: '{' + commonBtnTracking + ', "action": "work-zoom-in-button:click"}' } %}
 
-      {% component 'button-button', {text: 'Zoom out', buttonId: 'zoom-out-' + data.id, icon: 'actions/zoom-out', modifierClasses: buttonFontClasses + ' ' + buttonSpacingClasses, eventTracking: '{' + commonBtnTracking + ', "action": "work-zoom-out-button:click"}' } %}
+      {% component 'button-button', {text: 'Zoom out', buttonId: 'zoom-out-' + data.id, icon: 'actions/zoom-out', modifierClasses: buttonFontClasses + ' btn--round btn--charcoal ' + {s: 8} | spacingClasses({margin: ['right']}), eventTracking: '{' + commonBtnTracking + ', "action": "work-zoom-out-button:click"}' } %}
 
-      {% component 'button-button', {text: 'Close image viewer', icon: 'actions/clear', modifierClasses: buttonFontClasses + ' ' + buttonSpacingClasses + ' btn--transparent-black js-image-viewer__exit-button', eventTracking: '{' + commonBtnTracking + ', "action": "work-exit-image-viewer:btnClick"}' } %}
+      {% component 'button-button', {text: 'Close image viewer', icon: 'actions/cross', modifierClasses: buttonFontClasses + ' btn--round btn--charcoal js-image-viewer__exit-button ' + {s: 2} | spacingClasses({margin: ['right']}), extraIconClasses: 'icon--2x',  eventTracking: '{' + commonBtnTracking + ', "action": "work-exit-image-viewer:btnClick"}' } %}
     </div>
 
     {% componentV2 'divider', null, {'charcoal': true, 'keyline': true}  %}

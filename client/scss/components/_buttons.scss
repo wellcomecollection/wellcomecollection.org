@@ -56,6 +56,19 @@
   }
 }
 
+.btn--charcoal {
+  @include secondary;
+  color: color('white');
+  border-color: color('charcoal');
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: unset;
+
+  &:not([disabled]):hover,
+  &:not([disabled]):focus {
+    border-color: color('pewter');
+  }
+}
+
 .btn--light {
   @include secondary;
   color: color('black');
