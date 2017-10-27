@@ -33,6 +33,11 @@
 }
 
 @for $i from 1 through 5 {
+  .border-width-#{$i} {
+    border-width: #{$i}px;
+    border-style: solid;
+  }
+
   @each $direction in $spacing-directions {
     .border-#{$direction}-width-#{$i} {
       border-#{$direction}-width: #{$i}px;
@@ -56,6 +61,13 @@
     background: nth($color-value, 1);
   }
 
+  .bg-hover-#{$color-key} {
+    &:hover,
+    &:focus {
+      background: nth($color-value, 1);
+    }
+  }
+
   .border-color-#{$color-key} {
     border-color: nth($color-value, 1);
   }
@@ -65,6 +77,11 @@
     border-color: nth($color-value, 1);
   }
 }
+
+.transition-bg {
+  transition: background $transition-properties;
+}
+
 // stylelint-enable sh-waqar/declaration-use-variable
 
 .caps {
