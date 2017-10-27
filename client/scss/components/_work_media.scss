@@ -1,14 +1,10 @@
 .work-media {
   position: relative;
   min-height: 200px;
-  height: calc(100vh - 110px);
+  height: calc(100vh - 160px);
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-  @include respond-to(medium) {
-    height: calc(100vh - 150px);
-  }
 
   @include respond-to(large) {
     height: calc(100vh - 200px);
