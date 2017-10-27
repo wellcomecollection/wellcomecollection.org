@@ -65,7 +65,8 @@
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
-    border-color: color('pewter');
+    background-color: color('black');
+    border-color: color('charcoal');
   }
 }
 
