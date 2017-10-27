@@ -5,7 +5,7 @@
         <div class="{{ {s:12} | gridClasses }}">
           {% set returnHref = '/works' + model.queryString + '#' + model.id %}
           {% set returnTracking = '{"category": "component", "action": "return-to-results:click", "label": "id:' + model.id + ', query:' + model.queryString + ', title:' + model.trackTitle +'"}' %}
-          <a class="flex-inline flex-v-center {{ {s:'HNM4'} | fontClasses }} plain-link font-elf-green font-hover-mint {{ {s:2} | spacingClasses({margin: ['top', 'bottom']}) }} " href="{{returnHref}}" data-track-event="{{returnTracking}}">
+          <a class="flex-inline flex-v-center {{ {s:'HNM4'} | fontClasses }} plain-link font-elf-green font-hover-mint {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} " href="{{returnHref}}" data-track-event="{{returnTracking}}">
             {% icon 'actions/arrow', null, ['icon--elf-green icon--180'] %}
             <span class="{{ {s:1} | spacingClasses({margin: ['left']}) }}">Search results</span>
           </a>
