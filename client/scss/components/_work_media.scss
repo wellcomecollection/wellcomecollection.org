@@ -1,21 +1,27 @@
 .work-media {
   position: relative;
+  min-height: 200px;
+  height: calc(100vh - 160px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  @include respond-to(large) {
+    height: calc(100vh - 200px);
+  }
 
   .image {
     min-height: 200px;
-    max-height: calc(100vh - 120px);
+    max-height: 100%;
+    max-width: 800px;
     width: auto;
     height: auto;
-    max-width: 800px;
     margin: 0 auto;
     padding: 10 * $spacing-unit;
 
     .enhanced & {
       padding: 0;
-    }
-
-    @include respond-to(medium) {
-      max-height: calc(100vh - 140px);
+      cursor: zoom-in;
     }
 
     @supports (object-fit: contain) {
@@ -27,19 +33,5 @@
 
   .image--noscript {
     display: block;
-  }
-}
-
-.work-media__controls {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  transition: opacity 400ms ease;
-  pointer-events: none;
-
-  .enhanced & {
-    opacity: 1;
   }
 }

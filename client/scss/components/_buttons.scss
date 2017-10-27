@@ -13,20 +13,20 @@
   min-height: 42px;
   padding: $v-spacing-unit $spacing-unit*2;
   color: color('white');
-  background-color: color('seaweed');
-  border: 2px solid color('seaweed');
+  background-color: color('elf-green');
+  border: 2px solid color('elf-green');
   border-radius: $border-radius-unit;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: bold;
   text-decoration: none;
   text-align: center;
-  outline: none;
   transition: background 0.7s ease, border-color 0.7s ease, color 0.7s ease;
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
     background: color('mint');
+    border-color: color('mint');
     cursor: pointer;
   }
 
@@ -42,6 +42,31 @@
 
   .icon__shape {
     fill: currentColor;
+  }
+}
+
+.btn--round {
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+
+  .icon {
+    margin: 0;
+  }
+}
+
+.btn--charcoal {
+  @include secondary;
+  color: color('white');
+  border-color: color('charcoal');
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: unset;
+
+  &:not([disabled]):hover,
+  &:not([disabled]):focus {
+    background-color: color('black');
+    border-color: color('charcoal');
   }
 }
 

@@ -1,14 +1,22 @@
-<div class="row bg-black work-media js-work-media">
-  <div class="work-media__controls js-work-media-controls pointer-events-none">
-    {% if model.queryString %}
-      <div class="flush-container-left {{ {s:2} | spacingClasses({padding: ['top']}) }}">
-      {% set btnHref = '/works' + model.queryString + '#' + model.id %}
-      {% set btnTracking = '{"category": "component", "action": "return-to-results:click", "label": "id:' + model.id + ', query:' + model.queryString + ', title:' + model.trackTitle +'"}' %}
-      {% component 'button-link', {href: btnHref, text: 'Return to results', icon: 'actions/arrow', modifierClasses: 'btn--transparent-black pointer-events-all js-work-media-control', eventTracking: btnTracking, extraIconClasses: ['icon--180'] } %}
+{% if model.queryString %}
+  <div class="row is-hidden-s is-hidden-m">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:12} | gridClasses }}">
+          {% set returnHref = '/works' + model.queryString + '#' + model.id %}
+          {% set returnTracking = '{"category": "component", "action": "return-to-results:click", "label": "id:' + model.id + ', query:' + model.queryString + ', title:' + model.trackTitle +'"}' %}
+          <a class="flex-inline flex-v-center {{ {s:'HNM4'} | fontClasses }} plain-link font-elf-green font-hover-mint {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} " href="{{returnHref}}" data-track-event="{{returnTracking}}">
+            {% icon 'actions/arrow', null, ['icon--elf-green icon--180'] %}
+            <span class="{{ {s:1} | spacingClasses({margin: ['left']}) }}">Search results</span>
+          </a>
+        </div>
       </div>
-    {% endif %}
-
-    {% componentV2 'scroll-to-info', {elementId: 'work-info'}, {'work': true}, {extraClasses: ['flush-container-right','js-work-media-control', 'pointer-events-all', 'icon-rounder', 'border-color-charcoal border-hover-color-white'], extraIconClasses: ['icon--white']} %}
+    </div>
+  </div>
+{% endif %}
+<div class="row bg-charcoal work-media js-work-media">
+  <div class="pointer-events-none">
+    {% componentV2 'scroll-to-info', {elementId: 'work-info'}, {'work': true}, {extraClasses: ['flush-container-right','js-work-media-control', 'pointer-events-all'], extraIconClasses: ['icon--white']} %}
   </div>
 
   {% componentV2 'image', model.iiifModel, {}, model.iiifData %}

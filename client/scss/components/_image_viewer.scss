@@ -1,9 +1,9 @@
-.image-viewer-fullscreen {
+.image-viewer {
   display: none; // shown with javascript if browser has the required support
 }
 
-.image-viewer-fullscreen__content {
-  background-color: color('black');
+.image-viewer__content {
+  background-color: color('charcoal');
   width: 100vw;
   height: 100vh;
   display: none;
@@ -11,58 +11,42 @@
   z-index: 1000;
   top: 0;
   left: 0;
-
-  &:fullscreen {
-    position: static;
-    display: block;
-  }
 }
 
-.image-viewer-fullscreen__controls {
+.image-viewer__controls {
   height: 3em;
 
   .icon {
     margin: 0;
-
-    @include respond-to('medium') {
-      margin-right: $spacing-unit;
-    }
   }
 
   .btn__text {
-    display: none;
-
-    @include respond-to('medium') {
-      display: inline-block;
-    }
+    @include visually-hidden;
   }
 }
 
-.image-viewer-fullscreen__image {
-  background: #1d1d1d;
+.image-viewer__image {
+  background: color('charcoal');
   width: 100%;
   height: calc(100vh - 3em);
 }
 
-.image-viewer-fullscreen__launch-button {
+.image-viewer__launch-button {
   position: absolute;
-  bottom: $v-spacing-unit*4;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 0;
+  right: $container-padding-s;
+  transform: translateX(-120%) translateY(50%);
+
+  @include respond-to('medium') {
+    right: 50%;
+    transform: translateX(50%) translateY(50%);
+  }
 
   .icon {
     margin: 0;
-
-    @include respond-to('medium') {
-      margin-right: $spacing-unit;
-    }
   }
 
   .btn__text {
-    display: none;
-
-    @include respond-to('medium') {
-      display: inline-block;
-    }
+    @include visually-hidden;
   }
 }

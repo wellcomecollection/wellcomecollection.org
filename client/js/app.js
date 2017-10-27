@@ -60,7 +60,7 @@ const init = () => {
   const copyUrlEls = document.querySelectorAll('.js-copy-url');
   const searchBoxEls = document.querySelectorAll('.js-search-box');
   const iframeContainerEls = document.querySelectorAll('.js-iframe-container');
-  const viewersFullscreen = document.querySelectorAll('.js-image-viewer-fullscreen');
+  const viewersFullscreen = document.querySelectorAll('.js-image-viewer');
   const infoBannerEls = document.querySelectorAll('.js-info-banner');
 
   nodeList(infoBannerEls).forEach(infoBanner);

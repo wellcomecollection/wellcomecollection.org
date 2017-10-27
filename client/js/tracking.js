@@ -1,6 +1,6 @@
 /* global ga */
 
-import { on, fullscreenchange, fullscreenEnabled } from './util';
+import { on } from './util';
 
 const maybeTrackEvent = (hasAnalytics) => {
   if (hasAnalytics) {
@@ -62,17 +62,6 @@ export default {
       if (isExternal(url)) {
         trackOutboundLink(url);
       }
-    });
-
-    fullscreenchange.forEach((eventName) => {
-      document.addEventListener(eventName, (event) => {
-        const status  = fullscreenEnabled() ? 'opened' : 'closed';
-        trackGaEvent({
-          category: 'component',
-          action: `fullscreen:${status}`,
-          label: `title:${document.title}, fullscreenElement:${event.target.className}`
-        });
-      });
     });
   }
 };
