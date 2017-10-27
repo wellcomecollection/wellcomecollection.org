@@ -16,8 +16,7 @@ export const context = {
     {
       prefix: 'Part of:',
       text: 'A Museum of Modern Nature',
-      url: '/components/preview/exhibition-template.html',
-      bgColor: 'teal'
+      url: '/components/preview/exhibition-template.html'
     }]
   },
   video: {
