@@ -1,6 +1,7 @@
 apps:
   - script   : './.dist/run.js'
     name     : 'wellcomecollection.org'
-    instances: 1
+    exec_mode: 'cluster'
+    instances: 'max'
     env:
       NODE_ENV: "production"
