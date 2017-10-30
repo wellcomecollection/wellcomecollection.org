@@ -20,7 +20,7 @@ app.use(determineFeaturesCohort());
 app.use(render(config.views.path, globals));
 // `error` is only after `intervalCache` and `render` as there's a dependency chain there
 // TODO: remove dependency chain
-app.use(serverError(globals.beaconError));
+app.use(serverError(globals.beaconErrors));
 app.use(notFound());
 app.use(setCacheControl(config.cacheControl));
 app.use(serve(config.static.path));
