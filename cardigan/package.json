@@ -1,18 +1,21 @@
 {
+  "description": "Wellcome Collection's design system",
+  "repository": "https://github.com/wellcometrust/wellcomecollection.org/tree/master/cardigan",
+  "license": "MIT",
   "scripts": {
     "app": "fractal start --sync --port 3002",
     "app:build": "node ./build-cardigan.js",
-    "app:watch": "nodemon -e js,njk,yml,md --exec 'fractal start --sync --port 3002'"
+    "app:dev": "nodemon -e js,njk,yml,md --exec 'fractal start --sync --port 3002'"
   },
   "dependencies": {
-    "@frctl/fractal": "^1.1.4",
-    "@frctl/mandelbrot": "^1.1.0",
+    "@frctl/fractal": "^1.1.7",
+    "@frctl/mandelbrot": "^1.2.0",
     "@frctl/nunjucks": "^1.0.3",
-    "babel-polyfill": "^6.23.0",
-    "babel-preset-env": "^1.5.2",
-    "babel-register": "^6.24.1",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
     "fractal": "0.0.3",
-    "immutable": "^3.8.1",
-    "nodemon": "^1.11.0"
+    "immutable": "^3.8.2",
+    "nodemon": "^1.12.1"
   }
 }
