@@ -2,7 +2,15 @@
   <div class="container">
     <div class="grid">
       <div class="{{ {s:12, m:6, l:3} | gridClasses }}">
-        {% component 'footer-nav', {navLinks: navLinks} %}
+        <h3 class="footer__heading {{ {s:'HNL5'} | fontClasses }} relative">
+          <span class="hidden">Wellcome collection</span>
+          <a href="#" class="footer-nav__brand absolute">
+            {% include "icons/other/wellcome-collection-white.svg.njk" %}
+          </a>
+        </h3>
+        <div class="border-top-width-1 border-color-charcoal">
+          {% component 'footer-nav', {navLinks: navLinks} %}
+        </div>
       </div>
       <div class="{{ {s:12, m:6, l:3} | gridClasses }}">
         <h3 class="footer__heading {{ {s:'HNL5'} | fontClasses }}">Finding us:</h3>
