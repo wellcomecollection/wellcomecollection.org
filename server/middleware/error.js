@@ -10,8 +10,9 @@ export function serverError(beaconError) {
       const url = ctx.request.href;
       ctx.status = err.status || 500;
 
-      console.error(err, url);
-      if (beaconError) {
+      console.error(err, url, ctx.status);
+      if (beaconError && (ctx.status < 400 || ctx.status >= 500)) {
+        console.info('boom')
         Raven.captureException(err, {extra: {url: ctx.request.href}});
       }
 
