@@ -93,7 +93,8 @@ export function eventLd(event: Event) {
     },
     startDate: event.when.map(range => range.start),
     endDate: event.when.map(range => range.start),
-    description: event.description
+    description: event.description,
+    image: event.featuredImage && event.featuredImage.contentUrl
   }, 'Event');
 }
 
