@@ -4,6 +4,6 @@ apps:
     exec_mode: 'cluster'
     instances: 'max'
     # Every 6 hours
-    cron_restart: '0 0 0/6 1/1 * ? *'
+    cron_restart: '0 */6 * * *'
     env:
       NODE_ENV: "production"
