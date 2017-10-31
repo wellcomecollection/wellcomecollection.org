@@ -1,10 +1,5 @@
 FROM node:8-alpine
 
-ARG KEYMETRICS_PUBLIC
-ARG KEYMETRICS_SECRET
-ENV KEYMETRICS_PUBLIC=$KEYMETRICS_PUBLIC
-ENV KEYMETRICS_SECRET=$KEYMETRICS_SECRET
-
 # setup a user so as not to run as root
 # see: https://github.com/nodejs/docker-node/blob/master/docs/BestPractices.md#non-root-user
 RUN adduser -S wellcomecollection
