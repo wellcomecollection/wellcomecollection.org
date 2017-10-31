@@ -113,7 +113,8 @@ jobs:
             export PATH=~/.local/bin:$PATH
             pip install awscli --upgrade --user
             docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-            python ./.circleci/deploy_and_build_docker.py './' 'wellcome/wellcomecollection' $CIRCLE_SHA1
+            docker build --rm=false --build-arg KEYMETRICS_PUBLIC=$KEYMETRICS_PUBLIC --build-arg KEYMETRICS_SECRET=$KEYMETRICS_SECRET \
+                         --tag wellcome/wellcomecollection:$CIRCLE_SHA1 .
             python ./.circleci/deploy_and_build_docker.py './nginx-proxy' 'wellcome/wellcomecollection-nginx-proxy' $CIRCLE_SHA1
             python ./.circleci/deploy_and_build_docker.py './router' 'wellcome/wellcomecollection-router' $CIRCLE_SHA1
             ./build-speedtracker.sh
