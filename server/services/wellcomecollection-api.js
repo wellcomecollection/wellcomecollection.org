@@ -29,7 +29,7 @@ export async function getWork(id: string, imageIndex: string): Promise<Work> {
 export async function getWorks(query: string, page: number, imageIndex: string): Promise<Work> {
   const indexParam = imageIndex ? {'_index': imageIndex} : {};
   const totalQuery: WorksQuery = Object.assign({}, indexParam, {query, includes: 'identifiers,thumbnail', page, pageSize: 96});
-  
+
   const resp = await superagent.get(`${baseUri}/works`).query(totalQuery);
   return resp.body;
 }
