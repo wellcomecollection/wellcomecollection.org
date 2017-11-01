@@ -13,7 +13,7 @@ import componentClasses from './component-classes';
 import concat from './concat';
 import contains from './contains';
 import {convertImageUri, convertIiifUriToInfoUri} from './convert-image-uri';
-import getCacheBustFile from './get-cache-bust-file';
+import {getHashedFile} from './get-hashed-file';
 import jsonLd from './json-ld';
 import {isFlagEnabled, getFlagValue} from '../util/flag-status';
 import {objectAssign} from './object-assign';
@@ -55,7 +55,6 @@ export default Map({
   componentClasses,
   convertImageUri,
   convertIiifUriToInfoUri,
-  getCacheBustFile,
   getFlagValue,
   jsonLd,
   formatDate,
@@ -78,5 +77,6 @@ export default Map({
   getLicenseInfo,
   getTaslMarkup,
   getBreakpoint,
-  joinDateStrings
+  joinDateStrings,
+  getHashedFile
 });

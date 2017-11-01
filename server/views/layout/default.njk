@@ -12,7 +12,7 @@
     <style>
       {% include "partials/critical.css.njk" %}
     </style>
-    <link rel="preload" href="/assets/css/{{ 'non-critical.css' | getCacheBustFile }}" as="style" onload="this.rel='stylesheet'">
+    <link rel="preload" href="/assets/css/{{ 'non-critical.css' | getHashedFile }}" as="style" onload="this.rel='stylesheet'">
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png"/>
 
     <link rel="shortcut icon" href="/assets/icons/favicon.ico" type="image/ico">
@@ -22,7 +22,7 @@
     <link rel="mask-icon" href="/assets/icons/safari-pinned-tab.svg" color="#000000"/>
     <script src="/assets/libs/picturefill.min.js" async></script>
     <script async defer src="//platform.twitter.com/widgets.js"></script>
-    {% component 'head-js', { file:  'app.js' | getCacheBustFile  } %}
+    {% component 'head-js', { file: ('app.js' | getHashedFile) } %}
     <script type="application/ld+json">
       {{ pageConfig.organization | jsonLd('museumLd') | safe }}
     </script>
@@ -130,7 +130,7 @@
     {% component 'cookie-notification' %}
 
     <noscript>
-      <link rel="stylesheet" href="/assets/css/{{ 'non-critical.css' | getCacheBustFile }}">
+      <link rel="stylesheet" href="/assets/css/{{ 'non-critical.css' | getHashedFile }}">
     </noscript>
     <script>
       if (['localhost', 'cardigan.wellcomecollection.org'].indexOf(document.location.hostname) === -1) {
