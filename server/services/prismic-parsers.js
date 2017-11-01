@@ -191,7 +191,7 @@ export function parsePicture(captionedImage: Object, minWidth: ?string = null): 
     contentUrl: image && image.url,
     width: image && image.dimensions.width,
     height: image && image.dimensions.height,
-    caption: captionedImage.caption && captionedImage.caption.length !== 0 ? asHtml(captionedImage.caption) : null,
+    caption: captionedImage.caption && asHtml(captionedImage.caption),
     alt: image && image.alt,
     title: tasl && tasl.title,
     author: tasl && tasl.author,
@@ -317,7 +317,11 @@ export function asText(maybeContent: any) {
 }
 
 export function asHtml(maybeContent: any) {
-  return maybeContent && RichText.asHtml(maybeContent).trim();
+  // Prismic can send us empty html elements which can lead to unwanted UI in templates.
+  // Check that there's at least one non-empty item.
+  const isNonEmpty = maybeContent && maybeContent.some(el => el.text && el.text.trim() !== '');
+
+  return isNonEmpty ? RichText.asHtml(maybeContent).trim() : null;
 }
 
 function isEmptyDocLink(fragment) {
