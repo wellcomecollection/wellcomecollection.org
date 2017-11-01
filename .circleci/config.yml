@@ -130,7 +130,7 @@ jobs:
               python3.4 get-pip.py --user
               export PATH=~/.local/bin:$PATH
               pip install awscli --upgrade --user
-              aws s3 sync . s3://i.wellcomecollection.org
+              aws s3 sync --only-show-errors . s3://i.wellcomecollection.org
   deploy_cardigan:
     docker:
       - image: node:6.10
@@ -175,6 +175,9 @@ workflows:
           requires:
             - checkout_code
             - build
+      - deploy_assets:
+          requires:
+            - test
       - deploy_app:
           requires:
             - test
@@ -182,14 +185,6 @@ workflows:
             branches:
               only:
                 - master
-      - deploy_assets:
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - master
-                - i-hosted-assets
       - deploy_cardigan:
           requires:
             - test
