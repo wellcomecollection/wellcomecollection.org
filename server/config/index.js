@@ -1,4 +1,4 @@
-import overrides from './overrides.json';  // Te override file allows you to inject JSON config into the app
+import overrides from './overrides.json';  // This allows you to inject JSON config into the app
 const defaultConfig = {
   app: {
     name: 'wellcomecollection.org',
