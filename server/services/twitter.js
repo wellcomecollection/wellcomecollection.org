@@ -6,38 +6,34 @@ async function getTwitterAccessToken() {
   const urlEncodedK = encodeURIComponent('qpsVJlsTg22FFKr1fwzkzU4Ew');
   const urlEncodedS = encodeURIComponent('kmXPnluTYkl7oH4mRlC1EgthH8KLT9mBpezgK3wBaFQviC23Ru');
   const base64EncodedKS = Buffer.from(`${urlEncodedK}:${urlEncodedS}`).toString('base64');
-  const accessToken = await superagent.post('https://api.twitter.com/oauth2/token')
+  const accessTokenResp = await superagent.post('https://api.twitter.com/oauth2/token')
     .set('Authorization', `Basic ${base64EncodedKS}`)
     .set('Content-Type', 'application/x-www-form-urlencoded')
-    .send('grant_type=client_credentials')
-    .then(data => data.body.access_token);
+    .send('grant_type=client_credentials');
 
-  return accessToken;
+  return accessTokenResp.body.access_token;
 }
 
 async function getLatestTweetDetails(count) {
   const accessToken = await getTwitterAccessToken();
-  const latestTweetDetails = await superagent.get('https://api.twitter.com/1.1/statuses/user_timeline.json')
+  const latestTweetDetailsResp = await superagent.get('https://api.twitter.com/1.1/statuses/user_timeline.json')
     .query({
       screen_name: 'explorewellcome',
       include_rts: false,
       exclude_replies: true
     })
-    .set('Authorization', `Bearer ${accessToken}`)
-    .then(data => {
-      return data.body
-        .filter((item, index) => index < count)
-        .map(i => {
-          return {
-            id: i.id_str,
-            text: i.text,
-            screenName: i.user.screen_name,
-            createdAt: new Date(i.created_at)
-          };
-        });
-    });
+    .set('Authorization', `Bearer ${accessToken}`);
 
-  return latestTweetDetails;
+  return latestTweetDetailsResp.body
+    .filter((item, index) => index < count)
+    .map(i => {
+      return {
+        id: i.id_str,
+        text: i.text,
+        screenName: i.user.screen_name,
+        createdAt: new Date(i.created_at)
+      };
+    });
 }
 
 export async function getLatestTweets(count) {
