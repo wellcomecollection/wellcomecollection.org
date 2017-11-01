@@ -21,7 +21,7 @@ jobs:
           name: Install server modules
           command: npm install --production
       - save_cache:
-          key: server_modules_node_6_{{ checksum "server/package.json" }}
+          key: server_modules_node_6_{{ checksum "package.json" }}
           paths:
             -  ~/wellcomecollection.org/server/node_modules
   install_client_modules:
@@ -35,7 +35,7 @@ jobs:
           name: Install client modules
           command: npm install
       - save_cache:
-          key: client_modules_node_6_{{ checksum "client/package.json" }}
+          key: client_modules_node_6_{{ checksum "package.json" }}
           paths:
             -  ~/wellcomecollection.org/client/node_modules
   build:
