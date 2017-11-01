@@ -104,19 +104,31 @@ jobs:
       - run:
           name: Deploy
           command: |
-            # Install AWS CLI. Taken from:
-            # http://docs.aws.amazon.com/cli/latest/userguide/awscli-install-linux.html
-            apt-get -y -qq update
-            apt-get -y -qq install python3.4-dev
-            curl -O https://bootstrap.pypa.io/get-pip.py
-            python3.4 get-pip.py --user
-            export PATH=~/.local/bin:$PATH
-            pip install awscli --upgrade --user
             docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
             python ./.circleci/deploy_and_build_docker.py './' 'wellcome/wellcomecollection' $CIRCLE_SHA1
             python ./.circleci/deploy_and_build_docker.py './nginx-proxy' 'wellcome/wellcomecollection-nginx-proxy' $CIRCLE_SHA1
             python ./.circleci/deploy_and_build_docker.py './router' 'wellcome/wellcomecollection-router' $CIRCLE_SHA1
             ./build-speedtracker.sh
+  deploy_assets:
+      docker:
+        - image: node:6.10
+      working_directory: ~/wellcomecollection.org/dist
+      steps:
+        - restore_cache:
+            key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
+        - add_ssh_keys
+        - run:
+            name: Install AWS CLI
+            command: |
+              # Taken from
+              # http://docs.aws.amazon.com/cli/latest/userguide/awscli-install-linux.html
+              apt-get -y -qq update
+              apt-get -y -qq install python3.4-dev
+              curl -O https://bootstrap.pypa.io/get-pip.py
+              python3.4 get-pip.py --user
+              export PATH=~/.local/bin:$PATH
+              pip install awscli --upgrade --user
+              aws s3 sync --only-show-errors . s3://i.wellcomecollection.org
   deploy_cardigan:
     docker:
       - image: node:6.10
@@ -161,6 +173,9 @@ workflows:
           requires:
             - checkout_code
             - build
+      - deploy_assets:
+          requires:
+            - test
       - deploy_app:
           requires:
             - test
