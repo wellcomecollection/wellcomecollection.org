@@ -8,7 +8,7 @@ module "router_alb" {
     "${module.router_cluster_asg.loadbalancer_sg_http_id}",
   ]
 
-  certificate_domain = "*.wellcomecollection.org"
+  certificate_domain = "wellcomecollection.org"
   vpc_id             = "${local.vpc_id}"
 
   alb_access_log_bucket = "${aws_s3_bucket.alb-logs.id}"
