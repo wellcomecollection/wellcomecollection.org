@@ -9,9 +9,12 @@ h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
 <script>
 {# Google Analytics #}
 {#
-  Modern browser implementation:
-  https://developers.google.com/analytics/devguides/collection/analyticsjs/#alternative_async_tracking_snippet
- #}
+  We will have two triackers, one that has been used on the v1 site, and v2 site (UA-55614-6)
+  The other is jsut for the v2 site UA-55614-24
+
+  The v1 site was setup with a lot of configuration, which feels like it would be out of sync with
+  the new questions we would like ask of our analytics, so this was for a clean slate.
+#}
 window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
 ga('create', 'UA-55614-24', 'auto', 'v2');
 ga('v2.send', 'pageview');
