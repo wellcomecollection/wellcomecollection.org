@@ -22,7 +22,9 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   aliases = [
     "wellcomecollection.org",
     "next.wellcomecollection.org",
-    "blog.wellcomecollection.org"
+    "blog.wellcomecollection.org",
+    "wellcomeimages.org",
+    "router.wellcomeimages.org"
   ]
 
   default_cache_behavior {
