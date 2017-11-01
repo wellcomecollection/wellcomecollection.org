@@ -169,7 +169,9 @@ gulp.task('css:bust', ['css:clean', 'scss:compile'], () => {
       hashLength: 16
     }))
     .pipe(gulp.dest('../dist/assets/css/'))
-    .pipe(hash.manifest('css-hash.json', true))
+    .pipe(hash.manifest('css-hash.json', {
+      append: true
+    }))
     .pipe(gulp.dest(distDir('/')));
 });
 
@@ -179,7 +181,9 @@ gulp.task('js:bust', ['js:clean', 'js:compile'], () => {
       hashlength: 16
     }))
     .pipe(gulp.dest('../dist/assets/js/'))
-    .pipe(hash.manifest('js-hash.json', true))
+    .pipe(hash.manifest('js-hash.json', {
+      append: true
+    }))
     .pipe(gulp.dest(distDir('/')));
 });
 

@@ -7,6 +7,7 @@ import setCacheControl from './middleware/set-cache-control';
 import {serverError, notFound} from './middleware/error';
 import {determineFeaturesCohort} from './middleware/features-cohort';
 import {intervalCache} from './middleware/interval-cache';
+import {setFeaturesCohortFromCtx} from './middleware/set-features-cohort-from-ctx';
 
 const app = new Koa();
 const globals = config.globals[app.env];
@@ -17,6 +18,7 @@ app.use((ctx, next) => {
 });
 app.use(intervalCache());
 app.use(determineFeaturesCohort());
+app.use(setFeaturesCohortFromCtx());
 app.use(render(config.views.path, globals));
 // `error` is only after `intervalCache` and `render` as there's a dependency chain there
 // TODO: remove dependency chain
