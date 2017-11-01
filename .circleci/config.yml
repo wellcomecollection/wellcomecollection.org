@@ -115,8 +115,6 @@ jobs:
       working_directory: ~/wellcomecollection.org/dist
       steps:
         - restore_cache:
-            key: repo_{{ .Environment.CIRCLE_SHA1 }}
-        - restore_cache:
             key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
         - add_ssh_keys
         - run:
