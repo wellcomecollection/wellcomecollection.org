@@ -8,6 +8,10 @@ h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
 </script>
 <script>
 {# Google Analytics #}
+{#
+  Modern browser implementation:
+  https://developers.google.com/analytics/devguides/collection/analyticsjs/#alternative_async_tracking_snippet
+ #}
 window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
 ga('create', 'UA-55614-24', 'auto', 'v2');
 ga('v2.send', 'pageview');
