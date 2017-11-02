@@ -12,8 +12,7 @@ export function serverError(beaconError) {
 
       console.error(err, url, ctx.status);
       if (beaconError && (ctx.status < 400 || ctx.status >= 500)) {
-        console.info('boom')
-        Raven.captureException(err, {extra: {url: ctx.request.href}});
+        Raven.captureException(err, {extra: {url: ctx.request.href, statusCode: ctx.status}});
       }
 
       ctx.render('pages/error', {
@@ -38,6 +37,6 @@ export function notFound() {
           title: `${ctx.status} error`
         })
       });
-    };
+    }
   }
 }
