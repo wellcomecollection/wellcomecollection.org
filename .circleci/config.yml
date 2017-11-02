@@ -52,14 +52,14 @@ jobs:
           key: client_modules_node_6_{{ checksum "client/package.json" }}
           key: client_modules_node_6_
       - run:
+          name: Build prod config
+          command: ./build_prod_config.py
+      - run:
           name: Build client
           command: ./build-client.sh
       - run:
           name: Build server
           command: ./build-server.sh $CIRCLE_SHA1
-      - run:
-          name: Build prod config
-          command: ./build_prod_config.py
       - save_cache:
           key: built_server_{{ .Environment.CIRCLE_SHA1 }}
           paths:
