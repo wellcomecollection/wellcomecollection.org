@@ -25,7 +25,7 @@ r.get('/flags', featureFlags);
 r.get('/kaboom', (ctx, next) => {
   ctx.throw('Error Message', 500);
 });
-r.get('/download', (ctx, next) => {
+r.get('/download', async (ctx, next) => {
   const uri = ctx.request.query.uri;
   const allowedDomains = [
     'https://iiif.wellcomecollection.org',
@@ -33,10 +33,13 @@ r.get('/download', (ctx, next) => {
   ];
 
   if (uri.match(new RegExp(allowedDomains.join('|')))) {
+    const body = await request(uri);
     ctx.body = request(uri);
   } else {
     ctx.throw('Invalid image host', 422);
   }
+
+  return next();
 });
 r.get('/management/healthcheck', healthcheck);
 r.get('/management/manifest', async (ctx, next) => {
