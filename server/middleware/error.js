@@ -37,6 +37,6 @@ export function notFound() {
           title: `${ctx.status} error`
         })
       });
-    };
+    }
   }
 }
