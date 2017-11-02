@@ -14,4 +14,9 @@ resource "aws_s3_bucket" "website_bucket" {
   website {
     index_document = "index.html"
   }
+
+  cors_rule {
+    allowed_methods = ["GET"]
+    allowed_origins = ["*"]
+  }
 }

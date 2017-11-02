@@ -1,11 +1,10 @@
-import prodConfig from './prod.json';
+import overrides from './overrides.json';  // This allows you to inject JSON config into the app
 const defaultConfig = {
   app: {
     name: 'wellcomecollection.org',
     version: '0.0.1'
   },
   globals: {
-    // TODO: ove these bits into prod.json
     development: {
       rootDomain: '',
       beaconErrors: false
@@ -15,7 +14,8 @@ const defaultConfig = {
       beaconErrors: true
     }
   },
-  hashedAssets: {},
+  fileRoot: '',
+  hashedFiles: {},
   server: {
     port: 3000
   },
@@ -49,4 +49,4 @@ const defaultConfig = {
   }]
 };
 
-export default Object.assign({}, defaultConfig, prodConfig);
+export default Object.assign({}, defaultConfig, overrides);

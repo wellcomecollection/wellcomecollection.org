@@ -8,7 +8,7 @@
     if ('visibilityState' in document) { // Cutting the Mustard
       var rootElement = document.documentElement;
       var enhancedClass = 'enhanced';
-      var enhancedScriptPath = '/assets/js/{{file}}';
+      var enhancedScriptPath = '{{file}}';
 
       function addEnhancedClass() {
         rootElement.classList.add(enhancedClass);
