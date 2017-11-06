@@ -32,3 +32,15 @@ output "vpc_subnets" {
 output "ami_id" {
   value = "${module.wellcomecollection.ami_id}"
 }
+
+output "alb_listener_https_arn" {
+  value = "${module.wellcomecollection.alb_listener_https_arn}"
+}
+
+output "alb_listener_http_arn" {
+  value = "${module.wellcomecollection.alb_listener_http_arn}"
+}
+
+output "alb_cloudwatch_id" {
+  value = "${module.wellcomecollection.alb_cloudwatch_id}"
+}
