@@ -69,7 +69,7 @@
                     {% icon 'other/calendar' %}
                   </div>
                   <div class="{{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">
-                    {% for dateRange in event.when.toJS() %}
+                    {% for dateRange in event.dates.toJS() %}
                       {% set formattedDateRange = dateRange.start | formatAndDedupeOnDate(dateRange.end) %}
                       <div>
                         <time>

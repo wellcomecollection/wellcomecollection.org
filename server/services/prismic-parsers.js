@@ -21,10 +21,10 @@ type PrismicDocFragment = Object | Array<any>;
 export function parseEventDoc(doc: PrismicDoc): Event {
   const contributors = parseContributors(doc.data.contributors);
   const promo = parseImagePromo(doc.data.promo);
-  const when: List<DateRange> = List(doc.data.when.map(slice => {
+  const dates: List<DateRange> = List(doc.data.dates.map(date => {
     return ({
-      start: new Date(slice.primary.start),
-      end: new Date(slice.primary.end)
+      start: new Date(date.startDateTime),
+      end: new Date(date.endDateTime)
     }: DateRange);
   }));
   const bookingEnquiryTeam = doc.data.bookingEnquiryTeam.data && {
@@ -51,7 +51,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     title: asText(doc.data.title),
     format: doc.data.format.data && ({ title: asText(doc.data.format.data.title) }: EventFormat),
     programme: doc.data.programme.data && ({ title: asText(doc.data.programme.data.title) }: EventFormat),
-    when: when,
+    dates: dates,
     intro: asText(doc.data.intro),
     description: asHtml(doc.data.description),
     featuredImage: featuredImage,

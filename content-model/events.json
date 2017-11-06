@@ -23,7 +23,7 @@
         "customtypes" : [ "event-programmes" ]
       }
     },
-    "dates": {
+    "dates" : {
       "type": "Group",
       "fieldset" : "When (DO NOT USE)",
       "config" : {
