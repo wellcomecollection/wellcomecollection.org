@@ -49,6 +49,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
           "WC_featuresCohort",
           "*SESS*", # Drupal
           "WC_*_test", # A/B tests
+          "MIROPAC",
+          "MIRO"
         ]
       }
     }
