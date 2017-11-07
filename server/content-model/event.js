@@ -29,7 +29,7 @@ export type Event = {|
   title: ?string;
   format: ?EventFormat;
   programme: ?EventProgramme;
-  when: List<DateRange>;
+  dates: List<DateRange>;
   intro: ?HTMLString;
   description: ?HTMLString;
   featuredImage: ?Picture;

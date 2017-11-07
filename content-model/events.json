@@ -23,27 +23,21 @@
         "customtypes" : [ "event-programmes" ]
       }
     },
-    "when" : {
-      "type" : "Slices",
+    "dates" : {
+      "type": "Group",
       "fieldset" : "When",
       "config" : {
-        "choices" : {
-          "dateRange" : {
-            "type" : "Slice",
-            "fieldset" : "Start / End times",
-            "non-repeat" : {
-              "start" : {
-                "type" : "Timestamp",
-                "config" : {
-                  "label" : "Start date"
-                }
-              },
-              "end" : {
-                "type" : "Timestamp",
-                "config" : {
-                  "label" : "End date"
-                }
-              }
+        "fields" : {
+          "startDateTime" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "Start date"
+            }
+          },
+          "endDateTime" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "Start date"
             }
           }
         }
