@@ -39,7 +39,18 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     forwarded_values {
       headers                 = ["Host"]
       query_string            = true
-      query_string_cache_keys = ["page", "current", "q", "format", "query", "cohort", "uri"]
+      query_string_cache_keys = [
+        "page",
+        "current",
+        "q",
+        "format",
+        "query",
+        "cohort",
+        "uri",
+        # Wellcome Images redirect
+        "MIROPAC",
+        "MIRO",
+      ]
 
       cookies {
         forward = "whitelist"

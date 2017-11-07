@@ -19,7 +19,9 @@
     {% componentV2 'scroll-to-info', {elementId: 'work-info'}, {'work': true}, {extraClasses: ['flush-container-right','js-work-media-control', 'pointer-events-all'], extraIconClasses: ['icon--white']} %}
   </div>
 
-  {% componentV2 'image', model.iiifModel, {}, model.iiifData %}
+  <div class="work-media__image-container">
+    {% componentV2 'image', model.iiifModel, {}, model.iiifData %}
+  </div>
 
   {% if featuresCohort | isFlagEnabled('zoomImages', featureFlags) %}
     {% componentV2 'image-viewer', {imageUrl: model.iiifModel.contentUrl}, null, {id: model.id, trackTitle: model.trackTitle} %}
