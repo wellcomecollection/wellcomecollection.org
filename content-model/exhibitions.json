@@ -78,6 +78,32 @@
       }
     }
   },
+  "Media": {
+    "body" : {
+      "fieldset" : "Body content",
+      "type" : "Slices",
+      "config" : {
+        "labels" : {
+          "youtubeVideoEmbed" : [ {
+            "name" : "featured",
+            "display" : "featured"
+          } ]
+        },
+        "choices" : {
+          "youtubeVideoEmbed" : {
+            "type" : "Slice",
+            "fieldset" : "YouTube video",
+            "non-repeat" : {
+              "embed" : {
+                "type" : "Embed",
+                "fieldset" : "YouTube embed"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "Promo" : {
     "promo" : {
       "type" : "Slices",
