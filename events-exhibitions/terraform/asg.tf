@@ -17,4 +17,6 @@ module "events_exhibitions_cluster_asg" {
   publish_to_sns_policy = "${module.ec2_terminating_topic.publish_policy}"
 
   alarm_topic_arn = "${module.ec2_instance_terminating_for_too_long_alarm.arn}"
+
+  alb_security_groups = ["${local.https_sg_id}"]
 }

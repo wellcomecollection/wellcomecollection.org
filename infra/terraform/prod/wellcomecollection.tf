@@ -44,3 +44,7 @@ output "alb_listener_http_arn" {
 output "alb_cloudwatch_id" {
   value = "${module.wellcomecollection.alb_cloudwatch_id}"
 }
+
+output "https_sg_id" {
+  value = "${module.wellcomecollection.https_sg_id}"
+}
