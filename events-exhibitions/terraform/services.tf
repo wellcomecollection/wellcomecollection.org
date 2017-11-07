@@ -22,8 +22,8 @@ module "events_exhibitions" {
   server_error_alarm_topic_arn = "${module.alb_server_error_alarm.arn}"
   client_error_alarm_topic_arn = "${module.alb_client_error_alarm.arn}"
 
-  memory                 = "490"
-  primary_container_port = "80"
+  memory                   = "490"
+  primary_container_port   = "80"
   secondary_container_port = "3000"
 
   path_pattern = "/exev"
