@@ -83,12 +83,6 @@
       "fieldset" : "Body content",
       "type" : "Slices",
       "config" : {
-        "labels" : {
-          "youtubeVideoEmbed" : [ {
-            "name" : "featured",
-            "display" : "featured"
-          } ]
-        },
         "choices" : {
           "youtubeVideoEmbed" : {
             "type" : "Slice",
