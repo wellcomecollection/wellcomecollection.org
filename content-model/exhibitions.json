@@ -26,20 +26,6 @@
         "label" : "End date"
       }
     },
-    "intro" : {
-      "type" : "StructuredText",
-      "config" : {
-        "label" : "Intro",
-        "multi" : "heading2"
-      }
-    },
-    "description" : {
-      "type" : "StructuredText",
-      "config" : {
-        "label" : "Description",
-        "multi" : "heading2,paragraph,strong,em,hyperlink"
-      }
-    },
     "featuredImage" : {
       "type" : "Image",
       "config" : {
@@ -61,12 +47,59 @@
         "label" : "Featured image, mobile crop"
       }
     },
+    "intro" : {
+      "type" : "StructuredText",
+      "config" : {
+        "label" : "Intro",
+        "multi" : "heading2"
+      }
+    },
+    "description" : {
+      "type" : "StructuredText",
+      "config" : {
+        "label" : "Description",
+        "multi" : "heading2,paragraph,strong,em,hyperlink"
+      }
+    },
     "textAndCaptionsDocument" : {
       "type" : "Link",
       "config" : {
         "select" : "media",
         "label" : "Text and captions document",
         "placeholder" : "Text and captions document"
+      }
+    },
+    "body" : {
+      "fieldset" : "Body content",
+      "type" : "Slices",
+      "config" : {
+        "label" : "Body content",
+        "choices" : {
+          "youtubeVideoEmbed" : {
+            "type" : "Slice",
+            "fieldset" : "YouTube video",
+            "non-repeat" : {
+              "embed" : {
+                "type" : "Embed",
+                "fieldset" : "YouTube embed"
+              },
+              "title" : {
+                "type" : "StructuredText",
+                "config" : {
+                  "label" : "Title",
+                  "single" : "heading2"
+                }
+              },
+              "description" : {
+                "type" : "StructuredText",
+                "config" : {
+                  "label" : "Description",
+                  "single" : "paragraph"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
