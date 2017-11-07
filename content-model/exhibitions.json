@@ -97,6 +97,20 @@
               "embed" : {
                 "type" : "Embed",
                 "fieldset" : "YouTube embed"
+              },
+              "title" : {
+                "type" : "StructuredText",
+                "config" : {
+                  "label" : "Title",
+                  "single" : "heading1"
+                }
+              },
+              "description" : {
+                "type" : "StructuredText",
+                "config" : {
+                  "label" : "Description",
+                  "single" : "paragraph"
+                }
               }
             }
           }
