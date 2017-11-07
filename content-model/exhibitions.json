@@ -26,20 +26,6 @@
         "label" : "End date"
       }
     },
-    "intro" : {
-      "type" : "StructuredText",
-      "config" : {
-        "label" : "Intro",
-        "multi" : "heading2"
-      }
-    },
-    "description" : {
-      "type" : "StructuredText",
-      "config" : {
-        "label" : "Description",
-        "multi" : "heading2,paragraph,strong,em,hyperlink"
-      }
-    },
     "featuredImage" : {
       "type" : "Image",
       "config" : {
@@ -61,6 +47,20 @@
         "label" : "Featured image, mobile crop"
       }
     },
+    "intro" : {
+      "type" : "StructuredText",
+      "config" : {
+        "label" : "Intro",
+        "multi" : "heading2"
+      }
+    },
+    "description" : {
+      "type" : "StructuredText",
+      "config" : {
+        "label" : "Description",
+        "multi" : "heading2,paragraph,strong,em,hyperlink"
+      }
+    },
     "textAndCaptionsDocument" : {
       "type" : "Link",
       "config" : {
@@ -68,21 +68,12 @@
         "label" : "Text and captions document",
         "placeholder" : "Text and captions document"
       }
-    }
-  },
-  "Access": {
-    "galleryLevel": {
-      "type": "Number",
-      "config": {
-        "label": "Gallery level"
-      }
-    }
-  },
-  "Media": {
+    },
     "body" : {
       "fieldset" : "Body content",
       "type" : "Slices",
       "config" : {
+        "label" : "Body content",
         "choices" : {
           "youtubeVideoEmbed" : {
             "type" : "Slice",
@@ -96,7 +87,7 @@
                 "type" : "StructuredText",
                 "config" : {
                   "label" : "Title",
-                  "single" : "heading1"
+                  "single" : "heading2"
                 }
               },
               "description" : {
@@ -109,6 +100,14 @@
             }
           }
         }
+      }
+    }
+  },
+  "Access": {
+    "galleryLevel": {
+      "type": "Number",
+      "config": {
+        "label": "Gallery level"
       }
     }
   },
