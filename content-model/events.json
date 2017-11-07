@@ -25,7 +25,7 @@
     },
     "dates" : {
       "type": "Group",
-      "fieldset" : "When (DO NOT USE)",
+      "fieldset" : "When",
       "config" : {
         "fields" : {
           "startDateTime" : {
