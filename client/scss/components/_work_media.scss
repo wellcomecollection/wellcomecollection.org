@@ -2,22 +2,18 @@
   position: relative;
   min-height: 200px;
   height: calc(100vh - 160px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 
   @include respond-to(large) {
     height: calc(100vh - 200px);
   }
 
   .image {
-    min-height: 200px;
     max-height: 100%;
-    max-width: 800px;
-    width: auto;
+    max-width: 100%;
     height: auto;
+    width: auto;
+    align-self: center;
     margin: 0 auto;
-    padding: 10 * $spacing-unit;
 
     .enhanced & {
       padding: 0;
@@ -34,4 +30,13 @@
   .image--noscript {
     display: block;
   }
+}
+
+.work-media__image-container {
+  display: flex;
+  -ms-flex: 1 0 auto;
+  height: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 10 * $spacing-unit;
 }
