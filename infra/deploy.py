@@ -10,7 +10,11 @@ data = json.loads(response.read())
 releases = [result for result in data.get('results') if result.get('name') != 'test']
 latest_release = releases[0].get('name')
 
-forward_march = raw_input('Deploy %s (y/N): ' % latest_release)
+github_url = 'https://api.github.com/repos/wellcometrust/wellcomecollection.org/git/commits/%s' % latest_release
+github_response = urllib.urlopen(github_url)
+github_commit_message = json.loads(github_response.read()).get('message')
+
+forward_march = raw_input(('Deploy:\n%s - %s\n(y/N): ' % (latest_release, github_commit_message)).encode('utf-8'))
 
 if forward_march.lower().strip() == 'y':
     print 'Off we go!'
