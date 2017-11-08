@@ -10,7 +10,7 @@ module "events" {
   listener_https_arn = "${local.alb_listener_https_arn}"
   listener_http_arn  = "${local.alb_listener_http_arn}"
   is_config_managed  = false
-  alb_priority       = "100"
+  alb_priority       = "110"
 
   desired_count = 2
 

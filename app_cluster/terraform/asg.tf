@@ -7,8 +7,8 @@ module "app_cluster_asg" {
   user_data             = "${module.app_cluster_userdata.rendered}"
   vpc_id                = "${local.vpc_id}"
 
-  asg_desired = "2"
-  asg_max     = "2"
+  asg_desired = "4"
+  asg_max     = "4"
 
   image_id      = "${data.aws_ami.stable_coreos.image_id}"
   instance_type = "t2.micro"

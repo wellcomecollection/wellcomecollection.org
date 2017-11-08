@@ -26,5 +26,5 @@ module "exhibitions" {
   primary_container_port   = "80"
   secondary_container_port = "3000"
 
-  path_pattern = "/exev"
+  path_pattern = "/ex"
 }
