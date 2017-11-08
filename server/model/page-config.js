@@ -32,12 +32,18 @@ const seriesUrls = [
   'electric-sublime',
   'body-squabbles',
   'electric-age',
-  'outsiders'
+  'the-outsiders'
 ];
 
 export function getEditorialAnalyticsInfo(article: Article) {
-  const series = article.series.find(a => seriesUrls.indexOf(a.url) > -1);
-  const seriesUrl = series ? series.url : null;
+  const seriesTracking = article.series.map(series => {
+    if (series.id) {
+      return `${series.name}:${series.id}`;
+    } else if (series.url && seriesUrls.indexOf(series.url) !== -1){
+      return `${series.name}:${series.url}`;
+    }
+  }).filter(_ => _).join(',');
+  const seriesUrl = seriesTracking !== '' ? seriesTracking : null;
   const positionInSeries = article.positionInSeries;
   const contentType = article.contentType;
 
