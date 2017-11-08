@@ -5,8 +5,8 @@ module "exhibitions" {
   task_role_arn      = "${module.ecs_exhibitions_iam.task_role_arn}"
   template_name      = "default"
   vpc_id             = "${local.vpc_id}"
-  nginx_uri          = "wellcome/wellcomecollection-events-exhibitions-nginx:${var.nginx_docker_tag}"
-  app_uri            = "wellcome/wellcomecollection-events-exhibitions-app:${var.nginx_docker_tag}"
+  nginx_uri          = "wellcome/wellcomecollection-exhibitions-nginx:${var.nginx_docker_tag}"
+  app_uri            = "wellcome/wellcomecollection-exhibitions-app:${var.nginx_docker_tag}"
   listener_https_arn = "${local.alb_listener_https_arn}"
   listener_http_arn  = "${local.alb_listener_http_arn}"
   is_config_managed  = false
