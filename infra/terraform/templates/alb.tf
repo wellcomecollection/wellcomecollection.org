@@ -12,6 +12,7 @@ resource "aws_alb" "wellcomecollection_alb" {
     "${aws_security_group.http.id}",
     "${aws_security_group.node_app_port.id}",
     "${aws_security_group.docker.id}",
+    "${var.app_cluster_sg}",
   ]
 
   access_logs {
@@ -95,3 +96,16 @@ output "alb_id" {
 output "dns_name" {
   value = "${aws_alb.wellcomecollection_alb.dns_name}"
 }
+
+output "alb_listener_https_arn" {
+  value = "${aws_alb_listener.wellcomecollection_https.arn}"
+}
+
+output "alb_listener_http_arn" {
+  value = "${aws_alb_listener.wellcomecollection.arn}"
+}
+
+output "alb_cloudwatch_id" {
+  value = "${aws_alb.wellcomecollection_alb.arn_suffix}"
+}
+

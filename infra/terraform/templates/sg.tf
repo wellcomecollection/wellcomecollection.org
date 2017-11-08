@@ -12,10 +12,13 @@ resource "aws_security_group" "http" {
   }
 
   egress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+
+    cidr_blocks = [
+      "0.0.0.0/0",
+    ]
   }
 }
 
@@ -54,10 +57,13 @@ resource "aws_security_group" "https" {
   }
 
   egress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+
+    cidr_blocks = [
+      "0.0.0.0/0",
+    ]
   }
 }
 
@@ -94,4 +100,8 @@ resource "aws_security_group" "ssh_in" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+
+output "https_sg_id" {
+  value = "${aws_security_group.https.id}"
 }
