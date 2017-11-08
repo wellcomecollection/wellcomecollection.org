@@ -9,6 +9,16 @@ provider "aws" {
   version = "~> 1.0"
 }
 
+data "terraform_remote_state" "app_cluster" {
+  backend = "s3"
+
+  config {
+    bucket = "wellcomecollection-infra"
+    key    = "build-state/app_cluster.tfstate"
+    region = "eu-west-1"
+  }
+}
+
 module "wellcomecollection" {
   source                          = "../templates"
   project_name                    = "wellcomecollection"
@@ -19,6 +29,7 @@ module "wellcomecollection" {
   container_tag                   = "${var.container_tag}"
   platform_team_account_id        = "${var.platform_team_account_id}"
   infra_bucket                    = "wellcomecollection-infra"
+  app_cluster_sg                  = "${data.terraform_remote_state.app_cluster.loadbalancer_sg_https_id}"
 }
 
 output "vpc_id" {

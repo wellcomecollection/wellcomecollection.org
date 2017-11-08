@@ -1,7 +1,7 @@
 module "events_exhibitions" {
   source             = "git::https://github.com/wellcometrust/terraform.git//services?ref=v1.0.4"
-  name               = "events-exhibitions"
-  cluster_id         = "${aws_ecs_cluster.events_exhibitions.id}"
+  name               = "events_exhibitions"
+  cluster_id         = "${local.cluster_name}"
   task_role_arn      = "${module.ecs_events_exhibitions_iam.task_role_arn}"
   template_name      = "default"
   vpc_id             = "${local.vpc_id}"

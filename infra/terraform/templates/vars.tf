@@ -5,6 +5,7 @@ variable "container_definitions" {}
 variable "ssl_cert_name" {}
 variable "alb_log_bucket" {}
 variable "infra_bucket" {}
+variable "app_cluster_sg" {}
 
 variable "alb_log_prefix" {
   default = "dotorg-alb"
