@@ -1,8 +1,8 @@
-module "events_exhibitions" {
+module "exhibitions" {
   source             = "git::https://github.com/wellcometrust/terraform.git//services?ref=v1.0.4"
-  name               = "events_exhibitions"
+  name               = "exhibitions"
   cluster_id         = "${local.cluster_name}"
-  task_role_arn      = "${module.ecs_events_exhibitions_iam.task_role_arn}"
+  task_role_arn      = "${module.ecs_exhibitions_iam.task_role_arn}"
   template_name      = "default"
   vpc_id             = "${local.vpc_id}"
   nginx_uri          = "wellcome/wellcomecollection-events-exhibitions-nginx:${var.nginx_docker_tag}"
