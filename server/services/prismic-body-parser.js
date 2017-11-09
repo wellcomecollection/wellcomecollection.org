@@ -6,10 +6,6 @@ export function parseBody(content) {
   return content.filter(slice => slice.slice_label !== 'featured').map(parseBodyPart).filter(_ => _);
 }
 
-export function parseFeaturedBody(content) {
-  return content.filter(slice => slice.slice_label === 'featured').map(parseBodyPart).filter(_ => _);
-}
-
 function parseBodyPart(slice) {
   switch (slice.slice_type) {
     case 'standfirst':

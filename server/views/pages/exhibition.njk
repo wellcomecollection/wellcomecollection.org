@@ -132,7 +132,7 @@
     </div>
   </div>
 
-  {% for bodyPart in exhibition.featuredBody %}
+  {% for bodyPart in exhibition.body %}
     <div class="book-promo {{ {s:10} | spacingClasses({margin: ['top']}) }}  {{ {s:4, m:5} | spacingClasses({margin: ['bottom']}) }} {{ {s:4} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }} rounded-diagonal">
       <div class="book-promo__image-container {{ {s:4} | spacingClasses({margin: ['right', 'bottom']}) }}">
         {% if bodyPart.type === 'video-embed' %}
