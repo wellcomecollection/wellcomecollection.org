@@ -120,13 +120,13 @@
                   <span>Download exhibition texts (PDF {{ exhibitionContent.textAndCaptionsDocument.sizeInKb }}KB)</span>
                 </a>
               {% endif %}
-              <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              <div class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
                 {% componentV2 'more-info-link', {name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
               </div>
             </div>
           {% endblock %}
 
-          <hr class="divider divider--pumice divider--keyline" />
+          <hr class="divider divider--pumice divider--keyline {{ {s:4} | spacingClasses({margin: ['bottom']}) }}" />
         </div>
       </div>
     </div>
