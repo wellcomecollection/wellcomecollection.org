@@ -209,6 +209,14 @@ export function parsePicture(captionedImage: Object, minWidth: ?string = null): 
   }: Picture);
 }
 
+export function parseVideo(videoSlice: Object) {
+  const embedUrl = videoSlice.embed.html.match(/src="([-a-zA-Z0-9://.]+)?/)[1];
+  return {
+    type: 'video-embed',
+    embedUrl: embedUrl
+  };
+}
+
 export function prismicImage(prismicImage: Object) { // TODO: wrong typedef
   const image = isEmptyObj(prismicImage) ? null : prismicImage;
 
@@ -275,6 +283,7 @@ function parseFeaturedMediaFromBody(doc: PrismicDoc): ?Picture {
     .map(slice => {
       switch (slice.slice_type) {
         case 'editorialImage': return parsePicture(slice.primary);
+        case 'youtubeVideoEmbed': return parseVideo(slice.primary);
       }
     })).first();
 }
