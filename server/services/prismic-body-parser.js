@@ -107,7 +107,8 @@ function parseBodyPart(slice) {
     case 'youtubeVideoEmbed':
     case 'vimeoVideoEmbed':
       // TODO: Not this ;﹏;
-      const embedUrl = slice.primary.embed.html.match(/src="([a-zA-Z0-9://.]+)?/)[1];
+      const embedUrl = slice.primary.embed.html.match(/src="([-a-zA-Z0-9://.]+)?/)[1];
+      console.log(embedUrl);
       return {
         type: 'video-embed',
         weight: slice.slice_label,
