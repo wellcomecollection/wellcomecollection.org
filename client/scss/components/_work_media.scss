@@ -34,7 +34,9 @@
 
 .work-media__image-container {
   display: flex;
+  // stylelint-disable property-no-vendor-prefix
   -ms-flex: 1 0 auto;
+  // stylelint-enable property-no-vendor-prefix
   height: 100%;
   max-width: 800px;
   margin: 0 auto;

@@ -4,7 +4,7 @@ import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
 import type {Event, EventFormat} from '../content-model/event';
 import getBreakpoint from '../filters/get-breakpoint';
-import {parseBody, parseFeaturedBody} from './prismic-body-parser';
+import {parseBody} from './prismic-body-parser';
 import type {Contributor, DateRange, ImagePromo} from '../content-model/content-blocks';
 import type {Article} from '../model/article';
 import type {Promo} from '../model/promo';
@@ -94,8 +94,7 @@ export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
     intro: asText(doc.data.intro),
     description: asHtml(doc.data.description),
     promo: promo,
-    body: parseBody(doc.data.body),
-    featuredBody: parseFeaturedBody(doc.data.body)
+    body: parseBody(doc.data.body)
   }: Exhibition);
 
   return exhibition;

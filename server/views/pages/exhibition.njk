@@ -120,32 +120,38 @@
                   <span>Download exhibition texts (PDF {{ exhibitionContent.textAndCaptionsDocument.sizeInKb }}KB)</span>
                 </a>
               {% endif %}
-              <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              <div class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
                 {% componentV2 'more-info-link', {name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
               </div>
             </div>
           {% endblock %}
 
-          <hr class="divider divider--pumice divider--keyline" />
+          <hr class="divider divider--pumice divider--keyline {{ {s:4} | spacingClasses({margin: ['bottom']}) }}" />
         </div>
       </div>
     </div>
   </div>
 
-  {% for bodyPart in exhibition.featuredBody %}
-    <div class="book-promo {{ {s:10} | spacingClasses({margin: ['top']}) }}  {{ {s:4, m:5} | spacingClasses({margin: ['bottom']}) }} {{ {s:4} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }} rounded-diagonal">
-      <div class="book-promo__image-container {{ {s:4} | spacingClasses({margin: ['right', 'bottom']}) }}">
-        {% if bodyPart.type === 'video-embed' %}
-          {% componentV2 'iframed-video', bodyPart.value %}
-        {% endif %}
-      </div>
-      <div class="book-promo__text-container">
-        {% if bodyPart.value.title %}
-          <h3 class="book-promo__title {{ {s:'HNM3'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{ bodyPart.value.title }}</h3>
-        {% endif %}
-        {% if bodyPart.value.description %}
-          <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:0} | spacingClasses({margin: ['bottom']}) }}">{{ bodyPart.value.description }}</p>
-        {% endif %}
+  {% for bodyPart in exhibition.body %}
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
+          <div class="book-promo {{ {s:10} | spacingClasses({margin: ['top']}) }}  {{ {s:4, m:5} | spacingClasses({margin: ['bottom']}) }} {{ {s:4} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }} rounded-diagonal">
+            <div class="book-promo__image-container {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              {% if bodyPart.type === 'video-embed' %}
+                {% componentV2 'iframed-video', bodyPart.value %}
+              {% endif %}
+            </div>
+            <div class="book-promo__text-container">
+              {% if bodyPart.value.title %}
+                <h3 class="book-promo__title {{ {s:'HNM3'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{ bodyPart.value.title }}</h3>
+              {% endif %}
+              {% if bodyPart.value.description %}
+                <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:0} | spacingClasses({margin: ['bottom']}) }}">{{ bodyPart.value.description }}</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   {% endfor %}
