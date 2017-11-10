@@ -125,11 +125,13 @@
     </div>
   </div>
 
-
   <div class="{{ {s:10} | spacingClasses({margin: ['bottom']}) }}">
-    {% if work.usingImage %}
-      {% componentV2 'work-drawer', {id: 'work-using-image', heading: 'Using this image'}, null, {data: work.usingImage} %}
-    {% endif %}
+    {% set licenseInfo = work.thumbnail.license.licenseType | getLicenseInfo %}
+    {% set usingThisImageData = [
+      {title: 'License info', content: licenseInfo.humanReadableText}
+    ] %}
+
+    {% componentV2 'work-drawer', {id: 'work-using-image', heading: 'Using this image'}, null, {data: usingThisImageData} %}
   </div>
 
   {% componentV2 'back-to-top', {}, {trackId: pageConfig.canonicalUri} %}

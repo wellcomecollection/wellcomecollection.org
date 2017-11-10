@@ -6,7 +6,7 @@
    {{ model.headingText }}
   </h{{model.headingLevel or '2'}}>
   {% if model.content | isString %}
-    <p class="{{ {s:'HNL5' , m:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">{{model.content}}</p>
+    <p class="{{ {s:'HNL5' , m:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">{{model.content | safe}}</p>
   {% else %}
     {% for item in model.content %}
       {% if item.datetime %}
