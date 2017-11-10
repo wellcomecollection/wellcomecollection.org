@@ -31,6 +31,9 @@
             "display" : "Standalone"
           } ],
           "vimeoVideoEmbed" : [ {
+            "name" : "featured",
+            "display" : "Featured"
+          }, {
             "name" : "supporting",
             "display" : "Supporting"
           }, {
@@ -38,6 +41,9 @@
             "display" : "Standalone"
           } ],
           "youtubeVideoEmbed" : [ {
+            "name" : "featured",
+            "display" : "Featured"
+          }, {
             "name" : "supporting",
             "display" : "Supporting"
           }, {
