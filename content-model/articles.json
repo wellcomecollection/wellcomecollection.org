@@ -451,14 +451,6 @@
         "label" : "Override publish date"
       },
       "type" : "Timestamp"
-    },
-    "test" : {
-      "type" : "Link",
-      "config" : {
-        "select" : "document",
-        "customtypes" : [ "series" ],
-        "label" : "test"
-      }
     }
   }
 }
