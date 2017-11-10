@@ -6,10 +6,6 @@ export function parseBody(content) {
   return content.filter(slice => slice.slice_label !== 'featured').map(parseBodyPart).filter(_ => _);
 }
 
-export function parseFeaturedBody(content) {
-  return content.filter(slice => slice.slice_label === 'featured').map(parseBodyPart).filter(_ => _);
-}
-
 function parseBodyPart(slice) {
   switch (slice.slice_type) {
     case 'standfirst':
@@ -111,7 +107,8 @@ function parseBodyPart(slice) {
     case 'youtubeVideoEmbed':
     case 'vimeoVideoEmbed':
       // TODO: Not this ;﹏;
-      const embedUrl = slice.primary.embed.html.match(/src="([a-zA-Z0-9://.]+)?/)[1];
+      const embedUrl = slice.primary.embed.html.match(/src="([-a-zA-Z0-9://.]+)?/)[1];
+      console.log(embedUrl);
       return {
         type: 'video-embed',
         weight: slice.slice_label,

@@ -15,6 +15,5 @@ export type Exhibition = {|
   featuredImage: ?Picture;
   description: ?string;
   promo: ?ImagePromo;
-  featuredBody: Array<BodyPart>;
   body: Array<BodyPart>;
 |}
