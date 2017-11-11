@@ -128,7 +128,8 @@
   <div class="{{ {s:10} | spacingClasses({margin: ['bottom']}) }}">
     {% set licenseInfo = work.thumbnail.license.licenseType | getLicenseInfo %}
     {% set usingThisImageData = [
-      {title: 'License info', content: licenseInfo.humanReadableText}
+      {title: 'License info', content: licenseInfo.humanReadableText},
+      {title: 'Attribution', content: work.attribution}
     ] %}
 
     {% componentV2 'work-drawer', {id: 'work-using-image', heading: 'Using this image'}, null, {data: usingThisImageData} %}
