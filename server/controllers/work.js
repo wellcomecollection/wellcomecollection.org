@@ -74,35 +74,30 @@ function createMetaContentArray(singleWork, descriptionArray) {
   }
   if (singleWork.createdDate && singleWork.createdDate.label) {
     contentArray.push({
-      type: 'createdDate',
       heading: 'Date',
       content: singleWork.createdDate.label
     });
   }
   if (singleWork.genres && singleWork.genres.length > 0) {
     contentArray.push({
-      type: 'genres',
       heading: 'Genre',
       content: getLinkObjects(singleWork.genres, 'label')
     });
   }
   if (singleWork.subjects && singleWork.subjects.length > 0) {
     contentArray.push({
-      type: 'subjects',
       heading: 'Subject',
       content: getLinkObjects(singleWork.subjects, 'label')
     });
   }
   if (singleWork.lettering && singleWork.lettering.length > 0) {
     contentArray.push({
-      type: 'lettering',
       heading: 'Lettering',
       content: singleWork.lettering
     });
   }
   if (descriptionArray && descriptionArray.length > 0) {
     contentArray.push({
-      type: 'descriptionArray',
       heading: 'Description',
       content: descriptionArray
     });
