@@ -28,26 +28,12 @@
     <div class="container">
       <div class="grid">
         <div class="{{ {s: 12, m: 7, l: 8, xl: 7, shiftXl: 1} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-          <div class="{{ {s: 5} | spacingClasses({margin: ['bottom']}) }}">
-	    <h1 id="work-info" class="{{ {s:'HNM3', m:'HNM2', l:'HNM1'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{work.title}}</h1>
-            {# TODO change how meta-unit works so can use for descriptionArray too #}
+	  <div class="{{ {s: 5} | spacingClasses({margin: ['bottom']}) }}">
+            <h1 id="work-info" class="{{ {s:'HNM3', m:'HNM2', l:'HNM1'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{work.title}}</h1>
             {% for metaItem in work.metaContent %}
               {% set needsDivider = not loop.last %}
-            {% if metaItem.type == 'descriptionArray' %}
-              <div>
-                <h2 class="{{ {s:'HNM5' , m:'HNM4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
-                  Description
-                </h2>
-                {% for paragraph in work.descriptionArray %}
-                  <p class="{{ {s:'HNL5' , m:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
-                    {{paragraph}}
-                  </p>
-                {% endfor %}
-              </div>
-            {% else %}
               {% componentV2 'meta-unit', {headingText: metaItem.heading, content: metaItem.content, includeDivider: needsDivider} %}
-            {% endif %}
-          {% endfor %}
+            {% endfor %}
 
             {% if work.encoreLink %}
               <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
