@@ -17,7 +17,6 @@ h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
 #}
 window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
 ga('create', 'UA-55614-24', 'auto', 'v2');
-ga('v2.send', 'pageview');
 
 ga('create', 'UA-55614-6', 'auto');
 ga('set', 'dimension1', '2');
@@ -28,6 +27,7 @@ ga('set', 'dimension1', '2');
 
 {% if pageConfig.seriesUrl %}
   ga('set', 'dimension3', '{{ pageConfig.seriesUrl }}');
+  ga('v2.set', 'dimension2', '{{ pageConfig.seriesUrl }}');
 {% endif %}
 
 {% if pageConfig.positionInSeries %}
@@ -44,6 +44,7 @@ ga('set', 'dimension1', '2');
 
 ga('require', 'GTM-NXMJ6D9');
 ga('send', 'pageview');
+ga('v2.send', 'pageview');
 </script>
 <script async src='https://www.google-analytics.com/analytics.js'></script>
 {% endif %}
