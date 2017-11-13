@@ -132,7 +132,7 @@
       {title: 'Attribution', content: work.attribution}
     ] %}
 
-    {% componentV2 'work-drawer', {id: 'work-using-image', heading: 'Using this image'}, null, {data: usingThisImageData} %}
+    {% componentV2 'work-drawer', {id: 'work-using-image', heading: 'Using this image'}, null, {data: usingThisImageData, topDivider: true} %}
   </div>
 
   {% componentV2 'back-to-top', {}, {trackId: pageConfig.canonicalUri} %}
