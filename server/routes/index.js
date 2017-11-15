@@ -34,7 +34,7 @@ r.get('/download', async (ctx, next) => {
 
   if (uri.match(new RegExp(allowedDomains.join('|')))) {
     const body = await request(uri);
-    ctx.body = request(uri);
+    ctx.body = body;
   } else {
     ctx.throw('Invalid image host', 422);
   }
