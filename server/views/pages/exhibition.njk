@@ -112,11 +112,10 @@
 
             <div class="{{ {s:5} | spacingClasses({margin: ['top']}) }}">
               {% if exhibitionContent.textAndCaptionsDocument %}
-                <a href="{{ exhibitionContent.textAndCaptionsDocument.url }}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-track-event='{"category": "component", "action": "download-pdf:click", "label": "name:{{ exhibitionContent.textAndCaptionsDocument.name }}, url:{{ exhibitionContent.textAndCaptionsDocument.url }}"}'
-                  class="plain-link font-elf-green font-hover-mint flex {{ {s:1} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses}}">
+                <a href="/download?uri={{ exhibitionContent.textAndCaptionsDocument.url }}"
+                   download="{{ exhibitionContent.textAndCaptionsDocument.name }}"
+                   data-track-event='{"category": "component", "action": "download-pdf:click", "label": "name:{{ exhibitionContent.textAndCaptionsDocument.name }}, url:{{ exhibitionContent.textAndCaptionsDocument.url }}"}'
+                   class="plain-link font-elf-green font-hover-mint flex {{ {s:1} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses}}">
                   <div class="{{ {s:1} | spacingClasses({margin:['right']}) }} flex flex--v-center">{% icon 'formats/pdf', null, ['icon--elf-green'] %}</div>
                   <span>Download exhibition texts (PDF {{ exhibitionContent.textAndCaptionsDocument.sizeInKb }}KB)</span>
                 </a>
