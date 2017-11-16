@@ -38,8 +38,6 @@ r.get('/download', async (ctx, next) => {
   } else {
     ctx.throw('Invalid image host', 422);
   }
-
-  return next();
 });
 r.get('/management/healthcheck', healthcheck);
 r.get('/management/manifest', async (ctx, next) => {
