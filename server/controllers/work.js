@@ -54,11 +54,11 @@ function constructLicenseString(licenseType) {
   return `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`;
 }
 
-function constructAttribution(singleWork, canonicalUri) {
+function constructAttribution(singleWork, credit, canonicalUri) {
   const title = singleWork.title ? `'${singleWork.title}' ` : '';
   const creators = constructCreatorsString(singleWork.creators);
   const license = constructLicenseString(singleWork.thumbnail.license.licenseType);
-  return `<p>${title} ${creators}. Source: <a href="${canonicalUri}">Wellcome Collection</a>. ${license}</p>`;
+  return `<p>${title} ${creators}. Credit: <a href="${canonicalUri}">${credit}</a>. ${license}</p>`;
 }
 
 export const work = async(ctx, next) => {
@@ -79,7 +79,8 @@ export const work = async(ctx, next) => {
   const imgLink = imageUrlFromMiroId(miroId);
   const encoreLink = sierraId && encoreLinkFromSierraId(sierraId);
   const canonicalUri = `${ctx.globals.rootDomain}/works/${singleWork.id}`;
-  const attribution = constructAttribution(singleWork, canonicalUri);
+  const credit = singleWork.items[0].locations[0].copyright;
+  const attribution = constructAttribution(singleWork, credit, canonicalUri);
 
   ctx.render('pages/work', {
     id,
@@ -95,7 +96,8 @@ export const work = async(ctx, next) => {
       imgLink,
       imgWidth,
       encoreLink,
-      attribution
+      attribution,
+      credit
     })
   });
 

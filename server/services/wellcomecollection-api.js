@@ -20,7 +20,7 @@ type WorksQuery = {
 
 export async function getWork(id: string, imageIndex: string): Promise<Work> {
   const indexParam = imageIndex ? {'_index': imageIndex} : {};
-  const totalQuery: WorkQuery = Object.assign({}, indexParam, {includes: 'identifiers,thumbnail'});
+  const totalQuery: WorkQuery = Object.assign({}, indexParam, {includes: 'identifiers,thumbnail,items'});
   const resp = await superagent.get(`${baseUri}/works/${id}`).query(totalQuery);
 
   return resp.body;
