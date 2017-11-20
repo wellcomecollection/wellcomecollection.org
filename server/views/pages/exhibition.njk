@@ -113,9 +113,9 @@
             <div class="{{ {s:5} | spacingClasses({margin: ['top']}) }}">
               {% if exhibitionContent.textAndCaptionsDocument %}
                 <a href="/download?uri={{ exhibitionContent.textAndCaptionsDocument.url }}"
-                  download="{{ exhibitionContent.textAndCaptionsDocument.name }}"
-                  data-track-event='{"category": "component", "action": "download-pdf:click", "label": "name:{{ exhibitionContent.textAndCaptionsDocument.name }}, url:{{ exhibitionContent.textAndCaptionsDocument.url }}"}'
-                  class="plain-link font-elf-green font-hover-mint flex {{ {s:1} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses}}">
+                   download="{{ exhibitionContent.textAndCaptionsDocument.name }}"
+                   data-track-event='{"category": "component", "action": "download-pdf:click", "label": "name:{{ exhibitionContent.textAndCaptionsDocument.name }}, url:{{ exhibitionContent.textAndCaptionsDocument.url }}"}'
+                   class="plain-link font-elf-green font-hover-mint flex {{ {s:1} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses}}">
                   <div class="{{ {s:1} | spacingClasses({margin:['right']}) }} flex flex--v-center">{% icon 'formats/pdf', null, ['icon--elf-green'] %}</div>
                   <span>Download exhibition texts (PDF {{ exhibitionContent.textAndCaptionsDocument.sizeInKb }}KB)</span>
                 </a>
@@ -131,6 +131,17 @@
       </div>
     </div>
   </div>
+  {% if exhibitionContent.relatedGalleries.length > 0 or exhibition.body.length > 0 %}
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
+          <h2 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }} flex flex--v-center {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
+            {% icon 'actions/gallery_filled', null, ['margin-right-s2', 'icon--match-text'] %}Exhibition highlights
+          </h2>
+        </div>
+      </div>
+    </div>
+  {% endif %}
 
   {% for bodyPart in exhibition.body %}
     <div class="container">
@@ -170,21 +181,14 @@
     <div class="row {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
       <div class="container">
         <div class="grid">
-          <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
-            <h2 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }} flex flex--v-center {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
-              {% icon 'actions/gallery_filled', null, ['margin-right-s2', 'icon--match-text'] %}Exhibition highlights
-            </h2>
-          </div>
-        </div>
-        <div class="grid">
           {% for promo in exhibitionContent.relatedGalleries %}
             <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
-              <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
-                {% componentV2 'more-info-link', {name: 'View highlights', url: promo.url} %}
-              </div>
               <a href="{{ promo.url }}">
                 {% componentV2 'image', promo.image, null, {'lazyload': true, sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
               </a>
+              <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
+                {% componentV2 'more-info-link', {name: 'View images from the exhibition', url: promo.url} %}
+              </div>
             </div>
           {% endfor %}
         </div>

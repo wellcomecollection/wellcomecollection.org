@@ -33,13 +33,10 @@ r.get('/download', async (ctx, next) => {
   ];
 
   if (uri.match(new RegExp(allowedDomains.join('|')))) {
-    const body = await request(uri);
-    ctx.body = body;
+    ctx.body = request(uri);
   } else {
     ctx.throw('Invalid image host', 422);
   }
-
-  return next();
 });
 r.get('/management/healthcheck', healthcheck);
 r.get('/management/manifest', async (ctx, next) => {
