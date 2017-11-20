@@ -1,6 +1,6 @@
 <label class="input__label flex flex--v-center" for="{{ model.id }}">
   <input id="{{ model.id }}"
-    class="input input--{{ model.type }} {% if data.fontStyles %} {{data.fontStyles | fontClasses}} {% else %} {{ {s:'HNL3', m:'HNL2'} | fontClasses }} {% endif %} js-input"
+    class="input no-border-radius input--{{ model.type }} {% if data.fontStyles %} {{data.fontStyles | fontClasses}} {% else %} {{ {s:'HNL3', m:'HNL2'} | fontClasses }} {% endif %} js-input"
     type="{{ model.type }}"
     name="{{ model.name }}"
     value="{{ model.value }}"
