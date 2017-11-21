@@ -21,13 +21,14 @@ const maybeTrackEvent = (hasAnalytics) => {
 
 const maybeTrackOutboundLinks = (hasAnalytics) => {
   if (hasAnalytics) {
-    const actuallyTrackLinks = (url) => {
-      ga('send', 'event', 'outbound', 'click', url, {
+    const actuallyTrackLinks = (url, shouldOpenNewTab) => {
+      const options =  {
         'transport': 'beacon',
         'hitCallback': () => {
           document.location = url;
         }
-      });
+      };
+      ga('send', 'event', 'outbound', 'click', url, (shouldOpenNewTab ? {} : options));
     };
     return actuallyTrackLinks;
   } else {
@@ -56,11 +57,14 @@ export default {
       trackGaEvent(JSON.parse(el.getAttribute('data-track-event')));
     });
 
-    on('body', 'click', 'a', ({ target }) => {
-      const anchor = target.closest('a');
+    on('body', 'click', 'a', (event) => {
+      const anchor = event.target.closest('a');
+      const ctrlOrMetaKey = event.metaKey || event.ctrlKey;
+      const shouldOpenNewTab = anchor.target === '_blank' || ctrlOrMetaKey;
+
       const url = anchor.href;
       if (isExternal(url)) {
-        trackOutboundLink(url);
+        trackOutboundLink(url, shouldOpenNewTab);
       }
     });
   }
