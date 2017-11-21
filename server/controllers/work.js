@@ -5,6 +5,7 @@ import {createResultsList} from '../model/results-list';
 import {PaginationFactory} from '../model/pagination';
 import {isFlagEnabled, getFlagValue} from '../util/flag-status';
 import {worksLandingPromos, henryImage} from '../data/works';
+import getLicenseInfo from '../filters/get-license-info';
 
 function imageUrlFromMiroId(id) {
   const cleanedMiroId = id.match(/(^\w{1}[0-9]*)+/g, '')[0];
@@ -31,6 +32,35 @@ function getImageIndex(ctx) {
   return imageIndex;
 }
 
+function constructCreatorsString(creators) {
+  if (creators.length > 0) {
+    const creatorsString =  creators.reduce((acc, creator, index) => {
+      if (index === 0) {
+        return `${acc} ${creator.label}`;
+      } else if (index + 1 === creators.length) {
+        return `${acc} and ${creator.label}`;
+      } else {
+        return `${acc}, ${creator.label}`;
+      }
+    }, 'by');
+    return creatorsString;
+  } else {
+    return '';
+  }
+}
+
+function constructLicenseString(licenseType) {
+  const licenseInfo = getLicenseInfo(licenseType);
+  return `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`;
+}
+
+function constructAttribution(singleWork, credit, canonicalUri) {
+  const title = singleWork.title ? `'${singleWork.title}' ` : '';
+  const creators = constructCreatorsString(singleWork.creators);
+  const license = constructLicenseString(singleWork.thumbnail.license.licenseType);
+  return `<p>${title} ${creators}. Credit: <a href="${canonicalUri}">${credit}</a>. ${license}</p>`;
+}
+
 export const work = async(ctx, next) => {
   const id = ctx.params.id;
   const queryString = ctx.search;
@@ -48,6 +78,9 @@ export const work = async(ctx, next) => {
   const imgWidth = '800';
   const imgLink = imageUrlFromMiroId(miroId);
   const encoreLink = sierraId && encoreLinkFromSierraId(sierraId);
+  const canonicalUri = `/works/${singleWork.id}`;
+  const credit = singleWork.items[0].locations[0].credit;
+  const attribution = constructAttribution(singleWork, credit, canonicalUri);
 
   ctx.render('pages/work', {
     id,
@@ -56,13 +89,15 @@ export const work = async(ctx, next) => {
       title: truncatedTitle,
       inSection: 'images',
       category: 'collections',
-      canonicalUri: `${ctx.globals.rootDomain}/works/${singleWork.id}`
+      canonicalUri: canonicalUri
     }),
     work: Object.assign({}, singleWork, {
       descriptionArray,
       imgLink,
       imgWidth,
-      encoreLink
+      encoreLink,
+      attribution,
+      credit
     })
   });
 

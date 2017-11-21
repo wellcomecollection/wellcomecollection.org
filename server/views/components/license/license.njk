@@ -16,7 +16,7 @@
       {% for icon in licenseInfo.icons %}
         {% icon 'other/' + icon, null, iconClasses %}
       {% endfor %}
-      <span class="{{ 'link-underline' if licenseInfo.url }}">{{ licenseInfo.text }}</a>
+      <span class="{{ 'link-underline' if licenseInfo.url }}">{{ licenseInfo.text }}</span>
     </{{ 'a' if licenseInfo.url else 'span' }}>
   </span>
 </div>

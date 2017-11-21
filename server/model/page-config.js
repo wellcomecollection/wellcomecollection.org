@@ -39,7 +39,7 @@ export function getEditorialAnalyticsInfo(article: Article) {
   const seriesTracking = article.series.map(series => {
     if (series.id) {
       return `${series.name}:${series.id}`;
-    } else if (series.url && seriesUrls.indexOf(series.url) !== -1){
+    } else if (series.url && seriesUrls.indexOf(series.url) !== -1) {
       return `${series.name}:${series.url}`;
     }
   }).filter(_ => _).join(',');

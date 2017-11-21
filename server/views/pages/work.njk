@@ -83,6 +83,7 @@
           </h2>
 
           <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+            <p class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">Credit: {{ work.credit }}</p>
             {% componentV2 'license',  {subject: work.imgLink, licenseType: work.thumbnail.license.licenseType} %}
           </div>
 
@@ -125,11 +126,14 @@
     </div>
   </div>
 
-
   <div class="{{ {s:10} | spacingClasses({margin: ['bottom']}) }}">
-    {% if work.usingImage %}
-      {% componentV2 'work-drawer', {id: 'work-using-image', heading: 'Using this image'}, null, {data: work.usingImage} %}
-    {% endif %}
+    {% set licenseInfo = work.thumbnail.license.licenseType | getLicenseInfo %}
+    {% set usingThisImageData = [
+      {title: 'License infomation', content: licenseInfo.humanReadableText},
+      {title: 'Credit', content: work.attribution}
+    ] %}
+
+    {% componentV2 'work-drawer', {id: 'work-using-image', heading: 'Using this image'}, null, {data: usingThisImageData, topDivider: true} %}
   </div>
 
   {% componentV2 'back-to-top', {}, {trackId: pageConfig.canonicalUri} %}

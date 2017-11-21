@@ -11,7 +11,7 @@
       </span>
     </button>
   {% endblock %}
-  <div class="drawer__body {{ {s:2} | spacingClasses({padding: ['top', 'bottom']}) }} js-show-hide-drawer">
+  <div class="drawer__body {{ {s:2} | spacingClasses({padding: ['top', 'bottom']}) }} js-show-hide-drawer {{ {s:'HNL5', m:'HNL4'} | fontClasses }}">
     {% block drawerBody %}
       {{ model.body }}
     {% endblock %}
