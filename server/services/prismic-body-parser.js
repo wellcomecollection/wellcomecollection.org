@@ -112,7 +112,7 @@ function parseBodyPart(slice) {
         type: 'video-embed',
         weight: slice.slice_label,
         value: {
-          embedUrl: embedUrl,
+          embedUrl: `${embedUrl}&rel=0`,
           title: asText(slice.primary.title),
           description: asText(slice.primary.description)
         }
