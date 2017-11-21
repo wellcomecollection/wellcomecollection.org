@@ -12,7 +12,14 @@ type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
 
 const peopleFields = ['people.name', 'people.image', 'people.twitterHandle', 'people.description'];
 const booksFields = ['books.title', 'books.title', 'books.author', 'books.isbn', 'books.publisher', 'books.link', 'books.cover'];
-const seriesFields = ['series.name', 'series.description', 'series.color', 'series.schedule', 'series.commissionedLength'];
+const seriesFields = [
+  'series.name',
+  'series.description',
+  'series.color',
+  'series.schedule',
+  'series.commissionedLength',
+  'series.wordpressSlug'
+];
 const contributorFields = ['editorial-contributor-roles.title'];
 const eventFields = [
   'event-access-options.title', 'event-access-options.acronym',
@@ -181,9 +188,7 @@ export async function getSeriesAndArticles(id: string, page = 1) {
 }
 
 export async function getCuratedList(id: string) {
-  const fetchLinks = [
-    'series.name', 'series.description', 'series.commissionedLength', 'series.color', 'series.wordpressSlug'
-  ];
+  const fetchLinks = seriesFields;
   const prismic = await prismicApi();
   const curatedLists = await prismic.query([
     Prismic.Predicates.at('my.curated-lists.uid', id),

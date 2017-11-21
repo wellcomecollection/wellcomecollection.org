@@ -20,18 +20,12 @@
         "options" : [ "turquoise", "red", "orange", "purple" ],
         "label" : "color"
       }
-    },
-    "commissionedLength" : {
-      "type" : "Number",
-      "config" : {
-        "label" : "Number of articles in digital story"
-      }
-    },
-    "wordpressSlug" : {
-      "type" : "Text",
-      "config" : {
-        "label" : "Wordpress slug"
-      }
+    }
+  },
+  "commissionedLength" : {
+    "type" : "Number",
+    "config" : {
+      "label" : "Number of articles in digital story"
     }
   },
   "Schedule" : {
@@ -54,6 +48,14 @@
             }
           }
         }
+      }
+    }
+  },
+  "Deprecated": {
+    "wordpressSlug" : {
+      "type" : "Text",
+      "config" : {
+        "label" : "Wordpress slug"
       }
     }
   }

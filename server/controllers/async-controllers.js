@@ -7,7 +7,9 @@ import {getLatestInstagramPosts} from '../services/instagram';
 import {getArticleSeries, getSeriesAndArticles} from '../services/prismic';
 import {PromoFactory} from '../model/promo';
 
-// Performance alert: we're having to make a call to wordpress and then if that fails, we have 2 API calls to Prismic in 'getArticleSeries' in order to get the info we need to display the series nav
+// Performance alert: we're having to make a call to wordpress and then if that
+// fails, we have 2 API calls to Prismic in 'getArticleSeries' in order to get
+// the info we need to display the series nav
 const getSeriesData = async(ctx) => {
   const {id} = ctx.params;
   const seriesResponse = await getSeries(id, 6, 1);
@@ -29,8 +31,9 @@ const getSeriesData = async(ctx) => {
 
 export const seriesNav = async(ctx, next) => {
   const {id} = ctx.params;
+  const seriesData = await getSeriesData(ctx);
 
-  ctx.render('components/numbered-list/numbered-list', Object.assign({}, await getSeriesData(ctx), {
+  ctx.render('components/numbered-list/numbered-list', Object.assign({}, seriesData, {
     modifiers: ['horizontal', 'sticky'],
     data: {
       classes: ['js-series-nav'],
@@ -47,8 +50,9 @@ export const seriesNav = async(ctx, next) => {
 
 export const seriesTransporter = async(ctx, next) => {
   const {id} = ctx.params;
+  const seriesData = await getSeriesData(ctx);
 
-  ctx.render('components/numbered-list/numbered-list', Object.assign({}, await getSeriesData(ctx), {
+  ctx.render('components/numbered-list/numbered-list', Object.assign({}, seriesData, {
     modifiers: ['transporter'],
     data: {
       classes: ['js-numbered-list-transporter'],
@@ -74,22 +78,6 @@ export const latestInstagramPosts = async(ctx, next) => {
       url: 'https://instagram.com/wellcomecollection',
       handle: 'wellcomecollection'
     }
-  });
-
-  ctx.body = {
-    html: ctx.body
-  };
-
-  return next();
-};
-
-export const seriesContainerPromoList = async(ctx, next) => {
-  const {id} = ctx.params;
-  const series = await getSeriesAndArticles(id);
-  const promos = series.paginatedResults.results.map(PromoFactory.fromArticleStub);
-
-  ctx.render('components/series-container/promos-list', {
-    promos: promos
   });
 
   ctx.body = {

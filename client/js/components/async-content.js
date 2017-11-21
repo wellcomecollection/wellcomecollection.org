@@ -6,7 +6,7 @@ export default function asyncContent(el, dispatch) {
   const component = el.getAttribute('data-component');
 
   return fetch(`/async${el.getAttribute('data-endpoint')}`).then(resp => resp.json()).then(json => {
-    el.outerHTML = json.html;
+    el.innerHTML = json.html;
 
     if (component === 'series-nav') {
       const seriesSlider = document.querySelector('.js-numbered-slider');
@@ -34,7 +34,7 @@ export default function asyncContent(el, dispatch) {
         .filter(modifier => modifier)
         .concat(['transporter', 'in-content']);
 
-      const numberedListTransporter = document.querySelector('.js-numbered-list-transporter');
+      const numberedListTransporter = el.querySelector('.js-numbered-list-transporter');
 
       if (numberedListTransporter) {
         contentSlider(numberedListTransporter, {

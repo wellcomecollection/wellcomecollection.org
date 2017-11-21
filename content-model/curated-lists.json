@@ -34,36 +34,6 @@
               "label" : "Series",
               "customtypes" : [ "series" ]
             }
-          },
-          "promos" : {
-            "type" : "Slice",
-            "fieldset" : "Section",
-            "non-repeat" : {
-              "heading" : {
-                "type" : "StructuredText",
-                "config" : {
-                  "label" : "Heading",
-                  "single" : " "
-                }
-              },
-              "link" : {
-                "type" : "Link",
-                "config" : {
-                  "select" : "web",
-                  "label" : "Link"
-                }
-              }
-            },
-            "repeat" : {
-              "promo" : {
-                "type" : "Link",
-                "config" : {
-                  "select" : "document",
-                  "label" : "Promos",
-                  "customtypes" : [ "promos" ]
-                }
-              }
-            }
           }
         }
       }
