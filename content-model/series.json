@@ -22,6 +22,12 @@
       }
     }
   },
+  "commissionedLength" : {
+    "type" : "Number",
+    "config" : {
+      "label" : "Number of articles in digital story"
+    }
+  },
   "Schedule" : {
     "schedule" : {
       "type" : "Group",
