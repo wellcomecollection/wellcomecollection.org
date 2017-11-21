@@ -1,6 +1,6 @@
 <div class="Header">
   <div class="flex flex--v-center">
-    <button class="Header-button Header-navToggle no-border-radius" data-action="toggle-sidebar">
+    <button class="Header-button Header-navToggle" data-action="toggle-sidebar">
       <div class="icon-fill">
         {% include 'icons/close-nav.svg' %}
         {% include 'icons/open-nav.svg' %}
