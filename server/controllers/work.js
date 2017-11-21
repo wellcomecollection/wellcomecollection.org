@@ -78,7 +78,7 @@ export const work = async(ctx, next) => {
   const imgWidth = '800';
   const imgLink = imageUrlFromMiroId(miroId);
   const encoreLink = sierraId && encoreLinkFromSierraId(sierraId);
-  const canonicalUri = `${ctx.globals.rootDomain}/works/${singleWork.id}`;
+  const canonicalUri = `/works/${singleWork.id}`;
   const credit = singleWork.items[0].locations[0].credit;
   const attribution = constructAttribution(singleWork, credit, canonicalUri);
 
