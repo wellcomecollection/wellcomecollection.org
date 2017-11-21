@@ -1,7 +1,7 @@
 import Router from 'koa-router';
 import request from 'superagent';
 import {healthcheck, featureFlags} from '../controllers/utils';
-import {seriesNav, seriesTransporter, latestInstagramPosts, seriesContainerPromoList} from '../controllers/async-controllers';
+import {seriesNav, seriesTransporter, latestInstagramPosts} from '../controllers/async-controllers';
 import {work, search} from '../controllers/work';
 import {index, article, preview, series, articles} from '../controllers'; // Deprecated
 import {
@@ -74,6 +74,5 @@ r.get('/articles', async (ctx, next) => {
 r.get('/async/series-nav/:id', seriesNav);
 r.get('/async/series-transporter/:id', seriesTransporter);
 r.get('/async/latest-instagram-posts', latestInstagramPosts);
-r.get('/async/series-container-promos-list/:id', seriesContainerPromoList);
 
 export const router = r.middleware();

@@ -86,19 +86,3 @@ export const latestInstagramPosts = async(ctx, next) => {
 
   return next();
 };
-
-export const seriesContainerPromoList = async(ctx, next) => {
-  const {id} = ctx.params;
-  const series = await getSeriesAndArticles(id);
-  const promos = series.paginatedResults.results.map(PromoFactory.fromArticleStub);
-
-  ctx.render('components/series-container/promos-list', {
-    promos: promos
-  });
-
-  ctx.body = {
-    html: ctx.body
-  };
-
-  return next();
-};
