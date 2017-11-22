@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "app:dev": "nodemon -e js,njk,json --exec babel-node --inspect app.js"
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "common": "file:../../common"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  }
+}
