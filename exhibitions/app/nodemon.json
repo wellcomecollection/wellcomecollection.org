@@ -1,3 +1,8 @@
 {
-  "ignoreRoot": [".git"]
+  "ignoreRoot": [".git"],
+  "watch": [
+    "node_modules",
+    "."
+  ],
+  "ext": "js njk json"
 }

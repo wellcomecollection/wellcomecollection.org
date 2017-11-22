@@ -1,0 +1,14 @@
+{
+  "presets": [
+    ["env", {
+      "targets": {
+        "node": "current"
+      }
+    }]
+  ],
+  "ignore": [
+    "node_modules",
+    "node_modules/common"
+  ],
+  "plugins": ["transform-flow-strip-types"]
+}
