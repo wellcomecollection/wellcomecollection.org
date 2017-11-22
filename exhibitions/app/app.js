@@ -1,3 +1,4 @@
+// @flow
 import path from 'path';
 import {setupApp} from 'common/app';
 import Router from 'koa-router';

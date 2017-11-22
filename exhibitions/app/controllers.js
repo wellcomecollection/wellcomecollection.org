@@ -1,3 +1,5 @@
+
+// @flow
 import {List} from 'immutable';
 import {createPageConfig} from 'common/model/page-config';
 import getBreakpoint from 'common/filters/get-breakpoint';
