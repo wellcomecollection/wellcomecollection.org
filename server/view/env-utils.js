@@ -25,7 +25,7 @@ export function addFilters(env) {
 export function getEnvWithGlobalsExtensionsAndFilters(root, globals) {
   return addFilters(
     addExtensions(
-      addGlobals(getEnv(path.join(__dirname, '../views')), globals)
+      addGlobals(getEnv([path.join(__dirname, '../views')]), globals)
     )
   );
 }

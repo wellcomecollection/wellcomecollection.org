@@ -1,6 +1,7 @@
 import Koa from 'koa';
 import config from './config';
 import serve from 'koa-static';
+import path from 'path';
 import {router} from './routes';
 import render from './view/render';
 import setCacheControl from './middleware/set-cache-control';
@@ -25,8 +26,16 @@ app.use(render(config.views.path, globals));
 app.use(serverError(globals.beaconErrors));
 app.use(notFound());
 app.use(setCacheControl(config.cacheControl));
-app.use(serve(config.static.path));
-app.use(serve(config.favicon.path));
+app.use(serve(p(config.static.path)));
+app.use(serve(p(config.favicon.path)));
 app.use(router);
 
 export default app;
+
+function p(p: string) {
+  return path.join(__dirname, p);
+}
+
+export function setupApp(router) {
+  return app.use(router);
+}

@@ -264,7 +264,7 @@ function parseContributors(doc: ?PrismicDocFragment): List<Contributor> {
     })) || List();
 }
 
-function parseImagePromo(doc: ?PrismicDocFragment): ?ImagePromo {
+export function parseImagePromo(doc: ?PrismicDocFragment): ?ImagePromo {
   const maybePromo = doc && doc.find(slice => slice.slice_type === 'editorialImage');
   return maybePromo && ({
     caption: asText(maybePromo.primary.caption),

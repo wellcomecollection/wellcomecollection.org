@@ -29,7 +29,7 @@ const eventFields = [
   'event-formats.title', 'event-programmes.title'
 ];
 
-async function getPrismicApi(req: ?Request) {
+export async function getPrismicApi(req: ?Request) {
   return req ? await prismicPreviewApi(req) : await prismicApi();
 }
 
