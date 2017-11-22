@@ -1,5 +1,5 @@
 {
-  "name": "wellcomecollection.org-server",
+  "name": "common",
   "version": "0.0.0",
   "description": "The node server serving content for wellcomecollection.org",
   "main": "app.js",

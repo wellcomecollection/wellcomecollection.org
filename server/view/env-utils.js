@@ -1,6 +1,7 @@
 import nunjucks from 'nunjucks';
 import extensions from '../extensions';
 import filters from '../filters';
+import path from 'path';
 
 export default function getEnv(root) {
   return nunjucks.configure(root);
@@ -24,7 +25,7 @@ export function addFilters(env) {
 export function getEnvWithGlobalsExtensionsAndFilters(root, globals) {
   return addFilters(
     addExtensions(
-      addGlobals(getEnv(root), globals)
+      addGlobals(getEnv(path.join(__dirname, '../views')), globals)
     )
   );
 }
