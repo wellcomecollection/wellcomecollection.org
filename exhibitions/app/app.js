@@ -1,3 +1,4 @@
+import path from 'path';
 import {setupApp} from 'common/app';
 import Router from 'koa-router';
 import {renderExhibition} from './controllers';
@@ -11,4 +12,6 @@ r.get('/ex/:id', (ctx, next) => {
 });
 
 const router = r.middleware();
-setupApp(router).listen(3001);
+const viewPaths = [path.join(__dirname, 'views')];
+
+setupApp({ router, viewPaths }).listen(3001);

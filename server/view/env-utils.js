@@ -22,10 +22,11 @@ export function addFilters(env) {
   return env;
 }
 
-export function getEnvWithGlobalsExtensionsAndFilters(root, globals) {
+export function getEnvWithGlobalsExtensionsAndFilters(roots, globals) {
+  const env = getEnv(roots);
   return addFilters(
     addExtensions(
-      addGlobals(getEnv([path.join(__dirname, '../views')]), globals)
+      addGlobals(env, globals)
     )
   );
 }
