@@ -26,7 +26,7 @@
     "stylelint-declaration-use-variable": "^1.6.0",
     "stylelint-scss": "^1.5.2",
     "stylelint-selector-bem-pattern": "^1.1.1",
-    "webpack-stream": "^3.2.0"
+    "webpack-stream": "^4.0.0"
   },
   "scripts": {
     "build": "gulp build",

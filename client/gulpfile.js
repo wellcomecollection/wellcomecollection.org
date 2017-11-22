@@ -209,7 +209,7 @@ gulp.task('watch', () => {
   gulp.watch(sources.scss.jsConfig, ['scss:compileJsToScss']);
   gulp.watch(sources.scss.nonCritical.all, ['css:bust', 'scss:compileCritical']);
   gulp.watch(sources.scss.critical.manifests, ['scss:compileCritical']);
-  gulp.watch(sources.js.all, ['js:bust']);
+  gulp.watch(sources.js.all, ['js:compile']);
   gulp.watch(sources.fonts.srcPath, ['fonts:copy']);
   gulp.watch(sources.images.srcPath, ['images:copy']);
   gulp.watch(sources.icons.srcPath, ['icons:copy']);
