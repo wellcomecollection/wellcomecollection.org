@@ -4,8 +4,7 @@ import {getForwardFill} from '../model/series';
 import {getSeriesColor} from '../data/series';
 import {createNumberedList} from '../model/numbered-list';
 import {getLatestInstagramPosts} from '../services/instagram';
-import {getArticleSeries, getSeriesAndArticles} from '../services/prismic';
-import {PromoFactory} from '../model/promo';
+import {getArticleSeries} from '../services/prismic';
 
 // Performance alert: we're having to make a call to wordpress and then if that
 // fails, we have 2 API calls to Prismic in 'getArticleSeries' in order to get
