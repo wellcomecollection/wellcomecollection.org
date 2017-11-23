@@ -1,17 +1,20 @@
 
 // @flow
 import {List} from 'immutable';
-import {createPageConfig} from 'common/model/page-config';
-import getBreakpoint from 'common/filters/get-breakpoint';
-import {getPrismicApi} from 'common/services/prismic';
-import {parseBody} from 'common/services/prismic-body-parser';
-import {
+import {model} from 'common';
+import {filters} from 'common';
+import {services} from 'common';
+const {createPageConfig} = model;
+const {getBreakpoint} = filters;
+const {
+  getPrismicApi,
+  parseBody,
   asText,
   asHtml,
   parsePicture,
   parseImagePromo,
   parsePromoListItem
-} from 'common/services/prismic-parsers';
+} = services;
 
 async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string, qOpts: Object<any>) {
   const prismic = await getPrismicApi(req);
