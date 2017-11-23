@@ -9,8 +9,9 @@ const r = new Router({ sensitive: true });
 r.get('/:preview(preview)?/ex/:id', renderExhibition);
 
 const router = r.middleware();
+const staticPath = path.join(__dirname, '../../dist');
 const viewPaths = [path.join(__dirname, 'views')];
 
-setupApp({ router, viewPaths }).listen(3001);
+setupApp({ router, viewPaths, staticPath }).listen(3001);
 
 console.log('Exhibitions GO!')

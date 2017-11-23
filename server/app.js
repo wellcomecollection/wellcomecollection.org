@@ -14,7 +14,7 @@ function p(p: string) {
   return path.join(__dirname, p);
 }
 
-export function setupApp({ router, viewPaths = [] } = {}) {
+export function setupApp({ router, viewPaths = [], staticPath } = {}) {
   const app = new Koa();
   const globals = config.globals[app.env];
   app.proxy = true;
@@ -37,6 +37,10 @@ export function setupApp({ router, viewPaths = [] } = {}) {
 
   if (router) {
     app.use(router);
+  }
+
+  if (staticPath) {
+    app.use(serve(staticPath));
   }
 
   return app;
