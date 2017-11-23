@@ -21,9 +21,9 @@ jobs:
           name: Install server modules
           command: npm install --production
       - save_cache:
-          key: server_modules_node_6_{{ checksum "package.json" }}
+          key: server_modules_node_6_{{ checksum "package-lock.json" }}
           paths:
-            -  ~/wellcomecollection.org/server/node_modules
+            -  node_modules
   install_client_modules:
     docker:
       - image: node:6.10
@@ -35,9 +35,9 @@ jobs:
           name: Install client modules
           command: npm install
       - save_cache:
-          key: client_modules_node_6_{{ checksum "package.json" }}
+          key: client_modules_node_6_{{ checksum "package-lock.json" }}
           paths:
-            -  ~/wellcomecollection.org/client/node_modules
+            -  node_modules
   build:
     docker:
       - image: node:6.10
@@ -46,11 +46,9 @@ jobs:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: server_modules_node_6_{{ checksum "server/package.json" }}
-          key: server_modules_node_6_
+          key: server_modules_node_6_{{ checksum "server/package-lock.json" }}
       - restore_cache:
-          key: client_modules_node_6_{{ checksum "client/package.json" }}
-          key: client_modules_node_6_
+          key: client_modules_node_6_{{ checksum "client/package-lock.json" }}
       - run:
           name: Build client
           command: ./build-client.sh
@@ -76,8 +74,7 @@ jobs:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: server_modules_node_6_{{ checksum "server/package.json" }}
-          key: server_modules_node_6_
+          key: server_modules_node_6_{{ checksum "server/package-lock.json" }}
       - restore_cache:
           key: built_server_{{ .Environment.CIRCLE_SHA1 }}
       - run:
