@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "app:build": "../../node_modules/.bin/babel . --out-dir .dist --copy-files",
+    "app:build": "../../node_modules/.bin/babel . --out-dir ./.dist --copy-files --ignore node_modules",
     "app:dev": "../../node_modules/.bin/nodemon --exec ../../node_modules/.bin/babel-node --inspect=9001 app.js"
   },
   "dependencies": {
