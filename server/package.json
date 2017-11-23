@@ -49,8 +49,7 @@
     "raven": "^2.1.2",
     "rimraf": "^2.6.1",
     "superagent": "^3.6.0",
-    "supertest": "^3.0.0",
-    "wellcomecollection-config": "file:../config"
+    "supertest": "^3.0.0"
   },
   "devDependencies": {
     "browserstack": "^1.5.0",
