@@ -1,15 +1,11 @@
 {
   "scripts": {
-    "app:build": "babel . --out-dir .dist --copy-files",
-    "app:dev": "nodemon --exec babel-node --inspect=9001 app.js"
+    "app:build": "../../node_modules/.bin/babel . --out-dir .dist --copy-files",
+    "app:dev": "../../node_modules/.bin/nodemon --exec ../../node_modules/.bin/babel-node --inspect=9001 app.js"
   },
   "dependencies": {
-    "babel-cli": "^6.26.0",
     "common": "file:../../server",
     "immutable": "^3.8.2",
     "koa-router": "^7.3.0"
-  },
-  "devDependencies": {
-    "nodemon": "^1.12.1"
   }
 }
