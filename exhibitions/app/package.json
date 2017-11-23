@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "app:dev": "nodemon --watch . --watch node_modules --ext js,njk,json --exec babel-node --inspect=9001 app.js"
+    "app:build": "babel . --out-dir .dist --copy-files",
+    "app:dev": "nodemon --exec babel-node --inspect=9001 app.js"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
