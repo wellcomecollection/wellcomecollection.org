@@ -38,5 +38,5 @@ mkdirp('./.dist');
 watcher.on('add', compileOrCopy);
 watcher.on('change', compileOrCopy);
 watcher.on('unlink', (path) => {
-  console.info(path)
+  console.info(path);
 });

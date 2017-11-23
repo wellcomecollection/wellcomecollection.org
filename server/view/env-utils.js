@@ -1,7 +1,6 @@
 import nunjucks from 'nunjucks';
 import extensions from '../extensions';
 import filters from '../filters';
-import path from 'path';
 
 export default function getEnv(root) {
   return nunjucks.configure(root);
