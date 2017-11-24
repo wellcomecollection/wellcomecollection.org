@@ -25,10 +25,9 @@ export function setupApp({ router, viewPaths = [], staticPath } = {}) {
   app.use(intervalCache());
   app.use(determineFeaturesCohort());
   app.use(setFeaturesCohortFromCtx());
-  console.info(config.views.path);
-  app.use(render([config.views.path].concat(viewPaths), globals));
-  // // `error` is only after `intervalCache` and `render` as there's a dependency chain there
-  // // TODO: remove dependency chain
+  app.use(render(config.views.paths.concat(viewPaths), globals));
+  // `error` is only after `intervalCache` and `render` as there's a dependency chain there
+  // TODO: remove dependency chain
   app.use(serverError(globals.beaconErrors));
   app.use(notFound());
   app.use(setCacheControl(config.cacheControl));

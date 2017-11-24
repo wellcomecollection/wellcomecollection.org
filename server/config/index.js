@@ -21,7 +21,10 @@ const defaultConfig = {
     port: 3000
   },
   views: {
-    path: path.join(__dirname, '../views')
+    paths: [
+      path.join(__dirname, '../views'),
+      path.join(__dirname, './views')
+    ]
   },
   static: {
     path: '../dist'
