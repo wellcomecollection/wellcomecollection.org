@@ -87,14 +87,9 @@
           <h2 class="
             {{ {s:'HNM4' , m:'HNM3'} | fontClasses }}
             {{ {s:0} | spacingClasses({margin: ['top']}) }}
-            {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
-            Use this image
+            {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
+            Download
           </h2>
-
-          <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-            <p class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">Credit: {{ work.credit }}</p>
-            {% componentV2 'license',  {subject: work.imgLink, licenseType: work.thumbnail.license.licenseType} %}
-          </div>
 
           <a
             class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-link font-elf-green font-hover-mint flex flex--v-center"
@@ -119,6 +114,12 @@
               Download small (760px)
             </div>
           </a>
+
+          <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+            <p class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">Credit: {{ work.credit }}</p>
+            {% componentV2 'license',  {subject: work.imgLink, licenseType: work.thumbnail.license.licenseType} %}
+          </div>
+
 
           <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
             {% componentV2 'divider', null, {'pumice': true, 'keyline': true}, {extraClasses: [{s:1} | spacingClasses({margin: ['top', 'bottom']})]}  %}
