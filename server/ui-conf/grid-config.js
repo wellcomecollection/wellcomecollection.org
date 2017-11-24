@@ -1,7 +1,7 @@
 const containerPadding = require('./container-padding');
 const gutterWidth = require('./gutter-width');
 
-export default const gridConfig = {
+const gridConfig = {
   s: {
     padding: containerPadding.small,
     gutter: gutterWidth.small,
@@ -27,3 +27,5 @@ export default const gridConfig = {
     respond: 'xlarge'
   }
 };
+
+export default {gridConfig}
