@@ -1,36 +1,32 @@
 # wellcomecollection.org server
 
-This project works best if you have compiled the [static](../static) project into the
-`../dist` folder as we reference those files in the HTML.
+The package that other webapps rely on to serve a common [KoaJS](http://koajs.com/) server,
+and some common services, utils and tid-bits. We should be trimming this and splitting it up over time.
 
 
 ## Dev
-
-```bash
+```
+# ensure you've npm installed at the root directory, this is where we keep our devDependecies
 npm install
 npm run app:dev
 ```
 
-If you get this error when running `app`:
+This will run and your app through [`babel-node`](http://babeljs.io/docs/usage/cli/#babel-node), restarting the server
+on file change to have the changes take effect.
 
+
+## Build
 ```
-Error: Cannot find module '../config/css-assets.json'
-```
-
-You need to compile the assets [in the client directory](../client).
-
-
-## Prod (uses PM2)
-
-```bash
+# ensure you've npm installed at the root directory, this is where we keep our devDependecies
 npm install
-npm run app:run
-# Or in a docker
-npm run app:docker
-```
+npm run app:build
+```  
+
+This will create a [`webpack`](https://webpack.js.org/) generated package of the app in the `.dist` folder.
+Along with the JS file, we ship the [`./views`](./views). We might think about having these as a separate dependency. 
+
 
 ## Accessibility testing
-
 ```bash
 npm run test:accessibility <url>
 ```
@@ -47,7 +43,6 @@ https://github.com/wellcometrust/developer-docs/blob/master/front-end/accessibil
 
 
 ## Cross browser testing
-
 ```bash
 npm run test:browsers <url>
 ```
