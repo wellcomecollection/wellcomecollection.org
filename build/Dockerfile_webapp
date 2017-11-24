@@ -1,5 +1,8 @@
 FROM node:8-alpine
 
+ARG WEBAPP_NAME
+ARG WEBAPP_PORT
+
 # setup a user so as not to run as root
 # see: https://github.com/nodejs/docker-node/blob/master/docs/BestPractices.md#non-root-user
 RUN adduser -S wellcomecollection
@@ -7,9 +10,9 @@ ENV HOME=/home/wellcomecollection
 USER wellcomecollection
 WORKDIR $HOME/
 
-ADD ./exhibitions/app ./exhibitions/app
-ADD ./server/ ./server/
+COPY ./${WEBAPP_NAME}/app ./${WEBAPP_NAME}/app
+COPY ./server/ ./server/
 
-WORKDIR $HOME/exhibitions/app/.dist
-EXPOSE 3000
+WORKDIR $HOME/${WEBAPP_NAME}/app/.dist
+EXPOSE ${WEBAPP_PORT}
 CMD ["node", "app"]

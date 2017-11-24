@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  exhibitions_app:
+    image: wellcome/wellcomecollection_exhibitions_app:test
+    build:
+      context: ../
+      dockerfile: ./build/Dockerfile_webapp
+      args:
+        - WEBAPP_NAME=exhibitions
+        - WEBAPP_PORT=3001
+    ports:
+      - "3001:3001"
+  exhibitions_nginx:
+    image: wellcome/wellcomecollection_exhibitions_nginx:test
+    build:
+      context: ../
+      dockerfile: ./build/Dockerfile_nginx
+    links:
+      - exhibitions_app:app
