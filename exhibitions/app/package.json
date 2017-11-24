@@ -4,8 +4,11 @@
     "app:dev": "../../node_modules/.bin/nodemon --exec ../../node_modules/.bin/babel-node --inspect=9001 app.js"
   },
   "dependencies": {
+    "babel-loader": "^7.1.2",
     "common": "file:../../server",
+    "copy-webpack-plugin": "^4.2.3",
     "immutable": "^3.8.2",
-    "koa-router": "^7.3.0"
+    "koa-router": "^7.3.0",
+    "webpack": "^3.8.1"
   }
 }

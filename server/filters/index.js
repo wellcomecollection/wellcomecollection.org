@@ -15,7 +15,7 @@ import contains from './contains';
 import {convertImageUri, convertIiifUriToInfoUri} from './convert-image-uri';
 import {getHashedFile} from './get-hashed-file';
 import jsonLd from './json-ld';
-import {isFlagEnabled, getFlagValue} from '../util/flag-status';
+import {isFlagEnabled, getFlagValue} from '../utils/flag-status';
 import {objectAssign} from './object-assign';
 import {arrayFromObject} from './array-from-object';
 import {groupBodyParts} from './group-body-parts';

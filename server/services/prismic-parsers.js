@@ -9,7 +9,7 @@ import type {Contributor, DateRange, ImagePromo} from '../content-model/content-
 import type {Article} from '../model/article';
 import type {Promo} from '../model/promo';
 import type {Picture} from '../model/picture';
-import {isEmptyObj} from '../util/is-empty-obj';
+import {isEmptyObj} from '../utils/is-empty-obj';
 import type {Series} from '../model/series';
 import type {LicenseType} from '../model/license';
 

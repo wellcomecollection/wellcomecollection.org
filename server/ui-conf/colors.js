@@ -44,4 +44,4 @@ const extraQuotedColors = Object.assign(
     .map(key => ({[extraQuoteKey(key)]: colors[key]}))
 );
 
-module.exports = extraQuotedColors;
+export default {extraQuotedColors};

@@ -10,9 +10,7 @@ ENV HOME=/home/wellcomecollection
 USER wellcomecollection
 WORKDIR $HOME/
 
-COPY ./${WEBAPP_NAME}/app ./${WEBAPP_NAME}/app
-COPY ./server/ ./server/
+COPY ./${WEBAPP_NAME}/app/.dist ./
 
-WORKDIR $HOME/${WEBAPP_NAME}/app/.dist
 EXPOSE ${WEBAPP_PORT}
 CMD ["node", "app"]

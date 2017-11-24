@@ -10,7 +10,7 @@ import {
   convertDomNode,
   convertWpImage,
   convertWpYtVideo
-} from '../../util/body-parser';
+} from '../../utils/body-parser';
 import {domNodeHtml, wpImageNodeHtml, wpVideoNodeHtml} from '../mocks/dom-nodes';
 
 test('removeEmptyTextNodes', t => {

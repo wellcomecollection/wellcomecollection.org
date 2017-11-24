@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "The node server serving content for wellcomecollection.org",
   "main": ".dist/index.js",
+  "module": "./index.js",
   "scripts": {
     "app:build": "babel . -d .dist --ignore=node_modules --copy-files",
     "app:build:watch": "babel . -d .dist --ignore=node_modules --copy-files --watch",
@@ -11,7 +12,6 @@
     "test": "ava && flow",
     "test:accessibility": "pa11y",
     "test:browsers": "node ./browserstack/browserstack.js",
-    "test:typecheck-setup": "flow-typed install",
     "test:typecheck-watch": "flow-bro watch",
     "test:typecheck": "flow status",
     "test:watch": "ava --watch"
@@ -25,15 +25,16 @@
   "dependencies": {
     "ava": "^0.17.0",
     "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.2",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-env": "^1.1.8",
     "chokidar": "^1.7.0",
+    "copy-webpack-plugin": "^4.2.3",
     "entities": "^1.1.1",
     "flow-bin": "^0.57.3",
-    "flow-typed": "^2.2.0",
     "immutable": "^4.0.0-rc.9",
     "interval-cache": "0.0.1",
-    "koa": "^2.0.0",
+    "koa": "^2.4.1",
     "koa-router": "^7.1.0",
     "koa-static": "^3.0.0",
     "marked": "^0.3.6",
@@ -49,7 +50,8 @@
     "raven": "^2.1.2",
     "rimraf": "^2.6.1",
     "superagent": "^3.6.0",
-    "supertest": "^3.0.0"
+    "supertest": "^3.0.0",
+    "webpack": "^3.8.1"
   },
   "devDependencies": {
     "browserstack": "^1.5.0",

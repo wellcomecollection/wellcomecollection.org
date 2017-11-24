@@ -1,5 +1,3 @@
-
-// @flow
 import {List} from 'immutable';
 import {model} from 'common';
 import {filters} from 'common';
