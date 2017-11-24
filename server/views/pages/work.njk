@@ -119,7 +119,8 @@
               {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
                 Share
             </h2>
-            {% componentV2 'copy-url', {id: work.id, url: pageConfig.canonicalUri} %}
+            {% set copyUrl = pageConfig.organization.url + pageConfig.canonicalUri %}
+            {% componentV2 'copy-url', {id: work.id, url: copyUrl} %}
           </div>
         </div>
       </div>
