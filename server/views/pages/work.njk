@@ -28,50 +28,59 @@
     <div class="container">
       <div class="grid">
         <div class="{{ {s: 12, m: 7, l: 8, xl: 7, shiftXl: 1} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-          <h1 id="work-info" class="{{ {s:'HNM3', m:'HNM2', l:'HNM1'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{work.title}}</h1>
+          <div class="{{ {s: 5} | spacingClasses({margin: ['bottom']}) }}">
+            <h1 id="work-info" class="{{ {s:'HNM3', m:'HNM2', l:'HNM1'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{work.title}}</h1>
 
-          {% if work.creators.length > 0 %}
-            {% set needsDivider = work.createdDate.label or work.genres.length > 0 or work.subjects.length > 0 or work.lettering > 0 or work.descriptionArray.length > 0 %}
-            {% componentV2 'meta-unit', {headingText: 'By', content: work.creators | getLinkObjects('label', 'creators:'), includeDivider: needsDivider} %}
-          {% endif %}
+            {% if work.creators.length > 0 %}
+              {% set needsDivider = work.createdDate.label or work.genres.length > 0 or work.subjects.length > 0 or work.lettering > 0 or work.descriptionArray.length > 0 %}
+              {% componentV2 'meta-unit', {headingText: 'By', content: work.creators | getLinkObjects('label', 'creators:'), includeDivider: needsDivider} %}
+            {% endif %}
 
-          {% if work.createdDate.label %}
-            {% set needsDivider = work.genres.length > 0 or work.subjects.length > 0 or work.lettering.length > 0 or work.descriptionArray.length > 0 %}
-            {% componentV2 'meta-unit', {headingText: 'Date', content: work.createdDate.label, includeDivider: needsDivider} %}
-          {% endif %}
+            {% if work.createdDate.label %}
+              {% set needsDivider = work.genres.length > 0 or work.subjects.length > 0 or work.lettering.length > 0 or work.descriptionArray.length > 0 %}
+              {% componentV2 'meta-unit', {headingText: 'Date', content: work.createdDate.label, includeDivider: needsDivider} %}
+            {% endif %}
 
-          {% if work.genres.length > 0 %}
-            {% set needsDivider = work.subjects.length > 0 or work.lettering.length > 0 or work.descriptionArray.length > 0 %}
-            {% componentV2 'meta-unit', {headingText: 'Genre', content: work.genres | getLinkObjects('label'), includeDivider: needsDivider} %}
-          {% endif %}
+            {% if work.genres.length > 0 %}
+              {% set needsDivider = work.subjects.length > 0 or work.lettering.length > 0 or work.descriptionArray.length > 0 %}
+              {% componentV2 'meta-unit', {headingText: 'Genre', content: work.genres | getLinkObjects('label'), includeDivider: needsDivider} %}
+            {% endif %}
 
-          {% if work.subjects.length > 0 %}
-            {% set needsDivider = work.lettering.length > 0 or work.descriptionArray.length > 0 %}
-            {% componentV2 'meta-unit', {headingText: 'Subject', content: work.subjects | getLinkObjects('label'), includeDivider: needsDivider} %}
-          {% endif %}
+            {% if work.subjects.length > 0 %}
+              {% set needsDivider = work.lettering.length > 0 or work.descriptionArray.length > 0 %}
+              {% componentV2 'meta-unit', {headingText: 'Subject', content: work.subjects | getLinkObjects('label'), includeDivider: needsDivider} %}
+            {% endif %}
 
-          {% if work.lettering.length > 0 %}
-            {% set needsDivider = work.descriptionArray.length > 0 %}
-            {% componentV2 'meta-unit', {headingText: 'Lettering', content: work.lettering, includeDivider: needsDivider} %}
-          {% endif %}
+            {% if work.lettering.length > 0 %}
+              {% set needsDivider = work.descriptionArray.length > 0 %}
+              {% componentV2 'meta-unit', {headingText: 'Lettering', content: work.lettering, includeDivider: needsDivider} %}
+            {% endif %}
 
-          {% if work.descriptionArray.length > 0 %}
-            <div>
-              <h2 class="{{ {s:'HNM5' , m:'HNM4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
-                Description
-              </h2>
-              {% for paragraph in work.descriptionArray %}
-              <p class="{{ {s:'HNL5' , m:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">{{paragraph}}</p>
-              {% endfor %}
-            </div>
-          {% endif %}
+            {% if work.descriptionArray.length > 0 %}
+              <div>
+                <h2 class="{{ {s:'HNM5' , m:'HNM4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
+                  Description
+                </h2>
+                {% for paragraph in work.descriptionArray %}
+                <p class="{{ {s:'HNL5' , m:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">{{paragraph}}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
 
-          {% if work.encoreLink %}
-            <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
-              {% componentV2 'more-info-link', {name: 'View Wellcome Library catalogue record', url: work.encoreLink} %}
-            </div>
-          {% endif %}
+            {% if work.encoreLink %}
+              <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
+                {% componentV2 'more-info-link', {name: 'View Wellcome Library catalogue record', url: work.encoreLink} %}
+              </div>
+            {% endif %}
+          </div>
 
+          {% set licenseInfo = work.thumbnail.license.licenseType | getLicenseInfo %}
+          {% set usingThisImageData = [
+            {title: 'License infomation', content: licenseInfo.humanReadableText},
+            {title: 'Credit', content: work.attribution}
+          ] %}
+
+          {% componentV2 'work-drawer', {id: 'work-using-image', heading: 'Using this image'}, null, {data: usingThisImageData, topDivider: true} %}
         </div>
 
         <div class="{{ {s: 12, m: 5, l: 4, xl: 3} | gridClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}">
@@ -125,16 +134,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="{{ {s:10} | spacingClasses({margin: ['bottom']}) }}">
-    {% set licenseInfo = work.thumbnail.license.licenseType | getLicenseInfo %}
-    {% set usingThisImageData = [
-      {title: 'License infomation', content: licenseInfo.humanReadableText},
-      {title: 'Credit', content: work.attribution}
-    ] %}
-
-    {% componentV2 'work-drawer', {id: 'work-using-image', heading: 'Using this image'}, null, {data: usingThisImageData, topDivider: true} %}
   </div>
 
   {% componentV2 'back-to-top', {}, {trackId: pageConfig.canonicalUri} %}
