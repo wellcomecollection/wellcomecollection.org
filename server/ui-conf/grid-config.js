@@ -28,4 +28,4 @@ const gridConfig = {
   }
 };
 
-export default {gridConfig};
+module.exports = gridConfig;

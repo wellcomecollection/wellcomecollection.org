@@ -1,2 +1,1 @@
-const containerWidthMax = '1338px';
-export default { containerWidthMax };
+module.exports = '1338px';
