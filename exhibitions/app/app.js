@@ -14,4 +14,4 @@ const viewPaths = [path.join(__dirname, 'views')];
 
 setupApp({ router, viewPaths, staticPath }).listen(3001);
 
-console.log('Exhibitions GO!')
+console.log('Exhibitions GO!');

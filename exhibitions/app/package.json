@@ -1,7 +1,7 @@
 {
   "scripts": {
     "app:build": "../../node_modules/.bin/webpack",
-    "app:dev": "../../node_modules/.bin/nodemon -e js,njk,json --exec babel-node --inspect run.js"
+    "app:dev": "../../node_modules/.bin/nodemon -e js,njk,json --exec ../../node_modules/.bin/babel-node --inspect=4001 app.js"
   },
   "dependencies": {
     "babel-loader": "^7.1.2",

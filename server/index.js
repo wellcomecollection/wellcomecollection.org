@@ -1,4 +1,4 @@
-import {setupApp} from './app';
+import {setupApp} from './setup-app';
 import {createPageConfig} from './model/page-config';
 import {default as filtersMap} from './filters';
 import {getPrismicApi} from './services/prismic';

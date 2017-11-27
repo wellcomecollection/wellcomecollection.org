@@ -4,13 +4,13 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   target: 'node',
-  entry: './run.js',
+  entry: './app.js',
   output: {
     path: path.join(__dirname, '.dist'),
-    filename: 'run.js'
+    filename: 'app.js'
   },
   plugins: [
-    new webpack.DefinePlugin({ 'global.GENTLY': false }),
+    new webpack.DefinePlugin({'global.GENTLY': false }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
     }),

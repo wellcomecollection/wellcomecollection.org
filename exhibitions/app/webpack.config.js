@@ -10,7 +10,7 @@ module.exports = {
     filename: 'app.js'
   },
   plugins: [
-    new webpack.DefinePlugin({ "global.GENTLY": false }),
+    new webpack.DefinePlugin({'global.GENTLY': false }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
@@ -32,7 +32,9 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: [
+          /node_modules\/(?!common)/
+        ],
         use: {
           loader: 'babel-loader'
         }

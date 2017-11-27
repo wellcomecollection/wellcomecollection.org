@@ -1,5 +1,5 @@
 import test from 'ava';
-import app from '../../app';
+import app from '../../setup-app';
 import supertest from 'supertest';
 
 const request = supertest.agent(app.listen());
