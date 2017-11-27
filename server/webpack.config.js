@@ -18,7 +18,8 @@ module.exports = {
       __dirname: '__dirname'
     }),
     new CopyWebpackPlugin([
-      { from: './views', to: './views' }
+      { from: './views', to: './views' },
+      { from: './management', to: './management' }
     ])
   ],
   module: {
