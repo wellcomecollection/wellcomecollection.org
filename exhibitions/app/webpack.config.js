@@ -4,11 +4,6 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const sass = require('node-sass');
 
-// const extractSass = new ExtractTextPlugin({
-//   filename: './views/partials/critical.css.njk'
-// });
-
-
 // Seems easier than setting up the webpack plugin
 const css = sass.renderSync({
   file: '../../client/scss/critical.scss',
