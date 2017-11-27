@@ -207,6 +207,9 @@ workflows:
       - build_exhibitions_webapp:
           requires:
             - checkout_code
+      - deploy_exhibitions_webapp:
+          requires:
+            - build_exhibitions_webapp
       - build:
           requires:
             - checkout_code
