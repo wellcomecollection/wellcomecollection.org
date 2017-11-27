@@ -1,5 +1,5 @@
-import breakpoints from '../../ui-conf/breakpoints';
-import gridConfig from '../../ui-conf/grid-config';
+import breakpoints from '../../ui-config/breakpoints';
+import gridConfig from '../../ui-config/grid-config';
 
 export const context = {
   pageDescription: {

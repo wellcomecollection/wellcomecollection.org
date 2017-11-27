@@ -1,48 +1,20 @@
 {% extends 'components/drawer/drawer.njk' %}
 
 {% block drawerHeader %}
-  <div class="row">
-    <div class="container">
-      <div class="grid">
-        <div class="{{ {s: 12, m:7, l: 8, xl: 7, shiftXl: 1} | gridClasses }}">
-          {% if data.topDivider %}
-            <hr class="divider divider--black divider--keyline" />
-          {% endif %}
-          {{ super() }}
-        </div>
-      </div>
-    </div>
-  </div>
+  {% if data.topDivider %}
+    <hr class="divider divider--black divider--keyline" />
+  {% endif %}
+  {{ super() }}
 {% endblock %}
 
 {% block drawerBody %}
-  <div class="row">
-    <div class="container">
-      <div class="grid">
-        <div class="{{ {s: 12, m: 7, l: 8, xl: 7, shiftXl: 1} | gridClasses }}">
-          {% for item in data.data %}
-            <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-              {% componentV2 'meta-unit', {headingText: item.title, content: item.content} %}
-            </div>
-            {% if loop.index % 2 === 0 and loop.index < data.data.length %}
-        </div>
-        <div class="{{ {s: 12, m: 6, l: 5, xl: 4} | gridClasses }}">
-            {% endif %}
-          {% endfor %}
-        </div>
-      </div>
+  {% for item in data.data %}
+    <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+      {% componentV2 'meta-unit', {headingText: item.title, content: item.content} %}
     </div>
-  </div>
+  {% endfor %}
 {% endblock %}
 
 {% block drawerDivider %}
-  <div class="row">
-    <div class="container">
-      <div class="grid">
-        <div class="{{ {s: 12, m:7, l: 8, xl: 7, shiftXl: 1} | gridClasses }}">
-          {{ super() }}
-        </div>
-      </div>
-    </div>
-  </div>
+  {{ super() }}
 {% endblock %}

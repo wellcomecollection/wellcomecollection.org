@@ -1,4 +1,4 @@
-import breakpoints from '../ui-conf/breakpoints';
+import breakpoints from '../ui-config/breakpoints';
 
 export default function(name) {
   return breakpoints[name];

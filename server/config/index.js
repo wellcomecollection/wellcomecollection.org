@@ -21,6 +21,8 @@ const defaultConfig = {
     port: 3000
   },
   views: {
+    // We have both here to cater for when we're in the `.dist`
+    // folder which is useful for debugging
     paths: [
       path.join(__dirname, '../views'),
       path.join(__dirname, './views')
