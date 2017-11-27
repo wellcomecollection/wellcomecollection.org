@@ -56,7 +56,8 @@ jobs:
           paths:
             - .dist
   deploy_exhibitions_webapp:
-    docker: node:8.9.1
+    docker:
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
