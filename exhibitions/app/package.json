@@ -12,6 +12,7 @@
     "copy-webpack-plugin": "^4.2.3",
     "immutable": "^3.8.2",
     "koa-router": "^7.3.0",
+    "mkdirp": "^0.5.1",
     "node-sass": "^4.7.2",
     "webpack": "^3.8.1"
   }

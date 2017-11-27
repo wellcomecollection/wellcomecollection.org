@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const mkdirp = require('mkdirp');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const sass = require('node-sass');
@@ -10,7 +11,7 @@ const css = sass.renderSync({
   includePaths: ['../../client/scss/'],
   outputStyle: 'compressed'
 });
-fs.mkdirSync('./views/partials');
+mkdirp.sync('./views/partials');
 fs.writeFile('./views/partials/critical.css.njk', css.css.toString(), function(err) {
   if (err) throw err;
   console.log('Sass to CSS wrangled!');
