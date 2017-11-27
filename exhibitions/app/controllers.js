@@ -1,7 +1,5 @@
 import {List} from 'immutable';
-import {model} from 'common';
-import {filters} from 'common';
-import {services} from 'common';
+import {model, filters, services} from 'common';
 const {createPageConfig} = model;
 const {getBreakpoint} = filters;
 const {
