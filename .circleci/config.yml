@@ -54,7 +54,7 @@ jobs:
           name: Build
           command: yarn run app:build
       - save_cache:
-          key: built_exhibitions_webapp_{{ checksum ".dist" }}
+          key: built_exhibitions_webapp_{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - .dist
   deploy_exhibitions_webapp:
@@ -65,7 +65,7 @@ jobs:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: built_exhibitions_webapp_{{ checksum ".dist" }}
+          key: built_exhibitions_webapp_{{ .Environment.CIRCLE_SHA1 }}
       - add_ssh_keys
       - setup_remote_docker
       - run:
