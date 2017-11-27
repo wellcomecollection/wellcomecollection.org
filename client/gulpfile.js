@@ -63,7 +63,7 @@ const sources = {
 };
 
 gulp.task('scss:compileJsToScss', () => {
-  const configPath = '../config';
+  const configPath = '../server/ui-conf';
   const compiledVariablesPath = 'scss/utilities/compiled_variables';
   const files = fs.readdirSync(configPath);
 
