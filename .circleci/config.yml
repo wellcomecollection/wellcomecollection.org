@@ -19,7 +19,7 @@ jobs:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Install server modules
-          command: npm install --production
+          command: yarn install --production
       - save_cache:
           key: server_modules_node_8_{{ checksum "yarn.lock" }}
           paths:
@@ -33,7 +33,7 @@ jobs:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Install client modules
-          command: npm install
+          command: yarn install
       - save_cache:
           key: client_modules_node_8_{{ checksum "yarn.lock" }}
           paths:
@@ -79,7 +79,7 @@ jobs:
           key: built_server_{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Test server
-          command: pushd server && npm run test && popd
+          command: pushd server && yarn run test && popd
   deploy_app:
     docker:
       - image: node:8.9.1-alpine
