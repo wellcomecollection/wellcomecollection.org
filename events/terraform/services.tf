@@ -22,7 +22,9 @@ module "events" {
   server_error_alarm_topic_arn = "${module.alb_server_error_alarm.arn}"
   client_error_alarm_topic_arn = "${module.alb_client_error_alarm.arn}"
 
-  memory                   = "490"
+  // These account for the 128 mem and CPU the nginx container uses
+  cpu                      = "448"
+  memory                   = "433"
   primary_container_port   = "80"
   secondary_container_port = "3000"
 
