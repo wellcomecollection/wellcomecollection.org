@@ -52,7 +52,7 @@ jobs:
           command: yarn install
       - run:
           name: SHAME - Compile JS to SCSS
-          command: pushd ../../client && npx gulp scss:compileJsToScss && popd
+          command: pushd ../../client && yard add gulp && npx gulp scss:compileJsToScss && popd
       - run:
           name: Build
           command: yarn run app:build
