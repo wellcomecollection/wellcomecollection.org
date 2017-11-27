@@ -7,7 +7,9 @@
     }]
   ],
   "ignore": [
-    "nothings"
+    "node_modules",
+    "views/partials/analytics.js.njk",
+    "views/partials/hotjar.js.njk"
   ],
   "plugins": ["transform-flow-strip-types"]
 }

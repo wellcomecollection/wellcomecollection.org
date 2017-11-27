@@ -19,7 +19,7 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       { from: './views', to: './views' },
-      { from: './node_modules/common/views', to: './views' },
+      { from: '../../server/views', to: './views' },
     ])
   ],
   module: {
@@ -32,9 +32,6 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: [
-          /node_modules\/(?!common)/
-        ],
         use: {
           loader: 'babel-loader'
         }
