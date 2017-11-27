@@ -2,7 +2,7 @@ version: 2
 jobs:
   checkout_code:
     docker:
-      - image: node:8.9.1-alpine
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - checkout
