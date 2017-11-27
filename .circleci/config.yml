@@ -221,6 +221,10 @@ workflows:
       - deploy_exhibitions_webapp:
           requires:
             - build_exhibitions_webapp
+          filters:
+            branches:
+              only:
+                - master
       - build:
           requires:
             - checkout_code
