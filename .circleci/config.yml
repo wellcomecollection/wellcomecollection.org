@@ -51,7 +51,7 @@ jobs:
           name: Install modules
           command: yarn install
       - run:
-          name: SHAME: Compile JS to SCSS
+          name: SHAME - Compile JS to SCSS
           command: pushd ../../client && npx gulp scss:compileJsToScss && popd
       - run:
           name: Build
