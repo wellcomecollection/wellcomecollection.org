@@ -1,6 +1,7 @@
 // @flow
 import 'moment-timezone';
 import moment from 'moment';
+import {List} from 'immutable';
 
 function london(d) {
   return moment.tz(d, 'Europe/London');
@@ -55,4 +56,16 @@ export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date
   } else {
     return {text: 'Current exhibition', color: 'mint'};
   }
+}
+
+export function formatAndDedupeOnDate(d1: Date, d2: Date): List<string> {
+  return List([d1, d2]).map(formatDayDate).toSet().toList();
+}
+
+export function formatAndDedupeOnTime(d1: Date, d2: Date): List<string> {
+  return List([d1, d2]).map(formatTime).toSet().toList();
+}
+
+export function joinDateStrings(dateStrings: List<string>): string {
+  return dateStrings.join(' – ');
 }
