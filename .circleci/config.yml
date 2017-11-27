@@ -38,6 +38,46 @@ jobs:
           key: client_modules_node_8_{{ checksum "yarn.lock" }}
           paths:
             -  node_modules
+  build_exhibitions_webapp:
+    docker:
+      - image: node:8.9.1
+    working_directory: ~/wellcomecollection.org/exhibitions/app
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Install modules
+          command: yarn install
+      - run:
+          name: Build
+          command: yarn run app:build
+      - save_cache:
+          key: built_exhibitions_webapp_{{ checksum ".dist" }}
+          paths:
+            - .dist
+  deploy_exhibitions_webapp:
+    docker: node:8.9.1
+    working_directory: ~/wellcomecollection.org
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: built_exhibitions_webapp_{{ checksum ".dist" }}
+      - add_ssh_keys
+      - setup_remote_docker
+      - run:
+          name: Install Docker client
+          command: |
+            set -x
+            VER="17.03.1-ce"
+            curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
+            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+            mv /tmp/docker/* /usr/bin
+      - run:
+          name: Deploy
+          command: |
+            CONTAINER_TAG={{ .Environment.CIRCLE_SHA1 }} docker-compose --file ./build/exhibitions_webapp.yml build
+            CONTAINER_TAG={{ .Environment.CIRCLE_SHA1 }} docker-compose --file ./build/exhibitions_webapp.yml push
   build:
     docker:
       - image: node:8.9.1
@@ -162,6 +202,9 @@ workflows:
           requires:
             - checkout_code
       - install_client_modules:
+          requires:
+            - checkout_code
+      - build_exhibitions_webapp:
           requires:
             - checkout_code
       - build:
