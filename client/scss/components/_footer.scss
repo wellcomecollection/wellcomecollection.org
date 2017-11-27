@@ -43,10 +43,6 @@ $footer-strap-width: 220px;
   @include respond-to('medium') {
     flex-wrap: nowrap;
   }
-
-  @include respond-to('xlarge') {
-    flex-basis: 58%;
-  }
 }
 
 .footer__strap {
@@ -115,12 +111,6 @@ $footer-strap-width: 220px;
   margin-bottom: $vertical-space-unit;
   padding-bottom: $vertical-space-unit;
   border-bottom: 1px solid color('charcoal');
-
-  @include respond-to('xlarge') {
-    padding-bottom: 0;
-    border-bottom: 0;
-    flex-basis: auto;
-  }
 }
 
 .footer__hygiene-list {
@@ -129,27 +119,18 @@ $footer-strap-width: 220px;
   margin-bottom: $vertical-space-unit;
   border-top: 1px solid color('charcoal');
   padding-top: $vertical-space-unit;
-
-  @include respond-to('xlarge') {
-    border-top: 0;
-    padding-top: 0;
-  }
 }
 
 .footer__hygiene-item {
   width: 100%;
   text-align: center;
 
-  @include respond-to('xlarge') {
-    width: auto;
-  }
-
   &:last-child {
     position: absolute;
     bottom: - (3 * $vertical-space-unit);
     left: 0;
 
-    @include respond-to('medium') {
+    @include respond-to('large') {
       position: static;
     }
   }
@@ -180,7 +161,7 @@ $footer-strap-width: 220px;
     align-items: center;
     border-left: 0;
 
-    @include respond-to('medium') {
+    @include respond-to('large') {
       border-left: 1px solid color('charcoal');
       justify-content: center;
     }
