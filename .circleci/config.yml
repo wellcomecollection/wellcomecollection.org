@@ -211,6 +211,7 @@ workflows:
       - deploy_exhibitions_webapp:
           requires:
             - build_exhibitions_webapp
+            - install_server_modules
       - build:
           requires:
             - checkout_code
