@@ -4,8 +4,8 @@ The package that other webapps rely on to serve a common [KoaJS](http://koajs.co
 and some common services, utils and tid-bits. We should be trimming this and splitting it up over time.
 
 ## Requirements
-* Node 8
-
+* [Node 8](https://nodejs.org/en/)
+* [Yarn `brew install yarn`](https://yarnpkg.com/lang/en/docs/install/)
 
 ## Dev
 ```
