@@ -3,27 +3,29 @@
 The package that other webapps rely on to serve a common [KoaJS](http://koajs.com/) server,
 and some common services, utils and tid-bits. We should be trimming this and splitting it up over time.
 
+## Requirements
+* Node 8
+
 
 ## Dev
 ```
-# ensure you've npm installed at the root directory, this is where we keep our devDependecies
-npm install
-npm run app:dev
+# ensure you've yarn installed at the root directory, this is where we keep our devDependecies
+yarn install
+yarn run app:dev
 ```
 
-This will run and your app through [`babel-node`](http://babeljs.io/docs/usage/cli/#babel-node), restarting the server
-on file change to have the changes take effect.
+This will run app with [`babel-node`](http://babeljs.io/docs/usage/cli/#babel-node), restarting the server
+on file change to have your changes take effect.
 
 
 ## Build
 ```
-# ensure you've npm installed at the root directory, this is where we keep our devDependecies
-npm install
-npm run app:build
+yarn install
+yarn run app:build
 ```  
 
 This will create a [`webpack`](https://webpack.js.org/) generated package of the app in the `.dist` folder.
-Along with the JS file, we ship the [`./views`](./views). We might think about having these as a separate dependency. 
+Along with the JS file, we ship the [`./views`](./views) there too. 
 
 
 ## Accessibility testing
