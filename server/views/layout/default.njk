@@ -130,7 +130,7 @@
     {% component 'cookie-notification' %}
 
     <noscript>
-      <link rel="stylesheet" href="/assets/css/{{ 'non-critical.css' | getHashedFile }}">
+      <link rel="stylesheet" href="{{ '/assets/css/' | getHashedFile('non-critical.css') }}">
     </noscript>
     <script>
       if (['localhost', 'cardigan.wellcomecollection.org'].indexOf(document.location.hostname) === -1) {
