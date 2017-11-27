@@ -1,1 +1,1 @@
-variable "nginx_docker_tag" {}
+variable "container_tag" {}
