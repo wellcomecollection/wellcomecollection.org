@@ -45,6 +45,8 @@ jobs:
     steps:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: server_modules_node_8_{{ checksum "server/yarn.lock" }}
       - run:
           name: Install modules
           command: yarn install
