@@ -79,8 +79,8 @@ jobs:
       - run:
           name: Deploy
           command: |
-            CONTAINER_TAG={{ .Environment.CIRCLE_SHA1 }} docker-compose --file ./build/exhibitions_webapp.yml build
-            CONTAINER_TAG={{ .Environment.CIRCLE_SHA1 }} docker-compose --file ./build/exhibitions_webapp.yml push
+            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/exhibitions_webapp.yml build
+            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/exhibitions_webapp.yml push
   build:
     docker:
       - image: node:8.9.1
