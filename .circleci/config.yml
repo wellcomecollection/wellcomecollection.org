@@ -38,6 +38,56 @@ jobs:
           key: client_modules_node_8_{{ checksum "yarn.lock" }}
           paths:
             -  node_modules
+  build_exhibitions_webapp:
+    docker:
+      - image: node:8.9.1
+    working_directory: ~/wellcomecollection.org/exhibitions/app
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: server_modules_node_8_{{ checksum "../../server/yarn.lock" }}
+      - run:
+          name: Install modules
+          command: yarn install
+      - run:
+          name: Build
+          command: yarn run app:build
+      - save_cache:
+          key: built_exhibitions_webapp_{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - .dist
+  deploy_exhibitions_webapp:
+    docker:
+      - image: node:8.9.1
+    working_directory: ~/wellcomecollection.org
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: built_exhibitions_webapp_{{ .Environment.CIRCLE_SHA1 }}
+      - add_ssh_keys
+      - setup_remote_docker
+      - run:
+          name: Install Docker client
+          command: |
+            set -x
+            VER="17.03.0-ce"
+            curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
+            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+            mv /tmp/docker/* /usr/bin
+      - run:
+          name: Install Docker Compose
+          command: |
+            set -x
+            curl -L https://github.com/docker/compose/releases/download/1.17.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
+      - run:
+          name: Deploy
+          command: |
+            docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/exhibitions_webapp.yml build
+            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/exhibitions_webapp.yml push
   build:
     docker:
       - image: node:8.9.1
@@ -164,6 +214,17 @@ workflows:
       - install_client_modules:
           requires:
             - checkout_code
+      - build_exhibitions_webapp:
+          requires:
+            - checkout_code
+            - install_server_modules
+      - deploy_exhibitions_webapp:
+          requires:
+            - build_exhibitions_webapp
+          filters:
+            branches:
+              only:
+                - master
       - build:
           requires:
             - checkout_code

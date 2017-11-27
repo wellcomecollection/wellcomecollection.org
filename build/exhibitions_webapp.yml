@@ -1,7 +1,8 @@
+# TODO: Potentially look at adding config here
 version: '3.3'
 services:
-  exhibitions_app:
-    image: wellcome/wellcomecollection_exhibitions_app:test
+  exhibitions_webapp:
+    image: wellcome/wellcomecollection_exhibitions_webapp:${CONTAINER_TAG:-test}
     build:
       context: ../
       dockerfile: ./build/Dockerfile_webapp
@@ -11,9 +12,9 @@ services:
     ports:
       - "3001:3001"
   exhibitions_nginx:
-    image: wellcome/wellcomecollection_exhibitions_nginx:test
+    image: wellcome/wellcomecollection_exhibitions_nginx:${CONTAINER_TAG:-test}
     build:
       context: ../
       dockerfile: ./build/Dockerfile_nginx
     links:
-      - exhibitions_app:app
+      - exhibitions_webapp:app
