@@ -10,7 +10,7 @@ module.exports = {
     filename: 'app.js'
   },
   plugins: [
-    new webpack.DefinePlugin({'global.GENTLY': false }),
+    new webpack.DefinePlugin({ 'global.GENTLY': false }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
