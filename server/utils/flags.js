@@ -1,5 +1,5 @@
 // @flow
-import {isFlagEnabled, getFlagValue} from '../util/flag-status';
+import {isFlagEnabled, getFlagValue} from './flag-status';
 import {cache} from '../services/interval-cache';
 
 type FeatureFlag = {|

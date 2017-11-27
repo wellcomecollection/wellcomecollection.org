@@ -9,7 +9,7 @@ import type {Contributor, DateRange, ImagePromo} from '../content-model/content-
 import type {Article} from '../model/article';
 import type {Promo} from '../model/promo';
 import type {Picture} from '../model/picture';
-import {isEmptyObj} from '../util/is-empty-obj';
+import {isEmptyObj} from '../utils/is-empty-obj';
 import type {Series} from '../model/series';
 import type {LicenseType} from '../model/license';
 
@@ -264,7 +264,7 @@ function parseContributors(doc: ?PrismicDocFragment): List<Contributor> {
     })) || List();
 }
 
-function parseImagePromo(doc: ?PrismicDocFragment): ?ImagePromo {
+export function parseImagePromo(doc: ?PrismicDocFragment): ?ImagePromo {
   const maybePromo = doc && doc.find(slice => slice.slice_type === 'editorialImage');
   return maybePromo && ({
     caption: asText(maybePromo.primary.caption),

@@ -1,0 +1,8 @@
+{
+  "ignoreRoot": [".git"],
+  "watch": [
+    "../../server",
+    "."
+  ],
+  "ext": "js njk json"
+}

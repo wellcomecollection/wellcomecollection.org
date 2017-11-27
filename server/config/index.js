@@ -1,3 +1,4 @@
+import path from 'path';
 import overrides from './overrides.json';  // This allows you to inject JSON config into the app
 const defaultConfig = {
   app: {
@@ -20,7 +21,12 @@ const defaultConfig = {
     port: 3000
   },
   views: {
-    path: 'views'
+    // We have both here to cater for when we're in the `.dist`
+    // folder which is useful for debugging
+    paths: [
+      path.join(__dirname, '../views'),
+      path.join(__dirname, './views')
+    ]
   },
   static: {
     path: '../dist'

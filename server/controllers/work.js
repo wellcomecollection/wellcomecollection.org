@@ -3,7 +3,7 @@ import {createPageConfig} from '../model/page-config';
 import {getWork, getWorks} from '../services/wellcomecollection-api';
 import {createResultsList} from '../model/results-list';
 import {PaginationFactory} from '../model/pagination';
-import {isFlagEnabled, getFlagValue} from '../util/flag-status';
+import {isFlagEnabled, getFlagValue} from '../utils/flag-status';
 import {worksLandingPromos, henryImage} from '../data/works';
 import getLicenseInfo from '../filters/get-license-info';
 

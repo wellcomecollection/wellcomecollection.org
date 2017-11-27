@@ -1,6 +1,17 @@
-var http = require('http');
+// @flow
+import path from 'path';
+import {setupApp} from 'common';
+import Router from 'koa-router';
+import {renderExhibition} from './controllers';
 
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('exhibitions ok');
-}).listen(3000);
+const r = new Router({ sensitive: true });
+
+r.get('/:preview(preview)?/ex/:id', renderExhibition);
+
+const router = r.middleware();
+const staticPath = path.join(__dirname, '../../dist');
+const viewPaths = [path.join(__dirname, 'views')];
+
+setupApp({ router, viewPaths, staticPath }).listen(3001);
+
+console.log('Exhibitions GO!');

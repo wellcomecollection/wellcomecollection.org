@@ -1,4 +1,4 @@
-import {setFeaturesCohort} from '../util/flags';
+import {setFeaturesCohort} from '../utils/flags';
 
 export function setFeaturesCohortFromCtx() {
   return (ctx, next) => {

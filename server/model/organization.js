@@ -1,6 +1,6 @@
 import type {OpeningHours} from './opening-hours';
 import {galleryOpeningHours} from './opening-hours';
-import {objToJsonLd} from '../util/json-ld';
+import {objToJsonLd} from '../utils/json-ld';
 
 export type Organization = {|
   name: string;

@@ -1,6 +1,6 @@
 import request from 'superagent';
 import {ArticleFactory} from '../model/article';
-import {prismicParser} from '../util/prismic-parser';
+import {prismicParser} from '../utils/prismic-parser';
 
 export async function exportPrismicArticles() {
   const uri = `https://public-api.wordpress.com/rest/v1.1/sites/blog.wellcomecollection.org/posts?number=1&fields=slug`;

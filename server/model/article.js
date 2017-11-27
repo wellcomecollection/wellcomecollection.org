@@ -8,7 +8,7 @@ import type {VideoEmbed} from './video-embed';
 import type {ArticleSeries} from './series';
 import {getSeriesCommissionedLength, getSeriesColor, getPositionInSeries} from '../data/series';
 import {getWpFeaturedImage} from './media';
-import {bodyParser} from '../util/body-parser';
+import {bodyParser} from '../utils/body-parser';
 
 export type BodyPart = {};
 

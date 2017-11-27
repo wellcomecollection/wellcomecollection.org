@@ -3,6 +3,6 @@
 set -o errexit
 
 pushd client
-  npm install
-  npm run compile
+  yarn install
+  yarn run compile
 popd

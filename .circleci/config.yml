@@ -2,7 +2,7 @@ version: 2
 jobs:
   checkout_code:
     docker:
-      - image: node:6.10
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - checkout
@@ -12,43 +12,43 @@ jobs:
             -  ~/wellcomecollection.org
   install_server_modules:
     docker:
-      - image: node:6.10
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org/server
     steps:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Install server modules
-          command: npm install --production
+          command: yarn install --production
       - save_cache:
-          key: server_modules_node_6_{{ checksum "package-lock.json" }}
+          key: server_modules_node_8_{{ checksum "yarn.lock" }}
           paths:
             -  node_modules
   install_client_modules:
     docker:
-      - image: node:6.10
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org/client
     steps:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Install client modules
-          command: npm install
+          command: yarn install
       - save_cache:
-          key: client_modules_node_6_{{ checksum "package-lock.json" }}
+          key: client_modules_node_8_{{ checksum "yarn.lock" }}
           paths:
             -  node_modules
   build:
     docker:
-      - image: node:6.10
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: server_modules_node_6_{{ checksum "server/package-lock.json" }}
+          key: server_modules_node_8_{{ checksum "server/yarn.lock" }}
       - restore_cache:
-          key: client_modules_node_6_{{ checksum "client/package-lock.json" }}
+          key: client_modules_node_8_{{ checksum "client/yarn.lock" }}
       - run:
           name: Build client
           command: ./build-client.sh
@@ -68,21 +68,21 @@ jobs:
             -  ~/wellcomecollection.org/dist
   test:
     docker:
-      - image: node:6.10
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: server_modules_node_6_{{ checksum "server/package-lock.json" }}
+          key: server_modules_node_8_{{ checksum "server/yarn.lock" }}
       - restore_cache:
           key: built_server_{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Test server
-          command: pushd server && npm run test && popd
+          command: pushd server && yarn run test && popd
   deploy_app:
     docker:
-      - image: node:6.10
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -111,7 +111,7 @@ jobs:
             ./build-speedtracker.sh
   deploy_assets:
       docker:
-        - image: node:6.10
+        - image: node:8.9.1
       working_directory: ~/wellcomecollection.org/dist
       steps:
         - restore_cache:
@@ -131,7 +131,7 @@ jobs:
               aws s3 sync --only-show-errors . s3://i.wellcomecollection.org
   deploy_cardigan:
     docker:
-      - image: node:6.10
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
