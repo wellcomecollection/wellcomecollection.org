@@ -1,6 +1,26 @@
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const sass = require('node-sass');
+
+// const extractSass = new ExtractTextPlugin({
+//   filename: './views/partials/critical.css.njk'
+// });
+
+
+// Seems easier than setting up the webpack plugin
+const css = sass.renderSync({
+  file: '../../client/scss/critical.scss',
+  includePaths: ['../../client/scss/'],
+  outputStyle: 'compressed'
+});
+fs.mkdirSync('./views/partials');
+fs.writeFile('./views/partials/critical.css.njk', css.css.toString(), function(err) {
+  if (err) throw err;
+  console.log('Sass to CSS wrangled!');
+});
+
 
 module.exports = {
   target: 'node',
