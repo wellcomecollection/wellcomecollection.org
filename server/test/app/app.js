@@ -1,7 +1,8 @@
 import test from 'ava';
-import app from '../../setup-app';
+import {setupApp} from '../../setup-app';
 import supertest from 'supertest';
 
+const app = setupApp();
 const request = supertest.agent(app.listen());
 
 test('/', async t => {
