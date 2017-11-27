@@ -22,12 +22,11 @@ const maybeTrackEvent = (hasAnalytics) => {
 const maybeTrackOutboundLinks = (hasAnalytics) => {
   if (hasAnalytics) {
     const actuallyTrackLinks = (url) => {
-      ga('send', 'event', 'outbound', 'click', url, {
-        'transport': 'beacon',
-        'hitCallback': () => {
-          document.location = url;
-        }
-      });
+      // This means that we won't be *consistently* tracking external links
+      // in IE11 and iOS Safari: https://caniuse.com/#feat=beacon
+      // On balance, this is probably better than preventDefault-ing the link event,
+      // doing any tracking, then following the link programatically.
+      ga('send', 'event', 'outbound', 'click', url, {'transport': 'beacon'});
     };
     return actuallyTrackLinks;
   } else {
@@ -56,8 +55,9 @@ export default {
       trackGaEvent(JSON.parse(el.getAttribute('data-track-event')));
     });
 
-    on('body', 'click', 'a', ({ target }) => {
-      const anchor = target.closest('a');
+    on('body', 'click', 'a', (event) => {
+      const anchor = event.target.closest('a');
+
       const url = anchor.href;
       if (isExternal(url)) {
         trackOutboundLink(url);
