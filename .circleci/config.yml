@@ -208,10 +208,10 @@ workflows:
       - build_exhibitions_webapp:
           requires:
             - checkout_code
+            - install_server_modules
       - deploy_exhibitions_webapp:
           requires:
             - build_exhibitions_webapp
-            - install_server_modules
       - build:
           requires:
             - checkout_code
