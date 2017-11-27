@@ -31,7 +31,6 @@ import {
   formatDateWithComingSoon,
   formatAndDedupeOnDate,
   formatAndDedupeOnTime,
-  formatDateRangeWithColor,
   joinDateStrings
 } from './format-date';
 import getLicenseInfo from './get-license-info';
@@ -63,7 +62,6 @@ export default Map({
   formatDateWithComingSoon,
   formatAndDedupeOnDate,
   formatAndDedupeOnTime,
-  formatDateRangeWithColor,
   isFlagEnabled,
   objectAssign,
   arrayFromObject,
