@@ -6,7 +6,7 @@ module "exhibitions" {
   template_name      = "default"
   vpc_id             = "${local.vpc_id}"
   nginx_uri          = "wellcome/wellcomecollection_exhibitions_nginx:${var.container_tag}"
-  app_uri            = "wellcome/wellcomecollection_exhibitions_app:${var.container_tag}"
+  app_uri            = "wellcome/wellcomecollection_exhibitions_webapp:${var.container_tag}"
   listener_https_arn = "${local.alb_listener_https_arn}"
   listener_http_arn  = "${local.alb_listener_http_arn}"
   is_config_managed  = false
@@ -22,7 +22,9 @@ module "exhibitions" {
   server_error_alarm_topic_arn = "${module.alb_server_error_alarm.arn}"
   client_error_alarm_topic_arn = "${module.alb_client_error_alarm.arn}"
 
-  memory                   = "490"
+  // These account for the 128 mem and CPU the nginx container uses
+  cpu                      = "448"
+  memory                   = "433"
   primary_container_port   = "80"
   secondary_container_port = "3001"
 
