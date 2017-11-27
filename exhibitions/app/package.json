@@ -1,11 +1,12 @@
 {
   "scripts": {
-    "app:build": "../../node_modules/.bin/webpack",
+    "app:build": "webpack",
     "app:dev": "../../node_modules/.bin/nodemon -e js,njk,json --exec ../../node_modules/.bin/babel-node --inspect=4001 app.js"
   },
   "dependencies": {
     "babel-loader": "^7.1.2",
     "immutable": "^3.8.2",
-    "koa-router": "^7.3.0"
+    "koa-router": "^7.3.0",
+    "webpack": "^3.8.1"
   }
 }

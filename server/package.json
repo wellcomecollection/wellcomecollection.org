@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "The node server serving content for wellcomecollection.org",
   "scripts": {
-    "app:build": "../node_modules/.bin/webpack",
+    "app:build": "webpack",
     "app:dev": "../node_modules/.bin/nodemon -e js,njk,json --exec ../node_modules/.bin/babel-node --inspect=4000 app.js",
     "optimise:svg": "node ./optimise-svgs.js",
     "test": "ava && flow",
