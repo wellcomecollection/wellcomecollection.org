@@ -1,7 +1,6 @@
 // @flow
 import 'moment-timezone';
 import moment from 'moment';
-import {List} from 'immutable';
 
 function london(d) {
   return moment.tz(d, 'Europe/London');
