@@ -21,7 +21,7 @@ jobs:
           name: Install server modules
           command: npm install --production
       - save_cache:
-          key: server_modules_node_6_{{ checksum "package-lock.json" }}
+          key: server_modules_node_6_{{ checksum "yarn.lock.json" }}
           paths:
             -  node_modules
   install_client_modules:
@@ -35,7 +35,7 @@ jobs:
           name: Install client modules
           command: npm install
       - save_cache:
-          key: client_modules_node_6_{{ checksum "package-lock.json" }}
+          key: client_modules_node_6_{{ checksum "yarn.lock.json" }}
           paths:
             -  node_modules
   build:
@@ -46,9 +46,9 @@ jobs:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: server_modules_node_6_{{ checksum "server/package-lock.json" }}
+          key: server_modules_node_6_{{ checksum "server/yarn.lock.json" }}
       - restore_cache:
-          key: client_modules_node_6_{{ checksum "client/package-lock.json" }}
+          key: client_modules_node_6_{{ checksum "client/yarn.lock.json" }}
       - run:
           name: Build client
           command: ./build-client.sh
@@ -74,7 +74,7 @@ jobs:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: server_modules_node_6_{{ checksum "server/package-lock.json" }}
+          key: server_modules_node_6_{{ checksum "server/yarn.lock.json" }}
       - restore_cache:
           key: built_server_{{ .Environment.CIRCLE_SHA1 }}
       - run:
