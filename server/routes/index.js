@@ -7,7 +7,6 @@ import {index, article, preview, series, articles} from '../controllers'; // Dep
 import {
   renderArticle,
   setPreviewSession,
-  renderEvent,
   renderEventbriteEmbed,
   renderExplore,
   renderSeries,
