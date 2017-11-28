@@ -6,7 +6,7 @@ import {getEventbriteEventEmbed} from '../services/eventbrite';
 import {PromoFactory} from '../model/promo';
 import {collectorsPromo} from '../data/series';
 import {prismicAsText} from '../filters/prismic';
-import {getArticle, getEvent, getSeriesAndArticles, getArticleList, getCuratedList} from '../services/prismic';
+import {getArticle, getSeriesAndArticles, getArticleList, getCuratedList} from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 
