@@ -8,7 +8,6 @@ import {
   renderArticle,
   setPreviewSession,
   renderEvent,
-  renderExhibition,
   renderEventbriteEmbed,
   renderExplore,
   renderSeries,
@@ -49,7 +48,6 @@ r.get('/:preview(preview)?/articles/(W):id', renderArticle);
 r.get('/explore', renderExplore);
 r.get('/preview', setPreviewSession);
 r.get('/:preview(preview)?/events/:id', renderEvent);
-r.get('/:preview(preview)?/exhibitions/:id', renderExhibition);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 r.get('/series/(W):id', renderSeries);
 

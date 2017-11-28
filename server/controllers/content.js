@@ -6,7 +6,7 @@ import {getEventbriteEventEmbed} from '../services/eventbrite';
 import {PromoFactory} from '../model/promo';
 import {collectorsPromo} from '../data/series';
 import {prismicAsText} from '../filters/prismic';
-import {getArticle, getEvent, getExhibition, getSeriesAndArticles, getArticleList, getCuratedList} from '../services/prismic';
+import {getArticle, getEvent, getSeriesAndArticles, getArticleList, getCuratedList} from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 
@@ -109,40 +109,6 @@ export async function renderEvent(ctx, next, overrideId, gaExp) {
         }),
         event: event,
         tags: tags
-      });
-    }
-  }
-
-  return next();
-}
-
-export async function renderExhibition(ctx, next) {
-  const id = `${ctx.params.id}`;
-  const isPreview = Boolean(ctx.params.preview);
-  const exhibitionContent = await getExhibition(id, isPreview ? ctx.request : null);
-  const format = ctx.request.query.format;
-  const path = ctx.request.url;
-  const tags = [{
-    text: 'Exhibitions',
-    url: '/whats-on/exhibitions/all-exhibitions'
-  }];
-
-  if (exhibitionContent) {
-    if (format === 'json') {
-      ctx.body = exhibitionContent;
-    } else {
-      ctx.render('pages/exhibition', {
-        pageConfig: createPageConfig({
-          path: path,
-          title: exhibitionContent.exhibition.title,
-          inSection: 'whatson',
-          category: 'publicprograms',
-          contentType: 'exhibitions',
-          canonicalUri: `${ctx.globals.rootDomain}/exhibitions/${exhibitionContent.exhibition.id}`
-        }),
-        exhibitionContent: exhibitionContent,
-        isPreview: isPreview,
-        tags
       });
     }
   }

@@ -1,10 +1,13 @@
 import Prismic from 'prismic-javascript';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import {
-  parseArticleDoc, parseEventDoc, parseExhibitionsDoc, parsePromoListItem,
-  parseWebcomicDoc, asText, prismicImage, getPositionInPrismicSeries
+  parseArticleDoc,
+  parseEventDoc,
+  parseWebcomicDoc,
+  asText,
+  prismicImage,
+  getPositionInPrismicSeries
 } from './prismic-parsers';
-import type {Promo} from '../model/promo';
 import type {Article} from '../model/article';
 import {List} from 'immutable';
 
@@ -58,45 +61,6 @@ export async function getEvent(id: string, previewReq: ?Request): Promise<?Event
   if (!event) { return null; }
 
   return parseEventDoc(event);
-}
-
-type ExhibitionContent = {|
-  exhibition: Exhibition;
-  galleryLevel: string;
-  relatedBooks: Array<Promo>;
-  relatedEvents: Array<Promo>;
-  relatedGalleries: Array<Promo>;
-  relatedArticles: Array<Promo>;
-  imageGallery: any;
-  textAndCaptionsDocument: any;
-|}
-
-export async function getExhibition(id: string, previewReq: ?Request): Promise<?ExhibitionContent> {
-  const exhibition = await getTypeById(previewReq, ['exhibitions'], id, {});
-
-  if (!exhibition) { return null; }
-
-  const ex = parseExhibitionsDoc(exhibition);
-
-  const galleryLevel = exhibition.data.galleryLevel;
-  const promoList = exhibition.data.promoList;
-  const relatedArticles = promoList.filter(x => x.type === 'article').map(parsePromoListItem);
-  const relatedEvents = promoList.filter(x => x.type === 'event').map(parsePromoListItem);
-  const relatedBooks = promoList.filter(x => x.type === 'book').map(parsePromoListItem);
-  const relatedGalleries = promoList.filter(x => x.type === 'gallery').map(parsePromoListItem);
-
-  const sizeInKb = Math.round(exhibition.data.textAndCaptionsDocument.size / 1024);
-  const textAndCaptionsDocument = Object.assign({}, exhibition.data.textAndCaptionsDocument, {sizeInKb});
-
-  return {
-    exhibition: ex,
-    galleryLevel: galleryLevel,
-    textAndCaptionsDocument: textAndCaptionsDocument.url && textAndCaptionsDocument,
-    relatedBooks: relatedBooks,
-    relatedEvents: relatedEvents,
-    relatedGalleries: relatedGalleries,
-    relatedArticles: relatedArticles
-  };
 }
 
 type PaginatedResults = {|
