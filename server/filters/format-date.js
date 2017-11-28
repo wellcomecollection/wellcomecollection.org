@@ -44,7 +44,7 @@ function getRelativeTime({start, end}: {start: Date, end: Date}): {} {
   };
 }
 
-export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date}): string {
+export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date}): {text: string, color: string} {
   const relativeTime = getRelativeTime({start, end});
 
   if (relativeTime.isFuture) {

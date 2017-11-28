@@ -62,9 +62,6 @@
     "require": [
       "babel-register"
     ],
-    "plugins": ["module-resolver"],
-    "babel": {
-
-    }
+    "babel": "inherit"
   }
 }
