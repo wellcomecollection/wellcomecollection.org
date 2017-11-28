@@ -1,7 +1,7 @@
 {
   "scripts": {
     "app:build": "webpack",
-    "app:dev": "../../node_modules/.bin/nodemon -e js,njk,json --exec babel-node --inspect=4001 app.js",
+    "app:dev": "../../node_modules/.bin/nodemon -e js,njk,json --config ../../nodemon.json --exec babel-node --inspect=4001 app.js",
     "test": "ava"
   },
   "dependencies": {

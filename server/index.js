@@ -1,7 +1,10 @@
 import {setupApp} from './setup-app';
 import {createPageConfig} from './model/page-config';
 import {default as filtersMap} from './filters';
-import {getPrismicApi} from './services/prismic';
+import {
+  getPrismicApi,
+  getEvent
+} from './services/prismic';
 import {
   parsePromoListItem,
   parseExhibitionsDoc
@@ -14,4 +17,5 @@ export const prismicParsers = {
   parsePromoListItem,
   parseExhibitionsDoc
 };
+export const prismic = {getEvent};
 export const services = {getPrismicApi};
