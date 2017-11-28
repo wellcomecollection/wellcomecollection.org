@@ -240,6 +240,10 @@ workflows:
       - deploy_assets:
           requires:
             - test
+          filters:
+            branches:
+              only:
+                - master
       - deploy_app:
           requires:
             - test
