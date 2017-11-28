@@ -123,6 +123,6 @@ async function getExhibitions() {
   const prismic = await getPrismicApi();
   const exhibitionsList = await prismic.query([
     Prismic.Predicates.any('document.type', ['exhibitions'])
-  ]);
+  ], { orderings: '[my.exhibitions.start desc]' });
   return exhibitionsList;
 }

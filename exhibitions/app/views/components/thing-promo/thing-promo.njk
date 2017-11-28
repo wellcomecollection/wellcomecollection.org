@@ -5,8 +5,9 @@
 {% endif %}
 
 <a id="{{model.id}}" href="{{ model.url }} "class="">
-    {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
     <h3 class="">{{ model.title }}</h3>
+    {{ model.start }} - {{ model.end }}
+    {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
     {% if model.description %}
       {{ model.description | striptags | safe | truncate(140) }}
     {% endif %}

@@ -1,12 +1,12 @@
 {% extends 'layout/default.njk' %}
 
 {% block body %}
-<h2>Permanent Exhibitions</h2>
- {% for exhibition in permanentExhibitions %}
+ <h2>Temporary Exhibitions</h2>
+   {% for exhibition in temporaryExhibitions %}
    {% componentV2 'thing-promo', exhibition %}
  {% endfor %}
-<h2>Temporary Exhibitions</h2>
- {% for exhibition in temporaryExhibitions %}
+ <h2>Permanent Exhibitions</h2>
+ {% for exhibition in permanentExhibitions %}
    {% componentV2 'thing-promo', exhibition %}
  {% endfor %}
 {% endblock %}
