@@ -43,11 +43,12 @@
                     <span class="{{ {s:'HNM4', m:'HNM3'} | fontClasses }} caps {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free</span>
                   </span>
                   <span class="flex flex--v-center {{ {s:'HNM4'} | fontClasses }}">
+                    {% set dateMessageAndColor = {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage %}
                     <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
-                      {% set statusColor = 'icon--' + {start: exhibition.start, end: exhibition.end} | formatDateRangeWithColor %}
+                      {% set statusColor = 'icon--' + dateMessageAndColor.color %}
                       {% icon 'other/status-indicator', null, [statusColor, 'icon--match-text'] %}
                     </span>
-                    <span>{{ {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage }}</span>
+                    <span>{{ dateMessageAndColor.text }}</span>
                   </span>
                 </div>
                 <h1 class="{{ {s:'WB5', m:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>

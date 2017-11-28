@@ -32,15 +32,15 @@ function getRelativeTime({start, end}: {start: Date, end: Date}): {} {
   const momentNow = london();
   const momentStart = london(start);
   const momentEnd = london(end);
-  const momentWeekBeforeEnd = london(end).subtract(7, 'd');
+  const momentThreeWeeksBeforeEnd = london(end).subtract(3, 'w');
   const isFuture = momentStart.isAfter(momentNow);
   const isPast = momentEnd.isBefore(momentNow);
-  const isLastWeek = momentNow.isBetween(momentWeekBeforeEnd, momentEnd);
+  const isFinalWeeks = momentNow.isBetween(momentThreeWeeksBeforeEnd, momentEnd);
 
   return {
     isFuture,
     isPast,
-    isLastWeek
+    isFinalWeeks
   };
 }
 
@@ -48,20 +48,14 @@ export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date
   const relativeTime = getRelativeTime({start, end});
 
   if (relativeTime.isFuture) {
-    return 'Coming soon';
+    return {text: 'Coming soon', color: 'cotton-seed'};
   } else if (relativeTime.isPast) {
-    return 'Now closed';
-  } else if (relativeTime.isLastWeek) {
-    return 'Final week';
+    return {text: 'Past exhibition', color: 'cotton-seed'};
+  } else if (relativeTime.isFinalWeeks) {
+    return {text: 'Final weeks', color: 'orange-graphics'};
   } else {
-    return 'Current exhibition';
+    return {text: 'Current exhibition', color: 'mint'};
   }
-}
-
-export function formatDateRangeWithColor({start, end}: {start: Date, end: Date}): string {
-  const relativeTime = getRelativeTime({start, end});
-
-  return relativeTime.isPast ? 'red-graphics' : 'java';
 }
 
 export function formatAndDedupeOnDate(d1: Date, d2: Date): List<string> {
