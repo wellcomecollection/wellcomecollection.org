@@ -6,6 +6,7 @@ import {
   parsePromoListItem,
   parseExhibitionsDoc
 } from './services/prismic-parsers';
+import Prismic from 'prismic-javascript';
 
 export {setupApp};
 export const filters = filtersMap.toJS();
@@ -14,4 +15,4 @@ export const prismicParsers = {
   parsePromoListItem,
   parseExhibitionsDoc
 };
-export const services = {getPrismicApi};
+export const services = {getPrismicApi, Prismic};

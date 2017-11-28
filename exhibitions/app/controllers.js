@@ -1,6 +1,6 @@
 import {model, filters, services, prismicParsers} from 'common';
 const {createPageConfig} = model;
-const {getPrismicApi} = services;
+const {getPrismicApi, Prismic} = services;
 const {parsePromoListItem, parseExhibitionsDoc} = prismicParsers;
 
 export async function renderExhibition(ctx, next) {
@@ -89,5 +89,9 @@ export async function renderExhibitionsList(ctx, next) {
 }
 
 async function getExhibitions() {
-  return 'list of all exhibitions';
+  const prismic = await getPrismicApi();
+  const exhibitionsList = await prismic.query([
+    Prismic.Predicates.any('document.type', ['exhibitions'])
+  ]);
+  return exhibitionsList;
 }
