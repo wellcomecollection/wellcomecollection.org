@@ -4,9 +4,9 @@
   <div class="row {{ {s:4, m:4, l:4} | spacingClasses({padding: ['top']}) }} ">
     <div class="container">
       <div class="grid">
-        <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
+        {# <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
           <h2 class="{{ {s:'WB5', m:'WB4', l:'WB3'} | fontClasses }}">Temporary Exhibitions</h2>
-        </div>
+        </div> #}
           {% for exhibition in temporaryExhibitions %}
             <div class="{{ {s: 12, m: 6} | gridClasses }}">
               {% componentV2 'exhibition-promo', exhibition %}
@@ -19,9 +19,9 @@
   <div class="row bg-cream {{ {s:4, m:4, l:4} | spacingClasses({padding: ['top']}) }} ">
     <div class="container">
       <div class="grid">
-        <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
+        {# <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
           <h2 class="{{ {s:'WB5', m:'WB4', l:'WB3'} | fontClasses }}">Permanent Exhibitions</h2>
-        </div>
+        </div> #}
         {% for exhibition in permanentExhibitions %}
           <div class="{{ {s: 12, m: 6} | gridClasses }}">
             {% componentV2 'exhibition-promo', exhibition %}

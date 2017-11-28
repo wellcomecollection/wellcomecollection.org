@@ -10,8 +10,16 @@
   </div>
   <header class="promo__description font-HNL5-s">
     <div class="promo__heading">
-      <h3 class="promo__title font-WB6-s">{{ model.title }}</h3>
+      <h2 class="promo__title font-WB6-s">{{ model.title }}</h2>
       {% if model.start and model.end %}
+        <span class="flex flex--v-center {{ {s:'HNM4'} | fontClasses }}">
+          {% set dateMessageAndColor = {start: model.start, end: model.end} | formatDateRangeWithMessage %}
+          <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
+            {% set statusColor = 'icon--' + dateMessageAndColor.color %}
+            {% icon 'other/status-indicator', null, [statusColor, 'icon--match-text'] %}
+          </span>
+          <span>{{ dateMessageAndColor.text }}</span>
+        </span>
         <p>{{ model.start | formatDate }} &mdash; {{ model.end | formatDate }}</p>
       {% endif %}
     </div>
