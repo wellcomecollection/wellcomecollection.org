@@ -24,7 +24,7 @@ jobs:
           key: server_modules_node_8_{{ checksum "yarn.lock" }}
           paths:
             -  node_modules
-  install_client_modules:
+  build_client:
     docker:
       - image: node:8.9.1
     working_directory: ~/wellcomecollection.org/client
@@ -34,10 +34,17 @@ jobs:
       - run:
           name: Install client modules
           command: yarn install
+      - run:
+          name: Build client assets
+          command: yarn run compile
       - save_cache:
           key: client_modules_node_8_{{ checksum "yarn.lock" }}
           paths:
             -  node_modules
+      - save_cache:
+          key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            -  ~/wellcomecollection.org/dist
   build_exhibitions_webapp:
     docker:
       - image: node:8.9.1
@@ -47,12 +54,17 @@ jobs:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: server_modules_node_8_{{ checksum "../../server/yarn.lock" }}
+      - restore_cache:
+          key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Install modules
           command: yarn install
       - run:
           name: SHAME - Compile JS to SCSS
           command: pushd ../../client && yarn add gulp && npx gulp scss:compileJsToScss && popd
+      - run:
+          name: Build prod config
+          command: ./build_prod_config.py
       - run:
           name: Build
           command: yarn run app:build
@@ -101,7 +113,7 @@ jobs:
       - restore_cache:
           key: server_modules_node_8_{{ checksum "server/yarn.lock" }}
       - restore_cache:
-          key: client_modules_node_8_{{ checksum "client/yarn.lock" }}
+          key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Build client
           command: ./build-client.sh
@@ -220,6 +232,7 @@ workflows:
       - build_exhibitions_webapp:
           requires:
             - checkout_code
+            - build_client
             - install_server_modules
       - deploy_exhibitions_webapp:
           requires:
@@ -231,7 +244,7 @@ workflows:
       - build:
           requires:
             - checkout_code
-            - install_client_modules
+            - build_client
             - install_server_modules
       - test:
           requires:
