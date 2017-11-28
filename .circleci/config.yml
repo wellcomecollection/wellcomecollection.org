@@ -60,6 +60,9 @@ jobs:
           name: Install modules
           command: yarn install
       - run:
+          name: SHAME - Compile JS to SCSS
+          command: pushd ../../client && yarn add gulp && npx gulp scss:compileJsToScss && popd
+      - run:
           name: Build prod config
           command: pushd ../../ && ./build_prod_config.py && popd
       - run:
@@ -100,6 +103,9 @@ jobs:
       - run:
           name: Install modules
           command: yarn install
+      - run:
+          name: SHAME - Compile JS to SCSS
+          command: pushd ../../client && yarn add gulp && npx gulp scss:compileJsToScss && popd
       - run:
           name: Build prod config
           command: pushd ../../ && ./build_prod_config.py && popd
