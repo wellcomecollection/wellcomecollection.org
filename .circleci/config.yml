@@ -257,6 +257,18 @@ workflows:
             branches:
               only:
                 - master
+      - build_events_webapp:
+          requires:
+            - checkout_code
+            - build_client
+            - install_server_modules
+      - deploy_events_webapp:
+          requires:
+            - build_events_webapp
+          filters:
+            branches:
+              only:
+                - master
       - build:
           requires:
             - checkout_code
