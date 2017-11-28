@@ -81,3 +81,13 @@ async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request):
     relatedArticles: relatedArticles
   };
 }
+
+export async function renderExhibitionsList(ctx, next) {
+  const allExhibitions = await getExhibitions();
+  ctx.body = allExhibitions;
+  return next();
+}
+
+async function getExhibitions() {
+  return 'list of all exhibitions';
+}
