@@ -116,40 +116,6 @@ export async function renderEvent(ctx, next, overrideId, gaExp) {
   return next();
 }
 
-export async function renderExhibition(ctx, next) {
-  const id = `${ctx.params.id}`;
-  const isPreview = Boolean(ctx.params.preview);
-  const exhibitionContent = await getExhibition(id, isPreview ? ctx.request : null);
-  const format = ctx.request.query.format;
-  const path = ctx.request.url;
-  const tags = [{
-    text: 'Exhibitions',
-    url: '/whats-on/exhibitions/all-exhibitions'
-  }];
-
-  if (exhibitionContent) {
-    if (format === 'json') {
-      ctx.body = exhibitionContent;
-    } else {
-      ctx.render('pages/exhibition', {
-        pageConfig: createPageConfig({
-          path: path,
-          title: exhibitionContent.exhibition.title,
-          inSection: 'whatson',
-          category: 'publicprograms',
-          contentType: 'exhibitions',
-          canonicalUri: `${ctx.globals.rootDomain}/exhibitions/${exhibitionContent.exhibition.id}`
-        }),
-        exhibitionContent: exhibitionContent,
-        isPreview: isPreview,
-        tags
-      });
-    }
-  }
-
-  return next();
-}
-
 export const renderEventbriteEmbed = async(ctx, next) => {
   const {id} = ctx.params;
   const eventEmbedHtml = await getEventbriteEventEmbed(id);

@@ -2,10 +2,10 @@
 {% set exhibition = exhibitionContent.exhibition %}
 {% block pageMeta %}
   {% set metaContent = {
-    type: 'website',
-    title: exhibition.title,
-    image: exhibition.featuredImage and exhibition.featuredImage.contentUrl,
-    url: pageConfig.canonicalUri
+  type: 'website',
+  title: exhibition.title,
+  image: exhibition.featuredImage and exhibition.featuredImage.contentUrl,
+  url: pageConfig.canonicalUri
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
@@ -13,247 +13,248 @@
 {% endblock %}
 
 {% block body %}
-{% set jsonLdExhibition = exhibition | objectAssign({safeDescription: exhibition.description | safe | striptags}) %}
+  {% set jsonLdExhibition = exhibition | objectAssign({safeDescription: exhibition.description | safe | striptags}) %}
 
-<script type="application/ld+json">
+  <script type="application/ld+json">
   {{ jsonLdExhibition | jsonLd('exhibitionLd') | safe }}
 </script>
 
-<article>
-  <div class="row relative">
-    <div class="flush-container-left absolute {{ {s:2} | spacingClasses({margin: ['top', 'bottom']}) }}">
-      {% componentV2 'tags', tags %}
-    </div>
+  <article>
+    <div class="row relative">
+      <div class="flush-container-left absolute {{ {s:2} | spacingClasses({margin: ['top', 'bottom']}) }}">
+        {% componentV2 'tags', tags %}
+      </div>
 
-    <div class="exhibition-hero">
-      {% componentV2 'picture', {images: exhibition.featuredImages.toJS()}, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
+      <div class="exhibition-hero">
+        {% componentV2 'picture', {images: exhibition.featuredImages.toJS()}, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
 
-      <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">
-        <div class="is-hidden-l is-hidden-xl">
-          {% component 'wobbly-edge', {background: 'white'} %}
-        </div>
+        <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">
+          <div class="is-hidden-l is-hidden-xl">
+            {% component 'wobbly-edge', {background: 'white'} %}
+          </div>
 
-        <div class="container">
-          <div class="grid">
-            <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
-              <div class="bg-white inline-block exhibition-hero__box {{ {l:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }} rounded-diagonal">
-                <div class="flex flex--v-center flex--h-space-between">
+          <div class="container">
+            <div class="grid">
+              <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
+                <div class="bg-white inline-block exhibition-hero__box {{ {l:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }} rounded-diagonal">
+                  <div class="flex flex--v-center flex--h-space-between">
                   <span class="flex flex--v-center">
                     {% icon 'other/ticket' %}
                     <span class="{{ {s:'HNM4', m:'HNM3'} | fontClasses }} caps {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free</span>
                   </span>
-                  <span class="flex flex--v-center {{ {s:'HNM4'} | fontClasses }}">
+                    <span class="flex flex--v-center {{ {s:'HNM4'} | fontClasses }}">
                     {% set dateMessageAndColor = {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage %}
-                    <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
+                      <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
                       {% set statusColor = 'icon--' + dateMessageAndColor.color %}
-                      {% icon 'other/status-indicator', null, [statusColor, 'icon--match-text'] %}
+                        {% icon 'other/status-indicator', null, [statusColor, 'icon--match-text'] %}
                     </span>
                     <span>{{ dateMessageAndColor.text }}</span>
                   </span>
-                </div>
-                <h1 class="{{ {s:'WB5', m:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
-                <span class="{{ {s:'HNL4', m:'HNL3', l:'HNL3', xl:'HNL2'} | fontClasses }}">
+                  </div>
+                  <h1 class="{{ {s:'WB5', m:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
+                  <span class="{{ {s:'HNL4', m:'HNL3', l:'HNL3', xl:'HNL2'} | fontClasses }}">
                   {% if exhibition.end %}
                     <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time> – <time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
                   {% else %}
                     Permanent exhibition
                   {% endif %}
                 </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+
+      <div class="is-hidden-s is-hidden-m">
+        {% component 'wobbly-edge', {background: 'white', intensity: 30} %}
+      </div>
     </div>
 
-
-    <div class="is-hidden-s is-hidden-m">
-      {% component 'wobbly-edge', {background: 'white', intensity: 30} %}
-    </div>
-  </div>
-
-  <div class="row {{ {s:5} | spacingClasses({margin: ['top']}) }}">
-    <div class="container">
-      <div class="grid">
-        <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-          {% if exhibition.intro %}
-            {% component 'standfirst', {body: exhibition.intro | safe} %}
-          {% endif %}
-
-          {{ exhibition.description | safe }}
-        </div>
-        <div class="{{ {s:12, m:10, shiftM:1, l:5, xl:5} | gridClasses }}">
-          <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
-          <div class="drawer js-show-hide"
-            data-track-action="opening-times-drawer">
-            <button class="plain-button no-padding pointer js-show-hide-trigger font-elf-green {{ {s:3} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses }}">
-              <span class="flex flex--v-center">{% icon 'actions/plus', null, ['icon--elf-green', 'margin-right-s1'] %}Opening times</span>
-            </button>
-            <div class="drawer__body js-show-hide-drawer">
-              {% componentV2 'opening-hours', {places: pageConfig.openingHours, id: 'exhibition-page'}, {'light': true, 'compressed': true} %}
-            </div>
-          </div>
-          <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
-          {% block accessStatements %}
-            <h2 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Access information</h2>
-            {% if exhibitionContent.galleryLevel !== null %}
-              <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/lifts' %}</div>
-                <p class="no-margin">This exhibition is on level {{ exhibitionContent.galleryLevel }}</p>
-              </div>
+    <div class="row {{ {s:5} | spacingClasses({margin: ['top']}) }}">
+      <div class="container">
+        <div class="grid">
+          <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+            {% if exhibition.intro %}
+              {% component 'standfirst', {body: exhibition.intro | safe} %}
             {% endif %}
-            <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-              <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y' %}</div>
-              <p class="no-margin">Step-free access is available to all floors of the building</p>
-            </div>
-            <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-              <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y_visual' %}</div>
-              <p class="no-margin">Large print guides, transcripts and magnifiers are available in the gallery</p>
-            </div>
 
-            <div class="{{ {s:5} | spacingClasses({margin: ['top']}) }}">
-              {% if exhibitionContent.textAndCaptionsDocument %}
-                <a href="/download?uri={{ exhibitionContent.textAndCaptionsDocument.url }}"
-                   download="{{ exhibitionContent.textAndCaptionsDocument.name }}"
-                   data-track-event='{"category": "component", "action": "download-pdf:click", "label": "name:{{ exhibitionContent.textAndCaptionsDocument.name }}, url:{{ exhibitionContent.textAndCaptionsDocument.url }}"}'
-                   class="plain-link font-elf-green font-hover-mint flex {{ {s:1} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses}}">
-                  <div class="{{ {s:1} | spacingClasses({margin:['right']}) }} flex flex--v-center">{% icon 'formats/pdf', null, ['icon--elf-green'] %}</div>
-                  <span>Download exhibition texts (PDF {{ exhibitionContent.textAndCaptionsDocument.sizeInKb }}KB)</span>
-                </a>
-              {% endif %}
-              <div class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
-                {% componentV2 'more-info-link', {name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
+            {{ exhibition.description | safe }}
+          </div>
+          <div class="{{ {s:12, m:10, shiftM:1, l:5, xl:5} | gridClasses }}">
+            <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
+            <div class="drawer js-show-hide"
+                 data-track-action="opening-times-drawer">
+              <button class="plain-button no-padding pointer js-show-hide-trigger font-elf-green {{ {s:3} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses }}">
+                <span class="flex flex--v-center">{% icon 'actions/plus', null, ['icon--elf-green', 'margin-right-s1'] %}Opening times</span>
+              </button>
+              <div class="drawer__body js-show-hide-drawer">
+                {% componentV2 'opening-hours', {places: pageConfig.openingHours, id: 'exhibition-page'}, {'light': true, 'compressed': true} %}
               </div>
             </div>
-          {% endblock %}
+            <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
+            {% block accessStatements %}
+              <h2 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Access information</h2>
+              {% if exhibitionContent.galleryLevel !== null %}
+                <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
+                  <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/lifts' %}</div>
+                  <p class="no-margin">This exhibition is on level {{ exhibitionContent.galleryLevel }}</p>
+                </div>
+              {% endif %}
+              <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
+                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y' %}</div>
+                <p class="no-margin">Step-free access is available to all floors of the building</p>
+              </div>
+              <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
+                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y_visual' %}</div>
+                <p class="no-margin">Large print guides, transcripts and magnifiers are available in the gallery</p>
+              </div>
 
-          <hr class="divider divider--pumice divider--keyline {{ {s:4} | spacingClasses({margin: ['bottom']}) }}" />
-        </div>
-      </div>
-    </div>
-  </div>
-  {% if exhibitionContent.relatedGalleries.length > 0 or exhibition.body.length > 0 %}
-    <div class="container">
-      <div class="grid">
-        <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
-          <h2 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }} flex flex--v-center {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
-            {% icon 'actions/gallery_filled', null, ['margin-right-s2', 'icon--match-text'] %}Exhibition highlights
-          </h2>
-        </div>
-      </div>
-    </div>
-  {% endif %}
+              <div class="{{ {s:5} | spacingClasses({margin: ['top']}) }}">
+                {% if exhibitionContent.textAndCaptionsDocument %}
+                  <a href="/download?uri={{ exhibitionContent.textAndCaptionsDocument.url }}"
+                     download="{{ exhibitionContent.textAndCaptionsDocument.name }}"
+                     data-track-event='{"category": "component", "action": "download-pdf:click", "label": "name:{{ exhibitionContent.textAndCaptionsDocument.name }}, url:{{ exhibitionContent.textAndCaptionsDocument.url }}"}'
+                     class="plain-link font-elf-green font-hover-mint flex {{ {s:1} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses}}"
+                     onclick="hj('trigger', 'exhibitions_texts_download');">
+                    <div class="{{ {s:1} | spacingClasses({margin:['right']}) }} flex flex--v-center">{% icon 'formats/pdf', null, ['icon--elf-green'] %}</div>
+                    <span>Download exhibition texts (PDF {{ exhibitionContent.textAndCaptionsDocument.sizeInKb }}KB)</span>
+                  </a>
+                {% endif %}
+                <div class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
+                  {% componentV2 'more-info-link', {name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
+                </div>
+              </div>
+            {% endblock %}
 
-  {% for bodyPart in exhibition.body %}
-    <div class="container">
-      <div class="grid">
-        <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
-          <div class="book-promo {{ {s:10} | spacingClasses({margin: ['top']}) }}  {{ {s:4, m:5} | spacingClasses({margin: ['bottom']}) }} {{ {s:4} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }} rounded-diagonal">
-            <div class="book-promo__image-container {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-              {% if bodyPart.type === 'video-embed' %}
-                {% componentV2 'iframed-video', bodyPart.value %}
-              {% endif %}
-            </div>
-            <div class="book-promo__text-container">
-              {% if bodyPart.value.title %}
-                <h3 class="book-promo__title {{ {s:'HNM3'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{ bodyPart.value.title }}</h3>
-              {% endif %}
-              {% if bodyPart.value.description %}
-                <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:0} | spacingClasses({margin: ['bottom']}) }}">{{ bodyPart.value.description }}</p>
-              {% endif %}
-            </div>
+            <hr class="divider divider--pumice divider--keyline {{ {s:4} | spacingClasses({margin: ['bottom']}) }}" />
           </div>
         </div>
       </div>
     </div>
-  {% endfor %}
-
-  {% if exhibitionContent.imageGallery %}
-    <div class="row {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
+    {% if exhibitionContent.relatedGalleries.length > 0 or exhibition.body.length > 0 %}
       <div class="container">
         <div class="grid">
-          {% component 'image-gallery', { imageGallery: exhibitionContent.imageGallery.value, id: 'article-body-image-gallery--' + exhibition.id } %}
+          <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
+            <h2 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }} flex flex--v-center {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
+              {% icon 'actions/gallery_filled', null, ['margin-right-s2', 'icon--match-text'] %}Exhibition highlights
+            </h2>
+          </div>
         </div>
       </div>
-    </div>
-  {% endif %}
+    {% endif %}
 
-  {% if exhibitionContent.relatedGalleries.length > 0 %}
-    <div class="row {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
+    {% for bodyPart in exhibition.body %}
       <div class="container">
         <div class="grid">
-          {% for promo in exhibitionContent.relatedGalleries %}
-            <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
-              <a href="{{ promo.url }}">
-                {% componentV2 'image', promo.image, null, {'lazyload': true, sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
-              </a>
-              <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
-                {% componentV2 'more-info-link', {name: 'View images from the exhibition', url: promo.url} %}
+          <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
+            <div class="book-promo {{ {s:10} | spacingClasses({margin: ['top']}) }}  {{ {s:4, m:5} | spacingClasses({margin: ['bottom']}) }} {{ {s:4} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }} rounded-diagonal">
+              <div class="book-promo__image-container {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+                {% if bodyPart.type === 'video-embed' %}
+                  {% componentV2 'iframed-video', bodyPart.value %}
+                {% endif %}
+              </div>
+              <div class="book-promo__text-container">
+                {% if bodyPart.value.title %}
+                  <h3 class="book-promo__title {{ {s:'HNM3'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{ bodyPart.value.title }}</h3>
+                {% endif %}
+                {% if bodyPart.value.description %}
+                  <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:0} | spacingClasses({margin: ['bottom']}) }}">{{ bodyPart.value.description }}</p>
+                {% endif %}
               </div>
             </div>
-          {% endfor %}
+          </div>
         </div>
       </div>
-    </div>
-  {% endif %}
+    {% endfor %}
 
-  {% macro relatedMarkup(promoList, heading, promoComponent, gridSizes, data) %}
-    {% if promoList.length > 0 %}
+    {% if exhibitionContent.imageGallery %}
+      <div class="row {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
+        <div class="container">
+          <div class="grid">
+            {% component 'image-gallery', { imageGallery: exhibitionContent.imageGallery.value, id: 'article-body-image-gallery--' + exhibition.id } %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if exhibitionContent.relatedGalleries.length > 0 %}
+      <div class="row {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
+        <div class="container">
+          <div class="grid">
+            {% for promo in exhibitionContent.relatedGalleries %}
+              <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
+                <a href="{{ promo.url }}">
+                  {% componentV2 'image', promo.image, null, {'lazyload': true, sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
+                </a>
+                <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
+                  {% componentV2 'more-info-link', {name: 'View images from the exhibition', url: promo.url} %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% macro relatedMarkup(promoList, heading, promoComponent, gridSizes, data) %}
+      {% if promoList.length > 0 %}
+        <div class="row">
+          <div class="container">
+            <div class="grid">
+              <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
+                <h2 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }}">{{ heading }}</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="container container--scroll touch-scroll">
+            <div class="grid">
+              <div class="{{ {s:12, m:10, shiftM:1} | gridClasses }}">
+                <div class="grid grid--scroll">
+                  {% for promo in promoList %}
+                    <div class="{{ gridSizes | gridClasses }}">
+                      {% componentV2 promoComponent, promo,  {}, data %}
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endmacro %}
+
+    {{ relatedMarkup(exhibitionContent.relatedEvents, 'Workshops, talks and tours', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
+    {% if exhibitionContent.relatedEvents.length > 0 %}
       <div class="row">
         <div class="container">
           <div class="grid">
             <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
-              <h2 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }}">{{ heading }}</h2>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="container container--scroll touch-scroll">
-          <div class="grid">
-            <div class="{{ {s:12, m:10, shiftM:1} | gridClasses }}">
-              <div class="grid grid--scroll">
-                {% for promo in promoList %}
-                  <div class="{{ gridSizes | gridClasses }}">
-                    {% componentV2 promoComponent, promo,  {}, data %}
-                  </div>
-                {% endfor %}
-              </div>
+              <hr class="divider divider--dashed {{ {s:5} | spacingClasses({margin: ['top']}) }}" />
             </div>
           </div>
         </div>
       </div>
     {% endif %}
-  {% endmacro %}
 
-  {{ relatedMarkup(exhibitionContent.relatedEvents, 'Workshops, talks and tours', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
-  {% if exhibitionContent.relatedEvents.length > 0 %}
-    <div class="row">
-      <div class="container">
-        <div class="grid">
-          <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
-            <hr class="divider divider--dashed {{ {s:5} | spacingClasses({margin: ['top']}) }}" />
+
+    {{ relatedMarkup(exhibitionContent.relatedArticles, 'Read and explore', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
+    {% if exhibitionContent.relatedArticles.length > 0 %}
+      <div class="row">
+        <div class="container">
+          <div class="grid">
+            <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
+              <hr class="divider divider--dashed {{ {s:5} | spacingClasses({margin: ['top']}) }}" />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  {% endif %}
+    {% endif %}
 
+    {{ relatedMarkup(exhibitionContent.relatedBooks, 'From the bookshop', 'book-promo', {s:12, m:6, l:6, xl:6}, {'lazyload': true, index: loop.index, total: loop.total, sizesQueries: '(min-width: 960px) 178px, 127px'}) }}
 
-  {{ relatedMarkup(exhibitionContent.relatedArticles, 'Read and explore', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
-  {% if exhibitionContent.relatedArticles.length > 0 %}
-    <div class="row">
-      <div class="container">
-        <div class="grid">
-          <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
-            <hr class="divider divider--dashed {{ {s:5} | spacingClasses({margin: ['top']}) }}" />
-          </div>
-        </div>
-      </div>
-    </div>
-  {% endif %}
-
-  {{ relatedMarkup(exhibitionContent.relatedBooks, 'From the bookshop', 'book-promo', {s:12, m:6, l:6, xl:6}, {'lazyload': true, index: loop.index, total: loop.total, sizesQueries: '(min-width: 960px) 178px, 127px'}) }}
-
-</article>
+  </article>
 {% endblock %}

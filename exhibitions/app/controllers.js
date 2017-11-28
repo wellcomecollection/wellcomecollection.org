@@ -1,27 +1,12 @@
-import {List} from 'immutable';
-import {model, filters, services} from 'common';
+import {model, filters, services, prismicParsers} from 'common';
 const {createPageConfig} = model;
-const {getBreakpoint} = filters;
-const {
-  getPrismicApi,
-  parseBody,
-  asText,
-  asHtml,
-  parsePicture,
-  parseImagePromo,
-  parsePromoListItem
-} = services;
-
-async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string, qOpts: Object<any>) {
-  const prismic = await getPrismicApi(req);
-  const doc = await prismic.getByID(id, qOpts);
-  return doc && types.indexOf(doc.type) !== -1 ? doc : null;
-}
+const {getPrismicApi} = services;
+const {parsePromoListItem, parseExhibitionsDoc} = prismicParsers;
 
 export async function renderExhibition(ctx, next) {
   const id = `${ctx.params.id}`;
   const isPreview = Boolean(ctx.params.preview);
-  const exhibitionContent = await getExhibition(id, isPreview ? ctx.request : null);
+  const exhibitionContent = await getExhibitionAndRelatedContent(id, isPreview ? ctx.request : null);
   const format = ctx.request.query.format;
   const path = ctx.request.url;
   const tags = [{
@@ -52,7 +37,24 @@ export async function renderExhibition(ctx, next) {
   return next();
 }
 
-export async function getExhibition(id: string, previewReq: ?Request): Promise<?ExhibitionContent> {
+async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string, qOpts: Object<any>) {
+  const prismic = await getPrismicApi(req);
+  const doc = await prismic.getByID(id, qOpts);
+  return doc && types.indexOf(doc.type) !== -1 ? doc : null;
+}
+
+type ExhibitionAndRelatedContent = {|
+  exhibition: Exhibition;
+  galleryLevel: string;
+  relatedBooks: Array<Promo>;
+  relatedEvents: Array<Promo>;
+  relatedGalleries: Array<Promo>;
+  relatedArticles: Array<Promo>;
+  imageGallery: any;
+  textAndCaptionsDocument: any;
+|}
+
+async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request): Promise<?ExhibitionAndRelatedContent> {
   const exhibition = await getTypeById(previewReq, ['exhibitions'], id, {});
 
   if (!exhibition) { return null; }
@@ -78,35 +80,4 @@ export async function getExhibition(id: string, previewReq: ?Request): Promise<?
     relatedGalleries: relatedGalleries,
     relatedArticles: relatedArticles
   };
-}
-
-export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
-  const featuredImageMobileCrop = parsePicture({image: doc.data.featuredImageMobileCrop});
-  const featuredImageMobileCropWithBreakpoint = featuredImageMobileCrop.contentUrl && Object.assign({}, featuredImageMobileCrop, {minWidth: getBreakpoint('small')});
-  const promo = parseImagePromo(doc.data.promo);
-
-  const featuredImage = doc.data.featuredImage && parsePicture({ image: doc.data.featuredImage });
-  const thinVideoImage = featuredImage && parsePicture({image: doc.data.featuredImage['32:15']}, getBreakpoint('medium'));
-  const squareImage = featuredImage && parsePicture({image: doc.data.featuredImage.square}, getBreakpoint('small'));
-  const featuredImages = List([
-    thinVideoImage,
-    // we use the "creative" crop first, but it seems that people would rather have it automatically.
-    featuredImageMobileCropWithBreakpoint || squareImage
-  ]).filter(_ => _);
-
-  const exhibition = ({
-    id: doc.id,
-    title: asText(doc.data.title),
-    subtitle: asText(doc.data.subtitle),
-    start: doc.data.start,
-    end: doc.data.end,
-    featuredImages: featuredImages,
-    featuredImage: featuredImages.first(),
-    intro: asText(doc.data.intro),
-    description: asHtml(doc.data.description),
-    promo: promo,
-    body: parseBody(doc.data.body)
-  }: Exhibition);
-
-  return exhibition;
 }
