@@ -84,7 +84,7 @@ async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request):
 
 export async function renderExhibitionsList(ctx, next) {
   const allExhibitions = await getExhibitions();
-  const exhibitionPromos = allExhibitions.results.map((e) => { // make generic method
+  const exhibitionPromos = allExhibitions.results.map((e) => {
     return {
       id: e.id,
       url: `/exhibitions/${e.id}`,

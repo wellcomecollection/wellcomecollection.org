@@ -11,6 +11,9 @@
   <header class="promo__description font-HNL5-s">
     <div class="promo__heading">
       <h3 class="promo__title font-WB6-s">{{ model.title }}</h3>
+      {% if model.start and model.end %}
+        <p>{{ model.start | formatDate }} &mdash; {{ model.end | formatDate }}</p>
+      {% endif %}
     </div>
     <span class="promo__copy">{{ model.description | striptags | safe }}</span>
   </header>

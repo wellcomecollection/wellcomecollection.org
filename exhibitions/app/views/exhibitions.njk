@@ -9,7 +9,7 @@
         </div>
           {% for exhibition in temporaryExhibitions %}
             <div class="{{ {s: 12, m: 6} | gridClasses }}">
-              {% componentV2 'thing-promo', exhibition %}
+              {% componentV2 'exhibition-promo', exhibition %}
             </div>
           {% endfor %}
         </div>
@@ -24,7 +24,7 @@
         </div>
         {% for exhibition in permanentExhibitions %}
           <div class="{{ {s: 12, m: 6} | gridClasses }}">
-            {% componentV2 'thing-promo', exhibition %}
+            {% componentV2 'exhibition-promo', exhibition %}
           </div>
         {% endfor %}
       </div>
