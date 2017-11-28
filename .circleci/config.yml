@@ -226,7 +226,7 @@ workflows:
       - install_server_modules:
           requires:
             - checkout_code
-      - install_client_modules:
+      - build_client:
           requires:
             - checkout_code
       - build_exhibitions_webapp:
