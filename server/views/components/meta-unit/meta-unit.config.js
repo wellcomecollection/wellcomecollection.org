@@ -17,11 +17,11 @@ export const context = { model: metaUnit };
 
 export const variants = [
   {
-    name: 'date',
-    context: {model: Object.assign({}, metaUnit, {type: 'date', content: [{text: '1731', datetime: '1731'}, {text: '1743', datetime: '1743'}]})}
-  },
-  {
     name: 'links',
     context: {model: Object.assign({}, metaUnit, {type: 'links', content: [{text: 'Warlock', url: '#'}, {text: 'Witch', url: '#'}, {text: 'Gallows', url: '#'}]})}
+  },
+  {
+    name: 'multiple paragraphs',
+    context: {model: Object.assign({}, metaUnit, {type: 'links', content: ['Fusce a congue mauris. Vestibulum faucibus vel nibh ut commodo.', 'Curabitur quis mollis turpis, eu facilisis ex.', 'Vivamus sollicitudin pulvinar arcu sagittis posuere. Fusce a congue mauris.']})}
   }
 ];

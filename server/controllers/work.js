@@ -6,6 +6,7 @@ import {PaginationFactory} from '../model/pagination';
 import {isFlagEnabled, getFlagValue} from '../utils/flag-status';
 import {worksLandingPromos, henryImage} from '../data/works';
 import getLicenseInfo from '../filters/get-license-info';
+import {getLinkObjects} from '../filters/get-link-objects';
 
 function imageUrlFromMiroId(id) {
   const cleanedMiroId = id.match(/(^\w{1}[0-9]*)+/g, '')[0];
@@ -61,6 +62,49 @@ function constructAttribution(singleWork, credit, canonicalUri) {
   return `<p>${title} ${creators}. Credit: <a href="${canonicalUri}">${credit}</a>. ${license}</p>`;
 }
 
+function createMetaContentArray(singleWork, descriptionArray) {
+  const contentArray = [];
+
+  if (singleWork.creators && singleWork.creators.length > 0) {
+    contentArray.push({
+      type: 'creators',
+      heading: 'By',
+      content: getLinkObjects(singleWork.creators, 'label', 'creators:')
+    });
+  }
+  if (singleWork.createdDate && singleWork.createdDate.label) {
+    contentArray.push({
+      heading: 'Date',
+      content: singleWork.createdDate.label
+    });
+  }
+  if (singleWork.genres && singleWork.genres.length > 0) {
+    contentArray.push({
+      heading: 'Genre',
+      content: getLinkObjects(singleWork.genres, 'label')
+    });
+  }
+  if (singleWork.subjects && singleWork.subjects.length > 0) {
+    contentArray.push({
+      heading: 'Subject',
+      content: getLinkObjects(singleWork.subjects, 'label')
+    });
+  }
+  if (singleWork.lettering && singleWork.lettering.length > 0) {
+    contentArray.push({
+      heading: 'Lettering',
+      content: singleWork.lettering
+    });
+  }
+  if (descriptionArray && descriptionArray.length > 0) {
+    contentArray.push({
+      heading: 'Description',
+      content: descriptionArray
+    });
+  }
+  return contentArray;
+}
+
 export const work = async(ctx, next) => {
   const id = ctx.params.id;
   const queryString = ctx.search;
@@ -81,6 +125,7 @@ export const work = async(ctx, next) => {
   const canonicalUri = `/works/${singleWork.id}`;
   const credit = singleWork.items[0].locations[0].credit;
   const attribution = constructAttribution(singleWork, credit, canonicalUri);
+  const metaContent = createMetaContentArray(singleWork, descriptionArray);
 
   ctx.render('pages/work', {
     id,
@@ -97,7 +142,8 @@ export const work = async(ctx, next) => {
       imgWidth,
       encoreLink,
       attribution,
-      credit
+      credit,
+      metaContent
     })
   });
 
