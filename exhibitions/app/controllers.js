@@ -1,8 +1,7 @@
-import {model, filters, services, prismicParsers} from 'common';
+import {model, services, Prismic, prismicParsers} from 'common';
 const {createPageConfig} = model;
-const {getPrismicApi, Prismic, RichText} = services;
+const {getPrismicApi} = services;
 const {parsePromoListItem, parseExhibitionsDoc, prismicImage, asText} = prismicParsers;
-import {PromoListFactory} from '../../server/model/promo-list';
 
 export async function renderExhibition(ctx, next) {
   const id = `${ctx.params.id}`;
