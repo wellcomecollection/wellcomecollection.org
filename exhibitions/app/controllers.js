@@ -1,7 +1,8 @@
 import {model, filters, services, prismicParsers} from 'common';
 const {createPageConfig} = model;
-const {getPrismicApi, Prismic} = services;
-const {parsePromoListItem, parseExhibitionsDoc} = prismicParsers;
+const {getPrismicApi, Prismic, RichText} = services;
+const {parsePromoListItem, parseExhibitionsDoc, prismicImage, asText} = prismicParsers;
+import {PromoListFactory} from '../../server/model/promo-list';
 
 export async function renderExhibition(ctx, next) {
   const id = `${ctx.params.id}`;
@@ -84,7 +85,37 @@ async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request):
 
 export async function renderExhibitionsList(ctx, next) {
   const allExhibitions = await getExhibitions();
-  ctx.body = allExhibitions;
+  const exhibitionPromos = allExhibitions.results.map((e) => { // make generic method
+    return {
+      id: e.id,
+      url: `/exhibitions/${e.id}`,
+      title: asText(e.data.title),
+      image: prismicImage(e.data.promo[0].primary.image),
+      description: asText(e.data.promo[0].primary.caption),
+      start: e.data.start,
+      end: e.data.end
+    };
+  });
+  const permanentExhibitionPromos = exhibitionPromos.filter((e) => {
+    return !e.start;
+  });
+  const temporaryExhibitionPromos = exhibitionPromos.filter((e) => {
+    return e.start;
+  });
+
+  ctx.render('exhibitions', {
+    pageConfig: createPageConfig({
+      path: ctx.request.url,
+      title: 'Exhibitions',
+      inSection: 'whatson',
+      category: 'publicprograms',
+      contentType: 'listing',
+      canonicalUri: '/exhibitions'
+    }),
+    permanentExhibitions: permanentExhibitionPromos,
+    temporaryExhibitions: temporaryExhibitionPromos
+  });
+
   return next();
 }
 

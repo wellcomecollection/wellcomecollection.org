@@ -4,7 +4,9 @@ import {default as filtersMap} from './filters';
 import {getPrismicApi} from './services/prismic';
 import {
   parsePromoListItem,
-  parseExhibitionsDoc
+  parseExhibitionsDoc,
+  prismicImage,
+  asText
 } from './services/prismic-parsers';
 import Prismic from 'prismic-javascript';
 
@@ -13,6 +15,8 @@ export const filters = filtersMap.toJS();
 export const model = {createPageConfig};
 export const prismicParsers = {
   parsePromoListItem,
-  parseExhibitionsDoc
+  parseExhibitionsDoc,
+  prismicImage,
+  asText
 };
 export const services = {getPrismicApi, Prismic};
