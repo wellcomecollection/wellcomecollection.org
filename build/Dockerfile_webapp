@@ -15,4 +15,4 @@ COPY ./build/pm2_webapp.yml ./pm2.yml
 RUN sed -i "s/WEBAPP_NAME/${WEBAPP_NAME}/g" ./pm2.yml
 
 EXPOSE ${WEBAPP_PORT}
-CMD ["pm2-docker", "--json", "pm2.yml"]
+CMD ["pm2-docker", "start", "pm2.yml"]
