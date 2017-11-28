@@ -275,32 +275,32 @@ workflows:
             branches:
               only:
                 - master
-      - build:
+      - build_common_webapp:
           requires:
             - checkout_code
             - build_client
             - install_server_modules
-      - test:
+      - test_common_webapp:
           requires:
             - checkout_code
-            - build
+            - build_common_webapp
       - deploy_assets:
           requires:
-            - test
+            - test_common_webapp
           filters:
             branches:
               only:
                 - master
       - deploy_app:
           requires:
-            - test
+            - test_common_webapp
           filters:
             branches:
               only:
                 - master
       - deploy_cardigan:
           requires:
-            - test
+            - test_common_webapp
           filters:
             branches:
               only:
