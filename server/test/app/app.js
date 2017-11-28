@@ -35,11 +35,6 @@ test('/series/:id', async t => {
   t.is(res.status, 200);
 });
 
-test('/exhibitions/:id', async t => {
-  const res = await request.get('/exhibitions/WZwh4ioAAJ3usf86');
-  t.is(res.status, 200);
-});
-
 test('/events/:id', async t => {
   const res = await request.get('/events/WcPkKygAAH8Q9Ss1');
   t.is(res.status, 200);

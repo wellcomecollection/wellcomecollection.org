@@ -1,9 +1,11 @@
 {
   "scripts": {
     "app:build": "webpack",
-    "app:dev": "../../node_modules/.bin/nodemon -e js,njk,json --exec babel-node --inspect=4001 app.js"
+    "app:dev": "../../node_modules/.bin/nodemon -e js,njk,json --exec babel-node --inspect=4001 app.js",
+    "test": "ava"
   },
   "dependencies": {
+    "ava": "^0.24.0",
     "babel-cli": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-module-resolver": "^3.0.0",
@@ -14,6 +16,11 @@
     "koa-router": "^7.3.0",
     "mkdirp": "^0.5.1",
     "node-sass": "^4.7.2",
+    "supertest": "^3.0.0",
     "webpack": "^3.8.1"
+  },
+  "ava": {
+    "require": ["babel-register"],
+    "babel": "inherit"
   }
 }
