@@ -4,11 +4,14 @@
   {% set sizes = '100vw' %}
 {% endif %}
 
-<a id="{{model.id}}" href="{{ model.url }} "class="">
-    <h3 class="">{{ model.title }}</h3>
-    {{ model.start }} - {{ model.end }}
+<a id="{{model.id}}" href="{{ model.url }} "class="promo">
+  <div class="promo__image-container">
     {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
-    {% if model.description %}
-      {{ model.description | striptags | safe | truncate(140) }}
-    {% endif %}
+  </div>
+  <header class="promo__description font-HNL5-s">
+    <div class="promo__heading">
+      <h3 class="promo__title font-WB6-s">{{ model.title }}</h3>
+    </div>
+    <span class="promo__copy">{{ model.description | striptags | safe }}</span>
+  </header>
 </a>
