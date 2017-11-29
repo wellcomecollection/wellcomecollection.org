@@ -2,7 +2,7 @@ version: 2
 jobs:
   checkout_code:
     docker:
-      - image: node:8.9.1
+      - image: wellcome/node-docker:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - checkout
@@ -12,7 +12,7 @@ jobs:
             -  ~/wellcomecollection.org
   install_server_modules:
     docker:
-      - image: node:8.9.1
+      - image: wellcome/node-docker:8.9.1
     working_directory: ~/wellcomecollection.org/server
     steps:
       - restore_cache:
@@ -26,7 +26,7 @@ jobs:
             -  node_modules
   build_client:
     docker:
-      - image: node:8.9.1
+      - image: wellcome/node-docker:8.9.1
     working_directory: ~/wellcomecollection.org/client
     steps:
       - restore_cache:
@@ -47,7 +47,7 @@ jobs:
             -  ~/wellcomecollection.org/dist
   build_exhibitions_webapp:
     docker:
-      - image: node:8.9.1
+      - image: wellcome/node-docker:8.9.1
     working_directory: ~/wellcomecollection.org/exhibitions/app
     steps:
       - restore_cache:
@@ -64,7 +64,7 @@ jobs:
           command: pushd ../../client && yarn add gulp && npx gulp scss:compileJsToScss && popd
       - run:
           name: Build prod config
-          command: ./build_prod_config.py
+          command: pushd ../../ && ./build_prod_config.py && popd
       - run:
           name: Build
           command: yarn run app:build
@@ -74,7 +74,7 @@ jobs:
             - .dist
   deploy_exhibitions_webapp:
     docker:
-      - image: node:8.9.1
+      - image: wellcome/node-docker:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -84,28 +84,58 @@ jobs:
       - add_ssh_keys
       - setup_remote_docker
       - run:
-          name: Install Docker client
-          command: |
-            set -x
-            VER="17.03.0-ce"
-            curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
-            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
-            mv /tmp/docker/* /usr/bin
-      - run:
-          name: Install Docker Compose
-          command: |
-            set -x
-            curl -L https://github.com/docker/compose/releases/download/1.17.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-            chmod +x /usr/local/bin/docker-compose
-      - run:
           name: Deploy
           command: |
             docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/exhibitions_webapp.yml build
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/exhibitions_webapp.yml push
-  build:
+  build_events_webapp:
     docker:
-      - image: node:8.9.1
+      - image: wellcome/node-docker:8.9.1
+    working_directory: ~/wellcomecollection.org/events/app
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: server_modules_node_8_{{ checksum "../../server/yarn.lock" }}
+      - restore_cache:
+          key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Install modules
+          command: yarn install
+      - run:
+          name: SHAME - Compile JS to SCSS
+          command: pushd ../../client && yarn add gulp && npx gulp scss:compileJsToScss && popd
+      - run:
+          name: Build prod config
+          command: pushd ../../ && ./build_prod_config.py && popd
+      - run:
+          name: Build
+          command: yarn run app:build
+      - save_cache:
+          key: built_events_webapp_{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - .dist
+  deploy_events_webapp:
+    docker:
+      - image: wellcome/node-docker:8.9.1
+    working_directory: ~/wellcomecollection.org
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: built_events_webapp_{{ .Environment.CIRCLE_SHA1 }}
+      - add_ssh_keys
+      - setup_remote_docker
+      - run:
+          name: Deploy
+          command: |
+            docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/events_webapp.yml build
+            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/events_webapp.yml push
+  build_common_webapp:
+    docker:
+      - image: wellcome/node-docker:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -131,9 +161,9 @@ jobs:
           key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
           paths:
             -  ~/wellcomecollection.org/dist
-  test:
+  test_common_webapp:
     docker:
-      - image: node:8.9.1
+      - image: wellcome/node-docker:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -145,9 +175,9 @@ jobs:
       - run:
           name: Test server
           command: pushd server && yarn run test && popd
-  deploy_app:
+  deploy_common_webapp:
     docker:
-      - image: node:8.9.1
+      - image: wellcome/node-docker:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -158,14 +188,6 @@ jobs:
           key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
       - add_ssh_keys
       - setup_remote_docker
-      - run:
-          name: Install Docker client
-          command: |
-            set -x
-            VER="17.03.1-ce"
-            curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
-            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
-            mv /tmp/docker/* /usr/bin
       - run:
           name: Deploy
           command: |
@@ -241,32 +263,44 @@ workflows:
             branches:
               only:
                 - master
-      - build:
+      - build_events_webapp:
           requires:
             - checkout_code
             - build_client
             - install_server_modules
-      - test:
+      - deploy_events_webapp:
+          requires:
+            - build_events_webapp
+          filters:
+            branches:
+              only:
+                - master
+      - build_common_webapp:
           requires:
             - checkout_code
-            - build
+            - build_client
+            - install_server_modules
+      - test_common_webapp:
+          requires:
+            - checkout_code
+            - build_common_webapp
       - deploy_assets:
           requires:
-            - test
+            - test_common_webapp
           filters:
             branches:
               only:
                 - master
       - deploy_app:
           requires:
-            - test
+            - test_common_webapp
           filters:
             branches:
               only:
                 - master
       - deploy_cardigan:
           requires:
-            - test
+            - test_common_webapp
           filters:
             branches:
               only:

@@ -1,0 +1,7 @@
+version: '3.3'
+services:
+  node_docker:
+    image: wellcome/node-docker:8.9.1
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
