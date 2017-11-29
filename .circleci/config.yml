@@ -2,7 +2,7 @@ version: 2
 jobs:
   checkout_code:
     docker:
-      - image: wellcome/node-docker:8.9.1
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - checkout
@@ -12,7 +12,7 @@ jobs:
             -  ~/wellcomecollection.org
   install_server_modules:
     docker:
-      - image: wellcome/node-docker:8.9.1
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org/server
     steps:
       - restore_cache:
@@ -26,7 +26,7 @@ jobs:
             -  node_modules
   build_client:
     docker:
-      - image: wellcome/node-docker:8.9.1
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org/client
     steps:
       - restore_cache:
@@ -47,7 +47,7 @@ jobs:
             -  ~/wellcomecollection.org/dist
   build_exhibitions_webapp:
     docker:
-      - image: wellcome/node-docker:8.9.1
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org/exhibitions/app
     steps:
       - restore_cache:
@@ -74,7 +74,7 @@ jobs:
             - .dist
   deploy_exhibitions_webapp:
     docker:
-      - image: wellcome/node-docker:8.9.1
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -83,6 +83,12 @@ jobs:
           key: built_exhibitions_webapp_{{ .Environment.CIRCLE_SHA1 }}
       - add_ssh_keys
       - setup_remote_docker
+      - run:
+          name: Install Docker Compose
+          command: |
+            set -x
+            curl -L https://github.com/docker/compose/releases/download/1.11.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
       - run:
           name: Install Docker client
           command: |
@@ -99,7 +105,7 @@ jobs:
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/exhibitions_webapp.yml push
   build_events_webapp:
     docker:
-      - image: wellcome/node-docker:8.9.1
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org/events/app
     steps:
       - restore_cache:
@@ -126,7 +132,7 @@ jobs:
             - .dist
   deploy_events_webapp:
     docker:
-      - image: wellcome/node-docker:8.9.1
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -135,6 +141,12 @@ jobs:
           key: built_events_webapp_{{ .Environment.CIRCLE_SHA1 }}
       - add_ssh_keys
       - setup_remote_docker
+      - run:
+          name: Install Docker Compose
+          command: |
+            set -x
+            curl -L https://github.com/docker/compose/releases/download/1.11.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
       - run:
           name: Install Docker client
           command: |
@@ -151,7 +163,7 @@ jobs:
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/events_webapp.yml push
   build_common_webapp:
     docker:
-      - image: wellcome/node-docker:8.9.1
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -179,7 +191,7 @@ jobs:
             -  ~/wellcomecollection.org/dist
   test_common_webapp:
     docker:
-      - image: wellcome/node-docker:8.9.1
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -192,8 +204,8 @@ jobs:
           name: Test server
           command: pushd server && yarn run test && popd
   deploy_common_webapp:
-    docker:
-      - image: wellcome/node-docker:8.9.1
+    docker
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
