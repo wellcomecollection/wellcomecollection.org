@@ -10,7 +10,7 @@ services:
         - WEBAPP_NAME=events
         - WEBAPP_PORT=3002
     ports:
-      - "3001:3001"
+      - "3002:3002"
   events_nginx:
     image: wellcome/wellcomecollection_events_nginx:${CONTAINER_TAG:-test}
     build:
