@@ -20,13 +20,13 @@
       "fieldset" : "Times",
       "config" : {
         "fields" : {
-          "startDate" : {
+          "startDateTime" : {
             "type" : "Timestamp",
             "config" : {
               "label" : "Start date"
             }
           },
-          "endDate" : {
+          "startDateTime" : {
             "type" : "Timestamp",
             "config" : {
               "label" : "End date"
