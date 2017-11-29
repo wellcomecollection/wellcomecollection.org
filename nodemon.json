@@ -1,4 +1,5 @@
 {
+  "comment": "This is the common nodemon file for webapp development",
   "ignoreRoot": [".git"],
   "watch": [
     "../../server",

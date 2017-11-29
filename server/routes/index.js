@@ -7,7 +7,6 @@ import {index, article, preview, series, articles} from '../controllers'; // Dep
 import {
   renderArticle,
   setPreviewSession,
-  renderEvent,
   renderEventbriteEmbed,
   renderExplore,
   renderSeries,
@@ -47,7 +46,6 @@ r.get('/management/manifest', async (ctx, next) => {
 r.get('/:preview(preview)?/articles/(W):id', renderArticle);
 r.get('/explore', renderExplore);
 r.get('/preview', setPreviewSession);
-r.get('/:preview(preview)?/events/:id', renderEvent);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 r.get('/series/(W):id', renderSeries);
 
