@@ -16,5 +16,7 @@ services:
     build:
       context: ../
       dockerfile: ./build/Dockerfile_nginx
+      args:
+        - WEBAPP_PORT=3002
     links:
       - events_webapp:app
