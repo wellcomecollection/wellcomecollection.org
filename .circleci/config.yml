@@ -204,7 +204,7 @@ jobs:
           name: Test server
           command: pushd server && yarn run test && popd
   deploy_common_webapp:
-    docker
+    docker:
       - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
