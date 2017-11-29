@@ -1,9 +1,7 @@
-// @flow
 import {model, services, Prismic, prismicParsers} from 'common';
 const {createPageConfig} = model;
 const {getPrismicApi} = services;
 const {parsePromoListItem, parseExhibitionsDoc, prismicImage, asText} = prismicParsers;
-import type {ExhibitionPromo} from '/model/exhibitionPromo';
 
 export async function renderExhibition(ctx, next) {
   const id = `${ctx.params.id}`;
@@ -86,7 +84,7 @@ async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request):
 
 export async function renderExhibitionsList(ctx, next) {
   const allExhibitions = await getExhibitions();
-  const exhibitionPromos = allExhibitions.results.map((e):ExhibitionPromo => {
+  const exhibitionPromos = allExhibitions.results.map((e) => {
     return {
       id: e.id,
       url: `/exhibitions/${e.id}`,
@@ -97,7 +95,6 @@ export async function renderExhibitionsList(ctx, next) {
       end: e.data.end
     };
   });
-
   const permanentExhibitionPromos = exhibitionPromos.filter((e) => {
     return !e.start;
   });
@@ -121,7 +118,7 @@ export async function renderExhibitionsList(ctx, next) {
   return next();
 }
 
-async function getExhibitions(): Promise {
+async function getExhibitions() {
   const prismic = await getPrismicApi();
   const exhibitionsList = await prismic.query([
     Prismic.Predicates.any('document.type', ['exhibitions'])
