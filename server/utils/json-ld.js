@@ -91,8 +91,8 @@ export function eventLd(event: Event) {
       name: 'Wellcome Collection',
       address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
     },
-    startDate: event.dates.map(range => range.start),
-    endDate: event.dates.map(range => range.end),
+    startDate: event.times.map(range => range.startDateTime),
+    endDate: event.times.map(range => range.endDateTime),
     description: event.description,
     image: event.featuredImage && event.featuredImage.contentUrl
   }, 'Event');

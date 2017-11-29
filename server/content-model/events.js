@@ -1,13 +1,14 @@
 // @flow
 import type {HTMLString} from './content-blocks';
-import type {Person} from '../model/person';
+import type {Person} from './people';
 
-type DateTimeRange = {|
+export type DateTimeRange = {|
   startDateTime: Date;
   endDateTime: Date;
 |}
 
 type ContributorRole = {|
+  id: string;
   title: string;
 |}
 
@@ -37,7 +38,7 @@ type EventAccessOption = {|
   acronym: string;
 |}
 
-type EventBookingEnquiryTeam = {|
+export type EventBookingEnquiryTeam = {|
   id: string;
   title: string;
   email: string;
@@ -74,12 +75,12 @@ export const eventExample = ({
   },
   times: [
     {
-      startTime: '2017-12-01T19:45:00+0000',
-      endDateTime: '2017-12-01T20:25:00+0000'
+      startDateTime: new Date('2017-12-01T19:45:00+0000'),
+      endDateTime: new Date('2017-12-01T20:25:00+0000')
     },
     {
-      startTime: '2017-12-01T20:45:00+0000',
-      endDateTime: '2017-12-01T21:00:00+0000'
+      startDateTime: new Date('2017-12-01T20:45:00+0000'),
+      endDateTime: new Date('2017-12-01T21:00:00+0000')
     }
   ],
   description: 'A rare chance to experience ' +
@@ -97,7 +98,8 @@ export const eventExample = ({
   accessOptions: [
     {
       id: 'WcLABisAACx_BDQV',
-      title: 'British sign language interpreted'
+      title: 'British sign language interpreted',
+      acronym: 'bsl'
     }
   ],
   series: [
@@ -109,7 +111,8 @@ export const eventExample = ({
         'we actually trust our senses? A scientific, ' +
         'philosophical and creative approach to this ' +
         'question will invite you on a journey into your ' +
-        'inner and outer experiences of the world.'
+        'inner and outer experiences of the world.',
+      contributors: []
     },
     {
       id: 'WcPx8ygAAH4Q9WgN',
@@ -121,7 +124,8 @@ export const eventExample = ({
         'the bar and restaurant open all night, it’s a great ' +
         'place for meeting with friends, looking at your favourite ' +
         'ideas in spectrum of different ways, or just learning ' +
-        'something new on a Friday night.'
+        'something new on a Friday night.',
+      contributors: []
     }
   ],
   buildingLocation: {
@@ -144,7 +148,10 @@ export const eventExample = ({
       },
       person: {
         id: 'WdOiZScAAF6cTGe2',
-        name: 'Zsuzsa Parrag'
+        name: 'Zsuzsa Parrag',
+        image: null,
+        description: null,
+        twitterHandle: null
       }
     },
     {
@@ -154,7 +161,10 @@ export const eventExample = ({
       },
       person: {
         id: 'WgnIhCEAAKVbzrI7',
-        name: 'Randy Lester'
+        name: 'Randy Lester',
+        image: null,
+        description: null,
+        twitterHandle: null
       }
     }
   ]
