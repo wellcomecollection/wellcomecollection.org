@@ -2586,7 +2586,7 @@ interpret@^1.0.0:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.4.tgz#820cdd588b868ffb191a809506d6c9c8f212b1b0"
 
-interval-cache@1.0.0:
+interval-cache@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/interval-cache/-/interval-cache-1.0.0.tgz#3dcd594422c0b9b4e4c044a0f00260ce6f50b7b0"
   dependencies:
