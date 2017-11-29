@@ -1,0 +1,161 @@
+// @flow
+import type {HTMLString} from './content-blocks';
+import type {Person} from '../model/person';
+
+type DateTimeRange = {|
+  startDateTime: Date;
+  endDateTime: Date;
+|}
+
+type ContributorRole = {|
+  title: string;
+|}
+
+export type Contributor = {|
+  role: ContributorRole; // TODO: Should this just be a free text string?
+  person: Person;
+|}
+
+// e.g. 'BSL interpreted tour' | 'Youth event' | 'Audio described tour' |
+// 'Speech-to-text transcribed tour' | 'Workshop' | 'Discussion' | 'Walking tour';
+export type EventFormat = {|
+  id: string;
+  title: string;
+|}
+
+export type EventSeries = {|
+  id: string;
+  title: string;
+  description: ?HTMLString;
+  contributors: Array<Contributor>;
+|}
+
+// E.g. 'British sign language interpreted' | 'Audio described' | 'Speech-to-Text';
+type EventAccessOption = {|
+  id: string;
+  title: string;
+  acronym: string;
+|}
+
+type EventBookingEnquiryTeam = {|
+  id: string;
+  title: string;
+  email: string;
+  phone: string;
+  url: string;
+|}
+
+type BuildingLocation = {|
+  id: string;
+  title: string;
+  level: number;
+|}
+
+export type Event = {|
+  id: string;
+  title: ?string;
+  format: ?EventFormat;
+  times: Array<DateTimeRange>;
+  description: ?HTMLString;
+  accessOptions: Array<EventAccessOption>;
+  series: Array<EventSeries>;
+  // TODO: Not sure if to generify this into location? Potentially have both fields?
+  buildingLocation: ?BuildingLocation;
+  bookingEnquiryTeam: ?EventBookingEnquiryTeam;
+  contributors: Array<Contributor>;
+|}
+
+export const eventExample = ({
+  id: 'WXmdTioAAJWWjZdH',
+  title: 'Haitian Vodou Ritual',
+  format: {
+    id: 'QYCcAACcAoiJS',
+    title: 'Dance Workshop'
+  },
+  times: [
+    {
+      startTime: '2017-12-01T19:45:00+0000',
+      endDateTime: '2017-12-01T20:25:00+0000'
+    },
+    {
+      startTime: '2017-12-01T20:45:00+0000',
+      endDateTime: '2017-12-01T21:00:00+0000'
+    }
+  ],
+  description: 'A rare chance to experience ' +
+    'this beautiful, ecstatic, intense ' +
+    'Caribbean dance form. Join ' +
+    'Vodou dance teacher and ' +
+    'practitioner ' +
+    '<a href="https://wellcomecollection.org/people/WhvmIykAACgAlDHh">Zsuzsa Parrag</a> ' +
+    'to learn some of the basic ritual ' +
+    'steps that can create feelings of ' +
+    'altered states of perception. With ' +
+    'live drumming by ' +
+    '<a href="https://wellcomecollection.org/people/WhvmIykAACgAlDHh">Randy Lester</a>' +
+    '.',
+  accessOptions: [
+    {
+      id: 'WcLABisAACx_BDQV',
+      title: 'British sign language interpreted'
+    }
+  ],
+  series: [
+    {
+      id: 'WfyK-yoAANuggY31',
+      title: 'Your reality is Broken',
+      description: 'Perception is fundamental to who we are and ' +
+        'how we experience life. But how much can ' +
+        'we actually trust our senses? A scientific, ' +
+        'philosophical and creative approach to this ' +
+        'question will invite you on a journey into your ' +
+        'inner and outer experiences of the world.'
+    },
+    {
+      id: 'WcPx8ygAAH4Q9WgN',
+      title: 'Friday night spectacular',
+      description: 'Focusing on a theme or topic, we fill ' +
+        'the building with artists, scientists, performers, ' +
+        'writers, speakers and enthusiasts, and invite you to ' +
+        'delve into a subject in all its many aspects. With ' +
+        'the bar and restaurant open all night, it’s a great ' +
+        'place for meeting with friends, looking at your favourite ' +
+        'ideas in spectrum of different ways, or just learning ' +
+        'something new on a Friday night.'
+    }
+  ],
+  buildingLocation: {
+    id: 'WdTMsycAAL20UYr1',
+    title: 'Williams Lounge',
+    level: -1
+  },
+  bookingEnquiryTeam: {
+    id: 'WcK-SisAAC1_BCxg',
+    title: 'Access events',
+    email: 'access@wellcomecollection.org',
+    phone: '020 7611 2222',
+    url: 'https://wellcomecollection.org/visit-us/accessibility'
+  },
+  contributors: [
+    {
+      role: {
+        id: 'WfGj3SoAAK9XUZ6W',
+        title: 'Organiser'
+      },
+      person: {
+        id: 'WdOiZScAAF6cTGe2',
+        name: 'Zsuzsa Parrag'
+      }
+    },
+    {
+      role: {
+        id: 'WdTMsycAAL20UYr1',
+        title: 'Performer'
+      },
+      person: {
+        id: 'WgnIhCEAAKVbzrI7',
+        name: 'Randy Lester'
+      }
+    }
+  ]
+}: Event);

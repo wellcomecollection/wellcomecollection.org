@@ -2,7 +2,7 @@
 import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
-import type {Event, EventFormat} from '../content-model/event';
+import type {Event, EventFormat} from '../content-model/events';
 import getBreakpoint from '../filters/get-breakpoint';
 import {parseBody} from './prismic-body-parser';
 import type {Contributor, DateRange, ImagePromo} from '../content-model/content-blocks';

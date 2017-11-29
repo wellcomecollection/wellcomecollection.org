@@ -1,4 +1,4 @@
-import type {Event} from '../content-model/event';
+import type {Event} from '../content-model/events';
 import {wellcomeCollection, wellcomeCollectionAddress} from '../model/organization';
 
 export function objToJsonLd<T>(obj: T, type: string, root: boolean = true) {

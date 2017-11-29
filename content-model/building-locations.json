@@ -1,0 +1,17 @@
+{
+  "Building location": {
+    "title": {
+      "type": "StructuredText",
+      "config": {
+        "single": "heading1",
+        "label": "title"
+      }
+    },
+    "level": {
+      "type": "Number",
+      "config": {
+        "label": "level"
+      }
+    }
+  }
+}
