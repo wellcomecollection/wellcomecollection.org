@@ -7,7 +7,9 @@
     }]
   ],
   "plugins": [
-    "transform-flow-strip-types",
+    ["flow-runtime", {
+      "assert": false
+    }],
     ["module-resolver", {
       "root": ["./"],
       "alias": {
