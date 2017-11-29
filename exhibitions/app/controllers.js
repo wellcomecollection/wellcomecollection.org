@@ -112,7 +112,8 @@ export async function renderExhibitionsList(ctx, next) {
       canonicalUri: '/exhibitions'
     }),
     permanentExhibitions: permanentExhibitionPromos,
-    temporaryExhibitions: temporaryExhibitionPromos
+    temporaryExhibitions: temporaryExhibitionPromos,
+    allExhibitions: exhibitionPromos
   });
 
   return next();
