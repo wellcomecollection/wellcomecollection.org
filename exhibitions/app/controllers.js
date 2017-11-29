@@ -18,7 +18,7 @@ export async function renderExhibition(ctx, next) {
     if (format === 'json') {
       ctx.body = exhibitionContent;
     } else {
-      ctx.render('exhibition', {
+      ctx.render('pages/exhibition', {
         pageConfig: createPageConfig({
           path: path,
           title: exhibitionContent.exhibition.title,
@@ -102,7 +102,7 @@ export async function renderExhibitionsList(ctx, next) {
     return e.start;
   });
 
-  ctx.render('exhibitions', {
+  ctx.render('pages/exhibitions', {
     pageConfig: createPageConfig({
       path: ctx.request.url,
       title: 'Exhibitions',
