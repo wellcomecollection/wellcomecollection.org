@@ -27,7 +27,7 @@ module "events" {
   cpu                      = "384" # (1024/2) - 128
   memory                   = "369" # (995/2) - 128
   primary_container_port   = "80"
-  secondary_container_port = "3000"
+  secondary_container_port = "3002"
 
   path_pattern = "/ev/*"
 }
