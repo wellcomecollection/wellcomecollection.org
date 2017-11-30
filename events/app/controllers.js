@@ -54,7 +54,7 @@ async function getEvents() {
   return eventsList;
 }
 
-function getNumberFromString(string: String): Number {
+function getNumberFromString(string: string): number {
   return Number(string.replace(/\D/g, ''));
 }
 
