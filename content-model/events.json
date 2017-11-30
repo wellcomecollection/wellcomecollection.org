@@ -61,7 +61,7 @@
         }
       }
     },
-    "location" : {
+    "locations" : {
       "type" : "Group",
       "fieldset" : "Access options",
       "config" : {
@@ -72,7 +72,7 @@
             "config" : {
               "select" : "document",
               "customtypes" : [ "locations" ],
-              "label" : "Access option"
+              "label" : "Locations"
             }
           }
         }
