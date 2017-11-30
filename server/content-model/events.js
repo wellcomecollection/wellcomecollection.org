@@ -1,5 +1,5 @@
 // @flow
-import type {HTMLString} from './content-blocks';
+import type {HTMLString, ImagePromo} from './content-blocks';
 import type {Person} from './people';
 
 export type DateTimeRange = {|
@@ -64,6 +64,7 @@ export type Event = {|
   buildingLocation: ?BuildingLocation;
   bookingEnquiryTeam: ?EventBookingEnquiryTeam;
   contributors: Array<Contributor>;
+  promo: ?ImagePromo;
 |}
 
 export const eventExample = ({

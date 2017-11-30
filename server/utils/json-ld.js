@@ -83,19 +83,26 @@ export function museumLd(museum) {
 }
 
 export function eventLd(event: Event) {
-  return objToJsonLd({
-    name: event.title,
-    // TODO: This is not always at Wellcome, but we don't collect that yet
-    location: {
-      '@type': 'Place',
-      name: 'Wellcome Collection',
-      address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
-    },
-    startDate: event.times.map(range => range.startDateTime),
-    endDate: event.times.map(range => range.endDateTime),
-    description: event.description,
-    image: event.featuredImage && event.featuredImage.contentUrl
-  }, 'Event');
+  return event.times.map(eventTime => {
+    // I don't like it, but mutation seems the easiest way here >.<
+    const eventWith1Time = Object.assign({}, event);
+    eventWith1Time.times = [eventTime];
+    return eventWith1Time;
+  }).map(event => {
+    return objToJsonLd({
+      name: event.title,
+      // TODO: This is not always at Wellcome, but we don't collect that yet
+      location: {
+        '@type': 'Place',
+        name: 'Wellcome Collection',
+        address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
+      },
+      startDate: event.times.map(range => range.startDateTime),
+      endDate: event.times.map(range => range.endDateTime),
+      description: event.description,
+      image: event.featuredImage && event.featuredImage.contentUrl
+    }, 'Event');
+  });
 }
 
 function orgLd(org) {
