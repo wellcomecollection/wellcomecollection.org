@@ -139,5 +139,46 @@
         }
       }
     }
+  },
+  "Promo" : {
+    "promo" : {
+      "type" : "Slices",
+      "config" : {
+        "label" : "Promo",
+        "choices" : {
+          "editorialImage" : {
+            "type" : "Slice",
+            "fieldset" : "Editorial image",
+            "config" : {
+              "label" : "Editorial image"
+            },
+            "non-repeat" : {
+              "caption" : {
+                "type" : "StructuredText",
+                "config" : {
+                  "label" : "Promo text",
+                  "single" : "hyperlink, strong, em"
+                }
+              },
+              "image" : {
+                "type" : "Image",
+                "config" : {
+                  "label" : "Promo image",
+                  "thumbnails" : [ {
+                    "name" : "16:9",
+                    "width" : 3200,
+                    "height" : 1800
+                  }, {
+                    "name" : "square",
+                    "width" : 3200,
+                    "height" : 3200
+                  } ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
