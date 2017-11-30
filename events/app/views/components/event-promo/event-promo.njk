@@ -8,6 +8,8 @@
     <div class="promo__heading">
       <h2 class="promo__title font-WB6-s">{{ model.title }}</h2>
     </div>
+    <span>starts: {{ model.start }}</span>
+    <span>ends: {{ model.end }}</span>
     <span class="promo__copy">{{ model.description | striptags | safe }}</span>
   </div>
 </a>

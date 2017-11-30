@@ -69,6 +69,7 @@ export async function renderEventsList(ctx, next) {
     return event.data.times.map(eventAtTime => {
       return {
         id: event.id,
+        title: asText(event.data.title),
         url: `/events/${event.id}`,
         start: eventAtTime.startDateTime,
         end: eventAtTime.endDateTime,
