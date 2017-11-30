@@ -15,17 +15,9 @@
         "customtypes" : [ "event-formats" ]
       }
     },
-    "programme" : {
-      "type" : "Link",
-      "config" : {
-        "label" : "Programme",
-        "select" : "document",
-        "customtypes" : [ "event-programmes" ]
-      }
-    },
-    "dates" : {
-      "type": "Group",
-      "fieldset" : "When",
+    "times" : {
+      "type" : "Group",
+      "fieldset" : "Times",
       "config" : {
         "fields" : {
           "startDateTime" : {
@@ -37,32 +29,10 @@
           "endDateTime" : {
             "type" : "Timestamp",
             "config" : {
-              "label" : "Start date"
+              "label" : "End date"
             }
           }
         }
-      }
-    },
-    "featuredImage" : {
-      "type" : "Image",
-      "config" : {
-        "label" : "Featured image",
-        "thumbnails" : [ {
-          "name" : "32:15",
-          "width" : 3200,
-          "height" : 1500
-        }, {
-          "name" : "square",
-          "width" : 3200,
-          "height" : 3200
-        } ]
-      }
-    },
-    "intro" : {
-      "type" : "StructuredText",
-      "config" : {
-        "single" : "heading2",
-        "label" : "Intro"
       }
     },
     "description" : {
@@ -90,6 +60,23 @@
           }
         }
       }
+    },
+    "locations" : {
+      "type" : "Group",
+      "fieldset" : "Location",
+      "config" : {
+        "fields" : {
+          "buildingLocation" : {
+            "type" : "Link",
+            "fieldset" : "Access option",
+            "config" : {
+              "select" : "document",
+              "customtypes" : [ "locations" ],
+              "label" : "Locations"
+            }
+          }
+        }
+      }
     }
   },
   "Booking" : {
@@ -100,12 +87,24 @@
         "select" : "document",
         "customtypes" : [ "event-booking-enquiry-teams" ]
       }
-    },
-    "bookingInformation" : {
-      "type" : "StructuredText",
+    }
+  },
+  "Series" : {
+    "series": {
+      "type" : "Group",
+      "fieldset" : "Event series",
       "config" : {
-        "label" : "Booking information",
-        "multi" : "paragraph,strong,em,hyperlink"
+        "fields" : {
+          "series" : {
+            "type" : "Link",
+            "fieldset" : "Event series",
+            "config" : {
+              "select" : "document",
+              "customtypes" : [ "event-series" ],
+              "label" : "Event series"
+            }
+          }
+        }
       }
     }
   },
@@ -164,7 +163,16 @@
               "image" : {
                 "type" : "Image",
                 "config" : {
-                  "label" : "Promo image"
+                  "label" : "Promo image",
+                  "thumbnails" : [ {
+                    "name" : "16:9",
+                    "width" : 3200,
+                    "height" : 1800
+                  }, {
+                    "name" : "square",
+                    "width" : 3200,
+                    "height" : 3200
+                  } ]
                 }
               }
             }

@@ -9,7 +9,7 @@ dist/
 # Ignore .sass-cache
 *.sass-cache*
 
-/server/views/partials/critical.css.njk
+critical.css.njk
 /client/scss/utilities/compiled_variables/
 
 .terraform/

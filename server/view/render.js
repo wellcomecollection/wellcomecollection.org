@@ -8,8 +8,8 @@ export default function render(root, extraGlobals) {
     const [flags, cohorts] = ctx.intervalCache.get('flags');
     const globals = Map(Object.assign({}, extraGlobals, {
       featuresCohort: ctx.featuresCohort,
-      featureFlags: flags,
-      cohorts: cohorts
+      featureFlags: flags || {},
+      cohorts: cohorts || {}
     }));
     const env = getEnvWithGlobalsExtensionsAndFilters(root, globals);
     ctx.render = (relPath, templateData) => ctx.body = env.render(`${relPath}.njk`, templateData);

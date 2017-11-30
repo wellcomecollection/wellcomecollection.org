@@ -9,4 +9,5 @@ function getTweets() {
 const fiveMinutes = 1000 * 60 * 5;
 export const cache = new IntervalCache()
   .every('flags', fiveMinutes, getFlags, [])
-  .every('tweets', fiveMinutes, getTweets, {});
+  .every('tweets', fiveMinutes, getTweets, {})
+  .start();

@@ -2,10 +2,10 @@
 import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
-import type {Event, EventFormat} from '../content-model/event';
+import type {DateTimeRange, Event, EventFormat, Contributor, EventBookingEnquiryTeam} from '../content-model/events';
 import getBreakpoint from '../filters/get-breakpoint';
 import {parseBody} from './prismic-body-parser';
-import type {Contributor, DateRange, ImagePromo} from '../content-model/content-blocks';
+import type {ImagePromo} from '../content-model/content-blocks';
 import type {Article} from '../model/article';
 import type {Promo} from '../model/promo';
 import type {Picture} from '../model/picture';
@@ -19,51 +19,39 @@ type PrismicDoc = Object;
 type PrismicDocFragment = Object | Array<any>;
 
 export function parseEventDoc(doc: PrismicDoc): Event {
-  const contributors = parseContributors(doc.data.contributors);
+  const contributors: Array<Contributor> = parseContributors(doc.data.contributors).toArray();
   const promo = parseImagePromo(doc.data.promo);
-  const dates: List<DateRange> = List(doc.data.dates.map(date => {
+  const times: Array<DateTimeRange> = doc.data.times.map(date => {
     return ({
-      start: new Date(date.startDateTime),
-      end: new Date(date.endDateTime)
-    }: DateRange);
-  }));
-  const bookingEnquiryTeam = doc.data.bookingEnquiryTeam.data && {
+      startDateTime: new Date(date.startDateTime),
+      endDateTime: new Date(date.endDateTime)
+    }: DateTimeRange);
+  });
+  const bookingEnquiryTeam = doc.data.bookingEnquiryTeam.data && ({
+    id: doc.data.bookingEnquiryTeam.id,
     title: asText(doc.data.bookingEnquiryTeam.data.title),
     email: doc.data.bookingEnquiryTeam.data.email,
     phone: doc.data.bookingEnquiryTeam.data.phone,
     url: doc.data.bookingEnquiryTeam.data.url
-  };
-
-  const featuredImage = doc.data.featuredImage && parsePicture({ image: doc.data.featuredImage });
-  const thinVideoImage = featuredImage && parsePicture({image: doc.data.featuredImage['32:15']}, getBreakpoint('medium'));
-  const squareImage = featuredImage && parsePicture({image: doc.data.featuredImage.square}, getBreakpoint('small'));
-  const featuredImages = List([
-    thinVideoImage,
-    squareImage
-  ]).filter(_ => _);
-
-  // This is programmatic, basically if there is no way to book, it's drop in.
-  // We will add a check for tickets here too
-  const isDropIn = !bookingEnquiryTeam;
+  }: EventBookingEnquiryTeam);
 
   const e = ({
     id: doc.id,
     title: asText(doc.data.title),
-    format: doc.data.format.data && ({ title: asText(doc.data.format.data.title) }: EventFormat),
-    programme: doc.data.programme.data && ({ title: asText(doc.data.programme.data.title) }: EventFormat),
-    dates: dates,
-    intro: asText(doc.data.intro),
+    format: doc.data.format.data && ({
+      id: doc.data.format.id,
+      title: asText(doc.data.format.data.title)
+    }: EventFormat),
+    times: times,
     description: asHtml(doc.data.description),
-    featuredImage: featuredImage,
-    featuredImages: featuredImages,
-    accessOptions: List(doc.data.accessOptions.map(ao => !isEmptyDocLink(ao.accessOption) ? ({
+    accessOptions: doc.data.accessOptions.map(ao => !isEmptyDocLink(ao.accessOption) ? ({
       accessOption: { title: asText(ao.accessOption.data.title), acronym: ao.accessOption.data.acronym }
-    }) : null).filter(_ => _)),
+    }) : null).filter(_ => _),
     bookingEnquiryTeam: bookingEnquiryTeam,
-    bookingInformation: asHtml(doc.data.bookingInformation),
-    isDropIn: isDropIn,
     contributors: contributors,
-    promo: promo
+    promo: promo,
+    series: [],
+    buildingLocation: null
   }: Event);
 
   return e;
@@ -251,9 +239,11 @@ function parseContributors(doc: ?PrismicDocFragment): List<Contributor> {
       const personData = slice.primary.person && slice.primary.person.data;
       const roleData = slice.primary.role && slice.primary.role.data;
       const role = roleData && {
+        id: slice.primary.role.id,
         title: roleData && asText(roleData.title)
       };
       const person = personData && {
+        id: slice.primary.person.id,
         name: personData.name,
         twitterHandle: personData.twitterHandle,
         image: personData.image && personData.image.url,

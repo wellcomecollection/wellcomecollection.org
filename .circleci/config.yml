@@ -2,7 +2,7 @@ version: 2
 jobs:
   checkout_code:
     docker:
-      - image: wellcome/node-docker:8.9.1
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - checkout
@@ -12,7 +12,7 @@ jobs:
             -  ~/wellcomecollection.org
   install_server_modules:
     docker:
-      - image: wellcome/node-docker:8.9.1
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org/server
     steps:
       - restore_cache:
@@ -26,7 +26,7 @@ jobs:
             -  node_modules
   build_client:
     docker:
-      - image: wellcome/node-docker:8.9.1
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org/client
     steps:
       - restore_cache:
@@ -47,7 +47,7 @@ jobs:
             -  ~/wellcomecollection.org/dist
   build_exhibitions_webapp:
     docker:
-      - image: wellcome/node-docker:8.9.1
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org/exhibitions/app
     steps:
       - restore_cache:
@@ -74,7 +74,7 @@ jobs:
             - .dist
   deploy_exhibitions_webapp:
     docker:
-      - image: wellcome/node-docker:8.9.1
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -84,6 +84,20 @@ jobs:
       - add_ssh_keys
       - setup_remote_docker
       - run:
+          name: Install Docker Compose
+          command: |
+            set -x
+            curl -L https://github.com/docker/compose/releases/download/1.17.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
+      - run:
+          name: Install Docker client
+          command: |
+            set -x
+            VER="17.03.0-ce"
+            curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
+            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+            mv /tmp/docker/* /usr/bin
+      - run:
           name: Deploy
           command: |
             docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
@@ -91,7 +105,7 @@ jobs:
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/exhibitions_webapp.yml push
   build_events_webapp:
     docker:
-      - image: wellcome/node-docker:8.9.1
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org/events/app
     steps:
       - restore_cache:
@@ -118,7 +132,7 @@ jobs:
             - .dist
   deploy_events_webapp:
     docker:
-      - image: wellcome/node-docker:8.9.1
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -128,6 +142,20 @@ jobs:
       - add_ssh_keys
       - setup_remote_docker
       - run:
+          name: Install Docker Compose
+          command: |
+            set -x
+            curl -L https://github.com/docker/compose/releases/download/1.17.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
+      - run:
+          name: Install Docker client
+          command: |
+            set -x
+            VER="17.03.0-ce"
+            curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
+            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+            mv /tmp/docker/* /usr/bin
+      - run:
           name: Deploy
           command: |
             docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
@@ -135,7 +163,7 @@ jobs:
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/events_webapp.yml push
   build_common_webapp:
     docker:
-      - image: wellcome/node-docker:8.9.1
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -163,7 +191,7 @@ jobs:
             -  ~/wellcomecollection.org/dist
   test_common_webapp:
     docker:
-      - image: wellcome/node-docker:8.9.1
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -177,7 +205,7 @@ jobs:
           command: pushd server && yarn run test && popd
   deploy_common_webapp:
     docker:
-      - image: wellcome/node-docker:8.9.1
+      - image: node:8.9.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -188,6 +216,14 @@ jobs:
           key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
       - add_ssh_keys
       - setup_remote_docker
+      - run:
+          name: Install Docker client
+          command: |
+            set -x
+            VER="17.03.0-ce"
+            curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
+            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+            mv /tmp/docker/* /usr/bin
       - run:
           name: Deploy
           command: |
@@ -291,7 +327,7 @@ workflows:
             branches:
               only:
                 - master
-      - deploy_app:
+      - deploy_common_webapp:
           requires:
             - test_common_webapp
           filters:

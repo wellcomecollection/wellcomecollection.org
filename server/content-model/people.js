@@ -1,8 +1,8 @@
 // @flow
 export type Person = {|
-  id?: ?string;
+  id: string;
+  name: string,
   twitterHandle: ?string,
-  name: ?string,
   description: ?string,
   image: ?string, // TODO: Make this Picture
 |}
