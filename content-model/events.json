@@ -61,7 +61,7 @@
         }
       }
     },
-    "buildingLocation" : {
+    "location" : {
       "type" : "Group",
       "fieldset" : "Access options",
       "config" : {
@@ -71,7 +71,7 @@
             "fieldset" : "Access option",
             "config" : {
               "select" : "document",
-              "customtypes" : [ "building-locations" ],
+              "customtypes" : [ "locations" ],
               "label" : "Access option"
             }
           }
