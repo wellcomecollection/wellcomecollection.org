@@ -24,7 +24,7 @@ type EventWithExtras = {| ...Event, ...{|
 export function parseEventDoc(doc: PrismicDoc): EventWithExtras {
   const contributors: Array<Contributor> = parseContributors(doc.data.contributors).toArray();
   const promo = parseImagePromo(doc.data.promo);
-  const times: Array<DateTimeRange> = doc.data.dates.map(date => {
+  const times: Array<DateTimeRange> = doc.data.times.map(date => {
     return ({
       startDateTime: new Date(date.startDateTime),
       endDateTime: new Date(date.endDateTime)
