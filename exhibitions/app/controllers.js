@@ -1,6 +1,6 @@
 // @flow
-import {model, services, Prismic, prismicParsers} from 'common';
-const {createPageConfig} = model;
+import {model, services, Prismic, prismicParsers, List} from 'common';
+const {createPageConfig, PaginationFactory} = model;
 const {getPrismicApi} = services;
 const {parsePromoListItem, parseExhibitionsDoc, prismicImage, asText} = prismicParsers;
 import type {ExhibitionPromo} from '/model/exhibitionPromo';
@@ -85,7 +85,11 @@ async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request):
 }
 
 export async function renderExhibitionsList(ctx, next) {
-  const allExhibitions = await getExhibitions();
+  const page = Number(ctx.request.query.page);
+  const allExhibitions = await getExhibitions(page);
+  const pageSize = allExhibitions && allExhibitions.results_per_page;
+  const totalResults = allExhibitions && allExhibitions.total_results_size;
+  const pagination = PaginationFactory.fromList(List(allExhibitions.results), parseInt(totalResults, 10) || 1, parseInt(page, 10) || 1, pageSize || 1, ctx.query);
   const exhibitionPromos = allExhibitions.results.map((e):ExhibitionPromo => {
     return {
       id: e.id,
@@ -116,16 +120,17 @@ export async function renderExhibitionsList(ctx, next) {
     }),
     permanentExhibitions: permanentExhibitionPromos,
     temporaryExhibitions: temporaryExhibitionPromos,
-    allExhibitions: exhibitionPromos
+    allExhibitions: exhibitionPromos,
+    pagination
   });
 
   return next();
 }
 
-async function getExhibitions(): Promise {
+async function getExhibitions(page = 1, pageSize = 40): Promise {
   const prismic = await getPrismicApi();
   const exhibitionsList = await prismic.query([
     Prismic.Predicates.any('document.type', ['exhibitions'])
-  ], { orderings: '[my.exhibitions.start desc]' });
+  ], { orderings: '[my.exhibitions.start desc]', page, pageSize });
   return exhibitionsList;
 }
