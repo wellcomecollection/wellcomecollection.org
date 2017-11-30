@@ -63,7 +63,7 @@
     },
     "locations" : {
       "type" : "Group",
-      "fieldset" : "Access options",
+      "fieldset" : "Location",
       "config" : {
         "fields" : {
           "buildingLocation" : {
