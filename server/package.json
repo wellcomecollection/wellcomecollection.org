@@ -29,7 +29,7 @@
     "entities": "^1.1.1",
     "flow-bin": "^0.57.3",
     "immutable": "^4.0.0-rc.9",
-    "interval-cache": "1.0.0",
+    "interval-cache": "^1.0.0",
     "koa": "^2.4.1",
     "koa-router": "^7.1.0",
     "koa-static": "^3.0.0",
