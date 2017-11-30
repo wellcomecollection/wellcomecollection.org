@@ -1,4 +1,4 @@
-FROM keymetrics/pm2-docker-alpine:8
+FROM node:8.9.1-alpine
 
 ARG WEBAPP_NAME
 ARG WEBAPP_PORT
@@ -13,6 +13,7 @@ WORKDIR $HOME/
 COPY ./${WEBAPP_NAME}/app/.dist ./
 COPY ./build/pm2_webapp.yml ./pm2.yml
 RUN sed -i "s/WEBAPP_NAME/${WEBAPP_NAME}/g" ./pm2.yml
+RUN yarn add pm2
 
 EXPOSE ${WEBAPP_PORT}
-CMD ["pm2-docker", "--json", "pm2.yml"]
+CMD ["./node_modules/.bin/pm2-docker", "start", "pm2.yml"]

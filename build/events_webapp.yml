@@ -1,0 +1,22 @@
+# TODO: Potentially look at adding config here
+version: '3.3'
+services:
+  events_webapp:
+    image: wellcome/wellcomecollection_events_webapp:${CONTAINER_TAG:-test}
+    build:
+      context: ../
+      dockerfile: ./build/Dockerfile_webapp
+      args:
+        - WEBAPP_NAME=events
+        - WEBAPP_PORT=3002
+    ports:
+      - "3002:3002"
+  events_nginx:
+    image: wellcome/wellcomecollection_events_nginx:${CONTAINER_TAG:-test}
+    build:
+      context: ../
+      dockerfile: ./build/Dockerfile_nginx
+      args:
+        - WEBAPP_PORT=3002
+    links:
+      - events_webapp:app

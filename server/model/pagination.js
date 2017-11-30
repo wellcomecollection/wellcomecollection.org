@@ -48,7 +48,7 @@ export class PaginationFactory {
 function buildQueryString(page: number | null, getParams: {} = {}): string {
   const paramsArray = Object.keys(getParams).map((key) => {
     if (key !== 'page') {
-      return `${key}=${getParams[key]}`;
+      return `${key}=${encodeURIComponent(getParams[key])}`;
     }
   }).filter(_ => _);
 

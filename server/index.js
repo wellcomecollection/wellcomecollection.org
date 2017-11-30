@@ -4,7 +4,10 @@ import {UiComponent} from './model/ui-component';
 import {Picture} from './model/picture';
 import {default as filtersMap} from './filters';
 import Prismic from 'prismic-javascript';
-import {getPrismicApi} from './services/prismic';
+import {
+  getPrismicApi,
+  getEvent
+} from './services/prismic';
 import {
   parsePromoListItem,
   parseExhibitionsDoc,
@@ -22,4 +25,5 @@ export const prismicParsers = {
   prismicImage,
   asText
 };
+export const prismic = {getEvent};
 export const services = {getPrismicApi};

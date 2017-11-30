@@ -5,8 +5,8 @@ module "events" {
   task_role_arn      = "${module.ecs_events_iam.task_role_arn}"
   template_name      = "default"
   vpc_id             = "${local.vpc_id}"
-  nginx_uri          = "wellcome/wellcomecollection-events-nginx:${var.nginx_docker_tag}"
-  app_uri            = "wellcome/wellcomecollection-events-app:${var.nginx_docker_tag}"
+  nginx_uri          = "wellcome/wellcomecollection_events_nginx:${var.container_tag}"
+  app_uri            = "wellcome/wellcomecollection_events_webapp:${var.container_tag}"
   listener_https_arn = "${local.alb_listener_https_arn}"
   listener_http_arn  = "${local.alb_listener_http_arn}"
   is_config_managed  = false
@@ -22,11 +22,12 @@ module "events" {
   server_error_alarm_topic_arn = "${module.alb_server_error_alarm.arn}"
   client_error_alarm_topic_arn = "${module.alb_client_error_alarm.arn}"
 
-  // These account for the 128 mem and CPU the nginx container uses
-  cpu                      = "448"
-  memory                   = "433"
+  # These account for the 128 mem and CPU the nginx container use
+  # 995 is how much memmory is left once docker is running
+  cpu                      = "384" # (1024/2) - 128
+  memory                   = "369" # (995/2) - 128
   primary_container_port   = "80"
-  secondary_container_port = "3000"
+  secondary_container_port = "3002"
 
-  path_pattern = "/ev"
+  path_pattern = "/ev/*"
 }

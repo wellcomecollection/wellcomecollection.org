@@ -1,6 +1,6 @@
-var http = require('http');
+// @flow
+import {app} from './setup-app';
 
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('events ok');
-}).listen(3000);
+app.listen(3002);
+
+console.log('Events service started!');

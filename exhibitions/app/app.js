@@ -1,11 +1,6 @@
 // @flow
-import path from 'path';
-import {setupApp} from 'common';
-import {router} from './routes';
+import {app} from './setup-app';
 
-const staticPath = path.join(__dirname, '../../dist');
-const viewPaths = [path.join(__dirname, 'views')];
-
-setupApp({ router, viewPaths, staticPath }).listen(3001);
+app.listen(3001);
 
 console.log('Exhibitions service started!');
