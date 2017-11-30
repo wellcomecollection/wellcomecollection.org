@@ -1,5 +1,7 @@
 import {setupApp} from './setup-app';
 import {createPageConfig} from './model/page-config';
+import {UiComponent} from './model/ui-component';
+import {Picture} from './model/picture';
 import {default as filtersMap} from './filters';
 import Prismic from 'prismic-javascript';
 import {getPrismicApi} from './services/prismic';
@@ -12,7 +14,7 @@ import {
 
 export {setupApp};
 export const filters = filtersMap.toJS();
-export const model = {createPageConfig};
+export const model = {createPageConfig, Picture, UiComponent};
 export {Prismic};
 export const prismicParsers = {
   parsePromoListItem,
