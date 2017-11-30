@@ -26,7 +26,7 @@
               "label" : "Start date"
             }
           },
-          "startDateTime" : {
+          "endDateTime" : {
             "type" : "Timestamp",
             "config" : {
               "label" : "End date"
