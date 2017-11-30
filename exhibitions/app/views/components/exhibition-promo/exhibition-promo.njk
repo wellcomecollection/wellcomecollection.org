@@ -8,7 +8,7 @@
   <div class="promo__image-container">
     {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
   </div>
-  <header class="promo__description font-HNL5-s">
+  <div class="promo__description font-HNL5-s">
     <div class="promo__heading">
       <h2 class="promo__title font-WB6-s">{{ model.title }}</h2>
       {% if model.start and model.end %}
@@ -24,5 +24,5 @@
       {% endif %}
     </div>
     <span class="promo__copy">{{ model.description | striptags | safe }}</span>
-  </header>
+  </div>
 </a>
