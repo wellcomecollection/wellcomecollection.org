@@ -27,7 +27,7 @@ export async function renderEvent(ctx, next, overrideId, gaExp) {
         url: '/graphicdesign'
       }]);
 
-      ctx.render('event', {
+      ctx.render('pages/event', {
         pageConfig: createPageConfig({
           path: path,
           title: event.title,
