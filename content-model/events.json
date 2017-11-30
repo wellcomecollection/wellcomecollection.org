@@ -90,17 +90,19 @@
     }
   },
   "Series" : {
-    "type" : "Group",
-    "fieldset" : "Event series",
-    "config" : {
-      "fields" : {
-        "series" : {
-          "type" : "Link",
-          "fieldset" : "Event series",
-          "config" : {
-            "select" : "document",
-            "customtypes" : [ "event-series" ],
-            "label" : "Event series"
+    "series": {
+      "type" : "Group",
+      "fieldset" : "Event series",
+      "config" : {
+        "fields" : {
+          "series" : {
+            "type" : "Link",
+            "fieldset" : "Event series",
+            "config" : {
+              "select" : "document",
+              "customtypes" : [ "event-series" ],
+              "label" : "Event series"
+            }
           }
         }
       }
