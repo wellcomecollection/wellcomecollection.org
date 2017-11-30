@@ -26,9 +26,6 @@
 
 
     <div class="exhibition-hero exhibition-hero--restrict-width">
-      {% componentV2 'picture', {
-        images: event.featuredImages.toJS()
-      }, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
 
       <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">
         <div class="container {{ {l:0} | spacingClasses({padding: ['left']}) }}">
@@ -42,7 +39,7 @@
                   <span>
                     {% if (event.accessOptions.size !== 0) %}
                       <div class="{{ {s:'HNL4', m:'HNL5', l:'HNL3', xl:'HNL2'} | fontClasses }}">
-                        {% for accessOption in event.accessOptions.toJS() %}
+                        {% for accessOption in event.accessOptions %}
                           <div class="flex">
                             <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/' + (accessOption.accessOption.acronym | lower), accessOption.accessOption.title %}</div>
                           </div>
@@ -69,7 +66,7 @@
                     {% icon 'other/calendar' %}
                   </div>
                   <div class="{{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">
-                    {% for dateRange in event.dates.toJS() %}
+                    {% for dateRange in event.times %}
                       {% set formattedDateRange = dateRange.start | formatAndDedupeOnDate(dateRange.end) %}
                       <div>
                         <time>
@@ -142,7 +139,7 @@
 
             <h2 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }}  {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">The team</h2>
             <div class="grid">
-              {% for contributor in event.contributors.toJS() %}
+              {% for contributor in event.contributors %}
                 <div class="{{ {s:12, l:6} | gridClasses }}">
                   <div class="bg-cream rounded-diagonal half-in-image-container {{ {s:2} | spacingClasses({padding: ['top', 'bottom', 'left', 'right']}) }}">
                     <img class="round half-in-image person-image" src="{{ contributor.person.image | convertImageUri(300) }}" alt="" />

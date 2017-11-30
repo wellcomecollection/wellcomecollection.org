@@ -1,4 +1,4 @@
-import type {Event} from '../content-model/event';
+import type {Event} from '../content-model/events';
 import {wellcomeCollection, wellcomeCollectionAddress} from '../model/organization';
 
 export function objToJsonLd<T>(obj: T, type: string, root: boolean = true) {
@@ -91,8 +91,8 @@ export function eventLd(event: Event) {
       name: 'Wellcome Collection',
       address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
     },
-    startDate: event.dates.map(range => range.start),
-    endDate: event.dates.map(range => range.end),
+    startDate: event.times.map(range => range.startDateTime),
+    endDate: event.times.map(range => range.endDateTime),
     description: event.description,
     image: event.featuredImage && event.featuredImage.contentUrl
   }, 'Event');
