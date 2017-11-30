@@ -213,7 +213,7 @@ babel-core@^6.26.0:
     slash "^1.0.0"
     source-map "^0.5.6"
 
-babel-generator@^6.21.0, babel-generator@^6.26.0:
+babel-generator@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-generator/-/babel-generator-6.26.0.tgz#ac1ae20070b79f6e3ca1d3269613053774f20dc5"
   dependencies:
@@ -346,17 +346,6 @@ babel-plugin-check-es2015-constants@^6.22.0:
   resolved "https://registry.yarnpkg.com/babel-plugin-check-es2015-constants/-/babel-plugin-check-es2015-constants-6.22.0.tgz#35157b101426fd2ffd3da3f75c7d1e91835bbf8a"
   dependencies:
     babel-runtime "^6.22.0"
-
-babel-plugin-flow-runtime@^0.15.0:
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-flow-runtime/-/babel-plugin-flow-runtime-0.15.0.tgz#fb2b427a75c1ba1cef7f0ee52111fdb8c265b992"
-  dependencies:
-    babel-generator "^6.21.0"
-    babel-traverse "^6.20.0"
-    babel-types "^6.16.0"
-    babylon "^6.16.1"
-    camelcase "^3.0.0"
-    flow-config-parser "^0.3.0"
 
 babel-plugin-module-resolver@^3.0.0:
   version "3.0.0"
@@ -660,7 +649,7 @@ babel-template@^6.24.1, babel-template@^6.26.0:
     babylon "^6.18.0"
     lodash "^4.17.4"
 
-babel-traverse@^6.20.0, babel-traverse@^6.24.1, babel-traverse@^6.26.0:
+babel-traverse@^6.24.1, babel-traverse@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-traverse/-/babel-traverse-6.26.0.tgz#46a9cbd7edcc62c8e5c064e2d2d8d0f4035766ee"
   dependencies:
@@ -674,7 +663,7 @@ babel-traverse@^6.20.0, babel-traverse@^6.24.1, babel-traverse@^6.26.0:
     invariant "^2.2.2"
     lodash "^4.17.4"
 
-babel-types@^6.16.0, babel-types@^6.19.0, babel-types@^6.24.1, babel-types@^6.26.0:
+babel-types@^6.19.0, babel-types@^6.24.1, babel-types@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-types/-/babel-types-6.26.0.tgz#a3b073f94ab49eb6fa55cd65227a334380632497"
   dependencies:
@@ -683,7 +672,7 @@ babel-types@^6.16.0, babel-types@^6.19.0, babel-types@^6.24.1, babel-types@^6.26
     lodash "^4.17.4"
     to-fast-properties "^1.0.3"
 
-babylon@^6.16.1, babylon@^6.18.0:
+babylon@^6.18.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.18.0.tgz#af2f3b88fa6f5c1e4c634d1a0f8eac4f55b395e3"
 
@@ -1385,14 +1374,6 @@ find-up@^2.0.0, find-up@^2.1.0:
   resolved "https://registry.yarnpkg.com/find-up/-/find-up-2.1.0.tgz#45d1b7e506c717ddd482775a2b77920a3c0c57a7"
   dependencies:
     locate-path "^2.0.0"
-
-flow-config-parser@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/flow-config-parser/-/flow-config-parser-0.3.0.tgz#704916efba88cd2518ab4d8f933079571276138f"
-
-flow-runtime@^0.16.0:
-  version "0.16.0"
-  resolved "https://registry.yarnpkg.com/flow-runtime/-/flow-runtime-0.16.0.tgz#6da4aac36b8e26ea2dc80b38395ebecbfcb5a535"
 
 for-in@^1.0.1:
   version "1.0.2"

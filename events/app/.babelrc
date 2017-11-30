@@ -7,14 +7,12 @@
     }]
   ],
   "plugins": [
-    ["flow-runtime", {
-      "assert": false
-    }],
     ["module-resolver", {
       "root": ["./"],
       "alias": {
         "common": "../../server"
       }
-    }]
+    }],
+    "transform-flow-strip-types"
   ]
 }

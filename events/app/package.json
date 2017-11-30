@@ -1,17 +1,17 @@
 {
   "scripts": {
     "app:build": "webpack",
-    "app:dev": "../../node_modules/.bin/nodemon -e js,njk,json --config ../../nodemon.json --exec babel-node --inspect=4002 app.js"
+    "app:dev": "../../node_modules/.bin/concurrently 'yarn app:dev-flow' 'yarn app:dev-babel'",
+    "app:dev-babel": "../../node_modules/.bin/nodemon --config ../../nodemon.json --exec babel-node --inspect=4002 app.js",
+    "app:dev-flow": "../../node_modules/.bin/flow-watch"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
     "babel-loader": "^7.1.2",
-    "babel-plugin-flow-runtime": "^0.15.0",
     "babel-plugin-module-resolver": "^3.0.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-env": "^1.6.1",
     "copy-webpack-plugin": "^4.2.3",
-    "flow-runtime": "^0.16.0",
     "immutable": "^3.8.2",
     "koa-router": "^7.3.0",
     "mkdirp": "^0.5.1",

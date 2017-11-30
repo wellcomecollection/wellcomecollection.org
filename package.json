@@ -22,13 +22,15 @@
   "homepage": "https://github.com/wellcometrust/wellcomecollection.org#readme",
   "devDependencies": {
     "babel-eslint": "^8.0.0",
+    "concurrently": "^3.5.1",
     "eslint": "^4.8.0",
     "eslint-config-wellcome": "^1.0.8",
     "eslint-plugin-flowtype": "^2.37.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-standard": "^3.0.1",
+    "flow-bin": "^0.59.0",
+    "flow-watch": "^1.1.1",
     "husky": "^0.14.0",
     "nodemon": "^1.12.1"
-  },
-  "dependencies": {}
+  }
 }
