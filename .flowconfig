@@ -1,0 +1,17 @@
+[ignore]
+.*/.dist/.*
+.*/node_modules/.*
+💩 We have a separate flow task for this for the time being
+<PROJECT_ROOT>/server/.*
+
+[include]
+
+
+[libs]
+
+[lints]
+
+[options]
+
+
+[strict]
