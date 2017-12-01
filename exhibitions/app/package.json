@@ -1,8 +1,9 @@
 {
   "scripts": {
     "app:build": "webpack",
-    "app:dev": "../../node_modules/.bin/nodemon -e js,njk,json --config ../../nodemon.json --exec ../../node_modules/.bin/babel-node --inspect=4001 app.js",
-    "test": "ava"
+    "app:dev": "../../node_modules/.bin/concurrently 'yarn app:dev-flow' 'yarn app:dev-babel'",
+    "app:dev-babel": "../../node_modules/.bin/nodemon -e js,njk,json --config ../../nodemon.json --exec ../../node_modules/.bin/babel-node --inspect=4002 app.js",
+    "app:dev-flow": "../../node_modules/.bin/flow-watch"
   },
   "dependencies": {
     "ava": "^0.24.0",
