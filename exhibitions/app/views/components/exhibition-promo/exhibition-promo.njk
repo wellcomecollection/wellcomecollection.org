@@ -19,7 +19,9 @@
           </span>
           <span>{{ dateMessageAndColor.text }}</span>
         </span>
-        <p><time datetime="{{model.start}}">{{ model.start | formatDate }}</time> &mdash; <time datetime="{{model.end}}">{{ model.end | formatDate }}</time></p>
+        {% if model.start and model.end %}
+          <p><time datetime="{{model.start}}">{{ model.start | formatDate }}</time> &mdash; <time datetime="{{model.end}}">{{ model.end | formatDate }}</time></p>
+        {% endif %}
     </div>
     <span class="promo__copy">{{ model.description | striptags | safe }}</span>
   </div>
