@@ -87,9 +87,12 @@ async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request):
 export async function renderExhibitionsList(ctx, next) {
   const page = Number(ctx.request.query.page);
   const allExhibitions = await getExhibitions(page);
+  const currentPage = allExhibitions && allExhibitions.page;
   const pageSize = allExhibitions && allExhibitions.results_per_page;
   const totalResults = allExhibitions && allExhibitions.total_results_size;
+  const totalPages = allExhibitions && allExhibitions.total_pages;
   const pagination = PaginationFactory.fromList(List(allExhibitions.results), parseInt(totalResults, 10) || 1, parseInt(page, 10) || 1, pageSize || 1, ctx.query);
+  const moreLink = totalPages === 1 || currentPage === totalPages ? '/exhibitions/past' : null;
   const exhibitionPromos = allExhibitions.results.map((e):ExhibitionPromo => {
     return {
       id: e.id,
@@ -119,6 +122,7 @@ export async function renderExhibitionsList(ctx, next) {
       canonicalUri: '/exhibitions'
     }),
     allExhibitions: permanentExhibitionPromos.concat(temporaryExhibitionPromos),
+    moreLink,
     pagination
   });
 

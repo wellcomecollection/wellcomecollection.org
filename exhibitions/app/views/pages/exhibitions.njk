@@ -74,15 +74,20 @@
     </div>
   </div>
 
-  {% if pagination.pageCount > 1  %}
-    <div class="row {{ {s:2, m:2, l:2} | spacingClasses({padding: ['top']}) }} {{ {s:3, m:3, l:3} | spacingClasses({padding: ['bottom']}) }} ">
-      <div class="container">
-        <div class="grid">
-          <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
-            {% componentV2 'pagination', pagination %}
-          </div>
-        </div>
+  <div class="row {{ {s:2, m:2, l:2} | spacingClasses({padding: ['top']}) }} {{ {s:3, m:3, l:3} | spacingClasses({padding: ['bottom']}) }} ">
+    <div class="container">
+      <div class="grid">
+          {% if pagination.pageCount > 1  %}
+            <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}"  style="text-align: right">
+              {% componentV2 'pagination', pagination %}
+            </div>
+          {% endif %}
+          {% if moreLink %}
+            <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }}"  style="text-align: right">
+              <a href="{{moreLink}}">More exhibitions from the archive</a>
+            </div>
+          {% endif %}
       </div>
     </div>
-  {% endif %}
+  </div>
 {% endblock %}
