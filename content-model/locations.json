@@ -1,0 +1,23 @@
+{
+  "Location" : {
+    "title" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : "heading1",
+        "label" : "title"
+      }
+    },
+    "geolocation" : {
+      "type" : "GeoPoint",
+      "config" : {
+        "label" : "Geo point"
+      }
+    },
+    "level" : {
+      "type" : "Number",
+      "config" : {
+        "label" : "level"
+      }
+    }
+  }
+}
