@@ -15,9 +15,11 @@
 {% endblock %}
 
 {% block body %}
-
   <script type="application/ld+json">
-    {# TODO: add JSON+LD #}
+    [{% for event in allEvents %}
+      {{ event | jsonLd('eventLd') | safe }}
+      {{ ',' if not loop.last }}
+    {% endfor %}]
   </script>
 
   <div class="row {{ {s:4, m:4, l:4} | spacingClasses({padding: ['top']}) }} ">
