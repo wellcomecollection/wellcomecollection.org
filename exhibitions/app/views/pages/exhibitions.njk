@@ -15,7 +15,6 @@
 {% endblock %}
 
 {% block body %}
-
   <script type="application/ld+json">
     [{% for exhibition in allExhibitions %}
       {% set featuredImage = {contentUrl: exhibition.image.contentUrl} %}
@@ -23,16 +22,49 @@
       {% set exhib = exhibition | objectAssign({start: startDate, safeDescription: exhibition.description | safe | striptags, featuredImage: featuredImage}) %}
       {{ exhib | jsonLd('exhibitionLd') | safe }}{{ ',' if not loop.last }}
     {% endfor %}]
-</script>
+  </script>
 
-  <div class="row {{ {s:4, m:4, l:4} | spacingClasses({padding: ['top']}) }} ">
+  <div class="row bg-cream  {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top']}) }} }}">
     <div class="container">
       <div class="grid">
-        {# <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
-          <h2 class="{{ {s:'WB5', m:'WB4', l:'WB3'} | fontClasses }}">Temporary Exhibitions</h2>
-        </div> #}
-          {% for exhibition in temporaryExhibitions %}
-            <div class="{{ {s: 12, m: 6} | gridClasses }}">
+        <div class="grid__cell">
+          <h1 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0, m:0, l:0} | spacingClasses({margin: ['top']}) }} {{ {s:0, m:0, l:0} | spacingClasses({margin: ['bottom']}) }}">Exhibitions</h1>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="{{ {s: 12, m: 12, l: 8} | gridClasses }}">
+          <p class="{{ {s:2, m:2, l:2} | spacingClasses({margin: ['top']}) }} {{ {s:0, m:0, l:0} | spacingClasses({margin: ['bottom']}) }}">Exhibitions at Wellcome Collection</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="grid__cell">
+          <p class="font-pewter {{ {s:'LR3', m:'LR2'} | fontClasses }} {{ {s:2, m:2, l:2} | spacingClasses({margin: ['top']}) }} {{ {s:2, m:2, l:2} | spacingClasses({margin: ['bottom']}) }}">{{ pagination.total }} exhibitions</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:12, m:12, l:12} | gridClasses }}">
+          <div class="{{ {s:5, m:5, l:5} | spacingClasses({padding: ['top']}) }}  {{ {s:5, m:5, l:5} | spacingClasses({padding: ['bottom']}) }} flex flex--v-center font-pewter {{ {s:'LR3', m:'LR2'} | fontClasses }}">
+            {{ pagination.range.beginning }} - {{ pagination.range.end }}
+          </div>
+        </div>
+      </div>
+      {% componentV2 'divider', null, {'keyline': true, 'pumice': true} %}
+    </div>
+  </div>
+
+  <div class="row {{ {s:4} | spacingClasses({padding: ['top']}) }} ">
+    <div class="container">
+      <div class="grid">
+          {% for exhibition in allExhibitions %}
+            <div class="{{ {s: 12, m: 6, l: 6, xl: 6} | gridClasses }}">
               {% componentV2 'exhibition-promo', exhibition %}
             </div>
           {% endfor %}
@@ -40,18 +72,16 @@
       </div>
     </div>
   </div>
-  <div class="row bg-cream {{ {s:4, m:4, l:4} | spacingClasses({padding: ['top']}) }} ">
-    <div class="container">
-      <div class="grid">
-        {# <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
-          <h2 class="{{ {s:'WB5', m:'WB4', l:'WB3'} | fontClasses }}">Permanent Exhibitions</h2>
-        </div> #}
-        {% for exhibition in permanentExhibitions %}
-          <div class="{{ {s: 12, m: 6} | gridClasses }}">
-            {% componentV2 'exhibition-promo', exhibition %}
+
+  {% if pagination.pageCount > 0  %}
+    <div class="row {{ {s:2, m:2, l:2} | spacingClasses({padding: ['top']}) }} {{ {s:3, m:3, l:3} | spacingClasses({padding: ['bottom']}) }} ">
+      <div class="container">
+        <div class="grid">
+          <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
+            {% componentV2 'pagination', pagination %}
           </div>
-        {% endfor %}
+        </div>
       </div>
     </div>
-  </div>
+  {% endif %}
 {% endblock %}

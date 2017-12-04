@@ -3,7 +3,7 @@ import {model, services, Prismic, prismicParsers, List} from 'common';
 const {createPageConfig, PaginationFactory} = model;
 const {getPrismicApi} = services;
 const {parsePromoListItem, parseExhibitionsDoc, prismicImage, asText} = prismicParsers;
-import type {ExhibitionPromo} from '/model/exhibitionPromo';
+import type {ExhibitionPromo} from '../model/exhibition-promo';
 
 export async function renderExhibition(ctx, next) {
   const id = `${ctx.params.id}`;
