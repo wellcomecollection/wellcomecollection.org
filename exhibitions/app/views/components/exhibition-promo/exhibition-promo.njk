@@ -11,7 +11,6 @@
   <div class="promo__description font-HNL5-s">
     <div class="promo__heading">
       <h2 class="promo__title font-WB6-s">{{ model.title }}</h2>
-      {% if model.start and model.end %}
         <span class="flex flex--v-center {{ {s:'HNM4'} | fontClasses }}">
           {% set dateMessageAndColor = {start: model.start, end: model.end} | formatDateRangeWithMessage %}
           <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
@@ -21,7 +20,6 @@
           <span>{{ dateMessageAndColor.text }}</span>
         </span>
         <p><time datetime="{{model.start}}">{{ model.start | formatDate }}</time> &mdash; <time datetime="{{model.end}}">{{ model.end | formatDate }}</time></p>
-      {% endif %}
     </div>
     <span class="promo__copy">{{ model.description | striptags | safe }}</span>
   </div>

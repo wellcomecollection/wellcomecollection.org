@@ -97,16 +97,16 @@ export async function renderExhibitionsList(ctx, next) {
       title: asText(e.data.title),
       image: prismicImage(e.data.promo[0].primary.image),
       description: asText(e.data.promo[0].primary.caption),
-      start: e.data.start,
+      start: e.data.start ? e.data.start : '2007-06-21T00:00:00+0000',
       end: e.data.end
     };
   });
 
   const permanentExhibitionPromos = exhibitionPromos.filter((e) => {
-    return !e.start;
+    return !e.end;
   });
   const temporaryExhibitionPromos = exhibitionPromos.filter((e) => {
-    return e.start;
+    return e.end;
   });
 
   ctx.render('pages/exhibitions', {
@@ -118,9 +118,7 @@ export async function renderExhibitionsList(ctx, next) {
       contentType: 'listing',
       canonicalUri: '/exhibitions'
     }),
-    permanentExhibitions: permanentExhibitionPromos,
-    temporaryExhibitions: temporaryExhibitionPromos,
-    allExhibitions: exhibitionPromos,
+    allExhibitions: permanentExhibitionPromos.concat(temporaryExhibitionPromos),
     pagination
   });
 

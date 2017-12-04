@@ -18,8 +18,7 @@
   <script type="application/ld+json">
     [{% for exhibition in allExhibitions %}
       {% set featuredImage = {contentUrl: exhibition.image.contentUrl} %}
-      {% set startDate = exhibition.start if exhibition.start else '2007-06-21T00:00:00+0000' %}
-      {% set exhib = exhibition | objectAssign({start: startDate, safeDescription: exhibition.description | safe | striptags, featuredImage: featuredImage}) %}
+      {% set exhib = exhibition | objectAssign({safeDescription: exhibition.description | safe | striptags, featuredImage: featuredImage}) %}
       {{ exhib | jsonLd('exhibitionLd') | safe }}{{ ',' if not loop.last }}
     {% endfor %}]
   </script>
@@ -59,7 +58,6 @@
       {% componentV2 'divider', null, {'keyline': true, 'pumice': true} %}
     </div>
   </div>
-
   <div class="row {{ {s:4} | spacingClasses({padding: ['top']}) }} ">
     <div class="container">
       <div class="grid">
