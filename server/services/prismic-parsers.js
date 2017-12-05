@@ -42,8 +42,12 @@ export function parseEventDoc(doc: PrismicDoc): Event {
 
   const locations = doc.data.locations.map(location => {
     return ({
+      id: location.location.id,
       title: asText(location.location.data.title),
-      geolocation: location.location.data.geolocation,
+      geolocation: {
+        latitude: location.location.data.geolocation.latitude,
+        longitude: location.location.data.geolocation.longitude
+      },
       level: location.location.data.level
     }: EventLocation);
   });

@@ -46,9 +46,15 @@ export type EventBookingEnquiryTeam = {|
   url: string;
 |}
 
+type Geolocation = {|
+  latitude: number;
+  longitude: number;
+|}
+
 export type EventLocation = {|
+  id: string;
   title: string;
-  geolocation: string;
+  geolocation: Geolocation;
   level: number;
 |}
 
@@ -138,11 +144,15 @@ export const eventExample = ({
       contributors: []
     }
   ],
-  buildingLocation: {
+  locations: [{
     id: 'WdTMsycAAL20UYr1',
     title: 'Williams Lounge',
-    level: -1
-  },
+    level: -1,
+    geolocation: {
+      latitude: 51.52585053479689,
+      longitude: -0.13394683599472046
+    }
+  }],
   bookingEnquiryTeam: {
     id: 'WcK-SisAAC1_BCxg',
     title: 'Access events',
