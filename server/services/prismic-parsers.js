@@ -2,7 +2,10 @@
 import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
-import type {DateTimeRange, Event, EventFormat, Contributor, EventBookingEnquiryTeam} from '../content-model/events';
+import type {
+  DateTimeRange, Event, EventFormat, Contributor, EventBookingEnquiryTeam,
+  EventLocation
+} from '../content-model/events';
 import getBreakpoint from '../filters/get-breakpoint';
 import {parseBody} from './prismic-body-parser';
 import type {ImagePromo} from '../content-model/content-blocks';
@@ -21,12 +24,14 @@ type PrismicDocFragment = Object | Array<any>;
 export function parseEventDoc(doc: PrismicDoc): Event {
   const contributors: Array<Contributor> = parseContributors(doc.data.contributors).toArray();
   const promo = parseImagePromo(doc.data.promo);
+
   const times: Array<DateTimeRange> = doc.data.times.map(date => {
     return ({
       startDateTime: new Date(date.startDateTime),
       endDateTime: new Date(date.endDateTime)
     }: DateTimeRange);
   });
+
   const bookingEnquiryTeam = doc.data.bookingEnquiryTeam.data && ({
     id: doc.data.bookingEnquiryTeam.id,
     title: asText(doc.data.bookingEnquiryTeam.data.title),
@@ -34,6 +39,14 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     phone: doc.data.bookingEnquiryTeam.data.phone,
     url: doc.data.bookingEnquiryTeam.data.url
   }: EventBookingEnquiryTeam);
+
+  const locations = doc.data.locations.map(location => {
+    return ({
+      title: asText(location.location.data.title),
+      geolocation: location.location.data.geolocation,
+      level: location.location.data.level
+    }: EventLocation)
+  });
 
   const e = ({
     id: doc.id,
@@ -51,7 +64,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     contributors: contributors,
     promo: promo,
     series: [],
-    buildingLocation: null
+    locations: locations
   }: Event);
 
   return e;
@@ -258,7 +271,11 @@ export function parseImagePromo(doc: ?PrismicDocFragment): ?ImagePromo {
   const maybePromo = doc && doc.find(slice => slice.slice_type === 'editorialImage');
   return maybePromo && ({
     caption: asText(maybePromo.primary.caption),
-    image: parsePicture({image: maybePromo.primary.image})
+    image: parsePicture({
+      image:
+        // We introduced enforcing 16:9 half way through, so we have to do a check for it.
+        maybePromo.primary.image['16:9'] || maybePromo.primary.image
+    })
   }: ImagePromo);
 }
 

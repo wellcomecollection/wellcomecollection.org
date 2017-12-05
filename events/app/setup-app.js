@@ -5,7 +5,7 @@ import {renderEvent} from './controllers';
 
 const r = new Router({ sensitive: true });
 
-r.get('/:preview(preview)?/ev/:id', renderEvent);
+r.get('/events/:id/:preview(preview)?', renderEvent);
 
 const router = r.middleware();
 const staticPath = path.join(__dirname, '../../dist');

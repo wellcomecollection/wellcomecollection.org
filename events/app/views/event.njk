@@ -16,4 +16,70 @@
 <script type="application/ld+json">
   {{ event | jsonLd('eventLd') | safe }}
 </script>
+<div class="row">
+  <div class="container {{ {s:2} | spacingClasses({margin: ['top']}) }}">
+    {% componentV2 'tags', tags %}
+  </div>
+</div>
+
+<div class="row">
+  <div>
+    {% if event.promo.image %}
+      {% componentV2 'image', event.promo.image, [], { lazyload: true } %}
+    {% endif %}
+  </div>
+  <div class="container relative {{ {s: -4} | spacingClasses({margin: ['top']}) }}">
+    <div class="bg-cream rounded-diagonal {{ {s: 4} | spacingClasses({padding: ['top', 'bottom', 'left', 'right']}) }}">
+      <div class="{{ {s:'HNM4'} | fontClasses }}">
+        {{ event.format.title }}
+      </div>
+
+      <div class="{{ {s:'WB4'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['top']}) }}">
+        {{ event.title }}
+      </div>
+
+      <div class="flex flex--v-center {{ {s:'HNM4'} | fontClasses }}">
+        <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon 'other/ticket' %}</span>
+        <span class="caps {{ {s: 1} | spacingClasses({padding: ['right']}) }}">Free</span>
+        <span class="border-left-width-1 border-color-silver {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
+          Enquire to book
+        </span>
+      </div>
+
+      <div class="{{ {s: 1} | spacingClasses({margin: ['top']}) }}">
+        {% for dateRange in event.times %}
+          <div class="flex">
+            {% set formattedDateRange = dateRange.startDateTime | formatAndDedupeOnDate(dateRange.endDateTime) %}
+            <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon 'other/calendar' %}</span>
+            <div>
+              <time class="block {{ {s:'HNM4'} | fontClasses }}">
+                {{ formattedDateRange | joinDateStrings }}
+              </time>
+              {% if (formattedDateRange.size === 1) %}
+                <time class="block {{ {s:'HNL4'} | fontClasses }}">{{ dateRange.startDateTime | formatAndDedupeOnTime(dateRange.endDateTime) | joinDateStrings }}</time>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="{{ {s: 1} | spacingClasses({margin: ['top']}) }} {{ {s:'HNM4'} | fontClasses }}">
+        <div class="flex {{ {s:'HNM4'} | fontClasses }}">
+          <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon 'other/location' %}</span>
+          <div>
+            {% for location in event.locations %}
+              <div>{{ location.title }}</div>
+              <div>level / floor: {{ location.level }}</div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+
+  </div>
+</div>
 {% endblock %}

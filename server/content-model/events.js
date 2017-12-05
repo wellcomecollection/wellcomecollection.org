@@ -46,9 +46,10 @@ export type EventBookingEnquiryTeam = {|
   url: string;
 |}
 
-type BuildingLocation = {|
-  id: string;
+
+export type EventLocation = {|
   title: string;
+  geolocation: string;
   level: number;
 |}
 
@@ -61,7 +62,7 @@ export type Event = {|
   accessOptions: Array<EventAccessOption>;
   series: Array<EventSeries>;
   // TODO: Not sure if to generify this into location? Potentially have both fields?
-  buildingLocation: ?BuildingLocation;
+  locations: Array<EventLocation>;
   bookingEnquiryTeam: ?EventBookingEnquiryTeam;
   contributors: Array<Contributor>;
   promo: ?ImagePromo;
