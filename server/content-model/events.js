@@ -46,7 +46,6 @@ export type EventBookingEnquiryTeam = {|
   url: string;
 |}
 
-
 export type EventLocation = {|
   title: string;
   geolocation: string;

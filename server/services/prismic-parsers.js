@@ -45,7 +45,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
       title: asText(location.location.data.title),
       geolocation: location.location.data.geolocation,
       level: location.location.data.level
-    }: EventLocation)
+    }: EventLocation);
   });
 
   const e = ({
