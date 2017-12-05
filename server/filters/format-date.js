@@ -47,7 +47,9 @@ function getRelativeTime({start, end}: {start: Date, end: Date}): {} {
 export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date}): {text: string, color: string} {
   const relativeTime = getRelativeTime({start, end});
 
-  if (relativeTime.isFuture) {
+  if (end === null) {
+    return {text: 'Permanent exhibition', color: 'mint'};
+  } else if (relativeTime.isFuture) {
     return {text: 'Coming soon', color: 'cotton-seed'};
   } else if (relativeTime.isPast) {
     return {text: 'Past exhibition', color: 'cotton-seed'};
