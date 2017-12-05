@@ -1,0 +1,36 @@
+{% extends 'layout/default.njk' %}
+
+{% block pageMeta %}
+  {% set metaContent = {
+    type: 'website',
+    title: 'Events',
+    image: allEvents[0].image.contentUrl,
+    url: pageConfig.canonicalUri,
+    description: 'Past and present events at Wellcome Collection'
+  } %}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
+
+ <meta name="description" content="{{ metaContent.description }}" />
+{% endblock %}
+
+{% block body %}
+  <script type="application/ld+json">
+    [{% for event in allEvents %}
+      {{ event | jsonLd('eventLd') | safe }}
+      {{ ',' if not loop.last }}
+    {% endfor %}]
+  </script>
+
+  <div class="row {{ {s:4, m:4, l:4} | spacingClasses({padding: ['top']}) }} ">
+    <div class="container">
+      <div class="grid">
+        {% for event in allEvents %}
+          <div class="{{ {s: 12, m: 6} | gridClasses }}">
+            {% componentV2 'event-promo', event %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

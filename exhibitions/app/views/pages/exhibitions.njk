@@ -1,0 +1,93 @@
+{% extends 'layout/default.njk' %}
+
+{% block pageMeta %}
+  {% set metaContent = {
+    type: 'website',
+    title: 'Exhibitions',
+    image: temporaryExhibitions[0].image.contentUrl,
+    url: pageConfig.canonicalUri,
+    description: 'Past and present exhibitions at Wellcome Collection'
+  } %}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
+
+  <meta name="description" content="{{ metaContent.description }}" />
+{% endblock %}
+
+{% block body %}
+  <script type="application/ld+json">
+    [{% for exhibition in allExhibitions %}
+      {% set featuredImage = {contentUrl: exhibition.image.contentUrl} %}
+      {% set exhib = exhibition | objectAssign({safeDescription: exhibition.description | safe | striptags, featuredImage: featuredImage}) %}
+      {{ exhib | jsonLd('exhibitionLd') | safe }}{{ ',' if not loop.last }}
+    {% endfor %}]
+  </script>
+
+  <div class="row bg-cream  {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top']}) }} }}">
+    <div class="container">
+      <div class="grid">
+        <div class="grid__cell">
+          <h1 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0, m:0, l:0} | spacingClasses({margin: ['top']}) }} {{ {s:0, m:0, l:0} | spacingClasses({margin: ['bottom']}) }}">Exhibitions</h1>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="{{ {s: 12, m: 12, l: 8} | gridClasses }}">
+          <p class="{{ {s:2, m:2, l:2} | spacingClasses({margin: ['top']}) }} {{ {s:0, m:0, l:0} | spacingClasses({margin: ['bottom']}) }}">Exhibitions at Wellcome Collection</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="grid__cell">
+          <p class="font-pewter {{ {s:'LR3', m:'LR2'} | fontClasses }} {{ {s:2, m:2, l:2} | spacingClasses({margin: ['top']}) }} {{ {s:2, m:2, l:2} | spacingClasses({margin: ['bottom']}) }}">{{ pagination.total }} exhibitions</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  {% if pagination.pageCount > 1  %}
+  <div class="row">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:12, m:12, l:12} | gridClasses }}">
+          <div class="{{ {s:5, m:5, l:5} | spacingClasses({padding: ['top']}) }}  {{ {s:5, m:5, l:5} | spacingClasses({padding: ['bottom']}) }} flex flex--v-center font-pewter {{ {s:'LR3', m:'LR2'} | fontClasses }}">
+            {{ pagination.range.beginning }} - {{ pagination.range.end }}
+          </div>
+        </div>
+      </div>
+      {% componentV2 'divider', null, {'keyline': true, 'pumice': true} %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="row {{ {s:4} | spacingClasses({padding: ['top']}) }} ">
+    <div class="container">
+      <div class="grid">
+          {% for exhibition in allExhibitions %}
+            <div class="{{ {s: 12, m: 6, l: 6, xl: 6} | gridClasses }}">
+              {% componentV2 'exhibition-promo', exhibition %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row {{ {s:2, m:2, l:2} | spacingClasses({padding: ['top']}) }} {{ {s:3, m:3, l:3} | spacingClasses({padding: ['bottom']}) }} ">
+    <div class="container">
+      <div class="grid">
+          {% if pagination.pageCount > 1  %}
+            <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}"  style="text-align: right">
+              {% componentV2 'pagination', pagination %}
+            </div>
+          {% endif %}
+          {% if moreLink %}
+            <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }}"  style="text-align: right">
+              <a href="{{moreLink}}">More exhibitions from the archive</a>
+            </div>
+          {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -68,6 +68,15 @@ export type Event = {|
   promo: ?ImagePromo;
 |}
 
+// TODO: this will need more as the promo gets fleshed out
+export type EventPromo = {|
+  id: string;
+  title: ?string;
+  start: DateTimeRange;
+  end: DateTimeRange;
+  description: ?HTMLString;
+|}
+
 export const eventExample = ({
   id: 'WXmdTioAAJWWjZdH',
   title: 'Haitian Vodou Ritual',
