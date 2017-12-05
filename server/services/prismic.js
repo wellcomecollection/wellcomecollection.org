@@ -1,3 +1,4 @@
+// @flow
 import Prismic from 'prismic-javascript';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import {
@@ -8,8 +9,11 @@ import {
   prismicImage,
   getPositionInPrismicSeries
 } from './prismic-parsers';
-import type {Article} from '../model/article';
 import {List} from 'immutable';
+import type {PaginatedResults} from '../model/paginated-results';
+import type {Article} from '../model/article';
+import type {ExhibitionPromo} from '../model/exhibition-promo';
+import {PaginationFactory} from '../model/pagination';
 
 type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
 
@@ -62,14 +66,6 @@ export async function getEvent(id: string, previewReq: ?Request): Promise<?Event
 
   return parseEventDoc(event);
 }
-
-type PaginatedResults = {|
-  currentPage: number,
-  results: List<Article>,
-  pageSize: number,
-  totalResults: number,
-  totalPages: number
-|};
 
 export async function getArticleList(page = 1, {pageSize = 10, predicates = []} = {}) {
   const fetchLinks = [
@@ -140,7 +136,7 @@ export async function getArticleSeries(seriesId) {
   }, {items: List(scheduleItems)}, {id: seriesId});
 }
 
-export async function getSeriesAndArticles(id: string, page = 1) {
+export async function getSeriesAndArticles(id: string, page: number = 1) {
   const paginatedResults = await getArticleList(page, {
     predicates: [Prismic.Predicates.at('my.articles.series.series', id)]
   });
@@ -167,3 +163,79 @@ export async function getCuratedList(id: string) {
 
   return curatedList;
 }
+
+async function getExhibitions(page:number = 1, pageSize:number = 40): Promise<any> {
+  const prismic = await getPrismicApi();
+  const exhibitionsList = await prismic.query([
+    Prismic.Predicates.any('document.type', ['exhibitions'])
+  ], { orderings: '[my.exhibitions.start desc]', page, pageSize });
+  return exhibitionsList;
+}
+
+async function createPromos(allResults, type) {
+  switch (type) {
+    case 'exhibition':
+      return await createExhibitionPromos(allResults);
+    // case 'event':
+    //   return await getEvents(page);
+  }
+}
+
+async function createExhibitionPromos(allResults: Object): Promise<List<ExhibitionPromo>> {
+  const allPromos = allResults.results.map((e):ExhibitionPromo => {
+    return {
+      id: e.id,
+      url: `/exhibitions/${e.id}`,
+      title: asText(e.data.title),
+      image: prismicImage(e.data.promo[0].primary.image),
+      description: asText(e.data.promo[0].primary.caption),
+      start: e.data.start ? e.data.start : '2007-06-21T00:00:00+0000',
+      end: e.data.end
+    };
+  });
+
+  const permanentPromos = allPromos.filter((e) => {
+    return !e.end;
+  });
+
+  const temporaryPromos = allPromos.filter((e) => {
+    return e.end;
+  });
+
+  return permanentPromos.concat(temporaryPromos);
+}
+
+async function getResults(page: number, type: string): Promise<any> { // TODO make type its own enumerable thing}
+  switch (type) {
+    case 'exhibition':
+      return await getExhibitions(page);
+    // case 'event':
+    //   return await getEvents(page);
+  }
+}
+
+export async function getPaginatedResults(page: number, type: string): Promise<PaginatedResults> { // TODO make type its
+  const allResults = await getResults(page, 'exhibition');
+  const currentPage = allResults && allResults.page;
+  const pageSize = allResults && allResults.results_per_page;
+  const totalResults = allResults && allResults.total_results_size;
+  const totalPages = allResults && allResults.total_pages;
+  const pagination = PaginationFactory.fromList(List(allResults.results), parseInt(totalResults, 10) || 1, parseInt(page, 10) || 1, pageSize || 1);
+
+  const promos = await createPromos(allResults, type);
+
+  return {
+    currentPage,
+    totalPages,
+    results: promos,
+    pagination
+  };
+}
+
+// export async function getEvents() {
+
+// }
+
+// export async function createEventsPromos() {
+
+// }

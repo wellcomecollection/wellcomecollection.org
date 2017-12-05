@@ -15,8 +15,8 @@
 {% endblock %}
 
 {% block body %}
-  <script type="application/ld+json">
-    [{% for exhibition in allExhibitions %}
+   <script type="application/ld+json">
+    [{% for exhibition in exhibitionsList.results %}
       {% set featuredImage = {contentUrl: exhibition.image.contentUrl} %}
       {% set exhib = exhibition | objectAssign({safeDescription: exhibition.description | safe | striptags, featuredImage: featuredImage}) %}
       {{ exhib | jsonLd('exhibitionLd') | safe }}{{ ',' if not loop.last }}
@@ -46,13 +46,13 @@
     </div>
   </div>
 
-  {% if pagination.pageCount > 1  %}
+  {% if exhibitionsList.pagination.pageCount > 1  %}
   <div class="row">
     <div class="container">
       <div class="grid">
         <div class="{{ {s:12, m:12, l:12} | gridClasses }}">
           <div class="{{ {s:5, m:5, l:5} | spacingClasses({padding: ['top']}) }}  {{ {s:5, m:5, l:5} | spacingClasses({padding: ['bottom']}) }} flex flex--v-center font-pewter {{ {s:'LR3', m:'LR2'} | fontClasses }}">
-            {{ pagination.range.beginning }} - {{ pagination.range.end }}
+            {{ exhibitionsList.pagination.range.beginning }} - {{ exhibitionsList.pagination.range.end }}
           </div>
         </div>
       </div>
@@ -64,7 +64,7 @@
   <div class="row {{ {s:4} | spacingClasses({padding: ['top']}) }} ">
     <div class="container">
       <div class="grid">
-          {% for exhibition in allExhibitions %}
+          {% for exhibition in exhibitionsList.results %}
             <div class="{{ {s: 12, m: 6, l: 6, xl: 6} | gridClasses }}">
               {% componentV2 'exhibition-promo', exhibition %}
             </div>
@@ -77,14 +77,14 @@
   <div class="row {{ {s:2, m:2, l:2} | spacingClasses({padding: ['top']}) }} {{ {s:3, m:3, l:3} | spacingClasses({padding: ['bottom']}) }} ">
     <div class="container">
       <div class="grid">
-          {% if pagination.pageCount > 1  %}
+          {% if exhibitionsList.pagination.pageCount > 1  %}
             <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}"  style="text-align: right">
-              {% componentV2 'pagination', pagination %}
+              {% componentV2 'pagination', exhibitionsList.pagination %}
             </div>
           {% endif %}
-          {% if moreLink %}
+          {% if exhibitionsList.currentPage === exhibitionsList.totalPages %}
             <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }}"  style="text-align: right">
-              <a href="{{moreLink}}">More exhibitions from the archive</a>
+              <a href="/exhibitions/past">More exhibitions from the archive</a>
             </div>
           {% endif %}
       </div>

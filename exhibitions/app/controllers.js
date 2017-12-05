@@ -1,9 +1,12 @@
 // @flow
-import {model, services, Prismic, prismicParsers, List} from 'common';
-const {createPageConfig, PaginationFactory} = model;
-const {getPrismicApi} = services;
-const {parsePromoListItem, parseExhibitionsDoc, prismicImage, asText} = prismicParsers;
-import type {ExhibitionPromo} from '../model/exhibition-promo';
+import {model, prismic} from 'common';
+const {createPageConfig} = model;
+const {
+  getPrismicApi,
+  getPaginatedResults,
+  parsePromoListItem,
+  parseExhibitionsDoc
+} = prismic;
 
 export async function renderExhibition(ctx, next) {
   const id = `${ctx.params.id}`;
@@ -86,31 +89,7 @@ async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request):
 
 export async function renderExhibitionsList(ctx, next) {
   const page = Number(ctx.request.query.page);
-  const allExhibitions = await getExhibitions(page);
-  const currentPage = allExhibitions && allExhibitions.page;
-  const pageSize = allExhibitions && allExhibitions.results_per_page;
-  const totalResults = allExhibitions && allExhibitions.total_results_size;
-  const totalPages = allExhibitions && allExhibitions.total_pages;
-  const pagination = PaginationFactory.fromList(List(allExhibitions.results), parseInt(totalResults, 10) || 1, parseInt(page, 10) || 1, pageSize || 1, ctx.query);
-  const moreLink = totalPages === 1 || currentPage === totalPages ? '/exhibitions/past' : null;
-  const exhibitionPromos = allExhibitions.results.map((e):ExhibitionPromo => {
-    return {
-      id: e.id,
-      url: `/exhibitions/${e.id}`,
-      title: asText(e.data.title),
-      image: prismicImage(e.data.promo[0].primary.image),
-      description: asText(e.data.promo[0].primary.caption),
-      start: e.data.start ? e.data.start : '2007-06-21T00:00:00+0000',
-      end: e.data.end
-    };
-  });
-
-  const permanentExhibitionPromos = exhibitionPromos.filter((e) => {
-    return !e.end;
-  });
-  const temporaryExhibitionPromos = exhibitionPromos.filter((e) => {
-    return e.end;
-  });
+  const exhibitionsList = await getPaginatedResults(page, 'exhibition');
 
   ctx.render('pages/exhibitions', {
     pageConfig: createPageConfig({
@@ -121,18 +100,8 @@ export async function renderExhibitionsList(ctx, next) {
       contentType: 'listing',
       canonicalUri: '/exhibitions'
     }),
-    allExhibitions: permanentExhibitionPromos.concat(temporaryExhibitionPromos),
-    moreLink,
-    pagination
+    exhibitionsList
   });
 
   return next();
-}
-
-async function getExhibitions(page = 1, pageSize = 40): Promise {
-  const prismic = await getPrismicApi();
-  const exhibitionsList = await prismic.query([
-    Prismic.Predicates.any('document.type', ['exhibitions'])
-  ], { orderings: '[my.exhibitions.start desc]', page, pageSize });
-  return exhibitionsList;
 }
