@@ -23,28 +23,7 @@
     {% endfor %}]
   </script>
 
-  <div class="row bg-cream  {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top']}) }} }}">
-    <div class="container">
-      <div class="grid">
-        <div class="grid__cell">
-          <h1 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0, m:0, l:0} | spacingClasses({margin: ['top']}) }} {{ {s:0, m:0, l:0} | spacingClasses({margin: ['bottom']}) }}">Exhibitions</h1>
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="{{ {s: 12, m: 12, l: 8} | gridClasses }}">
-          <p class="{{ {s:2, m:2, l:2} | spacingClasses({margin: ['top']}) }} {{ {s:0, m:0, l:0} | spacingClasses({margin: ['bottom']}) }}">Exhibitions at Wellcome Collection</p>
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="grid__cell">
-          <p class="font-pewter {{ {s:'LR3', m:'LR2'} | fontClasses }} {{ {s:2, m:2, l:2} | spacingClasses({margin: ['top']}) }} {{ {s:2, m:2, l:2} | spacingClasses({margin: ['bottom']}) }}">{{ pagination.total }} exhibitions</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
+  {% componentV2 'list-header', {name: 'Exhibitions', description: 'Past and present exhibitions at Wellcome Collection', total: exhibitionsList.results.length} %}
 
   {% if exhibitionsList.pagination.pageCount > 1  %}
   <div class="row">

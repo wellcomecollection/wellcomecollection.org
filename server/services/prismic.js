@@ -11,7 +11,6 @@ import {
 } from './prismic-parsers';
 import {List} from 'immutable';
 import type {PaginatedResults} from '../model/paginated-results';
-import type {Article} from '../model/article';
 import type {ExhibitionPromo} from '../model/exhibition-promo';
 import {PaginationFactory} from '../model/pagination';
 
@@ -176,12 +175,12 @@ async function createPromos(allResults, type) {
   switch (type) {
     case 'exhibition':
       return await createExhibitionPromos(allResults);
-    // case 'event':
-    //   return await getEvents(page);
+    case 'event':
+      return await createEventPromos(allResults);
   }
 }
 
-async function createExhibitionPromos(allResults: Object): Promise<List<ExhibitionPromo>> {
+async function createExhibitionPromos(allResults: Object): Promise<Array<ExhibitionPromo>> {
   const allPromos = allResults.results.map((e):ExhibitionPromo => {
     return {
       id: e.id,
@@ -205,17 +204,45 @@ async function createExhibitionPromos(allResults: Object): Promise<List<Exhibiti
   return permanentPromos.concat(temporaryPromos);
 }
 
+async function createEventPromos(allResults): Promise<Array<EventPromo>> {
+  return allResults.results.map((event): EventPromo => {
+    const promo = event.data.promo[0];
+    const promoImage = promo && promo.primary.image;
+    const promoCaption = promo && promo.primary.caption;
+
+    return event.data.times.map(eventAtTime => {
+      return {
+        id: event.id,
+        title: asText(event.data.title),
+        url: `/events/${event.id}`,
+        start: eventAtTime.startDateTime,
+        end: eventAtTime.endDateTime,
+        image: prismicImage(promoImage),
+        description: asText(promoCaption)
+      };
+    });
+  }).reduce((acc, curr) => {
+    return curr.concat(acc);
+  }, []).sort((a, b) => {
+    return getNumberFromString(b.start || '') - getNumberFromString(a.start || '');
+  });
+}
+
+function getNumberFromString(string: string): number {
+  return Number(string.replace(/\D/g, ''));
+}
+
 async function getResults(page: number, type: string): Promise<any> { // TODO make type its own enumerable thing}
   switch (type) {
     case 'exhibition':
       return await getExhibitions(page);
-    // case 'event':
-    //   return await getEvents(page);
+    case 'event':
+      return await getEvents(page);
   }
 }
 
 export async function getPaginatedResults(page: number, type: string): Promise<PaginatedResults> { // TODO make type its
-  const allResults = await getResults(page, 'exhibition');
+  const allResults = await getResults(page, type);
   const currentPage = allResults && allResults.page;
   const pageSize = allResults && allResults.results_per_page;
   const totalResults = allResults && allResults.total_results_size;
@@ -232,10 +259,11 @@ export async function getPaginatedResults(page: number, type: string): Promise<P
   };
 }
 
-// export async function getEvents() {
+async function getEvents(page:number = 1, pageSize:number = 40) {
+  const prismic = await getPrismicApi();
+  const eventsList = await prismic.query([
+    Prismic.Predicates.any('document.type', ['events'])
+  ], {orderings: '[my.events.start desc]', page, pageSize});
 
-// }
-
-// export async function createEventsPromos() {
-
-// }
+  return eventsList;
+}
