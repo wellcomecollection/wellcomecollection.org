@@ -28,5 +28,6 @@ export const prismicParsers = {
   prismicImage,
   asText
 };
+export {Prismic};
 export const prismic = {getEvent};
 export const services = {getPrismicApi};

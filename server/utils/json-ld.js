@@ -1,4 +1,4 @@
-import type {Event} from '../content-model/events';
+import type {EventPromo} from '../content-model/events';
 import {wellcomeCollection, wellcomeCollectionAddress} from '../model/organization';
 
 export function objToJsonLd<T>(obj: T, type: string, root: boolean = true) {
@@ -82,27 +82,19 @@ export function museumLd(museum) {
   return objToJsonLd(newMuseum, 'Museum');
 }
 
-export function eventLd(event: Event) {
-  return event.times.map(eventTime => {
-    // I don't like it, but mutation seems the easiest way here >.<
-    const eventWith1Time = Object.assign({}, event);
-    eventWith1Time.times = [eventTime];
-    return eventWith1Time;
-  }).map(event => {
-    return objToJsonLd({
-      name: event.title,
-      // TODO: This is not always at Wellcome, but we don't collect that yet
-      location: {
-        '@type': 'Place',
-        name: 'Wellcome Collection',
-        address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
-      },
-      startDate: event.times.map(range => range.startDateTime),
-      endDate: event.times.map(range => range.endDateTime),
-      description: event.description,
-      image: event.featuredImage && event.featuredImage.contentUrl
-    }, 'Event');
-  });
+export function eventLd(eventAtTime: EventPromo) {
+  return objToJsonLd({
+    name: eventAtTime.title,
+    location: {
+      '@type': 'Place',
+      name: 'Wellcome Collection',
+      address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
+    },
+    startDate: eventAtTime.start,
+    endDate: eventAtTime.end,
+    description: eventAtTime.description,
+    image: eventAtTime.image && eventAtTime.image.contentUrl
+  }, 'Event');
 }
 
 function orgLd(org) {

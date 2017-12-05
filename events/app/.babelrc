@@ -15,6 +15,7 @@
       "alias": {
         "common": "../../server"
       }
-    }]
+    }],
+    "transform-flow-strip-types"
   ]
 }
