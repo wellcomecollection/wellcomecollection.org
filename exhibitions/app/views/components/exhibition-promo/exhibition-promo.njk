@@ -4,25 +4,24 @@
   {% set sizes = '100vw' %}
 {% endif %}
 
-<a id="{{model.id}}" href="{{ model.url }} "class="promo">
-  <div class="promo__image-container">
+<a id="{{model.id}}" href="{{ model.url }}" class="exhibition-promo {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+  <div class="exhibition-promo__image-container rounded-corners">
     {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
   </div>
-  <div class="promo__description font-HNL5-s">
-    <div class="promo__heading">
-      <h2 class="promo__title font-WB6-s">{{ model.title }}</h2>
-        <span class="flex flex--v-center {{ {s:'HNM4'} | fontClasses }}">
-          {% set dateMessageAndColor = {start: model.start, end: model.end} | formatDateRangeWithMessage %}
-          <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
-            {% set statusColor = 'icon--' + dateMessageAndColor.color %}
-            {% icon 'other/status-indicator', null, [statusColor, 'icon--match-text'] %}
-          </span>
-          <span>{{ dateMessageAndColor.text }}</span>
-        </span>
-        {% if model.start and model.end %}
-          <p><time datetime="{{model.start}}">{{ model.start | formatDate }}</time> &mdash; <time datetime="{{model.end}}">{{ model.end | formatDate }}</time></p>
-        {% endif %}
-    </div>
-    <span class="promo__copy">{{ model.description | striptags | safe }}</span>
+  <div class="exhibition-promo__description bg-cream rounded-diagonal {{ {s:4} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }}">
+    <h2 class="font-WB6-s {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
+    {% if model.start and model.end %}
+      <p class="{{ {s:'HNL4'} | fontClasses }}"><time datetime="{{model.start}}">{{ model.start | formatDate }}</time> &mdash; <time datetime="{{model.end}}">{{ model.end | formatDate }}</time></p>
+    {% else %}
+      <p class="{{ {s:'HNL5'} | fontClasses }}">{{ model.description | striptags | safe }}</p>
+    {% endif %}
+    <span class="flex flex--v-center {{ {s:'HNM4'} | fontClasses }}">
+      {% set dateMessageAndColor = {start: model.start, end: model.end} | formatDateRangeWithMessage %}
+      <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
+        {% set statusColor = 'icon--' + dateMessageAndColor.color %}
+        {% icon 'other/status-indicator', null, [statusColor, 'icon--match-text'] %}
+      </span>
+      <span class="{{ {s:'HNL5'} | fontClasses }}">{{ dateMessageAndColor.text }}</span>
+    </span>
   </div>
 </a>
