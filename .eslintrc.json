@@ -4,16 +4,13 @@
     "flowtype",
     "import"
   ],
-  "settings": {
-    "flowtype": {
-      "onlyFilesWithFlowAnnotation": true
-    }
-  },
   "extends": [
     "standard",
     "plugin:flowtype/recommended"
   ],
   "rules": {
+    "no-mixed-operators": 0,
+    "flowtype/no-types-missing-file-annotation": 0,
     "space-before-function-paren": "off",
     "no-return-assign": "off",
     "semi": ["error", "always"],

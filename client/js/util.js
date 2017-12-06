@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 const KEYS = {
   TAB: 9,
   ENTER: 13,
