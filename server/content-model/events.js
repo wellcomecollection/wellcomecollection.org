@@ -52,8 +52,16 @@ type BuildingLocation = {|
   level: number;
 |}
 
+type IdentifierScheme = 'eventbrite-id';
+
+type Identifier = {|
+  identifierScheme: IdentifierScheme;
+  value: string;
+|}
+
 export type Event = {|
   id: string;
+  identifiers: Array<Identifier>;
   title: ?string;
   format: ?EventFormat;
   times: Array<DateTimeRange>;
