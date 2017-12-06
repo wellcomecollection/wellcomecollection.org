@@ -6,12 +6,11 @@
 
 [include]
 
-
 [libs]
 
 [lints]
 
 [options]
-
+module.name_mapper='^common\/\(.*\)$' -> '<PROJECT_ROOT>/server/\1'
 
 [strict]
