@@ -67,6 +67,17 @@
             </div>
           </div>
         {% endfor %}
+
+
+        {% set eventbriteIdentifier = event.identifiers | findObjInArray(key='identifierSchema', val='eventbrite-id') %}
+        {% if eventbriteIdentifier %}
+          <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+            <a class="flex-inline flex--v-center btn {{ {s:'HNM4'} | fontClasses }} {{ {s: 4} | spacingClasses({padding: ['left', 'right']}) }}" href="https://www.eventbrite.com/e/{{ eventbriteIdentifier.value }}/">
+              <span>{% icon 'other/ticket' %}</span>
+              Book free tickets
+            </a>
+          </div>
+        {% endif %}
       </div>
     </div>
 
