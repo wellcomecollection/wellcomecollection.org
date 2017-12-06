@@ -4,8 +4,14 @@
     "flowtype",
     "import"
   ],
-  "extends": ["wellcome"],
+  "extends": [
+    "standard",
+    "plugin:flowtype/recommended"
+  ],
   "rules": {
+    "space-before-function-paren": "off",
+    "no-return-assign": "off",
+    "semi": ["error", "always"],
     "no-multi-spaces": "off",
     "no-multi-str": "off",
     "flowtype/define-flow-type": "warn",
