@@ -68,18 +68,6 @@
           </div>
         {% endfor %}
       </div>
-
-      <div class="{{ {s: 1} | spacingClasses({margin: ['top']}) }} {{ {s:'HNM4'} | fontClasses }}">
-        <div class="flex {{ {s:'HNM4'} | fontClasses }}">
-          <span class="{{ {s: 2} | spacingClasses({margin: ['right']}) }}">{% icon 'other/location' %}</span>
-          <div>
-            {% for location in event.locations %}
-              <div>{{ location.title }}</div>
-              <div>level / floor: {{ location.level }}</div>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
     </div>
 
     <div class="row {{ {s:4} | spacingClasses({margin: ['top']}) }}">
