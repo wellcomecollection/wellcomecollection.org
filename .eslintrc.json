@@ -4,6 +4,11 @@
     "flowtype",
     "import"
   ],
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": true
+    }
+  },
   "extends": [
     "standard",
     "plugin:flowtype/recommended"
