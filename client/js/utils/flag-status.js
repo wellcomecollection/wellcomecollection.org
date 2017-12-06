@@ -24,4 +24,3 @@ export const getFlagValue = (userGroup, flagName = 'default', flags = {}) => {
 
 // TODO use a shared component on both server and client
 // Currently, if you update this file you need to update server/util/flag-status.js too
-

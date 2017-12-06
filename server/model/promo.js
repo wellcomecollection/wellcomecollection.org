@@ -35,6 +35,6 @@ export class PromoFactory {
       datePublished: articleStub.datePublished,
       series: articleStub.series,
       positionInSeries: articleStub.positionInSeries
-    } : Promo);
+    }: Promo);
   }
 }
