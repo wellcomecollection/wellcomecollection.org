@@ -54,7 +54,7 @@ type Geolocation = {|
 export type EventLocation = {|
   id: string;
   title: string;
-  geolocation: Geolocation;
+  geolocation: ?Geolocation;
   level: number;
 |}
 

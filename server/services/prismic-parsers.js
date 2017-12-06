@@ -41,16 +41,19 @@ export function parseEventDoc(doc: PrismicDoc): Event {
   }: EventBookingEnquiryTeam);
 
   const locations = doc.data.locations.map(location => {
-    return ({
-      id: location.location.id,
-      title: asText(location.location.data.title),
-      geolocation: {
-        latitude: location.location.data.geolocation.latitude,
-        longitude: location.location.data.geolocation.longitude
-      },
-      level: location.location.data.level
-    }: EventLocation);
-  });
+    if (!isEmptyDocLink(location.location)) {
+      return ({
+        id: location.location.id,
+        title: asText(location.location.data.title),
+        // Geolocation as it stands can't be fetch via `fetchLinks`
+        // geolocation: {
+        //   latitude: location.location.data.geolocation.latitude,
+        //   longitude: location.location.data.geolocation.longitude
+        // },
+        level: location.location.data.level
+      }: EventLocation);
+    }
+  }).filter(_ => _);
 
   const e = ({
     id: doc.id,
