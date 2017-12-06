@@ -34,29 +34,35 @@
         {{ event.format.title }}
       </div>
 
-      <div class="{{ {s:'WB4'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['top']}) }}">
+      <div class="{{- [
+        {s:'WB5'} | fontClasses,
+        {s: 2} | spacingClasses({margin: ['top']}),
+        {s: 1} | spacingClasses({margin: ['bottom']})
+      ].join(' ') -}}">
         {{ event.title }}
       </div>
 
-      <div class="flex flex--v-center {{ {s:'HNM4'} | fontClasses }}">
-        <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon 'other/ticket' %}</span>
+      <div class="flex flex--v-center {{ {s:'HNM5'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">
+        <span class="{{ {s: 2} | spacingClasses({margin: ['right']}) }}">{% icon 'other/ticket' %}</span>
         <span class="caps {{ {s: 1} | spacingClasses({padding: ['right']}) }}">Free</span>
-        <span class="border-left-width-1 border-color-silver {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
+        <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
           Enquire to book
         </span>
       </div>
 
-      <div class="{{ {s: 1} | spacingClasses({margin: ['top']}) }}">
+      <div class="{{ {s:'HNL4'} | fontClasses }}">
         {% for dateRange in event.times %}
-          <div class="flex">
+          <div class="flex border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
             {% set formattedDateRange = dateRange.startDateTime | formatAndDedupeOnDate(dateRange.endDateTime) %}
-            <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon 'other/calendar' %}</span>
+            <span class="{{ {s: 2} | spacingClasses({margin: ['right']}) }}">{% icon 'other/calendar' %}</span>
             <div>
-              <time class="block {{ {s:'HNM4'} | fontClasses }}">
-                {{ formattedDateRange | joinDateStrings }}
+              <time class="block">
+                <b class="{{ {s:'HNM4'} | fontClasses }}">{{ formattedDateRange | joinDateStrings }}</b>
               </time>
               {% if (formattedDateRange.size === 1) %}
-                <time class="block {{ {s:'HNL4'} | fontClasses }}">{{ dateRange.startDateTime | formatAndDedupeOnTime(dateRange.endDateTime) | joinDateStrings }}</time>
+                <time class="block">
+                  {{ dateRange.startDateTime | formatAndDedupeOnTime(dateRange.endDateTime) | joinDateStrings }}
+                </time>
               {% endif %}
             </div>
           </div>
@@ -65,7 +71,7 @@
 
       <div class="{{ {s: 1} | spacingClasses({margin: ['top']}) }} {{ {s:'HNM4'} | fontClasses }}">
         <div class="flex {{ {s:'HNM4'} | fontClasses }}">
-          <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon 'other/location' %}</span>
+          <span class="{{ {s: 2} | spacingClasses({margin: ['right']}) }}">{% icon 'other/location' %}</span>
           <div>
             {% for location in event.locations %}
               <div>{{ location.title }}</div>
@@ -74,11 +80,7 @@
           </div>
         </div>
       </div>
-
     </div>
-
-
-
 
   </div>
 </div>
