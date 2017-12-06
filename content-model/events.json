@@ -87,10 +87,16 @@
         "select" : "document",
         "customtypes" : [ "event-booking-enquiry-teams" ]
       }
+    },
+    "eventbriteEvent" : {
+      "type" : "Embed",
+      "config" : {
+        "label" : "Eventbrite Event"
+      }
     }
   },
   "Series" : {
-    "series": {
+    "series" : {
       "type" : "Group",
       "fieldset" : "Event series",
       "config" : {

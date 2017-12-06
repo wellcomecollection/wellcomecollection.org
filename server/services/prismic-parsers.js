@@ -31,6 +31,13 @@ export function parseEventDoc(doc: PrismicDoc): Event {
       endDateTime: new Date(date.endDateTime)
     }: DateTimeRange);
   });
+  
+  // matching https://www.eventbrite.co.uk/e/40144900478?aff=efbneb
+  const eventbriteIdMatch = doc.data.eventbriteEvent && /\/e\/([0-9]+)/.exec(doc.data.eventbriteEvent.url);
+  const identifiers = eventbriteIdMatch ? [{
+    identifierScheme: 'eventbrite-id',
+    value: eventbriteIdMatch[1]
+  }] : [];
 
   const bookingEnquiryTeam = doc.data.bookingEnquiryTeam.data && ({
     id: doc.data.bookingEnquiryTeam.id,
@@ -57,6 +64,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
 
   const e = ({
     id: doc.id,
+    identifiers: identifiers,
     title: asText(doc.data.title),
     format: doc.data.format.data && ({
       id: doc.data.format.id,
