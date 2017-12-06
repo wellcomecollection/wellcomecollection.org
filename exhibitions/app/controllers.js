@@ -2,10 +2,8 @@
 import {model, prismic} from 'common';
 const {createPageConfig} = model;
 const {
-  getPrismicApi,
-  getPaginatedResults,
-  parsePromoListItem,
-  parseExhibitionsDoc
+  getExhibitionAndRelatedContent,
+  getPaginatedResults
 } = prismic;
 
 export async function renderExhibition(ctx, next) {
@@ -40,51 +38,6 @@ export async function renderExhibition(ctx, next) {
   }
 
   return next();
-}
-
-async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string, qOpts: Object<any>) {
-  const prismic = await getPrismicApi(req);
-  const doc = await prismic.getByID(id, qOpts);
-  return doc && types.indexOf(doc.type) !== -1 ? doc : null;
-}
-
-type ExhibitionAndRelatedContent = {|
-  exhibition: Exhibition;
-  galleryLevel: string;
-  relatedBooks: Array<Promo>;
-  relatedEvents: Array<Promo>;
-  relatedGalleries: Array<Promo>;
-  relatedArticles: Array<Promo>;
-  imageGallery: any;
-  textAndCaptionsDocument: any;
-|}
-
-async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request): Promise<?ExhibitionAndRelatedContent> {
-  const exhibition = await getTypeById(previewReq, ['exhibitions'], id, {});
-
-  if (!exhibition) { return null; }
-
-  const ex = parseExhibitionsDoc(exhibition);
-
-  const galleryLevel = exhibition.data.galleryLevel;
-  const promoList = exhibition.data.promoList;
-  const relatedArticles = promoList.filter(x => x.type === 'article').map(parsePromoListItem);
-  const relatedEvents = promoList.filter(x => x.type === 'event').map(parsePromoListItem);
-  const relatedBooks = promoList.filter(x => x.type === 'book').map(parsePromoListItem);
-  const relatedGalleries = promoList.filter(x => x.type === 'gallery').map(parsePromoListItem);
-
-  const sizeInKb = Math.round(exhibition.data.textAndCaptionsDocument.size / 1024);
-  const textAndCaptionsDocument = Object.assign({}, exhibition.data.textAndCaptionsDocument, {sizeInKb});
-
-  return {
-    exhibition: ex,
-    galleryLevel: galleryLevel,
-    textAndCaptionsDocument: textAndCaptionsDocument.url && textAndCaptionsDocument,
-    relatedBooks: relatedBooks,
-    relatedEvents: relatedEvents,
-    relatedGalleries: relatedGalleries,
-    relatedArticles: relatedArticles
-  };
 }
 
 export async function renderExhibitionsList(ctx, next) {
