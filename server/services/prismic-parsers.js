@@ -31,7 +31,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
       endDateTime: new Date(date.endDateTime)
     }: DateTimeRange);
   });
-  
+
   // matching https://www.eventbrite.co.uk/e/40144900478?aff=efbneb
   const eventbriteIdMatch = doc.data.eventbriteEvent && /\/e\/([0-9]+)/.exec(doc.data.eventbriteEvent.url);
   const identifiers = eventbriteIdMatch ? [{
@@ -53,6 +53,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
         id: location.location.id,
         title: asText(location.location.data.title),
         // Geolocation as it stands can't be fetch via `fetchLinks`
+        geolocation: null,
         // geolocation: {
         //   latitude: location.location.data.geolocation.latitude,
         //   longitude: location.location.data.geolocation.longitude
