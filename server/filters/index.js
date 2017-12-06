@@ -24,7 +24,6 @@ import {createLinkObject, getLinkObjects} from './get-link-objects';
 import {prettyDump} from './pretty-dump';
 import {prismicAsHtml, prismicAsText} from './prismic';
 import getA11yIcon from './get-a11y-icon';
-import {findObjInArray} from './arrays';
 import {
   formatDate,
   formatDateTime,
@@ -77,6 +76,5 @@ export default Map({
   getTaslMarkup,
   getBreakpoint,
   joinDateStrings,
-  getHashedFile,
-  findObjInArray
+  getHashedFile
 });

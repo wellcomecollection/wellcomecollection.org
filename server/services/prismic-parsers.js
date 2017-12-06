@@ -47,21 +47,18 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     url: doc.data.bookingEnquiryTeam.data.url
   }: EventBookingEnquiryTeam);
 
-  const locations = doc.data.locations.map(location => {
-    if (!isEmptyDocLink(location.location)) {
-      return ({
-        id: location.location.id,
-        title: asText(location.location.data.title),
-        // Geolocation as it stands can't be fetch via `fetchLinks`
-        geolocation: null,
-        // geolocation: {
-        //   latitude: location.location.data.geolocation.latitude,
-        //   longitude: location.location.data.geolocation.longitude
-        // },
-        level: location.location.data.level
-      }: EventLocation);
-    }
-  }).filter(_ => _);
+  const location = (doc.data.location && !isEmptyDocLink(doc.data.location)) ? ({
+    id: doc.data.location.id,
+    title: asText(doc.data.location.data.title),
+    // Geolocation as it stands can't be fetch via `fetchLinks`
+    geolocation: null,
+    // geolocation: {
+    //   latitude: location.location.data.geolocation.latitude,
+    //   longitude: location.location.data.geolocation.longitude
+    // },
+    level: doc.data.location.data.level,
+    capacity: doc.data.location.data.level
+  }: EventLocation) : null;
 
   const e = ({
     id: doc.id,
@@ -80,7 +77,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     contributors: contributors,
     promo: promo,
     series: [],
-    locations: locations
+    location: location
   }: Event);
 
   return e;

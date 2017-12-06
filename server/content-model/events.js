@@ -56,6 +56,7 @@ export type EventLocation = {|
   title: string;
   geolocation: ?Geolocation;
   level: number;
+  capacity: ?number;
 |}
 
 type IdentifierScheme = 'eventbrite-id';
@@ -74,8 +75,7 @@ export type Event = {|
   description: ?HTMLString;
   accessOptions: Array<EventAccessOption>;
   series: Array<EventSeries>;
-  // TODO: Not sure if to generify this into location? Potentially have both fields?
-  locations: Array<EventLocation>;
+  location: ?EventLocation;
   bookingEnquiryTeam: ?EventBookingEnquiryTeam;
   contributors: Array<Contributor>;
   promo: ?ImagePromo;
@@ -156,15 +156,16 @@ export const eventExample = ({
       contributors: []
     }
   ],
-  locations: [{
+  location: {
     id: 'WdTMsycAAL20UYr1',
     title: 'Williams Lounge',
     level: -1,
     geolocation: {
       latitude: 51.52585053479689,
       longitude: -0.13394683599472046
-    }
-  }],
+    },
+    capacity: 150
+  },
   bookingEnquiryTeam: {
     id: 'WcK-SisAAC1_BCxg',
     title: 'Access events',

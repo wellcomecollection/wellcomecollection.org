@@ -30,7 +30,7 @@ const eventFields = [
   'event-booking-enquiry-teams.url',
   'event-contributor-roles.title',
   'event-formats.title', 'event-programmes.title',
-  'locations.title', 'locations.geolocation', 'locations.level'
+  'locations.title', 'locations.geolocation', 'locations.level', 'locations.capacity'
 ];
 
 export async function getPrismicApi(req: ?Request) {

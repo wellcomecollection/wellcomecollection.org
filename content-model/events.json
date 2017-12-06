@@ -61,21 +61,13 @@
         }
       }
     },
-    "locations" : {
-      "type" : "Group",
+    "location" : {
+      "type" : "Link",
       "fieldset" : "Location",
       "config" : {
-        "fields" : {
-          "location" : {
-            "type" : "Link",
-            "fieldset" : "Access option",
-            "config" : {
-              "select" : "document",
-              "customtypes" : [ "locations" ],
-              "label" : "Locations"
-            }
-          }
-        }
+        "select" : "document",
+        "customtypes" : [ "locations" ],
+        "label" : "Location"
       }
     }
   },
