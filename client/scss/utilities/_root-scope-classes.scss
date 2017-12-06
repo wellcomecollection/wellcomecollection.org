@@ -226,6 +226,10 @@
   display: inline-block;
 }
 
+.block {
+  display: block;
+}
+
 .float-r {
   float: right;
 }
@@ -358,4 +362,8 @@
 
 .hidden {
   visibility: hidden;
+}
+
+.overflow-hidden {
+  overflow: hidden;
 }

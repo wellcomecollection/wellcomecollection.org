@@ -212,6 +212,7 @@ async function createEventPromos(allResults): Promise<Array<EventPromo>> {
     const promo = event.data.promo[0];
     const promoImage = promo && promo.primary.image;
     const promoCaption = promo && promo.primary.caption;
+    const format = event.data.format && asText(event.data.format.data.title);
 
     return event.data.times.map(eventAtTime => {
       return {
@@ -221,7 +222,8 @@ async function createEventPromos(allResults): Promise<Array<EventPromo>> {
         start: eventAtTime.startDateTime,
         end: eventAtTime.endDateTime,
         image: prismicImage(promoImage),
-        description: asText(promoCaption)
+        description: asText(promoCaption),
+        format: format
       };
     });
   }).reduce((acc, curr) => {
@@ -238,9 +240,11 @@ function getNumberFromString(string: string): number {
 async function getResults(page: number, type: string): Promise<any> { // TODO make type its own enumerable thing}
   switch (type) {
     case 'exhibition':
-      return await getExhibitions(page);
+      const exhibitions = await getExhibitions(page);
+      return exhibitions;
     case 'event':
-      return await getEvents(page);
+      const events = await getEvents(page);
+      return events;
   }
 }
 
@@ -266,7 +270,7 @@ async function getEvents(page:number = 1, pageSize:number = 40) {
   const prismic = await getPrismicApi();
   const eventsList = await prismic.query([
     Prismic.Predicates.any('document.type', ['events'])
-  ], {orderings: '[my.events.start desc]', page, pageSize});
+  ], {orderings: '[my.events.start desc]', page, pageSize, fetchLinks: 'event-formats.title'});
 
   return eventsList;
 }
