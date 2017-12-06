@@ -86,6 +86,10 @@ export type EventPromo = {|
 
 export const eventExample = ({
   id: 'WXmdTioAAJWWjZdH',
+  identifiers: [{
+    identifierScheme: 'eventbrite-id',
+    value: '40144900478'
+  }],
   title: 'Haitian Vodou Ritual',
   format: {
     id: 'QYCcAACcAoiJS',
