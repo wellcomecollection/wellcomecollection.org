@@ -4,6 +4,18 @@
   position: relative;
 }
 
+.exhibition-promo__label {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.exhibition-promo__cost {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 .exhibition-promo__image-container {
   width: 80%;
   border-radius: $border-radius-unit;

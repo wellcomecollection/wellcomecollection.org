@@ -3,13 +3,22 @@
 {% else %}
   {% set sizes = '100vw' %}
 {% endif %}
-
+{% set sharedPadding %}
+    {{ {s:1} | spacingClasses({padding: ['left', 'right', 'top', 'bottom']}) }} {{ {l:2} | spacingClasses({padding: ['left', 'right']}) }}
+{% endset %}
 <a id="{{model.id}}" href="{{ model.url }}" class="exhibition-promo {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
   <div class="exhibition-promo__image-container rounded-corners">
     {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
   </div>
-  <div class="exhibition-promo__description bg-cream rounded-diagonal {{ {s:4} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }}">
+  <div class="exhibition-promo__description bg-cream rounded-diagonal {{sharedPadding}} {{ {s:10} | spacingClasses({padding: ['top']}) }} {{ {s:4} | spacingClasses({padding: ['bottom']}) }}">
     <h2 class="font-WB6-s {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
+    <div class="exhibition-promo__label">
+     {% componentV2 'tags', [{text: 'Exhibition'}] %}
+    </div>
+    <div class="exhibition-promo__cost flex flex--v-center {{ {s:'HNM5'} | fontClasses }} {{sharedPadding}}">
+      {% icon 'other/ticket', null, [''] %}
+      <span class="{{ {s:1} | spacingClasses({padding: ['left']}) }}">FREE</span>
+    </div>
     {% if model.start and model.end %}
       <p class="{{ {s:'HNL4'} | fontClasses }}"><time datetime="{{model.start}}">{{ model.start | formatDate }}</time> &mdash; <time datetime="{{model.end}}">{{ model.end | formatDate }}</time></p>
     {% else %}
@@ -21,7 +30,7 @@
         {% set statusColor = 'icon--' + dateMessageAndColor.color %}
         {% icon 'other/status-indicator', null, [statusColor, 'icon--match-text'] %}
       </span>
-      <span class="{{ {s:'HNL5'} | fontClasses }}">{{ dateMessageAndColor.text }}</span>
+      <span class="{{ {s:'HNM5'} | fontClasses }}">{{ dateMessageAndColor.text }}</span>
     </span>
   </div>
 </a>
