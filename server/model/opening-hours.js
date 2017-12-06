@@ -1,12 +1,4 @@
 // @flow
-type Place = {|
-  id: string;
-  name: string;
-  openingHours: OpeningHours;
-|}
-function createPlace(data: Place) { return (data: Place); }
-
-export type PlacesOpeningHours = Array<Place>;
 
 type OpeningHoursDay = {|
   dayOfWeek: string,
@@ -16,6 +8,15 @@ type OpeningHoursDay = {|
 |};
 
 export type OpeningHours = Array<OpeningHoursDay>;
+
+type Place = {|
+  id: string;
+  name: string;
+  openingHours: OpeningHours;
+|}
+function createPlace(data: Place) { return (data: Place); }
+
+export type PlacesOpeningHours = Array<Place>;
 
 export const galleryOpeningHours: OpeningHours = [
   {dayOfWeek: 'Monday',    closes: '00:00', note: 'Galleries closed'},

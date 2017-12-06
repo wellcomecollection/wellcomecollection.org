@@ -6,7 +6,7 @@ export default class Component {
     this.env = env;
   }
 
-  parse(parser, nodes, /* lexer */) {
+  parse(parser, nodes /* lexer */) {
     const token = parser.nextToken();
     const args = parser.parseSignature(null, true);
     parser.advanceAfterBlockEnd(token.value);

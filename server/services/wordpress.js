@@ -13,7 +13,7 @@ export type ArticleStubsResponse = {|
 
 const baseUri = 'https://public-api.wordpress.com/rest/v1.1/sites/blog.wellcomecollection.org';
 
-type WordpressQuery = {| page?: number; order? :string |};
+type WordpressQuery = {| page?: number; order?: string |};
 export async function getArticleStubs(size: number = 20, {page = 1, order = 'DESC'}: WordpressQuery = {}, q: string = ''): Promise<ArticleStubsResponse> {
   const uri = `${baseUri}/posts/`;
   const queryObj = constructQueryFromQueryString(q);
