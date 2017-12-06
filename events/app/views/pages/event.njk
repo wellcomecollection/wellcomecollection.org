@@ -1,0 +1,80 @@
+{% extends 'layout/default.njk' %}
+
+{% block pageMeta %}
+  {% set metaContent = {
+  type: 'website',
+  title: event.title,
+  image: event.featuredImage and event.featuredImage.contentUrl,
+  url: pageConfig.canonicalUri
+  } %}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
+  <meta name="description" content="{{ event.description | safe | striptags }}" />
+{% endblock %}
+
+{% block body %}
+<script type="application/ld+json">
+  {{ event | jsonLd('eventLd') | safe }}
+</script>
+
+<article class="container">
+  {# Event title #}
+  <p>{{ event.title }}</p>
+
+  {# Tags #}
+  {% componentV2 'tags', tags %}
+
+  {# Format #}
+  <p>{{ event.format.title }}</p>
+
+  {# Access information #}
+  {% if (event.accessOptions.size !== 0) %}
+    {% for accessOption in event.accessOptions %}
+      {% icon 'a11y/' + (accessOption.accessOption.acronym | lower), accessOption.accessOption.title %}
+    {% endfor %}
+  {% endif %}
+
+  {# Cost/type #}
+  <span>Free</span>
+  {{ ' / Drop in' if event.isDropIn }}
+  {{ ' / Booking in advance' if event.bookingEnquiryTeam }}
+
+  {# Times #}
+  {% for dateRange in event.times %}
+    {% set formattedDateRange = dateRange.start | formatAndDedupeOnDate(dateRange.end) %}
+    <time>{{ formattedDateRange | joinDateStrings }}</time>
+
+    {% if (formattedDateRange.size === 1) %}
+      <time>{{ dateRange.start | formatAndDedupeOnTime(dateRange.end) | joinDateStrings }}</time>
+    {% endif %}
+  {% endfor %}
+
+  {# Intro #}
+  {% component 'standfirst', {body: event.intro | safe} %}
+
+  {# Description #}
+  {{ event.description | safe }}
+
+  {# Booking enquiries #}
+  {% if event.bookingEnquiryTeam %}
+    {% set team = event.bookingEnquiryTeam %}
+    <a href="mailto:{{team.email}}?subject=Booking for {{ event.title }}">{% icon 'other/ticket', null, ['icon--teal'] %}Email to book</a>
+    <p>Email <a href="mailto:{{ team.email }}?subject=Booking for {{ event.title }}">{{ team.email }}</a> or call {{ team.phone }}</p>
+
+    {% if event.bookingEnquiryTeam.url %}
+      {% componentV2 'more-info-link', {name: 'Find out more about ' + (event.bookingEnquiryTeam.title | lower), url: event.bookingEnquiryTeam.url} %}
+    {% endif %}
+  {% endif %}
+
+  {# Booking information #}
+  <p>{{ event.bookingInformation | safe }}</p>
+
+  {# Contributors #}
+  {% for contributor in event.contributors %}
+    <img src="{{ contributor.person.image | convertImageUri(300) }}" alt="" />
+    <p>{{ contributor.person.name }}</p>
+    <span>{{ contributor.role.title }}</span>
+    <p>{{ contributor.person.description | safe }}</p>
+  {% endfor %}
+</article>
+{% endblock %}

@@ -25,7 +25,7 @@ export function setupApp({ router, viewPaths = [], staticPath } = {}) {
   app.use(intervalCache());
   app.use(determineFeaturesCohort());
   app.use(setFeaturesCohortFromCtx());
-  app.use(render(config.views.paths.concat(viewPaths), globals));
+  app.use(render(viewPaths.concat(config.views.paths), globals));
   // `error` is only after `intervalCache` and `render` as there's a dependency chain there
   // TODO: remove dependency chain
   app.use(serverError(globals.beaconErrors));

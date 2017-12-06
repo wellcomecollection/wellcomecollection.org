@@ -205,10 +205,11 @@ export function parseVideo(videoSlice: Object) {
   };
 }
 
-export function prismicImage(prismicImage: Object) { // TODO: wrong typedef
+export function prismicImage(prismicImage: Object): Picture { // TODO: wrong typedef
   const image = isEmptyObj(prismicImage) ? null : prismicImage;
 
   return {
+    type: 'picture',
     width: image && image.dimensions.width,
     height: image && image.dimensions.height,
     alt: image && image.alt,

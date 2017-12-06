@@ -1,5 +1,6 @@
-import {prismic, model} from 'common';
+import {model, prismic} from 'common';
 const {createPageConfig} = model;
+const {getPaginatedResults} = prismic;
 
 export async function renderEvent(ctx, next, overrideId, gaExp) {
   const id = overrideId || `${ctx.params.id}`;
@@ -24,7 +25,7 @@ export async function renderEvent(ctx, next, overrideId, gaExp) {
         url: '/graphicdesign'
       }]);
 
-      ctx.render('event', {
+      ctx.render('pages/event', {
         pageConfig: createPageConfig({
           path: path,
           title: event.title,
@@ -39,6 +40,25 @@ export async function renderEvent(ctx, next, overrideId, gaExp) {
       });
     }
   }
+
+  return next();
+}
+
+export async function renderEventsList(ctx, next) {
+  const page = Number(ctx.request.query.page);
+  const eventsList = await getPaginatedResults(page, 'event');
+
+  ctx.render('pages/events', {
+    pageConfig: createPageConfig({
+      path: ctx.request.url,
+      title: 'Events',
+      inSection: 'whatson',
+      category: 'list', // TODO: update to team (ev&ex)
+      contentType: 'event', // TODO: add pageType (list)
+      canonicalUri: '/events'
+    }),
+    eventsList
+  });
 
   return next();
 }
