@@ -25,7 +25,7 @@
 <div class="row">
   <div>
     {% if event.promo.image %}
-      {% componentV2 'image', event.promo.image, [], { lazyload: true } %}
+      {% componentV2 'image', event.promo.image, {}, { lazyload: true } %}
     {% endif %}
   </div>
   <div class="container relative {{ {s: -4} | spacingClasses({margin: ['top']}) }}">

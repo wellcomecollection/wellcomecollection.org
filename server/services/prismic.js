@@ -74,7 +74,7 @@ type PaginatedResults = {|
 
 export async function getArticleList(page = 1, {pageSize = 10, predicates = []} = {}) {
   const fetchLinks = [
-    'people.name', 'people.image', 'peo ple.twitterHandle', 'people.description',
+    'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'series.name', 'series.description', 'series.color', 'series.commissionedLength', 'series.schedule'
   ];
   // TODO: This order is not really doing what we expect it to do.
