@@ -79,6 +79,20 @@
           </div>
         {% endif %}
       </div>
+
+      <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+        {% if eventbriteIdentifier %}
+        <h3 class="{{ {s:'HNM4'} | fontClasses }}">Booking information</h3>
+        <div class="{{ {s:'HNL4'} | fontClasses }}">
+          <p>
+            Please be aware that booking a ticket for a free event does not guarantee you place.
+            Admission is on a first come, first serve basis for ticket holders.
+          </p>
+          {% componentV2 'more-info-link', {name: 'View our ticketing policy', url: 'https://wellcomecollection.org/visit-us/events-tickets'} %}
+        </div>
+        {% endif %}
+      </div>
+
     </div>
 
     <div class="row {{ {s:4} | spacingClasses({margin: ['top']}) }}">
