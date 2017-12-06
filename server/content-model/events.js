@@ -52,8 +52,16 @@ type BuildingLocation = {|
   level: number;
 |}
 
+type IdentifierScheme = 'eventbrite-id';
+
+type Identifier = {|
+  identifierScheme: IdentifierScheme;
+  value: string;
+|}
+
 export type Event = {|
   id: string;
+  identifiers: Array<Identifier>;
   title: ?string;
   format: ?EventFormat;
   times: Array<DateTimeRange>;
@@ -78,6 +86,10 @@ export type EventPromo = {|
 
 export const eventExample = ({
   id: 'WXmdTioAAJWWjZdH',
+  identifiers: [{
+    identifierScheme: 'eventbrite-id',
+    value: '40144900478'
+  }],
   title: 'Haitian Vodou Ritual',
   format: {
     id: 'QYCcAACcAoiJS',
