@@ -1,12 +1,12 @@
 {% extends 'layout/default.njk' %}
-
+{# TODO: add description for meta and list-header #}
 {% block pageMeta %}
   {% set metaContent = {
     type: 'website',
     title: 'Events',
     image: eventsList.results[0].image.contentUrl,
     url: pageConfig.canonicalUri,
-    description: 'Past and present events at Wellcome Collection'
+    description: ''
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block body %}
-  {% componentV2 'list-header', {name: 'Events', description: 'Past and present events at Wellcome Collection', total: eventsList.results.length} %}
+  {% componentV2 'list-header', {name: 'Events', total: eventsList.results.length} %}
   <script type="application/ld+json">
     [{% for event in eventsList.results %}
       {{ event | jsonLd('eventLd') | safe }}

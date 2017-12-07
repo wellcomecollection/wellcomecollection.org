@@ -1,12 +1,12 @@
 {% extends 'layout/default.njk' %}
-
+{# TODO: add description for meta and list-header #}
 {% block pageMeta %}
   {% set metaContent = {
     type: 'website',
     title: 'Exhibitions',
     image: temporaryExhibitions[0].image.contentUrl,
     url: pageConfig.canonicalUri,
-    description: 'Past and present exhibitions at Wellcome Collection'
+    description: ''
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
@@ -23,7 +23,7 @@
     {% endfor %}]
   </script>
 
-  {% componentV2 'list-header', {name: 'Exhibitions', description: 'Past and present exhibitions at Wellcome Collection', total: exhibitionsList.results.length} %}
+  {% componentV2 'list-header', {name: 'Exhibitions', total: exhibitionsList.results.length} %}
 
   {% if exhibitionsList.pagination.pageCount > 1  %}
   <div class="row">
