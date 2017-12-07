@@ -1,4 +1,3 @@
-// @flow
 import Prismic from 'prismic-javascript';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import {
