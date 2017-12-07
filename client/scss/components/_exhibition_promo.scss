@@ -27,7 +27,6 @@
 }
 
 .exhibition-promo__image-container {
-  border-radius: $border-radius-unit;
   overflow: hidden;
 
   @include respond-to('large') {
