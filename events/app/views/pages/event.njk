@@ -50,9 +50,11 @@
       <div class="flex flex--v-center {{ {s:'HNM5'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">
         <span class="{{ {s: 2} | spacingClasses({margin: ['right']}) }}">{% icon 'other/ticket' %}</span>
         <span class="caps {{ {s: 1} | spacingClasses({padding: ['right']}) }}">Free</span>
-        <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
-          Enquire to book
-        </span>
+        {% if eventInfo.ticketingType %}
+          <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
+            {{ eventInfo.ticketingType }}
+          </span>
+        {% endif %}
       </div>
 
       <div class="{{ {s:'HNL4'} | fontClasses }}">
@@ -84,7 +86,7 @@
       </div>
 
       <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
-        {% if eventInfo.eventbriteId %}
+        {% if eventInfo.ticketingType == 'Ticketed' %}
           <h3 class="{{ {s:'HNM4'} | fontClasses }}">Booking information</h3>
           <div class="{{ {s:'HNL4'} | fontClasses }}">
             <p>
@@ -93,27 +95,32 @@
             </p>
             {% componentV2 'more-info-link', {name: 'View our ticketing policy', url: 'https://wellcomecollection.org/visit-us/events-tickets'} %}
           </div>
-        {% endif %}
-
-        {% if eventInfo.isDropIn %}
-          {% if event.location.capacity %}
-            <h3 class="{{ {s:'HNM4'} | fontClasses }}">Booking information</h3>
-            <div class="{{ {s:'HNL4'} | fontClasses }}">
-              <p>
-                First come, first served from the Information Point on level 0.
-                Please be aware that tickets can run out if we are busy.
-                Doors open 15 minutes prior to the event starting.
-              </p>
-              {% componentV2 'more-info-link', {name: 'View our ticketing policy', url: 'https://wellcomecollection.org/visit-us/events-tickets'} %}
-            </div>
-          {% endif %}
+        {% elif eventInfo.ticketingType === 'First come, first seated' %}
+          <h3 class="{{ {s:'HNM4'} | fontClasses }}">Booking information</h3>
+          <div class="{{ {s:'HNL4'} | fontClasses }}">
+            <p>
+              First come, first seated from the Information Point on level 0.
+              Please be aware that tickets can run out if we are busy.
+              Doors open 15 minutes prior to the event starting.
+            </p>
+            {% componentV2 'more-info-link', {name: 'View our ticketing policy', url: 'https://wellcomecollection.org/visit-us/events-tickets'} %}
+          </div>
+        {% elif eventInfo.ticketingType === 'Drop in' %}
+          <h3 class="{{ {s:'HNM4'} | fontClasses }}">Booking information</h3>
+          <div class="{{ {s:'HNL4'} | fontClasses }}">
+            <p>
+              This is a drop in event.
+              For these events you just have to turn up, and there is usually room for everyone.
+            </p>
+            {% componentV2 'more-info-link', {name: 'View our ticketing policy', url: 'https://wellcomecollection.org/visit-us/events-tickets'} %}
+          </div>
         {% endif %}
 
         {% if event.format.shortName | lower === 'stt tour' %}
           <h3 class="{{ {s:'HNM4'} | fontClasses }}">Access information</h3>
           <div class="{{ {s:'HNL4'} | fontClasses }}">
             <p>
-              This event is for visitors who are deaf, deafened, and hard-of-hearing.
+              This Speech-to-text tour is designed for visitors who are deaf or hard of hearing.
               For more information please email us at
               <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
               or call 020 7611 222
@@ -125,9 +132,8 @@
         {% if event.format.shortName | lower === 'ad tour' %}
           <h3 class="{{ {s:'HNM4'} | fontClasses }}">Access information</h3>
           <div class="{{ {s:'HNL4'} | fontClasses }}">
-            {# TODO: Get copy for this #}
             <p>
-              This event is for visitors who are TODO: GET COPY.
+              This Audio Described tour is designed for visitors who are blind or partially sighted.
               For more information please email us at
               <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
               or call 020 7611 222
@@ -139,9 +145,8 @@
         {% if event.format.shortName | lower === 'bsl tour' %}
           <h3 class="{{ {s:'HNM4'} | fontClasses }}">Access information</h3>
           <div class="{{ {s:'HNL4'} | fontClasses }}">
-            {# TODO: Get copy for this #}
             <p>
-              This event is for visitors who are TODO: GET COPY.
+              This tour is designed for British Sign Language users.
               For more information please email us at
               <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
               or call 020 7611 222
@@ -156,6 +161,9 @@
             <div class="{{ {s:'HNL4'} | fontClasses }}">
               <p>
                 {{ accessOption.description }}
+                For more information, email us at
+                <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
+                or call 020 7611 2222.
               </p>
               {% componentV2 'more-info-link', {name: 'View our accessability statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
             </div>

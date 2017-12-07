@@ -73,6 +73,7 @@ export type Event = {|
   identifiers: Array<Identifier>;
   title: ?string;
   format: ?EventFormat;
+  isDropIn: boolean,
   times: Array<DateTimeRange>;
   description: ?HTMLString;
   accessOptions: Array<EventAccessOption>;
@@ -104,6 +105,7 @@ export const eventExample = ({
     title: 'Dance Workshop',
     description: 'This event will make you dance till you drop.'
   },
+  isDropIn: true,
   times: [
     {
       startDateTime: new Date('2017-12-01T19:45:00+0000'),

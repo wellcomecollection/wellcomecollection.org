@@ -15,6 +15,13 @@
         "customtypes" : [ "event-formats" ]
       }
     },
+    "isDropIn" : {
+      "type" : "Select",
+      "config" : {
+        "options" : [ "yes" ],
+        "label" : "Drop in"
+      }
+    },
     "times" : {
       "type" : "Group",
       "fieldset" : "Times",
