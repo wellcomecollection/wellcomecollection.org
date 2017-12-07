@@ -32,7 +32,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     }: DateTimeRange);
   });
 
-  const format = doc.data.format && {
+  const format = doc.data.format && !isEmptyDocLink(doc.data.format) && {
     id: doc.data.format.id,
     title: asText(doc.data.format.data.title),
     description: asText(doc.data.format.data.description)
