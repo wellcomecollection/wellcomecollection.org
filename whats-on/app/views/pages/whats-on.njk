@@ -7,4 +7,29 @@
 {% block body %}
   <h1>What's on</h1>
   {{whatsOnStuff}}
+  <div class="x-grid">
+    <div class="grid-12">
+      <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">exhibition promo</div>
+      <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">exhibition promo</div>
+      <div class="{{ {s: 12, m: 6, l: 3, xl:3} | cssGridClasses }}">event promo</div>
+      <div class="{{ {s: 12, m: 6, l: 3, xl:3} | cssGridClasses }}">event promo</div>
+      <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">exhibition promo</div>
+      <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">exhibition promo</div>
+      <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">library promo</div>
+      <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">reading room promo</div>
+      <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">cafe and kitchen</div>
+      <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">Shop</div>
+    </div>
+    {#
+    primary/secondary etc. examples in cardigan
+    <div class="grid-12">
+      <div class="{{ {s: 6, m: 6, l: 7, xl:5} | cssGridClasses }}"></div>
+      <div class="{{ {s: 6, m: 6, l: 5, xl:7} | cssGridClasses }}"></div>
+    </div>
+    <div class="grid-12">
+      <div class="{{ {s: 12, m: 4, l: 4, xl:4} | cssGridClasses }}"></div>
+      <div class="{{ {s: 12, m: 4, l: 4, xl:4} | cssGridClasses }}"></div>
+      <div class="{{ {s: 12, m: 4, l: 4, xl:4} | cssGridClasses }}"></div>
+    </div> #}
+  </div>
 {% endblock %}
