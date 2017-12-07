@@ -6,7 +6,7 @@
 {% set sharedPadding %}
     {{ {s:1} | spacingClasses({padding: ['top', 'bottom']}) }} {{ {s:2} | spacingClasses({padding: ['left', 'right']}) }}
 {% endset %}
-<a id="{{model.id}}" href="{{ model.url }}" class="exhibition-promo {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+<a id="{{model.id}}" href="{{ model.url }}" class="exhibition-promo {{ {s:4} | spacingClasses({padding: ['bottom']}) }}">
   <div class="exhibition-promo__image-container rounded-corners">
     {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
   </div>

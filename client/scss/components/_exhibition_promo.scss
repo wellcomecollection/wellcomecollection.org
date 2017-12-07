@@ -17,16 +17,24 @@
 }
 
 .exhibition-promo__image-container {
-  width: 80%;
   border-radius: $border-radius-unit;
   overflow: hidden;
+
+  @include respond-to('large') {
+    width: 80%;
+  }
 }
 
 .exhibition-promo__description {
-  width: 66%;
-  float: right;
   position: relative;
-  z-index: 1;
-  margin-top: -26%;
-  min-height: 170px;
+  width: calc(100% - (#{map-get($gutter-width, 'small')} * 2));
+  margin: -$v-spacing-unit*3 auto 0;
+
+  @include respond-to('large') {
+    width: 66%;
+    float: right;
+    z-index: 1;
+    min-height: 170px;
+    margin-top: -26%;
+  }
 }
