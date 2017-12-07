@@ -28,7 +28,7 @@
       {% set dateMessageAndColor = {start: model.start, end: model.end} | formatDateRangeWithMessage %}
       <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
         {% set statusColor = 'icon--' + dateMessageAndColor.color %}
-        {% icon 'other/status-indicator', null, [statusColor, 'icon--match-text'] %}
+        {% icon 'status-indicator', null, [statusColor, 'icon--match-text'] %}
       </span>
       <span class="{{ {s:'HNM5'} | fontClasses }}">{{ dateMessageAndColor.text }}</span>
     </span>

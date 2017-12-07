@@ -8,11 +8,11 @@
       <p class="gif-video__unsupported">Your browser can't handle our GIFs.</p>
     </video>
     <button class="gif-video__play-pause js-gif-video__play-pause" type="button" tabindex="0">
-      {% icon 'actions/play' %}
+      {% icon 'play' %}
       <span class="gif-video__button-text">play/pause</span>
     </button>
   </div>
   <figcaption class="gif-video__caption {{ {s:'LR3', m:'LR2'} | fontClasses }} {{ {s:3} | spacingClasses({padding: ['top', 'bottom']}) }} ">
-    {% icon 'other/picture',  null, ['margin-right-s1'] %}{{ model.caption }}
+    {% icon 'image',  null, ['margin-right-s1'] %}{{ model.caption }}
   </figcaption>
 </figure>
