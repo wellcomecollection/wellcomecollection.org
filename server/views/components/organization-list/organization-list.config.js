@@ -4,7 +4,7 @@ const orgOne = ({
   name: 'Org name',
   url: 'Smithsonian Institution',
   logo: 'https://placeholdit.co/i/200x200?text=Smithsonian%20Institution'
-} : Organization);
+}: Organization);
 
 const orgTwo = ({
   name: 'Natural History Museum',

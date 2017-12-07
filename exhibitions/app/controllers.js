@@ -1,11 +1,14 @@
-// @flow
 import {model, services, Prismic, prismicParsers, List} from 'common';
 const {createPageConfig, PaginationFactory} = model;
 const {getPrismicApi} = services;
 const {parsePromoListItem, parseExhibitionsDoc, prismicImage, asText} = prismicParsers;
-import type {ExhibitionPromo} from '../model/exhibition-promo';
+import type {ExhibitionPromo} from './model/exhibition-promo';
 
-export async function renderExhibition(ctx, next) {
+// TODO: Get flow types for koa
+type Context = any;
+type Next = any;
+
+export async function renderExhibition(ctx: Context, next: Next) {
   const id = `${ctx.params.id}`;
   const isPreview = Boolean(ctx.params.preview);
   const exhibitionContent = await getExhibitionAndRelatedContent(id, isPreview ? ctx.request : null);
@@ -39,7 +42,7 @@ export async function renderExhibition(ctx, next) {
   return next();
 }
 
-async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string, qOpts: Object<any>) {
+async function getTypeById(req: ?Request, types: Array<'articles' | 'exhibitions' | 'webcomics'>, id: string, qOpts: Object<any>) {
   const prismic = await getPrismicApi(req);
   const doc = await prismic.getByID(id, qOpts);
   return doc && types.indexOf(doc.type) !== -1 ? doc : null;
@@ -80,11 +83,12 @@ async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request):
     relatedBooks: relatedBooks,
     relatedEvents: relatedEvents,
     relatedGalleries: relatedGalleries,
-    relatedArticles: relatedArticles
+    relatedArticles: relatedArticles,
+    imageGallery: null
   };
 }
 
-export async function renderExhibitionsList(ctx, next) {
+export async function renderExhibitionsList(ctx: Context, next: Next) {
   const page = Number(ctx.request.query.page);
   const allExhibitions = await getExhibitions(page);
   const currentPage = allExhibitions && allExhibitions.page;
@@ -100,7 +104,7 @@ export async function renderExhibitionsList(ctx, next) {
       title: asText(e.data.title),
       image: prismicImage(e.data.promo[0].primary.image),
       description: asText(e.data.promo[0].primary.caption),
-      start: e.data.start ? e.data.start : '2007-06-21T00:00:00+0000',
+      start: e.data.start ? e.data.start : new Date('2007-06-21T00:00:00+0000'),
       end: e.data.end
     };
   });
@@ -129,7 +133,7 @@ export async function renderExhibitionsList(ctx, next) {
   return next();
 }
 
-async function getExhibitions(page = 1, pageSize = 40): Promise {
+async function getExhibitions(page = 1, pageSize = 40): Promise<any> {
   const prismic = await getPrismicApi();
   const exhibitionsList = await prismic.query([
     Prismic.Predicates.any('document.type', ['exhibitions'])

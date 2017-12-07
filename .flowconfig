@@ -1,1 +1,16 @@
-{}
+[ignore]
+.*/.dist/.*
+.*/node_modules/.*
+💩 We have a separate flow task for this for the time being
+<PROJECT_ROOT>/server/.*
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+module.name_mapper='^common\/\(.*\)$' -> '<PROJECT_ROOT>/server/\1'
+
+[strict]

@@ -1,4 +1,3 @@
-// @flow
 import {model} from 'common';
 const {UiComponent, Picture} = model;
 

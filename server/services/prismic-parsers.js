@@ -201,7 +201,7 @@ export function parsePromoListItem(item: Object): Promo {
     title: asText(item.title),
     description: asText(item.description),
     image: parsePicture(item)
-  } : Promo);
+  }: Promo);
 }
 
 export function parsePicture(captionedImage: Object, minWidth: ?string = null): Picture {

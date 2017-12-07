@@ -10,6 +10,7 @@ import {
 } from './prismic-parsers';
 import type {Article} from '../model/article';
 import {List} from 'immutable';
+import type {Event} from '../content-model/events';
 
 type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
 
@@ -34,17 +35,19 @@ const eventFields = [
   'locations.title', 'locations.geolocation', 'locations.level', 'locations.capacity'
 ];
 
-export async function getPrismicApi(req: ?Request) {
-  return req ? await prismicPreviewApi(req) : await prismicApi();
+export async function getPrismicApi(req) {
+  const api = req ? await prismicPreviewApi(req) : await prismicApi();
+
+  return api;
 }
 
-async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string, qOpts: Object<any>) {
+async function getTypeById(req, types: Array<DocumentType>, id: string, qOpts: Object<any>) {
   const prismic = await getPrismicApi(req);
   const doc = await prismic.getByID(id, qOpts);
   return doc && types.indexOf(doc.type) !== -1 ? doc : null;
 }
 
-export async function getArticle(id: string, previewReq: ?Request) {
+export async function getArticle(id: string, previewReq) {
   const fetchLinks = peopleFields.concat(booksFields, seriesFields, contributorFields);
   const article = await getTypeById(previewReq, ['articles', 'webcomics'], id, {fetchLinks});
 
@@ -56,7 +59,7 @@ export async function getArticle(id: string, previewReq: ?Request) {
   }
 }
 
-export async function getEvent(id: string, previewReq: ?Request): Promise<?Event> {
+export async function getEvent(id: string, previewReq): Promise<?Event> {
   const fetchLinks = eventFields.concat(peopleFields, contributorFields);
   const event = await getTypeById(previewReq, ['events'], id, {fetchLinks});
 
@@ -66,11 +69,11 @@ export async function getEvent(id: string, previewReq: ?Request): Promise<?Event
 }
 
 type PaginatedResults = {|
-  currentPage: number,
-  results: List<Article>,
-  pageSize: number,
-  totalResults: number,
-  totalPages: number
+  currentPage: number;
+  results: List<Article>;
+  pageSize: number;
+  totalResults: number;
+  totalPages: number;
 |};
 
 export async function getArticleList(page = 1, {pageSize = 10, predicates = []} = {}) {

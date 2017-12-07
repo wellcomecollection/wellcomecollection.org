@@ -16,4 +16,3 @@ export type Work = {|
     type: string
   }>;
 |};
-

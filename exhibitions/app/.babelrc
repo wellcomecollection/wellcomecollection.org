@@ -1,18 +1,3 @@
 {
-  "presets": [
-    ["env", {
-      "targets": {
-        "node": "current"
-      }
-    }]
-  ],
-  "plugins": [
-    "transform-flow-strip-types",
-    ["module-resolver", {
-      "root": ["./"],
-      "alias": {
-        "common": "../../server"
-      }
-    }]
-  ]
+  "extends": "../../.babelrc_webapp"
 }

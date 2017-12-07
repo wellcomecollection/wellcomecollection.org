@@ -9,6 +9,7 @@ import {prismicAsText} from '../filters/prismic';
 import {getArticle, getSeriesAndArticles, getArticleList, getCuratedList} from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
+import type {Series} from '../model/series';
 
 export const renderArticle = async(ctx, next) => {
   const format = ctx.request.query.format;

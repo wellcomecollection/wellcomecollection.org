@@ -1,6 +1,7 @@
 import { getArticleStubs } from '../../services/wordpress';
 import { PromoListFactory } from '../../model/promo-list';
 import { PaginationFactory } from '../../model/pagination';
+import type { Series } from '../../model/series';
 
 export const name = 'list';
 export const handle = 'list-template';

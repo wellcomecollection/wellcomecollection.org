@@ -39,7 +39,7 @@ export class ArticleStubFactory {
         description: cat.description,
         commissionedLength: getSeriesCommissionedLength(cat.slug),
         color: getSeriesColor(cat.slug)
-      } : ArticleSeries);
+      }: ArticleSeries);
     });
 
     const articleStub: ArticleStub = { contentType, url, headline, description, thumbnail, datePublished, series, positionInSeries };

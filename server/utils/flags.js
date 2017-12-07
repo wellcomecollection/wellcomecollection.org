@@ -19,4 +19,3 @@ export function getFlag(flagName: string): FeatureFlag {
 
   return {enabled, value};
 }
-
