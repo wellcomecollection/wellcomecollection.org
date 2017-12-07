@@ -278,7 +278,7 @@ async function getEvents(page:number = 1, pageSize:number = 40) {
   const prismic = await getPrismicApi();
   const events = await prismic.query([
     Prismic.Predicates.any('document.type', ['events'])
-  ], {page, pageSize}); // TODO: add orderings by first time in times ?
+  ], {page, pageSize}); // TODO: add orderings by first time in times?
 
   return events;
 }
