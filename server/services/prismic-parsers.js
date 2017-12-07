@@ -32,6 +32,12 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     }: DateTimeRange);
   });
 
+  const format = doc.data.format && {
+    id: doc.data.format.id,
+    title: asText(doc.data.format.data.title),
+    description: asText(doc.data.format.data.description)
+  };
+
   // matching https://www.eventbrite.co.uk/e/40144900478?aff=efbneb
   const eventbriteIdMatch = doc.data.eventbriteEvent && /\/e\/([0-9]+)/.exec(doc.data.eventbriteEvent.url);
   const identifiers = eventbriteIdMatch ? [{
@@ -60,19 +66,20 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     capacity: doc.data.location.data.level
   }: EventLocation) : null;
 
+  const accessOptions = doc.data.accessOptions.map(ao => !isEmptyDocLink(ao.accessOption) ? ({
+    title: asText(ao.accessOption.data.title),
+    shortName: asText(ao.accessOption.data.description),
+    acronym: ao.accessOption.data.acronym
+  }) : null).filter(_ => _);
+
   const e = ({
     id: doc.id,
     identifiers: identifiers,
     title: asText(doc.data.title),
-    format: doc.data.format.data && ({
-      id: doc.data.format.id,
-      title: asText(doc.data.format.data.title)
-    }: EventFormat),
+    format: format,
     times: times,
     description: asHtml(doc.data.description),
-    accessOptions: doc.data.accessOptions.map(ao => !isEmptyDocLink(ao.accessOption) ? ({
-      accessOption: { title: asText(ao.accessOption.data.title), acronym: ao.accessOption.data.acronym }
-    }) : null).filter(_ => _),
+    accessOptions: accessOptions,
     bookingEnquiryTeam: bookingEnquiryTeam,
     contributors: contributors,
     promo: promo,
