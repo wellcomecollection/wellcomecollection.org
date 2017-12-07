@@ -177,16 +177,12 @@ async function getExhibitions(page:number = 1, pageSize:number = 40): Promise<an
   return exhibitions;
 }
 
-async function convertResultsToPromos(allResults, type) {
+function convertResultsToPromos(allResults, type) {
   switch (type) {
     case 'exhibition':
-      const exhibitionPromos = await createExhibitionPromos(allResults);
-
-      return exhibitionPromos;
+      return createExhibitionPromos(allResults);
     case 'event':
-      const eventPromos = await createEventPromos(allResults);
-
-      return eventPromos;
+      return createEventPromos(allResults);
   }
 }
 
@@ -248,11 +244,11 @@ function convertStringToNumber(string: string): number {
 async function getResults(page: number, type: string): Promise<any> { // TODO make type its own enumerable thing}
   switch (type) {
     case 'exhibition':
-      const exhibitions = getExhibitions(page);
+      const exhibitions = await getExhibitions(page);
 
       return exhibitions;
     case 'event':
-      const events = getEvents(page);
+      const events = await getEvents(page);
       return events;
   }
 }
@@ -265,7 +261,7 @@ export async function getPaginatedResults(page: number, type: string): Promise<P
   const totalPages = allResults && allResults.total_pages;
   const pagination = PaginationFactory.fromList(List(allResults.results), parseInt(totalResults, 10) || 1, parseInt(page, 10) || 1, pageSize || 1);
 
-  const promos = await convertResultsToPromos(allResults, type);
+  const promos = convertResultsToPromos(allResults, type);
 
   return {
     currentPage,

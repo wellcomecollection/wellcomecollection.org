@@ -4,7 +4,7 @@
   {% set metaContent = {
     type: 'website',
     title: 'Events',
-    image: eventsList.results[0].image.contentUrl,
+    image: paginatedEvents.results[0].image.contentUrl,
     url: pageConfig.canonicalUri,
     description: ''
   } %}
@@ -15,9 +15,9 @@
 {% endblock %}
 
 {% block body %}
-  {% componentV2 'list-header', {name: 'Events', total: eventsList.results.length} %}
+  {% componentV2 'list-header', {name: 'Events', total: paginatedEvents.results.length} %}
   <script type="application/ld+json">
-    [{% for event in eventsList.results %}
+    [{% for event in paginatedEvents.results %}
       {{ event | jsonLd('eventLd') | safe }}
       {{ ',' if not loop.last }}
     {% endfor %}]
@@ -26,7 +26,7 @@
   <div class="row {{ {s:4, m:4, l:4} | spacingClasses({padding: ['top']}) }} ">
     <div class="container">
       <div class="grid">
-        {% for event in eventsList.results %}
+        {% for event in paginatedEvents.results %}
           <div class="{{ {s: 12, m: 6} | gridClasses }}">
             {% componentV2 'event-promo', event %}
           </div>
@@ -38,12 +38,12 @@
   <div class="row {{ {s:2, m:2, l:2} | spacingClasses({padding: ['top']}) }} {{ {s:3, m:3, l:3} | spacingClasses({padding: ['bottom']}) }} ">
     <div class="container">
       <div class="grid">
-          {% if eventsList.pagination.pageCount > 1  %}
+          {% if paginatedEvents.pagination.pageCount > 1  %}
             <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}"  style="text-align: right">
-              {% componentV2 'pagination', eventsList.pagination %}
+              {% componentV2 'pagination', paginatedEvents.pagination %}
             </div>
           {% endif %}
-          {% if eventsList.currentPage === eventsList.totalPages %}
+          {% if paginatedEvents.currentPage === paginatedEvents.totalPages %}
             <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }}"  style="text-align: right">
               <a href="/events/past">More events from the archive</a>
             </div>
