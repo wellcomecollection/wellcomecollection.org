@@ -136,6 +136,20 @@
           </div>
         {% endif %}
 
+        {% if event.format.shortName | lower === 'bsl tour' %}
+          <h3 class="{{ {s:'HNM4'} | fontClasses }}">Access information</h3>
+          <div class="{{ {s:'HNL4'} | fontClasses }}">
+            {# TODO: Get copy for this #}
+            <p>
+              This event is for vistors who are TODO: GET COPY.
+              For more information please email us at
+              <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
+              or call 020 7611 222
+            </p>
+            {% componentV2 'more-info-link', {name: 'View our accessability statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
+          </div>
+        {% endif %}
+
         {% for accessOption in event.accessOptions %}
           {% if accessOption.description %}
             <h3 class="{{ {s:'HNM4'} | fontClasses }}">Access information</h3>
