@@ -38,8 +38,8 @@
     "description" : {
       "type" : "StructuredText",
       "config" : {
-        "label" : "Description",
-        "multi" : "heading2,paragraph,strong,em,hyperlink"
+        "multi" : "paragraph, heading2, strong, em, hyperlink, list-item",
+        "label" : "Description"
       }
     }
   },
