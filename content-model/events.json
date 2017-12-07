@@ -35,13 +35,6 @@
         }
       }
     },
-    "isDropIn" : {
-      "type" : "Select",
-      "config" : {
-        "options" : [ "yes" ],
-        "label" : "Drop in"
-      }
-    },
     "description" : {
       "type" : "StructuredText",
       "config" : {
@@ -91,6 +84,13 @@
       "type" : "Embed",
       "config" : {
         "label" : "Eventbrite Event"
+      }
+    },
+    "isDropIn" : {
+      "type" : "Select",
+      "config" : {
+        "options" : [ "yes" ],
+        "label" : "Drop in"
       }
     }
   },
