@@ -32,11 +32,11 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     }: DateTimeRange);
   });
 
-  const format = doc.data.format && !isEmptyDocLink(doc.data.format) && {
+  const format = (doc.data.format && !isEmptyDocLink(doc.data.format)) ? {
     id: doc.data.format.id,
     title: asText(doc.data.format.data.title),
     description: asText(doc.data.format.data.description)
-  };
+  } : null;
 
   // matching https://www.eventbrite.co.uk/e/40144900478?aff=efbneb
   const eventbriteIdMatch = doc.data.eventbriteEvent && /\/e\/([0-9]+)/.exec(doc.data.eventbriteEvent.url);

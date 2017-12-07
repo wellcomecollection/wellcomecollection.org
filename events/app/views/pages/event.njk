@@ -84,7 +84,7 @@
                         {s: 4} | spacingClasses({padding: ['left', 'right']})
                       ].join(' ') }} flex-inline flex--v-center flex--h-center btn btn--full-width-s"
                href="https://www.eventbrite.com/e/{{ eventInfo.eventbriteId }}/">
-              <span>{% icon 'other/ticket' %}</span>
+              <span>{% icon 'ticket' %}</span>
               Book free tickets
             </a>
             <p class="font-charcoal {{ {s:'HNL5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}">with Eventbrite</p>
@@ -98,7 +98,7 @@
                         {s: 4} | spacingClasses({padding: ['left', 'right']})
                       ].join(' ') }} flex-inline flex--h-center btn btn--full-width-s"
                href="mailto:{{ event.bookingEnquiryTeam.email }}">
-              <span>{% icon 'actions/comments' %}</span>
+              <span>{% icon 'email', null, ['icon--white'] %}</span>
               Email to book
             </a>
             <a class="block font-charcoal {{ {s:'HNL5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}"
