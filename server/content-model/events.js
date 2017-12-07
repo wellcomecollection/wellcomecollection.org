@@ -22,7 +22,8 @@ export type Contributor = {|
 export type EventFormat = {|
   id: string;
   title: string;
-  description: string;
+  shortName: ?string;
+  description: ?string;
 |}
 
 export type EventSeries = {|
@@ -36,8 +37,7 @@ export type EventSeries = {|
 type EventAccessOption = {|
   id: string;
   title: string;
-  shortName: ?string;
-  acronym: string;
+  description: ?string;
 |}
 
 export type EventBookingEnquiryTeam = {|
@@ -73,6 +73,7 @@ export type Event = {|
   identifiers: Array<Identifier>;
   title: ?string;
   format: ?EventFormat;
+  isDropIn: boolean,
   times: Array<DateTimeRange>;
   description: ?HTMLString;
   accessOptions: Array<EventAccessOption>;
@@ -101,9 +102,14 @@ export const eventExample = ({
   title: 'Haitian Vodou Ritual',
   format: {
     id: 'QYCcAACcAoiJS',
-    title: 'Dance Workshop',
-    description: 'This event will make you dance till you drop.'
+    title: 'British sign language tour',
+    shortName: 'BSL Tour',
+    description: 'This tour is designed for British Sign Language users.\n' +
+      'For more information please email us at\n' +
+      '<a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>\n' +
+      'or call 020 7611 222'
   },
+  isDropIn: true,
   times: [
     {
       startDateTime: new Date('2017-12-01T19:45:00+0000'),
@@ -130,8 +136,7 @@ export const eventExample = ({
     {
       id: 'WcLABisAACx_BDQV',
       title: 'British sign language interpreted',
-      shortName: 'BSL Tour',
-      acronym: 'bsl'
+      description: 'This event is BSL sign language'
     }
   ],
   series: [

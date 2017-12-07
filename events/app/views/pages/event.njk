@@ -31,12 +31,18 @@
   <div class="container relative {{ {s: -4} | spacingClasses({margin: ['top']}) }}">
     <div class="bg-cream rounded-diagonal {{ {s: 4} | spacingClasses({padding: ['top', 'bottom', 'left', 'right']}) }}">
       <div class="{{ {s:'HNM4'} | fontClasses }}">
-        {% if event.format.shortName %}
-          <abbr title="{{ event.format.title }}">{{ event.format.shortName }}</abbr>
-        {% else %}
-          {{ event.format.title }}
-        {% endif %}
+        <div class="flex">
+          {% for accessOption in event.accessOptions %}
+            {# TODO: This is not very nice #}
+            <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon accessOption.title | replace(' ', '_') | replace('-', '_') | lower %}</span>
+          {% endfor %}
 
+          {% if event.format.shortName %}
+            <abbr title="{{ event.format.title }}">{{ event.format.shortName }}</abbr>
+          {% else %}
+            <span>{{ event.format.title }}</span>
+          {% endif %}
+        </div>
       </div>
 
       <div class="{{- [
@@ -50,9 +56,11 @@
       <div class="flex flex--v-center {{ {s:'HNM5'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">
         <span class="{{ {s: 2} | spacingClasses({margin: ['right']}) }}">{% icon 'ticket' %}</span>
         <span class="caps {{ {s: 1} | spacingClasses({padding: ['right']}) }}">Free</span>
-        <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
-          Enquire to book
-        </span>
+        {% if eventInfo.bookingType %}
+          <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
+            {{ eventInfo.bookingType }}
+          </span>
+        {% endif %}
       </div>
 
       <div class="{{ {s:'HNL4'} | fontClasses }}">
@@ -77,7 +85,7 @@
                         {s: 4} | spacingClasses({padding: ['left', 'right']})
                       ].join(' ') }} flex-inline flex--v-center flex--h-center btn btn--full-width-s"
                href="https://www.eventbrite.com/e/{{ eventInfo.eventbriteId }}/">
-              <span>{% icon 'other/ticket' %}</span>
+              <span>{% icon 'ticket' %}</span>
               Book free tickets
             </a>
             <p class="font-charcoal {{ {s:'HNL5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}">with Eventbrite</p>
@@ -91,7 +99,7 @@
                         {s: 4} | spacingClasses({padding: ['left', 'right']})
                       ].join(' ') }} flex-inline flex--h-center btn btn--full-width-s"
                href="mailto:{{ event.bookingEnquiryTeam.email }}">
-              <span>{% icon 'actions/comments' %}</span>
+              <span>{% icon 'email', null, ['icon--white'] %}</span>
               Email to book
             </a>
             <a class="block font-charcoal {{ {s:'HNL5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}"
@@ -101,7 +109,7 @@
       </div>
 
       <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
-        {% if eventInfo.eventbriteId %}
+        {% if eventInfo.bookingType == 'Ticketed' %}
           <h3 class="{{ {s:'HNM4'} | fontClasses }}">Booking information</h3>
           <div class="{{ {s:'HNL4'} | fontClasses }}">
             <p>
@@ -110,74 +118,50 @@
             </p>
             {% componentV2 'more-info-link', {name: 'View our ticketing policy', url: 'https://wellcomecollection.org/visit-us/events-tickets'} %}
           </div>
-        {% endif %}
-
-        {% if eventInfo.isDropIn %}
-          {% if event.location.capacity %}
-            <h3 class="{{ {s:'HNM4'} | fontClasses }}">Booking information</h3>
-            <div class="{{ {s:'HNL4'} | fontClasses }}">
-              <p>
-                First come, first served from the Information Point on level 0.
-                Please be aware that tickets can run out if we are busy.
-                Doors open 15 minutes prior to the event starting.
-              </p>
-              {% componentV2 'more-info-link', {name: 'View our ticketing policy', url: 'https://wellcomecollection.org/visit-us/events-tickets'} %}
-            </div>
-          {% endif %}
-        {% endif %}
-
-        {% if event.format.shortName | lower === 'stt tour' %}
-          <h3 class="{{ {s:'HNM4'} | fontClasses }}">Access information</h3>
+        {% elif eventInfo.bookingType === 'First come, first seated' %}
+          <h3 class="{{ {s:'HNM4'} | fontClasses }}">Booking information</h3>
           <div class="{{ {s:'HNL4'} | fontClasses }}">
             <p>
-              This event is for visitors who are deaf, deafened, and hard-of-hearing.
-              For more information please email us at
-              <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
-              or call 020 7611 222
+              First come, first seated from the Information Point on level 0.
+              Please be aware that tickets can run out if we are busy.
+              Doors open 15 minutes prior to the event starting.
             </p>
-            {% componentV2 'more-info-link', {name: 'View our accessability statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
+            {% componentV2 'more-info-link', {name: 'View our ticketing policy', url: 'https://wellcomecollection.org/visit-us/events-tickets'} %}
+          </div>
+        {% elif eventInfo.bookingType === 'Drop in' %}
+          <h3 class="{{ {s:'HNM4'} | fontClasses }}">Booking information</h3>
+          <div class="{{ {s:'HNL4'} | fontClasses }}">
+            <p>
+              This is a drop in event.
+              For these events you just have to turn up, and there is usually room for everyone.
+            </p>
+            {% componentV2 'more-info-link', {name: 'View our ticketing policy', url: 'https://wellcomecollection.org/visit-us/events-tickets'} %}
           </div>
         {% endif %}
 
-        {% if event.format.shortName | lower === 'ad tour' %}
+        {# this logic is a little wrong, but we only have descriptions on access tours, so works #}
+        {% if event.format.description %}
           <h3 class="{{ {s:'HNM4'} | fontClasses }}">Access information</h3>
           <div class="{{ {s:'HNL4'} | fontClasses }}">
-            {# TODO: Get copy for this #}
-            <p>
-              This event is for visitors who are TODO: GET COPY.
-              For more information please email us at
-              <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
-              or call 020 7611 222
-            </p>
+            {{ event.format.description | safe }}
             {% componentV2 'more-info-link', {name: 'View our accessability statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
           </div>
+        {% else %}
+          {% for accessOption in event.accessOptions %}
+            {% if accessOption.description %}
+              <h3 class="{{ {s:'HNM4'} | fontClasses }}">Access information</h3>
+              <div class="{{ {s:'HNL4'} | fontClasses }}">
+                <p>
+                  {{ accessOption.description }}
+                  For more information, email us at
+                  <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
+                  or call 020 7611 2222.
+                </p>
+                {% componentV2 'more-info-link', {name: 'View our accessability statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
+              </div>
+            {% endif %}
+          {% endfor %}
         {% endif %}
-
-        {% if event.format.shortName | lower === 'bsl tour' %}
-          <h3 class="{{ {s:'HNM4'} | fontClasses }}">Access information</h3>
-          <div class="{{ {s:'HNL4'} | fontClasses }}">
-            {# TODO: Get copy for this #}
-            <p>
-              This event is for visitors who are TODO: GET COPY.
-              For more information please email us at
-              <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
-              or call 020 7611 222
-            </p>
-            {% componentV2 'more-info-link', {name: 'View our accessability statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
-          </div>
-        {% endif %}
-
-        {% for accessOption in event.accessOptions %}
-          {% if accessOption.description %}
-            <h3 class="{{ {s:'HNM4'} | fontClasses }}">Access information</h3>
-            <div class="{{ {s:'HNL4'} | fontClasses }}">
-              <p>
-                {{ accessOption.description }}
-              </p>
-              {% componentV2 'more-info-link', {name: 'View our accessability statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
-            </div>
-          {% endif %}
-        {% endfor %}
       </div>
 
     </div>
