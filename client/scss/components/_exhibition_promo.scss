@@ -2,6 +2,16 @@
   @include clearfix;
   display: block;
   position: relative;
+  text-decoration: none;
+}
+
+.exhibition-promo__title {
+  transition: color 400ms ease;
+
+  .exhibition-promo:hover &,
+  .exhibition-promo:focus & {
+    color: color('mint');
+  }
 }
 
 .exhibition-promo__label {

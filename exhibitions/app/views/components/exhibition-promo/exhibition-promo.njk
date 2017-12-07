@@ -11,7 +11,7 @@
     {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
   </div>
   <div class="exhibition-promo__description bg-cream rounded-diagonal {{sharedPadding}} {{ {s:10} | spacingClasses({padding: ['top']}) }} {{ {s:4} | spacingClasses({padding: ['bottom']}) }}">
-    <h2 class="{{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
+    <h2 class="exhibition-promo__title {{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
     <div class="exhibition-promo__label">
      {% componentV2 'tags', [{text: 'Exhibition'}] %}
     </div>
