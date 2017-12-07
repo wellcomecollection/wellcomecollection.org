@@ -57,19 +57,16 @@
 
       <div class="{{ {s:'HNL4'} | fontClasses }}">
         {% for dateRange in event.times %}
-          <div class="flex border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+          <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
             {% set formattedDateRange = dateRange.startDateTime | formatAndDedupeOnDate(dateRange.endDateTime) %}
-            <span class="{{ {s: 2} | spacingClasses({margin: ['right']}) }}">{% icon 'other/calendar' %}</span>
-            <div>
+            <time class="block">
+              <b class="{{ {s:'HNM4'} | fontClasses }}">{{ formattedDateRange | joinDateStrings }}</b>
+            </time>
+            {% if (formattedDateRange.size === 1) %}
               <time class="block">
-                <b class="{{ {s:'HNM4'} | fontClasses }}">{{ formattedDateRange | joinDateStrings }}</b>
+                {{ dateRange.startDateTime | formatAndDedupeOnTime(dateRange.endDateTime) | joinDateStrings }}
               </time>
-              {% if (formattedDateRange.size === 1) %}
-                <time class="block">
-                  {{ dateRange.startDateTime | formatAndDedupeOnTime(dateRange.endDateTime) | joinDateStrings }}
-                </time>
-              {% endif %}
-            </div>
+            {% endif %}
           </div>
         {% endfor %}
 
