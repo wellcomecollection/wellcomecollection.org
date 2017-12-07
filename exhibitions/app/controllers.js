@@ -42,7 +42,7 @@ export async function renderExhibition(ctx, next) {
 
 export async function renderExhibitionsList(ctx, next) {
   const page = Number(ctx.request.query.page);
-  const exhibitionsList = await getPaginatedResults(page, 'exhibition');
+  const paginatedExhibitions = await getPaginatedResults(page, 'exhibition');
 
   ctx.render('pages/exhibitions', {
     pageConfig: createPageConfig({
@@ -53,7 +53,7 @@ export async function renderExhibitionsList(ctx, next) {
       contentType: 'listing',
       canonicalUri: '/exhibitions'
     }),
-    exhibitionsList
+    paginatedExhibitions
   });
 
   return next();
