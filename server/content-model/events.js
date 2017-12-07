@@ -23,6 +23,7 @@ export type EventFormat = {|
   id: string;
   title: string;
   shortName: ?string;
+  description: ?string;
 |}
 
 export type EventSeries = {|
@@ -102,7 +103,11 @@ export const eventExample = ({
   format: {
     id: 'QYCcAACcAoiJS',
     title: 'British sign language tour',
-    shortName: 'BSL Tour'
+    shortName: 'BSL Tour',
+    description: 'This tour is designed for British Sign Language users.\n' +
+      'For more information please email us at\n' +
+      '<a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>\n' +
+      'or call 020 7611 222'
   },
   isDropIn: true,
   times: [

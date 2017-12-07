@@ -34,7 +34,7 @@ const eventFields = [
   'event-booking-enquiry-teams.title', 'event-booking-enquiry-teams.email', 'event-booking-enquiry-teams.phone',
   'event-booking-enquiry-teams.url',
   'event-contributor-roles.title',
-  'event-formats.title', 'event-formats.shortName',
+  'event-formats.title', 'event-formats.description', 'event-formats.shortName',
   'event-programmes.title',
   'locations.title', 'locations.geolocation', 'locations.level', 'locations.capacity'
 ];

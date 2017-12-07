@@ -35,7 +35,8 @@ export function parseEventDoc(doc: PrismicDoc): Event {
   const format = (doc.data.format && !isEmptyDocLink(doc.data.format)) ? {
     id: doc.data.format.id,
     title: asText(doc.data.format.data.title),
-    shortName: asText(doc.data.format.data.shortName)
+    shortName: asText(doc.data.format.data.shortName),
+    description: asHtml(doc.data.format.data.description)
   } : null;
 
   // matching https://www.eventbrite.co.uk/e/40144900478?aff=efbneb

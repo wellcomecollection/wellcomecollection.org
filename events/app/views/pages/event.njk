@@ -36,6 +36,7 @@
             {# TODO: This is not very nice #}
             <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon accessOption.title | replace(' ', '_') | replace('-', '_') | lower %}</span>
           {% endfor %}
+
           {% if event.format.shortName %}
             <abbr title="{{ event.format.title }}">{{ event.format.shortName }}</abbr>
           {% else %}
@@ -138,59 +139,29 @@
           </div>
         {% endif %}
 
-        {% if event.format.shortName | lower === 'stt tour' %}
+        {# this logic is a little wrong, but we only have descriptions on access tours, so works #}
+        {% if event.format.description %}
           <h3 class="{{ {s:'HNM4'} | fontClasses }}">Access information</h3>
           <div class="{{ {s:'HNL4'} | fontClasses }}">
-            <p>
-              This Speech-to-text tour is designed for visitors who are deaf or hard of hearing.
-              For more information please email us at
-              <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
-              or call 020 7611 222
-            </p>
+            {{ event.format.description | safe }}
             {% componentV2 'more-info-link', {name: 'View our accessability statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
           </div>
+        {% else %}
+          {% for accessOption in event.accessOptions %}
+            {% if accessOption.description %}
+              <h3 class="{{ {s:'HNM4'} | fontClasses }}">Access information</h3>
+              <div class="{{ {s:'HNL4'} | fontClasses }}">
+                <p>
+                  {{ accessOption.description }}
+                  For more information, email us at
+                  <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
+                  or call 020 7611 2222.
+                </p>
+                {% componentV2 'more-info-link', {name: 'View our accessability statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
+              </div>
+            {% endif %}
+          {% endfor %}
         {% endif %}
-
-        {% if event.format.shortName | lower === 'ad tour' %}
-          <h3 class="{{ {s:'HNM4'} | fontClasses }}">Access information</h3>
-          <div class="{{ {s:'HNL4'} | fontClasses }}">
-            <p>
-              This Audio Described tour is designed for visitors who are blind or partially sighted.
-              For more information please email us at
-              <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
-              or call 020 7611 222
-            </p>
-            {% componentV2 'more-info-link', {name: 'View our accessability statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
-          </div>
-        {% endif %}
-
-        {% if event.format.shortName | lower === 'bsl tour' %}
-          <h3 class="{{ {s:'HNM4'} | fontClasses }}">Access information</h3>
-          <div class="{{ {s:'HNL4'} | fontClasses }}">
-            <p>
-              This tour is designed for British Sign Language users.
-              For more information please email us at
-              <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
-              or call 020 7611 222
-            </p>
-            {% componentV2 'more-info-link', {name: 'View our accessability statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
-          </div>
-        {% endif %}
-
-        {% for accessOption in event.accessOptions %}
-          {% if accessOption.description %}
-            <h3 class="{{ {s:'HNM4'} | fontClasses }}">Access information</h3>
-            <div class="{{ {s:'HNL4'} | fontClasses }}">
-              <p>
-                {{ accessOption.description }}
-                For more information, email us at
-                <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
-                or call 020 7611 2222.
-              </p>
-              {% componentV2 'more-info-link', {name: 'View our accessability statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
-            </div>
-          {% endif %}
-        {% endfor %}
       </div>
 
     </div>
