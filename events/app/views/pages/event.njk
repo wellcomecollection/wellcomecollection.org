@@ -64,28 +64,45 @@
 
       <div class="{{ {s:'HNL4'} | fontClasses }}">
         {% for dateRange in event.times %}
-          <div class="flex border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+          <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
             {% set formattedDateRange = dateRange.startDateTime | formatAndDedupeOnDate(dateRange.endDateTime) %}
-            <span class="{{ {s: 2} | spacingClasses({margin: ['right']}) }}">{% icon 'calendar' %}</span>
-            <div>
+            <time class="block">
+              <b class="{{ {s:'HNM4'} | fontClasses }}">{{ formattedDateRange | joinDateStrings }}</b>
+            </time>
+            {% if (formattedDateRange.size === 1) %}
               <time class="block">
-                <b class="{{ {s:'HNM4'} | fontClasses }}">{{ formattedDateRange | joinDateStrings }}</b>
+                {{ dateRange.startDateTime | formatAndDedupeOnTime(dateRange.endDateTime) | joinDateStrings }}
               </time>
-              {% if (formattedDateRange.size === 1) %}
-                <time class="block">
-                  {{ dateRange.startDateTime | formatAndDedupeOnTime(dateRange.endDateTime) | joinDateStrings }}
-                </time>
-              {% endif %}
-            </div>
+            {% endif %}
           </div>
         {% endfor %}
 
         {% if eventInfo.eventbriteId %}
           <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
-            <a class="flex-inline flex--v-center btn {{ {s:'HNM4'} | fontClasses }} {{ {s: 4} | spacingClasses({padding: ['left', 'right']}) }}" href="https://www.eventbrite.com/e/{{ eventInfo.eventbriteId }}/">
-              <span>{% icon 'ticket' %}</span>
+            <a class="{{- [
+                        {s:'HNM4'} | fontClasses,
+                        {s: 4} | spacingClasses({padding: ['left', 'right']})
+                      ].join(' ') }} flex-inline flex--v-center flex--h-center btn btn--full-width-s"
+               href="https://www.eventbrite.com/e/{{ eventInfo.eventbriteId }}/">
+              <span>{% icon 'other/ticket' %}</span>
               Book free tickets
             </a>
+            <p class="font-charcoal {{ {s:'HNL5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}">with Eventbrite</p>
+          </div>
+        {% endif %}
+
+        {% if event.bookingEnquiryTeam %}
+          <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+            <a class="{{- [
+                        {s:'HNM4'} | fontClasses,
+                        {s: 4} | spacingClasses({padding: ['left', 'right']})
+                      ].join(' ') }} flex-inline flex--h-center btn btn--full-width-s"
+               href="mailto:{{ event.bookingEnquiryTeam.email }}">
+              <span>{% icon 'actions/comments' %}</span>
+              Email to book
+            </a>
+            <a class="block font-charcoal {{ {s:'HNL5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}"
+               href="mailto:{{ event.bookingEnquiryTeam.email }}">{{ event.bookingEnquiryTeam.email }}</a>
           </div>
         {% endif %}
       </div>
