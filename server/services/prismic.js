@@ -39,7 +39,9 @@ const eventFields = [
 ];
 
 export async function getPrismicApi(req: ?Request) {
-  return req ? await prismicPreviewApi(req) : await prismicApi();
+  const api = req ? await prismicPreviewApi(req) : await prismicApi();
+
+  return api;
 }
 
 async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string, qOpts: Object<any>) {
@@ -177,9 +179,13 @@ async function getExhibitions(page:number = 1, pageSize:number = 40): Promise<an
 async function createPromos(allResults, type) {
   switch (type) {
     case 'exhibition':
-      return await createExhibitionPromos(allResults);
+      const exhibitionPromos = await createExhibitionPromos(allResults);
+
+      return exhibitionPromos;
     case 'event':
-      return await createEventPromos(allResults);
+      const eventPromos = await createEventPromos(allResults);
+
+      return eventPromos;
   }
 }
 
@@ -238,9 +244,12 @@ function getNumberFromString(string: string): number {
 async function getResults(page: number, type: string): Promise<any> { // TODO make type its own enumerable thing}
   switch (type) {
     case 'exhibition':
-      return await getExhibitions(page);
+      const exhibitions = getExhibitions(page);
+
+      return exhibitions;
     case 'event':
-      return await getEvents(page);
+      const events = getEvents(page);
+      return events;
   }
 }
 
