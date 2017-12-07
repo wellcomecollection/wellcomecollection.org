@@ -35,13 +35,13 @@ export async function renderEvent(ctx, next, overrideId, gaExp) {
 
       const eventbriteIdScheme = event.identifiers.find(id => id.identifierScheme === 'eventbrite-id');
       const eventbriteId = eventbriteIdScheme && eventbriteIdScheme.value;
-      const ticketingType =
+      const bookingType =
         eventbriteId ? 'Ticketed' :
         event.bookingEnquiryTeam ? 'Enquire to book' :
         event.location && event.location.capacity  ? 'First come, first seated' :
         event.isDropIn ? 'Drop in' : null;
 
-      const eventInfo = { eventbriteId, ticketingType };
+      const eventInfo = { eventbriteId, bookingType };
 
 
 

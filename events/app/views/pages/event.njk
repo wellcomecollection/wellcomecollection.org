@@ -50,9 +50,9 @@
       <div class="flex flex--v-center {{ {s:'HNM5'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">
         <span class="{{ {s: 2} | spacingClasses({margin: ['right']}) }}">{% icon 'other/ticket' %}</span>
         <span class="caps {{ {s: 1} | spacingClasses({padding: ['right']}) }}">Free</span>
-        {% if eventInfo.ticketingType %}
+        {% if eventInfo.bookingType %}
           <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
-            {{ eventInfo.ticketingType }}
+            {{ eventInfo.bookingType }}
           </span>
         {% endif %}
       </div>
@@ -86,7 +86,7 @@
       </div>
 
       <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
-        {% if eventInfo.ticketingType == 'Ticketed' %}
+        {% if eventInfo.bookingType == 'Ticketed' %}
           <h3 class="{{ {s:'HNM4'} | fontClasses }}">Booking information</h3>
           <div class="{{ {s:'HNL4'} | fontClasses }}">
             <p>
@@ -95,7 +95,7 @@
             </p>
             {% componentV2 'more-info-link', {name: 'View our ticketing policy', url: 'https://wellcomecollection.org/visit-us/events-tickets'} %}
           </div>
-        {% elif eventInfo.ticketingType === 'First come, first seated' %}
+        {% elif eventInfo.bookingType === 'First come, first seated' %}
           <h3 class="{{ {s:'HNM4'} | fontClasses }}">Booking information</h3>
           <div class="{{ {s:'HNL4'} | fontClasses }}">
             <p>
@@ -105,7 +105,7 @@
             </p>
             {% componentV2 'more-info-link', {name: 'View our ticketing policy', url: 'https://wellcomecollection.org/visit-us/events-tickets'} %}
           </div>
-        {% elif eventInfo.ticketingType === 'Drop in' %}
+        {% elif eventInfo.bookingType === 'Drop in' %}
           <h3 class="{{ {s:'HNM4'} | fontClasses }}">Booking information</h3>
           <div class="{{ {s:'HNL4'} | fontClasses }}">
             <p>
