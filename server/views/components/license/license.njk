@@ -14,7 +14,7 @@
       <span class="flex {{ {s:'LR2'} | fontClasses }}">
     {% endif %}
       {% for icon in licenseInfo.icons %}
-        {% icon 'other/' + icon, null, iconClasses %}
+        {% icon '' + icon, null, iconClasses %}
       {% endfor %}
       <span class="{{ 'link-underline' if licenseInfo.url }}">{{ licenseInfo.text }}</span>
     </{{ 'a' if licenseInfo.url else 'span' }}>

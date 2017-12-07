@@ -39,14 +39,14 @@
                 <div class="bg-white inline-block exhibition-hero__box {{ {l:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }} rounded-diagonal">
                   <div class="flex flex--v-center flex--h-space-between">
                   <span class="flex flex--v-center">
-                    {% icon 'other/ticket' %}
+                    {% icon 'ticket' %}
                     <span class="{{ {s:'HNM4', m:'HNM3'} | fontClasses }} caps {{ {s: 2} | spacingClasses({margin: ['left']}) }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free</span>
                   </span>
                     <span class="flex flex--v-center {{ {s:'HNM4'} | fontClasses }}">
                     {% set dateMessageAndColor = {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage %}
                       <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
                       {% set statusColor = 'icon--' + dateMessageAndColor.color %}
-                        {% icon 'other/status-indicator', null, [statusColor, 'icon--match-text'] %}
+                        {% icon 'status-indicator', null, [statusColor, 'icon--match-text'] %}
                     </span>
                     <span>{{ dateMessageAndColor.text }}</span>
                   </span>
@@ -87,7 +87,7 @@
             <div class="drawer js-show-hide"
                  data-track-action="opening-times-drawer">
               <button class="plain-button no-padding pointer js-show-hide-trigger font-elf-green {{ {s:3} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses }}">
-                <span class="flex flex--v-center">{% icon 'actions/plus', null, ['icon--elf-green', 'margin-right-s1'] %}Opening times</span>
+                <span class="flex flex--v-center">{% icon 'plus', null, ['icon--elf-green', 'margin-right-s1'] %}Opening times</span>
               </button>
               <div class="drawer__body js-show-hide-drawer">
                 {% componentV2 'opening-hours', {places: pageConfig.openingHours, id: 'exhibition-page'}, {'light': true, 'compressed': true} %}
@@ -118,7 +118,7 @@
                      data-track-event='{"category": "component", "action": "download-pdf:click", "label": "name:{{ exhibitionContent.textAndCaptionsDocument.name }}, url:{{ exhibitionContent.textAndCaptionsDocument.url }}"}'
                      class="plain-link font-elf-green font-hover-mint flex {{ {s:1} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses}}"
                      onclick="hj('trigger', 'exhibitions_texts_download');">
-                    <div class="{{ {s:1} | spacingClasses({margin:['right']}) }} flex flex--v-center">{% icon 'formats/pdf', null, ['icon--elf-green'] %}</div>
+                    <div class="{{ {s:1} | spacingClasses({margin:['right']}) }} flex flex--v-center">{% icon 'pdf', null, ['icon--elf-green'] %}</div>
                     <span>Download exhibition texts (PDF {{ exhibitionContent.textAndCaptionsDocument.sizeInKb }}KB)</span>
                   </a>
                 {% endif %}
@@ -138,7 +138,7 @@
         <div class="grid">
           <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
             <h2 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }} flex flex--v-center {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
-              {% icon 'actions/gallery_filled', null, ['margin-right-s2', 'icon--match-text'] %}Exhibition highlights
+              {% icon 'gallery_filled', null, ['margin-right-s2', 'icon--match-text'] %}Exhibition highlights
             </h2>
           </div>
         </div>

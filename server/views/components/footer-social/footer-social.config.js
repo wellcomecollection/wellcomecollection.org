@@ -8,43 +8,43 @@ export const context = {
       url: 'https://twitter.com/explorewellcome',
       title: 'Twitter',
       service: 'Twitter',
-      icon: 'social/twitter'
+      icon: 'twitter'
     },
     {
       url: 'https://www.facebook.com/wellcomecollection/',
       title: 'Facebook',
       service: 'Facebook',
-      icon: 'social/facebook'
+      icon: 'facebook'
     },
     {
       url: 'https://www.instagram.com/wellcomecollection/',
       title: 'Instagram',
       service: 'Instagram',
-      icon: 'social/instagram'
+      icon: 'instagram'
     },
     {
       url: 'https://soundcloud.com/wellcomecollection',
       title: 'Soundcloud',
       service: 'Soundcloud',
-      icon: 'social/soundcloud'
+      icon: 'soundcloud'
     },
     {
       url: 'http://wellcomecollection.tumblr.com/',
       title: 'Tumblr',
       service: 'Tumblr',
-      icon: 'social/tumblr'
+      icon: 'tumblr'
     },
     {
       url: 'https://www.youtube.com/user/WellcomeCollection',
       title: 'YouTube',
       service: 'YouTube',
-      icon: 'social/youtube'
+      icon: 'youtube'
     },
     {
       url: 'https://www.tripadvisor.co.uk/Attraction_Review-g186338-d662065-Reviews-Wellcome_Collection-London_England.html',
       title: 'TripAdvisor',
       service: 'TripAdvisor',
-      icon: 'social/tripadvisor'
+      icon: 'tripadvisor'
     }
   ]
 };

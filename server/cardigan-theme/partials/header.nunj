@@ -7,7 +7,7 @@
       </div>
     </button>
     <a href="{{ path('/') }}" class="Header-title" data-pjax>
-      {% include "icons/other/wellcome-collection-black.svg.njk" %}
+      {% include "icons/wellcome_collection_black.svg.njk" %}
     </a>
     {{ frctl.get('project.title') | default('Component Library') }}
   </div>

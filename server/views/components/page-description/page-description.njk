@@ -21,7 +21,7 @@
           <div class="grid__cell grid__cell--shift-m1 {{ 'grid__cell--shift-l1 grid__cell--shift-xl1' if model.lead }}">
             <span class="page-description__subtext {{ {s:'HNL5'} | fontClasses }}">
               {% if model.meta.type === 'date' %}
-                {% icon 'other/clock', null, ['margin-right-s1'] %}{{ model.meta.value | formatDate }}
+                {% icon 'clock', null, ['margin-right-s1'] %}{{ model.meta.value | formatDate }}
               {% else %}
                 {{ model.meta.value | safe }}
               {% endif %}

@@ -4,6 +4,6 @@ export const status = 'graduated';
 export const context = {
   modifierClasses: 'btn--light',
   attributes: 'disabled',
-  icon: 'actions/download',
+  icon: 'download',
   text: 'this is a disabled button'
 };

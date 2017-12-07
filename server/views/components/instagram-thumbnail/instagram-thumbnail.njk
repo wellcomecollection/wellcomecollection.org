@@ -2,19 +2,19 @@
   <div class="instagram-thumbnail__type">
     <span class="instagram-thumbnail__type-text">{{ model.type }}</span>
     {% if model.type === 'carousel' %}
-      {% icon 'actions/gallery' %}
+      {% icon 'gallery' %}
     {% elif model.type === 'video' %}
-      {% icon 'actions/play' %}
+      {% icon 'play' %}
     {% endif %}
   </div>
   <div class="instagram-thumbnail__overlay flex flex--h-center flex--v-center">
     <div class="instagram-thumbnail__count {{ {s:'HNL4'} | fontClasses }} flex flex--v-center">
       <span class="instagram-thumbnail__type-text">likes</span>
-      {% icon 'actions/likes' %} {{ model.likes.count }}
+      {% icon 'likes' %} {{ model.likes.count }}
     </div>
     <div class="instagram-thumbnail__count {{ {s:'HNL4'} | fontClasses }} flex flex--v-center">
       <span class="instagram-thumbnail__type-text">comments</span>
-      {% icon 'actions/comments' %} {{ model.comments.count }}
+      {% icon 'comments' %} {{ model.comments.count }}
     </div>
   </div>
   <img width="{{ model.images.thumbnail.width }}"

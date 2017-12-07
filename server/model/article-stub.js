@@ -17,7 +17,7 @@ export type ArticleStub = {|
 |};
 
 export class ArticleStubFactory {
-  static fromWpApi(json): ArticleStub {
+  static fromWpApi(json: Object): ArticleStub {
     const positionInSeries = getPositionInSeries(json.tags);
     const contentType = getContentTypeFromWPType(json.format);
     const url = `/articles/${json.slug}`; // TODO: this should be discoverable, not hard coded

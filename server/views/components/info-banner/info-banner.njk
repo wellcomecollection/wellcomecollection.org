@@ -7,7 +7,7 @@
             <div>
               <span class="flex flex--v-center">
                 <div class="flex flex--v-center {{ {s:2} | spacingClasses({margin: ['right']}) }}">
-                  {% icon 'actions/information' %}
+                  {% icon 'information' %}
                 </div>
                 <p class="no-margin">{{model.text}}</p>
               </span>
@@ -15,7 +15,7 @@
             {% if model.cookieName %}
               <div>
                 <button class="no-margin no-padding plain-button pointer js-info-banner-close">
-                  {% icon 'actions/cross', 'Close notification' %}
+                  {% icon 'cross', 'Close notification' %}
                 </button>
               </div>
             {% endif %}
