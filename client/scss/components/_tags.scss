@@ -4,4 +4,11 @@
 
 .tags__tag {
   overflow: hidden;
+  // stops text on tags with light text/dark background from appearing bolder than it should
+  // this is tied to the font family which changes across breakpoints; hence the media query
+  @include respond-to('medium') {
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+    -o-font-smoothing: antialiased;
+  }
 }

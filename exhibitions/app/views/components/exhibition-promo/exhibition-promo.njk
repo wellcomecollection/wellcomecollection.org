@@ -4,18 +4,18 @@
   {% set sizes = '100vw' %}
 {% endif %}
 {% set sharedPadding %}
-    {{ {s:1} | spacingClasses({padding: ['left', 'right', 'top', 'bottom']}) }} {{ {l:2} | spacingClasses({padding: ['left', 'right']}) }}
+    {{ {s:1} | spacingClasses({padding: ['top', 'bottom']}) }} {{ {s:2} | spacingClasses({padding: ['left', 'right']}) }}
 {% endset %}
 <a id="{{model.id}}" href="{{ model.url }}" class="exhibition-promo {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
   <div class="exhibition-promo__image-container rounded-corners">
     {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
   </div>
   <div class="exhibition-promo__description bg-cream rounded-diagonal {{sharedPadding}} {{ {s:10} | spacingClasses({padding: ['top']}) }} {{ {s:4} | spacingClasses({padding: ['bottom']}) }}">
-    <h2 class="font-WB6-s {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
+    <h2 class="{{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
     <div class="exhibition-promo__label">
      {% componentV2 'tags', [{text: 'Exhibition'}] %}
     </div>
-    <div class="exhibition-promo__cost flex flex--v-center {{ {s:'HNM5'} | fontClasses }} {{sharedPadding}}">
+    <div class="exhibition-promo__cost flex flex--v-center {{ {s:'HNM5', m:'HNM4'} | fontClasses }} {{sharedPadding}}">
       {% icon 'other/ticket', null, [''] %}
       <span class="{{ {s:1} | spacingClasses({padding: ['left']}) }}">FREE</span>
     </div>
