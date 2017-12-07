@@ -6,6 +6,13 @@
         "single" : "heading1",
         "label" : "Title"
       }
+    },
+    "shortName" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : "paragraph",
+        "label" : "Short name"
+      }
     }
   }
 }

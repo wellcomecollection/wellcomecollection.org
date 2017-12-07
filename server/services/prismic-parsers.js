@@ -2,7 +2,10 @@
 import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
-import type {DateTimeRange, Event, EventFormat, Contributor, EventBookingEnquiryTeam} from '../content-model/events';
+import type {
+  DateTimeRange, Event, Contributor, EventBookingEnquiryTeam,
+  EventLocation
+} from '../content-model/events';
 import getBreakpoint from '../filters/get-breakpoint';
 import {parseBody} from './prismic-body-parser';
 import type {ImagePromo} from '../content-model/content-blocks';
@@ -21,12 +24,27 @@ type PrismicDocFragment = Object | Array<any>;
 export function parseEventDoc(doc: PrismicDoc): Event {
   const contributors: Array<Contributor> = parseContributors(doc.data.contributors).toArray();
   const promo = parseImagePromo(doc.data.promo);
+
   const times: Array<DateTimeRange> = doc.data.times.map(date => {
     return ({
       startDateTime: new Date(date.startDateTime),
       endDateTime: new Date(date.endDateTime)
     }: DateTimeRange);
   });
+
+  const format = doc.data.format && {
+    id: doc.data.format.id,
+    title: asText(doc.data.format.data.title),
+    description: asText(doc.data.format.data.description)
+  };
+
+  // matching https://www.eventbrite.co.uk/e/40144900478?aff=efbneb
+  const eventbriteIdMatch = doc.data.eventbriteEvent && /\/e\/([0-9]+)/.exec(doc.data.eventbriteEvent.url);
+  const identifiers = eventbriteIdMatch ? [{
+    identifierScheme: 'eventbrite-id',
+    value: eventbriteIdMatch[1]
+  }] : [];
+
   const bookingEnquiryTeam = doc.data.bookingEnquiryTeam.data && ({
     id: doc.data.bookingEnquiryTeam.id,
     title: asText(doc.data.bookingEnquiryTeam.data.title),
@@ -35,23 +53,38 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     url: doc.data.bookingEnquiryTeam.data.url
   }: EventBookingEnquiryTeam);
 
+  const location = (doc.data.location && !isEmptyDocLink(doc.data.location)) ? ({
+    id: doc.data.location.id,
+    title: asText(doc.data.location.data.title),
+    // Geolocation as it stands can't be fetch via `fetchLinks`
+    geolocation: null,
+    // geolocation: {
+    //   latitude: location.location.data.geolocation.latitude,
+    //   longitude: location.location.data.geolocation.longitude
+    // },
+    level: doc.data.location.data.level,
+    capacity: doc.data.location.data.level
+  }: EventLocation) : null;
+
+  const accessOptions = doc.data.accessOptions.map(ao => !isEmptyDocLink(ao.accessOption) ? ({
+    title: asText(ao.accessOption.data.title),
+    shortName: asText(ao.accessOption.data.description),
+    acronym: ao.accessOption.data.acronym
+  }) : null).filter(_ => _);
+
   const e = ({
     id: doc.id,
+    identifiers: identifiers,
     title: asText(doc.data.title),
-    format: doc.data.format.data && ({
-      id: doc.data.format.id,
-      title: asText(doc.data.format.data.title)
-    }: EventFormat),
+    format: format,
     times: times,
     description: asHtml(doc.data.description),
-    accessOptions: doc.data.accessOptions.map(ao => !isEmptyDocLink(ao.accessOption) ? ({
-      accessOption: { title: asText(ao.accessOption.data.title), acronym: ao.accessOption.data.acronym }
-    }) : null).filter(_ => _),
+    accessOptions: accessOptions,
     bookingEnquiryTeam: bookingEnquiryTeam,
     contributors: contributors,
     promo: promo,
     series: [],
-    buildingLocation: null
+    location: location
   }: Event);
 
   return e;
@@ -258,7 +291,11 @@ export function parseImagePromo(doc: ?PrismicDocFragment): ?ImagePromo {
   const maybePromo = doc && doc.find(slice => slice.slice_type === 'editorialImage');
   return maybePromo && ({
     caption: asText(maybePromo.primary.caption),
-    image: parsePicture({image: maybePromo.primary.image})
+    image: parsePicture({
+      image:
+        // We introduced enforcing 16:9 half way through, so we have to do a check for it.
+        maybePromo.primary.image['16:9'] || maybePromo.primary.image
+    })
   }: ImagePromo);
 }
 
