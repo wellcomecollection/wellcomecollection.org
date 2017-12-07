@@ -1,0 +1,49 @@
+.exhibition-promo {
+  @include clearfix;
+  display: block;
+  position: relative;
+  text-decoration: none;
+}
+
+.exhibition-promo__title {
+  transition: color 400ms ease;
+
+  .exhibition-promo:hover &,
+  .exhibition-promo:focus & {
+    color: color('mint');
+  }
+}
+
+.exhibition-promo__label {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.exhibition-promo__cost {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.exhibition-promo__image-container {
+  overflow: hidden;
+
+  @include respond-to('large') {
+    width: 80%;
+  }
+}
+
+.exhibition-promo__description {
+  position: relative;
+  width: calc(100% - (#{map-get($gutter-width, 'small')} * 2));
+  margin: -$v-spacing-unit*3 auto 0;
+
+  @include respond-to('large') {
+    width: 66%;
+    float: right;
+    z-index: 1;
+    min-height: 170px;
+    margin-top: -26%;
+  }
+}
