@@ -35,7 +35,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
   const format = (doc.data.format && !isEmptyDocLink(doc.data.format)) ? {
     id: doc.data.format.id,
     title: asText(doc.data.format.data.title),
-    description: asText(doc.data.format.data.description)
+    shortName: asText(doc.data.format.data.shortName)
   } : null;
 
   // matching https://www.eventbrite.co.uk/e/40144900478?aff=efbneb
@@ -68,7 +68,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
 
   const accessOptions = doc.data.accessOptions.map(ao => !isEmptyDocLink(ao.accessOption) ? ({
     title: asText(ao.accessOption.data.title),
-    shortName: asText(ao.accessOption.data.description)
+    description: asText(ao.accessOption.data.description)
   }) : null).filter(_ => _);
 
   const e = ({

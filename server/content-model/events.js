@@ -22,7 +22,7 @@ export type Contributor = {|
 export type EventFormat = {|
   id: string;
   title: string;
-  description: string;
+  shortName: ?string;
 |}
 
 export type EventSeries = {|
@@ -36,7 +36,7 @@ export type EventSeries = {|
 type EventAccessOption = {|
   id: string;
   title: string;
-  shortName: ?string;
+  description: ?string;
 |}
 
 export type EventBookingEnquiryTeam = {|
@@ -101,8 +101,8 @@ export const eventExample = ({
   title: 'Haitian Vodou Ritual',
   format: {
     id: 'QYCcAACcAoiJS',
-    title: 'Dance Workshop',
-    description: 'This event will make you dance till you drop.'
+    title: 'British sign language tour',
+    shortName: 'BSL Tour'
   },
   isDropIn: true,
   times: [
@@ -131,7 +131,7 @@ export const eventExample = ({
     {
       id: 'WcLABisAACx_BDQV',
       title: 'British sign language interpreted',
-      shortName: 'BSL Tour'
+      description: 'This event is BSL sign language'
     }
   ],
   series: [

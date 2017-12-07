@@ -40,6 +40,8 @@ export async function renderEvent(ctx, next, overrideId, gaExp) {
         event.isDropIn ? 'Drop in' : null;
       const eventInfo = { eventbriteId, bookingType };
 
+      console.info(event.accessOptions)
+
       ctx.render('pages/event', {
         pageConfig: createPageConfig({
           path: path,
