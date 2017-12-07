@@ -1,4 +1,3 @@
-// @flow
 import Prismic from 'prismic-javascript';
 import {prismicApi, prismicPreviewApi} from './prismic-api';
 import {
@@ -31,15 +30,19 @@ const seriesFields = [
 ];
 const contributorFields = ['editorial-contributor-roles.title'];
 const eventFields = [
-  'event-access-options.title', 'event-access-options.acronym',
+  'event-access-options.title', 'event-access-options.description', 'event-access-options.acronym',
   'event-booking-enquiry-teams.title', 'event-booking-enquiry-teams.email', 'event-booking-enquiry-teams.phone',
   'event-booking-enquiry-teams.url',
   'event-contributor-roles.title',
-  'event-formats.title', 'event-programmes.title'
+  'event-formats.title', 'event-formats.shortName',
+  'event-programmes.title',
+  'locations.title', 'locations.geolocation', 'locations.level', 'locations.capacity'
 ];
 
 export async function getPrismicApi(req: ?Request) {
-  return req ? await prismicPreviewApi(req) : await prismicApi();
+  const api = req ? await prismicPreviewApi(req) : await prismicApi();
+
+  return api;
 }
 
 async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string, qOpts: Object<any>) {
@@ -168,22 +171,22 @@ export async function getCuratedList(id: string) {
 
 async function getExhibitions(page:number = 1, pageSize:number = 40): Promise<any> {
   const prismic = await getPrismicApi();
-  const exhibitionsList = await prismic.query([
+  const exhibitions = await prismic.query([
     Prismic.Predicates.any('document.type', ['exhibitions'])
   ], { orderings: '[my.exhibitions.start desc]', page, pageSize });
-  return exhibitionsList;
+  return exhibitions;
 }
 
-async function createPromos(allResults, type) {
+function convertResultsToPromos(allResults, type) {
   switch (type) {
     case 'exhibition':
-      return await createExhibitionPromos(allResults);
+      return createExhibitionPromos(allResults);
     case 'event':
-      return await createEventPromos(allResults);
+      return createEventPromos(allResults);
   }
 }
 
-async function createExhibitionPromos(allResults: Object): Promise<Array<ExhibitionPromo>> {
+function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
   const allPromos = allResults.results.map((e):ExhibitionPromo => {
     return {
       id: e.id,
@@ -207,13 +210,16 @@ async function createExhibitionPromos(allResults: Object): Promise<Array<Exhibit
   return permanentPromos.concat(temporaryPromos);
 }
 
-async function createEventPromos(allResults): Promise<Array<EventPromo>> {
+function createEventPromos(allResults): Array<EventPromo> {
   return allResults.results.map((event): EventPromo => {
-    const promo = event.data.promo[0];
+    const promo = event.data.promo && event.data.promo[0];
     const promoImage = promo && promo.primary.image;
     const promoCaption = promo && promo.primary.caption;
     const format = event.data.format && asText(event.data.format.data.title);
 
+    // A single Primsic 'event' can have multiple datetimes, but we
+    // want to display each datetime as an individual promo, so we
+    // map and flatten.
     return event.data.times.map(eventAtTime => {
       return {
         id: event.id,
@@ -229,11 +235,11 @@ async function createEventPromos(allResults): Promise<Array<EventPromo>> {
   }).reduce((acc, curr) => {
     return curr.concat(acc);
   }, []).sort((a, b) => {
-    return getNumberFromString(b.start || '') - getNumberFromString(a.start || '');
+    return convertStringToNumber(b.start || '') - convertStringToNumber(a.start || '');
   });
 }
 
-function getNumberFromString(string: string): number {
+function convertStringToNumber(string: string): number {
   return Number(string.replace(/\D/g, ''));
 }
 
@@ -241,9 +247,11 @@ async function getResults(page: number, type: string): Promise<any> { // TODO ma
   switch (type) {
     case 'exhibition':
       const exhibitions = await getExhibitions(page);
+
       return exhibitions;
     case 'event':
       const events = await getEvents(page);
+
       return events;
   }
 }
@@ -256,7 +264,7 @@ export async function getPaginatedResults(page: number, type: string): Promise<P
   const totalPages = allResults && allResults.total_pages;
   const pagination = PaginationFactory.fromList(List(allResults.results), parseInt(totalResults, 10) || 1, parseInt(page, 10) || 1, pageSize || 1);
 
-  const promos = await createPromos(allResults, type);
+  const promos = convertResultsToPromos(allResults, type);
 
   return {
     currentPage,
@@ -268,11 +276,11 @@ export async function getPaginatedResults(page: number, type: string): Promise<P
 
 async function getEvents(page:number = 1, pageSize:number = 40) {
   const prismic = await getPrismicApi();
-  const eventsList = await prismic.query([
+  const events = await prismic.query([
     Prismic.Predicates.any('document.type', ['events'])
-  ], {orderings: '[my.events.start desc]', page, pageSize, fetchLinks: 'event-formats.title'});
+  ], {page, pageSize, fetchLinks: 'event-formats.title'}); // TODO: add orderings by first time in times?
 
-  return eventsList;
+  return events;
 }
 
 export async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request): Promise<?ExhibitionAndRelatedContent> {

@@ -22,6 +22,7 @@ export type Contributor = {|
 export type EventFormat = {|
   id: string;
   title: string;
+  description: string;
 |}
 
 export type EventSeries = {|
@@ -35,6 +36,7 @@ export type EventSeries = {|
 type EventAccessOption = {|
   id: string;
   title: string;
+  shortName: ?string;
   acronym: string;
 |}
 
@@ -46,22 +48,36 @@ export type EventBookingEnquiryTeam = {|
   url: string;
 |}
 
-type BuildingLocation = {|
+type Geolocation = {|
+  latitude: number;
+  longitude: number;
+|}
+
+export type EventLocation = {|
   id: string;
   title: string;
+  geolocation: ?Geolocation;
   level: number;
+  capacity: ?number;
+|}
+
+type IdentifierScheme = 'eventbrite-id';
+
+type Identifier = {|
+  identifierScheme: IdentifierScheme;
+  value: string;
 |}
 
 export type Event = {|
   id: string;
+  identifiers: Array<Identifier>;
   title: ?string;
   format: ?EventFormat;
   times: Array<DateTimeRange>;
   description: ?HTMLString;
   accessOptions: Array<EventAccessOption>;
   series: Array<EventSeries>;
-  // TODO: Not sure if to generify this into location? Potentially have both fields?
-  buildingLocation: ?BuildingLocation;
+  location: ?EventLocation;
   bookingEnquiryTeam: ?EventBookingEnquiryTeam;
   contributors: Array<Contributor>;
   promo: ?ImagePromo;
@@ -78,10 +94,15 @@ export type EventPromo = {|
 
 export const eventExample = ({
   id: 'WXmdTioAAJWWjZdH',
+  identifiers: [{
+    identifierScheme: 'eventbrite-id',
+    value: '40144900478'
+  }],
   title: 'Haitian Vodou Ritual',
   format: {
     id: 'QYCcAACcAoiJS',
-    title: 'Dance Workshop'
+    title: 'Dance Workshop',
+    description: 'This event will make you dance till you drop.'
   },
   times: [
     {
@@ -109,6 +130,7 @@ export const eventExample = ({
     {
       id: 'WcLABisAACx_BDQV',
       title: 'British sign language interpreted',
+      shortName: 'BSL Tour',
       acronym: 'bsl'
     }
   ],
@@ -138,10 +160,15 @@ export const eventExample = ({
       contributors: []
     }
   ],
-  buildingLocation: {
+  location: {
     id: 'WdTMsycAAL20UYr1',
     title: 'Williams Lounge',
-    level: -1
+    level: -1,
+    geolocation: {
+      latitude: 51.52585053479689,
+      longitude: -0.13394683599472046
+    },
+    capacity: 150
   },
   bookingEnquiryTeam: {
     id: 'WcK-SisAAC1_BCxg',

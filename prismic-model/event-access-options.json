@@ -7,6 +7,13 @@
         "label" : "Title"
       }
     },
+    "description" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : "paragraph",
+        "label" : "Description"
+      }
+    },
     "acronym" : {
       "type" : "Text",
       "config" : {
