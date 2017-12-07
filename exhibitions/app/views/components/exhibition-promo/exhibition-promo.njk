@@ -16,7 +16,7 @@
      {% componentV2 'tags', [{text: 'Exhibition'}] %}
     </div>
     <div class="exhibition-promo__cost flex flex--v-center {{ {s:'HNM5', m:'HNM4'} | fontClasses }} {{sharedPadding}}">
-      {% icon 'other/ticket', null, [''] %}
+      {% icon 'ticket', null, [''] %}
       <span class="{{ {s:1} | spacingClasses({padding: ['left']}) }}">FREE</span>
     </div>
     {% if model.start and model.end %}
@@ -28,7 +28,7 @@
       {% set dateMessageAndColor = {start: model.start, end: model.end} | formatDateRangeWithMessage %}
       <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
         {% set statusColor = 'icon--' + dateMessageAndColor.color %}
-        {% icon 'status-indicator', null, [statusColor, 'icon--match-text'] %}
+        {% icon 'status_indicator', null, [statusColor, 'icon--match-text'] %}
       </span>
       <span class="{{ {s:'HNM5'} | fontClasses }}">{{ dateMessageAndColor.text }}</span>
     </span>
