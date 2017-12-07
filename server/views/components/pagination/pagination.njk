@@ -2,7 +2,7 @@
   {% if (model.prevPage) %}
     <a href="{{ model.prevQueryString }}" rel="prev" class="{{ {s:2} | spacingClasses({margin: ['right']}) }}">
       <div class="icon-rounder border-color-silver flex flex--v-center">
-        {% icon 'actions/arrow', 'Previous (page '+ model.prevPage +')', ['icon--180', 'h-center'] %}
+        {% icon 'arrow', 'Previous (page '+ model.prevPage +')', ['icon--180', 'h-center'] %}
       </div>
     </a>
   {% endif %}
@@ -11,7 +11,7 @@
   {% if (model.nextPage) %}
     <a href="{{ model.nextQueryString }}" rel="next" class="{{ {s:2} | spacingClasses({margin: ['left']}) }}">
       <div class="icon-rounder border-color-silver flex flex--v-center">
-        {% icon 'actions/arrow', 'Next (page '+ model.nextPage +')', ['h-center'] %}
+        {% icon 'arrow', 'Next (page '+ model.nextPage +')', ['h-center'] %}
       </div>
     </a>
   {% endif %}

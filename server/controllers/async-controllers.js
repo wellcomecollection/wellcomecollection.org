@@ -73,7 +73,7 @@ export const latestInstagramPosts = async(ctx, next) => {
     model: {
       posts: instagramPosts,
       service: 'Instagram',
-      icon: 'social/instagram',
+      icon: 'instagram',
       url: 'https://instagram.com/wellcomecollection',
       handle: 'wellcomecollection'
     }
