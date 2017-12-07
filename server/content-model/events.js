@@ -37,7 +37,6 @@ type EventAccessOption = {|
   id: string;
   title: string;
   shortName: ?string;
-  acronym: string;
 |}
 
 export type EventBookingEnquiryTeam = {|
@@ -132,8 +131,7 @@ export const eventExample = ({
     {
       id: 'WcLABisAACx_BDQV',
       title: 'British sign language interpreted',
-      shortName: 'BSL Tour',
-      acronym: 'bsl'
+      shortName: 'BSL Tour'
     }
   ],
   series: [

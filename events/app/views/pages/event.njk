@@ -31,12 +31,14 @@
   <div class="container relative {{ {s: -4} | spacingClasses({margin: ['top']}) }}">
     <div class="bg-cream rounded-diagonal {{ {s: 4} | spacingClasses({padding: ['top', 'bottom', 'left', 'right']}) }}">
       <div class="{{ {s:'HNM4'} | fontClasses }}">
+        {% for accessOption in event.accessOptions %}
+          {% icon accessOption.title | replace(' ', '_') | lower %}
+        {% endfor %}
         {% if event.format.shortName %}
           <abbr title="{{ event.format.title }}">{{ event.format.shortName }}</abbr>
         {% else %}
           {{ event.format.title }}
         {% endif %}
-
       </div>
 
       <div class="{{- [

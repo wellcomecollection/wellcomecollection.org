@@ -68,8 +68,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
 
   const accessOptions = doc.data.accessOptions.map(ao => !isEmptyDocLink(ao.accessOption) ? ({
     title: asText(ao.accessOption.data.title),
-    shortName: asText(ao.accessOption.data.description),
-    acronym: ao.accessOption.data.acronym
+    shortName: asText(ao.accessOption.data.description)
   }) : null).filter(_ => _);
 
   const e = ({

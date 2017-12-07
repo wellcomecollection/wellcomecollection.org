@@ -13,12 +13,6 @@
         "single" : "paragraph",
         "label" : "Description"
       }
-    },
-    "acronym" : {
-      "type" : "Text",
-      "config" : {
-        "label" : "acronym"
-      }
     }
   }
 }

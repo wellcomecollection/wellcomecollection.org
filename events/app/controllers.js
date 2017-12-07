@@ -40,10 +40,7 @@ export async function renderEvent(ctx, next, overrideId, gaExp) {
         event.bookingEnquiryTeam ? 'Enquire to book' :
         event.location && event.location.capacity  ? 'First come, first seated' :
         event.isDropIn ? 'Drop in' : null;
-
       const eventInfo = { eventbriteId, bookingType };
-
-
 
       ctx.render('pages/event', {
         pageConfig: createPageConfig({
