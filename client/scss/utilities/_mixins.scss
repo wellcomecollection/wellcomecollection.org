@@ -91,6 +91,14 @@
   }
 }
 
+@mixin css-grid-cells($columns, $key) {
+  @for $i from 1 through $columns {
+    .x-cell--#{$key}#{$i} {
+      grid-column: span #{$i};
+    }
+  }
+}
+
 @mixin font($font-name) {
   $font: map-get($fonts, $font-name);
 
