@@ -9,6 +9,16 @@
   {{whatsOnStuff}}
   <div class="x-grid">
     <div class="grid-12">
+     {% for exhibition in paginatedExhibitions.results %}
+        <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">
+          {% componentV2 'exhibition-promo', exhibition %}
+        </div>
+      {% endfor %}
+      {% for event in paginatedEvents.results %}
+        <div class="{{ {s: 12, m: 6, l: 3, xl:3} | cssGridClasses }}">
+          {% componentV2 'event-promo', event %}
+        </div>
+      {% endfor %}
       <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">exhibition promo</div>
       <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">exhibition promo</div>
       <div class="{{ {s: 12, m: 6, l: 3, xl:3} | cssGridClasses }}">event promo</div>

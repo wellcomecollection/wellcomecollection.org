@@ -1,6 +1,6 @@
 .x-grid { // is equivalent of container
   display: grid;
-  background: color('silver');
+  // background: color('silver');
   grid-auto-rows: minmax(50px, auto);
 
   @each $label, $map in $grid-config {
@@ -50,7 +50,7 @@
   grid-column: main;
   grid-auto-rows: minmax(50px, auto);
   grid-row-gap: 20px; // TODO properly
-  background: color('seaweed');
+  // background: color('seaweed');
   display: grid;
 
   @each $label, $map in $grid-config {
@@ -73,11 +73,11 @@
 
 .x-full { // is equivalent of breakout
   grid-column: full;
-  background: color('elf-green');
+  // background: color('elf-green');
 }
 
 .x-cell {
-  background: color('petrol');
+  // background: color('petrol');
 }
 
 @each $key, $list in $grid-config {
@@ -102,12 +102,12 @@
 // grid-column: span 3;
 
 .cell--primary {
-  background: color('mint');
+  // background: color('mint');
   grid-column: primary;
 }
 
 .cell--secondary {
-  background: color('smoke');
+  // background: color('smoke');
   grid-column: secondary;
   position: sticky;
   // height: 0;
