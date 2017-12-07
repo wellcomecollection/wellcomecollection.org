@@ -1,12 +1,12 @@
 {% extends 'layout/default.njk' %}
-
+{# TODO: add description for meta and list-header #}
 {% block pageMeta %}
   {% set metaContent = {
     type: 'website',
     title: 'Events',
-    image: allEvents[0].image.contentUrl,
+    image: paginatedEvents.results[0].image.contentUrl,
     url: pageConfig.canonicalUri,
-    description: 'Past and present events at Wellcome Collection'
+    description: ''
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
@@ -15,8 +15,9 @@
 {% endblock %}
 
 {% block body %}
+  {% componentV2 'list-header', {name: 'Events', total: paginatedEvents.results.length} %}
   <script type="application/ld+json">
-    [{% for event in allEvents %}
+    [{% for event in paginatedEvents.results %}
       {{ event | jsonLd('eventLd') | safe }}
       {{ ',' if not loop.last }}
     {% endfor %}]
@@ -25,11 +26,28 @@
   <div class="row {{ {s:4, m:4, l:4} | spacingClasses({padding: ['top']}) }} ">
     <div class="container">
       <div class="grid">
-        {% for event in allEvents %}
+        {% for event in paginatedEvents.results %}
           <div class="{{ {s: 12, m: 6} | gridClasses }}">
             {% componentV2 'event-promo', event %}
           </div>
         {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="row {{ {s:2, m:2, l:2} | spacingClasses({padding: ['top']}) }} {{ {s:3, m:3, l:3} | spacingClasses({padding: ['bottom']}) }} ">
+    <div class="container">
+      <div class="grid">
+          {% if paginatedEvents.pagination.pageCount > 1  %}
+            <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}"  style="text-align: right">
+              {% componentV2 'pagination', paginatedEvents.pagination %}
+            </div>
+          {% endif %}
+          {% if paginatedEvents.currentPage === paginatedEvents.totalPages %}
+            <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }}"  style="text-align: right">
+              <a href="/events/past">More events from the archive</a>
+            </div>
+          {% endif %}
       </div>
     </div>
   </div>

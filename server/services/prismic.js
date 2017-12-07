@@ -6,10 +6,15 @@ import {
   parseWebcomicDoc,
   asText,
   prismicImage,
-  getPositionInPrismicSeries
+  parseExhibitionsDoc,
+  getPositionInPrismicSeries,
+  parsePromoListItem
 } from './prismic-parsers';
-import type {Article} from '../model/article';
 import {List} from 'immutable';
+import type {PaginatedResults} from '../model/paginated-results';
+import type {ExhibitionPromo} from '../model/exhibition-promo';
+import type {ExhibitionAndRelatedContent} from '../model/exhibition-and-related-content';
+import {PaginationFactory} from '../model/pagination';
 
 type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
 
@@ -35,7 +40,9 @@ const eventFields = [
 ];
 
 export async function getPrismicApi(req: ?Request) {
-  return req ? await prismicPreviewApi(req) : await prismicApi();
+  const api = req ? await prismicPreviewApi(req) : await prismicApi();
+
+  return api;
 }
 
 async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string, qOpts: Object<any>) {
@@ -64,14 +71,6 @@ export async function getEvent(id: string, previewReq: ?Request): Promise<?Event
 
   return parseEventDoc(event);
 }
-
-type PaginatedResults = {|
-  currentPage: number,
-  results: List<Article>,
-  pageSize: number,
-  totalResults: number,
-  totalPages: number
-|};
 
 export async function getArticleList(page = 1, {pageSize = 10, predicates = []} = {}) {
   const fetchLinks = [
@@ -142,7 +141,7 @@ export async function getArticleSeries(seriesId) {
   }, {items: List(scheduleItems)}, {id: seriesId});
 }
 
-export async function getSeriesAndArticles(id: string, page = 1) {
+export async function getSeriesAndArticles(id: string, page: number = 1) {
   const paginatedResults = await getArticleList(page, {
     predicates: [Prismic.Predicates.at('my.articles.series.series', id)]
   });
@@ -168,4 +167,143 @@ export async function getCuratedList(id: string) {
   }
 
   return curatedList;
+}
+
+async function getExhibitions(page:number = 1, pageSize:number = 40): Promise<any> {
+  const prismic = await getPrismicApi();
+  const exhibitions = await prismic.query([
+    Prismic.Predicates.any('document.type', ['exhibitions'])
+  ], { orderings: '[my.exhibitions.start desc]', page, pageSize });
+  return exhibitions;
+}
+
+function convertResultsToPromos(allResults, type) {
+  switch (type) {
+    case 'exhibition':
+      return createExhibitionPromos(allResults);
+    case 'event':
+      return createEventPromos(allResults);
+  }
+}
+
+function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
+  const allPromos = allResults.results.map((e):ExhibitionPromo => {
+    return {
+      id: e.id,
+      url: `/exhibitions/${e.id}`,
+      title: asText(e.data.title),
+      image: prismicImage(e.data.promo[0].primary.image),
+      description: asText(e.data.promo[0].primary.caption),
+      start: e.data.start ? e.data.start : '2007-06-21T00:00:00+0000',
+      end: e.data.end
+    };
+  });
+
+  const permanentPromos = allPromos.filter((e) => {
+    return !e.end;
+  });
+
+  const temporaryPromos = allPromos.filter((e) => {
+    return e.end;
+  });
+
+  return permanentPromos.concat(temporaryPromos);
+}
+
+function createEventPromos(allResults): Array<EventPromo> {
+  return allResults.results.map((event): EventPromo => {
+    const promo = event.data.promo && event.data.promo[0];
+    const promoImage = promo && promo.primary.image;
+    const promoCaption = promo && promo.primary.caption;
+
+    // A single Primsic 'event' can have multiple datetimes, but we
+    // want to display each datetime as an individual promo, so we
+    // map and flatten.
+    return event.data.times.map(eventAtTime => {
+      return {
+        id: event.id,
+        title: asText(event.data.title),
+        url: `/events/${event.id}`,
+        start: eventAtTime.startDateTime,
+        end: eventAtTime.endDateTime,
+        image: prismicImage(promoImage),
+        description: asText(promoCaption)
+      };
+    });
+  }).reduce((acc, curr) => {
+    return curr.concat(acc);
+  }, []).sort((a, b) => {
+    return convertStringToNumber(b.start || '') - convertStringToNumber(a.start || '');
+  });
+}
+
+function convertStringToNumber(string: string): number {
+  return Number(string.replace(/\D/g, ''));
+}
+
+async function getResults(page: number, type: string): Promise<any> { // TODO make type its own enumerable thing}
+  switch (type) {
+    case 'exhibition':
+      const exhibitions = await getExhibitions(page);
+
+      return exhibitions;
+    case 'event':
+      const events = await getEvents(page);
+      return events;
+  }
+}
+
+export async function getPaginatedResults(page: number, type: string): Promise<PaginatedResults> { // TODO make type its
+  const allResults = await getResults(page, type);
+  const currentPage = allResults && allResults.page;
+  const pageSize = allResults && allResults.results_per_page;
+  const totalResults = allResults && allResults.total_results_size;
+  const totalPages = allResults && allResults.total_pages;
+  const pagination = PaginationFactory.fromList(List(allResults.results), parseInt(totalResults, 10) || 1, parseInt(page, 10) || 1, pageSize || 1);
+
+  const promos = convertResultsToPromos(allResults, type);
+
+  return {
+    currentPage,
+    totalPages,
+    results: promos,
+    pagination
+  };
+}
+
+async function getEvents(page:number = 1, pageSize:number = 40) {
+  const prismic = await getPrismicApi();
+  const events = await prismic.query([
+    Prismic.Predicates.any('document.type', ['events'])
+  ], {page, pageSize}); // TODO: add orderings by first time in times?
+
+  return events;
+}
+
+export async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request): Promise<?ExhibitionAndRelatedContent> {
+  const exhibition = await getTypeById(previewReq, ['exhibitions'], id, {});
+
+  if (!exhibition) { return null; }
+
+  const ex = parseExhibitionsDoc(exhibition);
+
+  const galleryLevel = exhibition.data.galleryLevel;
+  const promoList = exhibition.data.promoList;
+  const relatedArticles = promoList.filter(x => x.type === 'article').map(parsePromoListItem);
+  const relatedEvents = promoList.filter(x => x.type === 'event').map(parsePromoListItem);
+  const relatedBooks = promoList.filter(x => x.type === 'book').map(parsePromoListItem);
+  const relatedGalleries = promoList.filter(x => x.type === 'gallery').map(parsePromoListItem);
+
+  const sizeInKb = Math.round(exhibition.data.textAndCaptionsDocument.size / 1024);
+  const textAndCaptionsDocument = Object.assign({}, exhibition.data.textAndCaptionsDocument, {sizeInKb});
+
+  return {
+    exhibition: ex,
+    galleryLevel: galleryLevel,
+    textAndCaptionsDocument: textAndCaptionsDocument.url && textAndCaptionsDocument,
+    relatedBooks: relatedBooks,
+    relatedEvents: relatedEvents,
+    relatedGalleries: relatedGalleries,
+    relatedArticles: relatedArticles
+  };
 }

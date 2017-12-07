@@ -5,10 +5,11 @@ import {UiComponent} from './model/ui-component';
 import {Picture} from './model/picture';
 import {PaginationFactory} from './model/pagination';
 import {default as filtersMap} from './filters';
-import Prismic from 'prismic-javascript';
 import {
   getPrismicApi,
-  getEvent
+  getEvent,
+  getPaginatedResults,
+  getExhibitionAndRelatedContent
 } from './services/prismic';
 import {
   parsePromoListItem,
@@ -20,13 +21,14 @@ import {
 export {setupApp};
 export const filters = filtersMap.toJS();
 export const model = {createPageConfig, Picture, UiComponent, PaginationFactory};
-export {Prismic};
 export {List};
-export const prismicParsers = {
+export const prismic = {
+  getPrismicApi,
+  getEvent,
+  getPaginatedResults,
+  getExhibitionAndRelatedContent,
   parsePromoListItem,
   parseExhibitionsDoc,
   prismicImage,
   asText
 };
-export const prismic = {getEvent};
-export const services = {getPrismicApi};
