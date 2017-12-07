@@ -75,10 +75,30 @@
 
         {% if eventInfo.eventbriteId %}
           <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
-            <a class="flex-inline flex--v-center btn {{ {s:'HNM4'} | fontClasses }} {{ {s: 4} | spacingClasses({padding: ['left', 'right']}) }}" href="https://www.eventbrite.com/e/{{ eventInfo.eventbriteId }}/">
+            <a class="{{- [
+                        {s:'HNM4'} | fontClasses,
+                        {s: 4} | spacingClasses({padding: ['left', 'right']})
+                      ].join(' ') }} flex-inline flex--v-center flex--h-center btn btn--full-width-s"
+               href="https://www.eventbrite.com/e/{{ eventInfo.eventbriteId }}/">
               <span>{% icon 'other/ticket' %}</span>
               Book free tickets
             </a>
+            <p class="font-charcoal {{ {s:'HNL5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}">with Eventbrite</p>
+          </div>
+        {% endif %}
+
+        {% if event.bookingEnquiryTeam %}
+          <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+            <a class="{{- [
+                        {s:'HNM4'} | fontClasses,
+                        {s: 4} | spacingClasses({padding: ['left', 'right']})
+                      ].join(' ') }} flex-inline flex--h-center btn btn--full-width-s"
+               href="mailto:{{ event.bookingEnquiryTeam.email }}">
+              <span>{% icon 'actions/comments' %}</span>
+              Email to book
+            </a>
+            <a class="block font-charcoal {{ {s:'HNL5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}"
+               href="mailto:{{ event.bookingEnquiryTeam.email }}">{{ event.bookingEnquiryTeam.email }}</a>
           </div>
         {% endif %}
       </div>
