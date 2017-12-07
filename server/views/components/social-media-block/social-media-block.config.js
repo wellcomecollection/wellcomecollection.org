@@ -17,7 +17,7 @@ export const variants = [{
     model: {
       service: 'Twitter',
       handle: 'explorewellcome',
-      icon: 'social/twitter',
+      icon: 'twitter',
       url: 'https://twitter.com/explorewellcome',
       posts: latestTweets
     }
@@ -28,7 +28,7 @@ export const variants = [{
     model: {
       service: 'Instagram',
       handle: 'wellcomecollection',
-      icon: 'social/instagram',
+      icon: 'instagram',
       url: 'https://www.instagram.com/wellcomecollection/',
       posts: latestInstagramPosts
     }
