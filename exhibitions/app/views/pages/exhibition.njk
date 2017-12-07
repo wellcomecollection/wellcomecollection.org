@@ -46,7 +46,7 @@
                     {% set dateMessageAndColor = {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage %}
                       <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
                       {% set statusColor = 'icon--' + dateMessageAndColor.color %}
-                        {% icon 'status-indicator', null, [statusColor, 'icon--match-text'] %}
+                        {% icon 'status_indicator', null, [statusColor, 'icon--match-text'] %}
                     </span>
                     <span>{{ dateMessageAndColor.text }}</span>
                   </span>
@@ -98,16 +98,16 @@
               <h2 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Access information</h2>
               {% if exhibitionContent.galleryLevel !== null %}
                 <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-                  <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/lifts' %}</div>
+                  <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'lifts' %}</div>
                   <p class="no-margin">This exhibition is on level {{ exhibitionContent.galleryLevel }}</p>
                 </div>
               {% endif %}
               <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y' %}</div>
+                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y' %}</div>
                 <p class="no-margin">Step-free access is available to all floors of the building</p>
               </div>
               <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y/a11y_visual' %}</div>
+                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y_visual' %}</div>
                 <p class="no-margin">Large print guides, transcripts and magnifiers are available in the gallery</p>
               </div>
 
