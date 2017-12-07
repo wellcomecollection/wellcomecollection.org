@@ -1,6 +1,6 @@
 .x-grid { // is equivalent of container
   display: grid;
-  background: yellow;
+  background: color('silver');
   grid-auto-rows: minmax(50px, auto);
 
   @each $label, $map in $grid-config {
