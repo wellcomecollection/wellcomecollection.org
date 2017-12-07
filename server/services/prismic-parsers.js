@@ -3,7 +3,7 @@ import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
 import type {
-  DateTimeRange, Event, EventFormat, Contributor, EventBookingEnquiryTeam,
+  DateTimeRange, Event, Contributor, EventBookingEnquiryTeam,
   EventLocation
 } from '../content-model/events';
 import getBreakpoint from '../filters/get-breakpoint';
