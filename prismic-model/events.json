@@ -61,21 +61,13 @@
         }
       }
     },
-    "locations" : {
-      "type" : "Group",
+    "location" : {
+      "type" : "Link",
       "fieldset" : "Location",
       "config" : {
-        "fields" : {
-          "buildingLocation" : {
-            "type" : "Link",
-            "fieldset" : "Access option",
-            "config" : {
-              "select" : "document",
-              "customtypes" : [ "locations" ],
-              "label" : "Locations"
-            }
-          }
-        }
+        "select" : "document",
+        "customtypes" : [ "locations" ],
+        "label" : "Location"
       }
     }
   },
@@ -87,10 +79,16 @@
         "select" : "document",
         "customtypes" : [ "event-booking-enquiry-teams" ]
       }
+    },
+    "eventbriteEvent" : {
+      "type" : "Embed",
+      "config" : {
+        "label" : "Eventbrite Event"
+      }
     }
   },
   "Series" : {
-    "series": {
+    "series" : {
       "type" : "Group",
       "fieldset" : "Event series",
       "config" : {

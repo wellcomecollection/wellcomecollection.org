@@ -2,6 +2,12 @@ import {model, prismic} from 'common';
 const {createPageConfig} = model;
 const {getPaginatedResults} = prismic;
 
+// used to attach some view specific logic
+type EventInfo = {|
+  isDropIn: boolean;
+  eventbriteId: ?string;
+|};
+
 export async function renderEvent(ctx, next, overrideId, gaExp) {
   const id = overrideId || `${ctx.params.id}`;
   const format = ctx.request.query.format;
@@ -25,6 +31,11 @@ export async function renderEvent(ctx, next, overrideId, gaExp) {
         url: '/graphicdesign'
       }]);
 
+      const eventbriteIdScheme = event.identifiers.find(id => id.identifierScheme === 'eventbrite-id');
+      const eventbriteId = eventbriteIdScheme && eventbriteIdScheme.value;
+      const isDropIn = !event.bookingEnquiryTeam && !eventbriteId;
+      const eventInfo = { isDropIn, eventbriteId };
+
       ctx.render('pages/event', {
         pageConfig: createPageConfig({
           path: path,
@@ -36,6 +47,7 @@ export async function renderEvent(ctx, next, overrideId, gaExp) {
           gaExp
         }),
         event: event,
+        eventInfo: eventInfo,
         tags: tags
       });
     }

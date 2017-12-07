@@ -18,6 +18,12 @@
       "config" : {
         "label" : "level"
       }
+    },
+    "capacity" : {
+      "type" : "Number",
+      "config" : {
+        "label" : "capacity"
+      }
     }
   }
 }

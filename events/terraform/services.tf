@@ -30,5 +30,5 @@ module "events" {
   primary_container_port   = "80"
   secondary_container_port = "3002"
 
-  path_pattern = "/ev/*"
+  path_pattern = "/events*"
 }
