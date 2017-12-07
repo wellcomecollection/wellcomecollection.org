@@ -10,7 +10,7 @@ export const context = {
 export const variants = [{
   name: 'with-icon',
   context: {
-    icon: 'actions/download',
+    icon: 'download',
     text: 'this is a link with an icon'
   }
 }, {
@@ -32,7 +32,7 @@ export const variants = [{
   },
   context: {
     modifierClasses: 'btn--dark',
-    icon: 'actions/download',
+    icon: 'download',
     text: 'this is a link'
   }
 }];
