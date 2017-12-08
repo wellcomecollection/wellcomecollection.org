@@ -83,6 +83,11 @@ export type Event = {|
   bookingEnquiryTeam: ?EventBookingEnquiryTeam;
   contributors: Array<Contributor>;
   promo: ?ImagePromo;
+  // TODO:
+  // this is programmatic and doesn't come from Prismic and can't be edited directly
+  // it's more convenient that having to work it out.
+  // not sure if it should be in the model, a question for Silver
+  bookingType: ?string;
 |}
 
 export type EventPromo = {|
@@ -95,6 +100,7 @@ export type EventPromo = {|
   format: ?string;
   bookingType: ?string;
   image: ?Picture;
+  bookingType: ?string;
 |}
 
 export const eventExample = ({
@@ -222,5 +228,6 @@ export const eventExample = ({
       width: 100,
       height: 100
     }
-  }
+  },
+  bookingType: 'Drop in'
 }: Event);

@@ -14,6 +14,16 @@
       <h2 class="promo__title font-WB6-s">{{ model.title }}</h2>
     </div>
 
+    <div class="flex flex--v-center {{ {s:'HNM5'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">
+      <span class="{{ {s: 2} | spacingClasses({margin: ['right']}) }}">{% icon 'ticket' %}</span>
+      <span class="caps {{ {s: 1} | spacingClasses({padding: ['right']}) }}">Free</span>
+      {% if model.bookingType %}
+        <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
+            {{ model.bookingType }}
+          </span>
+      {% endif %}
+    </div>
+
     <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
       {% set formattedDateRange = model.start | formatAndDedupeOnDate(model.end) %}
       <time class="block">

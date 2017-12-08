@@ -8,7 +8,7 @@ import {
   prismicImage,
   parseExhibitionsDoc,
   getPositionInPrismicSeries,
-  parsePromoListItem, parseEventFormat
+  parsePromoListItem, parseEventFormat, isEmptyDocLink, parseEventBookingType
 } from './prismic-parsers';
 import {List} from 'immutable';
 import type {PaginatedResults, PaginatedResultsType} from '../model/paginated-results';
@@ -16,6 +16,7 @@ import type {ExhibitionPromo} from '../model/exhibition-promo';
 import type {ExhibitionAndRelatedContent} from '../model/exhibition-and-related-content';
 import {PaginationFactory} from '../model/pagination';
 import type {EventPromo} from '../content-model/events';
+import {isEmptyObj} from '../utils/is-empty-obj';
 
 type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
 
@@ -214,6 +215,7 @@ function createEventPromos(allResults): Array<EventPromo> {
     const promo = event.data.promo && event.data.promo[0];
     const promoImage = promo && promo.primary.image;
     const promoCaption = promo && promo.primary.caption;
+    const bookingType = parseEventBookingType(event);
 
     // A single Primsic 'event' can have multiple datetimes, but we
     // want to display each datetime as an individual promo, so we
@@ -227,7 +229,8 @@ function createEventPromos(allResults): Array<EventPromo> {
         start: eventAtTime.startDateTime,
         end: eventAtTime.endDateTime,
         image: prismicImage(promoImage),
-        description: asText(promoCaption)
+        description: asText(promoCaption),
+        bookingType: bookingType
       };
     });
   }).reduce((acc, curr) => {

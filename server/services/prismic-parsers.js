@@ -35,7 +35,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
   const format = doc.data.format && parseEventFormat(doc.data.format);
 
   // matching https://www.eventbrite.co.uk/e/40144900478?aff=efbneb
-  const eventbriteIdMatch = doc.data.eventbriteEvent && /\/e\/([0-9]+)/.exec(doc.data.eventbriteEvent.url);
+  const eventbriteIdMatch = isEmptyObj(doc.data.eventbriteEvent) ? null : /\/e\/([0-9]+)/.exec(doc.data.eventbriteEvent.url);
   const identifiers = eventbriteIdMatch ? [{
     identifierScheme: 'eventbrite-id',
     value: eventbriteIdMatch[1]
@@ -67,6 +67,8 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     description: asText(ao.accessOption.data.description)
   }) : null).filter(_ => _);
 
+  const bookingType = parseEventBookingType(doc);
+
   const e = ({
     id: doc.id,
     identifiers: identifiers,
@@ -80,7 +82,8 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     contributors: contributors,
     promo: promo,
     series: [],
-    location: location
+    location: location,
+    bookingType: bookingType
   }: Event);
 
   return e;
@@ -93,6 +96,13 @@ export function parseEventFormat(frag: Object): ?EventFormat {
     shortName: asText(frag.data.shortName),
     description: asHtml(frag.data.description)
   };
+}
+
+export function parseEventBookingType(eventDoc: Object): ?string {
+  return !isEmptyObj(eventDoc.data.eventbriteEvent) ? 'Ticketed' :
+    !isEmptyDocLink(eventDoc.data.bookingEnquiryTeam) ? 'Enquire to book' :
+    !isEmptyDocLink(eventDoc.data.location) && eventDoc.data.location.data.capacity  ? 'First come, first seated' :
+    Boolean(eventDoc.data.isDropIn) ? 'Drop in' : null;
 }
 
 export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
@@ -368,6 +378,6 @@ export function asHtml(maybeContent: any) {
   return isEmpty ? null : RichText.asHtml(maybeContent).trim();
 }
 
-function isEmptyDocLink(fragment) {
+export function isEmptyDocLink(fragment) {
   return fragment.link_type === 'Document' && !fragment.data;
 }
