@@ -8,7 +8,7 @@ import {
   prismicImage,
   parseExhibitionsDoc,
   getPositionInPrismicSeries,
-  parsePromoListItem, parseEventFormat, isEmptyDocLink, parseEventBookingType
+  parsePromoListItem, parseEventFormat, parseEventBookingType
 } from './prismic-parsers';
 import {List} from 'immutable';
 import type {PaginatedResults, PaginatedResultsType} from '../model/paginated-results';
@@ -16,7 +16,6 @@ import type {ExhibitionPromo} from '../model/exhibition-promo';
 import type {ExhibitionAndRelatedContent} from '../model/exhibition-and-related-content';
 import {PaginationFactory} from '../model/pagination';
 import type {EventPromo} from '../content-model/events';
-import {isEmptyObj} from '../utils/is-empty-obj';
 
 type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
 
