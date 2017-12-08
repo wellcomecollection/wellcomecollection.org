@@ -3,6 +3,13 @@
     {% componentV2 'image', model.image, {}, {lazyload: true, defaultSize: data.defaultSize} %}
   </div>
   <div class="promo__description font-HNL5-s">
+    <div class="">
+      {% if model.format.shortName %}
+        <abbr title="{{ event.format.title }}">{{ model.format.shortName }}</abbr>
+      {% else %}
+        <span>{{ model.format.title }}</span>
+      {% endif %}
+    </div>
     <div class="promo__heading">
       <h2 class="promo__title font-WB6-s">{{ model.title }}</h2>
     </div>

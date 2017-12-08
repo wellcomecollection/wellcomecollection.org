@@ -8,14 +8,14 @@ import {
   prismicImage,
   parseExhibitionsDoc,
   getPositionInPrismicSeries,
-  parsePromoListItem
+  parsePromoListItem, parseEventFormat
 } from './prismic-parsers';
 import {List} from 'immutable';
 import type {PaginatedResults, PaginatedResultsType} from '../model/paginated-results';
 import type {ExhibitionPromo} from '../model/exhibition-promo';
 import type {ExhibitionAndRelatedContent} from '../model/exhibition-and-related-content';
 import {PaginationFactory} from '../model/pagination';
-import type {EventPromo} from '../content-model/events';
+import type {EventFormat, EventPromo} from '../content-model/events';
 
 type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
 
@@ -54,11 +54,16 @@ async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string
   return doc && types.indexOf(doc.type) !== -1 ? doc : null;
 }
 
-async function getAllOfType(type: DocumentType, page: number, orderings: ?string) {
+type PrismicQueryOptions = {|
+  fetchLinks?: ?Array<String>;
+  orderings?: ?string;
+|}
+
+async function getAllOfType(type: DocumentType, page: number, options: PrismicQueryOptions = {}) {
   const prismic = await getPrismicApi();
   const results = await prismic.query([
     Prismic.Predicates.any('document.type', [type])
-  ], { orderings, page, pageSize: defaultPageSize });
+  ], Object.assign({}, { page, pageSize: defaultPageSize }, options));
   return results;
 }
 
@@ -218,6 +223,7 @@ function createEventPromos(allResults): Array<EventPromo> {
         id: event.id,
         title: asText(event.data.title),
         url: `/events/${event.id}`,
+        format: event.data.format && parseEventFormat(event.data.format),
         start: eventAtTime.startDateTime,
         end: eventAtTime.endDateTime,
         image: prismicImage(promoImage),
@@ -255,7 +261,10 @@ function convertPrismicResultsToPaginatedResults(prismicResults: Object): (resul
 }
 
 export async function getEventPromos(page: number): Promise<Array<EventPromo>> {
-  const results = await getAllOfType('events', page, '[my.events.times.startDateTime desc]');
+  const results = await getAllOfType('events', page, {
+    orderings: '[my.events.times.startDateTime desc]',
+    fetchLinks: eventFields
+  });
   const promos = createEventPromos(results);
   const paginatedResults = convertPrismicResultsToPaginatedResults(results);
   return paginatedResults(promos);

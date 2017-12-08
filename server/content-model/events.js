@@ -1,6 +1,7 @@
 // @flow
 import type {HTMLString, ImagePromo} from './content-blocks';
 import type {Person} from './people';
+import type {Picture} from '../model/picture';
 
 export type DateTimeRange = {|
   startDateTime: Date;
@@ -84,13 +85,16 @@ export type Event = {|
   promo: ?ImagePromo;
 |}
 
-// TODO: this will need more as the promo gets fleshed out
 export type EventPromo = {|
   id: string;
   title: ?string;
+  url: string;
   start: DateTimeRange;
   end: DateTimeRange;
   description: ?HTMLString;
+  format: ?string;
+  bookingType: ?string;
+  image: ?Picture;
 |}
 
 export const eventExample = ({

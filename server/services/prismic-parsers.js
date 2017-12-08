@@ -4,7 +4,7 @@ import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
 import type {
   DateTimeRange, Event, Contributor, EventBookingEnquiryTeam,
-  EventLocation
+  EventLocation, EventFormat
 } from '../content-model/events';
 import getBreakpoint from '../filters/get-breakpoint';
 import {parseBody} from './prismic-body-parser';
@@ -32,12 +32,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     }: DateTimeRange);
   });
 
-  const format = (doc.data.format && !isEmptyDocLink(doc.data.format)) ? {
-    id: doc.data.format.id,
-    title: asText(doc.data.format.data.title),
-    shortName: asText(doc.data.format.data.shortName),
-    description: asHtml(doc.data.format.data.description)
-  } : null;
+  const format = doc.data.format && parseEventFormat(doc.data.format);
 
   // matching https://www.eventbrite.co.uk/e/40144900478?aff=efbneb
   const eventbriteIdMatch = doc.data.eventbriteEvent && /\/e\/([0-9]+)/.exec(doc.data.eventbriteEvent.url);
@@ -89,6 +84,15 @@ export function parseEventDoc(doc: PrismicDoc): Event {
   }: Event);
 
   return e;
+}
+
+export function parseEventFormat(frag: Object): ?EventFormat {
+  return isEmptyDocLink(frag) ? null : {
+    id: frag.id,
+    title: asText(frag.data.title),
+    shortName: asText(frag.data.shortName),
+    description: asHtml(frag.data.description)
+  };
 }
 
 export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
@@ -326,6 +330,7 @@ type Tasl = {|
   copyrightHolder: ?string;
   copyrightLink: ?string;
 |}
+
 function parseTaslFromCopyright(copyright): Tasl {
   // We expect a string of title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
   // e.g. Self|Rob Bidder|||CC-BY-NC
