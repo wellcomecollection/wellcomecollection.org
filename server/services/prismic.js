@@ -11,10 +11,11 @@ import {
   parsePromoListItem
 } from './prismic-parsers';
 import {List} from 'immutable';
-import type {PaginatedResults} from '../model/paginated-results';
+import type {PaginatedResults, PaginatedResultsType} from '../model/paginated-results';
 import type {ExhibitionPromo} from '../model/exhibition-promo';
 import type {ExhibitionAndRelatedContent} from '../model/exhibition-and-related-content';
 import {PaginationFactory} from '../model/pagination';
+import type {EventPromo} from '../content-model/events';
 
 type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
 
@@ -179,15 +180,6 @@ export async function getCuratedList(id: string) {
   return curatedList;
 }
 
-function convertResultsToPromos(allResults, type) {
-  switch (type) {
-    case 'exhibitions':
-      return createExhibitionPromos(allResults);
-    case 'events':
-      return createEventPromos(allResults);
-  }
-}
-
 function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
   const allPromos = allResults.results.map((e):ExhibitionPromo => {
     return {
@@ -243,22 +235,37 @@ function convertStringToNumber(string: string): number {
   return Number(string.replace(/\D/g, ''));
 }
 
-export async function getPaginatedResults(page: number, type: DocumentType): Promise<PaginatedResults> {
-  const allResults = await getAllOfType(type, page);
-  const currentPage = allResults && allResults.page;
-  const pageSize = allResults && allResults.results_per_page;
-  const totalResults = allResults && allResults.total_results_size;
-  const totalPages = allResults && allResults.total_pages;
-  const pagination = PaginationFactory.fromList(List(allResults.results), parseInt(totalResults, 10) || 1, parseInt(page, 10) || 1, pageSize || 1);
+function convertPrismicResultsToPaginatedResults(prismicResults: Object): (results: PaginatedResultsType) => PaginatedResults {
+  const currentPage = prismicResults && prismicResults.page;
+  const pageSize = prismicResults && prismicResults.results_per_page;
+  const totalResults = prismicResults && prismicResults.total_results_size;
+  const totalPages = prismicResults && prismicResults.total_pages;
+  const pagination = PaginationFactory.fromList(List(prismicResults.results), parseInt(totalResults, 10) || 1, parseInt(currentPage, 10) || 1, pageSize || 1);
 
-  const promos = convertResultsToPromos(allResults, type);
-
-  return {
-    currentPage,
-    totalPages,
-    results: promos,
-    pagination
+  return (results) => {
+    return {
+      results,
+      currentPage,
+      pageSize,
+      totalResults,
+      totalPages,
+      pagination
+    };
   };
+}
+
+export async function getEventPromos(page: number): Promise<Array<EventPromo>> {
+  const results = await getAllOfType('events', page);
+  const promos = createEventPromos(results);
+  const paginatedResults = convertPrismicResultsToPaginatedResults(results);
+  return paginatedResults(promos);
+}
+
+export async function getExhibitionPromos(page: number): Promise<Array<ExhibitionPromo>> {
+  const results = await getAllOfType('exhibitions', page);
+  const promos = createExhibitionPromos(results);
+  const paginatedResults = convertPrismicResultsToPaginatedResults(results);
+  return paginatedResults(promos);
 }
 
 export async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request): Promise<?ExhibitionAndRelatedContent> {
