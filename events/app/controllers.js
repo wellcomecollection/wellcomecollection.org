@@ -62,7 +62,7 @@ export async function renderEvent(ctx, next, overrideId, gaExp) {
 
 export async function renderEventsList(ctx, next) {
   const page = Number(ctx.request.query.page);
-  const paginatedEvents = await getPaginatedResults(page, 'event');
+  const paginatedEvents = await getPaginatedResults(page, 'events');
 
   ctx.render('pages/events', {
     pageConfig: createPageConfig({

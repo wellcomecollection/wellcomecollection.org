@@ -39,6 +39,8 @@ const eventFields = [
   'locations.title', 'locations.geolocation', 'locations.level', 'locations.capacity'
 ];
 
+const defaultPageSize = 40;
+
 export async function getPrismicApi(req: ?Request) {
   const api = req ? await prismicPreviewApi(req) : await prismicApi();
 
@@ -49,6 +51,14 @@ async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string
   const prismic = await getPrismicApi(req);
   const doc = await prismic.getByID(id, qOpts);
   return doc && types.indexOf(doc.type) !== -1 ? doc : null;
+}
+
+async function getAllOfType(type: DocumentType, page: number, orderings: ?string) {
+  const prismic = await getPrismicApi();
+  const results = await prismic.query([
+    Prismic.Predicates.any('document.type', [type])
+  ], { orderings, page, pageSize: defaultPageSize });
+  return results;
 }
 
 export async function getArticle(id: string, previewReq: ?Request) {
@@ -169,19 +179,11 @@ export async function getCuratedList(id: string) {
   return curatedList;
 }
 
-async function getExhibitions(page:number = 1, pageSize:number = 40): Promise<any> {
-  const prismic = await getPrismicApi();
-  const exhibitions = await prismic.query([
-    Prismic.Predicates.any('document.type', ['exhibitions'])
-  ], { orderings: '[my.exhibitions.start desc]', page, pageSize });
-  return exhibitions;
-}
-
 function convertResultsToPromos(allResults, type) {
   switch (type) {
-    case 'exhibition':
+    case 'exhibitions':
       return createExhibitionPromos(allResults);
-    case 'event':
+    case 'events':
       return createEventPromos(allResults);
   }
 }
@@ -241,20 +243,8 @@ function convertStringToNumber(string: string): number {
   return Number(string.replace(/\D/g, ''));
 }
 
-async function getResults(page: number, type: string): Promise<any> { // TODO make type its own enumerable thing}
-  switch (type) {
-    case 'exhibition':
-      const exhibitions = await getExhibitions(page);
-
-      return exhibitions;
-    case 'event':
-      const events = await getEvents(page);
-      return events;
-  }
-}
-
-export async function getPaginatedResults(page: number, type: string): Promise<PaginatedResults> { // TODO make type its
-  const allResults = await getResults(page, type);
+export async function getPaginatedResults(page: number, type: DocumentType): Promise<PaginatedResults> {
+  const allResults = await getAllOfType(type, page);
   const currentPage = allResults && allResults.page;
   const pageSize = allResults && allResults.results_per_page;
   const totalResults = allResults && allResults.total_results_size;
@@ -269,15 +259,6 @@ export async function getPaginatedResults(page: number, type: string): Promise<P
     results: promos,
     pagination
   };
-}
-
-async function getEvents(page:number = 1, pageSize:number = 40) {
-  const prismic = await getPrismicApi();
-  const events = await prismic.query([
-    Prismic.Predicates.any('document.type', ['events'])
-  ], {page, pageSize}); // TODO: add orderings by first time in times?
-
-  return events;
 }
 
 export async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request): Promise<?ExhibitionAndRelatedContent> {

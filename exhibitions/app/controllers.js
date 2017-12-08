@@ -42,7 +42,7 @@ export async function renderExhibition(ctx, next) {
 
 export async function renderExhibitionsList(ctx, next) {
   const page = Number(ctx.request.query.page);
-  const paginatedExhibitions = await getPaginatedResults(page, 'exhibition');
+  const paginatedExhibitions = await getPaginatedResults(page, 'exhibitions');
 
   ctx.render('pages/exhibitions', {
     pageConfig: createPageConfig({
