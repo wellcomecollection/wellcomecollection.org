@@ -13,8 +13,19 @@
     <div class="promo__heading">
       <h2 class="promo__title font-WB6-s">{{ model.title }}</h2>
     </div>
-    <time datetime="{{ model.start }}">starts: {{ model.start }}</time>
-    <time datetime="{{ model.end }}">ends: {{ model.end }}</time>
+
+    <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+      {% set formattedDateRange = model.start | formatAndDedupeOnDate(model.end) %}
+      <time class="block">
+        <b class="{{ {s:'HNM4'} | fontClasses }}">{{ formattedDateRange | joinDateStrings }}</b>
+      </time>
+      {% if (formattedDateRange.size === 1) %}
+        <time class="block">
+          {{ model.start | formatAndDedupeOnTime(model.end) | joinDateStrings }}
+        </time>
+      {% endif %}
+    </div>
+
     <span class="promo__copy">{{ model.description | striptags | safe }}</span>
   </div>
 </a>

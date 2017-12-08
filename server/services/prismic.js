@@ -15,7 +15,7 @@ import type {PaginatedResults, PaginatedResultsType} from '../model/paginated-re
 import type {ExhibitionPromo} from '../model/exhibition-promo';
 import type {ExhibitionAndRelatedContent} from '../model/exhibition-and-related-content';
 import {PaginationFactory} from '../model/pagination';
-import type {EventFormat, EventPromo} from '../content-model/events';
+import type {EventPromo} from '../content-model/events';
 
 type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
 
