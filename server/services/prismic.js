@@ -255,7 +255,7 @@ function convertPrismicResultsToPaginatedResults(prismicResults: Object): (resul
 }
 
 export async function getEventPromos(page: number): Promise<Array<EventPromo>> {
-  const results = await getAllOfType('events', page);
+  const results = await getAllOfType('events', page, '[my.events.times.startDateTime desc]');
   const promos = createEventPromos(results);
   const paginatedResults = convertPrismicResultsToPaginatedResults(results);
   return paginatedResults(promos);
