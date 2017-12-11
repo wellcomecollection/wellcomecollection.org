@@ -1,7 +1,7 @@
 import Router from 'koa-router';
-import {getEventbriteEvent} from './controllers';
+import {getEventbriteEventTickets} from './controllers';
 
 const r = new Router({ sensitive: true });
-r.get('/eventbrite/:id', getEventbriteEvent);
+r.get('/eventbrite/:id', getEventbriteEventTickets);
 
 export const router = r.middleware();
