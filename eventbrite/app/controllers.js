@@ -21,7 +21,7 @@ export async function getEventbriteEventTickets(ctx, next) {
       ticketClassName.startsWith('comp ') ? 'comp' : 'standard';
 
     return {onSaleStatus, ticketType};
-  });
+  }).filter(ticket => ticket.ticketType === 'standard'); // we only want to show standard tickets for now...
 
   ctx.body = {tickets};
 }
