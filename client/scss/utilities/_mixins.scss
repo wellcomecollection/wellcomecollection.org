@@ -93,7 +93,7 @@
 
 @mixin css-grid-cells($columns, $key) {
   @for $i from 1 through $columns {
-    .x-cell--#{$key}#{$i} {
+    .css-grid__cell--#{$key}#{$i} {
       grid-column: span #{$i};
     }
   }
