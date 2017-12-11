@@ -10,7 +10,8 @@ import {
   getEvent,
   getExhibitionAndRelatedContent,
   getPaginatedEventPromos,
-  getPaginatedExhibitionPromos
+  getPaginatedExhibitionPromos,
+  getExhibitionAndEventPromos
 } from './services/prismic';
 import {
   parsePromoListItem,
@@ -32,5 +33,6 @@ export const prismic = {
   prismicImage,
   asText,
   getPaginatedEventPromos,
-  getPaginatedExhibitionPromos
+  getPaginatedExhibitionPromos,
+  getExhibitionAndEventPromos
 };

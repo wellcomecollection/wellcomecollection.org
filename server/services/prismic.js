@@ -280,6 +280,19 @@ export async function getPaginatedExhibitionPromos(page: number): Promise<Array<
   return paginatedResults(promos);
 }
 
+// TODO this should be a function that returns temporary exhibition promos, permanent exhibition promos and event promos - need to be date controlled
+export async function getExhibitionAndEventPromos(date) {
+  const permanentExhibitionPromos = ['perm'];
+  const temporaryExhibitionPromos = ['perm'];
+  const eventPromos = ['perm'];
+
+  return {
+    permanentExhibitionPromos,
+    temporaryExhibitionPromos,
+    eventPromos
+  };
+}
+
 export async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request): Promise<?ExhibitionAndRelatedContent> {
   const exhibition = await getTypeById(previewReq, ['exhibitions'], id, {});
 
