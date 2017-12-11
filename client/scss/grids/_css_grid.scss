@@ -96,15 +96,12 @@
   }
 }
 
-// for each class
-// grid-column: span 3;
-
-.css-cell--primary {
-  // background: color('mint');
+.css-grid__cell--primary {
+  background: color('mint');
   grid-column: primary;
 }
 
-.css-cell--secondary {
-  // background: color('smoke');
+.css-grid__cell--secondary {
+  background: color('smoke');
   grid-column: secondary;
 }
