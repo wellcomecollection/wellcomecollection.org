@@ -215,6 +215,7 @@ function createEventPromos(allResults): Array<EventPromo> {
     const promo = event.data.promo && event.data.promo[0];
     const promoImage = promo && promo.primary.image;
     const promoCaption = promo && promo.primary.caption;
+    const format = event.data.format && event.data.format.data && asText(event.data.format.data.title);
 
     // A single Primsic 'event' can have multiple datetimes, but we
     // want to display each datetime as an individual promo, so we
@@ -227,7 +228,8 @@ function createEventPromos(allResults): Array<EventPromo> {
         start: eventAtTime.startDateTime,
         end: eventAtTime.endDateTime,
         image: prismicImage(promoImage),
-        description: asText(promoCaption)
+        description: asText(promoCaption),
+        format: format
       };
     });
   }).reduce((acc, curr) => {
@@ -249,6 +251,7 @@ async function getResults(page: number, type: string): Promise<any> { // TODO ma
       return exhibitions;
     case 'event':
       const events = await getEvents(page);
+
       return events;
   }
 }
@@ -275,7 +278,7 @@ async function getEvents(page:number = 1, pageSize:number = 40) {
   const prismic = await getPrismicApi();
   const events = await prismic.query([
     Prismic.Predicates.any('document.type', ['events'])
-  ], {page, pageSize}); // TODO: add orderings by first time in times?
+  ], {page, pageSize, fetchLinks: 'event-formats.title'}); // TODO: add orderings by first time in times?
 
   return events;
 }

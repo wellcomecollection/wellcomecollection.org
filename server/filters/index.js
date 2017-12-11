@@ -26,6 +26,7 @@ import {prismicAsHtml, prismicAsText} from './prismic';
 import getA11yIcon from './get-a11y-icon';
 import {
   formatDate,
+  formatTime,
   formatDateTime,
   formatDateRangeWithMessage,
   formatDateWithComingSoon,
@@ -57,6 +58,7 @@ export default Map({
   getFlagValue,
   jsonLd,
   formatDate,
+  formatTime,
   formatDateTime,
   formatDateRangeWithMessage,
   formatDateWithComingSoon,

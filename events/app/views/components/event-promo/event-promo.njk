@@ -1,13 +1,16 @@
-<a id="{{ model.id }}" href="{{ model.url }}" class="promo">
-  <div class="promo__image-container">
+<a id="{{ model.id }}" href="{{ model.url }}" class="block plain-link {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
+  <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }} rounded-corners overflow-hidden">
     {% componentV2 'image', model.image, {}, {lazyload: true, defaultSize: data.defaultSize} %}
   </div>
-  <div class="promo__description font-HNL5-s">
-    <div class="promo__heading">
-      <h2 class="promo__title font-WB6-s">{{ model.title }}</h2>
-    </div>
-    <time datetime="{{ model.start }}">starts: {{ model.start }}</time>
-    <time datetime="{{ model.end }}">ends: {{ model.end }}</time>
-    <span class="promo__copy">{{ model.description | striptags | safe }}</span>
+  <div class="{{ {s:'HNM5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">{{ model.format }}</div>
+  <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
+    <h2 class="{{ {s:'WB6'} | fontClasses }} no-margin">{{ model.title }}</h2>
+  </div>
+  {# TODO: add e.g. 'drop in'/'enquire to book'/'ticketed' #}
+  <div class="{{ {s:'HNM5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">FREE | placeholder</div>
+  {# TODO: add 'fully booked' status when available #}
+  <time class="{{ {s:'HNM4'} | fontClasses }}" datetime="{{ model.start }}">{{ model.start | formatDate }}</time>
+  <div class="{{ {s:'HNL4'} | fontClasses }}" datetime="{{ model.start }}">
+    <time datetime="{{ model.start }}">{{ model.start | formatTime }}</time>&mdash;<time datetime="{{ model.end }}">{{ model.end | formatTime }}</time>
   </div>
 </a>
