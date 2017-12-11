@@ -16,6 +16,16 @@
 {% endblock %}
 
 {% block body %}
+  <div class="row">
+    <div class="css-grid__container">
+      <div class="grid">
+      {# <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">library promo</div>
+      <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">reading room promo</div>
+      <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">cafe and kitchen</div>
+      <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">Shop</div> #}
+    </div>
+  </div>
+
   {% componentV2 'page-description', { title: 'Explore' }, {'hidden': true} %}
   <div class="row bg-cream row--has-wobbly-background {{ {s:10} | spacingClasses({padding: ['top']}) }}">
     <div class="container">
