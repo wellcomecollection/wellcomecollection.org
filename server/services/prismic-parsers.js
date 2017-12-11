@@ -32,11 +32,12 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     }: DateTimeRange);
   });
 
-  const format = doc.data.format && {
+  const format = (doc.data.format && !isEmptyDocLink(doc.data.format)) ? {
     id: doc.data.format.id,
     title: asText(doc.data.format.data.title),
-    description: asText(doc.data.format.data.description)
-  };
+    shortName: asText(doc.data.format.data.shortName),
+    description: asHtml(doc.data.format.data.description)
+  } : null;
 
   // matching https://www.eventbrite.co.uk/e/40144900478?aff=efbneb
   const eventbriteIdMatch = doc.data.eventbriteEvent && /\/e\/([0-9]+)/.exec(doc.data.eventbriteEvent.url);
@@ -68,8 +69,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
 
   const accessOptions = doc.data.accessOptions.map(ao => !isEmptyDocLink(ao.accessOption) ? ({
     title: asText(ao.accessOption.data.title),
-    shortName: asText(ao.accessOption.data.description),
-    acronym: ao.accessOption.data.acronym
+    description: asText(ao.accessOption.data.description)
   }) : null).filter(_ => _);
 
   const e = ({
@@ -77,6 +77,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     identifiers: identifiers,
     title: asText(doc.data.title),
     format: format,
+    isDropIn: Boolean(doc.data.isDropIn), // the value from Prismic could be null || "yes"
     times: times,
     description: asHtml(doc.data.description),
     accessOptions: accessOptions,
@@ -357,7 +358,7 @@ export function asText(maybeContent: any) {
 export function asHtml(maybeContent: any) {
   // Prismic can send us empty html elements which can lead to unwanted UI in templates.
   // Check that `asText` wouldn't return an empty string.
-  const isEmpty = maybeContent && asText(maybeContent).trim() === '';
+  const isEmpty = !maybeContent || asText(maybeContent).trim() === '';
 
   return isEmpty ? null : RichText.asHtml(maybeContent).trim();
 }
