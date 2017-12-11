@@ -214,6 +214,7 @@ function createEventPromos(allResults): Array<EventPromo> {
     const promo = event.data.promo && event.data.promo[0];
     const promoImage = promo && promo.primary.image;
     const promoCaption = promo && promo.primary.caption;
+    const format = event.data.format && parseEventFormat(event.data.format);
     const bookingType = parseEventBookingType(event);
 
     // A single Primsic 'event' can have multiple datetimes, but we
@@ -224,7 +225,7 @@ function createEventPromos(allResults): Array<EventPromo> {
         id: event.id,
         title: asText(event.data.title),
         url: `/events/${event.id}`,
-        format: event.data.format && parseEventFormat(event.data.format),
+        format: format,
         start: eventAtTime.startDateTime,
         end: eventAtTime.endDateTime,
         image: prismicImage(promoImage),
