@@ -6,9 +6,9 @@
 
 {% block body %}
   <h1>What's on</h1>
-  {{whatsOnStuff}}
   <div class="css-grid-container">
     <div class="css-grid">
+     {# TODO Temporary Exhibitions #}
      {% for exhibition in paginatedExhibitions.results %}
         <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">
           {% componentV2 'exhibition-promo', exhibition %}
@@ -19,17 +19,24 @@
           {% componentV2 'event-promo', event %}
         </div>
       {% endfor %}
-      <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">exhibition promo</div>
-      <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">exhibition promo</div>
-      <div class="{{ {s: 12, m: 6, l: 3, xl:3} | cssGridClasses }}">event promo</div>
-      <div class="{{ {s: 12, m: 6, l: 3, xl:3} | cssGridClasses }}">event promo</div>
-      <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">exhibition promo</div>
-      <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">exhibition promo</div>
+     {# TODO Permanent Exhibitions #}
+     {% for exhibition in paginatedExhibitions.results %}
+        <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">
+          {% componentV2 'exhibition-promo', exhibition %}
+        </div>
+      {% endfor %}
       <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">library promo</div>
       <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">reading room promo</div>
       <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">cafe and kitchen</div>
       <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">Shop</div>
     </div>
-    {# primary/secondary etc. examples in cardigan #}
   </div>
+
+  {# TODO - diff. PR - Get primary/secondary etc. examples in cardigan #}
+  {# <div class="css-grid-container">
+    <div class="css-grid">
+      <div class="css-grid__cell--primary"></div>
+      <div class="css-grid__cell--secondary"></div>
+    </div>
+  </div> #}
 {% endblock %}
