@@ -1,4 +1,4 @@
-.x-grid { // is equivalent of container
+.css-grid-container {
   display: grid;
   // background: color('silver');
   grid-auto-rows: minmax(50px, auto);
@@ -13,8 +13,6 @@
     }
   }
 }
-
-// TODO how container queries work?
 
 @function grid-columns($primary-start: 1, $primary-end: 7, $secondary-start: 8, $secondary-end: 12, $columns: $totalColumns) {
 
@@ -45,7 +43,7 @@
   @return $column-string;
 }
 
-.grid-12 { // is equivalent of grid
+.css-grid { // is equivalent of grid
   position: relative;
   grid-column: main;
   grid-auto-rows: minmax(50px, auto);
@@ -71,12 +69,12 @@
   }
 }
 
-.x-full { // is equivalent of breakout
+.css-grid__cell--breakout {
   grid-column: full;
   // background: color('elf-green');
 }
 
-.x-cell {
+.css-grid__cell {
   // background: color('petrol');
 }
 
@@ -101,14 +99,12 @@
 // for each class
 // grid-column: span 3;
 
-.cell--primary {
+.css-cell--primary {
   // background: color('mint');
   grid-column: primary;
 }
 
-.cell--secondary {
+.css-cell--secondary {
   // background: color('smoke');
   grid-column: secondary;
-  position: sticky;
-  // height: 0;
 }
