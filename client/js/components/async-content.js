@@ -33,6 +33,8 @@ export default function asyncContent(el, dispatch) {
           .filter(modifier => modifier)
           .concat(['transporter', 'in-content']);
 
+        // TODO: this should only query `el` downwards to account for
+        // possibility of more than one numbered-list-transporter on the page
         const numberedListTransporter = document.querySelector('.js-numbered-list-transporter');
 
         if (numberedListTransporter) {
