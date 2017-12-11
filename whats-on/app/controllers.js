@@ -5,8 +5,7 @@ const {
 } = prismic;
 
 export async function renderWhatsOn(ctx, next) {
-  const page = Number(ctx.request.query.page);
-  const exhibitionAndEventPromos = await getExhibitionAndEventPromos(page);
+  const exhibitionAndEventPromos = await getExhibitionAndEventPromos('2018-01-25', '2018-01-25');
 
   ctx.render('pages/whats-on', {
     pageConfig: createPageConfig({

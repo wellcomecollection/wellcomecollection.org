@@ -11,6 +11,7 @@ import {
   parsePromoListItem, parseEventFormat, parseEventBookingType, parseImagePromo
 } from './prismic-parsers';
 import {List} from 'immutable';
+import moment from 'moment';
 import type {PaginatedResults, PaginatedResultsType} from '../model/paginated-results';
 import type {ExhibitionPromo} from '../model/exhibition-promo';
 import type {ExhibitionAndRelatedContent} from '../model/exhibition-and-related-content';
@@ -268,23 +269,45 @@ export async function getPaginatedExhibitionPromos(page: number): Promise<Array<
   return paginatedResults(promos);
 }
 
-// TODO this should be a function that returns temporary exhibition promos, permanent exhibition promos and event promos - need to be date controlled
+// TODO tidy this up and pass in range properly
+function datesOverlapRange (eventStartDate, eventEndDate, rangeStartDate, rangeEndDate) {
+  const eventStart = moment.tz(eventStartDate, 'Europe/London');
+  const eventEnd = moment.tz(eventEndDate, 'Europe/London');
+  const rangeStart = moment.tz(rangeStartDate, 'Europe/London');
+  const rangeEnd = moment.tz(rangeEndDate, 'Europe/London');
+
+  return (eventStart.isSame(rangeEnd, 'day') || eventStart.isBefore(rangeEnd, 'day')) && (eventEnd.isSame(rangeStart, 'day') || eventEnd.isAfter(rangeStart, 'day'));
+}
+
 // TODO flowtype
-export async function getExhibitionAndEventPromos(date) {
+export async function getExhibitionAndEventPromos(startDate, endDate) { // TODO pass in date range - default return everything
   const prismic = await getPrismicApi();
   const allExhibitionsAndEvents = await prismic.query([
     Prismic.Predicates.any('document.type', ['exhibitions', 'events'])
   ]);
   const exhibitionPromos = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'exhibitions'));
   const permanentExhibitionPromos = exhibitionPromos.filter(e => !e.end);
-  const temporaryExhibitionPromos = exhibitionPromos.filter(e => e.end); // TODO filter by date/date range
-  const eventPromos = createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')); // TODO filter by date/ date range
+  let temporaryExhibitionPromos; // TODO no lets?
+  let eventPromos;
+
+  if (startDate && endDate) {
+    temporaryExhibitionPromos = exhibitionPromos.filter(e => e.end).filter(e => datesOverlapRange(e.start, e.end));
+    eventPromos = createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')).filter(e => datesOverlapRange(e.start, e.end, startDate, endDate));
+  } else {
+    temporaryExhibitionPromos = exhibitionPromos.filter(e => e.end);
+    eventPromos = createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events'));
+  }
+
   return {
     permanentExhibitionPromos,
     temporaryExhibitionPromos,
     eventPromos
   };
 }
+
+// getToday
+// getWeekend
+// getEverything
 
 export async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request): Promise<?ExhibitionAndRelatedContent> {
   const exhibition = await getTypeById(previewReq, ['exhibitions'], id, {});
