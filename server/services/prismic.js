@@ -261,7 +261,7 @@ function convertPrismicResultsToPaginatedResults(prismicResults: Object): (resul
   };
 }
 
-export async function getEventPromos(page: number): Promise<Array<EventPromo>> {
+export async function getPaginatedEventPromos(page: number): Promise<Array<EventPromo>> {
   const results = await getAllOfType('events', page, {
     orderings: '[my.events.times.startDateTime desc]',
     fetchLinks: eventFields
@@ -271,7 +271,7 @@ export async function getEventPromos(page: number): Promise<Array<EventPromo>> {
   return paginatedResults(promos);
 }
 
-export async function getExhibitionPromos(page: number): Promise<Array<ExhibitionPromo>> {
+export async function getPaginatedExhibitionPromos(page: number): Promise<Array<ExhibitionPromo>> {
   const results = await getAllOfType('exhibitions', page, {orderings: '[my.exhibitions.start]'});
   const promos = createExhibitionPromos(results);
   const paginatedResults = convertPrismicResultsToPaginatedResults(results);
