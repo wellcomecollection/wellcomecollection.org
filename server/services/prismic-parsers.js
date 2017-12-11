@@ -378,6 +378,6 @@ export function asHtml(maybeContent: any) {
   return isEmpty ? null : RichText.asHtml(maybeContent).trim();
 }
 
-export function isEmptyDocLink(fragment) {
+export function isEmptyDocLink(fragment: Object) {
   return fragment.link_type === 'Document' && !fragment.data;
 }
