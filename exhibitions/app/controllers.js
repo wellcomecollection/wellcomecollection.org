@@ -8,7 +8,8 @@ const {
 
 export async function renderExhibition(ctx, next) {
   const id = `${ctx.params.id}`;
-  const exhibitionContent = await getExhibitionAndRelatedContent(id);
+  const isPreview = Boolean(ctx.params.preview);
+  const exhibitionContent = await getExhibitionAndRelatedContent(id, isPreview ? ctx.request : null);
   const format = ctx.request.query.format;
   const path = ctx.request.url;
   const tags = [{
@@ -30,6 +31,7 @@ export async function renderExhibition(ctx, next) {
           canonicalUri: `${ctx.globals.rootDomain}/exhibitions/${exhibitionContent.exhibition.id}`
         }),
         exhibitionContent: exhibitionContent,
+        isPreview: isPreview,
         tags
       });
     }
