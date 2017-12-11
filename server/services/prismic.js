@@ -186,7 +186,7 @@ export async function getCuratedList(id: string) {
 }
 
 function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
-  const allPromos = allResults.results.map((e):ExhibitionPromo => {
+  return allResults.map((e):ExhibitionPromo => {
     return {
       id: e.id,
       url: `/exhibitions/${e.id}`,
@@ -197,16 +197,6 @@ function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
       end: e.data.end
     };
   });
-
-  const permanentPromos = allPromos.filter((e) => {
-    return !e.end;
-  });
-
-  const temporaryPromos = allPromos.filter((e) => {
-    return e.end;
-  });
-
-  return permanentPromos.concat(temporaryPromos);
 }
 
 function createEventPromos(allResults): Array<EventPromo> {
@@ -262,28 +252,33 @@ function convertPrismicResultsToPaginatedResults(prismicResults: Object): (resul
 }
 
 export async function getPaginatedEventPromos(page: number): Promise<Array<EventPromo>> {
-  const results = await getAllOfType('events', page, {
+  const events = await getAllOfType('events', page, {
     orderings: '[my.events.times.startDateTime desc]',
     fetchLinks: eventFields
   });
-  const promos = createEventPromos(results);
-  const paginatedResults = convertPrismicResultsToPaginatedResults(results);
+  const promos = createEventPromos(events.results);
+  const paginatedResults = convertPrismicResultsToPaginatedResults(events);
   return paginatedResults(promos);
 }
 
 export async function getPaginatedExhibitionPromos(page: number): Promise<Array<ExhibitionPromo>> {
-  const results = await getAllOfType('exhibitions', page, {orderings: '[my.exhibitions.start]'});
-  const promos = createExhibitionPromos(results);
-  const paginatedResults = convertPrismicResultsToPaginatedResults(results);
+  const exhibitions = await getAllOfType('exhibitions', page), {orderings: '[my.exhibitions.start]';
+  const promos = createExhibitionPromos(exhibitions.results);
+  const paginatedResults = convertPrismicResultsToPaginatedResults(exhibitions);
   return paginatedResults(promos);
 }
 
 // TODO this should be a function that returns temporary exhibition promos, permanent exhibition promos and event promos - need to be date controlled
+// TODO flowtype
 export async function getExhibitionAndEventPromos(date) {
-  const permanentExhibitionPromos = ['perm'];
-  const temporaryExhibitionPromos = ['perm'];
-  const eventPromos = ['perm'];
-
+  const prismic = await getPrismicApi();
+  const allExhibitionsAndEvents = await prismic.query([
+    Prismic.Predicates.any('document.type', ['exhibitions', 'events'])
+  ]);
+  const exhibitionPromos = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'exhibitions'));
+  const permanentExhibitionPromos = exhibitionPromos.filter(e => !e.end);
+  const temporaryExhibitionPromos = exhibitionPromos.filter(e => e.end); // TODO filter by date/date range
+  const eventPromos = createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')); // TODO filter by date/ date range
   return {
     permanentExhibitionPromos,
     temporaryExhibitionPromos,
