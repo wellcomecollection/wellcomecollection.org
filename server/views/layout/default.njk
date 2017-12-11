@@ -67,6 +67,15 @@
     {% component 'header', { navLinks: navLinks } %}
 
     <div id="main" class="main" role="main">
+      <div class="row bg-yellow {{ {s:3} | spacingClasses({padding: ['top', 'bottom']}) }} {{ {s:'HNL5'} | fontClasses }}">
+        <div class="container">
+          <h2 class="{{ {s:'HNM5'} | fontClasses }} {{ {s:2} | spacingClasses({ margin: ['bottom'] }) }} {{ {s:0} | spacingClasses({ margin: ['top'] }) }}">Festive opening hours</h2>
+          <p class="no-margin">
+            We will be closed from 24-26 December, with modified opening hours from Saturday 23 December until Tuesday 2 January.
+          </p>
+          <p class="{{ {s:0} | spacingClasses({margin: ['bottom']}) }} {{ {s:2} | spacingClasses({margin: ['top']}) }}">Please check our <a href="https://wellcomecollection.org/visit-us/festive-opening-hours">full festive opening hours</a> before you travel.</p>
+        </div>
+      </div>
       {% block body %}
       {% endblock %}
     </div>
