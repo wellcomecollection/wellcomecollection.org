@@ -1,6 +1,7 @@
 // @flow
 import type {HTMLString, ImagePromo} from './content-blocks';
 import type {Person} from './people';
+import type {Picture} from '../model/picture';
 
 export type DateTimeRange = {|
   startDateTime: Date;
@@ -82,15 +83,24 @@ export type Event = {|
   bookingEnquiryTeam: ?EventBookingEnquiryTeam;
   contributors: Array<Contributor>;
   promo: ?ImagePromo;
+  // TODO:
+  // this is programmatic and doesn't come from Prismic and can't be edited directly
+  // it's more convenient that having to work it out.
+  // not sure if it should be in the model, a question for Silver
+  bookingType: ?string;
 |}
 
-// TODO: this will need more as the promo gets fleshed out
 export type EventPromo = {|
   id: string;
   title: ?string;
+  url: string;
   start: DateTimeRange;
   end: DateTimeRange;
   description: ?HTMLString;
+  format: ?string;
+  bookingType: ?string;
+  image: ?Picture;
+  bookingType: ?string;
 |}
 
 export const eventExample = ({
@@ -218,5 +228,6 @@ export const eventExample = ({
       width: 100,
       height: 100
     }
-  }
+  },
+  bookingType: 'Drop in'
 }: Event);

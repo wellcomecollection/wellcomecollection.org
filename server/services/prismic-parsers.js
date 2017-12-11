@@ -4,7 +4,7 @@ import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
 import type {
   DateTimeRange, Event, Contributor, EventBookingEnquiryTeam,
-  EventLocation
+  EventLocation, EventFormat
 } from '../content-model/events';
 import getBreakpoint from '../filters/get-breakpoint';
 import {parseBody} from './prismic-body-parser';
@@ -32,15 +32,10 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     }: DateTimeRange);
   });
 
-  const format = (doc.data.format && !isEmptyDocLink(doc.data.format)) ? {
-    id: doc.data.format.id,
-    title: asText(doc.data.format.data.title),
-    shortName: asText(doc.data.format.data.shortName),
-    description: asHtml(doc.data.format.data.description)
-  } : null;
+  const format = doc.data.format && parseEventFormat(doc.data.format);
 
   // matching https://www.eventbrite.co.uk/e/40144900478?aff=efbneb
-  const eventbriteIdMatch = doc.data.eventbriteEvent && /\/e\/([0-9]+)/.exec(doc.data.eventbriteEvent.url);
+  const eventbriteIdMatch = isEmptyObj(doc.data.eventbriteEvent) ? null : /\/e\/([0-9]+)/.exec(doc.data.eventbriteEvent.url);
   const identifiers = eventbriteIdMatch ? [{
     identifierScheme: 'eventbrite-id',
     value: eventbriteIdMatch[1]
@@ -72,6 +67,8 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     description: asText(ao.accessOption.data.description)
   }) : null).filter(_ => _);
 
+  const bookingType = parseEventBookingType(doc);
+
   const e = ({
     id: doc.id,
     identifiers: identifiers,
@@ -85,10 +82,27 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     contributors: contributors,
     promo: promo,
     series: [],
-    location: location
+    location: location,
+    bookingType: bookingType
   }: Event);
 
   return e;
+}
+
+export function parseEventFormat(frag: Object): ?EventFormat {
+  return isEmptyDocLink(frag) ? null : {
+    id: frag.id,
+    title: asText(frag.data.title),
+    shortName: asText(frag.data.shortName),
+    description: asHtml(frag.data.description)
+  };
+}
+
+export function parseEventBookingType(eventDoc: Object): ?string {
+  return !isEmptyObj(eventDoc.data.eventbriteEvent) ? 'Ticketed'
+    : !isEmptyDocLink(eventDoc.data.bookingEnquiryTeam) ? 'Enquire to book'
+      : !isEmptyDocLink(eventDoc.data.location) && eventDoc.data.location.data.capacity  ? 'First come, first seated'
+        : eventDoc.data.isDropIn ? 'Drop in' : null;
 }
 
 export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
@@ -326,6 +340,7 @@ type Tasl = {|
   copyrightHolder: ?string;
   copyrightLink: ?string;
 |}
+
 function parseTaslFromCopyright(copyright): Tasl {
   // We expect a string of title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
   // e.g. Self|Rob Bidder|||CC-BY-NC
@@ -363,6 +378,6 @@ export function asHtml(maybeContent: any) {
   return isEmpty ? null : RichText.asHtml(maybeContent).trim();
 }
 
-function isEmptyDocLink(fragment) {
+export function isEmptyDocLink(fragment: Object) {
   return fragment.link_type === 'Document' && !fragment.data;
 }

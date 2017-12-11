@@ -2,12 +2,25 @@
   <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }} rounded-corners overflow-hidden">
     {% componentV2 'image', model.image, {}, {lazyload: true, defaultSize: data.defaultSize} %}
   </div>
-  <div class="{{ {s:'HNM5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">{{ model.format }}</div>
+  <div class="{{ {s:'HNM5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
+    {% if model.format.shortName %}
+      <abbr title="{{ model.format.title }}">{{ model.format.shortName }}</abbr>
+    {% else %}
+      <span>{{ model.format.title }}</span>
+    {% endif %}
+  </div>
   <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
     <h2 class="{{ {s:'WB6'} | fontClasses }} no-margin">{{ model.title }}</h2>
   </div>
   {# TODO: add e.g. 'drop in'/'enquire to book'/'ticketed' #}
-  <div class="{{ {s:'HNM5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">FREE | placeholder</div>
+  <div class="flex flex--v-center {{ {s:'HNM5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
+    <span class="caps {{ {s: 1} | spacingClasses({padding: ['right']}) }}">Free</span>
+    {% if model.bookingType %}
+      <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
+        {{ model.bookingType }}
+      </span>
+    {% endif %}
+  </div>
   {# TODO: add 'fully booked' status when available #}
   <time class="{{ {s:'HNM4'} | fontClasses }}" datetime="{{ model.start }}">{{ model.start | formatDate }}</time>
   <div class="{{ {s:'HNL4'} | fontClasses }}" datetime="{{ model.start }}">

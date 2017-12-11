@@ -8,7 +8,7 @@ import {
   prismicImage,
   parseExhibitionsDoc,
   getPositionInPrismicSeries,
-  parsePromoListItem
+  parsePromoListItem, parseEventFormat, parseEventBookingType
 } from './prismic-parsers';
 import {List} from 'immutable';
 import type {PaginatedResults, PaginatedResultsType} from '../model/paginated-results';
@@ -54,11 +54,16 @@ async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string
   return doc && types.indexOf(doc.type) !== -1 ? doc : null;
 }
 
-async function getAllOfType(type: DocumentType, page: number, orderings: ?string) {
+type PrismicQueryOptions = {|
+  fetchLinks?: ?Array<String>;
+  orderings?: ?string;
+|}
+
+async function getAllOfType(type: DocumentType, page: number, options: PrismicQueryOptions = {}) {
   const prismic = await getPrismicApi();
   const results = await prismic.query([
     Prismic.Predicates.any('document.type', [type])
-  ], { orderings, page, pageSize: defaultPageSize });
+  ], Object.assign({}, { page, pageSize: defaultPageSize }, options));
   return results;
 }
 
@@ -209,7 +214,8 @@ function createEventPromos(allResults): Array<EventPromo> {
     const promo = event.data.promo && event.data.promo[0];
     const promoImage = promo && promo.primary.image;
     const promoCaption = promo && promo.primary.caption;
-    const format = event.data.format && event.data.format.data && asText(event.data.format.data.title);
+    const format = event.data.format && parseEventFormat(event.data.format);
+    const bookingType = parseEventBookingType(event);
 
     // A single Primsic 'event' can have multiple datetimes, but we
     // want to display each datetime as an individual promo, so we
@@ -219,11 +225,12 @@ function createEventPromos(allResults): Array<EventPromo> {
         id: event.id,
         title: asText(event.data.title),
         url: `/events/${event.id}`,
+        format: format,
         start: eventAtTime.startDateTime,
         end: eventAtTime.endDateTime,
         image: prismicImage(promoImage),
         description: asText(promoCaption),
-        format: format
+        bookingType: bookingType
       };
     });
   }).reduce((acc, curr) => {
@@ -257,7 +264,10 @@ function convertPrismicResultsToPaginatedResults(prismicResults: Object): (resul
 }
 
 export async function getEventPromos(page: number): Promise<Array<EventPromo>> {
-  const results = await getAllOfType('events', page, '[my.events.times.startDateTime desc]');
+  const results = await getAllOfType('events', page, {
+    orderings: '[my.events.times.startDateTime desc]',
+    fetchLinks: eventFields
+  });
   const promos = createEventPromos(results);
   const paginatedResults = convertPrismicResultsToPaginatedResults(results);
   return paginatedResults(promos);
