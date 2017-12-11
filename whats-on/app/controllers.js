@@ -1,14 +1,14 @@
 import {model, prismic} from 'common';
 const {createPageConfig} = model;
 const {
-  getPaginatedResults
+  getExhibitionPromos,
+  getEventPromos
 } = prismic;
 
 export async function renderWhatsOn(ctx, next) {
   const page = Number(ctx.request.query.page);
-  const paginatedExhibitions = await getPaginatedResults(page, 'exhibition'); // TODO this should be a function that just returns temporary exhibition promos / and another one for permanent exhibitions
-  const paginatedEvents = await getPaginatedResults(page, 'event') ; // TODO this should be a function that just returns events promos
-  const whatsOnStuff = 'all the stuff';
+  const paginatedExhibitions = await getExhibitionPromos(page); // TODO this should be a function that just returns temporary exhibition promos / and another one for permanent exhibitions - need to be date controlled
+  const paginatedEvents = await getEventPromos(page); // TODO this should be a function that just returns events promos - need to be date controlled
 
   ctx.render('pages/whats-on', {
     pageConfig: createPageConfig({
