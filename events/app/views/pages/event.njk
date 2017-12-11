@@ -144,7 +144,7 @@
           <h3 class="{{ {s:'HNM4'} | fontClasses }}">Access information</h3>
           <div class="{{ {s:'HNL4'} | fontClasses }}">
             {{ event.format.description | safe }}
-            {% componentV2 'more-info-link', {name: 'View our accessability statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
+            {% componentV2 'more-info-link', {name: 'View our accessibility statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
           </div>
         {% else %}
           {% for accessOption in event.accessOptions %}
@@ -157,7 +157,7 @@
                   <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
                   or call 020 7611 2222.
                 </p>
-                {% componentV2 'more-info-link', {name: 'View our accessability statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
+                {% componentV2 'more-info-link', {name: 'View our accessibility statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
               </div>
             {% endif %}
           {% endfor %}
