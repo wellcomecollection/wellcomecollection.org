@@ -16,3 +16,5 @@ critical.css.njk
 *.tfvars
 *.tfstate
 *.tfstate.backup
+
+.env
