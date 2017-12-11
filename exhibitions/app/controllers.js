@@ -3,7 +3,7 @@ import {model, prismic} from 'common';
 const {createPageConfig} = model;
 const {
   getExhibitionAndRelatedContent,
-  getExhibitionPromos
+  getPaginatedExhibitionPromos
 } = prismic;
 
 export async function renderExhibition(ctx, next) {
@@ -42,7 +42,7 @@ export async function renderExhibition(ctx, next) {
 
 export async function renderExhibitionsList(ctx, next) {
   const page = Number(ctx.request.query.page);
-  const paginatedExhibitions = await getExhibitionPromos(page);
+  const paginatedExhibitions = await getPaginatedExhibitionPromos(page);
 
   ctx.render('pages/exhibitions', {
     pageConfig: createPageConfig({
