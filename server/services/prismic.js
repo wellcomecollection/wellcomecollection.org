@@ -209,6 +209,7 @@ function createEventPromos(allResults): Array<EventPromo> {
     const promo = event.data.promo && event.data.promo[0];
     const promoImage = promo && promo.primary.image;
     const promoCaption = promo && promo.primary.caption;
+    const format = event.data.format && event.data.format.data && asText(event.data.format.data.title);
 
     // A single Primsic 'event' can have multiple datetimes, but we
     // want to display each datetime as an individual promo, so we
@@ -221,7 +222,8 @@ function createEventPromos(allResults): Array<EventPromo> {
         start: eventAtTime.startDateTime,
         end: eventAtTime.endDateTime,
         image: prismicImage(promoImage),
-        description: asText(promoCaption)
+        description: asText(promoCaption),
+        format: format
       };
     });
   }).reduce((acc, curr) => {
