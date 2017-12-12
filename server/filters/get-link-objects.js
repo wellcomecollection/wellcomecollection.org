@@ -4,7 +4,7 @@ import type {Link} from '../model/link';
 export function createLinkObject(val: string, prepend?: string): Link {
   return {
     text: val,
-    url: prepend ? `/works?query=${encodeURIComponent(prepend + val)}` : `/works?query=${encodeURI(val)}`
+    url: prepend ? `/works?query=${encodeURIComponent(prepend + `"${val}"`)}` : `/works?query=${encodeURI(`"${val}"`)}`
   };
 };
 
