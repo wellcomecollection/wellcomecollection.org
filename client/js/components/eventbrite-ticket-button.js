@@ -1,6 +1,5 @@
-import fastdom from "fastdom";
-
-type OnSaleStatus = 'available' | 'unavailable' | 'sold_out' | 'not_yet_on_sale';
+/* global fetch */
+import fastdom from 'fastdom';
 
 export function eventbriteTicketButton(el) {
   fastdom.measure(() => {
@@ -14,7 +13,7 @@ export function eventbriteTicketButton(el) {
     fetch(`/eventbrite/button/events/${eventbriteId}/ticket_classes`).then(resp => resp.json()).then(ticketButton => {
       fastdom.mutate(() => {
         el.innerHTML = ticketButton.html;
-      })
+      });
     });
   });
 }

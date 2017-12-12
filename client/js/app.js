@@ -31,7 +31,7 @@ import scrollToInfo from './components/scroll-to-info';
 import copyUrl from './components/copy-url';
 import searchBox from './components/search-box';
 import iframeContainer from './components/iframe-container';
-import {eventbriteTicketButton} from "./components/eventbrite-ticket-button";
+import {eventbriteTicketButton} from './components/eventbrite-ticket-button';
 
 const init = () => {
   polyfills.init();
@@ -122,7 +122,7 @@ const init = () => {
   const truncateTextNodes = document.querySelectorAll('.js-truncate-text');
   nodeList(truncateTextNodes).forEach(truncateText);
 
-  nodeList(document.querySelectorAll('.js-eventbrite-ticket-button')).forEach(eventbriteTicketButton)
+  nodeList(document.querySelectorAll('.js-eventbrite-ticket-button')).forEach(eventbriteTicketButton);
 };
 
 function initWithRaven() {
