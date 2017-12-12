@@ -1,16 +1,16 @@
 {% extends 'layout/default.njk' %}
-{# TODO: add description for meta and list-header #}
+
+{% set metaContent = {
+  type: 'website',
+  title: 'Exhibitions',
+  image: temporaryExhibitions[0].image.contentUrl,
+  url: pageConfig.canonicalUri,
+  description: 'Explore the connections between science, medicine, life and art through our permanent and temporary exhibitions. Admission is always free.'
+} %}
+
 {% block pageMeta %}
-  {% set metaContent = {
-    type: 'website',
-    title: 'Exhibitions',
-    image: temporaryExhibitions[0].image.contentUrl,
-    url: pageConfig.canonicalUri,
-    description: ''
-  } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
-
   <meta name="description" content="{{ metaContent.description }}" />
 {% endblock %}
 
@@ -23,7 +23,7 @@
     {% endfor %}]
   </script>
 
-  {% componentV2 'list-header', {name: 'Exhibitions', total: paginatedExhibitions.results.length} %}
+  {% componentV2 'list-header', {name: 'Exhibitions', description: metaContent.description, total: paginatedExhibitions.results.length} %}
 
   {% if paginatedExhibitions.pagination.pageCount > 1  %}
   <div class="row">
