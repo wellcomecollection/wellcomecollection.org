@@ -1,0 +1,51 @@
+<div>
+  <a class="{{- [
+    'js-eventbrite-ticket-button',
+    'flex-inline',
+    'flex--v-center',
+    'flex--h-center',
+    'btn btn--full-width-s',
+    {s:'HNM4'} | fontClasses,
+    {s: 4} | spacingClasses({padding: ['left', 'right']})
+  ].join(' ') }}"
+     data-eventbrite-ticket-id="{{ ticket.eventbriteId }}"
+     {% if ticket.onSaleStatus === 'available' %}
+       href="https://www.eventbrite.com/e/{{ ticket.eventbriteId }}/"
+     {% else %}
+       disabled="disabled" aria-disabled="true"
+     {% endif %}
+    >
+    <span>
+      {% if ticket.onSaleStatus === 'available' %}
+        {% icon 'ticket_available', null, ['icon--white'] %}
+      {% elif ticket.onSaleStatus === 'sold_out' %}
+        {% icon 'ticket_sold_out', null, ['icon--white'] %}
+      {% elif ticket.onSaleStatus === 'not_yet_on_sale' %}
+        {% icon 'ticket_not_yet_on_sale', null, ['icon--white'] %}
+      {% endif %}
+    </span>
+    <span class="js-eventbrite-ticket-button-text">
+      {% if ticket.onSaleStatus === 'available' %}
+        Book free tickets
+      {% elif ticket.onSaleStatus === 'sold_out' %}
+        Sold out
+      {% elif ticket.onSaleStatus === 'not_yet_on_sale' %}
+        Not yet on sale
+      {% endif %}
+    </span>
+  </a>
+  {% if ticket.onSaleStatus === 'not_yet_on_sale' %}
+    <p class="{{- [
+      'font-charcoal',
+      {s:'HNM5'} | fontClasses, {s: 1},
+      {s:1} | spacingClasses({margin: ['top']}),
+      {s:0} | spacingClasses({margin: ['bottom']})
+    ].join(' ') -}}">Tickets on sale from {{ ticket.saleStarts }}</p>
+  {% endif %}
+  <p class="{{- [
+    'font-charcoal',
+    {s:'HNL5'} | fontClasses,
+    {s:1} | spacingClasses({margin: ['top']}),
+    {s:0} | spacingClasses({margin: ['bottom']})
+  ].join(' ') -}}">with Eventbrite</p>
+</div>
