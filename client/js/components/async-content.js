@@ -8,7 +8,12 @@ export default function asyncContent(el, dispatch) {
   return fetch(`/async${el.getAttribute('data-endpoint')}`)
     .then(resp => resp.json())
     .then(json => {
-      el.outerHTML = json.html;
+      const outerEl = document.createElement('div');
+      outerEl.innerHTML = json.html;
+      const newEl = outerEl.firstElementChild;
+      const parentNode = el.parentNode;
+      parentNode.insertBefore(newEl, el);
+      parentNode.removeChild(el);
 
       if (component === 'series-nav') {
         const seriesSlider = document.querySelector('.js-numbered-slider');
@@ -33,12 +38,8 @@ export default function asyncContent(el, dispatch) {
           .filter(modifier => modifier)
           .concat(['transporter', 'in-content']);
 
-        // TODO: this should only query `el` downwards to account for
-        // possibility of more than one numbered-list-transporter on the page
-        const numberedListTransporter = document.querySelector('.js-numbered-list-transporter');
-
-        if (numberedListTransporter) {
-          contentSlider(numberedListTransporter, {
+        if (newEl.classList.contains('js-numbered-list-transporter')) {
+          contentSlider(newEl, {
             slideSelector: '.numbered-list__item',
             modifiers: modifiers,
             transitionSpeed: 0.7,
