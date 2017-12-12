@@ -1,4 +1,4 @@
-module "exhibitions" {
+module "eventbrite" {
   source             = "git::https://github.com/wellcometrust/terraform.git//services?ref=v3.0.2"
   name               = "eventbrite"
   cluster_id         = "${local.cluster_name}"
