@@ -11,7 +11,9 @@ import {
   getExhibitionAndRelatedContent,
   getPaginatedEventPromos,
   getPaginatedExhibitionPromos,
-  getExhibitionAndEventPromos
+  getExhibitionAndEventPromos,
+  getTodaysExhibitionAndEventPromos,
+  getWeekendsExhibitionAndEventPromos
 } from './services/prismic';
 import {
   parsePromoListItem,
@@ -34,5 +36,7 @@ export const prismic = {
   asText,
   getPaginatedEventPromos,
   getPaginatedExhibitionPromos,
-  getExhibitionAndEventPromos
+  getExhibitionAndEventPromos,
+  getTodaysExhibitionAndEventPromos,
+  getWeekendsExhibitionAndEventPromos
 };

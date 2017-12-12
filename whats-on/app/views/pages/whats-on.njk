@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block body %}
+    {{exhibitionAndEventPromos.date}}
+     {{exhibitionAndEventPromos.fromDate}} - {{exhibitionAndEventPromos.toDate}}
   <div class="css-grid-container">
     <div class="css-grid">
      {% for exhibition in exhibitionAndEventPromos.temporaryExhibitionPromos %}
@@ -28,12 +30,4 @@
       <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">Shop</div> #}
     </div>
   </div>
-
-  {# TODO - diff. PR - Get primary/secondary etc. examples in cardigan #}
-  {# <div class="css-grid-container">
-    <div class="css-grid">
-      <div class="css-grid__cell--primary"></div>
-      <div class="css-grid__cell--secondary"></div>
-    </div>
-  </div> #}
 {% endblock %}

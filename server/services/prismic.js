@@ -43,6 +43,10 @@ const eventFields = [
 
 const defaultPageSize = 40;
 
+function london(d) {
+  return moment.tz(d, 'Europe/London');
+}
+
 export async function getPrismicApi(req: ?Request) {
   const api = req ? await prismicPreviewApi(req) : await prismicApi();
 
@@ -273,34 +277,30 @@ export async function getPaginatedExhibitionPromos(page: number): Promise<Array<
   return paginatedResults(permanentPromos.concat(temporaryPromos));
 }
 
-// TODO tidy this up and pass in range properly
+// TODO flowtype
 function datesOverlapRange (eventStartDate, eventEndDate, rangeStartDate, rangeEndDate) {
-  const eventStart = moment.tz(eventStartDate, 'Europe/London');
-  const eventEnd = moment.tz(eventEndDate, 'Europe/London');
-  const rangeStart = moment.tz(rangeStartDate, 'Europe/London');
-  const rangeEnd = moment.tz(rangeEndDate, 'Europe/London');
-
+  const eventStart = london(eventStartDate);
+  const eventEnd = london(eventEndDate);
+  const rangeStart = london(rangeStartDate);
+  const rangeEnd = london(rangeEndDate);
   return (eventStart.isSame(rangeEnd, 'day') || eventStart.isBefore(rangeEnd, 'day')) && (eventEnd.isSame(rangeStart, 'day') || eventEnd.isAfter(rangeStart, 'day'));
 }
 
 // TODO flowtype
-export async function getExhibitionAndEventPromos(startDate, endDate) { // TODO pass in date range - default return everything
+function filterPromosByDate(promos, startDate, endDate) {
+  return promos.filter(e => datesOverlapRange(e.start, e.end, startDate, endDate));
+}
+
+// TODO flowtype
+export async function getExhibitionAndEventPromos() {
   const prismic = await getPrismicApi();
   const allExhibitionsAndEvents = await prismic.query([
     Prismic.Predicates.any('document.type', ['exhibitions', 'events'])
   ]);
   const exhibitionPromos = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'exhibitions'));
   const permanentExhibitionPromos = exhibitionPromos.filter(e => !e.end);
-  let temporaryExhibitionPromos; // TODO no lets?
-  let eventPromos;
-
-  if (startDate && endDate) {
-    temporaryExhibitionPromos = exhibitionPromos.filter(e => e.end).filter(e => datesOverlapRange(e.start, e.end));
-    eventPromos = createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')).filter(e => datesOverlapRange(e.start, e.end, startDate, endDate));
-  } else {
-    temporaryExhibitionPromos = exhibitionPromos.filter(e => e.end);
-    eventPromos = createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events'));
-  }
+  const temporaryExhibitionPromos = exhibitionPromos.filter(e => e.end);
+  const eventPromos = createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events'));
 
   return {
     permanentExhibitionPromos,
@@ -309,9 +309,55 @@ export async function getExhibitionAndEventPromos(startDate, endDate) { // TODO 
   };
 }
 
-// getToday
-// getWeekend
-// getEverything
+export async function getTodaysExhibitionAndEventPromos() {
+  const allExhibitionsAndEvents = await getExhibitionAndEventPromos();
+  const today = london();
+  return {
+    date: today,
+    permanentExhibitionPromos: allExhibitionsAndEvents.permanentExhibitionPromos,
+    temporaryExhibitionPromos: filterPromosByDate(allExhibitionsAndEvents.temporaryExhibitionPromos, today, today),
+    eventPromos: filterPromosByDate(allExhibitionsAndEvents.eventPromos, today, today)
+  };
+}
+
+// TODO flowtype
+function getWeekendFromDate(today) {
+  const todayInteger = today.day(); // day() return Sun as 0, Sat as 6
+  if (todayInteger !== 0) {
+    return london(today).day(5);
+  } else {
+    return london(today).day(-2);
+  }
+}
+
+// TODO flowtype
+function getWeekendToDate(today) {
+  const todayInteger = today.day(); // day() return Sun as 0, Sat as 6
+  if (todayInteger === 0) {
+    return london(today);
+  } else {
+    return london(today).day(7);
+  }
+}
+
+// TODO flowtype
+export async function getWeekendsExhibitionAndEventPromos() {
+  // TODO split events by day, waiting on Heesoo to decide whether to do this
+  // TODO don't show past events, e.g. no Fri, Sat events if on Sunday, waiting on Heesoo to decide whether to do this
+  const allExhibitionsAndEvents = await getExhibitionAndEventPromos();
+  const today = london();
+  const fromDate = getWeekendFromDate(today);
+  const toDate = getWeekendToDate(today);
+  return {
+    fromDate,
+    toDate,
+    permanentExhibitionPromos: allExhibitionsAndEvents.permanentExhibitionPromos,
+    temporaryExhibitionPromos: filterPromosByDate(allExhibitionsAndEvents.temporaryExhibitionPromos, fromDate, toDate),
+    eventPromos: filterPromosByDate(allExhibitionsAndEvents.eventPromos, fromDate, toDate)
+  };
+}
+
+// TODO function to return everything split by month
 
 export async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request): Promise<?ExhibitionAndRelatedContent> {
   const exhibition = await getTypeById(previewReq, ['exhibitions'], id, {});
