@@ -40,10 +40,10 @@ const headerBurger = (el) => {
 
       if (burger.getActive()) {
         burger.setActive(false);
-        document.body.classList.remove('is-mobile-nav-visible');
+        document.body.classList.remove('is-page-overlay-visible');
       } else {
         burger.setActive(true);
-        document.body.classList.add('is-mobile-nav-visible');
+        document.body.classList.add('is-page-overlay-visible');
       }
     });
 

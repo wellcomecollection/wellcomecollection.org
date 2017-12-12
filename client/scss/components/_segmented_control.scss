@@ -1,0 +1,71 @@
+.segmented-control__drawer {
+  display: none;
+
+  .enhanced & {
+    display: block;
+
+    @include respond-to('medium') {
+      display: none;
+    }
+  }
+}
+
+.segmented-control__button-text {
+  .segmented-control.is-active & {
+    display: none;
+  }
+}
+
+.segmented-control__close {
+  display: none;
+
+  .segmented-control.is-active & {
+    display: block;
+  }
+}
+
+.segmented-control__header {
+  width: 100%;
+
+  .segmented-control.is-active & {
+    width: auto;
+    position: fixed;
+    top: $spacing-unit * 2;
+    right: $spacing-unit * 2;
+    z-index: 2;
+  }
+}
+
+.segmented-control__body {
+  display: none;
+
+  .segmented-control.is-active & {
+    display: block;
+  }
+
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.segmented-control__list {
+  .enhanced & {
+    display: none;
+
+    @include respond-to('medium') {
+      display: flex;
+    }
+  }
+}
+
+.segmented-control__item {
+  flex: 1;
+}
+
+.segmented-control__link {
+  width: 100%;
+  text-align: center;
+}

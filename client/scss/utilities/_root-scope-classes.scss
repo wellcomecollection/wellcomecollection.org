@@ -367,3 +367,10 @@
 .overflow-hidden {
   overflow: hidden;
 }
+
+.smooth-font {
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  -o-font-smoothing: antialiased;
+}
+
