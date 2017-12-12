@@ -15,6 +15,13 @@
 {% endblock %}
 
 {% block body %}
+   <script type="application/ld+json">
+    [{% for promo in list.items.toJS() %}
+      {% set promoJsonLd = promo | objectAssign({headline: promo.title, thumbnail: promo.image}) %}
+      {{ promoJsonLd | jsonLd('contentLd') | safe }}{{ ',' if not loop.last }}
+    {% endfor %}]
+  </script>
+
   {% componentV2 'list-header', {name: list.name, description: list.description, total: list.total} %}
 
   <div class="row">
