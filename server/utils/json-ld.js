@@ -13,7 +13,7 @@ export function objToJsonLd<T>(obj: T, type: string, root: boolean = true) {
 export function contentLd(content) {
   return objToJsonLd({
     headline: content.headline,
-    author: content.author && content.author.map(a => a.person).map(personLd),
+    author: (content.author && content.author.map(a => a.person).map(personLd)) || 'unknown',
     image: imageLd(content.thumbnail),
     datePublished: content.datePublished,
     dateModified: content.datePublished,
