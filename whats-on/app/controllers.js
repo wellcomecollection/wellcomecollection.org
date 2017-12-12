@@ -1,11 +1,13 @@
 import {model, prismic} from 'common';
 const {createPageConfig} = model;
 const {
-  getExhibitionAndEventPromos
+  getExhibitionAndEventPromos,
+  getTodaysExhibitionAndEventPromos,
+  getWeekendsExhibitionAndEventPromos
 } = prismic;
 
 export async function renderWhatsOn(ctx, next) {
-  const exhibitionAndEventPromos = await getExhibitionAndEventPromos('2018-01-25', '2018-01-25');
+  const exhibitionAndEventPromos = await getExhibitionAndEventPromos();
 
   ctx.render('pages/whats-on', {
     pageConfig: createPageConfig({
