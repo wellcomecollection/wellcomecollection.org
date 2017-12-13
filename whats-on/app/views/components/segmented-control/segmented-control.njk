@@ -1,16 +1,13 @@
-{% set model = [
-  {title: 'Today', url: '#', isActive: true},
-  {title: 'This weekend', url: '#', isActive: false},
-  {title: 'Everything', url: '#', isActive: false}
-] %}
-
 <div class="segmented-control js-segmented-control">
   <div class="segmented-control__drawer js-segmented-control-show-hide js-focus-trap">
     <span class="visually-hidden js-trap-reverse-end">reset focus</span>
     <button class="segmented-control__header plain-button no-margin no-padding js-show-hide-trigger js-trap-start">
       {% for item in model %}
         {% if item.isActive %}
-          <span class="segmented-control__button-text flex bg-black font-white smooth-font flex--h-space-between {{ {s:'WB6'} | fontClasses }} {{ {s:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }} rounded-diagonal">
+          <span class="{{- [
+            {s:'WB6'} | fontClasses,
+            {s:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})
+          ].join(' ') }} segmented-control__button-text flex bg-black font-white smooth-font flex--h-space-between rounded-diagonal">
             {{ item.title }}
             {% icon 'chevron', null, ['icon--white'] %}
           </span>
@@ -20,11 +17,21 @@
           {% endif %}
       {% endfor %}
     </button>
-    <div id="segmented-control-drawer" class="segmented-control__body bg-white {{ {s:4} | spacingClasses({padding: ['left', 'right']}) }} {{ {s:2} | spacingClasses({padding: ['top']}) }} js-show-hide-drawer">
-      <span class="segmented-control__label block {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">See:</span>
+    <div id="segmented-control-drawer"
+      class="{{- [
+        {s:4} | spacingClasses({padding: ['left', 'right']}),
+        {s:2} | spacingClasses({padding: ['top']})
+      ].join(' ') }} segmented-control__body bg-white js-show-hide-drawer">
+
+      <span class="{{ {s: 2} | spacingClasses({margin: ['bottom']}) }} segmented-control__label block">See:</span>
+
       <ul class="segmented-control__drawer-list no-margin no-padding plain-list">
         {% for item in model %}
-          <li class="segmented-control__drawer-item {{ {s:'WB6'} | fontClasses }} {{ {s:2} | spacingClasses({padding: ['top', 'bottom']}) }} border-bottom-width-1 border-color-smoke {{ 'border-top-width-1' if loop.first }}">
+          <li class="{{- [
+            {s:'WB6'} | fontClasses,
+            {s:2} | spacingClasses({padding: ['top', 'bottom']}),
+            'border-top-width-1' if loop.first
+          ].join(' ') }} segmented-control__drawer-item border-bottom-width-1 border-color-smoke">
             <a href="{{ item.url }}" class="segmented-control__drawer-link block plain-link {{ 'js-trap-reverse-start' if loop.last }}">
               {{ item.title }}
             </a>
@@ -34,10 +41,19 @@
       <span class="visually-hidden js-trap-end">reset focus</span>
     </div>
   </div>
-  <ul class="segmented-control__list no-margin no-padding plain-list border-width-1 border-color-black rounded-diagonal">
+  <ul class="segmented-control__list no-margin no-padding plain-list border-width-1 border-color-black rounded-diagonal overflow-hidden">
     {% for item in model %}
-      <li class="segmented-control__item line-height-1 flex {{ {s:'WB7'} | fontClasses }} {{ 'border-right-width-1 border-right-color-black' if not loop.last }}">
-        <a href="{{ item.url }}" class="block plain-link segmented-control__link {{ {s:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }} {{ 'is-active smooth-font bg-black font-white' if item.isActive else 'bg-white font-black' }}">{{ item.title }}</a>
+      <li class="{{- [
+        {s:'WB7'} | fontClasses,
+        'border-right-width-1 border-right-color-black' if not loop.last
+      ].join(' ') }} segmented-control__item line-height-1 flex">
+        <a href="{{ item.url }}"
+          class="{{- [
+            {s:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}),
+            'is-active smooth-font bg-black font-white bg-hover-pewter' if item.isActive else 'bg-white font-black bg-hover-pumice'
+          ].join(' ') }} block plain-link segmented-control__link transition-bg no-visible-focus">
+          {{ item.title }}
+        </a>
       </li>
     {% endfor %}
   </ul>
