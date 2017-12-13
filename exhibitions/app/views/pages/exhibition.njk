@@ -55,8 +55,6 @@
                   <span class="{{ {s:'HNL4', m:'HNL3', l:'HNL3', xl:'HNL2'} | fontClasses }}">
                   {% if exhibition.end %}
                     <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time> – <time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
-                  {% else %}
-                    Permanent exhibition
                   {% endif %}
                 </span>
                 </div>
