@@ -6,9 +6,8 @@
   }
 }
 
-.is-page-overlay-visible {
-  .main,
-  .footer {
-    display: none;
-  }
+.is-scroll-locked {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
 }

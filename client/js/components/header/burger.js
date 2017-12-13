@@ -1,7 +1,9 @@
 import showHide from './../show-hide';
 import { KEYS } from './../../util';
+import focusTrap from './../focus-trap';
 
 const headerBurger = (el) => {
+  const trap = focusTrap(el);
   const burgerDrawer = el.querySelector('.js-header-burger-drawer');
   const firstNavLink = burgerDrawer.querySelector('.js-header-nav-link');
   const burgerTrigger = el.querySelector('.js-header-burger-trigger');
@@ -40,10 +42,10 @@ const headerBurger = (el) => {
 
       if (burger.getActive()) {
         burger.setActive(false);
-        document.body.classList.remove('is-page-overlay-visible');
+        trap.removeTrap();
       } else {
         burger.setActive(true);
-        document.body.classList.add('is-page-overlay-visible');
+        trap.addTrap();
       }
     });
 

@@ -97,6 +97,7 @@ $tweakpoints: (
 
   @include respond-between('small', 'header-medium') {
     border-top: 1px solid color('pumice');
+    min-height: 100vh;
   }
 
   @include respond-to('medium') {
