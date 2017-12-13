@@ -29,6 +29,14 @@ data "terraform_remote_state" "app_cluster" {
   }
 }
 
+data "aws_sns_topic" "alb_server_error_alarm" {
+  name = "${module.alb_server_error_alarm.name}"
+}
+
+data "aws_sns_topic" "alb_client_error_alarm" {
+  name = "${module.alb_client_error_alarm.name}"
+}
+
 provider "aws" {
   version = "~> 1.0"
   region  = "eu-west-1"

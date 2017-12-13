@@ -1,8 +1,7 @@
 module "eventbrite" {
-  source             = "git::https://github.com/wellcometrust/terraform.git//services?ref=v3.0.2"
+  source             = "git::https://github.com/wellcometrust/terraform.git//service?ref=v3.0.2"
   name               = "eventbrite"
   cluster_id         = "${local.cluster_name}"
-  task_role_arn      = "${module.ecs_exhibitions_iam.task_role_arn}"
   template_name      = "default"
   vpc_id             = "${local.vpc_id}"
   nginx_uri          = "wellcome/wellcomecollection_eventbrite_nginx:${var.container_tag}"
@@ -19,8 +18,8 @@ module "eventbrite" {
 
   loadbalancer_cloudwatch_id = "${local.alb_cloudwatch_id}"
 
-  server_error_alarm_topic_arn = "${module.alb_server_error_alarm.arn}"
-  client_error_alarm_topic_arn = "${module.alb_client_error_alarm.arn}"
+  server_error_alarm_topic_arn = "${data.aws_sns_topic.alb_server_error_alarm.arn}"
+  client_error_alarm_topic_arn = "${data.aws_sns_topic.alb_server_error_alarm.arn}"
 
   # These account for the 128 mem and CPU the nginx container use
   # 995 is how much memmory is left once docker is running
