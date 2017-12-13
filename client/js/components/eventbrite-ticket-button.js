@@ -2,7 +2,6 @@
 import fastdom from 'fastdom';
 
 export function eventbriteTicketButton(el) {
-  console.info('wonbl')
   fastdom.measure(() => {
     const eventbriteId = el.getAttribute('data-eventbrite-ticket-id');
     const buttonTextEl = el.querySelector('.js-eventbrite-ticket-button-text');
