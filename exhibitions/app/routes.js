@@ -3,6 +3,6 @@ import {renderExhibition, renderExhibitionsList} from './controllers';
 
 const r = new Router({ sensitive: true });
 r.get('/exhibitions/:id/:preview(preview)?', renderExhibition);
-r.get('/exhibitions/:preview(preview)?', renderExhibitionsList);
+r.get('/exhibitions', renderExhibitionsList);
 
 export const router = r.middleware();
