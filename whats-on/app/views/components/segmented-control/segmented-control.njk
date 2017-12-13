@@ -5,7 +5,7 @@
 ] %}
 
 <div class="segmented-control js-segmented-control">
-  <div class="segmented-control__drawer js-segmented-control-show-hide js-focus-trap" data-lock-scroll="true">
+  <div class="segmented-control__drawer js-segmented-control-show-hide js-focus-trap">
     <button class="visually-hidden js-trap-reverse-end">reset focus</button>
     <button class="segmented-control__header plain-button no-margin no-padding js-show-hide-trigger js-trap-start">
       {% for item in model %}
@@ -25,7 +25,7 @@
       <ul class="segmented-control__drawer-list no-margin no-padding plain-list">
         {% for item in model %}
           <li class="segmented-control__drawer-item {{ {s:'WB6'} | fontClasses }} {{ {s:2} | spacingClasses({padding: ['top', 'bottom']}) }} border-bottom-width-1 border-color-smoke {{ 'border-top-width-1' if loop.first }}">
-            <a href="{{ item.url }}" class="segmented-control__drawer-link plain-link {{ 'js-trap-reverse-start' if loop.last }}">
+            <a href="{{ item.url }}" class="segmented-control__drawer-link block plain-link {{ 'js-trap-reverse-start' if loop.last }}">
               {{ item.title }}
             </a>
           </li>

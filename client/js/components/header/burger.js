@@ -1,6 +1,7 @@
 import showHide from './../show-hide';
 import { KEYS } from './../../util';
 import focusTrap from './../focus-trap';
+import { onWindowResizeDebounce$ } from '../../utils/dom-events';
 
 const headerBurger = (el) => {
   const trap = focusTrap(el);
@@ -43,9 +44,11 @@ const headerBurger = (el) => {
       if (burger.getActive()) {
         burger.setActive(false);
         trap.removeTrap();
+        document.body.classList.remove('is-scroll-locked--to-header-medium');
       } else {
         burger.setActive(true);
         trap.addTrap();
+        document.body.classList.add('is-scroll-locked--to-header-medium');
       }
     });
 
@@ -75,9 +78,10 @@ const headerBurger = (el) => {
       burger.trigger.focus();
     });
 
-    window.addEventListener('resize', () => {
-      // TODO: throttle or debounce this
-      setBurgerAria(isBurgerVisible());
+    onWindowResizeDebounce$.subscribe({
+      next() {
+        setBurgerAria(isBurgerVisible());
+      }
     });
   };
 

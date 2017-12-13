@@ -1,44 +1,67 @@
 import showHide from './show-hide';
 import focusTrap from './focus-trap';
 import { onWindowResizeDebounce$ } from '../utils/dom-events';
+import fastdom from '../utils/fastdom-promise';
 
 export default (el) => {
   const showHideEl = el.querySelector('.js-segmented-control-show-hide');
   const fullPage = showHide({el: showHideEl});
   const trap = focusTrap(el);
 
-  setFullPageAria(isTriggerVisible());
+  function init() {
+    setFullPageAria(isTriggerVisible());
+    fastdom.mutate(() => {
+      fullPage.trigger.setAttribute('aria-controls', 'segmented-control-drawer');
+    });
+    handleEvents();
+  }
 
-  fullPage.trigger.setAttribute('aria-controls', 'segmented-control-drawer');
+  function handleEvents() {
+    fullPage.trigger.addEventListener('click', () => {
+      if (fullPage.getActive()) {
+        fullPage.setActive(false);
+        trap.removeTrap();
 
-  fullPage.trigger.addEventListener('click', () => {
-    if (fullPage.getActive()) {
-      fullPage.el.setAttribute('aria-expanded', false);
-      fullPage.setActive(false);
-      trap.removeTrap();
-    } else {
-      fullPage.el.setAttribute('aria-expanded', true);
-      fullPage.setActive(true);
-      trap.addTrap();
-    }
-  });
+        fastdom.mutate(() => {
+          fullPage.el.setAttribute('aria-expanded', false);
+          document.body.classList.remove('is-scroll-locked--to-medium');
+        });
+      } else {
+        fullPage.setActive(true);
+        trap.addTrap();
+
+        fastdom.mutate(() => {
+          fullPage.el.setAttribute('aria-expanded', true);
+          document.body.classList.add('is-scroll-locked--to-medium');
+        });
+      }
+    });
+
+    onWindowResizeDebounce$.subscribe({
+      next() {
+        setFullPageAria(isTriggerVisible());
+      }
+    });
+  }
 
   function isTriggerVisible() {
-    return window.getComputedStyle(fullPage.el)
-      .getPropertyValue('display') === 'block';
+    return fastdom.measure(() => {
+      return window.getComputedStyle(fullPage.el)
+        .getPropertyValue('display') === 'block';
+    });
   }
 
   function setFullPageAria(value) {
     if (value) {
-      fullPage.el.setAttribute('aria-expanded', fullPage.getActive());
+      fastdom.mutate(() => {
+        fullPage.el.setAttribute('aria-expanded', fullPage.getActive());
+      });
     } else {
-      fullPage.el.removeAttribute('aria-expanded');
+      fastdom.mutate(() => {
+        fullPage.el.removeAttribute('aria-expanded');
+      });
     }
   }
 
-  onWindowResizeDebounce$.subscribe({
-    next() {
-      setFullPageAria(isTriggerVisible());
-    }
-  });
+  init();
 };

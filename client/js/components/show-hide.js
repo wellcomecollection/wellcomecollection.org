@@ -6,8 +6,7 @@ const showHide = (state) => {
     drawer: el.querySelector('.js-show-hide-drawer')
   };
 
-  const lockScroll = el.getAttribute('data-lock-scroll') === 'true';
-  const options = Object.assign(defaults, state, {lockScroll});
+  const options = Object.assign(defaults, state);
 
   const init = () => {
     el.setAttribute('aria-haspopup', 'true');
@@ -18,17 +17,9 @@ const showHide = (state) => {
     if (value) {
       el.classList.add(options.activeClass);
       options.trigger.setAttribute('aria-expanded', 'true');
-
-      if (options.lockScroll) {
-        document.body.classList.add('is-scroll-locked');
-      }
     } else {
       el.classList.remove(options.activeClass);
       options.trigger.setAttribute('aria-expanded', 'false');
-
-      if (options.lockScroll) {
-        document.body.classList.remove('is-scroll-locked');
-      }
     }
   };
 

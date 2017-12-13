@@ -1,7 +1,7 @@
 //* @define header; weak
 
 $tweakpoints: (
-  'header-medium': 825px,
+  'header-medium': $header-medium-breakpoint,
   'large': map-get($breakpoints, 'large'),
   'small': map-get($breakpoints, 'small')
 );
