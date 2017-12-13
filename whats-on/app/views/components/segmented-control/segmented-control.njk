@@ -4,8 +4,8 @@
   {title: 'Everything', url: '#', isActive: false}
 ] %}
 
-<div class="segmented-control js-show-hide">
-  <div class="segmented-control__drawer">
+<div class="segmented-control">
+  <div class="segmented-control__drawer js-show-hide">
     <button class="segmented-control__header plain-button no-margin no-padding js-show-hide-trigger">
       {% for item in model %}
         {% if item.isActive %}

@@ -11,7 +11,7 @@
 }
 
 .segmented-control__button-text {
-  .segmented-control.is-active & {
+  .segmented-control__drawer.is-active & {
     display: none;
   }
 }
@@ -19,7 +19,7 @@
 .segmented-control__close {
   display: none;
 
-  .segmented-control.is-active & {
+  .segmented-control__drawer.is-active & {
     display: block;
   }
 }
@@ -27,7 +27,7 @@
 .segmented-control__header {
   width: 100%;
 
-  .segmented-control.is-active & {
+  .segmented-control__drawer.is-active & {
     width: auto;
     position: fixed;
     top: $spacing-unit * 2;
@@ -39,7 +39,7 @@
 .segmented-control__body {
   display: none;
 
-  .segmented-control.is-active & {
+  .segmented-control__drawer.is-active & {
     display: block;
   }
 
