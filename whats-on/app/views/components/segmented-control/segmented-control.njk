@@ -6,7 +6,7 @@
 
 <div class="segmented-control js-segmented-control">
   <div class="segmented-control__drawer js-segmented-control-show-hide js-focus-trap">
-    <button class="visually-hidden js-trap-reverse-end">reset focus</button>
+    <span class="visually-hidden js-trap-reverse-end">reset focus</span>
     <button class="segmented-control__header plain-button no-margin no-padding js-show-hide-trigger js-trap-start">
       {% for item in model %}
         {% if item.isActive %}
@@ -31,7 +31,7 @@
           </li>
         {% endfor %}
       </ul>
-      <button class="visually-hidden js-trap-end">reset focus</button>
+      <span class="visually-hidden js-trap-end">reset focus</span>
     </div>
   </div>
   <ul class="segmented-control__list no-margin no-padding plain-list border-width-1 border-color-black rounded-diagonal">
