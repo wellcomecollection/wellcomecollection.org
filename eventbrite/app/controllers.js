@@ -1,27 +1,53 @@
 // @flow
 import {eventbritePersonalOauthToken} from './config';
 import superagent from 'superagent';
+import {formatDate} from 'common/filters/format-date';
+
 const eventbriteApiRoot = 'https://www.eventbriteapi.com/v3';
 
-type OnSaleStatus = 'available' | 'unavailable';
+type OnSaleStatus = 'available' | 'unavailable' | 'sold_out' | 'not_yet_on_sale';
 type TicketType = 'access' | 'comp' | 'waitinglist' | 'standard';
-type Ticket = {
+type Ticket = {|
+  eventbriteId: string;
   onSaleStatus: OnSaleStatus;
   ticketType: TicketType;
-};
+  saleStarts: string; // This isn't a date, as we want it in the display format
+|};
 
-export async function getEventbriteEventTickets(ctx, next) {
-  const eventTickets = await superagent.get(`${eventbriteApiRoot}/events/${ctx.params.id}/ticket_classes/?token=${eventbritePersonalOauthToken}`);
+async function getEventbriteEventTickets(id: string) {
+  const eventTickets = await superagent.get(`${eventbriteApiRoot}/events/${id}/ticket_classes/?token=${eventbritePersonalOauthToken}`);
 
   const tickets = eventTickets.body.ticket_classes.map(ticketClass => {
-    const onSaleStatus = ticketClass.on_sale_status === 'AVAILABLE' ? 'available' : 'unavailable';
+    const onSaleStatus =
+      ticketClass.on_sale_status === 'AVAILABLE' ? 'available' :
+      ticketClass.on_sale_status === 'SOLD_OUT' ? 'sold_out' :
+      ticketClass.on_sale_status === 'NOT_YET_ON_SALE' ? 'not_yet_on_sale' : 'unavailable';
     const ticketClassName = ticketClass.name.toLowerCase();
     const ticketType: TicketType =
       ticketClassName.startsWith('waiting list') ? 'waitinglist' :
       ticketClassName.startsWith('comp ') ? 'comp' : 'standard';
+    const saleStarts = formatDate(new Date(ticketClass.sales_start));
 
-    return {onSaleStatus, ticketType};
+    return ({onSaleStatus, ticketType, saleStarts, eventbriteId: ticketClass.event_id}: Ticket);
   }).filter(ticket => ticket.ticketType === 'standard'); // we only want to show standard tickets for now...
 
-  ctx.body = {tickets};
+  return tickets;
+}
+
+export async function renderEventbriteButton(ctx, next) {
+  const id = ctx.params.id;
+  const tickets = await getEventbriteEventTickets(id);
+
+  const standardTicket = tickets.find(ticket => ticket.ticketType === 'standard');
+  if (standardTicket) {
+    ctx.render('components/eventbrite-button/eventbrite-button', {
+      ticket: standardTicket
+    });
+
+    ctx.body = {
+      html: ctx.body
+    };
+
+    return next();
+  }
 }
