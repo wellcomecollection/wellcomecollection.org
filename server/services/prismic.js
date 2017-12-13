@@ -8,7 +8,7 @@ import {
   prismicImage,
   parseExhibitionsDoc,
   getPositionInPrismicSeries,
-  parsePromoListItem, parseEventFormat, parseEventBookingType
+  parsePromoListItem, parseEventFormat, parseEventBookingType, parseImagePromo
 } from './prismic-parsers';
 import {List} from 'immutable';
 import type {PaginatedResults, PaginatedResultsType} from '../model/paginated-results';
@@ -211,9 +211,7 @@ function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
 
 function createEventPromos(allResults): Array<EventPromo> {
   return allResults.results.map((event): EventPromo => {
-    const promo = event.data.promo && event.data.promo[0];
-    const promoImage = promo && promo.primary.image;
-    const promoCaption = promo && promo.primary.caption;
+    const promo = event.data.promo && parseImagePromo(event.data.promo);
     const format = event.data.format && parseEventFormat(event.data.format);
     const bookingType = parseEventBookingType(event);
 
@@ -228,8 +226,8 @@ function createEventPromos(allResults): Array<EventPromo> {
         format: format,
         start: eventAtTime.startDateTime,
         end: eventAtTime.endDateTime,
-        image: prismicImage(promoImage),
-        description: asText(promoCaption),
+        image: promo && promo.image,
+        description: promo && promo.caption,
         bookingType: bookingType
       };
     });
