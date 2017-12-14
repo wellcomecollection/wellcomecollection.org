@@ -191,8 +191,8 @@ function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
       id: e.id,
       url: `/exhibitions/${e.id}`,
       title: asText(e.data.title),
-      image: prismicImage(e.data.promo[0].primary.image),
-      description: asText(e.data.promo[0].primary.caption),
+      image: e.data.promo && parseImagePromo(e.data.promo).image,
+      description: e.data.promo && parseImagePromo(e.data.promo).caption,
       start: e.data.start ? e.data.start : '2007-06-21T00:00:00+0000',
       end: e.data.end
     };

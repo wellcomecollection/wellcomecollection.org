@@ -134,7 +134,20 @@
               "image" : {
                 "type" : "Image",
                 "config" : {
-                  "label" : "Promo image"
+                  "label" : "Promo image",
+                  "thumbnails" : [ {
+                    "name" : "32:15",
+                    "width" : 3200,
+                    "height" : 1500
+                  }, {
+                    "name" : "16:9",
+                    "width" : 3200,
+                    "height" : 1800
+                  }, {
+                    "name" : "square",
+                    "width" : 3200,
+                    "height" : 3200
+                  } ]
                 }
               }
             }
@@ -152,7 +165,16 @@
           "image" : {
             "type" : "Image",
             "config" : {
-              "label" : "Image"
+              "label" : "Image",
+              "thumbnails" : [ {
+                "name" : "16:9",
+                "width" : 3200,
+                "height" : 1800
+              }, {
+                "name" : "square",
+                "width" : 3200,
+                "height" : 3200
+              } ]
             }
           },
           "type" : {
@@ -172,7 +194,7 @@
           "description" : {
             "type" : "StructuredText",
             "config" : {
-              "single" : "strong, em, hyperlink",
+              "single" : "paragraph",
               "label" : "Description"
             }
           },
