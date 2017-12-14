@@ -71,7 +71,6 @@ const addAttrToElements = (elements, attr, value) => {
   if (elements.length) {
     fastdom.mutate(() => {
       nodeList(elements).forEach((e, i) => {
-        console.log(e);
         e.setAttribute(attr, value || i);
       });
     });

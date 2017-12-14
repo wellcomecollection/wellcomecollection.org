@@ -368,9 +368,10 @@
   overflow: hidden;
 }
 
+// To be applied to white Wellcome Bold to prevent
+// it looking too chunky on dark backgrounds
 .smooth-font {
   -webkit-font-smoothing: antialiased;
-  -moz-font-smoothing: antialiased;
-  -o-font-smoothing: antialiased;
+  -moz-font-smoothing: grayscale;
 }
 
