@@ -63,7 +63,7 @@
           {% endif %}
           {% if paginatedExhibitions.currentPage === paginatedExhibitions.totalPages %}
             <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }}"  style="text-align: right">
-              <a href="/exhibitions/past">More exhibitions from the archive</a>
+              {% componentV2 'more-info-link', {name: 'Past exhibitions', url: '/exhibitions/past'} %}
             </div>
           {% endif %}
       </div>
