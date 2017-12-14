@@ -19,17 +19,17 @@
     </button>
     <div id="segmented-control-drawer"
       class="{{- [
-        {s:4} | spacingClasses({padding: ['left', 'right']}),
-        {s:2} | spacingClasses({padding: ['top']})
+        {s:3} | spacingClasses({padding: ['left', 'right']}),
+        {s:4} | spacingClasses({padding: ['top']})
       ].join(' ') }} segmented-control__body bg-white js-show-hide-drawer">
 
-      <span class="{{ {s: 2} | spacingClasses({margin: ['bottom']}) }} segmented-control__label block">See:</span>
+      <span class="{{ {s:3} | spacingClasses({margin: ['bottom']}) }} segmented-control__label block">See:</span>
 
       <ul class="segmented-control__drawer-list no-margin no-padding plain-list">
         {% for item in model %}
           <li class="{{- [
             {s:'WB6'} | fontClasses,
-            {s:2} | spacingClasses({padding: ['top', 'bottom']}),
+            {s:3} | spacingClasses({padding: ['top', 'bottom']}),
             'border-top-width-1' if loop.first
           ].join(' ') }} segmented-control__drawer-item border-bottom-width-1 border-color-smoke">
             <a href="{{ item.url }}" class="segmented-control__drawer-link block plain-link {{ 'js-trap-reverse-start' if loop.last }}">

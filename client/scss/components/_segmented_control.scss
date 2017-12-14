@@ -30,8 +30,8 @@
   .segmented-control__drawer.is-active & {
     width: auto;
     position: fixed;
-    top: $spacing-unit * 2;
-    right: $spacing-unit * 2;
+    top: $spacing-unit * 4;
+    right: $spacing-unit * 3;
     z-index: 2;
   }
 }
