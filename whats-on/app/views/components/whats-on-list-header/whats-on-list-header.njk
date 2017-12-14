@@ -9,7 +9,7 @@
 
 {% set data = {activeId: 'today'} %}
 
-{% block extra %}
+{% block slot %}
   <div class="{{ {s:5} | spacingClasses({padding: ['bottom']}) }}">
     <div class="grid">
       <div class="{{ {s: 12, m: 10, l: 8, xl: 6} | gridClasses }}">
