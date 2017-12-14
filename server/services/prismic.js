@@ -274,7 +274,7 @@ export async function getEventPromos(page: number): Promise<Array<EventPromo>> {
 }
 
 export async function getExhibitionPromos(page: number): Promise<Array<ExhibitionPromo>> {
-  const results = await getAllOfType('exhibitions', page);
+  const results = await getAllOfType('exhibitions', page, {orderings: '[my.exhibitions.start]'});
   const promos = createExhibitionPromos(results);
   const paginatedResults = convertPrismicResultsToPaginatedResults(results);
   return paginatedResults(promos);
