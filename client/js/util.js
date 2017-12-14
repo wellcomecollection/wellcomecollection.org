@@ -1,4 +1,7 @@
 // @flow
+
+import fastdom from '../js/utils/fastdom-promise';
+
 const KEYS = {
   TAB: 9,
   ENTER: 13,
@@ -38,41 +41,58 @@ const featureTest = (property, value, noPrefixes) => {
 
 const addClassesToElements = (elements, className) => {
   if (elements.length) {
-    nodeList(elements).forEach((e) => {
-      e.classList.add(className);
+    fastdom.mutate(() => {
+      nodeList(elements).forEach((e) => {
+        e.classList.add(className);
+      });
     });
   } else {
-    elements.classList.add(className);
+    fastdom.mutate(() => {
+      elements.classList.add(className);
+    });
   }
 };
 
 const removeClassesFromElements = (elements, className) => {
   if (elements.length) {
-    nodeList(elements).forEach((e) => {
-      e.classList.remove(className);
+    fastdom.mutate(() => {
+      nodeList(elements).forEach((e) => {
+        e.classList.remove(className);
+      });
     });
   } else {
-    elements.classList.remove(className);
+    fastdom.mutate(() => {
+      elements.classList.remove(className);
+    });
   }
 };
 
 const addAttrToElements = (elements, attr, value) => {
   if (elements.length) {
-    nodeList(elements).forEach((e, i) => {
-      e.setAttribute(attr, value || i);
+    fastdom.mutate(() => {
+      nodeList(elements).forEach((e, i) => {
+        console.log(e);
+        e.setAttribute(attr, value || i);
+      });
     });
   } else {
-    elements.setAttribute(attr, value);
+    fastdom.mutate(() => {
+      elements.setAttribute(attr, value);
+    });
   }
 };
 
 const removeAttrFromElements = (elements, attr) => {
   if (elements.length) {
-    nodeList(elements).forEach((e, i) => {
-      e.removeAttribute(attr);
+    fastdom.mutate(() => {
+      nodeList(elements).forEach((e, i) => {
+        e.removeAttribute(attr);
+      });
     });
   } else {
-    elements.removeAttribute(attr);
+    fastdom.mutate(() => {
+      elements.removeAttribute(attr);
+    });
   }
 };
 
@@ -89,9 +109,9 @@ export {
 
 // Event delegation
 function getTarget(delegateEl: HTMLElement, eventEl: HTMLElement, possibleTarget: HTMLElement): ?HTMLElement {
-  if (eventEl === delegateEl) {
-    return;
-  } else if (eventEl === possibleTarget) {
+  if (eventEl === delegateEl) return;
+
+  if (eventEl === possibleTarget) {
     return possibleTarget;
   } else {
     return getTarget(delegateEl, eventEl.parentNode, possibleTarget);
