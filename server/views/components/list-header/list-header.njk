@@ -1,22 +1,14 @@
-<div class="row bg-cream  {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top']}) }} }}">
+<div class="row bg-cream  {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top', 'bottom']}) }} }}">
   <div class="container">
     <div class="grid">
-      <div class="grid__cell">
-        <h1 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0, m:0, l:0} | spacingClasses({margin: ['top']}) }} {{ {s:0, m:0, l:0} | spacingClasses({margin: ['bottom']}) }}">{{ model.name }}</h1>
-      </div>
-    </div>
+      <div class="{{ {s: 12, m: 12, l: 8, xl: 8} | gridClasses }}">
+        <h1 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} no-margin">{{ model.name }}</h1>
 
-    {% if model.description %}
-      <div class="grid">
-        <div class="{{ {s: 12, m: 12, l: 8, xl: 8} | gridClasses }}">
-          <p class="{{ {s:2, m:2, l:2} | spacingClasses({margin: ['top']}) }} {{ {s:0, m:0, l:0} | spacingClasses({margin: ['bottom']}) }}">{{ model.description }}</p>
-        </div>
-      </div>
-    {% endif %}
-
-    <div class="grid">
-      <div class="grid__cell">
-        <p class="font-pewter {{ {s:'LR3', m:'LR2'} | fontClasses }} {{ {s:2, m:2, l:2} | spacingClasses({margin: ['top']}) }} {{ {s:2, m:2, l:2} | spacingClasses({margin: ['bottom']}) }}">{{ model.total }} items</p>
+        {% if model.description %}
+          <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
+            <p class="no-margin">{{ model.description }}</p>
+          </div>
+        {% endif %}
       </div>
     </div>
   </div>
