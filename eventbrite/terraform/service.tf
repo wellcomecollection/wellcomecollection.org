@@ -26,7 +26,7 @@ module "eventbrite" {
   cpu                      = "384" # (1024/2) - 128
   memory                   = "369" # (995/2) - 128
   primary_container_port   = "80"
-  secondary_container_port = "3001"
+  secondary_container_port = "3004"
 
   path_pattern = "/eventbrite/*",
 
