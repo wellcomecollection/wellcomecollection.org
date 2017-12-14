@@ -1,7 +1,6 @@
 .css-grid__container {
   display: grid;
-  background: yellow;
-  grid-auto-rows: minmax(50px, auto);
+  grid-auto-rows: minmax(0, auto);
 
   @each $label, $map in $grid-config {
     $respond: map-get($map, 'respond');
@@ -46,8 +45,7 @@
 .css-grid {
   position: relative;
   grid-column: main;
-  grid-auto-rows: minmax(50px, auto);
-  background: color('seaweed');
+  grid-auto-rows: minmax(0, auto);
   display: grid;
 
   @each $label, $map in $grid-config {
