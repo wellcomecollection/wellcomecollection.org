@@ -47,7 +47,6 @@
   position: relative;
   grid-column: main;
   grid-auto-rows: minmax(50px, auto);
-  grid-row-gap: 20px; // TODO properly
   background: color('seaweed');
   display: grid;
 
@@ -64,6 +63,7 @@
 
     @include respond-to(nth($respond, 1)) {
       grid-column-gap: $gutter;
+      grid-row-gap: $gutter;
       grid-template-columns: unquote($columns-string);
     }
   }
