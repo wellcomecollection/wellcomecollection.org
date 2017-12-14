@@ -11,7 +11,7 @@ export type Exhibition = {|
   end: ?DateRange;
   subtitle: ?string;
   intro: ?string;
-  featuredImages: List<Picture>;
+  featuredImages: List<any>;
   featuredImage: ?Picture;
   description: ?string;
   promo: ?ImagePromo;

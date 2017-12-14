@@ -106,17 +106,17 @@ export function parseEventBookingType(eventDoc: Object): ?string {
 }
 
 export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
-  const featuredImageMobileCrop = parsePicture({image: doc.data.featuredImageMobileCrop});
-  const featuredImageMobileCropWithBreakpoint = featuredImageMobileCrop.contentUrl && Object.assign({}, featuredImageMobileCrop, {minWidth: getBreakpoint('small')});
-  const promo = parseImagePromo(doc.data.promo);
+  const promo = doc.data.promo && parseImagePromo(doc.data.promo);
+  const promoThin = doc.data.promo && parseImagePromo(doc.data.promo, '32:15', getBreakpoint('medium'));
+  const promoSquare = doc.data.promo && parseImagePromo(doc.data.promo, 'square', getBreakpoint('small'));
 
-  const featuredImage = doc.data.featuredImage && parsePicture({ image: doc.data.featuredImage });
-  const thinVideoImage = featuredImage && parsePicture({image: doc.data.featuredImage['32:15']}, getBreakpoint('medium'));
-  const squareImage = featuredImage && parsePicture({image: doc.data.featuredImage.square}, getBreakpoint('small'));
+  const featuredImageThin = promoThin && promoThin.image;
+  const featuredImageSquare = promoSquare && promoSquare.image;
+
   const featuredImages = List([
-    thinVideoImage,
+    featuredImageThin,
     // we use the "creative" crop first, but it seems that people would rather have it automatically.
-    featuredImageMobileCropWithBreakpoint || squareImage
+    featuredImageSquare
   ]).filter(_ => _);
 
   const exhibition = ({
@@ -303,15 +303,17 @@ function parseContributors(doc: ?PrismicDocFragment): List<Contributor> {
     })) || List();
 }
 
-export function parseImagePromo(doc: ?PrismicDocFragment): ?ImagePromo {
+type CropType = '16:9' | '32:15' | 'square';
+
+export function parseImagePromo(doc: ?PrismicDocFragment, cropType: CropType = '16:9', minWidth: ?string = null): ?ImagePromo {
   const maybePromo = doc && doc.find(slice => slice.slice_type === 'editorialImage');
   return maybePromo && ({
     caption: asText(maybePromo.primary.caption),
     image: parsePicture({
       image:
         // We introduced enforcing 16:9 half way through, so we have to do a check for it.
-        maybePromo.primary.image['16:9'] || maybePromo.primary.image
-    })
+        maybePromo.primary.image[cropType] || maybePromo.primary.image
+    }, minWidth)
   }: ImagePromo);
 }
 
