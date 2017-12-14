@@ -118,6 +118,16 @@ $tweakpoints: (
   }
 }
 
+.header--is-burger-open {
+  @include respond-between('small', 'header-medium') {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+  }
+}
+
 .header__search {
   margin-top: 1rem;
   align-self: stretch;
