@@ -3,7 +3,7 @@
     <span class="visually-hidden js-trap-reverse-end">reset focus</span>
     <button class="segmented-control__header plain-button no-margin no-padding js-show-hide-trigger js-trap-start">
       {% for item in model %}
-        {% if item.isActive %}
+        {% if item.id === data.activeId %}
           <span class="{{- [
             {s:'WB6'} | fontClasses,
             {s:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})
@@ -50,7 +50,7 @@
         <a href="{{ item.url }}"
           class="{{- [
             {s:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}),
-            'is-active smooth-font bg-black font-white bg-hover-pewter' if item.isActive else 'bg-white font-black bg-hover-pumice'
+            'is-active smooth-font bg-black font-white bg-hover-pewter' if item.id === data.activeId else 'bg-white font-black bg-hover-pumice'
           ].join(' ') }} block plain-link segmented-control__link transition-bg no-visible-focus">
           {{ item.title }}
         </a>
