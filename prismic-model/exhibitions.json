@@ -128,7 +128,7 @@
                 "type" : "StructuredText",
                 "config" : {
                   "label" : "Promo text",
-                  "single" : "hyperlink, strong, em"
+                  "single" : "paragraph"
                 }
               },
               "image" : {
@@ -194,7 +194,7 @@
           "description" : {
             "type" : "StructuredText",
             "config" : {
-              "single" : "strong, em, hyperlink",
+              "single" : "paragraph",
               "label" : "Description"
             }
           },
