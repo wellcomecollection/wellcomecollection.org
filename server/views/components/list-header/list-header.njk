@@ -1,11 +1,15 @@
 <div class="row bg-cream  {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top', 'bottom']}) }} }}">
   <div class="container">
-    <h1 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} no-margin">{{ model.name }}</h1>
+    <div class="grid">
+      <div class="{{ {s: 12, m: 12, l: 8, xl: 8} | gridClasses }}">
+        <h1 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} no-margin">{{ model.name }}</h1>
 
-    {% if model.description %}
-      <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
-        <p class="no-margin">{{ model.description }}</p>
+        {% if model.description %}
+          <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
+            <p class="no-margin">{{ model.description }}</p>
+          </div>
+        {% endif %}
       </div>
-    {% endif %}
+    </div>
   </div>
 </div>
