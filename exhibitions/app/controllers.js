@@ -14,7 +14,7 @@ export async function renderExhibition(ctx, next) {
   const path = ctx.request.url;
   const tags = [{
     text: 'Exhibitions',
-    url: '/whats-on/exhibitions/all-exhibitions'
+    url: '/exhibitions'
   }];
 
   if (exhibitionContent) {
