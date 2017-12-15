@@ -1,6 +1,7 @@
+
 .css-grid__container {
   display: grid;
-  grid-auto-rows: minmax(0, auto);
+  grid-auto-rows: minmax(50px, auto);
 
   @each $label, $map in $grid-config {
     $respond: map-get($map, 'respond');
@@ -93,7 +94,6 @@
   grid-column: primary;
 }
 
-.css-cell--secondary {
 .css-grid__cell--secondary {
   grid-column: secondary;
 }

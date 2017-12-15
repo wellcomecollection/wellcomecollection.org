@@ -32,6 +32,7 @@ import copyUrl from './components/copy-url';
 import searchBox from './components/search-box';
 import iframeContainer from './components/iframe-container';
 import {eventbriteTicketButton} from './components/eventbrite-ticket-button';
+import segmentedControl from './components/segmented-control';
 
 const init = () => {
   polyfills.init();
@@ -63,6 +64,9 @@ const init = () => {
   const iframeContainerEls = document.querySelectorAll('.js-iframe-container');
   const viewersFullscreen = document.querySelectorAll('.js-image-viewer');
   const infoBannerEls = document.querySelectorAll('.js-info-banner');
+  const segmentedControlEls = document.querySelectorAll('.js-segmented-control');
+
+  nodeList(segmentedControlEls).forEach(segmentedControl);
 
   nodeList(infoBannerEls).forEach(infoBanner);
 

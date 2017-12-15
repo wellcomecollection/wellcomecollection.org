@@ -1,0 +1,22 @@
+{% extends 'components/list-header/list-header.njk' %}
+
+{# TODO: correct urls #}
+{% set model = [
+  {id: 'today', title: 'Today', url: '#'},
+  {id: 'weekend', title: 'This weekend', url: '#'},
+  {id: 'everything', title: 'Everything', url: '#'}
+] %}
+
+{% set data = {activeId: 'today'} %}
+
+{% block slot %}
+  <div class="{{ {s:5} | spacingClasses({padding: ['bottom']}) }}">
+    <div class="grid">
+      <div class="{{ {s: 12, m: 10, l: 8, xl: 6} | gridClasses }}">
+        {% componentV2 'segmented-control', model, null, data %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block items %}{% endblock %}

@@ -9,6 +9,8 @@
             <p class="no-margin">{{ model.description }}</p>
           </div>
         {% endif %}
+
+	 {% block slot %}{% endblock %}
       </div>
     </div>
   </div>
