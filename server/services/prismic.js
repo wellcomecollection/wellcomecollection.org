@@ -205,7 +205,7 @@ function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
 }
 
 function createEventPromos(allResults): Array<EventPromo> {
-  return allResults.results.map((event): EventPromo => {
+  return allResults.map((event): EventPromo => {
     const promo = event.data.promo && parseImagePromo(event.data.promo);
     const format = event.data.format && parseEventFormat(event.data.format);
     const bookingType = parseEventBookingType(event);
@@ -267,7 +267,7 @@ export async function getPaginatedEventPromos(page: number): Promise<Array<Event
 }
 
 export async function getPaginatedExhibitionPromos(page: number): Promise<Array<ExhibitionPromo>> {
-  const exhibitions = await getAllOfType('exhibitions', page), {orderings: '[my.exhibitions.start]';
+  const exhibitions = await getAllOfType('exhibitions', page, {orderings: '[my.exhibitions.start]'});
   const promos = createExhibitionPromos(exhibitions.results);
   const paginatedResults = convertPrismicResultsToPaginatedResults(exhibitions);
   return paginatedResults(promos);
