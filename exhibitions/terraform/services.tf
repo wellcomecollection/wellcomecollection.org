@@ -29,5 +29,5 @@ module "exhibitions" {
   primary_container_port   = "80"
   secondary_container_port = "3001"
 
-  path_pattern = "/exhibitions/*"
+  path_pattern = "/exhibitions*"
 }
