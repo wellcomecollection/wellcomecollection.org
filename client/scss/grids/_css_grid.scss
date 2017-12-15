@@ -1,7 +1,6 @@
-.css-grid-container {
+.css-grid__container {
   display: grid;
-  // background: color('silver');
-  grid-auto-rows: minmax(50px, auto);
+  grid-auto-rows: minmax(0, auto);
 
   @each $label, $map in $grid-config {
     $respond: map-get($map, 'respond');
@@ -43,12 +42,10 @@
   @return $column-string;
 }
 
-.css-grid { // is equivalent of grid
+.css-grid {
   position: relative;
   grid-column: main;
-  grid-auto-rows: minmax(50px, auto);
-  grid-row-gap: 20px; // TODO properly
-  // background: color('seaweed');
+  grid-auto-rows: minmax(0, auto);
   display: grid;
 
   @each $label, $map in $grid-config {
@@ -64,6 +61,7 @@
 
     @include respond-to(nth($respond, 1)) {
       grid-column-gap: $gutter;
+      grid-row-gap: $gutter;
       grid-template-columns: unquote($columns-string);
     }
   }
@@ -71,11 +69,6 @@
 
 .css-grid__cell--breakout {
   grid-column: full;
-  // background: color('elf-green');
-}
-
-.css-grid__cell {
-  // background: color('petrol');
 }
 
 @each $key, $list in $grid-config {
@@ -97,11 +90,9 @@
 }
 
 .css-grid__cell--primary {
-  background: color('mint');
   grid-column: primary;
 }
 
-.css-grid__cell--secondary {
-  background: color('smoke');
+.css-cell--secondary {
   grid-column: secondary;
 }
