@@ -8,7 +8,7 @@
   {% componentV2 'whats-on-list-header' %}
     {{exhibitionAndEventPromos.date}}
      {{exhibitionAndEventPromos.fromDate}} - {{exhibitionAndEventPromos.toDate}}
-  <div class="css-grid-container">
+  <div class="css-grid__container">
     <div class="css-grid">
      {% for exhibition in exhibitionAndEventPromos.temporaryExhibitionPromos %}
         <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">
