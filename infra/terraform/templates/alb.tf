@@ -38,6 +38,7 @@ resource "aws_alb_target_group" "wellcomecollection" {
     protocol            = "HTTP"
     path                = "/management/healthcheck"
     interval            = 30
+    matcher             = "200"
   }
 }
 
