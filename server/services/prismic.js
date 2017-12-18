@@ -275,11 +275,15 @@ export async function getPaginatedExhibitionPromos(page: number): Promise<Array<
 
 // TODO flowtype
 function datesOverlapRange (eventStartDate, eventEndDate, rangeStartDate, rangeEndDate) {
-  const eventStart = london(eventStartDate);
-  const eventEnd = london(eventEndDate);
-  const rangeStart = london(rangeStartDate);
-  const rangeEnd = london(rangeEndDate);
-  return (eventStart.isSame(rangeEnd, 'day') || eventStart.isBefore(rangeEnd, 'day')) && (eventEnd.isSame(rangeStart, 'day') || eventEnd.isAfter(rangeStart, 'day'));
+  if (rangeStartDate && rangeEndDate) {
+    const eventStart = london(eventStartDate);
+    const eventEnd = london(eventEndDate);
+    const rangeStart = london(rangeStartDate);
+    const rangeEnd = london(rangeEndDate);
+    return (eventStart.isSame(rangeEnd, 'day') || eventStart.isBefore(rangeEnd, 'day')) && (eventEnd.isSame(rangeStart, 'day') || eventEnd.isAfter(rangeStart, 'day'));
+  } else {
+    return true;
+  }
 }
 
 // TODO flowtype
@@ -288,31 +292,30 @@ function filterPromosByDate(promos, startDate, endDate) {
 }
 
 // TODO flowtype
-export async function getExhibitionAndEventPromos() {
+export async function getExhibitionAndEventPromos(queryDates) {
+  const dateRange = queryDates && queryDates.split('|');
+  const fromDate = dateRange && dateRange[0];
+  const toDate = dateRange && dateRange[1];
   const prismic = await getPrismicApi();
   const allExhibitionsAndEvents = await prismic.query([
     Prismic.Predicates.any('document.type', ['exhibitions', 'events'])
   ]);
   const exhibitionPromos = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'exhibitions'));
   const permanentExhibitionPromos = exhibitionPromos.filter(e => !e.end);
-  const temporaryExhibitionPromos = exhibitionPromos.filter(e => e.end);
-  const eventPromos = createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events'));
+  const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => e.end), fromDate, toDate);
+  const eventPromos = filterPromosByDate(createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')), fromDate, toDate);
+  const todaysDate = london();
+  const dates = {
+    today: todaysDate.format('YYYY-MM-DD'),
+    weekend: [getWeekendFromDate(todaysDate).format('YYYY-MM-DD'), getWeekendToDate(todaysDate).format('YYYY-MM-DD')],
+    queriedDates: dateRange
+  };
 
   return {
+    dates,
     permanentExhibitionPromos,
     temporaryExhibitionPromos,
     eventPromos
-  };
-}
-
-export async function getTodaysExhibitionAndEventPromos() {
-  const allExhibitionsAndEvents = await getExhibitionAndEventPromos();
-  const today = london();
-  return {
-    date: today,
-    permanentExhibitionPromos: allExhibitionsAndEvents.permanentExhibitionPromos,
-    temporaryExhibitionPromos: filterPromosByDate(allExhibitionsAndEvents.temporaryExhibitionPromos, today, today),
-    eventPromos: filterPromosByDate(allExhibitionsAndEvents.eventPromos, today, today)
   };
 }
 
@@ -334,23 +337,6 @@ function getWeekendToDate(today) {
   } else {
     return london(today).day(7);
   }
-}
-
-// TODO flowtype
-export async function getWeekendsExhibitionAndEventPromos() {
-  // TODO split events by day, waiting on Heesoo to decide whether to do this
-  // TODO don't show past events, e.g. no Fri, Sat events if on Sunday, waiting on Heesoo to decide whether to do this
-  const allExhibitionsAndEvents = await getExhibitionAndEventPromos();
-  const today = london();
-  const fromDate = getWeekendFromDate(today);
-  const toDate = getWeekendToDate(today);
-  return {
-    fromDate,
-    toDate,
-    permanentExhibitionPromos: allExhibitionsAndEvents.permanentExhibitionPromos,
-    temporaryExhibitionPromos: filterPromosByDate(allExhibitionsAndEvents.temporaryExhibitionPromos, fromDate, toDate),
-    eventPromos: filterPromosByDate(allExhibitionsAndEvents.eventPromos, fromDate, toDate)
-  };
 }
 
 // TODO function to return everything split by month
