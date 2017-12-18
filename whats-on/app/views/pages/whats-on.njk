@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block body %}
-  {# {{exhibitionAndEventPromos.dates | dump}} #}
   {% set todayDateString = exhibitionAndEventPromos.dates.today + '|' + exhibitionAndEventPromos.dates.today %}
   {% set weekendDateString = exhibitionAndEventPromos.dates.weekend[0] + '|' + exhibitionAndEventPromos.dates.weekend[1] %}
   {% set whatsOnModel = [
@@ -14,12 +13,17 @@
     {id: 'everything', title: 'Everything', url: '/whats-on'}
   ] %}
 
-  {# TODO - how to determine this #}
   {% set whatsOnData = {activeId: exhibitionAndEventPromos.active } %}
   {% componentV2 'whats-on-list-header', whatsOnModel, {}, whatsOnData %}
 
   <div class="css-grid__container">
-    <div class="css-grid">
+    <div class="css-grid {{ {s:2} | spacingClasses({margin: ['top']}) }}">
+      {% if exhibitionAndEventPromos.active !== 'everything' %}
+        {% set fromDate = exhibitionAndEventPromos.dates.queriedDates[0] %}
+        {% set toDate = exhibitionAndEventPromos.dates.queriedDates[1] %}
+        {% set isMoreThanOneDay =  fromDate !== toDate %}
+        <p class="{{ {s:'HNM4', m:'HNM4'} | fontClasses }} {{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}"><time datetime="{{ fromDate }}">{{ fromDate | formatDate }}</time>{%- if isMoreThanOneDay -%}&ndash;<time datetime="{{ toDate }}">{{ toDate | formatDate }}</time>{%- endif -%}</p>
+      {% endif %}
      {% for exhibition in exhibitionAndEventPromos.temporaryExhibitionPromos %}
         <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">
           {% componentV2 'exhibition-promo', exhibition %}
