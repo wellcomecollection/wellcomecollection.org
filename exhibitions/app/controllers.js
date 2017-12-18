@@ -1,5 +1,6 @@
 // @flow
 import {model, prismic} from 'common';
+import {readingRoomPromo, cafeAndKitchenPromo} from '../../server/data/daily-promos';
 const {createPageConfig} = model;
 const {
   getExhibitionAndRelatedContent,
@@ -53,7 +54,9 @@ export async function renderExhibitionsList(ctx, next) {
       contentType: 'listing',
       canonicalUri: '/exhibitions'
     }),
-    paginatedExhibitions
+    paginatedExhibitions,
+    readingRoomPromo,
+    cafeAndKitchenPromo
   });
 
   return next();

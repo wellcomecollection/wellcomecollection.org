@@ -4,7 +4,7 @@
   }
 }
 
-.daily-promo__info {
+.daily-promo__description {
   @include respond-to('large') {
     max-width: 90%;
   }
@@ -13,8 +13,16 @@
 .daily-promo__title {
   transition: color 400ms ease;
 
-  .daily-promo:hover &,
-  .daily-promo:focus & {
+  .daily-promo__link:hover &,
+  .daily-promo__link:focus & {
     color: color('mint');
   }
+}
+
+.daily-promo__link {
+  border-top-left-radius: $border-radius-unit;
+}
+
+.daily-promo__meta {
+  border-bottom-right-radius: $border-radius-unit;
 }

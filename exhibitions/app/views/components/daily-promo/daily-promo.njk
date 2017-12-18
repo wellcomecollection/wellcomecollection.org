@@ -1,27 +1,29 @@
 
 {% set sizes = data.sizes if data.sizes else '100vw' %}
 
-<a href="#" class="daily-promo plain-link block {{ {s:4} | spacingClasses({padding: ['top']}) }}">
-  <div class="{{ {s:3} | spacingClasses({padding: ['right', 'bottom', 'left']}) }} daily-promo__inner bg-cream rounded-diagonal">
+<div class="daily-promo {{ {s:4} | spacingClasses({padding: ['top']}) }}">
+  <a href="{{ model.url }}" class="{{ {s:3} | spacingClasses({padding: ['right', 'bottom', 'left']}) }} plain-link block daily-promo__link bg-cream">
     <div class="{{- [
       {s:-4} | spacingClasses({margin: ['top']}),
       {s:4} | spacingClasses({margin: ['bottom']})
     ].join(' ') }} daily-promo__image-container inline-block rounded-corners overflow-hidden">
-      <img class="daily-promo__image block" src="http://fillmurray.com/1600/900" alt="" />
-      {# {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %} #}
+      {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
     </div>
-    <div class="daily-promo__info">
+    <div class="daily-promo__description">
       <h2 class="{{- [
         {s:0} | spacingClasses({margin: ['top']}),
         {s:'WB5'} | fontClasses
-      ].join(' ') }} daily-promo__title">Reading room</h2>
-      <div class="{{- [
-        {s:4} | spacingClasses({margin: ['bottom']}),
-        {s:'HNL5'} | fontClasses
-      ].join(' ') }} daily-promo__description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo nulla, molestias eaque voluptatum officiis voluptatibus illum repellat accusamus sequi corporis ut rerum similique! Sapiente hic libero enim odio perferendis ipsum.</div>
-      <div class="{{ {s:'HNM5'} | fontClasses }} flex flex--v-center daily-promo__meta">
+      ].join(' ') }} daily-promo__title">{{ model.title }}</h2>
+      <div class="{{ {s:'HNL5'} | fontClasses }} daily-promo__description">{{ model.description }}</div>
+    </div>
+  </a>
+  <div class="{{ {s:3} | spacingClasses({padding: ['right', 'bottom', 'left']}) }} bg-cream daily-promo__meta">
+    <div class="{{ {s:'HNM5'} | fontClasses }} flex flex--v-center">
+      {% if model.id === 'cafe-and-kitchen' %}
+        {% componentV2 'more-info-link', {url: '/visit-us/opening-hours', name: 'View opening hours for the cafe and kitchen'} %}
+      {% elif model.id === 'reading-room' %}
         {% icon 'clock', null, ['margin-right-s1'] %} <span>Open during gallery hours</span>
-      </div>
+      {% endif %}
     </div>
   </div>
-</a>
+</div>
