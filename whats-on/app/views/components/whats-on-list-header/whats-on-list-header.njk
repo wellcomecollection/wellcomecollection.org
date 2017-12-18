@@ -1,7 +1,7 @@
 {% extends 'components/list-header/list-header.njk' %}
 
 {% block slot %}
-    {% componentV2 'segmented-control', model, null, data %}
+    {% componentV2 'segmented-control', model.items, null, data %}
 {% endblock %}
 
 {% block items %}{% endblock %}
