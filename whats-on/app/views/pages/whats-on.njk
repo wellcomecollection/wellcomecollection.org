@@ -15,8 +15,7 @@
   ] %}
 
   {# TODO - how to determine this #}
-  {% set whatsOnData = {activeId: 'weekend'} %}
-
+  {% set whatsOnData = {activeId: exhibitionAndEventPromos.active } %}
   {% componentV2 'whats-on-list-header', whatsOnModel, {}, whatsOnData %}
 
   <div class="css-grid__container">

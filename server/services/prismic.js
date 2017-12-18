@@ -291,6 +291,20 @@ function filterPromosByDate(promos, startDate, endDate) {
   return promos.filter(e => datesOverlapRange(e.start, e.end, startDate, endDate));
 }
 
+function getActiveState(today, range) {
+  const rangeStart = range && london(range[0]);
+  const rangeEnd = range && london(range[1]);
+  if (!range) {
+    return 'everything';
+  } else if (today.isSame(rangeEnd, 'day')) {
+    return 'today';
+  } else if (rangeStart.isSame(getWeekendFromDate(today), 'day') && rangeEnd.isSame(getWeekendToDate(today), 'day')) {
+    return 'weekend';
+  } else {
+    return null;
+  }
+};
+
 // TODO flowtype
 export async function getExhibitionAndEventPromos(queryDates) {
   const dateRange = queryDates && queryDates.split('|');
@@ -310,8 +324,9 @@ export async function getExhibitionAndEventPromos(queryDates) {
     weekend: [getWeekendFromDate(todaysDate).format('YYYY-MM-DD'), getWeekendToDate(todaysDate).format('YYYY-MM-DD')],
     queriedDates: dateRange
   };
-
+  const active = getActiveState(todaysDate, dateRange);
   return {
+    active,
     dates,
     permanentExhibitionPromos,
     temporaryExhibitionPromos,
