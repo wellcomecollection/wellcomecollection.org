@@ -14,8 +14,8 @@ export async function renderWhatsOn(ctx, next) {
       title: 'What\'s on',
       inSection: 'whatson',
       category: 'list',
-      contentType: 'event', // TODO ??
-      canonicalUri: '/' // TODO ??
+      contentType: 'public-programme',
+      canonicalUri: '/whats-on'
     }),
     exhibitionAndEventPromos
   });
