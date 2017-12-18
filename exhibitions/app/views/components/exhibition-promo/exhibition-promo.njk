@@ -20,7 +20,7 @@
       <span class="{{ {s:1} | spacingClasses({padding: ['left']}) }}">FREE</span>
     </div>
     {% if model.start and model.end %}
-      <p class="{{ {s:'HNL4'} | fontClasses }}"><time datetime="{{model.start}}">{{ model.start | formatDate }}</time> &mdash; <time datetime="{{model.end}}">{{ model.end | formatDate }}</time></p>
+      <p class="{{ {s:'HNL4'} | fontClasses }}"><time datetime="{{model.start}}">{{ model.start | formatDate }}</time>&ndash;<time datetime="{{model.end}}">{{ model.end | formatDate }}</time></p>
     {% else %}
       <p class="{{ {s:'HNL5'} | fontClasses }}">{{ model.description | striptags | safe }}</p>
     {% endif %}
