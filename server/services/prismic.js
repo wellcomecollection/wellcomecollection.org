@@ -294,19 +294,17 @@ function filterPromosByDate(promos, startDate, endDate) {
 function getActiveState(today, range) {
   const rangeStart = range && london(range[0]);
   const rangeEnd = range && london(range[1]);
-  if (!range) {
-    return 'everything';
-  } else if (today.isSame(rangeEnd, 'day')) {
+  if (today.isSame(rangeEnd, 'day')) {
     return 'today';
   } else if (rangeStart.isSame(getWeekendFromDate(today), 'day') && rangeEnd.isSame(getWeekendToDate(today), 'day')) {
     return 'weekend';
   } else {
-    return null;
+    return 'everything';
   }
 };
 
 // TODO flowtype
-export async function getExhibitionAndEventPromos(queryDates) {
+export async function getExhibitionAndEventPromos(queryDates = `${london()} | ${london().add(1, 'year')}`) {
   const dateRange = queryDates && queryDates.split('|');
   const fromDate = dateRange && dateRange[0];
   const toDate = dateRange && dateRange[1];
