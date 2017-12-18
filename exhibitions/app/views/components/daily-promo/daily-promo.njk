@@ -1,7 +1,7 @@
 
 {% set sizes = data.sizes if data.sizes else '100vw' %}
 
-<div class="daily-promo {{ {s:4} | spacingClasses({padding: ['top']}) }}">
+<div class="daily-promo {{ {s:4} | spacingClasses({padding: ['top', 'bottom']}) }}">
   <a href="{{ model.url }}" class="{{ {s:3} | spacingClasses({padding: ['right', 'bottom', 'left']}) }} plain-link block daily-promo__link bg-cream">
     <div class="{{- [
       {s:-4} | spacingClasses({margin: ['top']}),
@@ -19,10 +19,13 @@
   </a>
   <div class="{{ {s:3} | spacingClasses({padding: ['right', 'bottom', 'left']}) }} bg-cream daily-promo__meta">
     <div class="{{ {s:'HNM5'} | fontClasses }} flex flex--v-center">
-      {% if model.id === 'cafe-and-kitchen' %}
-        {% componentV2 'more-info-link', {url: '/visit-us/opening-hours', name: 'View opening hours for the cafe and kitchen'} %}
-      {% elif model.id === 'reading-room' %}
-        {% icon 'clock', null, ['margin-right-s1'] %} <span>Open during gallery hours</span>
+      {% if model.moreInfoLink %}
+        {% componentV2 'more-info-link', {url: model.moreInfoLink, name: model.metaText} %}
+      {% else %}
+        {% if model.metaIcon %}
+          {% icon model.metaIcon, null, ['margin-right-s1'] %}
+        {% endif %}
+        <span>{{ model.metaText }}</span>
       {% endif %}
     </div>
   </div>
