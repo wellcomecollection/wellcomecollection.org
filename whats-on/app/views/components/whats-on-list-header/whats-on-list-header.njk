@@ -1,14 +1,5 @@
 {% extends 'components/list-header/list-header.njk' %}
 
-{# TODO: correct urls #}
-{% set model = [
-  {id: 'today', title: 'Today', url: '#'},
-  {id: 'weekend', title: 'This weekend', url: '#'},
-  {id: 'everything', title: 'Everything', url: '#'}
-] %}
-
-{% set data = {activeId: 'today'} %}
-
 {% block slot %}
     {% componentV2 'segmented-control', model, null, data %}
 {% endblock %}
