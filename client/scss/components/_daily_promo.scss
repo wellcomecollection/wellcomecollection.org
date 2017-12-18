@@ -1,0 +1,20 @@
+.daily-promo__image-container {
+  @include respond-to('large') {
+    width: percentage(2/3);
+  }
+}
+
+.daily-promo__info {
+  @include respond-to('large') {
+    max-width: 90%;
+  }
+}
+
+.daily-promo__title {
+  transition: color 400ms ease;
+
+  .daily-promo:hover &,
+  .daily-promo:focus & {
+    color: color('mint');
+  }
+}
