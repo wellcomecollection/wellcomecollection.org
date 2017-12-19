@@ -294,12 +294,12 @@ function filterPromosByDate(promos, startDate, endDate) {
 function getActiveState(today, range) {
   const rangeStart = range && london(range[0]);
   const rangeEnd = range && london(range[1]);
-  if (today.isSame(rangeEnd, 'day')) {
+  if (!range || rangeStart.isSame(today, 'day') && rangeEnd.isSame(today.add(1, 'year'), 'day')) {
+    return 'everything';
+  } else if (today.isSame(rangeEnd, 'day')) {
     return 'today';
   } else if (rangeStart.isSame(getWeekendFromDate(today), 'day') && rangeEnd.isSame(getWeekendToDate(today), 'day')) {
     return 'weekend';
-  } else {
-    return 'everything';
   }
 };
 
