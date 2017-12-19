@@ -319,7 +319,7 @@ function groupPromosByMonth(promos) {
       }
       acc[year][month].push(currEvent);
     } else {
-      while (end.isAfter(start) || end.isSame(start, 'month')) {
+      while ((end.isAfter(start) || end.isSame(start, 'month')) && start.isBefore(london().add(3, 'month'))) {
         const year = start.format('YYYY');
         const month = start.format('MMMM');
         if (!acc[year]) {
