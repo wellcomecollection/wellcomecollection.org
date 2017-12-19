@@ -6,7 +6,8 @@ export type ContentType =
   | 'video'
   | 'gallery'
   | 'book'
-  | 'event';
+  | 'event'
+  | 'place';
 
 const contentTypeMapWP = {
   'standard': 'article',

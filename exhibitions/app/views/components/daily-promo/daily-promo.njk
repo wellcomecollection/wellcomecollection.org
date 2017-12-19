@@ -1,0 +1,32 @@
+
+{% set sizes = data.sizes if data.sizes else '100vw' %}
+
+<div class="daily-promo {{ {s:4} | spacingClasses({padding: ['top', 'bottom']}) }}">
+  <a href="{{ model.url }}" class="{{ {s:3} | spacingClasses({padding: ['right', 'bottom', 'left']}) }} plain-link block daily-promo__link bg-cream">
+    <div class="{{- [
+      {s:-4} | spacingClasses({margin: ['top']}),
+      {s:4} | spacingClasses({margin: ['bottom']})
+    ].join(' ') }} daily-promo__image-container inline-block rounded-corners overflow-hidden">
+      {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
+    </div>
+    <div class="daily-promo__description">
+      <h2 class="{{- [
+        {s:0} | spacingClasses({margin: ['top']}),
+        {s:'WB5'} | fontClasses
+      ].join(' ') }} daily-promo__title">{{ model.title }}</h2>
+      <div class="{{ {s:'HNL5'} | fontClasses }} daily-promo__description">{{ model.description }}</div>
+    </div>
+  </a>
+  <div class="{{ {s:3} | spacingClasses({padding: ['right', 'bottom', 'left']}) }} bg-cream daily-promo__meta">
+    <div class="{{ {s:'HNM5'} | fontClasses }} flex flex--v-center">
+      {% if model.moreInfoLink %}
+        {% componentV2 'more-info-link', {url: model.moreInfoLink, name: model.metaText} %}
+      {% else %}
+        {% if model.metaIcon %}
+          {% icon model.metaIcon, null, ['margin-right-s1'] %}
+        {% endif %}
+        <span>{{ model.metaText }}</span>
+      {% endif %}
+    </div>
+  </div>
+</div>
