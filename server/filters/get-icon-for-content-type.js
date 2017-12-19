@@ -1,11 +1,11 @@
 export default function getIconForContentType(type) {
   switch (type) {
     case 'video':
-      return 'actions/play';
+      return 'play';
     case 'audio':
-      return 'actions/volume';
+      return 'volume';
     case 'gallery':
-      return 'actions/gallery';
+      return 'gallery';
     default:
       return false;
   }
