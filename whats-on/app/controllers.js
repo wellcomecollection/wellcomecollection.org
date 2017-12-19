@@ -1,4 +1,5 @@
 import {model, prismic} from 'common';
+import {readingRoomPromo, cafePromo, libraryPromo, restaurantPromo, bookshopPromo} from '../../server/data/daily-promos';
 const {createPageConfig} = model;
 const {
   getExhibitionAndEventPromos
@@ -17,7 +18,12 @@ export async function renderWhatsOn(ctx, next) {
       contentType: 'public-programme',
       canonicalUri: '/whats-on'
     }),
-    exhibitionAndEventPromos
+    exhibitionAndEventPromos,
+    readingRoomPromo,
+    cafePromo,
+    libraryPromo,
+    restaurantPromo,
+    bookshopPromo
   });
 
   return next();
