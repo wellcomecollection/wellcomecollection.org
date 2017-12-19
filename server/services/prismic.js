@@ -304,7 +304,40 @@ function getActiveState(today, range) {
 };
 
 // TODO flowtype
-export async function getExhibitionAndEventPromos(queryDates = `${london()} | ${london().add(1, 'year')}`) {
+function groupPromosByMonth(promos) {
+  return promos.reduce((acc, currEvent) => { // TODO tidy this DRY
+    const start = london(currEvent.start);
+    const end = london(currEvent.end);
+    if (end.isSame(start, 'month')) {
+      const year = start.format('YYYY');
+      const month = start.format('MMMM');
+      if (!acc[year]) {
+        acc[year] = {};
+      }
+      if (!acc[year][month]) {
+        acc[year][month] = [];
+      }
+      acc[year][month].push(currEvent);
+    } else {
+      while (end.isAfter(start) || end.isSame(start, 'month')) {
+        const year = start.format('YYYY');
+        const month = start.format('MMMM');
+        if (!acc[year]) {
+          acc[year] = {};
+        }
+        if (!acc[year][month]) {
+          acc[year][month] = [];
+        }
+        acc[year][month].push(currEvent);
+        start.add(1, 'month');
+      }
+    }
+    return acc;
+  }, {});
+}
+
+// TODO flowtype
+export async function getExhibitionAndEventPromos(queryDates) {
   const dateRange = queryDates && queryDates.split('|');
   const fromDate = dateRange && dateRange[0];
   const toDate = dateRange && dateRange[1];
@@ -316,6 +349,8 @@ export async function getExhibitionAndEventPromos(queryDates = `${london()} | ${
   const permanentExhibitionPromos = exhibitionPromos.filter(e => !e.end);
   const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => e.end), fromDate, toDate);
   const eventPromos = filterPromosByDate(createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')), fromDate, toDate);
+  const eventPromosGroupedByMonth = groupPromosByMonth(eventPromos);
+
   const todaysDate = london();
   const dates = {
     today: todaysDate.format('YYYY-MM-DD'),
@@ -328,7 +363,8 @@ export async function getExhibitionAndEventPromos(queryDates = `${london()} | ${
     dates,
     permanentExhibitionPromos,
     temporaryExhibitionPromos,
-    eventPromos
+    eventPromos,
+    eventPromosGroupedByMonth
   };
 }
 
