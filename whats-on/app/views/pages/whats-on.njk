@@ -7,12 +7,13 @@
 {% block body %}
   {% set todayDateString = exhibitionAndEventPromos.dates.today + '|' + exhibitionAndEventPromos.dates.today %}
   {% set weekendDateString = exhibitionAndEventPromos.dates.weekend[0] + '|' + exhibitionAndEventPromos.dates.weekend[1] %}
+  {% set allDateString = exhibitionAndEventPromos.dates.all[0] + '|' + exhibitionAndEventPromos.dates.all[1] %}
   {% set whatsOnModel = {
     name: 'What\'s on',
     items: [
       {id: 'today', title: 'Today', url: '/whats-on/?' + 'f[dates]' | urlencode + '=' + todayDateString | urlencode },
       {id: 'weekend', title: 'This weekend', url: '/whats-on/?' + 'f[dates]' | urlencode + '=' + weekendDateString | urlencode },
-      {id: 'everything', title: 'Everything', url: '/whats-on'}
+      {id: 'everything', title: 'Everything', url: '/whats-on/?' + 'f[dates]' | urlencode + '=' + allDateString | urlencode}
     ]
    } %}
 

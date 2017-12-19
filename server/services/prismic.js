@@ -294,7 +294,7 @@ function filterPromosByDate(promos, startDate, endDate) {
 function getActiveState(today, range) {
   const rangeStart = range && london(range[0]);
   const rangeEnd = range && london(range[1]);
-  if (!range || rangeStart.isSame(today, 'day') && rangeEnd.isSame(today.add(1, 'year'), 'day')) {
+  if (rangeStart.isSame(today, 'day') && rangeEnd.isSame(london().add(1, 'year'), 'day')) {
     return 'everything';
   } else if (today.isSame(rangeEnd, 'day')) {
     return 'today';
@@ -338,9 +338,11 @@ function groupPromosByMonth(promos) {
 
 // TODO flowtype
 export async function getExhibitionAndEventPromos(queryDates) {
+  const todaysDate = london();
   const dateRange = queryDates && queryDates.split('|');
-  const fromDate = dateRange && dateRange[0];
-  const toDate = dateRange && dateRange[1];
+  const fromDate = dateRange && dateRange[0] ? dateRange[0] : todaysDate.format('YYYY-MM-DD');
+  const toDate = dateRange && dateRange[1] ? dateRange[1] : todaysDate.format('YYYY-MM-DD');
+
   const prismic = await getPrismicApi();
   const allExhibitionsAndEvents = await prismic.query([
     Prismic.Predicates.any('document.type', ['exhibitions', 'events'])
@@ -351,13 +353,13 @@ export async function getExhibitionAndEventPromos(queryDates) {
   const eventPromos = filterPromosByDate(createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')), fromDate, toDate);
   const eventPromosGroupedByMonth = groupPromosByMonth(eventPromos);
 
-  const todaysDate = london();
   const dates = {
     today: todaysDate.format('YYYY-MM-DD'),
     weekend: [getWeekendFromDate(todaysDate).format('YYYY-MM-DD'), getWeekendToDate(todaysDate).format('YYYY-MM-DD')],
+    all: [todaysDate.format('YYYY-MM-DD'), london().add(1, 'year').format('YYYY-MM-DD')],
     queriedDates: dateRange
   };
-  const active = getActiveState(todaysDate, dateRange);
+  const active = getActiveState(todaysDate, [fromDate, toDate]);
   return {
     active,
     dates,
