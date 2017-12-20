@@ -1,35 +1,51 @@
-# We’re up to something. Curious?
+# How we're improving search
 
-## What’s happening to the website?
-You may have noticed some changes to the way this website looks and works. We hope you like what you’ve seen so far.
+We are working to make [wellcomecollection.org](https://wellcomecollection.org) a more welcoming space where you can discover more of what Wellcome Collection has to offer. As part of this work, we’re bringing together library collections, physical and digital alike, into a single location. Here you will be able to search, browse, read and do research across the breadth of Wellcome Library’s holdings.
 
-We are working to make wellcomecollection.org a more welcoming space where you can discover more of what Wellcome Collection has to offer. From thought-provoking articles to participatory events, from temporary exhibitions to our world-renowned research library, our website is evolving to make it easier for you to find and do what you need.
+We have a lot of work to do, and we’ve only just begun.
 
-Our approach to our digital evolution is open and transparent. We want to share our work in progress with you, and to get your feedback throughout the development.
+## What's changed?
+You can now find more than 110,000 free to use and openly licensed images from our former picture library, Wellcome Images.
 
-Throughout 2017, you’ll be introduced to:
+The first phase resulted in:
 
-* An improved navigation that makes it easier for you to find what you need
-* Engaging multi-part stories, video and audio series, curated image galleries, and even a new webcomic
-* A single search for library collections, images, our live programmes and venue information
-* Better tools for exploring Wellcome Library’s collections
-* A refreshed visual design.
+* A website and search that you can use on mobile devices
+* A simpler way to download high resolution and low resolution images
+* Zoom feature that allows you to see more detailed images
+* Even more images licenced under Creative Commons licences, mostly CC-BY and CC0.
 
-We’ll regularly publish information about new features here.
+Throughout this first phase we’ve been collecting feedback on the website. Thanks to more than 200 respondents, we know that there are significant improvements to make search more effective, and to improve the quality of information about the items available on this website.
 
-You can also sign up to take part in user research (surveys, in-person and online activities). [Register for the Wellcome Collection User Panel](https://www.surveymonkey.co.uk/r/WQXZT8R) to contribute to our exciting redevelopment.
+We’re listening.
 
-## Progress Notes
-**February 2017: Launched a new Explore section**
-* Began publishing Wellcome Collection’s blog to the [Explore](https://wellcomecollection.org/explore) section.
-* Designed an enhanced reading experience for mobile and desktop users, improving legibility, image and video presentation.
-* Introduced new visual design, including fonts, colour palette, bigger and bolder images.
+## What's coming up?
 
-**March-April 2017: Enhancements and Infrastructure**
-* Released a six-part story, [Electric Sublime](https://wellcomecollection.org/series/electric-sublime), publishing a new part every Thursday.
-* Made improvements to site functionality and accessibility.
-* Redirected all visitors to blog.wellcomecollection.org to our new site.
-* Continued the essential infrastructure work to decouple our content management architecture from the site code.
+In the first half of 2018, you can expect to see improvements to the search experience. We’ll focus on:
 
-## Tell us what you think
-This is a work in progress, and we’d like to know what you think about the new website. Please [email us](mailto:DigitalandTechnology-dotorg@wellcome.ac.uk) your feedback and ideas.
+**Improving information about works**
+
+* Joining up digital images with more complete information from the library catalogue
+* Including information about the original object, such as its size, format, publication details, and so on
+* Making reference numbers and citation information available and clear.
+
+**Improving search and filtering**
+
+* Dates and date ranges
+* Filter by licence
+* Search by subject, country of publication, media type.
+
+**Improving how you can manage and share your search results**
+
+* Ways to save groups of images or records
+* Simple embed option to make it easy to use an image on another website.
+
+For now, if you need any help in identifying items from library collections, please email collections@wellcome.ac.uk.
+
+## Get involved
+We want to share our work in progress with you, and to get your feedback throughout the development.
+
+If you’d like to help shape how this website works, we invite you to join our User Panel. We're looking for people at all levels of research experience to participate in the design process.
+
+As a panellist, you’ll be invited to take part in occasional activities which help us test new designs, functionality and features. These activities may be in-person interviews, brief interactive tests, and surveys. You do not be present in London to participate; many activities can be done online.
+
+Interested? Please [complete this short survey](https://www.surveymonkey.co.uk/r/P6DRMHJ) so we can understand more about your interests and experience.

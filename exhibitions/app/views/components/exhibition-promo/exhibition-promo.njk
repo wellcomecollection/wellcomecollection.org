@@ -11,11 +11,11 @@
     {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
   </div>
   <div class="{{- [
-      {s:1} | spacingClasses({padding: ['top']}),
+      {s:2} | spacingClasses({padding: ['top']}),
       {s:2} | spacingClasses({padding: ['left', 'right']}),
       {s:4} | spacingClasses({padding: ['bottom']})
     ].join(' ') }} exhibition-promo__description bg-cream rounded-diagonal">
-    <div class="exhibition-promo__meta flex flex--h-space-between flex--wrap {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">
+    <div class="exhibition-promo__meta flex flex--h-space-between flex--wrap {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
       <div class="{{- [
         {s:'HNM5', m:'HNM4'} | fontClasses,
         {s:1} | spacingClasses({margin: ['bottom']})
@@ -40,9 +40,9 @@
     <h2 class="exhibition-promo__title {{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
 
     {% if model.start and model.end %}
-      <p class="{{ {s:'HNL4'} | fontClasses }}"><time datetime="{{model.start}}">{{ model.start | formatDate }}</time>&ndash;<time datetime="{{model.end}}">{{ model.end | formatDate }}</time></p>
+      <p class="{{ {s:'HNL4'} | fontClasses }} no-margin no-padding"><time datetime="{{model.start}}">{{ model.start | formatDate }}</time>&ndash;<time datetime="{{model.end}}">{{ model.end | formatDate }}</time></p>
     {% else %}
-      <p class="{{ {s:'HNL5'} | fontClasses }}">{{ model.description | striptags | safe }}</p>
+      <p class="{{ {s:'HNL5'} | fontClasses }} no-margin no-padding">{{ model.description | striptags | safe }}</p>
     {% endif %}
   </div>
 </a>
