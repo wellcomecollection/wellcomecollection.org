@@ -33,6 +33,7 @@ import searchBox from './components/search-box';
 import iframeContainer from './components/iframe-container';
 import {eventbriteTicketButton} from './components/eventbrite-ticket-button';
 import segmentedControl from './components/segmented-control';
+import tabs from './components/tabs';
 
 const init = () => {
   polyfills.init();
@@ -65,6 +66,7 @@ const init = () => {
   const viewersFullscreen = document.querySelectorAll('.js-image-viewer');
   const infoBannerEls = document.querySelectorAll('.js-info-banner');
   const segmentedControlEls = document.querySelectorAll('.js-segmented-control');
+  const eventsFilter = document.querySelectorAll('.js-tabs'); // TODO proper name and selector
 
   nodeList(segmentedControlEls).forEach(segmentedControl);
 
@@ -85,6 +87,11 @@ const init = () => {
   nodeList(scrollToInfoEls).forEach(scrollToInfo);
 
   nodeList(viewersFullscreen).forEach((viewer) => createImageViewer(viewer));
+
+  nodeList(eventsFilter).forEach((el) => tabs(el, {
+    currentClass: 'tabitem--is-current',
+    visibleClass: 'tabpanel--is-visible'
+  }));
 
   if (mainEl) {
     gaScrollDepth(mainEl);
