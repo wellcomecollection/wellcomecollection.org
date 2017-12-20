@@ -3,7 +3,7 @@ import request from 'superagent';
 import {healthcheck, featureFlags} from '../controllers/utils';
 import {seriesNav, seriesTransporter, latestInstagramPosts} from '../controllers/async-controllers';
 import {work, search} from '../controllers/work';
-import {index, article, preview, series, articles} from '../controllers'; // Deprecated
+import {index, progress, article, preview, series, articles} from '../controllers'; // Deprecated
 import {
   renderArticle,
   setPreviewSession,
@@ -19,6 +19,7 @@ const r = new Router({
 
 // Util / function
 r.get('/', index);
+r.get('/progress', progress);
 r.get('/flags', featureFlags);
 r.get('/kaboom', (ctx, next) => {
   ctx.throw('Error Message', 500);
