@@ -390,8 +390,6 @@ function getWeekendToDate(today) {
   }
 }
 
-// TODO function to return everything split by month
-
 export async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request): Promise<?ExhibitionAndRelatedContent> {
   const exhibition = await getTypeById(previewReq, ['exhibitions'], id, {});
 
