@@ -294,7 +294,7 @@ function filterPromosByDate(promos, startDate, endDate) {
 function getActiveState(today, range) {
   const rangeStart = range && london(range[0]);
   const rangeEnd = range && london(range[1]);
-  if (rangeStart.isSame(today, 'day') && rangeEnd.isSame(london().add(1, 'year'), 'day')) {
+  if (rangeStart.isSame(today, 'day') && rangeEnd.isSame(london().add(3, 'month'), 'day')) {
     return 'everything';
   } else if (today.isSame(rangeEnd, 'day')) {
     return 'today';
@@ -356,7 +356,7 @@ export async function getExhibitionAndEventPromos(queryDates) {
   const dates = {
     today: todaysDate.format('YYYY-MM-DD'),
     weekend: [getWeekendFromDate(todaysDate).format('YYYY-MM-DD'), getWeekendToDate(todaysDate).format('YYYY-MM-DD')],
-    all: [todaysDate.format('YYYY-MM-DD'), london().add(1, 'year').format('YYYY-MM-DD')],
+    all: [todaysDate.format('YYYY-MM-DD'), london().add(3, 'month').format('YYYY-MM-DD')],
     queriedDates: dateRange
   };
   const active = getActiveState(todaysDate, [fromDate, toDate]);
