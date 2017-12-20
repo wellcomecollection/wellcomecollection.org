@@ -30,6 +30,16 @@
         <div class="{{ {s: 12, m: 7, l: 8, xl: 7, shiftXl: 1} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
 	  <div class="{{ {s: 5} | spacingClasses({margin: ['bottom']}) }}">
             <h1 id="work-info" class="{{ {s:'HNM3', m:'HNM2', l:'HNM1'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{work.title}}</h1>
+
+            <div class="{{- [
+              {s:2} | spacingClasses({padding: ['top', 'bottom']}),
+              {s:4} | spacingClasses({padding: ['left', 'right']}),
+              {s:4} | spacingClasses({margin: ['bottom']})
+            ].join(' ') }} bg-cream rounded-diagonal flex flex--v-center">
+              {% icon 'under_construction', null, ['margin-right-s2'] %}
+              <p class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }} no-margin">We’re improving the information on this page. <a href="#">Find out more</a>.</p>
+            </div>
+
             {% for metaItem in work.metaContent %}
               {% set needsDivider = not loop.last %}
               {% componentV2 'meta-unit', {headingText: metaItem.heading, content: metaItem.content, includeDivider: needsDivider} %}

@@ -34,10 +34,23 @@
     {{ {s:3, m:4, l:6} | spacingClasses({padding: ['bottom']}) }}">
     <div class="container">
       <div class="grid">
+        <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+        <div class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }} flex flex--h-space-between flex--v-center flex--wrap">
+            <h2 class="{{- [
+              {s:'WB6', m:'WB4'} | fontClasses,
+              {s:2} | spacingClasses({margin: ['bottom']}),
+              {s:4} | spacingClasses({margin: ['right']}),
+              {s:0} | spacingClasses({margin: ['top']})
+            ].join(' ') }}">{{ description }}</h2>
+            <div class="flex flex--v-center">
+              {% icon 'under_construction', null, ['margin-right-s2'] %}
+              <p class="no-margin">We’re improving how search works. <a href="#">Find out more</a>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid">
         <div class="{{ {s:12, m:10, l:8, xl:8} | gridClasses }}">
-          {% if not query %}
-            <h2 class="{{ {s:'WB6', m:'WB4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ description }}</h2>
-          {% endif %}
           {% componentV2 'search-box', {id: 'search-works', action: '', name: 'query', query: query, autofocus: true} %}
           {% if not query %}
             <p class="{{ {s:4} | spacingClasses({margin: ['top']}) }} {{ {s:'HNL4', m:'HNL3'} | fontClasses }}">Find thousands of Creative Commons licensed images from historical library materials and museum objects to contemporary digital photographs.</p>
