@@ -84,6 +84,10 @@ export const series = async(ctx, next) => {
   return next();
 };
 
+export const index = (ctx, next) => ctx.render('pages/index', {
+  pageConfig: createPageConfig({inSection: 'index', path: '/'})
+}) && next();
+
 export const progress = (ctx, next) => ctx.render('pages/progress', {
   pageConfig: createPageConfig({inSection: 'index', path: '/progress'})
 }) && next();
