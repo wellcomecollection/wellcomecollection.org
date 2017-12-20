@@ -41,7 +41,7 @@ In the first half of 2018, you can expect to see improvements to the search expe
 
 For now, if you need any help in identifying items from library collections, please email collections@wellcome.ac.uk.
 
-## We want to know more
+## Get involved
 We want to share our work in progress with you, and to get your feedback throughout the development.
 
 If you’d like to help shape how this website works, we invite you to join our User Panel. We're looking for people at all levels of research experience to participate in the design process.
