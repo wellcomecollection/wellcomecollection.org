@@ -1,5 +1,7 @@
 {% extends 'components/list-header/list-header.njk' %}
 
+{% block bgColour %}bg-turquoise-graphics{% endblock %}
+
 {% block slot %}
     {% componentV2 'segmented-control', model.items, null, data %}
 {% endblock %}
