@@ -90,7 +90,7 @@ export const spiritBoothPromo: Promo = {
   metaText: 'Open during gallery hours',
   image: {
     type: 'picture',
-    contentUrl: 'https://s3-eu-west-1.amazonaws.com/static.wellcomecollection.org/daily-promo-images/wellcome-shop.jpg',
+    contentUrl: 'https://s3.eu-west-1.amazonaws.com/static.wellcomecollection.org/daily-promo-images/spirit-booth.png',
     width: 408,
     height: 229,
     alt: ''
