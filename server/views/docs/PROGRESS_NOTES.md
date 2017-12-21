@@ -46,6 +46,6 @@ We want to share our work in progress with you, and to get your feedback through
 
 If you’d like to help shape how this website works, we invite you to join our User Panel. We're looking for people at all levels of research experience to participate in the design process.
 
-As a panellist, you’ll be invited to take part in occasional activities which help us test new designs, functionality and features. These activities may be in-person interviews, brief interactive tests, and surveys. You do not be present in London to participate; many activities can be done online.
+As a panellist, you’ll be invited to take part in occasional activities which help us test new designs, functionality and features. These activities may be in-person interviews, brief interactive tests, and surveys. You do not need to be present in London to participate; many activities can be done online.
 
 Interested? Please [complete this short survey](https://www.surveymonkey.co.uk/r/P6DRMHJ) so we can understand more about your interests and experience.
