@@ -12,18 +12,18 @@
               <span class="{{- [
                 {s:'HNM5', m:'HNM4'} | fontClasses,
                 {s:2} | spacingClasses({margin: ['right']})
-              ].join(' ') }}">Galleries open today</span>
-
-
-              {% icon 'clock', null, ['margin-right-s1'] %}
-              <span class="{{- [
-                {s:'HNL5', m:'HNL4'} | fontClasses,
-                {s:2} | spacingClasses({margin: ['right']})
-              ].join(' ') }}">
-                <time>10:00</time>&ndash;<time>18:00</time>
-              </span>
+              ].join(' ') }}">Galleries {{ 'open' if model.todayOpeningHours.opens else 'closed' }} today</span>
+              {% if model.todayOpeningHours.opens %}
+                {% icon 'clock', null, ['margin-right-s1'] %}
+                <span class="{{- [
+                  {s:'HNL5', m:'HNL4'} | fontClasses,
+                  {s:2} | spacingClasses({margin: ['right']})
+                ].join(' ') }}">
+                  <time>{{ model.todayOpeningHours.opens }}</time>&ndash;<time>{{ model.todayOpeningHours.closes }}</time>
+                </span>
+              {% endif %}
             </div>
-            <a class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }}" href="#">Opening hours</a>
+            <a class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }}" href="/opening-hours">Opening hours</a>
           </div>
         </div>
       </div>

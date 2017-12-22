@@ -10,6 +10,7 @@
   {% set weekendDateString = exhibitionAndEventPromos.dates.weekend[0] + '|' + exhibitionAndEventPromos.dates.weekend[1] %}
   {% set allDateString = exhibitionAndEventPromos.dates.all[0] + '|' + exhibitionAndEventPromos.dates.all[1] %}
   {% set whatsOnModel = {
+    todayOpeningHours: todayOpeningHours,
     name: 'What\'s on',
     items: [
       {id: 'today', title: 'Today', url: '/whats-on/?' + 'f[dates]' | urlencode + '=' + todayDateString | urlencode },
