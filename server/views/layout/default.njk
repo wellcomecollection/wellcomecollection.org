@@ -64,20 +64,6 @@
         title: 'What we do'
       }
     ] %}
-    {% block seasonalInfoBanner %}
-    <div class="row bg-yellow {{ {s:3} | spacingClasses({padding: ['top', 'bottom']}) }} {{ {s:'HNL5'} | fontClasses }}">
-      <div class="container">
-        <div class="grid">
-          <div class="{{ {s:12, m:10, l:10, xl:8} | gridClasses }} flex flex--v-center">
-            {% icon 'snowflake', null, ['margin-right-s2'] %}
-            <p class="no-margin">
-              We will be closed from 24-26 December, with modified opening hours from Saturday 23 December until Tuesday 2 January. Please check our <a href="https://wellcomecollection.org/visit-us/festive-opening-hours">full festive opening hours</a> before you travel.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    {% endblock %}
-
     {% component 'header', { navLinks: navLinks } %}
 
     <div id="main" class="main" role="main">
