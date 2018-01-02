@@ -24,8 +24,6 @@ export const cafePromo: Promo = {
   title: 'Cafe',
   url: '/visit-us/wellcome-café',
   description: 'Join us for a quick cup of coffee and a pastry, afternoon tea, or a light meal with a glass of wine.',
-  moreInfoLink: '/visit-us/opening-hours',
-  metaText: 'Cafe opening hours',
   image: {
     type: 'picture',
     contentUrl: 'https://s3-eu-west-1.amazonaws.com/static.wellcomecollection.org/daily-promo-images/wellcome-cafe.png',
@@ -58,8 +56,6 @@ export const restaurantPromo: Promo = {
   title: 'Restaurant',
   url: '/visit-us/wellcome-kitchen',
   description: 'Hungry for more? Join us for delicious lunches, drinks and afternoon tea on level 2.',
-  moreInfoLink: '/visit-us/opening-hours',
-  metaText: 'Kitchen opening hours',
   image: {
     type: 'picture',
     contentUrl: 'https://s3-eu-west-1.amazonaws.com/static.wellcomecollection.org/daily-promo-images/wellcome-kitchen.jpg',
@@ -75,11 +71,26 @@ export const bookshopPromo: Promo = {
   title: 'Bookshop',
   url: 'http://bookshop.blackwell.co.uk/bookshop/wellcomeshop/',
   description: 'Come and browse a selection of our quirky gifts and books.',
-  moreInfoLink: '/visit-us/opening-hours',
-  metaText: 'Bookshop opening hours',
   image: {
     type: 'picture',
     contentUrl: 'https://s3-eu-west-1.amazonaws.com/static.wellcomecollection.org/daily-promo-images/wellcome-shop.jpg',
+    width: 408,
+    height: 229,
+    alt: ''
+  }
+};
+
+export const spiritBoothPromo: Promo = {
+  type: 'promo',
+  contentType: 'place',
+  title: 'S.P.I.R.I.T. Booth',
+  url: 'https://wellcomecollection.org/spiritbooth',
+  description: 'Get your psychic transparency revealed and captured.',
+  metaIcon: 'clock',
+  metaText: 'Open during gallery hours',
+  image: {
+    type: 'picture',
+    contentUrl: 'https://s3.eu-west-1.amazonaws.com/static.wellcomecollection.org/daily-promo-images/spirit-booth.png',
     width: 408,
     height: 229,
     alt: ''
