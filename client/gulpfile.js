@@ -142,7 +142,8 @@ gulp.task('scss:compileCritical', () => {
       browsers: [
         'last 2 versions',
         'iOS 8'
-      ]
+      ],
+      grid: false
     }))
     .pipe(devMode ? sourcemaps.write() : gutil.noop())
     .pipe(rename(function (path) {
