@@ -16,11 +16,18 @@
 <script type="application/ld+json">
   {{ event | jsonLd('eventLd') | safe }}
 </script>
-{# <div class="row">
-  <div class="container {{ {s:2} | spacingClasses({margin: ['top']}) }}">
-    {% componentV2 'tags', tags %}
-  </div>
-</div> #}
+
+{% macro discover() %}
+  <h2 class="{{- [
+    {s:'HNM4'} | fontClasses,
+    {s: 0, l: 5} | spacingClasses({margin: ['top']}),
+    {s: 2} | spacingClasses({margin: ['bottom']})
+    ].join(' ')}}">Discover more events like this</h2>
+    {% componentV2 'tags', [{
+        text: 'Events',
+        url: 'https://wellcomecollection.org/whats-on/events/all-events'
+      }] %}
+{% endmacro %}
 
 <div class="css-grid__container">
 
@@ -30,7 +37,7 @@
     </div>
   {% endif %}
 
-  <div class="css-grid">
+  <div class="css-grid {{ {l: 5} | spacingClasses({margin: ['top']}) }}">
 
     <div class="css-grid__cell--secondary">
       <div class="bg-cream rounded-diagonal {{ {s: 4} | spacingClasses({padding: ['top', 'bottom', 'left', 'right']}) }} relative {{ {s: -4, l: 0} | spacingClasses({margin: ['top']}) }}">
@@ -180,29 +187,29 @@
         </div>
       </div>
 
-      <div class="is-hidden-s is-hidden-m">
-        DISCOVER
+      <div class="is-hidden-s is-hidden-m {{ {l: 5} | spacingClasses({margin: ['top']}) }} {{ {s: 3, m: 4, l: 5, xl: 5} | spacingClasses({margin: ['bottom']}) }}">
+        {{ discover() }}
       </div>
     </div>
 
     <div class="css-grid__cell--primary">
       {% if event.promo.image %}
-        <div class="is-hidden-s is-hidden-m">
+        <div class="is-hidden-s is-hidden-m rounded-corners overflow-hidden">
           {% componentV2 'image', event.promo.image, {} , { lazyload: true } %}
         </div>
       {% endif %}
 
       <h2 class="{{- [
         {s:'HNM4'} | fontClasses,
-        {s: 0} | spacingClasses({margin: ['top']}),
+        {s: 0, l: 5} | spacingClasses({margin: ['top']}),
         {s: 1} | spacingClasses({margin: ['bottom']})
         ].join(' ')}}">What to expect?</h2>
-      <div class="{{ {s:'HNL4'} | fontClasses }}">
+      <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s: 3, m: 4, l: 5, xl: 5} | spacingClasses({margin: ['bottom']}) }}">
         {{ event.description | safe }}
       </div>
 
-      <div class="is-hidden-l is-hidden-xl">
-        DISCOVER
+      <div class="is-hidden-l is-hidden-xl {{ {l: 5} | spacingClasses({margin: ['top']}) }} {{ {s: 3, m: 4, l: 5, xl: 5} | spacingClasses({margin: ['bottom']}) }}">
+        {{ discover() }}
       </div>
     </div>
   </div>
