@@ -19,6 +19,25 @@
 
 .css-grid__cell--main {
   grid-column: main;
+  margin-left: auto;
+  margin-right: auto;
+
+  @each $label, $map in $grid-config {
+    $respond: map-get($map, 'respond');
+
+    @include respond-to(nth($respond, 1)) {
+      @if (nth($respond, 1) != 'xlarge') {
+        max-width: calc(100% - #{map-get($map, 'padding') * 2});
+      } @else {
+        max-width: #{$container-width-max - (map-get($map, 'padding') * 2)};
+      }
+    }
+  }
+
+  @supports(display: grid) {
+    margin: 0;
+    max-width: none;
+  }
 }
 
 .css-grid__cell--full {
