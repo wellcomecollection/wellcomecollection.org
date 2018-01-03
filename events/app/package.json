@@ -1,7 +1,8 @@
 {
   "scripts": {
     "app:build": "webpack",
-    "app:dev": "../../node_modules/.bin/nodemon -e js,njk,json --config ../../nodemon.json --exec babel-node --inspect=4002 app.js"
+    "app:dev": "../../node_modules/.bin/nodemon -e js,njk,json --config ../../nodemon.json --exec babel-node --inspect=4002 app.js",
+    "test": "jest"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
@@ -13,16 +14,11 @@
     "copy-webpack-plugin": "^4.2.3",
     "flow-runtime": "^0.16.0",
     "immutable": "^3.8.2",
+    "jest": "^22.0.4",
     "koa-router": "^7.3.0",
     "mkdirp": "^0.5.1",
     "node-sass": "^4.7.2",
     "supertest": "^3.0.0",
     "webpack": "^3.8.1"
-  },
-  "ava": {
-    "require": [
-      "babel-register"
-    ],
-    "babel": "inherit"
   }
 }
