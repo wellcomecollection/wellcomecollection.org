@@ -1,5 +1,6 @@
 .css-grid__container {
   @include clearfix;
+
   @supports(display: grid) {
     display: grid;
     grid-auto-rows: minmax(min-content, max-content);
@@ -14,140 +15,140 @@
       }
     }
   }
+}
 
-  .css-grid__cell--main {
-    grid-column: main;
-  }
+.css-grid__cell--main {
+  grid-column: main;
+}
 
-  .css-grid__cell--full {
-    grid-column: full;
-  }
+.css-grid__cell--full {
+  grid-column: full;
+}
 
-  @function grid-columns($primary-start: 1, $primary-end: 7, $secondary-start: 8, $secondary-end: 12, $columns: $totalColumns) {
+@function grid-columns($primary-start: 1, $primary-end: 7, $secondary-start: 8, $secondary-end: 12, $columns: $totalColumns) {
 
-    $column-string: '';
+  $column-string: '';
 
-    @for $i from 1 through $columns {
-      @if $i == $primary-start and $primary-start == $secondary-start {
-        $column-string: $column-string + '[primary-start secondary-start]';
-      } @else if $i == $primary-start {
-        $column-string: $column-string + '[primary-start]';
-      } @else if $i == $secondary-start and $primary-end == $secondary-start - 1 {
-        $column-string: $column-string + '[primary-end secondary-start]';
-      } @else if $i == $secondary-start {
-        $column-string: $column-string + '[secondary-start]';
-      }
-
-      $column-string: $column-string + ' 1fr ';
-
-      @if $i == $primary-end and $primary-end == $secondary-end {
-        $column-string: $column-string + '[primary-end secondary-end]';
-      } @else if $i == $primary-end and $primary-end != $secondary-start - 1 {
-        $column-string: $column-string + '[primary-end]';
-      } @else if $i == $secondary-end {
-        $column-string: $column-string + '[secondary-end]';
-      }
+  @for $i from 1 through $columns {
+    @if $i == $primary-start and $primary-start == $secondary-start {
+      $column-string: $column-string + '[primary-start secondary-start]';
+    } @else if $i == $primary-start {
+      $column-string: $column-string + '[primary-start]';
+    } @else if $i == $secondary-start and $primary-end == $secondary-start - 1 {
+      $column-string: $column-string + '[primary-end secondary-start]';
+    } @else if $i == $secondary-start {
+      $column-string: $column-string + '[secondary-start]';
     }
 
-    @return $column-string;
+    $column-string: $column-string + ' 1fr ';
+
+    @if $i == $primary-end and $primary-end == $secondary-end {
+      $column-string: $column-string + '[primary-end secondary-end]';
+    } @else if $i == $primary-end and $primary-end != $secondary-start - 1 {
+      $column-string: $column-string + '[primary-end]';
+    } @else if $i == $secondary-end {
+      $column-string: $column-string + '[secondary-end]';
+    }
   }
 
-  .css-grid {
-    // non grid fallback
-    margin-left: auto;
-    margin-right: auto;
+  @return $column-string;
+}
+
+.css-grid {
+  // non grid fallback
+  margin-left: auto;
+  margin-right: auto;
+
+  @each $label, $map in $grid-config {
+    $respond: map-get($map, 'respond');
+
+    @include respond-to(nth($respond, 1)) {
+      @if (nth($respond, 1) != 'xlarge') {
+        max-width: calc(100% - #{map-get($map, 'padding') * 2});
+      } @else {
+        max-width: #{$container-width-max - (map-get($map, 'padding') * 2)};
+      }
+    }
+  }
+  // end non grid fallback
+
+  @supports(display: grid) {
+    max-width: none;
+    position: relative;
+    grid-column: main;
+    grid-auto-rows: minmax(0, auto);
+    display: grid;
 
     @each $label, $map in $grid-config {
       $respond: map-get($map, 'respond');
+      $gutter: map-get($map, 'gutter');
+      $primary-start: map-get($map, 'primaryStart');
+      $primary-end: map-get($map, 'primaryEnd');
+      $secondary-start: map-get($map, 'secondaryStart');
+      $secondary-end: map-get($map, 'secondaryEnd');
+      $columns: map-get($map, 'columns');
+
+      $columns-string: grid-columns($primary-start, $primary-end, $secondary-start, $secondary-end, $columns);
 
       @include respond-to(nth($respond, 1)) {
-        @if (nth($respond, 1) != 'xlarge') {
-          max-width: calc(100% - #{map-get($map, 'padding') * 2});
-        } @else {
-          max-width: #{$container-width-max - (map-get($map, 'padding') * 2)};
-        }
-      }
-    }
-    // end non grid fallback
-
-    @supports(display: grid) {
-      max-width: none;
-      position: relative;
-      grid-column: main;
-      grid-auto-rows: minmax(0, auto);
-      display: grid;
-
-      @each $label, $map in $grid-config {
-        $respond: map-get($map, 'respond');
-        $gutter: map-get($map, 'gutter');
-        $primary-start: map-get($map, 'primaryStart');
-        $primary-end: map-get($map, 'primaryEnd');
-        $secondary-start: map-get($map, 'secondaryStart');
-        $secondary-end: map-get($map, 'secondaryEnd');
-        $columns: map-get($map, 'columns');
-
-        $columns-string: grid-columns($primary-start, $primary-end, $secondary-start, $secondary-end, $columns);
-
-        @include respond-to(nth($respond, 1)) {
-          grid-column-gap: $gutter;
-          grid-row-gap: $gutter;
-          grid-template-columns: unquote($columns-string);
-        }
+        grid-column-gap: $gutter;
+        grid-row-gap: $gutter;
+        grid-template-columns: unquote($columns-string);
       }
     }
   }
+}
 
-  @each $key, $list in $grid-config {
-    $columns: map-get($list, 'columns');
-    $respond: map-get($list, 'respond');
+@each $key, $list in $grid-config {
+  $columns: map-get($list, 'columns');
+  $respond: map-get($list, 'respond');
 
-    @if (length($respond) > 1) {
-      $lower: nth($respond, 1);
-      $higher: nth($respond, 2);
+  @if (length($respond) > 1) {
+    $lower: nth($respond, 1);
+    $higher: nth($respond, 2);
 
-      @include respond-between($lower, $higher) {
-        @include css-grid-cells($columns, $key);
-      }
-    } @else {
-      @include respond-to($respond) {
-        @include css-grid-cells($columns, $key);
-      }
+    @include respond-between($lower, $higher) {
+      @include css-grid-cells($columns, $key);
+    }
+  } @else {
+    @include respond-to($respond) {
+      @include css-grid-cells($columns, $key);
     }
   }
+}
 
-  .css-grid__cell--primary {
-    grid-column: primary;
-    margin-bottom: map-get($gutter-width, 'large'); // non grid fallback
+.css-grid__cell--primary {
+  grid-column: primary;
+  margin-bottom: map-get($gutter-width, 'large'); // non grid fallback
 
-    @include respond-to('large') {
-      float: left;
-      width: percentage(7/12); // non grid fallback
-      padding-right: map-get($gutter-width, 'large')/2; // non grid fallback
-    }
-
-    @supports(display: grid) {
-      width: auto;
-      padding: 0;
-      margin: 0;
-    }
+  @include respond-to('large') {
+    float: left;
+    width: percentage(7/12); // non grid fallback
+    padding-right: map-get($gutter-width, 'large')/2; // non grid fallback
   }
 
-  .css-grid__cell--secondary {
-    grid-column: secondary;
-    margin-bottom: map-get($gutter-width, 'large'); // non grid fallback
+  @supports(display: grid) {
+    width: auto;
+    padding: 0;
+    margin: 0;
+  }
+}
 
-    @include respond-to('large') {
-      order: 1;
-      float: right; // non grid fallback
-      width: percentage(5/12); // non grid fallback
-      padding-left: map-get($gutter-width, 'large')/2; // non grid fallback
-    }
+.css-grid__cell--secondary {
+  grid-column: secondary;
+  margin-bottom: map-get($gutter-width, 'large'); // non grid fallback
 
-    @supports(display: grid) {
-      width: auto;
-      padding: 0;
-      margin: 0;
-    }
+  @include respond-to('large') {
+    order: 1;
+    float: right; // non grid fallback
+    width: percentage(5/12); // non grid fallback
+    padding-left: map-get($gutter-width, 'large')/2; // non grid fallback
+  }
+
+  @supports(display: grid) {
+    width: auto;
+    padding: 0;
+    margin: 0;
   }
 }
 
