@@ -9,7 +9,6 @@ export async function isValidStructuredData(html: string) {
     method: 'POST',
     body: form
   });
-  console.info(response.status)
   const text = await response.text();
   const validatorJsonResponse = JSON.parse(text.substring(4));
 
