@@ -2,7 +2,8 @@
   "scripts": {
     "app:build": "webpack",
     "app:dev": "../../node_modules/.bin/nodemon -e js,njk,json --config ../../nodemon.json --exec babel-node --inspect=4002 app.js",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
@@ -14,6 +15,7 @@
     "copy-webpack-plugin": "^4.2.3",
     "flow-runtime": "^0.16.0",
     "immutable": "^3.8.2",
+    "isomorphic-unfetch": "^2.0.0",
     "jest": "^22.0.4",
     "koa-router": "^7.3.0",
     "mkdirp": "^0.5.1",
