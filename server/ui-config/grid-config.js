@@ -16,10 +16,10 @@ const gridConfig = {
     padding: containerPadding.medium,
     gutter: gutterWidth.medium,
     columns: 12,
-    primaryStart: 1,
-    primaryEnd: 12,
-    secondaryStart: 1,
-    secondaryEnd: 12,
+    primaryStart: 2,
+    primaryEnd: 11,
+    secondaryStart: 2,
+    secondaryEnd: 11,
     respond: ['medium', 'large']
   },
   l: {

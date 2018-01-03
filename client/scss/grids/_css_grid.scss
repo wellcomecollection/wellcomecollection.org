@@ -23,6 +23,10 @@
     }
   }
 
+  .css-grid__cell--main {
+    grid-column: main;
+  }
+
   .css-grid__cell--full {
     grid-column: full;
   }
