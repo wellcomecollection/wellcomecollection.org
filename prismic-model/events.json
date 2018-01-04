@@ -77,7 +77,8 @@
       "config" : {
         "label" : "Booking enquiry team",
         "select" : "document",
-        "customtypes" : [ "teams" ]
+        "customtypes" : [ "teams" ],
+        "tags" : [ "events" ]
       }
     },
     "eventbriteEvent" : {
