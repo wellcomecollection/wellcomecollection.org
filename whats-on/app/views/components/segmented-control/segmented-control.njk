@@ -32,7 +32,7 @@
             {s:3} | spacingClasses({padding: ['top', 'bottom']}),
             'border-top-width-1' if loop.first
           ].join(' ') }} segmented-control__drawer-item border-bottom-width-1 border-color-smoke">
-            <a href="{{ item.url }}" class="segmented-control__drawer-link block plain-link {{ 'js-trap-reverse-start' if loop.last }}  {{'js-proxy-tablink' if data.isTabControl }}">
+            <a href="{{ item.url }}" class="js-segmented-control__drawer-link segmented-control__drawer-link block plain-link {{ 'js-trap-reverse-start' if loop.last }}  {{'js-proxy-tablink' if data.isTabControl }}">
               {{ item.title }}
             </a>
           </li>
