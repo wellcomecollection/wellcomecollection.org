@@ -273,7 +273,6 @@ export async function getPaginatedExhibitionPromos(page: number): Promise<Array<
   return paginatedResults(promos);
 }
 
-// TODO flowtype
 function datesOverlapRange (eventStartDate, eventEndDate, rangeStartDate, rangeEndDate) {
   if (rangeStartDate && rangeEndDate) {
     const eventStart = london(eventStartDate);
@@ -286,7 +285,6 @@ function datesOverlapRange (eventStartDate, eventEndDate, rangeStartDate, rangeE
   }
 }
 
-// TODO flowtype
 function filterPromosByDate(promos, startDate, endDate) {
   return promos.filter(e => datesOverlapRange(e.start, e.end, startDate, endDate));
 }
@@ -303,7 +301,6 @@ function getActiveState(today, range) {
   }
 };
 
-// TODO flowtype
 function groupPromosByMonth(promos) {
   return promos.reduce((acc, currEvent) => { // TODO tidy this DRY
     const start = london(currEvent.start);
@@ -336,7 +333,6 @@ function groupPromosByMonth(promos) {
   }, {});
 }
 
-// TODO flowtype
 export async function getExhibitionAndEventPromos(queryDates) {
   const todaysDate = london();
   const dateRange = queryDates && queryDates.split('|');
@@ -352,6 +348,17 @@ export async function getExhibitionAndEventPromos(queryDates) {
   const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => e.end), fromDate, toDate);
   const eventPromos = filterPromosByDate(createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')), fromDate, toDate);
   const eventPromosGroupedByMonth = groupPromosByMonth(eventPromos);
+  const monthControls = Object.keys(eventPromosGroupedByMonth).reduce((acc, year) => {
+    Object.keys(eventPromosGroupedByMonth[year]).forEach((month) => {
+      const controlObject = {
+        id: `${year}-${month}`,
+        title: month,
+        url: `#${month}-${year}`
+      };
+      acc.push(controlObject);
+    });
+    return acc;
+  }, []);
 
   const dates = {
     today: todaysDate.format('YYYY-MM-DD'),
@@ -366,11 +373,11 @@ export async function getExhibitionAndEventPromos(queryDates) {
     permanentExhibitionPromos,
     temporaryExhibitionPromos,
     eventPromos,
-    eventPromosGroupedByMonth
+    eventPromosGroupedByMonth,
+    monthControls
   };
 }
 
-// TODO flowtype
 function getWeekendFromDate(today) {
   const todayInteger = today.day(); // day() return Sun as 0, Sat as 6
   if (todayInteger !== 0) {
@@ -380,7 +387,6 @@ function getWeekendFromDate(today) {
   }
 }
 
-// TODO flowtype
 function getWeekendToDate(today) {
   const todayInteger = today.day(); // day() return Sun as 0, Sat as 6
   if (todayInteger === 0) {
