@@ -31,12 +31,8 @@ export async function renderWhatsOn(ctx, next) {
     }),
     todayOpeningHours,
     exhibitionAndEventPromos,
-    readingRoomPromo,
-    cafePromo,
-    libraryPromo,
-    restaurantPromo,
-    bookshopPromo,
-    spiritBoothPromo
+    whileVisitPromos: [libraryPromo, readingRoomPromo, spiritBoothPromo],
+    eatShopPromos: [cafePromo, restaurantPromo, bookshopPromo]
   });
 
   return next();
