@@ -1,6 +1,6 @@
 import supertest from 'supertest';
 import {app} from '../setup-app';
-import {isValidStructuredData} from 'common/test/structured-data-testing-tool';
+import {isValidStructuredData} from 'common/test/_structured-data-testing-tool';
 
 const server = app.listen();
 const request = supertest.agent(server);
