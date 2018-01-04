@@ -171,6 +171,7 @@ export const search = async (ctx, next) => {
       title: query ? `Collections search: ${query}` : 'Collections search',
       path: path,
       inSection: 'images',
+      category: 'collections',
       canonicalUri: `${ctx.globals.rootDomain}/works`
     }),
     resultsList,
