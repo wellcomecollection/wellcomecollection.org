@@ -19,7 +19,7 @@ const toggleTruncate = function(isTruncated, control, className) {
 
 const hasBeenEllipsified = (e) => {
   return fastdom.measure(() => {
-    return (e.scrollWidth > e.offsetWidth);
+    return (e.scrollWidth >= e.offsetWidth);
   });
 };
 
