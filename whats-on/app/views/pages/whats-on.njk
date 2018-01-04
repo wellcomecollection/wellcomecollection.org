@@ -1,8 +1,10 @@
 {% extends 'layout/default.njk' %}
 
 {% block pageMeta %}
-
+  {# TODO #}
 {% endblock %}
+
+{# TODO json-ld #}
 
 {% block body %}
   {# TODO move to controller ? #}
@@ -31,89 +33,9 @@
       <p class="{{ {s:'HNM4', m:'HNM4'} | fontClasses }} {{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}"><time datetime="{{ fromDate }}">{{ fromDate | formatDate }}</time>{%- if isMoreThanOneDay -%}&ndash;<time datetime="{{ toDate }}">{{ toDate | formatDate }}</time>{%- endif -%}</p>
 
       {% if exhibitionAndEventPromos.active === 'everything' %}
-        {# TODO use include  separate #}
-
-        <h2 class="{{ {s:'WB4'} | fontClasses }} {{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">Exhibitions</h2>
-
-        {% for exhibition in exhibitionAndEventPromos.temporaryExhibitionPromos %}
-          <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">
-            {% componentV2 'exhibition-promo', exhibition %}
-          </div>
-        {% endfor %}
-
-        {% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
-          <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">
-            {% componentV2 'exhibition-promo', exhibition %}
-          </div>
-        {% endfor %}
-
-        <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }}">
-          {% componentV2 'more-info-link', {name: 'View all exhibitions', url: '/exhibitions'} %}
-        </div>
-
-        <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }}">
-          {% componentV2 'divider', null, {'dashed': true} %}
-        </div>
-        <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }}">
-          <h2 class="{{ {s:'WB4'}  | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">Events</h2>
-        </div>
-
-        <div class="js-tabs tabs {{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }}">
-          {% componentV2 'segmented-control', exhibitionAndEventPromos.monthControls, null, {id: 'monthControls', isTabControl: true, activeId: '2017-December'} %}
-          <ul class="js-tablist tablist">
-            {% for yearKey, year in exhibitionAndEventPromos.eventPromosGroupedByMonth %}
-              {% for monthKey, month in year %}
-                <li class="js-tabitem tabitem">
-                  <a class="js-tablink tablink" href="#{{monthKey}}-{{yearKey}}">{{ monthKey }}</a>
-                </li>
-              {% endfor %}
-            {% endfor %}
-          </ul>
-          {% for yearKey, year in exhibitionAndEventPromos.eventPromosGroupedByMonth %}
-            {% for monthKey, month in year %}
-              <div class="js-tabpanel tabpanel {{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }}">
-                <div class="css-grid">
-                  <h2 id="{{monthKey}}-{{yearKey}}" class="js-tabfocus tabfocus {{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }}">{{monthKey}}</h2>
-                  {% for event in month %}
-                    <div class="{{ {s: 12, m: 6, l: 3, xl:3} | cssGridClasses }}">
-                      {% componentV2 'event-promo', event %}
-                    </div>
-                  {% endfor %}
-                </div>
-              </div>
-            {% endfor %}
-          {% endfor %}
-        </div>
-
-        <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }}">
-          {% componentV2 'more-info-link', {name: 'View all events', url: '/events'} %}
-        </div>
-
+        {% include 'partials/separate_exhibition_event_promos.njk' %}
       {% else %}
-        {# TODO use include  mixed #}
-        <h2 class="{{ {s:'WB4'} | fontClasses }} {{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">Exhibitions and Events</h2>
-
-        {% for exhibition in exhibitionAndEventPromos.temporaryExhibitionPromos %}
-          <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">
-            {% componentV2 'exhibition-promo', exhibition %}
-          </div>
-        {% endfor %}
-        {% for event in exhibitionAndEventPromos.eventPromos %}
-          <div class="{{ {s: 12, m: 6, l: 3, xl:3} | cssGridClasses }}">
-            {% componentV2 'event-promo', event %}
-          </div>
-        {% endfor %}
-        {% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
-          <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">
-            {% componentV2 'exhibition-promo', exhibition %}
-          </div>
-        {% endfor %}
-        <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }}">
-          {% componentV2 'more-info-link', {name: 'View all exhibitions', url: '/exhibitions'} %}
-          <br>
-          {% componentV2 'more-info-link', {name: 'View all events', url: '/events'} %}
-        </div>
-
+        {% include 'partials/mixed_exhibition_event_promos.njk' %}
       {% endif %}
 
       {% macro permanentPromos(heading, promos) %}
@@ -133,6 +55,7 @@
       {% endmacro %}
 
       {{ permanentPromos('While you visit', whileVisitPromos) }}
+
       {{ permanentPromos('Eat and shop', eatShopPromos) }}
 
     </div>
