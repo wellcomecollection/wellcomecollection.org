@@ -49,7 +49,7 @@
 
         {% for promo in promos %}
           <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">
-            {% componentV2 'exhibition-promo', promo %}
+    {% componentV2 'exhibition-promo', promo, {}, {sizes: '(min-width: 1420px) 475px, (min-width: 960px) 34.32vw, (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'} %}
           </div>
         {% endfor %}
       {% endmacro %}

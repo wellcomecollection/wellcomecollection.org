@@ -1,6 +1,11 @@
+{% if data.sizes %}
+  {% set sizes = data.sizes %}
+{% else %}
+  {% set sizes = '100vw' %}
+{% endif %}
 <a id="{{ model.id }}" href="{{ model.url }}" class="block plain-link {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
   <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }} rounded-corners overflow-hidden">
-    {% componentV2 'image', model.image, {}, {lazyload: true, defaultSize: data.defaultSize} %}
+    {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
   </div>
   <div class="{{ {s:'HNM5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
     {% if model.format.shortName %}
