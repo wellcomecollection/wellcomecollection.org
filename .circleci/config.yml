@@ -307,7 +307,6 @@ workflows:
             branches:
               only:
                 - master
-                - use_circleci_node_containers
       - build_events_webapp:
           requires:
             - checkout_code
