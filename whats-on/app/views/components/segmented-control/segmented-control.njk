@@ -32,7 +32,7 @@
             {s:3} | spacingClasses({padding: ['top', 'bottom']}),
             'border-top-width-1' if loop.first
           ].join(' ') }} segmented-control__drawer-item border-bottom-width-1 border-color-smoke">
-            <a href="{{ item.url }}" class="segmented-control__drawer-link block plain-link {{ 'js-trap-reverse-start' if loop.last }}">
+            <a href="{{ item.url }}" class="segmented-control__drawer-link block plain-link {{ 'js-trap-reverse-start' if loop.last }}  {{'js-proxy-tablink' if data.isTabControl }}">
               {{ item.title }}
             </a>
           </li>
@@ -41,17 +41,17 @@
       <span class="visually-hidden js-trap-end">reset focus</span>
     </div>
   </div>
-  <ul class="segmented-control__list no-margin no-padding plain-list border-width-1 border-color-black rounded-diagonal overflow-hidden">
+  <ul class="segmented-control__list no-margin no-padding plain-list border-width-1 border-color-black rounded-diagonal overflow-hidden {{'js-tablist' if data.isTabControl }}">
     {% for item in model %}
       <li class="{{- [
         {s:'WB7'} | fontClasses,
         'border-right-width-1 border-right-color-black' if not loop.last
-      ].join(' ') }} segmented-control__item line-height-1 flex">
+      ].join(' ') }} segmented-control__item line-height-1 flex {{'js-tabitem' if data.isTabControl }}">
         <a href="{{ item.url }}"
           class="{{- [
             {s:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}),
             'is-active smooth-font bg-black font-white bg-hover-pewter' if item.id === data.activeId else 'bg-white font-black bg-hover-pumice'
-          ].join(' ') }} block plain-link segmented-control__link transition-bg no-visible-focus">
+          ].join(' ') }} block plain-link segmented-control__link transition-bg no-visible-focus {{'js-tablink' if data.isTabControl }}">
           {{ item.title }}
         </a>
       </li>

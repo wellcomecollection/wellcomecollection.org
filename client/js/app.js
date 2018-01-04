@@ -66,7 +66,7 @@ const init = () => {
   const viewersFullscreen = document.querySelectorAll('.js-image-viewer');
   const infoBannerEls = document.querySelectorAll('.js-info-banner');
   const segmentedControlEls = document.querySelectorAll('.js-segmented-control');
-  const eventsFilter = document.querySelectorAll('.js-tabs'); // TODO proper name and selector
+  const eventsFilter = document.querySelectorAll('.js-events-filter');
 
   nodeList(segmentedControlEls).forEach(segmentedControl);
 
