@@ -19,7 +19,7 @@
     ]
    } %}
 
-  {% set whatsOnData = {activeId: exhibitionAndEventPromos.active } %}
+  {% set whatsOnData = {activeId: exhibitionAndEventPromos.active, id: 'whatsOnFilter' } %}
   {% componentV2 'whats-on-list-header', whatsOnModel, {}, whatsOnData %}
 
   <div class="css-grid__container">

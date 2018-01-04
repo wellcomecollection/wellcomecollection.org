@@ -11,7 +11,7 @@ export default (el) => {
   function init() {
     setFullPageAria(isTriggerVisible());
     fastdom.mutate(() => {
-      fullPage.trigger.setAttribute('aria-controls', 'segmented-control-drawer');
+      fullPage.trigger.setAttribute('aria-controls', fullPage.drawer.id);
     });
     handleEvents();
   }
