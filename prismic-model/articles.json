@@ -192,7 +192,7 @@
                 "type" : "StructuredText",
                 "config" : {
                   "label" : "Description",
-                  "single" : "strong, em, hyperlink"
+                  "multi" : "paragraph, hyperlink, bold, em"
                 }
               }
             }
