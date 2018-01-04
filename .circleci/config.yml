@@ -86,7 +86,7 @@ jobs:
       - run:
           name: Deploy
           command: |
-            docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+            docker login --username $DOCKER_USER --password $DOCKER_PASS
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/exhibitions_webapp.yml build
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/exhibitions_webapp.yml push
   build_events_webapp:
@@ -130,7 +130,7 @@ jobs:
       - run:
           name: Deploy
           command: |
-            docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+            docker login --username $DOCKER_USER --password $DOCKER_PASS
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/events_webapp.yml build
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/events_webapp.yml push
   build_eventbrite_webapp:
@@ -174,7 +174,7 @@ jobs:
       - run:
           name: Deploy
           command: |
-            docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+            docker login --username $DOCKER_USER --password $DOCKER_PASS
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/eventbrite_webapp.yml build
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/eventbrite_webapp.yml push
   build_common_webapp:
@@ -235,7 +235,7 @@ jobs:
       - run:
           name: Deploy
           command: |
-            docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+            docker login --username $DOCKER_USER --password $DOCKER_PASS
             python ./.circleci/deploy_and_build_docker.py './' 'wellcome/wellcomecollection' $CIRCLE_SHA1
             python ./.circleci/deploy_and_build_docker.py './nginx-proxy' 'wellcome/wellcomecollection-nginx-proxy' $CIRCLE_SHA1
             python ./.circleci/deploy_and_build_docker.py './router' 'wellcome/wellcomecollection-router' $CIRCLE_SHA1
