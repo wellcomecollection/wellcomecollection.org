@@ -1,6 +1,5 @@
 {% extends 'layout/default.njk' %}
 
-
 {% set metaContent = {
   type: 'website',
   title: "What's On",
@@ -14,7 +13,6 @@
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
   <meta name="description" content="{{ metaContent.description }}" />
 {% endblock %}
-
 
 {% block body %}
    <script type="application/ld+json">
@@ -32,7 +30,6 @@
       {{ exhib | jsonLd('exhibitionLd') | safe }}{{ ',' if not loop.last }}
     {% endfor %}]
   </script>
-
 
   {# TODO move to controller ? #}
   {% set todayDateString = exhibitionAndEventPromos.dates.today + '|' + exhibitionAndEventPromos.dates.today %}
@@ -65,7 +62,7 @@
         {% include 'partials/mixed_exhibition_event_promos.njk' %}
       {% endif %}
 
-      {% macro permanentPromos(heading, promos) %}
+      {% macro permanentPromos(heading, promos, size) %}
         <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }}">
           {% componentV2 'divider', null, {'dashed': true} %}
         </div>
@@ -74,16 +71,22 @@
           <h2 class="{{ {s:'WB4'}  | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{heading}}</h2>
         </div>
 
+        {% if size === 'large' %}
+          {% set gridClasses = {s: 12, m: 6, l: 6, xl:6} | cssGridClasses %}
+        {% else %}
+          {% set gridClasses = {s: 12, m: 6, l: 3, xl:3} | cssGridClasses %}
+        {% endif %}
+
         {% for promo in promos %}
-          <div class="{{ {s: 12, m: 6, l: 6, xl:6} | cssGridClasses }}">
-    {% componentV2 'exhibition-promo', promo, {}, {sizes: '(min-width: 1420px) 475px, (min-width: 960px) 34.32vw, (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'} %}
+          <div class="{{gridClasses}}">
+            {% componentV2 'exhibition-promo', promo, {}, {sizes: '(min-width: 1420px) 475px, (min-width: 960px) 34.32vw, (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'} %}
           </div>
         {% endfor %}
       {% endmacro %}
 
-      {{ permanentPromos('While you visit', whileVisitPromos) }}
+      {{ permanentPromos('While you visit', whileVisitPromos, 'large') }}
 
-      {{ permanentPromos('Eat and shop', eatShopPromos) }}
+      {{ permanentPromos('Eat and shop', eatShopPromos, 'small') }}
 
     </div>
   </div>
