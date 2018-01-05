@@ -1,5 +1,6 @@
 import type {EventPromo} from '../content-model/events';
 import {wellcomeCollection, wellcomeCollectionAddress} from '../model/organization';
+import {convertImageUri} from '../filters/convert-image-uri';
 
 export function objToJsonLd<T>(obj: T, type: string, root: boolean = true) {
   const jsonObj = JSON.parse(JSON.stringify(obj));
@@ -26,7 +27,7 @@ export function exhibitionLd(content) {
   return objToJsonLd({
     name: content.title,
     description: content.safeDescription.val,
-    image: content.featuredImage && content.featuredImage.contentUrl,
+    image: content.featuredImage && convertImageUri(content.featuredImage.contentUrl, 1920, false),
     location: {
       '@type': 'Place',
       name: 'Wellcome Collection',
@@ -93,7 +94,7 @@ export function eventLd(eventAtTime: EventPromo) {
     startDate: eventAtTime.start,
     endDate: eventAtTime.end,
     description: eventAtTime.description,
-    image: eventAtTime.image && eventAtTime.image.contentUrl
+    image: eventAtTime.image && convertImageUri(eventAtTime.image.contentUrl, 1920, false)
   }, 'Event');
 }
 
