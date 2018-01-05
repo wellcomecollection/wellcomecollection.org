@@ -3,7 +3,7 @@
 {% else %}
   {% set sizes = '100vw' %}
 {% endif %}
-<a id="{{ model.id }}" href="{{ model.url }}" class="block plain-link {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
+<a id="{{ model.id }}" href="{{ model.url }}" class="block plain-link">
   <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }} rounded-corners overflow-hidden">
     {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
   </div>

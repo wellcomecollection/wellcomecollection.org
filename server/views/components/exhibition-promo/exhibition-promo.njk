@@ -3,7 +3,7 @@
 {% else %}
   {% set sizes = '100vw' %}
 {% endif %}
-<a id="{{model.id}}" href="{{ model.url }}" class="exhibition-promo {{ {s:3} | spacingClasses({padding: ['bottom']}) }}">
+<a id="{{model.id}}" href="{{ model.url }}" class="exhibition-promo">
   <div class="exhibition-promo__image-container rounded-corners">
     <div class="exhibition-promo__label">
       {% componentV2 'tags', [{text: 'Exhibition'}] %}
