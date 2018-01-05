@@ -41,7 +41,7 @@ export const renderArticle = async(ctx, next) => {
 export async function setPreviewSession(ctx, next) {
   const {token} = ctx.request.query;
   ctx.cookies.set(Prismic.previewCookie, token, {
-    maxAge: 60 * 30 * 1000,
+    maxAge: 24 * 60 * 60 * 1000,
     path: '/',
     httpOnly: false
   });
