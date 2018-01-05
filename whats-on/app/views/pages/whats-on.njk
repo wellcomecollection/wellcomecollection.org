@@ -49,7 +49,7 @@
   {% componentV2 'whats-on-list-header', whatsOnModel, {}, whatsOnData %}
 
   <div class="css-grid__container">
-    <div class="css-grid {{ {s:2, m:4} | spacingClasses({margin: ['top']}) }}">
+    <div class="css-grid {{ {s:2, m:4} | spacingClasses({margin: ['top', 'bottom']}) }}">
 
       {% set fromDate = exhibitionAndEventPromos.dates.queriedDates[0] %}
       {% set toDate = exhibitionAndEventPromos.dates.queriedDates[1] %}
