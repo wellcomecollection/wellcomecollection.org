@@ -168,9 +168,9 @@ export async function getSeriesAndArticles(cookies, {id, page = 1} = {}) {
   }
 }
 
-export async function getCuratedList(id: string) {
+export async function getCuratedList(cookies, {id}) {
   const fetchLinks = seriesFields;
-  const prismic = await prismicApi();
+  const prismic = await getPrismic(cookies);
   const curatedLists = await prismic.query([
     Prismic.Predicates.at('my.curated-lists.uid', id),
     Prismic.Predicates.at('document.type', 'curated-lists')

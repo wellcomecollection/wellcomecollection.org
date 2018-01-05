@@ -13,6 +13,7 @@ function periodicallyUpdatePrismic() {
 }
 
 export async function getPrismic(cookies) {
+  console.info(`New prismic getter being used for ${cookies.request.url}`);
   const previewCookie = cookies.get(Prismic.previewCookie);
 
   const api = previewCookie ? await Prismic.getApi(apiUri, {req: cookies.request})
