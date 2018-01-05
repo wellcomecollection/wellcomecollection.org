@@ -242,7 +242,7 @@ jobs:
             ./build-speedtracker.sh
   deploy_assets:
       docker:
-        - image: circleci/node:8.9.3
+        - image: node:8.9.3
       working_directory: ~/wellcomecollection.org/dist
       steps:
         - restore_cache:
@@ -262,7 +262,7 @@ jobs:
               aws s3 sync --only-show-errors . s3://i.wellcomecollection.org
   deploy_cardigan:
     docker:
-      - image: circleci/node:8.9.3
+      - image: node:8.9.3
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
