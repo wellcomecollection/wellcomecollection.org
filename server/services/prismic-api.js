@@ -14,7 +14,7 @@ function periodicallyUpdatePrismic() {
 
 export async function getPrismic(cookies) {
   const previewCookie = cookies.get(Prismic.previewCookie);
-  
+
   const api = previewCookie ? await Prismic.getApi(apiUri, {req: cookies.request})
     : !memoizedPrismic ? await Prismic.getApi(apiUri)
     : memoizedPrismic;

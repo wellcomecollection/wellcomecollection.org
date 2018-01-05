@@ -117,10 +117,10 @@ export async function getArticleList(cookies, {page = 1, pageSize = 10, predicat
   }: PaginatedResults);
 }
 
-export async function getArticleSeries(seriesId) {
-  const prismic = await prismicApi();
+export async function getArticleSeries(cookies, {id}) {
+  const prismic = await getPrismic(cookies);
 
-  const series = await prismic.getByID(seriesId);
+  const series = await prismic.getByID(id);
 
   const schedule = series.data.schedule.map(a => {
     return Object.assign({}, a, {title: asText(a.title)});
@@ -129,7 +129,7 @@ export async function getArticleSeries(seriesId) {
   const articlesSchedule = Object.assign({}, series.data, {schedule});
 
   const publishedFromSeries = await prismic.query([
-    Prismic.Predicates.at('my.articles.series.series', seriesId)
+    Prismic.Predicates.at('my.articles.series.series', id)
   ]);
 
   const scheduleItems = articlesSchedule.schedule.map(articleInSchedule => {
@@ -153,7 +153,7 @@ export async function getArticleSeries(seriesId) {
     description: articlesSchedule.description,
     color: articlesSchedule.color,
     commissionedLength: articlesSchedule.commisionedLength
-  }, {items: List(scheduleItems)}, {id: seriesId});
+  }, {items: List(scheduleItems)}, {id: id});
 }
 
 export async function getSeriesAndArticles(cookies, {id, page = 1} = {}) {

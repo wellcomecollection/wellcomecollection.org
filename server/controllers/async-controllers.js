@@ -12,7 +12,7 @@ import {getArticleSeries} from '../services/prismic';
 const getSeriesData = async(ctx) => {
   const {id} = ctx.params;
   const seriesResponse = await getSeries(id, 6, 1);
-  const series = seriesResponse ? getForwardFill(seriesResponse) : await getArticleSeries(id);
+  const series = seriesResponse ? getForwardFill(seriesResponse) : await getArticleSeries(ctx.cookies, {id});
   const promoList = PromoListFactory.fromSeries(series);
   const items = promoList.items.toJS();
   const image =  items[0].image;

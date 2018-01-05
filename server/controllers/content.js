@@ -1,6 +1,6 @@
 import Prismic from 'prismic-javascript';
 import {List} from 'immutable';
-import {prismicApi} from '../services/prismic-api';
+import {getPrismic, prismicApi} from '../services/prismic-api';
 import {createPageConfig, getEditorialAnalyticsInfo} from '../model/page-config';
 import {getEventbriteEventEmbed} from '../services/eventbrite';
 import {PromoFactory} from '../model/promo';
@@ -51,7 +51,7 @@ export async function setPreviewSession(ctx, next) {
 }
 
 async function getPreviewSession(ctx, token) {
-  const prismic = await prismicApi();
+  const prismic = await getPrismic(ctx.cookies);
 
   return new Promise((resolve, reject) => {
     prismic.previewSession(token, (doc) => {
