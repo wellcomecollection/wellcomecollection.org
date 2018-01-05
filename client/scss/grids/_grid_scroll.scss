@@ -1,11 +1,14 @@
-.grid--scroll {
+.grid--scroll,
+.css-grid.grid--scroll {
   @include respond-between('small', 'medium') {
     margin-left: 0;
+    display: flex;
     flex-wrap: nowrap;
     padding-left: map-get($container-padding, 'small');
     padding-right: map-get($container-padding, 'small');
 
-    .grid__cell {
+    .grid__cell,
+    .css-grid__cell {
       flex: 1;
       min-width: 66.6666vw;
       padding-left: 0;

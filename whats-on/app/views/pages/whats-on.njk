@@ -71,23 +71,27 @@
           <h2 class="{{ {s:'WB4'}  | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{heading}}</h2>
         </div>
 
-        {% if size === 'large' %}
-          {% set gridClasses = {s: 12, m: 6, l: 6, xl:6} | cssGridClasses %}
-        {% else %}
-          {% set gridClasses = {s: 12, m: 6, l: 3, xl:3} | cssGridClasses %}
-        {% endif %}
+        <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }} css-grid__scroll-container">
+          <div class="css-grid grid--scroll">
+            {% if size === 'large' %}
+              {% set gridClasses = {s: 12, m: 6, l: 6, xl:6} | cssGridClasses %}
+            {% else %}
+              {% set gridClasses = {s: 12, m: 6, l: 3, xl:3} | cssGridClasses %}
+            {% endif %}
 
-        {% for promo in promos %}
-          <div class="{{gridClasses}}">
-            {% componentV2 'exhibition-promo', promo, {}, {sizes: '(min-width: 1420px) 475px, (min-width: 960px) 34.32vw, (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'} %}
+            {% for promo in promos %}
+              <div class="{{gridClasses}}">
+                {% componentV2 'exhibition-promo', promo, {}, {sizes: '(min-width: 1420px) 475px, (min-width: 960px) 34.32vw, (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'} %}
+              </div>
+            {% endfor %}
           </div>
-        {% endfor %}
+        </div>
       {% endmacro %}
 
       {{ permanentPromos('While you visit', whileVisitPromos, 'large') }}
 
       {{ permanentPromos('Eat and shop', eatShopPromos, 'small') }}
-
+      </div>
     </div>
   </div>
 {% endblock %}
