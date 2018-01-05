@@ -25,8 +25,8 @@ export async function renderWhatsOn(ctx, next) {
       path: ctx.request.url,
       title: 'What\'s on',
       inSection: 'whatson',
-      category: 'list',
-      contentType: 'public-programme',
+      category: 'public-programme',
+      contentType: 'list',
       canonicalUri: '/whats-on'
     }),
     todayOpeningHours,
