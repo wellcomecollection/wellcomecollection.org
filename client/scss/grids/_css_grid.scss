@@ -70,6 +70,7 @@
       $columns-string: grid-columns($primary-start, $primary-end, $secondary-start, $secondary-end, $columns);
 
       @include respond-to(nth($respond, 1)) {
+        margin-bottom: $gutter;
         grid-column-gap: $gutter;
         grid-row-gap: $gutter;
         grid-template-columns: unquote($columns-string);
