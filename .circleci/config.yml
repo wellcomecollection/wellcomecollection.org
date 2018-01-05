@@ -263,7 +263,7 @@ jobs:
   deploy_cardigan:
     docker:
       - image: node:8.9.3
-    working_directory: ~/wellcomecollection.org
+    working_directory: /home/circleci/wellcomecollection.org
     steps:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
