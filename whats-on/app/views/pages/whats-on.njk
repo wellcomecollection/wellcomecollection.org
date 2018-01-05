@@ -1,12 +1,39 @@
 {% extends 'layout/default.njk' %}
 
+
+{% set metaContent = {
+  type: 'website',
+  title: "What's On",
+  image: exhibitionAndEventPromos.temporaryExhibitionPromos[0].image.contentUrl,
+  url: pageConfig.canonicalUri,
+  description: ''
+} %}
+
 {% block pageMeta %}
-  {# TODO #}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
+  <meta name="description" content="{{ metaContent.description }}" />
 {% endblock %}
 
-{# TODO json-ld #}
 
 {% block body %}
+   <script type="application/ld+json">
+    [{% for exhibition in exhibitionAndEventPromos.temporaryExhibitionPromos %}
+      {% set featuredImage = {contentUrl: exhibition.image.contentUrl} %}
+      {% set exhib = exhibition | objectAssign({safeDescription: exhibition.description | safe | striptags, featuredImage: featuredImage}) %}
+      {{ exhib | jsonLd('exhibitionLd') | safe }},
+    {% endfor %}
+    {% for event in exhibitionAndEventPromos.eventPromos %}
+      {{ event | jsonLd('eventLd') | safe }},
+    {% endfor %}
+    {% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
+      {% set featuredImage = {contentUrl: exhibition.image.contentUrl} %}
+      {% set exhib = exhibition | objectAssign({safeDescription: exhibition.description | safe | striptags, featuredImage: featuredImage}) %}
+      {{ exhib | jsonLd('exhibitionLd') | safe }}{{ ',' if not loop.last }}
+    {% endfor %}]
+  </script>
+
+
   {# TODO move to controller ? #}
   {% set todayDateString = exhibitionAndEventPromos.dates.today + '|' + exhibitionAndEventPromos.dates.today %}
   {% set weekendDateString = exhibitionAndEventPromos.dates.weekend[0] + '|' + exhibitionAndEventPromos.dates.weekend[1] %}
