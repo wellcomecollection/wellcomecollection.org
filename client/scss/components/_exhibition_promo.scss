@@ -23,7 +23,7 @@
 .exhibition-promo__image-container {
   overflow: hidden;
 
-  @include respond-to('large') {
+  @include grid-container-query(('l': ('6'), 'xl': ('6'))) {
     width: 80%;
   }
 }
@@ -33,7 +33,7 @@
   width: calc(100% - (#{map-get($gutter-width, 'small')} * 2));
   margin: -$v-spacing-unit*3 auto 0;
 
-  @include respond-to('large') {
+  @include grid-container-query(('l': ('6'), 'xl': ('6'))) {
     width: 66%;
     float: right;
     z-index: 1;
