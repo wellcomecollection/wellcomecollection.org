@@ -66,6 +66,40 @@
   }
 }
 
+@mixin grid-container-query($cq-list) {
+  $to-list: null;
+  $between-list: null;
+
+  @each $size-key, $size-value in $cq-list {
+
+    $size: map-get($grid-config, $size-key);
+    $respond: map-get($size, 'respond');
+
+    @if (length($respond) > 1) {
+      @each $cols in $size-value {
+        $between-list: $between-list, unquote('[class*="css-grid__cell--#{$size-key}#{$cols}"] &');
+      }
+      // stylelint-disable plugin/declaration-block-order
+      @include respond-between(nth($respond, 1), nth($respond, 2)) {
+        #{$between-list} {
+          @content;
+        }
+      }
+    } @else {
+      @each $cols in $size-value {
+        $to-list: $to-list, unquote('[class*="css-grid__cell--#{$size-key}#{$cols}"] &');
+      }
+
+      @include respond-to($respond) {
+        #{$to-list} {
+          @content;
+        }
+      }
+      // stylelint-enable plugin/declaration-block-order
+    }
+  }
+}
+
 @mixin clearfix {
   &:before,
   &:after {
