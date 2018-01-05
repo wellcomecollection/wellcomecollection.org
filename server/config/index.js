@@ -10,6 +10,10 @@ const defaultConfig = {
       rootDomain: '',
       beaconErrors: false
     },
+    test: {
+      rootDomain: '',
+      beaconErrors: false
+    },
     production: {
       rootDomain: 'https://wellcomecollection.org',
       beaconErrors: true
