@@ -46,11 +46,11 @@ export async function setPreviewSession(ctx, next) {
     httpOnly: false
   });
 
-  const redirectUrl = await getPreviewSession(token);
+  const redirectUrl = await getPreviewSession(ctx, token);
   ctx.response.redirect(redirectUrl);
 }
 
-async function getPreviewSession(token) {
+async function getPreviewSession(ctx, token) {
   const prismic = await prismicApi();
 
   return new Promise((resolve, reject) => {
@@ -84,7 +84,7 @@ export const renderEventbriteEmbed = async(ctx, next) => {
 
 export async function renderExplore(ctx, next) {
   // TODO: Remove WP content
-  const contentListPromise = getArticleList();
+  const contentListPromise = getArticleList(ctx.cookies);
 
   const listRequests = [getCuratedList('explore'), contentListPromise];
   const [curatedList, contentList] = await Promise.all(listRequests);
@@ -123,7 +123,7 @@ export async function renderExplore(ctx, next) {
 export async function renderSeries(ctx, next) {
   const page = Number(ctx.request.query.page);
   const {id} = ctx.params;
-  const seriesArticles = await getSeriesAndArticles(`W${id}`);
+  const seriesArticles = await getSeriesAndArticles(ctx.cookies, {id: `W${id}`});
 
   if (seriesArticles) {
     const {series, paginatedResults} = seriesArticles;
@@ -157,7 +157,7 @@ export async function renderSeries(ctx, next) {
 export async function renderArticlesList(ctx, next) {
   // TODO: Remove WP content
   const page = Number(ctx.request.query.page);
-  const articlesList = await getArticleList(page, {pageSize: 96});
+  const articlesList = await getArticleList(ctx.cookies, {page, pageSize: 96});
   const contentPromos = List(articlesList.results);
 
   const series: Series = {
