@@ -157,7 +157,7 @@ export async function getArticleSeries(seriesId) {
 }
 
 export async function getSeriesAndArticles(cookies, {id, page = 1} = {}) {
-  const paginatedResults = await getArticleList(request, {
+  const paginatedResults = await getArticleList(cookies, {
     page,
     predicates: [Prismic.Predicates.at('my.articles.series.series', id)]
   });
