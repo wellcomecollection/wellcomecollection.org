@@ -2,7 +2,6 @@
 
 set -o errexit
 
-
 pushd cardigan
   yarn install
   yarn run app:build

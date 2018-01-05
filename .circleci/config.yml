@@ -283,6 +283,7 @@ jobs:
             python3.4 get-pip.py --user
             export PATH=~/.local/bin:$PATH
             pip install awscli --upgrade --user
+            pwd
             ./build-cardigan.sh
 workflows:
   version: 2
