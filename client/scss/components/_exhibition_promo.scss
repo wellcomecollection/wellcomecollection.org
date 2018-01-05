@@ -34,7 +34,7 @@
   margin: -$v-spacing-unit*3 auto 0;
 
   @include grid-container-query(('l': ('6'), 'xl': ('6'))) {
-    width: 66%;
+    max-width: $container-width-max/4;
     float: right;
     z-index: 1;
     min-height: 170px;

@@ -1,0 +1,29 @@
+.facility-promo {
+  display: block;
+  position: relative;
+  text-decoration: none;
+  margin-top: 12 * $v-spacing-unit;
+
+  @include grid-container-query(('l': ('6'), 'xl': ('6'))) {
+    margin-top: 3 * $v-spacing-unit;
+  }
+}
+
+.facility-promo__title {
+  transition: color 400ms ease;
+
+  .facility-promo:hover &,
+  .facility-promo:focus & {
+    color: color('mint');
+  }
+}
+
+.facility-promo__image-container {
+  overflow: hidden;
+  margin-top: -14 * $v-spacing-unit;
+
+  @include grid-container-query(('l': ('6'), 'xl': ('6'))) {
+    margin-top: -5 * $v-spacing-unit;
+    max-width: $container-width-max / 4;
+  }
+}
