@@ -44,6 +44,14 @@ output "ami_id" {
   value = "${module.wellcomecollection.ami_id}"
 }
 
+output "alb_id" {
+  value = "${module.wellcomecollection.alb_id}"
+}
+
+output "alb_dns_name" {
+  value = "${module.wellcomecollection.dns_name}"
+}
+
 output "alb_listener_https_arn" {
   value = "${module.wellcomecollection.alb_listener_https_arn}"
 }
