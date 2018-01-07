@@ -294,7 +294,7 @@ function getActiveState(today, range) {
   const rangeEnd = range && london(range[1]);
   if (rangeStart.isSame(today, 'day') && rangeEnd.isSame(london().add(3, 'month'), 'day')) {
     return 'everything';
-  } else if (today.isSame(rangeEnd, 'day')) {
+  } else if (today.isSame(rangeStart, 'day') && today.isSame(rangeEnd, 'day')) {
     return 'today';
   } else if (rangeStart.isSame(getWeekendFromDate(today), 'day') && rangeEnd.isSame(getWeekendToDate(today), 'day')) {
     return 'weekend';
