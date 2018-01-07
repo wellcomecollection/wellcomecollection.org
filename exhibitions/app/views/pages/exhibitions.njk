@@ -26,16 +26,16 @@
   {% componentV2 'list-header', {name: 'Exhibitions', description: metaContent.description, total: paginatedExhibitions.results.length} %}
 
   {% if paginatedExhibitions.pagination.pageCount > 1  %}
-  <div class="css-grid__container">
-    <div class="css-grid">
-      <div class="{{ {s:12, m:12, l:12} | cssGridClasses }}">
-        <div class="{{ {s:5, m:5, l:5} | spacingClasses({padding: ['top']}) }}  {{ {s:5, m:5, l:5} | spacingClasses({padding: ['bottom']}) }} flex flex--v-center font-pewter {{ {s:'LR3', m:'LR2'} | fontClasses }}">
-          {{ paginatedExhibitions.pagination.range.beginning }} - {{ paginatedExhibitions.pagination.range.end }}
+    <div class="css-grid__container">
+      <div class="css-grid">
+        <div class="{{ {s:12, m:12, l:12, xl:12} | cssGridClasses }}">
+          <div class="{{ {s:5, m:5, l:5} | spacingClasses({padding: ['top']}) }}  {{ {s:5, m:5, l:5} | spacingClasses({padding: ['bottom']}) }} flex flex--v-center font-pewter {{ {s:'LR3', m:'LR2'} | fontClasses }}">
+            {{ paginatedExhibitions.pagination.range.beginning }} - {{ paginatedExhibitions.pagination.range.end }}
+          </div>
+          {% componentV2 'divider', null, {'keyline': true, 'pumice': true} %}
         </div>
-        {% componentV2 'divider', null, {'keyline': true, 'pumice': true} %}
       </div>
     </div>
-  </div>
   {% endif %}
 
   <div class="css-grid__container {{ {s:4} | spacingClasses({padding: ['top']}) }} ">
