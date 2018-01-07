@@ -9,6 +9,13 @@
   }
 }
 
+.facility-promo__description {
+  @include grid-container-query(('l': ('6'), 'xl': ('6'))) {
+    padding-left: map-get($gutter-width, 'large');
+    padding-right: map-get($gutter-width, 'large');
+  }
+}
+
 .facility-promo__title {
   transition: color 400ms ease;
 
@@ -24,6 +31,6 @@
 
   @include grid-container-query(('l': ('6'), 'xl': ('6'))) {
     margin-top: -5 * $v-spacing-unit;
-    max-width: $container-width-max / 4;
+    max-width: $container-width-max / 3.5;
   }
 }
