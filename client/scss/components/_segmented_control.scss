@@ -61,8 +61,20 @@
   }
 }
 
+.segmented-control__list--inline {
+  .enhanced & {
+    @include respond-to('medium') {
+      display: inline-flex;
+    }
+  }
+}
+
 .segmented-control__item {
   flex: 1;
+}
+
+.segmented-control__item--inline {
+  flex: 0;
 }
 
 .segmented-control__link {

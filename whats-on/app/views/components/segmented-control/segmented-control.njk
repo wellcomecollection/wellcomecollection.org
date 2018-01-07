@@ -41,12 +41,12 @@
       <span class="visually-hidden js-trap-end">reset focus</span>
     </div>
   </div>
-  <ul class="segmented-control__list no-margin no-padding plain-list border-width-1 border-color-black rounded-diagonal overflow-hidden {{'js-tablist' if data.isTabControl }}">
+  <ul class="segmented-control__list no-margin no-padding plain-list border-width-1 border-color-black rounded-diagonal overflow-hidden {{'js-tablist segmented-control__list--inline' if data.isTabControl }}">
     {% for item in model %}
       <li class="{{- [
         {s:'WB7'} | fontClasses,
         'border-right-width-1 border-right-color-black' if not loop.last
-      ].join(' ') }} segmented-control__item line-height-1 flex {{'js-tabitem' if data.isTabControl }}">
+      ].join(' ') }} segmented-control__item line-height-1 flex {{'js-tabitem segmented-control__item--inline' if data.isTabControl }}">
         <a href="{{ item.url }}"
           class="{{- [
             {s:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}),
