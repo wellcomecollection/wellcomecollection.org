@@ -109,6 +109,10 @@
   }
 }
 
+.css-grid__scroll-container {
+  overflow: auto;
+}
+
 @each $key, $list in $grid-config {
   $columns: map-get($list, 'columns');
   $respond: map-get($list, 'respond');
