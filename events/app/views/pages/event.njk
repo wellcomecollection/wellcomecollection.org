@@ -154,7 +154,6 @@
             </div>
           {% endif %}
 
-          {# this logic is a little wrong, but we only have descriptions on access tours, so works #}
           {% if event.format.description %}
             <h3 class="{{ {s:'HNM4'} | fontClasses }}">
               {% if event.format.shortName %}
@@ -167,22 +166,22 @@
               {{ event.format.description | safe }}
               {% componentV2 'more-info-link', {name: 'View our accessibility statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
             </div>
-          {% else %}
-            {% for accessOption in event.accessOptions %}
-              {% if accessOption.description %}
-                <h3 class="{{ {s:'HNM4'} | fontClasses }}">{{ accessOption.title }}</h3>
-                <div class="{{ {s:'HNL4'} | fontClasses }}">
-                  <p>
-                    {{ accessOption.description }}
-                    For more information, email us at
-                    <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
-                    or call 020 7611 2222.
-                  </p>
-                  {% componentV2 'more-info-link', {name: 'View our accessibility statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
-                </div>
-              {% endif %}
-            {% endfor %}
           {% endif %}
+
+          {% for accessOption in event.accessOptions %}
+            {% if accessOption.description %}
+              <h3 class="{{ {s:'HNM4'} | fontClasses }}">{{ accessOption.title }}</h3>
+              <div class="{{ {s:'HNL4'} | fontClasses }}">
+                <p>
+                  {{ accessOption.description }}
+                  For more information, email us at
+                  <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
+                  or call 020 7611 2222.
+                </p>
+                {% componentV2 'more-info-link', {name: 'View our accessibility statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
+              </div>
+            {% endif %}
+          {% endfor %}
         </div>
       </div>
     </div>
