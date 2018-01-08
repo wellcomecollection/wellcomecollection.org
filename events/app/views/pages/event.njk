@@ -20,14 +20,14 @@
 <div class="css-grid__container">
 
   {% if event.promo.image %}
-      <div class="is-hidden-l is-hidden-xl css-grid__cell--main">
-        <div class="absolute {{ {s:2} | spacingClasses({margin: ['top', 'bottom']}) }}">
-          {% componentV2 'tags', tags %}
-        </div>
+    <div class="is-hidden-l is-hidden-xl css-grid__cell--main">
+      <div class="absolute {{ {s:2} | spacingClasses({margin: ['top', 'bottom']}) }}">
+        {% componentV2 'tags', tags %}
       </div>
-      <div class="is-hidden-l is-hidden-xl css-grid__cell--full">
-        {% componentV2 'image', event.promo.image, {} , { lazyload: true } %}
-      </div>
+    </div>
+    <div class="is-hidden-l is-hidden-xl css-grid__cell--full">
+      {% componentV2 'image', event.promo.image, {} , { lazyload: true } %}
+    </div>
   {% endif %}
 
   <div class="css-grid {{ {l: 5} | spacingClasses({margin: ['top']}) }}">
@@ -156,7 +156,13 @@
 
           {# this logic is a little wrong, but we only have descriptions on access tours, so works #}
           {% if event.format.description %}
-            <h3 class="{{ {s:'HNM4'} | fontClasses }}">Access information</h3>
+            <h3 class="{{ {s:'HNM4'} | fontClasses }}">
+              {% if event.format.shortName %}
+                <abbr title="{{ event.format.title }}">{{ event.format.shortName }}</abbr>
+              {% else %}
+                <span>{{ event.format.title }}</span>
+              {% endif %}
+            </h3>
             <div class="{{ {s:'HNL4'} | fontClasses }}">
               {{ event.format.description | safe }}
               {% componentV2 'more-info-link', {name: 'View our accessibility statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
@@ -164,7 +170,7 @@
           {% else %}
             {% for accessOption in event.accessOptions %}
               {% if accessOption.description %}
-                <h3 class="{{ {s:'HNM4'} | fontClasses }}">Access information</h3>
+                <h3 class="{{ {s:'HNM4'} | fontClasses }}">{{ accessOption.title }}</h3>
                 <div class="{{ {s:'HNL4'} | fontClasses }}">
                   <p>
                     {{ accessOption.description }}
