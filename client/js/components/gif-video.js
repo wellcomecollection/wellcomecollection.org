@@ -13,13 +13,15 @@ function inViewport(el) {
   );
 }
 
-function autoPlayGif(video) {
+function autoPlayGif(video, playPause) {
   if (inViewport(video)) {
     if (video.paused && shouldAutoPlay) {
       video.play();
+      playPause.classList.add('is-playing');
     }
   } else {
     video.pause();
+    playPause.classList.remove('is-playing');
   }
 };
 
@@ -35,25 +37,27 @@ export default function(el) {
   playPause.addEventListener('click', () => {
     if (video.paused) {
       video.play();
+      playPause.classList.add('is-playing');
       shouldAutoPlay = true;
     } else {
       video.pause();
+      playPause.classList.remove('is-playing');
       shouldAutoPlay = false;
     }
   });
 
   onWindowScrollThrottle$.subscribe({
     next() {
-      autoPlayGif(video);
+      autoPlayGif(video, playPause);
     }
   });
 
   onWindowResizeDebounce$.subscribe({
     next() {
-      autoPlayGif(video);
+      autoPlayGif(video, playPause);
     }
   });
 
-  autoPlayGif(video);
+  autoPlayGif(video, playPause);
 }
 

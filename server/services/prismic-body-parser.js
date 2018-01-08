@@ -128,6 +128,17 @@ function parseBodyPart(slice) {
         }
       };
 
+    case 'gifVideo':
+      return {
+        type: 'gifVideo',
+        weight: slice.slice_label,
+        value: {
+          posterFrameUrl: slice.primary.posterFrame.url,
+          caption: slice.primary.caption && asHtml(slice.primary.caption),
+          movieFileUrl: slice.primary.movieFile.url
+        }
+      };
+
     default:
       break;
   }

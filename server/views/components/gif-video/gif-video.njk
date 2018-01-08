@@ -1,18 +1,20 @@
 <figure class="js-gif-video gif-video {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">
   <div class="gif-video__inner">
     <video class="gif-video__video js-gif-video__video"
-      poster="{{ model.posterImage.contentUrl }}" >
-      {% for source in model.sources %}
-        <source src="{{ source.url }}" type='{{ source.fileFormat }}'>
-      {% endfor %}
-      <p class="gif-video__unsupported">Your browser can't handle our GIFs.</p>
+      poster="{{ model.posterFrameUrl }}" >
+      <source src="{{ model.movieFileUrl }}" type="video/mp4">
+      {# Fallback to poster frame #}
+      <img src="{{ model.posterFrameUrl }}" alt="{{ model.caption | safe | striptags }}" />
     </video>
     <button class="gif-video__play-pause js-gif-video__play-pause" type="button" tabindex="0">
-      {% icon 'play' %}
+      <span class="gif-video__play">{% icon 'play' %}</span>
+      <span class="gif-video__pause"></span>
       <span class="gif-video__button-text">play/pause</span>
     </button>
   </div>
-  <figcaption class="gif-video__caption {{ {s:'LR3', m:'LR2'} | fontClasses }} {{ {s:3} | spacingClasses({padding: ['top', 'bottom']}) }} ">
-    {% icon 'image',  null, ['margin-right-s1'] %}{{ model.caption }}
-  </figcaption>
+  {% if model.caption %}
+    <figcaption class="gif-video__caption {{ {s:'LR3', m:'LR2'} | fontClasses }} {{ {s:3} | spacingClasses({padding: ['top', 'bottom']}) }} ">
+      {% icon 'image',  null, ['margin-right-s1'] %}{{ model.caption | safe }}
+    </figcaption>
+  {% endif %}
 </figure>

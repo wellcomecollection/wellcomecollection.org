@@ -23,6 +23,10 @@
             "name" : "standalone",
             "display" : "Standalone"
           } ],
+          "gifVideo" : [ {
+            "name" : "supporting",
+            "display" : "Supporting"
+          } ],
           "iframe" : [ {
             "name" : "supporting",
             "display" : "Supporting"
@@ -65,6 +69,33 @@
                 "config" : {
                   "label" : "Text",
                   "multi" : "heading2,paragraph,strong,em,hyperlink,strike,list-item,embed"
+                }
+              }
+            }
+          },
+          "gifVideo" : {
+            "type" : "Slice",
+            "fieldset" : "Gif video",
+            "non-repeat" : {
+              "caption" : {
+                "type" : "StructuredText",
+                "config" : {
+                  "single" : "hyperlink, bold, em",
+                  "label" : "Caption"
+                }
+              },
+              "posterFrame" : {
+                "type" : "Image",
+                "config" : {
+                  "label" : "Poster frame"
+                }
+              },
+              "movieFile" : {
+                "type" : "Link",
+                "config" : {
+                  "select" : "media",
+                  "label" : "Movie file",
+                  "placeholder" : "Movie file"
                 }
               }
             }
