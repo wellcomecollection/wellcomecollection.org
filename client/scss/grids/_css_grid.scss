@@ -36,6 +36,10 @@
     }
   }
 
+  & & {
+    max-width: none;
+  }
+
   @supports(display: grid) {
     margin: 0;
     max-width: none;
@@ -82,6 +86,8 @@
 
 .css-grid {
   @include max-width-grid-fallback;
+  display: flex;
+  flex-wrap: wrap;
 
   @supports(display: grid) {
     position: relative;
@@ -111,6 +117,39 @@
 
 .css-grid__scroll-container {
   overflow: auto;
+}
+
+.css-grid__cell { // fallback
+  flex: 1;
+  position: relative;
+  padding-left: map-get($gutter-width, 'small');
+  padding-bottom: map-get($gutter-width, 'small');
+  left: -(map-get($gutter-width, 'small'));
+
+  @include respond-to('medium') {
+    padding-left: map-get($gutter-width, 'medium');
+    padding-bottom: map-get($gutter-width, 'medium');
+    left: -(map-get($gutter-width, 'medium'));
+  }
+
+  @include respond-to('large') {
+    padding-left: map-get($gutter-width, 'large');
+    padding-bottom: map-get($gutter-width, 'large');
+    left: -(map-get($gutter-width, 'large'));
+  }
+
+  .css-grid__cell {
+    // stylelint-disable declaration-no-important
+    padding-bottom: 0 !important;
+    // stylelint-enable declaration-no-important
+  }
+
+  @supports(display: grid) {
+    position: static;
+    // stylelint-disable declaration-no-important
+    padding: 0 !important;
+    // stylelint-enable declaration-no-important
+  }
 }
 
 @each $key, $list in $grid-config {
