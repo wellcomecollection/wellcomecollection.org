@@ -26,47 +26,43 @@
   {% componentV2 'list-header', {name: 'Exhibitions', description: metaContent.description, total: paginatedExhibitions.results.length} %}
 
   {% if paginatedExhibitions.pagination.pageCount > 1  %}
-  <div class="row">
-    <div class="container">
-      <div class="grid">
-        <div class="{{ {s:12, m:12, l:12} | gridClasses }}">
+    <div class="css-grid__container">
+      <div class="css-grid">
+        <div class="{{ {s:12, m:12, l:12, xl:12} | cssGridClasses }}">
           <div class="{{ {s:5, m:5, l:5} | spacingClasses({padding: ['top']}) }}  {{ {s:5, m:5, l:5} | spacingClasses({padding: ['bottom']}) }} flex flex--v-center font-pewter {{ {s:'LR3', m:'LR2'} | fontClasses }}">
             {{ paginatedExhibitions.pagination.range.beginning }} - {{ paginatedExhibitions.pagination.range.end }}
           </div>
+          {% componentV2 'divider', null, {'keyline': true, 'pumice': true} %}
         </div>
       </div>
-      {% componentV2 'divider', null, {'keyline': true, 'pumice': true} %}
     </div>
-  </div>
   {% endif %}
 
-  <div class="row {{ {s:4} | spacingClasses({padding: ['top']}) }} ">
-    <div class="container">
-      <div class="grid">
-          {% for exhibition in paginatedExhibitions.results %}
-            <div class="{{ {s: 12, m: 6, l: 6, xl: 6} | gridClasses }}">
-              {% componentV2 'exhibition-promo', exhibition %}
-            </div>
-          {% endfor %}
-        </div>
+  <div class="css-grid__container {{ {s:4} | spacingClasses({padding: ['top']}) }} ">
+    <div class="css-grid">
+        {% for exhibition in paginatedExhibitions.results %}
+          <div class="{{ {s: 12, m: 6, l: 6, xl: 6} | cssGridClasses }}">
+            {% componentV2 'exhibition-promo', exhibition %}
+          </div>
+        {% endfor %}
       </div>
     </div>
   </div>
 
-  <div class="row {{ {s:2, m:2, l:2} | spacingClasses({padding: ['top']}) }} {{ {s:3, m:3, l:3} | spacingClasses({padding: ['bottom']}) }} ">
-    <div class="container">
-      <div class="grid">
-          {% if paginatedExhibitions.pagination.pageCount > 1  %}
-            <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}"  style="text-align: right">
-              {% componentV2 'pagination', paginatedExhibitions.pagination %}
-            </div>
-          {% endif %}
-          {% if paginatedExhibitions.currentPage === paginatedExhibitions.totalPages %}
-            <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }}"  style="text-align: right">
-              {% componentV2 'more-info-link', {name: 'Past exhibitions', url: '/exhibitions/past'} %}
-            </div>
-          {% endif %}
-      </div>
+  <div class="css-grid__container  {{ {s:2, m:2, l:2} | spacingClasses({padding: ['top']}) }} {{ {s:3, m:3, l:3} | spacingClasses({padding: ['bottom']}) }} ">
+    <div class="css-grid">
+        {% if paginatedExhibitions.pagination.pageCount > 1  %}
+          <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }}"  style="text-align: right">
+            {% componentV2 'pagination', paginatedExhibitions.pagination %}
+          </div>
+        {% endif %}
+        {% if paginatedExhibitions.currentPage === paginatedExhibitions.totalPages %}
+          <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }}"  style="text-align: right">
+            {% componentV2 'more-info-link', {name: 'Past exhibitions', url: '/exhibitions/past'} %}
+          </div>
+        {% endif %}
     </div>
   </div>
+
+
 {% endblock %}
