@@ -64,7 +64,7 @@
 .segmented-control__list--inline {
   .enhanced & {
     @include respond-to('medium') {
-      display: inline-flex;
+      display: inline-block;
     }
   }
 }
@@ -74,7 +74,7 @@
 }
 
 .segmented-control__item--inline {
-  flex: 0;
+  float: left;
 }
 
 .segmented-control__link {
