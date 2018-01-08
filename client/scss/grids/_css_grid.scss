@@ -9,6 +9,9 @@
       $respond: map-get($map, 'respond');
       $min: map-get($map, 'padding');
       $columns: '[full-start] minmax(#{$min}, 1fr) [main-start] minmax(0, #{$container-width-max - (map-get($map, 'padding') * 2)}) [main-end] minmax(#{$min}, 1fr) [full-end]';
+      /* will give something like:
+      [full-start] minmax(42px, 1fr) [main-start] minmax(0, 1254px) [main-end] minmax(42px, 1fr) [full-end]
+      */
 
       @include respond-to(nth($respond, 1)) {
         grid-template-columns: unquote($columns);
@@ -17,7 +20,7 @@
   }
 }
 
-@mixin max-width-fallback {
+@mixin max-width-grid-fallback {
   margin-left: auto;
   margin-right: auto;
 
@@ -40,7 +43,7 @@
 }
 
 .css-grid__cell--main {
-  @include max-width-fallback;
+  @include max-width-grid-fallback;
   grid-column: main;
 }
 
@@ -78,7 +81,7 @@
 }
 
 .css-grid {
-  @include max-width-fallback;
+  @include max-width-grid-fallback;
 
   @supports(display: grid) {
     position: relative;
