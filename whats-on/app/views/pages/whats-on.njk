@@ -22,7 +22,7 @@
       {{ exhib | jsonLd('exhibitionLd') | safe }},
     {% endfor %}
     {% for event in exhibitionAndEventPromos.eventPromos %}
-      {{ event | jsonLd('eventLd') | safe }},
+      {{ event | jsonLd('eventPromoLd') | safe }},
     {% endfor %}
     {% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
       {% set featuredImage = {contentUrl: exhibition.image.contentUrl} %}

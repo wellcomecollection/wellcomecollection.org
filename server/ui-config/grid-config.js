@@ -36,10 +36,10 @@ const gridConfig = {
     padding: containerPadding.xlarge,
     gutter: gutterWidth.xlarge,
     columns: 12,
-    primaryStart: 2,
+    primaryStart: 1,
     primaryEnd: 7,
     secondaryStart: 8,
-    secondaryEnd: 11,
+    secondaryEnd: 12,
     respond: 'xlarge'
   }
 };

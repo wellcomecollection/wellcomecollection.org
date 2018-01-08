@@ -48,7 +48,7 @@
     {% if model.caption %}
       <figcaption class="captioned-image__caption {{ {s:'LR3', m:'LR2'} | fontClasses }}">
         {% icon 'image', {}, ['float-l', 'margin-right-s1'] %}
-        <div class="captioned-image__caption-text{{ ' js-truncate-text' if data.truncateCaption }}" tabindex="0">
+        <div class="captioned-image__caption-text{{ ' js-truncate-text' if data.truncateCaption }}" tabindex="0"{% if data.slideNumbers %} data-slide-number="{{ data.slideNumbers.current }}"{% endif %}>
           {% if data.slideNumbers %}
             <span class="captioned-image__number {{ {s:'HNM5'} | fontClasses }} {{ {s:2} | spacingClasses({padding: ['right']}) }}"
               aria-label="slide {{ data.slideNumbers.current }} of {{ data.slideNumbers.total }}">

@@ -1,16 +1,9 @@
 .css-grid__container {
-  @each $label, $map in $grid-config {
-    max-width: #{$container-width-max - (map-get($map, 'padding') * 2)};
-  }
-  margin: 0 auto;
-}
+  @include clearfix;
 
-@supports(display: grid) {
-  .css-grid__container {
-    max-width: none;
-    margin: none;
+  @supports(display: grid) {
     display: grid;
-    grid-auto-rows: minmax(50px, auto);
+    grid-auto-rows: minmax(min-content, max-content);
 
     @each $label, $map in $grid-config {
       $respond: map-get($map, 'respond');
@@ -22,37 +15,72 @@
       }
     }
   }
+}
 
-  @function grid-columns($primary-start: 1, $primary-end: 7, $secondary-start: 8, $secondary-end: 12, $columns: $totalColumns) {
+@mixin max-width-fallback {
+  margin-left: auto;
+  margin-right: auto;
 
-    $column-string: '';
+  @each $label, $map in $grid-config {
+    $respond: map-get($map, 'respond');
 
-    @for $i from 1 through $columns {
-      @if $i == $primary-start and $primary-start == $secondary-start {
-        $column-string: $column-string + '[primary-start secondary-start]';
-      } @else if $i == $primary-start {
-        $column-string: $column-string + '[primary-start]';
-      } @else if $i == $secondary-start and $primary-end == $secondary-start - 1 {
-        $column-string: $column-string + '[primary-end secondary-start]';
-      } @else if $i == $secondary-start {
-        $column-string: $column-string + '[secondary-start]';
-      }
-
-      $column-string: $column-string + ' 1fr ';
-
-      @if $i == $primary-end and $primary-end == $secondary-end {
-        $column-string: $column-string + '[primary-end secondary-end]';
-      } @else if $i == $primary-end and $primary-end != $secondary-start - 1 {
-        $column-string: $column-string + '[primary-end]';
-      } @else if $i == $secondary-end {
-        $column-string: $column-string + '[secondary-end]';
+    @include respond-to(nth($respond, 1)) {
+      @if (nth($respond, 1) != 'xlarge') {
+        max-width: calc(100% - #{map-get($map, 'padding') * 2});
+      } @else {
+        max-width: #{$container-width-max - (map-get($map, 'padding') * 2)};
       }
     }
-
-    @return $column-string;
   }
 
-  .css-grid {
+  @supports(display: grid) {
+    margin: 0;
+    max-width: none;
+  }
+}
+
+.css-grid__cell--main {
+  @include max-width-fallback;
+  grid-column: main;
+}
+
+.css-grid__cell--full {
+  grid-column: full;
+}
+
+@function grid-columns($primary-start: 1, $primary-end: 7, $secondary-start: 8, $secondary-end: 12, $columns: $totalColumns) {
+
+  $column-string: '';
+
+  @for $i from 1 through $columns {
+    @if $i == $primary-start and $primary-start == $secondary-start {
+      $column-string: $column-string + '[primary-start secondary-start]';
+    } @else if $i == $primary-start {
+      $column-string: $column-string + '[primary-start]';
+    } @else if $i == $secondary-start and $primary-end == $secondary-start - 1 {
+      $column-string: $column-string + '[primary-end secondary-start]';
+    } @else if $i == $secondary-start {
+      $column-string: $column-string + '[secondary-start]';
+    }
+
+    $column-string: $column-string + ' 1fr ';
+
+    @if $i == $primary-end and $primary-end == $secondary-end {
+      $column-string: $column-string + '[primary-end secondary-end]';
+    } @else if $i == $primary-end and $primary-end != $secondary-start - 1 {
+      $column-string: $column-string + '[primary-end]';
+    } @else if $i == $secondary-end {
+      $column-string: $column-string + '[secondary-end]';
+    }
+  }
+
+  @return $column-string;
+}
+
+.css-grid {
+  @include max-width-fallback;
+
+  @supports(display: grid) {
     position: relative;
     grid-column: main;
     grid-auto-rows: minmax(0, auto);
@@ -76,38 +104,61 @@
       }
     }
   }
+}
 
-  .css-grid__cell--breakout {
-    grid-column: full;
-  }
+@each $key, $list in $grid-config {
+  $columns: map-get($list, 'columns');
+  $respond: map-get($list, 'respond');
 
-  @each $key, $list in $grid-config {
-    $columns: map-get($list, 'columns');
-    $respond: map-get($list, 'respond');
+  @if (length($respond) > 1) {
+    $lower: nth($respond, 1);
+    $higher: nth($respond, 2);
 
-    @if (length($respond) > 1) {
-      $lower: nth($respond, 1);
-      $higher: nth($respond, 2);
-
-      @include respond-between($lower, $higher) {
-        @include css-grid-cells($columns, $key);
-      }
-    } @else {
-      @include respond-to($respond) {
-        @include css-grid-cells($columns, $key);
-      }
+    @include respond-between($lower, $higher) {
+      @include css-grid-cells($columns, $key);
     }
-  }
-
-  .css-grid__cell--primary {
-    grid-column: primary;
-  }
-
-  .css-grid__cell--secondary {
-    grid-column: secondary;
+  } @else {
+    @include respond-to($respond) {
+      @include css-grid-cells($columns, $key);
+    }
   }
 }
 
-.css-grid__scroll-container {
-  overflow: auto;
+.css-grid__cell--primary {
+  grid-column: primary;
+  margin-bottom: map-get($gutter-width, 'large'); // non grid fallback
+
+  @include respond-to('large') {
+    float: left;
+    width: percentage(7/12); // non grid fallback
+    padding-right: map-get($gutter-width, 'large')/2; // non grid fallback
+  }
+
+  @supports(display: grid) {
+    width: auto;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.css-grid__cell--secondary {
+  grid-column: secondary;
+  margin-bottom: map-get($gutter-width, 'large'); // non grid fallback
+
+  @include respond-to('large') {
+    order: 1;
+    float: right; // non grid fallback
+    width: percentage(5/12); // non grid fallback
+    padding-left: map-get($gutter-width, 'large')/2; // non grid fallback
+  }
+
+  @supports(display: grid) {
+    width: auto;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.css-grid__row-span-2 {
+  grid-row: span 2;
 }

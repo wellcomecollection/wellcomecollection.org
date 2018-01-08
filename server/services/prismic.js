@@ -35,9 +35,7 @@ const eventFields = [
   'event-access-options.title', 'event-access-options.description', 'event-access-options.description',
   'event-booking-enquiry-teams.title', 'event-booking-enquiry-teams.email', 'event-booking-enquiry-teams.phone',
   'event-booking-enquiry-teams.url',
-  'event-contributor-roles.title',
   'event-formats.title', 'event-formats.description', 'event-formats.shortName',
-  'event-programmes.title',
   'locations.title', 'locations.geolocation', 'locations.level', 'locations.capacity'
 ];
 
@@ -85,7 +83,7 @@ export async function getArticle(id: string, previewReq: ?Request) {
 }
 
 export async function getEvent(id: string, previewReq: ?Request): Promise<?Event> {
-  const fetchLinks = eventFields.concat(peopleFields, contributorFields);
+  const fetchLinks = eventFields.concat(peopleFields, contributorFields, seriesFields);
   const event = await getTypeById(previewReq, ['events'], id, {fetchLinks});
 
   if (!event) { return null; }

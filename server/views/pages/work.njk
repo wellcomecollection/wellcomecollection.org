@@ -1,6 +1,5 @@
 {% extends 'layout/default.njk' %}
 {# TODO: Maybe set this on the actual work? #}
-{% block seasonalInfoBanner %}{% endblock %}
 {% block pageMeta %}
   {% set metaContent = {
     type: 'website',
@@ -30,6 +29,16 @@
         <div class="{{ {s: 12, m: 7, l: 8, xl: 7, shiftXl: 1} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
 	  <div class="{{ {s: 5} | spacingClasses({margin: ['bottom']}) }}">
             <h1 id="work-info" class="{{ {s:'HNM3', m:'HNM2', l:'HNM1'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{work.title}}</h1>
+
+            <div class="{{- [
+              {s:2} | spacingClasses({padding: ['top', 'bottom']}),
+              {s:4} | spacingClasses({padding: ['left', 'right']}),
+              {s:4} | spacingClasses({margin: ['bottom']})
+            ].join(' ') }} bg-cream rounded-diagonal flex flex--v-center">
+              {% icon 'under_construction', null, ['margin-right-s2'] %}
+              <p class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }} no-margin">We’re improving the information on this page. <a href="/progress">Find out more</a>.</p>
+            </div>
+
             {% for metaItem in work.metaContent %}
               {% set needsDivider = not loop.last %}
               {% componentV2 'meta-unit', {headingText: metaItem.heading, content: metaItem.content, includeDivider: needsDivider} %}
@@ -44,7 +53,7 @@
 
           {% set licenseInfo = work.thumbnail.license.licenseType | getLicenseInfo %}
           {% set usingThisImageData = [
-            {title: 'License infomation', content: licenseInfo.humanReadableText},
+            {title: 'Licence information', content: licenseInfo.humanReadableText},
             {title: 'Credit', content: work.attribution}
           ] %}
 
@@ -76,7 +85,7 @@
             href="/download?uri={{ work.imgLink | convertImageUri(760, false) | urlencode }}"
             download="{{ work.id }}.jpg"
             rel="noopener noreferrer"
-            data-track-event='{"category": "component", "action": "download-button:click", "label": "id:{{ work.id }}", "size":760, "title":"{{ work.title | truncate(50) }}"}'>
+            data-track-event='{"category": "component", "action": "download-button:click", "label": "id:{{ work.id }}, size:760, title:{{ work.title | truncate(50) }}"}'>
             {% icon 'download', null, ['icon--elf-green'] %}
             <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
               Download small (760px)

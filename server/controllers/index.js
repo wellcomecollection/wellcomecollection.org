@@ -88,6 +88,10 @@ export const index = (ctx, next) => ctx.render('pages/index', {
   pageConfig: createPageConfig({inSection: 'index', path: '/'})
 }) && next();
 
+export const progress = (ctx, next) => ctx.render('pages/progress', {
+  pageConfig: createPageConfig({inSection: 'index', path: '/progress'})
+}) && next();
+
 export const preview = async(ctx, next) => {
   const id = ctx.params.id;
   const format = ctx.request.query.format;

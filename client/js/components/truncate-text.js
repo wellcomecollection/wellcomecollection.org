@@ -19,22 +19,26 @@ const toggleTruncate = function(isTruncated, control, className) {
 
 const hasBeenEllipsified = (e) => {
   return fastdom.measure(() => {
-    return (e.scrollWidth > e.offsetWidth);
+    return (e.scrollWidth >= e.offsetWidth);
   });
 };
 
-const createControl = () => {
+const createControl = (slideNumber) => {
   const control = document.createElement('button');
   control.className = 'captioned-image__truncate-control';
   control.innerHTML = moreText;
   control.setAttribute('tabindex', -1);
+  control.setAttribute('data-track-event', JSON.stringify({
+    category: 'component',
+    action: 'truncated-text-control:click',
+    label: `slide:${slideNumber}`
+  }));
   return control;
 };
 
 const truncateText = (caption) => {
   if (caption) {
-    const truncateControl = createControl();
-
+    const truncateControl = createControl(caption.getAttribute('data-slide-number'));
     caption.classList.add(truncateClass);
 
     hasBeenEllipsified(caption).then((value) => {

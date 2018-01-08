@@ -77,7 +77,8 @@
       "config" : {
         "label" : "Booking enquiry team",
         "select" : "document",
-        "customtypes" : [ "event-booking-enquiry-teams" ]
+        "customtypes" : [ "teams" ],
+        "tags" : [ "events" ]
       }
     },
     "eventbriteEvent" : {
@@ -102,11 +103,12 @@
         "fields" : {
           "series" : {
             "type" : "Link",
-            "fieldset" : "Event series",
+            "fieldset" : "Series",
             "config" : {
+              "label" : "Series",
               "select" : "document",
-              "customtypes" : [ "event-series" ],
-              "label" : "Event series"
+              "customtypes" : [ "series" ],
+              "tags": [ "events" ]
             }
           }
         }
@@ -128,7 +130,8 @@
                 "config" : {
                   "label" : "Role",
                   "select" : "document",
-                  "customtypes" : [ "event-contributor-roles" ]
+                  "customtypes" : [ "editorial-contributor-roles" ],
+                  "tags": [ "events" ]
                 }
               },
               "person" : {
@@ -136,7 +139,8 @@
                 "config" : {
                   "label" : "Person",
                   "select" : "document",
-                  "customtypes" : [ "people" ]
+                  "customtypes" : [ "people" ],
+                  "tags": [ "events" ]
                 }
               }
             }

@@ -17,7 +17,7 @@
 {% block body %}
   <script type="application/ld+json">
     [{% for event in paginatedEvents.results %}
-      {{ event | jsonLd('eventLd') | safe }}
+      {{ event | jsonLd('eventPromoLd') | safe }}
       {{ ',' if not loop.last }}
     {% endfor %}]
   </script>
