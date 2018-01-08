@@ -1,0 +1,9 @@
+{% set fromDate = exhibitionAndEventPromos.dates.queriedDates[0] %}
+{% set toDate = exhibitionAndEventPromos.dates.queriedDates[1] %}
+{% set isMoreThanOneDay =  fromDate !== toDate %}
+
+<p class="{{- [
+  {s:'HNM4', m:'HNM4'} | fontClasses,
+  {s:0} | spacingClasses({margin: ['top']}),
+  {s:1} | spacingClasses({margin: ['bottom']})
+].join(' ') -}}"><time datetime="{{ fromDate }}">{{ fromDate | formatDate }}</time>{%- if isMoreThanOneDay -%}&ndash;<time datetime="{{ toDate }}">{{ toDate | formatDate }}</time>{%- endif -%}</p>
