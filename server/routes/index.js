@@ -44,7 +44,7 @@ r.get('/management/manifest', async (ctx, next) => {
 });
 
 // Content
-r.get('/:preview(preview)?/articles/(W):id', renderArticle);
+r.get('/articles/(W):id', renderArticle);
 r.get('/explore', renderExplore);
 r.get('/preview', setPreviewSession);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);

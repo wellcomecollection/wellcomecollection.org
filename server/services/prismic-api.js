@@ -1,5 +1,4 @@
 import Prismic from 'prismic-javascript';
-import Cookies from 'cookies';
 
 const oneMinute = 1000 * 60;
 const apiUri = 'https://wellcomecollection.prismic.io/api/v2';
@@ -12,11 +11,16 @@ function periodicallyUpdatePrismic() {
   }, oneMinute);
 }
 
+export function hasPreviewCookie(cookies) {
+  const previewCookie = cookies.get(Prismic.previewCookie);
+  return Boolean(previewCookie);
+}
+
 export async function getPrismic(cookies) {
   console.info(`New prismic getter being used for ${cookies.request.url}`);
-  const previewCookie = cookies.get(Prismic.previewCookie);
+  const isPreview = hasPreviewCookie(cookies);
 
-  const api = previewCookie ? await Prismic.getApi(apiUri, {req: cookies.request})
+  const api = isPreview ? await Prismic.getApi(apiUri, {req: cookies.request})
     : !memoizedPrismic ? await Prismic.getApi(apiUri)
     : memoizedPrismic;
 

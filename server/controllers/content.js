@@ -1,6 +1,6 @@
 import Prismic from 'prismic-javascript';
 import {List} from 'immutable';
-import {getPrismic, prismicApi} from '../services/prismic-api';
+import {getPrismic, hasPreviewCookie} from '../services/prismic-api';
 import {createPageConfig, getEditorialAnalyticsInfo} from '../model/page-config';
 import {getEventbriteEventEmbed} from '../services/eventbrite';
 import {PromoFactory} from '../model/promo';
@@ -15,8 +15,7 @@ export const renderArticle = async(ctx, next) => {
   const path = ctx.request.url;
   // We rehydrate the `W` here as we take it off when we have the route.
   const id = `W${ctx.params.id}`;
-  const isPreview = Boolean(ctx.params.preview);
-  const article = await getArticle(id, isPreview ? ctx.request : null);
+  const article = await getArticle(ctx.cookies, {id});
 
   if (article) {
     if (format === 'json') {
@@ -32,7 +31,7 @@ export const renderArticle = async(ctx, next) => {
           canonicalUri: `${ctx.globals.rootDomain}/articles/${id}`
         }), trackingInfo),
         article: article,
-        isPreview: isPreview
+        isPreview: hasPreviewCookie(ctx.cookies)
       });
     }
   }

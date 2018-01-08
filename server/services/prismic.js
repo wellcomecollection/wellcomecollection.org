@@ -47,8 +47,8 @@ export async function getPrismicApi(req: ?Request) {
   return api;
 }
 
-async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string, qOpts: Object<any>) {
-  const prismic = await getPrismicApi(req);
+async function getTypeById(cookies, types: Array<DocumentType>, id: string, qOpts: Object<any>) {
+  const prismic = await getPrismic(cookies);
   const doc = await prismic.getByID(id, qOpts);
   return doc && types.indexOf(doc.type) !== -1 ? doc : null;
 }
@@ -66,9 +66,9 @@ async function getAllOfType(type: DocumentType, page: number, options: PrismicQu
   return results;
 }
 
-export async function getArticle(id: string, previewReq: ?Request) {
+export async function getArticle(cookies, {id}) {
   const fetchLinks = peopleFields.concat(booksFields, seriesFields, contributorFields);
-  const article = await getTypeById(previewReq, ['articles', 'webcomics'], id, {fetchLinks});
+  const article = await getTypeById(cookies, ['articles', 'webcomics'], id, {fetchLinks});
 
   if (!article) { return null; }
 
