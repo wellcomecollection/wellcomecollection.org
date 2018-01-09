@@ -1,0 +1,31 @@
+.tablist {
+  padding: 0;
+}
+
+.tabitem {
+  display: inline-block;
+}
+
+.tabpanel {
+  transition: opacity 1000ms ease;
+
+  .enhanced & {
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
+  &.tabpanel--is-visible {
+    visibility: visible;
+    opacity: 1;
+    height: auto;
+    overflow: visible;
+  }
+}
+
+.tabfocus {
+  .enhanced & {
+    @include visually-hidden();
+  }
+}
