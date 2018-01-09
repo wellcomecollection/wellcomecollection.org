@@ -133,7 +133,7 @@ function parseBodyPart(slice) {
         type: 'gifVideo',
         weight: slice.slice_label,
         value: {
-          posterFrameUrl: slice.primary.posterFrame.url,
+          posterFrame: slice.primary.posterFrame && parsePicture({image: slice.primary.posterFrame}),
           caption: slice.primary.caption && asHtml(slice.primary.caption),
           movieFileUrl: slice.primary.movieFile.url
         }
