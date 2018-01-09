@@ -4,6 +4,7 @@ const tabs = (el, options) => {
   const tablist = el.querySelector('.js-tablist');
   const tabitems = el.querySelectorAll('.js-tabitem');
   const tablinks = nodeList(tablist.querySelectorAll('.js-tablink'));
+  const proxyTablinks = nodeList(el.querySelectorAll('.js-proxy-tablink'));
   const tabpanels = nodeList(el.querySelectorAll('.js-tabpanel'));
   const tabfocusers = nodeList(el.querySelectorAll('.js-tabfocus'));
   let currentTab;
@@ -11,6 +12,16 @@ const tabs = (el, options) => {
 
   tabpanels.forEach((item) => {
     item.setAttribute('aria-hidden', 'true');
+  });
+
+  proxyTablinks.forEach((proxyTab, index) => {
+    proxyTab.addEventListener('click', (event) => {
+      event.preventDefault();
+      const relatedTab = tablinks.find((e) => {
+        return proxyTab.href.split('#')[1] === e.href.split('#')[1];
+      });
+      relatedTab.click();
+    });
   });
 
   tablinks.forEach((tab, index) => {

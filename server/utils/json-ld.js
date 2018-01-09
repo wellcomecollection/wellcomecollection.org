@@ -1,5 +1,6 @@
 import type {EventPromo, Event} from '../content-model/events';
 import {wellcomeCollection, wellcomeCollectionAddress} from '../model/organization';
+import {convertImageUri} from '../filters/convert-image-uri';
 
 export function objToJsonLd<T>(obj: T, type: string, root: boolean = true) {
   const jsonObj = JSON.parse(JSON.stringify(obj));
@@ -26,7 +27,7 @@ export function exhibitionLd(content) {
   return objToJsonLd({
     name: content.title,
     description: content.safeDescription.val,
-    image: content.featuredImage && content.featuredImage.contentUrl,
+    image: content.featuredImage && convertImageUri(content.featuredImage.contentUrl, 1920, false),
     location: {
       '@type': 'Place',
       name: 'Wellcome Collection',
@@ -100,7 +101,7 @@ export function eventLd(event: Event) {
       startDate: event.times.map(range => range.startDateTime),
       endDate: event.times.map(range => range.endDateTime),
       description: event.description,
-      image: event.promo && event.promo.image.contentUrl
+      image: event.promo && convertImageUri(event.promo.image.contentUrl, 1920, false)
     }, 'Event');
   });
 }
@@ -116,7 +117,7 @@ export function eventPromoLd(eventPromo: EventPromo) {
     startDate: eventPromo.start,
     endDate: eventPromo.end,
     description: eventPromo.description,
-    image: eventPromo.image && eventPromo.image.contentUrl
+    image: eventPromo && convertImageUri(eventPromo.image.contentUrl, 1920, false)
   }, 'Event');
 }
 

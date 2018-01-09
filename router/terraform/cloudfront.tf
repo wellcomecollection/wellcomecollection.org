@@ -47,6 +47,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "query",
         "cohort",
         "uri",
+        "f[dates]",
         # Wellcome Images redirect
         "MIROPAC",
         "MIRO",
