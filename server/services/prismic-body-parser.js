@@ -135,7 +135,7 @@ function parseBodyPart(slice) {
         value: {
           posterFrame: slice.primary.posterFrame && parsePicture({image: slice.primary.posterFrame}),
           caption: slice.primary.caption && asHtml(slice.primary.caption),
-          movieFileUrl: slice.primary.movieFile.url
+          videoUrl: slice.primary.video && slice.primary.video.url
         }
       };
 

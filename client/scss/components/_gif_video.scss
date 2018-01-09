@@ -25,20 +25,16 @@
   }
 }
 
-.gif-video__play {
-  .gif-video__play-pause.is-playing & {
-    display: none;
+.gif-video__text {
+  &:before {
+    content: 'play';
+    color: color('white');
+    background: rgba(color('black'), 0.6);
+    padding: $spacing-unit;
+    border-radius: $border-radius-unit;
   }
 }
 
-.gif-video__pause {
-  display: none;
-  border: 2px solid color('black');
-  width: 20px;
-  height: 20px;
-  border-radius: $border-radius-unit;
-
-  .gif-video__play-pause.is-playing & {
-    display: inline-block;
-  }
+.gif-video__text--is-playing:before {
+  content: 'pause';
 }

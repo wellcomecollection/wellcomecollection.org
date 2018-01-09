@@ -5,14 +5,12 @@
   <div class="gif-video__inner relative">
     <video class="gif-video__video block js-gif-video__video"
       poster="{{ model.posterFrameUrl }}" >
-      <source src="{{ model.movieFileUrl }}" type="video/mp4">
+      <source src="{{ model.videoUrl }}" type="video/mp4">
       {# Fallback to poster frame #}
       {% componentV2 'image', model.posterFrame %}
     </video>
     <button class="gif-video__play-pause absolute js-gif-video__play-pause" type="button" tabindex="0">
-      <span class="gif-video__play">{% icon 'play' %}</span>
-      <span class="gif-video__pause"></span>
-      <span class="gif-video__button-text visually-hidden">play/pause</span>
+      <span class="{{ {s:'LR3'} | fontClasses }} js-gif-video__text gif-video__text"></span>
     </button>
     {% componentV2 'tasl', model.posterFrame %}
   </div>

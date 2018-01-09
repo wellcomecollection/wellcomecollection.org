@@ -13,21 +13,22 @@ function inViewport(el) {
   );
 }
 
-function autoPlayGif(video, playPause) {
+function autoPlayGif(video, textEl) {
   if (inViewport(video)) {
     if (video.paused && shouldAutoPlay) {
       video.play();
-      playPause.classList.add('is-playing');
+      textEl.classList.add('gif-video__text--is-playing');
     }
   } else {
     video.pause();
-    playPause.classList.remove('is-playing');
+    textEl.classList.remove('gif-video__text--is-playing');
   }
 };
 
 export default function(el) {
   const video = el.querySelector('.js-gif-video__video');
   const playPause = el.querySelector('.js-gif-video__play-pause');
+  const textEl = playPause.querySelector('.js-gif-video__text');
 
   video.muted = true;
   video.loop = true;
@@ -37,27 +38,27 @@ export default function(el) {
   playPause.addEventListener('click', () => {
     if (video.paused) {
       video.play();
-      playPause.classList.add('is-playing');
+      textEl.classList.add('gif-video__text--is-playing');
       shouldAutoPlay = true;
     } else {
       video.pause();
-      playPause.classList.remove('is-playing');
+      textEl.classList.remove('gif-video__text--is-playing');
       shouldAutoPlay = false;
     }
   });
 
   onWindowScrollThrottle$.subscribe({
     next() {
-      autoPlayGif(video, playPause);
+      autoPlayGif(video, textEl);
     }
   });
 
   onWindowResizeDebounce$.subscribe({
     next() {
-      autoPlayGif(video, playPause);
+      autoPlayGif(video, textEl);
     }
   });
 
-  autoPlayGif(video, playPause);
+  autoPlayGif(video, textEl);
 }
 

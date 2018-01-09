@@ -90,12 +90,12 @@
                   "label" : "Poster frame"
                 }
               },
-              "movieFile" : {
+              "video" : {
                 "type" : "Link",
                 "config" : {
                   "select" : "media",
-                  "label" : "Movie file",
-                  "placeholder" : "Movie file"
+                  "label" : "Video",
+                  "placeholder" : "Video"
                 }
               }
             }
