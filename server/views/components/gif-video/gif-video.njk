@@ -10,8 +10,7 @@
       {% componentV2 'image', model.posterFrame %}
     </video>
     <button class="gif-video__play-pause absolute js-gif-video__play-pause"
-      type="button"
-      tabindex="0"
+      aria-label="play/pause button"
       data-track-label="{{ model.videoUrl }}">
       <span class="{{ {s:'LR3'} | fontClasses }} js-gif-video__text gif-video__text"></span>
     </button>
