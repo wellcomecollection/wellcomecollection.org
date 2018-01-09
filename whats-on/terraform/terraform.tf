@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 0.9"
 
   backend "s3" {
-    key            = "build-state/whats-on.tfstate"
+    key            = "build-state/whats_on.tfstate"
     dynamodb_table = "terraform-locktable"
     region         = "eu-west-1"
     bucket         = "wellcomecollection-infra"
