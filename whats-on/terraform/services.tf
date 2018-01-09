@@ -1,6 +1,6 @@
 module "whats_on" {
   source             = "git::https://github.com/wellcometrust/terraform.git//services?ref=v1.0.4"
-  name               = "whats-on"
+  name               = "whats_on"
   cluster_id         = "${local.cluster_name}"
   task_role_arn      = "${module.ecs_whats_on_iam.task_role_arn}"
   template_name      = "default"
