@@ -9,7 +9,10 @@
       {# Fallback to poster frame #}
       {% componentV2 'image', model.posterFrame %}
     </video>
-    <button class="gif-video__play-pause absolute js-gif-video__play-pause" type="button" tabindex="0">
+    <button class="gif-video__play-pause absolute js-gif-video__play-pause"
+      type="button"
+      tabindex="0"
+      data-track-label="{{ model.videoUrl }}">
       <span class="{{ {s:'LR3'} | fontClasses }} js-gif-video__text gif-video__text"></span>
     </button>
     {% componentV2 'tasl', model.posterFrame %}

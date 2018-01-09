@@ -1,4 +1,5 @@
 import { onWindowScrollThrottle$, onWindowResizeDebounce$ } from '../utils/dom-events';
+import { trackGaEvent } from '../tracking';
 
 let shouldAutoPlay = true;
 
@@ -29,6 +30,7 @@ export default function(el) {
   const video = el.querySelector('.js-gif-video__video');
   const playPause = el.querySelector('.js-gif-video__play-pause');
   const textEl = playPause.querySelector('.js-gif-video__text');
+  const trackingLabel = playPause.getAttribute('data-track-label');
 
   video.muted = true;
   video.loop = true;
@@ -36,6 +38,12 @@ export default function(el) {
   // If the user stops the video, don't autoplay
   // unless they restart the video manually
   playPause.addEventListener('click', () => {
+    trackGaEvent({
+      category: 'component',
+      action: 'toggle-gif-video-play:click',
+      label: `gif-video:${trackingLabel}, click-action:${video.paused ? 'did-play' : 'did-pause'}`
+    });
+
     if (video.paused) {
       video.play();
       textEl.classList.add('gif-video__text--is-playing');

@@ -12,7 +12,7 @@
     {% endif %}
     {% if ((model.title or model.source.name or model.copyright.name or model.license) and data.showCopyright) %}
       <div class="captioned-image__copyright-holder {% if modifiers.full %}captioned-image__copyright-holder--top{% else %}captioned-image__copyright-holder--bottom{% endif %} {{ {s:'HNM6', m:'HNM6', l:'HNM6'} | fontClasses }} drawer js-show-hide"
-        data-track-action="toggle-image-credit",
+        data-track-action="toggle-image-credit"
         data-track-label="image:{{ model.contentUrl }}">
         {% if not modifiers.full %}
           <button class="plain-button js-show-hide-trigger">
