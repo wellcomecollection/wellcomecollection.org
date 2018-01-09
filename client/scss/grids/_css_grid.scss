@@ -1,6 +1,4 @@
 .css-grid__container {
-  @include clearfix;
-
   @supports(display: grid) {
     display: grid;
     grid-auto-rows: minmax(min-content, max-content);
@@ -119,7 +117,9 @@
   overflow: auto;
 }
 
-.css-grid__cell { // fallback
+.css-grid__cell,
+.css-grid__cell--primary,
+.css-grid__cell--secondary { // fallback
   flex: 1;
   position: relative;
   padding-left: map-get($gutter-width, 'small');
@@ -152,6 +152,33 @@
   }
 }
 
+.css-grid__cell--primary {
+  grid-column: primary;
+
+  @include respond-to('large') {
+    flex-basis: (7 / 12) * 100%;
+    max-width: (7 / 12) * 100%;
+  }
+
+  @supports(display: grid) {
+    max-width: none;
+  }
+}
+
+.css-grid__cell--secondary {
+  grid-column: secondary;
+
+  @include respond-to('large') {
+    order: 1;
+    flex-basis: (5 / 12) * 100%;
+    max-width: (5 / 12) * 100%;
+  }
+
+  @supports(display: grid) {
+    max-width: none;
+  }
+}
+
 @each $key, $list in $grid-config {
   $columns: map-get($list, 'columns');
   $respond: map-get($list, 'respond');
@@ -169,39 +196,3 @@
     }
   }
 }
-
-.css-grid__cell--primary {
-  grid-column: primary;
-  margin-bottom: map-get($gutter-width, 'large'); // non grid fallback
-
-  @include respond-to('large') {
-    float: left;
-    width: percentage(7/12); // non grid fallback
-    padding-right: map-get($gutter-width, 'large')/2; // non grid fallback
-  }
-
-  @supports(display: grid) {
-    width: auto;
-    padding: 0;
-    margin: 0;
-  }
-}
-
-.css-grid__cell--secondary {
-  grid-column: secondary;
-  margin-bottom: map-get($gutter-width, 'large'); // non grid fallback
-
-  @include respond-to('large') {
-    order: 1;
-    float: right; // non grid fallback
-    width: percentage(5/12); // non grid fallback
-    padding-left: map-get($gutter-width, 'large')/2; // non grid fallback
-  }
-
-  @supports(display: grid) {
-    width: auto;
-    padding: 0;
-    margin: 0;
-  }
-}
-
