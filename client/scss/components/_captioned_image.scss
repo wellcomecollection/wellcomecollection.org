@@ -117,27 +117,6 @@
   }
 }
 
-.captioned-image__copyright-holder {
-  text-align: right;
-
-  .enhanced & {
-    position: absolute;
-    width: 100%;
-  }
-}
-
-.captioned-image__copyright-holder--bottom {
-  .enhanced & {
-    bottom: 0;
-  }
-}
-
-.captioned-image__copyright-holder--top {
-  .enhanced & {
-    top: 0;
-  }
-}
-
 .captioned-image__icon {
   display: none;
 
