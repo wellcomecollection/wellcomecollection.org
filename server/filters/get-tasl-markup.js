@@ -3,7 +3,7 @@ import getLicenseInfo from './get-license-info';
 function getTitleHtml(title, author, sourceLink) {
   if (!title) return '';
 
-  const byAuthor = author ? `, by ${author}` : '';
+  const byAuthor = author ? `, ${author}` : '';
 
   if (sourceLink) {
     return `<a href="${sourceLink}" property="dc:title" rel="cc:attributionURL">${title}${byAuthor}</a>. `;
