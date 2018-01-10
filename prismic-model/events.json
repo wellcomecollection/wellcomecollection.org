@@ -51,11 +51,11 @@
         "fields" : {
           "interpretation" : {
             "type" : "Link",
-            "fieldset" : "Interpretations",
+            "fieldset" : "Interpretation",
             "config" : {
               "select" : "document",
               "customtypes" : [ "interpretations" ],
-              "label" : "Access option"
+              "label" : "Interpretation"
             }
           },
           "isPrimary" : {
@@ -63,6 +63,23 @@
             "config" : {
               "options" : [ "yes" ],
               "label" : "Is primary"
+            }
+          }
+        }
+      }
+    },
+    "audiences": {
+      "type" : "Group",
+      "fieldset" : "Audiences",
+      "config" : {
+        "fields" : {
+          "interpretation" : {
+            "type" : "Link",
+            "fieldset" : "Audience",
+            "config" : {
+              "select" : "document",
+              "customtypes" : [ "audiences" ],
+              "label" : "Audience"
             }
           }
         }
