@@ -95,6 +95,10 @@
             <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
               {% componentV2 'iframe', bodyPart.value %}
             </div>
+          {% elif bodyPart.type === 'gifVideo' %}
+            <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              {% componentV2 'gif-video', bodyPart.value %}
+            </div>
           {% else %}
             {{ bodyPart.value | safe }}
           {% endif %}

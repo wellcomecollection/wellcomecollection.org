@@ -128,6 +128,17 @@ function parseBodyPart(slice) {
         }
       };
 
+    case 'gifVideo':
+      return {
+        type: 'gifVideo',
+        weight: slice.slice_label,
+        value: {
+          posterFrame: slice.primary.posterFrame && parsePicture({image: slice.primary.posterFrame}),
+          caption: slice.primary.caption && asHtml(slice.primary.caption),
+          videoUrl: slice.primary.video && slice.primary.video.url
+        }
+      };
+
     default:
       break;
   }

@@ -1,0 +1,20 @@
+.tasl {
+  text-align: right;
+
+  .enhanced & {
+    position: absolute;
+    width: 100%;
+  }
+}
+
+.tasl--bottom {
+  .enhanced & {
+    bottom: 0;
+  }
+}
+
+.tasl--top {
+  .enhanced & {
+    top: 0;
+  }
+}

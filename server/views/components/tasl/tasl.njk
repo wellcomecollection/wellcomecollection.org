@@ -1,0 +1,34 @@
+<div class="{{- [
+    'tasl--top' if modifiers.full else 'tasl--bottom',
+    {s:'HNM6', m:'HNM6', l:'HNM6'} | fontClasses
+  ].join(' ') }} tasl drawer js-show-hide"
+    data-track-action="toggle-image-credit"
+    data-track-label="image:{{ model.contentUrl }}">
+  {% if not modifiers.full %}
+    <button class="plain-button js-show-hide-trigger">
+      <span class="captioned-image__icon flex flex--v-center flex--h-center bg-transparent-black">
+        {% icon 'information', 'information', ['icon--white'] %}
+      </span>
+    </button>
+  {% endif %}
+  <div class="drawer__body js-show-hide-drawer bg-white {{ {s:1} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }}">
+    {% set tasl = {
+      title: model.title,
+      author: model.author,
+      sourceName: model.source.name,
+      sourceLink: model.source.link,
+      license: model.license,
+      copyrightHolder: model.copyright.holder,
+      copyrightLink: model.copyright.link
+    } %}
+
+    {{ tasl | getTaslMarkup | safe }}
+  </div>
+  {% if modifiers.full %}
+    <button class="plain-button js-show-hide-trigger">
+      <span class="captioned-image__icon flex flex--v-center flex--h-center bg-transparent-black">
+        {% icon 'information', 'information', ['icon--white'] %}
+      </span>
+    </button>
+  {% endif %}
+</div>
