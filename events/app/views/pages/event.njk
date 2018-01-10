@@ -38,7 +38,7 @@
           <div class="flex">
             {% for interpretation in event.interpretations %}
               {# TODO: This is not very nice #}
-              <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon interpretation.interpretationType.abbreviation | replace(' ', '_') | replace('-', '_') | lower %}</span>
+              <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon interpretation.interpretationType.title | replace(' ', '_') | replace('-', '_') | lower %}</span>
             {% endfor %}
             <span>{{ event.format.title }}</span>
           </div>
@@ -158,15 +158,23 @@
             </div>
           {% endif %}
 
-          {% for interpretation in event.accessOptions %}
+          {% for interpretation in event.interpretations %}
             {% if interpretation.interpretationType.description %}
               <h3 class="flex {{ {s:'HNM4'} | fontClasses }}">
-                <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon interpretation.interpretationType.abbreviation | replace(' ', '_') | replace('-', '_') | lower %}</span>
-                {{ interpretation.interpretationType.title }}
+                <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon interpretation.interpretationType.title | replace(' ', '_') | replace('-', '_') | lower %}</span>
+                <span>
+                  {% if interpretation.interpretationType.abbreviation %}
+                    <abbr title="{{ interpretation.interpretationType.title }}">{{ interpretation.interpretationType.abbreviation }}</abbr>
+                  {% else %}
+                    {{ interpretation.interpretationType.title }}
+                  {% endif %}
+
+                  {{ event.format if interpretation.isPrimary else "interpretation" }}
+                </span>
               </h3>
               <div class="{{ {s:'HNL4'} | fontClasses }}">
                 <p>
-                  {{ interpretation.interpretationType.description }}
+                  {{ interpretation.interpretationType.description | safe }}
                   For more information, email us at
                   <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
                   or call 020 7611 2222.

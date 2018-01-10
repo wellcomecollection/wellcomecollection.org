@@ -62,9 +62,12 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     capacity: doc.data.location.data.level
   }: Location) : null;
 
-  const interpretations = doc.data.interpretations.map(interpretation => !isEmptyDocLink(interpretation.interpretation) ? ({
-    title: asText(interpretation.interpretation.data.title),
-    description: asText(interpretation.interpretation.data.description),
+  const interpretations = doc.data.interpretations.map(interpretation => !isEmptyDocLink(interpretation.interpretationType) ? ({
+    interpretationType: {
+      title: asText(interpretation.interpretationType.data.title),
+      description: asText(interpretation.interpretationType.data.description),
+      abbreviation: asText(interpretation.interpretationType.data.abbreviation),
+    },
     isPrimary: Boolean(interpretation.isPrimary)
   }) : null).filter(_ => _);
 
@@ -388,5 +391,6 @@ export function asHtml(maybeContent: any) {
 }
 
 export function isEmptyDocLink(fragment: Object) {
+  console.log(fragment)
   return fragment.link_type === 'Document' && !fragment.data;
 }

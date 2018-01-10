@@ -73,7 +73,7 @@
       "fieldset" : "Audiences",
       "config" : {
         "fields" : {
-          "interpretation" : {
+          "audience" : {
             "type" : "Link",
             "fieldset" : "Audience",
             "config" : {
