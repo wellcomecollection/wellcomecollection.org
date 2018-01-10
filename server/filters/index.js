@@ -38,6 +38,7 @@ import {
 import getLicenseInfo from './get-license-info';
 import getTaslMarkup from './get-tasl-markup';
 import getBreakpoint from './get-breakpoint';
+import {aOrAn} from './grammar';
 
 export default Map({
   youtubeEmbedUrl,
@@ -80,5 +81,6 @@ export default Map({
   getTaslMarkup,
   getBreakpoint,
   joinDateStrings,
-  getHashedFile
+  getHashedFile,
+  aOrAn
 });

@@ -177,7 +177,9 @@
                   {% if interpretation.isPrimary %}
                     This event is designed
                   {% else %}
-                    This event will have a {{ interpretation.interpretationType.title }} interpretation
+                    This event will have
+                    {{ interpretation.interpretationType.title | aOrAn }}
+                    {{ interpretation.interpretationType.title }} interpretation
                   {% endif %}
                   {{ interpretation.interpretationType.description | safe }}
                 </p>
