@@ -44,17 +44,24 @@
     }
   },
   "Access" : {
-    "accessOptions" : {
+    "interpretations" : {
       "type" : "Group",
-      "fieldset" : "Access options",
+      "fieldset" : "Interpretations",
       "config" : {
         "fields" : {
-          "accessOption" : {
+          "isPrimary" : {
+            "type" : "Select",
+            "config" : {
+              "options" : [ "yes" ],
+              "label" : "Is primary"
+            }
+          },
+          "interpretation" : {
             "type" : "Link",
-            "fieldset" : "Access option",
+            "fieldset" : "Interpretations",
             "config" : {
               "select" : "document",
-              "customtypes" : [ "event-access-options" ],
+              "customtypes" : [ "interpretations" ],
               "label" : "Access option"
             }
           }
@@ -107,8 +114,7 @@
             "config" : {
               "label" : "Series",
               "select" : "document",
-              "customtypes" : [ "series" ],
-              "tags": [ "events" ]
+              "customtypes" : [ "event-series" ]
             }
           }
         }

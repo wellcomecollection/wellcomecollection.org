@@ -65,7 +65,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
   const interpretations = doc.data.interpretations.map(interpretation => !isEmptyDocLink(interpretation.interpretation) ? ({
     title: asText(interpretation.interpretation.data.title),
     description: asText(interpretation.interpretation.data.description),
-    isPrimary: interpretation.isPrimary
+    isPrimary: Boolean(interpretation.isPrimary)
   }) : null).filter(_ => _);
 
   const audiences = doc.data.audiences.map(audience => !isEmptyDocLink(audience.audience) ? ({
