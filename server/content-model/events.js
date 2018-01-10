@@ -4,103 +4,114 @@ import type {Person} from './people';
 import type {Picture} from '../model/picture';
 
 export type DateTimeRange = {|
-  startDateTime: Date;
-  endDateTime: Date;
+  startDateTime: Date,
+  endDateTime: Date
 |}
 
 type ContributorRole = {|
-  id: string;
-  title: string;
+  id: string,
+  title: string
 |}
 
 export type Contributor = {|
-  role: ContributorRole; // TODO: Should this just be a free text string?
+  role: ContributorRole;
   person: Person;
 |}
 
-// e.g. 'BSL interpreted tour' | 'Youth event' | 'Audio described tour' |
-// 'Speech-to-text transcribed tour' | 'Workshop' | 'Discussion' | 'Walking tour';
+// e.g. 'Tour' | 'Youth event' | 'Workshop' | 'Discussion' | 'Walking tour';
 export type EventFormat = {|
-  id: string;
-  title: string;
-  shortName: ?string;
-  description: ?string;
+  id: string,
+  title: string,
+  shortName: ?string,
+  description: ?string
 |}
 
 export type EventSeries = {|
-  id: string;
-  title: string;
-  description: ?HTMLString;
-  contributors: Array<Contributor>;
+  id: string,
+  title: string,
+  description: ?HTMLString,
+  contributors: Array<Contributor>
 |}
 
 // E.g. 'British sign language interpreted' | 'Audio described' | 'Speech-to-Text';
-type EventAccessOption = {|
+type Interpretation = {|
   id: string;
   title: string;
   description: ?string;
 |}
 
-export type EventBookingEnquiryTeam = {|
-  id: string;
-  title: string;
-  email: string;
-  phone: string;
-  url: string;
+type AttachedInterpretation = {|
+  interpretation: Interpretation,
+  isPrimary: boolean
+|}
+
+export type Team = {|
+  id: string,
+  title: string,
+  email: string,
+  phone: string,
+  url: string
 |}
 
 type Geolocation = {|
-  latitude: number;
-  longitude: number;
+  latitude: number,
+  longitude: number
 |}
 
-export type EventLocation = {|
-  id: string;
-  title: string;
-  geolocation: ?Geolocation;
-  level: number;
-  capacity: ?number;
+export type Location = {|
+  id: string,
+  title: string,
+  geolocation: ?Geolocation,
+  level: number,
+  capacity: ?number
 |}
 
 type IdentifierScheme = 'eventbrite-id';
 
 type Identifier = {|
-  identifierScheme: IdentifierScheme;
-  value: string;
+  identifierScheme: IdentifierScheme,
+  value: string
+|}
+
+type Audience = {|
+  id: string,
+  title: string,
+  description: ?string
 |}
 
 export type Event = {|
-  id: string;
-  identifiers: Array<Identifier>;
-  title: ?string;
-  format: ?EventFormat;
+  id: string,
+  identifiers: Array<Identifier>,
+  title: ?string,
+  format: ?EventFormat,
   isDropIn: boolean,
-  times: Array<DateTimeRange>;
-  description: ?HTMLString;
-  accessOptions: Array<EventAccessOption>;
-  series: Array<EventSeries>;
-  location: ?EventLocation;
-  bookingEnquiryTeam: ?EventBookingEnquiryTeam;
-  contributors: Array<Contributor>;
-  promo: ?ImagePromo;
+  times: Array<DateTimeRange>,
+  description: ?HTMLString,
+  series: Array<EventSeries>,
+  location: ?Location,
+  bookingEnquiryTeam: ?Team,
+  contributors: Array<Contributor>,
+  promo: ?ImagePromo,
+  interpretations: Array<AttachedInterpretation>,
+  audiences: Array<Audience>,
   // TODO:
   // this is programmatic and doesn't come from Prismic and can't be edited directly
   // it's more convenient that having to work it out.
   // not sure if it should be in the model, a question for Silver
-  bookingType: ?string;
+  bookingType: ?string
 |}
 
 export type EventPromo = {|
-  id: string;
-  title: ?string;
-  url: string;
-  start: DateTimeRange;
-  end: DateTimeRange;
-  description: ?HTMLString;
-  format: ?string;
-  bookingType: ?string;
-  image: ?Picture;
-  bookingType: ?string;
+  id: string,
+  title: ?string,
+  url: string,
+  start: DateTimeRange,
+  end: DateTimeRange,
+  description: ?HTMLString,
+  format: ?string,
+  bookingType: ?string,
+  image: ?Picture,
+  bookingType: ?string
 |}
 
 export const eventExample = ({
@@ -142,13 +153,19 @@ export const eventExample = ({
     'live drumming by ' +
     '<a href="https://wellcomecollection.org/people/WhvmIykAACgAlDHh">Randy Lester</a>' +
     '.',
-  accessOptions: [
-    {
+  interpretations: [{
+    isPrimary: true,
+    interpretation: {
       id: 'WcLABisAACx_BDQV',
       title: 'British sign language interpreted',
       description: 'This event is BSL sign language'
     }
-  ],
+  }],
+  audiences: [{
+    id: 'WfyK-yoAANudfrY31',
+    title: 'Researchers',
+    description: null
+  }],
   series: [
     {
       id: 'WfyK-yoAANuggY31',
