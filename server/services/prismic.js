@@ -1,5 +1,5 @@
 import Prismic from 'prismic-javascript';
-import {prismicApi, prismicPreviewApi} from './prismic-api';
+import {getPrismic, prismicApi, prismicPreviewApi} from './prismic-api';
 import {
   parseArticleDoc,
   parseEventDoc,
@@ -42,7 +42,6 @@ const defaultPageSize = 40;
 
 export async function getPrismicApi(req: ?Request) {
   const api = req ? await prismicPreviewApi(req) : await prismicApi();
-
   return api;
 }
 
@@ -86,14 +85,14 @@ export async function getEvent(id: string, previewReq: ?Request): Promise<?Event
   return parseEventDoc(event);
 }
 
-export async function getArticleList(page = 1, {pageSize = 10, predicates = []} = {}) {
+export async function getArticleList(cookies, {page = 1, pageSize = 10, predicates = []} = {}) {
   const fetchLinks = [
     'people.name', 'people.image', 'people.twitterHandle', 'people.description',
     'series.name', 'series.description', 'series.color', 'series.commissionedLength', 'series.schedule'
   ];
   // TODO: This order is not really doing what we expect it to do.
   const orderings = '[document.first_publication_date desc, my.articles.publishDate desc, my.webcomics.publishDate desc]';
-  const prismic = await prismicApi();
+  const prismic = await getPrismic(cookies);
   const articlesList = await prismic.query([
     Prismic.Predicates.any('document.type', ['articles', 'webcomics']),
     Prismic.Predicates.not('document.tags', ['delist'])
@@ -155,8 +154,9 @@ export async function getArticleSeries(seriesId) {
   }, {items: List(scheduleItems)}, {id: seriesId});
 }
 
-export async function getSeriesAndArticles(id: string, page: number = 1) {
-  const paginatedResults = await getArticleList(page, {
+export async function getSeriesAndArticles(cookies, {id, page = 1} = {}) {
+  const paginatedResults = await getArticleList(cookies, {
+    page,
     predicates: [Prismic.Predicates.at('my.articles.series.series', id)]
   });
 
