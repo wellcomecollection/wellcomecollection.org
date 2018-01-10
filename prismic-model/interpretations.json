@@ -13,6 +13,13 @@
         "single" : "paragraph",
         "label" : "Description"
       }
+    },
+    "abbreviation" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : "paragraph",
+        "label" : "Abbreviation"
+      }
     }
   }
 }

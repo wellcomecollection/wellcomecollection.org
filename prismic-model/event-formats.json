@@ -13,13 +13,6 @@
         "single" : "paragraph,hyperlink",
         "label" : "Description"
       }
-    },
-    "shortName" : {
-      "type" : "StructuredText",
-      "config" : {
-        "single" : "paragraph",
-        "label" : "Short name"
-      }
     }
   }
 }
