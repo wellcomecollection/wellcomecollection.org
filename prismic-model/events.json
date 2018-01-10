@@ -49,13 +49,6 @@
       "fieldset" : "Interpretations",
       "config" : {
         "fields" : {
-          "isPrimary" : {
-            "type" : "Select",
-            "config" : {
-              "options" : [ "yes" ],
-              "label" : "Is primary"
-            }
-          },
           "interpretation" : {
             "type" : "Link",
             "fieldset" : "Interpretations",
@@ -63,6 +56,13 @@
               "select" : "document",
               "customtypes" : [ "interpretations" ],
               "label" : "Access option"
+            }
+          },
+          "isPrimary" : {
+            "type" : "Select",
+            "config" : {
+              "options" : [ "yes" ],
+              "label" : "Is primary"
             }
           }
         }
