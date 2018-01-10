@@ -34,14 +34,14 @@ export type EventSeries = {|
 |}
 
 // E.g. 'British sign language interpreted' | 'Audio described' | 'Speech-to-Text';
-type Interpretation = {|
+type InterpretationType = {|
   id: string;
   title: string;
   description: ?string;
 |}
 
-type AttachedInterpretation = {|
-  interpretation: Interpretation,
+type Interpretation = {|
+  interpretationType: InterpretationType,
   isPrimary: boolean
 |}
 
@@ -110,8 +110,7 @@ export type EventPromo = {|
   description: ?HTMLString,
   format: ?string,
   bookingType: ?string,
-  image: ?Picture,
-  bookingType: ?string
+  image: ?Picture
 |}
 
 export const eventExample = ({

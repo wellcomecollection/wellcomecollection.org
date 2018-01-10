@@ -49,13 +49,13 @@
       "fieldset" : "Interpretations",
       "config" : {
         "fields" : {
-          "interpretation" : {
+          "interpretationType" : {
             "type" : "Link",
-            "fieldset" : "Interpretation",
+            "fieldset" : "Interpretation type",
             "config" : {
               "select" : "document",
-              "customtypes" : [ "interpretations" ],
-              "label" : "Interpretation"
+              "customtypes" : [ "interpretation-types" ],
+              "label" : "Interpretation type"
             }
           },
           "isPrimary" : {
