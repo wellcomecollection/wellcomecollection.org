@@ -394,6 +394,6 @@ export function isEmptyDocLink(fragment: Object) {
   return fragment.link_type === 'Document' && !fragment.data;
 }
 
-function deP(text: string) {
-  return text.replace(/<\/?p( class="")?>/g, '');
+function deP(text: ?string) {
+  return text && text.replace(/<\/?p( class="")?>/g, '');
 }
