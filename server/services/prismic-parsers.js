@@ -65,7 +65,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
   const interpretations = doc.data.interpretations.map(interpretation => !isEmptyDocLink(interpretation.interpretationType) ? ({
     interpretationType: {
       title: asText(interpretation.interpretationType.data.title),
-      description: asText(interpretation.interpretationType.data.description),
+      description: deP(asHtml(interpretation.interpretationType.data.description)),
       abbreviation: asText(interpretation.interpretationType.data.abbreviation),
     },
     isPrimary: Boolean(interpretation.isPrimary)
@@ -391,6 +391,9 @@ export function asHtml(maybeContent: any) {
 }
 
 export function isEmptyDocLink(fragment: Object) {
-  console.log(fragment)
   return fragment.link_type === 'Document' && !fragment.data;
+}
+
+function deP(text: string) {
+  return text.replace(/<\/?p( class="")?>/g, '');
 }

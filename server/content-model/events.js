@@ -92,7 +92,7 @@ export type Event = {|
   bookingEnquiryTeam: ?Team,
   contributors: Array<Contributor>,
   promo: ?ImagePromo,
-  interpretations: Array<AttachedInterpretation>,
+  interpretations: Array<Interpretation>,
   audiences: Array<Audience>,
   // TODO:
   // this is programmatic and doesn't come from Prismic and can't be edited directly
@@ -154,10 +154,10 @@ export const eventExample = ({
     '.',
   interpretations: [{
     isPrimary: true,
-    interpretation: {
+    interpretationType: {
       id: 'WcLABisAACx_BDQV',
       title: 'British sign language interpreted',
-      description: 'This event is BSL sign language'
+      description: 'This event is BSL sign language interpreted'
     }
   }],
   audiences: [{

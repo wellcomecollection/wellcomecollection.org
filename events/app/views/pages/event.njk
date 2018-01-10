@@ -169,15 +169,17 @@
                     {{ interpretation.interpretationType.title }}
                   {% endif %}
 
-                  {{ event.format if interpretation.isPrimary else "interpretation" }}
+                  {{ event.format.title if interpretation.isPrimary else "interpretation" }}
                 </span>
               </h3>
               <div class="{{ {s:'HNL4'} | fontClasses }}">
                 <p>
+                  {% if interpretation.isPrimary %}
+                    This event is designed
+                  {% else %}
+                    This event will have a {{ interpretation.interpretationType.title }} interpretation
+                  {% endif %}
                   {{ interpretation.interpretationType.description | safe }}
-                  For more information, email us at
-                  <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
-                  or call 020 7611 2222.
                 </p>
                 {% componentV2 'more-info-link', {name: 'View our accessibility statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
               </div>
