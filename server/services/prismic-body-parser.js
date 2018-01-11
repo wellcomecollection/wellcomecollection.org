@@ -12,14 +12,14 @@ function parseBodyPart(slice) {
       return {
         type: 'standfirst',
         weight: 'default',
-        value: RichText.asHtml(slice.primary.text)
+        value: asHtml(slice.primary.text)
       };
 
     case 'text':
       return {
         type: 'text',
         weight: 'default',
-        value: RichText.asHtml(slice.primary.text)
+        value: asHtml(slice.primary.text)
       };
 
     case 'editorialImage':
@@ -65,9 +65,9 @@ function parseBodyPart(slice) {
         type: 'quote',
         weight: 'default',
         value: {
-          body: RichText.asHtml(slice.primary.quote),
+          body: asHtml(slice.primary.quote),
           footer: slice.primary.citation && slice.primary.source ? `${slice.primary.citation} - ${slice.primary.source}` : null,
-          quote: RichText.asHtml(slice.primary.quote),
+          quote: asHtml(slice.primary.quote),
           citation: `${slice.primary.citation} - ${slice.primary.source}`
         }
       };
