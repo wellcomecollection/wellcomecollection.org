@@ -17,6 +17,7 @@ import type {ExhibitionPromo} from '../model/exhibition-promo';
 import type {ExhibitionAndRelatedContent} from '../model/exhibition-and-related-content';
 import {PaginationFactory} from '../model/pagination';
 import type {EventPromo} from '../content-model/events';
+import {galleryOpeningHours} from '../model/opening-hours';
 
 type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
 
@@ -331,11 +332,42 @@ function groupPromosByMonth(promos) {
   }, {});
 }
 
-export async function getExhibitionAndEventPromos(queryDates) {
+function getListHeader(dates) {
+  const todayString = new Date().toLocaleString('en-us', { weekday: 'long' });
+  const todayOpeningHours = galleryOpeningHours.find(i => i.dayOfWeek === todayString);
+  const todayDateString = `startDate=${dates.today}&endDate=${dates.today}`;
+  const weekendDateString = `startDate=${dates.weekend[0]}&endDate=${dates.weekend[1]}`;
+  const allDateString = `startDate=${dates.all[0]}&endDate=${dates.all[1]}`;
+  const urlBeginning = `${encodeURI('/whats-on/?')}`;
+
+  return {
+    todayOpeningHours,
+    name: 'What\'s on',
+    items: [
+      {
+        id: 'today',
+        title: 'Today',
+        url: `${urlBeginning}${encodeURI(todayDateString)}`
+      },
+      {
+        id: 'weekend',
+        title: 'This weekend',
+        url: `${urlBeginning}${encodeURI(weekendDateString)}`
+      },
+      {
+        id: 'everything',
+        title: 'Everything',
+        url: `${urlBeginning}${encodeURI(allDateString)}`
+      }
+    ]
+  };
+}
+
+export async function getExhibitionAndEventPromos(query) {
   const todaysDate = london();
-  const dateRange = queryDates && queryDates.split('|');
-  const fromDate = dateRange && dateRange[0] ? dateRange[0] : todaysDate.format('YYYY-MM-DD');
-  const toDate = dateRange && dateRange[1] ? dateRange[1] : todaysDate.format('YYYY-MM-DD');
+  const fromDate = query.startDate ? query.startDate : todaysDate.format('YYYY-MM-DD');
+  const toDate = query.endDate ? query.endDate : todaysDate.format('YYYY-MM-DD');
+  const dateRange = [fromDate, toDate];
 
   const prismic = await getPrismicApi();
   const allExhibitionsAndEvents = await prismic.query([
@@ -365,6 +397,7 @@ export async function getExhibitionAndEventPromos(queryDates) {
     queriedDates: dateRange
   };
   const active = getActiveState(todaysDate, [fromDate, toDate]);
+  const listHeader = getListHeader(dates);
   return {
     active,
     dates,
@@ -372,7 +405,8 @@ export async function getExhibitionAndEventPromos(queryDates) {
     temporaryExhibitionPromos,
     eventPromos,
     eventPromosGroupedByMonth,
-    monthControls
+    monthControls,
+    listHeader
   };
 }
 
