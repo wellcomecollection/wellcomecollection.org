@@ -27,7 +27,9 @@ const seriesFields = [
   'series.color',
   'series.schedule',
   'series.commissionedLength',
-  'series.wordpressSlug'
+  'series.wordpressSlug',
+  'webcomic-series.title',
+  'webcomic-series.description'
 ];
 const contributorFields = ['editorial-contributor-roles.title'];
 const eventFields = [
@@ -87,10 +89,7 @@ export async function getEvent(id: string, previewReq: ?Request): Promise<?Event
 }
 
 export async function getArticleList(page = 1, {pageSize = 10, predicates = []} = {}) {
-  const fetchLinks = [
-    'people.name', 'people.image', 'people.twitterHandle', 'people.description',
-    'series.name', 'series.description', 'series.color', 'series.commissionedLength', 'series.schedule'
-  ];
+  const fetchLinks = peopleFields.concat(seriesFields);
   // TODO: This order is not really doing what we expect it to do.
   const orderings = '[document.first_publication_date desc, my.articles.publishDate desc, my.webcomics.publishDate desc]';
   const prismic = await prismicApi();
