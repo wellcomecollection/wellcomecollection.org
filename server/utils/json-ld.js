@@ -23,19 +23,36 @@ export function contentLd(content) {
   }, 'Article');
 }
 
-export function exhibitionLd(content) {
+export function exhibitionLd(exhibition) {
   return objToJsonLd({
-    name: content.title,
-    description: content.safeDescription.val,
-    image: content.featuredImage && convertImageUri(content.featuredImage.contentUrl, 1920, false),
+    name: exhibition.title,
+    description: exhibition.safeDescription.val,
+    image: exhibition.featuredImage && convertImageUri(exhibition.featuredImage.contentUrl, 1920, false),
     location: {
       '@type': 'Place',
       name: 'Wellcome Collection',
       address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
     },
-    startDate: content.start,
-    endDate: content.end,
-    url: `https://wellcomecollection.org/exhibitions/${content.id}`,
+    startDate: exhibition.start,
+    endDate: exhibition.end,
+    url: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
+    isAccessibleForFree: true
+  }, 'ExhibitionEvent');
+}
+
+export function exhibitionPromoLd(exhibitionPromo) {
+  return objToJsonLd({
+    name: exhibitionPromo.title,
+    description: exhibitionPromo.description,
+    image: exhibitionPromo.image.contentUrl && convertImageUri(exhibitionPromo.image.contentUrl, 1920, false),
+    location: {
+      '@type': 'Place',
+      name: 'Wellcome Collection',
+      address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
+    },
+    startDate: exhibitionPromo.start,
+    endDate: exhibitionPromo.end,
+    url: `https://wellcomecollection.org/exhibitions/${exhibitionPromo.id}`,
     isAccessibleForFree: true
   }, 'ExhibitionEvent');
 }

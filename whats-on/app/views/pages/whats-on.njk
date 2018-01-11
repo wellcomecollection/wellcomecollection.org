@@ -17,17 +17,13 @@
 {% block body %}
    <script type="application/ld+json">
     [{% for exhibition in exhibitionAndEventPromos.temporaryExhibitionPromos %}
-      {% set featuredImage = {contentUrl: exhibition.image.contentUrl} %}
-      {% set exhib = exhibition | objectAssign({safeDescription: exhibition.description | safe | striptags, featuredImage: featuredImage}) %}
-      {{ exhib | jsonLd('exhibitionLd') | safe }},
+      {{ exhibition | jsonLd('exhibitionPromoLd') | safe }},
     {% endfor %}
     {% for event in exhibitionAndEventPromos.eventPromos %}
       {{ event | jsonLd('eventPromoLd') | safe }},
     {% endfor %}
     {% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
-      {% set featuredImage = {contentUrl: exhibition.image.contentUrl} %}
-      {% set exhib = exhibition | objectAssign({safeDescription: exhibition.description | safe | striptags, featuredImage: featuredImage}) %}
-      {{ exhib | jsonLd('exhibitionLd') | safe }}{{ ',' if not loop.last }}
+      {{ exhibition | jsonLd('exhibitionPromoLd') | safe }}{{ ',' if not loop.last }}
     {% endfor %}]
   </script>
 
