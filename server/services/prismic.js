@@ -300,8 +300,8 @@ function getActiveState(today, range) {
   }
 };
 
-function groupPromosByMonth(promos) {
-  return promos.reduce((acc, currEvent) => { // TODO tidy this DRY
+function duplicatePromosByMonthYear(promos) {
+  return promos.reduce((acc, currEvent) => {
     const start = london(currEvent.start);
     const end = london(currEvent.end);
     if (end.isSame(start, 'month')) {
@@ -377,9 +377,9 @@ export async function getExhibitionAndEventPromos(query) {
   const permanentExhibitionPromos = exhibitionPromos.filter(e => !e.end);
   const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => e.end), fromDate, toDate);
   const eventPromos = filterPromosByDate(createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')), fromDate, toDate);
-  const eventPromosGroupedByMonth = groupPromosByMonth(eventPromos);
-  const monthControls = Object.keys(eventPromosGroupedByMonth).reduce((acc, year) => {
-    Object.keys(eventPromosGroupedByMonth[year]).forEach((month) => {
+  const eventPromosSplitAcrossMonths = duplicatePromosByMonthYear(eventPromos);
+  const monthControls = Object.keys(eventPromosSplitAcrossMonths).reduce((acc, year) => {
+    Object.keys(eventPromosSplitAcrossMonths[year]).forEach((month) => {
       const controlObject = {
         id: `${year}-${month}`,
         title: month,
@@ -404,7 +404,7 @@ export async function getExhibitionAndEventPromos(query) {
     permanentExhibitionPromos,
     temporaryExhibitionPromos,
     eventPromos,
-    eventPromosGroupedByMonth,
+    eventPromosSplitAcrossMonths,
     monthControls,
     listHeader
   };
