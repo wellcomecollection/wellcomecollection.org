@@ -1,8 +1,4 @@
-{% if data.sizes %}
-  {% set sizes = data.sizes %}
-{% else %}
-  {% set sizes = '100vw' %}
-{% endif %}
+{% set sizes = data.sizes if data.sizes else '100vw' %}
 <a id="{{model.id}}" href="{{ model.url }}" class="facility-promo">
   <div class="{{- [
       {s:2} | spacingClasses({padding: ['top']}),
