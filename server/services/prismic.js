@@ -155,9 +155,9 @@ export async function getArticleSeries(seriesId) {
   }, {items: List(scheduleItems)}, {id: seriesId});
 }
 
-export async function getSeriesAndArticles(id: string, page: number = 1) {
+export async function getSeriesAndArticles(id: string, page: number = 1, contentType = 'articles') {
   const paginatedResults = await getArticleList(page, {
-    predicates: [Prismic.Predicates.at('my.articles.series.series', id)]
+    predicates: [Prismic.Predicates.at(`my.${contentType}.series.series`, id)]
   });
 
   if (paginatedResults.totalResults > 0) {
