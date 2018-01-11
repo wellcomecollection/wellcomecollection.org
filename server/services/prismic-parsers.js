@@ -221,7 +221,7 @@ export function parsePromoListItem(item: Object): Promo {
 
 export function parsePicture(captionedImage: Object, minWidth: ?string = null): Picture {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
-  const tasl = image && parseTaslFromCopyright(image.copyright);
+  const tasl = image && parseTaslFromString(image.copyright);
 
   return ({
     type: 'picture',
@@ -343,11 +343,11 @@ type Tasl = {|
   copyrightLink: ?string;
 |}
 
-function parseTaslFromCopyright(copyright): Tasl {
+export function parseTaslFromString(pipedString: string): Tasl {
   // We expect a string of title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
   // e.g. Self|Rob Bidder|||CC-BY-NC
   try {
-    const list = copyright.split('|');
+    const list = pipedString.split('|');
     const v = list
       .concat(Array(7 - list.length))
       .map(v => !v.trim() ? null : v.trim());
@@ -356,7 +356,7 @@ function parseTaslFromCopyright(copyright): Tasl {
     return {title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink};
   } catch (e) {
     return {
-      title: copyright,
+      title: pipedString,
       author: null,
       sourceName: null,
       sourceLink: null,

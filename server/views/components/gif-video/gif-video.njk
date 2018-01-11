@@ -4,22 +4,20 @@
   ].join(' ') }} js-gif-video gif-video no-margin">
   <div class="gif-video__inner relative">
     <video class="gif-video__video block js-gif-video__video"
-      poster="{{ model.posterFrame.contentUrl }}"
       preload="metadata"
       muted
       loop
       playsinline>
       <source src="{{ model.videoUrl }}" type="video/mp4">
-      {# Fallback to poster frame #}
-      {% componentV2 'image', model.posterFrame %}
+      <p>Your browser doesn't support video</p>
     </video>
-    <button class="no-margin no-padding plain-button gif-video__play-pause absolute js-gif-video__play-pause"
+    <button class="no-margin no-padding plain-button gif-video__play-pause absolute js-gif-video__play-pause is-hidden"
       aria-label="play/pause button"
       data-track-label="{{ model.videoUrl }}">
       <span class="{{ {s:'LR3'} | fontClasses }} js-gif-video__text gif-video__text block"></span>
     </button>
-    {% if (model.posterFrametitle or model.posterFramesource.name or model.posterFramecopyright.name or model.posterFramelicense) %}
-      {% componentV2 'tasl', model.posterFrame %}
+    {% if (model.tasl.title or model.tasl.sourceName or model.tasl.copyrightHolder or model.tasl.license) %}
+      {% componentV2 'tasl', model.tasl %}
     {% endif %}
   </div>
   {% if model.caption %}

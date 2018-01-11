@@ -1,6 +1,6 @@
 import type {ImageList} from '../content-model/content-blocks';
 import {RichText} from 'prismic-dom';
-import {asHtml, asText, parsePicture, prismicImage} from './prismic-parsers';
+import {asHtml, asText, parsePicture, parseTaslFromString, prismicImage} from './prismic-parsers';
 
 export function parseBody(content) {
   return content.filter(slice => slice.slice_label !== 'featured').map(parseBodyPart).filter(_ => _);
@@ -133,9 +133,9 @@ function parseBodyPart(slice) {
         type: 'gifVideo',
         weight: slice.slice_label,
         value: {
-          posterFrame: slice.primary.posterFrame && parsePicture({image: slice.primary.posterFrame}),
           caption: slice.primary.caption && asHtml(slice.primary.caption),
-          videoUrl: slice.primary.video && slice.primary.video.url
+          videoUrl: slice.primary.video && slice.primary.video.url,
+          tasl: parseTaslFromString(slice.primary.tasl)
         }
       };
 
