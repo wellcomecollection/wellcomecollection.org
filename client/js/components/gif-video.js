@@ -3,12 +3,12 @@ import { trackGaEvent } from '../tracking';
 
 function inViewport(el) {
   const rect = el.getBoundingClientRect();
-
+  // If *any* part of the video is in the viewport
   return (
-    rect.top >= 0 &&
+    rect.top >= 0 - rect.height &&
+    rect.top <= window.innerHeight &&
     rect.left >= 0 &&
-    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    rect.left < window.innerWidth
   );
 }
 
