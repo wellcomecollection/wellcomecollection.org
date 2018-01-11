@@ -7,7 +7,7 @@
   border: 0;
   appearance: none;
   top: $spacing-unit;
-  left: 10px;
+  left: $spacing-unit;
   display: none;
   transition: opacity 600ms ease;
 
@@ -17,12 +17,13 @@
 }
 
 .gif-video__text {
+  background: rgba(color('black'), 0.6);
+  padding: $spacing-unit;
+  border-radius: $border-radius-unit;
+  color: color('white');
+
   &:before {
     content: 'play';
-    color: color('white');
-    background: rgba(color('black'), 0.6);
-    padding: $spacing-unit;
-    border-radius: $border-radius-unit;
   }
 }
 
