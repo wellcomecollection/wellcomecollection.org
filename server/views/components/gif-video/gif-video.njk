@@ -1,20 +1,26 @@
 <figure class="{{- [
   {s:0} | spacingClasses({margin: ['top', 'left', 'right' ]}),
   {s:3} | spacingClasses({margin: ['bottom']})
-  ].join(' ') }} js-gif-video gif-video">
+  ].join(' ') }} js-gif-video gif-video no-margin">
   <div class="gif-video__inner relative">
     <video class="gif-video__video block js-gif-video__video"
-      poster="{{ model.posterFrameUrl }}" >
+      poster="{{ model.posterFrame.contentUrl }}"
+      preload="metadata"
+      muted
+      loop
+      playsinline>
       <source src="{{ model.videoUrl }}" type="video/mp4">
       {# Fallback to poster frame #}
       {% componentV2 'image', model.posterFrame %}
     </video>
-    <button class="gif-video__play-pause absolute js-gif-video__play-pause"
+    <button class="no-margin no-padding plain-button gif-video__play-pause absolute js-gif-video__play-pause"
       aria-label="play/pause button"
       data-track-label="{{ model.videoUrl }}">
-      <span class="{{ {s:'LR3'} | fontClasses }} js-gif-video__text gif-video__text"></span>
+      <span class="{{ {s:'LR3'} | fontClasses }} js-gif-video__text gif-video__text block"></span>
     </button>
-    {% componentV2 'tasl', model.posterFrame %}
+    {% if (model.posterFrametitle or model.posterFramesource.name or model.posterFramecopyright.name or model.posterFramelicense) %}
+      {% componentV2 'tasl', model.posterFrame %}
+    {% endif %}
   </div>
   {% if model.caption %}
     <figcaption class="gif-video__caption border-bottom-width-1 border-color-pumice {{ {s:'LR3', m:'LR2'} | fontClasses }} {{ {s:3} | spacingClasses({padding: ['top', 'bottom']}) }} ">
