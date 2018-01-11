@@ -219,6 +219,8 @@ $breakpoints: (
   'xlarge': $container-width-max
 );
 
+$header-medium-breakpoint: 825px;
+
 // Empty map for respond-to mixin
 // Override in component Sass files
 $tweakpoints: ();

@@ -1,7 +1,7 @@
 //* @define header; weak
 
 $tweakpoints: (
-  'header-medium': 825px,
+  'header-medium': $header-medium-breakpoint,
   'large': map-get($breakpoints, 'large'),
   'small': map-get($breakpoints, 'small')
 );
@@ -97,6 +97,7 @@ $tweakpoints: (
 
   @include respond-between('small', 'header-medium') {
     border-top: 1px solid color('pumice');
+    min-height: 100vh;
   }
 
   @include respond-to('medium') {
@@ -114,6 +115,16 @@ $tweakpoints: (
 
   .header--is-burger-open & {
     display: block;
+  }
+}
+
+.header--is-burger-open {
+  @include respond-between('small', 'header-medium') {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
   }
 }
 
