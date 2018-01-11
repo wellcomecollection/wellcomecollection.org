@@ -1,8 +1,6 @@
 import { onWindowScrollThrottle$, onWindowResizeDebounce$ } from '../utils/dom-events';
 import { trackGaEvent } from '../tracking';
 
-let shouldAutoPlay = true;
-
 function inViewport(el) {
   const rect = el.getBoundingClientRect();
 
@@ -16,7 +14,7 @@ function inViewport(el) {
 
 function autoPlayGif(video, textEl) {
   if (inViewport(video)) {
-    if (video.paused && shouldAutoPlay) {
+    if (video.paused && !video.classList.contains('is-autoplay-disabled')) {
       video.play();
       textEl.classList.add('gif-video__text--is-playing');
     }
@@ -32,9 +30,6 @@ export default function(el) {
   const textEl = playPause.querySelector('.js-gif-video__text');
   const trackingLabel = playPause.getAttribute('data-track-label');
 
-  video.muted = true;
-  video.loop = true;
-
   // If the user stops the video, don't autoplay
   // unless they restart the video manually
   playPause.addEventListener('click', () => {
@@ -46,12 +41,12 @@ export default function(el) {
 
     if (video.paused) {
       video.play();
+      video.classList.remove('is-autoplay-disabled');
       textEl.classList.add('gif-video__text--is-playing');
-      shouldAutoPlay = true;
     } else {
       video.pause();
+      video.classList.add('is-autoplay-disabled');
       textEl.classList.remove('gif-video__text--is-playing');
-      shouldAutoPlay = false;
     }
   });
 

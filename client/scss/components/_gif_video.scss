@@ -6,22 +6,13 @@
   background: transparent;
   border: 0;
   appearance: none;
-  top: 10px;
+  top: $spacing-unit;
   left: 10px;
-  opacity: 0;
   display: none;
   transition: opacity 600ms ease;
 
   .enhanced & {
     display: block;
-  }
-
-  &:hover,
-  &:focus,
-  .gif-video:hover & {
-    .enhanced & {
-      opacity: 1;
-    }
   }
 }
 
