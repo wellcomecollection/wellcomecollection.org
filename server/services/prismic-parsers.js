@@ -368,8 +368,18 @@ function parseTaslFromCopyright(copyright): Tasl {
 }
 
 // This purposefully isn't named `parseText` | `parseHtml` to match the prismic API.
+const linkResolver = (doc) => {
+  switch (doc.type) {
+    case 'articles'    : return `/articles/${doc.id}`;
+    case 'webcomics'   : return `/articles/${doc.id}`;
+    case 'exhibitions' : return `/exhibitions/${doc.id}`;
+    case 'events'      : return `/events/${doc.id}`;
+    case 'series'      : return `/series/${doc.id}`;
+  }
+};
+
 export function asText(maybeContent: any) {
-  return maybeContent && RichText.asText(maybeContent).trim();
+  return maybeContent && RichText.asText(maybeContent, linkResolver).trim();
 }
 
 export function asHtml(maybeContent: any) {
@@ -377,7 +387,7 @@ export function asHtml(maybeContent: any) {
   // Check that `asText` wouldn't return an empty string.
   const isEmpty = !maybeContent || asText(maybeContent).trim() === '';
 
-  return isEmpty ? null : RichText.asHtml(maybeContent).trim();
+  return isEmpty ? null : RichText.asHtml(maybeContent, linkResolver).trim();
 }
 
 export function isEmptyDocLink(fragment: Object) {
