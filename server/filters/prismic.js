@@ -1,6 +1,5 @@
 import {asHtml, asText} from '../services/prismic-parsers';
 
-
 export function prismicAsHtml(content) {
   return asHtml(content);
 }

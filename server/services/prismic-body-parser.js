@@ -1,5 +1,4 @@
 import type {ImageList} from '../content-model/content-blocks';
-import {RichText} from 'prismic-dom';
 import {asHtml, asText, parsePicture, parseTaslFromString, prismicImage} from './prismic-parsers';
 
 export function parseBody(content) {
