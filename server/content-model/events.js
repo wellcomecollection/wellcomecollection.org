@@ -14,8 +14,8 @@ type ContributorRole = {|
 |}
 
 export type Contributor = {|
-  role: ContributorRole;
-  person: Person;
+  role: ContributorRole,
+  person: Person
 |}
 
 // e.g. 'Tour' | 'Youth event' | 'Workshop' | 'Discussion' | 'Walking tour';
