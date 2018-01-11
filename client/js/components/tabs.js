@@ -14,6 +14,8 @@ const tabs = (el, options) => {
     item.setAttribute('aria-hidden', 'true');
   });
 
+  // When segmented control is used as controls for tab panel, there are 2 sets of tablinks on the page (for small and large screens)
+  // Here we cause the small screen links to activate the large screen links (which are the actual tab controls)
   proxyTablinks.forEach((proxyTab, index) => {
     proxyTab.addEventListener('click', (event) => {
       event.preventDefault();
