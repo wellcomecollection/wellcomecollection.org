@@ -63,6 +63,7 @@ async function getPreviewSession(token) {
         // We don't use a `/preview` prefix here.
         // It's just a way for editors to get to the content via Prismic
         case 'series' : return `/series/${doc.id}`;
+        case 'webcomic-series' : return `/webcomic-series/${doc.id}`;
       }
     }, '/', (err, redirectUrl) => {
       if (err) {
@@ -108,7 +109,7 @@ export async function renderExplore(ctx, next) {
       path: path,
       title: prismicAsText(curatedList.data.title),
       inSection: 'explore',
-      category: 'list',
+      category: 'editorial',
       canonicalUri: `${ctx.globals.rootDomain}/explore`
     }),
     promos: promos,
@@ -118,6 +119,41 @@ export async function renderExplore(ctx, next) {
   });
 
   return next();
+}
+
+export async function renderWebcomicSeries(ctx, next) {
+  const page = Number(ctx.request.query.page);
+  const {id} = ctx.params;
+  const seriesWebcomics = await getSeriesAndArticles(id, 1, 'webcomics');
+
+  if (seriesWebcomics) {
+    const {series, paginatedResults} = seriesWebcomics;
+    const pageSeries: Series = {
+      url: `/webcomic-series/${series.id}`,
+      name: series.name,
+      description: series.description,
+      items: List(paginatedResults.results.reverse()),
+      total: paginatedResults.totalResults
+    };
+
+    const promoList = PromoListFactory.fromSeries(pageSeries);
+    const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1);
+    const path = ctx.request.url;
+
+    ctx.render('pages/list', {
+      pageConfig: createPageConfig({
+        path: path,
+        title: series.name,
+        inSection: 'explore',
+        category: 'editorial'
+      }),
+      description: series.description,
+      list: promoList,
+      pagination
+    });
+
+    return next();
+  }
 }
 
 export async function renderSeries(ctx, next) {
@@ -142,10 +178,11 @@ export async function renderSeries(ctx, next) {
     ctx.render('pages/list', {
       pageConfig: createPageConfig({
         path: path,
-        title: 'Articles',
+        title: series.name,
         inSection: 'explore',
-        category: 'list'
+        category: 'editorial'
       }),
+      description: series.description,
       list: promoList,
       pagination
     });
