@@ -335,9 +335,9 @@ function groupPromosByMonth(promos) {
 function getListHeader(dates) {
   const todayString = new Date().toLocaleString('en-us', { weekday: 'long' });
   const todayOpeningHours = galleryOpeningHours.find(i => i.dayOfWeek === todayString);
-  const todayDateString = `${dates.today} | ${dates.today}`;
-  const weekendDateString = `${dates.weekend[0]} | ${dates.weekend[1]}`;
-  const allDateString = `${dates.all[0]} | ${dates.all[1]}`;
+  const todayDateString = `${dates.today}|${dates.today}`;
+  const weekendDateString = `${dates.weekend[0]}|${dates.weekend[1]}`;
+  const allDateString = `${dates.all[0]}|${dates.all[1]}`;
   const urlBeginning = `${encodeURI('/whats-on/?' + 'f[dates]')}=`;
 
   return {
