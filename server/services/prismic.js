@@ -377,6 +377,8 @@ export async function getExhibitionAndEventPromos(query) {
   const permanentExhibitionPromos = exhibitionPromos.filter(e => !e.end);
   const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => e.end), fromDate, toDate);
   const eventPromos = filterPromosByDate(createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')), fromDate, toDate);
+
+  // eventPromosSplitAcrossMonths and monthControls only required for the 'everything' view
   const eventPromosSplitAcrossMonths = duplicatePromosByMonthYear(eventPromos);
   const monthControls = Object.keys(eventPromosSplitAcrossMonths).reduce((acc, year) => {
     Object.keys(eventPromosSplitAcrossMonths[year]).forEach((month) => {
