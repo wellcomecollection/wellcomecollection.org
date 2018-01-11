@@ -4,7 +4,7 @@ import type { Promo } from '../model/promo';
 export const readingRoomPromo: Promo = {
   type: 'promo',
   contentType: 'place',
-  title: 'Reading room',
+  title: 'Reading Room',
   url: '/readingroom',
   metaIcon: 'clock',
   metaText: 'Open during gallery hours',
@@ -83,7 +83,7 @@ export const bookshopPromo: Promo = {
 export const spiritBoothPromo: Promo = {
   type: 'promo',
   contentType: 'place',
-  title: 'S.P.I.R.I.T. Booth',
+  title: 'S.P.I.R.I.T Booth',
   url: 'https://wellcomecollection.org/spiritbooth',
   description: 'Get your psychic transparency revealed and captured.',
   metaIcon: 'clock',
