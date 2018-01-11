@@ -93,12 +93,6 @@
               "customtypes" : [ "webcomic-series" ],
               "label" : "Series"
             }
-          },
-          "positionInSeries" : {
-            "type" : "Number",
-            "config" : {
-              "label" : "Position in series"
-            }
           }
         }
       }
