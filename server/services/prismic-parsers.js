@@ -15,6 +15,7 @@ import type {Picture} from '../model/picture';
 import {isEmptyObj} from '../utils/is-empty-obj';
 import type {Series} from '../model/series';
 import type {LicenseType} from '../model/license';
+import {licenseTypeArray} from '../model/license';
 
 // This is just JSON
 type PrismicDoc = Object;
@@ -334,7 +335,7 @@ function parseFeaturedMediaFromBody(doc: PrismicDoc): ?Picture {
 }
 
 type Tasl = {|
-  title: string;
+  title: ?string;
   author: ?string;
   sourceName: ?string;
   sourceLink: ?string;
@@ -352,7 +353,8 @@ export function parseTaslFromString(pipedString: string): Tasl {
       .concat(Array(7 - list.length))
       .map(v => !v.trim() ? null : v.trim());
 
-    const [title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink] = v;
+    const [title, author, sourceName, sourceLink, maybeLicense, copyrightHolder, copyrightLink] = v;
+    const license: ?LicenseType = licenseTypeArray.find(l => l === maybeLicense);
     return {title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink};
   } catch (e) {
     return {
