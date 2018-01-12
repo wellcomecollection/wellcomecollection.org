@@ -272,7 +272,7 @@ function parseSeries(doc: ?PrismicDocFragment): Array<Series> {
     return series && series.data && {
       id: series.id,
       url: series.id,
-      name: series.data.name,
+      name: series.data.name || asText(series.data.title),
       description: asText(series.data.description),
       color: series.data.color,
       commissionedLength: series.data.commissionedLength,
