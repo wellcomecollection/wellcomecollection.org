@@ -8,12 +8,7 @@
   appearance: none;
   top: $spacing-unit;
   left: $spacing-unit;
-  display: none;
   transition: opacity 600ms ease;
-
-  .enhanced & {
-    display: block;
-  }
 }
 
 .gif-video__text {

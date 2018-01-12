@@ -11,7 +11,16 @@
       {% componentV2 'image', model, {}, {lazyload: true, sizesQueries: data.sizesQueries} %}
     {% endif %}
     {% if ((model.title or model.source.name or model.copyright.name or model.license) and data.showCopyright) %}
-      {% componentV2 'tasl', model, modifiers %}
+      {% set tasl = {
+        title: model.title,
+        author: model.author,
+        sourceName: model.source.name,
+        sourceLink: model.source.link,
+        license: model.license,
+        copyrightHolder: model.copyright.holder,
+        copyrightLink: model.copyright.link
+      } %}
+      {% componentV2 'tasl', tasl, modifiers %}
     {% endif %}
   </div>
   {% block figcaption %}

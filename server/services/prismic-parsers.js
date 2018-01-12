@@ -15,6 +15,7 @@ import type {Picture} from '../model/picture';
 import {isEmptyObj} from '../utils/is-empty-obj';
 import type {Series} from '../model/series';
 import type {LicenseType} from '../model/license';
+import {licenseTypeArray} from '../model/license';
 
 // This is just JSON
 type PrismicDoc = Object;
@@ -221,7 +222,7 @@ export function parsePromoListItem(item: Object): Promo {
 
 export function parsePicture(captionedImage: Object, minWidth: ?string = null): Picture {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
-  const tasl = image && parseTaslFromCopyright(image.copyright);
+  const tasl = image && parseTaslFromString(image.copyright);
 
   return ({
     type: 'picture',
@@ -334,7 +335,7 @@ function parseFeaturedMediaFromBody(doc: PrismicDoc): ?Picture {
 }
 
 type Tasl = {|
-  title: string;
+  title: ?string;
   author: ?string;
   sourceName: ?string;
   sourceLink: ?string;
@@ -343,20 +344,21 @@ type Tasl = {|
   copyrightLink: ?string;
 |}
 
-function parseTaslFromCopyright(copyright): Tasl {
+export function parseTaslFromString(pipedString: string): Tasl {
   // We expect a string of title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
   // e.g. Self|Rob Bidder|||CC-BY-NC
   try {
-    const list = copyright.split('|');
+    const list = pipedString.split('|');
     const v = list
       .concat(Array(7 - list.length))
       .map(v => !v.trim() ? null : v.trim());
 
-    const [title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink] = v;
+    const [title, author, sourceName, sourceLink, maybeLicense, copyrightHolder, copyrightLink] = v;
+    const license: ?LicenseType = licenseTypeArray.find(l => l === maybeLicense);
     return {title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink};
   } catch (e) {
     return {
-      title: copyright,
+      title: pipedString,
       author: null,
       sourceName: null,
       sourceLink: null,

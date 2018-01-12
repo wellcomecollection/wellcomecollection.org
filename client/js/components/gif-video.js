@@ -30,6 +30,11 @@ export default function(el) {
   const textEl = playPause.querySelector('.js-gif-video__text');
   const trackingLabel = playPause.getAttribute('data-track-label');
 
+  // Hide the play/pause button until the video can loop
+  video.addEventListener('canplaythrough', () => {
+    playPause.classList.remove('is-hidden');
+  });
+
   // If the user stops the video, don't autoplay
   // unless they restart the video manually
   playPause.addEventListener('click', () => {

@@ -12,17 +12,7 @@
     </button>
   {% endif %}
   <div class="drawer__body js-show-hide-drawer bg-white {{ {s:1} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }}">
-    {% set tasl = {
-      title: model.title,
-      author: model.author,
-      sourceName: model.source.name,
-      sourceLink: model.source.link,
-      license: model.license,
-      copyrightHolder: model.copyright.holder,
-      copyrightLink: model.copyright.link
-    } %}
-
-    {{ tasl | getTaslMarkup | safe }}
+    {{ model | getTaslMarkup | safe }}
   </div>
   {% if modifiers.full %}
     <button class="plain-button js-show-hide-trigger">
