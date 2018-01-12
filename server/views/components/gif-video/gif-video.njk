@@ -21,7 +21,7 @@
     {% endif %}
   </div>
   {% if model.caption %}
-    <figcaption class="gif-video__caption border-bottom-width-1 border-color-pumice {{ {s:'LR3', m:'LR2'} | fontClasses }} {{ {s:3} | spacingClasses({padding: ['top', 'bottom']}) }} ">
+    <figcaption class="gif-video__caption border-bottom-width-1 flex-inline border-color-pumice {{ {s:'LR3', m:'LR2'} | fontClasses }} {{ {s:3} | spacingClasses({padding: ['top', 'bottom']}) }} ">
       {% icon 'image',  null, ['margin-right-s1', 'float-l'] %}{{ model.caption | safe }}
     </figcaption>
   {% endif %}
