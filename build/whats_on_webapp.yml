@@ -1,7 +1,7 @@
 # TODO: Potentially look at adding config here
 version: '3.3'
 services:
-  exhibitions_webapp:
+  whats_on_webapp:
     image: wellcome/wellcomecollection_whats_on_webapp:${CONTAINER_TAG:-test}
     build:
       context: ../
@@ -11,7 +11,7 @@ services:
         - WEBAPP_PORT=3003
     ports:
       - "3001:3001"
-  exhibitions_nginx:
+  whats_on_nginx:
     image: wellcome/wellcomecollection_whats_on_nginx:${CONTAINER_TAG:-test}
     build:
       context: ../

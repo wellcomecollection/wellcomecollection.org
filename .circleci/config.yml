@@ -133,6 +133,50 @@ jobs:
             docker login --username $DOCKER_USER --password $DOCKER_PASS
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/events_webapp.yml build
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/events_webapp.yml push
+  build_whats_on_webapp:
+    docker:
+      - image: circleci/node:8.9.3
+    working_directory: ~/wellcomecollection.org/whats_on/app
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: server_modules_circleci_node_8_{{ checksum "../../server/yarn.lock" }}
+      - restore_cache:
+          key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Install modules
+          command: yarn install
+      - run:
+          name: SHAME - Compile JS to SCSS
+          command: pushd ../../client && yarn add gulp && npx gulp scss:compileJsToScss && popd
+      - run:
+          name: Build prod config
+          command: pushd ../../ && ./build_prod_config.py && popd
+      - run:
+          name: Build
+          command: yarn run app:build
+      - save_cache:
+          key: built_whats_on_webapp_{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - .dist
+  deploy_whats_on_webapp:
+    docker:
+      - image: circleci/node:8.9.3
+    working_directory: ~/wellcomecollection.org
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: built_whats_on_webapp_{{ .Environment.CIRCLE_SHA1 }}
+      - add_ssh_keys
+      - setup_remote_docker
+      - run:
+          name: Deploy
+          command: |
+            docker login --username $DOCKER_USER --password $DOCKER_PASS
+            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/whats_on_webapp.yml build
+            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/whats_on_webapp.yml push
   build_eventbrite_webapp:
     docker:
       - image: circleci/node:8.9.3
@@ -304,6 +348,18 @@ workflows:
       - deploy_exhibitions_webapp:
           requires:
             - build_exhibitions_webapp
+          filters:
+            branches:
+              only:
+                - master
+      - build_whats_on_webapp:
+          requires:
+            - checkout_code
+            - build_client
+            - install_server_modules
+      - deploy_whats_on_webapp:
+          requires:
+            - build_whats_on_webapp
           filters:
             branches:
               only:
