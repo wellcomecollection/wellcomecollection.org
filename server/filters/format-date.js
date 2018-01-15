@@ -3,7 +3,7 @@ import 'moment-timezone';
 import moment from 'moment';
 import {List} from 'immutable';
 
-function london(d) {
+export function london(d: ?Date | ?string) {
   return moment.tz(d, 'Europe/London');
 }
 

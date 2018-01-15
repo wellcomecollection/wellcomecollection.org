@@ -16,6 +16,7 @@ import {isEmptyObj} from '../utils/is-empty-obj';
 import type {Series} from '../model/series';
 import type {LicenseType} from '../model/license';
 import {licenseTypeArray} from '../model/license';
+import {london} from "../filters/format-date";
 
 // This is just JSON
 type PrismicDoc = Object;
@@ -130,12 +131,16 @@ export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
     featuredImageSquare
   ]).filter(_ => _);
 
+  // Exhibitions are always open and shut on days, rather than hours
+  const startDate = london(doc.data.start).startOf('day').toDate();
+  const endDate = london(doc.data.end).endOf('day').toDate();
+
   const exhibition = ({
     id: doc.id,
     title: asText(doc.data.title),
     subtitle: asText(doc.data.subtitle),
-    start: doc.data.start,
-    end: doc.data.end,
+    start: startDate,
+    end: endDate,
     featuredImages: featuredImages,
     featuredImage: featuredImages.first(),
     intro: asText(doc.data.intro),
