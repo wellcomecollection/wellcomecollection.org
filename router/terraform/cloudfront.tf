@@ -42,12 +42,11 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
       query_string_cache_keys = [
         "page",
         "current",
-        "q",
-        "format",
         "query",
         "cohort",
         "uri",
-        "f[dates]",
+        "startDate",
+        "endDate",
         # Wellcome Images redirect
         "MIROPAC",
         "MIRO",
