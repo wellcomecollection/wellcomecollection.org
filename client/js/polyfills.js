@@ -30,5 +30,10 @@ export default {
             return el;
         };
     }
+
+    // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/10638731/
+    if (!NodeList.prototype.forEach && Array.prototype.forEach) {
+      NodeList.prototype.forEach = Array.prototype.forEach;
+    }
   }
 }

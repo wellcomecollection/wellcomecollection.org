@@ -1,9 +1,11 @@
-<div class="header grid js-header-burger">
+<div class="header grid js-header-burger js-focus-trap bg-white">
+  <span class="visually-hidden js-trap-reverse-end">reset focus</span>
   <div class="header__upper grid__cell">
     <div class="header__inner container">
       <div class="header__burger">
-        <a href="#footer-nav-1" id="header-burger-trigger"
-          class="header__burger-trigger js-header-burger-trigger"
+        <a href="#footer-nav-1"
+          id="header-burger-trigger"
+          class="header__burger-trigger js-header-burger-trigger js-trap-start"
           aria-label="menu">
           <span></span>
           <span></span>
@@ -28,7 +30,8 @@
           {% endfor %}
         </ul>
       </nav>
-      {% componentV2 'search' %}
+      {% componentV2 'header-search' %}
+      <span class="visually-hidden js-trap-end">reset focus</span>
     </div>
   </div>
 </div>

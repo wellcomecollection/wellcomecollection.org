@@ -8,8 +8,10 @@ import {default as filtersMap} from './filters';
 import {
   getPrismicApi,
   getEvent,
-  getPaginatedResults,
-  getExhibitionAndRelatedContent, getEventPromos, getExhibitionPromos
+  getExhibitionAndRelatedContent,
+  getPaginatedEventPromos,
+  getPaginatedExhibitionPromos,
+  getExhibitionAndEventPromos
 } from './services/prismic';
 import {
   parsePromoListItem,
@@ -25,12 +27,12 @@ export {List};
 export const prismic = {
   getPrismicApi,
   getEvent,
-  getPaginatedResults,
   getExhibitionAndRelatedContent,
   parsePromoListItem,
   parseExhibitionsDoc,
   prismicImage,
   asText,
-  getEventPromos,
-  getExhibitionPromos
+  getPaginatedEventPromos,
+  getPaginatedExhibitionPromos,
+  getExhibitionAndEventPromos
 };

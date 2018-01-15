@@ -1,5 +1,6 @@
 import type {EventPromo, Event} from '../content-model/events';
 import {wellcomeCollection, wellcomeCollectionAddress} from '../model/organization';
+import {convertImageUri} from '../filters/convert-image-uri';
 
 export function objToJsonLd<T>(obj: T, type: string, root: boolean = true) {
   const jsonObj = JSON.parse(JSON.stringify(obj));
@@ -22,19 +23,36 @@ export function contentLd(content) {
   }, 'Article');
 }
 
-export function exhibitionLd(content) {
+export function exhibitionLd(exhibition) {
   return objToJsonLd({
-    name: content.title,
-    description: content.safeDescription.val,
-    image: content.featuredImage && content.featuredImage.contentUrl,
+    name: exhibition.title,
+    description: exhibition.safeDescription.val,
+    image: exhibition.featuredImage && convertImageUri(exhibition.featuredImage.contentUrl, 1920, false),
     location: {
       '@type': 'Place',
       name: 'Wellcome Collection',
       address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
     },
-    startDate: content.start,
-    endDate: content.end,
-    url: `https://wellcomecollection.org/exhibitions/${content.id}`,
+    startDate: exhibition.start,
+    endDate: exhibition.end,
+    url: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
+    isAccessibleForFree: true
+  }, 'ExhibitionEvent');
+}
+
+export function exhibitionPromoLd(exhibitionPromo) {
+  return objToJsonLd({
+    name: exhibitionPromo.title,
+    description: exhibitionPromo.description,
+    image: exhibitionPromo.image.contentUrl && convertImageUri(exhibitionPromo.image.contentUrl, 1920, false),
+    location: {
+      '@type': 'Place',
+      name: 'Wellcome Collection',
+      address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
+    },
+    startDate: exhibitionPromo.start,
+    endDate: exhibitionPromo.end,
+    url: `https://wellcomecollection.org/exhibitions/${exhibitionPromo.id}`,
     isAccessibleForFree: true
   }, 'ExhibitionEvent');
 }
@@ -100,7 +118,7 @@ export function eventLd(event: Event) {
       startDate: event.times.map(range => range.startDateTime),
       endDate: event.times.map(range => range.endDateTime),
       description: event.description,
-      image: event.promo && event.promo.image.contentUrl
+      image: event.promo && convertImageUri(event.promo.image.contentUrl, 1920, false)
     }, 'Event');
   });
 }
@@ -116,7 +134,7 @@ export function eventPromoLd(eventPromo: EventPromo) {
     startDate: eventPromo.start,
     endDate: eventPromo.end,
     description: eventPromo.description,
-    image: eventPromo.image && eventPromo.image.contentUrl
+    image: eventPromo && convertImageUri(eventPromo.image.contentUrl, 1920, false)
   }, 'Event');
 }
 
