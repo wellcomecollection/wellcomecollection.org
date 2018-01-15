@@ -272,6 +272,10 @@ export async function getPaginatedExhibitionPromos(page: number): Promise<Array<
   return paginatedResults(promos);
 }
 
+// Returns true if the date range of an event coincides with the date range provided
+//                    [_____date range_____]
+//          [___event1___]              [___event2___]
+//                         [___event3___]
 function datesOverlapRange (eventStartDate, eventEndDate, rangeStartDate, rangeEndDate) {
   if (rangeStartDate && rangeEndDate) {
     const eventStart = london(eventStartDate);
@@ -300,6 +304,9 @@ function getActiveState(today, range) {
   }
 };
 
+// On the 'everything' view, events are displayed per month
+// If an event has dates that span several months (and/or years) it needs to appear for each month
+// This function duplicates an event for each month in which it appears and groups the events into the relevant months
 function duplicatePromosByMonthYear(promos) {
   return promos.reduce((acc, currEvent) => {
     const start = london(currEvent.start);
