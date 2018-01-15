@@ -67,7 +67,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     interpretationType: {
       title: asText(interpretation.interpretationType.data.title),
       description: deP(asHtml(interpretation.interpretationType.data.description)),
-      abbreviation: asText(interpretation.interpretationType.data.abbreviation),
+      abbreviation: asText(interpretation.interpretationType.data.abbreviation)
     },
     isPrimary: Boolean(interpretation.isPrimary)
   }) : null).filter(_ => _);

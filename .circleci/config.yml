@@ -136,7 +136,7 @@ jobs:
   build_whats_on_webapp:
     docker:
       - image: circleci/node:8.9.3
-    working_directory: ~/wellcomecollection.org/whats-on/app
+    working_directory: ~/wellcomecollection.org/whats_on/app
     steps:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
