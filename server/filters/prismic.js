@@ -1,9 +1,9 @@
-import {RichText} from 'prismic-dom';
+import {asHtml, asText} from '../services/prismic-parsers';
 
 export function prismicAsHtml(content) {
-  return RichText.asHtml(content);
+  return asHtml(content);
 }
 
 export function prismicAsText(content) {
-  return RichText.asText(content).trim();
+  return asText(content);
 }

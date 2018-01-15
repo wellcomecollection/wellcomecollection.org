@@ -1,6 +1,5 @@
 import type {ImageList} from '../content-model/content-blocks';
-import {RichText} from 'prismic-dom';
-import {asHtml, asText, parsePicture, prismicImage} from './prismic-parsers';
+import {asHtml, asText, parsePicture, parseTaslFromString, prismicImage} from './prismic-parsers';
 
 export function parseBody(content) {
   return content.filter(slice => slice.slice_label !== 'featured').map(parseBodyPart).filter(_ => _);
@@ -12,14 +11,14 @@ function parseBodyPart(slice) {
       return {
         type: 'standfirst',
         weight: 'default',
-        value: RichText.asHtml(slice.primary.text)
+        value: asHtml(slice.primary.text)
       };
 
     case 'text':
       return {
         type: 'text',
         weight: 'default',
-        value: RichText.asHtml(slice.primary.text)
+        value: asHtml(slice.primary.text)
       };
 
     case 'editorialImage':
@@ -65,9 +64,9 @@ function parseBodyPart(slice) {
         type: 'quote',
         weight: 'default',
         value: {
-          body: RichText.asHtml(slice.primary.quote),
+          body: asHtml(slice.primary.quote),
           footer: slice.primary.citation && slice.primary.source ? `${slice.primary.citation} - ${slice.primary.source}` : null,
-          quote: RichText.asHtml(slice.primary.quote),
+          quote: asHtml(slice.primary.quote),
           citation: `${slice.primary.citation} - ${slice.primary.source}`
         }
       };
@@ -125,6 +124,17 @@ function parseBodyPart(slice) {
         value: {
           src: slice.primary.iframeSrc,
           image: prismicImage(slice.primary.previewImage)
+        }
+      };
+
+    case 'gifVideo':
+      return {
+        type: 'gifVideo',
+        weight: slice.slice_label,
+        value: {
+          caption: slice.primary.caption && asHtml(slice.primary.caption),
+          videoUrl: slice.primary.video && slice.primary.video.url,
+          tasl: parseTaslFromString(slice.primary.tasl)
         }
       };
 

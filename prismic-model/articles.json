@@ -23,6 +23,10 @@
             "name" : "standalone",
             "display" : "Standalone"
           } ],
+          "gifVideo" : [ {
+            "name" : "supporting",
+            "display" : "Supporting"
+          } ],
           "iframe" : [ {
             "name" : "supporting",
             "display" : "Supporting"
@@ -112,6 +116,34 @@
                 "type" : "Image",
                 "config" : {
                   "label" : "Image"
+                }
+              }
+            }
+          },
+          "gifVideo" : {
+            "type" : "Slice",
+            "fieldset" : "Gif video",
+            "non-repeat" : {
+              "caption" : {
+                "type" : "StructuredText",
+                "config" : {
+                  "single" : "hyperlink, bold, em",
+                  "label" : "Caption"
+                }
+              },
+              "tasl" : {
+                "type" : "Text",
+                "config" : {
+                  "label" : "TASL",
+                  "placeholder" : "title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink"
+                }
+              },
+              "video" : {
+                "type" : "Link",
+                "config" : {
+                  "select" : "media",
+                  "label" : "Video",
+                  "placeholder" : "Video"
                 }
               }
             }

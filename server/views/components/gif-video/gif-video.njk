@@ -1,18 +1,28 @@
-<figure class="js-gif-video gif-video {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">
-  <div class="gif-video__inner">
-    <video class="gif-video__video js-gif-video__video"
-      poster="{{ model.posterImage.contentUrl }}" >
-      {% for source in model.sources %}
-        <source src="{{ source.url }}" type='{{ source.fileFormat }}'>
-      {% endfor %}
-      <p class="gif-video__unsupported">Your browser can't handle our GIFs.</p>
+<figure class="{{- [
+  {s:0} | spacingClasses({margin: ['top', 'left', 'right' ]}),
+  {s:3} | spacingClasses({margin: ['bottom']})
+  ].join(' ') }} js-gif-video gif-video no-margin">
+  <div class="gif-video__inner relative">
+    <video class="gif-video__video block js-gif-video__video"
+      preload="metadata"
+      muted
+      loop
+      playsinline>
+      <source src="{{ model.videoUrl }}" type="video/mp4">
+      <p>Your browser doesn't support video</p>
     </video>
-    <button class="gif-video__play-pause js-gif-video__play-pause" type="button" tabindex="0">
-      {% icon 'play' %}
-      <span class="gif-video__button-text">play/pause</span>
+    <button class="no-margin no-padding plain-button gif-video__play-pause absolute js-gif-video__play-pause is-hidden"
+      aria-label="play/pause button"
+      data-track-label="{{ model.videoUrl }}">
+      <span class="{{ {s:'LR3'} | fontClasses }} js-gif-video__text gif-video__text block"></span>
     </button>
+    {% if (model.tasl.title or model.tasl.sourceName or model.tasl.copyrightHolder or model.tasl.license) %}
+      {% componentV2 'tasl', model.tasl %}
+    {% endif %}
   </div>
-  <figcaption class="gif-video__caption {{ {s:'LR3', m:'LR2'} | fontClasses }} {{ {s:3} | spacingClasses({padding: ['top', 'bottom']}) }} ">
-    {% icon 'image',  null, ['margin-right-s1'] %}{{ model.caption }}
-  </figcaption>
+  {% if model.caption %}
+    <figcaption class="gif-video__caption border-bottom-width-1 flex-inline border-color-pumice {{ {s:'LR3', m:'LR2'} | fontClasses }} {{ {s:3} | spacingClasses({padding: ['top', 'bottom']}) }} ">
+      {% icon 'image',  null, ['margin-right-s1', 'float-l'] %}{{ model.caption | safe }}
+    </figcaption>
+  {% endif %}
 </figure>

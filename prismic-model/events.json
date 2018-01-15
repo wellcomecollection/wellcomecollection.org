@@ -44,18 +44,42 @@
     }
   },
   "Access" : {
-    "accessOptions" : {
+    "interpretations" : {
       "type" : "Group",
-      "fieldset" : "Access options",
+      "fieldset" : "Interpretations",
       "config" : {
         "fields" : {
-          "accessOption" : {
+          "interpretationType" : {
             "type" : "Link",
-            "fieldset" : "Access option",
+            "fieldset" : "Interpretation type",
             "config" : {
               "select" : "document",
-              "customtypes" : [ "event-access-options" ],
-              "label" : "Access option"
+              "customtypes" : [ "interpretation-types" ],
+              "label" : "Interpretation type"
+            }
+          },
+          "isPrimary" : {
+            "type" : "Select",
+            "config" : {
+              "options" : [ "yes" ],
+              "label" : "Is primary"
+            }
+          }
+        }
+      }
+    },
+    "audiences": {
+      "type" : "Group",
+      "fieldset" : "Audiences",
+      "config" : {
+        "fields" : {
+          "audience" : {
+            "type" : "Link",
+            "fieldset" : "Audience",
+            "config" : {
+              "select" : "document",
+              "customtypes" : [ "audiences" ],
+              "label" : "Audience"
             }
           }
         }
@@ -107,8 +131,7 @@
             "config" : {
               "label" : "Series",
               "select" : "document",
-              "customtypes" : [ "series" ],
-              "tags": [ "events" ]
+              "customtypes" : [ "event-series" ]
             }
           }
         }

@@ -90,14 +90,8 @@
             "fieldset" : "Series",
             "config" : {
               "select" : "document",
-              "customtypes" : [ "series" ],
+              "customtypes" : [ "webcomic-series" ],
               "label" : "Series"
-            }
-          },
-          "positionInSeries" : {
-            "type" : "Number",
-            "config" : {
-              "label" : "Position in series"
             }
           }
         }

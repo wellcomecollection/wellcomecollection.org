@@ -10,7 +10,7 @@
     "description" : {
       "type" : "StructuredText",
       "config" : {
-        "single" : "paragraph,hyperlink",
+        "single" : "paragraph",
         "label" : "Description"
       }
     }

@@ -10,7 +10,7 @@ import {
   renderEventbriteEmbed,
   renderExplore,
   renderSeries,
-  renderArticlesList
+  renderArticlesList, renderWebcomicSeries
 } from '../controllers/content';
 
 const r = new Router({
@@ -49,6 +49,7 @@ r.get('/explore', renderExplore);
 r.get('/preview', setPreviewSession);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 r.get('/series/(W):id', renderSeries);
+r.get('/webcomic-series/:id', renderWebcomicSeries);
 
 // API
 r.get('/works', search);

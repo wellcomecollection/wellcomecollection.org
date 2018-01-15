@@ -3,8 +3,8 @@ import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
 import type {
-  DateTimeRange, Event, Contributor, EventBookingEnquiryTeam,
-  EventLocation, EventFormat
+  DateTimeRange, Event, Contributor, Team,
+  Location, EventFormat
 } from '../content-model/events';
 import getBreakpoint from '../filters/get-breakpoint';
 import {parseBody} from './prismic-body-parser';
@@ -15,6 +15,7 @@ import type {Picture} from '../model/picture';
 import {isEmptyObj} from '../utils/is-empty-obj';
 import type {Series} from '../model/series';
 import type {LicenseType} from '../model/license';
+import {licenseTypeArray} from '../model/license';
 
 // This is just JSON
 type PrismicDoc = Object;
@@ -47,7 +48,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     email: doc.data.bookingEnquiryTeam.data.email,
     phone: doc.data.bookingEnquiryTeam.data.phone,
     url: doc.data.bookingEnquiryTeam.data.url
-  }: EventBookingEnquiryTeam);
+  }: Team);
 
   const location = (doc.data.location && !isEmptyDocLink(doc.data.location)) ? ({
     id: doc.data.location.id,
@@ -60,11 +61,20 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     // },
     level: doc.data.location.data.level,
     capacity: doc.data.location.data.level
-  }: EventLocation) : null;
+  }: Location) : null;
 
-  const accessOptions = doc.data.accessOptions.map(ao => !isEmptyDocLink(ao.accessOption) ? ({
-    title: asText(ao.accessOption.data.title),
-    description: asText(ao.accessOption.data.description)
+  const interpretations = doc.data.interpretations.map(interpretation => !isEmptyDocLink(interpretation.interpretationType) ? ({
+    interpretationType: {
+      title: asText(interpretation.interpretationType.data.title),
+      description: deP(asHtml(interpretation.interpretationType.data.description)),
+      abbreviation: asText(interpretation.interpretationType.data.abbreviation),
+    },
+    isPrimary: Boolean(interpretation.isPrimary)
+  }) : null).filter(_ => _);
+
+  const audiences = doc.data.audiences.map(audience => !isEmptyDocLink(audience.audience) ? ({
+    title: asText(audience.audience.data.title),
+    description: asText(audience.audience.data.description)
   }) : null).filter(_ => _);
 
   const bookingType = parseEventBookingType(doc);
@@ -77,7 +87,8 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     isDropIn: Boolean(doc.data.isDropIn), // the value from Prismic could be null || "yes"
     times: times,
     description: asHtml(doc.data.description),
-    accessOptions: accessOptions,
+    interpretations: interpretations,
+    audiences: audiences,
     bookingEnquiryTeam: bookingEnquiryTeam,
     contributors: contributors,
     promo: promo,
@@ -221,7 +232,7 @@ export function parsePromoListItem(item: Object): Promo {
 
 export function parsePicture(captionedImage: Object, minWidth: ?string = null): Picture {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
-  const tasl = image && parseTaslFromCopyright(image.copyright);
+  const tasl = image && parseTaslFromString(image.copyright);
 
   return ({
     type: 'picture',
@@ -271,7 +282,7 @@ function parseSeries(doc: ?PrismicDocFragment): Array<Series> {
     return series && series.data && {
       id: series.id,
       url: series.id,
-      name: series.data.name,
+      name: series.data.name || asText(series.data.title),
       description: asText(series.data.description),
       color: series.data.color,
       commissionedLength: series.data.commissionedLength,
@@ -334,7 +345,7 @@ function parseFeaturedMediaFromBody(doc: PrismicDoc): ?Picture {
 }
 
 type Tasl = {|
-  title: string;
+  title: ?string;
   author: ?string;
   sourceName: ?string;
   sourceLink: ?string;
@@ -343,20 +354,21 @@ type Tasl = {|
   copyrightLink: ?string;
 |}
 
-function parseTaslFromCopyright(copyright): Tasl {
+export function parseTaslFromString(pipedString: string): Tasl {
   // We expect a string of title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
   // e.g. Self|Rob Bidder|||CC-BY-NC
   try {
-    const list = copyright.split('|');
+    const list = pipedString.split('|');
     const v = list
       .concat(Array(7 - list.length))
       .map(v => !v.trim() ? null : v.trim());
 
-    const [title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink] = v;
+    const [title, author, sourceName, sourceLink, maybeLicense, copyrightHolder, copyrightLink] = v;
+    const license: ?LicenseType = licenseTypeArray.find(l => l === maybeLicense);
     return {title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink};
   } catch (e) {
     return {
-      title: copyright,
+      title: pipedString,
       author: null,
       sourceName: null,
       sourceLink: null,
@@ -368,8 +380,18 @@ function parseTaslFromCopyright(copyright): Tasl {
 }
 
 // This purposefully isn't named `parseText` | `parseHtml` to match the prismic API.
+const linkResolver = (doc) => {
+  switch (doc.type) {
+    case 'articles'    : return `/articles/${doc.id}`;
+    case 'webcomics'   : return `/articles/${doc.id}`;
+    case 'exhibitions' : return `/exhibitions/${doc.id}`;
+    case 'events'      : return `/events/${doc.id}`;
+    case 'series'      : return `/series/${doc.id}`;
+  }
+};
+
 export function asText(maybeContent: any) {
-  return maybeContent && RichText.asText(maybeContent).trim();
+  return maybeContent && RichText.asText(maybeContent, linkResolver).trim();
 }
 
 export function asHtml(maybeContent: any) {
@@ -377,9 +399,16 @@ export function asHtml(maybeContent: any) {
   // Check that `asText` wouldn't return an empty string.
   const isEmpty = !maybeContent || asText(maybeContent).trim() === '';
 
-  return isEmpty ? null : RichText.asHtml(maybeContent).trim();
+  return isEmpty ? null : RichText.asHtml(maybeContent, linkResolver).trim();
 }
 
 export function isEmptyDocLink(fragment: Object) {
   return fragment.link_type === 'Document' && !fragment.data;
+}
+
+// This is used for when we have a "single" `StructuredText` and want to maintain the inline HTML
+// (`a`, `em` etc) but would rather Prismic not wrap it in a `p` for us.
+// The empty `class` attribute 🤷‍
+function deP(text: ?string) {
+  return text && text.replace(/<\/?p( class="")?>/g, '');
 }

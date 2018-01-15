@@ -40,7 +40,7 @@ export async function renderEvent(ctx, next, overrideId, gaExp) {
           path: path,
           title: event.title,
           inSection: 'whatson',
-          category: 'publicprograms',
+          category: 'public-programme',
           contentType: 'event',
           canonicalUri: `${ctx.globals.rootDomain}/events/${event.id}`,
           gaExp

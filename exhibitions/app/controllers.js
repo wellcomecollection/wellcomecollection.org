@@ -26,7 +26,7 @@ export async function renderExhibition(ctx, next) {
           path: path,
           title: exhibitionContent.exhibition.title,
           inSection: 'whatson',
-          category: 'publicprograms',
+          category: 'public-programme',
           contentType: 'exhibitions',
           canonicalUri: `${ctx.globals.rootDomain}/exhibitions/${exhibitionContent.exhibition.id}`
         }),
@@ -49,7 +49,7 @@ export async function renderExhibitionsList(ctx, next) {
       path: ctx.request.url,
       title: 'Exhibitions',
       inSection: 'whatson',
-      category: 'publicprograms',
+      category: 'public-programme',
       contentType: 'listing',
       canonicalUri: '/exhibitions'
     }),
