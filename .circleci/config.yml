@@ -175,8 +175,8 @@ jobs:
           name: Deploy
           command: |
             docker login --username $DOCKER_USER --password $DOCKER_PASS
-            CONTAINER_TAG=test docker-compose --file ./build/whats_on_webapp.yml build
-            CONTAINER_TAG=test docker-compose --file ./build/whats_on_webapp.yml push
+            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/whats_on_webapp.yml build
+            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/whats_on_webapp.yml push
   build_eventbrite_webapp:
     docker:
       - image: circleci/node:8.9.3
@@ -364,7 +364,6 @@ workflows:
             branches:
               only:
                 - master
-                - whats-on-build-steps
       - build_events_webapp:
           requires:
             - checkout_code
