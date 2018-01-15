@@ -15,7 +15,6 @@
 {% endblock %}
 
 {% block body %}
-  {% componentV2 'list-header', {name: 'Events', total: paginatedEvents.results.length} %}
   <script type="application/ld+json">
     [{% for event in paginatedEvents.results %}
       {{ event | jsonLd('eventPromoLd') | safe }}
@@ -23,34 +22,45 @@
     {% endfor %}]
   </script>
 
-  <div class="row {{ {s:4} | spacingClasses({padding: ['top']}) }} ">
-    <div class="container">
-      <div class="grid">
-        {% for event in paginatedEvents.results %}
-          <div class="{{ {s: 12, m: 6, l:3, xl:3} | gridClasses }}">
-            {% componentV2 'event-promo', event %}
-          </div>
-        {% endfor %}
+  {% componentV2 'list-header', {name: 'Events', total: paginatedEvents.results.length} %}
+
+  {% if paginatedEvents.pagination.pageCount > 1  %}
+  <div class="css-grid__container">
+    <div class="css-grid">
+      <div class="{{ {s:12, m:12, l:12, xl:12} | cssGridClasses }}">
+        <div class="{{ {s:5, m:5, l:5} | spacingClasses({padding: ['top']}) }}  {{ {s:5, m:5, l:5} | spacingClasses({padding: ['bottom']}) }} flex flex--v-center font-pewter {{ {s:'LR3', m:'LR2'} | fontClasses }}">
+          {{ paginatedEvents.pagination.range.beginning }} - {{ paginatedEvents.pagination.range.end }}
+        </div>
+        {% componentV2 'divider', null, {'keyline': true, 'pumice': true} %}
       </div>
     </div>
   </div>
+  {% endif %}
 
-  <div class="row {{ {s:2, m:2, l:2} | spacingClasses({padding: ['top']}) }} {{ {s:3, m:3, l:3} | spacingClasses({padding: ['bottom']}) }} ">
-    <div class="container">
-      <div class="grid">
+  <div class="css-grid__container {{ {s:4} | spacingClasses({padding: ['top']}) }} ">
+    <div class="css-grid">
+      {% for event in paginatedEvents.results %}
+        <div class="{{ {s: 12, m: 6, l:3, xl:3} | cssGridClasses }}">
+          {% componentV2 'event-promo', event %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 
-        {% if paginatedEvents.pagination.pageCount > 1  %}
-          <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}"  style="text-align: right">
-            {% componentV2 'pagination', paginatedEvents.pagination %}
-          </div>
-        {% endif %}
-        {% if paginatedEvents.currentPage === paginatedEvents.totalPages %}
-          <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }}"  style="text-align: right">
-            {% componentV2 'more-info-link', {name: 'Past events', url: '/events/past'} %}
-          </div>
-        {% endif %}
+  <div class="css-grid__container {{ {s:2, m:2, l:2} | spacingClasses({padding: ['top']}) }} {{ {s:3, m:3, l:3} | spacingClasses({padding: ['bottom']}) }} ">
+    <div class="css-grid">
 
-      </div>
+      {% if paginatedEvents.pagination.pageCount > 1  %}
+        <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} text-align-right">
+          {% componentV2 'pagination', paginatedEvents.pagination %}
+        </div>
+      {% endif %}
+      {% if paginatedEvents.currentPage === paginatedEvents.totalPages %}
+        <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }} text-align-right">
+          {% componentV2 'more-info-link', {name: 'Past events', url: '/events/past'} %}
+        </div>
+      {% endif %}
+
     </div>
   </div>
 {% endblock %}

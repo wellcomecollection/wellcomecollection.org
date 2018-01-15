@@ -1,6 +1,6 @@
 import {model, prismic} from 'common';
 const {createPageConfig} = model;
-const {getEventPromos} = prismic;
+const {getPaginatedEventPromos} = prismic;
 
 // used to attach some view specific logic
 type EventInfo = {|
@@ -57,7 +57,7 @@ export async function renderEvent(ctx, next, overrideId, gaExp) {
 
 export async function renderEventsList(ctx, next) {
   const page = Number(ctx.request.query.page);
-  const paginatedEvents = await getEventPromos(page);
+  const paginatedEvents = await getPaginatedEventPromos(page);
 
   ctx.render('pages/events', {
     pageConfig: createPageConfig({
