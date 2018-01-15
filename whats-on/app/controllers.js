@@ -7,7 +7,7 @@ import {
   readingRoomPromo,
   restaurantPromo,
   spiritBoothPromo
-} from '../../server/data/daily-promos';
+} from '../../server/data/facility-promos';
 const {createPageConfig} = model;
 const {
   getExhibitionAndEventPromos

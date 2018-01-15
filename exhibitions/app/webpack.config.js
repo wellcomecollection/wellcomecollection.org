@@ -17,7 +17,6 @@ fs.writeFile('./views/partials/critical.css.njk', css.css.toString(), function(e
   console.log('Sass to CSS wrangled!');
 });
 
-
 module.exports = {
   target: 'node',
   entry: './app.js',

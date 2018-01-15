@@ -398,7 +398,6 @@ export async function getExhibitionAndEventPromos(query) {
     });
     return acc;
   }, []);
-
   const dates = {
     today: todaysDate.format('YYYY-MM-DD'),
     weekend: [getWeekendFromDate(todaysDate).format('YYYY-MM-DD'), getWeekendToDate(todaysDate).format('YYYY-MM-DD')],

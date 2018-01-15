@@ -4,6 +4,7 @@ const tabs = (el, options) => {
   const tablist = el.querySelector('.js-tablist');
   const tabitems = el.querySelectorAll('.js-tabitem');
   const tablinks = nodeList(tablist.querySelectorAll('.js-tablink'));
+  const proxyTablinks = nodeList(el.querySelectorAll('.js-proxy-tablink'));
   const tabpanels = nodeList(el.querySelectorAll('.js-tabpanel'));
   const tabfocusers = nodeList(el.querySelectorAll('.js-tabfocus'));
   let currentTab;
@@ -11,6 +12,18 @@ const tabs = (el, options) => {
 
   tabpanels.forEach((item) => {
     item.setAttribute('aria-hidden', 'true');
+  });
+
+  // When segmented control is used as controls for tab panel, there are 2 sets of tablinks on the page (for small and large screens)
+  // Here we cause the small screen links to activate the large screen links (which are the actual tab controls)
+  proxyTablinks.forEach((proxyTab, index) => {
+    proxyTab.addEventListener('click', (event) => {
+      event.preventDefault();
+      const relatedTab = tablinks.find((e) => {
+        return proxyTab.href.split('#')[1] === e.href.split('#')[1];
+      });
+      relatedTab.click();
+    });
   });
 
   tablinks.forEach((tab, index) => {
