@@ -36,16 +36,11 @@
       <div class="bg-cream rounded-diagonal {{ {s: 4} | spacingClasses({padding: ['top', 'bottom', 'left', 'right']}) }} relative {{ {s: -4, l: 0} | spacingClasses({margin: ['top']}) }}">
         <div class="{{ {s:'HNM4'} | fontClasses }}">
           <div class="flex">
-            {% for accessOption in event.accessOptions %}
+            {% for interpretation in event.interpretations %}
               {# TODO: This is not very nice #}
-              <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon accessOption.title | replace(' ', '_') | replace('-', '_') | lower %}</span>
+              <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon interpretation.interpretationType.title | replace(' ', '_') | replace('-', '_') | lower %}</span>
             {% endfor %}
-
-            {% if event.format.shortName %}
-              <abbr title="{{ event.format.title }}">{{ event.format.shortName }}</abbr>
-            {% else %}
-              <span>{{ event.format.title }}</span>
-            {% endif %}
+            <span>{{ event.format.title }}</span>
           </div>
         </div>
 
@@ -156,27 +151,37 @@
 
           {% if event.format.description %}
             <h3 class="{{ {s:'HNM4'} | fontClasses }}">
-              {% if event.format.shortName %}
-                <abbr title="{{ event.format.title }}">{{ event.format.shortName }}</abbr>
-              {% else %}
-                <span>{{ event.format.title }}</span>
-              {% endif %}
+              <span>{{ event.format.title }}</span>
             </h3>
             <div class="{{ {s:'HNL4'} | fontClasses }}">
               {{ event.format.description | safe }}
-              {% componentV2 'more-info-link', {name: 'View our accessibility statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
             </div>
           {% endif %}
 
-          {% for accessOption in event.accessOptions %}
-            {% if accessOption.description %}
-              <h3 class="{{ {s:'HNM4'} | fontClasses }}">{{ accessOption.title }}</h3>
+          {% for interpretation in event.interpretations %}
+            {% if interpretation.interpretationType.description %}
+              <h3 class="flex {{ {s:'HNM4'} | fontClasses }}">
+                <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon interpretation.interpretationType.title | replace(' ', '_') | replace('-', '_') | lower %}</span>
+                <span>
+                  {% if interpretation.interpretationType.abbreviation %}
+                    <abbr title="{{ interpretation.interpretationType.title }}">{{ interpretation.interpretationType.abbreviation }}</abbr>
+                  {% else %}
+                    {{ interpretation.interpretationType.title }}
+                  {% endif %}
+
+                  {{ event.format.title if interpretation.isPrimary else "interpretation" }}
+                </span>
+              </h3>
               <div class="{{ {s:'HNL4'} | fontClasses }}">
                 <p>
-                  {{ accessOption.description }}
-                  For more information, email us at
-                  <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
-                  or call 020 7611 2222.
+                  {% if interpretation.isPrimary %}
+                    This event is designed
+                  {% else %}
+                    This event will have
+                    {{ interpretation.interpretationType.title | aOrAn }}
+                    {{ interpretation.interpretationType.title }} interpretation
+                  {% endif %}
+                  {{ interpretation.interpretationType.description | safe }}
                 </p>
                 {% componentV2 'more-info-link', {name: 'View our accessibility statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
               </div>

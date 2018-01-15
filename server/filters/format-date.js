@@ -69,5 +69,5 @@ export function formatAndDedupeOnTime(d1: Date, d2: Date): List<string> {
 }
 
 export function joinDateStrings(dateStrings: List<string>): string {
-  return dateStrings.join(' – ');
+  return dateStrings.join('–');
 }

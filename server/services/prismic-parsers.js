@@ -3,8 +3,8 @@ import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
 import type {
-  DateTimeRange, Event, Contributor, EventBookingEnquiryTeam,
-  EventLocation, EventFormat
+  DateTimeRange, Event, Contributor, Team,
+  Location, EventFormat
 } from '../content-model/events';
 import getBreakpoint from '../filters/get-breakpoint';
 import {parseBody} from './prismic-body-parser';
@@ -48,7 +48,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     email: doc.data.bookingEnquiryTeam.data.email,
     phone: doc.data.bookingEnquiryTeam.data.phone,
     url: doc.data.bookingEnquiryTeam.data.url
-  }: EventBookingEnquiryTeam);
+  }: Team);
 
   const location = (doc.data.location && !isEmptyDocLink(doc.data.location)) ? ({
     id: doc.data.location.id,
@@ -61,11 +61,20 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     // },
     level: doc.data.location.data.level,
     capacity: doc.data.location.data.level
-  }: EventLocation) : null;
+  }: Location) : null;
 
-  const accessOptions = doc.data.accessOptions.map(ao => !isEmptyDocLink(ao.accessOption) ? ({
-    title: asText(ao.accessOption.data.title),
-    description: asText(ao.accessOption.data.description)
+  const interpretations = doc.data.interpretations.map(interpretation => !isEmptyDocLink(interpretation.interpretationType) ? ({
+    interpretationType: {
+      title: asText(interpretation.interpretationType.data.title),
+      description: deP(asHtml(interpretation.interpretationType.data.description)),
+      abbreviation: asText(interpretation.interpretationType.data.abbreviation),
+    },
+    isPrimary: Boolean(interpretation.isPrimary)
+  }) : null).filter(_ => _);
+
+  const audiences = doc.data.audiences.map(audience => !isEmptyDocLink(audience.audience) ? ({
+    title: asText(audience.audience.data.title),
+    description: asText(audience.audience.data.description)
   }) : null).filter(_ => _);
 
   const bookingType = parseEventBookingType(doc);
@@ -78,7 +87,8 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     isDropIn: Boolean(doc.data.isDropIn), // the value from Prismic could be null || "yes"
     times: times,
     description: asHtml(doc.data.description),
-    accessOptions: accessOptions,
+    interpretations: interpretations,
+    audiences: audiences,
     bookingEnquiryTeam: bookingEnquiryTeam,
     contributors: contributors,
     promo: promo,
@@ -394,4 +404,11 @@ export function asHtml(maybeContent: any) {
 
 export function isEmptyDocLink(fragment: Object) {
   return fragment.link_type === 'Document' && !fragment.data;
+}
+
+// This is used for when we have a "single" `StructuredText` and want to maintain the inline HTML
+// (`a`, `em` etc) but would rather Prismic not wrap it in a `p` for us.
+// The empty `class` attribute 🤷‍
+function deP(text: ?string) {
+  return text && text.replace(/<\/?p( class="")?>/g, '');
 }
