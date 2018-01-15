@@ -30,7 +30,7 @@
 
   {% componentV2 'segmented-control', exhibitionAndEventPromos.monthControls, null, {id: 'monthControls', isTabControl: true, activeId: '2017-December'} %}
 
-  {% for yearKey, year in exhibitionAndEventPromos.eventPromosGroupedByMonth %}
+  {% for yearKey, year in exhibitionAndEventPromos.eventPromosSplitAcrossMonths %}
     {% for monthKey, month in year %}
       <div class="js-tabpanel tabpanel {{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }}">
         <div class="css-grid">

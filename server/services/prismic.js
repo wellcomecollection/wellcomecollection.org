@@ -272,6 +272,10 @@ export async function getPaginatedExhibitionPromos(page: number): Promise<Array<
   return paginatedResults(promos);
 }
 
+// Returns true if the date range of an event coincides with the date range provided
+//                    [_____date range_____]
+//          [___event1___]              [___event2___]
+//                         [___event3___]
 function datesOverlapRange (eventStartDate, eventEndDate, rangeStartDate, rangeEndDate) {
   if (rangeStartDate && rangeEndDate) {
     const eventStart = london(eventStartDate);
@@ -300,8 +304,11 @@ function getActiveState(today, range) {
   }
 };
 
-function groupPromosByMonth(promos) {
-  return promos.reduce((acc, currEvent) => { // TODO tidy this DRY
+// On the 'everything' view, events are displayed per month
+// If an event has dates that span several months (and/or years) it needs to appear for each month
+// This function duplicates an event for each month in which it appears and groups the events into the relevant months
+function duplicatePromosByMonthYear(promos) {
+  return promos.reduce((acc, currEvent) => {
     const start = london(currEvent.start);
     const end = london(currEvent.end);
     if (end.isSame(start, 'month')) {
@@ -335,10 +342,10 @@ function groupPromosByMonth(promos) {
 function getListHeader(dates) {
   const todayString = new Date().toLocaleString('en-us', { weekday: 'long' });
   const todayOpeningHours = galleryOpeningHours.find(i => i.dayOfWeek === todayString);
-  const todayDateString = `${dates.today}|${dates.today}`;
-  const weekendDateString = `${dates.weekend[0]}|${dates.weekend[1]}`;
-  const allDateString = `${dates.all[0]}|${dates.all[1]}`;
-  const urlBeginning = `${encodeURI('/whats-on/?' + 'f[dates]')}=`;
+  const todayDateString = `startDate=${dates.today}&endDate=${dates.today}`;
+  const weekendDateString = `startDate=${dates.weekend[0]}&endDate=${dates.weekend[1]}`;
+  const allDateString = `startDate=${dates.all[0]}&endDate=${dates.all[1]}`;
+  const urlBeginning = `${encodeURI('/whats-on/?')}`;
 
   return {
     todayOpeningHours,
@@ -363,11 +370,11 @@ function getListHeader(dates) {
   };
 }
 
-export async function getExhibitionAndEventPromos(queryDates) {
+export async function getExhibitionAndEventPromos(query) {
   const todaysDate = london();
-  const dateRange = queryDates && queryDates.split('|');
-  const fromDate = dateRange && dateRange[0] ? dateRange[0] : todaysDate.format('YYYY-MM-DD');
-  const toDate = dateRange && dateRange[1] ? dateRange[1] : todaysDate.format('YYYY-MM-DD');
+  const fromDate = query.startDate ? query.startDate : todaysDate.format('YYYY-MM-DD');
+  const toDate = query.endDate ? query.endDate : todaysDate.format('YYYY-MM-DD');
+  const dateRange = [fromDate, toDate];
 
   const prismic = await getPrismicApi();
   const allExhibitionsAndEvents = await prismic.query([
@@ -377,9 +384,11 @@ export async function getExhibitionAndEventPromos(queryDates) {
   const permanentExhibitionPromos = exhibitionPromos.filter(e => !e.end);
   const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => e.end), fromDate, toDate);
   const eventPromos = filterPromosByDate(createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')), fromDate, toDate);
-  const eventPromosGroupedByMonth = groupPromosByMonth(eventPromos);
-  const monthControls = Object.keys(eventPromosGroupedByMonth).reduce((acc, year) => {
-    Object.keys(eventPromosGroupedByMonth[year]).forEach((month) => {
+
+  // eventPromosSplitAcrossMonths and monthControls only required for the 'everything' view
+  const eventPromosSplitAcrossMonths = duplicatePromosByMonthYear(eventPromos);
+  const monthControls = Object.keys(eventPromosSplitAcrossMonths).reduce((acc, year) => {
+    Object.keys(eventPromosSplitAcrossMonths[year]).forEach((month) => {
       const controlObject = {
         id: `${year}-${month}`,
         title: month,
@@ -403,7 +412,7 @@ export async function getExhibitionAndEventPromos(queryDates) {
     permanentExhibitionPromos,
     temporaryExhibitionPromos,
     eventPromos,
-    eventPromosGroupedByMonth,
+    eventPromosSplitAcrossMonths,
     monthControls,
     listHeader
   };

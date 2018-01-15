@@ -51,12 +51,12 @@
     <div class="css-grid">
 
       {% if paginatedEvents.pagination.pageCount > 1  %}
-        <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }}"  style="text-align: right">
+        <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} text-align-right">
           {% componentV2 'pagination', paginatedEvents.pagination %}
         </div>
       {% endif %}
       {% if paginatedEvents.currentPage === paginatedEvents.totalPages %}
-        <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }}"  style="text-align: right">
+        <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }} text-align-right">
           {% componentV2 'more-info-link', {name: 'Past events', url: '/events/past'} %}
         </div>
       {% endif %}
