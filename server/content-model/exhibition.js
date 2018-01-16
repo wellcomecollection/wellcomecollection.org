@@ -7,8 +7,8 @@ import type {BodyPart} from '../model/body-part';
 export type Exhibition = {|
   id: string;
   title: ?string;
-  start: ?DateRange;
-  end: ?DateRange;
+  start: Date;
+  end: ?Date;
   subtitle: ?string;
   intro: ?string;
   featuredImages: List<any>;
