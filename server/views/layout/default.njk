@@ -37,6 +37,7 @@
     {% endif %}
   </head>
   <body {% if isPreview %}class="is-preview"{% endif %}>
+    {% componentJsx 'JsxTestComponent', {toWhat: 'Mars'} %}
     {% component 'skip-link' %}
 
     {% set navLinks = [
