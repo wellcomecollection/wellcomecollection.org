@@ -16,6 +16,10 @@
     overflow: hidden;
   }
 
+  .enhanced &[aria-hidden=true] {
+    padding: 0;
+  }
+
   &.tabpanel--is-visible {
     visibility: visible;
     opacity: 1;

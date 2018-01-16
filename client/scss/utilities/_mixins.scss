@@ -128,12 +128,11 @@
 @mixin css-grid-cells($columns, $key) {
   @for $i from 1 through $columns {
     .css-grid__cell--#{$key}#{$i} {
-      max-width: ($i / $columns) * 100%;
-      margin-bottom: 3 * $v-spacing-unit;
+      flex-basis: ($i / $columns) * 100%; // fallback
+      max-width: ($i / $columns) * 100%; // fallback
 
       @supports(display: grid) {
         max-width: none;
-        margin-bottom: 0;
         grid-column: span #{$i};
       }
     }
