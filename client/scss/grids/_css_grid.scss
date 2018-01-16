@@ -34,6 +34,9 @@
     }
   }
 
+  // we don't want to apply a max width to any nested container
+  // since this is a mixin that can be applied in a couple of places
+  // using ampersands to refer to the class in which it's used
   & & {
     max-width: none;
   }
