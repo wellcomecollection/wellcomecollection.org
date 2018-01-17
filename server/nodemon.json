@@ -1,0 +1,9 @@
+{
+  "comment": "This is the server nodemon file",
+  "ignoreRoot": [".git"],
+  "watch": [
+    ".",
+    "../common"
+  ],
+  "ext": "js njk json"
+}
