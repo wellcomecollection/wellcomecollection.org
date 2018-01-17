@@ -371,6 +371,7 @@ workflows:
             - checkout_code
             - build_client
             - install_server_modules
+            - install_common_modules
       - deploy_exhibitions_webapp:
           requires:
             - build_exhibitions_webapp
@@ -383,6 +384,7 @@ workflows:
             - checkout_code
             - build_client
             - install_server_modules
+            - install_common_modules
       - deploy_whats_on_webapp:
           requires:
             - build_whats_on_webapp
@@ -395,6 +397,7 @@ workflows:
             - checkout_code
             - build_client
             - install_server_modules
+            - install_common_modules
       - deploy_events_webapp:
           requires:
             - build_events_webapp
@@ -407,6 +410,7 @@ workflows:
             - checkout_code
             - build_client
             - install_server_modules
+            - install_common_modules
       - deploy_eventbrite_webapp:
           requires:
             - build_eventbrite_webapp
@@ -419,6 +423,7 @@ workflows:
             - checkout_code
             - build_client
             - install_server_modules
+            - install_common_modules
       - test_common_webapp:
           requires:
             - checkout_code
