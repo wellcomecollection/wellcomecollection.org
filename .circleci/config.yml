@@ -363,6 +363,9 @@ workflows:
       - install_server_modules:
           requires:
             - checkout_code
+      - install_common_modules:
+          requires:
+            - checkout_code
       - build_client:
           requires:
             - checkout_code
