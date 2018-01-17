@@ -10,7 +10,6 @@ module.exports = {
         rule.exclude = (str) => {
           // Don't include node_modules within @wellcomecollection
           if (/@wellcomecollection(?!.*node_modules)/.test(str)) {
-            console.info(str)
             return false;
           }
           return /node_modules/.test(str) && str.indexOf(nextPagesDir) !== 0;
