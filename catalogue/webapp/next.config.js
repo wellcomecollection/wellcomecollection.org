@@ -8,7 +8,8 @@ module.exports = {
       // https://github.com/zeit/next.js/commit/d4b1d9babfb4b9ed4f4b12d56d52dee233e862da
       if (rule.exclude) {
         rule.exclude = (str) => {
-          if (str.match('@wellcomecollection/')) {
+          // Don't include node_modules within @wellcomecollection
+          if (/@wellcomecollection(?!.*node_modules)/.test(str)) {
             return false;
           }
           return /node_modules/.test(str) && str.indexOf(nextPagesDir) !== 0;

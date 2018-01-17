@@ -23,3 +23,8 @@ export function grid(sizes) {
   return [base].concat(modifierClasses).join(' ');
 }
 
+export function font(sizes) {
+  return Object.keys(sizes).map(key => {
+    return `font-${sizes[key]}-${key}`;
+  }).join(' ');
+}
