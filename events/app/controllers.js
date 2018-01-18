@@ -26,10 +26,7 @@ export async function renderEvent(ctx, next, overrideId, gaExp) {
       }].concat(event.programme ? [{
         text: event.programme.title
         // TODO: link through to others of this type?
-      }] : []).concat([{
-        text: 'Part of: Can Graphic Design Save Your Life',
-        url: '/graphicdesign'
-      }]);
+      }] : []);
 
       const eventbriteIdScheme = event.identifiers.find(id => id.identifierScheme === 'eventbrite-id');
       const eventbriteId = eventbriteIdScheme && eventbriteIdScheme.value;
