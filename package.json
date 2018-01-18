@@ -31,5 +31,7 @@
     "husky": "^0.14.0",
     "nodemon": "^1.12.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@frctl/fractal": "^1.1.7"
+  }
 }

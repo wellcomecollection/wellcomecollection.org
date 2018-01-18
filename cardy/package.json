@@ -1,0 +1,20 @@
+{
+  "name": "next-cardigan",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "fractal start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@frctl/fractal": "^1.1.7",
+    "babel-env": "^2.4.1",
+    "babel-plugin-react-require": "^3.0.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "fractal-react-adapter": "https://github.com/davidpmccormick/fractal-react-adapter.git"
+  }
+}

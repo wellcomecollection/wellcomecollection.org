@@ -1,5 +1,5 @@
-import {spacing, font} from '../classnames';
-import Icon from './Icon';
+import {spacing, font} from '../../utils/classnames';
+import Icon from '../Icon/Icon';
 
 export default ({url, name}) => (
   <a className={[
@@ -8,10 +8,10 @@ export default ({url, name}) => (
     'plain-link',
     'font-elf-green',
     'font-hover-mint',
-    font({s:'HNM4'})].join(' ')} href={url}>
+    font({s: 'HNM4'})].join(' ')} href={url}>
     <span className='width-1-em'>
       <Icon name="arrow" extraClasses={['icon--elf-green']} />
     </span>
-    <span className={spacing({s:1}, {margin: ['left']})}>{name}</span>
+    <span className={spacing({s: 1}, {margin: ['left']})}>{name}</span>
   </a>
 );
