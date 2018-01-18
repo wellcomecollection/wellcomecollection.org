@@ -1,4 +1,5 @@
 import {grid} from '@wellcomecollection/common/classnames';
+import MoreInfoLink from '@wellcomecollection/common/components/MoreInfoLink';
 
 export default () => (
   <div className={grid({
@@ -6,5 +7,8 @@ export default () => (
     m:12,
     l:12,
     xl:12
-  })}>Catalogue</div>
+  })}>
+    <h1>Catalogue</h1>
+    <MoreInfoLink url="https://wellcomecollectiyon.org" name="Feed me Symour" />
+  </div>
 )

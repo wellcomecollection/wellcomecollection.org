@@ -16,7 +16,7 @@ import {isEmptyObj} from '../utils/is-empty-obj';
 import type {Series} from '../model/series';
 import type {LicenseType} from '../model/license';
 import {licenseTypeArray} from '../model/license';
-import {london} from "../filters/format-date";
+import {london} from '../filters/format-date';
 
 // This is just JSON
 type PrismicDoc = Object;

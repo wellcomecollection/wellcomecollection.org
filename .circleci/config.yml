@@ -24,6 +24,20 @@ jobs:
           key: server_modules_circleci_node_8_{{ checksum "yarn.lock" }}
           paths:
             -  node_modules
+  install_common_modules:
+    docker:
+      - image: circleci/node:8.9.3
+    working_directory: ~/wellcomecollection.org/common
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Install common modules
+          command: yarn install
+      - save_cache:
+          key: common_modules_circleci_node_8_{{ checksum "yarn.lock" }}
+          paths:
+            -  node_modules
   build_client:
     docker:
       - image: circleci/node:8.9.3
@@ -54,6 +68,8 @@ jobs:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: server_modules_circleci_node_8_{{ checksum "../../server/yarn.lock" }}
+      - restore_cache:
+          key: common_modules_circleci_node_8_{{ checksum "../../common/yarn.lock" }}
       - restore_cache:
           key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
       - run:
@@ -99,6 +115,8 @@ jobs:
       - restore_cache:
           key: server_modules_circleci_node_8_{{ checksum "../../server/yarn.lock" }}
       - restore_cache:
+          key: common_modules_circleci_node_8_{{ checksum "../../common/yarn.lock" }}
+      - restore_cache:
           key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Install modules
@@ -142,6 +160,8 @@ jobs:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: server_modules_circleci_node_8_{{ checksum "../../server/yarn.lock" }}
+      - restore_cache:
+          key: common_modules_circleci_node_8_{{ checksum "../../common/yarn.lock" }}
       - restore_cache:
           key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
       - run:
@@ -187,6 +207,8 @@ jobs:
       - restore_cache:
           key: server_modules_circleci_node_8_{{ checksum "../../server/yarn.lock" }}
       - restore_cache:
+          key: common_modules_circleci_node_8_{{ checksum "../../common/yarn.lock" }}
+      - restore_cache:
           key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Install modules
@@ -231,6 +253,8 @@ jobs:
       - restore_cache:
           key: server_modules_circleci_node_8_{{ checksum "server/yarn.lock" }}
       - restore_cache:
+          key: common_modules_circleci_node_8_{{ checksum "common/yarn.lock" }}
+      - restore_cache:
           key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Build client
@@ -258,6 +282,8 @@ jobs:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: server_modules_circleci_node_8_{{ checksum "server/yarn.lock" }}
+      - restore_cache:
+          key: common_modules_circleci_node_8_{{ checksum "common/yarn.lock" }}
       - restore_cache:
           key: built_server_{{ .Environment.CIRCLE_SHA1 }}
       - run:
@@ -337,6 +363,9 @@ workflows:
       - install_server_modules:
           requires:
             - checkout_code
+      - install_common_modules:
+          requires:
+            - checkout_code
       - build_client:
           requires:
             - checkout_code
@@ -345,6 +374,7 @@ workflows:
             - checkout_code
             - build_client
             - install_server_modules
+            - install_common_modules
       - deploy_exhibitions_webapp:
           requires:
             - build_exhibitions_webapp
@@ -357,6 +387,7 @@ workflows:
             - checkout_code
             - build_client
             - install_server_modules
+            - install_common_modules
       - deploy_whats_on_webapp:
           requires:
             - build_whats_on_webapp
@@ -369,6 +400,7 @@ workflows:
             - checkout_code
             - build_client
             - install_server_modules
+            - install_common_modules
       - deploy_events_webapp:
           requires:
             - build_events_webapp
@@ -381,6 +413,7 @@ workflows:
             - checkout_code
             - build_client
             - install_server_modules
+            - install_common_modules
       - deploy_eventbrite_webapp:
           requires:
             - build_eventbrite_webapp
@@ -393,6 +426,7 @@ workflows:
             - checkout_code
             - build_client
             - install_server_modules
+            - install_common_modules
       - test_common_webapp:
           requires:
             - checkout_code
