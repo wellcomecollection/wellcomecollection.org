@@ -64,7 +64,7 @@ export default ({
     <script src='/static/libs/picturefill.min.js' async />
     {/* Leaving this out for now as it's hanging locally for me */}
     {/*<script src='//platform.twitter.com/widgets.js' async defer></script>*/}
-    <HeadJs />
+    <HeadJs enhancedJsPath='/static/js/app.js' />
     <script type="application/ld+json">{/* JSON+LD Z*/}</script>
     <script dangerouslySetInnerHTML={{ __html: `
       window.WC = {

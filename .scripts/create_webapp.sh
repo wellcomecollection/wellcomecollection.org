@@ -32,6 +32,10 @@ pushd $PROJECT_ROOT_DIR
         sed -i '' "s/{WEBAPP_PORT}/$WEBAPP_PORT/g" $(basename $filename)
       done
 
+    # Static assets for dev
+    ln -s ../../dist/assets/ ./static
+
+    # Let's get going
     yarn
   popd
 popd

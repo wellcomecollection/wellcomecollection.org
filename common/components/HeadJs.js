@@ -1,4 +1,4 @@
-export default () => (
+export default ({enhancedJsPath}) => (
 <script dangerouslySetInnerHTML={{ __html: `
     (function() {
       /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
@@ -9,7 +9,7 @@ export default () => (
       if ('visibilityState' in document) { // Cutting the Mustard
         var rootElement = document.documentElement;
         var enhancedClass = 'enhanced';
-        var enhancedScriptPath = '{{file}}';
+        var enhancedScriptPath = ${JSON.stringify(enhancedJsPath)};
 
         function addEnhancedClass() {
           rootElement.classList.add(enhancedClass);
