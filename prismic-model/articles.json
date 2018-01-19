@@ -441,7 +441,8 @@
                 "config" : {
                   "label" : "Role",
                   "select" : "document",
-                  "customtypes" : [ "editorial-contributor-roles" ]
+                  "customtypes" : [ "editorial-contributor-roles" ],
+                  "tags": [ "editorial" ]
                 }
               },
               "person" : {
