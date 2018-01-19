@@ -134,6 +134,7 @@ function parseBodyPart(slice) {
         value: {
           caption: slice.primary.caption && asHtml(slice.primary.caption),
           videoUrl: slice.primary.video && slice.primary.video.url,
+          playbackRate: slice.primary.playbackRate || 1,
           tasl: parseTaslFromString(slice.primary.tasl)
         }
       };
