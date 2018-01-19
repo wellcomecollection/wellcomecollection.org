@@ -145,6 +145,13 @@
                   "label" : "Video",
                   "placeholder" : "Video"
                 }
+              },
+              "playbackRate" : {
+                "type" : "Select",
+                "config" : {
+                  "options" : ["0.1", "0.25", "0.5", "0.75", "1", "1.25", "1.5", "1.75", "2" ],
+                  "label" : "Playback rate"
+                }
               }
             }
           },
@@ -434,8 +441,7 @@
                 "config" : {
                   "label" : "Role",
                   "select" : "document",
-                  "customtypes" : [ "editorial-contributor-roles" ],
-                  "tags": [ "editorial" ]
+                  "customtypes" : [ "editorial-contributor-roles" ]
                 }
               },
               "person" : {

@@ -1,7 +1,8 @@
 <figure class="{{- [
   {s:0} | spacingClasses({margin: ['top', 'left', 'right' ]}),
   {s:3} | spacingClasses({margin: ['bottom']})
-  ].join(' ') }} js-gif-video gif-video no-margin">
+  ].join(' ') }} js-gif-video gif-video no-margin"
+  data-playback-rate="{{ model.playbackRate }}">
   <div class="gif-video__inner relative">
     <video class="gif-video__video block js-gif-video__video"
       preload="metadata"
