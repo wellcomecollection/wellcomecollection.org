@@ -30,5 +30,6 @@
     "eslint-plugin-standard": "^3.0.1",
     "husky": "^0.14.0",
     "nodemon": "^1.12.1"
-  }
+  },
+  "dependencies": {}
 }
