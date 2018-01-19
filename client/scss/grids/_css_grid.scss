@@ -149,9 +149,7 @@
 
   @supports(display: grid) {
     position: static;
-    // stylelint-disable declaration-no-important
-    padding: 0 !important;
-    // stylelint-enable declaration-no-important
+    padding: 0;
   }
 }
 
