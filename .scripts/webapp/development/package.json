@@ -2,15 +2,24 @@
   "name": "@wellcomecollection/webapp",
   "version": "1.0.0",
   "scripts": {
+    "devv": "next",
     "dev": "env $(cat public_env) ../../node_modules/.bin/nodemon --config nodemon.json",
     "build": "next build",
     "start": "next start",
     "postinstall": "pushd ../../common && yarn link && popd && yarn link @wellcomecollection/common"
   },
   "dependencies": {
+    "@wellcomecollection/common": "file:../../common",
+    "autoprefixer": "^7.2.5",
+    "babel-plugin-module-resolver": "^3.0.0",
+    "babel-plugin-wrap-in-js": "^1.1.1",
     "next": "^4.2.3",
+    "node-sass": "^4.7.2",
+    "postcss-easy-import": "^3.0.0",
+    "postcss-loader": "^2.0.10",
+    "raw-loader": "^0.5.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "@wellcomecollection/common": "file:../../common"
+    "sass-loader": "^6.0.6"
   }
 }
