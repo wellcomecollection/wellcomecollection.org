@@ -18,6 +18,11 @@
 </script>
 
 <div class="css-grid__container">
+  <div class="css-grid">
+    <div class="is-hidden-s is-hidden-m {{ ({s: 4} | spacingClasses({ margin: ['top'] })) }}">
+      {% componentV2 'tags', tags %}
+    </div>
+  </div>
 
   {% if event.promo.image %}
     <div class="is-hidden-l is-hidden-xl css-grid__cell--main">
@@ -30,7 +35,7 @@
     </div>
   {% endif %}
 
-  <div class="css-grid {{ {l: 5} | spacingClasses({margin: ['top']}) }}">
+  <div class="css-grid {{ {l: 2} | spacingClasses({margin: ['top']}) }}">
 
     <div class="css-grid__cell--secondary">
       <div class="bg-cream rounded-diagonal {{ {s: 4} | spacingClasses({padding: ['top', 'bottom', 'left', 'right']}) }} relative {{ {s: -4, l: 0} | spacingClasses({margin: ['top']}) }}">
@@ -44,13 +49,13 @@
           </div>
         </div>
 
-        <div class="{{- [
-          {s:'WB5'} | fontClasses,
+        <h1 class="{{- [
+          {s:'WB5', m:'WB4', xl:'WB3'} | fontClasses,
           {s: 2} | spacingClasses({margin: ['top']}),
           {s: 1} | spacingClasses({margin: ['bottom']})
         ].join(' ') -}}">
           {{ event.title }}
-        </div>
+        </h1>
 
         <div class="flex flex--v-center {{ {s:'HNM5'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">
           <span class="{{ {s: 2} | spacingClasses({margin: ['right']}) }}">{% icon 'ticket' %}</span>
@@ -192,9 +197,6 @@
     </div>
 
     <div class="css-grid__cell--primary">
-      <div class="is-hidden-s is-hidden-m">
-        {% componentV2 'tags', tags %}
-      </div>
       {% if event.promo.image %}
         <div class="is-hidden-s is-hidden-m rounded-corners overflow-hidden">
           {% componentV2 'image', event.promo.image, {} , { lazyload: true } %}

@@ -1,5 +1,4 @@
 // Generic component to test using JSX with nunjucks
-import React from 'react';
 import cssGridClasses from '../../../filters/css-grid-classes';
 
 export default function JsxTestComponent(props) {
