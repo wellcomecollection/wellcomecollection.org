@@ -1,4 +1,4 @@
-import {spacing, font} from '../../utils/classnames';
+import {spacing, font} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 
 export default ({url, name}) => (

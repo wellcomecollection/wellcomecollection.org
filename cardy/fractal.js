@@ -5,7 +5,7 @@ const statuses = require('./config/statuses');
 const fractal = Fractal.create();
 
 fractal.set('project.title', 'New cardy!');
-fractal.components.set('path', path.join(__dirname, '../common/components'));
+fractal.components.set('path', path.join(__dirname, '../common/views'));
 
 var reactAdapter = require('fractal-react-adapter')({
   babelConfig: {
