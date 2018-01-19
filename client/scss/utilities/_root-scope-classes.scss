@@ -325,6 +325,15 @@
   border-top-left-radius: $border-radius-unit;
   border-bottom-right-radius: $border-radius-unit;
 }
+.rounded-top {
+  border-top-left-radius: $border-radius-unit;
+  border-top-right-radius: $border-radius-unit;
+}
+
+.rounded-bottom {
+  border-bottom-left-radius: $border-radius-unit;
+  border-bottom-right-radius: $border-radius-unit;
+}
 
 .round {
   border-radius: 50%;
