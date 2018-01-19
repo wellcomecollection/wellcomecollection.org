@@ -3,7 +3,6 @@ import {model, prismic} from 'common';
 import {
   bookshopPromo,
   cafePromo,
-  libraryPromo,
   readingRoomPromo,
   restaurantPromo,
   spiritBoothPromo
@@ -26,7 +25,7 @@ export async function renderWhatsOn(ctx, next) {
       canonicalUri: '/whats-on'
     }),
     exhibitionAndEventPromos,
-    whileVisitPromos: [libraryPromo, readingRoomPromo, spiritBoothPromo],
+    whileVisitPromos: [readingRoomPromo, spiritBoothPromo],
     eatShopPromos: [cafePromo, restaurantPromo, bookshopPromo]
   });
 
