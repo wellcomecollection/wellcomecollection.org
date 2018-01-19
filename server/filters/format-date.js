@@ -40,15 +40,15 @@ function getRelativeTime({start, end}: {start: Date, end: Date}): {} {
   const momentNow = london();
   const momentStart = london(start);
   const momentEnd = london(end);
-  const momentThreeWeeksBeforeEnd = london(end).subtract(3, 'w');
+  const momentOneWeekBeforeEnd = london(end).subtract(1, 'w');
   const isFuture = momentStart.isAfter(momentNow);
   const isPast = momentEnd.isBefore(momentNow);
-  const isFinalWeeks = momentNow.isBetween(momentThreeWeeksBeforeEnd, momentEnd);
+  const isLastWeek = momentNow.isBetween(momentOneWeekBeforeEnd, momentEnd);
 
   return {
     isFuture,
     isPast,
-    isFinalWeeks
+    isLastWeek
   };
 }
 
@@ -56,15 +56,15 @@ export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date
   const relativeTime = getRelativeTime({start, end});
 
   if (end === null) {
-    return {text: 'Permanent exhibition', color: 'mint'};
+    return {text: 'Ongoing', color: 'mint'};
   } else if (relativeTime.isFuture) {
     return {text: 'Coming soon', color: 'cotton-seed'};
   } else if (relativeTime.isPast) {
-    return {text: 'Past exhibition', color: 'cotton-seed'};
-  } else if (relativeTime.isFinalWeeks) {
-    return {text: 'Final weeks', color: 'orange-graphics'};
+    return {text: 'Past', color: 'cotton-seed'};
+  } else if (relativeTime.isLastWeek) {
+    return {text: 'Last week', color: 'orange-graphics'};
   } else {
-    return {text: 'Current exhibition', color: 'mint'};
+    return {text: 'Current', color: 'mint'};
   }
 }
 
