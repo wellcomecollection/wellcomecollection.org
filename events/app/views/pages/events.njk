@@ -22,7 +22,7 @@
     {% endfor %}]
   </script>
 
-  {% componentV2 'list-header', {name: 'Events', total: paginatedEvents.results.length} %}
+  {% componentV2 'list-header', {name: 'Events', total: paginatedEvents.results.length}, {}, {showFree: true} %}
 
   {% if paginatedEvents.pagination.pageCount > 1  %}
   <div class="css-grid__container">

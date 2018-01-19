@@ -3,6 +3,7 @@
 {% else %}
   {% set sizes = '100vw' %}
 {% endif %}
+
 <a id="{{ model.id }}" href="{{ model.url }}" class="block plain-link">
   <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }} rounded-corners overflow-hidden">
     {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
@@ -19,7 +20,6 @@
   </div>
   {# TODO: add e.g. 'drop in'/'enquire to book'/'ticketed' #}
   <div class="flex flex--v-center {{ {s:'HNM5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
-    <span class="caps {{ {s: 1} | spacingClasses({padding: ['right']}) }}">Free</span>
     {% if model.bookingType %}
       <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
         {{ model.bookingType }}

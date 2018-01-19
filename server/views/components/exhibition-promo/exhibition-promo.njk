@@ -24,13 +24,6 @@
       <p class="{{ {s:'HNL5'} | fontClasses }} no-margin no-padding">{{ model.description | striptags | safe }}</p>
     {% endif %}
     <div class="exhibition-promo__meta flex flex--h-space-between flex--wrap {{ {s:3} | spacingClasses({margin: ['top']}) }}">
-      <div class="{{- [
-        {s:'HNM5', m:'HNM4'} | fontClasses
-        ].join(' ') }} exhibition-promo__cost flex flex--v-center">
-        {% icon 'ticket', null, [''] %}
-        <span class="{{ {s:1} | spacingClasses({padding: ['left', 'right']}) }}">FREE</span>
-      </div>
-
       <span class="{{- [
           {s:'HNM4'} | fontClasses
         ].join(' ') }} exhibition-promo__status flex flex--v-center">

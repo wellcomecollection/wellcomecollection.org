@@ -5,7 +5,7 @@
 
 {% for exhibition in exhibitionAndEventPromos.temporaryExhibitionPromos %}
   <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses }}">
-    {% componentV2 'exhibition-event-promo', exhibition, {}, {sizes: '(min-width: 1420px) 475px, (min-width: 960px) 34.32vw, (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'} %}
+    {% componentV2 'exhibition-promo', exhibition, {}, {sizes: '(min-width: 1420px) 475px, (min-width: 960px) 34.32vw, (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'} %}
   </div>
 {% endfor %}
 {% for event in exhibitionAndEventPromos.eventPromos %}
