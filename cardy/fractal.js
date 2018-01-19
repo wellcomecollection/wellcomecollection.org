@@ -9,7 +9,7 @@ fractal.components.set('path', path.join(__dirname, '../common/views'));
 
 var reactAdapter = require('fractal-react-adapter')({
   babelConfig: {
-    extensions: ['.js']
+    extensions: ['.js', '.jsx']
   }
 });
 fractal.components.engine(reactAdapter);
@@ -30,23 +30,23 @@ fractal.components.set('default.collator', function(markup, item) {
 fractal.web.set('static.path', dir('./../dist'));
 fractal.web.set('builder.dest', '.dist');
 
+fractal.docs.set('path', dir('docs'));
+fractal.docs.set('ext', '.jsx');
+fractal.docs.engine(reactAdapter);
+
 const cardiganTheme = mandelbrot({
   skin: 'navy',
   styles: ['default', '/dist-styles/styleguide.css'],
   favicon: '/cardigan-theme/assets/favicon.ico'
 });
-cardiganTheme.addLoadPath(serverDir('cardigan-theme'));
-cardiganTheme.addLoadPath(serverDir('views'));
-cardiganTheme.addStatic(serverDir('cardigan-theme'), '/cardigan-theme');
+
+cardiganTheme.addLoadPath(dir('cardigan-theme'));
+cardiganTheme.addStatic(dir('cardigan-theme'), '/cardigan-theme');
 cardiganTheme.addStatic(dir('./../dist/assets/css/'), '/dist-styles');
 fractal.web.theme(cardiganTheme);
 
 function dir(relPath) {
-  return path.resolve(`${__dirname}${relPath}`);
-}
-
-function serverDir(relPath) {
-  return dir(`./../server/${relPath}`);
+  return path.join(__dirname, relPath);
 }
 
 module.exports = fractal;
