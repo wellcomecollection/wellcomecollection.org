@@ -1,5 +1,5 @@
-import {grid} from '@wellcomecollection/common/classnames';
-import MoreInfoLink from '@wellcomecollection/common/components/MoreInfoLink';
+import {grid} from '@wellcomecollection/common/utils/classnames';
+import MoreInfoLink from '@wellcomecollection/common/components/MoreInfoLink/MoreInfoLink';
 
 export default () => (
   <div className={grid({
