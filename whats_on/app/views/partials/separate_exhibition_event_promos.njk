@@ -4,15 +4,11 @@
 </div>
 
 {% for exhibition in exhibitionAndEventPromos.temporaryExhibitionPromos %}
-  <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses }}">
-    {% componentV2 'exhibition-promo', exhibition, {}, {sizes: '(min-width: 1420px) 475px, (min-width: 960px) 34.32vw, (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'} %}
-  </div>
+  {% componentV2 'exhibition-promo', exhibition, {}, {sizes: '(min-width: 1420px) 475px, (min-width: 960px) 34.32vw, (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)', gridClasses: {s: 12, m: 6, l: 4, xl:4} | cssGridClasses } %}
 {% endfor %}
 
 {% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
-  <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses }}">
-    {% componentV2 'exhibition-promo', exhibition, {}, {sizes: '(min-width: 1420px) 475px, (min-width: 960px) 34.32vw, (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'} %}
-  </div>
+  {% componentV2 'exhibition-promo', exhibition, {}, {sizes: '(min-width: 1420px) 475px, (min-width: 960px) 34.32vw, (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)', gridClasses: {s: 12, m: 6, l: 4, xl:4} | cssGridClasses } %}
 {% endfor %}
 
 <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }}">

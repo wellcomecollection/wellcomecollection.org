@@ -3,25 +3,29 @@
 {% else %}
   {% set sizes = '100vw' %}
 {% endif %}
-<a id="{{model.id}}" href="{{ model.url }}" class="exhibition-promo">
-  <div class="exhibition-promo__image-container rounded-top overflow-hidden">
+
+<a id="{{model.id}}" href="{{ model.url }}" class="exhibition-promo bg-cream rounded-top rounded-bottom overflow-hidden {{ data.gridClasses }} flex flex--column">
+  <div class="exhibition-promo__image-container">
     {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
   </div>
   <div class="{{- [
       {s:2} | spacingClasses({padding: ['top']}),
       {s:3} | spacingClasses({padding: ['left', 'right']}),
       {s:4} | spacingClasses({padding: ['bottom']})
-    ].join(' ') }} exhibition-promo__description bg-cream rounded-bottom">
+    ].join(' ') }} exhibition-promo__description flex flex--column">
 
     <p class="exhibition-promo__label no-padding {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5'} | fontClasses }}">Exhibition</p>
     <h2 class="exhibition-promo__title {{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
 
-    {% if model.start and model.end %}
-      <p class="{{ {s:'HNL4'} | fontClasses }} no-margin no-padding"><time datetime="{{model.start}}">{{ model.start | formatDate }}</time>&ndash;<time datetime="{{model.end}}">{{ model.end | formatDate }}</time></p>
-    {% else %}
-      <p class="{{ {s:'HNL4'} | fontClasses }} no-margin no-padding">{{ model.description | striptags | safe }}</p>
-    {% endif %}
-    <div class="exhibition-promo__meta flex flex--h-space-between flex--wrap {{ {s:3} | spacingClasses({margin: ['top']}) }}">
+    <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} no-padding">
+      {% if model.start and model.end %}
+        <time datetime="{{model.start}}">{{ model.start | formatDate }}</time>&ndash;<time datetime="{{model.end}}">{{ model.end | formatDate }}</time>
+      {% else %}
+        {{ model.description | striptags | safe }}
+      {% endif %}
+    </p>
+
+    <div class="exhibition-promo__meta flex flex--h-space-between flex--wrap">
       <span class="{{- [
           {s:'HNM5'} | fontClasses
         ].join(' ') }} exhibition-promo__status flex flex--v-center">

@@ -3,6 +3,10 @@
   text-decoration: none;
 }
 
+.exhibition-promo__description {
+  flex: 1;
+}
+
 .exhibition-promo__title {
   transition: color 400ms ease;
 
@@ -10,4 +14,8 @@
   .exhibition-promo:focus & {
     color: color('mint');
   }
+}
+
+.exhibition-promo__meta {
+  margin-top: auto;
 }
