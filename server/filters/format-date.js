@@ -23,6 +23,14 @@ export function formatDayDate(date: Date): string {
   return london(date).format('dddd D MMMM YYYY');
 }
 
+export function formatDay(date: Date): string {
+  return london(date).format('dddd');
+}
+
+export function formatMonthYear(date: Date): string {
+  return london(date).format('MMMM YYYY');
+}
+
 export function formatDateWithComingSoon(date: Date): string {
   const isFuture = london().diff(date) < 0;
   return (isFuture ? 'Coming soon: ' : '') + formatDate(date);
