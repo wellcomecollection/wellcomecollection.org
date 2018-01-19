@@ -31,7 +31,9 @@
   }
 
   &[disabled] {
-    opacity: 0.2;
+    background: color('pewter');
+    border-color: color('pewter');
+    cursor: not-allowed;
   }
 
   .icon {
