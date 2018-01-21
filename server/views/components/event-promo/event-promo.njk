@@ -20,6 +20,11 @@
         {% else %}
           <span>{{ model.format.title }}</span>
         {% endif %}
+        {% if model.audience.title %}
+          <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
+            {{ model.audience.title }}
+          </span>
+        {% endif %}
       </p>
 
       <h2 class="promo-link__title {{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>

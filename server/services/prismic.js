@@ -8,7 +8,7 @@ import {
   prismicImage,
   parseExhibitionsDoc,
   getPositionInPrismicSeries,
-  parsePromoListItem, parseEventFormat, parseEventBookingType, parseImagePromo
+  parseAudience, parsePromoListItem, parseEventFormat, parseEventBookingType, parseImagePromo
 } from './prismic-parsers';
 import {List} from 'immutable';
 import moment from 'moment';
@@ -40,7 +40,8 @@ const eventFields = [
   'event-booking-enquiry-teams.url',
   'event-formats.title', 'event-formats.description', 'event-formats.shortName',
   'locations.title', 'locations.geolocation', 'locations.level', 'locations.capacity',
-  'interpretation-types.title', 'interpretation-types.description', 'interpretation-types.abbreviation'
+  'interpretation-types.title', 'interpretation-types.description', 'interpretation-types.abbreviation',
+  'audiences.title'
 ];
 
 const defaultPageSize = 40;
@@ -207,6 +208,7 @@ function createEventPromos(allResults): Array<EventPromo> {
   return allResults.map((event): EventPromo => {
     const promo = event.data.promo && parseImagePromo(event.data.promo);
     const format = event.data.format && parseEventFormat(event.data.format);
+    const audience = event.data.audiences[0]['audience'] && parseAudience(event.data.audiences[0]['audience']);
     const bookingType = parseEventBookingType(event);
 
     // A single Primsic 'event' can have multiple datetimes, but we
@@ -218,6 +220,7 @@ function createEventPromos(allResults): Array<EventPromo> {
         title: asText(event.data.title),
         url: `/events/${event.id}`,
         format: format,
+        audience: audience,
         start: eventAtTime.startDateTime,
         end: eventAtTime.endDateTime,
         image: promo && promo.image,
@@ -276,16 +279,16 @@ export async function getPaginatedExhibitionPromos(page: number): Promise<Array<
 //                    [_____date range_____]
 //          [___event1___]              [___event2___]
 //                         [___event3___]
-function datesOverlapRange (eventStartDate, eventEndDate, rangeStartDate, rangeEndDate) {
-  if (rangeStartDate && rangeEndDate) {
-    const eventStart = london(eventStartDate);
-    const eventEnd = london(eventEndDate);
-    const rangeStart = london(rangeStartDate);
-    const rangeEnd = london(rangeEndDate);
-    return (eventStart.isSame(rangeEnd, 'day') || eventStart.isBefore(rangeEnd, 'day')) && (eventEnd.isSame(rangeStart, 'day') || eventEnd.isAfter(rangeStart, 'day'));
-  } else {
-    return true;
-  }
+function datesOverlapRange (eventStartDate, eventEndDate, rangeStartDate, rangeEndDate) { // TODO dev only put
+  // if (rangeStartDate && rangeEndDate) {
+  //   const eventStart = london(eventStartDate);
+  //   const eventEnd = london(eventEndDate);
+  //   const rangeStart = london(rangeStartDate);
+  //   const rangeEnd = london(rangeEndDate);
+  //   return (eventStart.isSame(rangeEnd, 'day') || eventStart.isBefore(rangeEnd, 'day')) && (eventEnd.isSame(rangeStart, 'day') || eventEnd.isAfter(rangeStart, 'day'));
+  // } else {
+  return true;
+  // }
 }
 
 function filterPromosByDate(promos, startDate, endDate) {
@@ -375,7 +378,6 @@ export async function getExhibitionAndEventPromos(query) {
   const fromDate = query.startDate ? query.startDate : todaysDate.format('YYYY-MM-DD');
   const toDate = query.endDate ? query.endDate : todaysDate.format('YYYY-MM-DD');
   const dateRange = [fromDate, toDate];
-
   const prismic = await getPrismicApi();
   const allExhibitionsAndEvents = await prismic.query([
     Prismic.Predicates.any('document.type', ['exhibitions', 'events'])
