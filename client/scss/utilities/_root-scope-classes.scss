@@ -326,6 +326,7 @@
 }
 
 .promo-link {
+  display: block;
   color: color('black');
 
   &:hover .promo-link__title,
