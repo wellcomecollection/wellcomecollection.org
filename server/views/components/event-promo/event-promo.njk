@@ -4,31 +4,42 @@
   {% set sizes = '100vw' %}
 {% endif %}
 
-<a id="{{ model.id }}" href="{{ model.url }}" class="block plain-link">
-  <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }} rounded-corners overflow-hidden">
-    {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
-  </div>
-  <div class="{{ {s:'HNM5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
-    {% if model.format.shortName %}
-      <abbr title="{{ model.format.title }}">{{ model.format.shortName }}</abbr>
-    {% else %}
-      <span>{{ model.format.title }}</span>
-    {% endif %}
-  </div>
-  <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
-    <h2 class="{{ {s:'WB6'} | fontClasses }} no-margin">{{ model.title }}</h2>
-  </div>
-  {# TODO: add e.g. 'drop in'/'enquire to book'/'ticketed' #}
-  <div class="flex flex--v-center {{ {s:'HNM5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
-    {% if model.bookingType %}
-      <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
-        {{ model.bookingType }}
-      </span>
-    {% endif %}
-  </div>
-  {# TODO: add 'fully booked' status when available #}
-  <time class="{{ {s:'HNM4'} | fontClasses }}" datetime="{{ model.start }}">{{ model.start | formatDate }}</time>
-  <div class="{{ {s:'HNL4'} | fontClasses }}" datetime="{{ model.start }}">
-    <time datetime="{{ model.start }}">{{ model.start | formatTime }}</time>&mdash;<time datetime="{{ model.end }}">{{ model.end | formatTime }}</time>
-  </div>
+<a id="{{model.id}}" href="{{ model.url }}" class="plain-link promo-link bg-cream rounded-top rounded-bottom overflow-hidden {{ data.gridClasses }} flex flex--column">
+
+  {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
+
+  <div class="{{- [
+      {s:2} | spacingClasses({padding: ['top']}),
+      {s:3} | spacingClasses({padding: ['left', 'right']}),
+      {s:4} | spacingClasses({padding: ['bottom']})
+    ].join(' ') }} flex flex--column flex-1">
+
+      <p class="no-padding {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5'} | fontClasses }}">
+        {% if model.format.shortName %}
+          <abbr title="{{ model.format.title }}">{{ model.format.shortName }}</abbr>
+        {% else %}
+          <span>{{ model.format.title }}</span>
+        {% endif %}
+      </p>
+
+      <h2 class="promo-link__title {{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
+
+      {# TODO: add e.g. 'drop in'/'enquire to book'/'ticketed' #}
+      {% if model.bookingType %}
+        <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} no-padding">
+          <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
+            {{ model.bookingType }}
+          </span>
+        </p>
+      {% endif %}
+
+      {# TODO: add 'fully booked' status when available #}
+      <p class="{{ {s:'HNL4'} | fontClasses }} no-padding no-margin">
+        <time datetime="{{ model.start }}">{{ model.start | formatDate }}</time>
+      </p>
+      <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} no-padding">
+        <time datetime="{{ model.start }}">{{ model.start | formatTime }}</time>&mdash;<time datetime="{{ model.end }}">{{ model.end | formatTime }}</time>
+      </p>
+
+    </div>
 </a>

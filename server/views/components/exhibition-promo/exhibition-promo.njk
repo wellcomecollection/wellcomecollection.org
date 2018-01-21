@@ -4,18 +4,19 @@
   {% set sizes = '100vw' %}
 {% endif %}
 
-<a id="{{model.id}}" href="{{ model.url }}" class="exhibition-promo bg-cream rounded-top rounded-bottom overflow-hidden {{ data.gridClasses }} flex flex--column">
-  <div class="exhibition-promo__image-container">
-    {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
-  </div>
+<a id="{{model.id}}" href="{{ model.url }}" class="plain-link promo-link bg-cream rounded-top rounded-bottom overflow-hidden {{ data.gridClasses }} flex flex--column">
+
+  {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
+
   <div class="{{- [
       {s:2} | spacingClasses({padding: ['top']}),
       {s:3} | spacingClasses({padding: ['left', 'right']}),
       {s:4} | spacingClasses({padding: ['bottom']})
-    ].join(' ') }} exhibition-promo__description flex flex--column">
+    ].join(' ') }} flex flex--column flex-1">
 
-    <p class="exhibition-promo__label no-padding {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5'} | fontClasses }}">Exhibition</p>
-    <h2 class="exhibition-promo__title {{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
+    <p class="no-padding {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5'} | fontClasses }}">Exhibition</p>
+
+    <h2 class="promo-link__title {{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
 
     <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} no-padding">
       {% if model.start and model.end %}
@@ -25,10 +26,10 @@
       {% endif %}
     </p>
 
-    <div class="exhibition-promo__meta flex flex--h-space-between flex--wrap">
+    <div class="flex flex--h-space-between flex--wrap margin-top-auto">
       <span class="{{- [
           {s:'HNM5'} | fontClasses
-        ].join(' ') }} exhibition-promo__status flex flex--v-center">
+        ].join(' ') }} flex flex--v-center">
         {% set dateMessageAndColor = {start: model.start, end: model.end} | formatDateRangeWithMessage %}
         <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
           {% set statusColor = 'icon--' + dateMessageAndColor.color %}
@@ -37,5 +38,6 @@
         {{ dateMessageAndColor.text }}
       </span>
     </div>
+
   </div>
 </a>
