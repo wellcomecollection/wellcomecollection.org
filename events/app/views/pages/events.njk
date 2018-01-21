@@ -40,9 +40,7 @@
   <div class="css-grid__container {{ {s:4} | spacingClasses({padding: ['top']}) }} ">
     <div class="css-grid">
       {% for event in paginatedEvents.results %}
-        <div class="{{ {s: 12, m: 6, l:4, xl:4} | cssGridClasses }}">
-          {% componentV2 'event-promo', event %}
-        </div>
+        {% componentV2 'event-promo', event, {}, {gridClasses: {s: 12, m: 6, l: 4, xl:4} | cssGridClasses } %}
       {% endfor %}
     </div>
   </div>
