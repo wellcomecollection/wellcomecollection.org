@@ -1,6 +1,6 @@
 import nunjucks from 'nunjucks';
 import ReactDOMServer from 'react-dom/server';
-import * as components from '../../common/views/components/index';
+import * as components from '../../common/views/components/Index';
 
 export default class Component {
   constructor(env) {
