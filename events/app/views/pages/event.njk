@@ -188,10 +188,10 @@
                 <p class="no-margin">
                   {% if interpretation.isPrimary %}
                     This event is primarily
-                    {{ interpretation.interpretationType.description }}.
+                    {{ interpretation.interpretationType.description | safe }}.
                   {% else %}
                     This event will be
-                    {{ interpretation.interpretationType.description }}.
+                    {{ interpretation.interpretationType.description | safe }}.
                   {% endif %}
                 </p>
                 <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
