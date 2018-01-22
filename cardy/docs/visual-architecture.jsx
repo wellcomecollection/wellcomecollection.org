@@ -1,6 +1,6 @@
 import BodyBlock from './BodyBlock';
 
-export default (props) => (
+export default ({breakpoints, gridConfig}) => (
   <BodyBlock>
     {/* TODO: add PageDescription component above when available */}
     <p>The architecture we have composed consists of two parts. <a href='#structure'>Structure</a> and <a href='#style'>Style</a>.</p>
@@ -84,15 +84,15 @@ export default (props) => (
 
     <h3>Width</h3>
 
-    {props.breakpoints[props.breakpoints.length - 1].size}
-    <p>The layout has a maximum width of {props.breakpoints[props.breakpoints.length - 1].size}.</p>
+    {breakpoints[breakpoints.length - 1].size}
+    <p>The layout has a maximum width of {breakpoints[breakpoints.length - 1].size}.</p>
 
     <h3>Breakpoints</h3>
 
-    <p>The layout utilises {props.breakpoints.length} breakpoints:</p>
+    <p>The layout utilises {breakpoints.length} breakpoints:</p>
 
     <ul>
-      {props.breakpoints.map(breakpoint => (
+      {breakpoints.map(breakpoint => (
         <li>`{breakpoint.name}`: {breakpoint.name === 'xlarge' ? '>' : '>='} {breakpoint.size}</li>
       ))}
     </ul>
@@ -101,7 +101,7 @@ export default (props) => (
     <p>The grid consists of 12 columns and breakpoints determine the spacing between the columns, i.e. gutters, and the space either side of the layout, i.e. margins.</p>
 
     <ul>
-    {props.gridConfig.map(gridSize => (
+    {gridConfig.map(gridSize => (
       <li><strong>{gridSize.name}:</strong> {gridSize.gutterWidth} gutters, {gridSize.marginWidth} margins</li>
     ))}
   </ul>

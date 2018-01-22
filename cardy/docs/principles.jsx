@@ -2,17 +2,17 @@ import BodyBlock from './BodyBlock';
 import Icon from '../../common/views/components/Icon/Icon';
 import {spacing} from '../../common/utils/classnames';
 
-export default (props) => (
+export default ({pageSections, supportedBrowsers}) => (
   <BodyBlock>
     <h2>Index</h2>
     <a name='index'></a>
     <ul>
-      {props.pageSections.map(pageSection => (
+      {pageSections.map(pageSection => (
         <li><a href={`#${pageSection.url}`}>{pageSection.name}</a></li>
       ))}
     </ul>
 
-    {props.pageSections.map(pageSection => (
+    {pageSections.map(pageSection => (
       <div className={spacing({s: 8}, {margin: ['top']})}>
         <h2>{pageSection.name}</h2>
         <a name={pageSection.url}></a>
@@ -28,7 +28,7 @@ export default (props) => (
                   </tr>
                 </thead>
                 <tbody>
-                  {props.supportedBrowsers.map(browser => (
+                  {supportedBrowsers.map(browser => (
                     <tr>
                       <td>{browser.type}</td>
                       <td>{browser.supportLevel}</td>
