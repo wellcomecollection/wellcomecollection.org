@@ -345,7 +345,7 @@ function getListHeader(dates) {
   const todayDateString = `startDate=${dates.today}&endDate=${dates.today}`;
   const weekendDateString = `startDate=${dates.weekend[0]}&endDate=${dates.weekend[1]}`;
   const allDateString = `startDate=${dates.all[0]}&endDate=${dates.all[1]}`;
-  const urlBeginning = `${encodeURI('/whats-on/?')}`;
+  const urlBeginning = `${encodeURI('/whats-on?')}`;
 
   return {
     todayOpeningHours,
