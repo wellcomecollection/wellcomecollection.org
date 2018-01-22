@@ -117,6 +117,13 @@
         "options" : [ "yes" ],
         "label" : "Drop in"
       }
+    },
+    "bookingInformation" : {
+      "type" : "StructuredText",
+      "config" : {
+        "multi" : "paragraph, strong, em, hyperlink, list-item",
+        "label" : "Booking information"
+      }
     }
   },
   "Series" : {

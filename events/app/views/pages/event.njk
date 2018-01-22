@@ -163,6 +163,15 @@
             </div>
           {% endif %}
 
+          {% if event.bookingInformation %}
+            <h3 class="{{ {s:'HNM4'} | fontClasses }}">
+              Booking information
+            </h3>
+            <div class="{{ {s:'HNL4'} | fontClasses }}">
+              {{ event.bookingInformation | safe }}
+            </div>
+          {% endif %}
+
           {% for interpretation in event.interpretations %}
             {% if interpretation.interpretationType.description %}
               <h3 class="flex {{ {s:'HNM4'} | fontClasses }}">
