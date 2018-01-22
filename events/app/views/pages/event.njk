@@ -65,6 +65,12 @@
               {{ event.bookingType }}
             </span>
           {% endif %}
+
+          {% if event.isDropIn %}
+            <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
+              Drop-in
+            </span>
+          {% endif %}
         </div>
 
         <div class="{{ {s:'HNL4'} | fontClasses }}">
