@@ -279,16 +279,16 @@ export async function getPaginatedExhibitionPromos(page: number): Promise<Array<
 //                    [_____date range_____]
 //          [___event1___]              [___event2___]
 //                         [___event3___]
-function datesOverlapRange (eventStartDate, eventEndDate, rangeStartDate, rangeEndDate) { // TODO dev only put
-  // if (rangeStartDate && rangeEndDate) {
-  //   const eventStart = london(eventStartDate);
-  //   const eventEnd = london(eventEndDate);
-  //   const rangeStart = london(rangeStartDate);
-  //   const rangeEnd = london(rangeEndDate);
-  //   return (eventStart.isSame(rangeEnd, 'day') || eventStart.isBefore(rangeEnd, 'day')) && (eventEnd.isSame(rangeStart, 'day') || eventEnd.isAfter(rangeStart, 'day'));
-  // } else {
-  return true;
-  // }
+function datesOverlapRange (eventStartDate, eventEndDate, rangeStartDate, rangeEndDate) {
+  if (rangeStartDate && rangeEndDate) {
+    const eventStart = london(eventStartDate);
+    const eventEnd = london(eventEndDate);
+    const rangeStart = london(rangeStartDate);
+    const rangeEnd = london(rangeEndDate);
+    return (eventStart.isSame(rangeEnd, 'day') || eventStart.isBefore(rangeEnd, 'day')) && (eventEnd.isSame(rangeStart, 'day') || eventEnd.isAfter(rangeStart, 'day'));
+  } else {
+    return true;
+  }
 }
 
 function filterPromosByDate(promos, startDate, endDate) {
