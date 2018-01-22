@@ -13,34 +13,34 @@
       {s:3} | spacingClasses({padding: ['left', 'right']}),
       {s:4} | spacingClasses({padding: ['bottom']})
     ].join(' ') }} flex flex--column flex-1">
+      <div class="no-padding flex flex--v-center {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5'} | fontClasses }}">
+        {% for interpretation in model.interpretations %}
+          {# TODO: This is not very nice #}
+          <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">
+            {% icon interpretation.interpretationType.title | replace(' ', '_') | replace('-', '_') | lower %}
+          </span>
+        {% endfor %}
+        <span>{{ model.format.title }}</span>
 
-      <p class="no-padding {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5'} | fontClasses }}">
-        {% if model.format.shortName %}
-          <abbr title="{{ model.format.title }}">{{ model.format.shortName }}</abbr>
-        {% else %}
-          <span>{{ model.format.title }}</span>
-        {% endif %}
         {% if model.audience.title %}
           <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
             {{ model.audience.title }}
           </span>
         {% endif %}
-      </p>
+      </div>
 
       <h2 class="promo-link__title {{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
 
       {# TODO: add e.g. 'drop in'/'enquire to book'/'ticketed' #}
       {% if model.bookingType %}
         <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} no-padding">
-          <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
-            {{ model.bookingType }}
-          </span>
+          {{ model.bookingType }}
         </p>
       {% endif %}
 
       {# TODO: add 'fully booked' status when available #}
       <p class="{{ {s:'HNL4'} | fontClasses }} no-padding no-margin">
-        <time datetime="{{ model.start }}">{{ model.start | formatDate }}</time>
+        <time datetime="{{ model.start }}">{{ model.start | formatDayDate }}</time>
       </p>
       <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} no-padding">
         <time datetime="{{ model.start }}">{{ model.start | formatTime }}</time>&mdash;<time datetime="{{ model.end }}">{{ model.end | formatTime }}</time>
