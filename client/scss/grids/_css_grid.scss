@@ -123,7 +123,6 @@
 .css-grid__cell,
 .css-grid__cell--primary,
 .css-grid__cell--secondary { // fallback
-  box-sizing: border-box;
   flex: 1;
   position: relative;
   margin-left: map-get($gutter-width, 'small');

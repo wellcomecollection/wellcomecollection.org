@@ -333,6 +333,11 @@
   &:focus .promo-link__title {
     color: color('mint');
   }
+
+  @supports (display: grid) {
+    display: flex;
+  }
+
 }
 
 .promo-link__title {
