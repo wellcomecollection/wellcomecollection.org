@@ -35,7 +35,7 @@ fractal.docs.set('ext', '.jsx');
 fractal.docs.engine(reactAdapter);
 
 const cardiganTheme = mandelbrot({
-  skin: 'navy',
+  skin: 'teal',
   styles: ['default', '/dist-styles/styleguide.css'],
   favicon: '/cardigan-theme/assets/favicon.ico'
 });
