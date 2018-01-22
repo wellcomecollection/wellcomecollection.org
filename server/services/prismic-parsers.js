@@ -132,8 +132,8 @@ export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
   ]).filter(_ => _);
 
   // Exhibitions are always open and shut on days, rather than hours
-  const startDate = london(doc.data.start).startOf('day').toDate();
-  const endDate = london(doc.data.end).endOf('day').toDate();
+  const startDate = doc.data.start && london(doc.data.start).startOf('day').toDate();
+  const endDate = doc.data.end && london(doc.data.end).endOf('day').toDate();
 
   const exhibition = ({
     id: doc.id,
