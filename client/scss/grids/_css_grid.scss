@@ -125,33 +125,31 @@
 .css-grid__cell--secondary { // fallback
   flex: 1;
   position: relative;
-  padding-left: map-get($gutter-width, 'small');
-  padding-bottom: map-get($gutter-width, 'small');
+  margin-left: map-get($gutter-width, 'small');
+  margin-bottom: map-get($gutter-width, 'small');
   left: -(map-get($gutter-width, 'small'));
 
   @include respond-to('medium') {
-    padding-left: map-get($gutter-width, 'medium');
-    padding-bottom: map-get($gutter-width, 'medium');
+    margin-left: map-get($gutter-width, 'medium');
+    margin-bottom: map-get($gutter-width, 'medium');
     left: -(map-get($gutter-width, 'medium'));
   }
 
   @include respond-to('large') {
-    padding-left: map-get($gutter-width, 'large');
-    padding-bottom: map-get($gutter-width, 'large');
+    margin-left: map-get($gutter-width, 'large');
+    margin-bottom: map-get($gutter-width, 'large');
     left: -(map-get($gutter-width, 'large'));
   }
 
   .css-grid__cell {
     // stylelint-disable declaration-no-important
-    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
     // stylelint-enable declaration-no-important
   }
 
   @supports(display: grid) {
     position: static;
-    // stylelint-disable declaration-no-important
-    padding: 0 !important;
-    // stylelint-enable declaration-no-important
+    margin: 0;
   }
 }
 

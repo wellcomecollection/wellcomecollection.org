@@ -4,7 +4,7 @@ import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
 import type {
   DateTimeRange, Event, Contributor, Team,
-  Location, EventFormat
+  Location, EventFormat, Audience
 } from '../content-model/events';
 import getBreakpoint from '../filters/get-breakpoint';
 import {parseBody} from './prismic-body-parser';
@@ -107,6 +107,14 @@ export function parseEventFormat(frag: Object): ?EventFormat {
     title: asText(frag.data.title),
     shortName: asText(frag.data.shortName),
     description: asHtml(frag.data.description)
+  };
+}
+
+export function parseAudience(frag: Object): ?Audience {
+  return isEmptyDocLink(frag) ? null : {
+    id: frag.id,
+    title: asText(frag.data.title),
+    description: asText(frag.data.description)
   };
 }
 

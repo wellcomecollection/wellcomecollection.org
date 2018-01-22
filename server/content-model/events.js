@@ -73,7 +73,7 @@ type Identifier = {|
   value: string
 |}
 
-type Audience = {|
+export type Audience = {|
   id: string,
   title: string,
   description: ?string

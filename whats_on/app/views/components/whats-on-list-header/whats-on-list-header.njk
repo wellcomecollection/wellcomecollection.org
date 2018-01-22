@@ -3,10 +3,16 @@
     <div class="grid">
       <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
         <div class="flex flex--v-center flex--h-space-between flex--wrap">
-          <h1 class="{{- [
-            {s:'WB6', m:'WB4'} | fontClasses,
-            {s:4} | spacingClasses({padding: ['right']})
-          ].join(' ') }} no-margin">{{ model.name }}</h1>
+          <div>
+            <h1 class="{{- [
+              {s:'WB6', m:'WB5', l:'WB4'}| fontClasses,
+              {s:4} | spacingClasses({padding: ['right']})
+            ].join(' ') }} no-margin inline">{{ model.name }}</h1>
+            <div class="flex-inline flex--v-center">
+              {% icon 'ticket', null, [''] %}
+              <span class="{{ {s:1} | spacingClasses({padding: ['left', 'right']}) }} {{ {s:'HNM5', m:'HNM4'} | fontClasses }}">FREE</span>
+            </div>
+          </div>
           <div class="flex flex--v-center flex--wrap">
             <div class="flex flex--v-center">
               <span class="{{- [

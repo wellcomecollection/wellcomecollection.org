@@ -8,7 +8,7 @@ import {
   prismicImage,
   parseExhibitionsDoc,
   getPositionInPrismicSeries,
-  parsePromoListItem, parseEventFormat, parseEventBookingType, parseImagePromo
+  parseAudience, parsePromoListItem, parseEventFormat, parseEventBookingType, parseImagePromo
 } from './prismic-parsers';
 import {List} from 'immutable';
 import moment from 'moment';
@@ -40,7 +40,8 @@ const eventFields = [
   'event-booking-enquiry-teams.url',
   'event-formats.title', 'event-formats.description', 'event-formats.shortName',
   'locations.title', 'locations.geolocation', 'locations.level', 'locations.capacity',
-  'interpretation-types.title', 'interpretation-types.description', 'interpretation-types.abbreviation'
+  'interpretation-types.title', 'interpretation-types.description', 'interpretation-types.abbreviation',
+  'audiences.title'
 ];
 
 const defaultPageSize = 40;
@@ -207,8 +208,11 @@ function createEventPromos(allResults): Array<EventPromo> {
   return allResults.map((event): EventPromo => {
     const promo = event.data.promo && parseImagePromo(event.data.promo);
     const format = event.data.format && parseEventFormat(event.data.format);
-    const bookingType = parseEventBookingType(event);
+    const audience = event.data.audiences.map((audience) => {
+      return parseAudience(audience.audience);
+    })[0];
 
+    const bookingType = parseEventBookingType(event);
     // A single Primsic 'event' can have multiple datetimes, but we
     // want to display each datetime as an individual promo, so we
     // map and flatten.
@@ -218,6 +222,7 @@ function createEventPromos(allResults): Array<EventPromo> {
         title: asText(event.data.title),
         url: `/events/${event.id}`,
         format: format,
+        audience: audience,
         start: eventAtTime.startDateTime,
         end: eventAtTime.endDateTime,
         image: promo && promo.image,
@@ -229,7 +234,7 @@ function createEventPromos(allResults): Array<EventPromo> {
     return curr.concat(acc);
   }, []).sort((a, b) => {
     return convertStringToNumber(b.start || '') - convertStringToNumber(a.start || '');
-  });
+  }).sort((a, b) => a.start.localeCompare(b.start));
 }
 
 function convertStringToNumber(string: string): number {
@@ -257,7 +262,7 @@ function convertPrismicResultsToPaginatedResults(prismicResults: Object): (resul
 
 export async function getPaginatedEventPromos(page: number): Promise<Array<EventPromo>> {
   const events = await getAllOfType('events', page, {
-    orderings: '[my.events.times.startDateTime desc]',
+    orderings: '[my.events.times.startDateTime]',
     fetchLinks: eventFields
   });
   const promos = createEventPromos(events.results);
@@ -375,11 +380,10 @@ export async function getExhibitionAndEventPromos(query) {
   const fromDate = query.startDate ? query.startDate : todaysDate.format('YYYY-MM-DD');
   const toDate = query.endDate ? query.endDate : todaysDate.format('YYYY-MM-DD');
   const dateRange = [fromDate, toDate];
-
   const prismic = await getPrismicApi();
   const allExhibitionsAndEvents = await prismic.query([
     Prismic.Predicates.any('document.type', ['exhibitions', 'events'])
-  ]);
+  ], {fetchLinks: eventFields, orderings: '[my.events.times.startDateTime desc, my.exhibitions.start]'});
   const exhibitionPromos = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'exhibitions'));
   const permanentExhibitionPromos = exhibitionPromos.filter(e => !e.end);
   const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => e.end), fromDate, toDate);
