@@ -36,8 +36,7 @@ const seriesFields = [
 const contributorFields = ['editorial-contributor-roles.title'];
 const eventFields = [
   'event-access-options.title', 'event-access-options.description', 'event-access-options.description',
-  'event-booking-enquiry-teams.title', 'event-booking-enquiry-teams.email', 'event-booking-enquiry-teams.phone',
-  'event-booking-enquiry-teams.url',
+  'teams.title', 'teams.email', 'teams.phone', 'teams.url',
   'event-formats.title', 'event-formats.description', 'event-formats.shortName',
   'locations.title', 'locations.geolocation', 'locations.level', 'locations.capacity',
   'interpretation-types.title', 'interpretation-types.description', 'interpretation-types.abbreviation',
