@@ -114,7 +114,7 @@ export function parseEventBookingType(eventDoc: Object): ?string {
   return !isEmptyObj(eventDoc.data.eventbriteEvent) ? 'Ticketed'
     : !isEmptyDocLink(eventDoc.data.bookingEnquiryTeam) ? 'Enquire to book'
       : !isEmptyDocLink(eventDoc.data.location) && eventDoc.data.location.data.capacity  ? 'First come, first seated'
-        : eventDoc.data.isDropIn ? 'Drop in' : null;
+        : null;
 }
 
 export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
