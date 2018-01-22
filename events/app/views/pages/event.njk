@@ -182,28 +182,21 @@
             {% if interpretation.interpretationType.description %}
               <h3 class="flex {{ {s:'HNM4'} | fontClasses }}">
                 <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon interpretation.interpretationType.title | replace(' ', '_') | replace('-', '_') | lower %}</span>
-                <span>
-                  {% if interpretation.interpretationType.abbreviation %}
-                    <abbr title="{{ interpretation.interpretationType.title }}">{{ interpretation.interpretationType.abbreviation }}</abbr>
-                  {% else %}
-                    {{ interpretation.interpretationType.title }}
-                  {% endif %}
-
-                  {{ event.format.title if interpretation.isPrimary else "interpretation" }}
-                </span>
+                <span>{{ interpretation.interpretationType.title }}</span>
               </h3>
               <div class="{{ {s:'HNL4'} | fontClasses }}">
-                <p>
+                <p class="no-margin">
                   {% if interpretation.isPrimary %}
-                    This event is designed
+                    This event is primarily
+                    {{ interpretation.interpretationType.description }}.
                   {% else %}
-                    This event will have
-                    {{ interpretation.interpretationType.title | aOrAn }}
-                    {{ interpretation.interpretationType.title }} interpretation
+                    This event will be
+                    {{ interpretation.interpretationType.description }}.
                   {% endif %}
-                  {{ interpretation.interpretationType.description | safe }}
                 </p>
-                {% componentV2 'more-info-link', {name: 'View our accessibility statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
+                <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
+                  {% componentV2 'more-info-link', {name: 'View our accessibility statement', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
+                </div>
               </div>
             {% endif %}
           {% endfor %}
