@@ -94,6 +94,7 @@ export type Event = {|
   promo: ?ImagePromo,
   interpretations: Array<Interpretation>,
   audiences: Array<Audience>,
+  bookingInformation: ?HTMLString,
   // TODO:
   // this is programmatic and doesn't come from Prismic and can't be edited directly
   // it's more convenient that having to work it out.
@@ -245,5 +246,6 @@ export const eventExample = ({
       height: 100
     }
   },
+  bookingInformation: '<p>Group size of 15-30 students, accompanied by staff at a ratio of 1:10. Each date is available for booking by one school group. Bookings must be made by a lead teacher.</p>',
   bookingType: 'Drop in'
 }: Event);

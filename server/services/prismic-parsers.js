@@ -95,6 +95,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     promo: promo,
     series: [],
     location: location,
+    bookingInformation: asHtml(doc.data.bookingInformation),
     bookingType: bookingType
   }: Event);
 
