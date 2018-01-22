@@ -1,10 +1,11 @@
 import BodyBlock from './BodyBlock';
+import Icon from '../../common/views/components/Icon/Icon';
 import {spacing} from '../../common/utils/classnames';
 
 export default (props) => (
   <BodyBlock>
     <h2>Index</h2>
-    <a name="index"></a>
+    <a name='index'></a>
     <ul>
       {props.pageSections.map(pageSection => (
         <li><a href={`#${pageSection.url}`}>{pageSection.name}</a></li>
@@ -49,7 +50,7 @@ export default (props) => (
             </div>
           : <div dangerouslySetInnerHTML={{__html: pageSection.content}} />
         }
-        {/* TODO: add back-to-top arrow when converted to JSX */}
+        <sup><Icon name='arrow' extraClasses={['icon--270']} /></sup><a href='#index'>Back to top</a>
       </div>
     ))}
   </BodyBlock>

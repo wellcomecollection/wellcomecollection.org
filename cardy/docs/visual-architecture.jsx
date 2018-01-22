@@ -3,28 +3,28 @@ import BodyBlock from './BodyBlock';
 export default (props) => (
   <BodyBlock>
     {/* TODO: add PageDescription component above when available */}
-    <p>The architecture we have composed consists of two parts. <a href="#structure">Structure</a> and <a href="#style">Style</a>.</p>
+    <p>The architecture we have composed consists of two parts. <a href='#structure'>Structure</a> and <a href='#style'>Style</a>.</p>
 
     <h2>Structure</h2>
-    <a name="structure"></a>
+    <a name='structure'></a>
 
     <h3>App shell</h3>
 
     <p>The app shell contains parts of the layout that rarely change as the app is used.</p>
     <p>This may contain small state changes, such as the selected state of a navigation changing.</p>
-    <p>The app shell will also have a placeholder for the <a href="#page">page</a>.</p>
-    <p>The app shell may also contain <a href="#layout-elements">layouts</a>.</p>
-    <p><a href="https://developers.google.com/web/fundamentals/architecture/app-shell">You can read this article for a more detailed description for an app shell model and it's benefits</a>.</p>
+    <p>The app shell will also have a placeholder for the <a href='#page'>page</a>.</p>
+    <p>The app shell may also contain <a href='#layout-elements'>layouts</a>.</p>
+    <p><a href='https://developers.google.com/web/fundamentals/architecture/app-shell'>You can read this article for a more detailed description for an app shell model and it's benefits</a>.</p>
 
     <h3>Page</h3>
-    <a name="page"></a>
+    <a name='page'></a>
 
     <p>The page is the content that is loaded dependent on the route requested by the client, e.g. `/explore`.</p>
-    <p>The page can consist of one or more <a href="#layout-elements">layouts</a>.</p>
-    <p>The page will rarely, if ever, have <a href="#style">styles</a>.</p>
+    <p>The page can consist of one or more <a href='#layout-elements'>layouts</a>.</p>
+    <p>The page will rarely, if ever, have <a href='#style'>styles</a>.</p>
 
     <h3>Layout elements</h3>
-    <a name="layout-elements"></a>
+    <a name='layout-elements'></a>
 
     <p>Elements are intentionally stupid objects, including:</p>
     <ul>
@@ -32,30 +32,30 @@ export default (props) => (
       <li>Containers: Constrains the contained content to a certain width or behavior.</li>
     </ul>
 
-    <p>Layout elements may contain <a href="#components">components</a>, but may not contain themselves.</p>
-    <p>Layout elements will always manage their own [style](#style), but have access to <a href="#global-styles">global styles</a>.</p>
+    <p>Layout elements may contain <a href='#components'>components</a>, but may not contain themselves.</p>
+    <p>Layout elements will always manage their own [style](#style), but have access to <a href='#global-styles'>global styles</a>.</p>
 
     <h3>Components</h3>
-    <a name="components"></a>
+    <a name='components'></a>
 
     <p>Components are the pieces of the puzzle that make up the great chunk of information within the
     application. TODO: add info.</p>
 
-    <hr class="divider divider--keyline divider--pumice" />
+    <hr className='divider divider--keyline divider--pumice' />
 
     <h2>Style</h2>
-    <a name="style"></a>
+    <a name='style'></a>
 
     <h3>Global style</h3>
-    <a name="global-styles"></a>
+    <a name='global-styles'></a>
 
     <p>Globally accessible, reusable styles are defined in
-    <a href="https://github.com/wellcometrust/wellcomecollection.org/blob/master/client/scss/utilities/_root-scope-classes.scss">`_root-scope-classes.scss`</a>.</p>
+    <a href='https://github.com/wellcometrust/wellcomecollection.org/blob/master/client/scss/utilities/_root-scope-classes.scss'>`_root-scope-classes.scss`</a>.</p>
 
     <p>Where possible, we want to limit the amount of styles that need to be written when creating a new component. To this end, we have created a finite set of spacing (margin/padding) and typography classes, as well as class utility functions that simplify the process of adding these classes directly to the markup.</p>
 
     <h4>Typography classes</h4>
-    <p>We have a <a href="/components/detail/typography.html">predefined set of typography styles</a>. This means we can avoid redeclaring font properties every time we create a new component.</p>
+    <p>We have a <a href='/components/detail/typography.html'>predefined set of typography styles</a>. This means we can avoid redeclaring font properties every time we create a new component.</p>
     <p>Instead, there is a class for each typography style at each breakpoint, and a <code>font</code> function that simplifies the process of adding these classes to the markup.</p>
     <p>Each typography style has a name, e.g. <code>WB3</code> (the third largest Wellcome Bold style). If we want the same typography style to be output at every breakpoint, we can write the following:</p>
 
