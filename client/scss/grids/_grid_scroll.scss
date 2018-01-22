@@ -10,7 +10,7 @@
     .grid__cell,
     .css-grid__cell {
       flex: 1;
-      min-width: 66.6666vw;
+      min-width: 75vw;
       padding-left: 0;
       padding-right: map-get($gutter-width, 'small');
     }
