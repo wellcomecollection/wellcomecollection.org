@@ -70,7 +70,8 @@ type PrismicQueryOptions = {|
 async function getAllOfType(type: DocumentType, page: number, options: PrismicQueryOptions = {}) {
   const prismic = await getPrismicApi();
   const results = await prismic.query([
-    Prismic.Predicates.any('document.type', [type])
+    Prismic.Predicates.any('document.type', [type]),
+    Prismic.Predicates.not('document.tags', ['delist'])
   ], Object.assign({}, { page, pageSize: defaultPageSize }, options));
   return results;
 }
