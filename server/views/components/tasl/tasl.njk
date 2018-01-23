@@ -1,23 +1,29 @@
 <div class="{{- [
     'tasl--top' if modifiers.full else 'tasl--bottom',
-    {s:'HNM6', m:'HNM6', l:'HNM6'} | fontClasses
+    {s:'LR3', m:'LR2'} | fontClasses
   ].join(' ') }} tasl drawer js-show-hide"
     data-track-action="toggle-image-credit"
     data-track-label="image:{{ model.contentUrl }}">
   {% if not modifiers.full %}
-    <button class="plain-button js-show-hide-trigger">
-      <span class="captioned-image__icon flex flex--v-center flex--h-center bg-transparent-black">
+    <button class="tasl__button plain-button js-show-hide-trigger absolute">
+      <span class="tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black">
         {% icon 'information', 'information', ['icon--white'] %}
+      </span>
+      <span class="tasl__icon tasl__icon--close flex--v-center flex--h-center bg-transparent-black">
+        {% icon 'cross', 'close', ['icon--white'] %}
       </span>
     </button>
   {% endif %}
-  <div class="drawer__body js-show-hide-drawer bg-white {{ {s:1} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }}">
+  <div class="drawer__body js-show-hide-drawer bg-black font-white {{ {s:1} | spacingClasses({padding: ['top', 'bottom', 'left']}) }} {{ {s:6} | spacingClasses({padding: ['right']}) }}">
     {{ model | getTaslMarkup | safe }}
   </div>
   {% if modifiers.full %}
-    <button class="plain-button js-show-hide-trigger">
-      <span class="captioned-image__icon flex flex--v-center flex--h-center bg-transparent-black">
+    <button class="tasl__button absolute plain-button js-show-hide-trigger">
+      <span class="tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black">
         {% icon 'information', 'information', ['icon--white'] %}
+      </span>
+      <span class="tasl__icon tasl__icon--close flex--v-center flex--h-center bg-transparent-black">
+        {% icon 'cross', 'close', ['icon--white'] %}
       </span>
     </button>
   {% endif %}

@@ -116,14 +116,3 @@
     display: none;
   }
 }
-
-.captioned-image__icon {
-  display: none;
-
-  .enhanced & {
-    display: block;
-    width: $icon-dimension;
-    height: $icon-dimension;
-    border-radius: 50%;
-  }
-}

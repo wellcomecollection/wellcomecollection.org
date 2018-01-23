@@ -1,6 +1,11 @@
 .tasl {
   text-align: right;
 
+  a:link { // overriding .body-content a:link
+    text-decoration: underline;
+    box-shadow: none;
+  }
+
   .enhanced & {
     position: absolute;
     width: 100%;
@@ -13,8 +18,45 @@
   }
 }
 
+.tasl__button {
+  right: 0;
+
+  .tasl--top & {
+    top: 2px;
+  }
+
+  .tasl--bottom & {
+    bottom: 2px;
+  }
+}
+
 .tasl--top {
   .enhanced & {
     top: 0;
+  }
+}
+
+.tasl__icon {
+  display: none;
+  width: $icon-dimension;
+  height: $icon-dimension;
+  border-radius: 50%;
+}
+
+.tasl__icon--close {
+  display: none;
+
+  .tasl.is-active & {
+    display: flex;
+  }
+}
+
+.tasl__icon--open {
+  .enhanced & {
+    display: flex;
+  }
+
+  .tasl.is-active & {
+    display: none;
   }
 }
