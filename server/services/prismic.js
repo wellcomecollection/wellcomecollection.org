@@ -383,7 +383,8 @@ export async function getExhibitionAndEventPromos(query) {
   const prismic = await getPrismicApi();
   const allExhibitionsAndEvents = await prismic.query([
     Prismic.Predicates.any('document.type', ['exhibitions', 'events'])
-  ], {fetchLinks: eventFields, orderings: '[my.events.times.startDateTime desc, my.exhibitions.start]'});
+  ], {pageSize: 100, fetchLinks: eventFields, orderings: '[my.events.times.startDateTime desc, my.exhibitions.start]'});
+
   const exhibitionPromos = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'exhibitions'));
   const permanentExhibitionPromos = exhibitionPromos.filter(e => !e.end);
   const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => e.end), fromDate, toDate);
