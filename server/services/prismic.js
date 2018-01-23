@@ -9,7 +9,7 @@ import {
   parseExhibitionsDoc,
   getPositionInPrismicSeries,
   parseAudience, parsePromoListItem, parseEventFormat, parseEventBookingType,
-  parseImagePromo, asHtml, isEmptyDocLink
+  parseImagePromo, isEmptyDocLink
 } from './prismic-parsers';
 import {List} from 'immutable';
 import moment from 'moment';
