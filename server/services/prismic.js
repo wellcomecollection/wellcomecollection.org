@@ -8,7 +8,8 @@ import {
   prismicImage,
   parseExhibitionsDoc,
   getPositionInPrismicSeries,
-  parseAudience, parsePromoListItem, parseEventFormat, parseEventBookingType, parseImagePromo
+  parseAudience, parsePromoListItem, parseEventFormat, parseEventBookingType,
+  parseImagePromo, asHtml, isEmptyDocLink
 } from './prismic-parsers';
 import {List} from 'immutable';
 import moment from 'moment';
@@ -36,8 +37,7 @@ const seriesFields = [
 const contributorFields = ['editorial-contributor-roles.title'];
 const eventFields = [
   'event-access-options.title', 'event-access-options.description', 'event-access-options.description',
-  'event-booking-enquiry-teams.title', 'event-booking-enquiry-teams.email', 'event-booking-enquiry-teams.phone',
-  'event-booking-enquiry-teams.url',
+  'teams.title', 'teams.email', 'teams.phone', 'teams.url',
   'event-formats.title', 'event-formats.description', 'event-formats.shortName',
   'locations.title', 'locations.geolocation', 'locations.level', 'locations.capacity',
   'interpretation-types.title', 'interpretation-types.description', 'interpretation-types.abbreviation',
@@ -213,6 +213,15 @@ function createEventPromos(allResults): Array<EventPromo> {
     })[0];
 
     const bookingType = parseEventBookingType(event);
+    const interpretations = event.data.interpretations.map(interpretation => !isEmptyDocLink(interpretation.interpretationType) ? ({
+      interpretationType: {
+        title: asText(interpretation.interpretationType.data.title),
+        description: asText(interpretation.interpretationType.data.description),
+        abbreviation: asText(interpretation.interpretationType.data.abbreviation)
+      },
+      isPrimary: Boolean(interpretation.isPrimary)
+    }) : null).filter(_ => _);
+
     // A single Primsic 'event' can have multiple datetimes, but we
     // want to display each datetime as an individual promo, so we
     // map and flatten.
@@ -227,7 +236,8 @@ function createEventPromos(allResults): Array<EventPromo> {
         end: eventAtTime.endDateTime,
         image: promo && promo.image,
         description: promo && promo.caption,
-        bookingType: bookingType
+        bookingType: bookingType,
+        interpretations: interpretations
       };
     });
   }).reduce((acc, curr) => {
