@@ -63,16 +63,17 @@ async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string
 }
 
 type PrismicQueryOptions = {|
-  fetchLinks?: ?Array<String>;
-  orderings?: ?string;
+  page?: number;
+  fetchLinks?: Array<String>;
+  orderings?: string;
 |}
 
-async function getAllOfType(type: DocumentType, page: number, options: PrismicQueryOptions = {}) {
+async function getAllOfType(type: Array<DocumentType>, options: PrismicQueryOptions = {}) {
   const prismic = await getPrismicApi();
   const results = await prismic.query([
-    Prismic.Predicates.any('document.type', [type]),
+    Prismic.Predicates.any('document.type', type),
     Prismic.Predicates.not('document.tags', ['delist'])
-  ], Object.assign({}, { page, pageSize: defaultPageSize }, options));
+  ], Object.assign({}, { pageSize: defaultPageSize }, options));
   return results;
 }
 
@@ -272,7 +273,8 @@ function convertPrismicResultsToPaginatedResults(prismicResults: Object): (resul
 }
 
 export async function getPaginatedEventPromos(page: number): Promise<Array<EventPromo>> {
-  const events = await getAllOfType('events', page, {
+  const events = await getAllOfType(['events'], {
+    page,
     orderings: '[my.events.times.startDateTime]',
     fetchLinks: eventFields
   });
@@ -282,7 +284,7 @@ export async function getPaginatedEventPromos(page: number): Promise<Array<Event
 }
 
 export async function getPaginatedExhibitionPromos(page: number): Promise<Array<ExhibitionPromo>> {
-  const exhibitions = await getAllOfType('exhibitions', page, {orderings: '[my.exhibitions.start]'});
+  const exhibitions = await getAllOfType(['exhibitions'], {page, orderings: '[my.exhibitions.start]'});
   const promos = createExhibitionPromos(exhibitions.results);
   const paginatedResults = convertPrismicResultsToPaginatedResults(exhibitions);
   return paginatedResults(promos);
@@ -391,10 +393,11 @@ export async function getExhibitionAndEventPromos(query) {
   const fromDate = query.startDate ? query.startDate : todaysDate.format('YYYY-MM-DD');
   const toDate = query.endDate ? query.endDate : todaysDate.format('YYYY-MM-DD');
   const dateRange = [fromDate, toDate];
-  const prismic = await getPrismicApi();
-  const allExhibitionsAndEvents = await prismic.query([
-    Prismic.Predicates.any('document.type', ['exhibitions', 'events'])
-  ], {pageSize: 100, fetchLinks: eventFields, orderings: '[my.events.times.startDateTime desc, my.exhibitions.start]'});
+  const allExhibitionsAndEvents = await getAllOfType(['exhibitions', 'events'], {
+    pageSize: 100,
+    fetchLinks: eventFields,
+    orderings: '[my.events.times.startDateTime desc, my.exhibitions.start]'
+  });
 
   const exhibitionPromos = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'exhibitions'));
   const permanentExhibitionPromos = exhibitionPromos.filter(e => !e.end);
