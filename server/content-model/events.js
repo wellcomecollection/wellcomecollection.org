@@ -111,7 +111,8 @@ export type EventPromo = {|
   description: ?HTMLString,
   format: ?string,
   bookingType: ?string,
-  image: ?Picture
+  image: ?Picture,
+  interpretations: Array<Interpretation>
 |}
 
 export const eventExample = ({

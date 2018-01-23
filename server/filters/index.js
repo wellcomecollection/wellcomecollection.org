@@ -35,7 +35,8 @@ import {
   formatDateWithComingSoon,
   formatAndDedupeOnDate,
   formatAndDedupeOnTime,
-  joinDateStrings
+  joinDateStrings,
+  formatDayDate
 } from './format-date';
 import getLicenseInfo from './get-license-info';
 import getTaslMarkup from './get-tasl-markup';
@@ -71,6 +72,7 @@ export default Map({
   formatDateWithComingSoon,
   formatAndDedupeOnDate,
   formatAndDedupeOnTime,
+  formatDayDate,
   isFlagEnabled,
   objectAssign,
   arrayFromObject,
