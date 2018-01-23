@@ -26,7 +26,9 @@ export async function renderWhatsOn(ctx, next) {
     }),
     exhibitionAndEventPromos,
     whileVisitPromos: [readingRoomPromo, spiritBoothPromo],
-    eatShopPromos: [cafePromo, restaurantPromo, bookshopPromo]
+    eatShopPromos: [cafePromo, bookshopPromo, restaurantPromo],
+    cafePromo,
+    bookshopPromo
   });
 
   return next();
