@@ -22,7 +22,7 @@ export async function renderEvent(ctx, next, overrideId, gaExp) {
       // TODO: add the `Part of:` tag, we don't have a way of doing this in the model
       const tags = [{
         text: 'Events',
-        url: 'https://wellcomecollection.org/events'
+        url: '/events'
       }].concat(event.programme ? [{
         text: event.programme.title
         // TODO: link through to others of this type?
