@@ -1,10 +1,15 @@
 import BodyBlock from './BodyBlock';
+import PageDescription from '../../common/views/components/PageDescription/PageDescription';
 import statuses from '../config/statuses';
 import {spacing} from '../../common/utils/classnames';
 
 export default () => (
   <div>
-    {/* TODO: Add PageDescription component when ready */}
+    <PageDescription
+      intro={`Wellcome Collection’s design system`}
+      title='Cardigan'
+      lead={true}
+      meta={{value: `Welcome to Cardigan, a living repository of Wellcome Collection’s principles and patterns.`}} />
     <div className={spacing({s: 3, m: 5, l: 10}, {margin: ['top']})}>
       <img src='/cardigan-theme/assets/images/cardigan.jpg' alt='' />
     </div>
