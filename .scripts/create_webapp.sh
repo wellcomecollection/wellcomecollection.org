@@ -6,8 +6,8 @@ set -o nounset
 shopt -u dotglob
 
 
-if [ $# -lt 2 ]; then
-    echo "⚡ Usage: ./create_webapp <WEBAPP_NAME> <PORT>"
+if [ $# -lt ! ]; then
+    echo "⚡ Usage: ./create_webapp <WEBAPP_NAME>"
     exit 1
 fi
 

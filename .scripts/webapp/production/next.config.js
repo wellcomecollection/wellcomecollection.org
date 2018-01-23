@@ -44,5 +44,14 @@ module.exports = {
     });
 
     return config;
+  },
+  webpackDevMiddleware: config => {
+    // The standard config is [/(^|[\/\\])\../, /node_modules/]
+    const ignored = [
+      config.watchOptions.ignored[0],
+      /node_modules(?!\/@wellcomecollection(?!.*node_modules))/
+    ];
+    config.watchOptions.ignored = ignored;
+    return config
   }
 };
