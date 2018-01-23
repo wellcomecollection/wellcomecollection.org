@@ -1,7 +1,7 @@
 {
-  "name": "next-cardigan",
+  "name": "cardigan",
   "version": "1.0.0",
-  "description": "",
+  "description": "Wellcome Collection's design system",
   "main": "index.js",
   "scripts": {
     "dev": "fractal start"
