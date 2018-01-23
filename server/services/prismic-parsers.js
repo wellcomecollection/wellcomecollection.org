@@ -423,6 +423,6 @@ export function isEmptyDocLink(fragment: Object) {
 // This is used for when we have a "single" `StructuredText` and want to maintain the inline HTML
 // (`a`, `em` etc) but would rather Prismic not wrap it in a `p` for us.
 // The empty `class` attribute 🤷‍
-function deP(text: ?string) {
+export function deP(text: ?string) {
   return text && text.replace(/<\/?p( class="")?>/g, '');
 }
