@@ -5,6 +5,7 @@
     margin-left: -#{map-get($container-padding, 'small')};
     padding-left: map-get($container-padding, 'small');
     margin-right: -#{map-get($container-padding, 'small')};
+    padding-bottom: map-get($gutter-width, 'large');
   }
 }
 

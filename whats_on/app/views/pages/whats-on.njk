@@ -48,7 +48,7 @@
           <h2 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{heading}}</h2>
         </div>
 
-        <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }} css-grid__scroll-container touch-scroll">
+        <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }} css-grid__scroll-container container--scroll touch-scroll">
           <div class="css-grid grid--scroll">
             {% if size === 'large' %}
               {% set gridClasses = {s: 12, m: 6, l: 4, xl:4} | cssGridClasses %}
