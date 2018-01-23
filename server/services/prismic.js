@@ -9,7 +9,7 @@ import {
   parseExhibitionsDoc,
   getPositionInPrismicSeries,
   parseAudience, parsePromoListItem, parseEventFormat, parseEventBookingType,
-  parseImagePromo, asHtml, isEmptyDocLink
+  parseImagePromo, isEmptyDocLink
 } from './prismic-parsers';
 import {List} from 'immutable';
 import moment from 'moment';
@@ -35,6 +35,7 @@ const seriesFields = [
   'webcomic-series.description'
 ];
 const contributorFields = ['editorial-contributor-roles.title'];
+const exhibitionFields = ['exhibition-formats.title'];
 const eventFields = [
   'event-access-options.title', 'event-access-options.description', 'event-access-options.description',
   'teams.title', 'teams.email', 'teams.phone', 'teams.url',
@@ -72,7 +73,7 @@ async function getAllOfType(type: Array<DocumentType>, options: PrismicQueryOpti
   const prismic = await getPrismicApi();
   const results = await prismic.query([
     Prismic.Predicates.any('document.type', type),
-    Prismic.Predicates.not('document.tags', ['delist'])
+    Prismic.Predicates.not('document.tags', ['delisttt'])
   ], Object.assign({}, { pageSize: defaultPageSize }, options));
   return results;
 }
@@ -201,7 +202,11 @@ function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
       image: e.data.promo && parseImagePromo(e.data.promo).image,
       description: e.data.promo && parseImagePromo(e.data.promo).caption,
       start: e.data.start ? e.data.start : '2007-06-21T00:00:00+0000',
-      end: e.data.end
+      end: e.data.end,
+      format: !isEmptyDocLink(e.data.format) ? {
+        id: e.id,
+        title: asText(e.data.format.data.title)
+      } : null
     };
   });
 }
@@ -284,7 +289,7 @@ export async function getPaginatedEventPromos(page: number): Promise<Array<Event
 }
 
 export async function getPaginatedExhibitionPromos(page: number): Promise<Array<ExhibitionPromo>> {
-  const exhibitions = await getAllOfType(['exhibitions'], {page, orderings: '[my.exhibitions.start]'});
+  const exhibitions = await getAllOfType(['exhibitions'], {page, orderings: '[my.exhibitions.start]', fetchLinks: exhibitionFields});
   const promos = createExhibitionPromos(exhibitions.results);
   const paginatedResults = convertPrismicResultsToPaginatedResults(exhibitions);
   return paginatedResults(promos);
@@ -395,11 +400,13 @@ export async function getExhibitionAndEventPromos(query) {
   const dateRange = [fromDate, toDate];
   const allExhibitionsAndEvents = await getAllOfType(['exhibitions', 'events'], {
     pageSize: 100,
-    fetchLinks: eventFields,
+    fetchLinks: eventFields.concat(exhibitionFields),
     orderings: '[my.events.times.startDateTime desc, my.exhibitions.start]'
   });
 
-  const exhibitionPromos = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'exhibitions'));
+  const exhibitionAndInstallationPromos = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'exhibitions'));
+  const exhibitionPromos = exhibitionAndInstallationPromos.filter(e => !(e.format && e.format !== 'installation'));
+  const installationPromos = exhibitionAndInstallationPromos.filter(e => e.format && e.format.title !== 'installation');
   const permanentExhibitionPromos = exhibitionPromos.filter(e => !e.end);
   const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => e.end), fromDate, toDate);
   const eventPromos = filterPromosByDate(createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')), fromDate, toDate);
@@ -430,6 +437,7 @@ export async function getExhibitionAndEventPromos(query) {
     dates,
     permanentExhibitionPromos,
     temporaryExhibitionPromos,
+    installationPromos,
     eventPromos,
     eventPromosSplitAcrossMonths,
     monthControls,
@@ -456,7 +464,7 @@ function getWeekendToDate(today) {
 }
 
 export async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request): Promise<?ExhibitionAndRelatedContent> {
-  const exhibition = await getTypeById(previewReq, ['exhibitions'], id, {});
+  const exhibition = await getTypeById(previewReq, ['exhibitions'], id, {fetchLinks: exhibitionFields});
 
   if (!exhibition) { return null; }
 

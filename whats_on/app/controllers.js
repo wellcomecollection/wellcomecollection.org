@@ -4,8 +4,7 @@ import {
   bookshopPromo,
   cafePromo,
   readingRoomPromo,
-  restaurantPromo,
-  spiritBoothPromo
+  restaurantPromo
 } from '../../server/data/facility-promos';
 const {createPageConfig} = model;
 const {
@@ -14,6 +13,14 @@ const {
 
 export async function renderWhatsOn(ctx, next) {
   const exhibitionAndEventPromos = await getExhibitionAndEventPromos(ctx.query);
+  // TODO: This isn't the tidiest implementation, but I've tried to keep it
+  // close to the edge as I'm not sold we know what to do with "Installations" yet.
+  const whileVisitPromos = [readingRoomPromo]
+    .concat(exhibitionAndEventPromos.installationPromos)
+    .map(promo => Object.assign({}, {
+      metaIcon: 'clock',
+      metaText: 'Open during gallery hours'
+    }, promo));
 
   ctx.render('pages/whats-on', {
     pageConfig: createPageConfig({
@@ -25,7 +32,7 @@ export async function renderWhatsOn(ctx, next) {
       canonicalUri: '/whats-on'
     }),
     exhibitionAndEventPromos,
-    whileVisitPromos: [readingRoomPromo, spiritBoothPromo],
+    whileVisitPromos,
     eatShopPromos: [cafePromo, restaurantPromo, bookshopPromo]
   });
 

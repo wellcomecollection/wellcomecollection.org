@@ -26,6 +26,14 @@
         "label" : "End date"
       }
     },
+    "format" : {
+      "type" : "Link",
+      "config" : {
+        "label" : "Format",
+        "select" : "document",
+        "customtypes" : [ "exhibition-formats" ]
+      }
+    },
     "intro" : {
       "type" : "StructuredText",
       "config" : {
