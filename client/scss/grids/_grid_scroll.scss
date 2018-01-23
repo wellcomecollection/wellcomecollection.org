@@ -1,3 +1,13 @@
+.css-grid__scroll-container,
+.css-grid__cell.css-grid__scroll-container {
+  @include respond-between('small', 'medium') {
+    overflow: auto;
+    margin-left: -#{map-get($container-padding, 'small')};
+    padding-left: map-get($container-padding, 'small');
+    margin-right: -#{map-get($container-padding, 'small')};
+  }
+}
+
 .grid--scroll,
 .css-grid.grid--scroll {
   @include respond-between('small', 'medium') {
