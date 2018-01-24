@@ -131,16 +131,14 @@
 
           {% if not (eventInfo.eventbriteId or event.bookingEnquiryTeam) and event.times.length === 1 %}
             <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
-              <button
+              <div
                 data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'empty-button'} | dump }}"
-                type="button"
                 class="{{- [
-                {s:'HNM4'} | fontClasses,
-                {s: 4} | spacingClasses({padding: ['left', 'right']})
-              ].join(' ') }} flex-inline flex--h-center btn btn--full-width-s">
-                <span>{% icon 'calendar', null, ['icon--white'] %}</span>
+                {s:'HNM4'} | fontClasses
+              ].join(' ') }} flex-inline flex--h-center">
+                <span class="{{ {s: 1} | spacingClasses({padding: ['right']}) }}">{% icon 'calendar', null, [''] %}</span>
                 Add to calendar
-              </button>
+              </div>
               <div class="flex {{ {s: 1} | spacingClasses({padding: ['top']}) }}">
                 {% set eventCalendarProps = {
                   url: 'https://wellcomecollection.org/events/' + event.id,
