@@ -39,7 +39,6 @@
         <time datetime="{{ model.start }}">{{ model.start | formatTime }}</time>&mdash;<time datetime="{{ model.end }}">{{ model.end | formatTime }}</time>
       </p>
 
-      {# TODO: add e.g. 'drop in'/'enquire to book'/'ticketed' #}
       {% if model.bookingType %}
         <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} no-padding">
           {{ model.bookingType }}
