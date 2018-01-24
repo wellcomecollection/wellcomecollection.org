@@ -15,7 +15,9 @@ export async function renderExhibition(ctx, next) {
   const tags = [{
     text: 'Exhibitions',
     url: '/exhibitions'
-  }];
+  }].concat(exhibitionContent.exhibition.format ? [{
+    text: exhibitionContent.exhibition.format.title
+  }] : []);
 
   if (exhibitionContent) {
     if (format === 'json') {

@@ -97,17 +97,21 @@
               {% if exhibitionContent.galleryLevel !== null %}
                 <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
                   <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'lifts' %}</div>
-                  <p class="no-margin">This exhibition is on level {{ exhibitionContent.galleryLevel }}</p>
+                  <p class="no-margin">This {{ exhibition.format.title if exhibition.format else 'exhibition' }} is on level {{ exhibitionContent.galleryLevel }}</p>
                 </div>
               {% endif %}
               <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
                 <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y' %}</div>
                 <p class="no-margin">Step-free access is available to all floors of the building</p>
               </div>
-              <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y_visual' %}</div>
-                <p class="no-margin">Large print guides, transcripts and magnifiers are available in the gallery</p>
-              </div>
+
+              {# We only have large print guides for plain exhibitions #}
+              {% if not exhibition.format %}
+                <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
+                  <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y_visual' %}</div>
+                  <p class="no-margin">Large print guides, transcripts and magnifiers are available in the gallery</p>
+                </div>
+              {% endif %}
 
               <div class="{{ {s:5} | spacingClasses({margin: ['top']}) }}">
                 {% if exhibitionContent.textAndCaptionsDocument %}

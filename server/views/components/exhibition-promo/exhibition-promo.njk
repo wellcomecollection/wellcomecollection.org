@@ -14,7 +14,7 @@
       {s:4} | spacingClasses({padding: ['bottom']})
     ].join(' ') }} flex flex--column flex-1">
 
-    <p class="no-padding {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5'} | fontClasses }}">Exhibition</p>
+    <p class="no-padding {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5'} | fontClasses }}">{{ model.format.title if model.format else 'Exhibition' }}</p>
 
     <h2 class="promo-link__title {{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
 
