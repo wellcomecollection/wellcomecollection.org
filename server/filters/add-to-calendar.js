@@ -45,7 +45,7 @@ export function outlookCal(eventProps: EventProps) {
     `&subject=${encodeURIComponent(eventProps.title)}`,
     `&startdt=${formatDate(eventProps.startTime)}`,
     `&enddt=${formatDate(eventProps.endTime)}`,
-    `&body=${encodeURIComponent(deP(eventProps.description))}`,
+    `&body=${encodeURIComponent(deP(eventProps.description) || '')}`,
     `&location=${encodeURIComponent(eventProps.location)}`,
     `&uid=${(new Date()).getTime().toString()}`,
     '&allday=false',
@@ -62,7 +62,7 @@ export function iCal(eventProps: EventProps): string {
     `DTSTART:${formatDate(eventProps.startTime)}`,
     `DTEND:${formatDate(eventProps.endTime)}`,
     `SUMMARY:${eventProps.title}`,
-    `DESCRIPTION:${deP(eventProps.description)}`,
+    `DESCRIPTION:${deP(eventProps.description) || ''}`,
     `LOCATION:${eventProps.location}`,
     `END:VEVENT`,
     `END:VCALENDAR`
