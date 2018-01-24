@@ -8,7 +8,6 @@ export default ({breakpoints, gridConfig}) => (
       lead={true}
       meta={{value: `Note: the below describes a few ideals that have not yet been implemented, but it will give us and others direction.`}} />
     <BodyBlock>
-      {/* TODO: add PageDescription component above when available */}
       <p>The architecture we have composed consists of two parts. <a href='#structure'>Structure</a> and <a href='#style'>Style</a>.</p>
 
       <h2>Structure</h2>
