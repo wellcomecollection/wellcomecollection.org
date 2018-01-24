@@ -11,9 +11,9 @@
 
     @include respond-to('xlarge') {
       position: relative;
-      width: $container-width-max - (map-get($container-padding, 'large') * 2);
-      margin-left: 50%;
-      left: (($container-width-max - (map-get($container-padding, 'large') * 2)) / 2) * (-5/6);
+
+      width: calc(100vw - ((100vw - #{$container-width-max}) / 2));
+      left: calc(((100vw - #{$container-width-max}) / 2));
     }
   }
 }

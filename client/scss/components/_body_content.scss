@@ -46,7 +46,6 @@
 $narrow-width: (5/7) * 100%; // calculates the narrow column width as a percentage of the main column.
 $narrow-width-xlarge: (4/6) * 100%;
 $center-width-large: (6/7) * 100%; // calculates the halfway point of the container, as a percentage of the main column.
-$center-width-xlarge: (6/6) * 100%;
 
 .body-part {
   display: block;
@@ -85,11 +84,6 @@ $center-width-xlarge: (6/6) * 100%;
     opacity: 1 !important;
     /* stylelint-enable */
   }
-
-  @include respond-to('xlarge') {
-    left: $center-width-xlarge;
-    margin-left: calc((50vw + (1/6) * 100%) * -1); // compensates for grid cell shift
-  }
 }
 
 .body-part--no-pad {
@@ -124,11 +118,6 @@ $center-width-xlarge: (6/6) * 100%;
       width: $narrow-width;
       margin-right: -$narrow-width;
     }
-  }
-
-  @include respond-to('xlarge') {
-    width: $narrow-width-xlarge;
-    margin-right: -$narrow-width-xlarge;
   }
 }
 
