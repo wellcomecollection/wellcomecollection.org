@@ -69,6 +69,7 @@ $center-width-large: (6/7) * 100%; // calculates the halfway point of the contai
   left: 50%;
   margin-left: -50vw;
   padding: 0 map-get($container-padding, 'small');
+  clear: both;
 
   @include respond-to('medium') {
     padding: 0 map-get($container-padding, 'medium');
