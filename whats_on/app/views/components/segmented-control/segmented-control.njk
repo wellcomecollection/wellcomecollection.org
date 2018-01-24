@@ -1,20 +1,26 @@
-<div class="segmented-control js-segmented-control {{ {s:2} | spacingClasses({margin: ['top', 'bottom']}) }}">
+ {% macro controlButtonInner(controlText) %}
+    <span class="{{- [
+      {s:'WB6'} | fontClasses,
+      {s:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})
+    ].join(' ') }} segmented-control__button-text flex bg-black font-white smooth-font flex--h-space-between rounded-diagonal">
+      <span class="js-segmented-control__button-text">{{ controlText }}</span>
+      {% icon 'chevron', null, ['icon--white'] %}
+    </span>
+    <span class="segmented-control__close">
+      {% icon 'cross', 'Close' %}
+    </span>
+ {% endmacro%}
+ <div class="segmented-control js-segmented-control {{ {s:2} | spacingClasses({margin: ['top', 'bottom']}) }}">
   <div class="segmented-control__drawer js-segmented-control-show-hide js-focus-trap">
     <span class="visually-hidden js-trap-reverse-end">reset focus</span>
     <button class="segmented-control__header plain-button no-margin no-padding js-show-hide-trigger js-trap-start">
+      {% if not data.activeId %}
+        {{controlButtonInner('Select')}}
+      {% endif %}
       {% for item in model %}
-        {% if item.id === data.activeId %}
-          <span class="{{- [
-            {s:'WB6'} | fontClasses,
-            {s:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})
-          ].join(' ') }} segmented-control__button-text flex bg-black font-white smooth-font flex--h-space-between rounded-diagonal">
-            <span class="js-segmented-control__button-text">{{ item.title }}</span>
-            {% icon 'chevron', null, ['icon--white'] %}
-          </span>
-          <span class="segmented-control__close">
-            {% icon 'cross', 'Close' %}
-          </span>
-          {% endif %}
+        {%if item.id === data.activeId %}
+        {{controlButtonInner(item.title)}}
+        {% endif %}
       {% endfor %}
     </button>
     <div id="{{data.id}}"

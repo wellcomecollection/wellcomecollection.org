@@ -31,13 +31,6 @@
 
       <h2 class="promo-link__title {{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
 
-      {# TODO: add e.g. 'drop in'/'enquire to book'/'ticketed' #}
-      {% if model.bookingType %}
-        <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} no-padding">
-          {{ model.bookingType }}
-        </p>
-      {% endif %}
-
       {# TODO: add 'fully booked' status when available #}
       <p class="{{ {s:'HNL4'} | fontClasses }} no-padding no-margin">
         <time datetime="{{ model.start }}">{{ model.start | formatDayDate }}</time>
@@ -46,5 +39,10 @@
         <time datetime="{{ model.start }}">{{ model.start | formatTime }}</time>&mdash;<time datetime="{{ model.end }}">{{ model.end | formatTime }}</time>
       </p>
 
+      {% if model.bookingType %}
+        <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} no-padding">
+          {{ model.bookingType }}
+        </p>
+      {% endif %}
     </div>
 </a>
