@@ -1,7 +1,12 @@
 <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">
   {% include './date_range.njk' %}
-  <h2 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">Exhibitions and Events</h2>
+  <h2 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }} inline-block-medium-up">Exhibitions and Events</h2>
+  <div class="flex-inline flex--v-center float-r-medium-up">
+    {% icon 'ticket', null, [''] %}
+    <span class="{{ {s:1} | spacingClasses({padding: ['left', 'right']}) }} {{ {s:'HNM5', m:'HNM4'} | fontClasses }}">FREE</span>
+  </div>
 </div>
+
 
 {% for exhibition in exhibitionAndEventPromos.temporaryExhibitionPromos %}
   <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">

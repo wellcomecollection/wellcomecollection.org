@@ -2,15 +2,7 @@
   <div class="container">
     <div class="grid">
       <div class="{{ {s: 12, m: 12, l: 8, xl: 8} | gridClasses }}">
-        {% if data.showFree %}
-          <h1 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:4} | spacingClasses({padding: ['right']}) }} no-margin inline">{{ model.name }}</h1>
-          <div class="flex-inline flex--v-center">
-            {% icon 'ticket', null, [''] %}
-            <span class="{{ {s:1} | spacingClasses({padding: ['left', 'right']}) }} {{ {s:'HNM5', m:'HNM4'} | fontClasses }}">FREE</span>
-          </div>
-        {% else %}
-          <h1 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} no-margin">{{ model.name }}</h1>
-        {% endif %}
+        <h1 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} no-margin">{{ model.name }}</h1>
 
         {% if model.description %}
           <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
