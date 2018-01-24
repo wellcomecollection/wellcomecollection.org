@@ -26,8 +26,8 @@
   <div class="row {{ {s:6} | spacingClasses({padding: ['top', 'bottom']}) }}">
     <div class="container">
       <div class="grid">
-        <div class="{{ {s: 12, m: 7, l: 8, xl: 7, shiftXl: 1} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-	  <div class="{{ {s: 5} | spacingClasses({margin: ['bottom']}) }}">
+        <div class="{{ {s: 12, m: 10, shiftM:1, l: 7, xl: 7} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+	        <div class="{{ {s: 5} | spacingClasses({margin: ['bottom']}) }}">
             <h1 id="work-info" class="{{ {s:'HNM3', m:'HNM2', l:'HNM1'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{work.title}}</h1>
 
             <div class="{{- [
@@ -60,7 +60,7 @@
           {% componentV2 'work-drawer', {id: 'work-using-image', heading: 'Using this image'}, null, {data: usingThisImageData, topDivider: true} %}
         </div>
 
-        <div class="{{ {s: 12, m: 5, l: 4, xl: 3} | gridClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}">
+        <div class="{{ {s: 12, m: 10, shiftM:1, l: 5, xl: 5} | gridClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}">
           <h2 class="
             {{ {s:'HNM4' , m:'HNM3'} | fontClasses }}
             {{ {s:0} | spacingClasses({margin: ['top']}) }}
