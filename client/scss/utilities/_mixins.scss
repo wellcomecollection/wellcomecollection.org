@@ -299,8 +299,10 @@
         margin-#{$spacing-direction}: #{$i * $spacing-unit};
       }
 
-      .padding-#{$spacing-direction}-#{$spacing-size-key}#{$i} {
-        padding-#{$spacing-direction}: #{$i * $spacing-unit};
+      @if ($i >= 0) {
+        .padding-#{$spacing-direction}-#{$spacing-size-key}#{$i} {
+          padding-#{$spacing-direction}: #{$i * $spacing-unit};
+        }
       }
     }
   }
