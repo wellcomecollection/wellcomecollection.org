@@ -150,16 +150,16 @@
                   description: event.description,
                   location: 'Wellcome Collection, 183 Euston Rd, Kings Cross, London NW1 2BE'
                 } %}
-                <a data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'google'} | dump }}"
+                <a data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'calendar:google'} | dump }}"
                    target="_blank" href="{{ eventCalendarProps | googleCal }}"
                    class="{{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">Google</a>
-                <a data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'outlook'} | dump }}"
+                <a data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'calendar:outlook'} | dump }}"
                    target="_blank" href="{{ eventCalendarProps | outlookCal }}"
                    class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">Outlook</a>
-                <a data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'iCal'} | dump }}"
+                <a data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'calendar:ical'} | dump }}"
                    target="_blank" href="{{ eventCalendarProps | iCal }}"
                    class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">iCal</a>
-                <a data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'yahoo'} | dump }}"
+                <a data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'calendar:yahoo'} | dump }}"
                    target="_blank" href="{{ eventCalendarProps | yahooCal }}"
                    class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">Yahoo</a>
               </div>
