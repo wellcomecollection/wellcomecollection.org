@@ -38,7 +38,9 @@
             {s:3} | spacingClasses({padding: ['top', 'bottom']}),
             'border-top-width-1' if loop.first
           ].join(' ') }} segmented-control__drawer-item border-bottom-width-1 border-color-smoke">
-            <a href="{{ item.url }}" class="js-segmented-control__drawer-link segmented-control__drawer-link block plain-link {{ 'js-trap-reverse-start' if loop.last }}  {{'js-proxy-tablink' if data.isTabControl }}">
+            <a data-track-event="{{ {category: 'component', action: 'whats-on-daterange-picker:click', label: 'title:' + item.title} | dump }}"
+               href="{{ item.url }}"
+               class="js-segmented-control__drawer-link segmented-control__drawer-link block plain-link {{ 'js-trap-reverse-start' if loop.last }}  {{'js-proxy-tablink' if data.isTabControl }}">
               {{ item.title }}
             </a>
           </li>
@@ -53,11 +55,12 @@
         {s:'WB7'} | fontClasses,
         'border-right-width-1 border-right-color-black' if not loop.last
       ].join(' ') }} segmented-control__item line-height-1 flex {{'js-tabitem segmented-control__item--inline' if data.isTabControl }}">
-        <a href="{{ item.url }}"
-          class="{{- [
-            {s:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}),
-            'is-active smooth-font bg-black font-white bg-hover-pewter' if item.id === data.activeId else 'bg-white font-black bg-hover-pumice'
-          ].join(' ') }} block plain-link js-segmented-control__link segmented-control__link transition-bg no-visible-focus {{'js-tablink' if data.isTabControl }}">
+        <a data-track-event="{{ {category: 'component', action: 'whats-on-daterange-picker:click', label: 'title:' + item.title} | dump }}"
+           href="{{ item.url }}"
+           class="{{- [
+             {s:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}),
+             'is-active smooth-font bg-black font-white bg-hover-pewter' if item.id === data.activeId else 'bg-white font-black bg-hover-pumice'
+           ].join(' ') }} block plain-link js-segmented-control__link segmented-control__link transition-bg no-visible-focus {{'js-tablink' if data.isTabControl }}">
           {{ item.title }}
         </a>
       </li>
