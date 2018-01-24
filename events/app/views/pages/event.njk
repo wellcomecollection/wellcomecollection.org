@@ -147,10 +147,18 @@
                   description: event.description,
                   location: 'Wellcome Collection, 183 Euston Rd, Kings Cross, London NW1 2BE'
                 } %}
-                <a target="_blank" href="{{ eventCalendarProps | googleCal }}" class="{{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">Google</a>
-                <a target="_blank" href="{{ eventCalendarProps | outlookCal }}" class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">Outlook</a>
-                <a target="_blank" href="{{ eventCalendarProps | iCal }}" class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">iCal</a>
-                <a target="_blank" href="{{ eventCalendarProps | yahooCal }}" class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">Yahoo</a>
+                <a data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'google'} | dump }}"
+                   target="_blank" href="{{ eventCalendarProps | googleCal }}"
+                   class="{{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">Google</a>
+                <a data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'outlook'} | dump }}"
+                   target="_blank" href="{{ eventCalendarProps | outlookCal }}"
+                   class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">Outlook</a>
+                <a data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'iCal'} | dump }}"
+                   target="_blank" href="{{ eventCalendarProps | iCal }}"
+                   class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">iCal</a>
+                <a data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'yahoo'} | dump }}"
+                   target="_blank" href="{{ eventCalendarProps | yahooCal }}"
+                   class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">Yahoo</a>
               </div>
             </div>
           {% endif %}
