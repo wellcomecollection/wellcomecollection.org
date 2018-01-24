@@ -106,10 +106,44 @@ export default ({breakpoints, gridConfig}) => (
       <p>The grid consists of 12 columns and breakpoints determine the spacing between the columns, i.e. gutters, and the space either side of the layout, i.e. margins.</p>
 
       <ul>
-      {gridConfig.map(gridSize => (
-        <li><strong>{gridSize.name}:</strong> {gridSize.gutterWidth} gutters, {gridSize.marginWidth} margins</li>
-      ))}
-    </ul>
+        {gridConfig.map(gridSize => (
+          <li><strong>{gridSize.name}:</strong> {gridSize.gutterWidth} gutters, {gridSize.marginWidth} margins</li>
+        ))}
+      </ul>
+
+      <h3>Page layout</h3>
+      <p>Pages with a right-hand rail (article, work, exhibition, event) have standard column-widths at common breakpoints.</p>
+      <table>
+        <thead>
+          <tr>
+            <td>Breakpoint</td>
+            <td>Main columns</td>
+            <td>Aside columns</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Small</td>
+            <td>`s: 12`</td>
+            <td>`s: 12`</td>
+          </tr>
+          <tr>
+            <td>Medium</td>
+            <td>`m: 10, shiftM: 1`</td>
+            <td>`m: 10, shiftM: 1`</td>
+          </tr>
+          <tr>
+            <td>Large</td>
+            <td>`l: 7`</td>
+            <td>`l: 5`</td>
+          </tr>
+          <tr>
+            <td>Extra large</td>
+            <td>`l: 7`</td>
+            <td>`l: 5`</td>
+          </tr>
+        </tbody>
+      </table>
     </BodyBlock>
   </div>
 );
