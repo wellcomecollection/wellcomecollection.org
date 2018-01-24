@@ -131,7 +131,10 @@
 
           {% if not (eventInfo.eventbriteId or event.bookingEnquiryTeam) and event.times.length === 1 %}
             <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
-              <button type="button" class="{{- [
+              <button
+                data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'empty-button'} | dump }}"
+                type="button"
+                class="{{- [
                 {s:'HNM4'} | fontClasses,
                 {s: 4} | spacingClasses({padding: ['left', 'right']})
               ].join(' ') }} flex-inline flex--h-center btn btn--full-width-s">
