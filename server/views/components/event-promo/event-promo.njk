@@ -32,12 +32,25 @@
       <h2 class="promo-link__title {{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
 
       {# TODO: add 'fully booked' status when available #}
-      <p class="{{ {s:'HNL4'} | fontClasses }} no-padding no-margin">
-        <time datetime="{{ model.start }}">{{ model.start | formatDayDate }}</time>
-      </p>
-      <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} no-padding">
-        <time datetime="{{ model.start }}">{{ model.start | formatTime }}</time>&mdash;<time datetime="{{ model.end }}">{{ model.end | formatTime }}</time>
-      </p>
+      {% if model.start %}
+        <p class="{{ {s:'HNL4'} | fontClasses }} no-padding no-margin">
+          <time datetime="{{ model.start }}">{{ model.start | formatDayDate }}</time>
+        </p>
+        <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} no-padding">
+          <time datetime="{{ model.start }}">{{ model.start | formatTime }}</time>&mdash;<time datetime="{{ model.end }}">{{ model.end | formatTime }}</time>
+        </p>
+      {% endif %}
+
+      {% if model.dateString %}
+        <p class="{{ {s:'HNL4'} | fontClasses }} no-padding no-margin">
+          {{ model.dateString }}
+        </p>
+      {% endif %}
+      {% if model.timeString %}
+        <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} no-padding">
+          {{ model.timeString }}
+        </p>
+      {% endif %}
 
       {% if model.bookingType %}
         <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} no-padding">
