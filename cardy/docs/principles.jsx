@@ -4,8 +4,8 @@ import {spacing} from '../../common/utils/classnames';
 import PageDescription from '../../common/views/components/PageDescription/PageDescription';
 
 type Props = {|
-  pageSections: Array<{name: string, url: string, content?: string}>,
-  supportedBrowsers: Array<{type: string, supportLevel: string}>
+  pageSections: Array<{|name: string, url: string, content?: string|}>,
+  supportedBrowsers: Array<{|type: string, supportLevel: string|}>
 |}
 
 const DocsPrinciples = ({pageSections, supportedBrowsers}: Props) => (
