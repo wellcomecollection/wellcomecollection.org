@@ -5,12 +5,15 @@
     "import",
     "react"
   ],
-  "extends": ["wellcome"],
+  "extends": ["standard"],
   "rules": {
     "no-multi-spaces": "off",
     "no-multi-str": "off",
     "flowtype/define-flow-type": "warn",
     "no-duplicate-imports": "off",
+    "space-before-function-paren": "off",
+    "no-return-assign": "off",
+    "semi": ["error", "always"],
     "import/no-duplicates": "error",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error"
