@@ -1,4 +1,6 @@
 // @flow
+// See https://github.com/facebook/flow/issues/4628 for explation of below
+// @jsx cssGridClasses
 
 // Generic component to test using JSX with nunjucks
 import cssGridClasses from '../../../filters/css-grid-classes';
