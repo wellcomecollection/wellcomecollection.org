@@ -61,7 +61,7 @@ function getComponentList(el, componentList = []) {
     const componentState = componentStateString ? JSON.parse(componentStateString) : {};
     const updatedComponentList = componentList.concat([{[componentName]: componentState}]);
     if (componentEl.parentNode) {
-      return getComponentList(componentEl.parentNode, updatedComponentList)
+      return getComponentList(componentEl.parentNode, updatedComponentList);
     }
     return updatedComponentList;
   } else {
@@ -96,7 +96,7 @@ export default {
           const componentList = getComponentList(el);
           const componentListString = JSON.stringify(componentList);
           if (componentList.length > 0) {
-            localStorage.setItem('wc_referring_component_list', componentListString);
+            window.localStorage.setItem('wc_referring_component_list', componentListString);
           }
         }
       }
