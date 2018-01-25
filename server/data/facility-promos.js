@@ -104,6 +104,7 @@ export const dailyTourPromo: EventPromo = {
   url: '/tours',
   start: null,
   end: null,
+  description: null,
   dateString: 'Every day',
   timeString: '11:30, 14:30, and 15:30',
   format: 'Gallery tour',
