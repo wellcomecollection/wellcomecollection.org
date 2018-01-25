@@ -76,11 +76,9 @@ export default {
       const el = event.target.closest('[data-track-event]');
       const trackData = JSON.parse(el.getAttribute('data-track-event'));
       const componentList = getComponentList(el);
-      const componentListString = JSON.stringify(componentList)
-      if (componentList.length > 0) {
-        localStorage.setItem('wc_referring_component_list', componentListString);
-      }
+      const componentListString = JSON.stringify(componentList);
       const label = `${(trackData.label || '')},componentList:${componentListString}`;
+      console.info('track-event', componentListString)
       trackGaEvent(Object.assign({}, trackData, {label}));
     });
 
@@ -90,6 +88,18 @@ export default {
       const url = anchor.href;
       if (isExternal(url)) {
         trackOutboundLink(url);
+      } else {
+        // We set the component list data in localStorage,
+        // which we then retrieve on the next pageview,
+        // and pass along to GA there
+        const el = event.target.closest('[data-component]');
+        if (el) {
+          const componentList = getComponentList(el);
+          const componentListString = JSON.stringify(componentList);
+          if (componentList.length > 0) {
+            localStorage.setItem('wc_referring_component_list', componentListString);
+          }
+        }
       }
     });
   }

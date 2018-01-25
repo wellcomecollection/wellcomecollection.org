@@ -21,8 +21,10 @@
         <script>
           window.isDigitalStory = true;
         </script>
-        {% set asyncContentEndpoint = '/series-nav/' + series.url + '?current=' + article.url %}
-        {% component 'async', { endpoint: asyncContentEndpoint, component: 'series-nav' } %}
+        <div data-component="DigitalStoryNavTop">
+          {% set asyncContentEndpoint = '/series-nav/' + series.url + '?current=' + article.url %}
+          {% component 'async', { endpoint: asyncContentEndpoint, component: 'series-nav' } %}
+        </div>
       {% endif %}
     {% endfor %}
   {% endblock %}
@@ -156,8 +158,10 @@
                 <div class="body-part body-part--full-width">
                   <div class="{{ {s:8} | spacingClasses({padding: ['bottom']}) }}">
                     <div class="wobbly-edge wobbly-edge--white wobbly-edge--small js-wobbly-edge" data-is-static="true"></div>
-                    {% set asyncContentEndpoint = '/series-transporter/' + series.url + '?current=' + article.url %}
-                    {% component 'async', { endpoint: asyncContentEndpoint, component: 'series-transporter', modifiers: '{"in-article": true}' } %}
+                    <div data-component="DigitalStoryNavBottom">
+                      {% set asyncContentEndpoint = '/series-transporter/' + series.url + '?current=' + article.url %}
+                      {% component 'async', { endpoint: asyncContentEndpoint, component: 'series-transporter', modifiers: '{"in-article": true}' } %}
+                    </div>
                   </div>
                 </div>
               </div>
