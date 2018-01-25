@@ -100,7 +100,7 @@
           <h2 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">You may have missed</h2>
         </div>
         <div class="{{ {s:12, m:12, l:8} | gridClasses }}">
-          {% componentV2 'more-info-link', {url: '/articles', name: 'More articles'} %}
+          {% componentJsx 'MoreInfoLink', { name: 'More articles', url: '/articles' } %}
         </div>
       </div>
     </div>

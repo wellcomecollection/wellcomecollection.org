@@ -8,7 +8,7 @@ export default ({url, name}) => (
     'plain-link',
     'font-elf-green',
     'font-hover-mint',
-    font({s: 'HNM4'})].join(' ')} href={url}>
+    font({s: 'HNM4'})].join(' ')} href={url} data-component="MoreInfoLink">
     <span className='width-1-em'>
       <Icon name='arrow' extraClasses={['icon--elf-green']} />
     </span>

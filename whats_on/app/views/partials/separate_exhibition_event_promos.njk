@@ -20,7 +20,7 @@
 {% endfor %}
 
 <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }}">
-  {% componentV2 'more-info-link', {name: 'View all exhibitions', url: '/exhibitions'} %}
+  {% componentJsx 'MoreInfoLink', { name: 'View all exhibitions', url: '/exhibitions' } %}
 </div>
 
 <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }}">
@@ -58,5 +58,5 @@
 </div>
 
 <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }}">
-  {% componentV2 'more-info-link', {name: 'View all events', url: '/events'} %}
+  {% componentJsx 'MoreInfoLink', { name: 'View all events', url: '/events' } %}
 </div>
