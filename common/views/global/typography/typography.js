@@ -1,7 +1,20 @@
-export default ({fonts}) => (
+// @flow
+
+type Props = {|
+  fonts: Array<{|
+    name: string,
+    example: string,
+    size: string,
+    spacing: string,
+    lineHeight: string,
+    usage: string
+  |}>
+|}
+
+const Typography = ({fonts}: Props) => (
   <div>
     {fonts.map(font => (
-      <div className='styleguide__font'>
+      <div key={font.name} className='styleguide__font'>
         <h2 className='styleguide__font__name'>{font.name}</h2>
         <p className={`styleguide__font__example--${font.name}`}>{font.example}</p>
         <dl className='styleguide__font__properties'>
@@ -18,3 +31,5 @@ export default ({fonts}) => (
     ))}
   </div>
 );
+
+export default Typography;

@@ -8,4 +8,3 @@ export type VideoEmbed = {|
   posterImage?: ?Picture;
 |}
 export function createVideoEmbed(data: VideoEmbed) { return (data: VideoEmbed); }
-

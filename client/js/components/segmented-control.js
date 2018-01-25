@@ -57,17 +57,16 @@ export default (el) => {
 
     controlLinks.forEach((link, index) => {
       link.addEventListener('click', (event) => { // TODO move listener up the DOM
-        if (link.classList.contains('.is-active')) {
-          return;
-        } else {
-          const currentActive = el.querySelector('.is-active');
-          fastdom.mutate(() => {
-            currentActive.classList.remove(...activeClasses);
-            currentActive.classList.add(...inactiveClasses);
-            link.classList.remove(...inactiveClasses);
-            link.classList.add(...activeClasses);
-          });
-        }
+        if (link.classList.contains('is-active')) return;
+
+        const currentActive = el.querySelector('.is-active');
+
+        fastdom.mutate(() => {
+          currentActive.classList.remove(...activeClasses);
+          currentActive.classList.add(...inactiveClasses);
+          link.classList.remove(...inactiveClasses);
+          link.classList.add(...activeClasses);
+        });
       });
     });
 

@@ -72,4 +72,3 @@ export default function(el) {
 
   autoPlayGif(video, textEl);
 }
-

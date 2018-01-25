@@ -2,21 +2,21 @@ import type {OpeningHours} from './opening-hours';
 import {galleryOpeningHours} from './opening-hours';
 import {objToJsonLd} from '../utils/json-ld';
 
-export type Organization = {|
-  name: string;
-  url: string;
-  logo: string;
-  twitterHandle: string;
-  sameAs: Array<string>;
-  openingHoursSpecification: OpeningHours;
-  address: PostalAddress;
-  alternateUrl?: string;
+type PostalAddress = {|
+  addressLocality: string,
+  postalCode: string,
+  streetAddress: string
 |}
 
-type PostalAddress = {|
-  addressLocality: string;
-  postalCode: string;
-  streetAddress: string;
+export type Organization = {|
+  name: string,
+  url: string,
+  logo: string,
+  twitterHandle: string,
+  sameAs: Array<string>,
+  openingHoursSpecification: OpeningHours,
+  address: PostalAddress,
+  alternateUrl?: string
 |}
 
 export const wellcomeCollectionAddress = {

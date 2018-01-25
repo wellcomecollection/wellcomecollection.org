@@ -1,15 +1,29 @@
+// @flow
+
 import {grid, font, spacing, withModifiers} from '../../../utils/classnames';
 import {formatDate} from '../../../utils/format-date';
 import Icon from '../Icon/Icon';
 
+type Props = {|
+  lead?: boolean,
+  title: string,
+  meta?: {|
+    type: string,
+    value: string
+  |},
+  intro?: string,
+  icon?: string,
+  modifiers?: Array<string>
+|};
+
 function renderMeta({type, value}) {
   return type === 'date'
-    ? [<Icon name='clock' extraClasses={['margin-right-s1']} />, formatDate(value)]
+    ? [<Icon key="1" name='clock' extraClasses={['margin-right-s1']} />, <span key="2">{formatDate(value)}</span>]
     : [value];
 }
 
-export default ({lead, title, meta, intro, icon, modifiers}) => (
-  <header className={withModifiers('page-description')}>
+const PageDescription = ({lead, title, meta, intro, icon, modifiers}: Props) => (
+  <header className={withModifiers('page-description', modifiers)}>
     <div className={`row page-description__row ${lead && 'row--lead row--lead--l'}`}>
       <div className='container page-description__container'>
         <div className='grid'>
@@ -52,3 +66,5 @@ export default ({lead, title, meta, intro, icon, modifiers}) => (
     }
   </header>
 );
+
+export default PageDescription;

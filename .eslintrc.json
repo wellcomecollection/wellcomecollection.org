@@ -5,15 +5,20 @@
     "import",
     "react"
   ],
-  "extends": ["wellcome"],
+  "extends": ["standard", "plugin:react/recommended"],
   "rules": {
     "no-multi-spaces": "off",
     "no-multi-str": "off",
+    "no-mixed-operators": "off",
     "flowtype/define-flow-type": "warn",
+    "flowtype/space-after-type-colon": ["error", "always"],
+    "flowtype/space-before-type-colon": ["error", "never"],
     "no-duplicate-imports": "off",
+    "space-before-function-paren": "off",
+    "no-return-assign": "off",
+    "semi": ["error", "always"],
     "import/no-duplicates": "error",
-    "react/jsx-uses-react": "error",
-    "react/jsx-uses-vars": "error"
+    "react/react-in-jsx-scope": "off"
   },
   "parserOptions": {
     "ecmaFeatures": {

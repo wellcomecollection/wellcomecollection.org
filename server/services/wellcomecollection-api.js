@@ -6,16 +6,16 @@ const version = 'v1';
 const baseUri = `https://api.wellcomecollection.org/catalogue/${version}`;
 
 type WorkQuery = {
-  includes: string;
-  _index? : string;
+  includes: string,
+  _index?: string
 };
 
 type WorksQuery = {
-  query: string;
-  includes: string;
-  page: number;
-  pageSize: number;
-  _index? : string;
+  query: string,
+  includes: string,
+  page: number,
+  pageSize: number,
+  _index?: string
 };
 
 export async function getWork(id: string, imageIndex: string): Promise<Work> {

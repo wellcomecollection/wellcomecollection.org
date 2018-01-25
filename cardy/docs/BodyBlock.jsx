@@ -1,6 +1,12 @@
+// @flow
+
 import {grid, spacing} from '../../common/utils/classnames';
 
-export default ({children}) => (
+type Props = {|
+  children: React.Node,
+|};
+
+const DocsBodyBlock = ({children}: Props) => (
   <div className={`row ${spacing({s: 3, m: 5, l: 10}, {padding: ['top']})}`}>
     <div className='container'>
       <div className='grid'>
@@ -16,3 +22,5 @@ export default ({children}) => (
     </div>
   </div>
 );
+
+export default DocsBodyBlock;

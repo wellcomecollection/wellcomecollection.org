@@ -8,4 +8,3 @@ export type Video = {|
 |}
 
 export function createVideo(data: Video) { return (data: Video); }
-

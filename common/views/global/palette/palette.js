@@ -1,3 +1,10 @@
+// @flow
+
+type Props = {|
+  primary: {|name: string, hex: string|},
+  secondary: {|name: string, hex: string|}
+|}
+
 function colorBlock(name, hex) {
   return (
     <div className='styleguide__palette__block'>
@@ -8,7 +15,7 @@ function colorBlock(name, hex) {
   );
 }
 
-export default ({primary, secondary}) => (
+const Palette = ({primary, secondary}: Props) => (
   <div>
     <div className='styleguide__palette__section'>
       <h2 className='styleguide__palette__heading'>Primary colours</h2>
@@ -20,3 +27,5 @@ export default ({primary, secondary}) => (
     </div>
   </div>
 );
+
+export default Palette;
