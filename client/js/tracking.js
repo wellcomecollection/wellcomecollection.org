@@ -78,7 +78,6 @@ export default {
       const componentList = getComponentList(el);
       const componentListString = JSON.stringify(componentList);
       const label = `${(trackData.label || '')},componentList:${componentListString}`;
-      console.info('track-event', componentListString)
       trackGaEvent(Object.assign({}, trackData, {label}));
     });
 
