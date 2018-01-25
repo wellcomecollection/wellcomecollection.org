@@ -2,7 +2,8 @@
   "parser": "babel-eslint",
   "plugins": [
     "flowtype",
-    "import"
+    "import",
+    "react"
   ],
   "extends": ["wellcome"],
   "rules": {
@@ -10,6 +11,13 @@
     "no-multi-str": "off",
     "flowtype/define-flow-type": "warn",
     "no-duplicate-imports": "off",
-    "import/no-duplicates": "error"
+    "import/no-duplicates": "error",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error"
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
   }
 }

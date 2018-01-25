@@ -1,3 +1,11 @@
+export function withModifiers(className, modifiers = {}) {
+  return Object.keys(modifiers).reduce((acc, curr) => {
+    return modifiers[curr]
+      ? ` ${acc} ${className}--${curr}`
+      : ` ${acc}`;
+  }, className);
+}
+
 export function spacing(sizes, properties) {
   return Object.keys(sizes).map(key => {
     const size = sizes[key];

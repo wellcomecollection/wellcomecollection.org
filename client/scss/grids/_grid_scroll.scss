@@ -1,3 +1,14 @@
+.css-grid__scroll-container,
+.css-grid__cell.css-grid__scroll-container {
+  @include respond-between('small', 'medium') {
+    overflow: auto;
+    margin-left: -#{map-get($container-padding, 'small')};
+    padding-left: map-get($container-padding, 'small');
+    margin-right: -#{map-get($container-padding, 'small')};
+    padding-bottom: map-get($gutter-width, 'large');
+  }
+}
+
 .grid--scroll,
 .css-grid.grid--scroll {
   @include respond-between('small', 'medium') {
@@ -10,7 +21,7 @@
     .grid__cell,
     .css-grid__cell {
       flex: 1;
-      min-width: 66.6666vw;
+      min-width: 75vw;
       padding-left: 0;
       padding-right: map-get($gutter-width, 'small');
     }

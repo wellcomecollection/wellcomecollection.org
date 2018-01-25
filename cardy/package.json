@@ -1,0 +1,20 @@
+{
+  "name": "cardigan",
+  "version": "1.0.0",
+  "description": "Wellcome Collection's design system",
+  "main": "index.js",
+  "scripts": {
+    "dev": "fractal start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@frctl/fractal": "^1.1.7",
+    "babel-plugin-transform-react-constant-elements": "^6.23.0",
+    "babel-plugin-transform-react-inline-elements": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "fractal-react-adapter": "https://github.com/davidpmccormick/fractal-react-adapter.git"
+  }
+}

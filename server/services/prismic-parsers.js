@@ -4,7 +4,7 @@ import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
 import type {
   DateTimeRange, Event, Contributor, Team,
-  Location, EventFormat
+  Location, EventFormat, Audience
 } from '../content-model/events';
 import getBreakpoint from '../filters/get-breakpoint';
 import {parseBody} from './prismic-body-parser';
@@ -95,6 +95,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     promo: promo,
     series: [],
     location: location,
+    bookingInformation: asHtml(doc.data.bookingInformation),
     bookingType: bookingType
   }: Event);
 
@@ -110,11 +111,19 @@ export function parseEventFormat(frag: Object): ?EventFormat {
   };
 }
 
+export function parseAudience(frag: Object): ?Audience {
+  return isEmptyDocLink(frag) ? null : {
+    id: frag.id,
+    title: asText(frag.data.title),
+    description: asText(frag.data.description)
+  };
+}
+
 export function parseEventBookingType(eventDoc: Object): ?string {
   return !isEmptyObj(eventDoc.data.eventbriteEvent) ? 'Ticketed'
     : !isEmptyDocLink(eventDoc.data.bookingEnquiryTeam) ? 'Enquire to book'
       : !isEmptyDocLink(eventDoc.data.location) && eventDoc.data.location.data.capacity  ? 'First come, first seated'
-        : eventDoc.data.isDropIn ? 'Drop in' : null;
+        : null;
 }
 
 export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
@@ -132,8 +141,8 @@ export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
   ]).filter(_ => _);
 
   // Exhibitions are always open and shut on days, rather than hours
-  const startDate = london(doc.data.start).startOf('day').toDate();
-  const endDate = london(doc.data.end).endOf('day').toDate();
+  const startDate = doc.data.start && london(doc.data.start).startOf('day').toDate();
+  const endDate = doc.data.end && london(doc.data.end).endOf('day').toDate();
 
   const exhibition = ({
     id: doc.id,
@@ -414,6 +423,6 @@ export function isEmptyDocLink(fragment: Object) {
 // This is used for when we have a "single" `StructuredText` and want to maintain the inline HTML
 // (`a`, `em` etc) but would rather Prismic not wrap it in a `p` for us.
 // The empty `class` attribute 🤷‍
-function deP(text: ?string) {
+export function deP(text: ?string) {
   return text && text.replace(/<\/?p( class="")?>/g, '');
 }

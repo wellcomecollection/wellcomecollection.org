@@ -1,6 +1,6 @@
-import {font, spacing} from '../classnames';
-import Icon from './Icon';
-import WellcomeCollectionBlack from '../icons/wellcome_collection_black';
+import {font, spacing} from '../../../utils/classnames';
+import Icon from '../Icon/Icon';
+import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
 
 export default ({ links = [], siteSection }) => (
 <div className='header grid js-header-burger js-focus-trap bg-white'>

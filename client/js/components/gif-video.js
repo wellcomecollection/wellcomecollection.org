@@ -29,6 +29,9 @@ export default function(el) {
   const playPause = el.querySelector('.js-gif-video__play-pause');
   const textEl = playPause.querySelector('.js-gif-video__text');
   const trackingLabel = playPause.getAttribute('data-track-label');
+  const playbackRate = Number(el.getAttribute('data-playback-rate'));
+
+  video.playbackRate = playbackRate;
 
   // Hide the play/pause button until the video can loop
   video.addEventListener('canplaythrough', () => {

@@ -1,21 +1,17 @@
 {% set sizes = data.sizes if data.sizes else '100vw' %}
-<a id="{{model.id}}" href="{{ model.url }}" class="facility-promo">
-  <div class="{{- [
-      {s:2} | spacingClasses({padding: ['top']}),
-      {s:2} | spacingClasses({padding: ['left', 'right']}),
-      {s:4} | spacingClasses({padding: ['bottom']})
-    ].join(' ') }} facility-promo__description bg-cream rounded-diagonal">
+<a id="{{model.id}}" href="{{ model.url }}" class="plain-link promo-link">
+  <div>
 
-    <div class="facility-promo__image-container rounded-corners">
+    <div class="rounded-corners overflow-hidden">
       {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
     </div>
 
-    <h2 class="facility-promo__title {{ {s:'WB5'} | fontClasses }}  {{ {s:2} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
+    <h2 class="promo-link__title {{ {s:'WB6'} | fontClasses }}  {{ {s:2} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
 
     <p class="{{ {s:'HNL5'} | fontClasses }} no-margin no-padding">{{ model.description | striptags | safe }}</p>
 
     {% if model.metaText %}
-      <div class="{{ {s:3} | spacingClasses({padding: ['top']}) }} bg-cream">
+      <div class="{{ {s:3} | spacingClasses({padding: ['top']}) }}">
         <div class="{{ {s:'HNM5'} | fontClasses }} flex flex--v-center">
           {% if model.metaIcon %}
             {% icon model.metaIcon, null, ['margin-right-s1'] %}

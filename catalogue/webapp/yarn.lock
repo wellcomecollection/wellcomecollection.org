@@ -54,12 +54,15 @@
 "@wellcomecollection/common@file:../../common":
   version "1.0.0"
   dependencies:
+    babel-plugin-add-module-exports "^0.2.1"
     babel-plugin-module-resolver "^3.0.0"
     babel-plugin-react-require "^3.0.0"
     babel-plugin-transform-flow-strip-types "^6.22.0"
     babel-plugin-transform-react-jsx "^6.24.1"
     babel-plugin-wrap-in-js "^1.1.1"
     babel-preset-env "^1.6.1"
+    moment "^2.20.1"
+    moment-timezone "^0.5.14"
     react "^16.2.0"
 
 JSONStream@^1.0.4:
@@ -457,6 +460,10 @@ babel-messages@^6.23.0:
   resolved "https://registry.yarnpkg.com/babel-messages/-/babel-messages-6.23.0.tgz#f3cdf4703858035b2a2951c6ec5edf6c62f2630e"
   dependencies:
     babel-runtime "^6.22.0"
+
+babel-plugin-add-module-exports@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-add-module-exports/-/babel-plugin-add-module-exports-0.2.1.tgz#9ae9a1f4a8dc67f0cdec4f4aeda1e43a5ff65e25"
 
 babel-plugin-check-es2015-constants@^6.22.0:
   version "6.22.0"
@@ -3230,7 +3237,13 @@ modify-values@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/modify-values/-/modify-values-1.0.0.tgz#e2b6cdeb9ce19f99317a53722f3dbf5df5eaaab2"
 
-moment@^2.11.2:
+moment-timezone@^0.5.14:
+  version "0.5.14"
+  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.14.tgz#4eb38ff9538b80108ba467a458f3ed4268ccfcb1"
+  dependencies:
+    moment ">= 2.9.0"
+
+"moment@>= 2.9.0", moment@^2.11.2, moment@^2.20.1:
   version "2.20.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
 

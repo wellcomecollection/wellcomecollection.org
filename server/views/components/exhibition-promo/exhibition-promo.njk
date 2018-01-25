@@ -3,44 +3,41 @@
 {% else %}
   {% set sizes = '100vw' %}
 {% endif %}
-<a id="{{model.id}}" href="{{ model.url }}" class="exhibition-promo">
-  <div class="exhibition-promo__image-container rounded-corners">
-    <div class="exhibition-promo__label">
-      {% componentV2 'tags', [{text: 'Exhibition'}] %}
-    </div>
-    {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
-  </div>
+
+<a id="{{model.id}}" href="{{ model.url }}" class="plain-link promo-link bg-cream rounded-top rounded-bottom overflow-hidden flex flex--column">
+
+  {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
+
   <div class="{{- [
       {s:2} | spacingClasses({padding: ['top']}),
       {s:3} | spacingClasses({padding: ['left', 'right']}),
       {s:4} | spacingClasses({padding: ['bottom']})
-    ].join(' ') }} exhibition-promo__description bg-cream rounded-diagonal">
+    ].join(' ') }} flex flex--column flex-1">
 
-    <h2 class="exhibition-promo__title {{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
+    <p class="no-padding {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5'} | fontClasses }}">Exhibition</p>
 
-    {% if model.start and model.end %}
-      <p class="{{ {s:'HNL4'} | fontClasses }} no-margin no-padding"><time datetime="{{model.start}}">{{ model.start | formatDate }}</time>&ndash;<time datetime="{{model.end}}">{{ model.end | formatDate }}</time></p>
-    {% else %}
-      <p class="{{ {s:'HNL5'} | fontClasses }} no-margin no-padding">{{ model.description | striptags | safe }}</p>
-    {% endif %}
-    <div class="exhibition-promo__meta flex flex--h-space-between flex--wrap {{ {s:3} | spacingClasses({margin: ['top']}) }}">
-      <div class="{{- [
-        {s:'HNM5', m:'HNM4'} | fontClasses
-        ].join(' ') }} exhibition-promo__cost flex flex--v-center">
-        {% icon 'ticket', null, [''] %}
-        <span class="{{ {s:1} | spacingClasses({padding: ['left', 'right']}) }}">FREE</span>
-      </div>
+    <h2 class="promo-link__title {{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
 
+    <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} no-padding">
+      {% if model.start and model.end %}
+        <time datetime="{{model.start}}">{{ model.start | formatDate }}</time>&ndash;<time datetime="{{model.end}}">{{ model.end | formatDate }}</time>
+      {% else %}
+        {{ model.description | striptags | safe }}
+      {% endif %}
+    </p>
+
+    <div class="flex flex--h-space-between flex--wrap margin-top-auto">
       <span class="{{- [
-          {s:'HNM4'} | fontClasses
-        ].join(' ') }} exhibition-promo__status flex flex--v-center">
+          {s:'HNM5'} | fontClasses
+        ].join(' ') }} flex flex--v-center">
         {% set dateMessageAndColor = {start: model.start, end: model.end} | formatDateRangeWithMessage %}
         <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
           {% set statusColor = 'icon--' + dateMessageAndColor.color %}
           {% icon 'status_indicator', null, [statusColor, 'icon--match-text'] %}
         </span>
-        <span class="{{ {s:'HNM5'} | fontClasses }}">{{ dateMessageAndColor.text }}</span>
+        {{ dateMessageAndColor.text }}
       </span>
     </div>
+
   </div>
 </a>

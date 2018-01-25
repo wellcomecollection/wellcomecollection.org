@@ -1,10 +1,10 @@
-import {grid} from '@wellcomecollection/common/classnames';
-import Layout from '@wellcomecollection/common/components/Layout';
-import MoreInfoLink from '@wellcomecollection/common/components/MoreInfoLink';
+import {grid} from '@wellcomecollection/common/utils/classnames';
+import DefaultPageLayout from '@wellcomecollection/common/views/components/DefaultPageLayout/DefaultPageLayout';
+import MoreInfoLink from '@wellcomecollection/common/views/components/MoreInfoLink/MoreInfoLink';
 import criticalCss from '@wellcomecollection/common/styles/critical.scss';
 
 export default () => (
-  <Layout>
+  <DefaultPageLayout>
     <div className={grid({
       s:12,
       m:12,
@@ -15,5 +15,5 @@ export default () => (
       <h1>Catalogue</h1>
       <MoreInfoLink url="https://wellcomecollectiyon.org" name="Feed me Symour" />
     </div>
-  </Layout>
+  </DefaultPageLayout>
 )

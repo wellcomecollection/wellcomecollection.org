@@ -1,8 +1,10 @@
+$slider-one-column-width: (100 / 12) * 1%;
+
 .slider--in-article {
   .slides-container {
     @include respond-to('medium') {
-      width: calc(100vw - #{map-get($container-padding, 'medium')} - 12.5%);
-      margin-left: 12.5%;
+      width: calc(100vw - #{map-get($container-padding, 'medium')} - $slider-one-column-width);
+      margin-left: $slider-one-column-width;
     }
 
     @include respond-to('large') {
@@ -11,9 +13,9 @@
 
     @include respond-to('xlarge') {
       position: relative;
-      width: $container-width-max - (map-get($container-padding, 'large') * 2);
-      margin-left: 50%;
-      left: (($container-width-max - (map-get($container-padding, 'large') * 2)) / 2) * (-5/6);
+
+      width: calc(100vw - ((100vw - #{$container-width-max}) / 2));
+      left: calc(((100vw - #{$container-width-max}) / 2));
     }
   }
 }

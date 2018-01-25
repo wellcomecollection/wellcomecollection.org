@@ -1,6 +1,6 @@
 import Head from 'next/head';
-import HeadJs from './HeadJs';
-import Header from './Header';
+import HeadJs from '../Header/HeadJs';
+import Header from '../Header/Header';
 
 // TODO: Hashed files
 // TODO: Analytics

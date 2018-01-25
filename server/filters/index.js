@@ -29,12 +29,16 @@ import {
   formatDate,
   formatTime,
   formatDateTime,
+  formatDay,
+  formatMonthYear,
   formatDateRangeWithMessage,
   formatDateWithComingSoon,
   formatAndDedupeOnDate,
   formatAndDedupeOnTime,
-  joinDateStrings
+  joinDateStrings,
+  formatDayDate
 } from './format-date';
+import {googleCal, yahooCal, iCal, outlookCal} from './add-to-calendar';
 import getLicenseInfo from './get-license-info';
 import getTaslMarkup from './get-tasl-markup';
 import getBreakpoint from './get-breakpoint';
@@ -63,10 +67,13 @@ export default Map({
   formatDate,
   formatTime,
   formatDateTime,
+  formatDay,
+  formatMonthYear,
   formatDateRangeWithMessage,
   formatDateWithComingSoon,
   formatAndDedupeOnDate,
   formatAndDedupeOnTime,
+  formatDayDate,
   isFlagEnabled,
   objectAssign,
   arrayFromObject,
@@ -82,5 +89,9 @@ export default Map({
   getBreakpoint,
   joinDateStrings,
   getHashedFile,
-  aOrAn
+  aOrAn,
+  googleCal,
+  yahooCal,
+  iCal,
+  outlookCal
 });

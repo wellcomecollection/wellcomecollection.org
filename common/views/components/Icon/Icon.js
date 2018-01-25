@@ -1,4 +1,4 @@
-import * as icons from '../icons/index';
+import * as icons from '../../../icons/index';
 
 export default ({name, title, extraClasses = [], attrs = []}) => (
   <div

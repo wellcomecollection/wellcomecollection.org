@@ -116,10 +116,6 @@
   }
 }
 
-.css-grid__scroll-container {
-  overflow: auto;
-}
-
 .css-grid__cell,
 .css-grid__cell--primary,
 .css-grid__cell--secondary { // fallback
@@ -143,15 +139,13 @@
 
   .css-grid__cell {
     // stylelint-disable declaration-no-important
-    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
     // stylelint-enable declaration-no-important
   }
 
   @supports(display: grid) {
     position: static;
-    // stylelint-disable declaration-no-important
-    padding: 0 !important;
-    // stylelint-enable declaration-no-important
+    padding: 0;
   }
 }
 

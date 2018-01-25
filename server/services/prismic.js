@@ -8,7 +8,8 @@ import {
   prismicImage,
   parseExhibitionsDoc,
   getPositionInPrismicSeries,
-  parsePromoListItem, parseEventFormat, parseEventBookingType, parseImagePromo
+  parseAudience, parsePromoListItem, parseEventFormat, parseEventBookingType,
+  parseImagePromo, isEmptyDocLink
 } from './prismic-parsers';
 import {List} from 'immutable';
 import moment from 'moment';
@@ -36,11 +37,11 @@ const seriesFields = [
 const contributorFields = ['editorial-contributor-roles.title'];
 const eventFields = [
   'event-access-options.title', 'event-access-options.description', 'event-access-options.description',
-  'event-booking-enquiry-teams.title', 'event-booking-enquiry-teams.email', 'event-booking-enquiry-teams.phone',
-  'event-booking-enquiry-teams.url',
+  'teams.title', 'teams.email', 'teams.phone', 'teams.url',
   'event-formats.title', 'event-formats.description', 'event-formats.shortName',
   'locations.title', 'locations.geolocation', 'locations.level', 'locations.capacity',
-  'interpretation-types.title', 'interpretation-types.description', 'interpretation-types.abbreviation'
+  'interpretation-types.title', 'interpretation-types.description', 'interpretation-types.abbreviation',
+  'audiences.title'
 ];
 
 const defaultPageSize = 40;
@@ -62,15 +63,17 @@ async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string
 }
 
 type PrismicQueryOptions = {|
-  fetchLinks?: ?Array<String>;
-  orderings?: ?string;
+  page?: number;
+  fetchLinks?: Array<String>;
+  orderings?: string;
 |}
 
-async function getAllOfType(type: DocumentType, page: number, options: PrismicQueryOptions = {}) {
+async function getAllOfType(type: Array<DocumentType>, options: PrismicQueryOptions = {}) {
   const prismic = await getPrismicApi();
   const results = await prismic.query([
-    Prismic.Predicates.any('document.type', [type])
-  ], Object.assign({}, { page, pageSize: defaultPageSize }, options));
+    Prismic.Predicates.any('document.type', type),
+    Prismic.Predicates.not('document.tags', ['delist'])
+  ], Object.assign({}, { pageSize: defaultPageSize }, options));
   return results;
 }
 
@@ -207,7 +210,19 @@ function createEventPromos(allResults): Array<EventPromo> {
   return allResults.map((event): EventPromo => {
     const promo = event.data.promo && parseImagePromo(event.data.promo);
     const format = event.data.format && parseEventFormat(event.data.format);
+    const audience = event.data.audiences.map((audience) => {
+      return parseAudience(audience.audience);
+    })[0];
+
     const bookingType = parseEventBookingType(event);
+    const interpretations = event.data.interpretations.map(interpretation => !isEmptyDocLink(interpretation.interpretationType) ? ({
+      interpretationType: {
+        title: asText(interpretation.interpretationType.data.title),
+        description: asText(interpretation.interpretationType.data.description),
+        abbreviation: asText(interpretation.interpretationType.data.abbreviation)
+      },
+      isPrimary: Boolean(interpretation.isPrimary)
+    }) : null).filter(_ => _);
 
     // A single Primsic 'event' can have multiple datetimes, but we
     // want to display each datetime as an individual promo, so we
@@ -218,18 +233,20 @@ function createEventPromos(allResults): Array<EventPromo> {
         title: asText(event.data.title),
         url: `/events/${event.id}`,
         format: format,
+        audience: audience,
         start: eventAtTime.startDateTime,
         end: eventAtTime.endDateTime,
         image: promo && promo.image,
         description: promo && promo.caption,
-        bookingType: bookingType
+        bookingType: bookingType,
+        interpretations: interpretations
       };
     });
   }).reduce((acc, curr) => {
     return curr.concat(acc);
   }, []).sort((a, b) => {
     return convertStringToNumber(b.start || '') - convertStringToNumber(a.start || '');
-  });
+  }).sort((a, b) => a.start.localeCompare(b.start));
 }
 
 function convertStringToNumber(string: string): number {
@@ -256,8 +273,9 @@ function convertPrismicResultsToPaginatedResults(prismicResults: Object): (resul
 }
 
 export async function getPaginatedEventPromos(page: number): Promise<Array<EventPromo>> {
-  const events = await getAllOfType('events', page, {
-    orderings: '[my.events.times.startDateTime desc]',
+  const events = await getAllOfType(['events'], {
+    page,
+    orderings: '[my.events.times.startDateTime]',
     fetchLinks: eventFields
   });
   const promos = createEventPromos(events.results);
@@ -266,7 +284,7 @@ export async function getPaginatedEventPromos(page: number): Promise<Array<Event
 }
 
 export async function getPaginatedExhibitionPromos(page: number): Promise<Array<ExhibitionPromo>> {
-  const exhibitions = await getAllOfType('exhibitions', page, {orderings: '[my.exhibitions.start]'});
+  const exhibitions = await getAllOfType(['exhibitions'], {page, orderings: '[my.exhibitions.start]'});
   const promos = createExhibitionPromos(exhibitions.results);
   const paginatedResults = convertPrismicResultsToPaginatedResults(exhibitions);
   return paginatedResults(promos);
@@ -345,7 +363,7 @@ function getListHeader(dates) {
   const todayDateString = `startDate=${dates.today}&endDate=${dates.today}`;
   const weekendDateString = `startDate=${dates.weekend[0]}&endDate=${dates.weekend[1]}`;
   const allDateString = `startDate=${dates.all[0]}&endDate=${dates.all[1]}`;
-  const urlBeginning = `${encodeURI('/whats-on/?')}`;
+  const urlBeginning = `${encodeURI('/whats-on?')}`;
 
   return {
     todayOpeningHours,
@@ -375,11 +393,12 @@ export async function getExhibitionAndEventPromos(query) {
   const fromDate = query.startDate ? query.startDate : todaysDate.format('YYYY-MM-DD');
   const toDate = query.endDate ? query.endDate : todaysDate.format('YYYY-MM-DD');
   const dateRange = [fromDate, toDate];
+  const allExhibitionsAndEvents = await getAllOfType(['exhibitions', 'events'], {
+    pageSize: 100,
+    fetchLinks: eventFields,
+    orderings: '[my.events.times.startDateTime desc, my.exhibitions.start]'
+  });
 
-  const prismic = await getPrismicApi();
-  const allExhibitionsAndEvents = await prismic.query([
-    Prismic.Predicates.any('document.type', ['exhibitions', 'events'])
-  ]);
   const exhibitionPromos = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'exhibitions'));
   const permanentExhibitionPromos = exhibitionPromos.filter(e => !e.end);
   const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => e.end), fromDate, toDate);

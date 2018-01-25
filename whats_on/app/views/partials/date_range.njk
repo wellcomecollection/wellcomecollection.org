@@ -1,9 +1,23 @@
 {% set fromDate = exhibitionAndEventPromos.dates.queriedDates[0] %}
 {% set toDate = exhibitionAndEventPromos.dates.queriedDates[1] %}
-{% set isMoreThanOneDay =  fromDate !== toDate %}
 
 <p class="{{- [
   {s:'HNM4', m:'HNM4'} | fontClasses,
   {s:0} | spacingClasses({margin: ['top']}),
   {s:1} | spacingClasses({margin: ['bottom']})
-].join(' ') -}}"><time datetime="{{ fromDate }}">{{ fromDate | formatDate }}</time>{%- if isMoreThanOneDay -%}&ndash;<time datetime="{{ toDate }}">{{ toDate | formatDate }}</time>{%- endif -%}</p>
+].join(' ') -}}">
+  {% if exhibitionAndEventPromos.active == 'today' %}
+    <time datetime="{{ fromDate }}">{{ fromDate | formatDate }}</time>
+  {% elseif exhibitionAndEventPromos.active == 'weekend' %}
+    <time datetime="{{ fromDate }}">{{ fromDate | formatDay }}</time>&ndash;<time datetime="{{ toDate }}">{{ toDate | formatDay }}</time>
+  {% elseif exhibitionAndEventPromos.active == 'everything' %}
+    <time datetime="{{ fromDate }}">{{ fromDate | formatMonthYear }}</time>&ndash;<time datetime="{{ toDate }}">{{ toDate | formatMonthYear }}</time>
+  {% endif %}
+</p>
+
+{% if not exhibitionAndEventPromos.listHeader.todayOpeningHours.opens %}
+  <p class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{{s:2} | spacingClasses({margin: ['bottom']})}}">Our exhibitions are closed today, but our <a href="{{cafePromo.url}}">cafe</a> and <a href="{{shopPromo.url}}">shop</a> are open for your visit.</p>        
+  <div class="{{ {s:3, m:4, l:5} | spacingClasses({margin: ['top', 'bottom']}) }}">
+    {% componentV2 'divider', null, {'dashed': true} %}
+  </div>
+{% endif %}
