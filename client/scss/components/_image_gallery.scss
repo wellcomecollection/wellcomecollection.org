@@ -14,6 +14,16 @@ $image-gallery-control-margin: 18px;
   }
 }
 
+.image-gallery__heading {
+  position: relative;
+  z-index: 3;
+  top: $spacing-unit * 8;
+
+  @include respond-to('xlarge') {
+    position: absolute;
+  }
+}
+
 .image-gallery__item {
   flex-shrink: 0;
   margin-right: map_get($gutter-width, 'small');
