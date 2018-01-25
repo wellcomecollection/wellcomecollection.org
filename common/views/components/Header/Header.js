@@ -8,7 +8,7 @@ export default ({ links = [], siteSection }) => (
   <div className='header__upper grid__cell'>
     <div className='header__inner container'>
       <div className='header__burger'>
-        <a href="#footer-nav-1"
+        <a href='#footer-nav-1'
            id='header-burger-trigger'
            className='header__burger-trigger js-header-burger-trigger js-trap-start'
            aria-label='menu'>
@@ -35,16 +35,16 @@ export default ({ links = [], siteSection }) => (
         </ul>
       </nav>
 
-      <div id="header-search" className='header__search'>
+      <div id='header-search' className='header__search'>
         <form className='header__form'
-              action="https://wellcomecollection.org/search"
-              method="post">
+              action='https://wellcomecollection.org/search'
+              method='post'>
           <div className='header__input-wrap js-show-hide-drawer'>
-            <label className='header__label" for="header-input'>Search</label>
-            <input id="header-input" className={`header__input ${font({s:'HNL3', m:'HNL2'})} js-header-input`} placeholder='Search' name='search' />
+            <label className='header__label' for='header-input'>Search</label>
+            <input id='header-input' className={`header__input ${font({s:'HNL3', m:'HNL2'})} js-header-input`} placeholder='Search' name='search' />
             {/* This is here as we're sending people back to V1, and drupal requires it */}
             {/* TODO: remove once we build our own search interface  */}
-            <input type="hidden" name="form_id" value="col_search_form" />
+            <input type='hidden' name='form_id' value='col_search_form' />
           </div>
           <button className={`header__button ${font({s:'WB7'})} js-show-hide-trigger  js-trap-reverse-start`}>
             <span className='header__button-inner'>
@@ -52,7 +52,7 @@ export default ({ links = [], siteSection }) => (
               <span className='header__button-text'>Search</span>
             </span>
           </button>
-          <span role="button" aria-controls="header-input" className='header__close-search js-header-close-search'>
+          <span role='button' aria-controls='header-input' className='header__close-search js-header-close-search'>
             <Icon name='cross' title={['Close search box']} />
           </span>
         </form>
