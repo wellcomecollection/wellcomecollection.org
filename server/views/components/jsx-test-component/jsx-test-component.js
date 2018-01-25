@@ -3,9 +3,9 @@
 // Generic component to test using JSX with nunjucks
 import cssGridClasses from '../../../filters/css-grid-classes';
 
-type Props = {
+type Props = {|
   toWhat: string
-}
+|}
 
 const JsxTestComponent = ({toWhat}: Props) => {
   return (
