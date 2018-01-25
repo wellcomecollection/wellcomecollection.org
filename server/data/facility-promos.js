@@ -1,9 +1,6 @@
 // @flow
 import type {Promo} from '../model/promo';
 import type {EventPromo} from '../content-model/events';
-import type {Picture} from '../model/picture';
-import type {HTMLString} from '../content-model/content-blocks';
-import {DateTimeRange} from '../content-model/events';
 
 export const readingRoomPromo: Promo = {
   type: 'promo',
