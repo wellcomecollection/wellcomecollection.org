@@ -1,4 +1,8 @@
-export default (props) => (
+type Props = {|
+  yield: React.Node
+|}
+
+const PreviewNoContainerLayout = (props: Props) => (
   <html>
     <head>
       <link rel='stylesheet' href='/dist-styles/styleguide.css' />
@@ -8,3 +12,5 @@ export default (props) => (
     </body>
   </html>
 );
+
+export default PreviewNoContainerLayout;

@@ -5,7 +5,7 @@
     "import",
     "react"
   ],
-  "extends": ["standard"],
+  "extends": ["standard", "plugin:react/recommended"],
   "rules": {
     "no-multi-spaces": "off",
     "no-multi-str": "off",
@@ -15,8 +15,7 @@
     "no-return-assign": "off",
     "semi": ["error", "always"],
     "import/no-duplicates": "error",
-    "react/jsx-uses-react": "error",
-    "react/jsx-uses-vars": "error"
+    "react/react-in-jsx-scope": "off"
   },
   "parserOptions": {
     "ecmaFeatures": {

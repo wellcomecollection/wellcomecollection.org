@@ -23,9 +23,9 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.0.0",
-    "eslint": "^4.8.0",
+    "eslint": "^4.16.0",
     "eslint-config-standard": "^11.0.0-beta.0",
-    "eslint-plugin-flowtype": "^2.37.0",
+    "eslint-plugin-flowtype": "^2.42.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",

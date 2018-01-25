@@ -1,7 +1,12 @@
 import {spacing, font} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 
-export default ({url, name}) => (
+type Props = {|
+  url: string,
+  name: string
+|}
+
+const MoreInfoLink = ({url, name}: Props) => (
   <a className={[
     'flex-inline',
     'flex-v-center',
@@ -15,3 +20,5 @@ export default ({url, name}) => (
     <span className={spacing({s: 1}, {margin: ['left']})}>{name}</span>
   </a>
 );
+
+export default MoreInfoLink;

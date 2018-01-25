@@ -3,7 +3,12 @@ import Icon from '../../common/views/components/Icon/Icon';
 import {spacing} from '../../common/utils/classnames';
 import PageDescription from '../../common/views/components/PageDescription/PageDescription';
 
-export default ({pageSections, supportedBrowsers}) => (
+type Props = {|
+  pageSections: Array<{name: string, url: string, content?: string}>,
+  supportedBrowsers: Array<{type: string, supportLevel: string}>
+|}
+
+const DocsPrinciples = ({pageSections, supportedBrowsers}: Props) => (
   <div>
     <PageDescription
         title='Principles'
@@ -14,18 +19,18 @@ export default ({pageSections, supportedBrowsers}) => (
       <a name='index'></a>
       <ul>
         {pageSections.map(pageSection => (
-          <li><a href={`#${pageSection.url}`}>{pageSection.name}</a></li>
+          <li key={pageSection.url}><a href={`#${pageSection.url}`}>{pageSection.name}</a></li>
         ))}
       </ul>
 
       {pageSections.map(pageSection => (
-        <div className={spacing({s: 8}, {margin: ['top']})}>
+        <div key={pageSection.url} className={spacing({s: 8}, {margin: ['top']})}>
           <h2>{pageSection.name}</h2>
           <a name={pageSection.url}></a>
 
           {pageSection.url === 'support'
             ? <div>
-                <p><strong>We will manually test the site on the following browsers<sup>\*</sup></strong></p>
+                <p><strong>We will manually test the site on the following browsers<sup>*</sup></strong></p>
                 <table>
                   <thead>
                     <tr>
@@ -35,7 +40,7 @@ export default ({pageSections, supportedBrowsers}) => (
                   </thead>
                   <tbody>
                     {supportedBrowsers.map(browser => (
-                      <tr>
+                      <tr key={browser.type}>
                         <td>{browser.type}</td>
                         <td>{browser.supportLevel}</td>
                       </tr>
@@ -52,7 +57,7 @@ export default ({pageSections, supportedBrowsers}) => (
                 </dl>
 
                 <p>The most popular browsers are added to the list, until they make up approximately 95% of traffic. The browser versions of evergreen browsers, i.e. those that automatically update themselves silently without prompting the user, are combined and the latest stable version and the version immediately before that will be tested.</p>
-                <p>Opera Mini (in Extreme mode) is also included, as this provides an easy way to test the core experience. In extreme mode, Opera Mini ignores some CSS, doesn't load web fonts, has a low level of Javascript support and an arbitrary Javascript execution timeout.</p>
+                <p>Opera Mini (in Extreme mode) is also included, as this provides an easy way to test the core experience. In extreme mode, Opera Mini ignores some CSS, doesn&apos;t load web fonts, has a low level of Javascript support and an arbitrary Javascript execution timeout.</p>
               </div>
             : <div dangerouslySetInnerHTML={{__html: pageSection.content}} />
           }
@@ -62,3 +67,5 @@ export default ({pageSections, supportedBrowsers}) => (
     </BodyBlock>
   </div>
 );
+
+export default DocsPrinciples;

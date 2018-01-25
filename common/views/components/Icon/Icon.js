@@ -1,6 +1,13 @@
 import * as icons from '../../../icons/index';
 
-export default ({name, title, extraClasses = [], attrs = []}) => (
+type Props = {|
+  name: string,
+  title?: string,
+  extraClasses: Array<?string>,
+  attrs: Array<?string>
+|}
+
+const Icon = ({name, title, extraClasses = [], attrs = []}: Props) => (
   <div
     className={['icon'].concat(extraClasses).join(' ')}
     aria-hidden={title && 'true'}>
@@ -13,3 +20,5 @@ export default ({name, title, extraClasses = [], attrs = []}) => (
     </svg>
   </div>
 );
+
+export default Icon;

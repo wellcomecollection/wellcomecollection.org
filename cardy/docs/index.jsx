@@ -3,7 +3,7 @@ import PageDescription from '../../common/views/components/PageDescription/PageD
 import statuses from '../config/statuses';
 import {spacing} from '../../common/utils/classnames';
 
-export default () => (
+const DocsIndex = () => (
   <div>
     <PageDescription
       intro={`Wellcome Collection’s design system`}
@@ -20,7 +20,7 @@ export default () => (
 
       <h2 id='adding_notes_to_a_component'>Adding notes to a component</h2>
 
-      <p><a href='https://github.com/wellcometrust/wellcomecollection.org/tree/master/common/views/components'>Browse to the component</a> you would like to add notes to. Add a <code>README.md</code>, submit a PR, and we're away.</p>
+      <p><a href='https://github.com/wellcometrust/wellcomecollection.org/tree/master/common/views/components'>Browse to the component</a> you would like to add notes to. Add a <code>README.md</code>, submit a PR, and we&apos;re away.</p>
 
       <h2>Status codes</h2>
       <p>Components and their variants have been given statuses reflecting their state of completion. The available statuses are listed below.</p>
@@ -36,7 +36,7 @@ export default () => (
               fontFamliy: 'Wellcome Bold Web'
             };
             return (
-              <tr>
+              <tr key={statuses[status].color}>
                 <td><span style={styles}>{statuses[status].label}</span></td>
                 <td>{statuses[status].description}</td>
               </tr>
@@ -47,3 +47,5 @@ export default () => (
     </BodyBlock>
   </div>
 );
+
+export default DocsIndex;

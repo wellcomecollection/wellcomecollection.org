@@ -9,4 +9,3 @@ export function london(d: ?Date | ?string) {
 export function formatDate(date: Date): string {
   return london(date).format('D MMMM YYYY');
 }
-

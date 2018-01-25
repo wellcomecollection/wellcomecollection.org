@@ -1,7 +1,12 @@
 import BodyBlock from './BodyBlock';
 import PageDescription from '../../common/views/components/PageDescription/PageDescription';
 
-export default ({breakpoints, gridConfig}) => (
+type Props = {
+  breakpoints: {small: string, medium: string, large: string, xlarge: string},
+  gridConfig: {s: {}, m: {}, l: {}, xl: {}}
+}
+
+const DocsVisualArchitecture = ({breakpoints, gridConfig}: Props) => (
   <div>
     <PageDescription
       title='Visual architecture'
@@ -19,7 +24,7 @@ export default ({breakpoints, gridConfig}) => (
       <p>This may contain small state changes, such as the selected state of a navigation changing.</p>
       <p>The app shell will also have a placeholder for the <a href='#page'>page</a>.</p>
       <p>The app shell may also contain <a href='#layout-elements'>layouts</a>.</p>
-      <p><a href='https://developers.google.com/web/fundamentals/architecture/app-shell'>You can read this article for a more detailed description for an app shell model and it's benefits</a>.</p>
+      <p><a href='https://developers.google.com/web/fundamentals/architecture/app-shell'>You can read this article for a more detailed description for an app shell model and it&apos;s benefits</a>.</p>
 
       <h3>Page</h3>
       <a name='page'></a>
@@ -70,13 +75,13 @@ export default ({breakpoints, gridConfig}) => (
       <br /><br />
       <code>{`font({s: 'WB4', l: 'WB2'})`}</code>
 
-      <p>Occasionally, we may want to reset a type style's line-height to `1`, to prevent it from introducing extra space when used in non-flowing copy. For this, we have the `line-height-1` class.</p>
+      <p>Occasionally, we may want to reset a type style&apos;s line-height to `1`, to prevent it from introducing extra space when used in non-flowing copy. For this, we have the `line-height-1` class.</p>
 
       <h4>Spacing classes</h4>
       <p>In a similar manner to the typography classes above, we have helper classes that apply various amounts of margins and padding to an element at each breakpoint.</p>
       <p>Where possible, these classes should be used in preference to adding margins and padding within component scss files.</p>
       <p>There is also a <code>spacing</code> function which should be used to apply these classes to the markup. The resulting classes apply multiples of our base spacing unit (6px) to any margin or padding direction up to 60px.</p>
-      <p>The filter operates on an object of breakpoint keys and values. It also takes an object as an argument, which can contain 'margin' and/or 'padding' keys, which in turn take an array of directions ('top', 'bottom', 'left', 'right') on which to operate. The breakpoint values are multiplied by our base spacing unit (6px) and the resulting amount will be used as the value for whichever properties are specified in the parameter object.</p>
+      <p>The filter operates on an object of breakpoint keys and values. It also takes an object as an argument, which can contain &apos;margin&apos; and/or &apos;padding&apos; keys, which in turn take an array of directions (&apos;top&apos;, &apos;bottom&apos;, &apos;left&apos;, &apos;right&apos;) on which to operate. The breakpoint values are multiplied by our base spacing unit (6px) and the resulting amount will be used as the value for whichever properties are specified in the parameter object.</p>
       <p>For example, if an element should have 12px top and bottom padding at the small and medium breakpoints, then 24px top and bottom padding at large and xlarge breakpoints, we can write:
       <br /><br />
 
@@ -98,7 +103,7 @@ export default ({breakpoints, gridConfig}) => (
 
       <ul>
         {breakpoints.map(breakpoint => (
-          <li>`{breakpoint.name}`: {breakpoint.name === 'xlarge' ? '>' : '>='} {breakpoint.size}</li>
+          <li key={breakpoint.name}>`{breakpoint.name}`: {breakpoint.name === 'xlarge' ? '>' : '>='} {breakpoint.size}</li>
         ))}
       </ul>
 
@@ -107,7 +112,7 @@ export default ({breakpoints, gridConfig}) => (
 
       <ul>
         {gridConfig.map(gridSize => (
-          <li><strong>{gridSize.name}:</strong> {gridSize.gutterWidth} gutters, {gridSize.marginWidth} margins</li>
+          <li key={gridSize.name}><strong>{gridSize.name}:</strong> {gridSize.gutterWidth} gutters, {gridSize.marginWidth} margins</li>
         ))}
       </ul>
 
@@ -147,3 +152,5 @@ export default ({breakpoints, gridConfig}) => (
     </BodyBlock>
   </div>
 );
+
+export default DocsVisualArchitecture;
