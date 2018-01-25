@@ -1,5 +1,6 @@
 // @flow
-import type { Promo } from '../model/promo';
+import type {Promo} from '../model/promo';
+import type {EventPromo} from '../content-model/events';
 
 export const readingRoomPromo: Promo = {
   type: 'promo',
@@ -93,6 +94,27 @@ export const spiritBoothPromo: Promo = {
     contentUrl: 'https://s3.eu-west-1.amazonaws.com/static.wellcomecollection.org/daily-promo-images/spirit-booth.png',
     width: 408,
     height: 229,
+    alt: ''
+  }
+};
+
+export const dailyTourPromo: EventPromo = {
+  id: 'tours',
+  title: 'Daily Guided Tour',
+  url: '/tours',
+  start: null,
+  end: null,
+  description: null,
+  dateString: 'Every day',
+  timeString: '11:30, 14:30, and 15:30',
+  format: 'Gallery tour',
+  bookingType: null,
+  interpretations: [],
+  image: {
+    type: 'picture',
+    contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F322dfd1a-054d-4032-a70c-b85268d0563b_c0139861.jpg',
+    width: 2996,
+    height: 2000,
     alt: ''
   }
 };
