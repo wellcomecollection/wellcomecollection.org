@@ -1,5 +1,5 @@
 // @flow
-import {deP} from "../services/prismic-parsers";
+import {deP} from '../services/prismic-parsers';
 
 type EventProps = {|
   url: string;
