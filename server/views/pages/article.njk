@@ -93,8 +93,10 @@
 
     <div class="row bg-cream">
       <div class="container">
-        <div class="{{ {s:6} | spacingClasses({padding: ['top']}) }}">
-          {% componentV2 'divider', null, {'pumice': true, 'keyline': true} %}
+        <div class="grid {{ {s:6} | spacingClasses({padding: ['top']}) }}">
+          <div class="{{ {s: 12, m: 10, shiftM: 1, l: 12, xl: 12} | gridClasses }}">
+            {% componentV2 'divider', null, {'pumice': true, 'keyline': true} %}
+          </div>
         </div>
       </div>
     </div>
