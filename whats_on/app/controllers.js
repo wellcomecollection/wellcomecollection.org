@@ -5,8 +5,7 @@ import {
   cafePromo,
   readingRoomPromo,
   restaurantPromo,
-  spiritBoothPromo,
-  dailyTourPromo
+  spiritBoothPromo
 } from '../../server/data/facility-promos';
 const {createPageConfig} = model;
 const {
@@ -29,8 +28,7 @@ export async function renderWhatsOn(ctx, next) {
     whileVisitPromos: [readingRoomPromo, spiritBoothPromo],
     eatShopPromos: [cafePromo, bookshopPromo, restaurantPromo],
     cafePromo,
-    bookshopPromo,
-    dailyTourPromo
+    bookshopPromo
   });
 
   return next();
