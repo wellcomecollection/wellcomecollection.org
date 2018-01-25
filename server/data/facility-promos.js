@@ -112,7 +112,7 @@ export const dailyTourPromo: EventPromo = {
   interpretations: [],
   image: {
     type: 'picture',
-    contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F322dfd1a-054d-4032-a70c-b85268d0563b_c0139861.jpg',
+    contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7657f9e9-0733-444d-b1b2-6ae0bafa0ff9_c7c94c39161dcfe15d9abd8b40256ea2b40f52b9_c0139861.jpg',
     width: 2996,
     height: 2000,
     alt: ''
