@@ -1,5 +1,6 @@
 // @flow
-import type { Promo } from '../model/promo';
+import type {Promo} from '../model/promo';
+import type {EventPromo} from '../content-model/events';
 
 export const readingRoomPromo: Promo = {
   type: 'promo',
@@ -26,7 +27,7 @@ export const cafePromo: Promo = {
   description: 'Join us for a quick cup of coffee and a pastry, afternoon tea, or a light meal with a glass of wine.',
   image: {
     type: 'picture',
-    contentUrl: 'https://s3-eu-west-1.amazonaws.com/static.wellcomecollection.org/daily-promo-images/wellcome-cafe.png',
+    contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F767a5fc5-7095-4772-a22b-275b38e4bd4d_cafe.png',
     width: 408,
     height: 229,
     alt: ''
@@ -58,7 +59,7 @@ export const restaurantPromo: Promo = {
   description: 'Hungry for more? Join us for delicious lunches, drinks and afternoon tea on level 2.',
   image: {
     type: 'picture',
-    contentUrl: 'https://s3-eu-west-1.amazonaws.com/static.wellcomecollection.org/daily-promo-images/wellcome-kitchen.jpg',
+    contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc2475694-73e3-4309-ba6d-100a25fe6864_restaurant.png',
     width: 408,
     height: 229,
     alt: ''
@@ -73,7 +74,7 @@ export const bookshopPromo: Promo = {
   description: 'Come and browse a selection of our quirky gifts and books.',
   image: {
     type: 'picture',
-    contentUrl: 'https://s3-eu-west-1.amazonaws.com/static.wellcomecollection.org/daily-promo-images/wellcome-shop.jpg',
+    contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb9feb700-cb89-47cc-be19-75b37adc2061_shop.png',
     width: 408,
     height: 229,
     alt: ''
@@ -93,6 +94,27 @@ export const spiritBoothPromo: Promo = {
     contentUrl: 'https://s3.eu-west-1.amazonaws.com/static.wellcomecollection.org/daily-promo-images/spirit-booth.png',
     width: 408,
     height: 229,
+    alt: ''
+  }
+};
+
+export const dailyTourPromo: EventPromo = {
+  id: 'tours',
+  title: 'Daily Guided Tour',
+  url: '/tours',
+  start: null,
+  end: null,
+  description: null,
+  dateString: 'Every day',
+  timeString: '11:30, 14:30, and 15:30',
+  format: 'Gallery tour',
+  bookingType: null,
+  interpretations: [],
+  image: {
+    type: 'picture',
+    contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F322dfd1a-054d-4032-a70c-b85268d0563b_c0139861.jpg',
+    width: 2996,
+    height: 2000,
     alt: ''
   }
 };

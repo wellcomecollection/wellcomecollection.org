@@ -14,6 +14,8 @@ h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
 
   The v1 site was setup with a lot of configuration, which feels like it would be out of sync with
   the new questions we would like ask of our analytics, so this was for a clean slate.
+
+  dimension5 is a test dimension
 #}
 window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
 ga('create', 'UA-55614-24', 'auto', 'v2');
@@ -41,6 +43,13 @@ ga('set', 'dimension1', '2');
 {% if pageConfig.gaExp %}
   ga('set', 'exp', '{{ pageConfig.gaExp }}');
 {% endif %}
+
+{# see `tracking.js` where this storage item is set #}
+var referringComponentListString = localStorage.getItem('wc_referring_component_list');
+localStorage.removeItem('wc_referring_component_list');
+if (referringComponentListString) {
+  ga('set', 'dimension5', referringComponentListString);
+}
 
 ga('require', 'GTM-NXMJ6D9');
 ga('send', 'pageview');

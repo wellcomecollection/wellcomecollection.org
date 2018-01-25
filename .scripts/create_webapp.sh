@@ -6,8 +6,8 @@ set -o nounset
 shopt -u dotglob
 
 
-if [ $# -lt 2 ]; then
-    echo "⚡ Usage: ./create_webapp <WEBAPP_NAME> <PORT>"
+if [ $# -lt ! ]; then
+    echo "⚡ Usage: ./create_webapp <WEBAPP_NAME>"
     exit 1
 fi
 
@@ -32,6 +32,10 @@ pushd $PROJECT_ROOT_DIR
         sed -i '' "s/{WEBAPP_PORT}/$WEBAPP_PORT/g" $(basename $filename)
       done
 
+    # Static assets for dev
+    ln -s ../../dist/assets/ ./static
+
+    # Let's get going
     yarn
   popd
 popd
