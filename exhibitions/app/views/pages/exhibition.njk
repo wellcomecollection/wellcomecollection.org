@@ -121,7 +121,7 @@
                   </a>
                 {% endif %}
                 <div class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
-                  {% componentV2 'more-info-link', {name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility'} %}
+                  {% componentJsx 'MoreInfoLink', { name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility' } %}
                 </div>
               </div>
             {% endblock %}
@@ -187,7 +187,7 @@
                   {% componentV2 'image', promo.image, null, {'lazyload': true, sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
                 </a>
                 <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
-                  {% componentV2 'more-info-link', {name: 'View images from the exhibition', url: promo.url} %}
+                  {% componentJsx 'MoreInfoLink', { name: 'View images from the exhibition', url: promo.url } %}
                 </div>
               </div>
             {% endfor %}

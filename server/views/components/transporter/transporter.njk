@@ -19,6 +19,6 @@
     {% endfor %}
   </div>
   {% if themeUrl %}
-    {% componentV2 'more-info-link', {name: 'Full theme', url: themeUrl} %}
+    {% componentJsx 'MoreInfoLink', { name: 'Full theme', url: themeUrl } %}
   {% endif %}
 </section>
