@@ -1,3 +1,5 @@
+// @flow
+
 import {spacing, font} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 

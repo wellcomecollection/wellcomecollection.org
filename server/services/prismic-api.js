@@ -21,5 +21,7 @@ export async function prismicApi() {
 periodicallyUpdatePrismic();
 
 export async function prismicPreviewApi(req) {
-  return await Prismic.getApi(apiUri, {req});
+  const api = await Prismic.getApi(apiUri, {req});
+
+  return api;
 }

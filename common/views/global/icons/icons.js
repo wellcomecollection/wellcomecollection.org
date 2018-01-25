@@ -1,3 +1,5 @@
+// @flow
+
 import Icon from '../../components/Icon/Icon';
 
 type Props = {

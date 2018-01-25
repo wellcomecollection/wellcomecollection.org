@@ -1,3 +1,5 @@
+// @flow
+
 import BodyBlock from './BodyBlock';
 import Icon from '../../common/views/components/Icon/Icon';
 import {spacing} from '../../common/utils/classnames';

@@ -9,6 +9,7 @@
   "rules": {
     "no-multi-spaces": "off",
     "no-multi-str": "off",
+    "no-mixed-operators": "off",
     "flowtype/define-flow-type": "warn",
     "flowtype/space-after-type-colon": ["error", "always"],
     "flowtype/space-before-type-colon": ["error", "never"],

@@ -193,7 +193,7 @@ export async function getCuratedList(id: string) {
 }
 
 function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
-  return allResults.map((e):ExhibitionPromo => {
+  return allResults.map((e): ExhibitionPromo => {
     return {
       id: e.id,
       url: `/exhibitions/${e.id}`,

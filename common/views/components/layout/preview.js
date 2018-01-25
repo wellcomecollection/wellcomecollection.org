@@ -1,3 +1,5 @@
+// @flow
+
 type Props = {|
   yield: React.Node
 |}

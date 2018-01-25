@@ -1,3 +1,5 @@
+// @flow
+
 import {grid, font, spacing, withModifiers} from '../../../utils/classnames';
 import {formatDate} from '../../../utils/format-date';
 import Icon from '../Icon/Icon';

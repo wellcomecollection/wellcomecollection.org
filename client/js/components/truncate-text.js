@@ -70,4 +70,3 @@ const truncateText = (caption) => {
 };
 
 export default truncateText;
-

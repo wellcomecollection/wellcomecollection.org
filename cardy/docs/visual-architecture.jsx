@@ -1,3 +1,5 @@
+// @flow
+
 import BodyBlock from './BodyBlock';
 import PageDescription from '../../common/views/components/PageDescription/PageDescription';
 

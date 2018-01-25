@@ -2,6 +2,12 @@ import type {OpeningHours} from './opening-hours';
 import {galleryOpeningHours} from './opening-hours';
 import {objToJsonLd} from '../utils/json-ld';
 
+type PostalAddress = {|
+  addressLocality: string;
+  postalCode: string;
+  streetAddress: string;
+|}
+
 export type Organization = {|
   name: string;
   url: string;
@@ -11,12 +17,6 @@ export type Organization = {|
   openingHoursSpecification: OpeningHours;
   address: PostalAddress;
   alternateUrl?: string;
-|}
-
-type PostalAddress = {|
-  addressLocality: string;
-  postalCode: string;
-  streetAddress: string;
 |}
 
 export const wellcomeCollectionAddress = {
