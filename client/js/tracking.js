@@ -25,7 +25,7 @@ const maybeTrackOutboundLinks = (hasAnalytics) => {
       // This means that we won't be *consistently* tracking external links
       // in IE11 and iOS Safari: https://caniuse.com/#feat=beacon
       // On balance, this is probably better than preventDefault-ing the link event,
-      // doing any tracking, then following the link programatically.
+      // doing any tracking, then following the link programmatically.
       ga('send', 'event', 'outbound', 'click', url, {'transport': 'beacon'});
     };
     return actuallyTrackLinks;
@@ -47,12 +47,38 @@ export const trackGaEvent = maybeTrackEvent(window.ga);
 
 export const trackOutboundLink = maybeTrackOutboundLinks(window.ga);
 
+// e.g:
+// [
+//  { ExhibitionPromo: {} },
+//  { WhatsOn: {active: 'tomorrow'} }
+// ]
+function getComponentList(el, componentList = []) {
+  const componentEl = el.closest('[data-component]');
+
+  if (componentEl) {
+    const componentName = componentEl.getAttribute('data-component');
+    const componentStateString = componentEl.getAttribute('data-component-state');
+    const componentState = componentStateString ? JSON.parse(componentStateString) : {};
+    const updatedComponentList = componentList.concat([{[componentName]: componentState}]);
+    if (componentEl.parentNode) {
+      return getComponentList(componentEl.parentNode, updatedComponentList)
+    }
+    return updatedComponentList;
+  } else {
+    return componentList;
+  }
+}
+
 export default {
   init: () => {
     // GA events
-    on('body', 'click', '[data-track-event]', ({ target }) => {
-      const el = target.closest('[data-track-event]');
-      trackGaEvent(JSON.parse(el.getAttribute('data-track-event')));
+    on('body', 'click', '[data-track-event]', (event) => {
+      const el = event.target.closest('[data-track-event]');
+      const trackData = JSON.parse(el.getAttribute('data-track-event'));
+      const componentList = getComponentList(el);
+      const componentListString = JSON.stringify(componentList);
+      const label = `${(trackData.label || '')},componentList:${componentListString}`;
+      trackGaEvent(Object.assign({}, trackData, {label}));
     });
 
     on('body', 'click', 'a', (event) => {
@@ -61,8 +87,21 @@ export default {
       const url = anchor.href;
       if (isExternal(url)) {
         trackOutboundLink(url);
+      } else {
+        // We set the component list data in localStorage,
+        // which we then retrieve on the next pageview,
+        // and pass along to GA there
+        const el = event.target.closest('[data-component]');
+        if (el) {
+          const componentList = getComponentList(el);
+          const componentListString = JSON.stringify(componentList);
+          if (componentList.length > 0) {
+            localStorage.setItem('wc_referring_component_list', componentListString);
+          }
+        }
       }
     });
   }
 };
+
 
