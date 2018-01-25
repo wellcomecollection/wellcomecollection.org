@@ -6,14 +6,14 @@ import {ArticleStubFactory} from '../model/article-stub';
 import {ArticleFactory} from '../model/article';
 
 export type ArticleStubsResponse = {|
-  length: number;
-  total: number;
-  data: List<ArticleStub>;
+  length: number,
+  total: number,
+  data: List<ArticleStub>
 |}
 
 const baseUri = 'https://public-api.wordpress.com/rest/v1.1/sites/blog.wellcomecollection.org';
 
-type WordpressQuery = {| page?: number; order?: string |};
+type WordpressQuery = {| page?: number, order?: string |};
 export async function getArticleStubs(size: number = 20, {page = 1, order = 'DESC'}: WordpressQuery = {}, q: string = ''): Promise<ArticleStubsResponse> {
   const uri = `${baseUri}/posts/`;
   const queryObj = constructQueryFromQueryString(q);

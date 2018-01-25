@@ -11,9 +11,9 @@ type OpeningHoursDay = {|
 export type OpeningHours = Array<OpeningHoursDay>;
 
 type Place = {|
-  id: string;
-  name: string;
-  openingHours: OpeningHours;
+  id: string,
+  name: string,
+  openingHours: OpeningHours
 |}
 
 export type PlacesOpeningHours = Array<Place>;
