@@ -16,7 +16,7 @@ export default class Component {
     return new nodes.CallExtension(this, 'run', args);
   };
 
-  run(_/* context */, name, model) {
+  run(_/* context */, name, model = {}) {
     const html = ReactDOMServer.renderToString(components[name](model));
     return new nunjucks.runtime.SafeString(html);
   };
