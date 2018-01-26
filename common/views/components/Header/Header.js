@@ -40,7 +40,7 @@ export default ({ links = [], siteSection }) => (
               action='https://wellcomecollection.org/search'
               method='post'>
           <div className='header__input-wrap js-show-hide-drawer'>
-            <label className='header__label' for='header-input'>Search</label>
+            <label className='header__label' htmlFor='header-input'>Search</label>
             <input id='header-input' className={`header__input ${font({s:'HNL3', m:'HNL2'})} js-header-input`} placeholder='Search' name='search' />
             {/* This is here as we're sending people back to V1, and drupal requires it */}
             {/* TODO: remove once we build our own search interface  */}
