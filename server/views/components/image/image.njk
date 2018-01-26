@@ -8,7 +8,6 @@
 {% else %}
   {% set loop = [1] %}
 {% endif %}
-
 <noscript>
   <img width="{{model.width}}" height="{{model.height}}" class="image image--noscript" src="{{ model.contentUrl | convertImageUri(640, useIiifOrigin) }}"
 alt="{% if model.alt %} {{ model.alt | striptags() }}{% elif model.caption %} {{ model.caption | striptags() }}{% endif %}" />
