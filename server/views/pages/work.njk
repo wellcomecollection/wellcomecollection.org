@@ -100,7 +100,7 @@
 
 
           <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
-            {% componentV2 'divider', null, {'pumice': true, 'keyline': true}, {extraClasses: [{s:1} | spacingClasses({margin: ['top', 'bottom']})]}  %}
+            {% componentJsx 'Divider', { modifiers: {'pumice': true, 'keyline': true}, extraClasses: [{s:1} | spacingClasses({margin: ['top', 'bottom']})] } %}
             <h2 class="
               {{ {s:'HNM4' , m:'HNM3'} | fontClasses }}
               {{ {s:2} | spacingClasses({margin: ['top']}) }}
