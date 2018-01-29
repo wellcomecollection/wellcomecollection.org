@@ -6,7 +6,10 @@ import {getEventbriteEventEmbed} from '../services/eventbrite';
 import {PromoFactory} from '../model/promo';
 import {collectorsPromo} from '../data/series';
 import {prismicAsText} from '../filters/prismic';
-import {getArticle, getSeriesAndArticles, getArticleList, getCuratedList} from '../services/prismic';
+import {
+  getArticle, getSeriesAndArticles, getArticleList, getCuratedList,
+  defaultPageSize
+} from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 
@@ -123,9 +126,9 @@ export async function renderExplore(ctx, next) {
 
 export async function renderWebcomicSeries(ctx, next) {
   const page = Number(ctx.request.query.page);
-  const pageSize = 20;
+  const pageSize = defaultPageSize;
   const {id} = ctx.params;
-  const seriesWebcomics = await getSeriesAndArticles(id, page, 'webcomics', pageSize);
+  const seriesWebcomics = await getSeriesAndArticles(id, page, 'webcomics');
 
   if (seriesWebcomics) {
     const {series, paginatedResults} = seriesWebcomics;
