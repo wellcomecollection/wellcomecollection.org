@@ -1,5 +1,5 @@
 // @flow
-import type {License} from '../../../model/license';
+import type {License, LicenseType} from '../../../model/license';
 
 export const name = 'License';
 export const status = 'graduated';
@@ -7,8 +7,12 @@ export const collated = true;
 
 const license = ({
   subject: 'image.jpg',
-  licenseType: 'CC-0'
+  licenseType: 'CC0'
 }: License);
+
+function createVariant(licenseType: LicenseType) {
+  return Object.assign({}, license, {licenseType: licenseType});
+};
 
 export const variants = [
   {
@@ -19,7 +23,7 @@ export const variants = [
   {
     name: 'CC BY',
     label: 'CC BY',
-    context: Object.assign({}, license, {licenseType: 'CC-BY'})
+    context: createVariant('CC-BY')
   },
   {
     name: 'CC BY-NC',
