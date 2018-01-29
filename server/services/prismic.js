@@ -44,7 +44,7 @@ const eventFields = [
   'audiences.title'
 ];
 
-const defaultPageSize = 40;
+export const defaultPageSize = 40;
 
 function london(d) {
   return moment.tz(d, 'Europe/London');
@@ -164,7 +164,7 @@ export async function getArticleSeries(seriesId) {
   }, {items: List(scheduleItems)}, {id: seriesId});
 }
 
-export async function getSeriesAndArticles(id: string, page: number = 1, contentType = 'articles', pageSize = 10) {
+export async function getSeriesAndArticles(id: string, page: number = 1, contentType = 'articles', pageSize = defaultPageSize) {
   const paginatedResults = await getArticleList(page, {
     predicates: [Prismic.Predicates.at(`my.${contentType}.series.series`, id)], pageSize
   });
