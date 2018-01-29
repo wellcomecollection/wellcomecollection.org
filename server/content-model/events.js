@@ -109,7 +109,7 @@ export type EventPromo = {|
   start: ?DateTimeRange,
   end: ?DateTimeRange,
   description: ?HTMLString,
-  format: ?string,
+  format: ?EventFormat,
   bookingType: ?string,
   image: ?Picture,
   interpretations: Array<Interpretation>,

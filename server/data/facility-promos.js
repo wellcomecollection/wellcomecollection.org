@@ -107,7 +107,12 @@ export const dailyTourPromo: EventPromo = {
   description: null,
   dateString: 'Every day',
   timeString: '11:30, 14:30, and 15:30',
-  format: 'Gallery tour',
+  format: {
+    id: 'WmYRpCQAACUAn-Ap',
+    title: 'Gallery tour',
+    shortName: null,
+    description: null
+  },
   bookingType: null,
   interpretations: [],
   image: {
