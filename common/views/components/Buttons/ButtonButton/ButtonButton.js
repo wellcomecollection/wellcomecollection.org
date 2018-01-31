@@ -5,7 +5,7 @@ import Icon from '../../Icon/Icon';
 
 type Props = {
   extraClasses?: string,
-  icon?: any, // TODO: use Icon type?
+  icon?: string,
   text: string,
   eventTracking?: string,
   id?: string

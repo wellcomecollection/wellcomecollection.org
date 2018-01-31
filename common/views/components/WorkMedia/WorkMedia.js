@@ -56,7 +56,7 @@ const WorkMedia = ({queryString, id, trackTitle, iiifModel, iiifData}: Props) =>
         </div>
       </div>
     }
-    <div id={`workd-media-${id}`} className="row bg-charcoal work-media js-work-media">
+    <div id={`work-media-${id}`} className="row bg-charcoal work-media js-work-media">
       <div className="pointer-events-none">
         <ScrollToInfo elementId='work-info' />
       </div>

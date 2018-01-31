@@ -148,9 +148,7 @@ function initWithRaven() {
 // If the DOM is not loading, we can init, else wait till we do
 const domNotLoading = document.readyState !== 'loading';
 if (domNotLoading) {
-  // initWithRaven();
-  init();
+  initWithRaven();
 } else {
-  // document.addEventListener('DOMContentLoaded', initWithRaven);
-  document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('DOMContentLoaded', initWithRaven);
 }
