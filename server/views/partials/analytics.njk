@@ -41,21 +41,25 @@ ga('set', 'dimension1', '2');
   ga('set', 'dimension6', '{{ pageConfig.contentType }}');
 {% endif %}
 
-{% if featuresCohort and featuresCohort !== 'default' %}
-  ga('set', 'dimension5', '{{ featuresCohort }}');
+{% if pageConfig.pageState %}
+  ga('set', 'dimension8', '{{ pageConfig.pageState | dump | safe }}');
 {% endif %}
-
 
 {% if pageConfig.gaExp %}
   ga('set', 'exp', '{{ pageConfig.gaExp }}');
 {% endif %}
 
 {# see `tracking.js` where this storage item is set #}
-var referringComponentListString = localStorage.getItem('wc_referring_component_list');
+var referringComponentListString = localStorage.getItem(' ');
 localStorage.removeItem('wc_referring_component_list');
 if (referringComponentListString) {
   ga('set', 'dimension7', referringComponentListString);
 }
+
+{# Test dimension #}
+{% if featuresCohort and featuresCohort !== 'default' %}
+  ga('set', 'dimension5', '{{ featuresCohort }}');
+{% endif %}
 
 ga('require', 'GTM-NXMJ6D9');
 ga('send', 'pageview');

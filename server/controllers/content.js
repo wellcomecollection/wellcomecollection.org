@@ -217,7 +217,7 @@ export async function renderArticlesList(ctx, next) {
       path: path,
       title: 'Articles',
       inSection: 'explore',
-      category: 'list'
+      category: 'editorial'
     }),
     list: promoList,
     pagination,
