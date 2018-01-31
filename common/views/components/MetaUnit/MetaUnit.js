@@ -53,8 +53,7 @@ export default ({headingLevel, headingText, text, links, includeDivider}) => {
      {renderParagraphs(text)}
      {renderLinksList(links)}
      {includeDivider &&
-      <Divider modifiers={ {'pumice': true, 'keyline': true} } extraClasses = {`${spacing({s:1}, {margin: ['top', 'bottom']})}`} />
-     }
+      <Divider modifiers={ {'pumice': true, 'keyline': true} } extraClasses = {`${spacing({s:1}, {margin: ['top', 'bottom']})}`} />}
     </div>
   )
 };
