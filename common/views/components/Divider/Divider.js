@@ -1,5 +1,7 @@
-import {withModifiers} from '../../../utils/classnames';
+type Props = {|
+  extraClasses?: string
+|}
 
 export default ({modifiers, extraClasses = []}) => (
-  <hr className={`${withModifiers('divider', modifiers)} ${extraClasses.join(' ')}`} />
+  <hr className={`divider ${extraClasses}`} />
 );
