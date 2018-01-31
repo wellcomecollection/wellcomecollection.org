@@ -8,7 +8,7 @@ type Props = {|
   height?: string,
   contentUrl: string,
   clipPathClass?: string,
-  alt?: string,
+  alt: string,
   caption?: string,
   lazyload: ?boolean,
   sizesQueries?: string,
@@ -16,7 +16,7 @@ type Props = {|
   defaultSize?: number
 |}
 
-const Image = ({width, height, contentUrl, clipPathClass, alt, caption, lazyload, sizesQueries = '100vw', copyright, defaultSize = 30}: Props) => (
+const Image = ({width, height, contentUrl, clipPathClass, alt = '', caption, lazyload, sizesQueries = '100vw', copyright, defaultSize = 30}: Props) => (
   <div className="work-media__image-container">
     <noscript>
       <img width={width}
@@ -53,7 +53,7 @@ const imageMarkup = (width, height, clipPathClass, lazyload, defaultSize, conten
   return clipPathClass ? [
     baseMarkup(),
     baseMarkup(true)]
-  : baseMarkup();
+    : baseMarkup();
 };
 
 export default Image;
