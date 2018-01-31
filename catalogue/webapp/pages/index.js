@@ -17,7 +17,7 @@ export default () => (
       <style dangerouslySetInnerHTML={{ __html: criticalCss }} />
       <h1>Catalogue</h1>
       <MoreInfoLink url="https://wellcomecollection.org" name="Feed me Symour" />
-      <Divider modifiers={ {'pumice': true, 'keyline': true} } extraClasses = {['margin-top-s1', 'margin-bottom-s1']} />
+      <Divider extraClasses='divider--pumice divider--keyline margin-top-s1 margin-bottom-s1' />
       <BackToTop trackId='pageUrl' />
       <License subject='image.jpg' licenseType='CC-BY-NC-ND' />
     </div>
