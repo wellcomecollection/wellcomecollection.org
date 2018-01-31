@@ -1,3 +1,4 @@
+export const status = 'graduated';
 export const label = 'Work media';
 export const preview = '@preview-no-container';
 export const context = {
