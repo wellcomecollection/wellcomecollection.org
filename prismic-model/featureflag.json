@@ -1,5 +1,5 @@
 {
-  "Main" : {
+  "Feature flag" : {
     "flagName" : {
       "config" : {
         "label" : "Flag name"
