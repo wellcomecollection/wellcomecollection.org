@@ -4,6 +4,7 @@ import License from '../License/License';
 import MetaUnit from '../MetaUnit/MetaUnit';
 import MoreInfoLink from '../MoreInfoLink/MoreInfoLink';
 import PageDescription from '../PageDescription/PageDescription';
+import WorkDrawer from '../WorkDrawer/WorkDrawer';
 
 export {
   BackToTop,
@@ -11,5 +12,6 @@ export {
   License,
   MetaUnit,
   MoreInfoLink,
-  PageDescription
+  PageDescription,
+  WorkDrawer
 };
