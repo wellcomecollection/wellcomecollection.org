@@ -6,6 +6,7 @@ h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
 })(window,document.documentElement,'async-hide','dataLayer',4000,
 {'GTM-NXMJ6D9':true});
 </script>
+
 <script>
 {# Google Analytics #}
 {#
@@ -40,6 +41,11 @@ ga('set', 'dimension1', '2');
   ga('set', 'dimension6', '{{ pageConfig.contentType }}');
 {% endif %}
 
+{% if featuresCohort and featuresCohort !== 'default' %}
+  ga('set', 'dimension5', '{{ featuresCohort }}');
+{% endif %}
+
+
 {% if pageConfig.gaExp %}
   ga('set', 'exp', '{{ pageConfig.gaExp }}');
 {% endif %}
@@ -48,7 +54,7 @@ ga('set', 'dimension1', '2');
 var referringComponentListString = localStorage.getItem('wc_referring_component_list');
 localStorage.removeItem('wc_referring_component_list');
 if (referringComponentListString) {
-  ga('set', 'dimension5', referringComponentListString);
+  ga('set', 'dimension7', referringComponentListString);
 }
 
 ga('require', 'GTM-NXMJ6D9');
