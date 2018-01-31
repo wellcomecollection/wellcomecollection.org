@@ -7,7 +7,7 @@
     "lint:scss": "cd client && gulp scss:lint",
     "lint:js": "eslint --fix server client",
     "lint": "npm run lint:scss && npm run lint:js",
-    "prepush": "npm run lint",
+    "precommit": "lint-staged",
     "test": "./test.sh server"
   },
   "repository": {
@@ -31,8 +31,12 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-react": "^7.5.1",
     "eslint-plugin-standard": "^3.0.1",
-    "husky": "^0.14.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^6.1.0",
     "nodemon": "^1.12.1"
   },
-  "dependencies": {}
+  "lint-staged": {
+    "*.js": ["lint:js", "git add"],
+    "*.css": ["lint:scss", "git add"]
+  }
 }
