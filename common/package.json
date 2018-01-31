@@ -9,6 +9,7 @@
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-plugin-wrap-in-js": "^1.1.1",
     "babel-preset-env": "^1.6.1",
+    "immutable": "^3.8.2",
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
     "react": "^16.2.0"

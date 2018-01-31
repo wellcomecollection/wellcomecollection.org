@@ -50,7 +50,8 @@ const createImageViewer = (viewer) => {
     const launchImageViewerButton = viewer.querySelector('.js-image-viewer__launch-button');
     const exitImageViewerButton = viewer.querySelector('.js-image-viewer__exit-button');
     const pageTitle = document.title;
-    const workId = window.location.pathname.match(/\/works\/(.+)/)[1];
+    const workId = viewer.getAttribute('id');
+
     fastdom.mutate(() => {
       viewer.style.display = 'block';
     });

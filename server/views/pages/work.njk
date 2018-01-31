@@ -21,7 +21,8 @@
 
   {% set iiifModel = {contentUrl: work.imgLink, caption: work.description, width: work.imgWidth} %}
   {% set iiifData = {infoUrl: work.imgInfo, lazyload: true, sizesQueries: '(min-width: 860px) 800px, calc(92.59vw + 22px)'} %}
-  {% componentV2 'work-media', {id: id, queryString: queryString, iiifModel: iiifModel, iiifData: iiifData, trackTitle: work.title | truncate(50)} %}
+  {% componentJsx 'WorkMedia', {id: id, queryString: queryString, iiifModel: iiifModel, iiifData: iiifData, trackTitle: work.title | truncate(50)} %} {# TODO: we'll have to truncate this ourselves when we switch #}
+
 
   <div class="row {{ {s:6} | spacingClasses({padding: ['top', 'bottom']}) }}">
     <div class="container">
