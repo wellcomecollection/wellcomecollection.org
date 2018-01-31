@@ -57,7 +57,7 @@
             {title: 'Credit', content: work.attribution}
           ] %}
 
-          {% componentV2 'work-drawer', {id: 'work-using-image', heading: 'Using this image'}, null, {data: usingThisImageData, topDivider: true} %}
+          {% componentJsx 'WorkDrawer', {data: usingThisImageData} %}
         </div>
 
         <div class="{{ {s: 12, m: 10, shiftM:1, l: 5, xl: 5} | gridClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}">
