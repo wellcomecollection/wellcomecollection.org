@@ -6,7 +6,10 @@ import {getEventbriteEventEmbed} from '../services/eventbrite';
 import {PromoFactory} from '../model/promo';
 import {collectorsPromo} from '../data/series';
 import {prismicAsText} from '../filters/prismic';
-import {getArticle, getSeriesAndArticles, getArticleList, getCuratedList} from '../services/prismic';
+import {
+  getArticle, getSeriesAndArticles, getArticleList, getCuratedList,
+  defaultPageSize
+} from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 
@@ -123,8 +126,9 @@ export async function renderExplore(ctx, next) {
 
 export async function renderWebcomicSeries(ctx, next) {
   const page = Number(ctx.request.query.page);
+  const pageSize = defaultPageSize;
   const {id} = ctx.params;
-  const seriesWebcomics = await getSeriesAndArticles(id, 1, 'webcomics');
+  const seriesWebcomics = await getSeriesAndArticles(id, page, 'webcomics');
 
   if (seriesWebcomics) {
     const {series, paginatedResults} = seriesWebcomics;
@@ -132,12 +136,12 @@ export async function renderWebcomicSeries(ctx, next) {
       url: `/webcomic-series/${series.id}`,
       name: series.name,
       description: series.description,
-      items: List(paginatedResults.results.reverse()),
+      items: List(paginatedResults.results),
       total: paginatedResults.totalResults
     };
 
     const promoList = PromoListFactory.fromSeries(pageSeries);
-    const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1);
+    const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1, pageSize);
     const path = ctx.request.url;
 
     ctx.render('pages/list', {
