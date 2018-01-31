@@ -10,7 +10,7 @@
 {% block drawerBody %}
   {% for item in data.data %}
     <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-      {% componentV2 'meta-unit', {headingText: item.title, content: item.content} %}
+      {% componentJsx 'MetaUnit', {headingText: item.title, text: item.content} %}
     </div>
   {% endfor %}
 {% endblock %}
