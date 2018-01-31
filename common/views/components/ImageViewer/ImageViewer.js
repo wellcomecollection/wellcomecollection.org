@@ -9,11 +9,11 @@ const commonBtnTracking = (id, trackTitle) => {
   return `"category": "component", "label": "id:${id}', title:${trackTitle}"`;
 };
 
-type Props = {
+type Props = {|
   id: string,
   trackTitle: string,
   imageUrl: string
-}
+|}
 
 const ImageViewer = ({id, trackTitle, imageUrl}: Props) => (
   <div className="js-image-viewer image-viewer">

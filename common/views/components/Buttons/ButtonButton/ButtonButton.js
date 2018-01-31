@@ -3,13 +3,13 @@
 import {font} from '../../../../utils/classnames';
 import Icon from '../../Icon/Icon';
 
-type Props = {
+type Props = {|
   extraClasses?: string,
   icon?: string,
   text: string,
   eventTracking?: string,
   id?: string
-}
+|}
 
 const ButtonButton = ({id, extraClasses, icon, text, eventTracking}: Props) => (
   <button
