@@ -3,10 +3,14 @@ import clock from './clock';
 import chevron from './chevron';
 import cross from './cross';
 import search from './search';
+import zoomIn from './zoom-in';
+import zoomOut from './zoom-out';
 export {
   arrow,
   chevron,
   clock,
   cross,
-  search
+  search,
+  zoomIn,
+  zoomOut
 };
