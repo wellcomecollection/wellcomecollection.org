@@ -109,7 +109,7 @@
                 Share
             </h2>
             {% set copyUrl = pageConfig.organization.url + pageConfig.canonicalUri %}
-            {% componentV2 'copy-url', {id: work.id, url: copyUrl} %}
+            {% componentJsx 'CopyUrl', {id: work.id, url: copyUrl} %}
           </div>
         </div>
       </div>
