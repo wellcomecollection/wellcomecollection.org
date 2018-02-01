@@ -1,5 +1,5 @@
 {
-  "Main" : {
+  "Feature cohort" : {
     "cohortName" : {
       "type" : "Text",
       "config" : {

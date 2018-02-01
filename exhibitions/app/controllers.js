@@ -1,4 +1,3 @@
-// @flow
 import {model, prismic} from 'common';
 const {createPageConfig} = model;
 const {

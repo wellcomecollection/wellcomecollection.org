@@ -1,5 +1,5 @@
 {
-  "Main" : {
+  "Person" : {
     "name" : {
       "config" : {
         "label" : "Full name",
