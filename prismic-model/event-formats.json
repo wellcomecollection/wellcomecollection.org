@@ -1,5 +1,5 @@
 {
-  "Main" : {
+  "Event format" : {
     "title" : {
       "type" : "StructuredText",
       "config" : {
