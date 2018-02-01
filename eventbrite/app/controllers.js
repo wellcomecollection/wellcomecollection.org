@@ -33,6 +33,23 @@ async function getEventbriteEventTickets(id: string) {
   return tickets;
 }
 
+export async function renderEventbriteTicketStatus(ctx, next) {
+  const id = ctx.params.id;
+  const tickets = await getEventbriteEventTickets(id);
+
+  const standardTicket = tickets.find(ticket => ticket.ticketType === 'standard');
+  if (standardTicket) {
+    ctx.render('components/eventbrite-button/eventbrite-ticket-status', {
+      ticket: standardTicket
+    });
+
+    ctx.body = {
+      html: ctx.body
+    };
+  }
+  return next();
+}
+
 export async function renderEventbriteButton(ctx, next) {
   const id = ctx.params.id;
   const tickets = await getEventbriteEventTickets(id);
