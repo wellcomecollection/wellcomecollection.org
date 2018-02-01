@@ -50,7 +50,7 @@ ga('set', 'dimension1', '2');
 {% endif %}
 
 {# see `tracking.js` where this storage item is set #}
-var referringComponentListString = localStorage.getItem(' ');
+var referringComponentListString = localStorage.getItem('wc_referring_component_list');
 localStorage.removeItem('wc_referring_component_list');
 if (referringComponentListString) {
   ga('set', 'dimension7', referringComponentListString);
