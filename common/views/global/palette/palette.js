@@ -1,8 +1,8 @@
 // @flow
 
 type Props = {|
-  primary: {|name: string, hex: string|},
-  secondary: {|name: string, hex: string|}
+  primary: Array<{|name: string, hex: string|}>,
+  secondary: Array<{|name: string, hex: string|}>
 |}
 
 function colorBlock(name, hex) {
