@@ -5,8 +5,10 @@ import cross from './cross';
 import search from './search';
 import zoomIn from './zoom-in';
 import zoomOut from './zoom-out';
+import check from './check';
 export {
   arrow,
+  check,
   chevron,
   clock,
   cross,
