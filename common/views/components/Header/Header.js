@@ -53,12 +53,12 @@ const Header = ({ links = [], siteSection }: Props) => (
             </div>
             <button className={`header__button ${font({s: 'WB7'})} js-show-hide-trigger  js-trap-reverse-start`}>
               <span className='header__button-inner'>
-                <Icon name='search' extraClasses={['header__search-button']} />
+                <Icon name='search' extraClasses='header__search-button' />
                 <span className='header__button-text'>Search</span>
               </span>
             </button>
             <span role='button' aria-controls='header-input' className='header__close-search js-header-close-search'>
-              <Icon name='cross' title={['Close search box']} />
+              <Icon name='cross' title='Close search box' />
             </span>
           </form>
         </div>

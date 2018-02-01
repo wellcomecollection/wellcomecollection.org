@@ -63,7 +63,7 @@ const DocsPrinciples = ({pageSections, supportedBrowsers}: Props) => (
               </div>
             : <div dangerouslySetInnerHTML={{__html: pageSection.content}} />
           }
-          <sup><Icon name='arrow' extraClasses={['icon--270']} /></sup><a href='#index'>Back to top</a>
+          <sup><Icon name='arrow' extraClasses='icon--270' /></sup><a href='#index'>Back to top</a>
         </div>
       ))}
     </BodyBlock>
