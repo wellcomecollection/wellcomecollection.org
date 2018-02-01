@@ -12,6 +12,7 @@
     "immutable": "^3.8.2",
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
-    "react": "^16.2.0"
+    "react": "^16.2.0",
+    "url-template": "^2.0.8"
   }
 }

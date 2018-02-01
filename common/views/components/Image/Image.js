@@ -4,7 +4,7 @@ import {convertImageUri} from '../../../utils/convert-image-uri';
 import {imageSizes} from '../../../utils/image-sizes';
 
 type Props = {|
-  width: string,
+  width: number,
   height?: string,
   contentUrl: string,
   clipPathClass?: string,
