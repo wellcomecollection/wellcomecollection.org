@@ -1,21 +1,21 @@
 import getLicenseInfo from '../../../utils/get-license-info';
 import {spacing, font} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
+import LicenseType from '../../../model/license';
 
-function renderAboutAttr(subject) {
-  if(subject) {
-    return `about='${subject}`;
-  }
-}
+type Props = {|
+  subject: string,
+  licenseType: LicenseType
+|}
 
-function renderIcons(icons = []) {
+function renderIcons(icons) {
   return icons.map((i) => (
     <Icon key={i} name={i} extraClasses={['v-align-middle', 'margin-right-s1']} />
   ));
 };
 
-function renderLicenseLink(url, icons = [], text = '') {
-  if(url) {
+function renderLicenseLink(url, icons, text) {
+  if (url) {
    return (
       <a className={`flex plain-link ${font({s:'LR2'})}`} rel='license' href={url}>
         {renderIcons(icons)}
@@ -32,7 +32,7 @@ function renderLicenseLink(url, icons = [], text = '') {
   }
 }
 
-export default ({subject = '', licenseType = 'CC-BY'}) => {
+export default ({subject, licenseType}: Props) => {
   const licenseInfo = getLicenseInfo(licenseType) ? getLicenseInfo(licenseType) : {};
   return (
     <div>
@@ -41,11 +41,9 @@ export default ({subject = '', licenseType = 'CC-BY'}) => {
           <p className={`${font({s:'HNL5' , m:'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>{licenseInfo.description}</p>
         </div>
       }
-      <span className={`${font({s:'LR2'})} ${renderAboutAttr(subject)}`}>
+      <span className={`${font({s:'LR2'})}`} about={subject}>
         {renderLicenseLink(licenseInfo.url, licenseInfo.icons, licenseInfo.text)}
       </span>
       </div>
     );
   };
-
-
