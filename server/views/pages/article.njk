@@ -21,7 +21,7 @@
         <script>
           window.isDigitalStory = true;
         </script>
-        <div data-component="DigitalStoryNavTop">
+        <div data-component="DigitalStoryNavTop" class="inline"> {# `display: inline` allows sticky nav to stick #}
           {% set asyncContentEndpoint = '/series-nav/' + series.url + '?current=' + article.url %}
           {% component 'async', { endpoint: asyncContentEndpoint, component: 'series-nav' } %}
         </div>
