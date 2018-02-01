@@ -23,7 +23,7 @@ const CopyUrl = ({id, url}: Props) => (
       data-copy-text={url}
       data-track-event={`{"category": "component", "action": "copy-url:click", "label": "id:${id}"}`}
       className={`${spacing({s: 2}, {margin: ['top']})} ${font({s: 'HNM5', m: 'HNM4'})} btn btn--light is-hidden js-copy-url pointer`}>
-      <Icon name='check' extraClasses='icon--black is-hidden' />
+      <Icon name='check' extraClasses={['icon--black', 'is-hidden']} />
       <span className='js-copy-text'>Copy link</span>
     </button>
   </div>

@@ -4,18 +4,29 @@ import {font, spacing} from '../../../utils/classnames';
 
 type Props = {|
   id: string,
-  fontStyles: {},
   type: string,
-  name: string,
-  placeholder: string,
   value: string,
+  label: string,
+  fontStyles: {},
+  name?: string,
+  placeholder?: string,
   disabled?: boolean,
   autofocus?: boolean,
-  label: string,
   isLabelHidden?: boolean
 |}
 
-const HTMLInput = ({id, fontStyles = {s: 'HNL3', m: 'HNL2'}, type, name, value, placeholder, disabled, autofocus, label, isLabelHidden}: Props) => (
+const HTMLInput = ({
+  id,
+  type,
+  name,
+  value,
+  placeholder,
+  disabled,
+  autofocus,
+  label,
+  isLabelHidden,
+  fontStyles = {s: 'HNL3', m: 'HNL2'}
+}: Props) => (
   <label className="input__label flex flex--v-center" htmlFor={id}>
     <input id={id}
       className={`input input--${type} ${font(fontStyles)} js-input`}
@@ -30,7 +41,7 @@ const HTMLInput = ({id, fontStyles = {s: 'HNL3', m: 'HNL2'}, type, name, value, 
       <span className={`input__control-indicator input__control-indicator--${type}`}></span>
     }
 
-    <span className={`input__label-wrap ${spacing({s: 1}, {margin: ['left']})} ${isLabelHidden && 'input__label-wrap--hidden'}`}>
+    <span className={`input__label-wrap ${spacing({s: 1}, {margin: ['left']})} ${isLabelHidden ? 'input__label-wrap--hidden' : ''}`}>
       {label}
     </span>
   </label>
