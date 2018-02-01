@@ -34,7 +34,7 @@ function renderLicenseLink(url, icons, text) {
   }
 }
 
-export default ({subject, licenseType}: Props) => {
+const License = ({subject, licenseType}: Props) => {
   const licenseInfo = getLicenseInfo(licenseType) ? getLicenseInfo(licenseType) : {};
   return (
     <div>
@@ -49,3 +49,5 @@ export default ({subject, licenseType}: Props) => {
     </div>
   );
 };
+
+export default License;

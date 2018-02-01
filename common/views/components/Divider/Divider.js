@@ -2,6 +2,8 @@ type Props = {|
   extraClasses?: string
 |}
 
-export default ({extraClasses}) => (
+const Divider = ({extraClasses}: Props) => (
   <hr className={`divider ${extraClasses || ''}`} />
 );
+
+export default Divider;
