@@ -30,9 +30,7 @@
   {% set whatsOnData = {activeId: exhibitionAndEventPromos.active, id: 'whatsOnFilter' } %}
   {% componentV2 'whats-on-list-header', exhibitionAndEventPromos.listHeader, {}, whatsOnData %}
 
-  <div class="css-grid__container"
-       data-component="WhatsOn"
-       data-component-state="{{ {active:exhibitionAndEventPromos.active} | dump }}">
+  <div class="css-grid__container">
     <div class="css-grid {{ {s:2, m:4} | spacingClasses({margin: ['top', 'bottom']}) }}">
 
       {% if exhibitionAndEventPromos.active === 'everything' %}

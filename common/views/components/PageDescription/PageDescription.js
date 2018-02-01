@@ -18,21 +18,21 @@ type Props = {|
 
 function renderMeta({type, value}) {
   return type === 'date'
-    ? [<Icon key="1" name='clock' extraClasses={['margin-right-s1']} />, <span key="2">{formatDate(value)}</span>]
+    ? [<Icon key="1" name='clock' extraClasses={['margin-right-s1']} />, <span key="2">{formatDate(new Date(value))}</span>]
     : [value];
 }
 
 const PageDescription = ({lead, title, meta, intro, icon, modifiers}: Props) => (
   <header className={withModifiers('page-description', modifiers)}>
-    <div className={`row page-description__row ${lead && 'row--lead row--lead--l'}`}>
+    <div className={`row page-description__row ${lead ? 'row--lead row--lead--l' : ''}`}>
       <div className='container page-description__container'>
         <div className='grid'>
           <div className={`
             ${grid({s: 12, m: 10, shiftM: 1})}
             ${lead
-              ? grid({l: 11, shiftL: 1, xl: 10, shiftXl: 1})
-              : grid({l: 12, xl: 11})
-            }`}>
+    ? grid({l: 11, shiftL: 1, xl: 10, shiftXl: 1})
+    : grid({l: 12, xl: 11})
+  }`}>
             {intro &&
               <span className={`
               page-description__intro
@@ -54,7 +54,7 @@ const PageDescription = ({lead, title, meta, intro, icon, modifiers}: Props) => 
           <div className='grid'>
             <div className={`
               ${grid({shiftM: 1})}
-              ${lead && grid({shiftL: 1, shiftXl: 1})}
+              ${lead ? grid({shiftL: 1, shiftXl: 1}) : ''}
             `}>
               <span className={`page-description__subtext ${font({s: 'HNL5'})}`}>
                 {renderMeta(meta)}

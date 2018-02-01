@@ -23,7 +23,10 @@ export async function renderWhatsOn(ctx, next) {
       inSection: 'whatson',
       category: 'public-programme',
       contentType: 'list',
-      canonicalUri: '/whats-on'
+      canonicalUri: '/whats-on',
+      pageState: {
+        dateRangeName: exhibitionAndEventPromos.active
+      }
     }),
     exhibitionAndEventPromos,
     whileVisitPromos: [readingRoomPromo, spiritBoothPromo],

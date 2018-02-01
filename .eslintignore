@@ -6,3 +6,4 @@
 /client/js/polyfills.js
 /server/prismic-export.js
 /server/prismic-export-app.js
+/flow-typed/

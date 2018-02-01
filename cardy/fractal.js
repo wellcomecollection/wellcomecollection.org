@@ -42,6 +42,7 @@ const cardiganTheme = mandelbrot({
 
 cardiganTheme.addLoadPath(dir('cardigan-theme'));
 cardiganTheme.addStatic(dir('cardigan-theme'), '/cardigan-theme');
+cardiganTheme.addStatic(dir('./../dist/assets/js/'), '/dist-js');
 cardiganTheme.addStatic(dir('./../dist/assets/css/'), '/dist-styles');
 fractal.web.theme(cardiganTheme);
 

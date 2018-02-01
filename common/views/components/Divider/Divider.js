@@ -3,5 +3,5 @@ type Props = {|
 |}
 
 export default ({extraClasses}) => (
-  <hr className={`divider ${extraClasses}`} />
+  <hr className={`divider ${extraClasses ? extraClasses : ''}`} />
 );

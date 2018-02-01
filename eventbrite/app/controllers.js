@@ -1,4 +1,3 @@
-// @flow
 import {eventbritePersonalOauthToken} from './config';
 import superagent from 'superagent';
 import {formatDate} from 'common/filters/format-date';
@@ -19,13 +18,13 @@ async function getEventbriteEventTickets(id: string) {
 
   const tickets = eventTickets.body.ticket_classes.map(ticketClass => {
     const onSaleStatus =
-      ticketClass.on_sale_status === 'AVAILABLE' ? 'available' :
-      ticketClass.on_sale_status === 'SOLD_OUT' ? 'sold_out' :
-      ticketClass.on_sale_status === 'NOT_YET_ON_SALE' ? 'not_yet_on_sale' : 'unavailable';
+      ticketClass.on_sale_status === 'AVAILABLE' ? 'available'
+        : ticketClass.on_sale_status === 'SOLD_OUT' ? 'sold_out'
+          : ticketClass.on_sale_status === 'NOT_YET_ON_SALE' ? 'not_yet_on_sale' : 'unavailable';
     const ticketClassName = ticketClass.name.toLowerCase();
     const ticketType: TicketType =
-      ticketClassName.startsWith('waiting list') ? 'waitinglist' :
-      ticketClassName.startsWith('comp ') ? 'comp' : 'standard';
+      ticketClassName.startsWith('waiting list') ? 'waitinglist'
+        : ticketClassName.startsWith('comp ') ? 'comp' : 'standard';
     const saleStarts = formatDate(new Date(ticketClass.sales_start));
 
     return ({onSaleStatus, ticketType, saleStarts, eventbriteId: ticketClass.event_id}: Ticket);

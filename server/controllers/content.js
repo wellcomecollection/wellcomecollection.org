@@ -6,7 +6,10 @@ import {getEventbriteEventEmbed} from '../services/eventbrite';
 import {PromoFactory} from '../model/promo';
 import {collectorsPromo} from '../data/series';
 import {prismicAsText} from '../filters/prismic';
-import {getArticle, getSeriesAndArticles, getArticleList, getCuratedList} from '../services/prismic';
+import {
+  getArticle, getSeriesAndArticles, getArticleList, getCuratedList,
+  defaultPageSize
+} from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 
@@ -59,7 +62,7 @@ async function getPreviewSession(token) {
         case 'articles'    : return `/preview/articles/${doc.id}`;
         case 'webcomics'   : return `/preview/articles/${doc.id}`;
         case 'exhibitions' : return `/exhibitions/${doc.id}/preview`;
-        case 'events' : return `/preview/events/${doc.id}`;
+        case 'events' : return `/events/${doc.id}/preview`;
         // We don't use a `/preview` prefix here.
         // It's just a way for editors to get to the content via Prismic
         case 'series' : return `/series/${doc.id}`;
@@ -123,9 +126,9 @@ export async function renderExplore(ctx, next) {
 
 export async function renderWebcomicSeries(ctx, next) {
   const page = Number(ctx.request.query.page);
-  const pageSize = 20;
+  const pageSize = defaultPageSize;
   const {id} = ctx.params;
-  const seriesWebcomics = await getSeriesAndArticles(id, page, 'webcomics', pageSize);
+  const seriesWebcomics = await getSeriesAndArticles(id, page, 'webcomics');
 
   if (seriesWebcomics) {
     const {series, paginatedResults} = seriesWebcomics;
@@ -214,7 +217,7 @@ export async function renderArticlesList(ctx, next) {
       path: path,
       title: 'Articles',
       inSection: 'explore',
-      category: 'list'
+      category: 'editorial'
     }),
     list: promoList,
     pagination,
