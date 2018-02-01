@@ -13,7 +13,7 @@ type Props = {|
   |},
   intro?: string,
   icon?: string,
-  modifiers?: Array<string>
+  modifiers?: {[string]: string}
 |};
 
 function renderMeta({type, value}) {
