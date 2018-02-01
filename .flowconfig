@@ -1,6 +1,12 @@
 [ignore]
 .*/node_modules/**.*
 .*/.dist/**.*
+💩 This is just while we trim this down to be exactly that, a server
+.*/server/**.*
+💩 This is because we'll be deprecating client JS with isomorphic ReactJS
+.*/client/**.*
+💩 This is because there's still work todo
+.*/cardy/**.*
 
 [include]
 
