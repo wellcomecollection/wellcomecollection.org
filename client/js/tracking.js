@@ -50,7 +50,7 @@ export const trackOutboundLink = maybeTrackOutboundLinks(window.ga);
 // e.g:
 // [
 //  { ExhibitionPromo: {} },
-//  { WhatsOn: {active: 'tomorrow'} }
+//  { Page: {active: 'tomorrow'} } // <= this will always be set
 // ]
 function getComponentList(el, componentList = []) {
   const componentEl = el.closest('[data-component]');
@@ -71,12 +71,13 @@ function getComponentList(el, componentList = []) {
 
 export default {
   init: () => {
+    const pageState = document.body.getAttribute('data-page-state') ? JSON.parse(document.body.getAttribute('data-page-state')) : {};
     // GA events
     on('body', 'click', '[data-track-event]', (event) => {
       const el = event.target.closest('[data-track-event]');
       const trackData = JSON.parse(el.getAttribute('data-track-event'));
       const componentList = getComponentList(el);
-      const componentListString = JSON.stringify(componentList);
+      const componentListString = JSON.stringify(componentList.concat([{Page: pageState}]));
       const label = `${(trackData.label || '')},componentList:${componentListString}`;
       trackGaEvent(Object.assign({}, trackData, {label}));
     });
@@ -94,7 +95,7 @@ export default {
         const el = event.target.closest('[data-component]');
         if (el) {
           const componentList = getComponentList(el);
-          const componentListString = JSON.stringify(componentList);
+          const componentListString = JSON.stringify(componentList.concat([{Page: pageState}]));
           if (componentList.length > 0) {
             window.localStorage.setItem('wc_referring_component_list', componentListString);
           }

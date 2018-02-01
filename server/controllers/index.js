@@ -50,7 +50,7 @@ export const articles = async(ctx, next) => {
       path: path,
       title: 'Articles',
       inSection: 'explore',
-      category: 'list'
+      category: 'editorial'
     }),
     list: promoList,
     pagination
@@ -73,7 +73,7 @@ export const series = async(ctx, next) => {
         path: path,
         title: series.name,
         inSection: 'explore',
-        category: 'list',
+        category: 'editorial',
         seriesUrl: id
       }),
       list: promoList,

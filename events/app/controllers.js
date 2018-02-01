@@ -2,12 +2,6 @@ import {model, prismic} from 'common';
 const {createPageConfig} = model;
 const {getPaginatedEventPromos} = prismic;
 
-// used to attach some view specific logic
-type EventInfo = {|
-  isDropIn: boolean;
-  eventbriteId: ?string;
-|};
-
 export async function renderEvent(ctx, next) {
   const id = `${ctx.params.id}`;
   const format = ctx.request.query.format;
@@ -60,7 +54,7 @@ export async function renderEventsList(ctx, next) {
       path: ctx.request.url,
       title: 'Events',
       inSection: 'whatson',
-      category: 'list', // TODO: update to team (ev&ex)
+      category: 'public-programme',
       contentType: 'event', // TODO: add pageType (list)
       canonicalUri: '/events'
     }),

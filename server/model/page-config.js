@@ -6,16 +6,17 @@ import {wellcomeCollection} from './organization';
 
 // TODO: Make this a strict object, but then we have problems with Object.assign...
 export type PageConfig = {
-  path: string;
-  title: string;
-  inSection?: string;
-  openingHours?: PlacesOpeningHours;
-  organization?: Organization;
-  category?: 'editorial' | 'list' | 'info' | 'item';
-  series?: ?string;
-  positionInSeries?: ?number;
-  contentType?: ?string;
-  canonicalUri?: ?string;
+  path: string,
+  title: string,
+  inSection?: string,
+  openingHours?: PlacesOpeningHours,
+  organization?: Organization,
+  category?: 'editorial' | 'public-programme' | 'collections',
+  series?: ?string,
+  positionInSeries?: ?number,
+  contentType?: ?string,
+  canonicalUri?: ?string,
+  pageState?: Object
 };
 
 export function createPageConfig(data: PageConfig) {
