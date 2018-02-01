@@ -10,7 +10,7 @@ export default ({data}: Props) => {
     <div className='drawer js-show-hide'
       data-track-action='drawer'
       data-track-label='id:work-using-image, section:Using this image'>
-      <Divider modifiers={ {'black': true, 'keyline': true} } extraClasses={`${spacing({s:1}, {margin: ['top', 'bottom']})}`} />
+      <Divider extraClasses={`divider--black divider--keyline ${spacing({s:1}, {margin: ['top', 'bottom']})}`} />
       <button className={`drawer__header plain-button ${spacing({s:0},{padding:['left', 'right']})} ${spacing({s:2},{padding: ['top', 'bottom']})} js-show-hide-trigger ${font({s:'LR2'})}`}>
         <span className='flex flex--v-center flex--h-space-between'>
           <div className='drawer__heading'>Using this image</div>
@@ -22,7 +22,7 @@ export default ({data}: Props) => {
       <div className={`drawer__body ${spacing({s:2},{padding: ['top', 'bottom']})} js-show-hide-drawer ${font({s:'HNL5', m:'HNL4'})}`}>
         {drawerContent}
       </div>
-      <Divider modifiers={ {'black': true, 'keyline': true} } />
+      <Divider extraClasses='divider--black divider--keyline' />
     </div>
   );
 }
