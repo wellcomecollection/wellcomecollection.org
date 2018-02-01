@@ -1,6 +1,7 @@
 [ignore]
 .*/node_modules/config-chain/test/broken.json
 .*/.dist/**.*
+.*/common/**.*
 
 [include]
 .*/node_modules/immutable/dist/immutable.js.flow
