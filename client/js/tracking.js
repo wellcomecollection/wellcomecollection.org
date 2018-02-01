@@ -93,12 +93,10 @@ export default {
         // which we then retrieve on the next pageview,
         // and pass along to GA there
         const el = event.target.closest('[data-component]');
-        if (el) {
-          const componentList = getComponentList(el);
-          const componentListString = JSON.stringify(componentList.concat([{Page: pageState}]));
-          if (componentList.length > 0) {
-            window.localStorage.setItem('wc_referring_component_list', componentListString);
-          }
+        const componentList = (el ? getComponentList(el) : []).concat([{Page: pageState}]);
+        const componentListString = JSON.stringify(componentList);
+        if (componentList.length > 0) {
+          window.localStorage.setItem('wc_referring_component_list', componentListString);
         }
       }
     });
