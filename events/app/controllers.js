@@ -8,8 +8,8 @@ type EventInfo = {|
   eventbriteId: ?string;
 |};
 
-export async function renderEvent(ctx, next, overrideId, gaExp) {
-  const id = overrideId || `${ctx.params.id}`;
+export async function renderEvent(ctx, next) {
+  const id = `${ctx.params.id}`;
   const format = ctx.request.query.format;
   const isPreview = Boolean(ctx.params.preview);
   const event = await prismic.getEvent(id, isPreview ? ctx.request : null);
@@ -39,8 +39,7 @@ export async function renderEvent(ctx, next, overrideId, gaExp) {
           inSection: 'whatson',
           category: 'public-programme',
           contentType: 'event',
-          canonicalUri: `${ctx.globals.rootDomain}/events/${event.id}`,
-          gaExp
+          canonicalUri: `${ctx.globals.rootDomain}/events/${event.id}`
         }),
         event: event,
         eventInfo: eventInfo,
