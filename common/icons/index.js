@@ -9,6 +9,7 @@ import plus from './plus';
 import search from './search';
 import zoomIn from './zoom-in';
 import zoomOut from './zoom-out';
+import information from './information';
 export {
   arrow,
   cc,
@@ -24,5 +25,6 @@ export {
   plus,
   search,
   zoomIn,
-  zoomOut
+  zoomOut,
+  information
 };

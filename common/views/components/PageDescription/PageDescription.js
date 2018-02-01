@@ -13,12 +13,12 @@ type Props = {|
   |},
   intro?: string,
   icon?: string,
-  modifiers?: Array<string>
+  modifiers?: {[string]: string}
 |};
 
 function renderMeta({type, value}) {
   return type === 'date'
-    ? [<Icon key="1" name='clock' extraClasses={['margin-right-s1']} />, <span key="2">{formatDate(new Date(value))}</span>]
+    ? [<Icon key="1" name='clock' extraClasses='margin-right-s1' />, <span key="2">{formatDate(new Date(value))}</span>]
     : [value];
 }
 
