@@ -52,10 +52,8 @@
         </p>
       {% endif %}
 
-      {% if model.bookingType %}
-        <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }} no-padding">
-          {{ model.bookingType }}
-        </p>
-      {% endif %}
+      <div
+        {% if model.eventbriteId %} data-eventbrite-ticket-id="{{ model.eventbriteId }}"{% endif %}
+        class="flex flex--h-space-between flex--wrap margin-top-auto{{ ' js-eventbrite-ticket-status' if model.eventbriteId }}"></div>
     </div>
 </a>

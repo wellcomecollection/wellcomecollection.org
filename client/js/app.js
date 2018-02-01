@@ -34,6 +34,7 @@ import iframeContainer from './components/iframe-container';
 import {eventbriteTicketButton} from './components/eventbrite-ticket-button';
 import segmentedControl from './components/segmented-control';
 import tabs from './components/tabs';
+import {eventbriteTicketStatus} from './components/eventbrite-ticket-status';
 
 const init = () => {
   polyfills.init();
@@ -134,6 +135,7 @@ const init = () => {
   nodeList(truncateTextNodes).forEach(truncateText);
 
   nodeList(document.querySelectorAll('.js-eventbrite-ticket-button')).forEach(eventbriteTicketButton);
+  nodeList(document.querySelectorAll('.js-eventbrite-ticket-status')).forEach(eventbriteTicketStatus);
 };
 
 function initWithRaven() {
