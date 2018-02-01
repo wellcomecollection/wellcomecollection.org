@@ -10,6 +10,25 @@ jobs:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
           paths:
             -  ~/wellcomecollection.org
+  root_tests:
+    docker:
+      - image: circleci/node:8.9.3
+    working_directory: ~/wellcomecollection.org
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: root_modules_circleci_node_8_{{ checksum "yarn.lock" }}
+      - run:
+          name: Install root modules
+          command: yarn install
+      - run:
+          name: Flow
+          command: yarn flow
+      - save_cache:
+          key: root_modules_circleci_node_8_{{ checksum "yarn.lock" }}
+          paths:
+            -  node_modules
   install_server_modules:
     docker:
       - image: circleci/node:8.9.3
@@ -368,12 +387,17 @@ workflows:
       - install_common_modules:
           requires:
             - checkout_code
+      - root_tests:
+          requires:
+            - checkout_code
       - build_client:
           requires:
             - checkout_code
+            - root_tests
       - build_exhibitions_webapp:
           requires:
             - checkout_code
+            - root_tests
             - build_client
             - install_server_modules
             - install_common_modules
@@ -387,6 +411,7 @@ workflows:
       - build_whats_on_webapp:
           requires:
             - checkout_code
+            - root_tests
             - build_client
             - install_server_modules
             - install_common_modules
@@ -400,6 +425,7 @@ workflows:
       - build_events_webapp:
           requires:
             - checkout_code
+            - root_tests
             - build_client
             - install_server_modules
             - install_common_modules
@@ -413,6 +439,7 @@ workflows:
       - build_eventbrite_webapp:
           requires:
             - checkout_code
+            - root_tests
             - build_client
             - install_server_modules
             - install_common_modules
@@ -426,6 +453,7 @@ workflows:
       - build_common_webapp:
           requires:
             - checkout_code
+            - root_tests
             - build_client
             - install_server_modules
             - install_common_modules
