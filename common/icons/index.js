@@ -7,6 +7,7 @@ import search from './search';
 import zoomIn from './zoom-in';
 import zoomOut from './zoom-out';
 import check from './check';
+import information from './information';
 export {
   arrow,
   cc,
@@ -21,5 +22,6 @@ export {
   cross,
   search,
   zoomIn,
-  zoomOut
+  zoomOut,
+  information
 };

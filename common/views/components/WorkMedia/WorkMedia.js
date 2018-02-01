@@ -48,7 +48,7 @@ const WorkMedia = ({queryString, id, trackTitle, iiifModel, iiifData}: Props) =>
                 `}
               href={href(queryString, id)}
               data-track-event={tracking(queryString, id, trackTitle)}>
-                <Icon name='arrow' extraClasses={['icon--elf-green', 'icon--180']} />
+                <Icon name='arrow' extraClasses='icon--elf-green icon--180' />
                 <span className={spacing({s: 1}, {margin: ['left']})}>Search results</span>
               </a>
             </div>
