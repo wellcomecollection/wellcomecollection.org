@@ -6,7 +6,7 @@ import MetaUnit from '../MetaUnit/MetaUnit';
 import MoreInfoLink from '../MoreInfoLink/MoreInfoLink';
 import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
-import PageDescription from '../PageDescription/PageDescription'
+import PageDescription from '../PageDescription/PageDescription';
 
 export {
   BackToTop,
