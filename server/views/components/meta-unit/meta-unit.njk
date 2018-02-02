@@ -26,6 +26,7 @@
   {% endif %}
 
   {% if model.includeDivider %}
-    {% componentV2 'divider', null, {'pumice': true, 'keyline': true}, {extraClasses: [{s:1} | spacingClasses({margin: ['top', 'bottom']})]}  %}
+    {% set dividerClasses = 'divider--pumice divider--keyline ' + {s:1} | spacingClasses({margin: ['top', 'bottom']}) %}
+    {% componentJsx 'Divider', {extraClasses: dividerClasses } %}
   {% endif %}
 </div>

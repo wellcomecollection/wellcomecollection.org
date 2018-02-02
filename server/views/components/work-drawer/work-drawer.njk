@@ -2,7 +2,8 @@
 
 {% block drawerHeader %}
   {% if data.topDivider %}
-    <hr class="divider divider--black divider--keyline" />
+    {% set dividerClasses = 'divider--black divider--keyline ' + {s:1} | spacingClasses({margin: ['top', 'bottom']}) %}
+    {% componentJsx 'Divider', {extraClasses: dividerClasses } %}
   {% endif %}
   {{ super() }}
 {% endblock %}

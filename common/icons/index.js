@@ -1,6 +1,7 @@
 import arrow from './arrow';
-import clock from './clock';
+import {cc, ccBy, ccNc, ccNd, ccPdm, ccZero} from './licenses';
 import chevron from './chevron';
+import clock from './clock';
 import cross from './cross';
 import search from './search';
 import zoomIn from './zoom-in';
@@ -11,6 +12,12 @@ import underConstruction from './under_construction';
 import clear from './clear';
 export {
   arrow,
+  cc,
+  ccBy,
+  ccNc,
+  ccNd,
+  ccPdm,
+  ccZero,
   check,
   chevron,
   clock,

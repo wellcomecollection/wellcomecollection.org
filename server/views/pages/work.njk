@@ -95,12 +95,13 @@
 
           <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
             <p class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">Credit: {{ work.credit }}</p>
-            {% componentV2 'license',  {subject: work.imgLink, licenseType: work.thumbnail.license.licenseType} %}
+            {% componentJsx 'License', {subject: work.imgLink, licenseType: work.thumbnail.license.licenseType} %}
           </div>
 
 
           <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
-            {% componentV2 'divider', null, {'pumice': true, 'keyline': true}, {extraClasses: [{s:1} | spacingClasses({margin: ['top', 'bottom']})]}  %}
+            {% set dividerClasses = 'divider--pumice divider--keyline ' + {s:1} | spacingClasses({margin: ['top', 'bottom']}) %}
+            {% componentJsx 'Divider', {extraClasses: dividerClasses} %}
             <h2 class="
               {{ {s:'HNM4' , m:'HNM3'} | fontClasses }}
               {{ {s:2} | spacingClasses({margin: ['top']}) }}
@@ -115,5 +116,5 @@
     </div>
   </div>
 
-  {% componentV2 'back-to-top', {}, {trackId: pageConfig.canonicalUri} %}
+  {% componentJsx 'BackToTop', {trackId: pageConfig.canonicalUri} %}
 {% endblock %}
