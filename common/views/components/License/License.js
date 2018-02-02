@@ -11,7 +11,7 @@ type Props = {|
 function renderIcons(icons) {
   if (icons) {
     return icons.map((i) => (
-      <Icon key={i} name={i} extraClasses={['v-align-middle', 'margin-right-s1']} />
+      <Icon key={i} name={i} extraClasses='v-align-middle margin-right-s1' />
     ));
   }
 };
