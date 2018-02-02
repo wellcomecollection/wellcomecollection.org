@@ -19,6 +19,7 @@ import type {ExhibitionAndRelatedContent} from '../model/exhibition-and-related-
 import {PaginationFactory} from '../model/pagination';
 import type {EventPromo} from '../content-model/events';
 import {galleryOpeningHours} from '../model/opening-hours';
+import {isEmptyObj} from '../utils/is-empty-obj';
 
 type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
 
@@ -224,6 +225,9 @@ function createEventPromos(allResults): Array<EventPromo> {
       isPrimary: Boolean(interpretation.isPrimary)
     }) : null).filter(_ => _);
 
+    const eventbriteIdMatch = isEmptyObj(event.data.eventbriteEvent) ? null : /\/e\/([0-9]+)/.exec(event.data.eventbriteEvent.url);
+    const eventbriteId = eventbriteIdMatch ? eventbriteIdMatch[1] : null;
+
     // A single Primsic 'event' can have multiple datetimes, but we
     // want to display each datetime as an individual promo, so we
     // map and flatten.
@@ -239,7 +243,8 @@ function createEventPromos(allResults): Array<EventPromo> {
         image: promo && promo.image,
         description: promo && promo.caption,
         bookingType: bookingType,
-        interpretations: interpretations
+        interpretations: interpretations,
+        eventbriteId: eventbriteId
       };
     });
   }).reduce((acc, curr) => {

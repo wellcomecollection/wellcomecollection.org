@@ -36,3 +36,7 @@ export function font(sizes) {
     return `font-${sizes[key]}-${key}`;
   }).join(' ');
 }
+
+export function classNames(classNames: string[]) {
+  return classNames.join(' ');
+}

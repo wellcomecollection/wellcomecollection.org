@@ -3,18 +3,19 @@ $slider-one-column-width: (100 / 12) * 1%;
 .slider--in-article {
   .slides-container {
     @include respond-to('medium') {
-      width: calc(100vw - #{map-get($container-padding, 'medium')} - $slider-one-column-width);
+      width: calc(100vw - #{map-get($container-padding, 'medium')} - #{$slider-one-column-width});
       margin-left: $slider-one-column-width;
     }
 
     @include respond-to('large') {
+      width: calc(100vw - #{map-get($container-padding, 'large')});
       margin-left: 0;
     }
 
     @include respond-to('xlarge') {
       position: relative;
 
-      width: calc(100vw - ((100vw - #{$container-width-max}) / 2));
+      width: calc(100vw - ((100vw - #{$container-width-max}) / 2) - #{2 * map-get($gutter-width, 'xlarge')});
       left: calc(((100vw - #{$container-width-max}) / 2));
     }
   }

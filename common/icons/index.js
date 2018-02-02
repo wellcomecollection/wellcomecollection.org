@@ -7,6 +7,8 @@ import zoomIn from './zoom-in';
 import zoomOut from './zoom-out';
 import check from './check';
 import information from './information';
+import underConstruction from './under_construction';
+import clear from './clear';
 export {
   arrow,
   check,
@@ -16,5 +18,7 @@ export {
   search,
   zoomIn,
   zoomOut,
-  information
+  information,
+  underConstruction,
+  clear
 };

@@ -5,13 +5,13 @@ import * as icons from '../../../icons/index';
 type Props = {|
   name: string,
   title?: string,
-  extraClasses?: Array<?string>,
+  extraClasses?: string,
   attrs?: {| [string]: [string] |}
 |}
 
-const Icon = ({name, title, extraClasses = [], attrs = {}}: Props) => (
+const Icon = ({name, title, extraClasses, attrs = {}}: Props) => (
   <div
-    className={['icon'].concat(extraClasses).join(' ')}
+    className={`icon ${extraClasses || ''}`}
     aria-hidden={title && 'true'}>
     <canvas className='icon__canvas' height='26' width='26'></canvas>
     <svg className="icon__svg"
