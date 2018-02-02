@@ -1,3 +1,4 @@
+// @flow
 import Icon from '../Icon/Icon';
 
 type Props = {|

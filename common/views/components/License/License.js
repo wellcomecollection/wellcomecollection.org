@@ -1,7 +1,8 @@
+// @flow
 import getLicenseInfo from '../../../utils/get-license-info';
 import {spacing, font} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
-import LicenseType from '../../../model/license';
+import type {LicenseType} from '../../../model/license';
 
 type Props = {|
   subject: string,

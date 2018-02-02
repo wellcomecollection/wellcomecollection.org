@@ -42,7 +42,7 @@
 
             {% for metaItem in work.metaContent %}
               {% set needsDivider = not loop.last %}
-              {% componentV2 'meta-unit', {headingText: metaItem.heading, content: metaItem.content, includeDivider: needsDivider} %}
+              {% componentJsx 'MetaUnit', {headingText: metaItem.heading, text: metaItem.text, links: metaItem.links, includeDivider: needsDivider} %}
             {% endfor %}
 
             {% if work.encoreLink %}
@@ -54,11 +54,11 @@
 
           {% set licenseInfo = work.thumbnail.license.licenseType | getLicenseInfo %}
           {% set usingThisImageData = [
-            {title: 'Licence information', content: licenseInfo.humanReadableText},
-            {title: 'Credit', content: work.attribution}
+            {headingText: 'Licence information', text: licenseInfo.humanReadableText},
+            {headingText: 'Credit', text: work.attribution}
           ] %}
 
-          {% componentV2 'work-drawer', {id: 'work-using-image', heading: 'Using this image'}, null, {data: usingThisImageData, topDivider: true} %}
+          {% componentJsx 'WorkDrawer', {data: usingThisImageData} %}
         </div>
 
         <div class="{{ {s: 12, m: 10, shiftM:1, l: 5, xl: 5} | gridClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}">
@@ -97,7 +97,6 @@
             <p class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">Credit: {{ work.credit }}</p>
             {% componentJsx 'License', {subject: work.imgLink, licenseType: work.thumbnail.license.licenseType} %}
           </div>
-
 
           <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
             {% set dividerClasses = 'divider--pumice divider--keyline ' + {s:1} | spacingClasses({margin: ['top', 'bottom']}) %}

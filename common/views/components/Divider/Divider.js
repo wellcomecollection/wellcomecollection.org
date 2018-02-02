@@ -1,3 +1,4 @@
+// @flow
 type Props = {|
   extraClasses?: string
 |}

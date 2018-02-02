@@ -59,7 +59,7 @@ function constructAttribution(singleWork, credit, canonicalUri) {
   const title = singleWork.title ? `'${singleWork.title}' ` : '';
   const creators = constructCreatorsString(singleWork.creators);
   const license = constructLicenseString(singleWork.thumbnail.license.licenseType);
-  return `<p>${title} ${creators}. Credit: <a href="${canonicalUri}">${credit}</a>. ${license}</p>`;
+  return [`${title} ${creators}. Credit: <a href="${canonicalUri}">${credit}</a>. ${license}`];
 }
 
 function createMetaContentArray(singleWork, descriptionArray) {
@@ -69,37 +69,37 @@ function createMetaContentArray(singleWork, descriptionArray) {
     contentArray.push({
       type: 'creators',
       heading: 'By',
-      content: getLinkObjects(singleWork.creators, 'label', 'creators:')
+      links: getLinkObjects(singleWork.creators, 'label', 'creators:')
     });
   }
   if (singleWork.createdDate && singleWork.createdDate.label) {
     contentArray.push({
       heading: 'Date',
-      content: singleWork.createdDate.label
+      text: [singleWork.createdDate.label]
     });
   }
   if (singleWork.genres && singleWork.genres.length > 0) {
     contentArray.push({
       heading: 'Genre',
-      content: getLinkObjects(singleWork.genres, 'label')
+      links: getLinkObjects(singleWork.genres, 'label')
     });
   }
   if (singleWork.subjects && singleWork.subjects.length > 0) {
     contentArray.push({
       heading: 'Subject',
-      content: getLinkObjects(singleWork.subjects, 'label')
+      links: getLinkObjects(singleWork.subjects, 'label')
     });
   }
   if (singleWork.lettering && singleWork.lettering.length > 0) {
     contentArray.push({
       heading: 'Lettering',
-      content: singleWork.lettering
+      text: [singleWork.lettering]
     });
   }
   if (descriptionArray && descriptionArray.length > 0) {
     contentArray.push({
       heading: 'Description',
-      content: descriptionArray
+      text: descriptionArray
     });
   }
   return contentArray;
