@@ -12,7 +12,8 @@ type Props = {|
   placeholder?: string,
   disabled?: boolean,
   autofocus?: boolean,
-  isLabelHidden?: boolean
+  isLabelHidden?: boolean,
+  onChange?: () => void
 |}
 
 const HTMLInput = ({
@@ -25,7 +26,8 @@ const HTMLInput = ({
   autofocus,
   label,
   isLabelHidden,
-  fontStyles = {s: 'HNL3', m: 'HNL2'}
+  fontStyles = {s: 'HNL3', m: 'HNL2'},
+  onChange
 }: Props) => (
   <label className="input__label flex flex--v-center" htmlFor={id}>
     <input id={id}
@@ -35,7 +37,8 @@ const HTMLInput = ({
       value={value}
       placeholder={placeholder}
       disabled={disabled}
-      autoFocus={autofocus && !value} />
+      autoFocus={autofocus && !value}
+      onChange={onChange}/>
 
     {['radio', 'checkbox'].indexOf(type) > -1 &&
       <span className={`input__control-indicator input__control-indicator--${type}`}></span>
