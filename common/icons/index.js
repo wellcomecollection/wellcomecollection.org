@@ -1,7 +1,6 @@
 import arrow from './arrow';
-import {cc, cc_by, cc_nc, cc_nd, cc_pdm, cc_zero} from './licenses';
+import {cc, ccBy, ccNc, ccNd, ccPdm, ccZero} from './licenses';
 import check from './check';
-
 import chevron from './chevron';
 import clock from './clock';
 import cross from './cross';
@@ -13,11 +12,11 @@ import information from './information';
 export {
   arrow,
   cc,
-  cc_by,
-  cc_nc,
-  cc_nd,
-  cc_pdm,
-  cc_zero,
+  ccBy,
+  ccNc,
+  ccNd,
+  ccPdm,
+  ccZero,
   check,
   chevron,
   clock,
