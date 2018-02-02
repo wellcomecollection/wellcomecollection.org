@@ -1,7 +1,7 @@
 // @flow
 import type {Link} from './link';
 
-export type MetaUnit = {|
+export type MetaUnitProps = {|
   headingLevel?: number;
   headingText: string;
   links?: Array<Link>;
@@ -9,4 +9,4 @@ export type MetaUnit = {|
   includeDivider?: boolean;
 |};
 
-export function createMetaUnit(data: MetaUnit) { return (data: MetaUnit); }
+export function createMetaUnit(data: MetaUnitProps) { return (data: MetaUnitProps); }

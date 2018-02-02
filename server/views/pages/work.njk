@@ -54,8 +54,8 @@
 
           {% set licenseInfo = work.thumbnail.license.licenseType | getLicenseInfo %}
           {% set usingThisImageData = [
-            {title: 'Licence information', content: licenseInfo.humanReadableText},
-            {title: 'Credit', content: work.attribution}
+            {headingText: 'Licence information', text: licenseInfo.humanReadableText},
+            {headingText: 'Credit', text: work.attribution}
           ] %}
 
           {% componentJsx 'WorkDrawer', {data: usingThisImageData} %}
