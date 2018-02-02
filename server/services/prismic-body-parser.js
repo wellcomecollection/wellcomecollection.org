@@ -48,6 +48,7 @@ function parseBodyPart(slice) {
           type: 'image-lists',
           blockType: 'image-lists',
           description: asText(slice.primary.description),
+          listStyle: slice.primary.listStyle,
           items: slice.items.map(item => {
             const image = parsePicture(item);
             const description = asHtml(item.description);

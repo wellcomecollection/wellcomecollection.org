@@ -59,7 +59,7 @@
                   <li>
                     <h2>
                       <div class="flex">
-                        <div class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{{ loop.index }}.</div>
+                        {% if bodyPart.value.listStyle === 'numeric' %}<div class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{{ loop.index }}.</div>{% endif %}
                         <div>
                           <div>
                             {{ item.title }}
