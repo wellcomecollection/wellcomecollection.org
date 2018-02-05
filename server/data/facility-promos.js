@@ -105,7 +105,7 @@ export const dailyTourPromo: EventPromo = {
   start: null,
   end: null,
   description: null,
-  dateString: 'Every day',
+  dateString: 'Tuesday-Sunday',
   timeString: '11:30, 14:30, and 15:30',
   format: {
     id: 'WmYRpCQAACUAn-Ap',
