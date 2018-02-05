@@ -11,12 +11,12 @@
   {% elseif exhibitionAndEventPromos.active == 'weekend' %}
     <time datetime="{{ fromDate }}">{{ fromDate | formatDay }}</time>&ndash;<time datetime="{{ toDate }}">{{ toDate | formatDay }}</time>
   {% elseif exhibitionAndEventPromos.active == 'everything' %}
-    <time datetime="{{ fromDate }}">{{ fromDate | formatMonthYear }}</time>&ndash;<time datetime="{{ toDate }}">{{ toDate | formatMonthYear }}</time>
+    From <time datetime="{{ fromDate }}">{{ fromDate | formatDate }}</time>
   {% endif %}
 </p>
 
 {% if not exhibitionAndEventPromos.listHeader.todayOpeningHours.opens %}
-  <p class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{{s:2} | spacingClasses({margin: ['bottom']})}}">Our exhibitions are closed today, but our <a href="{{cafePromo.url}}">cafe</a> and <a href="{{shopPromo.url}}">shop</a> are open for your visit.</p>        
+  <p class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{{s:2} | spacingClasses({margin: ['bottom']})}}">Our exhibitions are closed today, but our <a href="{{cafePromo.url}}">café</a> and <a href="{{shopPromo.url}}">shop</a> are open for your visit.</p>        
   <div class="{{ {s:3, m:4, l:5} | spacingClasses({margin: ['top', 'bottom']}) }}">
     {% componentV2 'divider', null, {'dashed': true} %}
   </div>
