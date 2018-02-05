@@ -7,13 +7,19 @@
   </div>
 </div>
 
-{% for exhibition in exhibitionAndEventPromos.temporaryExhibitionPromos %}
+{% for exhibition in exhibitionAndEventPromos.currentTemporaryExhibitionPromos %}
   <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
     {% componentV2 'exhibition-promo', exhibition, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
   </div>
 {% endfor %}
 
 {% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
+  <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
+    {% componentV2 'exhibition-promo', exhibition, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
+  </div>
+{% endfor %}
+
+{% for exhibition in exhibitionAndEventPromos.upcomingTemporaryExhibitionPromos %}
   <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
     {% componentV2 'exhibition-promo', exhibition, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
   </div>
@@ -26,6 +32,7 @@
 <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }}">
   {% componentV2 'divider', null, {'dashed': true} %}
 </div>
+
 <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }}">
   <h2 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }} inline-block-medium-up">Events</h2>
   <div class="flex-inline flex--v-center float-r-medium-up">
@@ -35,9 +42,7 @@
 </div>
 
 <div class="js-events-filter tabs {{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }}">
-
   {% componentV2 'segmented-control', exhibitionAndEventPromos.monthControls, null, {id: 'monthControls', isTabControl: true, activeId: exhibitionAndEventPromos.monthControls[0].id} %}
-
   {% for yearKey, year in exhibitionAndEventPromos.eventPromosSplitAcrossMonths %}
     {% for monthKey, month in year %}
       <div class="js-tabpanel tabpanel {{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }}">
