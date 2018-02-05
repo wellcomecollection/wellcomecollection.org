@@ -93,6 +93,38 @@
       {% endfor %}
     {% endif %}
 
+    {% if article.featuredBodyParts.length > 0 %}
+      {% for bodyPart in article.featuredBodyParts %}
+        {% if bodyPart.type === 'imageList' %}
+          <div class="row bg-black {{ {s:3} | spacingClasses({padding: ['top']}) }} {{ {s:8} | spacingClasses({padding: ['bottom']}) }} ">
+            <div class="container">
+              <div class="css-grid__container">
+                {% for item in bodyPart.value.items %}
+                  <div class="css-grid {{ {s:8} | spacingClasses({margin: ['top']}) }}">
+                    <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }}">
+                      <h2 class="font-white {{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }} {{ ({s:0} | spacingClasses({margin: ['top']})) if loop.index === 1 }} ">{{ item.title }}</h2>
+                      {% componentV2 'image', item.image, {}, {lazyload: true} %}
+                    </div>
+
+                    <div class="font-white {{ {s: 12, m: 12, l: 7, xl: 7} | cssGridClasses }} {{ {s:'LR3', m:'LR2'} | fontClasses }}">
+                      <div class="flex">
+                        <div>{% icon 'image', {}, ['float-l', 'margin-right-s1', 'icon--white'] %}</div>
+                        <div>{{ item.image.caption | safe }}</div>
+                      </div>
+                    </div>
+
+                    <div class="font-white {{ {s: 12, m: 12, l: 7, xl: 7} | cssGridClasses }}">
+                      {{ item.description | safe }}
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
     <div class="row bg-cream">
       <div class="container">
         <div class="grid {{ {s:6} | spacingClasses({padding: ['top']}) }}">

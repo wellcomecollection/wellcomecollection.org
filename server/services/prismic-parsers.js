@@ -7,7 +7,7 @@ import type {
   Location, EventFormat, Audience
 } from '../content-model/events';
 import getBreakpoint from '../filters/get-breakpoint';
-import {parseBody} from './prismic-body-parser';
+import {parseBody, parseFeaturedBody} from './prismic-body-parser';
 import type {ImagePromo} from '../content-model/content-blocks';
 import type {Article} from '../model/article';
 import type {Promo} from '../model/promo';
@@ -185,6 +185,7 @@ export function parseArticleDoc(doc: PrismicDoc): Article {
   // TODO: The whole scheduled content has some work to be getting on with
   const seriesWithCommissionedLength = series.find(series => series.commissionedLength);
   const positionInSeries = seriesWithCommissionedLength && getPositionInPrismicSeries(series[0].id, doc.data.series) || null;
+  const featuredBodyParts = parseFeaturedBody(doc.data.body);
 
   const article: Article = {
     contentType: 'article',
@@ -197,7 +198,8 @@ export function parseArticleDoc(doc: PrismicDoc): Article {
     bodyParts: bodyParts,
     mainMedia: [featuredMedia],
     description: description,
-    positionInSeries: positionInSeries
+    positionInSeries: positionInSeries,
+    featuredBodyParts: featuredBodyParts
   };
 
   return article;
