@@ -15,6 +15,23 @@
         "customtypes" : [ "event-formats" ]
       }
     },
+    "series" : {
+      "type" : "Group",
+      "fieldset" : "Event series",
+      "config" : {
+        "fields" : {
+          "series" : {
+            "type" : "Link",
+            "fieldset" : "Series",
+            "config" : {
+              "label" : "Series",
+              "select" : "document",
+              "customtypes" : [ "event-series" ]
+            }
+          }
+        }
+      }
+    },
     "times" : {
       "type" : "Group",
       "fieldset" : "Times",
@@ -62,7 +79,7 @@
             "type" : "Select",
             "config" : {
               "options" : [ "yes" ],
-              "label" : "Is primary"
+              "label" : "Is this the primary interpretation?"
             }
           }
         }
@@ -95,7 +112,7 @@
       }
     }
   },
-  "Booking" : {
+  "Reservation" : {
     "bookingEnquiryTeam" : {
       "type" : "Link",
       "config" : {
@@ -115,33 +132,14 @@
       "type" : "Select",
       "config" : {
         "options" : [ "yes" ],
-        "label" : "Drop in"
+        "label" : "Can people drop-in to this event?"
       }
     },
     "bookingInformation" : {
       "type" : "StructuredText",
       "config" : {
         "multi" : "paragraph, strong, em, hyperlink, list-item",
-        "label" : "Booking information"
-      }
-    }
-  },
-  "Series" : {
-    "series" : {
-      "type" : "Group",
-      "fieldset" : "Event series",
-      "config" : {
-        "fields" : {
-          "series" : {
-            "type" : "Link",
-            "fieldset" : "Series",
-            "config" : {
-              "label" : "Series",
-              "select" : "document",
-              "customtypes" : [ "event-series" ]
-            }
-          }
-        }
+        "label" : "Event specific booking information"
       }
     }
   },
