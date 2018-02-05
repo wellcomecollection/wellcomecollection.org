@@ -22,7 +22,7 @@ export const readingRoomPromo: Promo = {
 export const cafePromo: Promo = {
   type: 'promo',
   contentType: 'place',
-  title: 'Cafe',
+  title: 'Café',
   url: '/visit-us/wellcome-café',
   description: 'Join us for a quick cup of coffee and a pastry, afternoon tea, or a light meal with a glass of wine.',
   image: {
@@ -56,7 +56,7 @@ export const restaurantPromo: Promo = {
   contentType: 'place',
   title: 'Restaurant',
   url: '/visit-us/wellcome-kitchen',
-  description: 'Hungry for more? Join us for delicious lunches, drinks and afternoon tea on level 2.',
+  description: 'Enjoy delicious lunches, drinks and afternoon tea on level 2.',
   image: {
     type: 'picture',
     contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc2475694-73e3-4309-ba6d-100a25fe6864_restaurant.png',
@@ -66,10 +66,10 @@ export const restaurantPromo: Promo = {
   }
 };
 
-export const bookshopPromo: Promo = {
+export const shopPromo: Promo = {
   type: 'promo',
   contentType: 'place',
-  title: 'Bookshop',
+  title: 'Shop',
   url: 'http://bookshop.blackwell.co.uk/bookshop/wellcomeshop/',
   description: 'Come and browse a selection of our quirky gifts and books.',
   image: {
@@ -86,7 +86,7 @@ export const spiritBoothPromo: Promo = {
   contentType: 'place',
   title: 'S.P.I.R.I.T Booth',
   url: 'https://wellcomecollection.org/spiritbooth',
-  description: 'Get your psychic transparency revealed and captured.',
+  description: 'Get your psychic transparency revealed and captured in our photo booth on level 1.',
   metaIcon: 'clock',
   metaText: 'Open during gallery hours',
   image: {

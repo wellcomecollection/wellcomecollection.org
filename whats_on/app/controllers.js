@@ -1,7 +1,7 @@
 import {model, prismic} from 'common';
 
 import {
-  bookshopPromo,
+  shopPromo,
   cafePromo,
   readingRoomPromo,
   restaurantPromo,
@@ -29,10 +29,10 @@ export async function renderWhatsOn(ctx, next) {
       }
     }),
     exhibitionAndEventPromos,
-    whileVisitPromos: [readingRoomPromo, spiritBoothPromo],
-    eatShopPromos: [cafePromo, bookshopPromo, restaurantPromo],
+    tryTheseTooPromos: [readingRoomPromo, spiritBoothPromo],
+    eatShopPromos: [cafePromo, shopPromo, restaurantPromo],
     cafePromo,
-    bookshopPromo,
+    shopPromo,
     dailyTourPromo
   });
 
