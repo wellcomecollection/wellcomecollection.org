@@ -315,6 +315,21 @@ function filterPromosByDate(promos, startDate, endDate) {
   return promos.filter(e => datesOverlapRange(e.start, e.end, startDate, endDate));
 }
 
+function filterCurrentExhibitions(promos, todaysDate) {
+  return promos.filter((e) => {
+    const eventStart = london(e.start);
+    const eventEnd = london(e.end);
+    return todaysDate.isSame(eventStart, 'day') || todaysDate.isSame(eventEnd, 'day') || todaysDate.isBefore(eventEnd, 'day') && todaysDate.isAfter(eventStart, 'day');
+  });
+}
+
+function filterUpcomingExhibitions(promos, todaysDate) {
+  return promos.filter((e) => {
+    const eventStart = london(e.start);
+    return todaysDate.isBefore(eventStart, 'day');
+  });
+}
+
 function getActiveState(today, range) {
   const rangeStart = range && london(range[0]);
   const rangeEnd = range && london(range[1]);
@@ -407,6 +422,8 @@ export async function getExhibitionAndEventPromos(query) {
   const exhibitionPromos = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'exhibitions'));
   const permanentExhibitionPromos = exhibitionPromos.filter(e => !e.end);
   const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => e.end), fromDate, toDate);
+  const currentTemporaryExhibitionPromos = filterCurrentExhibitions(temporaryExhibitionPromos, todaysDate);
+  const upcomingTemporaryExhibitionPromos = filterUpcomingExhibitions(temporaryExhibitionPromos, todaysDate);
   const eventPromos = filterPromosByDate(createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')), fromDate, toDate);
 
   // eventPromosSplitAcrossMonths and monthControls only required for the 'everything' view
@@ -435,6 +452,8 @@ export async function getExhibitionAndEventPromos(query) {
     dates,
     permanentExhibitionPromos,
     temporaryExhibitionPromos,
+    currentTemporaryExhibitionPromos,
+    upcomingTemporaryExhibitionPromos,
     eventPromos,
     eventPromosSplitAcrossMonths,
     monthControls,
