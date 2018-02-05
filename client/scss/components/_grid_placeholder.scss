@@ -9,7 +9,7 @@
 
   // Example used in grids.njk
   @include container-query(('s': ('3'))) {
-    background: color('red-graphics');
+    background: color('red');
 
     &:before {
       content: 's3';
@@ -17,7 +17,7 @@
   }
 
   @include container-query(('m': ('5'))) {
-    background: color('orange-graphics');
+    background: color('orange');
 
     &:before {
       content: 'm5';

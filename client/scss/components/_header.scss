@@ -229,7 +229,7 @@ $tweakpoints: (
 
   &:hover,
   &:focus {
-    color: color('mint');
+    color: color('green');
 
     .enhanced & {
       outline: 0;
@@ -258,7 +258,7 @@ $tweakpoints: (
     transition: fill 200ms ease;
 
     .header__form--is-active & {
-      fill: color('mint');
+      fill: color('green');
     }
   }
 }

@@ -29,11 +29,11 @@
   }
 
   &.feature-flags__cell--on {
-    background: color('java');
+    background: color('green');
   }
 
   &.feature-flags__cell--off {
-    background: color('red-graphics');
+    background: color('red');
     color: color('white');
   }
 

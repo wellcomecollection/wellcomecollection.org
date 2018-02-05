@@ -40,7 +40,7 @@
 
   &:hover,
   &:focus {
-    color: color('mint');
+    color: color('green');
 
     .icon {
       @include hover-bounce;
@@ -48,7 +48,7 @@
   }
 
   .icon__shape {
-    fill: color('mint');
+    fill: color('green');
   }
 }
 

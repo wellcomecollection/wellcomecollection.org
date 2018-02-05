@@ -71,7 +71,7 @@ const WorkMedia = ({
         </div>
       </div>
       }
-      <div id={`work-media-${id}`} className="row bg-charcoal work-media js-work-media">
+      <div id={`work-media-${id}`} className="row bg-black work-media js-work-media">
         <div className="pointer-events-none">
           <ScrollToInfo elementId='work-info' />
         </div>

@@ -209,7 +209,7 @@
 
   .promo:not(.promo--surrogate):hover &,
   .promo:not(.promo--surrogate):focus & {
-    color: color('mint');
+    color: color('green');
   }
 
   .promo--standalone & {
@@ -235,7 +235,7 @@
 
 .promo__description {
   align-items: center;
-  color: color('charcoal');
+  color: color('black');
   min-width: 0;
   flex: 1;
   position: relative;

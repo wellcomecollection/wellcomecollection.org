@@ -91,7 +91,7 @@ $footer-strap-width: 220px;
 }
 
 .footer__licensing-link {
-  color: color('mint');
+  color: color('green');
   transition: color 600ms ease;
   text-decoration: none;
 
@@ -144,7 +144,7 @@ $footer-strap-width: 220px;
   transition: color 200ms ease;
 
   &:hover {
-    color: color('mint');
+    color: color('green');
   }
 
   .footer__hygiene-item:first-child & {
