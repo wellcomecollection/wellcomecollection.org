@@ -300,15 +300,12 @@ export async function getPaginatedExhibitionPromos(page: number): Promise<Array<
 //          [___event1___]              [___event2___]
 //                         [___event3___]
 function datesOverlapRange (eventStartDate, eventEndDate, rangeStartDate, rangeEndDate) {
-  if (rangeStartDate && rangeEndDate) {
-    const eventStart = london(eventStartDate);
-    const eventEnd = london(eventEndDate);
-    const rangeStart = london(rangeStartDate);
-    const rangeEnd = london(rangeEndDate);
-    return (eventStart.isSame(rangeEnd, 'day') || eventStart.isBefore(rangeEnd, 'day')) && (eventEnd.isSame(rangeStart, 'day') || eventEnd.isAfter(rangeStart, 'day'));
-  } else {
-    return true;
-  }
+  const eventStart = london(eventStartDate);
+  const eventEnd = london(eventEndDate);
+  const rangeStart = rangeStartDate && london(rangeStartDate);
+  const rangeEnd = rangeEndDate && london(rangeEndDate);
+
+  return (rangeEnd === undefined || eventStart.isSame(rangeEnd, 'day') || eventStart.isBefore(rangeEnd, 'day')) && (eventEnd.isSame(rangeStart, 'day') || eventEnd.isAfter(rangeStart, 'day'));
 }
 
 function filterPromosByDate(promos, startDate, endDate) {
@@ -330,10 +327,10 @@ function filterUpcomingExhibitions(promos, todaysDate) {
   });
 }
 
-function getActiveState(today, range) {
-  const rangeStart = range && london(range[0]);
-  const rangeEnd = range && london(range[1]);
-  if (rangeStart.isSame(today, 'day') && rangeEnd.isSame(london().add(3, 'month'), 'day')) {
+function getActiveState(today, fromDate, toDate) {
+  const rangeStart = fromDate && london(fromDate);
+  const rangeEnd = toDate && london(toDate);
+  if (rangeStart && !rangeEnd) {
     return 'everything';
   } else if (today.isSame(rangeStart, 'day') && today.isSame(rangeEnd, 'day')) {
     return 'today';
@@ -360,7 +357,7 @@ function duplicatePromosByMonthYear(promos) {
       }
       acc[year][month].push(currEvent);
     } else {
-      while ((end.isAfter(start) || end.isSame(start, 'month')) && start.isBefore(london().add(3, 'month'))) {
+      while (end.isAfter(start) || end.isSame(start, 'month')) {
         const year = start.format('YYYY');
         const month = start.format('MMMM');
         if (!acc[year]) {
@@ -382,7 +379,7 @@ function getListHeader(dates) {
   const todayOpeningHours = galleryOpeningHours.find(i => i.dayOfWeek === todayString);
   const todayDateString = `startDate=${dates.today}&endDate=${dates.today}`;
   const weekendDateString = `startDate=${dates.weekend[0]}&endDate=${dates.weekend[1]}`;
-  const allDateString = `startDate=${dates.all[0]}&endDate=${dates.all[1]}`;
+  const allDateString = `startDate=${dates.all[0]}`;
   const urlBeginning = `${encodeURI('/whats-on?')}`;
 
   return {
@@ -410,8 +407,9 @@ function getListHeader(dates) {
 
 export async function getExhibitionAndEventPromos(query) {
   const todaysDate = london();
-  const fromDate = query.startDate ? query.startDate : todaysDate.format('YYYY-MM-DD');
-  const toDate = query.endDate ? query.endDate : todaysDate.format('YYYY-MM-DD');
+  // set today as default time period if no startDate is provided
+  const fromDate = !query.startDate ? todaysDate.format('YYYY-MM-DD') : query.startDate;
+  const toDate = !query.startDate ? todaysDate.format('YYYY-MM-DD') : query.endDate;
   const dateRange = [fromDate, toDate];
   const allExhibitionsAndEvents = await getAllOfType(['exhibitions', 'events'], {
     pageSize: 100,
@@ -442,10 +440,10 @@ export async function getExhibitionAndEventPromos(query) {
   const dates = {
     today: todaysDate.format('YYYY-MM-DD'),
     weekend: [getWeekendFromDate(todaysDate).format('YYYY-MM-DD'), getWeekendToDate(todaysDate).format('YYYY-MM-DD')],
-    all: [todaysDate.format('YYYY-MM-DD'), london().add(3, 'month').format('YYYY-MM-DD')],
+    all: [todaysDate.format('YYYY-MM-DD')],
     queriedDates: dateRange
   };
-  const active = getActiveState(todaysDate, [fromDate, toDate]);
+  const active = getActiveState(todaysDate, fromDate, toDate);
   const listHeader = getListHeader(dates);
   return {
     active,
