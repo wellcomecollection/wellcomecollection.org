@@ -112,6 +112,10 @@
                         <div>{{ item.image.caption | safe }}</div>
                       </div>
                     </div>
+
+                    <div class="font-white {{ {s: 12, m: 12, l: 7, xl: 7} | cssGridClasses }}">
+                      {{ item.description | safe }}
+                    </div>
                   </div>
                 {% endfor %}
               </div>
