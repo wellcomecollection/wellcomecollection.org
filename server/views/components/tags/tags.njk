@@ -6,7 +6,7 @@
         data-track-event='{"category": "component", "action": "tag:click", "label": "text:{{ tag.prefix + ' ' if tag.prefix }}{{ tag.text }}, url:{{ tag.url }}"}'>
         <{{'a' if isLink else 'div'}}
           {% if isLink %}href="{{ tag.url }}"{% endif %}
-          class="plain-link flex font-white bg-black {% if isLink %}bg-hover-elf-green transition-bg{% endif %} {{ {s:1} | spacingClasses({padding: ['top', 'bottom']}) }} {{ {s:2} | spacingClasses({padding: ['left', 'right']}) }} rounded-diagonal">
+          class="plain-link flex font-white bg-black {% if isLink %}bg-hover-green transition-bg{% endif %} {{ {s:1} | spacingClasses({padding: ['top', 'bottom']}) }} {{ {s:2} | spacingClasses({padding: ['left', 'right']}) }} rounded-diagonal">
           {{ tag.text }}
         </{{'a' if isLink else 'div'}}>
       </li>
