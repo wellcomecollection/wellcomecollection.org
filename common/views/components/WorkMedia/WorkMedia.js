@@ -57,7 +57,7 @@ const WorkMedia = ({
           <div className="grid">
             <div className={grid({s: 12})}>
               <a className={`
-                  flex-inline flex-v-center plain-link font-green font-hover-cyan
+                  flex-inline flex-v-center plain-link font-green font-hover-turquoise
                   ${font({s: 'HNM4'})}
                   ${spacing({s: 1}, {margin: ['top', 'bottom']})}
                 `}

@@ -35,7 +35,7 @@ function renderParagraphs(text: Array<string>) {
 function renderLinksList(links: Array<Link>) {
   if (links) {
     const listItems = links.map((link, i, arr) =>
-      <li key={i} className='inline'><a className={`plain-link font-green font-hover-cyan ${font({s: 'HNM5', m: 'HNM4'})}`} href={link.url}>{link.text}</a>{arr.length - 1 !== i && ', '}</li>
+      <li key={i} className='inline'><a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`} href={link.url}>{link.text}</a>{arr.length - 1 !== i && ', '}</li>
     );
     return (
       <ul className={`plain-list ${spacing({s: 2}, {margin: ['bottom']})} ${spacing({s: 0}, {margin: ['top', 'left', 'right'], padding: ['top', 'left', 'right']})}`}>
