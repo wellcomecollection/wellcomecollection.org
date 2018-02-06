@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="is-hidden-l is-hidden-xl css-grid__cell--full">
-      {% componentV2 'image', event.promo.image, {} , { lazyload: true } %}
+      {% componentV2 'captioned-image', event.promo.image, {full: true}, {showCopyright: true} %}
     </div>
   {% endif %}
 
@@ -243,7 +243,7 @@
     <div class="css-grid__cell--primary">
       {% if event.promo.image %}
         <div class="is-hidden-s is-hidden-m rounded-corners overflow-hidden">
-          {% componentV2 'image', event.promo.image, {} , { lazyload: true } %}
+          {% componentV2 'captioned-image', event.promo.image, {}, {showCopyright: true} %}
         </div>
       {% endif %}
 
