@@ -1,4 +1,6 @@
 .tags__list {
+  position: relative;
+  z-index: 1;
   align-items: flex-start;
 }
 

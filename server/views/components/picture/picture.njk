@@ -1,6 +1,6 @@
 {% set useIiifOrigin = featuresCohort | isFlagEnabled('imagesFromOrigin', featureFlags) %}
 {% set comma = joiner() %}
-<figure class="relative">
+<figure class="relative no-margin">
   <picture class="{% for class in data.extraClasses %}{{ class }} {% endfor %}">
     {% for image in model.images %}
       {% set sizes = image | getImageSizesFor %}
