@@ -80,7 +80,7 @@
             download="{{ work.id }}.jpg"
             rel="noopener noreferrer"
             data-track-event='{"category": "component", "action": "download-button:click", "label": "id:{{ work.id }}, size:original, title:{{ work.title | truncate(50) }}"}'>
-            {% icon 'download', null, ['icon--elf-green'] %}
+            {% icon 'download', null, ['icon--green'] %}
             <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
               Download original
             </div>
@@ -92,7 +92,7 @@
             download="{{ work.id }}.jpg"
             rel="noopener noreferrer"
             data-track-event='{"category": "component", "action": "download-button:click", "label": "id:{{ work.id }}, size:760, title:{{ work.title | truncate(50) }}"}'>
-            {% icon 'download', null, ['icon--elf-green'] %}
+            {% icon 'download', null, ['icon--green'] %}
             <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
               Download small (760px)
             </div>

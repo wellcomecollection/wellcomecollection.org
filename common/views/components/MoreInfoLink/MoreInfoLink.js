@@ -17,7 +17,7 @@ const MoreInfoLink = ({url, name}: Props) => (
     'font-hover-mint',
     font({s: 'HNM4'})].join(' ')} href={url} data-component="MoreInfoLink">
     <span className='width-1-em'>
-      <Icon name='arrow' extraClasses='icon--elf-green' />
+      <Icon name='arrow' extraClasses='icon--green' />
     </span>
     <span className={spacing({s: 1}, {margin: ['left']})}>{name}</span>
   </a>
