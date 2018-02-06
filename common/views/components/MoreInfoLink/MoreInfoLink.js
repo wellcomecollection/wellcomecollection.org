@@ -13,8 +13,8 @@ const MoreInfoLink = ({url, name}: Props) => (
     'flex-inline',
     'flex-v-center',
     'plain-link',
-    'font-elf-green',
-    'font-hover-mint',
+    'font-green',
+    'font-hover-cyan',
     font({s: 'HNM4'})].join(' ')} href={url} data-component="MoreInfoLink">
     <span className='width-1-em'>
       <Icon name='arrow' extraClasses='icon--green' />
