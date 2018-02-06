@@ -246,12 +246,6 @@
           {% componentV2 'captioned-image', event.promo.image, {}, {showCopyright: true} %}
         </div>
       {% endif %}
-
-      <h2 class="{{- [
-        {s:'HNM4'} | fontClasses,
-        {s: 0, l: 5} | spacingClasses({margin: ['top']}),
-        {s: 1} | spacingClasses({margin: ['bottom']})
-        ].join(' ')}}">What to expect?</h2>
       <div class="{{ {s: 3, m: 4, l: 5, xl: 5} | spacingClasses({margin: ['bottom']}) }}">
         {{ event.description | safe }}
       </div>
