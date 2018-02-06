@@ -127,6 +127,13 @@ export const work = async(ctx, next) => {
   const attribution = constructAttribution(singleWork, credit, canonicalUri);
   const metaContent = createMetaContentArray(singleWork, descriptionArray);
 
+  const [iiifImageLocation] = singleWork.items.map(
+    item => item.locations.find(
+      location => location.locationType === 'iiif-image'
+    )
+  );
+  const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
+
   ctx.render('pages/work', {
     id,
     queryString,
@@ -144,7 +151,8 @@ export const work = async(ctx, next) => {
       attribution,
       credit,
       metaContent
-    })
+    }),
+    iiifInfoUrl
   });
 
   return next();
