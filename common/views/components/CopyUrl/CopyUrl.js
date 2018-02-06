@@ -15,7 +15,7 @@ const CopyUrl = ({id, url}: Props) => (
       id='share'
       type='text'
       label='share url'
-      value={url}
+      defaultValue={url}
       isLabelHidden={true}
       fontStyles={{s: 'HNL5', m: 'HNL4'}} />
 
