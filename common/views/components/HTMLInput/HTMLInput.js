@@ -5,7 +5,7 @@ import {font, spacing} from '../../../utils/classnames';
 type Props = {|
   id: string,
   type: string,
-  value: string,
+  defaultValue: string,
   label: string,
   fontStyles: {},
   name?: string,
@@ -20,7 +20,7 @@ const HTMLInput = ({
   id,
   type,
   name,
-  value,
+  defaultValue,
   placeholder,
   disabled,
   autofocus,
@@ -34,10 +34,10 @@ const HTMLInput = ({
       className={`input input--${type} ${font(fontStyles)} js-input`}
       type={type}
       name={name}
-      value={value}
+      defaultValue={defaultValue}
       placeholder={placeholder}
       disabled={disabled}
-      autoFocus={autofocus && !value}
+      autoFocus={autofocus && !defaultValue}
       onChange={onChange}/>
 
     {['radio', 'checkbox'].indexOf(type) > -1 &&
