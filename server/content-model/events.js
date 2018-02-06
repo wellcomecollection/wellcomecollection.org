@@ -166,7 +166,8 @@ export const eventExample = ({
     interpretationType: {
       id: 'WcLABisAACx_BDQV',
       title: 'British sign language interpreted',
-      description: 'This event is BSL sign language interpreted'
+      description: 'This event is BSL sign language interpreted',
+      primaryDescription: 'This event is designed BSL speakers'
     }
   }],
   audiences: [{
