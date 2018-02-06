@@ -6,7 +6,7 @@ $numbered-list-number-size-large: 96px;
 .numbered-list__header {
   border-top-left-radius: $border-radius-unit;
   border-top-right-radius: $border-radius-unit;
-  background: color('mint');
+  background: color('green');
   color: color('white');
   padding: 1rem 1.2rem;
 
@@ -93,7 +93,7 @@ $numbered-list-number-size-large: 96px;
 
   .numbered-list__link:hover &,
   .numbered-list__link:focus & {
-    color: color('seaweed');
+    color: color('green');
   }
 }
 
@@ -119,28 +119,28 @@ $numbered-list-number-size-large: 96px;
   &.numbered-list--turquoise {
     .numbered-list__header,
     .numbered-list__number {
-      color: color('turquoise-text');
+      color: color('teal');
     }
   }
 
   &.numbered-list--orange {
     .numbered-list__header,
     .numbered-list__number {
-      color: color('orange-text');
+      color: color('orange');
     }
   }
 
   &.numbered-list--red {
     .numbered-list__header,
     .numbered-list__number {
-      color: color('red-text');
+      color: color('red');
     }
   }
 
   &.numbered-list--purple {
     .numbered-list__header,
     .numbered-list__number {
-      color: color('purple-text');
+      color: color('purple');
     }
   }
 
@@ -247,19 +247,19 @@ $numbered-list-number-size-large: 96px;
   }
 
   .numbered-list__item--turquoise {
-    border-bottom: $v-spacing-unit solid color('turquoise-graphics');
+    border-bottom: $v-spacing-unit solid color('turquoise');
   }
 
   .numbered-list__item--orange {
-    border-bottom: $v-spacing-unit solid color('orange-graphics');
+    border-bottom: $v-spacing-unit solid color('orange');
   }
 
   .numbered-list__item--red {
-    border-bottom: $v-spacing-unit solid color('red-graphics');
+    border-bottom: $v-spacing-unit solid color('red');
   }
 
   .numbered-list__item--purple {
-    border-bottom: $v-spacing-unit solid color('purple-graphics');
+    border-bottom: $v-spacing-unit solid color('purple');
   }
 
   .numbered-list__link,

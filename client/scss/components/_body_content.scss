@@ -24,16 +24,16 @@
   }
 
   *::selection {
-    background: transparentize(color('turquoise-graphics'), 0.7);
+    background: transparentize(color('turquoise'), 0.7);
   }
 
   a:link {
     text-decoration: none;
-    box-shadow: inset 0 -0.1em 0 0 color('seaweed');
+    box-shadow: inset 0 -0.1em 0 0 color('green');
 
     &:hover,
     &:focus {
-      box-shadow: inset 0 -0.2em 0 0 color('seaweed');
+      box-shadow: inset 0 -0.2em 0 0 color('green');
     }
   }
 

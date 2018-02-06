@@ -34,7 +34,7 @@ const ImageViewer = ({id, trackTitle, imageUrl}: Props) => (
           text='Zoom in'
           id={`zoom-in-${id}`}
           icon='zoomIn'
-          extraClasses={`${buttonFontClasses} btn--round btn--charcoal ${spacing({s: 1}, {margin: ['right']})}`}
+          extraClasses={`${buttonFontClasses} btn--round btn--black ${spacing({s: 1}, {margin: ['right']})}`}
           eventTracking={`{${commonBtnTracking(id, trackTitle)}, "action": "work-zoom-in-button:click"}`}
         />
 
@@ -42,14 +42,14 @@ const ImageViewer = ({id, trackTitle, imageUrl}: Props) => (
           text='Zoom out'
           id={`zoom-out-${id}`}
           icon='zoomOut'
-          extraClasses={`${buttonFontClasses} btn--round btn--charcoal ${spacing({s: 8}, {margin: ['right']})}`}
+          extraClasses={`${buttonFontClasses} btn--round btn--black ${spacing({s: 8}, {margin: ['right']})}`}
           eventTracking={`{${commonBtnTracking(id, trackTitle)}, "action": "work-zoom-out-button:click"}`}
         />
 
         <ButtonButton
           text='Close image viewer'
           icon='cross'
-          extraClasses={`${buttonFontClasses} btn--round btn--charcoal js-image-viewer__exit-button ${spacing({s: 2}, {margin: ['right']})}`}
+          extraClasses={`${buttonFontClasses} btn--round btn--black js-image-viewer__exit-button ${spacing({s: 2}, {margin: ['right']})}`}
           eventTracking={`{${commonBtnTracking(id, trackTitle)}, "action": "work-exit-image-viewer:btnClick"}`}
         />
       </div>

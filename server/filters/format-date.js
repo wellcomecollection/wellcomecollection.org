@@ -58,9 +58,9 @@ export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date
   if (end === null) {
     return {text: 'Ongoing', color: 'mint'};
   } else if (relativeTime.isFuture) {
-    return {text: 'Coming soon', color: 'cotton-seed'};
+    return {text: 'Coming soon', color: 'marble'};
   } else if (relativeTime.isPast) {
-    return {text: 'Past', color: 'cotton-seed'};
+    return {text: 'Past', color: 'marble'};
   } else if (relativeTime.isLastWeek) {
     return {text: 'Last week', color: 'orange-graphics'};
   } else {

@@ -30,7 +30,7 @@
       border-style: solid;
       border-color: color('white');
       border-width: 0 map-get($container-padding, 'small') 12px;
-      background: color('cotton-seed');
+      background: color('marble');
 
       @include respond-to('medium') {
         border-left-width: map-get($container-padding, 'medium');

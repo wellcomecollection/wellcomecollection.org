@@ -5,17 +5,17 @@
 
   &:checked {
     ~ .input__control-indicator {
-      border-color: color('turquoise-text');
+      border-color: color('teal');
     }
 
     ~ .input__label-wrap {
-      color: color('turquoise-text');
+      color: color('teal');
     }
   }
 
   &:focus {
     ~ .input__control-indicator {
-      border-color: color('turquoise-graphics');
+      border-color: color('turquoise');
     }
   }
 }
@@ -32,7 +32,7 @@
   &:checked {
     ~ .input__control-indicator--radio {
       &:after {
-        background: color('turquoise-text');
+        background: color('teal');
       }
     }
   }
@@ -106,7 +106,7 @@
 
   &:focus {
     outline: 0;
-    border: 1px solid color('turquoise-graphics');
+    border: 1px solid color('turquoise');
   }
 
   &::-ms-clear {

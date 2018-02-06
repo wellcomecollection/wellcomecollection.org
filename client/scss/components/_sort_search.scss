@@ -5,7 +5,7 @@
   }
 
   .icon__shape {
-    fill: color('turquoise-text');
+    fill: color('teal');
   }
 }
 
@@ -22,7 +22,7 @@
 }
 
 .sort-search__toggle {
-  color: color('turquoise-text');
+  color: color('teal');
   width: 100%;
 
   &:focus {
@@ -36,7 +36,7 @@
 
 .sort-search__label {
   display: none;
-  color: color('turquoise-text');
+  color: color('teal');
 
   @include respond-to('medium') {
     display: inline-flex;

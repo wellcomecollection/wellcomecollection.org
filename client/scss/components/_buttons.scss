@@ -13,8 +13,8 @@
   min-height: 42px;
   padding: $v-spacing-unit $spacing-unit*2;
   color: color('white');
-  background-color: color('elf-green');
-  border: 2px solid color('elf-green');
+  background-color: color('green');
+  border: 2px solid color('green');
   border-radius: $border-radius-unit;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -25,8 +25,8 @@
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
-    background: color('mint');
-    border-color: color('mint');
+    background: color('green');
+    border-color: color('green');
     cursor: pointer;
   }
 
@@ -58,17 +58,17 @@
   }
 }
 
-.btn--charcoal {
+.btn--black {
   @include secondary;
   color: color('white');
-  border-color: color('charcoal');
+  border-color: color('black');
   -webkit-font-smoothing: subpixel-antialiased;
   -moz-osx-font-smoothing: unset;
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
     background-color: color('black');
-    border-color: color('charcoal');
+    border-color: color('black');
   }
 }
 
@@ -87,20 +87,20 @@
 
 .btn--dark {
   @include secondary;
-  color: color('mint');
-  border-color: rgba(color('mint'), 0.4);
+  color: color('green');
+  border-color: rgba(color('green'), 0.4);
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
-    color: color('java');
-    border-color: color('java');
+    color: color('green');
+    border-color: color('green');
   }
 }
 
 .btn--transparent-black {
   @include secondary;
   color: color('white');
-  border-color: color('charcoal');
+  border-color: color('black');
   background-color: color('transparent-black');
 
   &:not([disabled]):hover,

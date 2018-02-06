@@ -45,7 +45,7 @@
   &.opening-hours__tabitem--is-current {
     color: color('silver');
     border-color: color('charcoal');
-    border-bottom-color: color('dark-black');
+    border-bottom-color: color('black');
 
     .opening-hours--light & {
       color: color('black');
@@ -67,7 +67,7 @@
 
   &:hover,
   &:focus {
-    color: color('mint');
+    color: color('green');
 
     .opening-hours--light & {
       color: color('black');

@@ -1,8 +1,7 @@
 @function color($name) {
   $name: quote($name);
-  $list: map-get($colors, $name);
 
-  @return nth($list, 1);
+  @return map-get($colors, $name);
 }
 
 // Converts pixel values to rems
