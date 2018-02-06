@@ -23,6 +23,8 @@
 }
 
 .exhibition-hero__copy {
+  position: relative;
+  
   @include respond-to('large') {
     display: flex;
     align-items: center;
