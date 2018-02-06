@@ -80,6 +80,8 @@ export function parseEventDoc(doc: PrismicDoc): Event {
 
   const bookingType = parseEventBookingType(doc);
 
+  console.info(bookingType);
+
   const e = ({
     id: doc.id,
     identifiers: identifiers,
@@ -122,7 +124,7 @@ export function parseAudience(frag: Object): ?Audience {
 export function parseEventBookingType(eventDoc: Object): ?string {
   return !isEmptyObj(eventDoc.data.eventbriteEvent) ? 'Ticketed'
     : !isEmptyDocLink(eventDoc.data.bookingEnquiryTeam) ? 'Enquire to book'
-      : !isEmptyDocLink(eventDoc.data.location) && eventDoc.data.location.data.capacity  ? 'First come, first seated'
+      : !isEmptyDocLink(eventDoc.data.location) && eventDoc.data.location.data.capacity  ? 'First come, first served'
         : null;
 }
 

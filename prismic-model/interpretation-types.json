@@ -7,18 +7,25 @@
         "label" : "Title"
       }
     },
-    "description" : {
-      "type" : "StructuredText",
-      "config" : {
-        "single" : "paragraph, hyperlink",
-        "label" : "Description"
-      }
-    },
     "abbreviation" : {
       "type" : "StructuredText",
       "config" : {
         "single" : "paragraph",
         "label" : "Abbreviation"
+      }
+    },
+    "description" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : "paragraph, hyperlink",
+        "label" : "Message"
+      }
+    },
+    "primaryDescription" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : "paragraph, hyperlink",
+        "label" : "Message if primary interpretation"
       }
     }
   }
