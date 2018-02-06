@@ -26,7 +26,7 @@
       </div>
 
       <div class="exhibition-hero">
-        {% componentV2 'picture', {images: exhibition.featuredImages.toJS()}, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture']} %}
+        {% componentV2 'picture', {images: exhibition.featuredImages.toJS()}, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture'], showCopyright: true} %}
 
         <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">
           <div class="is-hidden-l is-hidden-xl">
