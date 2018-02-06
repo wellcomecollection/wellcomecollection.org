@@ -31,3 +31,16 @@
     {% endif %}
   {% endfor %}
 </picture>
+{% set singleImage = model.images[0] %}
+{% if ((singleImage.title or singleImage.source.name or singleImage.copyright.name or singleImage.license) and data.showCopyright) %}
+  {% set tasl = {
+    title: singleImage.title,
+    author: singleImage.author,
+    sourceName: singleImage.source.name,
+    sourceLink: singleImage.source.link,
+    license: singleImage.license,
+    copyrightHolder: singleImage.copyright.holder,
+    copyrightLink: singleImage.copyright.link
+  } %}
+  {% componentV2 'tasl', tasl, {'full': true} %}
+{% endif %}
