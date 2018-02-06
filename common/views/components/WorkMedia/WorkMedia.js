@@ -57,13 +57,13 @@ const WorkMedia = ({
           <div className="grid">
             <div className={grid({s: 12})}>
               <a className={`
-                  flex-inline flex-v-center plain-link font-elf-green font-hover-mint
+                  flex-inline flex-v-center plain-link font-green font-hover-turquoise
                   ${font({s: 'HNM4'})}
                   ${spacing({s: 1}, {margin: ['top', 'bottom']})}
                 `}
               href={href(queryString, id)}
               data-track-event={tracking(queryString, id, trackTitle)}>
-                <Icon name='arrow' extraClasses='icon--elf-green icon--180' />
+                <Icon name='arrow' extraClasses='icon--green icon--180' />
                 <span className={spacing({s: 1}, {margin: ['left']})}>Search results</span>
               </a>
             </div>
