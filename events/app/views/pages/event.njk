@@ -211,10 +211,8 @@
               <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
                 <p class="no-margin">
                   {% if interpretation.isPrimary %}
-                    This event is primarily
-                    {{ interpretation.interpretationType.description | safe }}.
+                    {{ interpretation.interpretationType.primaryDescription | safe }}.
                   {% else %}
-                    This event will be
                     {{ interpretation.interpretationType.description | safe }}.
                   {% endif %}
                 </p>

@@ -41,7 +41,8 @@ const eventFields = [
   'teams.title', 'teams.email', 'teams.phone', 'teams.url',
   'event-formats.title', 'event-formats.description', 'event-formats.shortName',
   'locations.title', 'locations.geolocation', 'locations.level', 'locations.capacity',
-  'interpretation-types.title', 'interpretation-types.description', 'interpretation-types.abbreviation',
+  'interpretation-types.title', 'interpretation-types.abbreviation',
+  'interpretation-types.description', 'interpretation-types.primaryDescription',
   'audiences.title'
 ];
 
@@ -219,8 +220,9 @@ function createEventPromos(allResults): Array<EventPromo> {
     const interpretations = event.data.interpretations.map(interpretation => !isEmptyDocLink(interpretation.interpretationType) ? ({
       interpretationType: {
         title: asText(interpretation.interpretationType.data.title),
+        abbreviation: asText(interpretation.interpretationType.data.abbreviation),
         description: asText(interpretation.interpretationType.data.description),
-        abbreviation: asText(interpretation.interpretationType.data.abbreviation)
+        primaryDescription: asText(interpretation.interpretationType.data.primaryDescription)
       },
       isPrimary: Boolean(interpretation.isPrimary)
     }) : null).filter(_ => _);

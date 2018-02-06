@@ -38,6 +38,7 @@ type InterpretationType = {|
   id: string;
   title: string;
   description: ?string;
+  primaryDescription: ?string;
 |}
 
 type Interpretation = {|
