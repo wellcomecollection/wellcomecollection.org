@@ -133,7 +133,6 @@ export const work = async(ctx, next) => {
     )
   );
   const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
-  console.info(iiifInfoUrl);
 
   ctx.render('pages/work', {
     id,
