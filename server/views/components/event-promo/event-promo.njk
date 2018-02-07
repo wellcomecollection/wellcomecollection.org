@@ -27,7 +27,7 @@
         <span>{{ model.format.title }}</span>
 
         {% if model.audience.title %}
-          <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
+          <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['left'], margin: ['left']}) }}">
             {{ model.audience.title }}
           </span>
         {% endif %}
