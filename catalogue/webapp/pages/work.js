@@ -1,9 +1,9 @@
 import fetch from 'isomorphic-unfetch';
-import criticalCss from '@wellcomecollection/common/styles/critical.scss';
-import DefaultPageLayout from '@wellcomecollection/common/views/components/DefaultPageLayout/DefaultPageLayout';
-import PageDescription from '@wellcomecollection/common/views/components/PageDescription/PageDescription';
-import InfoBanner from '@wellcomecollection/common/views/components/InfoBanner/InfoBanner';
-import WorkMedia from '@wellcomecollection/common/views/components/WorkMedia/WorkMedia';
+import criticalCss from '@weco/common/styles/critical.scss';
+import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/DefaultPageLayout';
+import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
+import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
+import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 
 // Not sure we want to type this not dynamically
 // as the API is subject to change?
