@@ -56,15 +56,15 @@ export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date
   const relativeTime = getRelativeTime({start, end});
 
   if (end === null) {
-    return {text: 'Ongoing', color: 'mint'};
+    return {text: 'Ongoing', color: 'green'};
   } else if (relativeTime.isFuture) {
     return {text: 'Coming soon', color: 'marble'};
   } else if (relativeTime.isPast) {
     return {text: 'Past', color: 'marble'};
   } else if (relativeTime.isLastWeek) {
-    return {text: 'Last week', color: 'orange-graphics'};
+    return {text: 'Last week', color: 'orange'};
   } else {
-    return {text: 'Current', color: 'mint'};
+    return {text: 'Current', color: 'green'};
   }
 }
 
