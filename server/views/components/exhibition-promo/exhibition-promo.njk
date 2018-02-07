@@ -5,8 +5,10 @@
 {% endif %}
 
 <a data-component="ExhibitionPromo"
-   data-track-event="{{ {category: 'component', action: 'exhibition-promo:click' } | dump }}"
-   id="{{model.id}}" href="{{ model.url }}" class="plain-link promo-link bg-cream rounded-top rounded-bottom overflow-hidden flex flex--column">
+   data-track-event="{{ {category: 'component', action: 'ExhibitionPromo:click' } | dump }}"
+   id="{{model.id}}"
+   href="{{ model.url }}"
+   class="plain-link promo-link bg-cream rounded-top rounded-bottom overflow-hidden flex flex--column">
 
   {% componentV2 'image', model.image, {}, {lazyload: true, sizesQueries: sizes, defaultSize: data.defaultSize} %}
 

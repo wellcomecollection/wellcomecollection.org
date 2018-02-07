@@ -1,5 +1,7 @@
 {% set hasLink = model.url %}
 <{{'a' if hasLink else 'div'}}
+data-component="BookPromo"
+data-track-event="{{ {category: 'component', action: 'BookPromo:click' } | dump }}"
 class="book-promo {{ {s:10} | spacingClasses({margin: ['top']}) }}  {{ {s:4, m:5} | spacingClasses({margin: ['bottom']}) }} {{ {s:4} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }} rounded-diagonal"
 {% if hasLink %} href="{{model.url}}"{% endif %}>
   <div class="book-promo__image-container {{ {s:4} | spacingClasses({margin: ['right', 'bottom']}) }}">
