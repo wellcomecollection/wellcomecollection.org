@@ -1,10 +1,10 @@
 {
   "presets": [
-    ["env", {
-      "targets": {
-        "node": "current"
-      }
-    }]
+    "env",
+    "react"
   ],
-  "ignore": ["node_modules"]
+  "plugins": [
+    "transform-react-constant-elements",
+    "transform-react-inline-elements"
+  ]
 }
