@@ -1,6 +1,6 @@
 {% set sizes = data.sizes if data.sizes else '100vw' %}
 <a data-component="FacilityPromo"
-   data-track-event="{{ {category: 'component', action: 'facility-promo:click' } | dump }}"
+   data-track-event="{{ {category: 'component', action: 'FacilityPromo:click' } | dump }}"
    id="{{model.id}}"
    href="{{ model.url }}"
    class="plain-link promo-link">
