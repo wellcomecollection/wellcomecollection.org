@@ -177,7 +177,7 @@ const DefaultPageLayout = ({
 
   <div>
     <Head>
-      <meta charSet="utf-8" />
+      <meta charSet='utf-8' />
       {/* TODO: use flag as to whether to include this */}
       <Analytics
         category={null}
@@ -185,10 +185,10 @@ const DefaultPageLayout = ({
         positionInSeries={null}
         contentType={null} />
 
-      <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+      <meta httpEquiv='X-UA-Compatible' content='IE=edge,chrome=1' />
       <title>{`${title} | Wellcome Collection`}</title>
-      <meta name='viewport" content="width=device-width, initial-scale=1' />
-      <meta name='theme-color" content="#000000'/>
+      <meta name='viewport' content='width=device-width, initial-scale=1' />
+      <meta name='theme-color' content='#000000'/>
 
       <OpenGraph
         type={type}
@@ -206,25 +206,25 @@ const DefaultPageLayout = ({
 
       {/* CSS */}
 
-      <link rel='preload' href='/static/css/non-critical.css' as="style" onLoad='this.rel="stylesheet"' />
+      <link rel='preload' href='/static/css/non-critical.css' as='style' onLoad='this.rel="stylesheet"' />
       <link rel='apple-touch-icon' sizes='180x180' href='/static/icons/apple-touch-icon.png' />
       <link rel='shortcut icon' href='/static/icons/favicon.ico' type='image/ico' />
-      <link rel='icon' type='image/png' href='/static/icons/favicon-32x32.png' sizes="32x32" />
-      <link rel='icon' type='image/png' href='/static/icons/favicon-16x16.png' sizes="16x16" />
+      <link rel='icon' type='image/png' href='/static/icons/favicon-32x32.png' sizes='32x32' />
+      <link rel='icon' type='image/png' href='/static/icons/favicon-16x16.png' sizes='16x16' />
       <link rel='manifest' href='/static/icons/manifest.json' />
       <link rel='mask-icon' href='/static/icons/safari-pinned-tab.svg' color='#000000' />
       <script src='/static/libs/picturefill.min.js' async />
       {/* Leaving this out for now as it's hanging locally for me */}
       {/* <script src='//platform.twitter.com/widgets.js' async defer></script> */}
       <HeadJs enhancedJsPath='/static/js/app.js' />
-      <script type="application/ld+json">{/* JSON+LD Z */}</script>
+      <script type='application/ld+json'>{/* JSON+LD Z */}</script>
       <script dangerouslySetInnerHTML={{ __html: `
       window.WC = {
         featuresCohort: ${JSON.stringify(featuresCohort)},
         featureFlags: ${JSON.stringify(featureFlags)}
       }
     `}} />
-      {url && <link rel="canonical" href={url} />}
+      {url && <link rel='canonical' href={url} />}
     </Head>
 
     <div className={isPreview ? 'is-preview' : undefined}>
