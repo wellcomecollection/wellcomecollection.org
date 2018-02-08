@@ -11,7 +11,7 @@ const DocsPromos = () => (
       meta={{value: `What's their purpose, what they aren't, and what they have the potential to become.`}} />
     <BodyBlock>
       <p id='whats_their_purpose'>
-        A promo is how [content types from our domain](https://user-images.githubusercontent.com/31692/35921561-dc6e90bc-0c12-11e8-96c5-46a01573afd1.png)
+        A promo is how <a href='https://user-images.githubusercontent.com/31692/35921561-dc6e90bc-0c12-11e8-96c5-46a01573afd1.png'>content types from our domain</a>
         promote themselves across our sites, and externally, based on a
         combination of content, promotional, and contextual data.
       </p>
