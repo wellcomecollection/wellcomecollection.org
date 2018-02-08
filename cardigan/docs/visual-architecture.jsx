@@ -4,8 +4,8 @@ import BodyBlock from './BodyBlock';
 import PageDescription from '../../common/views/components/PageDescription/PageDescription';
 
 type Props = {
-  breakpoints: {|small: string, medium: string, large: string, xlarge: string|},
-  gridConfig: {|s: {}, m: {}, l: {}, xl: {}|}
+  breakpoints: {|name: string, size: string|}[],
+  gridConfig: {| name: string, gutterWidth: string, marginWidth: string |}[]
 }
 
 const DocsVisualArchitecture = ({breakpoints, gridConfig}: Props) => (

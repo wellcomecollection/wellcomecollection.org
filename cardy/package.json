@@ -4,7 +4,8 @@
   "description": "Wellcome Collection's design system",
   "main": "index.js",
   "scripts": {
-    "dev": "fractal start"
+    "dev": "fractal start",
+    "build": "node ./build-cardigan.js"
   },
   "keywords": [],
   "author": "",

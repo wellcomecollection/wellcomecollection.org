@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   wip: {
     label: 'WIP',
     description: 'Work in progress',

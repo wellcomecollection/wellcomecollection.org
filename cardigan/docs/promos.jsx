@@ -8,10 +8,10 @@ const DocsPromos = () => (
     <PageDescription
       title='Promos'
       lead={true}
-      meta={{value: `What's their purpose, what they aren't, and what the have the potential to become.`}} />
+      meta={{value: `What's their purpose, what they aren't, and what they have the potential to become.`}} />
     <BodyBlock>
       <p id='whats_their_purpose'>
-        A promo is how [content types from out domain](https://user-images.githubusercontent.com/31692/35921561-dc6e90bc-0c12-11e8-96c5-46a01573afd1.png)
+        A promo is how [content types from our domain](https://user-images.githubusercontent.com/31692/35921561-dc6e90bc-0c12-11e8-96c5-46a01573afd1.png)
         promote themselves across our sites, and externally, based on a
         combination of content, promotional, and contextual data.
       </p>
@@ -28,17 +28,15 @@ const DocsPromos = () => (
       <img src='https://user-images.githubusercontent.com/31692/35923356-ea0a0030-0c17-11e8-8e99-4d28412b73cb.png'
            alt='An example of a promo using contextual, content, and promotional data' />
 
-      <p>
-        Using the example above example:
-        <ul>
-          <li>The "5" is contextual as this promo is in a list of ordered articles</li>
-          <li>The series title is directly linked to the content of the article</li>
-          <li>
-            The text below the image has been created by editors to promote the article.
-            It is not actually part of the article's body.
-          </li>
-        </ul>
-      </p>
+      <h3>Using the above example:</h3>
+      <ul>
+        <li>The "5" is contextual as this promo is in a list of ordered articles</li>
+        <li>The series title is directly linked to the content of the article</li>
+        <li>
+          The text below the image has been created by editors to promote the article.
+          It is not actually part of the article's body.
+        </li>
+      </ul>
 
       <h2 id='what_they_arent'>What they aren't</h2>
       <p>Promos are not adverts, nor functional components.</p>
@@ -65,7 +63,7 @@ const DocsPromos = () => (
       <h2>Potentialities</h2>
       <p>
         We would like to look at the difference between pull and push promos.
-        i.e. content that we surface and allow you to chose from vs content we
+        i.e. content that we surface and allow you to choose from vs content we
         have deemed to be of special interest and thus promote more emphatically.
       </p>
       <p>
