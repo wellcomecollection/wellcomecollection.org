@@ -11,6 +11,7 @@ import zoomOut from './zoom-out';
 import information from './information';
 import underConstruction from './under_construction';
 import clear from './clear';
+import download from './download';
 export {
   arrow,
   cc,
@@ -29,5 +30,6 @@ export {
   zoomOut,
   information,
   underConstruction,
-  clear
+  clear,
+  download
 };
