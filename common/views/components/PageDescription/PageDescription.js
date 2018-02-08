@@ -8,7 +8,7 @@ type Props = {|
   lead?: boolean,
   title: string,
   meta?: {|
-    type: string,
+    type?: string,
     value: string
   |},
   intro?: string,
