@@ -15,7 +15,7 @@ function renderIcons(icons) {
       <Icon key={i} name={i} extraClasses='v-align-middle margin-right-s1' />
     ));
   }
-};
+}
 
 function renderLicenseLink(url, icons, text) {
   if (url) {
