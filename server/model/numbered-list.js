@@ -2,6 +2,7 @@
 import { type Picture } from './picture';
 
 export type NumberedList = {|
+  url?: ?string;
   name?: ?string;
   image?: ?Picture;
   items: Array<{
