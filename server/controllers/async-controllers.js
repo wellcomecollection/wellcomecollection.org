@@ -20,7 +20,7 @@ const getSeriesData = async(ctx) => {
   return {
     current: ctx.request.query.current,
     model: createNumberedList({
-      url: `/series/${series.id}`,
+      url: `${series.id}`,
       name: promoList.name,
       image: image,
       items: items,
