@@ -1,10 +1,10 @@
 // @flow
-import urlTemplate from 'url-template';
 import {grid, font, spacing} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import Image from '../Image/Image';
 import ImageViewer from '../ImageViewer/ImageViewer';
 import ScrollToInfo from '../ScrollToInfo/ScrollToInfo';
+import {iiifImageTemplate} from '../../../utils/convert-image-uri';
 
 type Props = {|
   id: string,
@@ -26,20 +26,6 @@ const tracking = (queryString, id, trackTitle) => {
   }`;
 };
 
-function iiifImage(infoJsonLocation: string) {
-  const baseUrl = infoJsonLocation.replace('/info.json', '');
-  const templateString = `${baseUrl}/{region}/{size}/{rotation}/{quality}.{format}`;
-  const defaultOpts = {
-    region: 'full',
-    size: 'full',
-    rotation: 0,
-    quality: 'default',
-    format: 'jpg'
-  };
-  const template = urlTemplate.parse(templateString);
-  return (opts) => template.expand(Object.assign({}, defaultOpts, opts));
-}
-
 const WorkMedia = ({
   id,
   title,
@@ -48,7 +34,7 @@ const WorkMedia = ({
   queryString
 }: Props) => {
   const trackTitle = title.substring(0, 50);
-  const imageContentUrl = iiifImage(iiifUrl)({ size: `${width},` });
+  const imageContentUrl = iiifImageTemplate(iiifUrl)({ size: `${width},` });
   return (
     <div>
       {queryString &&

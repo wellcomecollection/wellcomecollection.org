@@ -1,3 +1,5 @@
+import urlTemplate from 'url-template';
+
 const imageMap = {
   wordpress: {
     root: 'https://wellcomecollection.files.wordpress.com/',
@@ -87,4 +89,18 @@ export function convertImageUri(originalUri, requiredSize, useIiifOrigin) {
       }
     }
   }
+}
+
+export function iiifImageTemplate(infoJsonLocation: string) {
+  const baseUrl = infoJsonLocation.replace('/info.json', '');
+  const templateString = `${baseUrl}/{region}/{size}/{rotation}/{quality}.{format}`;
+  const defaultOpts = {
+    region: 'full',
+    size: 'full',
+    rotation: 0,
+    quality: 'default',
+    format: 'jpg'
+  };
+  const template = urlTemplate.parse(templateString);
+  return (opts) => template.expand(Object.assign({}, defaultOpts, opts));
 }
