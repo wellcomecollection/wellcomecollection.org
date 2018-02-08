@@ -4,7 +4,7 @@
     <header class="numbered-list__header {{ 'numbered-list__header--has-image' if model.image }}">
       <h2 class="numbered-list__heading {{ {s:'WB5', m:'WB4', l:'WB3'} | fontClasses if isTransporter else {s:'WB6'} | fontClasses }}">
         {% if model.url %}
-          <a href="/series/{{ model.url }}" class="no-text-decoration">{{ model.name }}</a>
+          <a href="/series/{{ model.url }}" class="plain-link">{{ model.name }}</a>
         {% else %}
           {{ model.name }}
         {% endif %}
