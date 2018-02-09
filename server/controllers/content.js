@@ -210,7 +210,7 @@ export async function renderArticlesList(ctx, next) {
   const promoList = PromoListFactory.fromSeries(series);
   const pagination = PaginationFactory.fromList(promoList.items, articlesList.totalResults, page || 1, articlesList.pageSize);
   const path = ctx.request.url;
-  const moreLink = articlesList.totalPages === 1 || articlesList.currentPage === articlesList.totalPages ? '/articles?format=archive' : null;
+  const moreLink = articlesList.totalPages === 1 || articlesList.currentPage === articlesList.totalPages ? '/articles/archive' : null;
 
   ctx.render('pages/list', {
     pageConfig: createPageConfig({

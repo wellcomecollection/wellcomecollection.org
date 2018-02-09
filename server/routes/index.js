@@ -56,17 +56,11 @@ r.get('/works', search);
 r.get('/works/:id', work);
 
 // Deprecated: Wordpress content
+r.get('/articles/archive', articles);
 r.get('/articles/:slug', article);
 r.get('/articles/preview/:id', preview);
 r.get('/series/:id', series);
-r.get('/articles', async (ctx, next) => {
-  const format = ctx.query.format;
-  if (format === 'archive') {
-    return articles(ctx, next);
-  } else {
-    return renderArticlesList(ctx, next);
-  }
-});
+r.get('/articles', renderArticlesList);
 
 // Async
 r.get('/async/series-nav/:id', seriesNav);
