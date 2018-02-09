@@ -1,18 +1,18 @@
 import fetch from 'isomorphic-unfetch';
-import criticalCss from '@wellcomecollection/common/styles/critical.scss';
-import {font, spacing, grid, classNames} from '@wellcomecollection/common/utils/classnames';
-import {iiifImageTemplate} from '@wellcomecollection/common/utils/convert-image-uri';
-import DefaultPageLayout from '@wellcomecollection/common/views/components/DefaultPageLayout/DefaultPageLayout';
-import PageDescription from '@wellcomecollection/common/views/components/PageDescription/PageDescription';
-import InfoBanner from '@wellcomecollection/common/views/components/InfoBanner/InfoBanner';
-import WorkMedia from '@wellcomecollection/common/views/components/WorkMedia/WorkMedia';
-import Icon from '@wellcomecollection/common/views/components/Icon/Icon';
-import MoreInfoLink from '@wellcomecollection/common/views/components/MoreInfoLink/MoreInfoLink';
-import WorkDrawer from '@wellcomecollection/common/views/components/WorkDrawer/WorkDrawer';
-import License from '@wellcomecollection/common/views/components/License/License';
-import Divider from '@wellcomecollection/common/views/components/Divider/Divider';
-import CopyUrl from '@wellcomecollection/common/views/components/CopyUrl/CopyUrl';
-import MetaUnit from '@wellcomecollection/common/views/components/MetaUnit/MetaUnit';
+import criticalCss from '@weco/common/styles/critical.scss';
+import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
+import {iiifImageTemplate} from '@weco/common/utils/convert-image-uri';
+import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/DefaultPageLayout';
+import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
+import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
+import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import MoreInfoLink from '@weco/common/views/components/MoreInfoLink/MoreInfoLink';
+import WorkDrawer from '@weco/common/views/components/WorkDrawer/WorkDrawer';
+import License from '@weco/common/views/components/License/License';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
+import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 
 export type Link = {|
   text: string;
