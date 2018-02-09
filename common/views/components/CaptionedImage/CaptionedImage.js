@@ -27,7 +27,19 @@ type Props = {|
 function buildImageMarkup(positionInSeries, series, contentType, image) {
   if (positionInSeries && series.commissionedLength && series.color && contentType === 'article') {
     return ([
-      <Image key="1" {...image} />,
+      <Image
+        key="1"
+        width={image.width}
+        height={image.height}
+        contentUrl={image.contentUrl}
+        clipPathClass={image.clipPathClass}
+        alt={image.alt}
+        caption={image.caption}
+        lazyload={image.lazyload}
+        sizesQueries={image.sizesQueries}
+        copyright={image.copyright}
+        defaultSize={image.defaultSize}
+      />,
       <ChapterIndicator
         key="2"
         position={positionInSeries}
@@ -37,7 +49,18 @@ function buildImageMarkup(positionInSeries, series, contentType, image) {
     ]);
   } else {
     return (
-      <Image {...image} />
+      <Image
+        width={image.width}
+        height={image.height}
+        contentUrl={image.contentUrl}
+        clipPathClass={image.clipPathClass}
+        alt={image.alt}
+        caption={image.caption}
+        lazyload={image.lazyload}
+        sizesQueries={image.sizesQueries}
+        copyright={image.copyright}
+        defaultSize={image.defaultSize}
+      />
     );
   }
 }
@@ -60,7 +83,7 @@ const CaptionedImage = ({
 }: Props) => (
   <figure className={`captioned-image ${isFull ? 'captioned-image--is-full' : ''}`}>
     <div className="captioned-image__image-container">
-      {buildImageMarkup(positionInSeries, series, contentType)}
+      {buildImageMarkup(positionInSeries, series, contentType, image)}
       {(title || source || copyright || license) && showCopyright &&
         <Tasl
           isFull={isFull}
