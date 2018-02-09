@@ -4,7 +4,7 @@ import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
 import type {
   DateTimeRange, Event, Contributor, Team,
-  Location, EventFormat, Audience
+  Place, EventFormat, Audience
 } from '../content-model/events';
 import getBreakpoint from '../filters/get-breakpoint';
 import {parseBody, parseFeaturedBody} from './prismic-body-parser';
@@ -51,18 +51,18 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     url: doc.data.bookingEnquiryTeam.data.url
   }: Team);
 
-  const location = (doc.data.location && !isEmptyDocLink(doc.data.location)) ? ({
-    id: doc.data.location.id,
-    title: asText(doc.data.location.data.title),
-    // Geolocation as it stands can't be fetch via `fetchLinks`
+  const place = (doc.data.place && !isEmptyDocLink(doc.data.place)) ? ({
+    id: doc.data.place.id,
+    title: asText(doc.data.place.data.title),
+    // geolocation, as it stands, can't be fetch via `fetchLinks`
     geolocation: null,
     // geolocation: {
-    //   latitude: location.location.data.geolocation.latitude,
-    //   longitude: location.location.data.geolocation.longitude
+    //   latitude: place.place.data.geolocation.latitude,
+    //   longitude: place.place.data.geolocation.longitude
     // },
-    level: doc.data.location.data.level,
-    capacity: doc.data.location.data.level
-  }: Location) : null;
+    level: doc.data.place.data.level,
+    capacity: doc.data.place.data.level
+  }: Place) : null;
 
   const interpretations = doc.data.interpretations.map(interpretation => !isEmptyDocLink(interpretation.interpretationType) ? ({
     interpretationType: {
@@ -97,7 +97,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     contributors: contributors,
     promo: promo,
     series: [],
-    location: location,
+    place: place,
     bookingInformation: asHtml(doc.data.bookingInformation),
     bookingType: bookingType
   }: Event);

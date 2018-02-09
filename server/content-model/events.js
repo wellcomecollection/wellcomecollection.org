@@ -59,7 +59,7 @@ type Geolocation = {|
   longitude: number
 |}
 
-export type Location = {|
+export type Place = {|
   id: string,
   title: string,
   geolocation: ?Geolocation,
@@ -89,7 +89,7 @@ export type Event = {|
   times: Array<DateTimeRange>,
   description: ?HTMLString,
   series: Array<EventSeries>,
-  location: ?Location,
+  place: ?Place,
   bookingEnquiryTeam: ?Team,
   contributors: Array<Contributor>,
   promo: ?ImagePromo,
@@ -201,7 +201,7 @@ export const eventExample = ({
       contributors: []
     }
   ],
-  location: {
+  place: {
     id: 'WdTMsycAAL20UYr1',
     title: 'Williams Lounge',
     level: -1,

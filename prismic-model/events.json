@@ -102,13 +102,13 @@
         }
       }
     },
-    "location" : {
+    "place" : {
       "type" : "Link",
-      "fieldset" : "Location",
+      "fieldset" : "Place",
       "config" : {
         "select" : "document",
-        "customtypes" : [ "locations" ],
-        "label" : "Location"
+        "customtypes" : [ "places" ],
+        "label" : "Where is the event held?"
       }
     }
   },
