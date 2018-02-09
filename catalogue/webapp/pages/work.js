@@ -265,7 +265,7 @@ const WorkPage = ({ work }: Props) => {
                 })}>
                 <Icon name='download' extraClasses='icon--green' />
                 <div className={spacing({s: 1}, {margin: ['left']})}>
-                  Download original
+                  Download full size
                 </div>
               </a>
 
