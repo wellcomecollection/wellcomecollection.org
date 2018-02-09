@@ -28,7 +28,7 @@ const Image = ({
   defaultSize = 30,
   alt = ''
 }: Props) => (
-  <div className="work-media__image-container">
+  <div>
     <noscript>
       <img width={width}
         height={height}

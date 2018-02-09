@@ -19,11 +19,10 @@ type Props = {|
 
 function buildMarkup(showSingle, commissionedLength, position, showTotal, color) {
   const repeat = new Array(showSingle ? 1 : commissionedLength);
-
-  return repeat.map((item, index) => {
+  return [...repeat].map((item, index) => {
     const srcUrl = index <= position || showTotal
       ? `data:image/gif;base64,R0lGODlhAQAEAIAAA${colorDataUris[color]}`
-      : `data:image/gif;base64,R0lGODlhAQAEAIAAA$colorDataUris.white`;
+      : `data:image/gif;base64,R0lGODlhAQAEAIAAA${colorDataUris['white']}`;
 
     return (
       <img key={index} className={`chapter-indicator__bar ${(index <= position) || showTotal ? 'chapter-indicator__bar--filled' : ''}`}

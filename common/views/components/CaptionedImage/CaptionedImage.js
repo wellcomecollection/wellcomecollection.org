@@ -1,10 +1,6 @@
 // @flow
 
 import {font, spacing} from '../../../utils/classnames';
-import Image from '../Image/Image';
-import type {Props as ImageProps} from '../Image/Image';
-import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
-import Tasl from '../Tasl/Tasl';
 import Icon from '../Icon/Icon';
 
 type Props = {|
@@ -14,56 +10,10 @@ type Props = {|
   caption: string,
   truncateCaption: string,
   slideNumbers: Object,
-  title?: string,
-  source?: {|name?: string, link?: string|},
-  author?: string,
-  copyright?: {|holder?: string, link?: string|},
-  license?: string,
-  showCopyright?: boolean,
-  image: ImageProps,
-  isFull: boolean
+  isFull: boolean,
+  fitVh: boolean,
+  children: React.Node
 |}
-
-function buildImageMarkup(positionInSeries, series, contentType, image) {
-  if (positionInSeries && series.commissionedLength && series.color && contentType === 'article') {
-    return ([
-      <Image
-        key="1"
-        width={image.width}
-        height={image.height}
-        contentUrl={image.contentUrl}
-        clipPathClass={image.clipPathClass}
-        alt={image.alt}
-        caption={image.caption}
-        lazyload={image.lazyload}
-        sizesQueries={image.sizesQueries}
-        copyright={image.copyright}
-        defaultSize={image.defaultSize}
-      />,
-      <ChapterIndicator
-        key="2"
-        position={positionInSeries}
-        color={series.color}
-        commissionedLength={series.commissionedLength}
-      />
-    ]);
-  } else {
-    return (
-      <Image
-        width={image.width}
-        height={image.height}
-        contentUrl={image.contentUrl}
-        clipPathClass={image.clipPathClass}
-        alt={image.alt}
-        caption={image.caption}
-        lazyload={image.lazyload}
-        sizesQueries={image.sizesQueries}
-        copyright={image.copyright}
-        defaultSize={image.defaultSize}
-      />
-    );
-  }
-}
 
 const CaptionedImage = ({
   positionInSeries,
@@ -72,30 +22,13 @@ const CaptionedImage = ({
   caption,
   truncateCaption,
   slideNumbers,
-  title,
-  source,
-  author,
-  copyright,
-  license,
-  showCopyright,
-  image,
-  isFull
+  isFull,
+  fitVh,
+  children
 }: Props) => (
-  <figure className={`captioned-image ${isFull ? 'captioned-image--is-full' : ''}`}>
+  <figure className={`captioned-image ${isFull ? 'captioned-image--is-full' : ''} ${fitVh ? 'captioned-image--fit-vh' : ''}`}>
     <div className="captioned-image__image-container">
-      {buildImageMarkup(positionInSeries, series, contentType, image)}
-      {(title || source || copyright || license) && showCopyright &&
-        <Tasl
-          isFull={isFull}
-          contentUrl={image.contentUrl}
-          title={title}
-          author={author}
-          sourceName={source && source.name}
-          sourceLink={source && source.link}
-          license={license}
-          copyrightHolder={copyright && copyright.holder}
-          copyrightLink={copyright && copyright.link} />
-      }
+      {children}
     </div>
     {caption &&
       <figcaption className={`captioned-image__caption ${font({s: 'LR3', m: 'LR2'})}`}>
@@ -110,7 +43,7 @@ const CaptionedImage = ({
               <span aria-hidden="true">{slideNumbers.current}/{slideNumbers.total}</span>
             </span>
           }
-          {caption}
+          <span dangerouslySetInnerHTML={{__html: caption}} />
         </div>
       </figcaption>
     }
