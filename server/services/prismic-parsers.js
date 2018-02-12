@@ -68,8 +68,8 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     interpretationType: {
       title: asText(interpretation.interpretationType.data.title),
       abbreviation: asText(interpretation.interpretationType.data.abbreviation),
-      description: deP(asHtml(interpretation.interpretationType.data.description)),
-      primaryDescription: deP(asHtml(interpretation.interpretationType.data.primaryDescription))
+      description: asHtml(interpretation.interpretationType.data.description),
+      primaryDescription: asHtml(interpretation.interpretationType.data.primaryDescription)
     },
     isPrimary: Boolean(interpretation.isPrimary)
   }) : null).filter(_ => _);
@@ -79,9 +79,13 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     description: asText(audience.audience.data.description)
   }) : null).filter(_ => _);
 
-  const bookingType = parseEventBookingType(doc);
+  const series = doc.data.series.map(series => !isEmptyDocLink(series.series) ? ({
+    id: series.id,
+    title: asText(series.series.data.title),
+    description: asText(series.series.data.description)
+  }) : null).filter(_ => _);
 
-  console.info(bookingType);
+  const bookingType = parseEventBookingType(doc);
 
   const e = ({
     id: doc.id,
@@ -96,7 +100,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     bookingEnquiryTeam: bookingEnquiryTeam,
     contributors: contributors,
     promo: promo,
-    series: [],
+    series: series,
     place: place,
     bookingInformation: asHtml(doc.data.bookingInformation),
     bookingType: bookingType

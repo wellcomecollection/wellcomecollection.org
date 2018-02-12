@@ -43,7 +43,8 @@ const eventFields = [
   'places.title', 'places.geolocation', 'places.level', 'places.capacity',
   'interpretation-types.title', 'interpretation-types.abbreviation',
   'interpretation-types.description', 'interpretation-types.primaryDescription',
-  'audiences.title'
+  'audiences.title',
+  'event-series.title', 'event-series.description'
 ];
 
 export const defaultPageSize = 40;

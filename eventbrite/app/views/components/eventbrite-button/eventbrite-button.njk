@@ -46,6 +46,25 @@
     'font-charcoal',
     {s:'HNL5'} | fontClasses,
     {s:1} | spacingClasses({margin: ['top']}),
-    {s:0} | spacingClasses({margin: ['bottom']})
+    {s:1} | spacingClasses({margin: ['bottom']})
   ].join(' ') -}}">with Eventbrite</p>
+
+  {% if ticket.onSaleStatus === 'sold_out' %}
+    <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top']}) }} {{ {s: 2} | spacingClasses({margin: ['top']}) }}">
+      <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Waiting list</h3>
+      <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
+        <p>
+          A waiting list will operate for most free ticketed events.
+          This opens in Wellcome Collection 60 minutes before the event starts
+          and must be registered for in person. If you register for the waiting
+          list, you'll be given a numbered ticket to take away, so you can enjoy
+          the café, galleries and bookshop if they are open before the event.
+          Moments before it starts, pre-booked places that fail to show are
+          allocated to waiting list ticket holders according to the numbers on
+          their tickets.
+        </p>
+        <p class="no-margin">If you come to register for the waiting list in person, you can take away a maximum of two tickets.</p>
+      </div>
+    </div>
+  {% endif %}
 </div>

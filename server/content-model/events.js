@@ -29,8 +29,7 @@ export type EventFormat = {|
 export type EventSeries = {|
   id: string,
   title: string,
-  description: ?HTMLString,
-  contributors: Array<Contributor>
+  description: ?HTMLString
 |}
 
 // E.g. 'British sign language interpreted' | 'Audio described' | 'Speech-to-Text';
@@ -184,8 +183,7 @@ export const eventExample = ({
         'we actually trust our senses? A scientific, ' +
         'philosophical and creative approach to this ' +
         'question will invite you on a journey into your ' +
-        'inner and outer experiences of the world.',
-      contributors: []
+        'inner and outer experiences of the world.'
     },
     {
       id: 'WcPx8ygAAH4Q9WgN',
@@ -197,8 +195,7 @@ export const eventExample = ({
         'the bar and restaurant open all night, it’s a great ' +
         'place for meeting with friends, looking at your favourite ' +
         'ideas in spectrum of different ways, or just learning ' +
-        'something new on a Friday night.',
-      contributors: []
+        'something new on a Friday night.'
     }
   ],
   place: {
