@@ -45,7 +45,16 @@
               {# TODO: This is not very nice #}
               <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon interpretation.interpretationType.title | replace(' ', '_') | replace('-', '_') | lower %}</span>
             {% endfor %}
-            <span>{{ event.format.title }}</span>
+            <span>
+              {{ event.format.title }}
+              {% set comma = joiner() %}
+              {% if event.audiences.length > 0 %}
+                for
+                {% for audience in event.audiences %}
+                  {{ comma() }} {{ audience.title }}
+                {%- endfor %}
+              {% endif %}
+            </span>
           </div>
         </div>
 
