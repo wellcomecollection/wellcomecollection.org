@@ -15,6 +15,15 @@
         "customtypes" : [ "event-formats" ]
       }
     },
+    "place" : {
+      "type" : "Link",
+      "fieldset" : "Place",
+      "config" : {
+        "select" : "document",
+        "customtypes" : [ "places" ],
+        "label" : "Where is the event held?"
+      }
+    },
     "series" : {
       "type" : "Group",
       "fieldset" : "Event series",
@@ -100,15 +109,6 @@
             }
           }
         }
-      }
-    },
-    "place" : {
-      "type" : "Link",
-      "fieldset" : "Place",
-      "config" : {
-        "select" : "document",
-        "customtypes" : [ "places" ],
-        "label" : "Where is the event held?"
       }
     }
   },
