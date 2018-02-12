@@ -44,7 +44,8 @@ const eventFields = [
   'interpretation-types.title', 'interpretation-types.abbreviation',
   'interpretation-types.description', 'interpretation-types.primaryDescription',
   'audiences.title',
-  'event-series.title', 'event-series.description'
+  'event-series.title', 'event-series.description',
+  'organisations.name', 'organisations.image', 'organisations.url'
 ];
 
 export const defaultPageSize = 40;
