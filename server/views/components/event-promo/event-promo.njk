@@ -24,13 +24,14 @@
             {% icon interpretation.interpretationType.title | replace(' ', '_') | replace('-', '_') | lower %}
           </span>
         {% endfor %}
-        <span>{{ model.format.title }}</span>
+        <span>
+          {{ model.format.title }}
+          {% if model.audience.title %}
+            for {{ model.audience.title }}
+          {% endif %}
+        </span>
 
-        {% if model.audience.title %}
-          <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['left'], margin: ['left']}) }}">
-            {{ model.audience.title }}
-          </span>
-        {% endif %}
+
       </div>
 
       <h2 class="promo-link__title {{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
