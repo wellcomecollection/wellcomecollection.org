@@ -14,8 +14,12 @@
             {% if contentType === 'comic' %}
               {{ bodyPart.value | safe }}
             {% elif bodyPart.type === 'picture' %}
-                {# On old content, the first paragraph is sometimes a picture #}
-                {% componentV2 'captioned-image', bodyPart.value, {}, {sizesQueries: '(min-width: 960px) 710px, 100vw'} %}
+              {# On old content, the first paragraph is sometimes a picture #}
+              {% set imageModel = bodyPart.value | objectAssign({lazyload: true, sizesQueries: '(min-width: 960px) 710px, 100vw'}) %}
+              {% componentJsx 'CaptionedImage', bodyPart.value, [
+                {name: 'Image', model: imageModel},
+                {name: 'Tasl', model: bodyPart.value}
+              ] %}
             {% else %}
                 {% component 'standfirst', { body: bodyPart.value } %}
             {% endif %}
@@ -33,7 +37,11 @@
               {% set sizes ='(min-width: 1340px) 579px, (min-width: 960px) calc(58.33vw - 100px), (min-width: 600px) calc(75vw - 63px), calc(100vw - 36px)' %}
             {% endif %}
             <div class="{{wrapperClasses}}">
-              {% componentV2 'captioned-image', bodyPart.value, {'has-border-bottom': bodyPart.value.caption}, {sizesQueries: sizes, showCopyright: true} %}
+              {% set imageModel = bodyPart.value | objectAssign({lazyload: true, sizesQueries: sizes}) %}
+              {% componentJsx 'CaptionedImage', bodyPart.value, [
+                {name: 'Image', model: imageModel},
+                {name: 'Tasl', model: bodyPart.value}
+              ] %}
             </div>
           {% elif bodyPart.type === 'video-embed' %}
             <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
@@ -72,7 +80,13 @@
                         </div>
                       </div>
                     </h2>
-                    {% componentV2 'captioned-image', item.image, {'has-border-bottom': item.image.caption}, {showCopyright: true} %}
+
+                    {% set imageModel = bodyPart.value | objectAssign({lazyload: true}) %}
+                    {% componentJsx 'CaptionedImage', bodyPart.value, [
+                      {name: 'Image', model:imageModel},
+                      {name: 'Tasl', model:bodyPart.value}
+                    ] %}
+
                     {{item.description | safe}}
                   </li>
                 {% endfor %}

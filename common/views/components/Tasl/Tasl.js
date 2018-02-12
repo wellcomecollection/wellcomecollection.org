@@ -38,8 +38,8 @@ const Tasl = ({isFull, contentUrl, title, author, sourceName, sourceLink, licens
     <div className={`
       drawer__body js-show-hide-drawer bg-black font-white
       ${spacing({s: 1}, {padding: ['top', 'bottom', 'left']})}
-      ${spacing({s: 6}, {padding: ['right']})}`}>
-      {getTaslMarkup({title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink})}
+      ${spacing({s: 6}, {padding: ['right']})}`}
+    dangerouslySetInnerHTML={{__html: getTaslMarkup({title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink})}}>
     </div>
     {isFull &&
       <button className="tasl__button absolute plain-button js-show-hide-trigger">
