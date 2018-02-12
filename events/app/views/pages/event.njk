@@ -201,7 +201,6 @@
               {{ event.bookingInformation | safe }}
             </div>
           {% endif %}
-
         </div>
       </div>
     </div>
@@ -291,6 +290,32 @@
           {s:4} | spacingClasses({margin: ['bottom']})
         ].join(' ') }}">{{ series.description | safe }}</div>
       {% endfor %}
+
+      {% for contributor in event.contributors %}
+        {% componentJsx 'Divider', {
+          extraClasses: 'divider--pumice divider--keyline ' + ({s: 1} | spacingClasses({margin: ['top', 'bottom']}))
+        } %}
+        <div class="bg-cream rounded-diagonal {{ {s: 4} | spacingClasses({margin: ['top', 'bottom'], padding: ['top', 'bottom', 'left', 'right']}) }}">
+          <h2 class="{{[
+            {s:'HNM5', m:'HNM4'} | fontClasses,
+            {s: 0} | spacingClasses({margin: ['top']}),
+            {s: 1} | spacingClasses({margin: ['bottom']})
+          ].join(' ')}}">In partnership with</h2>
+          <div class="grid">
+            <div class="{{ {s:6, m: 6, l: 6, xl: 6} | gridClasses }}">
+              <a href="{{ contributor.url }}">
+                {% componentV2 'image', {
+                  width: contributor.image.width,
+                  contentUrl: contributor.image.contentUrl,
+                  alt: contributor.image.contentUrl
+                }, [], { lazyload: true } %}
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+
+
     </div>
   </div>
 
