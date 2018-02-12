@@ -125,7 +125,7 @@ export function parseAudience(frag: Object): ?Audience {
 export function parseEventBookingType(eventDoc: Object): ?string {
   return !isEmptyObj(eventDoc.data.eventbriteEvent) ? 'Ticketed'
     : !isEmptyDocLink(eventDoc.data.bookingEnquiryTeam) ? 'Enquire to book'
-      : !isEmptyDocLink(eventDoc.data.location) && eventDoc.data.location.data.capacity  ? 'First come, first served'
+      : !isEmptyDocLink(eventDoc.data.place) && eventDoc.data.place.data.capacity  ? 'First come, first served'
         : null;
 }
 
