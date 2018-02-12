@@ -31,7 +31,7 @@
 
       <span class="{{ {s:3} | spacingClasses({margin: ['bottom']}) }} segmented-control__label block">See:</span>
 
-      <ul class="segmented-control__drawer-list no-margin no-padding plain-list">
+      <ul class="segmented-control__drawer-list js-segmented-control__drawer-list no-margin no-padding plain-list">
         {% for item in model %}
           <li class="{{- [
             {s:'WB6'} | fontClasses,
@@ -49,7 +49,7 @@
       <span class="visually-hidden js-trap-end">reset focus</span>
     </div>
   </div>
-  <ul class="segmented-control__list no-margin no-padding plain-list border-width-1 border-color-black rounded-diagonal overflow-hidden {{'js-tablist segmented-control__list--inline' if data.isTabControl }}">
+  <ul class="js-segmented-control__list segmented-control__list no-margin no-padding plain-list border-width-1 border-color-black rounded-diagonal overflow-hidden {{'js-tablist segmented-control__list--inline' if data.isTabControl }}">
     {% for item in model %}
       <li class="{{- [
         {s:'WB7'} | fontClasses,

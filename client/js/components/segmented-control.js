@@ -5,8 +5,8 @@ import fastdom from '../utils/fastdom-promise';
 
 export default (el) => {
   const showHideEl = el.querySelector('.js-segmented-control-show-hide');
-  const controlDrawerLinks = el.querySelectorAll('.js-segmented-control__drawer-link');
-  const controlLinks = el.querySelectorAll('.js-segmented-control__link');
+  const controlDrawerLinks = el.querySelector('.js-segmented-control__drawer-list');
+  const controlLinks = el.querySelector('.js-segmented-control__list');
   const controlButtonText = el.querySelector('.js-segmented-control__button-text');
   const fullPage = showHide({el: showHideEl});
   const trap = focusTrap(el);
@@ -46,29 +46,27 @@ export default (el) => {
       toggleElementVisibility();
     });
 
-    controlDrawerLinks.forEach((link, index) => {
-      link.addEventListener('click', (event) => { // TODO move listener up the DOM
-        if (link.getAttribute('href').charAt(0) === '#') {
-          controlButtonText.innerText = link.innerText;
-          toggleElementVisibility();
-        }
+    controlDrawerLinks.addEventListener('click', (e) => {
+      const link = e.target;
+      if (link.getAttribute('href').charAt(0) === '#') {
+        controlButtonText.innerText = link.innerText;
+        toggleElementVisibility();
+      }
+    }, false);
+
+    controlLinks.addEventListener('click', (e) => {
+      const link = e.target;
+      if (link.classList.contains('is-active') || link.getAttribute('href').charAt(0) !== '#') return;
+
+      const currentActive = el.querySelector('.is-active');
+
+      fastdom.mutate(() => {
+        currentActive.classList.remove(...activeClasses);
+        currentActive.classList.add(...inactiveClasses);
+        link.classList.remove(...inactiveClasses);
+        link.classList.add(...activeClasses);
       });
-    });
-
-    controlLinks.forEach((link, index) => {
-      link.addEventListener('click', (event) => { // TODO move listener up the DOM
-        if (link.classList.contains('is-active')) return;
-
-        const currentActive = el.querySelector('.is-active');
-
-        fastdom.mutate(() => {
-          currentActive.classList.remove(...activeClasses);
-          currentActive.classList.add(...inactiveClasses);
-          link.classList.remove(...inactiveClasses);
-          link.classList.add(...activeClasses);
-        });
-      });
-    });
+    }, false);
 
     onWindowResizeDebounce$.subscribe({
       next() {
