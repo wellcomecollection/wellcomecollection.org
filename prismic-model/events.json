@@ -144,33 +144,27 @@
     }
   },
   "Contributors" : {
-    "contributors" : {
-      "type" : "Slices",
+    "contributors": {
+      "type" : "Group",
       "fieldset" : "Contributors",
       "config" : {
-        "choices" : {
-          "person" : {
-            "type" : "Slice",
-            "fieldset" : "Person",
-            "non-repeat" : {
-              "role" : {
-                "type" : "Link",
-                "config" : {
-                  "label" : "Role",
-                  "select" : "document",
-                  "customtypes" : [ "editorial-contributor-roles" ],
-                  "tags": [ "events" ]
-                }
-              },
-              "person" : {
-                "type" : "Link",
-                "config" : {
-                  "label" : "Person",
-                  "select" : "document",
-                  "customtypes" : [ "people" ],
-                  "tags": [ "events" ]
-                }
-              }
+        "fields" : {
+          "role" : {
+            "type" : "Link",
+            "config" : {
+              "label" : "Role",
+              "select" : "document",
+              "customtypes" : [ "editorial-contributor-roles" ],
+              "tags": [ "events" ]
+            }
+          },
+          "contributor" : {
+            "type" : "Link",
+            "config" : {
+              "label" : "Contributor",
+              "select" : "document",
+              "customtypes" : [ "people", "organisations" ],
+              "tags": [ "events" ]
             }
           }
         }

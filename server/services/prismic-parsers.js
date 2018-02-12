@@ -24,7 +24,6 @@ type PrismicDoc = Object;
 type PrismicDocFragment = Object | Array<any>;
 
 export function parseEventDoc(doc: PrismicDoc): Event {
-  const contributors: Array<Contributor> = parseContributors(doc.data.contributors).toArray();
   const promo = parseImagePromo(doc.data.promo);
 
   const times: Array<DateTimeRange> = doc.data.times.map(date => {
@@ -86,6 +85,23 @@ export function parseEventDoc(doc: PrismicDoc): Event {
   }) : null).filter(_ => _);
 
   const bookingType = parseEventBookingType(doc);
+
+  const contributors = doc.data.contributors.map(contributor => {
+    if (isEmptyDocLink(contributor.contributor)) return;
+
+    return (() => {
+      switch (contributor.contributor.type) {
+        case 'organisations':
+          return {
+            name: asText(contributor.contributor.data.name),
+            image: contributor.contributor.data.image && parsePicture({
+              image: contributor.contributor.data.image
+            }),
+            url: contributor.contributor.data.url
+          };
+      }
+    })();
+  });
 
   const e = ({
     id: doc.id,
