@@ -1,6 +1,6 @@
 import {eventbritePersonalOauthToken} from './config';
 import superagent from 'superagent';
-import {formatDate} from 'common/filters/format-date';
+import {formatDateTime} from 'common/filters/format-date';
 
 const eventbriteApiRoot = 'https://www.eventbriteapi.com/v3';
 
@@ -25,7 +25,7 @@ async function getEventbriteEventTickets(id: string) {
     const ticketType: TicketType =
       ticketClassName.startsWith('waiting list') ? 'waitinglist'
         : ticketClassName.startsWith('comp ') ? 'comp' : 'standard';
-    const saleStarts = formatDate(new Date(ticketClass.sales_start));
+    const saleStarts = formatDateTime(new Date(ticketClass.sales_start));
 
     return ({onSaleStatus, ticketType, saleStarts, eventbriteId: ticketClass.event_id}: Ticket);
   }).filter(ticket => ticket.ticketType === 'standard'); // we only want to show standard tickets for now...
