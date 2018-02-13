@@ -179,6 +179,18 @@
                 {% componentJsx 'MoreInfoLink', { name: 'View our ticketing policy', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
               </div>
             </div>
+          {% elif eventInfo.eventbriteId %}
+            <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">First come, first seated</h3>
+            <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              <p>
+                Please be aware that booking a ticket for a free event does not
+                guarantee your place. Admission is on a first come, first served
+                basis for ticket-holders.
+              </p>
+              <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
+                {% componentJsx 'MoreInfoLink', { name: 'View our ticketing policy', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
+              </div>
+            </div>
           {% else %}
             <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">First come, first seated</h3>
             <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
