@@ -1,40 +1,18 @@
-const path = require('path');
-const nextPagesDir = path.resolve(__dirname, 'node_modules', 'next', 'dist', 'pages');
-const commonDir = path.resolve(__dirname, 'node_modules', '@wellcomecollection', 'common');
-const commonDirRegExp = /@wellcomecollection(?!.*node_modules)/;
+const commonDirRegExp = /@weco(?!.*node_modules)/;
 
 module.exports = {
-  webpack: (config, { buildId, dev }) => {
-    config.module.rules.forEach(rule => {
-      // We can't just add this as another loader as we need to use the options
-      // set withing `next.js/server/build/webpack.js`
-      if (rule.loader === 'emit-file-loader') {
-        rule.include.push(commonDir);
-        rule.exclude = (str) => {
-          if (commonDirRegExp.test(str)) {
-            return false;
-          }
-          return /node_modules/.test(str) && str.indexOf(nextPagesDir) !== 0;
-        }
-      }
-    });
-
+  webpack: (config, { buildId, dev, defaultLoaders }) => {
     config.resolve.symlinks = false;
+    config.externals = config.externals.map(external => {
+      if (typeof external !== 'function') return external;
+      return (ctx, req, cb) => {
+        return (/@weco/.test(req) ? cb() : external(ctx, req, cb));
+      };
+    });
     config.module.rules.push({
       test: /\.js/,
-      loader: 'babel-loader',
-      include: (str) => {
-        return commonDirRegExp.test(str);
-      }
-    }, {
-      test: /\.scss/,
-      loader: 'emit-file-loader',
-      include: (str) => {
-        return commonDirRegExp.test(str);
-      },
-      options: {
-        name: 'dist/[path][name].[ext]'
-      }
+      include: (str) => str.match(commonDirRegExp),
+      use: defaultLoaders.babel
     }, {
       test: /\.scss$/,
       include: (str) => {
@@ -49,9 +27,9 @@ module.exports = {
     // The standard config is [/(^|[\/\\])\../, /node_modules/]
     const ignored = [
       config.watchOptions.ignored[0],
-      /node_modules(?!\/@wellcomecollection(?!.*node_modules))/
+      /node_modules(?!\/@weco(?!.*node_modules))/
     ];
     config.watchOptions.ignored = ignored;
-    return config
+    return config;
   }
 };

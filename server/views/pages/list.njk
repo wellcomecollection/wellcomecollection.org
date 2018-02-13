@@ -54,7 +54,7 @@
       {% if moreLink %}
         <div class="grid">
           <div class="grid__cell text-align-right">
-            <a href="{{moreLink}}">More articles from the archive</a>
+            {% componentJsx 'MoreInfoLink', { url: moreLink, name: 'More articles from the archive' } %}
           </div>
         </div>
       {% else %}

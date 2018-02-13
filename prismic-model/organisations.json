@@ -1,0 +1,23 @@
+{
+  "Organisation" : {
+    "name" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : "heading1",
+        "label" : "Title"
+      }
+    },
+    "image" : {
+      "type" : "Image",
+      "config" : {
+        "label" : "Logo"
+      }
+    },
+    "url" : {
+      "type" : "Text",
+      "config" : {
+        "label" : "Web address"
+      }
+    }
+  }
+}

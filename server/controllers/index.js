@@ -37,13 +37,13 @@ export const articles = async(ctx, next) => {
   const {page, q} = ctx.request.query;
   const articleStubsResponse = await getArticleStubs(maxItemsPerPage, {page}, q);
   const series: Series = {
-    url: '/articles',
+    url: '/articles/archive',
     name: 'Articles',
     items: articleStubsResponse.data,
     total: articleStubsResponse.total
   };
   const promoList = PromoListFactory.fromSeries(series);
-  const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1, 32, { format: 'archive' });
+  const pagination = PaginationFactory.fromList(promoList.items, promoList.total, parseInt(page, 10) || 1, 32);
 
   ctx.render('pages/list', {
     pageConfig: createPageConfig({
@@ -55,8 +55,6 @@ export const articles = async(ctx, next) => {
     list: promoList,
     pagination
   });
-
-  return next();
 };
 
 export const series = async(ctx, next) => {

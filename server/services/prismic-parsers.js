@@ -4,7 +4,7 @@ import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
 import type {
   DateTimeRange, Event, Contributor, Team,
-  Location, EventFormat, Audience
+  Place, EventFormat, Audience
 } from '../content-model/events';
 import getBreakpoint from '../filters/get-breakpoint';
 import {parseBody, parseFeaturedBody} from './prismic-body-parser';
@@ -24,7 +24,6 @@ type PrismicDoc = Object;
 type PrismicDocFragment = Object | Array<any>;
 
 export function parseEventDoc(doc: PrismicDoc): Event {
-  const contributors: Array<Contributor> = parseContributors(doc.data.contributors).toArray();
   const promo = parseImagePromo(doc.data.promo);
 
   const times: Array<DateTimeRange> = doc.data.times.map(date => {
@@ -51,25 +50,25 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     url: doc.data.bookingEnquiryTeam.data.url
   }: Team);
 
-  const location = (doc.data.location && !isEmptyDocLink(doc.data.location)) ? ({
-    id: doc.data.location.id,
-    title: asText(doc.data.location.data.title),
-    // Geolocation as it stands can't be fetch via `fetchLinks`
+  const place = (doc.data.place && !isEmptyDocLink(doc.data.place)) ? ({
+    id: doc.data.place.id,
+    title: asText(doc.data.place.data.title),
+    // geolocation, as it stands, can't be fetch via `fetchLinks`
     geolocation: null,
     // geolocation: {
-    //   latitude: location.location.data.geolocation.latitude,
-    //   longitude: location.location.data.geolocation.longitude
+    //   latitude: place.place.data.geolocation.latitude,
+    //   longitude: place.place.data.geolocation.longitude
     // },
-    level: doc.data.location.data.level,
-    capacity: doc.data.location.data.level
-  }: Location) : null;
+    level: doc.data.place.data.level,
+    capacity: doc.data.place.data.level
+  }: Place) : null;
 
   const interpretations = doc.data.interpretations.map(interpretation => !isEmptyDocLink(interpretation.interpretationType) ? ({
     interpretationType: {
       title: asText(interpretation.interpretationType.data.title),
       abbreviation: asText(interpretation.interpretationType.data.abbreviation),
-      description: deP(asHtml(interpretation.interpretationType.data.description)),
-      primaryDescription: deP(asHtml(interpretation.interpretationType.data.primaryDescription))
+      description: asHtml(interpretation.interpretationType.data.description),
+      primaryDescription: asHtml(interpretation.interpretationType.data.primaryDescription)
     },
     isPrimary: Boolean(interpretation.isPrimary)
   }) : null).filter(_ => _);
@@ -79,9 +78,30 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     description: asText(audience.audience.data.description)
   }) : null).filter(_ => _);
 
+  const series = doc.data.series.map(series => !isEmptyDocLink(series.series) ? ({
+    id: series.id,
+    title: asText(series.series.data.title),
+    description: asText(series.series.data.description)
+  }) : null).filter(_ => _);
+
   const bookingType = parseEventBookingType(doc);
 
-  console.info(bookingType);
+  const contributors = doc.data.contributors.map(contributor => {
+    if (isEmptyDocLink(contributor.contributor)) return;
+
+    return (() => {
+      switch (contributor.contributor.type) {
+        case 'organisations':
+          return {
+            name: asText(contributor.contributor.data.name),
+            image: contributor.contributor.data.image && parsePicture({
+              image: contributor.contributor.data.image
+            }),
+            url: contributor.contributor.data.url
+          };
+      }
+    })();
+  });
 
   const e = ({
     id: doc.id,
@@ -96,8 +116,8 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     bookingEnquiryTeam: bookingEnquiryTeam,
     contributors: contributors,
     promo: promo,
-    series: [],
-    location: location,
+    series: series,
+    place: place,
     bookingInformation: asHtml(doc.data.bookingInformation),
     bookingType: bookingType
   }: Event);
@@ -125,7 +145,7 @@ export function parseAudience(frag: Object): ?Audience {
 export function parseEventBookingType(eventDoc: Object): ?string {
   return !isEmptyObj(eventDoc.data.eventbriteEvent) ? 'Ticketed'
     : !isEmptyDocLink(eventDoc.data.bookingEnquiryTeam) ? 'Enquire to book'
-      : !isEmptyDocLink(eventDoc.data.location) && eventDoc.data.location.data.capacity  ? 'First come, first served'
+      : !isEmptyDocLink(eventDoc.data.place) && eventDoc.data.place.data.capacity  ? 'First come, first served'
         : null;
 }
 

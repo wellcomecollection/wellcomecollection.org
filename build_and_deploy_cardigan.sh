@@ -2,7 +2,7 @@
 
 set -o errexit
 
-pushd cardy
+pushd cardigan
   yarn install
   yarn build
 

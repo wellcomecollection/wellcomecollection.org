@@ -1,16 +1,15 @@
 {% extends 'layout/default.njk' %}
-{# TODO: add description list-header #}
+
 {% block pageMeta %}
   {% set metaContent = {
     type: 'website',
     title: 'Events',
     image: paginatedEvents.results[0].image.contentUrl,
     url: pageConfig.canonicalUri,
-    description: 'Take part in a range of free talks, tours, performances and workshops. Join artists, scientists, and educators to unravel big ideas around health and wellbeing.'
+    description: 'Choose from an inspiring range of free talks, tours, discussions and more on at Wellcome Collection in London.'
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
-
  <meta name="description" content="{{ metaContent.description }}" />
 {% endblock %}
 
@@ -21,8 +20,12 @@
       {{ ',' if not loop.last }}
     {% endfor %}]
   </script>
-
-  {% componentV2 'list-header', {name: 'Events', total: paginatedEvents.results.length} %}
+  {% set listHeader = {
+    name: 'Events',
+    description: 'Choose from an inspiring range of free talks, tours, discussions and more, all designed to challenge how we think and feel about health.',
+    total: paginatedEvents.results.length
+  } %}
+  {% componentV2 'list-header', listHeader %}
 
   {% if paginatedEvents.pagination.pageCount > 1  %}
   <div class="css-grid__container">

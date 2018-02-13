@@ -1,12 +1,12 @@
 import fetch from 'isomorphic-unfetch';
 import { withFormik } from 'formik';
-import {font, grid, spacing, classNames} from '@wellcomecollection/common/utils/classnames';
-import criticalCss from '@wellcomecollection/common/styles/critical.scss';
-import DefaultPageLayout from '@wellcomecollection/common/views/components/DefaultPageLayout/DefaultPageLayout';
-import PageDescription from '@wellcomecollection/common/views/components/PageDescription/PageDescription';
-import InfoBanner from '@wellcomecollection/common/views/components/InfoBanner/InfoBanner';
-import Icon from '@wellcomecollection/common/views/components/Icon/Icon';
-import HTMLInput from '@wellcomecollection/common/views/components/HTMLInput/HTMLInput';
+import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
+import criticalCss from '@weco/common/styles/critical.scss';
+import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/DefaultPageLayout';
+import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
+import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import HTMLInput from '@weco/common/views/components/HTMLInput/HTMLInput';
 
 type Props = {|
   values: {| query: string, works: Object |},

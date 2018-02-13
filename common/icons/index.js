@@ -13,6 +13,7 @@ import information from './information';
 import underConstruction from './under_construction';
 import clear from './clear';
 import download from './download';
+import hearingLoop from './hearing_loop';
 export {
   arrow,
   cc,
@@ -33,5 +34,6 @@ export {
   information,
   underConstruction,
   clear,
-  download
+  download,
+  hearingLoop
 };

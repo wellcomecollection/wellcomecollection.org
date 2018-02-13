@@ -40,10 +40,12 @@ const eventFields = [
   'event-access-options.title', 'event-access-options.description', 'event-access-options.description',
   'teams.title', 'teams.email', 'teams.phone', 'teams.url',
   'event-formats.title', 'event-formats.description', 'event-formats.shortName',
-  'locations.title', 'locations.geolocation', 'locations.level', 'locations.capacity',
+  'places.title', 'places.geolocation', 'places.level', 'places.capacity',
   'interpretation-types.title', 'interpretation-types.abbreviation',
   'interpretation-types.description', 'interpretation-types.primaryDescription',
-  'audiences.title'
+  'audiences.title',
+  'event-series.title', 'event-series.description',
+  'organisations.name', 'organisations.image', 'organisations.url'
 ];
 
 export const defaultPageSize = 40;
