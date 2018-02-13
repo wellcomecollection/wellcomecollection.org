@@ -19,7 +19,7 @@
 
 <div class="css-grid__container">
   <div class="css-grid">
-    <div class="is-hidden-s is-hidden-m {{ ({s: 4} | spacingClasses({ margin: ['top'] })) }}">
+    <div class="is-hidden-s is-hidden-m {{ {s:12, m:12, l:12, xl:12} | cssGridClasses }} {{ ({s: 4} | spacingClasses({ margin: ['top'] })) }}">
       {% componentV2 'tags', tags %}
     </div>
   </div>
