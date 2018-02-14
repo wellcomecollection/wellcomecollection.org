@@ -101,7 +101,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
           };
       }
     })();
-  });
+  }).filter(_ => _);
 
   const e = ({
     id: doc.id,
