@@ -34,10 +34,10 @@ export type EventSeries = {|
 
 // E.g. 'British sign language interpreted' | 'Audio described' | 'Speech-to-Text';
 type InterpretationType = {|
-  id: string;
-  title: string;
-  description: ?string;
-  primaryDescription: ?string;
+  id: string,
+  title: string,
+  description: ?string,
+  primaryDescription: ?string
 |}
 
 type Interpretation = {|

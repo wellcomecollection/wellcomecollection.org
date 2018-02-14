@@ -64,7 +64,7 @@
       {% endif %}
       {% if paginatedExhibitions.currentPage === paginatedExhibitions.totalPages %}
         <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }} text-align-right">
-          {% componentJsx 'MoreInfoLink', { name: 'Past exhibitions', url: '/exhibitions/past' } %}
+          {% componentJsx 'MoreInfoLink', { name: 'Past exhibitions', url: 'https://wellcomecollection.org/exhibitions/past' } %}
         </div>
       {% endif %}
     </div>
