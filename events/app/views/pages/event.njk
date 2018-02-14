@@ -171,36 +171,40 @@
             <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
               <p>
                 We try to programme some drop-in events every month.
-                There are where activities happen all over the building.
+                These include our Packed Lunch events and our late-night events,
+                where activities happen all over the building.
                 For these events you just have to turn up, and there is usually
-                room for everyone. Doors open 15 minutes prior to the event starting.
+                room for everyone.
               </p>
               <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
-                {% componentJsx 'MoreInfoLink', { name: 'View our ticketing policy', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
+                {% componentJsx 'MoreInfoLink', { name: 'Ticket terms and conditions', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
               </div>
             </div>
           {% elif eventInfo.eventbriteId %}
             <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">First come, first seated</h3>
             <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
               <p>
-                Please be aware that booking a ticket for a free event does not
-                guarantee your place. Admission is on a first come, first served
-                basis for ticket-holders.
+                Please note, booking a ticket for a free event does not
+                guarantee a place on the day. Doors usually open 15 minutes
+                before an event starts, and you can take your seats in order of
+                arrival. We advise arriving 10 minutes before the event is
+                scheduled to start.
               </p>
               <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
-                {% componentJsx 'MoreInfoLink', { name: 'View our ticketing policy', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
+                {% componentJsx 'MoreInfoLink', { name: 'Ticket terms and conditions', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
               </div>
             </div>
           {% else %}
-            <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">First come, first seated</h3>
+            <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Limited seats available</h3>
             <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
               <p>
-                Please be aware that booking a ticket for a free event does not
-                guarantee your place. Admission is on a first come, first served
-                basis for ticket-holders.
+                Doors will open for this event 15 minutes before the event
+                starts. When you arrive, please collect a ticket from the
+                Information Point on Level 0. These tickets are first come,
+                first served and may run out if we are busy.
               </p>
               <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
-                {% componentJsx 'MoreInfoLink', { name: 'View our ticketing policy', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
+                {% componentJsx 'MoreInfoLink', { name: 'Ticket terms and conditions', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
               </div>
             </div>
           {% endif %}

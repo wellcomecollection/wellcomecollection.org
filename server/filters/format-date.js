@@ -15,6 +15,10 @@ export function formatDateTime(date: Date): string {
   return london(date).format('D MMMM YYYY HH:mm');
 }
 
+export function formatTimeDate(date: Date): string {
+  return `${formatTime(date)} on ${formatDate(date)}`;
+}
+
 export function formatTime(date: Date): string {
   return london(date).format('HH:mm');
 }
