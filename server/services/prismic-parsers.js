@@ -81,7 +81,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
   const series = doc.data.series.map(series => !isEmptyDocLink(series.series) ? ({
     id: series.id,
     title: asText(series.series.data.title),
-    description: asText(series.series.data.description)
+    description: asHtml(series.series.data.description)
   }) : null).filter(_ => _);
 
   const bookingType = parseEventBookingType(doc);
