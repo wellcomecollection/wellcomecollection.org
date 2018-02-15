@@ -59,6 +59,14 @@
           </div>
         </div>
 
+        <h1 class="{{- [
+          {s:'WB5', m:'WB4', xl:'WB3'} | fontClasses,
+          {s: 2} | spacingClasses({margin: ['top']}),
+          {s: 1} | spacingClasses({margin: ['bottom']})
+        ].join(' ') -}}">
+          {{ event.title }}
+        </h1>
+
         <div class="flex flex--v-center {{ {s:'HNM5'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">
           <span>
             {% if event.cost %}
@@ -77,14 +85,6 @@
             {% endif %}
           </span>
         </div>
-
-        <h1 class="{{- [
-          {s:'WB5', m:'WB4', xl:'WB3'} | fontClasses,
-          {s: 2} | spacingClasses({margin: ['top']}),
-          {s: 1} | spacingClasses({margin: ['bottom']})
-        ].join(' ') -}}">
-          {{ event.title }}
-        </h1>
 
         <div class="{{ {s:'HNL4'} | fontClasses }}">
           {% for dateRange in event.times %}
