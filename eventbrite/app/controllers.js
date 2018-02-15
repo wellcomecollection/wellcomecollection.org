@@ -44,7 +44,8 @@ export async function renderEventbriteTicketStatus(ctx, next) {
     });
 
     ctx.body = {
-      html: ctx.body
+      html: ctx.body,
+      onSaleStatus: standardTicket.onSaleStatus
     };
   }
   return next();
@@ -61,7 +62,8 @@ export async function renderEventbriteButton(ctx, next) {
     });
 
     ctx.body = {
-      html: ctx.body
+      html: ctx.body,
+      onSaleStatus: standardTicket.onSaleStatus
     };
 
     return next();

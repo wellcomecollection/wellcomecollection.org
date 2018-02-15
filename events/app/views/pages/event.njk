@@ -75,6 +75,15 @@
               Free admission
             {% endif %}
           </span>
+          <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['left'], margin: ['left']}) }}">
+            {% if eventInfo.eventbriteId %}
+              Ticketed
+              {% elif event.bookingEnquiryTeam %}
+              Enquire to book
+            {% else %}
+              No ticket required
+            {% endif %}
+          </span>
         </div>
 
         <div class="{{ {s:'HNL4'} | fontClasses }}">
@@ -169,7 +178,7 @@
           {% endif %}
         </div>
 
-        <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+        <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}" id="js-event-booking-info">
           {% if event.isDropIn %}
             <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Drop in at any time</h3>
             <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
@@ -177,9 +186,6 @@
                 We programme some drop-in events every month. For these events,
                 you can just turn up. There's usually room for every one.
               </p>
-              <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
-                {% componentJsx 'MoreInfoLink', { name: 'Ticket terms and conditions', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
-              </div>
             </div>
           {% elif event.cost %}
             <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Guaranteed entry</h3>
@@ -192,9 +198,6 @@
                 An additional companion ticket for people registered as disabled
                 is available for free.
               </p>
-              <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
-                {% componentJsx 'MoreInfoLink', { name: 'Ticket terms and conditions', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
-              </div>
             </div>
           {% elif eventInfo.eventbriteId %}
             <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">First come, first seated</h3>
@@ -212,22 +215,17 @@
                 <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
                 if you would like to request one of these spaces.
               </p>
-              <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
-                {% componentJsx 'MoreInfoLink', { name: 'Ticket terms and conditions', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
-              </div>
             </div>
+          {% elif event.bookingEnquiryTeam %}
+            {# Don't show anything as the booking team deal with this #}
           {% else %}
             <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Limited seats available</h3>
             <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
               <p>
                 Doors will open for this event 15 minutes before the event
-                starts. When you arrive, please collect a ticket from the
-                Information Point on Level 0. These tickets are first come,
-                first served and may run out if we are busy.
+                starts. Spaces are first come, first served and may run out if
+                we are busy.
               </p>
-              <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
-                {% componentJsx 'MoreInfoLink', { name: 'Ticket terms and conditions', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
-              </div>
             </div>
           {% endif %}
 
@@ -239,6 +237,9 @@
               {{ event.bookingInformation | safe }}
             </div>
           {% endif %}
+          <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
+            {% componentJsx 'MoreInfoLink', { name: 'Our event terms and conditions', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
+          </div>
         </div>
       </div>
     </div>
