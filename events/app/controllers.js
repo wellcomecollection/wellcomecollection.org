@@ -17,7 +17,7 @@ export async function renderEvent(ctx, next) {
       const tags = [{
         text: 'Events',
         url: '/events'
-      }].concat(event.series.map(series => ({ text: 'Part of: ' + series.title })));
+      }].concat(event.series.map(series => ({ text: 'Part of ' + series.title })));
 
       const eventbriteIdScheme = event.identifiers.find(id => id.identifierScheme === 'eventbrite-id');
       const eventbriteId = eventbriteIdScheme && eventbriteIdScheme.value;
