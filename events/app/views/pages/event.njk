@@ -67,18 +67,13 @@
         </h1>
 
         <div class="flex flex--v-center {{ {s:'HNM5'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">
-          <span class="{{ {s: 1} | spacingClasses({padding: ['right']}) }}">Free admission</span>
-          {% if event.bookingType %}
-            <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
-              {{ event.bookingType }}
-            </span>
-          {% endif %}
-
-          {% if event.isDropIn %}
-            <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
-              Drop-in
-            </span>
-          {% endif %}
+          <span>
+            {% if event.cost %}
+              £{{ event.cost }}
+            {% else %}
+              Free admission
+            {% endif %}
+          </span>
         </div>
 
         <div class="{{ {s:'HNL4'} | fontClasses }}">
