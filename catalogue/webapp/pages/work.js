@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-unfetch';
-import criticalCss from '@weco/common/styles/critical.scss';
+import criticalCss from '@weco/client/scss/critical.scss';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import {iiifImageTemplate} from '@weco/common/utils/convert-image-uri';
 import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/DefaultPageLayout';
