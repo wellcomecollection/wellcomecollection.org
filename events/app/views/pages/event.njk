@@ -175,14 +175,11 @@
 
         <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
           {% if event.isDropIn %}
-            <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Drop-in</h3>
+            <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Drop in at any time</h3>
             <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
               <p>
-                We try to programme some drop-in events every month.
-                These include our Packed Lunch events and our late-night events,
-                where activities happen all over the building.
-                For these events you just have to turn up, and there is usually
-                room for everyone.
+                We programme some drop-in events every month. For these events,
+                you can just turn up. There's usually room for every one.
               </p>
               <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
                 {% componentJsx 'MoreInfoLink', { name: 'Ticket terms and conditions', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
@@ -197,6 +194,12 @@
                 before an event starts, and you can take your seats in order of
                 arrival. We advise arriving 10 minutes before the event is
                 scheduled to start.
+              </p>
+              <p>
+                We hold some spaces for people with access requirements.
+                Please email
+                <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
+                if you would like to request one of these spaces.
               </p>
               <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
                 {% componentJsx 'MoreInfoLink', { name: 'Ticket terms and conditions', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
