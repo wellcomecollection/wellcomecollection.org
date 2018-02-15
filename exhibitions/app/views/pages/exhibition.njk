@@ -5,6 +5,7 @@
   type: 'website',
   title: exhibition.title,
   image: exhibition.featuredImage and exhibition.featuredImage.contentUrl,
+  description: exhibition.promo.caption,
   url: pageConfig.canonicalUri
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
