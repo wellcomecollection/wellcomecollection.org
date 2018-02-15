@@ -67,18 +67,13 @@
         </h1>
 
         <div class="flex flex--v-center {{ {s:'HNM5'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">
-          <span class="{{ {s: 1} | spacingClasses({padding: ['right']}) }}">Free admission</span>
-          {% if event.bookingType %}
-            <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
-              {{ event.bookingType }}
-            </span>
-          {% endif %}
-
-          {% if event.isDropIn %}
-            <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
-              Drop-in
-            </span>
-          {% endif %}
+          <span>
+            {% if event.cost %}
+              £{{ event.cost }}
+            {% else %}
+              Free admission
+            {% endif %}
+          </span>
         </div>
 
         <div class="{{ {s:'HNL4'} | fontClasses }}">
@@ -180,6 +175,21 @@
               <p>
                 We programme some drop-in events every month. For these events,
                 you can just turn up. There's usually room for every one.
+              </p>
+              <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
+                {% componentJsx 'MoreInfoLink', { name: 'Ticket terms and conditions', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
+              </div>
+            </div>
+          {% elif event.cost %}
+            <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Guaranteed entry</h3>
+            <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              <p>
+                With our paid events, you are guaranteed entry to the event.
+                We're unable to offer any refunds unless the event is cancelled.
+                Concessions are available for people over 60, students, people
+                on jobseekers allowance and people registered as disabled.
+                An additional companion ticket for people registered as disabled
+                is available for free.
               </p>
               <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
                 {% componentJsx 'MoreInfoLink', { name: 'Ticket terms and conditions', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}

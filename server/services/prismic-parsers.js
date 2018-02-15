@@ -103,6 +103,8 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     })();
   }).filter(_ => _);
 
+  const cost = doc.data.cost;
+
   const e = ({
     id: doc.id,
     identifiers: identifiers,
@@ -119,7 +121,8 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     series: series,
     place: place,
     bookingInformation: asHtml(doc.data.bookingInformation),
-    bookingType: bookingType
+    bookingType: bookingType,
+    cost: cost
   }: Event);
 
   return e;
