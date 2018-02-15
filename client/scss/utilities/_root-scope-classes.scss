@@ -248,12 +248,6 @@
   float: right;
 }
 
-.float-r-medium-up {
-  @include respond-to('medium') {
-    float: right;
-  }
-}
-
 .float-l {
   float: left;
 }
@@ -265,6 +259,10 @@
 
 .margin-top-auto {
   margin-top: auto;
+}
+
+.margin-left-auto {
+  margin-left: auto;
 }
 
 .text--truncate {

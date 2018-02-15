@@ -1,9 +1,8 @@
 <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">
   {% include './date_range.njk' %}
-  <h2 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }} inline-block-medium-up">Exhibitions</h2>
-  <div class="flex-inline flex--v-center float-r-medium-up">
-    {% icon 'ticket', null, [''] %}
-    <span class="{{ {s:1} | spacingClasses({padding: ['left', 'right']}) }} {{ {s:'HNM5', m:'HNM4'} | fontClasses }}">FREE</span>
+  <div class="flex flex--v-center">
+    <h2 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }} inline-block-medium-up">Exhibitions</h2>
+    <span class="margin-left-auto {{ {s:'HNM5', m:'HNM4'} | fontClasses }}">Free admission</span>
   </div>
 </div>
 
@@ -33,12 +32,9 @@
   {% componentV2 'divider', null, {'dashed': true} %}
 </div>
 
-<div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }}">
+<div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }} flex flex--v-center">
   <h2 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }} inline-block-medium-up">Events</h2>
-  <div class="flex-inline flex--v-center float-r-medium-up">
-    {% icon 'ticket', null, [''] %}
-    <span class="{{ {s:1} | spacingClasses({padding: ['left', 'right']}) }} {{ {s:'HNM5', m:'HNM4'} | fontClasses }}">FREE</span>
-  </div>
+  <span class="margin-left-auto {{ {s:'HNM5', m:'HNM4'} | fontClasses }}">Free admission</span>
 </div>
 
 <div class="js-events-filter tabs {{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }}">
