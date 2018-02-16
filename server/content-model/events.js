@@ -95,7 +95,7 @@ export type Event = {|
   interpretations: Array<Interpretation>,
   audiences: Array<Audience>,
   bookingInformation: ?HTMLString,
-  cost: number,
+  cost: string,
   // TODO:
   // this is programmatic and doesn't come from Prismic and can't be edited directly
   // it's more convenient that having to work it out.

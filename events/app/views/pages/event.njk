@@ -70,7 +70,7 @@
         <div class="flex flex--v-center {{ {s:'HNM5'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">
           <span>
             {% if event.cost %}
-              £{{ event.cost }}
+              {{ event.cost }}
             {% else %}
               Free admission
             {% endif %}
