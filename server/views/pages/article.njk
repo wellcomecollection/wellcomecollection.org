@@ -81,7 +81,19 @@
                       </div>
                     </div>
                   </h2>
-                  {% componentV2 'captioned-image', item.image, {'has-border-bottom': item.image.caption}, {showCopyright: true} %}
+
+                  {% set imageModel = item.image | objectAssign({lazyload: true}) %}
+
+                  {% set tasl = {name: 'Tasl', model: imageModel}
+                    if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
+                    else null
+                  %}
+
+                  {% componentJsx 'CaptionedImage', imageModel, [
+                    {name: 'Image', model:imageModel},
+                    tasl
+                  ] %}
+
                   {{item.description | safe}}
                 </li>
               {% endfor %}

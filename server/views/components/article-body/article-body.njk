@@ -16,9 +16,14 @@
             {% elif bodyPart.type === 'picture' %}
               {# On old content, the first paragraph is sometimes a picture #}
               {% set imageModel = bodyPart.value | objectAssign({lazyload: true, sizesQueries: '(min-width: 960px) 710px, 100vw'}) %}
+              {% set tasl = {name: 'Tasl', model: imageModel}
+                if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
+                else null
+              %}
+
               {% componentJsx 'CaptionedImage', bodyPart.value, [
                 {name: 'Image', model: imageModel},
-                {name: 'Tasl', model: bodyPart.value}
+                tasl
               ] %}
             {% else %}
                 {% component 'standfirst', { body: bodyPart.value } %}
@@ -38,9 +43,13 @@
             {% endif %}
             <div class="{{wrapperClasses}}">
               {% set imageModel = bodyPart.value | objectAssign({lazyload: true, sizesQueries: sizes}) %}
+              {% set tasl = {name: 'Tasl', model: imageModel}
+                if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
+                else null
+              %}
               {% componentJsx 'CaptionedImage', bodyPart.value, [
                 {name: 'Image', model: imageModel},
-                {name: 'Tasl', model: bodyPart.value}
+                tasl
               ] %}
             </div>
           {% elif bodyPart.type === 'video-embed' %}
@@ -81,10 +90,16 @@
                       </div>
                     </h2>
 
-                    {% set imageModel = bodyPart.value | objectAssign({lazyload: true}) %}
-                    {% componentJsx 'CaptionedImage', bodyPart.value, [
+                    {% set imageModel = item.image | objectAssign({lazyload: true}) %}
+
+                    {% set tasl = {name: 'Tasl', model: imageModel}
+                      if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
+                      else null
+                    %}
+
+                    {% componentJsx 'CaptionedImage', imageModel, [
                       {name: 'Image', model:imageModel},
-                      {name: 'Tasl', model:bodyPart.value}
+                      tasl
                     ] %}
 
                     {{item.description | safe}}

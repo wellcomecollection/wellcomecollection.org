@@ -1,5 +1,6 @@
 import BackToTop from '../BackToTop/BackToTop';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
+import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
 import CopyUrl from '../CopyUrl/CopyUrl';
 import Divider from '../Divider/Divider';
 import Image from '../Image/Image';
@@ -14,6 +15,7 @@ import PageDescription from '../PageDescription/PageDescription';
 export {
   BackToTop,
   CaptionedImage,
+  ChapterIndicator,
   CopyUrl,
   Divider,
   Image,

@@ -1,5 +1,5 @@
 // @flow
-
+import * as React from 'react';
 import {convertImageUri} from '../../../utils/convert-image-uri';
 import {imageSizes} from '../../../utils/image-sizes';
 
@@ -28,7 +28,7 @@ const Image = ({
   defaultSize = 30,
   alt = ''
 }: Props) => (
-  <div>
+  <React.Fragment>
     <noscript>
       <img width={width}
         height={height}
@@ -37,7 +37,7 @@ const Image = ({
         alt={alt} />
     </noscript>
     {imageMarkup(width, height, clipPathClass, lazyload, defaultSize, contentUrl, sizesQueries, copyright, alt, caption)}
-  </div>
+  </React.Fragment>
 );
 
 const imageClasses = (clip = false, lazyload: boolean, clipPathClass) => {

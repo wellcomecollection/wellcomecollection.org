@@ -17,7 +17,10 @@ export default class Component {
   };
 
   run(_/* context */, name, model = {}, children = []) {
-    const childrenComponents = children.map(c => components[c.name](c.model));
+    const childrenComponents = children
+      .filter(_ => _)
+      .map(c => components[c.name](c.model));
+
     const modelWithChildren = Object.assign({}, model, {children: childrenComponents});
     const html = ReactDOMServer.renderToString(components[name](modelWithChildren));
     return new nunjucks.runtime.SafeString(html);
