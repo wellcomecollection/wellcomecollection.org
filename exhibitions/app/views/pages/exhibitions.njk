@@ -59,7 +59,7 @@
     <div class="css-grid">
       {% if paginatedExhibitions.pagination.pageCount > 1  %}
         <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} text-align-right">
-          {% componentV2 'pagination', paginatedExhibitions.pagination %}
+          {% componentJsx 'Pagination', paginatedExhibitions.pagination %}
         </div>
       {% endif %}
       {% if paginatedExhibitions.currentPage === paginatedExhibitions.totalPages %}

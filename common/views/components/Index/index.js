@@ -11,6 +11,7 @@ import Tasl from '../Tasl/Tasl';
 import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
 import PageDescription from '../PageDescription/PageDescription';
+import Pagination from '../Pagination/Pagination';
 
 export {
   BackToTop,
@@ -25,5 +26,6 @@ export {
   Tasl,
   WorkDrawer,
   WorkMedia,
-  PageDescription
+  PageDescription,
+  Pagination
 };
