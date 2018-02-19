@@ -13,7 +13,9 @@ type Props = {|
   lazyload?: boolean,
   sizesQueries?: string,
   copyright?: string,
-  defaultSize?: number
+  defaultSize?: number,
+  clickHandler?: () => void,
+  zoomable?: boolean
 |}
 
 const Image = ({
@@ -26,7 +28,9 @@ const Image = ({
   copyright,
   sizesQueries = '100vw',
   defaultSize = 30,
-  alt = ''
+  alt = '',
+  clickHandler,
+  zoomable
 }: Props) => (
   <div className="work-media__image-container">
     <noscript>
@@ -36,29 +40,30 @@ const Image = ({
         src={convertImageUri(contentUrl, 640, false)}
         alt={alt} />
     </noscript>
-    {imageMarkup(width, height, clipPathClass, lazyload, defaultSize, contentUrl, sizesQueries, copyright, alt, caption)}
+    {imageMarkup(width, height, clipPathClass, lazyload, defaultSize, contentUrl, sizesQueries, copyright, alt, caption, clickHandler, zoomable)}
   </div>
 );
 
-const imageClasses = (clip = false, lazyload: boolean, clipPathClass) => {
+const imageClasses = (clip = false, lazyload: boolean, clipPathClass, zoomable) => {
   const lazyloadClass = lazyload ? 'lazy-image lazyload' : '';
   const clipClass = clip ? `promo__image-mask ${clipPathClass || ''}` : '';
+  const zoomClass = zoomable ? 'cursor-zoom-in' : '';
 
-  return `image ${lazyloadClass} ${clipClass}`;
+  return `image ${lazyloadClass} ${clipClass} ${zoomClass}`;
 };
 
-const imageMarkup = (width, height, clipPathClass, lazyload = false, defaultSize, contentUrl, sizesQueries, copyright, alt, caption) => {
+const imageMarkup = (width, height, clipPathClass, lazyload = false, defaultSize, contentUrl, sizesQueries, copyright, alt, caption, clickHandler, zoomable) => {
   const sizes = imageSizes(width);
   const baseMarkup = clip => (
     <img width={width}
       height={height}
-      className={imageClasses(clip, lazyload, clipPathClass)}
+      className={imageClasses(clip, lazyload, clipPathClass, zoomable)}
       src={convertImageUri(contentUrl, defaultSize, false)}
       data-srcset={sizes.map(size => {
         return `${convertImageUri(contentUrl, size, false)} ${size}w`;
       })}
       data-copyright={copyright}
-      alt={alt} />
+      onClick={clickHandler} />
   );
 
   return clipPathClass ? [
