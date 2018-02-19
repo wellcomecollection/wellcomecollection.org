@@ -141,6 +141,13 @@
         "multi" : "paragraph, strong, em, hyperlink, list-item",
         "label" : "Event specific booking information"
       }
+    },
+    "cost": {
+      "type" : "Text",
+      "config" : {
+        "options" : [ "yes" ],
+        "label" : "How much does the event cost (£)?"
+      }
     }
   },
   "Contributors" : {

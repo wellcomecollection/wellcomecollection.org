@@ -44,8 +44,7 @@
     <div class="css-grid">
       <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }}">
         <div class="flex-inline flex--v-center">
-          {% icon 'ticket', null, [''] %}
-          <span class="{{ {s:1} | spacingClasses({padding: ['left', 'right']}) }} {{ {s:'HNM5', m:'HNM4'} | fontClasses }}">FREE</span>
+          <span class="{{ {s:'HNM5', m:'HNM4'} | fontClasses }}">Free admission</span>
         </div>
       </div>
       {% for event in paginatedEvents.results %}
@@ -66,7 +65,7 @@
       {% endif %}
       {% if paginatedEvents.currentPage === paginatedEvents.totalPages %}
         <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }} text-align-right">
-          {% componentJsx 'MoreInfoLink', { name: 'Past events', url: '/events/past' } %}
+          {% componentJsx 'MoreInfoLink', { name: 'Past events', url: 'https://wellcomecollection.org/events/past' } %}
         </div>
       {% endif %}
 

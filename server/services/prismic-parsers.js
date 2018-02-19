@@ -81,7 +81,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
   const series = doc.data.series.map(series => !isEmptyDocLink(series.series) ? ({
     id: series.id,
     title: asText(series.series.data.title),
-    description: asText(series.series.data.description)
+    description: asHtml(series.series.data.description)
   }) : null).filter(_ => _);
 
   const bookingType = parseEventBookingType(doc);
@@ -101,7 +101,9 @@ export function parseEventDoc(doc: PrismicDoc): Event {
           };
       }
     })();
-  });
+  }).filter(_ => _);
+
+  const cost = doc.data.cost;
 
   const e = ({
     id: doc.id,
@@ -119,7 +121,8 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     series: series,
     place: place,
     bookingInformation: asHtml(doc.data.bookingInformation),
-    bookingType: bookingType
+    bookingType: bookingType,
+    cost: cost
   }: Event);
 
   return e;
