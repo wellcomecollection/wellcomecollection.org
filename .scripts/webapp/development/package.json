@@ -5,6 +5,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
+    "deploy": "now deploy -e NODE_ENV=production",
     "dev-link": "pushd ../../common && yarn link && popd && yarn link @weco/common",
     "now-build": "echo 'Nothing to see here'"
   },
@@ -17,6 +18,7 @@
     "isomorphic-unfetch": "^2.0.0",
     "next": "^5.0.1-canary.5",
     "node-sass": "^4.7.2",
+    "now": "^9.3.3",
     "postcss-easy-import": "^3.0.0",
     "postcss-loader": "^2.0.10",
     "raw-loader": "^0.5.1",
