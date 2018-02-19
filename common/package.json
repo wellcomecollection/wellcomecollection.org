@@ -13,6 +13,9 @@
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
     "react": "^16.2.0",
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-dom": "^16.2.0",
+    "react-load-script": "^0.0.6",
     "url-template": "^2.0.8"
   }
 }
