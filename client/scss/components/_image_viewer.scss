@@ -6,23 +6,37 @@
   background-color: color('black');
   width: 100vw;
   height: 100vh;
-  display: none;
   position: fixed;
+  display: none;
   z-index: 1000;
   top: 0;
   left: 0;
+  transition: transform 500ms;
+}
+
+.image-viewer__content2 {
+  display:block;
 }
 
 .image-viewer__controls {
   height: 3em;
-
+  
   .icon {
     margin: 0;
   }
-
+  
   .btn__text {
     @include visually-hidden;
   }
+}
+
+.image-viewer__error {
+  position: relative;
+  top: 50%;
+  transform: translateY(-70%);
+  max-width: 500px;
+  margin: auto;
+  color: color('white');
 }
 
 .image-viewer__image {
@@ -49,4 +63,41 @@
   .btn__text {
     @include visually-hidden;
   }
+}
+
+.slideup-enter {
+  opacity: 0;
+  transform: translateX(-120%) translateY(250%);
+  transition: transform 700ms;
+
+  @include respond-to('medium') {
+    transform: translateX(50%) translateY(250%);
+  }
+}
+
+.slideup-enter.slideup-enter-active {
+  opacity: 1;
+  transform: translateX(-120%) translateY(50%);
+  transition: transform 700ms, opacity 700ms;
+
+  @include respond-to('medium') {
+    transform: translateX(50%) translateY(50%);
+  }
+}
+
+.scale-enter,
+.scale-leave {
+  transition: transform 500ms;
+}
+
+.scale-enter {
+  transform: scale(0) rotate(0deg)!important;
+}
+
+.scale-enter.scale-active {
+  transform: scale(1) rotate(720deg);
+}
+
+.scale-leave.scale-leave-active {
+  transform: scale(0);
 }
