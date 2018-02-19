@@ -52,10 +52,6 @@ const defaultConfig = {
   },
   {
     contentType: 'application/font-woff2'
-  },
-  {
-    contentType: 'text/html',
-    maxAge: 1800
   }]
 };
 
