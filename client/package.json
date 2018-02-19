@@ -1,5 +1,5 @@
 {
-  "name": "wellcomecollection.org-client",
+  "name": "@weco/client",
   "version": "1.0.0",
   "description": "wellcomecollection.org frontend",
   "author": "David McCormick <d.mccormick@wellcome.ac.uk>",

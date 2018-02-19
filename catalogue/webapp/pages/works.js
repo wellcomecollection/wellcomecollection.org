@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-unfetch';
 import { withFormik } from 'formik';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
-import criticalCss from '@weco/common/styles/critical.scss';
+import criticalCss from '@weco/client/scss/critical.scss';
 import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/DefaultPageLayout';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
