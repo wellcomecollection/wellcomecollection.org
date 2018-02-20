@@ -1,6 +1,6 @@
 // @flow
 /* global OpenSeadragon */
-import * as React from 'react';
+import React, {Fragment} from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import {font, spacing} from '../../../utils/classnames';
 import {convertImageUri, convertIiifUriToInfoUri} from '../../../utils/convert-image-uri';
@@ -134,7 +134,7 @@ class ViewerContent extends React.Component<ViewerContentProps, ViewerContentSta
 
   render() {
     return (
-      <React.Fragment>
+      <Fragment>
         <Script
           url='https://static.wellcomecollection.org/openseadragon/openseadragon.min.js'
           onError={this.handleScriptError}
@@ -171,7 +171,7 @@ class ViewerContent extends React.Component<ViewerContentProps, ViewerContentSta
             {this.state.scriptError && <Error />}
           </div>
         </div>
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
