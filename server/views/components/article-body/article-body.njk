@@ -15,7 +15,7 @@
               {{ bodyPart.value | safe }}
             {% elif bodyPart.type === 'picture' %}
               {# On old content, the first paragraph is sometimes a picture #}
-              {% set imageModel = bodyPart.value | objectAssign({lazyload: true, sizesQueries: '(min-width: 960px) 710px, 100vw'}) %}
+              {% set imageModel = bodyPart.value | objectAssign({lazyload: true, sizesQueries: '(min-width: 960px) 710px, 100vw', showCopyright: true}) %}
               {% set tasl = {name: 'Tasl', model: imageModel}
                 if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
                 else null
