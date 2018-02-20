@@ -43,7 +43,7 @@ export async function renderEvent(ctx, next) {
 }
 
 export async function renderEventsList(ctx, next) {
-  const page = Number(ctx.request.query.page);
+  const page = ctx.request.query.page ? Number(ctx.request.query.page) : 1;
   const paginatedEvents = await getPaginatedEventPromos(page);
 
   ctx.render('pages/events', {
