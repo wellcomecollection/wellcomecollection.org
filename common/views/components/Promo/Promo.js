@@ -20,6 +20,14 @@ function contentTypeText(commissionedSeries, positionInSeries, seriesTitle, cont
   }
 }
 
+function titleFontClasses(contentType) {
+  if (contentType === 'work') {
+    return `${font({s: 'HNL5'})} text--truncate`;
+  } else {
+    return font({s: 'WB7', l: 'WB6'});
+  }
+}
+
 function headingText(title, contentType) {
   if (title) {
     return title;
@@ -121,7 +129,7 @@ const Promo = ({url, id, extraClasses = '', contentType, isConstrained, image, s
               </span>
             }
 
-            <HeadingTag className={`promo__title ${weight === 'lead' ? 'promo__title--lead' : ''} ${font({s: 'WB7', l: 'WB6'})} ${contentType === 'work' ? 'text-truncate' : ''}`}>
+            <HeadingTag className={`promo__title ${titleFontClasses(contentType)} ${weight === 'lead' ? 'promo__title--lead' : ''}`}>
               {headingText(title, contentType)}
             </HeadingTag>
           </div>
