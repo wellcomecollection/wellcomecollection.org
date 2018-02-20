@@ -1,7 +1,7 @@
 // @flow
 /* global OpenSeadragon */
 import React, {Fragment} from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import {Transition} from 'react-transition-group';
 import {font, spacing} from '../../../utils/classnames';
 import {convertImageUri, convertIiifUriToInfoUri} from '../../../utils/convert-image-uri';
 import Image from '../Image/Image';
@@ -52,6 +52,7 @@ const Error = () => (
 type LaunchViewerProps = {|
   id: string,
   trackTitle: string,
+  classes: string,
   clickHandler: Function,
   didMountHandler: Function
 |}
@@ -66,7 +67,7 @@ class LaunchViewerButton extends React.Component<LaunchViewerProps> {
       <ButtonButton
         text='View larger image'
         icon='zoomIn'
-        extraClasses={`${buttonFontClasses} btn--round image-viewer__launch-button js-image-viewer__launch-button`}
+        extraClasses={`${this.props.classes} ${buttonFontClasses} btn--round image-viewer__launch-button js-image-viewer__launch-button`}
         eventTracking={`{${commonBtnTracking(this.props.id, this.props.trackTitle)}, "action": "work-launch-image-viewer:btnClick"}`}
         onClick={this.props.clickHandler}
       />
@@ -78,6 +79,7 @@ type ViewerContentProps = {|
   id: string,
   trackTitle: string,
   contentUrl: string,
+  classes: string,
   viewerVisible: boolean,
   handleViewerDisplay: Function
 |}
@@ -140,7 +142,7 @@ class ViewerContent extends React.Component<ViewerContentProps, ViewerContentSta
           onError={this.handleScriptError}
           onLoad={this.handleScriptLoaded}
         />
-        <div className="image-viewer__content image-viewer__content2">
+        <div className={`${this.props.classes} image-viewer__content image-viewer__content2`}>
           <div className="image-viewer__controls flex flex-end flex--v-center">
             <ButtonButton
               text='Zoom in'
@@ -241,22 +243,26 @@ class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
           alt=''
           clickHandler={this.handleViewerDisplay}
           zoomable={this.state.viewButtonMounted} />
-
-        <ReactCSSTransitionGroup
-          transitionName='slideup'
-          transitionEnterTimeout={700}
-          transitionLeaveTimeout={700}>
-
-          {this.state.mountViewButton && <LaunchViewerButton didMountHandler={this.viewButtonMountedHandler} clickHandler={this.handleViewerDisplay} id={this.props.id} trackTitle={this.props.trackTitle} />}
-
-        </ReactCSSTransitionGroup>
-
-        <ReactCSSTransitionGroup
-          transitionName='scale'
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}>
-          {this.state.showViewer && <ViewerContent viewerVisible={this.state.showViewer} id={this.props.id} trackTitle={this.props.trackTitle} contentUrl={this.props.contentUrl} handleViewerDisplay={this.handleViewerDisplay} />}
-        </ReactCSSTransitionGroup>
+        <Transition in={this.state.mountViewButton} timeout={{enter: 0, exit: 700}}>
+          {
+            (status) => {
+              if (status === 'exited') {
+                return null;
+              }
+              return <LaunchViewerButton classes={`slideup slideup-${status}`} didMountHandler={this.viewButtonMountedHandler} clickHandler={this.handleViewerDisplay} id={this.props.id} trackTitle={this.props.trackTitle} />;
+            }
+          }
+        </Transition>
+        <Transition in={this.state.showViewer} timeout={{enter: 0, exit: 10000}}>
+          {
+            (status) => {
+              if (status === 'exited') {
+                return null;
+              }
+              return <ViewerContent classes={`scale scale-${status}`} viewerVisible={this.state.showViewer} id={this.props.id} trackTitle={this.props.trackTitle} contentUrl={this.props.contentUrl} handleViewerDisplay={this.handleViewerDisplay}/>;
+            }
+          }
+        </Transition>
       </Fragment>
     );
   }
