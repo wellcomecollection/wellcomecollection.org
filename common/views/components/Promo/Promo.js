@@ -91,7 +91,7 @@ const Promo = ({url, id, extraClasses = '', contentType, isConstrained, image, s
   return (
     <PromoTag id={id}
       data-component="ArticlePromo"
-      data-track-event={`{category: 'component', action: 'ArticlePromo:click' }`}
+      data-track-event={`${JSON.stringify({category: 'component', action: 'ArticlePromo:click'})}`}
       href={url}
       className={`promo ${extraClasses} promo--${contentType} ${!url ? 'promo--surrogate' : ''} ${standalone ? 'promo--standalone' : ''}`}>
       <div className={`promo__image-container ${isConstrained ? 'promo__image-container--constrained' : ''}`}>
