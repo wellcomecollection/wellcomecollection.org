@@ -19,7 +19,7 @@ type Props = {
 
 function getMarkup(title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink) {
   const licenseInfo = license && getLicenseInfo(license);
-  console.log(getTitleHtml(title, author, sourceLink));
+
   return (
     <Fragment>
       {getTitleHtml(title, author, sourceLink)}
@@ -87,7 +87,7 @@ const Tasl = ({isFull, contentUrl, title, author, sourceName, sourceLink, licens
       drawer__body js-show-hide-drawer bg-black font-white
       ${spacing({s: 1}, {padding: ['top', 'bottom', 'left']})}
       ${spacing({s: 6}, {padding: ['right']})}`}>
-      {getMarkup(title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink)}
+      {getMarkup(title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink)}.
     </div>
     {isFull &&
       <button className="tasl__button absolute plain-button js-show-hide-trigger">
