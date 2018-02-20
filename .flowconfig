@@ -1,4 +1,5 @@
 [ignore]
+.*/node_modules/**.*
 .*/.dist/**.*
 💩 This is just while we trim this down to be exactly that, a server
 .*/server/**.*
