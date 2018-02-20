@@ -7,6 +7,7 @@ import MoreInfoLink from '../MoreInfoLink/MoreInfoLink';
 import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
 import PageDescription from '../PageDescription/PageDescription';
+import Promo from '../Promo/Promo';
 
 export {
   BackToTop,
@@ -17,5 +18,6 @@ export {
   MoreInfoLink,
   WorkDrawer,
   WorkMedia,
-  PageDescription
+  PageDescription,
+  Promo
 };

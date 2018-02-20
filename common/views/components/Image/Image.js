@@ -2,8 +2,9 @@
 
 import {convertImageUri} from '../../../utils/convert-image-uri';
 import {imageSizes} from '../../../utils/image-sizes';
+import {Fragment} from 'react';
 
-type Props = {|
+export type Props = {|
   width: number,
   height?: string,
   contentUrl: string,
@@ -28,7 +29,7 @@ const Image = ({
   defaultSize = 30,
   alt = ''
 }: Props) => (
-  <div className="work-media__image-container">
+  <Fragment>
     <noscript>
       <img width={width}
         height={height}
@@ -37,7 +38,7 @@ const Image = ({
         alt={alt} />
     </noscript>
     {imageMarkup(width, height, clipPathClass, lazyload, defaultSize, contentUrl, sizesQueries, copyright, alt, caption)}
-  </div>
+  </Fragment>
 );
 
 const imageClasses = (clip = false, lazyload: boolean, clipPathClass) => {
