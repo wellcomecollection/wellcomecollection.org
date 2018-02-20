@@ -11,8 +11,13 @@
       </h2>
       {% if model.image and not isTransporter %}
         <img class="numbered-list__image" src="{{ model.image.contentUrl | convertImageUri(300, false) }}" alt=" " />
-        {% set seriesInfo = {color: model.color, commissionedLength: model.items.length} %}
-        {% componentV2 'chapter-indicator', {series: seriesInfo}, {'full': true}, {showTotal: true} %}
+        {% componentJsx 'ChapterIndicator', {
+          position: 1,
+          showTotal: true,
+          color: model.color,
+          commissionedLength: model.items.length,
+          isFull: true
+        }  %}
       {% endif %}
     </header>
   {% endif %}
@@ -39,7 +44,8 @@
                 title: item.title,
                 weight: item.weight,
                 description: item.description,
-                series: item.series
+                series: item.series,
+                positionInSeries: item.positionInSeries
               } %}
             </span>
           {% else %}

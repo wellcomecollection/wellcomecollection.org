@@ -112,7 +112,14 @@
             </div>
           </div>
           <div class="{{ {s: 12, m: 8, l: 5, xl: 5} | gridClasses }}">
-            {% componentV2 'captioned-image', henryImage, null, {showCopyright: true} %}
+
+            {% set imageModel = henryImage | objectAssign({lazyload: true}) %}
+
+            {% componentJsx 'CaptionedImage', imageModel, [
+              {name: 'Image', model:imageModel},
+              {name: 'Tasl', model: henryImage}
+            ] %}
+
           </div>
         </div>
       </div>
@@ -150,7 +157,7 @@
               <div class="flex flex--v-center font-pewter {{ {s:'LR3', m:'LR2'} | fontClasses }}">
                 Showing {{ pagination.range.beginning }} - {{ pagination.range.end }}
               </div>
-              {% componentV2 'pagination', pagination, null, {query: query} %}
+              {% componentJsx 'Pagination', pagination %}
             </div>
           </div>
         </div>
@@ -186,7 +193,7 @@
       <div class="container">
         <div class="grid">
           <div class="grid__cell">
-            {% componentV2 'pagination', pagination, null, {query: query} %}
+            {% componentJsx 'Pagination', pagination %}
           </div>
         </div>
       </div>

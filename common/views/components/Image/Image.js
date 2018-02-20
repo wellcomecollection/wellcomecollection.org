@@ -1,12 +1,11 @@
 // @flow
-
 import {convertImageUri} from '../../../utils/convert-image-uri';
 import {imageSizes} from '../../../utils/image-sizes';
 import {Fragment} from 'react';
 
 export type Props = {|
   width: number,
-  height?: string,
+  height?: number,
   contentUrl: string,
   clipPathClass?: string,
   alt: string,

@@ -63,7 +63,11 @@
       {% endif %}
 
       {% if addIndicatorBars %}
-          {% componentV2 'chapter-indicator', {series: commissionedSeries, position: model.positionInSeries}, {'half': model.modifiers and model.modifiers | contains('standalone')}, {showSingle: model.modifiers and model.modifiers | contains('standalone')} %}
+        {% componentJsx 'ChapterIndicator', {
+          position: model.positionInSeries,
+          color: commissionedSeries.color,
+          commissionedLength: commissionedSeries.commissionedLength
+        } %}
       {% endif %}
 
       {% if model.contentType === 'gallery' or model.contentType === 'audio' or model.contentType === 'video' %}

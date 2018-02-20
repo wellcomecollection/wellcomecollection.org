@@ -50,7 +50,8 @@
               title: promo.title,
               weight: promo.weight,
               description: promo.description,
-              series: promo.series
+              series: promo.series,
+              positionInSeries: promo.positionInSeries
             } %}
           </div>
         {% endfor %}
@@ -69,7 +70,7 @@
       {% else %}
         <div class="grid">
           <div class="grid__cell">
-            {% componentV2 'pagination', pagination %}
+            {% componentJsx 'Pagination', pagination %}
           </div>
         </div>
       {% endif %}

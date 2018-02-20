@@ -4,6 +4,7 @@ import check from './check';
 import chevron from './chevron';
 import clock from './clock';
 import cross from './cross';
+import image from './image';
 import plus from './plus';
 import search from './search';
 import zoomIn from './zoom-in';
@@ -28,6 +29,7 @@ export {
   chevron,
   clock,
   cross,
+  image,
   plus,
   search,
   zoomIn,

@@ -9,6 +9,7 @@ import type {Props as ImageProps} from '../Image/Image';
 import type {ContentType} from '../../../model/content-type';
 import type {Weight} from '../../../model/weight';
 import {Fragment} from 'react';
+import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
 
 function contentTypeText(commissionedSeries, positionInSeries, seriesTitle, contentType) {
   if (commissionedSeries && positionInSeries) {
@@ -109,8 +110,12 @@ const Promo = ({url, id, extraClasses = '', contentType, isConstrained, image, s
           </div>
         }
 
-        {commissionedSeries && positionInSeries && url
-          // {% componentV2 'chapter-indicator', {series: commissionedSeries, position: positionInSeries} %}
+        {commissionedSeries && positionInSeries && url &&
+          <ChapterIndicator
+            position={positionInSeries}
+            showSingle={standalone}
+            color={commissionedSeries.color}
+            commissionedLength={commissionedSeries.commissionedLength} />
         }
 
         {contentType === 'gallery' || contentType === 'audio' || contentType === 'video' &&

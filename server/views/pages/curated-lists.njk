@@ -39,7 +39,8 @@
             title: promos.first().title,
             weight: promos.first().weight,
             description: promos.first().description,
-            series: promos.first().series
+            series: promos.first().series,
+            positionInSeries: promos.first().positionInSeries
           } %}
         </div>
       </div>
@@ -60,7 +61,8 @@
               title: promo.title,
               weight: promo.weight,
               description: promo.description,
-              series: promo.series
+              series: promo.series,
+            positionInSeries: promo.positionInSeries
             } %}
           </div>
         {% endfor %}
@@ -137,7 +139,8 @@
               title: promo.title,
               weight: promo.weight,
               description: promo.description,
-              series: promo.series
+              series: promo.series,
+              positionInSeries: promo.positionInSeries
             } %}
           </div>
         {% endfor %}
