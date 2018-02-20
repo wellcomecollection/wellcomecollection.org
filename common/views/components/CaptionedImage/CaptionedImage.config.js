@@ -6,6 +6,7 @@ export const name = 'Captioned image';
 export const handle = 'captioned-image';
 export const status = 'graduated';
 
+// TODO: find a way to get Fractal using JSX here instead of ReactDOMServer
 const imageString = ReactDOMServer.renderToString(<Image
   contentUrl='https://wellcomecollection.files.wordpress.com/2016/10/featured-image-dans-blog2.jpg'
   caption='An edited frame from Animating the Body'

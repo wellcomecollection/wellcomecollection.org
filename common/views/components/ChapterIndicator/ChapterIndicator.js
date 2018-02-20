@@ -12,7 +12,7 @@ type Props = {|
   position: number,
   showSingle?: boolean,
   showTotal?: boolean,
-  color: string,
+  color: 'white' | 'red' | 'purple' | 'turquoise' | 'orange',
   commissionedLength: number,
   isFull?: boolean
 |}
