@@ -15,7 +15,7 @@
               {{ bodyPart.value | safe }}
             {% elif bodyPart.type === 'picture' %}
                 {# On old content, the first paragraph is sometimes a picture #}
-                {% componentV2 'captioned-image', bodyPart.value, {}, {sizesQueries: '(min-width: 960px) 710px, 100vw'} %}
+                {% componentV2 'captioned-image', bodyPart.value, {}, {sizesQueries: '(min-width: 960px) 710px, 100vw', showCopyright: true} %}
             {% else %}
                 {% component 'standfirst', { body: bodyPart.value } %}
             {% endif %}
