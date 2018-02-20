@@ -232,7 +232,7 @@ class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
 
   render() {
     return (
-      <React.Fragment>
+      <Fragment>
         <Image
           width={this.props.width}
           contentUrl={this.props.contentUrl}
@@ -257,7 +257,7 @@ class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
           transitionLeaveTimeout={500}>
           {this.state.showViewer && <ViewerContent viewerVisible={this.state.showViewer} id={this.props.id} trackTitle={this.props.trackTitle} contentUrl={this.props.contentUrl} handleViewerDisplay={this.handleViewerDisplay} />}
         </ReactCSSTransitionGroup>
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
