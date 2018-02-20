@@ -50,6 +50,9 @@ export async function setPreviewSession(ctx, next) {
   });
 
   const redirectUrl = await getPreviewSession(token);
+
+  ctx.response.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+  ctx.set('Pragma', 'no-cache');
   ctx.response.redirect(redirectUrl);
 }
 

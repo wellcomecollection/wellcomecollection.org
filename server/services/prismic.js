@@ -255,7 +255,7 @@ function createEventPromos(allResults): Array<EventPromo> {
     return curr.concat(acc);
   }, []).sort((a, b) => {
     return convertStringToNumber(b.start || '') - convertStringToNumber(a.start || '');
-  }).sort((a, b) => a.start.localeCompare(b.start));
+  });
 }
 
 function convertStringToNumber(string: string): number {
@@ -284,7 +284,7 @@ function convertPrismicResultsToPaginatedResults(prismicResults: Object): (resul
 export async function getPaginatedEventPromos(page: number): Promise<Array<EventPromo>> {
   const events = await getAllOfType(['events'], {
     page,
-    orderings: '[my.events.times.startDateTime]',
+    orderings: '[my.events.times.startDateTime desc]',
     fetchLinks: eventFields
   });
   const promos = createEventPromos(events.results);
