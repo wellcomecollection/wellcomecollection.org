@@ -5,7 +5,7 @@
 {% endif %}
 
 <a data-component="EventPromo"
-   data-track-event="{{ {category: 'component', action: 'EventPromo:click' } | dump }}"
+   data-track-event="{{ {category: 'component', action: 'EventPromo:click', label: 'id:' + model.id } | dump }}"
    id="{{model.id}}"
    href="{{ model.url }}"
    class="plain-link promo-link bg-cream rounded-top rounded-bottom overflow-hidden flex flex--column">
