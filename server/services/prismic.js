@@ -72,12 +72,12 @@ type PrismicQueryOptions = {|
   orderings?: string;
 |}
 
-async function getAllOfType(type: Array<DocumentType>, options: PrismicQueryOptions = {}) {
+async function getAllOfType(type: Array<DocumentType>, options: PrismicQueryOptions = {}, predicates: any[] = []) {
   const prismic = await getPrismicApi();
   const results = await prismic.query([
     Prismic.Predicates.any('document.type', type),
     Prismic.Predicates.not('document.tags', ['delist'])
-  ], Object.assign({}, { pageSize: defaultPageSize }, options));
+  ].concat(predicates), Object.assign({}, { pageSize: defaultPageSize }, options));
   return results;
 }
 
@@ -232,6 +232,12 @@ function createEventPromos(allResults): Array<EventPromo> {
     const eventbriteIdMatch = isEmptyObj(event.data.eventbriteEvent) ? null : /\/e\/([0-9]+)/.exec(event.data.eventbriteEvent.url);
     const eventbriteId = eventbriteIdMatch ? eventbriteIdMatch[1] : null;
 
+    const series = event.data.series.map(series => !isEmptyDocLink(series.series) ? ({
+      id: series.series.id,
+      title: asText(series.series.data.title),
+      description: asText(series.series.data.description)
+    }) : null).filter(_ => _);
+
     // A single Primsic 'event' can have multiple datetimes, but we
     // want to display each datetime as an individual promo, so we
     // map and flatten.
@@ -248,7 +254,8 @@ function createEventPromos(allResults): Array<EventPromo> {
         description: promo && promo.caption,
         bookingType: bookingType,
         interpretations: interpretations,
-        eventbriteId: eventbriteId
+        eventbriteId: eventbriteId,
+        series: series
       };
     });
   }).reduce((acc, curr) => {
@@ -279,6 +286,19 @@ function convertPrismicResultsToPaginatedResults(prismicResults: Object): (resul
       pagination
     };
   };
+}
+
+export async function getEventSeries(id: string, { page }: PrismicQueryOptions) {
+  console.info(id);
+  const events = await getAllOfType(['events'], {
+    page,
+    orderings: '[my.events.times.startDateTime desc]',
+    fetchLinks: eventFields
+  }, [Prismic.Predicates.at('my.events.series.series', id)]);
+
+  const promos = createEventPromos(events.results);
+  const paginatedResults = convertPrismicResultsToPaginatedResults(events);
+  return paginatedResults(promos);
 }
 
 export async function getPaginatedEventPromos(page: number): Promise<Array<EventPromo>> {
