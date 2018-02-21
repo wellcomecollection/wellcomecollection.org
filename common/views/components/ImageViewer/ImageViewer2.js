@@ -136,44 +136,42 @@ class ViewerContent extends React.Component<ViewerContentProps, ViewerContentSta
 
   render() {
     return (
-      <Fragment>
+      <div className={`${this.props.classes} image-viewer__content image-viewer__content2`}>
         <Script
           url='https://static.wellcomecollection.org/openseadragon/openseadragon.min.js'
           onError={this.handleScriptError}
           onLoad={this.handleScriptLoaded}
         />
-        <div className={`${this.props.classes} image-viewer__content image-viewer__content2`}>
-          <div className="image-viewer__controls flex flex-end flex--v-center">
-            <ButtonButton
-              text='Zoom in'
-              id={`zoom-in-${this.props.id}`}
-              icon='zoomIn'
-              eventTracking={`{${commonBtnTracking(this.props.id, this.props.trackTitle)}, "action": "work-zoom-in-button:click"}`}
-              extraClasses={`${buttonFontClasses} btn--round btn--black ${spacing({s: 1}, {margin: ['right']})}`}
-            />
+        <div className="image-viewer__controls flex flex-end flex--v-center">
+          <ButtonButton
+            text='Zoom in'
+            id={`zoom-in-${this.props.id}`}
+            icon='zoomIn'
+            eventTracking={`{${commonBtnTracking(this.props.id, this.props.trackTitle)}, "action": "work-zoom-in-button:click"}`}
+            extraClasses={`${buttonFontClasses} btn--round btn--black ${spacing({s: 1}, {margin: ['right']})}`}
+          />
 
-            <ButtonButton
-              text='Zoom out'
-              id={`zoom-out-${this.props.id}`}
-              icon='zoomOut'
-              eventTracking={`{${commonBtnTracking(this.props.id, this.props.trackTitle)}, "action": "work-zoom-out-button:click"}`}
-              extraClasses={`${buttonFontClasses} btn--round btn--black ${spacing({s: 8}, {margin: ['right']})}`}
-            />
+          <ButtonButton
+            text='Zoom out'
+            id={`zoom-out-${this.props.id}`}
+            icon='zoomOut'
+            eventTracking={`{${commonBtnTracking(this.props.id, this.props.trackTitle)}, "action": "work-zoom-out-button:click"}`}
+            extraClasses={`${buttonFontClasses} btn--round btn--black ${spacing({s: 8}, {margin: ['right']})}`}
+          />
 
-            <ButtonButton
-              text='Close image viewer'
-              icon='cross'
-              eventTracking={`{${commonBtnTracking(this.props.id, this.props.trackTitle)}, "action": "work-exit-image-viewer:btnClick"}`}
-              extraClasses={`${buttonFontClasses} btn--round btn--black js-image-viewer__exit-button ${spacing({s: 2}, {margin: ['right']})}`}
-              onClick={this.props.handleViewerDisplay}
-            />
-          </div>
-
-          <div className='image-viewer__image' id={`image-viewer-${this.props.id}`}>
-            {this.state.scriptError && <Error />}
-          </div>
+          <ButtonButton
+            text='Close image viewer'
+            icon='cross'
+            eventTracking={`{${commonBtnTracking(this.props.id, this.props.trackTitle)}, "action": "work-exit-image-viewer:btnClick"}`}
+            extraClasses={`${buttonFontClasses} btn--round btn--black js-image-viewer__exit-button ${spacing({s: 2}, {margin: ['right']})}`}
+            onClick={this.props.handleViewerDisplay}
+          />
         </div>
-      </Fragment>
+
+        <div className='image-viewer__image' id={`image-viewer-${this.props.id}`}>
+          {this.state.scriptError && <Error />}
+        </div>
+      </div>
     );
   }
 }
