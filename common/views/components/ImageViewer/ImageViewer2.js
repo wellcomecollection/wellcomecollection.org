@@ -247,11 +247,11 @@ class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
               if (status === 'exited') {
                 return null;
               }
-              return <LaunchViewerButton classes={`slideup slideup-${status}`} didMountHandler={this.viewButtonMountedHandler} clickHandler={this.handleViewerDisplay} id={this.props.id} trackTitle={this.props.trackTitle} />;
+              return <LaunchViewerButton classes={`slideup-viewer-btn slideup-viewer-btn-${status}`} didMountHandler={this.viewButtonMountedHandler} clickHandler={this.handleViewerDisplay} id={this.props.id} trackTitle={this.props.trackTitle} />;
             }
           }
         </Transition>
-        <Transition in={this.state.showViewer} timeout={{enter: 0, exit: 10000}}>
+        <Transition in={this.state.showViewer} timeout={{enter: 0, exit: 500}}>
           {
             (status) => {
               if (status === 'exited') {

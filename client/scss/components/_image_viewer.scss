@@ -20,11 +20,11 @@
 
 .image-viewer__controls {
   height: 3em;
-  
+
   .icon {
     margin: 0;
   }
-  
+
   .btn__text {
     @include visually-hidden;
   }
@@ -65,7 +65,8 @@
   }
 }
 
-.slideup {
+// react-transition-group classes
+.slideup-viewer-btn {
   opacity: 0;
   transform: translateX(-120%) translateY(250%);
   transition: transform 700ms;
@@ -75,7 +76,7 @@
   }
 }
 
-.slideup-entered {
+.slideup-viewer-btn-entered {
   opacity: 1;
   transform: translateX(-120%) translateY(50%);
   transition: transform 700ms, opacity 700ms;
@@ -83,17 +84,4 @@
   @include respond-to('medium') {
     transform: translateX(50%) translateY(50%);
   }
-}
-
-.scale {
-  transition: transform 500ms;
-  transform: scale(0);
-}
-
-.scale-entered {
-  transform: scale(1);
-}
-
-.scale-exiting {
-  transform: scale(0);
 }
