@@ -63,7 +63,7 @@ class LaunchViewerButton extends React.Component<LaunchViewerProps> {
         text='View larger image'
         icon='zoomIn'
         extraClasses={`${this.props.classes} ${buttonFontClasses} btn--round image-viewer__launch-button js-image-viewer__launch-button`}
-        onClick={this.props.clickHandler}
+        clickHandler={this.props.clickHandler}
       />
     );
   }
@@ -148,7 +148,7 @@ class ViewerContent extends React.Component<ViewerContentProps, ViewerContentSta
             text='Close image viewer'
             icon='cross'
             extraClasses={`${buttonFontClasses} btn--round btn--black js-image-viewer__exit-button ${spacing({s: 2}, {margin: ['right']})}`}
-            onClick={this.props.handleViewerDisplay}
+            clickHandler={this.props.handleViewerDisplay}
           />
         </div>
 

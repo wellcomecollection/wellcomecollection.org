@@ -9,15 +9,15 @@ type Props = {|
   text: string,
   eventTracking?: string,
   id?: string,
-  onClick?: () => void
+  clickHandler?: () => void
 |}
 
-const ButtonButton = ({id, extraClasses, icon, text, eventTracking, onClick}: Props) => (
+const ButtonButton = ({id, extraClasses, icon, text, eventTracking, clickHandler}: Props) => (
   <button
     id={id}
     className={`btn ${extraClasses || ''} ${font({s: 'HNM5'})}`}
     data-track-event={eventTracking}
-    onClick={onClick}>
+    onClick={clickHandler}>
     {icon && <Icon name={icon} />}
     <span className='btn__text'>{text}</span>
   </button>
