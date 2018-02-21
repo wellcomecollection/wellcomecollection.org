@@ -64,7 +64,6 @@ const WorkMedia = ({
         <ImageViewer2
           contentUrl={imageContentUrl}
           id={id}
-          trackTitle={trackTitle}
           width={width}
         />
 

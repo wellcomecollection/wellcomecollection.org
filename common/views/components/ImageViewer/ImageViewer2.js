@@ -7,12 +7,8 @@ import {convertImageUri, convertIiifUriToInfoUri} from '../../../utils/convert-i
 import Image from '../Image/Image';
 import ButtonButton from '../Buttons/ButtonButton/ButtonButton';
 import Script from 'react-load-script';
-import { trackGaEvent } from '../../../utils/tracking';
 
 const buttonFontClasses = font({s: 'HNM5'});
-const commonBtnTracking = (id, trackTitle) => {
-  return `"category": "component", "label": "id:${id}', title:${trackTitle}"`;
-};
 
 function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
   window.fetch(convertIiifUriToInfoUri(convertImageUri(imageInfoSrc, 'full', false)))
@@ -51,7 +47,6 @@ const Error = () => (
 
 type LaunchViewerProps = {|
   id: string,
-  trackTitle: string,
   classes: string,
   clickHandler: Function,
   didMountHandler: Function
@@ -68,7 +63,6 @@ class LaunchViewerButton extends React.Component<LaunchViewerProps> {
         text='View larger image'
         icon='zoomIn'
         extraClasses={`${this.props.classes} ${buttonFontClasses} btn--round image-viewer__launch-button js-image-viewer__launch-button`}
-        eventTracking={`{${commonBtnTracking(this.props.id, this.props.trackTitle)}, "action": "work-launch-image-viewer:btnClick"}`}
         onClick={this.props.clickHandler}
       />
     );
@@ -77,7 +71,6 @@ class LaunchViewerButton extends React.Component<LaunchViewerProps> {
 
 type ViewerContentProps = {|
   id: string,
-  trackTitle: string,
   contentUrl: string,
   classes: string,
   viewerVisible: boolean,
@@ -116,13 +109,7 @@ class ViewerContent extends React.Component<ViewerContentProps, ViewerContentSta
 
   escapeCloseViewer({keyCode}) {
     if (keyCode === 27 && this.props.viewerVisible) {
-      const gaData = {
-        category: 'component',
-        action: 'work-exit-image-viewer:escKey',
-        label: `id:${this.props.id}, title:${this.props.trackTitle}`
-      };
       this.props.handleViewerDisplay();
-      trackGaEvent(gaData);
     }
   }
 
@@ -147,7 +134,6 @@ class ViewerContent extends React.Component<ViewerContentProps, ViewerContentSta
             text='Zoom in'
             id={`zoom-in-${this.props.id}`}
             icon='zoomIn'
-            eventTracking={`{${commonBtnTracking(this.props.id, this.props.trackTitle)}, "action": "work-zoom-in-button:click"}`}
             extraClasses={`${buttonFontClasses} btn--round btn--black ${spacing({s: 1}, {margin: ['right']})}`}
           />
 
@@ -155,14 +141,12 @@ class ViewerContent extends React.Component<ViewerContentProps, ViewerContentSta
             text='Zoom out'
             id={`zoom-out-${this.props.id}`}
             icon='zoomOut'
-            eventTracking={`{${commonBtnTracking(this.props.id, this.props.trackTitle)}, "action": "work-zoom-out-button:click"}`}
             extraClasses={`${buttonFontClasses} btn--round btn--black ${spacing({s: 8}, {margin: ['right']})}`}
           />
 
           <ButtonButton
             text='Close image viewer'
             icon='cross'
-            eventTracking={`{${commonBtnTracking(this.props.id, this.props.trackTitle)}, "action": "work-exit-image-viewer:btnClick"}`}
             extraClasses={`${buttonFontClasses} btn--round btn--black js-image-viewer__exit-button ${spacing({s: 2}, {margin: ['right']})}`}
             onClick={this.props.handleViewerDisplay}
           />
@@ -178,7 +162,6 @@ class ViewerContent extends React.Component<ViewerContentProps, ViewerContentSta
 
 type ImageViewerProps = {|
   id: string,
-  trackTitle: string,
   contentUrl: string,
   width: number
 |}
@@ -214,14 +197,6 @@ class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
     this.setState(prevState => ({
       showViewer: !prevState.showViewer
     }));
-    if (e && e.target.tagName === 'IMG') {
-      const gaData = {
-        category: 'component',
-        action: 'work-launch-image-viewer:imgClick',
-        label: `id:${this.props.id}, title:${this.props.trackTitle}`
-      };
-      trackGaEvent(gaData);
-    }
   }
 
   componentDidMount() {
@@ -247,7 +222,7 @@ class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
               if (status === 'exited') {
                 return null;
               }
-              return <LaunchViewerButton classes={`slideup-viewer-btn slideup-viewer-btn-${status}`} didMountHandler={this.viewButtonMountedHandler} clickHandler={this.handleViewerDisplay} id={this.props.id} trackTitle={this.props.trackTitle} />;
+              return <LaunchViewerButton classes={`slideup-viewer-btn slideup-viewer-btn-${status}`} didMountHandler={this.viewButtonMountedHandler} clickHandler={this.handleViewerDisplay} id={this.props.id} />;
             }
           }
         </Transition>
@@ -257,7 +232,7 @@ class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
               if (status === 'exited') {
                 return null;
               }
-              return <ViewerContent classes={`scale scale-${status}`} viewerVisible={this.state.showViewer} id={this.props.id} trackTitle={this.props.trackTitle} contentUrl={this.props.contentUrl} handleViewerDisplay={this.handleViewerDisplay}/>;
+              return <ViewerContent classes={`scale scale-${status}`} viewerVisible={this.state.showViewer} id={this.props.id} contentUrl={this.props.contentUrl} handleViewerDisplay={this.handleViewerDisplay}/>;
             }
           }
         </Transition>
