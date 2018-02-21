@@ -79,7 +79,7 @@ export function parseEventDoc(doc: PrismicDoc): Event {
   }) : null).filter(_ => _);
 
   const series = doc.data.series.map(series => !isEmptyDocLink(series.series) ? ({
-    id: series.id,
+    id: series.series.id,
     title: asText(series.series.data.title),
     description: asHtml(series.series.data.description)
   }) : null).filter(_ => _);
