@@ -289,7 +289,6 @@ function convertPrismicResultsToPaginatedResults(prismicResults: Object): (resul
 }
 
 export async function getEventSeries(id: string, { page }: PrismicQueryOptions) {
-  console.info(id);
   const events = await getAllOfType(['events'], {
     page,
     orderings: '[my.events.times.startDateTime desc]',
