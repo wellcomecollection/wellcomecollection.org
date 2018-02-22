@@ -235,7 +235,7 @@ function createEventPromos(allResults): Array<EventPromo> {
     const series = event.data.series.map(series => !isEmptyDocLink(series.series) ? ({
       id: series.series.id,
       title: asText(series.series.data.title),
-      description: asText(series.series.data.description)
+      description: series.series.data.description
     }) : null).filter(_ => _);
 
     // A single Primsic 'event' can have multiple datetimes, but we

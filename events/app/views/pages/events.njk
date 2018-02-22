@@ -22,7 +22,7 @@
   </script>
   {% set listHeader = {
     name: pageConfig.title,
-    description: pageConfig.description,
+    htmlDescription: pageConfig.htmlDescription,
     total: paginatedEvents.results.length
   } %}
   {% componentV2 'list-header', listHeader %}

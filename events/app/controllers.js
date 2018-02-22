@@ -1,6 +1,6 @@
 import {model, prismic} from 'common';
 const {createPageConfig} = model;
-const {getPaginatedEventPromos, getEventSeries} = prismic;
+const {getPaginatedEventPromos, getEventSeries, asText, asHtml} = prismic;
 
 export async function renderEvent(ctx, next) {
   const id = `${ctx.params.id}`;
@@ -55,7 +55,8 @@ export async function renderEventSeries(ctx, next) {
     pageConfig: createPageConfig({
       path: ctx.request.url,
       title: series.title,
-      description: series.description || '',
+      description: asText(series.description),
+      htmlDescription: asHtml(series.description),
       inSection: 'whatson',
       category: 'public-programme',
       contentType: 'event-series',
@@ -70,12 +71,14 @@ export async function renderEventSeries(ctx, next) {
 export async function renderEventsList(ctx, next) {
   const page = ctx.request.query.page ? Number(ctx.request.query.page) : 1;
   const paginatedEvents = await getPaginatedEventPromos(page);
+  const description = 'Choose from an inspiring range of free talks, tours, discussions and more, all designed to challenge how we think and feel about health.';
 
   ctx.render('pages/events', {
     pageConfig: createPageConfig({
       path: ctx.request.url,
       title: 'Events',
-      description: 'Choose from an inspiring range of free talks, tours, discussions and more, all designed to challenge how we think and feel about health.',
+      htmlDescription: `<p>${description}</p>`,
+      description: description,
       inSection: 'whatson',
       category: 'public-programme',
       contentType: 'event', // TODO: add pageType (list)
