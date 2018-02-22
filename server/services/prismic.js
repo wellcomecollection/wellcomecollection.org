@@ -250,7 +250,7 @@ function createEventPromos(allResults): Array<EventPromo> {
         audience: audience,
         start: eventAtTime.startDateTime,
         end: eventAtTime.endDateTime,
-        image: promo && promo.image,
+        image: promo && promo.image || {},
         description: promo && promo.caption,
         bookingType: bookingType,
         interpretations: interpretations,
