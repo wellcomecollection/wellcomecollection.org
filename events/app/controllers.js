@@ -1,12 +1,11 @@
 import {model, prismic} from 'common';
 const {createPageConfig} = model;
-const {getPaginatedEventPromos, getEventSeries} = prismic;
+const {getPaginatedEventPromos, getEventSeries, getEvent} = prismic;
 
 export async function renderEvent(ctx, next) {
   const id = `${ctx.params.id}`;
   const format = ctx.request.query.format;
-  const isPreview = Boolean(ctx.params.preview);
-  const event = await prismic.getEvent(id, isPreview ? ctx.request : null);
+  const event = await getEvent(ctx.request, id);
   const path = ctx.request.url;
 
   if (event) {

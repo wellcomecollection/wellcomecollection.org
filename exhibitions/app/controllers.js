@@ -8,7 +8,7 @@ const {
 export async function renderExhibition(ctx, next) {
   const id = `${ctx.params.id}`;
   const isPreview = Boolean(ctx.params.preview);
-  const exhibitionContent = await getExhibitionAndRelatedContent(id, isPreview ? ctx.request : null);
+  const exhibitionContent = await getExhibitionAndRelatedContent(ctx.request, id);
   const format = ctx.request.query.format;
   const path = ctx.request.url;
   const tags = [{
