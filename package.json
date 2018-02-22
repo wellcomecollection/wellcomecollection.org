@@ -46,5 +46,8 @@
       "lint:scss",
       "git add"
     ]
+  },
+  "dependencies": {
+    "pa11y-ci": "^1.3.1"
   }
 }
