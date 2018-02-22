@@ -56,12 +56,12 @@ export async function renderEventSeries(ctx, next) {
       path: ctx.request.url,
       title: series.title,
       description: asText(series.description),
-      htmlDescription: asHtml(series.description),
       inSection: 'whatson',
       category: 'public-programme',
       contentType: 'event-series',
       canonicalUri: `/events-series/${id}`
     }),
+    htmlDescription: asHtml(series.description),
     paginatedEvents
   });
 
@@ -77,13 +77,13 @@ export async function renderEventsList(ctx, next) {
     pageConfig: createPageConfig({
       path: ctx.request.url,
       title: 'Events',
-      htmlDescription: `<p>${description}</p>`,
       description: description,
       inSection: 'whatson',
       category: 'public-programme',
       contentType: 'event', // TODO: add pageType (list)
       canonicalUri: '/events'
     }),
+    htmlDescription: `<p>${description}</p>`,
     paginatedEvents
   });
 
