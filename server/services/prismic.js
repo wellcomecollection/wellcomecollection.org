@@ -262,7 +262,7 @@ function createEventPromos(allResults): Array<EventPromo> {
     return curr.concat(acc);
   }, []).sort((a, b) => {
     return convertStringToNumber(b.start || '') - convertStringToNumber(a.start || '');
-  });
+  }).sort((a, b) => a.start.localeCompare(b.start));
 }
 
 function convertStringToNumber(string: string): number {
