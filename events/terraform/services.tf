@@ -30,5 +30,5 @@ module "events" {
   primary_container_port   = "80"
   secondary_container_port = "3002"
 
-  path_pattern = ["/events*", "/event-series*"]
+  path_pattern = "/events*"
 }
