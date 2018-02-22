@@ -72,11 +72,11 @@ type PrismicQueryOptions = {|
   orderings?: string;
 |}
 
-async function getAllOfType(type: Array<DocumentType>, options: PrismicQueryOptions = {}, predicates: any[] = []) {
+async function getAllOfType(type: Array<DocumentType>, options: PrismicQueryOptions = {}, predicates: any[] = [], withDelisted: boolean = false) {
   const prismic = await getPrismicApi();
   const results = await prismic.query([
     Prismic.Predicates.any('document.type', type),
-    Prismic.Predicates.not('document.tags', ['delist'])
+    Prismic.Predicates.not('document.tags', [withDelisted ? '' : 'delist'])
   ].concat(predicates), Object.assign({}, { pageSize: defaultPageSize }, options));
   return results;
 }
@@ -250,7 +250,7 @@ function createEventPromos(allResults): Array<EventPromo> {
         audience: audience,
         start: eventAtTime.startDateTime,
         end: eventAtTime.endDateTime,
-        image: promo && promo.image,
+        image: promo && promo.image || {},
         description: promo && promo.caption,
         bookingType: bookingType,
         interpretations: interpretations,
@@ -293,7 +293,7 @@ export async function getEventSeries(id: string, { page }: PrismicQueryOptions) 
     page,
     orderings: '[my.events.times.startDateTime desc]',
     fetchLinks: eventFields
-  }, [Prismic.Predicates.at('my.events.series.series', id)]);
+  }, [Prismic.Predicates.at('my.events.series.series', id)], true);
 
   const promos = createEventPromos(events.results);
   const paginatedResults = convertPrismicResultsToPaginatedResults(events);
