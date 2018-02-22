@@ -21,8 +21,8 @@
     {% endfor %}]
   </script>
   {% set listHeader = {
-    name: 'Events',
-    description: 'Choose from an inspiring range of free talks, tours, discussions and more, all designed to challenge how we think and feel about health.',
+    name: pageConfig.title,
+    description: pageConfig.description,
     total: paginatedEvents.results.length
   } %}
   {% componentV2 'list-header', listHeader %}

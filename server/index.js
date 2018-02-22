@@ -8,6 +8,7 @@ import {default as filtersMap} from './filters';
 import {
   getPrismicApi,
   getEvent,
+  getEventSeries,
   getExhibitionAndRelatedContent,
   getPaginatedEventPromos,
   getPaginatedExhibitionPromos,
@@ -27,6 +28,7 @@ export {List};
 export const prismic = {
   getPrismicApi,
   getEvent,
+  getEventSeries,
   getExhibitionAndRelatedContent,
   parsePromoListItem,
   parseExhibitionsDoc,
