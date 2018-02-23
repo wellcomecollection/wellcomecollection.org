@@ -15,12 +15,19 @@ import CaptionedImage from '@weco/common/views/components/CaptionedImage/Caption
 import Promo from '@weco/common/views/components/Promo/Promo';
 import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagination/Pagination';
 import {Fragment, Component} from 'react';
+import Router from 'next/router';
 
 type Props = {|
   values: {| query: string, works: {results: [], totalResults: number}, pagination: Object |},
   isSubmitting: boolean,
   handleChange: () => void,
-  handleSubmit: () => void
+  handleSubmit: () => void,
+  url: {
+    query: {
+      query?: string,
+      page?: number
+    }
+  }
 |}
 
 type State = {|
@@ -165,14 +172,14 @@ const WorksComponent = ({
       </Fragment>
     }
 
-    {query && pagination.currentPage &&
+    {query &&
       <Fragment>
         <div className={`row ${spacing({s: 3, m: 5}, {padding: ['top']})}`}>
           <div className="container">
             <div className="grid">
               <div className="grid__cell">
                 <div className="flex flex--h-space-between flex--v-center">
-                  {pagination &&
+                  {pagination && pagination.range &&
                     <Fragment>
                       <div className={`flex flex--v-center font-pewter ${font({s: 'LR3', m: 'LR2'})}`}>
                         Showing {pagination.range.beginning} - {pagination.range.end}
@@ -227,11 +234,12 @@ class Works extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
+
     this.state = {
-      query: '',
+      query: props.query,
       storedQuery: '',
-      works: {},
-      pagination: {}
+      works: props.works,
+      pagination: props.pagination
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -248,15 +256,20 @@ class Works extends Component<Props, State> {
     const query = this.state.storedQuery;
     const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works?query=${query}&includes=identifiers,thumbnail,items`);
     const json = await res.json();
-    const currentPage = this.props.url.query.page || 1;
+    const currentPage = 1;
     const pagination = PaginationFactory.fromList(json.results, parseInt(json.totalResults, 10) || 1, parseInt(currentPage, 10) || 1, json.pageSize || 1, {query});
 
     this.setState({
-      query: query,
       works: json,
-      storedQuery: query,
-      pagination: pagination
+      pagination: pagination,
+      query: query
     });
+
+    // Programatically update the URL
+    Router.push({
+      pathname: '/works',
+      query: {query: query, page: 1}
+    })
   }
 
   render() {
@@ -275,10 +288,13 @@ Works.getInitialProps = async ({ req, query }) => {
   const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works${getQueryParams(query)}`);
   const json = await res.json();
 
+  const currentPage = query.page || 1;
+  const pagination = PaginationFactory.fromList(json.results, parseInt(json.totalResults, 10) || 1, parseInt(currentPage, 10) || 1, json.pageSize || 1, {query: query.query});
+
   return {
     works: json,
     query: query.query,
-    pagination: {}
+    pagination: pagination
   };
 };
 
