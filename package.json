@@ -40,12 +40,15 @@
   },
   "lint-staged": {
     "*.js": [
-      "lint:js",
+      "eslint --fix server client",
       "git add"
     ],
     "*.css": [
-      "lint:scss",
+      "cd client && gulp scss:lint",
       "git add"
     ]
+  },
+  "dependencies": {
+    "flow-watch": "^1.1.2"
   }
 }
