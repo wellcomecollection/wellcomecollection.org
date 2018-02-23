@@ -7,40 +7,31 @@ import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/D
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import Tags from '@weco/common/views/components/Tags/Tags';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
 import Image from '@weco/common/views/components/Image/Image';
-import Tasl from '@weco/common/views/components/Tasl/Tasl';
-import CaptionedImage from '@weco/common/views/components/CaptionedImage/CaptionedImage';
+import StaticWorksContent from '@weco/common/views/components/StaticWorksContent/StaticWorksContent';
 import Promo from '@weco/common/views/components/Promo/Promo';
 import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagination/Pagination';
 import {Fragment, Component} from 'react';
 import Router from 'next/router';
 
 type Props = {|
-  values: {| query: string, works: {results: [], totalResults: number}, pagination: Object |},
-  handleSubmit: () => void,
-  url: {
-    query: {
-      query?: string,
-      page?: number
-    }
-  }
+  values: {| query: {query?: string, page?: string}, works: {results: [], totalResults: number}, pagination: Object |},
+  handleSubmit: () => void
 |}
 
 type State = {|
-  works: {
+  works: {|
     results: [],
     totalResults: number
-  },
-  query: string,
-  pagination: {}
+  |},
+  query: {query?: string, page?: string},
+  pagination: Object
 |}
 
 const WorksComponent = ({
   values: {query, works, pagination},
-  handleSubmit,
-  handleChange
+  handleSubmit
 }: Props) => (
   <DefaultPageLayout
     title='Image catalogue search | Wellcome Collection'
@@ -82,12 +73,11 @@ const WorksComponent = ({
               action=''
               id='search-works'
               name='query'
-              query={query}
+              query={query.query || ''}
               autofocus={true}
-              onChange={handleChange}
               onSubmit={handleSubmit} />
 
-            {!query
+            {!query.query
               ? <p className={classNames([
                 spacing({s: 4}, {margin: ['top']}),
                 font({s: 'HNL4', m: 'HNL3'})
@@ -95,7 +85,7 @@ const WorksComponent = ({
               : <p className={classNames([
                 spacing({s: 2}, {margin: ['top', 'bottom']}),
                 font({s: 'LR3', m: 'LR2'})
-              ])}>{works.totalResults !== 0 ? works.totalResults : 'No'} results for &apos;{query}&apos;
+              ])}>{works.totalResults !== 0 ? works.totalResults : 'No'} results for &apos;{query.query}&apos;
               </p>
             }
           </div>
@@ -103,75 +93,11 @@ const WorksComponent = ({
       </div>
     </div>
 
-    {!query &&
-      <Fragment>
-        <div className={`row ${spacing({s: 3, m: 5}, {padding: ['top']})}`}>
-          <div className="container">
-            <div className="grid">
-              <div className="grid__cell">
-                <h3 className={font({s: 'WB6', m: 'WB4'})}>Feeling curious?</h3>
-                <p className={`${spacing({s: 2}, {margin: ['bottom']})} ${font({s: 'HNL4', m: 'HNL3'})}`}>Discover our collections through these topics.</p>
-                <div className={spacing({s: 4}, {margin: ['bottom']})}>
-                  <Tags tags={[
-                    {text: 'Quacks', url: '/works?query=quack+OR+quacks'},
-                    {text: 'James Gillray', url: '/works?query=james+gillray'},
-                    {text: 'Botany', url: '/works?query=botany'},
-                    {text: 'Optics', url: '/works?query=optics'},
-                    {text: 'Sun', url: '/works?query=sun'},
-                    {text: 'Health', url: '/works?query=health'},
-                    {text: 'Paintings', url: '/works?query=paintings'},
-                    {text: 'Science', url: '/works?query=science'}
-                  ]} />
-                </div>
-                <hr className={`divider divider--dashed ${spacing({s: 6}, {margin: ['bottom']})}`} />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={`row bg-cream row--has-wobbly-background ${spacing({s: 10}, {padding: ['bottom']})}`}>
-          <div className="container">
-            <div className="row__wobbly-background"></div>
-            <div className="grid grid--dividers">
-              <div className={grid({s: 12, m: 10, l: 7, xl: 7})}>
-                <h2 className={`${font({s: 'WB6', m: 'WB4'})} ${spacing({s: 6}, {margin: ['bottom']})} ${spacing({s: 0}, {margin: ['top']})}`}>About the historical images</h2>
-                <div className="body-content">
-                  <div className={`standfirst ${font({s: 'HNL3', m: 'HNL2'})}`}>
-                    <p>These artworks and photographs are from the library at Wellcome Collection and have been collected over several decades. </p>
-                  </div>
-
-                  <p>Most of the works were acquired between 1890 and 1936 by Sir Henry Wellcome and his agents across the globe. The images reflect Wellcome’s collecting interests and were intended to form a documentary resource that reflects the cultural and historical contexts of health and medicine.</p>
-
-                  <p>You may find some of these representations of people and cultures offensive or distressing. On occasion individuals are depicted as research subjects, and the collection includes images of nakedness, medical conditions and surgical interventions.</p>
-
-                  <p>Wellcome had a personal interest in medical and ethnographic objects and the objects, artworks and photographs he collected were initially presented in the Wellcome Historical Medical Museum. Over the subsequent decades the library and its collections developed to become Wellcome Collection as it now is: a free museum and library exploring health, life and our place in the world.</p>
-
-                  <p>Many of the images on this site were digitised during the 1990s, and first made available online in 2002. Recent developments to the site have made these images more easily discoverable, but have also made the sensitive nature of some content more visible, and revealed the poor quality of some of the early digitisation.</p>
-
-                  <p>As we make more images from our collections available over the coming months, we will identify and consider these issues in a systematic and consistent manner. We want to include a range of voices from inside and outside Wellcome Collection to help us with this. If you would like to get involved or have information about an image which might help us to understand it better, please email <a href="mailto:collections@wellcome.ac.uk">collections@wellcome.ac.uk</a>.</p>
-                </div>
-              </div>
-              <div className={grid({s: 12, m: 8, l: 5, xl: 5})}>
-                <CaptionedImage caption='Sir Henry Solomon Wellcome (1853&ndash;1936). Pharmacist, entrepreneur, philanthropist and collector.'>
-                  <Image
-                    contentUrl='https://s3-eu-west-1.amazonaws.com/miro-images-public/V0027000/V0027772.jpg'
-                    width={1600}
-                    alt='Portrait of Henry Wellcome'
-                    lazyload={true} />
-                  <Tasl
-                    contentUrl='https://s3-eu-west-1.amazonaws.com/miro-images-public/V0027000/V0027772.jpg'
-                    isFull={false}
-                    title='Sir Henry Solomon Wellcome. Photograph by Lafayette Ltd'
-                    sourceName='Wellcome Collection'
-                    sourceLink='https://wellcomecollection.org/works/a2d9ywt8' />
-                </CaptionedImage>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Fragment>
+    {!query.query &&
+      <StaticWorksContent />
     }
 
-    {query &&
+    {query.query &&
       <Fragment>
         <div className={`row ${spacing({s: 3, m: 5}, {padding: ['top']})}`}>
           <div className="container">
@@ -216,7 +142,7 @@ const WorksComponent = ({
                     isConstrained={true}
                     title={result.title}
                     defaultSize={180}
-                    url={`/works/${result.id}`} />
+                    url={`/works/${result.id}${getQueryParamsForWork(query)}`} />
                 </div>
               ))}
             </div>
@@ -248,11 +174,11 @@ class Works extends Component<Props, State> {
   async handleSubmit(event: any) {
     event.preventDefault();
 
-    const query = event.target[0].value; // the input
-    const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works?query=${query}&includes=identifiers,thumbnail,items`);
+    const query = {query: event.target[0].value, page: '1'};
+    const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works?query=${query.query}&includes=identifiers,thumbnail,items`);
     const json = await res.json();
     const currentPage = 1;
-    const pagination = PaginationFactory.fromList(json.results, parseInt(json.totalResults, 10) || 1, parseInt(currentPage, 10) || 1, json.pageSize || 1, {query});
+    const pagination = PaginationFactory.fromList(json.results, Number(json.totalResults) || 1, Number(currentPage) || 1, json.pageSize || 1, {query: query.query});
 
     this.setState({
       works: json,
@@ -263,8 +189,8 @@ class Works extends Component<Props, State> {
     // Programatically update the URL
     Router.push({
       pathname: '/works',
-      query: {query: query, page: 1}
-    })
+      query: query
+    });
   }
 
   render() {
@@ -275,29 +201,34 @@ class Works extends Component<Props, State> {
           works: this.state.works,
           pagination: this.state.pagination
         }}
-        handleSubmit={this.handleSubmit}
-        url={{query: {}}} />
+        handleSubmit={this.handleSubmit} />
     );
   }
 }
 
 Works.getInitialProps = async ({ req, query }) => {
-  const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works${getQueryParams(query)}`);
+  const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works${getInitialQueryParams(query)}`);
   const json = await res.json();
 
   const currentPage = query.page || 1;
-  const pagination = PaginationFactory.fromList(json.results, parseInt(json.totalResults, 10) || 1, parseInt(currentPage, 10) || 1, json.pageSize || 1, {query: query.query});
+  const pagination = PaginationFactory.fromList(json.results, Number(json.totalResults) || 1, Number(currentPage) || 1, json.pageSize || 1, {query: query.query});
 
   return {
     works: json,
-    query: query.query,
+    query: query,
     pagination: pagination
   };
 };
 
 export default Works;
 
-function getQueryParams(query) {
+function getQueryParamsForWork(query: {}) {
+  return Object.keys(query).reduce((acc, currKey, index) => {
+    return `${acc}${index > 0 ? '&' : ''}${currKey}=${query[currKey]}`;
+  }, '?');
+}
+
+function getInitialQueryParams(query) {
   const defaults = '?includes=identifiers,thumbnail,items';
   const extra = Object.keys(query).reduce((acc, currKey) => {
     return `${acc}&${currKey}=${query[currKey]}`;
