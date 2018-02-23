@@ -8,7 +8,7 @@ import {collectorsPromo} from '../data/series';
 import {prismicAsText} from '../filters/prismic';
 import {
   getArticle, getSeriesAndArticles, getArticleList, getCuratedList,
-  defaultPageSize
+  defaultPageSize, getPaginatedArticlePromos
 } from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
@@ -19,7 +19,7 @@ export const renderArticle = async(ctx, next) => {
   // We rehydrate the `W` here as we take it off when we have the route.
   const id = `W${ctx.params.id}`;
   const isPreview = Boolean(ctx.params.preview);
-  const article = await getArticle(id, isPreview ? ctx.request : null);
+  const article = await getArticle(ctx.request, id);
 
   if (article) {
     if (format === 'json') {
@@ -201,8 +201,10 @@ export async function renderSeries(ctx, next) {
 
 export async function renderArticlesList(ctx, next) {
   // TODO: Remove WP content
-  const page = Number(ctx.request.query.page);
-  const articlesList = await getArticleList(page, {pageSize: 96});
+  const page = ctx.request.query.page ? Number(ctx.request.query.page) : 1;
+  const articlesList = await getPaginatedArticlePromos(ctx.request, page);
+  // console.info(articlesList)
+
   const contentPromos = List(articlesList.results);
 
   const series: Series = {

@@ -1,5 +1,5 @@
 import Prismic from 'prismic-javascript';
-import {prismicApi, prismicPreviewApi} from './prismic-api';
+import {prismicApi, getPrismicApi} from './prismic-api';
 import {
   parseArticleDoc,
   parseEventDoc,
@@ -20,6 +20,7 @@ import {PaginationFactory} from '../model/pagination';
 import type {EventPromo} from '../content-model/events';
 import {galleryOpeningHours} from '../model/opening-hours';
 import {isEmptyObj} from '../utils/is-empty-obj';
+import type {Article} from '../model/article';
 
 type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
 
@@ -48,42 +49,30 @@ const eventFields = [
   'organisations.name', 'organisations.image', 'organisations.url'
 ];
 
-export const defaultPageSize = 40;
-
-function london(d) {
-  return moment.tz(d, 'Europe/London');
-}
-
-export async function getPrismicApi(req: ?Request) {
-  const api = req ? await prismicPreviewApi(req) : await prismicApi();
-
-  return api;
-}
-
-async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string, qOpts: Object<any>) {
-  const prismic = await getPrismicApi(req);
-  const doc = await prismic.getByID(id, qOpts);
-  return doc && types.indexOf(doc.type) !== -1 ? doc : null;
-}
-
 type PrismicQueryOptions = {|
   page?: number;
   fetchLinks?: Array<String>;
   orderings?: string;
 |}
 
-async function getAllOfType(type: Array<DocumentType>, options: PrismicQueryOptions = {}, predicates: any[] = [], withDelisted: boolean = false) {
-  const prismic = await getPrismicApi();
-  const results = await prismic.query([
-    Prismic.Predicates.any('document.type', type),
-    Prismic.Predicates.not('document.tags', [withDelisted ? '' : 'delist'])
-  ].concat(predicates), Object.assign({}, { pageSize: defaultPageSize }, options));
-  return results;
+export const defaultPageSize = 40;
+
+function london(d) {
+  return moment.tz(d, 'Europe/London');
 }
 
-export async function getArticle(id: string, previewReq: ?Request) {
+// --------------------------
+// Single content type getters
+// --------------------------
+async function getTypeById(request: Request, types: Array<DocumentType>, id: string, qOpts: Object<any>) {
+  const prismic = await getPrismicApi(request);
+  const doc = await prismic.getByID(id, qOpts);
+  return doc && types.indexOf(doc.type) !== -1 ? doc : null;
+}
+
+export async function getArticle(request: Request, id: string) {
   const fetchLinks = peopleFields.concat(booksFields, seriesFields, contributorFields);
-  const article = await getTypeById(previewReq, ['articles', 'webcomics'], id, {fetchLinks});
+  const article = await getTypeById(request, ['articles', 'webcomics'], id, {fetchLinks});
 
   if (!article) { return null; }
 
@@ -93,15 +82,101 @@ export async function getArticle(id: string, previewReq: ?Request) {
   }
 }
 
-export async function getEvent(id: string, previewReq: ?Request): Promise<?Event> {
+export async function getEvent(request: Request, id: string): Promise<?Event> {
   const fetchLinks = eventFields.concat(peopleFields, contributorFields, seriesFields);
-  const event = await getTypeById(previewReq, ['events'], id, {fetchLinks});
+  const event = await getTypeById(request, ['events'], id, {fetchLinks});
 
   if (!event) { return null; }
 
   return parseEventDoc(event);
 }
 
+export async function getExhibitionAndRelatedContent(request: Request, id: string): Promise<?ExhibitionAndRelatedContent> {
+  const exhibition = await getTypeById(request, ['exhibitions'], id, {});
+
+  if (!exhibition) { return null; }
+
+  const ex = parseExhibitionsDoc(exhibition);
+
+  const galleryLevel = exhibition.data.galleryLevel;
+  const promoList = exhibition.data.promoList;
+  const relatedArticles = promoList.filter(x => x.type === 'article').map(parsePromoListItem);
+  const relatedEvents = promoList.filter(x => x.type === 'event').map(parsePromoListItem);
+  const relatedBooks = promoList.filter(x => x.type === 'book').map(parsePromoListItem);
+  const relatedGalleries = promoList.filter(x => x.type === 'gallery').map(parsePromoListItem);
+
+  const sizeInKb = Math.round(exhibition.data.textAndCaptionsDocument.size / 1024);
+  const textAndCaptionsDocument = Object.assign({}, exhibition.data.textAndCaptionsDocument, {sizeInKb});
+
+  return {
+    exhibition: ex,
+    galleryLevel: galleryLevel,
+    textAndCaptionsDocument: textAndCaptionsDocument.url && textAndCaptionsDocument,
+    relatedBooks: relatedBooks,
+    relatedEvents: relatedEvents,
+    relatedGalleries: relatedGalleries,
+    relatedArticles: relatedArticles
+  };
+}
+
+// --------------------------
+// List getters
+// --------------------------
+async function getAllOfType(
+  request: Request,
+  type: Array<DocumentType>,
+  options: PrismicQueryOptions = {},
+  predicates: any[] = [],
+  withDelisted: boolean = false
+) {
+  const prismic = await getPrismicApi(request);
+  const results = await prismic.query([
+    Prismic.Predicates.any('document.type', type),
+    Prismic.Predicates.not('document.tags', [withDelisted ? '' : 'delist'])
+  ].concat(predicates), Object.assign({}, { pageSize: defaultPageSize }, options));
+  return results;
+}
+
+export async function getPaginatedArticlePromos(request: Request, page: number): Promise<Array<Article>> {
+  const articles = await getAllOfType(request, ['articles', 'webcomics'], {
+    page,
+    // TODO: This order is not really doing what we expect it to do.
+    orderings: '[document.first_publication_date desc, my.articles.publishDate desc, my.webcomics.publishDate desc]',
+    fetchLinks: peopleFields.concat(seriesFields)
+  });
+
+  // Not really promos, but the article promo takes the whole load
+  const promos = articles.results.map(result => {
+    switch (result.type) {
+      case 'articles': return parseArticleDoc(result);
+      case 'webcomics': return parseWebcomicDoc(result);
+    }
+  });
+  const paginatedResults = convertPrismicResultsToPaginatedResults(articles);
+  return paginatedResults(promos);
+}
+
+export async function getPaginatedEventPromos(request: Request, page: number): Promise<Array<EventPromo>> {
+  const events = await getAllOfType(request, ['events'], {
+    page,
+    orderings: '[my.events.times.startDateTime desc]',
+    fetchLinks: eventFields
+  });
+  const promos = createEventPromos(events.results);
+  const paginatedResults = convertPrismicResultsToPaginatedResults(events);
+  return paginatedResults(promos);
+}
+
+export async function getPaginatedExhibitionPromos(request: Request, page: number): Promise<Array<ExhibitionPromo>> {
+  const exhibitions = await getAllOfType(request, ['exhibitions'], {page, orderings: '[my.exhibitions.start]'});
+  const promos = createExhibitionPromos(exhibitions.results);
+  const paginatedResults = convertPrismicResultsToPaginatedResults(exhibitions);
+  return paginatedResults(promos);
+}
+
+// --------------------------
+// Misc
+// --------------------------
 export async function getArticleList(page = 1, {pageSize = 10, predicates = []} = {}) {
   const fetchLinks = peopleFields.concat(seriesFields);
   // TODO: This order is not really doing what we expect it to do.
@@ -300,24 +375,6 @@ export async function getEventSeries(id: string, { page }: PrismicQueryOptions) 
   return paginatedResults(promos);
 }
 
-export async function getPaginatedEventPromos(page: number): Promise<Array<EventPromo>> {
-  const events = await getAllOfType(['events'], {
-    page,
-    orderings: '[my.events.times.startDateTime desc]',
-    fetchLinks: eventFields
-  });
-  const promos = createEventPromos(events.results);
-  const paginatedResults = convertPrismicResultsToPaginatedResults(events);
-  return paginatedResults(promos);
-}
-
-export async function getPaginatedExhibitionPromos(page: number): Promise<Array<ExhibitionPromo>> {
-  const exhibitions = await getAllOfType(['exhibitions'], {page, orderings: '[my.exhibitions.start]'});
-  const promos = createExhibitionPromos(exhibitions.results);
-  const paginatedResults = convertPrismicResultsToPaginatedResults(exhibitions);
-  return paginatedResults(promos);
-}
-
 // Returns true if the date range of an event coincides with the date range provided
 //                    [_____date range_____]
 //          [___event1___]              [___event2___]
@@ -498,32 +555,4 @@ function getWeekendToDate(today) {
   } else {
     return london(today).day(7);
   }
-}
-
-export async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request): Promise<?ExhibitionAndRelatedContent> {
-  const exhibition = await getTypeById(previewReq, ['exhibitions'], id, {});
-
-  if (!exhibition) { return null; }
-
-  const ex = parseExhibitionsDoc(exhibition);
-
-  const galleryLevel = exhibition.data.galleryLevel;
-  const promoList = exhibition.data.promoList;
-  const relatedArticles = promoList.filter(x => x.type === 'article').map(parsePromoListItem);
-  const relatedEvents = promoList.filter(x => x.type === 'event').map(parsePromoListItem);
-  const relatedBooks = promoList.filter(x => x.type === 'book').map(parsePromoListItem);
-  const relatedGalleries = promoList.filter(x => x.type === 'gallery').map(parsePromoListItem);
-
-  const sizeInKb = Math.round(exhibition.data.textAndCaptionsDocument.size / 1024);
-  const textAndCaptionsDocument = Object.assign({}, exhibition.data.textAndCaptionsDocument, {sizeInKb});
-
-  return {
-    exhibition: ex,
-    galleryLevel: galleryLevel,
-    textAndCaptionsDocument: textAndCaptionsDocument.url && textAndCaptionsDocument,
-    relatedBooks: relatedBooks,
-    relatedEvents: relatedEvents,
-    relatedGalleries: relatedGalleries,
-    relatedArticles: relatedArticles
-  };
 }

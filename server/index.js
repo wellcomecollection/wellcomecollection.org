@@ -6,7 +6,6 @@ import {Picture} from './model/picture';
 import {PaginationFactory} from './model/pagination';
 import {default as filtersMap} from './filters';
 import {
-  getPrismicApi,
   getEvent,
   getEventSeries,
   getExhibitionAndRelatedContent,
@@ -26,7 +25,6 @@ export const filters = filtersMap.toJS();
 export const model = {createPageConfig, Picture, UiComponent, PaginationFactory};
 export {List};
 export const prismic = {
-  getPrismicApi,
   getEvent,
   getEventSeries,
   getExhibitionAndRelatedContent,
