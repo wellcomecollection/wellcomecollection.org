@@ -1,5 +1,5 @@
+import { Component } from 'react';
 import fetch from 'isomorphic-unfetch';
-import { withFormik } from 'formik';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
 import criticalCss from '@weco/client/scss/critical.scss';
 import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/DefaultPageLayout';
@@ -8,14 +8,7 @@ import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import HTMLInput from '@weco/common/views/components/HTMLInput/HTMLInput';
 
-type Props = {|
-  values: {| query: string, works: Object |},
-  isSubmitting: boolean,
-  handleChange: () => void,
-  handleSubmit: () => void
-|}
-
-const SearchWorks = ({
+const WorksComponent= ({
   values: {query, works},
   handleSubmit,
   handleChange,
@@ -109,20 +102,31 @@ const SearchWorks = ({
   </DefaultPageLayout>
 );
 
-const WorksPage = withFormik({
-  mapPropsToValues: props => props, // this passed the initial props from `getInitialProps down`
-  handleSubmit: async ({query, works}, actions) => {
+class Works extends Component {
+  constructor(props) {
+    super(props);
+    this.state = props;
+  }
+
+  async search(e) {
+    const query = e.target.value;
+    this.setState({query});
     const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works?query=${query}`);
     const json = await res.json();
-    actions.setValues({ works: json, query });
-    actions.setSubmitting(false);
+    this.setState({
+      works: json
+    });
   }
-})(SearchWorks);
 
-WorksPage.getInitialProps = async ({ req }) => {
+  render() {
+    return <WorksComponent values={this.state} handleSubmit={(e) => this.search(e)} handleChange={(e) => this.search(e)} isSubmitting={false} />
+  }
+}
+
+Works.getInitialProps = async ({ req }) => {
   const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works`);
   const json = await res.json();
   return { works: json, query: '' };
 };
 
-export default WorksPage;
+export default Works;

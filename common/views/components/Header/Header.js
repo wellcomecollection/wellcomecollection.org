@@ -46,7 +46,7 @@ const Header = ({ links = [], siteSection }: Props) => (
               method='post'>
           <div className='header__input-wrap js-show-hide-drawer'>
             <label className='header__label' htmlFor='header-input'>Search</label>
-            <input id='header-input' className={`header__input ${font({s:'HNL3', m:'HNL2'})} js-header-input`} placeholder='Search' name='search' />
+            <input id='header-input' className={`header__input ${font({s:'HNL3', m:'HNL2'})} js-header-input`} placeholder='Search' name='search' readOnly={true} />
             {/* This is here as we're sending people back to V1, and drupal requires it */}
             {/* TODO: remove once we build our own search interface  */}
             <input type='hidden' name='form_id' value='col_search_form' />

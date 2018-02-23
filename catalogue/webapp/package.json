@@ -6,7 +6,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "deploy": "now deploy -e NODE_ENV=production",
+    "deploy": "yarn build && now deploy -e NODE_ENV=production",
     "dev-link": "pushd ../../common && yarn link && popd && yarn link @weco/common",
     "now-build": "echo 'Nothing to see here'"
   },

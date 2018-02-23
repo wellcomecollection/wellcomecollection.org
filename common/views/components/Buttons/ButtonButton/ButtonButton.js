@@ -1,14 +1,13 @@
 // @flow
-
 import {font} from '../../../../utils/classnames';
 import Icon from '../../Icon/Icon';
 
 type Props = {|
+  text: string,
+  id?: string,
   extraClasses?: string,
   icon?: string,
-  text: string,
-  eventTracking?: string,
-  id?: string
+  eventTracking?: string
 |}
 
 const ButtonButton = ({id, extraClasses, icon, text, eventTracking}: Props) => (
