@@ -443,6 +443,10 @@ babel-plugin-module-resolver@^2.7.0:
     glob "^7.1.1"
     resolve "^1.2.0"
 
+babel-plugin-react-require@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-react-require/-/babel-plugin-react-require-3.0.0.tgz#2e4e7b4496b93a654a1c80042276de4e4eeb20e3"
+
 babel-plugin-syntax-async-functions@^6.8.0:
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-async-functions/-/babel-plugin-syntax-async-functions-6.13.0.tgz#cad9cad1191b5ad634bf30ae0872391e0647be95"
@@ -1837,11 +1841,14 @@ forwarded@~0.1.2:
 
 "fractal-react-adapter@https://github.com/davidpmccormick/fractal-react-adapter.git":
   version "1.0.2"
-  resolved "https://github.com/davidpmccormick/fractal-react-adapter.git#138850077517433640e266b40fe95537bc12127b"
+  resolved "https://github.com/davidpmccormick/fractal-react-adapter.git#423d82aed7f67a17d1b37f3f31152a545fc9891b"
   dependencies:
     "@frctl/fractal" "^1.1.3"
     babel-plugin-add-module-exports "^0.2.1"
     babel-plugin-module-resolver "^2.7.0"
+    babel-plugin-react-require "^3.0.0"
+    babel-plugin-transform-flow-strip-types "^6.22.0"
+    babel-plugin-transform-react-jsx "^6.24.1"
     babel-preset-es2015 "^6.24.1"
     babel-preset-react "^6.24.1"
     babel-register "^6.24.1"
