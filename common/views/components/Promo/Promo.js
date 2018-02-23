@@ -1,6 +1,8 @@
 // @flow
 
 import {spacing, font, grid} from '../../../utils/classnames';
+import {striptags} from '../../../utils/striptags';
+import {truncate} from '../../../utils/truncate';
 import Icon from '../Icon/Icon';
 import getIconForContentType from '../../../utils/get-icon-for-content-type';
 import getSeriesTitle from '../../../utils/get-series-title';
@@ -144,7 +146,7 @@ const Promo = ({url, id, extraClasses = '', contentType, isConstrained, image, s
           }
 
           {description &&
-            <span className="promo__copy">{description}</span>
+            <span className="promo__copy">{truncate(striptags(description), 140)}</span>
           }
         </div>
       </PromoDescription>
