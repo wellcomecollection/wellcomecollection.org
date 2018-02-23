@@ -262,7 +262,7 @@ function createEventPromos(allResults): Array<EventPromo> {
     return curr.concat(acc);
   }, []).sort((a, b) => {
     return convertStringToNumber(b.start || '') - convertStringToNumber(a.start || '');
-  }).sort((a, b) => a.start.localeCompare(b.start));
+  });
 }
 
 function convertStringToNumber(string: string): number {
@@ -445,7 +445,7 @@ export async function getExhibitionAndEventPromos(query) {
   const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => e.end), fromDate, toDate);
   const currentTemporaryExhibitionPromos = filterCurrentExhibitions(temporaryExhibitionPromos, todaysDate);
   const upcomingTemporaryExhibitionPromos = filterUpcomingExhibitions(temporaryExhibitionPromos, todaysDate);
-  const eventPromos = filterPromosByDate(createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')), fromDate, toDate);
+  const eventPromos = filterPromosByDate(createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')), fromDate, toDate).sort((a, b) => a.start.localeCompare(b.start));
 
   // eventPromosSplitAcrossMonths and monthControls only required for the 'everything' view
   const eventPromosSplitAcrossMonths = duplicatePromosByMonthYear(eventPromos);

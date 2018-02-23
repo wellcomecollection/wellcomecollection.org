@@ -62,6 +62,7 @@ export async function renderEventSeries(ctx, next) {
       canonicalUri: `/events-series/${id}`
     }),
     htmlDescription: asHtml(series.description),
+    hideArchivedEventsLink: true,
     paginatedEvents
   });
 
