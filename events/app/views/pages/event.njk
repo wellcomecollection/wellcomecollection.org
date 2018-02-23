@@ -270,7 +270,7 @@
       {% endif %}
 
       {% for series in event.series %}
-        <h2>Part of {{ series.title }}</h2>
+        <h2>Part of <a href="/event-series/{{ series.id }}">{{ series.title }}</a></h2>
         <div>{{ series.description | safe }}</div>
       {% endfor %}
 
