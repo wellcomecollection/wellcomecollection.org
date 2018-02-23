@@ -21,18 +21,28 @@
 <div class="css-grid__container">
   <div class="css-grid">
     <div class="is-hidden-s is-hidden-m {{ {s:12, m:12, l:12, xl:12} | cssGridClasses }} {{ ({s: 4} | spacingClasses({ margin: ['top'] })) }}">
-      {% componentV2 'tags', tags %}
+      {% componentJsx 'Tags', tags %}
     </div>
   </div>
 
   {% if event.promo.image %}
     <div class="is-hidden-l is-hidden-xl css-grid__cell--main">
       <div class="absolute {{ {s:2} | spacingClasses({margin: ['top', 'bottom']}) }}">
-        {% componentV2 'tags', tags %}
+        {% componentJsx 'Tags', tags %}
       </div>
     </div>
     <div class="is-hidden-l is-hidden-xl css-grid__cell--full">
-      {% componentV2 'captioned-image', event.promo.image, {full: true}, {showCopyright: true} %}
+      {% set imageModel = event.promo.image | objectAssign({lazyload: true}) %}
+
+      {% set tasl = {name: 'Tasl', model: imageModel}
+        if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
+        else null
+      %}
+
+      {% componentJsx 'CaptionedImage', bodyPart.value, [
+        {name: 'Image', model: imageModel},
+        tasl
+      ] %}
     </div>
   {% endif %}
 
@@ -260,7 +270,7 @@
       {% endif %}
 
       {% for series in event.series %}
-        <h2>Part of {{ series.title }}</h2>
+        <h2>Part of <a href="/event-series/{{ series.id }}">{{ series.title }}</a></h2>
         <div>{{ series.description | safe }}</div>
       {% endfor %}
 
@@ -304,10 +314,8 @@
         </div>
       {% endfor %}
 
-
     </div>
   </div>
-
 </div>
 
 {% endblock %}

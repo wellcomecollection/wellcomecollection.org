@@ -7,7 +7,7 @@ type Props = {|
   type: string,
   defaultValue: string,
   label: string,
-  fontStyles: {},
+  fontStyles?: {},
   name?: string,
   placeholder?: string,
   disabled?: boolean,

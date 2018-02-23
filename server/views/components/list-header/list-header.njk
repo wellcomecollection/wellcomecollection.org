@@ -9,6 +9,16 @@
             <p class="no-margin">{{ model.description }}</p>
           </div>
         {% endif %}
+        {#
+          This is a crap hack to allow putting HTML into the description
+          without having to refactor out all the places this is used.
+          We should probably only take Prismic HTML.
+        #}
+        {% if model.htmlDescription %}
+          <div class="first-para-no-margin {{ {s:2} | spacingClasses({margin: ['top']}) }}">
+            {{ model.htmlDescription | safe }}
+          </div>
+        {% endif %}
 
 	      {% block slot %}{% endblock %}
       </div>

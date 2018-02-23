@@ -1,9 +1,9 @@
 import Router from 'koa-router';
 import request from 'superagent';
-import {healthcheck, featureFlags} from '../controllers/utils';
+import {healthcheck, featureFlags, index, progress} from '../controllers/utils';
 import {seriesNav, seriesTransporter, latestInstagramPosts} from '../controllers/async-controllers';
 import {work, search} from '../controllers/work';
-import {index, progress, article, preview, series, articles} from '../controllers'; // Deprecated
+import {article, preview, series, articles} from '../controllers/wordpress';
 import {
   renderArticle,
   setPreviewSession,

@@ -42,6 +42,6 @@
       copyrightHolder: singleImage.copyright.holder,
       copyrightLink: singleImage.copyright.link
     } %}
-    {% componentV2 'tasl', tasl, {'full': true} %}
+    {% componentJsx 'Tasl', tasl | objectAssign({isFull: true}) %}
   {% endif %}
 </figure>
