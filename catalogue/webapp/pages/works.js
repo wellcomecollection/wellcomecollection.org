@@ -19,8 +19,6 @@ import Router from 'next/router';
 
 type Props = {|
   values: {| query: string, works: {results: [], totalResults: number}, pagination: Object |},
-  isSubmitting: boolean,
-  handleChange: () => void,
   handleSubmit: () => void,
   url: {
     query: {
@@ -31,17 +29,18 @@ type Props = {|
 |}
 
 type State = {|
-  works: {},
+  works: {
+    results: [],
+    totalResults: number
+  },
   query: string,
-  storedQuery: string,
   pagination: {}
 |}
 
 const WorksComponent = ({
   values: {query, works, pagination},
   handleSubmit,
-  handleChange,
-  isSubmitting
+  handleChange
 }: Props) => (
   <DefaultPageLayout
     title='Image catalogue search | Wellcome Collection'
@@ -230,30 +229,26 @@ const WorksComponent = ({
 
 class Works extends Component<Props, State> {
   handleSubmit: Function;
-  handleChange: Function;
+  static getInitialProps: Function;
 
   constructor(props: Props) {
     super(props);
 
     this.state = {
       query: props.query,
-      storedQuery: '',
-      works: props.works,
+      works: {
+        results: props.works.results,
+        totalResults: props.works.totalResults
+      },
       pagination: props.pagination
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
-  handleChange({ target }: SyntheticInputEvent<HTMLInputElement>) {
-    this.setState({
-      storedQuery: target.value
-    });
-  }
-  async handleSubmit(event: Event) {
+  async handleSubmit(event: any) {
     event.preventDefault();
 
-    const query = this.state.storedQuery;
+    const query = event.target[0].value; // the input
     const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works?query=${query}&includes=identifiers,thumbnail,items`);
     const json = await res.json();
     const currentPage = 1;
@@ -275,10 +270,12 @@ class Works extends Component<Props, State> {
   render() {
     return (
       <WorksComponent
-        values={this.state}
-        handleChange={this.handleChange}
+        values={{
+          query: this.state.query,
+          works: this.state.works,
+          pagination: this.state.pagination
+        }}
         handleSubmit={this.handleSubmit}
-        isSubmitting={false}
         url={{query: {}}} />
     );
   }
