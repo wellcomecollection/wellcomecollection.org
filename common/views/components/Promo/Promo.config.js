@@ -1,28 +1,23 @@
 import {List} from 'immutable';
-import type {Promo} from '../../../model/promo';
-import {createPromo} from '../../../model/promo';
-import type {Series} from '../../../model/series';
-import {ArticleStubFactory} from '../../../model/article-stub';
-import mockJson from '../../../test/mocks/wp-api.json';
+import {ArticleStubFactory} from '../../../../server/model/article-stub';
+import mockJson from '../../../../server/test/mocks/wp-api.json';
 
 export const name = 'Promo';
 export const handle = 'promo';
 export const collated = true;
 export const status = 'graduated';
 
-const article = ArticleStubFactory.fromWpApi(mockJson);
+const promo = ArticleStubFactory.fromWpApi(mockJson);
 
-export const promo = createPromo(({
+export const context = {
   contentType: 'article',
-  image: article.thumbnail,
-  title: article.headline,
-  url: article.url,
-  description: article.description
-}: Promo));
+  image: promo.thumbnail,
+  title: promo.headline,
+  url: promo.url,
+  description: promo.description
+};
 
-export const context = { model: promo };
-
-const commissionedSeries: Series = {
+const commissionedSeries = {
   url: '/series/electricity',
   name: 'Electricity',
   commissionedLength: 5,
@@ -30,50 +25,50 @@ const commissionedSeries: Series = {
   // $FlowFixMe for the items
   items: List([{}, {}, {}])
 };
-const namedSeries: Series = Object.assign({}, commissionedSeries, {name: 'Body Squabbles'});
 
+const namedSeries = Object.assign({}, commissionedSeries, {name: 'Body Squabbles'});
 const promoWithCommissionedSeries = Object.assign({}, promo, {series: [commissionedSeries], positionInSeries: 3});
 const promoWithNamedSeries = Object.assign({}, promo, {series: [namedSeries]});
 
 export const variants = [
   {
     name: 'series-article',
-    context: {model: Object.assign({}, promoWithCommissionedSeries, {modifiers: ['series']}, {contentType: 'series'})}
+    context: Object.assign({}, promoWithCommissionedSeries, {modifiers: ['series']}, {contentType: 'series'})
   },
   {
     name: 'gallery',
-    context: {model: Object.assign({}, promo, {modifiers: ['underlined']}, {contentType: 'gallery'})}
+    context: Object.assign({}, promo, {modifiers: ['underlined']}, {contentType: 'gallery'})
   },
   {
     name: 'audio',
-    context: {model: Object.assign({}, promo, {modifiers: ['underlined']}, { contentType: 'audio', length: '01:35' })}
+    context: Object.assign({}, promo, {modifiers: ['underlined']}, { contentType: 'audio', length: '01:35' })
   },
   {
     name: 'video',
-    context: {model: Object.assign({}, promo, {modifiers: ['underlined']}, { contentType: 'video', length: '01:35' })}
+    context: Object.assign({}, promo, {modifiers: ['underlined']}, { contentType: 'video', length: '01:35' })
   },
   {
     name: 'comic',
-    context: {model: Object.assign({}, promoWithNamedSeries, {contentType: 'comic'})}
+    context: Object.assign({}, promoWithNamedSeries, {contentType: 'comic'})
   },
   {
     name: 'standalone',
-    context: {model: Object.assign({}, promo, {contentType: 'article'}, {modifiers: ['standalone']})}
+    context: Object.assign({}, promo, {contentType: 'article'}, {modifiers: ['standalone']})
   },
   {
     name: 'lead',
-    context: {model: Object.assign({}, promo, {contentType: 'article', weight: 'lead'})}
+    context: Object.assign({}, promo, {contentType: 'article', weight: 'lead'})
   },
   {
     name: 'regular',
-    context: {model: Object.assign({}, promo, {contentType: 'article', weight: 'regular'})}
+    context: Object.assign({}, promo, {contentType: 'article', weight: 'regular'})
   },
   {
     name: 'with-chapters',
-    context: {model: Object.assign({}, promoWithCommissionedSeries, {contentType: 'article', weight: 'lead'})}
+    context: Object.assign({}, promoWithCommissionedSeries, {contentType: 'article', weight: 'lead'})
   },
   {
     name: 'standalone-with-chapters',
-    context: {model: Object.assign({}, promoWithCommissionedSeries, {contentType: 'article', weight: 'lead'}, {modifiers: ['standalone']})}
+    context: Object.assign({}, promoWithCommissionedSeries, {contentType: 'article', weight: 'lead'}, {modifiers: ['standalone']})
   }
 ];
