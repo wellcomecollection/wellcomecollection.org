@@ -24,7 +24,7 @@ Some things that will help the PR get through
 
 # Internal process
 
-## Labels
+## Labels
 Labels define most of our process within GitHub
 
 ### Type
