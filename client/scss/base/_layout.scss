@@ -26,3 +26,9 @@ $tweakpoints: (
     overflow: hidden;
   }
 }
+
+// We use noscript to provide default images, which are otherwise lazyloaded
+// Without the width specified below it can cause issues with centering of the images, such as on the work page
+noscript {
+  width: 100%;
+}
