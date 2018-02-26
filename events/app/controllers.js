@@ -37,7 +37,7 @@ export async function renderEvent(ctx, next) {
         }),
         event: event,
         eventInfo: eventInfo,
-        tags: tags
+        tags: {tags}
       });
     }
   }
