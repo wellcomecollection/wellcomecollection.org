@@ -18,7 +18,7 @@ import {
   parsePromoListItem,
   parseExhibitionsDoc,
   prismicImage,
-  asText
+  asText, asHtml
 } from './services/prismic-parsers';
 
 export {setupApp};
@@ -34,6 +34,7 @@ export const prismic = {
   parseExhibitionsDoc,
   prismicImage,
   asText,
+  asHtml,
   getPaginatedEventPromos,
   getPaginatedExhibitionPromos,
   getExhibitionAndEventPromos

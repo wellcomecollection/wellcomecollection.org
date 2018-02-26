@@ -15,7 +15,7 @@ By participating in this project, you agree to abide by the our
 Some things that will help the PR get through
 * Reference a
   [`userstory`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Auserstory),
-  [`techdebt`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Atechdebt),
+  [`techprofit`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Atechprofit),
   or a [`bug`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Abug).
 * Again, [a good PR](https://github.com/blog/1943-how-to-write-the-perfect-pull-request)
   goes a long way
@@ -24,7 +24,7 @@ Some things that will help the PR get through
 
 # Internal process
 
-## Labels
+## Labels
 Labels define most of our process within GitHub
 
 ### Type
@@ -34,17 +34,17 @@ Labels define most of our process within GitHub
   a potential solution linked to a `userstory`
 * [`bug`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Abug) 
   something that should be one way, but is another
-* [`techdebt`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Atechdebt)
+* [`techprofit`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Atechprofit)
   bits of tidy-up that, when fixed, makes it easier to move forward
 
-### `needs:{x}`
+### `needs:{x}`
 Requires someone with this speciality to take a look before we continue.
 Could be used in conjunction with assignee.
 
-### [`thisquarter`](https://github.com/wellcometrust/wellcomecollection.org/issues?q=is%3Aopen+label%3Aneeds%3A+label%3Athisquarter)
+### [`thisquarter`](https://github.com/wellcometrust/wellcomecollection.org/issues?q=is%3Aopen+label%3Aneeds%3A+label%3Athisquarter)
 Literally, doing it this quarter.
 
-### [`wip`](https://github.com/wellcometrust/wellcomecollection.org/issues?q=is%3Aopen+label%3Aneeds%3A+label%3Awip)
+### [`wip`](https://github.com/wellcometrust/wellcomecollection.org/issues?q=is%3Aopen+label%3Aneeds%3A+label%3Awip)
 Raised to raise transparency about the work that is going on, but not
 necessarily completely ready for review.
 

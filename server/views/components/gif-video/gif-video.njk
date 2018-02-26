@@ -18,7 +18,7 @@
       <span class="{{ {s:'LR3'} | fontClasses }} js-gif-video__text gif-video__text block"></span>
     </button>
     {% if (model.tasl.title or model.tasl.sourceName or model.tasl.copyrightHolder or model.tasl.license) %}
-      {% componentV2 'tasl', model.tasl %}
+      {% componentJsx 'Tasl', model.tasl %}
     {% endif %}
   </div>
   {% if model.caption %}
