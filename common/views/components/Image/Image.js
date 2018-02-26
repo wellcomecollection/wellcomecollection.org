@@ -40,7 +40,7 @@ const Image = ({
         src={convertImageUri(contentUrl, 640, false)}
         alt={alt} />
     </noscript>
-    {imageMarkup(width, height, clipPathClass, lazyload, defaultSize, contentUrl, sizesQueries, copyright, alt, caption)}
+    {imageMarkup(width, height, clipPathClass, lazyload, defaultSize, contentUrl, sizesQueries, copyright, alt, caption, clickHandler)}
   </Fragment>
 );
 
