@@ -8,7 +8,6 @@ import PageDescription from '@weco/common/views/components/PageDescription/PageD
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
-import Image from '@weco/common/views/components/Image/Image';
 import StaticWorksContent from '@weco/common/views/components/StaticWorksContent/StaticWorksContent';
 import Promo from '@weco/common/views/components/Promo/Promo';
 import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagination/Pagination';
@@ -16,21 +15,16 @@ import {Fragment, Component} from 'react';
 import Router from 'next/router';
 
 type Props = {|
-  values: {| query: {query?: string, page?: string}, works: {results: [], totalResults: number}, pagination: Object |},
+  query: {| query?: string, page?: string |},
+  works: {| results: [], totalResults: number |},
+  pagination: Object,
   handleSubmit: () => void
 |}
 
-type State = {|
-  works: {|
-    results: [],
-    totalResults: number
-  |},
-  query: {query?: string, page?: string},
-  pagination: Object
-|}
-
 const WorksComponent = ({
-  values: {query, works, pagination},
+  query,
+  works,
+  pagination,
   handleSubmit
 }: Props) => (
   <DefaultPageLayout
@@ -73,7 +67,7 @@ const WorksComponent = ({
               action=''
               id='search-works'
               name='query'
-              query={query.query || ''}
+              query={decodeURIComponent(query.query || '')}
               autofocus={true}
               onSubmit={handleSubmit} />
 
@@ -85,7 +79,7 @@ const WorksComponent = ({
               : <p className={classNames([
                 spacing({s: 2}, {margin: ['top', 'bottom']}),
                 font({s: 'LR3', m: 'LR2'})
-              ])}>{works.totalResults !== 0 ? works.totalResults : 'No'} results for &apos;{query.query}&apos;
+              ])}>{works.totalResults !== 0 ? works.totalResults : 'No'} results for &apos;{decodeURIComponent(query.query)}&apos;
               </p>
             }
           </div>
@@ -153,54 +147,34 @@ const WorksComponent = ({
   </DefaultPageLayout>
 );
 
-class Works extends Component<Props, State> {
+class Works extends Component<Props> {
   handleSubmit: Function;
   static getInitialProps: Function;
 
   constructor(props: Props) {
     super(props);
 
-    this.state = {
-      query: props.query,
-      works: {
-        results: props.works.results,
-        totalResults: props.works.totalResults
-      },
-      pagination: props.pagination
-    };
-
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
   async handleSubmit(event: any) {
     event.preventDefault();
 
-    const query = {query: event.target[0].value, page: '1'};
-    const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works?query=${query.query}&includes=identifiers,thumbnail,items`);
-    const json = await res.json();
-    const currentPage = 1;
-    const pagination = PaginationFactory.fromList(json.results, Number(json.totalResults) || 1, Number(currentPage) || 1, json.pageSize || 1, {query: query.query});
+    const queryString = encodeURIComponent(event.target[0].value);
 
-    this.setState({
-      works: json,
-      pagination: pagination,
-      query: query
-    });
-
-    // Programatically update the URL
+    // Update the URL, which in turn will update props
     Router.push({
       pathname: '/works',
-      query: query
+      query: {query: queryString, page: '1'}
     });
   }
 
   render() {
     return (
       <WorksComponent
-        values={{
-          query: this.state.query,
-          works: this.state.works,
-          pagination: this.state.pagination
-        }}
+        query={this.props.query}
+        works={this.props.works}
+        pagination={this.props.pagination}
         handleSubmit={this.handleSubmit} />
     );
   }
@@ -209,7 +183,6 @@ class Works extends Component<Props, State> {
 Works.getInitialProps = async ({ req, query }) => {
   const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works${getInitialQueryParams(query)}`);
   const json = await res.json();
-
   const currentPage = query.page || 1;
   const pagination = PaginationFactory.fromList(json.results, Number(json.totalResults) || 1, Number(currentPage) || 1, json.pageSize || 1, {query: query.query});
 

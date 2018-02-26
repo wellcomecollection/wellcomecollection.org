@@ -2,6 +2,7 @@
 
 import {font, spacing} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
+import Link from 'next/link';
 
 type Props = {|
   prevPage?: number,
@@ -15,21 +16,25 @@ type Props = {|
 const Pagination = ({prevPage, currentPage, pageCount, nextPage, nextQueryString, prevQueryString}: Props) => (
   <div className={`pagination float-r flex-inline flex--v-center font-pewter ${font({s: 'LR3', m: 'LR2'})}`}>
     {prevPage &&
-      <a href={prevQueryString} rel="prev" className={`${spacing({s: 2}, {margin: ['right']})}`}>
-        <div className="icon-rounder border-color-silver flex flex--v-center">
-          <Icon name='arrow' title={`Previous (page ${prevPage})`} extraClasses='icon--180 h-center' />
-        </div>
-      </a>
+      <Link href={prevQueryString}>
+        <a rel="prev" className={`${spacing({s: 2}, {margin: ['right']})}`}>
+          <div className="icon-rounder border-color-silver flex flex--v-center">
+            <Icon name='arrow' title={`Previous (page ${prevPage})`} extraClasses='icon--180 h-center' />
+          </div>
+        </a>
+      </Link>
     }
 
     <span>Page {currentPage} of {pageCount}</span>
 
     {nextPage &&
-          <a href={nextQueryString} rel="next" className={`${spacing({s: 2}, {margin: ['left']})}`}>
-            <div className="icon-rounder border-color-silver flex flex--v-center">
-              <Icon name='arrow' title={`Next (page ${nextPage})`} extraClasses='h-center' />
-            </div>
-          </a>
+      <Link href={nextQueryString}>
+        <a rel="next" className={`${spacing({s: 2}, {margin: ['left']})}`}>
+          <div className="icon-rounder border-color-silver flex flex--v-center">
+            <Icon name='arrow' title={`Next (page ${nextPage})`} extraClasses='h-center' />
+          </div>
+        </a>
+      </Link>
     }
   </div>
 );
