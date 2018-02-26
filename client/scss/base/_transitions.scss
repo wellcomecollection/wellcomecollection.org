@@ -1,0 +1,12 @@
+.scale {
+  transition: transform 500ms;
+  transform: scale(0);
+}
+
+.scale-entered {
+  transform: scale(1);
+}
+
+.scale-exiting {
+  transform: scale(0);
+}
