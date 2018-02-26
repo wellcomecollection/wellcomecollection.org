@@ -14,6 +14,7 @@ import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
 import PageDescription from '../PageDescription/PageDescription';
 import Pagination from '../Pagination/Pagination';
+import Promo from '../Promo/Promo';
 
 export {
   BackToTop,
@@ -31,5 +32,6 @@ export {
   WorkDrawer,
   WorkMedia,
   PageDescription,
-  Pagination
+  Pagination,
+  Promo
 };

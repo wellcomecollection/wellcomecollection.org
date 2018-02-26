@@ -14,6 +14,9 @@ import underConstruction from './under_construction';
 import clear from './clear';
 import download from './download';
 import hearingLoop from './hearing_loop';
+import volume from './volume';
+import play from './play';
+import gallery from './gallery';
 export {
   arrow,
   cc,
@@ -35,5 +38,8 @@ export {
   underConstruction,
   clear,
   download,
-  hearingLoop
+  hearingLoop,
+  volume,
+  play,
+  gallery
 };
