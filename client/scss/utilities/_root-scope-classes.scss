@@ -406,6 +406,12 @@
   font-weight: bold;
 }
 
+// For when we get HTML out of systems like Prismic
+.first-para-no-margin p:first-of-type {
+  margin: 0;
+}
+
+
 // This removes the element from the flow, as well as it's visibility
 .visually-hidden {
   @include visually-hidden;
@@ -424,4 +430,8 @@
 .smooth-font {
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: grayscale;
+}
+
+.cursor-zoom-in {
+  cursor: zoom-in;
 }

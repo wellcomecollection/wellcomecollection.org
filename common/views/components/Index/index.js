@@ -8,6 +8,7 @@ import License from '../License/License';
 import MetaUnit from '../MetaUnit/MetaUnit';
 import MoreInfoLink from '../MoreInfoLink/MoreInfoLink';
 import SearchBox from '../SearchBox/SearchBox';
+import Tags from '../Tags/Tags';
 import Tasl from '../Tasl/Tasl';
 import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
@@ -26,6 +27,7 @@ export {
   MetaUnit,
   MoreInfoLink,
   SearchBox,
+  Tags,
   Tasl,
   WorkDrawer,
   WorkMedia,

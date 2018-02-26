@@ -5,7 +5,7 @@ import {iiifImageTemplate} from '@weco/common/utils/convert-image-uri';
 import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/DefaultPageLayout';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
-import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
+import WorkMedia2 from '@weco/common/views/components/WorkMedia/WorkMedia2';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import MoreInfoLink from '@weco/common/views/components/MoreInfoLink/MoreInfoLink';
 import WorkDrawer from '@weco/common/views/components/WorkDrawer/WorkDrawer';
@@ -185,7 +185,7 @@ const WorkPage = ({ work }: Props) => {
       <PageDescription title='Search our images' extraClasses='page-description--hidden' />
       <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
-      <WorkMedia id={work.id} iiifUrl={iiifInfoUrl} title={work.title} />
+      <WorkMedia2 id={work.id} iiifUrl={iiifInfoUrl} title={work.title} />
 
       <div className={`row ${spacing({s: 6}, {padding: ['top', 'bottom']})}`}>
         <div className='container'>

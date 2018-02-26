@@ -6,6 +6,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@weco/common": "../../common",
     "babel-cli": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-flow-runtime": "^0.15.0",

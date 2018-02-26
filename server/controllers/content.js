@@ -70,6 +70,7 @@ async function getPreviewSession(token) {
         // It's just a way for editors to get to the content via Prismic
         case 'series' : return `/series/${doc.id}`;
         case 'webcomic-series' : return `/webcomic-series/${doc.id}`;
+        case 'event-series' : return `/event-series/${doc.id}`;
       }
     }, '/', (err, redirectUrl) => {
       if (err) {
