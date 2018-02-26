@@ -157,7 +157,7 @@ class Works extends Component<Props> {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  async handleSubmit(event: any) {
+  handleSubmit(event: any) {
     event.preventDefault();
 
     const queryString = encodeURIComponent(event.target[0].value);
