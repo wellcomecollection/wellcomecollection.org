@@ -61,13 +61,14 @@ const WorkMedia = ({
         <div className="pointer-events-none">
           <ScrollToInfo elementId='work-info' />
         </div>
-
-        <Image
-          width={width}
-          contentUrl={imageContentUrl}
-          lazyload={true}
-          sizesQueries='(min-width: 860px) 800px, calc(92.59vw + 22px)'
-          alt='' />
+        <div className="work-media__image-container">
+          <Image
+            width={width}
+            contentUrl={imageContentUrl}
+            lazyload={true}
+            sizesQueries='(min-width: 860px) 800px, calc(92.59vw + 22px)'
+            alt='' />
+        </div>
 
         <ImageViewer
           imageUrl={imageContentUrl}

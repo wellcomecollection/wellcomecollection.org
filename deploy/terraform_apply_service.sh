@@ -16,7 +16,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 pushd "$DIR/../$SERVICE_NAME/terraform"
   echo "Terraforming"
-  terraform apply -var "container_tag=$CONTAINER_TAG"
+  terraform apply -var "container_tag=$CONTAINER_TAG" -auto-approve
 popd
 
 echo "Deployed $CONTAINER_TAG"

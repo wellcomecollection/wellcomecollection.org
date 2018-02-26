@@ -29,16 +29,15 @@ export type EventFormat = {|
 export type EventSeries = {|
   id: string,
   title: string,
-  description: ?HTMLString,
-  contributors: Array<Contributor>
+  description: ?HTMLString
 |}
 
 // E.g. 'British sign language interpreted' | 'Audio described' | 'Speech-to-Text';
 type InterpretationType = {|
-  id: string;
-  title: string;
-  description: ?string;
-  primaryDescription: ?string;
+  id: string,
+  title: string,
+  description: ?string,
+  primaryDescription: ?string
 |}
 
 type Interpretation = {|
@@ -96,6 +95,7 @@ export type Event = {|
   interpretations: Array<Interpretation>,
   audiences: Array<Audience>,
   bookingInformation: ?HTMLString,
+  cost: string,
   // TODO:
   // this is programmatic and doesn't come from Prismic and can't be edited directly
   // it's more convenient that having to work it out.
@@ -184,8 +184,7 @@ export const eventExample = ({
         'we actually trust our senses? A scientific, ' +
         'philosophical and creative approach to this ' +
         'question will invite you on a journey into your ' +
-        'inner and outer experiences of the world.',
-      contributors: []
+        'inner and outer experiences of the world.'
     },
     {
       id: 'WcPx8ygAAH4Q9WgN',
@@ -197,8 +196,7 @@ export const eventExample = ({
         'the bar and restaurant open all night, it’s a great ' +
         'place for meeting with friends, looking at your favourite ' +
         'ideas in spectrum of different ways, or just learning ' +
-        'something new on a Friday night.',
-      contributors: []
+        'something new on a Friday night.'
     }
   ],
   place: {
@@ -256,5 +254,6 @@ export const eventExample = ({
     }
   },
   bookingInformation: '<p>Group size of 15-30 students, accompanied by staff at a ratio of 1:10. Each date is available for booking by one school group. Bookings must be made by a lead teacher.</p>',
-  bookingType: 'Drop in'
+  bookingType: 'Drop in',
+  cost: '20'
 }: Event);

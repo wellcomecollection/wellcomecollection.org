@@ -15,6 +15,10 @@ export function formatDateTime(date: Date): string {
   return london(date).format('D MMMM YYYY HH:mm');
 }
 
+export function formatTimeDate(date: Date): string {
+  return `${formatTime(date)} on ${formatDate(date)}`;
+}
+
 export function formatTime(date: Date): string {
   return london(date).format('HH:mm');
 }
@@ -55,16 +59,14 @@ function getRelativeTime({start, end}: {start: Date, end: Date}): {} {
 export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date}): {text: string, color: string} {
   const relativeTime = getRelativeTime({start, end});
 
-  if (end === null) {
-    return {text: 'Ongoing', color: 'green'};
-  } else if (relativeTime.isFuture) {
+  if (relativeTime.isFuture) {
     return {text: 'Coming soon', color: 'marble'};
   } else if (relativeTime.isPast) {
     return {text: 'Past', color: 'marble'};
   } else if (relativeTime.isLastWeek) {
-    return {text: 'Last week', color: 'orange'};
+    return {text: 'Final week', color: 'orange'};
   } else {
-    return {text: 'Current', color: 'green'};
+    return {text: 'Now on', color: 'green'};
   }
 }
 

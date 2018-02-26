@@ -65,6 +65,26 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     }
   }
 
+  cache_behavior {
+    target_origin_id       = "${module.router_alb.id}"
+    path_pattern           = "/eventbrite/*"
+    allowed_methods        = ["HEAD", "GET"]
+    cached_methods         = ["HEAD", "GET"]
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 3600
+    max_ttl                = 86400
+
+    forwarded_values {
+      query_string = true
+      headers      = ["*"]
+
+      cookies {
+        forward = "all"
+      }
+    }
+  }
+
   # TODO: Deprecate
   cache_behavior {
     target_origin_id       = "${module.router_alb.id}"

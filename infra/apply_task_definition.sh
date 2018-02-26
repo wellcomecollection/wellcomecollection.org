@@ -22,7 +22,8 @@ pushd "$DIR/terraform/prod"
   terraform get
   terraform apply -target=module.wellcomecollection.aws_ecs_task_definition.wellcomecollection \
                   -target=module.wellcomecollection.aws_ecs_service.wellcomecollection \
-                  -var "container_tag=$CONTAINER_TAG"
+                  -var "container_tag=$CONTAINER_TAG" \
+                  -auto-approve
 
   rm -f "terraform.tfvars"
 popd

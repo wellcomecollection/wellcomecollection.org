@@ -18,6 +18,10 @@
     react "^16.2.0"
     url-template "^2.0.8"
 
+"@weco/next-plugin-transpile-modules@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@weco/next-plugin-transpile-modules/-/next-plugin-transpile-modules-0.0.2.tgz#f8f8af6adc6a3c565ed6212ae82a383f18efc40e"
+
 "@zeit/check-updates@1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@zeit/check-updates/-/check-updates-1.1.0.tgz#d0f65026a36f27cd1fd54c647d8294447c1d2d8b"

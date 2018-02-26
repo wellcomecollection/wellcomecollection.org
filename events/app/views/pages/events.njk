@@ -21,8 +21,8 @@
     {% endfor %}]
   </script>
   {% set listHeader = {
-    name: 'Events',
-    description: 'Choose from an inspiring range of free talks, tours, discussions and more, all designed to challenge how we think and feel about health.',
+    name: pageConfig.title,
+    htmlDescription: htmlDescription,
     total: paginatedEvents.results.length
   } %}
   {% componentV2 'list-header', listHeader %}
@@ -44,8 +44,7 @@
     <div class="css-grid">
       <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }}">
         <div class="flex-inline flex--v-center">
-          {% icon 'ticket', null, [''] %}
-          <span class="{{ {s:1} | spacingClasses({padding: ['left', 'right']}) }} {{ {s:'HNM5', m:'HNM4'} | fontClasses }}">FREE</span>
+          <span class="{{ {s:'HNM5', m:'HNM4'} | fontClasses }}">Free admission</span>
         </div>
       </div>
       {% for event in paginatedEvents.results %}
@@ -61,12 +60,12 @@
 
       {% if paginatedEvents.pagination.pageCount > 1  %}
         <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} text-align-right">
-          {% componentV2 'pagination', paginatedEvents.pagination %}
+          {% componentJsx 'Pagination', paginatedEvents.pagination %}
         </div>
       {% endif %}
-      {% if paginatedEvents.currentPage === paginatedEvents.totalPages %}
+      {% if (paginatedEvents.currentPage === paginatedEvents.totalPages) and not hideArchivedEventsLink %}
         <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }} text-align-right">
-          {% componentJsx 'MoreInfoLink', { name: 'Past events', url: '/events/past' } %}
+          {% componentJsx 'MoreInfoLink', { name: 'Past events', url: 'https://wellcomecollection.org/events/past' } %}
         </div>
       {% endif %}
 
