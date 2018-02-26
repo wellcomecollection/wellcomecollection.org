@@ -5,7 +5,7 @@
 {% endif %}
 
 <a data-component="EventPromo"
-   data-track-event="{{ {category: 'component', action: 'EventPromo:click' } | dump }}"
+   data-track-event="{{ {category: 'component', action: 'EventPromo:click', label: 'id:' + model.id } | dump }}"
    id="{{model.id}}"
    href="{{ model.url }}"
    class="plain-link promo-link bg-cream rounded-top rounded-bottom overflow-hidden flex flex--column">
@@ -24,13 +24,12 @@
             {% icon interpretation.interpretationType.title | replace(' ', '_') | replace('-', '_') | lower %}
           </span>
         {% endfor %}
-        <span>{{ model.format.title }}</span>
-
-        {% if model.audience.title %}
-          <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['left'], margin: ['left']}) }}">
-            {{ model.audience.title }}
-          </span>
-        {% endif %}
+        <span>
+          {{ model.format.title }}
+          {% if model.audience.title %}
+            for {{ model.audience.title }}
+          {% endif %}
+        </span>
       </div>
 
       <h2 class="promo-link__title {{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>

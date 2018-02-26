@@ -4,7 +4,8 @@
   {% set metaContent = {
   type: 'website',
   title: event.title,
-  image: event.featuredImage and event.featuredImage.contentUrl,
+  image: event.promo.image.contentUrl,
+  description: event.promo.caption,
   url: pageConfig.canonicalUri
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
@@ -19,19 +20,29 @@
 
 <div class="css-grid__container">
   <div class="css-grid">
-    <div class="is-hidden-s is-hidden-m {{ ({s: 4} | spacingClasses({ margin: ['top'] })) }}">
-      {% componentV2 'tags', tags %}
+    <div class="is-hidden-s is-hidden-m {{ {s:12, m:12, l:12, xl:12} | cssGridClasses }} {{ ({s: 4} | spacingClasses({ margin: ['top'] })) }}">
+      {% componentJsx 'Tags', tags %}
     </div>
   </div>
 
   {% if event.promo.image %}
     <div class="is-hidden-l is-hidden-xl css-grid__cell--main">
       <div class="absolute {{ {s:2} | spacingClasses({margin: ['top', 'bottom']}) }}">
-        {% componentV2 'tags', tags %}
+        {% componentJsx 'Tags', tags %}
       </div>
     </div>
     <div class="is-hidden-l is-hidden-xl css-grid__cell--full">
-      {% componentV2 'captioned-image', event.promo.image, {full: true}, {showCopyright: true} %}
+      {% set imageModel = event.promo.image | objectAssign({lazyload: true}) %}
+
+      {% set tasl = {name: 'Tasl', model: imageModel}
+        if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
+        else null
+      %}
+
+      {% componentJsx 'CaptionedImage', bodyPart.value, [
+        {name: 'Image', model: imageModel},
+        tasl
+      ] %}
     </div>
   {% endif %}
 
@@ -45,7 +56,16 @@
               {# TODO: This is not very nice #}
               <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon interpretation.interpretationType.title | replace(' ', '_') | replace('-', '_') | lower %}</span>
             {% endfor %}
-            <span>{{ event.format.title }}</span>
+            <span>
+              {{ event.format.title }}
+              {% set comma = joiner() %}
+              {% if event.audiences.length > 0 %}
+                for
+                {% for audience in event.audiences %}
+                  {{ comma() }} {{ audience.title }}
+                {%- endfor %}
+              {% endif %}
+            </span>
           </div>
         </div>
 
@@ -58,19 +78,22 @@
         </h1>
 
         <div class="flex flex--v-center {{ {s:'HNM5'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">
-          <span class="{{ {s: 2} | spacingClasses({margin: ['right']}) }}">{% icon 'ticket' %}</span>
-          <span class="caps {{ {s: 1} | spacingClasses({padding: ['right']}) }}">Free</span>
-          {% if event.bookingType %}
-            <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
-              {{ event.bookingType }}
-            </span>
-          {% endif %}
-
-          {% if event.isDropIn %}
-            <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">
-              Drop-in
-            </span>
-          {% endif %}
+          <span>
+            {% if event.cost %}
+              {{ event.cost }}
+            {% else %}
+              Free admission
+            {% endif %}
+          </span>
+          <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['left'], margin: ['left']}) }}">
+            {% if eventInfo.eventbriteId %}
+              Ticketed
+              {% elif event.bookingEnquiryTeam %}
+              Enquire to book
+            {% else %}
+              No ticket required
+            {% endif %}
+          </span>
         </div>
 
         <div class="{{ {s:'HNL4'} | fontClasses }}">
@@ -165,83 +188,54 @@
           {% endif %}
         </div>
 
-        <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
-          {% if event.bookingType == 'Ticketed' %}
-            <h3 class="{{ {s:'HNM4'} | fontClasses }}">Booking information</h3>
-            <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-              <p class="no-margin">
-                Please be aware that booking a ticket for a free event does not guarantee you place.
-                Admission is on a first come, first serve basis for ticket holders.
+        <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}" id="js-event-booking-info">
+          {% if event.isDropIn %}
+            <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Drop in at any time</h3>
+            <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
+              <p>
+                We programme some drop-in events every month. For these events,
+                you can just turn up. There's usually room for every one.
               </p>
-              <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
-                {% componentJsx 'MoreInfoLink', { name: 'View our ticketing policy', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
-              </div>
             </div>
-          {% elif event.bookingType === 'First come, first served' %}
-            <h3 class="{{ {s:'HNM4'} | fontClasses }}">Booking information</h3>
-            <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-              <p class="no-margin">
-                First come, first served from the Information Point on level 0.
-                Please be aware that tickets can run out if we are busy.
-                Doors open 15 minutes prior to the event starting.
-              </p>
-              <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
-                {% componentJsx 'MoreInfoLink', { name: 'View our ticketing policy', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
-              </div>
-            </div>
-          {% elif event.bookingType === 'Drop in' %}
-            <h3 class="{{ {s:'HNM4'} | fontClasses }}">Booking information</h3>
-            <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-              <p class="no-margin">
-                This is a drop in event.
-                For these events you just have to turn up, and there is usually room for everyone.
-              </p>
-              <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
-                {% componentJsx 'MoreInfoLink', { name: 'View our ticketing policy', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
-              </div>
-            </div>
-          {% endif %}
-
-          {% for interpretation in event.interpretations %}
-            {% if interpretation.interpretationType.description %}
-              <h3 class="flex {{ {s:'HNM4'} | fontClasses }}">
-                <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon interpretation.interpretationType.title | replace(' ', '_') | replace('-', '_') | lower %}</span>
-                <span>{{ interpretation.interpretationType.title }}</span>
-              </h3>
-              <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-                <p class="no-margin">
-                  {% if interpretation.isPrimary %}
-                    {{ interpretation.interpretationType.primaryDescription | safe }}.
-                  {% else %}
-                    {{ interpretation.interpretationType.description | safe }}.
-                  {% endif %}
-                </p>
-                <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
-                  {% componentJsx 'MoreInfoLink', { name: 'View our accessibility statement', url: 'https://wellcomecollection.org/visit-us/accessibility' } %}
-                </div>
-              </div>
-            {% endif %}
-          {% endfor %}
-
-          {% if event.format.isDropIn %}
-            <h3 class="{{ {s:'HNM4'} | fontClasses }}">
-              <span>Drop-in</span>
-            </h3>
+          {% elif event.cost %}
+            <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Guaranteed entry</h3>
             <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
               <p>
-                We try to programme some drop-in events every month.
-                There are where activities happen all over the building.
-                For these events you just have to turn up, and there is usually room for everyone.
+                With our paid events, you are guaranteed entry to the event.
+                We're unable to offer any refunds unless the event is cancelled.
+                Concessions are available for people over 60, students, people
+                on Jobseeker's Allowance and people registered as disabled.
+                An additional companion ticket for people registered as disabled
+                is available for free.
               </p>
             </div>
-          {% endif %}
-
-          {% if event.format.description %}
-            <h3 class="{{ {s:'HNM4'} | fontClasses }}">
-              <span>{{ event.format.title }}</span>
-            </h3>
+          {% elif eventInfo.eventbriteId %}
+            <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">First come, first seated</h3>
             <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-              {{ event.format.description | safe }}
+              <p>
+                Please note, booking a ticket for a free event does not
+                guarantee a place on the day. Doors usually open 15 minutes
+                before an event starts, and you can take your seats in order of
+                arrival. We advise arriving 10 minutes before the event is
+                scheduled to start.
+              </p>
+              <p>
+                We hold some spaces for people with access requirements.
+                Please email
+                <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
+                if you would like to request one of these spaces.
+              </p>
+            </div>
+          {% elif event.bookingEnquiryTeam %}
+            {# Don't show anything as the booking team deal with this #}
+          {% else %}
+            <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Limited seats available</h3>
+            <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              <p>
+                Doors will open for this event 15 minutes before the event
+                starts. Spaces are first come, first served and may run out if
+                we are busy.
+              </p>
             </div>
           {% endif %}
 
@@ -253,12 +247,14 @@
               {{ event.bookingInformation | safe }}
             </div>
           {% endif %}
-
+          <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
+            {% componentJsx 'MoreInfoLink', { name: 'Our event terms and conditions', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="css-grid__cell--primary">
+    <div class="css-grid__cell--primary body-content">
       {% if event.promo.image %}
         <div class="is-hidden-s is-hidden-m rounded-corners overflow-hidden">
           {% componentV2 'captioned-image', event.promo.image, {}, {showCopyright: true} %}
@@ -267,9 +263,59 @@
       <div class="{{ {s: 3, m: 4, l: 5, xl: 5} | spacingClasses({margin: ['bottom']}) }}">
         {{ event.description | safe }}
       </div>
+
+      {% if event.format.description %}
+        <h2>{{ event.format.title }}</h2>
+        <div class="{{[].join(' ') }}">{{ event.format.description | safe }}</div>
+      {% endif %}
+
+      {% for series in event.series %}
+        <h2>Part of <a href="/event-series/{{ series.id }}">{{ series.title }}</a></h2>
+        <div>{{ series.description | safe }}</div>
+      {% endfor %}
+
+      {% for audience in event.audiences %}
+        {% if audience.description %}
+          <h2>For {{ audience.title }}</h2>
+          <div>{{ audience.description | safe }}</div>
+        {% endif %}
+      {% endfor %}
+
+      {% for interpretation in event.interpretations %}
+        {% if interpretation.interpretationType.description %}
+          <h2 class="flex flex--v-center">
+            <span class="flex flex--v-center {{ {s: 1} | spacingClasses({margin: ['right']}) }}">
+              {% icon interpretation.interpretationType.title | replace(' ', '_') | replace('-', '_') | lower %}
+            </span>
+            <span>{{ interpretation.interpretationType.title }}</span>
+          </h2>
+          <div>
+            {% if interpretation.isPrimary %}
+              {{ interpretation.interpretationType.primaryDescription | safe }}
+            {% else %}
+              {{ interpretation.interpretationType.description | safe }}
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+
+      {% for contributor in event.contributors %}
+        <h2>In partnership with</h2>
+        <div class="grid">
+          <div class="{{ {s:6, m: 6, l: 6, xl: 6} | gridClasses }}">
+            <a href="{{ contributor.url }}">
+              {% componentV2 'image', {
+                width: contributor.image.width,
+                contentUrl: contributor.image.contentUrl,
+                alt: contributor.image.contentUrl
+              }, [], { lazyload: true } %}
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+
     </div>
   </div>
-
 </div>
 
 {% endblock %}

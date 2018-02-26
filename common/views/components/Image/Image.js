@@ -1,11 +1,11 @@
 // @flow
-
 import {convertImageUri} from '../../../utils/convert-image-uri';
 import {imageSizes} from '../../../utils/image-sizes';
+import {Fragment} from 'react';
 
-type Props = {|
+export type Props = {|
   width: number,
-  height?: string,
+  height?: number,
   contentUrl: string,
   clipPathClass?: string,
   alt: string,
@@ -32,7 +32,7 @@ const Image = ({
   clickHandler,
   zoomable
 }: Props) => (
-  <div className="work-media__image-container">
+  <Fragment>
     <noscript>
       <img width={width}
         height={height}
@@ -40,8 +40,8 @@ const Image = ({
         src={convertImageUri(contentUrl, 640, false)}
         alt={alt} />
     </noscript>
-    {imageMarkup(width, height, clipPathClass, lazyload, defaultSize, contentUrl, sizesQueries, copyright, alt, caption, clickHandler, zoomable)}
-  </div>
+    {imageMarkup(width, height, clipPathClass, lazyload, defaultSize, contentUrl, sizesQueries, copyright, alt, caption, clickHandler)}
+  </Fragment>
 );
 
 const imageClasses = (clip = false, lazyload: boolean, clipPathClass, zoomable) => {
@@ -63,7 +63,8 @@ const imageMarkup = (width, height, clipPathClass, lazyload = false, defaultSize
         return `${convertImageUri(contentUrl, size, false)} ${size}w`;
       })}
       data-copyright={copyright}
-      onClick={clickHandler} />
+      onClick={clickHandler}
+      alt={alt} />
   );
 
   return clipPathClass ? [

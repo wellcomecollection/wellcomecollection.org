@@ -26,11 +26,11 @@
     </span>
     <span class="js-eventbrite-ticket-button-text">
       {% if ticket.onSaleStatus === 'available' %}
-        Book free tickets
+        Book tickets
       {% elif ticket.onSaleStatus === 'sold_out' %}
         Fully booked
       {% elif ticket.onSaleStatus === 'not_yet_on_sale' %}
-        Not yet on available
+        Not yet available
       {% endif %}
     </span>
   </a>
@@ -40,12 +40,32 @@
       {s:'HNM5'} | fontClasses, {s: 1},
       {s:1} | spacingClasses({margin: ['top']}),
       {s:0} | spacingClasses({margin: ['bottom']})
-    ].join(' ') -}}">Tickets on sale from {{ ticket.saleStarts }}</p>
+    ].join(' ') -}}">Tickets are available to book from {{ ticket.saleStarts }}</p>
   {% endif %}
   <p class="{{- [
     'font-charcoal',
     {s:'HNL5'} | fontClasses,
     {s:1} | spacingClasses({margin: ['top']}),
-    {s:0} | spacingClasses({margin: ['bottom']})
+    {s:1} | spacingClasses({margin: ['bottom']})
   ].join(' ') -}}">with Eventbrite</p>
+
+  {% if ticket.onSaleStatus === 'sold_out' %}
+    <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top']}) }} {{ {s: 2} | spacingClasses({margin: ['top']}) }}">
+      <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">This event has been fully booked – but there is a waiting list!</h3>
+      <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
+        <p>
+          Our waiting list opens an hour before a fully-booked event starts.
+          Arrive early, and we’ll give you a numbered ticket.
+          Just before the event starts, waiting list ticket holders will be
+          allowed – in order – to take the seats that have not been filled.
+        </p>
+        <p class="no-margin">
+          We hold some spaces for people with access requirements.
+          Please email
+          <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
+          if you would like to request one of these spaces.
+        </p>
+      </div>
+    </div>
+  {% endif %}
 </div>

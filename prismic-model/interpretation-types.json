@@ -17,14 +17,14 @@
     "description" : {
       "type" : "StructuredText",
       "config" : {
-        "single" : "paragraph, hyperlink",
+        "multi" : "paragraph, hyperlink",
         "label" : "Message"
       }
     },
     "primaryDescription" : {
       "type" : "StructuredText",
       "config" : {
-        "single" : "paragraph, hyperlink",
+        "multi" : "paragraph, hyperlink",
         "label" : "Message if primary interpretation"
       }
     }

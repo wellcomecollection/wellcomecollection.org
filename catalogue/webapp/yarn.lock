@@ -12,14 +12,20 @@
     babel-plugin-transform-react-jsx "^6.24.1"
     babel-plugin-wrap-in-js "^1.1.1"
     babel-preset-env "^1.6.1"
+    cookies "^0.7.1"
     immutable "^3.8.2"
     moment "^2.20.1"
     moment-timezone "^0.5.14"
     openseadragon "^2.3.1"
+    prismic-javascript "^1.5.0-beta.2"
     react "^16.2.0"
     react-dom "^16.2.0"
     react-transition-group "^2.2.1"
     url-template "^2.0.8"
+
+"@weco/next-plugin-transpile-modules@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@weco/next-plugin-transpile-modules/-/next-plugin-transpile-modules-0.0.2.tgz#f8f8af6adc6a3c565ed6212ae82a383f18efc40e"
 
 "@zeit/check-updates@1.1.0":
   version "1.1.0"
@@ -1307,6 +1313,13 @@ convert-source-map@1.5.1, convert-source-map@^1.5.0:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-1.5.1.tgz#b8278097b9bc229365de5c62cf5fcaed8b5599e5"
 
+cookies@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/cookies/-/cookies-0.7.1.tgz#7c8a615f5481c61ab9f16c833731bcb8f663b99b"
+  dependencies:
+    depd "~1.1.1"
+    keygrip "~1.0.2"
+
 copy-concurrently@^1.0.0:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/copy-concurrently/-/copy-concurrently-1.0.5.tgz#92297398cae34937fcafd6ec8139c18051f0b5e0"
@@ -1820,6 +1833,13 @@ fbjs@^0.8.16:
     promise "^7.1.1"
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.9"
+
+fetch-everywhere@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/fetch-everywhere/-/fetch-everywhere-1.0.5.tgz#b2497f47a57d9026b3907c09756acf5f4bd34e8b"
+  dependencies:
+    node-fetch "^1.0.1"
+    whatwg-fetch ">=0.10.0"
 
 filename-regex@^2.0.0:
   version "2.0.1"
@@ -2665,6 +2685,10 @@ jsprim@^1.2.2:
 junk@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/junk/-/junk-1.0.3.tgz#87be63488649cbdca6f53ab39bec9ccd2347f592"
+
+keygrip@~1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/keygrip/-/keygrip-1.0.2.tgz#ad3297c557069dea8bcfe7a4fa491b75c5ddeb91"
 
 kind-of@^2.0.1:
   version "2.0.1"
@@ -3554,6 +3578,12 @@ prepend-http@^1.0.1:
 preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
+
+prismic-javascript@^1.5.0-beta.2:
+  version "1.5.0-beta.2"
+  resolved "https://registry.yarnpkg.com/prismic-javascript/-/prismic-javascript-1.5.0-beta.2.tgz#e91a70dc19c0495e56ae4f60353f3544af49ebd1"
+  dependencies:
+    fetch-everywhere "^1.0.5"
 
 private@^0.1.6, private@^0.1.7:
   version "0.1.8"
