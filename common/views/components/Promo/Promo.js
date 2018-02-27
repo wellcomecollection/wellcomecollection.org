@@ -19,7 +19,7 @@ function contentTypeText(commissionedSeries, positionInSeries, seriesTitle, cont
   } else if (seriesTitle) {
     return seriesTitle;
   } else if (contentType !== 'work') {
-    return contentType;
+    return `${contentType.charAt(0).toUpperCase()}${contentType.slice(1)}`;
   }
 }
 
