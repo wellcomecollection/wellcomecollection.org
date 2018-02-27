@@ -241,6 +241,7 @@ function createEventPromos(allResults): Array<EventPromo> {
     // A single Primsic 'event' can have multiple datetimes, but we
     // want to display each datetime as an individual promo, so we
     // map and flatten.
+    const hasNotFullyBookedTimes = event.data.times.find(time => !time.isFullyBooked);
     return event.data.times.map(eventAtTime => {
       return {
         id: event.id,
@@ -248,6 +249,8 @@ function createEventPromos(allResults): Array<EventPromo> {
         url: `/events/${event.id}`,
         format: format,
         audience: audience,
+        hasNotFullyBookedTimes: hasNotFullyBookedTimes,
+        isFullyBooked: Boolean(eventAtTime.isFullyBooked),
         start: eventAtTime.startDateTime,
         end: eventAtTime.endDateTime,
         image: promo && promo.image || {},

@@ -3,9 +3,14 @@ import type {HTMLString, ImagePromo} from './content-blocks';
 import type {Person} from './people';
 import type {Picture} from '../model/picture';
 
-export type DateTimeRange = {|
+type DateTimeRange = {|
   startDateTime: Date,
   endDateTime: Date
+|}
+
+export type EventTime = {|
+  range: DateTimeRange,
+  isFullyBooked: boolean
 |}
 
 type ContributorRole = {|
@@ -85,7 +90,7 @@ export type Event = {|
   title: ?string,
   format: ?EventFormat,
   isDropIn: boolean,
-  times: Array<DateTimeRange>,
+  times: Array<EventTime>,
   description: ?HTMLString,
   series: Array<EventSeries>,
   place: ?Place,
@@ -109,6 +114,8 @@ export type EventPromo = {|
   url: string,
   start: ?DateTimeRange,
   end: ?DateTimeRange,
+  isFullyBooked: boolean,
+  hasNotFullyBookedTimes: boolean,
   description: ?HTMLString,
   format: ?EventFormat,
   bookingType: ?string,
@@ -141,12 +148,18 @@ export const eventExample = ({
   isDropIn: true,
   times: [
     {
-      startDateTime: new Date('2017-12-01T19:45:00+0000'),
-      endDateTime: new Date('2017-12-01T20:25:00+0000')
+      isFullyBooked: false,
+      range: {
+        startDateTime: new Date('2017-12-01T19:45:00+0000'),
+        endDateTime: new Date('2017-12-01T20:25:00+0000')
+      }
     },
     {
-      startDateTime: new Date('2017-12-01T20:45:00+0000'),
-      endDateTime: new Date('2017-12-01T21:00:00+0000')
+      isFullyBooked: false,
+      range: {
+        startDateTime: new Date('2017-12-01T20:45:00+0000'),
+        endDateTime: new Date('2017-12-01T21:00:00+0000')
+      }
     }
   ],
   description: 'A rare chance to experience ' +

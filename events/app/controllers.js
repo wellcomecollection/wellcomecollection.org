@@ -24,7 +24,8 @@ export async function renderEvent(ctx, next) {
 
       const eventbriteIdScheme = event.identifiers.find(id => id.identifierScheme === 'eventbrite-id');
       const eventbriteId = eventbriteIdScheme && eventbriteIdScheme.value;
-      const eventInfo = { eventbriteId };
+      const isCompletelySoldOut = event.times.filter(time => !time.isFullyBooked).length === 0;
+      const eventInfo = { eventbriteId, isCompletelySoldOut };
 
       ctx.render('pages/event', {
         pageConfig: createPageConfig({
