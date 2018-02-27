@@ -248,6 +248,7 @@ function createEventPromos(allResults): Array<EventPromo> {
         url: `/events/${event.id}`,
         format: format,
         audience: audience,
+        isFullyBooked: Boolean(eventAtTime.isFullyBooked),
         start: eventAtTime.startDateTime,
         end: eventAtTime.endDateTime,
         image: promo && promo.image || {},

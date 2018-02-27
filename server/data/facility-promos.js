@@ -104,6 +104,7 @@ export const dailyTourPromo: EventPromo = {
   url: 'https://wellcomecollection.org/tours',
   start: null,
   end: null,
+  isFullyBooked: false,
   description: null,
   dateString: 'Tuesday–Sunday',
   timeString: '11:30, 14:30 and 15:30',
