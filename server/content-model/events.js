@@ -115,6 +115,7 @@ export type EventPromo = {|
   start: ?DateTimeRange,
   end: ?DateTimeRange,
   isFullyBooked: boolean,
+  hasNotFullyBookedTimes: boolean,
   description: ?HTMLString,
   format: ?EventFormat,
   bookingType: ?string,

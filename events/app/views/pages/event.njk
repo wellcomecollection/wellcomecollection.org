@@ -97,16 +97,30 @@
         </div>
 
         <div class="{{ {s:'HNL4'} | fontClasses }}">
-          {% for dateRange in event.times %}
+          {% for eventTime in event.times %}
             <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
-              {% set formattedDateRange = dateRange.startDateTime | formatAndDedupeOnDate(dateRange.endDateTime) %}
+              {% set formattedDateRange = eventTime.range.startDateTime | formatAndDedupeOnDate(eventTime.range.endDateTime) %}
               <time class="block">
                 <b class="{{ {s:'HNM4'} | fontClasses }}">{{ formattedDateRange | joinDateStrings }}</b>
               </time>
               {% if (formattedDateRange.size === 1) %}
-                <time class="block">
-                  {{ dateRange.startDateTime | formatAndDedupeOnTime(dateRange.endDateTime) | joinDateStrings }}
-                </time>
+                <div class="flex">
+                  <time class="block">
+                    {{ eventTime.range.startDateTime | formatAndDedupeOnTime(eventTime.range.endDateTime) | joinDateStrings }}
+                  </time>
+                  {% if eventTime.isFullyBooked %}
+                    <div class="{{- [
+                      {s:'HNM5'} | fontClasses,
+                      {s:2} | spacingClasses({margin: ['left']
+                      })
+                    ].join(' ') }} flex flex--v-center">
+                      <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
+                        {% icon 'status_indicator', null, ['icon--red', 'icon--match-text'] %}
+                      </span>
+                      Fully booked
+                    </div>
+                  {% endif %}
+                </div>
               {% endif %}
             </div>
           {% endfor %}
