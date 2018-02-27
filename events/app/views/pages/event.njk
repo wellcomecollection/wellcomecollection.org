@@ -108,7 +108,7 @@
                   <time class="block">
                     {{ eventTime.range.startDateTime | formatAndDedupeOnTime(eventTime.range.endDateTime) | joinDateStrings }}
                   </time>
-                  {% if eventTime.isFullyBooked %}
+                  {% if eventTime.isFullyBooked and not eventInfo.isCompletelySoldOut %}
                     <div class="{{- [
                       {s:'HNM5'} | fontClasses,
                       {s:2} | spacingClasses({margin: ['left']
@@ -153,14 +153,13 @@
           {% if event.bookingEnquiryTeam %}
             <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
               {% if eventInfo.isCompletelySoldOut %}
-                <div class="{{- [
+                <button class="{{- [
                   {s:'HNM4'} | fontClasses,
                   {s: 4} | spacingClasses({padding: ['left', 'right']})
                 ].join(' ') }} flex-inline flex--h-center btn btn--full-width-s"
                   disabled="disabled" aria-disabled="true">
-                  <span>{% icon 'email', null, ['icon--white'] %}</span>
                   Fully booked
-                </div>
+                </button>
               {% else %}
               <a class="{{- [
                           {s:'HNM4'} | fontClasses,
