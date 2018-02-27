@@ -85,7 +85,24 @@ type Props = {|
   title?: string
 |}
 
-const Promo = ({url, id, extraClasses = '', contentType, isConstrained, image, series, defaultSize, positionInSeries, standalone, weight, description, sizes, headingLevel, datePublished, title}: Props) => {
+const Promo = ({
+  url,
+  id,
+  extraClasses = '',
+  contentType,
+  isConstrained,
+  image,
+  series,
+  defaultSize,
+  positionInSeries,
+  standalone,
+  weight,
+  description,
+  sizes,
+  headingLevel,
+  datePublished,
+  title
+}: Props) => {
   const PromoTag = url ? 'a' : 'span';
   const HeadingTag = headingLevel || 'h2';
   const seriesTitle =  series && getSeriesTitle(series);
