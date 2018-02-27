@@ -33,7 +33,7 @@ function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
     }).catch(err => { handleScriptError(err); });
 }
 
-const Error = () => (
+const ErrorMessage = () => (
   <div className={`image-viewer__error ${spacing({s: 5}, {padding: ['left', 'right', 'top', 'bottom']})}`}>
     <p>The image viewer is not working.</p>
   </div>
@@ -71,7 +71,7 @@ class ImageViewerImage extends React.Component<Props, State> {
   render() {
     return (
       <div className='image-viewer__image' id={`image-viewer-${this.props.id}`}>
-        {this.state.scriptError && <Error />}
+        {this.state.scriptError && <ErrorMessage />}
       </div>
     );
   }
