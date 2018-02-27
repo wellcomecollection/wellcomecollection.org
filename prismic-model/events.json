@@ -57,6 +57,13 @@
             "config" : {
               "label" : "End date"
             }
+          },
+          "isFullyBooked" : {
+            "type" : "Select",
+            "config" : {
+              "options" : [ "yes" ],
+              "label" : "Has this time been fully booked?"
+            }
           }
         }
       }
@@ -94,7 +101,7 @@
         }
       }
     },
-    "audiences": {
+    "audiences" : {
       "type" : "Group",
       "fieldset" : "Audiences",
       "config" : {
@@ -142,7 +149,7 @@
         "label" : "Event specific booking information"
       }
     },
-    "cost": {
+    "cost" : {
       "type" : "Text",
       "config" : {
         "options" : [ "yes" ],
@@ -151,7 +158,7 @@
     }
   },
   "Contributors" : {
-    "contributors": {
+    "contributors" : {
       "type" : "Group",
       "fieldset" : "Contributors",
       "config" : {
@@ -162,7 +169,7 @@
               "label" : "Role",
               "select" : "document",
               "customtypes" : [ "editorial-contributor-roles" ],
-              "tags": [ "events" ]
+              "tags" : [ "events" ]
             }
           },
           "contributor" : {
@@ -171,7 +178,7 @@
               "label" : "Contributor",
               "select" : "document",
               "customtypes" : [ "people", "organisations" ],
-              "tags": [ "events" ]
+              "tags" : [ "events" ]
             }
           }
         }
@@ -213,6 +220,38 @@
                   } ]
                 }
               }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Experimental" : {
+    "schedule" : {
+      "type" : "Group",
+      "fieldset" : "Schedule",
+      "config" : {
+        "fields" : {
+          "time" : {
+            "type" : "StructuredText",
+            "config" : {
+              "single" : "paragraph",
+              "label" : "Time"
+            }
+          },
+          "title" : {
+            "type" : "StructuredText",
+            "config" : {
+              "single" : "paragraph",
+              "label" : "Title"
+            }
+          },
+          "event" : {
+            "type" : "Link",
+            "config" : {
+              "label" : "Role",
+              "select" : "document",
+              "customtypes" : [ "events" ]
             }
           }
         }
