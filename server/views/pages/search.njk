@@ -120,7 +120,7 @@
           <div class="{{ {s: 12, m: 8, l: 5, xl: 5} | gridClasses }}">
 
             {% set imageModel = henryImage | objectAssign({lazyload: true}) %}
-{{ imageModel | dump }}
+
             {% componentJsx 'CaptionedImage', imageModel, [
               {name: 'Image', model:imageModel},
               {name: 'Tasl', model: henryImage}
