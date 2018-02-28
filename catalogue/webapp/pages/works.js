@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-unfetch';
+import Link from 'next/link';
 import { withFormik } from 'formik';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
 import criticalCss from '@weco/common/styles/critical.scss';
@@ -104,7 +105,13 @@ const SearchWorks = ({
       </div>
     </div>
     <ul>
-      {works.results.map(work => <li key={work.id}>{work.title}</li>)}
+      {works.results.map(work =>
+        <li key={work.id}>
+          <Link as={`/works/${work.id}`} href={`/work?id=${work.id}`}>
+            <a>{work.title}</a>
+          </Link>
+        </li>
+      )}
     </ul>
   </DefaultPageLayout>
 );
