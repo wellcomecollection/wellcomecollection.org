@@ -11,13 +11,14 @@ import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
 import StaticWorksContent from '@weco/common/views/components/StaticWorksContent/StaticWorksContent';
 import Promo from '@weco/common/views/components/Promo/Promo';
 import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagination/Pagination';
+import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
 import {Fragment, Component} from 'react';
 import Router from 'next/router';
 
 type Props = {|
   query: {| query?: string, page?: string |},
   works: {| results: [], totalResults: number |},
-  pagination: Object,
+  pagination: PaginationProps,
   handleSubmit: () => void
 |}
 

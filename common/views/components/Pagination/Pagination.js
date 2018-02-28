@@ -4,7 +4,7 @@ import {font, spacing} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import Link from 'next/link';
 
-type Props = {|
+export type Props = {|
   prevPage?: number,
   currentPage: number,
   pageCount: number,
