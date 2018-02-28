@@ -149,16 +149,24 @@ const WorksComponent = ({
 );
 
 class Works extends Component<Props> {
-  handleSubmit: Function;
-  static getInitialProps: Function;
+  static getInitialProps = async ({ req, query }) => {
+    const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works${getInitialQueryParams(query)}`);
+    const json = await res.json();
+    const currentPage = query.page || 1;
+    const pagination = PaginationFactory.fromList(json.results, Number(json.totalResults) || 1, Number(currentPage) || 1, json.pageSize || 1, {query: query.query});
 
-  constructor(props: Props) {
-    super(props);
+    return {
+      works: json,
+      query: query,
+      pagination: pagination
+    };
+  };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleSubmit(event: any) {
+  // TODO: Setting the event parameter to type 'Event' leads to
+  // an 'Indexable signature not found in EventTarget' Flow
+  // error. We're setting the properties we expect here until
+  // we find a better solution.
+  handleSubmit = (event: {preventDefault: () => {}, target: Array<{value: string}>}) => {
     event.preventDefault();
 
     const queryString = encodeURIComponent(event.target[0].value);
@@ -180,19 +188,6 @@ class Works extends Component<Props> {
     );
   }
 }
-
-Works.getInitialProps = async ({ req, query }) => {
-  const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works${getInitialQueryParams(query)}`);
-  const json = await res.json();
-  const currentPage = query.page || 1;
-  const pagination = PaginationFactory.fromList(json.results, Number(json.totalResults) || 1, Number(currentPage) || 1, json.pageSize || 1, {query: query.query});
-
-  return {
-    works: json,
-    query: query,
-    pagination: pagination
-  };
-};
 
 export default Works;
 
