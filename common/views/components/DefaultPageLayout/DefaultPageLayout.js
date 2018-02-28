@@ -10,9 +10,7 @@ import {formatDate} from '../../../utils/format-date';
 // TODO: Inline CSS
 // TODO: JsonLd
 // TODO: Feature flags / cohort
-// TODO: Twiiter script
 // TODO: Set the props
-// TODO: InSection
 
 // Taken from: http://ogp.me/#no_vertical
 type OgType = 'article' | 'website';
@@ -96,13 +94,6 @@ const navLinks = [{
   title: 'What we do'
 }];
 
-type AnalyticsProps = {|
-  category: ?string,
-  seriesUrl: ?string,
-  positionInSeries: ?string,
-  contentType: ?string
-|}
-
 // We will have two trackers, one that has been used on the v1 site, and v2 site (UA-55614-6)
 // The other is just for the v2 site UA-55614-24
 //
@@ -110,11 +101,22 @@ type AnalyticsProps = {|
 // the new questions we would like ask of our analytics, so this was for a clean slate.
 //
 // `dimension5` is a test dimension. it's `dimension1` on v2
+type AnalyticsCategory = 'collections' | 'editorial' | 'public-programme';
+type AnalyticsProps = {|
+  category: AnalyticsCategory,
+  seriesUrl: ?string,
+  positionInSeries: ?string,
+  contentType: ?string,
+  pageState: ?Object,
+  featuresCohort: ?string,
+|}
 export const Analytics = ({
   category,
   seriesUrl,
   positionInSeries,
-  contentType
+  contentType,
+  pageState,
+  featuresCohort
 }: AnalyticsProps) => ([
   <style  key='analytics-1' dangerouslySetInnerHTML={{ __html: `.async-hide .header__nav{ opacity: 0 !important}` }} />,
   <script key='analytics-2' dangerouslySetInnerHTML={{ __html: `(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
@@ -129,11 +131,13 @@ export const Analytics = ({
 
     ga('create', 'UA-55614-6', 'auto');
     ga('set', 'dimension1', '2');
+    ga('set', 'appVersion', '2.1.0');
 
     ${category         ? `ga('set', 'dimension2', '${category}');` : ''}
     ${seriesUrl        ? `ga('set', 'dimension3', '${seriesUrl}');` : ''}
     ${positionInSeries ? `ga('set', 'dimension4', '${positionInSeries}');` : ''}
     ${contentType      ? `ga('set', 'dimension6', '${contentType}');` : ''}
+    ${pageState        ? `ga('set', 'dimension8', '${JSON.stringify(pageState)}');` : ''}
 
     var referringComponentListString = localStorage.getItem('wc_referring_component_list');
     localStorage.removeItem('wc_referring_component_list');
@@ -141,9 +145,19 @@ export const Analytics = ({
       ga('set', 'dimension5', referringComponentListString);
     }
 
+    // see tracking.js where this storage item is set
+    var referringComponentListString = localStorage.getItem('wc_referring_component_list');
+    localStorage.removeItem('wc_referring_component_list');
+    if (referringComponentListString) {
+      ga('set', 'dimension7', referringComponentListString);
+    }
+
+    ${featuresCohort && featuresCohort !== 'default' ? `ga('set', 'dimension5', '${featuresCohort}');` : ''}
+
     ga('require', 'GTM-NXMJ6D9');
     ga('send', 'pageview');
-    ga('v2.send', 'pageview');`}} />,
+    ga('v2.send', 'pageview');
+  `}} />,
   <script key='analytics-4' async src='https://www.google-analytics.com/analytics.js' />
 ]);
 
@@ -156,6 +170,7 @@ type Props = {|
   description: string,
   imageUrl: string,
   siteSection: SiteSection,
+  analyticsCategory: string,
   pageMeta?: React.Node,
   featuresCohort?: string,
   featureFlags?: string[],
@@ -170,6 +185,7 @@ const DefaultPageLayout = ({
   description,
   imageUrl,
   siteSection,
+  analyticsCategory,
   featuresCohort = 'default',
   featureFlags = [],
   isPreview = false
@@ -180,7 +196,7 @@ const DefaultPageLayout = ({
       <meta charSet='utf-8' />
       {/* TODO: use flag as to whether to include this */}
       <Analytics
-        category={null}
+        category={analyticsCategory}
         seriesUrl={null}
         positionInSeries={null}
         contentType={null} />

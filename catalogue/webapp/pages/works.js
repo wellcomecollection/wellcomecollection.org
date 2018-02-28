@@ -25,6 +25,7 @@ const SearchWorks = ({
   <DefaultPageLayout
     title='Image catalogue search | Wellcome Collection'
     description='Search through the Wellcome Collection image catalogue'
+    analyticsCategory='collections'
   >
 
     <style dangerouslySetInnerHTML={{ __html: criticalCss }} />
