@@ -149,11 +149,11 @@ const WorksComponent = ({
 );
 
 class Works extends Component<Props> {
-  static getInitialProps = async ({ req, query }) => {
+  static getInitialProps = async ({ req, query }: {req?: XMLHttpRequest, query: {}}) => {
     const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works${getInitialQueryParams(query)}`);
     const json = await res.json();
     const currentPage = query.page || 1;
-    const pagination = PaginationFactory.fromList(json.results, Number(json.totalResults) || 1, Number(currentPage) || 1, json.pageSize || 1, {query: query.query});
+    const pagination = PaginationFactory.fromList(json.results, Number(json.totalResults) || 1, Number(currentPage) || 1, json.pageSize || 1, {query: query.query || ''});
 
     return {
       works: json,
