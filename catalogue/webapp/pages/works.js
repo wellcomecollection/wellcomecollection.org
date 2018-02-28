@@ -15,11 +15,20 @@ import type {Props as PaginationProps} from '@weco/common/views/components/Pagin
 import {Fragment, Component} from 'react';
 import Router from 'next/router';
 
+// TODO: Setting the event parameter to type 'Event' leads to
+// an 'Indexable signature not found in EventTarget' Flow
+// error. We're setting the properties we expect here until
+// we find a better solution.
+type EventWithInputValue = {
+  preventDefault: () => {},
+  target: Array<{value: string}>
+}
+
 type Props = {|
   query: {| query?: string, page?: string |},
   works: {| results: [], totalResults: number |},
   pagination: PaginationProps,
-  handleSubmit: () => void
+  handleSubmit: (EventWithInputValue) => void
 |}
 
 const WorksComponent = ({
@@ -149,7 +158,7 @@ const WorksComponent = ({
 );
 
 class Works extends Component<Props> {
-  static getInitialProps = async ({ req, query }: {req?: XMLHttpRequest, query: {}}) => {
+  static getInitialProps = async ({ req, query }: {req?: IncomingMessage, query: {}}) => {
     const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works${getInitialQueryParams(query)}`);
     const json = await res.json();
     const currentPage = query.page || 1;
@@ -162,11 +171,7 @@ class Works extends Component<Props> {
     };
   };
 
-  // TODO: Setting the event parameter to type 'Event' leads to
-  // an 'Indexable signature not found in EventTarget' Flow
-  // error. We're setting the properties we expect here until
-  // we find a better solution.
-  handleSubmit = (event: {preventDefault: () => {}, target: Array<{value: string}>}) => {
+  handleSubmit = (event: EventWithInputValue) => {
     event.preventDefault();
 
     const queryString = encodeURIComponent(event.target[0].value);
