@@ -9,7 +9,7 @@ import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
 import StaticWorksContent from '@weco/common/views/components/StaticWorksContent/StaticWorksContent';
-import Promo from '@weco/common/views/components/Promo/Promo';
+import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagination/Pagination';
 import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
 import {Fragment, Component} from 'react';
@@ -132,10 +132,8 @@ const WorksComponent = ({
             <div className="grid">
               {works.results.map(result => (
                 <div key={result.id} className={grid({s: 6, m: 4, l: 3, xl: 2})}>
-                  <Promo
-                    sizes='(min-width: 1340px) 178px, (min-width: 960px) calc(25vw - 52px), (min-width: 600px) calc(33.24vw - 43px), calc(50vw - 27px)'
+                  <WorkPromo
                     id={result.id}
-                    contentType='work'
                     image={{
                       contentUrl: result.thumbnail && result.thumbnail.url,
                       width: 300,
@@ -143,9 +141,7 @@ const WorksComponent = ({
                       alt: ''
                     }}
                     datePublished={result.createdDate && result.createdDate.label}
-                    isConstrained={true}
                     title={result.title}
-                    defaultSize={180}
                     url={`/works/${result.id}${getQueryParamsForWork(query)}`} />
                 </div>
               ))}
@@ -158,7 +154,7 @@ const WorksComponent = ({
 );
 
 class Works extends Component<Props> {
-  static getInitialProps = async ({ req, query }: {req?: IncomingMessage, query: {}}) => {
+  static getInitialProps = async ({ req, query }: {req?: any, query: {}}) => {
     const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works${getInitialQueryParams(query)}`);
     const json = await res.json();
     const currentPage = query.page || 1;

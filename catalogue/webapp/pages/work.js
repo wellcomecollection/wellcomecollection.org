@@ -321,8 +321,9 @@ const WorkPage = ({ work }: Props) => {
   );
 };
 
-WorkPage.getInitialProps = async ({ req }) => {
-  const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works/xkuupr5a?includes=identifiers,items,thumbnail`);
+WorkPage.getInitialProps = async (context) => {
+  const {id} = context.query;
+  const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works/${id}?includes=identifiers,items,thumbnail`);
   const json = await res.json();
   return { work: (json: Work) };
 };

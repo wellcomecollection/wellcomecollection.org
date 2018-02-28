@@ -1,58 +1,19 @@
 // @flow
-/* global OpenSeadragon */
 import React, {Fragment} from 'react';
 import {Transition} from 'react-transition-group';
-import {font, spacing} from '../../../utils/classnames';
-import {convertImageUri, convertIiifUriToInfoUri} from '../../../utils/convert-image-uri';
 import Image from '../Image/Image';
 import ButtonButton from '../Buttons/ButtonButton/ButtonButton';
-import Script from 'react-load-script';
+import {font, spacing} from '../../../utils/classnames';
+import dynamic from 'next/dynamic';
+const ImageViewerImage = dynamic(import('./ImageViewerImage'));
 
-const buttonFontClasses = font({s: 'HNM5'});
-
-function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
-  window.fetch(convertIiifUriToInfoUri(convertImageUri(imageInfoSrc, 'full', false)))
-    .then(response => response.json())
-    .then((response) => {
-      OpenSeadragon({
-        id: `image-viewer-${viewerId}`,
-        visibilityRatio: 1,
-        showFullPageControl: false,
-        showHomeControl: false,
-        zoomInButton: `zoom-in-${viewerId}`,
-        zoomOutButton: `zoom-out-${viewerId}`,
-        showNavigator: true,
-        controlsFadeDelay: 0,
-        tileSources: [{
-          '@context': 'http://iiif.io/api/image/2/context.json',
-          '@id': response['@id'],
-          'height': response.height,
-          'width': response.width,
-          'profile': [ 'http://iiif.io/api/image/2/level2.json' ],
-          'protocol': 'http://iiif.io/api/image',
-          'tiles': [{
-            'scaleFactors': [ 1, 2, 4, 8, 16, 32 ],
-            'width': 400
-          }]
-        }]
-      });
-    }).catch(err => { handleScriptError(err); });
-}
-
-const Error = () => (
-  <div className={`image-viewer__error ${spacing({s: 5}, {padding: ['left', 'right', 'top', 'bottom']})}`}>
-    <p>We were unable to load the image viewer.</p>
-  </div>
-);
-
-type LaunchViewerProps = {|
-  id: string,
+type LaunchViewerButtonProps = {|
   classes: string,
   clickHandler: Function,
   didMountHandler: Function
 |}
 
-class LaunchViewerButton extends React.Component<LaunchViewerProps> {
+class LaunchViewerButton extends React.Component<LaunchViewerButtonProps> {
   componentDidMount() {
     this.props.didMountHandler();
   }
@@ -62,12 +23,14 @@ class LaunchViewerButton extends React.Component<LaunchViewerProps> {
       <ButtonButton
         text='View larger image'
         icon='zoomIn'
-        extraClasses={`${this.props.classes} ${buttonFontClasses} btn--round image-viewer__launch-button js-image-viewer__launch-button`}
+        extraClasses={`${this.props.classes} ${font({s: 'HNM5'})} btn--round image-viewer__launch-button js-image-viewer__launch-button`}
         clickHandler={this.props.clickHandler}
       />
     );
   }
 };
+
+const buttonFontClasses = font({s: 'HNM5'});
 
 type ViewerContentProps = {|
   id: string,
@@ -77,37 +40,16 @@ type ViewerContentProps = {|
   handleViewerDisplay: Function
 |}
 
-type ViewerContentState = {|
-  scriptLoaded: boolean,
-  scriptError: boolean
-|}
-
-class ViewerContent extends React.Component<ViewerContentProps, ViewerContentState> {
-  handleScriptError: Function;
-  handleScriptLoaded: Function;
+class ViewerContent extends React.Component<ViewerContentProps> {
   escapeCloseViewer: Function;
 
   constructor(props) {
     super(props);
-    this.state = {
-      scriptLoaded: false,
-      scriptError: false
-    };
-    this.handleScriptError = this.handleScriptError.bind(this);
-    this.handleScriptLoaded = this.handleScriptLoaded.bind(this);
+
     this.escapeCloseViewer = this.escapeCloseViewer.bind(this);
   }
 
-  handleScriptLoaded() {
-    this.setState({ scriptLoaded: true });
-    setupViewer(this.props.contentUrl, this.props.id, this.handleScriptError);
-  }
-
-  handleScriptError() {
-    this.setState({ scriptError: true });
-  }
-
-  escapeCloseViewer({keyCode}) {
+  escapeCloseViewer({keyCode}: KeyboardEvent) {
     if (keyCode === 27 && this.props.viewerVisible) {
       this.props.handleViewerDisplay();
     }
@@ -124,11 +66,6 @@ class ViewerContent extends React.Component<ViewerContentProps, ViewerContentSta
   render() {
     return (
       <div className={`${this.props.classes} image-viewer__content image-viewer__content2`}>
-        <Script
-          url='https://static.wellcomecollection.org/openseadragon/openseadragon.min.js'
-          onError={this.handleScriptError}
-          onLoad={this.handleScriptLoaded}
-        />
         <div className="image-viewer__controls flex flex-end flex--v-center">
           <ButtonButton
             text='Zoom in'
@@ -152,9 +89,7 @@ class ViewerContent extends React.Component<ViewerContentProps, ViewerContentSta
           />
         </div>
 
-        <div className='image-viewer__image' id={`image-viewer-${this.props.id}`}>
-          {this.state.scriptError && <Error />}
-        </div>
+        {this.props.viewerVisible && <ImageViewerImage id={this.props.id} contentUrl={this.props.contentUrl} />}
       </div>
     );
   }
@@ -216,22 +151,19 @@ class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
           alt=''
           clickHandler={this.handleViewerDisplay}
           zoomable={this.state.viewButtonMounted} />
-        <Transition in={this.state.mountViewButton} timeout={{enter: 0, exit: 700}}>
+        <Transition in={this.state.mountViewButton} timeout={700}>
           {
             (status) => {
               if (status === 'exited') {
                 return null;
               }
-              return <LaunchViewerButton classes={`slideup-viewer-btn slideup-viewer-btn-${status}`} didMountHandler={this.viewButtonMountedHandler} clickHandler={this.handleViewerDisplay} id={this.props.id} />;
+              return <LaunchViewerButton classes={`slideup-viewer-btn slideup-viewer-btn-${status}`} didMountHandler={this.viewButtonMountedHandler} clickHandler={this.handleViewerDisplay} />;
             }
           }
         </Transition>
-        <Transition in={this.state.showViewer} timeout={{enter: 0, exit: 500}}>
+        <Transition in={this.state.showViewer} timeout={{enter: 0, exit: 700}}>
           {
             (status) => {
-              if (status === 'exited') {
-                return null;
-              }
               return <ViewerContent classes={`scale scale-${status}`} viewerVisible={this.state.showViewer} id={this.props.id} contentUrl={this.props.contentUrl} handleViewerDisplay={this.handleViewerDisplay}/>;
             }
           }

@@ -19,7 +19,7 @@ function contentTypeText(commissionedSeries, positionInSeries, seriesTitle, cont
   } else if (seriesTitle) {
     return seriesTitle;
   } else if (contentType !== 'work') {
-    return contentType;
+    return `${contentType.charAt(0).toUpperCase()}${contentType.slice(1)}`;
   }
 }
 
@@ -85,7 +85,24 @@ type Props = {|
   title?: string
 |}
 
-const Promo = ({url, id, extraClasses = '', contentType, isConstrained, image, series, defaultSize, positionInSeries, standalone, weight, description, sizes, headingLevel, datePublished, title}: Props) => {
+const Promo = ({
+  url,
+  id,
+  extraClasses = '',
+  contentType,
+  isConstrained,
+  image,
+  series,
+  defaultSize,
+  positionInSeries,
+  standalone,
+  weight,
+  description,
+  sizes,
+  headingLevel,
+  datePublished,
+  title
+}: Props) => {
   const PromoTag = url ? 'a' : 'span';
   const HeadingTag = headingLevel || 'h2';
   const seriesTitle =  series && getSeriesTitle(series);

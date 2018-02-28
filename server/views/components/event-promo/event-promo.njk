@@ -55,8 +55,19 @@
         </p>
       {% endif %}
 
-      <div
-        {% if model.eventbriteId %} data-eventbrite-ticket-id="{{ model.eventbriteId }}"{% endif %}
-        class="flex flex--h-space-between flex--wrap margin-top-auto{{ ' js-eventbrite-ticket-status' if model.eventbriteId }}"></div>
+      {% if model.isFullyBooked %}
+        <div class="{{- [
+          {s:'HNM5'} | fontClasses
+        ].join(' ') }} flex flex--v-center margin-top-auto">
+          <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
+            {% icon 'status_indicator', null, ['icon--red', 'icon--match-text'] %}
+          </span>
+          Fully booked{{ ', more dates available' if model.hasNotFullyBookedTimes }}
+        </div>
+      {% elif model.eventbriteId %}
+        <div
+          data-eventbrite-ticket-id="{{ model.eventbriteId }}"
+          class="flex flex--h-space-between flex--wrap margin-top-auto js-eventbrite-ticket-status"></div>
+      {% endif %}
     </div>
 </a>
