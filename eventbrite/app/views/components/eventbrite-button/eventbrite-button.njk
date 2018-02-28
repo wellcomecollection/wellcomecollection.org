@@ -49,7 +49,7 @@
     {s:1} | spacingClasses({margin: ['bottom']})
   ].join(' ') -}}">with Eventbrite</p>
 
-  {% if ticket.onSaleStatus === 'sold_out' %}
+  {% if ticket.onSaleStatus === 'sold_out' and not ticket.cost %}
     <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top']}) }} {{ {s: 2} | spacingClasses({margin: ['top']}) }}">
       <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">This event has been fully booked – but there is a waiting list!</h3>
       <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
