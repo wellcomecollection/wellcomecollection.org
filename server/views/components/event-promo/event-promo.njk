@@ -58,7 +58,7 @@
       {% if model.isFullyBooked %}
         <div class="{{- [
           {s:'HNM5'} | fontClasses
-        ].join(' ') }} flex flex--h-center flex--v-center margin-top-auto">
+        ].join(' ') }} flex flex--v-center margin-top-auto">
           <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
             {% icon 'status_indicator', null, ['icon--red', 'icon--match-text'] %}
           </span>
