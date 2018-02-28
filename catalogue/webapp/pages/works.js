@@ -200,7 +200,7 @@ function getQueryParamsForWork(query: {}) {
 }
 
 function getInitialQueryParams(query) {
-  const defaults = '?includes=identifiers,thumbnail,items';
+  const defaults = '?includes=identifiers,thumbnail,items&pageSize=100';
   const extra = Object.keys(query).reduce((acc, currKey) => {
     return `${acc}&${currKey}=${query[currKey]}`;
   }, '');
