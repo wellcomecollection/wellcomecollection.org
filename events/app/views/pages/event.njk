@@ -189,8 +189,8 @@
               <div class="flex {{ {s: 1} | spacingClasses({padding: ['top']}) }}">
                 {% set eventCalendarProps = {
                   url: 'https://wellcomecollection.org/events/' + event.id,
-                  startTime: event.times[0].startDateTime,
-                  endTime: event.times[0].endDateTime,
+                  startTime: event.times[0].range.startDateTime,
+                  endTime: event.times[0].range.endDateTime,
                   title: event.title,
                   description: event.description,
                   location: 'Wellcome Collection, 183 Euston Rd, Kings Cross, London NW1 2BE'
