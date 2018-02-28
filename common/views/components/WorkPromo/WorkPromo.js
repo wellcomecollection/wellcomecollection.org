@@ -8,9 +8,9 @@ import type {Props as ImageProps} from '../Image/Image';
 import Link from 'next/link';
 
 type Props = {|
-  url?: string,
-  id?: string,
-  image?: ImageProps,
+  url: string,
+  id: string,
+  image: ImageProps,
   description?: string,
   datePublished?: string,
   title?: string
