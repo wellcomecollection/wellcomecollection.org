@@ -29,3 +29,11 @@ provider "aws" {
   region  = "us-east-1"
   alias   = "us-east-1"
 }
+
+output "alb_listener_https_arn" {
+  value = "${module.router_alb.listener_https_arn}"
+}
+
+output "alb_listener_http_arn" {
+  value = "${module.router_alb.listener_http_arn}"
+}

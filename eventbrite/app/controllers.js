@@ -26,7 +26,7 @@ async function getEventbriteEventTickets(id: string) {
       ticketClassName.startsWith('waiting list') ? 'waitinglist'
         : ticketClassName.startsWith('comp ') ? 'comp' : 'standard';
     const saleStarts = formatTimeDate(new Date(ticketClass.sales_start));
-
+    console.info('ticketClass');
     return ({onSaleStatus, ticketType, saleStarts, eventbriteId: ticketClass.event_id}: Ticket);
   }).filter(ticket => ticket.ticketType === 'standard'); // we only want to show standard tickets for now...
 
