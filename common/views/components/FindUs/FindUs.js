@@ -2,14 +2,8 @@
 
 import {spacing, font} from '../../../utils/classnames';
 import {convertImageUri} from '../../../utils/convert-image-uri';
+import type {PostalAddress} from '../../../model/organization';
 import Icon from '../Icon/Icon';
-
-type Props = {|
-  streetAddress: string,
-  addressLocality: string,
-  postalCode: string,
-  addressCountry: string
-|}
 
 const baseUrl = 'https://prismic-io.s3.amazonaws.com/wellcomecollection/7a5b0931-e8b0-4568-8f46-9cb3f430bdb9_map.png';
 const imageSizes = [563, 425, 282, 600];
@@ -17,7 +11,7 @@ const dataSrcset = imageSizes.reduce((acc, size, index) => {
   return `${acc}${index > 0 ? ', ' : ''}${convertImageUri(baseUrl, size)} ${size}w`;
 }, '');
 
-const FindUs = ({streetAddress, addressLocality, postalCode, addressCountry}: Props) => (
+const FindUs = ({streetAddress, addressLocality, postalCode, addressCountry}: PostalAddress) => (
   <div className={`find-us ${font({s: 'HNL5'})}`}>
     <a href='https://www.google.co.uk/maps/dir//Wellcome+Collection,+Euston+Road,+London/@51.5258128,-0.136211,17z/data=!4m8!4m7!1m0!1m5!1m1!1s0x48761b25f10b008f:0xed51ac6f865b038a!2m2!1d-0.133945!2d51.525851' className="find-us__link">
       <span className="find-us__address">
