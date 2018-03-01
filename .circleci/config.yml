@@ -12,7 +12,7 @@ jobs:
             -  ~/wellcomecollection.org
   catalogue:
     docker:
-      - image: circleci/node:8.9.3
+      - image: circleci/node:8.9.4
     working_directory: ~/wellcomecollection.org/catalogue/webapp
     steps:
       - restore_cache:
