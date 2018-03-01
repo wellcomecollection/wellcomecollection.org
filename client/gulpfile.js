@@ -221,7 +221,6 @@ gulp.task('js', ['js:lint', 'js:compile']);
 gulp.task('scss', ['scss:compileJsToScss', 'scss:lint', 'scss:compile', 'scss:compileCritical']);
 gulp.task('lint', ['scss:compileJsToScss', 'scss:lint', 'js:lint']);
 gulp.task('compile', ['css:bust', 'js:bust', 'scss:compileJsToScss', 'scss:compileCritical', 'fonts:copy', 'images:copy', 'icons:copy', 'libs:copy']);
-gulp.task('build', ['scss', 'js']);
 gulp.task('dev', ['compile', 'watch']);
 
 function distDir(folder) {
