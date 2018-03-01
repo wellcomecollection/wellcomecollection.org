@@ -30,6 +30,10 @@ provider "aws" {
   alias   = "us-east-1"
 }
 
+output "cluster_name" {
+  value = "${aws_ecs_cluster.router.name}"
+}
+
 output "alb_listener_https_arn" {
   value = "${module.router_alb.listener_https_arn}"
 }

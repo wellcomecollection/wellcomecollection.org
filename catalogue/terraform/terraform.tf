@@ -44,7 +44,7 @@ data "terraform_remote_state" "router" {
 
   config {
     bucket = "wellcomecollection-infra"
-    key    = "router.tfstate"
+    key    = "build-state/router.tfstate"
     region = "eu-west-1"
   }
 }
@@ -52,10 +52,10 @@ data "terraform_remote_state" "router" {
 locals {
   vpc_id      = "${data.terraform_remote_state.infra.vpc_id}"
   vpc_subnets = "${data.terraform_remote_state.infra.vpc_subnets}"
-  cluster_name = "${data.terraform_remote_state.router.cluster_name}"
   alb_cloudwatch_id = "${data.terraform_remote_state.infra.alb_cloudwatch_id}"
   alb_listener_https_arn = "${data.terraform_remote_state.router.alb_listener_https_arn}"
   alb_listener_http_arn  = "${data.terraform_remote_state.router.alb_listener_http_arn}"
+  cluster_name = "${data.terraform_remote_state.router.cluster_name}"
 }
 
 
@@ -75,7 +75,7 @@ module "catalogue_service" {
   cluster_id = "${local.cluster_name}"
 
   vpc_id = "${local.vpc_id}"
-  nginx_uri = "wellcome/nginx-web:latest"
+  nginx_uri = "wellcome/nginx_webapp:latest"
   listener_https_arn = "${local.alb_listener_https_arn}"
   listener_http_arn  = "${local.alb_listener_http_arn}"
   server_error_alarm_topic_arn = "${module.alb_server_error_alarm.arn}"

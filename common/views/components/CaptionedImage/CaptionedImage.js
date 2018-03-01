@@ -5,13 +5,13 @@ import Icon from '../Icon/Icon';
 
 type Props = {|
   positionInSeries?: number,
-  series: Object,
-  contentType: string,
+  series?: Object,
+  contentType?: string,
   caption: string,
-  truncateCaption: string,
-  slideNumbers: Object,
-  isFull: boolean,
-  fitVh: boolean,
+  truncateCaption?: string,
+  slideNumbers?: Object,
+  isFull?: boolean,
+  fitVh?: boolean,
   children: React.Node
 |}
 

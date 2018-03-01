@@ -165,13 +165,13 @@
                           {s:'HNM4'} | fontClasses,
                           {s: 4} | spacingClasses({padding: ['left', 'right']})
                         ].join(' ') }} flex-inline flex--h-center btn btn--full-width-s"
-                  href="mailto:{{ event.bookingEnquiryTeam.email }}">
+                  href="mailto:{{ event.bookingEnquiryTeam.email }}?subject={{event.title}}">
                 <span>{% icon 'email', null, ['icon--white'] %}</span>
                 Email to book
               </a>
               {% endif %}
               <a class="block font-charcoal {{ {s:'HNL5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}"
-                  href="mailto:{{ event.bookingEnquiryTeam.email }}">{{ event.bookingEnquiryTeam.email }}</a>
+                  href="mailto:{{ event.bookingEnquiryTeam.email }}?subject={{event.title}}">{{ event.bookingEnquiryTeam.email }}</a>
             </div>
           {% endif %}
 
@@ -246,7 +246,7 @@
               <p>
                 We hold some spaces for people with access requirements.
                 Please email
-                <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
+                <a href="mailto:access@wellcomecollection.org?subject={{event.title}}">access@wellcomecollection.org</a>
                 if you would like to request one of these spaces.
               </p>
             </div>
@@ -281,7 +281,10 @@
     <div class="css-grid__cell--primary body-content">
       {% if event.promo.image %}
         <div class="is-hidden-s is-hidden-m rounded-corners overflow-hidden">
-          {% componentV2 'captioned-image', event.promo.image, {}, {showCopyright: true} %}
+          {% componentJsx 'CaptionedImage', bodyPart.value, [
+            {name: 'Image', model: imageModel},
+            tasl
+          ] %}
         </div>
       {% endif %}
       <div class="{{ {s: 3, m: 4, l: 5, xl: 5} | spacingClasses({margin: ['bottom']}) }}">

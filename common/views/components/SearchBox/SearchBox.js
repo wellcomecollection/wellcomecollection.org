@@ -3,18 +3,21 @@
 import HTMLInput from '../HTMLInput/HTMLInput';
 import Icon from '../Icon/Icon';
 import {font} from '../../../utils/classnames';
+import type {EventWithInputValue} from '../HTMLInput/HTMLInput';
 
 type Props = {|
   action: string,
   id: string,
   name: string,
   query: string,
-  autofocus: boolean
+  autofocus: boolean,
+  onSubmit?: (EventWithInputValue) => void,
+  onChange?: (EventWithInputValue) => void
 |}
 
-const SearchBox = ({action, id, name, query, autofocus}: Props) => (
+const SearchBox = ({action, id, name, query, autofocus, onChange, onSubmit}: Props) => (
   <div className='search-box js-search-box'>
-    <form action={action}>
+    <form action={action} onSubmit={onSubmit}>
       <HTMLInput
         id={id}
         type='text'
@@ -23,7 +26,8 @@ const SearchBox = ({action, id, name, query, autofocus}: Props) => (
         defaultValue={query}
         placeholder='Search for artworks, photos and more'
         autofocus={autofocus}
-        isLabelHidden={true} />
+        isLabelHidden={true}
+        onChange={onChange} />
       <div className='search-box__button-wrap absolute bg-green'>
         <button className={`search-box__button line-height-1 plain-button no-padding ${font({s: 'HNL3', m: 'HNL2'})}`}>
           <span className='flex flex--v-center flex--h-center'>

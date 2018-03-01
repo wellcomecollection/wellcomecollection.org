@@ -2,6 +2,11 @@
 
 import {font, spacing} from '../../../utils/classnames';
 
+export type EventWithInputValue = {
+  preventDefault: () => {},
+  target: Array<{value: string}>
+}
+
 type Props = {|
   id: string,
   type: string,
@@ -13,7 +18,7 @@ type Props = {|
   disabled?: boolean,
   autofocus?: boolean,
   isLabelHidden?: boolean,
-  onChange?: () => void
+  onChange?: (EventWithInputValue) => void
 |}
 
 const HTMLInput = ({
