@@ -1,14 +1,13 @@
 // @flow
 import {spacing, font} from '../../../utils/classnames';
-import type {PlacesOpeningHours} from '../../../model/opening-hours';
+import { defaultPlacesOpeningHours as places } from '../../../model/opening-hours';
 
 type Props = {|
   id: string,
-  places: PlacesOpeningHours,
   extraClasses: string
 |}
 
-const OpeningHours = ({id, places, extraClasses}: Props) => (
+const OpeningHours = ({id, extraClasses}: Props) => (
   <div className={`opening-hours ${extraClasses || ''} js-opening-hours js-tabs`}>
     <ul className={`plain-list opening-hours__tablist ${font({s: 'HNM6'})} ${spacing({s: 0}, {margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']})} js-tablist`}>
       {places.map((place) => (
