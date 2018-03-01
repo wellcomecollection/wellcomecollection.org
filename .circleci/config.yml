@@ -19,7 +19,6 @@ jobs:
       - image: node:alpine
     working_directory: ~/wellcomecollection.org/catalogue/webapp
     steps:
-      - checkout
       - restore_cache:
           key: repo_node_8_{{ .Environment.CIRCLE_SHA1 }}
       - run:
