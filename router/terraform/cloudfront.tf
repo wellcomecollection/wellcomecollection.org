@@ -25,8 +25,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     "blog.wellcomecollection.org",
     "wellcomeimages.org",
     "*.wellcomeimages.org",
-    "nut.wellcomeimages.org",
-    "geb.wellcomeimages.org"
+    "nut.wellcomecollection.org",
+    "geb.wellcomecollection.org"
   ]
 
   default_cache_behavior {
