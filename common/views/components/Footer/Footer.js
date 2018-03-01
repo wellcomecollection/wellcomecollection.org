@@ -9,7 +9,7 @@ import Icon from '../Icon/Icon';
 
 type Props = {|
   openingHoursId: string,
-  extraClasses?: string,
+  extraClasses: string,
 |}
 
 const Footer = ({openingHoursId, extraClasses}: Props) => (
