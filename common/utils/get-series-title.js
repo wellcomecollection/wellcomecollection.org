@@ -1,4 +1,4 @@
-import { series } from '../../server/data/series';
+import { series } from '../data/series';
 
 export default function getSeriesTitle(arr) {
   if (!arr.length) return;

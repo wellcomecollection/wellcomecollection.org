@@ -1,6 +1,6 @@
 // @flow
 
-import {grid, font, spacing, withModifiers} from '../../../utils/classnames';
+import {grid, font, spacing} from '../../../utils/classnames';
 import {formatDate} from '../../../utils/format-date';
 import Icon from '../Icon/Icon';
 
@@ -13,7 +13,7 @@ type Props = {|
   |},
   intro?: string,
   icon?: string,
-  modifiers?: {[string]: string}
+  extraClasses?: string
 |};
 
 function renderMeta({type, value}) {
@@ -22,8 +22,8 @@ function renderMeta({type, value}) {
     : [value];
 }
 
-const PageDescription = ({lead, title, meta, intro, icon, modifiers}: Props) => (
-  <header className={withModifiers('page-description', modifiers)}>
+const PageDescription = ({lead, title, meta, intro, icon, extraClasses}: Props) => (
+  <header className={`page-description ${extraClasses || ''}`}>
     <div className={`row page-description__row ${lead ? 'row--lead row--lead--l' : ''}`}>
       <div className='container page-description__container'>
         <div className='grid'>

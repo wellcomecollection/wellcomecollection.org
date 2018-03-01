@@ -32,7 +32,7 @@ export const OpenGraph = ({
   type,
   url,
   title,
-  description,
+  description = '',
   imageUrl,
   publishedTime,
   modifiedTime,
