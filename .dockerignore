@@ -1,2 +1,5 @@
-node_modules
-terraform
+.git
+node_modules*
+terraform*
+*/terraform
+*/node_modules*
