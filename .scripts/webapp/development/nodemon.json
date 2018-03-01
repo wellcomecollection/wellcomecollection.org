@@ -1,8 +1,0 @@
-{
-  "comment": "This is the common nodemon file for webapp development",
-  "watch": [
-    "../../common"
-  ],
-  "ext": "js",
-  "exec": "next -p ${WEBAPP_PORT:-3000}"
-}
