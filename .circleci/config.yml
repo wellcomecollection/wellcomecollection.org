@@ -23,9 +23,6 @@ jobs:
           name: Install
           command: yarn install
       - run:
-          name: Build
-          command: yarn build
-      - run:
           name: Docker build
           command: yarn docker-build
       - run:
