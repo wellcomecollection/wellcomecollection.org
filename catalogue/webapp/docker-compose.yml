@@ -2,6 +2,7 @@ version: '3.3'
 services:
   catalogue:
     build:
+      image: wellcome/catalogue_webapp:test
       context: ../..
       dockerfile: ./catalogue/webapp/Dockerfile
       args:

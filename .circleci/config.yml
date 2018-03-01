@@ -20,17 +20,17 @@ jobs:
     working_directory: ~/wellcomecollection.org/catalogue/webapp
     steps:
       - restore_cache:
-          key: catalogue_build_node_8_{{ .Environment.CIRCLE_SHA1 }}
+          key: repo_node_8_{{ .Environment.CIRCLE_SHA1 }}
       - add_ssh_keys
       - setup_remote_docker
       - run:
           name: Docker build
-          command: yarn docker-build
+          command: docker-compose build
       - run:
           name: Docker push
           command: |
             docker login --username $DOCKER_USER --password $DOCKER_PASS
-            yarn docker-push
+            docker-compose push
   root_tests:
     docker:
       - image: circleci/node:8.9.3
