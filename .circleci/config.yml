@@ -14,7 +14,7 @@ jobs:
           key: repo_node_8_{{ .Environment.CIRCLE_SHA1 }}
           paths:
             -  ~/wellcomecollection.org
-  catalogue_docker:
+  catalogue:
     docker:
       - image: circleci/node:8.9.3
     working_directory: ~/wellcomecollection.org/catalogue/webapp
