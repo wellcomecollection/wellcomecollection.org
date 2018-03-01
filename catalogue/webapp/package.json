@@ -11,6 +11,8 @@
     "linkweco": "pushd ../../common && yarn link && popd && yarn link @weco/common"
   },
   "dependencies": {
+    "@weco/common": "../../common",
+    "@weco/next-plugin-transpile-modules": "^0.0.2",
     "autoprefixer": "^7.2.5",
     "babel-plugin-module-resolver": "^3.0.0",
     "babel-plugin-wrap-in-js": "^1.1.1",
@@ -27,8 +29,6 @@
     "sass-loader": "^6.0.6"
   },
   "devDependencies": {
-    "@weco/common": "../../common",
-    "@weco/next-plugin-transpile-modules": "^0.0.2",
     "flow-bin": "^0.66.0"
   }
 }
