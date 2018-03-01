@@ -18,8 +18,8 @@ function buildTag(tag) {
 const Tags = ({ tags }: Props) => (
   <div className="tags">
     <ul className="tags__list plain-list no-margin no-padding flex flex--wrap">
-      {tags.map(tag => (
-        <li key={tag.name} className={`tags__tag ${font({s: 'HNL5', m: 'WB7'})} ${spacing({s: 2}, {margin: ['right', 'bottom']})}`}
+      {tags.map((tag, i) => (
+        <li key={`tag${i}`} className={`tags__tag ${font({s: 'HNL5', m: 'WB7'})} ${spacing({s: 2}, {margin: ['right', 'bottom']})}`}
           data-track-event={`{"category": "component", "action": "tag:click", "label": "text:${tag.prefix}${tag.prefix ? ' ' : ''}${tag.text}, url:${tag.url}"}`}>
           {buildTag(tag)}
         </li>
