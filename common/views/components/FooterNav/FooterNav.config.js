@@ -1,18 +1,19 @@
+// @flow
 export const status = 'graduated';
 export const name = 'Footer Nav';
 export const hidden = true;
 export const context = {
   navLinks: [{
-    href: '#',
-    title: 'Visit us'
+    url: '#',
+    text: 'Visit us'
   }, {
-    href: '#',
-    title: `What's on`
+    url: '#',
+    text: `What's on`
   }, {
-    href: '#',
-    title: 'Explore'
+    url: '#',
+    text: 'Explore'
   }, {
-    href: '#',
-    title: 'What we do'
+    url: '#',
+    text: 'What we do'
   }]
 };

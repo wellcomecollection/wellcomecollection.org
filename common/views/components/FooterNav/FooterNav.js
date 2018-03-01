@@ -1,13 +1,9 @@
 // @flow
+import type {Link} from '../../../model/link';
 import {spacing, font} from '../../../utils/classnames';
 
-type navLink = {|
-  href: string,
-  title: string
-|}
-
 type Props = {|
-  navLinks: Array<navLink>
+  navLinks: Array<Link>
 |}
 
 const FooterNav = ({navLinks}: Props) => (
@@ -15,7 +11,7 @@ const FooterNav = ({navLinks}: Props) => (
     <nav className='footer-nav__nav'>
       <ul className={`plain-list footer-nav__list ${spacing({s: 0}, {margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']})}`}>
         {navLinks.map((link, i) => (
-          <li key={link.title} className='footer-nav__item'><a id={`footer-nav-${i}`} href='{link.href}' className={`footer-nav__link ${font({s: 'WB7'})}`}>{link.title}</a></li>
+          <li key={link.text} className='footer-nav__item'><a id={`footer-nav-${i}`} href='{link.url}' className={`footer-nav__link ${font({s: 'WB7'})}`}>{link.text}</a></li>
         ))}
       </ul>
     </nav>
