@@ -17,6 +17,7 @@ import hearingLoop from './hearing_loop';
 import volume from './volume';
 import play from './play';
 import gallery from './gallery';
+import wellcome from './wellcome';
 export {
   arrow,
   cc,
@@ -41,5 +42,6 @@ export {
   hearingLoop,
   volume,
   play,
-  gallery
+  gallery,
+  wellcome
 };
