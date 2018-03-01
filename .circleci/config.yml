@@ -12,16 +12,30 @@ jobs:
             -  ~/wellcomecollection.org
   catalogue:
     docker:
-      - image: circleci/node:8.9.4
+      - image: node:alpine
     working_directory: ~/wellcomecollection.org/catalogue/webapp
     steps:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
-      - add_ssh_keys
-      - setup_remote_docker
       - run:
           name: Install
           command: yarn install
+      - run:
+          name: Build
+          command: yarn build
+      - save_cache:
+          key: catalogue_build_node_8_{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            -  ~/wellcomecollection.org/catalogue/webapp
+  catalogue_docker:
+    docker:
+      - image: circleci/node:8.9.3
+    working_directory: ~/wellcomecollection.org/catalogue/webapp
+    steps:
+      - restore_cache:
+          key: catalogue_build_node_8_{{ .Environment.CIRCLE_SHA1 }}
+      - add_ssh_keys
+      - setup_remote_docker
       - run:
           name: Docker build
           command: yarn docker-build
@@ -404,6 +418,9 @@ workflows:
       - catalogue:
           requires:
             - checkout_code
+      - catalogue_docker:
+          requires:
+            - catalogue
       - install_server_modules:
           requires:
             - checkout_code
