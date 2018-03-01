@@ -20,9 +20,9 @@ export default class Component {
   run(_/* context */, name, model = {}, children = []) {
     const childrenComponents = children
       .filter(_ => _)
-      .map((c, i) => {
+      .map(c => {
         const Component = components[c.name](c.model);
-        return React.cloneElement(Component, { key: i });
+        return React.cloneElement(Component, { key: c.name });
       });
 
     const modelWithChildren = Object.assign({}, model, {children: childrenComponents});
