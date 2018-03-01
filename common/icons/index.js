@@ -5,6 +5,7 @@ import chevron from './chevron';
 import clock from './clock';
 import cross from './cross';
 import image from './image';
+import location from './location';
 import plus from './plus';
 import search from './search';
 import zoomIn from './zoom-in';
@@ -30,6 +31,7 @@ export {
   clock,
   cross,
   image,
+  location,
   plus,
   search,
   zoomIn,
