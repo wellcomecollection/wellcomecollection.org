@@ -3,6 +3,7 @@
 import HTMLInput from '../HTMLInput/HTMLInput';
 import Icon from '../Icon/Icon';
 import {font} from '../../../utils/classnames';
+import type {EventWithInputValue} from '../HTMLInput/HTMLInput';
 
 type Props = {|
   action: string,
@@ -10,8 +11,8 @@ type Props = {|
   name: string,
   query: string,
   autofocus: boolean,
-  onSubmit?: () => void,
-  onChange?: () => void
+  onSubmit?: (EventWithInputValue) => void,
+  onChange?: (EventWithInputValue) => void
 |}
 
 const SearchBox = ({action, id, name, query, autofocus, onChange, onSubmit}: Props) => (

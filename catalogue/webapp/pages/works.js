@@ -13,6 +13,7 @@ import StaticWorksContent from '@weco/common/views/components/StaticWorksContent
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagination/Pagination';
 import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
+import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
 import {Fragment, Component} from 'react';
 import Router from 'next/router';
 
@@ -20,11 +21,6 @@ import Router from 'next/router';
 // an 'Indexable signature not found in EventTarget' Flow
 // error. We're setting the properties we expect here until
 // we find a better solution.
-type EventWithInputValue = {
-  preventDefault: () => {},
-  target: Array<{value: string}>
-}
-
 type Props = {|
   query: {| query?: string, page?: string |},
   works: {| results: [], totalResults: number |},

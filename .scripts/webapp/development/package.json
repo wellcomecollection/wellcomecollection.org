@@ -5,7 +5,7 @@
     "dev": "node server.js",
     "build": "next build",
     "start": "next start",
-    "postinstall": "pushd ../../common && yarn link && popd && yarn link @weco/common"
+    "linkweco": "pushd ../../common && yarn link && popd && yarn link @weco/common"
   },
   "dependencies": {
     "@weco/common": "../../common",

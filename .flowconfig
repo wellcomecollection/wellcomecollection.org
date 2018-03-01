@@ -17,5 +17,6 @@
 
 [options]
 module.name_mapper='.*\(.s?css\)' -> '{}'
+module.name_mapper='^@weco\/common\(\/?.*\)$' -> '<PROJECT_ROOT>/common/\1'
 
 [strict]
