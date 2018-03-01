@@ -402,12 +402,9 @@ workflows:
   build_and_deploy:
     jobs:
       - checkout_code
-      - catalogue:
-          requires:
-            - checkout_code
       - catalogue_docker:
           requires:
-            - catalogue
+            - checkout_code
       - install_server_modules:
           requires:
             - checkout_code
