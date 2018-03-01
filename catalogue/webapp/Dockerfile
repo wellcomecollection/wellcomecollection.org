@@ -4,5 +4,8 @@ ENV NODE_ENV=production
 
 # You need to `yarn build` before doing this
 WORKDIR /usr/src/app/webapp
-COPY . .
+COPY ./catalogue/webapp .
+COPY ./common ../../common
+RUN yarn install
+RUN yarn build
 CMD ["yarn", "start"]

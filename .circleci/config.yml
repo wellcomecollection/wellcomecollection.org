@@ -14,23 +14,6 @@ jobs:
           key: repo_node_8_{{ .Environment.CIRCLE_SHA1 }}
           paths:
             -  ~/wellcomecollection.org
-  catalogue:
-    docker:
-      - image: node:alpine
-    working_directory: ~/wellcomecollection.org/catalogue/webapp
-    steps:
-      - restore_cache:
-          key: repo_node_8_{{ .Environment.CIRCLE_SHA1 }}
-      - run:
-          name: Install
-          command: yarn install
-      - run:
-          name: Build
-          command: yarn build
-      - save_cache:
-          key: catalogue_build_node_8_{{ .Environment.CIRCLE_SHA1 }}
-          paths:
-            -  ~/wellcomecollection.org/catalogue/webapp
   catalogue_docker:
     docker:
       - image: circleci/node:8.9.3
