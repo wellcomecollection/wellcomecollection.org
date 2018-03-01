@@ -10,12 +10,18 @@ jobs:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
           paths:
             -  ~/wellcomecollection.org
+      - save_cache:
+          key: repo_node_8_{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            -  ~/wellcomecollection.org
   catalogue:
     docker:
       - image: node:alpine
     working_directory: ~/wellcomecollection.org/catalogue/webapp
     steps:
       - checkout
+      - restore_cache:
+          key: repo_node_8_{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Install
           command: yarn install
@@ -414,7 +420,9 @@ workflows:
   build_and_deploy:
     jobs:
       - checkout_code
-      - catalogue
+      - catalogue:
+          requires:
+            - checkout_code
       - catalogue_docker:
           requires:
             - catalogue
