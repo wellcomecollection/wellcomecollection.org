@@ -17,6 +17,13 @@ import hearingLoop from './hearing_loop';
 import volume from './volume';
 import play from './play';
 import gallery from './gallery';
+import twitter from './twitter';
+import facebook from './facebook';
+import instagram from './instagram';
+import soundcloud from './soundcloud';
+import tumblr from './tumblr';
+import youtube from './youtube';
+import tripadvisor from './tripadvisor';
 export {
   arrow,
   cc,
@@ -41,5 +48,12 @@ export {
   hearingLoop,
   volume,
   play,
-  gallery
+  gallery,
+  twitter,
+  facebook,
+  instagram,
+  soundcloud,
+  tumblr,
+  youtube,
+  tripadvisor
 };
