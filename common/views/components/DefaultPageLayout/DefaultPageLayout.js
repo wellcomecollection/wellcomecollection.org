@@ -62,7 +62,7 @@ export const TwitterCard = ({
   type,
   url,
   title,
-  description,
+  description = '',
   imageUrl,
   imageAltText
 }: OgData) => ([
@@ -162,7 +162,7 @@ export const Analytics = ({
   <script key='analytics-4' async src='https://www.google-analytics.com/analytics.js' />
 ]);
 
-type SiteSection = 'works' | 'explore' | 'whats-on';
+type SiteSection = 'images' | 'explore' | 'whats-on';
 type Props = {|
   children: React.Node,
   type: string,
