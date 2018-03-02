@@ -250,7 +250,7 @@ const DefaultPageLayout = ({
       <div id='main' className='main' role='main'>
         {children}
       </div>
-      <Footer id='footer' extraClasses='' />
+      <Footer openingHoursId='footer' extraClasses='' />
     </div>
   </div>
 );
