@@ -5,7 +5,7 @@ import {striptags} from '../../../utils/striptags';
 import {truncate} from '../../../utils/truncate';
 import Image from '../Image/Image';
 import type {Props as ImageProps} from '../Image/Image';
-import Link from 'next/link';
+import NextLink from 'next/link';
 
 type Props = {|
   url: string,
@@ -25,7 +25,7 @@ const WorkPromo = ({
   title
 }: Props) => {
   return (
-    <Link
+    <NextLink
       href={`/work?id=${id}`}
       as={url}>
       <a
@@ -58,7 +58,7 @@ const WorkPromo = ({
           }
         </div>
       </a>
-    </Link>
+    </NextLink>
   );
 };
 
