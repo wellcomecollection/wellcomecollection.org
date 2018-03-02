@@ -62,7 +62,7 @@ export const TwitterCard = ({
   type,
   url,
   title,
-  description,
+  description = '',
   imageUrl,
   imageAltText
 }: OgData) => ([

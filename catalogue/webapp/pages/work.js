@@ -210,8 +210,7 @@ const WorkPage = ({ work }: Props) => {
                 ])}>
                   <Icon name='underConstruction' extraClasses='margin-right-s2' />
                   <p className={`${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
-                    We’re improving the information on this page.
-                    <a href='/progress'>Find out more</a>.
+                    We’re improving the information on this page. <a href='/progress'>Find out more</a>.
                   </p>
                 </div>
 
