@@ -1,14 +1,20 @@
 // @flow
-import React, {Component} from 'react';
+import {Component} from 'react';
+import type {ComponentType} from 'react';
 import {spacing, font} from '../../../utils/classnames';
 import Divider from '../Divider/Divider';
 import MetaUnit from '../MetaUnit/MetaUnit';
 import Icon from '../Icon/Icon';
 import type {MetaUnitProps} from '../../../model/meta-unit';
 
-const withToggler = C => {
-  return class extends Component {
-    static displayName = `withToggler(${C.name})`;
+type TogglerProps = {|
+  isActive: boolean,
+  toggle: () => void
+|}
+
+function withToggler<T>(C: ComponentType<T>): ComponentType<{ ...TogglerProps, ...T }> {
+  return class extends Component<{ ...TogglerProps, ...T }, {isActive: boolean}> {
+    static displayName = `withToggler(${C.name ? C.name : (C.displayName || '')})`;
     state = {isActive: false};
 
     toggle = () => {
