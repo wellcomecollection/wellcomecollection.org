@@ -41,11 +41,12 @@ type Props = {|
 const WorkDrawer = withToggler(({data, isActive, toggle}: Props) => {
   const drawerContent = data.map((item, i) => <MetaUnit key={i} headingText={item.headingText} text={item.text} />);
   return (
-    <div className={`drawer ${isActive ? 'is-active' : ''}`}
+    <div className={`drawer js-show-hide ${isActive ? 'is-active' : ''}`}
       data-track-action='drawer'
       data-track-label='id:work-using-image, section:Using this image'>
       <Divider extraClasses={`divider--black divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />
       <button className={`
+          js-show-hide-trigger
           drawer__header
           plain-button
           ${spacing({s: 0}, {padding: ['left', 'right']})}
@@ -60,9 +61,10 @@ const WorkDrawer = withToggler(({data, isActive, toggle}: Props) => {
         </span>
       </button>
       <div className={`
+        js-show-hide-drawer
         drawer__body
         ${spacing({s: 2}, {padding: ['top', 'bottom']})}
-        ${font({s: 'HNL5', m: 'HNL4'})}`}>
+        ${font({s: 'HNL5', m: 'HNL4'})}`} aria-expanded={isActive ? 'true' : 'false'}>
         {drawerContent}
       </div>
       <Divider extraClasses='divider--black divider--keyline' />

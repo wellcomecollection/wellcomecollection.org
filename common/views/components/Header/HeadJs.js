@@ -1,5 +1,6 @@
-export default ({enhancedJsPath}) => (
-<script dangerouslySetInnerHTML={{ __html: `
+type Props = {| enhancedJsPath: string |}
+const HeadJs = ({enhancedJsPath}: Props) => (
+  <script dangerouslySetInnerHTML={{ __html: `
     (function() {
       /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
       !function(a){"use strict";var b=function(b,c,d){function j(a){if(e.body)return a();setTimeout(function(){j(a)})}function l(){f.addEventListener&&f.removeEventListener("load",l),f.media=d||"all"}var g,e=a.document,f=e.createElement("link");if(c)g=c;else{var h=(e.body||e.getElementsByTagName("head")[0]).childNodes;g=h[h.length-1]}var i=e.styleSheets;f.rel="stylesheet",f.href=b,f.media="only x",j(function(){g.parentNode.insertBefore(f,c?g:g.nextSibling)});var k=function(a){for(var b=f.href,c=i.length;c--;)if(i[c].href===b)return a();setTimeout(function(){k(a)})};return f.addEventListener&&f.addEventListener("load",l),f.onloadcssdefined=k,k(l),f};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
@@ -29,15 +30,17 @@ export default ({enhancedJsPath}) => (
 
         addEnhancedClass(); //gets the enhanced styles, as we don't want them to go from basic to enhanced in front of the user
 
-        var script = loadJS(enhancedScriptPath);
-        var fallback = setTimeout(removeEnhancedClass, 8000); // BUT if JS doesn't load, we don't want the enhanced styles anymore
+        // var script = loadJS(enhancedScriptPath);
+        // var fallback = setTimeout(removeEnhancedClass, 8000); // BUT if JS doesn't load, we don't want the enhanced styles anymore
 
-        script.onload = function() {
-          clearTimeout(fallback);
-          addEnhancedClass(); // Can't cancel the request, so we need to add this here in case we removed it with the setTimeout and the javascript ends up loaded.
-        };
+        // script.onload = function() {
+        // clearTimeout(fallback);
+        // addEnhancedClass(); // Can't cancel the request, so we need to add this here in case we removed it with the setTimeout and the javascript ends up loaded.
+        // };
       }
     })();
   `}}
-/>
+  />
 );
+
+export default HeadJs;
