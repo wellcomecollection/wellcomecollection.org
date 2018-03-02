@@ -176,7 +176,7 @@ const WorkPage = ({ work }: Props) => {
   return (
     <DefaultPageLayout
       title={work.title || work.description}
-      description={work.description}
+      description={work.description || ''}
       type={'website'}
       url={`https://wellcomecollection.org/works/${work.id}`}
       imageUrl={iiifImage({size: '800,'})}
