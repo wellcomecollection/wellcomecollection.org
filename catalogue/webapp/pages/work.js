@@ -180,6 +180,7 @@ const WorkPage = ({ work }: Props) => {
       type={'website'}
       url={`https://wellcomecollection.org/works/${work.id}`}
       imageUrl={iiifImage({size: '800,'})}
+      siteSection='images'
     >
       <style dangerouslySetInnerHTML={{ __html: criticalCss }} />
       <PageDescription title='Search our images' extraClasses='page-description--hidden' />
