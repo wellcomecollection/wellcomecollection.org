@@ -1,7 +1,9 @@
-export const name = 'Opening Hours';
 export const status = 'graduated';
-export const hidden = true;
+export const display = {
+  background: '#000'
+};
+
 export const context = {
-  id: '1',
+  id: 'cardy-footer',
   extraClasses: ''
 };

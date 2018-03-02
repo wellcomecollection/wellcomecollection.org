@@ -25,6 +25,7 @@ import soundcloud from './soundcloud';
 import tumblr from './tumblr';
 import youtube from './youtube';
 import tripadvisor from './tripadvisor';
+import wellcome from './wellcome';
 export {
   arrow,
   cc,
@@ -57,5 +58,6 @@ export {
   soundcloud,
   tumblr,
   youtube,
-  tripadvisor
+  tripadvisor,
+  wellcome
 };
