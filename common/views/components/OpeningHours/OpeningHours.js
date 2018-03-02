@@ -4,7 +4,7 @@ import { defaultPlacesOpeningHours as places } from '../../../model/opening-hour
 
 type Props = {|
   id: string,
-  extraClasses: string
+  extraClasses?: string
 |}
 
 const OpeningHours = ({id, extraClasses}: Props) => (
