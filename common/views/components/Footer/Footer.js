@@ -46,7 +46,7 @@ const Footer = ({openingHoursId, extraClasses}: Props) => (
       <FooterSocial />
       <div className='footer__bottom'>
         <div className={`footer__left ${spacing({s: 2, l: 0}, {margin: ['bottom']})}`}>
-          <div className={`footer__strap ${font({s: 'HNM6'})} ${spacing({m: 4, l: 6}, {margin: ['right']})} ${spacing({s: 2, m: 0}, {margin: ['bottom']})}`}>
+          <div className={`footer__strap ${font({s: 'HNM6'})} ${spacing({m: 4, l: 6}, {margin: ['right']})}`}>
             <Icon name='wellcome' />
             <span className='footer__strap-text'>The free museum and library from Wellcome</span>
           </div>
@@ -59,7 +59,7 @@ const Footer = ({openingHoursId, extraClasses}: Props) => (
           </div>
         </div>
         <nav className='footer__hygiene-nav'>
-          <ul className={`plain-list footer__hygiene-list ${spacing({s: 0}, {margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']})}`}>
+          <ul className={`plain-list footer__hygiene-list ${spacing({s: 0}, {margin: ['top', 'left', 'bottom', 'right'], padding: ['left', 'bottom', 'right']})}`}>
             <li className={`footer__hygiene-item ${font({s: 'HNM6'})}`}>
               <a href='https://wellcome.ac.uk/jobs' className='footer__hygiene-link'>Jobs</a>
             </li>

@@ -4,6 +4,7 @@ import HeadJs from '../Header/HeadJs';
 import Header from '../Header/Header';
 import {striptags} from '../../../utils/striptags';
 import {formatDate} from '../../../utils/format-date';
+import Footer from '../Footer/Footer';
 
 // TODO: Hashed files
 // TODO: Analytics
@@ -249,6 +250,7 @@ const DefaultPageLayout = ({
       <div id='main' className='main' role='main'>
         {children}
       </div>
+      <Footer id='footer' extraClasses='' />
     </div>
   </div>
 );
