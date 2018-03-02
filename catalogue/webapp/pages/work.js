@@ -180,6 +180,7 @@ const WorkPage = ({ work }: Props) => {
       type={'website'}
       url={`https://wellcomecollection.org/works/${work.id}`}
       imageUrl={iiifImage({size: '800,'})}
+      siteSection='images'
     >
       <style dangerouslySetInnerHTML={{ __html: criticalCss }} />
       <PageDescription title='Search our images' extraClasses='page-description--hidden' />
@@ -209,8 +210,7 @@ const WorkPage = ({ work }: Props) => {
                 ])}>
                   <Icon name='underConstruction' extraClasses='margin-right-s2' />
                   <p className={`${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
-                    We’re improving the information on this page.
-                    <a href='/progress'>Find out more</a>.
+                    We’re improving the information on this page. <a href='/progress'>Find out more</a>.
                   </p>
                 </div>
 

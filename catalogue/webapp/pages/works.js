@@ -37,6 +37,8 @@ const WorksComponent = ({
   <DefaultPageLayout
     title='Image catalogue search | Wellcome Collection'
     description='Search through the Wellcome Collection image catalogue'
+    analyticsCategory='collections'
+    siteSection='images'
   >
 
     <style dangerouslySetInnerHTML={{ __html: criticalCss }} />

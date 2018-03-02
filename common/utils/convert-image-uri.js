@@ -7,6 +7,7 @@ const imageMap = {
     iiifOriginRoot: 'https://iiif-origin.wellcomecollection.org/image/wordpress:'
   },
   prismic: {
+    cdnRoot: 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/',
     root: 'https://prismic-io.s3.amazonaws.com/wellcomecollection/',
     iiifRoot: 'https://iiif.wellcomecollection.org/image/prismic:',
     iiifOriginRoot: 'https://iiif-origin.wellcomecollection.org/image/prismic:'
@@ -26,7 +27,7 @@ const imageMap = {
 function determineSrc(url) {
   if (url.startsWith(imageMap.wordpress.root)) {
     return 'wordpress';
-  } else if (url.startsWith(imageMap.prismic.root)) {
+  } else if (url.startsWith(imageMap.prismic.root) || url.startsWith(imageMap.prismic.cdnRoot)) {
     return 'prismic';
   } else if (url.startsWith(imageMap.miro.root)) {
     return 'miro';
@@ -76,7 +77,7 @@ export function convertImageUri(originalUri, requiredSize, useIiifOrigin) {
       return originalUri;
     } else {
       if (!isGif) {
-        const imagePath = imageSrc === 'miro' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[1] : imageSrc === 'iiif' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[0] : originalUri.split(imageMap[imageSrc].root)[1];
+        const imagePath = imageSrc === 'miro' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[1] : imageSrc === 'iiif' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[0] : originalUri.split(imageMap[imageSrc].root)[1] ? originalUri.split(imageMap[imageSrc].root)[1] : originalUri.split(imageMap[imageSrc].cdnRoot)[1];
         const iiifRoot = useIiifOrigin ? imageMap[imageSrc].iiifOriginRoot : imageMap[imageSrc].iiifRoot;
 
         return convertPathToIiifUri(imagePath, iiifRoot, requiredSize);
