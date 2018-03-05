@@ -12,7 +12,6 @@ if [ $# -lt ! ]; then
 fi
 
 WEBAPP_NAME=$1
-WEBAPP_PORT=$2
 PROJECT_ROOT_DIR="$( git rev-parse --show-toplevel )"
 WEBAPP_DIR="$WEBAPP_NAME/webapp"
 
@@ -29,7 +28,6 @@ pushd $PROJECT_ROOT_DIR
     for filename in ../../.scripts/webapp/production/*
       do
         cp -Xf "$filename" $(basename $filename)
-        sed -i '' "s/{WEBAPP_PORT}/$WEBAPP_PORT/g" $(basename $filename)
       done
 
     # Static assets for dev

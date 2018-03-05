@@ -18,3 +18,4 @@ critical.css.njk
 *.tfstate.backup
 
 .env
+.next/
