@@ -1,36 +1,10 @@
 // @flow
-import {Component} from 'react';
-import type {ComponentType} from 'react';
+import {withToggler} from '../../hocs/withToggler';
 import {spacing, font} from '../../../utils/classnames';
 import Divider from '../Divider/Divider';
 import MetaUnit from '../MetaUnit/MetaUnit';
 import Icon from '../Icon/Icon';
 import type {MetaUnitProps} from '../../../model/meta-unit';
-
-type TogglerProps = {|
-  isActive: boolean,
-  toggle: () => void
-|}
-
-function withToggler<T>(C: ComponentType<T>): ComponentType<{ ...TogglerProps, ...T }> {
-  return class extends Component<{ ...TogglerProps, ...T }, {isActive: boolean}> {
-    static displayName = `withToggler(${C.name ? C.name : (C.displayName || '')})`;
-    state = {isActive: false};
-
-    toggle = () => {
-      this.setState({ isActive: !this.state.isActive });
-    }
-
-    render() {
-      const props = {
-        ...this.props,
-        isActive: this.state.isActive,
-        toggle: this.toggle
-      };
-      return <C {...props} />;
-    }
-  };
-};
 
 type Props = {|
   data: Array<MetaUnitProps>,
