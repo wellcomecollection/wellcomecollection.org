@@ -49,8 +49,8 @@ export async function renderEvent(ctx, next) {
 export async function renderEventSeries(ctx, next) {
   const page = ctx.request.query.page ? Number(ctx.request.query.page) : 1;
   const {id} = ctx.params;
-  const eventSeries = await getEventSeries(id, { page });
-  const series = eventSeries.series;
+  const paginatedEvents = await getEventSeries(id, { page });
+  const series = paginatedEvents.results[0].series.find(series => series.id === id);
 
   ctx.render('pages/events', {
     pageConfig: createPageConfig({
@@ -64,7 +64,7 @@ export async function renderEventSeries(ctx, next) {
     }),
     htmlDescription: asHtml(series.description),
     hideArchivedEventsLink: true,
-    paginatedEvents: eventSeries.paginatedEvents
+    paginatedEvents
   });
 
   return next();
