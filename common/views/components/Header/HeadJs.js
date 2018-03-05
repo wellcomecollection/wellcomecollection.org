@@ -29,14 +29,6 @@ const HeadJs = ({enhancedJsPath}: Props) => (
         }
 
         addEnhancedClass(); //gets the enhanced styles, as we don't want them to go from basic to enhanced in front of the user
-
-        // var script = loadJS(enhancedScriptPath);
-        // var fallback = setTimeout(removeEnhancedClass, 8000); // BUT if JS doesn't load, we don't want the enhanced styles anymore
-
-        // script.onload = function() {
-        // clearTimeout(fallback);
-        // addEnhancedClass(); // Can't cancel the request, so we need to add this here in case we removed it with the setTimeout and the javascript ends up loaded.
-        // };
       }
     })();
   `}}
