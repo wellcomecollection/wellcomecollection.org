@@ -294,13 +294,17 @@ function convertPrismicResultsToPaginatedResults(prismicResults: Object): (resul
 export async function getEventSeries(id: string, { page }: PrismicQueryOptions) {
   const events = await getAllOfType(['events'], {
     page,
-    orderings: '[my.events.times.startDateTime desc]',
+    orderings: '[my.events.times.startDateTime]',
     fetchLinks: eventFields
   }, [Prismic.Predicates.at('my.events.series.series', id)], true);
-
   const promos = createEventPromos(events.results);
+  const futurePromos = promos.filter(e => london(e.end).isAfter(london())).reverse();
   const paginatedResults = convertPrismicResultsToPaginatedResults(events);
-  return paginatedResults(promos);
+  const series = paginatedResults(promos).results[0].series.find(series => series.id === id);
+  return {
+    series,
+    paginatedEvents: paginatedResults(futurePromos)
+  };
 }
 
 export async function getPaginatedEventPromos(page: number): Promise<Array<EventPromo>> {
