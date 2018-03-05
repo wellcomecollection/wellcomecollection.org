@@ -1,6 +1,6 @@
 import {model, prismic} from 'common';
 const {createPageConfig} = model;
-const {getPaginatedEventPromos, getEventSeries, asText, asHtml} = prismic;
+const {getPaginatedEventPromos, getEventsInSeries, asText, asHtml, createEventPromos, convertPrismicResultsToPaginatedResults, london} = prismic;
 
 export async function renderEvent(ctx, next) {
   const id = `${ctx.params.id}`;
@@ -49,8 +49,13 @@ export async function renderEvent(ctx, next) {
 export async function renderEventSeries(ctx, next) {
   const page = ctx.request.query.page ? Number(ctx.request.query.page) : 1;
   const {id} = ctx.params;
-  const paginatedEvents = await getEventSeries(id, { page });
+  const events = await getEventsInSeries(id, { page });
+  const promos = createEventPromos(events.results).reverse();
+  const paginatedResults = convertPrismicResultsToPaginatedResults(promos);
+  const paginatedEvents = paginatedResults(promos);
   const series = paginatedEvents.results[0].series.find(series => series.id === id);
+  const withFilteredPromos = Object.assign({}, paginatedEvents, {results: promos.filter(e => london(e.end).isAfter(london()))});
+  // TODO  pagination will be out of sync with prismic
 
   ctx.render('pages/events', {
     pageConfig: createPageConfig({
@@ -64,7 +69,7 @@ export async function renderEventSeries(ctx, next) {
     }),
     htmlDescription: asHtml(series.description),
     hideArchivedEventsLink: true,
-    paginatedEvents
+    paginatedEvents: withFilteredPromos
   });
 
   return next();
