@@ -55,7 +55,10 @@ export async function renderEventSeries(ctx, next) {
   const paginatedEvents = paginatedResults(promos);
   const series = paginatedEvents.results[0].series.find(series => series.id === id);
   const withFilteredPromos = Object.assign({}, paginatedEvents, {results: promos.filter(e => london(e.end).isAfter(london()))});
-  // TODO  pagination will be out of sync with prismic
+  // TODO pagination will be out of sync with Prismic, since we're removing items after the request.
+  // If we use dateAfter to query prismic, this would fix it, but we may end up with no results and hence no way of getting the series data to display.
+  // The other alternative is to make two API calls, but since this will only be an issue if there are more
+  // than 40 events, which is unlikely, I've left as is.
 
   ctx.render('pages/events', {
     pageConfig: createPageConfig({
