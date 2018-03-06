@@ -5,8 +5,8 @@ data "aws_acm_certificate" "wellcomecollection_ssl_cert" {
 
 resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   origin {
-    domain_name = "${module.router_alb.dns_name}"
-    origin_id   = "${module.router_alb.id}"
+    domain_name = "origin.wellcomecollection.org"
+    origin_id   = "origin"
 
     custom_origin_config {
       origin_protocol_policy = "https-only"
@@ -24,9 +24,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     "next.wellcomecollection.org",
     "blog.wellcomecollection.org",
     "wellcomeimages.org",
-    "*.wellcomeimages.org",
-    "nut.wellcomecollection.org",
-    "geb.wellcomecollection.org"
+    "*.wellcomeimages.org"
   ]
 
   default_cache_behavior {
