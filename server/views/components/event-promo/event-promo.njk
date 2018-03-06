@@ -32,7 +32,15 @@
         </span>
       </div>
 
-      <h2 class="promo-link__title {{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top']}) }}">{{ model.title }}</h2>
+      <h2 class="promo-link__title {{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">
+        {{ model.title }}
+      </h2>
+      {% for series in model.series %}
+        <div class="{{ {s:'HNM5'} | fontClasses }}">
+          {{series.title}}
+        </div>
+      {% endfor %}
+      <div class="{{ {s: 2} | spacingClasses({ margin: ['bottom'] }) }}"></div>
 
       {# TODO: add 'fully booked' status when available #}
       {% if model.start %}
