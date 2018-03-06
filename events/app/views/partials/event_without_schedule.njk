@@ -1,0 +1,338 @@
+<div class="css-grid__container">
+  <div class="css-grid">
+    <div class="is-hidden-s is-hidden-m {{ {s:12, m:12, l:12, xl:12} | cssGridClasses }} {{ ({s: 4} | spacingClasses({ margin: ['top'] })) }}">
+      {% componentJsx 'Tags', tags %}
+    </div>
+  </div>
+
+  {% if event.promo.image %}
+    <div class="is-hidden-l is-hidden-xl css-grid__cell--main">
+      <div class="absolute {{ {s:2} | spacingClasses({margin: ['top', 'bottom']}) }}">
+        {% componentJsx 'Tags', tags %}
+      </div>
+    </div>
+    <div class="is-hidden-l is-hidden-xl css-grid__cell--full">
+      {% set imageModel = event.promo.image | objectAssign({lazyload: true}) %}
+
+      {% set tasl = {name: 'Tasl', model: imageModel}
+        if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
+        else null
+      %}
+
+      {% componentJsx 'CaptionedImage', bodyPart.value, [
+        {name: 'Image', model: imageModel},
+        tasl
+      ] %}
+    </div>
+  {% endif %}
+
+  <div class="css-grid {{ {l: 2} | spacingClasses({margin: ['top']}) }}">
+
+    <div class="css-grid__cell--secondary">
+      <div class="bg-cream rounded-diagonal {{ {s: 4} | spacingClasses({padding: ['top', 'bottom', 'left', 'right']}) }} relative {{ {s: -4, l: 0} | spacingClasses({margin: ['top']}) }}">
+        <div class="{{ {s:'HNM4'} | fontClasses }}">
+          <div class="flex">
+            {% for interpretation in event.interpretations %}
+              {# TODO: This is not very nice #}
+              <span class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{% icon interpretation.interpretationType.title | replace(' ', '_') | replace('-', '_') | lower %}</span>
+            {% endfor %}
+            <span>
+              {{ event.format.title }}
+              {% set comma = joiner() %}
+              {% if event.audiences.length > 0 %}
+                for
+                {% for audience in event.audiences %}
+                  {{ comma() }} {{ audience.title }}
+                {%- endfor %}
+              {% endif %}
+            </span>
+          </div>
+        </div>
+
+        <h1 class="{{- [
+          {s:'WB5', m:'WB4', xl:'WB3'} | fontClasses,
+          {s: 2} | spacingClasses({margin: ['top']}),
+          {s: 1} | spacingClasses({margin: ['bottom']})
+        ].join(' ') -}}">
+          {{ event.title }}
+        </h1>
+
+        <div class="flex flex--v-center {{ {s:'HNM5'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">
+          <span>
+            {% if event.cost %}
+              {{ event.cost }}
+            {% else %}
+              Free admission
+            {% endif %}
+          </span>
+          <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['left'], margin: ['left']}) }}">
+            {% if eventInfo.eventbriteId %}
+              Ticketed
+              {% elif event.bookingEnquiryTeam %}
+              Enquire to book
+            {% else %}
+              No ticket required
+            {% endif %}
+          </span>
+        </div>
+
+        <div class="{{ {s:'HNL4'} | fontClasses }}">
+          {% for eventTime in event.times %}
+            <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+              {% set formattedDateRange = eventTime.range.startDateTime | formatAndDedupeOnDate(eventTime.range.endDateTime) %}
+              <time class="block">
+                <b class="{{ {s:'HNM4'} | fontClasses }}">{{ formattedDateRange | joinDateStrings }}</b>
+              </time>
+              {% if (formattedDateRange.size === 1) %}
+                <div class="flex">
+                  <time class="block">
+                    {{ eventTime.range.startDateTime | formatAndDedupeOnTime(eventTime.range.endDateTime) | joinDateStrings }}
+                  </time>
+                  {% if eventTime.isFullyBooked and not eventInfo.isCompletelySoldOut %}
+                    <div class="{{- [
+                      {s:'HNM5'} | fontClasses,
+                      {s:2} | spacingClasses({margin: ['left']
+                      })
+                    ].join(' ') }} flex flex--v-center">
+                      <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
+                        {% icon 'status_indicator', null, ['icon--red', 'icon--match-text'] %}
+                      </span>
+                      Fully booked
+                    </div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+
+          {% if eventInfo.eventbriteId %}
+            <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+              {% if eventInfo.isCompletelySoldOut %}
+                <button class="{{- [
+                  {s:'HNM4'} | fontClasses,
+                  {s: 4} | spacingClasses({padding: ['left', 'right']})
+                ].join(' ') }} flex-inline flex--h-center btn btn--full-width-s"
+                        disabled="disabled" aria-disabled="true">
+                  Fully booked
+                </button>
+              {% else %}
+                <div class="js-eventbrite-ticket-button" data-eventbrite-ticket-id="{{ eventInfo.eventbriteId }}">
+                  <a class="{{- [
+                    'flex-inline',
+                    'flex--v-center',
+                    'flex--h-center',
+                    'btn btn--full-width-s',
+                    {s:'HNM4'} | fontClasses,
+                    {s: 4} | spacingClasses({padding: ['left', 'right']})
+                  ].join(' ') }}"
+                      href="https://www.eventbrite.com/e/{{ eventInfo.eventbriteId }}/">
+                    <span>{% icon 'ticket' %}</span>
+                    <span class="js-eventbrite-ticket-button-text">Book free tickets</span>
+                  </a>
+                  <p class="{{- [
+                    'font-charcoal',
+                    {s:'HNL5'} | fontClasses,
+                    {s:1} | spacingClasses({margin: ['top']}),
+                    {s:0} | spacingClasses({margin: ['bottom']})
+                  ].join(' ') -}}">with Eventbrite</p>
+                </div>
+            {% endif %}
+            </div>
+          {% endif %}
+
+          {% if event.bookingEnquiryTeam %}
+            <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+              {% if eventInfo.isCompletelySoldOut %}
+                <button class="{{- [
+                  {s:'HNM4'} | fontClasses,
+                  {s: 4} | spacingClasses({padding: ['left', 'right']})
+                ].join(' ') }} flex-inline flex--h-center btn btn--full-width-s"
+                  disabled="disabled" aria-disabled="true">
+                  Fully booked
+                </button>
+              {% else %}
+              <a class="{{- [
+                          {s:'HNM4'} | fontClasses,
+                          {s: 4} | spacingClasses({padding: ['left', 'right']})
+                        ].join(' ') }} flex-inline flex--h-center btn btn--full-width-s"
+                  href="mailto:{{ event.bookingEnquiryTeam.email }}?subject={{event.title}}">
+                <span>{% icon 'email', null, ['icon--white'] %}</span>
+                Email to book
+              </a>
+              {% endif %}
+              <a class="block font-charcoal {{ {s:'HNL5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}"
+                  href="mailto:{{ event.bookingEnquiryTeam.email }}?subject={{event.title}}">{{ event.bookingEnquiryTeam.email }}</a>
+            </div>
+          {% endif %}
+
+
+          {% if not (eventInfo.eventbriteId or event.bookingEnquiryTeam) and event.times.length === 1 %}
+            <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+              <div
+                data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'empty-button'} | dump }}"
+                class="{{- [
+                {s:'HNM4'} | fontClasses
+              ].join(' ') }} flex-inline flex--h-center">
+                <span class="{{ {s: 1} | spacingClasses({padding: ['right']}) }}">{% icon 'calendar', null, [''] %}</span>
+                Add to calendar
+              </div>
+              <div class="flex {{ {s: 1} | spacingClasses({padding: ['top']}) }}">
+                {% set eventCalendarProps = {
+                  url: 'https://wellcomecollection.org/events/' + event.id,
+                  startTime: event.times[0].range.startDateTime,
+                  endTime: event.times[0].range.endDateTime,
+                  title: event.title,
+                  description: event.description,
+                  location: 'Wellcome Collection, 183 Euston Rd, Kings Cross, London NW1 2BE'
+                } %}
+                <a data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'calendar:google'} | dump }}"
+                   target="_blank" href="{{ eventCalendarProps | googleCal }}"
+                   class="{{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">Google</a>
+                <a data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'calendar:outlook'} | dump }}"
+                   target="_blank" href="{{ eventCalendarProps | outlookCal }}"
+                   class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">Outlook</a>
+                <a data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'calendar:ical'} | dump }}"
+                   target="_blank" href="{{ eventCalendarProps | iCal }}"
+                   class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">iCal</a>
+                <a data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'calendar:yahoo'} | dump }}"
+                   target="_blank" href="{{ eventCalendarProps | yahooCal }}"
+                   class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['right', 'left']}) }}">Yahoo</a>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}" id="js-event-booking-info">
+          {% if event.isDropIn %}
+            <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Drop in at any time</h3>
+            <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
+              <p>
+                We programme some drop-in events every month. For these events,
+                you can just turn up. There's usually room for every one.
+              </p>
+            </div>
+          {% elif event.cost %}
+            <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Guaranteed entry</h3>
+            <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              <p>
+                With our paid events, you are guaranteed entry to the event.
+                We're unable to offer any refunds unless the event is cancelled.
+                Concessions are available for people over 60, students, people
+                on Jobseeker's Allowance and people registered as disabled.
+                An additional companion ticket for people registered as disabled
+                is available for free.
+              </p>
+            </div>
+          {% elif eventInfo.eventbriteId %}
+            {% if not eventInfo.isCompletelySoldOut %}
+              <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">First come, first seated</h3>
+              <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+                <p>
+                  Please note, booking a ticket for a free event does not
+                  guarantee a place on the day. Doors usually open 15 minutes
+                  before an event starts, and you can take your seats in order of
+                  arrival. We advise arriving 10 minutes before the event is
+                  scheduled to start.
+                </p>
+                <p>
+                  We hold some spaces for people with access requirements.
+                  Please email
+                  <a href="mailto:access@wellcomecollection.org?subject={{event.title}}">access@wellcomecollection.org</a>
+                  if you would like to request one of these spaces.
+                </p>
+              </div>
+            {% endif %}
+          {% elif event.bookingEnquiryTeam %}
+            {# Don't show anything as the booking team deal with this #}
+          {% else %}
+            <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Limited seats available</h3>
+            <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              <p>
+                Doors will open for this event 15 minutes before the event
+                starts. Spaces are first come, first served and may run out if
+                we are busy.
+              </p>
+            </div>
+          {% endif %}
+
+          {% if event.bookingInformation %}
+            <h3 class="{{ {s:'HNM4'} | fontClasses }}">
+              Booking information
+            </h3>
+            <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              {{ event.bookingInformation | safe }}
+            </div>
+          {% endif %}
+          <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
+            {% componentJsx 'MoreInfoLink', { name: 'Our event terms and conditions', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="css-grid__cell--primary body-content">
+      {% if event.promo.image %}
+        <div class="is-hidden-s is-hidden-m rounded-corners overflow-hidden">
+          {% componentJsx 'CaptionedImage', bodyPart.value, [
+            {name: 'Image', model: imageModel},
+            tasl
+          ] %}
+        </div>
+      {% endif %}
+      <div class="{{ {s: 3, m: 4, l: 5, xl: 5} | spacingClasses({margin: ['bottom']}) }}">
+        {{ event.description | safe }}
+      </div>
+
+      {% if event.format.description %}
+        <h2>{{ event.format.title }}</h2>
+        <div class="{{[].join(' ') }}">{{ event.format.description | safe }}</div>
+      {% endif %}
+
+      {% for series in event.series %}
+        <h2>Part of <a href="/event-series/{{ series.id }}">{{ series.title }}</a></h2>
+        <div>{{ series.description | safe }}</div>
+      {% endfor %}
+
+      {% for audience in event.audiences %}
+        {% if audience.description %}
+          <h2>For {{ audience.title }}</h2>
+          <div>{{ audience.description | safe }}</div>
+        {% endif %}
+      {% endfor %}
+
+      {% for interpretation in event.interpretations %}
+        {% if interpretation.interpretationType.description %}
+          <h2 class="flex flex--v-center">
+            <span class="flex flex--v-center {{ {s: 1} | spacingClasses({margin: ['right']}) }}">
+              {% icon interpretation.interpretationType.title | replace(' ', '_') | replace('-', '_') | lower %}
+            </span>
+            <span>{{ interpretation.interpretationType.title }}</span>
+          </h2>
+          <div>
+            {% if interpretation.isPrimary %}
+              {{ interpretation.interpretationType.primaryDescription | safe }}
+            {% else %}
+              {{ interpretation.interpretationType.description | safe }}
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+
+      {% for contributor in event.contributors %}
+        <h2>In partnership with</h2>
+        <div class="grid">
+          <div class="{{ {s:6, m: 6, l: 6, xl: 6} | gridClasses }}">
+            <a href="{{ contributor.url }}">
+              {% componentV2 'image', {
+                width: contributor.image.width,
+                contentUrl: contributor.image.contentUrl,
+                alt: contributor.image.contentUrl
+              }, [], { lazyload: true } %}
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>

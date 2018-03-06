@@ -1,0 +1,33 @@
+{# Header #}
+<div class="row bg-smoke  {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top', 'bottom']}) }} }}">
+  <div class="container bg-white">
+    <div class="{{ {s:3, m:5, l:5} | spacingClasses({padding: ['top', 'bottom']}) }} }}">
+      <div class="grid">
+        <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
+          <h1 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} no-margin">Event with schedule</h1>
+          <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
+            <p class="no-margin">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit modi voluptatibus cumque unde, architecto perspiciatis quidem labore dolorum culpa eveniet aspernatur rerum amet maxime minus tempora ratione enim excepturi qui.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{# End Header #}
+
+
+<div class="row {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top', 'bottom']}) }} }}">
+  <div class="container">
+    <div class="grid">
+      <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
+        <h2 class="{{ {s: 'WB6', m: 'WB5'} | fontClasses }}">Thursday 16 February, 19:00&mdash;23:00</h2>
+        <hr class="divider divider--thin divider--pumice" />
+        <ul class="event-schedule plain-list no-marin no-padding">
+          {% componentJsx 'EventScheduleItem' %}
+          {% componentJsx 'EventScheduleItem' %}
+          {% componentJsx 'EventScheduleItem' %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

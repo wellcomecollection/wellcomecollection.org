@@ -1,0 +1,28 @@
+.event-schedule__toggle {
+  display: inline-block;
+  transition: transform 600ms ease;
+
+  .event-schedule__item.is-active & {
+    transform: rotate(45deg);
+  }
+}
+
+.event-schedule__border {
+  @include respond-to('large') {
+    border-right: 5px solid color('teal');
+  }
+}
+
+.event-schedule__trigger {
+  width: 100%;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.event-schedule__meta {
+  @include respond-to('large') {
+    justify-content: flex-end;
+  }
+}
