@@ -24,7 +24,6 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-transition-group": "^2.2.1",
-    "url-template": "^2.0.8",
-    "webfontloader": "^1.6.28"
+    "url-template": "^2.0.8"
   }
 }
