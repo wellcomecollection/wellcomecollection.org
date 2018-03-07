@@ -12,6 +12,7 @@
     "babel-plugin-wrap-in-js": "^1.1.1",
     "babel-preset-env": "^1.6.1",
     "cookies": "^0.7.1",
+    "fontfaceobserver": "^2.0.13",
     "immutable": "^3.8.2",
     "in-view": "^0.6.1",
     "lazysizes": "^4.0.1",
@@ -23,6 +24,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-transition-group": "^2.2.1",
-    "url-template": "^2.0.8"
+    "url-template": "^2.0.8",
+    "webfontloader": "^1.6.28"
   }
 }

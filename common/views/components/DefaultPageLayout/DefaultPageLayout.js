@@ -209,7 +209,17 @@ class DPLWithOnLoad extends Component<Props> {
     /* eslint-disable */
     // Cutting the Mustard
     if ('visibilityState' in document) {
-      const rootElement = document.documentElement.classList.add('enhanced');
+      const rootEl = document.documentElement;
+      const FontFaceObserver = require('fontfaceobserver');
+      const WB = new FontFaceObserver('Wellcome Bold Web', {weight: 'bold'});
+      const HNL = new FontFaceObserver('Helvetica Neue Light Web');
+      const HNM = new FontFaceObserver('Helvetica Neue Medium Web');
+      const LR = new FontFaceObserver('Lettera Regular Web');
+      Promise.all([WB.load(), HNL.load(), HNM.load(), LR.load()]).then(function() {
+        rootEl.classList.add('fonts-loaded');
+      }).catch((error) => console.log(error));
+      rootEl.classList.add('enhanced');
+      rootEl.classList.add('fonts-loaded');
     }
 
     // Google Optimize
