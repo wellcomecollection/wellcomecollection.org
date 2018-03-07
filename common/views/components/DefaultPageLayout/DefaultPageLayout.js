@@ -209,8 +209,10 @@ class DPLWithOnLoad extends Component<Props> {
     /* eslint-disable */
     // Cutting the Mustard
     if ('visibilityState' in document) {
-      const rootEl = document.documentElement;
+      require('lazysizes')
       const FontFaceObserver = require('fontfaceobserver');
+
+      const rootEl = document.documentElement;
       const WB = new FontFaceObserver('Wellcome Bold Web', {weight: 'bold'});
       const HNL = new FontFaceObserver('Helvetica Neue Light Web');
       const HNM = new FontFaceObserver('Helvetica Neue Medium Web');
