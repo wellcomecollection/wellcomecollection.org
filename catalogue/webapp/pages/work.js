@@ -176,13 +176,14 @@ const WorkPage = ({ work }: Props) => {
   return (
     <DefaultPageLayout
       title={work.title || work.description}
-      description={work.description}
+      description={work.description || ''}
       type={'website'}
       url={`https://wellcomecollection.org/works/${work.id}`}
       imageUrl={iiifImage({size: '800,'})}
+      siteSection='images'
     >
       <style dangerouslySetInnerHTML={{ __html: criticalCss }} />
-      <PageDescription title='Search our images' modifiers={{hidden: true}} />
+      <PageDescription title='Search our images' extraClasses='page-description--hidden' />
       <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
       <WorkMedia2 id={work.id} iiifUrl={iiifInfoUrl} title={work.title} />
@@ -209,8 +210,7 @@ const WorkPage = ({ work }: Props) => {
                 ])}>
                   <Icon name='underConstruction' extraClasses='margin-right-s2' />
                   <p className={`${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
-                    We’re improving the information on this page.
-                    <a href='/progress'>Find out more</a>.
+                    We’re improving the information on this page. <a href='/progress'>Find out more</a>.
                   </p>
                 </div>
 
@@ -321,8 +321,9 @@ const WorkPage = ({ work }: Props) => {
   );
 };
 
-WorkPage.getInitialProps = async ({ req }) => {
-  const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works/xkuupr5a?includes=identifiers,items,thumbnail`);
+WorkPage.getInitialProps = async (context) => {
+  const {id} = context.query;
+  const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works/${id}?includes=identifiers,items,thumbnail`);
   const json = await res.json();
   return { work: (json: Work) };
 };

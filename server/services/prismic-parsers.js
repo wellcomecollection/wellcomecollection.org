@@ -3,7 +3,7 @@ import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
 import type {
-  DateTimeRange, Event, Contributor, Team,
+  EventTime, Event, Contributor, Team,
   Place, EventFormat, Audience
 } from '../content-model/events';
 import getBreakpoint from '../filters/get-breakpoint';
@@ -26,11 +26,14 @@ type PrismicDocFragment = Object | Array<any>;
 export function parseEventDoc(doc: PrismicDoc): Event {
   const promo = parseImagePromo(doc.data.promo);
 
-  const times: Array<DateTimeRange> = doc.data.times.map(date => {
+  const times: Array<EventTime> = doc.data.times.map(date => {
     return ({
-      startDateTime: new Date(date.startDateTime),
-      endDateTime: new Date(date.endDateTime)
-    }: DateTimeRange);
+      isFullyBooked: Boolean(date.isFullyBooked),
+      range: {
+        startDateTime: new Date(date.startDateTime),
+        endDateTime: new Date(date.endDateTime)
+      }
+    }: EventTime);
   });
 
   const format = doc.data.format && parseEventFormat(doc.data.format);
@@ -349,7 +352,7 @@ function parseContributors(doc: ?PrismicDocFragment): List<Contributor> {
         name: personData.name,
         twitterHandle: personData.twitterHandle,
         image: personData.image && personData.image.url,
-        description: asText(personData.description)
+        description: asHtml(personData.description)
       };
 
       return {person, role};

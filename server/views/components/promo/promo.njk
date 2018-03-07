@@ -98,7 +98,7 @@
                     {% elif seriesTitle %}
                       {{ seriesTitle }}
                     {% elseif model.contentType != 'work' %}
-                      {{ model.contentType }}
+                      {{ model.contentType | capitalize }}
                     {% endif %}
                   </span>
                 {% endif %}

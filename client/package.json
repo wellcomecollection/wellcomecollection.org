@@ -29,7 +29,6 @@
     "webpack-stream": "^4.0.0"
   },
   "scripts": {
-    "build": "gulp build",
     "compile": "gulp compile",
     "compile:dev": "gulp dev --dev"
   },

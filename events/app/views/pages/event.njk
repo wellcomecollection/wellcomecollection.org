@@ -97,57 +97,91 @@
         </div>
 
         <div class="{{ {s:'HNL4'} | fontClasses }}">
-          {% for dateRange in event.times %}
+          {% for eventTime in event.times %}
             <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
-              {% set formattedDateRange = dateRange.startDateTime | formatAndDedupeOnDate(dateRange.endDateTime) %}
+              {% set formattedDateRange = eventTime.range.startDateTime | formatAndDedupeOnDate(eventTime.range.endDateTime) %}
               <time class="block">
                 <b class="{{ {s:'HNM4'} | fontClasses }}">{{ formattedDateRange | joinDateStrings }}</b>
               </time>
               {% if (formattedDateRange.size === 1) %}
-                <time class="block">
-                  {{ dateRange.startDateTime | formatAndDedupeOnTime(dateRange.endDateTime) | joinDateStrings }}
-                </time>
+                <div class="flex">
+                  <time class="block">
+                    {{ eventTime.range.startDateTime | formatAndDedupeOnTime(eventTime.range.endDateTime) | joinDateStrings }}
+                  </time>
+                  {% if eventTime.isFullyBooked and not eventInfo.isCompletelySoldOut %}
+                    <div class="{{- [
+                      {s:'HNM5'} | fontClasses,
+                      {s:2} | spacingClasses({margin: ['left']
+                      })
+                    ].join(' ') }} flex flex--v-center">
+                      <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
+                        {% icon 'status_indicator', null, ['icon--red', 'icon--match-text'] %}
+                      </span>
+                      Fully booked
+                    </div>
+                  {% endif %}
+                </div>
               {% endif %}
             </div>
           {% endfor %}
 
           {% if eventInfo.eventbriteId %}
             <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
-              <div class="js-eventbrite-ticket-button" data-eventbrite-ticket-id="{{ eventInfo.eventbriteId }}">
-                <a class="{{- [
-                  'flex-inline',
-                  'flex--v-center',
-                  'flex--h-center',
-                  'btn btn--full-width-s',
+              {% if eventInfo.isCompletelySoldOut %}
+                <button class="{{- [
                   {s:'HNM4'} | fontClasses,
                   {s: 4} | spacingClasses({padding: ['left', 'right']})
-                ].join(' ') }}"
-                    href="https://www.eventbrite.com/e/{{ eventInfo.eventbriteId }}/">
-                  <span>{% icon 'ticket' %}</span>
-                  <span class="js-eventbrite-ticket-button-text">Book free tickets</span>
-                </a>
-                <p class="{{- [
-                  'font-charcoal',
-                  {s:'HNL5'} | fontClasses,
-                  {s:1} | spacingClasses({margin: ['top']}),
-                  {s:0} | spacingClasses({margin: ['bottom']})
-                ].join(' ') -}}">with Eventbrite</p>
-              </div>
+                ].join(' ') }} flex-inline flex--h-center btn btn--full-width-s"
+                        disabled="disabled" aria-disabled="true">
+                  Fully booked
+                </button>
+              {% else %}
+                <div class="js-eventbrite-ticket-button" data-eventbrite-ticket-id="{{ eventInfo.eventbriteId }}">
+                  <a class="{{- [
+                    'flex-inline',
+                    'flex--v-center',
+                    'flex--h-center',
+                    'btn btn--full-width-s',
+                    {s:'HNM4'} | fontClasses,
+                    {s: 4} | spacingClasses({padding: ['left', 'right']})
+                  ].join(' ') }}"
+                      href="https://www.eventbrite.com/e/{{ eventInfo.eventbriteId }}/">
+                    <span>{% icon 'ticket' %}</span>
+                    <span class="js-eventbrite-ticket-button-text">Book free tickets</span>
+                  </a>
+                  <p class="{{- [
+                    'font-charcoal',
+                    {s:'HNL5'} | fontClasses,
+                    {s:1} | spacingClasses({margin: ['top']}),
+                    {s:0} | spacingClasses({margin: ['bottom']})
+                  ].join(' ') -}}">with Eventbrite</p>
+                </div>
+            {% endif %}
             </div>
           {% endif %}
 
           {% if event.bookingEnquiryTeam %}
             <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+              {% if eventInfo.isCompletelySoldOut %}
+                <button class="{{- [
+                  {s:'HNM4'} | fontClasses,
+                  {s: 4} | spacingClasses({padding: ['left', 'right']})
+                ].join(' ') }} flex-inline flex--h-center btn btn--full-width-s"
+                  disabled="disabled" aria-disabled="true">
+                  Fully booked
+                </button>
+              {% else %}
               <a class="{{- [
                           {s:'HNM4'} | fontClasses,
                           {s: 4} | spacingClasses({padding: ['left', 'right']})
                         ].join(' ') }} flex-inline flex--h-center btn btn--full-width-s"
-                  href="mailto:{{ event.bookingEnquiryTeam.email }}">
+                  href="mailto:{{ event.bookingEnquiryTeam.email }}?subject={{event.title}}">
                 <span>{% icon 'email', null, ['icon--white'] %}</span>
                 Email to book
               </a>
+              {% endif %}
               <a class="block font-charcoal {{ {s:'HNL5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}"
-                  href="mailto:{{ event.bookingEnquiryTeam.email }}">{{ event.bookingEnquiryTeam.email }}</a>
+                  href="mailto:{{ event.bookingEnquiryTeam.email }}?subject={{event.title}}">{{ event.bookingEnquiryTeam.email }}</a>
             </div>
           {% endif %}
 
@@ -165,8 +199,8 @@
               <div class="flex {{ {s: 1} | spacingClasses({padding: ['top']}) }}">
                 {% set eventCalendarProps = {
                   url: 'https://wellcomecollection.org/events/' + event.id,
-                  startTime: event.times[0].startDateTime,
-                  endTime: event.times[0].endDateTime,
+                  startTime: event.times[0].range.startDateTime,
+                  endTime: event.times[0].range.endDateTime,
                   title: event.title,
                   description: event.description,
                   location: 'Wellcome Collection, 183 Euston Rd, Kings Cross, London NW1 2BE'
@@ -210,22 +244,24 @@
               </p>
             </div>
           {% elif eventInfo.eventbriteId %}
-            <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">First come, first seated</h3>
-            <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-              <p>
-                Please note, booking a ticket for a free event does not
-                guarantee a place on the day. Doors usually open 15 minutes
-                before an event starts, and you can take your seats in order of
-                arrival. We advise arriving 10 minutes before the event is
-                scheduled to start.
-              </p>
-              <p>
-                We hold some spaces for people with access requirements.
-                Please email
-                <a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>
-                if you would like to request one of these spaces.
-              </p>
-            </div>
+            {% if not eventInfo.isCompletelySoldOut %}
+              <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">First come, first seated</h3>
+              <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+                <p>
+                  Please note, booking a ticket for a free event does not
+                  guarantee a place on the day. Doors usually open 15 minutes
+                  before an event starts, and you can take your seats in order of
+                  arrival. We advise arriving 10 minutes before the event is
+                  scheduled to start.
+                </p>
+                <p>
+                  We hold some spaces for people with access requirements.
+                  Please email
+                  <a href="mailto:access@wellcomecollection.org?subject={{event.title}}">access@wellcomecollection.org</a>
+                  if you would like to request one of these spaces.
+                </p>
+              </div>
+            {% endif %}
           {% elif event.bookingEnquiryTeam %}
             {# Don't show anything as the booking team deal with this #}
           {% else %}
@@ -257,7 +293,10 @@
     <div class="css-grid__cell--primary body-content">
       {% if event.promo.image %}
         <div class="is-hidden-s is-hidden-m rounded-corners overflow-hidden">
-          {% componentV2 'captioned-image', event.promo.image, {}, {showCopyright: true} %}
+          {% componentJsx 'CaptionedImage', bodyPart.value, [
+            {name: 'Image', model: imageModel},
+            tasl
+          ] %}
         </div>
       {% endif %}
       <div class="{{ {s: 3, m: 4, l: 5, xl: 5} | spacingClasses({margin: ['bottom']}) }}">

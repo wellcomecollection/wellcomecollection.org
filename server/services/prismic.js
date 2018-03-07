@@ -50,7 +50,7 @@ const eventFields = [
 
 export const defaultPageSize = 40;
 
-function london(d) {
+export function london(d) {
   return moment.tz(d, 'Europe/London');
 }
 
@@ -210,7 +210,7 @@ function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
   });
 }
 
-function createEventPromos(allResults): Array<EventPromo> {
+export function createEventPromos(allResults): Array<EventPromo> {
   return allResults.map((event): EventPromo => {
     const promo = event.data.promo && parseImagePromo(event.data.promo);
     const format = event.data.format && parseEventFormat(event.data.format);
@@ -241,6 +241,7 @@ function createEventPromos(allResults): Array<EventPromo> {
     // A single Primsic 'event' can have multiple datetimes, but we
     // want to display each datetime as an individual promo, so we
     // map and flatten.
+    const hasNotFullyBookedTimes = event.data.times.find(time => !time.isFullyBooked);
     return event.data.times.map(eventAtTime => {
       return {
         id: event.id,
@@ -248,6 +249,8 @@ function createEventPromos(allResults): Array<EventPromo> {
         url: `/events/${event.id}`,
         format: format,
         audience: audience,
+        hasNotFullyBookedTimes: hasNotFullyBookedTimes,
+        isFullyBooked: Boolean(eventAtTime.isFullyBooked),
         start: eventAtTime.startDateTime,
         end: eventAtTime.endDateTime,
         image: promo && promo.image || {},
@@ -269,9 +272,9 @@ function convertStringToNumber(string: string): number {
   return Number(string.replace(/\D/g, ''));
 }
 
-function convertPrismicResultsToPaginatedResults(prismicResults: Object): (results: PaginatedResultsType) => PaginatedResults {
+export function convertPrismicResultsToPaginatedResults(prismicResults: Object): (results: PaginatedResultsType) => PaginatedResults {
   const currentPage = prismicResults && prismicResults.page;
-  const pageSize = prismicResults && prismicResults.results_per_page;
+  const pageSize = prismicResults &&  prismicResults.results_per_page;
   const totalResults = prismicResults && prismicResults.total_results_size;
   const totalPages = prismicResults && prismicResults.total_pages;
   const pagination = PaginationFactory.fromList(List(prismicResults.results), parseInt(totalResults, 10) || 1, parseInt(currentPage, 10) || 1, pageSize || 1);
@@ -288,16 +291,14 @@ function convertPrismicResultsToPaginatedResults(prismicResults: Object): (resul
   };
 }
 
-export async function getEventSeries(id: string, { page }: PrismicQueryOptions) {
+export async function getEventsInSeries(id: string, { page }: PrismicQueryOptions) {
   const events = await getAllOfType(['events'], {
     page,
     orderings: '[my.events.times.startDateTime desc]',
     fetchLinks: eventFields
   }, [Prismic.Predicates.at('my.events.series.series', id)], true);
 
-  const promos = createEventPromos(events.results);
-  const paginatedResults = convertPrismicResultsToPaginatedResults(events);
-  return paginatedResults(promos);
+  return events;
 }
 
 export async function getPaginatedEventPromos(page: number): Promise<Array<EventPromo>> {

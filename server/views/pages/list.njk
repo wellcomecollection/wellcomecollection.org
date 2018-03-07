@@ -42,7 +42,17 @@
       <div class="grid">
         {% for promo in list.items.toJS() %}
           <div class="{{ {s:12, m:6, l:3, xl:3} | gridClasses }}">
-            {% componentV2 'promo', promo, {}, {sizes: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'} %}
+            {% componentJsx 'Promo', {
+              sizes: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)',
+              url: promo.url,
+              contentType: promo.contentType,
+              image: promo.image,
+              title: promo.title,
+              weight: promo.weight,
+              description: promo.description,
+              series: promo.series,
+              positionInSeries: promo.positionInSeries
+            } %}
           </div>
         {% endfor %}
       </div>

@@ -1,0 +1,9 @@
+version: '3.3'
+services:
+  catalogue:
+    image: wellcome/catalogue_webapp:test
+    build:
+      context: ../..
+      dockerfile: ./catalogue/webapp/Dockerfile
+    ports:
+      - "3000:3000"

@@ -57,6 +57,13 @@
             "config" : {
               "label" : "End date"
             }
+          },
+          "isFullyBooked": {
+            "type" : "Select",
+            "config" : {
+              "options" : [ "yes" ],
+              "label" : "Has this time been fully booked?"
+            }
           }
         }
       }
