@@ -28,7 +28,7 @@ app.prepare().then(() => {
   server.use(router.routes());
   server.listen(3000, (err) => {
     if (err) throw err;
-    console.log('> Ready on http://localhost:3000');
+    console.log(`> ${process.env.NODE_ENV} ready on http://localhost:3000`);
   });
 }).catch((ex) => {
   console.error(ex.stack);
