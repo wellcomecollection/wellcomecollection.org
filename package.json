@@ -2,20 +2,21 @@
   "name": "wellcomecollection.org",
   "version": "0.1.0",
   "description": "The new home of the betanextbest.wellcomecollection.org website.",
+  "license": "MIT",
   "main": "server/app.js",
   "scripts": {
     "lint:scss": "cd client && gulp scss:lint",
     "lint:js": "eslint --fix server client",
     "lint": "npm run lint:scss && npm run lint:js",
     "precommit": "lint-staged",
-    "test": "./test.sh server"
+    "test": "./test.sh server",
+    "build_autotrack": "autotrack -o client/libs/autotrack.js -p cleanUrlTracker,impressionTracker,maxScrollTracker,outboundLinkTracker,pageVisibilityTracker,socialWidgetTracker,urlChangeTracker"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wellcometrust/wellcomecollection.org.git"
   },
   "author": "collection.dev@wellcome.ac.uk",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/wellcometrust/wellcomecollection.org/issues"
   },
@@ -49,6 +50,7 @@
     ]
   },
   "dependencies": {
+    "autotrack": "^2.4.1",
     "flow-watch": "^1.1.2"
   }
 }

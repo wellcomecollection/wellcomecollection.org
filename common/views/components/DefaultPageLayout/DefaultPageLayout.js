@@ -1,6 +1,6 @@
 // @ flow
+import {Component} from 'react';
 import Head from 'next/head';
-import HeadJs from '../Header/HeadJs';
 import Header from '../Header/Header';
 import {striptags} from '../../../utils/striptags';
 import {formatDate} from '../../../utils/format-date';
@@ -95,73 +95,13 @@ const navLinks = [{
   title: 'What we do'
 }];
 
-// We will have two trackers, one that has been used on the v1 site, and v2 site (UA-55614-6)
-// The other is just for the v2 site UA-55614-24
-//
-// The v1 site was setup with a lot of configuration, which feels like it would be out of sync with
-// the new questions we would like ask of our analytics, so this was for a clean slate.
-//
-// `dimension5` is a test dimension. it's `dimension1` on v2
-type AnalyticsCategory = 'collections' | 'editorial' | 'public-programme';
-type AnalyticsProps = {|
-  category: AnalyticsCategory,
-  seriesUrl: ?string,
-  positionInSeries: ?string,
-  contentType: ?string,
-  pageState: ?Object,
-  featuresCohort: ?string,
-|}
-export const Analytics = ({
-  category,
-  seriesUrl,
-  positionInSeries,
-  contentType,
-  pageState,
-  featuresCohort
-}: AnalyticsProps) => ([
+export const AnalyticsScripts = () => ([
   <style  key='analytics-1' dangerouslySetInnerHTML={{ __html: `.async-hide .header__nav{ opacity: 0 !important}` }} />,
-  <script key='analytics-2' dangerouslySetInnerHTML={{ __html: `(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
-    h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
-    (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
-  })(window,document.documentElement,'async-hide','dataLayer',4000,
-    {'GTM-NXMJ6D9':true});`}} />,
-
-  <script key='analytics-3' dangerouslySetInnerHTML={{ __html: `
-    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-    ga('create', 'UA-55614-24', 'auto', 'v2');
-
-    ga('create', 'UA-55614-6', 'auto');
-    ga('set', 'dimension1', '2');
-    ga('set', 'appVersion', '2.1.0');
-
-    ${category         ? `ga('set', 'dimension2', '${category}');` : ''}
-    ${seriesUrl        ? `ga('set', 'dimension3', '${seriesUrl}');` : ''}
-    ${positionInSeries ? `ga('set', 'dimension4', '${positionInSeries}');` : ''}
-    ${contentType      ? `ga('set', 'dimension6', '${contentType}');` : ''}
-    ${pageState        ? `ga('set', 'dimension8', '${JSON.stringify(pageState)}');` : ''}
-
-    var referringComponentListString = localStorage.getItem('wc_referring_component_list');
-    localStorage.removeItem('wc_referring_component_list');
-    if (referringComponentListString) {
-      ga('set', 'dimension5', referringComponentListString);
-    }
-
-    // see tracking.js where this storage item is set
-    var referringComponentListString = localStorage.getItem('wc_referring_component_list');
-    localStorage.removeItem('wc_referring_component_list');
-    if (referringComponentListString) {
-      ga('set', 'dimension7', referringComponentListString);
-    }
-
-    ${featuresCohort && featuresCohort !== 'default' ? `ga('set', 'dimension5', '${featuresCohort}');` : ''}
-
-    ga('require', 'GTM-NXMJ6D9');
-    ga('send', 'pageview');
-    ga('v2.send', 'pageview');
-  `}} />,
-  <script key='analytics-4' async src='https://www.google-analytics.com/analytics.js' />
+  <script key='analytics-4' async src='https://www.google-analytics.com/analytics.js' />,
+  <script key='analytics-5' async src='https://i.wellcomecollection.org/assets/libs/autotrack.js' />
 ]);
 
+type AnalyticsCategory = 'collections' | 'editorial' | 'public-programme';
 type SiteSection = 'images' | 'explore' | 'whats-on';
 type Props = {|
   children: React.Node,
@@ -171,7 +111,7 @@ type Props = {|
   description: string,
   imageUrl: string,
   siteSection: SiteSection,
-  analyticsCategory: string,
+  analyticsCategory: AnalyticsCategory,
   pageMeta?: React.Node,
   featuresCohort?: string,
   featureFlags?: string[],
@@ -195,13 +135,8 @@ const DefaultPageLayout = ({
   <div>
     <Head>
       <meta charSet='utf-8' />
-      {/* TODO: use flag as to whether to include this */}
-      <Analytics
-        category={analyticsCategory}
-        seriesUrl={null}
-        positionInSeries={null}
-        contentType={null} />
 
+      <AnalyticsScripts />
       <meta httpEquiv='X-UA-Compatible' content='IE=edge,chrome=1' />
       <title>{`${title} | Wellcome Collection`}</title>
       <meta name='viewport' content='width=device-width, initial-scale=1' />
@@ -221,20 +156,26 @@ const DefaultPageLayout = ({
         description={description}
         imageUrl={imageUrl} />
 
-      {/* CSS */}
+      {/* TODO: CSS */}
+      <link rel='preload' href='/static/css/non-critical.css' as='style' onLoad='this.onload=null;this.rel="stylesheet"' />
+      <noscript><link rel='stylesheet' href='path/to/mystylesheet.css' /></noscript>
+      <script dangerouslySetInnerHTML={{__html: `
+        /*! loadCSS rel=preload polyfill. [c]2017 Filament Group, Inc. MIT License */
+        // !function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(a){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+      `}} />
 
-      <link rel='preload' href='/static/css/non-critical.css' as='style' onLoad='this.rel="stylesheet"' />
-      <link rel='apple-touch-icon' sizes='180x180' href='/static/icons/apple-touch-icon.png' />
-      <link rel='shortcut icon' href='/static/icons/favicon.ico' type='image/ico' />
-      <link rel='icon' type='image/png' href='/static/icons/favicon-32x32.png' sizes='32x32' />
-      <link rel='icon' type='image/png' href='/static/icons/favicon-16x16.png' sizes='16x16' />
-      <link rel='manifest' href='/static/icons/manifest.json' />
-      <link rel='mask-icon' href='/static/icons/safari-pinned-tab.svg' color='#000000' />
-      <script src='/static/libs/picturefill.min.js' async />
+      {/* We don't hash or locally reference these images, as they never seem to change */}
+      <link rel='apple-touch-icon' sizes='180x180' href='https://i.wellcomecollection.org/assets/icons/apple-touch-icon.png' />
+      <link rel='shortcut icon' href='https://i.wellcomecollection.org/assets/icons/favicon.ico' type='image/ico' />
+      <link rel='icon' type='image/png' href='https://i.wellcomecollection.org/assets/icons/favicon-32x32.png' sizes='32x32' />
+      <link rel='icon' type='image/png' href='https://i.wellcomecollection.org/assets/icons/favicon-16x16.png' sizes='16x16' />
+      <link rel='manifest' href='https://i.wellcomecollection.org/assets/icons/manifest.json' />
+      <link rel='mask-icon' href='https://i.wellcomecollection.org/assets/icons/safari-pinned-tab.svg' color='#000000' />
+      <script src='https://i.wellcomecollection.org/assets/libs/picturefill.min.js' async />
       {/* Leaving this out for now as it's hanging locally for me */}
       {/* <script src='//platform.twitter.com/widgets.js' async defer></script> */}
-      <HeadJs enhancedJsPath='/static/js/app.js' />
-      <script type='application/ld+json'>{/* JSON+LD Z */}</script>
+
+      <script type='application/ld+json'>{/* TODO: JSON+LD */}</script>
       <script dangerouslySetInnerHTML={{ __html: `
       window.WC = {
         featuresCohort: ${JSON.stringify(featuresCohort)},
@@ -255,4 +196,77 @@ const DefaultPageLayout = ({
   </div>
 );
 
-export default DefaultPageLayout;
+class DPLWithOnLoad extends Component<Props> {
+  componentDidMount = () => {
+    const {analyticsCategory} = this.props;
+    // TODO: figure out what to do with these when we get them
+    const seriesUrl = null;
+    const positionInSeries = null;
+    const contentType = null;
+    const pageState = null;
+    const featuresCohort = null;
+
+    /* eslint-disable */
+    // Cutting the Mustard
+    if ('visibilityState' in document) {
+      const rootElement = document.documentElement.classList.add('enhanced');
+    }
+
+    // Google Optimize
+    (function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+      h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+      (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+    })(window,document.documentElement,'async-hide','dataLayer',4000,
+      {'GTM-NXMJ6D9':true});
+
+    // Google analytics
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-55614-24', 'auto', 'v2');
+
+    ga('create', 'UA-55614-6', 'auto');
+    ga('set', 'dimension1', '2');
+
+    if (analyticsCategory) {
+      ga('set', 'dimension2', analyticsCategory);
+    }
+    if (seriesUrl) {
+      ga('set', 'dimension3', seriesUrl);
+    }
+    if (positionInSeries) {
+      ga('set', 'dimension4', positionInSeries);
+    }
+    if (contentType) {
+      ga('set', 'dimension6', contentType);
+    }
+    if (pageState) {
+      ga('set', 'dimension8', JSON.stringify(pageState));
+    }
+
+    // see tracking.js where this storage item is set
+    const referringComponentListString = localStorage.getItem('wc_referring_component_list');
+    localStorage.removeItem('wc_referring_component_list');
+    if (referringComponentListString) {
+      ga('set', 'dimension7', referringComponentListString);
+    }
+
+    if(featuresCohort && featuresCohort !== 'default') {
+      ga('set', 'dimension5', featuresCohort);
+    }
+
+    ga('require', 'urlChangeTracker', {
+      fieldsObj: {
+        dimension5: 'virtual-pageview'
+      }
+    });
+    ga('require', 'GTM-NXMJ6D9');
+    ga('send', 'pageview');
+    ga('v2.send', 'pageview');
+    /* eslint-enable */
+  }
+
+  render() {
+    return <DefaultPageLayout {...this.props} />;
+  }
+}
+
+export default DPLWithOnLoad;
