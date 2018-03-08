@@ -12,7 +12,7 @@ const withBundleAnalyzerConfig = withBundleAnalyzer({
       analyzerMode: 'static',
       reportFilename: '../../bundles/server.html'
     },
-    client: {
+    browser: {
       analyzerMode: 'static',
       reportFilename: '../bundles/client.html'
     }
