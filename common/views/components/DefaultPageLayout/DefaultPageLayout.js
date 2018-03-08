@@ -222,7 +222,6 @@ const DefaultPageLayout = ({
         description={description}
         imageUrl={imageUrl} />
 
-      <link rel='preload' href='https://i.wellcomecollection.org/assets/css/non-critical.css' as='style' onLoad='this.rel="stylesheet"' />
       <link rel='apple-touch-icon' sizes='180x180' href='https://i.wellcomecollection.org/assets/icons/apple-touch-icon.png' />
       <link rel='shortcut icon' href='https://i.wellcomecollection.org/assets/icons/favicon.ico' type='image/ico' />
       <link rel='icon' type='image/png' href='https://i.wellcomecollection.org/assets/icons/favicon-32x32.png' sizes='32x32' />
