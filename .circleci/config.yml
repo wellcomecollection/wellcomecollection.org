@@ -21,6 +21,8 @@ jobs:
     steps:
       - restore_cache:
           key: repo_node_8_{{ .Environment.CIRCLE_SHA1 }}
+      - save_cache:
+          key: catalogue_modules_circleci_node_8_{{ checksum "yarn.lock" }}
       - add_ssh_keys
       - setup_remote_docker
       - run:
@@ -38,8 +40,8 @@ jobs:
             BUILD_HASH=${CIRCLE_SHA1} BUNDLE_ANALYZE=both yarn build
             # Taken from
             # http://docs.aws.amazon.com/cli/latest/userguide/awscli-install-linux.html
-            apt-get -y -qq update
-            apt-get -y -qq install python3.4-dev
+            sudo apt-get -y -qq update
+            sudo apt-get -y -qq install python3.4-dev
             curl -O https://bootstrap.pypa.io/get-pip.py
             python3.4 get-pip.py --user
             export PATH=~/.local/bin:$PATH
@@ -51,6 +53,10 @@ jobs:
               cp server.${CIRCLE_SHA1}.html server.latest.json
               aws s3 sync --only-show-errors . s3://dash.wellcomecollection.org/bundles
             popd
+      - save_cache:
+          key: catalogue_modules_circleci_node_8_{{ checksum "yarn.lock" }}
+          paths:
+            -  node_modules
   root_tests:
     docker:
       - image: circleci/node:8.9.3
