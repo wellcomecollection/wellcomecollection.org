@@ -1,0 +1,178 @@
+{% extends 'layout/default.njk' %}
+
+
+{% block pageMeta %}
+  {% set metaContent = {
+    type: 'article',
+    title: article.headline,
+    image: article.thumbnail.contentUrl,
+    url: pageConfig.canonicalUri,
+    description: article.description
+  } %}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
+  <meta name="description" content="{{ article.description | safe | striptags }}" />
+{% endblock %}
+
+{% block body %}
+
+  <script type="application/ld+json">
+    {{ article | jsonLd('contentLd') | safe }}
+  </script>
+  <article>
+    {% componentV2 'page-description', {
+      intro: seriesTitle,
+      title: article.headline,
+      meta: {type: 'date', value: article.datePublished},
+      lead: true
+    }, {icon: article.contentType | getIconForContentType} %}
+
+    {% set mainMediaData = {
+      contentType: article.contentType,
+      positionInSeries: article.positionInSeries,
+      series: commissionedSeries,
+      showCopyright: article.contentType !== 'comic'
+    } %}
+
+    {# {% if (article.mainMedia.length > 0) %}
+      {% for mm in article.mainMedia %}
+        TODO: Make this a type, rather than on the article
+        {% if (article.contentType === 'comic') %}
+          {% componentV2 'main-media-comic', article.mainMedia | getPrincipleMainMedia, {full: true, 'fit-vh': true}, mainMediaData %}
+        {% elif mm.type === 'video-embed' %}
+          {% componentV2 'main-media-video', article.mainMedia | getPrincipleMainMedia, {full: true}, mainMediaData %}
+        {% elif mm.type === 'image-lists' %}
+          <div class="{{ {s: 12, m: 10, l: 12, xl: 12, shiftM: 1} | gridClasses }}">
+            <ul class="plain-list no-margin no-padding">
+              <p>{{ mm.description }}</p>
+              {% for item in mm.items %}
+                <li>
+                  <h2>
+                    <div class="flex">
+                      <div class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{{ loop.index }}.</div>
+                      <div>
+                        <div>
+                          {{ item.title }}
+                        </div>
+                        {% if item.subtitle %}
+                          <div>
+                            {{ item.subtitle }}
+                          </div>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </h2>
+
+                  {% set imageModel = item.image | objectAssign({lazyload: true}) %}
+
+                  {% set tasl = {name: 'Tasl', model: imageModel}
+                    if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
+                    else null
+                  %}
+
+                  {% componentJsx 'CaptionedImage', imageModel, [
+                    {name: 'Image', model:imageModel},
+                    tasl
+                  ] %}
+
+                  {{item.description | safe}}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% elif mm.type === 'picture' %}
+          {% componentV2 'main-media', article.mainMedia | getPrincipleMainMedia, {full: true}, mainMediaData %}
+        {% endif %}
+      {% endfor %}
+    {% endif %} #}
+
+    {# {% if article.featuredBodyParts.length > 0 %}
+      {% for bodyPart in article.featuredBodyParts %}
+        {% if bodyPart.type === 'imageList' %}
+          <div class="row bg-black {{ {s:3} | spacingClasses({padding: ['top']}) }} {{ {s:8} | spacingClasses({padding: ['bottom']}) }} ">
+            <div class="container">
+              <div class="css-grid__container">
+                {% for item in bodyPart.value.items %}
+                  <div class="css-grid {{ {s:8} | spacingClasses({margin: ['top']}) }}">
+                    <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }}">
+                      <h2 class="font-white {{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }} {{ ({s:0} | spacingClasses({margin: ['top']})) if loop.index === 1 }} ">{{ item.title }}</h2>
+                      {% componentV2 'image', item.image, {}, {lazyload: true} %}
+                    </div>
+
+                    <div class="font-white {{ {s: 12, m: 12, l: 7, xl: 7} | cssGridClasses }} {{ {s:'LR3', m:'LR2'} | fontClasses }}">
+                      <div class="flex">
+                        <div>{% icon 'image', {}, ['float-l', 'margin-right-s1', 'icon--white'] %}</div>
+                        <div>{{ item.image.caption | safe }}</div>
+                      </div>
+                    </div>
+
+                    <div class="font-white {{ {s: 12, m: 12, l: 7, xl: 7} | cssGridClasses }}">
+                      {{ item.description | safe }}
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %} #}
+
+    <div class="row bg-cream">
+      <div class="container">
+        <div class="grid {{ {s:6} | spacingClasses({padding: ['top']}) }}">
+          <div class="{{ {s: 12, m: 10, shiftM: 1, l: 10, shiftL: 1, xl: 10, shiftXL: 1} | gridClasses }}">
+            {% componentV2 'divider', null, {'pumice': true, 'keyline': true} %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row bg-cream {{ {s:3} | spacingClasses({padding: ['top']}) }} {{ {s:8} | spacingClasses({padding: ['bottom']}) }} ">
+      <div class="container">
+        <div class="grid grid--no-gutters">
+          <div class="{{ {s: 12, m: 10, shiftM: 1, l: 10, shiftL: 1, xl: 10, shiftXL: 1} | gridClasses }}">
+            {% if article.bodyParts.length > 0  %}
+              {% for author in article.author.toJS() %}
+                {% if author.person %}
+                  {% component 'author', {
+                    name: author.person.name,
+                    twitterHandle: author.person.twitterHandle,
+                    modifiers: ['border-bottom'] if loop.last else [],
+                    image: author.person.image
+                  } %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+
+            <div class="article">
+              {% block articleBody %}
+                {% component 'basic-body', {articleBody: article.bodyParts, contentType: article.contentType} %}
+              {% endblock %}
+
+              {% for author in article.author.toJS() %}
+                {% if author.person %}
+                  {% component 'author', {
+                    name: author.person.name,
+                    twitterHandle: author.person.twitterHandle,
+                    modifiers: ['border-left'],
+                    description: author.person.description,
+                    image: author.person.image
+                  } %}
+                {% endif %}
+              {% endfor %}
+
+              {% componentV2 'divider', null, {'stub': true, 'black': true}, {extraClasses: [{s:4} | spacingClasses({margin: ['top']})]} %}
+
+              {% if article.tags.length > 0 %}
+                {% component 'tags', { tags: article.tags } %}
+              {% endif %}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+{% endblock %}
