@@ -31,6 +31,21 @@ jobs:
           command: |
             docker login --username $DOCKER_USER --password $DOCKER_PASS
             docker-compose push
+      - run:
+          name: Next report
+          command: |
+            BUILD_HASH=${CIRCLE_SHA1} BUNDLE_ANALYZE=both yarn build
+            # Taken from
+            # http://docs.aws.amazon.com/cli/latest/userguide/awscli-install-linux.html
+            apt-get -y -qq update
+            apt-get -y -qq install python3.4-dev
+            curl -O https://bootstrap.pypa.io/get-pip.py
+            python3.4 get-pip.py --user
+            export PATH=~/.local/bin:$PATH
+            pip install awscli --upgrade --user
+            pushd .dist
+              aws s3 sync --only-show-errors . s3://dash.wellcomecollection.org/bundles
+            popd
   root_tests:
     docker:
       - image: circleci/node:8.9.3

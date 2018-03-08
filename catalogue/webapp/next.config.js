@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const withTM = require('@weco/next-plugin-transpile-modules');
 const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
+const buildHash = process.env.BUILD_HASH || 'test';
 
 const commonDirRegExp = /@weco(?!.*node_modules)/;
 
@@ -10,11 +11,15 @@ const withBundleAnalyzerConfig = withBundleAnalyzer({
   bundleAnalyzerConfig: {
     server: {
       analyzerMode: 'static',
-      reportFilename: '../../bundles/server.html'
+      generateStatsFile: true,
+      statsFilename: `../../.dist/browser.${buildHash}.json`,
+      reportFilename: `../../.dist/browser.${buildHash}.html`
     },
     browser: {
       analyzerMode: 'static',
-      reportFilename: '../bundles/client.html'
+      generateStatsFile: true,
+      statsFilename: `../.dist/browser.${buildHash}.json`,
+      reportFilename: `../.dist/browser.${buildHash}.html`
     }
   },
   webpack(config, options) {
