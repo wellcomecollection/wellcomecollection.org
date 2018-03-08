@@ -1,4 +1,3 @@
-{# TODO remove full-width classes?}
 {# TODO change image sizes queries #}
 {# TODO convert to JSX #}
 
@@ -8,7 +7,7 @@
           <h2>{{ bodyPart.value.name }}</h2>
         {% endif %}
         <div class="body-part
-                {{- ' body-part--full-width' if bodyPart.weight === 'standalone'  -}}
+                {{- ' body-part--standalone' if bodyPart.weight === 'standalone'  -}}
                 {{- ' body-part--supporting' if bodyPart.weight === 'supporting'  -}}">
           {% if bodyPart.type === 'standfirst' or ((mainLoopIndex === 1 and loop.index === 1) and bodyPart.type !== 'imageList' ) %}
             {# checking the index here is a bit of a hack around when we have a video as the mainMedia #}
@@ -21,7 +20,6 @@
                 if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
                 else null
               %}
-
               {% componentJsx 'CaptionedImage', bodyPart.value, [
                 {name: 'Image', model: imageModel},
                 tasl
@@ -63,7 +61,7 @@
             {% component 'interview', { interview: bodyPart.value } %}
           {% elif bodyPart.type === 'imageGallery' %}
           {% set idNumber = mainLoopIndex - 1 %}
-            {% component 'image-gallery', { imageGallery: bodyPart.value, id: 'article-body-image-gallery--' + idNumber } %}
+            {% component 'image-gallery', { imageGallery: bodyPart.value, id: 'image-gallery--' + idNumber } %}
           {% elif bodyPart.type === 'tweet' %}
             {% componentV2 'tweet', bodyPart.value %}
           {% elif bodyPart.type === 'instagramEmbed' %}
