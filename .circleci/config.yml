@@ -44,6 +44,10 @@ jobs:
             export PATH=~/.local/bin:$PATH
             pip install awscli --upgrade --user
             pushd .dist
+              cp browser.${CIRCLE_SHA1}.html browser.latest.html
+              cp browser.${CIRCLE_SHA1}.html browser.latest.json
+              cp browser.${CIRCLE_SHA1}.html browser.latest.html
+              cp server.${CIRCLE_SHA1}.html server.latest.json
               aws s3 sync --only-show-errors . s3://dash.wellcomecollection.org/bundles
             popd
   root_tests:
