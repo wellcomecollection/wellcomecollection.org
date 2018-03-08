@@ -221,8 +221,6 @@ const DefaultPageLayout = ({
         description={description}
         imageUrl={imageUrl} />
 
-      {/* CSS */}
-
       <link rel='preload' href='/static/css/non-critical.css' as='style' onLoad='this.rel="stylesheet"' />
       <link rel='apple-touch-icon' sizes='180x180' href='/static/icons/apple-touch-icon.png' />
       <link rel='shortcut icon' href='/static/icons/favicon.ico' type='image/ico' />

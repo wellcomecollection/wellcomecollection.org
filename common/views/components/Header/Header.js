@@ -4,10 +4,10 @@ import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
 
 type Props = {|
   siteSection: string,
-  links: Array<any>
+  links: Array<{ href: string, title: string }>
 |}
 
-const Header = ({ links = [], siteSection }: Props) => (
+const Header = ({ links, siteSection }: Props) => (
   <div className='header grid js-header-burger js-focus-trap bg-white'>
     <span className='visually-hidden js-trap-reverse-end'>reset focus</span>
     <div className='header__upper grid__cell'>

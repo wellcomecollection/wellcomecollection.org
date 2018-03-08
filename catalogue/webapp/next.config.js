@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const withTM = require('@weco/next-plugin-transpile-modules');
 const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
+
 const commonDirRegExp = /@weco(?!.*node_modules)/;
 
 const withBundleAnalyzerConfig = withBundleAnalyzer({
