@@ -1,6 +1,7 @@
 // @ flow
+import {Component} from 'react';
 import Head from 'next/head';
-import HeadJs from '../Header/HeadJs';
+import NastyJs from '../Header/NastyJs';
 import Header from '../Header/Header';
 import {striptags} from '../../../utils/striptags';
 import {formatDate} from '../../../utils/format-date';
@@ -221,17 +222,16 @@ const DefaultPageLayout = ({
         description={description}
         imageUrl={imageUrl} />
 
-      <link rel='preload' href='/static/css/non-critical.css' as='style' onLoad='this.rel="stylesheet"' />
-      <link rel='apple-touch-icon' sizes='180x180' href='/static/icons/apple-touch-icon.png' />
-      <link rel='shortcut icon' href='/static/icons/favicon.ico' type='image/ico' />
-      <link rel='icon' type='image/png' href='/static/icons/favicon-32x32.png' sizes='32x32' />
-      <link rel='icon' type='image/png' href='/static/icons/favicon-16x16.png' sizes='16x16' />
-      <link rel='manifest' href='/static/icons/manifest.json' />
-      <link rel='mask-icon' href='/static/icons/safari-pinned-tab.svg' color='#000000' />
-      <script src='/static/libs/picturefill.min.js' async />
+      <link rel='apple-touch-icon' sizes='180x180' href='https://i.wellcomecollection.org/assets/icons/apple-touch-icon.png' />
+      <link rel='shortcut icon' href='https://i.wellcomecollection.org/assets/icons/favicon.ico' type='image/ico' />
+      <link rel='icon' type='image/png' href='https://i.wellcomecollection.org/assets/icons/favicon-32x32.png' sizes='32x32' />
+      <link rel='icon' type='image/png' href='https://i.wellcomecollection.org/assets/icons/favicon-16x16.png' sizes='16x16' />
+      <link rel='manifest' href='https://i.wellcomecollection.org/assets/icons/manifest.json' />
+      <link rel='mask-icon' href='https://i.wellcomecollection.org/assets/icons/safari-pinned-tab.svg' color='#000000' />
+      <script src='https://i.wellcomecollection.org/assets/libs/picturefill.min.js' async />
       {/* Leaving this out for now as it's hanging locally for me */}
       {/* <script src='//platform.twitter.com/widgets.js' async defer></script> */}
-      <HeadJs enhancedJsPath='/static/js/app.js' />
+      <NastyJs />
       <script type='application/ld+json'>{/* JSON+LD Z */}</script>
       <script dangerouslySetInnerHTML={{ __html: `
       window.WC = {
@@ -253,4 +253,24 @@ const DefaultPageLayout = ({
   </div>
 );
 
-export default DefaultPageLayout;
+class DPLWithLoader extends Component<Props> {
+  componentDidMount = () => {
+    const lazysizes = require('lazysizes');
+    const FontFaceObserver = require('fontfaceobserver');
+    const WB = new FontFaceObserver('Wellcome Bold Web', {weight: 'bold'});
+    const HNL = new FontFaceObserver('Helvetica Neue Light Web');
+    const HNM = new FontFaceObserver('Helvetica Neue Medium Web');
+    const LR = new FontFaceObserver('Lettera Regular Web');
+    Promise.all([WB.load(), HNL.load(), HNM.load(), LR.load()]).then(function() {
+      document.documentElement.classList.add('fonts-loaded');
+    }).catch((error) => console.log(error));
+    lazysizes.init();
+    document.documentElement.classList.add('enhanced');
+  }
+
+  render() {
+    return <DefaultPageLayout {...this.props} />;
+  }
+}
+
+export default DPLWithLoader;

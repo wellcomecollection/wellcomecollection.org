@@ -25,10 +25,10 @@ const FindUs = () => (
       </span>
 
       <div className='find-us__map-container'>
-        <noscript>
-          <img width='282' height='282' className='image' src={convertImageUri(baseUrl, 282)}
-            alt={`Street map showing Wellcome Collection's location`} />
-        </noscript>
+        <noscript dangerouslySetInnerHTML={{__html: `
+          <img width='282' height='282' className='image' src=${convertImageUri(baseUrl, 282)}
+            alt='Street map showing Wellcome Collection's location' />
+        `}} />
         <img className='find-us__map lazy-image lazyload'
           src={convertImageUri(baseUrl, 282)}
           data-srcset={dataSrcset}
