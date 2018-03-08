@@ -1,8 +1,10 @@
 const commonDirRegExp = /@weco(?!.*node_modules)/;
 const withTM = require('@weco/next-plugin-transpile-modules');
+const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
 
-module.exports = withTM({
-  transpileModules: ['@weco'],
+const withBundleAnalyzerConfig = withBundleAnalyzer({
+  analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
+  analyzeBrowser: ['browser', 'both'].includes(process.env.BUNDLE_ANALYZE),
   webpack(config, options) {
     config.module.rules.push({
       test: /\.scss$/,
@@ -14,4 +16,9 @@ module.exports = withTM({
 
     return config;
   }
+});
+
+module.exports = withTM({
+  transpileModules: ['@weco'],
+  ...withBundleAnalyzerConfig
 });
