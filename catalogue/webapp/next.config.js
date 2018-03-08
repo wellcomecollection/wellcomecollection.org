@@ -13,13 +13,15 @@ const withBundleAnalyzerConfig = withBundleAnalyzer({
       analyzerMode: 'static',
       generateStatsFile: true,
       statsFilename: `../../.dist/server.${buildHash}.json`,
-      reportFilename: `../../.dist/server.${buildHash}.html`
+      reportFilename: `../../.dist/server.${buildHash}.html`,
+      openAnalyzer: false
     },
     browser: {
       analyzerMode: 'static',
       generateStatsFile: true,
       statsFilename: `../.dist/browser.${buildHash}.json`,
-      reportFilename: `../.dist/browser.${buildHash}.html`
+      reportFilename: `../.dist/browser.${buildHash}.html`,
+      openAnalyzer: false
     }
   },
   webpack(config, options) {
