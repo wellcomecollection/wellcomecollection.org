@@ -35,7 +35,7 @@ const Image = ({
   <Fragment>
     <noscript dangerouslySetInnerHTML={{__html: `
       <img width=${width}
-        height=${height}
+        height=${height || ''}
         className='image image--noscript'
         src=${convertImageUri(contentUrl, 640, false)}
         alt=${alt} />`}} />
