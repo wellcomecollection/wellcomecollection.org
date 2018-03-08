@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-unfetch';
+import criticalCss from '@weco/common/styles/critical.scss';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import {iiifImageTemplate} from '@weco/common/utils/convert-image-uri';
 import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/DefaultPageLayout';
@@ -181,6 +182,7 @@ const WorkPage = ({ work }: Props) => {
       imageUrl={iiifImage({size: '800,'})}
       siteSection='images'
     >
+      <style dangerouslySetInnerHTML={{ __html: criticalCss }} />
       <PageDescription title='Search our images' extraClasses='page-description--hidden' />
       <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
