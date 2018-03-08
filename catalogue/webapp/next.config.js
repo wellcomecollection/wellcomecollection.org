@@ -7,6 +7,16 @@ const commonDirRegExp = /@weco(?!.*node_modules)/;
 const withBundleAnalyzerConfig = withBundleAnalyzer({
   analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
   analyzeBrowser: ['browser', 'both'].includes(process.env.BUNDLE_ANALYZE),
+  bundleAnalyzerConfig: {
+    server: {
+      analyzerMode: 'static',
+      reportFilename: '../../bundles/server.html'
+    },
+    client: {
+      analyzerMode: 'static',
+      reportFilename: '../bundles/client.html'
+    }
+  },
   webpack(config, options) {
     config.module.rules.push({
       test: /\.scss$/,
