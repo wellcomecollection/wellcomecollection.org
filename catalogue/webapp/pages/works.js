@@ -2,8 +2,6 @@
 
 import fetch from 'isomorphic-unfetch';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
-// $FlowFixMe
-import criticalCss from '@weco/common/styles/critical.scss';
 import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/DefaultPageLayout';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -41,7 +39,6 @@ const WorksComponent = ({
     siteSection='images'
   >
 
-    <style dangerouslySetInnerHTML={{ __html: criticalCss }} />
     <PageDescription title='Search our images' extraClasses='page-description--hidden' />
     <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 

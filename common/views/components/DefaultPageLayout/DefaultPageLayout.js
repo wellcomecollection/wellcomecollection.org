@@ -5,6 +5,8 @@ import Header from '../Header/Header';
 import {striptags} from '../../../utils/striptags';
 import {formatDate} from '../../../utils/format-date';
 import Footer from '../Footer/Footer';
+// $FlowFixMe
+import criticalCss from '@weco/common/styles/really-critical.scss';
 
 // TODO: Hashed files
 // TODO: Analytics
@@ -221,8 +223,7 @@ const DefaultPageLayout = ({
         description={description}
         imageUrl={imageUrl} />
 
-      {/* CSS */}
-
+      <style dangerouslySetInnerHTML={{ __html: criticalCss }} />
       <link rel='preload' href='/static/css/non-critical.css' as='style' onLoad='this.rel="stylesheet"' />
       <link rel='apple-touch-icon' sizes='180x180' href='/static/icons/apple-touch-icon.png' />
       <link rel='shortcut icon' href='/static/icons/favicon.ico' type='image/ico' />
