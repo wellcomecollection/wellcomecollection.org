@@ -1,5 +1,3 @@
-import {List} from 'immutable';
-
 export function getPositionInSeries(tags: {}): ?number {
   const chapterString = 'chapter';
   const chapterTag = Object.keys(tags).find((tag) => tag.toLowerCase().startsWith(chapterString));
@@ -23,24 +21,24 @@ export function getSeriesCommissionedLength(seriesUrl: string): ?number {
   return lookup[seriesUrl];
 }
 
-export const series = List([
+export const series = [
   ({
     url: 'body-squabbles',
     name: 'Body Squabbles',
-    items: List([
+    items: [
       ({
         contentType: 'comic',
         headline: 'Demodicid Navigation',
         url: ''
       })
-    ])
+    ]
   }),
   ({
     url: 'the-outsiders',
     name: 'The Outsiders',
     commissionedLength: getSeriesCommissionedLength('the-outsiders'),
     color: 'orange',
-    items: List([
+    items: [
       ({
         contentType: 'article',
         headline: 'The stranger who started an epidemic',
@@ -89,14 +87,14 @@ export const series = List([
         description: '',
         datePublished: new Date('2017-07-20')
       })
-    ])
+    ]
   }),
   ({
     url: 'electric-sublime',
     name: 'Electric Sublime',
     commissionedLength: getSeriesCommissionedLength('electric-sublime'),
     color: 'turquoise',
-    items: List([
+    items: [
       ({
         contentType: 'article',
         headline: 'Thunderbolts and lightning',
@@ -145,9 +143,9 @@ export const series = List([
         description: '',
         datePublished: new Date('4 May 2017')
       })
-    ])
+    ]
   })
-]);
+];
 
 export const collectorsPromo = {
   modifiers: ['standalone'],

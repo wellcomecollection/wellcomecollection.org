@@ -1,4 +1,3 @@
-import {List} from 'immutable';
 import {ArticleStubFactory} from '../../../../server/model/article-stub';
 import mockJson from '../../../../server/test/mocks/wp-api.json';
 
@@ -23,7 +22,7 @@ const commissionedSeries = {
   commissionedLength: 5,
   color: 'purple',
   // $FlowFixMe for the items
-  items: List([{}, {}, {}])
+  items: [{}, {}, {}]
 };
 
 const namedSeries = Object.assign({}, commissionedSeries, {name: 'Body Squabbles'});
