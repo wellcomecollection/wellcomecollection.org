@@ -8,8 +8,36 @@
 }
 
 .event-schedule__border {
+  position: relative;
+
   @include respond-to('large') {
-    border-right: 5px solid color('teal');
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -20px;
+      width: 5px;
+      background: color('purple');
+      transition: height 600ms ease-in-out;
+    }
+  }
+}
+
+.event-schedule__border--top {
+  &:after {
+    height: 100%;
+  }
+}
+
+.event-schedule__border--bottom {
+  &:after {
+    height: 0%;
+  }
+
+  .event-schedule__item.is-active & {
+    &:after {
+      height: 100%;
+    }
   }
 }
 
@@ -18,11 +46,5 @@
 
   &:focus {
     outline: 0;
-  }
-}
-
-.event-schedule__meta {
-  @include respond-to('large') {
-    justify-content: flex-end;
   }
 }

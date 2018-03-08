@@ -1,27 +1,34 @@
-{# Header #}
-<div class="row bg-smoke  {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top', 'bottom']}) }} }}">
-  <div class="container bg-white">
-    <div class="{{ {s:3, m:5, l:5} | spacingClasses({padding: ['top', 'bottom']}) }} }}">
-      <div class="grid">
-        <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
-          <h1 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} no-margin">Event with schedule</h1>
-          <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
-            <p class="no-margin">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit modi voluptatibus cumque unde, architecto perspiciatis quidem labore dolorum culpa eveniet aspernatur rerum amet maxime minus tempora ratione enim excepturi qui.</p>
-          </div>
-        </div>
+{# TODO: remove inline styles (work out where they should live) #}
+<div class="row relative" style="padding-top: 15vw;">
+  <img class="absolute" style="top: 0; z-index: -1;" src="http://placebeyonce.com/1600-600" />
+  <div class="relative container bg-white {{ {s: 2} | spacingClasses({margin: ['bottom']}) }} {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top', 'bottom']}) }} }}">
+
+    <div class="grid">
+      <div class="{{ {s: 12, m: 8, l: 8, xl: 9} | gridClasses }}">
+        <h1 class="{{ {s:'WB5', m:'WB4', l:'WB3'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['bottom']}) }} {{ {s: 0} | spacingClasses({margin: ['top']}) }} font-purple">Embracing the Goddess</h1>
+        <p class="no-margin">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit modi voluptatibus cumque unde, architecto perspiciatis quidem labore dolorum culpa eveniet aspernatur rerum amet maxime minus tempora ratione enim excepturi qui.</p>
+      </div>
+      <div class="{{ {s: 12, m: 3, shiftM: 1, l: 3, shiftL:1,  xl: 2, shiftXl: 1} | gridClasses }} text-align-right">
+        <span class="{{ {s: 'HNM6'} | fontClasses }}">in partnership with</span>
+        <img class="block" src="http://placehold.it/300x200" />
       </div>
     </div>
   </div>
-</div>
-{# End Header #}
 
+  <div class="container bg-white {{ {s: 6} | spacingClasses({padding: ['bottom']}) }}">
+    <div class="grid {{ {s: 5} | spacingClasses({padding: ['top']}) }} {{ {s: 2} | spacingClasses({padding: ['bottom']}) }}">
+      <div class="{{ {s: 12, m: 9, l: 9, xl: 9} | gridClasses }}">
+        <h2 class="no-margin inline-block {{ {s: 'WB6', m: 'WB5'} | fontClasses }} {{ {s: 2} | spacingClasses({padding: ['right']}) }} font-purple">Thursday 16 February, 19:00&mdash;23:00</h2>
+        <span class="{{ {s: 'WB7', m: 'WB6'} | fontClasses }}">3 events</span>
+      </div>
+      <div class="{{ {s: 12, m: 3, l: 3, xl: 3} | gridClasses }} {{ {s: 2} | spacingClasses({margin: ['top']}) }} {{ {m: 0} | spacingClasses({margin: ['top']}) }}">
+        <span class="inline-block bg-yellow {{ {s: 2} | spacingClasses({padding: ['left', 'right']}) }}">All events are free</span>
+      </div>
+    </div>
+    <hr class="divider divider--thin divider--pumice" />
 
-<div class="row {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top', 'bottom']}) }} }}">
-  <div class="container">
     <div class="grid">
       <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
-        <h2 class="{{ {s: 'WB6', m: 'WB5'} | fontClasses }}">Thursday 16 February, 19:00&mdash;23:00</h2>
-        <hr class="divider divider--thin divider--pumice" />
         <ul class="event-schedule plain-list no-marin no-padding">
           {% componentJsx 'EventScheduleItem' %}
           {% componentJsx 'EventScheduleItem' %}

@@ -8,6 +8,7 @@ import image from './image';
 import location from './location';
 import plus from './plus';
 import search from './search';
+import ticketAvailable from './ticket_available';
 import zoomIn from './zoom-in';
 import zoomOut from './zoom-out';
 import information from './information';
@@ -42,6 +43,7 @@ export {
   location,
   plus,
   search,
+  ticketAvailable,
   zoomIn,
   zoomOut,
   information,
