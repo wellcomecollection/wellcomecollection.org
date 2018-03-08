@@ -1,3 +1,4 @@
+import {withToggler} from '../../hocs/withToggler';
 import {font, spacing} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
@@ -7,8 +8,8 @@ type Props = {|
   links: Array<{ href: string, title: string }>
 |}
 
-const Header = ({ links, siteSection }: Props) => (
-  <div className='header grid js-header-burger js-focus-trap bg-white'>
+const Header = withToggler(({ links, siteSection, toggle, isActive }: Props) => (
+  <div className={`header grid js-header-burger js-focus-trap bg-white ${isActive ? 'header--is-burger-open' : ''}`}>
     <span className='visually-hidden js-trap-reverse-end'>reset focus</span>
     <div className='header__upper grid__cell'>
       <div className='header__inner container'>
@@ -16,7 +17,8 @@ const Header = ({ links, siteSection }: Props) => (
           <a href='#footer-nav-1'
             id='header-burger-trigger'
             className='header__burger-trigger js-header-burger-trigger js-trap-start'
-            aria-label='menu'>
+            aria-label='menu'
+            onClick={(event) => { event.preventDefault(); toggle(event); }}>
             <span />
             <span />
             <span />
@@ -67,6 +69,6 @@ const Header = ({ links, siteSection }: Props) => (
       </div>
     </div>
   </div>
-);
+));
 
 export default Header;
