@@ -1,6 +1,7 @@
-const commonDirRegExp = /@weco(?!.*node_modules)/;
+const webpack = require('webpack');
 const withTM = require('@weco/next-plugin-transpile-modules');
 const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
+const commonDirRegExp = /@weco(?!.*node_modules)/;
 
 const withBundleAnalyzerConfig = withBundleAnalyzer({
   analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
@@ -13,6 +14,13 @@ const withBundleAnalyzerConfig = withBundleAnalyzer({
       },
       use: ['babel-loader', 'raw-loader', 'postcss-loader', 'sass-loader']
     });
+    config.plugins.push(
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new webpack.NormalModuleReplacementPlugin(
+        /moment-timezone\/data\/packed\/latest\.json/,
+        require.resolve('./timezones.json')
+      )
+    );
 
     return config;
   }
