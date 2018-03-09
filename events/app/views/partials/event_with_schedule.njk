@@ -35,9 +35,57 @@
     <div class="grid">
       <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
         <ul class="plain-list no-marin no-padding">
-          {% componentJsx 'EventScheduleItem' %}
-          {% componentJsx 'EventScheduleItem' %}
-          {% componentJsx 'EventScheduleItem' %}
+          {% componentJsx 'EventScheduleItem',
+            {
+              event: {
+                startDate: '19:00',
+                endDate: '20:00',
+                title: 'Creative Activities',
+                location: 'Reading Room',
+                format: 'Workshop',
+                isDropIn: true,
+                description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam illum aspernatur repudiandae quidem incidunt, culpa exercitationem tempore aliquam, sed ipsa officiis consectetur repellat quis voluptatem obcaecati, consequuntur labore. Ea, quis.'
+              },
+              eventInfo: {
+                eventbriteId: null,
+                isCompletelySoldOut: null
+              }
+            }
+          %}
+          {% componentJsx 'EventScheduleItem',
+            {
+              event: {
+                startDate: '19:30',
+                endDate: '20:30',
+                title: 'Panel Discussion',
+                location: 'The Studio',
+                format: 'Discussion',
+                isDropIn: false,
+                description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam illum aspernatur repudiandae quidem incidunt, culpa exercitationem tempore aliquam, sed ipsa officiis consectetur repellat quis voluptatem obcaecati, consequuntur labore. Ea, quis.'
+              },
+              eventInfo: {
+                eventbriteId: 123,
+                isCompletelySoldOut: true
+              }
+            }
+          %}
+          {% componentJsx 'EventScheduleItem',
+            {
+              event: {
+                startDate: '20:00',
+                endDate: '21:45',
+                title: 'Music from Club Kali',
+                location: 'The Forum',
+                format: 'Performance',
+                isDropIn: true,
+                description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam illum aspernatur repudiandae quidem incidunt, culpa exercitationem tempore aliquam, sed ipsa officiis consectetur repellat quis voluptatem obcaecati, consequuntur labore. Ea, quis.'
+              },
+              eventInfo: {
+                eventbriteId: null,
+                isCompletelySoldOut: null
+              }
+            }
+          %}
         </ul>
       </div>
     </div>
