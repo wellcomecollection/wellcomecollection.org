@@ -1,14 +1,12 @@
-{# TODO: remove inline styles (work out where they should live) #}
-<div class="row relative" style="padding-top: 15vw;">
-  <img class="absolute" style="top: 0; z-index: -1;" src="http://placebeyonce.com/1600-600" />
+<div class="event-schedule row relative">
+  <img class="absolute event-schedule__header-image" src="http://placebeyonce.com/1600-600" />
   <div class="relative container bg-white {{ {s: 2} | spacingClasses({margin: ['bottom']}) }} {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top', 'bottom']}) }} }}">
-
     <div class="grid">
       <div class="{{ {s: 12, m: 8, l: 8, xl: 9} | gridClasses }}">
-        <h1 class="{{ {s:'WB5', m:'WB4', l:'WB3'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['bottom']}) }} {{ {s: 0} | spacingClasses({margin: ['top']}) }} font-purple">Embracing the Goddess</h1>
+        <h1 class="{{ {s: 'WB5', m: 'WB4', l: 'WB3'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['bottom']}) }} {{ {s: 0} | spacingClasses({margin: ['top']}) }} font-purple">Embracing the Goddess</h1>
         <p class="no-margin">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit modi voluptatibus cumque unde, architecto perspiciatis quidem labore dolorum culpa eveniet aspernatur rerum amet maxime minus tempora ratione enim excepturi qui.</p>
       </div>
-      <div class="{{ {s: 12, m: 3, shiftM: 1, l: 3, shiftL:1,  xl: 2, shiftXl: 1} | gridClasses }} text-align-right">
+      <div class="{{ {s: 6, m: 4, l: 3, shiftL:1,  xl: 2, shiftXl: 1} | gridClasses }} {{ {s: 2} | spacingClasses({margin: ['top']}) }} {{ {m: 0} | spacingClasses({margin: ['top']}) }} event-schedule__partnership">
         <span class="{{ {s: 'HNM6'} | fontClasses }}">in partnership with</span>
         <img class="block" src="http://placehold.it/300x200" />
       </div>
@@ -19,17 +17,17 @@
     <div class="grid {{ {s: 5} | spacingClasses({padding: ['top']}) }} {{ {s: 2} | spacingClasses({padding: ['bottom']}) }}">
       <div class="{{ {s: 12, m: 9, l: 9, xl: 9} | gridClasses }}">
         <h2 class="no-margin inline-block {{ {s: 'WB6', m: 'WB5'} | fontClasses }} {{ {s: 2} | spacingClasses({padding: ['right']}) }} font-purple">Thursday 16 February, 19:00&mdash;23:00</h2>
-        <span class="{{ {s: 'WB7', m: 'WB6'} | fontClasses }}">3 events</span>
+        <span class="event-schedule__amount {{ {s: 'WB7', m: 'WB6'} | fontClasses }}">3 events</span>
       </div>
       <div class="{{ {s: 12, m: 3, l: 3, xl: 3} | gridClasses }} {{ {s: 2} | spacingClasses({margin: ['top']}) }} {{ {m: 0} | spacingClasses({margin: ['top']}) }}">
-        <span class="inline-block bg-yellow {{ {s: 2} | spacingClasses({padding: ['left', 'right']}) }}">All events are free</span>
+        <span class="inline-block bg-yellow {{ {s: 'HNM4'} | fontClasses }} {{ {s: 2} | spacingClasses({padding: ['left', 'right']}) }} {{ {s: 1} | spacingClasses({padding: ['top', 'bottom']}) }}">All events are free</span>
       </div>
     </div>
     <hr class="divider divider--thin divider--pumice" />
 
     <div class="grid">
       <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
-        <ul class="event-schedule plain-list no-marin no-padding">
+        <ul class="plain-list no-marin no-padding">
           {% componentJsx 'EventScheduleItem' %}
           {% componentJsx 'EventScheduleItem' %}
           {% componentJsx 'EventScheduleItem' %}

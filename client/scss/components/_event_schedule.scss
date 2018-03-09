@@ -1,3 +1,26 @@
+.event-schedule {
+  padding-top: 15vw;
+}
+
+.event-schedule__header-image {
+  top: 0;
+  z-index: -1;
+}
+
+.event-schedule__partnership {
+  @include respond-to('medium') {
+    text-align: right;
+  }
+}
+
+.event-schedule__amount {
+  display: block;
+
+  @include respond-to('large') {
+    display: inline-block;
+  }
+}
+
 .event-schedule__toggle {
   display: inline-block;
   transition: transform 600ms ease;
