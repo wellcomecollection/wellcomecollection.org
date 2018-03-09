@@ -1,5 +1,12 @@
 <div class="event-schedule row relative">
-  <img class="absolute event-schedule__header-image" src="http://placebeyonce.com/1600-600" />
+  <div class="absolute event-schedule__header-image">
+    {% componentJsx 'Image', {
+      width: 1600,
+      height: 600,
+      contentUrl: 'http://placebeyonce.com/1600-600',
+      lazyload: true
+    } %}
+  </div>
   <div class="relative container bg-white {{ {s: 2} | spacingClasses({margin: ['bottom']}) }} {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top', 'bottom']}) }} }}">
     <div class="grid">
       <div class="{{ {s: 12, m: 8, l: 8, xl: 9} | gridClasses }}">
@@ -15,12 +22,12 @@
 
   <div class="container bg-white {{ {s: 6} | spacingClasses({padding: ['bottom']}) }}">
     <div class="grid {{ {s: 5} | spacingClasses({padding: ['top']}) }} {{ {s: 2} | spacingClasses({padding: ['bottom']}) }}">
-      <div class="{{ {s: 12, m: 9, l: 9, xl: 9} | gridClasses }}">
-        <h2 class="no-margin inline-block {{ {s: 'WB6', m: 'WB5'} | fontClasses }} {{ {s: 2} | spacingClasses({padding: ['right']}) }} font-purple">Thursday 16 February, 19:00&mdash;23:00</h2>
+      <div class="{{ {s: 12, m: 8, l: 9, xl: 9} | gridClasses }}">
+        <h2 class="no-margin inline-block {{ {s: 'WB7', m: 'WB5'} | fontClasses }} {{ {s: 2} | spacingClasses({padding: ['right']}) }} font-purple">Thursday 16 February, 19:00&mdash;23:00</h2>
         <span class="event-schedule__amount {{ {s: 'WB7', m: 'WB6'} | fontClasses }}">3 events</span>
       </div>
-      <div class="{{ {s: 12, m: 3, l: 3, xl: 3} | gridClasses }} {{ {s: 2} | spacingClasses({margin: ['top']}) }} {{ {m: 0} | spacingClasses({margin: ['top']}) }}">
-        <span class="inline-block bg-yellow {{ {s: 'HNM4'} | fontClasses }} {{ {s: 2} | spacingClasses({padding: ['left', 'right']}) }} {{ {s: 1} | spacingClasses({padding: ['top', 'bottom']}) }}">All events are free</span>
+      <div class="event-schedule__free {{ {s: 12, m: 4, l: 3, xl: 3} | gridClasses }} {{ {s: 2} | spacingClasses({margin: ['top']}) }} {{ {m: 0} | spacingClasses({margin: ['top']}) }}">
+        <span class="inline-block bg-yellow {{ {s: 'HNM5', l: 'HNM4'} | fontClasses }} {{ {s: 2} | spacingClasses({padding: ['left', 'right']}) }} {{ {s: 1} | spacingClasses({padding: ['top', 'bottom']}) }}">All events are free</span>
       </div>
     </div>
     <hr class="divider divider--thin divider--pumice" />

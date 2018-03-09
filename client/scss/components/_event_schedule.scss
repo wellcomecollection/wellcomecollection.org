@@ -21,6 +21,12 @@
   }
 }
 
+.event-schedule__free {
+  @include respond-to('medium') {
+    text-align: right;
+  }
+}
+
 .event-schedule__toggle {
   display: inline-block;
   transition: transform 600ms ease;
@@ -41,7 +47,6 @@
       right: -20px;
       width: 5px;
       background: color('purple');
-      transition: height 600ms ease-in-out;
     }
   }
 }
@@ -69,5 +74,13 @@
 
   &:focus {
     outline: 0;
+  }
+}
+
+.event-schedule__item {
+  border-left: 5px solid color('purple');
+
+  @include respond-to('large') {
+    border-left: 0;
   }
 }
