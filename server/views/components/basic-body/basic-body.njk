@@ -60,8 +60,7 @@
           {% elif bodyPart.type === 'interview' %}
             {% component 'interview', { interview: bodyPart.value } %}
           {% elif bodyPart.type === 'imageGallery' %}
-          {% set idNumber = mainLoopIndex - 1 %}
-            {% component 'image-gallery', { imageGallery: bodyPart.value, id: 'image-gallery--' + idNumber } %}
+            {% component 'image-gallery', { imageGallery: bodyPart.value, id: 'image-gallery--' + loop.index } %}
           {% elif bodyPart.type === 'tweet' %}
             {% componentV2 'tweet', bodyPart.value %}
           {% elif bodyPart.type === 'instagramEmbed' %}
