@@ -61,6 +61,7 @@ const imageMarkup = (width, height, clipPathClass, lazyload = false, defaultSize
       data-srcset={sizes.map(size => {
         return `${convertImageUri(contentUrl, size, false)} ${size}w`;
       })}
+      sizes={sizesQueries}
       data-copyright={copyright}
       onClick={clickHandler}
       alt={alt} />
