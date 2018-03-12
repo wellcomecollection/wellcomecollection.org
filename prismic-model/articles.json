@@ -507,6 +507,15 @@
         "label" : "Override publish date"
       },
       "type" : "Timestamp"
+    },
+    "displayType" : {
+      "type" : "Link",
+      "config" : {
+        "label" : "displayType",
+        "select" : "document",
+        "customtypes" : [ "display_type" ],
+        "placeholder" : "Display using"
+      }
     }
   }
 }
