@@ -14,8 +14,7 @@
       {% set imageModel = item | objectAssign({
         lazyload: true,
         sizesQueries: queries,
-        slideNumbers: slideNumbers,
-        truncateCaption: true
+        slideNumbers: slideNumbers
       }) %}
       {% set tasl = {name: 'Tasl', model: imageModel}
         if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
