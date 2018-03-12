@@ -2,31 +2,15 @@
 {# TODO convert to JSX #}
 
 <div class="body-content">
-  {% for bodyPart in articleBody %}
+  {% for bodyPart in pageBody %}
         {% if bodyPart.value.name %}
           <h2>{{ bodyPart.value.name }}</h2>
         {% endif %}
         <div class="body-part
-                {{- ' body-part--standalone body-part--full-width' if bodyPart.weight === 'standalone'  -}}
-                {{- ' body-part--supporting' if bodyPart.weight === 'supporting'  -}}">
-          {% if bodyPart.type === 'standfirst' or ((mainLoopIndex === 1 and loop.index === 1) and bodyPart.type !== 'imageList' ) %}
-            {# checking the index here is a bit of a hack around when we have a video as the mainMedia #}
-            {% if contentType === 'comic' %}
-              {{ bodyPart.value | safe }}
-            {% elif bodyPart.type === 'picture' %}
-              {# On old content, the first paragraph is sometimes a picture #}
-              {% set imageModel = bodyPart.value | objectAssign({lazyload: true, sizesQueries: '(min-width: 960px) 710px, 100vw', showCopyright: true}) %}
-              {% set tasl = {name: 'Tasl', model: imageModel | objectAssign({sourceName: imageModel.source.name, sourceLink: imageModel.source.link})}
-                if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
-                else null
-              %}
-              {% componentJsx 'CaptionedImage', bodyPart.value, [
-                {name: 'Image', model: imageModel},
-                tasl
-              ] %}
-            {% else %}
-                {% component 'standfirst', { body: bodyPart.value } %}
-            {% endif %}
+          {{- ' body-part--standalone body-part--full-width' if bodyPart.weight === 'standalone'  -}}
+          {{- ' body-part--supporting' if bodyPart.weight === 'supporting'  -}}">
+          {% if bodyPart.type === 'standfirst' %}
+            {% component 'standfirst', { body: bodyPart.value } %}
           {% elif bodyPart.type === 'heading' %}
             <h2>{{ bodyPart.value.value | safe }}</h2>
           {% elif bodyPart.type === 'gif-video' %}
