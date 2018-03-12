@@ -75,15 +75,17 @@ $center-width-large: (6/7) * 100%; // calculates the halfway point of the contai
     padding: 0 map-get($container-padding, 'medium');
   }
 
-  @include respond-to('large') {
-    left: $center-width-large;
-    margin-right: calc((#{$narrow-width} + #{map-get($gutter-width, 'large')}) * -1);
-    padding: 0 map-get($container-padding, 'large');
-    padding-top: $vertical-space-unit;
-    margin-top: -$vertical-space-unit;
-    /* stylelint-disable declaration-no-important */
-    opacity: 1 !important;
-    /* stylelint-enable */
+  .article & {
+    @include respond-to('large') {
+      left: $center-width-large;
+      margin-right: calc((#{$narrow-width} + #{map-get($gutter-width, 'large')}) * -1);
+      padding: 0 map-get($container-padding, 'large');
+      padding-top: $vertical-space-unit;
+      margin-top: -$vertical-space-unit;
+      /* stylelint-disable declaration-no-important */
+      opacity: 1 !important;
+      /* stylelint-enable */
+    }
   }
 }
 
@@ -120,6 +122,11 @@ $center-width-large: (6/7) * 100%; // calculates the halfway point of the contai
       margin-right: -$narrow-width;
     }
   }
+}
+
+.body-part--supporting {
+  margin: auto;
+  max-width: 600px;
 }
 
 /* stylelint-disable plugin/selector-bem-pattern */
