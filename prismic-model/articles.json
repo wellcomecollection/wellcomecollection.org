@@ -501,20 +501,26 @@
       }
     }
   },
-  "Metadata" : {
+  "Migration data" : {
     "publishDate" : {
       "config" : {
         "label" : "Override publish date"
       },
       "type" : "Timestamp"
     },
-    "displayType" : {
-      "type" : "Link",
+    "uid" : {
+      "type" : "UID",
       "config" : {
-        "label" : "displayType",
-        "select" : "document",
-        "customtypes" : [ "display-type" ],
-        "placeholder" : "Display using"
+        "label" : "wordpressSlug"
+      }
+    }
+  },
+  "Display" : {
+    "displayType" : {
+      "type" : "Select",
+      "config" : {
+        "options" : [ "basic-page", "article" ],
+        "label" : "Display Type"
       }
     }
   }
