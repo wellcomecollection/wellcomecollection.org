@@ -307,3 +307,40 @@
     }
   }
 }
+
+$slider-one-column-width: (100 / 12) * 1%;
+
+@mixin position-article-slides-container {
+  @include respond-to('medium') {
+    width: calc(100vw - #{map-get($container-padding, 'medium')} - #{$slider-one-column-width});
+    margin-left: $slider-one-column-width;
+  }
+
+  @include respond-to('large') {
+    width: calc(100vw - #{map-get($container-padding, 'large')});
+    margin-left: 0;
+  }
+
+  @include respond-to('xlarge') {
+    position: relative;
+
+    width: calc(100vw - ((100vw - #{$container-width-max}) / 2) - #{2 * map-get($gutter-width, 'xlarge')});
+    left: calc(((100vw - #{$container-width-max}) / 2));
+  }
+}
+
+@mixin position-basic-slides-container {
+  @include respond-to('medium') {
+    margin-left: $slider-one-column-width;
+  }
+
+  @include respond-to('large') {
+    margin-left: $slider-one-column-width*2;
+  }
+
+  @include respond-to('xlarge') {
+    margin-left: 50%;
+    position: relative;
+    left: -#{($container-width-max*8/12/2) - map-get($container-padding, 'xlarge') + (map-get($gutter-width, 'xlarge')/2)};
+  }
+}

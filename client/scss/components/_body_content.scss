@@ -75,11 +75,14 @@ $center-width-large: (6/7) * 100%; // calculates the halfway point of the contai
     padding: 0 map-get($container-padding, 'medium');
   }
 
+  @include respond-to('large') {
+    padding: 0 map-get($container-padding, 'large');
+  }
+
   .article & {
     @include respond-to('large') {
       left: $center-width-large;
       margin-right: calc((#{$narrow-width} + #{map-get($gutter-width, 'large')}) * -1);
-      padding: 0 map-get($container-padding, 'large');
       padding-top: $vertical-space-unit;
       margin-top: -$vertical-space-unit;
       /* stylelint-disable declaration-no-important */
