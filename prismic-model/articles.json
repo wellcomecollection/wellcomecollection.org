@@ -513,7 +513,7 @@
       "config" : {
         "label" : "displayType",
         "select" : "document",
-        "customtypes" : [ "display_type" ],
+        "customtypes" : [ "display-type" ],
         "placeholder" : "Display using"
       }
     }

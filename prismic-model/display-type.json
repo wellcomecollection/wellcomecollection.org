@@ -1,17 +1,17 @@
 {
   "Main" : {
-    "title" : {
+    "templateName" : {
       "type" : "StructuredText",
       "config" : {
         "single" : "heading1",
-        "label" : "Title"
+        "label" : "template name"
       }
     },
-    "description" : {
+    "templateDescription" : {
       "type" : "StructuredText",
       "config" : {
         "single" : "paragraph,hyperlink",
-        "label" : "Description"
+        "label" : "template description"
       }
     }
   }
