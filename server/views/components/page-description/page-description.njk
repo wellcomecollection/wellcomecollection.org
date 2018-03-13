@@ -6,7 +6,7 @@
           {% if model.intro %}
             <span class="page-description__intro {{ {s:'WB7', m:'WB6', l:'WB5'} | fontClasses }} {{ {s:1, l:2} | spacingClasses({margin: ['bottom']}) }}">{{ model.intro }}</span>
           {% endif %}
-          <h1 class="page-description__title {{ {s:'WB5', m:'WB4', l:'WB3'} | fontClasses }}" itemprop="headline">
+          <h1 class="page-description__title {{ {s:'WB5', m:'WB4', l:'WB3'} | fontClasses }}">
             {% if data.icon %}{% icon data.icon %}{% endif %}
             {{ model.title }}
           </h1>
