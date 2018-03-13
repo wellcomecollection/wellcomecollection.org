@@ -93,7 +93,7 @@ export async function getArticle(id: string, previewReq: ?Request) {
         (article.data.displayType === 'basic-page' && Object.assign({}, parseBasicPageDoc(article), {displayType: 'basic'})) ||
         Object.assign({}, parseArticleDoc(article), {displayType: 'article'})
       );
-    case 'webcomics': return parseWebcomicDoc(article);
+    case 'webcomics': return Object.assign({}, parseWebcomicDoc(article), {displayType: 'article'});
   }
 }
 
