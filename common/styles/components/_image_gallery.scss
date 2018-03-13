@@ -19,6 +19,14 @@ $image-gallery-control-margin: 18px;
   z-index: 3;
   top: $spacing-unit * 8;
 
+  .article & {
+    @include position-article-slides-container;
+  }
+
+  .basic-page & {
+    @include position-basic-slides-container;
+  }
+
   @include respond-to('xlarge') {
     position: absolute;
   }
