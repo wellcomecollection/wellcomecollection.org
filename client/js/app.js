@@ -53,7 +53,8 @@ const init = () => {
   const openingHoursEls = document.querySelectorAll('.js-opening-hours');
   const wobblyEdgeEls = document.querySelectorAll('.js-wobbly-edge');
   const stickyEls = document.querySelectorAll('.js-sticky');
-  const galleries = document.querySelectorAll('.js-image-gallery');
+  const articleGalleries = document.querySelectorAll('.article .js-image-gallery');
+  const basicPageGalleries = document.querySelectorAll('.basic-page .js-image-gallery');
   const mainEl = document.getElementById('main');
   const cohortButtons = document.querySelectorAll('.js-cohort-button');
   const gifVideoEls = document.querySelectorAll('.js-gif-video');
@@ -119,10 +120,18 @@ const init = () => {
     backToTop(backToTopEl, 'back-to-top--visible');
   }
 
-  nodeList(galleries).forEach((gallery) => {
+  nodeList(articleGalleries).forEach((gallery) => {
     contentSlider(gallery, {
       slideSelector: '.image-gallery__item',
       modifiers: ['in-article', 'in-content', 'gallery'],
+      sliderType: 'gallery'
+    });
+  });
+
+  nodeList(basicPageGalleries).forEach((gallery) => {
+    contentSlider(gallery, {
+      slideSelector: '.image-gallery__item',
+      modifiers: ['in-basic', 'in-content', 'gallery'],
       sliderType: 'gallery'
     });
   });

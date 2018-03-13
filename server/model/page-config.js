@@ -37,7 +37,7 @@ const seriesUrls = [
 ];
 
 export function getEditorialAnalyticsInfo(article: Article) {
-  const seriesTracking = article.series.map(series => {
+  const seriesTracking = article.series && article.series.map(series => {
     if (series.id) {
       return `${series.name}:${series.id}`;
     } else if (series.url && seriesUrls.indexOf(series.url) !== -1) {
