@@ -82,7 +82,7 @@ async function getAllOfType(type: Array<DocumentType>, options: PrismicQueryOpti
   return results;
 }
 
-export async function getArticle(id: string, previewReq: ?Request, renderType) {
+export async function getArticle(id: string, previewReq: ?Request) {
   const fetchLinks = peopleFields.concat(booksFields, seriesFields, contributorFields);
   const article = await getTypeById(previewReq, ['articles', 'webcomics'], id, {fetchLinks});
   if (!article) { return null; }
