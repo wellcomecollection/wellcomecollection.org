@@ -8,11 +8,14 @@ import {default as filtersMap} from './filters';
 import {
   getPrismicApi,
   getEvent,
-  getEventSeries,
+  getEventsInSeries,
   getExhibitionAndRelatedContent,
   getPaginatedEventPromos,
   getPaginatedExhibitionPromos,
-  getExhibitionAndEventPromos
+  getExhibitionAndEventPromos,
+  convertPrismicResultsToPaginatedResults,
+  createEventPromos,
+  london
 } from './services/prismic';
 import {
   parsePromoListItem,
@@ -28,7 +31,7 @@ export {List};
 export const prismic = {
   getPrismicApi,
   getEvent,
-  getEventSeries,
+  getEventsInSeries,
   getExhibitionAndRelatedContent,
   parsePromoListItem,
   parseExhibitionsDoc,
@@ -37,5 +40,8 @@ export const prismic = {
   asHtml,
   getPaginatedEventPromos,
   getPaginatedExhibitionPromos,
-  getExhibitionAndEventPromos
+  getExhibitionAndEventPromos,
+  convertPrismicResultsToPaginatedResults,
+  createEventPromos,
+  london
 };

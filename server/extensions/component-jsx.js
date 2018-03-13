@@ -25,8 +25,10 @@ export default class Component {
         return React.cloneElement(Component, { key: c.name });
       });
 
+    const Component = components[name];
     const modelWithChildren = Object.assign({}, model, {children: childrenComponents});
-    const html = ReactDOMServer.renderToString(components[name](modelWithChildren));
+    const instantiatedComponent = Component.name && Component.name !== '_class' ? Component(modelWithChildren) : React.createElement(Component, modelWithChildren);
+    const html = ReactDOMServer.renderToString(instantiatedComponent);
     return new nunjucks.runtime.SafeString(html);
   };
 };

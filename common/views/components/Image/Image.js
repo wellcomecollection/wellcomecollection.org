@@ -33,13 +33,12 @@ const Image = ({
   zoomable
 }: Props) => (
   <Fragment>
-    <noscript>
-      <img width={width}
-        height={height}
+    <noscript dangerouslySetInnerHTML={{__html: `
+      <img width=${width}
+        height=${height || ''}
         className='image image--noscript'
-        src={convertImageUri(contentUrl, 640, false)}
-        alt={alt} />
-    </noscript>
+        src=${convertImageUri(contentUrl, 640, false)}
+        alt=${alt} />`}} />
     {imageMarkup(width, height, clipPathClass, lazyload, defaultSize, contentUrl, sizesQueries, copyright, alt, caption, clickHandler)}
   </Fragment>
 );
@@ -62,6 +61,7 @@ const imageMarkup = (width, height, clipPathClass, lazyload = false, defaultSize
       data-srcset={sizes.map(size => {
         return `${convertImageUri(contentUrl, size, false)} ${size}w`;
       })}
+      sizes={sizesQueries}
       data-copyright={copyright}
       onClick={clickHandler}
       alt={alt} />

@@ -1,6 +1,6 @@
 import {model, prismic} from 'common';
 const {createPageConfig} = model;
-const {getPaginatedEventPromos, getEventSeries, asText, asHtml} = prismic;
+const {getPaginatedEventPromos, getEventsInSeries, asText, asHtml, createEventPromos, convertPrismicResultsToPaginatedResults, london} = prismic;
 
 export async function renderEvent(ctx, next) {
   const id = `${ctx.params.id}`;
@@ -34,6 +34,7 @@ export async function renderEvent(ctx, next) {
           inSection: 'whatson',
           category: 'public-programme',
           contentType: 'event',
+          seriesUrl: event.series.map(series => `${series.title}:${series.id}`).join(','),
           canonicalUri: `${ctx.globals.rootDomain}/events/${event.id}`
         }),
         event: event,
@@ -49,8 +50,16 @@ export async function renderEvent(ctx, next) {
 export async function renderEventSeries(ctx, next) {
   const page = ctx.request.query.page ? Number(ctx.request.query.page) : 1;
   const {id} = ctx.params;
-  const paginatedEvents = await getEventSeries(id, { page });
+  const events = await getEventsInSeries(id, { page });
+  const promos = createEventPromos(events.results).reverse();
+  const paginatedResults = convertPrismicResultsToPaginatedResults(promos);
+  const paginatedEvents = paginatedResults(promos);
   const series = paginatedEvents.results[0].series.find(series => series.id === id);
+  const withFilteredPromos = Object.assign({}, paginatedEvents, {results: promos.filter(e => london(e.end).isAfter(london()))});
+  // TODO pagination will be out of sync with Prismic, since we're removing items after the request.
+  // If we use dateAfter to query prismic, this would fix it, but we may end up with no results and hence no way of getting the series data to display.
+  // The other alternative is to make two API calls, but since this will only be an issue if there are more
+  // than 40 events, which is unlikely, I've left as is.
 
   ctx.render('pages/events', {
     pageConfig: createPageConfig({
@@ -64,7 +73,7 @@ export async function renderEventSeries(ctx, next) {
     }),
     htmlDescription: asHtml(series.description),
     hideArchivedEventsLink: true,
-    paginatedEvents
+    paginatedEvents: withFilteredPromos
   });
 
   return next();
