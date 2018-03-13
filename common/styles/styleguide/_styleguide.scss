@@ -1,0 +1,259 @@
+.styleguide__container {
+  padding-top: 20px;
+}
+
+.styleguide__icon {
+  display: inline-block;
+  margin: 0 10px 20px;
+  text-align: center;
+  width: 140px;
+
+  .icon {
+    max-width: 80px;
+  }
+}
+
+.styleguide__icon__id {
+  @include font('LR3');
+  hyphens: auto;
+}
+
+.styleguide__palette__heading {
+  @include font('HNM4');
+  text-transform: uppercase;
+  flex-basis: 100%;
+  margin-bottom: 1em;
+}
+
+.styleguide__palette__section {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 3px solid color('cream');
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+
+  &:last-child {
+    border: 0;
+  }
+}
+
+.styleguide__palette__block {
+  flex-basis: 25%;
+  margin-bottom: 15px;
+}
+
+.styleguide__palette__color {
+  position: relative;
+  min-width: 200px;
+  margin-right: 15px;
+  border: 1px solid color('transparent');
+
+  &--white {
+    border-color: color('silver');
+  }
+
+  &:before {
+    content: '';
+    display: block;
+    padding-top: 100%;
+  }
+}
+
+.styleguide__palette__name {
+  @include font('LR3');
+}
+
+.styleguide__palette__hex {
+  @include font('LR3');
+}
+
+.styleguide__palette__code {
+  font-family: $lettera-regular;
+}
+
+.styleguide__icon-wrap {
+  svg {
+    display: block;
+    width: 4em;
+    height: 4em;
+  }
+}
+
+.styleguide__font {
+  border: 1px solid color('silver');
+  border-width: 1px 0;
+  padding: 10px 0 25px;
+}
+
+@each $font-name in map-keys($fonts) {
+  .styleguide__font__example--#{$font-name} {
+    @include font($font-name);
+  }
+}
+
+[class^=styleguide__font__example--] {
+  margin: 0;
+}
+
+.styleguide__font__name {
+  @include font('HNM5');
+  color: color('red');
+}
+
+.styleguide__font__properties {
+  margin: 10px 0 0;
+  color: color('red');
+}
+
+.styleguide__font__property {
+  @include font('HNM6');
+  display: inline;
+  white-space: nowrap;
+}
+
+.styleguide__font__value {
+  @include font('HNL6');
+  display: inline;
+  margin: 0 20px 0 0;
+}
+
+.styleguide__font__usage-title {
+  @include font('HNM6');
+  display: inline;
+}
+
+.styleguide__font__usage-text {
+  @include font('HNL6');
+  color: color('silver');
+  display: inline;
+}
+
+@import 'components/grid_placeholder';
+
+// FRACTAL TWEAKS... SHIELD YOUR EYES
+// stylelint-disable
+
+html {
+  font-family: $helvetica-neue-medium, $helvetica-neue-medium-base;
+  color: color('black');
+  -webkit-font-smoothing: auto;
+}
+
+.Tree-title,
+.Tree-collectionLabel,
+.Tree-item,
+.Browser-tab a,
+.Meta-key,
+.Meta-value {
+  font-family: $helvetica-neue-medium, $helvetica-neue-medium-base;
+  letter-spacing: 0.02em;
+}
+
+.Prose {
+  font-family: $helvetica-neue-light, $helvetica-neue-light-base;
+  letter-spacing: 0.02em;
+  max-width: none;
+  font-size: 1em;
+
+  strong {
+    font-family: $helvetica-neue-medium, $helvetica-neue-medium-base;
+  }
+}
+
+[dir='ltr'] {
+  .Prose ul,
+  .Prose ol {
+    padding-left: 0;
+  }
+}
+
+.Status,
+.Code {
+  font-size: 0.7em;
+}
+
+.Document {
+  padding: 0;
+}
+
+.Document-header {
+  display: none;
+}
+
+.Document-title,
+.Prose h1,
+.Prose h2,
+.Prose h3 {
+  font-family: $wellcome-bold, $wellcome-bold-base;
+}
+
+.Tree-title,
+.Pen-title,
+.Status-label {
+  font-family: $wellcome-bold, $wellcome-bold-base;
+  text-transform: capitalize;
+  letter-spacing: 0;
+  font-size: 1em;
+}
+
+.Tree-title {
+  color: color('black');
+}
+
+.Tree-collectionLabel,
+.Tree-item,
+.Pen-title,
+.Status-label {
+  font-weight: 500;
+}
+
+.Tree-collectionLabel {
+  color: color('black');
+
+  span:before {
+    top: 0.35rem;
+    background-size: 0.7rem;
+    opacity: 1;
+  }
+}
+
+h4.Tree-collectionLabel {
+  margin-bottom: 0;
+}
+
+[dir='ltr'] .Tree-collectionLabel span {
+  margin-left: -1.25rem;
+}
+
+.Header {
+  background-color: color('yellow');
+  color: color('black');
+  box-shadow: none;
+  padding: 5px 0;
+  justify-content: space-between;
+}
+
+.Header-cardigan {
+  margin-right: 10px;
+}
+
+[dir='ltr'] .Frame-panel--sidebar {
+  background-color: color('cream');
+  border-right: 0;
+}
+
+::-webkit-scrollbar {
+  width: 0.7rem;
+}
+
+[dir='ltr']  .Header-button {
+  border-right-color: color('black');
+}
+
+.icon-fill svg {
+  fill: color('black');
+}
+
+[dir="ltr"] .Tree-collectionLabel span {
+  padding-left: 0.85rem;
+}

@@ -1,0 +1,52 @@
+.icon {
+  display: inline-block;
+  height: $icon-dimension;
+  position: relative;
+  user-select: none;
+}
+
+.icon--match-text {
+  height: 1em;
+}
+
+.icon__canvas {
+  display: block;
+  height: 100%;
+  visibility: hidden;
+}
+
+.icon__svg {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+@each $color-key, $color-value in $colors {
+  .icon--#{$color-key} {
+    svg,
+    .icon__shape {
+      fill: nth($color-value, 1);
+    }
+  }
+}
+
+.icon--90 {
+  transform: rotate(90deg);
+}
+
+.icon--180 {
+  transform: rotate(180deg);
+}
+
+.icon--270 {
+  transform: rotate(270deg);
+}
+
+.icon-rounder {
+  border: 2px solid color('currentColor');
+  border-radius: 50%;
+  width: $icon-container-dimension;
+  height: $icon-container-dimension;
+}

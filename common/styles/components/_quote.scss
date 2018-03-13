@@ -1,0 +1,78 @@
+//* @define quote; weak
+
+.quote {
+  margin: 0 0 2em;
+  border-left: 5px solid color('pumice');
+  padding-left: 1.2em;
+
+  @include respond-to('large') {
+    padding-right: 1em;
+  }
+
+  &.quote--block {
+    border-left: 0;
+    position: relative;
+
+    &:before {
+      position: absolute;
+      content: '\201c';
+      top: -0.02em;
+      left: -0.05em;
+      // stylelint-disable sh-waqar/declaration-use-variable
+      // Decorative quotes – not defined as part of the typography styles
+      font-size: 3em;
+      // stylelint-enable sh-waqar/declaration-use-variable
+      line-height: 1;
+    }
+
+    p:last-of-type {
+      margin-bottom: 0.4em;
+    }
+  }
+
+  p {
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &.quote--with-marks {
+    &:before,
+    &:after {
+      // stylelint-disable sh-waqar/declaration-use-variable
+      // Decorative quotes – not defined as part of the typography styles
+      font-family: $helvetica-neue-medium-base;
+      font-size: 6rem;
+      // stylelint-enable sh-waqar/declaration-use-variable
+      line-height: 1;
+      display: block;
+      color: color('teal');
+      height: 3rem;
+    }
+
+    &:before {
+      content: '\201c';
+      margin-bottom: 1rem;
+    }
+
+    &:after {
+      content: '\201d';
+      margin-top: 0.5rem;
+    }
+  }
+}
+
+.quote__footer {
+  &:before {
+    content: '\2015';
+    margin-right: 0.5em;
+  }
+}
+
+.quote__cite {
+  font-style: normal;
+}

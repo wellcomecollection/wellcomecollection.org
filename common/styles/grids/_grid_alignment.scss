@@ -1,0 +1,20 @@
+/* alignment modifiers per row */
+.grid--justify-start {
+  justify-content: flex-start;
+}
+
+.grid--justify-center {
+  justify-content: center;
+}
+
+.grid--justify-end {
+  justify-content: flex-end;
+}
+
+.grid--align-end {
+  align-items: flex-end;
+}
+
+.grid--spaced {
+  justify-content: space-between;
+}

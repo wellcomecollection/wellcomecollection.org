@@ -372,7 +372,7 @@ function parseContributors(doc: ?PrismicDocFragment): List<Contributor> {
         name: personData.name,
         twitterHandle: personData.twitterHandle,
         image: personData.image && personData.image.url,
-        description: asText(personData.description)
+        description: asHtml(personData.description)
       };
 
       return {person, role};

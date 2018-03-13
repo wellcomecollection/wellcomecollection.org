@@ -1,0 +1,39 @@
+//* @define grid; weak
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -(map-get($gutter-width, 'small'));
+
+  @include respond-to('medium') {
+    margin-left: -(map-get($gutter-width, 'medium'));
+  }
+
+  @include respond-to('large') {
+    margin-left: -(map-get($gutter-width, 'large'));
+  }
+}
+
+.grid--no-gutters {
+  margin-left: 0;
+
+  > .grid__cell {
+    padding-left: 0;
+  }
+}
+
+.grid__cell {
+  flex: 1;
+  padding-left: map-get($gutter-width, 'small');
+
+  @include respond-to('medium') {
+    padding-left: map-get($gutter-width, 'medium');
+  }
+
+  @include respond-to('large') {
+    padding-left: map-get($gutter-width, 'large');
+  }
+}
+
+.grid__cell--contains-flex {
+  min-width: 0;
+}

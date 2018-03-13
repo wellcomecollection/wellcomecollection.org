@@ -1,0 +1,12 @@
+.lazy-image.lazy-image {
+  display: none;
+  opacity: 0.6;
+
+  .enhanced & {
+    display: block;
+  }
+
+  &.lazyloaded {
+    opacity: 1;
+  }
+}

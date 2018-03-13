@@ -1,0 +1,34 @@
+$test-numbered-list-number-size-large: 96px;
+
+.is-digital-story-nav-static {
+  .numbered-list--sticky {
+    position: static;
+  }
+
+  .numbered-list__link,
+  .numbered-list__link-surrogate {
+    @include respond-to('large') {
+      padding: 18px 30px;
+      padding-right: $test-numbered-list-number-size-large;
+      min-height: calc($test-numbered-list-number-size-large + 0.2rem);
+    }
+  }
+
+  .numbered-list__number {
+    @include respond-to('medium') {
+      font-size: $test-numbered-list-number-size-large;
+    }
+  }
+
+  .numbered-list__date {
+    display: block;
+  }
+
+  .numbered-list--horizontal-narrow {
+    .slider-controls--numbered-list {
+      @include respond-to('medium') {
+        flex-direction: column;
+      }
+    }
+  }
+}

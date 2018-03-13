@@ -1,0 +1,31 @@
+.gif-video__video {
+  width: 100%;
+}
+
+.gif-video__caption p:last-child {
+  margin-bottom: 0;
+}
+
+.gif-video__play-pause {
+  background: transparent;
+  border: 0;
+  appearance: none;
+  top: $spacing-unit;
+  left: $spacing-unit;
+  transition: opacity 600ms ease;
+}
+
+.gif-video__text {
+  background: rgba(color('black'), 0.6);
+  padding: $spacing-unit;
+  border-radius: $border-radius-unit;
+  color: color('white');
+
+  &:before {
+    content: 'play';
+  }
+}
+
+.gif-video__text--is-playing:before {
+  content: 'pause';
+}

@@ -1,0 +1,437 @@
+@each $spacing-size in $grid-config {
+  $spacing-size-key: nth($spacing-size, 1);
+  $spacing-size-map: nth($spacing-size, 2);
+  $spacing-size-respond: map-get($spacing-size-map, 'respond');
+
+  @if (length($spacing-size-respond) > 1) {
+    @include respond-to(nth($spacing-size-respond, 1)) {
+      @include spacing-classes($spacing-size-key);
+    }
+  } @else {
+    @include respond-to($spacing-size-respond) {
+      @include spacing-classes($spacing-size-key);
+    }
+  }
+}
+
+@each $breakpoint-key, $breakpoint-value in $grid-config {
+  @each $font-key, $font-value in $fonts {
+    $breakpoint-respond: map-get($breakpoint-value, 'respond');
+
+    .font-#{$font-key}-#{$breakpoint-key} {
+      @if (length($breakpoint-respond) > 1) {
+        @include respond-to(nth($breakpoint-respond, 1)) {
+          @include font($font-key);
+        }
+      } @else {
+        @include respond-to($breakpoint-respond) {
+          @include font($font-key);
+        }
+      }
+    }
+  }
+}
+
+@for $i from 1 through 5 {
+  .border-width-#{$i} {
+    border-width: #{$i}px;
+    border-style: solid;
+  }
+
+  @each $direction in $spacing-directions {
+    .border-#{$direction}-width-#{$i} {
+      border-#{$direction}-width: #{$i}px;
+      border-#{$direction}-style: solid;
+    }
+  }
+}
+
+// stylelint-disable sh-waqar/declaration-use-variable
+@each $color-key, $color-value in $colors {
+  .font-#{$color-key} {
+    color: nth($color-value, 1);
+  }
+
+  .font-hover-#{$color-key}:hover,
+  .font-hover-#{$color-key}:focus {
+    color: nth($color-value, 1);
+  }
+
+  .bg-#{$color-key} {
+    background: nth($color-value, 1);
+  }
+
+  .bg-hover-#{$color-key} {
+    &:hover,
+    &:focus {
+      background: nth($color-value, 1);
+    }
+  }
+
+  .border-color-#{$color-key} {
+    border-color: nth($color-value, 1);
+  }
+
+  .border-hover-color-#{$color-key}:hover,
+  .border-hover-color-#{$color-key}:focus {
+    border-color: nth($color-value, 1);
+  }
+}
+
+.transition-bg {
+  transition: background $transition-properties;
+}
+
+// stylelint-enable sh-waqar/declaration-use-variable
+
+.caps {
+  text-transform: uppercase;
+}
+
+// This should trump other display styles
+// stylelint-disable declaration-no-important
+.is-hidden {
+  display: none !important;
+}
+
+.is-hidden-s {
+  @include respond-between('small', 'medium') {
+    display: none !important;
+  }
+}
+
+.is-hidden-m {
+  @include respond-between('medium', 'large') {
+    display: none !important;
+  }
+}
+
+.is-hidden-l {
+  @include respond-between('large', 'xlarge') {
+    display: none !important;
+  }
+}
+
+.is-hidden-xl {
+  @include respond-to('xlarge') {
+    display: none !important;
+  }
+}
+// stylelint-enable declaration-no-important
+
+.line-height-1 {
+  line-height: 1;
+}
+
+// Adds momentum scrolling to iOS
+// TODO: consider removing if/when scroll snapping is implemented
+.touch-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+
+.v-align-middle {
+  vertical-align: middle;
+}
+
+.v-center {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.flex {
+  display: flex;
+}
+
+.flex--column {
+  flex-direction: column;
+}
+
+.flex-inline {
+  display: inline-flex;
+}
+
+.flex--v-center {
+  align-items: center;
+}
+
+.flex--wrap {
+  flex-wrap: wrap;
+}
+
+.flex--h-center {
+  justify-content: center;
+}
+
+.flex--h-space-between {
+  justify-content: space-between;
+}
+
+.flex-end {
+  justify-content: flex-end;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.pointer-events-all {
+  pointer-events: all;
+}
+
+.plain-button {
+  appearance: none;
+  font-family: inherit;
+  letter-spacing: inherit;
+  background: color('transparent');
+  border: 0;
+  text-align: left;
+}
+
+.plain-link {
+  text-decoration: none;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+.no-visible-focus {
+  &,
+  &:focus {
+    outline: 0;
+  }
+}
+
+.link-underline {
+  text-decoration: none;
+  box-shadow: inset 0 -1px 0 0 color('teal');
+
+  &[href]:hover,
+  &[href]:focus,
+  [href] &:hover,
+  [href] &:focus {
+    box-shadow: inset 0 -2px 0 0 color('teal');
+  }
+}
+
+.plain-list {
+  list-style: none;
+}
+
+.block {
+  display: block;
+}
+
+.inline {
+  display: inline;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.inline-block-medium-up {
+  @include respond-to('medium') {
+    display: inline-block;
+  }
+}
+
+.float-r {
+  float: right;
+}
+
+.float-l {
+  float: left;
+}
+
+.h-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.margin-top-auto {
+  margin-top: auto;
+}
+
+.margin-left-auto {
+  margin-left: auto;
+}
+
+.text--truncate {
+  max-height: 80px;
+  overflow: hidden;
+
+  &:after {
+    position: absolute;
+    top: 45px;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 35px;
+    background: linear-gradient(rgba(255, 255, 255 , 0.001), color('white')); // Safari doesn't like transparent (shows as grey), so giving a value very close to transparent.
+  }
+}
+
+.flush-container-left {
+  position: absolute;
+  left: $container-padding-s;
+
+  @include respond-to('medium') {
+    left: $container-padding-m;
+  }
+
+  @include respond-to('large') {
+    left: $container-padding-l;
+  }
+
+  @include respond-to('xlarge') {
+    left: calc(((100vw - #{$container-width-max}) / 2) + #{$container-padding-xl});
+  }
+}
+
+.flush-container-right {
+  position: absolute;
+  right: $container-padding-s;
+
+  @include respond-to('medium') {
+    right: $container-padding-m;
+  }
+
+  @include respond-to('large') {
+    right: $container-padding-l;
+  }
+
+  @include respond-to('xlarge') {
+    right: calc(((100vw - #{$container-width-max}) / 2) + #{$container-padding-xl});
+  }
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.no-padding {
+  padding: 0;
+}
+
+.bg-transparent-black {
+  background: color('transparent-black');
+}
+
+.bg-transparent-black--hover {
+  transition: background 0.7s ease;
+
+  &[href]:hover,
+  &[href]:focus {
+    background: color('black');
+  }
+}
+
+.promo-link {
+  display: block;
+  height: 100%;
+  color: color('black');
+
+  &:hover .promo-link__title,
+  &:focus .promo-link__title {
+    color: color('green');
+  }
+
+  @supports (display: grid) {
+    display: flex;
+  }
+
+}
+
+.promo-link__title {
+  transition: color 400ms ease;
+}
+
+.rounded-corners {
+  border-radius: $border-radius-unit;
+}
+
+.rounded-diagonal {
+  border-top-left-radius: $border-radius-unit;
+  border-bottom-right-radius: $border-radius-unit;
+}
+.rounded-top {
+  border-top-left-radius: $border-radius-unit;
+  border-top-right-radius: $border-radius-unit;
+}
+
+.rounded-bottom {
+  border-bottom-left-radius: $border-radius-unit;
+  border-bottom-right-radius: $border-radius-unit;
+}
+
+.round {
+  border-radius: 50%;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+// These classes should probably become something generic
+// that we can look at when we look at having more breakout type content.
+.person-image {
+  max-width: 100px;
+}
+
+.half-in-image {
+  margin-top: -50px;
+}
+
+.half-in-image-container {
+  margin-top: 50px;
+}
+
+// This is for when we receive content from a CMS,
+// making it easier to style the first node
+.first-para-bold p:first-of-type {
+  @include font('HNM3');
+  font-weight: bold;
+}
+
+// For when we get HTML out of systems like Prismic
+.first-para-no-margin p:first-of-type {
+  margin: 0;
+}
+
+
+// This removes the element from the flow, as well as it's visibility
+.visually-hidden {
+  @include visually-hidden;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+// To be applied to white Wellcome Bold to prevent
+// it looking too chunky on dark backgrounds
+.smooth-font {
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: grayscale;
+}
+
+.cursor-zoom-in {
+  cursor: zoom-in;
+}

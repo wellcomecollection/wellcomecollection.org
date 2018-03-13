@@ -5,8 +5,8 @@ data "aws_acm_certificate" "wellcomecollection_ssl_cert" {
 
 resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   origin {
-    domain_name = "${module.router_alb.dns_name}"
-    origin_id   = "${module.router_alb.id}"
+    domain_name = "origin.wellcomecollection.org"
+    origin_id   = "origin"
 
     custom_origin_config {
       origin_protocol_policy = "https-only"
@@ -31,7 +31,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     allowed_methods        = ["HEAD", "GET", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods         = ["HEAD", "GET", "OPTIONS"]
     viewer_protocol_policy = "redirect-to-https"
-    target_origin_id       = "${module.router_alb.id}"
+    target_origin_id       = "origin"
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
@@ -66,7 +66,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   }
 
   cache_behavior {
-    target_origin_id       = "${module.router_alb.id}"
+    target_origin_id       = "origin"
     path_pattern           = "/eventbrite/*"
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
@@ -87,7 +87,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
 
   # TODO: Deprecate
   cache_behavior {
-    target_origin_id       = "${module.router_alb.id}"
+    target_origin_id       = "origin"
     path_pattern           = "/articles/preview/*"
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
@@ -107,7 +107,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   }
 
   cache_behavior {
-    target_origin_id       = "${module.router_alb.id}"
+    target_origin_id       = "origin"
     path_pattern           = "/preview/*"
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
@@ -127,7 +127,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   }
 
   cache_behavior {
-    target_origin_id       = "${module.router_alb.id}"
+    target_origin_id       = "origin"
     path_pattern           = "/preview"
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
@@ -147,7 +147,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   }
 
   cache_behavior {
-    target_origin_id       = "${module.router_alb.id}"
+    target_origin_id       = "origin"
     path_pattern           = "/flags"
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
@@ -167,7 +167,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   }
 
   cache_behavior {
-    target_origin_id       = "${module.router_alb.id}"
+    target_origin_id       = "origin"
     path_pattern           = "/management/*"
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
@@ -188,7 +188,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
 
   # This is all for Drupal...
   cache_behavior {
-    target_origin_id       = "${module.router_alb.id}"
+    target_origin_id       = "origin"
     path_pattern           = "/system/ajax"
     allowed_methods        = ["HEAD", "GET", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods         = ["HEAD", "GET", "OPTIONS"]
@@ -208,7 +208,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   }
 
   cache_behavior {
-    target_origin_id       = "${module.router_alb.id}"
+    target_origin_id       = "origin"
     path_pattern           = "/admin/*"
     allowed_methods        = ["HEAD", "GET", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods         = ["HEAD", "GET", "OPTIONS"]
@@ -228,7 +228,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   }
 
   cache_behavior {
-    target_origin_id       = "${module.router_alb.id}"
+    target_origin_id       = "origin"
     path_pattern           = "/user"
     allowed_methods        = ["HEAD", "GET", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods         = ["HEAD", "GET", "OPTIONS"]
@@ -248,7 +248,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   }
 
   cache_behavior {
-    target_origin_id       = "${module.router_alb.id}"
+    target_origin_id       = "origin"
     path_pattern           = "/node/*"
     allowed_methods        = ["HEAD", "GET", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods         = ["HEAD", "GET", "OPTIONS"]

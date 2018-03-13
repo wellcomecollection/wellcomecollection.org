@@ -1,0 +1,9 @@
+.transporter {
+  background: color('white');
+}
+
+.transporter__item:first-child:last-child {
+  @include respond-to('large') {
+    max-width: 50%;
+  }
+}

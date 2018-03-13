@@ -1,0 +1,53 @@
+$tweakpoints: (
+  'notification-break': 1160px
+);
+
+$mega-w-size: 400px;
+
+.new-site-notice {
+  position: relative;
+  overflow: hidden;
+}
+
+.new-site-notice:before {
+  @include font('WB1');
+  font-size: $mega-w-size;
+  content: 'W';
+  color: color('white');
+  opacity: 0.15;
+  position: absolute;
+  right: 0;
+  top: -250px;
+  transform: rotate(-30deg);
+}
+
+.new-site-notice__inner {
+  position: relative; // We have this here to ensure we overlap the :before 'W'
+
+  @include respond-to('notification-break') {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.new-site-notice__msg {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  margin-right: 1rem;
+  margin-bottom: 0.8em;
+
+  @include respond-to('notification-break') {
+    margin-bottom: 0;
+  }
+}
+
+.new-site-notice__device-ico {
+  position: relative;
+  min-width: 26px;
+  margin-right: 1em;
+}
+
+.new-site-notice__cta {
+  display: inline-block;
+}

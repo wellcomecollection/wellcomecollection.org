@@ -1,0 +1,45 @@
+.exhibition-hero {
+  background: color('white');
+  margin: 0 auto;
+
+  @include respond-to('large') {
+    display: flex;
+  }
+}
+
+// this is something we want to test on events,
+// and sort out and move to exhibitions
+.exhibition-hero--restrict-width {
+  max-width: $container-width-max;
+  margin: 0 auto;
+}
+
+.exhibition-hero__picture {
+  width: 100%;
+
+  img {
+    display: block;
+  }
+}
+
+.exhibition-hero__copy {
+  position: relative;
+  
+  @include respond-to('large') {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    margin-left: -50%;
+    max-width: $container-width-max / 2;
+  }
+
+  @include respond-to('large') {
+    align-items: flex-end;
+  }
+}
+
+.exhibition-hero__box {
+  // Fixes IE bug where background colour doesn't display on block flex items
+  // but does on 100%-width inline block items (ノಠ益ಠ)ノ彡┻━┻
+  width: 100%;
+}

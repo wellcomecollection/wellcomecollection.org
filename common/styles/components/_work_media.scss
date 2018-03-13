@@ -1,0 +1,43 @@
+.work-media {
+  position: relative;
+  min-height: 200px;
+  height: calc(100vh - 160px);
+
+  @include respond-to(large) {
+    height: calc(100vh - 200px);
+  }
+
+  .image {
+    max-height: 100%;
+    max-width: 100%;
+    height: auto;
+    width: auto;
+    align-self: center;
+    margin: 0 auto;
+
+    .enhanced & {
+      padding: 0;
+      cursor: zoom-in;
+    }
+
+    @supports (object-fit: contain) {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  .image--noscript {
+    display: block;
+  }
+}
+
+.work-media__image-container {
+  display: flex;
+  // stylelint-disable property-no-vendor-prefix
+  -ms-flex: 1 0 auto;
+  // stylelint-enable property-no-vendor-prefix
+  height: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}

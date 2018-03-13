@@ -1,0 +1,12 @@
+//* @define tweet
+
+.tweet {
+  letter-spacing: normal;
+
+  /* stylelint-disable */
+  .twitter-tweet {
+    min-width: 100% !important;
+  }
+  // TODO: style tweet with restriction of embed being max-width 520px
+  /* stylelint-enable */
+}

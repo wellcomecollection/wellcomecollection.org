@@ -1,0 +1,50 @@
+.slider {
+  overflow: hidden;
+}
+
+.slides-container {
+  // stylelint-disable declaration-no-important
+  overflow: visible !important;
+  // stylelint-enable declaration-no-important
+  will-change: transform;
+  transform: translateZ(0);
+  transition: transform 700ms ease;
+}
+
+.slider-controls {
+  will-change: opacity;
+  transform: translateZ(0);
+}
+
+.slider-control--prev,
+.slider-control--next {
+  padding: 0;
+  transition: opacity 400ms ease;
+}
+
+.slider-control--prev {
+  .control-arrow {
+    transform: rotate(180deg);
+  }
+}
+
+.slider-control--inactive {
+  opacity: 0;
+}
+
+/*
+This JS component then exposes these DOM Elements that you can style within your component
+e.g:
+.my-slider {
+  .slider-control--next { background: hotpink; }
+}
+ */
+//.slider {}
+//.slider-inner {}
+//.slides-container {}
+//.slide-item {}
+//.slide-item--current {}
+//.slider-controls   {}
+//.slider-control--prev {}
+//.slider-control--next {}
+//.slider-control--inactive {}

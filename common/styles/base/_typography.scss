@@ -1,0 +1,58 @@
+html {
+  // stylelint-disable sh-waqar/declaration-use-variable
+  font-size: 100%;
+  // stylelint-enable sh-waqar/declaration-use-variable
+}
+
+body {
+  @include font('HNL4');
+
+  @include respond-to('medium') {
+    @include font('HNL3');
+  }
+
+  font-variant-ligatures: no-common-ligatures;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  // stylelint-disable sh-waqar/declaration-use-variable
+  font-size: 1em;
+  // stylelint-enable sh-waqar/declaration-use-variable
+  margin-bottom: 0.6em;
+}
+
+a {
+  color: color('inherit');
+  text-decoration: underline;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1.6em;
+
+  &:empty {
+    display: none;
+  }
+}
+
+ul,
+ol {
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+li {
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+hr {
+  margin: 0;
+}

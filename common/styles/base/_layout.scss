@@ -1,0 +1,34 @@
+$tweakpoints: (
+  'header-medium': $header-medium-breakpoint,
+  'small': map-get($breakpoints, 'small')
+);
+
+* {
+  &,
+  &:before,
+  &:after {
+    box-sizing: border-box;
+  }
+}
+
+.is-scroll-locked--to-medium {
+  @include respond-between('small', 'medium') {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+  }
+}
+
+.is-scroll-locked--to-header-medium {
+  @include respond-between('small', 'header-medium') {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+  }
+}
+
+// We use noscript to provide default images, which are otherwise lazyloaded
+// Without the width specified below it can cause issues with centering of the images, such as on the work page
+noscript {
+  width: 100%;
+}

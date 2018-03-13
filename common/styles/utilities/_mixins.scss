@@ -1,0 +1,309 @@
+@mixin respond-to($point, $condition: min-width) {
+  // Ensure media query isn't in quotes
+  $condition: unquote($condition);
+  // Check global breakpoints first
+  @if map-has-key($breakpoints, $point) {
+    @media ($condition: map-get($breakpoints, $point)) {
+      @content;
+    }
+    // Failing that, check local tweakpoints
+  } @else if map-has-key($tweakpoints, $point) {
+    @media ($condition: map-get($tweakpoints, $point)) {
+      @content;
+    }
+  } @else {
+    @warn 'Could not find `#{$point}` in both local ($tweakpoints) and global ($breakpoints) contexts. Media block omitted.';
+  }
+}
+
+@mixin respond-between($point1, $point2) {
+  // Check global breakpoints first
+  @if map-has-key($breakpoints, $point1) and map-has-key($breakpoints, $point2) {
+    @media (min-width: map-get($breakpoints, $point1)) and (max-width: map-get($breakpoints, $point2) - 1) {
+      @content;
+    }
+    // Failing that, check local tweakpoints
+  } @else if map-has-key($tweakpoints, $point1) {
+    @media (min-width: map-get($tweakpoints, $point1)) and (max-width: map-get($tweakpoints, $point2) - 1) {
+      @content;
+    }
+  } @else {
+    @warn 'Could not find `#{$point1}` and/or `#{$point2}` in both local ($tweakpoints) and global ($breakpoints) contexts. Media block omitted.';
+  }
+}
+
+@mixin container-query($cq-list) {
+  $to-list: null;
+  $between-list: null;
+
+  @each $size-key, $size-value in $cq-list {
+
+    $size: map-get($grid-config, $size-key);
+    $respond: map-get($size, 'respond');
+
+    @if (length($respond) > 1) {
+      @each $cols in $size-value {
+        $between-list: $between-list, unquote('[class*="grid__cell--#{$size-key}#{$cols}"] &');
+      }
+      // stylelint-disable plugin/declaration-block-order
+      @include respond-between(nth($respond, 1), nth($respond, 2)) {
+        #{$between-list} {
+          @content;
+        }
+      }
+    } @else {
+      @each $cols in $size-value {
+        $to-list: $to-list, unquote('[class*="grid__cell--#{$size-key}#{$cols}"] &');
+      }
+
+      @include respond-to($respond) {
+        #{$to-list} {
+          @content;
+        }
+      }
+      // stylelint-enable plugin/declaration-block-order
+    }
+  }
+}
+
+@mixin grid-container-query($cq-list) {
+  $to-list: null;
+  $between-list: null;
+
+  @each $size-key, $size-value in $cq-list {
+
+    $size: map-get($grid-config, $size-key);
+    $respond: map-get($size, 'respond');
+
+    @if (length($respond) > 1) {
+      @each $cols in $size-value {
+        $between-list: $between-list, unquote('[class*="css-grid__cell--#{$size-key}#{$cols}"] &');
+      }
+      // stylelint-disable plugin/declaration-block-order
+      @include respond-between(nth($respond, 1), nth($respond, 2)) {
+        #{$between-list} {
+          @content;
+        }
+      }
+    } @else {
+      @each $cols in $size-value {
+        $to-list: $to-list, unquote('[class*="css-grid__cell--#{$size-key}#{$cols}"] &');
+      }
+
+      @include respond-to($respond) {
+        #{$to-list} {
+          @content;
+        }
+      }
+      // stylelint-enable plugin/declaration-block-order
+    }
+  }
+}
+
+@mixin clearfix {
+  &:before,
+  &:after {
+    content: '';
+    display: table;
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin grid-cells($columns, $key) {
+  @for $i from 1 through $columns {
+    .grid__cell--#{$key}#{$i} {
+      flex-basis: ($i / $columns) * 100%;
+      max-width: ($i / $columns) * 100%;
+    }
+
+    .grid__cell--shift-#{$key}#{$i} {
+      margin-left: ($i / $columns) * 100%;
+    }
+  }
+}
+
+@mixin css-grid-cells($columns, $key) {
+  @for $i from 1 through $columns {
+    .css-grid__cell--#{$key}#{$i} {
+      flex-basis: ($i / $columns) * 100%; // fallback
+      max-width: ($i / $columns) * 100%; // fallback
+
+      @supports(display: grid) {
+        max-width: none;
+        grid-column: span #{$i};
+      }
+    }
+  }
+}
+
+@mixin font($font-name) {
+  $font: map-get($fonts, $font-name);
+
+  $font-family-base: map-get($font, 'font-family-base');
+  $font-family-subset: map-get($font, 'font-family-subset');
+  $font-family-web: map-get($font, 'font-family-web');
+  $font-size: px-to-rem(map-get($font, 'font-size'));
+  $font-weight: map-get($font, 'font-weight');
+  $letter-spacing: tracking-to-em(map-get($font, 'letter-spacing'));
+  $line-height: px-to-unitless(map-get($font, 'line-height'), map-get($font, 'font-size'));
+
+  font-family: $font-family-base;
+  font-size: $font-size;
+
+  @if ($font-weight) {
+    font-weight: $font-weight;
+  }
+
+  letter-spacing: $letter-spacing;
+  line-height: $line-height;
+
+  @if($font-family-subset) {
+    font-family: #{$font-family-subset + ',' + $font-family-base};
+  }
+
+  @if($font-family-web and $font-family-subset) {
+    .fonts-loaded & {
+      font-family: #{$font-family-web + ',' + $font-family-subset + ',' + $font-family-base};
+    }
+  } @else if ($font-family-web) {
+    .fonts-loaded & {
+      font-family: #{$font-family-web + ',' + $font-family-base};
+    }
+  }
+}
+
+// Allow an element to be horizontally stretched outside of its container
+@mixin bleed($amount, $with-padding: false) {
+  margin-left: -$amount;
+  margin-right: -$amount;
+
+  @if ($with-padding) {
+    padding-left: $amount;
+    padding-right: $amount;
+  }
+}
+
+@mixin visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
+}
+
+@mixin visually-hidden-focusable {
+  &:active,
+  &:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+    white-space: inherit;
+  }
+}
+
+@mixin hover-bounce {
+  animation-duration: 400ms;
+  animation-name: hover-bounce;
+}
+
+@keyframes hover-bounce {
+  0% {
+    top: 0;
+    animation-timing-function: ease-in;
+  }
+
+  50% {
+    top: -0.4em;
+    animation-timing-function: ease-out;
+  }
+
+  100% {
+    top: 0;
+  }
+}
+
+@mixin slider ($prefix: '') {
+  .#{$prefix}slider {
+    overflow: hidden;
+  }
+
+  .#{$prefix}slides-container {
+    // stylelint-disable declaration-no-important
+    overflow: visible !important;
+    // stylelint-enable declaration-no-important
+  }
+
+  .#{$prefix}slider-controls {
+    .control-arrow {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .#{$prefix}slider-control--prev {
+    .control-arrow {
+      transform: rotate(90deg);
+    }
+  }
+
+  .#{$prefix}slider-control--next {
+    .control-arrow {
+      transform: rotate(-90deg);
+    }
+  }
+
+  .#{$prefix}slider-control--inactive {
+    // stylelint-disable declaration-no-important
+    cursor: default !important;
+    // stylelint-enable declaration-no-important
+    .control-arrow {
+      opacity: 0.3;
+    }
+  }
+}
+
+@mixin image-zoom ($interactionElement, $containerElement, $zoomElement) {
+  #{$containerElement} {
+    transform: translateZ(0); // Fixes scale/border-radius overflow bug: http://stackoverflow.com/a/31686781
+    border-radius: $border-radius-unit;
+    overflow: hidden;
+
+    #{$zoomElement} {
+      display: block;
+      width: 100%;
+      backface-visibility: hidden; // Fixes chrome bug where image shifts slightly and appears blurry during transition
+      transition: transform 200ms ease, opacity 500ms ease;
+    }
+  }
+
+  #{$interactionElement}:hover #{$zoomElement},
+  #{$interactionElement}:focus #{$zoomElement}, {
+    transform: scale(1.02);
+  }
+}
+
+@mixin spacing-classes($spacing-size-key) {
+  @each $spacing-direction in $spacing-directions {
+    @for $i from -4 through 10 {
+      .margin-#{$spacing-direction}-#{$spacing-size-key}#{$i} {
+        margin-#{$spacing-direction}: #{$i * $spacing-unit};
+      }
+
+      @if ($i >= 0) {
+        .padding-#{$spacing-direction}-#{$spacing-size-key}#{$i} {
+          padding-#{$spacing-direction}: #{$i * $spacing-unit};
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+// TODO: Colours still being worked on by Tomi - using 'smoke' temporarily
+.book-promo {
+  display: block;
+  text-decoration: none;
+  background: color('cream');
+
+  @include container-query(('l': ('6'), 'xl': ('6'))) {
+    display: flex;
+    align-items: flex-start;
+  }
+}
+
+.book-promo__image-container {
+
+  margin-top: -(60px + ($spacing-unit * 4));
+
+  @include container-query(('l': ('6'), 'xl': ('6'))) {
+    margin-bottom: 0;
+  }
+
+  .image {
+    width: 127px;
+
+    @include container-query(('l': ('6'), 'xl': ('6'))) {
+      width: 178px;
+      min-width: 178px;
+      margin-bottom: 0;
+    }
+
+  }
+}
+
+.book-promo__item-number {
+  @include container-query(('l': ('6'), 'xl': ('6'))) {
+    display: none;
+  }
+}
+
+.book-promo__title {
+  transition: color 400ms ease;
+
+  .book-promo:hover &,
+  .book-promo:focus & {
+    color: color('green');
+  }
+}

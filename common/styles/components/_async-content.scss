@@ -1,0 +1,7 @@
+.async-content {
+  display: none;
+
+  .enhanced & {
+    display: block; // TODO: Think about if this isn't `block`?
+  }
+}

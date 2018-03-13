@@ -1,0 +1,128 @@
+.grid--dividers {
+  .grid__cell {
+    position: relative;
+
+    &:before {
+      position: absolute;
+      content: '';
+      top: 0;
+      bottom: $vertical-space-unit;
+      width: 1px;
+      background: color('pumice');
+      left: map-get($gutter-width, 'small') / 2;
+
+      @include respond-to('medium') {
+        left: map-get($gutter-width, 'medium') / 2;
+      }
+
+      @include respond-to('large') {
+        left: map-get($gutter-width, 'large') / 2;
+      }
+    }
+
+    &.grid__cell--s12:before,
+    &[class*='grid__cell--shift-s']:before {
+      @include respond-between('small', 'medium') {
+        display: none;
+      }
+    }
+
+    &.grid__cell--m12:before,
+    &[class*='grid__cell--shift-m']:before {
+      @include respond-between('medium', 'large') {
+        display: none;
+      }
+    }
+
+    &:first-child {
+      &:before {
+        display: none;
+      }
+    }
+  }
+
+  &.grid--scroll .grid__cell:not(:first-child):before {
+    // Don't hide the dividers on mobile when there's a scrolly grid
+    @include respond-between('small', 'medium') {
+      display: block;
+    }
+  }
+
+  // Margins/padding on grid--scroll are reversed, so the divider offset is opposite
+  &.grid--scroll {
+    @include respond-between('small', 'medium') {
+      .grid__cell:before {
+        left: -(map-get($gutter-width, 'small') / 2);
+      }
+    }
+  }
+
+  @include respond-to('medium') {
+    &.grid--theme-4,
+    &.grid--theme-5 {
+      .grid__cell:nth-child(3):before {
+        display: none;
+      }
+    }
+
+    &.grid--theme-6 {
+      .grid__cell:nth-child(4):before {
+        display: none;
+      }
+    }
+
+    &.grid--theme-7,
+    &.grid--theme-6-strip {
+      .grid__cell:nth-child(3):before,
+      .grid__cell:nth-child(5):before {
+        display: none;
+      }
+    }
+
+    &.grid--theme-8 {
+      .grid__cell:nth-child(3):before,
+      .grid__cell:nth-child(6):before {
+        display: none;
+      }
+    }
+  }
+
+  @include respond-to('large') {
+    &.grid--theme-4 {
+      .grid__cell:nth-child(3):before {
+        display: block;
+      }
+    }
+
+    &.grid--theme-7,
+    &.grid--theme-6-strip {
+      .grid__cell:nth-child(3):before,
+      .grid__cell:nth-child(5):before {
+        display: block;
+      }
+
+      .grid__cell:nth-child(4):before {
+        display: none;
+      }
+    }
+
+    &.grid--theme-8 {
+      .grid__cell:nth-child(3):before,
+      .grid__cell:nth-child(6):before {
+        display: block;
+      }
+
+      .grid__cell:nth-child(5):before {
+        display: none;
+      }
+    }
+  }
+
+  @include respond-to('xlarge') {
+    &.grid--theme-6-strip {
+      .grid__cell:nth-child(4):before {
+        display: block;
+      }
+    }
+  }
+}
