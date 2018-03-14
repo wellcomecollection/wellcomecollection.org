@@ -63,12 +63,21 @@ const EventScheduleItem = ({event, eventInfo}: Props) => (
             </p>
           );
         })}
+        <p>{event.place.title}</p>
       </div>
       <div className={grid({s: 12, m: 12, l: 7, xl: 7})}>
         {event.format &&
           <span className={`block ${font({s: 'HNM5', m: 'HNM4'})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{event.format.title}</span>
         }
         <h3 className={`${font({s: 'WB7', m: 'WB6'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{event.title}</h3>
+
+        <p className={`${spacing({s: 3}, {margin: ['top']})} ${spacing({s: 2}, {margin: ['bottom']})}`} dangerouslySetInnerHTML={{__html: event.description}} />
+
+        <div className={spacing({s: 4}, {margin: ['bottom']})}>
+          <MoreInfoLink url={`/events/${event.id}`} name='More information' />
+        </div>
+
+        {getTicketButton(eventInfo)}
       </div>
       <div className={`${grid({s: 12, m: 12, l: 3, xl: 3})} ${spacing({s: 2}, {margin: ['top']})} ${spacing({l: 0}, {margin: ['top']})}`}>
         <div className='event-schedule__meta flex flex-end'>
@@ -83,20 +92,6 @@ const EventScheduleItem = ({event, eventInfo}: Props) => (
                 name={camelize(interpretation.interpretationType.title)} />
             ))}
           </div>
-        </div>
-      </div>
-    </div>
-    <div className='grid'>
-      <div className={`${grid({s: 12, m: 12, l: 2, xl: 2})} ${spacing({s: 2, l: 0}, {margin: ['bottom']})}`}></div>
-      <div className={grid({s: 12, m: 12, l: 7, xl: 7})}>
-        <div>
-          <p className={`${spacing({s: 3}, {margin: ['top']})} ${spacing({s: 2}, {margin: ['bottom']})}`} dangerouslySetInnerHTML={{__html: event.description}} />
-
-          <div className={spacing({s: 4}, {margin: ['bottom']})}>
-            <MoreInfoLink url={`/events/${event.id}`} name='More information' />
-          </div>
-
-          {getTicketButton(eventInfo)}
         </div>
       </div>
     </div>
