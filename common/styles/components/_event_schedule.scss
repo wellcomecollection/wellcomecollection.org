@@ -1,10 +1,13 @@
 .event-schedule {
-  padding-top: 15vw;
+  padding-top: 10vw;
 }
 
 .event-schedule__header-image {
   top: 0;
+  position: fixed;
   z-index: -1;
+  height: 60vh;
+  width: 100%;
 }
 
 .event-schedule__partnership {
@@ -24,63 +27,5 @@
 .event-schedule__free {
   @include respond-to('medium') {
     text-align: right;
-  }
-}
-
-.event-schedule__toggle {
-  display: inline-block;
-  transition: transform 600ms ease;
-
-  .event-schedule__item.is-active & {
-    transform: rotate(45deg);
-  }
-}
-
-.event-schedule__border {
-  position: relative;
-
-  @include respond-to('large') {
-    &:after {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: -20px;
-      width: 5px;
-      background: color('purple');
-    }
-  }
-}
-
-.event-schedule__border--top {
-  &:after {
-    height: 100%;
-  }
-}
-
-.event-schedule__border--bottom {
-  &:after {
-    height: 0%;
-  }
-
-  .event-schedule__item.is-active & {
-    &:after {
-      height: 100%;
-    }
-  }
-}
-
-.event-schedule__trigger {
-  width: 100%;
-
-  &:focus {
-    outline: 0;
-  }
-}
-
-.event-schedule__item {
-  border-left: 5px solid color('purple');
-
-  @include respond-to('large') {
-    border-left: 0;
   }
 }

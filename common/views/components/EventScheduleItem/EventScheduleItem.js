@@ -2,12 +2,9 @@
 
 import {grid, font, spacing} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
-import Author from '../Author/Author';
 import MoreInfoLink from '../MoreInfoLink/MoreInfoLink';
 import ButtonButton from '../Buttons/ButtonButton/ButtonButton';
-import Image from '../Image/Image';
 import camelize from '../../../utils/camelize';
-import formatTime from '../../../utils/format-date';
 
 type Props = {|
   event: any, // TODO: type event
@@ -56,36 +53,34 @@ function getTicketButton(eventInfo) {
 
 const EventScheduleItem = ({event, eventInfo}: Props) => (
   <li className={`event-schedule__item ${spacing({s: 2, l: 0}, {padding: ['left']})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
-    <button className='event-schedule__trigger plain-button no-margin no-padding pointer'>
-      <div className='grid'>
-        <div className={`${grid({s: 12, m: 12, l: 2, xl: 2})} ${spacing({s: 2, l: 0}, {margin: ['bottom']})} font-purple`}>
-          {event.times.map(t => (
-            <span key='TODO'>{}</span>
-          ))}
-        </div>
-        <div className={grid({s: 12, m: 12, l: 7, xl: 7})}>
-          {event.format &&
-            <span className={`block ${font({s: 'HNM5', m: 'HNM4'})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{event.format.title}</span>
-          }
-          <h3 className={`${font({s: 'WB7', m: 'WB6'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{event.title}</h3>
-        </div>
-        <div className={`${grid({s: 12, m: 12, l: 3, xl: 3})} ${spacing({s: 2}, {margin: ['top']})} ${spacing({l: 0}, {margin: ['top']})}`}>
-          <div className='event-schedule__meta flex flex-end'>
-            <div className="event-schedule__tickets">
-              {event.isDropIn &&
-                <div className={`${spacing({s: 1}, {margin: ['right', 'bottom']})} ${font({s: 'HNM5', m: 'HNM4'})}`}>No ticket required</div>
-              }
-              <div className={`${spacing({s: 1}, {margin: ['right', 'bottom']})} ${font({s: 'HNM5', m: 'HNM4'})}`}>{getTicketInfo(event, eventInfo)}</div>
-              {event.interpretations.map(interpretation => (
-                <Icon key={interpretation.interpretationType.title}
-                  title={interpretation.interpretationType.title}
-                  name={camelize(interpretation.interpretationType.title)} />
-              ))}
-            </div>
+    <div className='grid'>
+      <div className={`${grid({s: 12, m: 12, l: 2, xl: 2})} ${spacing({s: 2, l: 0}, {margin: ['bottom']})} font-purple`}>
+        {event.times.map(t => (
+          <span key='TODO'>{}</span>
+        ))}
+      </div>
+      <div className={grid({s: 12, m: 12, l: 7, xl: 7})}>
+        {event.format &&
+          <span className={`block ${font({s: 'HNM5', m: 'HNM4'})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{event.format.title}</span>
+        }
+        <h3 className={`${font({s: 'WB7', m: 'WB6'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{event.title}</h3>
+      </div>
+      <div className={`${grid({s: 12, m: 12, l: 3, xl: 3})} ${spacing({s: 2}, {margin: ['top']})} ${spacing({l: 0}, {margin: ['top']})}`}>
+        <div className='event-schedule__meta flex flex-end'>
+          <div className="event-schedule__tickets">
+            {event.isDropIn &&
+              <div className={`${spacing({s: 1}, {margin: ['right', 'bottom']})} ${font({s: 'HNM5', m: 'HNM4'})}`}>No ticket required</div>
+            }
+            <div className={`${spacing({s: 1}, {margin: ['right', 'bottom']})} ${font({s: 'HNM5', m: 'HNM4'})}`}>{getTicketInfo(event, eventInfo)}</div>
+            {event.interpretations.map(interpretation => (
+              <Icon key={interpretation.interpretationType.title}
+                title={interpretation.interpretationType.title}
+                name={camelize(interpretation.interpretationType.title)} />
+            ))}
           </div>
         </div>
       </div>
-    </button>
+    </div>
     <div className='grid'>
       <div className={`${grid({s: 12, m: 12, l: 2, xl: 2})} ${spacing({s: 2, l: 0}, {margin: ['bottom']})}`}></div>
       <div className={grid({s: 12, m: 12, l: 7, xl: 7})}>
