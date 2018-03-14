@@ -40,7 +40,8 @@ export function explodeIntoBodyParts(nodes) {
       convertQuote,
       convertWpVideo,
       convertPreformatedText,
-      convertIframe
+      convertIframe,
+      convertSlideshow
     ];
 
     // TODO: Tidy up typing here
@@ -101,6 +102,28 @@ function unwrapFromEm(node) {
 
   if (firstChild && firstChild.nodeName === 'em') {
     node.childNodes = firstChild.childNodes;
+  }
+
+  return node;
+}
+
+function convertSlideshow(node) {
+  const dataGallery = getAttrVal(node.attrs, 'data-gallery');
+  if (dataGallery) {
+    const parsedData = JSON.parse(dataGallery);
+    const images = parsedData.map(image => createPicture({
+      contentUrl: image.src,
+      caption: image.caption,
+      alt: image.alt
+    }));
+
+    return createBodyPart({
+      type: 'imageGallery',
+      weight: 'standalone',
+      value: createImageGallery({
+        items: images
+      })
+    });
   }
 
   return node;
@@ -381,7 +404,8 @@ export function findWpImageGallery(node) {
               contentUrl,
               caption,
               width,
-              height
+              height,
+              alt: caption
             });
           }) || [];
           return imgs;
