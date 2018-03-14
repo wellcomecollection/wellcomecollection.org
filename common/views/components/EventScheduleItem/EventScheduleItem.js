@@ -33,7 +33,6 @@ function getTicketButton(eventInfo) {
     return (
       <ButtonButton
         disabled
-        aria-disabled='true'
         text='Fully booked'
         icon='ticketAvailable'
         extraClasses={`${font({s: 'HNM5'})} btn--full-width-s ${spacing({s: 2}, {margin: ['bottom']})}`}
