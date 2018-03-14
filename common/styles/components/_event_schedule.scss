@@ -16,16 +16,14 @@
   }
 }
 
-.event-schedule__amount {
-  display: block;
-
+.event-schedule__free {
   @include respond-to('large') {
-    display: inline-block;
+    text-align: right;
   }
 }
 
-.event-schedule__free {
-  @include respond-to('medium') {
-    text-align: right;
+.event-schedule__main {
+  @include respond-to('large') {
+    border-right: 1px solid color('smoke');
   }
 }
