@@ -21,3 +21,9 @@
     text-align: right;
   }
 }
+
+.event-schedule__main {
+  @include respond-to('large') {
+    border-right: 1px solid color('smoke');
+  }
+}
