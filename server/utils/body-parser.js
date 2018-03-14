@@ -42,7 +42,8 @@ export function explodeIntoBodyParts(nodes) {
       convertPreformatedText,
       convertIframe,
       convertSlideshow,
-      convertVimeo
+      convertVimeo,
+      convertAudio
     ];
 
     // TODO: Tidy up typing here
@@ -273,6 +274,20 @@ function isImg(node) {
   return parentNode.childNodes && parentNode.childNodes[0] && parentNode.childNodes[0].nodeName === 'img';
 }
 
+function convertAudio(node) {
+  if (node.nodeName === 'audio') {
+    const link = node.childNodes && node.childNodes.find(node => node.nodeName === 'a');
+    if (link) {
+      const href = getAttrVal(link.attrs, 'href');
+      return createBodyPart({
+        type: 'html',
+        value: `<p><a href=${href} target="_blank">Listen</a></p>`
+      });
+    }
+  }
+  return node;
+}
+
 function convertVimeo(node) {
   const iframe = node.nodeName === 'div' && node.childNodes && node.childNodes.find(node => node.nodeName === 'iframe');
   if (iframe && iframe.attrs && getAttrVal(iframe.attrs, 'src').match('vimeo')) {
@@ -342,7 +357,7 @@ export function convertPreformatedText(node) {
 }
 
 export function convertWpList(node) {
-  const isWpList = node.nodeName === 'ul';
+  const isWpList = node.nodeName === 'ul' || node.nodeName === 'ol';
   if (isWpList) {
     // Make sure it's a list item and not empty
     const lis = node.childNodes.filter(n => n.nodeName === 'li' && n.childNodes);
