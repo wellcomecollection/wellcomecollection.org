@@ -51,9 +51,9 @@ function getTicketButton(eventInfo) {
 }
 
 const EventScheduleItem = ({event, eventInfo}: Props) => (
-  <li className={`event-schedule__item ${spacing({s: 2, l: 0}, {padding: ['left']})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
+  <li className={`event-schedule__item ${spacing({s: 2, l: 0}, {padding: ['left']})} ${spacing({s: 4}, {margin: ['bottom']})} border-color-smoke border-bottom-width-2`}>
     <div className='grid'>
-      <div className={`${grid({s: 12, m: 12, l: 2, xl: 2})} ${spacing({s: 2, l: 0}, {margin: ['bottom']})} font-purple`}>
+      <div className={`${grid({s: 12, m: 12, l: 2, xl: 2})} ${spacing({s: 2, l: 0}, {margin: ['bottom']})}`}>
         {event.times.map((t) => {
           const startTimeString = t.range.startDateTime.toString();
           const endTimeString = t.range.endDateTime.toString();
