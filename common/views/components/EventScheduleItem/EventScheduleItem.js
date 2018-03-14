@@ -5,6 +5,7 @@ import Icon from '../Icon/Icon';
 import MoreInfoLink from '../MoreInfoLink/MoreInfoLink';
 import ButtonButton from '../Buttons/ButtonButton/ButtonButton';
 import camelize from '../../../utils/camelize';
+import {formatTime} from '../../../utils/format-date';
 
 type Props = {|
   event: any, // TODO: type event
@@ -55,9 +56,15 @@ const EventScheduleItem = ({event, eventInfo}: Props) => (
   <li className={`event-schedule__item ${spacing({s: 2, l: 0}, {padding: ['left']})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
     <div className='grid'>
       <div className={`${grid({s: 12, m: 12, l: 2, xl: 2})} ${spacing({s: 2, l: 0}, {margin: ['bottom']})} font-purple`}>
-        {event.times.map(t => (
-          <span key='TODO'>{}</span>
-        ))}
+        {event.times.map((t) => {
+          const startTimeString = t.range.startDateTime.toString();
+          const endTimeString = t.range.endDateTime.toString();
+          return (
+            <p key={event.title + startTimeString}>
+              <time dateTime={startTimeString}>{formatTime(t.range.startDateTime)}</time>&mdash;<time dateTime={endTimeString}>{formatTime(t.range.endDateTime)}</time>
+            </p>
+          );
+        })}
       </div>
       <div className={grid({s: 12, m: 12, l: 7, xl: 7})}>
         {event.format &&
