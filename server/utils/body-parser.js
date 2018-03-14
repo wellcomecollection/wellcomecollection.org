@@ -39,7 +39,8 @@ export function explodeIntoBodyParts(nodes) {
       findWpImageGallery,
       convertQuote,
       convertWpVideo,
-      convertPreformatedText
+      convertPreformatedText,
+      convertIframe
     ];
 
     // TODO: Tidy up typing here
@@ -100,6 +101,25 @@ function unwrapFromEm(node) {
 
   if (firstChild && firstChild.nodeName === 'em') {
     node.childNodes = firstChild.childNodes;
+  }
+
+  return node;
+}
+
+function convertIframe(node) {
+  if (node.nodeName === 'iframe') {
+    const src = getAttrVal(node.attrs, 'src');
+    const isSoundCloud = src.match('soundcloud');
+
+    return isSoundCloud ? createBodyPart({
+      type: 'soundcloudEmbed',
+      value: {
+        iframeSrc: src
+      }
+    }) : createBodyPart({
+      type: 'iframe',
+      value: { src }
+    });
   }
 
   return node;
