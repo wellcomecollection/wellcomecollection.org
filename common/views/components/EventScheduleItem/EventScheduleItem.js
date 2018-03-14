@@ -3,40 +3,25 @@
 import {grid, font, spacing} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import MoreInfoLink from '../MoreInfoLink/MoreInfoLink';
-import ButtonButton from '../Buttons/ButtonButton/ButtonButton';
+import EventBookingButton from '../EventBookingButton/EventBookingButton';
 import camelize from '../../../utils/camelize';
 import {formatTime} from '../../../utils/format-date';
 
 type Props = {|
-  event: any, // TODO: type event
-  eventInfo: any // TODO: type eventInfo
+  event: Event, // TODO: type event
 |}
 
-function getTicketButton(eventInfo) {
-  if (!eventInfo.eventbriteId) return;
-
-  if (eventInfo.isCompletelySoldOut) {
-    return (
-      <ButtonButton
-        text='Fully booked'
-        icon='ticketAvailable'
-        extraClasses={`${font({s: 'HNM5'})} btn--full-width-s ${spacing({s: 2}, {margin: ['bottom']})}`}
-      />
-    );
+function getTicketedMarkup(event) {
+  if (event.eventInfo.eventbriteId) {
+    return 'Ticketed';
+  } else if (event.bookingEnquiryTeam) {
+    return 'Enquire to book';
   } else {
-    return (
-      <div className="js-eventbrite-ticket-button" data-eventbrite-ticket-id={eventInfo.eventbriteId}>
-        <a className={`flex-inline flex--v-center flex--h-center btn btn--full-width-s ${font({s: 'HNM4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}
-          href={`https://www.eventbrite.com/e/${eventInfo.eventbriteId}/`}>
-          <span><Icon name='ticketAvailable' /></span>
-          <span className="js-eventbrite-ticket-button-text">Book free tickets</span>
-        </a>
-      </div>
-    );
+    return 'No ticket required';
   }
 }
 
-const EventScheduleItem = ({event, eventInfo}: Props) => (
+const EventScheduleItem = ({event}: Props) => (
   <li className={`event-schedule__item ${spacing({l: 0}, {padding: ['left']})} ${spacing({s: 4}, {margin: ['bottom']})} border-color-smoke border-bottom-width-2`}>
     <div className='grid'>
       <div className={`${grid({s: 12, m: 12, l: 2, xl: 2})} ${spacing({s: 2, l: 0}, {margin: ['bottom']})}`}>
@@ -64,19 +49,26 @@ const EventScheduleItem = ({event, eventInfo}: Props) => (
             <MoreInfoLink url={`/events/${event.id}`} name='More information' />
           </div>
 
-          {getTicketButton(eventInfo)}
+          <EventBookingButton event={event} />
         </div>
       </div>
       <div className={`${grid({s: 12, m: 12, l: 3, xl: 3})} ${spacing({s: 2, l: 0}, {margin: ['top']})} ${spacing({s: 4, l: 0}, {margin: ['bottom']})}`}>
         <div className='event-schedule__meta flex'>
-          <div className="event-schedule__tickets">
-            <div className={`${spacing({s: 1}, {margin: ['bottom']})} ${font({s: 'HNM5', m: 'HNM4'})} flex flex--v-center`}>
-              <Icon name='ticket' />
+          <div className='event-schedule__tickets'>
+            <div className={`${spacing({s: 1}, {margin: ['bottom']})} ${font({s: 'HNM5', m: 'HNM4'})}`}>
               <span className={spacing({s: 1}, {margin: ['left']})}>
-                {event.isDropIn
-                  ? 'no ticket required'
-                  : 'ticketed'
-                }
+                <span className={`block ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                  {event.cost
+                    ? event.cost
+                    : 'Free admission'
+                  }
+                </span>
+                <div className='flex flex--v-center'>
+                  <Icon name='ticket' />
+                  <span className={spacing({s: 1}, {margin: ['left']})}>
+                    {getTicketedMarkup(event)}
+                  </span>
+                </div>
               </span>
             </div>
             {event.interpretations.map(interpretation => (
