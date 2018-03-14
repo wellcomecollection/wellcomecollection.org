@@ -104,8 +104,7 @@ function parseBodyPart(slice) {
       return {
         type: 'soundcloudEmbed',
         value: {
-          iframeSrc: slice.primary.iframeSrc,
-          heightOverride: 166
+          iframeSrc: slice.primary.iframeSrc
         }
       };
 
