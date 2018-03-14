@@ -507,6 +507,12 @@
         "label" : "Override publish date"
       },
       "type" : "Timestamp"
+    },
+    "wordpressSlug" : {
+      "config" : {
+        "label" : "Wordpress slug"
+      },
+      "type" : "Text"
     }
   }
 }
