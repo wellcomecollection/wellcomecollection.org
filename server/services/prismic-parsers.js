@@ -282,8 +282,8 @@ export function parsePicture(captionedImage: Object, minWidth: ?string = null): 
   return ({
     type: 'picture',
     contentUrl: image && image.url,
-    width: image && image.dimensions.width,
-    height: image && image.dimensions.height,
+    width: image && image.dimensions && image.dimensions.width,
+    height: image && image.dimensions && image.dimensions.height,
     caption: captionedImage.caption && asHtml(captionedImage.caption),
     alt: image && image.alt,
     title: tasl && tasl.title,
