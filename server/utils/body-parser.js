@@ -41,7 +41,8 @@ export function explodeIntoBodyParts(nodes) {
       convertWpVideo,
       convertPreformatedText,
       convertIframe,
-      convertSlideshow
+      convertSlideshow,
+      convertVimeo
     ];
 
     // TODO: Tidy up typing here
@@ -270,6 +271,18 @@ function isImg(node) {
   const parentNode = mayBeWrapperA || node;
 
   return parentNode.childNodes && parentNode.childNodes[0] && parentNode.childNodes[0].nodeName === 'img';
+}
+
+function convertVimeo(node) {
+  const iframe = node.nodeName === 'div' && node.childNodes && node.childNodes.find(node => node.nodeName === 'iframe');
+  if (iframe && iframe.attrs && getAttrVal(iframe.attrs, 'src').match('vimeo')) {
+    return createBodyPart({
+      type: 'iframe',
+      value: { src: getAttrVal(iframe.attrs, 'src') }
+    });
+  }
+
+  return node;
 }
 
 export function convertWpYtVideo(node) {
