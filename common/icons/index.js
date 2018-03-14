@@ -1,4 +1,5 @@
 import arrow from './arrow';
+import britishSignLanguage from './british_sign_language';
 import {cc, ccBy, ccNc, ccNd, ccPdm, ccZero} from './licenses';
 import check from './check';
 import chevron from './chevron';
@@ -29,6 +30,7 @@ import tripadvisor from './tripadvisor';
 import wellcome from './wellcome';
 export {
   arrow,
+  britishSignLanguage,
   cc,
   ccBy,
   ccNc,

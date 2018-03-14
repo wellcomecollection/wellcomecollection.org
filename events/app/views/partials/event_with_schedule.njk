@@ -10,12 +10,8 @@
   <div class="relative container bg-white {{ {s: 2} | spacingClasses({margin: ['bottom']}) }} {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top', 'bottom']}) }} }}">
     <div class="grid">
       <div class="{{ {s: 12, m: 8, l: 8, xl: 9} | gridClasses }}">
-        <h1 class="{{ {s: 'WB5', m: 'WB4', l: 'WB3'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['bottom']}) }} {{ {s: 0} | spacingClasses({margin: ['top']}) }} font-purple">Embracing the Goddess</h1>
-        <p class="no-margin">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit modi voluptatibus cumque unde, architecto perspiciatis quidem labore dolorum culpa eveniet aspernatur rerum amet maxime minus tempora ratione enim excepturi qui.</p>
-      </div>
-      <div class="{{ {s: 6, m: 4, l: 3, shiftL:1,  xl: 2, shiftXl: 1} | gridClasses }} {{ {s: 2} | spacingClasses({margin: ['top']}) }} {{ {m: 0} | spacingClasses({margin: ['top']}) }} event-schedule__partnership">
-        <span class="{{ {s: 'HNM6'} | fontClasses }}">in partnership with</span>
-        <img class="block" src="http://placehold.it/300x200" />
+        <h1 class="{{ {s: 'WB5', m: 'WB4', l: 'WB3'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['bottom']}) }} {{ {s: 0} | spacingClasses({margin: ['top']}) }} font-purple">{{  event.title }}</h1>
+        {{ event.description | safe }}
       </div>
     </div>
   </div>
@@ -23,8 +19,9 @@
   <div class="container bg-white {{ {s: 6} | spacingClasses({padding: ['bottom']}) }}">
     <div class="grid {{ {s: 5} | spacingClasses({padding: ['top']}) }} {{ {s: 2} | spacingClasses({padding: ['bottom']}) }}">
       <div class="{{ {s: 12, m: 8, l: 9, xl: 9} | gridClasses }}">
-        <h2 class="no-margin inline-block {{ {s: 'WB7', m: 'WB5'} | fontClasses }} {{ {s: 2} | spacingClasses({padding: ['right']}) }} font-purple">Thursday 16 February, 19:00&mdash;23:00</h2>
-        <span class="event-schedule__amount {{ {s: 'WB7', m: 'WB6'} | fontClasses }}">3 events</span>
+        <h2 class="no-margin inline-block {{ {s: 'WB7', m: 'WB5'} | fontClasses }} {{ {s: 2} | spacingClasses({padding: ['right']}) }} font-purple">
+        {{ event.times[0].range.startDateTime }}&mdash;{{ event.times[0].range.endDateTime }}</h2>
+        <span class="event-schedule__amount {{ {s: 'WB7', m: 'WB6'} | fontClasses }}">{{ event.schedule.length }} events</span>
       </div>
       <div class="event-schedule__free {{ {s: 12, m: 4, l: 3, xl: 3} | gridClasses }} {{ {s: 2} | spacingClasses({margin: ['top']}) }} {{ {m: 0} | spacingClasses({margin: ['top']}) }}">
         <span class="inline-block bg-yellow {{ {s: 'HNM5', l: 'HNM4'} | fontClasses }} {{ {s: 2} | spacingClasses({padding: ['left', 'right']}) }} {{ {s: 1} | spacingClasses({padding: ['top', 'bottom']}) }}">All events are free</span>
@@ -35,57 +32,24 @@
     <div class="grid">
       <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
         <ul class="plain-list no-marin no-padding">
-          {% componentJsx 'EventScheduleItem',
-            {
-              event: {
-                startDate: '19:00',
-                endDate: '20:00',
-                title: 'Creative Activities',
-                location: 'Reading Room',
-                format: 'Workshop',
-                isDropIn: true,
-                description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam illum aspernatur repudiandae quidem incidunt, culpa exercitationem tempore aliquam, sed ipsa officiis consectetur repellat quis voluptatem obcaecati, consequuntur labore. Ea, quis.'
-              },
-              eventInfo: {
-                eventbriteId: null,
-                isCompletelySoldOut: null
+          {% for scheduledEvent in event.schedule %}
+            {% componentJsx 'EventScheduleItem',
+              {
+                event: {
+                  times: scheduledEvent.times,
+                  title: scheduledEvent.title,
+                  format: scheduledEvent.format,
+                  isDropIn: scheduledEvent.isDropIn,
+                  description: scheduledEvent.description,
+                  interpretations: scheduledEvent.interpretations
+                },
+                eventInfo: {
+                  eventbriteId: null,
+                  isCompletelySoldOut: null
+                }
               }
-            }
-          %}
-          {% componentJsx 'EventScheduleItem',
-            {
-              event: {
-                startDate: '19:30',
-                endDate: '20:30',
-                title: 'Panel Discussion',
-                location: 'The Studio',
-                format: 'Discussion',
-                isDropIn: false,
-                description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam illum aspernatur repudiandae quidem incidunt, culpa exercitationem tempore aliquam, sed ipsa officiis consectetur repellat quis voluptatem obcaecati, consequuntur labore. Ea, quis.'
-              },
-              eventInfo: {
-                eventbriteId: 123,
-                isCompletelySoldOut: true
-              }
-            }
-          %}
-          {% componentJsx 'EventScheduleItem',
-            {
-              event: {
-                startDate: '20:00',
-                endDate: '21:45',
-                title: 'Music from Club Kali',
-                location: 'The Forum',
-                format: 'Performance',
-                isDropIn: true,
-                description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam illum aspernatur repudiandae quidem incidunt, culpa exercitationem tempore aliquam, sed ipsa officiis consectetur repellat quis voluptatem obcaecati, consequuntur labore. Ea, quis.'
-              },
-              eventInfo: {
-                eventbriteId: null,
-                isCompletelySoldOut: null
-              }
-            }
-          %}
+            %}
+          {% endfor %}
         </ul>
       </div>
     </div>

@@ -17,7 +17,7 @@
   <script type="application/ld+json">
     {{ event | jsonLd('eventLd') | safe }}
   </script>
-  {% if not event.sheduleEvents %}
+  {% if event.schedule.length > 0 %}
     {% include 'partials/event_with_schedule.njk' %}
   {% else %}
     {% include 'partials/event_without_schedule.njk' %}

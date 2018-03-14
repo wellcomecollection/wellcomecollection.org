@@ -23,7 +23,8 @@ type PrismicDoc = Object;
 // This is because it could be any part of a JSON doc
 type PrismicDocFragment = Object | Array<any>;
 
-export function parseEventDoc(doc: PrismicDoc): Event {
+export function parseEventDoc(doc: PrismicDoc, scheduleDocs: PrismicDoc): Event {
+  const eventSchedule = scheduleDocs && scheduleDocs.results.map(doc => parseEventDoc(doc));
   const promo = parseImagePromo(doc.data.promo);
 
   const times: Array<EventTime> = doc.data.times.map(date => {
@@ -125,7 +126,8 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     place: place,
     bookingInformation: asHtml(doc.data.bookingInformation),
     bookingType: bookingType,
-    cost: cost
+    cost: cost,
+    schedule: eventSchedule
   }: Event);
 
   return e;
