@@ -88,7 +88,7 @@ const EventScheduleItem = ({event, eventInfo}: Props) => (
           <p className={`${spacing({s: 3}, {margin: ['top']})} ${spacing({s: 2}, {margin: ['bottom']})}`} dangerouslySetInnerHTML={{__html: event.description}} />
 
           <div className={spacing({s: 4}, {margin: ['bottom']})}>
-            <MoreInfoLink url='#' name='More information' />
+            <MoreInfoLink url={`/events/${event.id}`} name='More information' />
           </div>
 
           {getTicketButton(eventInfo)}
