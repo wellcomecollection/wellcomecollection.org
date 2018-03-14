@@ -108,7 +108,7 @@ function unwrapFromEm(node) {
 }
 
 function convertSlideshow(node) {
-  const dataGallery = getAttrVal(node.attrs, 'data-gallery');
+  const dataGallery = node.attrs && getAttrVal(node.attrs, 'data-gallery');
   if (dataGallery) {
     const parsedData = JSON.parse(dataGallery);
     const images = parsedData.map(image => createPicture({
