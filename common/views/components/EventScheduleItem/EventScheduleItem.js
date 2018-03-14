@@ -60,7 +60,7 @@ const EventScheduleItem = ({event, eventInfo}: Props) => (
       <div className='grid'>
         <div className={`${grid({s: 12, m: 12, l: 2, xl: 2})} ${spacing({s: 2, l: 0}, {margin: ['bottom']})} event-schedule__border event-schedule__border--top font-purple`}>
           {event.times.map(t => (
-            <span key='TODO: lint'>{formatTime(t.range.startDateTime)}&mdash;{formatTime(t.range.endDateTime)}</span>
+            <span key='TODO'>{}</span>
           ))}
 
         </div>

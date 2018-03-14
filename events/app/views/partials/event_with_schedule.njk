@@ -20,7 +20,7 @@
     <div class="grid {{ {s: 5} | spacingClasses({padding: ['top']}) }} {{ {s: 2} | spacingClasses({padding: ['bottom']}) }}">
       <div class="{{ {s: 12, m: 8, l: 9, xl: 9} | gridClasses }}">
         <h2 class="no-margin inline-block {{ {s: 'WB7', m: 'WB5'} | fontClasses }} {{ {s: 2} | spacingClasses({padding: ['right']}) }} font-purple">
-        {{ event.times[0].range.startDateTime }}&mdash;{{ event.times[0].range.endDateTime }}</h2>
+        {{ event.times[0].range.startDateTime | formatDate }}, {{ event.times[0].range.startDateTime | formatTime }}&mdash;{{ event.times[0].range.endDateTime | formatTime }}</h2>
         <span class="event-schedule__amount {{ {s: 'WB7', m: 'WB6'} | fontClasses }}">{{ event.schedule.length }} events</span>
       </div>
       <div class="event-schedule__free {{ {s: 12, m: 4, l: 3, xl: 3} | gridClasses }} {{ {s: 2} | spacingClasses({margin: ['top']}) }} {{ {m: 0} | spacingClasses({margin: ['top']}) }}">
