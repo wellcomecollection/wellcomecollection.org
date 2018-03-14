@@ -32,7 +32,6 @@ function getTicketButton(eventInfo) {
   if (eventInfo.isCompletelySoldOut) {
     return (
       <ButtonButton
-        disabled
         text='Fully booked'
         icon='ticketAvailable'
         extraClasses={`${font({s: 'HNM5'})} btn--full-width-s ${spacing({s: 2}, {margin: ['bottom']})}`}
