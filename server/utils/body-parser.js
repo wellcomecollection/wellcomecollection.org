@@ -65,7 +65,14 @@ export function explodeIntoBodyParts(nodes) {
 
       const bodyPart = maybeBodyPart.type ? maybeBodyPart : convertDomNode(maybeBodyPart);
 
-      return bodyPart;
+      // Exclusions
+      if (
+        (bodyPart.type === 'html' && bodyPart.value.match('This slideshow requires JavaScript'))
+      ) {
+        return null;
+      } else {
+        return bodyPart;
+      }
     }
   }).filter(part => part); // get rid of any nulls = Maybe.flatten would be good.
 
@@ -114,7 +121,8 @@ function convertSlideshow(node) {
     const images = parsedData.map(image => createPicture({
       contentUrl: image.src,
       caption: image.caption,
-      alt: image.alt
+      alt: image.alt,
+      width: 800 // this seems to be a width that works...
     }));
 
     return createBodyPart({
