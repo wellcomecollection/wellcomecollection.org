@@ -69,7 +69,8 @@ export function explodeIntoBodyParts(nodes) {
 
       // Exclusions
       if (
-        (bodyPart.type === 'html' && bodyPart.value.match('This slideshow requires JavaScript'))
+        (bodyPart.type === 'html' && bodyPart.value.match('This slideshow requires JavaScript')) ||
+        (bodyPart.type === 'html' && bodyPart.value.match('if lt IE 9'))
       ) {
         return null;
       } else {
