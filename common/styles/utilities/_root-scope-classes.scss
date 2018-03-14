@@ -150,6 +150,10 @@
   display: inline-flex;
 }
 
+.flex--v-start {
+  align-items: flex-start;
+}
+
 .flex--v-center {
   align-items: center;
 }
@@ -410,7 +414,6 @@
 .first-para-no-margin p:first-of-type {
   margin: 0;
 }
-
 
 // This removes the element from the flow, as well as it's visibility
 .visually-hidden {

@@ -3,6 +3,7 @@ import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
 import CopyUrl from '../CopyUrl/CopyUrl';
 import Divider from '../Divider/Divider';
+import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import Footer from '../Footer/Footer';
 import Image from '../Image/Image';
 import License from '../License/License';
@@ -23,6 +24,7 @@ export {
   ChapterIndicator,
   CopyUrl,
   Divider,
+  EventScheduleItem,
   Footer,
   Image,
   License,

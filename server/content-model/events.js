@@ -105,7 +105,8 @@ export type Event = {|
   // this is programmatic and doesn't come from Prismic and can't be edited directly
   // it's more convenient that having to work it out.
   // not sure if it should be in the model, a question for Silver
-  bookingType: ?string
+  bookingType: ?string,
+  schedule?: Array<Event>
 |}
 
 export type EventPromo = {|

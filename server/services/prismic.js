@@ -67,6 +67,13 @@ async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string
   return doc && types.indexOf(doc.type) !== -1 ? doc : null;
 }
 
+async function getTypeByIds(req: ?Request, types: Array<DocumentType>, ids: Array<string>, qOpts: Object<any>) {
+  const prismic = await getPrismicApi(req);
+  const doc = await prismic.getByIDs(ids, qOpts);
+
+  return doc;
+}
+
 type PrismicQueryOptions = {|
   page?: number;
   fetchLinks?: Array<String>;
@@ -101,9 +108,13 @@ export async function getEvent(id: string, previewReq: ?Request): Promise<?Event
   const fetchLinks = eventFields.concat(peopleFields, contributorFields, seriesFields);
   const event = await getTypeById(previewReq, ['events'], id, {fetchLinks});
 
+  const scheduleIds = event.data.schedule.map(event => event.event.id);
+
+  const eventScheduleDocs = scheduleIds.length > 0 && await getTypeByIds(previewReq, ['events'], scheduleIds, {fetchLinks});
+
   if (!event) { return null; }
 
-  return parseEventDoc(event);
+  return parseEventDoc(event, eventScheduleDocs);
 }
 
 export async function getArticleList(page = 1, {pageSize = 10, predicates = []} = {}) {

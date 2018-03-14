@@ -58,7 +58,7 @@
               "label" : "End date"
             }
           },
-          "isFullyBooked": {
+          "isFullyBooked" : {
             "type" : "Select",
             "config" : {
               "options" : [ "yes" ],
@@ -101,7 +101,7 @@
         }
       }
     },
-    "audiences": {
+    "audiences" : {
       "type" : "Group",
       "fieldset" : "Audiences",
       "config" : {
@@ -149,7 +149,7 @@
         "label" : "Event specific booking information"
       }
     },
-    "cost": {
+    "cost" : {
       "type" : "Text",
       "config" : {
         "options" : [ "yes" ],
@@ -158,7 +158,7 @@
     }
   },
   "Contributors" : {
-    "contributors": {
+    "contributors" : {
       "type" : "Group",
       "fieldset" : "Contributors",
       "config" : {
@@ -169,7 +169,7 @@
               "label" : "Role",
               "select" : "document",
               "customtypes" : [ "editorial-contributor-roles" ],
-              "tags": [ "events" ]
+              "tags" : [ "events" ]
             }
           },
           "contributor" : {
@@ -178,7 +178,7 @@
               "label" : "Contributor",
               "select" : "document",
               "customtypes" : [ "people", "organisations" ],
-              "tags": [ "events" ]
+              "tags" : [ "events" ]
             }
           }
         }
@@ -220,6 +220,23 @@
                   } ]
                 }
               }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Schedule" : {
+    "schedule" : {
+      "type" : "Group",
+      "config" : {
+        "fields" : {
+          "event" : {
+            "type" : "Link",
+            "config" : {
+              "label" : "Role",
+              "select" : "document",
+              "customtypes" : [ "events" ]
             }
           }
         }
