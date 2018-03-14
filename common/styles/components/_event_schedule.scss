@@ -16,16 +16,8 @@
   }
 }
 
-.event-schedule__amount {
-  display: block;
-
-  @include respond-to('large') {
-    display: inline-block;
-  }
-}
-
 .event-schedule__free {
-  @include respond-to('medium') {
+  @include respond-to('large') {
     text-align: right;
   }
 }
