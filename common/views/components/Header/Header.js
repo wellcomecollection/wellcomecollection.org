@@ -18,7 +18,7 @@ const Header = withToggler(({ links, siteSection, toggle, isActive }: Props) => 
             id='header-burger-trigger'
             className='header__burger-trigger js-header-burger-trigger js-trap-start'
             aria-label='menu'
-            onClick={(event) => { event.preventDefault(); toggle(event); }}>
+            onClick={(event) => { event.preventDefault(); toggle(); }}>
             <span />
             <span />
             <span />
