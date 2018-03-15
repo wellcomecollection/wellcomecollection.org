@@ -148,15 +148,13 @@
     </div>
   </div>
 
-  {% componentJsx 'Promo', {
-    sizes: '100vw',
-    url: collectorsPromo.url,
-    contentType: collectorsPromo.contentType,
-    image: collectorsPromo.image,
-    title: collectorsPromo.title,
-    weight: collectorsPromo.weight,
-    description: collectorsPromo.description,
-    series: collectorsPromo.series,
-    standalone: true
-  } %}
+  <div class="container">
+    {% componentJsx 'Divider', {
+      extraClasses: [
+        'divider--dashed',
+        {s:3} | spacingClasses({margin: ['bottom', 'top']})
+      ].join(' ')
+    } %}
+  </div>
+
 {% endblock %}
