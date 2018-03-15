@@ -108,8 +108,6 @@ export async function renderExplore(ctx, next) {
     }
   }));
 
-  // TODO: Remove this, make it automatic
-  const latestTweets = ctx.intervalCache.get('tweets');
   const path = ctx.request.url;
 
   ctx.render('pages/curated-lists', {
@@ -122,8 +120,7 @@ export async function renderExplore(ctx, next) {
     }),
     promos: promos,
     curatedList,
-    collectorsPromo, // TODO: Remove this, make it automatic
-    latestTweets
+    collectorsPromo // TODO: Remove this, make it automatic
   });
 
   return next();
