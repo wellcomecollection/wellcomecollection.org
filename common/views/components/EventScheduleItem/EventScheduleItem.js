@@ -7,13 +7,14 @@ import EventBookingButton from '../EventBookingButton/EventBookingButton';
 import camelize from '../../../utils/camelize';
 import {formatTime} from '../../../utils/format-date';
 import {Fragment} from 'react';
+import type {Event} from '../../../model/events';
 
 type Props = {|
-  event: Event, // TODO: type event
+  event: Event
 |}
 
 function getTicketedMarkup(event) {
-  if (event.eventInfo.eventbriteId) {
+  if (event.eventInfo && event.eventInfo.eventbriteId) {
     return 'Ticketed';
   } else if (event.bookingEnquiryTeam) {
     return 'Enquire to book';
@@ -30,12 +31,14 @@ const EventScheduleItem = ({event}: Props) => (
           const startTimeString = t.range.startDateTime.toString();
           const endTimeString = t.range.endDateTime.toString();
           return (
-            <p key={event.title + startTimeString} className={`${font({s: 'HNM4'})} no-margin`}>
+            <p key={`${event.title} ${startTimeString}`} className={`${font({s: 'HNM4'})} no-margin`}>
               <time dateTime={startTimeString}>{formatTime(t.range.startDateTime)}</time>&mdash;<time dateTime={endTimeString}>{formatTime(t.range.endDateTime)}</time>
             </p>
           );
         })}
-        <p className={`no-margin ${font({s: 'HNL4'})}`}>{event.place.title}</p>
+        {event.place &&
+          <p className={`no-margin ${font({s: 'HNL4'})}`}>{event.place.title}</p>
+        }
       </div>
       <div className={`${grid({s: 12, m: 12, l: 7, xl: 7})}`}>
         <div className={`event-schedule__main ${spacing({l: 2}, {padding: ['right']})}`}>
