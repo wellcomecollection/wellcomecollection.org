@@ -22,24 +22,22 @@
       {% for scheduledEvent in event.schedule %}
         {% if loop.index < 4 %}
           <div class="grid__cell">
-            <div class="rounded-corners overflow-hidden">
-              {% set imageModel = {
-                width: scheduledEvent.promo.image.width,
-                height: scheduledEvent.promo.image.height,
-                lazyload: true,
-                title: scheduledEvent.promo.image.title,
-                source: scheduledEvent.promo.image.source,
-                copyright: scheduledEvent.promo.image.copyright,
-                contentUrl: scheduledEvent.promo.image.contentUrl
-              } %}
-              {% set tasl = {name: 'Tasl', model: imageModel | objectAssign({sourceName: imageModel.source.name, sourceLink: imageModel.source.link})}
-                if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
-                else null
+            {% set imageModel = {
+              width: scheduledEvent.promo.image.width,
+              height: scheduledEvent.promo.image.height,
+              lazyload: true,
+              title: scheduledEvent.promo.image.title,
+              source: scheduledEvent.promo.image.source,
+              copyright: scheduledEvent.promo.image.copyright,
+              contentUrl: scheduledEvent.promo.image.contentUrl
+            } %}
+            {% set tasl = {name: 'Tasl', model: imageModel | objectAssign({sourceName: imageModel.source.name, sourceLink: imageModel.source.link})}
+              if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
+              else null
+            %}
+            {% componentJsx 'CaptionedImage', {},
+              [{name: 'Image', model: imageModel}, tasl]
               %}
-              {% componentJsx 'CaptionedImage', {},
-                [{name: 'Image', model: imageModel}, tasl]
-               %}
-            </div>
           </div>
         {% endif %}
       {% endfor %}

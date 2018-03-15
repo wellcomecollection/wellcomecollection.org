@@ -39,7 +39,7 @@ const EventScheduleItem = ({event}: Props) => (
       <div className={`${grid({s: 12, m: 12, l: 7, xl: 7})}`}>
         <div className={`event-schedule__main ${spacing({l: 2}, {margin: ['bottom'], padding: ['right']})}`}>
           {event.format &&
-            <span className={`block ${font({s: 'HNM4'})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{event.format.title}</span>
+            <span className={`block ${font({s: 'HNM5', m: 'HNM4'})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{event.format.title}</span>
           }
           <h3 className={`${font({s: 'WB7', m: 'WB6'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{event.title}</h3>
 
