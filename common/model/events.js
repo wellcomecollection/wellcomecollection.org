@@ -108,8 +108,8 @@ export type Event = {|
   bookingType: ?string,
   schedule?: Array<Event>,
   eventInfo?: {|
-    eventbriteId: number,
-    isCompletelySoldOut: boolean
+    eventbriteId?: string,
+    isCompletelySoldOut?: boolean
   |}
 |}
 

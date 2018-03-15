@@ -106,7 +106,11 @@ export type Event = {|
   // it's more convenient that having to work it out.
   // not sure if it should be in the model, a question for Silver
   bookingType: ?string,
-  schedule?: Array<Event>
+  schedule?: Array<Event>,
+  eventInfo?: {|
+    eventbriteId?: string,
+    isCompletelySoldOut?: boolean
+  |}
 |}
 
 export type EventPromo = {|
