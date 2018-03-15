@@ -20,13 +20,14 @@ export const renderArticle = async(ctx, next) => {
   const id = `W${ctx.params.id}`;
   const isPreview = Boolean(ctx.params.preview);
   const article = await getArticle(id, isPreview ? ctx.request : null);
-  const displayType = article.displayType;
+
   if (article) {
     if (format === 'json') {
       ctx.body = article;
     } else {
+      const displayType = article.displayType;
       const trackingInfo = getEditorialAnalyticsInfo(article);
-      ctx.render(`pages/${displayType}`, {
+      ctx.render(`pages/${displayType || 'article'}`, {
         pageConfig: Object.assign({}, createPageConfig({
           path: path,
           title: article.headline,
