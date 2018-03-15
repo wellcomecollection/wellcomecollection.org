@@ -274,7 +274,7 @@
 
     <div class="css-grid__cell--primary body-content">
       {% if event.promo.image %}
-        <div class="is-hidden-s is-hidden-m rounded-corners overflow-hidden">
+        <div class="is-hidden-s is-hidden-m rounded-corners overflow-hidden {{ {s: 4} | spacingClasses({margin: ['bottom']}) }}">
           {% componentJsx 'CaptionedImage', bodyPart.value, [
             {name: 'Image', model: imageModel},
             tasl

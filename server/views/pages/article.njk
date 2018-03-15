@@ -88,11 +88,12 @@
                     if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
                     else null
                   %}
-
-                  {% componentJsx 'CaptionedImage', imageModel, [
-                    {name: 'Image', model:imageModel},
-                    tasl
-                  ] %}
+                  <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
+                    {% componentJsx 'CaptionedImage', imageModel, [
+                      {name: 'Image', model:imageModel},
+                      tasl
+                    ] %}
+                  </div>
 
                   {{item.description | safe}}
                 </li>
