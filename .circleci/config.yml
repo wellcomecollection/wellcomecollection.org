@@ -10,19 +10,13 @@ jobs:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
           paths:
             -  ~/wellcomecollection.org
-      - save_cache:
-          key: repo_node_8_{{ .Environment.CIRCLE_SHA1 }}
-          paths:
-            -  ~/wellcomecollection.org
   catalogue:
     docker:
       - image: circleci/node:8.9.3
     working_directory: ~/wellcomecollection.org/catalogue/webapp
     steps:
       - restore_cache:
-          key: repo_node_8_{{ .Environment.CIRCLE_SHA1 }}
-      - save_cache:
-          key: catalogue_modules_circleci_node_8_{{ checksum "yarn.lock" }}
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - add_ssh_keys
       - setup_remote_docker
       - run:
