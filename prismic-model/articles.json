@@ -508,11 +508,11 @@
       },
       "type" : "Timestamp"
     },
-    "uid" : {
-      "type" : "UID",
+    "wordpressSlug" : {
       "config" : {
-        "label" : "wordpressSlug"
-      }
+        "label" : "Wordpress slug"
+      },
+      "type" : "Text"
     }
   },
   "Display" : {
