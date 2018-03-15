@@ -22,30 +22,28 @@
       {% for scheduledEvent in event.schedule %}
         {% if loop.index < 4 %}
           <div class="grid__cell">
-            <div class="rounded-corners overflow-hidden">
-              {% set imageModel = {
-                width: scheduledEvent.promo.image.width,
-                height: scheduledEvent.promo.image.height,
-                lazyload: true,
-                title: scheduledEvent.promo.image.title,
-                source: scheduledEvent.promo.image.source,
-                copyright: scheduledEvent.promo.image.copyright,
-                contentUrl: scheduledEvent.promo.image.contentUrl
-              } %}
-              {% set tasl = {name: 'Tasl', model: imageModel | objectAssign({sourceName: imageModel.source.name, sourceLink: imageModel.source.link})}
-                if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
-                else null
+            {% set imageModel = {
+              width: scheduledEvent.promo.image.width,
+              height: scheduledEvent.promo.image.height,
+              lazyload: true,
+              title: scheduledEvent.promo.image.title,
+              source: scheduledEvent.promo.image.source,
+              copyright: scheduledEvent.promo.image.copyright,
+              contentUrl: scheduledEvent.promo.image.contentUrl
+            } %}
+            {% set tasl = {name: 'Tasl', model: imageModel | objectAssign({sourceName: imageModel.source.name, sourceLink: imageModel.source.link})}
+              if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
+              else null
+            %}
+            {% componentJsx 'CaptionedImage', {},
+              [{name: 'Image', model: imageModel}, tasl]
               %}
-              {% componentJsx 'CaptionedImage', {},
-                [{name: 'Image', model: imageModel}, tasl]
-               %}
-            </div>
           </div>
         {% endif %}
       {% endfor %}
     </div>
   </div>
-  <div class="container bg-white {{ {s: 4} | spacingClasses({padding: ['bottom']}) }}">
+  <div class="container bg-white {{ {s: 4} | spacingClasses({padding: ['bottom']}) }} {{ {s: 0, m: 2} | spacingClasses({padding: ['top']}) }}">
     <hr class="divider divider--dashed" />
   </div>
 
@@ -55,6 +53,7 @@
         <h2 class="{{ {s: 'WB6', l: 'WB5'} | fontClasses }} {{ {s: 4} | spacingClasses({padding: ['bottom']}) }} border-color-smoke border-bottom-width-2">Events</h2>
         <ul class="plain-list no-marin no-padding">
           {% for scheduledEvent in event.schedule %}
+            {# TODO: hasOwnPage isn't on event model; how to handle here? #}
             {% componentJsx 'EventScheduleItem',
               {
                 event: {
@@ -68,7 +67,8 @@
                   interpretations: scheduledEvent.interpretations,
                   eventInfo: scheduledEvent.eventInfo,
                   cost: scheduledEvent.cost,
-                  bookingEnquiryTeam: scheduledEvent.bookingEnquiryTeam
+                  bookingEnquiryTeam: scheduledEvent.bookingEnquiryTeam,
+                  hasOwnPage: scheduledEvent.description
                 }
               }
             %}
