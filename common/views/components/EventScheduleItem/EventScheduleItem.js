@@ -8,7 +8,7 @@ import camelize from '../../../utils/camelize';
 import {formatTime} from '../../../utils/format-date';
 
 type Props = {|
-  event: Event, // TODO: type event
+  event: Event // TODO
 |}
 
 function getTicketedMarkup(event) {
@@ -45,9 +45,11 @@ const EventScheduleItem = ({event}: Props) => (
 
           <p className={`${spacing({s: 3}, {margin: ['top']})} ${spacing({s: 2}, {margin: ['bottom']})}`} dangerouslySetInnerHTML={{__html: event.description}} />
 
-          <div className={spacing({s: 4}, {margin: ['bottom']})}>
-            <MoreInfoLink url={`/events/${event.id}`} name='More information' />
-          </div>
+          {event.hasOwnPage &&
+            <div className={spacing({s: 4}, {margin: ['bottom']})}>
+              <MoreInfoLink url={`/events/${event.id}`} name='More information' />
+            </div>
+          }
 
           <EventBookingButton event={event} />
         </div>

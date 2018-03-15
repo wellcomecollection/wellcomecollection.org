@@ -10,7 +10,6 @@ type Props = {|
 |}
 
 function getButtonMarkup(event) {
-  console.log(event);
   if (!event.eventInfo.eventbriteId) return;
 
   if (event.eventInfo.isCompletelySoldOut) {
