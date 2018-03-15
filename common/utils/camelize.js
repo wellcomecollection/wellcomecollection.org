@@ -1,5 +1,5 @@
 export default (title) => {
-  const titleArray = title.toLowerCase().split(' ');
+  const titleArray = title.toLowerCase().split(/-|_| /);
 
   return titleArray.reduce((acc, val, i) => {
     if (i === 0) {

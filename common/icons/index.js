@@ -1,4 +1,6 @@
 import arrow from './arrow';
+import audioDescribed from './audio_described';
+import speechToText from './speech_to_text';
 import britishSignLanguage from './british_sign_language';
 import {cc, ccBy, ccNc, ccNd, ccPdm, ccZero} from './licenses';
 import check from './check';
@@ -9,6 +11,7 @@ import image from './image';
 import location from './location';
 import plus from './plus';
 import search from './search';
+import ticket from './ticket';
 import ticketAvailable from './ticket_available';
 import zoomIn from './zoom-in';
 import zoomOut from './zoom-out';
@@ -30,6 +33,8 @@ import tripadvisor from './tripadvisor';
 import wellcome from './wellcome';
 export {
   arrow,
+  audioDescribed,
+  speechToText,
   britishSignLanguage,
   cc,
   ccBy,
@@ -45,6 +50,7 @@ export {
   location,
   plus,
   search,
+  ticket,
   ticketAvailable,
   zoomIn,
   zoomOut,

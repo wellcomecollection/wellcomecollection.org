@@ -13,6 +13,5 @@ export function formatDate(date: Date): string {
 }
 
 export function formatTime(date: Date): string {
-  console.log(london(date).format('HH:mm'));
   return london(date).format('HH:mm');
 }

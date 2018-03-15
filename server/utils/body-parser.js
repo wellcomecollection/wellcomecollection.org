@@ -39,7 +39,11 @@ export function explodeIntoBodyParts(nodes) {
       findWpImageGallery,
       convertQuote,
       convertWpVideo,
-      convertPreformatedText
+      convertPreformatedText,
+      convertIframe,
+      convertSlideshow,
+      convertVimeo,
+      convertAudio
     ];
 
     // TODO: Tidy up typing here
@@ -63,7 +67,15 @@ export function explodeIntoBodyParts(nodes) {
 
       const bodyPart = maybeBodyPart.type ? maybeBodyPart : convertDomNode(maybeBodyPart);
 
-      return bodyPart;
+      // Exclusions
+      if (
+        (bodyPart.type === 'html' && bodyPart.value.match('This slideshow requires JavaScript')) ||
+        (bodyPart.type === 'html' && bodyPart.value.match('if lt IE 9'))
+      ) {
+        return null;
+      } else {
+        return bodyPart;
+      }
     }
   }).filter(part => part); // get rid of any nulls = Maybe.flatten would be good.
 
@@ -100,6 +112,48 @@ function unwrapFromEm(node) {
 
   if (firstChild && firstChild.nodeName === 'em') {
     node.childNodes = firstChild.childNodes;
+  }
+
+  return node;
+}
+
+function convertSlideshow(node) {
+  const dataGallery = node.attrs && getAttrVal(node.attrs, 'data-gallery');
+  if (dataGallery) {
+    const parsedData = JSON.parse(dataGallery);
+    const images = parsedData.map(image => createPicture({
+      contentUrl: image.src,
+      caption: image.caption,
+      alt: image.alt,
+      width: 800 // this seems to be a width that works...
+    }));
+
+    return createBodyPart({
+      type: 'imageGallery',
+      weight: 'standalone',
+      value: createImageGallery({
+        items: images
+      })
+    });
+  }
+
+  return node;
+}
+
+function convertIframe(node) {
+  if (node.nodeName === 'iframe') {
+    const src = getAttrVal(node.attrs, 'src');
+    const isSoundCloud = src.match('soundcloud');
+
+    return isSoundCloud ? createBodyPart({
+      type: 'soundcloudEmbed',
+      value: {
+        iframeSrc: src
+      }
+    }) : createBodyPart({
+      type: 'iframe',
+      value: { src }
+    });
   }
 
   return node;
@@ -221,6 +275,32 @@ function isImg(node) {
   return parentNode.childNodes && parentNode.childNodes[0] && parentNode.childNodes[0].nodeName === 'img';
 }
 
+function convertAudio(node) {
+  if (node.nodeName === 'audio') {
+    const link = node.childNodes && node.childNodes.find(node => node.nodeName === 'a');
+    if (link) {
+      const href = getAttrVal(link.attrs, 'href');
+      return createBodyPart({
+        type: 'html',
+        value: `<p><a href=${href} target="_blank">Listen</a></p>`
+      });
+    }
+  }
+  return node;
+}
+
+function convertVimeo(node) {
+  const iframe = node.nodeName === 'div' && node.childNodes && node.childNodes.find(node => node.nodeName === 'iframe');
+  if (iframe && iframe.attrs && getAttrVal(iframe.attrs, 'src').match('vimeo')) {
+    return createBodyPart({
+      type: 'iframe',
+      value: { src: getAttrVal(iframe.attrs, 'src') }
+    });
+  }
+
+  return node;
+}
+
 export function convertWpYtVideo(node) {
   const maybeSpan = node.childNodes && node.childNodes[0];
   const isWpVideo = maybeSpan && maybeSpan.attrs && getAttrVal(maybeSpan.attrs, 'class') === 'embed-youtube';
@@ -278,7 +358,7 @@ export function convertPreformatedText(node) {
 }
 
 export function convertWpList(node) {
-  const isWpList = node.nodeName === 'ul';
+  const isWpList = node.nodeName === 'ul' || node.nodeName === 'ol';
   if (isWpList) {
     // Make sure it's a list item and not empty
     const lis = node.childNodes.filter(n => n.nodeName === 'li' && n.childNodes);
@@ -361,7 +441,8 @@ export function findWpImageGallery(node) {
               contentUrl,
               caption,
               width,
-              height
+              height,
+              alt: caption
             });
           }) || [];
           return imgs;

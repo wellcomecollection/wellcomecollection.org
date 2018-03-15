@@ -253,6 +253,8 @@ export function createEventPromos(allResults): Array<EventPromo> {
       description: series.series.data.description
     }) : null).filter(_ => _);
 
+    const schedule = event.data.schedule.filter(s => Boolean(s.event.id));
+
     // A single Primsic 'event' can have multiple datetimes, but we
     // want to display each datetime as an individual promo, so we
     // map and flatten.
@@ -273,7 +275,8 @@ export function createEventPromos(allResults): Array<EventPromo> {
         bookingType: bookingType,
         interpretations: interpretations,
         eventbriteId: eventbriteId,
-        series: series
+        series: series,
+        schedule: schedule
       };
     });
   }).reduce((acc, curr) => {

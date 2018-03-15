@@ -1,5 +1,13 @@
 .event-schedule {
   padding-top: 10vw;
+
+  @include respond-to('large') {
+    padding-top: 8vw;
+  }
+
+  @include respond-to('xlarge') {
+    padding-top: 18 * $spacing-unit;
+  }
 }
 
 .event-schedule__header-image {
@@ -16,16 +24,14 @@
   }
 }
 
-.event-schedule__amount {
-  display: block;
-
+.event-schedule__free {
   @include respond-to('large') {
-    display: inline-block;
+    text-align: right;
   }
 }
 
-.event-schedule__free {
-  @include respond-to('medium') {
-    text-align: right;
+.event-schedule__main {
+  @include respond-to('large') {
+    border-right: 1px solid color('smoke');
   }
 }
