@@ -6,6 +6,7 @@ import MoreInfoLink from '../MoreInfoLink/MoreInfoLink';
 import EventBookingButton from '../EventBookingButton/EventBookingButton';
 import camelize from '../../../utils/camelize';
 import {formatTime} from '../../../utils/format-date';
+import {Fragment} from 'react';
 
 type Props = {|
   event: Event, // TODO: type event
@@ -22,7 +23,7 @@ function getTicketedMarkup(event) {
 }
 
 const EventScheduleItem = ({event}: Props) => (
-  <li className={`event-schedule__item ${spacing({l: 0}, {padding: ['left']})} ${spacing({s: 4}, {margin: ['bottom']})} border-color-smoke border-bottom-width-2`}>
+  <li className={`event-schedule__item ${spacing({l: 0}, {padding: ['left']})} ${spacing({s: 4}, {padding: ['bottom']})} ${spacing({s: 4}, {margin: ['bottom']})} border-color-smoke border-bottom-width-2`}>
     <div className='grid'>
       <div className={`${grid({s: 12, m: 12, l: 2, xl: 2})} ${spacing({s: 2, l: 0}, {margin: ['bottom']})}`}>
         {event.times.map((t) => {
@@ -37,7 +38,7 @@ const EventScheduleItem = ({event}: Props) => (
         <p className={`no-margin ${font({s: 'HNL4'})}`}>{event.place.title}</p>
       </div>
       <div className={`${grid({s: 12, m: 12, l: 7, xl: 7})}`}>
-        <div className={`event-schedule__main ${spacing({l: 2}, {margin: ['bottom'], padding: ['right']})}`}>
+        <div className={`event-schedule__main ${spacing({l: 2}, {padding: ['right']})}`}>
           {event.format &&
             <span className={`block ${font({s: 'HNM4'})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{event.format.title}</span>
           }
@@ -53,30 +54,38 @@ const EventScheduleItem = ({event}: Props) => (
         </div>
       </div>
       <div className={`${grid({s: 12, m: 12, l: 3, xl: 3})} ${spacing({s: 2, l: 0}, {margin: ['top']})} ${spacing({s: 4, l: 0}, {margin: ['bottom']})}`}>
-        <div className='event-schedule__meta flex'>
+        <div className='event-schedule__meta'>
           <div className='event-schedule__tickets'>
-            <div className={`${spacing({s: 1}, {margin: ['bottom']})} ${font({s: 'HNM5', m: 'HNM4'})}`}>
-              <span className={spacing({s: 1}, {margin: ['left']})}>
-                <span className={`block ${spacing({s: 2}, {margin: ['bottom']})}`}>
-                  {event.cost
-                    ? event.cost
-                    : 'Free admission'
-                  }
-                </span>
-                <div className='flex flex--v-center'>
-                  <Icon name='ticket' />
-                  <span className={spacing({s: 1}, {margin: ['left']})}>
-                    {getTicketedMarkup(event)}
-                  </span>
-                </div>
+            <div className={`${font({s: 'HNM5', m: 'HNM4'})}`}>
+              <span className={`block ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                {event.cost
+                  ? event.cost
+                  : 'Free admission'
+                }
               </span>
+              <div className={`flex flex--v-center ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                <Icon name='ticket' />
+                <span className={spacing({s: 1}, {margin: ['left']})}>
+                  {getTicketedMarkup(event)}
+                </span>
+              </div>
             </div>
-            {event.interpretations.map(interpretation => (
-              <Icon key={interpretation.interpretationType.title}
-                title={interpretation.interpretationType.title}
-                name={camelize(interpretation.interpretationType.title)} />
-            ))}
           </div>
+          {event.interpretations.length > 0 &&
+            <Fragment>
+              <h4 className='visually-hidden'>Accessibility interpretations</h4>
+              <ul className={`plain-list no-padding ${font({s: 'HNM5', m: 'HNM4'})}`}>
+                {event.interpretations.map(interpretation => (
+                  <li key={interpretation.interpretationType.title} className={`flex flex--v-center ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                    <Icon title={interpretation.interpretationType.title} name={camelize(interpretation.interpretationType.title)} />
+                    <span className={spacing({s: 1}, {margin: ['left']})}>
+                      {interpretation.interpretationType.title}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </Fragment>
+          }
         </div>
       </div>
     </div>

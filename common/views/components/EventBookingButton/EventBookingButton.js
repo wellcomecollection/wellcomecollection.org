@@ -10,7 +10,6 @@ type Props = {|
 |}
 
 function getButtonMarkup(event) {
-  console.log(event);
   if (!event.eventInfo.eventbriteId) return;
 
   if (event.eventInfo.isCompletelySoldOut) {
@@ -18,13 +17,13 @@ function getButtonMarkup(event) {
       <ButtonButton
         text='Fully booked'
         icon='ticketAvailable'
-        extraClasses={`${font({s: 'HNM5'})} btn--full-width-s ${spacing({s: 2}, {margin: ['bottom']})}`}
+        extraClasses={`${font({s: 'HNM5'})} btn--full-width-s`}
       />
     );
   } else {
     return (
       <div className="js-eventbrite-ticket-button" data-eventbrite-ticket-id={event.eventInfo.eventbriteId}>
-        <a className={`flex-inline flex--v-center flex--h-center btn btn--full-width-s ${font({s: 'HNM4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}
+        <a className={`flex-inline flex--v-center flex--h-center btn btn--full-width-s ${font({s: 'HNM4'})}`}
           href={`https://www.eventbrite.com/e/${event.eventInfo.eventbriteId}/`}>
           <span><Icon name='ticketAvailable' /></span>
           <span className="js-eventbrite-ticket-button-text">Book free tickets</span>
