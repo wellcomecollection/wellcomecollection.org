@@ -4,7 +4,6 @@ import {prismicApi} from '../services/prismic-api';
 import {createPageConfig, getEditorialAnalyticsInfo} from '../model/page-config';
 import {getEventbriteEventEmbed} from '../services/eventbrite';
 import {PromoFactory} from '../model/promo';
-import {collectorsPromo} from '../data/series';
 import {prismicAsText} from '../filters/prismic';
 import {
   getArticle, getSeriesAndArticles, getArticleList, getCuratedList,
@@ -109,8 +108,6 @@ export async function renderExplore(ctx, next) {
     }
   }));
 
-  // TODO: Remove this, make it automatic
-  const latestTweets = ctx.intervalCache.get('tweets');
   const path = ctx.request.url;
 
   ctx.render('pages/curated-lists', {
@@ -122,9 +119,7 @@ export async function renderExplore(ctx, next) {
       canonicalUri: `${ctx.globals.rootDomain}/explore`
     }),
     promos: promos,
-    curatedList,
-    collectorsPromo, // TODO: Remove this, make it automatic
-    latestTweets
+    curatedList
   });
 
   return next();
