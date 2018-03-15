@@ -1,7 +1,7 @@
 // @flow
 import type {HTMLString, ImagePromo} from './content-blocks';
 import type {Person} from './people';
-import type {Picture} from '../model/picture';
+import type {Picture} from './picture';
 
 type DateTimeRange = {|
   startDateTime: Date,
@@ -87,7 +87,7 @@ export type Audience = {|
 export type Event = {|
   id: string,
   identifiers: Array<Identifier>,
-  title: ?string,
+  title: string,
   format: ?EventFormat,
   isDropIn: boolean,
   times: Array<EventTime>,

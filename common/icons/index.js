@@ -1,4 +1,6 @@
 import arrow from './arrow';
+import audioDescribed from './audio_described';
+import speechToText from './speech_to_text';
 import britishSignLanguage from './british_sign_language';
 import {cc, ccBy, ccNc, ccNd, ccPdm, ccZero} from './licenses';
 import check from './check';
@@ -31,6 +33,8 @@ import tripadvisor from './tripadvisor';
 import wellcome from './wellcome';
 export {
   arrow,
+  audioDescribed,
+  speechToText,
   britishSignLanguage,
   cc,
   ccBy,
