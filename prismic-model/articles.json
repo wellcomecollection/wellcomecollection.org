@@ -519,7 +519,7 @@
     "displayType" : {
       "type" : "Select",
       "config" : {
-        "options" : [ "basic-page", "article" ],
+        "options" : [ "basic-page" ],
         "label" : "Display Type"
       }
     }
