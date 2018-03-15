@@ -52,7 +52,7 @@ const StaticWorksContent = () => (
               <p>As we make more images from our collections available over the coming months, we will identify and consider these issues in a systematic and consistent manner. We want to include a range of voices from inside and outside Wellcome Collection to help us with this. If you would like to get involved or have information about an image which might help us to understand it better, please email <a href="mailto:collections@wellcome.ac.uk">collections@wellcome.ac.uk</a>.</p>
             </div>
           </div>
-          <div className={grid({s: 12, m: 8, l: 5, xl: 5})}>
+          <div className={`${grid({s: 12, m: 8, l: 5, xl: 5})} ${spacing({s: 1}, {margin: ['bottom']})}`}>
             <CaptionedImage caption='Sir Henry Solomon Wellcome (1853&ndash;1936). Pharmacist, entrepreneur, philanthropist and collector.'>
               <Image
                 contentUrl='https://s3-eu-west-1.amazonaws.com/miro-images-public/V0027000/V0027772.jpg'

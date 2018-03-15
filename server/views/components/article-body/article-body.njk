@@ -21,10 +21,12 @@
                 else null
               %}
 
-              {% componentJsx 'CaptionedImage', bodyPart.value, [
-                {name: 'Image', model: imageModel},
-                tasl
-              ] %}
+              <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
+                {% componentJsx 'CaptionedImage', bodyPart.value, [
+                  {name: 'Image', model: imageModel},
+                  tasl
+                ] %}
+              </div>
             {% else %}
                 {% component 'standfirst', { body: bodyPart.value } %}
             {% endif %}
@@ -35,22 +37,23 @@
           {% elif bodyPart.type === 'picture' %}
             {% if bodyPart.weight === 'standalone' %}
               {% set sizes = '100vw' %}
-              {% set wrapperClasses = 'bg-cream ' + ({l:2} | spacingClasses({ padding: ['bottom'] })) %}
             {% elif bodyPart.weight === 'supporting' %}
               {% set sizes = '(min-width: 1420px) 507px, (min-width: 960px) 35.68vw, (min-width: 600px) calc(83.24vw - 69px), calc(100vw - 36px)' %}
             {% else %}
               {% set sizes ='(min-width: 1420px) 680px, (min-width: 960px) 50vw, (min-width: 600px) calc(83.24vw - 69px), calc(100vw - 36px)' %}
             {% endif %}
-            <div class="{{wrapperClasses}}">
+            <div class="bg-cream {{ {l: 2} | spacingClasses({ padding: ['bottom'] }) }}">
               {% set imageModel = bodyPart.value | objectAssign({lazyload: true, sizesQueries: sizes}) %}
               {% set tasl = {name: 'Tasl', model: imageModel | objectAssign({sourceName: imageModel.source.name, sourceLink: imageModel.source.link})}
                 if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
                 else null
               %}
-              {% componentJsx 'CaptionedImage', bodyPart.value, [
-                {name: 'Image', model: imageModel},
-                tasl
-              ] %}
+              <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
+                {% componentJsx 'CaptionedImage', bodyPart.value, [
+                  {name: 'Image', model: imageModel},
+                  tasl
+                ] %}
+              </div>
             </div>
           {% elif bodyPart.type === 'video-embed' %}
             <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
@@ -97,10 +100,12 @@
                       else null
                     %}
 
-                    {% componentJsx 'CaptionedImage', imageModel, [
-                      {name: 'Image', model:imageModel},
-                      tasl
-                    ] %}
+                    <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
+                      {% componentJsx 'CaptionedImage', imageModel, [
+                        {name: 'Image', model:imageModel},
+                        tasl
+                      ] %}
+                    </div>
 
                     {{item.description | safe}}
                   </li>

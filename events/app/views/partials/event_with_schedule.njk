@@ -15,7 +15,33 @@
     </div>
   </div>
 
-  <div class="container bg-white {{ {s: 6} | spacingClasses({padding: ['bottom']}) }}">
+  <div class="container bg-white container--scroll touch-scroll {{ {s: 6} | spacingClasses({padding: ['bottom']}) }}">
+    <div class="grid grid--scroll">
+      {% for scheduledEvent in event.schedule %}
+        {% if loop.index < 4 %}
+          <div class="grid__cell">
+            {% set imageModel = {
+              width: scheduledEvent.promo.image.width,
+              height: scheduledEvent.promo.image.height,
+              lazyload: true,
+              title: scheduledEvent.promo.image.title,
+              source: scheduledEvent.promo.image.source,
+              copyright: scheduledEvent.promo.image.copyright,
+              contentUrl: scheduledEvent.promo.image.contentUrl
+            } %}
+            {% set tasl = {name: 'Tasl', model: imageModel | objectAssign({sourceName: imageModel.source.name, sourceLink: imageModel.source.link})}
+              if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
+              else null
+            %}
+            {% componentJsx 'CaptionedImage', {},
+              [{name: 'Image', model: imageModel}, tasl]
+              %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  <div class="container bg-white {{ {s: 4} | spacingClasses({padding: ['top', 'bottom']}) }}">
     <hr class="divider divider--dashed" />
 
     <div class="grid">
