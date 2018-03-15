@@ -90,6 +90,11 @@
       }
     }
   },
+  "Exhibits": {
+    "exhibits": {
+
+    }
+  },
   "Promo" : {
     "promo" : {
       "type" : "Slices",
