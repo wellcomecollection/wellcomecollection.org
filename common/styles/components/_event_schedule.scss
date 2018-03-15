@@ -1,0 +1,29 @@
+.event-schedule {
+  padding-top: 10vw;
+}
+
+.event-schedule__header-image {
+  top: 0;
+  position: fixed;
+  z-index: -1;
+  height: 60vh;
+  width: 100%;
+}
+
+.event-schedule__partnership {
+  @include respond-to('medium') {
+    text-align: right;
+  }
+}
+
+.event-schedule__free {
+  @include respond-to('large') {
+    text-align: right;
+  }
+}
+
+.event-schedule__main {
+  @include respond-to('large') {
+    border-right: 1px solid color('smoke');
+  }
+}

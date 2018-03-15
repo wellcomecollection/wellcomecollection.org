@@ -20,13 +20,13 @@ export const renderArticle = async(ctx, next) => {
   const id = `W${ctx.params.id}`;
   const isPreview = Boolean(ctx.params.preview);
   const article = await getArticle(id, isPreview ? ctx.request : null);
-
+  const displayType = article.displayType;
   if (article) {
     if (format === 'json') {
       ctx.body = article;
     } else {
       const trackingInfo = getEditorialAnalyticsInfo(article);
-      ctx.render('pages/article', {
+      ctx.render(`pages/${displayType}`, {
         pageConfig: Object.assign({}, createPageConfig({
           path: path,
           title: article.headline,
@@ -35,6 +35,7 @@ export const renderArticle = async(ctx, next) => {
           canonicalUri: `${ctx.globals.rootDomain}/articles/${id}`
         }), trackingInfo),
         article: article,
+        page: article,
         isPreview: isPreview
       });
     }

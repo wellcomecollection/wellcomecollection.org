@@ -1,0 +1,118 @@
+{# TODO change image sizes queries #}
+{# TODO convert to JSX #}
+
+<div class="body-content">
+  {% for bodyPart in pageBody %}
+        {% if bodyPart.value.name %}
+          <h2>{{ bodyPart.value.name }}</h2>
+        {% endif %}
+        <div class="body-part
+          {{- ' body-part--standalone body-part--full-width' if bodyPart.weight === 'standalone'  -}}
+          {{- ' body-part--supporting' if bodyPart.weight === 'supporting'  -}}">
+          {% if bodyPart.type === 'standfirst' %}
+            {% component 'standfirst', { body: bodyPart.value } %}
+          {% elif bodyPart.type === 'heading' %}
+            <h2>{{ bodyPart.value.value | safe }}</h2>
+          {% elif bodyPart.type === 'gif-video' %}
+            {% componentV2 'gif-video', bodyPart.value %}
+          {% elif bodyPart.type === 'picture' %}
+            {% if bodyPart.weight === 'standalone' %}
+              {% set sizes = '100vw' %}
+              {% set wrapperClasses = 'bg-cream ' + ({l:2} | spacingClasses({ padding: ['bottom'] })) %}
+            {% elif bodyPart.weight === 'supporting' %}
+              {% set sizes = '(min-width: 1420px) 507px, (min-width: 960px) 35.68vw, (min-width: 600px) calc(83.24vw - 69px), calc(100vw - 36px)' %}
+            {% else %}
+              {% set sizes ='(min-width: 1420px) 680px, (min-width: 960px) 50vw, (min-width: 600px) calc(83.24vw - 69px), calc(100vw - 36px)' %}
+            {% endif %}
+            <div class="{{wrapperClasses}}">
+              {% set imageModel = bodyPart.value | objectAssign({lazyload: true, sizesQueries: sizes}) %}
+              {% set tasl = {name: 'Tasl', model: imageModel | objectAssign({sourceName: imageModel.source.name, sourceLink: imageModel.source.link})}
+                if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
+                else null
+              %}
+              {% componentJsx 'CaptionedImage', bodyPart.value, [
+                {name: 'Image', model: imageModel},
+                tasl
+              ] %}
+            </div>
+          {% elif bodyPart.type === 'video-embed' %}
+            <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              {% componentV2 'iframed-video', bodyPart.value %}
+            </div>
+          {% elif bodyPart.type === 'list' %}
+            {% component 'list', {list: bodyPart.value} %}
+          {% elif bodyPart.type === 'interview' %}
+            {% component 'interview', { interview: bodyPart.value } %}
+          {% elif bodyPart.type === 'imageGallery' %}
+            {% component 'image-gallery', { imageGallery: bodyPart.value, id: 'image-gallery--' + loop.index } %}
+          {% elif bodyPart.type === 'tweet' %}
+            {% componentV2 'tweet', bodyPart.value %}
+          {% elif bodyPart.type === 'instagramEmbed' %}
+            {% componentV2 'instagram-embed', bodyPart.value %}
+          {% elif bodyPart.type === 'soundcloudEmbed' %}
+            {% componentV2 'soundcloud-embed', bodyPart.value %}
+          {% elif bodyPart.type === 'imageList' %}
+            {% if bodyPart.value.items.length > 0 %}
+              <ul class="plain-list no-margin no-padding">
+                {% for item in bodyPart.value.items %}
+                  <li>
+                    <h2>
+                      <div class="flex">
+                        {% if bodyPart.value.listStyle === 'numeric' %}<div class="{{ {s: 1} | spacingClasses({margin: ['right']}) }}">{{ loop.index }}.</div>{% endif %}
+                        <div>
+                          <div>
+                            {{ item.title }}
+                          </div>
+                          {% if item.subtitle %}
+                            <div>
+                              {{ item.subtitle }}
+                            </div>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </h2>
+
+                    {% set imageModel = item.image | objectAssign({lazyload: true}) %}
+
+                    {% set tasl = {name: 'Tasl', model: imageModel | objectAssign({sourceName: imageModel.source.name, sourceLink: imageModel.source.link})}
+                      if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
+                      else null
+                    %}
+
+                    {% componentJsx 'CaptionedImage', imageModel, [
+                      {name: 'Image', model:imageModel},
+                      tasl
+                    ] %}
+
+                    {{item.description | safe}}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          {% elif bodyPart.type === 'quote' %}
+            {% set fontStyles = {s:'HNL3'} %}
+            {% componentV2 'quote', {body: bodyPart.value.body | safe, footer: bodyPart.value.footer | safe}, {'block': true}, {fontStyles: fontStyles} %}
+          {% elif bodyPart.type === 'pre' %}
+            <div class="bg-white">
+              <div class="body-part__extend-to-right">
+                <div class="{{ {s:3} | spacingClasses({padding: ['top', 'bottom'], margin: ['bottom']}) }}">
+                  <pre class="pre {{ {s:'LR3'} | fontClasses }} border-color-smoke border-left-width-5 {{ {s:3} | spacingClasses({padding: ['left', 'right']}) }}">
+                    {{- bodyPart.value -}}
+                  </pre>
+                </div>
+              </div>
+            </div>
+          {% elif bodyPart.type === 'iframe' %}
+            <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              {% componentV2 'iframe', bodyPart.value %}
+            </div>
+          {% elif bodyPart.type === 'gifVideo' %}
+            <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              {% componentV2 'gif-video', bodyPart.value %}
+            </div>
+          {% else %}
+            {{ bodyPart.value | safe }}
+          {% endif %}
+        </div>
+  {% endfor %}
+</div>

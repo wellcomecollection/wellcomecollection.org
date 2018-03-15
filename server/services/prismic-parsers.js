@@ -10,6 +10,7 @@ import getBreakpoint from '../filters/get-breakpoint';
 import {parseBody, parseFeaturedBody} from './prismic-body-parser';
 import type {ImagePromo} from '../content-model/content-blocks';
 import type {Article} from '../model/article';
+import type {BasicPage} from '../model/basic-page';
 import type {Promo} from '../model/promo';
 import type {Picture} from '../model/picture';
 import {isEmptyObj} from '../utils/is-empty-obj';
@@ -23,7 +24,8 @@ type PrismicDoc = Object;
 // This is because it could be any part of a JSON doc
 type PrismicDocFragment = Object | Array<any>;
 
-export function parseEventDoc(doc: PrismicDoc): Event {
+export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): Event {
+  const eventSchedule = scheduleDocs && scheduleDocs.results.map(doc => parseEventDoc(doc));
   const promo = parseImagePromo(doc.data.promo);
 
   const times: Array<EventTime> = doc.data.times.map(date => {
@@ -125,7 +127,8 @@ export function parseEventDoc(doc: PrismicDoc): Event {
     place: place,
     bookingInformation: asHtml(doc.data.bookingInformation),
     bookingType: bookingType,
-    cost: cost
+    cost: cost,
+    schedule: eventSchedule
   }: Event);
 
   return e;
@@ -232,6 +235,25 @@ export function parseArticleDoc(doc: PrismicDoc): Article {
   };
 
   return article;
+}
+
+export function parseBasicPageDoc(doc: PrismicDoc): BasicPage {
+  const headline = asText(doc.data.title);
+  const publishDate = parsePublishedDate(doc);
+  const promo = doc.data.promo.find(slice => slice.slice_type === 'editorialImage');
+  const description = promo && asText(promo.primary.caption);
+  const thumbnail = promo && parsePicture(promo.primary);
+  const bodyParts = parseBody(doc.data.body);
+
+  const page: BasicPage = {
+    headline: headline,
+    datePublished: publishDate,
+    thumbnail: thumbnail,
+    bodyParts: bodyParts,
+    description: description
+  };
+
+  return page;
 }
 
 export function parseWebcomicDoc(doc: PrismicDoc): Article {

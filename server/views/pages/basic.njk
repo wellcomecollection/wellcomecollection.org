@@ -1,0 +1,51 @@
+{% extends 'layout/default.njk' %}
+
+{% block pageMeta %}
+  {% set metaContent = {
+    type: 'article',
+    title: page.headline,
+    image: page.thumbnail.contentUrl,
+    url: pageConfig.canonicalUri,
+    description: page.description
+  } %}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
+  <meta name="description" content="{{ page.description | safe | striptags }}" />
+{% endblock %}
+
+{% block body %}
+
+  <script type="application/ld+json">
+    {{ page | jsonLd('contentLd') | safe }}
+  </script>
+
+  <article>
+
+    <header class="page-description {{ 'page-description' | componentClasses(modifiers) }}">
+      <div class="row page-description__row {{ 'row--lead row--lead--l' if model.lead }}">
+        <div class="container page-description__container">
+          <div class="grid">
+            <div class="{{ {s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2} | gridClasses }}">
+              <h1 class="page-description__title {{ {s:'WB5', m:'WB4', l:'WB3'} | fontClasses }}">
+                {{ page.headline }}
+              </h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="row bg-cream {{ {s:3} | spacingClasses({padding: ['top']}) }} {{ {s:8} | spacingClasses({padding: ['bottom']}) }} ">
+      <div class="container">
+        <div class="grid">
+          <div class="basic-page {{ {s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2} | gridClasses }}">
+            {% block articleBody %}
+              {% component 'basic-body', {pageBody: page.bodyParts, contentType: page.contentType} %}
+            {% endblock %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+{% endblock %}

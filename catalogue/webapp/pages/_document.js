@@ -1,2 +1,4 @@
 import WecoDoc from '@weco/common/views/pages/_document';
-export default WecoDoc;
+// $FlowFixMe
+import css from '@weco/common/styles/works.scss';
+export default WecoDoc(css);

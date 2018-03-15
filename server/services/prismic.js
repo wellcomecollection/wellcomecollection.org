@@ -4,6 +4,7 @@ import {
   parseArticleDoc,
   parseEventDoc,
   parseWebcomicDoc,
+  parseBasicPageDoc,
   asText,
   prismicImage,
   parseExhibitionsDoc,
@@ -66,6 +67,13 @@ async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string
   return doc && types.indexOf(doc.type) !== -1 ? doc : null;
 }
 
+async function getTypeByIds(req: ?Request, types: Array<DocumentType>, ids: Array<string>, qOpts: Object<any>) {
+  const prismic = await getPrismicApi(req);
+  const doc = await prismic.getByIDs(ids, qOpts);
+
+  return doc;
+}
+
 type PrismicQueryOptions = {|
   page?: number;
   fetchLinks?: Array<String>;
@@ -84,12 +92,15 @@ async function getAllOfType(type: Array<DocumentType>, options: PrismicQueryOpti
 export async function getArticle(id: string, previewReq: ?Request) {
   const fetchLinks = peopleFields.concat(booksFields, seriesFields, contributorFields);
   const article = await getTypeById(previewReq, ['articles', 'webcomics'], id, {fetchLinks});
-
   if (!article) { return null; }
 
   switch (article.type) {
-    case 'articles': return parseArticleDoc(article);
-    case 'webcomics': return parseWebcomicDoc(article);
+    case 'articles':
+      return (
+        (article.data.displayType === 'basic-page' && Object.assign({}, parseBasicPageDoc(article), {displayType: 'basic'})) ||
+        Object.assign({}, parseArticleDoc(article), {displayType: 'article'})
+      );
+    case 'webcomics': return Object.assign({}, parseWebcomicDoc(article), {displayType: 'article'});
   }
 }
 
@@ -97,9 +108,13 @@ export async function getEvent(id: string, previewReq: ?Request): Promise<?Event
   const fetchLinks = eventFields.concat(peopleFields, contributorFields, seriesFields);
   const event = await getTypeById(previewReq, ['events'], id, {fetchLinks});
 
+  const scheduleIds = event.data.schedule.map(event => event.event.id);
+
+  const eventScheduleDocs = scheduleIds.length > 0 && await getTypeByIds(previewReq, ['events'], scheduleIds, {fetchLinks});
+
   if (!event) { return null; }
 
-  return parseEventDoc(event);
+  return parseEventDoc(event, eventScheduleDocs);
 }
 
 export async function getArticleList(page = 1, {pageSize = 10, predicates = []} = {}) {
@@ -238,6 +253,8 @@ export function createEventPromos(allResults): Array<EventPromo> {
       description: series.series.data.description
     }) : null).filter(_ => _);
 
+    const schedule = event.data.schedule.filter(s => Boolean(s.event.id));
+
     // A single Primsic 'event' can have multiple datetimes, but we
     // want to display each datetime as an individual promo, so we
     // map and flatten.
@@ -258,7 +275,8 @@ export function createEventPromos(allResults): Array<EventPromo> {
         bookingType: bookingType,
         interpretations: interpretations,
         eventbriteId: eventbriteId,
-        series: series
+        series: series,
+        schedule: schedule
       };
     });
   }).reduce((acc, curr) => {

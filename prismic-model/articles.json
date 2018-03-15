@@ -501,7 +501,7 @@
       }
     }
   },
-  "Metadata" : {
+  "Migration data" : {
     "publishDate" : {
       "config" : {
         "label" : "Override publish date"
@@ -513,6 +513,15 @@
         "label" : "Wordpress slug"
       },
       "type" : "Text"
+    }
+  },
+  "Display" : {
+    "displayType" : {
+      "type" : "Select",
+      "config" : {
+        "options" : [ "basic-page", "article" ],
+        "label" : "Display Type"
+      }
     }
   }
 }

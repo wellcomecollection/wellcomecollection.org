@@ -4,6 +4,8 @@
   {% set sizes = '100vw' %}
 {% endif %}
 
+{% set hasSchedule = model.schedule.length > 0 %}
+
 <a data-component="EventPromo"
    data-track-event="{{ {category: 'component', action: 'EventPromo:click', label: 'id:' + model.id } | dump }}"
    id="{{model.id}}"
@@ -35,6 +37,11 @@
       <h2 class="promo-link__title {{ {s:'WB5'} | fontClasses }}  {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">
         {{ model.title }}
       </h2>
+      {% if hasSchedule %}
+        <p class="{{ {s:'HNM4'} | fontClasses }} no-padding no-margin">
+          {{model.schedule.length}} events
+        </p>
+      {% endif %}
       {% for series in model.series %}
         <div class="{{ {s:'HNM5'} | fontClasses }}">
           {{series.title}}
