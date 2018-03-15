@@ -1,5 +1,13 @@
 .event-schedule {
   padding-top: 10vw;
+
+  @include respond-to('large') {
+    padding-top: 8vw;
+  }
+
+  @include respond-to('xlarge') {
+    padding-top: 18 * $spacing-unit;
+  }
 }
 
 .event-schedule__header-image {

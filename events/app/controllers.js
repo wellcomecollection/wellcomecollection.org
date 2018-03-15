@@ -35,7 +35,8 @@ export async function renderEvent(ctx, next) {
           category: 'public-programme',
           contentType: 'event',
           seriesUrl: event.series.map(series => `${series.title}:${series.id}`).join(','),
-          canonicalUri: `${ctx.globals.rootDomain}/events/${event.id}`
+          canonicalUri: `${ctx.globals.rootDomain}/events/${event.id}`,
+          pageState: {hasSchedule: Boolean(event.schedule.length > 0)}
         }),
         event: event,
         eventInfo: eventInfo,
