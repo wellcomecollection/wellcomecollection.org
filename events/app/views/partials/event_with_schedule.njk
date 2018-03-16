@@ -1,5 +1,12 @@
-<div class="event-schedule row relative">
-  <div class="absolute event-schedule__header-image bg-turquoise"></div>
+<div class="event-schedule row relative row__wobbly-background">
+  <div class="event-schedule__header-image bg-turquoise">
+    <div style="position: absolute; bottom: 0; width: 100%;">
+      <div class="wobbly-edge wobbly-edge--white js-wobbly-edge"
+        data-is-valley="true"
+        data-max-intensity="100">
+      </div>
+    </div>
+  </div>
   <div class="relative container bg-white {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top', 'bottom']}) }}">
     <div class="grid">
       <div class="{{ {s: 12, m: 10, l: 8, xl: 9} | gridClasses }}">
