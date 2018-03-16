@@ -514,14 +514,5 @@
       },
       "type" : "Text"
     }
-  },
-  "Display" : {
-    "displayType" : {
-      "type" : "Select",
-      "config" : {
-        "options" : [ "basic-page" ],
-        "label" : "Display Type"
-      }
-    }
   }
 }
