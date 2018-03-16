@@ -1,6 +1,6 @@
-<div class="event-schedule row relative row__wobbly-background">
+<div class="event-schedule row relative">
   <div class="event-schedule__header-image bg-turquoise">
-    <div style="position: absolute; bottom: 0; width: 100%;">
+    <div class="event-schedule__wobbly-edge absolute">
       <div class="wobbly-edge wobbly-edge--white js-wobbly-edge"
         data-is-valley="true"
         data-max-intensity="100">
@@ -21,6 +21,7 @@
           </span>
         </div>
       </div>
+      {# TODO: check `cost` for all events in schedule to determine if this should be shown #}
       <div class="{{ {s: 12, m: 12, l: 4, xl: 3} | gridClasses }} event-schedule__free {{ {s: 10, l: 0} | spacingClasses({margin: ['bottom']}) }}">
         <span class="inline-block bg-yellow {{ {s: 'WB7'} | fontClasses }} {{ {s: 2} | spacingClasses({padding: ['left', 'right']}) }} {{ {s: 1} | spacingClasses({padding: ['top', 'bottom']}) }} rounded-diagonal">All events are free</span>
       </div>
@@ -56,11 +57,11 @@
       {% endfor %}
     </div>
   </div>
-  <div class="container bg-white {{ {s: 4} | spacingClasses({padding: ['bottom']}) }} {{ {s: 0, m: 2} | spacingClasses({padding: ['top']}) }}">
+  <div class="container bg-white {{ {s: 4} | spacingClasses({padding: ['bottom']}) }} {{ {s: 0, m: 5} | spacingClasses({padding: ['top']}) }}">
     <hr class="divider divider--dashed" />
   </div>
 
-  <div class="container bg-white {{ {s: 6} | spacingClasses({padding: ['bottom']}) }}">
+  <div class="container bg-white {{ {s: 10} | spacingClasses({padding: ['bottom']}) }}">
     <div class="grid">
       <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
         <h2 class="{{ {s: 'WB6', l: 'WB5'} | fontClasses }} {{ {s: 4} | spacingClasses({padding: ['bottom']}) }} border-color-smoke border-bottom-width-2">Events</h2>

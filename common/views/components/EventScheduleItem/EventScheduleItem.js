@@ -24,7 +24,7 @@ function getTicketedMarkup(event) {
 }
 
 const EventScheduleItem = ({event}: Props) => (
-  <li className={`event-schedule__item ${spacing({l: 0}, {padding: ['left']})} ${spacing({s: 4}, {padding: ['bottom']})} ${spacing({s: 4}, {margin: ['bottom']})} border-color-smoke border-bottom-width-2`}>
+  <li className={`event-schedule__item ${spacing({l: 0}, {padding: ['left']})} ${spacing({s: 4, l: 6}, {padding: ['bottom']})} ${spacing({s: 4}, {margin: ['bottom']})} border-color-smoke border-bottom-width-2`}>
     <div className='grid'>
       <div className={`${grid({s: 12, m: 12, l: 2, xl: 2})} ${spacing({s: 2, l: 0}, {margin: ['bottom']})}`}>
         {event.times.map((t) => {
@@ -45,14 +45,12 @@ const EventScheduleItem = ({event}: Props) => (
           {event.format &&
             <span className={`block ${font({s: 'HNM5', m: 'HNM4'})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{event.format.title}</span>
           }
-          <h3 className={`${font({s: 'WB7', m: 'WB6'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{event.title}</h3>
+          <h3 className={`${font({s: 'WB6', l: 'WB5'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{event.title}</h3>
 
-          <p className={`${spacing({s: 3}, {margin: ['top']})} ${spacing({s: 2}, {margin: ['bottom']})}`} dangerouslySetInnerHTML={{__html: event.description}} />
+          <p className={`${spacing({s: 2}, {margin: ['bottom']})} ${font({s: 'HNL5', m: 'HNL4'})}`} dangerouslySetInnerHTML={{__html: event.description}} />
 
           {event.hasOwnPage &&
-            <div className={spacing({s: 4}, {margin: ['bottom']})}>
-              <MoreInfoLink url={`/events/${event.id}`} name='More information' />
-            </div>
+            <MoreInfoLink url={`/events/${event.id}`} name='More information' />
           }
 
           <EventBookingButton event={event} />
@@ -62,12 +60,11 @@ const EventScheduleItem = ({event}: Props) => (
         <div className='event-schedule__meta'>
           <div className='event-schedule__tickets'>
             <div className={`${font({s: 'HNM5', m: 'HNM4'})}`}>
-              <span className={`block ${spacing({s: 2}, {margin: ['bottom']})}`}>
-                {event.cost
-                  ? event.cost
-                  : 'Free admission'
-                }
-              </span>
+              {event.cost &&
+                <span className={`block ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                  {event.cost}
+                </span>
+              }
               <div className={`flex flex--v-center ${spacing({s: 2}, {margin: ['bottom']})}`}>
                 <Icon name='ticket' />
                 <span className={spacing({s: 1}, {margin: ['left']})}>
