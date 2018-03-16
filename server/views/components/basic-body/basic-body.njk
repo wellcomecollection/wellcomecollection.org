@@ -30,10 +30,12 @@
                 if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
                 else null
               %}
-              {% componentJsx 'CaptionedImage', bodyPart.value, [
-                {name: 'Image', model: imageModel},
-                tasl
-              ] %}
+              <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
+                {% componentJsx 'CaptionedImage', bodyPart.value, [
+                  {name: 'Image', model: imageModel},
+                  tasl
+                ] %}
+              </div>
             </div>
           {% elif bodyPart.type === 'video-embed' %}
             <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
@@ -79,10 +81,12 @@
                       else null
                     %}
 
-                    {% componentJsx 'CaptionedImage', imageModel, [
-                      {name: 'Image', model:imageModel},
-                      tasl
-                    ] %}
+                    <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
+                      {% componentJsx 'CaptionedImage', imageModel, [
+                        {name: 'Image', model:imageModel},
+                        tasl
+                      ] %}
+                    </div>
 
                     {{item.description | safe}}
                   </li>
