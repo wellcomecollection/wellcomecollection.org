@@ -53,7 +53,11 @@ const EventScheduleItem = ({event}: Props) => (
             <MoreInfoLink url={`/events/${event.id}`} name='More information' />
           }
 
-          <EventBookingButton event={event} />
+          {(event.eventInfo && event.eventInfo.eventbriteId || event.bookingEnquiryTeam) &&
+            <div className={spacing({s: 2}, {margin: ['top']})}>
+              <EventBookingButton event={event} />
+            </div>
+          }
         </div>
       </div>
       <div className={`${grid({s: 12, m: 12, l: 3, xl: 3})} ${spacing({s: 2, l: 0}, {margin: ['top']})}`}>
