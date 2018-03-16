@@ -7,12 +7,18 @@
       </div>
     </div>
   </div>
-  <div class="relative container bg-white {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top', 'bottom']}) }}">
+  <div class="relative container bg-white {{ {s:5, m:7} | spacingClasses({padding: ['top']}) }} {{ {s: 1} | spacingClasses({padding: ['bottom']}) }}">
     <div class="grid">
       <div class="{{ {s: 12, m: 10, l: 8, xl: 9} | gridClasses }}">
-        <h1 class="{{ {s: 'WB5', m: 'WB4', l: 'WB3'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['bottom']}) }} {{ {s: 0} | spacingClasses({margin: ['top']}) }}">{{  event.title }}</h1>
+        <h1 class="{{ {s: 'WB5', m: 'WB4', l: 'WB3'} | fontClasses }} {{ {s: 3} | spacingClasses({margin: ['bottom']}) }} {{ {s: 0} | spacingClasses({margin: ['top']}) }}">{{  event.title }}</h1>
         <div class="{{ {s: 2, l: 10} | spacingClasses({margin: ['bottom']}) }}">
-          {{ event.times[0].range.startDateTime | formatDate }}, {{ event.times[0].range.startDateTime | formatTime }}&mdash;{{ event.times[0].range.endDateTime | formatTime }} | <span>{{ event.schedule.length }} events</span>
+          <span>
+            {{ event.times[0].range.startDateTime | formatDate }}, {{ event.times[0].range.startDateTime | formatTime }}&mdash;{{ event.times[0].range.endDateTime | formatTime }}
+          </span>
+          <span class="inline-block font-smoke {{ {s: 2} | spacingClasses({margin: ['left', 'right']}) }}">|</span>
+          <span>
+            {{ event.schedule.length }} events
+          </span>
         </div>
       </div>
       <div class="{{ {s: 12, m: 12, l: 4, xl: 3} | gridClasses }} event-schedule__free {{ {s: 10, l: 0} | spacingClasses({margin: ['bottom']}) }}">
