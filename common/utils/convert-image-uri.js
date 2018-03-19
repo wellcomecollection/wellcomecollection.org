@@ -69,7 +69,7 @@ export function convertIiifUriToInfoUri(originalUriPath) {
   }
 };
 
-export function convertImageUri(originalUri, requiredSize, useIiifOrigin) {
+export function convertImageUri(originalUri, requiredSize, useIiifOrigin: boolean): string {
   if (originalUri) {
     const imageSrc = determineSrc(originalUri);
     const isGif = determineIfGif(originalUri);
