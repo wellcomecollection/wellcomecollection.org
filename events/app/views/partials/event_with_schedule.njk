@@ -7,7 +7,7 @@
       </div>
     </div>
   </div>
-  <div class="relative container bg-white {{ {s:5, m:7} | spacingClasses({padding: ['top']}) }} {{ {s: 1} | spacingClasses({padding: ['bottom']}) }}">
+  <div class="relative container container--with-frame bg-white {{ {s:5, m:7} | spacingClasses({padding: ['top']}) }} {{ {s: 1} | spacingClasses({padding: ['bottom']}) }}">
     <div class="grid">
       <div class="{{ {s: 12, m: 10, l: 8, xl: 9} | gridClasses }}">
         <h1 class="{{ {s: 'WB5', m: 'WB4', l: 'WB3'} | fontClasses }} {{ {s: 3} | spacingClasses({margin: ['bottom']}) }} {{ {s: 0} | spacingClasses({margin: ['top']}) }}">{{  event.title }}</h1>
@@ -31,7 +31,7 @@
     </div>
   </div>
 
-  <div class="container bg-white container--scroll touch-scroll">
+  <div class="container container--with-frame bg-white container--scroll touch-scroll">
     <div class="grid grid--scroll">
       {% for scheduledEvent in event.schedule %}
         {% if loop.index < 4 %}
@@ -49,19 +49,21 @@
               if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
               else null
             %}
-            {% componentJsx 'CaptionedImage', {},
-              [{name: 'Image', model: imageModel}, tasl]
+            <div class="rounded-corners overflow-hidden">
+              {% componentJsx 'CaptionedImage', {},
+                [{name: 'Image', model: imageModel}, tasl]
               %}
+            </div>
           </div>
         {% endif %}
       {% endfor %}
     </div>
   </div>
-  <div class="container bg-white {{ {s: 4} | spacingClasses({padding: ['bottom']}) }} {{ {s: 0, m: 5} | spacingClasses({padding: ['top']}) }}">
+  <div class="container container--with-frame bg-white {{ {s: 4} | spacingClasses({padding: ['bottom']}) }} {{ {s: 2, m: 5} | spacingClasses({padding: ['top']}) }}">
     <hr class="divider divider--dashed" />
   </div>
 
-  <div class="container bg-white {{ {s: 10} | spacingClasses({padding: ['bottom']}) }}">
+  <div class="container container--with-frame bg-white {{ {s: 10} | spacingClasses({padding: ['bottom']}) }}">
     <div class="grid">
       <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
         <h2 class="{{ {s: 'WB6', l: 'WB5'} | fontClasses }} {{ {s: 4} | spacingClasses({padding: ['bottom']}) }} border-color-smoke border-bottom-width-2">Events</h2>
