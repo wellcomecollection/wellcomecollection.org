@@ -1,3 +1,4 @@
+import {getInstallation} from '@weco/common/services/prismic/installation';
 import {model, prismic} from 'common';
 
 import {
@@ -12,6 +13,26 @@ const {createPageConfig} = model;
 const {
   getExhibitionAndEventPromos
 } = prismic;
+
+export async function renderInstallation(ctx, next) {
+  const installation = await getInstallation(ctx.request, ctx.params.id);
+  const tags = [{
+    text: 'Installations',
+    url: '/installations'
+  }];
+  ctx.render('pages/installation', {
+    pageConfig: createPageConfig({
+      path: ctx.request.url,
+      title: installation.title,
+      inSection: 'whatson',
+      category: 'public-programme',
+      contentType: 'installation',
+      canonicalUri: `/installation/${installation.id}`
+    }),
+    installation,
+    tags
+  });
+}
 
 export async function renderWhatsOn(ctx, next) {
   const exhibitionAndEventPromos = await getExhibitionAndEventPromos(ctx.query);

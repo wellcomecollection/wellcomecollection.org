@@ -1,7 +1,7 @@
 // @flow
 import Prismic from 'prismic-javascript';
 import Cookies from 'cookies';
-import type {Document as PrismicDocument, PrismicQueryOpts} from './types';
+import type {PrismicDocument, PrismicQueryOpts} from './types';
 
 const oneMinute = 1000 * 60;
 const apiUri = 'https://wellcomecollection.prismic.io/api/v2';
@@ -37,6 +37,6 @@ export async function getDocument(
   opts: PrismicQueryOpts
 ): Promise<?PrismicDocument> {
   const api = await getPrismicApi(req);
-  const doc = api.getById(id, opts);
+  const doc = api.getByID(id, opts);
   return doc;
 }

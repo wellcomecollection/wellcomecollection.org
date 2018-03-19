@@ -1,5 +1,5 @@
 // @flow
-export type Document = {|
+export type PrismicDocument = {|
   id: string;
   uid ?: string;
   type: string;
@@ -19,3 +19,27 @@ export type PrismicQueryOpts = {|
   page?: number,
   orderings?: string
 |}
+
+export type Body = any[]; // TODO
+
+export type HTMLSpanTypes =
+  | 'heading2'
+  | 'paragraph'
+  | 'strong'
+  | 'em'
+  | 'hyperlink'
+  | 'strike'
+  | 'list-item'
+  | 'embed';
+
+export type HTMLSpan = {|
+  start: number,
+  end: number,
+  data: Object
+|}
+
+export type HTMLString = [{|
+  type: HTMLSpanTypes,
+  text: string,
+  spans: HTMLSpan[]
+|}];
