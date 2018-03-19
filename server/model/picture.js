@@ -1,6 +1,7 @@
 // @flow
 import type {LicenseType} from './license';
 export type Picture = {|
+  type: 'picture';
   contentUrl: ?string;
   width: ?number;
   height: ?number;
@@ -21,3 +22,7 @@ export type Picture = {|
   };
   minWidth?: ?string; // This must have a CSS unit attached
 |}
+
+export function createPicture(data: Picture): Picture {
+  return (data: Picture);
+}
