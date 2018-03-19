@@ -3,7 +3,10 @@
 import { spacing, font } from '../../../utils/classnames';
 
 type Props = {|
-  tags: Array<{|text: string, url?: string|}>
+  tags: Array<{|
+    text: string,
+    url?: string
+  |}>
 |}
 
 function buildTag(tag) {
@@ -17,12 +20,17 @@ function buildTag(tag) {
     </HTMLTag>
   );
 }
+
 const Tags = ({ tags }: Props) => (
   <div className="tags">
     <ul className="tags__list plain-list no-margin no-padding flex flex--wrap">
       {tags.map(tag => (
         <li key={tag.text} className={`tags__tag ${font({s: 'HNL5', m: 'WB7'})} ${spacing({s: 2}, {margin: ['right', 'bottom']})}`}
-          data-track-event={`{"category": "component", "action": "tag:click", "label": "text:${tag.prefix}${tag.prefix ? ' ' : ''}${tag.text}, url:${tag.url}"}`}>
+          data-track-event={JSON.stringify({
+            category: 'component',
+            action: 'tag:click',
+            label: `text:${tag.text}${tag.url ? `, url:${tag.url}` : ''}`
+          })}>
           {buildTag(tag)}
         </li>
       ))}
