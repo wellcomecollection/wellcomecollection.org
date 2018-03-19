@@ -22,7 +22,7 @@ const MoreInfoLink = ({url, name, screenReaderText}: Props) => (
     </span>
     <span className={spacing({s: 1}, {margin: ['left']})}>
       {name}
-      { screenReaderText && <span className='visually-hidden'> {screenReaderText}</span>}
+      {screenReaderText && <span className='visually-hidden'> {screenReaderText}</span>}
     </span>
   </a>
 );
