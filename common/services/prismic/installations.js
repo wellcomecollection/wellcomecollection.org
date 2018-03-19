@@ -1,11 +1,17 @@
 // @flow
-import type {PrismicDocument} from './types';
+import type {PrismicDocument, PrismicFragment} from './types';
 import type {Installation} from '../../model/installations';
+import type {Picture} from '../../model/picture';
+import type {ImagePromo} from './parsers';
 import {getDocument} from './api';
+import {peopleFields, contributorFields} from './fetch-links';
+import {breakpoints} from '../../utils/breakpoints';
+
 import {
   parseTitle,
   parseDescription,
-  parseContributors
+  parseContributors,
+  parseImagePromo
 } from './parsers';
 
 function parseInstallationDoc(document: PrismicDocument): Installation {
@@ -18,11 +24,27 @@ function parseInstallationDoc(document: PrismicDocument): Installation {
   };
 }
 
-export async function getInstallation(req: Request, id: string): Promise<?Installation> {
-  const document = await getDocument(req, id, {});
+function parseInstallationFeaturedImages(promo: PrismicFragment[]): ImagePromo[] {
+  const promoThin = parseImagePromo(promo, '32:15', breakpoints.medium);
+  const promoSquare = parseImagePromo(promo, 'square', breakpoints.small);
+
+  return [promoThin, promoSquare].filter(Boolean);
+}
+
+export async function getInstallation(req: Request, id: string): Promise<?{|
+  installation: Installation,
+  featredImageList: Picture[]
+|}> {
+  const document = await getDocument(req, id, {
+    fetchLinks: peopleFields.concat(contributorFields)
+  });
 
   if (document && document.type === 'installations') {
     const installation = parseInstallationDoc(document);
-    return installation;
+    const promos = document.data.promo ? parseInstallationFeaturedImages(document.data.promo) : [];
+    return {
+      installation,
+      featredImageList: promos.map(p => p.image).filter(Boolean)
+    };
   }
 }

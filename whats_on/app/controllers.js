@@ -41,7 +41,7 @@ export async function renderWhatsOn(ctx, next) {
 }
 
 export async function renderInstallation(ctx, next) {
-  const installation = await getInstallation(ctx.request, ctx.params.id);
+  const {installation, featredImageList} = await getInstallation(ctx.request, ctx.params.id);
   const tags = [{
     text: 'Installations',
     url: '/installations'
@@ -56,6 +56,7 @@ export async function renderInstallation(ctx, next) {
       canonicalUri: `/installation/${installation.id}`
     }),
     installation,
+    featredImageList,
     tags
   });
 }

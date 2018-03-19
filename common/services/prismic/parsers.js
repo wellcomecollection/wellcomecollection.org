@@ -71,7 +71,7 @@ export function parsePicture(captionedImage: Object, minWidth: ?string = null): 
 function parsePerson(frag: PrismicFragment): ?Person {
   return {
     id: frag.id,
-    name: asText(frag.data.name) || 'NAME MISSING',
+    name: frag.data.name || 'NAME MISSING',
     image: frag.data.image && parsePicture({
       image: frag.data.image
     }),
@@ -145,4 +145,25 @@ export function parseTaslFromString(pipedString: string): Tasl {
       copyrightLink: null
     };
   }
+}
+
+export type ImagePromo = {|
+  caption: ?string;
+  image: ?Picture;
+|}
+type CropType = '16:9' | '32:15' | 'square';
+export function parseImagePromo(
+  frag: ?PrismicFragment[],
+  cropType: CropType = '16:9',
+  minWidth: ?string = null
+): ?ImagePromo {
+  const maybePromo = frag && frag.find(slice => slice.slice_type === 'editorialImage');
+  return maybePromo && ({
+    caption: asText(maybePromo.primary.caption),
+    image: parsePicture({
+      image:
+        // We introduced enforcing 16:9 half way through, so we have to do a check for it.
+        maybePromo.primary.image[cropType] || maybePromo.primary.image
+    }, minWidth)
+  }: ImagePromo);
 }

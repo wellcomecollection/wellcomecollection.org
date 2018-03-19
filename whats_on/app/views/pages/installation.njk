@@ -1,3 +1,4 @@
+{% extends 'layout/default.njk' %}
 {% block pageMeta %}
   {% set metaContent = {
     type: 'website',
@@ -18,13 +19,13 @@
   </script>
   <div class="row relative">
     <div class="flush-container-left absolute {{ {s:2} | spacingClasses({margin: ['top', 'bottom']}) }}">
-      {% componentV2 'tags', tags %}
+      {% componentJsx 'Tags', { tags: tags } %}
     </div>
 
     <div class="exhibition-hero">
       {% componentJsx 'Picture', {
-          images: exhibition.featuredImages.toJS(),
-          extraClasses: 'exhibition-hero__picture'
+        images: featredImageList,
+        extraClasses: 'exhibition-hero__picture'
       }%}
 
       <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">
@@ -38,20 +39,20 @@
               <div class="bg-white inline-block exhibition-hero__box {{ {l:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }} rounded-diagonal">
                 <div class="flex flex--v-center flex--h-space-between">
                   <span class="{{ {s:'HNM4', m:'HNM3'} | fontClasses }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free admission</span>
-                  <span class="flex flex--v-center {{ {s:'HNM4'} | fontClasses }}">
-                  {% set dateMessageAndColor = {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage %}
+                  {# <span class="flex flex--v-center {{ {s:'HNM4'} | fontClasses }}">
+                    {% set dateMessageAndColor = {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage %}
                     <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
                     {% set statusColor = 'icon--' + dateMessageAndColor.color %}
-                      {% icon 'status_indicator', null, [statusColor, 'icon--match-text'] %}
+                    {% icon 'status_indicator', null, [statusColor, 'icon--match-text'] %}
                   </span>
-                  <span>{{ dateMessageAndColor.text }}</span>
+                  <span>{{ dateMessageAndColor.text }}</span> #}
                 </span>
                 </div>
-                <h1 class="{{ {s:'WB5', m:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
+                <h1 class="{{ {s:'WB5', m:'WB4', xl:'WB3'} | fontClasses }}">{{ installation.title }}</h1>
                 <span class="{{ {s:'HNL4', m:'HNL3', l:'HNL3', xl:'HNL2'} | fontClasses }}">
-                {% if exhibition.end %}
+                {# {% if exhibition.end %}
                   <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time>&ndash;<time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
-                {% endif %}
+                {% endif %} #}
               </span>
               </div>
             </div>
