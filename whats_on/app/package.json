@@ -2,7 +2,8 @@
   "scripts": {
     "app:build": "webpack",
     "app:dev": "../../node_modules/.bin/nodemon -e js,njk,json --config ../../nodemon.json --exec babel-node --inspect=4003 app.js",
-    "linkweco": "pushd ../../common && yarn link && popd && yarn link @weco/common"
+    "linkweco": "pushd ../../common && yarn link && popd && yarn link @weco/common",
+    "unlinkweco": "yarn unlink @weco/common"
   },
   "dependencies": {
     "@weco/common": "../../common",

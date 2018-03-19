@@ -22,6 +22,7 @@
     moment-timezone "^0.5.14"
     next "^5.0.0"
     openseadragon "^2.3.1"
+    prismic-dom "^2.0.6"
     prismic-javascript "^1.5.0-beta.2"
     react "^16.2.0"
     react-dom "^16.2.0"
@@ -3556,11 +3557,29 @@ preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
 
+prismic-dom@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/prismic-dom/-/prismic-dom-2.0.6.tgz#527efeaa5e8a93f5c6a1db93fb569e716349fbb9"
+  dependencies:
+    prismic-helpers "^1.0.0"
+    prismic-richtext "^0.2.6"
+
+prismic-helpers@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/prismic-helpers/-/prismic-helpers-1.0.0.tgz#8337420cf187f55fb7b7a8be755523c8696fc329"
+
 prismic-javascript@^1.5.0-beta.2:
   version "1.5.0-beta.2"
   resolved "https://registry.yarnpkg.com/prismic-javascript/-/prismic-javascript-1.5.0-beta.2.tgz#e91a70dc19c0495e56ae4f60353f3544af49ebd1"
   dependencies:
     fetch-everywhere "^1.0.5"
+
+prismic-richtext@^0.2.6:
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/prismic-richtext/-/prismic-richtext-0.2.7.tgz#ad203fc076bda9c4b6358ca7249f7e0072c5a323"
+  dependencies:
+    prismic-helpers "^1.0.0"
+    uuid "^3.1.0"
 
 private@^0.1.6, private@^0.1.7:
   version "0.1.8"
