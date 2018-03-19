@@ -18,3 +18,4 @@ client/scss/utilities/compiled_variables/
 *.tfstate.backup
 
 .env
+.next/
