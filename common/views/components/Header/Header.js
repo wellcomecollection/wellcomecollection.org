@@ -6,7 +6,9 @@ import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
 
 type Props = {|
   siteSection: string,
-  links: Array<{ href: string, title: string }>
+  links: Array<{ href: string, title: string }>,
+  isActive: boolean,
+  toggle: () => void
 |}
 
 const Header = withToggler(({ links, siteSection, toggle, isActive }: Props) => (
