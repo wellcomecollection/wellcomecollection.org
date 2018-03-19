@@ -25,7 +25,7 @@ const imageMap = {
   }
 };
 
-function determineSrc(url) {
+function determineSrc(url: string): string {
   if (url.startsWith(imageMap.wordpress.root)) {
     return 'wordpress';
   } else if (url.startsWith(imageMap.prismic.root) || url.startsWith(imageMap.prismic.cdnRoot)) {
@@ -69,25 +69,23 @@ export function convertIiifUriToInfoUri(originalUriPath) {
   }
 };
 
-export function convertImageUri(originalUri, requiredSize, useIiifOrigin: boolean): string {
-  if (originalUri) {
-    const imageSrc = determineSrc(originalUri);
-    const isGif = determineIfGif(originalUri);
+export function convertImageUri(originalUri: string, requiredSize: number | 'full', useIiifOrigin: boolean = false): string {
+  const imageSrc = determineSrc(originalUri);
+  const isGif = determineIfGif(originalUri);
 
-    if (imageSrc === 'unknown') {
-      return originalUri;
+  if (imageSrc === 'unknown') {
+    return originalUri;
+  } else {
+    if (!isGif) {
+      const imagePath = imageSrc === 'miro' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[1] : imageSrc === 'iiif' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[0] : originalUri.split(imageMap[imageSrc].root)[1] ? originalUri.split(imageMap[imageSrc].root)[1] : originalUri.split(imageMap[imageSrc].cdnRoot)[1];
+      const iiifRoot = useIiifOrigin ? imageMap[imageSrc].iiifOriginRoot : imageMap[imageSrc].iiifRoot;
+
+      return convertPathToIiifUri(imagePath, iiifRoot, requiredSize);
     } else {
-      if (!isGif) {
-        const imagePath = imageSrc === 'miro' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[1] : imageSrc === 'iiif' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[0] : originalUri.split(imageMap[imageSrc].root)[1] ? originalUri.split(imageMap[imageSrc].root)[1] : originalUri.split(imageMap[imageSrc].cdnRoot)[1];
-        const iiifRoot = useIiifOrigin ? imageMap[imageSrc].iiifOriginRoot : imageMap[imageSrc].iiifRoot;
-
-        return convertPathToIiifUri(imagePath, iiifRoot, requiredSize);
+      if (imageSrc === 'wordpress') {
+        return convertPathToWordpressUri(originalUri, requiredSize);
       } else {
-        if (imageSrc === 'wordpress') {
-          return convertPathToWordpressUri(originalUri, requiredSize);
-        } else {
-          return originalUri;
-        }
+        return originalUri;
       }
     }
   }
