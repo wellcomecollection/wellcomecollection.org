@@ -255,7 +255,6 @@ export const eventExample = ({
   promo: {
     caption: 'This event will blow you to smithereens',
     image: {
-      type: 'picture',
       contentUrl: 'https://picture.com/picture.jpg',
       width: 100,
       height: 100

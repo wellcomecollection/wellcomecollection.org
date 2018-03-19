@@ -48,7 +48,6 @@ export function parsePicture(captionedImage: Object, minWidth: ?string = null): 
   const tasl = image && parseTaslFromString(image.copyright);
 
   return ({
-    type: 'picture',
     contentUrl: image && image.url,
     width: image && image.dimensions && image.dimensions.width,
     height: image && image.dimensions && image.dimensions.height,

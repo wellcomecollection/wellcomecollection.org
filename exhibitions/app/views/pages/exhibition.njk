@@ -2,11 +2,11 @@
 {% set exhibition = exhibitionContent.exhibition %}
 {% block pageMeta %}
   {% set metaContent = {
-  type: 'website',
-  title: exhibition.title,
-  image: exhibition.featuredImage and exhibition.featuredImage.contentUrl,
-  description: exhibition.promo.caption,
-  url: pageConfig.canonicalUri
+    type: 'website',
+    title: exhibition.title,
+    image: exhibition.featuredImage and exhibition.featuredImage.contentUrl,
+    description: exhibition.promo.caption,
+    url: pageConfig.canonicalUri
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
@@ -17,8 +17,8 @@
   {% set jsonLdExhibition = exhibition | objectAssign({safeDescription: exhibition.description | safe | striptags}) %}
 
   <script type="application/ld+json">
-  {{ jsonLdExhibition | jsonLd('exhibitionLd') | safe }}
-</script>
+    {{ jsonLdExhibition | jsonLd('exhibitionLd') | safe }}
+  </script>
 
   <article>
     <div class="row relative">
@@ -27,7 +27,10 @@
       </div>
 
       <div class="exhibition-hero">
-        {% componentV2 'picture', {images: exhibition.featuredImages.toJS()}, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture'], showCopyright: true} %}
+        {% componentJsx 'Picture', {
+          images: exhibition.featuredImages.toJS(),
+          extraClasses: 'exhibition-hero__picture'
+        }%}
 
         <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">
           <div class="is-hidden-l is-hidden-xl">
