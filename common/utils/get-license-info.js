@@ -1,3 +1,4 @@
+// @flow
 const licenseMap = {
   'copyright-not-cleared': {
     text: 'Copyright not cleared',

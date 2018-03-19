@@ -1,3 +1,4 @@
+// @flow
 export function withModifiers(className, modifiers = {}) {
   return Object.keys(modifiers).reduce((acc, curr) => {
     return modifiers[curr]

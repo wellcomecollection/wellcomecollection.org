@@ -1,3 +1,4 @@
+// @flow
 import urlTemplate from 'url-template';
 
 const imageMap = {

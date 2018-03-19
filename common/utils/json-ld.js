@@ -1,3 +1,4 @@
+// @flow
 import type {EventPromo, Event} from '../content-model/events';
 import {wellcomeCollection, wellcomeCollectionAddress} from '../model/organization';
 import {convertImageUri} from './convert-image-uri';

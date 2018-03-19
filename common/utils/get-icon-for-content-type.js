@@ -1,3 +1,4 @@
+// @flow
 export default function getIconForContentType(type) {
   switch (type) {
     case 'video':

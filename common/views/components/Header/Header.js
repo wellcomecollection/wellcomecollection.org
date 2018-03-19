@@ -1,3 +1,4 @@
+// @flow
 import {withToggler} from '../../hocs/withToggler';
 import {font, spacing} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';

@@ -1,3 +1,4 @@
+// @flow
 export default (title) => {
   const titleArray = title.toLowerCase().split(/-|_| /);
 

@@ -1,5 +1,5 @@
 /* global ga */
-
+// @flow
 const maybeTrackEvent = (hasAnalytics) => {
   if (hasAnalytics) {
     const actuallyTrackEvent = ({category, action, label}) => {

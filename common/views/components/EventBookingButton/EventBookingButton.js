@@ -1,4 +1,4 @@
-// @Flow
+// @flow
 
 import {spacing, font} from '../../../utils/classnames';
 import {Fragment} from 'react';
