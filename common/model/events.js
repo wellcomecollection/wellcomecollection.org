@@ -1,7 +1,7 @@
 // @flow
 import type {HTMLString, ImagePromo} from './content-blocks';
-import type {Person} from './people';
 import type {Picture} from './picture';
+import type {Contributor} from './contributors';
 
 type DateTimeRange = {|
   startDateTime: Date,
@@ -11,16 +11,6 @@ type DateTimeRange = {|
 export type EventTime = {|
   range: DateTimeRange,
   isFullyBooked: boolean
-|}
-
-type ContributorRole = {|
-  id: string,
-  title: string
-|}
-
-export type Contributor = {|
-  role: ContributorRole,
-  person: Person
 |}
 
 // e.g. 'Tour' | 'Youth event' | 'Workshop' | 'Discussion' | 'Walking tour';
@@ -95,7 +85,7 @@ export type Event = {|
   series: Array<EventSeries>,
   place: ?Place,
   bookingEnquiryTeam: ?Team,
-  contributors: Array<Contributor>,
+  contributors: Contributor[],
   promo: ?ImagePromo,
   interpretations: Array<Interpretation>,
   audiences: Array<Audience>,
@@ -240,7 +230,7 @@ export const eventExample = ({
         id: 'WfGj3SoAAK9XUZ6W',
         title: 'Organiser'
       },
-      person: {
+      contributor: {
         id: 'WdOiZScAAF6cTGe2',
         name: 'Zsuzsa Parrag',
         image: null,
@@ -253,7 +243,7 @@ export const eventExample = ({
         id: 'WdTMsycAAL20UYr1',
         title: 'Performer'
       },
-      person: {
+      contributor: {
         id: 'WgnIhCEAAKVbzrI7',
         name: 'Randy Lester',
         image: null,
