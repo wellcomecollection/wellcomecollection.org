@@ -1,5 +1,7 @@
 // @flow
-export default function getIconForContentType(type) {
+import type {ContentType} from '../model/content-type';
+
+export default function getIconForContentType(type: ContentType): ?string {
   switch (type) {
     case 'video':
       return 'play';
@@ -8,6 +10,6 @@ export default function getIconForContentType(type) {
     case 'gallery':
       return 'gallery';
     default:
-      return false;
+      return null;
   }
 }

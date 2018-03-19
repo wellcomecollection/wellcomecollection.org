@@ -107,6 +107,7 @@ const Promo = ({
   const HeadingTag = headingLevel || 'h2';
   const seriesTitle =  series && getSeriesTitle(series);
   const commissionedSeries = series && series.find(item => item.commissionedLength);
+  const iconName = getIconForContentType(contentType);
 
   return (
     <PromoTag id={id}
@@ -137,9 +138,9 @@ const Promo = ({
             commissionedLength={commissionedSeries.commissionedLength} />
         }
 
-        {contentType === 'gallery' || contentType === 'audio' || contentType === 'video' &&
+        {iconName &&
           <div className={`promo__icon-container ${font({s: 'HNL6'})}`}>
-            <Icon name={getIconForContentType(contentType)} />
+            <Icon name={iconName} />
           </div>
         }
       </div>
