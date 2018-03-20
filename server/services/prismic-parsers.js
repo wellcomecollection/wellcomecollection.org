@@ -192,8 +192,7 @@ export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
     featuredImage: featuredImages.first(),
     intro: asText(doc.data.intro),
     description: asHtml(doc.data.description),
-    promo: promo,
-    body: parseBody(doc.data.body)
+    promo: promo
   }: Exhibition);
 
   return exhibition;
