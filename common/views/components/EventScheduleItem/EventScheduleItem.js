@@ -14,7 +14,7 @@ type Props = {|
 |}
 
 function getTicketedMarkup(event) {
-  if (event.eventInfo && event.eventInfo.eventbriteId) {
+  if (event.eventbriteId) {
     return 'Ticketed';
   } else if (event.bookingEnquiryTeam) {
     return 'Enquire to book';
@@ -53,7 +53,7 @@ const EventScheduleItem = ({event}: Props) => (
             <MoreInfoLink url={`/events/${event.id}`} name='More information' />
           }
 
-          {(event.eventInfo && event.eventInfo.eventbriteId || event.bookingEnquiryTeam) &&
+          {(event.eventbriteId || event.bookingEnquiryTeam) &&
             <div className={spacing({s: 2}, {margin: ['top']})}>
               <EventBookingButton event={event} />
             </div>

@@ -3,6 +3,7 @@ import getLicenseInfo from '../../../utils/get-license-info';
 import {spacing, font} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import type {LicenseType} from '../../../model/license';
+import type {LicenseData} from '../../../utils/get-license-info';
 
 type Props = {|
   subject: string,
@@ -17,7 +18,7 @@ function renderIcons(icons) {
   }
 }
 
-function renderLicenseLink(url, icons, text) {
+function renderLicenseLink(url: ?string, icons: ?string[], text: string) {
   if (url) {
     return (
       <a className={`flex plain-link ${font({s: 'LR2'})}`} rel='license' href={url}>
@@ -36,7 +37,7 @@ function renderLicenseLink(url, icons, text) {
 }
 
 const License = ({subject, licenseType}: Props) => {
-  const licenseInfo = getLicenseInfo(licenseType) ? getLicenseInfo(licenseType) : {};
+  const licenseInfo: LicenseData = getLicenseInfo(licenseType) || { text: '', humanReadableText: [''] };
   return (
     <div>
       {licenseInfo.description &&

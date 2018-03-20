@@ -13,6 +13,23 @@
   }
 }
 
+.container--with-frame {
+  @include respond-to('medium') {
+    padding: 0 #{map-get($container-padding, 'medium') / 2};
+    max-width: calc(100vw - #{map-get($container-padding, 'medium')});
+  }
+
+  @include respond-to('large') {
+    padding: 0 #{map-get($container-padding, 'large') / 2};
+    max-width: calc(100vw - #{map-get($container-padding, 'large')});
+  }
+
+  @include respond-to('xlarge') {
+    padding: 0 #{map-get($container-padding, 'xlarge') / 2};
+    max-width: calc(#{$container-width-max} - #{map-get($container-padding, 'xlarge')});
+  }
+}
+
 .container--scroll {
   @include respond-between('small', 'medium') {
     max-width: none;

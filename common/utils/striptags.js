@@ -1,1 +1,2 @@
-export const striptags = (str) => str.replace(/(<([^>]+)>)/ig, '');
+// @flow
+export const striptags = (str: string) => str.replace(/(<([^>]+)>)/ig, '');

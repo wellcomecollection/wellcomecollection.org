@@ -26,14 +26,6 @@ export type ImagePromo = {|
   image: Picture;
 |}
 
-type SeriesColour = 'turquoise' | 'red' | 'orange' | 'purple'
-
-type Series = {
-  name: string,
-  description: string,
-  colour: SeriesColour,
-}
-
 export type DateRange = {|
   start: Date,
   end: Date,

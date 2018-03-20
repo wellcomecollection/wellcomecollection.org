@@ -22,11 +22,6 @@ export async function renderEvent(ctx, next) {
         url: `/event-series/${series.id}`
       })));
 
-      const eventbriteIdScheme = event.identifiers.find(id => id.identifierScheme === 'eventbrite-id');
-      const eventbriteId = eventbriteIdScheme && eventbriteIdScheme.value;
-      const isCompletelySoldOut = event.times.filter(time => !time.isFullyBooked).length === 0;
-      const eventInfo = { eventbriteId, isCompletelySoldOut };
-
       ctx.render('pages/event', {
         pageConfig: createPageConfig({
           path: path,
@@ -39,7 +34,6 @@ export async function renderEvent(ctx, next) {
           pageState: {hasSchedule: Boolean(event.schedule.length > 0)}
         }),
         event: event,
-        eventInfo: eventInfo,
         tags: {tags}
       });
     }
