@@ -61,11 +61,12 @@ function convertPathToIiifUri(originalUriPath, iiifRoot, size) {
   return `${iiifRoot}${originalUriPath}/full/${size}${isFullSize ? '' : ','}/0/default.${format}`;
 }
 
-export function convertIiifUriToInfoUri(originalUriPath) {
+export function convertIiifUriToInfoUri(originalUriPath: string) {
   if (originalUriPath.startsWith('https://iiif')) {
-    return (`${originalUriPath.match(/^https:\/\/iiif\.wellcomecollection\.org\/image\/(.+?\.[a-z]{3})/)[0]}/info.json`);
-  } else {
-    return null;
+    const match = originalUriPath.match(/^https:\/\/iiif\.wellcomecollection\.org\/image\/(.+?\.[a-z]{3})/);
+    if (match && match[0]) {
+      return (`${match[0]}/info.json`);
+    }
   }
 };
 
@@ -91,6 +92,13 @@ export function convertImageUri(originalUri: string, requiredSize: number | 'ful
   }
 }
 
+type IiifUriOpts = {
+  region?: string,
+  size?: string,
+  rotation?: number,
+  quality?: string,
+  format?: string
+};
 export function iiifImageTemplate(infoJsonLocation: string) {
   const baseUrl = infoJsonLocation.replace('/info.json', '');
   const templateString = `${baseUrl}/{region}/{size}/{rotation}/{quality}.{format}`;
@@ -102,5 +110,5 @@ export function iiifImageTemplate(infoJsonLocation: string) {
     format: 'jpg'
   };
   const template = urlTemplate.parse(templateString);
-  return (opts) => template.expand(Object.assign({}, defaultOpts, opts));
+  return (opts: IiifUriOpts) => template.expand(Object.assign({}, defaultOpts, opts));
 }
