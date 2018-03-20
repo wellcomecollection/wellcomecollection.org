@@ -3,16 +3,20 @@ function createPlace(data: Place) { return (data: Place); }
 
 type Days = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
 
-type OpeningHoursDay = {|
-  dayOfWeek: Days | Date,
+type OpeningHoursDay = {
+  dayOfWeek: Days,
   closes: string,
   opens?: string,
   note?: string
-|};
+};
+
+type ExceptionalOpeningHoursDay = OpeningHoursDay & {
+  overrideDate: Date
+}
 
 export type OpeningHours = {
   openingHours: OpeningHoursDay[],
-  exceptionalOpeningHours?: OpeningHoursDay[]
+  exceptionalOpeningHours?: ExceptionalOpeningHoursDay[]
 }
 
 type Place = {|
@@ -34,10 +38,11 @@ export const galleryOpeningHours: OpeningHours = {
     {dayOfWeek: 'Sunday',    opens: '11:00', closes: '18:00'}
   ],
   exceptionalOpeningHours: [ // TODO check these dates, get more? - waiting on an email response
-    {dayOfWeek: new Date('April 2, 2018'),    opens: '10:00', closes: '17:00'},
-    {dayOfWeek: new Date('May 7, 2018'),    opens: '10:00', closes: '17:00'},
-    {dayOfWeek: new Date('May 28, 2018'),    opens: '10:00', closes: '17:00'},
-    {dayOfWeek: new Date('December 25, 2018'),    closes: '00:00', note: 'Galleries closed'}
+    {overrideDate: new Date('April 2, 2018'), dayOfWeek: 'Monday', opens: '10:00', closes: '17:00'},
+    {overrideDate: new Date('May 7, 2018'), dayOfWeek: 'Monday', opens: '10:00', closes: '17:00'},
+    {overrideDate: new Date('May 28, 2018'), dayOfWeek: 'Monday', opens: '10:00', closes: '17:00'},
+    {overrideDate: new Date('December 25, 2018'),  dayOfWeek: 'Tuesday', closes: '00:00', note: 'Galleries closed'},
+    {overrideDate: new Date('December 26, 2018'),  dayOfWeek: 'Wednesday', closes: '00:00', note: 'Galleries closed'}
   ]
 };
 
@@ -90,9 +95,9 @@ export const shopOpeningHours: OpeningHours = {
 };
 
 export const defaultPlacesOpeningHours: PlacesOpeningHours = [
-  createPlace({id: 'galleries', name: 'Galleries', openingHours: galleryOpeningHours}),
-  createPlace({id: 'library', name: 'Library', openingHours: libraryOpeningHours}),
-  createPlace({id: 'restaurant', name: 'Restaurant', openingHours: restaurantOpeningHours}),
-  createPlace({id: 'café', name: 'Café', openingHours: cafeOpeningHours}),
-  createPlace({id: 'shop', name: 'Shop', openingHours: shopOpeningHours})
+  createPlace({id: 'galleries', name: 'Galleries', openingHours: galleryOpeningHours.openingHours}),
+  createPlace({id: 'library', name: 'Library', openingHours: libraryOpeningHours.openingHours}),
+  createPlace({id: 'restaurant', name: 'Restaurant', openingHours: restaurantOpeningHours.openingHours}),
+  createPlace({id: 'café', name: 'Café', openingHours: cafeOpeningHours.openingHours}),
+  createPlace({id: 'shop', name: 'Shop', openingHours: shopOpeningHours.openingHours})
 ];

@@ -421,7 +421,7 @@ function getListHeader(dates) {
   const todayString = todaysDate.format('dddd');
   const regularOpeningHours = galleryOpeningHours.openingHours.find(i => i.dayOfWeek === todayString);
   const exceptionalOpeningHours = galleryOpeningHours.exceptionalOpeningHours.find(i => {
-    const dayOfWeek = london(i.dayOfWeek).startOf('day');
+    const dayOfWeek = london(i.overrideDate).startOf('day');
     return todaysDate.isSame(dayOfWeek);
   });
   const todayOpeningHours = exceptionalOpeningHours || regularOpeningHours;
