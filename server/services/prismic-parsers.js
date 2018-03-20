@@ -308,6 +308,7 @@ export function parsePicture(captionedImage: Object, minWidth: ?string = null): 
   const tasl = image && parseTaslFromString(image.copyright);
 
   return ({
+    type: 'picture',
     contentUrl: image && image.url,
     width: image && image.dimensions && image.dimensions.width,
     height: image && image.dimensions && image.dimensions.height,
@@ -340,6 +341,7 @@ export function prismicImage(prismicImage: Object): Picture { // TODO: wrong typ
   const image = isEmptyObj(prismicImage) ? null : prismicImage;
 
   return {
+    type: 'picture',
     width: image && image.dimensions.width,
     height: image && image.dimensions.height,
     alt: image && image.alt,
