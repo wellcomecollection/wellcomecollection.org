@@ -1,3 +1,5 @@
+// @flow
+
 const FooterWellcomeLogo = () => (
   <svg width='128' height='42' xmlns='http://www.w3.org/2000/svg' xmlnsXlink='http://www.w3.org/1999/xlink' role='img'>
     <title>Wellcome Collection</title>

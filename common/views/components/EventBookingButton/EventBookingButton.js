@@ -1,18 +1,19 @@
-// @Flow
+// @flow
 
-import {spacing, font} from '../../../utils/classnames';
+import type {Event} from '../../../model/events';
 import {Fragment} from 'react';
 import Icon from '../Icon/Icon';
 import ButtonButton from '../Buttons/ButtonButton/ButtonButton';
+import {spacing, font} from '../../../utils/classnames';
 
 type Props = {|
   event: Event, // TODO
 |}
 
 function getButtonMarkup(event) {
-  if (!event.eventInfo.eventbriteId) return;
+  if (!event.eventbriteId) return;
 
-  if (event.eventInfo.isCompletelySoldOut) {
+  if (event.isCompletelySoldOut) {
     return (
       <ButtonButton
         text='Fully booked'
@@ -22,9 +23,9 @@ function getButtonMarkup(event) {
     );
   } else {
     return (
-      <div className="js-eventbrite-ticket-button" data-eventbrite-ticket-id={event.eventInfo.eventbriteId}>
+      <div className="js-eventbrite-ticket-button" data-eventbrite-ticket-id={event.eventbriteId}>
         <a className={`flex-inline flex--v-center flex--h-center btn btn--full-width-s ${font({s: 'HNM4'})}`}
-          href={`https://www.eventbrite.com/e/${event.eventInfo.eventbriteId}/`}>
+          href={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}>
           <span><Icon name='ticketAvailable' /></span>
           <span className="js-eventbrite-ticket-button-text">Book free tickets</span>
         </a>
@@ -36,7 +37,7 @@ function getButtonMarkup(event) {
 function getBookingEnquiryMarkup(event) {
   if (!event.bookingEnquiryTeam) return;
 
-  if (event.eventInfo.isCompletelySoldOut) {
+  if (event.isCompletelySoldOut) {
     return (
       <Fragment>
         <button className={`${font({s: 'HNM4'})} ${spacing({s: 4}, {padding: ['left', 'right']})} flex-inline flex--h-center btn btn--full-width-s`}
@@ -56,12 +57,13 @@ function getBookingEnquiryMarkup(event) {
   }
 }
 
-const EventBookingButton = ({event}: Props) => (
+const EventBookingButton = ({ event }: Props) => (
   <Fragment>
     {getButtonMarkup(event)}
     {getBookingEnquiryMarkup(event)}
     {event.bookingEnquiryTeam &&
       <a className={`block font-charcoal ${font({s: 'HNL5'})} ${spacing({s: 1}, {margin: ['top']})}`}
+      // $FlowFixMe
         href={`mailto:{${event.bookingEnquiryTeam.email}?subject=${event.title}`}>{event.bookingEnquiryTeam.email}</a>
     }
   </Fragment>

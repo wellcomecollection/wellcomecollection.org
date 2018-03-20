@@ -113,7 +113,6 @@ export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): Event
   const eventbriteIdScheme = identifiers.find(id => id.identifierScheme === 'eventbrite-id');
   const eventbriteId = eventbriteIdScheme && eventbriteIdScheme.value;
   const isCompletelySoldOut = times.filter(time => !time.isFullyBooked).length === 0;
-  const eventInfo = { eventbriteId, isCompletelySoldOut };
 
   const e = ({
     id: doc.id,
@@ -134,7 +133,8 @@ export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): Event
     bookingType: bookingType,
     cost: cost,
     schedule: eventSchedule,
-    eventInfo: eventInfo
+    eventbriteId,
+    isCompletelySoldOut
   }: Event);
 
   return e;

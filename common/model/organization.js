@@ -1,3 +1,4 @@
+// @flow
 import type {OpeningHours} from './opening-hours';
 import {galleryOpeningHours} from './opening-hours';
 import {objToJsonLd} from '../utils/json-ld';
@@ -12,7 +13,7 @@ export type PostalAddress = {|
 export type Organization = {|
   name: string,
   url: string,
-  logo: string,
+  logo: {| url: string |},
   twitterHandle: string,
   sameAs: Array<string>,
   openingHoursSpecification: OpeningHours,

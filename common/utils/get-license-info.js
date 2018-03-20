@@ -1,3 +1,12 @@
+// @flow
+export type LicenseData = {|
+  text: string,
+  humanReadableText: string[],
+  icons?: string[],
+  description?: string,
+  url?: string
+|}
+
 const licenseMap = {
   'copyright-not-cleared': {
     text: 'Copyright not cleared',
@@ -39,6 +48,6 @@ const licenseMap = {
   }
 };
 
-export default function(licenseType) {
+export default function(licenseType: string): ?LicenseData {
   return licenseMap[licenseType];
 }

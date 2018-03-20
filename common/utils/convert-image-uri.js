@@ -1,3 +1,4 @@
+// @flow
 import urlTemplate from 'url-template';
 
 const imageMap = {
@@ -24,7 +25,7 @@ const imageMap = {
   }
 };
 
-function determineSrc(url) {
+function determineSrc(url: string): string {
   if (url.startsWith(imageMap.wordpress.root)) {
     return 'wordpress';
   } else if (url.startsWith(imageMap.prismic.root) || url.startsWith(imageMap.prismic.cdnRoot)) {
@@ -60,38 +61,44 @@ function convertPathToIiifUri(originalUriPath, iiifRoot, size) {
   return `${iiifRoot}${originalUriPath}/full/${size}${isFullSize ? '' : ','}/0/default.${format}`;
 }
 
-export function convertIiifUriToInfoUri(originalUriPath) {
+export function convertIiifUriToInfoUri(originalUriPath: string) {
   if (originalUriPath.startsWith('https://iiif')) {
-    return (`${originalUriPath.match(/^https:\/\/iiif\.wellcomecollection\.org\/image\/(.+?\.[a-z]{3})/)[0]}/info.json`);
-  } else {
-    return null;
+    const match = originalUriPath.match(/^https:\/\/iiif\.wellcomecollection\.org\/image\/(.+?\.[a-z]{3})/);
+    if (match && match[0]) {
+      return (`${match[0]}/info.json`);
+    }
   }
 };
 
-export function convertImageUri(originalUri, requiredSize, useIiifOrigin) {
-  if (originalUri) {
-    const imageSrc = determineSrc(originalUri);
-    const isGif = determineIfGif(originalUri);
+export function convertImageUri(originalUri: string, requiredSize: number | 'full', useIiifOrigin: boolean = false): string {
+  const imageSrc = determineSrc(originalUri);
+  const isGif = determineIfGif(originalUri);
 
-    if (imageSrc === 'unknown') {
-      return originalUri;
+  if (imageSrc === 'unknown') {
+    return originalUri;
+  } else {
+    if (!isGif) {
+      const imagePath = imageSrc === 'miro' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[1] : imageSrc === 'iiif' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[0] : originalUri.split(imageMap[imageSrc].root)[1] ? originalUri.split(imageMap[imageSrc].root)[1] : originalUri.split(imageMap[imageSrc].cdnRoot)[1];
+      const iiifRoot = useIiifOrigin ? imageMap[imageSrc].iiifOriginRoot : imageMap[imageSrc].iiifRoot;
+
+      return convertPathToIiifUri(imagePath, iiifRoot, requiredSize);
     } else {
-      if (!isGif) {
-        const imagePath = imageSrc === 'miro' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[1] : imageSrc === 'iiif' ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[0] : originalUri.split(imageMap[imageSrc].root)[1] ? originalUri.split(imageMap[imageSrc].root)[1] : originalUri.split(imageMap[imageSrc].cdnRoot)[1];
-        const iiifRoot = useIiifOrigin ? imageMap[imageSrc].iiifOriginRoot : imageMap[imageSrc].iiifRoot;
-
-        return convertPathToIiifUri(imagePath, iiifRoot, requiredSize);
+      if (imageSrc === 'wordpress') {
+        return convertPathToWordpressUri(originalUri, requiredSize);
       } else {
-        if (imageSrc === 'wordpress') {
-          return convertPathToWordpressUri(originalUri, requiredSize);
-        } else {
-          return originalUri;
-        }
+        return originalUri;
       }
     }
   }
 }
 
+type IiifUriOpts = {
+  region?: string,
+  size?: string,
+  rotation?: number,
+  quality?: string,
+  format?: string
+};
 export function iiifImageTemplate(infoJsonLocation: string) {
   const baseUrl = infoJsonLocation.replace('/info.json', '');
   const templateString = `${baseUrl}/{region}/{size}/{rotation}/{quality}.{format}`;
@@ -103,5 +110,5 @@ export function iiifImageTemplate(infoJsonLocation: string) {
     format: 'jpg'
   };
   const template = urlTemplate.parse(templateString);
-  return (opts) => template.expand(Object.assign({}, defaultOpts, opts));
+  return (opts: IiifUriOpts) => template.expand(Object.assign({}, defaultOpts, opts));
 }

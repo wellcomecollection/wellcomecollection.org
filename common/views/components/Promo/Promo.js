@@ -10,6 +10,7 @@ import Image from '../Image/Image';
 import type {Props as ImageProps} from '../Image/Image';
 import type {ContentType} from '../../../model/content-type';
 import type {Weight} from '../../../model/weight';
+import type {EditorialSeries} from '../../../model/editorial-series';
 import {Fragment} from 'react';
 import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
 
@@ -73,7 +74,7 @@ type Props = {|
   contentType: ContentType,
   isConstrained?: boolean,
   image?: ImageProps,
-  series?: [], // TODO: use series type
+  series?: EditorialSeries[],
   defaultSize?: number,
   positionInSeries?: number,
   standalone?: boolean,
@@ -107,6 +108,7 @@ const Promo = ({
   const HeadingTag = headingLevel || 'h2';
   const seriesTitle =  series && getSeriesTitle(series);
   const commissionedSeries = series && series.find(item => item.commissionedLength);
+  const iconName = getIconForContentType(contentType);
 
   return (
     <PromoTag id={id}
@@ -137,9 +139,9 @@ const Promo = ({
             commissionedLength={commissionedSeries.commissionedLength} />
         }
 
-        {contentType === 'gallery' || contentType === 'audio' || contentType === 'video' &&
+        {iconName &&
           <div className={`promo__icon-container ${font({s: 'HNL6'})}`}>
-            <Icon name={getIconForContentType(contentType)} />
+            <Icon name={iconName} />
           </div>
         }
       </div>
