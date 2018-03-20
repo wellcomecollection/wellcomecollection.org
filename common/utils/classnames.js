@@ -5,7 +5,7 @@ type SizeMap = { [string]: number };
 type SpacingProps = { [SpacingCssProps]: SpacingCssPropValues[] }
 type FontMap = { [string]: string }
 
-export function withModifiers(className: string, modifiers: { [string]: boolean } = {}) {
+export function withModifiers(className: string, modifiers: { [string]: boolean } = {}): string {
   return Object.keys(modifiers).reduce((acc, curr) => {
     return modifiers[curr]
       ? ` ${acc} ${className}--${curr}`
@@ -13,7 +13,7 @@ export function withModifiers(className: string, modifiers: { [string]: boolean 
   }, className);
 }
 
-export function spacing(sizes: SizeMap, properties: SpacingProps) {
+export function spacing(sizes: SizeMap, properties: SpacingProps): string {
   return Object.keys(sizes).map(key => {
     const size = sizes[key];
 
@@ -27,7 +27,7 @@ export function spacing(sizes: SizeMap, properties: SpacingProps) {
   }).join(' ');
 }
 
-export function grid(sizes: SizeMap) {
+export function grid(sizes: SizeMap): string {
   const base = 'grid__cell';
   const modifierClasses = Object.keys(sizes).map(key => {
     const size = sizes[key];
@@ -38,12 +38,12 @@ export function grid(sizes: SizeMap) {
   return [base].concat(modifierClasses).join(' ');
 }
 
-export function font(sizes: FontMap) {
+export function font(sizes: FontMap): string {
   return Object.keys(sizes).map(key => {
     return `font-${sizes[key]}-${key}`;
   }).join(' ');
 }
 
-export function classNames(classNames: string[]) {
+export function classNames(classNames: string[]): string {
   return classNames.join(' ');
 }
