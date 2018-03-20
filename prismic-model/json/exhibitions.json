@@ -7,13 +7,6 @@
         "label" : "Title"
       }
     },
-    "subtitle" : {
-      "type" : "StructuredText",
-      "config" : {
-        "single" : "heading2",
-        "label" : "Subtitle"
-      }
-    },
     "start" : {
       "type" : "Timestamp",
       "config" : {
@@ -46,39 +39,6 @@
         "select" : "media",
         "label" : "Text and captions document",
         "placeholder" : "Text and captions document"
-      }
-    },
-    "body" : {
-      "fieldset" : "Body content",
-      "type" : "Slices",
-      "config" : {
-        "label" : "Body content",
-        "choices" : {
-          "youtubeVideoEmbed" : {
-            "type" : "Slice",
-            "fieldset" : "YouTube video",
-            "non-repeat" : {
-              "embed" : {
-                "type" : "Embed",
-                "fieldset" : "YouTube embed"
-              },
-              "title" : {
-                "type" : "StructuredText",
-                "config" : {
-                  "label" : "Title",
-                  "single" : "heading2"
-                }
-              },
-              "description" : {
-                "type" : "StructuredText",
-                "config" : {
-                  "label" : "Description",
-                  "single" : "paragraph"
-                }
-              }
-            }
-          }
-        }
       }
     }
   },
