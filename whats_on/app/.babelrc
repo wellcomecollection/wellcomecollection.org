@@ -7,9 +7,6 @@
     }]
   ],
   "plugins": [
-    ["flow-runtime", {
-      "assert": false
-    }],
     ["module-resolver", {
       "root": ["./"],
       "alias": {
