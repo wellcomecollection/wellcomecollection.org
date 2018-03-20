@@ -1,3 +1,5 @@
+export const preview = '@preview-no-container';
+export const status = 'graduated';
 export const context = {
   links: [
     {
