@@ -1,6 +1,6 @@
 // @flow
 /* eslint-disable */
-import type {Person} from './person';
+import type {Person} from './people';
 import type {Picture} from './picture';
 import {List} from 'immutable';
 

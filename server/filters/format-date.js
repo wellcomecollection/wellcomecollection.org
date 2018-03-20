@@ -40,7 +40,7 @@ export function formatDateWithComingSoon(date: Date): string {
   return (isFuture ? 'Coming soon: ' : '') + formatDate(date);
 }
 
-function getRelativeTime({start, end}: {start: Date, end: Date}): {} {
+function getRelativeTime({start, end}: {start: Date, end: Date}): {isFuture: boolean, isPast: boolean, isLastWeek: boolean} {
   const momentNow = london();
   const momentStart = london(start);
   const momentEnd = london(end);

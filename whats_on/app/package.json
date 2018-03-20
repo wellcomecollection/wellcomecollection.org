@@ -1,9 +1,12 @@
 {
   "scripts": {
     "app:build": "webpack",
-    "app:dev": "../../node_modules/.bin/nodemon -e js,njk,json --config ../../nodemon.json --exec babel-node --inspect=4003 app.js"
+    "app:dev": "../../node_modules/.bin/nodemon -e js,njk,json --config ../../nodemon.json --exec babel-node --inspect=4003 app.js",
+    "linkweco": "pushd ../../common && yarn link && popd && yarn link @weco/common",
+    "unlinkweco": "yarn unlink @weco/common"
   },
   "dependencies": {
+    "@weco/common": "../../common",
     "babel-cli": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-flow-runtime": "^0.15.0",

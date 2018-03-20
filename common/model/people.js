@@ -1,8 +1,10 @@
 // @flow
+import type { Picture } from './picture';
+
 export type Person = {|
   id: string;
   name: string,
   twitterHandle: ?string,
   description: ?string,
-  image: ?string, // TODO: Make this Picture
+  image: ?Picture, // TODO: Make this Picture
 |}

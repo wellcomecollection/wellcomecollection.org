@@ -7,7 +7,7 @@ export const collated = true;
 
 const license = ({
   subject: 'image.jpg',
-  licenseType: 'CC0'
+  licenseType: 'CC-0'
 }: License);
 
 function createVariant(licenseType: LicenseType) {
@@ -17,7 +17,7 @@ function createVariant(licenseType: LicenseType) {
 export const variants = [
   {
     name: 'default',
-    label: 'CC0',
+    label: 'CC-0',
     context: license
   },
   {

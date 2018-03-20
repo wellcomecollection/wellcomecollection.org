@@ -2,7 +2,6 @@
 import {List} from 'immutable';
 import type {ImagePromo} from './content-blocks';
 import type {Picture} from '../model/picture';
-import type {BodyPart} from '../model/body-part';
 
 export type Exhibition = {|
   id: string;
@@ -15,5 +14,4 @@ export type Exhibition = {|
   featuredImage: ?Picture;
   description: ?string;
   promo: ?ImagePromo;
-  body: Array<BodyPart>;
 |}
