@@ -417,8 +417,14 @@ function duplicatePromosByMonthYear(promos) {
 }
 
 function getListHeader(dates) {
-  const todayString = new Date().toLocaleString('en-us', { weekday: 'long' });
-  const todayOpeningHours = galleryOpeningHours.find(i => i.dayOfWeek === todayString);
+  const todaysDate = london().startOf('day');
+  const todayString = todaysDate.format('dddd');
+  const regularOpeningHours = galleryOpeningHours.openingHours.find(i => i.dayOfWeek === todayString);
+  const exceptionalOpeningHours = galleryOpeningHours.exceptionalOpeningHours.find(i => {
+    const dayOfWeek = london(i.dayOfWeek).startOf('day');
+    return todaysDate.isSame(dayOfWeek);
+  });
+  const todayOpeningHours = exceptionalOpeningHours || regularOpeningHours;
   const todayDateString = `startDate=${dates.today}&endDate=${dates.today}`;
   const weekendDateString = `startDate=${dates.weekend[0]}&endDate=${dates.weekend[1]}`;
   const allDateString = `startDate=${dates.all[0]}`;
