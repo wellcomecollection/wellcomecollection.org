@@ -1,5 +1,11 @@
 // @flow
-export function withModifiers(className, modifiers = {}) {
+type SpacingCssProps = 'margin' | 'padding';
+type SpacingCssPropValues = 'top' | 'bottom' | 'left' | 'right';
+type SizeMap = { [string]: number };
+type SpacingProps = { [SpacingCssProps]: SpacingCssPropValues[] }
+type FontMap = { [string]: string }
+
+export function withModifiers(className: string, modifiers: { [string]: boolean } = {}) {
   return Object.keys(modifiers).reduce((acc, curr) => {
     return modifiers[curr]
       ? ` ${acc} ${className}--${curr}`
@@ -7,7 +13,7 @@ export function withModifiers(className, modifiers = {}) {
   }, className);
 }
 
-export function spacing(sizes, properties) {
+export function spacing(sizes: SizeMap, properties: SpacingProps) {
   return Object.keys(sizes).map(key => {
     const size = sizes[key];
 
@@ -21,7 +27,7 @@ export function spacing(sizes, properties) {
   }).join(' ');
 }
 
-export function grid(sizes) {
+export function grid(sizes: SizeMap) {
   const base = 'grid__cell';
   const modifierClasses = Object.keys(sizes).map(key => {
     const size = sizes[key];
@@ -32,7 +38,7 @@ export function grid(sizes) {
   return [base].concat(modifierClasses).join(' ');
 }
 
-export function font(sizes) {
+export function font(sizes: FontMap) {
   return Object.keys(sizes).map(key => {
     return `font-${sizes[key]}-${key}`;
   }).join(' ');
