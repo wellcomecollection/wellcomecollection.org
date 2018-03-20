@@ -1,4 +1,4 @@
-import type {OpeningHours} from './opening-hours';
+import type {OpeningHoursDay} from './opening-hours';
 import {galleryOpeningHours} from './opening-hours';
 import {objToJsonLd} from '../utils/json-ld';
 
@@ -14,7 +14,7 @@ export type Organization = {|
   logo: string,
   twitterHandle: string,
   sameAs: Array<string>,
-  openingHoursSpecification: OpeningHours,
+  openingHoursSpecification: OpeningHoursDay[],
   address: PostalAddress,
   alternateUrl?: string
 |}
