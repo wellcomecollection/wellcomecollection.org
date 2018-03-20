@@ -4,9 +4,10 @@ type Props = {|
 |}
 
 const PreviewLayout = (props: Props) => (
-  <html>
+  <html className='enhanced'>
     <head>
       <link rel='stylesheet' href='/dist-styles/styleguide.css' />
+      <script type='text/javascript' src='/dist-js/app.js'></script>
     </head>
     <body>
       <div className='container styleguide__container'>
