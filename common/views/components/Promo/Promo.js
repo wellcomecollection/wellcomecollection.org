@@ -10,6 +10,7 @@ import Image from '../Image/Image';
 import type {Props as ImageProps} from '../Image/Image';
 import type {ContentType} from '../../../model/content-type';
 import type {Weight} from '../../../model/weight';
+import type {EditorialSeries} from '../../../model/editorial-series';
 import {Fragment} from 'react';
 import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
 
@@ -73,7 +74,7 @@ type Props = {|
   contentType: ContentType,
   isConstrained?: boolean,
   image?: ImageProps,
-  series?: [], // TODO: use series type
+  series?: EditorialSeries[], // TODO: use series type
   defaultSize?: number,
   positionInSeries?: number,
   standalone?: boolean,
