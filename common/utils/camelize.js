@@ -1,5 +1,5 @@
 // @flow
-export default (title) => {
+export default (title: string) => {
   const titleArray = title.toLowerCase().split(/-|_| /);
 
   return titleArray.reduce((acc, val, i) => {

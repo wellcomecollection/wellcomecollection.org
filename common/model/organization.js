@@ -13,7 +13,7 @@ export type PostalAddress = {|
 export type Organization = {|
   name: string,
   url: string,
-  logo: string,
+  logo: {| url: string |},
   twitterHandle: string,
   sameAs: Array<string>,
   openingHoursSpecification: OpeningHours,
