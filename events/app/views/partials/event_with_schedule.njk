@@ -98,7 +98,8 @@
             {% component 'author', {
               name: contributor.name,
               image: contributor.image.contentUrl,
-              description: contributor.description
+              description: contributor.description,
+              twitterHandle: contributor.twitterHandle
             } %}
           {% endif %}
         {% endfor %}

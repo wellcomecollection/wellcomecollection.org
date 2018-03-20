@@ -111,6 +111,7 @@ export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): Event
             contributorType: 'people',
             id: contributor.contributor.id,
             name: contributor.contributor.data.name,
+            twitterHandle: contributor.contributor.data.twitterHandle,
             image: contributor.contributor.data.image && parsePicture({
               image: contributor.contributor.data.image
             }),
