@@ -3,7 +3,7 @@ function createPlace(data: Place) { return (data: Place); }
 
 type Days = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
 
-type OpeningHoursDay = {
+export type OpeningHoursDay = {
   dayOfWeek: Days,
   closes: string,
   opens?: string,
@@ -22,7 +22,7 @@ export type OpeningHours = {
 type Place = {|
   id: string,
   name: string,
-  openingHours: OpeningHours,
+  openingHours: OpeningHoursDay[],
 |}
 
 export type PlacesOpeningHours = Array<Place>;
