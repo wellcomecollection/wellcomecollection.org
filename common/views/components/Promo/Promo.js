@@ -74,7 +74,7 @@ type Props = {|
   contentType: ContentType,
   isConstrained?: boolean,
   image?: ImageProps,
-  series?: EditorialSeries[], // TODO: use series type
+  series?: EditorialSeries[],
   defaultSize?: number,
   positionInSeries?: number,
   standalone?: boolean,
