@@ -15,18 +15,20 @@ const Picture = ({ images, extraClasses }: Props) => {
     <figure className='relative no-margin'>
       <picture className={extraClasses || ''}>
         {images.map(image => {
-          const sizes = imageSizes(image.width);
-          return (
-            <source
-              key={image.contentUrl}
-              media={image.minWidth ? `(min-width: ${image.minWidth})` : ''}
-              data-srcset={sizes.map(size => {
-                return `${convertImageUri(image.contentUrl, size, false)} ${size}w`;
-              })} />
-          );
+          if (image.width) {
+            const sizes = imageSizes(image.width);
+            return (
+              <source
+                key={image.contentUrl}
+                media={image.minWidth ? `(min-width: ${image.minWidth})` : ''}
+                data-srcset={sizes.map(size => {
+                  return image.contentUrl && `${convertImageUri(image.contentUrl, size, false)} ${size}w`;
+                })} />
+            );
+          }
         })}
 
-        {lastImage && <img
+        {lastImage && lastImage.contentUrl && lastImage.width && <img
           height={lastImage.height}
           width={lastImage.width}
           className='image lazy-image lazyload'

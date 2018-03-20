@@ -8,13 +8,13 @@ import Icon from '../Icon/Icon';
 type Props = {
   isFull: boolean,
   contentUrl: string,
-  title: ?string,
-  author: ?string,
-  sourceName: ?string,
-  sourceLink: ?string,
-  license: ?string,
-  copyrightHolder: ?string,
-  copyrightLink: ?string
+  title?: ?string,
+  author?: ?string,
+  sourceName?: ?string,
+  sourceLink?: ?string,
+  license?: ?string,
+  copyrightHolder?: ?string,
+  copyrightLink?: ?string
 }
 
 function getMarkup(title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink) {

@@ -229,6 +229,7 @@ export const eventExample = ({
         title: 'Organiser'
       },
       contributor: {
+        contributorType: 'people',
         id: 'WdOiZScAAF6cTGe2',
         name: 'Zsuzsa Parrag',
         image: null,
@@ -242,6 +243,7 @@ export const eventExample = ({
         title: 'Performer'
       },
       contributor: {
+        contributorType: 'people',
         id: 'WgnIhCEAAKVbzrI7',
         name: 'Randy Lester',
         image: null,

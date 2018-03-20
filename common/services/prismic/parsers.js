@@ -1,11 +1,10 @@
 // @flow
 import { RichText } from 'prismic-dom';
 import type { HTMLString, PrismicFragment } from './types';
-import type { Contributor } from '../../model/contributors';
+import type { Contributor, PersonContributor, OrganisationContributor } from '../../model/contributors';
 import type { Picture } from '../../model/picture';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
-import type { Person } from '../../model/people';
 import { licenseTypeArray } from '../../model/license';
 
 const linkResolver = (doc) => {
@@ -68,8 +67,9 @@ export function parsePicture(captionedImage: Object, minWidth: ?string = null): 
   }: Picture);
 }
 
-function parsePerson(frag: PrismicFragment): ?Person {
+function parsePersonContributor(frag: PrismicFragment): PersonContributor {
   return {
+    contributorType: 'people',
     id: frag.id,
     name: frag.data.name || 'NAME MISSING',
     image: frag.data.image && parsePicture({
@@ -80,14 +80,9 @@ function parsePerson(frag: PrismicFragment): ?Person {
   };
 }
 
-type Organization = {
-  name: string,
-  image: ?Picture,
-  url: ?string
-};
-
-function parseOrganization(frag: PrismicFragment): ?Organization {
+function parseOrganisationContributor(frag: PrismicFragment): OrganisationContributor {
   return  {
+    contributorType: 'organisations',
     name: asText(frag.data.name) || 'NAME MISSING',
     image: frag.data.image && parsePicture({
       image: frag.data.image
@@ -108,12 +103,12 @@ export function parseContributors(contributors: PrismicFragment[]): Contributor[
         case 'organisations':
           return {
             role,
-            contributor: parseOrganization(contributor.contributor)
+            contributor: parseOrganisationContributor(contributor.contributor)
           };
         case 'people':
           return {
             role,
-            contributor: parsePerson(contributor.contributor)
+            contributor: parsePersonContributor(contributor.contributor)
           };
       }
     })();
