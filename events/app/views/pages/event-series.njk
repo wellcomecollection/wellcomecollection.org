@@ -40,19 +40,42 @@
   </div>
   {% endif %}
 
-  <div class="css-grid__container {{ {s:4} | spacingClasses({padding: ['top']}) }} ">
-    <div class="css-grid">
-      <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }}">
-        <div class="flex-inline flex--v-center">
-          <span class="{{ {s:'HNM5', m:'HNM4'} | fontClasses }}">Free admission</span>
+  <div class="row {{ {s: 6} | spacingClasses({margin: ['top']}) }} {{ {s: 10} | spacingClasses({margin: ['bottom']}) }}">
+    {% if paginatedEvents.results.length > 0 %}
+      <div class="container">
+        <h2 class="{{ {s: 'WB5'} | fontClasses }} no-margin">Upcoming events</h2>
+      </div>
+      <div class="css-grid__container {{ {s: 4} | spacingClasses({padding: ['top']}) }} ">
+        <div class="css-grid">
+          {% for event in paginatedEvents.results %}
+            <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
+              {% componentV2 'event-promo', event, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="container">
+          <h2 class="{{ {s: 'WB5'} | fontClasses }} no-margin">No upcoming events</h2>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="row {{ {s: 10} | spacingClasses({margin: ['bottom']}) }}">
+    {% if pastEvents.results.length > 0 %}
+      <div class="container">
+        <h2 class="{{ {s: 'WB5'} | fontClasses }} no-margin">Past events</h2>
+      </div>
+      <div class="css-grid__container {{ {s: 4} | spacingClasses({padding: ['top']}) }} ">
+        <div class="css-grid">
+          {% for event in pastEvents.results %}
+            <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
+              {% componentV2 'event-promo', event, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
+            </div>
+          {% endfor %}
         </div>
       </div>
-      {% for event in paginatedEvents.results %}
-        <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-          {% componentV2 'event-promo', event, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
-        </div>
-      {% endfor %}
-    </div>
+    {% endif %}
   </div>
 
   <div class="css-grid__container {{ {s:2, m:2, l:2} | spacingClasses({padding: ['top']}) }} {{ {s:3, m:3, l:3} | spacingClasses({padding: ['bottom']}) }} ">
@@ -61,11 +84,6 @@
       {% if paginatedEvents.pagination.pageCount > 1  %}
         <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} text-align-right">
           {% componentJsx 'Pagination', paginatedEvents.pagination %}
-        </div>
-      {% endif %}
-      {% if (paginatedEvents.currentPage === paginatedEvents.totalPages) %}
-        <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }} text-align-right">
-          {% componentJsx 'MoreInfoLink', { name: 'Past events', url: 'https://wellcomecollection.org/events/past' } %}
         </div>
       {% endif %}
 

@@ -98,11 +98,24 @@ export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): Event
       switch (contributor.contributor.type) {
         case 'organisations':
           return {
+            contributorType: 'organisations',
+            id: contributor.contributor.id,
             name: asText(contributor.contributor.data.name),
             image: contributor.contributor.data.image && parsePicture({
               image: contributor.contributor.data.image
             }),
             url: contributor.contributor.data.url
+          };
+        case 'people':
+          return {
+            contributorType: 'people',
+            id: contributor.contributor.id,
+            name: contributor.contributor.data.name,
+            twitterHandle: contributor.contributor.data.twitterHandle,
+            image: contributor.contributor.data.image && parsePicture({
+              image: contributor.contributor.data.image
+            }),
+            description: contributor.contributor.data.description && asHtml(contributor.contributor.data.description)
           };
       }
     })();
@@ -226,6 +239,7 @@ export function parseArticleDoc(doc: PrismicDoc): Article {
 
   const article: Article = {
     contentType: 'article',
+    id: doc.id,
     headline: headline,
     url: url,
     datePublished: publishDate,

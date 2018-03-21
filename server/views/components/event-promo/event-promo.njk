@@ -49,8 +49,8 @@
       {% endfor %}
       <div class="{{ {s: 2} | spacingClasses({ margin: ['bottom'] }) }}"></div>
 
-      {# TODO: add 'fully booked' status when available #}
-      {% if model.start %}
+      {% set isPast = model.end | isDatePast %}
+      {% if model.start and not isPast %}
         <p class="{{ {s:'HNL4'} | fontClasses }} no-padding no-margin">
           <time datetime="{{ model.start }}">{{ model.start | formatDayDate }}</time>
         </p>
@@ -70,7 +70,7 @@
         </p>
       {% endif %}
 
-      {% if model.isFullyBooked %}
+      {% if model.isFullyBooked and not isPast %}
         <div class="{{- [
           {s:'HNM5'} | fontClasses
         ].join(' ') }} flex flex--v-center margin-top-auto">
@@ -78,6 +78,15 @@
             {% icon 'status_indicator', null, ['icon--red', 'icon--match-text'] %}
           </span>
           Fully booked{{ ', more dates available' if model.hasNotFullyBookedTimes }}
+        </div>
+      {% elif isPast %}
+        <div class="{{- [
+          {s:'HNM5'} | fontClasses
+        ].join(' ') }} flex flex--v-center margin-top-auto">
+          <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
+            {% icon 'status_indicator', null, ['icon--red', 'icon--match-text'] %}
+          </span>
+          Past event
         </div>
       {% elif model.eventbriteId %}
         <div

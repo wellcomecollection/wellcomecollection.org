@@ -6,12 +6,12 @@ import type {ImagePromo} from './parsers';
 import {getDocument} from './api';
 import {peopleFields, contributorFields} from './fetch-links';
 import {breakpoints} from '../../utils/breakpoints';
-
 import {
   parseTitle,
   parseDescription,
   parseContributors,
-  parseImagePromo
+  parseImagePromo,
+  parseTimestamp
 } from './parsers';
 
 function parseInstallationDoc(document: PrismicDocument): Installation {
@@ -20,7 +20,9 @@ function parseInstallationDoc(document: PrismicDocument): Installation {
     id: document.id,
     title: parseTitle(data.title),
     description: parseDescription(data.description),
-    contributors: parseContributors(data.contributors)
+    contributors: parseContributors(data.contributors),
+    start: parseTimestamp(data.start),
+    end: data.end && parseTimestamp(data.end)
   };
 }
 

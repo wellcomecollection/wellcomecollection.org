@@ -1,5 +1,5 @@
 // @flow
-import { RichText } from 'prismic-dom';
+import { RichText, Date as PrismicDate } from 'prismic-dom';
 import type { HTMLString, PrismicFragment } from './types';
 import type { Contributor, PersonContributor, OrganisationContributor } from '../../model/contributors';
 import type { Picture } from '../../model/picture';
@@ -40,6 +40,10 @@ export function parseTitle(title: HTMLString): string {
 
 export function parseDescription(description: HTMLString): HTMLString {
   return description;
+}
+
+export function parseTimestamp(frag: PrismicFragment): Date {
+  return PrismicDate(frag);
 }
 
 export function parsePicture(captionedImage: Object, minWidth: ?string = null): Picture {
