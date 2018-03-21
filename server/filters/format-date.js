@@ -81,3 +81,10 @@ export function formatAndDedupeOnTime(d1: Date, d2: Date): List<string> {
 export function joinDateStrings(dateStrings: List<string>): string {
   return dateStrings.join('–');
 }
+
+export function isDatePast(date: Date): boolean {
+  const momentNow = london();
+  const momentEnd = london(date);
+
+  return momentEnd.isBefore(momentNow);
+}
