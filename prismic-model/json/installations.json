@@ -15,6 +15,18 @@
         "label": "Description"
       }
     },
+    "start": {
+      "type": "Timestamp",
+      "config": {
+        "label": "Start date"
+      }
+    },
+    "end": {
+      "type": "Timestamp",
+      "config": {
+        "label": "End date"
+      }
+    },
     "place": {
       "type": "Link",
       "fieldset": "Place",
