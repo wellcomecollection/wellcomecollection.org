@@ -10,7 +10,8 @@ import {Fragment} from 'react';
 import type {Event} from '../../../model/events';
 
 type Props = {|
-  event: Event
+  event: Event,
+  hasOwnPage: boolean
 |}
 
 function getTicketedMarkup(event) {
@@ -23,7 +24,7 @@ function getTicketedMarkup(event) {
   }
 }
 
-const EventScheduleItem = ({event}: Props) => (
+const EventScheduleItem = ({event, hasOwnPage}: Props) => (
   <li className={`event-schedule__item ${spacing({l: 0}, {padding: ['left']})} ${spacing({s: 4, l: 6}, {padding: ['bottom']})} ${spacing({s: 4}, {margin: ['bottom']})} border-color-smoke border-bottom-width-2`}>
     <div className='grid'>
       <div className={`${grid({s: 12, m: 12, l: 2, xl: 2})} ${spacing({s: 2, l: 0}, {margin: ['bottom']})}`}>
@@ -49,7 +50,7 @@ const EventScheduleItem = ({event}: Props) => (
 
           <p className={`${spacing({s: 2}, {margin: ['bottom']})} ${font({s: 'HNL5', m: 'HNL4'})}`} dangerouslySetInnerHTML={{__html: event.description}} />
 
-          {event.hasOwnPage &&
+          {hasOwnPage &&
             <MoreInfoLink url={`/events/${event.id}`} name='More information' screenReaderText={`about ${event.title}`} />
           }
 
