@@ -51,7 +51,7 @@
 
       {% set isPast = model.end | isDatePast %}
       {% if isPast %}
-        <p class="{{ {s: 'HNM6'} | fontClasses }} font-red rounded-corners">Past event</p>
+        <p class="{{ {s: 'HNM6'} | fontClasses }} font-red">Past event</p>
       {% elif model.start %}
         <p class="{{ {s:'HNL4'} | fontClasses }} no-padding no-margin">
           <time datetime="{{ model.start }}">{{ model.start | formatDayDate }}</time>
