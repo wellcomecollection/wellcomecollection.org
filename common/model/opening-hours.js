@@ -3,21 +3,22 @@ function createPlace(data: Place) { return (data: Place); }
 
 type Days = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
 
-export type OpeningHoursDay = {
+export type OpeningHoursDay = {|
   dayOfWeek: Days,
   closes: string,
   opens?: string,
   note?: string
-};
+|};
 
-type ExceptionalOpeningHoursDay = OpeningHoursDay & {
+type ExceptionalOpeningHoursDay = {|
+  ...OpeningHoursDay,
   overrideDate: Date
-}
+|}
 
-export type OpeningHours = {
+export type OpeningHours = {|
   openingHours: OpeningHoursDay[],
   exceptionalOpeningHours?: ExceptionalOpeningHoursDay[]
-}
+|}
 
 type Place = {|
   id: string,
@@ -37,7 +38,7 @@ export const galleryOpeningHours: OpeningHours = {
     {dayOfWeek: 'Saturday',  opens: '10:00', closes: '18:00'},
     {dayOfWeek: 'Sunday',    opens: '11:00', closes: '18:00'}
   ],
-  exceptionalOpeningHours: [ // TODO check these dates, get more? - waiting on an email response
+  exceptionalOpeningHours: [
     {overrideDate: new Date('April 2, 2018'), dayOfWeek: 'Monday', opens: '10:00', closes: '17:00'},
     {overrideDate: new Date('May 7, 2018'), dayOfWeek: 'Monday', opens: '10:00', closes: '17:00'},
     {overrideDate: new Date('May 28, 2018'), dayOfWeek: 'Monday', opens: '10:00', closes: '17:00'},
