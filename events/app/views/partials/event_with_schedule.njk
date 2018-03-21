@@ -1,5 +1,6 @@
 <div class="event-schedule row relative">
-  <div class="event-schedule__header-image bg-turquoise">
+  <div class="event-schedule__header-image overflow-hidden {{ 'bg-turquoise' if not event.backgroundTexture }}"
+  {% if event.backgroundTexture %}style="background-image: url({{ event.backgroundTexture }});"{% endif %}>
     <div class="event-schedule__wobbly-edge absolute">
       <div class="wobbly-edge wobbly-edge--white js-wobbly-edge"
         data-is-valley="true"

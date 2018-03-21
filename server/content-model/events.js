@@ -108,7 +108,8 @@ export type Event = {|
   bookingType: ?string,
   schedule?: Array<Event>,
   eventbriteId?: string,
-  isCompletelySoldOut?: boolean
+  isCompletelySoldOut?: boolean,
+  backgroundTexture?: string
 |}
 
 export type EventPromo = {|

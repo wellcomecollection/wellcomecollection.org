@@ -241,6 +241,12 @@
           }
         }
       }
+    },
+    "backgroundTexture" : {
+      "type" : "Image",
+      "config" : {
+        "label" : "Background texture"
+      }
     }
   }
 }
