@@ -12,24 +12,24 @@ export type OpeningHoursDay = {|
 
 type ExceptionalOpeningHoursDay = {|
   ...OpeningHoursDay,
-  overrideDate: Date
+  overrideDate: string
 |}
 
 export type OpeningHours = {|
-  openingHours: OpeningHoursDay[],
-  exceptionalOpeningHours?: ExceptionalOpeningHoursDay[]
-|}
+  regular: OpeningHoursDay[],
+  exceptional?: ExceptionalOpeningHoursDay[]
+|};
 
 type Place = {|
   id: string,
   name: string,
-  openingHours: OpeningHoursDay[],
-|}
+  openingHours: OpeningHours
+|};
 
 export type PlacesOpeningHours = Array<Place>;
 
 export const galleryOpeningHours: OpeningHours = {
-  openingHours: [
+  regular: [
     {dayOfWeek: 'Monday',    closes: '00:00', note: 'Galleries closed'},
     {dayOfWeek: 'Tuesday',   opens: '10:00', closes: '18:00'},
     {dayOfWeek: 'Wednesday', opens: '10:00', closes: '18:00'},
@@ -38,17 +38,13 @@ export const galleryOpeningHours: OpeningHours = {
     {dayOfWeek: 'Saturday',  opens: '10:00', closes: '18:00'},
     {dayOfWeek: 'Sunday',    opens: '11:00', closes: '18:00'}
   ],
-  exceptionalOpeningHours: [
-    {overrideDate: new Date('April 2, 2018'), dayOfWeek: 'Monday', opens: '10:00', closes: '17:00'},
-    {overrideDate: new Date('May 7, 2018'), dayOfWeek: 'Monday', opens: '10:00', closes: '17:00'},
-    {overrideDate: new Date('May 28, 2018'), dayOfWeek: 'Monday', opens: '10:00', closes: '17:00'},
-    {overrideDate: new Date('December 25, 2018'),  dayOfWeek: 'Tuesday', closes: '00:00', note: 'Galleries closed'},
-    {overrideDate: new Date('December 26, 2018'),  dayOfWeek: 'Wednesday', closes: '00:00', note: 'Galleries closed'}
+  exceptional: [
+    {overrideDate: '2018-04-02', dayOfWeek: 'Monday', opens: '10:00', closes: '18:00'}
   ]
 };
 
 export const libraryOpeningHours: OpeningHours = {
-  openingHours: [
+  regular: [
     {dayOfWeek: 'Monday',    opens: '10:00', closes: '18:00'},
     {dayOfWeek: 'Tuesday',   opens: '10:00', closes: '18:00'},
     {dayOfWeek: 'Wednesday', opens: '10:00', closes: '18:00'},
@@ -56,11 +52,16 @@ export const libraryOpeningHours: OpeningHours = {
     {dayOfWeek: 'Friday',    opens: '10:00', closes: '18:00'},
     {dayOfWeek: 'Saturday',  opens: '10:00', closes: '16:00'},
     {dayOfWeek: 'Sunday',    closes: '00:00', note: 'Library closed'}
+  ],
+  exceptional: [
+    {overrideDate: '2018-03-30',  dayOfWeek: 'Friday', closes: '00:00', note: 'Library closed'},
+    {overrideDate: '2018-03-31',  dayOfWeek: 'Saturday', closes: '00:00', note: 'Library closed'},
+    {overrideDate: '2018-04-02',  dayOfWeek: 'Monday', closes: '00:00', note: 'Library closed'}
   ]
 };
 
 export const restaurantOpeningHours: OpeningHours = {
-  openingHours: [
+  regular: [
     {dayOfWeek: 'Monday',    closes: '00:00', note: 'Restaurant closed'},
     {dayOfWeek: 'Tuesday',   opens: '11:00', closes: '18:00'},
     {dayOfWeek: 'Wednesday', opens: '11:00', closes: '18:00'},
@@ -72,7 +73,7 @@ export const restaurantOpeningHours: OpeningHours = {
 };
 
 export const cafeOpeningHours: OpeningHours = {
-  openingHours: [
+  regular: [
     {dayOfWeek: 'Monday',    opens: '08:30', closes: '18:00'},
     {dayOfWeek: 'Tuesday',   opens: '08:30', closes: '18:00'},
     {dayOfWeek: 'Wednesday', opens: '08:30', closes: '18:00'},
@@ -80,11 +81,20 @@ export const cafeOpeningHours: OpeningHours = {
     {dayOfWeek: 'Friday',    opens: '08:30', closes: '18:00'},
     {dayOfWeek: 'Saturday',  opens: '09:30', closes: '18:00'},
     {dayOfWeek: 'Sunday',    opens: '10:30', closes: '18:00'}
+  ],
+  exceptional: [
+    {overrideDate: '2018-03-30', dayOfWeek: 'Friday', opens: '09:30', closes: '18:00'},
+    {overrideDate: '2018-04-02', dayOfWeek: 'Monday', opens: '09:30', closes: '18:00'}
+    // TODO the following 4 are for testing
+    // {overrideDate: '2018-05-27', dayOfWeek: 'Monday', opens: '09:30', closes: '18:00'},
+    // {overrideDate: '2018-05-29', dayOfWeek: 'Monday', opens: '09:30', closes: '18:00'},
+    // {overrideDate: '2018-08-14', dayOfWeek: 'Monday', opens: '09:30', closes: '18:00'},
+    // {overrideDate: '2018-08-15', dayOfWeek: 'Monday', opens: '09:30', closes: '18:00'}
   ]
 };
 
 export const shopOpeningHours: OpeningHours = {
-  openingHours: [
+  regular: [
     {dayOfWeek: 'Monday',    opens: '09:00', closes: '18:00'},
     {dayOfWeek: 'Tuesday',   opens: '09:00', closes: '18:00'},
     {dayOfWeek: 'Wednesday', opens: '09:00', closes: '18:00'},
@@ -92,13 +102,17 @@ export const shopOpeningHours: OpeningHours = {
     {dayOfWeek: 'Friday',    opens: '09:00', closes: '18:00'},
     {dayOfWeek: 'Saturday',  opens: '10:00', closes: '18:00'},
     {dayOfWeek: 'Sunday',    opens: '11:00', closes: '18:00'}
+  ],
+  exceptional: [
+    {overrideDate: '2018-03-30', dayOfWeek: 'Friday', opens: '10:00', closes: '18:00'},
+    {overrideDate: '2018-04-02', dayOfWeek: 'Monday', opens: '10:00', closes: '18:00'}
   ]
 };
 
-export const defaultPlacesOpeningHours: PlacesOpeningHours = [
-  createPlace({id: 'galleries', name: 'Galleries', openingHours: galleryOpeningHours.openingHours}),
-  createPlace({id: 'library', name: 'Library', openingHours: libraryOpeningHours.openingHours}),
-  createPlace({id: 'restaurant', name: 'Restaurant', openingHours: restaurantOpeningHours.openingHours}),
-  createPlace({id: 'café', name: 'Café', openingHours: cafeOpeningHours.openingHours}),
-  createPlace({id: 'shop', name: 'Shop', openingHours: shopOpeningHours.openingHours})
+export const placesOpeningHours: PlacesOpeningHours = [
+  createPlace({id: 'galleries', name: 'Galleries', openingHours: galleryOpeningHours}),
+  createPlace({id: 'library', name: 'Library', openingHours: libraryOpeningHours}),
+  createPlace({id: 'restaurant', name: 'Restaurant', openingHours: restaurantOpeningHours}),
+  createPlace({id: 'café', name: 'Café', openingHours: cafeOpeningHours}),
+  createPlace({id: 'shop', name: 'Shop', openingHours: shopOpeningHours})
 ];
