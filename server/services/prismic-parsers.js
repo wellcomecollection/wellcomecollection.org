@@ -226,6 +226,7 @@ export function parseArticleDoc(doc: PrismicDoc): Article {
 
   const article: Article = {
     contentType: 'article',
+    id: doc.id,
     headline: headline,
     url: url,
     datePublished: publishDate,
