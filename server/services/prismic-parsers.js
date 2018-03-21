@@ -3,7 +3,7 @@ import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
 import type {
-  EventTime, Event, Contributor, Team,
+  EventTime, DisplayEvent, Contributor, Team,
   Place, EventFormat, Audience
 } from '../content-model/events';
 import getBreakpoint from '../filters/get-breakpoint';
@@ -24,7 +24,7 @@ type PrismicDoc = Object;
 // This is because it could be any part of a JSON doc
 type PrismicDocFragment = Object | Array<any>;
 
-export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): Event {
+export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): DisplayEvent {
   const eventSchedule = scheduleDocs && scheduleDocs.results.map(doc => parseEventDoc(doc));
   const promo = parseImagePromo(doc.data.promo);
 
@@ -133,10 +133,10 @@ export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): Event
     bookingType: bookingType,
     cost: cost,
     schedule: eventSchedule,
-    backgroundTexture: doc.data.backgroundTexture && doc.data.backgroundTexture.url,
+    backgroundTexture: doc.data.backgroundTexture.data && doc.data.backgroundTexture.data.backgroundTexture.url,
     eventbriteId,
     isCompletelySoldOut
-  }: Event);
+  }: DisplayEvent);
 
   return e;
 }

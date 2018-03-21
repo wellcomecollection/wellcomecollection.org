@@ -243,9 +243,11 @@
       }
     },
     "backgroundTexture" : {
-      "type" : "Image",
+      "type" : "Link",
       "config" : {
-        "label" : "Background texture"
+        "label" : "Background texture",
+        "select" : "document",
+        "customtypes" : [ "background-textures" ]
       }
     }
   }
