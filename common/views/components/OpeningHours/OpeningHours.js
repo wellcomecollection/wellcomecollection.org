@@ -2,20 +2,22 @@
 import {spacing, font} from '../../../utils/classnames';
 import {placesOpeningHours as places} from '../../../model/opening-hours';
 import {Fragment} from 'react';
-import moment from 'moment';
 import {formatDate} from '../../../utils/format-date';
+import moment from 'moment';
 
 type Props = {|
   id: string,
   extraClasses?: string
-|}
+  |}
 
 function london(d) {
+  // $FlowFixMe
   return moment.tz(d, 'Europe/London');
 };
 
 // TODO fix flow errors
-const allExceptionalOpeningDates = places.map((place) => {
+// Add more typing to functions
+const flattenedExceptionalOpeningDates = places.map((place) => {
   if (place.openingHours.exceptional) {
     return place.openingHours.exceptional.map((openingTimes) => {
       return openingTimes.overrideDate;
@@ -23,20 +25,23 @@ const allExceptionalOpeningDates = places.map((place) => {
   }
 })
   .filter(_ => _)
-  .reduce(function(prev, curr) { // flatten
-    return prev.concat(curr);
-  })
-  .sort(function(a, b) {
-    return new Date(a) - new Date(b);
-  })
-  .filter(function(item, pos, ary) {
-    return !pos || item.toString() !== ary[pos - 1].toString();
+  .reduce((prev, curr) => prev && prev.concat(curr));
+
+const uniqueExceptionalOpeningDates = flattenedExceptionalOpeningDates && flattenedExceptionalOpeningDates.sort((a, b) => {
+  if (a && b) {
+    return a.localeCompare(b);
+  } else {
+    return 0;
+  }
+})
+  .filter((item, i, array) => {
+    return !i || item !== array[i - 1];
   });
 
 // TODO lodash groupBy?
 let groupedIndex = 0;
 
-const exceptionalOpeningPeriods = allExceptionalOpeningDates.reduce((acc, date, i, array) => { // TODO explain purpose
+const exceptionalOpeningPeriods = uniqueExceptionalOpeningDates && uniqueExceptionalOpeningDates.reduce((acc, date, i, array) => { // TODO explain purpose
   const earliestDate = acc[groupedIndex] ? london(acc[groupedIndex][0]) : london(date);
   const upperLimit = earliestDate.add(10, 'day');
   const currentDate = london(date);
@@ -55,13 +60,13 @@ const exceptionalOpeningPeriods = allExceptionalOpeningDates.reduce((acc, date, 
   return acc;
 }, []);
 
-const upcomingExceptionalOpeningPeriods = exceptionalOpeningPeriods.filter((dates) => {
+const upcomingExceptionalOpeningPeriods = exceptionalOpeningPeriods && exceptionalOpeningPeriods.filter((dates) => {
   return london(dates[0]).isBefore(london().add(14, 'day'));
 });
 
 const OpeningHours = ({id, extraClasses}: Props) => (
   <Fragment>
-    {upcomingExceptionalOpeningPeriods.length > 0 &&
+    {upcomingExceptionalOpeningPeriods && upcomingExceptionalOpeningPeriods.length > 0 &&
       <p className={font({s: 'HNM4'})}>
         Please note unusual opening times will be in operation on
         {upcomingExceptionalOpeningPeriods.map((group, i, array) => {
@@ -69,13 +74,13 @@ const OpeningHours = ({id, extraClasses}: Props) => (
             return (
               <span style={{'whiteSpace': 'nowrap'}} key={group[0]}>
                 {(array.length > 1 && i > 0) && ', '}
-                {` ${formatDate(new Date(group[0]))}`}&mdash;{`${formatDate(new Date(group[group.length - 1]))}`}
+                {` ${formatDate(group[0])}`}&mdash;{`${formatDate(group[group.length - 1])}`}
               </span>
             );
           } else {
             return (
               <span style={{'white-space': 'nowrap'}} key={group[0]}>
-                {` ${formatDate(new Date(group[0]))}`}
+                {` ${formatDate(group[0])}`}
               </span>
             );
           }
