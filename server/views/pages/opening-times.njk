@@ -11,6 +11,12 @@
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
   <meta name="description" content="{{ page.description | safe | striptags }}" /> #}
+  <style>
+    table {margin-bottom: 20px;}
+    caption, th, td {padding: 10px;}
+    th, td {width: 50%;}
+    th {font-family: sans-serif; font-weight: bold;}
+  </style>
 {% endblock %}
 
 {% block body %}
@@ -25,20 +31,67 @@
         <h1 class="{{ {s:'WB5'} | fontClasses }}">Opening times</h1>
       </div>
       <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
-        <h2 class="{{ {s:'WB6'} | fontClasses }}" id="exceptional">Exceptional opening times</h2>
-        {% for place in placesOpeningHours %}
-          {{place.name}}
-          {{place.openingHours.exceptional | dump}}
-          {# TODO exceptional opening hours table component #}
-        {% endfor %}
-
         <h2 class="{{ {s:'WB6'} | fontClasses }}" id="regular">Regular opening times</h2>
-        {% for place in placesOpeningHours %}
-          {{place.name}}
-          {{place.openingHours.regular | dump}}
-          {# TODO exceptional opening hours table component #}
-        {% endfor %}
-        {# TODO opening hours table component #}
+        <div class="grid">
+          {% for place in placesOpeningHours %}
+            <div class="{{ {s:12, m:6, l:4, xl:4} | gridClasses }}">
+              {# TODO opening hours table component (grouped by venue) - pass into OpeningHours component #}
+              <table class="feature-flags__table">
+                <caption class="feature-flags__caption">{{place.name}}</caption>
+                <thead class="feature-flags__heading">
+                  <tr>
+                    <th class="feature-flags__cell" scope="col">Day</th>
+                    <th class="feature-flags__cell" scope="col">Times</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for day in place.openingHours.regular %}
+                    <tr>
+                      <td class="feature-flags__cell" >{{day.dayOfWeek}}</td>
+                      {% if day.opens %}
+                        <td class="feature-flags__cell">{{ day.opens + ' - ' + day.closes if day.opens }}</td>
+                      {% else %}
+                        <td class="feature-flags__cell">{{ day.note }}</td>
+                      {% endif %}
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% endfor %}
+        </div>
+
+        <h2 class="{{ {s:'WB6'} | fontClasses }}" id="exceptional">Exceptional opening times</h2>
+        <div class="grid">
+          {% for place in placesOpeningHours %}
+            {% if place.openingHours.exceptional.length > 0 %}
+              <div class="{{ {s:12, m:6, l:4, xl:4} | gridClasses }}">
+                {# TODO exceptional opening hours table component (grouped by date) #}
+                <table class="feature-flags__table">
+                  <caption class="feature-flags__caption">{{place.name}}</caption>
+                  <thead class="feature-flags__heading">
+                    <tr>
+                      <th class="feature-flags__cell" scope="col">Day</th>
+                      <th class="feature-flags__cell" scope="col">Times</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for day in place.openingHours.exceptional %}
+                      <tr>
+                        <td class="feature-flags__cell" >{{day.dayOfWeek}} {{day.overrideDate | formatDate}}</td>
+                        {% if day.opens %}
+                          <td class="feature-flags__cell">{{ day.opens + ' - ' + day.closes if day.opens }}</td>
+                        {% else %}
+                          <td class="feature-flags__cell">{{ day.note }}</td>
+                        {% endif %}
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>
