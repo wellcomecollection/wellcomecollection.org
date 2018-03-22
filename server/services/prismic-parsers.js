@@ -18,6 +18,7 @@ import type {Series} from '../model/series';
 import type {LicenseType} from '../model/license';
 import {licenseTypeArray} from '../model/license';
 import {london} from '../filters/format-date';
+// $FlowFixMe
 import {parseContributors as parseContributorsProperly} from '../../common/services/prismic/parsers';
 
 // This is just JSON
