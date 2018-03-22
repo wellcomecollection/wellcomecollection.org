@@ -111,6 +111,11 @@ export type Event = {|
   isCompletelySoldOut?: boolean
 |}
 
+export type DisplayEvent = {|
+  ...Event,
+  backgroundTexture?: string
+|}
+
 export type EventPromo = {|
   id: string,
   title: ?string,
