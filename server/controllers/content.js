@@ -12,11 +12,41 @@ import {
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {placesOpeningHours} from '../model/opening-hours';
+import groupBy from 'lodash.groupby';
 
-export const renderOpeningTimes = (ctx, next) => {
+export const renderOpeningTimes = (ctx, next) => { // TODO meta data
   // ctx.body = placesOpeningHours;
   const path = ctx.request.url;
   const trackingInfo = {}; // TODO
+
+  const test = placesOpeningHours.reduce((acc, place) => {
+    place.openingHours.exceptional && place.openingHours.exceptional.map((exceptionalDate) => {
+      const obj = {
+        exceptionalDate: exceptionalDate.overrideDate,
+        id: place.id,
+        name: place.name,
+        openingHours: {
+          dayOfWeek: exceptionalDate.dayOfWeek,
+          opens: exceptionalDate.opens,
+          closes: exceptionalDate.closes,
+          note: exceptionalDate.note
+        }
+      };
+      acc.push(obj);
+    });
+    return acc;
+  }, []).sort((a, b) => {
+    if (a && b) {
+      return a.exceptionalDate.localeCompare(b.exceptionalDate);
+    } else {
+      return 0;
+    }
+  });
+
+  const exceptionalOpeningHours = groupBy(test, (date) => {
+    return date.exceptionalDate;
+  });
+
   ctx.render('pages/opening-times', {
     pageConfig: Object.assign({}, createPageConfig({
       path: path,
@@ -28,7 +58,8 @@ export const renderOpeningTimes = (ctx, next) => {
     // article: article,
     // page: article,
     // isPreview: isPreview
-    placesOpeningHours
+    placesOpeningHours,
+    exceptionalOpeningHours
     // TODO want places grouped by exceptional dates...
   });
 
