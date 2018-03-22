@@ -11,6 +11,13 @@ import {
 } from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
+import {placesOpeningHours} from '../model/opening-hours';
+
+export const renderOpeningTimes = (ctx, next) => {
+  ctx.body = placesOpeningHours;
+
+  return next();
+};
 
 export const renderArticle = async(ctx, next) => {
   const format = ctx.request.query.format;
