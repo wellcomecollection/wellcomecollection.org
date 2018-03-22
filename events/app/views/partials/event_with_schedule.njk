@@ -91,17 +91,19 @@
           {% endfor %}
         </ul>
 
-        <h2 class="{{ {s: 'WB6', l: 'WB5'} | fontClasses }} {{ {s: 4} | spacingClasses({padding: ['bottom']}) }}">Contributors</h2>
-        {% for contributor in event.contributors %}
-          {% if contributor.contributorType === 'people' %}
-            {% component 'author', {
-              name: contributor.name,
-              image: contributor.image.contentUrl,
-              description: contributor.description,
-              twitterHandle: contributor.twitterHandle
-            } %}
-          {% endif %}
-        {% endfor %}
+        {% if event.contributors.length > 0 %}
+          <h2 class="{{ {s: 'WB6', l: 'WB5'} | fontClasses }} {{ {s: 4} | spacingClasses({padding: ['bottom']}) }}">Contributors</h2>
+          {% for contributor in event.contributors %}
+            {% if contributor.contributor.contributorType === 'people' %}
+              {% component 'author', {
+                name: contributor.contributor.name,
+                image: contributor.contributor.image.contentUrl,
+                description: contributor.contributor.description | prismicAsHtml,
+                twitterHandle: contributor.contributor.twitterHandle
+              } %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
 
       </div>
     </div>

@@ -1,6 +1,7 @@
 // @flow
 import type {Person} from './people';
 import type {Picture} from './picture';
+import type {HTMLString} from '../services/prismic/types';
 
 export type Organisation = {|
   name: string,
@@ -27,5 +28,6 @@ export type OrganisationContributor = {|
 
 export type Contributor = {|
   contributor: PersonContributor | OrganisationContributor,
-  role: ?ContributorRole,
+  role: ContributorRole,
+  description: ?HTMLString
 |}

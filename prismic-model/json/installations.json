@@ -65,6 +65,13 @@
                 "organisations"
               ]
             }
+          },
+          "description": {
+            "type": "StructuredText",
+            "config": {
+              "multi": "paragraph, hyperlink, strong, em",
+              "label": "How did they contribute to this?"
+            }
           }
         }
       }

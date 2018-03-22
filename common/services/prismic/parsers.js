@@ -96,8 +96,8 @@ function parseOrganisationContributor(frag: PrismicFragment): OrganisationContri
   };
 }
 
-export function parseContributors(contributors: PrismicFragment[]): Contributor[] {
-  const cs = contributors.map(contributor => {
+export function parseContributors(contributorsDoc: PrismicFragment[]): Contributor[] {
+  const contributors = contributorsDoc.map(contributor => {
     const role = !contributor.role.isBroken ? {
       id: contributor.role.id,
       title: asText(contributor.role.data.title) || 'MISSING TITLE'
@@ -108,18 +108,20 @@ export function parseContributors(contributors: PrismicFragment[]): Contributor[
         case 'organisations':
           return {
             role,
-            contributor: parseOrganisationContributor(contributor.contributor)
+            contributor: parseOrganisationContributor(contributor.contributor),
+            description: contributor.description
           };
         case 'people':
           return {
             role,
-            contributor: parsePersonContributor(contributor.contributor)
+            contributor: parsePersonContributor(contributor.contributor),
+            description: contributor.description
           };
       }
     })();
   }).filter(Boolean);
 
-  return cs;
+  return contributors;
 }
 
 export function parseTaslFromString(pipedString: string): Tasl {
