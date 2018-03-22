@@ -15,11 +15,10 @@ import {placesOpeningHours} from '../model/opening-hours';
 import groupBy from 'lodash.groupby';
 
 export const renderOpeningTimes = (ctx, next) => { // TODO meta data
-  // ctx.body = placesOpeningHours;
   const path = ctx.request.url;
   const trackingInfo = {}; // TODO
 
-  const test = placesOpeningHours.reduce((acc, place) => {
+  const flattenedPlaces = placesOpeningHours.reduce((acc, place) => {
     place.openingHours.exceptional && place.openingHours.exceptional.map((exceptionalDate) => {
       const obj = {
         exceptionalDate: exceptionalDate.overrideDate,
@@ -43,8 +42,14 @@ export const renderOpeningTimes = (ctx, next) => { // TODO meta data
     }
   });
 
-  const exceptionalOpeningHours = groupBy(test, (date) => {
+  const exceptionalOpeningHoursObject = groupBy(flattenedPlaces, (date) => {
     return date.exceptionalDate;
+  });
+
+  const exceptionalOpeningHours = Object.keys(exceptionalOpeningHoursObject).map((key) => {
+    return {
+      [key]: exceptionalOpeningHoursObject[key]
+    };
   });
 
   ctx.render('pages/opening-times', {
