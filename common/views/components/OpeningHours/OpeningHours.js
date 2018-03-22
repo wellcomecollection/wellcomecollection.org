@@ -82,7 +82,9 @@ const OpeningHours = ({id, extraClasses}: Props) => (
             );
           }
         })}
-        {`. Please check our full opening times for details.`}
+        {`. Please check `}
+        <a href='/opening-times#exceptional'>our full opening times</a>
+        {` for details.`}
       </p>
     }
     <div className={`opening-hours ${extraClasses || ''} js-opening-hours js-tabs`}>
