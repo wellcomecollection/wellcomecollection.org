@@ -5,7 +5,6 @@ import contributors from './parts/contributors';
 import promo from './parts/promo';
 import timestamp from './parts/timestamp';
 import place from './parts/place';
-import structuredText from './parts/structured-text';
 import link from './parts/link';
 import number from './parts/number';
 import list from './parts/list';
@@ -20,7 +19,13 @@ const Exhibitions = {
 
     // Things it would be nice to deprecate
     // and fold into body
-    intro: structuredText('Intro'),
+    intro: {
+      'type': 'StructuredText',
+      'config': {
+        'label': 'Intro',
+        'multi': 'heading2'
+      }
+    },
     textAndCaptionsDocument: link('Text and captions document', 'media'),
 
     // TODO: deprecate for place when the data has been updated
