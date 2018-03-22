@@ -18,6 +18,7 @@ import PageDescription from '../PageDescription/PageDescription';
 import Pagination from '../Pagination/Pagination';
 import Promo from '../Promo/Promo';
 import Picture from '../Picture/Picture';
+import ImageGallery from '../ImageGallery/ImageGallery';
 
 export {
   BackToTop,
@@ -39,5 +40,6 @@ export {
   PageDescription,
   Pagination,
   Promo,
-  Picture
+  Picture,
+  ImageGallery
 };

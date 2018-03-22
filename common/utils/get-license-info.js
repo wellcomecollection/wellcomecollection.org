@@ -18,7 +18,7 @@ const licenseMap = {
     icons: ['ccPdm'],
     humanReadableText: ['You can use this work for any purpose without restriction under copyright law.', 'Public Domain Mark (PDM) terms and conditions <a href="https://creativecommons.org/publicdomain/mark/1.0">https://creativecommons.org/publicdomain/mark/1.0</a>']
   },
-  'CC0': {
+  'CC-0': {
     url: 'https://creativecommons.org/publicdomain/zero/1.0/',
     text: 'CC0',
     icons: ['ccZero'],
