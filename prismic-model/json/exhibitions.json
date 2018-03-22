@@ -41,8 +41,8 @@
     "intro": {
       "type": "StructuredText",
       "config": {
-        "multi": "paragraph, hyperlink, strong, em",
-        "label": "Intro"
+        "label": "Intro",
+        "multi": "heading2"
       }
     },
     "textAndCaptionsDocument": {
