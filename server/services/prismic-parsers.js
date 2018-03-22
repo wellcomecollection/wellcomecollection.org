@@ -133,7 +133,7 @@ export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): Displ
     bookingType: bookingType,
     cost: cost,
     schedule: eventSchedule,
-    backgroundTexture: doc.data.backgroundTexture.data && doc.data.backgroundTexture.data.backgroundTexture.url,
+    backgroundTexture: doc.data.backgroundTexture.data && doc.data.backgroundTexture.data.image.url,
     eventbriteId,
     isCompletelySoldOut
   }: DisplayEvent);

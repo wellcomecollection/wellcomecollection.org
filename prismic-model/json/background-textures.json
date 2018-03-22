@@ -1,12 +1,12 @@
 {
   "BackgroundTexture" : {
-    "backgroundTexture" : {
+    "image" : {
       "type" : "Image"
     },
-    "backgroundName" : {
+    "name" : {
       "type" : "Text",
       "config" : {
-        "label" : "Background name"
+        "label" : "name"
       }
     }
   }
