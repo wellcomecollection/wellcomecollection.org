@@ -1,4 +1,5 @@
 import type {HTMLString} from '../services/prismic/types';
+import type {Place} from './place';
 import {Contributor} from './contributors';
 
 export type Installation = {|
@@ -7,5 +8,6 @@ export type Installation = {|
   description: HTMLString,
   contributors: Contributor[],
   start: Date,
-  end?: Date
+  end: ?Date,
+  place: ?Place
 |};

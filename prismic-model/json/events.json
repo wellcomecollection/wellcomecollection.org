@@ -125,8 +125,7 @@
       "config" : {
         "label" : "Booking enquiry team",
         "select" : "document",
-        "customtypes" : [ "teams" ],
-        "tags" : [ "events" ]
+        "customtypes" : [ "teams" ]
       }
     },
     "eventbriteEvent" : {
@@ -168,8 +167,7 @@
             "config" : {
               "label" : "Role",
               "select" : "document",
-              "customtypes" : [ "editorial-contributor-roles" ],
-              "tags" : [ "events" ]
+              "customtypes" : [ "editorial-contributor-roles" ]
             }
           },
           "contributor" : {
@@ -177,8 +175,7 @@
             "config" : {
               "label" : "Contributor",
               "select" : "document",
-              "customtypes" : [ "people", "organisations" ],
-              "tags" : [ "events" ]
+              "customtypes" : [ "people", "organisations" ]
             }
           }
         }
