@@ -1,3 +1,4 @@
+// @flow
 export default {
   'type': 'Link',
   'fieldset': 'Place',
