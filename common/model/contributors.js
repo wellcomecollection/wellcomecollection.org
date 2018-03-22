@@ -28,6 +28,6 @@ export type OrganisationContributor = {|
 
 export type Contributor = {|
   contributor: PersonContributor | OrganisationContributor,
-  role: ContributorRole,
+  role: ?ContributorRole,
   description: ?HTMLString
 |}
