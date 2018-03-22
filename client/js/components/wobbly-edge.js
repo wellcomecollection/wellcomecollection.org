@@ -29,7 +29,7 @@ const wobblyEdge = (el) => {
 
   const polygonPoints = (totalPoints, intensity) => {
     // Determine whether wobbly edge should be a mountain or a valley
-    const first = settings.isValley ? '0% 100%, 0% 0%,' : '0% 100%';
+    const first = settings.isValley ? '0% 100%, 0% 0%,' : '0% 100%,';
     const last = settings.isValley ? ',100% 0%, 100% 100%' : ',100% 100%';
     const innerPoints = [];
 
