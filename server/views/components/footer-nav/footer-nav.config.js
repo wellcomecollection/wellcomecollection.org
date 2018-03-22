@@ -11,7 +11,7 @@ export const context = {
     title: `What's on`
   }, {
     href: '#',
-    title: 'Explore'
+    title: 'Stories'
   }, {
     href: '#',
     title: 'What we do'
