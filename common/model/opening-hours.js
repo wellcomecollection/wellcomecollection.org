@@ -85,11 +85,6 @@ export const cafeOpeningHours: OpeningHours = {
   exceptional: [
     {overrideDate: '2018-03-30', dayOfWeek: 'Friday', opens: '09:30', closes: '18:00'},
     {overrideDate: '2018-04-02', dayOfWeek: 'Monday', opens: '09:30', closes: '18:00'}
-    // TODO the following 4 are for testing
-    // {overrideDate: '2018-05-27', dayOfWeek: 'Monday', opens: '09:30', closes: '18:00'},
-    // {overrideDate: '2018-05-29', dayOfWeek: 'Monday', opens: '09:30', closes: '18:00'},
-    // {overrideDate: '2018-08-14', dayOfWeek: 'Monday', opens: '09:30', closes: '18:00'},
-    // {overrideDate: '2018-08-15', dayOfWeek: 'Monday', opens: '09:30', closes: '18:00'}
   ]
 };
 
