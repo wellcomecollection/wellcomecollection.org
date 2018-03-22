@@ -4,7 +4,7 @@
   position: relative;
   top: 2px;
   z-index: 2;
-  transition: clip-path 2000ms ease-in-out;
+  transition: -webkit-clip-path 2000ms ease-in-out, clip-path 2000ms ease-in-out;
   display: none;
 
   @include respond-to('large') {
