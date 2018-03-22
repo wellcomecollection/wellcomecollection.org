@@ -12,7 +12,7 @@
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
   <meta name="description" content="{{ page.description | safe | striptags }}" /> #}
   <style>
-    table {margin-bottom: 20px;}
+    table {margin-bottom: 20px; max-width: 600px;}
     caption, th, td {padding: 10px;}
     th, td {width: 50%;}
     th {font-family: sans-serif; font-weight: bold;}
@@ -63,33 +63,31 @@
 
         <h2 class="{{ {s:'WB6'} | fontClasses }}" id="exceptional">Exceptional opening times</h2>
         <div class="grid">
-          {% for place in placesOpeningHours %}
-            {% if place.openingHours.exceptional.length > 0 %}
-              <div class="{{ {s:12, m:6, l:4, xl:4} | gridClasses }}">
-                {# TODO exceptional opening hours table component (grouped by date) #}
-                <table class="feature-flags__table">
-                  <caption class="feature-flags__caption">{{place.name}}</caption>
-                  <thead class="feature-flags__heading">
+          {% for exceptionalDate, venues in exceptionalOpeningHours %}
+            <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+              {# TODO exceptional opening hours table component (grouped by date) #}
+              <table class="feature-flags__table">
+                <caption class="feature-flags__caption">{{exceptionalDate | formatDayDate}}</caption>
+                <thead class="feature-flags__heading">
+                  <tr>
+                    <th class="feature-flags__cell" scope="col">Venue</th>
+                    <th class="feature-flags__cell" scope="col">Times</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for venue in venues %}
                     <tr>
-                      <th class="feature-flags__cell" scope="col">Day</th>
-                      <th class="feature-flags__cell" scope="col">Times</th>
+                      <td class="feature-flags__cell" >{{venue.name}}</td>
+                      {% if venue.openingHours.opens %}
+                        <td class="feature-flags__cell">{{ venue.openingHours.opens + ' - ' + venue.openingHours.closes }}</td>
+                      {% else %}
+                        <td class="feature-flags__cell">{{ venue.openingHours.note }}</td>
+                      {% endif %}
                     </tr>
-                  </thead>
-                  <tbody>
-                    {% for day in place.openingHours.exceptional %}
-                      <tr>
-                        <td class="feature-flags__cell" >{{day.dayOfWeek}} {{day.overrideDate | formatDate}}</td>
-                        {% if day.opens %}
-                          <td class="feature-flags__cell">{{ day.opens + ' - ' + day.closes if day.opens }}</td>
-                        {% else %}
-                          <td class="feature-flags__cell">{{ day.note }}</td>
-                        {% endif %}
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-            {% endif %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
           {% endfor %}
         </div>
       </div>
