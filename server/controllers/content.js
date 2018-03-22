@@ -14,7 +14,23 @@ import {PaginationFactory} from '../model/pagination';
 import {placesOpeningHours} from '../model/opening-hours';
 
 export const renderOpeningTimes = (ctx, next) => {
-  ctx.body = placesOpeningHours;
+  // ctx.body = placesOpeningHours;
+  const path = ctx.request.url;
+  const trackingInfo = {}; // TODO
+  ctx.render('pages/opening-times', {
+    pageConfig: Object.assign({}, createPageConfig({
+      path: path,
+      title: 'Opening Times',
+      // inSection: 'explore', // TODO
+      // category: 'editorial', // TODO
+      canonicalUri: `${ctx.globals.rootDomain}/opening-times`
+    }), trackingInfo),
+    // article: article,
+    // page: article,
+    // isPreview: isPreview
+    placesOpeningHours
+    // TODO want places grouped by exceptional dates...
+  });
 
   return next();
 };

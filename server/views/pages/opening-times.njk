@@ -1,0 +1,46 @@
+{% extends 'layout/default.njk' %}
+
+{% block pageMeta %}
+  {# {% set metaContent = {
+    type: 'article',
+    title: page.headline,
+    image: page.thumbnail.contentUrl,
+    url: pageConfig.canonicalUri,
+    description: page.description
+  } %}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
+  <meta name="description" content="{{ page.description | safe | striptags }}" /> #}
+{% endblock %}
+
+{% block body %}
+  {# <script type="application/ld+json">
+    {{ page | jsonLd('contentLd') | safe }}
+  </script>
+  #}
+
+  <div class="container">
+    <div class="grid">
+      <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+        <h1 class="{{ {s:'WB5'} | fontClasses }}">Opening times</h1>
+      </div>
+      <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+        <h2 class="{{ {s:'WB6'} | fontClasses }}" id="exceptional">Exceptional opening times</h2>
+        {% for place in placesOpeningHours %}
+          {{place.name}}
+          {{place.openingHours.exceptional | dump}}
+          {# TODO exceptional opening hours table component #}
+        {% endfor %}
+
+        <h2 class="{{ {s:'WB6'} | fontClasses }}" id="regular">Regular opening times</h2>
+        {% for place in placesOpeningHours %}
+          {{place.name}}
+          {{place.openingHours.regular | dump}}
+          {# TODO exceptional opening hours table component #}
+        {% endfor %}
+        {# TODO opening hours table component #}
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
