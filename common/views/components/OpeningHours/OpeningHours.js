@@ -15,8 +15,6 @@ function london(d) {
   return moment.tz(d, 'Europe/London');
 };
 
-// TODO fix flow errors
-// Add more typing to functions
 const flattenedExceptionalOpeningDates = places.map((place) => {
   if (place.openingHours.exceptional) {
     return place.openingHours.exceptional.map((openingTimes) => {
@@ -34,14 +32,11 @@ const uniqueExceptionalOpeningDates = flattenedExceptionalOpeningDates && flatte
     return 0;
   }
 })
-  .filter((item, i, array) => {
-    return !i || item !== array[i - 1];
-  });
+  .filter((item, i, array) => !i || item !== array[i - 1]);
 
-// TODO lodash groupBy?
 let groupedIndex = 0;
 
-const exceptionalOpeningPeriods = uniqueExceptionalOpeningDates && uniqueExceptionalOpeningDates.reduce((acc, date, i, array) => { // TODO explain purpose
+const exceptionalOpeningPeriods = uniqueExceptionalOpeningDates && uniqueExceptionalOpeningDates.reduce((acc, date, i, array) => {
   const earliestDate = acc[groupedIndex] ? london(acc[groupedIndex][0]) : london(date);
   const upperLimit = earliestDate.add(10, 'day');
   const currentDate = london(date);
@@ -92,7 +87,7 @@ const OpeningHours = ({id, extraClasses}: Props) => (
       <ul className={`plain-list opening-hours__tablist ${font({s: 'HNM6'})} ${spacing({s: 0}, {margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']})} js-tablist`}>
         {places.map((place) => (
           <li key={place.id} className='opening-hours__tabitem js-tabitem'>
-            <a className='opening-hours__tablink js-tablink' href={`#${id}-${place.id}`}>{place.name}</a>
+            <a className='opening-hours__tablink js-tablink' href={`#${id}-panel-${place.id}`}>{place.name}</a>
           </li>
         ))}
       </ul>
