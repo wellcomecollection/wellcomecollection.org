@@ -5,6 +5,7 @@ import type { Contributor, PersonContributor, OrganisationContributor } from '..
 import type { Picture } from '../../model/picture';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
+import type { Place } from '../../model/place';
 import { licenseTypeArray } from '../../model/license';
 
 const linkResolver = (doc) => {
@@ -165,4 +166,13 @@ export function parseImagePromo(
         maybePromo.primary.image[cropType] || maybePromo.primary.image
     }, minWidth)
   }: ImagePromo);
+}
+
+export function parsePlace(doc: PrismicFragment): Place {
+  return {
+    id: doc.id,
+    title: doc.data.title || 'Unknown',
+    level: doc.data.level || 0,
+    capacity: doc.data.capacity
+  };
 }

@@ -66,4 +66,48 @@
       {% component 'wobbly-edge', {background: 'white', intensity: 30} %}
     </div>
   </div>
+
+  <div class="row {{ {s:5} | spacingClasses({margin: ['top']}) }}">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+          {{ installation.description | prismicAsHtml | safe }}
+        </div>
+        <div class="{{ {s:12, m:10, shiftM:1, l:5, xl:5} | gridClasses }}">
+          <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
+          <div class="drawer js-show-hide"
+                data-track-action="opening-times-drawer">
+            <button class="plain-button no-padding pointer js-show-hide-trigger font-green {{ {s:3} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses }}">
+              <span class="flex flex--v-center">{% icon 'plus', null, ['icon--green', 'margin-right-s1'] %}Opening times</span>
+            </button>
+            <div class="drawer__body js-show-hide-drawer">
+              {% componentV2 'opening-hours', {places: pageConfig.openingHours, id: 'exhibition-page'}, {'light': true, 'compressed': true} %}
+            </div>
+          </div>
+          <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
+
+          {% block accessStatements %}
+            <h2 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Access information</h2>
+            {% if installation.place !== null %}
+              <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
+                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'lifts' %}</div>
+              <p class="no-margin">This installation is on level {{ installation.place.level }}</p>
+              </div>
+            {% endif %}
+            <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
+              <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y' %}</div>
+              <p class="no-margin">Step-free access is available to all floors of the building</p>
+            </div>
+            <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
+              <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y_visual' %}</div>
+              <p class="no-margin">Large print guides, transcripts and magnifiers are available in the gallery</p>
+            </div>
+          {% endblock %}
+
+          <hr class="divider divider--pumice divider--keyline {{ {s:4} | spacingClasses({margin: ['bottom']}) }}" />
+        </div>
+      </div>
+    </div>
+
+
 {% endblock %}
