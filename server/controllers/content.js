@@ -15,18 +15,17 @@ import {placesOpeningHours} from '../model/opening-hours';
 import groupBy from 'lodash.groupby';
 
 export const renderOpeningTimes = (ctx, next) => { // TODO meta data
-  // ctx.body = placesOpeningHours;
   const path = ctx.request.url;
   const trackingInfo = {}; // TODO
 
-  const test = placesOpeningHours.reduce((acc, place) => {
+  const flattenedDates = placesOpeningHours.reduce((acc, place) => {
     place.openingHours.exceptional && place.openingHours.exceptional.map((exceptionalDate) => {
       const obj = {
         exceptionalDate: exceptionalDate.overrideDate,
+        exceptionalDay: exceptionalDate.dayOfWeek,
         id: place.id,
         name: place.name,
         openingHours: {
-          dayOfWeek: exceptionalDate.dayOfWeek,
           opens: exceptionalDate.opens,
           closes: exceptionalDate.closes,
           note: exceptionalDate.note
@@ -43,10 +42,39 @@ export const renderOpeningTimes = (ctx, next) => { // TODO meta data
     }
   });
 
-  const exceptionalOpeningHours = groupBy(test, (date) => {
+  const exceptionalOpeningHours = groupBy(flattenedDates, (date) => {
     return date.exceptionalDate;
   });
 
+  for (let overrideDate in exceptionalOpeningHours) {
+    let locations = ['galleries', 'library', 'restaurant', 'café', 'shop'];
+    exceptionalOpeningHours[overrideDate].map((day) => {
+      locations = locations.filter(location => location !== day.id);
+    });
+    locations.map((id) => {
+      const day = exceptionalOpeningHours[overrideDate][0].exceptionalDay;
+      const openingHours = placesOpeningHours.filter(e => e.id === id)[0].openingHours.regular.filter(e => e.dayOfWeek === day)[0];
+      const obj = {
+        exceptionalDate: exceptionalOpeningHours[overrideDate][0].exceptionalDate,
+        exceptionalDay: day,
+        id: id,
+        name: placesOpeningHours.filter(e => e.id === id)[0].name,
+        openingHours
+      };
+      exceptionalOpeningHours[overrideDate].push(obj);
+      exceptionalOpeningHours[overrideDate].sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      });
+    });
+  }
+
+  // ctx.body = exceptionalOpeningHours;
   ctx.render('pages/opening-times', {
     pageConfig: Object.assign({}, createPageConfig({
       path: path,
