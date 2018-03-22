@@ -1,0 +1,18 @@
+.wio-link {
+  position: fixed;
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  z-index: 100;
+  top: $spacing-unit * 5;
+  right: $spacing-unit * 5;
+  background-color: #ffce3c;
+  display: flex;
+
+  img {
+    width: 18px !important;
+    height: 18px !important;
+    margin: 0 auto;
+    align-self: center;
+  }
+}

@@ -1,13 +1,28 @@
 <div class="event-schedule row relative">
-  <div class="absolute event-schedule__header-image bg-turquoise"></div>
-  <div class="relative container bg-white {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top', 'bottom']}) }}">
+  <div class="event-schedule__header-image overflow-hidden {{ 'bg-turquoise' if not event.backgroundTexture }}"
+  {% if event.backgroundTexture %}style="background-image: url({{ event.backgroundTexture }});"{% endif %}>
+    <div class="event-schedule__wobbly-edge absolute">
+      <div class="wobbly-edge wobbly-edge--white js-wobbly-edge"
+        data-is-valley="true"
+        data-max-intensity="100">
+      </div>
+    </div>
+  </div>
+  <div class="relative container container--with-frame bg-white {{ {s:5, m:7} | spacingClasses({padding: ['top']}) }} {{ {s: 1} | spacingClasses({padding: ['bottom']}) }}">
     <div class="grid">
       <div class="{{ {s: 12, m: 10, l: 8, xl: 9} | gridClasses }}">
-        <h1 class="{{ {s: 'WB5', m: 'WB4', l: 'WB3'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['bottom']}) }} {{ {s: 0} | spacingClasses({margin: ['top']}) }}">{{  event.title }}</h1>
+        <h1 class="{{ {s: 'WB5', m: 'WB4', l: 'WB3'} | fontClasses }} {{ {s: 3} | spacingClasses({margin: ['bottom']}) }} {{ {s: 0} | spacingClasses({margin: ['top']}) }}">{{  event.title }}</h1>
         <div class="{{ {s: 2, l: 10} | spacingClasses({margin: ['bottom']}) }}">
-          {{ event.times[0].range.startDateTime | formatDate }}, {{ event.times[0].range.startDateTime | formatTime }}&mdash;{{ event.times[0].range.endDateTime | formatTime }} | <span>{{ event.schedule.length }} events</span>
+          <span>
+            {{ event.times[0].range.startDateTime | formatDate }}, {{ event.times[0].range.startDateTime | formatTime }}&mdash;{{ event.times[0].range.endDateTime | formatTime }}
+          </span>
+          <span class="inline-block font-smoke {{ {s: 2} | spacingClasses({margin: ['left', 'right']}) }}">|</span>
+          <span>
+            {{ event.schedule.length }} events
+          </span>
         </div>
       </div>
+      {# TODO: check `cost` for all events in schedule to determine if this should be shown #}
       <div class="{{ {s: 12, m: 12, l: 4, xl: 3} | gridClasses }} event-schedule__free {{ {s: 10, l: 0} | spacingClasses({margin: ['bottom']}) }}">
         <span class="inline-block bg-yellow {{ {s: 'WB7'} | fontClasses }} {{ {s: 2} | spacingClasses({padding: ['left', 'right']}) }} {{ {s: 1} | spacingClasses({padding: ['top', 'bottom']}) }} rounded-diagonal">All events are free</span>
       </div>
@@ -17,39 +32,39 @@
     </div>
   </div>
 
-  <div class="container bg-white container--scroll touch-scroll">
+  <div class="container container--with-frame bg-white container--scroll touch-scroll">
     <div class="grid grid--scroll">
       {% for scheduledEvent in event.schedule %}
         {% if loop.index < 4 %}
           <div class="grid__cell">
+            {% set imageModel = {
+              width: scheduledEvent.promo.image.width,
+              height: scheduledEvent.promo.image.height,
+              lazyload: true,
+              title: scheduledEvent.promo.image.title,
+              source: scheduledEvent.promo.image.source,
+              copyright: scheduledEvent.promo.image.copyright,
+              contentUrl: scheduledEvent.promo.image.contentUrl
+            } %}
+            {% set tasl = {name: 'Tasl', model: imageModel | objectAssign({sourceName: imageModel.source.name, sourceLink: imageModel.source.link})}
+              if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
+              else null
+            %}
             <div class="rounded-corners overflow-hidden">
-              {% set imageModel = {
-                width: scheduledEvent.promo.image.width,
-                height: scheduledEvent.promo.image.height,
-                lazyload: true,
-                title: scheduledEvent.promo.image.title,
-                source: scheduledEvent.promo.image.source,
-                copyright: scheduledEvent.promo.image.copyright,
-                contentUrl: scheduledEvent.promo.image.contentUrl
-              } %}
-              {% set tasl = {name: 'Tasl', model: imageModel | objectAssign({sourceName: imageModel.source.name, sourceLink: imageModel.source.link})}
-                if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
-                else null
-              %}
               {% componentJsx 'CaptionedImage', {},
                 [{name: 'Image', model: imageModel}, tasl]
-               %}
+              %}
             </div>
           </div>
         {% endif %}
       {% endfor %}
     </div>
   </div>
-  <div class="container bg-white {{ {s: 4} | spacingClasses({padding: ['bottom']}) }}">
+  <div class="container container--with-frame bg-white {{ {s: 4} | spacingClasses({padding: ['bottom']}) }} {{ {s: 2, m: 5} | spacingClasses({padding: ['top']}) }}">
     <hr class="divider divider--dashed" />
   </div>
 
-  <div class="container bg-white {{ {s: 6} | spacingClasses({padding: ['bottom']}) }}">
+  <div class="container container--with-frame bg-white {{ {s: 10} | spacingClasses({padding: ['bottom']}) }}">
     <div class="grid">
       <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
         <h2 class="{{ {s: 'WB6', l: 'WB5'} | fontClasses }} {{ {s: 4} | spacingClasses({padding: ['bottom']}) }} border-color-smoke border-bottom-width-2">Events</h2>
@@ -65,16 +80,30 @@
                   format: scheduledEvent.format,
                   isDropIn: scheduledEvent.isDropIn,
                   description: scheduledEvent.promo.caption,
-                  interpretations: scheduledEvent.interpretations
+                  interpretations: scheduledEvent.interpretations,
+                  eventbriteId: scheduledEvent.eventbriteId,
+                  isCompletelySoldOut: scheduledEvent.isCompletelySoldOut,
+                  cost: scheduledEvent.cost,
+                  bookingEnquiryTeam: scheduledEvent.bookingEnquiryTeam
                 },
-                eventInfo: {
-                  eventbriteId: null,
-                  isCompletelySoldOut: null
-                }
+                hasOwnPage: true if scheduledEvent.description else false
               }
             %}
           {% endfor %}
         </ul>
+
+        <h2 class="{{ {s: 'WB6', l: 'WB5'} | fontClasses }} {{ {s: 4} | spacingClasses({padding: ['bottom']}) }}">Contributors</h2>
+        {% for contributor in event.contributors %}
+          {% if contributor.contributorType === 'people' %}
+            {% component 'author', {
+              name: contributor.name,
+              image: contributor.image.contentUrl,
+              description: contributor.description,
+              twitterHandle: contributor.twitterHandle
+            } %}
+          {% endif %}
+        {% endfor %}
+
       </div>
     </div>
   </div>

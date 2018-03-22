@@ -36,7 +36,8 @@ import {
   formatAndDedupeOnDate,
   formatAndDedupeOnTime,
   joinDateStrings,
-  formatDayDate
+  formatDayDate,
+  isDatePast
 } from './format-date';
 import {googleCal, yahooCal, iCal, outlookCal} from './add-to-calendar';
 import getLicenseInfo from './get-license-info';
@@ -93,5 +94,6 @@ export default Map({
   googleCal,
   yahooCal,
   iCal,
-  outlookCal
+  outlookCal,
+  isDatePast
 });

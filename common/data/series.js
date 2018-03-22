@@ -1,3 +1,4 @@
+// @flow
 export function getPositionInSeries(tags: {}): ?number {
   const chapterString = 'chapter';
   const chapterTag = Object.keys(tags).find((tag) => tag.toLowerCase().startsWith(chapterString));

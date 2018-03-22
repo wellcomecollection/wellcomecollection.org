@@ -78,7 +78,8 @@ export const TwitterCard = ({
 
 const navLinks = [{
   href: 'https://wellcomecollection.org/visit',
-  title: 'Visit us'
+  title: 'Visit us',
+  siteSection: 'visitus'
 }, {
   href: 'https://wellcomecollection.org/whats-on',
   title: 'What\'s on',
@@ -93,7 +94,8 @@ const navLinks = [{
   siteSection: 'images'
 }, {
   href: 'https://wellcomecollection.org/what-we-do',
-  title: 'What we do'
+  title: 'What we do',
+  siteSection: 'whatwedo'
 }];
 
 // We will have two trackers, one that has been used on the v1 site, and v2 site (UA-55614-6)

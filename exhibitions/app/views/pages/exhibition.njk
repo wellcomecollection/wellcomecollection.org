@@ -2,11 +2,11 @@
 {% set exhibition = exhibitionContent.exhibition %}
 {% block pageMeta %}
   {% set metaContent = {
-  type: 'website',
-  title: exhibition.title,
-  image: exhibition.featuredImage and exhibition.featuredImage.contentUrl,
-  description: exhibition.promo.caption,
-  url: pageConfig.canonicalUri
+    type: 'website',
+    title: exhibition.title,
+    image: exhibition.featuredImage and exhibition.featuredImage.contentUrl,
+    description: exhibition.promo.caption,
+    url: pageConfig.canonicalUri
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
@@ -17,8 +17,8 @@
   {% set jsonLdExhibition = exhibition | objectAssign({safeDescription: exhibition.description | safe | striptags}) %}
 
   <script type="application/ld+json">
-  {{ jsonLdExhibition | jsonLd('exhibitionLd') | safe }}
-</script>
+    {{ jsonLdExhibition | jsonLd('exhibitionLd') | safe }}
+  </script>
 
   <article>
     <div class="row relative">
@@ -27,7 +27,10 @@
       </div>
 
       <div class="exhibition-hero">
-        {% componentV2 'picture', {images: exhibition.featuredImages.toJS()}, {}, {'lazyload': true, extraClasses: ['exhibition-hero__picture'], showCopyright: true} %}
+        {% componentJsx 'Picture', {
+          images: exhibition.featuredImages.toJS(),
+          extraClasses: 'exhibition-hero__picture'
+        }%}
 
         <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">
           <div class="is-hidden-l is-hidden-xl">
@@ -129,47 +132,13 @@
         </div>
       </div>
     </div>
-    {% if exhibitionContent.relatedGalleries.length > 0 or exhibition.body.length > 0 %}
+    {% if exhibitionContent.relatedGalleries.length > 0 %}
       <div class="container">
         <div class="grid">
           <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
             <h2 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }} flex flex--v-center {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
               {% icon 'gallery_filled', null, ['margin-right-s2', 'icon--match-text'] %}Exhibition highlights
             </h2>
-          </div>
-        </div>
-      </div>
-    {% endif %}
-
-    {% for bodyPart in exhibition.body %}
-      <div class="container">
-        <div class="grid">
-          <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
-            <div class="book-promo {{ {s:10} | spacingClasses({margin: ['top']}) }}  {{ {s:4, m:5} | spacingClasses({margin: ['bottom']}) }} {{ {s:4} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }} rounded-diagonal">
-              <div class="book-promo__image-container {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-                {% if bodyPart.type === 'video-embed' %}
-                  {% componentV2 'iframed-video', bodyPart.value %}
-                {% endif %}
-              </div>
-              <div class="book-promo__text-container">
-                {% if bodyPart.value.title %}
-                  <h3 class="book-promo__title {{ {s:'HNM3'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{ bodyPart.value.title }}</h3>
-                {% endif %}
-                {% if bodyPart.value.description %}
-                  <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:0} | spacingClasses({margin: ['bottom']}) }}">{{ bodyPart.value.description }}</p>
-                {% endif %}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    {% endfor %}
-
-    {% if exhibitionContent.imageGallery %}
-      <div class="row {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
-        <div class="container">
-          <div class="grid">
-            {% component 'image-gallery', { imageGallery: exhibitionContent.imageGallery.value, id: 'article-body-image-gallery--' + exhibition.id } %}
           </div>
         </div>
       </div>

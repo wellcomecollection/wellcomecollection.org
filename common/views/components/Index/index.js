@@ -17,6 +17,8 @@ import WorkMedia from '../WorkMedia/WorkMedia';
 import PageDescription from '../PageDescription/PageDescription';
 import Pagination from '../Pagination/Pagination';
 import Promo from '../Promo/Promo';
+import Picture from '../Picture/Picture';
+import ImageGallery from '../ImageGallery/ImageGallery';
 
 export {
   BackToTop,
@@ -37,5 +39,7 @@ export {
   WorkMedia,
   PageDescription,
   Pagination,
-  Promo
+  Promo,
+  Picture,
+  ImageGallery
 };

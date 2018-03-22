@@ -22,11 +22,6 @@ export async function renderEvent(ctx, next) {
         url: `/event-series/${series.id}`
       })));
 
-      const eventbriteIdScheme = event.identifiers.find(id => id.identifierScheme === 'eventbrite-id');
-      const eventbriteId = eventbriteIdScheme && eventbriteIdScheme.value;
-      const isCompletelySoldOut = event.times.filter(time => !time.isFullyBooked).length === 0;
-      const eventInfo = { eventbriteId, isCompletelySoldOut };
-
       ctx.render('pages/event', {
         pageConfig: createPageConfig({
           path: path,
@@ -35,10 +30,10 @@ export async function renderEvent(ctx, next) {
           category: 'public-programme',
           contentType: 'event',
           seriesUrl: event.series.map(series => `${series.title}:${series.id}`).join(','),
-          canonicalUri: `${ctx.globals.rootDomain}/events/${event.id}`
+          canonicalUri: `${ctx.globals.rootDomain}/events/${event.id}`,
+          pageState: {hasSchedule: Boolean(event.schedule.length > 0)}
         }),
         event: event,
-        eventInfo: eventInfo,
         tags: {tags}
       });
     }
@@ -55,13 +50,14 @@ export async function renderEventSeries(ctx, next) {
   const paginatedResults = convertPrismicResultsToPaginatedResults(promos);
   const paginatedEvents = paginatedResults(promos);
   const series = paginatedEvents.results[0].series.find(series => series.id === id);
-  const withFilteredPromos = Object.assign({}, paginatedEvents, {results: promos.filter(e => london(e.end).isAfter(london()))});
+  const upcomingEvents = Object.assign({}, paginatedEvents, {results: promos.filter(e => london(e.end).isAfter(london()))});
+  const pastEvents = {results: promos.filter(e => london(e.end).isBefore(london())).slice(0, 2).reverse()};
   // TODO pagination will be out of sync with Prismic, since we're removing items after the request.
   // If we use dateAfter to query prismic, this would fix it, but we may end up with no results and hence no way of getting the series data to display.
   // The other alternative is to make two API calls, but since this will only be an issue if there are more
   // than 40 events, which is unlikely, I've left as is.
 
-  ctx.render('pages/events', {
+  ctx.render('pages/event-series', {
     pageConfig: createPageConfig({
       path: ctx.request.url,
       title: series.title,
@@ -69,11 +65,11 @@ export async function renderEventSeries(ctx, next) {
       inSection: 'whatson',
       category: 'public-programme',
       contentType: 'event-series',
-      canonicalUri: `/events-series/${id}`
+      canonicalUri: `/event-series/${id}`
     }),
     htmlDescription: asHtml(series.description),
-    hideArchivedEventsLink: true,
-    paginatedEvents: withFilteredPromos
+    paginatedEvents: upcomingEvents,
+    pastEvents: pastEvents
   });
 
   return next();

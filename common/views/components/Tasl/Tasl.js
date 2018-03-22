@@ -8,13 +8,13 @@ import Icon from '../Icon/Icon';
 type Props = {
   isFull: boolean,
   contentUrl: string,
-  title?: string,
-  author?: string,
-  sourceName?: string,
-  sourceLink?: string,
-  license?: string,
-  copyrightHolder?: string,
-  copyrightLink?: string
+  title?: ?string,
+  author?: ?string,
+  sourceName?: ?string,
+  sourceLink?: ?string,
+  license?: ?string,
+  copyrightHolder?: ?string,
+  copyrightLink?: ?string
 }
 
 function getMarkup(title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink) {
@@ -26,7 +26,9 @@ function getMarkup(title, author, sourceName, sourceLink, license, copyrightHold
       {getSourceHtml(sourceName, sourceLink)}
       {getCopyrightHtml(copyrightHolder, copyrightLink)}
       {licenseInfo &&
-        <a rel='license' href={licenseInfo.url}>{licenseInfo.text}</a>
+        <Fragment>
+          <a rel='license' href={licenseInfo.url}>{licenseInfo.text}</a>.
+        </Fragment>
       }
     </Fragment>
   );
@@ -87,7 +89,7 @@ const Tasl = ({isFull, contentUrl, title, author, sourceName, sourceLink, licens
       drawer__body js-show-hide-drawer bg-black font-white
       ${spacing({s: 1}, {padding: ['top', 'bottom', 'left']})}
       ${spacing({s: 6}, {padding: ['right']})}`}>
-      {getMarkup(title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink)}.
+      {getMarkup(title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink)}
     </div>
     {isFull &&
       <button className="tasl__button absolute plain-button js-show-hide-trigger">

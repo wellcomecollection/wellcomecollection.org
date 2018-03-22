@@ -11,6 +11,15 @@
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
   <meta name="description" content="{{ article.description | safe | striptags }}" />
+
+  {% if isPreview %}
+    <script>
+      window.prismic = {
+        endpoint: 'https://wellcomecollection.prismic.io/api/v2'
+      };
+    </script>
+    <script type="text/javascript" src="//static.cdn.prismic.io/prismic.min.js"></script>
+  {% endif %}
 {% endblock %}
 
 {% block body %}
@@ -38,7 +47,7 @@
   <script type="application/ld+json">
     {{ article | jsonLd('contentLd') | safe }}
   </script>
-  <article>
+  <article data-wio-id="{{ article.id }}">
     {% componentV2 'page-description', {
       intro: seriesTitle,
       title: article.headline,
@@ -88,11 +97,12 @@
                     if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
                     else null
                   %}
-
-                  {% componentJsx 'CaptionedImage', imageModel, [
-                    {name: 'Image', model:imageModel},
-                    tasl
-                  ] %}
+                  <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
+                    {% componentJsx 'CaptionedImage', imageModel, [
+                      {name: 'Image', model:imageModel},
+                      tasl
+                    ] %}
+                  </div>
 
                   {{item.description | safe}}
                 </li>

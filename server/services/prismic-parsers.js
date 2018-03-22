@@ -3,7 +3,7 @@ import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
 import type {
-  EventTime, Event, Contributor, Team,
+  EventTime, DisplayEvent, Contributor, Team,
   Place, EventFormat, Audience
 } from '../content-model/events';
 import getBreakpoint from '../filters/get-breakpoint';
@@ -24,7 +24,7 @@ type PrismicDoc = Object;
 // This is because it could be any part of a JSON doc
 type PrismicDocFragment = Object | Array<any>;
 
-export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): Event {
+export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): DisplayEvent {
   const eventSchedule = scheduleDocs && scheduleDocs.results.map(doc => parseEventDoc(doc));
   const promo = parseImagePromo(doc.data.promo);
 
@@ -98,17 +98,34 @@ export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): Event
       switch (contributor.contributor.type) {
         case 'organisations':
           return {
+            contributorType: 'organisations',
+            id: contributor.contributor.id,
             name: asText(contributor.contributor.data.name),
             image: contributor.contributor.data.image && parsePicture({
               image: contributor.contributor.data.image
             }),
             url: contributor.contributor.data.url
           };
+        case 'people':
+          return {
+            contributorType: 'people',
+            id: contributor.contributor.id,
+            name: contributor.contributor.data.name,
+            twitterHandle: contributor.contributor.data.twitterHandle,
+            image: contributor.contributor.data.image && parsePicture({
+              image: contributor.contributor.data.image
+            }),
+            description: contributor.contributor.data.description && asHtml(contributor.contributor.data.description)
+          };
       }
     })();
   }).filter(_ => _);
 
   const cost = doc.data.cost;
+
+  const eventbriteIdScheme = identifiers.find(id => id.identifierScheme === 'eventbrite-id');
+  const eventbriteId = eventbriteIdScheme && eventbriteIdScheme.value;
+  const isCompletelySoldOut = times.filter(time => !time.isFullyBooked).length === 0;
 
   const e = ({
     id: doc.id,
@@ -128,8 +145,11 @@ export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): Event
     bookingInformation: asHtml(doc.data.bookingInformation),
     bookingType: bookingType,
     cost: cost,
-    schedule: eventSchedule
-  }: Event);
+    schedule: eventSchedule,
+    backgroundTexture: doc.data.backgroundTexture.data && doc.data.backgroundTexture.data.image.url,
+    eventbriteId,
+    isCompletelySoldOut
+  }: DisplayEvent);
 
   return e;
 }
@@ -186,8 +206,7 @@ export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
     featuredImage: featuredImages.first(),
     intro: asText(doc.data.intro),
     description: asHtml(doc.data.description),
-    promo: promo,
-    body: parseBody(doc.data.body)
+    promo: promo
   }: Exhibition);
 
   return exhibition;
@@ -221,6 +240,7 @@ export function parseArticleDoc(doc: PrismicDoc): Article {
 
   const article: Article = {
     contentType: 'article',
+    id: doc.id,
     headline: headline,
     url: url,
     datePublished: publishDate,
@@ -304,8 +324,8 @@ export function parsePicture(captionedImage: Object, minWidth: ?string = null): 
   return ({
     type: 'picture',
     contentUrl: image && image.url,
-    width: image && image.dimensions.width,
-    height: image && image.dimensions.height,
+    width: image && image.dimensions && image.dimensions.width,
+    height: image && image.dimensions && image.dimensions.height,
     caption: captionedImage.caption && asHtml(captionedImage.caption),
     alt: image && image.alt,
     title: tasl && tasl.title,

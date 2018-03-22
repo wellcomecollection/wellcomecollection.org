@@ -66,7 +66,7 @@
             {% endif %}
           </span>
           <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['left'], margin: ['left']}) }}">
-            {% if eventInfo.eventbriteId %}
+            {% if event.eventbriteId %}
               Ticketed
               {% elif event.bookingEnquiryTeam %}
               Enquire to book
@@ -88,7 +88,7 @@
                   <time class="block">
                     {{ eventTime.range.startDateTime | formatAndDedupeOnTime(eventTime.range.endDateTime) | joinDateStrings }}
                   </time>
-                  {% if eventTime.isFullyBooked and not eventInfo.isCompletelySoldOut %}
+                  {% if eventTime.isFullyBooked and not event.isCompletelySoldOut %}
                     <div class="{{- [
                       {s:'HNM5'} | fontClasses,
                       {s:2} | spacingClasses({margin: ['left']
@@ -105,9 +105,9 @@
             </div>
           {% endfor %}
 
-          {% if eventInfo.eventbriteId %}
+          {% if event.eventbriteId %}
             <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
-              {% if eventInfo.isCompletelySoldOut %}
+              {% if event.isCompletelySoldOut %}
                 <button class="{{- [
                   {s:'HNM4'} | fontClasses,
                   {s: 4} | spacingClasses({padding: ['left', 'right']})
@@ -116,7 +116,7 @@
                   Fully booked
                 </button>
               {% else %}
-                <div class="js-eventbrite-ticket-button" data-eventbrite-ticket-id="{{ eventInfo.eventbriteId }}">
+                <div class="js-eventbrite-ticket-button" data-eventbrite-ticket-id="{{ event.eventbriteId }}">
                   <a class="{{- [
                     'flex-inline',
                     'flex--v-center',
@@ -125,7 +125,8 @@
                     {s:'HNM4'} | fontClasses,
                     {s: 4} | spacingClasses({padding: ['left', 'right']})
                   ].join(' ') }}"
-                      href="https://www.eventbrite.com/e/{{ eventInfo.eventbriteId }}/">
+                      href="https://www.eventbrite.com/e/{{ event.eventbriteId }}/"
+                      data-track-event="{{ {category: 'component', action: 'booking-tickets:click', label: 'event-page'} }}">
                     <span>{% icon 'ticket' %}</span>
                     <span class="js-eventbrite-ticket-button-text">Book free tickets</span>
                   </a>
@@ -142,7 +143,7 @@
 
           {% if event.bookingEnquiryTeam %}
             <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
-              {% if eventInfo.isCompletelySoldOut %}
+              {% if event.isCompletelySoldOut %}
                 <button class="{{- [
                   {s:'HNM4'} | fontClasses,
                   {s: 4} | spacingClasses({padding: ['left', 'right']})
@@ -155,7 +156,8 @@
                           {s:'HNM4'} | fontClasses,
                           {s: 4} | spacingClasses({padding: ['left', 'right']})
                         ].join(' ') }} flex-inline flex--h-center btn btn--full-width-s"
-                  href="mailto:{{ event.bookingEnquiryTeam.email }}?subject={{event.title}}">
+                  href="mailto:{{ event.bookingEnquiryTeam.email }}?subject={{event.title}}"
+                  data-track-event="{{ {category: 'component', action: 'booking-enquiry:click', label: 'event-page'} }}">
                 <span>{% icon 'email', null, ['icon--white'] %}</span>
                 Email to book
               </a>
@@ -166,7 +168,7 @@
           {% endif %}
 
 
-          {% if not (eventInfo.eventbriteId or event.bookingEnquiryTeam) and event.times.length === 1 %}
+          {% if not (event.eventbriteId or event.bookingEnquiryTeam) and event.times.length === 1 %}
             <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
               <div
                 data-track-event="{{ {category: 'component', action: 'add-to-calendar:click', label: 'empty-button'} | dump }}"
@@ -223,8 +225,8 @@
                 is available for free.
               </p>
             </div>
-          {% elif eventInfo.eventbriteId %}
-            {% if not eventInfo.isCompletelySoldOut %}
+          {% elif event.eventbriteId %}
+            {% if not event.isCompletelySoldOut %}
               <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">First come, first seated</h3>
               <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
                 <p>
@@ -245,7 +247,7 @@
           {% elif event.bookingEnquiryTeam %}
             {# Don't show anything as the booking team deal with this #}
           {% else %}
-            <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Limited seats available</h3>
+            <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Limited spaces available</h3>
             <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
               <p>
                 Doors will open for this event 15 minutes before the event
@@ -272,7 +274,7 @@
 
     <div class="css-grid__cell--primary body-content">
       {% if event.promo.image %}
-        <div class="is-hidden-s is-hidden-m rounded-corners overflow-hidden">
+        <div class="is-hidden-s is-hidden-m rounded-corners overflow-hidden {{ {s: 4} | spacingClasses({margin: ['bottom']}) }}">
           {% componentJsx 'CaptionedImage', bodyPart.value, [
             {name: 'Image', model: imageModel},
             tasl

@@ -1,4 +1,5 @@
-import type {OpeningHours} from './opening-hours';
+// @flow
+import type {OpeningHoursDay} from './opening-hours';
 import {galleryOpeningHours} from './opening-hours';
 import {objToJsonLd} from '../utils/json-ld';
 
@@ -12,10 +13,10 @@ export type PostalAddress = {|
 export type Organization = {|
   name: string,
   url: string,
-  logo: string,
+  logo: {| url: string |},
   twitterHandle: string,
   sameAs: Array<string>,
-  openingHoursSpecification: OpeningHours,
+  openingHoursSpecification: OpeningHoursDay[],
   address: PostalAddress,
   alternateUrl?: string
 |}
@@ -44,7 +45,7 @@ export const wellcomeCollection: Organization = {
   ],
   // TODO: This should be done elsewhere as it's not adhering to the type
   // Annoyingly, but good for time - this is still passing in Flow.
-  openingHoursSpecification: galleryOpeningHours.map(
+  openingHoursSpecification: galleryOpeningHours.openingHours.map(
     openingHoursDay => objToJsonLd(openingHoursDay, 'OpeningHoursSpecification', false)
   ),
   address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)

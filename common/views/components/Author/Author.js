@@ -18,7 +18,7 @@ const Author = ({image, name, twitterHandle, description}: Props) => (
     <div className='author__upper'>
       {image &&
         <div className='author__image-wrap'>
-          <img className='author__image' src={convertImageUri(image, 64)} alt={`Image of ${name}`} />
+          <img className='author__image' src={convertImageUri(image.contentUrl, 64)} alt={`Image of ${name}`} />
         </div>
       }
       <div className='author__details'>

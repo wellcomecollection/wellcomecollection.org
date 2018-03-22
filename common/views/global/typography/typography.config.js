@@ -134,7 +134,7 @@ export const context = {
       example: 'Mental health : facing the challenges, building solutions : report from the WHO European Ministerial Conference',
       size: '16px',
       spacing: '40',
-      lineHeight: '20px',
+      lineHeight: '24px',
       usage: 'Library item title on card/search result'
     },
     {
@@ -142,7 +142,7 @@ export const context = {
       example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris at hendrerit justo. Donec quis nibh malesuada, accumsan libero eu, commodo.',
       size: '14px',
       spacing: '40',
-      lineHeight: '24px',
+      lineHeight: '20px',
       usage: 'Article card/link descriptions • Descriptive copy in cards/thumb links'
     },
     {

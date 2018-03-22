@@ -3,6 +3,7 @@ import {createPageConfig} from '../model/page-config';
 
 export function serverError(beaconError) {
   return async (ctx, next) => {
+    const isPreview = Boolean(ctx.request.url.match('/preview'));
     try {
       await next();
     } catch (err) {
@@ -16,6 +17,7 @@ export function serverError(beaconError) {
       }
 
       ctx.render('pages/error', {
+        isPreview,
         errorStatus: ctx.status,
         pageConfig: createPageConfig({
           title: `${ctx.status} error`
@@ -27,11 +29,13 @@ export function serverError(beaconError) {
 
 export function notFound() {
   return async (ctx, next) => {
+    const isPreview = Boolean(ctx.request.url.match('/preview'));
     await next();
     if (404 === ctx.response.status && !ctx.response.body) {
       ctx.throw(404);
 
       ctx.render('pages/error', {
+        isPreview,
         errorStatus: ctx.status,
         pageConfig: createPageConfig({
           title: `${ctx.status} error`
