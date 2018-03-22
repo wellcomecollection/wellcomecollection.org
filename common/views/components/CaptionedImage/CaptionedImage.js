@@ -9,7 +9,7 @@ type Props = {|
   contentType?: string,
   caption: string,
   truncateCaption?: string,
-  slideNumbers?: Object,
+  slideNumbers?: {| current: number, total: number |},
   isFull?: boolean,
   fitVh?: boolean,
   children: React.Node

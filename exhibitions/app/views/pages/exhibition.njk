@@ -144,16 +144,6 @@
       </div>
     {% endif %}
 
-    {% if exhibitionContent.imageGallery %}
-      <div class="row {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
-        <div class="container">
-          <div class="grid">
-            {% component 'image-gallery', { imageGallery: exhibitionContent.imageGallery.value, id: 'article-body-image-gallery--' + exhibition.id } %}
-          </div>
-        </div>
-      </div>
-    {% endif %}
-
     {% if exhibitionContent.relatedGalleries.length > 0 %}
       <div class="row {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
         <div class="container">
