@@ -1,3 +1,5 @@
+import structuredText from './structured-text';
+
 const contributors = {
   'type': 'Group',
   'fieldset': 'Contributors',
@@ -18,7 +20,8 @@ const contributors = {
           'select': 'document',
           'customtypes': [ 'people', 'organisations' ]
         }
-      }
+      },
+      'description': structuredText('How did they contribute to this?')
     }
   }
 };

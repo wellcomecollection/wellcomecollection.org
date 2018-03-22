@@ -18,6 +18,7 @@ import type {Series} from '../model/series';
 import type {LicenseType} from '../model/license';
 import {licenseTypeArray} from '../model/license';
 import {london} from '../filters/format-date';
+import {parseContributors as parseContributorsProperly} from '../../common/services/prismic/parsers';
 
 // This is just JSON
 type PrismicDoc = Object;
@@ -91,38 +92,10 @@ export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): Displ
 
   const bookingType = parseEventBookingType(doc);
 
-  const contributors = doc.data.contributors.map(contributor => {
-    if (isEmptyDocLink(contributor.contributor)) return;
-
-    return (() => {
-      switch (contributor.contributor.type) {
-        case 'organisations':
-          return {
-            contributorType: 'organisations',
-            id: contributor.contributor.id,
-            name: asText(contributor.contributor.data.name),
-            image: contributor.contributor.data.image && parsePicture({
-              image: contributor.contributor.data.image
-            }),
-            url: contributor.contributor.data.url
-          };
-        case 'people':
-          return {
-            contributorType: 'people',
-            id: contributor.contributor.id,
-            name: contributor.contributor.data.name,
-            twitterHandle: contributor.contributor.data.twitterHandle,
-            image: contributor.contributor.data.image && parsePicture({
-              image: contributor.contributor.data.image
-            }),
-            description: contributor.contributor.data.description && asHtml(contributor.contributor.data.description)
-          };
-      }
-    })();
-  }).filter(_ => _);
+  const nonEmptyContributors = doc.data.contributors.filter(c => !isEmptyDocLink(c.contributor));
+  const contributors = parseContributorsProperly(nonEmptyContributors);
 
   const cost = doc.data.cost;
-
   const eventbriteIdScheme = identifiers.find(id => id.identifierScheme === 'eventbrite-id');
   const eventbriteId = eventbriteIdScheme && eventbriteIdScheme.value;
   const isCompletelySoldOut = times.filter(time => !time.isFullyBooked).length === 0;
