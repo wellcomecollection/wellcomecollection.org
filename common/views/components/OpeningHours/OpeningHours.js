@@ -15,6 +15,7 @@ function london(d) {
   return moment.tz(d, 'Europe/London');
 };
 
+// TODO write tests for these functions
 const flattenedExceptionalOpeningDates = places.map((place) => {
   if (place.openingHours.exceptional) {
     return place.openingHours.exceptional.map((openingTimes) => {
@@ -37,14 +38,13 @@ const uniqueExceptionalOpeningDates = flattenedExceptionalOpeningDates && flatte
 let groupedIndex = 0;
 
 const exceptionalOpeningPeriods = uniqueExceptionalOpeningDates && uniqueExceptionalOpeningDates.reduce((acc, date, i, array) => {
-  const earliestDate = acc[groupedIndex] ? london(acc[groupedIndex][0]) : london(date);
-  const upperLimit = earliestDate.add(10, 'day');
   const currentDate = london(date);
+  const previousDate = array[i - 1] ? array[i - 1] : null;
 
-  if (i === 0 || currentDate.isBefore(upperLimit, 'day')) {
-    if (i === 0) {
-      acc[groupedIndex] = [];
-    }
+  if (!previousDate) {
+    acc[groupedIndex] = [];
+    acc[groupedIndex].push(date);
+  } else if (previousDate && currentDate.isBefore(london(previousDate).add(4, 'days'))) {
     acc[groupedIndex].push(date);
   } else {
     groupedIndex++;
@@ -56,7 +56,9 @@ const exceptionalOpeningPeriods = uniqueExceptionalOpeningDates && uniqueExcepti
 }, []);
 
 const upcomingExceptionalOpeningPeriods = exceptionalOpeningPeriods && exceptionalOpeningPeriods.filter((dates) => {
-  return london(dates[0]).isBefore(london().add(14, 'day'));
+  const displayPeriodStart = london().subtract(1, 'day');
+  const displayPeriodEnd = london().add(15, 'day');
+  return london(dates[0]).isBetween(displayPeriodStart, displayPeriodEnd) || london(dates[dates.length - 1]).isBetween(displayPeriodStart, displayPeriodEnd);
 });
 
 const OpeningHours = ({id, extraClasses}: Props) => (
@@ -74,7 +76,7 @@ const OpeningHours = ({id, extraClasses}: Props) => (
             );
           } else {
             return (
-              <span style={{'white-space': 'nowrap'}} key={group[0]}>
+              <span style={{'whiteSpace': 'nowrap'}} key={group[0]}>
                 {` ${formatDate(group[0])}`}
               </span>
             );
