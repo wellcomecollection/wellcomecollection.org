@@ -84,11 +84,11 @@
   width: 100%;
   margin-bottom: 2 * $vertical-space-unit;
 
-  .opening-hours--light & {
+  &.opening-hours--light {
     color: color('black');
   }
 
-  .enhanced & {
+  .enhanced &.js-tabpanel {
     display: flex;
     visibility: hidden;
     height: 0;
@@ -96,7 +96,7 @@
     margin-bottom: 0;
   }
 
-  &.opening-hours__table--is-visible {
+  &.js-tabpanel.opening-hours__table--is-visible {
     width: 100%;
     height: auto;
     visibility: visible;
@@ -104,16 +104,16 @@
   }
 }
 
-.opening-hours__caption,
-.opening-hours__thead {
-  .enhanced & {
-    @include visually-hidden();
-  }
+.opening-hours__caption {
+  text-align: left;
+  text-decoration: none;
 }
 
-.opening-hours__caption {
-  padding-top: $vertical-space-unit;
-  text-decoration: underline;
+.opening-hours__caption,
+.opening-hours__thead {
+  .enhanced .js-tabpanel & {
+    @include visually-hidden();
+  }
 }
 
 .opening-hours__tbody {
@@ -126,9 +126,13 @@
   justify-content: space-between;
   border-bottom: 1px solid color('charcoal');
 
-  .opening-hours--light & {
+  &.opening-hours--light {
     border-bottom-color: color('pewter');
   }
+}
+
+.opening-hours__th {
+  font-weight: normal;
 }
 
 .opening-hours__td {
@@ -143,11 +147,11 @@
     text-align: right;
     transition: opacity 500ms ease;
 
-    .enhanced & {
+    .enhanced .js-tabpanel & {
       opacity: 0;
     }
 
-    .opening-hours__table--is-visible & {
+    .js-tabpanel.opening-hours__table--is-visible & {
       opacity: 1;
     }
   }
