@@ -41,7 +41,7 @@
   {% endif %}
 
   <div class="row {{ {s: 6} | spacingClasses({margin: ['top']}) }} {{ {s: 10} | spacingClasses({margin: ['bottom']}) }}">
-    {% if paginatedEvents.results.length < 0 %}
+    {% if paginatedEvents.results.length > 0 %}
       <div class="container">
         <h2 class="{{ {s: 'WB5'} | fontClasses }} no-margin">Upcoming events</h2>
       </div>
