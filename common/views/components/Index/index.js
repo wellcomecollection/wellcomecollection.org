@@ -11,6 +11,7 @@ import MetaUnit from '../MetaUnit/MetaUnit';
 import MoreInfoLink from '../MoreInfoLink/MoreInfoLink';
 import OpeningHours from '../OpeningHours/OpeningHours';
 import OpeningHoursTable from '../OpeningHoursTable/OpeningHoursTable';
+import ExceptionalOpeningHoursTable from '../ExceptionalOpeningHoursTable/ExceptionalOpeningHoursTable';
 import SearchBox from '../SearchBox/SearchBox';
 import Tags from '../Tags/Tags';
 import Tasl from '../Tasl/Tasl';
@@ -35,6 +36,7 @@ export {
   MoreInfoLink,
   OpeningHours,
   OpeningHoursTable,
+  ExceptionalOpeningHoursTable,
   SearchBox,
   Tags,
   Tasl,
