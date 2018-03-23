@@ -7,7 +7,7 @@ import {PromoFactory} from '../model/promo';
 import {prismicAsText} from '../filters/prismic';
 import {
   getArticle, getSeriesAndArticles, getArticleList, getCuratedList,
-  defaultPageSize
+  defaultPageSize, getGlobalAlert
 } from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
@@ -94,9 +94,10 @@ export const renderEventbriteEmbed = async(ctx, next) => {
 export async function renderExplore(ctx, next) {
   // TODO: Remove WP content
   const contentListPromise = getArticleList();
+  const globalAlertPromise = getGlobalAlert();
 
-  const listRequests = [getCuratedList('explore'), contentListPromise];
-  const [curatedList, contentList] = await Promise.all(listRequests);
+  const listRequests = [getCuratedList('explore'), contentListPromise, globalAlertPromise];
+  const [curatedList, contentList, globalAlert] = await Promise.all(listRequests);
 
   const contentPromos = contentList.results.map(PromoFactory.fromArticleStub);
   const promos = List(contentPromos.map((promo, index) => {
@@ -112,6 +113,7 @@ export async function renderExplore(ctx, next) {
 
   ctx.render('pages/curated-lists', {
     pageConfig: createPageConfig({
+      globalAlert: globalAlert,
       path: path,
       title: prismicAsText(curatedList.data.title),
       inSection: 'explore',
@@ -129,7 +131,9 @@ export async function renderWebcomicSeries(ctx, next) {
   const page = Number(ctx.request.query.page);
   const pageSize = defaultPageSize;
   const {id} = ctx.params;
-  const seriesWebcomics = await getSeriesAndArticles(id, page, 'webcomics');
+  const seriesWebcomicsPromise = getSeriesAndArticles(id, page, 'webcomics');
+  const globalAlertPromise = getGlobalAlert();
+  const [ seriesWebcomics, globalAlert ] = await Promise.all([seriesWebcomicsPromise, globalAlertPromise]);
 
   if (seriesWebcomics) {
     const {series, paginatedResults} = seriesWebcomics;
@@ -147,6 +151,7 @@ export async function renderWebcomicSeries(ctx, next) {
 
     ctx.render('pages/list', {
       pageConfig: createPageConfig({
+        globalAlert: globalAlert,
         path: path,
         title: series.name,
         inSection: 'explore',
@@ -164,7 +169,9 @@ export async function renderWebcomicSeries(ctx, next) {
 export async function renderSeries(ctx, next) {
   const page = Number(ctx.request.query.page);
   const {id} = ctx.params;
-  const seriesArticles = await getSeriesAndArticles(`W${id}`);
+  const seriesArticlesPromise = getSeriesAndArticles(`W${id}`);
+  const globalAlertPromise = getGlobalAlert();
+  const [ seriesArticles, globalAlert ] = await Promise.all([seriesArticlesPromise, globalAlertPromise]);
 
   if (seriesArticles) {
     const {series, paginatedResults} = seriesArticles;
@@ -182,6 +189,7 @@ export async function renderSeries(ctx, next) {
 
     ctx.render('pages/list', {
       pageConfig: createPageConfig({
+        globalAlert: globalAlert,
         path: path,
         title: series.name,
         inSection: 'explore',
@@ -199,7 +207,9 @@ export async function renderSeries(ctx, next) {
 export async function renderArticlesList(ctx, next) {
   // TODO: Remove WP content
   const page = Number(ctx.request.query.page);
-  const articlesList = await getArticleList(page, {pageSize: 96});
+  const articlesListPromise = getArticleList(page, {pageSize: 96});
+  const globalAlertPromise = getGlobalAlert();
+  const [ articlesList, globalAlert ] = await Promise.all([articlesListPromise, globalAlertPromise]);
   const contentPromos = List(articlesList.results);
 
   const series: Series = {
@@ -215,6 +225,7 @@ export async function renderArticlesList(ctx, next) {
 
   ctx.render('pages/list', {
     pageConfig: createPageConfig({
+      globalAlert: globalAlert,
       path: path,
       title: 'Articles',
       inSection: 'explore',

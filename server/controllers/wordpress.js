@@ -4,13 +4,16 @@ import {createPageConfig, getEditorialAnalyticsInfo} from '../model/page-config'
 import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
+import {getGlobalAlert} from '../services/prismic';
 
 const maxItemsPerPage = 32;
 
 export const article = async(ctx, next) => {
   const slug = ctx.params.slug;
   const format = ctx.request.query.format;
-  const article = await getArticle(`slug:${slug}`);
+  const articlePromise = getArticle(`slug:${slug}`);
+  const globalAlertPromise = getGlobalAlert();
+  const [ article, globalAlert ] = await Promise.all([articlePromise, globalAlertPromise]);
   const path = ctx.request.url;
 
   if (article) {
@@ -19,6 +22,7 @@ export const article = async(ctx, next) => {
     } else {
       const editorialAnalyticsInfo = getEditorialAnalyticsInfo(article);
       const pageConfig = createPageConfig(Object.assign({}, {
+        globalAlert: globalAlert,
         path: path,
         title: article.headline,
         inSection: 'explore',
@@ -35,7 +39,9 @@ export const article = async(ctx, next) => {
 export const articles = async(ctx, next) => {
   const path = ctx.request.url;
   const {page, q} = ctx.request.query;
-  const articleStubsResponse = await getArticleStubs(maxItemsPerPage, {page}, q);
+  const articleStubsResponsePromise = getArticleStubs(maxItemsPerPage, {page}, q);
+  const globalAlertPromise = getGlobalAlert();
+  const [ articleStubsResponse, globalAlert ] = await Promise.all([articleStubsResponsePromise, globalAlertPromise]);
   const series: Series = {
     url: '/articles/archive',
     name: 'Articles',
@@ -47,6 +53,7 @@ export const articles = async(ctx, next) => {
 
   ctx.render('pages/list', {
     pageConfig: createPageConfig({
+      globalAlert: globalAlert,
       path: path,
       title: 'Articles',
       inSection: 'explore',
@@ -59,7 +66,9 @@ export const articles = async(ctx, next) => {
 
 export const series = async(ctx, next) => {
   const {id, page} = ctx.params;
-  const series = await getSeries(id, maxItemsPerPage, page);
+  const seriesPromise = getSeries(id, maxItemsPerPage, page);
+  const globalAlertPromise = getGlobalAlert();
+  const [ series, globalAlert ] = await Promise.all([seriesPromise, globalAlertPromise]);
   const path = ctx.request.url;
 
   if (series) {
@@ -68,6 +77,7 @@ export const series = async(ctx, next) => {
 
     ctx.render('pages/list', {
       pageConfig: createPageConfig({
+        globalAlert: globalAlert,
         path: path,
         title: series.name,
         inSection: 'explore',
