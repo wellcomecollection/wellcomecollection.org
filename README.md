@@ -31,7 +31,7 @@ life and art.
 ### [Catalogue](./catalogue)
 Tools to allow people to browse and dig deeper into our catalogue.
 
-### [Cardigan](./cardiga)
+### [Cardigan](./cardiga)
 [Wellcome Collection's design system](https://cardigan.wellcomecollection.org).
 
 ## Other pieces of the Wellcome Collection puzzle
