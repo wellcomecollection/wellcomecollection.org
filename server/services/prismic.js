@@ -6,6 +6,8 @@ import {
   parseWebcomicDoc,
   parseBasicPageDoc,
   asText,
+  asHtml,
+  deP,
   prismicImage,
   parseExhibitionsDoc,
   getPositionInPrismicSeries,
@@ -19,6 +21,8 @@ import type {ExhibitionPromo} from '../model/exhibition-promo';
 import type {ExhibitionAndRelatedContent} from '../model/exhibition-and-related-content';
 import {PaginationFactory} from '../model/pagination';
 import type {EventPromo} from '../content-model/events';
+// $FlowFixMe
+import type {GlobalAlert} from '../../common/model/global-alert';
 import {galleryOpeningHours} from '../model/opening-hours';
 import {isEmptyObj} from '../utils/is-empty-obj';
 
@@ -87,6 +91,16 @@ async function getAllOfType(type: Array<DocumentType>, options: PrismicQueryOpti
     Prismic.Predicates.not('document.tags', [withDelisted ? '' : 'delist'])
   ].concat(predicates), Object.assign({}, { pageSize: defaultPageSize }, options));
   return results;
+}
+
+export async function getGlobalAlert(): GlobalAlert {
+  const prismic = await getPrismicApi();
+  const globalAlert = await prismic.getSingle('global-alert');
+
+  return {
+    text: globalAlert.data.text && deP(asHtml(globalAlert.data.text)),
+    isShown: globalAlert.data.display && globalAlert.data.display === 'show'
+  };
 }
 
 export async function getArticle(id: string, previewReq: ?Request) {

@@ -39,6 +39,13 @@
   <body {% if isPreview %}class="is-preview"{% endif %} data-page-state='{{ (pageConfig.pageState or {}) | dump | safe }}'>
     {% component 'skip-link' %}
 
+    {% if pageConfig.globalAlert.isShown %}
+      {% componentJsx 'InfoBanner', {
+        text: pageConfig.globalAlert.text,
+        cookieName: 'WC_globalAlert'
+      } %}
+    {% endif %}
+
     {% set navLinks = [
       {
         href: 'https://wellcomecollection.org/visit',

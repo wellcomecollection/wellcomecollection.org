@@ -21,7 +21,7 @@ const InfoBanner = ({cookieName, text}: Props) => (
                 <div className={`flex flex--v-center ${spacing({s: 2}, {margin: ['right']})}`}>
                   <Icon name='information' />
                 </div>
-                <p className='no-margin'>{text}</p>
+                <p className='no-margin' dangerouslySetInnerHTML={{ __html: text }} />
               </span>
             </div>
             {cookieName && <div>

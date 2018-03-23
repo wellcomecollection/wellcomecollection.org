@@ -5,6 +5,7 @@ import CopyUrl from '../CopyUrl/CopyUrl';
 import Divider from '../Divider/Divider';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import Footer from '../Footer/Footer';
+import InfoBanner from '../InfoBanner/InfoBanner';
 import Image from '../Image/Image';
 import License from '../License/License';
 import MetaUnit from '../MetaUnit/MetaUnit';
@@ -28,6 +29,7 @@ export {
   Divider,
   EventScheduleItem,
   Footer,
+  InfoBanner,
   Image,
   License,
   MetaUnit,
