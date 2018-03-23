@@ -31,12 +31,12 @@ life and art.
 ### [Catalogue](./catalogue)
 Tools to allow people to browse and dig deeper into our catalogue.
 
+### [Cardigan](./cardiga)
+[Wellcome Collection's design system](https://cardigan.wellcomecollection.org).
 
 ## Other pieces of the Wellcome Collection puzzle
 
 [Wellcome Collection Digital Platform](https://github.com/wellcometrust/platform).
-
-[Cardigan](https://cardigan.wellcomecollection.org), Wellcome Collection's design system.
 
 [Stacks](https://stacks.wellcomecollection.org/), Wellcome Collection's musings on digital developments.
 
