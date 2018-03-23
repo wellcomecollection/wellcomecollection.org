@@ -2,9 +2,7 @@
 
 Wellcome Collection web applications.
 
-[![Join the chat at https://gitter.im/wellcometrust/wellcomecollection.org](https://badges.gitter.im/wellcometrust/wellcomecollection.org.svg)](https://gitter.im/wellcometrust/wellcomecollection.org?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-[![CircleCI](https://circleci.com/gh/wellcometrust/wellcomecollection.org/tree/master.svg?style=shield)](https://circleci.com/gh/wellcometrust/wellcomecollection.org/tree/master)
+[![Join the chat at https://gitter.im/wellcometrust/wellcomecollection.org](https://badges.gitter.im/wellcometrust/wellcomecollection.org.svg)](https://gitter.im/wellcometrust/wellcomecollection.org?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![CircleCI](https://circleci.com/gh/wellcometrust/wellcomecollection.org/tree/master.svg?style=shield)](https://circleci.com/gh/wellcometrust/wellcomecollection.org/tree/master)
 
 We all work in the **open** and **open source** where we can and where it makes sense
 
