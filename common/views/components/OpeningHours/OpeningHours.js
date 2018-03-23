@@ -65,24 +65,30 @@ const OpeningHours = ({id, extraClasses}: Props) => (
   <Fragment>
     {upcomingExceptionalOpeningPeriods && upcomingExceptionalOpeningPeriods.length > 0 &&
       <p className={font({s: 'HNM4'})}>
-        Please note unusual opening times will be in operation on
+        Our opening times will change
         {upcomingExceptionalOpeningPeriods.map((group, i, array) => {
           if (group.length > 1) {
             return (
-              <span style={{'whiteSpace': 'nowrap'}} key={group[0]}>
-                {(array.length > 1 && i > 0) && ', '}
-                {` ${formatDate(group[0])}`}&mdash;{`${formatDate(group[group.length - 1])}`}
-              </span>
+              <Fragment>
+                &nbsp;between
+                <span style={{'whiteSpace': 'nowrap'}} key={group[0]}>
+                  {(array.length > 1 && i > 0) && ', '}
+                  {` ${formatDate(group[0])}`}&mdash;{`${formatDate(group[group.length - 1])}`}
+                </span>
+              </Fragment>
             );
           } else {
             return (
-              <span style={{'whiteSpace': 'nowrap'}} key={group[0]}>
-                {` ${formatDate(group[0])}`}
-              </span>
+              <Fragment>
+                &nbsp;on
+                <span style={{'whiteSpace': 'nowrap'}} key={group[0]}>
+                  {` ${formatDate(group[0])}`}
+                </span>
+              </Fragment>
             );
           }
         })}
-        {`. Please check our full opening times for details.`}
+        . Please check our <a href="/opening-times#exceptional">exceptional opening times</a> for details before you travel.
       </p>
     }
     <div className={`opening-hours ${extraClasses || ''} js-opening-hours js-tabs`}>
