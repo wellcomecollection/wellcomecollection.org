@@ -1,25 +1,43 @@
-# wellcomecollection.org
+# Wellcome Collection
+
+Wellcome Collection web applications.
 
 [![Join the chat at https://gitter.im/wellcometrust/wellcomecollection.org](https://badges.gitter.im/wellcometrust/wellcomecollection.org.svg)](https://gitter.im/wellcometrust/wellcomecollection.org?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-The thing that makes the Wellcome Collection available to the public.
+[![CircleCI](https://circleci.com/gh/wellcometrust/wellcomecollection.org/tree/master.svg?style=shield)](https://circleci.com/gh/wellcometrust/wellcomecollection.org/tree/master)
 
-## Requirements
+> We all work in the **open** and **open source** where we can and where it makes sense
 
-* [Node](https://nodejs.org/en/download/) (or use [NVM](https://github.com/creationix/nvm))
+> We put **users** **at the centre** of all decisions. We use **evidence and insight** to inform these decisions at all stages of the product cycle
+
+> We create **simple**, **well considered experiences**, frequently incorporating **user feedback**
+
+> We have **inclusive processes** that create **accessible products**
+
+> We build products that **deliver value**, **solve real problems**, and are a **delight to use**
+
+## Core parts
+
+### [What's on](./whats_on)
+Giving people the ability to partake in or inform themselves on
+Wellcome Collection's public programme of events, exhibitions, talks,
+discussions, and other offerings.
+
+### [Content](./server)
+A collection of content from a wide range of authors to challenge the
+ways people think and feel about health by connecting science, medicine,
+life and art.
+
+### [Catalogue](./catalogue)
+Tools to allow people to browse and dig deeper into our catalogue.
 
 
-The project is split into multiple services, follow the `README`s within each project to get started.
+## Other pieces of the Wellcome Collection puzzle
 
-* [client](./client)
-  Static assets such as SASS, JS, fonts etc. Responsible for their compilation.
+[Wellcome Collection Digital Platform](https://github.com/wellcometrust/platform).
 
-* [server](./server)
-  Runs the server that returns the HTML templates, components and Fractal styleguide
+[Cardigan](https://cardigan.wellcomecollection.org), Wellcome Collection's design system.
 
-* [infra](./infra)
-  Managing our infrastructure within AWS
+[Stacks](https://stacks.wellcomecollection.org/), Wellcome Collection's musings on digital developments.
 
-## Editor settings
-
-Be aware that the Sass (`.stylelintrc`) and JS (`.eslintrc.json`) lint config files – and their node module dependencies – are contained within the `client` directory. You should configure your editor to resolve the correct node modules path in order for linting to work with your editor open at the root of the project.
+[Catalogue API documentation](https://developers.wellcomecollection.org).
