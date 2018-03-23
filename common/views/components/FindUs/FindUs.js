@@ -18,7 +18,7 @@ const FindUs = () => (
         <Icon name='location' extraClasses={`float-l ${spacing({s: 2, m: 2, l: 2, xl: 2}, {margin: ['right']})}`} />
         <p>
           <span className='find-us__street'>{wellcomeCollectionAddress.streetAddress}</span>
-          <span className='find-us__locality'>{wellcomeCollectionAddress.addressLocality}</span>
+          <span className='find-us__locality'>{wellcomeCollectionAddress.addressLocality}</span>{' '}
           <span className='find-us__postal-code'>{wellcomeCollectionAddress.postalCode}</span>
           <span className='find-us__country'>{wellcomeCollectionAddress.addressCountry}</span>
         </p>
