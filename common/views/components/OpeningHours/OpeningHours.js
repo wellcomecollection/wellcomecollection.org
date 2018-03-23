@@ -4,6 +4,7 @@ import {placesOpeningHours as places} from '../../../model/opening-hours';
 import {Fragment} from 'react';
 import {formatDate} from '../../../utils/format-date';
 import moment from 'moment';
+import OpeningHoursTable from '../../components/OpeningHoursTable/OpeningHoursTable';
 
 type Props = {|
   id: string,
@@ -83,7 +84,7 @@ const OpeningHours = ({id, extraClasses}: Props) => (
           }
         })}
         {`. Please check `}
-        <a href='/opening-times#exceptional'>our full opening times</a>
+        <a href='/opening-times#exceptional'>our exceptional opening times</a>
         {` for details.`}
       </p>
     }
@@ -96,23 +97,7 @@ const OpeningHours = ({id, extraClasses}: Props) => (
         ))}
       </ul>
       {places.map((place) => (
-        <table key={`${id}-panel-${place.id}`} id={`${id}-panel-${place.id}`} className={`opening-hours__table ${font({s: 'HNL5'})} js-tabpanel`}>
-          <caption className='opening-hours__caption js-tabfocus'>{place.name}</caption>
-          <thead className='opening-hours__thead'>
-            <tr className='opening-hours__tr'>
-              <th scope='col'>Day</th>
-              <th scope='col'>Times</th>
-            </tr>
-          </thead>
-          <tbody className='opening-hours__tbody'>
-            {place.openingHours.regular.map((day) => (
-              <tr key={day.dayOfWeek} className='opening-hours__tr'>
-                <td className='opening-hours__td'>{day.dayOfWeek}</td>
-                {day.opens ? <td className='opening-hours__td'>{`${day.opens} - ${day.closes}`}</td> : <td className='opening-hours__td'>{day.note}</td>}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <OpeningHoursTable key={`${id}-panel-${place.id}`} id={id} place={place} />
       ))}
     </div>
   </Fragment>
