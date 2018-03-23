@@ -18,18 +18,19 @@ We build products that **deliver value**, **solve real problems**, and are a **d
 
 ## Core parts
 
-### [What's on](./whats_on)
+### [What's on](https://wellcomecollection.org/whats-on)
 Giving people the ability to partake in or inform themselves on
 Wellcome Collection's public programme of events, exhibitions, talks,
-discussions, and other offerings.
+discussions, and other offerings. [`code`](./whats_on).
 
-### [Content](./server)
+### [Content](https://wellcomecollection.org/explore)
 A collection of content from a wide range of authors to challenge the
 ways people think and feel about health by connecting science, medicine,
-life and art.
+life and art [`code`](./server).
 
-### [Catalogue](./catalogue)
+### [Catalogue](https://wellcomecollection.org/works)
 Tools to allow people to browse and dig deeper into our catalogue.
+[`code`](./catalogue).
 
 ### [Cardigan](./cardiga)
 [Wellcome Collection's design system](https://cardigan.wellcomecollection.org).
