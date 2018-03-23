@@ -13,6 +13,7 @@ import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {placesOpeningHours} from '../model/opening-hours';
 import groupBy from 'lodash.groupby';
+import {isDatePast} from '../filters/format-date';
 
 export const renderOpeningTimes = (ctx, next) => { // TODO meta data
   const path = ctx.request.url;
@@ -40,7 +41,7 @@ export const renderOpeningTimes = (ctx, next) => { // TODO meta data
     } else {
       return 0;
     }
-  });
+  }).filter(date => !isDatePast(date.exceptionalDate));
 
   const exceptionalOpeningHours = groupBy(flattenedDates, (date) => {
     return date.exceptionalDate;
