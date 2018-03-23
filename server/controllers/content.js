@@ -46,6 +46,7 @@ export const renderOpeningTimes = (ctx, next) => { // TODO meta data
     return date.exceptionalDate;
   });
 
+  // TODO make this a pure function instead
   for (let overrideDate in exceptionalOpeningHours) {
     let locations = ['galleries', 'library', 'restaurant', 'café', 'shop'];
     exceptionalOpeningHours[overrideDate].map((day) => {
