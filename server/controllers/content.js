@@ -81,16 +81,12 @@ export const renderOpeningTimes = (ctx, next) => { // TODO meta data
     pageConfig: Object.assign({}, createPageConfig({
       path: path,
       title: 'Opening Times',
-      // inSection: 'explore', // TODO
-      // category: 'editorial', // TODO
+      // inSection: '??', // TODO
+      // category: 'public-programme??', // TODO
       canonicalUri: `${ctx.globals.rootDomain}/opening-times`
     }), trackingInfo),
-    // article: article,
-    // page: article,
-    // isPreview: isPreview
     placesOpeningHours,
     exceptionalOpeningHours
-    // TODO want places grouped by exceptional dates...
   });
 
   return next();

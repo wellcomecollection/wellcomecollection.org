@@ -1,16 +1,14 @@
 {% extends 'layout/default.njk' %}
 
 {% block pageMeta %}
-  {# {% set metaContent = {
+  {# TODO confirm url #}
+  {% set metaContent = {
     type: 'article',
-    title: page.headline,
-    image: page.thumbnail.contentUrl,
-    url: pageConfig.canonicalUri,
-    description: page.description
+    title: 'Opening times',
+    url: '/opening-times',
+    description: 'Opening times for galleries, library, restaurant, cafe and shop.'
   } %}
-  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
-  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
-  <meta name="description" content="{{ page.description | safe | striptags }}" /> #}
+  <meta name="description" content="Opening times for galleries, library, restaurant, cafe and shop." />
 {% endblock %}
 
 {% block body %}
@@ -19,7 +17,7 @@
   </script>
   #}
 
-  <div class="container temp">
+  <div class="container">
     <div class="grid">
       <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
         <h1 class="{{ {s:'WB5'} | fontClasses }}">Opening times</h1>
@@ -33,7 +31,13 @@
             </div>
           {% endfor %}
         </div>
+      </div>
 
+      <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+        {% componentJsx 'Divider', {extraClasses: 'divider--pumice divider--keyline ' + ( {s:1} | spacingClasses({margin: ['top', 'bottom']}))} %}
+      </div>
+
+      <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
         <h2 class="{{ {s:'WB6'} | fontClasses }}" id="exceptional">Exceptional opening times</h2>
         <div class="grid">
           {% for exceptionalDate, venues in exceptionalOpeningHours %}
