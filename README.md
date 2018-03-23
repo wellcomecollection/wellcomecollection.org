@@ -30,8 +30,8 @@ life and art [`code`](./server).
 Tools to allow people to browse and dig deeper into our catalogue.
 [`code`](./catalogue).
 
-### [Cardigan](./cardiga)
-[Wellcome Collection's design system](https://cardigan.wellcomecollection.org).
+### [Cardigan](https://cardigan.wellcomecollection.org)
+Wellcome Collection's design system. [`code`](./cardigan).
 
 ## Other pieces of the Wellcome Collection puzzle
 
