@@ -80,6 +80,7 @@
 }
 
 .opening-hours__table {
+  max-width: 600px;
   color: color('silver');
   width: 100%;
   margin-bottom: 2 * $vertical-space-unit;
