@@ -41,7 +41,7 @@
   {% endif %}
 
   <div class="row {{ {s: 6} | spacingClasses({margin: ['top']}) }} {{ {s: 10} | spacingClasses({margin: ['bottom']}) }}">
-    {% if paginatedEvents.results.length > 0 %}
+    {% if paginatedEvents.results.length < 0 %}
       <div class="container">
         <h2 class="{{ {s: 'WB5'} | fontClasses }} no-margin">Upcoming events</h2>
       </div>
@@ -55,7 +55,12 @@
         </div>
       {% else %}
         <div class="container">
-          <h2 class="{{ {s: 'WB5'} | fontClasses }} no-margin">No upcoming events</h2>
+          <div class="css-grid">
+            <div class="{{ {s: 12, m: 12, l: 8, xl: 8} | cssGridClasses }}">
+              <h2 class="{{ {s: 'WB5'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['bottom']}) }}">No upcoming events</h2>
+              <p>We don’t have any events of this type scheduled, but we do have other events you might enjoy. See our <a href="/events">full events listing</a>.</p>
+            </div>
+          </div>
         </div>
       {% endif %}
     </div>
