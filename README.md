@@ -6,15 +6,15 @@ Wellcome Collection web applications.
 
 [![CircleCI](https://circleci.com/gh/wellcometrust/wellcomecollection.org/tree/master.svg?style=shield)](https://circleci.com/gh/wellcometrust/wellcomecollection.org/tree/master)
 
-> We all work in the **open** and **open source** where we can and where it makes sense
+We all work in the **open** and **open source** where we can and where it makes sense
 
-> We put **users** **at the centre** of all decisions. We use **evidence and insight** to inform these decisions at all stages of the product cycle
+We put **users** **at the centre** of all decisions. We use **evidence and insight** to inform these decisions at all stages of the product cycle
 
-> We create **simple**, **well considered experiences**, frequently incorporating **user feedback**
+We create **simple**, **well considered experiences**, frequently incorporating **user feedback**
 
-> We have **inclusive processes** that create **accessible products**
+We have **inclusive processes** that create **accessible products**
 
-> We build products that **deliver value**, **solve real problems**, and are a **delight to use**
+We build products that **deliver value**, **solve real problems**, and are a **delight to use**
 
 ## Core parts
 
