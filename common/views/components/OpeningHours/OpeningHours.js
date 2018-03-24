@@ -26,14 +26,21 @@ const flattenedExceptionalOpeningDates = places.map((place) => {
   .filter(_ => _)
   .reduce((prev, curr) => prev && prev.concat(curr));
 
-const uniqueExceptionalOpeningDates = flattenedExceptionalOpeningDates && flattenedExceptionalOpeningDates.sort((a, b) => {
-  if (a && b) {
-    return a.localeCompare(b);
-  } else {
-    return 0;
-  }
-})
-  .filter((item, i, array) => !i || item !== array[i - 1]);
+const uniqueExceptionalOpeningDates = flattenedExceptionalOpeningDates && flattenedExceptionalOpeningDates.length > 1
+  ? flattenedExceptionalOpeningDates
+    .sort((a, b) => Number(a) - Number(b))
+    .filter((item, i, array) => {
+      const firstDate = item;
+      const lastDate = array[i - 1];
+      if (!i) {
+        return true;
+      } else if (firstDate instanceof Date && lastDate instanceof Date) {
+        return firstDate.toString() !== lastDate.toString();
+      } else {
+        return false;
+      }
+    })
+  : flattenedExceptionalOpeningDates;
 
 let groupedIndex = 0;
 
@@ -67,25 +74,31 @@ const OpeningHours = ({id, extraClasses}: Props) => (
       <p className={font({s: 'HNM4'})}>
         Our opening times will change
         {upcomingExceptionalOpeningPeriods.map((group, i, array) => {
-          if (group.length > 1) {
-            return (
-              <Fragment>
-                &nbsp;between
-                <span style={{'whiteSpace': 'nowrap'}} key={group[0]}>
-                  {(array.length > 1 && i > 0) && ', '}
-                  {` ${formatDate(group[0])}`}&mdash;{`${formatDate(group[group.length - 1])}`}
-                </span>
-              </Fragment>
-            );
-          } else {
-            return (
-              <Fragment>
-                &nbsp;on
-                <span style={{'whiteSpace': 'nowrap'}} key={group[0]}>
-                  {` ${formatDate(group[0])}`}
-                </span>
-              </Fragment>
-            );
+          const firstDate = group[0];
+          const lastDate = group[group.length - 1];
+          if (firstDate instanceof Date && lastDate instanceof Date) {
+            if (group.length > 1) {
+              return (
+                <Fragment>
+                  &nbsp;between&nbsp;
+                  <span style={{'whiteSpace': 'nowrap'}} key={group[0]}>
+                    {(array.length > 1 && i > 0) && ', '}
+                    {formatDate(firstDate)}
+                    &mdash;
+                    {formatDate(lastDate)}
+                  </span>
+                </Fragment>
+              );
+            } else {
+              return (
+                <Fragment>
+                  &nbsp;on&nbsp;
+                  <span style={{'whiteSpace': 'nowrap'}} key={group[0]}>
+                    {formatDate(firstDate)}
+                  </span>
+                </Fragment>
+              );
+            }
           }
         })}
         . Please check our <a href="/opening-times#exceptional">exceptional opening times</a> for details before you travel.

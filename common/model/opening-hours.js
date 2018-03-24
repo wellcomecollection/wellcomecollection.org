@@ -12,7 +12,7 @@ export type OpeningHoursDay = {|
 
 type ExceptionalOpeningHoursDay = {|
   ...OpeningHoursDay,
-  overrideDate: string
+  overrideDate: Date
 |}
 
 export type OpeningHours = {|
@@ -39,7 +39,7 @@ export const galleryOpeningHours: OpeningHours = {
     {dayOfWeek: 'Sunday',    opens: '11:00', closes: '18:00'}
   ],
   exceptional: [
-    {overrideDate: '2018-04-02', dayOfWeek: 'Monday', opens: '10:00', closes: '18:00'}
+    {overrideDate: new Date('2018-04-02'), dayOfWeek: 'Monday', opens: '10:00', closes: '18:00'}
   ]
 };
 
@@ -54,9 +54,9 @@ export const libraryOpeningHours: OpeningHours = {
     {dayOfWeek: 'Sunday',    closes: '00:00', note: 'Library closed'}
   ],
   exceptional: [
-    {overrideDate: '2018-03-30',  dayOfWeek: 'Friday', closes: '00:00', note: 'Library closed'},
-    {overrideDate: '2018-03-31',  dayOfWeek: 'Saturday', closes: '00:00', note: 'Library closed'},
-    {overrideDate: '2018-04-02',  dayOfWeek: 'Monday', closes: '00:00', note: 'Library closed'}
+    {overrideDate: new Date('2018-03-30'),  dayOfWeek: 'Friday', closes: '00:00', note: 'Library closed'},
+    {overrideDate: new Date('2018-03-31'),  dayOfWeek: 'Saturday', closes: '00:00', note: 'Library closed'},
+    {overrideDate: new Date('2018-04-02'),  dayOfWeek: 'Monday', closes: '00:00', note: 'Library closed'}
   ]
 };
 
@@ -83,8 +83,8 @@ export const cafeOpeningHours: OpeningHours = {
     {dayOfWeek: 'Sunday',    opens: '10:30', closes: '18:00'}
   ],
   exceptional: [
-    {overrideDate: '2018-03-30', dayOfWeek: 'Friday', opens: '09:30', closes: '18:00'},
-    {overrideDate: '2018-04-02', dayOfWeek: 'Monday', opens: '09:30', closes: '18:00'}
+    {overrideDate: new Date('2018-03-30'), dayOfWeek: 'Friday', opens: '09:30', closes: '18:00'},
+    {overrideDate: new Date('2018-04-02'), dayOfWeek: 'Monday', opens: '09:30', closes: '18:00'}
   ]
 };
 
@@ -99,8 +99,8 @@ export const shopOpeningHours: OpeningHours = {
     {dayOfWeek: 'Sunday',    opens: '11:00', closes: '18:00'}
   ],
   exceptional: [
-    {overrideDate: '2018-03-30', dayOfWeek: 'Friday', opens: '10:00', closes: '18:00'},
-    {overrideDate: '2018-04-02', dayOfWeek: 'Monday', opens: '10:00', closes: '18:00'}
+    {overrideDate: new Date('2018-03-30'), dayOfWeek: 'Friday', opens: '10:00', closes: '18:00'},
+    {overrideDate: new Date('2018-04-02'), dayOfWeek: 'Monday', opens: '10:00', closes: '18:00'}
   ]
 };
 
