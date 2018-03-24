@@ -486,7 +486,7 @@ function identifyChanges(override: ?ExceptionalOpeningHoursDay, place: Venue, ex
   }
 }
 
-function exceptionalOpeningHours(dates: Date[], placesOpeningHours: PlacesOpeningHours): ExceptionalVenueHours[] {
+function exceptionalOpeningHours(dates: Date[], placesOpeningHours: PlacesOpeningHours, order: {}): ExceptionalVenueHours[] {
   return [].concat.apply([], dates.reduce((acc, exceptionalDate) => {
     const exceptionalDay = london(exceptionalDate).format('dddd');
     const overrides = placesOpeningHours.map(place => {
@@ -511,7 +511,11 @@ function exceptionalOpeningHours(dates: Date[], placesOpeningHours: PlacesOpenin
     acc.push(overrides);
 
     return acc;
-  }, []));
+  }, [])).sort((a, b) => {
+    const aPosition = order[a.name] || 1;
+    const bPosition = order[b.name] || 1;
+    return aPosition - bPosition;
+  });
 }
 
 function upcomingExceptionalOpeningPeriods(dates: Date[][]) {
@@ -540,7 +544,7 @@ function createExceptionalDate(day, venue) {
   }
 }
 
-export function parseVenuesToOpeningHours(doc: PrismicDoc): PlacesOpeningHours {
+export function parseVenuesToOpeningHours(doc: PrismicDoc, order: {}): PlacesOpeningHours {
   const placesOpeningHours =  doc.results.map((venue) => {
     const exceptionalOpeningHours = venue.data.modifiedDayOpeningTimes.map((modified) => {
       const start = modified.startDateTime && london(modified.startDateTime).format('HH:mm');
@@ -574,10 +578,14 @@ export function parseVenuesToOpeningHours(doc: PrismicDoc): PlacesOpeningHours {
   const exceptionalDates = exceptionalOpeningDates(placesOpeningHours);
   const futureExceptionalDates = exceptionalDates.filter(exceptionalDate => exceptionalDate && !isDatePast(exceptionalDate));
   const exceptionalPeriods = exceptionalOpeningPeriods(futureExceptionalDates);
-  const individualExceptionalOpeningHours = exceptionalOpeningHours(futureExceptionalDates, placesOpeningHours);
+  const individualExceptionalOpeningHours = exceptionalOpeningHours(futureExceptionalDates, placesOpeningHours, order);
 
   return {
-    placesOpeningHours,
+    placesOpeningHours: placesOpeningHours.sort((a, b) => {
+      const aPosition = order[a.name] || 1;
+      const bPosition = order[b.name] || 1;
+      return aPosition - bPosition;
+    }),
     upcomingExceptionalOpeningPeriods: upcomingExceptionalOpeningPeriods(exceptionalPeriods),
     exceptionalOpeningHours: groupBy(individualExceptionalOpeningHours, item => london(item.exceptionalDate).format('YYYY-MM-DD'))
   };

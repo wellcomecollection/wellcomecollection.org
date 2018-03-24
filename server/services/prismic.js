@@ -102,12 +102,19 @@ export async function getGlobalAlert(): GlobalAlert {
 }
 
 export async function getCollectionOpeningTimes() {
+  const order = {
+    'Galleries': 1,
+    'Library': 2,
+    'Restaurant': 3,
+    'Café': 4,
+    'Shop': 5
+  };
   const prismic = await getPrismicApi();
   const collectionVenues = await prismic.query([
     Prismic.Predicates.any('document.type', ['collection-venue'])
   ]);
 
-  return parseVenuesToOpeningHours(collectionVenues);
+  return parseVenuesToOpeningHours(collectionVenues, order);
 }
 
 export async function getArticle(id: string, previewReq: ?Request) {
