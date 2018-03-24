@@ -35,13 +35,9 @@ export const renderOpeningTimes = (ctx, next) => { // TODO meta data
       acc.push(obj);
     });
     return acc;
-  }, []).sort((a, b) => {
-    if (a && b) {
-      return a.exceptionalDate.localeCompare(b.exceptionalDate);
-    } else {
-      return 0;
-    }
-  }).filter(date => !isDatePast(date.exceptionalDate));
+  }, [])
+    .sort((a, b) => Number(a.exceptionalDate) - Number(b.exceptionalDate))
+    .filter(date => !isDatePast(date.exceptionalDate));
 
   const exceptionalOpeningHours = groupBy(flattenedDates, (date) => {
     return date.exceptionalDate;
