@@ -46,7 +46,7 @@ class OpeningHours extends Component<Props, State> {
               const firstDate = group[0];
               const lastDate = group[group.length - 1];
 
-              if (firstDate instanceof Date && lastDate instanceof Date) {
+              if (firstDate && lastDate) {
                 if (group.length > 1) {
                   return (
                     <span key={firstDate}>

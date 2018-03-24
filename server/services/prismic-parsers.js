@@ -14,9 +14,9 @@ import {isEmptyObj} from '../utils/is-empty-obj';
 import type {Series} from '../model/series';
 import type {LicenseType} from '../model/license';
 import {licenseTypeArray} from '../model/license';
+import {isDatePast, london} from '../../common/utils/format-date';
 // $FlowFixMe
 import {parseContributors as parseContributorsProperly} from '../../common/services/prismic/parsers';
-import {isDatePast} from '../../common/utils/format-date';
 import groupBy from 'lodash.groupby';
 import type {ExceptionalVenueHours, PlacesOpeningHours, ExceptionalOpeningHoursDay, Venue, Days} from '../model/opening-hours';
 
