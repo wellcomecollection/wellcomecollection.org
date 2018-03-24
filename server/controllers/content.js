@@ -12,67 +12,61 @@ import {
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {placesOpeningHours} from '../model/opening-hours';
-import groupBy from 'lodash.groupby';
 import {isDatePast} from '../filters/format-date';
+import groupBy from 'lodash.groupby';
+import moment from 'moment';
+
+function london(d) {
+  // $FlowFixMe
+  return moment.tz(d, 'Europe/London');
+};
 
 export const renderOpeningTimes = (ctx, next) => { // TODO meta data
   const path = ctx.request.url;
   const trackingInfo = {}; // TODO
 
-  const flattenedDates = placesOpeningHours.reduce((acc, place) => {
-    place.openingHours.exceptional && place.openingHours.exceptional.map((exceptionalDate) => {
-      const obj = {
-        exceptionalDate: exceptionalDate.overrideDate,
-        exceptionalDay: exceptionalDate.dayOfWeek,
+  // TODO - all these as functions move to top/prismic/own file (as will be that eventually) and export
+  // use here and in OpeningHours
+
+  const exceptionalDates = [].concat.apply([], placesOpeningHours.map(place => {
+    return place.openingHours.exceptional &&
+      place.openingHours.exceptional.map(exceptionalDate => exceptionalDate.overrideDate);
+  }).filter(_ => _))
+    .sort((a, b) => Number(a) - Number(b))
+    .filter((item, i, array) => {
+      const firstDate = item;
+      const prevDate = array[i - 1];
+      if (!i) {
+        return true;
+      } else if (firstDate instanceof Date && prevDate instanceof Date) {
+        return firstDate.toString() !== prevDate.toString();
+      }
+    });
+
+  const upcomingExceptionalDates = exceptionalDates.filter(exceptionalDate => !isDatePast(exceptionalDate));
+  // TODO maybe highlight what is different
+  const upcomingExceptionalOpeningHours = [].concat.apply([], upcomingExceptionalDates.reduce((acc, exceptionalDate) => {
+    const exceptionalDay = london(exceptionalDate).format('dddd');
+    const overrides = placesOpeningHours.map(place => {
+      const override = place.openingHours.exceptional &&
+      place.openingHours.exceptional.filter(item => item.overrideDate.toString() === exceptionalDate.toString());
+      const openingHours = override && override.length > 0 ? override[0] : place.openingHours.regular.find(item => item.dayOfWeek === exceptionalDay);
+      return {
+        exceptionalDate,
+        exceptionalDay,
         id: place.id,
         name: place.name,
-        openingHours: {
-          opens: exceptionalDate.opens,
-          closes: exceptionalDate.closes,
-          note: exceptionalDate.note
-        }
-      };
-      acc.push(obj);
-    });
-    return acc;
-  }, [])
-    .sort((a, b) => Number(a.exceptionalDate) - Number(b.exceptionalDate))
-    .filter(date => !isDatePast(date.exceptionalDate));
-
-  const exceptionalOpeningHours = groupBy(flattenedDates, (date) => {
-    return date.exceptionalDate;
-  });
-
-  // TODO make this a pure function instead
-  for (let overrideDate in exceptionalOpeningHours) {
-    let locations = ['galleries', 'library', 'restaurant', 'café', 'shop'];
-    exceptionalOpeningHours[overrideDate].map((day) => {
-      locations = locations.filter(location => location !== day.id);
-    });
-    locations.map((id) => {
-      const day = exceptionalOpeningHours[overrideDate][0].exceptionalDay;
-      const openingHours = placesOpeningHours.filter(e => e.id === id)[0].openingHours.regular.filter(e => e.dayOfWeek === day)[0];
-      const obj = {
-        exceptionalDate: exceptionalOpeningHours[overrideDate][0].exceptionalDate,
-        exceptionalDay: day,
-        id: id,
-        name: placesOpeningHours.filter(e => e.id === id)[0].name,
         openingHours
       };
-      exceptionalOpeningHours[overrideDate].push(obj);
-      exceptionalOpeningHours[overrideDate].sort((a, b) => {
-        if (a.name < b.name) {
-          return -1;
-        }
-        if (a.name > b.name) {
-          return 1;
-        }
-        return 0;
-      });
     });
-  }
+    acc.push(overrides);
 
-  // ctx.body = exceptionalOpeningHours;
+    return acc;
+  }, []));
+
+  const groupedUpcomingExceptionalOpeningHours = groupBy(upcomingExceptionalOpeningHours, item => item.exceptionalDate);
+
+  // ctx.body = groupedUpcomingExceptionalOpeningHours;
   ctx.render('pages/opening-times', {
     pageConfig: Object.assign({}, createPageConfig({
       path: path,
@@ -82,7 +76,7 @@ export const renderOpeningTimes = (ctx, next) => { // TODO meta data
       canonicalUri: `${ctx.globals.rootDomain}/opening-times`
     }), trackingInfo),
     placesOpeningHours,
-    exceptionalOpeningHours
+    exceptionalOpeningHours: groupedUpcomingExceptionalOpeningHours
   });
 
   return next();
