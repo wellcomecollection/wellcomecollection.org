@@ -69,7 +69,7 @@ function returnUpcomingExceptionalOpeningHours(upcomingDates) {
 
 const upcomingExceptionalOpeningHours = returnUpcomingExceptionalOpeningHours(upcomingExceptionalDates);
 
-const exceptionalOpeningHours = groupBy(upcomingExceptionalOpeningHours, item => item.exceptionalDate);
+const exceptionalOpeningHours = groupBy(upcomingExceptionalOpeningHours, item => london(item.exceptionalDate).format('YYYY-MM-DD'));
 
 export const renderOpeningTimes = (ctx, next) => { // TODO meta data
   const path = ctx.request.url;
