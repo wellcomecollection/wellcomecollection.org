@@ -21,10 +21,7 @@ function london(d) {
   return moment.tz(d, 'Europe/London');
 };
 
-// TODO json-ld
-// TODO add to pageConfig
 // TODO fix moment warning
-// TODO use functions in OpeningHours ...
 
 function returnExceptionalOpeningDates(placesHoursArray) {
   return [].concat.apply([], placesHoursArray.map(place => {
@@ -45,6 +42,7 @@ function returnExceptionalOpeningDates(placesHoursArray) {
 
 const exceptionalDates = returnExceptionalOpeningDates(placesOpeningHours);
 
+// TODO use this in OpeningHours, instead of generating it there
 export const upcomingExceptionalDates = exceptionalDates.filter(exceptionalDate => !isDatePast(exceptionalDate));
 
 function returnUpcomingExceptionalOpeningHours(upcomingDates) {
@@ -71,13 +69,12 @@ function returnUpcomingExceptionalOpeningHours(upcomingDates) {
 
 const upcomingExceptionalOpeningHours = returnUpcomingExceptionalOpeningHours(upcomingExceptionalDates);
 
-const groupedUpcomingExceptionalOpeningHours = groupBy(upcomingExceptionalOpeningHours, item => item.exceptionalDate);
+const exceptionalOpeningHours = groupBy(upcomingExceptionalOpeningHours, item => item.exceptionalDate);
 
 export const renderOpeningTimes = (ctx, next) => { // TODO meta data
   const path = ctx.request.url;
   const trackingInfo = {}; // TODO
 
-  // ctx.body = groupedUpcomingExceptionalOpeningHours;
   ctx.render('pages/opening-times', {
     pageConfig: Object.assign({}, createPageConfig({
       path: path,
@@ -87,7 +84,7 @@ export const renderOpeningTimes = (ctx, next) => { // TODO meta data
       canonicalUri: `${ctx.globals.rootDomain}/opening-times`
     }), trackingInfo),
     placesOpeningHours,
-    exceptionalOpeningHours: groupedUpcomingExceptionalOpeningHours
+    exceptionalOpeningHours
   });
 
   return next();
