@@ -21,14 +21,13 @@ function london(d) {
   return moment.tz(d, 'Europe/London');
 };
 
-export const renderOpeningTimes = (ctx, next) => { // TODO meta data
-  const path = ctx.request.url;
-  const trackingInfo = {}; // TODO
+// TODO json-ld
+// TODO add to pageConfig
+// TODO fix moment warning
+// TODO use functions in OpeningHours ...
 
-  // TODO - all these as functions move to top/prismic/own file (as will be that eventually) and export
-  // use here and in OpeningHours
-
-  const exceptionalDates = [].concat.apply([], placesOpeningHours.map(place => {
+function returnExceptionalOpeningDates(placesHoursArray) {
+  return [].concat.apply([], placesHoursArray.map(place => {
     return place.openingHours.exceptional &&
       place.openingHours.exceptional.map(exceptionalDate => exceptionalDate.overrideDate);
   }).filter(_ => _))
@@ -42,10 +41,15 @@ export const renderOpeningTimes = (ctx, next) => { // TODO meta data
         return firstDate.toString() !== prevDate.toString();
       }
     });
+};
 
-  const upcomingExceptionalDates = exceptionalDates.filter(exceptionalDate => !isDatePast(exceptionalDate));
+const exceptionalDates = returnExceptionalOpeningDates(placesOpeningHours);
+
+export const upcomingExceptionalDates = exceptionalDates.filter(exceptionalDate => !isDatePast(exceptionalDate));
+
+function returnUpcomingExceptionalOpeningHours(upcomingDates) {
   // TODO maybe highlight what is different
-  const upcomingExceptionalOpeningHours = [].concat.apply([], upcomingExceptionalDates.reduce((acc, exceptionalDate) => {
+  return [].concat.apply([], upcomingDates.reduce((acc, exceptionalDate) => {
     const exceptionalDay = london(exceptionalDate).format('dddd');
     const overrides = placesOpeningHours.map(place => {
       const override = place.openingHours.exceptional &&
@@ -63,8 +67,15 @@ export const renderOpeningTimes = (ctx, next) => { // TODO meta data
 
     return acc;
   }, []));
+}
 
-  const groupedUpcomingExceptionalOpeningHours = groupBy(upcomingExceptionalOpeningHours, item => item.exceptionalDate);
+const upcomingExceptionalOpeningHours = returnUpcomingExceptionalOpeningHours(upcomingExceptionalDates);
+
+const groupedUpcomingExceptionalOpeningHours = groupBy(upcomingExceptionalOpeningHours, item => item.exceptionalDate);
+
+export const renderOpeningTimes = (ctx, next) => { // TODO meta data
+  const path = ctx.request.url;
+  const trackingInfo = {}; // TODO
 
   // ctx.body = groupedUpcomingExceptionalOpeningHours;
   ctx.render('pages/opening-times', {
