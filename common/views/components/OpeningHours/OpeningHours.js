@@ -80,21 +80,17 @@ const OpeningHours = ({id, extraClasses}: Props) => (
           if (firstDate instanceof Date && lastDate instanceof Date) {
             if (group.length > 1) {
               return (
-                <Fragment>
-                  &nbsp;between&nbsp;
-                  <span style={{'whiteSpace': 'nowrap'}} key={group[0]}>
-                    {(array.length > 1 && i > 0) && ', '}
-                    {formatDate(firstDate)}
-                    &mdash;
-                    {formatDate(lastDate)}
-                  </span>
-                </Fragment>
+                <span key={group[0]}>
+                  {(array.length > 1 && i > 0) && ', '}
+                  {` between`} <span style={{'whiteSpace': 'nowrap'}}>{formatDate(firstDate)}</span>
+                  &mdash;
+                  <span style={{'whiteSpace': 'nowrap'}}>{formatDate(lastDate)}</span>
+                </span>
               );
             } else {
               return (
                 <Fragment>
-                  &nbsp;on&nbsp;
-                  <span style={{'whiteSpace': 'nowrap'}} key={group[0]}>
+                  {` on`} <span style={{'whiteSpace': 'nowrap'}} key={group[0]}>
                     {formatDate(firstDate)}
                   </span>
                 </Fragment>
