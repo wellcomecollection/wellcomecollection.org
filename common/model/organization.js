@@ -2,6 +2,7 @@
 import type {OpeningHoursDay} from './opening-hours';
 import {galleryOpeningHours} from './opening-hours';
 import {objToJsonLd} from '../utils/json-ld';
+import moment from 'moment';
 
 export type PostalAddress = {|
   addressLocality: string,
@@ -47,6 +48,17 @@ export const wellcomeCollection: Organization = {
   // Annoyingly, but good for time - this is still passing in Flow.
   openingHoursSpecification: galleryOpeningHours.regular.map(
     openingHoursDay => objToJsonLd(openingHoursDay, 'OpeningHoursSpecification', false)
+  ),
+  specialOpeningHoursSpecification: galleryOpeningHours.exceptional.map(
+    openingHoursDate => {
+      const specObject = {
+        opens: openingHoursDate.opens,
+        closes: openingHoursDate.closes,
+        validFrom: moment(openingHoursDate.overrideDate).format('DD MMMM YYYY'),
+        validThrough: moment(openingHoursDate.overrideDate).format('DD MMMM YYYY')
+      };
+      return objToJsonLd(specObject, 'OpeningHoursSpecification', false);
+    }
   ),
   address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
 };
