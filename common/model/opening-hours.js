@@ -10,14 +10,16 @@ export type OpeningHoursDay = {|
   note?: string
 |};
 
-type ExceptionalOpeningHoursDay = {|
+export type ExceptionalOpeningHoursDay = {|
   ...OpeningHoursDay,
-  overrideDate: Date
+  overrideDate?: Date,
+  validFrom?: string,
+  validThrough?: string
 |}
 
 export type OpeningHours = {|
   regular: OpeningHoursDay[],
-  exceptional?: ExceptionalOpeningHoursDay[]
+  exceptional?: ?ExceptionalOpeningHoursDay[]
 |};
 
 type Place = {|

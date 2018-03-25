@@ -1,4 +1,4 @@
-import type {OpeningHoursDay} from './opening-hours';
+import type {OpeningHoursDay, ExceptionalOpeningHoursDay} from './opening-hours';
 import {galleryOpeningHours} from './opening-hours';
 import {objToJsonLd} from '../utils/json-ld';
 import moment from 'moment';
@@ -16,6 +16,7 @@ export type Organization = {|
   twitterHandle: string,
   sameAs: Array<string>,
   openingHoursSpecification: OpeningHoursDay[],
+  specialOpeningHoursSpecification?: ?ExceptionalOpeningHoursDay[],
   address: PostalAddress,
   alternateUrl?: string
 |}
@@ -47,7 +48,7 @@ export const wellcomeCollection: Organization = {
   openingHoursSpecification: galleryOpeningHours.regular.map(
     openingHoursDay => objToJsonLd(openingHoursDay, 'OpeningHoursSpecification', false)
   ),
-  specialOpeningHoursSpecification: galleryOpeningHours.exceptional.map(
+  specialOpeningHoursSpecification: galleryOpeningHours.exceptional && galleryOpeningHours.exceptional.map(
     openingHoursDate => {
       const specObject = {
         opens: openingHoursDate.opens,
