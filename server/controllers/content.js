@@ -21,8 +21,6 @@ function london(d) {
   return moment.tz(d, 'Europe/London');
 };
 
-// TODO fix moment warning
-
 function returnExceptionalOpeningDates(placesHoursArray) {
   return [].concat.apply([], placesHoursArray.map(place => {
     return place.openingHours.exceptional &&
@@ -46,7 +44,6 @@ const exceptionalDates = returnExceptionalOpeningDates(placesOpeningHours);
 export const upcomingExceptionalDates = exceptionalDates.filter(exceptionalDate => !isDatePast(exceptionalDate));
 
 function returnUpcomingExceptionalOpeningHours(upcomingDates) {
-  // TODO maybe highlight what is different
   return [].concat.apply([], upcomingDates.reduce((acc, exceptionalDate) => {
     const exceptionalDay = london(exceptionalDate).format('dddd');
     const overrides = placesOpeningHours.map(place => {
