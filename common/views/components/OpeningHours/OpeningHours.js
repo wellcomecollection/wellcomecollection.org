@@ -5,6 +5,7 @@ import {Fragment} from 'react';
 import {formatDate} from '../../../utils/format-date';
 import moment from 'moment';
 import OpeningHoursTable from '../../components/OpeningHoursTable/OpeningHoursTable';
+import {upcomingExceptionalDates} from '../../../../server/controllers/content';
 
 type Props = {|
   id: string,
@@ -16,32 +17,7 @@ function london(d) {
   return moment.tz(d, 'Europe/London');
 };
 
-// TODO write tests for these functions
-const flattenedExceptionalOpeningDates = places.map((place) => {
-  if (place.openingHours.exceptional) {
-    return place.openingHours.exceptional.map((openingTimes) => {
-      return openingTimes.overrideDate;
-    });
-  }
-})
-  .filter(_ => _)
-  .reduce((prev, curr) => prev && prev.concat(curr));
-
-const uniqueExceptionalOpeningDates = flattenedExceptionalOpeningDates && flattenedExceptionalOpeningDates.length > 1
-  ? flattenedExceptionalOpeningDates
-    .sort((a, b) => Number(a) - Number(b))
-    .filter((item, i, array) => {
-      const firstDate = item;
-      const lastDate = array[i - 1];
-      if (!i) {
-        return true;
-      } else if (firstDate instanceof Date && lastDate instanceof Date) {
-        return firstDate.toString() !== lastDate.toString();
-      } else {
-        return false;
-      }
-    })
-  : flattenedExceptionalOpeningDates;
+const uniqueExceptionalOpeningDates = upcomingExceptionalDates;
 
 let groupedIndex = 0;
 
