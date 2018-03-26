@@ -74,7 +74,7 @@ const OpeningHours = ({id, extraClasses}: Props) => (
             }
           }
         })}
-        . Please check our <a href="/opening-times#exceptional">exceptional opening times</a> for details before you travel.
+        . Please check our <a href="/info/opening-times#exceptional">exceptional opening times</a> for details before you travel.
       </p>
     }
     <div className={`opening-hours ${extraClasses || ''} js-opening-hours js-tabs`}>
