@@ -18,7 +18,9 @@ export const renderArticle = async(ctx, next) => {
   // We rehydrate the `W` here as we take it off when we have the route.
   const id = `W${ctx.params.id}`;
   const isPreview = Boolean(ctx.params.preview);
-  const article = await getArticle(id, isPreview ? ctx.request : null);
+  const articlePromise = getArticle(id, isPreview ? ctx.request : null);
+  const globalAlertPromise = getGlobalAlert();
+  const [ article, globalAlert ] = await Promise.all([articlePromise, globalAlertPromise]);
 
   if (article) {
     if (format === 'json') {
@@ -28,6 +30,7 @@ export const renderArticle = async(ctx, next) => {
       const trackingInfo = getEditorialAnalyticsInfo(article);
       ctx.render(`pages/${displayType || 'article'}`, {
         pageConfig: Object.assign({}, createPageConfig({
+          globalAlert: globalAlert,
           path: path,
           title: article.headline,
           inSection: 'explore',

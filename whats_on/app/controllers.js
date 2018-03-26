@@ -11,14 +11,18 @@ import {
 } from '../../server/data/facility-promos';
 const {createPageConfig} = model;
 const {
-  getExhibitionAndEventPromos
+  getExhibitionAndEventPromos,
+  getGlobalAlert
 } = prismic;
 
 export async function renderWhatsOn(ctx, next) {
-  const exhibitionAndEventPromos = await getExhibitionAndEventPromos(ctx.query);
+  const exhibitionAndEventPromosPromise = getExhibitionAndEventPromos(ctx.query);
+  const globalAlertPromise = getGlobalAlert();
+  const [ exhibitionAndEventPromos, globalAlert ] = await Promise.all([exhibitionAndEventPromosPromise, globalAlertPromise]);
 
   ctx.render('pages/whats-on', {
     pageConfig: createPageConfig({
+      globalAlert: globalAlert,
       path: ctx.request.url,
       title: 'What\'s on',
       inSection: 'whatson',
@@ -41,13 +45,19 @@ export async function renderWhatsOn(ctx, next) {
 }
 
 export async function renderInstallation(ctx, next) {
-  const {installation, featredImageList} = await getInstallation(ctx.request, ctx.params.id);
+  const installationPromise = getInstallation(ctx.request, ctx.params.id);
+  const globalAlertPromise = getGlobalAlert();
+  const [
+    {installation, featredImageList},
+    globalAlert
+  ] = await Promise.all([installationPromise, globalAlertPromise]);
   const tags = [{
     text: 'Installations',
     url: '/installations'
   }];
   ctx.render('pages/installation', {
     pageConfig: createPageConfig({
+      globalAlert: globalAlert,
       path: ctx.request.url,
       title: installation.title,
       inSection: 'whatson',
