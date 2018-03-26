@@ -99,7 +99,7 @@ export async function getGlobalAlert(): GlobalAlert {
 
   return {
     text: globalAlert.data.text && deP(asHtml(globalAlert.data.text)),
-    isShown: globalAlert.data.display && globalAlert.data.display === 'show'
+    isShown: globalAlert.data.isShown && globalAlert.data.isShown === 'show'
   };
 }
 

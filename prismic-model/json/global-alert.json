@@ -8,7 +8,7 @@
         "placeholder" : "text"
       }
     },
-    "display" : {
+    "isShown" : {
       "type" : "Select",
       "config" : {
         "options" : [ "hide", "show" ],
