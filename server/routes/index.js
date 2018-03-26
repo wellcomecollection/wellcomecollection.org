@@ -52,7 +52,7 @@ r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 r.get('/series/(W):id', renderSeries);
 r.get('/webcomic-series/:id', renderWebcomicSeries);
 
-r.get('/opening-times', renderOpeningTimes);
+r.get('/info/opening-times', renderOpeningTimes);
 
 // API
 r.get('/works', search);

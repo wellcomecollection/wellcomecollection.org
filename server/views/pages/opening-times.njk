@@ -1,11 +1,10 @@
 {% extends 'layout/default.njk' %}
 
 {% block pageMeta %}
-  {# TODO confirm url #}
   {% set metaContent = {
     type: 'article',
     title: 'Opening times',
-    url: '/opening-times',
+    url: pageConfig.canonicalUri,
     description: 'Opening times for galleries, library, restaurant, cafe and shop.'
   } %}
   <meta name="description" content="Opening times for galleries, library, restaurant, cafe and shop." />

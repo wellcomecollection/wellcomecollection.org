@@ -16,16 +16,14 @@ import {exceptionalOpeningHours} from '../../common/services/opening-times';
 
 export const renderOpeningTimes = (ctx, next) => {
   const path = ctx.request.url;
-  const trackingInfo = {}; // TODO
 
   ctx.render('pages/opening-times', {
     pageConfig: Object.assign({}, createPageConfig({
       path: path,
       title: 'Opening Times',
-      // inSection: '??', // TODO
-      // category: 'public-programme??', // TODO
-      canonicalUri: `${ctx.globals.rootDomain}/opening-times`
-    }), trackingInfo),
+      category: 'information',
+      canonicalUri: `${ctx.globals.rootDomain}/info/opening-times`
+    })),
     placesOpeningHours,
     exceptionalOpeningHours
   });
