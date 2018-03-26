@@ -1,0 +1,21 @@
+{
+  "Global alert" : {
+    "text" : {
+      "type" : "StructuredText",
+      "config" : {
+        "multi" : "paragraph, strong, em, hyperlink",
+        "label" : "text",
+        "placeholder" : "text"
+      }
+    },
+    "display" : {
+      "type" : "Select",
+      "config" : {
+        "options" : [ "hide", "show" ],
+        "default_value" : "hide",
+        "label" : "Display",
+        "placeholder" : "Show or hide"
+      }
+    }
+  }
+}
