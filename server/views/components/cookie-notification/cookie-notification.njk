@@ -1,4 +1,5 @@
-<div class="cookie-notification is-hidden {{ {s:'HNM6', m:'HNM4'} | fontClasses }} js-info-banner"
+{{data | dump}}
+<div class="cookie-notification is-hidden {{ {s:'HNM6', m:'HNM4'} | fontClasses }} js-info-banner {{ 'cookie-notification--is-fixed' if isFixed }}"
   data-cookie-name="WC_cookiesAccepted">
   <div class="container">
     <div class="grid">
