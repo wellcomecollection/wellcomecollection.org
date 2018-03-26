@@ -86,7 +86,7 @@ const navLinks = [{
   siteSection: 'whatson'
 }, {
   href: '/explore',
-  title: 'Explore',
+  title: 'Stories',
   siteSection: 'explore'
 }, {
   href: '/works',
