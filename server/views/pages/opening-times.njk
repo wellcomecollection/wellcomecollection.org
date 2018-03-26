@@ -15,10 +15,10 @@
   <div class="container">
     <div class="grid">
       <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
-        <h1 class="{{ {s:'WB5'} | fontClasses }}">Opening times</h1>
+        <h1 class="{{ {s:'WB5', m:'WB4'} | fontClasses }}">Opening times</h1>
       </div>
       <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
-        <h2 class="{{ {s:'WB6'} | fontClasses }}" id="regular">Regular opening times</h2>
+        <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="regular">Regular opening times</h2>
         <div class="grid">
           {% for place in placesOpeningHours %}
             <div class="{{ {s:12, m:6, l:4, xl:4} | gridClasses }}">
@@ -29,19 +29,30 @@
       </div>
 
       <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
-        {% componentJsx 'Divider', {extraClasses: 'divider--pumice divider--keyline ' + ( {s:1} | spacingClasses({margin: ['top', 'bottom']}))} %}
+        {% componentJsx 'Divider', {extraClasses: 'divider--pumice divider--keyline ' + ( {s:1} | spacingClasses({margin: ['top']})) + ' ' + ( {s:3} | spacingClasses({margin: ['bottom']}))} %}
       </div>
 
-      <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
-        <h2 class="{{ {s:'WB6'} | fontClasses }}" id="exceptional">Exceptional opening times</h2>
-        <div class="grid">
-          {% for exceptionalDate, venues in exceptionalOpeningHours %}
-            <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
-              {% componentJsx 'ExceptionalOpeningHoursTable', {caption: exceptionalDate, venues: venues, extraClasses: 'opening-hours--light'} %}
-            </div>
-          {% endfor %}
-        </div>
+      <div class="{{ {s:12, m:12, l:6, xl:6} | gridClasses }}">
+        <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="exceptional">Exceptional opening times</h2>
+        {% for exceptionalDate, venues in exceptionalOpeningHours %}
+            {% componentJsx 'ExceptionalOpeningHoursTable', {caption: exceptionalDate, venues: venues, extraClasses: 'opening-hours--light'} %}
+        {% endfor %}
       </div>
+
+      <div class="{{ {s:12, m:12, l:6, xl:6} | gridClasses }} body-content">
+        <h2>Entry at busy times</h2>
+        <p>Our temporary exhibitions can become crowded at times, so to keep the galleries safe and comfortable, we may manage numbers with queuing or timed tickets.</p>
+        <h3>When we’re busiest</h3>
+        <p>We introduce queues for exhibitions only when necessary.</p>
+        <p>The busiest times of the week are usually Saturday and Sunday afternoons, when we often have queues for temporary exhibitions. Thursday evenings (when we’re open until 22.00) vary depending on events: you can usually go straight into the exhibitions without waiting, but sometimes you may need to queue.</p>
+        <p>On weekend mornings and weekdays (except Mondays, when the galleries are closed), you can usually go straight in.</p>
+        <p><a href="https://wellcomecollection.org/fridaylate">Friday Late Spectaculars</a> can get very busy.</p>
+        <h3>Timed tickets</h3>
+        <p>On occasion, when queues get too long, we introduce timed tickets instead. We only give tickets to visitors who are already in the building - there’s no booking in advance or by phone. We only do this at the very busiest times - typically the opening and closing weekends of exhibitions.</p>
+        <h3>Medicine Man, Medicine Now and the Reading Room</h3>
+        <p>You can usually get into our permanent galleries without waiting, even at busy times of the week.</p>
+        <h3>Café and Kitchen</h3>
+        <p><a href="https://wellcomecollection.org/visit-us/wellcome-caf%C3%A9">Wellcome Café</a> can sometimes get busy around lunchtime, but <a href="https://wellcomecollection.org/visit-us/wellcome-kitchen">Wellcome Kitchen</a> on level 2 is usually more peaceful if you’re looking for a more intimate bite to eat.</p>
     </div>
   </div>
 
