@@ -11,14 +11,12 @@ import {
 } from '../../server/data/facility-promos';
 const {createPageConfig} = model;
 const {
-  getExhibitionAndEventPromos,
-  getGlobalAlert
+  getExhibitionAndEventPromos
 } = prismic;
 
 export async function renderWhatsOn(ctx, next) {
-  const exhibitionAndEventPromosPromise = getExhibitionAndEventPromos(ctx.query);
-  const globalAlertPromise = getGlobalAlert();
-  const [ exhibitionAndEventPromos, globalAlert ] = await Promise.all([exhibitionAndEventPromosPromise, globalAlertPromise]);
+  const exhibitionAndEventPromos = await getExhibitionAndEventPromos(ctx.query);
+  const globalAlert = ctx.intervalCache.get('globalAlert');
 
   ctx.render('pages/whats-on', {
     pageConfig: createPageConfig({
@@ -45,12 +43,8 @@ export async function renderWhatsOn(ctx, next) {
 }
 
 export async function renderInstallation(ctx, next) {
-  const installationPromise = getInstallation(ctx.request, ctx.params.id);
-  const globalAlertPromise = getGlobalAlert();
-  const [
-    {installation, featredImageList},
-    globalAlert
-  ] = await Promise.all([installationPromise, globalAlertPromise]);
+  const {installation, featredImageList} = await getInstallation(ctx.request, ctx.params.id);
+  const globalAlert = ctx.intervalCache.get('globalAlert');
   const tags = [{
     text: 'Installations',
     url: '/installations'
