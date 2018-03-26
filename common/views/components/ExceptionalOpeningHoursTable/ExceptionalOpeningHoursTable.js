@@ -1,9 +1,10 @@
 import {spacing, font} from '../../../utils/classnames';
 import {formatDayDate} from '../../../utils/format-date';
+import type {ExceptionalVenueHours} from '../../../model/opening-hours';
 
 type Props = {|
   caption: string,
-  venues: any, // TODO
+  venues: ExceptionalVenueHours,
   extraClasses?: string
 |}
 

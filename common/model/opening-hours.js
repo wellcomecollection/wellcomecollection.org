@@ -22,10 +22,18 @@ export type OpeningHours = {|
   exceptional?: ?ExceptionalOpeningHoursDay[]
 |};
 
-type Place = {|
+export type Place = {|
   id: string,
   name: string,
   openingHours: OpeningHours
+|};
+
+export type ExceptionalVenueHours = {|
+  exceptionalDate: Date,
+  exceptionalDay: Days,
+  id: string,
+  name: string,
+  openingHours: OpeningHoursDay | ExceptionalOpeningHoursDay
 |};
 
 export type PlacesOpeningHours = Array<Place>;

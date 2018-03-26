@@ -1,8 +1,9 @@
 import {spacing, font} from '../../../utils/classnames';
+import type {Place} from '../../../model/opening-hours';
 
 type Props = {|
   id?: string,
-  place: any, // TODO
+  place: Place,
   extraClasses?: string
 |}
 
