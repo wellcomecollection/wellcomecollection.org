@@ -94,7 +94,8 @@ export const renderEventbriteEmbed = async(ctx, next) => {
 };
 
 export async function renderExplore(ctx, next) {
-  const globalAlert = ctx.intervalCache.get('globalAlert');  // TODO: Remove WP content
+  // TODO: Remove WP content
+  const globalAlert = ctx.intervalCache.get('globalAlert');
   const contentListPromise = getArticleList();
   const listRequests = [getCuratedList('explore'), contentListPromise];
   const [curatedList, contentList] = await Promise.all(listRequests);
