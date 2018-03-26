@@ -2,16 +2,14 @@ import {model, prismic} from 'common';
 const {createPageConfig} = model;
 const {
   getExhibitionAndRelatedContent,
-  getPaginatedExhibitionPromos,
-  getGlobalAlert
+  getPaginatedExhibitionPromos
 } = prismic;
 
 export async function renderExhibition(ctx, next) {
   const id = `${ctx.params.id}`;
   const isPreview = Boolean(ctx.params.preview);
-  const exhibitionContentPromise = getExhibitionAndRelatedContent(id, isPreview ? ctx.request : null);
-  const globalAlertPromise = getGlobalAlert();
-  const [ exhibitionContent, globalAlert ] = await Promise.all([exhibitionContentPromise, globalAlertPromise]);
+  const exhibitionContent = await getExhibitionAndRelatedContent(id, isPreview ? ctx.request : null);
+  const globalAlert = ctx.intervalCache.get('globalAlert');
   const format = ctx.request.query.format;
   const path = ctx.request.url;
   const tags = [{
@@ -45,9 +43,8 @@ export async function renderExhibition(ctx, next) {
 
 export async function renderExhibitionsList(ctx, next) {
   const page = Number(ctx.request.query.page);
-  const paginatedExhibitionsPromise = getPaginatedExhibitionPromos(page);
-  const globalAlertPromise = getGlobalAlert();
-  const [ paginatedExhibitions, globalAlert ] = await Promise.all([paginatedExhibitionsPromise, globalAlertPromise]);
+  const paginatedExhibitions = await getPaginatedExhibitionPromos(page);
+  const globalAlert = ctx.intervalCache.get('globalAlert');
 
   ctx.render('pages/exhibitions', {
     pageConfig: createPageConfig({

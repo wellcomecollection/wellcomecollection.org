@@ -4,16 +4,14 @@ import {createPageConfig, getEditorialAnalyticsInfo} from '../model/page-config'
 import {getArticleStubs, getArticle, getSeries} from '../services/wordpress';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
-import {getGlobalAlert} from '../services/prismic';
 
 const maxItemsPerPage = 32;
 
 export const article = async(ctx, next) => {
   const slug = ctx.params.slug;
   const format = ctx.request.query.format;
-  const articlePromise = getArticle(`slug:${slug}`);
-  const globalAlertPromise = getGlobalAlert();
-  const [ article, globalAlert ] = await Promise.all([articlePromise, globalAlertPromise]);
+  const article = await getArticle(`slug:${slug}`);
+  const globalAlert = ctx.intervalCache.get('globalAlert');
   const path = ctx.request.url;
 
   if (article) {
@@ -39,9 +37,8 @@ export const article = async(ctx, next) => {
 export const articles = async(ctx, next) => {
   const path = ctx.request.url;
   const {page, q} = ctx.request.query;
-  const articleStubsResponsePromise = getArticleStubs(maxItemsPerPage, {page}, q);
-  const globalAlertPromise = getGlobalAlert();
-  const [ articleStubsResponse, globalAlert ] = await Promise.all([articleStubsResponsePromise, globalAlertPromise]);
+  const articleStubsResponse = await getArticleStubs(maxItemsPerPage, {page}, q);
+  const globalAlert = ctx.intervalCache.get('globalAlert');
   const series: Series = {
     url: '/articles/archive',
     name: 'Articles',
@@ -66,9 +63,8 @@ export const articles = async(ctx, next) => {
 
 export const series = async(ctx, next) => {
   const {id, page} = ctx.params;
-  const seriesPromise = getSeries(id, maxItemsPerPage, page);
-  const globalAlertPromise = getGlobalAlert();
-  const [ series, globalAlert ] = await Promise.all([seriesPromise, globalAlertPromise]);
+  const series = await getSeries(id, maxItemsPerPage, page);
+  const globalAlert = ctx.intervalCache.get('globalAlert');
   const path = ctx.request.url;
 
   if (series) {

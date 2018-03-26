@@ -6,9 +6,8 @@ export async function renderEvent(ctx, next) {
   const id = `${ctx.params.id}`;
   const format = ctx.request.query.format;
   const isPreview = Boolean(ctx.params.preview);
-  const eventPromise = prismic.getEvent(id, isPreview ? ctx.request : null);
-  const globalAlertPromise = prismic.getGlobalAlert();
-  const [ event, globalAlert ] = await Promise.all([eventPromise, globalAlertPromise]);
+  const event = await prismic.getEvent(id, isPreview ? ctx.request : null);
+  const globalAlert = ctx.intervalCache.get('globalAlert');
   const path = ctx.request.url;
 
   if (event) {
@@ -48,9 +47,8 @@ export async function renderEvent(ctx, next) {
 export async function renderEventSeries(ctx, next) {
   const page = ctx.request.query.page ? Number(ctx.request.query.page) : 1;
   const {id} = ctx.params;
-  const eventsPromise = getEventsInSeries(id, { page });
-  const globalAlertPromise = prismic.getGlobalAlert();
-  const [ events, globalAlert ] = await Promise.all([eventsPromise, globalAlertPromise]);
+  const events = await getEventsInSeries(id, { page });
+  const globalAlert = ctx.intervalCache.get('globalAlert');
   const promos = createEventPromos(events.results).reverse();
   const paginatedResults = convertPrismicResultsToPaginatedResults(promos);
   const paginatedEvents = paginatedResults(promos);
@@ -83,9 +81,8 @@ export async function renderEventSeries(ctx, next) {
 
 export async function renderEventsList(ctx, next) {
   const page = ctx.request.query.page ? Number(ctx.request.query.page) : 1;
-  const paginatedEventsPromise = getPaginatedEventPromos(page);
-  const globalAlertPromise = prismic.getGlobalAlert();
-  const [ paginatedEvents, globalAlert ] = await Promise.all([paginatedEventsPromise, globalAlertPromise]);
+  const paginatedEvents = await getPaginatedEventPromos(page);
+  const globalAlert = ctx.intervalCache.get('globalAlert');
   const description = 'Choose from an inspiring range of free talks, tours, discussions and more, all designed to challenge how we think and feel about health.';
 
   ctx.render('pages/events', {

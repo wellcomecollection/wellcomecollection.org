@@ -7,20 +7,19 @@ import {PromoFactory} from '../model/promo';
 import {prismicAsText} from '../filters/prismic';
 import {
   getArticle, getSeriesAndArticles, getArticleList, getCuratedList,
-  defaultPageSize, getGlobalAlert
+  defaultPageSize
 } from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 
 export const renderArticle = async(ctx, next) => {
+  const globalAlert = ctx.intervalCache.get('globalAlert');
   const format = ctx.request.query.format;
   const path = ctx.request.url;
   // We rehydrate the `W` here as we take it off when we have the route.
   const id = `W${ctx.params.id}`;
   const isPreview = Boolean(ctx.params.preview);
-  const articlePromise = getArticle(id, isPreview ? ctx.request : null);
-  const globalAlertPromise = getGlobalAlert();
-  const [ article, globalAlert ] = await Promise.all([articlePromise, globalAlertPromise]);
+  const article = await getArticle(id, isPreview ? ctx.request : null);
 
   if (article) {
     if (format === 'json') {
@@ -95,12 +94,10 @@ export const renderEventbriteEmbed = async(ctx, next) => {
 };
 
 export async function renderExplore(ctx, next) {
-  // TODO: Remove WP content
+  const globalAlert = ctx.intervalCache.get('globalAlert');  // TODO: Remove WP content
   const contentListPromise = getArticleList();
-  const globalAlertPromise = getGlobalAlert();
-
-  const listAndAlertRequests = [getCuratedList('explore'), contentListPromise, globalAlertPromise];
-  const [curatedList, contentList, globalAlert] = await Promise.all(listAndAlertRequests);
+  const listRequests = [getCuratedList('explore'), contentListPromise];
+  const [curatedList, contentList] = await Promise.all(listRequests);
 
   const contentPromos = contentList.results.map(PromoFactory.fromArticleStub);
   const promos = List(contentPromos.map((promo, index) => {
@@ -134,9 +131,8 @@ export async function renderWebcomicSeries(ctx, next) {
   const page = Number(ctx.request.query.page);
   const pageSize = defaultPageSize;
   const {id} = ctx.params;
-  const seriesWebcomicsPromise = getSeriesAndArticles(id, page, 'webcomics');
-  const globalAlertPromise = getGlobalAlert();
-  const [ seriesWebcomics, globalAlert ] = await Promise.all([seriesWebcomicsPromise, globalAlertPromise]);
+  const seriesWebcomics = await getSeriesAndArticles(id, page, 'webcomics');
+  const globalAlert = ctx.intervalCache.get('globalAlert');
 
   if (seriesWebcomics) {
     const {series, paginatedResults} = seriesWebcomics;
@@ -172,9 +168,8 @@ export async function renderWebcomicSeries(ctx, next) {
 export async function renderSeries(ctx, next) {
   const page = Number(ctx.request.query.page);
   const {id} = ctx.params;
-  const seriesArticlesPromise = getSeriesAndArticles(`W${id}`);
-  const globalAlertPromise = getGlobalAlert();
-  const [ seriesArticles, globalAlert ] = await Promise.all([seriesArticlesPromise, globalAlertPromise]);
+  const seriesArticles = await getSeriesAndArticles(`W${id}`);
+  const globalAlert = ctx.intervalCache.get('globalAlert');
 
   if (seriesArticles) {
     const {series, paginatedResults} = seriesArticles;
@@ -210,9 +205,8 @@ export async function renderSeries(ctx, next) {
 export async function renderArticlesList(ctx, next) {
   // TODO: Remove WP content
   const page = Number(ctx.request.query.page);
-  const articlesListPromise = getArticleList(page, {pageSize: 96});
-  const globalAlertPromise = getGlobalAlert();
-  const [ articlesList, globalAlert ] = await Promise.all([articlesListPromise, globalAlertPromise]);
+  const articlesList = await getArticleList(page, {pageSize: 96});
+  const globalAlert = ctx.intervalCache.get('globalAlert');
   const contentPromos = List(articlesList.results);
 
   const series: Series = {

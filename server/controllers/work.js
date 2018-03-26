@@ -7,7 +7,6 @@ import {isFlagEnabled, getFlagValue} from '../utils/flag-status';
 import {worksLandingPromos, henryImage} from '../data/works';
 import getLicenseInfo from '../filters/get-license-info';
 import {getLinkObjects} from '../filters/get-link-objects';
-import {getGlobalAlert} from '../services/prismic';
 
 function imageUrlFromMiroId(id) {
   const cleanedMiroId = id.match(/(^\w{1}[0-9]*)+/g, '')[0];
@@ -109,9 +108,8 @@ function createMetaContentArray(singleWork, descriptionArray) {
 export const work = async(ctx, next) => {
   const id = ctx.params.id;
   const queryString = ctx.search;
-  const singleWorkPromise = getWork(id, getImageIndex(ctx));
-  const globalAlertPromise = getGlobalAlert();
-  const [ singleWork, globalAlert ] = await Promise.all([singleWorkPromise, globalAlertPromise]);
+  const singleWork = await getWork(id, getImageIndex(ctx));
+  const globalAlert = ctx.intervalCache.get('globalAlert');
   const descriptionArray = singleWork.description && singleWork.description.split('\n');
   const truncatedTitle = singleWork.title && getTruncatedTitle(singleWork.title);
   const miroIdObject = singleWork.identifiers.find(identifier => {
@@ -165,11 +163,10 @@ export const work = async(ctx, next) => {
 export const search = async (ctx, next) => {
   const { query, page } = ctx.query;
   const queryString = ctx.search;
-  const resultsPromise = query && query.trim() !== ''
-    ? getWorks(query, page && Number(page), getImageIndex(ctx))
-    : Promise.resolve(null);
-  const globalAlertPromise = getGlobalAlert();
-  const [ results, globalAlert ] = await Promise.all([resultsPromise, globalAlertPromise]);
+  const results = query && query.trim() !== ''
+    ? await getWorks(query, page && Number(page), getImageIndex(ctx))
+    : null;
+  const globalAlert = ctx.intervalCache.get('globalAlert');
   const resultsArray = results && results.results || [];
   const pageSize = results && results.pageSize;
   const totalPages = results && results.totalPages;
