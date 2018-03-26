@@ -1,3 +1,4 @@
+// @flow
 // TODO capture opening hours in Prismic, then this can become part of prismic services
 import {placesOpeningHours} from '../model/opening-hours';
 import {isDatePast} from '../utils/format-date';
@@ -28,14 +29,18 @@ function returnExceptionalOpeningDates(placesHoursArray) {
 
 const exceptionalDates = returnExceptionalOpeningDates(placesOpeningHours);
 
-export const upcomingExceptionalDates = exceptionalDates.filter(exceptionalDate => !isDatePast(exceptionalDate));
+export const upcomingExceptionalDates = exceptionalDates.filter(exceptionalDate => exceptionalDate && !isDatePast(exceptionalDate));
 
 function returnUpcomingExceptionalOpeningHours(upcomingDates) {
   return [].concat.apply([], upcomingDates.reduce((acc, exceptionalDate) => {
     const exceptionalDay = london(exceptionalDate).format('dddd');
     const overrides = placesOpeningHours.map(place => {
       const override = place.openingHours.exceptional &&
-      place.openingHours.exceptional.filter(item => item.overrideDate.toString() === exceptionalDate.toString());
+      place.openingHours.exceptional.filter(item => {
+        if (item.overrideDate && exceptionalDate) {
+          return item.overrideDate.toString() === exceptionalDate.toString();
+        }
+      });
       const openingHours = override && override.length > 0 ? override[0] : place.openingHours.regular.find(item => item.dayOfWeek === exceptionalDay);
       return {
         exceptionalDate,
