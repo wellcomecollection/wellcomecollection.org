@@ -12,63 +12,9 @@ import {
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {placesOpeningHours} from '../model/opening-hours';
-import {isDatePast} from '../filters/format-date';
-import groupBy from 'lodash.groupby';
-import moment from 'moment';
+import {exceptionalOpeningHours} from '../../common/services/opening-times';
 
-function london(d) {
-  // $FlowFixMe
-  return moment.tz(d, 'Europe/London');
-};
-
-function returnExceptionalOpeningDates(placesHoursArray) {
-  return [].concat.apply([], placesHoursArray.map(place => {
-    return place.openingHours.exceptional &&
-      place.openingHours.exceptional.map(exceptionalDate => exceptionalDate.overrideDate);
-  }).filter(_ => _))
-    .sort((a, b) => Number(a) - Number(b))
-    .filter((item, i, array) => {
-      const firstDate = item;
-      const prevDate = array[i - 1];
-      if (!i) {
-        return true;
-      } else if (firstDate instanceof Date && prevDate instanceof Date) {
-        return firstDate.toString() !== prevDate.toString();
-      }
-    });
-};
-
-const exceptionalDates = returnExceptionalOpeningDates(placesOpeningHours);
-
-// TODO use this in OpeningHours, instead of generating it there
-export const upcomingExceptionalDates = exceptionalDates.filter(exceptionalDate => !isDatePast(exceptionalDate));
-
-function returnUpcomingExceptionalOpeningHours(upcomingDates) {
-  return [].concat.apply([], upcomingDates.reduce((acc, exceptionalDate) => {
-    const exceptionalDay = london(exceptionalDate).format('dddd');
-    const overrides = placesOpeningHours.map(place => {
-      const override = place.openingHours.exceptional &&
-      place.openingHours.exceptional.filter(item => item.overrideDate.toString() === exceptionalDate.toString());
-      const openingHours = override && override.length > 0 ? override[0] : place.openingHours.regular.find(item => item.dayOfWeek === exceptionalDay);
-      return {
-        exceptionalDate,
-        exceptionalDay,
-        id: place.id,
-        name: place.name,
-        openingHours
-      };
-    });
-    acc.push(overrides);
-
-    return acc;
-  }, []));
-}
-
-const upcomingExceptionalOpeningHours = returnUpcomingExceptionalOpeningHours(upcomingExceptionalDates);
-
-const exceptionalOpeningHours = groupBy(upcomingExceptionalOpeningHours, item => london(item.exceptionalDate).format('YYYY-MM-DD'));
-
-export const renderOpeningTimes = (ctx, next) => { // TODO meta data
+export const renderOpeningTimes = (ctx, next) => {
   const path = ctx.request.url;
   const trackingInfo = {}; // TODO
 

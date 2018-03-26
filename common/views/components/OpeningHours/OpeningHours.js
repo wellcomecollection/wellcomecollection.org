@@ -5,8 +5,7 @@ import {Fragment} from 'react';
 import {formatDate} from '../../../utils/format-date';
 import moment from 'moment';
 import OpeningHoursTable from '../../components/OpeningHoursTable/OpeningHoursTable';
-// $FlowFixMe
-import {upcomingExceptionalDates} from '../../../../server/controllers/content';
+import {upcomingExceptionalDates} from '../../../services/opening-times';
 
 type Props = {|
   id: string,
