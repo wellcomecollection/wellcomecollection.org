@@ -99,8 +99,8 @@ export async function renderExplore(ctx, next) {
   const contentListPromise = getArticleList();
   const globalAlertPromise = getGlobalAlert();
 
-  const listRequests = [getCuratedList('explore'), contentListPromise, globalAlertPromise];
-  const [curatedList, contentList, globalAlert] = await Promise.all(listRequests);
+  const listAndAlertRequests = [getCuratedList('explore'), contentListPromise, globalAlertPromise];
+  const [curatedList, contentList, globalAlert] = await Promise.all(listAndAlertRequests);
 
   const contentPromos = contentList.results.map(PromoFactory.fromArticleStub);
   const promos = List(contentPromos.map((promo, index) => {
