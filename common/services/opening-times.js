@@ -37,12 +37,12 @@ function upcomingExceptionalOpeningHours(upcomingDates): ExceptionalVenueHours[]
     const exceptionalDay = london(exceptionalDate).format('dddd');
     const overrides = placesOpeningHours.map(place => {
       const override = place.openingHours.exceptional &&
-      place.openingHours.exceptional.filter(item => {
+      place.openingHours.exceptional.find(item => {
         if (item.overrideDate && exceptionalDate) {
           return item.overrideDate.toString() === exceptionalDate.toString();
         }
       });
-      const openingHours = override && override.length > 0 ? override[0] : place.openingHours.regular.find(item => item.dayOfWeek === exceptionalDay);
+      const openingHours = override || place.openingHours.regular.find(item => item.dayOfWeek === exceptionalDay);
       return {
         exceptionalDate,
         exceptionalDay,
