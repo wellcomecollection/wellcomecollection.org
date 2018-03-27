@@ -1,4 +1,4 @@
-import type {OpeningHoursDay, ExceptionalOpeningHoursDay} from './opening-hours';
+import type {OpeningHoursDay, SpecialOpeningHours} from './opening-hours';
 import {galleryOpeningHours} from './opening-hours';
 import {objToJsonLd} from '../utils/json-ld';
 import moment from 'moment';
@@ -16,7 +16,7 @@ export type Organization = {|
   twitterHandle: string,
   sameAs: Array<string>,
   openingHoursSpecification: OpeningHoursDay[],
-  specialOpeningHoursSpecification?: ?ExceptionalOpeningHoursDay[],
+  specialOpeningHoursSpecification?: ?SpecialOpeningHours[],
   address: PostalAddress,
   alternateUrl?: string
 |}

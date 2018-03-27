@@ -1,5 +1,5 @@
 // @flow
-// TODO capture opening hours in Prismic, then this can become part of prismic services
+// TODO - capture opening hours in Prismic, then this can become part of prismic services
 import {placesOpeningHours} from '../model/opening-hours';
 import {isDatePast} from '../utils/format-date';
 import groupBy from 'lodash.groupby';
@@ -11,7 +11,7 @@ function london(d) {
   return moment.tz(d, 'Europe/London');
 };
 
-function returnExceptionalOpeningDates(placesHoursArray): Date[] {
+function returnExceptionalOpeningDates(placesHoursArray): Array<?Date> {
   return [].concat.apply([], placesHoursArray.map(place => {
     return place.openingHours.exceptional &&
       place.openingHours.exceptional.map(exceptionalDate => exceptionalDate.overrideDate);

@@ -12,9 +12,14 @@ export type OpeningHoursDay = {|
 
 export type ExceptionalOpeningHoursDay = {|
   ...OpeningHoursDay,
-  overrideDate?: Date,
-  validFrom?: string,
-  validThrough?: string
+  overrideDate: Date,
+|}
+
+export type SpecialOpeningHours = {|
+  opens: string,
+  closes: string,
+  validFrom: Date,
+  validThrough: Date
 |}
 
 export type OpeningHours = {|
