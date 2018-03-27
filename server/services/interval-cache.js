@@ -1,6 +1,7 @@
 import IntervalCache from 'interval-cache'; // https://github.com/danneu/interval-cache
 import {getFlags} from '../services/flags-lookup';
 import {getGlobalAlert} from '../services/prismic';
+import Raven from 'raven';
 
 const fiveMinutes = 1000 * 60 * 5;
 
@@ -11,7 +12,8 @@ export const cache = new IntervalCache()
       const globalAlert = await getGlobalAlert();
       return globalAlert;
     } catch (err) {
-      // TODO: send error to Sentry
+      console.error(err);
+      Raven.captureException(err);
 
       return null;
     }
