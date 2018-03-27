@@ -18,8 +18,8 @@ We build products that **deliver value**, **solve real problems**, and are a **d
 
 ### [What's on](https://wellcomecollection.org/whats-on)
 Giving people the ability to partake in or inform themselves on
-Wellcome Collection's public programme of events, exhibitions, talks,
-discussions, and other offerings. [`code`](./whats_on).
+Wellcome Collection's events, exhibitions, talks,
+discussions, and more. [`code`](./whats_on).
 
 ### [Content](https://wellcomecollection.org/explore)
 A collection of content from a wide range of authors to challenge the
