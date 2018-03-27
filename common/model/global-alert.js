@@ -1,4 +1,8 @@
+// @flow
+
+import type {HTMLString} from '../services/prismic/types';
+
 export type GlobalAlert = {|
-  text: string,
+  text: HTMLString,
   isShown: boolean
 |}

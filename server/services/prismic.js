@@ -7,7 +7,6 @@ import {
   parseBasicPageDoc,
   asText,
   asHtml,
-  deP,
   prismicImage,
   parseExhibitionsDoc,
   getPositionInPrismicSeries,
@@ -98,7 +97,7 @@ export async function getGlobalAlert(): GlobalAlert {
   const globalAlert = await prismic.getSingle('global-alert');
 
   return {
-    text: globalAlert.data.text && deP(asHtml(globalAlert.data.text)),
+    text: globalAlert.data.text && asHtml(globalAlert.data.text),
     isShown: globalAlert.data.isShown && globalAlert.data.isShown === 'show'
   };
 }
