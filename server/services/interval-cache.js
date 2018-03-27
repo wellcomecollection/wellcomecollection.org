@@ -11,7 +11,7 @@ export const cache = new IntervalCache()
       const globalAlert = await getGlobalAlert();
       return globalAlert;
     } catch (err) {
-      console.error(err);
+      // TODO: send error to Sentry
 
       return null;
     }
