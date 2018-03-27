@@ -4,7 +4,6 @@
   background: color('teal');
   color: color('white');
   padding: $vertical-space-unit 0;
-  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
@@ -19,6 +18,10 @@
   .icon__shape {
     fill: color('white');
   }
+}
+
+.cookie-notification--is-fixed {
+  position: fixed;
 }
 
 .cookie-notification__inner {
