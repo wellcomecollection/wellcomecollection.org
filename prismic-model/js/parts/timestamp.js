@@ -1,4 +1,5 @@
-export default function(label = 'Timestamp') {
+// @flow
+export default function timestamp (label: string = 'Timestamp') {
   return {
     'type': 'Timestamp',
     'config': {

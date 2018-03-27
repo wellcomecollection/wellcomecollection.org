@@ -1,48 +1,58 @@
 {
-  "Exhibition" : {
-    "title" : {
-      "type" : "StructuredText",
-      "config" : {
-        "single" : "heading1",
-        "label" : "Title"
+  "Exhibition": {
+    "title": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Title",
+        "single": "heading1",
+        "useAsTitle": true
       }
     },
-    "start" : {
-      "type" : "Timestamp",
-      "config" : {
-        "label" : "Start date"
+    "description": {
+      "type": "StructuredText",
+      "config": {
+        "multi": "paragraph, hyperlink, strong, em",
+        "label": "Description"
       }
     },
-    "end" : {
-      "type" : "Timestamp",
-      "config" : {
-        "label" : "End date"
+    "start": {
+      "type": "Timestamp",
+      "config": {
+        "label": "Start date"
       }
     },
-    "intro" : {
-      "type" : "StructuredText",
-      "config" : {
-        "label" : "Intro",
-        "multi" : "heading2"
+    "end": {
+      "type": "Timestamp",
+      "config": {
+        "label": "End date"
       }
     },
-    "description" : {
-      "type" : "StructuredText",
-      "config" : {
-        "label" : "Description",
-        "multi" : "heading2,paragraph,strong,em,hyperlink"
+    "place": {
+      "type": "Link",
+      "fieldset": "Place",
+      "config": {
+        "select": "document",
+        "customtypes": [
+          "places"
+        ],
+        "label": "Where is it?"
       }
     },
-    "textAndCaptionsDocument" : {
-      "type" : "Link",
-      "config" : {
-        "select" : "media",
-        "label" : "Text and captions document",
-        "placeholder" : "Text and captions document"
+    "intro": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Intro",
+        "multi": "heading2"
       }
-    }
-  },
-  "Access": {
+    },
+    "textAndCaptionsDocument": {
+      "type": "Link",
+      "config": {
+        "label": "Text and captions document",
+        "select": "media",
+        "customtypes": []
+      }
+    },
     "galleryLevel": {
       "type": "Number",
       "config": {
@@ -50,43 +60,105 @@
       }
     }
   },
-  "Promo" : {
-    "promo" : {
-      "type" : "Slices",
-      "config" : {
-        "label" : "Promo",
-        "choices" : {
-          "editorialImage" : {
-            "type" : "Slice",
-            "fieldset" : "Editorial image",
-            "config" : {
-              "label" : "Editorial image"
+  "Contributors": {
+    "contributors": {
+      "type": "Group",
+      "fieldset": "Contributors",
+      "config": {
+        "fields": {
+          "role": {
+            "type": "Link",
+            "config": {
+              "label": "Role",
+              "select": "document",
+              "customtypes": [
+                "editorial-contributor-roles"
+              ]
+            }
+          },
+          "contributor": {
+            "type": "Link",
+            "config": {
+              "label": "Contributor",
+              "select": "document",
+              "customtypes": [
+                "people",
+                "organisations"
+              ]
+            }
+          },
+          "description": {
+            "type": "StructuredText",
+            "config": {
+              "multi": "paragraph, hyperlink, strong, em",
+              "label": "How did they contribute to this?"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Exhibits": {
+    "exhibits": {
+      "type": "Group",
+      "fieldset": "Exhibits",
+      "config": {
+        "fields": {
+          "item": {
+            "type": "Link",
+            "config": {
+              "label": "Exhibit",
+              "select": "document",
+              "customtypes": [
+                "installations"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "Promo": {
+    "promo": {
+      "type": "Slices",
+      "config": {
+        "label": "Promo",
+        "choices": {
+          "editorialImage": {
+            "type": "Slice",
+            "fieldset": "Editorial image",
+            "config": {
+              "label": "Editorial image"
             },
-            "non-repeat" : {
-              "caption" : {
-                "type" : "StructuredText",
-                "config" : {
-                  "label" : "Promo text",
-                  "single" : "paragraph"
+            "non-repeat": {
+              "caption": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Promo text",
+                  "single": "paragraph"
                 }
               },
-              "image" : {
-                "type" : "Image",
-                "config" : {
-                  "label" : "Promo image",
-                  "thumbnails" : [ {
-                    "name" : "32:15",
-                    "width" : 3200,
-                    "height" : 1500
-                  }, {
-                    "name" : "16:9",
-                    "width" : 3200,
-                    "height" : 1800
-                  }, {
-                    "name" : "square",
-                    "width" : 3200,
-                    "height" : 3200
-                  } ]
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Promo image",
+                  "thumbnails": [
+                    {
+                      "name": "32:15",
+                      "width": 3200,
+                      "height": 1500
+                    },
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
                 }
               }
             }
@@ -95,54 +167,62 @@
       }
     }
   },
-  "Related Promos" : {
-    "promoList" : {
-      "type" : "Group",
-      "config" : {
-        "label" : "Related Promos",
-        "fields" : {
-          "image" : {
-            "type" : "Image",
-            "config" : {
-              "label" : "Image",
-              "thumbnails" : [ {
-                "name" : "16:9",
-                "width" : 3200,
-                "height" : 1800
-              }, {
-                "name" : "square",
-                "width" : 3200,
-                "height" : 3200
-              } ]
+  "Related promos": {
+    "promoList": {
+      "type": "Group",
+      "config": {
+        "label": "Related Promos",
+        "fields": {
+          "image": {
+            "type": "Image",
+            "config": {
+              "label": "Image",
+              "thumbnails": [
+                {
+                  "name": "16:9",
+                  "width": 3200,
+                  "height": 1800
+                },
+                {
+                  "name": "square",
+                  "width": 3200,
+                  "height": 3200
+                }
+              ]
             }
           },
-          "type" : {
-            "type" : "Select",
-            "config" : {
-              "label" : "Type",
-              "options" : [ "gallery", "book", "event", "article" ]
+          "type": {
+            "type": "Select",
+            "config": {
+              "label": "Type",
+              "options": [
+                "gallery",
+                "book",
+                "event",
+                "article"
+              ]
             }
           },
-          "title" : {
-            "type" : "StructuredText",
-            "config" : {
-              "single" : "heading3",
-              "label" : "Title"
+          "title": {
+            "type": "StructuredText",
+            "config": {
+              "single": "heading3",
+              "label": "Title"
             }
           },
-          "description" : {
-            "type" : "StructuredText",
-            "config" : {
-              "single" : "paragraph",
-              "label" : "Description"
+          "description": {
+            "type": "StructuredText",
+            "config": {
+              "single": "paragraph",
+              "label": "Description"
             }
           },
-          "link" : {
-            "config" : {
-              "label" : "Link",
-              "select" : "web"
+          "link": {
+            "config": {
+              "label": "Link",
+              "select": "web"
             },
-            "type" : "Link"
+            "type": "Link"
           }
         }
       }
