@@ -66,9 +66,9 @@
     ] %}
     {% component 'header', { navLinks: navLinks } %}
 
-    {% if pageConfig.globalAlert.isShown %}
+    {% if globalAlert.isShown %}
       {% componentJsx 'InfoBanner', {
-        text: pageConfig.globalAlert.text,
+        text: globalAlert.text,
         cookieName: 'WC_globalAlert'
       } %}
     {% endif %}

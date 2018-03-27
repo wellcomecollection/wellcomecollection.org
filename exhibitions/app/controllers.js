@@ -9,7 +9,6 @@ export async function renderExhibition(ctx, next) {
   const id = `${ctx.params.id}`;
   const isPreview = Boolean(ctx.params.preview);
   const exhibitionContent = await getExhibitionAndRelatedContent(id, isPreview ? ctx.request : null);
-  const globalAlert = ctx.intervalCache.get('globalAlert');
   const format = ctx.request.query.format;
   const path = ctx.request.url;
   const tags = [{
@@ -23,7 +22,6 @@ export async function renderExhibition(ctx, next) {
     } else {
       ctx.render('pages/exhibition', {
         pageConfig: createPageConfig({
-          globalAlert: globalAlert,
           path: path,
           title: exhibitionContent.exhibition.title,
           inSection: 'whatson',
@@ -44,11 +42,9 @@ export async function renderExhibition(ctx, next) {
 export async function renderExhibitionsList(ctx, next) {
   const page = Number(ctx.request.query.page);
   const paginatedExhibitions = await getPaginatedExhibitionPromos(page);
-  const globalAlert = ctx.intervalCache.get('globalAlert');
 
   ctx.render('pages/exhibitions', {
     pageConfig: createPageConfig({
-      globalAlert: globalAlert,
       path: ctx.request.url,
       title: 'Exhibitions',
       inSection: 'whatson',

@@ -109,7 +109,6 @@ export const work = async(ctx, next) => {
   const id = ctx.params.id;
   const queryString = ctx.search;
   const singleWork = await getWork(id, getImageIndex(ctx));
-  const globalAlert = ctx.intervalCache.get('globalAlert');
   const descriptionArray = singleWork.description && singleWork.description.split('\n');
   const truncatedTitle = singleWork.title && getTruncatedTitle(singleWork.title);
   const miroIdObject = singleWork.identifiers.find(identifier => {
@@ -139,7 +138,6 @@ export const work = async(ctx, next) => {
     id,
     queryString,
     pageConfig: createPageConfig({
-      globalAlert: globalAlert,
       title: truncatedTitle,
       inSection: 'images',
       category: 'collections',
@@ -166,7 +164,6 @@ export const search = async (ctx, next) => {
   const results = query && query.trim() !== ''
     ? await getWorks(query, page && Number(page), getImageIndex(ctx))
     : null;
-  const globalAlert = ctx.intervalCache.get('globalAlert');
   const resultsArray = results && results.results || [];
   const pageSize = results && results.pageSize;
   const totalPages = results && results.totalPages;
@@ -181,7 +178,6 @@ export const search = async (ctx, next) => {
   const pagination = PaginationFactory.fromList(List(resultsArray), parseInt(totalResults, 10) || 1, parseInt(page, 10) || 1, pageSize || 1, ctx.query);
   ctx.render('pages/search', {
     pageConfig: createPageConfig({
-      globalAlert: globalAlert,
       title: query ? `Collections search: ${query}` : 'Collections search',
       path: path,
       inSection: 'images',

@@ -6,10 +6,12 @@ import marked from 'marked';
 export default function render(root, extraGlobals) {
   return (ctx, next) => {
     const [flags, cohorts] = ctx.intervalCache.get('flags');
+    const globalAlert = ctx.intervalCache.get('globalAlert');
     const globals = Map(Object.assign({}, extraGlobals, {
       featuresCohort: ctx.featuresCohort,
       featureFlags: flags || {},
-      cohorts: cohorts || {}
+      cohorts: cohorts || {},
+      globalAlert: globalAlert
     }));
     const env = getEnvWithGlobalsExtensionsAndFilters(root, globals);
     ctx.render = (relPath, templateData) => ctx.body = env.render(`${relPath}.njk`, templateData);
