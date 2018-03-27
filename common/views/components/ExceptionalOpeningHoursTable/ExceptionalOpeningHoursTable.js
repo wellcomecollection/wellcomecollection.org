@@ -22,7 +22,7 @@ const ExceptionalOpeningHoursTable = ({caption, venues, extraClasses}: Props) =>
         <tr key={venue.name} className='opening-hours__tr'>
           <th className={`opening-hours__th ${spacing({s: 2}, {padding: ['top', 'bottom']})}`} scope='row'>{venue.name}</th>
           {venue.openingHours.opens &&
-            <td className='opening-hours__td'>{venue.openingHours.opens + ' - ' + venue.openingHours.closes}</td>
+            <td className='opening-hours__td'>{venue.openingHours.opens}&mdash;{venue.openingHours.closes}</td>
           }
           {!venue.openingHours.opens &&
             <td className='opening-hours__td'>{venue.openingHours.note}</td>
