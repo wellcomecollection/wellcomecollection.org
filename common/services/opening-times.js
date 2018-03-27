@@ -11,7 +11,7 @@ function london(d) {
   return moment.tz(d, 'Europe/London');
 };
 
-function returnExceptionalOpeningDates(placesHoursArray): Array<?Date> {
+function exceptionalOpeningDates(placesHoursArray): Array<?Date> {
   return [].concat.apply([], placesHoursArray.map(place => {
     return place.openingHours.exceptional &&
       place.openingHours.exceptional.map(exceptionalDate => exceptionalDate.overrideDate);
@@ -28,11 +28,11 @@ function returnExceptionalOpeningDates(placesHoursArray): Array<?Date> {
     });
 };
 
-const exceptionalDates = returnExceptionalOpeningDates(placesOpeningHours);
+const exceptionalDates = exceptionalOpeningDates(placesOpeningHours);
 
 export const upcomingExceptionalDates = exceptionalDates.filter(exceptionalDate => exceptionalDate && !isDatePast(exceptionalDate));
 
-function returnUpcomingExceptionalOpeningHours(upcomingDates): ExceptionalVenueHours[] {
+function upcomingExceptionalOpeningHours(upcomingDates): ExceptionalVenueHours[] {
   return [].concat.apply([], upcomingDates.reduce((acc, exceptionalDate) => {
     const exceptionalDay = london(exceptionalDate).format('dddd');
     const overrides = placesOpeningHours.map(place => {
@@ -57,6 +57,6 @@ function returnUpcomingExceptionalOpeningHours(upcomingDates): ExceptionalVenueH
   }, []));
 }
 
-const upcomingExceptionalOpeningHours = returnUpcomingExceptionalOpeningHours(upcomingExceptionalDates);
+const upcomingExceptionalHours = upcomingExceptionalOpeningHours(upcomingExceptionalDates);
 
-export const exceptionalOpeningHours = groupBy(upcomingExceptionalOpeningHours, item => london(item.exceptionalDate).format('YYYY-MM-DD'));
+export const exceptionalOpeningHours = groupBy(upcomingExceptionalHours, item => london(item.exceptionalDate).format('YYYY-MM-DD'));
