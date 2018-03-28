@@ -39,7 +39,9 @@ export type ExceptionalVenueHours = {|
   exceptionalDay: Days,
   id: string,
   name: string,
-  openingHours: OpeningHoursDay | ExceptionalOpeningHoursDay
+  openingHours: OpeningHoursDay | ExceptionalOpeningHoursDay,
+  opensChanged: boolean,
+  closesChanged: boolean
 |};
 
 export type PlacesOpeningHours = Array<Place>;
