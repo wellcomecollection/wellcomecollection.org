@@ -70,6 +70,13 @@
     ] %}
     {% component 'header', { navLinks: navLinks } %}
 
+    {% if globalAlert.isShown %}
+      {% componentJsx 'InfoBanner', {
+        text: globalAlert.text,
+        cookieName: 'WC_globalAlert'
+      } %}
+    {% endif %}
+
     <div id="main" class="main" role="main">
       {% block body %}
       {% endblock %}
