@@ -10,7 +10,8 @@ import {
   renderEventbriteEmbed,
   renderExplore,
   renderSeries,
-  renderArticlesList, renderWebcomicSeries,
+  renderArticlesList,
+  renderWebcomicSeries,
   renderOpeningTimes
 } from '../controllers/content';
 
