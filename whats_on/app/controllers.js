@@ -1,5 +1,6 @@
+import searchQuery from 'search-query-parser';
 import {getInstallation} from '@weco/common/services/prismic/installations';
-import {getExhibition} from '@weco/common/services/prismic/exhibitions';
+import {getExhibition, getExhibitionExhibits} from '@weco/common/services/prismic/exhibitions';
 import {model, prismic} from 'common';
 
 import {
@@ -78,6 +79,21 @@ export async function renderExhibition(ctx, next) {
       canonicalUri: `https://wellcomecollection.org/exhibitions/${exhibition.id}`
     }),
     exhibition,
+    exhibitIds: exhibition.exhibits.map(exhibit => exhibit.item.id),
     tags
   });
+}
+
+export async function renderExhibits(ctx, next) {
+  const query = searchQuery.parse(ctx.query.query, { keywords: ['ids'] });
+  const ids = query.ids.split(',');
+  const exhibits = await getExhibitionExhibits(ctx.request, {ids});
+
+  ctx.render('components/exhibits/exhibits', {
+    exhibits: exhibits.results
+  });
+
+  ctx.body = {
+    html: ctx.body
+  };
 }

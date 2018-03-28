@@ -6,7 +6,7 @@ import type {ImagePromo} from './image-promo';
 import type {Place} from './place';
 import type {Contributor} from './contributors';
 
-type Exhibit = {|
+export type Exhibit = {|
   exhibitType: | 'installations',
   item: | Installation
 |}
