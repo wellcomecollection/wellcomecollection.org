@@ -15,6 +15,7 @@ export type ExceptionalOpeningHoursDay = {|
   overrideDate: Date,
 |}
 
+// http://schema.org/specialOpeningHoursSpecification
 export type SpecialOpeningHours = {|
   opens: string,
   closes: string,

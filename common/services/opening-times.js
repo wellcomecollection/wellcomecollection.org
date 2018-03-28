@@ -12,7 +12,7 @@ function london(d) {
 };
 
 function exceptionalOpeningDates(placesHoursArray): Array<?Date> {
-  return [].concat.apply([], placesHoursArray.map(place => {
+  return [].concat.apply([], placesHoursArray.map(place => { // [].concat.apply to flatten the array
     return place.openingHours.exceptional &&
       place.openingHours.exceptional.map(exceptionalDate => exceptionalDate.overrideDate);
   }).filter(_ => _))
