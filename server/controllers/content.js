@@ -11,7 +11,7 @@ import {
 } from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
-import {placesOpeningHours} from '../model/opening-hours';
+import {placesOpeningHours} from '../../common/model/opening-hours';
 import {exceptionalOpeningHours} from '../../common/services/opening-times';
 
 export const renderOpeningTimes = (ctx, next) => {

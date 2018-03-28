@@ -1,4 +1,4 @@
-import type {Organization} from '../../../model/organization';
+import type {Organization} from '../../../../common/model/organization';
 
 const orgOne = ({
   name: 'Org name',

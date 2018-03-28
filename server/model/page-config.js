@@ -1,8 +1,8 @@
 import type {Article} from './article';
-import type {PlacesOpeningHours} from './opening-hours';
-import type {Organization} from './organization';
-import {defaultPlacesOpeningHours} from './opening-hours';
-import {wellcomeCollection} from './organization';
+import type {PlacesOpeningHours} from '../../common/model/opening-hours';
+import type {Organization} from '../../common/model/organization';
+import {defaultPlacesOpeningHours} from '../../common/model/opening-hours';
+import {wellcomeCollection} from '../../common/model/organization';
 
 // TODO: Make this a strict object, but then we have problems with Object.assign...
 export type PageConfig = {

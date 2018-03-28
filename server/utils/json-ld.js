@@ -1,5 +1,5 @@
 import type {EventPromo, Event} from '../content-model/events';
-import {wellcomeCollection, wellcomeCollectionAddress} from '../model/organization';
+import {wellcomeCollection, wellcomeCollectionAddress} from '../../common/model/organization';
 import {convertImageUri} from '../filters/convert-image-uri';
 
 export function objToJsonLd<T>(obj: T, type: string, root: boolean = true) {
