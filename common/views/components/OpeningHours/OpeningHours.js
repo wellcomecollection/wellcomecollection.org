@@ -4,6 +4,8 @@ import {placesOpeningHours as places} from '../../../model/opening-hours';
 import {Fragment} from 'react';
 import {formatDate} from '../../../utils/format-date';
 import moment from 'moment';
+import OpeningHoursTable from '../../components/OpeningHoursTable/OpeningHoursTable';
+import {upcomingExceptionalDates} from '../../../services/opening-times';
 
 type Props = {|
   id: string,
@@ -15,32 +17,7 @@ function london(d) {
   return moment.tz(d, 'Europe/London');
 };
 
-// TODO write tests for these functions
-const flattenedExceptionalOpeningDates = places.map((place) => {
-  if (place.openingHours.exceptional) {
-    return place.openingHours.exceptional.map((openingTimes) => {
-      return openingTimes.overrideDate;
-    });
-  }
-})
-  .filter(_ => _)
-  .reduce((prev, curr) => prev && prev.concat(curr));
-
-const uniqueExceptionalOpeningDates = flattenedExceptionalOpeningDates && flattenedExceptionalOpeningDates.length > 1
-  ? flattenedExceptionalOpeningDates
-    .sort((a, b) => Number(a) - Number(b))
-    .filter((item, i, array) => {
-      const firstDate = item;
-      const lastDate = array[i - 1];
-      if (!i) {
-        return true;
-      } else if (firstDate instanceof Date && lastDate instanceof Date) {
-        return firstDate.toString() !== lastDate.toString();
-      } else {
-        return false;
-      }
-    })
-  : flattenedExceptionalOpeningDates;
+const uniqueExceptionalOpeningDates = upcomingExceptionalDates;
 
 let groupedIndex = 0;
 
@@ -97,7 +74,7 @@ const OpeningHours = ({id, extraClasses}: Props) => (
             }
           }
         })}
-        . Please check our <a href="/opening-times#exceptional">exceptional opening times</a> for details before you travel.
+        . Please check our <a href="/info/opening-times#exceptional">exceptional opening times</a> for details before you travel.
       </p>
     }
     <div className={`opening-hours ${extraClasses || ''} js-opening-hours js-tabs`}>
@@ -109,23 +86,7 @@ const OpeningHours = ({id, extraClasses}: Props) => (
         ))}
       </ul>
       {places.map((place) => (
-        <table key={`${id}-panel-${place.id}`} id={`${id}-panel-${place.id}`} className={`opening-hours__table ${font({s: 'HNL5'})} js-tabpanel`}>
-          <caption className='opening-hours__caption js-tabfocus'>{place.name}</caption>
-          <thead className='opening-hours__thead'>
-            <tr className='opening-hours__tr'>
-              <th scope='col'>Day</th>
-              <th scope='col'>Times</th>
-            </tr>
-          </thead>
-          <tbody className='opening-hours__tbody'>
-            {place.openingHours.regular.map((day) => (
-              <tr key={day.dayOfWeek} className='opening-hours__tr'>
-                <td className='opening-hours__td'>{day.dayOfWeek}</td>
-                {day.opens ? <td className='opening-hours__td'>{`${day.opens} - ${day.closes}`}</td> : <td className='opening-hours__td'>{day.note}</td>}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <OpeningHoursTable key={`${id}-panel-${place.id}`} id={id} place={place} />
       ))}
     </div>
   </Fragment>

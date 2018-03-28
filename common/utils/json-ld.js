@@ -88,14 +88,7 @@ export function workLd(content) {
 }
 
 export function museumLd(museum) {
-  const openingHoursSpecification = museum.openingHoursSpecification.map(ohs => {
-    return {
-      dayOfWeek: ohs.dayOfWeek,
-      closes: ohs.closes,
-      opens: ohs.opens
-    };
-  });
-  const newMuseum = Object.assign({}, museum, {openingHoursSpecification, logo: imageLd(museum.logo)});
+  const newMuseum = Object.assign({}, museum);
   delete newMuseum.twitterHandle;
   return objToJsonLd(newMuseum, 'Museum');
 }

@@ -10,20 +10,36 @@ export type OpeningHoursDay = {|
   note?: string
 |};
 
-type ExceptionalOpeningHoursDay = {|
+export type ExceptionalOpeningHoursDay = {|
   ...OpeningHoursDay,
-  overrideDate: Date
+  overrideDate: Date,
+|}
+
+// http://schema.org/specialOpeningHoursSpecification
+export type SpecialOpeningHours = {|
+  opens: string,
+  closes: string,
+  validFrom: Date,
+  validThrough: Date
 |}
 
 export type OpeningHours = {|
   regular: OpeningHoursDay[],
-  exceptional?: ExceptionalOpeningHoursDay[]
+  exceptional?: ?ExceptionalOpeningHoursDay[]
 |};
 
-type Place = {|
+export type Place = {|
   id: string,
   name: string,
   openingHours: OpeningHours
+|};
+
+export type ExceptionalVenueHours = {|
+  exceptionalDate: Date,
+  exceptionalDay: Days,
+  id: string,
+  name: string,
+  openingHours: OpeningHoursDay | ExceptionalOpeningHoursDay
 |};
 
 export type PlacesOpeningHours = Array<Place>;

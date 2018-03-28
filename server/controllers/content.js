@@ -11,6 +11,25 @@ import {
 } from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
+import {placesOpeningHours} from '../../common/model/opening-hours';
+import {exceptionalOpeningHours} from '../../common/services/opening-times';
+
+export const renderOpeningTimes = (ctx, next) => {
+  const path = ctx.request.url;
+
+  ctx.render('pages/opening-times', {
+    pageConfig: Object.assign({}, createPageConfig({
+      path: path,
+      title: 'Opening Times',
+      category: 'information',
+      canonicalUri: `${ctx.globals.rootDomain}/info/opening-times`
+    })),
+    placesOpeningHours,
+    exceptionalOpeningHours
+  });
+
+  return next();
+};
 
 export const renderArticle = async(ctx, next) => {
   const format = ctx.request.query.format;

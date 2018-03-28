@@ -20,9 +20,8 @@ import type {ExhibitionPromo} from '../model/exhibition-promo';
 import type {ExhibitionAndRelatedContent} from '../model/exhibition-and-related-content';
 import {PaginationFactory} from '../model/pagination';
 import type {EventPromo} from '../content-model/events';
-// $FlowFixMe
 import type {GlobalAlert} from '../../common/model/global-alert';
-import {galleryOpeningHours} from '../model/opening-hours';
+import {galleryOpeningHours} from '../../common/model/opening-hours';
 import {isEmptyObj} from '../utils/is-empty-obj';
 
 type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
