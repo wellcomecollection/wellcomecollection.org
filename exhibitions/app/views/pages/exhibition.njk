@@ -29,7 +29,8 @@
       <div class="exhibition-hero">
         {% componentJsx 'Picture', {
           images: exhibition.featuredImages.toJS(),
-          extraClasses: 'exhibition-hero__picture'
+          extraClasses: 'exhibition-hero__picture',
+          isFull: true
         }%}
 
         <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">

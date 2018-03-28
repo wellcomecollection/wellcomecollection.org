@@ -6,10 +6,11 @@ import {convertImageUri} from '../../../utils/convert-image-uri';
 
 type Props = {|
   images: PictureProps[],
-  extraClasses?: string
+  extraClasses?: string,
+  isFull: boolean
 |};
 
-const Picture = ({ images, extraClasses }: Props) => {
+const Picture = ({ images, extraClasses, isFull = false }: Props) => {
   const lastImage = images[images.length - 1];
   return (
     <figure className='relative no-margin'>
@@ -45,7 +46,7 @@ const Picture = ({ images, extraClasses }: Props) => {
         license={lastImage.license}
         copyrightHolder={lastImage.copyright && lastImage.copyright.holder}
         copyrightLink={lastImage.copyright && lastImage.copyright.link}
-        isFull={false}
+        isFull={isFull}
       />}
     </figure>
   );
