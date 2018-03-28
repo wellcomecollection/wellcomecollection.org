@@ -14,6 +14,29 @@
         "multi": "paragraph, hyperlink, strong, em",
         "label": "Description"
       }
+    },
+    "start": {
+      "type": "Timestamp",
+      "config": {
+        "label": "Start date"
+      }
+    },
+    "end": {
+      "type": "Timestamp",
+      "config": {
+        "label": "End date"
+      }
+    },
+    "place": {
+      "type": "Link",
+      "fieldset": "Place",
+      "config": {
+        "select": "document",
+        "customtypes": [
+          "places"
+        ],
+        "label": "Where is it?"
+      }
     }
   },
   "Contributors": {
@@ -41,6 +64,13 @@
                 "people",
                 "organisations"
               ]
+            }
+          },
+          "description": {
+            "type": "StructuredText",
+            "config": {
+              "multi": "paragraph, hyperlink, strong, em",
+              "label": "How did they contribute to this?"
             }
           }
         }

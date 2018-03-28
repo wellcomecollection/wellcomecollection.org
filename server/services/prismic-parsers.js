@@ -3,7 +3,7 @@ import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
 import type {Exhibition} from '../content-model/exhibition';
 import type {
-  EventTime, Event, Contributor, Team,
+  EventTime, DisplayEvent, Contributor, Team,
   Place, EventFormat, Audience
 } from '../content-model/events';
 import getBreakpoint from '../filters/get-breakpoint';
@@ -18,13 +18,15 @@ import type {Series} from '../model/series';
 import type {LicenseType} from '../model/license';
 import {licenseTypeArray} from '../model/license';
 import {london} from '../filters/format-date';
+// $FlowFixMe
+import {parseContributors as parseContributorsProperly} from '../../common/services/prismic/parsers';
 
 // This is just JSON
 type PrismicDoc = Object;
 // This is because it could be any part of a JSON doc
 type PrismicDocFragment = Object | Array<any>;
 
-export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): Event {
+export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): DisplayEvent {
   const eventSchedule = scheduleDocs && scheduleDocs.results.map(doc => parseEventDoc(doc));
   const promo = parseImagePromo(doc.data.promo);
 
@@ -91,25 +93,10 @@ export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): Event
 
   const bookingType = parseEventBookingType(doc);
 
-  const contributors = doc.data.contributors.map(contributor => {
-    if (isEmptyDocLink(contributor.contributor)) return;
-
-    return (() => {
-      switch (contributor.contributor.type) {
-        case 'organisations':
-          return {
-            name: asText(contributor.contributor.data.name),
-            image: contributor.contributor.data.image && parsePicture({
-              image: contributor.contributor.data.image
-            }),
-            url: contributor.contributor.data.url
-          };
-      }
-    })();
-  }).filter(_ => _);
+  const nonEmptyContributors = doc.data.contributors.filter(c => !isEmptyDocLink(c.contributor));
+  const contributors = parseContributorsProperly(nonEmptyContributors);
 
   const cost = doc.data.cost;
-
   const eventbriteIdScheme = identifiers.find(id => id.identifierScheme === 'eventbrite-id');
   const eventbriteId = eventbriteIdScheme && eventbriteIdScheme.value;
   const isCompletelySoldOut = times.filter(time => !time.isFullyBooked).length === 0;
@@ -133,9 +120,10 @@ export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): Event
     bookingType: bookingType,
     cost: cost,
     schedule: eventSchedule,
+    backgroundTexture: doc.data.backgroundTexture.data && doc.data.backgroundTexture.data.image.url,
     eventbriteId,
     isCompletelySoldOut
-  }: Event);
+  }: DisplayEvent);
 
   return e;
 }
@@ -226,6 +214,7 @@ export function parseArticleDoc(doc: PrismicDoc): Article {
 
   const article: Article = {
     contentType: 'article',
+    id: doc.id,
     headline: headline,
     url: url,
     datePublished: publishDate,

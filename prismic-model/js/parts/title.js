@@ -1,3 +1,4 @@
+// @flow
 const title = {
   'type': 'StructuredText',
   'config': {

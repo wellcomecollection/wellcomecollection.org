@@ -18,7 +18,7 @@
       "type" : "StructuredText",
       "config" : {
         "label" : "Description",
-        "single" : "paragraph"
+        "multi" : "paragraph, em, strong, hyperlink"
       }
     },
     "section" : {

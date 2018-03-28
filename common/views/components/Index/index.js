@@ -5,6 +5,7 @@ import CopyUrl from '../CopyUrl/CopyUrl';
 import Divider from '../Divider/Divider';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import Footer from '../Footer/Footer';
+import InfoBanner from '../InfoBanner/InfoBanner';
 import Image from '../Image/Image';
 import License from '../License/License';
 import MetaUnit from '../MetaUnit/MetaUnit';
@@ -21,6 +22,7 @@ import PageDescription from '../PageDescription/PageDescription';
 import Pagination from '../Pagination/Pagination';
 import Promo from '../Promo/Promo';
 import Picture from '../Picture/Picture';
+import ImageGallery from '../ImageGallery/ImageGallery';
 
 export {
   BackToTop,
@@ -30,6 +32,7 @@ export {
   Divider,
   EventScheduleItem,
   Footer,
+  InfoBanner,
   Image,
   License,
   MetaUnit,
@@ -45,5 +48,6 @@ export {
   PageDescription,
   Pagination,
   Promo,
-  Picture
+  Picture,
+  ImageGallery
 };

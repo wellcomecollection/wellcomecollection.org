@@ -29,7 +29,8 @@
       <div class="exhibition-hero">
         {% componentJsx 'Picture', {
           images: exhibition.featuredImages.toJS(),
-          extraClasses: 'exhibition-hero__picture'
+          extraClasses: 'exhibition-hero__picture',
+          isFull: true
         }%}
 
         <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">
@@ -139,16 +140,6 @@
             <h2 class="{{ {s:'WB5', l:'WB4', xl:'WB3'} | fontClasses }} flex flex--v-center {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
               {% icon 'gallery_filled', null, ['margin-right-s2', 'icon--match-text'] %}Exhibition highlights
             </h2>
-          </div>
-        </div>
-      </div>
-    {% endif %}
-
-    {% if exhibitionContent.imageGallery %}
-      <div class="row {{ {s:5} | spacingClasses({margin: ['bottom']}) }}">
-        <div class="container">
-          <div class="grid">
-            {% component 'image-gallery', { imageGallery: exhibitionContent.imageGallery.value, id: 'article-body-image-gallery--' + exhibition.id } %}
           </div>
         </div>
       </div>

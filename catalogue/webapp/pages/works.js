@@ -149,7 +149,7 @@ const WorksComponent = ({
 );
 
 class Works extends Component<Props> {
-  static getInitialProps = async ({ req, query }: {req?: any, query: {}}) => {
+  static getInitialProps = async ({ req, query }: {req?: any, query: any}) => {
     const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works${getInitialQueryParams(query)}`);
     const json = await res.json();
     const currentPage = query.page || 1;

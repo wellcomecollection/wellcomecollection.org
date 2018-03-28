@@ -1,14 +1,17 @@
 // @flow
 import {withToggler} from '../../hocs/withToggler';
 import {font, spacing} from '../../../utils/classnames';
-import Icon from '../Icon/Icon';
 import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
 
 type Props = {|
   siteSection: string,
-  links: Array<{ href: string, title: string }>,
   isActive: boolean,
-  toggle: () => void
+  toggle: () => void,
+  links: Array<{|
+    href: string,
+    title: string,
+    siteSection: string
+  |}>,
 |}
 
 const Header = withToggler(({ links, siteSection, toggle, isActive }: Props) => (
@@ -44,30 +47,8 @@ const Header = withToggler(({ links, siteSection, toggle, isActive }: Props) => 
             ))}
           </ul>
         </nav>
-
-        <div id='header-search' className='header__search'>
-          <form className='header__form'
-            action='https://wellcomecollection.org/search'
-            method='post'>
-            <div className='header__input-wrap js-show-hide-drawer'>
-              <label className='header__label' htmlFor='header-input'>Search</label>
-              <input id='header-input' className={`header__input ${font({s: 'HNL3', m: 'HNL2'})} js-header-input`} placeholder='Search' name='search' />
-              {/* This is here as we're sending people back to V1, and drupal requires it */}
-              {/* TODO: remove once we build our own search interface  */}
-              <input type='hidden' name='form_id' value='col_search_form' />
-            </div>
-            <button className={`header__button ${font({s: 'WB7'})} js-show-hide-trigger  js-trap-reverse-start`}>
-              <span className='header__button-inner'>
-                <Icon name='search' extraClasses='header__search-button' />
-                <span className='header__button-text'>Search</span>
-              </span>
-            </button>
-            <span role='button' aria-controls='header-input' className='header__close-search js-header-close-search'>
-              <Icon name='cross' title='Close search box' />
-            </span>
-          </form>
-        </div>
-
+        {/* we leave this here until we know exactly what we want to do with search */}
+        <div id="header-search" className="header__search"></div>
         <span className='visually-hidden js-trap-end'>reset focus</span>
       </div>
     </div>

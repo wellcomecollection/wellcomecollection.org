@@ -235,7 +235,8 @@ export const eventExample = ({
         image: null,
         description: null,
         twitterHandle: null
-      }
+      },
+      description: []
     },
     {
       role: {
@@ -249,7 +250,8 @@ export const eventExample = ({
         image: null,
         description: null,
         twitterHandle: null
-      }
+      },
+      description: []
     }
   ],
   promo: {

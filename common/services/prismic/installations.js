@@ -4,14 +4,15 @@ import type {Installation} from '../../model/installations';
 import type {Picture} from '../../model/picture';
 import type {ImagePromo} from './parsers';
 import {getDocument} from './api';
-import {peopleFields, contributorFields} from './fetch-links';
+import {peopleFields, contributorsFields, placesFields} from './fetch-links';
 import {breakpoints} from '../../utils/breakpoints';
-
 import {
   parseTitle,
   parseDescription,
   parseContributors,
-  parseImagePromo
+  parseImagePromo,
+  parseTimestamp,
+  parsePlace
 } from './parsers';
 
 function parseInstallationDoc(document: PrismicDocument): Installation {
@@ -20,7 +21,10 @@ function parseInstallationDoc(document: PrismicDocument): Installation {
     id: document.id,
     title: parseTitle(data.title),
     description: parseDescription(data.description),
-    contributors: parseContributors(data.contributors)
+    contributors: parseContributors(data.contributors),
+    start: parseTimestamp(data.start),
+    end: data.end && parseTimestamp(data.end),
+    place: data.place && parsePlace(data.place)
   };
 }
 
@@ -36,7 +40,7 @@ export async function getInstallation(req: Request, id: string): Promise<?{|
   featredImageList: Picture[]
 |}> {
   const document = await getDocument(req, id, {
-    fetchLinks: peopleFields.concat(contributorFields)
+    fetchLinks: peopleFields.concat(contributorsFields, placesFields)
   });
 
   if (document && document.type === 'installations') {

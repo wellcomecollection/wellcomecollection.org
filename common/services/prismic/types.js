@@ -36,10 +36,12 @@ export type HTMLSpan = {|
   data: Object
 |}
 
-export type HTMLString = [{|
+export type HTMLStringBlock = {|
   type: HTMLSpanTypes,
   text: string,
   spans: HTMLSpan[]
-|}];
+|}
+
+export type HTMLString = HTMLStringBlock[];
 
 export type PrismicFragment = Object;

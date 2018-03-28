@@ -1,5 +1,14 @@
 {% extends 'layout/default.njk' %}
-
+{% block pageMeta %}
+  {% if isPreview %}
+    <script>
+      window.prismic = {
+        endpoint: 'https://wellcomecollection.prismic.io/api/v2'
+      };
+    </script>
+    <script type="text/javascript" src="//static.cdn.prismic.io/prismic.min.js"></script>
+  {% endif %}
+{% endblock %}
 {% block body %}
   {% componentV2 'page-description', { title: errorStatus + '' } %}
 {% endblock %}

@@ -16,8 +16,15 @@
             {% elif bodyPart.type === 'picture' %}
               {# On old content, the first paragraph is sometimes a picture #}
               {% set imageModel = bodyPart.value | objectAssign({lazyload: true, sizesQueries: '(min-width: 960px) 710px, 100vw', showCopyright: true}) %}
-              {% set tasl = {name: 'Tasl', model: imageModel | objectAssign({sourceName: imageModel.source.name, sourceLink: imageModel.source.link})}
-                if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
+              {% set tasl = {
+                name: 'Tasl',
+                model: imageModel | objectAssign({
+                  sourceName: imageModel.source.name,
+                  sourceLink: imageModel.source.link,
+                  copyrightHolder: imageModel.copyright.holder,
+                  copyrightLink: imageModel.copyright.link
+                })}
+                if (imageModel.title or imageModel.source.name or imageModel.copyright.holder or imageModel.license)
                 else null
               %}
 
@@ -44,8 +51,15 @@
             {% endif %}
             <div class="bg-cream {{ {l: 2} | spacingClasses({ padding: ['bottom'] }) }}">
               {% set imageModel = bodyPart.value | objectAssign({lazyload: true, sizesQueries: sizes}) %}
-              {% set tasl = {name: 'Tasl', model: imageModel | objectAssign({sourceName: imageModel.source.name, sourceLink: imageModel.source.link})}
-                if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
+              {% set tasl = {
+                name: 'Tasl',
+                model: imageModel | objectAssign({
+                  sourceName: imageModel.source.name,
+                  sourceLink: imageModel.source.link,
+                  copyrightHolder: imageModel.copyright.holder,
+                  copyrightLink: imageModel.copyright.link
+                })}
+                if (imageModel.title or imageModel.source.name or imageModel.copyright.holder or imageModel.license)
                 else null
               %}
               <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
@@ -64,8 +78,12 @@
           {% elif bodyPart.type === 'interview' %}
             {% component 'interview', { interview: bodyPart.value } %}
           {% elif bodyPart.type === 'imageGallery' %}
-          {% set idNumber = mainLoopIndex - 1 %}
-            {% component 'image-gallery', { imageGallery: bodyPart.value, id: 'article-body-image-gallery--' + idNumber } %}
+            {% set idNumber = mainLoopIndex - 1 %}
+            {% componentJsx 'ImageGallery', {
+              items: bodyPart.value.items,
+              id: 'article-body-image-gallery--' + idNumber,
+              title: bodyPart.value.title
+            } %}
           {% elif bodyPart.type === 'tweet' %}
             {% componentV2 'tweet', bodyPart.value %}
           {% elif bodyPart.type === 'instagramEmbed' %}

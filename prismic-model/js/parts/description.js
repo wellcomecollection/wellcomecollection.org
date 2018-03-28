@@ -1,9 +1,6 @@
-const description =  {
-  'type': 'StructuredText',
-  'config': {
-    'multi': 'paragraph, hyperlink, strong, em',
-    'label': 'Description'
-  }
-};
+// @flow
+import structuredText from './structured-text';
+
+const description = structuredText('Description');
 
 export default description;

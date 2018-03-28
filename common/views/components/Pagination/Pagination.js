@@ -10,7 +10,8 @@ export type Props = {|
   pageCount: number,
   nextPage?: number,
   nextQueryString?: string,
-  prevQueryString?: string
+  prevQueryString?: string,
+  range?: {beginning: number, end: number}
 |}
 
 const Pagination = ({prevPage, currentPage, pageCount, nextPage, nextQueryString, prevQueryString}: Props) => (

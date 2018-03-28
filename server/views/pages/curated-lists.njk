@@ -26,7 +26,15 @@
     </div>
   </div>
 
-  {% componentV2 'page-description', { title: 'Explore' }, {'hidden': true} %}
+  {% if featuresCohort === 'testB' %}
+    {% set listHeader = {
+      name: 'Stories',
+      htmlDescription: curatedList.data.description | prismicAsHtml
+    } %}
+    {% componentV2 'list-header', listHeader %}
+  {% else %}
+    {% componentV2 'page-description', { title: 'Stories' }, {'hidden': true} %}
+  {% endif %}
   <div class="row bg-cream row--has-wobbly-background {{ {s:10} | spacingClasses({padding: ['top']}) }}">
     <div class="container">
       <div class="grid">

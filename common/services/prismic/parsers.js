@@ -1,10 +1,11 @@
 // @flow
-import { RichText } from 'prismic-dom';
+import { RichText, Date as PrismicDate } from 'prismic-dom';
 import type { HTMLString, PrismicFragment } from './types';
 import type { Contributor, PersonContributor, OrganisationContributor } from '../../model/contributors';
 import type { Picture } from '../../model/picture';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
+import type { Place } from '../../model/place';
 import { licenseTypeArray } from '../../model/license';
 
 const linkResolver = (doc) => {
@@ -40,6 +41,10 @@ export function parseTitle(title: HTMLString): string {
 
 export function parseDescription(description: HTMLString): HTMLString {
   return description;
+}
+
+export function parseTimestamp(frag: PrismicFragment): Date {
+  return PrismicDate(frag);
 }
 
 export function parsePicture(captionedImage: Object, minWidth: ?string = null): Picture {
@@ -91,8 +96,8 @@ function parseOrganisationContributor(frag: PrismicFragment): OrganisationContri
   };
 }
 
-export function parseContributors(contributors: PrismicFragment[]): Contributor[] {
-  const cs = contributors.map(contributor => {
+export function parseContributors(contributorsDoc: PrismicFragment[]): Contributor[] {
+  const contributors = contributorsDoc.map(contributor => {
     const role = !contributor.role.isBroken ? {
       id: contributor.role.id,
       title: asText(contributor.role.data.title) || 'MISSING TITLE'
@@ -103,18 +108,20 @@ export function parseContributors(contributors: PrismicFragment[]): Contributor[
         case 'organisations':
           return {
             role,
-            contributor: parseOrganisationContributor(contributor.contributor)
+            contributor: parseOrganisationContributor(contributor.contributor),
+            description: contributor.description
           };
         case 'people':
           return {
             role,
-            contributor: parsePersonContributor(contributor.contributor)
+            contributor: parsePersonContributor(contributor.contributor),
+            description: contributor.description
           };
       }
     })();
   }).filter(Boolean);
 
-  return cs;
+  return contributors;
 }
 
 export function parseTaslFromString(pipedString: string): Tasl {
@@ -161,4 +168,13 @@ export function parseImagePromo(
         maybePromo.primary.image[cropType] || maybePromo.primary.image
     }, minWidth)
   }: ImagePromo);
+}
+
+export function parsePlace(doc: PrismicFragment): Place {
+  return {
+    id: doc.id,
+    title: doc.data.title || 'Unknown',
+    level: doc.data.level || 0,
+    capacity: doc.data.capacity
+  };
 }
