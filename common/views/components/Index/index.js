@@ -10,6 +10,7 @@ import Image from '../Image/Image';
 import License from '../License/License';
 import MetaUnit from '../MetaUnit/MetaUnit';
 import MoreInfoLink from '../MoreInfoLink/MoreInfoLink';
+import OpeningHours from '../OpeningHours/OpeningHours';
 import SearchBox from '../SearchBox/SearchBox';
 import Tags from '../Tags/Tags';
 import Tasl from '../Tasl/Tasl';
@@ -34,6 +35,7 @@ export {
   License,
   MetaUnit,
   MoreInfoLink,
+  OpeningHours,
   SearchBox,
   Tags,
   Tasl,

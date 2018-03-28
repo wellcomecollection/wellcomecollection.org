@@ -432,8 +432,8 @@ function duplicatePromosByMonthYear(promos) {
 function getListHeader(dates) {
   const todaysDate = london().startOf('day');
   const todayString = todaysDate.format('dddd');
-  const regularOpeningHours = galleryOpeningHours.openingHours.find(i => i.dayOfWeek === todayString);
-  const exceptionalOpeningHours = galleryOpeningHours.exceptionalOpeningHours.find(i => {
+  const regularOpeningHours = galleryOpeningHours.regular.find(i => i.dayOfWeek === todayString);
+  const exceptionalOpeningHours = galleryOpeningHours.exceptional && galleryOpeningHours.exceptional.find(i => {
     const dayOfWeek = london(i.overrideDate).startOf('day');
     return todaysDate.isSame(dayOfWeek);
   });
