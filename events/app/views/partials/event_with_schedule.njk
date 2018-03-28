@@ -93,7 +93,7 @@
         </ul>
 
         {% if event.contributors.length > 0 %}
-          <h2 class="{{ {s: 'WB6', l: 'WB5'} | fontClasses }} {{ {s: 4} | spacingClasses({padding: ['bottom']}) }}">Contributors</h2>
+          <h2 class="{{ {s: 'WB6', l: 'WB5'} | fontClasses }} {{ {s: 4} | spacingClasses({padding: ['bottom']}) }}">In collaboration with</h2>
           {% for contributor in event.contributors %}
             {% if contributor.contributor.contributorType === 'people' %}
               {% component 'author', {
