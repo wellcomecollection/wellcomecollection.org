@@ -39,6 +39,10 @@
   <body {% if isPreview %}class="is-preview"{% endif %} data-page-state='{{ (pageConfig.pageState or {}) | dump | safe }}'>
     {% component 'skip-link' %}
 
+    {% if featuresCohort === 'testB' %}
+      {% component 'cookie-notification', { isFixed: false } %}
+    {% endif %}
+
     {% set navLinks = [
       {
         href: 'https://wellcomecollection.org/visit',
@@ -66,6 +70,13 @@
     ] %}
     {% component 'header', { navLinks: navLinks } %}
 
+    {% if globalAlert.isShown %}
+      {% componentJsx 'InfoBanner', {
+        text: globalAlert.text,
+        cookieName: 'WC_globalAlert'
+      } %}
+    {% endif %}
+
     <div id="main" class="main" role="main">
       {% block body %}
       {% endblock %}
@@ -73,7 +84,10 @@
 
     {% componentJsx 'Footer', {openingHoursId: 'footer'} %}
 
-    {% component 'cookie-notification' %}
+
+    {% if featuresCohort !== 'testB' %}
+      {% component 'cookie-notification', { isFixed: true } %}
+    {% endif %}
 
     <noscript>
       <link rel="stylesheet" href="{{ '/assets/css/' | getHashedFile('non-critical.css') }}">

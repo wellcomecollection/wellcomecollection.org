@@ -3,6 +3,8 @@ import cookie from 'cookie-cutter';
 const infoBanner = el => {
   const cookieName = el.getAttribute('data-cookie-name');
   const isAccepted = cookie.get(cookieName);
+  const singleSessionCookies = ['WC_globalAlert'];
+  const isSingleSessionCookie = singleSessionCookies.indexOf(cookieName) > -1;
   const closeButton = el.querySelector('.js-info-banner-close');
 
   if (isAccepted) {
@@ -23,7 +25,7 @@ const infoBanner = el => {
 
     cookie.set(cookieName, 'true', {
       path: '/',
-      expires: 'Fri, 31 Dec 2036 23:59:59 GMT'
+      expires: isSingleSessionCookie ? null : 'Fri, 31 Dec 2036 23:59:59 GMT'
     });
   });
 };

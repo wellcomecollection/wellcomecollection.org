@@ -6,6 +6,7 @@ import {
   parseWebcomicDoc,
   parseBasicPageDoc,
   asText,
+  asHtml,
   prismicImage,
   parseExhibitionsDoc,
   getPositionInPrismicSeries,
@@ -19,7 +20,8 @@ import type {ExhibitionPromo} from '../model/exhibition-promo';
 import type {ExhibitionAndRelatedContent} from '../model/exhibition-and-related-content';
 import {PaginationFactory} from '../model/pagination';
 import type {EventPromo} from '../content-model/events';
-import {galleryOpeningHours} from '../model/opening-hours';
+import type {GlobalAlert} from '../../common/model/global-alert';
+import {galleryOpeningHours} from '../../common/model/opening-hours';
 import {isEmptyObj} from '../utils/is-empty-obj';
 
 type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
@@ -87,6 +89,16 @@ async function getAllOfType(type: Array<DocumentType>, options: PrismicQueryOpti
     Prismic.Predicates.not('document.tags', [withDelisted ? '' : 'delist'])
   ].concat(predicates), Object.assign({}, { pageSize: defaultPageSize }, options));
   return results;
+}
+
+export async function getGlobalAlert(): GlobalAlert {
+  const prismic = await getPrismicApi();
+  const globalAlert = await prismic.getSingle('global-alert');
+
+  return {
+    text: globalAlert.data.text && asHtml(globalAlert.data.text),
+    isShown: globalAlert.data.isShown && globalAlert.data.isShown === 'show'
+  };
 }
 
 export async function getArticle(id: string, previewReq: ?Request) {
@@ -419,8 +431,8 @@ function duplicatePromosByMonthYear(promos) {
 function getListHeader(dates) {
   const todaysDate = london().startOf('day');
   const todayString = todaysDate.format('dddd');
-  const regularOpeningHours = galleryOpeningHours.openingHours.find(i => i.dayOfWeek === todayString);
-  const exceptionalOpeningHours = galleryOpeningHours.exceptionalOpeningHours.find(i => {
+  const regularOpeningHours = galleryOpeningHours.regular.find(i => i.dayOfWeek === todayString);
+  const exceptionalOpeningHours = galleryOpeningHours.exceptional && galleryOpeningHours.exceptional.find(i => {
     const dayOfWeek = london(i.overrideDate).startOf('day');
     return todaysDate.isSame(dayOfWeek);
   });

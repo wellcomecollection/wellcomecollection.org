@@ -23,6 +23,16 @@
     margin-top: 0;
   }
 
+  h3 {
+    @include font('WB7');
+
+    @include respond-to('medium') {
+      @include font('WB6');
+    }
+
+    margin-top: 0;
+  }
+
   *::selection {
     background: transparentize(color('turquoise'), 0.7);
   }

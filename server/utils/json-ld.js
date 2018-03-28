@@ -1,5 +1,5 @@
 import type {EventPromo, Event} from '../content-model/events';
-import {wellcomeCollection, wellcomeCollectionAddress} from '../model/organization';
+import {wellcomeCollection, wellcomeCollectionAddress} from '../../common/model/organization';
 import {convertImageUri} from '../filters/convert-image-uri';
 
 export function objToJsonLd<T>(obj: T, type: string, root: boolean = true) {
@@ -88,14 +88,7 @@ export function workLd(content) {
 }
 
 export function museumLd(museum) {
-  const openingHoursSpecification = museum.openingHoursSpecification.map(ohs => {
-    return {
-      dayOfWeek: ohs.dayOfWeek,
-      closes: ohs.closes,
-      opens: ohs.opens
-    };
-  });
-  const newMuseum = Object.assign({}, museum, {openingHoursSpecification, logo: imageLd(museum.logo)});
+  const newMuseum = Object.assign({}, museum);
   delete newMuseum.twitterHandle;
   return objToJsonLd(newMuseum, 'Museum');
 }

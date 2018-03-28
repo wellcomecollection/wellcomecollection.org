@@ -8,7 +8,6 @@ import lazysizes from 'lazysizes';
 import { store$, dispatch } from './store';
 import { nodeList } from './util';
 import headerBurger from './components/header/burger';
-import headerSearch from './components/header/search';
 import openingHours from './components/opening-hours';
 import wobblyEdge from './components/wobbly-edge';
 import infoBanner from './components/info-banner';
@@ -49,7 +48,6 @@ const init = () => {
   fontObserver.init();
 
   const burgerEl = document.querySelector('.js-header-burger');
-  const headerSearchEl = document.getElementById('header-search');
   const openingHoursEls = document.querySelectorAll('.js-opening-hours');
   const wobblyEdgeEls = document.querySelectorAll('.js-wobbly-edge');
   const stickyEls = document.querySelectorAll('.js-sticky');
@@ -101,10 +99,6 @@ const init = () => {
 
   if (burgerEl) {
     headerBurger(burgerEl);
-  }
-
-  if (headerSearchEl) {
-    headerSearch(headerSearchEl);
   }
 
   if (openingHoursEls) {

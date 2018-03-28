@@ -1,4 +1,5 @@
-export default function description(label) {
+// @flow
+export default function structuredText (label: string) {
   return {
     'type': 'StructuredText',
     'config': {

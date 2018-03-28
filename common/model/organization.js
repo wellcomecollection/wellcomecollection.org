@@ -1,7 +1,8 @@
 // @flow
-import type {OpeningHoursDay} from './opening-hours';
+import type {OpeningHoursDay, SpecialOpeningHours} from './opening-hours';
 import {galleryOpeningHours} from './opening-hours';
 import {objToJsonLd} from '../utils/json-ld';
+import moment from 'moment';
 
 export type PostalAddress = {|
   addressLocality: string,
@@ -17,6 +18,7 @@ export type Organization = {|
   twitterHandle: string,
   sameAs: Array<string>,
   openingHoursSpecification: OpeningHoursDay[],
+  specialOpeningHoursSpecification?: ?SpecialOpeningHours[],
   address: PostalAddress,
   alternateUrl?: string
 |}
@@ -45,8 +47,19 @@ export const wellcomeCollection: Organization = {
   ],
   // TODO: This should be done elsewhere as it's not adhering to the type
   // Annoyingly, but good for time - this is still passing in Flow.
-  openingHoursSpecification: galleryOpeningHours.openingHours.map(
+  openingHoursSpecification: galleryOpeningHours.regular.map(
     openingHoursDay => objToJsonLd(openingHoursDay, 'OpeningHoursSpecification', false)
+  ),
+  specialOpeningHoursSpecification: galleryOpeningHours.exceptional && galleryOpeningHours.exceptional.map(
+    openingHoursDate => {
+      const specObject = {
+        opens: openingHoursDate.opens,
+        closes: openingHoursDate.closes,
+        validFrom: moment(openingHoursDate.overrideDate).format('DD MMMM YYYY'),
+        validThrough: moment(openingHoursDate.overrideDate).format('DD MMMM YYYY')
+      };
+      return objToJsonLd(specObject, 'OpeningHoursSpecification', false);
+    }
   ),
   address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
 };
