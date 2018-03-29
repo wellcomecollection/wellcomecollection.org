@@ -21,6 +21,7 @@ import type {ExhibitionAndRelatedContent} from '../model/exhibition-and-related-
 import {PaginationFactory} from '../model/pagination';
 import type {EventPromo} from '../content-model/events';
 import type {GlobalAlert} from '../../common/model/global-alert';
+import type {BackgroundTexture} from '../../common/model/background-texture';
 import {galleryOpeningHours} from '../../common/model/opening-hours';
 import {isEmptyObj} from '../utils/is-empty-obj';
 
@@ -48,7 +49,8 @@ const eventFields = [
   'interpretation-types.description', 'interpretation-types.primaryDescription',
   'audiences.title',
   'event-series.title', 'event-series.description',
-  'organisations.name', 'organisations.image', 'organisations.url', 'background-textures.image'
+  'organisations.name', 'organisations.image',
+  'organisations.url', 'background-textures.image'
 ];
 
 export const defaultPageSize = 40;
@@ -319,6 +321,13 @@ export function convertPrismicResultsToPaginatedResults(prismicResults: Object):
       pagination
     };
   };
+}
+
+export async function getBackgroundTexture(id: string): BackgroundTexture {
+  const prismic = await getPrismicApi();
+  const series = await prismic.getByID(id, {fetchLinks: 'event-series.backgroundTexture'});
+
+  return series;
 }
 
 export async function getEventsInSeries(id: string, { page }: PrismicQueryOptions) {

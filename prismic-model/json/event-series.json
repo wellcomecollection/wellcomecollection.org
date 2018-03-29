@@ -13,6 +13,14 @@
         "multi" : "paragraph, hyperlink, strong, em",
         "label" : "Description"
       }
+    },
+    "backgroundTexture" : {
+      "type" : "Link",
+      "config" : {
+        "label" : "Background texture",
+        "select" : "document",
+        "customtypes" : [ "background-textures" ]
+      }
     }
   },
   "Promo" : {

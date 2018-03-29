@@ -20,43 +20,45 @@
       {{ ',' if not loop.last }}
     {% endfor %}]
   </script>
-  {% set listHeader = {
-    name: pageConfig.title,
-    htmlDescription: htmlDescription,
-    total: paginatedEvents.results.length
-  } %}
-  {% componentV2 'list-header', listHeader %}
 
-  {% if paginatedEvents.pagination.pageCount > 1  %}
-  <div class="css-grid__container">
-    <div class="css-grid">
-      <div class="{{ {s:12, m:12, l:12, xl:12} | cssGridClasses }}">
-        <div class="{{ {s:5, m:5, l:5} | spacingClasses({padding: ['top']}) }}  {{ {s:5, m:5, l:5} | spacingClasses({padding: ['bottom']}) }} flex flex--v-center font-pewter {{ {s:'LR3', m:'LR2'} | fontClasses }}">
-          {{ paginatedEvents.pagination.range.beginning }} - {{ paginatedEvents.pagination.range.end }}
+  <div class="framed-header row relative">
+    <div class="framed-header__image overflow-hidden bg-turquoise">
+      <div class="framed-header__wobbly-edge absolute">
+        <div class="wobbly-edge wobbly-edge--white js-wobbly-edge"
+          data-is-valley="true"
+          data-max-intensity="100">
         </div>
-        {% componentV2 'divider', null, {'keyline': true, 'pumice': true} %}
+      </div>
+    </div>
+    <div class="relative container container--with-frame bg-white {{ {s:5, m:7} | spacingClasses({padding: ['top']}) }} {{ {s: 1} | spacingClasses({padding: ['bottom']}) }}">
+      <div class="grid">
+        <div class="{{ {s: 12, m: 10, l: 8, xl: 9} | gridClasses }}">
+          <h1 class="{{ {s: 'WB5', m: 'WB4', l: 'WB3'} | fontClasses }} {{ {s: 3} | spacingClasses({margin: ['bottom']}) }} {{ {s: 0} | spacingClasses({margin: ['top']}) }}">{{  pageConfig.title }}</h1>
+        </div>
+        <div class="{{ {s: 12, m: 10, l: 8, xl: 9} | gridClasses }}">
+          {{ htmlDescription | safe }}
+        </div>
       </div>
     </div>
   </div>
-  {% endif %}
 
-  <div class="row {{ {s: 6} | spacingClasses({margin: ['top']}) }} {{ {s: 10} | spacingClasses({margin: ['bottom']}) }}">
+  <div class="row">
     {% if paginatedEvents.results.length > 0 %}
-      <div class="container">
+      <div class="container container--with-frame bg-white {{ {s: 6} | spacingClasses({padding: ['top']}) }}">
         <h2 class="{{ {s: 'WB5'} | fontClasses }} no-margin">Upcoming events</h2>
       </div>
-      <div class="css-grid__container {{ {s: 4} | spacingClasses({padding: ['top']}) }} ">
-        <div class="css-grid">
+      <div class="container container--with-frame bg-white {{ {s: 4} | spacingClasses({padding: ['top']}) }} {{ {s: 10} | spacingClasses({padding: ['bottom']}) }}">
+        <div class="grid">
           {% for event in paginatedEvents.results %}
-            <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
+            <div class="{{ {s: 12, m: 6, l: 3, xl:3} | gridClasses}}">
               {% componentV2 'event-promo', event, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
             </div>
           {% endfor %}
         </div>
       {% else %}
-        <div class="container">
-          <div class="css-grid">
-            <div class="{{ {s: 12, m: 12, l: 8, xl: 8} | cssGridClasses }}">
+        <div class="container container--with-frame bg-white">
+          <div class="grid">
+            <div class="{{ {s: 12, m: 12, l: 8, xl: 8} | gridClasses }}">
               <h2 class="{{ {s: 'WB5'} | fontClasses }} {{ {s: 2} | spacingClasses({margin: ['bottom']}) }}">No upcoming events</h2>
               <p>We don’t have any events of this type scheduled, but we do have other events you might enjoy. See our <a href="/events">full events listing</a>.</p>
             </div>
@@ -66,32 +68,20 @@
     </div>
   </div>
 
-  <div class="row {{ {s: 10} | spacingClasses({margin: ['bottom']}) }}">
+  <div class="row">
     {% if pastEvents.results.length > 0 %}
-      <div class="container">
+      <div class="container container--with-frame bg-white">
         <h2 class="{{ {s: 'WB5'} | fontClasses }} no-margin">Past events</h2>
       </div>
-      <div class="css-grid__container {{ {s: 4} | spacingClasses({padding: ['top']}) }} ">
-        <div class="css-grid">
+      <div class="container container--with-frame bg-white {{ {s: 4} | spacingClasses({padding: ['top']}) }}  {{ {s: 10} | spacingClasses({padding: ['bottom']}) }}">
+        <div class="grid">
           {% for event in pastEvents.results %}
-            <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
+            <div class="{{ {s: 12, m: 6, l: 3, xl:3} | gridClasses}}">
               {% componentV2 'event-promo', event, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
             </div>
           {% endfor %}
         </div>
       </div>
     {% endif %}
-  </div>
-
-  <div class="css-grid__container {{ {s:2, m:2, l:2} | spacingClasses({padding: ['top']}) }} {{ {s:3, m:3, l:3} | spacingClasses({padding: ['bottom']}) }} ">
-    <div class="css-grid">
-
-      {% if paginatedEvents.pagination.pageCount > 1  %}
-        <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} text-align-right">
-          {% componentJsx 'Pagination', paginatedEvents.pagination %}
-        </div>
-      {% endif %}
-
-    </div>
   </div>
 {% endblock %}

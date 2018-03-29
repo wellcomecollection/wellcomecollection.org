@@ -1,7 +1,7 @@
-<div class="event-schedule row relative">
-  <div class="event-schedule__header-image overflow-hidden {{ 'bg-turquoise' if not event.backgroundTexture }}"
+<div class="framed-header event-schedule row relative">
+  <div class="framed-header__image overflow-hidden {{ 'bg-turquoise' if not event.backgroundTexture }}"
   {% if event.backgroundTexture %}style="background-image: url({{ event.backgroundTexture }});"{% endif %}>
-    <div class="event-schedule__wobbly-edge absolute">
+    <div class="framed-header__wobbly-edge absolute">
       <div class="wobbly-edge wobbly-edge--white js-wobbly-edge"
         data-is-valley="true"
         data-max-intensity="100">
@@ -31,7 +31,9 @@
       </div>
     </div>
   </div>
+</div>
 
+<div class="row">
   <div class="container container--with-frame bg-white container--scroll touch-scroll">
     <div class="grid grid--scroll">
       {% for scheduledEvent in event.schedule %}
