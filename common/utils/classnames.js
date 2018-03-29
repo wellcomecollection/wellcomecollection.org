@@ -1,7 +1,7 @@
 // @flow
+export type SizeMap = { [string]: number };
 type SpacingCssProps = 'margin' | 'padding';
 type SpacingCssPropValues = 'top' | 'bottom' | 'left' | 'right';
-type SizeMap = { [string]: number };
 type SpacingProps = { [SpacingCssProps]: SpacingCssPropValues[] }
 type FontMap = { [string]: string }
 
