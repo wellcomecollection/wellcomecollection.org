@@ -326,9 +326,9 @@
           <div class="{{ {s:6, m: 6, l: 6, xl: 6} | gridClasses }}">
             <a href="{{ contributor.url }}">
               {% componentV2 'image', {
-                width: contributor.image.width,
-                contentUrl: contributor.image.contentUrl,
-                alt: contributor.image.contentUrl
+                width: contributor.contributor.image.width,
+                contentUrl: contributor.contributor.image.contentUrl,
+                alt: contributor.contributor.image.contentUrl
               }, [], { lazyload: true } %}
             </a>
           </div>
