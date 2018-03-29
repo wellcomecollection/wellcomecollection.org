@@ -16,6 +16,10 @@
     <div class="grid">
       <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
         <h1 class="{{ {s:'WB5', m:'WB4'} | fontClasses }}">Opening times</h1>
+        <p>
+          Our galleries are open on bank holidays.
+          Please note the café will be open from 09.30 on bank holidays.
+        </p>
       </div>
       <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
         <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="regular">Regular opening times</h2>
@@ -33,7 +37,7 @@
       </div>
 
       <div class="{{ {s:12, m:12, l:6, xl:6} | gridClasses }}">
-        <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="exceptional">Exceptional opening times</h2>
+        <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="exceptional">Modified opening times</h2>
         {% for exceptionalDate, venues in exceptionalOpeningHours %}
             {% componentJsx 'ExceptionalOpeningHoursTable', {caption: exceptionalDate, venues: venues, extraClasses: 'opening-hours--light'} %}
         {% endfor %}

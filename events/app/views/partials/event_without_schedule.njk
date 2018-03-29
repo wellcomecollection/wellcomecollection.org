@@ -210,7 +210,7 @@
             <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
               <p>
                 We programme some drop-in events every month. For these events,
-                you can just turn up. There's usually room for every one.
+                you can just turn up. There's usually room for everyone.
               </p>
             </div>
           {% elif event.cost %}
@@ -324,11 +324,11 @@
         <h2>In partnership with</h2>
         <div class="grid">
           <div class="{{ {s:6, m: 6, l: 6, xl: 6} | gridClasses }}">
-            <a href="{{ contributor.url }}">
+            <a href="{{ contributor.contributor.url }}">
               {% componentV2 'image', {
-                width: contributor.image.width,
-                contentUrl: contributor.image.contentUrl,
-                alt: contributor.image.contentUrl
+                width: contributor.contributor.image.width,
+                contentUrl: contributor.contributor.image.contentUrl,
+                alt: contributor.contributor.image.contentUrl
               }, [], { lazyload: true } %}
             </a>
           </div>
