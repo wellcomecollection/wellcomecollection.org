@@ -1,7 +1,7 @@
 // @flow
 import Prismic from 'prismic-javascript';
 import type {PrismicFragment, PrismicDocument, PaginatedResults} from './types';
-import type {UiExhibition, Exhibit} from '../../model/exhibitions';
+import type {UiExhibition, UiExhibit} from '../../model/exhibitions';
 import {getDocument, getDocuments} from './api';
 import {
   peopleFields,
@@ -23,7 +23,7 @@ import {
 } from './parsers';
 import {parseInstallationDoc} from './installations';
 
-function parseExhibits(document: PrismicFragment[]): Exhibit[] {
+function parseExhibits(document: PrismicFragment[]): UiExhibit[] {
   return document.map(exhibit => {
     if (exhibit.item.type === 'installations') {
       return {
@@ -94,7 +94,7 @@ type ExhibitQuery = {| ids: string[] |}
 export async function getExhibitionExhibits(
   req: Request,
   { ids }: ExhibitQuery
-): Promise<?PaginatedResults<Exhibit>> {
+): Promise<?PaginatedResults<UiExhibit>> {
   const predicates = [Prismic.Predicates.in('document.id', ids)];
   const apiResponse = await getDocuments(req, predicates, {
     fetchLinks: peopleFields.concat(
