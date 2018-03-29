@@ -33,6 +33,12 @@
           isFull: true
         }%}
 
+        <div class="relative {{{s: 3} | spacingClasses({ margin: ['bottom'] })}}" style="z-index:20">
+          <div class="pointer-events-none">
+            {% componentJsx 'ScrollToInfo', { elementId: 'exhibition-content', extraClasses: 'bg-charcoal bg-hover-charcoal border-color-charcoal' } %}
+          </div>
+        </div>
+
         <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">
           <div class="is-hidden-l is-hidden-xl">
             {% component 'wobbly-edge', {background: 'white'} %}
@@ -72,7 +78,7 @@
       </div>
     </div>
 
-    <div class="row {{ {s:5} | spacingClasses({margin: ['top']}) }}">
+    <div class="row {{ {s:5} | spacingClasses({margin: ['top']}) }}" id="exhibition-content">
       <div class="container">
         <div class="grid">
           <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
