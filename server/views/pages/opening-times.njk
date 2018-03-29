@@ -33,7 +33,7 @@
       </div>
 
       <div class="{{ {s:12, m:12, l:6, xl:6} | gridClasses }}">
-        <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="exceptional">Exceptional opening times</h2>
+        <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="exceptional">Modified opening times</h2>
         {% for exceptionalDate, venues in exceptionalOpeningHours %}
             {% componentJsx 'ExceptionalOpeningHoursTable', {caption: exceptionalDate, venues: venues, extraClasses: 'opening-hours--light'} %}
         {% endfor %}
