@@ -22,7 +22,8 @@
   </script>
 
   <div class="framed-header row relative">
-    <div class="framed-header__image overflow-hidden bg-turquoise">
+    <div class="framed-header__image overflow-hidden bg-turquoise"
+    {% if backgroundTexture.image %}style="background-image: url({{ backgroundTexture.image }});"{% endif %}>
       <div class="framed-header__wobbly-edge absolute">
         <div class="wobbly-edge wobbly-edge--white js-wobbly-edge"
           data-is-valley="true"
@@ -50,7 +51,7 @@
       <div class="container container--with-frame bg-white {{ {s: 4} | spacingClasses({padding: ['top']}) }} {{ {s: 10} | spacingClasses({padding: ['bottom']}) }}">
         <div class="grid">
           {% for event in paginatedEvents.results %}
-            <div class="{{ {s: 12, m: 6, l: 3, xl:3} | gridClasses}}">
+            <div class="{{ {s: 12, m: 6, l: 4, xl:4} | gridClasses}}">
               {% componentV2 'event-promo', event, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
             </div>
           {% endfor %}
@@ -76,7 +77,7 @@
       <div class="container container--with-frame bg-white {{ {s: 4} | spacingClasses({padding: ['top']}) }}  {{ {s: 10} | spacingClasses({padding: ['bottom']}) }}">
         <div class="grid">
           {% for event in pastEvents.results %}
-            <div class="{{ {s: 12, m: 6, l: 3, xl:3} | gridClasses}}">
+            <div class="{{ {s: 12, m: 6, l: 4, xl:4} | gridClasses}}">
               {% componentV2 'event-promo', event, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
             </div>
           {% endfor %}

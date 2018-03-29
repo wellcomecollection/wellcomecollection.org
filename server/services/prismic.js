@@ -325,9 +325,13 @@ export function convertPrismicResultsToPaginatedResults(prismicResults: Object):
 
 export async function getBackgroundTexture(id: string): BackgroundTexture {
   const prismic = await getPrismicApi();
-  const series = await prismic.getByID(id, {fetchLinks: 'event-series.backgroundTexture'});
+  const series = await prismic.getByID(id, {fetchLinks: ['background-textures.image', 'background-textures.name']});
+  const backgroundTexture = series.data.backgroundTexture && series.data.backgroundTexture.data;
 
-  return series;
+  return {
+    image: backgroundTexture && backgroundTexture.image.url,
+    name: backgroundTexture && backgroundTexture.name
+  };
 }
 
 export async function getEventsInSeries(id: string, { page }: PrismicQueryOptions) {
