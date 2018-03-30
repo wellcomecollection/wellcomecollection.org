@@ -55,6 +55,62 @@ function exceptionalOpeningPeriods(dates: Moment[]) {
   }, []);
 }
 
+export function exceptionalOpeningPeriodsAllDates(exceptionalOpeningPeriods: Date[][], london: (a: Date) => void) {
+  return exceptionalOpeningPeriods.map((periodDateArray) => {
+    const startDate = london(periodDateArray[0]).startOf('day');
+    const lastDate = london(periodDateArray[periodDateArray.length - 1]).startOf('day');
+    const completeDateArray = [];
+    while (startDate.startOf('day').isSameOrBefore(lastDate)) {
+      const current = startDate.format('YYYY-MM-DD');
+      completeDateArray.push(new Date(current));
+      startDate.add(1, 'day');
+    }
+    return completeDateArray;
+  });
+}
+
+function regularTimesbyDay(placesOpeningHours: PlacesOpeningHours, currentDate: Date, london: (a: Date) => void) {
+  const currentDay = london(currentDate).format('dddd');
+  return placesOpeningHours.map((place) => {
+    const hours = place.openingHours.regular.find(hours => hours.dayOfWeek === currentDay);
+    return  {
+      exceptionalDate: currentDate,
+      exceptionalDay: currentDay,
+      id: place.id,
+      name: place.name,
+      openingHours: {
+        overrideDate: currentDate,
+        dayOfWeek: currentDay,
+        opens: hours && hours.opens,
+        closes: hours && hours.closes,
+        note: hours && hours.note
+      }
+    };
+  });
+}
+
+// TODO object
+export function exceptionalOpeningHoursByPeriod(upcomingPeriodsComplete: Date[][], exceptionalHoursByDate: {}, london, placesOpeningHours: PlacesOpeningHours) {
+  return upcomingPeriodsComplete.map((period) => {
+    const periodStart = period[0];
+    const periodEnd = period[period.length - 1];
+    const dates = period && period.map((periodDate) => {
+      const current = london(periodDate).format('YYYY-MM-DD');
+      const hours = exceptionalHoursByDate[current];
+      if (hours) {
+        return hours;
+      } else {
+        return regularTimesbyDay(placesOpeningHours, periodDate, london);
+      }
+    }).filter(Boolean);
+    return {
+      periodStart: periodStart,
+      periodEnd: periodEnd,
+      dates
+    };
+  });
+};
+
 function identifyChanges(override: ?ExceptionalOpeningHoursDay, place: Venue, exceptionalDay: Days) {
   const regular = place.openingHours.regular.find(item => item.dayOfWeek === exceptionalDay);
   return {
