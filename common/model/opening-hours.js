@@ -1,7 +1,7 @@
 // @flow
 function createPlace(data: Place) { return (data: Place); }
 
-type Days = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+export type Days = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
 
 export type OpeningHoursDay = {|
   dayOfWeek: Days,

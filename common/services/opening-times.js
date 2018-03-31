@@ -2,7 +2,7 @@
 // TODO - capture opening hours in Prismic, then this can become part of prismic services
 import {placesOpeningHours} from '../model/opening-hours';
 import moment from 'moment';
-import type {ExceptionalVenueHours, PlacesOpeningHours} from '../model/opening-hours';
+import type {ExceptionalVenueHours, PlacesOpeningHours, ExceptionalOpeningHoursDay, Place, Days} from '../model/opening-hours';
 
 function london(d) {
   // $FlowFixMe
@@ -50,7 +50,7 @@ export function exceptionalOpeningPeriods(dates: PlacesOpeningHours) {
   }, []);
 }
 
-function identifyChanges(override, place, exceptionalDay) {
+function identifyChanges(override: ?ExceptionalOpeningHoursDay, place: Place, exceptionalDay: Days) {
   if (override) {
     const regular = place.openingHours.regular.find(item => item.dayOfWeek === exceptionalDay);
     return {
