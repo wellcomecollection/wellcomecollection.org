@@ -1,0 +1,193 @@
+{
+  "Main" : {
+    "venueName" : {
+      "type" : "Text",
+      "config" : {
+        "label" : "Venue name"
+      }
+    },
+    "venueDescription" : {
+      "type" : "Text",
+      "config" : {
+        "label" : "Flag description"
+      }
+    }
+  },
+  "Regular opening times" : {
+    "monday" : {
+      "type" : "Group",
+      "fieldset" : "Monday's times",
+      "config" : {
+        "repeat" : false,
+        "fields" : {
+          "startDateTime" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "Opens"
+            }
+          },
+          "endDateTime" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "Closes"
+            }
+          }
+        }
+      }
+    },
+    "tuesday" : {
+      "type" : "Group",
+      "fieldset" : "Tuesday's times",
+      "config" : {
+        "repeat" : false,
+        "fields" : {
+          "startDateTime" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "Opens"
+            }
+          },
+          "endDateTime" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "Closes"
+            }
+          }
+        }
+      }
+    },
+    "wednesday" : {
+      "type" : "Group",
+      "fieldset" : "Wednesday's times",
+      "config" : {
+        "repeat" : false,
+        "fields" : {
+          "startDateTime" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "Opens"
+            }
+          },
+          "endDateTime" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "Closes"
+            }
+          }
+        }
+      }
+    },
+    "thursday" : {
+      "type" : "Group",
+      "fieldset" : "Thursday's times",
+      "config" : {
+        "repeat" : false,
+        "fields" : {
+          "startDateTime" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "Opens"
+            }
+          },
+          "endDateTime" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "Closes"
+            }
+          }
+        }
+      }
+    },
+    "friday" : {
+      "type" : "Group",
+      "fieldset" : "Friday's times",
+      "config" : {
+        "repeat" : false,
+        "fields" : {
+          "startDateTime" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "Opens"
+            }
+          },
+          "endDateTime" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "Closes"
+            }
+          }
+        }
+      }
+    },
+    "saturday" : {
+      "type" : "Group",
+      "fieldset" : "Saturday's times",
+      "config" : {
+        "repeat" : false,
+        "fields" : {
+          "startDateTime" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "Opens"
+            }
+          },
+          "endDateTime" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "Closes"
+            }
+          }
+        }
+      }
+    },
+    "sunday" : {
+      "type" : "Group",
+      "fieldset" : "Sunday's times",
+      "config" : {
+        "repeat" : false,
+        "fields" : {
+          "startDateTime" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "Opens"
+            }
+          },
+          "endDateTime" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "Closes"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Modified opening times" : {
+    "modifiedDayOpeningTimes" : {
+      "type" : "Group",
+      "fieldset" : "Modified day opening times",
+      "config" : {
+        "fields" : {
+          "overrideDate" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "Override date"
+            }
+          },
+          "startDateTime" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "Opens"
+            }
+          },
+          "endDateTime" : {
+            "type" : "Timestamp",
+            "config" : {
+              "label" : "Closes"
+            }
+          }
+        }
+      }
+    }
+  }
+}
