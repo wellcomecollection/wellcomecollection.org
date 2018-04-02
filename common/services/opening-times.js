@@ -2,14 +2,14 @@
 // TODO - capture opening hours in Prismic, then this can become part of prismic services
 import {placesOpeningHours} from '../model/opening-hours';
 import moment from 'moment';
-import type {ExceptionalVenueHours} from '../model/opening-hours';
+import type {ExceptionalVenueHours, PlacesOpeningHours} from '../model/opening-hours';
 
 function london(d) {
   // $FlowFixMe
   return moment.tz(d, 'Europe/London');
 };
 
-function exceptionalOpeningDates(placesHoursArray): Array<?Date> {
+function exceptionalOpeningDates(placesHoursArray) {
   return [].concat.apply([], placesHoursArray.map(place => { // [].concat.apply to flatten the array
     return place.openingHours.exceptional &&
       place.openingHours.exceptional.map(exceptionalDate => exceptionalDate.overrideDate);
@@ -28,10 +28,10 @@ function exceptionalOpeningDates(placesHoursArray): Array<?Date> {
 
 export const exceptionalDates = exceptionalOpeningDates(placesOpeningHours);
 
-export function exceptionalOpeningPeriods(dates): Array<Date[]> { // TODO dates type OpeningHours?
+export function exceptionalOpeningPeriods(dates: PlacesOpeningHours) {
   let groupedIndex = 0;
 
-  return dates && dates.reduce((acc, date, i, array) => {
+  return dates.reduce((acc, date, i, array) => {
     const currentDate = london(date);
     const previousDate = array[i - 1] ? array[i - 1] : null;
 
@@ -50,7 +50,7 @@ export function exceptionalOpeningPeriods(dates): Array<Date[]> { // TODO dates 
   }, []);
 }
 
-export function exceptionalOpeningHours(dates, placesOpeningHours): ExceptionalVenueHours[] {
+export function exceptionalOpeningHours(dates: Date[], placesOpeningHours: PlacesOpeningHours): ExceptionalVenueHours[] {
   return [].concat.apply([], dates.reduce((acc, exceptionalDate) => {
     const exceptionalDay = london(exceptionalDate).format('dddd');
     const overrides = placesOpeningHours.map(place => {
@@ -75,7 +75,7 @@ export function exceptionalOpeningHours(dates, placesOpeningHours): ExceptionalV
   }, []));
 }
 
-export function upcomingExceptionalOpeningPeriods(dates: Date[]): Array<Date[]> {
+export function upcomingExceptionalOpeningPeriods(dates: Array<Date[]>) {
   return dates && dates.filter((dates) => {
     const displayPeriodStart = london().subtract(1, 'day');
     const displayPeriodEnd = london().add(15, 'day');
