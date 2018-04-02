@@ -18,7 +18,7 @@ export const cache = new IntervalCache()
       return null;
     }
   }, [])
-  .every('collectionOpeningTimes', 1000, async () => { // TODO bump up time
+  .every('collectionOpeningTimes', fiveMinutes, async () => {
     try {
       const collectionOpeningTimes = await getCollectionOpeningTimes();
       return collectionOpeningTimes;
