@@ -20,7 +20,6 @@ import type {ExhibitionPromo} from '../model/exhibition-promo';
 import {PaginationFactory} from '../model/pagination';
 import type {EventPromo} from '../content-model/events';
 import type {GlobalAlert} from '../../common/model/global-alert';
-import {galleryOpeningHours} from '../../common/model/opening-hours';
 import {isEmptyObj} from '../utils/is-empty-obj';
 
 type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
@@ -442,11 +441,12 @@ function duplicatePromosByMonthYear(promos) {
   }, {});
 }
 
-function getListHeader(dates) {
+function getListHeader(dates, collectionOpeningTimes) {
   const todaysDate = london().startOf('day');
   const todayString = todaysDate.format('dddd');
-  const regularOpeningHours = galleryOpeningHours.regular.find(i => i.dayOfWeek === todayString);
-  const exceptionalOpeningHours = galleryOpeningHours.exceptional && galleryOpeningHours.exceptional.find(i => {
+  const galleryOpeningHours = collectionOpeningTimes.placesOpeningHours && collectionOpeningTimes.placesOpeningHours.find(venue => venue.name === 'Galleries').openingHours;
+  const regularOpeningHours = galleryOpeningHours && galleryOpeningHours.regular.find(i => i.dayOfWeek === todayString);
+  const exceptionalOpeningHours = galleryOpeningHours && galleryOpeningHours.exceptional && galleryOpeningHours.exceptional.find(i => {
     const dayOfWeek = london(i.overrideDate).startOf('day');
     return todaysDate.isSame(dayOfWeek);
   });
@@ -479,7 +479,7 @@ function getListHeader(dates) {
   };
 }
 
-export async function getExhibitionAndEventPromos(query) {
+export async function getExhibitionAndEventPromos(query, collectionOpeningTimes) {
   const todaysDate = london();
   // set today as default time period if no startDate is provided
   const fromDate = !query.startDate ? todaysDate.format('YYYY-MM-DD') : query.startDate;
@@ -518,7 +518,7 @@ export async function getExhibitionAndEventPromos(query) {
     queriedDates: dateRange
   };
   const active = getActiveState(todaysDate, fromDate, toDate);
-  const listHeader = getListHeader(dates);
+  const listHeader = getListHeader(dates, collectionOpeningTimes);
   return {
     active,
     dates,

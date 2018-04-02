@@ -28,5 +28,5 @@ export const cache = new IntervalCache()
 
       return null;
     }
-  }, [])
+  }, {})
   .start();
