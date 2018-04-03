@@ -1,5 +1,5 @@
-import {spacing} from '../../../utils/classnames';
-import type {BackgroundTexture} from '../../../model/background-texture';
+import {spacing} from '../../../../utils/classnames';
+import type {BackgroundTexture} from '../../../../model/background-texture';
 
 type Props = {|
   backgroundTexture: BackgroundTexture,
