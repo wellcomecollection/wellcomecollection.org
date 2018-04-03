@@ -51,7 +51,7 @@ const EventScheduleItem = ({event, hasOwnPage}: Props) => (
           <p className={`${spacing({s: 2}, {margin: ['bottom']})} ${font({s: 'HNL5', m: 'HNL4'})}`} dangerouslySetInnerHTML={{__html: event.description}} />
 
           {hasOwnPage &&
-            <MoreInfoLink url={`/events/${event.id}`} name='More information' screenReaderText={`about ${event.title}`} />
+            <MoreInfoLink url={`/events/${event.id}`} name='Full event details' screenReaderText={`about ${event.title}`} />
           }
 
           {(event.eventbriteId || event.bookingEnquiryTeam) &&

@@ -21,7 +21,7 @@
     <link rel="manifest" href="{{ '/assets/icons/' | getHashedFile('manifest.json') }}'"/>
     <link rel="mask-icon" href="{{ '/assets/icons/' | getHashedFile('safari-pinned-tab.svg') }}" color="#000000"/>
     <script src="{{ '/assets/libs/' | getHashedFile('picturefill.min.js') }}" async></script>
-    <script async defer src="//platform.twitter.com/widgets.js"></script>
+
     {% component 'head-js', { file: ('/assets/js/' | getHashedFile('app.js')) } %}
     <script type="application/ld+json">
       {{ pageConfig.organization | jsonLd('museumLd') | safe }}

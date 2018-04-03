@@ -24,5 +24,5 @@ export function isDatePast(date: Date): boolean {
   const momentNow = london();
   const momentEnd = london(date);
 
-  return momentEnd.isBefore(momentNow);
+  return momentEnd.isBefore(momentNow, 'day');
 }
