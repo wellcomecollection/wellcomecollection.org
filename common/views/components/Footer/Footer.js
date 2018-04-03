@@ -6,13 +6,16 @@ import FindUs from '../FindUs/FindUs';
 import OpeningHours from '../OpeningHours/OpeningHours';
 import FooterSocial from '../FooterSocial/FooterSocial';
 import Icon from '../Icon/Icon';
+import type {PlacesOpeningHours} from '../../../model/opening-hours';
 
 type Props = {|
   openingHoursId: string,
   extraClasses: string,
+  placesOpeningHours: PlacesOpeningHours,
+  upcomingExceptionalOpeningPeriods: Array<Date[]>
 |}
 
-const Footer = ({openingHoursId, extraClasses}: Props) => (
+const Footer = ({openingHoursId, extraClasses, placesOpeningHours, upcomingExceptionalOpeningPeriods}: Props) => (
   <div className={`footer row bg-black ${spacing({s: 5, m: 10}, {padding: ['top']})}`}>
     <div className='container'>
       <div className='grid'>
@@ -35,7 +38,9 @@ const Footer = ({openingHoursId, extraClasses}: Props) => (
           <h3 className={`footer__heading ${font({s: 'HNL5'})}`}>Opening times:</h3>
           <OpeningHours
             id={openingHoursId}
-            extraClasses={extraClasses} />
+            extraClasses={extraClasses}
+            placesOpeningHours={placesOpeningHours}
+            upcomingExceptionalOpeningPeriods={upcomingExceptionalOpeningPeriods} />
         </div>
       </div>
       <div className='grid'>

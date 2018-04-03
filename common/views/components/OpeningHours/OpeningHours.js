@@ -1,28 +1,29 @@
 // @flow
 import {spacing, font} from '../../../utils/classnames';
-import {placesOpeningHours as places} from '../../../model/opening-hours';
 import {Fragment} from 'react';
 import {formatDate} from '../../../utils/format-date';
 import OpeningHoursTable from '../../components/OpeningHoursTable/OpeningHoursTable';
-import {upcomingExceptionalOpeningPeriods} from '../../../services/opening-times';
+import type {PlacesOpeningHours} from '../../../model/opening-hours';
 
 type Props = {|
   id: string,
-  extraClasses?: string
+  extraClasses?: string,
+  placesOpeningHours: PlacesOpeningHours,
+  upcomingExceptionalOpeningPeriods: Array<Date[]>
 |}
 
-const OpeningHours = ({id, extraClasses}: Props) => (
+const OpeningHours = ({id, extraClasses, placesOpeningHours, upcomingExceptionalOpeningPeriods}: Props) => (
   <Fragment>
     {upcomingExceptionalOpeningPeriods && upcomingExceptionalOpeningPeriods.length > 0 &&
       <p className={font({s: 'HNM4'})}>
         Our opening times will change
         {upcomingExceptionalOpeningPeriods.map((group, i, array) => {
-          const firstDate = group[0];
-          const lastDate = group[group.length - 1];
+          const firstDate = group.shift();
+          const lastDate = group.pop();
           if (firstDate instanceof Date && lastDate instanceof Date) {
             if (group.length > 1) {
               return (
-                <span key={group[0]}>
+                <span key={firstDate}>
                   {(array.length > 1 && i > 0) && ', '}
                   {` between`} <span style={{'whiteSpace': 'nowrap'}}>{formatDate(firstDate)}</span>
                   &mdash;
@@ -31,8 +32,8 @@ const OpeningHours = ({id, extraClasses}: Props) => (
               );
             } else {
               return (
-                <Fragment>
-                  {` on`} <span style={{'whiteSpace': 'nowrap'}} key={group[0]}>
+                <Fragment key={firstDate}>
+                  {` on`} <span style={{'whiteSpace': 'nowrap'}}>
                     {formatDate(firstDate)}
                   </span>
                 </Fragment>
@@ -45,13 +46,13 @@ const OpeningHours = ({id, extraClasses}: Props) => (
     }
     <div className={`opening-hours ${extraClasses || ''} js-opening-hours js-tabs`}>
       <ul className={`plain-list opening-hours__tablist ${font({s: 'HNM6'})} ${spacing({s: 0}, {margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']})} js-tablist`}>
-        {places.map((place) => (
+        {placesOpeningHours.map((place) => (
           <li key={place.id} className='opening-hours__tabitem js-tabitem'>
             <a className='opening-hours__tablink js-tablink' href={`#${id}-panel-${place.id}`}>{place.name}</a>
           </li>
         ))}
       </ul>
-      {places.map((place) => (
+      {placesOpeningHours.map((place) => (
         <OpeningHoursTable key={`${id}-panel-${place.id}`} id={id} place={place} />
       ))}
     </div>
