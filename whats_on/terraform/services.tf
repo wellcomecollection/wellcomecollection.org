@@ -51,3 +51,18 @@ resource "aws_alb_listener_rule" "path_rule" {
     values = ["/installations*"]
   }
 }
+
+resource "aws_alb_listener_rule" "path_rule" {
+  listener_arn = "${local.alb_listener_http_arn}"
+  priority     = "132"
+
+  action {
+    type             = "forward"
+    target_group_arn = "${module.whats_on.target_group_arn}"
+  }
+
+  condition {
+    field  = "path-pattern"
+    values = ["/exhibitions/*"]
+  }
+}
