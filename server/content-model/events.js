@@ -111,7 +111,7 @@ export type Event = {|
   isCompletelySoldOut?: boolean
 |}
 
-export type DisplayEvent = {|
+export type UiEvent = {|
   ...Event,
   backgroundTexture?: string
 |}
