@@ -3,47 +3,13 @@ import {spacing, font} from '../../../utils/classnames';
 import {placesOpeningHours as places} from '../../../model/opening-hours';
 import {Fragment} from 'react';
 import {formatDate} from '../../../utils/format-date';
-import moment from 'moment';
 import OpeningHoursTable from '../../components/OpeningHoursTable/OpeningHoursTable';
-import {upcomingExceptionalDates} from '../../../services/opening-times';
+import {upcomingExceptionalOpeningPeriods} from '../../../services/opening-times';
 
 type Props = {|
   id: string,
   extraClasses?: string
-  |}
-
-function london(d) {
-  // $FlowFixMe
-  return moment.tz(d, 'Europe/London');
-};
-
-const uniqueExceptionalOpeningDates = upcomingExceptionalDates;
-
-let groupedIndex = 0;
-
-const exceptionalOpeningPeriods = uniqueExceptionalOpeningDates && uniqueExceptionalOpeningDates.reduce((acc, date, i, array) => {
-  const currentDate = london(date);
-  const previousDate = array[i - 1] ? array[i - 1] : null;
-
-  if (!previousDate) {
-    acc[groupedIndex] = [];
-    acc[groupedIndex].push(date);
-  } else if (previousDate && currentDate.isBefore(london(previousDate).add(4, 'days'))) {
-    acc[groupedIndex].push(date);
-  } else {
-    groupedIndex++;
-    acc[groupedIndex] = [];
-    acc[groupedIndex].push(date);
-  }
-
-  return acc;
-}, []);
-
-const upcomingExceptionalOpeningPeriods = exceptionalOpeningPeriods && exceptionalOpeningPeriods.filter((dates) => {
-  const displayPeriodStart = london().subtract(1, 'day');
-  const displayPeriodEnd = london().add(15, 'day');
-  return london(dates[0]).isBetween(displayPeriodStart, displayPeriodEnd) || london(dates[dates.length - 1]).isBetween(displayPeriodStart, displayPeriodEnd);
-});
+|}
 
 const OpeningHours = ({id, extraClasses}: Props) => (
   <Fragment>

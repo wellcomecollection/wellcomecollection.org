@@ -32,6 +32,32 @@ const exceptionalDates = exceptionalOpeningDates(placesOpeningHours);
 
 export const upcomingExceptionalDates = exceptionalDates.filter(exceptionalDate => exceptionalDate && !isDatePast(exceptionalDate));
 
+let groupedIndex = 0;
+
+const exceptionalOpeningPeriods = upcomingExceptionalDates && upcomingExceptionalDates.reduce((acc, date, i, array) => {
+  const currentDate = london(date);
+  const previousDate = array[i - 1] ? array[i - 1] : null;
+
+  if (!previousDate) {
+    acc[groupedIndex] = [];
+    acc[groupedIndex].push(date);
+  } else if (previousDate && currentDate.isBefore(london(previousDate).add(4, 'days'))) {
+    acc[groupedIndex].push(date);
+  } else {
+    groupedIndex++;
+    acc[groupedIndex] = [];
+    acc[groupedIndex].push(date);
+  }
+
+  return acc;
+}, []);
+
+export const upcomingExceptionalOpeningPeriods = exceptionalOpeningPeriods && exceptionalOpeningPeriods.filter((dates) => {
+  const displayPeriodStart = london().subtract(1, 'day');
+  const displayPeriodEnd = london().add(15, 'day');
+  return london(dates[0]).isBetween(displayPeriodStart, displayPeriodEnd) || london(dates[dates.length - 1]).isBetween(displayPeriodStart, displayPeriodEnd);
+});
+
 function upcomingExceptionalOpeningHours(upcomingDates): ExceptionalVenueHours[] {
   return [].concat.apply([], upcomingDates.reduce((acc, exceptionalDate) => {
     const exceptionalDay = london(exceptionalDate).format('dddd');
