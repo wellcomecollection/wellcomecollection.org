@@ -43,7 +43,7 @@ const CaptionedImage = ({
               aria-label={`slide ${slideNumbers.current} of ${slideNumbers.total}`}>
               <span aria-hidden="true">{slideNumbers.current}/{slideNumbers.total}</span>
             </span>
-          }
+          }{' '}
           <span dangerouslySetInnerHTML={{__html: caption}} />
         </div>
       </figcaption>
