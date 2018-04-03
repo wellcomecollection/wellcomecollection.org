@@ -1,6 +1,7 @@
 // @flow
 import type {HTMLString, ImagePromo} from './content-blocks';
 import type {Picture} from './picture';
+import type {BackgroundTexture} from './background-texture';
 import type {Contributor} from './contributors';
 
 type DateTimeRange = {|
@@ -25,6 +26,11 @@ export type EventSeries = {|
   id: string,
   title: string,
   description: ?HTMLString
+|}
+
+export type UiEventSeries = {|
+  ...EventSeries,
+  backgroundTexture: ?BackgroundTexture
 |}
 
 // E.g. 'British sign language interpreted' | 'Audio described' | 'Speech-to-Text';

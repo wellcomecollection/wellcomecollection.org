@@ -1,6 +1,6 @@
 import {model, prismic} from 'common';
 const {createPageConfig} = model;
-const {getPaginatedEventPromos, getEventsInSeries, asText, asHtml, createEventPromos, convertPrismicResultsToPaginatedResults, london} = prismic;
+const {getPaginatedEventPromos, getEventsInSeries, getUiEventSeries, asText, asHtml, createEventPromos, convertPrismicResultsToPaginatedResults, london} = prismic;
 
 export async function renderEvent(ctx, next) {
   const id = `${ctx.params.id}`;
@@ -45,31 +45,29 @@ export async function renderEvent(ctx, next) {
 export async function renderEventSeries(ctx, next) {
   const page = ctx.request.query.page ? Number(ctx.request.query.page) : 1;
   const {id} = ctx.params;
-  const events = await getEventsInSeries(id, { page });
+  const eventsPromise = getEventsInSeries(id, { page });
+  const uiEventSeriesPromise = getUiEventSeries(id);
+  const [ events, uiEventSeries ] = await Promise.all([eventsPromise, uiEventSeriesPromise]);
   const promos = createEventPromos(events.results).reverse();
   const paginatedResults = convertPrismicResultsToPaginatedResults(promos);
   const paginatedEvents = paginatedResults(promos);
-  const series = paginatedEvents.results[0].series.find(series => series.id === id);
   const upcomingEvents = Object.assign({}, paginatedEvents, {results: promos.filter(e => london(e.end).isAfter(london()))});
   const pastEvents = {results: promos.filter(e => london(e.end).isBefore(london())).slice(0, 2).reverse()};
-  // TODO pagination will be out of sync with Prismic, since we're removing items after the request.
-  // If we use dateAfter to query prismic, this would fix it, but we may end up with no results and hence no way of getting the series data to display.
-  // The other alternative is to make two API calls, but since this will only be an issue if there are more
-  // than 40 events, which is unlikely, I've left as is.
 
   ctx.render('pages/event-series', {
     pageConfig: createPageConfig({
       path: ctx.request.url,
-      title: series.title,
-      description: asText(series.description),
+      title: asText(uiEventSeries.title),
+      description: asText(uiEventSeries.description),
       inSection: 'whatson',
       category: 'public-programme',
       contentType: 'event-series',
       canonicalUri: `/event-series/${id}`
     }),
-    htmlDescription: asHtml(series.description),
+    htmlDescription: asHtml(uiEventSeries.description),
     paginatedEvents: upcomingEvents,
-    pastEvents: pastEvents
+    pastEvents: pastEvents,
+    backgroundTexture: uiEventSeries.backgroundTexture
   });
 
   return next();
