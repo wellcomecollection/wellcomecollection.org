@@ -24,6 +24,7 @@ import Promo from '../Promo/Promo';
 import Picture from '../Picture/Picture';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import ExhibitionPageHeader from '../PageHeaders/ExhibitionPageHeader/ExhibitionPageHeader';
+import ScrollToInfo from '../ScrollToInfo/ScrollToInfo';
 
 export {
   BackToTop,
@@ -51,5 +52,6 @@ export {
   Promo,
   Picture,
   ImageGallery,
-  ExhibitionPageHeader
+  ExhibitionPageHeader,
+  ScrollToInfo
 };

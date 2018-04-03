@@ -24,7 +24,7 @@ export function isDatePast(date: Date): boolean {
   const momentNow = london();
   const momentEnd = london(date);
 
-  return momentEnd.isBefore(momentNow);
+  return momentEnd.isBefore(momentNow, 'day');
 }
 
 export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date}): {text: string, color: string} {
