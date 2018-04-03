@@ -5,6 +5,7 @@ import CopyUrl from '../CopyUrl/CopyUrl';
 import Divider from '../Divider/Divider';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import Footer from '../Footer/Footer';
+import FramedHeader from '../FramedHeader/FramedHeader';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import Image from '../Image/Image';
 import License from '../License/License';
@@ -41,6 +42,7 @@ export {
   MoreInfoLink,
   OpeningHours,
   OpeningHoursTable,
+  FramedHeader,
   ExceptionalOpeningHoursTable,
   SearchBox,
   Tags,
