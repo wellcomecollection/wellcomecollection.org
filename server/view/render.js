@@ -5,7 +5,7 @@ import {getEnvWithGlobalsExtensionsAndFilters} from './env-utils';
 import markdown from 'nunjucks-markdown';
 import marked from 'marked';
 import {placesOpeningHours} from '../../common/model/opening-hours';
-import {exceptionalDates, upcomingExceptionalOpeningHours, exceptionalOpeningPeriods, approachingExceptionalOpeningPeriods} from '../../common/services/opening-times';
+import {exceptionalDates, exceptionalOpeningPeriods, exceptionalOpeningHours, upcomingExceptionalOpeningPeriods} from '../../common/services/opening-times';
 import moment from 'moment';
 
 function london(d) {
@@ -18,10 +18,8 @@ export default function render(root, extraGlobals) {
     const [flags, cohorts] = ctx.intervalCache.get('flags');
     const globalAlert = ctx.intervalCache.get('globalAlert');
     const futureExceptionalDates = exceptionalDates.filter(exceptionalDate => exceptionalDate && !isDatePast(exceptionalDate));
-    const upcomingExceptionalHours = upcomingExceptionalOpeningHours(futureExceptionalDates);
-    const exceptionalOpeningHours = groupBy(upcomingExceptionalHours, item => london(item.exceptionalDate).format('YYYY-MM-DD'));
-    const exceptionalOpening = exceptionalOpeningPeriods(futureExceptionalDates);
-    const upcomingExceptionalOpeningPeriods = approachingExceptionalOpeningPeriods(exceptionalOpening);
+    const exceptionalPeriods = exceptionalOpeningPeriods(futureExceptionalDates);
+    const individualExceptionalOpeningHours = exceptionalOpeningHours(futureExceptionalDates, placesOpeningHours);
     const globals = Map(Object.assign({}, extraGlobals, {
       featuresCohort: ctx.featuresCohort,
       featureFlags: flags || {},
@@ -29,8 +27,8 @@ export default function render(root, extraGlobals) {
       globalAlert: globalAlert,
       openingHours: {
         placesOpeningHours,
-        upcomingExceptionalOpeningPeriods,
-        exceptionalOpeningHours
+        upcomingExceptionalOpeningPeriods: upcomingExceptionalOpeningPeriods(exceptionalPeriods),
+        exceptionalOpeningHours: groupBy(individualExceptionalOpeningHours, item => london(item.exceptionalDate).format('YYYY-MM-DD'))
       }
     }));
     const env = getEnvWithGlobalsExtensionsAndFilters(root, globals);

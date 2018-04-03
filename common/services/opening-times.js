@@ -50,16 +50,8 @@ export function exceptionalOpeningPeriods(dates): Array<Date[]> { // TODO dates 
   }, []);
 }
 
-export function approachingExceptionalOpeningPeriods(dates: Date[]): Array<Date[]> {
-  return dates && dates.filter((dates) => {
-    const displayPeriodStart = london().subtract(1, 'day');
-    const displayPeriodEnd = london().add(15, 'day');
-    return london(dates[0]).isBetween(displayPeriodStart, displayPeriodEnd) || london(dates[dates.length - 1]).isBetween(displayPeriodStart, displayPeriodEnd);
-  });
-}
-
-export function upcomingExceptionalOpeningHours(upcomingDates): ExceptionalVenueHours[] {
-  return [].concat.apply([], upcomingDates.reduce((acc, exceptionalDate) => {
+export function exceptionalOpeningHours(dates, placesOpeningHours): ExceptionalVenueHours[] {
+  return [].concat.apply([], dates.reduce((acc, exceptionalDate) => {
     const exceptionalDay = london(exceptionalDate).format('dddd');
     const overrides = placesOpeningHours.map(place => {
       const override = place.openingHours.exceptional &&
@@ -81,4 +73,12 @@ export function upcomingExceptionalOpeningHours(upcomingDates): ExceptionalVenue
 
     return acc;
   }, []));
+}
+
+export function upcomingExceptionalOpeningPeriods(dates: Date[]): Array<Date[]> {
+  return dates && dates.filter((dates) => {
+    const displayPeriodStart = london().subtract(1, 'day');
+    const displayPeriodEnd = london().add(15, 'day');
+    return london(dates[0]).isBetween(displayPeriodStart, displayPeriodEnd) || london(dates[dates.length - 1]).isBetween(displayPeriodStart, displayPeriodEnd);
+  });
 }
