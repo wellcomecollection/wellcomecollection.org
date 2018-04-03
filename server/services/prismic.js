@@ -323,7 +323,7 @@ export function convertPrismicResultsToPaginatedResults(prismicResults: Object):
   };
 }
 
-export async function getUiEventSeries(id: string): UiEventSeries {
+export async function getUiEventSeries(id: string): Promise<UiEventSeries> {
   const prismic = await getPrismicApi();
   const series = await prismic.getByID(id, {fetchLinks: ['background-textures.image', 'background-textures.name']});
   const backgroundTexture = series.data.backgroundTexture && series.data.backgroundTexture.data;
