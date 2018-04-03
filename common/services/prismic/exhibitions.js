@@ -45,7 +45,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const promoList = document.data.promoList || [];
 
   const sizeInKb = Math.round(document.data.textAndCaptionsDocument.size / 1024);
-  const textAndCaptionsDocument = Object.assign({}, document.data.textAndCaptionsDocument, {sizeInKb});
+  const textAndCaptionsDocument = isDocumentLink(document.data.textAndCaptionsDocument) ? Object.assign({}, document.data.textAndCaptionsDocument, {sizeInKb}) : null;
 
   return {
     id: document.id,
