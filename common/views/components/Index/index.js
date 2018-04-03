@@ -23,6 +23,7 @@ import Pagination from '../Pagination/Pagination';
 import Promo from '../Promo/Promo';
 import Picture from '../Picture/Picture';
 import ImageGallery from '../ImageGallery/ImageGallery';
+import ExhibitionPageHeader from '../PageHeaders/ExhibitionPageHeader/ExhibitionPageHeader';
 import ScrollToInfo from '../ScrollToInfo/ScrollToInfo';
 
 export {
@@ -51,5 +52,6 @@ export {
   Promo,
   Picture,
   ImageGallery,
+  ExhibitionPageHeader,
   ScrollToInfo
 };
