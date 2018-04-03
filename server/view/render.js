@@ -2,6 +2,8 @@ import {Map} from 'immutable';
 import {getEnvWithGlobalsExtensionsAndFilters} from './env-utils';
 import markdown from 'nunjucks-markdown';
 import marked from 'marked';
+import {placesOpeningHours} from '../../common/model/opening-hours';
+import {upcomingExceptionalOpeningPeriods, exceptionalOpeningHours} from '../../common/services/opening-times';
 
 export default function render(root, extraGlobals) {
   return (ctx, next) => {
@@ -11,7 +13,12 @@ export default function render(root, extraGlobals) {
       featuresCohort: ctx.featuresCohort,
       featureFlags: flags || {},
       cohorts: cohorts || {},
-      globalAlert: globalAlert
+      globalAlert: globalAlert,
+      openingHours: {
+        placesOpeningHours,
+        upcomingExceptionalOpeningPeriods,
+        exceptionalOpeningHours
+      }
     }));
     const env = getEnvWithGlobalsExtensionsAndFilters(root, globals);
     ctx.render = (relPath, templateData) => ctx.body = env.render(`${relPath}.njk`, templateData);

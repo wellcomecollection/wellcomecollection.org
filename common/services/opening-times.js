@@ -30,7 +30,7 @@ function exceptionalOpeningDates(placesHoursArray): Array<?Date> {
 
 const exceptionalDates = exceptionalOpeningDates(placesOpeningHours);
 
-export const upcomingExceptionalDates = exceptionalDates.filter(exceptionalDate => exceptionalDate && !isDatePast(exceptionalDate));
+const upcomingExceptionalDates = exceptionalDates.filter(exceptionalDate => exceptionalDate && !isDatePast(exceptionalDate));
 
 let groupedIndex = 0;
 
