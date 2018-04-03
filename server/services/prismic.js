@@ -21,7 +21,7 @@ import type {ExhibitionAndRelatedContent} from '../model/exhibition-and-related-
 import {PaginationFactory} from '../model/pagination';
 import type {EventPromo} from '../content-model/events';
 import type {GlobalAlert} from '../../common/model/global-alert';
-import type {BackgroundTexture} from '../../common/model/background-texture';
+import type {UiEventSeries} from '../../common/model/events';
 import {galleryOpeningHours} from '../../common/model/opening-hours';
 import {isEmptyObj} from '../utils/is-empty-obj';
 
@@ -323,14 +323,22 @@ export function convertPrismicResultsToPaginatedResults(prismicResults: Object):
   };
 }
 
-export async function getBackgroundTexture(id: string): BackgroundTexture {
+export async function getUiEventSeries(id: string): UiEventSeries {
   const prismic = await getPrismicApi();
   const series = await prismic.getByID(id, {fetchLinks: ['background-textures.image', 'background-textures.name']});
   const backgroundTexture = series.data.backgroundTexture && series.data.backgroundTexture.data;
+  const image = backgroundTexture && backgroundTexture.image.url;
+  const name = backgroundTexture && backgroundTexture.name;
+  console.log(series);
 
   return {
-    image: backgroundTexture && backgroundTexture.image.url,
-    name: backgroundTexture && backgroundTexture.name
+    id: series.id,
+    title: series.data.title,
+    description: series.data.description,
+    backgroundTexture: (image && name) && {
+      image: image,
+      name: name
+    }
   };
 }
 

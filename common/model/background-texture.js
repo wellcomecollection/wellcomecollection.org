@@ -1,6 +1,6 @@
 // @flow
 
 export type BackgroundTexture = {|
-  name: ?string,
-  image: ?string
+  name: string,
+  image: string
 |}

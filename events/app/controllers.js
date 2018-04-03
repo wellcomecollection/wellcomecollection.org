@@ -1,6 +1,6 @@
 import {model, prismic} from 'common';
 const {createPageConfig} = model;
-const {getPaginatedEventPromos, getEventsInSeries, getBackgroundTexture, asText, asHtml, createEventPromos, convertPrismicResultsToPaginatedResults, london} = prismic;
+const {getPaginatedEventPromos, getEventsInSeries, getUiEventSeries, asText, asHtml, createEventPromos, convertPrismicResultsToPaginatedResults, london} = prismic;
 
 export async function renderEvent(ctx, next) {
   const id = `${ctx.params.id}`;
@@ -46,29 +46,28 @@ export async function renderEventSeries(ctx, next) {
   const page = ctx.request.query.page ? Number(ctx.request.query.page) : 1;
   const {id} = ctx.params;
   const eventsPromise = getEventsInSeries(id, { page });
-  const backgroundTexturePromise = getBackgroundTexture(id);
-  const [ events, backgroundTexture ] = await Promise.all([eventsPromise, backgroundTexturePromise]);
+  const uiEventSeriesPromise = getUiEventSeries(id);
+  const [ events, uiEventSeries ] = await Promise.all([eventsPromise, uiEventSeriesPromise]);
   const promos = createEventPromos(events.results).reverse();
   const paginatedResults = convertPrismicResultsToPaginatedResults(promos);
   const paginatedEvents = paginatedResults(promos);
-  const series = paginatedEvents.results[0].series.find(series => series.id === id);
   const upcomingEvents = Object.assign({}, paginatedEvents, {results: promos.filter(e => london(e.end).isAfter(london()))});
   const pastEvents = {results: promos.filter(e => london(e.end).isBefore(london())).slice(0, 2).reverse()};
 
   ctx.render('pages/event-series', {
     pageConfig: createPageConfig({
       path: ctx.request.url,
-      title: series.title,
-      description: asText(series.description),
+      title: asText(uiEventSeries.title),
+      description: asText(uiEventSeries.description),
       inSection: 'whatson',
       category: 'public-programme',
       contentType: 'event-series',
       canonicalUri: `/event-series/${id}`
     }),
-    htmlDescription: asHtml(series.description),
+    htmlDescription: asHtml(uiEventSeries.description),
     paginatedEvents: upcomingEvents,
     pastEvents: pastEvents,
-    backgroundTexture: backgroundTexture
+    backgroundTexture: uiEventSeries.backgroundTexture
   });
 
   return next();
