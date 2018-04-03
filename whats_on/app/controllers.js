@@ -1,4 +1,5 @@
 import {getInstallation} from '@weco/common/services/prismic/installations';
+import {getExhibition} from '@weco/common/services/prismic/exhibitions';
 import {model, prismic} from 'common';
 
 import {
@@ -41,7 +42,7 @@ export async function renderWhatsOn(ctx, next) {
 }
 
 export async function renderInstallation(ctx, next) {
-  const {installation, featredImageList} = await getInstallation(ctx.request, ctx.params.id);
+  const installation = await getInstallation(ctx.request, ctx.params.id);
   const tags = [{
     text: 'Installations',
     url: '/installations'
@@ -53,10 +54,30 @@ export async function renderInstallation(ctx, next) {
       inSection: 'whatson',
       category: 'public-programme',
       contentType: 'installation',
-      canonicalUri: `/installation/${installation.id}`
+      canonicalUri: `https://wellcomecollection.org/installation/${installation.id}`
     }),
     installation,
-    featredImageList,
+    tags
+  });
+}
+
+export async function renderExhibition(ctx, next) {
+  const exhibition = await getExhibition(ctx.request, ctx.params.id);
+  const tags = [{
+    text: 'Exhibitions',
+    url: '/exhibitions'
+  }];
+
+  ctx.render('pages/exhibition', {
+    pageConfig: createPageConfig({
+      path: ctx.request.url,
+      title: exhibition.title,
+      inSection: 'whatson',
+      category: 'public-programme',
+      contentType: 'exhibitions',
+      canonicalUri: `https://wellcomecollection.org/exhibitions/${exhibition.id}`
+    }),
+    exhibition,
     tags
   });
 }

@@ -122,12 +122,10 @@ export async function getEvent(id: string, previewReq: ?Request): Promise<?Event
   const fetchLinks = eventFields.concat(peopleFields, contributorFields, seriesFields);
   const event = await getTypeById(previewReq, ['events'], id, {fetchLinks});
 
-  const scheduleIds = event.data.schedule.map(event => event.event.id);
-
-  const eventScheduleDocs = scheduleIds.length > 0 && await getTypeByIds(previewReq, ['events'], scheduleIds, {fetchLinks});
-
   if (!event) { return null; }
 
+  const scheduleIds = event.data.schedule.map(event => event.event.id);
+  const eventScheduleDocs = scheduleIds.length > 0 && await getTypeByIds(previewReq, ['events'], scheduleIds, {fetchLinks});
   return parseEventDoc(event, eventScheduleDocs);
 }
 
