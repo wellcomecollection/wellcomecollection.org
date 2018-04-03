@@ -18,8 +18,9 @@ const OpeningHours = ({id, extraClasses, placesOpeningHours, upcomingExceptional
       <p className={font({s: 'HNM4'})}>
         Our opening times will change
         {upcomingExceptionalOpeningPeriods.map((group, i, array) => {
-          const firstDate = group.shift();
-          const lastDate = group.pop();
+          const firstDate = group[0];
+          const lastDate = group[group.length - 1];
+
           if (firstDate instanceof Date && lastDate instanceof Date) {
             if (group.length > 1) {
               return (
