@@ -1,9 +1,17 @@
+import {grid, spacing, font} from '../../../utils/classnames';
+
 export const status = 'wip';
 export const name = 'Framed Header';
 export const preview = '@preview-no-container';
 export const context = {
-  title: 'Packed lunch',
-  description: `<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid nesciunt nisi omnis laborum, consequuntur adipisci tenetur blanditiis totam, at corporis molestiae ad esse ratione quasi deleniti temporibus, similique culpa ex?</p>`
+  children: (<div className='grid'>
+    <div className={grid({s: 12, m: 10, l: 8, xl: 9})}>
+      <h1 className={`${font({s: 'WB5', m: 'WB4', l: 'WB3'})} ${spacing({s: 3}, {margin: ['bottom']})} ${spacing({s: 0}, {margin: ['top']})}`}>Packed lunch</h1>
+    </div>
+    <div className={grid({s: 12, m: 10, l: 8, xl: 9})}>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid nesciunt nisi omnis laborum, consequuntur adipisci tenetur blanditiis totam, at corporis molestiae ad esse ratione quasi deleniti temporibus, similique culpa ex?</p>
+    </div>
+  </div>)
 };
 
 export const variants = [
