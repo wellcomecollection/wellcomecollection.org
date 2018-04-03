@@ -1,2 +1,7 @@
 {# TODO: remove data-modifiers - it's an unweildy hack to pass modifiers down to inner components #}
-<div data-component="{{ component }}" class="async-content {{ component }}-placeholder" data-endpoint="{{ endpoint }}" data-modifiers="{{ modifiers }}"></div>
+<div
+  data-component="{{ component }}"
+  class="async-content {{ component }}-placeholder"
+  data-endpoint="{{ endpoint }}"
+  data-prefix-endpoint="{{ false if prefixEndpoint === false else true }}"
+  data-modifiers="{{ modifiers }}"></div>

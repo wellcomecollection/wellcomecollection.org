@@ -1,14 +1,19 @@
 // @flow
 import type {HTMLString} from '../services/prismic/types';
 import type {Picture} from './picture';
-import type {Installation} from './installations';
+import type {Installation, UiInstallation} from './installations';
 import type {ImagePromo} from './image-promo';
 import type {Place} from './place';
 import type {Contributor} from './contributors';
 
-type Exhibit = {|
+export type Exhibit = {|
   exhibitType: | 'installations',
   item: | Installation
+|}
+
+export type UiExhibit = {|
+  exhibitType: | 'installations',
+  item: | UiInstallation
 |}
 
 export type Exhibition = {|
@@ -31,5 +36,6 @@ export type UiExhibition = {| ...Exhibition,  ...{|
   relatedBooks: ImagePromo[],
   relatedEvents: ImagePromo[],
   relatedGalleries: ImagePromo[],
-  relatedArticles: ImagePromo[]
+  relatedArticles: ImagePromo[],
+  exhibits: UiExhibit[]
 |}|}

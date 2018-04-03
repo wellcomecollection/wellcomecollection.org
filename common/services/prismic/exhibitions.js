@@ -1,8 +1,14 @@
 // @flow
-import type {PrismicDocument} from './types';
-import type {UiExhibition} from '../../model/exhibitions';
-import {getDocument} from './api';
-import {peopleFields, contributorsFields, placesFields} from './fetch-links';
+import Prismic from 'prismic-javascript';
+import type {PrismicFragment, PrismicDocument, PaginatedResults} from './types';
+import type {UiExhibition, UiExhibit} from '../../model/exhibitions';
+import {getDocument, getDocuments} from './api';
+import {
+  peopleFields,
+  contributorsFields,
+  placesFields,
+  installationFields
+} from './fetch-links';
 import {breakpoints} from '../../utils/breakpoints';
 import {
   parseTitle,
@@ -12,8 +18,21 @@ import {
   parseTimestamp,
   parsePlace,
   parsePromoListItem,
-  asText
+  asText,
+  isDocumentLink
 } from './parsers';
+import {parseInstallationDoc} from './installations';
+
+function parseExhibits(document: PrismicFragment[]): UiExhibit[] {
+  return document.map(exhibit => {
+    if (exhibit.item.type === 'installations') {
+      return {
+        exhibitType: 'installations',
+        item: parseInstallationDoc(exhibit.item)
+      };
+    }
+  }).filter(Boolean);
+}
 
 function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const data = document.data;
@@ -36,8 +55,8 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     contributors: data.contributors ? parseContributors(data.contributors) : [],
     start: parseTimestamp(data.start),
     end: data.end && parseTimestamp(data.end),
-    place: data.place && parsePlace(data.place),
-    exhibits: [],
+    place: isDocumentLink(data.place) && parsePlace(data.place),
+    exhibits: data.exhibits ? parseExhibits(data.exhibits) : [],
 
     /*
       This is the display logic.
@@ -58,11 +77,44 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
 
 export async function getExhibition(req: Request, id: string): Promise<?UiExhibition> {
   const document = await getDocument(req, id, {
-    fetchLinks: peopleFields.concat(contributorsFields, placesFields)
+    fetchLinks: peopleFields.concat(
+      contributorsFields,
+      placesFields,
+      installationFields
+    )
   });
 
   if (document && document.type === 'exhibitions') {
     const exhibition = parseExhibitionDoc(document);
     return exhibition;
   }
+}
+
+type ExhibitQuery = {| ids: string[] |}
+export async function getExhibitionExhibits(
+  req: Request,
+  { ids }: ExhibitQuery
+): Promise<?PaginatedResults<UiExhibit>> {
+  const predicates = [Prismic.Predicates.in('document.id', ids)];
+  const apiResponse = await getDocuments(req, predicates, {
+    fetchLinks: peopleFields.concat(
+      contributorsFields,
+      placesFields,
+      installationFields
+    )
+  });
+
+  const exhibitResults = parseExhibits(apiResponse.results.map(result => {
+    return {
+      item: result
+    };
+  }));
+
+  return {
+    currentPage: apiResponse.currentPage,
+    pageSize: apiResponse.pageSize,
+    totalResults: apiResponse.totalResults,
+    totalPages: apiResponse.totalPages,
+    results: exhibitResults
+  };
 }

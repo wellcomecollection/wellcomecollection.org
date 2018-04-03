@@ -28,7 +28,8 @@
       <div class="exhibition-hero">
         {% componentJsx 'Picture', {
           images: exhibition.featuredImageList,
-          extraClasses: 'exhibition-hero__picture'
+          extraClasses: 'exhibition-hero__picture',
+          isFull: true
         }%}
 
         <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">
@@ -88,7 +89,7 @@
                 <span class="flex flex--v-center">{% icon 'plus', null, ['icon--green', 'margin-right-s1'] %}Opening times</span>
               </button>
               <div class="drawer__body js-show-hide-drawer">
-                {% componentV2 'opening-hours', {places: pageConfig.openingHours, id: 'exhibition-page'}, {'light': true, 'compressed': true} %}
+                {% componentJsx 'OpeningHours', {id: 'exhibition-page', extraClasses: 'opening-hours--light opening-hours--compressed'} %}
               </div>
             </div>
             <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
@@ -131,6 +132,14 @@
         </div>
       </div>
     </div>
+    {% if featuresCohort | isFlagEnabled('exhibitsOnExhibitions', featureFlags) %}
+      {# We append the IDs here because that's how we need to query Prismic at the moment #}
+      {% component 'async', {
+        endpoint: '/exhibitions/' + exhibition.id + '/exhibits?query=ids:' + (exhibitIds | join(',')),
+        prefixEndpoint: false
+      } %}
+    {% endif %}
+
     {% if exhibition.relatedGalleries.length > 0 %}
       <div class="container">
         <div class="grid">
