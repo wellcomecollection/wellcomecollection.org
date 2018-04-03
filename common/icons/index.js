@@ -31,6 +31,7 @@ import tumblr from './tumblr';
 import youtube from './youtube';
 import tripadvisor from './tripadvisor';
 import wellcome from './wellcome';
+import statusIndicator from './status_indicator';
 export {
   arrow,
   audioDescribed,
@@ -69,5 +70,6 @@ export {
   tumblr,
   youtube,
   tripadvisor,
-  wellcome
+  wellcome,
+  statusIndicator
 };
