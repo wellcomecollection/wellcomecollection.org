@@ -53,7 +53,7 @@ const InstallationPromo = ({ id, title, description, image, start, end }: Props)
       width={image.width || 0}
       contentUrl={image.contentUrl || ''}
       lazyload={true}
-      sizesQueries='(min-width: 860px) 800px, calc(92.59vw + 22px)' // TODO - correct sizes
+      sizesQueries='(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(41.76vw - 50px), calc(75vw - 18px)'
       alt='' />
     <div className={`
       ${spacing({s: 2}, {padding: ['top']})}
