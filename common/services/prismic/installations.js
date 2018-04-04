@@ -11,25 +11,26 @@ import {
   parseImagePromo,
   parseTimestamp,
   parsePlace,
-  parseBody
+  parseBody,
+  isDocumentLink
 } from './parsers';
 
-function parseInstallationDoc(document: PrismicDocument): UiInstallation {
+export function parseInstallationDoc(document: PrismicDocument): UiInstallation {
   const data = document.data;
   const promo = document.data.promo;
 
-  const promoThin = parseImagePromo(promo, '32:15', breakpoints.medium);
-  const promoSquare = parseImagePromo(promo, 'square', breakpoints.small);
+  const promoThin = promo && parseImagePromo(promo, '32:15', breakpoints.medium);
+  const promoSquare = promo && parseImagePromo(promo, 'square', breakpoints.small);
   const promos = [promoThin, promoSquare].filter(Boolean).map(p => p.image).filter(Boolean);
 
   return {
     id: document.id,
     title: parseTitle(data.title),
     description: parseDescription(data.description),
-    contributors: parseContributors(data.contributors),
+    contributors: data.contributors ? parseContributors(data.contributors) : [],
     start: parseTimestamp(data.start),
     end: data.end && parseTimestamp(data.end),
-    place: data.place && parsePlace(data.place),
+    place: isDocumentLink(data.place) && parsePlace(data.place),
 
     /*
       This is the display logic.

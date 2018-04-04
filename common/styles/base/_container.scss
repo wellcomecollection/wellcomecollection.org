@@ -15,18 +15,18 @@
 
 .container--with-frame {
   @include respond-to('medium') {
-    padding: 0 #{map-get($container-padding, 'medium') / 2};
-    max-width: calc(100vw - #{map-get($container-padding, 'medium')});
+    padding: 0 #{$container-padding-m * (2 / 3)};
+    max-width: calc(100vw - (#{$container-padding-m} / 3) * 2);
   }
 
   @include respond-to('large') {
-    padding: 0 #{map-get($container-padding, 'large') / 2};
-    max-width: calc(100vw - #{map-get($container-padding, 'large')});
+    padding: 0 #{$container-padding-l * (2 / 3)};
+    max-width: calc(100vw - (#{$container-padding-l} / 3) * 2);
   }
 
   @include respond-to('xlarge') {
-    padding: 0 #{map-get($container-padding, 'xlarge') / 2};
-    max-width: calc(#{$container-width-max} - #{map-get($container-padding, 'xlarge')});
+    padding: 0 #{$container-padding-xl * (2 / 3)};
+    max-width: calc(100vw - (#{$container-padding-xl} / 3) * 2);
   }
 }
 

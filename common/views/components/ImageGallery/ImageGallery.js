@@ -21,7 +21,7 @@ const ImageGallery = ({id, title, items}: ImageGalleryProps) => {
           <div className='image-gallery__item' key={image.contentUrl}>
             <CaptionedImage
               caption={image.caption || ''}
-              slideNumbers={{ current: i, total: items.length }}>
+              slideNumbers={{ current: i + 1, total: items.length }}>
 
               {image.contentUrl && image.width && image.height && <Image
                 width={image.width}

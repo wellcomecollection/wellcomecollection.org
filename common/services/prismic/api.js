@@ -1,7 +1,12 @@
 // @flow
 import Prismic from 'prismic-javascript';
 import Cookies from 'cookies';
-import type {PrismicDocument, PrismicQueryOpts} from './types';
+import type {
+  PrismicDocument,
+  PrismicQueryOpts,
+  PrismicApiSearchResponse,
+  PaginatedResults
+} from './types';
 
 const oneMinute = 1000 * 60;
 const apiUri = 'https://wellcomecollection.prismic.io/api/v2';
@@ -37,6 +42,26 @@ export async function getDocument(
   opts: PrismicQueryOpts
 ): Promise<?PrismicDocument> {
   const api = await getPrismicApi(req);
-  const doc = api.getByID(id, opts);
+  const doc = await api.getByID(id, opts);
   return doc;
+}
+
+type Predicate = string;
+
+export async function getDocuments(
+  req: Request,
+  predicates: Predicate[],
+  opts: PrismicQueryOpts
+): Promise<PaginatedResults<PrismicDocument>> {
+  const api = await getPrismicApi(req);
+  const docs: PrismicApiSearchResponse = await api.query(predicates, opts);
+  const paginatedResults = {
+    currentPage: docs.page,
+    pageSize: docs.results_per_page,
+    totalResults: docs.total_results_size,
+    totalPages: docs.total_pages,
+    results: docs.results
+  };
+
+  return paginatedResults;
 }
