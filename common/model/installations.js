@@ -15,5 +15,6 @@ export type Installation = {|
 |};
 
 export type UiInstallation = {| ...Installation, ...{|
-  featuredImageList: Picture[]
+  featuredImageList: Picture[],
+  body: any[]
 |}|}

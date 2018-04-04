@@ -10,7 +10,8 @@ import {
   parseContributors,
   parseImagePromo,
   parseTimestamp,
-  parsePlace
+  parsePlace,
+  parseBody
 } from './parsers';
 
 function parseInstallationDoc(document: PrismicDocument): UiInstallation {
@@ -36,7 +37,8 @@ function parseInstallationDoc(document: PrismicDocument): UiInstallation {
       but flow has problems with spreading.
       https://github.com/facebook/flow/issues/3608
     */
-    featuredImageList: promos
+    featuredImageList: promos,
+    body: data.body ? parseBody(data.body) : []
   };
 }
 
