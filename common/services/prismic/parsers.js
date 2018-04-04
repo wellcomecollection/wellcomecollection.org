@@ -204,16 +204,11 @@ export function parsePromoListItem(item: PrismicPromoListFragment): PromoListIte
   };
 }
 
-export function parseBackgroundTexture(backgroundTexture: ?PrismicBackgroundTexture): ?BackgroundTexture {
-  const image = backgroundTexture && backgroundTexture.image.url;
-  const name = backgroundTexture && backgroundTexture.name;
-
-  if (image && name) {
-    return {
-      image: image,
-      name: name
-    };
-  }
+export function parseBackgroundTexture(backgroundTexture: PrismicBackgroundTexture): BackgroundTexture {
+  return {
+    image: backgroundTexture.image.url,
+    name: backgroundTexture.name
+  };
 }
 
 export function isDocumentLink(fragment: ?PrismicFragment): boolean {

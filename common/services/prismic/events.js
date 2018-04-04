@@ -7,10 +7,12 @@ export async function getUiEventSeries(req: Request, id: string): Promise<UiEven
     fetchLinks: ['background-textures.image', 'background-textures.name']
   });
 
+  const prismicBackgroundTexture = series && series.data && series.data.backgroundTexture && series.data.backgroundTexture.data;
+
   return {
     id: id,
     title: series && series.data && series.data.title || 'TITLE MISSING',
     description: series && series.data && series.data.description,
-    backgroundTexture: parseBackgroundTexture(series && series.data && series.data.backgroundTexture && series.data.backgroundTexture.data)
+    backgroundTexture: prismicBackgroundTexture ? parseBackgroundTexture(prismicBackgroundTexture) : null
   };
 }
