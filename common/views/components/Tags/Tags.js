@@ -22,8 +22,8 @@ function buildTag(tag) {
 }
 
 const Tags = ({ tags }: Props) => (
-  <div className="tags">
-    <ul className="tags__list plain-list no-margin no-padding flex flex--wrap">
+  <div className='tags'>
+    <ul className='tags__list plain-list no-margin no-padding flex flex--wrap'>
       {tags.map(tag => (
         <li key={tag.text} className={`tags__tag ${font({s: 'HNL5', m: 'WB7'})} ${spacing({s: 2}, {margin: ['right', 'bottom']})}`}
           data-track-event={JSON.stringify({
