@@ -23,7 +23,7 @@ function isEmptyObj(obj: ?Object): boolean {
   return Object.keys((obj || {})).length === 0;
 }
 
-function asText(maybeContent: ?HTMLString): ?string {
+export function asText(maybeContent: ?HTMLString): ?string {
   return maybeContent && RichText.asText(maybeContent).trim();
 }
 
@@ -98,7 +98,7 @@ function parseOrganisationContributor(frag: PrismicFragment): OrganisationContri
 
 export function parseContributors(contributorsDoc: PrismicFragment[]): Contributor[] {
   const contributors = contributorsDoc.map(contributor => {
-    const role = !contributor.role.isBroken ? {
+    const role = contributor.role.isBroken === false ? {
       id: contributor.role.id,
       title: asText(contributor.role.data.title) || 'MISSING TITLE'
     } : null;
@@ -177,4 +177,32 @@ export function parsePlace(doc: PrismicFragment): Place {
     level: doc.data.level || 0,
     capacity: doc.data.capacity
   };
+}
+
+type PrismicPromoListFragment = {|
+  type: string,
+  link: {| url: string |},
+  title: HTMLString,
+  description: HTMLString,
+  image: Picture
+|}
+type PromoListItem = {|
+  contentType: string,
+  url: string,
+  title: string,
+  description: string,
+  image: Picture
+|}
+export function parsePromoListItem(item: PrismicPromoListFragment): PromoListItem {
+  return {
+    contentType: item.type,
+    url: item.link.url,
+    title: asText(item.title) || 'TITLE MISSING',
+    description: asText(item.description) || '',
+    image: parsePicture(item)
+  };
+}
+
+export function isDocumentLink(fragment: ?PrismicFragment): boolean {
+  return Boolean(fragment && fragment.isBroken === false);
 }

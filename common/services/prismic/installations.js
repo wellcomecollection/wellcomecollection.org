@@ -1,8 +1,6 @@
 // @flow
-import type {PrismicDocument, PrismicFragment} from './types';
-import type {Installation} from '../../model/installations';
-import type {Picture} from '../../model/picture';
-import type {ImagePromo} from './parsers';
+import type {PrismicDocument} from './types';
+import type {UiInstallation} from '../../model/installations';
 import {getDocument} from './api';
 import {peopleFields, contributorsFields, placesFields} from './fetch-links';
 import {breakpoints} from '../../utils/breakpoints';
@@ -12,43 +10,44 @@ import {
   parseContributors,
   parseImagePromo,
   parseTimestamp,
-  parsePlace
+  parsePlace,
+  isDocumentLink
 } from './parsers';
 
-function parseInstallationDoc(document: PrismicDocument): Installation {
+export function parseInstallationDoc(document: PrismicDocument): UiInstallation {
   const data = document.data;
+  const promo = document.data.promo;
+
+  const promoThin = promo && parseImagePromo(promo, '32:15', breakpoints.medium);
+  const promoSquare = promo && parseImagePromo(promo, 'square', breakpoints.small);
+  const promos = [promoThin, promoSquare].filter(Boolean).map(p => p.image).filter(Boolean);
+
   return {
     id: document.id,
     title: parseTitle(data.title),
     description: parseDescription(data.description),
-    contributors: parseContributors(data.contributors),
+    contributors: data.contributors ? parseContributors(data.contributors) : [],
     start: parseTimestamp(data.start),
     end: data.end && parseTimestamp(data.end),
-    place: data.place && parsePlace(data.place)
+    place: isDocumentLink(data.place) && parsePlace(data.place),
+
+    /*
+      This is the display logic.
+      It would be nice to have these as separate steps,
+      but flow has problems with spreading.
+      https://github.com/facebook/flow/issues/3608
+    */
+    featuredImageList: promos
   };
 }
 
-function parseInstallationFeaturedImages(promo: PrismicFragment[]): ImagePromo[] {
-  const promoThin = parseImagePromo(promo, '32:15', breakpoints.medium);
-  const promoSquare = parseImagePromo(promo, 'square', breakpoints.small);
-
-  return [promoThin, promoSquare].filter(Boolean);
-}
-
-export async function getInstallation(req: Request, id: string): Promise<?{|
-  installation: Installation,
-  featredImageList: Picture[]
-|}> {
+export async function getInstallation(req: Request, id: string): Promise<?UiInstallation> {
   const document = await getDocument(req, id, {
     fetchLinks: peopleFields.concat(contributorsFields, placesFields)
   });
 
   if (document && document.type === 'installations') {
     const installation = parseInstallationDoc(document);
-    const promos = document.data.promo ? parseInstallationFeaturedImages(document.data.promo) : [];
-    return {
-      installation,
-      featredImageList: promos.map(p => p.image).filter(Boolean)
-    };
+    return installation;
   }
 }
