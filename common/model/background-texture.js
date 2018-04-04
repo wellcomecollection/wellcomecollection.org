@@ -1,6 +1,6 @@
 // @flow
 
-export type PrimsmicBackgroundTexture = {|
+export type PrismicBackgroundTexture = {|
   image: {
     url: string
   },
