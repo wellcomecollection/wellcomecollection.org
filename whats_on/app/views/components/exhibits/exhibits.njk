@@ -18,7 +18,11 @@
               <div class="{{ {s:12, m:6, l:3, xl:3} | gridClasses }}">
                 {% componentJsx 'InstallationPromo', {
                   id: exhibit.item.id,
-                  title: exhibit.item.title
+                  title: exhibit.item.title,
+                  description: exhibit.item.description[0].text,
+                  image: exhibit.item.featuredImageList[0],
+                  start: exhibit.item.start,
+                  end: exhibit.item.end
                 } %}
               </div>
             {% endfor %}
