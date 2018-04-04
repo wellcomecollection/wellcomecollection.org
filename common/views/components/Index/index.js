@@ -17,6 +17,7 @@ import ExceptionalOpeningHoursTable from '../ExceptionalOpeningHoursTable/Except
 import SearchBox from '../SearchBox/SearchBox';
 import Tags from '../Tags/Tags';
 import Tasl from '../Tasl/Tasl';
+import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
 import PageDescription from '../PageDescription/PageDescription';
@@ -48,6 +49,7 @@ export {
   SearchBox,
   Tags,
   Tasl,
+  WobblyEdge,
   WorkDrawer,
   WorkMedia,
   PageDescription,

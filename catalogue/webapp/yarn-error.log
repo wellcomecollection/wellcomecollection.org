@@ -1,8 +1,8 @@
 Arguments: 
-  /Users/gorriej/.nvm/versions/node/v8.9.1/bin/node /Users/gorriej/.yarn/bin/yarn.js dev -p 5000
+  /Users/mccormid/.nvm/versions/node/v8.9.1/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js dev
 
 PATH: 
-  /Users/gorriej/.yarn/bin:/Users/gorriej/.config/yarn/global/node_modules/.bin:/Users/gorriej/bin:/Users/gorriej/.rbenv/shims:/Users/gorriej/.nvm/versions/node/v8.9.1/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
+  /Users/mccormid/.nvm/versions/node/v8.9.1/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/Users/mccormid/bin:./node_modules/.bin:/Users/mccormid/bin:./node_modules/.bin
 
 Yarn version: 
   1.5.1
@@ -5723,13 +5723,13 @@ Trace:
   Error: Command failed.
   Exit code: 1
   Command: sh
-  Arguments: -c node server.js -p 5000
-  Directory: /Users/gorriej/projects/wellcomecollection.org/catalogue/webapp
+  Arguments: -c node server.js
+  Directory: /Users/mccormid/src/Wellcome/wellcomecollection.org/catalogue/webapp
   Output:
   
-      at ProcessTermError.MessageError (/Users/gorriej/.yarn/lib/cli.js:186:110)
-      at new ProcessTermError (/Users/gorriej/.yarn/lib/cli.js:226:113)
-      at ChildProcess.<anonymous> (/Users/gorriej/.yarn/lib/cli.js:30281:17)
+      at ProcessTermError.MessageError (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:186:110)
+      at new ProcessTermError (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:226:113)
+      at ChildProcess.<anonymous> (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:30281:17)
       at emitTwo (events.js:126:13)
       at ChildProcess.emit (events.js:214:7)
       at maybeClose (internal/child_process.js:925:16)

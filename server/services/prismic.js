@@ -327,7 +327,6 @@ export async function getUiEventSeries(id: string): Promise<UiEventSeries> {
   const backgroundTexture = series.data.backgroundTexture && series.data.backgroundTexture.data;
   const image = backgroundTexture && backgroundTexture.image.url;
   const name = backgroundTexture && backgroundTexture.name;
-  console.log(series);
 
   return {
     id: series.id,

@@ -1,18 +1,95 @@
 // @flow
+import React from 'react';
+
+// TODO: this could/should probably be abstracted
+function setPropertyPrefixed(property, value) {
+  const cappedProperty = property[0].toUpperCase() + property.substring(1);
+
+  return {
+    [`Webkit${cappedProperty}`]: value,
+    [`moz${property}`]: value,
+    [`ms${cappedProperty}`]: value,
+    [`o${cappedProperty}`]: value,
+    [property]: value
+  };
+}
+
+function randomIntFromInterval(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 type Props = {|
   background: string,
   intensity?: number,
   points?: number,
-  isValley?: boolean
+  isValley?: boolean,
+  isStatic?: boolean
 |}
 
-const WobblyEdge = ({ intensity, points, background, isValley }: Props) => (
-  <div
-    className={`wobbly-edge wobbly-edge--${background} js-wobbly-edge`}
-    data-max-intensity={intensity}
-    data-number-of-points={points}
-    data-is-valley={isValley}>
-  </div>
-);
+class WobblyEdge extends React.Component<Props> {
+  constructor(props: Props) {
+    super(props);
+    this.intensity = props.intensity || 50;
+    this.points = props.points || 5;
+    this.timer = null;
+    this.state = {
+      isActive: false,
+      inlineStyle: setPropertyPrefixed('clipPath', this.makePolygonPoints(0, 0))
+    };
+  }
+
+  componentDidMount() {
+    if (this.props.isStatic) return;
+
+    window.addEventListener('scroll', () => {
+      if (!this.state.isActive) {
+        this.setState({
+          inlineStyle: setPropertyPrefixed('clipPath', this.makePolygonPoints(this.points, this.intensity)),
+          isActive: true
+        });
+      }
+
+      if (this.timer) {
+        clearTimeout(this.timer);
+      }
+
+      this.timer = setTimeout(() => {
+        this.setState({
+          inlineStyle: setPropertyPrefixed('clipPath', this.makePolygonPoints(this.points, this.intensity)),
+          isActive: false
+        });
+      }, 150);
+    });
+  }
+
+  makePolygonPoints(totalPoints: number, intensity: number): string {
+    // Determine whether wobbly edge should be a mountain or a valley
+    const first = this.props.isValley ? '0% 100%, 0% 0%,' : '0% 100%,';
+    const last = this.props.isValley ? ',100% 0%, 100% 100%' : ',100% 100%';
+    const innerPoints = [];
+
+    for (let i = 1; i < totalPoints; i++) {
+      const xMean = 100 / totalPoints * i;
+      const xShift = (100 / totalPoints) / 2;
+      const x = randomIntFromInterval((xMean - xShift), (xMean + xShift - 1));
+      const y = randomIntFromInterval((100 - intensity), 100);
+      innerPoints.push(`${x}% ${y}%`);
+    }
+
+    return `polygon(${first.concat(innerPoints.join(','), last)})`;
+  };
+
+  render() {
+    return (
+      <div
+        className={`wobbly-edge wobbly-edge--${this.props.background}`}
+        data-max-intensity={this.intensity}
+        data-number-of-points={this.points}
+        data-is-valley={this.props.isValley}
+        style={this.state.inlineStyle}>
+      </div>
+    );
+  }
+}
 
 export default WobblyEdge;
