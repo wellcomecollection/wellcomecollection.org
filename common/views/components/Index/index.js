@@ -5,6 +5,7 @@ import CopyUrl from '../CopyUrl/CopyUrl';
 import Divider from '../Divider/Divider';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import Footer from '../Footer/Footer';
+import FramedHeader from '../PageHeaders/FramedHeader/FramedHeader';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import Image from '../Image/Image';
 import License from '../License/License';
@@ -23,6 +24,7 @@ import Pagination from '../Pagination/Pagination';
 import Promo from '../Promo/Promo';
 import Picture from '../Picture/Picture';
 import ImageGallery from '../ImageGallery/ImageGallery';
+import InstallationPromo from '../InstallationPromo/InstallationPromo';
 import ExhibitionPageHeader from '../PageHeaders/ExhibitionPageHeader/ExhibitionPageHeader';
 import ScrollToInfo from '../ScrollToInfo/ScrollToInfo';
 
@@ -41,6 +43,7 @@ export {
   MoreInfoLink,
   OpeningHours,
   OpeningHoursTable,
+  FramedHeader,
   ExceptionalOpeningHoursTable,
   SearchBox,
   Tags,
@@ -52,6 +55,7 @@ export {
   Promo,
   Picture,
   ImageGallery,
+  InstallationPromo,
   ExhibitionPageHeader,
   ScrollToInfo
 };

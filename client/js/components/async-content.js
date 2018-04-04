@@ -4,8 +4,9 @@ import shrinkStoriesNav from './shrink-stories-nav';
 
 export default function asyncContent(el, dispatch) {
   const component = el.getAttribute('data-component');
+  const prefixEndpoint = el.getAttribute('data-prefix-endpoint') !== 'false';
 
-  return fetch(`/async${el.getAttribute('data-endpoint')}`)
+  return fetch(`${prefixEndpoint ? '/async' : ''}${el.getAttribute('data-endpoint')}`)
     .then(resp => resp.json())
     .then(json => {
       const outerEl = document.createElement('div');

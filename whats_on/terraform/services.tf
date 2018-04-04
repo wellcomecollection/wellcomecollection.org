@@ -37,7 +37,7 @@ module "whats_on" {
 # This is added as we want `/installation` and `/whats-on` to use this service
 # This seems to break the concept of 1 URL per service in the modules,
 # so didn't commit it there.
-resource "aws_alb_listener_rule" "path_rule" {
+resource "aws_alb_listener_rule" "installations_path_rule" {
   listener_arn = "${local.alb_listener_http_arn}"
   priority     = "131"
 
@@ -49,5 +49,20 @@ resource "aws_alb_listener_rule" "path_rule" {
   condition {
     field  = "path-pattern"
     values = ["/installations*"]
+  }
+}
+
+resource "aws_alb_listener_rule" "exhibitions_path_rule" {
+  listener_arn = "${local.alb_listener_http_arn}"
+  priority     = "132"
+
+  action {
+    type             = "forward"
+    target_group_arn = "${module.whats_on.target_group_arn}"
+  }
+
+  condition {
+    field  = "path-pattern"
+    values = ["/exhibitions/*"]
   }
 }

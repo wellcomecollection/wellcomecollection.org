@@ -99,7 +99,7 @@ function parseOrganisationContributor(frag: PrismicFragment): OrganisationContri
 
 export function parseContributors(contributorsDoc: PrismicFragment[]): Contributor[] {
   const contributors = contributorsDoc.map(contributor => {
-    const role = !contributor.role.isBroken ? {
+    const role = contributor.role.isBroken === false ? {
       id: contributor.role.id,
       title: asText(contributor.role.data.title) || 'MISSING TITLE'
     } : null;
@@ -214,4 +214,8 @@ export function parseBackgroundTexture(backgroundTexture: ?PrismicBackgroundText
       name: name
     };
   }
+}
+
+export function isDocumentLink(fragment: ?PrismicFragment): boolean {
+  return Boolean(fragment && fragment.isBroken === false);
 }
