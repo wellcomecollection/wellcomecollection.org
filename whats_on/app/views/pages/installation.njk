@@ -108,7 +108,7 @@
               <span class="flex flex--v-center">{% icon 'plus', null, ['icon--green', 'margin-right-s1'] %}Opening times</span>
             </button>
             <div class="drawer__body js-show-hide-drawer">
-              {% componentJsx 'OpeningHours', {id: 'exhibition-page', extraClasses: 'opening-hours--light opening-hours--compressed'} %}
+              {% componentV2 'opening-hours', {places: pageConfig.openingHours, id: 'exhibition-page'}, {'light': true, 'compressed': true} %}
             </div>
           </div>
           <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
