@@ -206,3 +206,41 @@ export function parsePromoListItem(item: PrismicPromoListFragment): PromoListIte
 export function isDocumentLink(fragment: ?PrismicFragment): boolean {
   return Boolean(fragment && fragment.isBroken === false);
 }
+
+export function parseBody(fragment: PrismicFragment[]) {
+  return fragment.map((slice) => {
+    switch (slice.slice_type) {
+      case 'standfirst':
+        return {
+          type: 'standfirst',
+          weight: 'default',
+          value: asHtml(slice.primary.text)
+        };
+
+      case 'text':
+        return {
+          type: 'text',
+          weight: 'default',
+          value: asHtml(slice.value)
+        };
+
+      case 'editorialImage':
+        return {
+          weight: slice.slice_label,
+          type: 'picture',
+          value: parsePicture(slice.primary)
+        };
+
+      case 'editorialImageGallery':
+        // TODO: add support for ~title~ & description / caption
+        return {
+          type: 'imageGallery',
+          weight: 'standalone',
+          value: {
+            title: asText(slice.primary.title),
+            items: slice.items.map(parsePicture)
+          }
+        };
+    }
+  }).filter(Boolean);
+}
