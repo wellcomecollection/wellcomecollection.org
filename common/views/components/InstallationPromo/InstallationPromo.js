@@ -14,7 +14,7 @@ const InstallationPromo = ({ id, title }: Props) => (
       action: 'InstallationPromo:click'
     })}
     id={id}
-    href={`/installations/{id}`}
+    href={`/installations/${id}`}
     className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'>
     <h2
       className={`
