@@ -6,12 +6,11 @@ import Image from '../Image/Image';
 // import Icon from '../Icon/Icon';
 // import {Fragment} from 'react';
 import type {Picture} from '../../../model/picture';
-import type {HTMLString} from '../services/prismic/types';
 
 type Props = {|
   id: string,
   title: string,
-  description: HTMLString,
+  description: string,
   image: Picture,
   start: Date,
   end: ?Date
