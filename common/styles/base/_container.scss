@@ -26,7 +26,7 @@
 
   @include respond-to('xlarge') {
     padding: 0 #{$container-padding-xl * (2 / 3)};
-    max-width: calc(100vw - (#{$container-padding-xl} / 3) * 2);
+    max-width: calc(#{$container-width-max} - #{$container-padding-xl} + #{$container-padding-xl * (1 / 3)});
   }
 }
 
