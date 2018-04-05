@@ -90,8 +90,7 @@
       {% endblock %}
     </div>
 
-    {% componentJsx 'Footer', {openingHoursId: 'footer'} %}
-
+    {% componentJsx 'Footer', {openingHoursId: 'footer',  placesOpeningHours: openingHours.placesOpeningHours, upcomingExceptionalOpeningPeriods: openingHours.upcomingExceptionalOpeningPeriods } %}
 
     {% if featuresCohort !== 'testB' %}
       {% component 'cookie-notification', { isFixed: true } %}
