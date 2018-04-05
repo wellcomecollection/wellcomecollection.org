@@ -75,15 +75,14 @@ class WobblyEdge extends React.Component<Props, State> {
     // Determine whether wobbly edge should be a mountain or a valley
     const first = this.props.isValley ? '0% 100%, 0% 0%,' : '0% 100%,';
     const last = this.props.isValley ? ',100% 0%, 100% 100%' : ',100% 100%';
-    const innerPoints = [];
-
-    for (let i = 1; i < totalPoints; i++) {
-      const xMean = 100 / totalPoints * i;
+    const innerPoints = [...Array(totalPoints)].reduce((acc, curr, index) => {
+      const xMean = 100 / totalPoints * index;
       const xShift = (100 / totalPoints) / 2;
       const x = randomIntFromInterval((xMean - xShift), (xMean + xShift - 1));
       const y = randomIntFromInterval((100 - intensity), 100);
-      innerPoints.push(`${x}% ${y}%`);
-    }
+
+      return acc.concat(`${x}% ${y}%`);
+    }, []);
 
     return `polygon(${first.concat(innerPoints.join(','), last)})`;
   };
