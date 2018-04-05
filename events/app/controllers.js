@@ -1,6 +1,7 @@
 import {model, prismic} from 'common';
+import {getUiEventSeries} from '@weco/common/services/prismic/events';
 const {createPageConfig} = model;
-const {getPaginatedEventPromos, getEventsInSeries, getUiEventSeries, asText, asHtml, createEventPromos, convertPrismicResultsToPaginatedResults, london} = prismic;
+const {getPaginatedEventPromos, getEventsInSeries, asText, asHtml, createEventPromos, convertPrismicResultsToPaginatedResults, london} = prismic;
 
 export async function renderEvent(ctx, next) {
   const id = `${ctx.params.id}`;
@@ -46,7 +47,7 @@ export async function renderEventSeries(ctx, next) {
   const page = ctx.request.query.page ? Number(ctx.request.query.page) : 1;
   const {id} = ctx.params;
   const eventsPromise = getEventsInSeries(id, { page });
-  const uiEventSeriesPromise = getUiEventSeries(id);
+  const uiEventSeriesPromise = getUiEventSeries(ctx.request, id);
   const [ events, uiEventSeries ] = await Promise.all([eventsPromise, uiEventSeriesPromise]);
   const promos = createEventPromos(events.results).reverse();
   const paginatedResults = convertPrismicResultsToPaginatedResults(promos);

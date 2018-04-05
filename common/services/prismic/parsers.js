@@ -6,6 +6,7 @@ import type { Picture } from '../../model/picture';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
 import type { Place } from '../../model/place';
+import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/background-texture';
 import { licenseTypeArray } from '../../model/license';
 
 const linkResolver = (doc) => {
@@ -200,6 +201,13 @@ export function parsePromoListItem(item: PrismicPromoListFragment): PromoListIte
     title: asText(item.title) || 'TITLE MISSING',
     description: asText(item.description) || '',
     image: parsePicture(item)
+  };
+}
+
+export function parseBackgroundTexture(backgroundTexture: PrismicBackgroundTexture): BackgroundTexture {
+  return {
+    image: backgroundTexture.image.url,
+    name: backgroundTexture.name
   };
 }
 

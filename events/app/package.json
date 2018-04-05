@@ -3,7 +3,8 @@
     "app:build": "webpack",
     "app:dev": "../../node_modules/.bin/nodemon -e js,njk,json --config ../../nodemon.json --exec babel-node --inspect=4002 app.js",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "linkweco": "pushd ../../common && yarn link && popd && yarn link @weco/common"
   },
   "dependencies": {
     "@weco/common": "../../common",

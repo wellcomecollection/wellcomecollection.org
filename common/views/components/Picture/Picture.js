@@ -22,6 +22,7 @@ const Picture = ({ images, extraClasses, isFull = false }: Props) => {
               <source
                 key={image.contentUrl}
                 media={image.minWidth ? `(min-width: ${image.minWidth})` : ''}
+                sizes='100vw'
                 data-srcset={sizes.map(size => {
                   return image.contentUrl && `${convertImageUri(image.contentUrl, size, false)} ${size}w`;
                 })} />
