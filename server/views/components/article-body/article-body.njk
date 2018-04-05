@@ -35,7 +35,7 @@
                 ] %}
               </div>
             {% else %}
-                {% component 'standfirst', { body: bodyPart.value } %}
+                {% componentJsx 'Standfirst', {body: bodyPart.value} %}
             {% endif %}
           {% elif bodyPart.type === 'heading' %}
             <h2>{{ bodyPart.value.value | safe }}</h2>

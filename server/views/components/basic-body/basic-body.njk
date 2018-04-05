@@ -10,7 +10,7 @@
           {{- ' body-part--standalone body-part--full-width' if bodyPart.weight === 'standalone'  -}}
           {{- ' body-part--supporting' if bodyPart.weight === 'supporting'  -}}">
           {% if bodyPart.type === 'standfirst' %}
-            {% component 'standfirst', { body: bodyPart.value } %}
+            {% componentJsx 'Standfirst', {body: bodyPart.value} %}
           {% elif bodyPart.type === 'heading' %}
             <h2>{{ bodyPart.value.value | safe }}</h2>
           {% elif bodyPart.type === 'gif-video' %}
