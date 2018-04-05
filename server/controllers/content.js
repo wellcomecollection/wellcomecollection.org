@@ -13,6 +13,7 @@ import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {placesOpeningHours} from '../../common/model/opening-hours';
 import {exceptionalOpeningHours} from '../../common/services/opening-times';
+import {getInfoPage} from '../../common/services/prismic/info-page';
 
 export const renderOpeningTimes = (ctx, next) => {
   const path = ctx.request.url;
@@ -244,4 +245,21 @@ export async function renderArticlesList(ctx, next) {
   });
 
   return next();
+}
+
+export async function renderInfoPage(ctx, next) {
+  const {id} = ctx.params;
+  const infoPage = await getInfoPage(ctx.request, id);
+
+  if (infoPage) {
+    ctx.render('pages/basic', {
+      pageConfig: createPageConfig({
+        path: ctx.request.url,
+        title: infoPage.title,
+        inSection: 'what-we-do',
+        category: 'info'
+      }),
+      page: infoPage
+    });
+  }
 }

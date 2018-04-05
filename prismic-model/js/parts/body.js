@@ -20,7 +20,13 @@ export default {
       ]
     },
     'choices': {
-      'text': structuredText('Text', 'multi', ['heading2', 'list-item']),
+      'text': {
+        'type': 'Slice',
+        'fieldset': 'Text',
+        'non-repeat': {
+          'text': structuredText('Text', 'multi', ['heading2', 'list-item'])
+        }
+      },
       // These should probably be called captionedImage etc, but legacy says no
       'editorialImage': captionedImageSlice(),
       'editorialImageGallery': captionedImageGallerySlice()

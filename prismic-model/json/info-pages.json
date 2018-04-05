@@ -1,0 +1,142 @@
+{
+  "Page": {
+    "title": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Title",
+        "single": "heading1",
+        "useAsTitle": true
+      }
+    },
+    "body": {
+      "fieldset": "Body content",
+      "type": "Slices",
+      "config": {
+        "labels": {
+          "editorialImage": [
+            {
+              "name": "supporting",
+              "display": "Supporting"
+            },
+            {
+              "name": "standalone",
+              "display": "Standalone"
+            }
+          ]
+        },
+        "choices": {
+          "text": {
+            "type": "Slice",
+            "fieldset": "Text",
+            "non-repeat": {
+              "text": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph,hyperlink,strong,em,heading2,list-item",
+                  "label": "Text"
+                }
+              }
+            }
+          },
+          "editorialImage": {
+            "type": "Slice",
+            "fieldset": "Captioned image",
+            "non-repeat": {
+              "caption": {
+                "type": "StructuredText",
+                "config": {
+                  "single": "paragraph,hyperlink,strong,em",
+                  "label": "Caption"
+                }
+              },
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Image"
+                }
+              }
+            }
+          },
+          "editorialImageGallery": {
+            "type": "Slice",
+            "fieldset": "Captioned image gallery",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              }
+            },
+            "repeat": {
+              "caption": {
+                "type": "StructuredText",
+                "config": {
+                  "single": "paragraph,hyperlink,strong,em",
+                  "label": "Caption"
+                }
+              },
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Image"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Promo": {
+    "promo": {
+      "type": "Slices",
+      "config": {
+        "label": "Promo",
+        "choices": {
+          "editorialImage": {
+            "type": "Slice",
+            "fieldset": "Editorial image",
+            "config": {
+              "label": "Editorial image"
+            },
+            "non-repeat": {
+              "caption": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Promo text",
+                  "single": "paragraph"
+                }
+              },
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Promo image",
+                  "thumbnails": [
+                    {
+                      "name": "32:15",
+                      "width": 3200,
+                      "height": 1500
+                    },
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
