@@ -37,6 +37,12 @@
     background: transparentize(color('turquoise'), 0.7);
   }
 
+  li {
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
   a:link {
     text-decoration: none;
     box-shadow: inset 0 -0.1em 0 0 color('green');
