@@ -12,7 +12,7 @@ type Props = {|
   openingHoursId: string,
   extraClasses: string,
   placesOpeningHours: PlacesOpeningHours,
-  upcomingExceptionalOpeningPeriods: Array<Date[]>
+  upcomingExceptionalOpeningPeriods: Date[][]
 |}
 
 const Footer = ({openingHoursId, extraClasses, placesOpeningHours, upcomingExceptionalOpeningPeriods}: Props) => (

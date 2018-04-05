@@ -9,7 +9,7 @@ function london(d) {
   return moment.tz(d, 'Europe/London');
 };
 
-function exceptionalOpeningDates(placesHoursArray) {
+function exceptionalOpeningDates(placesHoursArray: PlacesOpeningHours) {
   return [].concat.apply([], placesHoursArray.map(place => { // [].concat.apply to flatten the array
     return place.openingHours.exceptional &&
       place.openingHours.exceptional.map(exceptionalDate => exceptionalDate.overrideDate);
@@ -94,7 +94,7 @@ export function exceptionalOpeningHours(dates: Date[], placesOpeningHours: Place
   }, []));
 }
 
-export function upcomingExceptionalOpeningPeriods(dates: Array<Date[]>) {
+export function upcomingExceptionalOpeningPeriods(dates: Date[][]) {
   return dates && dates.filter((dates) => {
     const displayPeriodStart = london().subtract(1, 'day');
     const displayPeriodEnd = london().add(15, 'day');
