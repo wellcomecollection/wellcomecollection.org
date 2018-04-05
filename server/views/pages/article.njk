@@ -11,15 +11,6 @@
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
   <meta name="description" content="{{ article.description | safe | striptags }}" />
-
-  {% if isPreview %}
-    <script>
-      window.prismic = {
-        endpoint: 'https://wellcomecollection.prismic.io/api/v2'
-      };
-    </script>
-    <script type="text/javascript" src="//static.cdn.prismic.io/prismic.min.js"></script>
-  {% endif %}
 {% endblock %}
 
 {% block body %}
