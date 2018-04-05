@@ -76,9 +76,10 @@ class WobblyEdge extends React.Component<Props, State> {
   };
 
   render() {
+    // TODO: remove `js-wobbly-edge` and data-attributes once 100% Reactified
     return (
       <div
-        className={`wobbly-edge wobbly-edge--${this.props.background}`}
+        className={`wobbly-edge wobbly-edge--${this.props.background} js-wobbly-edge`}
         data-max-intensity={this.intensity}
         data-number-of-points={this.points}
         data-is-valley={this.props.isValley}
