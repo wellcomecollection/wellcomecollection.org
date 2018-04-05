@@ -17,123 +17,113 @@
   <script type="application/ld+json">
     {# {{ jsonLdExhibition | jsonLd('exhibitionLd') | safe }} #}
   </script>
-  <div class="row relative">
-    <div class="flush-container-left absolute {{ {s:2} | spacingClasses({margin: ['top', 'bottom']}) }}">
-      {% componentJsx 'Tags', { tags: tags } %}
+
+  <div class="css-grid__container">
+    <div class="css-grid">
+      <div class="is-hidden-s is-hidden-m {{ {s:12, m:12, l:12, xl:12} | cssGridClasses }} {{ ({s: 4} | spacingClasses({ margin: ['top'] })) }}">
+        {% componentJsx 'Tags', {tags: tags} %}
+      </div>
     </div>
 
-    <div class="exhibition-hero">
-      {% componentJsx 'Picture', {
-        images: installation.featuredImageList,
-        extraClasses: 'exhibition-hero__picture',
-        isFull: true
-      }%}
-
-      <div class="exhibition-hero__copy {{ {l:10} | spacingClasses({margin: ['bottom']}) }}">
-        <div class="is-hidden-l is-hidden-xl">
-          {% component 'wobbly-edge', {background: 'white'} %}
+    {% if installation.featuredImageList.length > 0 %}
+      <div class="is-hidden-l is-hidden-xl css-grid__cell--main">
+        <div class="absolute {{ {s:2} | spacingClasses({margin: ['top', 'bottom']}) }}">
+          {% componentJsx 'Tags', {tags: tags} %}
         </div>
+      </div>
+      <div class="is-hidden-l is-hidden-xl css-grid__cell--full">
+        {% set imageModel = installation.featuredImageList[0] | objectAssign({lazyload: true}) %}
 
-        <div class="container">
-          <div class="grid">
-            <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
-              <div class="bg-white inline-block exhibition-hero__box {{ {l:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }} rounded-diagonal">
-                <div class="flex flex--v-center flex--h-space-between">
-                  <span class="{{ {s:'HNM4', m:'HNM3'} | fontClasses }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free admission</span>
-                  <span class="flex flex--v-center {{ {s:'HNM4'} | fontClasses }}">
-                    {% set dateMessageAndColor = {start: installation.start, end: installation.end} | formatDateRangeWithMessage %}
-                    <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
-                    {% set statusColor = 'icon--' + dateMessageAndColor.color %}
-                    {% icon 'status_indicator', null, [statusColor, 'icon--match-text'] %}
-                  </span>
-                  <span>{{ dateMessageAndColor.text }}</span>
-                </span>
-                </div>
-                <h1 class="{{ {s:'WB5', m:'WB4', xl:'WB3'} | fontClasses }}">{{ installation.title }}</h1>
-                <span class="{{ {s:'HNL4', m:'HNL3', l:'HNL3', xl:'HNL2'} | fontClasses }}">
-                {% if installation.end %}
-                  <time datetime="{{ installation.start }}">{{ installation.start | formatDate }}</time>&ndash;<time datetime="{{ installation.end }}">{{ installation.end | formatDate }}</time>
-                {% endif %}
-              </span>
+        {% set tasl = {name: 'Tasl', model: imageModel}
+          if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
+          else null
+        %}
+
+        {% componentJsx 'CaptionedImage', bodyPart.value, [
+          {name: 'Image', model: imageModel},
+          tasl
+        ] %}
+      </div>
+    {% endif %}
+
+    <div class="css-grid">
+      <div class="css-grid__cell--secondary">
+        <div class="bg-cream rounded-diagonal {{ {s: 4} | spacingClasses({padding: ['top', 'bottom', 'left', 'right']}) }} relative {{ {s: -4, l: 0} | spacingClasses({margin: ['top']}) }}">
+          <div class="{{ {s:'HNM4'} | fontClasses }}">
+            <div class="flex">
+              <span>Installation</span>
+            </div>
+          </div>
+
+          <h1 class="{{- [
+            {s:'WB5', m:'WB4', xl:'WB3'} | fontClasses,
+            {s: 2} | spacingClasses({margin: ['top']}),
+            {s: 1} | spacingClasses({margin: ['bottom']})
+          ].join(' ') -}}">
+            {{ installation.title }}
+          </h1>
+
+          <div class="flex flex--v-center {{ {s:'HNM5'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">
+            <span>
+              Free admission
+            </span>
+            <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['left'], margin: ['left']}) }}">
+              No ticket required
+            </span>
+          </div>
+
+          <div class="{{ {s:'HNL4'} | fontClasses }}">
+            <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+              <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }}">
+                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y' %}</div>
+                <p class="no-margin">This installation is on level {{installation.place.level}}</p>
+              </div>
+
+              <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }}">
+                <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y_visual' %}</div>
+                <p class="no-margin">Step-free access is available to all floors of the building</p>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
 
 
-    <div class="is-hidden-s is-hidden-m">
-      {% component 'wobbly-edge', {background: 'white', intensity: 30} %}
-    </div>
-  </div>
+          <div class="{{ {s:'HNL4'} | fontClasses }}">
+            <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
 
-  {% if installation.contributors.length > 0 %}
-  <div class="row {{ {s:5} | spacingClasses({margin: ['top']}) }}">
-    <div class="container">
-      <div class="grid">
-        <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
-          <h2 class="{{ {s: 'WB6', l: 'WB5'} | fontClasses }} {{ {s: 4} | spacingClasses({padding: ['bottom']}) }}">
-            In collaboration with
-          </h2>
-        </div>
-        {% for contributor in installation.contributors %}
-          <div class="{{ {s:12, m:10, shiftM:1, l:6, xl:6} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-            {% if contributor.contributor.contributorType === 'people' %}
-              {% component 'author', {
-                name: contributor.contributor.name,
-                image: contributor.contributor.image.contentUrl,
-                description: (contributor.description | prismicAsHtml) if contributor.description,
-                twitterHandle: contributor.contributor.twitterHandle
-              } %}
-            {% endif %}
+            </div>
           </div>
-        {% endfor %}
+        </div>
       </div>
-    </div>
-  </div>
-  {% endif %}
 
-  <div class="row {{ {s:5} | spacingClasses({margin: ['top']}) }}">
-    <div class="container">
-      <div class="grid">
-        <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+      <div class="css-grid__cell--primary">
+        <div class="is-hidden-s is-hidden-m rounded-corners overflow-hidden {{ {s: 4} | spacingClasses({margin: ['bottom']}) }}">
+          {% set imageModel = installation.featuredImageList[0] | objectAssign({lazyload: true}) %}
+          {% set tasl = {name: 'Tasl', model: imageModel}
+            if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
+            else null
+          %}
+          {% componentJsx 'CaptionedImage', bodyPart.value, [
+            {name: 'Image', model: imageModel},
+            tasl
+          ] %}
+        </div>
+        <div class="{{ {s: 3, m: 4, l: 5, xl: 5} | spacingClasses({margin: ['bottom']}) }} body-content">
           {{ installation.description | prismicAsHtml | safe }}
         </div>
-        <div class="{{ {s:12, m:10, shiftM:1, l:5, xl:5} | gridClasses }}">
-          <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
-          <div class="drawer js-show-hide"
-                data-track-action="opening-times-drawer">
-            <button class="plain-button no-padding pointer js-show-hide-trigger font-green {{ {s:3} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM4'} | fontClasses }}">
-              <span class="flex flex--v-center">{% icon 'plus', null, ['icon--green', 'margin-right-s1'] %}Opening times</span>
-            </button>
-            <div class="drawer__body js-show-hide-drawer">
-              {% componentV2 'opening-hours', {places: pageConfig.openingHours, id: 'exhibition-page'}, {'light': true, 'compressed': true} %}
-            </div>
-          </div>
-          <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
-
-
-          <h2 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Access information</h2>
-          {% if installation.place !== null %}
-            <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-              <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'lifts' %}</div>
-            <p class="no-margin">This installation is on level {{ installation.place.level }}</p>
-            </div>
-          {% endif %}
-          <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-            <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y' %}</div>
-            <p class="no-margin">Step-free access is available to all floors of the building</p>
-          </div>
-          <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-            <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y_visual' %}</div>
-            <p class="no-margin">Large print guides, transcripts and magnifiers are available in the gallery</p>
-          </div>
-
-          <hr class="divider divider--pumice divider--keyline {{ {s:4} | spacingClasses({margin: ['bottom']}) }}" />
-        </div>
       </div>
     </div>
-
-
+  </div>
+  {% if featuresCohort | isFlagEnabled('fancyBody', featureFlags) %}
+    {% if (installation.body.length > 0) %}
+      <div class="row bg-cream {{ {s:3} | spacingClasses({padding: ['top']}) }} {{ {s:8} | spacingClasses({padding: ['bottom']}) }} ">
+        <div class="container">
+          <div class="grid">
+            <div class="basic-page {{ {s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2} | gridClasses }}">
+              {% component 'basic-body', {pageBody: installation.body, contentType: page.contentType} %}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endif %}
 {% endblock %}

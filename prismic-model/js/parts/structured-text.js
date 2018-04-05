@@ -1,9 +1,18 @@
 // @flow
-export default function structuredText (label: string) {
+type SingleOrMulti = | 'single' | 'multi';
+export default function structuredText(
+  label: string,
+  singleOrMulti: SingleOrMulti = 'multi',
+  extraHtmlTypes: string[] = []) {
   return {
     'type': 'StructuredText',
     'config': {
-      'multi': 'paragraph, hyperlink, strong, em',
+      [singleOrMulti]: [
+        'paragraph',
+        'hyperlink',
+        'strong',
+        'em'
+      ].concat(extraHtmlTypes).join(','),
       'label': label
     }
   };

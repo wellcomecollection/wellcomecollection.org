@@ -4,6 +4,7 @@ import contributors from './parts/contributors';
 import promo from './parts/promo';
 import timestamp from './parts/timestamp';
 import place from './parts/place';
+import body from './parts/body';
 
 const Installations = {
   Installation: {
@@ -18,6 +19,9 @@ const Installations = {
   },
   Promo: {
     promo
+  },
+  Body: {
+    body
   }
 };
 

@@ -54,7 +54,7 @@ export async function renderInstallation(ctx, next) {
       title: installation.title,
       inSection: 'whatson',
       category: 'public-programme',
-      contentType: 'installation',
+      contentType: 'installations',
       canonicalUri: `https://wellcomecollection.org/installation/${installation.id}`
     }),
     installation,
