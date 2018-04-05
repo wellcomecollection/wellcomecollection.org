@@ -12,9 +12,12 @@ export function eventbriteTicketButton(el) {
 
     fetch(`/eventbrite/button/events/${eventbriteId}/ticket_classes`).then(resp => resp.json()).then(ticketButton => {
       fastdom.mutate(() => {
+        // This is a nasty hack to update the event info bar
         if (ticketButton.onSaleStatus === 'sold_out') {
           const el = document.getElementById('js-event-booking-info');
-          el.parentNode.removeChild(el);
+          if (el) {
+            el.parentNode.removeChild(el);
+          }
         }
         el.innerHTML = ticketButton.html;
       });
