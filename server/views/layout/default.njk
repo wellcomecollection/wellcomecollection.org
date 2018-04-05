@@ -35,6 +35,14 @@
     {% if pageConfig.canonicalUri %}
       <link rel="canonical" href="{{ pageConfig.canonicalUri }}" />
     {% endif %}
+    {% if isPreview %}
+      <script>
+        window.prismic = {
+          endpoint: 'https://wellcomecollection.prismic.io/api/v2'
+        };
+      </script>
+      <script type="text/javascript" src="//static.cdn.prismic.io/prismic.min.js"></script>
+    {% endif %}
   </head>
   <body {% if isPreview %}class="is-preview"{% endif %} data-page-state='{{ (pageConfig.pageState or {}) | dump | safe }}'>
     {% component 'skip-link' %}
@@ -82,8 +90,7 @@
       {% endblock %}
     </div>
 
-    {% componentJsx 'Footer', {openingHoursId: 'footer'} %}
-
+    {% componentJsx 'Footer', {openingHoursId: 'footer',  placesOpeningHours: openingHours.placesOpeningHours, upcomingExceptionalOpeningPeriods: openingHours.upcomingExceptionalOpeningPeriods } %}
 
     {% if featuresCohort !== 'testB' %}
       {% component 'cookie-notification', { isFixed: true } %}

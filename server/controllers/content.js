@@ -11,8 +11,6 @@ import {
 } from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
-import {placesOpeningHours} from '../../common/model/opening-hours';
-import {exceptionalOpeningHours} from '../../common/services/opening-times';
 
 export const renderOpeningTimes = (ctx, next) => {
   const path = ctx.request.url;
@@ -23,9 +21,7 @@ export const renderOpeningTimes = (ctx, next) => {
       title: 'Opening Times',
       category: 'information',
       canonicalUri: `${ctx.globals.rootDomain}/info/opening-times`
-    })),
-    placesOpeningHours,
-    exceptionalOpeningHours
+    }))
   });
 
   return next();
@@ -84,7 +80,7 @@ async function getPreviewSession(token) {
       switch (doc.type) {
         case 'articles'    : return `/preview/articles/${doc.id}`;
         case 'webcomics'   : return `/preview/articles/${doc.id}`;
-        case 'exhibitions' : return `/exhibitions/${doc.id}/preview`;
+        case 'exhibitions' : return `/exhibitions/${doc.id}`;
         case 'events' : return `/events/${doc.id}/preview`;
         // We don't use a `/preview` prefix here.
         // It's just a way for editors to get to the content via Prismic

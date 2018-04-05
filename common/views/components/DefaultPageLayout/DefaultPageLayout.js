@@ -5,7 +5,7 @@ import NastyJs from '../Header/NastyJs';
 import Header from '../Header/Header';
 import {striptags} from '../../../utils/striptags';
 import {formatDate} from '../../../utils/format-date';
-import Footer from '../Footer/Footer';
+// import Footer from '../Footer/Footer';
 
 // TODO: Hashed files
 // TODO: Analytics
@@ -250,7 +250,7 @@ const DefaultPageLayout = ({
       <div id='main' className='main' role='main'>
         {children}
       </div>
-      <Footer openingHoursId='footer' />
+      { /* <Footer openingHoursId='footer' /> */ }
     </div>
   </div>
 );
