@@ -26,7 +26,16 @@ type Props = {|
   isStatic?: boolean
 |}
 
-class WobblyEdge extends React.Component<Props> {
+type State = {|
+  isActive: boolean,
+  styleObject: {}
+|}
+
+class WobblyEdge extends React.Component<Props, State> {
+  timer: any;
+  intensity: number;
+  points: number;
+
   constructor(props: Props) {
     super(props);
     this.intensity = props.intensity || 50;
@@ -34,7 +43,7 @@ class WobblyEdge extends React.Component<Props> {
     this.timer = null;
     this.state = {
       isActive: false,
-      inlineStyle: setPropertyPrefixed('clipPath', this.makePolygonPoints(0, 0))
+      styleObject: setPropertyPrefixed('clipPath', this.makePolygonPoints(0, 0))
     };
   }
 
@@ -44,7 +53,7 @@ class WobblyEdge extends React.Component<Props> {
     window.addEventListener('scroll', () => {
       if (!this.state.isActive) {
         this.setState({
-          inlineStyle: setPropertyPrefixed('clipPath', this.makePolygonPoints(this.points, this.intensity)),
+          styleObject: setPropertyPrefixed('clipPath', this.makePolygonPoints(this.points, this.intensity)),
           isActive: true
         });
       }
@@ -55,7 +64,7 @@ class WobblyEdge extends React.Component<Props> {
 
       this.timer = setTimeout(() => {
         this.setState({
-          inlineStyle: setPropertyPrefixed('clipPath', this.makePolygonPoints(this.points, this.intensity)),
+          styleObject: setPropertyPrefixed('clipPath', this.makePolygonPoints(this.points, this.intensity)),
           isActive: false
         });
       }, 150);
@@ -86,7 +95,7 @@ class WobblyEdge extends React.Component<Props> {
         data-max-intensity={this.intensity}
         data-number-of-points={this.points}
         data-is-valley={this.props.isValley}
-        style={this.state.inlineStyle}>
+        style={this.state.styleObject}>
       </div>
     );
   }
