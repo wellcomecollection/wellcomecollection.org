@@ -1,6 +1,7 @@
 import searchQuery from 'search-query-parser';
 import {getInstallation} from '@weco/common/services/prismic/installations';
 import {getExhibition, getExhibitionExhibits} from '@weco/common/services/prismic/exhibitions';
+import {isPreview as isPrismicPreview} from '@weco/common/services/prismic/api';
 import {model, prismic} from 'common';
 
 import {
@@ -48,6 +49,7 @@ export async function renderInstallation(ctx, next) {
     text: 'Installations',
     url: '/installations'
   }];
+  const isPreview = isPrismicPreview(ctx.request);
 
   if (installation) {
     ctx.render('pages/installation', {
@@ -60,7 +62,8 @@ export async function renderInstallation(ctx, next) {
         canonicalUri: `https://wellcomecollection.org/installation/${installation.id}`
       }),
       installation,
-      tags
+      tags,
+      isPreview
     });
   }
 }
@@ -71,6 +74,7 @@ export async function renderExhibition(ctx, next) {
     text: 'Exhibitions',
     url: '/exhibitions'
   }];
+  const isPreview = isPrismicPreview(ctx.request);
 
   if (exhibition) {
     ctx.render('pages/exhibition', {
@@ -84,7 +88,8 @@ export async function renderExhibition(ctx, next) {
       }),
       exhibition,
       exhibitIds: exhibition.exhibits.map(exhibit => exhibit.item.id),
-      tags
+      tags,
+      isPreview
     });
   }
 }
