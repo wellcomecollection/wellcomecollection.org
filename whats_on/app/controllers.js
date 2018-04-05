@@ -48,18 +48,21 @@ export async function renderInstallation(ctx, next) {
     text: 'Installations',
     url: '/installations'
   }];
-  ctx.render('pages/installation', {
-    pageConfig: createPageConfig({
-      path: ctx.request.url,
-      title: installation.title,
-      inSection: 'whatson',
-      category: 'public-programme',
-      contentType: 'installations',
-      canonicalUri: `https://wellcomecollection.org/installation/${installation.id}`
-    }),
-    installation,
-    tags
-  });
+
+  if (installation) {
+    ctx.render('pages/installation', {
+      pageConfig: createPageConfig({
+        path: ctx.request.url,
+        title: installation.title,
+        inSection: 'whatson',
+        category: 'public-programme',
+        contentType: 'installations',
+        canonicalUri: `https://wellcomecollection.org/installation/${installation.id}`
+      }),
+      installation,
+      tags
+    });
+  }
 }
 
 export async function renderExhibition(ctx, next) {
@@ -69,19 +72,21 @@ export async function renderExhibition(ctx, next) {
     url: '/exhibitions'
   }];
 
-  ctx.render('pages/exhibition', {
-    pageConfig: createPageConfig({
-      path: ctx.request.url,
-      title: exhibition.title,
-      inSection: 'whatson',
-      category: 'public-programme',
-      contentType: 'exhibitions',
-      canonicalUri: `https://wellcomecollection.org/exhibitions/${exhibition.id}`
-    }),
-    exhibition,
-    exhibitIds: exhibition.exhibits.map(exhibit => exhibit.item.id),
-    tags
-  });
+  if (exhibition) {
+    ctx.render('pages/exhibition', {
+      pageConfig: createPageConfig({
+        path: ctx.request.url,
+        title: exhibition.title,
+        inSection: 'whatson',
+        category: 'public-programme',
+        contentType: 'exhibitions',
+        canonicalUri: `https://wellcomecollection.org/exhibitions/${exhibition.id}`
+      }),
+      exhibition,
+      exhibitIds: exhibition.exhibits.map(exhibit => exhibit.item.id),
+      tags
+    });
+  }
 }
 
 export async function renderExhibits(ctx, next) {
