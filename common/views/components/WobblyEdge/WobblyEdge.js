@@ -1,18 +1,6 @@
 // @flow
 import React from 'react';
-
-// TODO: this could/should probably be abstracted
-function setPropertyPrefixed(property, value) {
-  const cappedProperty = property[0].toUpperCase() + property.substring(1);
-
-  return {
-    [`Webkit${cappedProperty}`]: value,
-    [`moz${property}`]: value,
-    [`ms${cappedProperty}`]: value,
-    [`o${cappedProperty}`]: value,
-    [property]: value
-  };
-}
+import prefixedPropertyStyleObject from '../../../utils/prefixed-property-style-object';
 
 function randomIntFromInterval(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -43,7 +31,7 @@ class WobblyEdge extends React.Component<Props, State> {
     this.timer = null;
     this.state = {
       isActive: false,
-      styleObject: setPropertyPrefixed('clipPath', this.makePolygonPoints(0, 0))
+      styleObject: prefixedPropertyStyleObject('clipPath', this.makePolygonPoints(0, 0))
     };
   }
 
@@ -53,7 +41,7 @@ class WobblyEdge extends React.Component<Props, State> {
     window.addEventListener('scroll', () => {
       if (!this.state.isActive) {
         this.setState({
-          styleObject: setPropertyPrefixed('clipPath', this.makePolygonPoints(this.points, this.intensity)),
+          styleObject: prefixedPropertyStyleObject('clipPath', this.makePolygonPoints(this.points, this.intensity)),
           isActive: true
         });
       }
@@ -64,7 +52,7 @@ class WobblyEdge extends React.Component<Props, State> {
 
       this.timer = setTimeout(() => {
         this.setState({
-          styleObject: setPropertyPrefixed('clipPath', this.makePolygonPoints(this.points, this.intensity)),
+          styleObject: prefixedPropertyStyleObject('clipPath', this.makePolygonPoints(this.points, this.intensity)),
           isActive: false
         });
       }, 150);
