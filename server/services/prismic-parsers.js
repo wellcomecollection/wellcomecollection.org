@@ -1,23 +1,19 @@
 // @flow
 import {List} from 'immutable';
 import {RichText, Date as PrismicDate} from 'prismic-dom';
-import type {Exhibition} from '../content-model/exhibition';
 import type {
   EventTime, UiEvent, Contributor, Team,
   Place, EventFormat, Audience
 } from '../content-model/events';
-import getBreakpoint from '../filters/get-breakpoint';
 import {parseBody, parseFeaturedBody} from './prismic-body-parser';
 import type {ImagePromo} from '../content-model/content-blocks';
 import type {Article} from '../model/article';
 import type {BasicPage} from '../model/basic-page';
-import type {Promo} from '../model/promo';
 import type {Picture} from '../model/picture';
 import {isEmptyObj} from '../utils/is-empty-obj';
 import type {Series} from '../model/series';
 import type {LicenseType} from '../model/license';
 import {licenseTypeArray} from '../model/license';
-import {london} from '../filters/format-date';
 // $FlowFixMe
 import {parseContributors as parseContributorsProperly} from '../../common/services/prismic/parsers';
 
@@ -152,40 +148,6 @@ export function parseEventBookingType(eventDoc: Object): ?string {
         : null;
 }
 
-export function parseExhibitionsDoc(doc: PrismicDoc): Exhibition {
-  const promo = doc.data.promo && parseImagePromo(doc.data.promo);
-  const promoThin = doc.data.promo && parseImagePromo(doc.data.promo, '32:15', getBreakpoint('medium'));
-  const promoSquare = doc.data.promo && parseImagePromo(doc.data.promo, 'square', getBreakpoint('small'));
-
-  const featuredImageThin = promoThin && promoThin.image;
-  const featuredImageSquare = promoSquare && promoSquare.image;
-
-  const featuredImages = List([
-    featuredImageThin,
-    // we use the "creative" crop first, but it seems that people would rather have it automatically.
-    featuredImageSquare
-  ]).filter(_ => _);
-
-  // Exhibitions are always open and shut on days, rather than hours
-  const startDate = doc.data.start && london(doc.data.start).startOf('day').toDate();
-  const endDate = doc.data.end && london(doc.data.end).endOf('day').toDate();
-
-  const exhibition = ({
-    id: doc.id,
-    title: asText(doc.data.title),
-    subtitle: asText(doc.data.subtitle),
-    start: startDate,
-    end: endDate,
-    featuredImages: featuredImages,
-    featuredImage: featuredImages.first(),
-    intro: asText(doc.data.intro),
-    description: asHtml(doc.data.description),
-    promo: promo
-  }: Exhibition);
-
-  return exhibition;
-}
-
 export function getPositionInPrismicSeries(seriesId: string, seriesList: PrismicDocFragment): ?number {
   const maybeSeries = seriesList.find((s) => s.series.id === seriesId);
   return maybeSeries && maybeSeries.positionInSeries;
@@ -279,16 +241,6 @@ export function parseWebcomicDoc(doc: PrismicDoc): Article {
   };
 
   return article;
-}
-
-export function parsePromoListItem(item: Object): Promo {
-  return ({
-    contentType: item.type,
-    url: item.link.url,
-    title: asText(item.title),
-    description: asText(item.description),
-    image: parsePicture(item)
-  }: Promo);
 }
 
 export function parsePicture(captionedImage: Object, minWidth: ?string = null): Picture {
