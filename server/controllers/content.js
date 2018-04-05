@@ -11,8 +11,6 @@ import {
 } from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
-import {placesOpeningHours} from '../../common/model/opening-hours';
-import {exceptionalOpeningHours} from '../../common/services/opening-times';
 import {getInfoPage} from '../../common/services/prismic/info-page';
 
 export const renderOpeningTimes = (ctx, next) => {
@@ -24,9 +22,7 @@ export const renderOpeningTimes = (ctx, next) => {
       title: 'Opening Times',
       category: 'information',
       canonicalUri: `${ctx.globals.rootDomain}/info/opening-times`
-    })),
-    placesOpeningHours,
-    exceptionalOpeningHours
+    }))
   });
 
   return next();
