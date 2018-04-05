@@ -9,7 +9,6 @@ import {
   getPrismicApi,
   getEvent,
   getEventsInSeries,
-  getExhibitionAndRelatedContent,
   getUiEventSeries,
   getGlobalAlert,
   getPaginatedEventPromos,
@@ -20,7 +19,6 @@ import {
   london
 } from './services/prismic';
 import {
-  parsePromoListItem,
   parseExhibitionsDoc,
   prismicImage,
   asText, asHtml
@@ -34,10 +32,8 @@ export const prismic = {
   getPrismicApi,
   getEvent,
   getEventsInSeries,
-  getExhibitionAndRelatedContent,
   getUiEventSeries,
   getGlobalAlert,
-  parsePromoListItem,
   parseExhibitionsDoc,
   prismicImage,
   asText,
