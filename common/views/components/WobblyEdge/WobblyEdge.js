@@ -11,7 +11,8 @@ type Props = {|
   intensity?: number,
   points?: number,
   isValley?: boolean,
-  isStatic?: boolean
+  isStatic?: boolean,
+  extraClasses?: string
 |}
 
 type State = {|
@@ -79,7 +80,7 @@ class WobblyEdge extends React.Component<Props, State> {
     // TODO: remove `js-wobbly-edge` and data-attributes once 100% Reactified
     return (
       <div
-        className={`wobbly-edge wobbly-edge--${this.props.background} js-wobbly-edge`}
+        className={`wobbly-edge wobbly-edge--${this.props.background} ${this.props.extraClasses ? this.props.extraClasses : ''} js-wobbly-edge`}
         data-max-intensity={this.intensity}
         data-number-of-points={this.points}
         data-is-valley={this.props.isValley}

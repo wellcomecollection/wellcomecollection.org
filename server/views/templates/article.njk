@@ -13,7 +13,10 @@
 
 {% block transporters %}
   <div class="row">
-    <div class="wobbly-edge wobbly-edge--rotated wobbly-edge--cream wobbly-edge--small js-wobbly-edge"></div>
+    {% componentJsx 'WobblyEdge', {
+      background: 'cream',
+      extraClasses: 'wobbly-edge--rotated wobbly-edge--small'
+    } %}
     <div class="container">
       {% component 'transporter', transporter %}
       {% componentV2 'divider', null, {'thin': true} %}
