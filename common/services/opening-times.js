@@ -2,7 +2,7 @@
 // TODO - capture opening hours in Prismic, then this can become part of prismic services
 import {placesOpeningHours} from '../model/opening-hours';
 import moment from 'moment';
-import type {ExceptionalVenueHours, PlacesOpeningHours} from '../model/opening-hours';
+import type {ExceptionalVenueHours, PlacesOpeningHours, ExceptionalOpeningHoursDay, Place, Days} from '../model/opening-hours';
 
 function london(d) {
   // $FlowFixMe
@@ -50,6 +50,21 @@ export function exceptionalOpeningPeriods(dates: PlacesOpeningHours) {
   }, []);
 }
 
+function identifyChanges(override: ?ExceptionalOpeningHoursDay, place: Place, exceptionalDay: Days) {
+  if (override) {
+    const regular = place.openingHours.regular.find(item => item.dayOfWeek === exceptionalDay);
+    return {
+      opensHasChanged: regular && regular.opens !== override.opens,
+      closesHasChanged: regular && regular.closes !== override.closes
+    };
+  } else {
+    return {
+      opensHasChanged: false,
+      closesHasChanged: false
+    };
+  }
+}
+
 export function exceptionalOpeningHours(dates: Date[], placesOpeningHours: PlacesOpeningHours): ExceptionalVenueHours[] {
   return [].concat.apply([], dates.reduce((acc, exceptionalDate) => {
     const exceptionalDay = london(exceptionalDate).format('dddd');
@@ -60,13 +75,17 @@ export function exceptionalOpeningHours(dates: Date[], placesOpeningHours: Place
           return item.overrideDate.toString() === exceptionalDate.toString();
         }
       });
+      const changes = identifyChanges(override, place, exceptionalDay);
+
       const openingHours = override || place.openingHours.regular.find(item => item.dayOfWeek === exceptionalDay);
       return {
         exceptionalDate,
         exceptionalDay,
         id: place.id,
         name: place.name,
-        openingHours
+        openingHours,
+        opensChanged: changes.opensHasChanged,
+        closesChanged: changes.closesHasChanged
       };
     });
     acc.push(overrides);

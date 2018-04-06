@@ -23,10 +23,31 @@ const ExceptionalOpeningHoursTable = ({caption, venues, extraClasses}: Props) =>
           <tr key={venue.name} className='opening-hours__tr'>
             <th className={`opening-hours__th ${spacing({s: 2}, {padding: ['top', 'bottom']})}`} scope='row'>{venue.name}</th>
             {venue.openingHours.opens &&
-              <td className='opening-hours__td'>{venue.openingHours.opens}&mdash;{venue.openingHours.closes}</td>
+              <td className='opening-hours__td'>
+                {venue.opensChanged &&
+                  <span className={`${font({s: 'HNM5'})} opening-hours__highlight`}>{venue.openingHours.opens}</span>
+                }
+                {!venue.opensChanged &&
+                  venue.openingHours.opens
+                }
+                &mdash;
+                {venue.closesChanged &&
+                  <span className={`${font({s: 'HNM5'})} opening-hours__highlight`}>{venue.openingHours.closes}</span>
+                }
+                {!venue.closesChanged &&
+                  venue.openingHours.closes
+                }
+              </td>
             }
             {!venue.openingHours.opens &&
-              <td className='opening-hours__td'>{venue.openingHours.note}</td>
+              <td className='opening-hours__td'>
+                {venue.closesChanged &&
+                  <span className={`${font({s: 'HNM5'})} opening-hours__highlight`}>{venue.openingHours.note}</span>
+                }
+                {!venue.closesChanged &&
+                  venue.openingHours.note
+                }
+              </td>
             }
           </tr>
         ))}
