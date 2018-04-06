@@ -5,7 +5,7 @@ import NastyJs from '../Header/NastyJs';
 import Header from '../Header/Header';
 import {striptags} from '../../../utils/striptags';
 import {formatDate} from '../../../utils/format-date';
-// import Footer from '../Footer/Footer';
+import Footer from '../Footer/Footer';
 
 // TODO: Hashed files
 // TODO: Analytics
@@ -250,7 +250,10 @@ const DefaultPageLayout = ({
       <div id='main' className='main' role='main'>
         {children}
       </div>
-      { /* <Footer openingHoursId='footer' /> */ }
+      <Footer
+        openingHoursId='footer'
+        placesOpeningHours={[]}
+        upcomingExceptionalOpeningPeriods={[]} />
     </div>
   </div>
 );
@@ -259,14 +262,18 @@ class DPLWithLoader extends Component<Props> {
   componentDidMount = () => {
     const lazysizes = require('lazysizes');
     const FontFaceObserver = require('fontfaceobserver');
+
     const WB = new FontFaceObserver('Wellcome Bold Web', {weight: 'bold'});
     const HNL = new FontFaceObserver('Helvetica Neue Light Web');
     const HNM = new FontFaceObserver('Helvetica Neue Medium Web');
     const LR = new FontFaceObserver('Lettera Regular Web');
-    Promise.all([WB.load(), HNL.load(), HNM.load(), LR.load()]).then(function() {
+
+    Promise.all([WB.load(), HNL.load(), HNM.load(), LR.load()]).then(() => {
       document.documentElement.classList.add('fonts-loaded');
-    }).catch((error) => console.log(error));
+    }).catch(console.log);
+
     lazysizes.init();
+
     document.documentElement.classList.add('enhanced');
   }
 
