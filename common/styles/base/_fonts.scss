@@ -1,7 +1,9 @@
+$src-base: if($is-next, '/static', '/assets');
+
 @font-face {
   font-family: 'Wellcome Bold Web';
-  src: url('/assets/fonts/wellcome-bold.woff2') format('woff2'),
-    url('/assets/fonts/wellcome-bold.woff') format('woff');
+  src: url('#{$src-base}/fonts/wellcome-bold.woff2') format('woff2'),
+    url('#{$src-base}/fonts/wellcome-bold.woff') format('woff');
   font-weight: bold;
   font-style: normal;
 }
@@ -10,8 +12,8 @@
   font-family: 'Helvetica Neue Light Web';
   src: local('Helvetica Neue Light'),
     local('HelveticaNeue-Light'),
-    url('/assets/fonts/3f289cf9-c08b-4ffc-97cc-d1230c569129.woff2') format('woff2'),
-    url('/assets/fonts/ee81d85a-174d-4def-9af8-9d1057a2737f.woff') format('woff');
+    url('#{$src-base}/fonts/3f289cf9-c08b-4ffc-97cc-d1230c569129.woff2') format('woff2'),
+    url('#{$src-base}/fonts/ee81d85a-174d-4def-9af8-9d1057a2737f.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -20,8 +22,8 @@
   font-family: 'Helvetica Neue Medium Web';
   src: local('Helvetica Neue Medium'),
     local('HelveticaNeue-Medium'),
-    url('/assets/fonts/5393f1cf-e069-4466-bb37-f26f99fb4cf7.woff2') format('woff2'),
-    url('/assets/fonts/26b8484e-52e3-44ac-b958-865809934ebb.woff') format('woff');
+    url('#{$src-base}/fonts/5393f1cf-e069-4466-bb37-f26f99fb4cf7.woff2') format('woff2'),
+    url('#{$src-base}/fonts/26b8484e-52e3-44ac-b958-865809934ebb.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -41,8 +43,8 @@
  */
 @font-face {
   font-family: 'Lettera Regular Web';
-  src: url('/assets/fonts/lineto-lettera-regular.woff2') format('woff2'),
-    url('/assets/fonts/lineto-lettera-regular.woff') format('woff');
+  src: url('#{$src-base}/fonts/lineto-lettera-regular.woff2') format('woff2'),
+    url('#{$src-base}/fonts/lineto-lettera-regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
