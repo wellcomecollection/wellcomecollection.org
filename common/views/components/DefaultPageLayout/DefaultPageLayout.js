@@ -4,8 +4,17 @@ import Head from 'next/head';
 import NastyJs from '../Header/NastyJs';
 import Header from '../Header/Header';
 import {striptags} from '../../../utils/striptags';
-import {formatDate} from '../../../utils/format-date';
+import {formatDate, isDatePast} from '../../../utils/format-date';
 import Footer from '../Footer/Footer';
+import {placesOpeningHours} from '../../../model/opening-hours';
+import {
+  exceptionalDates,
+  exceptionalOpeningPeriods,
+  upcomingExceptionalOpeningPeriods
+} from '../../../services/opening-times';
+
+const futureExceptionalDates = exceptionalDates.filter(date => date && !isDatePast(date));
+const exceptionalPeriods = exceptionalOpeningPeriods(futureExceptionalDates);
 
 // TODO: Hashed files
 // TODO: Analytics
@@ -252,8 +261,8 @@ const DefaultPageLayout = ({
       </div>
       <Footer
         openingHoursId='footer'
-        placesOpeningHours={[]}
-        upcomingExceptionalOpeningPeriods={[]} />
+        placesOpeningHours={placesOpeningHours}
+        upcomingExceptionalOpeningPeriods={upcomingExceptionalOpeningPeriods(exceptionalPeriods)} />
     </div>
   </div>
 );
