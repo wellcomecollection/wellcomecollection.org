@@ -129,7 +129,7 @@ export async function getEvent(id: string, previewReq: ?Request): Promise<?Event
 export async function getArticleList(page = 1, {pageSize = 10, predicates = []} = {}) {
   const fetchLinks = peopleFields.concat(seriesFields);
   // TODO: This order is not really doing what we expect it to do.
-  const orderings = '[document.first_publication_date desc, my.articles.publishDate desc, my.webcomics.publishDate desc]';
+  const orderings = '[my.articles.publishDate, my.webcomics.publishDate, document.first_publication_date desc]';
   const prismic = await prismicApi();
   const articlesList = await prismic.query([
     Prismic.Predicates.any('document.type', ['articles', 'webcomics']),
