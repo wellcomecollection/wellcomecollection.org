@@ -10,7 +10,10 @@ type Props = {|
 
 const OpeningHoursTable = ({id, place, extraClasses, isVisible = true}: Props) => (
   <div className={extraClasses || ''}>
-    <table id={id && `${id}-panel-${place.id}`} className={`opening-hours__table ${font({s: 'HNL5'})} ${id ? 'js-tabpanel opening-hours__panel' : ''} ${isVisible ? 'opening-hours__table--is-visible' : ''}`}>
+    <table id={id && `${id}-panel-${place.id}`}
+      className={`opening-hours__table ${font({s: 'HNL5'})} ${id ? 'js-tabpanel opening-hours__panel' : ''} ${isVisible ? 'opening-hours__table--is-visible' : ''}`}
+      aria-labelledby={id ? place.id : null}
+      aria-hidden={id ? !isVisible : null}>
       <caption className={`opening-hours__caption ${id ? 'js-tabfocus' : ''} ${font({s: 'HNM4'})} ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>{place.name}</caption>
       <thead className={`opening-hours__thead ${font({s: 'HNM5'})}`}>
         <tr className='opening-hours__tr'>

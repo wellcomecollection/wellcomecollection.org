@@ -25,7 +25,7 @@ class OpeningHours extends Component<Props, State> {
     event.preventDefault();
 
     this.setState({
-      activePlace: event.target.getAttribute('data-place')
+      activePlace: event.target.id
     });
   }
 
@@ -74,7 +74,9 @@ class OpeningHours extends Component<Props, State> {
           <ul className={`plain-list opening-hours__tablist ${font({s: 'HNM6'})} ${spacing({s: 0}, {margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']})} js-tablist`}>
             {placesOpeningHours.map((place) => (
               <li key={place.id} className={`opening-hours__tabitem js-tabitem ${place.id === this.state.activePlace ? 'opening-hours__tabitem--is-current' : ''}`}>
-                <a data-place={place.id} className='opening-hours__tablink js-tablink' href={`#${id}-panel-${place.id}`}
+                <a id={place.id}
+                  aria-selected={place.id === this.state.activePlace}
+                  className='opening-hours__tablink js-tablink' href={`#${id}-panel-${place.id}`}
                   onClick={this.updateActivePlace}>{place.name}</a>
               </li>
             ))}
