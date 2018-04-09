@@ -258,4 +258,6 @@ export async function renderInfoPage(ctx, next) {
       page: infoPage
     });
   }
+
+  return next();
 }
