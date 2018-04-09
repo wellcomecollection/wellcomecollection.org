@@ -1,8 +1,7 @@
 import Router from 'koa-router';
-import {renderExhibition, renderExhibitionsList} from './controllers';
+import {renderExhibitionsList} from './controllers';
 
 const r = new Router({ sensitive: true });
-r.get('/exhibitions/:id/:preview(preview)?', renderExhibition);
 r.get('/exhibitions', renderExhibitionsList);
 
 export const router = r.middleware();
