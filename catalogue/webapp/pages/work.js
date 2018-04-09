@@ -165,7 +165,8 @@ const WorkPage = ({ work }: Props) => {
   const sierraId = (work.identifiers.find(identifier =>
     identifier.identifierScheme === 'sierra-system-number'
   ) || {}).value;
-  const encoreLink = sierraId && `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId}`;
+  // We strip the last character as that's what Wellcome Library expect
+  const encoreLink = sierraId && `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(0, sierraId.length - 1)}`;
 
   const descriptionArray = work.description && work.description.split('\n');
   const metaContent = getMetaContentArray(work, descriptionArray);
