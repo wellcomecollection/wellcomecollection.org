@@ -16,7 +16,7 @@ function imageUrlFromMiroId(id) {
 }
 
 function encoreLinkFromSierraId(id) {
-  return `http://search.wellcomelibrary.org/iii/encore/record/C__R${id}`;
+  return `http://search.wellcomelibrary.org/iii/encore/record/C__R${id.substr(0, id.length - 1)}`;
 }
 
 function getTruncatedTitle(title) {
