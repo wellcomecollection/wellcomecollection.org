@@ -8,16 +8,14 @@ import {
   asText,
   asHtml,
   prismicImage,
-  parseExhibitionsDoc,
   getPositionInPrismicSeries,
-  parseAudience, parsePromoListItem, parseEventFormat, parseEventBookingType,
+  parseAudience, parseEventFormat, parseEventBookingType,
   parseImagePromo, isEmptyDocLink
 } from './prismic-parsers';
 import {List} from 'immutable';
 import moment from 'moment';
 import type {PaginatedResults, PaginatedResultsType} from '../model/paginated-results';
 import type {ExhibitionPromo} from '../model/exhibition-promo';
-import type {ExhibitionAndRelatedContent} from '../model/exhibition-and-related-content';
 import {PaginationFactory} from '../model/pagination';
 import type {EventPromo} from '../content-model/events';
 import type {GlobalAlert} from '../../common/model/global-alert';
@@ -534,32 +532,4 @@ function getWeekendToDate(today) {
   } else {
     return london(today).day(7);
   }
-}
-
-export async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request): Promise<?ExhibitionAndRelatedContent> {
-  const exhibition = await getTypeById(previewReq, ['exhibitions'], id, {});
-
-  if (!exhibition) { return null; }
-
-  const ex = parseExhibitionsDoc(exhibition);
-
-  const galleryLevel = exhibition.data.galleryLevel;
-  const promoList = exhibition.data.promoList;
-  const relatedArticles = promoList.filter(x => x.type === 'article').map(parsePromoListItem);
-  const relatedEvents = promoList.filter(x => x.type === 'event').map(parsePromoListItem);
-  const relatedBooks = promoList.filter(x => x.type === 'book').map(parsePromoListItem);
-  const relatedGalleries = promoList.filter(x => x.type === 'gallery').map(parsePromoListItem);
-
-  const sizeInKb = Math.round(exhibition.data.textAndCaptionsDocument.size / 1024);
-  const textAndCaptionsDocument = Object.assign({}, exhibition.data.textAndCaptionsDocument, {sizeInKb});
-
-  return {
-    exhibition: ex,
-    galleryLevel: galleryLevel,
-    textAndCaptionsDocument: textAndCaptionsDocument.url && textAndCaptionsDocument,
-    relatedBooks: relatedBooks,
-    relatedEvents: relatedEvents,
-    relatedGalleries: relatedGalleries,
-    relatedArticles: relatedArticles
-  };
 }
