@@ -1,3 +1,5 @@
+$is-next: true;
+
 // Utilities
 @import 'utilities/all';
 
@@ -12,6 +14,7 @@
 @import 'base/typography';
 @import 'base/icons';
 @import 'base/inline_fonts';
+@import 'base/fonts';
 @import 'base/responsive-defaults';
 @import 'base/transitions';
 
@@ -30,12 +33,17 @@
 @import 'components/buttons';
 @import 'components/captioned_image';
 @import 'components/cookie_notification';
+@import 'components/divider';
 @import 'components/drawer';
+@import 'components/find_us';
 @import 'components/footer';
-@import 'components/image_viewer';
+@import 'components/footer_nav';
+@import 'components/footer_social';
 @import 'components/header';
+@import 'components/image_viewer';
 @import 'components/input';
 @import 'components/lazyload';
+@import 'components/opening_hours';
 @import 'components/page_description';
 @import 'components/promo';
 @import 'components/scroll_to_info';

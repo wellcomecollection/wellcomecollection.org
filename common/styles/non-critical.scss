@@ -1,3 +1,6 @@
+// Flag to handle differences in build for NextJS vs standard apps
+$is-next: false !default;
+
 // Utilities
 @import 'utilities/all';
 
