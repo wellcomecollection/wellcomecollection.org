@@ -23,7 +23,7 @@ import Picture from '../Picture/Picture';
 import Promo from '../Promo/Promo';
 import ScrollToInfo from '../ScrollToInfo/ScrollToInfo';
 import SearchBox from '../SearchBox/SearchBox';
-import Standfirst from '../Standfirst/Standfirst';
+import Standfirst from '../Body/Standfirst/Standfirst';
 import Tags from '../Tags/Tags';
 import Tasl from '../Tasl/Tasl';
 import WorkDrawer from '../WorkDrawer/WorkDrawer';

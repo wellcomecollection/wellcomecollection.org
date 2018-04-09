@@ -1,6 +1,6 @@
 // @flow
 
-import {font} from '../../../utils/classnames';
+import {font} from '../../../../utils/classnames';
 
 type Props = {
   body: HTMLElement
