@@ -11,6 +11,7 @@ import {
 } from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
+import {getInfoPage} from '../../common/services/prismic/info-page';
 
 export const renderOpeningTimes = (ctx, next) => {
   const path = ctx.request.url;
@@ -239,6 +240,25 @@ export async function renderArticlesList(ctx, next) {
     pagination,
     moreLink
   });
+
+  return next();
+}
+
+export async function renderInfoPage(ctx, next) {
+  const {id} = ctx.params;
+  const infoPage = await getInfoPage(ctx.request, id);
+
+  if (infoPage) {
+    ctx.render('pages/basic', {
+      pageConfig: createPageConfig({
+        path: ctx.request.url,
+        title: infoPage.title,
+        inSection: 'what-we-do',
+        category: 'info'
+      }),
+      page: infoPage
+    });
+  }
 
   return next();
 }

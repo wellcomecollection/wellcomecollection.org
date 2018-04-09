@@ -145,10 +145,16 @@
         },
         "choices": {
           "text": {
-            "type": "StructuredText",
-            "config": {
-              "multi": "paragraph,hyperlink,strong,em,heading2,list-item",
-              "label": "Text"
+            "type": "Slice",
+            "fieldset": "Text",
+            "non-repeat": {
+              "text": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph,hyperlink,strong,em,heading2,list-item",
+                  "label": "Text"
+                }
+              }
             }
           },
           "editorialImage": {
