@@ -395,11 +395,12 @@ export function parseTaslFromString(pipedString: string): Tasl {
 // This purposefully isn't named `parseText` | `parseHtml` to match the prismic API.
 const linkResolver = (doc) => {
   switch (doc.type) {
-    case 'articles'    : return `/articles/${doc.id}`;
-    case 'webcomics'   : return `/articles/${doc.id}`;
-    case 'exhibitions' : return `/exhibitions/${doc.id}`;
-    case 'events'      : return `/events/${doc.id}`;
-    case 'series'      : return `/series/${doc.id}`;
+    case 'articles'      : return `/articles/${doc.id}`;
+    case 'webcomics'     : return `/articles/${doc.id}`;
+    case 'exhibitions'   : return `/exhibitions/${doc.id}`;
+    case 'events'        : return `/events/${doc.id}`;
+    case 'series'        : return `/series/${doc.id}`;
+    case 'installations' : return `/installations/${doc.id}`;
   }
 };
 
