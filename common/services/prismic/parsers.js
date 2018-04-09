@@ -6,6 +6,7 @@ import type { Picture } from '../../model/picture';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
 import type { Place } from '../../model/place';
+import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/background-texture';
 import { licenseTypeArray } from '../../model/license';
 
 const linkResolver = (doc) => {
@@ -203,6 +204,51 @@ export function parsePromoListItem(item: PrismicPromoListFragment): PromoListIte
   };
 }
 
+export function parseBackgroundTexture(backgroundTexture: PrismicBackgroundTexture): BackgroundTexture {
+  return {
+    image: backgroundTexture.image.url,
+    name: backgroundTexture.name
+  };
+}
+
 export function isDocumentLink(fragment: ?PrismicFragment): boolean {
   return Boolean(fragment && fragment.isBroken === false);
+}
+
+export function parseBody(fragment: PrismicFragment[]) {
+  return fragment.map((slice) => {
+    switch (slice.slice_type) {
+      case 'standfirst':
+        return {
+          type: 'standfirst',
+          weight: 'default',
+          value: asHtml(slice.primary.text)
+        };
+
+      case 'text':
+        return {
+          type: 'text',
+          weight: 'default',
+          value: asHtml(slice.primary.text)
+        };
+
+      case 'editorialImage':
+        return {
+          weight: slice.slice_label,
+          type: 'picture',
+          value: parsePicture(slice.primary)
+        };
+
+      case 'editorialImageGallery':
+        // TODO: add support for ~title~ & description / caption
+        return {
+          type: 'imageGallery',
+          weight: 'standalone',
+          value: {
+            title: asText(slice.primary.title),
+            items: slice.items.map(parsePicture)
+          }
+        };
+    }
+  }).filter(Boolean);
 }

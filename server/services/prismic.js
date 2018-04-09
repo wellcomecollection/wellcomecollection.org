@@ -8,20 +8,17 @@ import {
   asText,
   asHtml,
   prismicImage,
-  parseExhibitionsDoc,
   getPositionInPrismicSeries,
-  parseAudience, parsePromoListItem, parseEventFormat, parseEventBookingType,
+  parseAudience, parseEventFormat, parseEventBookingType,
   parseImagePromo, isEmptyDocLink
 } from './prismic-parsers';
 import {List} from 'immutable';
 import moment from 'moment';
 import type {PaginatedResults, PaginatedResultsType} from '../model/paginated-results';
 import type {ExhibitionPromo} from '../model/exhibition-promo';
-import type {ExhibitionAndRelatedContent} from '../model/exhibition-and-related-content';
 import {PaginationFactory} from '../model/pagination';
 import type {EventPromo} from '../content-model/events';
 import type {GlobalAlert} from '../../common/model/global-alert';
-import type {UiEventSeries} from '../../common/model/events';
 import {galleryOpeningHours} from '../../common/model/opening-hours';
 import {isEmptyObj} from '../utils/is-empty-obj';
 
@@ -132,7 +129,7 @@ export async function getEvent(id: string, previewReq: ?Request): Promise<?Event
 export async function getArticleList(page = 1, {pageSize = 10, predicates = []} = {}) {
   const fetchLinks = peopleFields.concat(seriesFields);
   // TODO: This order is not really doing what we expect it to do.
-  const orderings = '[document.first_publication_date desc, my.articles.publishDate desc, my.webcomics.publishDate desc]';
+  const orderings = '[my.articles.publishDate, my.webcomics.publishDate, document.first_publication_date desc]';
   const prismic = await prismicApi();
   const articlesList = await prismic.query([
     Prismic.Predicates.any('document.type', ['articles', 'webcomics']),
@@ -318,24 +315,6 @@ export function convertPrismicResultsToPaginatedResults(prismicResults: Object):
       totalPages,
       pagination
     };
-  };
-}
-
-export async function getUiEventSeries(id: string): Promise<UiEventSeries> {
-  const prismic = await getPrismicApi();
-  const series = await prismic.getByID(id, {fetchLinks: ['background-textures.image', 'background-textures.name']});
-  const backgroundTexture = series.data.backgroundTexture && series.data.backgroundTexture.data;
-  const image = backgroundTexture && backgroundTexture.image.url;
-  const name = backgroundTexture && backgroundTexture.name;
-
-  return {
-    id: series.id,
-    title: series.data.title,
-    description: series.data.description,
-    backgroundTexture: (image && name) && {
-      image: image,
-      name: name
-    }
   };
 }
 
@@ -553,32 +532,4 @@ function getWeekendToDate(today) {
   } else {
     return london(today).day(7);
   }
-}
-
-export async function getExhibitionAndRelatedContent(id: string, previewReq: ?Request): Promise<?ExhibitionAndRelatedContent> {
-  const exhibition = await getTypeById(previewReq, ['exhibitions'], id, {});
-
-  if (!exhibition) { return null; }
-
-  const ex = parseExhibitionsDoc(exhibition);
-
-  const galleryLevel = exhibition.data.galleryLevel;
-  const promoList = exhibition.data.promoList;
-  const relatedArticles = promoList.filter(x => x.type === 'article').map(parsePromoListItem);
-  const relatedEvents = promoList.filter(x => x.type === 'event').map(parsePromoListItem);
-  const relatedBooks = promoList.filter(x => x.type === 'book').map(parsePromoListItem);
-  const relatedGalleries = promoList.filter(x => x.type === 'gallery').map(parsePromoListItem);
-
-  const sizeInKb = Math.round(exhibition.data.textAndCaptionsDocument.size / 1024);
-  const textAndCaptionsDocument = Object.assign({}, exhibition.data.textAndCaptionsDocument, {sizeInKb});
-
-  return {
-    exhibition: ex,
-    galleryLevel: galleryLevel,
-    textAndCaptionsDocument: textAndCaptionsDocument.url && textAndCaptionsDocument,
-    relatedBooks: relatedBooks,
-    relatedEvents: relatedEvents,
-    relatedGalleries: relatedGalleries,
-    relatedArticles: relatedArticles
-  };
 }

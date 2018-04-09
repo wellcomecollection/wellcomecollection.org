@@ -3,8 +3,7 @@
 {% block pageMeta %}
   {% set metaContent = {
     type: 'article',
-    title: page.headline,
-    image: page.thumbnail.contentUrl,
+    title: page.title,
     url: pageConfig.canonicalUri,
     description: page.description
   } %}
@@ -27,7 +26,7 @@
           <div class="grid">
             <div class="{{ {s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2} | gridClasses }}">
               <h1 class="page-description__title {{ {s:'WB5', m:'WB4', l:'WB3'} | fontClasses }}">
-                {{ page.headline }}
+                {{ page.title }}
               </h1>
             </div>
           </div>
@@ -35,13 +34,13 @@
       </div>
     </header>
 
-    <div class="row bg-cream {{ {s:3} | spacingClasses({padding: ['top']}) }} {{ {s:8} | spacingClasses({padding: ['bottom']}) }} ">
+    <div class="row {{ {s:3} | spacingClasses({padding: ['top']}) }} {{ {s:8} | spacingClasses({padding: ['bottom']}) }} ">
       <div class="container">
         <div class="grid">
           <div class="basic-page {{ {s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2} | gridClasses }}">
-            {% block articleBody %}
-              {% component 'basic-body', {pageBody: page.bodyParts, contentType: page.contentType} %}
-            {% endblock %}
+            {% component 'basic-body', {
+              pageBody: page.body, contentType: 'article'
+            } %}
           </div>
         </div>
       </div>

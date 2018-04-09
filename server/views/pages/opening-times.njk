@@ -11,7 +11,6 @@
 {% endblock %}
 
 {% block body %}
-
   <div class="container">
     <div class="grid">
       <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
@@ -24,7 +23,7 @@
       <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
         <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="regular">Regular opening times</h2>
         <div class="grid">
-          {% for place in placesOpeningHours %}
+          {% for place in openingHours.placesOpeningHours %}
             <div class="{{ {s:12, m:6, l:4, xl:4} | gridClasses }}">
               {% componentJsx 'OpeningHoursTable', {place: place, extraClasses: 'opening-hours--light'} %}
             </div>
@@ -36,10 +35,10 @@
         {% componentJsx 'Divider', {extraClasses: 'divider--pumice divider--keyline ' + ( {s:1} | spacingClasses({margin: ['top']})) + ' ' + ( {s:4} | spacingClasses({margin: ['bottom']}))} %}
       </div>
 
-      {% if exceptionalOpeningHours | length > 0 %}
+      {% if openingHours.exceptionalOpeningHours | length > 0 %}
       <div class="{{ {s:12, m:12, l:6, xl:6} | gridClasses }}">
         <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="exceptional">Modified opening times</h2>
-        {% for exceptionalDate, venues in exceptionalOpeningHours %}
+        {% for exceptionalDate, venues in openingHours.exceptionalOpeningHours %}
             {% componentJsx 'ExceptionalOpeningHoursTable', {caption: exceptionalDate, venues: venues, extraClasses: 'opening-hours--light'} %}
         {% endfor %}
       </div>

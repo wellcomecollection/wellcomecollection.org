@@ -18,3 +18,5 @@ client/scss/utilities/compiled_variables/
 *.tfstate.backup
 
 .env
+
+yarn-error.log*

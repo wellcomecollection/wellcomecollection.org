@@ -19,7 +19,7 @@
     {{ jsonLdExhibition | jsonLd('exhibitionLd') | safe }}
   </script>
 
-  <article>
+  <article data-wio-id="{{ exhibition.id }}">
     <div class="row relative">
       <div class="flush-container-left absolute {{ {s:2} | spacingClasses({margin: ['top', 'bottom']}) }}">
         {% componentV2 'tags', tags %}
@@ -76,7 +76,7 @@
         <div class="grid">
           <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
             {% if exhibition.intro %}
-              {% component 'standfirst', {body: exhibition.intro | safe} %}
+              {% componentJsx 'Standfirst', {body: exhibition.intro} %}
             {% endif %}
 
             {{ exhibition.description | prismicAsHtml | safe }}
@@ -89,7 +89,12 @@
                 <span class="flex flex--v-center">{% icon 'plus', null, ['icon--green', 'margin-right-s1'] %}Opening times</span>
               </button>
               <div class="drawer__body js-show-hide-drawer">
-                {% componentJsx 'OpeningHours', {id: 'exhibition-page', extraClasses: 'opening-hours--light opening-hours--compressed'} %}
+                {% componentJsx 'OpeningHours', {
+                  id: 'exhibition-page',
+                  extraClasses: 'opening-hours--light opening-hours--compressed',
+                  placesOpeningHours: openingHours.placesOpeningHours,
+                  upcomingExceptionalOpeningPeriods: openingHours.upcomingExceptionalOpeningPeriods
+                } %}
               </div>
             </div>
             <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
@@ -214,7 +219,7 @@
     {% endif %}
 
 
-    {{ relatedMarkup(exhibition.relatedArticles, 'Read and explore', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
+    {{ relatedMarkup(exhibition.relatedArticles, 'Read and explore', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizes: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(41.76vw - 50px), calc(75vw - 18px)'}) }}
     {% if exhibition.relatedArticles.length > 0 %}
       <div class="row">
         <div class="container">

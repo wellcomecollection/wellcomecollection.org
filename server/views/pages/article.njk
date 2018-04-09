@@ -11,15 +11,6 @@
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
   <meta name="description" content="{{ article.description | safe | striptags }}" />
-
-  {% if isPreview %}
-    <script>
-      window.prismic = {
-        endpoint: 'https://wellcomecollection.prismic.io/api/v2'
-      };
-    </script>
-    <script type="text/javascript" src="//static.cdn.prismic.io/prismic.min.js"></script>
-  {% endif %}
 {% endblock %}
 
 {% block body %}
@@ -157,51 +148,96 @@
       </div>
     </div>
 
-    <div class="row bg-cream {{ {s:3} | spacingClasses({padding: ['top']}) }} {{ {s:8} | spacingClasses({padding: ['bottom']}) }} ">
-      <div class="container">
-        <div class="grid grid--no-gutters">
-          <div class="{{ {s: 12, m: 10, shiftM: 1, l: 7, xl: 7} | gridClasses }}">
-            {% if article.bodyParts.length > 0  %}
-              {% for author in article.author.toJS() %}
-                {% if author.person %}
-                  {% component 'author', {
-                    name: author.person.name,
-                    twitterHandle: author.person.twitterHandle,
-                    modifiers: ['border-bottom'] if loop.last else [],
-                    image: author.person.image
-                  } %}
-                {% endif %}
-              {% endfor %}
-            {% endif %}
 
-            <div class="article">
-              {% block articleBody %}
-                {% component 'article-body', {articleBody: article.bodyParts, contentType: article.contentType} %}
-              {% endblock %}
+    {% if featuresCohort | isFlagEnabled('basicBody', featureFlags) %}
+      <div class="row bg-cream {{ {s:3} | spacingClasses({padding: ['top']}) }} {{ {s:8} | spacingClasses({padding: ['bottom']}) }} ">
+        <div class="container">
+          <div class="grid">
+            <div class="basic-page {{ {s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2} | gridClasses }}">
+              {% if article.bodyParts.length > 0  %}
+                {% for author in article.author.toJS() %}
+                  {% if author.person %}
+                    {% component 'author', {
+                      name: author.person.name,
+                      twitterHandle: author.person.twitterHandle,
+                      modifiers: ['border-bottom'] if loop.last else [],
+                      image: author.person.image
+                    } %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            </div>
 
-              {% for author in article.author.toJS() %}
-                {% if author.person %}
-                  {% component 'author', {
-                    name: author.person.name,
-                    twitterHandle: author.person.twitterHandle,
-                    modifiers: ['border-left'],
-                    description: author.person.description,
-                    image: author.person.image
-                  } %}
-                {% endif %}
-              {% endfor %}
+            <div class="basic-page {{ {s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2} | gridClasses }}">
+              {% component 'basic-body', {pageBody: article.bodyParts, contentType: article.contentType} %}
+            </div>
 
-              {% componentV2 'divider', null, {'stub': true, 'black': true}, {extraClasses: [{s:4} | spacingClasses({margin: ['top']})]} %}
-
-              {% if article.tags.length > 0 %}
-                {% component 'tags', { tags: article.tags } %}
+            <div class="basic-page {{ {s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2} | gridClasses }}">
+              {% if article.bodyParts.length > 0  %}
+                {% for author in article.author.toJS() %}
+                  {% if author.person %}
+                    {% component 'author', {
+                      name: author.person.name,
+                      twitterHandle: author.person.twitterHandle,
+                      modifiers: ['border-left'],
+                      description: author.person.description,
+                      image: author.person.image
+                    } %}
+                  {% endif %}
+                {% endfor %}
               {% endif %}
             </div>
 
           </div>
         </div>
       </div>
-    </div>
+    {% else %}
+      <div class="row bg-cream {{ {s:3} | spacingClasses({padding: ['top']}) }} {{ {s:8} | spacingClasses({padding: ['bottom']}) }} ">
+        <div class="container">
+          <div class="grid grid--no-gutters">
+            <div class="{{ {s: 12, m: 10, shiftM: 1, l: 7, xl: 7} | gridClasses }}">
+              {% if article.bodyParts.length > 0  %}
+                {% for author in article.author.toJS() %}
+                  {% if author.person %}
+                    {% component 'author', {
+                      name: author.person.name,
+                      twitterHandle: author.person.twitterHandle,
+                      modifiers: ['border-bottom'] if loop.last else [],
+                      image: author.person.image
+                    } %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+
+              <div class="article">
+                {% block articleBody %}
+                  {% component 'article-body', {articleBody: article.bodyParts, contentType: article.contentType} %}
+                {% endblock %}
+
+                {% for author in article.author.toJS() %}
+                  {% if author.person %}
+                    {% component 'author', {
+                      name: author.person.name,
+                      twitterHandle: author.person.twitterHandle,
+                      modifiers: ['border-left'],
+                      description: author.person.description,
+                      image: author.person.image
+                    } %}
+                  {% endif %}
+                {% endfor %}
+
+                {% componentV2 'divider', null, {'stub': true, 'black': true}, {extraClasses: [{s:4} | spacingClasses({margin: ['top']})]} %}
+
+                {% if article.tags.length > 0 %}
+                  {% component 'tags', { tags: article.tags } %}
+                {% endif %}
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
   </article>
 
   {% block transporters %}

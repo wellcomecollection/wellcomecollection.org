@@ -18,17 +18,22 @@ export default class Component {
   };
 
   run(_/* context */, name, model = {}, children = []) {
-    const childrenComponents = children
-      .filter(_ => _)
-      .map(c => {
-        const Component = components[c.name](c.model);
-        return React.cloneElement(Component, { key: c.name });
-      });
+    try {
+      const childrenComponents = children
+        .filter(_ => _)
+        .map(c => {
+          const Component = components[c.name](c.model);
+          return React.cloneElement(Component, { key: c.name });
+        });
 
-    const Component = components[name];
-    const modelWithChildren = Object.assign({}, model, {children: childrenComponents});
-    const instantiatedComponent = React.createElement(Component, modelWithChildren);
-    const html = ReactDOMServer.renderToString(instantiatedComponent);
-    return new nunjucks.runtime.SafeString(html);
+      const Component = components[name];
+      const modelWithChildren = Object.assign({}, model, {children: childrenComponents});
+      const instantiatedComponent = React.createElement(Component, modelWithChildren);
+      const html = ReactDOMServer.renderToString(instantiatedComponent);
+      return new nunjucks.runtime.SafeString(html);
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
   };
 };

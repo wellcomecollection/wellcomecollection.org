@@ -1,7 +1,7 @@
 // @flow
 function createPlace(data: Place) { return (data: Place); }
 
-type Days = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+export type Days = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
 
 export type OpeningHoursDay = {|
   dayOfWeek: Days,
@@ -39,7 +39,9 @@ export type ExceptionalVenueHours = {|
   exceptionalDay: Days,
   id: string,
   name: string,
-  openingHours: OpeningHoursDay | ExceptionalOpeningHoursDay
+  openingHours: OpeningHoursDay | ExceptionalOpeningHoursDay,
+  opensChanged: boolean,
+  closesChanged: boolean
 |};
 
 export type PlacesOpeningHours = Array<Place>;

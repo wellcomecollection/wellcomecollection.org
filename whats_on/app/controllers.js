@@ -1,6 +1,7 @@
 import searchQuery from 'search-query-parser';
 import {getInstallation} from '@weco/common/services/prismic/installations';
 import {getExhibition, getExhibitionExhibits} from '@weco/common/services/prismic/exhibitions';
+import {isPreview as isPrismicPreview} from '@weco/common/services/prismic/api';
 import {model, prismic} from 'common';
 
 import {
@@ -48,18 +49,23 @@ export async function renderInstallation(ctx, next) {
     text: 'Installations',
     url: '/installations'
   }];
-  ctx.render('pages/installation', {
-    pageConfig: createPageConfig({
-      path: ctx.request.url,
-      title: installation.title,
-      inSection: 'whatson',
-      category: 'public-programme',
-      contentType: 'installation',
-      canonicalUri: `https://wellcomecollection.org/installation/${installation.id}`
-    }),
-    installation,
-    tags
-  });
+  const isPreview = isPrismicPreview(ctx.request);
+
+  if (installation) {
+    ctx.render('pages/installation', {
+      pageConfig: createPageConfig({
+        path: ctx.request.url,
+        title: installation.title,
+        inSection: 'whatson',
+        category: 'public-programme',
+        contentType: 'installations',
+        canonicalUri: `https://wellcomecollection.org/installation/${installation.id}`
+      }),
+      installation,
+      tags,
+      isPreview
+    });
+  }
 }
 
 export async function renderExhibition(ctx, next) {
@@ -68,20 +74,24 @@ export async function renderExhibition(ctx, next) {
     text: 'Exhibitions',
     url: '/exhibitions'
   }];
+  const isPreview = isPrismicPreview(ctx.request);
 
-  ctx.render('pages/exhibition', {
-    pageConfig: createPageConfig({
-      path: ctx.request.url,
-      title: exhibition.title,
-      inSection: 'whatson',
-      category: 'public-programme',
-      contentType: 'exhibitions',
-      canonicalUri: `https://wellcomecollection.org/exhibitions/${exhibition.id}`
-    }),
-    exhibition,
-    exhibitIds: exhibition.exhibits.map(exhibit => exhibit.item.id),
-    tags
-  });
+  if (exhibition) {
+    ctx.render('pages/exhibition', {
+      pageConfig: createPageConfig({
+        path: ctx.request.url,
+        title: exhibition.title,
+        inSection: 'whatson',
+        category: 'public-programme',
+        contentType: 'exhibitions',
+        canonicalUri: `https://wellcomecollection.org/exhibitions/${exhibition.id}`
+      }),
+      exhibition,
+      exhibitIds: exhibition.exhibits.map(exhibit => exhibit.item.id),
+      tags,
+      isPreview
+    });
+  }
 }
 
 export async function renderExhibits(ctx, next) {
