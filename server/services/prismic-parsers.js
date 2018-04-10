@@ -18,7 +18,7 @@ import {isDatePast, london} from '../../common/utils/format-date';
 // $FlowFixMe
 import {parseContributors as parseContributorsProperly} from '../../common/services/prismic/parsers';
 import groupBy from 'lodash.groupby';
-import type {ExceptionalVenueHours, PlacesOpeningHours, ExceptionalOpeningHoursDay, Venue, Days} from '../model/opening-hours';
+import type {ExceptionalVenueHours, PlacesOpeningHours, ExceptionalOpeningHoursDay, Venue, Days} from '../../common/model/opening-hours';
 
 // This is just JSON
 type PrismicDoc = Object;
