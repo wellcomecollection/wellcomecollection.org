@@ -168,6 +168,9 @@ function parseVenuesToOpeningHours(doc: PrismicDoc, order: {}): PlacesOpeningHou
   const futureExceptionalDates = exceptionalDates.filter(exceptionalDate => exceptionalDate && !isDatePast(exceptionalDate));
   const exceptionalPeriods = exceptionalOpeningPeriods(futureExceptionalDates);
   const individualExceptionalOpeningHours = exceptionalOpeningHours(futureExceptionalDates, placesOpeningHours, order);
+  const exceptionalHours = groupBy(individualExceptionalOpeningHours, item => london(item.exceptionalDate).format('YYYY-MM-DD'));
+  const orderedHours = {};
+  Object.keys(exceptionalHours).sort().forEach(key => orderedHours[key] = exceptionalHours[key]);
 
   return {
     placesOpeningHours: placesOpeningHours.sort((a, b) => {
@@ -176,6 +179,6 @@ function parseVenuesToOpeningHours(doc: PrismicDoc, order: {}): PlacesOpeningHou
       return aPosition - bPosition;
     }),
     upcomingExceptionalOpeningPeriods: upcomingExceptionalOpeningPeriods(exceptionalPeriods),
-    exceptionalOpeningHours: groupBy(individualExceptionalOpeningHours, item => london(item.exceptionalDate).format('YYYY-MM-DD'))
+    exceptionalOpeningHours: orderedHours
   };
 }
