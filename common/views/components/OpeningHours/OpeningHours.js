@@ -39,6 +39,13 @@ class OpeningHours extends Component<Props, State> {
 
     return (
       <Fragment>
+        {!placesOpeningHours &&
+          <p className={spacing({s: 2}, {margin: ['bottom']})}>
+            <a className={font({s: 'HNL6', m: 'HNL5'})} href="https://wellcomecollection.org/info/opening-times">
+              Opening times
+            </a>
+          </p>
+        }
         {upcomingExceptionalOpeningPeriods && upcomingExceptionalOpeningPeriods.length > 0 &&
           <p className={font({s: 'HNM4'})}>
             Our opening times will change
