@@ -7,14 +7,15 @@ import {PromoFactory} from '../model/promo';
 import {prismicAsText} from '../filters/prismic';
 import {
   getArticle, getSeriesAndArticles, getArticleList, getCuratedList,
-  defaultPageSize
+  defaultPageSize, getCollectionOpeningTimes
 } from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {getInfoPage} from '../../common/services/prismic/info-page';
 
-export const renderOpeningTimes = (ctx, next) => {
+export const renderOpeningTimes = async(ctx, next) => {
   const path = ctx.request.url;
+  const pageOpeningHours = await getCollectionOpeningTimes();
 
   ctx.render('pages/opening-times', {
     pageConfig: Object.assign({}, createPageConfig({
@@ -22,7 +23,8 @@ export const renderOpeningTimes = (ctx, next) => {
       title: 'Opening Times',
       category: 'information',
       canonicalUri: `${ctx.globals.rootDomain}/info/opening-times`
-    }))
+    })),
+    pageOpeningHours
   });
 
   return next();
