@@ -33,7 +33,7 @@ function exceptionalOpeningDates(placesHoursArray: PlacesOpeningHours) {
       if (!i) {
         return true;
       } else if ((firstDate && firstDate.toDate() instanceof Date) && (prevDate && prevDate.toDate() instanceof Date)) {
-        return london(firstDate).format('dd-mm-yyyy') !== london(prevDate).format('dd-mm-yyyy');
+        return london(firstDate).format('YYYY-MM-DD') !== london(prevDate).format('YYYY-MM-DD');
       }
     });
 };
