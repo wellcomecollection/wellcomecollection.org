@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import debounce from 'lodash.debounce';
 import prefixedPropertyStyleObject from '../../../utils/prefixed-property-style-object';
 
 function randomIntFromInterval(min: number, max: number): number {
@@ -36,28 +37,35 @@ class WobblyEdge extends React.Component<Props, State> {
     };
   }
 
+  handleScroll = debounce(() => {
+    console.log('yoyoyoy');
+    if (!this.state.isActive) {
+      this.setState({
+        styleObject: prefixedPropertyStyleObject('clipPath', this.makePolygonPoints(this.points, this.intensity)),
+        isActive: true
+      });
+    }
+
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+
+    this.timer = setTimeout(() => {
+      this.setState({
+        styleObject: prefixedPropertyStyleObject('clipPath', this.makePolygonPoints(this.points, this.intensity)),
+        isActive: false
+      });
+    }, 150);
+  }, 500);
+
   componentDidMount() {
     if (this.props.isStatic) return;
 
-    window.addEventListener('scroll', () => {
-      if (!this.state.isActive) {
-        this.setState({
-          styleObject: prefixedPropertyStyleObject('clipPath', this.makePolygonPoints(this.points, this.intensity)),
-          isActive: true
-        });
-      }
+    window.addEventListener('scroll', this.handleScroll);
+  }
 
-      if (this.timer) {
-        clearTimeout(this.timer);
-      }
-
-      this.timer = setTimeout(() => {
-        this.setState({
-          styleObject: prefixedPropertyStyleObject('clipPath', this.makePolygonPoints(this.points, this.intensity)),
-          isActive: false
-        });
-      }, 150);
-    });
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
   }
 
   makePolygonPoints(totalPoints: number, intensity: number): string {

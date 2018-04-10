@@ -20,6 +20,7 @@
     "isomorphic-unfetch": "^2.0.0",
     "koa": "^2.5.0",
     "koa-router": "^7.4.0",
+    "lodash.debounce": "^4.0.8",
     "next": "^5.1.0",
     "node-sass": "^4.7.2",
     "postcss-easy-import": "^3.0.0",
