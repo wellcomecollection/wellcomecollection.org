@@ -5,7 +5,7 @@ import NastyJs from '../Header/NastyJs';
 import Header from '../Header/Header';
 import {striptags} from '../../../utils/striptags';
 import {formatDate} from '../../../utils/format-date';
-import Footer from '../Footer/Footer';
+// import Footer from '../Footer/Footer';
 // TODO use import {getCollectionOpeningTimes}
 
 // TODO: Hashed files
@@ -251,10 +251,11 @@ const DefaultPageLayout = ({
       <div id='main' className='main' role='main'>
         {children}
       </div>
-      <Footer
+      {/* <Footer
         openingHoursId='footer'
-        placesOpeningHours={[]/* TODO from getCollectionOpeningTimes */}
-        upcomingExceptionalOpeningPeriods={[]/* TODO from getCollectionOpeningTimes */} />
+        placesOpeningHours={[]/* TODO from getCollectionOpeningTimes }
+        upcomingExceptionalOpeningPeriods={[]/* TODO from getCollectionOpeningTimes } />
+      */}
     </div>
   </div>
 );

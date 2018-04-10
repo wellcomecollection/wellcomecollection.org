@@ -3,6 +3,7 @@ import {spacing, font, grid} from '../../../utils/classnames';
 import FooterWellcomeLogo from '../FooterWellcomeLogo/FooterWellcomeLogo';
 import FooterNav from '../FooterNav/FooterNav';
 import FindUs from '../FindUs/FindUs';
+import OpeningHours from '../OpeningHours/OpeningHours';
 import FooterSocial from '../FooterSocial/FooterSocial';
 import Icon from '../Icon/Icon';
 import type {PlacesOpeningHours} from '../../../model/opening-hours';
@@ -35,12 +36,11 @@ const Footer = ({openingHoursId, extraClasses, placesOpeningHours, upcomingExcep
         </div>
         <div className={`${grid({s: 12, l: 6, xl: 6})}`}>
           <h3 className={`footer__heading ${font({s: 'HNL5'})}`}>Opening times:</h3>
-          {/* TODO get placesOpeningHours and upcomingExceptionalOpeningPeriods in DefaultPageLayout
           <OpeningHours
             id={openingHoursId}
             extraClasses={extraClasses}
             placesOpeningHours={placesOpeningHours}
-          upcomingExceptionalOpeningPeriods={upcomingExceptionalOpeningPeriods} /> */}
+            upcomingExceptionalOpeningPeriods={upcomingExceptionalOpeningPeriods} />
         </div>
       </div>
       <div className='grid'>
