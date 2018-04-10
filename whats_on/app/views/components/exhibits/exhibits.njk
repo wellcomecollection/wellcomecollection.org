@@ -15,7 +15,7 @@
         <div class="{{ {s:12, m:10, shiftM:1} | gridClasses }}">
           <div class="grid grid--scroll">
             {% for exhibit in exhibits %}
-              <div class="{{ {s:12, m:6, l:3, xl:3} | gridClasses }}">
+              <div class="{{ {s: 2} | spacingClasses({ margin: ['bottom'] }) }} {{ {s:12, m:6, l:3, xl:3} | gridClasses }}">
                 {% componentJsx 'InstallationPromo', {
                   id: exhibit.item.id,
                   title: exhibit.item.title,

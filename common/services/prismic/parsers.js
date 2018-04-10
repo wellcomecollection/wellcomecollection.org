@@ -17,6 +17,7 @@ const linkResolver = (doc) => {
     case 'events'        : return `/events/${doc.id}`;
     case 'series'        : return `/series/${doc.id}`;
     case 'installations' : return `/installations/${doc.id}`;
+    case 'info-pages'    : return `/info/${doc.id}`;
   }
 };
 
