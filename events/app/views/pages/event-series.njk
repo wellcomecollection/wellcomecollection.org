@@ -25,10 +25,11 @@
     <div class="framed-header__image overflow-hidden bg-turquoise"
     {% if backgroundTexture.image %}style="background-image: url({{ backgroundTexture.image }});"{% endif %}>
       <div class="framed-header__wobbly-edge absolute">
-        <div class="wobbly-edge wobbly-edge--white js-wobbly-edge"
-          data-is-valley="true"
-          data-max-intensity="100">
-        </div>
+        {% componentJsx 'WobblyEdge', {
+          background: 'white',
+          isValley: true,
+          intensity: 100
+        } %}
       </div>
     </div>
     <div class="relative container container--with-frame bg-white {{ {s:5, m:7} | spacingClasses({padding: ['top']}) }} {{ {s: 1} | spacingClasses({padding: ['bottom']}) }}">
