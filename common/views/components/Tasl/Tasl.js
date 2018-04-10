@@ -15,7 +15,9 @@ type Props = {
   sourceLink?: ?string,
   license?: ?string,
   copyrightHolder?: ?string,
-  copyrightLink?: ?string
+  copyrightLink?: ?string,
+  isActive: boolean,
+  toggle: () => void
 }
 
 function getMarkup(title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink) {
