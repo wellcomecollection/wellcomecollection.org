@@ -38,7 +38,6 @@ class WobblyEdge extends React.Component<Props, State> {
   }
 
   handleScroll = debounce(() => {
-    console.log('yoyoyoy');
     if (!this.state.isActive) {
       this.setState({
         styleObject: prefixedPropertyStyleObject('clipPath', this.makePolygonPoints(this.points, this.intensity)),
