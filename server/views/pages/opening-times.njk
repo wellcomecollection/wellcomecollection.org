@@ -23,11 +23,9 @@
       <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
         <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="regular">Regular opening times</h2>
         <div class="grid">
-          {% for place in pageOpeningHours.placesOpeningHours %}
-            <div class="{{ {s:12, m:6, l:4, xl:4} | gridClasses }}">
-              {% componentJsx 'OpeningHoursTable', {place: place, extraClasses: 'opening-hours--light'} %}
-            </div>
-          {% endfor %}
+          <div class="{{ {s:12, m:6, l:6, xl:6} | gridClasses }} {{ {s:4} | spacingClasses({padding: ['top']}) }}">
+            {% componentJsx 'OpeningHours', {id: 'info-page', extraClasses: 'opening-hours--light', placesOpeningHours: pageOpeningHours.placesOpeningHours, upcomingExceptionalOpeningPeriods: pageOpeningHours.upcomingExceptionalOpeningPeriods} %}
+          </div>
         </div>
       </div>
 
