@@ -28,7 +28,7 @@ export default class Component {
 
       const Component = components[name];
       const modelWithChildren = Object.assign({}, model, {children: childrenComponents});
-      const instantiatedComponent = Component.name && Component.name !== '_class' ? Component(modelWithChildren) : React.createElement(Component, modelWithChildren);
+      const instantiatedComponent = React.createElement(Component, modelWithChildren);
       const html = ReactDOMServer.renderToString(instantiatedComponent);
       return new nunjucks.runtime.SafeString(html);
     } catch (e) {

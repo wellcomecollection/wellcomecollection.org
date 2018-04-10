@@ -92,6 +92,7 @@ async function getPreviewSession(token) {
         case 'webcomic-series' : return `/webcomic-series/${doc.id}`;
         case 'event-series' : return `/event-series/${doc.id}`;
         case 'installations' : return `/installations/${doc.id}`;
+        case 'info-pages' : return `/info/${doc.id}`;
       }
     }, '/', (err, redirectUrl) => {
       if (err) {
