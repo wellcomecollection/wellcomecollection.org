@@ -5,7 +5,6 @@ import {
   parseEventDoc,
   parseWebcomicDoc,
   parseBasicPageDoc,
-  parseVenuesToOpeningHours,
   asText,
   asHtml,
   prismicImage,
@@ -98,22 +97,6 @@ export async function getGlobalAlert(): GlobalAlert {
     text: globalAlert.data.text && asHtml(globalAlert.data.text),
     isShown: globalAlert.data.isShown && globalAlert.data.isShown === 'show'
   };
-}
-
-export async function getCollectionOpeningTimes() {
-  const order = {
-    'Galleries': 1,
-    'Library': 2,
-    'Restaurant': 3,
-    'Café': 4,
-    'Shop': 5
-  };
-  const prismic = await getPrismicApi();
-  const collectionVenues = await prismic.query([
-    Prismic.Predicates.any('document.type', ['collection-venue'])
-  ]);
-
-  return parseVenuesToOpeningHours(collectionVenues, order);
 }
 
 export async function getArticle(id: string, previewReq: ?Request) {

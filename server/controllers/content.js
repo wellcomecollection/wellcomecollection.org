@@ -7,11 +7,12 @@ import {PromoFactory} from '../model/promo';
 import {prismicAsText} from '../filters/prismic';
 import {
   getArticle, getSeriesAndArticles, getArticleList, getCuratedList,
-  defaultPageSize, getCollectionOpeningTimes
+  defaultPageSize
 } from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {getInfoPage} from '../../common/services/prismic/info-page';
+import {getCollectionOpeningTimes} from '../../common/services/prismic/opening-times';
 
 export const renderOpeningTimes = async(ctx, next) => {
   const path = ctx.request.url;

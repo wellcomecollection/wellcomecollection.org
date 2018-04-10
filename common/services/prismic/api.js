@@ -36,6 +36,13 @@ export async function getPrismicApi(req: Request) {
   }
 }
 
+export async function getMemoizedPrismicApi() {
+  if (!memoizedPrismic) {
+    memoizedPrismic = await Prismic.getApi(apiUri);
+  }
+  return memoizedPrismic;
+}
+
 export async function getDocument(
   req: Request,
   id: string,
