@@ -44,7 +44,7 @@ export type ExceptionalVenueHours = {|
 
 export type PlacesOpeningHours = Array<Venue>;
 
-export const galleryOpeningHours: OpeningHours = { // TODO remove these once organization.js and what's on header is using the gallery data from prismic
+export const galleryOpeningHours: OpeningHours = { // TODO remove these once organization.js is using the gallery data from prismic
   regular: [
     {dayOfWeek: 'Monday'},
     {dayOfWeek: 'Tuesday',   opens: '10:00', closes: '18:00'},
@@ -55,6 +55,9 @@ export const galleryOpeningHours: OpeningHours = { // TODO remove these once org
     {dayOfWeek: 'Sunday',    opens: '11:00', closes: '18:00'}
   ],
   exceptional: [
-    {overrideDate: new Date('2018-04-02'), opens: '10:00', closes: '18:00'}
+    {overrideDate: new Date('2018-04-02'), opens: '10:00', closes: '18:00'},
+    {overrideDate: new Date('2018-05-07'), opens: '10:00', closes: '18:00'},
+    {overrideDate: new Date('2018-05-28'), opens: '10:00', closes: '18:00'},
+    {overrideDate: new Date('2018-08-27'), opens: '10:00', closes: '18:00'}
   ]
 };

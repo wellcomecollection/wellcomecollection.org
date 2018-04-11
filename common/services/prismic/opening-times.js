@@ -117,18 +117,11 @@ export function exceptionalOpeningHoursByPeriod(upcomingPeriodsComplete: Date[][
 };
 
 function identifyChanges(override: ?ExceptionalOpeningHoursDay, place: Venue, exceptionalDay: Days) {
-  if (override) {
-    const regular = place.openingHours.regular.find(item => item.dayOfWeek === exceptionalDay);
-    return {
-      opensHasChanged: regular && regular.opens !== override.opens,
-      closesHasChanged: regular && regular.closes !== override.closes
-    };
-  } else {
-    return {
-      opensHasChanged: false,
-      closesHasChanged: false
-    };
-  }
+  const regular = place.openingHours.regular.find(item => item.dayOfWeek === exceptionalDay);
+  return {
+    opensHasChanged: override && regular && regular.opens !== override.opens,
+    closesHasChanged: override && regular && regular.closes !== override.closes
+  };
 }
 
 function exceptionalOpeningHours(dates: Date[], placesOpeningHours: PlacesOpeningHours, order: {}): ExceptionalVenueHours[] {
@@ -224,7 +217,9 @@ function parseVenuesToOpeningHours(doc: PrismicDoc, order: {}): PlacesOpeningHou
   const futureExceptionalDates = exceptionalDates.filter(exceptionalDate => exceptionalDate && !isDatePast(exceptionalDate));
   const exceptionalPeriods = exceptionalOpeningPeriods(futureExceptionalDates);
   const individualExceptionalOpeningHours = exceptionalOpeningHours(futureExceptionalDates, placesOpeningHours, order);
-  const exceptionalHoursByDate = groupBy(individualExceptionalOpeningHours, item => london(item.exceptionalDate).format('YYYY-MM-DD'));
+  const exceptionalHours = groupBy(individualExceptionalOpeningHours, item => london(item.exceptionalDate).format('YYYY-MM-DD'));
+  const orderedHours = {};
+  Object.keys(exceptionalHours).sort().forEach(key => orderedHours[key] = exceptionalHours[key]);
 
   return {
     placesOpeningHours: placesOpeningHours.sort((a, b) => {
@@ -233,6 +228,6 @@ function parseVenuesToOpeningHours(doc: PrismicDoc, order: {}): PlacesOpeningHou
       return aPosition - bPosition;
     }),
     upcomingExceptionalOpeningPeriods: exceptionalOpeningPeriodsAllDates(upcomingExceptionalOpeningPeriods(exceptionalPeriods), london),
-    exceptionalOpeningHours: exceptionalOpeningHoursByPeriod(exceptionalOpeningPeriodsAllDates(exceptionalPeriods, london), exceptionalHoursByDate, london, placesOpeningHours)
+    exceptionalOpeningHours: exceptionalOpeningHoursByPeriod(exceptionalOpeningPeriodsAllDates(exceptionalPeriods, london), orderedHours, london, placesOpeningHours)
   };
 }
