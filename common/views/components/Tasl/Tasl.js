@@ -98,7 +98,7 @@ const Tasl = withToggler(({isFull, contentUrl, title, author, sourceName, source
     </div>
     {isFull &&
       <button onClick={(event) => { event.preventDefault(); toggle(); }}
-        className='asdf tasl__button absolute plain-button js-show-hide-trigger'>
+        className='tasl__button absolute plain-button js-show-hide-trigger'>
         <span className='tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black'>
           <Icon name='information' title='information' extraClasses='icon--white' />
         </span>
