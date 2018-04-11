@@ -233,6 +233,6 @@ function parseVenuesToOpeningHours(doc: PrismicDoc, order: {}): PlacesOpeningHou
       return aPosition - bPosition;
     }),
     upcomingExceptionalOpeningPeriods: exceptionalOpeningPeriodsAllDates(upcomingExceptionalOpeningPeriods(exceptionalPeriods), london),
-    exceptionalOpeningHours: exceptionalOpeningHoursByPeriod(exceptionalOpeningPeriodsAllDates(upcomingExceptionalOpeningPeriods(exceptionalPeriods), london), exceptionalHoursByDate, london, placesOpeningHours)
+    exceptionalOpeningHours: exceptionalOpeningHoursByPeriod(exceptionalOpeningPeriodsAllDates(exceptionalPeriods, london), exceptionalHoursByDate, london, placesOpeningHours)
   };
 }
