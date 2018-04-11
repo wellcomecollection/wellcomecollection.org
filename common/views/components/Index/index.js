@@ -26,6 +26,7 @@ import SearchBox from '../SearchBox/SearchBox';
 import Standfirst from '../Body/Standfirst/Standfirst';
 import Tags from '../Tags/Tags';
 import Tasl from '../Tasl/Tasl';
+import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
 
@@ -58,6 +59,7 @@ export {
   Standfirst,
   Tags,
   Tasl,
+  WobblyEdge,
   WorkDrawer,
   WorkMedia
 };
