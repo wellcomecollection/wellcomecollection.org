@@ -7,6 +7,20 @@
         "label" : "title"
       }
     },
+    "description" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : "paragraph",
+        "label" : "Description"
+      }
+    },
+    "info" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : "paragraph",
+        "label" : "Info"
+      }
+    },
     "geolocation" : {
       "type" : "GeoPoint",
       "config" : {

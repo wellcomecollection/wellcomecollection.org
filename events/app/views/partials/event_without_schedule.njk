@@ -290,6 +290,14 @@
         <div class="{{[].join(' ') }}">{{ event.format.description | safe }}</div>
       {% endif %}
 
+      {% if event.place %}
+        <h2>Where we'll be</h2>
+          <p>
+            {{ event.place.title }} is on Level {{ event.place.level }}.
+            {{ event.place.info }}
+          </p>
+      {% endif %}
+
       {% for series in event.series %}
         <h2>Part of <a href="/event-series/{{ series.id }}">{{ series.title }}</a></h2>
         <div>{{ series.description | safe }}</div>

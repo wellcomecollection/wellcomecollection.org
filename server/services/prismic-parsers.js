@@ -56,6 +56,8 @@ export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): UiEve
   const place = (doc.data.place && !isEmptyDocLink(doc.data.place)) ? ({
     id: doc.data.place.id,
     title: asText(doc.data.place.data.title),
+    description: asHtml(doc.data.place.data.description),
+    info: asHtml(doc.data.place.data.info),
     // geolocation, as it stands, can't be fetch via `fetchLinks`
     geolocation: null,
     // geolocation: {
@@ -63,7 +65,7 @@ export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): UiEve
     //   longitude: place.place.data.geolocation.longitude
     // },
     level: doc.data.place.data.level,
-    capacity: doc.data.place.data.level
+    capacity: doc.data.place.data.capacity
   }: Place) : null;
 
   const interpretations = doc.data.interpretations.map(interpretation => !isEmptyDocLink(interpretation.interpretationType) ? ({

@@ -68,7 +68,9 @@ export type Place = {|
   title: string,
   geolocation: ?Geolocation,
   level: number,
-  capacity: ?number
+  capacity: ?number,
+  description: ?HTMLString,
+  info: ?HTMLString
 |}
 
 type IdentifierScheme = 'eventbrite-id';
@@ -224,6 +226,8 @@ export const eventExample = ({
     id: 'WdTMsycAAL20UYr1',
     title: 'Williams Lounge',
     level: -1,
+    description: null,
+    info: 'Head upstairs and follow the signs to the Studio.',
     geolocation: {
       latitude: 51.52585053479689,
       longitude: -0.13394683599472046
