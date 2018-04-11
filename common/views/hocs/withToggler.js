@@ -1,15 +1,21 @@
 // @flow
 import {Component} from 'react';
-import type {ComponentType} from 'react';
+import type {StatelessFunctionalComponent} from 'react';
 
 type TogglerProps = {|
-  isActive: boolean,
-  toggle: () => void
+  isActive: boolean | void,
+  toggle: (() => void) | void
 |}
 
-export function withToggler<T>(C: ComponentType<T>): ComponentType<{ ...TogglerProps, ...T }> {
-  return class extends Component<{ ...TogglerProps, ...T }, {isActive: boolean}> {
-    static displayName = `withToggler(${C.name ? C.name : (C.displayName || '')})`;
+type TogglerState = {|
+  isActive: boolean | void
+|}
+
+export function withToggler<Props: {}>(
+  WrapperComponent: StatelessFunctionalComponent<Props>
+): Class<Component<$Diff<Props, TogglerProps>, TogglerState>> {
+  return class extends Component<Props, TogglerState> {
+    static displayName = `withToggler(${WrapperComponent.name ? WrapperComponent.name : (WrapperComponent.displayName || '')})`;
     state = {isActive: false};
 
     toggle = () => {
@@ -22,7 +28,7 @@ export function withToggler<T>(C: ComponentType<T>): ComponentType<{ ...TogglerP
         isActive: this.state.isActive,
         toggle: this.toggle
       };
-      return <C {...props} />;
+      return <WrapperComponent {...props} />;
     }
   };
 };
