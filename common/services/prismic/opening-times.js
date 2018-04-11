@@ -61,18 +61,11 @@ function exceptionalOpeningPeriods(dates: PlacesOpeningHours) {
 }
 
 function identifyChanges(override: ?ExceptionalOpeningHoursDay, place: Venue, exceptionalDay: Days) {
-  if (override) {
-    const regular = place.openingHours.regular.find(item => item.dayOfWeek === exceptionalDay);
-    return {
-      opensHasChanged: regular && regular.opens !== override.opens,
-      closesHasChanged: regular && regular.closes !== override.closes
-    };
-  } else {
-    return {
-      opensHasChanged: false,
-      closesHasChanged: false
-    };
-  }
+  const regular = place.openingHours.regular.find(item => item.dayOfWeek === exceptionalDay);
+  return {
+    opensHasChanged: override && regular && regular.opens !== override.opens,
+    closesHasChanged: override && regular && regular.closes !== override.closes
+  };
 }
 
 function exceptionalOpeningHours(dates: Date[], placesOpeningHours: PlacesOpeningHours, order: {}): ExceptionalVenueHours[] {
