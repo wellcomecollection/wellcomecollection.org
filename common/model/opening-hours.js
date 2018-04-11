@@ -55,6 +55,9 @@ export const galleryOpeningHours: OpeningHours = { // TODO remove these once org
     {dayOfWeek: 'Sunday',    opens: '11:00', closes: '18:00'}
   ],
   exceptional: [
-    {overrideDate: new Date('2018-04-02'), opens: '10:00', closes: '18:00'}
+    {overrideDate: new Date('2018-04-02'), opens: '10:00', closes: '18:00'},
+    {overrideDate: new Date('2018-05-07'), opens: '10:00', closes: '18:00'},
+    {overrideDate: new Date('2018-05-28'), opens: '10:00', closes: '18:00'},
+    {overrideDate: new Date('2018-08-27'), opens: '10:00', closes: '18:00'}
   ]
 };
