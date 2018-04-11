@@ -14,6 +14,8 @@ import type {Props as PaginationProps} from '@weco/common/views/components/Pagin
 import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
 import {Fragment, Component} from 'react';
 import Router from 'next/router';
+import {getCollectionOpeningTimes} from '@weco/common/services/prismic/opening-times';
+import type {PlacesOpeningHours} from '@weco/common/model/opening-hours';
 
 // TODO: Setting the event parameter to type 'Event' leads to
 // an 'Indexable signature not found in EventTarget' Flow
@@ -23,20 +25,26 @@ type Props = {|
   query: {| query?: string, page?: string |},
   works: {| results: [], totalResults: number |},
   pagination: PaginationProps,
-  handleSubmit: (EventWithInputValue) => void
+  handleSubmit: (EventWithInputValue) => void,
+  openingTimes: {
+    placesOpeningHours: PlacesOpeningHours,
+    upcomingExceptionalOpeningPeriods: Date[][]
+  }
 |}
 
 const WorksComponent = ({
   query,
   works,
   pagination,
-  handleSubmit
+  handleSubmit,
+  openingTimes
 }: Props) => (
   <DefaultPageLayout
     title='Image catalogue search | Wellcome Collection'
     description='Search through the Wellcome Collection image catalogue'
     analyticsCategory='collections'
     siteSection='images'
+    openingTimes={openingTimes}
   >
     <PageDescription title='Search our images' extraClasses='page-description--hidden' />
     <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
@@ -151,6 +159,7 @@ const WorksComponent = ({
 class Works extends Component<Props> {
   static getInitialProps = async ({ req, query }: {req?: any, query: any}) => {
     const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works${getInitialQueryParams(query)}`);
+    const openingTimes = await getCollectionOpeningTimes();
     const json = await res.json();
     const currentPage = query.page || 1;
     const pagination = PaginationFactory.fromList(json.results, Number(json.totalResults) || 1, Number(currentPage) || 1, json.pageSize || 1, {query: query.query || ''});
@@ -158,7 +167,11 @@ class Works extends Component<Props> {
     return {
       works: json,
       query: query,
-      pagination: pagination
+      pagination: pagination,
+      openingTimes: {
+        placesOpeningHours: openingTimes.placesOpeningHours,
+        upcomingExceptionalOpeningPeriods: openingTimes.upcomingExceptionalOpeningPeriods
+      }
     };
   };
 
@@ -180,7 +193,8 @@ class Works extends Component<Props> {
         query={this.props.query}
         works={this.props.works}
         pagination={this.props.pagination}
-        handleSubmit={this.handleSubmit} />
+        handleSubmit={this.handleSubmit}
+        openingTimes={this.props.openingTimes} />
     );
   }
 }

@@ -12,6 +12,8 @@ import License from '@weco/common/views/components/License/License';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
+import {getCollectionOpeningTimes} from '@weco/common/services/prismic/opening-times';
+import type {PlacesOpeningHours} from '@weco/common/model/opening-hours';
 
 export type Link = {|
   text: string;
@@ -151,9 +153,15 @@ function getMetaContentArray(singleWork, descriptionArray) {
 // Not sure we want to type this not dynamically
 // as the API is subject to change?
 type Work = Object;
-type Props = {| work: Work |}
+type Props = {|
+  work: Work,
+  openingTimes: {
+    placesOpeningHours: PlacesOpeningHours,
+    upcomingExceptionalOpeningPeriods: Date[][]
+  }
+|}
 
-const WorkPage = ({ work }: Props) => {
+const WorkPage = ({ work, openingTimes }: Props) => {
   const [iiifImageLocation] = work.items.map(
     item => item.locations.find(
       location => location.locationType === 'iiif-image'
@@ -181,6 +189,7 @@ const WorkPage = ({ work }: Props) => {
       url={`https://wellcomecollection.org/works/${work.id}`}
       imageUrl={iiifImage({size: '800,'})}
       siteSection='images'
+      openingTimes={openingTimes}
     >
       <PageDescription title='Search our images' extraClasses='page-description--hidden' />
       <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
@@ -324,7 +333,14 @@ WorkPage.getInitialProps = async (context) => {
   const {id} = context.query;
   const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works/${id}?includes=identifiers,items,thumbnail`);
   const json = await res.json();
-  return { work: (json: Work) };
+  const openingTimes = await getCollectionOpeningTimes();
+  return {
+    openingTimes: {
+      placesOpeningHours: openingTimes.placesOpeningHours,
+      upcomingExceptionalOpeningPeriods: openingTimes.upcomingExceptionalOpeningPeriods
+    },
+    work: (json: Work)
+  };
 };
 
 export default WorkPage;

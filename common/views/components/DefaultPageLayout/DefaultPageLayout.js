@@ -5,8 +5,7 @@ import NastyJs from '../Header/NastyJs';
 import Header from '../Header/Header';
 import {striptags} from '../../../utils/striptags';
 import {formatDate} from '../../../utils/format-date';
-// import Footer from '../Footer/Footer';
-// TODO use import {getCollectionOpeningTimes}
+import Footer from '../Footer/Footer';
 
 // TODO: Hashed files
 // TODO: Analytics
@@ -179,7 +178,8 @@ type Props = {|
   pageMeta?: React.Node,
   featuresCohort?: string,
   featureFlags?: string[],
-  isPreview?: boolean
+  isPreview?: boolean,
+  openingTimes: any // TODO
 |}
 
 const DefaultPageLayout = ({
@@ -193,7 +193,8 @@ const DefaultPageLayout = ({
   analyticsCategory,
   featuresCohort = 'default',
   featureFlags = [],
-  isPreview = false
+  isPreview = false,
+  openingTimes
 }: Props) => (
 
   <div>
@@ -251,11 +252,15 @@ const DefaultPageLayout = ({
       <div id='main' className='main' role='main'>
         {children}
       </div>
-      {/* <Footer
-        openingHoursId='footer'
-        placesOpeningHours={[]/* TODO from getCollectionOpeningTimes }
-        upcomingExceptionalOpeningPeriods={[]/* TODO from getCollectionOpeningTimes } />
-      */}
+      {openingTimes &&
+        <Footer
+          openingHoursId='footer'
+          placesOpeningHours={openingTimes.placesOpeningHours}
+          upcomingExceptionalOpeningPeriods={openingTimes.upcomingExceptionalOpeningPeriods} />
+      }
+      {!openingTimes &&
+        <Footer openingHoursId='footer' />
+      }
     </div>
   </div>
 );
