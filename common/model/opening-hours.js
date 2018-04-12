@@ -1,4 +1,6 @@
 // @flow
+import type Moment from 'moment';
+
 export type Days = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
 
 export type OpeningHoursDay = {|
@@ -8,7 +10,7 @@ export type OpeningHoursDay = {|
 |};
 
 export type ExceptionalOpeningHoursDay = {|
-  overrideDate: Date,
+  overrideDate: any, // TODO moment
   opens?: string,
   closes?: string,
 |}
@@ -45,6 +47,14 @@ export type ExceptionalVenueHours = {|
 |};
 
 export type PlacesOpeningHours = Array<Venue>;
+
+export type OpeningTimes = {
+  placesOpeningHours: PlacesOpeningHours,
+  upcomingExceptionalOpeningPeriods: ?(Moment)[][],
+  exceptionalOpeningHours: {
+    [string]: ExceptionalVenueHours[]
+  }
+}
 
 export const galleryOpeningHours: OpeningHours = { // TODO remove these once organization.js is using the gallery data from prismic
   regular: [
