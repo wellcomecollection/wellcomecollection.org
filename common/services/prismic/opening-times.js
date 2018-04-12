@@ -141,7 +141,7 @@ function parseVenuesToOpeningHours(doc: PrismicDoc, order: {}): PlacesOpeningHou
 
     return {
       id: venue.id,
-      name: venue.data.venueName,
+      name: venue.data.title,
       openingHours: {
         regular: [
           createExceptionalDate('monday', venue),
