@@ -22,15 +22,9 @@ export default class Component {
       const childrenComponents = children
         .filter(_ => _)
         .map(c => {
-          try {
-            const Component = components[c.name](c.model);
+          const modelWithKey = Object.assign({}, c.model, {key: c.name});
 
-            return React.cloneElement(Component, { key: c.name });
-          } catch (err) {
-            const modelWithKey = Object.assign({}, c.model, {key: c.name});
-
-            return React.createElement(components[c.name], modelWithKey);
-          }
+          return React.createElement(components[c.name], modelWithKey);
         });
 
       const Component = components[name];
