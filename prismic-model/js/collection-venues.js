@@ -1,6 +1,6 @@
 import description from './parts/description';
 import timestamp from './parts/timestamp';
-
+import number from './parts/number';
 const CollectionVenue = {
   Main: {
     title: {
@@ -9,7 +9,8 @@ const CollectionVenue = {
         label: 'Title'
       }
     },
-    description
+    description,
+    order: number('Order')
   },
   'Regular opening times': {
     monday: {

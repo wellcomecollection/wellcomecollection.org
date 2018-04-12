@@ -12,6 +12,12 @@
         "multi": "paragraph,hyperlink,strong,em",
         "label": "Description"
       }
+    },
+    "order": {
+      "type": "Number",
+      "config": {
+        "label": "Order"
+      }
     }
   },
   "Regular opening times": {

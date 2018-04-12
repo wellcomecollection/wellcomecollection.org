@@ -29,6 +29,7 @@ export type OpeningHours = {|
 export type Venue = {|
   id: string,
   name: string,
+  order: number,
   openingHours: OpeningHours
 |};
 
@@ -37,6 +38,7 @@ export type ExceptionalVenueHours = {|
   exceptionalDay: Days,
   id: string,
   name: string,
+  order: number,
   openingHours: OpeningHoursDay | ExceptionalOpeningHoursDay,
   opensChanged: boolean,
   closesChanged: boolean

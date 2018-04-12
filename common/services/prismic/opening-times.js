@@ -5,19 +5,12 @@ import groupBy from 'lodash.groupby';
 import type {ExceptionalVenueHours, PlacesOpeningHours, ExceptionalOpeningHoursDay, Venue, Days} from '../../model/opening-hours';
 
 export async function getCollectionOpeningTimes() {
-  const order = {
-    'Galleries': 1,
-    'Library': 2,
-    'Restaurant': 3,
-    'Café': 4,
-    'Shop': 5
-  };
   const prismic = await getMemoizedPrismicApi();
   const collectionVenues = await prismic.query([
     Prismic.Predicates.any('document.type', ['collection-venue'])
   ]);
 
-  return parseVenuesToOpeningHours(collectionVenues, order);
+  return parseVenuesToOpeningHours(collectionVenues);
 }
 
 function exceptionalOpeningDates(placesHoursArray: PlacesOpeningHours) {
@@ -85,6 +78,7 @@ function exceptionalOpeningHours(dates: Date[], placesOpeningHours: PlacesOpenin
         exceptionalDay,
         id: place.id,
         name: place.name,
+        order: place.order,
         openingHours,
         opensChanged: changes.opensHasChanged,
         closesChanged: changes.closesHasChanged
@@ -94,9 +88,7 @@ function exceptionalOpeningHours(dates: Date[], placesOpeningHours: PlacesOpenin
 
     return acc;
   }, [])).sort((a, b) => {
-    const aPosition = order[a.name] || 1;
-    const bPosition = order[b.name] || 1;
-    return aPosition - bPosition;
+    return a.order - b.order;
   });
 }
 
@@ -126,7 +118,7 @@ function createExceptionalDate(day, venue) {
   }
 }
 
-function parseVenuesToOpeningHours(doc: PrismicDoc, order: {}): PlacesOpeningHours {
+function parseVenuesToOpeningHours(doc: PrismicDoc): PlacesOpeningHours {
   const placesOpeningHours =  doc.results.map((venue) => {
     const exceptionalOpeningHours = venue.data.modifiedDayOpeningTimes.map((modified) => {
       const start = modified.startDateTime && london(modified.startDateTime).format('HH:mm');
@@ -142,6 +134,7 @@ function parseVenuesToOpeningHours(doc: PrismicDoc, order: {}): PlacesOpeningHou
     return {
       id: venue.id,
       name: venue.data.title,
+      order: venue.data.order,
       openingHours: {
         regular: [
           createExceptionalDate('monday', venue),
@@ -160,16 +153,14 @@ function parseVenuesToOpeningHours(doc: PrismicDoc, order: {}): PlacesOpeningHou
   const exceptionalDates = exceptionalOpeningDates(placesOpeningHours);
   const futureExceptionalDates = exceptionalDates.filter(exceptionalDate => exceptionalDate && !isDatePast(exceptionalDate));
   const exceptionalPeriods = exceptionalOpeningPeriods(futureExceptionalDates);
-  const individualExceptionalOpeningHours = exceptionalOpeningHours(futureExceptionalDates, placesOpeningHours, order);
+  const individualExceptionalOpeningHours = exceptionalOpeningHours(futureExceptionalDates, placesOpeningHours);
   const exceptionalHours = groupBy(individualExceptionalOpeningHours, item => london(item.exceptionalDate).format('YYYY-MM-DD'));
   const orderedHours = {};
   Object.keys(exceptionalHours).sort().forEach(key => orderedHours[key] = exceptionalHours[key]);
 
   return {
     placesOpeningHours: placesOpeningHours.sort((a, b) => {
-      const aPosition = order[a.name] || 1;
-      const bPosition = order[b.name] || 1;
-      return aPosition - bPosition;
+      return a.order - b.order;
     }),
     upcomingExceptionalOpeningPeriods: upcomingExceptionalOpeningPeriods(exceptionalPeriods),
     exceptionalOpeningHours: orderedHours
