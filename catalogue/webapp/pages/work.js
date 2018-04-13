@@ -1,3 +1,4 @@
+// @flow
 import fetch from 'isomorphic-unfetch';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import {iiifImageTemplate} from '@weco/common/utils/convert-image-uri';
@@ -112,37 +113,43 @@ function getMetaContentArray(singleWork, descriptionArray) {
     contentArray.push({
       type: 'creators',
       heading: 'By',
-      links: getLinkObjects(singleWork.creators, 'label', 'creators:')
+      links: getLinkObjects(singleWork.creators, 'label', 'creators:'),
+      text: []
     });
   }
   if (singleWork.createdDate && singleWork.createdDate.label) {
     contentArray.push({
       heading: 'Date',
-      text: [singleWork.createdDate.label]
+      text: [singleWork.createdDate.label],
+      links: []
     });
   }
   if (singleWork.genres && singleWork.genres.length > 0) {
     contentArray.push({
       heading: 'Genre',
-      links: getLinkObjects(singleWork.genres, 'label')
+      links: getLinkObjects(singleWork.genres, 'label'),
+      text: []
     });
   }
   if (singleWork.subjects && singleWork.subjects.length > 0) {
     contentArray.push({
       heading: 'Subject',
-      links: getLinkObjects(singleWork.subjects, 'label')
+      links: getLinkObjects(singleWork.subjects, 'label'),
+      text: []
     });
   }
   if (singleWork.lettering && singleWork.lettering.length > 0) {
     contentArray.push({
       heading: 'Lettering',
-      text: [singleWork.lettering]
+      text: [singleWork.lettering],
+      links: []
     });
   }
   if (descriptionArray && descriptionArray.length > 0) {
     contentArray.push({
       heading: 'Description',
-      text: descriptionArray
+      text: descriptionArray,
+      links: []
     });
   }
   return contentArray;
@@ -218,7 +225,7 @@ const WorkPage = ({ work }: Props) => {
                 })}
 
                 {encoreLink &&
-                  <div className={spacing({s: 2}, {margin: [' top']})}>
+                  <div className={spacing({s: 2}, {margin: ['top']})}>
                     <MoreInfoLink name='View Wellcome Library catalogue record' url={encoreLink} />
                   </div>
                 }
