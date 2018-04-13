@@ -34,7 +34,7 @@ r.get('/download', async (ctx, next) => {
     'https://prismic-io.s3.amazonaws.com/wellcomecollection'
   ];
 
-  if (uri.match(new RegExp(allowedDomains.join('|')))) {
+  if (uri && uri.match(new RegExp(allowedDomains.join('|')))) {
     ctx.body = request(uri);
   } else {
     ctx.throw('Invalid image host', 422);
