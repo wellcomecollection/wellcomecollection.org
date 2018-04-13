@@ -4,7 +4,7 @@ services:
     image: wellcome/pa11y_dashboard:latest
     build: .
     ports:
-      - "8000:4000"
+      - "4000:4000"
     links:
       - database:mongodb
     environment:

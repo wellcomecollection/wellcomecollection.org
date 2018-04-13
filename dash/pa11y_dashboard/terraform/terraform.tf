@@ -33,6 +33,10 @@ provider "template" {
   version = "~> 1.0"
 }
 
+provider "random" {
+  version = "~> 1.2"
+}
+
 provider "aws" {
   version = "~> 1.0"
   region  = "eu-west-1"
