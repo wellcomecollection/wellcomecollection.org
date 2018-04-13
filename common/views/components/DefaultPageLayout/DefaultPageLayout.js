@@ -1,4 +1,5 @@
 // @ flow
+import ReactGA from 'react-ga';
 import {Component} from 'react';
 import Head from 'next/head';
 import NastyJs from '../Header/NastyJs';
@@ -123,56 +124,30 @@ type AnalyticsProps = {|
   pageState: ?Object,
   featuresCohort: ?string,
 |}
-export const Analytics = ({
-  category,
-  seriesUrl,
-  positionInSeries,
-  contentType,
-  pageState,
-  featuresCohort
-}: AnalyticsProps) => ([
-  <style  key='analytics-1' dangerouslySetInnerHTML={{ __html: `.async-hide .header__nav{ opacity: 0 !important}` }} />,
-  <script key='analytics-2' dangerouslySetInnerHTML={{ __html: `(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
-    h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
-    (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
-  })(window,document.documentElement,'async-hide','dataLayer',4000,
-    {'GTM-NXMJ6D9':true});`}} />,
+// export const Analytics = ({
+//   category,
+//   seriesUrl,
+//   positionInSeries,
+//   contentType,
+//   pageState,
+//   featuresCohort
+// }: AnalyticsProps) => ([
+//   <style  key='analytics-1' dangerouslySetInnerHTML={{ __html: `.async-hide .header__nav{ opacity: 0 !important}` }} />,
+//   <script key='analytics-2' dangerouslySetInnerHTML={{ __html: `(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+//     h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+//     (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+//   })(window,document.documentElement,'async-hide','dataLayer',4000,
+//     {'GTM-NXMJ6D9':true});`}} />,
 
-  <script key='analytics-3' dangerouslySetInnerHTML={{ __html: `
-    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-    ga('create', 'UA-55614-24', 'auto', 'v2');
-
-    ga('create', 'UA-55614-6', 'auto');
-    ga('set', 'dimension1', '2');
-    ga('set', 'appVersion', '2.1.0');
-
-    ${category         ? `ga('set', 'dimension2', '${category}');` : ''}
-    ${seriesUrl        ? `ga('set', 'dimension3', '${seriesUrl}');` : ''}
-    ${positionInSeries ? `ga('set', 'dimension4', '${positionInSeries}');` : ''}
-    ${contentType      ? `ga('set', 'dimension6', '${contentType}');` : ''}
-    ${pageState        ? `ga('set', 'dimension8', '${JSON.stringify(pageState)}');` : ''}
-
-    var referringComponentListString = localStorage.getItem('wc_referring_component_list');
-    localStorage.removeItem('wc_referring_component_list');
-    if (referringComponentListString) {
-      ga('set', 'dimension5', referringComponentListString);
-    }
-
-    // see tracking.js where this storage item is set
-    var referringComponentListString = localStorage.getItem('wc_referring_component_list');
-    localStorage.removeItem('wc_referring_component_list');
-    if (referringComponentListString) {
-      ga('set', 'dimension7', referringComponentListString);
-    }
-
-    ${featuresCohort && featuresCohort !== 'default' ? `ga('set', 'dimension5', '${featuresCohort}');` : ''}
-
-    ga('require', 'GTM-NXMJ6D9');
-    ga('send', 'pageview');
-    ga('v2.send', 'pageview');
-  `}} />,
-  <script key='analytics-4' async src='https://www.google-analytics.com/analytics.js' />
-]);
+//   <script key='analytics-3' dangerouslySetInnerHTML={{ __html: `
+//     window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+//     ga('create', 'UA-55614-24', 'auto', 'v2');
+//     ga('create', 'UA-55614-6', 'auto');
+//     ga('send', 'pageview');
+//     ga('v2.send', 'pageview');
+//   `}} />,
+//   <script key='analytics-4' async src='https://www.google-analytics.com/analytics.js' />
+// ]);
 
 type SiteSection = 'images' | 'explore' | 'whats-on';
 type Props = {|
@@ -190,82 +165,93 @@ type Props = {|
   isPreview?: boolean
 |}
 
-const DefaultPageLayout = ({
-  children,
-  type,
-  url,
-  title,
-  description,
-  imageUrl,
-  siteSection,
-  analyticsCategory,
-  featuresCohort = 'default',
-  featureFlags = [],
-  isPreview = false
-}: Props) => (
+class DefaultPageLayout extends Component<Props> {
+  componentDidMount() {
+    // TODO: move this into a util file
+    const { analyticsCategory, featuresCohort }: AnalyticsProps = this.props;
+    const referringComponentListString = window.localStorage.getItem('wc_referring_component_list');
+    window.localStorage.removeItem('wc_referring_component_list');
 
-  <div>
-    <Head>
-      <meta charSet='utf-8' />
-      {/* TODO: use flag as to whether to include this */}
-      <Analytics
-        category={analyticsCategory}
-        seriesUrl={null}
-        positionInSeries={null}
-        contentType={null} />
+    if (!window.GA_INITIALIZED) {
+      ReactGA.initialize('UA-55614-24');
+      window.GA_INITIALIZED = true;
+    }
 
-      <meta httpEquiv='X-UA-Compatible' content='IE=edge,chrome=1' />
-      <title>{`${title} | Wellcome Collection`}</title>
-      <meta name='viewport' content='width=device-width, initial-scale=1' />
-      <meta name='theme-color' content='#000000'/>
+    ReactGA.set({'appVersion': '2.1.0'});
+    ReactGA.set({'dimension1': '2'});
+    if (analyticsCategory) ReactGA.set({'dimension2': analyticsCategory});
+    // if (seriesUrl) ReactGA.set({'dimension3': seriesUrl});
+    // if (positionInSeries) ReactGA.set({'dimension4': positionInSeries});
+    if (featuresCohort && featuresCohort !== 'default') ReactGA.set({'dimension5': featuresCohort});
+    // if (contentType) ReactGA.set({'dimension6': contentType});
+    if (referringComponentListString) ReactGA.set({'dimension7': referringComponentListString});
+    // if (pageState) ReactGA.set({'dimension8': pageState});
 
-      <OpenGraph
-        type={type}
-        url={url}
-        title={title}
-        description={description}
-        imageUrl={imageUrl}
-      />
-      <TwitterCard
-        type={type}
-        url={url}
-        title={title}
-        description={description}
-        imageUrl={imageUrl} />
+    ReactGA.plugin.require('GTM-NXMJ6D9');
+    ReactGA.pageview(document.location.pathname);
+  }
 
-      <link rel='apple-touch-icon' sizes='180x180' href='https://i.wellcomecollection.org/assets/icons/apple-touch-icon.png' />
-      <link rel='shortcut icon' href='https://i.wellcomecollection.org/assets/icons/favicon.ico' type='image/ico' />
-      <link rel='icon' type='image/png' href='https://i.wellcomecollection.org/assets/icons/favicon-32x32.png' sizes='32x32' />
-      <link rel='icon' type='image/png' href='https://i.wellcomecollection.org/assets/icons/favicon-16x16.png' sizes='16x16' />
-      <link rel='manifest' href='https://i.wellcomecollection.org/assets/icons/manifest.json' />
-      <link rel='mask-icon' href='https://i.wellcomecollection.org/assets/icons/safari-pinned-tab.svg' color='#000000' />
-      <script src='https://i.wellcomecollection.org/assets/libs/picturefill.min.js' async />
-      {/* Leaving this out for now as it's hanging locally for me */}
-      {/* <script src='//platform.twitter.com/widgets.js' async defer></script> */}
-      <NastyJs />
-      <script type='application/ld+json'>{/* JSON+LD Z */}</script>
-      <script dangerouslySetInnerHTML={{ __html: `
-      window.WC = {
-        featuresCohort: ${JSON.stringify(featuresCohort)},
-        featureFlags: ${JSON.stringify(featureFlags)}
-      }
-    `}} />
-      {url && <link rel='canonical' href={url} />}
-    </Head>
+  render() {
+    const { title, type, url, description, imageUrl, siteSection, children, featuresCohort, featureFlags, isPreview } = this.props;
 
-    <div className={isPreview ? 'is-preview' : undefined}>
-      <a className='skip-link' href='#main'>Skip to main content</a>
-      <Header siteSection={siteSection} links={navLinks} />
-      <div id='main' className='main' role='main'>
-        {children}
+    return (
+      <div>
+        <Head>
+          <meta charSet='utf-8' />
+          <meta httpEquiv='X-UA-Compatible' content='IE=edge,chrome=1' />
+          <title>{`${title} | Wellcome Collection`}</title>
+          <meta name='viewport' content='width=device-width, initial-scale=1' />
+          <meta name='theme-color' content='#000000'/>
+
+          <OpenGraph
+            type={type}
+            url={url}
+            title={title}
+            description={description}
+            imageUrl={imageUrl}
+          />
+          <TwitterCard
+            type={type}
+            url={url}
+            title={title}
+            description={description}
+            imageUrl={imageUrl} />
+
+          <link rel='apple-touch-icon' sizes='180x180' href='https://i.wellcomecollection.org/assets/icons/apple-touch-icon.png' />
+          <link rel='shortcut icon' href='https://i.wellcomecollection.org/assets/icons/favicon.ico' type='image/ico' />
+          <link rel='icon' type='image/png' href='https://i.wellcomecollection.org/assets/icons/favicon-32x32.png' sizes='32x32' />
+          <link rel='icon' type='image/png' href='https://i.wellcomecollection.org/assets/icons/favicon-16x16.png' sizes='16x16' />
+          <link rel='manifest' href='https://i.wellcomecollection.org/assets/icons/manifest.json' />
+          <link rel='mask-icon' href='https://i.wellcomecollection.org/assets/icons/safari-pinned-tab.svg' color='#000000' />
+          <script src='https://i.wellcomecollection.org/assets/libs/picturefill.min.js' async />
+          {/* Leaving this out for now as it's hanging locally for me */}
+          {/* <script src='//platform.twitter.com/widgets.js' async defer></script> */}
+          <NastyJs />
+          <script type='application/ld+json'>{/* JSON+LD Z */}</script>
+          <script dangerouslySetInnerHTML={{ __html: `
+          window.WC = {
+            featuresCohort: ${JSON.stringify(featuresCohort)},
+            featureFlags: ${JSON.stringify(featureFlags)}
+          }
+        `}} />
+          {url && <link rel='canonical' href={url} />}
+        </Head>
+
+        <div className={isPreview ? 'is-preview' : undefined}>
+          <a className='skip-link' href='#main'>Skip to main content</a>
+          <Header siteSection={siteSection} links={navLinks} />
+          <div id='main' className='main' role='main'>
+            {children}
+          </div>
+          <Footer
+            openingHoursId='footer'
+            placesOpeningHours={placesOpeningHours}
+            upcomingExceptionalOpeningPeriods={upcomingExceptionalOpeningPeriods(exceptionalPeriods)} />
+        </div>
       </div>
-      <Footer
-        openingHoursId='footer'
-        placesOpeningHours={placesOpeningHours}
-        upcomingExceptionalOpeningPeriods={upcomingExceptionalOpeningPeriods(exceptionalPeriods)} />
-    </div>
-  </div>
-);
+    );
+  }
+}
 
 class DPLWithLoader extends Component<Props> {
   componentDidMount = () => {
