@@ -1,4 +1,5 @@
-// @flow
+// TODO: flow!
+
 import {Component} from 'react';
 import type {ComponentType} from 'react';
 
