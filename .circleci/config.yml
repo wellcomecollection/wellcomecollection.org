@@ -66,6 +66,26 @@ jobs:
       - run:
           name: Flow
           command: yarn flow
+      - run:
+          name: Pa11y report
+          command:
+            # TODO: Let's bake this into a container
+            sudo apt-get -y -qq update
+            sudo apt-get -y -qq install python3.4-dev
+            curl -O https://bootstrap.pypa.io/get-pip.py
+            python3.4 get-pip.py --user
+            export PATH=~/.local/bin:$PATH
+            pip install awscli --upgrade --user
+            pushd .dist
+              cp browser.${CIRCLE_SHA1}.html browser.latest.html
+              cp browser.${CIRCLE_SHA1}.json browser.latest.json
+              cp server.${CIRCLE_SHA1}.html server.latest.html
+              cp server.${CIRCLE_SHA1}.json server.latest.json
+              aws s3 sync --only-show-errors . s3://dash.wellcomecollection.org/bundles
+            popd
+            node pa11y_report.js
+            aws s3 cp --only-show-errors ./pa11y_report.html s3://dash.wellcomecollection.org/pa11y/report.${CIRCLE_SHA1}.html
+            aws s3 cp --only-show-errors ./pa11y_report.html s3://dash.wellcomecollection.org/pa11y/report.latest.html
       - save_cache:
           key: root_modules_circleci_node_8_{{ checksum "yarn.lock" }}
           paths:
