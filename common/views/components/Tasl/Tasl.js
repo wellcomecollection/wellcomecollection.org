@@ -5,6 +5,7 @@ import getLicenseInfo from '../../../utils/get-license-info';
 import {Fragment} from 'react';
 import {withToggler} from '../../hocs/withToggler';
 import Icon from '../Icon/Icon';
+import ReactGA from 'react-ga';
 
 type Props = {
   isFull: boolean,
@@ -69,45 +70,57 @@ function getCopyrightHtml(copyrightHolder, copyrightLink) {
   }
 }
 
-const Tasl = withToggler(({isFull, contentUrl, title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink, toggle, isActive}: Props) => (
-  <div className={`
-    ${isFull ? 'tasl--top' : 'tasl--bottom'}
-    ${font({s: 'LR3', m: 'LR2'})}
-    ${isActive ? 'is-active' : ''}
-    tasl drawer js-show-hide
-  `}
-  data-track-action='toggle-image-credit'
-  data-track-label={`image:${contentUrl}`}>
-    {!isFull &&
-      <button onClick={(event) => { event.preventDefault(); toggle(); }}
-        className='tasl__button plain-button js-show-hide-trigger absolute'>
-        <span className='tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black'>
-          <Icon name='information' title='information' extraClasses='icon--white' />
-        </span>
-        <span className='tasl__icon tasl__icon--close flex--v-center flex--h-center bg-transparent-black'>
-          <Icon name='cross' title='close' extraClasses='icon--white' />
-        </span>
-      </button>
-    }
+const Tasl = withToggler(({isFull, contentUrl, title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink, toggle, isActive}: Props) => {
+  function toggleWithAnalytics(event) {
+    event.preventDefault();
+    ReactGA.event({
+      category: 'component',
+      action: 'Tasl:click',
+      label: `image:${contentUrl},click-action:${isActive ? 'did close' : 'did open'}`
+    });
+    toggle();
+  }
 
+  return ( // TODO: remove js- and data-attributes once fully Reactified
     <div className={`
-      drawer__body js-show-hide-drawer bg-black font-white
-      ${spacing({s: 1}, {padding: ['top', 'bottom', 'left']})}
-      ${spacing({s: 6}, {padding: ['right']})}`}>
-      {getMarkup(title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink)}
+      ${isFull ? 'tasl--top' : 'tasl--bottom'}
+      ${font({s: 'LR3', m: 'LR2'})}
+      ${isActive ? 'is-active' : ''}
+      tasl drawer js-show-hide
+    `}
+    data-track-action='toggle-image-credit'
+    data-track-label={`image:${contentUrl}`}>
+      {!isFull &&
+        <button onClick={toggleWithAnalytics}
+          className='tasl__button plain-button js-show-hide-trigger absolute'>
+          <span className='tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black'>
+            <Icon name='information' title='information' extraClasses='icon--white' />
+          </span>
+          <span className='tasl__icon tasl__icon--close flex--v-center flex--h-center bg-transparent-black'>
+            <Icon name='cross' title='close' extraClasses='icon--white' />
+          </span>
+        </button>
+      }
+
+      <div className={`
+        drawer__body js-show-hide-drawer bg-black font-white
+        ${spacing({s: 1}, {padding: ['top', 'bottom', 'left']})}
+        ${spacing({s: 6}, {padding: ['right']})}`}>
+        {getMarkup(title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink)}
+      </div>
+      {isFull &&
+        <button onClick={(event) => { event.preventDefault(); toggle(); }}
+          className='tasl__button absolute plain-button js-show-hide-trigger'>
+          <span className='tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black'>
+            <Icon name='information' title='information' extraClasses='icon--white' />
+          </span>
+          <span className='tasl__icon tasl__icon--close flex--v-center flex--h-center bg-transparent-black'>
+            <Icon name='cross' title='close' extraClasses='icon--white' />
+          </span>
+        </button>
+      }
     </div>
-    {isFull &&
-      <button onClick={(event) => { event.preventDefault(); toggle(); }}
-        className='tasl__button absolute plain-button js-show-hide-trigger'>
-        <span className='tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black'>
-          <Icon name='information' title='information' extraClasses='icon--white' />
-        </span>
-        <span className='tasl__icon tasl__icon--close flex--v-center flex--h-center bg-transparent-black'>
-          <Icon name='cross' title='close' extraClasses='icon--white' />
-        </span>
-      </button>
-    }
-  </div>
-));
+  );
+});
 
 export default Tasl;
