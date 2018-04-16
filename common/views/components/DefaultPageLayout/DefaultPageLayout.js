@@ -1,11 +1,11 @@
 // @ flow
-import ReactGA from 'react-ga';
 import {Component} from 'react';
 import Head from 'next/head';
 import NastyJs from '../Header/NastyJs';
 import Header from '../Header/Header';
 import {striptags} from '../../../utils/striptags';
 import {formatDate, isDatePast} from '../../../utils/format-date';
+import analytics from '../../../utils/analytics';
 import Footer from '../Footer/Footer';
 import {placesOpeningHours} from '../../../model/opening-hours';
 import {
@@ -18,7 +18,6 @@ const futureExceptionalDates = exceptionalDates.filter(date => date && !isDatePa
 const exceptionalPeriods = exceptionalOpeningPeriods(futureExceptionalDates);
 
 // TODO: Hashed files
-// TODO: Analytics
 // TODO: Inline CSS
 // TODO: JsonLd
 // TODO: Feature flags / cohort
@@ -108,47 +107,6 @@ const navLinks = [{
   siteSection: 'whatwedo'
 }];
 
-// We will have two trackers, one that has been used on the v1 site, and v2 site (UA-55614-6)
-// The other is just for the v2 site UA-55614-24
-//
-// The v1 site was setup with a lot of configuration, which feels like it would be out of sync with
-// the new questions we would like ask of our analytics, so this was for a clean slate.
-//
-// `dimension5` is a test dimension. it's `dimension1` on v2
-type AnalyticsCategory = 'collections' | 'editorial' | 'public-programme';
-type AnalyticsProps = {|
-  category: AnalyticsCategory,
-  seriesUrl: ?string,
-  positionInSeries: ?string,
-  contentType: ?string,
-  pageState: ?Object,
-  featuresCohort: ?string,
-|}
-// export const Analytics = ({
-//   category,
-//   seriesUrl,
-//   positionInSeries,
-//   contentType,
-//   pageState,
-//   featuresCohort
-// }: AnalyticsProps) => ([
-//   <style  key='analytics-1' dangerouslySetInnerHTML={{ __html: `.async-hide .header__nav{ opacity: 0 !important}` }} />,
-//   <script key='analytics-2' dangerouslySetInnerHTML={{ __html: `(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
-//     h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
-//     (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
-//   })(window,document.documentElement,'async-hide','dataLayer',4000,
-//     {'GTM-NXMJ6D9':true});`}} />,
-
-//   <script key='analytics-3' dangerouslySetInnerHTML={{ __html: `
-//     window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-//     ga('create', 'UA-55614-24', 'auto', 'v2');
-//     ga('create', 'UA-55614-6', 'auto');
-//     ga('send', 'pageview');
-//     ga('v2.send', 'pageview');
-//   `}} />,
-//   <script key='analytics-4' async src='https://www.google-analytics.com/analytics.js' />
-// ]);
-
 type SiteSection = 'images' | 'explore' | 'whats-on';
 type Props = {|
   children: React.Node,
@@ -167,28 +125,13 @@ type Props = {|
 
 class DefaultPageLayout extends Component<Props> {
   componentDidMount() {
-    // TODO: move this into a util file
-    const { analyticsCategory, featuresCohort }: AnalyticsProps = this.props;
-    const referringComponentListString = window.localStorage.getItem('wc_referring_component_list');
-    window.localStorage.removeItem('wc_referring_component_list');
+    const { analyticsCategory, featuresCohort } = this.props;
+    analytics({analyticsCategory, featuresCohort});
+  }
 
-    if (!window.GA_INITIALIZED) {
-      ReactGA.initialize('UA-55614-24');
-      window.GA_INITIALIZED = true;
-    }
-
-    ReactGA.set({'appVersion': '2.1.0'});
-    ReactGA.set({'dimension1': '2'});
-    if (analyticsCategory) ReactGA.set({'dimension2': analyticsCategory});
-    // if (seriesUrl) ReactGA.set({'dimension3': seriesUrl});
-    // if (positionInSeries) ReactGA.set({'dimension4': positionInSeries});
-    if (featuresCohort && featuresCohort !== 'default') ReactGA.set({'dimension5': featuresCohort});
-    // if (contentType) ReactGA.set({'dimension6': contentType});
-    if (referringComponentListString) ReactGA.set({'dimension7': referringComponentListString});
-    // if (pageState) ReactGA.set({'dimension8': pageState});
-
-    ReactGA.plugin.require('GTM-NXMJ6D9');
-    ReactGA.pageview(document.location.pathname);
+  componentDidUpdate() {
+    const { analyticsCategory, featuresCohort } = this.props;
+    analytics({analyticsCategory, featuresCohort});
   }
 
   render() {
