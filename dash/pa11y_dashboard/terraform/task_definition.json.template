@@ -1,0 +1,78 @@
+[
+  {
+    "name": "nginx",
+    "environment": ${environment_vars},
+    "image": "${nginx_uri}",
+    "memory": 128,
+    "cpu": 128,
+    "portMappings": [
+      {
+        "containerPort": ${primary_container_port},
+        "hostPort": 0,
+        "protocol": "tcp"
+      }
+    ],
+    "links": ["app"],
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "${nginx_log_group_name}",
+            "awslogs-region": "${log_group_region}"
+        }
+    }
+  },
+  {
+    "cpu": 128,
+    "memory": 256,
+    "essential": true,
+    "image": "${app_uri}",
+    "name": "app",
+    "links": ["mongodb:mongodb"],
+    "portMappings": [
+      {
+        "containerPort": ${secondary_container_port},
+        "hostPort": 0
+      }
+    ],
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "${log_group_name}",
+            "awslogs-region": "${log_group_region}"
+        }
+    },
+    "mountPoints": [
+      {
+        "sourceVolume": "${volume_name}",
+        "containerPath": "${container_path}"
+      }
+    ]
+  },
+  {
+    "cpu": 256,
+    "memory": 616,
+    "essential": true,
+    "image": "mongo:3.2",
+    "name": "mongodb",
+    "hostname": "mongodb",
+    "portMappings": [
+      {
+        "containerPort": 27017,
+        "hostPort": 0
+      }
+    ],
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "${log_group_name}",
+            "awslogs-region": "${log_group_region}"
+        }
+    },
+    "mountPoints": [
+      {
+        "sourceVolume": "${volume_name}",
+        "containerPath": "/data/db"
+      }
+    ]
+  }
+]

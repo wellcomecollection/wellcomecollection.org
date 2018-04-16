@@ -7,11 +7,16 @@ module "router_cluster_asg" {
   user_data             = "${module.router_userdata.rendered}"
   vpc_id                = "${local.vpc_id}"
 
+<<<<<<< Updated upstream
   asg_desired = "2"
   asg_max     = "2"
+=======
+  asg_desired = "6"
+  asg_max     = "6"
+>>>>>>> Stashed changes
 
   image_id      = "${data.aws_ami.stable_coreos.image_id}"
-  instance_type = "t2.micro"
+  instance_type = "t2.small"
 
   sns_topic_arn         = "${module.ec2_terminating_topic.arn}"
   publish_to_sns_policy = "${module.ec2_terminating_topic.publish_policy}"
