@@ -68,7 +68,7 @@ jobs:
           command: yarn flow
       - run:
           name: Pa11y report
-          command:
+          command: |
             # TODO: Let's bake this into a container
             sudo apt-get -y -qq update
             sudo apt-get -y -qq install python3.4-dev
