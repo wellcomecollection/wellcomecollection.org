@@ -65,6 +65,7 @@ const WorkMedia = ({
           contentUrl={imageContentUrl}
           id={id}
           width={width}
+          trackTitle={trackTitle}
         />
 
       </div>
