@@ -2,6 +2,8 @@
 import structuredText from './structured-text';
 import captionedImageSlice from './captioned-image-slice';
 import captionedImageGallerySlice from './captioned-image-gallery-slice';
+import list from './list';
+import link from './link';
 
 export default {
   'fieldset': 'Body content',
@@ -29,7 +31,10 @@ export default {
       },
       // These should probably be called captionedImage etc, but legacy says no
       'editorialImage': captionedImageSlice(),
-      'editorialImageGallery': captionedImageGallerySlice()
+      'editorialImageGallery': captionedImageGallerySlice(),
+      'contentList': list('Content list', {
+        item: link('Content item', 'document', ['info-pages'])
+      })
     }
   }
 };

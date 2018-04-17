@@ -3,7 +3,6 @@ import {PromoListFactory} from '../model/promo-list';
 import {getForwardFill} from '../model/series';
 import {getSeriesColor} from '../data/series';
 import {createNumberedList} from '../model/numbered-list';
-import {getLatestInstagramPosts} from '../services/instagram';
 import {getArticleSeries} from '../services/prismic';
 
 // Performance alert: we're having to make a call to wordpress and then if that
@@ -59,26 +58,6 @@ export const seriesTransporter = async(ctx, next) => {
       sliderId: `transporter--${id}`
     }
   }));
-
-  ctx.body = {
-    html: ctx.body
-  };
-
-  return next();
-};
-
-export const latestInstagramPosts = async(ctx, next) => {
-  const instagramPosts = await getLatestInstagramPosts(10);
-
-  ctx.render('components/social-media-block/social-media-block', {
-    model: {
-      posts: instagramPosts,
-      service: 'Instagram',
-      icon: 'instagram',
-      url: 'https://instagram.com/wellcomecollection',
-      handle: 'wellcomecollection'
-    }
-  });
 
   ctx.body = {
     html: ctx.body
