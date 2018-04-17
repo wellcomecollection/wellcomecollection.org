@@ -73,11 +73,13 @@ function getCopyrightHtml(copyrightHolder, copyrightLink) {
 const Tasl = withToggler(({isFull, contentUrl, title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink, toggle, isActive}: Props) => {
   function toggleWithAnalytics(event) {
     event.preventDefault();
+
     ReactGA.event({
       category: 'component',
       action: 'Tasl:click',
       label: `image:${contentUrl},click-action:${isActive ? 'did close' : 'did open'}`
     });
+
     toggle();
   }
 

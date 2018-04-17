@@ -72,7 +72,6 @@ class ViewerContent extends React.Component<ViewerContentProps> {
       action: `ZoomImageViewer:${isZoomIn ? 'did-zoom-in' : 'did-zoom-out'}`,
       label: `id:${this.props.id}`
     });
-    console.log(`ZoomImageViewer:${isZoomIn ? 'did-zoom-in' : 'did-zoom-out'}`);
   }
 
   render() {
@@ -146,7 +145,7 @@ class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
   handleViewerDisplay(e: Event) {
     ReactGA.event({
       category: 'component',
-      action: `ImageViewer:${this.state.showViewer ? 'did-close' : 'did-open'}`,
+      action: `ImageViewer:${this.state.showViewer ? 'did close' : 'did open'}`,
       label: `id:${this.props.id},title:${this.props.trackTitle}`
     });
 
