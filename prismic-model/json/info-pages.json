@@ -42,17 +42,17 @@
             "type": "Slice",
             "fieldset": "Captioned image",
             "non-repeat": {
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Image"
+                }
+              },
               "caption": {
                 "type": "StructuredText",
                 "config": {
                   "single": "paragraph,hyperlink,strong,em",
                   "label": "Caption"
-                }
-              },
-              "image": {
-                "type": "Image",
-                "config": {
-                  "label": "Image"
                 }
               }
             }
@@ -71,17 +71,35 @@
               }
             },
             "repeat": {
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Image"
+                }
+              },
               "caption": {
                 "type": "StructuredText",
                 "config": {
                   "single": "paragraph,hyperlink,strong,em",
                   "label": "Caption"
                 }
-              },
-              "image": {
-                "type": "Image",
-                "config": {
-                  "label": "Image"
+              }
+            }
+          },
+          "contentList": {
+            "type": "Group",
+            "fieldset": "Content list",
+            "config": {
+              "fields": {
+                "item": {
+                  "type": "Link",
+                  "config": {
+                    "label": "Content item",
+                    "select": "document",
+                    "customtypes": [
+                      "info-pages"
+                    ]
+                  }
                 }
               }
             }
