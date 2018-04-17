@@ -69,7 +69,7 @@ class ViewerContent extends React.Component<ViewerContentProps> {
 
     ReactGA.event({
       category: 'component',
-      action: `ZoomImageViewer:${isZoomIn ? 'did-zoom-in' : 'did-zoom-out'}`,
+      action: `ZoomImageViewer:${isZoomIn ? 'did zoom in' : 'did zoom out'}`,
       label: `id:${this.props.id}`
     });
   }
