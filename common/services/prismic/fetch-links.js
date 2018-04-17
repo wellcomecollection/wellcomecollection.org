@@ -12,3 +12,4 @@ export const installationFields = [
   'installations.start',
   'installations.end'
 ];
+export const infoPagesFields = ['info-pages.title'];

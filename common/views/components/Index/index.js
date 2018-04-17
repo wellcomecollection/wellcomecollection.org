@@ -29,6 +29,7 @@ import Tasl from '../Tasl/Tasl';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
+import ContentList from '../ContentList/ContentList';
 
 export {
   BackToTop,
@@ -61,5 +62,6 @@ export {
   Tasl,
   WobblyEdge,
   WorkDrawer,
-  WorkMedia
+  WorkMedia,
+  ContentList
 };
