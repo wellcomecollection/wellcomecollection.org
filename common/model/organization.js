@@ -48,7 +48,11 @@ export const wellcomeCollection: Organization = {
   // TODO: This should be done elsewhere as it's not adhering to the type
   // Annoyingly, but good for time - this is still passing in Flow.
   openingHoursSpecification: galleryOpeningHours.regular.map(
-    openingHoursDay => objToJsonLd(openingHoursDay, 'OpeningHoursSpecification', false)
+    openingHoursDay =>  {
+      const specObject = objToJsonLd(openingHoursDay, 'OpeningHoursSpecification', false);
+      delete specObject.note;
+      return specObject;
+    }
   ),
   specialOpeningHoursSpecification: galleryOpeningHours.exceptional && galleryOpeningHours.exceptional.map(
     openingHoursDate => {
