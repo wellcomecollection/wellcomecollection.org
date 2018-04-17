@@ -47,5 +47,11 @@
       "cd client && gulp scss:lint",
       "git add"
     ]
+  },
+  "dependencies": {
+    "@storybook/cli": "^3.4.1",
+    "@storybook/react": "^3.4.1",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2"
   }
 }

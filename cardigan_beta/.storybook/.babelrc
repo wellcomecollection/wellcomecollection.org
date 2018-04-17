@@ -1,0 +1,16 @@
+{
+  "presets": [
+    ["env", {
+      "targets": {
+        "node": "current"
+      }
+    }]
+  ],
+  "plugins": [
+    "transform-class-properties",
+    "transform-object-rest-spread",
+    "transform-react-jsx",
+    "react-require",
+    "transform-flow-strip-types"
+  ]
+}
