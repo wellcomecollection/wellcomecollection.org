@@ -64,7 +64,7 @@ class ViewerContent extends React.Component<ViewerContentProps> {
     document.removeEventListener('keydown', this.escapeCloseViewer);
   }
 
-  handleZoom = (event) => {
+  handleZoom = (event: {currentTarget: {title: string}}) => {
     const isZoomIn = event.currentTarget.title === 'Zoom in';
 
     ReactGA.event({

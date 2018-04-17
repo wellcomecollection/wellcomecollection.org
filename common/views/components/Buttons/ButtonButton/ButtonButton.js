@@ -9,7 +9,7 @@ type Props = {|
   text: string,
   eventTracking?: string,
   id?: string,
-  clickHandler?: () => void
+  clickHandler?: Function
 |}
 
 const ButtonButton = ({id, extraClasses, icon, text, eventTracking, clickHandler}: Props) => (

@@ -8,6 +8,7 @@ export type EventWithInputValue = {
 }
 
 type Props = {|
+  inputRef?: ?Function,
   id: string,
   type: string,
   defaultValue: string,
@@ -22,6 +23,7 @@ type Props = {|
 |}
 
 const HTMLInput = ({
+  inputRef,
   id,
   type,
   name,
@@ -35,7 +37,9 @@ const HTMLInput = ({
   onChange
 }: Props) => (
   <label className="input__label flex flex--v-center" htmlFor={id}>
-    <input id={id}
+    <input
+      ref={inputRef}
+      id={id}
       className={`input input--${type} ${font(fontStyles)} js-input`}
       type={type}
       name={name}
