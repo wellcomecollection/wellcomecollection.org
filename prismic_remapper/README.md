@@ -14,5 +14,17 @@ The new documents will be stored in `.dist/remapped`.
 
 ---
 
+An example process of this could be
+
+* Add new fields
+* Write content mappers
+* Write parsers for new fields
+* PR
+* Remap content to new fields and import into Prismic
+* Remove old fields
+* PR
+
+---
+
 # TODO
 * Batch sizing (we don't have enough content for this to be an issue).
