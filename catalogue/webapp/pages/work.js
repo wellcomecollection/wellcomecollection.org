@@ -3,6 +3,7 @@ import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import {iiifImageTemplate} from '@weco/common/utils/convert-image-uri';
 import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/DefaultPageLayout';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
+import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import WorkMedia2 from '@weco/common/views/components/WorkMedia/WorkMedia2';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -12,7 +13,6 @@ import License from '@weco/common/views/components/License/License';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
-import {getCollectionOpeningTimes} from '@weco/common/services/prismic/opening-times';
 import type {PlacesOpeningHours} from '@weco/common/model/opening-hours';
 
 export type Link = {|
@@ -161,7 +161,7 @@ type Props = {|
   }
 |}
 
-const WorkPage = ({ work, openingTimes }: Props) => {
+const WorkPage = ({work, openingTimes}: Props) => {
   const [iiifImageLocation] = work.items.map(
     item => item.locations.find(
       location => location.locationType === 'iiif-image'
@@ -333,14 +333,7 @@ WorkPage.getInitialProps = async (context) => {
   const {id} = context.query;
   const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works/${id}?includes=identifiers,items,thumbnail`);
   const json = await res.json();
-  const openingTimes = await getCollectionOpeningTimes();
-  return {
-    openingTimes: {
-      placesOpeningHours: openingTimes.placesOpeningHours,
-      upcomingExceptionalOpeningPeriods: openingTimes.upcomingExceptionalOpeningPeriods
-    },
-    work: (json: Work)
-  };
+  return { work: (json: Work) };
 };
 
-export default WorkPage;
+export default PageWrapper(WorkPage);

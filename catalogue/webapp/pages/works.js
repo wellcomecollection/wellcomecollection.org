@@ -4,6 +4,7 @@ import fetch from 'isomorphic-unfetch';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
 import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/DefaultPageLayout';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
+import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
@@ -12,10 +13,9 @@ import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagination/Pagination';
 import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
 import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
+import type {PlacesOpeningHours} from '@weco/common/model/opening-hours';
 import {Fragment, Component} from 'react';
 import Router from 'next/router';
-import {getCollectionOpeningTimes} from '@weco/common/services/prismic/opening-times';
-import type {PlacesOpeningHours} from '@weco/common/model/opening-hours';
 
 // TODO: Setting the event parameter to type 'Event' leads to
 // an 'Indexable signature not found in EventTarget' Flow
@@ -159,7 +159,6 @@ const WorksComponent = ({
 class Works extends Component<Props> {
   static getInitialProps = async ({ req, query }: {req?: any, query: any}) => {
     const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works${getInitialQueryParams(query)}`);
-    const openingTimes = await getCollectionOpeningTimes();
     const json = await res.json();
     const currentPage = query.page || 1;
     const pagination = PaginationFactory.fromList(json.results, Number(json.totalResults) || 1, Number(currentPage) || 1, json.pageSize || 1, {query: query.query || ''});
@@ -167,11 +166,7 @@ class Works extends Component<Props> {
     return {
       works: json,
       query: query,
-      pagination: pagination,
-      openingTimes: {
-        placesOpeningHours: openingTimes.placesOpeningHours,
-        upcomingExceptionalOpeningPeriods: openingTimes.upcomingExceptionalOpeningPeriods
-      }
+      pagination: pagination
     };
   };
 
@@ -199,7 +194,7 @@ class Works extends Component<Props> {
   }
 }
 
-export default Works;
+export default PageWrapper(Works);
 
 function getQueryParamsForWork(query: {}) {
   return Object.keys(query).reduce((acc, currKey, index) => {

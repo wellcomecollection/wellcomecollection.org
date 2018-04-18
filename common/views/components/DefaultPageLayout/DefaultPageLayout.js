@@ -6,6 +6,7 @@ import Header from '../Header/Header';
 import {striptags} from '../../../utils/striptags';
 import {formatDate} from '../../../utils/format-date';
 import Footer from '../Footer/Footer';
+import type {PlacesOpeningHours} from '@weco/common/model/opening-hours';
 
 // TODO: Hashed files
 // TODO: Analytics
@@ -179,7 +180,10 @@ type Props = {|
   featuresCohort?: string,
   featureFlags?: string[],
   isPreview?: boolean,
-  openingTimes: any // TODO
+  openingTimes: {
+    placesOpeningHours: PlacesOpeningHours,
+    upcomingExceptionalOpeningPeriods: Date[][]
+  }
 |}
 
 const DefaultPageLayout = ({
