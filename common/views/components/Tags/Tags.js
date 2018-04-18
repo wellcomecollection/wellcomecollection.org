@@ -12,7 +12,7 @@ type Props = {|
   tags: TagProps[]
 |}
 
-function buildTag(text: string, url: string): HTMLAnchorElement | HTMLDivElement {
+function buildTag(text: string, url?: string): React.Element<'div' | 'a'> {
   const HTMLTag = url ? 'a' : 'div';
 
   return (
