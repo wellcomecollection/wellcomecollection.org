@@ -1,7 +1,15 @@
 import {model, prismic} from 'common';
 import {getUiEventSeries} from '@weco/common/services/prismic/events';
 const {createPageConfig} = model;
-const {getPaginatedEventPromos, getEventsInSeries, asText, asHtml, createEventPromos, convertPrismicResultsToPaginatedResults, london} = prismic;
+const {
+  getPaginatedEventPromos,
+  getEventsInSeries,
+  asText,
+  asHtml,
+  createEventPromos,
+  convertPrismicResultsToPaginatedResults,
+  london
+} = prismic;
 
 export async function renderEvent(ctx, next) {
   const id = `${ctx.params.id}`;
