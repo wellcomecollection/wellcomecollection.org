@@ -30,6 +30,7 @@ import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
 import ContentList from '../ContentList/ContentList';
+import BasicBody from '../BasicBody/BasicBody';
 
 export {
   BackToTop,
@@ -63,5 +64,6 @@ export {
   WobblyEdge,
   WorkDrawer,
   WorkMedia,
-  ContentList
+  ContentList,
+  BasicBody
 };

@@ -18,7 +18,8 @@
     "no-return-assign": "off",
     "semi": ["error", "always"],
     "import/no-duplicates": "error",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "jsx-quotes": ["error", "prefer-single"]
   },
   "parserOptions": {
     "ecmaFeatures": {

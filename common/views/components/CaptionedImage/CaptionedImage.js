@@ -27,7 +27,7 @@ const CaptionedImage = ({
   children
 }: Props) => (
   <figure className={`captioned-image ${isFull ? 'captioned-image--is-full' : ''} ${fitVh ? 'captioned-image--fit-vh' : ''}`}>
-    <div className="captioned-image__image-container">
+    <div className='captioned-image__image-container'>
       {children}
     </div>
     {caption &&
@@ -35,13 +35,13 @@ const CaptionedImage = ({
         <Icon name='image' extraClasses='float-l margin-right-s1' />
 
         <div className={`captioned-image__caption-text ${truncateCaption ? 'js-truncate-text' : ''}`}
-          tabIndex="0"
+          tabIndex='0'
           data-slide-number={slideNumbers && slideNumbers.current}>
           {slideNumbers &&
             <span
               className={`captioned-image__number ${font({s: 'HNM5'})} ${spacing({s: 2}, {padding: ['right']})}`}
               aria-label={`slide ${slideNumbers.current} of ${slideNumbers.total}`}>
-              <span aria-hidden="true">{slideNumbers.current}/{slideNumbers.total}</span>
+              <span aria-hidden='true'>{slideNumbers.current}/{slideNumbers.total}</span>
             </span>
           }{' '}
           <span dangerouslySetInnerHTML={{__html: caption}} />
