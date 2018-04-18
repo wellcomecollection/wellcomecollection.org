@@ -20,3 +20,5 @@ client/scss/utilities/compiled_variables/
 .env
 
 yarn-error.log*
+
+pa11y-report.html
