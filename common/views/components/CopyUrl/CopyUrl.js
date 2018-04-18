@@ -1,7 +1,7 @@
 // @flow
 
 import {spacing, font} from '../../../utils/classnames';
-import {Component} from 'react';
+import {Fragment, Component} from 'react';
 import Icon from '../Icon/Icon';
 import HTMLInput from '../HTMLInput/HTMLInput';
 
@@ -13,8 +13,22 @@ type Props = {|
 type State = {|
   isEnhanced: boolean,
   isTextCopied: boolean,
-  buttonText: string
+  isClicked: boolean
 |}
+
+function getButtonMarkup(isTextCopied, isClicked) {
+  if (!isClicked) {
+    return 'Copy URL';
+  } else if (isTextCopied) {
+    return (
+      <Fragment>
+        <span className='visually-hidden'>link has been</span>Copied
+      </Fragment>
+    );
+  } else {
+    return 'Copy failed';
+  }
+}
 
 class CopyUrl extends Component<Props, State> {
   textInput: ?HTMLInputElement;
@@ -41,7 +55,7 @@ class CopyUrl extends Component<Props, State> {
   state: State = {
     isEnhanced: false,
     isTextCopied: false,
-    buttonText: 'Copy link'
+    isClicked: false
   };
 
   componentDidMount() {
@@ -58,15 +72,17 @@ class CopyUrl extends Component<Props, State> {
     try {
       document.execCommand('copy');
       this.setState({
-        isTextCopied: true,
-        buttonText: '<span class="visually-hidden">link has been</span>Copied'
+        isTextCopied: true
       });
     } catch (err) {
       this.setState({
-        isTextCopied: false,
-        buttonText: 'Copy failed'
+        isTextCopied: false
       });
     }
+
+    this.setState({
+      isClicked: true
+    });
 
     textarea.remove();
     this.focusTextInput();
@@ -74,7 +90,7 @@ class CopyUrl extends Component<Props, State> {
 
   render() {
     const { url, id } = this.props;
-    const { isTextCopied, buttonText } = this.state;
+    const { isTextCopied, isClicked } = this.state;
 
     return (
       <div>
@@ -93,7 +109,9 @@ class CopyUrl extends Component<Props, State> {
           data-track-event={`{"category": "component", "action": "copy-url:click", "label": "id:${id}"}`}
           className={`${isTextCopied ? 'plain-button' : ''} ${spacing({s: 2}, {margin: ['top']})} ${font({s: 'HNM5', m: 'HNM4'})} btn btn--light ${this.state.isEnhanced ? '' : 'is-hidden'} js-copy-url pointer`}>
           <Icon name='check' extraClasses={`icon--black ${isTextCopied ? '' : 'is-hidden'}`} />
-          <span className='js-copy-text' dangerouslySetInnerHTML={{__html: buttonText}} />
+          <span className='js-copy-text'>
+            {getButtonMarkup(isTextCopied, isClicked)}
+          </span>
         </button>
       </div>
     );

@@ -70,7 +70,19 @@ function getCopyrightHtml(copyrightHolder, copyrightLink) {
   }
 }
 
-const Tasl = withToggler(({isFull, contentUrl, title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink, toggle, isActive}: Props) => {
+const Tasl = withToggler(({
+  isFull,
+  contentUrl,
+  title,
+  author,
+  sourceName,
+  sourceLink,
+  license,
+  copyrightHolder,
+  copyrightLink,
+  toggle,
+  isActive
+}: Props) => {
   function toggleWithAnalytics(event) {
     event.preventDefault();
 

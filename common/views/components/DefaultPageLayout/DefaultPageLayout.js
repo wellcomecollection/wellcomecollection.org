@@ -135,7 +135,18 @@ class DefaultPageLayout extends Component<Props> {
   }
 
   render() {
-    const { title, type, url, description, imageUrl, siteSection, children, featuresCohort, featureFlags, isPreview } = this.props;
+    const {
+      title,
+      type,
+      url,
+      description,
+      imageUrl,
+      siteSection,
+      children,
+      featuresCohort,
+      featureFlags,
+      isPreview
+    } = this.props;
 
     return (
       <div>

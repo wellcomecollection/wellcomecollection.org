@@ -64,12 +64,18 @@ class ViewerContent extends React.Component<ViewerContentProps> {
     document.removeEventListener('keydown', this.escapeCloseViewer);
   }
 
-  handleZoom = (event: {currentTarget: {title: string}}) => {
-    const isZoomIn = event.currentTarget.title === 'Zoom in';
-
+  handleZoomIn = (event) => {
     ReactGA.event({
       category: 'component',
-      action: `ZoomImageViewer:${isZoomIn ? 'did zoom in' : 'did zoom out'}`,
+      action: 'ZoomImageViewer:did zoom in',
+      label: `id:${this.props.id}`
+    });
+  }
+
+  handleZoomOut = (event) => {
+    ReactGA.event({
+      category: 'component',
+      action: 'ZoomImageViewer:did zoom out',
       label: `id:${this.props.id}`
     });
   }
@@ -83,7 +89,7 @@ class ViewerContent extends React.Component<ViewerContentProps> {
             id={`zoom-in-${this.props.id}`}
             icon='zoomIn'
             extraClasses={`${buttonFontClasses} btn--round btn--black ${spacing({s: 1}, {margin: ['right']})}`}
-            clickHandler={this.handleZoom}
+            clickHandler={this.handleZoomIn}
           />
 
           <ButtonButton
@@ -91,7 +97,7 @@ class ViewerContent extends React.Component<ViewerContentProps> {
             id={`zoom-out-${this.props.id}`}
             icon='zoomOut'
             extraClasses={`${buttonFontClasses} btn--round btn--black ${spacing({s: 8}, {margin: ['right']})}`}
-            clickHandler={this.handleZoom}
+            clickHandler={this.handleZoomOut}
           />
 
           <ButtonButton

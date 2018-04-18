@@ -3,14 +3,12 @@ import ReactGA from 'react-ga';
 type AnalyticsCategory = 'collections' | 'editorial' | 'public-programme';
 type Props = {|
   category: AnalyticsCategory,
-  seriesUrl: ?string,
-  positionInSeries: ?string,
   contentType: ?string,
   pageState: ?Object,
   featuresCohort: ?string,
 |}
 
-export default ({ category, seriesUrl, positionInSeries, contentType, pageState, featuresCohort }: Props) => {
+export default ({ category, contentType, pageState, featuresCohort }: Props) => {
   const referringComponentListString = window.localStorage.getItem('wc_referring_component_list');
   window.localStorage.removeItem('wc_referring_component_list');
 
@@ -37,8 +35,6 @@ export default ({ category, seriesUrl, positionInSeries, contentType, pageState,
   ReactGA.set({'appVersion': '2.1.0'});
   ReactGA.set({'dimension1': '2'});
   if (category) ReactGA.set({'dimension2': category});
-  if (seriesUrl) ReactGA.set({'dimension3': seriesUrl});
-  if (positionInSeries) ReactGA.set({'dimension4': positionInSeries});
   if (featuresCohort && featuresCohort !== 'default') ReactGA.set({'dimension5': featuresCohort});
   if (contentType) ReactGA.set({'dimension6': contentType});
   if (referringComponentListString) ReactGA.set({'dimension7': referringComponentListString});

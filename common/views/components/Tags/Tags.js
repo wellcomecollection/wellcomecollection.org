@@ -9,10 +9,10 @@ type TagProps = {|
 |}
 
 type Props = {|
-  tags: Array<TagProps>
+  tags: TagProps[]
 |}
 
-function buildTag(text, url) {
+function buildTag(text: string, url: string): HTMLAnchorElement | HTMLDivElement {
   const HTMLTag = url ? 'a' : 'div';
 
   return (
