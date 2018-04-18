@@ -1,3 +1,7 @@
+// Accessing the promo of linked content is impossible at the moment as you
+// can't query `fetchLinks` on Slices. This splits the promo out into
+// `promoText` And promoImage, which you can both fetch with `fetchLinks`
+
 module.exports = {
   filter: ({filename, doc}) => {
     return doc.type === 'exhibitions';
