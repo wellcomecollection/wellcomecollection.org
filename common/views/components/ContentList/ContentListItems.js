@@ -12,6 +12,7 @@ const ContentListItems = ({ items }: Props) => (
     {items.map(item => (
       item.type === 'info-pages' && <div className={grid({s: 6})} key={item.id}>
         <BasicPromo
+          promoType='InfoPagePromo'
           url={`/info/${item.id}`}
           title={item.title}
           description={item.promo && item.promo.caption}

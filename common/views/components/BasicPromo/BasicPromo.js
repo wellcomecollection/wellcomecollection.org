@@ -27,7 +27,21 @@ const BasicPromo = ({
     href={url}
     className='plain-link promo-link bg-cream rounded-top rounded-bottom overflow-hidden flex flex--column'
   >
-    {imageProps && <Image {...imageProps} />}
+    {/* Find out why we can't just pass `imageProps` here */}
+    {imageProps && <Image
+      width={imageProps.width}
+      height={imageProps.height}
+      contentUrl={imageProps.contentUrl}
+      clipPathClass={imageProps.clipPathClass}
+      alt={imageProps.alt}
+      caption={imageProps.alt}
+      lazyload={imageProps.lazyload}
+      sizesQueries={imageProps.sizesQueries}
+      copyright={imageProps.copyright}
+      defaultSize={imageProps.defaultSize}
+      clickHandler={imageProps.clickHandler}
+      zoomable={imageProps.zoomable}
+    />}
     <div className={`${[
       spacing({s: 2}, {padding: ['top']}),
       spacing({s: 3}, {padding: ['left', 'right']}),
