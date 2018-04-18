@@ -1,13 +1,7 @@
 import {Component} from 'react';
 import {getCollectionOpeningTimes} from '@weco/common/services/prismic/opening-times';
-import type {PlacesOpeningHours} from '@weco/common/model/opening-hours';
+import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/DefaultPageLayout';
 
-type Props = {
-  openingTimes: {
-    placesOpeningHours: PlacesOpeningHours,
-    upcomingExceptionalOpeningPeriods: Date[][]
-  }
-}
 const PageWrapper = Comp => {
   return class Global extends Component<Props> {
     static async getInitialProps(args) {
@@ -21,9 +15,19 @@ const PageWrapper = Comp => {
       };
     }
     render() {
-      const {...props} = this.props;
+      const {title, description, type, url, imageUrl, siteSection, analyticsCategory, openingTimes, ...props} = this.props;
       return (
-        <Comp {...props} />
+        <DefaultPageLayout
+          title={title}
+          description={description}
+          type={type}
+          url={url}
+          imageUrl={imageUrl}
+          siteSection={siteSection}
+          analyticsCategory={analyticsCategory}
+          openingTimes={openingTimes}>
+          <Comp {...props} />
+        </DefaultPageLayout>
       );
     }
   };

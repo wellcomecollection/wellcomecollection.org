@@ -167,7 +167,7 @@ export const Analytics = ({
 ]);
 
 type SiteSection = 'images' | 'explore' | 'whats-on';
-type Props = {|
+type Props = {| // TODO export this and extend for each page
   children: React.Node,
   type: string,
   url: string,
