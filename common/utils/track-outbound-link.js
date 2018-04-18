@@ -10,8 +10,11 @@ function isExternal(url: string): boolean {
 
 export default (url: string) => {
   if (isExternal(url)) {
-    ReactGA.outboundLink({
-      label: url
+    ReactGA.event({
+      category: 'outbound',
+      action: 'click',
+      label: url,
+      transport: 'beacon'
     });
   }
 };
