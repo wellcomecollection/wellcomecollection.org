@@ -37,6 +37,113 @@
         ],
         "label": "Where is it?"
       }
+    },
+    "body": {
+      "fieldset": "Body content",
+      "type": "Slices",
+      "config": {
+        "labels": {
+          "editorialImage": [
+            {
+              "name": "supporting",
+              "display": "Supporting"
+            },
+            {
+              "name": "standalone",
+              "display": "Standalone"
+            }
+          ]
+        },
+        "choices": {
+          "text": {
+            "type": "Slice",
+            "fieldset": "Text",
+            "non-repeat": {
+              "text": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph,hyperlink,strong,em,heading2,list-item",
+                  "label": "Text"
+                }
+              }
+            }
+          },
+          "editorialImage": {
+            "type": "Slice",
+            "fieldset": "Captioned image",
+            "non-repeat": {
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Image"
+                }
+              },
+              "caption": {
+                "type": "StructuredText",
+                "config": {
+                  "single": "paragraph,hyperlink,strong,em",
+                  "label": "Caption"
+                }
+              }
+            }
+          },
+          "editorialImageGallery": {
+            "type": "Slice",
+            "fieldset": "Captioned image gallery",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              }
+            },
+            "repeat": {
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Image"
+                }
+              },
+              "caption": {
+                "type": "StructuredText",
+                "config": {
+                  "single": "paragraph,hyperlink,strong,em",
+                  "label": "Caption"
+                }
+              }
+            }
+          },
+          "contentList": {
+            "type": "Slice",
+            "fieldset": "Content list",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              }
+            },
+            "repeat": {
+              "content": {
+                "type": "Link",
+                "config": {
+                  "label": "Content item",
+                  "select": "document",
+                  "customtypes": [
+                    "info-pages"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "Contributors": {
