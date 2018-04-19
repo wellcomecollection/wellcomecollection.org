@@ -11,7 +11,7 @@
     "description": {
       "type": "StructuredText",
       "config": {
-        "multi": "paragraph,hyperlink,strong,em",
+        "multi": "paragraph,hyperlink,strong,em,heading2",
         "label": "Description"
       }
     },
@@ -118,89 +118,6 @@
                       "height": 3200
                     }
                   ]
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "Body": {
-    "body": {
-      "fieldset": "Body content",
-      "type": "Slices",
-      "config": {
-        "labels": {
-          "editorialImage": [
-            {
-              "name": "supporting",
-              "display": "Supporting"
-            },
-            {
-              "name": "standalone",
-              "display": "Standalone"
-            }
-          ]
-        },
-        "choices": {
-          "text": {
-            "type": "Slice",
-            "fieldset": "Text",
-            "non-repeat": {
-              "text": {
-                "type": "StructuredText",
-                "config": {
-                  "multi": "paragraph,hyperlink,strong,em,heading2,list-item",
-                  "label": "Text"
-                }
-              }
-            }
-          },
-          "editorialImage": {
-            "type": "Slice",
-            "fieldset": "Captioned image",
-            "non-repeat": {
-              "caption": {
-                "type": "StructuredText",
-                "config": {
-                  "single": "paragraph,hyperlink,strong,em",
-                  "label": "Caption"
-                }
-              },
-              "image": {
-                "type": "Image",
-                "config": {
-                  "label": "Image"
-                }
-              }
-            }
-          },
-          "editorialImageGallery": {
-            "type": "Slice",
-            "fieldset": "Captioned image gallery",
-            "non-repeat": {
-              "title": {
-                "type": "StructuredText",
-                "config": {
-                  "label": "Title",
-                  "single": "heading1",
-                  "useAsTitle": true
-                }
-              }
-            },
-            "repeat": {
-              "caption": {
-                "type": "StructuredText",
-                "config": {
-                  "single": "paragraph,hyperlink,strong,em",
-                  "label": "Caption"
-                }
-              },
-              "image": {
-                "type": "Image",
-                "config": {
-                  "label": "Image"
                 }
               }
             }
