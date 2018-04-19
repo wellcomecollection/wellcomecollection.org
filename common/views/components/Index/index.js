@@ -29,6 +29,8 @@ import Tasl from '../Tasl/Tasl';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
+import ContentList from '../ContentList/ContentList';
+import BasicBody from '../BasicBody/BasicBody';
 import Quote from '../Quote/Quote';
 
 export {
@@ -63,5 +65,7 @@ export {
   WobblyEdge,
   WorkDrawer,
   WorkMedia,
+  ContentList,
+  BasicBody,
   Quote
 };

@@ -8,6 +8,7 @@ import type { LicenseType } from '../../model/license';
 import type { Place } from '../../model/place';
 import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/background-texture';
 import { licenseTypeArray } from '../../model/license';
+import { parseInfoPage } from './info-pages';
 
 const linkResolver = (doc) => {
   switch (doc.type) {
@@ -241,13 +242,26 @@ export function parseBody(fragment: PrismicFragment[]) {
         };
 
       case 'editorialImageGallery':
-        // TODO: add support for ~title~ & description / caption
         return {
           type: 'imageGallery',
           weight: 'standalone',
           value: {
             title: asText(slice.primary.title),
             items: slice.items.map(parsePicture)
+          }
+        };
+
+      case 'contentList':
+        return {
+          type: 'contentList',
+          weight: 'default',
+          value: {
+            title: asText(slice.primary.title),
+            items: slice.items.map(item => {
+              if (item.content.type === 'info-pages') {
+                return parseInfoPage(item.content);
+              }
+            }).filter(Boolean)
           }
         };
     }

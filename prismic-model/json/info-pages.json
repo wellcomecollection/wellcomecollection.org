@@ -87,19 +87,27 @@
             }
           },
           "contentList": {
-            "type": "Group",
+            "type": "Slice",
             "fieldset": "Content list",
-            "config": {
-              "fields": {
-                "item": {
-                  "type": "Link",
-                  "config": {
-                    "label": "Content item",
-                    "select": "document",
-                    "customtypes": [
-                      "info-pages"
-                    ]
-                  }
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              }
+            },
+            "repeat": {
+              "content": {
+                "type": "Link",
+                "config": {
+                  "label": "Content item",
+                  "select": "document",
+                  "customtypes": [
+                    "info-pages"
+                  ]
                 }
               }
             }
