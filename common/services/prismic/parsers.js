@@ -75,6 +75,7 @@ export function parsePicture(captionedImage: Object, minWidth: ?string = null): 
   }: Picture);
 }
 
+const defaultImage = 'https://via.placeholder.com/64x64';
 function parsePersonContributor(frag: PrismicFragment): PersonContributor {
   return {
     contributorType: 'people',
@@ -82,7 +83,7 @@ function parsePersonContributor(frag: PrismicFragment): PersonContributor {
     name: frag.data.name || 'NAME MISSING',
     image: frag.data.image && parsePicture({
       image: frag.data.image
-    }),
+    }) ||  { width: 64, contentUrl: defaultImage },
     description: frag.data.description,
     twitterHandle: null
   };
@@ -94,7 +95,7 @@ function parseOrganisationContributor(frag: PrismicFragment): OrganisationContri
     name: asText(frag.data.name) || 'NAME MISSING',
     image: frag.data.image && parsePicture({
       image: frag.data.image
-    }),
+    }) || { width: 64, contentUrl: defaultImage },
     url: frag.data.url
   };
 }

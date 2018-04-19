@@ -114,6 +114,22 @@
             tasl
           ] %}
         </div>
+
+        {% if installation.contributors.length > 0 %}
+          <div class="{{ {s: 3, m: 4, l: 5, xl: 5} | spacingClasses({margin: ['bottom']}) }}">
+            <h2 class="{{- [
+              {s:'WB5'} | fontClasses,
+              {s: 2} | spacingClasses({margin: ['top']}),
+              {s: 1} | spacingClasses({margin: ['bottom']})
+            ].join(' ') -}}">Contributors</h2>
+
+            {% for contributor in installation.contributors %}
+              {% componentJsx 'Contributor', contributor %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+
         <div class="{{ {s: 3, m: 4, l: 5, xl: 5} | spacingClasses({margin: ['bottom']}) }} body-content">
           {% componentJsx 'BasicBody', {body: installation.body} %}
         </div>

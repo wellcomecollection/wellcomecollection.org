@@ -32,6 +32,7 @@ import WorkMedia from '../WorkMedia/WorkMedia';
 import ContentList from '../ContentList/ContentList';
 import BasicBody from '../BasicBody/BasicBody';
 import Quote from '../Quote/Quote';
+import Contributor from '../Contributor/Contributor';
 
 export {
   BackToTop,
@@ -67,5 +68,6 @@ export {
   WorkMedia,
   ContentList,
   BasicBody,
-  Quote
+  Quote,
+  Contributor
 };
