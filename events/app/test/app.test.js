@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import supertest from 'supertest';
 import {app} from '../setup-app';
 import {isValidStructuredData} from 'common/test/_structured-data-testing-tool';
@@ -8,8 +10,8 @@ var eventsReponse;
 var eventReponse;
 beforeAll(async () => {
   eventsReponse = await request.get('/events');
-  eventReponse = await request.get('/events/WiliFikAAFgPFY5o');
-  return Promise.all([eventsReponse, eventReponse])
+  eventReponse = await request.get('/events/WmXUgyQAACYAntRB');
+  return Promise.all([eventsReponse, eventReponse]);
 });
 
 afterAll(() => {

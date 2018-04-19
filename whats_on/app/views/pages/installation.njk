@@ -119,7 +119,7 @@
         <div class="container">
           <div class="grid">
             <div class="basic-page {{ {s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2} | gridClasses }}">
-              {% component 'basic-body', {pageBody: installation.body, contentType: page.contentType} %}
+              {% componentJsx 'BasicBody', {body: installation.body} %}
             </div>
           </div>
         </div>

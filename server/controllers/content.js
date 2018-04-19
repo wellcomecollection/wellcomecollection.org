@@ -11,7 +11,7 @@ import {
 } from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
-import {getInfoPage} from '../../common/services/prismic/info-page';
+import {getInfoPage} from '../../common/services/prismic/info-pages';
 
 export const renderOpeningTimes = (ctx, next) => {
   const path = ctx.request.url;
