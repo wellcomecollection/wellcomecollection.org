@@ -10,6 +10,8 @@ type Props = {|
   url: string
 |}
 
+// TODO: work out how to handle cutting-the-mustard (?HOC)
+// and remove isEnhanced if/when this becomes a more global concern
 type State = {|
   isEnhanced: boolean,
   isTextCopied: boolean,
