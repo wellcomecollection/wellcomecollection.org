@@ -31,6 +31,7 @@ import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
 import ContentList from '../ContentList/ContentList';
 import BasicBody from '../BasicBody/BasicBody';
+import Quote from '../Quote/Quote';
 
 export {
   BackToTop,
@@ -65,5 +66,6 @@ export {
   WorkDrawer,
   WorkMedia,
   ContentList,
-  BasicBody
+  BasicBody,
+  Quote
 };

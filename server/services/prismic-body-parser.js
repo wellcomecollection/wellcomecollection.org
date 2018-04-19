@@ -64,15 +64,15 @@ function parseBodyPart(slice) {
       };
 
     case 'quote':
-      // TODO: Support citation link
       return {
         type: 'quote',
         weight: 'default',
         value: {
-          body: asHtml(slice.primary.quote),
+          body: slice.primary.quote,
           footer: slice.primary.citation && slice.primary.source ? `${slice.primary.citation} - ${slice.primary.source}` : null,
           quote: asHtml(slice.primary.quote),
-          citation: `${slice.primary.citation} - ${slice.primary.source}`
+          citation: `${slice.primary.citation} - ${slice.primary.source}`,
+          citationLink: slice.primary.citationLink && slice.primary.citationLink.url
         }
       };
 
