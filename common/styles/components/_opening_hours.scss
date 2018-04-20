@@ -93,14 +93,15 @@
 
 .opening-hours__panel {
   .enhanced & {
-    display: flex;
+    display: none;
     visibility: hidden;
     height: 0;
     overflow: hidden;
     margin-bottom: 0;
   }
 
-  &.opening-hours__table--is-visible {
+  &.opening-hours__panel--is-visible {
+    display: block;
     width: 100%;
     height: auto;
     visibility: visible;
@@ -113,21 +114,7 @@
   text-decoration: none;
 }
 
-.opening-hours__caption,
-.opening-hours__thead {
-  .enhanced .opening-hours__panel & {
-    @include visually-hidden();
-  }
-}
-
-.opening-hours__tbody {
-  width: 100%;
-  display: block;
-}
-
 .opening-hours__tr {
-  display: flex;
-  justify-content: space-between;
   border-bottom: 1px solid color('charcoal');
 
   .opening-hours--light & {
@@ -137,25 +124,24 @@
 
 .opening-hours__th {
   font-weight: normal;
+  text-align: left;
 }
 
 .opening-hours__td {
   padding: 1em 0;
-  display: block;
 
   .opening-hours--compressed & {
     padding: $spacing-unit 0;
   }
 
   &:last-child {
-    text-align: right;
     transition: opacity 500ms ease;
 
     .enhanced .opening-hours__panel & {
       opacity: 0;
     }
 
-    .opening-hours__table--is-visible.opening-hours__panel & {
+    .opening-hours__panel--is-visible.opening-hours__panel & {
       opacity: 1;
     }
   }
@@ -163,4 +149,8 @@
 
 .opening-hours__highlight {
   color: color('red');
+}
+
+.js-tabfocus {
+  outline: none;
 }
