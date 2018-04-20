@@ -24,7 +24,7 @@
         <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="regular">Regular opening times</h2>
         <div class="grid">
           <div class="{{ {s:12, m:6, l:6, xl:6} | gridClasses }} {{ {s:4} | spacingClasses({padding: ['top']}) }}">
-            {% componentJsx 'OpeningHours', {id: 'info-page', extraClasses: 'opening-hours--light', placesOpeningHours: pageOpeningHours.placesOpeningHours, upcomingExceptionalOpeningPeriods: pageOpeningHours.upcomingExceptionalOpeningPeriods} %}
+            {% componentJsx 'OpeningHours', {id: 'info-page', extraClasses: 'opening-hours--light', upcomingExceptionalOpeningPeriods: pageOpeningHours.upcomingExceptionalOpeningPeriods, groupedVenues: pageOpeningHours.groupedVenues} %}
           </div>
         </div>
       </div>

@@ -8,8 +8,10 @@ import type {PlacesOpeningHours} from '../../../model/opening-hours';
 type Props = {|
   id: string,
   extraClasses?: string,
-  placesOpeningHours?: PlacesOpeningHours,
-  upcomingExceptionalOpeningPeriods?: Array<Date[]>
+  groupedVenues: {
+    [key]: PlacesOpeningHours
+  },
+  upcomingExceptionalOpeningPeriods: Array<Date[]>
 |}
 
 type State = {|
@@ -18,7 +20,7 @@ type State = {|
 
 class OpeningHours extends Component<Props, State> {
   state = {
-    activePlace: this.props.placesOpeningHours && this.props.placesOpeningHours[0].id || ''
+    activePlace: this.props.groupedVenues && Object.keys(this.props.groupedVenues)[0]
   };
 
   updateActivePlace = (event: any) => {
@@ -32,14 +34,14 @@ class OpeningHours extends Component<Props, State> {
   render() {
     const {
       upcomingExceptionalOpeningPeriods,
-      placesOpeningHours,
       extraClasses,
-      id
+      id,
+      groupedVenues
     } = this.props;
 
     return (
       <Fragment>
-        {!placesOpeningHours &&
+        {!groupedVenues &&
           <p className={spacing({s: 2}, {margin: ['bottom']})}>
             <a className={font({s: 'HNL6', m: 'HNL5'})} href="https://wellcomecollection.org/info/opening-times">
               Opening times
@@ -79,26 +81,37 @@ class OpeningHours extends Component<Props, State> {
         }
         <div className={`opening-hours ${extraClasses || ''} js-opening-hours js-tabs`}>
           <ul className={`plain-list opening-hours__tablist ${font({s: 'HNM6'})} ${spacing({s: 0}, {margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']})} js-tablist`}>
-            {placesOpeningHours && placesOpeningHours.map((place) => (
-              <li key={place.id} className={`opening-hours__tabitem js-tabitem ${place.id === this.state.activePlace ? 'opening-hours__tabitem--is-current' : ''}`}>
-                <a id={place.id}
-                  aria-selected={place.id === this.state.activePlace}
-                  className='opening-hours__tablink js-tablink' href={`#${id}-panel-${place.id}`}
-                  onClick={this.updateActivePlace}>{place.name}</a>
+            {groupedVenues && Object.keys(groupedVenues).map((key) => (
+              <li key={key} className={`opening-hours__tabitem js-tabitem ${key === this.state.activePlace ? 'opening-hours__tabitem--is-current' : ''}`}>
+                <a id={key}
+                  className='opening-hours__tablink js-tablink' href={`#${key}`}
+                  aria-selected={key === this.state.activePlace}
+                  onClick={this.updateActivePlace}>{groupedVenues[key].title}</a>
               </li>
             ))}
           </ul>
-          {placesOpeningHours && placesOpeningHours.map((place) => (
-            <OpeningHoursTable
-              key={`${id}-panel-${place.id}`}
-              id={id}
-              place={place}
-              isVisible={place.id === this.state.activePlace} />
+          {groupedVenues && Object.keys(groupedVenues).map((key) => (
+            <div key={key} id={key} className={`js-tabpanel opening-hours__panel ${key === this.state.activePlace ? 'opening-hours__panel--is-visible' : ''} ${extraClasses || ''}`}>
+              <div className="js-tabfocus">
+                {groupedVenues[key].hours.map((place) => (
+                  <OpeningHoursTable
+                    key={place.id}
+                    id={id}
+                    place={place} />
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </Fragment>
     );
   }
 }
+
+// TODO get working in Cat app and check still works, aria is active etc.
+// TODO Flow stuff
+// TODO OpeningHoursTableSingleVenue
+// TODO OpeningHoursTableMixedVenues
+// TODO fade in and out
 
 export default OpeningHours;
