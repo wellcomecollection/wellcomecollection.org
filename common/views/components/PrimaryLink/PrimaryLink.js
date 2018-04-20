@@ -10,7 +10,7 @@ type Props = {|
   screenReaderText?: string
 |}
 
-const MoreInfoLink = ({url, name, screenReaderText}: Props) => {
+const PrimaryLink = ({url, name, screenReaderText}: Props) => {
   function handleClick(event) {
     trackOutboundLink(event.currentTarget.href);
   }
@@ -19,21 +19,20 @@ const MoreInfoLink = ({url, name, screenReaderText}: Props) => {
     <a
       onClick={handleClick}
       className={[
+        'primary-link',
         'flex-inline',
         'flex-v-center',
         'plain-link',
-        'font-green',
-        'font-hover-turquoise',
-        font({s: 'HNM4'})].join(' ')} href={url} data-component="MoreInfoLink">
-      <span className='width-1-em'>
-        <Icon name='arrow' extraClasses='icon--green' />
-      </span>
-      <span className={spacing({s: 1}, {margin: ['left']})}>
+        font({s: 'HNM4'})].join(' ')} href={url} data-component='PrimaryLink'>
+      <span className={spacing({s: 1}, {margin: ['right']})}>
         {name}
         {screenReaderText && <span className='visually-hidden'> {screenReaderText}</span>}
+      </span>
+      <span>
+        <Icon name='arrow' extraClasses='icon--green' />
       </span>
     </a>
   );
 };
 
-export default MoreInfoLink;
+export default PrimaryLink;

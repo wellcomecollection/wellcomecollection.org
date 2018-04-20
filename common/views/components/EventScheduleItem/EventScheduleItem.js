@@ -2,7 +2,7 @@
 
 import {grid, font, spacing} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
-import MoreInfoLink from '../MoreInfoLink/MoreInfoLink';
+import PrimaryLink from '../PrimaryLink/PrimaryLink';
 import EventBookingButton from '../EventBookingButton/EventBookingButton';
 import camelize from '../../../utils/camelize';
 import {formatTime} from '../../../utils/format-date';
@@ -51,7 +51,7 @@ const EventScheduleItem = ({event, hasOwnPage}: Props) => (
           <p className={`${spacing({s: 2}, {margin: ['bottom']})} ${font({s: 'HNL5', m: 'HNL4'})}`} dangerouslySetInnerHTML={{__html: event.description}} />
 
           {hasOwnPage &&
-            <MoreInfoLink url={`/events/${event.id}`} name='Full event details' screenReaderText={`about ${event.title}`} />
+            <PrimaryLink url={`/events/${event.id}`} name='Full event details' screenReaderText={`about ${event.title}`} />
           }
 
           {(event.eventbriteId || event.bookingEnquiryTeam) &&

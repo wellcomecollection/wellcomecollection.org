@@ -7,7 +7,7 @@ import PageDescription from '@weco/common/views/components/PageDescription/PageD
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import WorkMedia2 from '@weco/common/views/components/WorkMedia/WorkMedia2';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import MoreInfoLink from '@weco/common/views/components/MoreInfoLink/MoreInfoLink';
+import PrimaryLink from '@weco/common/views/components/PrimaryLink/PrimaryLink';
 import WorkDrawer from '@weco/common/views/components/WorkDrawer/WorkDrawer';
 import License from '@weco/common/views/components/License/License';
 import Divider from '@weco/common/views/components/Divider/Divider';
@@ -226,7 +226,7 @@ const WorkPage = ({ work }: Props) => {
 
                 {encoreLink &&
                   <div className={spacing({s: 2}, {margin: ['top']})}>
-                    <MoreInfoLink name='View Wellcome Library catalogue record' url={encoreLink} />
+                    <PrimaryLink name='View Wellcome Library catalogue record' url={encoreLink} />
                   </div>
                 }
               </div>

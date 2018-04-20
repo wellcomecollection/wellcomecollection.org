@@ -76,7 +76,7 @@
           </span>
         </div>
 
-        <div class="{{ {s:'HNL4'} | fontClasses }}">
+        <div class="{{ {s:'HNL4'} | fontClasses }} has-secondary-links">
           {% for eventTime in event.times %}
             <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
               {% set formattedDateRange = eventTime.range.startDateTime | formatAndDedupeOnDate(eventTime.range.endDateTime) %}
@@ -162,7 +162,7 @@
                 Email to book
               </a>
               {% endif %}
-              <a class="block font-charcoal {{ {s:'HNL5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}"
+              <a class="block font-charcoal {{ {s:'HNL4'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}"
                   href="mailto:{{ event.bookingEnquiryTeam.email }}?subject={{event.title}}">{{ event.bookingEnquiryTeam.email }}</a>
             </div>
           {% endif %}
@@ -204,7 +204,7 @@
           {% endif %}
         </div>
 
-        <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}" id="js-event-booking-info">
+        <div class="border-top-width-1 border-color-pumice has-secondary-links {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}" id="js-event-booking-info">
           {% if event.isDropIn %}
             <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Drop in at any time</h3>
             <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
@@ -265,14 +265,14 @@
               {{ event.bookingInformation | safe }}
             </div>
           {% endif %}
-          <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
-            {% componentJsx 'MoreInfoLink', { name: 'Our event terms and conditions', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
+          <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}">
+            <a href="https://wellcomecollection.org/visit-us/events-tickets">Our event terms and conditions</a>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="css-grid__cell--primary body-content">
+    <div class="css-grid__cell--primary body-text">
       {% if event.promo.image %}
         <div class="is-hidden-s is-hidden-m rounded-corners overflow-hidden {{ {s: 4} | spacingClasses({margin: ['bottom']}) }}">
           {% componentJsx 'CaptionedImage', bodyPart.value, [

@@ -31,7 +31,7 @@ const CaptionedImage = ({
       {children}
     </div>
     {caption &&
-      <figcaption className={`captioned-image__caption ${font({s: 'LR3', m: 'LR2'})}`}>
+      <figcaption className={`captioned-image__caption has-secondary-links ${font({s: 'LR3', m: 'LR2'})}`}>
         <Icon name='image' extraClasses='float-l margin-right-s1' />
 
         <div className={`captioned-image__caption-text ${truncateCaption ? 'js-truncate-text' : ''}`}

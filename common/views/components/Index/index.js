@@ -14,12 +14,12 @@ import InfoBanner from '../InfoBanner/InfoBanner';
 import InstallationPromo from '../InstallationPromo/InstallationPromo';
 import License from '../License/License';
 import MetaUnit from '../MetaUnit/MetaUnit';
-import MoreInfoLink from '../MoreInfoLink/MoreInfoLink';
 import OpeningHours from '../OpeningHours/OpeningHours';
 import OpeningHoursTable from '../OpeningHoursTable/OpeningHoursTable';
 import PageDescription from '../PageDescription/PageDescription';
 import Pagination from '../Pagination/Pagination';
 import Picture from '../Picture/Picture';
+import PrimaryLink from '../PrimaryLink/PrimaryLink';
 import Promo from '../Promo/Promo';
 import ScrollToInfo from '../ScrollToInfo/ScrollToInfo';
 import SearchBox from '../SearchBox/SearchBox';
@@ -50,11 +50,11 @@ export {
   InstallationPromo,
   License,
   MetaUnit,
-  MoreInfoLink,
   OpeningHours,
   OpeningHoursTable,
   PageDescription,
   Pagination,
+  PrimaryLink,
   Promo,
   Picture,
   ScrollToInfo,

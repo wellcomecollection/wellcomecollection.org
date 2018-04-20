@@ -86,3 +86,22 @@ hr {
 
   margin-top: 0;
 }
+
+.primary-link { // Applied to the PrimaryLink component
+  color: color('green');
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+.has-secondary-links { // Applied to blocks containing secondary links
+  a {
+    &:hover,
+    &:focus {
+      color: color('green');
+      text-decoration: none;
+    }
+  }
+}

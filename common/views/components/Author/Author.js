@@ -35,7 +35,7 @@ const Author = ({image, name, twitterHandle, description}: Props) => (
       </div>
     </div>
     {description &&
-      <div className={`author__description ${font({s: 'LR3', m: 'LR2'})}`}>{description}</div>
+      <div className={`author__description has-secondary-links ${font({s: 'LR3', m: 'LR2'})}`}>{description}</div>
     }
   </div>
 );
