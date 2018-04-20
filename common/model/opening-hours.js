@@ -46,7 +46,7 @@ export type ExceptionalVenueHours = {|
   closesChanged: boolean
 |};
 
-export type PlacesOpeningHours = Array<Venue>;
+export type PlacesOpeningHours = Venue[];
 
 export type OpeningTimes = {
   placesOpeningHours: PlacesOpeningHours,
