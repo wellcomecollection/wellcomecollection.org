@@ -2,6 +2,7 @@
 // TODO: Sync up types with the body slices and the components they return
 import ContentList from '../ContentList/ContentList';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
+import {spacing} from '../../../utils/classnames';
 import Image from '../Image/Image';
 import Tasl from '../Tasl/Tasl';
 import ImageGallery from '../ImageGallery/ImageGallery';
@@ -17,7 +18,7 @@ const HTMLBlock = ({ html }: HTMLBlockProps) => (
 
 const BasicBody = ({ body }: Props) => {
   return (
-    <div className='body-text'>
+    <div className={`body-text ${spacing({s: 5}, {margin: ['bottom']})}`}>
       {body.map((slice, i) =>
         <div className='body-part' key={`slice${i}`}>
           {slice.type === 'text' && <HTMLBlock html={slice.value} />}

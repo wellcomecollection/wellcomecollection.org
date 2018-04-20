@@ -1,4 +1,4 @@
-<div>
+<div class="{{ {s: 5} | spacingClasses({margin: ['bottom']}) }}">
   {% for bodyPartGroup in (articleBody | groupBodyParts) %}
     {% set mainLoopIndex = loop.index %}
     <div class="sticky-wrapper">
