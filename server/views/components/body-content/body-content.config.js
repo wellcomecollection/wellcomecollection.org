@@ -1,5 +1,5 @@
-export const name = 'body-content';
-export const handle = 'body-content';
+export const name = 'body-text';
+export const handle = 'body-text';
 export const status = 'graduated';
 export const context = {
   body: `<h2>This is a heading two</h2><p>Lorem ipsum dolor sit amet, consectetur

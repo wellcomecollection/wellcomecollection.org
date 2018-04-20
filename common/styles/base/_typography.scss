@@ -50,3 +50,39 @@ ol {
 hr {
   margin: 0;
 }
+
+// Standard heading sizes
+%h1,
+.h1 {
+  @include font('WB5');
+
+  @include respond-to('medium') {
+    @include font('WB4');
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+%h2,
+.h2 {
+  @include font('WB6');
+
+  @include respond-to('medium') {
+    @include font('WB5');
+  }
+
+  margin-top: 0;
+}
+
+%h3,
+.h3 {
+  @include font('WB7');
+
+  @include respond-to('medium') {
+    @include font('WB6');
+  }
+
+  margin-top: 0;
+}
