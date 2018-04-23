@@ -16,12 +16,12 @@ const ImageGallery = ({id, title, items}: ImageGalleryProps) => {
       {title && <h2 className='image-gallery__heading'>{title}</h2>}
       <div className='wobbly-edge wobbly-edge--white wobbly-edge--small js-wobbly-edge' data-is-static='true'></div>
       <div className='image-gallery touch-scroll js-image-gallery' data-id={id} id={id}>
-        {items.map((image, i) => (
-          <div className='image-gallery__item' key={image.contentUrl}>
+        {items.map((captionedImage, i) => (
+          <div className='image-gallery__item' key={captionedImage.image.contentUrl}>
             <CaptionedImage
-              image={image}
-              caption={image.caption}
-              sizesQueries={'(max-width: 600px) 100vw, ' + (image.width / image.height) * 640 + 'px'}>
+              image={captionedImage.image}
+              caption={captionedImage.caption}
+              sizesQueries={'(max-width: 600px) 100vw, ' + (captionedImage.image.width / captionedImage.image.height) * 640 + 'px'}>
             </CaptionedImage>
           </div>
         ))}

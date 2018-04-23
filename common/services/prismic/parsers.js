@@ -7,15 +7,20 @@ import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
 import type { Place } from '../../model/place';
 import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/background-texture';
-import type { CaptionedImageProps } from '../CaptionedImage/CaptionedImage';
+import type { CaptionedImageProps } from '../../views/components/Images/Images';
 import { licenseTypeArray } from '../../model/license';
 import { parseInfoPage } from './info-pages';
 
 const placeHolderImage = {
-  contentUrl: `https://via.placeholder.com/160x900?text=Placeholder`,
+  contentUrl: 'https://via.placeholder.com/160x900?text=Placeholder',
   width: 160,
   height: 900,
-  alt: 'Placeholder image'
+  alt: 'Placeholder image',
+  tasl: {
+    contentUrl: 'https://via.placeholder.com/160x900?text=Placeholder',
+    isFull: false,
+    sourceName: 'Unknown'
+  }
 };
 
 const linkResolver = (doc) => {
@@ -85,18 +90,27 @@ export function parsePicture(captionedImage: Object, minWidth: ?string = null): 
 
 export function parseCaptionedImage(frag: PrismicFragment): CaptionedImageProps {
   if (isEmptyObj(frag.image)) {
-    return placeHolderImage;
+    return {
+      image: placeHolderImage,
+      caption: [{
+        type: 'paragraph',
+        text: 'PLACEHOLDER CAPTION',
+        spans: []
+      }]
+    };
   }
   const image = frag.image;
   const tasl = parseTaslFromString(image.copyright);
 
   return {
-    contentUrl: image.url,
-    width: image.dimensions.width,
-    height: image.dimensions.height,
-    alt: image.alt || '',
-    caption: frag.caption,
-    tasl
+    image: {
+      contentUrl: image.url,
+      width: image.dimensions.width,
+      height: image.dimensions.height,
+      alt: image.alt || '',
+      tasl
+    },
+    caption: frag.caption
   };
 }
 

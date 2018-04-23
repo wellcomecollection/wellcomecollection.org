@@ -7,7 +7,7 @@ import Tasl from '../Tasl/Tasl';
 import Icon from '../Icon/Icon';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import type {Node} from 'react';
-import type {Props as TaslProps} from '../Tasl/Tasl';
+import type {Tasl as TaslProps} from '../../../model/tasl';
 import type {HTMLString} from '../../../services/prismic/types';
 
 export type ImageProps = {|
@@ -68,7 +68,7 @@ export type UiCaptionedImageProps = {|
   image: ImageProps,
   caption: HTMLString,
   sizesQueries: string,
-  extraClasses: string,
+  extraClasses?: string,
   preCaptionNode?: Node
 |}
 
