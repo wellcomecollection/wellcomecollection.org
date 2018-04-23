@@ -120,12 +120,14 @@
             <h2 class="{{- [
               {s:'WB5'} | fontClasses,
               {s: 2} | spacingClasses({margin: ['top']}),
-              {s: 1} | spacingClasses({margin: ['bottom']})
+              {s: 3} | spacingClasses({margin: ['bottom']})
             ].join(' ') -}}">Contributors</h2>
 
-            {% for contributor in installation.contributors %}
-              {% componentJsx 'Contributor', contributor %}
-            {% endfor %}
+            <div class="border-top-width-1 border-color-smoke {{ {s: 4} | spacingClasses({margin: ['top']}) }} {{ {s: 3} | spacingClasses({padding: ['top']}) }}">
+              {% for contributor in installation.contributors %}
+                {% componentJsx 'Contributor', contributor %}
+              {% endfor %}
+            </div>
           </div>
         {% endif %}
 
