@@ -246,12 +246,7 @@ export const eventExample = ({
       person: {
         id: 'WdOiZScAAF6cTGe2',
         name: 'Zsuzsa Parrag',
-        image: {
-          width: 160,
-          contentUrl: 'https://via.placeholder.com/160x90?text=placeholder',
-          alt: `Logo for Zsuzsa Parrag`,
-          lazyload: false
-        },
+        image: null,
         description: null,
         twitterHandle: null
       }
@@ -264,12 +259,7 @@ export const eventExample = ({
       person: {
         id: 'WgnIhCEAAKVbzrI7',
         name: 'Randy Lester',
-        image: {
-          width: 160,
-          contentUrl: 'https://via.placeholder.com/160x90?text=placeholder',
-          alt: `Logo for Zsuzsa Parrag`,
-          lazyload: false
-        },
+        image: null,
         description: null,
         twitterHandle: null
       }
