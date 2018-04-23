@@ -5,9 +5,9 @@ import NastyJs from '../Header/NastyJs';
 import Header from '../Header/Header';
 import {striptags} from '../../../utils/striptags';
 import {formatDate} from '../../../utils/format-date';
+import Footer from '../Footer/Footer';
+import type {PlacesOpeningHours} from '@weco/common/model/opening-hours';
 import analytics from '../../../utils/analytics';
-// import Footer from '../Footer/Footer';
-// TODO use import {getCollectionOpeningTimes}
 
 // TODO: Hashed files
 // TODO: Inline CSS
@@ -112,7 +112,11 @@ type Props = {|
   pageMeta?: React.Node,
   featuresCohort?: string,
   featureFlags?: string[],
-  isPreview?: boolean
+  isPreview?: boolean,
+  openingTimes: {
+    placesOpeningHours: PlacesOpeningHours,
+    upcomingExceptionalOpeningPeriods: Date[][]
+  }
 |}
 
 class DefaultPageLayout extends Component<Props> {
@@ -137,7 +141,8 @@ class DefaultPageLayout extends Component<Props> {
       children,
       featuresCohort,
       featureFlags,
-      isPreview
+      isPreview,
+      openingTimes
     } = this.props;
 
     return (
@@ -189,11 +194,15 @@ class DefaultPageLayout extends Component<Props> {
           <div id='main' className='main' role='main'>
             {children}
           </div>
-          {/* <Footer
-            openingHoursId='footer'
-            placesOpeningHours={placesOpeningHours}
-            upcomingExceptionalOpeningPeriods={upcomingExceptionalOpeningPeriods(exceptionalPeriods)} />
-          */}
+          {openingTimes &&
+            <Footer
+              openingHoursId='footer'
+              placesOpeningHours={openingTimes.placesOpeningHours}
+              upcomingExceptionalOpeningPeriods={openingTimes.upcomingExceptionalOpeningPeriods} />
+          }
+          {!openingTimes &&
+            <Footer openingHoursId='footer' />
+          }
         </div>
       </div>
     );

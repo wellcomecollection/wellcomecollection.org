@@ -35,16 +35,28 @@
         {% componentJsx 'Divider', {extraClasses: 'divider--pumice divider--keyline ' + ( {s:1} | spacingClasses({margin: ['top']})) + ' ' + ( {s:4} | spacingClasses({margin: ['bottom']}))} %}
       </div>
 
-      {% if pageOpeningHours.exceptionalOpeningHours | length > 0 %}
-      <div class="{{ {s:12, m:12, l:6, xl:6} | gridClasses }}">
-        <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="exceptional">Modified opening times</h2>
-        {% for exceptionalDate, venues in pageOpeningHours.exceptionalOpeningHours %}
-            {% componentJsx 'ExceptionalOpeningHoursTable', {caption: exceptionalDate, venues: venues, extraClasses: 'opening-hours--light'} %}
-        {% endfor %}
-      </div>
+      {% if pageOpeningHours.exceptionalOpeningHours.length > 0 %}
+        <div class="{{ {s:12, m:12, l:6, xl:6} | gridClasses }}">
+          <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="exceptional">Modified opening times</h2>
+          {% for period in pageOpeningHours.exceptionalOpeningHours %}
+            {% if period.periodStart == period.periodEnd %}
+              <h3 class="rounded-top bg-black font-white {{ {s:'WB7'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:0} | spacingClasses({margin: ['bottom']}) }} {{ {s:2} | spacingClasses({padding: ['top','right','bottom','left']}) }}">
+                {{period.periodStart | formatDate }}
+              </h3>
+            {% else %}
+              <h3 class="rounded-top bg-black font-white {{ {s:'WB7'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:0} | spacingClasses({margin: ['bottom']}) }} {{ {s:2} | spacingClasses({padding: ['top','right','bottom','left']}) }}">
+                {{period.periodStart | formatDate }}&mdash;{{period.periodEnd | formatDate}}
+              </h3>
+            {% endif %}
+            <div class="bg-smoke rounded-bottom {{ {s:2} | spacingClasses({padding: ['top','right','bottom','left']}) }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              {% for venues in period.dates %}
+                {% componentJsx 'ExceptionalOpeningHoursTable', {caption: venues[0].exceptionalDate, venues: venues, extraClasses: 'opening-hours--light'} %}
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
       {% endif %}
-
-      <div class="{{ {s:12, m:12, l:6, xl:6} | gridClasses }} body-content">
+      <div id="busy" class="{{ {s:12, m:12, l:6, xl:6} | gridClasses }} body-content">
         <h2>Entry at busy times</h2>
         <p>Our temporary exhibitions can become crowded at times, so to keep the galleries safe and comfortable, we may manage numbers with queuing or timed tickets.</p>
         <h3>When we’re busiest</h3>
