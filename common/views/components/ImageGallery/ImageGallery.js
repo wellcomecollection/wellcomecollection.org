@@ -1,5 +1,6 @@
 // @flow
 import {Fragment} from 'react';
+import {spacing, font} from '../../../utils/classnames';
 import {CaptionedImage} from '../Images/Images';
 import type {CaptionedImageProps} from '../Images/Images';
 
@@ -21,7 +22,14 @@ const ImageGallery = ({id, title, items}: ImageGalleryProps) => {
             <CaptionedImage
               image={captionedImage.image}
               caption={captionedImage.caption}
-              sizesQueries={'(max-width: 600px) 100vw, ' + (captionedImage.image.width / captionedImage.image.height) * 640 + 'px'}>
+              sizesQueries={'(max-width: 600px) 100vw, ' + (captionedImage.image.width / captionedImage.image.height) * 640 + 'px'}
+              preCaptionNode={
+                <span
+                  className={`captioned-image__number ${font({s: 'HNM5'})} ${spacing({s: 2}, {padding: ['right'], margin: ['right']})}`}
+                  aria-label={`slide ${i + 1} of ${items.length}`}>
+                  <span aria-hidden='true'>{i + 1}/{items.length}</span>
+                </span>
+              }>
             </CaptionedImage>
           </div>
         ))}
