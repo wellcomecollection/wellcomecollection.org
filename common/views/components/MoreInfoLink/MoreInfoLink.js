@@ -24,7 +24,7 @@ const MoreInfoLink = ({url, name, screenReaderText}: Props) => {
         'plain-link',
         'font-green',
         'font-hover-turquoise',
-        font({s: 'HNM4'})].join(' ')} href={url} data-component="MoreInfoLink">
+        font({s: 'HNM4'})].join(' ')} href={url} data-component='MoreInfoLink'>
       <span className='width-1-em'>
         <Icon name='arrow' extraClasses='icon--green' />
       </span>

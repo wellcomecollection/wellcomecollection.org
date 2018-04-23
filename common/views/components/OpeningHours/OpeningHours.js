@@ -18,7 +18,7 @@ type State = {|
 
 class OpeningHours extends Component<Props, State> {
   state = {
-    activePlace: this.props.placesOpeningHours[0].id
+    activePlace: this.props.placesOpeningHours && this.props.placesOpeningHours[0].id
   };
 
   updateActivePlace = (event: any) => {
@@ -39,6 +39,13 @@ class OpeningHours extends Component<Props, State> {
 
     return (
       <Fragment>
+        {!placesOpeningHours &&
+          <p className={spacing({s: 2}, {margin: ['bottom']})}>
+            <a className={font({s: 'HNL6', m: 'HNL5'})} href="https://wellcomecollection.org/info/opening-times">
+              Opening times
+            </a>
+          </p>
+        }
         {upcomingExceptionalOpeningPeriods && upcomingExceptionalOpeningPeriods.length > 0 &&
           <p className={font({s: 'HNM4'})}>
             Our opening times will change
@@ -46,7 +53,7 @@ class OpeningHours extends Component<Props, State> {
               const firstDate = group[0];
               const lastDate = group[group.length - 1];
 
-              if (firstDate instanceof Date && lastDate instanceof Date) {
+              if (firstDate && lastDate) {
                 if (group.length > 1) {
                   return (
                     <span key={firstDate}>
@@ -72,7 +79,7 @@ class OpeningHours extends Component<Props, State> {
         }
         <div className={`opening-hours ${extraClasses || ''} js-opening-hours js-tabs`}>
           <ul className={`plain-list opening-hours__tablist ${font({s: 'HNM6'})} ${spacing({s: 0}, {margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']})} js-tablist`}>
-            {placesOpeningHours.map((place) => (
+            {placesOpeningHours && placesOpeningHours.map((place) => (
               <li key={place.id} className={`opening-hours__tabitem js-tabitem ${place.id === this.state.activePlace ? 'opening-hours__tabitem--is-current' : ''}`}>
                 <a id={place.id}
                   aria-selected={place.id === this.state.activePlace}
@@ -81,7 +88,7 @@ class OpeningHours extends Component<Props, State> {
               </li>
             ))}
           </ul>
-          {placesOpeningHours.map((place) => (
+          {placesOpeningHours && placesOpeningHours.map((place) => (
             <OpeningHoursTable
               key={`${id}-panel-${place.id}`}
               id={id}

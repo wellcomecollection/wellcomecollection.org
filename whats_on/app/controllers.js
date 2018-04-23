@@ -18,7 +18,7 @@ const {
 } = prismic;
 
 export async function renderWhatsOn(ctx, next) {
-  const exhibitionAndEventPromos = await getExhibitionAndEventPromos(ctx.query);
+  const exhibitionAndEventPromos = await getExhibitionAndEventPromos(ctx.query, ctx.intervalCache.get('collectionOpeningTimes'));
 
   ctx.render('pages/whats-on', {
     pageConfig: createPageConfig({

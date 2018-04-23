@@ -4,18 +4,10 @@ import Head from 'next/head';
 import NastyJs from '../Header/NastyJs';
 import Header from '../Header/Header';
 import {striptags} from '../../../utils/striptags';
-import {formatDate, isDatePast} from '../../../utils/format-date';
+import {formatDate} from '../../../utils/format-date';
 import analytics from '../../../utils/analytics';
-import Footer from '../Footer/Footer';
-import {placesOpeningHours} from '../../../model/opening-hours';
-import {
-  exceptionalDates,
-  exceptionalOpeningPeriods,
-  upcomingExceptionalOpeningPeriods
-} from '../../../services/opening-times';
-
-const futureExceptionalDates = exceptionalDates.filter(date => date && !isDatePast(date));
-const exceptionalPeriods = exceptionalOpeningPeriods(futureExceptionalDates);
+// import Footer from '../Footer/Footer';
+// TODO use import {getCollectionOpeningTimes}
 
 // TODO: Hashed files
 // TODO: Inline CSS
@@ -197,10 +189,11 @@ class DefaultPageLayout extends Component<Props> {
           <div id='main' className='main' role='main'>
             {children}
           </div>
-          <Footer
+          {/* <Footer
             openingHoursId='footer'
             placesOpeningHours={placesOpeningHours}
             upcomingExceptionalOpeningPeriods={upcomingExceptionalOpeningPeriods(exceptionalPeriods)} />
+          */}
         </div>
       </div>
     );

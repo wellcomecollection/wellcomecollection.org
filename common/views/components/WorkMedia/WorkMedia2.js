@@ -37,9 +37,9 @@ const WorkMedia = ({
   return (
     <div>
       {queryString &&
-      <div className="row is-hidden-s is-hidden-m">
-        <div className="container">
-          <div className="grid">
+      <div className='row is-hidden-s is-hidden-m'>
+        <div className='container'>
+          <div className='grid'>
             <div className={grid({s: 12})}>
               <a className={`
                   flex-inline flex-v-center plain-link font-green font-hover-turquoise
@@ -56,8 +56,8 @@ const WorkMedia = ({
         </div>
       </div>
       }
-      <div id={`work-media-${id}`} className="row bg-black work-media js-work-media">
-        <div className="pointer-events-none">
+      <div id={`work-media-${id}`} className='row bg-black work-media js-work-media'>
+        <div className='pointer-events-none'>
           <ScrollToInfo elementId='work-info' />
         </div>
 
