@@ -8,8 +8,8 @@ import type {PlacesOpeningHours} from '../../../model/opening-hours';
 type Props = {|
   id: string,
   extraClasses?: string,
-  placesOpeningHours: PlacesOpeningHours,
-  upcomingExceptionalOpeningPeriods: Array<Date[]>
+  placesOpeningHours?: PlacesOpeningHours,
+  upcomingExceptionalOpeningPeriods?: Array<Date[]>
 |}
 
 type State = {|
@@ -18,7 +18,7 @@ type State = {|
 
 class OpeningHours extends Component<Props, State> {
   state = {
-    activePlace: this.props.placesOpeningHours && this.props.placesOpeningHours[0].id
+    activePlace: this.props.placesOpeningHours && this.props.placesOpeningHours[0].id || ''
   };
 
   updateActivePlace = (event: any) => {

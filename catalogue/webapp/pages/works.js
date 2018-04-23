@@ -2,8 +2,8 @@
 
 import fetch from 'isomorphic-unfetch';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
-import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/DefaultPageLayout';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
+import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
@@ -32,12 +32,7 @@ const WorksComponent = ({
   pagination,
   handleSubmit
 }: Props) => (
-  <DefaultPageLayout
-    title='Image catalogue search | Wellcome Collection'
-    description='Search through the Wellcome Collection image catalogue'
-    analyticsCategory='collections'
-    siteSection='images'
-  >
+  <Fragment>
     <PageDescription title='Search our images' extraClasses='page-description--hidden' />
     <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
@@ -145,7 +140,7 @@ const WorksComponent = ({
         </div>
       </Fragment>
     }
-  </DefaultPageLayout>
+  </Fragment>
 );
 
 class Works extends Component<Props> {
@@ -158,7 +153,11 @@ class Works extends Component<Props> {
     return {
       works: json,
       query: query,
-      pagination: pagination
+      pagination: pagination,
+      title: 'Image catalogue search | Wellcome Collection',
+      description: 'Search through the Wellcome Collection image catalogue',
+      analyticsCategory: 'collections',
+      siteSection: 'images'
     };
   };
 
@@ -180,12 +179,13 @@ class Works extends Component<Props> {
         query={this.props.query}
         works={this.props.works}
         pagination={this.props.pagination}
-        handleSubmit={this.handleSubmit} />
+        handleSubmit={this.handleSubmit}
+      />
     );
   }
 }
 
-export default Works;
+export default PageWrapper(Works);
 
 function getQueryParamsForWork(query: {}) {
   return Object.keys(query).reduce((acc, currKey, index) => {
