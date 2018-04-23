@@ -1,8 +1,0 @@
-<blockquote class="quote {{ data.fontStyles | fontClasses if data.fontStyles }} {{ 'quote' | componentClasses(modifiers) }}">
-  {{ model.body }}
-  {% if model.footer %}
-    <footer class="quote__footer {{ {s:'HNM5'} | fontClasses }}">
-      <cite class="quote__cite {{ {s:'HNL5'} | fontClasses }}">{{ model.footer }}</cite>
-    </footer>
-  {% endif %}
-</blockquote>
