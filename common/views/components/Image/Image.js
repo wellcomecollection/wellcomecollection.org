@@ -44,7 +44,7 @@ const Image = ({
 );
 
 const imageClasses = (clip = false, lazyload: boolean, clipPathClass, zoomable) => {
-  const lazyloadClass = lazyload ? 'lazy-image lazyload' : '';
+  const lazyloadClass = lazyload ? '{lazy-image lazyload}' : '';
   const clipClass = clip ? `promo__image-mask ${clipPathClass || ''}` : '';
   const zoomClass = zoomable ? 'cursor-zoom-in' : '';
 
