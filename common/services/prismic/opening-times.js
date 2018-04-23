@@ -1,18 +1,14 @@
 // @flow
 import Prismic from 'prismic-javascript';
-import {getMemoizedPrismicApi} from './api';
+import {getDocuments} from './api';
 import {isDatePast, london} from '../../utils/format-date';
 import groupBy from 'lodash.groupby';
 import type {ExceptionalVenueHours, PlacesOpeningHours, ExceptionalOpeningHoursDay, Venue, Days, OpeningTimes} from '../../model/opening-hours';
-import type {PrismicApiSearchResponse} from '../../services/prismic/types';
+import type {PrismicFragment} from '../../services/prismic/types';
 import type Moment from 'moment';
 
 export async function getCollectionOpeningTimes() {
-  const prismic = await getMemoizedPrismicApi();
-  const collectionVenues = await prismic.query([
-    Prismic.Predicates.any('document.type', ['collection-venue'])
-  ]);
-
+  const collectionVenues = await getDocuments(null, [Prismic.Predicates.any('document.type', ['collection-venue'])], {});
   return parseVenuesToOpeningHours(collectionVenues);
 }
 
@@ -119,7 +115,7 @@ function createExceptionalDate(day, venue) {
   }
 }
 
-function parseVenuesToOpeningHours(doc: PrismicApiSearchResponse): OpeningTimes {
+function parseVenuesToOpeningHours(doc: PrismicFragment): OpeningTimes {
   const placesOpeningHours =  doc.results.map((venue) => {
     const exceptionalOpeningHours = venue.data.modifiedDayOpeningTimes.map((modified) => {
       const start = modified.startDateTime && london(modified.startDateTime).format('HH:mm');

@@ -1,0 +1,1313 @@
+{
+  "type": "exhibitions",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WZwh4ioAAJ3usf88",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Can Graphic Design Save Your Life?",
+        "spans": []
+      }
+    }
+  ],
+  "start": "2017-09-06T23:00:00+00:00",
+  "end": "2018-01-14T00:00:00+00:00",
+  "intro": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Explore the relationship between graphic design and health in our current exhibition. ",
+        "spans": []
+      }
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Comprising over 200 objects including hard-hitting posters, illuminated pharmacy signs and digital teaching aids, 'Can Graphic Design Save Your Life?' considers the role of graphic design in constructing and communicating healthcare messages around the world, and shows how graphic design has been used to persuade, to inform and to empower.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This exhibition highlights the widespread and often subliminal nature of graphic design in shaping our environment, our health and our sense of self. Drawn from public and private collections around the world, it will feature work from influential figures in graphic design from the 20th century, as well as from studios and individual designers working today.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "'Can Graphic Design Save Your Life?' is curated by graphic designer Lucienne Roberts and design educator Rebecca Wright, founders of publishing house GraphicDesign&, with Shamita Sharmacharja at Wellcome Collection.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Please see our advice for visiting during busy times",
+        "spans": [
+          {
+            "start": 26,
+            "end": 52,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/busytimes"
+              },
+              "url": "https://wellcomecollection.org/busytimes"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "textAndCaptionsDocument": {
+    "id": "WcOSPigAAEEF8-QP",
+    "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7b71ef73-e5f0-4bcb-bbc8-f962fa6328d6_cgdsyl-largeprintguide.pdf",
+    "name": "CGDSYL-LargePrintGuide.pdf",
+    "kind": "document",
+    "date": "09/21/17 10:19",
+    "size": "314828",
+    "wioUrl": "wio://medias/WcOSPigAAEEF8-QP"
+  },
+  "galleryLevel": "0",
+  "promo": [
+    {
+      "key": "editorialImage$6ead7cc1-2dd4-47eb-bd46-2584a4329be5",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Explore how graphic design affects your health",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "Wj0DVCQAACYA653I",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ffcf5bbc8-ce7c-4102-b651-ed20f05cedb5_ep000164_0140_can+graphic+design+save+your+life+1912.jpg",
+              "width": 3000,
+              "height": 2000
+            },
+            "width": 3000,
+            "height": 2000,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/b9e3afbfedbbd8932d891ae9230c5e0d9ece84bf_ep000164_0140_can-graphic-design-save-your-life-1912.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "32:15": {
+                "origin": {
+                  "id": "Wj0DVCQAACYA653I",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ffcf5bbc8-ce7c-4102-b651-ed20f05cedb5_ep000164_0140_can+graphic+design+save+your+life+1912.jpg",
+                  "width": 3000,
+                  "height": 2000
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/faacf035b2f72482ac95d714be1a6722fae9bdd4_ep000164_0140_can-graphic-design-save-your-life-1912.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.0666666666666667,
+                  "crop": {
+                    "x": 0,
+                    "y": -316
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "Wj0DVCQAACYA653I",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ffcf5bbc8-ce7c-4102-b651-ed20f05cedb5_ep000164_0140_can+graphic+design+save+your+life+1912.jpg",
+                  "width": 3000,
+                  "height": 2000
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/8fddb2ebc2a67c9204d34309b9b5112740d75e77_ep000164_0140_can-graphic-design-save-your-life-1912.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.6,
+                  "crop": {
+                    "x": -800,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "16:9": {
+                "origin": {
+                  "id": "Wj0DVCQAACYA653I",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ffcf5bbc8-ce7c-4102-b651-ed20f05cedb5_ep000164_0140_can+graphic+design+save+your+life+1912.jpg",
+                  "width": 3000,
+                  "height": 2000
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/2f26972bd4ebf85f78074549e30cfb9d356a1bfb_ep000164_0140_can-graphic-design-save-your-life-1912.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.0666666666666667,
+                  "crop": {
+                    "x": 0,
+                    "y": -166
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "promoList": [
+    {
+      "image": {
+        "origin": {
+          "id": "Wb-a5ikAALRm7WK2",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fa579b2ad-716e-4d54-a676-b1cd82372b29_imagegallerythumbnail.jpg",
+          "width": 1212,
+          "height": 404
+        },
+        "width": 1212,
+        "height": 404,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e6bf9187cd82af071cb38133bf264089eebb05de_imagegallerythumbnail.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "gallery",
+      "title": [
+        {
+          "type": "heading1",
+          "content": {
+            "text": "Can Graphic Design Save Your Life?",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Stamps, advertising campaigns, pill packaging: take a look at this selection of objects from the exhibition.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/visit-us/can-graphic-design-save-your-life-image-gallery",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "Wbk05ykAALi7WvEH",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fa7e0cb34-890b-4200-86e8-d95749f7c9ab_graphic+warnings.png",
+          "width": 575,
+          "height": 816
+        },
+        "width": 575,
+        "height": 816,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/7e3de0369c569782988f747edb3d3dd3e480479f_graphic-warnings.png",
+        "edit": {
+          "background": "transparent",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "book",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "Graphic Warnings postcard book",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "25 vintage postcards showcasing the style and wit of 20th-century public health campaigns and their iconic graphic design.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/graphic-warnings",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "WeXkeiQAAPFtLh3x",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fbe791170-8297-4b25-b805-db0b3fbdea6f_malcolm_gaskin_perspectives-main.png",
+          "width": 800,
+          "height": 450
+        },
+        "width": 800,
+        "height": 450,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/bc1fdcc5e8a9bce6c0e80401c8bd68282901f1d3_malcolm_gaskin_perspectives-main.png",
+        "edit": {
+          "background": "transparent",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "event",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "Perspective Speaker Tour with Malcolm Gaskin",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "An expert-led tour of the Can Graphic Design Save Your Life? exhibition with Malcolm Gaskin.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/events/perspective-speaker-tour-malcolm-gaskin",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "We9Z_R4AAPhdmE4b",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff11b9a66-2f0f-403a-9faf-de9aa9bb90d6_popupstudio.jpg",
+          "width": 2048,
+          "height": 1152
+        },
+        "width": 2048,
+        "height": 1152,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e040d037955e73194ab552e7ee5218af3abfaa09_popupstudio.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "event",
+      "title": [
+        {
+          "type": "heading1",
+          "content": {
+            "text": "Designing for Health: A pop-up studio",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Explore the relationship between graphic design and health through practical workshops, conversations and experiments in our pop-up design studio.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/designstudio",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "WeXlECQAACNsLiZE",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F76c8d82a-1023-438e-b39f-1cd332ee2bb4_alex_mold_perspectives-main.jpg",
+          "width": 800,
+          "height": 450
+        },
+        "width": 800,
+        "height": 450,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/30df771c2fa97db893c9e6d7249a195d7d4293c0_alex_mold_perspectives-main.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "event",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "Perspective Speaker Tour with Dr Alex Mold",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "An expert-led tour of the Can Graphic Design Save Your Life? exhibition with Dr Alex Mold.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/events/perspective-speaker-tour-dr-alex-mold",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "WdO7MycAAF6cTNVR",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F222205ba-61ce-4336-956c-afa57fa0dcc0_saturday+studio+emoji+design.jpg",
+          "width": 400,
+          "height": 225
+        },
+        "width": 400,
+        "height": 225,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/82925ae42e62bc7948417f7d5cfe19956ef24474_saturday-studio-emoji-design.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": "A collection of colourful objects on a bright yellow object, suggesting different smiley face emojis",
+        "thumbnails": {}
+      },
+      "type": "event",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "Saturday Studio: Emoji Design",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Learn about the principles of graphic design by creating your own series of medical emojis.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/events/saturday-studio-emoji-design",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "We9aFh4AADxhmE6K",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3f0763db-b53a-44c8-b001-7490035ae7f8_designforlife.jpg",
+          "width": 2048,
+          "height": 1152
+        },
+        "width": 2048,
+        "height": 1152,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/a24f49741db27c9717a494a6ff6bba5c9ff536a7_designforlife.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "event",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "Design for Life",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "A new half-day study session for students studying art and design subjects, exploring the links between graphic design and health.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/events/design-for-life",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "We9aKR4AADxhmE7f",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F790b2ab8-6bdf-4da5-af50-1c1ec36c93dc_stt.jpg",
+          "width": 2048,
+          "height": 1152
+        },
+        "width": 2048,
+        "height": 1152,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/86d8487dc4dd472bd53aa02c9214669456eea177_stt.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "event",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "STT tour: Can Graphic Design Save Your Life?",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Join a speech-to-text transcribed tour of Can Graphic Design Save Your Life?",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/events/stt-tour-can-graphic-design-save-your-life",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "We9aQB4AAPhdmE9G",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F0c8925cc-de1c-4374-b135-034ff2d4ebe6_ad.jpg",
+          "width": 2048,
+          "height": 1152
+        },
+        "width": 2048,
+        "height": 1152,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/0cadb9baee804c0d4b36227e2406912a07be8322_ad.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "event",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "AD tour: Can Graphic Design Save Your Life?",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Join an audio described tour of Can Graphic Design Save Your Life?",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/events/ad-tour-can-graphic-design-save-your-life",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "WbqZgSUAALNrjqnH",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Faf491a1b-62af-495a-8196-cdcf48f1a31e_more-to-explore.jpg",
+          "width": 800,
+          "height": 450
+        },
+        "width": 800,
+        "height": 450,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ad70983831e5d65562a6f9154c67e3bfcf78c302_more-to-explore.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "article",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "More to explore",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "If you enjoyed the exhibition, we have lots more on graphic design in our Reading Room and Library, and online.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/visit-us/graphic-design-more-to-explore",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "WXB6vyoAAOWrZUyw",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F4b0b61fc-a2a7-46b0-abc4-0c894866e51a_zines-16-9.jpg",
+          "width": 2000,
+          "height": 1125
+        },
+        "width": 2000,
+        "height": 1125,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e23e12ef2e19f917fd6043c07d5e107f15220cb0_zines-16-9.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": "Wellcome Collection",
+        "alt": "6 zines around the subject of health scattered across a wooden table",
+        "thumbnails": {}
+      },
+      "type": "article",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "DIY design: perzines",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Personal zines put health conditions back in the hands of the people who experience them. Here are six that might just change your life.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/articles/six-personal-health-zines-that-might-change-your-life",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "WbuckSUAADGXkv4f",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F68d7e67a-b94e-47ee-aea2-10a7805c09cb_default.jpg",
+          "width": 1000,
+          "height": 562
+        },
+        "width": 1000,
+        "height": 562,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e8550913405e999385e9bbf6931f68503d729134_default.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "article",
+      "title": [
+        {
+          "type": "heading1",
+          "content": {
+            "text": "You've been warned",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Iconic graphic design devised to admonish, amuse, inform and empower.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/articles/Wa_Ody0AADIohQQo",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "WbAg1i0AAIZahm8m",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fcf5b36e7-d782-4ae1-b9fe-66a2d3fae142_l0026403_16x9.jpg",
+          "width": 1600,
+          "height": 901
+        },
+        "width": 1600,
+        "height": 901,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/c5c0437654cf5bfb157347f04229be8e4e000ef2_l0026403_16x9.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "article",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "Graphic gallery: red",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Red is for danger, and it’s for blood. It’s for passion, and it’s for love.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/articles/Wa__WS0AAI1WhduM",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "WeXmciQAAPFtLjkz",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F02dfb372-5de8-4bee-8e8a-76c0487c3906_yellow.jpg",
+          "width": 2000,
+          "height": 1125
+        },
+        "width": 2000,
+        "height": 1125,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/27308b47597f993f0dffcffc5bb7c2c3ee1547dc_yellow.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "article",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "Graphic gallery: yellow",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Yellow is for sunshine and cheer, but it's also the colour of fever and cancer.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/articles/WbvdiCUAAAitlByw",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "WeXmjiQAACRsLjmv",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd5e85094-9395-4673-8f2b-a50e8a5d7dbb_green.jpg",
+          "width": 1600,
+          "height": 900
+        },
+        "width": 1600,
+        "height": 900,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/8c05b933b7ab7bf240c50985a0cdd7bc8a665588_green.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "article",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "Graphic gallery: green",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Green is fresh, the colour of nature and of innocence, but it’s also the colour of nausea, greed and jealousy.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/articles/Wcj2kSgAAB-3C4Uj",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "WeXlpCQAACJsLjFW",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff91734db-bbc8-4c53-8816-5290ae740c59_blue.jpg",
+          "width": 1600,
+          "height": 900
+        },
+        "width": 1600,
+        "height": 900,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/cba97ef8f1eda50cae213210831f68e85283d0df_blue.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": "Image of a naked woman swimming in the sea, with a beach and cliffs in the background.",
+        "thumbnails": {}
+      },
+      "type": "article",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "Graphic gallery: blue",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Blue is the colour of loyalty, holiness and virtue, but it’s also linked to deadly diseases and depression.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/articles/Wbq1iSUAAIx5jyLH",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "We9Pdx4AAC9XmC6c",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F47beabae-134c-4826-972a-4764b9bdcece_nick+o%27teen_16x9.jpg",
+          "width": 1024,
+          "height": 576
+        },
+        "width": 1024,
+        "height": 576,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ce92e24c7d38386b24308f01de9f645a55e9ca69_nick-oteen_16x9.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "event",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "Can Animation Save Your Life?",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Join us for a screening of animation firm Halas and Batchelor's lesser known work.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/events/can-animation-change-your-life",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "We8kPB4AAIVNl4Cm",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F134970a3-8e59-4ae3-a604-5dcc8478aa38_our+provocation.jpg",
+          "width": 800,
+          "height": 450
+        },
+        "width": 800,
+        "height": 450,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/b85866ec1886834c4bb4335c111e25b9b1644e11_our-provocation.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "event",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "Our Provocation Campaign Workshop",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Explore your ideas and opinions through creative, visual campaign tools inspired by our installation.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/events/our-provocation-campaign-workshop",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "We8k5h4AAGtOl4OV",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F22e0df0b-2bce-4c9a-bcc0-010299e18c39_reimagining+dementia.jpg",
+          "width": 800,
+          "height": 450
+        },
+        "width": 800,
+        "height": 450,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/1700ccffbd3962933fd200afbb6d3082e76f4d55_reimagining-dementia.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "event",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "Reimagining Dementia Campaigns",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Join Charlie Murphy, Pixel Press and Created Out of Mind to consider how dementia campaigns might be reimagined using graphic communication.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/events/reimagining-dementia-campaigns",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "We8lkh4AADdNl4aN",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F62f5021a-5332-43cf-be44-5584929a4670_public+studio+hiv.jpg",
+          "width": 800,
+          "height": 450
+        },
+        "width": 800,
+        "height": 450,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/59f15c4e13ee79477f34b81c315da0e2cf1395c5_public-studio-hiv.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "event",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "Public Studio: HIV and AIDs",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Join Lois Weaver, Paul Steinberg and David Caines in the Public Studio for an open work session where design and public health join forces.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/events/public-studio-hiv-and-aids",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "We8l3x4AAIVNl4fo",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fabee37ba-c4f8-4f79-8dd7-b910bd28ef4a_community+care.jpg",
+          "width": 800,
+          "height": 450
+        },
+        "width": 800,
+        "height": 450,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/bc987a2332e8ba9f3ccf5581999a4744a7549892_community-care.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "event",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "Community Care, Collective Care",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Join Raju Rage and Rudy Loewe to explore how design practices can be used in grassroots political organising and self-publishing.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/events/community-care-collective-care",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "We8mCR4AAGtOl4io",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F708c6327-f3bc-4572-b235-37e4646c52dd_drawing+on+your+own+experience.jpg",
+          "width": 800,
+          "height": 450
+        },
+        "width": 800,
+        "height": 450,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/74db4b6d3b4094b6262521771b6f8db1b7084b52_drawing-on-your-own-experience.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "event",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "Drawing on Your Own Experience",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Designers and clinicians from Helix Centre look at how our medical histories and symptoms could be visualised and shared with our doctors.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/events/drawing-your-own-experience",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "We8mUR4AAIVNl4nn",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fe63976ce-052d-448b-9070-8007df637118_type+tasting+language+laboratory.jpg",
+          "width": 800,
+          "height": 450
+        },
+        "width": 800,
+        "height": 450,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/264912afbc20715e326326bf78c89255123a7fe5_type-tasting-language-laboratory.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": null,
+        "alt": null,
+        "thumbnails": {}
+      },
+      "type": "event",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "Type Tasting: Language Laboratory",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Diagnose the symptoms of different typefaces, and consider the expressive potential of fonts, with graphic designer Sarah Hyndman.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/events/type-tasting-language-laboratory",
+        "preview": null
+      }
+    },
+    {
+      "image": {
+        "origin": {
+          "id": "WeTMIyQAAGrtKOQY",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fab0adf43-ee30-49c2-aba0-83a3ee94ad50_book+of+disquiet_16x9_featured.jpg",
+          "width": 1600,
+          "height": 900
+        },
+        "width": 1600,
+        "height": 900,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/414dcf64b325d00a631f15449255dc2eddd066cb_book-of-disquiet_16x9_featured.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "credits": "The Book of Disquiet | | Half Pint Press | | CC-BY-NC | Michael Jones |",
+        "alt": "A close up of some of the items that feature in Tim Hopkins' edition of The Book of Disquiet.",
+        "thumbnails": {}
+      },
+      "type": "article",
+      "title": [
+        {
+          "type": "heading3",
+          "content": {
+            "text": "Restoring disorder to The Book of Disquiet",
+            "spans": []
+          }
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Printer Tim Hopkins explains what making an extraordinary new edition of Fernando Pessoa's book revealed about both the text and the mind.",
+            "spans": []
+          }
+        }
+      ],
+      "link": {
+        "url": "https://wellcomecollection.org/articles/WeSrDCQAAGrtKEo2",
+        "preview": null
+      }
+    }
+  ]
+}

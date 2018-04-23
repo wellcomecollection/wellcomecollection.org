@@ -2,7 +2,12 @@
 import type {PrismicDocument} from './types';
 import type {UiInstallation} from '../../model/installations';
 import {getDocument} from './api';
-import {peopleFields, contributorsFields, placesFields} from './fetch-links';
+import {
+  peopleFields,
+  contributorsFields,
+  placesFields,
+  organisationsFields
+} from './fetch-links';
 import {breakpoints} from '../../utils/breakpoints';
 import {
   parseTitle,
@@ -45,7 +50,7 @@ export function parseInstallationDoc(document: PrismicDocument): UiInstallation 
 
 export async function getInstallation(req: Request, id: string): Promise<?UiInstallation> {
   const document = await getDocument(req, id, {
-    fetchLinks: peopleFields.concat(contributorsFields, placesFields)
+    fetchLinks: peopleFields.concat(contributorsFields, placesFields, organisationsFields)
   });
 
   if (document && document.type === 'installations') {
