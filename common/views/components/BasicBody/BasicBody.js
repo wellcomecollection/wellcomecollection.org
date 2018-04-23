@@ -17,7 +17,7 @@ const HTMLBlock = ({ html }: HTMLBlockProps) => (
 
 const BasicBody = ({ body }: Props) => {
   return (
-    <div className='body-content'>
+    <div className='basic-body body-content'>
       {body.map((slice, i) =>
         <div className='body-part' key={`slice${i}`}>
           {slice.type === 'text' && <HTMLBlock html={slice.value} />}
