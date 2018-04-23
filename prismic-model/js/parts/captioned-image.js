@@ -4,7 +4,7 @@ import image from './image';
 
 export default function() {
   return {
-    'caption': structuredText('Caption', 'single'),
-    'image': image('Image')
+    'image': image('Image'),
+    'caption': structuredText('Caption', 'single')
   };
 }
