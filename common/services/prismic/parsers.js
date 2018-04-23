@@ -50,14 +50,15 @@ export function parseTimestamp(frag: PrismicFragment): Date {
   return PrismicDate(frag);
 }
 
+const placeholderImage = 'https://via.placeholder.com/160x90?text=placeholder';
 export function parsePicture(captionedImage: Object, minWidth: ?string = null): Picture {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
   const tasl = image && parseTaslFromString(image.copyright);
 
   return ({
-    contentUrl: image && image.url,
-    width: image && image.dimensions && image.dimensions.width,
-    height: image && image.dimensions && image.dimensions.height,
+    contentUrl: (image && image.url) || placeholderImage,
+    width: (image && image.dimensions && image.dimensions.width) || 160,
+    height: (image && image.dimensions && image.dimensions.height) || 90,
     caption: captionedImage.caption && asHtml(captionedImage.caption),
     alt: image && image.alt,
     title: tasl && tasl.title,
@@ -75,15 +76,15 @@ export function parsePicture(captionedImage: Object, minWidth: ?string = null): 
   }: Picture);
 }
 
-const defaultImage = 'https://via.placeholder.com/64x64';
+const defaultContributorImage = 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3ed09488-1992-4f8a-9f0c-de2d296109f9_group+21.png';
 function parsePersonContributor(frag: PrismicFragment): PersonContributor {
   return {
-    contributorType: 'people',
+    type: 'people',
     id: frag.id,
     name: frag.data.name || 'NAME MISSING',
     image: frag.data.image && parsePicture({
       image: frag.data.image
-    }) ||  { width: 64, contentUrl: defaultImage },
+    }) ||  { width: 64, height: 64, contentUrl: defaultContributorImage },
     description: frag.data.description,
     twitterHandle: null
   };
@@ -91,11 +92,11 @@ function parsePersonContributor(frag: PrismicFragment): PersonContributor {
 
 function parseOrganisationContributor(frag: PrismicFragment): OrganisationContributor {
   return  {
-    contributorType: 'organisations',
+    type: 'organisations',
     name: asText(frag.data.name) || 'NAME MISSING',
     image: frag.data.image && parsePicture({
       image: frag.data.image
-    }) || { width: 64, contentUrl: defaultImage },
+    }) || { width: 64, height: 64, contentUrl: defaultContributorImage },
     url: frag.data.url
   };
 }
