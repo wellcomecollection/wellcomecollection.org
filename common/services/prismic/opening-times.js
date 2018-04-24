@@ -148,7 +148,7 @@ function exceptionalOpeningHours(dates: Date[], placesOpeningHours: PlacesOpenin
 function upcomingExceptionalOpeningPeriods(dates: ?(Moment)[][]) {
   return dates && dates.filter((dates) => {
     const displayPeriodStart = london().subtract(1, 'day');
-    const displayPeriodEnd = london().add(15, 'day');
+    const displayPeriodEnd = london().add(8, 'day');
     return dates[0].clone().isBetween(displayPeriodStart, displayPeriodEnd) || dates[dates.length - 1].clone().isBetween(displayPeriodStart, displayPeriodEnd);
   });
 }
