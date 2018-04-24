@@ -3,10 +3,10 @@ import {spacing, font} from '../../../utils/classnames';
 import {Fragment, Component} from 'react';
 import {formatDate} from '../../../utils/format-date';
 import OpeningHoursTable from '../../components/OpeningHoursTable/OpeningHoursTable';
+import OpeningHoursTableGrouped from '../../components/OpeningHoursTableGrouped/OpeningHoursTableGrouped';
 import type {PlacesOpeningHours} from '../../../model/opening-hours';
 
 type Props = {|
-  id: string,
   extraClasses?: string,
   groupedVenues: {
     [key]: PlacesOpeningHours
@@ -35,7 +35,6 @@ class OpeningHours extends Component<Props, State> {
     const {
       upcomingExceptionalOpeningPeriods,
       extraClasses,
-      id,
       groupedVenues
     } = this.props;
 
@@ -43,7 +42,7 @@ class OpeningHours extends Component<Props, State> {
       <Fragment>
         {!groupedVenues &&
           <p className={spacing({s: 2}, {margin: ['bottom']})}>
-            <a className={font({s: 'HNL6', m: 'HNL5'})} href="https://wellcomecollection.org/info/opening-times">
+            <a className={font({s: 'HNL6', m: 'HNL5'})} href='https://wellcomecollection.org/info/opening-times'>
               Opening times
             </a>
           </p>
@@ -76,7 +75,7 @@ class OpeningHours extends Component<Props, State> {
                 }
               }
             })}
-            . Please check our <a href="/info/opening-times#exceptional">modified opening times</a> for details before you travel.
+            . Please check our <a href='/info/opening-times#exceptional'>modified opening times</a> for details before you travel.
           </p>
         }
         <div className={`opening-hours ${extraClasses || ''} js-opening-hours js-tabs`}>
@@ -92,13 +91,17 @@ class OpeningHours extends Component<Props, State> {
           </ul>
           {groupedVenues && Object.keys(groupedVenues).map((key) => (
             <div key={key} id={key} className={`js-tabpanel opening-hours__panel ${key === this.state.activePlace ? 'opening-hours__panel--is-visible' : ''} ${extraClasses || ''}`}>
-              <div className="js-tabfocus">
-                {groupedVenues[key].hours.map((place) => (
-                  <OpeningHoursTable
-                    key={place.id}
-                    id={id}
-                    place={place} />
-                ))}
+              <div className='js-tabfocus'>
+                <div className='is-hidden-m is-hidden-l is-hidden-xl'>
+                  {groupedVenues[key].hours.map((place) => (
+                    <OpeningHoursTable
+                      key={place.id}
+                      place={place} />
+                  ))}
+                </div>
+                <div className='is-hidden-s'>
+                  <OpeningHoursTableGrouped venues={groupedVenues[key].hours} />
+                </div>
               </div>
             </div>
           ))}
@@ -107,11 +110,5 @@ class OpeningHours extends Component<Props, State> {
     );
   }
 }
-
-// TODO get working in Cat app and check still works, aria is active etc.
-// TODO Flow stuff
-// TODO OpeningHoursTableSingleVenue
-// TODO OpeningHoursTableMixedVenues
-// TODO fade in and out
 
 export default OpeningHours;
