@@ -3,8 +3,8 @@ import {grid, font, spacing} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import Image from '../Image/Image';
 import ImageViewer from '../ImageViewer/ImageViewer';
-import ScrollToInfo from '../ScrollToInfo/ScrollToInfo';
 import {iiifImageTemplate} from '../../../utils/convert-image-uri';
+import LinkControl from '../Buttons/LinkControl/LinkControl';
 
 type Props = {|
   id: string,
@@ -38,9 +38,9 @@ const WorkMedia = ({
   return (
     <div>
       {queryString &&
-      <div className="row is-hidden-s is-hidden-m">
-        <div className="container">
-          <div className="grid">
+      <div className='row is-hidden-s is-hidden-m'>
+        <div className='container'>
+          <div className='grid'>
             <div className={grid({s: 12})}>
               <a className={`
                   flex-inline flex-v-center plain-link font-green font-hover-turquoise
@@ -57,11 +57,13 @@ const WorkMedia = ({
         </div>
       </div>
       }
-      <div id={`work-media-${id}`} className="row bg-black work-media js-work-media">
-        <div className="pointer-events-none">
-          <ScrollToInfo elementId='work-info' />
-        </div>
-        <div className="work-media__image-container">
+      <div id={`work-media-${id}`} className='row bg-black work-media js-work-media'>
+        <LinkControl
+          extraClasses='scroll-to-info js-scroll-to-info js-work-media-control flush-container-right button-control--dark'
+          url='#work-info'
+          eventTracking='{"category": "component", "action": "scroll-to-info:click", "label": "scrolled-to-id:work-info"}`}'
+          icon='chevron' />
+        <div className='work-media__image-container'>
           <Image
             width={width}
             contentUrl={imageContentUrl}

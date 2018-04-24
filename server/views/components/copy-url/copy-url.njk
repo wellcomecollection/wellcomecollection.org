@@ -3,7 +3,9 @@
 <button aria-live="polite"
   data-copy-text="{{ model.url }}"
   data-track-event='{"category": "component", "action": "copy-url:click", "label": "id:{{ model.id }}"}'
-  class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} btn btn--light is-hidden js-copy-url pointer">
-    {% icon 'check', null, ['icon--black', 'is-hidden'] -%}
-    <span class="js-copy-text">Copy link</span>
+  class="{{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} btn btn--tertiary is-hidden js-copy-url pointer">
+    <span class="flex-inline flex--v-center">
+      {% icon 'check', null, ['icon--black', 'is-hidden'] -%}
+      <span class="js-copy-text">Copy link</span>
+    </span>
 </button>

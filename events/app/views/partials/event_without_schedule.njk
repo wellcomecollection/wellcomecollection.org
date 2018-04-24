@@ -108,28 +108,17 @@
           {% if event.eventbriteId %}
             <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
               {% if event.isCompletelySoldOut %}
-                <button class="{{- [
-                  {s:'HNM4'} | fontClasses,
-                  {s: 4} | spacingClasses({padding: ['left', 'right']})
-                ].join(' ') }} flex-inline flex--h-center btn btn--full-width-s"
-                        disabled="disabled" aria-disabled="true">
-                  Fully booked
-                </button>
+                {% componentJsx 'ButtonButton', {extraClasses: 'btn--primary', disabled: true, text: 'Fully booked'} %}
               {% else %}
                 <div class="js-eventbrite-ticket-button" data-eventbrite-ticket-id="{{ event.eventbriteId }}">
-                  <a class="{{- [
-                    'flex-inline',
-                    'flex--v-center',
-                    'flex--h-center',
-                    'btn btn--full-width-s',
-                    {s:'HNM4'} | fontClasses,
-                    {s: 4} | spacingClasses({padding: ['left', 'right']})
-                  ].join(' ') }}"
-                      href="https://www.eventbrite.com/e/{{ event.eventbriteId }}/"
-                      data-track-event="{{ {category: 'component', action: 'booking-tickets:click', label: 'event-page'} }}">
-                    <span>{% icon 'ticket' %}</span>
-                    <span class="js-eventbrite-ticket-button-text">Book free tickets</span>
-                  </a>
+                  {% componentJsx 'LinkButton', {
+                    extraClasses: 'btn--primary',
+                    href: 'https://www.eventbrite.com/e/' + event.eventbriteId + '/',
+                    eventTracking: "{category: 'component', action: 'booking-tickets:click', label: 'event-page'}",
+                    text: 'Book free tickets',
+                    icon: 'ticket'
+                  } %}
+
                   <p class="{{- [
                     'font-charcoal',
                     {s:'HNL5'} | fontClasses,
@@ -137,30 +126,22 @@
                     {s:0} | spacingClasses({margin: ['bottom']})
                   ].join(' ') -}}">with Eventbrite</p>
                 </div>
-            {% endif %}
+              {% endif %}
             </div>
           {% endif %}
 
           {% if event.bookingEnquiryTeam %}
             <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
               {% if event.isCompletelySoldOut %}
-                <button class="{{- [
-                  {s:'HNM4'} | fontClasses,
-                  {s: 4} | spacingClasses({padding: ['left', 'right']})
-                ].join(' ') }} flex-inline flex--h-center btn btn--full-width-s"
-                  disabled="disabled" aria-disabled="true">
-                  Fully booked
-                </button>
+                {% componentJsx 'ButtonButton', {extraClasses: 'btn--primary', disabled: true, text: 'Fully booked'} %}
               {% else %}
-              <a class="{{- [
-                          {s:'HNM4'} | fontClasses,
-                          {s: 4} | spacingClasses({padding: ['left', 'right']})
-                        ].join(' ') }} flex-inline flex--h-center btn btn--full-width-s"
-                  href="mailto:{{ event.bookingEnquiryTeam.email }}?subject={{event.title}}"
-                  data-track-event="{{ {category: 'component', action: 'booking-enquiry:click', label: 'event-page'} }}">
-                <span>{% icon 'email', null, ['icon--white'] %}</span>
-                Email to book
-              </a>
+                {% componentJsx 'LinkButton', {
+                    extraClasses: 'btn--primary',
+                    href: 'mailto:' + event.bookingEnquiryTeam.email + '?subject=' + event.title,
+                    eventTracking: "{category: 'component', action: 'booking-tickets:click', label: 'event-page'}",
+                    text: 'Email to book',
+                    icon: 'email'
+                } %}
               {% endif %}
               <a class="block font-charcoal {{ {s:'HNL5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}"
                   href="mailto:{{ event.bookingEnquiryTeam.email }}?subject={{event.title}}">{{ event.bookingEnquiryTeam.email }}</a>

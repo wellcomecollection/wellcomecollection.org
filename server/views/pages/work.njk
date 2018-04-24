@@ -120,5 +120,11 @@
     </div>
   </div>
 
-  {% componentJsx 'BackToTop', {trackId: pageConfig.canonicalUri} %}
+  {% componentJsx 'LinkControl', {
+    url: '#top',
+    extraClasses: 'icon--180 button-control--dark js-back-to-top back-to-top',
+    icon: 'chevron',
+    text: 'Back to top',
+    eventTracking: '{"category": "component", "action": "back-to-top:click", "label": "url:' + pageConfig.canonicalUri + '"}'
+  } %}
 {% endblock %}

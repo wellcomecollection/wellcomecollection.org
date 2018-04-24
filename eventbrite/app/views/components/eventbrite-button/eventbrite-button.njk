@@ -1,12 +1,12 @@
 <div>
+  {% componentJsx 'LinkButton' {
+    extraClasses: 'btn--primary',
+
+  } %}
   <a class="{{- [
     'js-eventbrite-ticket-button',
-    'flex-inline',
-    'flex--v-center',
-    'flex--h-center',
-    'btn btn--full-width-s',
-    {s:'HNM4'} | fontClasses,
-    {s: 4} | spacingClasses({padding: ['left', 'right']})
+    'btn',
+    'btn--primary'
   ].join(' ') }}"
      data-eventbrite-ticket-id="{{ ticket.eventbriteId }}"
      {% if ticket.onSaleStatus === 'available' %}

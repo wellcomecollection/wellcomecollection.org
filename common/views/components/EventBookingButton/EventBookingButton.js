@@ -2,8 +2,8 @@
 
 import type {Event} from '../../../model/events';
 import {Fragment} from 'react';
-import Icon from '../Icon/Icon';
 import ButtonButton from '../Buttons/ButtonButton/ButtonButton';
+import LinkButton from '../Buttons/LinkButton/LinkButton';
 import {spacing, font} from '../../../utils/classnames';
 
 type Props = {|
@@ -16,19 +16,18 @@ function getButtonMarkup(event) {
   if (event.isCompletelySoldOut) {
     return (
       <ButtonButton
+        extraClasses='btn--primary'
         text='Fully booked'
-        icon='ticketAvailable'
-        extraClasses={`${font({s: 'HNM5'})} btn--full-width-s`}
-      />
+        icon='ticketAvailable' />
     );
   } else {
     return (
-      <div className="js-eventbrite-ticket-button" data-eventbrite-ticket-id={event.eventbriteId}>
-        <a className={`flex-inline flex--v-center flex--h-center btn btn--full-width-s ${font({s: 'HNM4'})}`}
-          href={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}>
-          <span><Icon name='ticketAvailable' /></span>
-          <span className="js-eventbrite-ticket-button-text">Book free tickets</span>
-        </a>
+      <div className='js-eventbrite-ticket-button' data-eventbrite-ticket-id={event.eventbriteId}>
+        <LinkButton
+          extraClasses='btn--primary'
+          href={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
+          icon='ticketAvailable'
+          text='Book free tickets' />
       </div>
     );
   }
@@ -40,19 +39,19 @@ function getBookingEnquiryMarkup(event) {
   if (event.isCompletelySoldOut) {
     return (
       <Fragment>
-        <button className={`${font({s: 'HNM4'})} ${spacing({s: 4}, {padding: ['left', 'right']})} flex-inline flex--h-center btn btn--full-width-s`}
-          disabled="disabled" aria-disabled="true">
-          Fully booked
-        </button>
+        <ButtonButton
+          extraClasses='btn--primary'
+          disabled={true}
+          text='Fully booked' />
       </Fragment>
     );
   } else {
     return (
-      <a className={`${font({s: 'HNM4'})} ${spacing({s: 4}, {padding: ['left', 'right']})} flex-inline flex--h-center btn btn--full-width-s`}
-        href="mailto:{{ event.bookingEnquiryTeam.email }}?subject={{event.title}}">
-        <span><Icon name='email' extraClasses='icon--white' /></span>
-      Email to book
-      </a>
+      <LinkButton
+        extraClasses='btn--primary'
+        href={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
+        icon='email'
+        text='Email to book' />
     );
   }
 }
@@ -63,7 +62,6 @@ const EventBookingButton = ({ event }: Props) => (
     {getBookingEnquiryMarkup(event)}
     {event.bookingEnquiryTeam &&
       <a className={`block font-charcoal ${font({s: 'HNL5'})} ${spacing({s: 1}, {margin: ['top']})}`}
-      // $FlowFixMe
         href={`mailto:{${event.bookingEnquiryTeam.email}?subject=${event.title}`}>{event.bookingEnquiryTeam.email}</a>
     }
   </Fragment>

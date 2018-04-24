@@ -1,5 +1,4 @@
-export const name = 'button-button';
-export const status = 'graduated';
+export const label = 'Link Button';
 export const collated = true;
 
 export const variants = [

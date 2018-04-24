@@ -1,7 +1,7 @@
 // @flow
 import {spacing} from '../../../../utils/classnames';
 import Picture from '../../Picture/Picture';
-import ScrollToInfo from '../../ScrollToInfo/ScrollToInfo';
+import LinkControl from '../../Buttons/LinkControl/LinkControl';
 import WobblyEdge from '../../WobblyEdge/WobblyEdge';
 import Grid from '../../layout/Grid';
 import Container from '../../layout/Container';
@@ -27,9 +27,11 @@ const Hero = ({ images, whiteBox }: Props) => (
         <WobblyEdge background='white' />
       </div>
       <div className={`relative ${spacing({s: 3}, { margin: ['bottom'] })}`} style={{ zIndex: 20 }}>
-        <div className='pointer-events-none'>
-          <ScrollToInfo elementId='exhibition-content' extraClasses='bg-charcoal bg-hover-charcoal border-color-charcoal' />
-        </div>
+        <LinkControl
+          extraClasses='scroll-to-info js-scroll-to-info js-work-media-control flush-container-right button-control--dark'
+          url='#exhibition-content'
+          eventTracking='{"category": "component", "action": "scroll-to-info:click", "label": "scrolled-to-id:exhibition-content"}`}'
+          icon='chevron' />
       </div>
       <Container>
         <Grid sizes={{s: 12, m: 10, shiftM: 1, l: 12, xl: 12}}>

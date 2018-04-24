@@ -1,7 +1,0 @@
-{# button-link component data: modifierClasses, href, text, icon #}
-<a class="btn {{ {s:'HNM5'} | fontClasses }} {{ modifierClasses }}" href="{{ href }}" {% if eventTracking %} data-event-tracking="{{ eventTracking }}" {% endif %}>
-  {% if icon %}
-    {% icon icon, null, extraIconClasses %}
-  {% endif %}
-  {{ text }}
-</a>

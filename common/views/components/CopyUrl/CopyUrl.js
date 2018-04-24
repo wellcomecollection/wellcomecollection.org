@@ -1,6 +1,6 @@
 // @flow
 
-import {spacing, font} from '../../../utils/classnames';
+import {spacing} from '../../../utils/classnames';
 import {Fragment, Component} from 'react';
 import Icon from '../Icon/Icon';
 import HTMLInput from '../HTMLInput/HTMLInput';
@@ -109,10 +109,12 @@ class CopyUrl extends Component<Props, State> {
           onClick={this.handleButtonClick}
           data-copy-text={url}
           data-track-event={`{"category": "component", "action": "copy-url:click", "label": "id:${id}"}`}
-          className={`${isTextCopied ? 'plain-button' : ''} ${spacing({s: 2}, {margin: ['top']})} ${font({s: 'HNM5', m: 'HNM4'})} btn btn--light ${this.state.isEnhanced ? '' : 'is-hidden'} js-copy-url pointer`}>
-          <Icon name='check' extraClasses={`icon--black ${isTextCopied ? '' : 'is-hidden'}`} />
-          <span className='js-copy-text'>
-            {getButtonMarkup(isTextCopied, isClicked)}
+          className={`${isTextCopied ? 'plain-button' : ''} ${spacing({s: 2}, {margin: ['top']})} btn btn--tertiary ${this.state.isEnhanced ? '' : 'is-hidden'} js-copy-url pointer`}>
+          <span className='flex-inline flex--v-center'>
+            <Icon name='check' extraClasses={`icon--black ${isTextCopied ? '' : 'is-hidden'}`} />
+            <span className='js-copy-text'>
+              {getButtonMarkup(isTextCopied, isClicked)}
+            </span>
           </span>
         </button>
       </div>

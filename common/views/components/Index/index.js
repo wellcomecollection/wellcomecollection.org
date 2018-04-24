@@ -1,4 +1,6 @@
 import BackToTop from '../BackToTop/BackToTop';
+import ButtonButton from '../Buttons/ButtonButton/ButtonButton';
+import ButtonControl from '../Buttons/ButtonControl/ButtonControl';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
 import CopyUrl from '../CopyUrl/CopyUrl';
@@ -13,6 +15,8 @@ import ImageGallery from '../ImageGallery/ImageGallery';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import InstallationPromo from '../InstallationPromo/InstallationPromo';
 import License from '../License/License';
+import LinkButton from '../Buttons/LinkButton/LinkButton';
+import LinkControl from '../Buttons/LinkControl/LinkControl';
 import MetaUnit from '../MetaUnit/MetaUnit';
 import MoreInfoLink from '../MoreInfoLink/MoreInfoLink';
 import OpeningHours from '../OpeningHours/OpeningHours';
@@ -21,7 +25,6 @@ import PageDescription from '../PageDescription/PageDescription';
 import Pagination from '../Pagination/Pagination';
 import Picture from '../Picture/Picture';
 import Promo from '../Promo/Promo';
-import ScrollToInfo from '../ScrollToInfo/ScrollToInfo';
 import SearchBox from '../SearchBox/SearchBox';
 import Standfirst from '../Body/Standfirst/Standfirst';
 import Tags from '../Tags/Tags';
@@ -35,6 +38,8 @@ import Quote from '../Quote/Quote';
 
 export {
   BackToTop,
+  ButtonButton,
+  ButtonControl,
   CaptionedImage,
   ChapterIndicator,
   CopyUrl,
@@ -49,6 +54,8 @@ export {
   ImageGallery,
   InstallationPromo,
   License,
+  LinkButton,
+  LinkControl,
   MetaUnit,
   MoreInfoLink,
   OpeningHours,
@@ -57,7 +64,6 @@ export {
   Pagination,
   Promo,
   Picture,
-  ScrollToInfo,
   SearchBox,
   Standfirst,
   Tags,

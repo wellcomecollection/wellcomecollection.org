@@ -2,8 +2,8 @@
 import React, {Fragment} from 'react';
 import {Transition} from 'react-transition-group';
 import Image from '../Image/Image';
-import ButtonButton from '../Buttons/ButtonButton/ButtonButton';
-import {font, spacing} from '../../../utils/classnames';
+import ButtonControl from '../Buttons/ButtonControl/ButtonControl';
+import {spacing} from '../../../utils/classnames';
 import dynamic from 'next/dynamic';
 import ReactGA from 'react-ga';
 const ImageViewerImage = dynamic(import('./ImageViewerImage'));
@@ -21,17 +21,14 @@ class LaunchViewerButton extends React.Component<LaunchViewerButtonProps> {
 
   render() {
     return (
-      <ButtonButton
+      <ButtonControl
         text='View larger image'
         icon='zoomIn'
-        extraClasses={`${this.props.classes} ${font({s: 'HNM5'})} btn--round image-viewer__launch-button js-image-viewer__launch-button`}
-        clickHandler={this.props.clickHandler}
-      />
+        extraClasses={`button-control--dark image-viewer__launch-button ${this.props.classes}`}
+        clickHandler={this.props.clickHandler} />
     );
   }
 };
-
-const buttonFontClasses = font({s: 'HNM5'});
 
 type ViewerContentProps = {|
   id: string,
@@ -83,29 +80,26 @@ class ViewerContent extends React.Component<ViewerContentProps> {
   render() {
     return (
       <div className={`${this.props.classes} image-viewer__content image-viewer__content2`}>
-        <div className="image-viewer__controls flex flex-end flex--v-center">
-          <ButtonButton
+        <div className='image-viewer__controls flex flex-end flex--v-center'>
+          <ButtonControl
             text='Zoom in'
             id={`zoom-in-${this.props.id}`}
             icon='zoomIn'
-            extraClasses={`${buttonFontClasses} btn--round btn--black ${spacing({s: 1}, {margin: ['right']})}`}
-            clickHandler={this.handleZoomIn}
-          />
+            extraClasses={`button-control--light ${spacing({s: 1}, {margin: ['right']})}`}
+            clickHandler={this.handleZoomIn} />
 
-          <ButtonButton
+          <ButtonControl
             text='Zoom out'
             id={`zoom-out-${this.props.id}`}
             icon='zoomOut'
-            extraClasses={`${buttonFontClasses} btn--round btn--black ${spacing({s: 8}, {margin: ['right']})}`}
-            clickHandler={this.handleZoomOut}
-          />
+            extraClasses={`button-control--light ${spacing({s: 8}, {margin: ['right']})}`}
+            clickHandler={this.handleZoomOut} />
 
-          <ButtonButton
+          <ButtonControl
             text='Close image viewer'
             icon='cross'
-            extraClasses={`${buttonFontClasses} btn--round btn--black js-image-viewer__exit-button ${spacing({s: 2}, {margin: ['right']})}`}
-            clickHandler={this.props.handleViewerDisplay}
-          />
+            extraClasses={`button-control--light ${spacing({s: 2}, {margin: ['right']})}`}
+            clickHandler={this.props.handleViewerDisplay} />
         </div>
 
         {this.props.viewerVisible && <ImageViewerImage id={this.props.id} contentUrl={this.props.contentUrl} />}
