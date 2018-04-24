@@ -36,7 +36,7 @@ export type Venue = {|
 |};
 
 export type ExceptionalVenueHours = {|
-  exceptionalDate: Date,
+  exceptionalDate: Moment,
   exceptionalDay: Days,
   id: string,
   name: string,
@@ -46,17 +46,21 @@ export type ExceptionalVenueHours = {|
   closesChanged: boolean
 |};
 
+type periodModifiedHours = {
+  periodStart: Moment,
+  periodEnd: Moment,
+  dates: any[][]
+}
+
 export type PlacesOpeningHours = Venue[];
 
 export type OpeningTimes = {
   placesOpeningHours: PlacesOpeningHours,
   upcomingExceptionalOpeningPeriods: ?(Moment)[][],
-  exceptionalOpeningHours: {
-    [string]: ExceptionalVenueHours[]
-  }
+  exceptionalOpeningHours: ?periodModifiedHours[]
 }
 
-export const galleryOpeningHours: OpeningHours = { // TODO remove these once organization.js is using the gallery data from prismic
+export const galleryOpeningHours: OpeningHours = { // TODO remove these once organization.js is using the gallery data from prismic github issue #2476
   regular: [
     {dayOfWeek: 'Monday'},
     {dayOfWeek: 'Tuesday',   opens: '10:00', closes: '18:00'},
