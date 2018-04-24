@@ -12,7 +12,7 @@ type Props = {|
   openingHoursId: string,
   extraClasses: string,
   groupedVenues: {
-    [key]: PlacesOpeningHours
+    [string]: PlacesOpeningHours
   },
   upcomingExceptionalOpeningPeriods: Date[][]
 |}
@@ -39,7 +39,6 @@ const Footer = ({openingHoursId, extraClasses, groupedVenues, upcomingExceptiona
         <div className={`${grid({s: 12, l: 6, xl: 6})}`}>
           <h3 className={`footer__heading ${font({s: 'HNL5'})}`}>Opening times:</h3>
           <OpeningHours
-            id={openingHoursId}
             extraClasses={extraClasses}
             groupedVenues={groupedVenues}
             upcomingExceptionalOpeningPeriods={upcomingExceptionalOpeningPeriods} />

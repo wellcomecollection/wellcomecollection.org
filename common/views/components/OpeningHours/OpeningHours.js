@@ -4,13 +4,10 @@ import {Fragment, Component} from 'react';
 import {formatDate} from '../../../utils/format-date';
 import OpeningHoursTable from '../../components/OpeningHoursTable/OpeningHoursTable';
 import OpeningHoursTableGrouped from '../../components/OpeningHoursTableGrouped/OpeningHoursTableGrouped';
-import type {PlacesOpeningHours} from '../../../model/opening-hours';
 
 type Props = {|
   extraClasses?: string,
-  groupedVenues: {
-    [key]: PlacesOpeningHours
-  },
+  groupedVenues: any,
   upcomingExceptionalOpeningPeriods: Array<Date[]>
 |}
 
@@ -79,7 +76,7 @@ class OpeningHours extends Component<Props, State> {
           </p>
         }
         <div className={`opening-hours ${extraClasses || ''} js-opening-hours js-tabs`}>
-          <ul className={`plain-list opening-hours__tablist ${font({s: 'HNM6'})} ${spacing({s: 0}, {margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']})} js-tablist`}>
+          <ul className={`plain-list opening-hours__tablist ${font({s: 'HNM5'})} ${spacing({s: 0}, {margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']})} js-tablist`}>
             {groupedVenues && Object.keys(groupedVenues).map((key) => (
               <li key={key} className={`opening-hours__tabitem js-tabitem ${key === this.state.activePlace ? 'opening-hours__tabitem--is-current' : ''}`}>
                 <a id={key}

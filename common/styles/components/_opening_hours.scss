@@ -1,6 +1,7 @@
 //* @define opening-hours
 
 .opening-hours {
+  max-width: 600px;
   color: color('white');
   margin-bottom: 2 * $vertical-space-unit;
 }
@@ -80,9 +81,9 @@
 }
 
 .opening-hours__table {
+  table-layout: fixed;
   max-width: 600px;
   color: color('silver');
-  width: 100%;
   margin-bottom: 2 * $vertical-space-unit;
 
   .opening-hours--light & {
@@ -127,8 +128,13 @@
   text-align: left;
 }
 
+.opening-hours__th--row {
+  width: 80px;
+}
+
 .opening-hours__td {
-  padding: 1em 0;
+  width: 150px;
+  padding: 0.5em 0;
 
   .opening-hours--compressed & {
     padding: $spacing-unit 0;
