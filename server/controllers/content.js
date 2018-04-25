@@ -12,9 +12,11 @@ import {
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {getInfoPage} from '../../common/services/prismic/info-pages';
+import {getCollectionOpeningTimes} from '../../common/services/prismic/opening-times';
 
-export const renderOpeningTimes = (ctx, next) => {
+export const renderOpeningTimes = async(ctx, next) => {
   const path = ctx.request.url;
+  const pageOpeningHours = await getCollectionOpeningTimes();
 
   ctx.render('pages/opening-times', {
     pageConfig: Object.assign({}, createPageConfig({
@@ -22,7 +24,8 @@ export const renderOpeningTimes = (ctx, next) => {
       title: 'Opening Times',
       category: 'information',
       canonicalUri: `${ctx.globals.rootDomain}/info/opening-times`
-    }))
+    })),
+    pageOpeningHours
   });
 
   return next();

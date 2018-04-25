@@ -36,7 +36,7 @@ const HTMLInput = ({
   fontStyles = {s: 'HNL3', m: 'HNL2'},
   onChange
 }: Props) => (
-  <label className="input__label flex flex--v-center" htmlFor={id}>
+  <label className='input__label flex flex--v-center' htmlFor={id}>
     <input
       ref={inputRef}
       id={id}

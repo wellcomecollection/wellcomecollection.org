@@ -2,8 +2,8 @@
 import fetch from 'isomorphic-unfetch';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import {iiifImageTemplate} from '@weco/common/utils/convert-image-uri';
-import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/DefaultPageLayout';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
+import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import WorkMedia2 from '@weco/common/views/components/WorkMedia/WorkMedia2';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -13,6 +13,7 @@ import License from '@weco/common/views/components/License/License';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
+import {Fragment} from 'react';
 
 export type Link = {|
   text: string;
@@ -158,16 +159,17 @@ function getMetaContentArray(singleWork, descriptionArray) {
 // Not sure we want to type this not dynamically
 // as the API is subject to change?
 type Work = Object;
-type Props = {| work: Work |}
+type Props = {|
+  work: Work
+|}
 
-const WorkPage = ({ work }: Props) => {
+const WorkPage = ({work}: Props) => {
   const [iiifImageLocation] = work.items.map(
     item => item.locations.find(
       location => location.locationType === 'iiif-image'
     )
   );
   const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
-  const iiifImage = iiifImageTemplate(iiifInfoUrl);
 
   const sierraId = (work.identifiers.find(identifier =>
     identifier.identifierScheme === 'sierra-system-number'
@@ -181,14 +183,7 @@ const WorkPage = ({ work }: Props) => {
   const attribution = constructAttribution(work, credit, `https://wellcomecollection.org/works/${work.id}`);
 
   return (
-    <DefaultPageLayout
-      title={work.title || work.description}
-      description={work.description || ''}
-      type={'website'}
-      url={`https://wellcomecollection.org/works/${work.id}`}
-      imageUrl={iiifImage({size: '800,'})}
-      siteSection='images'
-    >
+    <Fragment>
       <PageDescription title='Search our images' extraClasses='page-description--hidden' />
       <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
@@ -322,8 +317,7 @@ const WorkPage = ({ work }: Props) => {
           </div>
         </div>
       </div>
-
-    </DefaultPageLayout>
+    </Fragment>
   );
 };
 
@@ -331,7 +325,22 @@ WorkPage.getInitialProps = async (context) => {
   const {id} = context.query;
   const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works/${id}?includes=identifiers,items,thumbnail`);
   const json = await res.json();
-  return { work: (json: Work) };
+  const [iiifImageLocation] = json.items.map(
+    item => item.locations.find(
+      location => location.locationType === 'iiif-image'
+    )
+  );
+  const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
+  const iiifImage = iiifImageTemplate(iiifInfoUrl);
+  return {
+    title: json.title || json.description,
+    description: json.description || '',
+    type: 'website',
+    url: `https://wellcomecollection.org/works/${json.id}`,
+    imageUrl: iiifImage({size: '800,'}),
+    analyticsCategory: 'collections',
+    siteSection: 'images',
+    work: (json: Work) };
 };
 
-export default WorkPage;
+export default PageWrapper(WorkPage);

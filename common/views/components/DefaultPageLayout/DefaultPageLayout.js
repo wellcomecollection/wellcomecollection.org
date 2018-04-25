@@ -4,18 +4,10 @@ import Head from 'next/head';
 import NastyJs from '../Header/NastyJs';
 import Header from '../Header/Header';
 import {striptags} from '../../../utils/striptags';
-import {formatDate, isDatePast} from '../../../utils/format-date';
-import analytics from '../../../utils/analytics';
+import {formatDate} from '../../../utils/format-date';
 import Footer from '../Footer/Footer';
-import {placesOpeningHours} from '../../../model/opening-hours';
-import {
-  exceptionalDates,
-  exceptionalOpeningPeriods,
-  upcomingExceptionalOpeningPeriods
-} from '../../../services/opening-times';
-
-const futureExceptionalDates = exceptionalDates.filter(date => date && !isDatePast(date));
-const exceptionalPeriods = exceptionalOpeningPeriods(futureExceptionalDates);
+import type {PlacesOpeningHours} from '@weco/common/model/opening-hours';
+import analytics from '../../../utils/analytics';
 
 // TODO: Hashed files
 // TODO: Inline CSS
@@ -120,7 +112,11 @@ type Props = {|
   pageMeta?: React.Node,
   featuresCohort?: string,
   featureFlags?: string[],
-  isPreview?: boolean
+  isPreview?: boolean,
+  openingTimes: {
+    placesOpeningHours: PlacesOpeningHours,
+    upcomingExceptionalOpeningPeriods: Date[][]
+  }
 |}
 
 class DefaultPageLayout extends Component<Props> {
@@ -145,7 +141,8 @@ class DefaultPageLayout extends Component<Props> {
       children,
       featuresCohort,
       featureFlags,
-      isPreview
+      isPreview,
+      openingTimes
     } = this.props;
 
     return (
@@ -197,10 +194,15 @@ class DefaultPageLayout extends Component<Props> {
           <div id='main' className='main' role='main'>
             {children}
           </div>
-          <Footer
-            openingHoursId='footer'
-            placesOpeningHours={placesOpeningHours}
-            upcomingExceptionalOpeningPeriods={upcomingExceptionalOpeningPeriods(exceptionalPeriods)} />
+          {openingTimes &&
+            <Footer
+              openingHoursId='footer'
+              placesOpeningHours={openingTimes.placesOpeningHours}
+              upcomingExceptionalOpeningPeriods={openingTimes.upcomingExceptionalOpeningPeriods} />
+          }
+          {!openingTimes &&
+            <Footer openingHoursId='footer' />
+          }
         </div>
       </div>
     );

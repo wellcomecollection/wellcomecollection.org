@@ -52,7 +52,7 @@ const init = () => {
   const wobblyEdgeEls = document.querySelectorAll('.js-wobbly-edge');
   const stickyEls = document.querySelectorAll('.js-sticky');
   const articleGalleries = document.querySelectorAll('.article .js-image-gallery');
-  const basicPageGalleries = document.querySelectorAll('.basic-page .js-image-gallery');
+  const basicPageGalleries = document.querySelectorAll('.basic-body .js-image-gallery');
   const mainEl = document.getElementById('main');
   const cohortButtons = document.querySelectorAll('.js-cohort-button');
   const gifVideoEls = document.querySelectorAll('.js-gif-video');

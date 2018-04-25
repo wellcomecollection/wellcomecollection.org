@@ -25,7 +25,7 @@ const OpeningHoursTable = ({id, place, extraClasses, isVisible = true}: Props) =
         {place.openingHours.regular.map((day) => (
           <tr key={day.dayOfWeek} className='opening-hours__tr'>
             <td className='opening-hours__td'>{day.dayOfWeek}</td>
-            {day.opens ? <td className='opening-hours__td'>{day.opens}&mdash;{day.closes}</td> : <td className='opening-hours__td'>{day.note}</td>}
+            {day.opens ? <td className='opening-hours__td'>{day.opens}&mdash;{day.closes}</td> : <td className='opening-hours__td'>Closed</td>}
           </tr>
         ))}
       </tbody>
