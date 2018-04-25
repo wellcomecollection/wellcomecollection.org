@@ -1,6 +1,5 @@
 import superagent from 'superagent';
 import Prismic from 'prismic-javascript';
-import {RichText} from 'prismic-dom';
 import {List} from 'immutable';
 import {prismicApi} from '../services/prismic-api';
 import {createPageConfig, getEditorialAnalyticsInfo} from '../model/page-config';
@@ -253,7 +252,6 @@ export async function renderArticlesList(ctx, next) {
 export async function renderInfoPage(ctx, next) {
   const {id} = ctx.params;
   const infoPage = await getInfoPage(ctx.request, id);
-  console.info(infoPage);
 
   if (infoPage) {
     ctx.render('pages/basic', {
@@ -278,17 +276,7 @@ export async function renderDrupalInfoPage(ctx, next) {
     type: 'picture',
     weight: 'default',
     value: Object.assign(infoPage.promo.image, {caption: infoPage.promo.caption})
-  }].concat(infoPage.body.map(slice => {
-    if (slice.type === 'prismicText') {
-      return {
-        type: 'text',
-        weight: 'default',
-        value: RichText.asHtml(slice.value)
-      };
-    } else {
-      return slice;
-    }
-  }));
+  }].concat(infoPage.body);
   infoPage.body = body;
 
   if (infoPage) {
