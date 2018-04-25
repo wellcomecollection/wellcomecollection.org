@@ -37,14 +37,13 @@
           {% endfor %}
           Our <a href="#regular">regular opening times</a> are below.</p>
         </div>
-        {% for period in pageOpeningHours.exceptionalOpeningHours %}
-          {% if loop.index < 2 %}
-            {% for venues in period.dates %}
-              <div class="{{ {s:12, m:6, l:4, xl:4} | gridClasses }}">
-                {% componentJsx 'ExceptionalOpeningHoursTable', {caption: venues[0].exceptionalDate, venues: venues, extraClasses: 'opening-hours--light'} %}
-              </div>
-            {% endfor %}
-          {% endif %}
+        {% for openingPeriods in pageOpeningHours.upcomingExceptionalOpeningPeriods %}
+          {% set period = pageOpeningHours.exceptionalOpeningHours[loop.index - 1] %}
+          {% for venues in period.dates %}
+            <div class="{{ {s:12, m:6, l:4, xl:4} | gridClasses }}">
+              {% componentJsx 'ExceptionalOpeningHoursTable', {caption: venues[0].exceptionalDate, venues: venues, extraClasses: 'opening-hours--light'} %}
+            </div>
+          {% endfor %}
         {% endfor %}
       {% endif %}
 
