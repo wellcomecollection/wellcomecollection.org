@@ -1,6 +1,6 @@
 export const label = 'Link Button';
 export const collated = true;
-
+export const status = 'graduated';
 export const variants = [
   {
     name: 'default',

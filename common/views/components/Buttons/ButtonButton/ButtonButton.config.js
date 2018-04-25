@@ -1,7 +1,6 @@
 export const name = 'button-button';
 export const status = 'graduated';
 export const collated = true;
-
 export const variants = [
   {
     name: 'default',
