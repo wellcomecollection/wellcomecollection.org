@@ -8,10 +8,10 @@ export default function render(root, extraGlobals) {
     const [flags, cohorts] = ctx.intervalCache.get('flags');
     const globalAlert = ctx.intervalCache.get('globalAlert');
     const openingHours = ctx.intervalCache.get('collectionOpeningTimes');
-    const galleriesLibrary = openingHours && openingHours.placesOpeningHours.filter(venue => {
+    const galleriesLibrary = openingHours.placesOpeningHours && openingHours.placesOpeningHours.filter(venue => {
       return venue.name.toLowerCase() === 'galleries' || venue.name.toLowerCase() === 'library';
     });
-    const restaurantCafeShop = openingHours && openingHours.placesOpeningHours.filter(venue => {
+    const restaurantCafeShop = openingHours.placesOpeningHours && openingHours.placesOpeningHours.filter(venue => {
       return venue.name.toLowerCase() === 'restaurant' || venue.name.toLowerCase() === 'café' || venue.name.toLowerCase() === 'shop';
     });
     const groupedVenues = {

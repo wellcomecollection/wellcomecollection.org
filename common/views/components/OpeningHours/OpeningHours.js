@@ -90,7 +90,7 @@ class OpeningHours extends Component<Props, State> {
             <div key={key} id={key} className={`js-tabpanel opening-hours__panel ${key === this.state.activePlace ? 'opening-hours__panel--is-visible' : ''} ${extraClasses || ''}`}>
               <div className='js-tabfocus'>
                 <div className='is-hidden-m is-hidden-l is-hidden-xl'>
-                  {groupedVenues[key].hours.map((place) => (
+                  {groupedVenues[key].hours && groupedVenues[key].hours.map((place) => (
                     <OpeningHoursTable
                       key={place.id}
                       place={place} />
