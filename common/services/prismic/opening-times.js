@@ -171,7 +171,7 @@ function createRegularDay(day, venue) {
 }
 
 function exceptionalClosedDates(exceptionalOpeningHours) {
-  const onlyClosedByVenue = exceptionalOpeningHours.map(period => {
+  const onlyClosedByVenue = exceptionalOpeningHours && exceptionalOpeningHours.map(period => {
     const dates = [].concat(...period.dates.map(dates => {
       return dates.filter(venue => !venue.openingHours.opens);
     }));
