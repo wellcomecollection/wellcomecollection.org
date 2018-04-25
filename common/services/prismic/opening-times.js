@@ -148,7 +148,7 @@ function exceptionalOpeningHours(dates: Date[], placesOpeningHours: PlacesOpenin
 function upcomingExceptionalOpeningPeriods(dates: ?(Moment)[][]) {
   return dates && dates.filter((dates) => {
     const displayPeriodStart = london().subtract(1, 'day');
-    const displayPeriodEnd = london().add(15, 'day'); // TODO put back to 8 once dev done
+    const displayPeriodEnd = london().add(15, 'day'); // TODO put back to 8 once testing done
     return dates[0].clone().isBetween(displayPeriodStart, displayPeriodEnd) || dates[dates.length - 1].clone().isBetween(displayPeriodStart, displayPeriodEnd);
   });
 }
@@ -171,20 +171,23 @@ function createRegularDay(day, venue) {
 }
 
 function exceptionalClosedDates(exceptionalOpeningHours) {
-  const onlyClosed = exceptionalOpeningHours.map(period => {
+  const onlyClosedByVenue = exceptionalOpeningHours.map(period => {
+    const dates = [].concat(...period.dates.map(dates => {
+      return dates.filter(venue => !venue.openingHours.opens);
+    }));
+    const venues = groupBy(dates, venue => venue.name);
+
     return {
       periodStart: period.periodStart,
       periodEnd: period.periodEnd,
-      dates: period.dates.map(dates => {
-        return dates.filter(venue => !venue.openingHours.opens);
-      })
+      venues
     };
-  });
-
-  return onlyClosed
+  })
     .filter(period => {
-      return [].concat(...period.dates).length > 0;
+      return Object.keys(period.venues).length > 0;
     });
+
+  return onlyClosedByVenue;
 }
 
 function parseVenuesToOpeningHours(doc: PrismicFragment): OpeningTimes {
