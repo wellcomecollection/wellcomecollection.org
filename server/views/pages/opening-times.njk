@@ -80,6 +80,10 @@
         </div>
       {% endif %}
 
+      <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+        {% componentJsx 'Divider', {extraClasses: 'divider--pumice divider--keyline ' + ( {s:1} | spacingClasses({margin: ['top']})) + ' ' + ( {s:4} | spacingClasses({margin: ['bottom']}))} %}
+      </div>
+
 
       <div id="busy" class="{{ {s:12, m:12, l:6, xl:6} | gridClasses }} body-content">
         <h2>Entry at busy times</h2>
