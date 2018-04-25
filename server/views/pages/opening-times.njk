@@ -30,7 +30,7 @@
             {% set lastDate = group[group.length -1] | formatDate %}
             {% if (group.length > 1) %}
               {{ ' and ' if (pageOpeningHours.upcomingExceptionalOpeningPeriods.length > 1 and loop.index > 1) else ' ' }}
-              between <span style="whiteSpace: nowrap;">{{firstDate}}</span>&mdash;<span style="whiteSpace: nowrap;">{{lastDate}}</span>{{ '.' if loop.last }}
+              between <span class="nowrap">{{firstDate}}</span>&mdash;<span class="nowrap">{{lastDate}}</span>{{ '.' if loop.last }}
             {% else %}
               on <span style="whiteSpace: nowrap">{{firstDate}}</span>{{ '.' if loop.last }}
             {% endif %}

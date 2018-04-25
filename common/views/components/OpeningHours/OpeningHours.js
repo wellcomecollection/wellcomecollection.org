@@ -56,15 +56,15 @@ class OpeningHours extends Component<Props, State> {
                   return (
                     <span key={firstDate}>
                       {(array.length > 1 && i > 0) && ' and '}
-                      {` between`} <span style={{'whiteSpace': 'nowrap'}}>{formatDate(firstDate)}</span>
+                      {` between`} <span className='nowrap'>{formatDate(firstDate)}</span>
                       &mdash;
-                      <span style={{'whiteSpace': 'nowrap'}}>{formatDate(lastDate)}</span>
+                      <span className='nowrap'>{formatDate(lastDate)}</span>
                     </span>
                   );
                 } else {
                   return (
                     <Fragment key={firstDate}>
-                      {` on`} <span style={{'whiteSpace': 'nowrap'}}>
+                      {` on`} <span className='nowrap'>
                         {formatDate(firstDate)}
                       </span>
                     </Fragment>
