@@ -6,3 +6,5 @@ Used alongside the primary button as a supporting action, e.g. 'Cancel'.
 
 ### Tertiary button
 Used to define multiple actions which should be separated from page content.
+
+These can be called either as a `button` or an `a` element, using the `<ButtonButton />` or `<LinkButton />` components.

@@ -1,4 +1,4 @@
-export const label = 'Button Control';
+export const label = 'Control';
 export const status = 'graduated';
 export const collated = true;
 export const variants = [
