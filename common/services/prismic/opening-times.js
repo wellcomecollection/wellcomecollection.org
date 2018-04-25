@@ -148,12 +148,12 @@ function exceptionalOpeningHours(dates: Date[], placesOpeningHours: PlacesOpenin
 function upcomingExceptionalOpeningPeriods(dates: ?(Moment)[][]) {
   return dates && dates.filter((dates) => {
     const displayPeriodStart = london().subtract(1, 'day');
-    const displayPeriodEnd = london().add(8, 'day');
+    const displayPeriodEnd = london().add(15, 'day'); // TODO put back to 8 once dev done
     return dates[0].clone().isBetween(displayPeriodStart, displayPeriodEnd) || dates[dates.length - 1].clone().isBetween(displayPeriodStart, displayPeriodEnd);
   });
 }
 
-function createExceptionalDate(day, venue) {
+function createRegularDay(day, venue) {
   const lowercaseDay = day.toLowerCase();
   const start = venue.data[lowercaseDay][0].startDateTime;
   const end = venue.data[lowercaseDay][0].endDateTime;
@@ -189,13 +189,13 @@ function parseVenuesToOpeningHours(doc: PrismicFragment): OpeningTimes {
       order: venue.data.order,
       openingHours: {
         regular: [
-          createExceptionalDate('Monday', venue),
-          createExceptionalDate('Tuesday', venue),
-          createExceptionalDate('Wednesday', venue),
-          createExceptionalDate('Thursday', venue),
-          createExceptionalDate('Friday', venue),
-          createExceptionalDate('Saturday', venue),
-          createExceptionalDate('Sunday', venue)
+          createRegularDay('Monday', venue),
+          createRegularDay('Tuesday', venue),
+          createRegularDay('Wednesday', venue),
+          createRegularDay('Thursday', venue),
+          createRegularDay('Friday', venue),
+          createRegularDay('Saturday', venue),
+          createRegularDay('Sunday', venue)
         ],
         exceptional: exceptionalOpeningHours
       }

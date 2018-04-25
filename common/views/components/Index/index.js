@@ -16,6 +16,7 @@ import License from '../License/License';
 import MetaUnit from '../MetaUnit/MetaUnit';
 import OpeningHours from '../OpeningHours/OpeningHours';
 import OpeningHoursTable from '../OpeningHoursTable/OpeningHoursTable';
+import OpeningHoursTableGrouped from '../OpeningHoursTableGrouped/OpeningHoursTableGrouped';
 import PageDescription from '../PageDescription/PageDescription';
 import Pagination from '../Pagination/Pagination';
 import Picture from '../Picture/Picture';
@@ -53,6 +54,7 @@ export {
   MetaUnit,
   OpeningHours,
   OpeningHoursTable,
+  OpeningHoursTableGrouped,
   PageDescription,
   Pagination,
   PrimaryLink,
