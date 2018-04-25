@@ -1,6 +1,8 @@
 import IntervalCache from 'interval-cache'; // https://github.com/danneu/interval-cache
 import {getFlags} from '../services/flags-lookup';
 import {getGlobalAlert} from '../services/prismic';
+// $FlowFixMe
+import {getCollectionOpeningTimes} from '../../common/services/prismic/opening-times';
 import Raven from 'raven';
 
 const fiveMinutes = 1000 * 60 * 5;
@@ -18,4 +20,15 @@ export const cache = new IntervalCache()
       return null;
     }
   }, [])
+  .every('collectionOpeningTimes', fiveMinutes, async () => {
+    try {
+      const collectionOpeningTimes = await getCollectionOpeningTimes();
+      return collectionOpeningTimes;
+    } catch (err) {
+      console.error(err);
+      Raven.captureException(err);
+
+      return null;
+    }
+  }, {})
   .start();

@@ -10,22 +10,24 @@
             ].join(' ') }} no-margin inline">{{ model.name }}</h1>
           </div>
           <div class="flex flex--v-center flex--wrap">
-            <div class="flex flex--v-center">
-              <span class="{{- [
-                {s:'HNM5', m:'HNM4'} | fontClasses,
-                {s:2} | spacingClasses({margin: ['right']})
-              ].join(' ') }}">Galleries {{ 'open' if model.todayOpeningHours.opens else 'closed' }} today</span>
-              {% if model.todayOpeningHours.opens %}
-                {% icon 'clock', null, ['margin-right-s1'] %}
+            {% if model.todayOpeningHours %}
+              <div class="flex flex--v-center">
                 <span class="{{- [
-                  {s:'HNL5', m:'HNL4'} | fontClasses,
+                  {s:'HNM5', m:'HNM4'} | fontClasses,
                   {s:2} | spacingClasses({margin: ['right']})
-                ].join(' ') }}">
-                  <time>{{ model.todayOpeningHours.opens }}</time>&ndash;<time>{{ model.todayOpeningHours.closes }}</time>
-                </span>
-              {% endif %}
-            </div>
-            <a class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }}" href="https://wellcomecollection.org/opening-hours">Opening hours</a>
+                ].join(' ') }}">Galleries {{ 'open' if model.todayOpeningHours.opens else 'closed' }} today</span>
+                {% if model.todayOpeningHours.opens %}
+                  {% icon 'clock', null, ['margin-right-s1'] %}
+                  <span class="{{- [
+                    {s:'HNL5', m:'HNL4'} | fontClasses,
+                    {s:2} | spacingClasses({margin: ['right']})
+                  ].join(' ') }}">
+                    <time>{{ model.todayOpeningHours.opens }}</time>&ndash;<time>{{ model.todayOpeningHours.closes }}</time>
+                  </span>
+                {% endif %}
+              </div>
+            {% endif %}
+            <a class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }}" href="https://wellcomecollection.org/info/opening-times">Opening times</a>
           </div>
         </div>
       </div>

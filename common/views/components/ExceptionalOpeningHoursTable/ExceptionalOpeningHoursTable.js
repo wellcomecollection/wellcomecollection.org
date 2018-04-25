@@ -42,11 +42,9 @@ const ExceptionalOpeningHoursTable = ({caption, venues, extraClasses}: Props) =>
             {!venue.openingHours.opens &&
               <td className='opening-hours__td'>
                 {venue.closesChanged &&
-                  <span className={`${font({s: 'HNM5'})} opening-hours__highlight`}>{venue.openingHours.note}</span>
+                  <span className={`${font({s: 'HNM5'})} opening-hours__highlight`}>Closed</span>
                 }
-                {!venue.closesChanged &&
-                  venue.openingHours.note
-                }
+                {!venue.closesChanged && 'Closed'}
               </td>
             }
           </tr>
