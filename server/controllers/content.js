@@ -17,6 +17,22 @@ import {getCollectionOpeningTimes} from '../../common/services/prismic/opening-t
 export const renderOpeningTimes = async(ctx, next) => {
   const path = ctx.request.url;
   const pageOpeningHours = await getCollectionOpeningTimes();
+  const galleriesLibrary = pageOpeningHours && pageOpeningHours.placesOpeningHours.filter(venue => {
+    return venue.name.toLowerCase() === 'galleries' || venue.name.toLowerCase() === 'library';
+  });
+  const restaurantCafeShop = pageOpeningHours && pageOpeningHours.placesOpeningHours.filter(venue => {
+    return venue.name.toLowerCase() === 'restaurant' || venue.name.toLowerCase() === 'café' || venue.name.toLowerCase() === 'shop';
+  });
+  const groupedVenues = {
+    galleriesLibrary: {
+      title: 'Venue',
+      hours: galleriesLibrary
+    },
+    restaurantCafeShop: {
+      title: 'Eat & Shop',
+      hours: restaurantCafeShop
+    }
+  };
 
   ctx.render('pages/opening-times', {
     pageConfig: Object.assign({}, createPageConfig({
@@ -25,7 +41,7 @@ export const renderOpeningTimes = async(ctx, next) => {
       category: 'information',
       canonicalUri: `${ctx.globals.rootDomain}/info/opening-times`
     })),
-    pageOpeningHours
+    pageOpeningHours: Object.assign({}, pageOpeningHours, {groupedVenues})
   });
 
   return next();

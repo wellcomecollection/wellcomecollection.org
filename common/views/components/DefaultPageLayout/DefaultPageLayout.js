@@ -114,7 +114,9 @@ type Props = {|
   featureFlags?: string[],
   isPreview?: boolean,
   openingTimes: {
-    placesOpeningHours: PlacesOpeningHours,
+    groupedVenues: {
+      [key]: PlacesOpeningHours
+    },
     upcomingExceptionalOpeningPeriods: Date[][]
   }
 |}
@@ -197,7 +199,7 @@ class DefaultPageLayout extends Component<Props> {
           {openingTimes &&
             <Footer
               openingHoursId='footer'
-              placesOpeningHours={openingTimes.placesOpeningHours}
+              groupedVenues={openingTimes.groupedVenues}
               upcomingExceptionalOpeningPeriods={openingTimes.upcomingExceptionalOpeningPeriods} />
           }
           {!openingTimes &&
