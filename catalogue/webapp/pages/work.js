@@ -7,7 +7,7 @@ import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import WorkMedia2 from '@weco/common/views/components/WorkMedia/WorkMedia2';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import PrimaryLink from '@weco/common/views/components/PrimaryLink/PrimaryLink';
+import PrimaryLink from '@weco/common/views/components/Links/PrimaryLink/PrimaryLink';
 import WorkDrawer from '@weco/common/views/components/WorkDrawer/WorkDrawer';
 import License from '@weco/common/views/components/License/License';
 import Divider from '@weco/common/views/components/Divider/Divider';
