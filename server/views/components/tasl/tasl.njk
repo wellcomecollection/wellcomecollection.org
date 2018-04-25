@@ -1,7 +1,7 @@
 <div class="{{- [
     'tasl--top' if modifiers.full else 'tasl--bottom',
     {s:'LR3', m:'LR2'} | fontClasses
-  ].join(' ') }} tasl drawer js-show-hide has-secondary-links"
+  ].join(' ') }} tasl drawer js-show-hide plain-text"
     data-track-action="toggle-image-credit"
     data-track-label="image:{{ model.contentUrl }}">
   {% if not modifiers.full %}

@@ -2,7 +2,7 @@
 
 import {grid, font, spacing} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
-import PrimaryLink from '../PrimaryLink/PrimaryLink';
+import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import EventBookingButton from '../EventBookingButton/EventBookingButton';
 import camelize from '../../../utils/camelize';
 import {formatTime} from '../../../utils/format-date';

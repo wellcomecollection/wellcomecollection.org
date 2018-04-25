@@ -96,12 +96,12 @@ hr {
   }
 }
 
-.has-secondary-links { // Applied to blocks containing secondary links
+.plain-text { // Applied to non-body text blocks
   a {
-    &:hover,
-    &:focus {
-      color: color('green');
-      text-decoration: none;
-    }
+    @include default-link;
   }
+}
+
+.secondary-link {
+  @include default-link;
 }

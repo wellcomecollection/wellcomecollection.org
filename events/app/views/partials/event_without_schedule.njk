@@ -76,7 +76,7 @@
           </span>
         </div>
 
-        <div class="{{ {s:'HNL4'} | fontClasses }} has-secondary-links">
+        <div class="{{ {s:'HNL4'} | fontClasses }}">
           {% for eventTime in event.times %}
             <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
               {% set formattedDateRange = eventTime.range.startDateTime | formatAndDedupeOnDate(eventTime.range.endDateTime) %}
@@ -162,8 +162,11 @@
                 Email to book
               </a>
               {% endif %}
-              <a class="block font-charcoal {{ {s:'HNL4'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}"
-                  href="mailto:{{ event.bookingEnquiryTeam.email }}?subject={{event.title}}">{{ event.bookingEnquiryTeam.email }}</a>
+              {% componentJsx 'SecondaryLink', {
+                extraClasses: 'block font-charcoal ' + {s:1} | spacingClasses({margin: ['top']}),
+                text: event.bookingEnquiryTeam.email,
+                url: 'mailto:' + event.bookingEnquiryTeam.email + '?subject=' + event.title
+              } %}
             </div>
           {% endif %}
 
@@ -204,7 +207,7 @@
           {% endif %}
         </div>
 
-        <div class="border-top-width-1 border-color-pumice has-secondary-links {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}" id="js-event-booking-info">
+        <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}" id="js-event-booking-info">
           {% if event.isDropIn %}
             <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Drop in at any time</h3>
             <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
@@ -265,8 +268,11 @@
               {{ event.bookingInformation | safe }}
             </div>
           {% endif %}
-          <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}">
-            <a href="https://wellcomecollection.org/visit-us/events-tickets">Our event terms and conditions</a>
+          <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
+            {% componentJsx 'SecondaryLink', {
+              url: 'https://wellcomecollection.org/visit-us/events-tickets',
+              text: 'Our event terms and conditions'
+            } %}
           </div>
         </div>
       </div>

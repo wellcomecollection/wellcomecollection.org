@@ -1,8 +1,8 @@
 // @flow
 
-import {spacing, font} from '../../../utils/classnames';
-import Icon from '../Icon/Icon';
-import trackOutboundLink from '../../../utils/track-outbound-link';
+import {spacing, font} from '../../../../utils/classnames';
+import Icon from '../../Icon/Icon';
+import trackOutboundLink from '../../../../utils/track-outbound-link';
 
 type Props = {|
   url: string,

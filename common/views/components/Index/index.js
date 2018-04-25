@@ -19,10 +19,11 @@ import OpeningHoursTable from '../OpeningHoursTable/OpeningHoursTable';
 import PageDescription from '../PageDescription/PageDescription';
 import Pagination from '../Pagination/Pagination';
 import Picture from '../Picture/Picture';
-import PrimaryLink from '../PrimaryLink/PrimaryLink';
+import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import Promo from '../Promo/Promo';
-import ScrollToInfo from '../ScrollToInfo/ScrollToInfo';
 import SearchBox from '../SearchBox/SearchBox';
+import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
+import ScrollToInfo from '../ScrollToInfo/ScrollToInfo';
 import Standfirst from '../Body/Standfirst/Standfirst';
 import Tags from '../Tags/Tags';
 import Tasl from '../Tasl/Tasl';
@@ -57,8 +58,9 @@ export {
   PrimaryLink,
   Promo,
   Picture,
-  ScrollToInfo,
   SearchBox,
+  ScrollToInfo,
+  SecondaryLink,
   Standfirst,
   Tags,
   Tasl,

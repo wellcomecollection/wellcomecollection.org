@@ -25,7 +25,7 @@
   </div>
   {% block figcaption %}
     {% if model.caption %}
-      <figcaption class="captioned-image__caption has-secondary-links {{ {s:'LR3', m:'LR2'} | fontClasses }}">
+      <figcaption class="captioned-image__caption plain-text {{ {s:'LR3', m:'LR2'} | fontClasses }}">
         {% icon 'image', {}, ['float-l', 'margin-right-s1'] %}
         <div class="captioned-image__caption-text{{ ' js-truncate-text' if data.truncateCaption }}" tabindex="0"{% if data.slideNumbers %} data-slide-number="{{ data.slideNumbers.current }}"{% endif %}>
           {% if data.slideNumbers %}
