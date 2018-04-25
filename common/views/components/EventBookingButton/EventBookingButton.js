@@ -25,7 +25,7 @@ function getButtonMarkup(event) {
       <div className='js-eventbrite-ticket-button' data-eventbrite-ticket-id={event.eventbriteId}>
         <LinkButton
           extraClasses='btn--primary'
-          href={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
+          url={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
           icon='ticketAvailable'
           text='Book free tickets' />
       </div>
@@ -49,22 +49,26 @@ function getBookingEnquiryMarkup(event) {
     return (
       <LinkButton
         extraClasses='btn--primary'
-        href={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
+        url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
         icon='email'
         text='Email to book' />
     );
   }
 }
 
-const EventBookingButton = ({ event }: Props) => (
-  <Fragment>
-    {getButtonMarkup(event)}
-    {getBookingEnquiryMarkup(event)}
-    {event.bookingEnquiryTeam &&
-      <a className={`block font-charcoal ${font({s: 'HNL5'})} ${spacing({s: 1}, {margin: ['top']})}`}
-        href={`mailto:{${event.bookingEnquiryTeam.email}?subject=${event.title}`}>{event.bookingEnquiryTeam.email}</a>
-    }
-  </Fragment>
-);
+const EventBookingButton = ({ event }: Props) => {
+  const team = event.bookingEnquiryTeam; // Not sure why, but this solves flow null check problem below
+
+  return (
+    <Fragment>
+      {getButtonMarkup(event)}
+      {getBookingEnquiryMarkup(event)}
+      {team &&
+        <a className={`block font-charcoal ${font({s: 'HNL5'})} ${spacing({s: 1}, {margin: ['top']})}`}
+          href={`mailto:${team.email}?subject=${event.title}`}>{team.email}</a>
+      }
+    </Fragment>
+  );
+};
 
 export default EventBookingButton;

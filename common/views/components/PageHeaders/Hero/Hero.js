@@ -31,7 +31,8 @@ const Hero = ({ images, whiteBox }: Props) => (
           extraClasses='scroll-to-info js-scroll-to-info js-work-media-control flush-container-right button-control--dark'
           url='#exhibition-content'
           eventTracking='{"category": "component", "action": "scroll-to-info:click", "label": "scrolled-to-id:exhibition-content"}`}'
-          icon='chevron' />
+          icon='chevron'
+          text='Scroll to info' />
       </div>
       <Container>
         <Grid sizes={{s: 12, m: 10, shiftM: 1, l: 12, xl: 12}}>

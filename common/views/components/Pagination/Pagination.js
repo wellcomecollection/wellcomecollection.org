@@ -16,7 +16,7 @@ export type Props = {|
 
 const Pagination = ({prevPage, currentPage, pageCount, nextPage, nextQueryString, prevQueryString}: Props) => (
   <div className={`pagination float-r flex-inline flex--v-center font-pewter ${font({s: 'LR3', m: 'LR2'})}`}>
-    {prevPage &&
+    {prevPage && prevQueryString &&
       <NextLink href={prevQueryString}>
         <LinkControl
           url={prevQueryString}
@@ -28,7 +28,7 @@ const Pagination = ({prevPage, currentPage, pageCount, nextPage, nextQueryString
 
     <span>Page {currentPage} of {pageCount}</span>
 
-    {nextPage &&
+    {nextPage && nextQueryString &&
       <NextLink href={nextQueryString}>
         <LinkControl
           url={nextQueryString}

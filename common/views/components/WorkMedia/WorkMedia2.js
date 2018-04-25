@@ -61,7 +61,8 @@ const WorkMedia = ({
           extraClasses='scroll-to-info js-scroll-to-info js-work-media-control flush-container-right button-control--dark'
           url='#work-info'
           eventTracking='{"category": "component", "action": "scroll-to-info:click", "label": "scrolled-to-id:work-info"}`}'
-          icon='chevron' />
+          icon='chevron'
+          text='Scroll to info' />
 
         <ImageViewer2
           contentUrl={imageContentUrl}
