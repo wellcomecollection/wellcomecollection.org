@@ -170,6 +170,23 @@ function createRegularDay(day, venue) {
   }
 }
 
+function exceptionalClosedDates(exceptionalOpeningHours) {
+  const onlyClosed = exceptionalOpeningHours.map(period => {
+    return {
+      periodStart: period.periodStart,
+      periodEnd: period.periodEnd,
+      dates: period.dates.map(dates => {
+        return dates.filter(venue => !venue.openingHours.opens);
+      })
+    };
+  });
+
+  return onlyClosed
+    .filter(period => {
+      return [].concat(...period.dates).length > 0;
+    });
+}
+
 function parseVenuesToOpeningHours(doc: PrismicFragment): OpeningTimes {
   const placesOpeningHours =  doc.results.map((venue) => {
     const exceptionalOpeningHours = venue.data.modifiedDayOpeningTimes.map((modified) => {
@@ -209,11 +226,13 @@ function parseVenuesToOpeningHours(doc: PrismicFragment): OpeningTimes {
   const exceptionalHours = groupBy(individualExceptionalOpeningHours, item => london(item.exceptionalDate).format('YYYY-MM-DD'));
   const orderedHours = {};
   Object.keys(exceptionalHours).sort().forEach(key => orderedHours[key] = exceptionalHours[key]);
+  const exceptionalOpening = exceptionalOpeningHoursByPeriod(exceptionalOpeningPeriodsAllDates(exceptionalPeriods), orderedHours, placesOpeningHours);
   return {
     placesOpeningHours: placesOpeningHours.sort((a, b) => {
       return a.order - b.order;
     }),
     upcomingExceptionalOpeningPeriods: exceptionalOpeningPeriodsAllDates(upcomingExceptionalOpeningPeriods(exceptionalPeriods)),
-    exceptionalOpeningHours: exceptionalOpeningHoursByPeriod(exceptionalOpeningPeriodsAllDates(exceptionalPeriods), orderedHours, placesOpeningHours)
+    exceptionalOpeningHours: exceptionalOpening,
+    exceptionalClosedDates: exceptionalClosedDates(exceptionalOpening)
   };
 }
