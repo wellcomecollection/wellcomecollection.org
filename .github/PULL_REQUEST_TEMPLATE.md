@@ -3,7 +3,7 @@ Fixes/References #
 ## Who was this for?
 
 
-## How is it trying to achieve that?
+## What is it doing for them?
 
 
 ## Checklist
