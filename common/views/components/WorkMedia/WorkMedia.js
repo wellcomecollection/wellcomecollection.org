@@ -59,7 +59,7 @@ const WorkMedia = ({
       }
       <div id={`work-media-${id}`} className='row bg-black work-media js-work-media'>
         <Control
-          extraClasses='scroll-to-info js-scroll-to-info js-work-media-control flush-container-right button-control--dark'
+          extraClasses='scroll-to-info js-scroll-to-info js-work-media-control flush-container-right control--dark'
           url='#work-info'
           eventTracking='{"category": "component", "action": "scroll-to-info:click", "label": "scrolled-to-id:work-info"}`}'
           icon='chevron'

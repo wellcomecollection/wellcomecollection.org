@@ -1,4 +1,4 @@
-.button-control {
+.control {
   display: inline-block;
   border-radius: 50%;
   padding: 0;
@@ -8,12 +8,12 @@
   height: 46px;
 }
 
-.button-control__inner {
+.control__inner {
   width: 100%;
   height: 100%;
 }
 
-.button-control--light {
+.control--light {
   background: color('white');
   border: 2px solid color('green');
 
@@ -31,7 +31,7 @@
   }
 }
 
-.button-control--dark {
+.control--dark {
   border: 0;
   background: color('green');
 

@@ -28,7 +28,7 @@ const Hero = ({ images, whiteBox }: Props) => (
       </div>
       <div className={`relative ${spacing({s: 3}, { margin: ['bottom'] })}`} style={{ zIndex: 20 }}>
         <Control
-          extraClasses='scroll-to-info js-scroll-to-info js-work-media-control flush-container-right button-control--dark'
+          extraClasses='scroll-to-info js-scroll-to-info js-work-media-control flush-container-right control--dark'
           url='#exhibition-content'
           eventTracking='{"category": "component", "action": "scroll-to-info:click", "label": "scrolled-to-id:exhibition-content"}`}'
           icon='chevron'

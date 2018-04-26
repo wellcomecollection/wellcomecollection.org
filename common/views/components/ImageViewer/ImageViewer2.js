@@ -24,7 +24,7 @@ class LaunchViewerButton extends React.Component<LaunchViewerButtonProps> {
       <Control
         text='View larger image'
         icon='zoomIn'
-        extraClasses={`button-control--dark image-viewer__launch-button ${this.props.classes}`}
+        extraClasses={`control--dark image-viewer__launch-button ${this.props.classes}`}
         clickHandler={this.props.clickHandler} />
     );
   }
@@ -85,20 +85,20 @@ class ViewerContent extends React.Component<ViewerContentProps> {
             text='Zoom in'
             id={`zoom-in-${this.props.id}`}
             icon='zoomIn'
-            extraClasses={`button-control--light ${spacing({s: 1}, {margin: ['right']})}`}
+            extraClasses={`control--light ${spacing({s: 1}, {margin: ['right']})}`}
             clickHandler={this.handleZoomIn} />
 
           <Control
             text='Zoom out'
             id={`zoom-out-${this.props.id}`}
             icon='zoomOut'
-            extraClasses={`button-control--light ${spacing({s: 8}, {margin: ['right']})}`}
+            extraClasses={`control--light ${spacing({s: 8}, {margin: ['right']})}`}
             clickHandler={this.handleZoomOut} />
 
           <Control
             text='Close image viewer'
             icon='cross'
-            extraClasses={`button-control--light ${spacing({s: 2}, {margin: ['right']})}`}
+            extraClasses={`control--light ${spacing({s: 2}, {margin: ['right']})}`}
             clickHandler={this.props.handleViewerDisplay} />
         </div>
 

@@ -20,7 +20,7 @@ const Pagination = ({prevPage, currentPage, pageCount, nextPage, nextQueryString
       <NextLink href={prevQueryString}>
         <Control
           url={prevQueryString}
-          extraClasses={`icon--180 button-control--light ${spacing({s: 2}, {margin: ['right']})}`}
+          extraClasses={`icon--180 control--light ${spacing({s: 2}, {margin: ['right']})}`}
           icon='arrow'
           text={`Previous (page ${prevPage})`} />
       </NextLink>
@@ -32,7 +32,7 @@ const Pagination = ({prevPage, currentPage, pageCount, nextPage, nextQueryString
       <NextLink href={nextQueryString}>
         <Control
           url={nextQueryString}
-          extraClasses={`button-control--light ${spacing({s: 2}, {margin: ['left']})}`}
+          extraClasses={`control--light ${spacing({s: 2}, {margin: ['left']})}`}
           icon='arrow'
           text={`Next (page ${nextPage})`} />
       </NextLink>
