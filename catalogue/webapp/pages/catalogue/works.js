@@ -94,10 +94,10 @@ const WorksComponent = ({
     {query.query &&
       <Fragment>
         <div className={`row ${spacing({s: 3, m: 5}, {padding: ['top']})}`}>
-          <div className="container">
-            <div className="grid">
-              <div className="grid__cell">
-                <div className="flex flex--h-space-between flex--v-center">
+          <div className='container'>
+            <div className='grid'>
+              <div className='grid__cell'>
+                <div className='flex flex--h-space-between flex--v-center'>
                   {pagination && pagination.range &&
                     <Fragment>
                       <div className={`flex flex--v-center font-pewter ${font({s: 'LR3', m: 'LR2'})}`}>
@@ -118,8 +118,8 @@ const WorksComponent = ({
           </div>
         </div>
         <div className={`row ${spacing({s: 4}, {padding: ['top']})}`}>
-          <div className="container">
-            <div className="grid">
+          <div className='container'>
+            <div className='grid'>
               {works.results.map(result => (
                 <div key={result.id} className={grid({s: 6, m: 4, l: 3, xl: 2})}>
                   <WorkPromo
