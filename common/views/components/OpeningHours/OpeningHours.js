@@ -37,7 +37,7 @@ class OpeningHours extends Component<Props, State> {
 
     return (
       <Fragment>
-        {!groupedVenues &&
+        {groupedVenues && !groupedVenues[Object.keys(groupedVenues)[0]].hours &&
           <p className={spacing({s: 2}, {margin: ['bottom']})}>
             <a className={font({s: 'HNL6', m: 'HNL5'})} href='https://wellcomecollection.org/info/opening-times'>
               Opening times
@@ -75,34 +75,36 @@ class OpeningHours extends Component<Props, State> {
             . Please check our <a href='/info/opening-times#exceptional'>modified opening times</a> for details before you travel.
           </p>
         }
-        <div className={`opening-hours ${extraClasses || ''} js-opening-hours js-tabs`}>
-          <ul className={`plain-list opening-hours__tablist ${font({s: 'HNM5'})} ${spacing({s: 0}, {margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']})} js-tablist`}>
+        {groupedVenues && groupedVenues[Object.keys(groupedVenues)[0]].hours &&
+          <div className={`opening-hours ${extraClasses || ''} js-opening-hours js-tabs`}>
+            <ul className={`plain-list opening-hours__tablist ${font({s: 'HNM5'})} ${spacing({s: 0}, {margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']})} js-tablist`}>
+              {groupedVenues && Object.keys(groupedVenues).map((key) => (
+                <li key={key} className={`opening-hours__tabitem js-tabitem ${key === this.state.activePlace ? 'opening-hours__tabitem--is-current' : ''}`}>
+                  <a id={key}
+                    className='opening-hours__tablink js-tablink' href={`#${key}`}
+                    aria-selected={key === this.state.activePlace}
+                    onClick={this.updateActivePlace}>{groupedVenues[key].title}</a>
+                </li>
+              ))}
+            </ul>
             {groupedVenues && Object.keys(groupedVenues).map((key) => (
-              <li key={key} className={`opening-hours__tabitem js-tabitem ${key === this.state.activePlace ? 'opening-hours__tabitem--is-current' : ''}`}>
-                <a id={key}
-                  className='opening-hours__tablink js-tablink' href={`#${key}`}
-                  aria-selected={key === this.state.activePlace}
-                  onClick={this.updateActivePlace}>{groupedVenues[key].title}</a>
-              </li>
-            ))}
-          </ul>
-          {groupedVenues && Object.keys(groupedVenues).map((key) => (
-            <div key={key} id={key} className={`js-tabpanel opening-hours__panel ${key === this.state.activePlace ? 'opening-hours__panel--is-visible' : ''} ${extraClasses || ''}`}>
-              <div className='js-tabfocus'>
-                <div className='is-hidden-m is-hidden-l is-hidden-xl'>
-                  {groupedVenues[key].hours && groupedVenues[key].hours.map((place) => (
-                    <OpeningHoursTable
-                      key={place.id}
-                      place={place} />
-                  ))}
-                </div>
-                <div className='is-hidden-s'>
-                  <OpeningHoursTableGrouped venues={groupedVenues[key].hours} />
+              <div key={key} id={key} className={`js-tabpanel opening-hours__panel ${key === this.state.activePlace ? 'opening-hours__panel--is-visible' : ''} ${extraClasses || ''}`}>
+                <div className='js-tabfocus'>
+                  <div className='is-hidden-m is-hidden-l is-hidden-xl'>
+                    {groupedVenues[key].hours && groupedVenues[key].hours.map((place) => (
+                      <OpeningHoursTable
+                        key={place.id}
+                        place={place} />
+                    ))}
+                  </div>
+                  <div className='is-hidden-s'>
+                    <OpeningHoursTableGrouped venues={groupedVenues[key].hours} />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        }
       </Fragment>
     );
   }
