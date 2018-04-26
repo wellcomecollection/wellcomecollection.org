@@ -63,6 +63,6 @@ resource "aws_alb_listener_rule" "exhibitions_path_rule" {
 
   condition {
     field  = "path-pattern"
-    values = ["/exhibitions/*"]
+    values = ["/exhibitions"]
   }
 }
