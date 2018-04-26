@@ -1,4 +1,4 @@
-<div class="body-content">
+<div class="{{ {s: 5} | spacingClasses({margin: ['bottom']}) }}">
   {% for bodyPartGroup in (articleBody | groupBodyParts) %}
     {% set mainLoopIndex = loop.index %}
     <div class="sticky-wrapper">
@@ -154,7 +154,9 @@
               {% componentV2 'gif-video', bodyPart.value %}
             </div>
           {% else %}
-            {{ bodyPart.value | safe }}
+            <div class="body-text">
+              {{ bodyPart.value | safe }}
+            </div>
           {% endif %}
         </div>
       {% endfor %}

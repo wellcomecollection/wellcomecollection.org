@@ -10,7 +10,7 @@ const DocsBodyBlock = ({children}: Props) => (
     <div className='container'>
       <div className='grid'>
         <div className={grid({s: 12, m: 10, shiftM: 1, l: 10, shiftL: 1, xl: 8, shiftXl: 1})}>
-          <div className='body-content'>
+          <div className='body-text'>
             {children}
             <div className={spacing({s: 3, m: 5, l: 10}, {margin: ['top', 'bottom']})}>
               <hr className='divider divider--stub divider--black' />

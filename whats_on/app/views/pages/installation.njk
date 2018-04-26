@@ -114,7 +114,24 @@
             tasl
           ] %}
         </div>
-        <div class="{{ {s: 3, m: 4, l: 5, xl: 5} | spacingClasses({margin: ['bottom']}) }} body-content">
+
+        {% if installation.contributors.length > 0 %}
+          <div class="{{ {s: 3, m: 4, l: 5, xl: 5} | spacingClasses({margin: ['bottom']}) }}">
+            <h2 class="{{- [
+              {s:'WB5'} | fontClasses,
+              {s: 2} | spacingClasses({margin: ['top']}),
+              {s: 3} | spacingClasses({margin: ['bottom']})
+            ].join(' ') -}}">Contributors</h2>
+
+            <div class="border-top-width-1 border-color-smoke {{ {s: 4} | spacingClasses({margin: ['top']}) }} {{ {s: 3} | spacingClasses({padding: ['top']}) }}">
+              {% for contributor in installation.contributors %}
+                {% componentJsx 'Contributor', contributor %}
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        <div class="{{ {s: 3, m: 4, l: 5, xl: 5} | spacingClasses({margin: ['bottom']}) }} body-text">
           {% componentJsx 'BasicBody', {body: installation.body} %}
         </div>
       </div>

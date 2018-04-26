@@ -1,5 +1,7 @@
 import type {ImageList} from '../content-model/content-blocks';
 import {asHtml, asText, parsePicture, parseTaslFromString, prismicImage} from './prismic-parsers';
+// $FlowFixMe
+import {parseCaptionedImage} from '../../common/services/prismic/parsers';
 
 export function parseBody(content) {
   return content.filter(slice => slice.slice_label !== 'featured').map(parseBodyPart).filter(_ => _);
@@ -39,7 +41,7 @@ function parseBodyPart(slice) {
         weight: 'standalone',
         value: {
           title: asText(slice.primary.title),
-          items: slice.items.map(parsePicture)
+          items: slice.items.map(parseCaptionedImage)
         }
       };
 

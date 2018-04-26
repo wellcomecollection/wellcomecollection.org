@@ -52,7 +52,7 @@
 
             {% if work.encoreLink %}
               <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
-                {% componentJsx 'MoreInfoLink', {name: 'View Wellcome Library catalogue record', url: work.encoreLink} %}
+                {% componentJsx 'PrimaryLink', {name: 'View Wellcome Library catalogue record', url: work.encoreLink} %}
               </div>
             {% endif %}
           </div>

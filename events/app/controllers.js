@@ -35,7 +35,8 @@ export async function renderEvent(ctx, next) {
           pageState: {hasSchedule: Boolean(event.schedule.length > 0)}
         }),
         event: event,
-        tags: {tags}
+        tags: {tags},
+        isPreview
       });
     }
   }
