@@ -20,19 +20,19 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
   };
   return (
     <div className='flex'>
-      {/*
-        This definitely passes as it is explicitly `ImageProps`,
-        but because of an error in flow, it fails.
-        There is a fix going into flow, so we can remove this when it hits
-        a stable release.
-
-        https://github.com/facebook/flow/issues/2405
-      */}
-      {/* $FlowFixMe */}
       {imageProps.contentUrl &&
         <div
           style={{ width, height: width }}
           className={`${spacing({s: 2}, {margin: ['right']})}`}>
+          {/*
+            This definitely passes as it is explicitly `ImageProps`,
+            but because of an error in flow, it fails.
+            There is a fix going into flow, so we can remove this when it hits
+            a stable release.
+
+            https://github.com/facebook/flow/issues/2405
+          */}
+          {/* $FlowFixMe */}
           <Image {...imageProps} />
         </div>
       }
