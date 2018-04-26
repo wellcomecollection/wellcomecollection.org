@@ -7,24 +7,17 @@ import Tasl from '../Tasl/Tasl';
 import Icon from '../Icon/Icon';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import type {Node} from 'react';
-import type {Tasl as TaslProps} from '../../../model/tasl';
+import type {Image as ImageProps} from '../../../model/image';
 import type {HTMLString} from '../../../services/prismic/types';
-
-export type ImageProps = {|
-  contentUrl: string,
-  width: number,
-  height: number,
-  alt: string,
-  tasl: TaslProps
-|}
 
 export type UiImageProps = {|
   ...ImageProps,
-  extraClasses: string,
   // TODO: Could this take a grid sizing object, and work out the queries
   // automatically?
   // Grid sizing object = {| ['s', 'm', 'l', 'xl']: number |}
-  sizesQueries: string
+  sizesQueries: string,
+  extraClasses?: string,
+  showTasl?: boolean
 |}
 
 export const UiImage = ({
@@ -34,7 +27,8 @@ export const UiImage = ({
   alt,
   tasl,
   sizesQueries,
-  extraClasses = ''
+  extraClasses = '',
+  showTasl = true
 }: UiImageProps) => {
   return (
     <Fragment>
@@ -54,7 +48,7 @@ export const UiImage = ({
         })}
         sizes={sizesQueries}
         alt={alt} />
-      <Tasl {...tasl} />
+      {showTasl && <Tasl {...tasl} />}
     </Fragment>
   );
 };

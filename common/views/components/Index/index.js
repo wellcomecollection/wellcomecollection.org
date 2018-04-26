@@ -35,6 +35,7 @@ import ContentList from '../ContentList/ContentList';
 import BasicBody from '../BasicBody/BasicBody';
 import Quote from '../Quote/Quote';
 import Contributor from '../Contributor/Contributor';
+import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 
 export {
   BackToTop,
@@ -73,5 +74,6 @@ export {
   ContentList,
   BasicBody,
   Quote,
-  Contributor
+  Contributor,
+  ExhibitionPromo
 };

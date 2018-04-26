@@ -41,7 +41,7 @@ function parseBodyPart(slice) {
         weight: 'standalone',
         value: {
           title: asText(slice.primary.title),
-          items: slice.items.map(parseCaptionedImage)
+          items: slice.items.map(item => parseCaptionedImage(item))
         }
       };
 

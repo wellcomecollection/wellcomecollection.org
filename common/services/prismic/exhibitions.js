@@ -18,6 +18,7 @@ import {
   parseTimestamp,
   parsePlace,
   parsePromoListItem,
+  parsePromoToCaptionedImage,
   asText,
   isDocumentLink
 } from './parsers';
@@ -47,14 +48,22 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const sizeInKb = Math.round(document.data.textAndCaptionsDocument.size / 1024);
   const textAndCaptionsDocument = isDocumentLink(document.data.textAndCaptionsDocument) ? Object.assign({}, document.data.textAndCaptionsDocument, {sizeInKb}) : null;
 
+  const id = document.id;
+  const url = `/exhibitions/${id}`;
+  const title = parseTitle(data.title);
+  const description = parseDescription(data.description);
+  const start = parseTimestamp(data.start);
+  const end = data.end && parseTimestamp(data.end);
+  const promoImage = parsePromoToCaptionedImage(data.promo);
+
   return {
-    id: document.id,
-    title: parseTitle(data.title),
-    description: parseDescription(data.description),
+    id: id,
+    title: title,
+    description: description,
     intro: asText(data.intro),
     contributors: data.contributors ? parseContributors(data.contributors) : [],
-    start: parseTimestamp(data.start),
-    end: data.end && parseTimestamp(data.end),
+    start: start,
+    end: end,
     place: isDocumentLink(data.place) && parsePlace(data.place),
     exhibits: data.exhibits ? parseExhibits(data.exhibits) : [],
 
@@ -64,7 +73,15 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       but flow has problems with spreading.
       https://github.com/facebook/flow/issues/3608
     */
-    promo: null, // TODO
+    promo: {
+      id,
+      url,
+      title,
+      image: promoImage.image,
+      description: asText(promoImage.caption) || 'PROMO TEXT MISSING',
+      start,
+      end
+    },
     galleryLevel: document.data.galleryLevel,
     textAndCaptionsDocument: textAndCaptionsDocument,
     featuredImageList: promos,
@@ -72,6 +89,32 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     relatedEvents: promoList.filter(x => x.type === 'event').map(parsePromoListItem),
     relatedGalleries: promoList.filter(x => x.type === 'gallery').map(parsePromoListItem),
     relatedArticles: promoList.filter(x => x.type === 'article').map(parsePromoListItem)
+  };
+}
+
+export async function getExhibitions(req: Request, id: string): Promise<PaginatedResults<UiExhibition>> {
+  const paginateResults = await getDocuments(
+    req,
+    [Prismic.Predicates.at('document.type', 'exhibitions')],
+    {
+      fetchLinks: peopleFields.concat(
+        contributorsFields,
+        placesFields,
+        installationFields
+      ),
+      orderings: '[my.exhibitions.start]'
+    }
+  );
+
+  const uiExhibitions: UiExhibition[] = paginateResults.results.map(parseExhibitionDoc);
+  // { ..paginatedResults, results: uiExhibitions } should work, but Flow still
+  // battles with spreading.
+  return {
+    currentPage: paginateResults.currentPage,
+    pageSize: paginateResults.pageSize,
+    totalResults: paginateResults.totalResults,
+    totalPages: paginateResults.totalPages,
+    results: uiExhibitions
   };
 }
 

@@ -5,6 +5,7 @@ import type {Installation, UiInstallation} from './installations';
 import type {ImagePromo} from './image-promo';
 import type {Place} from './place';
 import type {Contributor} from './contributors';
+import type {Image} from './image';
 
 export type Exhibit = {|
   exhibitType: | 'installations',
@@ -28,8 +29,18 @@ export type Exhibition = {|
   exhibits: Exhibit[]
 |}
 
+export type ExhibitionPromo = {|
+  id: string,
+  url: string,
+  title: string,
+  image: Image,
+  description: string,
+  start: Date,
+  end: ?Date,
+|}
+
 export type UiExhibition = {| ...Exhibition,  ...{|
-  promo: ?ImagePromo,
+  promo: ExhibitionPromo,
   galleryLevel: number, // this should be deprecated for place
   textAndCaptionsDocument: any, // TODO: <= not this
   featuredImageList: Picture[],
