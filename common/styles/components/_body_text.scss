@@ -25,7 +25,7 @@
   a:visited {
     text-decoration: none;
     border-bottom: 2px solid color('green');
-    transition: all $transition-properties;
+    transition: color $transition-properties, border-bottom $transition-properties;
 
     &:hover,
     &:focus {
