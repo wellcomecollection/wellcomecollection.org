@@ -117,6 +117,7 @@
     display: none !important;
   }
 }
+
 // stylelint-enable declaration-no-important
 
 .line-height-1 {
@@ -246,6 +247,10 @@
   @include respond-to('medium') {
     display: inline-block;
   }
+}
+
+.nowrap {
+  white-space: nowrap;
 }
 
 .float-r {
