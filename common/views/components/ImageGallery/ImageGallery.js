@@ -14,7 +14,7 @@ type ImageGalleryProps = {|
 const ImageGallery = ({id, title, items}: ImageGalleryProps) => {
   return (
     <Fragment>
-      {title && <h2 className='image-gallery__heading'>{title}</h2>}
+      {title && <h2 className='image-gallery__heading h2'>{title}</h2>}
       <div className='wobbly-edge wobbly-edge--white wobbly-edge--small js-wobbly-edge' data-is-static='true'></div>
       <div className='image-gallery touch-scroll js-image-gallery' data-id={id} id={id}>
         {items.map((captionedImage, i) => (
