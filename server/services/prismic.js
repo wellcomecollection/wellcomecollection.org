@@ -462,11 +462,18 @@ function getListHeader(dates, collectionOpeningTimes) {
   };
 }
 
-export async function getExhibitionAndEventPromos(query, collectionOpeningTimes) {
+export async function getExhibitionAndEventPromos(query, collectionOpeningTimes, featuresCohort) {
+  // set either 'everything' or 'today' as default time period, when no startDate is provided, based on featuresCohort
+  function determineToDate(featuresCohort) {
+    if (featuresCohort === 'testB') {
+      return !query.startDate ? undefined : query.endDate;
+    } else {
+      return !query.startDate ? todaysDate.format('YYYY-MM-DD') : query.endDate;
+    }
+  };
   const todaysDate = london();
-  // set today as default time period if no startDate is provided
   const fromDate = !query.startDate ? todaysDate.format('YYYY-MM-DD') : query.startDate;
-  const toDate = !query.startDate ? todaysDate.format('YYYY-MM-DD') : query.endDate;
+  const toDate = determineToDate(featuresCohort);
   const dateRange = [fromDate, toDate];
   const allExhibitionsAndEvents = await getAllOfType(['exhibitions', 'events'], {
     pageSize: 100,
