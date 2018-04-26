@@ -26,7 +26,6 @@ import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import Promo from '../Promo/Promo';
 import SearchBox from '../SearchBox/SearchBox';
 import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
-import ScrollToInfo from '../ScrollToInfo/ScrollToInfo';
 import Standfirst from '../Body/Standfirst/Standfirst';
 import Tags from '../Tags/Tags';
 import Tasl from '../Tasl/Tasl';
@@ -66,7 +65,6 @@ export {
   Promo,
   Picture,
   SearchBox,
-  ScrollToInfo,
   SecondaryLink,
   Standfirst,
   Tags,
