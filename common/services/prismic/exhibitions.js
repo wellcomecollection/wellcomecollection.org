@@ -81,7 +81,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       description: asText(promoImage.caption) || 'PROMO TEXT MISSING',
       start,
       end
-    }, // TODO
+    },
     galleryLevel: document.data.galleryLevel,
     textAndCaptionsDocument: textAndCaptionsDocument,
     featuredImageList: promos,

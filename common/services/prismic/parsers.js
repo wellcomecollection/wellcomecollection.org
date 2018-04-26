@@ -296,7 +296,7 @@ export function parseBody(fragment: PrismicFragment[]) {
           weight: 'standalone',
           value: {
             title: asText(slice.primary.title),
-            items: (slice.items.map(parseCaptionedImage): CaptionedImageProps[])
+            items: (slice.items.map(item => parseCaptionedImage(item)): CaptionedImageProps[])
           }
         };
 
