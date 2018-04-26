@@ -1,8 +1,8 @@
 // @flow
-import {grid, font, spacing} from '../../../utils/classnames';
-import Icon from '../Icon/Icon';
+import {grid} from '../../../utils/classnames';
 import ImageViewer2 from '../ImageViewer/ImageViewer2';
 import ScrollToInfo from '../ScrollToInfo/ScrollToInfo';
+import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
 import {iiifImageTemplate} from '../../../utils/convert-image-uri';
 
 type Props = {|
@@ -41,16 +41,10 @@ const WorkMedia = ({
         <div className='container'>
           <div className='grid'>
             <div className={grid({s: 12})}>
-              <a className={`
-                  flex-inline flex-v-center plain-link font-green font-hover-turquoise
-                  ${font({s: 'HNM4'})}
-                  ${spacing({s: 1}, {margin: ['top', 'bottom']})}
-                `}
-              href={href(queryString, id)}
-              data-track-event={tracking(queryString, id, trackTitle)}>
-                <Icon name='arrow' extraClasses='icon--green icon--180' />
-                <span className={spacing({s: 1}, {margin: ['left']})}>Search results</span>
-              </a>
+              <SecondaryLink
+                url={href(queryString, id)}
+                text='Search results'
+                eventTracking={tracking(queryString, id, trackTitle)} />
             </div>
           </div>
         </div>
