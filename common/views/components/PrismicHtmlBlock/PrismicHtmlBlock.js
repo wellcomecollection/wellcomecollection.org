@@ -7,7 +7,7 @@ type Props = {|
 
 // TODO: Find a way to not include the `<div>`
 const PrismicHtmlBlock = ({html}: Props) => (
-  <div dangerouslySetInnerHTML={{__html: asHtml(html)}} />
+  <span dangerouslySetInnerHTML={{__html: asHtml(html)}} />
 );
 
 export default PrismicHtmlBlock;

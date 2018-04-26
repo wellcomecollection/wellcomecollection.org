@@ -1,3 +1,4 @@
+import superagent from 'superagent';
 import Prismic from 'prismic-javascript';
 import {List} from 'immutable';
 import {prismicApi} from '../services/prismic-api';
@@ -267,6 +268,32 @@ export async function renderArticlesList(ctx, next) {
 export async function renderInfoPage(ctx, next) {
   const {id} = ctx.params;
   const infoPage = await getInfoPage(ctx.request, id);
+
+  if (infoPage) {
+    ctx.render('pages/basic', {
+      pageConfig: createPageConfig({
+        path: ctx.request.url,
+        title: infoPage.title,
+        inSection: 'what-we-do',
+        category: 'info'
+      }),
+      page: infoPage
+    });
+  }
+
+  return next();
+}
+
+export async function renderDrupalInfoPage(ctx, next) {
+  const {id} = ctx.params;
+  const infoPageResponse = await superagent.get(`https://prispal.glitch.me/info-pages/${id}`);
+  const infoPage = infoPageResponse.body;
+  const body = [{
+    type: 'picture',
+    weight: 'default',
+    value: Object.assign(infoPage.promo.image, {caption: infoPage.promo.caption})
+  }].concat(infoPage.body);
+  infoPage.body = body;
 
   if (infoPage) {
     ctx.render('pages/basic', {
