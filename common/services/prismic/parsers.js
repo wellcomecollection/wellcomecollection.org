@@ -12,12 +12,12 @@ import { licenseTypeArray } from '../../model/license';
 import { parseInfoPage } from './info-pages';
 
 const placeHolderImage = {
-  contentUrl: 'https://via.placeholder.com/160x900?text=Placeholder',
+  contentUrl: 'https://via.placeholder.com/1600x900?text=Placeholder',
   width: 160,
   height: 900,
   alt: 'Placeholder image',
   tasl: {
-    contentUrl: 'https://via.placeholder.com/160x900?text=Placeholder',
+    contentUrl: 'https://via.placeholder.com/1600x900?text=Placeholder',
     isFull: false,
     sourceName: 'Unknown'
   }
