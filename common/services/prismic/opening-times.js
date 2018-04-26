@@ -148,7 +148,7 @@ function exceptionalOpeningHours(dates: Date[], placesOpeningHours: PlacesOpenin
 function upcomingExceptionalOpeningPeriods(dates: ?(Moment)[][]) {
   return dates && dates.filter((dates) => {
     const displayPeriodStart = london().subtract(1, 'day');
-    const displayPeriodEnd = london().add(15, 'day'); // TODO put back to 8 once testing done
+    const displayPeriodEnd = london().add(15, 'day'); // TODO awaiting testing to inform display period
     return dates[0].clone().isBetween(displayPeriodStart, displayPeriodEnd) || dates[dates.length - 1].clone().isBetween(displayPeriodStart, displayPeriodEnd);
   });
 }
@@ -165,7 +165,9 @@ function createRegularDay(day, venue) {
     };
   } else {
     return {
-      dayOfWeek: day
+      dayOfWeek: day,
+      opens: null,
+      closes: null
     };
   }
 }
