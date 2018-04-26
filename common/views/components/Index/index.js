@@ -14,16 +14,17 @@ import InfoBanner from '../InfoBanner/InfoBanner';
 import InstallationPromo from '../InstallationPromo/InstallationPromo';
 import License from '../License/License';
 import MetaUnit from '../MetaUnit/MetaUnit';
-import MoreInfoLink from '../MoreInfoLink/MoreInfoLink';
 import OpeningHours from '../OpeningHours/OpeningHours';
 import OpeningHoursTable from '../OpeningHoursTable/OpeningHoursTable';
 import OpeningHoursTableGrouped from '../OpeningHoursTableGrouped/OpeningHoursTableGrouped';
 import PageDescription from '../PageDescription/PageDescription';
 import Pagination from '../Pagination/Pagination';
 import Picture from '../Picture/Picture';
+import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import Promo from '../Promo/Promo';
-import ScrollToInfo from '../ScrollToInfo/ScrollToInfo';
 import SearchBox from '../SearchBox/SearchBox';
+import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
+import ScrollToInfo from '../ScrollToInfo/ScrollToInfo';
 import Standfirst from '../Body/Standfirst/Standfirst';
 import Tags from '../Tags/Tags';
 import Tasl from '../Tasl/Tasl';
@@ -33,6 +34,7 @@ import WorkMedia from '../WorkMedia/WorkMedia';
 import ContentList from '../ContentList/ContentList';
 import BasicBody from '../BasicBody/BasicBody';
 import Quote from '../Quote/Quote';
+import Contributor from '../Contributor/Contributor';
 
 export {
   BackToTop,
@@ -51,16 +53,17 @@ export {
   InstallationPromo,
   License,
   MetaUnit,
-  MoreInfoLink,
   OpeningHours,
   OpeningHoursTable,
   OpeningHoursTableGrouped,
   PageDescription,
   Pagination,
+  PrimaryLink,
   Promo,
   Picture,
-  ScrollToInfo,
   SearchBox,
+  ScrollToInfo,
+  SecondaryLink,
   Standfirst,
   Tags,
   Tasl,
@@ -69,5 +72,6 @@ export {
   WorkMedia,
   ContentList,
   BasicBody,
-  Quote
+  Quote,
+  Contributor
 };

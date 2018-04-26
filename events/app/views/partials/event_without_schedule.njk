@@ -162,8 +162,11 @@
                 Email to book
               </a>
               {% endif %}
-              <a class="block font-charcoal {{ {s:'HNL5'} | fontClasses }} {{ {s:1} | spacingClasses({margin: ['top']}) }}"
-                  href="mailto:{{ event.bookingEnquiryTeam.email }}?subject={{event.title}}">{{ event.bookingEnquiryTeam.email }}</a>
+              {% componentJsx 'SecondaryLink', {
+                extraClasses: 'block font-charcoal ' + {s:1} | spacingClasses({margin: ['top']}),
+                text: event.bookingEnquiryTeam.email,
+                url: 'mailto:' + event.bookingEnquiryTeam.email + '?subject=' + event.title
+              } %}
             </div>
           {% endif %}
 
@@ -266,13 +269,16 @@
             </div>
           {% endif %}
           <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
-            {% componentJsx 'MoreInfoLink', { name: 'Our event terms and conditions', url: 'https://wellcomecollection.org/visit-us/events-tickets' } %}
+            {% componentJsx 'SecondaryLink', {
+              url: 'https://wellcomecollection.org/visit-us/events-tickets',
+              text: 'Our event terms and conditions'
+            } %}
           </div>
         </div>
       </div>
     </div>
 
-    <div class="css-grid__cell--primary body-content">
+    <div class="css-grid__cell--primary">
       {% if event.promo.image %}
         <div class="is-hidden-s is-hidden-m rounded-corners overflow-hidden {{ {s: 4} | spacingClasses({margin: ['bottom']}) }}">
           {% componentJsx 'CaptionedImage', bodyPart.value, [
@@ -281,44 +287,46 @@
           ] %}
         </div>
       {% endif %}
-      <div class="{{ {s: 3, m: 4, l: 5, xl: 5} | spacingClasses({margin: ['bottom']}) }}">
-        {{ event.description | safe }}
+      <div class="body-text">
+        <div class="{{ {s: 3, m: 4, l: 5, xl: 5} | spacingClasses({margin: ['bottom']}) }}">
+          {{ event.description | safe }}
+        </div>
+
+        {% if event.format.description %}
+          <h2>{{ event.format.title }}</h2>
+          <div class="{{[].join(' ') }}">{{ event.format.description | safe }}</div>
+        {% endif %}
+
+        {% for series in event.series %}
+          <h2>Part of <a href="/event-series/{{ series.id }}">{{ series.title }}</a></h2>
+          <div>{{ series.description | safe }}</div>
+        {% endfor %}
+
+        {% for audience in event.audiences %}
+          {% if audience.description %}
+            <h2>For {{ audience.title }}</h2>
+            <div>{{ audience.description | safe }}</div>
+          {% endif %}
+        {% endfor %}
+
+        {% for interpretation in event.interpretations %}
+          {% if interpretation.interpretationType.description %}
+            <h2 class="flex flex--v-center">
+              <span class="flex flex--v-center {{ {s: 1} | spacingClasses({margin: ['right']}) }}">
+                {% icon interpretation.interpretationType.title | replace(' ', '_') | replace('-', '_') | lower %}
+              </span>
+              <span>{{ interpretation.interpretationType.title }}</span>
+            </h2>
+            <div>
+              {% if interpretation.isPrimary %}
+                {{ interpretation.interpretationType.primaryDescription | safe }}
+              {% else %}
+                {{ interpretation.interpretationType.description | safe }}
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
       </div>
-
-      {% if event.format.description %}
-        <h2>{{ event.format.title }}</h2>
-        <div class="{{[].join(' ') }}">{{ event.format.description | safe }}</div>
-      {% endif %}
-
-      {% for series in event.series %}
-        <h2>Part of <a href="/event-series/{{ series.id }}">{{ series.title }}</a></h2>
-        <div>{{ series.description | safe }}</div>
-      {% endfor %}
-
-      {% for audience in event.audiences %}
-        {% if audience.description %}
-          <h2>For {{ audience.title }}</h2>
-          <div>{{ audience.description | safe }}</div>
-        {% endif %}
-      {% endfor %}
-
-      {% for interpretation in event.interpretations %}
-        {% if interpretation.interpretationType.description %}
-          <h2 class="flex flex--v-center">
-            <span class="flex flex--v-center {{ {s: 1} | spacingClasses({margin: ['right']}) }}">
-              {% icon interpretation.interpretationType.title | replace(' ', '_') | replace('-', '_') | lower %}
-            </span>
-            <span>{{ interpretation.interpretationType.title }}</span>
-          </h2>
-          <div>
-            {% if interpretation.isPrimary %}
-              {{ interpretation.interpretationType.primaryDescription | safe }}
-            {% else %}
-              {{ interpretation.interpretationType.description | safe }}
-            {% endif %}
-          </div>
-        {% endif %}
-      {% endfor %}
 
       {% for contributor in event.contributors %}
         <h2>In partnership with</h2>

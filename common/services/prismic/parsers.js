@@ -7,8 +7,21 @@ import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
 import type { Place } from '../../model/place';
 import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/background-texture';
+import type { CaptionedImageProps } from '../../views/components/Images/Images';
 import { licenseTypeArray } from '../../model/license';
 import { parseInfoPage } from './info-pages';
+
+const placeHolderImage = {
+  contentUrl: 'https://via.placeholder.com/1600x900?text=Placeholder',
+  width: 160,
+  height: 900,
+  alt: 'Placeholder image',
+  tasl: {
+    contentUrl: 'https://via.placeholder.com/1600x900?text=Placeholder',
+    isFull: false,
+    sourceName: 'Unknown'
+  }
+};
 
 const linkResolver = (doc) => {
   switch (doc.type) {
@@ -50,14 +63,15 @@ export function parseTimestamp(frag: PrismicFragment): Date {
   return PrismicDate(frag);
 }
 
+const placeholderImage = 'https://via.placeholder.com/160x90?text=placeholder';
 export function parsePicture(captionedImage: Object, minWidth: ?string = null): Picture {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
   const tasl = image && parseTaslFromString(image.copyright);
 
   return ({
-    contentUrl: image && image.url,
-    width: image && image.dimensions && image.dimensions.width,
-    height: image && image.dimensions && image.dimensions.height,
+    contentUrl: (image && image.url) || placeholderImage,
+    width: (image && image.dimensions && image.dimensions.width) || 160,
+    height: (image && image.dimensions && image.dimensions.height) || 90,
     caption: captionedImage.caption && asHtml(captionedImage.caption),
     alt: image && image.alt,
     title: tasl && tasl.title,
@@ -75,14 +89,41 @@ export function parsePicture(captionedImage: Object, minWidth: ?string = null): 
   }: Picture);
 }
 
+const defaultContributorImage = 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3ed09488-1992-4f8a-9f0c-de2d296109f9_group+21.png';
+export function parseCaptionedImage(frag: PrismicFragment): CaptionedImageProps {
+  if (isEmptyObj(frag.image)) {
+    return {
+      image: placeHolderImage,
+      caption: [{
+        type: 'paragraph',
+        text: 'PLACEHOLDER CAPTION',
+        spans: []
+      }]
+    };
+  }
+  const image = frag.image;
+  const tasl = parseTaslFromString(image.copyright);
+
+  return {
+    image: {
+      contentUrl: image.url,
+      width: image.dimensions.width,
+      height: image.dimensions.height,
+      alt: image.alt || '',
+      tasl
+    },
+    caption: frag.caption
+  };
+}
+
 function parsePersonContributor(frag: PrismicFragment): PersonContributor {
   return {
-    contributorType: 'people',
+    type: 'people',
     id: frag.id,
     name: frag.data.name || 'NAME MISSING',
     image: frag.data.image && parsePicture({
       image: frag.data.image
-    }),
+    }) ||  { width: 64, height: 64, contentUrl: defaultContributorImage },
     description: frag.data.description,
     twitterHandle: null
   };
@@ -90,11 +131,11 @@ function parsePersonContributor(frag: PrismicFragment): PersonContributor {
 
 function parseOrganisationContributor(frag: PrismicFragment): OrganisationContributor {
   return  {
-    contributorType: 'organisations',
+    type: 'organisations',
     name: asText(frag.data.name) || 'NAME MISSING',
     image: frag.data.image && parsePicture({
       image: frag.data.image
-    }),
+    }) || { width: 64, height: 64, contentUrl: defaultContributorImage },
     url: frag.data.url
   };
 }
@@ -247,7 +288,7 @@ export function parseBody(fragment: PrismicFragment[]) {
           weight: 'standalone',
           value: {
             title: asText(slice.primary.title),
-            items: slice.items.map(parsePicture)
+            items: (slice.items.map(parseCaptionedImage): CaptionedImageProps[])
           }
         };
 

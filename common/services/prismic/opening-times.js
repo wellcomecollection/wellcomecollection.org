@@ -51,7 +51,9 @@ function exceptionalOpeningPeriods(dates: Moment[]) {
   }, []);
 }
 
-export function exceptionalOpeningPeriodsAllDates(exceptionalOpeningPeriods: ?Moment[][]) {
+export function exceptionalOpeningPeriodsAllDates(
+  exceptionalOpeningPeriods: ?Moment[][]
+): ?any[] {
   return exceptionalOpeningPeriods && exceptionalOpeningPeriods.map((periodDateArray) => {
     const startDate = london(periodDateArray[0].toDate()).startOf('day');
     const lastDate = london(periodDateArray[periodDateArray.length - 1].toDate()).startOf('day');
@@ -85,7 +87,11 @@ function regularTimesbyDay(placesOpeningHours: PlacesOpeningHours, currentDate: 
   });
 }
 
-export function exceptionalOpeningHoursByPeriod(upcomingPeriodsComplete: ?Moment[][], exceptionalHoursByDate: {}, placesOpeningHours: PlacesOpeningHours) {
+export function exceptionalOpeningHoursByPeriod(
+  upcomingPeriodsComplete: ?Moment[][],
+  exceptionalHoursByDate: {},
+  placesOpeningHours: PlacesOpeningHours
+): ?any[] {
   return upcomingPeriodsComplete && upcomingPeriodsComplete.map((period) => {
     const periodStart = period[0];
     const periodEnd = period[period.length - 1];
