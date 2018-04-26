@@ -90,7 +90,8 @@ export function parsePicture(captionedImage: Object, minWidth: ?string = null): 
 }
 
 const defaultContributorImage = 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3ed09488-1992-4f8a-9f0c-de2d296109f9_group+21.png';
-export function parseCaptionedImage(frag: PrismicFragment): CaptionedImageProps {
+type Crop = | '16:9' | '32:15' | 'square';
+export function parseCaptionedImage(frag: PrismicFragment, crop?: Crop): CaptionedImageProps {
   if (isEmptyObj(frag.image)) {
     return {
       image: placeHolderImage,
@@ -101,7 +102,8 @@ export function parseCaptionedImage(frag: PrismicFragment): CaptionedImageProps 
       }]
     };
   }
-  const image = frag.image;
+
+  const image = crop ? frag.image[crop] : frag.image;
   const tasl = parseTaslFromString(image.copyright);
 
   return {
@@ -114,6 +116,12 @@ export function parseCaptionedImage(frag: PrismicFragment): CaptionedImageProps 
     },
     caption: frag.caption
   };
+}
+
+export function parsePromoToCaptionedImage(frag: PrismicFragment): CaptionedImageProps {
+  // We could do more complicated checking here, but this is what we always use.
+  const promo = frag[0];
+  return parseCaptionedImage(promo.primary, '16:9');
 }
 
 function parsePersonContributor(frag: PrismicFragment): PersonContributor {
