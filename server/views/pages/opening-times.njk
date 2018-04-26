@@ -60,6 +60,31 @@
         {% componentJsx 'Divider', {extraClasses: 'divider--pumice divider--keyline ' + ( {s:1} | spacingClasses({margin: ['top']})) + ' ' + ( {s:4} | spacingClasses({margin: ['bottom']}))} %}
       </div>
 
+      {% if pageOpeningHours.exceptionalClosedDates.length > 0 %}
+        <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+          <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="exceptional">Closure dates</h2>
+          {% for period in pageOpeningHours.exceptionalClosedDates %}
+            <div class="{{ {s:6} | spacingClasses({margin: ['bottom']}) }}">
+              <h3 class="{{ {s:'WB7', m:'WB6'} | fontClasses }}">{{period.periodStart | formatDate}}&mdash;{{period.periodEnd | formatDate}}</h3>
+              {% for venue, dates in period.venues %}
+                <p class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }}">{{venue}} will be closed on
+                  {% for item in dates %}
+                    {{-', ' if (dates.length > 2 and (loop.index > 1 and loop.index < dates.length)) }}
+                    {{' and ' if dates.length >= 2 and loop.index === dates.length }}
+                    {{item.exceptionalDate | formatDayMonth -}}
+                  {% endfor %}
+                </p>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+        {% componentJsx 'Divider', {extraClasses: 'divider--pumice divider--keyline ' + ( {s:1} | spacingClasses({margin: ['top']})) + ' ' + ( {s:4} | spacingClasses({margin: ['bottom']}))} %}
+      </div>
+
+
       <div id="busy" class="{{ {s:12, m:12, l:6, xl:6} | gridClasses }} body-content">
         <h2>Entry at busy times</h2>
         <p>Our temporary exhibitions can become crowded at times, so to keep the galleries safe and comfortable, we may manage numbers with queuing or timed tickets.</p>

@@ -154,7 +154,7 @@ function exceptionalOpeningHours(dates: Date[], placesOpeningHours: PlacesOpenin
 function upcomingExceptionalOpeningPeriods(dates: ?(Moment)[][]) {
   return dates && dates.filter((dates) => {
     const displayPeriodStart = london().subtract(1, 'day');
-    const displayPeriodEnd = london().add(15, 'day'); // TODO put back to 8 once dev done
+    const displayPeriodEnd = london().add(15, 'day'); // TODO awaiting testing to inform display period
     return dates[0].clone().isBetween(displayPeriodStart, displayPeriodEnd) || dates[dates.length - 1].clone().isBetween(displayPeriodStart, displayPeriodEnd);
   });
 }
@@ -171,9 +171,31 @@ function createRegularDay(day, venue) {
     };
   } else {
     return {
-      dayOfWeek: day
+      dayOfWeek: day,
+      opens: null,
+      closes: null
     };
   }
+}
+
+function exceptionalClosedDates(exceptionalOpeningHours) {
+  const onlyClosedByVenue = exceptionalOpeningHours && exceptionalOpeningHours.map(period => {
+    const dates = [].concat(...period.dates.map(dates => {
+      return dates.filter(venue => !venue.openingHours.opens);
+    }));
+    const venues = groupBy(dates, venue => venue.name);
+
+    return {
+      periodStart: period.periodStart,
+      periodEnd: period.periodEnd,
+      venues
+    };
+  })
+    .filter(period => {
+      return Object.keys(period.venues).length > 0;
+    });
+
+  return onlyClosedByVenue;
 }
 
 function parseVenuesToOpeningHours(doc: PrismicFragment): OpeningTimes {
@@ -215,11 +237,13 @@ function parseVenuesToOpeningHours(doc: PrismicFragment): OpeningTimes {
   const exceptionalHours = groupBy(individualExceptionalOpeningHours, item => london(item.exceptionalDate).format('YYYY-MM-DD'));
   const orderedHours = {};
   Object.keys(exceptionalHours).sort().forEach(key => orderedHours[key] = exceptionalHours[key]);
+  const exceptionalOpening = exceptionalOpeningHoursByPeriod(exceptionalOpeningPeriodsAllDates(exceptionalPeriods), orderedHours, placesOpeningHours);
   return {
     placesOpeningHours: placesOpeningHours.sort((a, b) => {
       return a.order - b.order;
     }),
     upcomingExceptionalOpeningPeriods: exceptionalOpeningPeriodsAllDates(upcomingExceptionalOpeningPeriods(exceptionalPeriods)),
-    exceptionalOpeningHours: exceptionalOpeningHoursByPeriod(exceptionalOpeningPeriodsAllDates(exceptionalPeriods), orderedHours, placesOpeningHours)
+    exceptionalOpeningHours: exceptionalOpening,
+    exceptionalClosedDates: exceptionalClosedDates(exceptionalOpening)
   };
 }

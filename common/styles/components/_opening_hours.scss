@@ -3,7 +3,6 @@
 .opening-hours {
   max-width: 600px;
   color: color('white');
-  margin-bottom: 2 * $vertical-space-unit;
 }
 
 .opening-hours--light {
@@ -151,10 +150,6 @@
       opacity: 1;
     }
   }
-}
-
-.opening-hours__highlight {
-  color: color('red');
 }
 
 .js-tabfocus {

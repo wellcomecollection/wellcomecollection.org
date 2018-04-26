@@ -31,6 +31,10 @@ export function formatDay(date: Date): string {
   return london(date).format('dddd');
 }
 
+export function formatDayMonth(date: Date): string {
+  return london(date).format('D MMMM');
+}
+
 export function formatMonthYear(date: Date): string {
   return london(date).format('MMMM YYYY');
 }
