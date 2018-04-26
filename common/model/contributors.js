@@ -5,7 +5,7 @@ import type {HTMLString} from '../services/prismic/types';
 
 export type Organisation = {|
   name: string,
-  image: ?Picture,
+  image: Picture,
   url: ?string
 |};
 
@@ -18,12 +18,12 @@ type ContributorRole = {|
 
 export type PersonContributor = {|
   ...Person,
-  contributorType: ContributorType
+  type: ContributorType
 |}
 
 export type OrganisationContributor = {|
   ...Organisation,
-  contributorType: ContributorType
+  type: ContributorType
 |}
 
 export type Contributor = {|

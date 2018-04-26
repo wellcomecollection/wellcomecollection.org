@@ -235,10 +235,15 @@ export const eventExample = ({
         title: 'Organiser'
       },
       contributor: {
-        contributorType: 'people',
+        type: 'people',
         id: 'WdOiZScAAF6cTGe2',
         name: 'Zsuzsa Parrag',
-        image: null,
+        image: {
+          width: 160,
+          height: 90,
+          contentUrl: 'https://via.placeholder.com/160x90?text=placeholder',
+          alt: `Logo for Zsuzsa Parrag`
+        },
         description: null,
         twitterHandle: null
       },
@@ -250,10 +255,15 @@ export const eventExample = ({
         title: 'Performer'
       },
       contributor: {
-        contributorType: 'people',
+        type: 'people',
         id: 'WgnIhCEAAKVbzrI7',
         name: 'Randy Lester',
-        image: null,
+        image: {
+          width: 160,
+          height: 90,
+          contentUrl: 'https://via.placeholder.com/160x90?text=placeholder',
+          alt: `Logo for Zsuzsa Parrag`
+        },
         description: null,
         twitterHandle: null
       },
