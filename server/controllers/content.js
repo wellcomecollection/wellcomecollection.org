@@ -284,6 +284,37 @@ export async function renderInfoPage(ctx, next) {
   return next();
 }
 
+export async function renderDrupalInfoPages(ctx, next) {
+  const infoPageResponse = await superagent.get(`https://prispal.glitch.me/info-pages`);
+  const infoPages = infoPageResponse.body.results;
+  const promoList = infoPages.map(infoPage => {
+    return {
+      url: `/drupal${infoPage.id}`,
+      contentType: 'article',
+      image: infoPage.promo.image,
+      title: infoPage.title,
+      description: infoPage.promo.caption
+    };
+  });
+
+  ctx.render('pages/list', {
+    pageConfig: createPageConfig({
+      path: '/drupal',
+      title: 'Articles',
+      inSection: 'explore',
+      category: 'editorial'
+    }),
+    list: {
+      name: 'Info pages (Drupal)',
+      description: 'What we do at Wellcome Collection',
+      items: List(promoList)
+    },
+    pagination: null,
+    moreLink: null
+  });
+  // ctx.body = promoList;
+}
+
 export async function renderDrupalInfoPage(ctx, next) {
   const {id} = ctx.params;
   const infoPageResponse = await superagent.get(`https://prispal.glitch.me/info-pages/${id}`);
@@ -291,7 +322,7 @@ export async function renderDrupalInfoPage(ctx, next) {
   const body = [{
     type: 'picture',
     weight: 'default',
-    value: Object.assign(infoPage.promo.image, {caption: infoPage.promo.caption})
+    value: Object.assign(infoPage.promo.image)
   }].concat(infoPage.body);
   infoPage.body = body;
 
