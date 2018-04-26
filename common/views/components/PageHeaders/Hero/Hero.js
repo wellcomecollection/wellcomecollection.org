@@ -1,7 +1,7 @@
 // @flow
 import {spacing} from '../../../../utils/classnames';
 import Picture from '../../Picture/Picture';
-import LinkControl from '../../Buttons/LinkControl/LinkControl';
+import Control from '../../Buttons/Control/Control';
 import WobblyEdge from '../../WobblyEdge/WobblyEdge';
 import Grid from '../../layout/Grid';
 import Container from '../../layout/Container';
@@ -27,7 +27,7 @@ const Hero = ({ images, whiteBox }: Props) => (
         <WobblyEdge background='white' />
       </div>
       <div className={`relative ${spacing({s: 3}, { margin: ['bottom'] })}`} style={{ zIndex: 20 }}>
-        <LinkControl
+        <Control
           extraClasses='scroll-to-info js-scroll-to-info js-work-media-control flush-container-right button-control--dark'
           url='#exhibition-content'
           eventTracking='{"category": "component", "action": "scroll-to-info:click", "label": "scrolled-to-id:exhibition-content"}`}'

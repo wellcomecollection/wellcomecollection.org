@@ -4,7 +4,7 @@ export const collated = true;
 export const variants = [
   {
     name: 'default',
-    label: 'primary',
+    label: 'primary (button)',
     context: {
       extraClasses: 'btn--primary',
       icon: 'email',
@@ -13,7 +13,7 @@ export const variants = [
   },
   {
     name: 'secondary',
-    label: 'secondary',
+    label: 'secondary (button)',
     context: {
       extraClasses: 'btn--secondary',
       text: 'Cancel'
@@ -21,8 +21,37 @@ export const variants = [
   },
   {
     name: 'tertiary',
-    label: 'tertiary',
+    label: 'tertiary (button)',
     context: {
+      icon: 'download',
+      extraClasses: 'btn--tertiary',
+      text: 'Download full size'
+    }
+  },
+  {
+    name: 'default-link',
+    label: 'primary (link)',
+    context: {
+      url: '#',
+      extraClasses: 'btn--primary',
+      icon: 'email',
+      text: 'Email to book'
+    }
+  },
+  {
+    name: 'secondary-link',
+    label: 'secondary (link)',
+    context: {
+      url: '#',
+      extraClasses: 'btn--secondary',
+      text: 'Cancel'
+    }
+  },
+  {
+    name: 'tertiary-link',
+    label: 'tertiary (link)',
+    context: {
+      url: '#',
       icon: 'download',
       extraClasses: 'btn--tertiary',
       text: 'Download full size'

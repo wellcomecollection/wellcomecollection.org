@@ -2,7 +2,7 @@
 import React, {Fragment} from 'react';
 import {Transition} from 'react-transition-group';
 import Image from '../Image/Image';
-import ButtonControl from '../Buttons/ButtonControl/ButtonControl';
+import Control from '../Buttons/Control/Control';
 import {spacing} from '../../../utils/classnames';
 import dynamic from 'next/dynamic';
 import ReactGA from 'react-ga';
@@ -21,7 +21,7 @@ class LaunchViewerButton extends React.Component<LaunchViewerButtonProps> {
 
   render() {
     return (
-      <ButtonControl
+      <Control
         text='View larger image'
         icon='zoomIn'
         extraClasses={`button-control--dark image-viewer__launch-button ${this.props.classes}`}
@@ -81,21 +81,21 @@ class ViewerContent extends React.Component<ViewerContentProps> {
     return (
       <div className={`${this.props.classes} image-viewer__content image-viewer__content2`}>
         <div className='image-viewer__controls flex flex-end flex--v-center'>
-          <ButtonControl
+          <Control
             text='Zoom in'
             id={`zoom-in-${this.props.id}`}
             icon='zoomIn'
             extraClasses={`button-control--light ${spacing({s: 1}, {margin: ['right']})}`}
             clickHandler={this.handleZoomIn} />
 
-          <ButtonControl
+          <Control
             text='Zoom out'
             id={`zoom-out-${this.props.id}`}
             icon='zoomOut'
             extraClasses={`button-control--light ${spacing({s: 8}, {margin: ['right']})}`}
             clickHandler={this.handleZoomOut} />
 
-          <ButtonControl
+          <Control
             text='Close image viewer'
             icon='cross'
             extraClasses={`button-control--light ${spacing({s: 2}, {margin: ['right']})}`}

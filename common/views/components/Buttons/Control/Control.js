@@ -3,6 +3,7 @@
 import Icon from '../../Icon/Icon';
 
 type Props = {|
+  url?: string,
   id?: string,
   extraClasses?: string,
   icon: string,
@@ -12,7 +13,8 @@ type Props = {|
   clickHandler?: (event: Event) => void
 |}
 
-const ButtonControl = ({
+const Control = ({
+  url,
   id,
   extraClasses,
   icon,
@@ -21,9 +23,11 @@ const ButtonControl = ({
   disabled,
   clickHandler
 }: Props) => {
+  const HtmlTag = url ? 'a' : 'button';
   return (
-    <button
+    <HtmlTag
       id={id}
+      url={url}
       className={`button-control ${extraClasses || ''}`}
       data-track-event={eventTracking}
       disabled={disabled}
@@ -32,8 +36,8 @@ const ButtonControl = ({
         <Icon name={icon} />
         <span className='visually-hidden'>{text}</span>
       </span>
-    </button>
+    </HtmlTag>
   );
 };
 
-export default ButtonControl;
+export default Control;

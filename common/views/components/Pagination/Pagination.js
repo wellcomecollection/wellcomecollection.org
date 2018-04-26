@@ -2,7 +2,7 @@
 
 import {font, spacing} from '../../../utils/classnames';
 import NextLink from 'next/link';
-import LinkControl from '../Buttons/LinkControl/LinkControl';
+import Control from '../Buttons/Control/Control';
 
 export type Props = {|
   prevPage?: number,
@@ -18,7 +18,7 @@ const Pagination = ({prevPage, currentPage, pageCount, nextPage, nextQueryString
   <div className={`pagination float-r flex-inline flex--v-center font-pewter ${font({s: 'LR3', m: 'LR2'})}`}>
     {prevPage && prevQueryString &&
       <NextLink href={prevQueryString}>
-        <LinkControl
+        <Control
           url={prevQueryString}
           extraClasses={`icon--180 button-control--light ${spacing({s: 2}, {margin: ['right']})}`}
           icon='arrow'
@@ -30,7 +30,7 @@ const Pagination = ({prevPage, currentPage, pageCount, nextPage, nextQueryString
 
     {nextPage && nextQueryString &&
       <NextLink href={nextQueryString}>
-        <LinkControl
+        <Control
           url={nextQueryString}
           extraClasses={`button-control--light ${spacing({s: 2}, {margin: ['left']})}`}
           icon='arrow'

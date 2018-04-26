@@ -2,8 +2,7 @@
 
 import type {Event} from '../../../model/events';
 import {Fragment} from 'react';
-import ButtonButton from '../Buttons/ButtonButton/ButtonButton';
-import LinkButton from '../Buttons/LinkButton/LinkButton';
+import Button from '../Buttons/Button/Button';
 import {spacing, font} from '../../../utils/classnames';
 
 type Props = {|
@@ -15,7 +14,7 @@ function getButtonMarkup(event) {
 
   if (event.isCompletelySoldOut) {
     return (
-      <ButtonButton
+      <Button
         extraClasses='btn--primary'
         text='Fully booked'
         icon='ticketAvailable' />
@@ -23,7 +22,7 @@ function getButtonMarkup(event) {
   } else {
     return (
       <div className='js-eventbrite-ticket-button' data-eventbrite-ticket-id={event.eventbriteId}>
-        <LinkButton
+        <Button
           extraClasses='btn--primary'
           url={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
           icon='ticketAvailable'
@@ -39,7 +38,7 @@ function getBookingEnquiryMarkup(event) {
   if (event.isCompletelySoldOut) {
     return (
       <Fragment>
-        <ButtonButton
+        <Button
           extraClasses='btn--primary'
           disabled={true}
           text='Fully booked' />
@@ -47,7 +46,7 @@ function getBookingEnquiryMarkup(event) {
     );
   } else {
     return (
-      <LinkButton
+      <Button
         extraClasses='btn--primary'
         url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
         icon='email'

@@ -4,7 +4,7 @@ import Icon from '../Icon/Icon';
 import Image from '../Image/Image';
 import ImageViewer from '../ImageViewer/ImageViewer';
 import {iiifImageTemplate} from '../../../utils/convert-image-uri';
-import LinkControl from '../Buttons/LinkControl/LinkControl';
+import Control from '../Buttons/Control/Control';
 
 type Props = {|
   id: string,
@@ -58,7 +58,7 @@ const WorkMedia = ({
       </div>
       }
       <div id={`work-media-${id}`} className='row bg-black work-media js-work-media'>
-        <LinkControl
+        <Control
           extraClasses='scroll-to-info js-scroll-to-info js-work-media-control flush-container-right button-control--dark'
           url='#work-info'
           eventTracking='{"category": "component", "action": "scroll-to-info:click", "label": "scrolled-to-id:work-info"}`}'
