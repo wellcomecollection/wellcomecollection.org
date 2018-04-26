@@ -322,7 +322,7 @@ export async function renderDrupalInfoPage(ctx, next) {
   const body = [{
     type: 'picture',
     weight: 'default',
-    value: Object.assign(infoPage.promo.image, {caption: infoPage.promo.caption})
+    value: Object.assign(infoPage.promo.image)
   }].concat(infoPage.body);
   infoPage.body = body;
 
