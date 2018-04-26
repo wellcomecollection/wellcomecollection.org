@@ -1,13 +1,13 @@
 // @flow
 
+import ReactGA from 'react-ga';
 import {font, spacing} from '../../../utils/classnames';
 import getLicenseInfo from '../../../utils/get-license-info';
 import {Fragment} from 'react';
 import {withToggler} from '../../hocs/withToggler';
 import Icon from '../Icon/Icon';
-import ReactGA from 'react-ga';
 
-type Props = {
+export type Props = {
   isFull: boolean,
   contentUrl: string,
   title?: ?string,
@@ -100,7 +100,7 @@ const Tasl = withToggler(({
       ${isFull ? 'tasl--top' : 'tasl--bottom'}
       ${font({s: 'LR3', m: 'LR2'})}
       ${isActive ? 'is-active' : ''}
-      tasl drawer js-show-hide
+      tasl drawer js-show-hide plain-text
     `}
     data-track-action='toggle-image-credit'
     data-track-label={`image:${contentUrl}`}>

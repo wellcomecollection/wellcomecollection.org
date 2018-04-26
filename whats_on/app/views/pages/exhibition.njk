@@ -65,7 +65,6 @@
         </div>
       </div>
 
-
       <div class="is-hidden-s is-hidden-m">
         {% componentJsx 'WobblyEdge', {background: 'white', intensity: 30} %}
       </div>
@@ -78,8 +77,9 @@
             {% if exhibition.intro %}
               {% componentJsx 'Standfirst', {body: exhibition.intro} %}
             {% endif %}
-
-            {{ exhibition.description | prismicAsHtml | safe }}
+            <div class="body-text">
+              {{ exhibition.description | prismicAsHtml | safe }}
+            </div>
           </div>
           <div class="{{ {s:12, m:10, shiftM:1, l:5, xl:5} | gridClasses }}">
             <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
@@ -92,7 +92,7 @@
                 {% componentJsx 'OpeningHours', {
                   id: 'exhibition-page',
                   extraClasses: 'opening-hours--light opening-hours--compressed',
-                  placesOpeningHours: openingHours.placesOpeningHours,
+                  groupedVenues: openingHours.groupedVenues,
                   upcomingExceptionalOpeningPeriods: openingHours.upcomingExceptionalOpeningPeriods
                 } %}
               </div>
@@ -127,7 +127,7 @@
                   </a>
                 {% endif %}
                 <div class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
-                  {% componentJsx 'MoreInfoLink', { name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility' } %}
+                  {% componentJsx 'PrimaryLink', { name: 'Find out more about accessibility', url: 'https://wellcomecollection.org/visit-us/accessibility' } %}
                 </div>
               </div>
             {% endblock %}
@@ -167,7 +167,7 @@
                   {% componentV2 'image', promo.image, null, {'lazyload': true, sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
                 </a>
                 <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
-                  {% componentJsx 'MoreInfoLink', { name: 'View images from the exhibition', url: promo.url } %}
+                  {% componentJsx 'PrimaryLink', { name: 'View images from the exhibition', url: promo.url } %}
                 </div>
               </div>
             {% endfor %}

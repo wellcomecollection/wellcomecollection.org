@@ -1,11 +1,6 @@
 .tasl {
   text-align: right;
 
-  a:link { // overriding .body-content a:link
-    text-decoration: underline;
-    box-shadow: none;
-  }
-
   .enhanced & {
     position: absolute;
     width: 100%;

@@ -344,3 +344,11 @@ $slider-one-column-width: (100 / 12) * 1%;
     left: -#{($container-width-max*8/12/2) - map-get($container-padding, 'xlarge') + (map-get($gutter-width, 'xlarge')/2)};
   }
 }
+
+@mixin default-link {
+  &:hover,
+  &:focus {
+    color: color('green');
+    text-decoration: none;
+  }
+}

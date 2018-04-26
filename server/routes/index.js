@@ -13,7 +13,8 @@ import {
   renderArticlesList,
   renderWebcomicSeries,
   renderOpeningTimes,
-  renderInfoPage
+  renderInfoPage,
+  renderDrupalInfoPage
 } from '../controllers/content';
 
 const r = new Router({
@@ -55,6 +56,7 @@ r.get('/series/(W):id', renderSeries);
 r.get('/webcomic-series/:id', renderWebcomicSeries);
 r.get('/info/opening-times', renderOpeningTimes);
 r.get('/info/:id', renderInfoPage);
+r.get('/drupal/:id*', renderDrupalInfoPage);
 
 // API
 r.get('/works', search);

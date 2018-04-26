@@ -35,7 +35,8 @@ export async function renderEvent(ctx, next) {
           pageState: {hasSchedule: Boolean(event.schedule.length > 0)}
         }),
         event: event,
-        tags: {tags}
+        tags: {tags},
+        isPreview
       });
     }
   }
@@ -49,27 +50,30 @@ export async function renderEventSeries(ctx, next) {
   const eventsPromise = getEventsInSeries(id, { page });
   const uiEventSeriesPromise = getUiEventSeries(ctx.request, id);
   const [ events, uiEventSeries ] = await Promise.all([eventsPromise, uiEventSeriesPromise]);
-  const promos = createEventPromos(events.results).reverse();
-  const paginatedResults = convertPrismicResultsToPaginatedResults(promos);
-  const paginatedEvents = paginatedResults(promos);
-  const upcomingEvents = Object.assign({}, paginatedEvents, {results: promos.filter(e => london(e.end).isAfter(london()))});
-  const pastEvents = {results: promos.filter(e => london(e.end).isBefore(london())).slice(0, 2).reverse()};
 
-  ctx.render('pages/event-series', {
-    pageConfig: createPageConfig({
-      path: ctx.request.url,
-      title: asText(uiEventSeries.title),
-      description: asText(uiEventSeries.description),
-      inSection: 'whatson',
-      category: 'public-programme',
-      contentType: 'event-series',
-      canonicalUri: `/event-series/${id}`
-    }),
-    htmlDescription: asHtml(uiEventSeries.description),
-    paginatedEvents: upcomingEvents,
-    pastEvents: pastEvents,
-    backgroundTexture: uiEventSeries.backgroundTexture
-  });
+  if (events.results.length > 0) {
+    const promos = createEventPromos(events.results).reverse();
+    const paginatedResults = convertPrismicResultsToPaginatedResults(promos);
+    const paginatedEvents = paginatedResults(promos);
+    const upcomingEvents = Object.assign({}, paginatedEvents, {results: promos.filter(e => london(e.end).isAfter(london()))});
+    const pastEvents = {results: promos.filter(e => london(e.end).isBefore(london())).slice(0, 2).reverse()};
+
+    ctx.render('pages/event-series', {
+      pageConfig: createPageConfig({
+        path: ctx.request.url,
+        title: asText(uiEventSeries.title),
+        description: asText(uiEventSeries.description),
+        inSection: 'whatson',
+        category: 'public-programme',
+        contentType: 'event-series',
+        canonicalUri: `/event-series/${id}`
+      }),
+      htmlDescription: asHtml(uiEventSeries.description),
+      paginatedEvents: upcomingEvents,
+      pastEvents: pastEvents,
+      backgroundTexture: uiEventSeries.backgroundTexture
+    });
+  }
 
   return next();
 }

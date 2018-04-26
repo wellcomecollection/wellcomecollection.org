@@ -83,7 +83,7 @@ class ViewerContent extends React.Component<ViewerContentProps> {
   render() {
     return (
       <div className={`${this.props.classes} image-viewer__content image-viewer__content2`}>
-        <div className="image-viewer__controls flex flex-end flex--v-center">
+        <div className='image-viewer__controls flex flex-end flex--v-center'>
           <ButtonButton
             text='Zoom in'
             id={`zoom-in-${this.props.id}`}

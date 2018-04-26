@@ -11,11 +11,13 @@ import type {PlacesOpeningHours} from '../../../model/opening-hours';
 type Props = {|
   openingHoursId: string,
   extraClasses: string,
-  placesOpeningHours: PlacesOpeningHours,
+  groupedVenues: {
+    [string]: PlacesOpeningHours
+  },
   upcomingExceptionalOpeningPeriods: Date[][]
 |}
 
-const Footer = ({openingHoursId, extraClasses, placesOpeningHours, upcomingExceptionalOpeningPeriods}: Props) => (
+const Footer = ({openingHoursId, extraClasses, groupedVenues, upcomingExceptionalOpeningPeriods}: Props) => (
   <div className={`footer row bg-black ${spacing({s: 5, m: 10}, {padding: ['top']})}`}>
     <div className='container'>
       <div className='grid'>
@@ -37,9 +39,8 @@ const Footer = ({openingHoursId, extraClasses, placesOpeningHours, upcomingExcep
         <div className={`${grid({s: 12, l: 6, xl: 6})}`}>
           <h3 className={`footer__heading ${font({s: 'HNL5'})}`}>Opening times:</h3>
           <OpeningHours
-            id={openingHoursId}
             extraClasses={extraClasses}
-            placesOpeningHours={placesOpeningHours}
+            groupedVenues={groupedVenues}
             upcomingExceptionalOpeningPeriods={upcomingExceptionalOpeningPeriods} />
         </div>
       </div>

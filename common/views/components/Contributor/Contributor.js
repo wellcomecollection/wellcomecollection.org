@@ -11,12 +11,12 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
     width,
     contentUrl: contributor.image && contributor.image.contentUrl,
     alt: `Logo for ${contributor.name}`,
-    lazyload: false
+    lazyload: true
   } : {
     width,
     contentUrl: contributor.image && contributor.image.contentUrl,
     alt: `Photograph of ${contributor.name}`,
-    lazyload: false
+    lazyload: true
   };
   return (
     <div className='flex'>
@@ -29,7 +29,13 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
         https://github.com/facebook/flow/issues/2405
       */}
       {/* $FlowFixMe */}
-      {imageProps.contentUrl && <div className={`${spacing({s: 2}, {margin: ['right']})}`}><Image {...imageProps} /></div>}
+      {imageProps.contentUrl &&
+        <div
+          style={{ width, height: width }}
+          className={`${spacing({s: 2}, {margin: ['right']})}`}>
+          <Image {...imageProps} />
+        </div>
+      }
       <div style={{ flexGrow: 1 }}>
         <div className={font({s: 'WB6'})}>
           {contributor.name}
