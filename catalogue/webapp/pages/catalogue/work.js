@@ -1,7 +1,7 @@
 // @flow
 import fetch from 'isomorphic-unfetch';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
-import {iiifImageTemplate} from '@weco/common/utils/convert-image-uri';
+import {iiifImageTemplate, convertImageUri} from '@weco/common/utils/convert-image-uri';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -97,7 +97,7 @@ function getLicenseInfo(licenseType) {
 function createLinkObject(val: string, prepend?: string): Link {
   return {
     text: val,
-    url: prepend ? `/works?query=${encodeURIComponent(`${prepend}"${val}"`)}` : `/works?query=${encodeURI(`"${val}"`)}`
+    url: prepend ? `/catalogue/works?query=${encodeURIComponent(`${prepend}"${val}"`)}` : `/catalogue/works?query=${encodeURI(`"${val}"`)}`
   };
 }
 
@@ -180,7 +180,7 @@ const WorkPage = ({work}: Props) => {
   const descriptionArray = work.description && work.description.split('\n');
   const metaContent = getMetaContentArray(work, descriptionArray);
   const credit = work.items[0].locations[0].credit;
-  const attribution = constructAttribution(work, credit, `https://wellcomecollection.org/works/${work.id}`);
+  const attribution = constructAttribution(work, credit, `https://wellcomecollection.org/catalogue/works/${work.id}`);
 
   return (
     <Fragment>
@@ -247,16 +247,14 @@ const WorkPage = ({work}: Props) => {
                 Download
               </h2>
 
-              {/* TODO: the download links once this is in
-              https://github.com/wellcometrust/wellcomecollection.org/pull/2164/files#diff-f9d8c53a2dbf55f0c9190e6fbd99e45cR21 */}
-              {/* the small one is 760 */}
               <a
                 className={classNames([
                   spacing({s: 2}, {margin: ['bottom']}),
                   font({s: 'HNM5', m: 'HNM4'}),
                   'plain-link font-green font-hover-turquoise flex flex--v-center'
                 ])}
-                href={`/download?uri=${encodeURIComponent('/link/to/image')}`}
+                href={convertImageUri(work.items[0].locations[0].url, 'full')}
+                target='_blank'
                 download={`${work.id}.jpg`}
                 rel='noopener noreferrer'
                 data-track-event={JSON.stringify({
@@ -276,7 +274,8 @@ const WorkPage = ({work}: Props) => {
                   font({s: 'HNM5', m: 'HNM4'}),
                   'plain-link font-green font-hover-turquoise flex flex--v-center'
                 ])}
-                href={`/download?uri=${encodeURIComponent('/link/to/image')}`}
+                href={convertImageUri(work.items[0].locations[0].url, 760)}
+                target='_blank'
                 download={`${work.id}.jpg`}
                 rel='noopener noreferrer'
                 data-track-event={JSON.stringify({
@@ -311,7 +310,7 @@ const WorkPage = ({work}: Props) => {
                 ])}>
                   Share
                 </h2>
-                <CopyUrl id={work.id} url={`https://wellcomecollection.org/works/${work.id}`} />
+                <CopyUrl id={work.id} url={`https://wellcomecollection.org/catalogue/works/${work.id}`} />
               </div>
             </div>
           </div>
@@ -336,7 +335,7 @@ WorkPage.getInitialProps = async (context) => {
     title: json.title || json.description,
     description: json.description || '',
     type: 'website',
-    url: `https://wellcomecollection.org/works/${json.id}`,
+    url: `https://wellcomecollection.org/catalogue/works/${json.id}`,
     imageUrl: iiifImage({size: '800,'}),
     analyticsCategory: 'collections',
     siteSection: 'images',
