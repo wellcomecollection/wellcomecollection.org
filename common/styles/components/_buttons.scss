@@ -1,32 +1,14 @@
-@mixin secondary {
-  background-color: color('transparent');
-  border-width: 2px;
-
-  &:not([disabled]):hover,
-  &:not([disabled]):focus {
-    background-color: color('transparent');
-  }
-}
-
 .btn {
-  display: inline-block;
-  min-height: 42px;
-  padding: $v-spacing-unit $spacing-unit*2;
-  color: color('white');
-  background-color: color('green');
-  border: 2px solid color('green');
   border-radius: $border-radius-unit;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-weight: bold;
   text-decoration: none;
   text-align: center;
-  transition: background 0.7s ease, border-color 0.7s ease, color 0.7s ease;
+  transition: all $transition-properties;
+  border: 0;
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
-    background: color('green');
-    border-color: color('green');
     cursor: pointer;
   }
 
@@ -43,74 +25,44 @@
   }
 
   .icon__shape {
+    transition: fill $transition-properties;
     fill: currentColor;
   }
 }
 
-.btn--round {
-  border-radius: 50%;
-  width: 46px;
-  height: 46px;
-  padding: 0;
-
-  .icon {
-    margin: 0;
-  }
+.btn--primary,
+.btn--secondary {
+  padding: $spacing-unit 4 * $spacing-unit;
 }
 
-.btn--black {
-  @include secondary;
+.btn--primary {
+  background: color('green');
   color: color('white');
-  border-color: color('black');
-  -webkit-font-smoothing: subpixel-antialiased;
-  -moz-osx-font-smoothing: unset;
+  padding: $spacing-unit 4 * $spacing-unit;
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
-    background-color: color('black');
-    border-color: color('black');
+    background: color('black');
   }
 }
 
-.btn--light {
-  @include secondary;
-  color: color('black');
-  border-color: rgba(color('black'), 0.2);
-  -webkit-font-smoothing: subpixel-antialiased;
-  -moz-osx-font-smoothing: unset;
-
-  &:not([disabled]):hover,
-  &:not([disabled]):focus {
-    border-color: color('black');
-  }
-}
-
-.btn--dark {
-  @include secondary;
+.btn--secondary,
+.btn--tertiary {
+  background: color('white');
   color: color('green');
-  border-color: rgba(color('green'), 0.4);
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
-    color: color('green');
-    border-color: color('green');
+    background: color('green');
+    color: color('white');
   }
 }
 
-.btn--transparent-black {
-  @include secondary;
-  color: color('white');
-  border-color: color('black');
-  background-color: color('transparent-black');
-
-  &:not([disabled]):hover,
-  &:not([disabled]):focus {
-    border-color: color('white');
-    background-color: color('black');
-  }
+.btn--secondary {
+  border: 2px solid color('green');
 }
 
-.btn--full-width-s {
-  width: 100%;
-  max-width: $spacing-unit * 50;
+.btn--tertiary {
+  padding: $spacing-unit 2 * $spacing-unit;
+  border: 1px solid color('green');
 }

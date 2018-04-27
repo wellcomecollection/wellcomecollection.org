@@ -1,7 +1,7 @@
 // @flow
 import {grid} from '../../../utils/classnames';
 import ImageViewer2 from '../ImageViewer/ImageViewer2';
-import ScrollToInfo from '../ScrollToInfo/ScrollToInfo';
+import Control from '../Buttons/Control/Control';
 import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
 import {iiifImageTemplate} from '../../../utils/convert-image-uri';
 
@@ -51,9 +51,12 @@ const WorkMedia = ({
       </div>
       }
       <div id={`work-media-${id}`} className='row bg-black work-media js-work-media'>
-        <div className='pointer-events-none'>
-          <ScrollToInfo elementId='work-info' />
-        </div>
+        <Control
+          extraClasses='scroll-to-info js-scroll-to-info js-work-media-control flush-container-right control--dark'
+          url='#work-info'
+          eventTracking='{"category": "component", "action": "scroll-to-info:click", "label": "scrolled-to-id:work-info"}`}'
+          icon='chevron'
+          text='Scroll to info' />
 
         <ImageViewer2
           contentUrl={imageContentUrl}
