@@ -97,7 +97,7 @@ function getLicenseInfo(licenseType) {
 function createLinkObject(val: string, prepend?: string): Link {
   return {
     text: val,
-    url: prepend ? `/works?query=${encodeURIComponent(`${prepend}"${val}"`)}` : `/works?query=${encodeURI(`"${val}"`)}`
+    url: prepend ? `/catalogue/works?query=${encodeURIComponent(`${prepend}"${val}"`)}` : `/catalogue/works?query=${encodeURI(`"${val}"`)}`
   };
 }
 
@@ -180,7 +180,7 @@ const WorkPage = ({work}: Props) => {
   const descriptionArray = work.description && work.description.split('\n');
   const metaContent = getMetaContentArray(work, descriptionArray);
   const credit = work.items[0].locations[0].credit;
-  const attribution = constructAttribution(work, credit, `https://wellcomecollection.org/works/${work.id}`);
+  const attribution = constructAttribution(work, credit, `https://wellcomecollection.org/catalogue/works/${work.id}`);
 
   return (
     <Fragment>
@@ -248,7 +248,7 @@ const WorkPage = ({work}: Props) => {
               </h2>
 
               {/* TODO: the download links once this is in
-              https://github.com/wellcometrust/wellcomecollection.org/pull/2164/files#diff-f9d8c53a2dbf55f0c9190e6fbd99e45cR21 */}
+                https://github.com/wellcometrust/wellcomecollection.org/pull/2164/files#diff-f9d8c53a2dbf55f0c9190e6fbd99e45cR21 */}
               {/* the small one is 760 */}
               <a
                 className={classNames([
@@ -311,7 +311,7 @@ const WorkPage = ({work}: Props) => {
                 ])}>
                   Share
                 </h2>
-                <CopyUrl id={work.id} url={`https://wellcomecollection.org/works/${work.id}`} />
+                <CopyUrl id={work.id} url={`https://wellcomecollection.org/catalogue/works/${work.id}`} />
               </div>
             </div>
           </div>
@@ -336,7 +336,7 @@ WorkPage.getInitialProps = async (context) => {
     title: json.title || json.description,
     description: json.description || '',
     type: 'website',
-    url: `https://wellcomecollection.org/works/${json.id}`,
+    url: `https://wellcomecollection.org/catalogue/works/${json.id}`,
     imageUrl: iiifImage({size: '800,'}),
     analyticsCategory: 'collections',
     siteSection: 'images',

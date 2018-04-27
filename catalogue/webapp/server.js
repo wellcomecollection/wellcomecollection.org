@@ -10,8 +10,8 @@ app.prepare().then(() => {
   const server = new Koa();
   const router = new Router();
 
-  router.get('/works/:id', async ctx => {
-    await app.render(ctx.req, ctx.res, '/work', {id: ctx.params.id});
+  router.get('/catalogue/works/:id', async ctx => {
+    await app.render(ctx.req, ctx.res, '/catalogue/work', {id: ctx.params.id});
     ctx.respond = false;
   });
 

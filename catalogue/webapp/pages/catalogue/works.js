@@ -132,7 +132,7 @@ const WorksComponent = ({
                     }}
                     datePublished={result.createdDate && result.createdDate.label}
                     title={result.title}
-                    url={`/works/${result.id}${getQueryParamsForWork(query)}`} />
+                    url={`/catalogue/works/${result.id}${getQueryParamsForWork(query)}`} />
                 </div>
               ))}
             </div>
@@ -168,7 +168,7 @@ class Works extends Component<Props> {
 
     // Update the URL, which in turn will update props
     Router.push({
-      pathname: '/works',
+      pathname: '/catalogue/works',
       query: {query: queryString, page: '1'}
     });
   }
