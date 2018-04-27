@@ -11,7 +11,10 @@ export function parseInfoPage(document: PrismicDocument) {
     id: document.id,
     title: document.data.title ? parseTitle(document.data.title) : 'TITLE MISSING',
     body: document.data.body ? parseBody(document.data.body) : [],
-    promo: document.data.promo && parseImagePromo(document.data.promo)
+    promo: document.data.promo && parseImagePromo(document.data.promo),
+    drupalPromoImage: document.data.promoImage && document.data.promoImage.url,
+    drupalNid: document.data.drupalNid,
+    drupalPath: document.data.drupalPath
   };
 }
 

@@ -1,7 +1,7 @@
 // @flow
 type LinkType = | 'web' | 'document' | 'media';
 
-export default function (label: string, linkType: LinkType, linkMask: string[] = []) {
+export default function (label: string, linkType: ?LinkType, linkMask: string[] = []) {
   return {
     'type': 'Link',
     'config': {
