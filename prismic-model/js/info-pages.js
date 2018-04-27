@@ -12,8 +12,10 @@ const Page = {
   Promo: {
     promo
   },
+
+  // TODO (drupal migration): Remove this
   Migration: {
-    drupalPromoImage: link('Drupal promo image'),
+    drupalPromoImage: link('Drupal promo image', 'web'),
     drupalNid: text('Drupal node ID'),
     drupalPath: text('Drupal path')
   }

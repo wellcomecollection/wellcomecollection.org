@@ -170,6 +170,7 @@
       "type": "Link",
       "config": {
         "label": "Drupal promo image",
+        "select": "web",
         "customtypes": []
       }
     },
