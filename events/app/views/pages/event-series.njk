@@ -53,7 +53,9 @@
         <div class="grid">
           {% for event in paginatedEvents.results %}
             <div class="{{ {s: 12, m: 6, l: 4, xl:4} | gridClasses}}">
-              {% componentV2 'event-promo', event, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
+              <div class="{{ {s: 3} | spacingClasses({margin: ['bottom']}) }}">
+                {% componentV2 'event-promo', event, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
+              </div>
             </div>
           {% endfor %}
         </div>
@@ -79,7 +81,9 @@
         <div class="grid">
           {% for event in pastEvents.results %}
             <div class="{{ {s: 12, m: 6, l: 4, xl:4} | gridClasses}}">
-              {% componentV2 'event-promo', event, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
+              <div class="{{ {s: 3} | spacingClasses({margin: ['bottom']}) }}">
+                {% componentV2 'event-promo', event, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
+              </div>
             </div>
           {% endfor %}
         </div>
