@@ -3,7 +3,7 @@ import {Fragment} from 'react';
 import Button from '../Button/Button';
 import PrimaryButton from '../PrimaryButton/PrimaryButton';
 import type {GenericButtonProps} from '../Button/Button';
-import {font} from '../../../../utils/classnames';
+import {font, spacing} from '../../../../utils/classnames';
 
 type Props = {|
   ...GenericButtonProps,
@@ -22,7 +22,9 @@ const SecondaryButton = ({
 }: Props) => {
   return (
     <Fragment>
-      {primaryButton}
+      <span className={spacing({s: 2}, {margin: ['right']})}>
+        <Fragment>{primaryButton}</Fragment>
+      </span>
       <Button
         url={url}
         id={id}
