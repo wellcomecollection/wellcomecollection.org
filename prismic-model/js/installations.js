@@ -12,16 +12,14 @@ const Installations = {
     description,
     start: timestamp('Start date'),
     end: timestamp('End date'),
-    place
+    place,
+    body
   },
   Contributors: {
     contributors
   },
   Promo: {
     promo
-  },
-  Body: {
-    body
   }
 };
 

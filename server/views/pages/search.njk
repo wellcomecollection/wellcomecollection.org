@@ -101,7 +101,7 @@
         <div class="grid grid--dividers">
           <div class="{{ {s: 12, m:10, l: 7, xl: 7} | gridClasses }}">
             <h2 class="{{ {s:'WB6', m:'WB4'} | fontClasses }} {{ {s:6} | spacingClasses({margin: ['bottom']}) }} {{ {s:0} | spacingClasses({margin: ['top']}) }}">About the historical images</h2>
-            <div class="body-content">
+            <div class="body-text">
               <div class="standfirst {{ {s:'HNL3', m:'HNL2'} | fontClasses }}">
                 <p>These artworks and photographs are from the library at Wellcome Collection and have been collected over several decades. </p>
               </div>
@@ -204,6 +204,12 @@
         </div>
       </div>
     </div>
-    {% componentV2 'back-to-top', {}, {}, {trackId: pageConfig.canonicalUri} %}
+    {% componentJsx 'Control', {
+      url: '#top',
+      extraClasses: 'icon--180 control--dark js-back-to-top back-to-top',
+      icon: 'chevron',
+      text: 'Back to top',
+      eventTracking: '{"category": "component", "action": "back-to-top:click", "label": "url:' + pageConfig.canonicalUri + '"}'
+    } %}
   {% endif %}
 {% endblock %}

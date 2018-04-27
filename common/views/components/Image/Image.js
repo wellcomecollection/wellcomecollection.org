@@ -4,11 +4,11 @@ import {imageSizes} from '../../../utils/image-sizes';
 import {Fragment} from 'react';
 
 export type Props = {|
-  width: number,
-  height?: number,
   contentUrl: string,
-  clipPathClass?: string,
+  width: number,
   alt: string,
+  height?: number,
+  clipPathClass?: string,
   caption?: string,
   lazyload?: boolean,
   sizesQueries?: string,
@@ -24,8 +24,8 @@ const Image = ({
   contentUrl,
   clipPathClass,
   caption,
-  lazyload,
   copyright,
+  lazyload = true,
   sizesQueries = '100vw',
   defaultSize = 30,
   alt = '',

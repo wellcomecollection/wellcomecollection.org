@@ -24,18 +24,20 @@
 
   {% componentV2 'list-header', {name: list.name, description: list.description, total: list.total} %}
 
-  <div class="row">
-    <div class="container">
-      <div class="grid">
-        <div class="{{ {s:12, m:12, l:12} | gridClasses }}">
-          <div class="{{ {s:5, m:5, l:5} | spacingClasses({padding: ['top']}) }}  {{ {s:5, m:5, l:5} | spacingClasses({padding: ['bottom']}) }} flex flex--v-center font-pewter {{ {s:'LR3', m:'LR2'} | fontClasses }}">
-            {{ pagination.range.beginning }} - {{ pagination.range.end }}
+  {% if pagination %}
+    <div class="row">
+      <div class="container">
+        <div class="grid">
+          <div class="{{ {s:12, m:12, l:12} | gridClasses }}">
+            <div class="{{ {s:5, m:5, l:5} | spacingClasses({padding: ['top']}) }}  {{ {s:5, m:5, l:5} | spacingClasses({padding: ['bottom']}) }} flex flex--v-center font-pewter {{ {s:'LR3', m:'LR2'} | fontClasses }}">
+              {{ pagination.range.beginning }} - {{ pagination.range.end }}
+            </div>
           </div>
         </div>
+        {% componentV2 'divider', null, {'keyline': true, 'pumice': true} %}
       </div>
-      {% componentV2 'divider', null, {'keyline': true, 'pumice': true} %}
     </div>
-  </div>
+  {% endif %}
 
   <div class="row {{ {s:4, m:4, l:4} | spacingClasses({padding: ['top']}) }} ">
     <div class="container">
@@ -64,13 +66,15 @@
       {% if moreLink %}
         <div class="grid">
           <div class="grid__cell text-align-right">
-            {% componentJsx 'MoreInfoLink', { url: moreLink, name: 'More articles from the archive' } %}
+            {% componentJsx 'PrimaryLink', { url: moreLink, name: 'More articles from the archive' } %}
           </div>
         </div>
       {% else %}
         <div class="grid">
           <div class="grid__cell">
-            {% componentJsx 'Pagination', pagination %}
+            {% if pagination %}
+              {% componentJsx 'Pagination', pagination %}
+            {% endif %}
           </div>
         </div>
       {% endif %}

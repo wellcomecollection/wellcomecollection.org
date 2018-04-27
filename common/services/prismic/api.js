@@ -24,8 +24,8 @@ export function isPreview(req: Request) {
   return Boolean(new Cookies(req).get(Prismic.previewCookie));
 }
 
-export async function getPrismicApi(req: Request) {
-  if (isPreview(req)) {
+export async function getPrismicApi(req: ?Request) {
+  if (req && isPreview(req)) {
     const api = await Prismic.getApi(apiUri, {req});
     return api;
   } else {
@@ -49,12 +49,15 @@ export async function getDocument(
 type Predicate = string;
 
 export async function getDocuments(
-  req: Request,
+  req: ?Request,
   predicates: Predicate[],
   opts: PrismicQueryOpts
 ): Promise<PaginatedResults<PrismicDocument>> {
   const api = await getPrismicApi(req);
-  const docs: PrismicApiSearchResponse = await api.query(predicates, opts);
+  const docs: PrismicApiSearchResponse = await api.query(
+    predicates.concat([Prismic.Predicates.not('document.tags', ['delist'])]),
+    opts
+  );
   const paginatedResults = {
     currentPage: docs.page,
     pageSize: docs.results_per_page,

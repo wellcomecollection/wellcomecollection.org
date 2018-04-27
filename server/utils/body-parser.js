@@ -437,13 +437,19 @@ export function findWpImageGallery(node) {
             const height = dimensions[1];
             const contentUrl = getAttrVal(img.attrs, 'data-orig-file');
             const caption = getAttrVal(img.attrs, 'alt');
-            return createPicture({
-              contentUrl,
-              caption,
-              width,
-              height,
-              alt: caption
-            });
+            return {
+              image: createPicture({
+                contentUrl,
+                width,
+                height,
+                alt: caption
+              }),
+              caption: [{
+                type: 'paragraph',
+                text: caption,
+                spans: []
+              }]
+            };
           }) || [];
           return imgs;
         }).reduce((acc, imgs) => acc.concat(imgs));

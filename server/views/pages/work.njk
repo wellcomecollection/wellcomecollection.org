@@ -52,7 +52,7 @@
 
             {% if work.encoreLink %}
               <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
-                {% componentJsx 'MoreInfoLink', {name: 'View Wellcome Library catalogue record', url: work.encoreLink} %}
+                {% componentJsx 'PrimaryLink', {name: 'View Wellcome Library catalogue record', url: work.encoreLink} %}
               </div>
             {% endif %}
           </div>
@@ -76,9 +76,10 @@
 
           <a
             class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-link font-green font-hover-turquoise flex flex--v-center"
-            href="/download?uri={{ work.imgLink | convertImageUri('full', false) | urlencode }}"
+            href="{{ work.imgLink | convertImageUri('full', false) }}"
             download="{{ work.id }}.jpg"
             rel="noopener noreferrer"
+            target="_blank"
             data-track-event='{"category": "component", "action": "download-button:click", "label": "id:{{ work.id }}, size:original, title:{{ work.title | truncate(50) }}"}'>
             {% icon 'download', null, ['icon--green'] %}
             <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
@@ -88,9 +89,10 @@
 
           <a
             class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-link font-green font-hover-turquoise flex flex--v-center"
-            href="/download?uri={{ work.imgLink | convertImageUri(760, false) | urlencode }}"
+            href="{{ work.imgLink | convertImageUri(760, false) }}"
             download="{{ work.id }}.jpg"
             rel="noopener noreferrer"
+            target="_blank"
             data-track-event='{"category": "component", "action": "download-button:click", "label": "id:{{ work.id }}, size:760, title:{{ work.title | truncate(50) }}"}'>
             {% icon 'download', null, ['icon--green'] %}
             <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
@@ -120,5 +122,11 @@
     </div>
   </div>
 
-  {% componentJsx 'BackToTop', {trackId: pageConfig.canonicalUri} %}
+  {% componentJsx 'Control', {
+    url: '#top',
+    extraClasses: 'icon--180 control--dark js-back-to-top back-to-top',
+    icon: 'chevron',
+    text: 'Back to top',
+    eventTracking: '{"category": "component", "action": "back-to-top:click", "label": "url:' + pageConfig.canonicalUri + '"}'
+  } %}
 {% endblock %}

@@ -1,4 +1,4 @@
-<div class="body-content">
+<div class="{{ {s: 5} | spacingClasses({margin: ['bottom']}) }}">
   {% for bodyPartGroup in (articleBody | groupBodyParts) %}
     {% set mainLoopIndex = loop.index %}
     <div class="sticky-wrapper">
@@ -134,8 +134,7 @@
               </ul>
             {% endif %}
           {% elif bodyPart.type === 'quote' %}
-            {% set fontStyles = {s:'HNL3'} %}
-            {% componentV2 'quote', {body: bodyPart.value.body | safe, footer: bodyPart.value.footer | safe}, {'block': true}, {fontStyles: fontStyles} %}
+            {% componentJsx 'Quote', bodyPart.value %}
           {% elif bodyPart.type === 'pre' %}
             <div class="bg-white">
               <div class="body-part__extend-to-right">
@@ -155,7 +154,9 @@
               {% componentV2 'gif-video', bodyPart.value %}
             </div>
           {% else %}
-            {{ bodyPart.value | safe }}
+            <div class="body-text">
+              {{ bodyPart.value | safe }}
+            </div>
           {% endif %}
         </div>
       {% endfor %}

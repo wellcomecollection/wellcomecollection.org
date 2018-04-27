@@ -7,6 +7,7 @@ import check from './check';
 import chevron from './chevron';
 import clock from './clock';
 import cross from './cross';
+import email from './email';
 import image from './image';
 import location from './location';
 import plus from './plus';
@@ -47,6 +48,7 @@ export {
   chevron,
   clock,
   cross,
+  email,
   image,
   location,
   plus,

@@ -1,0 +1,46 @@
+.control {
+  display: inline-block;
+  border-radius: 50%;
+  padding: 0;
+  transition: background $transition-properties;
+  cursor: pointer;
+  width: 46px;
+  height: 46px;
+}
+
+.control__inner {
+  width: 100%;
+  height: 100%;
+}
+
+.control--light {
+  background: color('white');
+  border: 2px solid color('green');
+
+  .icon__shape {
+    fill: color('green');
+  }
+
+  &:hover,
+  &:focus {
+    background: color('green');
+
+    .icon__shape {
+      fill: color('white');
+    }
+  }
+}
+
+.control--dark {
+  border: 0;
+  background: color('green');
+
+  .icon__shape {
+    fill: color('white');
+  }
+
+  &:hover,
+  &:focus {
+    background: color('black');
+  }
+}

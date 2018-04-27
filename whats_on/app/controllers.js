@@ -1,6 +1,6 @@
 import searchQuery from 'search-query-parser';
 import {getInstallation} from '@weco/common/services/prismic/installations';
-import {getExhibition, getExhibitionExhibits} from '@weco/common/services/prismic/exhibitions';
+import {getExhibitions, getExhibition, getExhibitionExhibits} from '@weco/common/services/prismic/exhibitions';
 import {isPreview as isPrismicPreview} from '@weco/common/services/prismic/api';
 import {model, prismic} from 'common';
 
@@ -18,7 +18,7 @@ const {
 } = prismic;
 
 export async function renderWhatsOn(ctx, next) {
-  const exhibitionAndEventPromos = await getExhibitionAndEventPromos(ctx.query);
+  const exhibitionAndEventPromos = await getExhibitionAndEventPromos(ctx.query, ctx.intervalCache.get('collectionOpeningTimes'), ctx.featuresCohort);
 
   ctx.render('pages/whats-on', {
     pageConfig: createPageConfig({
@@ -64,6 +64,23 @@ export async function renderInstallation(ctx, next) {
       installation,
       tags,
       isPreview
+    });
+  }
+}
+
+export async function renderExhibitions(ctx, next) {
+  const paginatedResults = await getExhibitions(ctx.request, ctx.params.id);
+  if (paginatedResults) {
+    ctx.render('pages/exhibitions', {
+      pageConfig: createPageConfig({
+        path: '/exhibitions',
+        title: 'Exhibitions',
+        inSection: 'whatson',
+        category: 'public-programme',
+        contentType: 'listing',
+        canonicalUri: 'https://wellcomecollection.org/exhibitions'
+      }),
+      paginatedResults
     });
   }
 }

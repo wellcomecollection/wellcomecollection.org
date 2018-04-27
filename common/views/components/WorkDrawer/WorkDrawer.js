@@ -5,6 +5,7 @@ import Divider from '../Divider/Divider';
 import MetaUnit from '../MetaUnit/MetaUnit';
 import Icon from '../Icon/Icon';
 import type {MetaUnitProps} from '../../../model/meta-unit';
+import ReactGA from 'react-ga';
 
 type Props = {|
   data: Array<MetaUnitProps>,
@@ -13,8 +14,20 @@ type Props = {|
 |};
 
 const WorkDrawer = withToggler(({data, isActive, toggle}: Props) => {
+  function toggleWithAnalytics(event) {
+    event.preventDefault();
+
+    ReactGA.event({
+      category: 'component',
+      action: 'WorkDrawer:click',
+      label: `id:work-using-image,section:Using this image,click-action:${isActive ? 'did close' : 'did open'}`
+    });
+
+    toggle();
+  }
+
   const drawerContent = data.map((item, i) => <MetaUnit key={i} headingText={item.headingText} text={item.text} />);
-  return (
+  return ( // TODO: remove js- and data-attributes once fully Reactified
     <div className={`drawer js-show-hide ${isActive ? 'is-active' : ''}`}
       data-track-action='drawer'
       data-track-label='id:work-using-image, section:Using this image'>
@@ -26,7 +39,7 @@ const WorkDrawer = withToggler(({data, isActive, toggle}: Props) => {
           ${spacing({s: 0}, {padding: ['left', 'right']})}
           ${spacing({s: 2}, {padding: ['top', 'bottom']})}
           ${font({s: 'LR2'})}`}
-      onClick={toggle}>
+      onClick={toggleWithAnalytics}>
         <span className='flex flex--v-center flex--h-space-between'>
           <div className='drawer__heading'>Using this image</div>
           <div className='drawer__icon'>

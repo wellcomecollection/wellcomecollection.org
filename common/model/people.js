@@ -6,5 +6,5 @@ export type Person = {|
   name: string,
   twitterHandle: ?string,
   description: ?string,
-  image: ?Picture, // TODO: Make this Picture
+  image: Picture
 |}

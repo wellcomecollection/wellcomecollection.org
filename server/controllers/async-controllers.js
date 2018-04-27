@@ -1,10 +1,14 @@
+import React from 'react';
+import ReactDOMServer from 'react-dom/server';
+import searchQuery from 'search-query-parser';
 import {getSeries} from '../services/wordpress';
 import {PromoListFactory} from '../model/promo-list';
 import {getForwardFill} from '../model/series';
 import {getSeriesColor} from '../data/series';
 import {createNumberedList} from '../model/numbered-list';
-import {getLatestInstagramPosts} from '../services/instagram';
 import {getArticleSeries} from '../services/prismic';
+import {getMultiContent} from '../../common/services/prismic/multi-content';
+import ContentListItems from '../../common/views/components/ContentList/ContentListItems';
 
 // Performance alert: we're having to make a call to wordpress and then if that
 // fails, we have 2 API calls to Prismic in 'getArticleSeries' in order to get
@@ -67,21 +71,15 @@ export const seriesTransporter = async(ctx, next) => {
   return next();
 };
 
-export const latestInstagramPosts = async(ctx, next) => {
-  const instagramPosts = await getLatestInstagramPosts(10);
-
-  ctx.render('components/social-media-block/social-media-block', {
-    model: {
-      posts: instagramPosts,
-      service: 'Instagram',
-      icon: 'instagram',
-      url: 'https://instagram.com/wellcomecollection',
-      handle: 'wellcomecollection'
-    }
-  });
-
+export const contentList = async (ctx, next) => {
+  const query = searchQuery.parse(ctx.query.query, { keywords: ['ids'] });
+  // searchQueryParser automatically changes comma seperated lists into arrays
+  const ids = typeof query.ids === 'string' ? query.ids.split(',') : query.ids;
+  const multiContent = await getMultiContent(ctx.request, {ids});
   ctx.body = {
-    html: ctx.body
+    html: ReactDOMServer.renderToString(
+      React.createElement(ContentListItems, { items: multiContent.results })
+    )
   };
 
   return next();

@@ -2,9 +2,10 @@
 import React, {Fragment} from 'react';
 import {Transition} from 'react-transition-group';
 import Image from '../Image/Image';
-import ButtonButton from '../Buttons/ButtonButton/ButtonButton';
-import {font, spacing} from '../../../utils/classnames';
+import Control from '../Buttons/Control/Control';
+import {spacing} from '../../../utils/classnames';
 import dynamic from 'next/dynamic';
+import ReactGA from 'react-ga';
 const ImageViewerImage = dynamic(import('./ImageViewerImage'));
 
 type LaunchViewerButtonProps = {|
@@ -20,17 +21,14 @@ class LaunchViewerButton extends React.Component<LaunchViewerButtonProps> {
 
   render() {
     return (
-      <ButtonButton
+      <Control
         text='View larger image'
         icon='zoomIn'
-        extraClasses={`${this.props.classes} ${font({s: 'HNM5'})} btn--round image-viewer__launch-button js-image-viewer__launch-button`}
-        clickHandler={this.props.clickHandler}
-      />
+        extraClasses={`control--dark image-viewer__launch-button ${this.props.classes}`}
+        clickHandler={this.props.clickHandler} />
     );
   }
 };
-
-const buttonFontClasses = font({s: 'HNM5'});
 
 type ViewerContentProps = {|
   id: string,
@@ -63,30 +61,45 @@ class ViewerContent extends React.Component<ViewerContentProps> {
     document.removeEventListener('keydown', this.escapeCloseViewer);
   }
 
+  handleZoomIn = (event) => {
+    ReactGA.event({
+      category: 'component',
+      action: 'ZoomImageViewer:did zoom in',
+      label: `id:${this.props.id}`
+    });
+  }
+
+  handleZoomOut = (event) => {
+    ReactGA.event({
+      category: 'component',
+      action: 'ZoomImageViewer:did zoom out',
+      label: `id:${this.props.id}`
+    });
+  }
+
   render() {
     return (
       <div className={`${this.props.classes} image-viewer__content image-viewer__content2`}>
-        <div className="image-viewer__controls flex flex-end flex--v-center">
-          <ButtonButton
+        <div className='image-viewer__controls flex flex-end flex--v-center'>
+          <Control
             text='Zoom in'
             id={`zoom-in-${this.props.id}`}
             icon='zoomIn'
-            extraClasses={`${buttonFontClasses} btn--round btn--black ${spacing({s: 1}, {margin: ['right']})}`}
-          />
+            extraClasses={`control--light ${spacing({s: 1}, {margin: ['right']})}`}
+            clickHandler={this.handleZoomIn} />
 
-          <ButtonButton
+          <Control
             text='Zoom out'
             id={`zoom-out-${this.props.id}`}
             icon='zoomOut'
-            extraClasses={`${buttonFontClasses} btn--round btn--black ${spacing({s: 8}, {margin: ['right']})}`}
-          />
+            extraClasses={`control--light ${spacing({s: 8}, {margin: ['right']})}`}
+            clickHandler={this.handleZoomOut} />
 
-          <ButtonButton
+          <Control
             text='Close image viewer'
             icon='cross'
-            extraClasses={`${buttonFontClasses} btn--round btn--black js-image-viewer__exit-button ${spacing({s: 2}, {margin: ['right']})}`}
-            clickHandler={this.props.handleViewerDisplay}
-          />
+            extraClasses={`control--light ${spacing({s: 2}, {margin: ['right']})}`}
+            clickHandler={this.props.handleViewerDisplay} />
         </div>
 
         {this.props.viewerVisible && <ImageViewerImage id={this.props.id} contentUrl={this.props.contentUrl} />}
@@ -97,6 +110,7 @@ class ViewerContent extends React.Component<ViewerContentProps> {
 
 type ImageViewerProps = {|
   id: string,
+  trackTitle: string,
   contentUrl: string,
   width: number
 |}
@@ -129,6 +143,12 @@ class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
   }
 
   handleViewerDisplay(e: Event) {
+    ReactGA.event({
+      category: 'component',
+      action: `ImageViewer:${this.state.showViewer ? 'did close' : 'did open'}`,
+      label: `id:${this.props.id},title:${this.props.trackTitle}`
+    });
+
     this.setState(prevState => ({
       showViewer: !prevState.showViewer
     }));
@@ -157,14 +177,22 @@ class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
               if (status === 'exited') {
                 return null;
               }
-              return <LaunchViewerButton classes={`slideup-viewer-btn slideup-viewer-btn-${status}`} didMountHandler={this.viewButtonMountedHandler} clickHandler={this.handleViewerDisplay} />;
+              return <LaunchViewerButton
+                classes={`slideup-viewer-btn slideup-viewer-btn-${status}`}
+                didMountHandler={this.viewButtonMountedHandler}
+                clickHandler={this.handleViewerDisplay} />;
             }
           }
         </Transition>
         <Transition in={this.state.showViewer} timeout={{enter: 0, exit: 700}}>
           {
             (status) => {
-              return <ViewerContent classes={`scale scale-${status}`} viewerVisible={this.state.showViewer} id={this.props.id} contentUrl={this.props.contentUrl} handleViewerDisplay={this.handleViewerDisplay}/>;
+              return <ViewerContent
+                classes={`scale scale-${status}`}
+                viewerVisible={this.state.showViewer}
+                id={this.props.id}
+                contentUrl={this.props.contentUrl}
+                handleViewerDisplay={this.handleViewerDisplay} />;
             }
           }
         </Transition>

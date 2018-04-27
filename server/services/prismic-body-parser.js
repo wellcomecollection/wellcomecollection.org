@@ -1,5 +1,7 @@
 import type {ImageList} from '../content-model/content-blocks';
 import {asHtml, asText, parsePicture, parseTaslFromString, prismicImage} from './prismic-parsers';
+// $FlowFixMe
+import {parseCaptionedImage} from '../../common/services/prismic/parsers';
 
 export function parseBody(content) {
   return content.filter(slice => slice.slice_label !== 'featured').map(parseBodyPart).filter(_ => _);
@@ -39,7 +41,7 @@ function parseBodyPart(slice) {
         weight: 'standalone',
         value: {
           title: asText(slice.primary.title),
-          items: slice.items.map(parsePicture)
+          items: slice.items.map(item => parseCaptionedImage(item))
         }
       };
 
@@ -64,15 +66,15 @@ function parseBodyPart(slice) {
       };
 
     case 'quote':
-      // TODO: Support citation link
       return {
         type: 'quote',
         weight: 'default',
         value: {
-          body: asHtml(slice.primary.quote),
+          body: slice.primary.quote,
           footer: slice.primary.citation && slice.primary.source ? `${slice.primary.citation} - ${slice.primary.source}` : null,
           quote: asHtml(slice.primary.quote),
-          citation: `${slice.primary.citation} - ${slice.primary.source}`
+          citation: `${slice.primary.citation} - ${slice.primary.source}`,
+          citationLink: slice.primary.citationLink && slice.primary.citationLink.url
         }
       };
 

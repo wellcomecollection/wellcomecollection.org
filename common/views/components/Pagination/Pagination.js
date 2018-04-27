@@ -1,8 +1,8 @@
 // @flow
 
 import {font, spacing} from '../../../utils/classnames';
-import Icon from '../Icon/Icon';
 import NextLink from 'next/link';
+import Control from '../Buttons/Control/Control';
 
 export type Props = {|
   prevPage?: number,
@@ -16,25 +16,25 @@ export type Props = {|
 
 const Pagination = ({prevPage, currentPage, pageCount, nextPage, nextQueryString, prevQueryString}: Props) => (
   <div className={`pagination float-r flex-inline flex--v-center font-pewter ${font({s: 'LR3', m: 'LR2'})}`}>
-    {prevPage &&
+    {prevPage && prevQueryString &&
       <NextLink href={prevQueryString}>
-        <a rel="prev" className={`${spacing({s: 2}, {margin: ['right']})}`}>
-          <div className="icon-rounder border-color-silver flex flex--v-center">
-            <Icon name='arrow' title={`Previous (page ${prevPage})`} extraClasses='icon--180 h-center' />
-          </div>
-        </a>
+        <Control
+          url={prevQueryString}
+          extraClasses={`icon--180 control--light ${spacing({s: 2}, {margin: ['right']})}`}
+          icon='arrow'
+          text={`Previous (page ${prevPage})`} />
       </NextLink>
     }
 
     <span>Page {currentPage} of {pageCount}</span>
 
-    {nextPage &&
+    {nextPage && nextQueryString &&
       <NextLink href={nextQueryString}>
-        <a rel="next" className={`${spacing({s: 2}, {margin: ['left']})}`}>
-          <div className="icon-rounder border-color-silver flex flex--v-center">
-            <Icon name='arrow' title={`Next (page ${nextPage})`} extraClasses='h-center' />
-          </div>
-        </a>
+        <Control
+          url={nextQueryString}
+          extraClasses={`control--light ${spacing({s: 2}, {margin: ['left']})}`}
+          icon='arrow'
+          text={`Next (page ${nextPage})`} />
       </NextLink>
     }
   </div>

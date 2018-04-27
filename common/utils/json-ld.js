@@ -88,7 +88,8 @@ export function workLd(content) {
 }
 
 export function museumLd(museum) {
-  const newMuseum = Object.assign({}, museum);
+  const logo = imageLd(museum.logo);
+  const newMuseum = Object.assign({}, museum, {logo});
   delete newMuseum.twitterHandle;
   return objToJsonLd(newMuseum, 'Museum');
 }
@@ -108,8 +109,8 @@ export function eventLd(event: Event) {
         name: 'Wellcome Collection',
         address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
       },
-      startDate: event.times.map(range => range.startDateTime),
-      endDate: event.times.map(range => range.endDateTime),
+      startDate: event.times.map(time => time.range.startDateTime),
+      endDate: event.times.map(time => time.range.endDateTime),
       description: event.description,
       image: event.promo && convertImageUri(event.promo.image.contentUrl, 1920, false)
     }, 'Event');
