@@ -34,7 +34,8 @@ $center-width-large: (6/7) * 100%; // calculates the halfway point of the contai
     padding: 0 map-get($container-padding, 'large');
   }
 
-  .article & {
+  .article &,
+  .digital-story-transporter & {
     @include respond-to('large') {
       left: $center-width-large;
       margin-right: calc((#{$narrow-width} + #{map-get($gutter-width, 'large')}) * -1);
