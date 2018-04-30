@@ -182,5 +182,27 @@
         }
       }
     }
+  },
+  "Migration": {
+    "drupalPromoImage": {
+      "type": "Link",
+      "config": {
+        "label": "Drupal promo image",
+        "select": "web",
+        "customtypes": []
+      }
+    },
+    "drupalNid": {
+      "type": "Text",
+      "config": {
+        "label": "Drupal node ID"
+      }
+    },
+    "drupalPath": {
+      "type": "Text",
+      "config": {
+        "label": "Drupal path"
+      }
+    }
   }
 }

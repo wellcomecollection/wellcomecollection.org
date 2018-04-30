@@ -1,8 +1,10 @@
+// @flow
 import title from './parts/title';
 import body from './parts/body';
 import promo from './parts/promo';
-import list from './parts/list';
 import link from './parts/link';
+import text from './parts/text';
+import list from './parts/list';
 
 const Page = {
   Page: {
@@ -16,6 +18,13 @@ const Page = {
   },
   Promo: {
     promo
+  },
+
+  // TODO (drupal migration): Remove this
+  Migration: {
+    drupalPromoImage: link('Drupal promo image', 'web'),
+    drupalNid: text('Drupal node ID'),
+    drupalPath: text('Drupal path')
   }
 };
 

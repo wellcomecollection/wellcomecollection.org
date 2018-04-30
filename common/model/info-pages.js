@@ -6,5 +6,10 @@ export type InfoPage = {|
   id: string,
   title: string,
   promo: ?ImagePromo,
-  body: any[]
+  body: any[],
+  // TODO (drupal migration): This is used while we add the credit and
+  // alt for Drupal content
+  drupalPromoImage: ?string,
+  drupalNid: ?string,
+  drupalPath: ?string
 |}
