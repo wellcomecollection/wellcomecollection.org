@@ -1,0 +1,12 @@
+{
+  "Tag type": {
+    "title": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Title",
+        "single": "heading1",
+        "useAsTitle": true
+      }
+    }
+  }
+}
