@@ -8,6 +8,24 @@
         "useAsTitle": true
       }
     },
+    "tags": {
+      "type": "Group",
+      "fieldset": "Site section",
+      "config": {
+        "fields": {
+          "tag": {
+            "type": "Link",
+            "config": {
+              "label": "Site section",
+              "select": "document",
+              "customtypes": [
+                "tags"
+              ]
+            }
+          }
+        }
+      }
+    },
     "body": {
       "fieldset": "Body content",
       "type": "Slices",
