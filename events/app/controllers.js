@@ -56,7 +56,7 @@ export async function renderEventSeries(ctx, next) {
     const paginatedResults = convertPrismicResultsToPaginatedResults(promos);
     const paginatedEvents = paginatedResults(promos);
     const upcomingEvents = Object.assign({}, paginatedEvents, {results: promos.filter(e => london(e.end).isAfter(london()))});
-    const pastEvents = {results: promos.filter(e => london(e.end).isBefore(london())).slice(0, 2).reverse()};
+    const pastEvents = {results: promos.filter(e => london(e.end).isBefore(london())).slice(0, 3).reverse()};
 
     ctx.render('pages/event-series', {
       pageConfig: createPageConfig({
