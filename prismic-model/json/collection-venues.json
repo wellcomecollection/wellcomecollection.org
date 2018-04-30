@@ -181,6 +181,19 @@
               "label": "Override date"
             }
           },
+          "type": {
+            "type": "Select",
+            "config": {
+              "label": "Override type",
+              "options": [
+                "bank holiday",
+                "easter",
+                "christmas and new year",
+                "friday late",
+                "other"
+              ]
+            }
+          },
           "startDateTime": {
             "type": "Timestamp",
             "config": {
