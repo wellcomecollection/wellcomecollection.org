@@ -27,7 +27,10 @@
                 {% endif %}
               </div>
             {% endif %}
-            <a class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }}" href="https://wellcomecollection.org/info/opening-times">Opening times</a>
+            {% componentJsx 'SecondaryLink', {
+              url: 'https://wellcomecollection.org/info/opening-times',
+              text: 'Opening times'
+            } %}
           </div>
         </div>
       </div>
