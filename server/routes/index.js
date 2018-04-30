@@ -14,8 +14,7 @@ import {
   renderWebcomicSeries,
   renderOpeningTimes,
   renderInfoPage,
-  renderDrupalInfoPage,
-  renderDrupalInfoPages
+  renderTagPage
 } from '../controllers/content';
 
 const r = new Router({
@@ -57,8 +56,8 @@ r.get('/series/(W):id', renderSeries);
 r.get('/webcomic-series/:id', renderWebcomicSeries);
 r.get('/info/opening-times', renderOpeningTimes);
 r.get('/info/:id', renderInfoPage);
-r.get('/drupal-list', renderDrupalInfoPages);
-r.get('/drupal/:id*', renderDrupalInfoPage);
+r.get('/what-we-do', renderTagPage('what-we-do'));
+r.get('/visit-us', renderTagPage('visit-us'));
 
 // API
 r.get('/works', search);

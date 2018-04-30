@@ -1,4 +1,3 @@
-import superagent from 'superagent';
 import Prismic from 'prismic-javascript';
 import {List} from 'immutable';
 import {prismicApi} from '../services/prismic-api';
@@ -13,6 +12,7 @@ import {
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {getInfoPage} from '../../common/services/prismic/info-pages';
+import {getMultiContent} from '../../common/services/prismic/multi-content';
 import {getCollectionOpeningTimes} from '../../common/services/prismic/opening-times';
 import {isPreview as getIsPreview} from '../../common/services/prismic/api';
 
@@ -286,59 +286,33 @@ export async function renderInfoPage(ctx, next) {
   return next();
 }
 
-export async function renderDrupalInfoPages(ctx, next) {
-  const infoPageResponse = await superagent.get(`https://prispal.glitch.me/info-pages`);
-  const infoPages = infoPageResponse.body.results;
-  const promoList = infoPages.map(infoPage => {
-    return {
-      url: `/drupal${infoPage.id}`,
-      contentType: 'article',
-      image: infoPage.promo.image,
-      title: infoPage.title,
-      description: infoPage.promo.caption
-    };
-  });
-
-  ctx.render('pages/list', {
-    pageConfig: createPageConfig({
-      path: '/drupal',
-      title: 'Articles',
-      inSection: 'explore',
-      category: 'editorial'
-    }),
-    list: {
-      name: 'Info pages (Drupal)',
-      description: 'What we do at Wellcome Collection',
-      items: List(promoList)
-    },
-    pagination: null,
-    moreLink: null
-  });
-  // ctx.body = promoList;
-}
-
-export async function renderDrupalInfoPage(ctx, next) {
-  const {id} = ctx.params;
-  const infoPageResponse = await superagent.get(`https://prispal.glitch.me/info-pages/${id}`);
-  const infoPage = infoPageResponse.body;
-  const body = [{
-    type: 'picture',
-    weight: 'default',
-    value: Object.assign(infoPage.promo.image)
-  }].concat(infoPage.body);
-  infoPage.body = body;
-
-  if (infoPage) {
-    ctx.render('pages/basic', {
-      pageConfig: createPageConfig({
-        path: ctx.request.url,
-        title: infoPage.title,
-        inSection: 'what-we-do',
-        category: 'info'
-      }),
-      page: infoPage
+export function renderTagPage(tag) {
+  return async (ctx, next) => {
+    const content = await getMultiContent(ctx.request, {tags: [tag]});
+    const promoList = content.results.map(content => {
+      return {
+        url: `/info/${content.id}`,
+        contentType: 'Information',
+        image: content.promo.image,
+        title: content.title,
+        description: content.promo.caption
+      };
     });
-  }
 
-  return next();
+    ctx.render('pages/list', {
+      pageConfig: createPageConfig({
+        path: '/what-we-do',
+        title: 'What we do',
+        inSection: 'what-we-do',
+        category: 'public-programme'
+      }),
+      list: {
+        name: 'What we do',
+        description: 'Activities, resources and projects from Wellcome Collection.',
+        items: List(promoList)
+      },
+      pagination: null,
+      moreLink: null
+    });
+  };
 }
