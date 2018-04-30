@@ -27,7 +27,7 @@ const Control = ({
   return (
     <HtmlTag
       id={id}
-      url={url}
+      href={url}
       className={`control ${extraClasses || ''}`}
       data-track-event={eventTracking}
       disabled={disabled}
