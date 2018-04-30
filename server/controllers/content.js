@@ -14,6 +14,7 @@ import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {getInfoPage} from '../../common/services/prismic/info-pages';
 import {getCollectionOpeningTimes} from '../../common/services/prismic/opening-times';
+import {isPreview as getIsPreview} from '../../common/services/prismic/api';
 
 export const renderOpeningTimes = async(ctx, next) => {
   const path = ctx.request.url;
@@ -277,7 +278,8 @@ export async function renderInfoPage(ctx, next) {
         inSection: 'what-we-do',
         category: 'info'
       }),
-      page: infoPage
+      page: infoPage,
+      isPreview: getIsPreview(ctx.request)
     });
   }
 
