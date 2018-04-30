@@ -191,7 +191,7 @@
         <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}" id="js-event-booking-info">
           {% if event.isDropIn %}
             <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Drop in at any time</h3>
-            <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
+            <div class="plain-text {{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">
               <p>
                 We programme some drop-in events every month. For these events,
                 you can just turn up. There's usually room for everyone.
@@ -199,7 +199,7 @@
             </div>
           {% elif event.cost %}
             <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Guaranteed entry</h3>
-            <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+            <div class="plain-text {{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
               <p>
                 With our paid events, you are guaranteed entry to the event.
                 We're unable to offer any refunds unless the event is cancelled.
@@ -212,7 +212,7 @@
           {% elif event.eventbriteId %}
             {% if not event.isCompletelySoldOut %}
               <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">First come, first seated</h3>
-              <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+              <div class="plain-text {{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
                 <p>
                   Please note, booking a ticket for a free event does not
                   guarantee a place on the day. Doors usually open 15 minutes
@@ -232,7 +232,7 @@
             {# Don't show anything as the booking team deal with this #}
           {% else %}
             <h3 class="{{ {s:'HNM4'} | fontClasses }} no-margin">Limited spaces available</h3>
-            <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+            <div class="plain-text {{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
               <p>
                 Doors will open for this event 15 minutes before the event
                 starts. Spaces are first come, first served and may run out if
@@ -245,7 +245,7 @@
             <h3 class="{{ {s:'HNM4'} | fontClasses }}">
               Booking information
             </h3>
-            <div class="{{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+            <div class="plain-text {{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
               {{ event.bookingInformation | safe }}
             </div>
           {% endif %}
