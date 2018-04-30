@@ -19,10 +19,10 @@ import {isPreview as getIsPreview} from '../../common/services/prismic/api';
 export const renderOpeningTimes = async(ctx, next) => {
   const path = ctx.request.url;
   const pageOpeningHours = await getCollectionOpeningTimes();
-  const galleriesLibrary = pageOpeningHours && pageOpeningHours.placesOpeningHours.filter(venue => {
+  const galleriesLibrary = pageOpeningHours && pageOpeningHours.placesOpeningHours && pageOpeningHours.placesOpeningHours.filter(venue => {
     return venue.name.toLowerCase() === 'galleries' || venue.name.toLowerCase() === 'library';
   });
-  const restaurantCafeShop = pageOpeningHours && pageOpeningHours.placesOpeningHours.filter(venue => {
+  const restaurantCafeShop = pageOpeningHours && pageOpeningHours.placesOpeningHours && pageOpeningHours.placesOpeningHours.filter(venue => {
     return venue.name.toLowerCase() === 'restaurant' || venue.name.toLowerCase() === 'café' || venue.name.toLowerCase() === 'shop';
   });
   const groupedVenues = {

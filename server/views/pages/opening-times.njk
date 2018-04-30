@@ -24,7 +24,7 @@
       {% if pageOpeningHours.upcomingExceptionalOpeningPeriods.length > 0 %}
         <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
           <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="exceptional">Modified opening times</h2>
-          <p class="plain-text {{ {s:'HNM4'} | fontClasses }} {{ {s:2} | spacingClasses({padding: ['top']}) }}">Our opening times will change
+          <p class="{{ {s:'HNM4'} | fontClasses }} {{ {s:2} | spacingClasses({padding: ['top']}) }}">Our opening times will change
           {% for group in pageOpeningHours.upcomingExceptionalOpeningPeriods %}
             {% set firstDate = group[0] | formatDate %}
             {% set lastDate = group[group.length -1] | formatDate %}
@@ -41,7 +41,7 @@
           {% set period = pageOpeningHours.exceptionalOpeningHours[loop.index - 1] %}
           {% for venues in period.dates %}
             <div class="{{ {s:12, m:6, l:4, xl:4} | gridClasses }}">
-              {% componentJsx 'ExceptionalOpeningHoursTable', {caption: venues[0].exceptionalDate, venues: venues, extraClasses: 'opening-hours--light'} %}
+              {% componentJsx 'ExceptionalOpeningHoursTable', {caption: venues[0].exceptionalDate.overrideDate, venues: venues, extraClasses: 'opening-hours--light'} %}
             </div>
           {% endfor %}
         {% endfor %}
@@ -71,7 +71,7 @@
                   {% for item in dates %}
                     {{-', ' if (dates.length > 2 and (loop.index > 1 and loop.index < dates.length)) }}
                     {{' and ' if dates.length >= 2 and loop.index === dates.length }}
-                    {{item.exceptionalDate | formatDayMonth -}}
+                    {{item.exceptionalDate.overrideDate | formatDayMonth -}}
                   {% endfor %}
                 </p>
               {% endfor %}
