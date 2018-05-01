@@ -5,6 +5,7 @@ import promo from './parts/promo';
 import link from './parts/link';
 import text from './parts/text';
 import list from './parts/list';
+import timestamp from './parts/timestamp';
 
 const Page = {
   Page: {
@@ -14,6 +15,7 @@ const Page = {
     tags: list('Site section', {
       tag: link('Site section', 'document', ['tags'])
     }),
+    datePublished: timestamp('Published date'),
     body
   },
   Promo: {

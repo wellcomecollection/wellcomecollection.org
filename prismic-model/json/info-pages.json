@@ -26,6 +26,12 @@
         }
       }
     },
+    "datePublished": {
+      "type": "Timestamp",
+      "config": {
+        "label": "Published date"
+      }
+    },
     "body": {
       "fieldset": "Body content",
       "type": "Slices",
