@@ -28,10 +28,6 @@ $tweakpoints: (
   .enhanced & {
     display: flex;
     transition: opacity $transition-properties;
-
-    @include respond-to('back-to-top-xlarge') {
-      transform: scale(0) translateX(map-get($gutter-width, 'xlarge') + $link-dimension);
-    }
     opacity: 0;
   }
 }
@@ -39,9 +35,5 @@ $tweakpoints: (
 .back-to-top--visible {
   .enhanced & {
     opacity: 1;
-
-    @include respond-to('back-to-top-xlarge') {
-      transform: scale(1) translateX(map-get($gutter-width, 'xlarge') + $link-dimension);
-    }
   }
 }
