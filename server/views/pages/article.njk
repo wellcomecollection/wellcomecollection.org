@@ -228,8 +228,10 @@
 
                 {% componentV2 'divider', null, {'stub': true, 'black': true}, {extraClasses: [{s:4} | spacingClasses({margin: ['top']})]} %}
 
-                {% if article.tags.length > 0 %}
-                  {% component 'tags', { tags: article.tags } %}
+                {% if tags.length > 0 %}
+                  <div class="{{ {s: 2} | spacingClasses({ margin: ['top'] }) }}">
+                    {% componentJsx 'Tags', { tags: tags } %}
+                  </div>
                 {% endif %}
               </div>
 
