@@ -306,6 +306,8 @@ export function parseBody(fragment: PrismicFragment[]) {
           weight: 'default',
           value: {
             title: asText(slice.primary.title),
+            requiredCount: slice.primary.requiredCount,
+            backfillQuery: slice.primary.backfillQuery,
             items: slice.items.map(item => {
               if (item.content.type === 'info-pages') {
                 return parseInfoPage(item.content);
