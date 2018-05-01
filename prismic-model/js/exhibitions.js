@@ -8,6 +8,7 @@ import place from './parts/place';
 import link from './parts/link';
 import number from './parts/number';
 import list from './parts/list';
+import text from './parts/text';
 
 const Exhibitions = {
   Exhibition: {
@@ -95,6 +96,11 @@ const Exhibitions = {
         }
       }
     }
+  },
+  Migration: {
+    drupalPromoImage: link('Drupal promo image', 'web'),
+    drupalNid: text('Drupal node ID'),
+    drupalPath: text('Drupal path')
   }
 };
 
