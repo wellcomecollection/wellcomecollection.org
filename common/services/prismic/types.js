@@ -28,7 +28,8 @@ export type PrismicApiSearchResponse = {|
 export type PrismicQueryOpts = {|
   fetchLinks?: string[],
   page?: number,
-  orderings?: string
+  orderings?: string,
+  pageSize?: number
 |}
 
 export type HTMLSpanTypes =

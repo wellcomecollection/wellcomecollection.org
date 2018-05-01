@@ -29,7 +29,8 @@ export async function getMultiContent(
   const tagsPredicate = tags.length > 0 ? [Prismic.Predicates.at('document.tags', tags)] : [];
   const predicates = idsPredicate.concat(tagsPredicate);
   const apiResponse = await getDocuments(req, predicates, {
-    fetchLinks: infoPagesFields
+    fetchLinks: infoPagesFields,
+    pageSize: 100
   });
   const multiContent = parseMultiContent(apiResponse.results);
 
