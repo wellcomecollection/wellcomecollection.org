@@ -56,8 +56,27 @@ r.get('/series/(W):id', renderSeries);
 r.get('/webcomic-series/:id', renderWebcomicSeries);
 r.get('/info/opening-times', renderOpeningTimes);
 r.get('/info/:id', renderInfoPage);
-r.get('/what-we-do', renderTagPage('what-we-do'));
-r.get('/visit-us', renderTagPage('visit-us'));
+r.get('/what-we-do', renderTagPage(
+  'what-we-do',
+  '/what-we-do',
+  'What we do',
+  'what-we-do',
+  'Activities, resources and projects from Wellcome Collection.'
+));
+r.get('/visit-us', renderTagPage(
+  'visit-us',
+  '/visit-us',
+  'Visit us',
+  'visit-us',
+  'Wellcome Collection is open 10.00-18.00 (11.00-18.00 Sundays) with late night opening on Thursday. The galleries and library are closed on Mondays.'
+));
+r.get('/press', renderTagPage(
+  'press',
+  '/press',
+  'Press',
+  'press',
+  'Press releases'
+));
 
 // API
 r.get('/works', search);

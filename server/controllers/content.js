@@ -286,7 +286,7 @@ export async function renderInfoPage(ctx, next) {
   return next();
 }
 
-export function renderTagPage(tag) {
+export function renderTagPage(tag, url, title, inSection, description) {
   return async (ctx, next) => {
     const content = await getMultiContent(ctx.request, {tags: [tag]});
     const promoList = content.results.map(content => {
@@ -301,14 +301,13 @@ export function renderTagPage(tag) {
 
     ctx.render('pages/list', {
       pageConfig: createPageConfig({
-        path: '/what-we-do',
-        title: 'What we do',
-        inSection: 'what-we-do',
-        category: 'public-programme'
+        path: url,
+        title: title,
+        inSection: inSection
       }),
       list: {
-        name: 'What we do',
-        description: 'Activities, resources and projects from Wellcome Collection.',
+        name: title,
+        description: description,
         items: List(promoList)
       },
       pagination: null,
