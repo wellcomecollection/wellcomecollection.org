@@ -57,15 +57,14 @@ export const renderArticle = async(ctx, next) => {
   const isPreview = Boolean(ctx.params.preview);
   const article = await getArticle(id, isPreview ? ctx.request : null);
 
-  const tags = article.contentType === 'comic' ? article.series.map(series => ({
-    url: `/webcomic-series/${series.id}`,
-    text: `Part of ${series.name}`
-  })) : [];
-
   if (article) {
     if (format === 'json') {
       ctx.body = article;
     } else {
+      const tags = article.contentType === 'comic' ? article.series.map(series => ({
+        url: `/webcomic-series/${series.id}`,
+        text: `Part of ${series.name}`
+      })) : [];
       const displayType = article.displayType;
       const trackingInfo = getEditorialAnalyticsInfo(article);
       ctx.render(`pages/${displayType || 'article'}`, {
