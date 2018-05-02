@@ -18,10 +18,10 @@ const HTMLBlock = ({ html }: HTMLBlockProps) => (
 const BasicBody = ({ body }: Props) => {
   return (
 
-    <div className='basic-body body-text'>
+    <div className='basic-body'>
       {body.map((slice, i) =>
         <div className='body-part' key={`slice${i}`}>
-          {slice.type === 'text' && <HTMLBlock html={slice.value} />}
+          {slice.type === 'text' && <div className='body-text'><HTMLBlock html={slice.value} /></div>}
           {slice.type === 'picture' &&
             <CaptionedImage caption={slice.value.caption}>
               <Image {...slice.value} />
