@@ -212,13 +212,15 @@ export function parseImagePromo(
   minWidth: ?string = null
 ): ?ImagePromo {
   const maybePromo = frag && frag.find(slice => slice.slice_type === 'editorialImage');
+  const hasImage = maybePromo && maybePromo.primary.image && isEmptyObj(maybePromo.primary.image) || false;
+
   return maybePromo && ({
     caption: asText(maybePromo.primary.caption),
-    image: parsePicture({
+    image: hasImage ? parsePicture({
       image:
         // We introduced enforcing 16:9 half way through, so we have to do a check for it.
         maybePromo.primary.image[cropType] || maybePromo.primary.image
-    }, minWidth)
+    }, minWidth) : null
   }: ImagePromo);
 }
 

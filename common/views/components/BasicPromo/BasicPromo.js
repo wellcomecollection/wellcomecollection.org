@@ -56,7 +56,10 @@ const BasicPromo = ({
       </div>
 
       {description &&
-        <span className={font({s: 'HNL5'})}>
+        <span className={[
+          spacing({s: 2}, {margin: ['top']}),
+          font({s: 'HNL5'})
+        ].join(' ')}>
           {description}
         </span>
       }
