@@ -29,7 +29,7 @@ const ContentList = ({
     <Fragment>
       <div className='grid'>
         <div className={grid({s: 12})}>
-          <h2>{title}</h2>
+          <h2 className='h2'>{title}</h2>
         </div>
       </div>
 
