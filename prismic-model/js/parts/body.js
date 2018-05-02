@@ -4,6 +4,8 @@ import captionedImageSlice from './captioned-image-slice';
 import captionedImageGallerySlice from './captioned-image-gallery-slice';
 import title from './title';
 import link from './link';
+import number from './number';
+import text from './text';
 
 // I've left slice here as we shouldn't really use it.
 type SliceProps = {|
@@ -49,7 +51,11 @@ export default {
       editorialImage: captionedImageSlice(),
       editorialImageGallery: captionedImageGallerySlice(),
       contentList: slice('Content list', {
-        nonRepeat: { title },
+        nonRepeat: {
+          title,
+          requiredCount: number('Total'),
+          backfillQuery: text('Backfill query')
+        },
         repeat: {
           content: link('Content item', 'document', ['info-pages'])
         }

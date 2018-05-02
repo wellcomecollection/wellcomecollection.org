@@ -72,10 +72,14 @@ export const seriesTransporter = async(ctx, next) => {
 };
 
 export const contentList = async (ctx, next) => {
-  const query = searchQuery.parse(ctx.query.query, { keywords: ['ids'] });
+  const query = searchQuery.parse(ctx.query.query, { keywords: ['ids', 'tags', 'count'] });
+
   // searchQueryParser automatically changes comma seperated lists into arrays
-  const ids = typeof query.ids === 'string' ? query.ids.split(',') : query.ids;
-  const multiContent = await getMultiContent(ctx.request, {ids});
+  // Also deal with null values
+  const ids = typeof query.ids === 'string' ? query.ids.split(',') : (query.ids || []);
+  const tags = typeof query.tags === 'string' ? query.tags.split(',') : (query.tags || []);
+
+  const multiContent = await getMultiContent(ctx.request, {ids, tags});
   ctx.body = {
     html: ReactDOMServer.renderToString(
       React.createElement(ContentListItems, { items: multiContent.results })

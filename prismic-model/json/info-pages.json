@@ -121,6 +121,18 @@
                   "single": "heading1",
                   "useAsTitle": true
                 }
+              },
+              "requiredCount": {
+                "type": "Number",
+                "config": {
+                  "label": "Total"
+                }
+              },
+              "backfillQuery": {
+                "type": "Text",
+                "config": {
+                  "label": "Backfill query"
+                }
               }
             },
             "repeat": {
