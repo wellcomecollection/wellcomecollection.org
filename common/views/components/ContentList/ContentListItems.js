@@ -10,14 +10,14 @@ type Props = {|
 const ContentListItems = ({ items }: Props) => (
   <div className='grid'>
     {items.map(item => (
-      item.type === 'info-pages' &&
+      item.type === 'pages' &&
       <div className={[
         grid({s: 12, m: 12, l: 12, xl: 12}),
         spacing({s: 2}, {margin: ['bottom']})
       ].join(' ')} key={item.id}>
         <BasicPromo
-          promoType='InfoPagePromo'
-          url={`/info/${item.id}`}
+          promoType='PagePromo'
+          url={`/pages/${item.id}`}
           title={item.title}
           description={item.promo && item.promo.caption}
           imageProps={item.promo && item.promo.image}

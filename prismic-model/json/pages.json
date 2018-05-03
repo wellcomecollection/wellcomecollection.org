@@ -142,7 +142,7 @@
                   "label": "Content item",
                   "select": "document",
                   "customtypes": [
-                    "info-pages"
+                    "pages"
                   ]
                 }
               }
@@ -198,6 +198,14 @@
             }
           }
         }
+      }
+    }
+  },
+  "βeta": {
+    "uniquePath": {
+      "type": "Text",
+      "config": {
+        "label": "uID"
       }
     }
   },

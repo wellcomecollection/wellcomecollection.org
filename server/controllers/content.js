@@ -11,7 +11,7 @@ import {
 } from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
-import {getInfoPage} from '../../common/services/prismic/info-pages';
+import {getPage} from '../../common/services/prismic/pages';
 import {getMultiContent} from '../../common/services/prismic/multi-content';
 import {getCollectionOpeningTimes} from '../../common/services/prismic/opening-times';
 import {isPreview as getIsPreview} from '../../common/services/prismic/api';
@@ -115,7 +115,7 @@ async function getPreviewSession(token) {
         case 'webcomic-series' : return `/webcomic-series/${doc.id}`;
         case 'event-series' : return `/event-series/${doc.id}`;
         case 'installations' : return `/installations/${doc.id}`;
-        case 'info-pages' : return `/info/${doc.id}`;
+        case 'pages' : return `/pages/${doc.id}`;
       }
     }, '/', (err, redirectUrl) => {
       if (err) {
@@ -271,19 +271,19 @@ export async function renderArticlesList(ctx, next) {
   return next();
 }
 
-export async function renderInfoPage(ctx, next) {
+export async function renderPage(ctx, next) {
   const {id} = ctx.params;
-  const infoPage = await getInfoPage(ctx.request, id);
+  const page = await getPage(ctx.request, id);
 
-  if (infoPage) {
+  if (page) {
     ctx.render('pages/basic', {
       pageConfig: createPageConfig({
         path: ctx.request.url,
-        title: infoPage.title,
+        title: page.title,
         inSection: 'what-we-do',
         category: 'info'
       }),
-      page: infoPage,
+      page: page,
       isPreview: getIsPreview(ctx.request)
     });
   }
@@ -296,7 +296,7 @@ export function renderTagPage(tag, url, title, inSection, description) {
     const content = await getMultiContent(ctx.request, {tags: [tag]});
     const promoList = content.results.map(content => {
       return {
-        url: `/info/${content.id}`,
+        url: `/pages/${content.id}`,
         contentType: 'Information',
         image: content.promo.image,
         title: content.title,

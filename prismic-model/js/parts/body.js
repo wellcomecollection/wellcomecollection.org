@@ -57,7 +57,7 @@ export default {
           backfillQuery: text('Backfill query')
         },
         repeat: {
-          content: link('Content item', 'document', ['info-pages'])
+          content: link('Content item', 'document', ['pages'])
         }
       })
     }

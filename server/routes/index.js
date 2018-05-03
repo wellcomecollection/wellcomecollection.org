@@ -13,7 +13,7 @@ import {
   renderArticlesList,
   renderWebcomicSeries,
   renderOpeningTimes,
-  renderInfoPage,
+  renderPage,
   renderTagPage
 } from '../controllers/content';
 
@@ -55,7 +55,7 @@ r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 r.get('/series/(W):id', renderSeries);
 r.get('/webcomic-series/:id', renderWebcomicSeries);
 r.get('/info/opening-times', renderOpeningTimes);
-r.get('/info/:id', renderInfoPage);
+r.get('/pages/:id', renderPage);
 r.get('/what-we-do', renderTagPage(
   'what-we-do',
   '/what-we-do',

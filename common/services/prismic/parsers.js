@@ -9,7 +9,7 @@ import type { Place } from '../../model/place';
 import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/background-texture';
 import type { CaptionedImageProps } from '../../views/components/Images/Images';
 import { licenseTypeArray } from '../../model/license';
-import { parseInfoPage } from './info-pages';
+import { parsePage } from './pages';
 
 const placeHolderImage = {
   contentUrl: 'https://via.placeholder.com/1600x900?text=Placeholder',
@@ -31,7 +31,7 @@ const linkResolver = (doc) => {
     case 'events'        : return `/events/${doc.id}`;
     case 'series'        : return `/series/${doc.id}`;
     case 'installations' : return `/installations/${doc.id}`;
-    case 'info-pages'    : return `/info/${doc.id}`;
+    case 'pages'         : return `/pages/${doc.id}`;
   }
 };
 
@@ -311,8 +311,8 @@ export function parseBody(fragment: PrismicFragment[]) {
             requiredCount: slice.primary.requiredCount,
             backfillQuery: slice.primary.backfillQuery,
             items: slice.items.map(item => {
-              if (item.content.type === 'info-pages') {
-                return parseInfoPage(item.content);
+              if (item.content.type === 'pages') {
+                return parsePage(item.content);
               }
             }).filter(Boolean)
           }

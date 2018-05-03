@@ -21,6 +21,9 @@ const Page = {
   Promo: {
     promo
   },
+  'βeta': {
+    uniquePath: text('uID')
+  },
 
   // TODO (drupal migration): Remove this
   Migration: {
