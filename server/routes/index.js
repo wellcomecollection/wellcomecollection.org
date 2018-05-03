@@ -1,7 +1,7 @@
 import Router from 'koa-router';
 import request from 'superagent';
 import {healthcheck, featureFlags, index, progress} from '../controllers/utils';
-import {seriesNav, seriesTransporter, contentList} from '../controllers/async-controllers';
+import {seriesNav, seriesTransporter, renderSearch} from '../controllers/async-controllers';
 import {work, search} from '../controllers/work';
 import {article, preview, series, articles} from '../controllers/wordpress';
 import {
@@ -92,6 +92,6 @@ r.get('/articles', renderArticlesList);
 // Async
 r.get('/async/series-nav/:id', seriesNav);
 r.get('/async/series-transporter/:id', seriesTransporter);
-r.get('/async/content-list', contentList);
+r.get('/async/search', renderSearch);
 
 export const router = r.middleware();

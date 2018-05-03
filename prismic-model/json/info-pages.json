@@ -112,7 +112,7 @@
           },
           "contentList": {
             "type": "Slice",
-            "fieldset": "Content list",
+            "fieldset": "(β) Content list",
             "non-repeat": {
               "title": {
                 "type": "StructuredText",
@@ -120,18 +120,6 @@
                   "label": "Title",
                   "single": "heading1",
                   "useAsTitle": true
-                }
-              },
-              "requiredCount": {
-                "type": "Number",
-                "config": {
-                  "label": "Total"
-                }
-              },
-              "backfillQuery": {
-                "type": "Text",
-                "config": {
-                  "label": "Backfill query"
                 }
               }
             },
@@ -144,6 +132,32 @@
                   "customtypes": [
                     "info-pages"
                   ]
+                }
+              }
+            }
+          },
+          "searchResults": {
+            "type": "Slice",
+            "fieldset": "(β) Search results",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              },
+              "pageSize": {
+                "type": "Number",
+                "config": {
+                  "label": "Size"
+                }
+              },
+              "query": {
+                "type": "Text",
+                "config": {
+                  "label": "Query"
                 }
               }
             }

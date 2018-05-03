@@ -49,5 +49,8 @@
       "cd client && gulp scss:lint",
       "git add"
     ]
+  },
+  "dependencies": {
+    "eslint-plugin-jest": "^21.15.1"
   }
 }

@@ -7,7 +7,7 @@ type Props = {|
   items: MultiContent[]
 |}
 
-const ContentListItems = ({ items }: Props) => (
+const SearchResults = ({ items }: Props) => (
   <div className='grid'>
     {items.map(item => (
       item.type === 'info-pages' &&
@@ -27,4 +27,4 @@ const ContentListItems = ({ items }: Props) => (
   </div>
 );
 
-export default ContentListItems;
+export default SearchResults;

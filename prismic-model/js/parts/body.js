@@ -50,14 +50,19 @@ export default {
       // These should probably be called captionedImage etc, but legacy says no
       editorialImage: captionedImageSlice(),
       editorialImageGallery: captionedImageGallerySlice(),
-      contentList: slice('Content list', {
+      contentList: slice('(β) Content list', {
         nonRepeat: {
-          title,
-          requiredCount: number('Total'),
-          backfillQuery: text('Backfill query')
+          title
         },
         repeat: {
           content: link('Content item', 'document', ['info-pages'])
+        }
+      }),
+      searchResults: slice('(β) Search results', {
+        nonRepeat: {
+          title,
+          pageSize: number('Size'),
+          query: text('Query')
         }
       })
     }
