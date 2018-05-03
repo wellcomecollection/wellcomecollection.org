@@ -105,6 +105,9 @@ class CopyUrl extends Component<Props, State> {
           isLabelHidden={true}
           fontStyles={{s: 'HNL5', m: 'HNL4'}} />
 
+        {/* TODO: update this button to be `<Button extraClasses: 'btn--tertiary' />
+        once we're fully reactified */}
+
         <button aria-live='polite'
           onClick={this.handleButtonClick}
           data-copy-text={url}
