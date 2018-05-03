@@ -26,7 +26,7 @@ import {parseInstallationDoc} from './installations';
 
 function parseExhibits(document: PrismicFragment[]): UiExhibit[] {
   return document.map(exhibit => {
-    if (exhibit.item.type === 'installations') {
+    if (exhibit.item.type === 'installations' && !exhibit.item.isBroken) {
       return {
         exhibitType: 'installations',
         item: parseInstallationDoc(exhibit.item)
