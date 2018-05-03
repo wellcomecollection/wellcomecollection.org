@@ -115,7 +115,7 @@ async function getPreviewSession(token) {
         case 'webcomic-series' : return `/webcomic-series/${doc.id}`;
         case 'event-series' : return `/event-series/${doc.id}`;
         case 'installations' : return `/installations/${doc.id}`;
-        case 'pages' : return `/info/${doc.id}`;
+        case 'pages' : return `/pages/${doc.id}`;
       }
     }, '/', (err, redirectUrl) => {
       if (err) {
@@ -296,7 +296,7 @@ export function renderTagPage(tag, url, title, inSection, description) {
     const content = await getMultiContent(ctx.request, {tags: [tag]});
     const promoList = content.results.map(content => {
       return {
-        url: `/info/${content.id}`,
+        url: `/pages/${content.id}`,
         contentType: 'Information',
         image: content.promo.image,
         title: content.title,

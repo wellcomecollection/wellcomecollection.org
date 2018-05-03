@@ -17,7 +17,7 @@ const ContentListItems = ({ items }: Props) => (
       ].join(' ')} key={item.id}>
         <BasicPromo
           promoType='PagePromo'
-          url={`/info/${item.id}`}
+          url={`/pages/${item.id}`}
           title={item.title}
           description={item.promo && item.promo.caption}
           imageProps={item.promo && item.promo.image}
