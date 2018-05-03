@@ -29,7 +29,7 @@
     "datePublished": {
       "type": "Timestamp",
       "config": {
-        "label": "Published date"
+        "label": "Date published"
       }
     },
     "body": {
