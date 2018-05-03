@@ -6,6 +6,7 @@ import link from './parts/link';
 import text from './parts/text';
 import list from './parts/list';
 import timestamp from './parts/timestamp';
+import uid from './parts/uid';
 
 const Page = {
   Page: {
@@ -20,6 +21,9 @@ const Page = {
   },
   Promo: {
     promo
+  },
+  'βeta': {
+    uid: uid('uID')
   },
 
   // TODO (drupal migration): Remove this

@@ -201,6 +201,14 @@
       }
     }
   },
+  "βeta": {
+    "uid": {
+      "type": "UID",
+      "config": {
+        "label": "uID"
+      }
+    }
+  },
   "Migration": {
     "drupalPromoImage": {
       "type": "Link",
