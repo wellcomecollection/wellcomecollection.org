@@ -20,24 +20,22 @@ const BasicBody = ({ body }: Props) => {
   return (
     <div className='basic-body'>
       {body.map((slice, i) =>
-        <div className='body-part' key={`slice${i}`}>
+        <div className={`body-part ${spacing({s: 4}, {margin: ['top']})}`} key={`slice${i}`}>
           {slice.type === 'text' && <div className='body-text'><HTMLBlock html={slice.value} /></div>}
           {slice.type === 'picture' &&
-            <div className={spacing({s: 4}, {'margin': ['bottom']})}>
-              <CaptionedImage caption={slice.value.caption}>
-                <Image {...slice.value} />
-                <Tasl
-                  contentUrl={slice.value.contentUrl || ''}
-                  title={slice.value.title}
-                  author={slice.value.author}
-                  sourceName={slice.value.source && slice.value.source.name}
-                  sourceLink={slice.value.source && slice.value.source.link}
-                  license={slice.value.license}
-                  copyrightHolder={slice.value.copyright && slice.value.copyright.holder}
-                  copyrightLink={slice.value.copyright && slice.value.copyright.link}
-                  isFull={false} />
-              </CaptionedImage>
-            </div>
+            <CaptionedImage caption={slice.value.caption}>
+              <Image {...slice.value} />
+              <Tasl
+                contentUrl={slice.value.contentUrl || ''}
+                title={slice.value.title}
+                author={slice.value.author}
+                sourceName={slice.value.source && slice.value.source.name}
+                sourceLink={slice.value.source && slice.value.source.link}
+                license={slice.value.license}
+                copyrightHolder={slice.value.copyright && slice.value.copyright.holder}
+                copyrightLink={slice.value.copyright && slice.value.copyright.link}
+                isFull={false} />
+            </CaptionedImage>
           }
           {slice.type === 'imageGallery' && <ImageGallery {...slice.value} />}
           {slice.type === 'contentList' &&
