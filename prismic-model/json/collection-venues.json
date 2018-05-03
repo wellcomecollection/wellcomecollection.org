@@ -9,7 +9,7 @@
     "description": {
       "type": "StructuredText",
       "config": {
-        "multi": "paragraph,hyperlink,strong,em",
+        "multi": "paragraph,hyperlink,strong,em,heading2",
         "label": "Description"
       }
     },
