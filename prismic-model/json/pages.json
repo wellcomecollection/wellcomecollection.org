@@ -202,7 +202,7 @@
     }
   },
   "βeta": {
-    "uid": {
+    "uniquePath": {
       "type": "Text",
       "config": {
         "label": "uID"
