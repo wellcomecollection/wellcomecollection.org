@@ -203,7 +203,7 @@
   },
   "βeta": {
     "uid": {
-      "type": "UID",
+      "type": "Text",
       "config": {
         "label": "uID"
       }
