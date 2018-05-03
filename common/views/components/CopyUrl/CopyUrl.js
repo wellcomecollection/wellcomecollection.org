@@ -112,7 +112,7 @@ class CopyUrl extends Component<Props, State> {
           onClick={this.handleButtonClick}
           data-copy-text={url}
           data-track-event={`{"category": "component", "action": "copy-url:click", "label": "id:${id}"}`}
-          className={`${spacing({s: 2}, {margin: ['top']})} ${font({s: 'HNM5', m: 'HNM4'})} btn btn--tertiary flex-inline flex--v-center ${this.state.isEnhanced ? '' : 'is-hidden'} js-copy-url pointer`}>
+          className={`${spacing({s: 2}, {margin: ['top']})} ${font({s: 'HNM5'})} btn btn--tertiary flex-inline flex--v-center ${this.state.isEnhanced ? '' : 'is-hidden'} js-copy-url pointer`}>
           <span className='flex-inline flex--v-center'>
             <Icon name='check' extraClasses={`icon--black ${isTextCopied ? '' : 'is-hidden'}`} />
             <span className='js-copy-text'>

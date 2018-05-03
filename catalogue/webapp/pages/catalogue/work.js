@@ -248,7 +248,7 @@ const WorkPage = ({work}: Props) => {
                 Download
               </h2>
 
-              <div className={spacing({s: 1}, {margin: ['bottom']})}>
+              <div className={spacing({s: 2}, {margin: ['bottom']})}>
                 <Button
                   extraClasses='btn--tertiary'
                   url={convertImageUri(work.items[0].locations[0].url, 'full')}
