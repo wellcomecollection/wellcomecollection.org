@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="is-hidden-l is-hidden-xl css-grid__cell--full">
-        {% set imageModel = installation.featuredImageList[0] | objectAssign({lazyload: true}) %}
+        {% set imageModel = installation.promo.image | objectAssign({lazyload: true}) %}
 
         {% set tasl = {name: 'Tasl', model: imageModel}
           if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
@@ -67,7 +67,7 @@
             {s: 1} | spacingClasses({margin: ['top']}),
             {s: 1} | spacingClasses({margin: ['bottom']})
           ].join(' ') -}}">
-            {{ installation.description | prismicAsHtml | safe }}
+            {{ installation.promo.caption | safe }}
           </h2>
 
           <div class="flex flex--v-center {{ {s:'HNM5'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">
@@ -77,6 +77,12 @@
             <span class="border-left-width-1 border-color-pumice {{ {s: 1} | spacingClasses({padding: ['left'], margin: ['left']}) }}">
               No ticket required
             </span>
+          </div>
+
+          <div class="{{ {s:'HNL4'} | fontClasses }}">
+            <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+              <time datetime="{{ installation.start }}">{{ installation.start | formatDate }}</time>&ndash;<time datetime="{{ installation.end }}">{{ installation.end | formatDate }}</time>
+            </div>
           </div>
 
           <div class="{{ {s:'HNL4'} | fontClasses }}">
@@ -92,19 +98,12 @@
               </div>
             </div>
           </div>
-
-
-          <div class="{{ {s:'HNL4'} | fontClasses }}">
-            <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
-
-            </div>
-          </div>
         </div>
       </div>
 
       <div class="css-grid__cell--primary">
         <div class="is-hidden-s is-hidden-m rounded-corners overflow-hidden {{ {s: 4} | spacingClasses({margin: ['bottom']}) }}">
-          {% set imageModel = installation.featuredImageList[0] | objectAssign({lazyload: true}) %}
+          {% set imageModel = installation.promo.image | objectAssign({lazyload: true}) %}
           {% set tasl = {name: 'Tasl', model: imageModel}
             if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
             else null
@@ -113,6 +112,10 @@
             {name: 'Image', model: imageModel},
             tasl
           ] %}
+        </div>
+
+        <div class="{{ {s: 3, m: 4, l: 5, xl: 5} | spacingClasses({margin: ['bottom']}) }} body-text">
+          {% componentJsx 'BasicBody', {body: installation.body} %}
         </div>
 
         {% if installation.contributors.length > 0 %}
@@ -130,10 +133,6 @@
             </div>
           </div>
         {% endif %}
-
-        <div class="{{ {s: 3, m: 4, l: 5, xl: 5} | spacingClasses({margin: ['bottom']}) }} body-text">
-          {% componentJsx 'BasicBody', {body: installation.body} %}
-        </div>
       </div>
     </div>
   </div>

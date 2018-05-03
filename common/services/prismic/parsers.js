@@ -212,7 +212,7 @@ export function parseImagePromo(
   minWidth: ?string = null
 ): ?ImagePromo {
   const maybePromo = frag && frag.find(slice => slice.slice_type === 'editorialImage');
-  const hasImage = maybePromo && maybePromo.primary.image && isEmptyObj(maybePromo.primary.image) || false;
+  const hasImage = maybePromo && maybePromo.primary.image && !isEmptyObj(maybePromo.primary.image) || false;
 
   return maybePromo && ({
     caption: asText(maybePromo.primary.caption),
