@@ -8,13 +8,6 @@
         "useAsTitle": true
       }
     },
-    "description": {
-      "type": "StructuredText",
-      "config": {
-        "multi": "paragraph,hyperlink,strong,em,heading2",
-        "label": "Description"
-      }
-    },
     "start": {
       "type": "Timestamp",
       "config": {
@@ -89,7 +82,7 @@
           },
           "editorialImageGallery": {
             "type": "Slice",
-            "fieldset": "Captioned image gallery",
+            "fieldset": "Image gallery",
             "non-repeat": {
               "title": {
                 "type": "StructuredText",
@@ -126,6 +119,18 @@
                   "label": "Title",
                   "single": "heading1",
                   "useAsTitle": true
+                }
+              },
+              "requiredCount": {
+                "type": "Number",
+                "config": {
+                  "label": "Total"
+                }
+              },
+              "backfillQuery": {
+                "type": "Text",
+                "config": {
+                  "label": "Backfill query"
                 }
               }
             },

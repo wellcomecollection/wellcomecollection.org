@@ -5,7 +5,7 @@ import title from './title';
 export default function() {
   return {
     'type': 'Slice',
-    'fieldset': 'Captioned image gallery',
+    'fieldset': 'Image gallery',
     'non-repeat': {
       'title': title
     },

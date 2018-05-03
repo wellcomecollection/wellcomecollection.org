@@ -2,7 +2,7 @@
 import type {HTMLString} from '../services/prismic/types';
 import type {Place} from './place';
 import type {Contributor} from './contributors';
-import type {Picture} from './picture';
+import type {ImagePromo} from './image-promo';
 
 export type Installation = {|
   id: string,
@@ -15,6 +15,6 @@ export type Installation = {|
 |};
 
 export type UiInstallation = {| ...Installation, ...{|
-  featuredImageList: Picture[],
+  promo: ?ImagePromo,
   body: any[]
 |}|}

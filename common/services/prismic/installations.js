@@ -8,7 +8,6 @@ import {
   placesFields,
   organisationsFields
 } from './fetch-links';
-import {breakpoints} from '../../utils/breakpoints';
 import {
   parseTitle,
   parseDescription,
@@ -22,11 +21,7 @@ import {
 
 export function parseInstallationDoc(document: PrismicDocument): UiInstallation {
   const data = document.data;
-  const promo = document.data.promo;
-
-  const promoThin = promo && parseImagePromo(promo, '32:15', breakpoints.medium);
-  const promoSquare = promo && parseImagePromo(promo, 'square', breakpoints.small);
-  const promos = [promoThin, promoSquare].filter(Boolean).map(p => p.image).filter(Boolean);
+  const promo = document.data.promo && parseImagePromo(document.data.promo);
 
   return {
     id: document.id,
@@ -43,7 +38,7 @@ export function parseInstallationDoc(document: PrismicDocument): UiInstallation 
       but flow has problems with spreading.
       https://github.com/facebook/flow/issues/3608
     */
-    featuredImageList: promos,
+    promo: promo,
     body: data.body ? parseBody(data.body) : []
   };
 }
