@@ -21,9 +21,9 @@ function renderIcons(icons) {
 function renderLicenseLink(url: ?string, icons: ?string[], text: string) {
   if (url) {
     return (
-      <a className={`flex plain-link ${font({s: 'LR2'})}`} rel='license' href={url}>
+      <a className={`flex ${font({s: 'LR2'})}`} rel='license' href={url}>
         {renderIcons(icons)}
-        <span className='link-underline'>{text}</span>
+        {text}
       </a>
     );
   } else {
@@ -39,7 +39,7 @@ function renderLicenseLink(url: ?string, icons: ?string[], text: string) {
 const License = ({subject, licenseType}: Props) => {
   const licenseInfo: LicenseData = getLicenseInfo(licenseType) || { text: '', humanReadableText: [''] };
   return (
-    <div>
+    <div className='plain-text'>
       {licenseInfo.description &&
         <div className={spacing({s: 2}, {margin: ['bottom']})}>
           <p className={`${font({s: 'HNL5', m: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>{licenseInfo.description}</p>
