@@ -42,7 +42,7 @@
               {s:4} | spacingClasses({margin: ['bottom']})
             ].join(' ') }} bg-cream rounded-diagonal flex flex--v-center">
               {% icon 'under_construction', null, ['margin-right-s2'] %}
-              <p class="{{ {s:'HNL5', m:'HNL4'} | fontClasses }} no-margin">We’re improving the information on this page. <a href="/progress">Find out more</a>.</p>
+              <p class="plain-text {{ {s:'HNL5', m:'HNL4'} | fontClasses }} no-margin">We’re improving the information on this page. <a href="/progress">Find out more</a>.</p>
             </div>
 
             {% for metaItem in work.metaContent %}
@@ -74,8 +74,10 @@
             Download
           </h2>
 
+
+
           <a
-            class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-link font-green font-hover-turquoise flex flex--v-center"
+            class="btn btn--tertiary {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} flex-inline flex--v-center"
             href="{{ work.imgLink | convertImageUri('full', false) }}"
             download="{{ work.id }}.jpg"
             rel="noopener noreferrer"
@@ -88,7 +90,7 @@
           </a>
 
           <a
-            class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} plain-link font-green font-hover-turquoise flex flex--v-center"
+            class="btn btn--tertiary {{ {s:4} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5' , m:'HNM4'} | fontClasses }} flex-inline flex--v-center"
             href="{{ work.imgLink | convertImageUri(760, false) }}"
             download="{{ work.id }}.jpg"
             rel="noopener noreferrer"
