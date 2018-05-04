@@ -10,7 +10,8 @@ const FramedHeader = ({backgroundTexture, children}: Props) => (
   <div className='framed-header row relative'>
     <div className='framed-header__image overflow-hidden bg-turquoise'
       style={backgroundTexture.image && {backgroundImage: `url(${backgroundTexture.image})`}}>
-      <div className='framed-header__wobbly-edge absolute'>
+      <div className='framed-header__wobbly-edge absolute'
+      >
         <div className='wobbly-edge wobbly-edge--white js-wobbly-edge'
           data-is-valley='true'
           data-max-intensity='100'>
