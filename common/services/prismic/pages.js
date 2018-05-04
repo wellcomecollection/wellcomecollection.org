@@ -8,7 +8,6 @@ import {pagesFields} from './fetch-links';
 export function parsePage(document: PrismicDocument) {
   // TODO (drupal migration): Just deal with normal promo once we deprecate the
   // drupal stuff
-  console.info('erejhwgrhj');
   const promo = document.data.promo && parseImagePromo(document.data.promo);
   const drupalPromoImage = document.data.drupalPromoImage && document.data.drupalPromoImage.url ? document.data.drupalPromoImage : null;
   const drupalisedPromo = drupalPromoImage ? {
