@@ -32,7 +32,7 @@ import Tasl from '../Tasl/Tasl';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
-import ContentList from '../ContentList/ContentList';
+import SearchResults from '../SearchResults/SearchResults';
 import BasicBody from '../BasicBody/BasicBody';
 import Quote from '../Quote/Quote';
 import Contributor from '../Contributor/Contributor';
@@ -74,7 +74,7 @@ export {
   WobblyEdge,
   WorkDrawer,
   WorkMedia,
-  ContentList,
+  SearchResults,
   BasicBody,
   Quote,
   Contributor,

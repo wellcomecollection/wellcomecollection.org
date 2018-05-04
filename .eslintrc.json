@@ -3,8 +3,12 @@
   "plugins": [
     "flowtype",
     "import",
-    "react"
+    "react",
+    "jest"
   ],
+  "env": {
+    "jest/globals": true
+  },
   "extends": ["standard", "plugin:react/recommended"],
   "rules": {
     "no-multi-spaces": "off",

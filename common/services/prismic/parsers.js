@@ -308,13 +308,22 @@ export function parseBody(fragment: PrismicFragment[]) {
           weight: 'default',
           value: {
             title: asText(slice.primary.title),
-            requiredCount: slice.primary.requiredCount,
-            backfillQuery: slice.primary.backfillQuery,
             items: slice.items.map(item => {
               if (item.content.type === 'pages') {
                 return parsePage(item.content);
               }
             }).filter(Boolean)
+          }
+        };
+
+      case 'searchResults':
+        return {
+          type: 'searchResults',
+          weight: 'default',
+          value: {
+            title: asText(slice.primary.title),
+            query: slice.primary.query,
+            pageSize: slice.primary.pageSize || 4
           }
         };
     }

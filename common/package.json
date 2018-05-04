@@ -1,6 +1,9 @@
 {
   "name": "@weco/common",
   "version": "1.0.0",
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-module-resolver": "^3.0.0",
@@ -14,6 +17,7 @@
     "cookies": "^0.7.1",
     "fontfaceobserver": "^2.0.13",
     "immutable": "^3.8.2",
+    "jest": "^22.4.3",
     "lazysizes": "^4.0.1",
     "lodash.debounce": "^4.0.8",
     "lodash.groupby": "^4.6.0",
