@@ -10,11 +10,6 @@ import timestamp from './parts/timestamp';
 const Page = {
   Page: {
     title,
-    // We label this as `Site section` for the time that we only support this
-    // type of tag
-    tags: list('Site section', {
-      tag: link('Site section', 'document', ['tags'])
-    }),
     datePublished: timestamp('Date published'),
     body
   },
@@ -22,7 +17,12 @@ const Page = {
     promo
   },
   'βeta': {
-    uniquePath: text('uID')
+    uniquePath: text('uID'),
+    // We label this as `Site section` for the time that we only support this
+    // type of tag
+    tags: list('Site section', {
+      tag: link('Site section', 'document', ['tags'])
+    })
   },
 
   // TODO (drupal migration): Remove this

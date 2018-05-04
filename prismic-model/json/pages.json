@@ -8,24 +8,6 @@
         "useAsTitle": true
       }
     },
-    "tags": {
-      "type": "Group",
-      "fieldset": "Site section",
-      "config": {
-        "fields": {
-          "tag": {
-            "type": "Link",
-            "config": {
-              "label": "Site section",
-              "select": "document",
-              "customtypes": [
-                "tags"
-              ]
-            }
-          }
-        }
-      }
-    },
     "datePublished": {
       "type": "Timestamp",
       "config": {
@@ -206,6 +188,24 @@
       "type": "Text",
       "config": {
         "label": "uID"
+      }
+    },
+    "tags": {
+      "type": "Group",
+      "fieldset": "Site section",
+      "config": {
+        "fields": {
+          "tag": {
+            "type": "Link",
+            "config": {
+              "label": "Site section",
+              "select": "document",
+              "customtypes": [
+                "tags"
+              ]
+            }
+          }
+        }
       }
     }
   },
