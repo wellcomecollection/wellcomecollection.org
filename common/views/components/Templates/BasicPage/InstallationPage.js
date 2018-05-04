@@ -17,7 +17,7 @@ const InstallationPage = ({ installation }: Props) => {
     <BasicPage
       DateInfo={DateInfo}
       Description={<p>{description}</p>}
-      InfoBar={<StatusIndicator start={installation.start} end={installation.end || new Date()} />}
+      InfoBar={<StatusIndicator start={installation.start} end={(installation.end || new Date())} />}
       title={installation.title}
       mainImageProps={installation.promo && installation.promo.image}
       body={installation.body}>
