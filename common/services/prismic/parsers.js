@@ -213,7 +213,7 @@ export function parseImagePromo(
   minWidth: ?string = null
 ): ?ImagePromo {
   const maybePromo = frag && frag.find(slice => slice.slice_type === 'editorialImage');
-  const hasImage = maybePromo && maybePromo.primary.image && !isEmptyObj(maybePromo.primary.image) || false;
+  const hasImage = (maybePromo && maybePromo.primary.image && isImageLink(maybePromo.primary.image)) || false;
 
   return maybePromo && ({
     caption: asText(maybePromo.primary.caption),
@@ -276,8 +276,16 @@ export function isStructuredText(structuredTextObject: ?HTMLString): boolean {
   return Boolean(structuredTextObject) && (text || '').trim() !== '';
 }
 
+// If a link is non-existant, it can either be returned as `null`, or as an
+// empty link object, which is why we use this
 export function isDocumentLink(fragment: ?PrismicFragment): boolean {
   return Boolean(fragment && fragment.isBroken === false);
+}
+
+// when images have crops, event if the image isn't attached, we get e.g.
+// { '32:15': {}, '16:9': {}, square: {} }
+export function isImageLink(fragment: ?PrismicFragment): boolean {
+  return Boolean(fragment && fragment.dimensions);
 }
 
 export function parseBody(fragment: PrismicFragment[]) {
