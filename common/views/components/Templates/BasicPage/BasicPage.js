@@ -12,6 +12,7 @@ type Props = {|
   body: {type: string, value: any}[],
   mainImageProps: UiImageProps,
   DateInfo: Node,
+  ExtraInfo: Node,
   InfoBar: Node,
 |}
 
@@ -20,17 +21,23 @@ const BasicPage = ({
   body,
   mainImageProps,
   DateInfo,
+  ExtraInfo,
   InfoBar
 }: Props) => {
   return (
     <Fragment>
       <FramedHeader backgroundTexture={null}>
         <h1 className='h1'>{title}</h1>
+
         <div className={`${font({s: 'HNL3'})}`}>
           {DateInfo}
         </div>
 
-        <div className={`${font({s: 'HNL4'})}`}>
+        <div className={`${font({s: 'HNL4'})} ${spacing({s: 3}, {margin: ['top']})} first-para-no-margin`}>
+          {ExtraInfo}
+        </div>
+
+        <div className={`${font({s: 'HNL4'})} ${spacing({s: 3}, {margin: ['top', 'bottom']})}`}>
           {InfoBar}
         </div>
         <div className='relative'>
