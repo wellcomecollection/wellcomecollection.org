@@ -1,29 +1,27 @@
 // @flow
-import {font, spacing} from '../../../utils/classnames';
+import {font, grid} from '../../../utils/classnames';
 import Image from '../Image/Image';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import type {Contributor as ContributorType} from '../../../model/contributors';
 import type {Props as ImageProps} from '../Image/Image';
 
 const Contributor = ({ contributor, role, description }: ContributorType) => {
-  const width = 64;
+  const descriptionToRender = description || contributor.description;
   const imageProps: ImageProps = contributor.type === 'organisations' ? {
-    width,
+    width: 64,
+    height: 64,
     contentUrl: contributor.image && contributor.image.contentUrl,
-    alt: `Logo for ${contributor.name}`,
-    lazyload: true
+    alt: `Logo for ${contributor.name}`
   } : {
-    width,
+    width: 64,
+    height: 64,
     contentUrl: contributor.image && contributor.image.contentUrl,
-    alt: `Photograph of ${contributor.name}`,
-    lazyload: true
+    alt: `Photograph of ${contributor.name}`
   };
   return (
-    <div className='flex'>
+    <div className='grid'>
       {imageProps.contentUrl &&
-        <div
-          style={{ width, height: width }}
-          className={`${spacing({s: 2}, {margin: ['right']})}`}>
+        <div className={`${grid({ s: 2, m: 2, l: 2, xl: 2 })}`}>
           {/*
             This definitely passes as it is explicitly `ImageProps`,
             but because of an error in flow, it fails.
@@ -36,13 +34,13 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
           <Image {...imageProps} />
         </div>
       }
-      <div style={{ flexGrow: 1 }}>
+      <div className={`${grid({ s: 10, m: 10, l: 10, xl: 10 })}`}>
         <div className={font({s: 'WB6'})}>
           {contributor.name}
         </div>
-        {description &&
+        {descriptionToRender &&
           <div className={font({s: 'HNL4'})}>
-            <PrismicHtmlBlock html={description} />
+            <PrismicHtmlBlock html={descriptionToRender} />
           </div>
         }
       </div>
