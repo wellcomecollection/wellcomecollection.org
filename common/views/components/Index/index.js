@@ -37,6 +37,7 @@ import BasicBody from '../BasicBody/BasicBody';
 import Quote from '../Quote/Quote';
 import Contributor from '../Contributor/Contributor';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
+import NewsletterSignup from '../NewsletterSignup/NewsletterSignup';
 
 export {
   BackToTop,
@@ -77,5 +78,6 @@ export {
   BasicBody,
   Quote,
   Contributor,
-  ExhibitionPromo
+  ExhibitionPromo,
+  NewsletterSignup
 };
