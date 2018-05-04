@@ -1,6 +1,6 @@
 // @flow
 
-import {spacing} from '../../../utils/classnames';
+import {spacing, font} from '../../../utils/classnames';
 import {Fragment, Component} from 'react';
 import Icon from '../Icon/Icon';
 import HTMLInput from '../HTMLInput/HTMLInput';
@@ -105,11 +105,14 @@ class CopyUrl extends Component<Props, State> {
           isLabelHidden={true}
           fontStyles={{s: 'HNL5', m: 'HNL4'}} />
 
+        {/* TODO: update this button to be `<Button extraClasses: 'btn--tertiary' />
+        once we're fully reactified */}
+
         <button aria-live='polite'
           onClick={this.handleButtonClick}
           data-copy-text={url}
           data-track-event={`{"category": "component", "action": "copy-url:click", "label": "id:${id}"}`}
-          className={`${isTextCopied ? 'plain-button' : ''} ${spacing({s: 2}, {margin: ['top']})} btn btn--tertiary ${this.state.isEnhanced ? '' : 'is-hidden'} js-copy-url pointer`}>
+          className={`${spacing({s: 2}, {margin: ['top']})} ${font({s: 'HNM5'})} btn btn--tertiary flex-inline flex--v-center ${this.state.isEnhanced ? '' : 'is-hidden'} js-copy-url pointer`}>
           <span className='flex-inline flex--v-center'>
             <Icon name='check' extraClasses={`icon--black ${isTextCopied ? '' : 'is-hidden'}`} />
             <span className='js-copy-text'>

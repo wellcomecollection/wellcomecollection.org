@@ -29,7 +29,7 @@
     "datePublished": {
       "type": "Timestamp",
       "config": {
-        "label": "Published date"
+        "label": "Date published"
       }
     },
     "body": {
@@ -83,7 +83,7 @@
           },
           "editorialImageGallery": {
             "type": "Slice",
-            "fieldset": "Captioned image gallery",
+            "fieldset": "Image gallery",
             "non-repeat": {
               "title": {
                 "type": "StructuredText",
@@ -130,7 +130,7 @@
                   "label": "Content item",
                   "select": "document",
                   "customtypes": [
-                    "info-pages"
+                    "pages"
                   ]
                 }
               }
@@ -212,6 +212,14 @@
             }
           }
         }
+      }
+    }
+  },
+  "βeta": {
+    "uniquePath": {
+      "type": "Text",
+      "config": {
+        "label": "uID"
       }
     }
   },

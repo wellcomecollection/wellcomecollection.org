@@ -55,7 +55,7 @@ export default {
           title
         },
         repeat: {
-          content: link('Content item', 'document', ['info-pages'])
+          content: link('Content item', 'document', ['pages'])
         }
       }),
       searchResults: slice('(β) Search results', {

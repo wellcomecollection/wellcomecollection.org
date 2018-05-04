@@ -1,8 +1,8 @@
 // @flow
 import type {ImagePromo} from './image-promo';
 
-export type InfoPage = {|
-  type: 'info-pages',
+export type Page = {|
+  type: 'pages',
   id: string,
   title: string,
   promo: ?ImagePromo,

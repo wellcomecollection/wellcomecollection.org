@@ -15,11 +15,14 @@ const Page = {
     tags: list('Site section', {
       tag: link('Site section', 'document', ['tags'])
     }),
-    datePublished: timestamp('Published date'),
+    datePublished: timestamp('Date published'),
     body
   },
   Promo: {
     promo
+  },
+  'βeta': {
+    uniquePath: text('uID')
   },
 
   // TODO (drupal migration): Remove this

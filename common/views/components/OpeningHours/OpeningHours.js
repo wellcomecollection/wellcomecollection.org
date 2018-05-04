@@ -45,7 +45,7 @@ class OpeningHours extends Component<Props, State> {
           </p>
         }
         {upcomingExceptionalOpeningPeriods && upcomingExceptionalOpeningPeriods.length > 0 &&
-          <p className={font({s: 'HNM4'})}>
+          <p className={`plain-text ${font({s: 'HNM4'})}`}>
             Our opening times will change
             {upcomingExceptionalOpeningPeriods.map((group, i, array) => {
               const firstDate = group[0];
