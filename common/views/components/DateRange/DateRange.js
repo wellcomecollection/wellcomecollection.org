@@ -1,6 +1,7 @@
 // @flow
 import {Fragment} from 'react';
-import {formatDate} from '../../../utils/format-date';
+import HTMLDate from '../HTMLDate/HTMLDate';
+
 type Props = {|
   start: Date,
   end: Date
@@ -8,7 +9,7 @@ type Props = {|
 
 const DateRange = ({start, end}: Props) => (
   <Fragment>
-    <time dateTime={start}>{formatDate(start)}</time>—<time dateTime={end}>{formatDate(end)}</time>
+    <HTMLDate date={start} />—<HTMLDate date={end} />
   </Fragment>
 );
 

@@ -10,9 +10,9 @@ import type {UiImageProps} from '../../Images/Images';
 type Props = {|
   title: string,
   body: {type: string, value: any}[],
-  mainImageProps: UiImageProps,
+  mainImageProps: ?UiImageProps,
   DateInfo: Node,
-  ExtraInfo: Node,
+  Description: Node,
   InfoBar: Node,
 |}
 
@@ -21,7 +21,7 @@ const BasicPage = ({
   body,
   mainImageProps,
   DateInfo,
-  ExtraInfo,
+  Description,
   InfoBar
 }: Props) => {
   return (
@@ -34,15 +34,17 @@ const BasicPage = ({
         </div>
 
         <div className={`${font({s: 'HNL4'})} ${spacing({s: 3}, {margin: ['top']})} first-para-no-margin`}>
-          {ExtraInfo}
+          {Description}
         </div>
 
         <div className={`${font({s: 'HNL4'})} ${spacing({s: 3}, {margin: ['top', 'bottom']})}`}>
           {InfoBar}
         </div>
-        <div className='relative'>
-          <UiImage {...mainImageProps} />
-        </div>
+        {mainImageProps &&
+          <div className='relative'>
+            <UiImage {...mainImageProps} />
+          </div>
+        }
       </FramedHeader>
       <div className={`row ${spacing({s: 3}, {padding: ['top']})} ${spacing({s: 8}, {padding: ['bottom']})}`}>
         <div className='container'>
