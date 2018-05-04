@@ -125,7 +125,7 @@
                   "label": "Content item",
                   "select": "document",
                   "customtypes": [
-                    "info-pages"
+                    "pages"
                   ]
                 }
               }
