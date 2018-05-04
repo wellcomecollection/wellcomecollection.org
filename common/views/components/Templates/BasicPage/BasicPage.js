@@ -13,7 +13,20 @@ type Props = {|
   DateInfo: Node,
   Description: Node,
   InfoBar: Node,
+  children: Node
 |}
+
+const BasicPageColumn = ({children}: {| children: Node |}) => (
+  <div className={`row ${spacing({s: 3}, {padding: ['top']})} ${spacing({s: 8}, {padding: ['bottom']})}`}>
+    <div className='container'>
+      <div className='grid'>
+        <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
+          {children}
+        </div>
+      </div>
+    </div>
+  </div>
+);
 
 const BasicPage = ({
   title,
@@ -21,7 +34,8 @@ const BasicPage = ({
   mainImageProps,
   DateInfo,
   Description,
-  InfoBar
+  InfoBar,
+  children
 }: Props) => {
   return (
     <Fragment>
@@ -48,15 +62,15 @@ const BasicPage = ({
         Description={Description}
         InfoBar={InfoBar}
       />
-      <div className={`row ${spacing({s: 3}, {padding: ['top']})} ${spacing({s: 8}, {padding: ['bottom']})}`}>
-        <div className='container'>
-          <div className='grid'>
-            <div className={`basic-page ${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
-              <BasicBody body={body}></BasicBody>
-            </div>
-          </div>
+      <BasicPageColumn>
+        <div className='basic-page'>
+          <BasicBody body={body}></BasicBody>
         </div>
-      </div>
+      </BasicPageColumn>
+
+      <BasicPageColumn>
+        {children}
+      </BasicPageColumn>
     </Fragment>
   );
 };

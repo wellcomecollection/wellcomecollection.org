@@ -139,6 +139,7 @@ function parsePersonContributor(frag: PrismicFragment): PersonContributor {
 
 function parseOrganisationContributor(frag: PrismicFragment): OrganisationContributor {
   return  {
+    id: frag.id,
     type: 'organisations',
     name: asText(frag.data.name) || 'NAME MISSING',
     image: frag.data.image && parsePicture({
@@ -161,13 +162,13 @@ export function parseContributors(contributorsDoc: PrismicFragment[]): Contribut
           return {
             role,
             contributor: parseOrganisationContributor(contributor.contributor),
-            description: contributor.description
+            description: parseStructuredText(contributor.description)
           };
         case 'people':
           return {
             role,
             contributor: parsePersonContributor(contributor.contributor),
-            description: contributor.description
+            description: parseStructuredText(contributor.description)
           };
       }
     })();
@@ -262,6 +263,17 @@ export function parseBackgroundTexture(backgroundTexture: PrismicBackgroundTextu
     image: backgroundTexture.image.url,
     name: backgroundTexture.name
   };
+}
+
+function parseStructuredText(maybeFragment: ?PrismicFragment): ?HTMLString {
+  return maybeFragment && isStructuredText(maybeFragment.description) ? maybeFragment.description : null;
+}
+
+// Prismic return `[ { type: 'paragraph', text: '', spans: [] } ]` when you have
+// inserted text, then removed it, so we need to do this check.
+export function isStructuredText(structuredTextObject: ?HTMLString): boolean {
+  const text = asText(structuredTextObject);
+  return Boolean(structuredTextObject) && (text || '').trim() !== '';
 }
 
 // If a link is non-existant, it can either be returned as `null`, or as an
