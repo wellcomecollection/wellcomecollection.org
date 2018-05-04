@@ -11,7 +11,8 @@ type Props = {|
 const InstallationPage = ({ installation }: Props) => {
   return (
     <BasicPage
-      DateComponent={<DateRange start={installation.start} end={installation.end} />}
+      DateInfo={<DateRange start={installation.start} end={installation.end} />}
+      ExtraInfo={<DateRange start={installation.start} end={installation.end} />}
       InfoBar={<StatusIndicator start={installation.start} end={installation.end} />}
       title={installation.title}
       mainImageProps={installation.promo.image}

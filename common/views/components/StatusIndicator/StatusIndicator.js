@@ -11,7 +11,7 @@ type Props = {|
 const StatusIndicator = ({ start, end }: Props) => {
   const {color, text} = formatDateRangeWithMessage({start, end});
   return (
-    <span className={`flex flex--v-center ${font({s: 'HNM4'})}`}>
+    <span className={`flex flex--v-center ${font({s: 'HNL4'})}`}>
       <span className={`${spacing({s: 1}, {margin: ['right']})} flex flex--v-center`}>
         <Icon name='statusIndicator' extraClasses={`icon--match-text icon--${color}`} />
       </span>

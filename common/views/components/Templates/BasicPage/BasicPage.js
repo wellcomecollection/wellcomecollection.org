@@ -11,7 +11,7 @@ type Props = {|
   title: string,
   body: {type: string, value: any}[],
   mainImageProps: UiImageProps,
-  DateComponent: Node,
+  DateInfo: Node,
   InfoBar: Node,
 |}
 
@@ -19,7 +19,7 @@ const BasicPage = ({
   title,
   body,
   mainImageProps,
-  DateComponent,
+  DateInfo,
   InfoBar
 }: Props) => {
   return (
@@ -27,8 +27,9 @@ const BasicPage = ({
       <FramedHeader backgroundTexture={null}>
         <h1 className='h1'>{title}</h1>
         <div className={`${font({s: 'HNL3'})}`}>
-          {DateComponent}
+          {DateInfo}
         </div>
+
         <div className={`${font({s: 'HNL4'})}`}>
           {InfoBar}
         </div>
