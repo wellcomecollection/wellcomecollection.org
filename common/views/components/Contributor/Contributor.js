@@ -38,6 +38,9 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
         <div className={font({s: 'WB6'})}>
           {contributor.name}
         </div>
+        <div className={font({s: 'HNL4'})}>
+          {role.title}
+        </div>
         {descriptionToRender &&
           <div className={font({s: 'HNL4'})}>
             <PrismicHtmlBlock html={descriptionToRender} />
