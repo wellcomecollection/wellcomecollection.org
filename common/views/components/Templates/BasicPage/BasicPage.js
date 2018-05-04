@@ -1,10 +1,9 @@
 // @flow
 import {Fragment} from 'react';
-import type {Node} from 'react';
-import {font, spacing, grid} from '../../../../utils/classnames';
-import FramedHeader from '../../PageHeaders/FramedHeader/FramedHeader';
+import {spacing, grid} from '../../../../utils/classnames';
+import BasicHeader from '../../PageHeaders/BasicHeader/BasicHeader';
 import BasicBody from '../../BasicBody/BasicBody';
-import {UiImage} from '../../Images/Images';
+import type {Node} from 'react';
 import type {UiImageProps} from '../../Images/Images';
 
 type Props = {|
@@ -26,26 +25,29 @@ const BasicPage = ({
 }: Props) => {
   return (
     <Fragment>
-      <FramedHeader backgroundTexture={null}>
-        <h1 className='h1'>{title}</h1>
-
-        <div className={`${font({s: 'HNL3'})}`}>
-          {DateInfo}
-        </div>
-
-        <div className={`${font({s: 'HNL4'})} ${spacing({s: 3}, {margin: ['top']})} first-para-no-margin`}>
-          {Description}
-        </div>
-
-        <div className={`${font({s: 'HNL4'})} ${spacing({s: 3}, {margin: ['top', 'bottom']})}`}>
-          {InfoBar}
-        </div>
-        {mainImageProps &&
-          <div className='relative'>
-            <UiImage {...mainImageProps} />
+      <div className='row relative'>
+        <div className='overflow-hidden full-width bg-cream' style={{
+          top: 0,
+          position: 'fixed',
+          height: '50vw',
+          maxHeight: '66vh',
+          zIndex: -1
+        }}>
+          <div className='absolute full-width' style={{ bottom: 0 }}>
+            <div className='wobbly-edge wobbly-edge--white js-wobbly-edge'
+              data-is-valley='true'
+              data-max-intensity='100'>
+            </div>
           </div>
-        }
-      </FramedHeader>
+        </div>
+      </div>
+      <BasicHeader
+        title={title}
+        mainImageProps={mainImageProps}
+        DateInfo={DateInfo}
+        Description={Description}
+        InfoBar={InfoBar}
+      />
       <div className={`row ${spacing({s: 3}, {padding: ['top']})} ${spacing({s: 8}, {padding: ['bottom']})}`}>
         <div className='container'>
           <div className='grid'>
