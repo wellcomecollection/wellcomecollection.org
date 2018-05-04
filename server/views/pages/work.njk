@@ -74,35 +74,30 @@
             Download
           </h2>
 
-
-          <div>
-            <a
-              class="btn btn--tertiary {{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5'} | fontClasses }} flex-inline flex--v-center"
-              href="{{ work.imgLink | convertImageUri('full', false) }}"
-              download="{{ work.id }}.jpg"
-              rel="noopener noreferrer"
-              target="_blank"
-              data-track-event='{"category": "component", "action": "download-button:click", "label": "id:{{ work.id }}, size:original, title:{{ work.title | truncate(50) }}"}'>
-              {% icon 'download', null, ['icon--green'] %}
-              <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
-                Download full size
-              </div>
-            </a>
+          <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
+            {% componentJsx 'Button', {
+              extraClasses: 'btn--tertiary',
+              url: work.imgLink | convertImageUri('full', false),
+              download: work.id + '.jpg',
+              rel: 'noopener noreferrer',
+              target: '_blank',
+              eventTracking: '{"category": "component", "action": "download-button:click", "label": "id:' +  work.id + ', size:original, title:' + work.title | truncate(50) + '"}',
+              icon: 'download',
+              text: 'Download full size'
+            } %}
           </div>
 
-          <div>
-            <a
-              class="btn btn--tertiary {{ {s:4} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNM5'} | fontClasses }} flex-inline flex--v-center"
-              href="{{ work.imgLink | convertImageUri(760, false) }}"
-              download="{{ work.id }}.jpg"
-              rel="noopener noreferrer"
-              target="_blank"
-              data-track-event='{"category": "component", "action": "download-button:click", "label": "id:{{ work.id }}, size:760, title:{{ work.title | truncate(50) }}"}'>
-              {% icon 'download', null, ['icon--green'] %}
-              <div class="{{{s: 1} | spacingClasses({ margin: ['left'] })}}">
-                Download small (760px)
-              </div>
-            </a>
+          <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
+            {% componentJsx 'Button', {
+              extraClasses: 'btn--tertiary',
+              url: work.imgLink | convertImageUri(760, false),
+              download: work.id + '.jpg',
+              rel: 'noopener noreferrer',
+              target: '_blank',
+              eventTracking: '{"category": "component", "action": "download-button:click", "label": "id:' +  work.id + ', size:760, title:' + work.title | truncate(50) + '"}',
+              icon: 'download',
+              text: 'Download small (760px)'
+            } %}
           </div>
 
           <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
