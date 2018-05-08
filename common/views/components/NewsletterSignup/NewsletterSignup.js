@@ -33,7 +33,7 @@ const addressBooks = [
 const NewsletterSignup = () => (
   <form name='signup' id='signup' action='https://r1-t.trackedlink.net/signup.ashx' method='post'>
     <input type='hidden' name='userid' value='126919' />
-    <input type='hidden' name='ReturnURL' value='https://wellcomecollection.org' />
+    <input type='hidden' name='ReturnURL' value='https://wellcomecollection.org/info/newsletter' />
 
     <HTMLInput
       id='email'
