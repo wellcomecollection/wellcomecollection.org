@@ -315,3 +315,16 @@ export function renderTagPage(tag, url, title, inSection, description) {
     });
   };
 }
+
+export function renderNewsletterPage(ctx, next) {
+  ctx.render('pages/newsletter', {
+    pageConfig: createPageConfig({
+      path: ctx.request.url,
+      title: 'Newsletter',
+      inSection: 'explore', // TODO: ?
+      category: 'info'
+    })
+  });
+
+  return next();
+}

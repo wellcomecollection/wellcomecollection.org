@@ -1,0 +1,14 @@
+{% extends 'layout/default.njk' %}
+
+{% block body %}
+  <div class="row {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
+    <div class="container">
+      <div class="grid">
+        <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
+          <h2 class="h2">Newsletter signup</h2>
+          {% componentJsx 'NewsletterSignup' %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

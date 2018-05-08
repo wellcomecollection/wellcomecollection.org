@@ -14,7 +14,8 @@ import {
   renderWebcomicSeries,
   renderOpeningTimes,
   renderInfoPage,
-  renderTagPage
+  renderTagPage,
+  renderNewsletterPage
 } from '../controllers/content';
 
 const r = new Router({
@@ -93,5 +94,7 @@ r.get('/articles', renderArticlesList);
 r.get('/async/series-nav/:id', seriesNav);
 r.get('/async/series-transporter/:id', seriesTransporter);
 r.get('/async/content-list', contentList);
+
+r.get('/newsletter', renderNewsletterPage);
 
 export const router = r.middleware();

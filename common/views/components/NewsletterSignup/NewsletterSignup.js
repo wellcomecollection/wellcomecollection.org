@@ -1,4 +1,4 @@
-import {spacing, grid} from '../../../utils/classnames';
+import {spacing} from '../../../utils/classnames';
 import HTMLInput from '../HTMLInput/HTMLInput';
 import Button from '../Buttons/Button/Button';
 
@@ -31,45 +31,38 @@ const addressBooks = [
 ];
 
 const NewsletterSignup = () => (
-  <div className={`row bg-black font-white ${spacing({s: 2}, {padding: ['top']})}`}>
-    <div className='container'>
-      <div className='grid'>
-        <div className={`${grid({s: 12, m: 12, l: 12, xl: 12})}`}>
-          <h2 className='h2'>Newsletter signup</h2>
-          <form name='signup' id='signup' action='https://r1-t.trackedlink.net/signup.ashx' method='post'>
-            <input type='hidden' name='userid' value='126919' />
-            <input type='hidden' name='ReturnURL' value='https://wellcomecollection.org' />
+  <form name='signup' id='signup' action='https://r1-t.trackedlink.net/signup.ashx' method='post'>
+    <input type='hidden' name='userid' value='126919' />
+    <input type='hidden' name='ReturnURL' value='https://wellcomecollection.org' />
 
+    <HTMLInput
+      id='email'
+      type='text'
+      name='Email'
+      label='Email'
+      placeholder='Email'
+      isLabelHidden={true}
+    />
+
+    <fieldset>
+      <legend>Newsletters</legend>
+      <ul>
+        {addressBooks.map((addressBook) => (
+          <li key={addressBook.id}>
             <HTMLInput
-              id='email'
-              type='text'
-              name='Email'
-              label='Email'
-            />
+              id={addressBook.id}
+              type='checkbox'
+              name={addressBook.name}
+              label={addressBook.label}/>
+          </li>
+        ))}
+      </ul>
+    </fieldset>
 
-            <fieldset>
-              <legend>Newsletters</legend>
-              <ul>
-                {addressBooks.map((addressBook) => (
-                  <li key={addressBook.id}>
-                    <HTMLInput
-                      id={addressBook.id}
-                      type='checkbox'
-                      name={addressBook.name}
-                      label={addressBook.label}/>
-                  </li>
-                ))}
-              </ul>
-            </fieldset>
-
-            <Button
-              extraClasses='btn--primary'
-              text='Submit' />
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+    <Button
+      extraClasses={`btn--primary ${spacing({s: 2}, {margin: ['top']})}`}
+      text='Submit' />
+  </form>
 );
 
 export default NewsletterSignup;
