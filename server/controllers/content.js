@@ -317,13 +317,17 @@ export function renderTagPage(tag, url, title, inSection, description) {
 }
 
 export function renderNewsletterPage(ctx, next) {
+  const { result, reason } = ctx.query;
+
   ctx.render('pages/newsletter', {
     pageConfig: createPageConfig({
       path: ctx.request.url,
       title: 'Newsletter',
       inSection: 'explore', // TODO: ?
       category: 'info'
-    })
+    }),
+    isSuccess: result === 'success',
+    errorReason: reason
   });
 
   return next();

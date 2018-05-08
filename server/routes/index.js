@@ -57,6 +57,7 @@ r.get('/series/(W):id', renderSeries);
 r.get('/webcomic-series/:id', renderWebcomicSeries);
 r.get('/info/opening-times', renderOpeningTimes);
 r.get('/info/:id', renderInfoPage);
+r.get('/info/newsletter', renderNewsletterPage);
 r.get('/what-we-do', renderTagPage(
   'what-we-do',
   '/what-we-do',
@@ -94,7 +95,5 @@ r.get('/articles', renderArticlesList);
 r.get('/async/series-nav/:id', seriesNav);
 r.get('/async/series-transporter/:id', seriesTransporter);
 r.get('/async/content-list', contentList);
-
-r.get('/newsletter', renderNewsletterPage);
 
 export const router = r.middleware();
