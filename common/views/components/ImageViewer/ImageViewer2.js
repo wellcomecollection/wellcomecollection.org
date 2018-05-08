@@ -22,9 +22,10 @@ class LaunchViewerButton extends React.Component<LaunchViewerButtonProps> {
   render() {
     return (
       <Control
+        type='dark'
         text='View larger image'
         icon='zoomIn'
-        extraClasses={`control--dark image-viewer__launch-button ${this.props.classes}`}
+        extraClasses={`image-viewer__launch-button ${this.props.classes}`}
         clickHandler={this.props.clickHandler} />
     );
   }
@@ -82,23 +83,26 @@ class ViewerContent extends React.Component<ViewerContentProps> {
       <div className={`${this.props.classes} image-viewer__content image-viewer__content2`}>
         <div className='image-viewer__controls flex flex-end flex--v-center'>
           <Control
+            type='light'
             text='Zoom in'
             id={`zoom-in-${this.props.id}`}
             icon='zoomIn'
-            extraClasses={`control--light ${spacing({s: 1}, {margin: ['right']})}`}
+            extraClasses={`${spacing({s: 1}, {margin: ['right']})}`}
             clickHandler={this.handleZoomIn} />
 
           <Control
+            type='light'
             text='Zoom out'
             id={`zoom-out-${this.props.id}`}
             icon='zoomOut'
-            extraClasses={`control--light ${spacing({s: 8}, {margin: ['right']})}`}
+            extraClasses={`{spacing({s: 8}, {margin: ['right']})}`}
             clickHandler={this.handleZoomOut} />
 
           <Control
+            type='light'
             text='Close image viewer'
             icon='cross'
-            extraClasses={`control--light ${spacing({s: 2}, {margin: ['right']})}`}
+            extraClasses={`${spacing({s: 2}, {margin: ['right']})}`}
             clickHandler={this.props.handleViewerDisplay} />
         </div>
 

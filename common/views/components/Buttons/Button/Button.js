@@ -5,6 +5,7 @@ import Icon from '../../Icon/Icon';
 
 type Props = {|
   url?: string,
+  type: 'primary' | 'secondary' | 'tertiary',
   extraClasses?: string,
   icon?: string,
   text: string,
@@ -19,6 +20,7 @@ type Props = {|
 
 const Button = ({
   url,
+  type,
   id,
   extraClasses,
   icon,
@@ -41,7 +43,7 @@ const Button = ({
       download={download}
       rel={rel}
       id={id}
-      className={`btn ${extraClasses || ''} ${font(fontClasses)} flex-inline flex--v-center`}
+      className={`btn btn--${type} ${extraClasses || ''} ${font(fontClasses)} flex-inline flex--v-center`}
       data-track-event={eventTracking}
       onClick={clickHandler}
       disabled={disabled}>

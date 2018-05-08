@@ -7,7 +7,7 @@ export const variants = [
     label: 'light (button)',
     context: {
       icon: 'download',
-      extraClasses: 'control--light',
+      type: 'light',
       text: 'download'
     }
   },
@@ -16,7 +16,7 @@ export const variants = [
     label: 'dark (button)',
     context: {
       icon: 'download',
-      extraClasses: 'control--dark',
+      type: 'dark',
       text: 'download'
     }
   },
@@ -26,7 +26,7 @@ export const variants = [
     context: {
       url: '#',
       icon: 'download',
-      extraClasses: 'control--light',
+      type: 'light',
       text: 'download'
     }
   },
@@ -36,7 +36,7 @@ export const variants = [
     context: {
       url: '#',
       icon: 'download',
-      extraClasses: 'control--dark',
+      type: 'dark',
       text: 'download'
     }
   }

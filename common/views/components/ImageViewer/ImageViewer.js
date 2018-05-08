@@ -17,9 +17,10 @@ type Props = {|
 const ImageViewer = ({id, trackTitle, imageUrl}: Props) => (
   <div className='js-image-viewer image-viewer'>
     <Control
+      type='dark'
       text='View larger image'
       icon='zoomIn'
-      extraClasses={`control--dark image-viewer__launch-button js-image-viewer__launch-button`}
+      extraClasses={`image-viewer__launch-button js-image-viewer__launch-button`}
       eventTracking={`{${commonBtnTracking(id, trackTitle)}, "action": "work-launch-image-viewer:btnClick"}`} />
 
     <div
@@ -29,21 +30,24 @@ const ImageViewer = ({id, trackTitle, imageUrl}: Props) => (
 
       <div className='image-viewer__controls flex flex-end flex--v-center'>
         <Control
+          type='light'
           text='Zoom in'
           id={`zoom-in-${id}`}
           icon='zoomIn'
-          extraClasses={`control--light ${spacing({s: 1}, {margin: ['right']})}`}
+          extraClasses={`${spacing({s: 1}, {margin: ['right']})}`}
           eventTracking={`{${commonBtnTracking(id, trackTitle)}, "action": "work-zoom-in-button:click"}`} />
         <Control
+          type='light'
           text='Zoom out'
           id={`zoom-out-${id}`}
           icon='zoomOut'
-          extraClasses={`control--light ${spacing({s: 8}, {margin: ['right']})}`}
+          extraClasses={`${spacing({s: 8}, {margin: ['right']})}`}
           eventTracking={`{${commonBtnTracking(id, trackTitle)}, "action": "work-zoom-out-button:click"}`} />
         <Control
+          type='light'
           text='Close image viewer'
           icon='cross'
-          extraClasses={`control--light js-image-viewer__exit-button ${spacing({s: 2}, {margin: ['right']})}`}
+          extraClasses={`js-image-viewer__exit-button ${spacing({s: 2}, {margin: ['right']})}`}
           eventTracking={`{${commonBtnTracking(id, trackTitle)}, "action": "work-exit-image-viewer:btnClick"}`} />
       </div>
 
