@@ -3,9 +3,9 @@
 {% block body %}
   {# TODO: good copy #}
   {% if errorReason %}
-    {% componentJsx 'InfoBanner', {text: 'Sorry, there was an error: ' + errorReason + '.'} %}
+    {% componentJsx 'InfoBanner', {text: 'Sorry, there was an error: ' + errorReason + '.' } %}
   {% elif isSuccess %}
-    {% componentJsx 'InfoBanner', {text: 'Thank you, you have successfully signed up to one or more of our newsletters.'} %}
+    {% componentJsx 'InfoBanner', {text: 'Thank you, please check your email to confirm sign-up.'} %}
   {% endif %}
   <div class="row {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
     <div class="container">
