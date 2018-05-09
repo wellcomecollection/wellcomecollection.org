@@ -1,16 +1,31 @@
 export default (el) => {
+  const emailInput = document.getElementById('email');
   const checkboxEls = [...el.querySelectorAll('input[type="checkbox"]')];
-  const errorMessage = document.createElement('p');
-  errorMessage.classList.add('border-width-1', 'border-color-red', 'padding-left-s2', 'padding-right-s2', 'padding-top-s2', 'padding-bottom-s2', 'margin-bottom-s2', 'font-red');
-  errorMessage.innerHTML = 'Please select at least one newsletter below.';
+  const checkboxErrorMessage = document.createElement('p');
+  const emailErrorMessage = document.createElement('p');
+  const errorClasses = ['border-width-1', 'border-color-red', 'padding-left-s2', 'padding-right-s2', 'padding-top-s2', 'padding-bottom-s2', 'margin-bottom-s2', 'font-red'];
+
+  checkboxErrorMessage.classList.add(...errorClasses);
+  checkboxErrorMessage.innerHTML = 'Please select at least one newsletter below.';
+  emailErrorMessage.classList.add(...errorClasses);
+  emailErrorMessage.innerHTML = 'Please enter your email address.';
+
+  el.setAttribute('novalidate', '');
 
   function handleSubmit(event) {
     event.preventDefault();
 
+    if (!emailInput.validity.valid) {
+      el.classList.add('is-error');
+      el.insertBefore(emailErrorMessage, el.firstChild);
+    }
+
     if (!isAnyChecked()) {
       el.classList.add('is-error');
-      el.insertBefore(errorMessage, el.firstChild);
-    } else {
+      el.insertBefore(checkboxErrorMessage, el.firstChild);
+    }
+
+    if (!el.classList.contains('is-error')) {
       event.target.submit();
     }
   }
@@ -19,12 +34,21 @@ export default (el) => {
     return checkboxEls.some(el => el.checked);
   }
 
-  function handleChange() {
-    if (el.contains(errorMessage)) {
-      el.removeChild(errorMessage);
+  function handleCheckboxChange() {
+    if (el.contains(checkboxErrorMessage)) {
+      el.classList.remove('is-error');
+      el.removeChild(checkboxErrorMessage);
     }
   }
 
-  checkboxEls.forEach(el => el.addEventListener('change', handleChange));
+  function handleEmailInput() {
+    if (el.contains(emailErrorMessage)) {
+      el.classList.remove('is-error');
+      el.removeChild(emailErrorMessage);
+    }
+  }
+
+  emailInput.addEventListener('input', handleEmailInput);
+  checkboxEls.forEach(el => el.addEventListener('change', handleCheckboxChange));
   el.addEventListener('submit', handleSubmit);
 };
