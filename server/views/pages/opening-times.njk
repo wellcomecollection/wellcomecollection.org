@@ -17,6 +17,19 @@
         <h1 class="{{ {s:'WB5', m:'WB4'} | fontClasses }}">Opening times</h1>
       </div>
 
+      <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+        <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="regular">Regular opening times</h2>
+        <div class="grid">
+          <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }} {{ {s:2} | spacingClasses({padding: ['top']}) }}">
+            {% componentJsx 'OpeningHours', {id: 'info-page', extraClasses: 'opening-hours--light', upcomingExceptionalOpeningPeriods: pageOpeningHours.upcomingExceptionalOpeningPeriods, groupedVenues: pageOpeningHours.groupedVenues} %}
+          </div>
+        </div>
+      </div>
+
+      <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+        {% componentJsx 'Divider', {extraClasses: 'divider--pumice divider--keyline ' + ( {s:1} | spacingClasses({margin: ['top']})) + ' ' + ( {s:4} | spacingClasses({margin: ['bottom']}))} %}
+      </div>
+
       {% if pageOpeningHours.upcomingExceptionalOpeningPeriods.length > 0 %}
         {% for openingPeriod in pageOpeningHours.upcomingExceptionalOpeningPeriods %}
           <h2 {{'id=exceptional' if loop.index === 1}} class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }} {{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin">
@@ -44,24 +57,11 @@
             </div>
           {% endfor %}
         {% endfor %}
-      {% endif %}
 
-      <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
-        {% componentJsx 'Divider', {extraClasses: 'divider--pumice divider--keyline ' + ( {s:1} | spacingClasses({margin: ['top']})) + ' ' + ( {s:4} | spacingClasses({margin: ['bottom']}))} %}
-      </div>
-
-      <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
-        <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="regular">Regular opening times</h2>
-        <div class="grid">
-          <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }} {{ {s:2} | spacingClasses({padding: ['top']}) }}">
-            {% componentJsx 'OpeningHours', {id: 'info-page', extraClasses: 'opening-hours--light', upcomingExceptionalOpeningPeriods: pageOpeningHours.upcomingExceptionalOpeningPeriods, groupedVenues: pageOpeningHours.groupedVenues} %}
-          </div>
+        <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+          {% componentJsx 'Divider', {extraClasses: 'divider--pumice divider--keyline ' + ( {s:1} | spacingClasses({margin: ['top']})) + ' ' + ( {s:4} | spacingClasses({margin: ['bottom']}))} %}
         </div>
-      </div>
-
-      <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
-        {% componentJsx 'Divider', {extraClasses: 'divider--pumice divider--keyline ' + ( {s:1} | spacingClasses({margin: ['top']})) + ' ' + ( {s:4} | spacingClasses({margin: ['bottom']}))} %}
-      </div>
+      {% endif %}
 
       {% if pageOpeningHours.exceptionalClosedDates.length > 0 %}
         <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
@@ -82,11 +82,12 @@
             </div>
           {% endfor %}
         </div>
+
+        <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+          {% componentJsx 'Divider', {extraClasses: 'divider--pumice divider--keyline ' + ( {s:1} | spacingClasses({margin: ['top']})) + ' ' + ( {s:4} | spacingClasses({margin: ['bottom']}))} %}
+        </div>
       {% endif %}
 
-      <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
-        {% componentJsx 'Divider', {extraClasses: 'divider--pumice divider--keyline ' + ( {s:1} | spacingClasses({margin: ['top']})) + ' ' + ( {s:4} | spacingClasses({margin: ['bottom']}))} %}
-      </div>
 
 
       <div id="busy" class="{{ {s:12, m:12, l:6, xl:6} | gridClasses }} body-text">
