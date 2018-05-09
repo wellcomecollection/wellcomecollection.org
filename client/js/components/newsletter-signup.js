@@ -6,9 +6,9 @@ export default (el) => {
   const errorClasses = ['border-width-1', 'border-color-red', 'padding-left-s2', 'padding-right-s2', 'padding-top-s2', 'padding-bottom-s2', 'margin-bottom-s2', 'font-red'];
 
   checkboxErrorMessage.classList.add(...errorClasses);
-  checkboxErrorMessage.innerHTML = 'Please select at least one newsletter below.';
+  checkboxErrorMessage.innerHTML = 'Please select at least one newsletter.';
   emailErrorMessage.classList.add(...errorClasses);
-  emailErrorMessage.innerHTML = 'Please enter your email address.';
+  emailErrorMessage.innerHTML = 'Please enter a valid email address.';
 
   el.setAttribute('novalidate', '');
 
@@ -17,12 +17,12 @@ export default (el) => {
 
     if (!emailInput.validity.valid) {
       el.classList.add('is-error');
-      el.insertBefore(emailErrorMessage, el.firstChild);
+      el.append(emailErrorMessage);
     }
 
     if (!isAnyChecked()) {
       el.classList.add('is-error');
-      el.insertBefore(checkboxErrorMessage, el.firstChild);
+      el.append(checkboxErrorMessage);
     }
 
     if (!el.classList.contains('is-error')) {

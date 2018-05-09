@@ -98,7 +98,8 @@
   @include visually-hidden;
 }
 
-.input--text {
+.input--text,
+.input--email {
   display: flex;
   width: 100%;
   padding: 0.4em;

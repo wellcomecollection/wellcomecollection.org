@@ -70,13 +70,13 @@ class NewsletterSignup extends Component {
         <input type='hidden' name='ReturnURL' value='https://wellcomecollection.org/info/newsletter' />
 
         {this.state.isError &&
-          <p className={`${spacing({s: 2}, {padding: ['top', 'right', 'bottom', 'left'], margin: ['bottom']})} border-width-1 border-color-red font-red`}>Please select at least one newsletter below.</p>
+          <p className={`${spacing({s: 2}, {padding: ['top', 'right', 'bottom', 'left'], margin: ['bottom']})} border-width-1 border-color-red font-red`}>Please select at least one newsletter.</p>
         }
 
         <HTMLInput
           required={true}
           id='email'
-          type='text'
+          type='email'
           name='Email'
           label='Email'
           placeholder='Email'
@@ -101,7 +101,7 @@ class NewsletterSignup extends Component {
 
         <Button
           disabled={this.state.isError}
-          extraClasses={`btn--primary ${spacing({s: 2}, {margin: ['top']})}`}
+          extraClasses={`btn--primary ${spacing({s: 2}, {margin: ['top', 'bottom']})}`}
           text='Submit' />
       </form>
     );
