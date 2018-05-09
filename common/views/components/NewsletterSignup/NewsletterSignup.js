@@ -69,23 +69,9 @@ class NewsletterSignup extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const emailInputEl = event.target.querySelector('input[type="email"]');
-
     this.setState({
       isSubmitAttempted: true
     });
-
-    if (!this.state.checkedInputs.length) {
-      this.setState({
-        isCheckboxError: true
-      });
-    }
-
-    if (!emailInputEl.validity.valid) {
-      this.setState({
-        isEmailError: true
-      });
-    }
 
     if (!this.state.isCheckboxError && !this.state.isEmailError) {
       event.target.submit();
@@ -96,7 +82,7 @@ class NewsletterSignup extends Component {
     return (
       <form noValidate={this.state.noValidate} onSubmit={this.handleSubmit} name='newsletter-signup' id='newsletter-signup' action='https://r1-t.trackedlink.net/signup.ashx' method='post'>
         <input type='hidden' name='userid' value='126919' />
-        <input type='hidden' name='ReturnURL' value='https://wellcomecollection.org/info/newsletter' />
+        <input type='hidden' name='ReturnURL' value='http://localhost:3000/info/newsletter' />
 
         <HTMLInput
           required={true}

@@ -1,18 +1,26 @@
 {% extends 'layout/default.njk' %}
 
 {% block body %}
-  {# TODO: good copy #}
-  {% if errorReason %}
-    {% componentJsx 'InfoBanner', {text: 'Sorry, there was an error: ' + errorReason + '.' } %}
-  {% elif isSuccess %}
-    {% componentJsx 'InfoBanner', {text: 'Thank you, please check your email to confirm sign-up.'} %}
-  {% endif %}
   <div class="row {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
     <div class="container">
       <div class="grid">
         <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
-          <h2 class="h2">Newsletter signup</h2>
-          {% componentJsx 'NewsletterSignup' %}
+          <div class="body-text">
+            {% if isSuccess %}
+              <h1>Success</h1>
+              <p>You've signed up. Please check your email to
+              confirm.</p>
+              <p>See <a href="/whats-on">what's on</a>, or visit our <a href="/">homepage.</a></p>
+            {% else %}
+              {% if errorReason %}
+                <h1>There was a problem</h1>
+                <p>Please try again.</p>
+              {% else %}
+                <h1>Newsletters</h2>
+              {% endif %}
+              {% componentJsx 'NewsletterSignup' %}
+            {% endif %}
+          </div>
         </div>
       </div>
     </div>
