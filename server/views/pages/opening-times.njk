@@ -36,7 +36,7 @@
             {% if openingPeriod.type and openingPeriod.type !== 'other' %}
               {{openingPeriod.type}} opening times
             {% else %}
-              Modified opening times
+              Revised opening times
             {% endif %}
           </h2>
           {% set hours = pageOpeningHours.exceptionalOpeningHours[loop.index - 1] %}
