@@ -186,10 +186,10 @@
             "config": {
               "label": "Override type",
               "options": [
-                "bank holiday",
-                "easter",
-                "christmas and new year",
-                "friday late",
+                "Bank holiday",
+                "Easter",
+                "Christmas and New Year",
+                "Friday Late Spectaculars",
                 "other"
               ]
             }
