@@ -71,7 +71,13 @@
           <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="exceptional">Closure dates for {{year | formatYear}}</h2>
           {% for period in pageOpeningHours.exceptionalClosedDates %}
             <div class="{{ {s:6} | spacingClasses({margin: ['bottom']}) }}">
-              <h3 class="{{ {s:'WB7', m:'WB6'} | fontClasses }}">{{period.periodStart | formatDate}}&mdash;{{period.periodEnd | formatDate}}</h3>
+              <h3 class="{{ {s:'WB7', m:'WB6'} | fontClasses }}">
+                {% if period.periodStart !== period.periodEnd %}
+                  {{period.periodStart | formatDate}}&mdash;{{period.periodEnd | formatDate}}
+                {% else %}
+                  {{period.periodStart | formatDate}}
+                {% endif %}
+              </h3>
               {% for venue, modified in period.venues %}
                 <p class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }}">{{venue}} will be closed on
                   {% for item in modified %}
