@@ -34,8 +34,17 @@ const addressBooks = [
 class NewsletterSignup extends Component {
   state = {
     checkedInputs: [],
-    isError: false
+    isEmailError: true,
+    isCheckboxError: true,
+    noValidate: false,
+    isSubmitAttempted: false
   };
+
+  componentDidMount() {
+    this.setState({
+      noValidate: true
+    });
+  }
 
   updateCheckedInputs = (event) => {
     const isChecked = event.target.checked;
@@ -47,31 +56,47 @@ class NewsletterSignup extends Component {
 
     this.setState({
       checkedInputs: newInputs,
-      isError: false
+      isCheckboxError: newInputs.length === 0
+    });
+  }
+
+  handleEmailInput = (event) => {
+    this.setState({
+      isEmailError: !event.target.validity.valid
     });
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
 
+    const emailInputEl = event.target.querySelector('input[type="email"]');
+
+    this.setState({
+      isSubmitAttempted: true
+    });
+
     if (!this.state.checkedInputs.length) {
       this.setState({
-        isError: true
+        isCheckboxError: true
       });
-    } else {
+    }
+
+    if (!emailInputEl.validity.valid) {
+      this.setState({
+        isEmailError: true
+      });
+    }
+
+    if (!this.state.isCheckboxError && !this.state.isEmailError) {
       event.target.submit();
     }
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} name='newsletter-signup' id='newsletter-signup' action='https://r1-t.trackedlink.net/signup.ashx' method='post'>
+      <form noValidate={this.state.noValidate} onSubmit={this.handleSubmit} name='newsletter-signup' id='newsletter-signup' action='https://r1-t.trackedlink.net/signup.ashx' method='post'>
         <input type='hidden' name='userid' value='126919' />
         <input type='hidden' name='ReturnURL' value='https://wellcomecollection.org/info/newsletter' />
-
-        {this.state.isError &&
-          <p className={`${spacing({s: 2}, {padding: ['top', 'right', 'bottom', 'left'], margin: ['bottom']})} border-width-1 border-color-red font-red`}>Please select at least one newsletter.</p>
-        }
 
         <HTMLInput
           required={true}
@@ -81,6 +106,7 @@ class NewsletterSignup extends Component {
           label='Email'
           placeholder='Email'
           isLabelHidden={true}
+          onChange={this.handleEmailInput}
         />
 
         <fieldset>
@@ -100,9 +126,16 @@ class NewsletterSignup extends Component {
         </fieldset>
 
         <Button
-          disabled={this.state.isError}
           extraClasses={`btn--primary ${spacing({s: 2}, {margin: ['top', 'bottom']})}`}
           text='Submit' />
+
+        {this.state.isCheckboxError && this.state.isSubmitAttempted &&
+          <p className={`${spacing({s: 2}, {padding: ['top', 'right', 'bottom', 'left'], margin: ['bottom']})} border-width-1 border-color-red font-red`}>Please select at least one newsletter.</p>
+        }
+
+        {this.state.isEmailError && this.state.isSubmitAttempted &&
+          <p className={`${spacing({s: 2}, {padding: ['top', 'right', 'bottom', 'left'], margin: ['bottom']})} border-width-1 border-color-red font-red`}>Please enter a valid email address.</p>
+        }
       </form>
     );
   }
