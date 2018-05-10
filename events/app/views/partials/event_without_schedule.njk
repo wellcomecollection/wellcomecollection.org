@@ -247,14 +247,9 @@
             </h3>
             <div class="plain-text {{ {s:'HNL4'} | fontClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
               {{ event.bookingInformation | safe }}
+              <p><a href="https://wellcomecollection.org/visit-us/events-tickets">Our event terms and conditions</a></p>
             </div>
           {% endif %}
-          <div class="{{ {s:1} | spacingClasses({margin: ['top']}) }}">
-            {% componentJsx 'SecondaryLink', {
-              url: 'https://wellcomecollection.org/visit-us/events-tickets',
-              text: 'Our event terms and conditions'
-            } %}
-          </div>
         </div>
       </div>
     </div>

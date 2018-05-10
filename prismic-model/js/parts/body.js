@@ -4,6 +4,8 @@ import captionedImageSlice from './captioned-image-slice';
 import captionedImageGallerySlice from './captioned-image-gallery-slice';
 import title from './title';
 import link from './link';
+import number from './number';
+import text from './text';
 
 // I've left slice here as we shouldn't really use it.
 type SliceProps = {|
@@ -48,10 +50,19 @@ export default {
       // These should probably be called captionedImage etc, but legacy says no
       editorialImage: captionedImageSlice(),
       editorialImageGallery: captionedImageGallerySlice(),
-      contentList: slice('Content list', {
-        nonRepeat: { title },
+      contentList: slice('(β) Content list', {
+        nonRepeat: {
+          title
+        },
         repeat: {
-          content: link('Content item', 'document', ['info-pages'])
+          content: link('Content item', 'document', ['pages'])
+        }
+      }),
+      searchResults: slice('(β) Search results', {
+        nonRepeat: {
+          title,
+          pageSize: number('Size'),
+          query: text('Query')
         }
       })
     }

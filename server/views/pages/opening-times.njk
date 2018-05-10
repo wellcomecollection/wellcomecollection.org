@@ -15,37 +15,7 @@
     <div class="grid">
       <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
         <h1 class="{{ {s:'WB5', m:'WB4'} | fontClasses }}">Opening times</h1>
-        <p>
-          Our galleries are open on bank holidays.
-          Please note the café will be open from 09.30 on bank holidays.
-        </p>
       </div>
-
-      {% if pageOpeningHours.upcomingExceptionalOpeningPeriods.length > 0 %}
-        <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
-          <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="exceptional">Modified opening times</h2>
-          <p class="{{ {s:'HNM4'} | fontClasses }} {{ {s:2} | spacingClasses({padding: ['top']}) }}">Our opening times will change
-          {% for group in pageOpeningHours.upcomingExceptionalOpeningPeriods %}
-            {% set firstDate = group[0] | formatDate %}
-            {% set lastDate = group[group.length -1] | formatDate %}
-            {% if (group.length > 1) %}
-              {{ ' and ' if (pageOpeningHours.upcomingExceptionalOpeningPeriods.length > 1 and loop.index > 1) else ' ' }}
-              between <span class="nowrap">{{firstDate}}</span>&mdash;<span class="nowrap">{{lastDate}}</span>{{ '.' if loop.last }}
-            {% else %}
-              on <span style="whiteSpace: nowrap">{{firstDate}}</span>{{ '.' if loop.last }}
-            {% endif %}
-          {% endfor %}
-          Our <a href="#regular">regular opening times</a> are below.</p>
-        </div>
-        {% for openingPeriods in pageOpeningHours.upcomingExceptionalOpeningPeriods %}
-          {% set period = pageOpeningHours.exceptionalOpeningHours[loop.index - 1] %}
-          {% for venues in period.dates %}
-            <div class="{{ {s:12, m:6, l:4, xl:4} | gridClasses }}">
-              {% componentJsx 'ExceptionalOpeningHoursTable', {caption: venues[0].exceptionalDate, venues: venues, extraClasses: 'opening-hours--light'} %}
-            </div>
-          {% endfor %}
-        {% endfor %}
-      {% endif %}
 
       <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
         <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="regular">Regular opening times</h2>
@@ -60,29 +30,72 @@
         {% componentJsx 'Divider', {extraClasses: 'divider--pumice divider--keyline ' + ( {s:1} | spacingClasses({margin: ['top']})) + ' ' + ( {s:4} | spacingClasses({margin: ['bottom']}))} %}
       </div>
 
+      {% if pageOpeningHours.upcomingExceptionalOpeningPeriods.length > 0 %}
+        {% for openingPeriod in pageOpeningHours.upcomingExceptionalOpeningPeriods %}
+          <h2 {{'id=exceptional' if loop.index === 1}} class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }} {{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin">
+            {% if openingPeriod.type and openingPeriod.type === 'Late Spectacular' %}
+              {{openingPeriod.dates[0] | formatDay}} Late Spectacular opening times
+            {% elseif openingPeriod.type and openingPeriod.type !== 'other' %}
+              {{openingPeriod.type}} opening times
+            {% else %}
+              Revised opening times
+            {% endif %}
+          </h2>
+          {% set hours = pageOpeningHours.exceptionalOpeningHours[loop.index - 1] %}
+          {% set firstDate = openingPeriod.dates[0] | formatDate %}
+          {% set lastDate = openingPeriod.dates[openingPeriod.dates.length-1] | formatDate %}
+          <p class="{{ {s:'HNM4'} | fontClasses }} {{ {s:12, m:12, l:12, xl:12} | gridClasses }} {{ {s:12, m:12, l:12, xl:12} | gridClasses }} {{ {s:2} | spacingClasses({padding: ['top']}) }}">
+            Our opening times will change
+            {% if (openingPeriod.dates.length > 1) %}
+              {{ ' and ' if (pageOpeningHours.upcomingExceptionalOpeningPeriods.length > 1 and loop.index > 1) else ' ' }}
+              between <span class="nowrap">{{firstDate}}</span>&mdash;<span class="nowrap">{{lastDate}}</span>{{ '.' if loop.last }}
+            {% else %}
+              on <span style="whiteSpace: nowrap">{{firstDate}}</span>{{ '.' if loop.last }}
+            {% endif %}
+          </p>
+          {% for venues in hours.dates %}
+            <div class="{{ {s:12, m:6, l:4, xl:4} | gridClasses }}">
+              {% componentJsx 'ExceptionalOpeningHoursTable', {caption: venues[0].exceptionalDate.overrideDate, venues: venues, extraClasses: 'opening-hours--light'} %}
+            </div>
+          {% endfor %}
+        {% endfor %}
+
+        <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+          {% componentJsx 'Divider', {extraClasses: 'divider--pumice divider--keyline ' + ( {s:1} | spacingClasses({margin: ['top']})) + ' ' + ( {s:4} | spacingClasses({margin: ['bottom']}))} %}
+        </div>
+      {% endif %}
+
       {% if pageOpeningHours.exceptionalClosedDates.length > 0 %}
         <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
-          <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="exceptional">Closure dates</h2>
+          {% set year = pageOpeningHours.exceptionalClosedDates[0].periodStart or ' the coming year' %}
+          <h2 class="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id="exceptional">Closure dates for {{year | formatYear}}</h2>
           {% for period in pageOpeningHours.exceptionalClosedDates %}
             <div class="{{ {s:6} | spacingClasses({margin: ['bottom']}) }}">
-              <h3 class="{{ {s:'WB7', m:'WB6'} | fontClasses }}">{{period.periodStart | formatDate}}&mdash;{{period.periodEnd | formatDate}}</h3>
-              {% for venue, dates in period.venues %}
+              <h3 class="{{ {s:'WB7', m:'WB6'} | fontClasses }}">
+                {% if period.periodStart !== period.periodEnd %}
+                  {{period.periodStart | formatDate}}&mdash;{{period.periodEnd | formatDate}}
+                {% else %}
+                  {{period.periodStart | formatDate}}
+                {% endif %}
+              </h3>
+              {% for venue, modified in period.venues %}
                 <p class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }}">{{venue}} will be closed on
-                  {% for item in dates %}
-                    {{-', ' if (dates.length > 2 and (loop.index > 1 and loop.index < dates.length)) }}
-                    {{' and ' if dates.length >= 2 and loop.index === dates.length }}
-                    {{item.exceptionalDate | formatDayMonth -}}
+                  {% for item in modified %}
+                    {{-', ' if (modified.length > 2 and (loop.index > 1 and loop.index < modified.length)) }}
+                    {{' and ' if modified.length >= 2 and loop.index === modified.length }}
+                    {{item.exceptionalDate.overrideDate | formatDayMonth -}}
                   {% endfor %}
                 </p>
               {% endfor %}
             </div>
           {% endfor %}
         </div>
+
+        <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
+          {% componentJsx 'Divider', {extraClasses: 'divider--pumice divider--keyline ' + ( {s:1} | spacingClasses({margin: ['top']})) + ' ' + ( {s:4} | spacingClasses({margin: ['bottom']}))} %}
+        </div>
       {% endif %}
 
-      <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
-        {% componentJsx 'Divider', {extraClasses: 'divider--pumice divider--keyline ' + ( {s:1} | spacingClasses({margin: ['top']})) + ' ' + ( {s:4} | spacingClasses({margin: ['bottom']}))} %}
-      </div>
 
 
       <div id="busy" class="{{ {s:12, m:12, l:6, xl:6} | gridClasses }} body-text">
@@ -92,7 +105,7 @@
         <p>We introduce queues for exhibitions only when necessary.</p>
         <p>The busiest times of the week are usually Saturday and Sunday afternoons, when we often have queues for temporary exhibitions. Thursday evenings (when we’re open until 22.00) vary depending on events: you can usually go straight into the exhibitions without waiting, but sometimes you may need to queue.</p>
         <p>On weekend mornings and weekdays (except Mondays, when the galleries are closed), you can usually go straight in.</p>
-        <p><a href="https://wellcomecollection.org/fridaylate">Friday Late Spectaculars</a> can get very busy.</p>
+        <p><a href="https://wellcomecollection.org/fridaylate">Late Spectaculars</a> can get very busy.</p>
         <h3>Timed tickets</h3>
         <p>On occasion, when queues get too long, we introduce timed tickets instead. We only give tickets to visitors who are already in the building - there’s no booking in advance or by phone. We only do this at the very busiest times - typically the opening and closing weekends of exhibitions.</p>
         <h3>Medicine Man, Medicine Now and the Reading Room</h3>

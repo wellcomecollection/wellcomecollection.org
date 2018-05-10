@@ -1,27 +1,30 @@
 // @flow
-import type {MultiContent} from '../../../model/multi-content';
 import {Fragment} from 'react';
 import {grid} from '../../../utils/classnames';
 
 type Props = {|
   title: ?string,
-  items: MultiContent[]
+  query: string,
+  pageSize: number
 |}
 
-const ContentList = ({ title, items }: Props) => {
-  const itemIds = items.map(i => i.id);
+const AsyncSearchResults = ({
+  title,
+  query,
+  pageSize
+}: Props) => {
   return (
     <Fragment>
       <div className='grid'>
         <div className={grid({s: 12})}>
-          <h2>{title}</h2>
+          <h2 className='h2'>{title}</h2>
         </div>
       </div>
 
       <div
         data-component='ContentListItems'
         className='async-content component-list-placeholder'
-        data-endpoint={`/async/content-list?query=ids:${itemIds.join(',')}`}
+        data-endpoint={'/async/search?query=' + encodeURIComponent(query + ` pageSize:${pageSize}`)}
         data-prefix-endpoint={false}
         data-modifiers={[]}>
       </div>
@@ -29,4 +32,4 @@ const ContentList = ({ title, items }: Props) => {
   );
 };
 
-export default ContentList;
+export default AsyncSearchResults;

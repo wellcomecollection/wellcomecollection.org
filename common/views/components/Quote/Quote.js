@@ -13,7 +13,14 @@ type Props = {|
 const Quote = ({body, footer, citationLink}: Props) => (
   <blockquote
     className={`quote quote--block ${font({s: 'HNL3'})}`}>
-    <PrismicHtmlBlock html={body} />
+    {/*
+      TODO (wordpress migration); This is because we don't get structured
+      content from WP.
+    */}
+    {typeof body === 'string'
+      ? <div dangerouslySetInnerHTML={{__html: body}} />
+      : <PrismicHtmlBlock html={body} />
+    }
 
     {footer &&
       <footer className='quote__footer'>

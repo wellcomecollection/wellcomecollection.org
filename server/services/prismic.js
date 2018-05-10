@@ -444,6 +444,11 @@ function getListHeader(dates, collectionOpeningTimes) {
     name: 'What\'s on',
     items: [
       {
+        id: 'everything',
+        title: 'Everything',
+        url: `${urlBeginning}${encodeURI(allDateString)}`
+      },
+      {
         id: 'today',
         title: 'Today',
         url: `${urlBeginning}${encodeURI(todayDateString)}`
@@ -452,28 +457,16 @@ function getListHeader(dates, collectionOpeningTimes) {
         id: 'weekend',
         title: 'This weekend',
         url: `${urlBeginning}${encodeURI(weekendDateString)}`
-      },
-      {
-        id: 'everything',
-        title: 'Everything',
-        url: `${urlBeginning}${encodeURI(allDateString)}`
       }
     ]
   };
 }
 
 export async function getExhibitionAndEventPromos(query, collectionOpeningTimes, featuresCohort) {
-  // set either 'everything' or 'today' as default time period, when no startDate is provided, based on featuresCohort
-  function determineToDate(featuresCohort) {
-    if (featuresCohort === 'testB') {
-      return !query.startDate ? undefined : query.endDate;
-    } else {
-      return !query.startDate ? todaysDate.format('YYYY-MM-DD') : query.endDate;
-    }
-  };
   const todaysDate = london();
   const fromDate = !query.startDate ? todaysDate.format('YYYY-MM-DD') : query.startDate;
-  const toDate = determineToDate(featuresCohort);
+  // set either 'everything' as default time period, when no startDate is provided
+  const toDate = !query.startDate ? undefined : query.endDate; ;
   const dateRange = [fromDate, toDate];
   const allExhibitionsAndEvents = await getAllOfType(['exhibitions', 'events'], {
     pageSize: 100,

@@ -9,7 +9,7 @@
     "description": {
       "type": "StructuredText",
       "config": {
-        "multi": "paragraph,hyperlink,strong,em",
+        "multi": "paragraph,hyperlink,strong,em,heading2",
         "label": "Description"
       }
     },
@@ -179,6 +179,19 @@
             "type": "Timestamp",
             "config": {
               "label": "Override date"
+            }
+          },
+          "type": {
+            "type": "Select",
+            "config": {
+              "label": "Override type",
+              "options": [
+                "Bank holiday",
+                "Easter",
+                "Christmas and New Year",
+                "Late Spectacular",
+                "other"
+              ]
             }
           },
           "startDateTime": {

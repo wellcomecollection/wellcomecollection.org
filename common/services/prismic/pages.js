@@ -1,11 +1,11 @@
 // @flow
 import {getDocument} from './api';
 import {parseBody, parseImagePromo, parseTitle} from './parsers';
-import type {InfoPage} from '../../model/info-pages';
+import type {Page} from '../../model/pages';
 import type {PrismicDocument} from './types';
-import {infoPagesFields} from './fetch-links';
+import {pagesFields} from './fetch-links';
 
-export function parseInfoPage(document: PrismicDocument) {
+export function parsePage(document: PrismicDocument) {
   // TODO (drupal migration): Just deal with normal promo once we deprecate the
   // drupal stuff
   const promo = document.data.promo && parseImagePromo(document.data.promo);
@@ -31,7 +31,7 @@ export function parseInfoPage(document: PrismicDocument) {
   }].concat(body) : body;
 
   return {
-    type: 'info-pages',
+    type: 'pages',
     id: document.id,
     title: document.data.title ? parseTitle(document.data.title) : 'TITLE MISSING',
     body: drupalisedBody,
@@ -42,12 +42,12 @@ export function parseInfoPage(document: PrismicDocument) {
   };
 }
 
-export async function getInfoPage(req: Request, id: string): Promise<?InfoPage> {
-  const infoPage = await getDocument(req, id, {
-    fetchLinks: infoPagesFields
+export async function getPage(req: Request, id: string): Promise<?Page> {
+  const page = await getDocument(req, id, {
+    fetchLinks: pagesFields
   });
 
-  if (infoPage) {
-    return parseInfoPage(infoPage);
+  if (page) {
+    return parsePage(page);
   }
 }

@@ -1,32 +1,38 @@
 // @flow
+import moment from 'moment';
 import type Moment from 'moment';
 
-export type Days = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+export type Day = string; // 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+
+export type OverrideType = 'Bank holiday' | 'Easter' | 'Christmas and New Year' | 'Late Spectacluar' | 'other';
+
+export type OverrideDate = {|
+  overrideDate: Moment,
+  overrideType: ?OverrideType
+|}
+
+export type ExceptionalPeriod = {|
+  type: OverrideType,
+  dates: OverrideDate[]
+|}
 
 export type OpeningHoursDay = {|
-  dayOfWeek: Days,
+  dayOfWeek: Day,
   opens?: string,
   closes?: string
 |};
 
 export type ExceptionalOpeningHoursDay = {|
-  overrideDate: any, // TODO moment
+  overrideDate: Moment,
+  overrideType?: OverrideType,
   opens?: string,
   closes?: string,
 |}
 
-// http://schema.org/specialOpeningHoursSpecification
-export type SpecialOpeningHours = {|
-  opens: string,
-  closes: string,
-  validFrom: Date,
-  validThrough: Date
-|}
-
-export type OpeningHours = {|
+type OpeningHours = {|
   regular: OpeningHoursDay[],
   exceptional?: ?ExceptionalOpeningHoursDay[]
-|};
+  |};
 
 export type Venue = {|
   id: string,
@@ -37,27 +43,21 @@ export type Venue = {|
 
 export type ExceptionalVenueHours = {|
   exceptionalDate: Moment,
-  exceptionalDay: Days,
+  exceptionalDay: Day,
   id: string,
   name: string,
   order: number,
   openingHours: OpeningHoursDay | ExceptionalOpeningHoursDay,
-  opensChanged: boolean,
-  closesChanged: boolean
+  opensChanged?: boolean,
+  closesChanged?: boolean
 |};
-
-type periodModifiedHours = {
-  periodStart: Moment,
-  periodEnd: Moment,
-  dates: any[][]
-}
 
 export type PlacesOpeningHours = Venue[];
 
-export type OpeningTimes = {
-  placesOpeningHours: PlacesOpeningHours,
-  upcomingExceptionalOpeningPeriods: ?(Moment)[][],
-  exceptionalOpeningHours: ?periodModifiedHours[]
+export type periodModifiedHours = {
+  periodStart: Moment,
+  periodEnd: Moment,
+  dates: ExceptionalVenueHours[][]
 }
 
 export const galleryOpeningHours: OpeningHours = { // TODO remove these once organization.js is using the gallery data from prismic github issue #2476
@@ -71,9 +71,17 @@ export const galleryOpeningHours: OpeningHours = { // TODO remove these once org
     {dayOfWeek: 'Sunday',    opens: '11:00', closes: '18:00'}
   ],
   exceptional: [
-    {overrideDate: new Date('2018-04-02'), opens: '10:00', closes: '18:00'},
-    {overrideDate: new Date('2018-05-07'), opens: '10:00', closes: '18:00'},
-    {overrideDate: new Date('2018-05-28'), opens: '10:00', closes: '18:00'},
-    {overrideDate: new Date('2018-08-27'), opens: '10:00', closes: '18:00'}
+    {overrideDate: moment('2018-04-02'), opens: '10:00', closes: '18:00'},
+    {overrideDate: moment('2018-05-07'), opens: '10:00', closes: '18:00'},
+    {overrideDate: moment('2018-05-28'), opens: '10:00', closes: '18:00'},
+    {overrideDate: moment('2018-08-27'), opens: '10:00', closes: '18:00'}
   ]
 };
+
+// http://schema.org/specialOpeningHoursSpecification
+export type SpecialOpeningHours = {|
+  opens: string,
+  closes: string,
+  validFrom: Date,
+  validThrough: Date
+|}

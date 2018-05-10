@@ -11,7 +11,7 @@ type Props = {|
 const ExceptionalOpeningHoursTable = ({caption, venues, extraClasses}: Props) => (
   <div className={extraClasses || ''}>
     <table className={`opening-hours__table ${font({s: 'HNL5'})} ${extraClasses}`}>
-      <caption className={`opening-hours__caption ${font({s: 'HNM4'})} ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>{formatDayDate(caption)}</caption>
+      <caption className={`opening-hours__caption ${font({s: 'HNM4'})} ${spacing({s: 2}, {padding: ['bottom']})}`}>{formatDayDate(caption)}</caption>
       <thead className={`opening-hours__thead ${font({s: 'HNM5'})} visually-hidden`}>
         <tr className='opening-hours__tr'>
           <th scope='col' className={`opening-hours__th`}>Venue</th>
@@ -24,27 +24,14 @@ const ExceptionalOpeningHoursTable = ({caption, venues, extraClasses}: Props) =>
             <th className={`opening-hours__th opening-hours__th--row`} scope='row'>{venue.name}</th>
             {venue.openingHours.opens &&
               <td className='opening-hours__td'>
-                {venue.opensChanged &&
-                  <span className={`${font({s: 'HNM5'})} opening-hours__highlight`}>{venue.openingHours.opens}</span>
-                }
-                {!venue.opensChanged &&
-                  venue.openingHours.opens
-                }
+                {venue.openingHours.opens}
                 &mdash;
-                {venue.closesChanged &&
-                  <span className={`${font({s: 'HNM5'})} opening-hours__highlight`}>{venue.openingHours.closes}</span>
-                }
-                {!venue.closesChanged &&
-                  venue.openingHours.closes
-                }
+                {venue.openingHours.closes}
               </td>
             }
             {!venue.openingHours.opens &&
               <td className='opening-hours__td'>
-                {venue.closesChanged &&
-                  <span className={`${font({s: 'HNM5'})} opening-hours__highlight`}>Closed</span>
-                }
-                {!venue.closesChanged && 'Closed'}
+                Closed
               </td>
             }
           </tr>

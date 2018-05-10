@@ -1,7 +1,7 @@
 import Router from 'koa-router';
 import request from 'superagent';
 import {healthcheck, featureFlags, index, progress} from '../controllers/utils';
-import {seriesNav, seriesTransporter, contentList} from '../controllers/async-controllers';
+import {seriesNav, seriesTransporter, renderSearch} from '../controllers/async-controllers';
 import {work, search} from '../controllers/work';
 import {article, preview, series, articles} from '../controllers/wordpress';
 import {
@@ -13,9 +13,9 @@ import {
   renderArticlesList,
   renderWebcomicSeries,
   renderOpeningTimes,
-  renderInfoPage,
-  renderTagPage,
-  renderNewsletterPage
+  renderNewsletterPage,
+  renderPage,
+  renderTagPage
 } from '../controllers/content';
 
 const r = new Router({
@@ -56,23 +56,23 @@ r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 r.get('/series/(W):id', renderSeries);
 r.get('/webcomic-series/:id', renderWebcomicSeries);
 r.get('/info/opening-times', renderOpeningTimes);
-r.get('/info/:id', renderInfoPage);
+r.get('/pages/:id', renderPage);
 r.get('/info/newsletter', renderNewsletterPage);
-r.get('/what-we-do', renderTagPage(
+r.get('/tag/what-we-do', renderTagPage(
   'what-we-do',
   '/what-we-do',
   'What we do',
   'what-we-do',
   'Activities, resources and projects from Wellcome Collection.'
 ));
-r.get('/visit-us', renderTagPage(
+r.get('/tag/visit-us', renderTagPage(
   'visit-us',
   '/visit-us',
   'Visit us',
   'visit-us',
   'Wellcome Collection is open 10.00-18.00 (11.00-18.00 Sundays) with late night opening on Thursday. The galleries and library are closed on Mondays.'
 ));
-r.get('/press', renderTagPage(
+r.get('/tag/press', renderTagPage(
   'press',
   '/press',
   'Press',
@@ -94,6 +94,6 @@ r.get('/articles', renderArticlesList);
 // Async
 r.get('/async/series-nav/:id', seriesNav);
 r.get('/async/series-transporter/:id', seriesTransporter);
-r.get('/async/content-list', contentList);
+r.get('/async/search', renderSearch);
 
 export const router = r.middleware();

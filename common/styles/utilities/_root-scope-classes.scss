@@ -215,18 +215,6 @@
   }
 }
 
-.link-underline {
-  text-decoration: none;
-  box-shadow: inset 0 -1px 0 0 color('teal');
-
-  &[href]:hover,
-  &[href]:focus,
-  [href] &:hover,
-  [href] &:focus {
-    box-shadow: inset 0 -2px 0 0 color('teal');
-  }
-}
-
 .plain-list {
   list-style: none;
 }
@@ -392,6 +380,10 @@
 
 .absolute {
   position: absolute;
+}
+
+.full-width {
+  width: 100%;
 }
 
 // These classes should probably become something generic
