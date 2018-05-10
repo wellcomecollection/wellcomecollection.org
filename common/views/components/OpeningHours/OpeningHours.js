@@ -54,7 +54,7 @@ class OpeningHours extends Component<Props, State> {
               if (group.type) {
                 switch (group.type) {
                   case 'Bank holiday':
-                    typeWording = ' for the Bank holiday, ';
+                    typeWording = ' for the bank holiday, ';
                     break;
                   case 'Christmas and New Year' || 'Easter':
                     typeWording = ` for ${group.type}, `;

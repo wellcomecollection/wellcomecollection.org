@@ -255,7 +255,7 @@ function parseVenuesToOpeningHours(doc: PrismicFragment) {
   });
 
   const exceptionalDates = exceptionalOpeningDates(placesOpeningHours);
-  const futureExceptionalDates =  exceptionalDates && exceptionalDates.filter(exceptionalDate => exceptionalDate && exceptionalDate.overrideDate && !isDatePast(exceptionalDate.overrideDate.toDate()));
+  const futureExceptionalDates = exceptionalDates && exceptionalDates.filter(exceptionalDate => exceptionalDate && exceptionalDate.overrideDate && !isDatePast(exceptionalDate.overrideDate.toDate()));
   const exceptionalPeriods = exceptionalOpeningPeriods(futureExceptionalDates);
   const individualExceptionalOpeningHours = exceptionalOpeningHours(futureExceptionalDates, placesOpeningHours);
   const exceptionalHours = groupBy(individualExceptionalOpeningHours, item => london(item.exceptionalDate.overrideDate).format('YYYY-MM-DD'));
