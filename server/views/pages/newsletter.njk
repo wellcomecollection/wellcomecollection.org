@@ -7,16 +7,16 @@
         <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
           <div class="body-text">
             {% if isSuccess %}
-              <h1>Success</h1>
-              <p>You've signed up. Please check your email to
-              confirm.</p>
-              <p>See <a href="/whats-on">what's on</a>, or visit our <a href="/">homepage.</a></p>
+              <h1>Thank you</h1>
+              <p>Thank you for your interest in receiving updates from Wellcome Collection.</p>
+              <p>If this is first time you have subscribed to a newsletter, you will receive an email asking to confirm your subscription. Please check your email to confirm and start receiving updates.</p>
+              <p><a href="/whats-on">Browse our current and upcoming exhibitions and events</a>.</p>
             {% else %}
-              {% if errorReason %}
+              {% if isError %}
                 <h1>There was a problem</h1>
                 <p>Please try again.</p>
               {% else %}
-                <h1>Newsletters</h2>
+                <h1>Sign up</h2>
               {% endif %}
               {% componentJsx 'NewsletterSignup' %}
             {% endif %}

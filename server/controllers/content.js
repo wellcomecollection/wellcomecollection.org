@@ -317,7 +317,7 @@ export function renderTagPage(tag, url, title, inSection, description) {
 }
 
 export function renderNewsletterPage(ctx, next) {
-  const { result, reason } = ctx.query;
+  const { result } = ctx.query;
 
   ctx.render('pages/newsletter', {
     pageConfig: createPageConfig({
@@ -327,7 +327,7 @@ export function renderNewsletterPage(ctx, next) {
       category: 'info'
     }),
     isSuccess: result === 'success',
-    errorReason: reason
+    isError: result === 'error'
   });
 
   return next();
