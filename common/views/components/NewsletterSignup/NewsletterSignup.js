@@ -7,27 +7,27 @@ const addressBooks = [
   {
     id: 'whats_on',
     label: `Exhibitions, events and opportunities to get involved - What’s On is sent monthly, with occasional updates`,
-    name: 'addressbook_15120891'
+    name: 'addressbook_40131'
   },
   {
     id: 'accessibility',
     label: `What’s On: Access - highlights events, tours and opportunities to get involved, including BSL, Audio Description and Speech-to-Text events`,
-    name: 'addressbook_15120997'
+    name: 'addressbook_40129'
   },
   {
     id: 'young_people_14-19',
     label: `What’s On for 14-19 year olds: Creative opportunities and events for young people aged 14-19, including RawMinds and Saturday Studio`,
-    name: 'addressbook_15120909'
+    name: 'addressbook_40132'
   },
   {
     id: 'teachers',
     label: `Study days and other events for secondary school teachers and school groups`,
-    name: 'addressbook_15120905'
+    name: 'addressbook_40130'
   },
   {
     id: 'youth_and_community_workers',
     label: `Updates for Youth & Community Workers, featuring events and activities for youth 14-19`,
-    name: 'addressbook_15120914'
+    name: 'addressbook_40133'
   }
 ];
 
@@ -80,9 +80,16 @@ class NewsletterSignup extends Component {
 
   render() {
     return (
-      <form noValidate={this.state.noValidate} onSubmit={this.handleSubmit} name='newsletter-signup' id='newsletter-signup' action='https://r1-t.trackedlink.net/signup.ashx' method='post'>
-        <input type='hidden' name='userid' value='126919' />
+      <form
+        noValidate={this.state.noValidate}
+        onSubmit={this.handleSubmit}
+        name='newsletter-signup'
+        id='newsletter-signup'
+        action='https://r1-t.trackedlink.net/signup.ashx'
+        method='post'>
+        <input type='hidden' name='userid' value='225683' />
         <input type='hidden' name='ReturnURL' value='http://localhost:3000/info/newsletter' />
+        <input type='hidden' name='SIG22a9ece3ebe9b2e10e328f234fd10b3f5686b9f4d45f628f08852417032dc990' value='' />
 
         <fieldset className={spacing({s: 2}, {margin: ['bottom']})}>
           <legend>What are you interested in? Choose as many as you like:</legend>
