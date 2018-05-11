@@ -1,4 +1,3 @@
-import superagent from 'superagent';
 import Prismic from 'prismic-javascript';
 import {List} from 'immutable';
 import {prismicApi} from '../services/prismic-api';
@@ -12,16 +11,18 @@ import {
 } from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
-import {getInfoPage} from '../../common/services/prismic/info-pages';
+import {getPage} from '../../common/services/prismic/pages';
+import {getMultiContent} from '../../common/services/prismic/multi-content';
 import {getCollectionOpeningTimes} from '../../common/services/prismic/opening-times';
+import {isPreview as getIsPreview} from '../../common/services/prismic/api';
 
 export const renderOpeningTimes = async(ctx, next) => {
   const path = ctx.request.url;
   const pageOpeningHours = await getCollectionOpeningTimes();
-  const galleriesLibrary = pageOpeningHours && pageOpeningHours.placesOpeningHours.filter(venue => {
+  const galleriesLibrary = pageOpeningHours && pageOpeningHours.placesOpeningHours && pageOpeningHours.placesOpeningHours.filter(venue => {
     return venue.name.toLowerCase() === 'galleries' || venue.name.toLowerCase() === 'library';
   });
-  const restaurantCafeShop = pageOpeningHours && pageOpeningHours.placesOpeningHours.filter(venue => {
+  const restaurantCafeShop = pageOpeningHours && pageOpeningHours.placesOpeningHours && pageOpeningHours.placesOpeningHours.filter(venue => {
     return venue.name.toLowerCase() === 'restaurant' || venue.name.toLowerCase() === 'café' || venue.name.toLowerCase() === 'shop';
   });
   const groupedVenues = {
@@ -60,6 +61,10 @@ export const renderArticle = async(ctx, next) => {
     if (format === 'json') {
       ctx.body = article;
     } else {
+      const tags = article.contentType === 'comic' ? article.series.map(series => ({
+        url: `/webcomic-series/${series.id}`,
+        text: `Part of ${series.name}`
+      })) : [];
       const displayType = article.displayType;
       const trackingInfo = getEditorialAnalyticsInfo(article);
       ctx.render(`pages/${displayType || 'article'}`, {
@@ -72,7 +77,8 @@ export const renderArticle = async(ctx, next) => {
         }), trackingInfo),
         article: article,
         page: article,
-        isPreview: isPreview
+        isPreview: isPreview,
+        tags
       });
     }
   }
@@ -109,7 +115,7 @@ async function getPreviewSession(token) {
         case 'webcomic-series' : return `/webcomic-series/${doc.id}`;
         case 'event-series' : return `/event-series/${doc.id}`;
         case 'installations' : return `/installations/${doc.id}`;
-        case 'info-pages' : return `/info/${doc.id}`;
+        case 'pages' : return `/pages/${doc.id}`;
       }
     }, '/', (err, redirectUrl) => {
       if (err) {
@@ -265,78 +271,52 @@ export async function renderArticlesList(ctx, next) {
   return next();
 }
 
-export async function renderInfoPage(ctx, next) {
+export async function renderPage(ctx, next) {
   const {id} = ctx.params;
-  const infoPage = await getInfoPage(ctx.request, id);
+  const page = await getPage(ctx.request, id);
 
-  if (infoPage) {
+  if (page) {
     ctx.render('pages/basic', {
       pageConfig: createPageConfig({
         path: ctx.request.url,
-        title: infoPage.title,
+        title: page.title,
         inSection: 'what-we-do',
         category: 'info'
       }),
-      page: infoPage
+      page: page,
+      isPreview: getIsPreview(ctx.request)
     });
   }
 
   return next();
 }
 
-export async function renderDrupalInfoPages(ctx, next) {
-  const infoPageResponse = await superagent.get(`https://prispal.glitch.me/info-pages`);
-  const infoPages = infoPageResponse.body.results;
-  const promoList = infoPages.map(infoPage => {
-    return {
-      url: `/drupal${infoPage.id}`,
-      contentType: 'article',
-      image: infoPage.promo.image,
-      title: infoPage.title,
-      description: infoPage.promo.caption
-    };
-  });
-
-  ctx.render('pages/list', {
-    pageConfig: createPageConfig({
-      path: '/drupal',
-      title: 'Articles',
-      inSection: 'explore',
-      category: 'editorial'
-    }),
-    list: {
-      name: 'Info pages (Drupal)',
-      description: 'What we do at Wellcome Collection',
-      items: List(promoList)
-    },
-    pagination: null,
-    moreLink: null
-  });
-  // ctx.body = promoList;
-}
-
-export async function renderDrupalInfoPage(ctx, next) {
-  const {id} = ctx.params;
-  const infoPageResponse = await superagent.get(`https://prispal.glitch.me/info-pages/${id}`);
-  const infoPage = infoPageResponse.body;
-  const body = [{
-    type: 'picture',
-    weight: 'default',
-    value: Object.assign(infoPage.promo.image)
-  }].concat(infoPage.body);
-  infoPage.body = body;
-
-  if (infoPage) {
-    ctx.render('pages/basic', {
-      pageConfig: createPageConfig({
-        path: ctx.request.url,
-        title: infoPage.title,
-        inSection: 'what-we-do',
-        category: 'info'
-      }),
-      page: infoPage
+export function renderTagPage(tag, url, title, inSection, description) {
+  return async (ctx, next) => {
+    const content = await getMultiContent(ctx.request, {tags: [tag]});
+    const promoList = content.results.map(content => {
+      return {
+        url: `/pages/${content.id}`,
+        contentType: 'Information',
+        image: content.promo.image,
+        title: content.title,
+        description: content.promo.caption
+      };
     });
-  }
 
-  return next();
+    ctx.render('pages/list', {
+      pageConfig: createPageConfig({
+        path: url,
+        title: title,
+        inSection: inSection
+      }),
+      list: {
+        name: title,
+        description: description,
+        items: List(promoList)
+      },
+      pagination: null,
+      moreLink: null
+    });
+  };
 }

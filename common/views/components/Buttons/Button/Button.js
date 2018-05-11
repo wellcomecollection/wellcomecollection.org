@@ -9,6 +9,9 @@ export type GenericButtonProps = {|
   eventTracking?: string,
   id?: string,
   disabled?: boolean,
+  target?: string,
+  download?: string,
+  rel?: string,
   clickHandler?: (event: Event) => void
 |}
 
@@ -25,12 +28,18 @@ const Button = ({
   text,
   eventTracking,
   disabled,
+  target,
+  download,
+  rel,
   clickHandler
 }: Props) => {
   const HtmlTag = url ? 'a' : 'button';
   return (
     <HtmlTag
       href={url}
+      target={target}
+      download={download}
+      rel={rel}
       id={id}
       className={`btn ${extraClasses || ''} flex-inline flex--v-center`}
       data-track-event={eventTracking}

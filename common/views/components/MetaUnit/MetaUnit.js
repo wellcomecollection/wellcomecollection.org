@@ -28,7 +28,7 @@ function renderHeading(headingLevel, headingText) {
 function renderParagraphs(text: Array<string>) {
   if (text) {
     return text.map((para, i) => {
-      return <p key={i} className={`${font({s: 'HNL5', m: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`} dangerouslySetInnerHTML={{__html: para}} />;
+      return <p key={i} className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`} dangerouslySetInnerHTML={{__html: para}} />;
     });
   }
 }

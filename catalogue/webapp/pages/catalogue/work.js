@@ -13,6 +13,7 @@ import License from '@weco/common/views/components/License/License';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
+import Button from '@weco/common/views/components/Buttons/Button/Button';
 import {Fragment} from 'react';
 
 export type Link = {|
@@ -247,47 +248,37 @@ const WorkPage = ({work}: Props) => {
                 Download
               </h2>
 
-              <a
-                className={classNames([
-                  spacing({s: 2}, {margin: ['bottom']}),
-                  font({s: 'HNM5', m: 'HNM4'}),
-                  'plain-link font-green font-hover-turquoise flex flex--v-center'
-                ])}
-                href={convertImageUri(work.items[0].locations[0].url, 'full')}
-                target='_blank'
-                download={`${work.id}.jpg`}
-                rel='noopener noreferrer'
-                data-track-event={JSON.stringify({
-                  'category': 'component',
-                  'action': 'download-button:click',
-                  'label': `id: work.id , size:original, title:${work.title.substring(50)}`
-                })}>
-                <Icon name='download' extraClasses='icon--green' />
-                <div className={spacing({s: 1}, {margin: ['left']})}>
-                  Download full size
-                </div>
-              </a>
+              <div className={spacing({s: 2}, {margin: ['bottom']})}>
+                <Button
+                  extraClasses='btn--tertiary'
+                  url={convertImageUri(work.items[0].locations[0].url, 'full')}
+                  target='_blank'
+                  download={`${work.id}.jpg`}
+                  rel='noopener noreferrer'
+                  eventTracking={JSON.stringify({
+                    'category': 'component',
+                    'action': 'download-button:click',
+                    'label': `id: work.id , size:original, title:${work.title.substring(50)}`
+                  })}
+                  icon='download'
+                  text='Download full size' />
+              </div>
 
-              <a
-                className={classNames([
-                  spacing({s: 4}, {margin: ['bottom']}),
-                  font({s: 'HNM5', m: 'HNM4'}),
-                  'plain-link font-green font-hover-turquoise flex flex--v-center'
-                ])}
-                href={convertImageUri(work.items[0].locations[0].url, 760)}
-                target='_blank'
-                download={`${work.id}.jpg`}
-                rel='noopener noreferrer'
-                data-track-event={JSON.stringify({
-                  'category': 'component',
-                  'action': 'download-button:click',
-                  'label': `id: work.id , size:760, title:${work.title.substring(50)}`
-                })}>
-                <Icon name='download' extraClasses='icon--green' />
-                <div className={spacing({s: 1}, {margin: ['left']})}>
-                  Download small (760px)
-                </div>
-              </a>
+              <div className={spacing({s: 3}, {margin: ['bottom']})}>
+                <Button
+                  extraClasses='btn--tertiary'
+                  url={convertImageUri(work.items[0].locations[0].url, 760)}
+                  target='_blank'
+                  download={`${work.id}.jpg`}
+                  rel='noopener noreferrer'
+                  eventTracking={JSON.stringify({
+                    'category': 'component',
+                    'action': 'download-button:click',
+                    'label': `id: work.id , size:760, title:${work.title.substring(50)}`
+                  })}
+                  icon='download'
+                  text='Download small (760px)' />
+              </div>
 
               <div className={spacing({s: 4}, {margin: ['bottom']})}>
                 <p className={classNames([

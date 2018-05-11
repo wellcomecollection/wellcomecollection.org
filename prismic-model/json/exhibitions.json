@@ -11,7 +11,7 @@
     "description": {
       "type": "StructuredText",
       "config": {
-        "multi": "paragraph, hyperlink, strong, em",
+        "multi": "paragraph,hyperlink,strong,em,heading2",
         "label": "Description"
       }
     },
@@ -90,7 +90,7 @@
           "description": {
             "type": "StructuredText",
             "config": {
-              "multi": "paragraph, hyperlink, strong, em",
+              "multi": "paragraph,hyperlink,strong,em",
               "label": "How did they contribute to this?"
             }
           }
@@ -225,6 +225,28 @@
             "type": "Link"
           }
         }
+      }
+    }
+  },
+  "Migration": {
+    "drupalPromoImage": {
+      "type": "Link",
+      "config": {
+        "label": "Drupal promo image",
+        "select": "web",
+        "customtypes": []
+      }
+    },
+    "drupalNid": {
+      "type": "Text",
+      "config": {
+        "label": "Drupal node ID"
+      }
+    },
+    "drupalPath": {
+      "type": "Text",
+      "config": {
+        "label": "Drupal path"
       }
     }
   }

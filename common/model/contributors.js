@@ -4,8 +4,10 @@ import type {Picture} from './picture';
 import type {HTMLString} from '../services/prismic/types';
 
 export type Organisation = {|
+  id: string,
   name: string,
   image: Picture,
+  description?: HTMLString,
   url: ?string
 |};
 

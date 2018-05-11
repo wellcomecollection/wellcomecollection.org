@@ -42,6 +42,7 @@ const BasicPromo = ({
       clickHandler={imageProps.clickHandler}
       zoomable={imageProps.zoomable}
     />}
+
     <div className={`${[
       spacing({s: 2}, {padding: ['top']}),
       spacing({s: 3}, {padding: ['left', 'right']}),
@@ -49,13 +50,16 @@ const BasicPromo = ({
     ].join(' ')} flex flex--column flex-1
     `}>
       <div className='promo__heading'>
-        <div className={`promo-link__title ${font({s: 'WB5'})} ${spacing({s: 0}, {margin: ['top']})}`}>
+        <div className={`promo-link__title ${font({s: 'WB6'})} ${spacing({s: 0}, {margin: ['top']})}`}>
           {title}
         </div>
       </div>
 
       {description &&
-        <span className='promo__copy'>
+        <span className={[
+          spacing({s: 2}, {margin: ['top']}),
+          font({s: 'HNL5'})
+        ].join(' ')}>
           {description}
         </span>
       }

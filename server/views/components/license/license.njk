@@ -7,7 +7,7 @@
       <p class="{{ {s:'HNL5' , m:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['bottom']}) }}">{{ licenseInfo.description }}</p>
     </div>
   {% endif %}
-  <span class="{{ {s:'LR2'} | fontClasses }}"{% if model.subject %} about="{{model.subject}}{% endif %}">
+  <span class="plain-text {{ {s:'LR2'} | fontClasses }}"{% if model.subject %} about="{{model.subject}}{% endif %}">
     {% if licenseInfo.url %}
       <a class="flex plain-link {{ {s:'LR2'} | fontClasses }}" rel="license" href="{{ licenseInfo.url }}">
     {% else %}
@@ -16,7 +16,7 @@
       {% for icon in licenseInfo.icons %}
         {% icon '' + icon, null, iconClasses %}
       {% endfor %}
-      <span class="{{ 'link-underline' if licenseInfo.url }}">{{ licenseInfo.text }}</span>
+      <span>{{ licenseInfo.text }}</span>
     </{{ 'a' if licenseInfo.url else 'span' }}>
   </span>
 </div>

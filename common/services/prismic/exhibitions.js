@@ -26,7 +26,7 @@ import {parseInstallationDoc} from './installations';
 
 function parseExhibits(document: PrismicFragment[]): UiExhibit[] {
   return document.map(exhibit => {
-    if (exhibit.item.type === 'installations') {
+    if (exhibit.item.type === 'installations' && !exhibit.item.isBroken) {
       return {
         exhibitType: 'installations',
         item: parseInstallationDoc(exhibit.item)
@@ -41,8 +41,24 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
 
   const promoThin = promo && parseImagePromo(promo, '32:15', breakpoints.medium);
   const promoSquare = promo && parseImagePromo(promo, 'square', breakpoints.small);
-  const promos = [promoThin, promoSquare].filter(Boolean).map(p => p.image).filter(Boolean);
 
+  // TODO (drupal migration): Remove this
+  const drupalPromoImage = document.data.drupalPromoImage && document.data.drupalPromoImage.url ? {
+    caption: promoThin && promoThin.caption,
+    image: {
+      contentUrl: document.data.drupalPromoImage.url,
+      width: document.data.drupalPromoImage.width || 1600,
+      height: document.data.drupalPromoImage.height || 900,
+      alt: '',
+      tasl: {}
+    }
+  } : null;
+
+  const promos = drupalPromoImage ? [{
+    contentUrl: drupalPromoImage.image.contentUrl,
+    width: drupalPromoImage.image.width,
+    height: drupalPromoImage.image.height
+  }] : [promoThin, promoSquare].filter(Boolean).map(p => p.image).filter(Boolean);
   const promoList = document.data.promoList || [];
 
   const sizeInKb = Math.round(document.data.textAndCaptionsDocument.size / 1024);
@@ -54,7 +70,8 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const description = parseDescription(data.description);
   const start = parseTimestamp(data.start);
   const end = data.end && parseTimestamp(data.end);
-  const promoImage = parsePromoToCaptionedImage(data.promo);
+
+  const promoImage = drupalPromoImage || (promo && parsePromoToCaptionedImage(data.promo));
 
   return {
     id: id,
@@ -78,7 +95,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       url,
       title,
       image: promoImage.image,
-      description: asText(promoImage.caption) || 'PROMO TEXT MISSING',
+      description: (promoThin && promoThin.caption) || 'PROMO TEXT MISSING',
       start,
       end
     },

@@ -8,6 +8,12 @@
         "useAsTitle": true
       }
     },
+    "datePublished": {
+      "type": "Timestamp",
+      "config": {
+        "label": "Date published"
+      }
+    },
     "body": {
       "fieldset": "Body content",
       "type": "Slices",
@@ -59,7 +65,7 @@
           },
           "editorialImageGallery": {
             "type": "Slice",
-            "fieldset": "Captioned image gallery",
+            "fieldset": "Image gallery",
             "non-repeat": {
               "title": {
                 "type": "StructuredText",
@@ -88,7 +94,7 @@
           },
           "contentList": {
             "type": "Slice",
-            "fieldset": "Content list",
+            "fieldset": "(β) Content list",
             "non-repeat": {
               "title": {
                 "type": "StructuredText",
@@ -106,8 +112,34 @@
                   "label": "Content item",
                   "select": "document",
                   "customtypes": [
-                    "info-pages"
+                    "pages"
                   ]
+                }
+              }
+            }
+          },
+          "searchResults": {
+            "type": "Slice",
+            "fieldset": "(β) Search results",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              },
+              "pageSize": {
+                "type": "Number",
+                "config": {
+                  "label": "Size"
+                }
+              },
+              "query": {
+                "type": "Text",
+                "config": {
+                  "label": "Query"
                 }
               }
             }
@@ -162,6 +194,54 @@
             }
           }
         }
+      }
+    }
+  },
+  "βeta": {
+    "uniquePath": {
+      "type": "Text",
+      "config": {
+        "label": "uID"
+      }
+    },
+    "tags": {
+      "type": "Group",
+      "fieldset": "Site section",
+      "config": {
+        "fields": {
+          "tag": {
+            "type": "Link",
+            "config": {
+              "label": "Site section",
+              "select": "document",
+              "customtypes": [
+                "tags"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "Migration": {
+    "drupalPromoImage": {
+      "type": "Link",
+      "config": {
+        "label": "Drupal promo image",
+        "select": "web",
+        "customtypes": []
+      }
+    },
+    "drupalNid": {
+      "type": "Text",
+      "config": {
+        "label": "Drupal node ID"
+      }
+    },
+    "drupalPath": {
+      "type": "Text",
+      "config": {
+        "label": "Drupal path"
       }
     }
   }

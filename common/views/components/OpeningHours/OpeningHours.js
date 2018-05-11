@@ -1,14 +1,14 @@
 // @flow
 import {spacing, font} from '../../../utils/classnames';
 import {Fragment, Component} from 'react';
-import {formatDate} from '../../../utils/format-date';
+import {formatDay, formatDate} from '../../../utils/format-date';
 import OpeningHoursTable from '../../components/OpeningHoursTable/OpeningHoursTable';
 import OpeningHoursTableGrouped from '../../components/OpeningHoursTableGrouped/OpeningHoursTableGrouped';
 
 type Props = {|
   extraClasses?: string,
   groupedVenues: any,
-  upcomingExceptionalOpeningPeriods: Array<Date[]>
+  upcomingExceptionalOpeningPeriods: {dates: Date[], type: string}[]
 |}
 
 type State = {|
@@ -45,18 +45,33 @@ class OpeningHours extends Component<Props, State> {
           </p>
         }
         {upcomingExceptionalOpeningPeriods && upcomingExceptionalOpeningPeriods.length > 0 &&
-          <p className={font({s: 'HNM4'})}>
+          <p className={`plain-text ${font({s: 'HNM4'})}`}>
             Our opening times will change
             {upcomingExceptionalOpeningPeriods.map((group, i, array) => {
-              const firstDate = group[0];
-              const lastDate = group[group.length - 1];
-
+              const firstDate = group.dates[0];
+              const lastDate = group.dates[group.dates.length - 1];
+              let typeWording = '';
+              if (group.type) {
+                switch (group.type) {
+                  case 'Bank holiday':
+                    typeWording = ' for the bank holiday, ';
+                    break;
+                  case 'Christmas and New Year' || 'Easter':
+                    typeWording = ` for ${group.type}, `;
+                    break;
+                  case 'Late Spectacular':
+                    typeWording = ` for the ${formatDay(group.dates[0])} Late Spectacular, `;
+                    break;
+                  default:
+                    typeWording = '';
+                }
+              }
               if (firstDate && lastDate) {
-                if (group.length > 1) {
+                if (group.dates.length > 1) {
                   return (
                     <span key={firstDate}>
                       {(array.length > 1 && i > 0) && ' and '}
-                      {` between`} <span className='nowrap'>{formatDate(firstDate)}</span>
+                      {`${typeWording} between`} <span className='nowrap'>{formatDate(firstDate)}</span>
                       &mdash;
                       <span className='nowrap'>{formatDate(lastDate)}</span>
                     </span>
@@ -64,7 +79,7 @@ class OpeningHours extends Component<Props, State> {
                 } else {
                   return (
                     <Fragment key={firstDate}>
-                      {` on`} <span className='nowrap'>
+                      {`${typeWording} on`} <span className='nowrap'>
                         {formatDate(firstDate)}
                       </span>
                     </Fragment>

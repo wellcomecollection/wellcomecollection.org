@@ -9,7 +9,7 @@ import type { Place } from '../../model/place';
 import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/background-texture';
 import type { CaptionedImageProps } from '../../views/components/Images/Images';
 import { licenseTypeArray } from '../../model/license';
-import { parseInfoPage } from './info-pages';
+import { parsePage } from './pages';
 
 const placeHolderImage = {
   contentUrl: 'https://via.placeholder.com/1600x900?text=Placeholder',
@@ -31,7 +31,7 @@ const linkResolver = (doc) => {
     case 'events'        : return `/events/${doc.id}`;
     case 'series'        : return `/series/${doc.id}`;
     case 'installations' : return `/installations/${doc.id}`;
-    case 'info-pages'    : return `/info/${doc.id}`;
+    case 'pages'         : return `/pages/${doc.id}`;
   }
 };
 
@@ -139,6 +139,7 @@ function parsePersonContributor(frag: PrismicFragment): PersonContributor {
 
 function parseOrganisationContributor(frag: PrismicFragment): OrganisationContributor {
   return  {
+    id: frag.id,
     type: 'organisations',
     name: asText(frag.data.name) || 'NAME MISSING',
     image: frag.data.image && parsePicture({
@@ -161,13 +162,13 @@ export function parseContributors(contributorsDoc: PrismicFragment[]): Contribut
           return {
             role,
             contributor: parseOrganisationContributor(contributor.contributor),
-            description: contributor.description
+            description: parseStructuredText(contributor.description)
           };
         case 'people':
           return {
             role,
             contributor: parsePersonContributor(contributor.contributor),
-            description: contributor.description
+            description: parseStructuredText(contributor.description)
           };
       }
     })();
@@ -212,13 +213,15 @@ export function parseImagePromo(
   minWidth: ?string = null
 ): ?ImagePromo {
   const maybePromo = frag && frag.find(slice => slice.slice_type === 'editorialImage');
+  const hasImage = (maybePromo && maybePromo.primary.image && isImageLink(maybePromo.primary.image)) || false;
+
   return maybePromo && ({
     caption: asText(maybePromo.primary.caption),
-    image: parsePicture({
+    image: hasImage ? parsePicture({
       image:
         // We introduced enforcing 16:9 half way through, so we have to do a check for it.
         maybePromo.primary.image[cropType] || maybePromo.primary.image
-    }, minWidth)
+    }, minWidth) : null
   }: ImagePromo);
 }
 
@@ -262,8 +265,27 @@ export function parseBackgroundTexture(backgroundTexture: PrismicBackgroundTextu
   };
 }
 
+function parseStructuredText(maybeFragment: ?PrismicFragment): ?HTMLString {
+  return maybeFragment && isStructuredText(maybeFragment.description) ? maybeFragment.description : null;
+}
+
+// Prismic return `[ { type: 'paragraph', text: '', spans: [] } ]` when you have
+// inserted text, then removed it, so we need to do this check.
+export function isStructuredText(structuredTextObject: ?HTMLString): boolean {
+  const text = asText(structuredTextObject);
+  return Boolean(structuredTextObject) && (text || '').trim() !== '';
+}
+
+// If a link is non-existant, it can either be returned as `null`, or as an
+// empty link object, which is why we use this
 export function isDocumentLink(fragment: ?PrismicFragment): boolean {
   return Boolean(fragment && fragment.isBroken === false);
+}
+
+// when images have crops, event if the image isn't attached, we get e.g.
+// { '32:15': {}, '16:9': {}, square: {} }
+export function isImageLink(fragment: ?PrismicFragment): boolean {
+  return Boolean(fragment && fragment.dimensions);
 }
 
 export function parseBody(fragment: PrismicFragment[]) {
@@ -307,10 +329,21 @@ export function parseBody(fragment: PrismicFragment[]) {
           value: {
             title: asText(slice.primary.title),
             items: slice.items.map(item => {
-              if (item.content.type === 'info-pages') {
-                return parseInfoPage(item.content);
+              if (item.content.type === 'pages') {
+                return parsePage(item.content);
               }
             }).filter(Boolean)
+          }
+        };
+
+      case 'searchResults':
+        return {
+          type: 'searchResults',
+          weight: 'default',
+          value: {
+            title: asText(slice.primary.title),
+            query: slice.primary.query,
+            pageSize: slice.primary.pageSize || 4
           }
         };
     }
