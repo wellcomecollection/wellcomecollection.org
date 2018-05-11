@@ -1,11 +1,13 @@
 // @flow
 
+import {font} from '../../../../utils/classnames';
 import Icon from '../../Icon/Icon';
 
-export type GenericButtonProps = {|
-  text: string,
+type Props = {|
   url?: string,
+  extraClasses?: string,
   icon?: string,
+  text: string,
   eventTracking?: string,
   id?: string,
   disabled?: boolean,
@@ -13,11 +15,6 @@ export type GenericButtonProps = {|
   download?: string,
   rel?: string,
   clickHandler?: (event: Event) => void
-|}
-
-type Props = {|
-  ...GenericButtonProps,
-  extraClasses?: string
 |}
 
 const Button = ({
@@ -34,6 +31,9 @@ const Button = ({
   clickHandler
 }: Props) => {
   const HtmlTag = url ? 'a' : 'button';
+  const fontClasses = extraClasses && extraClasses.indexOf('btn--tertiary') > -1
+    ? {s: 'HNM5'}
+    : {s: 'HNM4'};
   return (
     <HtmlTag
       href={url}
@@ -41,7 +41,7 @@ const Button = ({
       download={download}
       rel={rel}
       id={id}
-      className={`btn ${extraClasses || ''} flex-inline flex--v-center`}
+      className={`btn ${extraClasses || ''} ${font(fontClasses)} flex-inline flex--v-center`}
       data-track-event={eventTracking}
       onClick={clickHandler}
       disabled={disabled}>
