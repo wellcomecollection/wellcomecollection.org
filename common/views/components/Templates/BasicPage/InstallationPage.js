@@ -6,6 +6,7 @@ import DateRange from '../../DateRange/DateRange';
 import StatusIndicator from '../../StatusIndicator/StatusIndicator';
 import HTMLDate from '../../HTMLDate/HTMLDate';
 import Contributor from '../../Contributor/Contributor';
+import WobblyBackground from './WobblyBackground';
 import type {UiInstallation} from '../../../../model/installations';
 
 type Props = {|
@@ -19,6 +20,7 @@ const InstallationPage = ({ installation }: Props) => {
 
   return (
     <BasicPage
+      Background={WobblyBackground()}
       DateInfo={DateInfo}
       Description={<p>{description}</p>}
       InfoBar={<StatusIndicator start={installation.start} end={(installation.end || new Date())} />}
