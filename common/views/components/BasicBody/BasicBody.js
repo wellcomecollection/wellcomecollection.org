@@ -1,15 +1,16 @@
 // @flow
 // TODO: Sync up types with the body slices and the components they return
-import {spacing} from '../../../utils/classnames';
+import {spacing, font} from '../../../utils/classnames';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import Image from '../Image/Image';
 import Tasl from '../Tasl/Tasl';
 import Quote from '../Quote/Quote';
 import ImageGallery from '../ImageGallery/ImageGallery';
+import type {Weight} from '../../../services/prismic/parsers';
 
 type Props = {|
-  body: {type: string, value: any}[]
+  body: {type: string, weight: Weight, value: any}[]
 |}
 
 type HTMLBlockProps = { html: string };
@@ -22,7 +23,19 @@ const BasicBody = ({ body }: Props) => {
     <div className='basic-body'>
       {body.map((slice, i) =>
         <div className={`body-part ${spacing({s: 4}, {margin: ['top']})}`} key={`slice${i}`}>
-          {slice.type === 'text' && <div className='body-text'><HTMLBlock html={slice.value} /></div>}
+          {slice.type === 'text' &&
+            <div className={`
+              body-text
+              ${slice.weight === 'featured' ?  `
+                border-left-width-5
+                border-color-black
+                ${spacing({s: 4}, {padding: ['left']})}
+                ${font({s: 'HNL3', m: 'HNL2'})}
+                ` : ''}
+            `}>
+              <HTMLBlock html={slice.value} />
+            </div>
+          }
           {slice.type === 'picture' &&
             <CaptionedImage caption={slice.value.caption}>
               <Image {...slice.value} />

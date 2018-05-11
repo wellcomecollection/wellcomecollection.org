@@ -288,26 +288,37 @@ export function isImageLink(fragment: ?PrismicFragment): boolean {
   return Boolean(fragment && fragment.dimensions);
 }
 
+export type Weight = | 'featured';
+function getWeight(weight: ?string): ?Weight {
+  switch (weight) {
+    case 'featured':
+      return weight;
+
+    default:
+      return null;
+  }
+}
+
 export function parseBody(fragment: PrismicFragment[]) {
   return fragment.map((slice) => {
     switch (slice.slice_type) {
       case 'standfirst':
         return {
           type: 'standfirst',
-          weight: 'default',
+          weight: getWeight(slice.slice_label),
           value: asHtml(slice.primary.text)
         };
 
       case 'text':
         return {
           type: 'text',
-          weight: 'default',
+          weight: getWeight(slice.slice_label),
           value: asHtml(slice.primary.text)
         };
 
       case 'editorialImage':
         return {
-          weight: slice.slice_label,
+          weight: getWeight(slice.slice_label),
           type: 'picture',
           value: parsePicture(slice.primary)
         };
@@ -315,7 +326,7 @@ export function parseBody(fragment: PrismicFragment[]) {
       case 'editorialImageGallery':
         return {
           type: 'imageGallery',
-          weight: 'standalone',
+          weight: getWeight(slice.slice_label),
           value: {
             title: asText(slice.primary.title),
             items: (slice.items.map(item => parseCaptionedImage(item)): CaptionedImageProps[])
@@ -325,7 +336,7 @@ export function parseBody(fragment: PrismicFragment[]) {
       case 'contentList':
         return {
           type: 'contentList',
-          weight: 'default',
+          weight: getWeight(slice.slice_label),
           value: {
             title: asText(slice.primary.title),
             items: slice.items.map(item => {
@@ -339,7 +350,7 @@ export function parseBody(fragment: PrismicFragment[]) {
       case 'searchResults':
         return {
           type: 'searchResults',
-          weight: 'default',
+          weight: getWeight(slice.slice_label),
           value: {
             title: asText(slice.primary.title),
             query: slice.primary.query,
@@ -350,7 +361,7 @@ export function parseBody(fragment: PrismicFragment[]) {
       case 'quote':
         return {
           type: 'quote',
-          weight: 'default',
+          weight: getWeight(slice.slice_label),
           value: {
             text: slice.primary.text,
             citation: slice.primary.citation

@@ -30,6 +30,12 @@ export default {
   type: 'Slices',
   config: {
     labels: {
+      text: [
+        {
+          name: 'featured',
+          'display': 'Featured'
+        }
+      ],
       editorialImage: [
         {
           name: 'supporting',
