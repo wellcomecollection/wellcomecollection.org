@@ -95,7 +95,9 @@
       {% endblock %}
     </div>
 
+    {% set showNewsletterPromo = pageConfig.title !== 'Newsletter' %}
     {% componentJsx 'Footer', {
+      showNewsletterPromo: showNewsletterPromo,
       openingHoursId: 'footer',
       groupedVenues: openingHours.groupedVenues,
       upcomingExceptionalOpeningPeriods: openingHours.upcomingExceptionalOpeningPeriods
