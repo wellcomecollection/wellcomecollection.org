@@ -9,8 +9,9 @@ import Quote from '../Quote/Quote';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import type {Weight} from '../../../services/prismic/parsers';
 
+export type Body = {type: string, weight: Weight, value: any}[]
 type Props = {|
-  body: {type: string, weight: Weight, value: any}[]
+  body: Body
 |}
 
 type HTMLBlockProps = { html: string };

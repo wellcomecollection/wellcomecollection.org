@@ -5,10 +5,11 @@ import BasicHeader from '../../PageHeaders/BasicHeader/BasicHeader';
 import BasicBody from '../../BasicBody/BasicBody';
 import type {Node} from 'react';
 import type {UiImageProps} from '../../Images/Images';
+import type {Body} from '../../BasicBody/BasicBody';
 
 type Props = {|
   title: string,
-  body: {type: string, value: any}[],
+  body: Body,
   mainImageProps: ?UiImageProps,
   DateInfo: Node,
   Description: Node,
