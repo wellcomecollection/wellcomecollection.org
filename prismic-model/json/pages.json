@@ -92,6 +92,26 @@
               }
             }
           },
+          "quote": {
+            "type": "Slice",
+            "fieldset": "Quote",
+            "non-repeat": {
+              "text": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph,hyperlink,strong,em",
+                  "label": "Quote"
+                }
+              },
+              "citation": {
+                "type": "StructuredText",
+                "config": {
+                  "single": "paragraph,hyperlink,strong,em",
+                  "label": "Citation"
+                }
+              }
+            }
+          },
           "contentList": {
             "type": "Slice",
             "fieldset": "(β) Content list",

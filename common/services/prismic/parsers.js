@@ -346,6 +346,16 @@ export function parseBody(fragment: PrismicFragment[]) {
             pageSize: slice.primary.pageSize || 4
           }
         };
+
+      case 'quote':
+        return {
+          type: 'quote',
+          weight: 'default',
+          value: {
+            text: slice.primary.text,
+            citation: slice.primary.citation
+          }
+        };
     }
   }).filter(Boolean);
 }

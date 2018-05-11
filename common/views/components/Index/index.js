@@ -34,7 +34,7 @@ import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
 import SearchResults from '../SearchResults/SearchResults';
 import BasicBody from '../BasicBody/BasicBody';
-import Quote from '../Quote/Quote';
+import ShameQuote from '../ShameQuote/ShameQuote';
 import Contributor from '../Contributor/Contributor';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import InstallationPage from '../Templates/BasicPage/InstallationPage';
@@ -76,7 +76,7 @@ export {
   WorkMedia,
   SearchResults,
   BasicBody,
-  Quote,
+  ShameQuote,
   Contributor,
   ExhibitionPromo,
   InstallationPage

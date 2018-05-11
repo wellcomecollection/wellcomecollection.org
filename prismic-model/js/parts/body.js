@@ -50,6 +50,12 @@ export default {
       // These should probably be called captionedImage etc, but legacy says no
       editorialImage: captionedImageSlice(),
       editorialImageGallery: captionedImageGallerySlice(),
+      quote: slice('Quote', {
+        nonRepeat: {
+          text: structuredText('Quote'),
+          citation: structuredText('Citation', 'single')
+        }
+      }),
       contentList: slice('(β) Content list', {
         nonRepeat: {
           title

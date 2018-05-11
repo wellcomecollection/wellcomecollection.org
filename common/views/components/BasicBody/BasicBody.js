@@ -5,6 +5,7 @@ import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import Image from '../Image/Image';
 import Tasl from '../Tasl/Tasl';
+import Quote from '../Quote/Quote';
 import ImageGallery from '../ImageGallery/ImageGallery';
 
 type Props = {|
@@ -38,6 +39,7 @@ const BasicBody = ({ body }: Props) => {
             </CaptionedImage>
           }
           {slice.type === 'imageGallery' && <ImageGallery {...slice.value} />}
+          {slice.type === 'quote' && <Quote {...slice.value} />}
           {slice.type === 'contentList' &&
             <AsyncSearchResults
               title={slice.value.title}
