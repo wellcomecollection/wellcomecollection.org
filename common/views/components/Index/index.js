@@ -38,6 +38,7 @@ import Quote from '../Quote/Quote';
 import Contributor from '../Contributor/Contributor';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import NewsletterSignup from '../NewsletterSignup/NewsletterSignup';
+import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import InstallationPage from '../Templates/BasicPage/InstallationPage';
 
 export {
@@ -81,5 +82,6 @@ export {
   Contributor,
   ExhibitionPromo,
   NewsletterSignup,
+  NewsletterPromo,
   InstallationPage
 };
