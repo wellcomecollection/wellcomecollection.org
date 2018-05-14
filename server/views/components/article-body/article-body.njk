@@ -35,7 +35,7 @@
                 ] %}
               </div>
             {% else %}
-                {% componentJsx 'Standfirst', {body: bodyPart.value} %}
+                {% componentJsx 'FeaturedText', { html: bodyPart.value } %}
             {% endif %}
           {% elif bodyPart.type === 'heading' %}
             <h2>{{ bodyPart.value.value | safe }}</h2>
@@ -134,7 +134,7 @@
               </ul>
             {% endif %}
           {% elif bodyPart.type === 'quote' %}
-            {% componentJsx 'Quote', bodyPart.value %}
+            {% componentJsx 'ShameQuote', bodyPart.value %}
           {% elif bodyPart.type === 'pre' %}
             <div class="bg-white">
               <div class="body-part__extend-to-right">
