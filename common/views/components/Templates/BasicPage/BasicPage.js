@@ -5,14 +5,14 @@ import BasicHeader from '../../PageHeaders/BasicHeader/BasicHeader';
 import BasicBody from '../../BasicBody/BasicBody';
 import type {Node} from 'react';
 import type {UiImageProps} from '../../Images/Images';
-import type {Props as TagsProps} from '../../Tags/Tags';
+import type {TagProps} from '../../Tags/Tags';
 import type WobblyBackground from './WobblyBackground';
 
 type Props = {|
   title: string,
   body: {type: string, value: any}[],
   mainImageProps: ?UiImageProps,
-  tags: TagsProps,
+  tags: TagProps[],
   Background: | WobblyBackground,
   DateInfo: Node,
   InfoBar: Node,

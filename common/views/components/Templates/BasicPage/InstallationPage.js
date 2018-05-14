@@ -7,9 +7,7 @@ import StatusIndicator from '../../StatusIndicator/StatusIndicator';
 import HTMLDate from '../../HTMLDate/HTMLDate';
 import Contributor from '../../Contributor/Contributor';
 import WobblyBackground from './WobblyBackground';
-
 import type {UiInstallation} from '../../../../model/installations';
-import type {Props as TagsProps} from '../../Tags/Tags';
 
 type Props = {|
   installation: UiInstallation
@@ -17,7 +15,7 @@ type Props = {|
 
 const InstallationPage = ({ installation }: Props) => {
   const DateInfo = installation.end ? <DateRange start={installation.start} end={installation.end} /> : <HTMLDate date={installation.start} />;
-  const tags: TagsProps = [{
+  const tags = [{
     text: 'Installations',
     url: '/whats-on'
   }];

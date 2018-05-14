@@ -5,12 +5,12 @@ import {spacing, grid, font} from '../../../../utils/classnames';
 import {UiImage} from '../../Images/Images';
 import type {Node} from 'react';
 import type {UiImageProps} from '../../Images/Images';
-import type {Props as TagsProps} from '../../Tags/Tags';
+import type {TagProps} from '../../Tags/Tags';
 
 type Props = {|
   title: string,
   mainImageProps: ?UiImageProps,
-  tags: TagsProps,
+  tags: TagProps[],
   DateInfo: Node,
   InfoBar: Node,
   Description: ?Node
