@@ -1,6 +1,6 @@
 import searchQuery from 'search-query-parser';
 import {getInstallation} from '@weco/common/services/prismic/installations';
-import {getExhibitions, getExhibition, getExhibitionExhibits} from '@weco/common/services/prismic/exhibitions';
+import {getExhibitions, getExhibition, getExhibitionExhibits, getExhibitExhibition} from '@weco/common/services/prismic/exhibitions';
 import {isPreview as isPrismicPreview} from '@weco/common/services/prismic/api';
 import {model, prismic} from 'common';
 
@@ -124,4 +124,13 @@ export async function renderExhibits(ctx, next) {
   ctx.body = {
     html: ctx.body
   };
+}
+
+export async function renderExhibitExhibitionLink(ctx, next) {
+  const {id} = ctx.params;
+  const exhibition = await getExhibitExhibition(ctx.request, id);
+
+  if (exhibition) {
+    ctx.body =  { html: `<a href='/exhibitions/${exhibition.id}'>${exhibition.title}</a>` };
+  }
 }

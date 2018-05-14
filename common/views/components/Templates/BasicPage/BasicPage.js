@@ -5,6 +5,7 @@ import BasicHeader from '../../PageHeaders/BasicHeader/BasicHeader';
 import BasicBody from '../../BasicBody/BasicBody';
 import type {Node} from 'react';
 import type {UiImageProps} from '../../Images/Images';
+import type {TagProps} from '../../Tags/Tags';
 import type {Body} from '../../BasicBody/BasicBody';
 import type WobblyBackground from './WobblyBackground';
 
@@ -12,11 +13,12 @@ type Props = {|
   title: string,
   body: Body,
   mainImageProps: ?UiImageProps,
+  tags: TagProps[],
   Background: | WobblyBackground,
   DateInfo: Node,
-  Description: Node,
   InfoBar: Node,
-  children: Node
+  children: Node,
+  Description: ?Node
 |}
 
 const BasicPageColumn = ({children}: {| children: Node |}) => (
@@ -35,6 +37,7 @@ const BasicPage = ({
   title,
   body,
   mainImageProps,
+  tags,
   Background,
   DateInfo,
   Description,
@@ -47,6 +50,7 @@ const BasicPage = ({
       <BasicHeader
         title={title}
         mainImageProps={mainImageProps}
+        tags={tags}
         DateInfo={DateInfo}
         Description={Description}
         InfoBar={InfoBar}

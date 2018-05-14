@@ -2,36 +2,46 @@
 // @flow
 import {spacing, grid, font} from '../../../../utils/classnames';
 import {UiImage} from '../../Images/Images';
+import Tags from '../../Tags/Tags';
 import type {Node} from 'react';
 import type {UiImageProps} from '../../Images/Images';
+import type {TagProps} from '../../Tags/Tags';
 
 type Props = {|
   title: string,
   mainImageProps: ?UiImageProps,
+  tags: TagProps[],
   DateInfo: Node,
-  Description: Node,
-  InfoBar: Node
+  InfoBar: Node,
+  Description: ?Node
 |}
 
 const BasicHeader = ({
   title,
   mainImageProps,
+  tags,
   DateInfo,
   Description,
   InfoBar
 }: Props) => (
   <div className={`container ${spacing({s: 5, m: 7}, {padding: ['top']})} ${spacing({s: 1}, {padding: ['bottom']})}`}>
     <div className='grid'>
-      <div className={grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}>
+      <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
+        <Tags tags={tags} />
+      </div>
+      <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
+
         <h1 className='h1'>{title}</h1>
 
         <div className={`${font({s: 'HNL3'})}`}>
           {DateInfo}
         </div>
 
-        <div className={`${font({s: 'HNL4'})} ${spacing({s: 3}, {margin: ['top']})} first-para-no-margin`}>
-          {Description}
-        </div>
+        {Description &&
+          <div className={`${font({s: 'HNL4'})} ${spacing({s: 3}, {margin: ['top']})} first-para-no-margin`}>
+            {Description}
+          </div>
+        }
 
         <div className={`${font({s: 'HNL4'})} ${spacing({s: 3}, {margin: ['top', 'bottom']})}`}>
           {InfoBar}

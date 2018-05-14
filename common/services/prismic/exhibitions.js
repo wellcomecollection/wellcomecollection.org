@@ -180,3 +180,18 @@ export async function getExhibitionExhibits(
     results: exhibitResults
   };
 }
+
+export async function getExhibitExhibition(req: Request, exhibitId: string): Promise<?UiExhibition> {
+  const predicates = [Prismic.Predicates.at('my.exhibitions.exhibits.item', exhibitId)];
+  const apiResponse = await getDocuments(req, predicates, {
+    fetchLinks: peopleFields.concat(
+      contributorsFields,
+      placesFields,
+      installationFields
+    )
+  });
+
+  if (apiResponse.results.length > 0) {
+    return parseExhibitionDoc(apiResponse.results[0]);
+  }
+}
