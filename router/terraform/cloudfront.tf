@@ -50,6 +50,9 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         # Wellcome Images redirect
         "MIROPAC",
         "MIRO",
+        # dotmailer gives us a 'result' (if we run out of params,
+        # consider making new urls for newsletter pages instead)
+        "result"
       ]
 
       cookies {
