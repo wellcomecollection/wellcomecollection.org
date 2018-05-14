@@ -21,6 +21,7 @@ const InstallationPage = ({ installation }: Props) => {
       Background={WobblyBackground()}
       DateInfo={DateInfo}
       InfoBar={<StatusIndicator start={installation.start} end={(installation.end || new Date())} />}
+      Description={null}
       title={installation.title}
       mainImageProps={installation.promo && installation.promo.image}
       body={installation.body}>

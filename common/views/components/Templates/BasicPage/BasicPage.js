@@ -13,9 +13,9 @@ type Props = {|
   mainImageProps: ?UiImageProps,
   Background: | WobblyBackground,
   DateInfo: Node,
-  Description: Node,
   InfoBar: Node,
-  children: Node
+  children: Node,
+  Description: ?Node
 |}
 
 const BasicPageColumn = ({children}: {| children: Node |}) => (

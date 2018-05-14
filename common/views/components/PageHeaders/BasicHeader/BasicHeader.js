@@ -9,8 +9,8 @@ type Props = {|
   title: string,
   mainImageProps: ?UiImageProps,
   DateInfo: Node,
-  Description: Node,
-  InfoBar: Node
+  InfoBar: Node,
+  Description: ?Node
 |}
 
 const BasicHeader = ({
@@ -29,9 +29,11 @@ const BasicHeader = ({
           {DateInfo}
         </div>
 
-        <div className={`${font({s: 'HNL4'})} ${spacing({s: 3}, {margin: ['top']})} first-para-no-margin`}>
-          {Description}
-        </div>
+        {Description &&
+          <div className={`${font({s: 'HNL4'})} ${spacing({s: 3}, {margin: ['top']})} first-para-no-margin`}>
+            {Description}
+          </div>
+        }
 
         <div className={`${font({s: 'HNL4'})} ${spacing({s: 3}, {margin: ['top', 'bottom']})}`}>
           {InfoBar}
