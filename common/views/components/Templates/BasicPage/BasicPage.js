@@ -5,15 +5,20 @@ import BasicHeader from '../../PageHeaders/BasicHeader/BasicHeader';
 import BasicBody from '../../BasicBody/BasicBody';
 import type {Node} from 'react';
 import type {UiImageProps} from '../../Images/Images';
+import type {TagProps} from '../../Tags/Tags';
+import type {Body} from '../../BasicBody/BasicBody';
+import type WobblyBackground from './WobblyBackground';
 
 type Props = {|
   title: string,
-  body: {type: string, value: any}[],
+  body: Body,
   mainImageProps: ?UiImageProps,
+  tags: TagProps[],
+  Background: | WobblyBackground,
   DateInfo: Node,
-  Description: Node,
   InfoBar: Node,
-  children: Node
+  children: Node,
+  Description: ?Node
 |}
 
 export const BasicPageColumn = ({children}: {| children: Node |}) => (
@@ -32,6 +37,8 @@ const BasicPage = ({
   title,
   body,
   mainImageProps,
+  tags,
+  Background,
   DateInfo,
   Description,
   InfoBar,
@@ -39,25 +46,11 @@ const BasicPage = ({
 }: Props) => {
   return (
     <Fragment>
-      <div className='row relative'>
-        <div className='overflow-hidden full-width bg-cream' style={{
-          top: 0,
-          position: 'fixed',
-          height: '50vw',
-          maxHeight: '66vh',
-          zIndex: -1
-        }}>
-          <div className='absolute full-width' style={{ bottom: 0 }}>
-            <div className='wobbly-edge wobbly-edge--white js-wobbly-edge'
-              data-is-valley='true'
-              data-max-intensity='100'>
-            </div>
-          </div>
-        </div>
-      </div>
+      {Background}
       <BasicHeader
         title={title}
         mainImageProps={mainImageProps}
+        tags={tags}
         DateInfo={DateInfo}
         Description={Description}
         InfoBar={InfoBar}

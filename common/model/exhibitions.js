@@ -22,7 +22,7 @@ export type Exhibition = {|
   title: ?string,
   start: Date,
   end: ?Date,
-  intro: ?string,
+  intro: ?HTMLString,
   description: HTMLString,
   contributors: Contributor[],
   place: ?Place,

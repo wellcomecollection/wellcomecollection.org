@@ -17,7 +17,7 @@ function parseBodyPart(slice) {
       return {
         type: 'standfirst',
         weight: 'default',
-        value: asHtml(slice.primary.text)
+        value: slice.primary.text
       };
 
     case 'text':

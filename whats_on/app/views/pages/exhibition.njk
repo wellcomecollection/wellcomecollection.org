@@ -75,7 +75,7 @@
         <div class="grid">
           <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
             {% if exhibition.intro %}
-              {% componentJsx 'Standfirst', {body: exhibition.intro} %}
+              {% componentJsx 'FeaturedText', { html: exhibition.intro } %}
             {% endif %}
             <div class="body-text">
               {{ exhibition.description | prismicAsHtml | safe }}

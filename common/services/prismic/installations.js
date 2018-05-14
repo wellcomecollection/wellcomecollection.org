@@ -22,7 +22,6 @@ import {
 export function parseInstallationDoc(document: PrismicDocument): UiInstallation {
   const data = document.data;
   const promo = document.data.promo && parseImagePromo(document.data.promo);
-
   return {
     id: document.id,
     title: parseTitle(data.title),

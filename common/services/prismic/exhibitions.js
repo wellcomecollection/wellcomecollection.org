@@ -19,7 +19,6 @@ import {
   parsePlace,
   parsePromoListItem,
   parsePromoToCaptionedImage,
-  asText,
   isDocumentLink
 } from './parsers';
 import {parseInstallationDoc} from './installations';
@@ -72,12 +71,15 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const end = data.end && parseTimestamp(data.end);
 
   const promoImage = drupalPromoImage || (promo && parsePromoToCaptionedImage(data.promo));
+  // As we store the intro as an H2 in the model, incorrectly, we then convert
+  // it here to a paragraph
+  const intro = data.intro && data.intro[0] && [Object.assign({}, data.intro[0], {type: 'paragraph'})];
 
   return {
     id: id,
     title: title,
     description: description,
-    intro: asText(data.intro),
+    intro: intro,
     contributors: data.contributors ? parseContributors(data.contributors) : [],
     start: start,
     end: end,
@@ -177,4 +179,19 @@ export async function getExhibitionExhibits(
     totalPages: apiResponse.totalPages,
     results: exhibitResults
   };
+}
+
+export async function getExhibitExhibition(req: Request, exhibitId: string): Promise<?UiExhibition> {
+  const predicates = [Prismic.Predicates.at('my.exhibitions.exhibits.item', exhibitId)];
+  const apiResponse = await getDocuments(req, predicates, {
+    fetchLinks: peopleFields.concat(
+      contributorsFields,
+      placesFields,
+      installationFields
+    )
+  });
+
+  if (apiResponse.results.length > 0) {
+    return parseExhibitionDoc(apiResponse.results[0]);
+  }
 }
