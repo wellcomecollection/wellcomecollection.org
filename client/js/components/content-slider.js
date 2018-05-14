@@ -147,7 +147,27 @@ const contentSlider = (el, options) => {
   function containImages(imagesArray, containerWidth, screenHeight, settings) {
     if (settings.containImages) {
       const maxWidth = containerWidth;
-      const maxHeight = screenHeight * 0.7 < 640 ? screenHeight * 0.7 : 640;
+      const tallestImage = nodeList(imagesArray).reduce((acc, image) => {
+        const imageHeight = image.getAttribute('height');
+        if (acc.height <= imageHeight) {
+          return {
+            height: imageHeight,
+            width: image.getAttribute('width')
+          };
+        } else {
+          return acc;
+        }
+      }, {height: 0, width: 0});
+      const tallestDisplayHeight = (maxWidth / tallestImage.width) * tallestImage.height;
+      let maxHeight;
+      if (screenHeight * 0.7 > tallestDisplayHeight) {
+        maxHeight = tallestDisplayHeight;
+      } else if (screenHeight * 0.7 < 640) {
+        maxHeight = screenHeight * 0.7;
+      } else {
+        maxHeight = 640;
+      }
+      // TODO align images vertically centered?
       nodeList(imagesArray).forEach((img, imageIndex) => {
         if (img) {
           const imgHeight = maxHeight;

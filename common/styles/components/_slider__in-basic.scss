@@ -1,17 +1,37 @@
 .slider--in-basic {
+
+  &.slider--in-content {
+    overflow: visible;
+  }
+
   .slides-container {
     @include position-basic-slides-container;
   }
+
+  .slide-item {
+    opacity: 1;
+
+    .captioned-image__caption {
+      width: calc(100vw - #{(map-get($container-padding, 'small') * 2)});
+
+      @include respond-to('medium') {
+        width: calc((100vw / 12) * 10);
+        // width: calc(100vw - #{(map-get($container-padding, 'medium') * 2)});
+      }
+
+      @include respond-to('large') {
+        width: calc(100vw - (#{map-get($container-padding, 'large')} * 2) - 50%);
+        // width: calc(100vw - #{(map-get($container-padding, 'large') * 2)});
+      }
+
+      @include respond-to('xlarge') {
+        width: (($container-width-max / 12) * 8) - (map-get($container-padding, 'xlarge') * 2);
+        // width: calc(100vw - #{(map-get($container-padding, 'xlarge') * 2)});
+      }
+    }
+  }
 }
 
-$slider-one-column-width: (100 / 12) * 1%;
-
-.slider-controls--in-basic {
-  @include respond-to('medium') {
-    margin-right: $slider-one-column-width;
-  }
-
-  @include respond-to('large') {
-    margin-right: $slider-one-column-width * 2;
-  }
+.slider-controls--in-basic.flush-container-right {
+  right: 0;
 }
