@@ -1,4 +1,5 @@
 import BackToTop from '../BackToTop/BackToTop';
+import { BasicPageColumn } from '../Templates/BasicPage/BasicPage';
 import Button from '../Buttons/Button/Button';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import Control from '../Buttons/Control/Control';
@@ -42,6 +43,7 @@ import InstallationPage from '../Templates/BasicPage/InstallationPage';
 
 export {
   BackToTop,
+  BasicPageColumn,
   Button,
   CaptionedImage,
   Control,

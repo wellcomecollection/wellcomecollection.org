@@ -1,31 +1,16 @@
 {% extends 'layout/default.njk' %}
 
 {% block body %}
-  <div class="row {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
-    <div class="container">
-      <div class="grid">
-        <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
-          <div class="body-text">
-            {% if isConfirmed %}
-              <h1>Confirmation message</h1>
-              <p><a href="/whats-on">Browse our current and upcoming exhibitions and events</a>.</p>
-            {% elif isSuccess %}
-              <h1>Thank you</h1>
-              <p>Thank you for your interest in receiving updates from Wellcome Collection.</p>
-              <p>If this is first time you have subscribed to a newsletter, you will receive an email asking to confirm your subscription. Please check your email to confirm and start receiving updates.</p>
-              <p><a href="/whats-on">Browse our current and upcoming exhibitions and events</a>.</p>
-            {% else %}
-              {% if isError %}
-                <h1>There was a problem</h1>
-                <p>Please try again.</p>
-              {% else %}
-                <h1>Sign up</h2>
-              {% endif %}
-              {% componentJsx 'NewsletterSignup' %}
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+  {% set newsletterModel = {
+    isSuccess: isSuccess,
+    isError: isError,
+    isConfirmed: isConfirmed
+  } %}
+
+  {% if featuresCohort == 'wellcomeUser' %}
+    {% componentJsx 'BasicPageColumn', {}, [{
+      name: 'NewsletterSignup', model: newsletterModel
+    }] %}
+  {% endif %}
 {% endblock %}

@@ -1,7 +1,21 @@
 import {spacing, font} from '../../../utils/classnames';
 import HTMLInput from '../HTMLInput/HTMLInput';
 import Button from '../Buttons/Button/Button';
-import {Component} from 'react';
+import {Component, Fragment} from 'react';
+
+type Props = {|
+  isSuccess?: boolean,
+  isError?: boolean,
+  isConfirmed?: boolean
+|}
+
+type State = {|
+  checkedInputs: string[],
+  isEmailError: boolean,
+  isCheckboxError: boolean,
+  noValidate: boolean,
+  isSubmitAttempted: boolean
+|}
 
 const addressBooks = [
   {
@@ -36,7 +50,7 @@ const addressBooks = [
   }
 ];
 
-class NewsletterSignup extends Component {
+class NewsletterSignup extends Component<Props, State> {
   state = {
     checkedInputs: [],
     isEmailError: true,
@@ -84,62 +98,94 @@ class NewsletterSignup extends Component {
   }
 
   render() {
+    const { isConfirmed, isSuccess, isError } = this.props;
     return (
-      <form
-        noValidate={this.state.noValidate}
-        onSubmit={this.handleSubmit}
-        name='newsletter-signup'
-        id='newsletter-signup'
-        action='https://r1-t.trackedlink.net/signup.ashx'
-        method='post'>
-        <input type='hidden' name='userid' value='225683' />
-        <input type='hidden' name='ReturnURL' value='http://localhost:3000/info/newsletter' />
-        <input type='hidden' name='SIG22a9ece3ebe9b2e10e328f234fd10b3f5686b9f4d45f628f08852417032dc990' value='' />
-
-        <fieldset className={spacing({s: 2}, {margin: ['bottom']})}>
-          <legend>What are you interested in? Choose as many as you like:</legend>
-          <ul className='plain-list no-padding'>
-            {addressBooks.map((addressBook) => (
-              <li className={spacing({s: 2}, {margin: ['bottom']})} key={addressBook.id}>
-                <HTMLInput
-                  id={addressBook.id}
-                  type='checkbox'
-                  name={addressBook.name}
-                  label={addressBook.label}
-                  onChange={this.updateCheckedInputs} />
-                <p className={`${font({s: 'HNL6'})} ${spacing({s: 1}, {margin: ['top']})}`}>{addressBook.description}</p>
-              </li>
-            ))}
-          </ul>
-        </fieldset>
-
-        <div className={spacing({s: 2}, {margin: ['bottom']})}>
-          <HTMLInput
-            required={true}
-            id='email'
-            type='email'
-            name='Email'
-            label='Your email address'
-            placeholder='Your email address'
-            isLabelHidden={true}
-            onChange={this.handleEmailInput}
-          />
-        </div>
-
-        <p className={font({s: 'HNL6'})}>We use a third party provider, Dotmailer, to deliver our newsletters. For information about how we handle your data, please read our <a href='https://wellcome.ac.uk/about-us/privacy-and-terms'>privacy notice</a>. You can unsubscribe at any time using links in the emails you receive.</p>
-
-        <Button
-          extraClasses={`btn--primary ${spacing({s: 2}, {margin: ['bottom']})}`}
-          text='Submit' />
-
-        {this.state.isCheckboxError && this.state.isSubmitAttempted &&
-          <p className={`${spacing({s: 2}, {padding: ['top', 'right', 'bottom', 'left'], margin: ['bottom']})} border-width-1 border-color-red font-red`}>Please select an option.</p>
+      <div className='body-text'>
+        {isConfirmed &&
+          <Fragment>
+            <h1>Confirmation message</h1>
+            <p><a href='/whats-on'>Browse our current and upcoming exhibitions and events</a>.</p>
+          </Fragment>
         }
 
-        {this.state.isEmailError && this.state.isSubmitAttempted &&
-          <p className={`${spacing({s: 2}, {padding: ['top', 'right', 'bottom', 'left'], margin: ['bottom']})} border-width-1 border-color-red font-red`}>Please enter a valid email address.</p>
+        {isSuccess &&
+          <Fragment>
+            <h1>Thank you</h1>
+            <p>Thank you for your interest in receiving updates from Wellcome Collection.</p>
+            <p>If this is first time you have subscribed to a newsletter, you will receive an email asking to confirm your subscription. Please check your email to confirm and start receiving updates.</p>
+            <p><a href='/whats-on'>Browse our current and upcoming exhibitions and events</a>.</p>
+          </Fragment>
         }
-      </form>
+
+        {isError &&
+          <Fragment>
+            <h1>There was a problem</h1>
+            <p>Please try again.</p>
+          </Fragment>
+        }
+
+        {!isConfirmed && !isSuccess && !isError &&
+          <h1>Sign up</h1>
+        }
+
+        {!isConfirmed && !isSuccess &&
+          <form
+            noValidate={this.state.noValidate}
+            onSubmit={this.handleSubmit}
+            name='newsletter-signup'
+            id='newsletter-signup'
+            action='https://r1-t.trackedlink.net/signup.ashx'
+            method='post'>
+            <input type='hidden' name='userid' value='225683' />
+            <input type='hidden' name='ReturnURL' value='http://localhost:3000/info/newsletter' />
+            <input type='hidden' name='SIG22a9ece3ebe9b2e10e328f234fd10b3f5686b9f4d45f628f08852417032dc990' value='' />
+
+            <fieldset className={spacing({s: 2}, {margin: ['bottom']})}>
+              <legend>What are you interested in? Choose as many as you like:</legend>
+              <ul className='plain-list no-padding'>
+                {addressBooks.map((addressBook) => (
+                  <li className={spacing({s: 2}, {margin: ['bottom']})} key={addressBook.id}>
+                    <HTMLInput
+                      id={addressBook.id}
+                      type='checkbox'
+                      name={addressBook.name}
+                      label={addressBook.label}
+                      onChange={this.updateCheckedInputs} />
+                    <p className={`${font({s: 'HNL6'})} ${spacing({s: 1}, {margin: ['top']})}`}>{addressBook.description}</p>
+                  </li>
+                ))}
+              </ul>
+            </fieldset>
+
+            <div className={spacing({s: 2}, {margin: ['bottom']})}>
+              <HTMLInput
+                required={true}
+                id='email'
+                type='email'
+                name='Email'
+                label='Your email address'
+                placeholder='Your email address'
+                isLabelHidden={true}
+                onChange={this.handleEmailInput}
+              />
+            </div>
+
+            <p className={font({s: 'HNL6'})}>We use a third party provider, Dotmailer, to deliver our newsletters. For information about how we handle your data, please read our <a href='https://wellcome.ac.uk/about-us/privacy-and-terms'>privacy notice</a>. You can unsubscribe at any time using links in the emails you receive.</p>
+
+            <Button
+              extraClasses={`btn--primary ${spacing({s: 2}, {margin: ['bottom']})}`}
+              text='Submit' />
+
+            {this.state.isCheckboxError && this.state.isSubmitAttempted &&
+              <p className={`${spacing({s: 2}, {padding: ['top', 'right', 'bottom', 'left'], margin: ['bottom']})} border-width-1 border-color-red font-red`}>Please select an option.</p>
+            }
+
+            {this.state.isEmailError && this.state.isSubmitAttempted &&
+              <p className={`${spacing({s: 2}, {padding: ['top', 'right', 'bottom', 'left'], margin: ['bottom']})} border-width-1 border-color-red font-red`}>Please enter a valid email address.</p>
+            }
+          </form>
+        }
+      </div>
     );
   }
 }

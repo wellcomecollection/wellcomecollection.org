@@ -16,7 +16,7 @@ type Props = {|
   children: Node
 |}
 
-const BasicPageColumn = ({children}: {| children: Node |}) => (
+export const BasicPageColumn = ({children}: {| children: Node |}) => (
   <div className={`row ${spacing({s: 3}, {padding: ['top']})} ${spacing({s: 8}, {padding: ['bottom']})}`}>
     <div className='container'>
       <div className='grid'>
