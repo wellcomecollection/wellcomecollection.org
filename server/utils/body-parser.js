@@ -12,6 +12,7 @@ import {createTweet} from '../model/tweet';
 import {createBodyPart} from '../model/body-part';
 import {createHeading} from '../model/heading';
 import {createInstagramEmbed} from '../model/instagram-embed';
+import {striptags} from '../../common/utils/striptags';
 
 export function bodyParser(bodyText) {
   const fragment = getFragment(bodyText);
@@ -162,7 +163,11 @@ function convertIframe(node) {
 function convertWpStandfirst(node) {
   return createBodyPart({
     type: 'standfirst',
-    value: serializeAndCleanNode(unwrapFromEm(node))
+    value: [{
+      type: 'paragraph',
+      text: striptags(serializeAndCleanNode(unwrapFromEm(node))),
+      spans: []
+    }]
   });
 }
 
