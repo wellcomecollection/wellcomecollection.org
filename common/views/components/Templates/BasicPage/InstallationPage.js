@@ -16,8 +16,7 @@ type Props = {|
 const InstallationPage = ({ installation }: Props) => {
   const DateInfo = installation.end ? <DateRange start={installation.start} end={installation.end} /> : <HTMLDate date={installation.start} />;
   const tags = [{
-    text: 'Installations',
-    url: '/whats-on'
+    text: 'Installations'
   }];
 
   return (

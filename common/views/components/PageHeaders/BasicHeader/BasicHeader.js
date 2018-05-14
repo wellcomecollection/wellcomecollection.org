@@ -1,8 +1,8 @@
 
 // @flow
-import {Fragment} from 'react';
 import {spacing, grid, font} from '../../../../utils/classnames';
 import {UiImage} from '../../Images/Images';
+import Tags from '../../Tags/Tags';
 import type {Node} from 'react';
 import type {UiImageProps} from '../../Images/Images';
 import type {TagProps} from '../../Tags/Tags';
@@ -26,27 +26,10 @@ const BasicHeader = ({
 }: Props) => (
   <div className={`container ${spacing({s: 5, m: 7}, {padding: ['top']})} ${spacing({s: 1}, {padding: ['bottom']})}`}>
     <div className='grid'>
-      <div className={grid({s: 12, m: 10, shiftM: 1, l: 2, xl: 2})}>
-        {tags.length > 0 &&
-          <Fragment>
-            {tags.map(tag => {
-              return <Fragment key={tag.text}>
-                { tag.url &&
-                <div className={`bg-yellow ${font({s: 'HNM5'})} ${spacing({s: 1}, { padding: ['left', 'right'] })}`} style={{ display: 'inline-block' }}>
-                  <a href={`${tag.url}`} className='plain-link'>
-                    {tag.text}
-                  </a>
-                </div>
-                }
-                { !tag.url &&
-                  <div className={`bg-yellow ${font({s: 'HNM5'})} ${spacing({s: 1}, { padding: ['left', 'right'] })}`} style={{ display: 'inline-block' }}>{tag.text}</div>
-                }
-              </Fragment>;
-            })}
-          </Fragment>
-        }
+      <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
+        <Tags tags={tags} />
       </div>
-      <div className={grid({s: 12, m: 10, shiftM: 1, l: 8, xl: 8})}>
+      <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
 
         <h1 className='h1'>{title}</h1>
 
