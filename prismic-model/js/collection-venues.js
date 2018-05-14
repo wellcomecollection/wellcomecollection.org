@@ -1,6 +1,8 @@
 import description from './parts/description';
 import timestamp from './parts/timestamp';
 import number from './parts/number';
+import select from './parts/select';
+
 const CollectionVenue = {
   Main: {
     title: {
@@ -98,6 +100,7 @@ const CollectionVenue = {
       config: {
         fields: {
           overrideDate: timestamp('Override date'),
+          type: select('Override type', ['Bank holiday', 'Easter', 'Christmas and New Year', 'Late Spectacular', 'other']),
           startDateTime: timestamp('Opens'),
           endDateTime: timestamp('Closes')
         }

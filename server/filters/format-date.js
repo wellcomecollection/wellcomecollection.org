@@ -39,6 +39,10 @@ export function formatMonthYear(date: Date): string {
   return london(date).format('MMMM YYYY');
 }
 
+export function formatYear(date: Date): string {
+  return london(date).format('YYYY');
+}
+
 export function formatDateWithComingSoon(date: Date): string {
   const isFuture = london().diff(date) < 0;
   return (isFuture ? 'Coming soon: ' : '') + formatDate(date);

@@ -20,21 +20,12 @@ export function parsePage(document: PrismicDocument) {
   } : promo;
 
   const body = document.data.body ? parseBody(document.data.body) : [];
-  const drupalisedBody: any[] = drupalPromoImage ? [{
-    weight: 'default',
-    type: 'picture',
-    value: {
-      contentUrl: document.data.drupalPromoImage.url,
-      width: document.data.drupalPromoImage.width,
-      height: document.data.drupalPromoImage.height
-    }
-  }].concat(body) : body;
 
   return {
     type: 'pages',
     id: document.id,
     title: document.data.title ? parseTitle(document.data.title) : 'TITLE MISSING',
-    body: drupalisedBody,
+    body: body,
     promo: drupalisedPromo,
     drupalPromoImage: drupalPromoImage,
     drupalNid: document.data.drupalNid,

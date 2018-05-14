@@ -14,7 +14,7 @@ type Props = {|
   groupedVenues: {
     [string]: PlacesOpeningHours
   },
-  upcomingExceptionalOpeningPeriods: Date[][]
+  upcomingExceptionalOpeningPeriods: {dates: Date[], type: string}[]
 |}
 
 const Footer = ({openingHoursId, extraClasses, groupedVenues, upcomingExceptionalOpeningPeriods}: Props) => (
