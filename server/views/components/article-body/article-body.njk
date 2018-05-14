@@ -35,7 +35,7 @@
                 ] %}
               </div>
             {% else %}
-                {% componentJsx 'FeaturedText', { html: bodyPart.value } %}
+              {% componentJsx 'FeaturedText', { html: bodyPart.value } %}
             {% endif %}
           {% elif bodyPart.type === 'heading' %}
             <h2>{{ bodyPart.value.value | safe }}</h2>
