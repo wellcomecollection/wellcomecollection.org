@@ -58,6 +58,11 @@ $image-gallery-control-margin: 18px;
     display: none;
   }
 
+  .image-gallery__heading {
+    position: static;
+    margin-left: 0;
+  }
+
   .image-gallery {
     padding-top: $vertical-space-unit * 2;
   }
