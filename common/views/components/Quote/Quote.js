@@ -15,7 +15,7 @@ const Quote = ({text, citation}: Props) => (
 
     {citation &&
       <footer className='quote__footer flex'>
-        <cite className={`quote__cite flex ${font({s: 'HNL5'})}`} style={{alignItems: 'flex-end'}}>
+        <cite className={`quote__cite flex flex--v-end ${font({s: 'HNL5'})}`}>
           <PrismicHtmlBlock html={citation} />
         </cite>
       </footer>
