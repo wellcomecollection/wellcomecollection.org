@@ -38,6 +38,7 @@ import Quote from '../Quote/Quote';
 import Contributor from '../Contributor/Contributor';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import InstallationPage from '../Templates/BasicPage/InstallationPage';
+import Page from '../Templates/BasicPage/Page';
 
 export {
   BackToTop,
@@ -79,5 +80,6 @@ export {
   Quote,
   Contributor,
   ExhibitionPromo,
-  InstallationPage
+  InstallationPage,
+  Page
 };

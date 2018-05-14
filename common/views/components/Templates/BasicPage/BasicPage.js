@@ -11,7 +11,7 @@ type Props = {|
   title: string,
   body: {type: string, value: any}[],
   mainImageProps: ?UiImageProps,
-  Background: | WobblyBackground,
+  Background: ?(| WobblyBackground),
   DateInfo: Node,
   Description: Node,
   InfoBar: Node,
