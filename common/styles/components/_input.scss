@@ -66,7 +66,7 @@
 }
 
 .input__control-indicator {
-  width: 1em;
+  min-width: 1em;
   height: 1em;
   display: inline-block;
   position: relative;
@@ -98,7 +98,8 @@
   @include visually-hidden;
 }
 
-.input--text {
+.input--text,
+.input--email {
   display: flex;
   width: 100%;
   padding: 0.4em;

@@ -19,10 +19,12 @@ type Props = {|
   disabled?: boolean,
   autofocus?: boolean,
   isLabelHidden?: boolean,
+  required?: boolean,
   onChange?: (EventWithInputValue) => void
 |}
 
 const HTMLInput = ({
+  required,
   inputRef,
   id,
   type,
@@ -38,6 +40,7 @@ const HTMLInput = ({
 }: Props) => (
   <label className='input__label flex flex--v-center' htmlFor={id}>
     <input
+      required={required}
       ref={inputRef}
       id={id}
       className={`input input--${type} ${font(fontStyles)} js-input`}
