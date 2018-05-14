@@ -52,3 +52,19 @@ $image-gallery-control-margin: 18px;
     max-height: 70vh;
   }
 }
+
+.basic-page {
+  .wobbly-edge {
+    display: none;
+  }
+
+  .image-gallery {
+    padding-top: $vertical-space-unit * 2;
+  }
+
+  .slider--in-basic {
+    .slider-inner {
+      background: transparent;
+     }
+  }
+}
