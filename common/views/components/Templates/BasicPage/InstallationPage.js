@@ -21,7 +21,7 @@ const InstallationPage = ({ installation }: Props) => {
       Background={WobblyBackground()}
       TagBar={
         <div
-          style={{ height: '48px' }}
+          style={{ minHeight: '48px' }}
           data-component='exhibit-exhibition-link'
           className='async-content exhibit-exhibition-link-placeholder'
           data-endpoint={`/installations/${installation.id}/exhibition`}
