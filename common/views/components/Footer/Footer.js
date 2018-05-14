@@ -8,8 +8,10 @@ import FooterSocial from '../FooterSocial/FooterSocial';
 import Icon from '../Icon/Icon';
 import type {PlacesOpeningHours} from '../../../model/opening-hours';
 import {Fragment} from 'react';
+import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 
 type Props = {|
+  showNewsletterPromo: boolean,
   openingHoursId: string,
   extraClasses: string,
   groupedVenues: {
@@ -18,8 +20,11 @@ type Props = {|
   upcomingExceptionalOpeningPeriods: {dates: Date[], type: string}[]
 |}
 
-const Footer = ({openingHoursId, extraClasses, groupedVenues, upcomingExceptionalOpeningPeriods}: Props) => (
+const Footer = ({showNewsletterPromo, openingHoursId, extraClasses, groupedVenues, upcomingExceptionalOpeningPeriods}: Props) => (
   <Fragment>
+    { showNewsletterPromo &&
+      <NewsletterPromo />
+    }
     <div className={`footer row bg-black ${spacing({s: 5, m: 10}, {padding: ['top']})}`}>
       <div className='container'>
         <div className='grid'>
