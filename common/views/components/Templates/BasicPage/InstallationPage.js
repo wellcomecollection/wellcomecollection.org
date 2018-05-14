@@ -15,28 +15,23 @@ type Props = {|
 
 const InstallationPage = ({ installation }: Props) => {
   const DateInfo = installation.end ? <DateRange start={installation.start} end={installation.end} /> : <HTMLDate date={installation.start} />;
-  const tags = [{
-    text: 'Installations'
-  }];
 
   return (
     <BasicPage
       Background={WobblyBackground()}
+      TagBar={
+        <div
+          style={{ height: '48px' }}
+          data-component='exhibit-exhibition-link'
+          className='async-content exhibit-exhibition-link-placeholder'
+          data-endpoint={`/installations/${installation.id}/exhibition`}
+          data-prefix-endpoint='false'></div>
+      }
       DateInfo={DateInfo}
       InfoBar={<StatusIndicator start={installation.start} end={(installation.end || new Date())} />}
-      Description={
-        <div>
-          Part of&nbsp;
-          <span
-            data-component='exhibit-exhibition-link'
-            className='async-content exhibit-exhibition-link-placeholder'
-            data-endpoint={`/installations/${installation.id}/exhibition`}
-            data-prefix-endpoint='false'></span>
-        </div>
-      }
+      Description={null}
       title={installation.title}
       mainImageProps={installation.promo && installation.promo.image}
-      tags={tags}
       body={installation.body}>
 
       <Fragment>

@@ -2,15 +2,13 @@
 // @flow
 import {spacing, grid, font} from '../../../../utils/classnames';
 import {UiImage} from '../../Images/Images';
-import Tags from '../../Tags/Tags';
 import type {Node} from 'react';
 import type {UiImageProps} from '../../Images/Images';
-import type {TagProps} from '../../Tags/Tags';
 
 type Props = {|
   title: string,
   mainImageProps: ?UiImageProps,
-  tags: TagProps[],
+  TagBar: Node,
   DateInfo: Node,
   InfoBar: Node,
   Description: ?Node
@@ -19,7 +17,7 @@ type Props = {|
 const BasicHeader = ({
   title,
   mainImageProps,
-  tags,
+  TagBar,
   DateInfo,
   Description,
   InfoBar
@@ -27,10 +25,9 @@ const BasicHeader = ({
   <div className={`container ${spacing({s: 5, m: 7}, {padding: ['top']})} ${spacing({s: 1}, {padding: ['bottom']})}`}>
     <div className='grid'>
       <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
-        <Tags tags={tags} />
+        {TagBar}
       </div>
       <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
-
         <h1 className='h1'>{title}</h1>
 
         <div className={`${font({s: 'HNL3'})}`}>
