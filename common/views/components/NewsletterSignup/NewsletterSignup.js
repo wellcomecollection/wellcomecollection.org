@@ -136,8 +136,9 @@ class NewsletterSignup extends Component<Props, State> {
             id='newsletter-signup'
             action='https://r1-t.trackedlink.net/signup.ashx'
             method='post'>
+            {/* The hidden inputs below are required by dotmailer */}
             <input type='hidden' name='userid' value='225683' />
-            <input type='hidden' name='ReturnURL' value='http://localhost:3000/info/newsletter' />
+            <input type='hidden' name='ReturnURL' value='https://wellcomecollection.org/info/newsletter' />
             <input type='hidden' name='SIG22a9ece3ebe9b2e10e328f234fd10b3f5686b9f4d45f628f08852417032dc990' value='' />
 
             <fieldset className={spacing({s: 2}, {margin: ['bottom']})}>
