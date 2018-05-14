@@ -30,7 +30,18 @@ const BasicHeader = ({
         {tags.length > 0 &&
           <Fragment>
             {tags.map(tag => {
-              return <div key={tag.text} className={`bg-yellow ${font({s: 'HNM5'})} ${spacing({s: 1}, { padding: ['left', 'right'] })}`} style={{ display: 'inline-block' }}>{tag.text}</div>;
+              return <Fragment key={tag.text}>
+                { tag.url &&
+                <div className={`bg-yellow ${font({s: 'HNM5'})} ${spacing({s: 1}, { padding: ['left', 'right'] })}`} style={{ display: 'inline-block' }}>
+                  <a href={`${tag.url}`} className='plain-link'>
+                    {tag.text}
+                  </a>
+                </div>
+                }
+                { !tag.url &&
+                  <div className={`bg-yellow ${font({s: 'HNM5'})} ${spacing({s: 1}, { padding: ['left', 'right'] })}`} style={{ display: 'inline-block' }}>{tag.text}</div>
+                }
+              </Fragment>;
             })}
           </Fragment>
         }
