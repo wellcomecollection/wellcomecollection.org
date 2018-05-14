@@ -26,7 +26,7 @@ const BasicHeader = ({
 }: Props) => (
   <div className={`container ${spacing({s: 5, m: 7}, {padding: ['top']})} ${spacing({s: 1}, {padding: ['bottom']})}`}>
     <div className='grid'>
-      <div className={grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}>
+      <div className={grid({s: 12, m: 10, shiftM: 1, l: 2, xl: 2})}>
         {tags.length > 0 &&
           <Fragment>
             {tags.map(tag => {
@@ -45,6 +45,8 @@ const BasicHeader = ({
             })}
           </Fragment>
         }
+      </div>
+      <div className={grid({s: 12, m: 10, shiftM: 1, l: 8, xl: 8})}>
 
         <h1 className='h1'>{title}</h1>
 
