@@ -313,7 +313,7 @@ export function parseBody(fragment: PrismicFragment[]) {
         return {
           type: 'text',
           weight: getWeight(slice.slice_label),
-          value: asHtml(slice.primary.text)
+          value: slice.primary.text
         };
 
       case 'editorialImage':

@@ -26,7 +26,6 @@ import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import Promo from '../Promo/Promo';
 import SearchBox from '../SearchBox/SearchBox';
 import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
-import Standfirst from '../Body/Standfirst/Standfirst';
 import Tags from '../Tags/Tags';
 import Tasl from '../Tasl/Tasl';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
@@ -38,6 +37,7 @@ import ShameQuote from '../ShameQuote/ShameQuote';
 import Contributor from '../Contributor/Contributor';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import InstallationPage from '../Templates/BasicPage/InstallationPage';
+import FeaturedText from '../FeaturedText/FeaturedText';
 
 export {
   BackToTop,
@@ -68,7 +68,6 @@ export {
   Picture,
   SearchBox,
   SecondaryLink,
-  Standfirst,
   Tags,
   Tasl,
   WobblyEdge,
@@ -79,5 +78,6 @@ export {
   ShameQuote,
   Contributor,
   ExhibitionPromo,
-  InstallationPage
+  InstallationPage,
+  FeaturedText
 };
