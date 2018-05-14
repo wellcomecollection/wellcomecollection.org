@@ -96,7 +96,7 @@
     </div>
 
     {% if featuresCohort == 'wellcomeUser' and pageConfig.path !== '/info/newsletter' %}
-      <NewsletterPromo />
+      {% componentJsx 'NewsletterPromo' %}
     {% endif %}
 
     {% componentJsx 'Footer', {
