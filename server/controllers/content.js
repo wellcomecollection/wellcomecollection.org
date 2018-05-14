@@ -332,7 +332,8 @@ export function renderNewsletterPage(ctx, next) {
       category: 'info'
     }),
     isSuccess: result === 'success',
-    isError: result === 'error'
+    isError: result === 'error',
+    isConfirmed: result === 'confirmed'
   });
 
   return next();

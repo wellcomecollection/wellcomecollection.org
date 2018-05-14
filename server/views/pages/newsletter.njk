@@ -6,7 +6,10 @@
       <div class="grid">
         <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
           <div class="body-text">
-            {% if isSuccess %}
+            {% if isConfirmed %}
+              <h1>Confirmation message</h1>
+              <p><a href="/whats-on">Browse our current and upcoming exhibitions and events</a>.</p>
+            {% elif isSuccess %}
               <h1>Thank you</h1>
               <p>Thank you for your interest in receiving updates from Wellcome Collection.</p>
               <p>If this is first time you have subscribed to a newsletter, you will receive an email asking to confirm your subscription. Please check your email to confirm and start receiving updates.</p>

@@ -6,28 +6,33 @@ import {Component} from 'react';
 const addressBooks = [
   {
     id: 'whats_on',
-    label: `Exhibitions, events and opportunities to get involved - What’s On is sent monthly, with occasional updates`,
-    name: 'addressbook_40131'
+    label: `What’s On`,
+    name: 'addressbook_40131',
+    description: `Exhibitions, events and opportunities to get involved - What’s On is sent monthly, with occasional updates`
   },
   {
     id: 'accessibility',
-    label: `What’s On: Access - highlights events, tours and opportunities to get involved, including BSL, Audio Description and Speech-to-Text events`,
-    name: 'addressbook_40129'
+    label: `What’s On: Access`,
+    name: 'addressbook_40129',
+    description: `What’s On: Access - highlights events, tours and opportunities to get involved, including BSL, Audio Description and Speech-to-Text events`
   },
   {
     id: 'young_people_14-19',
-    label: `What’s On for 14-19 year olds: Creative opportunities and events for young people aged 14-19, including RawMinds and Saturday Studio`,
-    name: 'addressbook_40132'
+    label: `What’s On for 14-19 year olds`,
+    name: 'addressbook_40132',
+    description: `What’s On for 14-19 year olds: creative opportunities and events for young people aged 14-19, including RawMinds and Saturday Studio`
   },
   {
     id: 'teachers',
-    label: `Study days and other events for secondary school teachers and school groups`,
-    name: 'addressbook_40130'
+    label: `Study Days`,
+    name: 'addressbook_40130',
+    description: `Study days and other events for secondary school teachers and school groups`
   },
   {
     id: 'youth_and_community_workers',
-    label: `Updates for Youth & Community Workers, featuring events and activities for youth 14-19`,
-    name: 'addressbook_40133'
+    label: `Updates for Youth & Community Workers`,
+    name: 'addressbook_40133',
+    description: `Updates for Youth & Community Workers, featuring events and activities for youth 14-19`
   }
 ];
 
@@ -102,6 +107,7 @@ class NewsletterSignup extends Component {
                   name={addressBook.name}
                   label={addressBook.label}
                   onChange={this.updateCheckedInputs} />
+                <p className={`${font({s: 'HNL6'})} ${spacing({s: 1}, {margin: ['top']})}`}>{addressBook.description}</p>
               </li>
             ))}
           </ul>
@@ -120,7 +126,7 @@ class NewsletterSignup extends Component {
           />
         </div>
 
-        <p className={font({s: 'HNL6'})}>We use a third party provider, Dotmailer, to deliver our newsletters. For information about how we handle your data, please read our <a href='#'>privacy notice</a>. You can unsubscribe at any time using links in the emails you receive.</p>
+        <p className={font({s: 'HNL6'})}>We use a third party provider, Dotmailer, to deliver our newsletters. For information about how we handle your data, please read our <a href='https://wellcome.ac.uk/about-us/privacy-and-terms'>privacy notice</a>. You can unsubscribe at any time using links in the emails you receive.</p>
 
         <Button
           extraClasses={`btn--primary ${spacing({s: 2}, {margin: ['bottom']})}`}
