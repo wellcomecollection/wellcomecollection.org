@@ -1,6 +1,6 @@
 // @flow
 import Image from '../Image/Image';
-import {spacing, font} from '../../../utils/classnames';
+import {spacing, font, grid} from '../../../utils/classnames';
 import type {Props as ImageProps} from '../Image/Image';
 
 type Props = {|
@@ -25,40 +25,38 @@ const BasicPromo = ({
       action: `${promoType}:click`
     })}
     href={url}
-    className='plain-link promo-link bg-cream rounded-top rounded-bottom overflow-hidden flex flex--column'
+    className='grid plain-link'
   >
-    {/* Find out why we can't just pass `imageProps` here */}
-    {imageProps && <Image
-      width={imageProps.width}
-      height={imageProps.height}
-      contentUrl={imageProps.contentUrl}
-      clipPathClass={imageProps.clipPathClass}
-      alt={imageProps.alt}
-      caption={imageProps.alt}
-      lazyload={imageProps.lazyload}
-      sizesQueries={imageProps.sizesQueries}
-      copyright={imageProps.copyright}
-      defaultSize={imageProps.defaultSize}
-      clickHandler={imageProps.clickHandler}
-      zoomable={imageProps.zoomable}
-    />}
+    <div className={
+      grid({ s: 3, m: 3, l: 3, xl: 3 }) +
+      ` rounded-corners`
+    }>
+      {/* Find out why we can't just pass `imageProps` here */}
+      {imageProps && <Image
+        width={imageProps.width}
+        height={imageProps.height}
+        contentUrl={imageProps.contentUrl}
+        clipPathClass={imageProps.clipPathClass}
+        alt={imageProps.alt}
+        caption={imageProps.alt}
+        lazyload={imageProps.lazyload}
+        sizesQueries={imageProps.sizesQueries}
+        copyright={imageProps.copyright}
+        defaultSize={imageProps.defaultSize}
+        clickHandler={imageProps.clickHandler}
+        zoomable={imageProps.zoomable}
+        extraClasses={'rounded-corners'}
+      />}
+    </div>
 
-    <div className={`${[
-      spacing({s: 2}, {padding: ['top']}),
-      spacing({s: 3}, {padding: ['left', 'right']}),
-      spacing({s: 4}, {padding: ['bottom']})
-    ].join(' ')} flex flex--column flex-1
-    `}>
-      <div className='promo__heading'>
-        <div className={`promo-link__title ${font({s: 'WB6'})} ${spacing({s: 0}, {margin: ['top']})}`}>
-          {title}
-        </div>
+    <div className={grid({ s: 9, m: 9, l: 9, xl: 9 })}>
+      <div className={`${font({s: 'WB5'})} ${spacing({s: 0}, {margin: ['top']})}`}>
+        {title}
       </div>
-
       {description &&
         <span className={[
           spacing({s: 2}, {margin: ['top']}),
-          font({s: 'HNL5'})
+          font({s: 'HNL4'})
         ].join(' ')}>
           {description}
         </span>
