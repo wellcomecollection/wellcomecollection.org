@@ -11,6 +11,16 @@ function loadStories() {
 addDecorator(withKnobs);
 addDecorator(checkA11y);
 
+const styles = {
+  padding: '30px',
+};
+const CenterDecorator = (storyFn) => (
+  <div style={styles}>
+    { storyFn() }
+  </div>
+);
+addDecorator(CenterDecorator);
+
 setOptions({
   name: 'Cardigan',
   url: 'https://cardigan.wellcomecollection.org',
