@@ -1,5 +1,15 @@
 {
   "Exhibition": {
+    "format": {
+      "type": "Select",
+      "config": {
+        "label": "Format",
+        "options": [
+          "Permanent",
+          "Temporary"
+        ]
+      }
+    },
     "title": {
       "type": "StructuredText",
       "config": {
@@ -25,6 +35,13 @@
       "type": "Timestamp",
       "config": {
         "label": "End date"
+      }
+    },
+    "statusOverride": {
+      "type": "StructuredText",
+      "config": {
+        "single": "paragraph,hyperlink,strong,em",
+        "label": "Status override"
       }
     },
     "place": {
