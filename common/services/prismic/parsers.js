@@ -10,7 +10,7 @@ import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/ba
 import type { CaptionedImageProps } from '../../views/components/Images/Images';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
-import { parseEventSeries } from '../../../events/app/node_modules/@weco/common/services/prismic/events';
+import { parseEventSeries } from './events';
 
 const placeHolderImage = {
   contentUrl: 'https://via.placeholder.com/1600x900?text=Placeholder',
