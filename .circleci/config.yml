@@ -485,5 +485,4 @@ workflows:
           filters:
             branches:
               only:
-                - fix_cardy_build
                 - master
