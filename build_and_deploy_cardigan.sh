@@ -10,3 +10,12 @@ pushd cardigan
     aws s3 sync --only-show-errors . s3://cardigan.wellcomecollection.org
   popd
 popd
+
+pushd cardigan_beta
+  yarn install
+  yarn build
+
+  pushd .dist
+    aws s3 sync --only-show-errors . s3://cardigan.wellcomecollection.org/beta
+  popd
+popd
