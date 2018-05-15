@@ -95,7 +95,7 @@ const Tasl = withToggler(({
     toggle();
   }
 
-  return ( // TODO: remove js- and data-attributes once fully Reactified
+  return [title, sourceName, copyrightHolder].some(_ => _) && ( // TODO: remove js- and data-attributes once fully Reactified
     <div className={`
       ${isFull ? 'tasl--top' : 'tasl--bottom'}
       ${font({s: 'LR3', m: 'LR2'})}
