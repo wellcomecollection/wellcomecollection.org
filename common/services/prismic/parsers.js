@@ -10,6 +10,7 @@ import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/ba
 import type { CaptionedImageProps } from '../../views/components/Images/Images';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
+import { parseEventSeries } from '../../../events/app/node_modules/@weco/common/services/prismic/events';
 
 const placeHolderImage = {
   contentUrl: 'https://via.placeholder.com/1600x900?text=Placeholder',
@@ -340,8 +341,11 @@ export function parseBody(fragment: PrismicFragment[]) {
           value: {
             title: asText(slice.primary.title),
             items: slice.items.map(item => {
-              if (item.content.type === 'pages') {
-                return parsePage(item.content);
+              switch (item.content.type) {
+                case 'pages':
+                  return parsePage(item.content);
+                case 'event-series':
+                  return parseEventSeries(item.content);
               }
             }).filter(Boolean)
           }

@@ -14,3 +14,8 @@ export const installationFields = [
   'installations.end'
 ];
 export const pagesFields = ['pages.title'];
+export const eventSeriesFields = [
+  'event-series.title',
+  'event-series.description',
+  'event-series.backgroundTexture'
+];

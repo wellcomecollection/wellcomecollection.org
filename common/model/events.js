@@ -191,24 +191,12 @@ export const eventExample = ({
     {
       id: 'WfyK-yoAANuggY31',
       title: 'Your reality is Broken',
-      description: 'Perception is fundamental to who we are and ' +
-        'how we experience life. But how much can ' +
-        'we actually trust our senses? A scientific, ' +
-        'philosophical and creative approach to this ' +
-        'question will invite you on a journey into your ' +
-        'inner and outer experiences of the world.'
+      description: null
     },
     {
       id: 'WcPx8ygAAH4Q9WgN',
       title: 'Friday night spectacular',
-      description: 'Focusing on a theme or topic, we fill ' +
-        'the building with artists, scientists, performers, ' +
-        'writers, speakers and enthusiasts, and invite you to ' +
-        'delve into a subject in all its many aspects. With ' +
-        'the bar and restaurant open all night, it’s a great ' +
-        'place for meeting with friends, looking at your favourite ' +
-        'ideas in spectrum of different ways, or just learning ' +
-        'something new on a Friday night.'
+      description: null
     }
   ],
   place: {

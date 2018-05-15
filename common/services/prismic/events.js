@@ -1,18 +1,36 @@
+// @flow
 import {getDocument} from './api';
-import {parseBackgroundTexture} from './parsers';
-import type {UiEventSeries} from '../../model/events';
+import type {EventSeries} from '../../model/event-series';
+import type {PrismicDocument} from './types';
+import {eventSeriesFields}  from './fetch-links';
+import {
+  parseTitle,
+  parseDescription,
+  parseImagePromo,
+  parseBackgroundTexture
+} from './parsers';
 
-export async function getUiEventSeries(req: Request, id: string): Promise<UiEventSeries> {
-  const series = await getDocument(req, id, {
-    fetchLinks: ['background-textures.image', 'background-textures.name']
-  });
-
-  const prismicBackgroundTexture = series && series.data && series.data.backgroundTexture && series.data.backgroundTexture.data;
+export function parseEventSeries(document: PrismicDocument): EventSeries {
+  const {data} = document;
+  const prismicBackgroundTexture = data.backgroundTexture && data.backgroundTexture.data;
+  const promo = data.promo && parseImagePromo(data.promo);
 
   return {
-    id: id,
-    title: series && series.data && series.data.title || 'TITLE MISSING',
-    description: series && series.data && series.data.description,
-    backgroundTexture: prismicBackgroundTexture ? parseBackgroundTexture(prismicBackgroundTexture) : null
+    type: 'event-series',
+    id: document.id,
+    title: data.title ? parseTitle(data.title) : 'TITLE MISSING',
+    description: data.description && parseDescription(data.description),
+    backgroundTexture: prismicBackgroundTexture ? parseBackgroundTexture(prismicBackgroundTexture) : null,
+    promo
   };
+}
+
+export async function getUiEventSeries(req: Request, id: string): Promise<?EventSeries> {
+  const document = await getDocument(req, id, {
+    fetchLinks: eventSeriesFields
+  });
+
+  if (document) {
+    return parseEventSeries(document);
+  }
 }
