@@ -1,5 +1,5 @@
 // @flow
-import {grid, spacing} from '../../../utils/classnames';
+import {spacing} from '../../../utils/classnames';
 import BasicPromo from '../BasicPromo/BasicPromo';
 import type {MultiContent} from '../../../model/multi-content';
 
@@ -8,12 +8,14 @@ type Props = {|
 |}
 
 const SearchResults = ({ items }: Props) => (
-  <div className='grid'>
+  <div className={`
+      ${spacing({s: 11}, {margin: ['top']})}
+    `}>
     {items.map(item => (
-      <div className={[
-        grid({s: 12, m: 12, l: 12, xl: 12}),
-        spacing({s: 2}, {margin: ['bottom']})
-      ].join(' ')} key={item.id}>
+      <div className={
+        spacing({s: 5}, {padding: ['bottom', 'top']}) +
+        ` border-top-width-1 border-color-pumice`
+      } key={item.id}>
         {item.type === 'pages' &&
           <BasicPromo
             promoType='PagePromo'
