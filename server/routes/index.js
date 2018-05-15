@@ -13,6 +13,7 @@ import {
   renderArticlesList,
   renderWebcomicSeries,
   renderOpeningTimes,
+  renderNewsletterPage,
   renderPage,
   renderTagPage
 } from '../controllers/content';
@@ -56,6 +57,7 @@ r.get('/series/(W):id', renderSeries);
 r.get('/webcomic-series/:id', renderWebcomicSeries);
 r.get('/info/opening-times', renderOpeningTimes);
 r.get('/pages/:id', renderPage);
+r.get('/info/newsletter', renderNewsletterPage);
 r.get('/tag/what-we-do', renderTagPage(
   'what-we-do',
   '/what-we-do',

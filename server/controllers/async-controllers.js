@@ -82,3 +82,16 @@ export const renderSearch = async (ctx, next) => {
 
   return next();
 };
+
+export const renderPartOfExhibitLink = async (ctx, next) => {
+  const query = ctx.query.query || '';
+  const searchResponse = await search(ctx.request, query);
+
+  ctx.body = {
+    html: ReactDOMServer.renderToString(
+      React.createElement(SearchResults, { items: searchResponse.results })
+    )
+  };
+
+  return next();
+};

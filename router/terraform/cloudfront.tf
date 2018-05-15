@@ -24,7 +24,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     "next.wellcomecollection.org",
     "blog.wellcomecollection.org",
     "wellcomeimages.org",
-    "*.wellcomeimages.org"
+    "*.wellcomeimages.org",
   ]
 
   default_cache_behavior {
@@ -37,8 +37,9 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     max_ttl                = 86400
 
     forwarded_values {
-      headers                 = ["Host"]
-      query_string            = true
+      headers      = ["Host"]
+      query_string = true
+
       query_string_cache_keys = [
         "page",
         "current",
@@ -47,9 +48,14 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "uri",
         "startDate",
         "endDate",
+
         # Wellcome Images redirect
         "MIROPAC",
+
         "MIRO",
+        # dotmailer gives us a 'result' (if we run out of params,
+        # consider making new urls for newsletter pages instead)
+        "result"
       ]
 
       cookies {
@@ -58,8 +64,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         whitelisted_names = [
           "WC_wpAuthToken",
           "WC_featuresCohort",
-          "*SESS*", # Drupal
-          "WC_*_test", # A/B tests
+          "*SESS*",            # Drupal
+          "WC_*_test",         # A/B tests
         ]
       }
     }

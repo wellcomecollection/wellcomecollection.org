@@ -1,0 +1,25 @@
+{
+  "scripts": {
+    "storybook": "start-storybook -p 9001 -c .storybook -s ../dist/assets"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0"
+  },
+  "dependencies": {
+    "@storybook/cli": "^3.4.1",
+    "@storybook/addon-options": "^3.4.2",
+    "@storybook/react": "^3.4.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-module-resolver": "^3.0.0",
+    "babel-plugin-react-require": "^3.0.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-plugin-wrap-in-js": "^1.1.1",
+    "babel-preset-env": "^1.6.1",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "storybook-readme": "^3.3.0"
+  }
+}

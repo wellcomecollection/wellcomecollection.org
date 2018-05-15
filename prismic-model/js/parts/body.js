@@ -30,6 +30,12 @@ export default {
   type: 'Slices',
   config: {
     labels: {
+      text: [
+        {
+          name: 'featured',
+          'display': 'Featured'
+        }
+      ],
       editorialImage: [
         {
           name: 'supporting',
@@ -50,6 +56,12 @@ export default {
       // These should probably be called captionedImage etc, but legacy says no
       editorialImage: captionedImageSlice(),
       editorialImageGallery: captionedImageGallerySlice(),
+      quote: slice('Quote', {
+        nonRepeat: {
+          text: structuredText('Quote'),
+          citation: structuredText('Citation', 'single')
+        }
+      }),
       contentList: slice('(β) Content list', {
         nonRepeat: {
           title
