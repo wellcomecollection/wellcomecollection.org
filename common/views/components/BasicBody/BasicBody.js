@@ -1,6 +1,5 @@
 // @flow
 // TODO: Sync up types with the body slices and the components they return
-import {Fragment} from 'react';
 import {spacing} from '../../../utils/classnames';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
@@ -23,10 +22,10 @@ const BasicBody = ({ body }: Props) => {
       {body.map((slice, i) =>
         <div className={`body-part ${spacing({s: 4}, {margin: ['top']})}`} key={`slice${i}`}>
           {slice.type === 'text' &&
-            <Fragment>
+            <div className='body-text'>
               {slice.weight === 'featured' && <FeaturedText html={slice.value} />}
               {slice.weight !== 'featured' && <PrismicHtmlBlock html={slice.value} />}
-            </Fragment>
+            </div>
           }
           {slice.type === 'picture' &&
             <CaptionedImage caption={slice.value.caption}>
