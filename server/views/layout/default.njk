@@ -95,6 +95,10 @@
       {% endblock %}
     </div>
 
+    {% if featuresCohort == 'wellcomeUser' and pageConfig.title !== 'Newsletter' %}
+      {% componentJsx 'NewsletterPromo' %}
+    {% endif %}
+
     {% componentJsx 'Footer', {
       openingHoursId: 'footer',
       groupedVenues: openingHours.groupedVenues,

@@ -25,7 +25,7 @@ const InfoBanner = ({cookieName, text}: Props) => (
               </span>
             </div>
             {cookieName && <div>
-              <button className="no-margin no-padding plain-button pointer js-info-banner-close">
+              <button className='no-margin no-padding plain-button pointer js-info-banner-close'>
                 <Icon name='cross' title='Close notification' />
               </button>
             </div>}

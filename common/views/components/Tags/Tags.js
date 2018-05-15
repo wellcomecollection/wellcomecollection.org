@@ -3,12 +3,12 @@
 import { spacing, font } from '../../../utils/classnames';
 import ReactGA from 'react-ga';
 
-type TagProps = {|
+export type TagProps = {|
   text: string,
   url?: string
 |}
 
-type Props = {|
+export type Props = {|
   tags: TagProps[]
 |}
 
