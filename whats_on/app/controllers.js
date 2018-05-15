@@ -1,8 +1,11 @@
+import React from 'react';
+import ReactDOMServer from 'react-dom/server';
 import searchQuery from 'search-query-parser';
 import {getInstallation} from '@weco/common/services/prismic/installations';
 import {getExhibitions, getExhibition, getExhibitionExhibits, getExhibitExhibition} from '@weco/common/services/prismic/exhibitions';
 import {isPreview as isPrismicPreview} from '@weco/common/services/prismic/api';
 import {model, prismic} from 'common';
+import Tags from '@weco/common/views/components/Tags/Tags';
 
 import {
   shopPromo,
@@ -131,6 +134,17 @@ export async function renderExhibitExhibitionLink(ctx, next) {
   const exhibition = await getExhibitExhibition(ctx.request, id);
 
   if (exhibition) {
-    ctx.body =  { html: `<a href='/exhibitions/${exhibition.id}'>${exhibition.title}</a>` };
+    const tags = [{
+      text: 'Installation'
+    }, {
+      text: `Part of ${exhibition.title}`,
+      url: `/exhibitions/${exhibition.id}`
+    }];
+
+    ctx.body = {
+      html: ReactDOMServer.renderToString(
+        React.createElement(Tags, { tags })
+      )
+    };
   }
 }
