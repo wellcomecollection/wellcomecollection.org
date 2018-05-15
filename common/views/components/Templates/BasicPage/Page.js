@@ -19,6 +19,7 @@ const InstallationPage = ({ page }: Props) => {
       TagBar={null}
       InfoBar={null}
       title={page.title}
+      mainImageProps={null}
       body={page.body}>
       <Fragment>
       </Fragment>
