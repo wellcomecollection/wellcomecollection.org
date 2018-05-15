@@ -12,18 +12,29 @@ const SearchResults = ({ items }: Props) => (
       ${spacing({s: 11}, {margin: ['top']})}
     `}>
     {items.map(item => (
-      item.type === 'pages' &&
       <div className={
         spacing({s: 5}, {padding: ['bottom', 'top']}) +
         ` border-top-width-1 border-color-pumice`
       } key={item.id}>
-        <BasicPromo
-          promoType='PagePromo'
-          url={`/pages/${item.id}`}
-          title={item.title}
-          description={item.promo && item.promo.caption}
-          imageProps={item.promo && item.promo.image}
-        />
+        {item.type === 'pages' &&
+          <BasicPromo
+            promoType='PagePromo'
+            url={`/pages/${item.id}`}
+            title={item.title}
+            description={item.promo && item.promo.caption}
+            imageProps={item.promo && item.promo.image}
+          />
+        }
+
+        {item.type === 'event-series' &&
+          <BasicPromo
+            promoType='EventSeriesPromo'
+            url={`/pages/${item.id}`}
+            title={item.title}
+            description={item.promo && item.promo.caption}
+            imageProps={item.promo && item.promo.image}
+          />
+        }
       </div>
     ))}
   </div>

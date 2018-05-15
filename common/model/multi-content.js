@@ -3,4 +3,5 @@
 // to allow us to enumerate on it.
 // TODO: Find a way to enforce ☝️
 import type {Page} from './pages';
-export type MultiContent = | Page;
+import type {EventSeries} from './event-series';
+export type MultiContent = | Page | EventSeries;
