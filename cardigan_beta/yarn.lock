@@ -2,6 +2,17 @@
 # yarn lockfile v1
 
 
+"@storybook/addon-a11y@^3.4.4":
+  version "3.4.4"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-a11y/-/addon-a11y-3.4.4.tgz#8d4ce0d662819275811fab6fa19b8f7b9fe30a65"
+  dependencies:
+    "@storybook/components" "3.4.4"
+    axe-core "^2.6.1"
+    babel-runtime "^6.26.0"
+    glamor "^2.20.40"
+    glamorous "^4.12.1"
+    prop-types "^15.6.1"
+
 "@storybook/addon-actions@3.4.1":
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-3.4.1.tgz#6ec5dc337e4af301d2f0f8fbc0ad2dee812cfa29"
@@ -572,6 +583,10 @@ aws-sign2@~0.6.0:
 aws4@^1.2.1:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.7.0.tgz#d4d0e9b9dbfca77bf08eeb0a8a471550fe39e289"
+
+axe-core@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-2.6.1.tgz#28772c4f76966d373acda35b9a409299dc00d1b5"
 
 babel-code-frame@6.26.0, babel-code-frame@^6.26.0:
   version "6.26.0"
