@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "storybook": "start-storybook -p 9001 -c .storybook -s ../dist/assets"
+    "dev": "start-storybook -p 9001 -c .storybook -s ../dist/assets",
+    "build": "build-storybook -c .storybook -s ../dist/assets -o .dist"
   },
   "devDependencies": {
     "@storybook/addon-knobs": "^3.4.4",
