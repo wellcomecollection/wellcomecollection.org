@@ -41,6 +41,8 @@ import Tasl from '../Tasl/Tasl';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
+import Quote from '../Quote/Quote';
+import Page from '../Templates/BasicPage/Page';
 
 export {
   BackToTop,
@@ -72,11 +74,13 @@ export {
   OpeningHours,
   OpeningHoursTable,
   OpeningHoursTableGrouped,
+  Page,
   PageDescription,
   Pagination,
   Picture,
   PrimaryLink,
   Promo,
+  Quote,
   SearchBox,
   SearchResults,
   SecondaryLink,

@@ -7,6 +7,7 @@ export type Page = {|
   title: string,
   promo: ?ImagePromo,
   body: any[],
+  datePublished: ?Date,
   // TODO (drupal migration): This is used while we add the credit and
   // alt for Drupal content
   drupalPromoImage: ?string,

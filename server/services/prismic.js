@@ -4,7 +4,6 @@ import {
   parseArticleDoc,
   parseEventDoc,
   parseWebcomicDoc,
-  parseBasicPageDoc,
   asText,
   asHtml,
   prismicImage,
@@ -106,11 +105,9 @@ export async function getArticle(id: string, previewReq: ?Request) {
 
   switch (article.type) {
     case 'articles':
-      return (
-        (article.data.displayType === 'basic-page' && Object.assign({}, parseBasicPageDoc(article), {displayType: 'basic'})) ||
-        Object.assign({}, parseArticleDoc(article), {displayType: 'article'})
-      );
-    case 'webcomics': return Object.assign({}, parseWebcomicDoc(article), {displayType: 'article'});
+      return parseArticleDoc(article);
+    case 'webcomics':
+      return parseWebcomicDoc(article);
   }
 }
 

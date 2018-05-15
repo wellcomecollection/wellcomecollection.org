@@ -12,8 +12,8 @@ type Props = {|
   title: string,
   body: Body,
   mainImageProps: ?UiImageProps,
+  Background: ?WobblyBackground,
   TagBar: Node, // potentially make this only take Aync | Tags?
-  Background: | WobblyBackground,
   DateInfo: Node,
   InfoBar: Node,
   children: Node,
