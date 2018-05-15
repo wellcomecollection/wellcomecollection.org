@@ -10,16 +10,15 @@ type Props = {|
 
 const InstallationPage = ({ page }: Props) => {
   const DateInfo = page.datePublished && <HTMLDate date={page.datePublished} />;
-  console.info(page.datePublished);
 
   return (
     <BasicPage
       Background={null}
       DateInfo={DateInfo}
       Description={null}
+      TagBar={null}
       InfoBar={null}
       title={page.title}
-      mainImageProps={page.promo && page.promo.image}
       body={page.body}>
       <Fragment>
       </Fragment>
