@@ -103,23 +103,24 @@ class NewsletterSignup extends Component<Props, State> {
       <div className='body-text'>
         {isConfirmed &&
           <Fragment>
-            <h1>Confirmation message</h1>
+            <h1>Thank you for confirming your email address</h1>
+            <p>We’re looking forward to keeping you up-to-date on the topics you’re interested in. You are seeing this page because you clicked on a confirmation link in an email from us, but you can unsubscribe or change your subscription preferences at any time using the link in the emails you receive.</p>
             <p><a href='/whats-on'>Browse our current and upcoming exhibitions and events</a>.</p>
           </Fragment>
         }
 
         {isSuccess &&
           <Fragment>
-            <h1>Thank you</h1>
-            <p>Thank you for your interest in receiving updates from Wellcome Collection.</p>
-            <p>If this is first time you have subscribed to a newsletter, you will receive an email asking to confirm your subscription. Please check your email to confirm and start receiving updates.</p>
+            <h1>You’re signed up!</h1>
+            <p>Thank you for signing up to receive updates from us.</p>
+            <p>If this is first time you’ve subscribed to updates from us, you will receive an email asking to confirm your subscription. Please check your email and confirm, so you can start receiving updates.</p>
             <p><a href='/whats-on'>Browse our current and upcoming exhibitions and events</a>.</p>
           </Fragment>
         }
 
         {isError &&
           <Fragment>
-            <h1>There was a problem</h1>
+            <h1>Sorry, there&rsquo;s been a problem</h1>
             <p>Please try again.</p>
           </Fragment>
         }
@@ -171,14 +172,14 @@ class NewsletterSignup extends Component<Props, State> {
               />
             </div>
 
-            <p className={font({s: 'HNL6'})}>We use a third party provider, Dotmailer, to deliver our newsletters. For information about how we handle your data, please read our <a href='https://wellcome.ac.uk/about-us/privacy-and-terms'>privacy notice</a>. You can unsubscribe at any time using links in the emails you receive.</p>
+            <p className={font({s: 'HNL6'})}>We use a third party provider, <a href='https://www.dotmailer.com/terms/privacy-policy/'>Dotmailer</a>, to deliver our newsletters. For information about how we handle your data, please read our <a href='https://wellcome.ac.uk/about-us/privacy-and-terms'>privacy notice</a>. You can unsubscribe at any time using links in the emails you receive.</p>
 
             <Button
               extraClasses={`btn--primary ${spacing({s: 2}, {margin: ['bottom']})}`}
               text='Submit' />
 
             {this.state.isCheckboxError && this.state.isSubmitAttempted &&
-              <p className={`${spacing({s: 2}, {padding: ['top', 'right', 'bottom', 'left'], margin: ['bottom']})} border-width-1 border-color-red font-red`}>Please select an option.</p>
+              <p className={`${spacing({s: 2}, {padding: ['top', 'right', 'bottom', 'left'], margin: ['bottom']})} border-width-1 border-color-red font-red`}>Please select at least one option.</p>
             }
 
             {this.state.isEmailError && this.state.isSubmitAttempted &&
