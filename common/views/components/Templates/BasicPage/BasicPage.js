@@ -14,15 +14,15 @@ type Props = {|
   body: Body,
   mainImageProps: ?UiImageProps,
   Background: ?(WobblyBackground | TexturedBackground),
-  TagBar: Node, // potentially make this only take Aync | Tags?
-  DateInfo: Node,
-  InfoBar: Node,
-  children: Node,
-  Description: ?Node
+  TagBar: ?Node, // potentially make this only take Aync | Tags?
+  DateInfo: ?Node,
+  InfoBar: ?Node,
+  Description: ?Node,
+  children?: ?Node
 |}
 
 export const BasicPageColumn = ({children}: {| children: Node |}) => (
-  <div className={`row ${spacing({s: 3}, {padding: ['top']})} ${spacing({s: 8}, {padding: ['bottom']})}`}>
+  <div className={`row ${spacing({s: 8}, {padding: ['bottom']})}`}>
     <div className='container'>
       <div className='grid'>
         <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
@@ -61,9 +61,11 @@ const BasicPage = ({
         </div>
       </BasicPageColumn>
 
-      <BasicPageColumn>
-        {children}
-      </BasicPageColumn>
+      {children &&
+        <BasicPageColumn>
+          {children}
+        </BasicPageColumn>
+      }
     </Fragment>
   );
 };
