@@ -7,6 +7,7 @@ import StatusIndicator from '../../StatusIndicator/StatusIndicator';
 import HTMLDate from '../../HTMLDate/HTMLDate';
 import Contributor from '../../Contributor/Contributor';
 import WobblyBackground from './WobblyBackground';
+import {UiImage} from '../../Images/Images';
 import type {UiInstallation} from '../../../../model/installations';
 
 type Props = {|
@@ -15,6 +16,7 @@ type Props = {|
 
 const InstallationPage = ({ installation }: Props) => {
   const DateInfo = installation.end ? <DateRange start={installation.start} end={installation.end} /> : <HTMLDate date={installation.start} />;
+  const FeaturedMedia = installation.promo && <UiImage {...installation.promo.image} />;
 
   return (
     <BasicPage
@@ -30,8 +32,8 @@ const InstallationPage = ({ installation }: Props) => {
       DateInfo={DateInfo}
       InfoBar={<StatusIndicator start={installation.start} end={(installation.end || new Date())} />}
       Description={null}
+      FeaturedMedia={FeaturedMedia}
       title={installation.title}
-      mainImageProps={installation.promo && installation.promo.image}
       body={installation.body}>
 
       <Fragment>

@@ -1,6 +1,7 @@
 // @flow
 import BasicPage from './BasicPage';
 import HTMLDate from '../../HTMLDate/HTMLDate';
+import {UiImage} from '../../Images/Images';
 import type {Page} from '../../../../model/pages';
 
 type Props = {|
@@ -14,6 +15,7 @@ const InstallationPage = ({ page }: Props) => {
   const mainImageProps = page.body.length > 1 && page.body[0].type === 'picture'
     ? page.body[0].value : null;
   const body = mainImageProps ? page.body.slice(1, page.body.length)  : page.body;
+  const FeaturedMedia = mainImageProps ? <UiImage {...mainImageProps} /> : null;
 
   return (
     <BasicPage
@@ -22,8 +24,8 @@ const InstallationPage = ({ page }: Props) => {
       TagBar={null}
       InfoBar={null}
       Description={null}
+      FeaturedMedia={FeaturedMedia}
       title={page.title}
-      mainImageProps={mainImageProps}
       body={body}>
     </BasicPage>
   );
