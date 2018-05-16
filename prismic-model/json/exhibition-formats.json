@@ -1,0 +1,18 @@
+{
+  "Exhibition format": {
+    "title": {
+      "type": "StructuredText",
+      "config": {
+        "single": "paragraph,hyperlink,strong,em,h1",
+        "label": "Title"
+      }
+    },
+    "description": {
+      "type": "StructuredText",
+      "config": {
+        "single": "paragraph,hyperlink,strong,em",
+        "label": "Description"
+      }
+    }
+  }
+}
