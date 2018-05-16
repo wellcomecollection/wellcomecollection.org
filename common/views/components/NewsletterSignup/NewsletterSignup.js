@@ -100,33 +100,35 @@ class NewsletterSignup extends Component<Props, State> {
   render() {
     const { isConfirmed, isSuccess, isError } = this.props;
     return (
-      <div className='body-text'>
+      <Fragment>
         {isConfirmed &&
-          <Fragment>
+          <div className='body-text'>
             <h1>Thank you for confirming your email address</h1>
             <p>We’re looking forward to keeping you up-to-date on the topics you’re interested in. You are seeing this page because you clicked on a confirmation link in an email from us, but you can unsubscribe or change your subscription preferences at any time using the link in the emails you receive.</p>
             <p><a href='/whats-on'>Browse our current and upcoming exhibitions and events</a>.</p>
-          </Fragment>
+          </div>
         }
 
         {isSuccess &&
-          <Fragment>
+          <div className='body-text'>
             <h1>You’re signed up!</h1>
             <p>Thank you for signing up to receive updates from us.</p>
             <p>If this is first time you’ve subscribed to updates from us, you will receive an email asking to confirm your subscription. Please check your email and confirm, so you can start receiving updates.</p>
             <p><a href='/whats-on'>Browse our current and upcoming exhibitions and events</a>.</p>
-          </Fragment>
+          </div>
         }
 
         {isError &&
-          <Fragment>
+          <div className='body-text'>
             <h1>Sorry, there&rsquo;s been a problem</h1>
             <p>Please try again.</p>
-          </Fragment>
+          </div>
         }
 
         {!isConfirmed && !isSuccess && !isError &&
-          <h1>Sign up</h1>
+          <div className='body-text'>
+            <h1>Sign up</h1>
+          </div>
         }
 
         {!isConfirmed && !isSuccess &&
@@ -141,6 +143,19 @@ class NewsletterSignup extends Component<Props, State> {
             <input type='hidden' name='userid' value='225683' />
             <input type='hidden' name='ReturnURL' value='https://wellcomecollection.org/info/newsletter' />
             <input type='hidden' name='SIG22a9ece3ebe9b2e10e328f234fd10b3f5686b9f4d45f628f08852417032dc990' value='' />
+
+            <div className={spacing({s: 2}, {margin: ['bottom']})}>
+              <HTMLInput
+                required={true}
+                id='email'
+                type='email'
+                name='Email'
+                label='Your email address'
+                placeholder='Your email address'
+                isLabelHidden={true}
+                onChange={this.handleEmailInput}
+              />
+            </div>
 
             <fieldset className={spacing({s: 2}, {margin: ['bottom']})}>
               <legend>What are you interested in? Choose as many as you like:</legend>
@@ -159,20 +174,7 @@ class NewsletterSignup extends Component<Props, State> {
               </ul>
             </fieldset>
 
-            <div className={spacing({s: 2}, {margin: ['bottom']})}>
-              <HTMLInput
-                required={true}
-                id='email'
-                type='email'
-                name='Email'
-                label='Your email address'
-                placeholder='Your email address'
-                isLabelHidden={true}
-                onChange={this.handleEmailInput}
-              />
-            </div>
-
-            <p className={font({s: 'HNL6'})}>We use a third party provider, <a href='https://www.dotmailer.com/terms/privacy-policy/'>Dotmailer</a>, to deliver our newsletters. For information about how we handle your data, please read our <a href='https://wellcome.ac.uk/about-us/privacy-and-terms'>privacy notice</a>. You can unsubscribe at any time using links in the emails you receive.</p>
+            <p className={`${font({s: 'HNL6'})} plain-text`}>We use a third party provider, <a href='https://www.dotmailer.com/terms/privacy-policy/'>Dotmailer</a>, to deliver our newsletters. For information about how we handle your data, please read our <a href='https://wellcome.ac.uk/about-us/privacy-and-terms'>privacy notice</a>. You can unsubscribe at any time using links in the emails you receive.</p>
 
             <Button
               extraClasses={`btn--primary ${spacing({s: 2}, {margin: ['bottom']})}`}
@@ -187,7 +189,7 @@ class NewsletterSignup extends Component<Props, State> {
             }
           </form>
         }
-      </div>
+      </Fragment>
     );
   }
 }
