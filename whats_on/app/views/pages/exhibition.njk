@@ -44,7 +44,7 @@
                   <div class="flex flex--v-center flex--h-space-between">
                     <span class="{{ {s:'HNM4', m:'HNM3'} | fontClasses }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free admission</span>
                     <span class="flex flex--v-center {{ {s:'HNM4'} | fontClasses }}">
-                    {% set dateMessageAndColor = {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage %}
+                    {% set dateMessageAndColor = {start: exhibition.start, end: exhibition.end, statusOverride: exhibition.statusOverride} | formatDateRangeWithMessage %}
                       <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
                       {% set statusColor = 'icon--' + dateMessageAndColor.color %}
                         {% icon 'status_indicator', null, [statusColor, 'icon--match-text'] %}
