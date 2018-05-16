@@ -18,8 +18,8 @@
                 {% componentJsx 'InstallationPromo', {
                   id: exhibit.item.id,
                   title: exhibit.item.title,
-                  description: exhibit.item.description[0].text,
-                  image: exhibit.item.featuredImageList[0],
+                  description: exhibit.item.promo.caption,
+                  image: exhibit.item.promo.image,
                   start: exhibit.item.start,
                   end: exhibit.item.end
                 } %}

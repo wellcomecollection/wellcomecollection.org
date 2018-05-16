@@ -5,20 +5,22 @@ import BasicHeader from '../../PageHeaders/BasicHeader/BasicHeader';
 import BasicBody from '../../BasicBody/BasicBody';
 import type {Node} from 'react';
 import type {UiImageProps} from '../../Images/Images';
+import type {Body} from '../../BasicBody/BasicBody';
 import type WobblyBackground from './WobblyBackground';
 
 type Props = {|
   title: string,
-  body: {type: string, value: any}[],
+  body: Body,
   mainImageProps: ?UiImageProps,
-  Background: | WobblyBackground,
+  Background: ?WobblyBackground,
+  TagBar: Node, // potentially make this only take Aync | Tags?
   DateInfo: Node,
-  Description: Node,
   InfoBar: Node,
-  children: Node
+  children: Node,
+  Description: ?Node
 |}
 
-const BasicPageColumn = ({children}: {| children: Node |}) => (
+export const BasicPageColumn = ({children}: {| children: Node |}) => (
   <div className={`row ${spacing({s: 3}, {padding: ['top']})} ${spacing({s: 8}, {padding: ['bottom']})}`}>
     <div className='container'>
       <div className='grid'>
@@ -34,6 +36,7 @@ const BasicPage = ({
   title,
   body,
   mainImageProps,
+  TagBar,
   Background,
   DateInfo,
   Description,
@@ -46,6 +49,7 @@ const BasicPage = ({
       <BasicHeader
         title={title}
         mainImageProps={mainImageProps}
+        TagBar={TagBar}
         DateInfo={DateInfo}
         Description={Description}
         InfoBar={InfoBar}

@@ -34,6 +34,7 @@ import {eventbriteTicketButton} from './components/eventbrite-ticket-button';
 import segmentedControl from './components/segmented-control';
 import tabs from './components/tabs';
 import {eventbriteTicketStatus} from './components/eventbrite-ticket-status';
+import newsletterSignup from './components/newsletter-signup';
 
 const init = () => {
   polyfills.init();
@@ -67,6 +68,7 @@ const init = () => {
   const infoBannerEls = document.querySelectorAll('.js-info-banner');
   const segmentedControlEls = document.querySelectorAll('.js-segmented-control');
   const eventsFilter = document.querySelectorAll('.js-events-filter');
+  const newsletterSignupEl = document.getElementById('newsletter-signup');
 
   nodeList(segmentedControlEls).forEach(segmentedControl);
 
@@ -107,6 +109,10 @@ const init = () => {
 
   if (stickyEls) {
     makeSticky(stickyEls, store$);
+  }
+
+  if (newsletterSignupEl) {
+    newsletterSignup(newsletterSignupEl);
   }
 
   nodeList(sortSearchEls).forEach(sortSearch);

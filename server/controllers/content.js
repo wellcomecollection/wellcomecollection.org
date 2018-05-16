@@ -65,9 +65,8 @@ export const renderArticle = async(ctx, next) => {
         url: `/webcomic-series/${series.id}`,
         text: `Part of ${series.name}`
       })) : [];
-      const displayType = article.displayType;
       const trackingInfo = getEditorialAnalyticsInfo(article);
-      ctx.render(`pages/${displayType || 'article'}`, {
+      ctx.render(`pages/article`, {
         pageConfig: Object.assign({}, createPageConfig({
           path: path,
           title: article.headline,
@@ -276,7 +275,7 @@ export async function renderPage(ctx, next) {
   const page = await getPage(ctx.request, id);
 
   if (page) {
-    ctx.render('pages/basic', {
+    ctx.render('pages/page', {
       pageConfig: createPageConfig({
         path: ctx.request.url,
         title: page.title,
@@ -319,4 +318,22 @@ export function renderTagPage(tag, url, title, inSection, description) {
       moreLink: null
     });
   };
+}
+
+export function renderNewsletterPage(ctx, next) {
+  const { result } = ctx.query;
+
+  ctx.render('pages/newsletter', {
+    pageConfig: createPageConfig({
+      path: ctx.request.url,
+      title: 'Newsletter',
+      inSection: 'explore', // TODO: ?
+      category: 'info'
+    }),
+    isSuccess: result === 'success',
+    isError: result === 'error',
+    isConfirmed: result === 'confirmed'
+  });
+
+  return next();
 }

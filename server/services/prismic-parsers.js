@@ -8,7 +8,6 @@ import type {
 import {parseBody, parseFeaturedBody} from './prismic-body-parser';
 import type {ImagePromo} from '../content-model/content-blocks';
 import type {Article} from '../model/article';
-import type {BasicPage} from '../model/basic-page';
 import type {Picture} from '../model/picture';
 import {isEmptyObj} from '../utils/is-empty-obj';
 import type {Series} from '../model/series';
@@ -191,25 +190,6 @@ export function parseArticleDoc(doc: PrismicDoc): Article {
   };
 
   return article;
-}
-
-export function parseBasicPageDoc(doc: PrismicDoc): BasicPage {
-  const headline = asText(doc.data.title);
-  const publishDate = parsePublishedDate(doc);
-  const promo = doc.data.promo.find(slice => slice.slice_type === 'editorialImage');
-  const description = promo && asText(promo.primary.caption);
-  const thumbnail = promo && parsePicture(promo.primary);
-  const bodyParts = parseBody(doc.data.body);
-
-  const page: BasicPage = {
-    headline: headline,
-    datePublished: publishDate,
-    thumbnail: thumbnail,
-    bodyParts: bodyParts,
-    description: description
-  };
-
-  return page;
 }
 
 export function parseWebcomicDoc(doc: PrismicDoc): Article {
