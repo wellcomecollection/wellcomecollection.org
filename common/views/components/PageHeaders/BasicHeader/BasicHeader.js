@@ -47,13 +47,15 @@ const BasicHeader = ({
             <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
               <h1 className={`
               h1 inline-block no-margin
-              ${Background ? '' : 'bg-white'}
-              ${spacing({ s: 2 }, { padding: ['left', 'right'] })}
-              ${spacing({ s: 1 }, { padding: ['bottom', 'top'] })}
+              ${Background ? '' : `
+                bg-white
+                ${spacing({ s: 2 }, { padding: ['left', 'right'] })}
+                ${spacing({ s: 1 }, { padding: ['bottom', 'top'] })}
+              `}
             `}>{title}</h1>
 
               {DateInfo &&
-                <div className={`${font({s: 'HNL3'})}`}>
+                <div className={`${font({s: 'HNL3'})} ${spacing({s: 3}, {margin: ['top']})}`}>
                   {DateInfo}
                 </div>
               }
