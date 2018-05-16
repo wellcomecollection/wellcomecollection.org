@@ -35,7 +35,7 @@ export function isDatePast(date: Date): boolean {
   return momentEnd.isBefore(momentNow, 'day');
 }
 
-export function formatDateRangeWithMessage({start, end, statusOverride}: {start: Date, end: Date, statusOverride: string}): {text: string, color: string} {
+export function formatDateRangeWithMessage({start, end, statusOverride}: {start: Date, end: Date, statusOverride?: ?string}): {text: string, color: string} {
   const now = london();
   const s = london(start);
   const e = london(end);

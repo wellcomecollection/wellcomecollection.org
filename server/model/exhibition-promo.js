@@ -1,7 +1,7 @@
 // @flow
 import type {Picture} from './picture';
 
-type formats = 'Permanent';
+type formats = 'permanent';
 
 export type ExhibitionPromo = {|
   id: string;

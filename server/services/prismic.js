@@ -464,7 +464,7 @@ function getListHeader(dates, collectionOpeningTimes) {
 export async function getExhibitionAndEventPromos(query, collectionOpeningTimes, featuresCohort) {
   const todaysDate = london();
   const fromDate = !query.startDate ? todaysDate.format('YYYY-MM-DD') : query.startDate;
-  // set either 'everything' as default time period, when no startDate is provided
+  // set 'everything' as default time period, when no startDate is provided
   const toDate = !query.startDate ? undefined : query.endDate; ;
   const dateRange = [fromDate, toDate];
   const allExhibitionsAndEvents = await getAllOfType(['exhibitions', 'events'], {

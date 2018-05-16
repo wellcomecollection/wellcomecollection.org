@@ -5,11 +5,12 @@ import Icon from '../Icon/Icon';
 
 type Props = {|
   start: Date,
-  end: Date
+  end: Date,
+  statusOverride?: ?string
 |}
 
-const StatusIndicator = ({ start, end }: Props) => {
-  const {color, text} = formatDateRangeWithMessage({start, end});
+const StatusIndicator = ({ start, end, statusOverride }: Props) => {
+  const {color, text} = formatDateRangeWithMessage({start, end, statusOverride});
   return (
     <span className={`flex flex--v-center ${font({s: 'HNL4'})}`}>
       <span className={`${spacing({s: 1}, {margin: ['right']})} flex flex--v-center`}>

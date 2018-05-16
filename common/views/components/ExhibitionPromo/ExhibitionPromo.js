@@ -7,9 +7,9 @@ import Icon from '../Icon/Icon';
 import type {ExhibitionPromo as Props} from '../../../model/exhibitions';
 
 const ExhibitionPromo = ({
-  id, url, title, image, description, start, end
+  format, id, url, title, image, description, start, end, statusOverride
 }: Props) => {
-  const dateMessageAndColor = formatDateRangeWithMessage({start, end: (end || new Date())});
+  const dateMessageAndColor = formatDateRangeWithMessage({start, end: (end || new Date()), statusOverride});
   return (
     <a data-component='ExhibitionPromo'
       data-track-event={JSON.stringify({category: 'component', action: 'ExhibitionPromo:click'})}
@@ -32,17 +32,17 @@ const ExhibitionPromo = ({
           ${spacing({s: 4}, {padding: ['bottom']})}
         `}>
         <p className={`no-padding ${spacing({s: 2}, {margin: ['bottom']})} ${font({s: 'HNM5'})}`}>
-          {end && 'Exhibition'}
-          {!end && 'Permanent exhibition'}
+          {format !== 'permanent' && 'Exhibition'}
+          {format === 'permanent' && 'Permanent exhibition'}
         </p>
 
         <h2 className={`promo-link__title ${font({s: 'WB5'})} ${spacing({s: 0}, {margin: ['top']})}`}>{title}</h2>
 
         <p className={`${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})} no-padding`}>
-          {end &&
+          {format !== 'permanent' && !statusOverride && start && end &&
             <Fragment><time dateTime={start}>{formatDate(start)}</time>—<time dateTime={end}>{formatDate(end)}</time></Fragment>
           }
-          {!end && description}
+          {format === 'permanent' && description}
         </p>
 
         <div className='flex flex--h-space-between flex--wrap margin-top-auto'>

@@ -19,7 +19,8 @@ import {
   parsePlace,
   parsePromoListItem,
   parsePromoToCaptionedImage,
-  isDocumentLink
+  isDocumentLink,
+  asText
 } from './parsers';
 import {parseInstallationDoc} from './installations';
 
@@ -62,13 +63,14 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
 
   const sizeInKb = Math.round(document.data.textAndCaptionsDocument.size / 1024);
   const textAndCaptionsDocument = isDocumentLink(document.data.textAndCaptionsDocument) ? Object.assign({}, document.data.textAndCaptionsDocument, {sizeInKb}) : null;
-
   const id = document.id;
+  const format = data.format.slug;
   const url = `/exhibitions/${id}`;
   const title = parseTitle(data.title);
   const description = parseDescription(data.description);
   const start = parseTimestamp(data.start);
   const end = data.end && parseTimestamp(data.end);
+  const statusOverride =  asText(data.statusOverride);
 
   const promoImage = drupalPromoImage || (promo && parsePromoToCaptionedImage(data.promo));
   // As we store the intro as an H2 in the model, incorrectly, we then convert
@@ -77,12 +79,14 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
 
   return {
     id: id,
+    format: format,
     title: title,
     description: description,
     intro: intro,
     contributors: data.contributors ? parseContributors(data.contributors) : [],
     start: start,
     end: end,
+    statusOverride: statusOverride,
     place: isDocumentLink(data.place) && parsePlace(data.place),
     exhibits: data.exhibits ? parseExhibits(data.exhibits) : [],
 
@@ -94,12 +98,14 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     */
     promo: {
       id,
+      format,
       url,
       title,
       image: promoImage.image,
       description: (promoThin && promoThin.caption) || 'PROMO TEXT MISSING',
       start,
-      end
+      end,
+      statusOverride
     },
     galleryLevel: document.data.galleryLevel,
     textAndCaptionsDocument: textAndCaptionsDocument,
