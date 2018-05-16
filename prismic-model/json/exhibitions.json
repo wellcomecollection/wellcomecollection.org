@@ -1,12 +1,12 @@
 {
   "Exhibition": {
     "format": {
-      "type": "Select",
+      "type": "Link",
       "config": {
         "label": "Format",
-        "options": [
-          "Permanent",
-          "Temporary"
+        "select": "document",
+        "customtypes": [
+          "exhibition-formats"
         ]
       }
     },
