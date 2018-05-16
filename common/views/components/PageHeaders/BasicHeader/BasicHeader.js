@@ -5,18 +5,19 @@ import {spacing, grid, font} from '../../../../utils/classnames';
 import {UiImage} from '../../Images/Images';
 import TexturedBackground from '../../Templates/BasicPage/TexturedBackground';
 import type {Node} from 'react';
-import type {UiImageProps} from '../../Images/Images';
+import type {UiImageProps, CaptionedImage} from '../../Images/Images';
 import type WobblyBackground from '../../Templates/BasicPage/WobblyBackground';
-import type TexturedBackgroundType from '../../Templates/BasicPage/TexturedBackground';
+import type VideoEmbed from '../../VideoEmbed/VideoEmbed';
 
 type Props = {|
   title: string,
   mainImageProps: ?UiImageProps,
-  Background: ?(WobblyBackground | TexturedBackgroundType),
+  Background: ?WobblyBackground,
   TagBar?: Node,
   DateInfo?: Node,
   InfoBar?: Node,
-  Description?: Node
+  Description?: Node,
+  FeaturedMedia?: CaptionedImage | VideoEmbed
 |}
 
 const backgroundTexture = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg';
@@ -27,10 +28,11 @@ const BasicHeader = ({
   TagBar,
   DateInfo,
   Description,
-  InfoBar
+  InfoBar,
+  FeaturedMedia
 }: Props) => {
   const BackgroundComponent = Background ||
-    (mainImageProps ? TexturedBackground({backgroundTexture}) : null);
+    (FeaturedMedia ? TexturedBackground({backgroundTexture}) : null);
 
   return (
     <Fragment>
@@ -75,6 +77,12 @@ const BasicHeader = ({
               {mainImageProps &&
                 <div className={`${spacing({ s: 2 }, { margin: ['top'] })}`}>
                   <UiImage {...mainImageProps} />
+                </div>
+              }
+
+              {FeaturedMedia &&
+                <div className={`${spacing({ s: 2 }, { margin: ['top'] })}`}>
+                  {FeaturedMedia}
                 </div>
               }
             </div>
