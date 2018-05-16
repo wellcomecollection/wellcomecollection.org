@@ -76,7 +76,7 @@
 
           <div class="{{ {s:1} | spacingClasses({margin: ['bottom']}) }}">
             {% componentJsx 'Button', {
-              extraClasses: 'btn--tertiary',
+              type: 'tertiary',
               url: work.imgLink | convertImageUri('full', false),
               download: work.id + '.jpg',
               rel: 'noopener noreferrer',
@@ -89,7 +89,7 @@
 
           <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
             {% componentJsx 'Button', {
-              extraClasses: 'btn--tertiary',
+              type: 'tertiary',
               url: work.imgLink | convertImageUri(760, false),
               download: work.id + '.jpg',
               rel: 'noopener noreferrer',
@@ -123,8 +123,9 @@
   </div>
 
   {% componentJsx 'Control', {
+    type: 'dark',
     url: '#top',
-    extraClasses: 'icon--180 control--dark js-back-to-top back-to-top',
+    extraClasses: 'icon--180 js-back-to-top back-to-top',
     icon: 'chevron',
     text: 'Back to top',
     eventTracking: '{"category": "component", "action": "back-to-top:click", "label": "url:' + pageConfig.canonicalUri + '"}'

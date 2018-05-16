@@ -250,7 +250,7 @@ const WorkPage = ({work}: Props) => {
 
               <div className={spacing({s: 2}, {margin: ['bottom']})}>
                 <Button
-                  extraClasses='btn--tertiary'
+                  type='tertiary'
                   url={convertImageUri(work.items[0].locations[0].url, 'full')}
                   target='_blank'
                   download={`${work.id}.jpg`}
@@ -266,7 +266,7 @@ const WorkPage = ({work}: Props) => {
 
               <div className={spacing({s: 3}, {margin: ['bottom']})}>
                 <Button
-                  extraClasses='btn--tertiary'
+                  type='tertiary'
                   url={convertImageUri(work.items[0].locations[0].url, 760)}
                   target='_blank'
                   download={`${work.id}.jpg`}

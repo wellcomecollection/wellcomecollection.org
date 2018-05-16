@@ -6,7 +6,7 @@ export const variants = [
     name: 'default',
     label: 'primary (button)',
     context: {
-      extraClasses: 'btn--primary',
+      type: 'primary',
       icon: 'email',
       text: 'Email to book'
     }
@@ -15,7 +15,7 @@ export const variants = [
     name: 'secondary',
     label: 'secondary (button)',
     context: {
-      extraClasses: 'btn--secondary',
+      type: 'secondary',
       text: 'Cancel'
     }
   },
@@ -24,7 +24,7 @@ export const variants = [
     label: 'tertiary (button)',
     context: {
       icon: 'download',
-      extraClasses: 'btn--tertiary',
+      type: 'tertiary',
       text: 'Download full size'
     }
   },
@@ -33,7 +33,7 @@ export const variants = [
     label: 'primary (link)',
     context: {
       url: '#',
-      extraClasses: 'btn--primary',
+      type: 'primary',
       icon: 'email',
       text: 'Email to book'
     }
@@ -43,7 +43,7 @@ export const variants = [
     label: 'secondary (link)',
     context: {
       url: '#',
-      extraClasses: 'btn--secondary',
+      type: 'secondary',
       text: 'Cancel'
     }
   },
@@ -53,7 +53,7 @@ export const variants = [
     context: {
       url: '#',
       icon: 'download',
-      extraClasses: 'btn--tertiary',
+      type: 'tertiary',
       text: 'Download full size'
     }
   },
@@ -61,7 +61,7 @@ export const variants = [
     name: 'disabled',
     label: 'disabled',
     context: {
-      extraClasses: 'btn--primary',
+      type: 'primary',
       disabled: true,
       icon: 'download',
       text: 'Email to book'
