@@ -12,7 +12,7 @@ type Props = {|
   title: string,
   body: Body,
   mainImageProps: ?UiImageProps,
-  Background: ?WobblyBackground,
+  Background: ?(WobblyBackground | TexturedBackground),
   TagBar: Node, // potentially make this only take Aync | Tags?
   DateInfo: Node,
   InfoBar: Node,
@@ -45,10 +45,10 @@ const BasicPage = ({
 }: Props) => {
   return (
     <Fragment>
-      {Background}
       <BasicHeader
         title={title}
         mainImageProps={mainImageProps}
+        Background={Background}
         TagBar={TagBar}
         DateInfo={DateInfo}
         Description={Description}
