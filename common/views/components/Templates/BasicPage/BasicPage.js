@@ -7,6 +7,7 @@ import type {Node} from 'react';
 import type {UiImageProps} from '../../Images/Images';
 import type {Body} from '../../BasicBody/BasicBody';
 import type WobblyBackground from './WobblyBackground';
+import type TexturedBackground from './TexturedBackground';
 
 type Props = {|
   title: string,
