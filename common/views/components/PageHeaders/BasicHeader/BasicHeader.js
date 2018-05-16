@@ -10,7 +10,7 @@ import type VideoEmbed from '../../VideoEmbed/VideoEmbed';
 
 type Props = {|
   title: string,
-  Background: ?WobblyBackground,
+  Background: ?(WobblyBackground | CaptionedImage),
   TagBar: ?Node, // potentially make this only take Aync | Tags?
   DateInfo: ?Node,
   InfoBar: ?Node,
@@ -72,8 +72,8 @@ const BasicHeader = ({
               }
 
               {FeaturedMedia &&
-                <div className={`${spacing({ s: 2 }, { margin: ['top'] })}`}>
-                  {FeaturedMedia}
+                <div className={`${spacing({ s: 2 }, { margin: ['top'] })}`} key={'rasjhd'}>
+                  <Fragment>{FeaturedMedia}</Fragment>
                 </div>
               }
             </div>
