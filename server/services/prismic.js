@@ -363,9 +363,10 @@ function filterPromosByDate(promos, startDate, endDate) {
 
 function filterCurrentExhibitions(promos, todaysDate) {
   return promos.filter((e) => {
-    const eventStart = london(e.start);
-    const eventEnd = london(e.end);
-    return todaysDate.isSame(eventStart, 'day') || todaysDate.isSame(eventEnd, 'day') || todaysDate.isBefore(eventEnd, 'day') && todaysDate.isAfter(eventStart, 'day');
+    const eventStart = e.start && london(e.start);
+    const eventEnd = e.end && london(e.end);
+
+    return eventEnd === null || todaysDate.isSame(eventStart, 'day') || todaysDate.isSame(eventEnd, 'day') || todaysDate.isBefore(eventEnd, 'day') && todaysDate.isAfter(eventStart, 'day');
   });
 }
 
@@ -474,7 +475,7 @@ export async function getExhibitionAndEventPromos(query, collectionOpeningTimes,
   });
 
   const exhibitionPromos = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'exhibitions'));
-  const permanentExhibitionPromos = exhibitionPromos.filter(e => e.format === 'permanent');
+  const permanentExhibitionPromos = filterCurrentExhibitions(exhibitionPromos.filter(e => e.format === 'permanent'), todaysDate);
   const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => e.format !== 'permanent'), fromDate, toDate);
   const currentTemporaryExhibitionPromos = filterCurrentExhibitions(temporaryExhibitionPromos, todaysDate);
   const upcomingTemporaryExhibitionPromos = filterUpcomingExhibitions(temporaryExhibitionPromos, todaysDate);
