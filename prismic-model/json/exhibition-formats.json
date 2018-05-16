@@ -3,8 +3,9 @@
     "title": {
       "type": "StructuredText",
       "config": {
-        "single": "paragraph,hyperlink,strong,em,h1",
-        "label": "Title"
+        "label": "Title",
+        "single": "heading1",
+        "useAsTitle": true
       }
     },
     "description": {
