@@ -10,6 +10,7 @@ const NewsletterPromo = () => (
           <h2 className='h2'>Get the latest email updates</h2>
           <p>Be the first to know about upcoming exhibitions, events and more for everyone including youth and access needs.</p>
           <Button
+            type='primary'
             extraClasses='btn--primary'
             url='/info/newsletter'
             text='Sign up' />
