@@ -89,7 +89,7 @@ module "catalogue" {
   memory                             = "369"                                  # (995/2) - 128
   primary_container_port             = "80"
   secondary_container_port           = "3000"
-  path_pattern                       = "/*"
+  path_pattern                       = "/works*"
   host_name                          = "works.wellcomecollection.org"
   healthcheck_path                   = "/management/healthcheck"
   alb_priority                       = "1"
