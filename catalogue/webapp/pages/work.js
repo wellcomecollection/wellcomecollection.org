@@ -98,7 +98,7 @@ function getLicenseInfo(licenseType) {
 function createLinkObject(val: string, prepend?: string): Link {
   return {
     text: val,
-    url: prepend ? `/catalogue/works?query=${encodeURIComponent(`${prepend}"${val}"`)}` : `/catalogue/works?query=${encodeURI(`"${val}"`)}`
+    url: prepend ? `/works?query=${encodeURIComponent(`${prepend}"${val}"`)}` : `/works?query=${encodeURI(`"${val}"`)}`
   };
 }
 
@@ -181,7 +181,7 @@ const WorkPage = ({work}: Props) => {
   const descriptionArray = work.description && work.description.split('\n');
   const metaContent = getMetaContentArray(work, descriptionArray);
   const credit = work.items[0].locations[0].credit;
-  const attribution = constructAttribution(work, credit, `https://wellcomecollection.org/catalogue/works/${work.id}`);
+  const attribution = constructAttribution(work, credit, `https://wellcomecollection.org/works/${work.id}`);
 
   return (
     <Fragment>
@@ -301,7 +301,7 @@ const WorkPage = ({work}: Props) => {
                 ])}>
                   Share
                 </h2>
-                <CopyUrl id={work.id} url={`https://wellcomecollection.org/catalogue/works/${work.id}`} />
+                <CopyUrl id={work.id} url={`https://wellcomecollection.org/works/${work.id}`} />
               </div>
             </div>
           </div>
@@ -326,7 +326,7 @@ WorkPage.getInitialProps = async (context) => {
     title: json.title || json.description,
     description: json.description || '',
     type: 'website',
-    url: `https://wellcomecollection.org/catalogue/works/${json.id}`,
+    url: `https://wellcomecollection.org/works/${json.id}`,
     imageUrl: iiifImage({size: '800,'}),
     analyticsCategory: 'collections',
     siteSection: 'images',

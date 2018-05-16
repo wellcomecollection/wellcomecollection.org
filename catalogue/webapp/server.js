@@ -5,13 +5,14 @@ const next = require('next');
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
+const port = process.argv[2] || 3000;
 
 app.prepare().then(() => {
   const server = new Koa();
   const router = new Router();
 
-  router.get('/catalogue/works/:id', async ctx => {
-    await app.render(ctx.req, ctx.res, '/catalogue/work', {id: ctx.params.id});
+  router.get('/works/:id', async ctx => {
+    await app.render(ctx.req, ctx.res, '/work', {id: ctx.params.id});
     ctx.respond = false;
   });
 
@@ -26,7 +27,7 @@ app.prepare().then(() => {
   });
 
   server.use(router.routes());
-  server.listen(3000, (err) => {
+  server.listen(port, (err) => {
     if (err) throw err;
     console.log(`> ${process.env.NODE_ENV} ready on http://localhost:3000`);
   });
