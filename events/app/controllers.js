@@ -61,7 +61,7 @@ export async function renderEventSeries(ctx, next) {
     ctx.render('pages/event-series', {
       pageConfig: createPageConfig({
         path: ctx.request.url,
-        title: asText(uiEventSeries.title),
+        title: uiEventSeries.title,
         description: asText(uiEventSeries.description),
         inSection: 'whatson',
         category: 'public-programme',

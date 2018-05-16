@@ -3,6 +3,7 @@
 import Prismic from 'prismic-javascript';
 import {getDocuments} from './api';
 import { parsePage } from './pages';
+import { parseEventSeries } from './events';
 import { pagesFields } from './fetch-links';
 import type {MultiContent} from '../../model/multi-content';
 import type {StructuredSearchQuery} from './search';
@@ -10,8 +11,11 @@ import type {PaginatedResults} from './types';
 
 function parseMultiContent(documents): MultiContent[] {
   return documents.map(document => {
-    if (document.type === 'pages') {
-      return parsePage(document);
+    switch (document.type) {
+      case 'pages':
+        return parsePage(document);
+      case 'event-series':
+        return parseEventSeries(document);
     }
   }).filter(Boolean);
 }
@@ -27,7 +31,6 @@ export async function getMultiContent(
   const tagPredicate = tag.length > 0 ? Prismic.Predicates.any('document.tags', tag) : null;
   const typesPredicate = types.length > 0 ? Prismic.Predicates.in('document.type', types) : null;
   const typePredicate = type.length > 0 ? Prismic.Predicates.any('document.type', type) : null;
-
   const predicates = [
     idsPredicate,
     idPredicate,

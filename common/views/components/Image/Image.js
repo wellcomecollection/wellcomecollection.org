@@ -15,7 +15,8 @@ export type Props = {|
   copyright?: string,
   defaultSize?: number,
   clickHandler?: () => void,
-  zoomable?: boolean
+  zoomable?: boolean,
+  extraClasses?: string
 |}
 
 const Image = ({
@@ -30,7 +31,8 @@ const Image = ({
   defaultSize = 30,
   alt = '',
   clickHandler,
-  zoomable
+  zoomable,
+  extraClasses
 }: Props) => (
   <Fragment>
     <noscript dangerouslySetInnerHTML={{__html: `
@@ -39,7 +41,21 @@ const Image = ({
         className='image image--noscript'
         src=${convertImageUri(contentUrl, 640, false)}
         alt=${alt} />`}} />
-    {imageMarkup(width, height, clipPathClass, lazyload, defaultSize, contentUrl, sizesQueries, copyright, alt, caption, clickHandler)}
+    {imageMarkup(
+      width,
+      height,
+      clipPathClass,
+      lazyload,
+      defaultSize,
+      contentUrl,
+      sizesQueries,
+      copyright,
+      alt,
+      caption,
+      clickHandler,
+      zoomable,
+      extraClasses
+    )}
   </Fragment>
 );
 
@@ -51,12 +67,12 @@ const imageClasses = (clip = false, lazyload: boolean, clipPathClass, zoomable) 
   return `image ${lazyloadClass} ${clipClass} ${zoomClass}`;
 };
 
-const imageMarkup = (width, height, clipPathClass, lazyload = false, defaultSize, contentUrl, sizesQueries, copyright, alt, caption, clickHandler, zoomable) => {
+const imageMarkup = (width, height, clipPathClass, lazyload = false, defaultSize, contentUrl, sizesQueries, copyright, alt, caption, clickHandler, zoomable, extraClasses) => {
   const sizes = imageSizes(width);
   const baseMarkup = clip => (
     <img width={width}
       height={height}
-      className={imageClasses(clip, lazyload, clipPathClass, zoomable)}
+      className={`${imageClasses(clip, lazyload, clipPathClass, zoomable)} ${extraClasses || ''}`}
       src={convertImageUri(contentUrl, defaultSize, false)}
       data-srcset={sizes.map(size => {
         return `${convertImageUri(contentUrl, size, false)} ${size}w`;

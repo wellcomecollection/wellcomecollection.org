@@ -3,7 +3,7 @@ import {getDocument} from './api';
 import {parseBody, parseImagePromo, parseTitle, parseTimestamp} from './parsers';
 import type {Page} from '../../model/pages';
 import type {PrismicDocument} from './types';
-import {pagesFields} from './fetch-links';
+import {pagesFields, eventSeriesFields} from './fetch-links';
 
 export function parsePage(document: PrismicDocument) {
   const {data} = document;
@@ -37,7 +37,7 @@ export function parsePage(document: PrismicDocument) {
 
 export async function getPage(req: Request, id: string): Promise<?Page> {
   const page = await getDocument(req, id, {
-    fetchLinks: pagesFields
+    fetchLinks: pagesFields.concat(eventSeriesFields)
   });
 
   if (page) {
