@@ -221,11 +221,13 @@ function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
     return {
       id: e.id,
       url: `/exhibitions/${e.id}`,
+      format: e.data.format.slug,
       title: asText(e.data.title),
       image: e.data.promo && parseImagePromo(e.data.promo).image,
       description: e.data.promo && parseImagePromo(e.data.promo).caption,
       start: e.data.start ? e.data.start : '2007-06-21T00:00:00+0000',
-      end: e.data.end
+      end: e.data.end,
+      statusOverride: asText(e.data.statusOverride)
     };
   });
 }
@@ -472,8 +474,8 @@ export async function getExhibitionAndEventPromos(query, collectionOpeningTimes,
   });
 
   const exhibitionPromos = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'exhibitions'));
-  const permanentExhibitionPromos = exhibitionPromos.filter(e => !e.end);
-  const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => e.end), fromDate, toDate);
+  const permanentExhibitionPromos = exhibitionPromos.filter(e => e.format === 'permanent');
+  const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => e.format !== 'permanent'), fromDate, toDate);
   const currentTemporaryExhibitionPromos = filterCurrentExhibitions(temporaryExhibitionPromos, todaysDate);
   const upcomingTemporaryExhibitionPromos = filterUpcomingExhibitions(temporaryExhibitionPromos, todaysDate);
   const eventPromos = filterPromosByDate(createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')), fromDate, toDate).sort((a, b) => a.start.localeCompare(b.start));
