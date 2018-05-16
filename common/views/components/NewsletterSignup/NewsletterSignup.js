@@ -20,33 +20,29 @@ type State = {|
 const addressBooks = [
   {
     id: 'whats_on',
-    label: `What’s On`,
-    name: 'addressbook_40131',
-    description: `Exhibitions, events and opportunities to get involved - What’s On is sent monthly, with occasional updates`
+    label: `<span class="${font({s: 'HNL5'})}"><span class="${font({s: 'HNM5'})}">What’s On</span> at Wellcome Collection: our monthly roundup of the latest exhibitions, events, new books and opportunities to get involved. Sent monthly with up to one extra update per month.</span>`,
+    name: 'addressbook_40131'
   },
   {
     id: 'accessibility',
-    label: `What’s On: Access`,
-    name: 'addressbook_40129',
-    description: `What’s On: Access - highlights events, tours and opportunities to get involved, including BSL, Audio Description and Speech-to-Text events`
+    label: `<span class="${font({s: 'HNL5'})}"><span class="${font({s: 'HNM5'})}">Access</span> events, tours and opportunities to get involved, including British Sign Language, Audio Description and Speech-To-Text activities. Sent quarterly with occasional updates.</span>`,
+    name: 'addressbook_40129'
   },
   {
     id: 'young_people_14-19',
-    label: `What’s On for 14-19 year olds`,
-    name: 'addressbook_40132',
-    description: `What’s On for 14-19 year olds: creative opportunities and events for young people aged 14-19, including RawMinds and Saturday Studio`
+    label: `<span class="${font({s: 'HNL5'})}">Events and opportunities to get involved for <span class="${font({s: 'HNM5'})}">14-to-19-year-olds</span>, including RawMinds and Saturday Studios. Sent monthly with occasional updates.</span>`,
+    name: 'addressbook_40132'
   },
   {
     id: 'teachers',
-    label: `Study Days`,
+    label: `<span class="${font({s: 'HNL5'})}">Events and opportunities to get involved for <span class="${font({s: 'HNM5'})}">teachers and schools</span>, including study days and other events. Sent monthly with occasional updates.</span>`,
     name: 'addressbook_40130',
     description: `Study days and other events for secondary school teachers and school groups`
   },
   {
     id: 'youth_and_community_workers',
-    label: `Updates for Youth & Community Workers`,
-    name: 'addressbook_40133',
-    description: `Updates for Youth & Community Workers, featuring events and activities for youth 14-19`
+    label: `<span class="${font({s: 'HNL5'})}">Updates for <span class="${font({s: 'HNM5'})}">youth and community workers</span>, featuring events and activities for 14-19 year-olds. Sent monthly with occasional updates.</span>`,
+    name: 'addressbook_40133'
   }
 ];
 
@@ -144,7 +140,7 @@ class NewsletterSignup extends Component<Props, State> {
             <input type='hidden' name='ReturnURL' value='https://wellcomecollection.org/info/newsletter' />
             <input type='hidden' name='SIG22a9ece3ebe9b2e10e328f234fd10b3f5686b9f4d45f628f08852417032dc990' value='' />
 
-            <div className={spacing({s: 2}, {margin: ['bottom']})}>
+            <div className={spacing({s: 5}, {margin: ['bottom']})}>
               <HTMLInput
                 required={true}
                 id='email'
@@ -158,17 +154,16 @@ class NewsletterSignup extends Component<Props, State> {
             </div>
 
             <fieldset className={spacing({s: 2}, {margin: ['bottom']})}>
-              <legend>What are you interested in? Choose as many as you like:</legend>
+              <legend className='h3'>What are you interested in? Choose as many as you like:</legend>
               <ul className='plain-list no-padding'>
                 {addressBooks.map((addressBook) => (
-                  <li className={spacing({s: 2}, {margin: ['bottom']})} key={addressBook.id}>
+                  <li className={spacing({s: 3}, {margin: ['bottom']})} key={addressBook.id}>
                     <HTMLInput
                       id={addressBook.id}
                       type='checkbox'
                       name={addressBook.name}
                       label={addressBook.label}
                       onChange={this.updateCheckedInputs} />
-                    <p className={`${font({s: 'HNL6'})} ${spacing({s: 1}, {margin: ['top']})}`}>{addressBook.description}</p>
                   </li>
                 ))}
               </ul>

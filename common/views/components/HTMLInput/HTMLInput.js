@@ -56,9 +56,7 @@ const HTMLInput = ({
       <span className={`input__control-indicator input__control-indicator--${type}`}></span>
     }
 
-    <span className={`input__label-wrap ${spacing({s: 1}, {margin: ['left']})} ${isLabelHidden ? 'input__label-wrap--hidden' : ''}`}>
-      {label}
-    </span>
+    <span className={`input__label-wrap line-height-1 ${spacing({s: 2}, {margin: ['left']})} ${isLabelHidden ? 'input__label-wrap--hidden' : ''}`} dangerouslySetInnerHTML={{__html: label}} />
   </label>
 );
 
