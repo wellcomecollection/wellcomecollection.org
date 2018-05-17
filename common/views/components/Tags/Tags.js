@@ -1,5 +1,5 @@
 // @flow
-
+import NextLink from 'next/link';
 import { spacing, font } from '../../../utils/classnames';
 import ReactGA from 'react-ga';
 
@@ -11,18 +11,6 @@ export type TagProps = {|
 export type Props = {|
   tags: TagProps[]
 |}
-
-function buildTag(text: string, url?: string): React.Element<'div' | 'a'> {
-  const HTMLTag = url ? 'a' : 'div';
-
-  return (
-    <HTMLTag
-      href={url}
-      className={`plain-link flex font-white bg-black ${url ? 'bg-hover-green transition-bg' : ''} ${spacing({s: 1}, {padding: ['top', 'bottom']})} ${spacing({s: 2}, {padding: ['left', 'right']})} rounded-diagonal`}>
-      {text}
-    </HTMLTag>
-  );
-}
 
 const Tags = ({ tags }: Props) => {
   return (
@@ -45,6 +33,12 @@ const Tag = ({text, url}: TagProps) => {
     });
   }
 
+  const className =
+    `plain-link flex font-white bg-black rounded-diagonal
+    ${url ? 'bg-hover-green transition-bg' : ''}
+    ${spacing({s: 1}, {padding: ['top', 'bottom']})}
+    ${spacing({s: 2}, {padding: ['left', 'right']})}`;
+
   return (
     <li onClick={trackTagClick} className={`tags__tag ${font({s: 'HNL5', m: 'WB7'})} ${spacing({s: 2}, {margin: ['right', 'bottom']})}`}
       data-track-event={JSON.stringify({
@@ -52,7 +46,12 @@ const Tag = ({text, url}: TagProps) => {
         action: 'tag:click',
         label: `text:${text}${url ? `, url:${url}` : ''}`
       })}>
-      {buildTag(text, url)}
+      {url &&
+        <NextLink href={url}>
+          <a className={className}>{text}</a>
+        </NextLink>
+      }
+      {!url && <div className={className}>{text}</div>}
     </li>
   );
 };
