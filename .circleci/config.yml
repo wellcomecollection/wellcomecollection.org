@@ -26,7 +26,7 @@ jobs:
           name: Docker push
           command: |
             docker login --username $DOCKER_USER --password $DOCKER_PASS
-            docker-compose push
+            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose push
       - run:
           name: Next report
           command: |
