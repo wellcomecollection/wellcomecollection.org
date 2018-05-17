@@ -327,7 +327,6 @@ export function renderNewsletterPage(ctx, next) {
     pageConfig: createPageConfig({
       path: ctx.request.url,
       title: 'Newsletter',
-      inSection: 'explore', // TODO: ?
       category: 'info'
     }),
     isSuccess: result === 'success',
