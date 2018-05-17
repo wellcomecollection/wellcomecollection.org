@@ -93,15 +93,16 @@ const WorksComponent = ({
 
     {query.query &&
       <Fragment>
-        <div className={`row ${spacing({s: 3, m: 5}, {padding: ['top']})}`}>
-          <div className='container'>
-            <div className='grid'>
-              <div className='grid__cell'>
-                <div className='flex flex--h-space-between flex--v-center'>
-                  {pagination && pagination.range &&
+        {pagination && pagination.range &&
+          <div className={`row ${spacing({s: 3, m: 5}, {padding: ['top']})}`}>
+            <div className='container'>
+              <div className='grid'>
+                <div className='grid__cell'>
+                  <div className='flex flex--h-space-between flex--v-center'>
+
                     <Fragment>
                       <div className={`flex flex--v-center font-pewter ${font({s: 'LR3', m: 'LR2'})}`}>
-                        Showing {pagination.range.beginning} - {pagination.range.end}
+                          Showing {pagination.range.beginning} - {pagination.range.end}
                       </div>
                       <Pagination
                         prevPage={pagination.prevPage}
@@ -111,12 +112,12 @@ const WorksComponent = ({
                         nextQueryString={pagination.nextQueryString}
                         prevQueryString={pagination.prevQueryString} />
                     </Fragment>
-                  }
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        }
         <div className={`row ${spacing({s: 4}, {padding: ['top']})}`}>
           <div className='container'>
             <div className='grid'>
@@ -138,6 +139,31 @@ const WorksComponent = ({
             </div>
           </div>
         </div>
+        {pagination && pagination.range &&
+          <div className={`row ${spacing({s: 10}, {padding: ['top', 'bottom']})}`}>
+            <div className='container'>
+              <div className='grid'>
+                <div className='grid__cell'>
+                  <div className='flex flex--h-space-between flex--v-center'>
+
+                    <Fragment>
+                      <div className={`flex flex--v-center font-pewter ${font({s: 'LR3', m: 'LR2'})}`}>
+                          Showing {pagination.range.beginning} - {pagination.range.end}
+                      </div>
+                      <Pagination
+                        prevPage={pagination.prevPage}
+                        currentPage={pagination.currentPage}
+                        pageCount={pagination.pageCount}
+                        nextPage={pagination.nextPage}
+                        nextQueryString={pagination.nextQueryString}
+                        prevQueryString={pagination.prevQueryString} />
+                    </Fragment>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
       </Fragment>
     }
   </Fragment>
