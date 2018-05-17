@@ -4,20 +4,21 @@ import {spacing, grid} from '../../../../utils/classnames';
 import BasicHeader from '../../PageHeaders/BasicHeader/BasicHeader';
 import BasicBody from '../../BasicBody/BasicBody';
 import type {Node} from 'react';
-import type {UiImageProps} from '../../Images/Images';
 import type {Body} from '../../BasicBody/BasicBody';
 import type WobblyBackground from './WobblyBackground';
 import type TexturedBackground from './TexturedBackground';
+import type {CaptionedImage} from '../../Images/Images';
+import type VideoEmbed from '../../VideoEmbed/VideoEmbed';
 
 type Props = {|
   title: string,
   body: Body,
-  mainImageProps: ?UiImageProps,
   Background: ?(WobblyBackground | TexturedBackground),
   TagBar: ?Node, // potentially make this only take Aync | Tags?
   DateInfo: ?Node,
   InfoBar: ?Node,
   Description: ?Node,
+  FeaturedMedia: ?(CaptionedImage | VideoEmbed),
   children?: ?Node
 |}
 
@@ -36,24 +37,24 @@ export const BasicPageColumn = ({children}: {| children: Node |}) => (
 const BasicPage = ({
   title,
   body,
-  mainImageProps,
   TagBar,
   Background,
   DateInfo,
   Description,
   InfoBar,
+  FeaturedMedia,
   children
 }: Props) => {
   return (
     <Fragment>
       <BasicHeader
         title={title}
-        mainImageProps={mainImageProps}
         Background={Background}
         TagBar={TagBar}
         DateInfo={DateInfo}
         Description={Description}
         InfoBar={InfoBar}
+        FeaturedMedia={FeaturedMedia}
       />
       <BasicPageColumn>
         <div className='basic-page'>
