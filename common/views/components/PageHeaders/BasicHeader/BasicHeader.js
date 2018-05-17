@@ -38,12 +38,16 @@ const BasicHeader = ({
         backgroundImage: BackgroundComponent ? null : `url(${backgroundTexture})`,
         backgroundSize: BackgroundComponent ? null : '150%'
       }}>
-        <div className={`container ${spacing({s: 5, m: 7}, {padding: ['top']})} ${spacing({s: 1}, {padding: ['bottom']})}`}>
+        <div className={`container`}>
           <div className='grid'>
             <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
               {TagBar}
             </div>
-            <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
+            <div className={`
+              ${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}
+              ${spacing({s: 1}, {padding: ['bottom']})}
+              ${spacing({s: 5, m: 7}, {padding: ['top']})}
+            `}>
               <h1 className={`
               h1 inline-block no-margin
               ${Background ? '' : `
