@@ -80,6 +80,13 @@ r.get('/tag/press', renderTagPage(
   'Press releases'
 ));
 
+// root paths that we want to support.
+// Each service should probably deal with their own
+r.get('/press', async (ctx, next) => {
+  ctx.params.id = 'WuxrKCIAAP9h3hmw';
+  return renderPage(ctx, next);
+});
+
 // API
 r.get('/works', search);
 r.get('/works/:id', work);
