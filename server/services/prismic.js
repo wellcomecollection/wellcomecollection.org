@@ -47,6 +47,9 @@ const eventFields = [
   'organisations.name', 'organisations.image',
   'organisations.url', 'background-textures.image'
 ];
+const exhibitionFields = [
+  'exhibition-formats.title'
+];
 
 export const defaultPageSize = 40;
 
@@ -221,7 +224,7 @@ function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
     return {
       id: e.id,
       url: `/exhibitions/${e.id}`,
-      format: e.data.format.slug,
+      format: e.data.format.data && asText(e.data.format.data.title).toLowerCase(),
       title: asText(e.data.title),
       image: e.data.promo && parseImagePromo(e.data.promo).image,
       description: e.data.promo && parseImagePromo(e.data.promo).caption,
@@ -470,7 +473,7 @@ export async function getExhibitionAndEventPromos(query, collectionOpeningTimes,
   const dateRange = [fromDate, toDate];
   const allExhibitionsAndEvents = await getAllOfType(['exhibitions', 'events'], {
     pageSize: 100,
-    fetchLinks: eventFields,
+    fetchLinks: eventFields.concat(exhibitionFields),
     orderings: '[my.events.times.startDateTime desc, my.exhibitions.start]'
   });
 

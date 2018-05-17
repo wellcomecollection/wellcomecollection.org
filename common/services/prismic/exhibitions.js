@@ -7,7 +7,8 @@ import {
   peopleFields,
   contributorsFields,
   placesFields,
-  installationFields
+  installationFields,
+  exhibitionFields
 } from './fetch-links';
 import {breakpoints} from '../../utils/breakpoints';
 import {
@@ -64,13 +65,13 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const sizeInKb = Math.round(document.data.textAndCaptionsDocument.size / 1024);
   const textAndCaptionsDocument = isDocumentLink(document.data.textAndCaptionsDocument) ? Object.assign({}, document.data.textAndCaptionsDocument, {sizeInKb}) : null;
   const id = document.id;
-  const format = data.format.slug;
+  const format = data.format.data && asText(data.format.data.title).toLowerCase();
   const url = `/exhibitions/${id}`;
   const title = parseTitle(data.title);
   const description = parseDescription(data.description);
   const start = parseTimestamp(data.start);
   const end = data.end && parseTimestamp(data.end);
-  const statusOverride =  asText(data.statusOverride);
+  const statusOverride = asText(data.statusOverride);
 
   const promoImage = drupalPromoImage || (promo && parsePromoToCaptionedImage(data.promo));
   // As we store the intro as an H2 in the model, incorrectly, we then convert
@@ -125,7 +126,8 @@ export async function getExhibitions(req: Request, id: string): Promise<Paginate
       fetchLinks: peopleFields.concat(
         contributorsFields,
         placesFields,
-        installationFields
+        installationFields,
+        exhibitionFields
       ),
       orderings: '[my.exhibitions.start]'
     }
