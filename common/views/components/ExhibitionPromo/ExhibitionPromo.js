@@ -1,15 +1,14 @@
 // @flow
 import {Fragment} from 'react';
 import {spacing, font} from '../../../utils/classnames';
-import {formatDate, formatDateRangeWithMessage} from '../../../utils/format-date';
+import {formatDate} from '../../../utils/format-date';
 import {UiImage} from '../Images/Images';
-import Icon from '../Icon/Icon';
 import type {ExhibitionPromo as Props} from '../../../model/exhibitions';
+import StatusIndicator from '../StatusIndicator/StatusIndicator';
 
 const ExhibitionPromo = ({
   format, id, url, title, image, description, start, end, statusOverride
 }: Props) => {
-  const dateMessageAndColor = formatDateRangeWithMessage({start, end: (end || new Date()), statusOverride});
   return (
     <a data-component='ExhibitionPromo'
       data-track-event={JSON.stringify({category: 'component', action: 'ExhibitionPromo:click'})}
@@ -46,12 +45,7 @@ const ExhibitionPromo = ({
         </p>
 
         <div className='flex flex--h-space-between flex--wrap margin-top-auto'>
-          <span className={`${font({s: 'HNM5'})} flex flex--v-center`}>
-            <span className={`${spacing({s: 1}, {margin: ['right']})} flex flex--v-center"`}>
-              <Icon name='statusIndicator' extraClasses={`icon--match-text icon--${dateMessageAndColor.color}`} />
-            </span>
-            {dateMessageAndColor.text}
-          </span>
+          <StatusIndicator start={start} end={end || new Date()} statusOverride={statusOverride} />
         </div>
       </div>
     </a>
