@@ -116,7 +116,7 @@ class NewsletterSignup extends Component<Props, State> {
 
         {isError &&
           <div className='body-text'>
-            <h1>Sorry, there&rsquo;s been a problem</h1>
+            <h1>Sorry, there’s been a problem</h1>
             <p>Please try again.</p>
           </div>
         }
