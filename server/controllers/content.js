@@ -11,7 +11,7 @@ import {
 } from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
-import {getPage} from '../../common/services/prismic/pages';
+import {getPage, getPageFromDrupalPath} from '../../common/services/prismic/pages';
 import {getMultiContent} from '../../common/services/prismic/multi-content';
 import {getCollectionOpeningTimes} from '../../common/services/prismic/opening-times';
 import {isPreview as getIsPreview} from '../../common/services/prismic/api';
@@ -333,6 +333,18 @@ export function renderNewsletterPage(ctx, next) {
     isError: result === 'error',
     isConfirmed: result === 'confirmed'
   });
+
+  return next();
+}
+
+export async function searchForDrupalRedirect(ctx, next) {
+  const {path} = ctx.params;
+  const page = await getPageFromDrupalPath(ctx.request, `/${path}`);
+
+  if (page) {
+    ctx.status = 301;
+    ctx.redirect(`/pages/${page.id}`);
+  }
 
   return next();
 }

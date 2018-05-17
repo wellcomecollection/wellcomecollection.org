@@ -15,7 +15,8 @@ import {
   renderOpeningTimes,
   renderNewsletterPage,
   renderPage,
-  renderTagPage
+  renderTagPage,
+  searchForDrupalRedirect
 } from '../controllers/content';
 
 const r = new Router({
@@ -102,5 +103,7 @@ r.get('/articles', renderArticlesList);
 r.get('/async/series-nav/:id', seriesNav);
 r.get('/async/series-transporter/:id', seriesTransporter);
 r.get('/async/search', renderSearch);
+
+r.get('/:path*', searchForDrupalRedirect);
 
 export const router = r.middleware();
