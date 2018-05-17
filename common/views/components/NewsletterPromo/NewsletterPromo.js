@@ -11,7 +11,7 @@ const NewsletterPromo = () => (
           <p>Be the first to know about our upcoming exhibitions, events and other activities, with extra options for youth, schools and access events.</p>
           <Button
             extraClasses='btn--primary'
-            url='/info/newsletter'
+            url='/newsletter'
             text='Sign up' />
         </div>
       </div>
