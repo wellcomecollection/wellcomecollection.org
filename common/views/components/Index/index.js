@@ -43,11 +43,13 @@ import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
 import Quote from '../Quote/Quote';
 import Page from '../Templates/BasicPage/Page';
+import Book from '../Templates/BasicPage/Book';
 
 export {
   BackToTop,
   BasicBody,
   BasicPageColumn,
+  Book,
   Button,
   CaptionedImage,
   ChapterIndicator,

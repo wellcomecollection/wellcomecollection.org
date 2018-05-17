@@ -115,6 +115,7 @@ async function getPreviewSession(token) {
         case 'event-series' : return `/event-series/${doc.id}`;
         case 'installations' : return `/installations/${doc.id}`;
         case 'pages' : return `/pages/${doc.id}`;
+        case 'books' : return `/books/${doc.id}`;
       }
     }, '/', (err, redirectUrl) => {
       if (err) {
@@ -271,6 +272,26 @@ export async function renderArticlesList(ctx, next) {
 }
 
 export async function renderPage(ctx, next) {
+  const {id} = ctx.params;
+  const page = await getPage(ctx.request, id);
+
+  if (page) {
+    ctx.render('pages/page', {
+      pageConfig: createPageConfig({
+        path: ctx.request.url,
+        title: page.title,
+        inSection: 'what-we-do',
+        category: 'info'
+      }),
+      page: page,
+      isPreview: getIsPreview(ctx.request)
+    });
+  }
+
+  return next();
+}
+
+export async function renderBook(ctx, next) {
   const {id} = ctx.params;
   const page = await getPage(ctx.request, id);
 
