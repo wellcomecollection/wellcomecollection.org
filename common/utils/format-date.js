@@ -35,13 +35,12 @@ export function isDatePast(date: Date): boolean {
   return momentEnd.isBefore(momentNow, 'day');
 }
 
-export function formatDateRangeWithMessage({start, end, statusOverride}: {start: Date, end: Date, statusOverride?: ?string}): {text: string, color: string} {
+export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date}): {text: string, color: string} {
   const now = london();
   const s = london(start);
   const e = london(end);
-  if (statusOverride) {
-    return {text: statusOverride, color: 'marble'};
-  } else if (s.isAfter(now)) {
+
+  if (s.isAfter(now)) {
     return {text: 'Coming soon', color: 'marble'};
   } else if (e.isBefore(now)) {
     return {text: 'Past', color: 'marble'};

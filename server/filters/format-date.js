@@ -64,12 +64,10 @@ function getRelativeTime({start, end}: {start: Date, end: Date}): {isFuture: boo
   };
 }
 
-export function formatDateRangeWithMessage({start, end, statusOverride}: {start: Date, end: Date, statusOverride: ?string}): {text: string, color: string} {
+export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date}): {text: string, color: string} {
   const relativeTime = getRelativeTime({start, end});
 
-  if (statusOverride) {
-    return {text: statusOverride, color: 'marble'};
-  } else if (relativeTime.isFuture) {
+  if (relativeTime.isFuture) {
     return {text: 'Coming soon', color: 'marble'};
   } else if (relativeTime.isPast) {
     return {text: 'Past', color: 'marble'};
