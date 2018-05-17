@@ -21,7 +21,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Docker build
-          command: docker-compose build
+          command: CONTAINER_TAG=${CIRCLE_SHA1} docker-compose build
       - run:
           name: Docker push
           command: |
