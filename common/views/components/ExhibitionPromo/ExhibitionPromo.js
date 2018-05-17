@@ -31,8 +31,8 @@ const ExhibitionPromo = ({
           ${spacing({s: 4}, {padding: ['bottom']})}
         `}>
         <p className={`no-padding ${spacing({s: 2}, {margin: ['bottom']})} ${font({s: 'HNM5'})}`}>
-          {format !== 'permanent' && 'Exhibition'}
-          {format === 'permanent' && 'Permanent exhibition'}
+          {format && `${format.title} exhibition`}
+          {!format && `Exhibition`}
         </p>
 
         <h2 className={`promo-link__title ${font({s: 'WB5'})} ${spacing({s: 0}, {margin: ['top']})}`}>{title}</h2>
@@ -41,7 +41,7 @@ const ExhibitionPromo = ({
           {format !== 'permanent' && !statusOverride && start && end &&
             <Fragment><time dateTime={start}>{formatDate(start)}</time>—<time dateTime={end}>{formatDate(end)}</time></Fragment>
           }
-          {format === 'permanent' && description}
+          {format && description}
         </p>
 
         <div className='flex flex--h-space-between flex--wrap margin-top-auto'>

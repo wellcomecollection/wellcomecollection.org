@@ -11,6 +11,7 @@ import {
   parseAudience, parseEventFormat, parseEventBookingType,
   parseImagePromo, isEmptyDocLink
 } from './prismic-parsers';
+import {parseExhibitionFormat} from '../../common/services/prismic/exhibitions';
 import {List} from 'immutable';
 import moment from 'moment';
 import type {PaginatedResults, PaginatedResultsType} from '../model/paginated-results';
@@ -224,7 +225,7 @@ function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
     return {
       id: e.id,
       url: `/exhibitions/${e.id}`,
-      format: e.data.format.data && asText(e.data.format.data.title).toLowerCase(),
+      format: e.data.format && parseExhibitionFormat(e.data.format),
       title: asText(e.data.title),
       image: e.data.promo && parseImagePromo(e.data.promo).image,
       description: e.data.promo && parseImagePromo(e.data.promo).caption,
@@ -478,8 +479,8 @@ export async function getExhibitionAndEventPromos(query, collectionOpeningTimes,
   });
 
   const exhibitionPromos = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'exhibitions'));
-  const permanentExhibitionPromos = filterCurrentExhibitions(exhibitionPromos.filter(e => e.format === 'permanent'), todaysDate);
-  const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => e.format !== 'permanent'), fromDate, toDate);
+  const permanentExhibitionPromos = filterCurrentExhibitions(exhibitionPromos.filter(e => e.format && e.format.title.toLowerCase() === 'permanent'), todaysDate);
+  const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => !e.format || e.format && e.format.title.toLowerCase() !== 'permanent'), fromDate, toDate);
   const currentTemporaryExhibitionPromos = filterCurrentExhibitions(temporaryExhibitionPromos, todaysDate);
   const upcomingTemporaryExhibitionPromos = filterUpcomingExhibitions(temporaryExhibitionPromos, todaysDate);
   const eventPromos = filterPromosByDate(createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')), fromDate, toDate).sort((a, b) => a.start.localeCompare(b.start));

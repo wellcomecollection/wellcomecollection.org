@@ -18,7 +18,7 @@ export type UiExhibit = {|
 |}
 
 // e.g. 'Permanent'
-type ExhibitionFormat = {|
+export type ExhibitionFormat = {|
   id: string,
   title: string,
   description: ?string

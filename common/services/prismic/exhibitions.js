@@ -1,7 +1,7 @@
 // @flow
 import Prismic from 'prismic-javascript';
 import type {PrismicFragment, PrismicDocument, PaginatedResults} from './types';
-import type {UiExhibition, UiExhibit} from '../../model/exhibitions';
+import type {UiExhibition, UiExhibit, ExhibitionFormat} from '../../model/exhibitions';
 import {getDocument, getDocuments} from './api';
 import {
   peopleFields,
@@ -21,9 +21,18 @@ import {
   parsePromoListItem,
   parsePromoToCaptionedImage,
   isDocumentLink,
-  asText
+  asText,
+  asHtml
 } from './parsers';
 import {parseInstallationDoc} from './installations';
+
+export function parseExhibitionFormat(frag: Object): ?ExhibitionFormat {
+  return isDocumentLink(frag) ? {
+    id: frag.id,
+    title: frag.data && asText(frag.data.title) || '',
+    description: frag.data && asHtml(frag.data.description)
+  } : null;
+}
 
 function parseExhibits(document: PrismicFragment[]): UiExhibit[] {
   return document.map(exhibit => {
@@ -65,7 +74,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const sizeInKb = Math.round(document.data.textAndCaptionsDocument.size / 1024);
   const textAndCaptionsDocument = isDocumentLink(document.data.textAndCaptionsDocument) ? Object.assign({}, document.data.textAndCaptionsDocument, {sizeInKb}) : null;
   const id = document.id;
-  const format = data.format.data && asText(data.format.data.title).toLowerCase();
+  const format = data.format && parseExhibitionFormat(data.format);
   const url = `/exhibitions/${id}`;
   const title = parseTitle(data.title);
   const description = parseDescription(data.description);
