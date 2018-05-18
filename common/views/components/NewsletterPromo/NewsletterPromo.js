@@ -12,7 +12,7 @@ const NewsletterPromo = () => (
           <Button
             type='primary'
             extraClasses='btn--primary'
-            url='/newsletter'
+            url='/pages/newsletter'
             text='Sign up' />
         </div>
       </div>
