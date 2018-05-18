@@ -14,21 +14,27 @@ import type {EditorialSeries} from '../../../model/editorial-series';
 import {Fragment} from 'react';
 import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
 
-function contentTypeText(commissionedSeries, positionInSeries, seriesTitle, contentType) {
-  if (commissionedSeries && positionInSeries) {
-    return `${commissionedSeries.name}: Part ${positionInSeries}`;
-  } else if (seriesTitle) {
-    return seriesTitle;
-  } else if (contentType !== 'work') {
-    return `${contentType.charAt(0).toUpperCase()}${contentType.slice(1)}`;
-  }
+function partOf(commissionedSeries, seriesTitle) {
+  return (
+    <span className={font({s: 'HNM5'})}>
+      <span className={font({s: 'HNL5'})}>Part of</span>{' '}
+      {commissionedSeries ? commissionedSeries.name : seriesTitle}
+    </span>
+  );
+}
+
+function contentTypeLabel(contentType) {
+  return (
+    <span className={`line-height-1 bg-yellow absolute promo__content-type ${font({s: 'HNM5'})} ${spacing({s: 1}, {padding: ['top', 'bottom', 'left', 'right']})}`}
+      aria-hidden='true'>{contentType.charAt(0).toUpperCase()}{contentType.slice(1)}</span>
+  );
 }
 
 function titleFontClasses(contentType) {
   if (contentType === 'work') {
     return `${font({s: 'HNL5'})} text--truncate`;
   } else {
-    return font({s: 'WB7', l: 'WB6'});
+    return font({s: 'WB6'});
   }
 }
 
@@ -51,8 +57,8 @@ const PromoDescription = ({standalone, children}: PromoDescriptionProps) => {
   if (standalone) {
     return (
       <div className={`row bg-cream ${spacing({s: 10}, {padding: ['top']})}`}>
-        <div className="container">
-          <div className="grid">
+        <div className='container'>
+          <div className='grid'>
             <div className={`${grid({l: 10, shiftL: 1, m: 10, shiftM: 1, s: 12})}`}>
               {children}
             </div>
@@ -112,11 +118,11 @@ const Promo = ({
 
   return (
     <PromoTag id={id}
-      data-component="ArticlePromo"
+      data-component='ArticlePromo'
       data-track-event={`${JSON.stringify({category: 'component', action: 'ArticlePromo:click'})}`}
       href={url}
       className={`promo ${extraClasses} promo--${contentType} ${!url ? 'promo--surrogate' : ''} ${standalone ? 'promo--standalone' : ''}`}>
-      <div className={`promo__image-container ${isConstrained ? 'promo__image-container--constrained' : ''}`}>
+      <div className={`promo__image-container ${spacing({s: 2}, {margin: ['bottom']})} ${isConstrained ? 'promo__image-container--constrained' : ''}`}>
         {image
           ? <Image
             width={image.width}
@@ -126,8 +132,8 @@ const Promo = ({
             clipPathClass={series && commissionedSeries && positionInSeries && url ? 'promo__clip-path--chapters-third' : ''}
             defaultSize={defaultSize}
             alt='' />
-          : <div className="promo__image-surrogate">
-            <div className="promo__image-surrogate-inner"></div>
+          : <div className='promo__image-surrogate'>
+            <div className='promo__image-surrogate-inner'></div>
           </div>
         }
 
@@ -139,6 +145,12 @@ const Promo = ({
             commissionedLength={commissionedSeries.commissionedLength} />
         }
 
+        {contentType &&
+          <Fragment>
+            {contentTypeLabel(contentType)}
+          </Fragment>
+        }
+
         {iconName &&
           <div className={`promo__icon-container ${font({s: 'HNL6'})}`}>
             <Icon name={iconName} />
@@ -146,16 +158,9 @@ const Promo = ({
         }
       </div>
       <PromoDescription standalone={standalone || false}>
-        <div className={`promo__description ${font({s: 'HNL5'})}`}>
-          <div className="promo__heading">
-            {contentType &&
-              <span className={`promo__type font-charcoal ${spacing({s: 1}, {margin: ['bottom']})} ${font({s: 'HNL6', l: 'HNL5'})}`}
-                aria-hidden="true">
-                {contentTypeText(commissionedSeries, positionInSeries, seriesTitle, contentType)}
-              </span>
-            }
-
-            <HeadingTag className={`promo__title ${titleFontClasses(contentType)} ${weight === 'lead' ? 'promo__title--lead' : ''}`}>
+        <div className={`promo__description`}>
+          <div className='promo__heading'>
+            <HeadingTag className={`promo__title ${spacing({s: 0}, {margin: ['top']})} ${titleFontClasses(contentType)} ${weight === 'lead' ? 'promo__title--lead' : ''}`}>
               {headingText(title, contentType)}
             </HeadingTag>
           </div>
@@ -165,7 +170,14 @@ const Promo = ({
           }
 
           {description &&
-            <span className="promo__copy">{truncate(striptags(description), 140)}</span>
+            <span className={`inline-block ${font({s: 'HNL4'})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{truncate(striptags(description), 140)}</span>
+          }
+
+          {(commissionedSeries || seriesTitle) &&
+            <span className={`block font-charcoal ${spacing({s: 1}, {margin: ['bottom']})} ${font({s: 'HNL6', l: 'HNL5'})}`}
+              aria-hidden='true'>
+              {partOf(commissionedSeries, seriesTitle)}
+            </span>
           }
         </div>
       </PromoDescription>
