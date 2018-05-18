@@ -72,7 +72,7 @@ const BasicHeader = ({
               }
 
               {FeaturedMedia &&
-                <div className={`${spacing({ s: 2 }, { margin: ['top'] })}`} key={'rasjhd'}>
+                <div className={`${spacing({ s: 2 }, { margin: ['top'] })} relative`} key={'rasjhd'}>
                   <Fragment>{FeaturedMedia}</Fragment>
                 </div>
               }

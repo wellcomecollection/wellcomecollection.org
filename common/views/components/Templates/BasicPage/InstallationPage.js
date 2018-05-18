@@ -16,7 +16,20 @@ type Props = {|
 
 const InstallationPage = ({ installation }: Props) => {
   const DateInfo = installation.end ? <DateRange start={installation.start} end={installation.end} /> : <HTMLDate date={installation.start} />;
-  const FeaturedMedia = installation.promo && <UiImage {...installation.promo.image} />;
+  const { image } = installation.promo;
+  const tasl = {
+    isFull: false,
+    contentUrl: image.contentUrl,
+    title: image.title,
+    author: image.author,
+    sourceName: image.source && image.source.name,
+    sourceLink: image.source && image.source.link,
+    license: image.license,
+    copyrightHolder: image.copyright && image.copyright.holder,
+    copyrightLink: image.copyright && image.copyright.link
+  };
+
+  const FeaturedMedia = installation.promo && <UiImage tasl={tasl} {...image} />;
 
   return (
     <BasicPage
