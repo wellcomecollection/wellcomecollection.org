@@ -38,7 +38,7 @@ const ExhibitionPromo = ({
         <h2 className={`promo-link__title ${font({s: 'WB5'})} ${spacing({s: 0}, {margin: ['top']})}`}>{title}</h2>
 
         <p className={`${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})} no-padding`}>
-          {format !== 'permanent' && !statusOverride && start && end &&
+          {!format && !statusOverride && start && end &&
             <Fragment><time dateTime={start}>{formatDate(start)}</time>—<time dateTime={end}>{formatDate(end)}</time></Fragment>
           }
           {format && description}
