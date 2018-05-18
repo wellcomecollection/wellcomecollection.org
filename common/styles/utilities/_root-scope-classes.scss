@@ -143,6 +143,12 @@
   display: flex;
 }
 
+.flex-m-up {
+  @include respond-to('medium') {
+    display: flex;
+  }
+}
+
 .flex--column {
   flex-direction: column;
 }
@@ -235,12 +241,6 @@
   display: inline-block;
 }
 
-.inline-block-medium-up {
-  @include respond-to('medium') {
-    display: inline-block;
-  }
-}
-
 .nowrap {
   white-space: nowrap;
 }
@@ -260,10 +260,6 @@
 
 .margin-top-auto {
   margin-top: auto;
-}
-
-.margin-left-auto {
-  margin-left: auto;
 }
 
 .text--truncate {
