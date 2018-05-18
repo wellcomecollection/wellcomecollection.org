@@ -1,8 +1,8 @@
 // @flow
 import {Fragment} from 'react';
 import Hero from '../Hero/Hero';
-import Icon from '../../Icon/Icon';
-import {formatDate, formatDateRangeWithMessage} from '../../../../utils/format-date';
+import StatusIndicator from '../../StatusIndicator/StatusIndicator';
+import {formatDate} from '../../../../utils/format-date';
 import {font, spacing} from '../../../../utils/classnames';
 import type {Picture as PictureProps} from '../../../../model/picture';
 
@@ -10,12 +10,11 @@ type Props = {|
   title: string,
   images: PictureProps[],
   start: Date,
-  end: ?Date
+  end: ?Date,
+  statusOverride: ?string
 |}
 
-const ExhibitionPageHeader = ({ title, start, end, images }: Props) => {
-  const dateMessageAndColour = formatDateRangeWithMessage({start, end: (end || new Date())});
-
+const ExhibitionPageHeader = ({ title, start, end, statusOverride, images }: Props) => {
   return (
     <Hero
       images={images}
@@ -26,12 +25,7 @@ const ExhibitionPageHeader = ({ title, start, end, images }: Props) => {
               ${font({s: 'HNM4', m: 'HNM3'})}
               ${spacing({s: 6}, {margin: ['right']})}
             `}>Free admission</span>
-            <span className={`flex flex--v-center ${font({s: 'HNM4'})}`}>
-              <span className={`flex flex--v-center ${spacing({s: 1}, {margin: ['right']})}`}>
-                <Icon name='statusIndicator' extraClasses={`icon--match-text icon--${dateMessageAndColour.color}`} />
-              </span>
-              <span>{dateMessageAndColour.text}</span>
-            </span>
+            <StatusIndicator start={start} end={end || new Date()} statusOverride={statusOverride} />
           </div>
           <h1 className={font({s: 'WB5', m: 'WB4', xl: 'WB3'})}>{title}</h1>
           {end &&

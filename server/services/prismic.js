@@ -11,6 +11,7 @@ import {
   parseAudience, parseEventFormat, parseEventBookingType,
   parseImagePromo, isEmptyDocLink
 } from './prismic-parsers';
+import {parseExhibitionFormat} from '../../common/services/prismic/exhibitions';
 import {List} from 'immutable';
 import moment from 'moment';
 import type {PaginatedResults, PaginatedResultsType} from '../model/paginated-results';
@@ -46,6 +47,9 @@ const eventFields = [
   'event-series.title', 'event-series.description',
   'organisations.name', 'organisations.image',
   'organisations.url', 'background-textures.image'
+];
+const exhibitionFields = [
+  'exhibition-formats.title'
 ];
 
 export const defaultPageSize = 40;
@@ -221,11 +225,13 @@ function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
     return {
       id: e.id,
       url: `/exhibitions/${e.id}`,
+      format: e.data.format && parseExhibitionFormat(e.data.format),
       title: asText(e.data.title),
       image: e.data.promo && parseImagePromo(e.data.promo).image,
       description: e.data.promo && parseImagePromo(e.data.promo).caption,
       start: e.data.start ? e.data.start : '2007-06-21T00:00:00+0000',
-      end: e.data.end
+      end: e.data.end,
+      statusOverride: asText(e.data.statusOverride)
     };
   });
 }
@@ -361,9 +367,10 @@ function filterPromosByDate(promos, startDate, endDate) {
 
 function filterCurrentExhibitions(promos, todaysDate) {
   return promos.filter((e) => {
-    const eventStart = london(e.start);
-    const eventEnd = london(e.end);
-    return todaysDate.isSame(eventStart, 'day') || todaysDate.isSame(eventEnd, 'day') || todaysDate.isBefore(eventEnd, 'day') && todaysDate.isAfter(eventStart, 'day');
+    const eventStart = e.start && london(e.start);
+    const eventEnd = e.end && london(e.end);
+
+    return eventEnd === null || todaysDate.isSame(eventStart, 'day') || todaysDate.isSame(eventEnd, 'day') || todaysDate.isBefore(eventEnd, 'day') && todaysDate.isAfter(eventStart, 'day');
   });
 }
 
@@ -462,18 +469,18 @@ function getListHeader(dates, collectionOpeningTimes) {
 export async function getExhibitionAndEventPromos(query, collectionOpeningTimes, featuresCohort) {
   const todaysDate = london();
   const fromDate = !query.startDate ? todaysDate.format('YYYY-MM-DD') : query.startDate;
-  // set either 'everything' as default time period, when no startDate is provided
+  // set 'everything' as default time period, when no startDate is provided
   const toDate = !query.startDate ? undefined : query.endDate; ;
   const dateRange = [fromDate, toDate];
   const allExhibitionsAndEvents = await getAllOfType(['exhibitions', 'events'], {
     pageSize: 100,
-    fetchLinks: eventFields,
+    fetchLinks: eventFields.concat(exhibitionFields),
     orderings: '[my.events.times.startDateTime desc, my.exhibitions.start]'
   });
 
   const exhibitionPromos = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'exhibitions'));
-  const permanentExhibitionPromos = exhibitionPromos.filter(e => !e.end);
-  const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => e.end), fromDate, toDate);
+  const permanentExhibitionPromos = filterCurrentExhibitions(exhibitionPromos.filter(e => e.format && e.format.title.toLowerCase() === 'permanent'), todaysDate);
+  const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => !e.format || e.format && e.format.title.toLowerCase() !== 'permanent'), fromDate, toDate);
   const currentTemporaryExhibitionPromos = filterCurrentExhibitions(temporaryExhibitionPromos, todaysDate);
   const upcomingTemporaryExhibitionPromos = filterUpcomingExhibitions(temporaryExhibitionPromos, todaysDate);
   const eventPromos = filterPromosByDate(createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')), fromDate, toDate).sort((a, b) => a.start.localeCompare(b.start));

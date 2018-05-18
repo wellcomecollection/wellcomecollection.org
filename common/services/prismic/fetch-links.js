@@ -19,3 +19,6 @@ export const eventSeriesFields = [
   'event-series.description',
   'event-series.backgroundTexture'
 ];
+export const exhibitionFields = [
+  'exhibition-formats.title'
+];
