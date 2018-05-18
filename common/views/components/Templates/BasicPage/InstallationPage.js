@@ -16,8 +16,8 @@ type Props = {|
 
 const InstallationPage = ({ installation }: Props) => {
   const DateInfo = installation.end ? <DateRange start={installation.start} end={installation.end} /> : <HTMLDate date={installation.start} />;
-  const { image } = installation.promo;
-  const tasl = {
+  const image = installation.promo && installation.promo.image;
+  const tasl = image && {
     isFull: false,
     contentUrl: image.contentUrl,
     title: image.title,
@@ -28,7 +28,8 @@ const InstallationPage = ({ installation }: Props) => {
     copyrightHolder: image.copyright && image.copyright.holder,
     copyrightLink: image.copyright && image.copyright.link
   };
-
+  /* https://github.com/facebook/flow/issues/2405 */
+  /* $FlowFixMe */
   const FeaturedMedia = installation.promo && <UiImage tasl={tasl} {...image} />;
 
   return (
