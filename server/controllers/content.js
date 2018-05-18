@@ -7,14 +7,17 @@ import {PromoFactory} from '../model/promo';
 import {prismicAsText} from '../filters/prismic';
 import {
   getArticle, getSeriesAndArticles, getArticleList, getCuratedList,
-  defaultPageSize
+  defaultPageSize, getExhibitionAndEventPromos
 } from '../services/prismic';
+import {london} from '../filters/format-date';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {getPage, getPageFromDrupalPath} from '../../common/services/prismic/pages';
 import {getMultiContent} from '../../common/services/prismic/multi-content';
 import {getCollectionOpeningTimes} from '../../common/services/prismic/opening-times';
 import {isPreview as getIsPreview} from '../../common/services/prismic/api';
+
+import {dailyTourPromo} from '../../server/data/facility-promos';
 
 export const renderOpeningTimes = async(ctx, next) => {
   const path = ctx.request.url;
@@ -48,6 +51,29 @@ export const renderOpeningTimes = async(ctx, next) => {
 
   return next();
 };
+
+export async function renderHomepage(ctx, next) {
+  const path = ctx.request.url;
+  const todaysDate = london();
+  const todaysDatePlusSix = todaysDate.clone().add(6, 'days');
+  const exhibitionAndEventPromos = await getExhibitionAndEventPromos({startDate: todaysDate.format('YYYY-MM-DD'), endDate: todaysDatePlusSix.format('YYYY-MM-DD')}, ctx.intervalCache.get('collectionOpeningTimes'));
+  const contentList = await getArticleList();
+  const storiesPromos = contentList.results.map(PromoFactory.fromArticleStub).slice(0, 4);
+
+  ctx.render('pages/homepage', {
+    pageConfig: createPageConfig({
+      path: path,
+      title: 'Wellcome Collection',
+      inSection: 'index',
+      canonicalUri: `${ctx.globals.rootDomain}`
+    }),
+    exhibitionAndEventPromos,
+    storiesPromos,
+    dailyTourPromo
+  });
+
+  return next();
+}
 
 export const renderArticle = async(ctx, next) => {
   const format = ctx.request.query.format;

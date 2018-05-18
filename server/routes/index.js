@@ -1,10 +1,11 @@
 import Router from 'koa-router';
 import request from 'superagent';
-import {healthcheck, featureFlags, index, progress} from '../controllers/utils';
+import {healthcheck, featureFlags, progress} from '../controllers/utils';
 import {seriesNav, seriesTransporter, renderSearch} from '../controllers/async-controllers';
 import {work, search} from '../controllers/work';
 import {article, preview, series, articles} from '../controllers/wordpress';
 import {
+  renderHomepage,
   renderArticle,
   setPreviewSession,
   renderEventbriteEmbed,
@@ -24,7 +25,7 @@ const r = new Router({
 });
 
 // Util / function
-r.get('/', index);
+r.get('/', renderHomepage);
 r.get('/progress', progress);
 r.get('/flags', featureFlags);
 r.get('/kaboom', (ctx, next) => {
