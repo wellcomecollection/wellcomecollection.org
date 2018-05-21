@@ -14,7 +14,7 @@ const InstallationPage = ({ page }: Props) => {
 
   const hasFeaturedMedia = page.body.length > 1 &&
     (page.body[0].type === 'picture' || page.body[0].type === 'videoEmbed');
-  const body = hasFeaturedMedia ? page.body.slice(1, page.body.length)  : page.body;
+  const body = hasFeaturedMedia ? page.body.slice(1, page.body.length) : page.body;
   const FeaturedMedia = hasFeaturedMedia
     ? page.body[0].type === 'picture' ? UiImage(page.body[0].value)
       : page.body[0].type === 'videoEmbed' ? VideoEmbed(page.body[0].value)
