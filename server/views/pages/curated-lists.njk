@@ -124,7 +124,7 @@
 
   <div class="row {{ {s:4} | spacingClasses({padding: ['top']}) }} ">
     <div class="container container--scroll touch-scroll">
-      <div class="grid grid--scroll grid--dividers grid--theme-6-strip">
+      <div class="grid grid--scroll grid--dividers grid--theme-6">
         {% for promo in promos.slice(4, 10).toJS() %}
           <div class="grid__cell">
             {% componentJsx 'Promo', {

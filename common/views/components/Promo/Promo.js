@@ -23,10 +23,11 @@ function partOf(commissionedSeries, seriesTitle) {
   );
 }
 
-function contentTypeLabel(contentType) {
+function contentTypeLabel(contentType, commissionedSeries) {
+  console.log(commissionedSeries);
   return (
     <span className={`line-height-1 bg-yellow absolute promo__content-type ${font({s: 'HNM5'})} ${spacing({s: 1}, {padding: ['top', 'bottom', 'left', 'right']})}`}
-      aria-hidden='true'>{contentType.charAt(0).toUpperCase()}{contentType.slice(1)}</span>
+      aria-hidden='true'>{commissionedSeries ? 'Digital Story' : contentType.charAt(0).toUpperCase() + contentType.slice(1)}</span>
   );
 }
 
@@ -34,7 +35,7 @@ function titleFontClasses(contentType) {
   if (contentType === 'work') {
     return `${font({s: 'HNL5'})} text--truncate`;
   } else {
-    return font({s: 'WB6'});
+    return font({s: 'WB5'});
   }
 }
 
@@ -147,7 +148,7 @@ const Promo = ({
 
         {contentType &&
           <Fragment>
-            {contentTypeLabel(contentType)}
+            {contentTypeLabel(contentType, commissionedSeries)}
           </Fragment>
         }
 
