@@ -22,6 +22,7 @@ const InstallationPage = ({ page }: Props) => {
 
   return (
     <BasicPage
+      id={page.id}
       DateInfo={DateInfo}
       Background={null}
       TagBar={null}

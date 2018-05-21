@@ -39,10 +39,13 @@ export async function getMultiContent(
     typesPredicate,
     typePredicate
   ].filter(Boolean);
+  // TODO: provide a mechanism for overriding
+  const defaultOrderings = ['my.pages.datePublished desc'];
 
   const apiResponse = await getDocuments(req, predicates, {
     fetchLinks: pagesFields,
-    pageSize: pageSize || 100
+    pageSize: pageSize || 100,
+    orderings: `[${defaultOrderings.join(',')}]`
   });
   const multiContent = parseMultiContent(apiResponse.results);
 
