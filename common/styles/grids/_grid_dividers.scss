@@ -58,6 +58,12 @@
   }
 
   @include respond-to('medium') {
+    &.grid--theme-4 {
+      .grid__cell:nth-child(3):before {
+        display: none;
+      }
+    }
+
     &.grid--theme-6 {
       .grid__cell:nth-child(3):before,
       .grid__cell:nth-child(5):before {
@@ -66,7 +72,13 @@
     }
   }
 
-  @include respond-to('large') {
+  @include respond-to('xlarge') {
+    &.grid--theme-4 {
+      .grid__cell:nth-child(3):before {
+        display: block;
+      }
+    }
+
     &.grid--theme-6 {
       .grid__cell:nth-child(3):before,
       .grid__cell:nth-child(5):before {
