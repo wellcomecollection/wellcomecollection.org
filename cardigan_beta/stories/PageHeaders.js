@@ -8,6 +8,7 @@ import StatusIndicator from '../../common/views/components/StatusIndicator/Statu
 import WobblyBackground from '../../common/views/components/Templates/BasicPage/WobblyBackground';
 import DateRange from '../../common/views/components/DateRange/DateRange';
 import BasicHeader from '../../common/views/components/PageHeaders/BasicHeader/BasicHeader';
+import Tags from '../../common/views/components/Tags/Tags';
 import {image} from './utils';
 
 const stories = storiesOf('Page headers/Basic header', module).addDecorator(withKnobs);
@@ -20,10 +21,14 @@ stories
     const Video = VideoEmbed({
       embedUrl: 'https://www.youtube.com/embed/VYOjWnS4cMY'
     });
+    const TagBar = <Tags tags={[{
+      text: 'Tag'
+    }]} />;
     const DateInfo = <DateRange start={new Date()} end={new Date()} />;
     const InfoBar = <StatusIndicator start={new Date()} end={new Date()} />;
     const Description = <div>{description}</div>;
 
+    const hasTags = boolean('Has tags?', true);
     const hasBackground = boolean('Has background?', true);
     const hasDescription = boolean('Has description?', true);
     const hasDateInfo = boolean('Has date info?', true);
@@ -42,6 +47,7 @@ stories
       <Fragment>
         <BasicHeader
           title={title}
+          TagBar={hasTags ? TagBar : null}
           FeaturedMedia={FeaturedMedia}
           Background={hasBackground ? WobblyBackground() : null}
           Description={hasDescription ? Description : null}

@@ -3,7 +3,6 @@ import { setOptions } from '@storybook/addon-options';
 
 function loadStories() {
   require('../stories/PageHeaders');
-  require('../stories/index.js');
 }
 
 const styles = {
