@@ -10,7 +10,8 @@ export type StructuredSearchQuery = {|
   id: string[],
   tags: string[],
   tag: string[],
-  pageSize: number
+  pageSize: number,
+  orderings: string[]
 |}
 
 export async function search(req: Request, stringQuery: string) {
@@ -27,7 +28,7 @@ export function parseQuery(query: string): StructuredSearchQuery {
       'types', 'type',
       'ids', 'id',
       'tags', 'tag',
-      'size'
+      'pageSize', 'orderings'
     ]
   });
   const arrayedStructuredQuery = Object.entries(structuredQuery).reduce((acc, entry) => {
@@ -47,6 +48,7 @@ export function parseQuery(query: string): StructuredSearchQuery {
     id: arrayedStructuredQuery.id || [],
     tags: arrayedStructuredQuery.tags || [],
     tag: arrayedStructuredQuery.tag || [],
+    orderings: arrayedStructuredQuery.orderings || [],
     pageSize: arrayedStructuredQuery.pageSize
   };
 }
