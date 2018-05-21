@@ -12,7 +12,7 @@ type Props = {|
 const InstallationPage = ({ page }: Props) => {
   const DateInfo = page.datePublished && <HTMLDate date={page.datePublished} />;
 
-  const hasFeaturedMedia = page.body.length > 1 && page.body[0].weight === 'featured' &&
+  const hasFeaturedMedia = page.body.length > 1 &&
     (page.body[0].type === 'picture' || page.body[0].type === 'videoEmbed');
   const body = hasFeaturedMedia ? page.body.slice(1, page.body.length)  : page.body;
   const FeaturedMedia = hasFeaturedMedia

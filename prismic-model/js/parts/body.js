@@ -40,7 +40,6 @@ export default {
         featuredLabel
       ],
       editorialImage: [
-        featuredLabel,
         {
           name: 'supporting',
           display: 'Supporting'
@@ -49,9 +48,6 @@ export default {
           name: 'standalone',
           display: 'Standalone'
         }
-      ],
-      embed: [
-        featuredLabel
       ]
     },
     choices: {

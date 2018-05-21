@@ -27,22 +27,12 @@
           ],
           "editorialImage": [
             {
-              "name": "featured",
-              "display": "Featured"
-            },
-            {
               "name": "supporting",
               "display": "Supporting"
             },
             {
               "name": "standalone",
               "display": "Standalone"
-            }
-          ],
-          "embed": [
-            {
-              "name": "featured",
-              "display": "Featured"
             }
           ]
         },
