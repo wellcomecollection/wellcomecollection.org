@@ -7,6 +7,7 @@ function loadStories() {
   require('../stories/PageHeaders');
   require('../stories/index.js');
   require('../stories/Links.js');
+  require('../stories/BasicBody');
 }
 
 addDecorator(withKnobs);

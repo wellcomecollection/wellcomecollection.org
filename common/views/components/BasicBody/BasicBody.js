@@ -9,6 +9,7 @@ import Quote from '../Quote/Quote';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '../FeaturedText/FeaturedText';
+import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import type {Weight} from '../../../services/prismic/parsers';
 
 export type Body = {type: string, weight: Weight, value: any}[]
@@ -51,6 +52,7 @@ const BasicBody = ({ body }: Props) => {
               pageSize={slice.value.items.length}
             />}
           {slice.type === 'searchResults' && <AsyncSearchResults {...slice.value} />}
+          {slice.type === 'videoEmbed' && <VideoEmbed {...slice.value} />}
         </div>
       )}
     </div>

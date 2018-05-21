@@ -8,7 +8,7 @@ import StatusIndicator from '../../common/views/components/StatusIndicator/Statu
 import WobblyBackground from '../../common/views/components/Templates/BasicPage/WobblyBackground';
 import DateRange from '../../common/views/components/DateRange/DateRange';
 import BasicHeader from '../../common/views/components/PageHeaders/BasicHeader/BasicHeader';
-import {image} from './utils';
+import {image, videoEmbed} from './content';
 
 const stories = storiesOf('Page headers/Basic header', module).addDecorator(withKnobs);
 
@@ -17,9 +17,7 @@ stories
     const title = text('Title', 'Some sort of title');
     const description = text('Description', 'Some sort of description');
     const Image = UiImage(image);
-    const Video = VideoEmbed({
-      embedUrl: 'https://www.youtube.com/embed/VYOjWnS4cMY'
-    });
+    const Video = VideoEmbed(videoEmbed);
     const DateInfo = <DateRange start={new Date()} end={new Date()} />;
     const InfoBar = <StatusIndicator start={new Date()} end={new Date()} />;
     const Description = <div>{description}</div>;
