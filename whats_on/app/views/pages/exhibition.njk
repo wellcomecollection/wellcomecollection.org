@@ -47,7 +47,7 @@
                   </div>
                   <h1 class="{{ {s:'WB5', m:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
                   <span class="{{ {s:'HNL4', m:'HNL3', l:'HNL3', xl:'HNL2'} | fontClasses }}">
-                  {% if exhibition.end %}
+                  {% if exhibition.start and exhibition.end %}
                     <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time>&ndash;<time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
                   {% endif %}
                 </span>
