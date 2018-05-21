@@ -19,8 +19,9 @@ const Pagination = ({prevPage, currentPage, pageCount, nextPage, nextQueryString
     {prevPage && prevQueryString &&
       <NextLink href={prevQueryString}>
         <Control
-          url={prevQueryString}
-          extraClasses={`icon--180 control--light ${spacing({s: 2}, {margin: ['right']})}`}
+          type='light'
+          url={`/works${prevQueryString || ''}`}
+          extraClasses={`icon--180 ${spacing({s: 2}, {margin: ['right']})}`}
           icon='arrow'
           text={`Previous (page ${prevPage})`} />
       </NextLink>
@@ -31,8 +32,9 @@ const Pagination = ({prevPage, currentPage, pageCount, nextPage, nextQueryString
     {nextPage && nextQueryString &&
       <NextLink href={nextQueryString}>
         <Control
-          url={nextQueryString}
-          extraClasses={`control--light ${spacing({s: 2}, {margin: ['left']})}`}
+          type='light'
+          url={`/works${nextQueryString || ''}`}
+          extraClasses={`${spacing({s: 2}, {margin: ['left']})}`}
           icon='arrow'
           text={`Next (page ${nextPage})`} />
       </NextLink>

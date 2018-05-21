@@ -36,6 +36,7 @@ import SearchBox from '../SearchBox/SearchBox';
 import SearchResults from '../SearchResults/SearchResults';
 import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
 import ShameQuote from '../ShameQuote/ShameQuote';
+import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import Tags from '../Tags/Tags';
 import Tasl from '../Tasl/Tasl';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
@@ -85,6 +86,7 @@ export {
   SearchResults,
   SecondaryLink,
   ShameQuote,
+  StatusIndicator,
   Tags,
   Tasl,
   WobblyEdge,

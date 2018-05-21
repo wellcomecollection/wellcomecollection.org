@@ -9,13 +9,16 @@ import link from './parts/link';
 import number from './parts/number';
 import list from './parts/list';
 import text from './parts/text';
+import structuredText from './parts/structured-text';
 
 const Exhibitions = {
   Exhibition: {
+    format: link('Format', 'document', ['exhibition-formats']),
     title,
     description,
     start: timestamp('Start date'),
     end: timestamp('End date'),
+    statusOverride: structuredText('Status override', 'single'),
     place,
 
     // Things it would be nice to deprecate

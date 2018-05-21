@@ -108,11 +108,11 @@
           {% if event.eventbriteId %}
             <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
               {% if event.isCompletelySoldOut %}
-                {% componentJsx 'Button', {extraClasses: 'btn--primary', disabled: true, text: 'Fully booked'} %}
+                {% componentJsx 'Button', {type: 'primary', disabled: true, text: 'Fully booked'} %}
               {% else %}
                 <div class="js-eventbrite-ticket-button" data-eventbrite-ticket-id="{{ event.eventbriteId }}">
                   {% componentJsx 'Button', {
-                    extraClasses: 'btn--primary',
+                    type: 'primary',
                     url: 'https://www.eventbrite.com/e/' + event.eventbriteId + '/',
                     eventTracking: "{category: 'component', action: 'booking-tickets:click', label: 'event-page'}",
                     text: 'Book free tickets',
@@ -133,10 +133,10 @@
           {% if event.bookingEnquiryTeam %}
             <div class="border-top-width-1 border-color-pumice {{ {s: 2} | spacingClasses({padding: ['top', 'bottom']}) }}">
               {% if event.isCompletelySoldOut %}
-                {% componentJsx 'Button', {extraClasses: 'btn--primary', disabled: true, text: 'Fully booked'} %}
+                {% componentJsx 'Button', {type: 'primary', disabled: true, text: 'Fully booked'} %}
               {% else %}
                 {% componentJsx 'Button', {
-                    extraClasses: 'btn--primary',
+                    type: 'primary',
                     url: 'mailto:' + event.bookingEnquiryTeam.email + '?subject=' + event.title,
                     eventTracking: "{category: 'component', action: 'booking-tickets:click', label: 'event-page'}",
                     text: 'Email to book',

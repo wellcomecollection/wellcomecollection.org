@@ -1,7 +1,6 @@
 {% extends 'layout/default.njk' %}
 
 {% block body %}
-
   {% set newsletterModel = {
     isSuccess: isSuccess,
     isError: isError,
@@ -9,8 +8,10 @@
   } %}
 
   {% if featuresCohort == 'wellcomeUser' %}
-    {% componentJsx 'BasicPageColumn', {}, [{
-      name: 'NewsletterSignup', model: newsletterModel
-    }] %}
+    <div class="{{ {s: 4} | spacingClasses({margin: ['top']}) }}">
+      {% componentJsx 'BasicPageColumn', {}, [{
+        name: 'NewsletterSignup', model: newsletterModel
+      }] %}
+    </div>
   {% endif %}
 {% endblock %}

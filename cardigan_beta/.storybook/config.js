@@ -4,6 +4,7 @@ import { checkA11y } from '@storybook/addon-a11y';
 import { withKnobs } from '@storybook/addon-knobs/react';
 
 function loadStories() {
+  require('../stories/PageHeaders');
   require('../stories/index.js');
   require('../stories/Links.js');
 }
@@ -15,7 +16,7 @@ const styles = {
   padding: '30px',
 };
 const CenterDecorator = (storyFn) => (
-  <div style={styles}>
+  <div style={styles} className='enhanced'>
     { storyFn() }
   </div>
 );

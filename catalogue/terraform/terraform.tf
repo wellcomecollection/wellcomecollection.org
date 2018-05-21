@@ -67,6 +67,8 @@ module "alb_client_error_alarm" {
   name   = "alb_client_error_alarm"
 }
 
+variable "container_tag" {}
+
 module "catalogue" {
   source     = "git::https://github.com/wellcometrust/terraform.git//ecs/service?ref=v7.0.1"
   name       = "catalogue"
@@ -75,7 +77,7 @@ module "catalogue" {
   vpc_id = "${local.vpc_id}"
 
   nginx_uri                          = "wellcome/nginx_webapp:latest"
-  app_uri                            = "wellcome/catalogue_webapp:test"
+  app_uri                            = "wellcome/catalogue_webapp:${var.container_tag}"
   listener_https_arn                 = "${local.alb_listener_https_arn}"
   listener_http_arn                  = "${local.alb_listener_http_arn}"
   server_error_alarm_topic_arn       = "${module.alb_server_error_alarm.arn}"
@@ -85,11 +87,44 @@ module "catalogue" {
   deployment_maximum_percent         = "200"
   env_vars_length                    = 0
   desired_count                      = 2
-  cpu                                = "384"                                  # (1024/2) - 128
-  memory                             = "369"                                  # (995/2) - 128
+  cpu                                = "384"                                            # (1024/2) - 128
+  memory                             = "369"                                            # (995/2) - 128
   primary_container_port             = "80"
   secondary_container_port           = "3000"
-  path_pattern                       = "/catalogue/works*"
+  path_pattern                       = "/works*"
   healthcheck_path                   = "/management/healthcheck"
-  alb_priority                       = "110"
+  alb_priority                       = "001"
+
+  # remove this once we have it working and tested
+  host_name = "works.wellcomecollection.org"
+}
+
+resource "aws_alb_listener_rule" "next_path_rule" {
+  listener_arn = "${local.alb_listener_https_arn}"
+  priority     = "003"
+
+  action {
+    type             = "forward"
+    target_group_arn = "${module.catalogue.target_group_arn}"
+  }
+
+  condition {
+    field  = "path-pattern"
+    values = ["/_next*"]
+  }
+}
+
+resource "aws_alb_listener_rule" "subdomain_path_rule" {
+  listener_arn = "${local.alb_listener_https_arn}"
+  priority     = "002"
+
+  action {
+    type             = "forward"
+    target_group_arn = "${module.catalogue.target_group_arn}"
+  }
+
+  condition {
+    field  = "host-header"
+    values = ["works.wellcomecollection.org"]
+  }
 }

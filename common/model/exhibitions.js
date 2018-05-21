@@ -17,11 +17,20 @@ export type UiExhibit = {|
   item: | UiInstallation
 |}
 
+// e.g. 'Permanent'
+export type ExhibitionFormat = {|
+  id: string,
+  title: string,
+  description: ?string
+|}
+
 export type Exhibition = {|
   id: string,
+  format: ?ExhibitionFormat,
   title: ?string,
   start: Date,
   end: ?Date,
+  statusOverride: ?string,
   intro: ?HTMLString,
   description: HTMLString,
   contributors: Contributor[],
@@ -31,12 +40,14 @@ export type Exhibition = {|
 
 export type ExhibitionPromo = {|
   id: string,
+  format: ?ExhibitionFormat,
   url: string,
   title: string,
   image: Image,
   description: string,
   start: Date,
   end: ?Date,
+  statusOverride: ?string
 |}
 
 export type UiExhibition = {| ...Exhibition,  ...{|

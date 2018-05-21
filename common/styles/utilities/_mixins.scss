@@ -329,13 +329,28 @@ $slider-one-column-width: (100 / 12) * 1%;
   }
 }
 
+$mediumGallerySpacing: ((map-get($container-padding, 'medium') * 2) - map-get($gutter-width, 'medium'));
+$largeGallerySpacing: ((map-get($container-padding, 'large') * 2) - map-get($gutter-width, 'large'));
+$xlargeGallerySpacing: ((map-get($container-padding, 'xlarge') * 2) - map-get($gutter-width, 'xlarge'));
+
 @mixin position-basic-slides-container {
   margin-left: 0;
 
-  @include respond-to('xlarge') {
+  @include respond-to('medium') {
     margin-left: 50%;
     position: relative;
-    left: -#{($container-width-max*8/12/2) - map-get($container-padding, 'xlarge')};
+    width: calc( (((100vw - #{$mediumGallerySpacing}) * 10/12) - #{map-get($gutter-width, 'medium')}));
+    left: calc( (((100vw - #{$mediumGallerySpacing}) * 10/12) - #{map-get($gutter-width, 'medium')}) / -2);
+  }
+
+  @include respond-to('large') {
+    width: calc( (((100vw - #{$largeGallerySpacing}) * 8/12) - #{map-get($gutter-width, 'large')}));
+    left: calc( (((100vw - #{$largeGallerySpacing}) * 8/12) - #{map-get($gutter-width, 'large')}) / -2);
+  }
+
+  @include respond-to('xlarge') {
+    width: (((($container-width-max - $xlargeGallerySpacing) * 8/12) ) - map-get($gutter-width, 'xlarge'));
+    left: -#{( ( ( ($container-width-max - $xlargeGallerySpacing) * 8/12) ) - map-get($gutter-width, 'xlarge') ) / 2};
   }
 }
 

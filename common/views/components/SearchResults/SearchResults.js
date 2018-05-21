@@ -29,7 +29,7 @@ const SearchResults = ({ items }: Props) => (
         {item.type === 'event-series' &&
           <BasicPromo
             promoType='EventSeriesPromo'
-            url={`/pages/${item.id}`}
+            url={`/event-series/${item.id}`}
             title={item.title}
             description={item.promo && item.promo.caption}
             imageProps={item.promo && item.promo.image}

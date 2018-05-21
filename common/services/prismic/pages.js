@@ -1,5 +1,6 @@
 // @flow
-import {getDocument} from './api';
+import Prismic from 'prismic-javascript';
+import {getDocument, getDocuments} from './api';
 import {parseBody, parseImagePromo, parseTitle, parseTimestamp} from './parsers';
 import type {Page} from '../../model/pages';
 import type {PrismicDocument} from './types';
@@ -42,5 +43,15 @@ export async function getPage(req: Request, id: string): Promise<?Page> {
 
   if (page) {
     return parsePage(page);
+  }
+}
+
+export async function getPageFromDrupalPath(req: Request, path: string): Promise<?Page> {
+  const pages = await getDocuments(req, [Prismic.Predicates.at('my.pages.drupalPath', path)], {
+    fetchLinks: pagesFields.concat(eventSeriesFields)
+  });
+
+  if (pages.results.length > 0) {
+    return parsePage(pages.results[0]);
   }
 }

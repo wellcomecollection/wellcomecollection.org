@@ -2,7 +2,6 @@ FROM node:9.11.1-alpine
 
 ENV NODE_ENV=production
 
-# You need to `yarn build` before doing this
 WORKDIR /usr/src/app/webapp
 COPY ./catalogue/webapp .
 COPY ./common ../../common

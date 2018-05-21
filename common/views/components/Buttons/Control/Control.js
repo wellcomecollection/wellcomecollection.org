@@ -5,6 +5,7 @@ import Icon from '../../Icon/Icon';
 type Props = {|
   url?: string,
   id?: string,
+  type: 'light' | 'dark',
   extraClasses?: string,
   icon: string,
   text: string,
@@ -16,6 +17,7 @@ type Props = {|
 const Control = ({
   url,
   id,
+  type,
   extraClasses,
   icon,
   text,
@@ -28,7 +30,7 @@ const Control = ({
     <HtmlTag
       id={id}
       href={url}
-      className={`control ${extraClasses || ''}`}
+      className={`control control--${type} ${extraClasses || ''}`}
       data-track-event={eventTracking}
       disabled={disabled}
       onClick={clickHandler}>

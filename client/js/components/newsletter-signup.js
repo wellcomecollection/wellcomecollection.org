@@ -7,7 +7,7 @@ export default (el) => {
   let isSubmitAttempted = false;
 
   checkboxErrorMessage.classList.add(...errorClasses);
-  checkboxErrorMessage.innerHTML = 'Please select an option.';
+  checkboxErrorMessage.innerHTML = 'Please select at least one option.';
   emailErrorMessage.classList.add(...errorClasses);
   emailErrorMessage.innerHTML = 'Please enter a valid email address.';
 

@@ -15,7 +15,8 @@ import {
   renderOpeningTimes,
   renderNewsletterPage,
   renderPage,
-  renderTagPage
+  renderTagPage,
+  searchForDrupalRedirect
 } from '../controllers/content';
 
 const r = new Router({
@@ -57,7 +58,7 @@ r.get('/series/(W):id', renderSeries);
 r.get('/webcomic-series/:id', renderWebcomicSeries);
 r.get('/info/opening-times', renderOpeningTimes);
 r.get('/pages/:id', renderPage);
-r.get('/info/newsletter', renderNewsletterPage);
+r.get('/pages/newsletter', renderNewsletterPage);
 r.get('/tag/what-we-do', renderTagPage(
   'what-we-do',
   '/what-we-do',
@@ -80,6 +81,13 @@ r.get('/tag/press', renderTagPage(
   'Press releases'
 ));
 
+// root paths that we want to support.
+// Each service should probably deal with their own
+r.get('/press', async (ctx, next) => {
+  ctx.params.id = 'WuxrKCIAAP9h3hmw';
+  return renderPage(ctx, next);
+});
+
 // API
 r.get('/works', search);
 r.get('/works/:id', work);
@@ -95,5 +103,7 @@ r.get('/articles', renderArticlesList);
 r.get('/async/series-nav/:id', seriesNav);
 r.get('/async/series-transporter/:id', seriesTransporter);
 r.get('/async/search', renderSearch);
+
+r.get('/:path*', searchForDrupalRedirect);
 
 export const router = r.middleware();

@@ -15,7 +15,7 @@ function getButtonMarkup(event) {
   if (event.isCompletelySoldOut) {
     return (
       <Button
-        extraClasses='btn--primary'
+        type='primary'
         text='Fully booked'
         icon='ticketAvailable' />
     );
@@ -23,7 +23,7 @@ function getButtonMarkup(event) {
     return (
       <div className='js-eventbrite-ticket-button' data-eventbrite-ticket-id={event.eventbriteId}>
         <Button
-          extraClasses='btn--primary'
+          type='primary'
           url={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
           icon='ticketAvailable'
           text='Book free tickets' />
@@ -39,7 +39,7 @@ function getBookingEnquiryMarkup(event) {
     return (
       <Fragment>
         <Button
-          extraClasses='btn--primary'
+          type='primary'
           disabled={true}
           text='Fully booked' />
       </Fragment>
@@ -47,7 +47,7 @@ function getBookingEnquiryMarkup(event) {
   } else {
     return (
       <Button
-        extraClasses='btn--primary'
+        type='primary'
         url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
         icon='email'
         text='Email to book' />
