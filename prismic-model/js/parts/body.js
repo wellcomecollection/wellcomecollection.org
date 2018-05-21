@@ -6,6 +6,7 @@ import title from './title';
 import link from './link';
 import number from './number';
 import text from './text';
+import embed from './embed';
 
 // I've left slice here as we shouldn't really use it.
 type SliceProps = {|
@@ -25,26 +26,32 @@ function slice(
   };
 }
 
+const featuredLabel = {
+  name: 'featured',
+  display: 'Featured'
+};
+
 export default {
   fieldset: 'Body content',
   type: 'Slices',
   config: {
     labels: {
       text: [
-        {
-          name: 'featured',
-          'display': 'Featured'
-        }
+        featuredLabel
       ],
       editorialImage: [
+        featuredLabel,
         {
           name: 'supporting',
-          'display': 'Supporting'
+          display: 'Supporting'
         },
         {
           name: 'standalone',
           display: 'Standalone'
         }
+      ],
+      embed: [
+        featuredLabel
       ]
     },
     choices: {
@@ -60,6 +67,11 @@ export default {
         nonRepeat: {
           text: structuredText('Quote'),
           citation: structuredText('Citation', 'single')
+        }
+      }),
+      embed: slice('Embed', {
+        nonRepeat: {
+          embed: embed('Embed (Youtube, Vimeo etc)')
         }
       }),
       contentList: slice('(β) Content list', {

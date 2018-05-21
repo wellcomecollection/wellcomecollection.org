@@ -44,12 +44,22 @@
           ],
           "editorialImage": [
             {
+              "name": "featured",
+              "display": "Featured"
+            },
+            {
               "name": "supporting",
               "display": "Supporting"
             },
             {
               "name": "standalone",
               "display": "Standalone"
+            }
+          ],
+          "embed": [
+            {
+              "name": "featured",
+              "display": "Featured"
             }
           ]
         },
@@ -131,6 +141,18 @@
                 "config": {
                   "single": "paragraph,hyperlink,strong,em",
                   "label": "Citation"
+                }
+              }
+            }
+          },
+          "embed": {
+            "type": "Slice",
+            "fieldset": "Embed",
+            "non-repeat": {
+              "embed": {
+                "type": "Embed",
+                "config": {
+                  "label": "Embed (Youtube, Vimeo etc)"
                 }
               }
             }
