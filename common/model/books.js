@@ -8,7 +8,7 @@ type Review = {|
 |}
 
 export type Book = {|
-  id: ?string,
+  id: string,
   title: ?string,
   subtitle: ?HTMLString,
   orderLink: ?string,
