@@ -41,7 +41,7 @@ const EventPromo = ({
       data-track-event={JSON.stringify({category: 'component', action: 'EventPromo:click', label: `id : ${id}`})}
       id={id}
       href={url}
-      className='plain-link promo-link bg-cream rounded-top rounded-bottom overflow-hidden flex flex--column'>
+      className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'>
       {image && <UiImage
         contentUrl={image.contentUrl}
         width={image.width || 0}
@@ -62,16 +62,14 @@ const EventPromo = ({
             ${spacing({s: 2}, {margin: ['bottom']})}
             ${font({s: 'HNM5'})}
           `}>
-          {interpretations &&
-              interpretations.map(interpretation => {
-                const icon = interpretation.interpretationType.title.replace(/ /g, '_').replace(/-/g, '_');
-                return (
-                  <span key={icon} className={spacing({s: 1}, {margin: ['right']})}>
-                    <Icon name={camelize(icon)} />
-                  </span>
-                );
-              })
-          }
+          {interpretations.map(interpretation => {
+            const icon = interpretation.interpretationType.title.replace(/ /g, '_').replace(/-/g, '_');
+            return (
+              <span key={icon} className={spacing({s: 1}, {margin: ['right']})}>
+                <Icon name={camelize(icon)} />
+              </span>
+            );
+          })}
           <span>
             {format && format.title}
             {audience && audience.title && ` for ${audience.title}`}
@@ -86,13 +84,13 @@ const EventPromo = ({
           {title}
         </h2>
 
-        {schedule && schedule.length > 0 &&
-            <p className={`${font({s: 'HNM4'})} no-padding no-margin`}>
-              {schedule.length} events
-            </p>
+        {schedule.length > 0 &&
+          <p className={`${font({s: 'HNM4'})} no-padding no-margin`}>
+            {schedule.length} events
+          </p>
         }
 
-        {series && series.map((series) => (
+        {series.map((series) => (
           <div key={series.title} className={font({s: 'HNM5'})}>
             {series.title}
           </div>

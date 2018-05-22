@@ -102,7 +102,7 @@ export type Event = {|
   // it's more convenient than having to work it out
   // not sure if it should be in the model, a question for Silver
   bookingType: ?string,
-  schedule?: Array<Event>,
+  schedule?: Event[],
   eventbriteId?: string,
   isCompletelySoldOut?: boolean
 |}
@@ -119,16 +119,16 @@ export type EventPromo = {|
   format: ?EventFormat,
   bookingType: ?string,
   image: ?Image,
-  interpretations: Array<Interpretation>,
+  interpretations: Interpretation[],
   eventbriteId?: ?string,
-  audience: Audience,
+  audience?: Audience,
   series: EventSeries[],
-  schedule?: Array<Event>,
+  schedule: Event[],
   // These are used for when we have a human written string for the dates.
   // Shouldn't really happen, but we have manually added promos at the moment.
   // Hence the nullable key - easier than implementing schedules for 1 event.
   dateString?: ?string,
-  timeString?: ?string,
+  timeString?: ?string
 |}
 
 export const eventExample = ({
