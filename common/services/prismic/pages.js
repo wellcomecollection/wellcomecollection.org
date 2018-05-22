@@ -9,7 +9,7 @@ import {pagesFields, eventSeriesFields} from './fetch-links';
 export function parsePage(document: PrismicDocument): Page {
   const {data} = document;
 
-  // This is just for now, we will be implementing a proper site tagging
+  // TODO (tagging): This is just for now, we will be implementing a proper site tagging
   // strategy for this later
   const siteSection = document.tags
     .filter(tag => ['visit-us', 'what-we-do'].indexOf(tag) !== -1)[0];
