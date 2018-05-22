@@ -382,6 +382,7 @@ const linkResolver = (doc) => {
     case 'series'        : return `/series/${doc.id}`;
     case 'installations' : return `/installations/${doc.id}`;
     case 'pages'         : return `/pages/${doc.id}`;
+    case 'books'         : return `/books/${doc.id}`;
   }
 };
 
