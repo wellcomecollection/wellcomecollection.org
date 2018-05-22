@@ -1,14 +1,16 @@
 {% extends 'layout/default.njk' %}
+
+{% set description = installation.promo.caption | safe | striptags %}
 {% block pageMeta %}
   {% set metaContent = {
     type: 'website',
     title: installation.title,
-    description: installation.promo.caption,
+    description: description,
     url: pageConfig.canonicalUri
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
-  <meta name="description" content="{{ installation.description | prismicAsText | safe | striptags }}" />
+  <meta name="description" content="{{ description }}" />
 {% endblock %}
 
 {% block body %}
