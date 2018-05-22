@@ -29,7 +29,7 @@ afterAll(() => {
 });
 
 it('Renders whats on', async () => {
-  expect(whatsOnResponse.status).toBe(204);
+  expect(whatsOnResponse.status).toBe(200);
 });
 
 it('Renders exhibitions', async () => {
