@@ -6,9 +6,15 @@ import type {Page} from '../../model/pages';
 import type {PrismicDocument} from './types';
 import {pagesFields, eventSeriesFields} from './fetch-links';
 
-export function parsePage(document: PrismicDocument) {
+export function parsePage(document: PrismicDocument): Page {
   const {data} = document;
-  // TODO (drupal migration): Just deal with normal promo once we deprecate the
+
+  // This is just for now, we will be implementing a proper site tagging
+  // strategy for this later
+  const siteSection = document.tags
+    .filter(tag => ['visit-us', 'what-we-do'].indexOf(tag) !== -1)[0];
+
+    // TODO (drupal migration): Just deal with normal promo once we deprecate the
   // drupal stuff
   const promo = data.promo && parseImagePromo(data.promo);
   const drupalPromoImage = data.drupalPromoImage && data.drupalPromoImage.url ? data.drupalPromoImage : null;
@@ -30,6 +36,7 @@ export function parsePage(document: PrismicDocument) {
     body: body,
     promo: drupalisedPromo,
     datePublished: data.datePublished && parseTimestamp(data.datePublished),
+    siteSection: siteSection,
     drupalPromoImage: drupalPromoImage,
     drupalNid: data.drupalNid,
     drupalPath: data.drupalPath

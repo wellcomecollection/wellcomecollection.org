@@ -279,7 +279,7 @@ export async function renderPage(ctx, next) {
       pageConfig: createPageConfig({
         path: ctx.request.url,
         title: page.title,
-        inSection: 'what-we-do',
+        inSection: page.siteSection,
         category: 'info'
       }),
       page: page,
