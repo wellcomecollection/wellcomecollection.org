@@ -23,7 +23,7 @@ const BookPage = ({ book }: Props) => {
         <Fragment>
           {book.subtitle && <p>{book.subtitle}</p>}
           {book.authorName && <p>by {book.authorName}</p>}
-          {book.orderLink && <PrimaryLink name={`Order online${book.price ? ` for ${book.price}` : ''}`} link={book.orderLink} />}
+          {book.orderLink && <PrimaryLink name='Order online' url={book.orderLink} />}
         </Fragment>
       }
       FeaturedMedia={null}
