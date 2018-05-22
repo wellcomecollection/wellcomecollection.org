@@ -4,7 +4,6 @@ import captionedImageSlice from './captioned-image-slice';
 import captionedImageGallerySlice from './captioned-image-gallery-slice';
 import title from './title';
 import link from './link';
-import number from './number';
 import text from './text';
 import embed from './embed';
 
@@ -81,7 +80,6 @@ export default {
       searchResults: slice('(β) Search results', {
         nonRepeat: {
           title,
-          pageSize: number('Size'),
           query: text('Query')
         }
       })

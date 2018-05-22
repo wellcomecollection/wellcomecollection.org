@@ -49,7 +49,6 @@ const BasicBody = ({ body }: Props) => {
             <AsyncSearchResults
               title={slice.value.title}
               query={slice.value.items.map(({id}) => `id:${id}`).join(' ')}
-              pageSize={slice.value.items.length}
             />}
           {slice.type === 'searchResults' && <AsyncSearchResults {...slice.value} />}
           {slice.type === 'videoEmbed' && <VideoEmbed {...slice.value} />}
