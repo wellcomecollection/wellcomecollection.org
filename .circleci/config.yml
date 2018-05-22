@@ -210,7 +210,7 @@ jobs:
           command: pushd ../../ && ./build_prod_config.py && popd
       - run:
           name: Test
-          command: yarn test
+          command: yarn run test
       - run:
           name: Build
           command: yarn run app:build
