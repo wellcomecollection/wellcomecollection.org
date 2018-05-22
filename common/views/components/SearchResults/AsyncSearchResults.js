@@ -4,14 +4,12 @@ import {grid} from '../../../utils/classnames';
 
 type Props = {|
   title: ?string,
-  query: string,
-  pageSize: number
+  query: string
 |}
 
 const AsyncSearchResults = ({
   title,
-  query,
-  pageSize
+  query
 }: Props) => {
   return (
     <Fragment>
@@ -24,7 +22,7 @@ const AsyncSearchResults = ({
       <div
         data-component='ContentListItems'
         className='async-content component-list-placeholder'
-        data-endpoint={'/async/search?query=' + encodeURIComponent(query + ` pageSize:${pageSize}`)}
+        data-endpoint={'/async/search?query=' + encodeURIComponent(query)}
         data-prefix-endpoint={false}
         data-modifiers={[]}>
       </div>
