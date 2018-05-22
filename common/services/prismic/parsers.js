@@ -340,7 +340,11 @@ export function parseBody(fragment: PrismicFragment[]) {
           weight: getWeight(slice.slice_label),
           value: {
             title: asText(slice.primary.title),
-            items: slice.items.filter(item => !item.content.isBroken).map(item => {
+            items: slice.items.filter(
+              // We have to do a check for data here, as if it's a linked piece
+              // of content, we won't have this.
+              item => !item.content.isBroken && item.content.data
+            ).map(item => {
               switch (item.content.type) {
                 case 'pages':
                   return parsePage(item.content);
