@@ -107,6 +107,8 @@ export const dailyTourPromo: EventPromo = {
   isFullyBooked: false,
   hasNotFullyBookedTimes: false,
   description: null,
+  series: [],
+  schedule: [],
   dateString: 'Tuesday–Sunday',
   timeString: '11:30, 14:30 and 15:30',
   format: {
