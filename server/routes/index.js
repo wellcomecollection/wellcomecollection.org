@@ -58,7 +58,6 @@ r.get('/preview', setPreviewSession);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 r.get('/series/(W):id', renderSeries);
 r.get('/webcomic-series/:id', renderWebcomicSeries);
-r.get('/info/opening-times', renderOpeningTimes);
 r.get('/pages/:id', renderPage);
 r.get('/books/:id', renderBook);
 r.get('/newsletter', renderNewsletterPage);
@@ -100,6 +99,7 @@ r.get('/venue-hire', pageWithId('Wuw2MSIAACtd3SsC'));
 r.get('/access', pageWithId('Wvm2uiAAAIYQ4FHP'));
 r.get('/youth', pageWithId('Wuw2MSIAACtd3Ste'));
 r.get('/schools', pageWithId('Wuw2MSIAACtd3StS'));
+r.get('/opening-times', renderOpeningTimes);
 
 // API
 r.get('/works', search);

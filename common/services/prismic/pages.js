@@ -14,7 +14,7 @@ export function parsePage(document: PrismicDocument): Page {
   const siteSection = document.tags
     .filter(tag => ['visit-us', 'what-we-do'].indexOf(tag) !== -1)[0];
 
-    // TODO (drupal migration): Just deal with normal promo once we deprecate the
+  // TODO: (drupal migration) Just deal with normal promo once we deprecate the
   // drupal stuff
   const promo = data.promo && parseImagePromo(data.promo);
   const drupalPromoImage = data.drupalPromoImage && data.drupalPromoImage.url ? data.drupalPromoImage : null;

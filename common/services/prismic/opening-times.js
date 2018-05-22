@@ -7,8 +7,8 @@ import type {Day, OverrideType, ExceptionalPeriod, OverrideDate, ExceptionalVenu
 import type {PrismicFragment} from '../../services/prismic/types';
 import type Moment from 'moment';
 
-export async function getCollectionOpeningTimes() {
-  const collectionVenues = await getDocuments(null, [Prismic.Predicates.any('document.type', ['collection-venue'])], {});
+export async function getCollectionOpeningTimes(req: Request) {
+  const collectionVenues = await getDocuments(req, [Prismic.Predicates.any('document.type', ['collection-venue'])], {});
   return parseVenuesToOpeningHours(collectionVenues);
 }
 
