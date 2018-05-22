@@ -148,7 +148,7 @@ const contentSlider = (el, options) => {
     if (settings.containImages) {
       const maxWidth = containerWidth;
       const tallestImage = nodeList(imagesArray).reduce((acc, image) => {
-        const imageHeight = image.getAttribute('height');
+        const imageHeight = image && image.getAttribute('height');
         if (acc.height <= imageHeight) {
           return {
             height: imageHeight,
