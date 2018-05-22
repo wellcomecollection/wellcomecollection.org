@@ -5,7 +5,6 @@ import { withKnobs } from '@storybook/addon-knobs/react';
 
 function loadStories() {
   require('../stories/PageHeaders');
-  require('../stories/index.js');
   require('../stories/Links.js');
   require('../stories/BasicBody');
 }
