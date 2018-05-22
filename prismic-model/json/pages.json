@@ -118,6 +118,18 @@
               }
             }
           },
+          "embed": {
+            "type": "Slice",
+            "fieldset": "Embed",
+            "non-repeat": {
+              "embed": {
+                "type": "Embed",
+                "config": {
+                  "label": "Embed (Youtube, Vimeo etc)"
+                }
+              }
+            }
+          },
           "contentList": {
             "type": "Slice",
             "fieldset": "(β) Content list",

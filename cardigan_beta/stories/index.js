@@ -1,15 +1,14 @@
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
+import { text, boolean } from '@storybook/addon-knobs/react';
 
 import BasicPage from '../../common/views/components/Templates/BasicPage/BasicPage';
 import StatusIndicator from '../../common/views/components/StatusIndicator/StatusIndicator';
 import WobblyBackground from '../../common/views/components/Templates/BasicPage/WobblyBackground';
 import DateRange from '../../common/views/components/DateRange/DateRange';
 
-const stories = storiesOf('Templates/Basic page', module);
-stories.addDecorator(withKnobs);
+const basicPage = storiesOf('Templates/Basic page', module);
 
-stories
+basicPage
   .add('without an image', () => {
     const pageTitle = text('Page title', 'This can be a title of some type of length');
     const pageDescription = text('Page description', 'The description of the pages, again, of varying length');

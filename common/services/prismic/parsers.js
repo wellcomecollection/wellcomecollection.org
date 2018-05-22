@@ -340,7 +340,7 @@ export function parseBody(fragment: PrismicFragment[]) {
           weight: getWeight(slice.slice_label),
           value: {
             title: asText(slice.primary.title),
-            items: slice.items.map(item => {
+            items: slice.items.filter(item => !item.content.isBroken).map(item => {
               switch (item.content.type) {
                 case 'pages':
                   return parsePage(item.content);
@@ -371,6 +371,20 @@ export function parseBody(fragment: PrismicFragment[]) {
             citation: slice.primary.citation
           }
         };
+
+      case 'embed':
+        const embed = slice.primary.embed;
+
+        if (embed.provider_name === 'YouTube') {
+          const embedUrl = slice.primary.embed.html.match(/src="([-a-zA-Z0-9://.?=_]+)?/)[1];
+          return {
+            type: 'videoEmbed',
+            weight: getWeight(slice.slice_label),
+            value: {
+              embedUrl: `${embedUrl}?rel=0`
+            }
+          };
+        }
     }
   }).filter(Boolean);
 }
