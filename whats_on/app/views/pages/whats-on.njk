@@ -16,15 +16,7 @@
 
 {% block body %}
    <script type="application/ld+json">
-    [{% for exhibition in exhibitionAndEventPromos.temporaryExhibitionPromos %}
-      {{ exhibition | jsonLd('exhibitionPromoLd') | safe }},
-    {% endfor %}
-    {% for event in exhibitionAndEventPromos.eventPromos %}
-      {{ event | jsonLd('eventPromoLd') | safe }},
-    {% endfor %}
-    {% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
-      {{ exhibition | jsonLd('exhibitionPromoLd') | safe }}{{ ',' if not loop.last }}
-    {% endfor %}]
+
   </script>
 
   {% set whatsOnData = {activeId: exhibitionAndEventPromos.active, id: 'whatsOnFilter' } %}
