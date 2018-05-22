@@ -24,7 +24,8 @@ function partOf(commissionedSeries, seriesTitle) {
 }
 
 function contentTypeLabel(contentType, commissionedSeries) {
-  return (
+  // FIXME: this hack can die when we separate out a WorkPromo
+  return contentType !== 'work' && (
     <span className={`line-height-1 bg-yellow absolute promo__content-type ${font({s: 'HNM5'})} ${spacing({s: 1}, {padding: ['top', 'bottom', 'left', 'right']})}`}
       aria-hidden='true'>{commissionedSeries ? 'Digital Story' : contentType.charAt(0).toUpperCase() + contentType.slice(1)}</span>
   );
