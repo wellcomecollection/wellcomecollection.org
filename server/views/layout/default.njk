@@ -12,9 +12,6 @@
       {% include "partials/critical.css.njk" %}
     </style>
     <link rel="preload" href="{{ '/assets/css/' | getHashedFile('non-critical.css') }}" as="style" onload="this.rel='stylesheet'">
-
-
-
     <link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/icons/' | getHashedFile('apple-touch-icon.png') }}">
     <link rel="shortcut icon" href="{{ '/assets/icons/' | getHashedFile('favicon.ico') }}" type="image/ico">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/icons/' | getHashedFile('favicon-32x32.png') }}">
@@ -58,7 +55,8 @@
     {% set navLinks = [
       {
         href: 'https://wellcomecollection.org/visit',
-        title: 'Visit us'
+        title: 'Visit us',
+        isCurrent: pageConfig.inSection === 'visit-us'
       },
       {
         href: '/whats-on',
