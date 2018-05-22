@@ -6,7 +6,9 @@ import {
   parseTitle,
   parseImagePromo,
   parseTimestamp,
-  asHtml
+  parseBody,
+  asHtml,
+  asText
 } from './parsers';
 
 export function parseBookDoc(document: PrismicDocument): Book {
@@ -15,7 +17,7 @@ export function parseBookDoc(document: PrismicDocument): Book {
   return {
     id: document.id,
     title: parseTitle(data.title),
-    subtitle: data.subtitle && asHtml(data.subtitle),
+    subtitle: data.subtitle && asText(data.subtitle),
     orderLink: data.orderLink && data.orderLink.url,
     price: data.price,
     format: data.format,
@@ -28,11 +30,11 @@ export function parseBookDoc(document: PrismicDocument): Book {
       };
     }),
     datePublished: data.datePublished && parseTimestamp(data.datePublished),
-    authorName: data.authorName,
+    authorName: data.authorName && asText(data.authorName),
     authorImage: data.authorImage && data.authorImage.url,
     authorDescription: data.authorDescription && asHtml(data.authorDescription),
     promo,
-    body: []
+    body: data.body ? parseBody(data.body) : []
   };
 }
 

@@ -10,7 +10,7 @@ type Review = {|
 export type Book = {|
   id: string,
   title: ?string,
-  subtitle: ?HTMLString,
+  subtitle: ?string,
   orderLink: ?string,
   price: ?string,
   format: ?string,
