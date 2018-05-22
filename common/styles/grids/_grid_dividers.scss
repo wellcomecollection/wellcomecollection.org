@@ -72,13 +72,7 @@
     }
   }
 
-  @include respond-to('xlarge') {
-    &.grid--theme-4 {
-      .grid__cell:nth-child(3):before {
-        display: block;
-      }
-    }
-
+  @include respond-to('large') {
     &.grid--theme-6 {
       .grid__cell:nth-child(3):before,
       .grid__cell:nth-child(5):before {
@@ -87,6 +81,14 @@
 
       .grid__cell:nth-child(4):before {
         display: none;
+      }
+    }
+  }
+
+  @include respond-to('xlarge') {
+    &.grid--theme-4 {
+      .grid__cell:nth-child(3):before {
+        display: block;
       }
     }
   }
