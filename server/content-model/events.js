@@ -130,6 +130,8 @@ export type EventPromo = {|
   image: ?Picture,
   interpretations: Array<Interpretation>,
   eventbriteId?: ?string,
+  series: EventSeries[],
+  schedule: Event[],
   // These are used for when we have a human written string for the dates.
   // Shouldn't really happen, but we have manually added promos at the moment.
   // Hence the nullable key - easier than implementing schedules for 1 event.

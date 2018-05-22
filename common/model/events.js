@@ -1,8 +1,8 @@
 // @flow
 import type {HTMLString, ImagePromo} from './content-blocks';
-import type {Picture} from './picture';
 import type {BackgroundTexture} from './background-texture';
 import type {Contributor} from './contributors';
+import type {Image} from './image';
 
 type DateTimeRange = {|
   startDateTime: Date,
@@ -102,7 +102,7 @@ export type Event = {|
   // it's more convenient than having to work it out
   // not sure if it should be in the model, a question for Silver
   bookingType: ?string,
-  schedule?: Array<Event>,
+  schedule?: Event[],
   eventbriteId?: string,
   isCompletelySoldOut?: boolean
 |}
@@ -111,16 +111,19 @@ export type EventPromo = {|
   id: string,
   title: ?string,
   url: string,
-  start: ?DateTimeRange,
-  end: ?DateTimeRange,
+  start: ?Date,
+  end: ?Date,
   isFullyBooked: boolean,
   hasNotFullyBookedTimes: boolean,
   description: ?HTMLString,
   format: ?EventFormat,
   bookingType: ?string,
-  image: ?Picture,
-  interpretations: Array<Interpretation>,
+  image: ?Image,
+  interpretations: Interpretation[],
   eventbriteId?: ?string,
+  audience?: Audience,
+  series: EventSeries[],
+  schedule: Event[],
   // These are used for when we have a human written string for the dates.
   // Shouldn't really happen, but we have manually added promos at the moment.
   // Hence the nullable key - easier than implementing schedules for 1 event.
