@@ -13,6 +13,7 @@ import {london} from '../filters/format-date';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {getPage, getPageFromDrupalPath} from '../../common/services/prismic/pages';
+import {getBook} from '../../common/services/prismic/books';
 import {getMultiContent} from '../../common/services/prismic/multi-content';
 import {getCollectionOpeningTimes} from '../../common/services/prismic/opening-times';
 import {isPreview as getIsPreview} from '../../common/services/prismic/api';
@@ -141,6 +142,7 @@ async function getPreviewSession(token) {
         case 'event-series' : return `/event-series/${doc.id}`;
         case 'installations' : return `/installations/${doc.id}`;
         case 'pages' : return `/pages/${doc.id}`;
+        case 'books' : return `/books/${doc.id}`;
       }
     }, '/', (err, redirectUrl) => {
       if (err) {
@@ -309,6 +311,26 @@ export async function renderPage(ctx, next) {
         category: 'info'
       }),
       page: page,
+      isPreview: getIsPreview(ctx.request)
+    });
+  }
+
+  return next();
+}
+
+export async function renderBook(ctx, next) {
+  const {id} = ctx.params;
+  const book = await getBook(ctx.request, id);
+
+  if (book) {
+    ctx.render('pages/book', {
+      pageConfig: createPageConfig({
+        path: ctx.request.url,
+        title: book.title,
+        inSection: 'what-we-do',
+        category: 'info'
+      }),
+      book: book,
       isPreview: getIsPreview(ctx.request)
     });
   }

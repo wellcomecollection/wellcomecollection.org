@@ -17,7 +17,8 @@ import {
   renderNewsletterPage,
   renderPage,
   renderTagPage,
-  searchForDrupalRedirect
+  searchForDrupalRedirect,
+  renderBook
 } from '../controllers/content';
 
 const r = new Router({
@@ -59,7 +60,9 @@ r.get('/series/(W):id', renderSeries);
 r.get('/webcomic-series/:id', renderWebcomicSeries);
 r.get('/info/opening-times', renderOpeningTimes);
 r.get('/pages/:id', renderPage);
-r.get('/pages/newsletter', renderNewsletterPage);
+r.get('/books/:id', renderBook);
+r.get('/newsletter', renderNewsletterPage);
+
 r.get('/tag/what-we-do', renderTagPage(
   'what-we-do',
   '/what-we-do',

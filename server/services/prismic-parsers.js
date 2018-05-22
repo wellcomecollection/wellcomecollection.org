@@ -313,7 +313,7 @@ export function parseImagePromo(doc: ?PrismicDocFragment, cropType: CropType = '
   const maybePromo = doc && doc.find(slice => slice.slice_type === 'editorialImage');
   return maybePromo && ({
     caption: asText(maybePromo.primary.caption),
-    image: parsePicture({
+    image: maybePromo.primary.image.dimensions && parsePicture({
       image:
         // We introduced enforcing 16:9 half way through, so we have to do a check for it.
         maybePromo.primary.image[cropType] || maybePromo.primary.image
@@ -382,6 +382,7 @@ const linkResolver = (doc) => {
     case 'series'        : return `/series/${doc.id}`;
     case 'installations' : return `/installations/${doc.id}`;
     case 'pages'         : return `/pages/${doc.id}`;
+    case 'books'         : return `/books/${doc.id}`;
   }
 };
 

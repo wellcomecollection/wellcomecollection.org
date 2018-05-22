@@ -1,6 +1,7 @@
 import BackToTop from '../BackToTop/BackToTop';
 import BasicBody from '../BasicBody/BasicBody';
 import { BasicPageColumn } from '../Templates/BasicPage/BasicPage';
+import BookPage from '../Templates/BasicPage/BookPage';
 import Button from '../Buttons/Button/Button';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
@@ -28,11 +29,13 @@ import NewsletterSignup from '../NewsletterSignup/NewsletterSignup';
 import OpeningHours from '../OpeningHours/OpeningHours';
 import OpeningHoursTable from '../OpeningHoursTable/OpeningHoursTable';
 import OpeningHoursTableGrouped from '../OpeningHoursTableGrouped/OpeningHoursTableGrouped';
+import Page from '../Templates/BasicPage/Page';
 import PageDescription from '../PageDescription/PageDescription';
 import Pagination from '../Pagination/Pagination';
 import Picture from '../Picture/Picture';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import Promo from '../Promo/Promo';
+import Quote from '../Quote/Quote';
 import SearchBox from '../SearchBox/SearchBox';
 import SearchResults from '../SearchResults/SearchResults';
 import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
@@ -43,13 +46,12 @@ import Tasl from '../Tasl/Tasl';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
-import Quote from '../Quote/Quote';
-import Page from '../Templates/BasicPage/Page';
 
 export {
   BackToTop,
   BasicBody,
   BasicPageColumn,
+  BookPage,
   Button,
   CaptionedImage,
   ChapterIndicator,
