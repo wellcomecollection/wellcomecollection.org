@@ -1,0 +1,83 @@
+{% extends 'layout/default.njk' %}
+{# //TODO page meta / json-ld  #}
+{% block body %}
+  <div class="css-grid__container">
+    <div class="css-grid">
+      <div class="{{ {s:12, m:12, l:7, xl:6} | cssGridClasses }}">
+        <h1 class="{{ {s: 'WB4', m:'WB3'} | fontClasses }}">The free destination for the incurably curious</h1>
+      </div>
+      <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }}">
+        {% componentV2 'divider', null, {'dashed': true} %}
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="{{ {s: 6} | spacingClasses({padding: ['top']}) }} flex-m-up flex--v-center flex--h-space-between">
+      <h2 class="h2">What's on this week</h2>
+      {% componentJsx 'PrimaryLink', { name: 'All exhibitions and events', url: '/whats-on' } %}
+    </div>
+  </div>
+
+  <div class="css-grid__container">
+    <div class="css-grid">
+      {% for exhibition in exhibitionAndEventPromos.currentTemporaryExhibitionPromos %}
+        <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
+          {% componentJsx 'ExhibitionPromo', exhibition %}
+        </div>
+      {% endfor %}
+
+      {% for event in exhibitionAndEventPromos.eventPromos %}
+        <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
+          {% componentV2 'event-promo', event, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
+        </div>
+      {% endfor %}
+
+      {% for exhibition in exhibitionAndEventPromos.upcomingTemporaryExhibitionPromos %}
+        <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
+          {% componentJsx 'ExhibitionPromo', exhibition %}
+        </div>
+      {% endfor %}
+
+      <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
+        {% componentV2 'event-promo', dailyTourPromo, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
+      </div>
+
+      {% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
+        <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
+          {% componentJsx 'ExhibitionPromo', exhibition %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="{{ {s: 6} | spacingClasses({padding: ['top']}) }} flex-m-up flex--v-center flex--h-space-between">
+      <h2 class="h2">Latest articles, comics and more</h2>
+      {% componentJsx 'PrimaryLink', { name: 'All stories', url: '/explore' } %}
+    </div>
+  </div>
+
+  <div class="css-grid__container">
+    <div class="css-grid">
+      {% for promo in storiesPromos %}
+        <div class="{{ {s: 12, m: 6, l: 3, xl:3} | cssGridClasses}}">
+          {% componentJsx 'Promo', {
+            sizes: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)',
+            url: promo.url,
+            contentType: promo.contentType,
+            image: promo.image,
+            title: promo.title,
+            weight: promo.weight,
+            description: promo.description,
+            series: promo.series,
+            positionInSeries: promo.positionInSeries
+          } %}
+        </div>
+      {% endfor %}
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
