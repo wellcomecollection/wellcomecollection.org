@@ -322,7 +322,7 @@ export async function renderBook(ctx, next) {
   const page = await getPage(ctx.request, id);
 
   if (page) {
-    ctx.render('pages/page', {
+    ctx.render('pages/book', {
       pageConfig: createPageConfig({
         path: ctx.request.url,
         title: page.title,
