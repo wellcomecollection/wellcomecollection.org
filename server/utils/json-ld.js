@@ -112,7 +112,7 @@ export function eventLd(event: Event) {
       startDate: event.times.map(time => time.range.startDateTime),
       endDate: event.times.map(time => time.range.endDateTime),
       description: event.description,
-      image: event.promo && convertImageUri(event.promo.image.contentUrl, 1920, false)
+      image: event.promo && event.promo.image && convertImageUri(event.promo.image.contentUrl, 1920, false)
     }, 'Event');
   });
 }
