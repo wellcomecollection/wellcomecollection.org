@@ -215,7 +215,6 @@ export function parseImagePromo(
 ): ?ImagePromo {
   const maybePromo = frag && frag.find(slice => slice.slice_type === 'editorialImage');
   const hasImage = (maybePromo && maybePromo.primary.image && isImageLink(maybePromo.primary.image)) || false;
-  console.info(hasImage);
 
   return maybePromo && ({
     caption: asText(maybePromo.primary.caption),
