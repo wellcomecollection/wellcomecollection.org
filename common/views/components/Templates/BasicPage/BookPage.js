@@ -15,6 +15,7 @@ const BookPage = ({ book }: Props) => {
 
   return (
     <BasicPage
+      id={book.id}
       Background={WobblyBackground()}
       TagBar={null}
       DateInfo={DateInfo}
