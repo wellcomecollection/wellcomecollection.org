@@ -8,6 +8,7 @@ import Contributor from '../Contributor/Contributor';
 import Control from '../Buttons/Control/Control';
 import CopyUrl from '../CopyUrl/CopyUrl';
 import Divider from '../Divider/Divider';
+import EventPromo from '../EventPromo/EventPromo';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import ExceptionalOpeningHoursTable from '../ExceptionalOpeningHoursTable/ExceptionalOpeningHoursTable';
 import ExhibitionPageHeader from '../PageHeaders/ExhibitionPageHeader/ExhibitionPageHeader';
@@ -56,6 +57,7 @@ export {
   Control,
   CopyUrl,
   Divider,
+  EventPromo,
   EventScheduleItem,
   ExceptionalOpeningHoursTable,
   ExhibitionPageHeader,

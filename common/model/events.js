@@ -1,8 +1,8 @@
 // @flow
 import type {HTMLString, ImagePromo} from './content-blocks';
-import type {Picture} from './picture';
 import type {BackgroundTexture} from './background-texture';
 import type {Contributor} from './contributors';
+import type {Image} from './image';
 
 type DateTimeRange = {|
   startDateTime: Date,
@@ -111,21 +111,24 @@ export type EventPromo = {|
   id: string,
   title: ?string,
   url: string,
-  start: ?DateTimeRange,
-  end: ?DateTimeRange,
+  start: ?Date,
+  end: ?Date,
   isFullyBooked: boolean,
   hasNotFullyBookedTimes: boolean,
   description: ?HTMLString,
   format: ?EventFormat,
   bookingType: ?string,
-  image: ?Picture,
+  image: ?Image,
   interpretations: Array<Interpretation>,
   eventbriteId?: ?string,
+  audience: Audience,
+  series: EventSeries[],
+  schedule?: Array<Event>,
   // These are used for when we have a human written string for the dates.
   // Shouldn't really happen, but we have manually added promos at the moment.
   // Hence the nullable key - easier than implementing schedules for 1 event.
   dateString?: ?string,
-  timeString?: ?string
+  timeString?: ?string,
 |}
 
 export const eventExample = ({
