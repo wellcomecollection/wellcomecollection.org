@@ -6,6 +6,7 @@ import { withKnobs } from '@storybook/addon-knobs/react';
 function loadStories() {
   require('../stories/PageHeaders');
   require('../stories/Links.js');
+  require('../stories/BasicBody');
 }
 
 addDecorator(withKnobs);

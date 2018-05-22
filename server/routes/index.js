@@ -1,10 +1,11 @@
 import Router from 'koa-router';
 import request from 'superagent';
-import {healthcheck, featureFlags, index, progress} from '../controllers/utils';
+import {healthcheck, featureFlags, progress} from '../controllers/utils';
 import {seriesNav, seriesTransporter, renderSearch} from '../controllers/async-controllers';
 import {work, search} from '../controllers/work';
 import {article, preview, series, articles} from '../controllers/wordpress';
 import {
+  renderHomepage,
   renderArticle,
   setPreviewSession,
   renderEventbriteEmbed,
@@ -24,7 +25,7 @@ const r = new Router({
 });
 
 // Util / function
-r.get('/', index);
+r.get('/', renderHomepage);
 r.get('/progress', progress);
 r.get('/flags', featureFlags);
 r.get('/kaboom', (ctx, next) => {
@@ -83,10 +84,19 @@ r.get('/tag/press', renderTagPage(
 
 // root paths that we want to support.
 // Each service should probably deal with their own
-r.get('/press', async (ctx, next) => {
-  ctx.params.id = 'WuxrKCIAAP9h3hmw';
-  return renderPage(ctx, next);
-});
+function pageWithId(id) {
+  return async (ctx, next) => {
+    ctx.params.id = id;
+    return renderPage(ctx, next);
+  };
+}
+r.get('/visit-us', pageWithId('WwLIBiAAAPMiB_zC'));
+r.get('/what-we-do', pageWithId('WwLGFCAAAPMiB_Ps'));
+r.get('/press', pageWithId('WuxrKCIAAP9h3hmw'));
+r.get('/venue-hire', pageWithId('Wuw2MSIAACtd3SsC'));
+r.get('/access', pageWithId('Wvm2uiAAAIYQ4FHP'));
+r.get('/youth', pageWithId('Wuw2MSIAACtd3Ste'));
+r.get('/schools', pageWithId('Wuw2MSIAACtd3StS'));
 
 // API
 r.get('/works', search);

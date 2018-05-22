@@ -466,7 +466,7 @@ function getListHeader(dates, collectionOpeningTimes) {
   };
 }
 
-export async function getExhibitionAndEventPromos(query, collectionOpeningTimes, featuresCohort) {
+export async function getExhibitionAndEventPromos(query, collectionOpeningTimes) {
   const todaysDate = london();
   const fromDate = !query.startDate ? todaysDate.format('YYYY-MM-DD') : query.startDate;
   // set 'everything' as default time period, when no startDate is provided

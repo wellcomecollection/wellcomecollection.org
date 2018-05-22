@@ -1,5 +1,4 @@
 // @flow
-import {Fragment} from 'react';
 import {spacing, grid} from '../../../../utils/classnames';
 import BasicHeader from '../../PageHeaders/BasicHeader/BasicHeader';
 import BasicBody from '../../BasicBody/BasicBody';
@@ -11,6 +10,7 @@ import type {CaptionedImage} from '../../Images/Images';
 import type VideoEmbed from '../../VideoEmbed/VideoEmbed';
 
 type Props = {|
+  id: string,
   title: string,
   body: Body,
   Background: ?(WobblyBackground | TexturedBackground),
@@ -35,6 +35,7 @@ export const BasicPageColumn = ({children}: {| children: Node |}) => (
 );
 
 const BasicPage = ({
+  id,
   title,
   body,
   TagBar,
@@ -46,7 +47,7 @@ const BasicPage = ({
   children
 }: Props) => {
   return (
-    <Fragment>
+    <article data-wio-id={id}>
       <BasicHeader
         title={title}
         Background={Background}
@@ -67,7 +68,7 @@ const BasicPage = ({
           {children}
         </BasicPageColumn>
       }
-    </Fragment>
+    </article>
   );
 };
 

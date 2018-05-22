@@ -34,6 +34,7 @@ const InstallationPage = ({ installation }: Props) => {
 
   return (
     <BasicPage
+      id={installation.id}
       Background={WobblyBackground()}
       TagBar={
         <div

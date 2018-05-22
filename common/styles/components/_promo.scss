@@ -4,11 +4,6 @@
   text-decoration: none;
   margin-bottom: 5 * $v-spacing-unit;
 
-  &.promo--standalone {
-    margin-bottom: -5 * $v-spacing-unit;
-    padding-bottom: 5 * $v-spacing-unit;
-  }
-
   @include container-query(('m': ('12'), 'l': ('8', '12'), 'xl': ('8', '12'))) {
     display: flex;
     align-items: flex-start;
@@ -21,8 +16,6 @@
   }
 }
 
-@include image-zoom ($interactionElement: '.promo', $containerElement: '.promo__image-container:not(.promo__image-container--constrained)', $zoomElement: '.image:not(.promo__image-container--constrained .image)');
-
 .promo__image-surrogate {
   position: relative;
 
@@ -34,13 +27,17 @@
   }
 }
 
+.promo__content-type {
+  bottom: 0;
+  left: 0;
+}
+
 .promo__image-surrogate-inner {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  border-radius: $border-radius-unit;
   background: repeating-linear-gradient(-45deg, color('smoke'), color('smoke') 2px, color('transparent') 2px, color('transparent') 4px);
 }
 
@@ -48,13 +45,7 @@
   position: relative;
   width: 100%;
   display: block;
-  margin-bottom: 2 * $spacing-unit;
   z-index: 0;
-
-  .promo--standalone & {
-    border-radius: 0;
-    margin-bottom: 0;
-  }
 
   @include container-query(('m': ('12'), 'l': ('8', '12'), 'xl': ('8', '12'))) {
     order: 1;
@@ -62,34 +53,21 @@
     margin-bottom: 0;
   }
 
-  .promo--transporter-child & {
-    @include container-query(('s': ('12'))) {
-      width: percentage(118 / 316);
-      margin-bottom: 0;
-    }
-
-    @include container-query(('m': ('12'))) {
-      order: 0;
-      width: percentage(1 / 3);
-    }
+  .image {
+    border-top-left-radius: $border-radius-unit;
+    border-top-right-radius: $border-radius-unit;
   }
 }
 
 .promo__image-container--constrained {
   display: flex;
   align-items: flex-end;
-  overflow: hidden;
   height: 0;
   padding-top: 150%;
-  border-radius: 0;
-}
 
-.promo__defs {
-  position: absolute;
-  height: 0;
-  width: 0;
-  overflow: hidden;
-  left: -100%;
+  .image {
+    border-radius: 0;
+  }
 }
 
 .promo__image-mask {
@@ -98,47 +76,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-  filter: url('#duotone') saturate(80%);
-}
-
-.promo__clip-path--1 {
-  clip-path: polygon(0% 65%, 0% 100%, 100% 100%, 100% 64%, 92% 57%, 70% 50%, 57% 60%, 45% 68%, 20% 70%);
-}
-
-.promo__clip-path--2 {
-  clip-path: polygon(0% 55%, 0% 100%, 100% 100%, 100% 60%, 82% 57%, 74% 54%, 60% 60%, 55% 63%, 40% 60%, 27% 64%);
-}
-
-.promo__clip-path--3 {
-  clip-path: polygon(0% 45%, 0% 100%, 100% 100%, 100% 42%, 75% 59%, 47% 50%, 27% 54%);
-}
-
-.promo__clip-path--4 {
-  clip-path: polygon(0% 39%, 0% 100%, 100% 100%, 100% 50%, 72% 45%, 62% 55%, 52% 44%, 48% 50%, 30% 45%, 17% 42%);
-}
-
-.promo__clip-path--5 {
-  clip-path: polygon(0% 58%, 0% 100%, 100% 100%, 100% 60%, 90% 68%, 84% 57%, 60% 60%, 45% 33%, 30% 40%, 13% 50%);
-}
-
-.promo__clip-path--6 {
-  clip-path: polygon(0% 21%, 0% 100%, 100% 100%, 100% 24%, 92% 30%, 84% 26%, 70% 37%, 45% 45%, 36% 49%, 27% 42%, 14% 28%);
-}
-
-.promo__clip-path--7 {
-  clip-path: polygon(0% 52%, 0% 100%, 100% 100%, 100% 57%, 70% 60%, 50% 53%, 40% 60%, 27% 64%);
-}
-
-.promo__clip-path--8 {
-  clip-path: polygon(0% 45%, 0% 100%, 100% 100%, 100% 45%, 82% 52%, 74% 44%, 60% 50%, 55% 57%, 40% 52%, 27% 48%);
-}
-
-.promo__clip-path--9 {
-  clip-path: polygon(0% 65%, 0% 100%, 100% 100%, 100% 30%, 84% 37%, 69% 32%, 60% 60%, 55% 63%, 40% 60%, 27% 64%);
-}
-
-.promo__clip-path--10 {
-  clip-path: polygon(0% 85%, 0% 100%, 100% 100%, 100% 60%, 90% 50%, 78% 45%, 60% 60%, 55% 66%, 40% 76%, 27% 82%);
 }
 
 .promo__clip-path--chapters-third {
@@ -171,31 +108,8 @@
   }
 }
 
-.promo__length {
-  display: inline-block;
-  margin-left: map-get($gutter-width, 'small')/2;
-
-  @include respond-to('medium') {
-    margin-left: map-get($gutter-width, 'medium')/2;
-  }
-
-  @include respond-to('large') {
-    margin-left: map-get($gutter-width, 'large')/2;
-  }
-}
-
-.promo__sr {
-  @include visually-hidden();
-}
-
-.promo__type {
-  display: block;
-}
-
 .promo__title {
   color: color('black');
-  margin-top: 0;
-  margin-bottom: 0.9em;
   transition: color 400ms ease;
 
   .promo--surrogate & {
@@ -210,12 +124,6 @@
   .promo:not(.promo--surrogate):focus & {
     color: color('green');
   }
-
-  .promo--standalone & {
-    @include respond-to('large') {
-      padding-right: 1em;
-    }
-  }
 }
 
 .promo__title--lead {
@@ -228,10 +136,6 @@
   }
 }
 
-.promo__date {
-  display: block;
-}
-
 .promo__description {
   align-items: center;
   color: color('black');
@@ -239,88 +143,12 @@
   flex: 1;
   position: relative;
 
-  .promo--standalone & {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    padding: 1rem;
-    margin-top: -3 * $vertical-space-unit;
-    margin-bottom: $vertical-space-unit;
-    background: color('white');
-    border-radius: $border-radius-unit;
-
-    @include respond-to('medium') {
-      margin-top: -6 * $vertical-space-unit;
-    }
-  }
-
   @include container-query(('l': ('8', '12'), 'xl': ('8', '12'))) {
     padding-right: map-get($gutter-width, 'large');
   }
 
   @include container-query(('m': ('12'))) {
     padding-right: map-get($gutter-width, 'medium');
-  }
-
-  .promo--transporter-child & {
-    @include container-query(('s': ('12'))) {
-      padding-left: map-get($gutter-width, 'small');
-    }
-
-    @include container-query(('m': ('12'))) {
-      padding-right: 0;
-      padding-left: map-get($gutter-width, 'medium');
-    }
-  }
-}
-
-.promo__heading,
-.promo__copy {
-  .promo--standalone & {
-    flex-basis: 100%;
-  }
-}
-
-.promo__heading {
-  .promo--standalone & {
-    @include respond-to('large') {
-      flex-basis: 40%;
-    }
-  }
-}
-
-.promo__copy {
-  .promo--standalone & {
-    @include respond-to('large') {
-      flex-basis: 60%;
-      padding-right: 20%;
-    }
-  }
-}
-
-.promo--underlined {
-  padding-bottom: 3 * $vertical-space-unit;
-  margin-bottom: $vertical-space-unit;
-  border-bottom: 2px solid color('black');
-}
-
-.promo--transporter-child {
-  @include container-query(('s': ('12'))) {
-    display: flex;
-    align-items: flex-start;
-    padding-bottom: $vertical-space-unit;
-    border-bottom: 1px solid color('smoke');
-    margin-bottom: $vertical-space-unit;
-  }
-
-  .promo__type {
-    color: color('black');
-  }
-
-  .promo__title {
-    @include container-query(('s': ('12'))) {
-      @include font('HNM5');
-    }
   }
 }
 
