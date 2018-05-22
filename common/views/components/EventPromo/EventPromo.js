@@ -79,11 +79,11 @@ const EventPromo = ({
 
         <div>
           <h2 className={`
-              promo-link__title
-              ${font({s: 'WB5'})}
-              ${spacing({s: 0}, {margin: ['top']})}
-              ${spacing({s: 1}, {margin: ['bottom']})}
-            `}>
+            promo-link__title
+            ${font({s: 'WB5'})}
+            ${spacing({s: 0}, {margin: ['top']})}
+            ${spacing({s: 1}, {margin: ['bottom']})}
+          `}>
             {title}
           </h2>
 
