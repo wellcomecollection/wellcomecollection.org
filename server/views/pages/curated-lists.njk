@@ -50,7 +50,7 @@
         {% for promo in promos.slice(1, 5).toJS() %}
           <div class="grid__cell">
             {% componentJsx 'Promo', {
-              sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(33.24vw - 43px), calc(66.79vw - 18px)',
+              sizes: '(min-width: 1340px) 282px, (min-width: 600px) calc(47.22vw - 37px), calc(75vw - 18px)',
               url: promo.url,
               contentType: promo.contentType,
               image: promo.image,
@@ -128,7 +128,7 @@
         {% for promo in promos.slice(5, 11).toJS() %}
           <div class="grid__cell">
             {% componentJsx 'Promo', {
-              sizes: '(min-width: 1340px) 178px, (min-width: 960px) calc(33.33vw - 60px), (min-width: 600px) calc(50vw - 54px), calc(66.79vw - 18px)',
+              sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(75vw - 18px)',
               url: promo.url,
               contentType: promo.contentType,
               image: promo.image,
