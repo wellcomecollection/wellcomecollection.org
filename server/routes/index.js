@@ -92,7 +92,7 @@ function pageWithId(id) {
 r.get('/visit-us', pageWithId('WwLIBiAAAPMiB_zC'));
 r.get('/what-we-do', pageWithId('WwLGFCAAAPMiB_Ps'));
 r.get('/press', pageWithId('WuxrKCIAAP9h3hmw'));
-r.get('/eventspaces', pageWithId('Wuw2MSIAACtd3SsC'));
+r.get('/venue-hire', pageWithId('Wuw2MSIAACtd3SsC'));
 r.get('/access', pageWithId('Wvm2uiAAAIYQ4FHP'));
 r.get('/youth', pageWithId('Wuw2MSIAACtd3Ste'));
 r.get('/schools', pageWithId('Wuw2MSIAACtd3StS'));
