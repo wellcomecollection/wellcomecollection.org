@@ -15,7 +15,7 @@
 {% block body %}
 
   <script type="application/ld+json">
-    {{ book | jsonLd('contentLd') | safe }}
+
   </script>
   {% componentJsx 'BookPage', { book: book } %}
 

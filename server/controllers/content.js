@@ -13,6 +13,7 @@ import {london} from '../filters/format-date';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {getPage, getPageFromDrupalPath} from '../../common/services/prismic/pages';
+import {getBook} from '../../common/services/prismic/books';
 import {getMultiContent} from '../../common/services/prismic/multi-content';
 import {getCollectionOpeningTimes} from '../../common/services/prismic/opening-times';
 import {isPreview as getIsPreview} from '../../common/services/prismic/api';
@@ -319,17 +320,17 @@ export async function renderPage(ctx, next) {
 
 export async function renderBook(ctx, next) {
   const {id} = ctx.params;
-  const page = await getPage(ctx.request, id);
+  const book = await getBook(ctx.request, id);
 
-  if (page) {
+  if (book) {
     ctx.render('pages/book', {
       pageConfig: createPageConfig({
         path: ctx.request.url,
-        title: page.title,
+        title: book.title,
         inSection: 'what-we-do',
         category: 'info'
       }),
-      page: page,
+      book: book,
       isPreview: getIsPreview(ctx.request)
     });
   }
