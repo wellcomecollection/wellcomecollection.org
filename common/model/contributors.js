@@ -11,8 +11,6 @@ export type Organisation = {|
   url: ?string
 |};
 
-type ContributorType = | 'organisations' | 'people';
-
 type ContributorRole = {|
   id: string,
   title: string
@@ -20,12 +18,12 @@ type ContributorRole = {|
 
 export type PersonContributor = {|
   ...Person,
-  type: ContributorType
+  type: 'people'
 |}
 
 export type OrganisationContributor = {|
   ...Organisation,
-  type: ContributorType
+  type: 'organisations'
 |}
 
 export type Contributor = {|

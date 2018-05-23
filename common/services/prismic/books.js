@@ -32,7 +32,7 @@ export function parseBookDoc(document: PrismicDocument): Book {
     datePublished: data.datePublished && parseTimestamp(data.datePublished),
     authorName: data.authorName && asText(data.authorName),
     authorImage: data.authorImage && data.authorImage.url,
-    authorDescription: data.authorDescription && asHtml(data.authorDescription),
+    authorDescription: data.authorDescription,
     promo,
     body: data.body ? parseBody(data.body) : []
   };
