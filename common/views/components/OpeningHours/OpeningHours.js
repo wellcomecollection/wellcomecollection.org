@@ -39,7 +39,7 @@ class OpeningHours extends Component<Props, State> {
       <Fragment>
         {groupedVenues && !groupedVenues[Object.keys(groupedVenues)[0]].hours &&
           <p className={spacing({s: 2}, {margin: ['bottom']})}>
-            <a className={font({s: 'HNL6', m: 'HNL5'})} href='https://wellcomecollection.org/info/opening-times'>
+            <a className={font({s: 'HNL6', m: 'HNL5'})} href='https://wellcomecollection.org/opening-times'>
               Opening times
             </a>
           </p>
@@ -87,7 +87,7 @@ class OpeningHours extends Component<Props, State> {
                 }
               }
             })}
-            . Please check our <a href='/info/opening-times#exceptional'>modified opening times</a> for details before you travel.
+            . Please check our <a href='/opening-times#exceptional'>modified opening times</a> for details before you travel.
           </p>
         }
         {groupedVenues && groupedVenues[Object.keys(groupedVenues)[0]].hours &&

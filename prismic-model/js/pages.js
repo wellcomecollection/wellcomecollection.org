@@ -25,7 +25,7 @@ const Page = {
     })
   },
 
-  // TODO (drupal migration): Remove this
+  // TODO: (drupal migration) Remove this
   Migration: {
     drupalPromoImage: link('Drupal promo image', 'web'),
     drupalNid: text('Drupal node ID'),

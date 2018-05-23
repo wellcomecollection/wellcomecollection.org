@@ -88,7 +88,7 @@
                   <time class="block">
                     {{ eventTime.range.startDateTime | formatAndDedupeOnTime(eventTime.range.endDateTime) | joinDateStrings }}
                   </time>
-                  {% if eventTime.isFullyBooked and not event.isCompletelySoldOut %}
+                  {% if eventTime.isFullyBooked and not (event.eventbriteId or event.bookingEnquiryTeam) %}
                     <div class="{{- [
                       {s:'HNM5'} | fontClasses,
                       {s:2} | spacingClasses({margin: ['left']

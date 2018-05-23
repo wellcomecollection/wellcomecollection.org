@@ -52,7 +52,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const promoThin = promo && parseImagePromo(promo, '32:15', breakpoints.medium);
   const promoSquare = promo && parseImagePromo(promo, 'square', breakpoints.small);
 
-  // TODO (drupal migration): Remove this
+  // TODO: (drupal migration) Remove this
   const drupalPromoImage = document.data.drupalPromoImage && document.data.drupalPromoImage.url ? {
     caption: promoThin && promoThin.caption,
     image: {
@@ -112,7 +112,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       url,
       title,
       image: promoImage.image,
-      description: (promoThin && promoThin.caption) || 'PROMO TEXT MISSING',
+      description: (promoThin && promoThin.caption) || '',
       start,
       end,
       statusOverride

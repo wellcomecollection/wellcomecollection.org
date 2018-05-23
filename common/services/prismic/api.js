@@ -49,7 +49,7 @@ export async function getDocument(
 type Predicate = string;
 
 export async function getDocuments(
-  req: ?Request,
+  req: Request,
   predicates: Predicate[],
   opts: PrismicQueryOpts
 ): Promise<PaginatedResults<PrismicDocument>> {
