@@ -1,5 +1,5 @@
 import BackToTop from '../BackToTop/BackToTop';
-import BaseBody from '../BaseBody/BaseBody';
+import Body from '../Body/Body';
 import { BasePageColumn } from '../BasePage/BasePage';
 import BookPage from '../BasePage/BookPage';
 import Button from '../Buttons/Button/Button';
@@ -49,8 +49,8 @@ import WorkMedia from '../WorkMedia/WorkMedia';
 
 export {
   BackToTop,
-  BaseBody,
   BasePageColumn,
+  Body,
   BookPage,
   Button,
   CaptionedImage,
