@@ -3,6 +3,7 @@ import { RichText, Date as PrismicDate } from 'prismic-dom';
 import type { HTMLString, PrismicFragment } from './types';
 import type { Contributor, PersonContributor, OrganisationContributor } from '../../model/contributors';
 import type { Picture } from '../../model/picture';
+import type { Image } from '../../model/image';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
 import type { Place } from '../../model/place';
@@ -64,6 +65,7 @@ export function parseTimestamp(frag: PrismicFragment): Date {
   return PrismicDate(frag);
 }
 
+// Deprecated, use parseImage
 const placeholderImage = 'https://via.placeholder.com/160x90?text=placeholder';
 export function parsePicture(captionedImage: Object, minWidth: ?string = null): Picture {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
@@ -88,6 +90,22 @@ export function parsePicture(captionedImage: Object, minWidth: ?string = null): 
     },
     minWidth
   }: Picture);
+}
+
+export function checkAndParseImage(frag: ?PrismicFragment): ?Image {
+  return frag && (isImageLink(frag) ? parseImage(frag) : null);
+}
+
+// We don't export this, as we probably always want to check ^ first
+function parseImage(frag: PrismicFragment): Image {
+  const tasl = parseTaslFromString(frag.copyright);
+  return {
+    contentUrl: frag.url,
+    width: frag.dimensions.width,
+    height: frag.dimensions.height,
+    alt: frag.alt,
+    tasl: tasl
+  };
 }
 
 const defaultContributorImage = 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3ed09488-1992-4f8a-9f0c-de2d296109f9_group+21.png';
@@ -289,14 +307,14 @@ export function isImageLink(fragment: ?PrismicFragment): boolean {
   return Boolean(fragment && fragment.dimensions);
 }
 
-export type Weight = | 'featured';
+export type Weight = 'default' | 'featured';
 function getWeight(weight: ?string): ?Weight {
   switch (weight) {
     case 'featured':
       return weight;
 
     default:
-      return null;
+      return 'default';
   }
 }
 

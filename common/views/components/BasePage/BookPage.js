@@ -2,15 +2,21 @@
 import {Fragment} from 'react';
 import BasePage from './BasePage';
 import HTMLDate from '../HTMLDate/HTMLDate';
-import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import type {Book} from '../../../model/books';
 
 type Props = {|
   book: Book
 |}
 
+// TODO: Add subtitle
 const BookPage = ({ book }: Props) => {
   const DateInfo = book.datePublished && <HTMLDate date={book.datePublished} />;
+  const imageSlice = book.cover && {
+    weight: 'default',
+    type: 'image',
+    value: book.cover
+  };
+  const bodyWithImage = imageSlice ? [imageSlice].concat(book.body) : book.body;
 
   return (
     <BasePage
@@ -21,14 +27,12 @@ const BookPage = ({ book }: Props) => {
       InfoBar={null}
       Description={
         <Fragment>
-          {book.subtitle && <p>{book.subtitle}</p>}
-          {book.authorName && <p>by {book.authorName}</p>}
-          {book.orderLink && <PrimaryLink name='Order online' url={book.orderLink} />}
+          {book.authorName && <p className='no-margin'>by {book.authorName}</p>}
         </Fragment>
       }
       FeaturedMedia={null}
       title={book.title || 'TITLE MISSING'}
-      body={book.body || []}>
+      body={bodyWithImage}>
     </BasePage>
   );
 };

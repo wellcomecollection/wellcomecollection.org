@@ -3,6 +3,7 @@
 import {spacing} from '../../../utils/classnames';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
+import {UiImage} from '../Images/Images';
 import Image from '../Image/Image';
 import Tasl from '../Tasl/Tasl';
 import Quote from '../Quote/Quote';
@@ -35,6 +36,7 @@ const Body = ({ body }: Props) => {
               {slice.weight !== 'featured' && <PrismicHtmlBlock html={slice.value} />}
             </div>
           }
+          {slice.type === 'image' && <UiImage {...slice.value} extraClasses='margin-v-auto' />}
           {slice.type === 'picture' &&
             <CaptionedImage caption={slice.value.caption}>
               <Image {...slice.value} />

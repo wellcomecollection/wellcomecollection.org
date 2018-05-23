@@ -8,6 +8,7 @@ import {
   parseTimestamp,
   parseBody,
   asHtml,
+  checkAndParseImage,
   asText
 } from './parsers';
 
@@ -34,7 +35,8 @@ export function parseBookDoc(document: PrismicDocument): Book {
     authorImage: data.authorImage && data.authorImage.url,
     authorDescription: data.authorDescription && asHtml(data.authorDescription),
     promo,
-    body: data.body ? parseBody(data.body) : []
+    body: data.body ? parseBody(data.body) : [],
+    cover: checkAndParseImage(data.cover)
   };
 }
 

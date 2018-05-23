@@ -1,6 +1,7 @@
 // @flow
 import type {HTMLString} from '../services/prismic/types';
 import type {ImagePromo} from './image-promo';
+import type {Image} from './image';
 
 type Review = {|
   text: HTMLString,
@@ -21,6 +22,7 @@ export type Book = {|
   authorName: ?string, // This is structuredText in Prismic >.<
   authorImage: ?string, // This is a link in Prismic >.<
   authorDescription: ?HTMLString,
-  body: ?any[],
-  promo: ?ImagePromo
+  body: any[],
+  promo: ?ImagePromo,
+  cover: ?Image
 |};

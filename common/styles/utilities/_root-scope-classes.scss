@@ -258,10 +258,6 @@
   margin-right: auto;
 }
 
-.margin-top-auto {
-  margin-top: auto;
-}
-
 .text--truncate {
   max-height: 80px;
   overflow: hidden;
@@ -317,6 +313,14 @@
 
 .no-padding {
   padding: 0;
+}
+
+.margin-v-auto {
+  margin: 0 auto;
+}
+
+.margin-top-auto {
+  margin-top: auto;
 }
 
 .bg-transparent-black {
