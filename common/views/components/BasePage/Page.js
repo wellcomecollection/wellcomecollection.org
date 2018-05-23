@@ -1,9 +1,9 @@
 // @flow
-import BasicPage from './BasicPage';
-import HTMLDate from '../../HTMLDate/HTMLDate';
-import {UiImage} from '../../Images/Images';
-import VideoEmbed from '../../VideoEmbed/VideoEmbed';
-import type {Page} from '../../../../model/pages';
+import BasePage from './BasePage';
+import HTMLDate from '../HTMLDate/HTMLDate';
+import {UiImage} from '../Images/Images';
+import VideoEmbed from '../VideoEmbed/VideoEmbed';
+import type {Page} from '../../../model/pages';
 
 type Props = {|
   page: Page
@@ -21,7 +21,7 @@ const InstallationPage = ({ page }: Props) => {
         : null : null;
 
   return (
-    <BasicPage
+    <BasePage
       id={page.id}
       DateInfo={DateInfo}
       Background={null}
@@ -31,7 +31,7 @@ const InstallationPage = ({ page }: Props) => {
       FeaturedMedia={FeaturedMedia}
       title={page.title}
       body={body}>
-    </BasicPage>
+    </BasePage>
   );
 };
 

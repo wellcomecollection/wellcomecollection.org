@@ -2,16 +2,16 @@ import {Fragment} from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs } from '@storybook/addon-knobs/react';
 
-import BasicBody from '../../common/views/components/BasicBody/BasicBody';
+import Body from '../../common/views/components/Body/Body';
 import {image, text as textContent, videoEmbed} from './content';
 
-const stories = storiesOf('Basic body', module).addDecorator(withKnobs);
+const stories = storiesOf('Body', module).addDecorator(withKnobs);
 
 stories
-  .add('without an image', () => {
+  .add('With slices', () => {
     return (
       <Fragment>
-        <BasicBody
+        <Body
           body={[{
             type: 'picture',
             value: image
