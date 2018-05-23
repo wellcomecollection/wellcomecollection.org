@@ -112,7 +112,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       url,
       title,
       image: promoImage.image,
-      description: (promoThin && promoThin.caption) || 'PROMO TEXT MISSING',
+      description: (promoThin && promoThin.caption) || '',
       start,
       end,
       statusOverride

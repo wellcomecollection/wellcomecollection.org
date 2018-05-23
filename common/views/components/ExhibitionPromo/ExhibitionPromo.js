@@ -60,12 +60,11 @@ const ExhibitionPromo = ({
             ${spacing({s: 1}, {margin: ['bottom']})}
           `}>{title}</h2>
 
-          <p className={`${font({s: 'HNL4'})} no-margin no-padding`}>
-            {!format && !statusOverride && start && end &&
+          {!format && !statusOverride && start && end &&
+            <p className={`${font({s: 'HNL4'})} no-margin no-padding`}>
               <Fragment><time dateTime={start}>{formatDate(start)}</time>—<time dateTime={end}>{formatDate(end)}</time></Fragment>
-            }
-            {format && description}
-          </p>
+            </p>
+          }
 
           <StatusIndicator start={start} end={end || new Date()} statusOverride={statusOverride} />
         </div>
