@@ -47,7 +47,7 @@ const EventPromo = ({
       id={id}
       href={url}
       className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'>
-      <div className={`promo__image-container`}>
+      <div className='relative'>
         {image && image.contentUrl && <UiImage
           contentUrl={image.contentUrl}
           width={image.width || 0}
