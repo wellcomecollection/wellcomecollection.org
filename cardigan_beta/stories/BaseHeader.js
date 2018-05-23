@@ -5,16 +5,16 @@ import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
 import VideoEmbed from '../../common/views/components/VideoEmbed/VideoEmbed';
 import {UiImage} from '../../common/views/components/Images/Images';
 import StatusIndicator from '../../common/views/components/StatusIndicator/StatusIndicator';
-import WobblyBackground from '../../common/views/components/Templates/BasicPage/WobblyBackground';
+import WobblyBackground from '../../common/views/components/BaseHeader/WobblyBackground';
 import DateRange from '../../common/views/components/DateRange/DateRange';
-import BasicHeader from '../../common/views/components/PageHeaders/BasicHeader/BasicHeader';
+import BaseHeader from '../../common/views/components/BaseHeader/BaseHeader';
 import Tags from '../../common/views/components/Tags/Tags';
 import {image, videoEmbed} from './content';
 
-const stories = storiesOf('Page headers/Basic header', module).addDecorator(withKnobs);
+const stories = storiesOf('Basic header', module).addDecorator(withKnobs);
 
 stories
-  .add('without an image', () => {
+  .add('variations', () => {
     const title = text('Title', 'Some sort of title');
     const description = text('Description', 'Some sort of description');
     const Image = UiImage(image);
@@ -43,7 +43,7 @@ stories
 
     return (
       <Fragment>
-        <BasicHeader
+        <BaseHeader
           title={title}
           TagBar={hasTags ? TagBar : null}
           FeaturedMedia={FeaturedMedia}
