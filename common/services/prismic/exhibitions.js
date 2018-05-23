@@ -52,7 +52,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const promoThin = promo && parseImagePromo(promo, '32:15', breakpoints.medium);
   const promoSquare = promo && parseImagePromo(promo, 'square', breakpoints.small);
 
-  // TODO (drupal migration): Remove this
+  // TODO: (drupal migration) Remove this
   const drupalPromoImage = document.data.drupalPromoImage && document.data.drupalPromoImage.url ? {
     caption: promoThin && promoThin.caption,
     image: {

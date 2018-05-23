@@ -1,14 +1,14 @@
 // @flow
 import {Fragment} from 'react';
-import {spacing} from '../../../../utils/classnames';
-import BasicPage from './BasicPage';
-import DateRange from '../../DateRange/DateRange';
-import StatusIndicator from '../../StatusIndicator/StatusIndicator';
-import HTMLDate from '../../HTMLDate/HTMLDate';
-import Contributor from '../../Contributor/Contributor';
-import WobblyBackground from './WobblyBackground';
-import {UiImage} from '../../Images/Images';
-import type {UiInstallation} from '../../../../model/installations';
+import {spacing} from '../../../utils/classnames';
+import BasePage from './BasePage';
+import DateRange from '../DateRange/DateRange';
+import StatusIndicator from '../StatusIndicator/StatusIndicator';
+import HTMLDate from '../HTMLDate/HTMLDate';
+import Contributor from '../Contributor/Contributor';
+import WobblyBackground from '../BaseHeader/WobblyBackground';
+import {UiImage} from '../Images/Images';
+import type {UiInstallation} from '../../../model/installations';
 
 type Props = {|
   installation: UiInstallation
@@ -33,7 +33,7 @@ const InstallationPage = ({ installation }: Props) => {
   const FeaturedMedia = installation.promo && <UiImage tasl={tasl} {...image} />;
 
   return (
-    <BasicPage
+    <BasePage
       id={installation.id}
       Background={WobblyBackground()}
       TagBar={
@@ -63,7 +63,7 @@ const InstallationPage = ({ installation }: Props) => {
           ))}
         </div>
       </Fragment>
-    </BasicPage>
+    </BasePage>
   );
 };
 

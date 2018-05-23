@@ -1,12 +1,12 @@
 
 // @flow
 import {Fragment} from 'react';
-import {spacing, grid, font} from '../../../../utils/classnames';
-import TexturedBackground from '../../Templates/BasicPage/TexturedBackground';
+import {spacing, grid, font} from '../../../utils/classnames';
+import TexturedBackground from './TexturedBackground';
 import type {Node} from 'react';
-import type {CaptionedImage} from '../../Images/Images';
-import type WobblyBackground from '../../Templates/BasicPage/WobblyBackground';
-import type VideoEmbed from '../../VideoEmbed/VideoEmbed';
+import type {CaptionedImage} from '../Images/Images';
+import type WobblyBackground from './WobblyBackground';
+import type VideoEmbed from '../VideoEmbed/VideoEmbed';
 
 type Props = {|
   title: string,
@@ -19,7 +19,7 @@ type Props = {|
 |}
 
 const backgroundTexture = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg';
-const BasicHeader = ({
+const BaseHeader = ({
   title,
   Background,
   TagBar,
@@ -92,4 +92,4 @@ const BasicHeader = ({
   );
 };
 
-export default BasicHeader;
+export default BaseHeader;
