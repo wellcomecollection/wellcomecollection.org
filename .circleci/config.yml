@@ -209,9 +209,6 @@ jobs:
           name: Build prod config
           command: pushd ../../ && ./build_prod_config.py && popd
       - run:
-          name: Test
-          command: yarn run test
-      - run:
           name: Build
           command: yarn run app:build
       - save_cache:
