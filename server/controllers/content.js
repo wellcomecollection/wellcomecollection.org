@@ -22,7 +22,12 @@ import {dailyTourPromo} from '../../server/data/facility-promos';
 
 export const renderOpeningTimes = async(ctx, next) => {
   const path = ctx.request.url;
-  const pageOpeningHours = await getCollectionOpeningTimes();
+
+  // TODO: (Prismic perf) don't fetch these as two separate calls
+  const [pageOpeningHours, page] = await Promise.all([
+    getCollectionOpeningTimes(ctx.request),
+    getPage(ctx.request, 'WwQHTSAAANBfDYXU')
+  ]);
   const galleriesLibrary = pageOpeningHours && pageOpeningHours.placesOpeningHours && pageOpeningHours.placesOpeningHours.filter(venue => {
     return venue.name.toLowerCase() === 'galleries' || venue.name.toLowerCase() === 'library';
   });
@@ -43,10 +48,11 @@ export const renderOpeningTimes = async(ctx, next) => {
   ctx.render('pages/opening-times', {
     pageConfig: Object.assign({}, createPageConfig({
       path: path,
-      title: 'Opening Times',
+      title: page.title,
       category: 'information',
-      canonicalUri: `${ctx.globals.rootDomain}/info/opening-times`
+      canonicalUri: `${ctx.globals.rootDomain}/opening-times`
     })),
+    page: page || {}, // overly cautious, but we getPage does return ?Page.
     pageOpeningHours: Object.assign({}, pageOpeningHours, {groupedVenues})
   });
 
