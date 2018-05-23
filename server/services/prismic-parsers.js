@@ -313,7 +313,7 @@ export function parseImagePromo(doc: ?PrismicDocFragment, cropType: CropType = '
   const maybePromo = doc && doc.find(slice => slice.slice_type === 'editorialImage');
   return maybePromo && ({
     caption: asText(maybePromo.primary.caption),
-    image: parsePicture({
+    image: maybePromo.primary.image.dimensions && parsePicture({
       image:
         // We introduced enforcing 16:9 half way through, so we have to do a check for it.
         maybePromo.primary.image[cropType] || maybePromo.primary.image

@@ -3,11 +3,13 @@
     "app:build": "webpack",
     "app:dev": "../../node_modules/.bin/nodemon -e js,njk,json --config ../../nodemon.json --exec babel-node --inspect=4003 app.js",
     "linkweco": "pushd ../../common && yarn link && popd && yarn link @weco/common",
-    "unlinkweco": "yarn unlink @weco/common"
+    "unlinkweco": "yarn unlink @weco/common",
+    "test": "jest"
   },
   "dependencies": {
     "@weco/common": "../../common",
     "babel-cli": "^6.26.0",
+    "babel-jest": "^22.4.4",
     "babel-loader": "^7.1.2",
     "babel-plugin-flow-runtime": "^0.15.0",
     "babel-plugin-module-resolver": "^3.0.0",
@@ -16,6 +18,7 @@
     "copy-webpack-plugin": "^4.2.3",
     "flow-runtime": "^0.16.0",
     "immutable": "^3.8.2",
+    "jest": "^22.4.4",
     "koa-router": "^7.3.0",
     "mkdirp": "^0.5.1",
     "node-sass": "^4.7.2",

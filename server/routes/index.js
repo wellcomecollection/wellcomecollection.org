@@ -99,6 +99,14 @@ r.get('/venue-hire', pageWithId('Wuw2MSIAACtd3SsC'));
 r.get('/access', pageWithId('Wvm2uiAAAIYQ4FHP'));
 r.get('/youth', pageWithId('Wuw2MSIAACtd3Ste'));
 r.get('/schools', pageWithId('Wuw2MSIAACtd3StS'));
+// This is a bit crap.
+// It allows us to always serve the combo page.
+// When this info is stored in Prismic, we can just use the `/opening-hours`
+// on the promo
+r.get('/pages/WwQHTSAAANBfDYXU', (ctx, next) => {
+  ctx.status = 301;
+  ctx.redirect(`/opening-times`);
+});
 r.get('/opening-times', renderOpeningTimes);
 
 // API
