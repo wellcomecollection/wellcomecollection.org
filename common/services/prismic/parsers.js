@@ -317,6 +317,16 @@ export function parseBody(fragment: PrismicFragment[]) {
           value: slice.primary.text
         };
 
+      case 'map':
+        return {
+          type: 'map',
+          value: {
+            title: asText(slice.primary.title),
+            latitude: slice.primary.geolocation.latitude,
+            longitude: slice.primary.geolocation.longitude
+          }
+        };
+
       case 'editorialImage':
         return {
           weight: getWeight(slice.slice_label),
