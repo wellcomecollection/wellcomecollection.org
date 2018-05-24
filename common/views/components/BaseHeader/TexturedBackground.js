@@ -9,8 +9,9 @@ const TexturedBackground = ({
   <div className='row relative'>
     <div className='absolute overflow-hidden full-width bg-cream' style={{
       top: 0,
-      height: '50vw',
-      maxHeight: '66vh',
+      height: '40vw',
+      maxHeight: '50vh',
+      minHeight: '200px',
       zIndex: -1,
       backgroundImage: `url(${backgroundTexture})`,
       backgroundSize: '150%'
