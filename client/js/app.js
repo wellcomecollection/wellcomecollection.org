@@ -35,7 +35,7 @@ import segmentedControl from './components/segmented-control';
 import tabs from './components/tabs';
 import {eventbriteTicketStatus} from './components/eventbrite-ticket-status';
 import newsletterSignup from './components/newsletter-signup';
-import {loadMapScript, createMap} from './components/map';
+import {createMaps} from './components/map';
 
 const init = () => {
   polyfills.init();
@@ -98,12 +98,7 @@ const init = () => {
   }));
 
   if (maps.length > 0) {
-    window.WC = {
-      initMaps: function() {
-        maps.forEach(map => createMap(map));
-      }
-    };
-    loadMapScript('WC.initMaps');
+    createMaps(maps);
   }
 
   if (mainEl) {

@@ -33,3 +33,12 @@ export function createMap (el) {
     title: locationTitle
   });
 };
+
+export function createMaps(maps) {
+  window.WC = Object.assign({}, window.WC, {
+    initMaps: function() {
+      maps.forEach(map => createMap(map));
+    }
+  });
+  loadMapScript('WC.initMaps');
+}
