@@ -8,13 +8,15 @@ import {
   parseTimestamp,
   parseBody,
   asHtml,
+  checkAndParseImage,
   asText
 } from './parsers';
 
-export function parseBookDoc(document: PrismicDocument): Book {
+export function parseBook(document: PrismicDocument): Book {
   const data = document.data;
-  const promo = document.data.promo && parseImagePromo(document.data.promo);
+  const promo = document.data.promo && parseImagePromo(document.data.promo, null);
   return {
+    type: 'books',
     id: document.id,
     title: parseTitle(data.title),
     subtitle: data.subtitle && asText(data.subtitle),
@@ -34,7 +36,8 @@ export function parseBookDoc(document: PrismicDocument): Book {
     authorImage: data.authorImage && data.authorImage.url,
     authorDescription: data.authorDescription && asHtml(data.authorDescription),
     promo,
-    body: data.body ? parseBody(data.body) : []
+    body: data.body ? parseBody(data.body) : [],
+    cover: checkAndParseImage(data.cover)
   };
 }
 
@@ -42,7 +45,7 @@ export async function getBook(req: Request, id: string): Promise<?Book> {
   const document = await getDocument(req, id, {});
 
   if (document && document.type === 'books') {
-    const book = parseBookDoc(document);
+    const book = parseBook(document);
     return book;
   }
 }

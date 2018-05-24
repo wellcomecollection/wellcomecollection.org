@@ -6,7 +6,7 @@ import type {Node} from 'react';
 import type WobblyBackground from '../BaseHeader/WobblyBackground';
 import type TexturedBackground from '../BaseHeader/TexturedBackground';
 import type {BodyType} from '../Body/Body';
-import type {CaptionedImage} from '../Images/Images';
+import type {UiImage} from '../Images/Images';
 import type VideoEmbed from '../VideoEmbed/VideoEmbed';
 
 type Props = {|
@@ -18,7 +18,7 @@ type Props = {|
   DateInfo: ?Node,
   InfoBar: ?Node,
   Description: ?Node,
-  FeaturedMedia: ?(CaptionedImage | VideoEmbed),
+  FeaturedMedia: ?(UiImage | VideoEmbed),
   children?: ?Node
 |}
 
@@ -57,6 +57,7 @@ const BasePage = ({
         InfoBar={InfoBar}
         FeaturedMedia={FeaturedMedia}
       />
+
       <BasePageColumn>
         <div className='basic-page'>
           <Body body={body}></Body>

@@ -20,7 +20,7 @@ type State = {|
 const addressBooks = [
   {
     id: 'whats_on',
-    label: `<span class="${font({s: 'HNL5'})}"><span class="${font({s: 'HNM5'})}">What’s On</span> at Wellcome Collection: our monthly roundup of the latest exhibitions, events, new books and opportunities to get involved. Sent monthly with up to one extra update per month.</span>`,
+    label: `<span class="${font({s: 'HNL5'})}"><span class="${font({s: 'HNM5'})}">What’s On</span> at Wellcome Collection: our roundup of the latest exhibitions, events, new books and opportunities to get involved. Sent monthly with up to one extra update per month.</span>`,
     name: 'addressbook_40131'
   },
   {
@@ -107,10 +107,8 @@ class NewsletterSignup extends Component<Props, State> {
 
         {isSuccess &&
           <div className='body-text'>
-            <h1>You’re signed up!</h1>
-            <p>Thank you for signing up to receive updates from us.</p>
-            <p>If this is first time you’ve subscribed to updates from us, you will receive an email asking to confirm your subscription. Please check your email and confirm, so you can start receiving updates.</p>
-            <p><a href='/whats-on'>Browse our current and upcoming exhibitions and events</a>.</p>
+            <h1>You’re signed up</h1>
+            <p>If this is the first time you’ve subscribed to updates from us, you will receive an email asking you to confirm. Please check your email and click the button. Thank you!</p>
           </div>
         }
 
@@ -123,7 +121,7 @@ class NewsletterSignup extends Component<Props, State> {
 
         {!isConfirmed && !isSuccess && !isError &&
           <div className='body-text'>
-            <h1>Sign up</h1>
+            <h1>Stay connected with email updates from Wellcome Collection</h1>
           </div>
         }
 
@@ -169,7 +167,7 @@ class NewsletterSignup extends Component<Props, State> {
               </ul>
             </fieldset>
 
-            <p className={`${font({s: 'HNL6'})} plain-text`}>We use a third party provider, <a href='https://www.dotmailer.com/terms/privacy-policy/'>Dotmailer</a>, to deliver our newsletters. For information about how we handle your data, please read our <a href='https://wellcome.ac.uk/about-us/privacy-and-terms'>privacy notice</a>. You can unsubscribe at any time using links in the emails you receive.</p>
+            <p className={`${font({s: 'HNL6'})} plain-text`}>We use a third-party provider, <a href='https://www.dotmailer.com/terms/privacy-policy/'>Dotmailer</a>, to deliver our newsletters. For information about how we handle your data, please read our <a href='https://wellcome.ac.uk/about-us/privacy-and-terms'>privacy notice</a>. You can unsubscribe at any time using links in the emails you receive.</p>
 
             <Button
               extraClasses={`btn--primary ${spacing({s: 2}, {margin: ['bottom']})}`}

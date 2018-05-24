@@ -14,7 +14,7 @@ import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {getPage, getPageFromDrupalPath} from '../../common/services/prismic/pages';
 import {getBook} from '../../common/services/prismic/books';
-import {getMultiContent} from '../../common/services/prismic/multi-content';
+import {search} from '../../common/services/prismic/search';
 import {getCollectionOpeningTimes} from '../../common/services/prismic/opening-times';
 import {isPreview as getIsPreview} from '../../common/services/prismic/api';
 
@@ -324,6 +324,34 @@ export async function renderPage(ctx, next) {
   return next();
 }
 
+export async function renderBooks(ctx, next) {
+  const content = await search(ctx.request, 'type:books');
+  const promoList = content.results.map(content => {
+    return content.promo && {
+      url: `/books/${content.id}`,
+      contentType: 'Books',
+      image: content.promo.image,
+      title: content.title,
+      description: content.promo.caption
+    };
+  }).filter(Boolean);
+
+  ctx.render('pages/list', {
+    pageConfig: createPageConfig({
+      path: `/books`,
+      title: 'Our books',
+      inSection: 'books'
+    }),
+    list: {
+      name: 'Books',
+      description: 'Wellcome Collection publishes books that relate to our exhibitions, collections and areas of interest.',
+      items: List(promoList)
+    },
+    pagination: null,
+    moreLink: null
+  });
+};
+
 export async function renderBook(ctx, next) {
   const {id} = ctx.params;
   const book = await getBook(ctx.request, id);
@@ -342,36 +370,6 @@ export async function renderBook(ctx, next) {
   }
 
   return next();
-}
-
-export function renderTagPage(tag, url, title, inSection, description) {
-  return async (ctx, next) => {
-    const content = await getMultiContent(ctx.request, {tags: [tag]});
-    const promoList = content.results.map(content => {
-      return {
-        url: `/pages/${content.id}`,
-        contentType: 'Information',
-        image: content.promo.image,
-        title: content.title,
-        description: content.promo.caption
-      };
-    });
-
-    ctx.render('pages/list', {
-      pageConfig: createPageConfig({
-        path: url,
-        title: title,
-        inSection: inSection
-      }),
-      list: {
-        name: title,
-        description: description,
-        items: List(promoList)
-      },
-      pagination: null,
-      moreLink: null
-    });
-  };
 }
 
 export function renderNewsletterPage(ctx, next) {

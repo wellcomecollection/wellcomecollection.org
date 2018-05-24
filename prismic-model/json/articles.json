@@ -68,7 +68,7 @@
                 "type" : "StructuredText",
                 "config" : {
                   "label" : "Text",
-                  "multi" : "heading2,paragraph,strong,em,hyperlink,strike,list-item,embed"
+                  "multi" : "heading2,heading3,paragraph,strong,em,hyperlink,strike,list-item,embed"
                 }
               }
             }

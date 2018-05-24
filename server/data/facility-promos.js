@@ -100,7 +100,7 @@ export const spiritBoothPromo: Promo = {
 
 export const dailyTourPromo: EventPromo = {
   id: 'tours',
-  title: 'Daily Guided Tour',
+  title: 'Daily guided tours and discussions',
   url: 'https://wellcomecollection.org/tours',
   start: null,
   end: null,
