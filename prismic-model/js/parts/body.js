@@ -52,7 +52,7 @@ export default {
     choices: {
       text: slice('Text', {
         nonRepeat: {
-          text: structuredText('Text', 'multi', ['heading2', 'list-item'])
+          text: structuredText('Text', 'multi', ['heading2', 'heading3', 'list-item'])
         }
       }),
       // These should probably be called captionedImage etc, but legacy says no
