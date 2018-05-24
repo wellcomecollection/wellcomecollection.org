@@ -7,7 +7,6 @@ import text from './parts/text';
 import list from './parts/list';
 import promo from './parts/promo';
 import timestamp from './parts/timestamp';
-import image from './parts/image';
 
 const Books = {
   Book: {
@@ -24,7 +23,6 @@ const Books = {
       citation: structuredText('Citation', 'single')
     }),
     datePublished: timestamp('Date published'),
-    cover: image('Cover'),
     authorName: structuredText('Author\'s name', 'single'),
     authorImage: link('Author\'s image', 'web'),
     authorDescription: structuredText('About the author', 'single')
