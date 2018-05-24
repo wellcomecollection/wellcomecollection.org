@@ -38,7 +38,7 @@ const BookPage = ({ book }: Props) => {
       InfoBar={null}
       Description={
         <Fragment>
-          {book.authorName && <p className='no-margin'>by {book.authorName}</p>}
+          {book.authorName && <p className='no-margin'>{book.authorName}</p>}
         </Fragment>
       }
       FeaturedMedia={FeaturedMedia}
