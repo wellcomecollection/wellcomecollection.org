@@ -130,6 +130,26 @@
               }
             }
           },
+          "map": {
+            "type": "Slice",
+            "fieldset": "Map",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              },
+              "geolocation": {
+                "type": "GeoPoint",
+                "config": {
+                  "label": "Geo point"
+                }
+              }
+            }
+          },
           "contentList": {
             "type": "Slice",
             "fieldset": "(β) Content list",
@@ -166,12 +186,6 @@
                   "label": "Title",
                   "single": "heading1",
                   "useAsTitle": true
-                }
-              },
-              "pageSize": {
-                "type": "Number",
-                "config": {
-                  "label": "Size"
                 }
               },
               "query": {

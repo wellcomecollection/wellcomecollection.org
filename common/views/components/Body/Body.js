@@ -10,6 +10,8 @@ import ImageGallery from '../ImageGallery/ImageGallery';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
+import Map from '../Map/Map';
+
 import type {Weight} from '../../../services/prismic/parsers';
 
 type BodySlice = {|
@@ -59,6 +61,7 @@ const Body = ({ body }: Props) => {
             />}
           {slice.type === 'searchResults' && <AsyncSearchResults {...slice.value} />}
           {slice.type === 'videoEmbed' && <VideoEmbed {...slice.value} />}
+          {slice.type === 'map' && <Map {...slice.value} />}
         </div>
       )}
     </div>

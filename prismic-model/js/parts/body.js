@@ -69,6 +69,17 @@ export default {
           embed: embed('Embed (Youtube, Vimeo etc)')
         }
       }),
+      map: slice('Map', {
+        nonRepeat: {
+          title,
+          geolocation: {
+            type: 'GeoPoint',
+            config: {
+              label: 'Geo point'
+            }
+          }
+        }
+      }),
       contentList: slice('(β) Content list', {
         nonRepeat: {
           title
