@@ -14,12 +14,19 @@ import Map from '../Map/Map';
 
 import type {Weight} from '../../../services/prismic/parsers';
 
-export type Body = {type: string, weight: Weight, value: any}[]
-type Props = {|
-  body: Body
+type BodySlice = {|
+  type: string,
+  weight: Weight,
+  value: any
 |}
 
-const BasicBody = ({ body }: Props) => {
+export type BodyType = BodySlice[]
+
+type Props = {|
+  body: BodyType
+|}
+
+const Body = ({ body }: Props) => {
   return (
     <div className='basic-body'>
       {body.map((slice, i) =>
@@ -61,4 +68,4 @@ const BasicBody = ({ body }: Props) => {
   );
 };
 
-export default BasicBody;
+export default Body;

@@ -1,9 +1,9 @@
 // @flow
 import {Fragment} from 'react';
-import BasicPage from './BasicPage';
-import HTMLDate from '../../HTMLDate/HTMLDate';
-import PrimaryLink from '../../Links/PrimaryLink/PrimaryLink';
-import type {Book} from '../../../../model/books';
+import BasePage from './BasePage';
+import HTMLDate from '../HTMLDate/HTMLDate';
+import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
+import type {Book} from '../../../model/books';
 
 type Props = {|
   book: Book
@@ -13,7 +13,7 @@ const BookPage = ({ book }: Props) => {
   const DateInfo = book.datePublished && <HTMLDate date={book.datePublished} />;
 
   return (
-    <BasicPage
+    <BasePage
       id={book.id}
       Background={null}
       TagBar={null}
@@ -29,7 +29,7 @@ const BookPage = ({ book }: Props) => {
       FeaturedMedia={null}
       title={book.title || 'TITLE MISSING'}
       body={book.body || []}>
-    </BasicPage>
+    </BasePage>
   );
 };
 

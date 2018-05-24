@@ -1,7 +1,7 @@
 import BackToTop from '../BackToTop/BackToTop';
-import BasicBody from '../BasicBody/BasicBody';
-import { BasicPageColumn } from '../Templates/BasicPage/BasicPage';
-import BookPage from '../Templates/BasicPage/BookPage';
+import Body from '../Body/Body';
+import { BasePageColumn } from '../BasePage/BasePage';
+import BookPage from '../BasePage/BookPage';
 import Button from '../Buttons/Button/Button';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
@@ -20,7 +20,7 @@ import FramedHeader from '../PageHeaders/FramedHeader/FramedHeader';
 import Image from '../Image/Image';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import InfoBanner from '../InfoBanner/InfoBanner';
-import InstallationPage from '../Templates/BasicPage/InstallationPage';
+import InstallationPage from '../BasePage/InstallationPage';
 import InstallationPromo from '../InstallationPromo/InstallationPromo';
 import License from '../License/License';
 import Map from '../Map/Map';
@@ -30,7 +30,7 @@ import NewsletterSignup from '../NewsletterSignup/NewsletterSignup';
 import OpeningHours from '../OpeningHours/OpeningHours';
 import OpeningHoursTable from '../OpeningHoursTable/OpeningHoursTable';
 import OpeningHoursTableGrouped from '../OpeningHoursTableGrouped/OpeningHoursTableGrouped';
-import Page from '../Templates/BasicPage/Page';
+import Page from '../BasePage/Page';
 import PageDescription from '../PageDescription/PageDescription';
 import Pagination from '../Pagination/Pagination';
 import Picture from '../Picture/Picture';
@@ -50,8 +50,8 @@ import WorkMedia from '../WorkMedia/WorkMedia';
 
 export {
   BackToTop,
-  BasicBody,
-  BasicPageColumn,
+  BasePageColumn,
+  Body,
   BookPage,
   Button,
   CaptionedImage,

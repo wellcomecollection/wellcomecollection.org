@@ -58,7 +58,6 @@ r.get('/preview', setPreviewSession);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 r.get('/series/(W):id', renderSeries);
 r.get('/webcomic-series/:id', renderWebcomicSeries);
-r.get('/info/opening-times', renderOpeningTimes);
 r.get('/pages/:id', renderPage);
 r.get('/books/:id', renderBook);
 r.get('/newsletter', renderNewsletterPage);
@@ -100,6 +99,15 @@ r.get('/venue-hire', pageWithId('Wuw2MSIAACtd3SsC'));
 r.get('/access', pageWithId('Wvm2uiAAAIYQ4FHP'));
 r.get('/youth', pageWithId('Wuw2MSIAACtd3Ste'));
 r.get('/schools', pageWithId('Wuw2MSIAACtd3StS'));
+// This is a bit crap.
+// It allows us to always serve the combo page.
+// When this info is stored in Prismic, we can just use the `/opening-hours`
+// on the promo
+r.get('/pages/WwQHTSAAANBfDYXU', (ctx, next) => {
+  ctx.status = 301;
+  ctx.redirect(`/opening-times`);
+});
+r.get('/opening-times', renderOpeningTimes);
 
 // API
 r.get('/works', search);

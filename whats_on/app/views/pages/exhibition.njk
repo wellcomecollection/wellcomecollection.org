@@ -132,11 +132,14 @@
         </div>
       </div>
     </div>
+
     {# We append the IDs here because that's how we need to query Prismic at the moment #}
-    {% component 'async', {
-      endpoint: '/exhibitions/' + exhibition.id + '/exhibits?query=ids:' + (exhibitIds | join(',')),
-      prefixEndpoint: false
-    } %}
+    {% if exhibitIds.length > 0 %}
+      {% component 'async', {
+        endpoint: '/exhibitions/' + exhibition.id + '/exhibits?query=ids:' + (exhibitIds | join(',')),
+        prefixEndpoint: false
+      } %}
+    {% endif %}
 
     {% if exhibition.relatedGalleries.length > 0 %}
       <div class="container">

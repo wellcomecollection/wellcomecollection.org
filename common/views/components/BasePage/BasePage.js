@@ -1,18 +1,18 @@
 // @flow
-import {spacing, grid} from '../../../../utils/classnames';
-import BasicHeader from '../../PageHeaders/BasicHeader/BasicHeader';
-import BasicBody from '../../BasicBody/BasicBody';
+import {spacing, grid} from '../../../utils/classnames';
+import BaseHeader from '../BaseHeader/BaseHeader';
+import Body from '../Body/Body';
 import type {Node} from 'react';
-import type {Body} from '../../BasicBody/BasicBody';
-import type WobblyBackground from './WobblyBackground';
-import type TexturedBackground from './TexturedBackground';
-import type {CaptionedImage} from '../../Images/Images';
-import type VideoEmbed from '../../VideoEmbed/VideoEmbed';
+import type WobblyBackground from '../BaseHeader/WobblyBackground';
+import type TexturedBackground from '../BaseHeader/TexturedBackground';
+import type {BodyType} from '../Body/Body';
+import type {CaptionedImage} from '../Images/Images';
+import type VideoEmbed from '../VideoEmbed/VideoEmbed';
 
 type Props = {|
   id: string,
   title: string,
-  body: Body,
+  body: BodyType,
   Background: ?(WobblyBackground | TexturedBackground),
   TagBar: ?Node, // potentially make this only take Aync | Tags?
   DateInfo: ?Node,
@@ -22,7 +22,7 @@ type Props = {|
   children?: ?Node
 |}
 
-export const BasicPageColumn = ({children}: {| children: Node |}) => (
+export const BasePageColumn = ({children}: {| children: Node |}) => (
   <div className={`row ${spacing({s: 8}, {padding: ['bottom']})}`}>
     <div className='container'>
       <div className='grid'>
@@ -34,7 +34,7 @@ export const BasicPageColumn = ({children}: {| children: Node |}) => (
   </div>
 );
 
-const BasicPage = ({
+const BasePage = ({
   id,
   title,
   body,
@@ -48,7 +48,7 @@ const BasicPage = ({
 }: Props) => {
   return (
     <article data-wio-id={id}>
-      <BasicHeader
+      <BaseHeader
         title={title}
         Background={Background}
         TagBar={TagBar}
@@ -57,19 +57,19 @@ const BasicPage = ({
         InfoBar={InfoBar}
         FeaturedMedia={FeaturedMedia}
       />
-      <BasicPageColumn>
+      <BasePageColumn>
         <div className='basic-page'>
-          <BasicBody body={body}></BasicBody>
+          <Body body={body}></Body>
         </div>
-      </BasicPageColumn>
+      </BasePageColumn>
 
       {children &&
-        <BasicPageColumn>
+        <BasePageColumn>
           {children}
-        </BasicPageColumn>
+        </BasePageColumn>
       }
     </article>
   );
 };
 
-export default BasicPage;
+export default BasePage;
