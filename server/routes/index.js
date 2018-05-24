@@ -16,8 +16,8 @@ import {
   renderOpeningTimes,
   renderNewsletterPage,
   renderPage,
-  renderTagPage,
   searchForDrupalRedirect,
+  renderBooks,
   renderBook
 } from '../controllers/content';
 
@@ -59,30 +59,9 @@ r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 r.get('/series/(W):id', renderSeries);
 r.get('/webcomic-series/:id', renderWebcomicSeries);
 r.get('/pages/:id', renderPage);
+r.get('/books', renderBooks);
 r.get('/books/:id', renderBook);
 r.get('/newsletter', renderNewsletterPage);
-
-r.get('/tag/what-we-do', renderTagPage(
-  'what-we-do',
-  '/what-we-do',
-  'What we do',
-  'what-we-do',
-  'Activities, resources and projects from Wellcome Collection.'
-));
-r.get('/tag/visit-us', renderTagPage(
-  'visit-us',
-  '/visit-us',
-  'Visit us',
-  'visit-us',
-  'Wellcome Collection is open 10.00-18.00 (11.00-18.00 Sundays) with late night opening on Thursday. The galleries and library are closed on Mondays.'
-));
-r.get('/tag/press', renderTagPage(
-  'press',
-  '/press',
-  'Press',
-  'press',
-  'Press releases'
-));
 
 // root paths that we want to support.
 // Each service should probably deal with their own

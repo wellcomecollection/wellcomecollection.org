@@ -11,7 +11,7 @@ import {
   asText
 } from './parsers';
 
-export function parseBookDoc(document: PrismicDocument): Book {
+export function parseBook(document: PrismicDocument): Book {
   const data = document.data;
   const promo = document.data.promo && parseImagePromo(document.data.promo);
   return {
@@ -42,7 +42,7 @@ export async function getBook(req: Request, id: string): Promise<?Book> {
   const document = await getDocument(req, id, {});
 
   if (document && document.type === 'books') {
-    const book = parseBookDoc(document);
+    const book = parseBook(document);
     return book;
   }
 }
