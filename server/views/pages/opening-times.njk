@@ -33,7 +33,9 @@
       {% if pageOpeningHours.upcomingExceptionalOpeningPeriods.length > 0 %}
         {% for openingPeriod in pageOpeningHours.upcomingExceptionalOpeningPeriods %}
           <h2 {{'id=exceptional' if loop.index === 1}} class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }} {{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin">
-            {% if openingPeriod.type and openingPeriod.type !== 'other' %}
+            {% if openingPeriod.type and openingPeriod.type === 'Late Spectacular' %}
+              {{openingPeriod.dates[0] | formatDay}} Late Spectacular opening times
+            {% elseif openingPeriod.type and openingPeriod.type !== 'other' %}
               {{openingPeriod.type}} opening times
             {% else %}
               Revised opening times
