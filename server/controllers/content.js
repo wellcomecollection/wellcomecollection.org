@@ -70,7 +70,7 @@ export async function renderHomepage(ctx, next) {
   ctx.render('pages/homepage', {
     pageConfig: createPageConfig({
       path: path,
-      title: 'Wellcome Collection',
+      title: null,
       inSection: 'index',
       canonicalUri: `${ctx.globals.rootDomain}`
     }),
