@@ -225,7 +225,10 @@ export type ImagePromo = {|
   caption: ?string;
   image: ?Picture;
 |}
-type CropType = '16:9' | '32:15' | 'square';
+
+// null is valid to use the default image,
+// which isn't on a property, but rather at the root
+type CropType = null | '16:9' | '32:15' | 'square';
 export function parseImagePromo(
   frag: ?PrismicFragment[],
   cropType: CropType = '16:9',
@@ -239,7 +242,7 @@ export function parseImagePromo(
     image: hasImage ? parsePicture({
       image:
         // We introduced enforcing 16:9 half way through, so we have to do a check for it.
-        maybePromo.primary.image[cropType] || maybePromo.primary.image
+        cropType ? (maybePromo.primary.image[cropType] || maybePromo.primary.image) : maybePromo.primary.image
     }, minWidth) : null
   }: ImagePromo);
 }

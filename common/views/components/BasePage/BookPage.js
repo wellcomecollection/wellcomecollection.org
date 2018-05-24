@@ -11,10 +11,10 @@ type Props = {|
 // TODO: Add subtitle
 const BookPage = ({ book }: Props) => {
   const DateInfo = book.datePublished && <HTMLDate date={book.datePublished} />;
-  const imageSlice = book.cover && {
+  const imageSlice = book.promo && book.promo.image && {
     weight: 'default',
     type: 'image',
-    value: book.cover
+    value: book.promo.image
   };
   const bodyWithImage = imageSlice ? [imageSlice].concat(book.body) : book.body;
 
