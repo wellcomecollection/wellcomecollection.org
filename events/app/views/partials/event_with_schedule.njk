@@ -9,8 +9,8 @@
       } %}
     </div>
   </div>
-  <div class="relative container container--with-frame bg-white {{ {s:5, m:7} | spacingClasses({padding: ['top']}) }} {{ {s: 1} | spacingClasses({padding: ['bottom']}) }}">
-    <div class="grid">
+  <div class="relative container container--with-frame bg-white {{ {s: 1} | spacingClasses({padding: ['bottom']}) }}">
+    <div class="grid {{ {s:5, m:7} | spacingClasses({padding: ['top']}) }}">
       <div class="{{ {s: 12, m: 10, l: 8, xl: 9} | gridClasses }}">
         <h1 class="{{ {s: 'WB5', m: 'WB4', l: 'WB3'} | fontClasses }} {{ {s: 3} | spacingClasses({margin: ['bottom']}) }} {{ {s: 0} | spacingClasses({margin: ['top']}) }}">{{  event.title }}</h1>
         <div class="{{ {s: 2, l: 10} | spacingClasses({margin: ['bottom']}) }}">
