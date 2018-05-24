@@ -15,6 +15,7 @@ export function parseBook(document: PrismicDocument): Book {
   const data = document.data;
   const promo = document.data.promo && parseImagePromo(document.data.promo);
   return {
+    type: 'books',
     id: document.id,
     title: parseTitle(data.title),
     subtitle: data.subtitle && asText(data.subtitle),

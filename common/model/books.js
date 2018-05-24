@@ -8,6 +8,7 @@ type Review = {|
 |}
 
 export type Book = {|
+  type: 'books',
   id: string,
   title: ?string,
   subtitle: ?string,
