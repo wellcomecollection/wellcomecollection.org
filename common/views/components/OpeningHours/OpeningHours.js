@@ -1,7 +1,7 @@
 // @flow
 import {spacing, font} from '../../../utils/classnames';
 import {Fragment, Component} from 'react';
-import {formatDate} from '../../../utils/format-date';
+import {formatDay, formatDate} from '../../../utils/format-date';
 import OpeningHoursTable from '../../components/OpeningHoursTable/OpeningHoursTable';
 import OpeningHoursTableGrouped from '../../components/OpeningHoursTableGrouped/OpeningHoursTableGrouped';
 
@@ -59,8 +59,8 @@ class OpeningHours extends Component<Props, State> {
                   case 'Christmas and New Year' || 'Easter':
                     typeWording = ` for ${group.type}, `;
                     break;
-                  case 'Friday Late Spectaculars':
-                    typeWording = ' for the Friday Late Spectacular, ';
+                  case 'Late Spectacular':
+                    typeWording = ` for the ${formatDay(group.dates[0])} Late Spectacular, `;
                     break;
                   default:
                     typeWording = '';

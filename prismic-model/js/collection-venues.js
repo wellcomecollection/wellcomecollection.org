@@ -100,7 +100,7 @@ const CollectionVenue = {
       config: {
         fields: {
           overrideDate: timestamp('Override date'),
-          type: select('Override type', ['Bank holiday', 'Easter', 'Christmas and New Year', 'Friday Late Spectaculars', 'other']),
+          type: select('Override type', ['Bank holiday', 'Easter', 'Christmas and New Year', 'Late Spectacular', 'other']),
           startDateTime: timestamp('Opens'),
           endDateTime: timestamp('Closes')
         }

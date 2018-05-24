@@ -262,7 +262,6 @@ function parseVenuesToOpeningHours(doc: PrismicFragment) {
   const orderedHours = {};
   Object.keys(exceptionalHours).sort().forEach(key => orderedHours[key] = exceptionalHours[key]);
   const exceptionalOpening = exceptionalOpeningHoursByPeriod(exceptionalOpeningPeriodsAllDates(exceptionalPeriods), orderedHours, placesOpeningHours);
-
   return {
     placesOpeningHours: placesOpeningHours.sort((a, b) => {
       return a.order - b.order;

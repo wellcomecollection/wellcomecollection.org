@@ -4,7 +4,7 @@ import type Moment from 'moment';
 
 export type Day = string; // 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
 
-export type OverrideType = 'Bank holiday' | 'Easter' | 'Christmas and New Year' | 'Friday Late Spectacluars' | 'other';
+export type OverrideType = 'Bank holiday' | 'Easter' | 'Christmas and New Year' | 'Late Spectacluar' | 'other';
 
 export type OverrideDate = {|
   overrideDate: Moment,
