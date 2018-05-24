@@ -4,6 +4,7 @@ import Prismic from 'prismic-javascript';
 import {getDocuments} from './api';
 import { parsePage } from './pages';
 import { parseEventSeries } from './events';
+import { parseBook } from './books';
 import { pagesFields } from './fetch-links';
 import type {MultiContent} from '../../model/multi-content';
 import type {StructuredSearchQuery} from './search';
@@ -16,6 +17,8 @@ function parseMultiContent(documents): MultiContent[] {
         return parsePage(document);
       case 'event-series':
         return parseEventSeries(document);
+      case 'books':
+        return parseBook(document);
     }
   }).filter(Boolean);
 }

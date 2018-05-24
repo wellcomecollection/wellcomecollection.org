@@ -22,3 +22,6 @@ export const eventSeriesFields = [
 export const exhibitionFields = [
   'exhibition-formats.title'
 ];
+export const bookFields = [
+  'books.title'
+];
