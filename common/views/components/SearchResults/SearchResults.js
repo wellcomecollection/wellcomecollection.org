@@ -20,7 +20,7 @@ const SearchResults = ({ items }: Props) => (
           <BasicPromo
             promoType='PagePromo'
             url={`/pages/${item.id}`}
-            title={item.title}
+            title={item.title || ''}
             description={item.promo && item.promo.caption}
             imageProps={item.promo && item.promo.image}
           />
@@ -30,7 +30,17 @@ const SearchResults = ({ items }: Props) => (
           <BasicPromo
             promoType='EventSeriesPromo'
             url={`/event-series/${item.id}`}
-            title={item.title}
+            title={item.title || ''}
+            description={item.promo && item.promo.caption}
+            imageProps={item.promo && item.promo.image}
+          />
+        }
+
+        {item.type === 'books' &&
+          <BasicPromo
+            promoType='BooksPromo'
+            url={`/books/${item.id}`}
+            title={item.title || ''}
             description={item.promo && item.promo.caption}
             imageProps={item.promo && item.promo.image}
           />

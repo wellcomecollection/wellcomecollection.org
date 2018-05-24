@@ -19,6 +19,7 @@ $is-next: false !default;
 @import 'components/iframe_container';
 @import 'components/image_gallery';
 @import 'components/is_preview';
+@import 'components/map';
 @import 'components/opening_hours';
 @import 'components/pre';
 @import 'components/prismic_toolbar';
@@ -33,7 +34,6 @@ $is-next: false !default;
 @import 'components/slider__transporter';
 @import 'components/sort_search';
 @import 'components/tabs';
-@import 'components/transporter';
 @import 'components/tweet';
 
 // Tests

@@ -7,18 +7,27 @@ import {PromoFactory} from '../model/promo';
 import {prismicAsText} from '../filters/prismic';
 import {
   getArticle, getSeriesAndArticles, getArticleList, getCuratedList,
-  defaultPageSize
+  defaultPageSize, getExhibitionAndEventPromos
 } from '../services/prismic';
+import {london} from '../filters/format-date';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
-import {getPage} from '../../common/services/prismic/pages';
-import {getMultiContent} from '../../common/services/prismic/multi-content';
+import {getPage, getPageFromDrupalPath} from '../../common/services/prismic/pages';
+import {getBook} from '../../common/services/prismic/books';
+import {search} from '../../common/services/prismic/search';
 import {getCollectionOpeningTimes} from '../../common/services/prismic/opening-times';
 import {isPreview as getIsPreview} from '../../common/services/prismic/api';
 
+import {dailyTourPromo} from '../../server/data/facility-promos';
+
 export const renderOpeningTimes = async(ctx, next) => {
   const path = ctx.request.url;
-  const pageOpeningHours = await getCollectionOpeningTimes();
+
+  // TODO: (Prismic perf) don't fetch these as two separate calls
+  const [pageOpeningHours, page] = await Promise.all([
+    getCollectionOpeningTimes(ctx.request),
+    getPage(ctx.request, 'WwQHTSAAANBfDYXU')
+  ]);
   const galleriesLibrary = pageOpeningHours && pageOpeningHours.placesOpeningHours && pageOpeningHours.placesOpeningHours.filter(venue => {
     return venue.name.toLowerCase() === 'galleries' || venue.name.toLowerCase() === 'library';
   });
@@ -39,15 +48,39 @@ export const renderOpeningTimes = async(ctx, next) => {
   ctx.render('pages/opening-times', {
     pageConfig: Object.assign({}, createPageConfig({
       path: path,
-      title: 'Opening Times',
+      title: page.title,
       category: 'information',
-      canonicalUri: `${ctx.globals.rootDomain}/info/opening-times`
+      canonicalUri: `${ctx.globals.rootDomain}/opening-times`
     })),
+    page: page || {}, // overly cautious, but we getPage does return ?Page.
     pageOpeningHours: Object.assign({}, pageOpeningHours, {groupedVenues})
   });
 
   return next();
 };
+
+export async function renderHomepage(ctx, next) {
+  const path = ctx.request.url;
+  const todaysDate = london();
+  const todaysDatePlusSix = todaysDate.clone().add(6, 'days');
+  const exhibitionAndEventPromos = await getExhibitionAndEventPromos({startDate: todaysDate.format('YYYY-MM-DD'), endDate: todaysDatePlusSix.format('YYYY-MM-DD')}, ctx.intervalCache.get('collectionOpeningTimes'));
+  const contentList = await getArticleList();
+  const storiesPromos = contentList.results.map(PromoFactory.fromArticleStub).slice(0, 4);
+
+  ctx.render('pages/homepage', {
+    pageConfig: createPageConfig({
+      path: path,
+      title: 'Wellcome Collection',
+      inSection: 'index',
+      canonicalUri: `${ctx.globals.rootDomain}`
+    }),
+    exhibitionAndEventPromos,
+    storiesPromos,
+    dailyTourPromo
+  });
+
+  return next();
+}
 
 export const renderArticle = async(ctx, next) => {
   const format = ctx.request.query.format;
@@ -115,6 +148,7 @@ async function getPreviewSession(token) {
         case 'event-series' : return `/event-series/${doc.id}`;
         case 'installations' : return `/installations/${doc.id}`;
         case 'pages' : return `/pages/${doc.id}`;
+        case 'books' : return `/books/${doc.id}`;
       }
     }, '/', (err, redirectUrl) => {
       if (err) {
@@ -136,7 +170,7 @@ export const renderEventbriteEmbed = async(ctx, next) => {
 
 export async function renderExplore(ctx, next) {
   // TODO: Remove WP content
-  const contentListPromise = getArticleList();
+  const contentListPromise = getArticleList(1, {pageSize: 11});
   const listRequests = [getCuratedList('explore'), contentListPromise];
   const [curatedList, contentList] = await Promise.all(listRequests);
 
@@ -279,7 +313,7 @@ export async function renderPage(ctx, next) {
       pageConfig: createPageConfig({
         path: ctx.request.url,
         title: page.title,
-        inSection: 'what-we-do',
+        inSection: page.siteSection,
         category: 'info'
       }),
       page: page,
@@ -290,34 +324,52 @@ export async function renderPage(ctx, next) {
   return next();
 }
 
-export function renderTagPage(tag, url, title, inSection, description) {
-  return async (ctx, next) => {
-    const content = await getMultiContent(ctx.request, {tags: [tag]});
-    const promoList = content.results.map(content => {
-      return {
-        url: `/pages/${content.id}`,
-        contentType: 'Information',
-        image: content.promo.image,
-        title: content.title,
-        description: content.promo.caption
-      };
-    });
+export async function renderBooks(ctx, next) {
+  const content = await search(ctx.request, 'type:books');
+  const promoList = content.results.map(content => {
+    return content.promo && {
+      url: `/books/${content.id}`,
+      contentType: 'Books',
+      image: content.promo.image,
+      title: content.title,
+      description: content.promo.caption
+    };
+  }).filter(Boolean);
 
-    ctx.render('pages/list', {
+  ctx.render('pages/list', {
+    pageConfig: createPageConfig({
+      path: `/books`,
+      title: 'Our books',
+      inSection: 'books'
+    }),
+    list: {
+      name: 'Books',
+      description: 'Wellcome Collection publishes books that relate to our exhibitions, collections and areas of interest.',
+      items: List(promoList)
+    },
+    pagination: null,
+    moreLink: null
+  });
+};
+
+export async function renderBook(ctx, next) {
+  const {id} = ctx.params;
+  const book = await getBook(ctx.request, id);
+
+  if (book) {
+    ctx.render('pages/book', {
       pageConfig: createPageConfig({
-        path: url,
-        title: title,
-        inSection: inSection
+        path: ctx.request.url,
+        title: book.title,
+        inSection: 'what-we-do',
+        category: 'info'
       }),
-      list: {
-        name: title,
-        description: description,
-        items: List(promoList)
-      },
-      pagination: null,
-      moreLink: null
+      book: book,
+      isPreview: getIsPreview(ctx.request)
     });
-  };
+  }
+
+  return next();
 }
 
 export function renderNewsletterPage(ctx, next) {
@@ -333,6 +385,18 @@ export function renderNewsletterPage(ctx, next) {
     isError: result === 'error',
     isConfirmed: result === 'confirmed'
   });
+
+  return next();
+}
+
+export async function searchForDrupalRedirect(ctx, next) {
+  const {path} = ctx.params;
+  const page = await getPageFromDrupalPath(ctx.request, `/${path}`);
+
+  if (page) {
+    ctx.status = 301;
+    ctx.redirect(`/pages/${page.id}`);
+  }
 
   return next();
 }

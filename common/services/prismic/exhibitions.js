@@ -1,13 +1,14 @@
 // @flow
 import Prismic from 'prismic-javascript';
 import type {PrismicFragment, PrismicDocument, PaginatedResults} from './types';
-import type {UiExhibition, UiExhibit} from '../../model/exhibitions';
+import type {UiExhibition, UiExhibit, ExhibitionFormat} from '../../model/exhibitions';
 import {getDocument, getDocuments} from './api';
 import {
   peopleFields,
   contributorsFields,
   placesFields,
-  installationFields
+  installationFields,
+  exhibitionFields
 } from './fetch-links';
 import {breakpoints} from '../../utils/breakpoints';
 import {
@@ -19,9 +20,19 @@ import {
   parsePlace,
   parsePromoListItem,
   parsePromoToCaptionedImage,
-  isDocumentLink
+  isDocumentLink,
+  asText,
+  asHtml
 } from './parsers';
 import {parseInstallationDoc} from './installations';
+
+export function parseExhibitionFormat(frag: Object): ?ExhibitionFormat {
+  return isDocumentLink(frag) ? {
+    id: frag.id,
+    title: frag.data && asText(frag.data.title) || '',
+    description: frag.data && asHtml(frag.data.description)
+  } : null;
+}
 
 function parseExhibits(document: PrismicFragment[]): UiExhibit[] {
   return document.map(exhibit => {
@@ -41,7 +52,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const promoThin = promo && parseImagePromo(promo, '32:15', breakpoints.medium);
   const promoSquare = promo && parseImagePromo(promo, 'square', breakpoints.small);
 
-  // TODO (drupal migration): Remove this
+  // TODO: (drupal migration) Remove this
   const drupalPromoImage = document.data.drupalPromoImage && document.data.drupalPromoImage.url ? {
     caption: promoThin && promoThin.caption,
     image: {
@@ -62,13 +73,14 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
 
   const sizeInKb = Math.round(document.data.textAndCaptionsDocument.size / 1024);
   const textAndCaptionsDocument = isDocumentLink(document.data.textAndCaptionsDocument) ? Object.assign({}, document.data.textAndCaptionsDocument, {sizeInKb}) : null;
-
   const id = document.id;
+  const format = data.format && parseExhibitionFormat(data.format);
   const url = `/exhibitions/${id}`;
   const title = parseTitle(data.title);
   const description = parseDescription(data.description);
   const start = parseTimestamp(data.start);
   const end = data.end && parseTimestamp(data.end);
+  const statusOverride = asText(data.statusOverride);
 
   const promoImage = drupalPromoImage || (promo && parsePromoToCaptionedImage(data.promo));
   // As we store the intro as an H2 in the model, incorrectly, we then convert
@@ -77,12 +89,14 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
 
   return {
     id: id,
+    format: format,
     title: title,
     description: description,
     intro: intro,
     contributors: data.contributors ? parseContributors(data.contributors) : [],
     start: start,
     end: end,
+    statusOverride: statusOverride,
     place: isDocumentLink(data.place) && parsePlace(data.place),
     exhibits: data.exhibits ? parseExhibits(data.exhibits) : [],
 
@@ -94,12 +108,14 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     */
     promo: {
       id,
+      format,
       url,
       title,
       image: promoImage.image,
-      description: (promoThin && promoThin.caption) || 'PROMO TEXT MISSING',
+      description: (promoThin && promoThin.caption) || '',
       start,
-      end
+      end,
+      statusOverride
     },
     galleryLevel: document.data.galleryLevel,
     textAndCaptionsDocument: textAndCaptionsDocument,
@@ -119,7 +135,8 @@ export async function getExhibitions(req: Request, id: string): Promise<Paginate
       fetchLinks: peopleFields.concat(
         contributorsFields,
         placesFields,
-        installationFields
+        installationFields,
+        exhibitionFields
       ),
       orderings: '[my.exhibitions.start]'
     }

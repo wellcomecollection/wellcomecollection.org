@@ -1,38 +1,38 @@
 <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">
   {% include './date_range.njk' %}
-  <div class="flex flex--v-center">
-    <h2 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }} inline-block-medium-up">Exhibitions and Events</h2>
-    <span class="margin-left-auto {{ {s:'HNM5', m:'HNM4'} | fontClasses }}">Free admission</span>
+  <div class="flex flex--v-center flex--h-space-between">
+    <h2 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">Exhibitions and Events</h2>
+    <span class="{{ {s:'HNM5', m:'HNM4'} | fontClasses }}">Free admission</span>
   </div>
 </div>
 
 {% for exhibition in exhibitionAndEventPromos.currentTemporaryExhibitionPromos %}
   <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-    {% componentV2 'exhibition-promo', exhibition, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
+    {% componentJsx 'ExhibitionPromo', exhibition %}
   </div>
 {% endfor %}
 
 {% for event in exhibitionAndEventPromos.eventPromos %}
   <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-    {% componentV2 'event-promo', event, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
+    {% componentJsx 'EventPromo', event %}
   </div>
 {% endfor %}
 
 {% for exhibition in exhibitionAndEventPromos.upcomingTemporaryExhibitionPromos %}
   <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-    {% componentV2 'exhibition-promo', exhibition, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
+    {% componentJsx 'ExhibitionPromo', exhibition %}
   </div>
 {% endfor %}
 
 {% if exhibitionAndEventPromos.listHeader.todayOpeningHours.opens or exhibitionAndEventPromos.active !== 'today' %}
   <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-    {% componentV2 'event-promo', dailyTourPromo, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
+    {% componentJsx 'EventPromo', dailyTourPromo %}
   </div>
 {% endif %}
 
 {% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
   <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-    {% componentV2 'exhibition-promo', exhibition, {}, {sizes: '(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)' } %}
+    {% componentJsx 'ExhibitionPromo', exhibition %}
   </div>
 {% endfor %}
 

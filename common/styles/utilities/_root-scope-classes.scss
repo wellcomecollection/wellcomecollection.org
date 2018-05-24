@@ -143,6 +143,12 @@
   display: flex;
 }
 
+.flex-m-up {
+  @include respond-to('medium') {
+    display: flex;
+  }
+}
+
 .flex--column {
   flex-direction: column;
 }
@@ -235,12 +241,6 @@
   display: inline-block;
 }
 
-.inline-block-medium-up {
-  @include respond-to('medium') {
-    display: inline-block;
-  }
-}
-
 .nowrap {
   white-space: nowrap;
 }
@@ -256,14 +256,6 @@
 .h-center {
   margin-left: auto;
   margin-right: auto;
-}
-
-.margin-top-auto {
-  margin-top: auto;
-}
-
-.margin-left-auto {
-  margin-left: auto;
 }
 
 .text--truncate {
@@ -321,6 +313,14 @@
 
 .no-padding {
   padding: 0;
+}
+
+.margin-v-auto {
+  margin: 0 auto;
+}
+
+.margin-top-auto {
+  margin-top: auto;
 }
 
 .bg-transparent-black {
@@ -438,4 +438,13 @@
 
 .cursor-zoom-in {
   cursor: zoom-in;
+}
+
+// Used mainly for images
+.inherit-max-height {
+  max-height: inherit
+}
+
+.width-auto {
+  width: auto;
 }

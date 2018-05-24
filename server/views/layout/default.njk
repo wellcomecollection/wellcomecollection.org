@@ -12,9 +12,6 @@
       {% include "partials/critical.css.njk" %}
     </style>
     <link rel="preload" href="{{ '/assets/css/' | getHashedFile('non-critical.css') }}" as="style" onload="this.rel='stylesheet'">
-
-
-
     <link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/icons/' | getHashedFile('apple-touch-icon.png') }}">
     <link rel="shortcut icon" href="{{ '/assets/icons/' | getHashedFile('favicon.ico') }}" type="image/ico">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/icons/' | getHashedFile('favicon-32x32.png') }}">
@@ -46,6 +43,38 @@
         };
       </script>
       <script type="text/javascript" src="//static.cdn.prismic.io/prismic.min.js"></script>
+      <script>
+        (function () {
+          var validationBar = document.createElement('div');
+          validationBar.style.position = 'fixed';
+          validationBar.style.width = '375px';
+          validationBar.style.padding = '15px';
+          validationBar.style.background = '#ffce3c';
+          validationBar.style.bottom = '75px';
+          validationBar.style.fontSize = '12px';
+
+          window.addEventListener('load', function() {
+            const validationFails = [];
+            if (!document.querySelector('meta[name="description"]').content) {
+              validationFails.push(`
+                Warning:
+                This piece of content is missing it's description.
+                This is helps with search engine results and sharing on social channels.
+                (If this is from Prismic, it's the promo text)
+              `);
+            }
+
+            if (validationFails.length > 0) {
+              validationFails.forEach(function(validationFail) {
+                var div = document.createElement('div');
+                div.innerHTML = validationFail;
+                validationBar.appendChild(div);
+              });
+              document.body.appendChild(validationBar);
+            }
+          });
+        })();
+      </script>
     {% endif %}
   </head>
   <body {% if isPreview %}class="is-preview"{% endif %} data-page-state='{{ (pageConfig.pageState or {}) | dump | safe }}'>
@@ -58,7 +87,8 @@
     {% set navLinks = [
       {
         href: 'https://wellcomecollection.org/visit',
-        title: 'Visit us'
+        title: 'Visit us',
+        isCurrent: pageConfig.inSection === 'visit-us'
       },
       {
         href: '/whats-on',

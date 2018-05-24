@@ -4,4 +4,5 @@
 // TODO: Find a way to enforce ☝️
 import type {Page} from './pages';
 import type {EventSeries} from './event-series';
-export type MultiContent = | Page | EventSeries;
+import type {Book} from './books';
+export type MultiContent = | Page | EventSeries | Book;

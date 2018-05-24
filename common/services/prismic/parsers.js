@@ -3,6 +3,7 @@ import { RichText, Date as PrismicDate } from 'prismic-dom';
 import type { HTMLString, PrismicFragment } from './types';
 import type { Contributor, PersonContributor, OrganisationContributor } from '../../model/contributors';
 import type { Picture } from '../../model/picture';
+import type { Image } from '../../model/image';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
 import type { Place } from '../../model/place';
@@ -64,6 +65,7 @@ export function parseTimestamp(frag: PrismicFragment): Date {
   return PrismicDate(frag);
 }
 
+// Deprecated, use parseImage
 const placeholderImage = 'https://via.placeholder.com/160x90?text=placeholder';
 export function parsePicture(captionedImage: Object, minWidth: ?string = null): Picture {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
@@ -88,6 +90,22 @@ export function parsePicture(captionedImage: Object, minWidth: ?string = null): 
     },
     minWidth
   }: Picture);
+}
+
+export function checkAndParseImage(frag: ?PrismicFragment): ?Image {
+  return frag && (isImageLink(frag) ? parseImage(frag) : null);
+}
+
+// We don't export this, as we probably always want to check ^ first
+function parseImage(frag: PrismicFragment): Image {
+  const tasl = parseTaslFromString(frag.copyright);
+  return {
+    contentUrl: frag.url,
+    width: frag.dimensions.width,
+    height: frag.dimensions.height,
+    alt: frag.alt,
+    tasl: tasl
+  };
 }
 
 const defaultContributorImage = 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3ed09488-1992-4f8a-9f0c-de2d296109f9_group+21.png';
@@ -207,7 +225,10 @@ export type ImagePromo = {|
   caption: ?string;
   image: ?Picture;
 |}
-type CropType = '16:9' | '32:15' | 'square';
+
+// null is valid to use the default image,
+// which isn't on a property, but rather at the root
+type CropType = null | '16:9' | '32:15' | 'square';
 export function parseImagePromo(
   frag: ?PrismicFragment[],
   cropType: CropType = '16:9',
@@ -221,7 +242,7 @@ export function parseImagePromo(
     image: hasImage ? parsePicture({
       image:
         // We introduced enforcing 16:9 half way through, so we have to do a check for it.
-        maybePromo.primary.image[cropType] || maybePromo.primary.image
+        cropType ? (maybePromo.primary.image[cropType] || maybePromo.primary.image) : maybePromo.primary.image
     }, minWidth) : null
   }: ImagePromo);
 }
@@ -289,14 +310,14 @@ export function isImageLink(fragment: ?PrismicFragment): boolean {
   return Boolean(fragment && fragment.dimensions);
 }
 
-export type Weight = | 'featured';
+export type Weight = 'default' | 'featured';
 function getWeight(weight: ?string): ?Weight {
   switch (weight) {
     case 'featured':
       return weight;
 
     default:
-      return null;
+      return 'default';
   }
 }
 
@@ -315,6 +336,16 @@ export function parseBody(fragment: PrismicFragment[]) {
           type: 'text',
           weight: getWeight(slice.slice_label),
           value: slice.primary.text
+        };
+
+      case 'map':
+        return {
+          type: 'map',
+          value: {
+            title: asText(slice.primary.title),
+            latitude: slice.primary.geolocation.latitude,
+            longitude: slice.primary.geolocation.longitude
+          }
         };
 
       case 'editorialImage':
@@ -340,7 +371,11 @@ export function parseBody(fragment: PrismicFragment[]) {
           weight: getWeight(slice.slice_label),
           value: {
             title: asText(slice.primary.title),
-            items: slice.items.map(item => {
+            items: slice.items.filter(
+              // We have to do a check for data here, as if it's a linked piece
+              // of content, we won't have this.
+              item => !item.content.isBroken && item.content.data
+            ).map(item => {
               switch (item.content.type) {
                 case 'pages':
                   return parsePage(item.content);
@@ -371,6 +406,20 @@ export function parseBody(fragment: PrismicFragment[]) {
             citation: slice.primary.citation
           }
         };
+
+      case 'embed':
+        const embed = slice.primary.embed;
+
+        if (embed.provider_name === 'YouTube') {
+          const embedUrl = slice.primary.embed.html.match(/src="([-a-zA-Z0-9://.?=_]+)?/)[1];
+          return {
+            type: 'videoEmbed',
+            weight: getWeight(slice.slice_label),
+            value: {
+              embedUrl: `${embedUrl}?rel=0`
+            }
+          };
+        }
     }
   }).filter(Boolean);
 }

@@ -100,13 +100,15 @@ export const spiritBoothPromo: Promo = {
 
 export const dailyTourPromo: EventPromo = {
   id: 'tours',
-  title: 'Daily Guided Tour',
+  title: 'Daily guided tours and discussions',
   url: 'https://wellcomecollection.org/tours',
   start: null,
   end: null,
   isFullyBooked: false,
   hasNotFullyBookedTimes: false,
   description: null,
+  series: [],
+  schedule: [],
   dateString: 'Tuesday–Sunday',
   timeString: '11:30, 14:30 and 15:30',
   format: {

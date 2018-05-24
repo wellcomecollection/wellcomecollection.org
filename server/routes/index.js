@@ -1,10 +1,11 @@
 import Router from 'koa-router';
 import request from 'superagent';
-import {healthcheck, featureFlags, index, progress} from '../controllers/utils';
+import {healthcheck, featureFlags, progress} from '../controllers/utils';
 import {seriesNav, seriesTransporter, renderSearch} from '../controllers/async-controllers';
 import {work, search} from '../controllers/work';
 import {article, preview, series, articles} from '../controllers/wordpress';
 import {
+  renderHomepage,
   renderArticle,
   setPreviewSession,
   renderEventbriteEmbed,
@@ -15,7 +16,9 @@ import {
   renderOpeningTimes,
   renderNewsletterPage,
   renderPage,
-  renderTagPage
+  searchForDrupalRedirect,
+  renderBooks,
+  renderBook
 } from '../controllers/content';
 
 const r = new Router({
@@ -23,7 +26,7 @@ const r = new Router({
 });
 
 // Util / function
-r.get('/', index);
+r.get('/', renderHomepage);
 r.get('/progress', progress);
 r.get('/flags', featureFlags);
 r.get('/kaboom', (ctx, next) => {
@@ -55,30 +58,35 @@ r.get('/preview', setPreviewSession);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 r.get('/series/(W):id', renderSeries);
 r.get('/webcomic-series/:id', renderWebcomicSeries);
-r.get('/info/opening-times', renderOpeningTimes);
 r.get('/pages/:id', renderPage);
+r.get('/books', renderBooks);
+r.get('/books/:id', renderBook);
 r.get('/newsletter', renderNewsletterPage);
-r.get('/tag/what-we-do', renderTagPage(
-  'what-we-do',
-  '/what-we-do',
-  'What we do',
-  'what-we-do',
-  'Activities, resources and projects from Wellcome Collection.'
-));
-r.get('/tag/visit-us', renderTagPage(
-  'visit-us',
-  '/visit-us',
-  'Visit us',
-  'visit-us',
-  'Wellcome Collection is open 10.00-18.00 (11.00-18.00 Sundays) with late night opening on Thursday. The galleries and library are closed on Mondays.'
-));
-r.get('/tag/press', renderTagPage(
-  'press',
-  '/press',
-  'Press',
-  'press',
-  'Press releases'
-));
+
+// root paths that we want to support.
+// Each service should probably deal with their own
+function pageWithId(id) {
+  return async (ctx, next) => {
+    ctx.params.id = id;
+    return renderPage(ctx, next);
+  };
+}
+r.get('/visit-us', pageWithId('WwLIBiAAAPMiB_zC'));
+r.get('/what-we-do', pageWithId('WwLGFCAAAPMiB_Ps'));
+r.get('/press', pageWithId('WuxrKCIAAP9h3hmw'));
+r.get('/venue-hire', pageWithId('Wuw2MSIAACtd3SsC'));
+r.get('/access', pageWithId('Wvm2uiAAAIYQ4FHP'));
+r.get('/youth', pageWithId('Wuw2MSIAACtd3Ste'));
+r.get('/schools', pageWithId('Wuw2MSIAACtd3StS'));
+// This is a bit crap.
+// It allows us to always serve the combo page.
+// When this info is stored in Prismic, we can just use the `/opening-hours`
+// on the promo
+r.get('/pages/WwQHTSAAANBfDYXU', (ctx, next) => {
+  ctx.status = 301;
+  ctx.redirect(`/opening-times`);
+});
+r.get('/opening-times', renderOpeningTimes);
 
 // API
 r.get('/works', search);
@@ -95,5 +103,7 @@ r.get('/articles', renderArticlesList);
 r.get('/async/series-nav/:id', seriesNav);
 r.get('/async/series-transporter/:id', seriesTransporter);
 r.get('/async/search', renderSearch);
+
+r.get('/:path*', searchForDrupalRedirect);
 
 export const router = r.middleware();

@@ -3,20 +3,31 @@
 import {spacing} from '../../../utils/classnames';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
+import {UiImage} from '../Images/Images';
 import Image from '../Image/Image';
 import Tasl from '../Tasl/Tasl';
 import Quote from '../Quote/Quote';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '../FeaturedText/FeaturedText';
+import VideoEmbed from '../VideoEmbed/VideoEmbed';
+import Map from '../Map/Map';
+
 import type {Weight} from '../../../services/prismic/parsers';
 
-export type Body = {type: string, weight: Weight, value: any}[]
-type Props = {|
-  body: Body
+type BodySlice = {|
+  type: string,
+  weight: Weight,
+  value: any
 |}
 
-const BasicBody = ({ body }: Props) => {
+export type BodyType = BodySlice[]
+
+type Props = {|
+  body: BodyType
+|}
+
+const Body = ({ body }: Props) => {
   return (
     <div className='basic-body'>
       {body.map((slice, i) =>
@@ -27,6 +38,7 @@ const BasicBody = ({ body }: Props) => {
               {slice.weight !== 'featured' && <PrismicHtmlBlock html={slice.value} />}
             </div>
           }
+          {slice.type === 'image' && <UiImage {...slice.value} extraClasses='margin-v-auto' />}
           {slice.type === 'picture' &&
             <CaptionedImage caption={slice.value.caption}>
               <Image {...slice.value} />
@@ -48,13 +60,14 @@ const BasicBody = ({ body }: Props) => {
             <AsyncSearchResults
               title={slice.value.title}
               query={slice.value.items.map(({id}) => `id:${id}`).join(' ')}
-              pageSize={slice.value.items.length}
             />}
           {slice.type === 'searchResults' && <AsyncSearchResults {...slice.value} />}
+          {slice.type === 'videoEmbed' && <VideoEmbed {...slice.value} />}
+          {slice.type === 'map' && <Map {...slice.value} />}
         </div>
       )}
     </div>
   );
 };
 
-export default BasicBody;
+export default Body;

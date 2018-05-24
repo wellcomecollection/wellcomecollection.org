@@ -4,6 +4,7 @@ import Prismic from 'prismic-javascript';
 import {getDocuments} from './api';
 import { parsePage } from './pages';
 import { parseEventSeries } from './events';
+import { parseBook } from './books';
 import { pagesFields } from './fetch-links';
 import type {MultiContent} from '../../model/multi-content';
 import type {StructuredSearchQuery} from './search';
@@ -16,6 +17,8 @@ function parseMultiContent(documents): MultiContent[] {
         return parsePage(document);
       case 'event-series':
         return parseEventSeries(document);
+      case 'books':
+        return parseBook(document);
     }
   }).filter(Boolean);
 }
@@ -24,7 +27,7 @@ export async function getMultiContent(
   req: Request,
   structuredSearchQuery: StructuredSearchQuery
 ): Promise<PaginatedResults<MultiContent>> {
-  const {types, type, id, ids, tags, tag, pageSize} = structuredSearchQuery;
+  const {types, type, id, ids, tags, tag, pageSize, orderings} = structuredSearchQuery;
   const idsPredicate = ids.length > 0 ? Prismic.Predicates.at('document.id', ids) : null;
   const idPredicate = id.length > 0 ? Prismic.Predicates.in('document.id', id) : null;
   const tagsPredicate = tags.length > 0 ? Prismic.Predicates.at('document.tags', tags) : null;
@@ -39,10 +42,10 @@ export async function getMultiContent(
     typesPredicate,
     typePredicate
   ].filter(Boolean);
-
   const apiResponse = await getDocuments(req, predicates, {
     fetchLinks: pagesFields,
-    pageSize: pageSize || 100
+    pageSize: pageSize || 100,
+    orderings: `[${(orderings || []).join(',')}]`
   });
   const multiContent = parseMultiContent(apiResponse.results);
 

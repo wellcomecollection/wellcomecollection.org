@@ -1,20 +1,25 @@
 {% extends 'layout/default.njk' %}
 
+{% set description = page.promo.caption | safe | striptags %}
 {% block pageMeta %}
   {% set metaContent = {
     type: 'article',
-    title: 'Opening times',
+    title: page.title,
     url: pageConfig.canonicalUri,
-    description: 'Opening times for galleries, library, restaurant, cafe and shop.'
+    description: description
   } %}
-  <meta name="description" content="Opening times for galleries, library, restaurant, cafe and shop." />
+  <meta name="description" content={{description}} />
 {% endblock %}
 
 {% block body %}
+  <script type="application/ld+json">
+    {{ page | jsonLd('contentLd') | safe }}
+  </script>
+
   <div class="container">
     <div class="grid">
       <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
-        <h1 class="{{ {s:'WB5', m:'WB4'} | fontClasses }}">Opening times</h1>
+        <h1 class="{{ {s:'WB5', m:'WB4'} | fontClasses }}">{{ page.title }}</h1>
       </div>
 
       <div class="{{ {s:12, m:12, l:12, xl:12} | gridClasses }}">
@@ -105,13 +110,13 @@
         <p>We introduce queues for exhibitions only when necessary.</p>
         <p>The busiest times of the week are usually Saturday and Sunday afternoons, when we often have queues for temporary exhibitions. Thursday evenings (when we’re open until 22.00) vary depending on events: you can usually go straight into the exhibitions without waiting, but sometimes you may need to queue.</p>
         <p>On weekend mornings and weekdays (except Mondays, when the galleries are closed), you can usually go straight in.</p>
-        <p><a href="https://wellcomecollection.org/fridaylate">Late Spectaculars</a> can get very busy.</p>
+        <p>Late Spectaculars can get very busy.</p>
         <h3>Timed tickets</h3>
         <p>On occasion, when queues get too long, we introduce timed tickets instead. We only give tickets to visitors who are already in the building - there’s no booking in advance or by phone. We only do this at the very busiest times - typically the opening and closing weekends of exhibitions.</p>
         <h3>Medicine Man, Medicine Now and the Reading Room</h3>
         <p>You can usually get into our permanent galleries without waiting, even at busy times of the week.</p>
         <h3>Café and Kitchen</h3>
-        <p><a href="https://wellcomecollection.org/visit-us/wellcome-caf%C3%A9">Wellcome Café</a> can sometimes get busy around lunchtime, but <a href="https://wellcomecollection.org/visit-us/wellcome-kitchen">Wellcome Kitchen</a> on level 2 is usually more peaceful if you’re looking for a more intimate bite to eat.</p>
+        <p><a href="https://wellcomecollection.org/pages/Wvl1wiAAADMJ3zNe">Wellcome Café</a> can sometimes get busy around lunchtime, but <a href="https://wellcomecollection.org/visit-us/wellcome-kitchen">Wellcome Kitchen</a> on level 2 is usually more peaceful if you’re looking for a more intimate bite to eat.</p>
     </div>
   </div>
 

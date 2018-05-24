@@ -35,6 +35,7 @@ import segmentedControl from './components/segmented-control';
 import tabs from './components/tabs';
 import {eventbriteTicketStatus} from './components/eventbrite-ticket-status';
 import newsletterSignup from './components/newsletter-signup';
+import {createMaps} from './components/map';
 
 const init = () => {
   polyfills.init();
@@ -69,6 +70,7 @@ const init = () => {
   const segmentedControlEls = document.querySelectorAll('.js-segmented-control');
   const eventsFilter = document.querySelectorAll('.js-events-filter');
   const newsletterSignupEl = document.getElementById('newsletter-signup');
+  const maps = document.querySelectorAll('.js-map');
 
   nodeList(segmentedControlEls).forEach(segmentedControl);
 
@@ -94,6 +96,10 @@ const init = () => {
     currentClass: 'tabitem--is-current',
     visibleClass: 'tabpanel--is-visible'
   }));
+
+  if (maps.length > 0) {
+    createMaps(maps);
+  }
 
   if (mainEl) {
     gaScrollDepth(mainEl);

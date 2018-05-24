@@ -4,6 +4,7 @@
     "build": "build-storybook -c .storybook -s ../dist/assets -o .dist"
   },
   "devDependencies": {
+    "@storybook/addon-a11y": "^3.4.4",
     "@storybook/addon-knobs": "^3.4.4",
     "babel-core": "^6.26.0"
   },

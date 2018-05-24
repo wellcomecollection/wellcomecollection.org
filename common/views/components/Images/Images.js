@@ -41,7 +41,7 @@ export const UiImage = ({
 
       <img width={width}
         height={height}
-        className={`image lazy-image lazyload`}
+        className={`image lazy-image lazyload ${extraClasses}`}
         src={convertImageUri(contentUrl, 30, false)}
         data-srcset={imageSizes(width).map(size => {
           return `${convertImageUri(contentUrl, size, false)} ${size}w`;

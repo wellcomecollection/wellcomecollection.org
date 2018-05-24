@@ -1,15 +1,17 @@
 {% extends 'layout/default.njk' %}
+
+{% set description = exhibition.promo.description %}
 {% block pageMeta %}
   {% set metaContent = {
     type: 'website',
     title: exhibition.title,
     image: exhibition.featuredImageList[0] and exhibition.featuredImageList[0].contentUrl,
-    description: exhibition.promo.caption,
+    description: description,
     url: pageConfig.canonicalUri
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
-  <meta name="description" content="{{ exhibition.description | prismicAsText }}" />
+  <meta name="description" content="{{ description }}" />
 {% endblock %}
 
 {% block body %}
@@ -43,18 +45,11 @@
                 <div class="bg-white inline-block exhibition-hero__box {{ {l:4} | spacingClasses({'padding': ['right', 'left']}) }} {{ {s:4} | spacingClasses({'padding': ['top', 'bottom']}) }} rounded-diagonal">
                   <div class="flex flex--v-center flex--h-space-between">
                     <span class="{{ {s:'HNM4', m:'HNM3'} | fontClasses }} {{ {s: 6} | spacingClasses({margin: ['right']}) }}">Free admission</span>
-                    <span class="flex flex--v-center {{ {s:'HNM4'} | fontClasses }}">
-                    {% set dateMessageAndColor = {start: exhibition.start, end: exhibition.end} | formatDateRangeWithMessage %}
-                      <span class="{{ {s:1} | spacingClasses({margin: ['right']}) }} flex flex--v-center">
-                      {% set statusColor = 'icon--' + dateMessageAndColor.color %}
-                        {% icon 'status_indicator', null, [statusColor, 'icon--match-text'] %}
-                    </span>
-                    <span>{{ dateMessageAndColor.text }}</span>
-                  </span>
+                    {% componentJsx 'StatusIndicator', {start: exhibition.start, end: exhibition.end, statusOverride: exhibition.statusOverride} %}
                   </div>
                   <h1 class="{{ {s:'WB5', m:'WB4', xl:'WB3'} | fontClasses }}">{{ exhibition.title }}</h1>
                   <span class="{{ {s:'HNL4', m:'HNL3', l:'HNL3', xl:'HNL2'} | fontClasses }}">
-                  {% if exhibition.end %}
+                  {% if exhibition.start and exhibition.end %}
                     <time datetime="{{ exhibition.start }}">{{ exhibition.start | formatDate }}</time>&ndash;<time datetime="{{ exhibition.end }}">{{ exhibition.end | formatDate }}</time>
                   {% endif %}
                 </span>
@@ -137,11 +132,14 @@
         </div>
       </div>
     </div>
+
     {# We append the IDs here because that's how we need to query Prismic at the moment #}
-    {% component 'async', {
-      endpoint: '/exhibitions/' + exhibition.id + '/exhibits?query=ids:' + (exhibitIds | join(',')),
-      prefixEndpoint: false
-    } %}
+    {% if exhibitIds.length > 0 %}
+      {% component 'async', {
+        endpoint: '/exhibitions/' + exhibition.id + '/exhibits?query=ids:' + (exhibitIds | join(',')),
+        prefixEndpoint: false
+      } %}
+    {% endif %}
 
     {% if exhibition.relatedGalleries.length > 0 %}
       <div class="container">

@@ -74,7 +74,19 @@
               "image": {
                 "type": "Image",
                 "config": {
-                  "label": "Image"
+                  "label": "Image",
+                  "thumbnails": [
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
                 }
               },
               "caption": {
@@ -103,7 +115,19 @@
               "image": {
                 "type": "Image",
                 "config": {
-                  "label": "Image"
+                  "label": "Image",
+                  "thumbnails": [
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
                 }
               },
               "caption": {
@@ -131,6 +155,18 @@
                 "config": {
                   "single": "paragraph,hyperlink,strong,em",
                   "label": "Citation"
+                }
+              }
+            }
+          },
+          "embed": {
+            "type": "Slice",
+            "fieldset": "Embed",
+            "non-repeat": {
+              "embed": {
+                "type": "Embed",
+                "config": {
+                  "label": "Embed (Youtube, Vimeo etc)"
                 }
               }
             }
@@ -171,12 +207,6 @@
                   "label": "Title",
                   "single": "heading1",
                   "useAsTitle": true
-                }
-              },
-              "pageSize": {
-                "type": "Number",
-                "config": {
-                  "label": "Size"
                 }
               },
               "query": {

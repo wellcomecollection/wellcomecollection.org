@@ -1,13 +1,14 @@
 // @flow
 import {Fragment} from 'react';
-import {spacing} from '../../../../utils/classnames';
-import BasicPage from './BasicPage';
-import DateRange from '../../DateRange/DateRange';
-import StatusIndicator from '../../StatusIndicator/StatusIndicator';
-import HTMLDate from '../../HTMLDate/HTMLDate';
-import Contributor from '../../Contributor/Contributor';
-import WobblyBackground from './WobblyBackground';
-import type {UiInstallation} from '../../../../model/installations';
+import {spacing} from '../../../utils/classnames';
+import BasePage from './BasePage';
+import DateRange from '../DateRange/DateRange';
+import StatusIndicator from '../StatusIndicator/StatusIndicator';
+import HTMLDate from '../HTMLDate/HTMLDate';
+import Contributor from '../Contributor/Contributor';
+import WobblyBackground from '../BaseHeader/WobblyBackground';
+import {UiImage} from '../Images/Images';
+import type {UiInstallation} from '../../../model/installations';
 
 type Props = {|
   installation: UiInstallation
@@ -15,9 +16,25 @@ type Props = {|
 
 const InstallationPage = ({ installation }: Props) => {
   const DateInfo = installation.end ? <DateRange start={installation.start} end={installation.end} /> : <HTMLDate date={installation.start} />;
+  const image = installation.promo && installation.promo.image;
+  const tasl = image && {
+    isFull: false,
+    contentUrl: image.contentUrl,
+    title: image.title,
+    author: image.author,
+    sourceName: image.source && image.source.name,
+    sourceLink: image.source && image.source.link,
+    license: image.license,
+    copyrightHolder: image.copyright && image.copyright.holder,
+    copyrightLink: image.copyright && image.copyright.link
+  };
+  /* https://github.com/facebook/flow/issues/2405 */
+  /* $FlowFixMe */
+  const FeaturedMedia = installation.promo && <UiImage tasl={tasl} {...image} />;
 
   return (
-    <BasicPage
+    <BasePage
+      id={installation.id}
       Background={WobblyBackground()}
       TagBar={
         <div
@@ -30,8 +47,8 @@ const InstallationPage = ({ installation }: Props) => {
       DateInfo={DateInfo}
       InfoBar={<StatusIndicator start={installation.start} end={(installation.end || new Date())} />}
       Description={null}
+      FeaturedMedia={FeaturedMedia}
       title={installation.title}
-      mainImageProps={installation.promo && installation.promo.image}
       body={installation.body}>
 
       <Fragment>
@@ -46,7 +63,7 @@ const InstallationPage = ({ installation }: Props) => {
           ))}
         </div>
       </Fragment>
-    </BasicPage>
+    </BasePage>
   );
 };
 
