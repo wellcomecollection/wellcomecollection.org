@@ -44,7 +44,7 @@
               "text": {
                 "type": "StructuredText",
                 "config": {
-                  "multi": "paragraph,hyperlink,strong,em,heading2,list-item",
+                  "multi": "paragraph,hyperlink,strong,em,heading2,heading3,list-item",
                   "label": "Text"
                 }
               }

@@ -45,7 +45,7 @@
               "text": {
                 "type": "StructuredText",
                 "config": {
-                  "multi": "paragraph,hyperlink,strong,em,heading2,list-item",
+                  "multi": "paragraph,hyperlink,strong,em,heading2,heading3,list-item",
                   "label": "Text"
                 }
               }
@@ -151,6 +151,26 @@
                 "type": "Embed",
                 "config": {
                   "label": "Embed (Youtube, Vimeo etc)"
+                }
+              }
+            }
+          },
+          "map": {
+            "type": "Slice",
+            "fieldset": "Map",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              },
+              "geolocation": {
+                "type": "GeoPoint",
+                "config": {
+                  "label": "Geo point"
                 }
               }
             }
@@ -262,24 +282,6 @@
       "type": "Timestamp",
       "config": {
         "label": "Date published"
-      }
-    },
-    "cover": {
-      "type": "Image",
-      "config": {
-        "label": "Cover",
-        "thumbnails": [
-          {
-            "name": "16:9",
-            "width": 3200,
-            "height": 1800
-          },
-          {
-            "name": "square",
-            "width": 3200,
-            "height": 3200
-          }
-        ]
       }
     },
     "authorName": {
