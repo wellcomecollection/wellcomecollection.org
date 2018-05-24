@@ -339,7 +339,7 @@ export async function renderBooks(ctx, next) {
   ctx.render('pages/list', {
     pageConfig: createPageConfig({
       path: `/books`,
-      title: 'Books',
+      title: 'Our books',
       inSection: 'books'
     }),
     list: {
