@@ -1,6 +1,32 @@
 {% extends 'layout/default.njk' %}
-{# //TODO page meta / json-ld  #}
+
+{# TODO description and more appropriate image? #}
+{% set metaContent = {
+  type: 'website',
+  image: exhibitionAndEventPromos.permanentExhibitionPromos[0].image.contentUrl,
+  url: pageConfig.canonicalUri,
+  description: ''
+} %}
+
+{% block pageMeta %}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
+  <meta name="description" content="{{ metaContent.description }}" />
+{% endblock %}
+
 {% block body %}
+   <script type="application/ld+json">
+    [{% for exhibition in exhibitionAndEventPromos.temporaryExhibitionPromos %}
+      {{ exhibition | jsonLd('exhibitionPromoLd') | safe }},
+    {% endfor %}
+    {% for event in exhibitionAndEventPromos.eventPromos %}
+      {{ event | jsonLd('eventPromoLd') | safe }},
+    {% endfor %}
+    {% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
+      {{ exhibition | jsonLd('exhibitionPromoLd') | safe }}{{ ',' if not loop.last }}
+    {% endfor %}]
+  </script>
+
   <div class="css-grid__container">
     <div class="css-grid">
       <div class="{{ {s:12, m:12, l:7, xl:6} | cssGridClasses }}">
