@@ -80,7 +80,7 @@ const BaseHeader = ({
               }
 
               {FeaturedMedia &&
-                <div className={`${spacing({ s: 2 }, { margin: ['top'] })} relative bg-white`} style={{
+                <div className={`${spacing({ s: 2 }, { margin: ['top'] })} relative`} style={{
                   maxHeight: `70vh`
                 }}>
                   <Fragment>{FeaturedMedia}</Fragment>

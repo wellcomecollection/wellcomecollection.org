@@ -2,6 +2,8 @@
 import {Fragment} from 'react';
 import BasePage from './BasePage';
 import HTMLDate from '../HTMLDate/HTMLDate';
+import {UiImage} from '../Images/Images';
+import WobblyBackground from '../BaseHeader/WobblyBackground';
 import type {Book} from '../../../model/books';
 
 type Props = {|
@@ -11,17 +13,26 @@ type Props = {|
 // TODO: Add subtitle
 const BookPage = ({ book }: Props) => {
   const DateInfo = book.datePublished && <HTMLDate date={book.datePublished} />;
-  const imageSlice = book.promo && book.promo.image && {
-    weight: 'default',
-    type: 'image',
-    value: book.promo.image
+  const image = book.promo && book.promo.image;
+  const tasl = image && {
+    isFull: false,
+    contentUrl: image.contentUrl,
+    title: image.title,
+    author: image.author,
+    sourceName: image.source && image.source.name,
+    sourceLink: image.source && image.source.link,
+    license: image.license,
+    copyrightHolder: image.copyright && image.copyright.holder,
+    copyrightLink: image.copyright && image.copyright.link
   };
-  const bodyWithImage = imageSlice ? [imageSlice].concat(book.body) : book.body;
+  /* https://github.com/facebook/flow/issues/2405 */
+  /* $FlowFixMe */
+  const FeaturedMedia = book.promo && <UiImage tasl={tasl} extraClasses='margin-v-auto inherit-max-height width-auto ' {...image} />;
 
   return (
     <BasePage
       id={book.id}
-      Background={null}
+      Background={WobblyBackground()}
       TagBar={null}
       DateInfo={DateInfo}
       InfoBar={null}
@@ -30,9 +41,9 @@ const BookPage = ({ book }: Props) => {
           {book.authorName && <p className='no-margin'>by {book.authorName}</p>}
         </Fragment>
       }
-      FeaturedMedia={null}
+      FeaturedMedia={FeaturedMedia}
       title={book.title || 'TITLE MISSING'}
-      body={bodyWithImage}>
+      body={book.body}>
     </BasePage>
   );
 };
