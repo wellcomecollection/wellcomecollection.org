@@ -58,7 +58,19 @@
               "image": {
                 "type": "Image",
                 "config": {
-                  "label": "Image"
+                  "label": "Image",
+                  "thumbnails": [
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
                 }
               },
               "caption": {
@@ -87,7 +99,19 @@
               "image": {
                 "type": "Image",
                 "config": {
-                  "label": "Image"
+                  "label": "Image",
+                  "thumbnails": [
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
                 }
               },
               "caption": {
@@ -169,12 +193,6 @@
                   "useAsTitle": true
                 }
               },
-              "pageSize": {
-                "type": "Number",
-                "config": {
-                  "label": "Size"
-                }
-              },
               "query": {
                 "type": "Text",
                 "config": {
@@ -244,6 +262,24 @@
       "type": "Timestamp",
       "config": {
         "label": "Date published"
+      }
+    },
+    "cover": {
+      "type": "Image",
+      "config": {
+        "label": "Cover",
+        "thumbnails": [
+          {
+            "name": "16:9",
+            "width": 3200,
+            "height": 1800
+          },
+          {
+            "name": "square",
+            "width": 3200,
+            "height": 3200
+          }
+        ]
       }
     },
     "authorName": {
