@@ -76,7 +76,7 @@ const Footer = ({openingHoursId, extraClasses, groupedVenues, upcomingExceptiona
               <a href='https://wellcome.ac.uk/about-us/terms-use' className='footer__hygiene-link'>Cookies</a>
             </li>
             <li className={`footer__hygiene-item ${font({s: 'HNM6'})}`}>
-              <a href='https://wellcomecollection.org/press/press-releases' className='footer__hygiene-link'>Press</a>
+              <a href='https://wellcomecollection.org/press' className='footer__hygiene-link'>Press</a>
             </li>
             <li className={`footer__hygiene-item ${font({s: 'HNM6'})}`}>
               <a href='https://developers.wellcomecollection.org' className='footer__hygiene-link'>Developers</a>
