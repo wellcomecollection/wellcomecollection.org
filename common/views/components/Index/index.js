@@ -37,6 +37,7 @@ import Picture from '../Picture/Picture';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import Promo from '../Promo/Promo';
 import Quote from '../Quote/Quote';
+import ResponsiveImage from '../ResponsiveImage/ResponsiveImage';
 import SearchBox from '../SearchBox/SearchBox';
 import SearchResults from '../SearchResults/SearchResults';
 import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
@@ -88,6 +89,7 @@ export {
   PrimaryLink,
   Promo,
   Quote,
+  ResponsiveImage,
   SearchBox,
   SearchResults,
   SecondaryLink,
