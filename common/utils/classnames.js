@@ -47,3 +47,14 @@ export function font(sizes: FontMap): string {
 export function classNames(classNames: string[]): string {
   return classNames.join(' ');
 }
+
+export function cssGrid(sizes: SizeMap): string {
+  const base = 'css-grid__cell';
+  const modifierClasses = Object.keys(sizes).map(key => {
+    const size = sizes[key];
+    const modifier = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+    return `${base}--${modifier}${size}`;
+  });
+
+  return [base].concat(modifierClasses).join(' ');
+}
