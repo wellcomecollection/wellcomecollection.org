@@ -3,8 +3,14 @@ import {Fragment} from 'react';
 import {spacing, font} from '../../../utils/classnames';
 import {formatDate} from '../../../utils/format-date';
 import {UiImage} from '../Images/Images';
-import type {ExhibitionPromo as Props} from '../../../model/exhibitions';
+import type {ExhibitionPromo as ExhibitionPromoProps} from '../../../model/exhibitions';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
+
+type Props = {|
+  ...ExhibitionPromoProps,
+  pageTitle?: string,
+  position?: number,
+|}
 
 const labelStyles = {display: 'block', float: 'left', marginRight: '1px', marginTop: '1px', whiteSpace: 'nowrap'};
 
@@ -21,11 +27,12 @@ function label(text) {
 }
 
 const ExhibitionPromo = ({
-  format, id, url, title, image, description, start, end, statusOverride
+  format, id, url, title, image, description, start, end, statusOverride, pageTitle = 'not specified',
+  position = 0
 }: Props) => {
   return (
     <a data-component='ExhibitionPromo'
-      data-track-event={JSON.stringify({category: 'component', action: 'ExhibitionPromo:click'})}
+      data-track-event={JSON.stringify({category: 'component', action: 'ExhibitionPromo:click', label: `id : ${id}, pageTitle : ${pageTitle}, position : ${position}`})}
       id={id}
       href={url}
       className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'>

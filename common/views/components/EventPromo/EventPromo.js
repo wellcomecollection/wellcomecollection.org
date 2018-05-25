@@ -4,7 +4,13 @@ import {spacing, font} from '../../../utils/classnames';
 import {isDatePast, formatDayDate, formatTime} from '../../../utils/format-date';
 import {UiImage} from '../Images/Images';
 import Icon from '../Icon/Icon';
-import type {EventPromo as Props} from '../../../model/events';
+import type {EventPromo as EventPromoProps} from '../../../model/events';
+
+type Props = {|
+  ...EventPromoProps,
+  pageTitle?: string,
+  position?: number,
+|}
 
 const labelStyles = {display: 'block', float: 'left', marginRight: '1px', marginTop: '1px', whiteSpace: 'nowrap'};
 
@@ -38,12 +44,14 @@ const EventPromo = ({
   timeString,
   audience,
   schedule,
-  series
+  series,
+  pageTitle = 'not specified',
+  position = 0
 }: Props) => {
   const isPast = end && isDatePast(end);
   return (
     <a data-component='EventPromo'
-      data-track-event={JSON.stringify({category: 'component', action: 'EventPromo:click', label: `id : ${id}`})}
+      data-track-event={JSON.stringify({category: 'component', action: 'EventPromo:click', label: `id : ${id}, pageTitle : ${pageTitle}, position : ${position}`})}
       id={id}
       href={url}
       className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'>
