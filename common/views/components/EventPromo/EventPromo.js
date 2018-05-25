@@ -8,7 +8,6 @@ import type {EventPromo as EventPromoProps} from '../../../model/events';
 
 type Props = {|
   ...EventPromoProps,
-  pageTitle?: string,
   position?: number,
 |}
 
@@ -45,13 +44,12 @@ const EventPromo = ({
   audience,
   schedule,
   series,
-  pageTitle = 'not specified',
   position = 0
 }: Props) => {
   const isPast = end && isDatePast(end);
   return (
     <a data-component='EventPromo'
-      data-track-event={JSON.stringify({category: 'component', action: 'EventPromo:click', label: `id : ${id}, pageTitle : ${pageTitle}, position : ${position}`})}
+      data-track-event={JSON.stringify({category: 'component', action: 'EventPromo:click', label: `id : ${id}, position : ${position}`})}
       id={id}
       href={url}
       className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'>

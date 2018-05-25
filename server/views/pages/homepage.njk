@@ -25,33 +25,33 @@
       {% for exhibition in exhibitionAndEventPromos.currentTemporaryExhibitionPromos %}
         <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
           {% set position = position + 1 %}
-          {% componentJsx 'ExhibitionPromo', exhibition | objectAssign({pageTitle: pageConfig.title, position: position}) %}
+          {% componentJsx 'ExhibitionPromo', exhibition | objectAssign({position: position}) %}
         </div>
       {% endfor %}
 
       {% for event in exhibitionAndEventPromos.eventPromos %}
         <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
           {% set position = position + 1 %}
-          {% componentJsx 'EventPromo', event | objectAssign({pageTitle: pageConfig.title, position: position}) %}
+          {% componentJsx 'EventPromo', event | objectAssign({position: position}) %}
         </div>
       {% endfor %}
 
       {% for exhibition in exhibitionAndEventPromos.upcomingTemporaryExhibitionPromos %}
         <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
           {% set position = position + 1 %}
-          {% componentJsx 'ExhibitionPromo', exhibition | objectAssign({pageTitle: pageConfig.title, position: position}) %}
+          {% componentJsx 'ExhibitionPromo', exhibition | objectAssign({position: position}) %}
         </div>
       {% endfor %}
 
       <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
         {% set position = position + 1 %}
-        {% componentJsx 'EventPromo', dailyTourPromo | objectAssign({pageTitle: pageConfig.title, position: position}) %}
+        {% componentJsx 'EventPromo', dailyTourPromo | objectAssign({position: position}) %}
       </div>
 
       {% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
         <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
           {% set position = position + 1 %}
-          {% componentJsx 'ExhibitionPromo', exhibition | objectAssign({pageTitle: pageConfig.title, position: position}) %}
+          {% componentJsx 'ExhibitionPromo', exhibition | objectAssign({position: position}) %}
         </div>
       {% endfor %}
     </div>
