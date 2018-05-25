@@ -125,7 +125,7 @@
       {% endblock %}
     </div>
 
-    {% if featuresCohort == 'wellcomeUser' and pageConfig.title !== 'Newsletter' %}
+    {% if featuresCohort | isFlagEnabled('newsletter', featureFlags) and pageConfig.title !== 'Newsletter' %}
       {% componentJsx 'NewsletterPromo' %}
     {% endif %}
 
