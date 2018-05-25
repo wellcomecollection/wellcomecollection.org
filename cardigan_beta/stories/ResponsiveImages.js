@@ -13,14 +13,17 @@ stories.add('In the grid', () => {
 
   return (
     <Fragment>
+      <h1 className='h1'>Responsive image</h1>
       <Grid sizes={sizes}>
         <div style={{position: 'relative'}}>
           <ResponsiveImage
             {...image}
+            contentUrl={image.contentUrl}
             sizes={sizes} />
         </div>
       </Grid>
 
+      <h1 className='h1'>UI image</h1>
       <Grid sizes={sizes}>
         <div style={{position: 'relative'}}>
           <UiImage
