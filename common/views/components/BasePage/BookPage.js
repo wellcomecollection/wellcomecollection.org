@@ -6,7 +6,6 @@ import Contributors from '../Contributors/Contributors';
 import {UiImage} from '../Images/Images';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
 import type {Book} from '../../../model/books';
-import type {Contributor, PersonContributor} from '../../../model/contributors';
 
 type Props = {|
   book: Book
@@ -15,7 +14,7 @@ type Props = {|
 // TODO: Add subtitle
 const BookPage = ({ book }: Props) => {
   // TODO: (drupal migration) this should be linked in Prismic
-  const person: PersonContributor = {
+  const person = book.authorName && {
     type: 'people',
     id: 'xxx',
     name: book.authorName || '',
@@ -28,7 +27,7 @@ const BookPage = ({ book }: Props) => {
     // parse this as string
     description: book.authorDescription
   };
-  const contributor: Contributor = {
+  const contributor = person && {
     contributor: person,
     description: null,
     role: {
@@ -52,6 +51,7 @@ const BookPage = ({ book }: Props) => {
   /* https://github.com/facebook/flow/issues/2405 */
   /* $FlowFixMe */
   const FeaturedMedia = book.promo && <UiImage tasl={tasl} extraClasses='margin-v-auto inherit-max-height width-auto ' {...image} />;
+  console.info(contributor);
 
   return (
     <BasePage
