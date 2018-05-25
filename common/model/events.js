@@ -217,7 +217,7 @@ export const eventExample = ({
     title: 'Access events',
     email: 'access@wellcomecollection.org',
     phone: '020 7611 2222',
-    url: 'https://wellcomecollection.org/visit-us/accessibility'
+    url: 'https://wellcomecollection.org/access'
   },
   contributors: [
     {
