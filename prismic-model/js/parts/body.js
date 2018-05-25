@@ -52,7 +52,7 @@ export default {
     choices: {
       text: slice('Text', {
         nonRepeat: {
-          text: structuredText('Text', 'multi', ['heading2', 'list-item'])
+          text: structuredText('Text', 'multi', ['heading2', 'heading3', 'list-item'])
         }
       }),
       // These should probably be called captionedImage etc, but legacy says no
@@ -67,6 +67,17 @@ export default {
       embed: slice('Embed', {
         nonRepeat: {
           embed: embed('Embed (Youtube, Vimeo etc)')
+        }
+      }),
+      map: slice('Map', {
+        nonRepeat: {
+          title,
+          geolocation: {
+            type: 'GeoPoint',
+            config: {
+              label: 'Geo point'
+            }
+          }
         }
       }),
       contentList: slice('(β) Content list', {

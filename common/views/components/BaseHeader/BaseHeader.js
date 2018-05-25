@@ -50,7 +50,7 @@ const BaseHeader = ({
             }
             <div className={`
               ${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}
-              ${spacing({s: 1}, {padding: ['bottom']})}
+              ${spacing({s: 2}, {padding: ['bottom']})}
             `}>
               <h1 className={`
               h1 inline-block no-margin
@@ -80,7 +80,9 @@ const BaseHeader = ({
               }
 
               {FeaturedMedia &&
-                <div className={`${spacing({ s: 2 }, { margin: ['top'] })} relative`} key={'rasjhd'}>
+                <div className={`${spacing({ s: 2 }, { margin: ['top'] })} relative`} style={{
+                  maxHeight: `70vh`
+                }}>
                   <Fragment>{FeaturedMedia}</Fragment>
                 </div>
               }

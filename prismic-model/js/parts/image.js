@@ -4,7 +4,16 @@ export default function(label: string) {
   return {
     'type': 'Image',
     'config': {
-      label
+      label,
+      thumbnails: [ {
+        name: '16:9',
+        width: 3200,
+        height: 1800
+      }, {
+        name: 'square',
+        width: 3200,
+        height: 3200
+      } ]
     }
   };
 };

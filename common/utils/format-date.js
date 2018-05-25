@@ -40,11 +40,11 @@ export function formatDateRangeWithMessage({start, end}: {start: Date, end: Date
   const s = london(start);
   const e = london(end);
 
-  if (s.isAfter(now)) {
+  if (s.isAfter(now, 'day')) {
     return {text: 'Coming soon', color: 'marble'};
-  } else if (e.isBefore(now)) {
+  } else if (e.isBefore(now, 'day')) {
     return {text: 'Past', color: 'marble'};
-  } else if (now.isBetween(e.subtract(1, 'w'), e)) {
+  } else if (now.isBetween(e.clone().subtract(1, 'w'), e, 'day')) {
     return {text: 'Final week', color: 'orange'};
   } else {
     return {text: 'Now on', color: 'green'};

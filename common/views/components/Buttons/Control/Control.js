@@ -1,5 +1,5 @@
 // @flow
-
+import NextLink from 'next/link';
 import Icon from '../../Icon/Icon';
 
 type Props = {|
@@ -14,6 +14,14 @@ type Props = {|
   clickHandler?: (event: Event) => void
 |}
 
+type InnerControlProps = { text: string, icon: string };
+const InnerControl = ({ text, icon }: InnerControlProps) => (
+  <span className='control__inner flex-inline flex--v-center flex--h-center'>
+    <Icon name={icon} />
+    <span className='visually-hidden'>{text}</span>
+  </span>
+);
+
 const Control = ({
   url,
   id,
@@ -25,21 +33,17 @@ const Control = ({
   disabled,
   clickHandler
 }: Props) => {
-  const HtmlTag = url ? 'a' : 'button';
-  return (
-    <HtmlTag
-      id={id}
-      href={url}
-      className={`control control--${type} ${extraClasses || ''}`}
-      data-track-event={eventTracking}
-      disabled={disabled}
-      onClick={clickHandler}>
-      <span className='control__inner flex-inline flex--v-center flex--h-center'>
-        <Icon name={icon} />
-        <span className='visually-hidden'>{text}</span>
-      </span>
-    </HtmlTag>
-  );
+  const attrs = {
+    id: id,
+    className: `control control--${type} ${extraClasses || ''}`,
+    'data-track-event': eventTracking,
+    disabled: disabled,
+    onClick: clickHandler
+  };
+
+  return url
+    ? <NextLink href={url}><a {...attrs}><InnerControl text={text} icon={icon} /></a></NextLink>
+    : <button {...attrs}><InnerControl text={text} icon={icon} /></button>;
 };
 
 export default Control;

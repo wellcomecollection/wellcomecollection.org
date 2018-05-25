@@ -53,9 +53,9 @@ function getRelativeTime({start, end}: {start: Date, end: Date}): {isFuture: boo
   const momentStart = london(start);
   const momentEnd = london(end);
   const momentOneWeekBeforeEnd = london(end).subtract(1, 'w');
-  const isFuture = momentStart.isAfter(momentNow);
-  const isPast = momentEnd.isBefore(momentNow);
-  const isLastWeek = momentNow.isBetween(momentOneWeekBeforeEnd, momentEnd);
+  const isFuture = momentStart.isAfter(momentNow, 'day');
+  const isPast = momentEnd.isBefore(momentNow, 'day');
+  const isLastWeek = momentNow.isBetween(momentOneWeekBeforeEnd, momentEnd, 'day');
 
   return {
     isFuture,

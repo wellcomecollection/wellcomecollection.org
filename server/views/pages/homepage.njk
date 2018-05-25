@@ -1,10 +1,35 @@
 {% extends 'layout/default.njk' %}
-{# //TODO page meta / json-ld  #}
+
+{% set metaContent = {
+  type: 'website',
+  image: 'https://iiif.wellcomecollection.org/image/prismic:fc1e68b0528abbab8429d95afb5cfa4c74d40d52_tf_180516_2060224.jpg/full/1200,/0/default.jpg',
+  url: pageConfig.canonicalUri,
+  description: 'Visit our free museum and library in central London connecting science, medicine, life and art. Explore our exhibitions, live events, gallery tours, restaurant, cafe, bookshop, and cafe. Fully accessible. Open late on Thursday evenings.'
+} %}
+
+{% block pageMeta %}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
+  <meta name="description" content="{{ metaContent.description }}" />
+{% endblock %}
+
 {% block body %}
+   <script type="application/ld+json">
+    [{% for exhibition in exhibitionAndEventPromos.temporaryExhibitionPromos %}
+      {{ exhibition | jsonLd('exhibitionPromoLd') | safe }},
+    {% endfor %}
+    {% for event in exhibitionAndEventPromos.eventPromos %}
+      {{ event | jsonLd('eventPromoLd') | safe }},
+    {% endfor %}
+    {% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
+      {{ exhibition | jsonLd('exhibitionPromoLd') | safe }}{{ ',' if not loop.last }}
+    {% endfor %}]
+  </script>
+
   <div class="css-grid__container">
     <div class="css-grid">
       <div class="{{ {s:12, m:12, l:7, xl:6} | cssGridClasses }}">
-        <h1 class="{{ {s: 'WB4', m:'WB3'} | fontClasses }}">The free destination for the incurably curious</h1>
+        <h1 class="{{ {s: 'WB4', m:'WB3'} | fontClasses }}">The free museum and library for the incurably curious</h1>
       </div>
       <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }}">
         {% componentV2 'divider', null, {'dashed': true} %}
@@ -14,7 +39,7 @@
 
   <div class="container">
     <div class="{{ {s: 6} | spacingClasses({padding: ['top']}) }} flex-m-up flex--v-center flex--h-space-between">
-      <h2 class="h2">What's on this week</h2>
+      <h2 class="h2">This week at Wellcome Collection</h2>
       {% componentJsx 'PrimaryLink', { name: 'All exhibitions and events', url: '/whats-on' } %}
     </div>
   </div>

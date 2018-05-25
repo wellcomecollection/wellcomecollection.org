@@ -61,7 +61,7 @@
               "text": {
                 "type": "StructuredText",
                 "config": {
-                  "multi": "paragraph,hyperlink,strong,em,heading2,list-item",
+                  "multi": "paragraph,hyperlink,strong,em,heading2,heading3,list-item",
                   "label": "Text"
                 }
               }
@@ -74,7 +74,19 @@
               "image": {
                 "type": "Image",
                 "config": {
-                  "label": "Image"
+                  "label": "Image",
+                  "thumbnails": [
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
                 }
               },
               "caption": {
@@ -103,7 +115,19 @@
               "image": {
                 "type": "Image",
                 "config": {
-                  "label": "Image"
+                  "label": "Image",
+                  "thumbnails": [
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
                 }
               },
               "caption": {
@@ -147,6 +171,26 @@
               }
             }
           },
+          "map": {
+            "type": "Slice",
+            "fieldset": "Map",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              },
+              "geolocation": {
+                "type": "GeoPoint",
+                "config": {
+                  "label": "Geo point"
+                }
+              }
+            }
+          },
           "contentList": {
             "type": "Slice",
             "fieldset": "(β) Content list",
@@ -183,12 +227,6 @@
                   "label": "Title",
                   "single": "heading1",
                   "useAsTitle": true
-                }
-              },
-              "pageSize": {
-                "type": "Number",
-                "config": {
-                  "label": "Size"
                 }
               },
               "query": {
