@@ -31,6 +31,7 @@ const ExhibitionPromo = ({
 }: Props) => {
   return (
     <a data-component='ExhibitionPromo'
+      data-component-state={JSON.stringify({ position: position })}
       data-track-event={JSON.stringify({category: 'component', action: 'ExhibitionPromo:click', label: `id : ${id}, position : ${position}`})}
       id={id}
       href={url}

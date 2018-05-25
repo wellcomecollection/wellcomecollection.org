@@ -49,6 +49,7 @@ const EventPromo = ({
   const isPast = end && isDatePast(end);
   return (
     <a data-component='EventPromo'
+      data-component-state={JSON.stringify({ position: position })}
       data-track-event={JSON.stringify({category: 'component', action: 'EventPromo:click', label: `id : ${id}, position : ${position}`})}
       id={id}
       href={url}
