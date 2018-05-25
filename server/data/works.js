@@ -1,6 +1,6 @@
 export const worksLandingPromos = [{
   type: 'promo',
-  url: 'https://wellcomecollection.org/what-we-do/introducing-henry-wellcome',
+  url: 'https://wellcomecollection.org/pages/Wuw2MSIAACtd3Sr8',
   title: 'Who was Henry Wellcome?',
   description: `<p>Learn about Wellcome's founder, whose passion for medicine led him to collect more than a million objects.</p>`,
   image: {
@@ -11,7 +11,7 @@ export const worksLandingPromos = [{
   }
 }, {
   type: 'promo',
-  url: 'https://wellcomecollection.org/what-we-do/about-wellcome-collection',
+  url: 'https://wellcomecollection.org/pages/Wuw2MSIAACtd3Stq',
   title: 'About Wellcome Collection',
   description: `<p>We are the free visitor destination for the incurably curious. Find out about our activities.</p>`,
   image: {
