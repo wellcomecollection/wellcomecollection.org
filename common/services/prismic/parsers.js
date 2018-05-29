@@ -14,7 +14,7 @@ import { parsePage } from './pages';
 import { parseEventSeries } from './events';
 
 const placeHolderImage = {
-  contentUrl: 'https://via.placeholder.com/1600x900?text=Placeholder',
+  contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
   width: 160,
   height: 900,
   alt: 'Placeholder image',
@@ -120,7 +120,7 @@ export function parseCaptionedImage(frag: PrismicFragment, crop?: Crop): Caption
       image: placeHolderImage,
       caption: [{
         type: 'paragraph',
-        text: 'PLACEHOLDER CAPTION',
+        text: '',
         spans: []
       }]
     };
@@ -356,7 +356,7 @@ export function parseBody(fragment: PrismicFragment[]) {
         return {
           weight: getWeight(slice.slice_label),
           type: 'picture',
-          value: parsePicture(slice.primary)
+          value: parseCaptionedImage(slice.primary)
         };
 
       case 'editorialImageGallery':
