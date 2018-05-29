@@ -325,7 +325,7 @@ export async function renderPage(ctx, next) {
 }
 
 export async function renderBooks(ctx, next) {
-  const content = await search(ctx.request, 'type:books');
+  const content = await search(ctx.request, 'type:books orderings:"my.books.datePublished desc"');
   const promoList = content.results.map(content => {
     return content.promo && {
       url: `/books/${content.id}`,
