@@ -19,9 +19,13 @@ const placeHolderImage = {
   height: 900,
   alt: 'Placeholder image',
   tasl: {
-    contentUrl: 'https://via.placeholder.com/1600x900?text=Placeholder',
-    isFull: false,
-    sourceName: 'Unknown'
+    sourceName: 'Unknown',
+    title: null,
+    author: null,
+    sourceLink: null,
+    license: null,
+    copyrightHolder: null,
+    copyrightLink: null
   }
 };
 
