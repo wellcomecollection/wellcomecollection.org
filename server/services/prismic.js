@@ -254,6 +254,7 @@ export function createEventPromos(allResults): Array<EventPromo> {
       },
       isPrimary: Boolean(interpretation.isPrimary)
     }) : null).filter(_ => _);
+    const primaryInterpretation = interpretations.find(interpretation => interpretation.isPrimary);
 
     const eventbriteIdMatch = isEmptyObj(event.data.eventbriteEvent) ? null : /\/e\/([0-9]+)/.exec(event.data.eventbriteEvent.url);
     const eventbriteId = eventbriteIdMatch ? eventbriteIdMatch[1] : null;
@@ -273,7 +274,7 @@ export function createEventPromos(allResults): Array<EventPromo> {
     return event.data.times.map(eventAtTime => {
       return {
         id: event.id,
-        title: asText(event.data.title),
+        title: `${asText(event.data.title)}${primaryInterpretation ? ' in ' + primaryInterpretation.interpretationType.title : ''}`,
         url: `/events/${event.id}`,
         format: format,
         audience: audience,
