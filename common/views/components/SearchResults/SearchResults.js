@@ -23,6 +23,7 @@ const SearchResults = ({ items }: Props) => (
             title={item.title || ''}
             description={item.promo && item.promo.caption}
             imageProps={item.promo && item.promo.image}
+            link={item.promo && item.promo.link}
           />
         }
 
@@ -33,6 +34,7 @@ const SearchResults = ({ items }: Props) => (
             title={item.title || ''}
             description={item.promo && item.promo.caption}
             imageProps={item.promo && item.promo.image}
+            link={item.promo && item.promo.link}
           />
         }
 
@@ -43,6 +45,7 @@ const SearchResults = ({ items }: Props) => (
             title={item.title || ''}
             description={item.promo && item.promo.caption}
             imageProps={item.promo && item.promo.image}
+            link={item.promo && item.promo.link}
           />
         }
       </div>

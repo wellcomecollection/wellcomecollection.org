@@ -60,6 +60,11 @@
                   "label": "Image",
                   "thumbnails": [
                     {
+                      "name": "32:15",
+                      "width": 3200,
+                      "height": 1500
+                    },
+                    {
                       "name": "16:9",
                       "width": 3200,
                       "height": 1800
@@ -100,6 +105,11 @@
                 "config": {
                   "label": "Image",
                   "thumbnails": [
+                    {
+                      "name": "32:15",
+                      "width": 3200,
+                      "height": 1500
+                    },
                     {
                       "name": "16:9",
                       "width": 3200,
@@ -265,6 +275,12 @@
                       "height": 3200
                     }
                   ]
+                }
+              },
+              "link": {
+                "type": "Text",
+                "config": {
+                  "label": "Link override"
                 }
               }
             }
