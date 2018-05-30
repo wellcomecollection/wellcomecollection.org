@@ -1,5 +1,6 @@
 // @flow
 import BasePage from './BasePage';
+import Body from '../Body/Body';
 import BaseHeader from '../BaseHeader/BaseHeader';
 import HTMLDate from '../HTMLDate/HTMLDate';
 import {UiImage} from '../Images/Images';
@@ -35,7 +36,8 @@ const InstallationPage = ({ page }: Props) => {
     <BasePage
       id={page.id}
       Header={Header}
-      body={body}>
+      Body={<Body
+        body={body} />}>
     </BasePage>
   );
 };

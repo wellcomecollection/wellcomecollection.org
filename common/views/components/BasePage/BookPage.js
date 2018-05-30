@@ -2,6 +2,7 @@
 import {Fragment} from 'react';
 import BasePage from './BasePage';
 import BaseHeader from '../BaseHeader/BaseHeader';
+import Body from '../Body/Body';
 import HTMLDate from '../HTMLDate/HTMLDate';
 import Contributors from '../Contributors/Contributors';
 import {UiImage} from '../Images/Images';
@@ -70,7 +71,8 @@ const BookPage = ({ book }: Props) => {
     <BasePage
       id={book.id}
       Header={Header}
-      body={book.body}>
+      Body={<Body
+        body={book.body} />}>
       <Fragment>
         {contributor &&
           <Contributors contributors={[contributor]} />

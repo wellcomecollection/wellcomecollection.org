@@ -1,15 +1,14 @@
 // @flow
 import {Fragment} from 'react';
 import {spacing, grid} from '../../../utils/classnames';
-import Body from '../Body/Body';
 import type {Node} from 'react';
 import type BaseHeader from '../BaseHeader/BaseHeader';
-import type {BodyType} from '../Body/Body';
+import type Body from '../Body/Body';
 
 type Props = {|
   id: string,
   Header: BaseHeader,
-  body: BodyType,
+  Body: Body,
   children?: ?Node
 |}
 
@@ -28,7 +27,7 @@ export const BasePageColumn = ({children}: {| children: Node |}) => (
 const BasePage = ({
   id,
   Header,
-  body,
+  Body,
   children
 }: Props) => {
   return (
@@ -36,7 +35,7 @@ const BasePage = ({
       <Fragment>{Header}</Fragment>
       <BasePageColumn>
         <div className='basic-page'>
-          <Body body={body}></Body>
+          {Body}
         </div>
       </BasePageColumn>
 

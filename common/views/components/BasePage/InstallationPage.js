@@ -2,6 +2,7 @@
 import {Fragment} from 'react';
 import BasePage from './BasePage';
 import BaseHeader from '../BaseHeader/BaseHeader';
+import Body from '../Body/Body';
 import DateRange from '../DateRange/DateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import HTMLDate from '../HTMLDate/HTMLDate';
@@ -52,7 +53,8 @@ const InstallationPage = ({ installation }: Props) => {
     <BasePage
       id={installation.id}
       Header={Header}
-      body={installation.body}>
+      Body={<Body
+        body={installation.body} />}>
 
       <Fragment>
         {installation.contributors.length > 0 &&
