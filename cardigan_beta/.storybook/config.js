@@ -7,13 +7,8 @@ function loadStories() {
   const stories = require.context('../stories/pages', true, /\.js$/);
   const components = require.context('../stories/components', true, /\.js$/);
 
-  stories.keys().forEach((filename) => stories(filename))
-  components.keys().forEach((filename) => components(filename))
-
-  require('../stories/components/BaseHeader');
-  require('../stories/components/Body');
-  require('../stories/components/Links.js');
-  require('../stories/pages/Base.js');
+  stories.keys().forEach((filename) => stories(filename));
+  components.keys().forEach((filename) => components(filename));
 }
 
 addDecorator(withKnobs);
