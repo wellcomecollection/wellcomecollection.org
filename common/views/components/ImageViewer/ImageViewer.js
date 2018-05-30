@@ -4,8 +4,12 @@ import {spacing} from '../../../utils/classnames';
 import {convertImageUri, convertIiifUriToInfoUri} from '../../../utils/convert-image-uri';
 import Control from '../Buttons/Control/Control';
 
-const commonBtnTracking = (id, trackTitle) => {
-  return `"category": "component", "label": "id:${id}", title:${trackTitle}"`;
+const commonBtnTracking = (id: string, action: string, title: string): string => {
+  return JSON.stringify({
+    category: 'component',
+    action: action,
+    label: `id:${id},title:${title}`
+  });
 };
 
 type Props = {|
@@ -21,7 +25,7 @@ const ImageViewer = ({id, trackTitle, imageUrl}: Props) => (
       text='View larger image'
       icon='zoomIn'
       extraClasses={`image-viewer__launch-button js-image-viewer__launch-button`}
-      eventTracking={`{${commonBtnTracking(id, trackTitle)}, "action": "work-launch-image-viewer:btnClick"}`} />
+      eventTracking={commonBtnTracking(id, 'work-launch-image-viewer:btnClick', trackTitle)} />
 
     <div
       className='image-viewer__content'
@@ -35,20 +39,20 @@ const ImageViewer = ({id, trackTitle, imageUrl}: Props) => (
           id={`zoom-in-${id}`}
           icon='zoomIn'
           extraClasses={`${spacing({s: 1}, {margin: ['right']})}`}
-          eventTracking={`{${commonBtnTracking(id, trackTitle)}, "action": "work-zoom-in-button:click"}`} />
+          eventTracking={commonBtnTracking(id, trackTitle, 'work-zoom-in-button:click')} />
         <Control
           type='light'
           text='Zoom out'
           id={`zoom-out-${id}`}
           icon='zoomOut'
           extraClasses={`${spacing({s: 8}, {margin: ['right']})}`}
-          eventTracking={`{${commonBtnTracking(id, trackTitle)}, "action": "work-zoom-out-button:click"}`} />
+          eventTracking={commonBtnTracking(id, 'work-zoom-out-button:click', trackTitle)} />
         <Control
           type='light'
           text='Close image viewer'
           icon='cross'
           extraClasses={`js-image-viewer__exit-button ${spacing({s: 2}, {margin: ['right']})}`}
-          eventTracking={`{${commonBtnTracking(id, trackTitle)}, "action": "work-exit-image-viewer:btnClick"}`} />
+          eventTracking={commonBtnTracking(id, 'work-exit-image-viewer:btnClick', trackTitle)} />
       </div>
 
       <div className='image-viewer__image' id={`image-viewer-${id}`}></div>

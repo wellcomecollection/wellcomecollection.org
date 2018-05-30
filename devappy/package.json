@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "dev": "micro-proxy -r rules.json -p 9000"
+  },
+  "dependencies": {
+    "micro-proxy": "^1.1.0"
+  }
+}
