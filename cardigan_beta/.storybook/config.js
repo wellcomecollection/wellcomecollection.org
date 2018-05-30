@@ -4,6 +4,12 @@ import { checkA11y } from '@storybook/addon-a11y';
 import { withKnobs } from '@storybook/addon-knobs/react';
 
 function loadStories() {
+  const stories = require.context('../stories/pages', true, /\.js$/);
+  const components = require.context('../stories/components', true, /\.js$/);
+
+  stories.keys().forEach((filename) => stories(filename))
+  components.keys().forEach((filename) => components(filename))
+
   require('../stories/components/BaseHeader');
   require('../stories/components/Body');
   require('../stories/components/Links.js');
