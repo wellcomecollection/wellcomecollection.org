@@ -1,0 +1,28 @@
+{
+  "rules": [
+    {
+      "pathname": "/eventbrite",
+      "dest": "http://localhost:3004"
+    },
+    {
+      "pathname": "/events",
+      "dest": "http://localhost:3002"
+    },
+    {
+      "pathname": "/whats-on",
+      "dest": "http://localhost:3003"
+    },
+    {
+      "pathname": "/exhibitions",
+      "dest": "http://localhost:3003"
+    },
+    {
+      "pathname": "/installations",
+      "dest": "http://localhost:3003"
+    },
+    {
+      "pathname": "/**",
+      "dest": "http://localhost:3000"
+    }
+  ]
+}

@@ -8,6 +8,7 @@ type Props = {|
   url: string,
   title: string,
   description: ?string,
+  link: ?string,
   imageProps: ?ImageProps
 |}
 
@@ -16,6 +17,7 @@ const BasicPromo = ({
   url,
   title,
   description,
+  link,
   imageProps
 }: Props) => {
   const textGridSize = imageProps ? 9 : 12;
@@ -26,7 +28,7 @@ const BasicPromo = ({
         category: 'component',
         action: `${promoType}:click`
       })}
-      href={url}
+      href={link || url}
       className='grid plain-link'
     >
       {imageProps &&

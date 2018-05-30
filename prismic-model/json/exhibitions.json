@@ -177,6 +177,12 @@
                     }
                   ]
                 }
+              },
+              "link": {
+                "type": "Text",
+                "config": {
+                  "label": "Link override"
+                }
               }
             }
           }
