@@ -9,6 +9,7 @@ import type { LicenseType } from '../../model/license';
 import type { Place } from '../../model/place';
 import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/background-texture';
 import type { CaptionedImageProps } from '../../views/components/Images/Images';
+import type { ImagePromo } from '../../model/image-promo';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './events';
@@ -221,11 +222,6 @@ export function parseTaslFromString(pipedString: string): Tasl {
   }
 }
 
-export type ImagePromo = {|
-  caption: ?string;
-  image: ?Picture;
-|}
-
 // null is valid to use the default image,
 // which isn't on a property, but rather at the root
 type CropType = null | '16:9' | '32:15' | 'square';
@@ -236,6 +232,7 @@ export function parseImagePromo(
 ): ?ImagePromo {
   const maybePromo = frag && frag.find(slice => slice.slice_type === 'editorialImage');
   const hasImage = (maybePromo && maybePromo.primary.image && isImageLink(maybePromo.primary.image)) || false;
+  const link = maybePromo && maybePromo.primary.link;
 
   return maybePromo && ({
     caption: asText(maybePromo.primary.caption),
@@ -243,7 +240,8 @@ export function parseImagePromo(
       image:
         // We introduced enforcing 16:9 half way through, so we have to do a check for it.
         cropType ? (maybePromo.primary.image[cropType] || maybePromo.primary.image) : maybePromo.primary.image
-    }, minWidth) : null
+    }, minWidth) : null,
+    link
   }: ImagePromo);
 }
 
@@ -308,6 +306,11 @@ export function isDocumentLink(fragment: ?PrismicFragment): boolean {
 // { '32:15': {}, '16:9': {}, square: {} }
 export function isImageLink(fragment: ?PrismicFragment): boolean {
   return Boolean(fragment && fragment.dimensions);
+}
+
+// We always get returned a { link_type: 'Web' } but it might not have a URL
+export function isWebLink(fragment: ?PrismicFragment): boolean {
+  return Boolean(fragment && fragment.url);
 }
 
 export type Weight = 'default' | 'featured';
