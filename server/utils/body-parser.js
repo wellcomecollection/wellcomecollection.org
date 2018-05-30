@@ -250,7 +250,7 @@ export function convertWpImage(node) {
   const isWpImage = isCaption(node) || isImg(node);
 
   if (isWpImage) {
-    const picture = getImageFromWpNode(node);
+    const image = getImageFromWpNode(node);
     const className = getAttrVal(node.attrs, 'class') || '';
     const weights = {
       alignleft: 'supporting',
@@ -263,7 +263,7 @@ export function convertWpImage(node) {
     return createBodyPart({
       weight,
       type: 'picture',
-      value: picture
+      value: image
     });
   } else {
     return node;
@@ -496,7 +496,7 @@ function getImageFromWpNode(node) {
 
   return {
     type: 'picture',
-    caption: createPrismicParagraph(caption),
+    caption: createPrismicParagraph(striptags(caption)),
     image: {
       contentUrl,
       alt,

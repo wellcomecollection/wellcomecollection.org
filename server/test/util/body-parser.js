@@ -47,12 +47,12 @@ test('convertDomNode', t => {
 test('convertWpImage', t => {
   const wpImageNode = parse.parseFragment(wpImageNodeHtml).childNodes[0];
   const i = convertWpImage(wpImageNode);
-  t.is(i.value.contentUrl, 'https://wellcomecollection.files.wordpress.com/2016/12/865c27bde0241fe5fc47cfb40826.jpg');
-  t.is(i.value.width, 800);
-  t.is(i.value.height, 521);
+  t.is(i.value.image.contentUrl, 'https://wellcomecollection.files.wordpress.com/2016/12/865c27bde0241fe5fc47cfb40826.jpg');
+  t.is(i.value.image.width, 800);
+  t.is(i.value.image.height, 521);
   t.is(
-    i.value.caption,
-    '<p>The typical canon-ball shaped <em>plum pudding</em> pictured as the grand finale of the British Christmas feast.</p>'
+    i.value.caption[0].text,
+    'The typical canon-ball shaped plum pudding pictured as the grand finale of the British Christmas feast.'
   );
 });
 
