@@ -21,6 +21,8 @@
         {% icon 'ticket_sold_out', null, ['icon--white'] %}
       {% elif ticket.onSaleStatus === 'not_yet_on_sale' %}
         {% icon 'ticket_not_yet_on_sale', null, ['icon--white'] %}
+      {% elif ticket.onSaleStatus === 'unavailable' %}
+        {% icon 'ticket_not_yet_on_sale', null, ['icon--white'] %}
       {% endif %}
     </span>
     <span class="js-eventbrite-ticket-button-text">
@@ -30,6 +32,8 @@
         Fully booked
       {% elif ticket.onSaleStatus === 'not_yet_on_sale' %}
         Not yet available
+      {% elif ticket.onSaleStatus === 'unavailable' %}
+        No longer on sale
       {% endif %}
     </span>
   </a>

@@ -111,13 +111,17 @@
                 {% componentJsx 'Button', {type: 'primary', disabled: true, text: 'Fully booked'} %}
               {% else %}
                 <div class="js-eventbrite-ticket-button" data-eventbrite-ticket-id="{{ event.eventbriteId }}">
-                  {% componentJsx 'Button', {
-                    type: 'primary',
-                    url: 'https://www.eventbrite.com/e/' + event.eventbriteId + '/',
-                    eventTracking: "{category: 'component', action: 'booking-tickets:click', label: 'event-page'}",
-                    text: 'Book free tickets',
-                    icon: 'ticket'
-                  } %}
+                {# We don't use primary button here as we need to set the js-eventbrite-ticket-button-text #}
+                  <a
+                    href="https://www.eventbrite.com/e/{{event.eventbriteId}}/"
+                    class="btn btn--primary font-HNM4-s flex-inline flex--v-center"
+                    data-track-event="{{ {category: 'component', action: 'booking-tickets:click', label: 'event-page'} | dump }}"
+                  >
+                    <span class="flex-inline flex--v-center">
+                      {% icon 'ticket' %}
+                      <span class="btn__text js-eventbrite-ticket-button-text">Book free tickets</span>
+                    </span>
+                  </a>
 
                   <p class="{{- [
                     'font-charcoal',
