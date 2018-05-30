@@ -1,3 +1,4 @@
+import {createPrismicParagraph} from  '../../common/utils/prismic';
 export const worksLandingPromos = [{
   type: 'promo',
   url: 'https://wellcomecollection.org/pages/Wuw2MSIAACtd3Sr8',
@@ -34,16 +35,21 @@ export const worksLandingPromos = [{
 ];
 
 export const henryImage = {
-  type: 'picture',
-  contentUrl: 'https://s3-eu-west-1.amazonaws.com/miro-images-public/V0027000/V0027772.jpg',
-  width: 1600,
-  height: 1068,
-  caption: 'Sir Henry Solomon Wellcome (1853&ndash;1936). Pharmacist, entrepreneur, philanthropist and collector.',
-  alt: 'Portrait of Henry Wellcome',
-  title: 'Sir Henry Solomon Wellcome. Photograph by Lafayette Ltd',
-  source: {
-    name: 'Wellcome Collection',
-    link: 'https://wellcomecollection.org/works/a2d9ywt8'
-  },
-  copyright: {}
+  caption: createPrismicParagraph('Sir Henry Solomon Wellcome (1853—1936). Pharmacist, entrepreneur, philanthropist and collector.'),
+  sizesQueries: '600px',
+  image: {
+    contentUrl: 'https://iiif.wellcomecollection.org/image/V0027772.jpg/full/full/0/default.jpg',
+    width: 1600,
+    height: 2182,
+    alt: 'Portrait of Henry Wellcome',
+    tasl: {
+      title: 'Sir Henry Solomon Wellcome. Photograph by Lafayette Ltd',
+      sourceName: 'Wellcome Collection',
+      sourceLink: 'https://wellcomecollection.org/works/a2d9ywt8',
+      author: null,
+      license: 'CC-BY',
+      copyrightHolder: 'Wellcome Collection',
+      copyrightLink: 'https://wellcomecollection.org'
+    }
+  }
 };

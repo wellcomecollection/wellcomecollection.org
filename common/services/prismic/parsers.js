@@ -8,7 +8,7 @@ import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
 import type { Place } from '../../model/place';
 import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/background-texture';
-import type { CaptionedImageProps } from '../../views/components/Images/Images';
+import type { CaptionedImage } from '../../model/captioned-image';
 import type { ImagePromo } from '../../model/image-promo';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
@@ -20,9 +20,13 @@ const placeHolderImage = {
   height: 900,
   alt: 'Placeholder image',
   tasl: {
-    contentUrl: 'https://via.placeholder.com/1600x900?text=Placeholder',
-    isFull: false,
-    sourceName: 'Unknown'
+    sourceName: 'Unknown',
+    title: null,
+    author: null,
+    sourceLink: null,
+    license: null,
+    copyrightHolder: null,
+    copyrightLink: null
   }
 };
 
@@ -111,7 +115,7 @@ function parseImage(frag: PrismicFragment): Image {
 
 const defaultContributorImage = 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3ed09488-1992-4f8a-9f0c-de2d296109f9_group+21.png';
 type Crop = | '16:9' | '32:15' | 'square';
-export function parseCaptionedImage(frag: PrismicFragment, crop?: Crop): CaptionedImageProps {
+export function parseCaptionedImage(frag: PrismicFragment, crop?: Crop): CaptionedImage {
   if (isEmptyObj(frag.image)) {
     return {
       image: placeHolderImage,
@@ -138,7 +142,7 @@ export function parseCaptionedImage(frag: PrismicFragment, crop?: Crop): Caption
   };
 }
 
-export function parsePromoToCaptionedImage(frag: PrismicFragment): CaptionedImageProps {
+export function parsePromoToCaptionedImage(frag: PrismicFragment): CaptionedImage {
   // We could do more complicated checking here, but this is what we always use.
   const promo = frag[0];
   return parseCaptionedImage(promo.primary, '16:9');
@@ -364,7 +368,7 @@ export function parseBody(fragment: PrismicFragment[]) {
           weight: getWeight(slice.slice_label),
           value: {
             title: asText(slice.primary.title),
-            items: (slice.items.map(item => parseCaptionedImage(item)): CaptionedImageProps[])
+            items: (slice.items.map(item => parseCaptionedImage(item)): CaptionedImage[])
           }
         };
 

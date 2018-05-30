@@ -1,10 +1,9 @@
 // @flow
 import {spacing, font, grid} from '../../../utils/classnames';
+import {createPrismicParagraph} from '../../../utils/prismic';
 import {Fragment} from 'react';
 import Tags from '../Tags/Tags';
-import CaptionedImage from '../CaptionedImage/CaptionedImage';
-import Tasl from '../Tasl/Tasl';
-import Image from '../Image/Image';
+import {CaptionedImage} from '../Images/Images';
 
 const StaticWorksContent = () => (
   <Fragment>
@@ -54,19 +53,25 @@ const StaticWorksContent = () => (
             </div>
           </div>
           <div className={`${grid({s: 12, m: 8, l: 5, xl: 5})} ${spacing({s: 1}, {margin: ['bottom']})}`}>
-            <CaptionedImage caption='Sir Henry Solomon Wellcome (1853&ndash;1936). Pharmacist, entrepreneur, philanthropist and collector.'>
-              <Image
-                contentUrl='https://s3-eu-west-1.amazonaws.com/miro-images-public/V0027000/V0027772.jpg'
-                width={1600}
-                alt='Portrait of Henry Wellcome'
-                lazyload={true} />
-              <Tasl
-                contentUrl='https://s3-eu-west-1.amazonaws.com/miro-images-public/V0027000/V0027772.jpg'
-                isFull={false}
-                title='Sir Henry Solomon Wellcome. Photograph by Lafayette Ltd'
-                sourceName='Wellcome Collection'
-                sourceLink='https://wellcomecollection.org/works/a2d9ywt8' />
-            </CaptionedImage>
+            <CaptionedImage
+              caption={createPrismicParagraph('Sir Henry Solomon Wellcome (1853—1936). Pharmacist, entrepreneur, philanthropist and collector.')}
+              sizesQueries='600px'
+              image={{
+                contentUrl: 'https://iiif.wellcomecollection.org/image/V0027772.jpg/full/full/0/default.jpg',
+                width: 1600,
+                height: 2182,
+                alt: 'Portrait of Henry Wellcome',
+                tasl: {
+                  title: 'Sir Henry Solomon Wellcome. Photograph by Lafayette Ltd',
+                  sourceName: 'Wellcome Collection',
+                  sourceLink: 'https://wellcomecollection.org/works/a2d9ywt8',
+                  author: null,
+                  license: 'CC-BY',
+                  copyrightHolder: 'Wellcome Collection',
+                  copyrightLink: 'https://wellcomecollection.org'
+                }
+              }}
+            />
           </div>
         </div>
       </div>

@@ -60,7 +60,15 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       width: document.data.drupalPromoImage.width || 1600,
       height: document.data.drupalPromoImage.height || 900,
       alt: '',
-      tasl: {}
+      tasl: {
+        title: null,
+        author: null,
+        sourceName: null,
+        sourceLink: null,
+        license: null,
+        copyrightHolder: null,
+        copyrightLink: null
+      }
     }
   } : null;
 
