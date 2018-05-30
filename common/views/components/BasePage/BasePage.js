@@ -1,24 +1,15 @@
 // @flow
+import {Fragment} from 'react';
 import {spacing, grid} from '../../../utils/classnames';
-import BaseHeader from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
 import type {Node} from 'react';
-import type WobblyBackground from '../BaseHeader/WobblyBackground';
-import type TexturedBackground from '../BaseHeader/TexturedBackground';
+import type BaseHeader from '../BaseHeader/BaseHeader';
 import type {BodyType} from '../Body/Body';
-import type {UiImage} from '../Images/Images';
-import type VideoEmbed from '../VideoEmbed/VideoEmbed';
 
 type Props = {|
   id: string,
-  title: string,
+  Header: BaseHeader,
   body: BodyType,
-  Background: ?(WobblyBackground | TexturedBackground),
-  TagBar: ?Node, // potentially make this only take Aync | Tags?
-  DateInfo: ?Node,
-  InfoBar: ?Node,
-  Description: ?Node,
-  FeaturedMedia: ?(UiImage | VideoEmbed),
   children?: ?Node
 |}
 
@@ -36,28 +27,13 @@ export const BasePageColumn = ({children}: {| children: Node |}) => (
 
 const BasePage = ({
   id,
-  title,
+  Header,
   body,
-  TagBar,
-  Background,
-  DateInfo,
-  Description,
-  InfoBar,
-  FeaturedMedia,
   children
 }: Props) => {
   return (
     <article data-wio-id={id}>
-      <BaseHeader
-        title={title}
-        Background={Background}
-        TagBar={TagBar}
-        DateInfo={DateInfo}
-        Description={Description}
-        InfoBar={InfoBar}
-        FeaturedMedia={FeaturedMedia}
-      />
-
+      <Fragment>{Header}</Fragment>
       <BasePageColumn>
         <div className='basic-page'>
           <Body body={body}></Body>

@@ -1,6 +1,7 @@
 // @flow
 import {Fragment} from 'react';
 import BasePage from './BasePage';
+import BaseHeader from '../BaseHeader/BaseHeader';
 import DateRange from '../DateRange/DateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import HTMLDate from '../HTMLDate/HTMLDate';
@@ -30,24 +31,27 @@ const InstallationPage = ({ installation }: Props) => {
   /* https://github.com/facebook/flow/issues/2405 */
   /* $FlowFixMe */
   const FeaturedMedia = installation.promo && <UiImage tasl={tasl} {...image} />;
+  const Header = (<BaseHeader
+    title={installation.title}
+    Background={WobblyBackground()}
+    TagBar={
+      <div
+        style={{ minHeight: '48px' }}
+        data-component='exhibit-exhibition-link'
+        className='async-content exhibit-exhibition-link-placeholder'
+        data-endpoint={`/installations/${installation.id}/exhibition`}
+        data-prefix-endpoint='false'></div>
+    }
+    DateInfo={DateInfo}
+    InfoBar={<StatusIndicator start={installation.start} end={(installation.end || new Date())} />}
+    Description={null}
+    FeaturedMedia={FeaturedMedia}
+  />);
 
   return (
     <BasePage
       id={installation.id}
-      Background={WobblyBackground()}
-      TagBar={
-        <div
-          style={{ minHeight: '48px' }}
-          data-component='exhibit-exhibition-link'
-          className='async-content exhibit-exhibition-link-placeholder'
-          data-endpoint={`/installations/${installation.id}/exhibition`}
-          data-prefix-endpoint='false'></div>
-      }
-      DateInfo={DateInfo}
-      InfoBar={<StatusIndicator start={installation.start} end={(installation.end || new Date())} />}
-      Description={null}
-      FeaturedMedia={FeaturedMedia}
-      title={installation.title}
+      Header={Header}
       body={installation.body}>
 
       <Fragment>
