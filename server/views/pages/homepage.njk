@@ -46,31 +46,37 @@
 
   <div class="css-grid__container">
     <div class="css-grid">
+      {% set position = 0 %}
       {% for exhibition in exhibitionAndEventPromos.currentTemporaryExhibitionPromos %}
         <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-          {% componentJsx 'ExhibitionPromo', exhibition %}
+          {% set position = position + 1 %}
+          {% componentJsx 'ExhibitionPromo', exhibition | objectAssign({position: position}) %}
         </div>
       {% endfor %}
 
       {% for event in exhibitionAndEventPromos.eventPromos %}
         <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-          {% componentJsx 'EventPromo', event %}
+          {% set position = position + 1 %}
+          {% componentJsx 'EventPromo', event | objectAssign({position: position}) %}
         </div>
       {% endfor %}
 
       {% for exhibition in exhibitionAndEventPromos.upcomingTemporaryExhibitionPromos %}
         <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-          {% componentJsx 'ExhibitionPromo', exhibition %}
+          {% set position = position + 1 %}
+          {% componentJsx 'ExhibitionPromo', exhibition | objectAssign({position: position}) %}
         </div>
       {% endfor %}
 
       <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-        {% componentJsx 'EventPromo', dailyTourPromo %}
+        {% set position = position + 1 %}
+        {% componentJsx 'EventPromo', dailyTourPromo | objectAssign({position: position}) %}
       </div>
 
       {% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
         <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-          {% componentJsx 'ExhibitionPromo', exhibition %}
+          {% set position = position + 1 %}
+          {% componentJsx 'ExhibitionPromo', exhibition | objectAssign({position: position}) %}
         </div>
       {% endfor %}
     </div>
