@@ -2,9 +2,8 @@ import { storiesOf } from '@storybook/react';
 import BaseHeader from '../components/BaseHeader';
 import BaseBody from '../components/Body';
 import BasePage from '../../../common/views/components/BasePage/BasePage';
-import { withKnobs } from '@storybook/addon-knobs/react';
 
-const stories = storiesOf('Pages', module).addDecorator(withKnobs);
+const stories = storiesOf('Pages', module);
 
 stories
   .add('Base page', () => (<BasePage
