@@ -4,9 +4,11 @@ import { checkA11y } from '@storybook/addon-a11y';
 import { withKnobs } from '@storybook/addon-knobs/react';
 
 function loadStories() {
-  require('../stories/Base');
-  require('../stories/Body');
-  require('../stories/Links.js');
+  const stories = require.context('../stories/pages', true, /\.js$/);
+  const components = require.context('../stories/components', true, /\.js$/);
+
+  stories.keys().forEach((filename) => stories(filename));
+  components.keys().forEach((filename) => components(filename));
 }
 
 addDecorator(withKnobs);

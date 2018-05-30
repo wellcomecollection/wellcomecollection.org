@@ -1,6 +1,8 @@
 // @flow
 import {Fragment} from 'react';
 import BasePage from './BasePage';
+import BaseHeader from '../BaseHeader/BaseHeader';
+import Body from '../Body/Body';
 import HTMLDate from '../HTMLDate/HTMLDate';
 import Contributors from '../Contributors/Contributors';
 import {UiImage} from '../Images/Images';
@@ -51,23 +53,26 @@ const BookPage = ({ book }: Props) => {
   /* https://github.com/facebook/flow/issues/2405 */
   /* $FlowFixMe */
   const FeaturedMedia = book.promo && <UiImage tasl={tasl} extraClasses='margin-v-auto inherit-max-height width-auto ' {...image} />;
-  console.info(contributor);
+  const Header = (<BaseHeader
+    title={book.title || 'TITLE MISSING'}
+    Background={WobblyBackground()}
+    TagBar={null}
+    DateInfo={DateInfo}
+    Description={
+      <Fragment>
+        {book.authorName && <p className='no-margin'>{book.authorName}</p>}
+      </Fragment>
+    }
+    InfoBar={null}
+    FeaturedMedia={FeaturedMedia}
+  />);
 
   return (
     <BasePage
       id={book.id}
-      Background={WobblyBackground()}
-      TagBar={null}
-      DateInfo={DateInfo}
-      InfoBar={null}
-      Description={
-        <Fragment>
-          {book.authorName && <p className='no-margin'>{book.authorName}</p>}
-        </Fragment>
-      }
-      FeaturedMedia={FeaturedMedia}
-      title={book.title || 'TITLE MISSING'}
-      body={book.body}>
+      Header={Header}
+      Body={<Body
+        body={book.body} />}>
       <Fragment>
         {contributor &&
           <Contributors contributors={[contributor]} />
