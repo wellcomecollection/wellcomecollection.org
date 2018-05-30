@@ -35,7 +35,7 @@ const BasePage = ({
       <Fragment>{Header}</Fragment>
       <BasePageColumn>
         <div className='basic-page'>
-          {Body}
+          <Fragment>{Body}</Fragment>
         </div>
       </BasePageColumn>
 

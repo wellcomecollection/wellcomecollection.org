@@ -55,4 +55,4 @@ const Header = () => {
 stories
   .add('Header', Header);
 
-export default Header;
+export default Header();

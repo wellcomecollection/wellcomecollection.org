@@ -9,6 +9,6 @@ const stories = storiesOf('Pages', module).addDecorator(withKnobs);
 stories
   .add('Base page', () => (<BasePage
     id='123'
-    Header={BaseHeader()}
+    Header={BaseHeader}
     Body={BaseBody}
   />));
