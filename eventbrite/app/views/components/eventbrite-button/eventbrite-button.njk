@@ -25,7 +25,7 @@
         {% icon 'ticket_not_yet_on_sale', null, ['icon--white'] %}
       {% endif %}
     </span>
-    <span class="js-eventbrite-ticket-button-text">
+    <span>
       {% if ticket.onSaleStatus === 'available' %}
         Book tickets
       {% elif ticket.onSaleStatus === 'sold_out' %}
