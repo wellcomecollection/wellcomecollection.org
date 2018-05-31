@@ -11,7 +11,6 @@ type Props = {|
 
 const Page = ({ page }: Props): BasePage => {
   const DateInfo = page.datePublished && <HTMLDate date={page.datePublished} />;
-  console.info(page.body);
 
   const hasFeaturedMedia = page.body.length > 1 &&
     (page.body[0].type === 'picture' || page.body[0].type === 'videoEmbed');
