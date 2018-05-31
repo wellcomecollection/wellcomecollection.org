@@ -41,22 +41,22 @@
         {% if loop.index < 4 %}
           <div class="grid__cell">
             {% set imageModel = {
+              contentUrl: scheduledEvent.promo.image.contentUrl,
               width: scheduledEvent.promo.image.width,
               height: scheduledEvent.promo.image.height,
-              lazyload: true,
-              title: scheduledEvent.promo.image.title,
-              source: scheduledEvent.promo.image.source,
-              copyright: scheduledEvent.promo.image.copyright,
-              contentUrl: scheduledEvent.promo.image.contentUrl
+              alt: scheduledEvent.promo.image.alt,
+              tasl: {
+                title: scheduledEvent.promo.image.title,
+                sourceName: scheduledEvent.promo.image.source.name,
+                sourceLink: scheduledEvent.promo.image.source.link,
+                author: null,
+                license: scheduledEvent.promo.image.license,
+                copyrightHolder: scheduledEvent.promo.image.copyright.holder,
+                copyrightLink: scheduledEvent.promo.image.copyright.link
+              }
             } %}
-            {% set tasl = {name: 'Tasl', model: imageModel | objectAssign({sourceName: imageModel.source.name, sourceLink: imageModel.source.link})}
-              if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
-              else null
-            %}
-            <div class="rounded-corners overflow-hidden">
-              {% componentJsx 'CaptionedImage', {},
-                [{name: 'Image', model: imageModel}, tasl]
-              %}
+            <div class="rounded-corners overflow-hidden relative">
+              {% componentJsx 'UiImage', imageModel %}
             </div>
           </div>
         {% endif %}

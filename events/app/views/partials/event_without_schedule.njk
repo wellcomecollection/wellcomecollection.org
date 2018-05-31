@@ -1,3 +1,18 @@
+{% set imageModel = {
+  contentUrl: event.promo.image.contentUrl,
+  width: event.promo.image.width,
+  height: event.promo.image.height,
+  alt: event.promo.image.alt,
+  tasl: {
+    title: event.promo.image.title,
+    sourceName: event.promo.image.source.name,
+    sourceLink: event.promo.image.source.link,
+    author: null,
+    license: event.promo.image.license,
+    copyrightHolder: event.promo.image.copyright.holder,
+    copyrightLink: event.promo.image.copyright.link
+  }
+} if event.promo.image else null %}
 <div class="css-grid__container">
   <div class="css-grid">
     <div class="is-hidden-s is-hidden-m {{ {s:12, m:12, l:12, xl:12} | cssGridClasses }} {{ ({s: 4} | spacingClasses({ margin: ['top'] })) }}">
@@ -11,18 +26,8 @@
         {% componentJsx 'Tags', tags %}
       </div>
     </div>
-    <div class="is-hidden-l is-hidden-xl css-grid__cell--full">
-      {% set imageModel = event.promo.image | objectAssign({lazyload: true}) %}
-
-      {% set tasl = {name: 'Tasl', model: imageModel}
-        if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
-        else null
-      %}
-
-      {% componentJsx 'CaptionedImage', bodyPart.value, [
-        {name: 'Image', model: imageModel},
-        tasl
-      ] %}
+    <div class="is-hidden-l is-hidden-xl css-grid__cell--full relative">
+      {% componentJsx 'UiImage', imageModel %}
     </div>
   {% endif %}
 
@@ -257,11 +262,8 @@
 
     <div class="css-grid__cell--primary">
       {% if event.promo.image %}
-        <div class="is-hidden-s is-hidden-m rounded-corners overflow-hidden {{ {s: 4} | spacingClasses({margin: ['bottom']}) }}">
-          {% componentJsx 'CaptionedImage', bodyPart.value, [
-            {name: 'Image', model: imageModel},
-            tasl
-          ] %}
+        <div class="is-hidden-s is-hidden-m rounded-corners overflow-hidden {{ {s: 4} | spacingClasses({margin: ['bottom']}) }} relative">
+          {% componentJsx 'UiImage', imageModel %}
         </div>
       {% endif %}
       <div class="body-text">
