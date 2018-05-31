@@ -13,6 +13,7 @@ import Divider from '../Divider/Divider';
 import EventPromo from '../EventPromo/EventPromo';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import ExceptionalOpeningHoursTable from '../ExceptionalOpeningHoursTable/ExceptionalOpeningHoursTable';
+import Excerpt from '../Excerpt/Excerpt';
 import ExhibitionPageHeader from '../PageHeaders/ExhibitionPageHeader/ExhibitionPageHeader';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import FeaturedText from '../FeaturedText/FeaturedText';
@@ -65,6 +66,7 @@ export {
   EventPromo,
   EventScheduleItem,
   ExceptionalOpeningHoursTable,
+  Excerpt,
   ExhibitionPageHeader,
   ExhibitionPromo,
   FeaturedText,
