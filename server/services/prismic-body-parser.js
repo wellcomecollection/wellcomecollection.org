@@ -66,12 +66,15 @@ function parseBodyPart(slice) {
       };
 
     case 'quote':
+      const footer = slice.primary.citation && slice.primary.source
+        ? `${slice.primary.citation} — ${slice.primary.source}`
+        : slice.primary.citation || slice.primary.source || null;
       return {
         type: 'quote',
         weight: 'default',
         value: {
           body: slice.primary.quote,
-          footer: slice.primary.citation && slice.primary.source ? `${slice.primary.citation} - ${slice.primary.source}` : null,
+          footer: footer,
           quote: asHtml(slice.primary.quote),
           citation: `${slice.primary.citation} - ${slice.primary.source}`,
           citationLink: slice.primary.citationLink && slice.primary.citationLink.url
