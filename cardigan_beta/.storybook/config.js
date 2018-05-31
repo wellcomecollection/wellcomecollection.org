@@ -4,10 +4,10 @@ import { checkA11y } from '@storybook/addon-a11y';
 import { withKnobs } from '@storybook/addon-knobs/react';
 
 function loadStories() {
-  const stories = require.context('../stories/pages', true, /\.js$/);
+  const pages = require.context('../stories/pages', true, /\.js$/);
   const components = require.context('../stories/components', true, /\.js$/);
 
-  stories.keys().forEach((filename) => stories(filename));
+  pages.keys().forEach((filename) => pages(filename));
   components.keys().forEach((filename) => components(filename));
 }
 
@@ -39,7 +39,7 @@ addDecorator(AppJsDecorator);
 setOptions({
   name: 'Cardigan',
   url: 'https://cardigan.wellcomecollection.org',
-  addonPanelInRight: true,
+  addonPanelInRight: true
 });
 
 configure(loadStories, module);

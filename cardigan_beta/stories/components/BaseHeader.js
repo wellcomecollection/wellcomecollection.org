@@ -53,6 +53,6 @@ const Header = () => {
 };
 
 stories
-  .add('Header', Header);
+  .add('BaseHeader', Header);
 
 export default Header();
