@@ -35,7 +35,12 @@
 
             <div class="bg-cream {{ {l: 2} | spacingClasses({ padding: ['bottom'] }) }}">
               <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
-                {% componentJsx 'CaptionedImageNew', bodyPart.value | objectAssign({sizesQueries: sizes}) %}
+                {% set caption = bodyPart.value.caption | prismicAsText %}
+                {% if bodyPart.value.caption and caption !== '' %}
+                  {% componentJsx 'CaptionedImageNew', bodyPart.value | objectAssign({ sizesQueries: sizes }) %}
+                {% else %}
+                  {% componentJsx 'UiImage', bodyPart.value.image | objectAssign({ sizesQueries: sizes }) %}
+                {% endif %}
               </div>
             </div>
           {% elif bodyPart.type === 'video-embed' %}
@@ -101,6 +106,8 @@
             {% endif %}
           {% elif bodyPart.type === 'quote' %}
             {% componentJsx 'ShameQuote', bodyPart.value %}
+          {% elif bodyPart.type === 'excerpt' %}
+            {% componentJsx 'Excerpt', bodyPart.value %}
           {% elif bodyPart.type === 'pre' %}
             <div class="bg-white">
               <div class="body-part__extend-to-right">

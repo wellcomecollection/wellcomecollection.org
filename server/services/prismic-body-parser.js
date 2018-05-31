@@ -80,10 +80,17 @@ function parseBodyPart(slice) {
 
     case 'excerpt':
       return {
-        type: 'pre',
-        name: '',
+        type: 'excerpt',
         weight: 'standalone',
-        value: asText(slice.primary.content)
+        value: {
+          title: asText(slice.primary.title),
+          content: asText(slice.primary.content),
+          source: slice.primary.source.data && {
+            id: slice.primary.source.id,
+            title: asText(slice.primary.source.data.title)
+          },
+          audio: slice.primary.audio.url
+        }
       };
 
     case 'instagramEmbed':
