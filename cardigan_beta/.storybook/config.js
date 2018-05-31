@@ -24,6 +24,18 @@ const CenterDecorator = (storyFn) => (
 );
 addDecorator(CenterDecorator);
 
+const AppJsDecorator = (storyFn) => {
+  const appJs = document.getElementById('app-js');
+  const script = document.createElement('script');
+  script.src = 'js/app.js';
+  appJs.parentElement.removeChild(appJs);
+  script.id = 'app-js';
+  document.head.appendChild(script);
+  return storyFn();
+};
+addDecorator(AppJsDecorator);
+
+
 setOptions({
   name: 'Cardigan',
   url: 'https://cardigan.wellcomecollection.org',
