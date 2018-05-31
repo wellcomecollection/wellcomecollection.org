@@ -1,250 +1,294 @@
 {
-  "Event" : {
-    "title" : {
-      "type" : "StructuredText",
-      "config" : {
-        "single" : "heading1",
-        "label" : "Title"
+  "Event": {
+    "title": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Title",
+        "single": "heading1",
+        "useAsTitle": true
       }
     },
-    "format" : {
-      "type" : "Link",
-      "config" : {
-        "label" : "Format",
-        "select" : "document",
-        "customtypes" : [ "event-formats" ]
+    "format": {
+      "type": "Link",
+      "config": {
+        "label": "Format",
+        "select": "document",
+        "customtypes": [
+          "event-formats"
+        ]
       }
     },
-    "place" : {
-      "type" : "Link",
-      "fieldset" : "Place",
-      "config" : {
-        "select" : "document",
-        "customtypes" : [ "places" ],
-        "label" : "Where is the event held?"
+    "place": {
+      "type": "Link",
+      "fieldset": "Place",
+      "config": {
+        "select": "document",
+        "customtypes": [
+          "places"
+        ],
+        "label": "Where is it?"
       }
     },
-    "series" : {
-      "type" : "Group",
-      "fieldset" : "Event series",
-      "config" : {
-        "fields" : {
-          "series" : {
-            "type" : "Link",
-            "fieldset" : "Series",
-            "config" : {
-              "label" : "Series",
-              "select" : "document",
-              "customtypes" : [ "event-series" ]
+    "series": {
+      "type": "Group",
+      "fieldset": "Event series",
+      "config": {
+        "fields": {
+          "series": {
+            "type": "Link",
+            "config": {
+              "label": "Series",
+              "select": "document",
+              "customtypes": [
+                "event-series"
+              ]
             }
           }
         }
       }
     },
-    "times" : {
-      "type" : "Group",
-      "fieldset" : "Times",
-      "config" : {
-        "fields" : {
-          "startDateTime" : {
-            "type" : "Timestamp",
-            "config" : {
-              "label" : "Start date"
+    "times": {
+      "type": "Group",
+      "fieldset": "Times",
+      "config": {
+        "fields": {
+          "startDateTime": {
+            "type": "Timestamp",
+            "config": {
+              "label": "Start"
             }
           },
-          "endDateTime" : {
-            "type" : "Timestamp",
-            "config" : {
-              "label" : "End date"
+          "endDateTime": {
+            "type": "Timestamp",
+            "config": {
+              "label": "End"
             }
           },
-          "isFullyBooked" : {
-            "type" : "Select",
-            "config" : {
-              "options" : [ "yes" ],
-              "label" : "Has this time been fully booked?"
+          "isFullyBooked": {
+            "type": "Select",
+            "config": {
+              "label": "Fully booked",
+              "options": [
+                "yes"
+              ]
             }
           }
         }
       }
     },
-    "description" : {
-      "type" : "StructuredText",
-      "config" : {
-        "multi" : "paragraph, heading2, strong, em, hyperlink, list-item",
-        "label" : "Description"
+    "description": {
+      "type": "StructuredText",
+      "config": {
+        "multi": "paragraph,hyperlink,strong,em",
+        "label": "Description"
       }
     }
   },
-  "Access" : {
-    "interpretations" : {
-      "type" : "Group",
-      "fieldset" : "Interpretations",
-      "config" : {
-        "fields" : {
-          "interpretationType" : {
-            "type" : "Link",
-            "fieldset" : "Interpretation type",
-            "config" : {
-              "select" : "document",
-              "customtypes" : [ "interpretation-types" ],
-              "label" : "Interpretation type"
+  "Access": {
+    "interpretations": {
+      "type": "Group",
+      "fieldset": "Interpretations",
+      "config": {
+        "fields": {
+          "interpretationType": {
+            "type": "Link",
+            "config": {
+              "label": "Interpretation",
+              "select": "document",
+              "customtypes": [
+                "interpretation-types"
+              ]
             }
           },
-          "isPrimary" : {
-            "type" : "Select",
-            "config" : {
-              "options" : [ "yes" ],
-              "label" : "Is this the primary interpretation?"
+          "isPrimary": {
+            "type": "Select",
+            "config": {
+              "label": "Primary interprtation",
+              "options": [
+                "yes"
+              ]
             }
           }
         }
       }
     },
-    "audiences" : {
-      "type" : "Group",
-      "fieldset" : "Audiences",
-      "config" : {
-        "fields" : {
-          "audience" : {
-            "type" : "Link",
-            "fieldset" : "Audience",
-            "config" : {
-              "select" : "document",
-              "customtypes" : [ "audiences" ],
-              "label" : "Audience"
-            }
-          }
-        }
-      }
-    }
-  },
-  "Reservation" : {
-    "bookingEnquiryTeam" : {
-      "type" : "Link",
-      "config" : {
-        "label" : "Booking enquiry team",
-        "select" : "document",
-        "customtypes" : [ "teams" ]
-      }
-    },
-    "eventbriteEvent" : {
-      "type" : "Embed",
-      "config" : {
-        "label" : "Eventbrite Event"
-      }
-    },
-    "isDropIn" : {
-      "type" : "Select",
-      "config" : {
-        "options" : [ "yes" ],
-        "label" : "Can people drop-in to this event?"
-      }
-    },
-    "bookingInformation" : {
-      "type" : "StructuredText",
-      "config" : {
-        "multi" : "paragraph, strong, em, hyperlink, list-item",
-        "label" : "Event specific booking information"
-      }
-    },
-    "cost" : {
-      "type" : "Text",
-      "config" : {
-        "options" : [ "yes" ],
-        "label" : "How much does the event cost (£)?"
-      }
-    }
-  },
-  "Contributors" : {
-    "contributors" : {
-      "type" : "Group",
-      "fieldset" : "Contributors",
-      "config" : {
-        "fields" : {
-          "role" : {
-            "type" : "Link",
-            "config" : {
-              "label" : "Role",
-              "select" : "document",
-              "customtypes" : [ "editorial-contributor-roles" ]
-            }
-          },
-          "contributor" : {
-            "type" : "Link",
-            "config" : {
-              "label" : "Contributor",
-              "select" : "document",
-              "customtypes" : [ "people", "organisations" ]
+    "audiences": {
+      "type": "Group",
+      "fieldset": "Audiences",
+      "config": {
+        "fields": {
+          "audience": {
+            "type": "Link",
+            "config": {
+              "label": "Audience",
+              "select": "document",
+              "customtypes": [
+                "audiences"
+              ]
             }
           }
         }
       }
     }
   },
-  "Promo" : {
-    "promo" : {
-      "type" : "Slices",
-      "config" : {
-        "label" : "Promo",
-        "choices" : {
-          "editorialImage" : {
-            "type" : "Slice",
-            "fieldset" : "Editorial image",
-            "config" : {
-              "label" : "Editorial image"
+  "Reservation": {
+    "bookingEnquiryTeam": {
+      "type": "Link",
+      "config": {
+        "label": "Booking enquiry team",
+        "select": "document",
+        "customtypes": "teams"
+      }
+    },
+    "eventbriteEvent": {
+      "type": "Embed",
+      "config": {
+        "label": "Eventbrite event"
+      }
+    },
+    "isDropIn": {
+      "type": "Select",
+      "config": {
+        "label": "Drop in",
+        "options": [
+          "yes"
+        ]
+      }
+    },
+    "bookingInformation": {
+      "type": "StructuredText",
+      "config": {
+        "multi": "paragraph,hyperlink,strong,em",
+        "label": "Event specific booking information"
+      }
+    },
+    "cost": {
+      "type": "Text",
+      "config": {
+        "label": "Cost"
+      }
+    }
+  },
+  "Schedule": {
+    "schedule": {
+      "type": "Group",
+      "fieldset": "Events",
+      "config": {
+        "fields": {
+          "event": {
+            "type": "Link",
+            "config": {
+              "label": "Event",
+              "select": "document",
+              "customtypes": [
+                "events"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "backgroundTexture": {
+      "type": "Link",
+      "config": {
+        "label": "Background texture",
+        "select": "document",
+        "customtypes": [
+          "background-textures"
+        ]
+      }
+    }
+  },
+  "Contributors": {
+    "contributors": {
+      "type": "Group",
+      "fieldset": "Contributors",
+      "config": {
+        "fields": {
+          "role": {
+            "type": "Link",
+            "config": {
+              "label": "Role",
+              "select": "document",
+              "customtypes": [
+                "editorial-contributor-roles"
+              ]
+            }
+          },
+          "contributor": {
+            "type": "Link",
+            "config": {
+              "label": "Contributor",
+              "select": "document",
+              "customtypes": [
+                "people",
+                "organisations"
+              ]
+            }
+          },
+          "description": {
+            "type": "StructuredText",
+            "config": {
+              "multi": "paragraph,hyperlink,strong,em",
+              "label": "How did they contribute to this?"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Promo": {
+    "promo": {
+      "type": "Slices",
+      "config": {
+        "label": "Promo",
+        "choices": {
+          "editorialImage": {
+            "type": "Slice",
+            "fieldset": "Editorial image",
+            "config": {
+              "label": "Editorial image"
             },
-            "non-repeat" : {
-              "caption" : {
-                "type" : "StructuredText",
-                "config" : {
-                  "label" : "Promo text",
-                  "single" : "hyperlink, strong, em"
+            "non-repeat": {
+              "caption": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Promo text",
+                  "single": "paragraph"
                 }
               },
-              "image" : {
-                "type" : "Image",
-                "config" : {
-                  "label" : "Promo image",
-                  "thumbnails" : [ {
-                    "name" : "16:9",
-                    "width" : 3200,
-                    "height" : 1800
-                  }, {
-                    "name" : "square",
-                    "width" : 3200,
-                    "height" : 3200
-                  } ]
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Promo image",
+                  "thumbnails": [
+                    {
+                      "name": "32:15",
+                      "width": 3200,
+                      "height": 1500
+                    },
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
+                }
+              },
+              "link": {
+                "type": "Text",
+                "config": {
+                  "label": "Link override"
                 }
               }
             }
           }
         }
-      }
-    }
-  },
-  "Schedule" : {
-    "schedule" : {
-      "type" : "Group",
-      "config" : {
-        "fields" : {
-          "event" : {
-            "type" : "Link",
-            "config" : {
-              "label" : "Role",
-              "select" : "document",
-              "customtypes" : [ "events" ]
-            }
-          }
-        }
-      }
-    },
-    "backgroundTexture" : {
-      "type" : "Link",
-      "config" : {
-        "label" : "Background texture",
-        "select" : "document",
-        "customtypes" : [ "background-textures" ]
       }
     }
   }

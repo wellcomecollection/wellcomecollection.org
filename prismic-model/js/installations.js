@@ -1,3 +1,4 @@
+// @flow
 import title from './parts/title';
 import contributors from './parts/contributors';
 import promo from './parts/promo';
