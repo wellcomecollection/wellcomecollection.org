@@ -496,7 +496,7 @@ function getImageFromWpNode(node) {
 
   return {
     type: 'picture',
-    caption: createPrismicParagraph(striptags(caption)),
+    caption: caption && createPrismicParagraph(striptags(caption)),
     image: {
       contentUrl,
       alt,
