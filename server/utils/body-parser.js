@@ -13,6 +13,7 @@ import {createBodyPart} from '../model/body-part';
 import {createHeading} from '../model/heading';
 import {createInstagramEmbed} from '../model/instagram-embed';
 import {striptags} from '../../common/utils/striptags';
+import {createPrismicParagraph} from '../../common/utils/prismic';
 
 export function bodyParser(bodyText) {
   const fragment = getFragment(bodyText);
@@ -249,7 +250,7 @@ export function convertWpImage(node) {
   const isWpImage = isCaption(node) || isImg(node);
 
   if (isWpImage) {
-    const picture = getImageFromWpNode(node);
+    const image = getImageFromWpNode(node);
     const className = getAttrVal(node.attrs, 'class') || '';
     const weights = {
       alignleft: 'supporting',
@@ -262,7 +263,7 @@ export function convertWpImage(node) {
     return createBodyPart({
       weight,
       type: 'picture',
-      value: picture
+      value: image
     });
   } else {
     return node;
@@ -479,12 +480,10 @@ function getImageFromWpNode(node) {
   const mayBeWrapperA = node.childNodes.find(node => node.nodeName === 'a');
   const parentNode = mayBeWrapperA || node;
   const img = parentNode.childNodes.find(node => node.nodeName === 'img');
-  const href = mayBeWrapperA ? getAttrVal(mayBeWrapperA.attrs, 'href') : null;
   const captionNode = node.childNodes.find(node =>
     node.attrs && getAttrVal(node.attrs, 'class') === 'wp-caption-text'
   );
   const alt = getAttrVal(img.attrs, 'alt');
-  const copyright = getAttrVal(img.attrs, 'data-image-description');
 
   // We need to lookup the src for images that aren't from the Wellcome Collection Wordpress
   const imgSrc = getAttrVal(img.attrs, 'data-orig-file') || getAttrVal(img.attrs, 'src');
@@ -495,16 +494,17 @@ function getImageFromWpNode(node) {
   // We need to lookup the dims for images that aren't from the Wellcome Collection Wordpress
   const [width, height] = (getAttrVal(img.attrs, 'data-orig-size') || `${getAttrVal(img.attrs, 'width')},${getAttrVal(img.attrs, 'height')}`).split(',');
 
-  return createPicture({
+  return {
     type: 'picture',
-    contentUrl,
-    caption,
-    alt,
-    copyright,
-    url: href,
-    width: parseInt(width, 10),
-    height: parseInt(height, 10)
-  });
+    caption: createPrismicParagraph(striptags(caption)),
+    image: {
+      contentUrl,
+      alt,
+      width: parseInt(width, 10),
+      height: parseInt(height, 10),
+      tasl: {}
+    }
+  };
 }
 
 export function convertDomNode(node) {

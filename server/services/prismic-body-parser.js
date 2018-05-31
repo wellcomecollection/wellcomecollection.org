@@ -31,7 +31,7 @@ function parseBodyPart(slice) {
       return {
         weight: slice.slice_label,
         type: 'picture',
-        value: parsePicture(slice.primary)
+        value: parseCaptionedImage(slice.primary)
       };
 
     case 'editorialImageGallery':
