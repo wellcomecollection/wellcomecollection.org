@@ -74,6 +74,7 @@ export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): UiEve
     },
     isPrimary: Boolean(interpretation.isPrimary)
   }) : null).filter(_ => _);
+  const primaryInterpretation = interpretations.find(interpretation => interpretation.isPrimary);
 
   const audiences = doc.data.audiences.map(audience => !isEmptyDocLink(audience.audience) ? ({
     title: asText(audience.audience.data.title),
@@ -99,7 +100,7 @@ export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): UiEve
   const e = ({
     id: doc.id,
     identifiers: identifiers,
-    title: asText(doc.data.title),
+    title: `${asText(doc.data.title)}${primaryInterpretation ? ' in ' + primaryInterpretation.interpretationType.title : ''}`,
     format: format,
     isDropIn: Boolean(doc.data.isDropIn), // the value from Prismic could be null || "yes"
     times: times,
