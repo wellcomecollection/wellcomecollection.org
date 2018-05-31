@@ -24,7 +24,7 @@ const Events = {
       endDateTime: timestamp('End'),
       isFullyBooked: boolean('Fully booked')
     }),
-    description: structuredText('Description')
+    description: structuredText('Description', 'multi', ['heading2', 'list-item'])
   },
   Access: {
     interpretations: list('Interpretations', {
