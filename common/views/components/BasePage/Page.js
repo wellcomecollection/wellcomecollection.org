@@ -1,5 +1,7 @@
 // @flow
 import BasePage from './BasePage';
+import Body from '../Body/Body';
+import BaseHeader from '../BaseHeader/BaseHeader';
 import HTMLDate from '../HTMLDate/HTMLDate';
 import {UiImage} from '../Images/Images';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
@@ -20,17 +22,22 @@ const InstallationPage = ({ page }: Props) => {
       : page.body[0].type === 'videoEmbed' ? VideoEmbed(page.body[0].value)
         : null : null;
 
+  const Header = (<BaseHeader
+    title={page.title}
+    DateInfo={DateInfo}
+    Background={null}
+    TagBar={null}
+    InfoBar={null}
+    Description={null}
+    FeaturedMedia={FeaturedMedia}
+  />);
+
   return (
     <BasePage
       id={page.id}
-      DateInfo={DateInfo}
-      Background={null}
-      TagBar={null}
-      InfoBar={null}
-      Description={null}
-      FeaturedMedia={FeaturedMedia}
-      title={page.title}
-      body={body}>
+      Header={Header}
+      Body={<Body
+        body={body} />}>
     </BasePage>
   );
 };

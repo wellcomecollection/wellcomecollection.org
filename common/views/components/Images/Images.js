@@ -8,7 +8,7 @@ import Icon from '../Icon/Icon';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import type {Node} from 'react';
 import type {Image as ImageProps} from '../../../model/image';
-import type {HTMLString} from '../../../services/prismic/types';
+import type {CaptionedImage as CaptionedImageProps} from '../../../model/captioned-image';
 
 export type UiImageProps = {|
   ...ImageProps,
@@ -53,14 +53,8 @@ export const UiImage = ({
   );
 };
 
-export type CaptionedImageProps = {|
-  image: ImageProps,
-  caption: HTMLString
-|}
-
 export type UiCaptionedImageProps = {|
-  image: ImageProps,
-  caption: HTMLString,
+  ...CaptionedImageProps,
   sizesQueries: string,
   extraClasses?: string,
   preCaptionNode?: Node

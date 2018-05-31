@@ -8,7 +8,8 @@ import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
 import type { Place } from '../../model/place';
 import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/background-texture';
-import type { CaptionedImageProps } from '../../views/components/Images/Images';
+import type { CaptionedImage } from '../../model/captioned-image';
+import type { ImagePromo } from '../../model/image-promo';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './events';
@@ -19,9 +20,13 @@ const placeHolderImage = {
   height: 900,
   alt: 'Placeholder image',
   tasl: {
-    contentUrl: 'https://via.placeholder.com/1600x900?text=Placeholder',
-    isFull: false,
-    sourceName: 'Unknown'
+    sourceName: 'Unknown',
+    title: null,
+    author: null,
+    sourceLink: null,
+    license: null,
+    copyrightHolder: null,
+    copyrightLink: null
   }
 };
 
@@ -110,7 +115,7 @@ function parseImage(frag: PrismicFragment): Image {
 
 const defaultContributorImage = 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3ed09488-1992-4f8a-9f0c-de2d296109f9_group+21.png';
 type Crop = | '16:9' | '32:15' | 'square';
-export function parseCaptionedImage(frag: PrismicFragment, crop?: Crop): CaptionedImageProps {
+export function parseCaptionedImage(frag: PrismicFragment, crop?: Crop): CaptionedImage {
   if (isEmptyObj(frag.image)) {
     return {
       image: placeHolderImage,
@@ -137,7 +142,7 @@ export function parseCaptionedImage(frag: PrismicFragment, crop?: Crop): Caption
   };
 }
 
-export function parsePromoToCaptionedImage(frag: PrismicFragment): CaptionedImageProps {
+export function parsePromoToCaptionedImage(frag: PrismicFragment): CaptionedImage {
   // We could do more complicated checking here, but this is what we always use.
   const promo = frag[0];
   return parseCaptionedImage(promo.primary, '16:9');
@@ -221,11 +226,6 @@ export function parseTaslFromString(pipedString: string): Tasl {
   }
 }
 
-export type ImagePromo = {|
-  caption: ?string;
-  image: ?Picture;
-|}
-
 // null is valid to use the default image,
 // which isn't on a property, but rather at the root
 type CropType = null | '16:9' | '32:15' | 'square';
@@ -236,6 +236,7 @@ export function parseImagePromo(
 ): ?ImagePromo {
   const maybePromo = frag && frag.find(slice => slice.slice_type === 'editorialImage');
   const hasImage = (maybePromo && maybePromo.primary.image && isImageLink(maybePromo.primary.image)) || false;
+  const link = maybePromo && maybePromo.primary.link;
 
   return maybePromo && ({
     caption: asText(maybePromo.primary.caption),
@@ -243,7 +244,8 @@ export function parseImagePromo(
       image:
         // We introduced enforcing 16:9 half way through, so we have to do a check for it.
         cropType ? (maybePromo.primary.image[cropType] || maybePromo.primary.image) : maybePromo.primary.image
-    }, minWidth) : null
+    }, minWidth) : null,
+    link
   }: ImagePromo);
 }
 
@@ -310,6 +312,11 @@ export function isImageLink(fragment: ?PrismicFragment): boolean {
   return Boolean(fragment && fragment.dimensions);
 }
 
+// We always get returned a { link_type: 'Web' } but it might not have a URL
+export function isWebLink(fragment: ?PrismicFragment): boolean {
+  return Boolean(fragment && fragment.url);
+}
+
 export type Weight = 'default' | 'featured';
 function getWeight(weight: ?string): ?Weight {
   switch (weight) {
@@ -361,7 +368,7 @@ export function parseBody(fragment: PrismicFragment[]) {
           weight: getWeight(slice.slice_label),
           value: {
             title: asText(slice.primary.title),
-            items: (slice.items.map(item => parseCaptionedImage(item)): CaptionedImageProps[])
+            items: (slice.items.map(item => parseCaptionedImage(item)): CaptionedImage[])
           }
         };
 

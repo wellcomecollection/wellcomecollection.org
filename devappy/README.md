@@ -1,14 +1,13 @@
 # Devappy
 
-An app to make devs 'appy.
+An app to make devs 'appy 🙃.
 
-# How?
+Runs [Ziet's micro-proxy](https://github.com/zeit/micro-proxy).
 
-  docker-compose up -d
+You need to have the applications you're proxying too running.†
+The simply run:
 
-# Development
+  yarn dev
+  # > go to localhost:9000
 
-If you change the Nginx / Docker config, be sure to run:
-
-  docker-compose build --no-cache
-  docker-compose up -d  
+† TODO: Make this part of `devappy`

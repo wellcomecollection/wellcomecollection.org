@@ -7,7 +7,7 @@
     isConfirmed: isConfirmed
   } %}
 
-  {% if featuresCohort == 'wellcomeUser' %}
+  {% if featuresCohort | isFlagEnabled('newsletter', featureFlags) %}
     <div class="{{ {s: 4} | spacingClasses({margin: ['top']}) }}">
       <div class="row {{ {s: 8} | spacingClasses({padding: ['bottom']}) }}">
         <div class='container'>

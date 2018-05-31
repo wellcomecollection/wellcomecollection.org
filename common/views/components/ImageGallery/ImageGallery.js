@@ -2,7 +2,7 @@
 import {Fragment} from 'react';
 import {spacing, font} from '../../../utils/classnames';
 import {CaptionedImage} from '../Images/Images';
-import type {CaptionedImageProps} from '../Images/Images';
+import type {CaptionedImage as CaptionedImageProps} from '../../../model/captioned-image';
 
 type ImageGalleryProps = {|
   id: string,

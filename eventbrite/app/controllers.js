@@ -30,6 +30,7 @@ async function getEventbriteEventTickets(id: string) {
     const cost = ticketClass.cost && ticketClass.cost.value;
     return ({onSaleStatus, ticketType, saleStarts, eventbriteId: ticketClass.event_id, cost}: Ticket);
   }).filter(ticket => ticket.ticketType === 'standard'); // we only want to show standard tickets for now...
+
   return tickets;
 }
 

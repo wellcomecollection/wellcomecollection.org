@@ -1,4 +1,4 @@
-<script src="https://cdn.ravenjs.com/3.9.2/raven.min.js" async onload="setupMonitoring()"></script>
+<script src="https://cdn.ravenjs.com/3.25.2/raven.min.js" async onload="setupMonitoring()"></script>
 <script>
   function setupMonitoring() {
     var oldSafari = /^.*Version\/[0-8].*Safari.*$/;
@@ -29,7 +29,7 @@
         return !shouldIgnoreBrowsers && !shouldIgnoreUrls;
       },
       ignoreErrors: [
-        /SecurityError\: Blocked a frame with origin "https:\/\/wellcomecollection\.org" from accessing a frame with origin "https:\/\/vars\.hotjar\.com"\. Protocols, domains, and ports must match\.$/
+        /Blocked a frame with origin/,
       ]
     }).install();
   }

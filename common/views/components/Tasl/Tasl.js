@@ -9,7 +9,6 @@ import Icon from '../Icon/Icon';
 
 export type Props = {
   isFull: boolean,
-  contentUrl: string,
   title?: ?string,
   author?: ?string,
   sourceName?: ?string,
@@ -72,7 +71,6 @@ function getCopyrightHtml(copyrightHolder, copyrightLink) {
 
 const Tasl = withToggler(({
   isFull,
-  contentUrl,
   title,
   author,
   sourceName,
@@ -89,7 +87,7 @@ const Tasl = withToggler(({
     ReactGA.event({
       category: 'component',
       action: 'Tasl:click',
-      label: `image:${contentUrl},click-action:${isActive ? 'did close' : 'did open'}`
+      label: `click-action:${isActive ? 'did close' : 'did open'}`
     });
 
     toggle();
@@ -103,7 +101,7 @@ const Tasl = withToggler(({
       tasl drawer js-show-hide plain-text
     `}
     data-track-action='toggle-image-credit'
-    data-track-label={`image:${contentUrl}`}>
+    data-track-label={`image`}>
       {!isFull &&
         <button onClick={toggleWithAnalytics}
           className='tasl__button plain-button js-show-hide-trigger absolute'>
