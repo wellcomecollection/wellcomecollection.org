@@ -4,7 +4,7 @@ import { BasePageColumn } from '../BasePage/BasePage';
 import BookPage from '../BasePage/BookPage';
 import Button from '../Buttons/Button/Button';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
-import {CaptionedImage as CaptionedImageNew} from '../Images/Images';
+import {UiImage, CaptionedImage as CaptionedImageNew} from '../Images/Images';
 import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
 import Contributor from '../Contributor/Contributor';
 import Control from '../Buttons/Control/Control';
@@ -97,6 +97,7 @@ export {
   StatusIndicator,
   Tags,
   Tasl,
+  UiImage,
   WobblyEdge,
   WorkDrawer,
   WorkMedia
