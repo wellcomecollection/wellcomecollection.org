@@ -2,9 +2,7 @@
 // TODO: Sync up types with the body slices and the components they return
 import {spacing} from '../../../utils/classnames';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
-import CaptionedImage from '../CaptionedImage/CaptionedImage';
-import Image from '../Image/Image';
-import Tasl from '../Tasl/Tasl';
+import {CaptionedImage} from '../Images/Images';
 import Quote from '../Quote/Quote';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
@@ -27,6 +25,7 @@ type Props = {|
 |}
 
 const Body = ({ body }: Props) => {
+  body.forEach(b => { if (b.type === 'picture') { console.info(b); } });
   return (
     <div className='basic-body'>
       {body.map((slice, i) =>
@@ -38,19 +37,7 @@ const Body = ({ body }: Props) => {
             </div>
           }
           {slice.type === 'picture' &&
-            <CaptionedImage caption={slice.value.caption}>
-              <Image {...slice.value} />
-              <Tasl
-                contentUrl={slice.value.contentUrl || ''}
-                title={slice.value.title}
-                author={slice.value.author}
-                sourceName={slice.value.source && slice.value.source.name}
-                sourceLink={slice.value.source && slice.value.source.link}
-                license={slice.value.license}
-                copyrightHolder={slice.value.copyright && slice.value.copyright.holder}
-                copyrightLink={slice.value.copyright && slice.value.copyright.link}
-                isFull={false} />
-            </CaptionedImage>
+            <CaptionedImage {...slice.value} sizesQueries={''} />
           }
           {slice.type === 'imageGallery' && <ImageGallery {...slice.value} />}
           {slice.type === 'quote' && <Quote {...slice.value} />}

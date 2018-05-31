@@ -4,7 +4,6 @@ function randomNumber(min, max) {
   return Math.floor(Math.random() * max) + min;
 }
 
-const imgUrl = 'https://iiif.wellcomecollection.org/image/prismic:3b5cbf1ea786f93c3905e048bbbd53948ab9d650_medusa-16x9.jpg/full/full/0/default.jpg';
 export const image = () => {
   const contentUrl = faker.image.image();
 
@@ -14,7 +13,7 @@ export const image = () => {
     height: 480,
     alt: 'an image with some alt text',
     tasl: {
-      contentUrl: imgUrl,
+      contentUrl: contentUrl,
       title: 'The title of the image',
       author: 'The author',
       sourceName: 'Wellcome Collection',

@@ -62,6 +62,7 @@
 .promo__image-container--constrained {
   display: flex;
   align-items: flex-end;
+  overflow: hidden;
   height: 0;
   padding-top: 150%;
 

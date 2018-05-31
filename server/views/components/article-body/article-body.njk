@@ -14,25 +14,8 @@
             {% if contentType === 'comic' %}
               {{ bodyPart.value | safe }}
             {% elif bodyPart.type === 'picture' %}
-              {# On old content, the first paragraph is sometimes a picture #}
-              {% set imageModel = bodyPart.value | objectAssign({lazyload: true, sizesQueries: '(min-width: 960px) 710px, 100vw', showCopyright: true}) %}
-              {% set tasl = {
-                name: 'Tasl',
-                model: imageModel | objectAssign({
-                  sourceName: imageModel.source.name,
-                  sourceLink: imageModel.source.link,
-                  copyrightHolder: imageModel.copyright.holder,
-                  copyrightLink: imageModel.copyright.link
-                })}
-                if (imageModel.title or imageModel.source.name or imageModel.copyright.holder or imageModel.license)
-                else null
-              %}
-
               <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
-                {% componentJsx 'CaptionedImage', bodyPart.value, [
-                  {name: 'Image', model: imageModel},
-                  tasl
-                ] %}
+                {% componentJsx 'CaptionedImageNew', bodyPart.value %}
               </div>
             {% else %}
               {% componentJsx 'FeaturedText', { html: bodyPart.value } %}
@@ -42,36 +25,19 @@
           {% elif bodyPart.type === 'gif-video' %}
             {% componentV2 'gif-video', bodyPart.value %}
           {% elif bodyPart.type === 'picture' %}
-            {% if bodyPart.value.contentUrl %}
-              {% if bodyPart.weight === 'standalone' %}
-                {% set sizes = '100vw' %}
-              {% elif bodyPart.weight === 'supporting' %}
-                {% set sizes = '(min-width: 1420px) 507px, (min-width: 960px) 35.68vw, (min-width: 600px) calc(83.24vw - 69px), calc(100vw - 36px)' %}
-              {% else %}
-                {% set sizes ='(min-width: 1420px) 680px, (min-width: 960px) 50vw, (min-width: 600px) calc(83.24vw - 69px), calc(100vw - 36px)' %}
-              {% endif %}
-
-              <div class="bg-cream {{ {l: 2} | spacingClasses({ padding: ['bottom'] }) }}">
-                {% set imageModel = bodyPart.value | objectAssign({lazyload: true, sizesQueries: sizes}) %}
-                {% set tasl = {
-                  name: 'Tasl',
-                  model: imageModel | objectAssign({
-                    sourceName: imageModel.source.name,
-                    sourceLink: imageModel.source.link,
-                    copyrightHolder: imageModel.copyright.holder,
-                    copyrightLink: imageModel.copyright.link
-                  })}
-                  if (imageModel.title or imageModel.source.name or imageModel.copyright.holder or imageModel.license)
-                  else null
-                %}
-                <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
-                  {% componentJsx 'CaptionedImage', bodyPart.value, [
-                    {name: 'Image', model: imageModel},
-                    tasl
-                  ] %}
-                </div>
-              </div>
+            {% if bodyPart.weight === 'standalone' %}
+              {% set sizes = '100vw' %}
+            {% elif bodyPart.weight === 'supporting' %}
+              {% set sizes = '(min-width: 1420px) 507px, (min-width: 960px) 35.68vw, (min-width: 600px) calc(83.24vw - 69px), calc(100vw - 36px)' %}
+            {% else %}
+              {% set sizes ='(min-width: 1420px) 680px, (min-width: 960px) 50vw, (min-width: 600px) calc(83.24vw - 69px), calc(100vw - 36px)' %}
             {% endif %}
+
+            <div class="bg-cream {{ {l: 2} | spacingClasses({ padding: ['bottom'] }) }}">
+              <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
+                {% componentJsx 'CaptionedImageNew', bodyPart.value | objectAssign({sizesQueries: sizes}) %}
+              </div>
+            </div>
           {% elif bodyPart.type === 'video-embed' %}
             <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
               {% componentV2 'iframed-video', bodyPart.value %}

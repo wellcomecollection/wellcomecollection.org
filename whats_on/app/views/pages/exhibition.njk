@@ -201,7 +201,7 @@
       {% endif %}
     {% endmacro %}
 
-    {{ relatedMarkup(exhibition.relatedEvents, 'Workshops, talks and tours', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizesQueries: '(min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}) }}
+    {{ relatedMarkup(exhibition.relatedEvents, 'Workshops, talks and tours', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizes: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(41.76vw - 50px), calc(75vw - 18px)'}) }}
     {% if exhibition.relatedEvents.length > 0 %}
       <div class="row">
         <div class="container">
@@ -228,7 +228,7 @@
       </div>
     {% endif %}
 
-    {{ relatedMarkup(exhibition.relatedBooks, 'From the bookshop', 'book-promo', {s:12, m:6, l:6, xl:6}, {'lazyload': true, index: loop.index, total: loop.total, sizesQueries: '(min-width: 960px) 178px, 127px'}) }}
+    {{ relatedMarkup(exhibition.relatedBooks, 'From the bookshop', 'book-promo', {s:12, m:6, l:6, xl:6}, {'lazyload': true, index: loop.index, total: loop.total, sizes: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(41.76vw - 50px), calc(75vw - 18px)'}) }}
 
   </article>
 {% endblock %}
