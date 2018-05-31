@@ -4,10 +4,10 @@ import { checkA11y } from '@storybook/addon-a11y';
 import { withKnobs } from '@storybook/addon-knobs/react';
 
 function loadStories() {
-  const stories = require.context('../stories/pages', true, /\.js$/);
+  const pages = require.context('../stories/pages', true, /\.js$/);
   const components = require.context('../stories/components', true, /\.js$/);
 
-  stories.keys().forEach((filename) => stories(filename));
+  pages.keys().forEach((filename) => pages(filename));
   components.keys().forEach((filename) => components(filename));
 }
 
@@ -24,10 +24,22 @@ const CenterDecorator = (storyFn) => (
 );
 addDecorator(CenterDecorator);
 
+const AppJsDecorator = (storyFn) => {
+  const appJs = document.getElementById('app-js');
+  const script = document.createElement('script');
+  script.src = 'js/app.js';
+  appJs.parentElement.removeChild(appJs);
+  script.id = 'app-js';
+  document.head.appendChild(script);
+  return storyFn();
+};
+addDecorator(AppJsDecorator);
+
+
 setOptions({
   name: 'Cardigan',
   url: 'https://cardigan.wellcomecollection.org',
-  addonPanelInRight: true,
+  addonPanelInRight: true
 });
 
 configure(loadStories, module);

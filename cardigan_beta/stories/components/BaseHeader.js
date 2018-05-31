@@ -15,7 +15,7 @@ const stories = storiesOf('Components', module).addDecorator(withKnobs);
 const Header = () => {
   const title = text('Title', 'Some sort of title');
   const description = text('Description', 'Some sort of description');
-  const Image = UiImage(image);
+  const Image = UiImage(image());
   const TagBar = <Tags tags={[{
     text: 'Tag'
   }]} />;
@@ -53,6 +53,6 @@ const Header = () => {
 };
 
 stories
-  .add('Header', Header);
+  .add('BaseHeader', Header);
 
 export default Header();

@@ -1,5 +1,4 @@
 import { storiesOf } from '@storybook/react';
-
 import PrimaryLink from '../../../common/views/components/Links/PrimaryLink/PrimaryLink';
 import SecondaryLink from '../../../common/views/components/Links/SecondaryLink/SecondaryLink';
 

@@ -2,7 +2,7 @@
 // TODO: Sync up types with the body slices and the components they return
 import {spacing} from '../../../utils/classnames';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
-import {CaptionedImage, UiImage} from '../Images/Images';
+import {CaptionedImage} from '../Images/Images';
 import Quote from '../Quote/Quote';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
@@ -36,7 +36,6 @@ const Body = ({ body }: Props) => {
               {slice.weight !== 'featured' && <PrismicHtmlBlock html={slice.value} />}
             </div>
           }
-          {slice.type === 'image' && <UiImage {...slice.value} extraClasses='margin-v-auto' />}
           {slice.type === 'picture' &&
             <CaptionedImage {...slice.value} sizesQueries={''} />
           }
