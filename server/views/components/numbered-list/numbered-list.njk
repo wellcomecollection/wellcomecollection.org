@@ -36,7 +36,6 @@
           {% if isTransporter %}
             <span data-track-event='{"category": "component", "action": "transporter-promo:click", "label": "position:{{ loop.index }}, url:{{ item.url }}"}'>
               {% componentJsx 'Promo', {
-                extraClasses: 'promo--slider-transporter-child',
                 sizes: '(min-width: 1340px) calc(15vw + 120px), (min-width: 960px) calc(40vw - 84px), (min-width: 600px) calc(60vw - 83px), calc(75vw - 72px)',
                 url: item.url,
                 contentType: item.contentType,

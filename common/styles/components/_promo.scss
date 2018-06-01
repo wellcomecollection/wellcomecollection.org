@@ -153,31 +153,6 @@
   }
 }
 
-.promo--slider-transporter-child {
-  @include container-query(('m': ('12'), 'l': ('8', '12'), 'xl': ('8', '12'))) {
-    display: block;
-  }
-
-  .promo__image-container {
-    @include container-query(('m': ('12'), 'l': ('8', '12'), 'xl': ('8', '12'))) {
-      width: 100%;
-      margin-bottom: 2 * $spacing-unit;
-    }
-  }
-
-  .promo__title {
-    @include container-query(('xl': ('12'))) {
-      @include font('WB6');
-    }
-  }
-
-  .promo__description {
-    @include container-query(('l': ('8', '12'), 'xl': ('8', '12'))) {
-      padding: 0;
-    }
-  }
-}
-
 .promo--work {
   .promo__title {
     margin-bottom: 0;

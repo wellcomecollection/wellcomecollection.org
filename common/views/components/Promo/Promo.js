@@ -77,7 +77,6 @@ const PromoDescription = ({standalone, children}: PromoDescriptionProps) => {
 type Props = {|
   url?: string,
   id?: string,
-  extraClasses?: string,
   contentType: ContentType,
   image?: ImageProps,
   series?: EditorialSeries[],
@@ -95,7 +94,6 @@ type Props = {|
 const Promo = ({
   url,
   id,
-  extraClasses = '',
   contentType,
   image,
   series,
@@ -120,7 +118,7 @@ const Promo = ({
       data-component='ArticlePromo'
       data-track-event={`${JSON.stringify({category: 'component', action: 'ArticlePromo:click'})}`}
       href={url}
-      className={`promo ${extraClasses} promo--${contentType} ${!url ? 'promo--surrogate' : ''} ${standalone ? 'promo--standalone' : ''}`}>
+      className={`promo promo--${contentType} ${!url ? 'promo--surrogate' : ''} ${standalone ? 'promo--standalone' : ''}`}>
       <div className={`promo__image-container ${spacing({s: 2}, {margin: ['bottom']})} ${contentType === 'work' ? 'promo__image-container--constrained' : ''}`}>
         {image
           ? <Image
