@@ -57,7 +57,7 @@ type PromoDescriptionProps = {|
 const PromoDescription = ({standalone, children}: PromoDescriptionProps) => {
   if (standalone) {
     return (
-      <div className={`row bg-cream ${spacing({s: 10}, {padding: ['top']})}`}>
+      <div className={`row bg-cream ${spacing({s: 10}, {padding: ['top', 'bottom']})}`}>
         <div className='container'>
           <div className='grid'>
             <div className={`${grid({l: 10, shiftL: 1, m: 10, shiftM: 1, s: 12})}`}>
@@ -116,7 +116,7 @@ const Promo = ({
       data-component='ArticlePromo'
       data-track-event={`${JSON.stringify({category: 'component', action: 'ArticlePromo:click'})}`}
       href={url}
-      className={`promo promo--${contentType} ${!url ? 'promo--surrogate' : ''} ${standalone ? 'promo--standalone' : ''}`}>
+      className={`promo promo--${contentType} ${!url ? 'promo--surrogate' : ''} ${standalone ? 'promo--standalone' : ''} ${weight === 'lead' ? 'promo--lead' : ''}`}>
       <div className={`promo__image-container ${spacing({s: 2}, {margin: ['bottom']})} ${contentType === 'work' ? 'promo__image-container--constrained' : ''}`}>
         {image
           ? <Image
@@ -155,7 +155,7 @@ const Promo = ({
       <PromoDescription standalone={standalone || false}>
         <div className={`promo__description`}>
           <div className='promo__heading'>
-            <HeadingTag className={`promo__title ${spacing({s: 0}, {margin: ['top']})} ${titleFontClasses(contentType)} ${weight === 'lead' ? 'promo__title--lead' : ''}`}>
+            <HeadingTag className={`promo__title ${spacing({s: 0}, {margin: ['top']})} ${titleFontClasses(contentType)}`}>
               {headingText(title, contentType)}
             </HeadingTag>
           </div>
@@ -164,7 +164,7 @@ const Promo = ({
             <p className={`promo ${font({s: 'HNL5'})} font-pewter relative`}>{datePublished}</p>
           }
 
-          {description &&
+          {description && contentType !== 'work' &&
             <span className={`inline-block ${font({s: 'HNL4'})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{truncate(striptags(description), 140)}</span>
           }
 

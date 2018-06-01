@@ -4,15 +4,17 @@
   text-decoration: none;
   margin-bottom: 5 * $v-spacing-unit;
 
-  @include container-query(('m': ('12'), 'l': ('8', '12'), 'xl': ('8', '12'))) {
-    display: flex;
-    align-items: flex-start;
-  }
+  &.promo--lead {
+    @include container-query(('m': ('12'), 'l': ('8', '12'), 'xl': ('8', '12'))) {
+      display: flex;
+      align-items: flex-start;
+    }
 
-  @include container-query(('l': ('12'), 'xl': ('12'))) {
-    border-bottom: 0;
-    padding-bottom: 0;
-    margin-bottom: 3 * $v-spacing-unit;;
+    @include container-query(('l': ('12'), 'xl': ('12'))) {
+      border-bottom: 0;
+      padding-bottom: 0;
+      margin-bottom: 3 * $v-spacing-unit;;
+    }
   }
 }
 
@@ -47,10 +49,12 @@
   display: block;
   z-index: 0;
 
-  @include container-query(('m': ('12'), 'l': ('8', '12'), 'xl': ('8', '12'))) {
-    order: 1;
-    width: percentage(2 / 3);
-    margin-bottom: 0;
+  .promo--lead & {
+    @include container-query(('m': ('12'), 'l': ('8', '12'), 'xl': ('8', '12'))) {
+      order: 1;
+      width: percentage(2 / 3);
+      margin-bottom: 0;
+    }
   }
 
   .image {
@@ -125,15 +129,15 @@
   .promo:not(.promo--surrogate):focus & {
     color: color('green');
   }
-}
 
-.promo__title--lead {
-  @include container-query(('l': ('12'))) {
-    @include font('WB4');
-  }
+  .promo--lead & {
+    @include container-query(('l': ('12'))) {
+      @include font('WB4');
+    }
 
-  @include container-query(('xl': ('12'))) {
-    @include font('WB3');
+    @include container-query(('xl': ('12'))) {
+      @include font('WB3');
+    }
   }
 }
 
@@ -144,12 +148,14 @@
   flex: 1;
   position: relative;
 
-  @include container-query(('l': ('8', '12'), 'xl': ('8', '12'))) {
-    padding-right: map-get($gutter-width, 'large');
-  }
+  .promo--lead & {
+    @include container-query(('l': ('8', '12'), 'xl': ('8', '12'))) {
+      padding-right: map-get($gutter-width, 'large');
+    }
 
-  @include container-query(('m': ('12'))) {
-    padding-right: map-get($gutter-width, 'medium');
+    @include container-query(('m': ('12'))) {
+      padding-right: map-get($gutter-width, 'medium');
+    }
   }
 }
 
