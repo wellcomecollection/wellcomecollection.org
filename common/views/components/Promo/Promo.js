@@ -80,7 +80,6 @@ type Props = {|
   contentType: ContentType,
   image?: ImageProps,
   series?: EditorialSeries[],
-  defaultSize?: number,
   positionInSeries?: number,
   standalone?: boolean,
   weight?: Weight,
@@ -97,7 +96,6 @@ const Promo = ({
   contentType,
   image,
   series,
-  defaultSize,
   positionInSeries,
   standalone,
   weight,
@@ -127,7 +125,6 @@ const Promo = ({
             lazyload={true}
             sizesQueries={sizes}
             clipPathClass={series && commissionedSeries && positionInSeries && url ? 'promo__clip-path--chapters-third' : ''}
-            defaultSize={defaultSize}
             alt='' />
           : <div className='promo__image-surrogate'>
             <div className='promo__image-surrogate-inner'></div>
