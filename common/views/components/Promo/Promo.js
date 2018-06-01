@@ -79,7 +79,6 @@ type Props = {|
   id?: string,
   extraClasses?: string,
   contentType: ContentType,
-  isConstrained?: boolean,
   image?: ImageProps,
   series?: EditorialSeries[],
   defaultSize?: number,
@@ -98,7 +97,6 @@ const Promo = ({
   id,
   extraClasses = '',
   contentType,
-  isConstrained,
   image,
   series,
   defaultSize,
@@ -123,7 +121,7 @@ const Promo = ({
       data-track-event={`${JSON.stringify({category: 'component', action: 'ArticlePromo:click'})}`}
       href={url}
       className={`promo ${extraClasses} promo--${contentType} ${!url ? 'promo--surrogate' : ''} ${standalone ? 'promo--standalone' : ''}`}>
-      <div className={`promo__image-container ${spacing({s: 2}, {margin: ['bottom']})} ${isConstrained ? 'promo__image-container--constrained' : ''}`}>
+      <div className={`promo__image-container ${spacing({s: 2}, {margin: ['bottom']})} ${contentType === 'work' ? 'promo__image-container--constrained' : ''}`}>
         {image
           ? <Image
             width={image.width}
@@ -158,6 +156,7 @@ const Promo = ({
           </div>
         }
       </div>
+
       <PromoDescription standalone={standalone || false}>
         <div className={`promo__description`}>
           <div className='promo__heading'>
