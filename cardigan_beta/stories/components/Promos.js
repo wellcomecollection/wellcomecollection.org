@@ -1,6 +1,8 @@
 import { storiesOf } from '@storybook/react';
+import { withReadme }  from 'storybook-readme';
 import { text, boolean, select } from '@storybook/addon-knobs/react';
 import { id, url, image, imageTall } from '../content';
+import PromoReadme from '../../../common/views/components/Promo/README.md';
 import Promo from '../../../common/views/components/Promo/Promo';
 
 const DefaultPromo = () => {
@@ -43,4 +45,4 @@ const DefaultPromo = () => {
 const stories = storiesOf('Components', module);
 
 stories
-  .add('Promo', DefaultPromo);
+  .add('Default promo', withReadme(PromoReadme, DefaultPromo));
