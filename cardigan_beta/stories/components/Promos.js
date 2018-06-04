@@ -23,7 +23,6 @@ const DefaultPromo = () => {
   const datePublished = '1685';
   const positionInSeries = 2;
   const partOfSeries = boolean('Is part of a series?', false);
-  const standalone = boolean('Is standalone?', false);
   return (
     <Promo
       url={url}
@@ -36,13 +35,10 @@ const DefaultPromo = () => {
       sizes={sizes}
       datePublished={datePublished}
       series={partOfSeries && series}
-      standalone={standalone}
       positionInSeries={partOfSeries && positionInSeries}
     />
   );
 };
-
-export default DefaultPromo;
 
 const stories = storiesOf('Components', module);
 

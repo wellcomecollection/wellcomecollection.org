@@ -1,6 +1,6 @@
 // @flow
 
-import {spacing, font, grid} from '../../../utils/classnames';
+import {spacing, font} from '../../../utils/classnames';
 import {striptags} from '../../../utils/striptags';
 import {truncate} from '../../../utils/truncate';
 import Icon from '../Icon/Icon';
@@ -50,28 +50,13 @@ function headingText(title, contentType) {
 }
 
 type PromoDescriptionProps = {|
-  standalone: boolean,
   children: React.Node
 |}
 
-const PromoDescription = ({standalone, children}: PromoDescriptionProps) => {
-  if (standalone) {
-    return (
-      <div className={`row bg-cream ${spacing({s: 10}, {padding: ['top', 'bottom']})}`}>
-        <div className='container'>
-          <div className='grid'>
-            <div className={`${grid({l: 10, shiftL: 1, m: 10, shiftM: 1, s: 12})}`}>
-              {children}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <Fragment>{children}</Fragment>
-    );
-  }
+const PromoDescription = ({children}: PromoDescriptionProps) => {
+  return (
+    <Fragment>{children}</Fragment>
+  );
 };
 
 type Props = {|
@@ -81,7 +66,6 @@ type Props = {|
   image?: ImageProps,
   series?: EditorialSeries[],
   positionInSeries?: number,
-  standalone?: boolean,
   weight?: Weight,
   description?: string,
   sizes?: string,
@@ -97,7 +81,6 @@ const Promo = ({
   image,
   series,
   positionInSeries,
-  standalone,
   weight,
   description,
   sizes,
@@ -116,7 +99,7 @@ const Promo = ({
       data-component='ArticlePromo'
       data-track-event={`${JSON.stringify({category: 'component', action: 'ArticlePromo:click'})}`}
       href={url}
-      className={`promo promo--${contentType} ${!url ? 'promo--surrogate' : ''} ${standalone ? 'promo--standalone' : ''} ${weight === 'lead' ? 'promo--lead' : ''}`}>
+      className={`promo promo--${contentType} ${!url ? 'promo--surrogate' : ''} ${weight === 'lead' ? 'promo--lead' : ''}`}>
       <div className={`promo__image-container ${spacing({s: 2}, {margin: ['bottom']})} ${contentType === 'work' ? 'promo__image-container--constrained' : ''}`}>
         {image
           ? <Image
@@ -134,7 +117,6 @@ const Promo = ({
         {commissionedSeries && positionInSeries && url &&
           <ChapterIndicator
             position={positionInSeries}
-            showSingle={standalone}
             color={commissionedSeries.color}
             commissionedLength={commissionedSeries.commissionedLength} />
         }
@@ -152,7 +134,7 @@ const Promo = ({
         }
       </div>
 
-      <PromoDescription standalone={standalone || false}>
+      <PromoDescription>
         <div className={`promo__description`}>
           <div className='promo__heading'>
             <HeadingTag className={`promo__title ${spacing({s: 0}, {margin: ['top']})} ${titleFontClasses(contentType)}`}>
