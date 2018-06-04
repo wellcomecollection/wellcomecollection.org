@@ -352,6 +352,36 @@ export async function renderBooks(ctx, next) {
   });
 };
 
+export async function renderSearch(ctx, next) {
+  const {query} = ctx.request.query;
+
+  const content = await search(ctx.request, query);
+  const promoList = content.results.map(content => {
+    return content.promo && {
+      url: `/books/${content.id}`,
+      contentType: 'Books',
+      image: content.promo.image,
+      title: content.title,
+      description: content.promo.caption
+    };
+  }).filter(Boolean);
+
+  ctx.render('pages/list', {
+    pageConfig: createPageConfig({
+      path: `/books`,
+      title: 'Our books',
+      inSection: 'what-we-do'
+    }),
+    list: {
+      name: 'Books',
+      description: 'Wellcome Collection publishes books that relate to our exhibitions, collections and areas of interest.',
+      items: List(promoList)
+    },
+    pagination: null,
+    moreLink: null
+  });
+};
+
 export async function renderBook(ctx, next) {
   const {id} = ctx.params;
   const book = await getBook(ctx.request, id);

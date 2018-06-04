@@ -6,6 +6,7 @@ import { parsePage } from './pages';
 import { parseEventSeries } from './events';
 import { parseBook } from './books';
 import { pagesFields } from './fetch-links';
+import { parseEventDoc as parseEvent } from '../../../server/services/prismic-parsers';
 import type {MultiContent} from '../../model/multi-content';
 import type {StructuredSearchQuery} from './search';
 import type {PaginatedResults} from './types';
@@ -19,6 +20,8 @@ function parseMultiContent(documents): MultiContent[] {
         return parseEventSeries(document);
       case 'books':
         return parseBook(document);
+      case 'events':
+        return parseEvent(document);
     }
   }).filter(Boolean);
 }
@@ -34,13 +37,19 @@ export async function getMultiContent(
   const tagPredicate = tag.length > 0 ? Prismic.Predicates.any('document.tags', tag) : null;
   const typesPredicate = types.length > 0 ? Prismic.Predicates.in('document.type', types) : null;
   const typePredicate = type.length > 0 ? Prismic.Predicates.any('document.type', type) : null;
+
+  const interpretationType = structuredSearchQuery['my.events.interpretations.interpretationType'];
+  const interpretationTypePredicate =
+    interpretationType.length > 0 ? Prismic.Predicates.any('my.events.interpretations.interpretationType', interpretationType) : null;
+  console.info(interpretationType);
   const predicates = [
     idsPredicate,
     idPredicate,
     tagsPredicate,
     tagPredicate,
     typesPredicate,
-    typePredicate
+    typePredicate,
+    interpretationTypePredicate
   ].filter(Boolean);
   const apiResponse = await getDocuments(req, predicates, {
     fetchLinks: pagesFields,
