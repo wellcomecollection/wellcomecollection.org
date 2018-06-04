@@ -358,8 +358,8 @@ export async function renderSearch(ctx, next) {
   const content = await search(ctx.request, query);
   const promoList = content.results.map(content => {
     return content.promo && {
-      url: `/books/${content.id}`,
-      contentType: 'Books',
+      url: `/events/${content.id}`,
+      contentType: 'Event',
       image: content.promo.image,
       title: content.title,
       description: content.promo.caption
@@ -368,13 +368,13 @@ export async function renderSearch(ctx, next) {
 
   ctx.render('pages/list', {
     pageConfig: createPageConfig({
-      path: `/books`,
-      title: 'Our books',
-      inSection: 'what-we-do'
+      path: `/search?query=${query}`,
+      title: 'Search',
+      inSection: 'search'
     }),
     list: {
-      name: 'Books',
-      description: 'Wellcome Collection publishes books that relate to our exhibitions, collections and areas of interest.',
+      name: 'Search results',
+      description: 'Search for events, exhibitions, books and more from Wellcome Collection',
       items: List(promoList)
     },
     pagination: null,
