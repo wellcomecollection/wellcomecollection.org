@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/react';
 import { text, boolean, select } from '@storybook/addon-knobs/react';
 import { id, url, image, imageTall } from '../content';
 import Promo from '../../../common/views/components/Promo/Promo';
-// TODO lead promo styling based on container...
+
 const DefaultPromo = () => {
   const contentType = select('Content type', [
     'article',
@@ -48,11 +48,3 @@ const stories = storiesOf('Components', module);
 
 stories
   .add('Promo', DefaultPromo);
-// TODO - HOCs?
-// Default
-// Lead promo - then can get rid of weight and all container queries
-// Event Promo
-// Exhibition Promo
-// Work Promo - need to separate this
-// Series Promo
-// Promo List
