@@ -25,7 +25,7 @@ type Props = {|
 |}
 
 const Body = ({ body }: Props) => {
-  body.forEach(b => { if (b.type === 'picture') { console.info(b); } });
+  // body.forEach(b => { if (b.type === 'picture') { console.info(b); } });
   return (
     <div className='basic-body'>
       {body.map((slice, i) =>
