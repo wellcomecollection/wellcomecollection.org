@@ -4,4 +4,6 @@
 <meta name="twitter:title" content="{{ metaContent.title }}" />
 <meta name="twitter:description" content="{{ (metaContent.description | striptags | safe | truncate(200)) or metaContent.title }}" />
 <meta name="twitter:image" content="{{ metaContent.image | convertImageUri(800, false) }}" />
-{#<meta name="twitter:image:alt" content=" {{ article.thumbnailAlt }}" />#}{# TODO not available from wordpress #}
+{% if metaContent.imageAlt %}
+  <meta name="twitter:image:alt" content=" {{ article.thumbnailAlt }}" />
+{% endif %}

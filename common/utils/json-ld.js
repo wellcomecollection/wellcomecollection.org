@@ -15,7 +15,7 @@ export function contentLd(content) {
   return objToJsonLd({
     headline: content.headline,
     author: (content.author && content.author.map(a => a.person).map(personLd)) || 'unknown',
-    image: imageLd(content.thumbnail),
+    image: content.promo && imageLd(content.promo.image),
     datePublished: content.datePublished,
     dateModified: content.datePublished,
     publisher: orgLd(wellcomeCollection),
@@ -151,7 +151,7 @@ function personLd(person) {
 
 function imageLd(image) {
   return image && objToJsonLd({
-    url: image.contentUrl || image.url,
+    url: convertImageUri(image.contentUrl || image.url, 1200),
     width: image.width,
     height: image.height
   }, 'ImageObject');

@@ -4,7 +4,8 @@
   {% set metaContent = {
     type: 'article',
     title: article.headline,
-    image: article.thumbnail.contentUrl,
+    image: article.promo.image.contentUrl,
+    imageAlt: article.promo.image.alt,
     url: pageConfig.canonicalUri,
     description: article.description
   } %}

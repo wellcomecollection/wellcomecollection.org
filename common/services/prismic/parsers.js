@@ -234,17 +234,14 @@ export function parseImagePromo(
   cropType: CropType = '16:9',
   minWidth: ?string = null
 ): ?ImagePromo {
-  const maybePromo = frag && frag.find(slice => slice.slice_type === 'editorialImage');
-  const hasImage = (maybePromo && maybePromo.primary.image && isImageLink(maybePromo.primary.image)) || false;
-  const link = maybePromo && maybePromo.primary.link;
+  const promoSlice = frag && frag.find(slice => slice.slice_type === 'editorialImage');
+  const link = promoSlice && promoSlice.primary.link;
+  // We introduced enforcing 16:9 half way through, so we have to do a check for it.
+  const promoImage = promoSlice && cropType ? (promoSlice.primary.image[cropType] || promoSlice.primary.image) : promoSlice && promoSlice.primary.image;
 
-  return maybePromo && ({
-    caption: asText(maybePromo.primary.caption),
-    image: hasImage ? parsePicture({
-      image:
-        // We introduced enforcing 16:9 half way through, so we have to do a check for it.
-        cropType ? (maybePromo.primary.image[cropType] || maybePromo.primary.image) : maybePromo.primary.image
-    }, minWidth) : null,
+  return promoSlice && ({
+    caption: asText(promoSlice.primary.caption),
+    image: checkAndParseImage(promoImage),
     link
   }: ImagePromo);
 }

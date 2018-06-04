@@ -241,7 +241,7 @@ export function prismicParser(slug: string, article: Article) {
   const mainMediaImage = article.mainMedia.find(media => media.type === 'picture');
   const mainMedia = mainMediaVideo ? convertVideo(mainMediaVideo, 'featured') : (mainMediaImage ? convertImage(mainMediaImage, 'featured') : null);
 
-  const promoImage = mainMediaVideo ? mainMediaImage : article.thumbnail;
+  const promoImage = mainMediaVideo ? mainMediaImage : article.promo.image;
   const promo = convertPromo(promoImage, article.description);
 
   const credits = article.author ? [convertAuthor(article.author)] : [];
