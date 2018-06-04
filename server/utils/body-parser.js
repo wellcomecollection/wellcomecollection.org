@@ -465,7 +465,6 @@ export function findWpImageGallery(node) {
           }) || [];
           return imgs;
         }).reduce((acc, imgs) => acc.concat(imgs));
-      console.info(images);
 
       return createBodyPart({
         type: 'imageGallery',
