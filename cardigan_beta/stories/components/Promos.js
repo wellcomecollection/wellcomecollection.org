@@ -12,9 +12,6 @@ const DefaultPromo = () => {
     'audio',
     'video',
     'gallery',
-    'book',
-    'event',
-    'work',
     'place',
     null
   ], 'article');

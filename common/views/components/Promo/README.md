@@ -37,7 +37,7 @@ Currently we only have image promos, we'd like to explore using more specialised
 
 We currently have 5 promos (links to come).
 
-*   Default promos - used for articles and anything else which doesn't have it's own specific promo
+*   Editorial promos
 *   Event promos
 *   Exhibition promos
 *   Works promos
