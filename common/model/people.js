@@ -1,5 +1,5 @@
 // @flow
-import type { Picture } from './picture';
+import type { Image as ImageProps } from './image';
 import type {HTMLString} from '../services/prismic/types';
 
 export type Person = {|
@@ -7,5 +7,5 @@ export type Person = {|
   name: string,
   twitterHandle: ?string,
   description: ?HTMLString,
-  image: Picture
+  image: ImageProps
 |}
