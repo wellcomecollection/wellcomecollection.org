@@ -26,7 +26,7 @@ function label(text) {
 }
 
 const ExhibitionPromo = ({
-  format, id, url, title, image, description, start, end, statusOverride,
+  format, id, url, title, image, start, end, statusOverride,
   position = 0
 }: Props) => {
   return (

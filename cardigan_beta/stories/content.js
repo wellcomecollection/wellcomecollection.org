@@ -29,12 +29,12 @@ export const image = () => {
 
 export const imageTall = () => {
   // const contentUrl = faker.image.imageUrl(450, 1600, 'city'); // lorempixel taking too long to load
-  const contentUrl = 'https://iiif.wellcomecollection.org/image/L0030820.jpg/full/full/0/default.jpg';
+  const contentUrl = 'https://iiif.wellcomecollection.org/image/V0049964ER.jpg/full/full/0/default.jpg';
 
   return {
     contentUrl: contentUrl,
     width: 800,
-    height: 1560,
+    height: 1309,
     alt: 'an image with some alt text',
     tasl: {
       contentUrl: contentUrl,

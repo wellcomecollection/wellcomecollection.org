@@ -2,20 +2,23 @@ import { storiesOf } from '@storybook/react';
 import { doc, withReadme }  from 'storybook-readme';
 import { text, boolean, select } from '@storybook/addon-knobs/react';
 import { id, url, image, imageTall } from '../content';
+import moment from 'moment';
 import PromoReadme from '../../../common/views/components/Promo/README.md';
 import EditorialPromoReadme from '../../../common/views/components/Promo/README-editorial.md';
 import Promo from '../../../common/views/components/Promo/Promo';
 import EventPromoReadme from '../../../common/views/components/EventPromo/README.md';
 import EventPromo from '../../../common/views/components/EventPromo/EventPromo';
+import ExhibitionPromoReadme from '../../../common/views/components/ExhibitionPromo/README.md';
+import ExhibitionPromo from '../../../common/views/components/ExhibitionPromo/ExhibitionPromo';
 import WorkPromoReadme from '../../../common/views/components/WorkPromo/README.md';
 import WorkPromo from '../../../common/views/components/WorkPromo/WorkPromo';
 
-const title = text('Title', 'Some sort of title');
-const description = text('Description', 'A description goes here a description goes here');
 const sizes = '(min-width: 1340px) calc(15vw + 120px), (min-width: 960px) calc(40vw - 84px), (min-width: 600px) calc(60vw - 83px), calc(75vw - 72px)';
 const datePublished = '1685';
 
-const EditorialPromo = () => {
+const EditorialPromoExample = () => {
+  const title = text('Title', 'Some sort of title');
+  const description = text('Description', 'A description goes here a description goes here');
   const contentType = select('Content type', [
     'article',
     'comic',
@@ -46,6 +49,7 @@ const EditorialPromo = () => {
 };
 
 const WorkPromoExample = () => {
+  const title = text('Title', 'Diogenes, sitting in front of his barrel and being offered whatever he wants by Alexander the Great, asks Alexander to step aside so that he can see the sun. Etching by S. Rosa.');
   return (
     <WorkPromo
       url={url}
@@ -57,13 +61,13 @@ const WorkPromoExample = () => {
   );
 };
 
-const EventPromoExample = () => {
-  const title = 'Tell Us the Tooth and other stories';
+const EventPromoExample = () => { // TODO all possible things to display on/off
+  const title = text('Title', 'Tell Us the Tooth and other stories');
+  const description = text('Description', 'Join us for a workshop about storytelling with writer, storyteller and former pharmacist Navreet Chawla.');
   const start = '2018-06-06T14:00:00+0000';
   const end = '2018-06-06T16:00:00+0000';
   const isFullyBooked = false;
   const hasNotFullyBookedTimes = {startDateTime: '2018-05-31T18:00:00+0000', endDateTime: '2018-05-31T20:00:00+0000', isFullyBooked: null};
-  const description = 'Join us for a workshop about storytelling with writer, storyteller and former pharmacist Navreet Chawla.';
   const format = {id: 'WcKmiysAACx_A8NR', title: 'Workshop', description: null};
   const bookingType = null;
   const interpretations = [];
@@ -99,12 +103,59 @@ const EventPromoExample = () => {
   );
 };
 
+function statusDate(type, status) {
+  const todaysDate = moment();
+  switch (status) {
+    case 'Coming soon':
+      return (type === 'start') ? todaysDate.clone().add(3, 'days') : todaysDate.clone().add(3, 'months');
+    case 'Past':
+      return (type === 'start') ? todaysDate.clone().subtract(3, 'months') : todaysDate.clone().subtract(3, 'days');
+    case 'Final week':
+      return (type === 'start') ? todaysDate.clone().subtract(3, 'months') : todaysDate.clone().add(3, 'days');
+    case 'Now on':
+      return (type === 'start') ? todaysDate.clone().subtract(3, 'months') : todaysDate.clone().add(14, 'days');
+  }
+}
+
+const ExhibitionPromoExample = () => {
+  const permanent = boolean('Permanent', false);
+  const status = select('Status', [
+    'Coming soon',
+    'Now on',
+    'Final week',
+    'Past'
+  ], 'Coming soon');
+  const statusOverride = text('Status override', null);
+  const title = text('Title', 'Medicine Now');
+
+  return (
+    <ExhibitionPromo
+      id={id}
+      url={url}
+      format={permanent ? {title: 'Permanent'} : null}
+      image={image()}
+      title={title}
+      start={statusDate('start', status)}
+      end={statusDate('end', status)}
+      statusOverride={statusOverride}
+    />
+  );
+};
+
 const stories = storiesOf('Components', module);
 
 stories
   .add('Promos', doc(PromoReadme))
-  .add('Promos / Editorial promo', withReadme(EditorialPromoReadme, EditorialPromo))
+  .add('Promos / Editorial promo', withReadme(EditorialPromoReadme, EditorialPromoExample))
   .add('Promos / Event promo', withReadme(EventPromoReadme, EventPromoExample))
-// .add('Exhibition promo', withReadme(PromoReadme, EditorialPromo))
+  .add('Promos / Exhibition promo', withReadme(ExhibitionPromoReadme, ExhibitionPromoExample))
   .add('Promos / Work promo', withReadme(WorkPromoReadme, WorkPromoExample));
-// .add('Book promo', withReadme(PromoReadme, EditorialPromo));
+
+// LEFT TODO
+// THIS PR
+// .add('Book promo', withReadme(BookPromoReadme, BookPromo));
+// Make text editable in Storybook for each promo
+
+// NEXT PR
+// Refactor Promo - to take chapter indicators etc as props
+// Write proper READMEs
