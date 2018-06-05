@@ -24,26 +24,15 @@ function partOf(commissionedSeries, seriesTitle) {
 }
 
 function contentTypeLabel(contentType, commissionedSeries) {
-  // FIXME: this hack can die when we separate out a WorkPromo
-  return contentType !== 'work' && (
+  return (
     <span className={`line-height-1 bg-yellow absolute promo__content-type ${font({s: 'HNM5'})} ${spacing({s: 1}, {padding: ['top', 'bottom', 'left', 'right']})}`}
       aria-hidden='true'>{commissionedSeries ? 'Digital Story' : contentType.charAt(0).toUpperCase() + contentType.slice(1)}</span>
   );
 }
 
-function titleFontClasses(contentType) {
-  if (contentType === 'work') {
-    return `${font({s: 'HNL5'})} text--truncate`;
-  } else {
-    return font({s: 'WB5'});
-  }
-}
-
 function headingText(title, contentType) {
   if (title) {
     return title;
-  } else if (contentType === 'work') {
-    return 'Title not found';
   } else {
     return 'Coming soon…';
   }
@@ -100,7 +89,7 @@ const Promo = ({
       data-track-event={`${JSON.stringify({category: 'component', action: 'ArticlePromo:click'})}`}
       href={url}
       className={`promo promo--${contentType} ${!url ? 'promo--surrogate' : ''} ${weight === 'lead' ? 'promo--lead' : ''}`}>
-      <div className={`promo__image-container ${spacing({s: 2}, {margin: ['bottom']})} ${contentType === 'work' ? 'promo__image-container--constrained' : ''}`}>
+      <div className={`promo__image-container ${spacing({s: 2}, {margin: ['bottom']})}`}>
         {image
           ? <Image
             width={image.width}
@@ -137,16 +126,12 @@ const Promo = ({
       <PromoDescription>
         <div className={`promo__description`}>
           <div className='promo__heading'>
-            <HeadingTag className={`promo__title ${spacing({s: 0}, {margin: ['top']})} ${titleFontClasses(contentType)}`}>
+            <HeadingTag className={`promo__title ${spacing({s: 0}, {margin: ['top']})} ${font({s: 'WB5'})}`}>
               {headingText(title, contentType)}
             </HeadingTag>
           </div>
 
-          {datePublished && contentType === 'work' &&
-            <p className={`promo ${font({s: 'HNL5'})} font-pewter relative`}>{datePublished}</p>
-          }
-
-          {description && contentType !== 'work' &&
+          {description &&
             <span className={`inline-block ${font({s: 'HNL4'})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{truncate(striptags(description), 140)}</span>
           }
 

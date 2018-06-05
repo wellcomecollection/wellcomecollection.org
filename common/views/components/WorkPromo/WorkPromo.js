@@ -1,8 +1,6 @@
 // @flow
 
 import {font} from '../../../utils/classnames';
-import {striptags} from '../../../utils/striptags';
-import {truncate} from '../../../utils/truncate';
 import Image from '../Image/Image';
 import type {Props as ImageProps} from '../Image/Image';
 import NextLink from 'next/link';
@@ -51,10 +49,6 @@ const WorkPromo = ({
 
           {datePublished &&
             <p className={`promo ${font({s: 'HNL5'})} font-pewter relative`}>{datePublished}</p>
-          }
-
-          {description &&
-            <span className='promo__copy'>{truncate(striptags(description), 140)}</span>
           }
         </div>
       </a>
