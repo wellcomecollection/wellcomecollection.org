@@ -9,8 +9,8 @@ export const id = randomNumber(1000, 2000);
 export const url = faker.internet.url();
 
 export const image = () => {
-  const contentUrl = faker.image.imageUrl(800, 450, 'city'); // Taking too long to load
-
+  // const contentUrl = faker.image.imageUrl(800, 450, 'city'); // lorempixel taking too long to load
+  const contentUrl = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/5b28b809814fc6d1d716b0082725b24e0a0ad6a9_ep_000012_089.jpg';
   return {
     contentUrl: contentUrl,
     width: 640,
@@ -28,12 +28,13 @@ export const image = () => {
 };
 
 export const imageTall = () => {
-  const contentUrl = faker.image.imageUrl(450, 1600, 'city'); // Taking too long to load
+  // const contentUrl = faker.image.imageUrl(450, 1600, 'city'); // lorempixel taking too long to load
+  const contentUrl = 'https://iiif.wellcomecollection.org/image/L0030820.jpg/full/full/0/default.jpg';
 
   return {
     contentUrl: contentUrl,
-    width: 450,
-    height: 1600,
+    width: 800,
+    height: 1560,
     alt: 'an image with some alt text',
     tasl: {
       contentUrl: contentUrl,
