@@ -13,8 +13,11 @@ import {isEmptyObj} from '../utils/is-empty-obj';
 import type {Series} from '../model/series';
 import type {LicenseType} from '../model/license';
 import {licenseTypeArray} from '../model/license';
+import {
+  parseContributors as parseContributorsProperly,
+  parseImagePromo as parseImagePromoProperly
 // $FlowFixMe
-import {parseContributors as parseContributorsProperly} from '../../common/services/prismic/parsers';
+} from '../../common/services/prismic/parsers';
 
 // This is just JSON
 type PrismicDoc = Object;
@@ -172,6 +175,7 @@ export function parseArticleDoc(doc: PrismicDoc): Article {
   const seriesWithCommissionedLength = series.find(series => series.commissionedLength);
   const positionInSeries = seriesWithCommissionedLength && getPositionInPrismicSeries(series[0].id, doc.data.series) || null;
   const featuredBodyParts = parseFeaturedBody(doc.data.body);
+  const promoElement = parseImagePromoProperly(doc.data.promo);
 
   const article: Article = {
     contentType: 'article',
@@ -186,7 +190,8 @@ export function parseArticleDoc(doc: PrismicDoc): Article {
     mainMedia: [featuredMedia],
     description: description,
     positionInSeries: positionInSeries,
-    featuredBodyParts: featuredBodyParts
+    featuredBodyParts: featuredBodyParts,
+    promo: promoElement
   };
 
   return article;
@@ -206,6 +211,7 @@ export function parseWebcomicDoc(doc: PrismicDoc): Article {
   const description = asText(promo.primary.caption); // TODO: Do not use description
   const contributors = parseContributors(doc.data.contributors);
   const series = parseSeries(doc.data.series);
+  const promoElement = parseImagePromoProperly(doc.data.promo);
 
   const article: Article = {
     contentType: 'comic',
@@ -217,7 +223,8 @@ export function parseWebcomicDoc(doc: PrismicDoc): Article {
     series: series,
     bodyParts: [],
     mainMedia: mainMedia,
-    description: description
+    description: description,
+    promo: promoElement
   };
 
   return article;
