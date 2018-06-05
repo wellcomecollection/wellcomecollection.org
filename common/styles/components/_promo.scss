@@ -121,10 +121,6 @@
     color: color('silver');
   }
 
-  @include container-query(('xl': ('12'))) {
-    @include font('WB3');
-  }
-
   .promo:not(.promo--surrogate):hover &,
   .promo:not(.promo--surrogate):focus & {
     color: color('green');
