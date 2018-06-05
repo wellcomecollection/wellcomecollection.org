@@ -65,7 +65,14 @@
         {% elif mm.type === 'video-embed' %}
           {% componentV2 'main-media-video', article.mainMedia | getPrincipleMainMedia, {full: true}, mainMediaData %}
         {% elif mm.image.contentUrl %}
-          {% componentJsx 'MainMedia', mm | objectAssign({ showWobblyEdge: true }) %}
+          {% componentJsx 'MainMedia', mm | objectAssign({
+            chapterIndicatorProps: {
+              position: article.positionInSeries,
+              color: commissionedSeries.color,
+              commissionedLength: commissionedSeries.commissionedLength
+            } if commissionedSeries else null,
+            showWobblyEdge: true
+          }) %}
         {% endif %}
       {% endfor %}
     {% endif %}

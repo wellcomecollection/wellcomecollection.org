@@ -5,13 +5,17 @@ import {UiImage} from '../Images/Images';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import License from '../License/License';
+import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
 import type {LicenseType} from '../../../model/license';
 import type {UiCaptionedImageProps} from '../Images/Images';
+import type {Props as ChapterIndicatorProps} from '../ChapterIndicator/ChapterIndicator';
 
 type Props = {|
   ...UiCaptionedImageProps,
   showWobblyEdge?: boolean,
-  license?: LicenseType
+  license?: LicenseType,
+  // TODO: It'd be nice for this to be a component, but nunjucks >.<
+  chapterIndicatorProps?: ChapterIndicatorProps
 |}
 
 export const MainMedia = ({
@@ -21,16 +25,16 @@ export const MainMedia = ({
   extraClasses = '',
   preCaptionNode,
   showWobblyEdge,
-  license
+  license,
+  chapterIndicatorProps
 }: Props) => {
   const uiImageProps = {...image, sizesQueries, isFull: true};
 
   return (
     <figure className={`captioned-image ${extraClasses}`}>
       <div className='captioned-image__image-container'>
-        {/* https://github.com/facebook/flow/issues/2405 */}
-        {/* $FlowFixMe */}
         <UiImage {...uiImageProps} />
+        {chapterIndicatorProps && <ChapterIndicator {...chapterIndicatorProps} />}
       </div>
 
       {showWobblyEdge && <WobblyEdge background='cream' />}

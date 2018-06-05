@@ -8,7 +8,7 @@ const colorDataUris = {
   orange: 'Oh1AAAAACH5BAAAAAAALAAAAAABAAQAAAIChFEAOw=='
 };
 
-type Props = {|
+export type Props = {|
   position: number,
   showSingle?: boolean,
   showTotal?: boolean,
