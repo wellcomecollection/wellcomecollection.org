@@ -113,7 +113,6 @@ function parseImage(frag: PrismicFragment): Image {
   };
 }
 
-const defaultContributorImage = 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3ed09488-1992-4f8a-9f0c-de2d296109f9_group+21.png';
 type Crop = | '16:9' | '32:15' | 'square';
 export function parseCaptionedImage(frag: PrismicFragment, crop?: Crop): CaptionedImage {
   if (isEmptyObj(frag.image)) {
@@ -148,14 +147,28 @@ export function parsePromoToCaptionedImage(frag: PrismicFragment): CaptionedImag
   return parseCaptionedImage(promo.primary, '16:9');
 }
 
+const defaultContributorImage = {
+  width: 64,
+  height: 64,
+  contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3ed09488-1992-4f8a-9f0c-de2d296109f9_group+21.png',
+  tasl: {
+    sourceName: 'Unknown',
+    title: null,
+    author: null,
+    sourceLink: null,
+    license: null,
+    copyrightHolder: null,
+    copyrightLink: null
+  },
+  alt: ''
+};
+
 function parsePersonContributor(frag: PrismicFragment): PersonContributor {
   return {
     type: 'people',
     id: frag.id,
-    name: frag.data.name || 'NAME MISSING',
-    image: frag.data.image && parsePicture({
-      image: frag.data.image
-    }) ||  { width: 64, height: 64, contentUrl: defaultContributorImage },
+    name: frag.data.name || '',
+    image: checkAndParseImage(frag.data.image) || defaultContributorImage,
     description: frag.data.description,
     twitterHandle: null
   };
@@ -165,10 +178,8 @@ function parseOrganisationContributor(frag: PrismicFragment): OrganisationContri
   return  {
     id: frag.id,
     type: 'organisations',
-    name: asText(frag.data.name) || 'NAME MISSING',
-    image: frag.data.image && parsePicture({
-      image: frag.data.image
-    }) || { width: 64, height: 64, contentUrl: defaultContributorImage },
+    name: asText(frag.data.name) || '',
+    image: checkAndParseImage(frag.data.image) || defaultContributorImage,
     url: frag.data.url
   };
 }
@@ -177,7 +188,7 @@ export function parseContributors(contributorsDoc: PrismicFragment[]): Contribut
   const contributors = contributorsDoc.map(contributor => {
     const role = contributor.role.isBroken === false ? {
       id: contributor.role.id,
-      title: asText(contributor.role.data.title) || 'MISSING TITLE'
+      title: asText(contributor.role.data.title) || ''
     } : null;
 
     return (() => {

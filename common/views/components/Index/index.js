@@ -7,6 +7,7 @@ import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import {UiImage, CaptionedImage as CaptionedImageNew} from '../Images/Images';
 import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
 import Contributor from '../Contributor/Contributor';
+import Contributors from '../Contributors/Contributors';
 import Control from '../Buttons/Control/Control';
 import CopyUrl from '../CopyUrl/CopyUrl';
 import Divider from '../Divider/Divider';
@@ -60,6 +61,7 @@ export {
   CaptionedImageNew,
   ChapterIndicator,
   Contributor,
+  Contributors,
   Control,
   CopyUrl,
   Divider,

@@ -23,7 +23,17 @@ const BookPage = ({ book }: Props) => {
     image: {
       contentUrl: book.authorImage || '',
       width: 800,
-      height: null
+      height: 0,
+      alt: `Image of ${book.authorName}`,
+      tasl: {
+        sourceName: 'Unknown',
+        title: null,
+        author: null,
+        sourceLink: null,
+        license: null,
+        copyrightHolder: null,
+        copyrightLink: null
+      }
     },
     twitterHandle: null,
     // parse this as string
@@ -54,7 +64,7 @@ const BookPage = ({ book }: Props) => {
   /* $FlowFixMe */
   const FeaturedMedia = book.promo && <UiImage tasl={tasl} extraClasses='margin-v-auto inherit-max-height width-auto ' {...image} />;
   const Header = (<BaseHeader
-    title={book.title || 'TITLE MISSING'}
+    title={book.title || ''}
     Background={WobblyBackground()}
     TagBar={null}
     DateInfo={DateInfo}

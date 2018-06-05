@@ -307,20 +307,14 @@
         {% endfor %}
       </div>
 
-      {% for contributor in event.contributors %}
-        <h2>In partnership with</h2>
-        <div class="grid">
-          <div class="{{ {s:6, m: 6, l: 6, xl: 6} | gridClasses }}">
-            <a href="{{ contributor.contributor.url }}">
-              {% componentV2 'image', {
-                width: contributor.contributor.image.width,
-                contentUrl: contributor.contributor.image.contentUrl,
-                alt: contributor.contributor.image.contentUrl
-              }, [], { lazyload: true } %}
-            </a>
-          </div>
+      {% if event.contributors.length > 0 %}
+        <div class="{{ {s: 3} | spacingClasses({ margin: ['top', 'bottom'] }) }}">
+          {% componentJsx 'Contributors', {
+            title: 'In partnership with',
+            contributors: event.contributors
+          } %}
         </div>
-      {% endfor %}
+      {% endif %}
 
     </div>
   </div>
