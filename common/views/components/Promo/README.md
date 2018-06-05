@@ -35,7 +35,7 @@ Currently we only have image promos, we'd like to explore using more specialised
 
 ## Current promo types
 
-We currently have 5 promos (links to come).
+We currently have 5 promos.
 
 *   Editorial promos
 *   Event promos

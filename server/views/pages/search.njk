@@ -171,7 +171,7 @@
             {% set img = {contentUrl: result.thumbnail.url, width: 300, height: 300} %}
             {% set type = result.type | lower %}
             {% set url = '/works/' + result.id + queryString %}
-            {% componentJsx 'Promo', {
+            {% componentJsx 'WorkPromo', {
               sizes: '(min-width: 1340px) 178px, (min-width: 960px) calc(25vw - 52px), (min-width: 600px) calc(33.24vw - 43px), calc(50vw - 27px)',
               id: result.id,
               url: url,

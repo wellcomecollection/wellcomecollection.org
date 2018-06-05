@@ -30,7 +30,7 @@ const WorkPromo = ({
       as={url}>
       <a
         id={id}
-        data-component="WorkPromo"
+        data-component='WorkPromo'
         data-track-event={`${JSON.stringify({category: 'component', action: 'WorkPromo:click'})}`}
         className={`promo promo--work`}>
         <div className={`promo__image-container promo__image-container--constrained`}>
@@ -43,7 +43,7 @@ const WorkPromo = ({
             alt='' />
         </div>
         <div className={`promo__description ${font({s: 'HNL5'})}`}>
-          <div className="promo__heading">
+          <div className='promo__heading'>
             <h2 className={`promo__title ${font({s: 'HNL5'})} text--truncate`}>
               {title || `Not found`}
             </h2>
@@ -54,7 +54,7 @@ const WorkPromo = ({
           }
 
           {description &&
-            <span className="promo__copy">{truncate(striptags(description), 140)}</span>
+            <span className='promo__copy'>{truncate(striptags(description), 140)}</span>
           }
         </div>
       </a>
