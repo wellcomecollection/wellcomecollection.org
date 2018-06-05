@@ -1,11 +1,22 @@
 import {Component} from 'react';
 import {getCollectionOpeningTimes} from '@weco/common/services/prismic/opening-times';
 import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/DefaultPageLayout';
+import lscache from 'lscache';
+
+async function getCachedCollectionOpeningTimes() {
+  let cachedResponse = lscache.get('opening-times');
+  if (cachedResponse === null) {
+    cachedResponse = await getCollectionOpeningTimes();
+    lscache.set('opening-times', cachedResponse, 5 /* minutes */);
+  }
+
+  return cachedResponse;
+}
 
 const PageWrapper = Comp => {
   return class Global extends Component<Props> {
     static async getInitialProps(args) {
-      const openingTimes = await getCollectionOpeningTimes();
+      const openingTimes = await getCachedCollectionOpeningTimes();
       const galleriesLibrary = openingTimes && openingTimes.placesOpeningHours.filter(venue => {
         return venue.name.toLowerCase() === 'galleries' || venue.name.toLowerCase() === 'library';
       });
