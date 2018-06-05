@@ -7,9 +7,8 @@ async function getCachedCollectionOpeningTimes() {
   let cachedResponse = lscache.get('opening-times');
   if (cachedResponse === null) {
     cachedResponse = await getCollectionOpeningTimes();
-    lscache.set('opening-times', cachedResponse, 5 /* minutes */);
+    lscache.set('opening-times', cachedResponse, 60 /* minutes */);
   }
-
   return cachedResponse;
 }
 
