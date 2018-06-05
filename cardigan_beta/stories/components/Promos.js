@@ -4,10 +4,11 @@ import { text, boolean, select } from '@storybook/addon-knobs/react';
 import { id, url, image, imageTall } from '../content';
 import PromoReadme from '../../../common/views/components/Promo/README.md';
 import EditorialPromoReadme from '../../../common/views/components/Promo/README-editorial.md';
-import WorkPromoReadme from '../../../common/views/components/Promo/README-work.md';
 import Promo from '../../../common/views/components/Promo/Promo';
 import EventPromoReadme from '../../../common/views/components/EventPromo/README.md';
 import EventPromo from '../../../common/views/components/EventPromo/EventPromo';
+import WorkPromoReadme from '../../../common/views/components/WorkPromo/README.md';
+import WorkPromo from '../../../common/views/components/WorkPromo/WorkPromo';
 
 const title = text('Title', 'Some sort of title');
 const description = text('Description', 'A description goes here a description goes here');
@@ -44,17 +45,13 @@ const EditorialPromo = () => {
   );
 };
 
-const WorkPromo = () => {
+const WorkPromoExample = () => {
   return (
-    <Promo
+    <WorkPromo
       url={url}
       id={id}
-      contentType='work'
       image={imageTall()}
-      headingLevel='h2'
       title={title}
-      description={description}
-      sizes={sizes}
       datePublished={datePublished}
     />
   );
@@ -106,8 +103,8 @@ const stories = storiesOf('Components', module);
 
 stories
   .add('Promos', doc(PromoReadme))
-  .add('Promos/Editorial promo', withReadme(EditorialPromoReadme, EditorialPromo))
-  .add('Promos/Event promo', withReadme(EventPromoReadme, EventPromoExample))
+  .add('Promos / Editorial promo', withReadme(EditorialPromoReadme, EditorialPromo))
+  .add('Promos / Event promo', withReadme(EventPromoReadme, EventPromoExample))
 // .add('Exhibition promo', withReadme(PromoReadme, EditorialPromo))
-  .add('Promos/Work promo', withReadme(WorkPromoReadme, WorkPromo));
+  .add('Promos / Work promo', withReadme(WorkPromoReadme, WorkPromoExample));
 // .add('Book promo', withReadme(PromoReadme, EditorialPromo));

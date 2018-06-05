@@ -9,7 +9,6 @@ type Props = {|
   url: string,
   id: string,
   image: ImageProps,
-  description?: string,
   datePublished?: string,
   title?: string
 |}
@@ -18,7 +17,6 @@ const WorkPromo = ({
   url,
   id,
   image,
-  description,
   datePublished,
   title
 }: Props) => {
