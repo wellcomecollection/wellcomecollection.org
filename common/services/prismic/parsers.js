@@ -46,6 +46,10 @@ function isEmptyObj(obj: ?Object): boolean {
   return Object.keys((obj || {})).length === 0;
 }
 
+function isEmptyHtmlString(maybeContent: ?HTMLString): boolean {
+  return maybeContent ? asHtml(maybeContent) !== null : false;
+}
+
 export function asText(maybeContent: ?HTMLString): ?string {
   return maybeContent && RichText.asText(maybeContent).trim();
 }
@@ -59,7 +63,7 @@ export function asHtml(maybeContent: ?HTMLString) {
 
 export function parseTitle(title: HTMLString): string {
   // We always need a title - blunt validation, but validation none the less
-  return asText(title) || 'TITLE MISSING';
+  return asText(title) || '';
 }
 
 export function parseDescription(description: HTMLString): HTMLString {
@@ -138,7 +142,7 @@ export function parseCaptionedImage(frag: PrismicFragment, crop?: Crop): Caption
       alt: image.alt || '',
       tasl
     },
-    caption: frag.caption
+    caption: !isEmptyHtmlString(frag.caption) ? frag.caption : []
   };
 }
 

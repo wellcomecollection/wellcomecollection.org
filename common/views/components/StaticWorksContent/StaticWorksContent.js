@@ -54,6 +54,7 @@ const StaticWorksContent = () => (
           </div>
           <div className={`${grid({s: 12, m: 8, l: 5, xl: 5})} ${spacing({s: 1}, {margin: ['bottom']})}`}>
             <CaptionedImage
+
               caption={createPrismicParagraph('Sir Henry Solomon Wellcome (1853—1936). Pharmacist, entrepreneur, philanthropist and collector.')}
               sizesQueries='600px'
               image={{

@@ -15,7 +15,8 @@ import type {LicenseType} from '../model/license';
 import {licenseTypeArray} from '../model/license';
 import {
   parseContributors as parseContributorsProperly,
-  parseImagePromo as parseImagePromoProperly
+  parseImagePromo as parseImagePromoProperly,
+  parseCaptionedImage
 // $FlowFixMe
 } from '../../common/services/prismic/parsers';
 
@@ -203,7 +204,7 @@ export function parseWebcomicDoc(doc: PrismicDoc): Article {
 
   // TODO: potentially get rid of this
   const publishDate = parsePublishedDate(doc);
-  const mainMedia = [parsePicture({ image: doc.data.image })];
+  const mainMedia = [parseCaptionedImage({ image: doc.data.image, caption: [] })];
 
   // TODO: Don't convert this into thumbnail
   const promo = doc.data.promo.find(slice => slice.slice_type === 'editorialImage');
@@ -338,7 +339,7 @@ function parseFeaturedMediaFromBody(doc: PrismicDoc): ?Picture {
   return List(doc.data.body.filter(slice => slice.slice_label === 'featured')
     .map(slice => {
       switch (slice.slice_type) {
-        case 'editorialImage': return parsePicture(slice.primary);
+        case 'editorialImage': return parseCaptionedImage(slice.primary);
         case 'youtubeVideoEmbed': return parseVideo(slice.primary);
       }
     })).first();

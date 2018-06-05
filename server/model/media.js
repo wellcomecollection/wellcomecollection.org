@@ -1,11 +1,7 @@
-// @flow
-import type {Picture} from '../model/picture';
-import {createPicture} from '../model/picture';
-
-export function getWpFeaturedImage(uri: string, images: Object): ?Picture {
+export function getWpFeaturedImage(uri: string, images: Object): ?CaptionedImage {
   const i = findWpFeaturedImage(uri, images);
   // I wish we had options ;_;
-  return i ? convertWpImageToPicture(i) : null;
+  return i ? convertWpImageToCaptionedImage(i) : null;
 }
 
 function findWpFeaturedImage(uri, images): ?Object {
@@ -13,14 +9,15 @@ function findWpFeaturedImage(uri, images): ?Object {
   return imagesArr.find(i => i.URL === uri);
 }
 
-function convertWpImageToPicture(wpImage) {
-  return createPicture({
-    contentUrl: wpImage.URL,
-    caption: wpImage.caption,
-    alt: wpImage.alt,
-    copyright: wpImage.description,
-    width: wpImage.width,
-    height: wpImage.height,
-    type: 'picture'
-  });
+function convertWpImageToCaptionedImage(wpImage) {
+  return {
+    image: {
+      contentUrl: wpImage.URL,
+      width: wpImage.width,
+      height: wpImage.height,
+      alt: wpImage.alt,
+      tasl: {}
+    },
+    caption: []
+  };
 }
