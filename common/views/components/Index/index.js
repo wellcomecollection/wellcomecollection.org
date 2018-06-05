@@ -26,6 +26,7 @@ import InfoBanner from '../InfoBanner/InfoBanner';
 import InstallationPage from '../BasePage/InstallationPage';
 import InstallationPromo from '../InstallationPromo/InstallationPromo';
 import License from '../License/License';
+import MainMedia from '../MainMedia/MainMedia';
 import Map from '../Map/Map';
 import MetaUnit from '../MetaUnit/MetaUnit';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
@@ -80,6 +81,7 @@ export {
   InstallationPage,
   InstallationPromo,
   License,
+  MainMedia,
   Map,
   MetaUnit,
   NewsletterPromo,
