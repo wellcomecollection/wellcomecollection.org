@@ -6,7 +6,7 @@ const stories = storiesOf('Global', module);
 
 const fontsArr = Object.keys(fonts)
   .map(key => {
-    return Object.assign({}, fonts[key], {name: key.replace(/'/g, '')});
+    return {...fonts[key], name: key.replace(/'/g, '')};
   });
 
 const Typography = () => {
