@@ -1,8 +1,8 @@
 import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs/react';
-import fonts from '../../../server/ui-config/fonts';
+import fonts from '../../../../server/ui-config/fonts';
 import { withReadme } from 'storybook-readme';
-import typographyReadme from './typography.md';
+import typographyReadme from './README.md';
 
 const stories = storiesOf('Global', module);
 
