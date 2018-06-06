@@ -1,6 +1,8 @@
 import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs/react';
 import fonts from '../../../server/ui-config/fonts';
+import { withReadme } from 'storybook-readme';
+import typographyReadme from './typography.md';
 
 const stories = storiesOf('Global', module);
 
@@ -33,4 +35,4 @@ const Typography = () => {
 };
 
 stories
-  .add('Typography', Typography);
+  .add('Typography', withReadme(typographyReadme, Typography));
