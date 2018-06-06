@@ -316,7 +316,8 @@
 }
 
 .margin-v-auto {
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .margin-top-auto {
@@ -442,7 +443,7 @@
 
 // Used mainly for images
 .inherit-max-height {
-  max-height: inherit
+  max-height: inherit;
 }
 
 .width-auto {
