@@ -172,7 +172,7 @@
       </div>
     {% endif %}
 
-    {% macro relatedMarkup(promoList, heading, promoComponent, gridSizes, data) %}
+    {% macro relatedMarkup(promoList, heading, promoComponent, gridSizes, data, promoType) %}
       {% if promoList.length > 0 %}
         <div class="row">
           <div class="container">
@@ -190,7 +190,11 @@
                 <div class="grid grid--scroll">
                   {% for promo in promoList %}
                     <div class="{{ gridSizes | gridClasses }}">
-                      {% componentV2 promoComponent, promo,  {}, data %}
+                      {% if promoType === 'jsx' %}
+                        {% componentJsx 'Promo', promo %}
+                      {% else %}
+                        {% componentV2 promoComponent, promo,  {}, data %}
+                      {% endif %}
                     </div>
                   {% endfor %}
                 </div>
@@ -201,7 +205,7 @@
       {% endif %}
     {% endmacro %}
 
-    {{ relatedMarkup(exhibition.relatedEvents, 'Workshops, talks and tours', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizes: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(41.76vw - 50px), calc(75vw - 18px)'}) }}
+    {{ relatedMarkup(exhibition.relatedEvents, 'Workshops, talks and tours', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizes: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(41.76vw - 50px), calc(75vw - 18px)'}, 'jsx') }}
     {% if exhibition.relatedEvents.length > 0 %}
       <div class="row">
         <div class="container">
@@ -215,7 +219,7 @@
     {% endif %}
 
 
-    {{ relatedMarkup(exhibition.relatedArticles, 'Read and explore', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizes: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(41.76vw - 50px), calc(75vw - 18px)'}) }}
+    {{ relatedMarkup(exhibition.relatedArticles, 'Read and explore', 'promo', {s:12, m:6, l:3, xl:3}, {'lazyload': true, sizes: '(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(41.76vw - 50px), calc(75vw - 18px)'}, 'jsx') }}
     {% if exhibition.relatedArticles.length > 0 %}
       <div class="row">
         <div class="container">
