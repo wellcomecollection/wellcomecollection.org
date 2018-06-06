@@ -48,6 +48,14 @@ const PromoDescription = ({children}: PromoDescriptionProps) => {
   );
 };
 
+const ImageSurrogate = () => {
+  return (
+    <div className='promo__image-surrogate'>
+      <div className='promo__image-surrogate-inner'></div>
+    </div>
+  );
+};
+
 type Props = {|
   url?: string,
   id?: string,
@@ -98,9 +106,7 @@ const Promo = ({
             sizesQueries={sizes}
             clipPathClass={series && commissionedSeries && positionInSeries && url ? 'promo__clip-path--chapters-third' : ''}
             alt='' />
-          : <div className='promo__image-surrogate'>
-            <div className='promo__image-surrogate-inner'></div>
-          </div>
+          : <ImageSurrogate />
         }
 
         {commissionedSeries && positionInSeries && url &&
