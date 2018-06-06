@@ -190,18 +190,14 @@ class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
             }
           }
         </Transition>
-        <Transition in={this.state.showViewer} timeout={{enter: 0, exit: 700}}>
-          {
-            (status) => {
-              return <ViewerContent
-                classes={`scale scale-${status}`}
-                viewerVisible={this.state.showViewer}
-                id={this.props.id}
-                contentUrl={this.props.contentUrl}
-                handleViewerDisplay={this.handleViewerDisplay} />;
-            }
-          }
-        </Transition>
+        {this.state.showViewer &&
+          <ViewerContent
+            classes=''
+            viewerVisible={this.state.showViewer}
+            id={this.props.id}
+            contentUrl={this.props.contentUrl}
+            handleViewerDisplay={this.handleViewerDisplay} />
+        }
       </Fragment>
     );
   }
