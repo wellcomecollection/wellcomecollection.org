@@ -128,3 +128,18 @@ resource "aws_alb_listener_rule" "subdomain_path_rule" {
     values = ["works.wellcomecollection.org"]
   }
 }
+
+resource "aws_alb_listener_rule" "embed_path_rule" {
+  listener_arn = "${local.alb_listener_https_arn}"
+  priority     = "004"
+
+  action {
+    type             = "forward"
+    target_group_arn = "${module.catalogue.target_group_arn}"
+  }
+
+  condition {
+    field  = "path-pattern"
+    values = ["/embed*"]
+  }
+}
