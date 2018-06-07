@@ -1,3 +1,3 @@
 Editorial promo
 
-images are always 16:9
+Images are always 16:9
