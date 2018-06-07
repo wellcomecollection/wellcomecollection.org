@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import { doc, withReadme }  from 'storybook-readme';
 import { text, boolean, select } from '@storybook/addon-knobs/react';
-import { id, url, image, imageTall } from '../content';
+import { id, url, image, singleLineOfText } from '../content';
 import moment from 'moment';
 import PromoReadme from '../../../common/views/components/Promo/README.md';
 import EditorialPromoReadme from '../../../common/views/components/Promo/README-editorial.md';
@@ -12,6 +12,8 @@ import ExhibitionPromoReadme from '../../../common/views/components/ExhibitionPr
 import ExhibitionPromo from '../../../common/views/components/ExhibitionPromo/ExhibitionPromo';
 import WorkPromoReadme from '../../../common/views/components/WorkPromo/README.md';
 import WorkPromo from '../../../common/views/components/WorkPromo/WorkPromo';
+import BookPromoReadme from '../../../common/views/components/BookPromo/README.md';
+import BookPromo from '../../../common/views/components/BookPromo/BookPromo';
 
 const sizes = '(min-width: 1340px) calc(15vw + 120px), (min-width: 960px) calc(40vw - 84px), (min-width: 600px) calc(60vw - 83px), calc(75vw - 72px)';
 const datePublished = '1685';
@@ -179,9 +181,20 @@ const WorkPromoExample = () => {
     <WorkPromo
       url={url}
       id={id}
-      image={imageTall()}
+      image={image('https://iiif.wellcomecollection.org/image/V0049964ER.jpg/full/full/0/default.jpg', 800, 1309)}
       title={title}
       datePublished={datePublished}
+    />
+  );
+};
+const BookPromoExample = () => {
+  return (
+    <BookPromo
+      url={url}
+      image={image('https://iiif.wellcomecollection.org/image/prismic:1e958377a9f21d49a5de6578212e02ad4381d473_9781781254875_0.png/full/full/0/default.png')}
+      title={text('Title', singleLineOfText(2, 6))}
+      subTitle={text('Sub title', singleLineOfText(3, 6))}
+      description={text('Description', singleLineOfText(10, 20))}
     />
   );
 };
@@ -193,4 +206,5 @@ stories
   .add('Promos / Editorial promo', withReadme(EditorialPromoReadme, EditorialPromoExample))
   .add('Promos / Event promo', withReadme(EventPromoReadme, EventPromoExample))
   .add('Promos / Exhibition promo', withReadme(ExhibitionPromoReadme, ExhibitionPromoExample))
-  .add('Promos / Work promo', withReadme(WorkPromoReadme, WorkPromoExample));
+  .add('Promos / Work promo', withReadme(WorkPromoReadme, WorkPromoExample))
+  .add('Promos / Book promo', withReadme(BookPromoReadme, BookPromoExample));

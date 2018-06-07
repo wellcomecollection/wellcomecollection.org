@@ -8,33 +8,14 @@ export const id = randomNumber(1000, 2000);
 
 export const url = faker.internet.url();
 
-export const image = () => {
-  // const contentUrl = faker.image.imageUrl(800, 450, 'city'); // lorempixel taking too long to load
-  const contentUrl = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/5b28b809814fc6d1d716b0082725b24e0a0ad6a9_ep_000012_089.jpg';
+export const image = (
+  contentUrl = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/5b28b809814fc6d1d716b0082725b24e0a0ad6a9_ep_000012_089.jpg',
+  width = 640,
+  height = 480) => {
   return {
     contentUrl: contentUrl,
-    width: 640,
-    height: 480,
-    alt: 'an image with some alt text',
-    tasl: {
-      contentUrl: contentUrl,
-      title: 'The title of the image',
-      author: 'The author',
-      sourceName: 'Wellcome Collection',
-      sourceLink: 'https://wellcomecollection.org/works',
-      license: 'CC-BY-NC'
-    }
-  };
-};
-
-export const imageTall = () => {
-  // const contentUrl = faker.image.imageUrl(450, 1600, 'city'); // lorempixel taking too long to load
-  const contentUrl = 'https://iiif.wellcomecollection.org/image/V0049964ER.jpg/full/full/0/default.jpg';
-
-  return {
-    contentUrl: contentUrl,
-    width: 800,
-    height: 1309,
+    width,
+    height,
     alt: 'an image with some alt text',
     tasl: {
       contentUrl: contentUrl,
@@ -56,6 +37,8 @@ export const captionedImage = () => ({
   }]
 });
 
+export const singleLineOfText = (min = 3, max = 8) => faker.random.words(randomNumber(min, max));
+
 export const text = () => Array(randomNumber(1, 2)).fill().map(() => ({
   'type': 'paragraph',
   'text': `${faker.random.words(randomNumber(25, 40))}`,
@@ -68,7 +51,7 @@ export const imageGallery = () => {
   const items = Array(randomNumber(3, 5)).fill().map(captionedImage);
   return {
     id: '123',
-    title: faker.random.words(randomNumber(3, 8)),
+    title: singleLineOfText(),
     items: items
   };
 };

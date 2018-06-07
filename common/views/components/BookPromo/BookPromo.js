@@ -2,13 +2,14 @@
 import {spacing, font} from '../../../utils/classnames';
 import UiImage from '../Image/Image';
 import Icon from '../Icon/Icon';
+import type {Image} from '../../../model';
 
-type Props = {| // TODO proper types
+type Props = {|
   url: string,
   title: string,
-  subTitle: string,
-  description: string,
-  image: any
+  subTitle: ?string,
+  description: ?string,
+  image: ?Image
 |}
 
 const BookPromo = ({
