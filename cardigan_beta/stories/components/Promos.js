@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import { doc, withReadme }  from 'storybook-readme';
 import { text, boolean, select } from '@storybook/addon-knobs/react';
-import { id, url, image, singleLineOfText } from '../content';
+import { id, url, editorialSeries, eventSeries, eventSchedule, image, singleLineOfText } from '../content';
 import moment from 'moment';
 import PromoReadme from '../../../common/views/components/Promo/README.md';
 import EditorialPromoReadme from '../../../common/views/components/Promo/README-editorial.md';
@@ -30,7 +30,6 @@ const EditorialPromoExample = () => {
     'place',
     null
   ], 'article');
-  const series = [{'name': 'Searching for Genius', 'description': [{'type': 'paragraph', 'text': 'This five-part series is great. ', 'spans': []}], 'color': 'turquoise', 'commissionedLength': 6, 'schedule': [{'title': [{'type': 'heading1', 'text': 'First heading', 'spans': []}], 'publishDate': '2018-04-18T23: 00: 00+0000'}, {'title': [{'type': 'heading1', 'text': 'Second heading', 'spans': []}], 'publishDate': '2018-04-25T23: 00: 00+0000'}, {'title': [{'type': 'heading1', 'text': 'Third heading', 'spans': []}], 'publishDate': '2018-05-02T23: 00: 00+0000'}, {'title': [{'type': 'heading1', 'text': 'Fourth heading', 'spans': []}], 'publishDate': '2018-05-09T23: 00: 00+0000'}, {'title': [{'type': 'heading1', 'text': 'Fifth heading', 'spans': []}], 'publishDate': '2018-05-16T23: 00: 00+0000'}], 'promo': [], 'wordpressSlug': null}];
   const positionInSeries = 2;
   const partOfSeries = boolean('Is part of a series?', false);
   return (
@@ -44,7 +43,7 @@ const EditorialPromoExample = () => {
       description={description}
       sizes={sizes}
       datePublished={datePublished}
-      series={partOfSeries && series}
+      series={partOfSeries && editorialSeries}
       positionInSeries={partOfSeries && positionInSeries}
     />
   );
@@ -58,13 +57,11 @@ const EventPromoExample = () => {
   const hasNotFullyBookedTimes = boolean('Has more dates available', true);
   const format = {id: 'WcKmiysAACx_A8NR', title: 'Workshop', description: null};
   const schedule = boolean('Has a schedule?', false);
-  const scheduleExample = [{'event': {'id': 'Wo1c-CoAACoAZG2p', 'type': 'events', 'tags': ['delist'], 'slug': 'creative-activities', 'lang': 'en-gb', 'link_type': 'Document', 'isBroken': false}, 'hideLink': null}, {'event': {'id': 'Wo1ZxioAAMLuZF_Q', 'type': 'events', 'tags': ['delist'], 'slug': 'shakti-and-seva-gender-and-health-in-south-asia', 'lang': 'en-gb', 'link_type': 'Document', 'isBroken': false}, 'hideLink': null}, {'event': {'id': 'Wo1bOSoAAHW6ZGYC', 'type': 'events', 'tags': ['delist'], 'slug': 'music-from-club-kali', 'lang': 'en-gb', 'link_type': 'Document', 'isBroken': false}, 'hideLink': null}];
   const series = boolean('Is part of a series?', false);
-  const seriesExample = [{'id': 'Wn28GCoAACkAIYol', 'title': 'The Evidence:  Civilisations and Health', 'description': [{'type': 'paragraph', 'text': 'The BBC World Service is joining forces with Wellcome Collection for this series of events and radio programmes exploring health in the context of society and civilisation. ', 'spans': []}]}];
-  const BritishSignLanguage = boolean('British sign language interpreted', false);
-  const AudioDescribed = boolean('Audio described', true);
-  const SpeechToText = boolean('Speech-to-Text', false);
-  const HearingLoop = boolean('Hearing Loop', false);
+  const britishSignLanguage = boolean('British sign language interpreted', false);
+  const audioDescribed = boolean('Audio described', true);
+  const speechToText = boolean('Speech-to-Text', false);
+  const hearingLoop = boolean('Hearing Loop', false);
   const interpretations = [{
     interpretationType: {
       id: 'id',
@@ -117,10 +114,10 @@ const EventPromoExample = () => {
       image={image()}
       interpretations={interpretations.filter((interpretation) => {
         return (
-          interpretation.interpretationType.title === 'British sign language interpreted' && BritishSignLanguage ||
-          interpretation.interpretationType.title === 'Audio described' && AudioDescribed ||
-          interpretation.interpretationType.title === 'Speech-to-Text' && SpeechToText ||
-          interpretation.interpretationType.title === 'Hearing loop' && HearingLoop
+          interpretation.interpretationType.title === 'British sign language interpreted' && britishSignLanguage ||
+          interpretation.interpretationType.title === 'Audio described' && audioDescribed ||
+          interpretation.interpretationType.title === 'Speech-to-Text' && speechToText ||
+          interpretation.interpretationType.title === 'Hearing loop' && hearingLoop
         );
       })}
       eventbriteId={eventbriteId}
@@ -129,8 +126,8 @@ const EventPromoExample = () => {
         title: '14-19 year olds',
         description: ''
       } : null}
-      schedule={schedule ?  scheduleExample : []}
-      series={series ? seriesExample : []}
+      schedule={schedule ?  eventSchedule : []}
+      series={series ? eventSeries : []}
       position={position}
     />
   );
