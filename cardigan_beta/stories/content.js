@@ -4,9 +4,13 @@ function randomNumber(min, max) {
   return Math.floor(Math.random() * max) + min;
 }
 
-export const image = () => {
-  const contentUrl = faker.image.image();
+export const id = randomNumber(1000, 2000);
 
+export const url = faker.internet.url();
+
+export const image = () => {
+  // const contentUrl = faker.image.imageUrl(800, 450, 'city'); // lorempixel taking too long to load
+  const contentUrl = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/5b28b809814fc6d1d716b0082725b24e0a0ad6a9_ep_000012_089.jpg';
   return {
     contentUrl: contentUrl,
     width: 640,
@@ -22,6 +26,32 @@ export const image = () => {
     }
   };
 };
+
+export const imageTall = () => {
+  // const contentUrl = faker.image.imageUrl(450, 1600, 'city'); // lorempixel taking too long to load
+  const contentUrl = 'https://iiif.wellcomecollection.org/image/V0049964ER.jpg/full/full/0/default.jpg';
+
+  return {
+    contentUrl: contentUrl,
+    width: 800,
+    height: 1309,
+    alt: 'an image with some alt text',
+    tasl: {
+      contentUrl: contentUrl,
+      title: 'The title of the image',
+      author: 'The author',
+      sourceName: 'Wellcome Collection',
+      sourceLink: 'https://wellcomecollection.org/works',
+      license: 'CC-BY-NC'
+    }
+  };
+};
+
+export const editorialSeries = [{'name': 'Searching for Genius', 'description': [{'type': 'paragraph', 'text': 'This five-part series is great. ', 'spans': []}], 'color': 'turquoise', 'commissionedLength': 6, 'schedule': [{'title': [{'type': 'heading1', 'text': 'First heading', 'spans': []}], 'publishDate': '2018-04-18T23: 00: 00+0000'}, {'title': [{'type': 'heading1', 'text': 'Second heading', 'spans': []}], 'publishDate': '2018-04-25T23: 00: 00+0000'}, {'title': [{'type': 'heading1', 'text': 'Third heading', 'spans': []}], 'publishDate': '2018-05-02T23: 00: 00+0000'}, {'title': [{'type': 'heading1', 'text': 'Fourth heading', 'spans': []}], 'publishDate': '2018-05-09T23: 00: 00+0000'}, {'title': [{'type': 'heading1', 'text': 'Fifth heading', 'spans': []}], 'publishDate': '2018-05-16T23: 00: 00+0000'}], 'promo': [], 'wordpressSlug': null}];
+
+export const eventSeries = [{'id': 'Wn28GCoAACkAIYol', 'title': 'The Evidence:  Civilisations and Health', 'description': [{'type': 'paragraph', 'text': 'The BBC World Service is joining forces with Wellcome Collection for this series of events and radio programmes exploring health in the context of society and civilisation. ', 'spans': []}]}];
+
+export const eventSchedule = [{'event': {'id': 'Wo1c-CoAACoAZG2p', 'type': 'events', 'tags': ['delist'], 'slug': 'creative-activities', 'lang': 'en-gb', 'link_type': 'Document', 'isBroken': false}, 'hideLink': null}, {'event': {'id': 'Wo1ZxioAAMLuZF_Q', 'type': 'events', 'tags': ['delist'], 'slug': 'shakti-and-seva-gender-and-health-in-south-asia', 'lang': 'en-gb', 'link_type': 'Document', 'isBroken': false}, 'hideLink': null}, {'event': {'id': 'Wo1bOSoAAHW6ZGYC', 'type': 'events', 'tags': ['delist'], 'slug': 'music-from-club-kali', 'lang': 'en-gb', 'link_type': 'Document', 'isBroken': false}, 'hideLink': null}];
 
 export const captionedImage = () => ({
   image: image(),

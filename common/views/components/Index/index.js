@@ -51,6 +51,7 @@ import Tasl from '../Tasl/Tasl';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
+import WorkPromo from '../WorkPromo/WorkPromo';
 
 export {
   BackToTop,
@@ -106,5 +107,6 @@ export {
   UiImage,
   WobblyEdge,
   WorkDrawer,
-  WorkMedia
+  WorkMedia,
+  WorkPromo
 };

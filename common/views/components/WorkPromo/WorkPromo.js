@@ -1,8 +1,6 @@
 // @flow
 
 import {font} from '../../../utils/classnames';
-import {striptags} from '../../../utils/striptags';
-import {truncate} from '../../../utils/truncate';
 import Image from '../Image/Image';
 import type {Props as ImageProps} from '../Image/Image';
 import NextLink from 'next/link';
@@ -11,7 +9,6 @@ type Props = {|
   url: string,
   id: string,
   image: ImageProps,
-  description?: string,
   datePublished?: string,
   title?: string
 |}
@@ -20,7 +17,6 @@ const WorkPromo = ({
   url,
   id,
   image,
-  description,
   datePublished,
   title
 }: Props) => {
@@ -30,7 +26,7 @@ const WorkPromo = ({
       as={url}>
       <a
         id={id}
-        data-component="WorkPromo"
+        data-component='WorkPromo'
         data-track-event={`${JSON.stringify({category: 'component', action: 'WorkPromo:click'})}`}
         className={`promo promo--work`}>
         <div className={`promo__image-container promo__image-container--constrained`}>
@@ -43,7 +39,7 @@ const WorkPromo = ({
             alt='' />
         </div>
         <div className={`promo__description ${font({s: 'HNL5'})}`}>
-          <div className="promo__heading">
+          <div className='promo__heading'>
             <h2 className={`promo__title ${font({s: 'HNL5'})} text--truncate`}>
               {title || `Not found`}
             </h2>
@@ -51,10 +47,6 @@ const WorkPromo = ({
 
           {datePublished &&
             <p className={`promo ${font({s: 'HNL5'})} font-pewter relative`}>{datePublished}</p>
-          }
-
-          {description &&
-            <span className="promo__copy">{truncate(striptags(description), 140)}</span>
           }
         </div>
       </a>
