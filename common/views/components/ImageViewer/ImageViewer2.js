@@ -170,11 +170,13 @@ class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
         <Image
           width={this.props.width}
           contentUrl={this.props.contentUrl}
-          lazyload={true}
+          lazyload={false}
           sizesQueries='(min-width: 860px) 800px, calc(92.59vw + 22px)'
           alt=''
           clickHandler={this.handleViewerDisplay}
-          zoomable={this.state.viewButtonMounted} />
+          zoomable={this.state.viewButtonMounted}
+          defaultSize={800}
+          extraClasses='margin-v-auto width-auto inherit-max-height' />
         <Transition in={this.state.mountViewButton} timeout={700}>
           {
             (status) => {
@@ -188,18 +190,14 @@ class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
             }
           }
         </Transition>
-        <Transition in={this.state.showViewer} timeout={{enter: 0, exit: 700}}>
-          {
-            (status) => {
-              return <ViewerContent
-                classes={`scale scale-${status}`}
-                viewerVisible={this.state.showViewer}
-                id={this.props.id}
-                contentUrl={this.props.contentUrl}
-                handleViewerDisplay={this.handleViewerDisplay} />;
-            }
-          }
-        </Transition>
+        {this.state.showViewer &&
+          <ViewerContent
+            classes=''
+            viewerVisible={this.state.showViewer}
+            id={this.props.id}
+            contentUrl={this.props.contentUrl}
+            handleViewerDisplay={this.handleViewerDisplay} />
+        }
       </Fragment>
     );
   }

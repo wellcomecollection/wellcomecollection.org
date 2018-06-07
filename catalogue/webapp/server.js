@@ -12,6 +12,11 @@ app.prepare().then(() => {
   const server = new Koa();
   const router = new Router();
 
+  router.get('/embed/works/:id', async ctx => {
+    await app.render(ctx.req, ctx.res, '/embed', {id: ctx.params.id});
+    ctx.respond = false;
+  });
+
   router.get('/works/:id', async ctx => {
     await app.render(ctx.req, ctx.res, '/work', {id: ctx.params.id});
     ctx.respond = false;
