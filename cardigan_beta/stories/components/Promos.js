@@ -56,10 +56,10 @@ const EventPromoExample = () => {
   const format = {id: 'WcKmiysAACx_A8NR', title: 'Workshop', description: null};
   const schedule = boolean('Has a schedule?', false);
   const series = boolean('Is part of a series?', false);
-  const BritishSignLanguage = boolean('British sign language interpreted', false);
-  const AudioDescribed = boolean('Audio described', true);
-  const SpeechToText = boolean('Speech-to-Text', false);
-  const HearingLoop = boolean('Hearing Loop', false);
+  const britishSignLanguage = boolean('British sign language interpreted', false);
+  const audioDescribed = boolean('Audio described', true);
+  const speechToText = boolean('Speech-to-Text', false);
+  const hearingLoop = boolean('Hearing Loop', false);
   const interpretations = [{
     interpretationType: {
       id: 'id',
@@ -112,10 +112,10 @@ const EventPromoExample = () => {
       image={image()}
       interpretations={interpretations.filter((interpretation) => {
         return (
-          interpretation.interpretationType.title === 'British sign language interpreted' && BritishSignLanguage ||
-          interpretation.interpretationType.title === 'Audio described' && AudioDescribed ||
-          interpretation.interpretationType.title === 'Speech-to-Text' && SpeechToText ||
-          interpretation.interpretationType.title === 'Hearing loop' && HearingLoop
+          interpretation.interpretationType.title === 'British sign language interpreted' && britishSignLanguage ||
+          interpretation.interpretationType.title === 'Audio described' && audioDescribed ||
+          interpretation.interpretationType.title === 'Speech-to-Text' && speechToText ||
+          interpretation.interpretationType.title === 'Hearing loop' && hearingLoop
         );
       })}
       eventbriteId={eventbriteId}
