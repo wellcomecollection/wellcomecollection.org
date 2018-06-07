@@ -32,13 +32,3 @@ The above is not a promo either, but rather an enticing newsletter signup compon
 We would like to look at the difference between pull and push promos. i.e. content that we surface and allow you to choose from vs content we have deemed to be of special interest and thus promote more emphatically.
 
 Currently we only have image promos, we'd like to explore using more specialised promos for image galleries, videos, audio etc.
-
-## Current promo types
-
-We currently have 5 promos.
-
-*   Editorial promos
-*   Event promos
-*   Exhibition promos
-*   Works promos
-*   Book Promos
