@@ -161,10 +161,11 @@ function getMetaContentArray(singleWork, descriptionArray) {
 // as the API is subject to change?
 type Work = Object;
 type Props = {|
-  work: Work
+  work: Work,
+  queryString?: string
 |}
 
-const WorkPage = ({work}: Props) => {
+const WorkPage = ({work, queryString}: Props) => {
   const [iiifImageLocation] = work.items.map(
     item => item.locations.find(
       location => location.locationType === 'iiif-image'
@@ -188,7 +189,11 @@ const WorkPage = ({work}: Props) => {
       <PageDescription title='Search our images' extraClasses='page-description--hidden' />
       <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
-      <WorkMedia2 id={work.id} iiifUrl={iiifInfoUrl} title={work.title} />
+      <WorkMedia2
+        id={work.id}
+        iiifUrl={iiifInfoUrl}
+        title={work.title}
+        queryString={queryString} />
 
       <div className={`row ${spacing({s: 6}, {padding: ['top', 'bottom']})}`}>
         <div className='container'>
@@ -313,6 +318,9 @@ const WorkPage = ({work}: Props) => {
 
 WorkPage.getInitialProps = async (context) => {
   const {id} = context.query;
+  const {asPath} = context;
+  const queryStart = asPath.indexOf('?');
+  const queryString = queryStart > -1 && asPath.slice(queryStart);
   const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works/${id}?includes=identifiers,items,thumbnail`);
   const json = await res.json();
   const [iiifImageLocation] = json.items.map(
@@ -330,6 +338,7 @@ WorkPage.getInitialProps = async (context) => {
     imageUrl: iiifImage({size: '800,'}),
     analyticsCategory: 'collections',
     siteSection: 'images',
+    queryString: queryString,
     work: (json: Work) };
 };
 
