@@ -47,6 +47,12 @@ export const imageTall = () => {
   };
 };
 
+export const editorialSeries = [{'name': 'Searching for Genius', 'description': [{'type': 'paragraph', 'text': 'This five-part series is great. ', 'spans': []}], 'color': 'turquoise', 'commissionedLength': 6, 'schedule': [{'title': [{'type': 'heading1', 'text': 'First heading', 'spans': []}], 'publishDate': '2018-04-18T23: 00: 00+0000'}, {'title': [{'type': 'heading1', 'text': 'Second heading', 'spans': []}], 'publishDate': '2018-04-25T23: 00: 00+0000'}, {'title': [{'type': 'heading1', 'text': 'Third heading', 'spans': []}], 'publishDate': '2018-05-02T23: 00: 00+0000'}, {'title': [{'type': 'heading1', 'text': 'Fourth heading', 'spans': []}], 'publishDate': '2018-05-09T23: 00: 00+0000'}, {'title': [{'type': 'heading1', 'text': 'Fifth heading', 'spans': []}], 'publishDate': '2018-05-16T23: 00: 00+0000'}], 'promo': [], 'wordpressSlug': null}];
+
+export const eventSeries = [{'id': 'Wn28GCoAACkAIYol', 'title': 'The Evidence:  Civilisations and Health', 'description': [{'type': 'paragraph', 'text': 'The BBC World Service is joining forces with Wellcome Collection for this series of events and radio programmes exploring health in the context of society and civilisation. ', 'spans': []}]}];
+
+export const eventSchedule = [{'event': {'id': 'Wo1c-CoAACoAZG2p', 'type': 'events', 'tags': ['delist'], 'slug': 'creative-activities', 'lang': 'en-gb', 'link_type': 'Document', 'isBroken': false}, 'hideLink': null}, {'event': {'id': 'Wo1ZxioAAMLuZF_Q', 'type': 'events', 'tags': ['delist'], 'slug': 'shakti-and-seva-gender-and-health-in-south-asia', 'lang': 'en-gb', 'link_type': 'Document', 'isBroken': false}, 'hideLink': null}, {'event': {'id': 'Wo1bOSoAAHW6ZGYC', 'type': 'events', 'tags': ['delist'], 'slug': 'music-from-club-kali', 'lang': 'en-gb', 'link_type': 'Document', 'isBroken': false}, 'hideLink': null}];
+
 export const captionedImage = () => ({
   image: image(),
   caption: [{
