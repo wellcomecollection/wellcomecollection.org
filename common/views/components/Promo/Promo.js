@@ -38,24 +38,6 @@ function headingText(title, contentType) {
   }
 }
 
-type PromoDescriptionProps = {|
-  children: React.Node
-|}
-
-const PromoDescription = ({children}: PromoDescriptionProps) => {
-  return (
-    <Fragment>{children}</Fragment>
-  );
-};
-
-const ImageSurrogate = () => {
-  return (
-    <div className='promo__image-surrogate'>
-      <div className='promo__image-surrogate-inner'></div>
-    </div>
-  );
-};
-
 type Props = {|
   url?: string,
   id?: string,
@@ -106,7 +88,7 @@ const Promo = ({
             sizesQueries={sizes}
             clipPathClass={series && commissionedSeries && positionInSeries && url ? 'promo__clip-path--chapters-third' : ''}
             alt='' />
-          : <ImageSurrogate />
+          : <div className='promo__image-surrogate'><div className='promo__image-surrogate-inner'></div></div>
         }
 
         {commissionedSeries && positionInSeries && url &&
@@ -128,27 +110,24 @@ const Promo = ({
           </div>
         }
       </div>
-
-      <PromoDescription>
-        <div className={`promo__description`}>
-          <div className='promo__heading'>
-            <HeadingTag className={`promo__title ${spacing({s: 0}, {margin: ['top']})} ${font({s: 'WB5'})}`}>
-              {headingText(title, contentType)}
-            </HeadingTag>
-          </div>
-
-          {description &&
-            <span className={`inline-block ${font({s: 'HNL4'})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{truncate(striptags(description), 140)}</span>
-          }
-
-          {(commissionedSeries || seriesTitle) &&
-            <span className={`block font-charcoal ${spacing({s: 1}, {margin: ['bottom']})} ${font({s: 'HNL6', l: 'HNL5'})}`}
-              aria-hidden='true'>
-              {partOf(commissionedSeries, seriesTitle)}
-            </span>
-          }
+      <div className={`promo__description`}>
+        <div className='promo__heading'>
+          <HeadingTag className={`promo__title ${spacing({s: 0}, {margin: ['top']})} ${font({s: 'WB5'})}`}>
+            {headingText(title, contentType)}
+          </HeadingTag>
         </div>
-      </PromoDescription>
+
+        {description &&
+          <span className={`inline-block ${font({s: 'HNL4'})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{truncate(striptags(description), 140)}</span>
+        }
+
+        {(commissionedSeries || seriesTitle) &&
+          <span className={`block font-charcoal ${spacing({s: 1}, {margin: ['bottom']})} ${font({s: 'HNL6', l: 'HNL5'})}`}
+            aria-hidden='true'>
+            {partOf(commissionedSeries, seriesTitle)}
+          </span>
+        }
+      </div>
     </PromoTag>
   );
 };
