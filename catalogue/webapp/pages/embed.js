@@ -43,7 +43,7 @@ class Embed extends Component<{| work: Object |}> {
     return (
       <div className='enhanced' style={{
         maxHeight: '95vh',
-        maxWidth: '100vh',
+        maxWidth: '100vw',
         textAlign: 'center',
         position: 'relative'
       }}>
