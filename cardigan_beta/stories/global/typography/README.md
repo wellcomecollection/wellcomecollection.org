@@ -1,1 +1,1 @@
-__TODO:__ add typography README info to `stories/global/typography/README.md`.
+<!-- __TODO:__ add typography README info to `stories/global/typography/README.md`. -->
