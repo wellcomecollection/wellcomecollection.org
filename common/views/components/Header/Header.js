@@ -48,7 +48,7 @@ const Header = withToggler(({ links, siteSection, toggle, isActive }: Props) => 
           </ul>
         </nav>
         {/* we leave this here until we know exactly what we want to do with search */}
-        <div id="header-search" className="header__search"></div>
+        <div id='header-search' className='header__search'></div>
         <span className='visually-hidden js-trap-end'>reset focus</span>
       </div>
     </div>
