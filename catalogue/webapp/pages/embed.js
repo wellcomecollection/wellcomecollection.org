@@ -1,6 +1,7 @@
 // @flow
-import {Component} from 'react';
+import {Component, Fragment} from 'react';
 import ReactGA from 'react-ga';
+import Head from 'next/head';
 import fetch from 'isomorphic-unfetch';
 import {iiifImageTemplate} from '@weco/common/utils/convert-image-uri';
 import ImageViewer2 from '@weco/common/views/components/ImageViewer/ImageViewer2';
@@ -41,19 +42,24 @@ class Embed extends Component<{| work: Object |}> {
     const imageUrl = iiifImage({width: 800});
 
     return (
-      <div className='enhanced' style={{
-        maxHeight: '95vh',
-        maxWidth: '100vw',
-        textAlign: 'center',
-        position: 'relative'
-      }}>
-        <ImageViewer2
-          contentUrl={imageUrl}
-          id={work.id}
-          width={800}
-          trackTitle={work.title}
-        />
-      </div>
+      <Fragment>
+        <Head>
+          <title>{work.title} | Wellcome Collection</title>
+        </Head>
+        <div className='enhanced' style={{
+          maxHeight: '95vh',
+          maxWidth: '100vw',
+          textAlign: 'center',
+          position: 'relative'
+        }}>
+          <ImageViewer2
+            contentUrl={imageUrl}
+            id={work.id}
+            width={800}
+            trackTitle={work.title}
+          />
+        </div>
+      </Fragment>
     );
   }
 }
