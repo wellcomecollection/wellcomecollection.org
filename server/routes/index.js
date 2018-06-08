@@ -62,6 +62,9 @@ r.get('/pages/:id', renderPage);
 r.get('/books', renderBooks);
 r.get('/books/:id', renderBook);
 r.get('/newsletter', renderNewsletterPage);
+r.get('/oembed/works/:id', async (ctx, next) => {
+
+});
 
 // root paths that we want to support.
 // Each service should probably deal with their own
