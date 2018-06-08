@@ -19,7 +19,7 @@ const withImageViewer = ({work}: Props) => {
   const imageUrl = iiifImage({width: 800});
 
   return (
-    <WorkEmbed Embed={
+    <WorkEmbed work={work} Embed={
       <Image
         extraClasses='margin-v-auto width-auto inherit-max-height'
         width={800}

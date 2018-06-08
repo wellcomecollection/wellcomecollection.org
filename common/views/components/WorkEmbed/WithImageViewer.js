@@ -19,7 +19,7 @@ const WithImageViewer = ({work}: Props) => {
   const imageUrl = iiifImage({width: 800});
 
   return (
-    <WorkEmbed Embed={
+    <WorkEmbed work={work} Embed={
       <ImageViewer2
         contentUrl={imageUrl}
         id={work.id}
