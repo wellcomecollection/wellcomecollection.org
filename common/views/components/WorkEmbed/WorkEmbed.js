@@ -18,15 +18,34 @@ const WorkEmbed = ({
   return (
     <Fragment>
       <div className='enhanced' style={{
-        maxHeight: '95vh',
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh',
         maxWidth: '100vw',
-        textAlign: 'center',
         position: 'relative'
       }}>
-        <Fragment>
-          {Embed}
-        </Fragment>
-        <div>
+        <div style={{
+          flexGrow: 1,
+          position: 'relative',
+          marginBottom: '30px'
+        }}>
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            height: '100%',
+            maxWidth: '100vw',
+            width: '100%',
+            textAlign: 'center'
+          }}>
+            <Fragment>{Embed}</Fragment>
+          </div>
+        </div>
+        <div style={{
+          marginTop: 'auto',
+          paddingLeft: '12px',
+          paddingRight: '12px',
+          paddingBottom: '12px'
+        }}>
           {work.title}
           {work.creators.length > 0 &&
             work.creators.map(creator => creator.label).join(', ')
