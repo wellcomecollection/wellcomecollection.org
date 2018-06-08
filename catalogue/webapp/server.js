@@ -13,7 +13,11 @@ app.prepare().then(() => {
   const router = new Router();
 
   router.get('/embed/works/:id', async ctx => {
-    await app.render(ctx.req, ctx.res, '/embed', {id: ctx.params.id});
+    const {withViewer} = ctx.request.query;
+    await app.render(ctx.req, ctx.res, '/embed', {
+      id: ctx.params.id,
+      withViewer: withViewer === 'true'
+    });
     ctx.respond = false;
   });
 
