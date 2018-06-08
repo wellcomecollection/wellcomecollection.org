@@ -164,6 +164,17 @@ gulp.task('js:compile', () => {
     .pipe(gulp.dest(sources.js.distPath));
 });
 
+gulp.task('js:embed', () => {
+  return gulp.src('./js/embed.js')
+    .pipe(webpack(webpackConfig))
+    .on('error', (err) => {
+      console.log(err.toString());
+      // Allows the stream to continue, thus not breaking watch
+      this.emit('end');
+    })
+    .pipe(gulp.dest(sources.js.distPath));
+});
+
 gulp.task('css:bust', ['css:clean', 'scss:compile'], () => {
   gulp.src('../dist/assets/css/non-critical.css')
     .pipe(hash({
@@ -220,7 +231,7 @@ gulp.task('watch', () => {
 gulp.task('js', ['js:lint', 'js:compile']);
 gulp.task('scss', ['scss:compileJsToScss', 'scss:lint', 'scss:compile', 'scss:compileCritical']);
 gulp.task('lint', ['scss:compileJsToScss', 'scss:lint', 'js:lint']);
-gulp.task('compile', ['css:bust', 'js:bust', 'scss:compileJsToScss', 'scss:compileCritical', 'fonts:copy', 'images:copy', 'icons:copy', 'libs:copy']);
+gulp.task('compile', ['css:bust', 'js:bust', 'scss:compileJsToScss', 'scss:compileCritical', 'fonts:copy', 'images:copy', 'icons:copy', 'libs:copy', 'js:embed']);
 gulp.task('dev', ['compile', 'watch']);
 
 function distDir(folder) {
