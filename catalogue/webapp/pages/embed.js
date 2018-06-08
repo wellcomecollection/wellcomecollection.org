@@ -2,17 +2,16 @@
 import {Component} from 'react';
 import ReactGA from 'react-ga';
 import fetch from 'isomorphic-unfetch';
-import WorkEmbed from '@weco/common/views/components/WorkEmbed/WorkEmbed';
+import WithImageViewer from '@weco/common/views/components/WorkEmbed/WithImageViewer';
 
 // TODO: Find out where to get these types
-class Embed extends Component<{| work: Object, withViewer: boolean |}> {
+class Embed extends Component<{| work: Object |}> {
   static getInitialProps = async({ query, req }: {| query: Object |}) => {
-    const {id, withViewer} = query;
+    const {id} = query;
     const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works/${id}?includes=identifiers,items,thumbnail`);
     const json = await res.json();
 
     return {
-      withViewer,
       work: json
     };
   };
@@ -30,8 +29,8 @@ class Embed extends Component<{| work: Object, withViewer: boolean |}> {
   }
 
   render() {
-    const {work, withViewer} = this.props;
-    return (<WorkEmbed work={work} withViewer={withViewer} />);
+    const {work} = this.props;
+    return (<WithImageViewer work={work} />);
   }
 }
 

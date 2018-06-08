@@ -1,3 +1,5 @@
+import React from 'react';
+import ReactDOMServer from 'react-dom/server';
 import {List} from 'immutable';
 import {createPageConfig} from '../model/page-config';
 import {getWork, getWorks} from '../services/wellcomecollection-api';
@@ -7,6 +9,7 @@ import {isFlagEnabled, getFlagValue} from '../utils/flag-status';
 import {worksLandingPromos, henryImage} from '../data/works';
 import getLicenseInfo from '../filters/get-license-info';
 import {getLinkObjects} from '../filters/get-link-objects';
+import WithImage from '../../common/views/components/WorkEmbed/WithImage';
 
 function imageUrlFromMiroId(id) {
   const cleanedMiroId = id.match(/(^\w{1}[0-9]*)+/g, '')[0];
@@ -192,4 +195,14 @@ export const search = async (ctx, next) => {
     henryImage: henryImage
   });
   return next();
+};
+
+export const renderOembed = async (ctx, next) => {
+  const {id} = ctx.params;
+  const work = await getWork(id);
+  ctx.body = {
+    html: ReactDOMServer.renderToString(
+      React.createElement(WithImage, { work })
+    )
+  };
 };
