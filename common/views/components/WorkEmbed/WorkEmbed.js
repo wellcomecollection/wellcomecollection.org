@@ -1,20 +1,26 @@
 // @flow
 import {Fragment} from 'react';
-import type ImageViewer2 from '../ImageViewer/ImageViewer2';
-import type Image from '../Image/Image';
+import WorkCredit from '../WorkCredit/WorkCredit';
+import ImageViewer2 from '../ImageViewer/ImageViewer2';
+import {iiifImageTemplate} from '../../../utils/convert-image-uri';
 import type {Work} from '../../../model/work';
-import licenses from '../../../data/licenses';
 
 type Props = {|
-  work: Work,
-  Embed: ImageViewer2 | Image
+  work: Work
 |}
 
 const WorkEmbed = ({
-  work,
-  Embed
+  work
 }: Props) => {
-  const license = work.thumbnail && work.thumbnail.license.licenseType;
+  const [iiifImageLocation] = work.items.map(
+    item => item.locations.find(
+      location => location.locationType === 'iiif-image'
+    )
+  );
+  const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
+  const iiifImage = iiifImageTemplate(iiifInfoUrl);
+  const imageUrl = iiifImage({width: 800});
+
   return (
     <Fragment>
       <div className='enhanced' style={{
@@ -37,7 +43,14 @@ const WorkEmbed = ({
             width: '100%',
             textAlign: 'center'
           }}>
-            <Fragment>{Embed}</Fragment>
+            <Fragment>
+              <ImageViewer2
+                contentUrl={imageUrl}
+                id={work.id}
+                width={800}
+                trackTitle={work.title}
+              />
+            </Fragment>
           </div>
         </div>
         <div style={{
@@ -46,12 +59,7 @@ const WorkEmbed = ({
           paddingRight: '12px',
           paddingBottom: '12px'
         }}>
-          {work.title}
-          {work.creators.length > 0 &&
-            work.creators.map(creator => creator.label).join(', ')
-          }
-          {work.credit && <a href={`https://wellcomecollection.org/works/${work.id}`}>{work.credit}</a>}
-          {license && <a href={licenses[license].url}>{license}</a>}
+          <WorkCredit work={work} />
         </div>
       </div>
     </Fragment>

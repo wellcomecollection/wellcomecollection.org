@@ -2,7 +2,7 @@
 import {Component} from 'react';
 import ReactGA from 'react-ga';
 import fetch from 'isomorphic-unfetch';
-import WithImageViewer from '@weco/common/views/components/WorkEmbed/WithImageViewer';
+import WorkEmbed from '@weco/common/views/components/WorkEmbed/WorkEmbed';
 
 // TODO: Find out where to get these types
 class Embed extends Component<{| work: Object |}> {
@@ -30,7 +30,7 @@ class Embed extends Component<{| work: Object |}> {
 
   render() {
     const {work} = this.props;
-    return (<WithImageViewer work={work} />);
+    return (<WorkEmbed work={work} />);
   }
 }
 

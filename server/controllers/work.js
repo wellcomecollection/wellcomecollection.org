@@ -9,7 +9,7 @@ import {isFlagEnabled, getFlagValue} from '../utils/flag-status';
 import {worksLandingPromos, henryImage} from '../data/works';
 import getLicenseInfo from '../filters/get-license-info';
 import {getLinkObjects} from '../filters/get-link-objects';
-import WithImage from '../../common/views/components/WorkEmbed/WithImage';
+import WorkImage from '../../common/views/components/WorkImage/WorkImage';
 
 function imageUrlFromMiroId(id) {
   const cleanedMiroId = id.match(/(^\w{1}[0-9]*)+/g, '')[0];
@@ -201,8 +201,18 @@ export const renderOembed = async (ctx, next) => {
   const {id} = ctx.params;
   const work = await getWork(id);
   ctx.body = {
+    url: `https://works.wellcomecollection.org/works/${work.id}`,
+    author_name: 'Wellcome Collection',
+    author_url: 'https://wellcomecollection.org',
+    width: 800,
+    height: null,
+    type: 'rich',
+    provider_name: 'Wellcome Collection',
+    provider_url: 'https://wellcomecollection.org',
+    version: '1.0',
     html: ReactDOMServer.renderToString(
-      React.createElement(WithImage, { work })
-    )
+      React.createElement(WorkImage, { work })
+    ),
+    data: work
   };
 };
