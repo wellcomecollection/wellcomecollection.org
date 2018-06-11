@@ -7,10 +7,12 @@ function loadStories() {
   const pages = require.context('../stories/pages', true, /\.js$/);
   const components = require.context('../stories/components', true, /\.js$/);
   const global = require.context('../stories/global', true, /\.js$/);
+  const documentation = require.context('../stories/documentation', true, /\.js$/);
 
   pages.keys().forEach((filename) => pages(filename));
   components.keys().forEach((filename) => components(filename));
   global.keys().forEach((filename) => global(filename));
+  documentation.keys().forEach((filename) => documentation(filename));
 }
 
 addDecorator(withKnobs);
