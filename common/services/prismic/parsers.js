@@ -47,7 +47,7 @@ function isEmptyObj(obj: ?Object): boolean {
 }
 
 function isEmptyHtmlString(maybeContent: ?HTMLString): boolean {
-  return maybeContent ? asHtml(maybeContent) !== null : false;
+  return maybeContent ? asHtml(maybeContent) === null : false;
 }
 
 export function asText(maybeContent: ?HTMLString): ?string {
