@@ -1,5 +1,3 @@
-Fixes/References #
-
 ## Who is this for?
 
 
