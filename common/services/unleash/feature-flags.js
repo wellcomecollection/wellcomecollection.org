@@ -14,6 +14,8 @@ class ActiveForUserInCohort extends Strategy {
 
 function init(options) {
   return initialize(Object.assign(options, {
+    url: 'https://weco-feature-flags.herokuapp.com/api/',
+    refreshInterval: 60 * 1000,
     strategies: [new ActiveForUserInCohort()]
   }));
 }

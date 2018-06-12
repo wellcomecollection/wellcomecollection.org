@@ -3,10 +3,8 @@ import { initialize } from '../../../services/unleash/feature-flags';
 
 test('Test that flags are working', async () => {
   initialize({
-    url: 'https://weco-feature-flags.herokuapp.com/api/',
     appName: 'test',
-    instanceId: 'test-instance',
-    refreshInterval: 60 * 1000
+    instanceId: 'test-instance'
   });
 
   await new Promise((resolve, reject) => {
