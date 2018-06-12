@@ -1,6 +1,6 @@
 // Leave this service with common requires as it's needed where we don't have
 // compilation
-const { Strategy, initialize } = require('unleash-client');
+const { Strategy, initialize, isEnabled } = require('unleash-client');
 
 class ActiveForUserInCohort extends Strategy {
   constructor() {
@@ -22,5 +22,6 @@ function init(options) {
 
 module.exports = {
   initialize: init,
-  ActiveForUserInCohort
+  ActiveForUserInCohort,
+  isEnabled
 };

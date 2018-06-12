@@ -6,11 +6,14 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 const port = process.argv[2] || 3000;
-console.info(port);
+const { initialize } = require('@weco/common/services/unleash/feature-flags');
 
 app.prepare().then(() => {
   const server = new Koa();
   const router = new Router();
+  initialize({
+    appName: 'works'
+  });
 
   router.get('/embed/works/:id', async ctx => {
     await app.render(ctx.req, ctx.res, '/embed', {id: ctx.params.id});
