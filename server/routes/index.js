@@ -2,7 +2,11 @@ import Router from 'koa-router';
 import request from 'superagent';
 import {healthcheck, featureFlags, progress} from '../controllers/utils';
 import {seriesNav, seriesTransporter, renderSearch} from '../controllers/async-controllers';
-import {work, search} from '../controllers/work';
+import {
+  work,
+  search,
+  renderOembed
+} from '../controllers/work';
 import {article, preview, series, articles} from '../controllers/wordpress';
 import {
   renderHomepage,
@@ -91,6 +95,7 @@ r.get('/opening-times', renderOpeningTimes);
 // API
 r.get('/works', search);
 r.get('/works/:id', work);
+r.get('/oembed/works/:id', renderOembed);
 
 // Deprecated: Wordpress content
 r.get('/articles/archive', articles);

@@ -6,14 +6,15 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 const port = process.argv[2] || 3000;
-console.info(port);
 
 app.prepare().then(() => {
   const server = new Koa();
   const router = new Router();
 
   router.get('/embed/works/:id', async ctx => {
-    await app.render(ctx.req, ctx.res, '/embed', {id: ctx.params.id});
+    await app.render(ctx.req, ctx.res, '/embed', {
+      id: ctx.params.id
+    });
     ctx.respond = false;
   });
 
@@ -35,7 +36,7 @@ app.prepare().then(() => {
   server.use(router.routes());
   server.listen(port, (err) => {
     if (err) throw err;
-    console.log(`> ${process.env.NODE_ENV} ready on http://localhost:${port}`);
+    console.log(`> ${process.env.NODE_ENV || 'development'} ready on http://localhost:${port}`);
   });
 }).catch((ex) => {
   console.error(ex.stack);
