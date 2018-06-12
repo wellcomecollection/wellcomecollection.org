@@ -27,25 +27,34 @@ Some things that will help the PR get through
 ## Labels
 Labels define most of our process within GitHub
 
-### Type
-* [`userstory`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Auserstory)
-  who are you, and how might might we help?
-* [`feature`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Auserstory)
-  a potential solution linked to a `userstory`
-* [`bug`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Abug) 
-  something that should be one way, but is another
-* [`techprofit`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Atechprofit)
-  bits of tidy-up that, when fixed, makes it easier to move forward
+
+### [`userstory`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Auserstory)
+Who are you, and how might might we help?
+
+### [`feature`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Auserstory)
+A potential solution linked to a `userstory`
+  
+### [`techprofit`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Atechprofit)
+Bits of tech tidy-up that, when fixed, makes it easier to move forward.
+
+### [`bug`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Abug) 
+Something that should be one way, but is another.
+
+### [`health`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Ahealth)
+Keeping the heartbeat of the system of feature beating steadily if it has degraded over time.
+
+### [`improvement`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Aimprovement)
+Improving the heartbeat of the system or feature.
 
 ### `needs:{x}`
 Requires someone with this speciality to take a look before we continue.
 Could be used in conjunction with assignee.
 
 ### [`thisquarter`](https://github.com/wellcometrust/wellcomecollection.org/issues?q=is%3Aopen+label%3Aneeds%3A+label%3Athisquarter)
-Literally, doing it this quarter.
+Literally, doing it this quarter (potentially use milestones?).
 
 ### [`wip`](https://github.com/wellcometrust/wellcomecollection.org/issues?q=is%3Aopen+label%3Aneeds%3A+label%3Awip)
-Raised to raise transparency about the work that is going on, but not
+Used to raise transparency about the work that is going on, but not
 necessarily completely ready for review.
 
 ### [`wontfix`](https://github.com/wellcometrust/wellcomecollection.org/issues?q=is%3Aclosed+label%3Aneeds%3A+label%3Awontfix)
