@@ -6,7 +6,7 @@ import WorkEmbed from '@weco/common/views/components/WorkEmbed/WorkEmbed';
 
 // TODO: Find out where to get these types
 class Embed extends Component<{| work: Object |}> {
-  static getInitialProps = async({ query, req }: {| query: Object |}) => {
+  static getInitialProps = async({ query }: {| query: Object |}) => {
     const {id} = query;
     const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works/${id}?includes=identifiers,items,thumbnail`);
     const json = await res.json();
