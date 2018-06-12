@@ -56,7 +56,11 @@ const WorkMedia = ({
           type='dark'
           extraClasses='scroll-to-info js-scroll-to-info js-work-media-control flush-container-right'
           url='#work-info'
-          eventTracking='{"category": "component", "action": "scroll-to-info:click", "label": "scrolled-to-id:work-info"}`}'
+          eventTracking={`${JSON.stringify({
+            category: 'component',
+            action: 'scroll-to-info:click',
+            label: 'scrolled-to-id:work-info'
+          })}`}
           icon='chevron'
           text='Scroll to info' />
         <div className='work-media__image-container'>
