@@ -1,7 +1,7 @@
-const { isEnabled } = require('unleash-client');
+import { isEnabled } from 'unleash-client';
+import { initialize } from '../../../services/unleash/feature-flags';
 
-test('search for single tags and single ids', async () => {
-  const { initialize } = require('unleash-client');
+test('Test that flags are working', async () => {
   initialize({
     url: 'https://weco-feature-flags.herokuapp.com/api/',
     appName: 'test',
@@ -12,7 +12,11 @@ test('search for single tags and single ids', async () => {
   await new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve();
-    }, 500);
+    }, 1500);
   });
-  expect(isEnabled('testSwitch')).toBe(true);
+
+  expect(
+    isEnabled('testSwitch', {
+      cohort: 'small'
+    })).toBe(true);
 });
