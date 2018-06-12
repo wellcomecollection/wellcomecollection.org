@@ -24,7 +24,9 @@ app.prepare().then(async () => {
   });
 
   router.get('/embed/works/:id', async ctx => {
-    await app.render(ctx.req, ctx.res, '/embed', {id: ctx.params.id});
+    await app.render(ctx.req, ctx.res, '/embed', {
+      id: ctx.params.id
+    });
     ctx.respond = false;
   });
 
@@ -46,7 +48,7 @@ app.prepare().then(async () => {
   server.use(router.routes());
   server.listen(port, (err) => {
     if (err) throw err;
-    console.log(`> ${process.env.NODE_ENV} ready on http://localhost:${port}/works`);
+    console.log(`> ${process.env.NODE_ENV || 'development'} ready on http://localhost:${port}/works`);
   });
 }).catch((ex) => {
   console.error(ex.stack);

@@ -15,9 +15,9 @@ const Icon = ({name, title, extraClasses, attrs = {}}: Props) => (
     aria-hidden={title && 'true'}>
     <canvas className='icon__canvas' height='26' width='26'></canvas>
     <svg className='icon__svg'
-      {...title ? { role: 'img' } : { 'aria-hidden': true }}
+      {...title ? { role: 'img', 'aria-labelledby': `icon-${name}-title` } : { 'aria-hidden': true }}
       {...attrs}>
-      {title && <title>{title}</title>}
+      {title && <title id={`icon-${name}-title`}>{title}</title>}
       {icons[name]()}
     </svg>
   </div>

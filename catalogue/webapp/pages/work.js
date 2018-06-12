@@ -261,9 +261,9 @@ const WorkPage = ({work, queryString}: Props) => {
                   download={`${work.id}.jpg`}
                   rel='noopener noreferrer'
                   eventTracking={JSON.stringify({
-                    'category': 'component',
-                    'action': 'download-button:click',
-                    'label': `id: work.id , size:original, title:${work.title.substring(50)}`
+                    category: 'component',
+                    action: 'download-button:click',
+                    label: `id: work.id , size:original, title:${work.title.substring(50)}`
                   })}
                   icon='download'
                   text='Download full size' />
@@ -277,9 +277,9 @@ const WorkPage = ({work, queryString}: Props) => {
                   download={`${work.id}.jpg`}
                   rel='noopener noreferrer'
                   eventTracking={JSON.stringify({
-                    'category': 'component',
-                    'action': 'download-button:click',
-                    'label': `id: work.id , size:760, title:${work.title.substring(50)}`
+                    category: 'component',
+                    action: 'download-button:click',
+                    label: `id: work.id , size:760, title:${work.title.substring(50)}`
                   })}
                   icon='download'
                   text='Download small (760px)' />

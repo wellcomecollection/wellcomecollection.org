@@ -24,7 +24,7 @@ class OpeningHours extends Component<Props, State> {
     event.preventDefault();
 
     this.setState({
-      activePlace: event.target.id
+      activePlace: event.target.getAttribute('data-panel-id')
     });
   }
 
@@ -92,12 +92,13 @@ class OpeningHours extends Component<Props, State> {
         }
         {groupedVenues && groupedVenues[Object.keys(groupedVenues)[0]].hours &&
           <div className={`opening-hours ${extraClasses || ''} js-opening-hours js-tabs`}>
-            <ul className={`plain-list opening-hours__tablist ${font({s: 'HNM5'})} ${spacing({s: 0}, {margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']})} js-tablist`}>
+            <ul className={`plain-list opening-hours__tablist ${font({s: 'HNM5'})} ${spacing({s: 0}, {margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']})} js-tablist`} role='tablist'>
               {groupedVenues && Object.keys(groupedVenues).map((key) => (
                 <li key={key} className={`opening-hours__tabitem js-tabitem ${key === this.state.activePlace ? 'opening-hours__tabitem--is-current' : ''}`}>
-                  <a id={key}
+                  <a data-panel-id={key}
                     className='opening-hours__tablink js-tablink' href={`#${key}`}
                     aria-selected={key === this.state.activePlace}
+                    role='tab'
                     onClick={this.updateActivePlace}>{groupedVenues[key].title}</a>
                 </li>
               ))}

@@ -30,6 +30,7 @@ const SearchBox = ({action, id, name, query, autofocus, onChange, onSubmit}: Pro
         onChange={onChange} />
       <div className='search-box__button-wrap absolute bg-green'>
         <button className={`search-box__button line-height-1 plain-button no-padding ${font({s: 'HNL3', m: 'HNL2'})}`}>
+          <span className='visually-hidden'>Search</span>
           <span className='flex flex--v-center flex--h-center'>
             <Icon name='search' title='Search' extraClasses='icon--white' />
           </span>
@@ -37,7 +38,11 @@ const SearchBox = ({action, id, name, query, autofocus, onChange, onSubmit}: Pro
       </div>
     </form>
     <button className='search-box__clear absolute line-height-1 plain-button v-center no-padding js-clear'
-      data-track-event={`{'category': 'component', 'action': 'clear-search:click', 'label': 'input-id:${id}'}`}
+      data-track-event={`${JSON.stringify({
+        category: 'component',
+        action: 'clear-search:click',
+        label: `input-id:${id}`
+      })}`}
       type='button'>
       <Icon name='clear' title='Clear' />
     </button>
