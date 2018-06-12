@@ -31,7 +31,11 @@ const Hero = ({ images, whiteBox }: Props) => (
           type='dark'
           extraClasses='scroll-to-info js-scroll-to-info js-work-media-control flush-container-right'
           url='#exhibition-content'
-          eventTracking='{"category": "component", "action": "scroll-to-info:click", "label": "scrolled-to-id:exhibition-content"}`}'
+          eventTracking={`${JSON.stringify({
+            category: 'component',
+            action: 'scroll-to-info:click',
+            label: 'scrolled-to-id:exhibition-content'
+          })}`}
           icon='chevron'
           text='Scroll to info' />
       </div>
