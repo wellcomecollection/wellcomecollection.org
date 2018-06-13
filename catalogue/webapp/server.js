@@ -27,8 +27,7 @@ app.prepare().then(async () => {
   try {
     await new Promise((resolve, reject) => {
       instance.on('ready', async () => {
-        reject(new Error('unleash: unable to initialize unleash'));
-        // resolve(true);
+        resolve(true);
       });
       instance.on('error', async () => {
         reject(new Error('unleash: unable to initialize unleash'));
