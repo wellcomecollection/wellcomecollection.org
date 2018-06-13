@@ -30,7 +30,12 @@ const withBundleAnalyzerConfig = withBundleAnalyzer({
       include: (str) => {
         return commonDirRegExp.test(str);
       },
-      use: ['babel-loader', 'raw-loader', 'postcss-loader', 'sass-loader']
+      use: [{
+        loader: 'css-loader',
+        options: {
+          minimize: true
+        }
+      }, 'postcss-loader', 'sass-loader']
     });
     config.plugins.push(
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
