@@ -23,14 +23,22 @@ app.prepare().then(async () => {
   const instance = initialize({
     appName: 'works'
   });
-  await new Promise((resolve, reject) => {
-    instance.on('ready', async () => {
-      resolve(true);
+
+  try {
+    await new Promise((resolve, reject) => {
+      instance.on('ready', async () => {
+        reject(new Error('unleash: unable to initialize unleash'));
+        // resolve(true);
+      });
+      instance.on('error', async () => {
+        reject(new Error('unleash: unable to initialize unleash'));
+      });
     });
-    instance.on('error', async () => {
-      reject(new Error('unleash: unable to initialize unleash'));
-    });
-  });
+  } catch (e) {
+    // TODO: We don't want to not start the app here
+    // but we should report to sentry.
+    console.error(e);
+  }
 
   router.get('/embed/works/:id', async ctx => {
     const flags = getFlags(ctx);
