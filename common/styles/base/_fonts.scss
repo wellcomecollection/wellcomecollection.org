@@ -1,4 +1,4 @@
-$src-base: if($is-next, 'https://i.wellcomecollection.org/assets', '/assets');
+$src-base: if($is-next, '/static', '/assets');
 
 @font-face {
   font-family: 'Wellcome Bold Web';
