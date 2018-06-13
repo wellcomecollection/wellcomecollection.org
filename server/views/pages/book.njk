@@ -18,6 +18,7 @@
   <script type="application/ld+json">
 
   </script>
-  {% componentJsx 'BookPage', { book: book } %}
+  {% set booksMetadataFlag = (featuresCohort | isFlagEnabled('booksMetadata', featureFlags)) %}
+  {% componentJsx 'BookPage', { book: book, booksMetadataFlag: booksMetadataFlag } %}
 
 {% endblock %}
