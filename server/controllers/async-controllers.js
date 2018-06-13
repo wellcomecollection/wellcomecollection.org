@@ -36,7 +36,6 @@ const getSeriesData = async(ctx) => {
 export const seriesNav = async(ctx, next) => {
   const {id} = ctx.params;
   const seriesData = await getSeriesData(ctx);
-  console.info(seriesData);
   ctx.render('components/numbered-list/numbered-list', Object.assign({}, seriesData, {
     modifiers: ['horizontal', 'sticky'],
     data: {
