@@ -19,7 +19,7 @@ const WorkEmbed = ({
   );
   const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImage = iiifImageTemplate(iiifInfoUrl);
-  const imageUrl = iiifImage({width: 800});
+  const imageUrl = iiifImage({size: '800,'});
 
   return (
     <Fragment>
