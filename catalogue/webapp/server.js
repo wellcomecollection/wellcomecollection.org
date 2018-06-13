@@ -53,6 +53,8 @@ app.prepare().then(async () => {
   router.get('/works', async ctx => {
     const flags = getFlags(ctx);
     await app.render(ctx.req, ctx.res, '/works', {
+      page: ctx.query.page,
+      query: ctx.query.query,
       flags
     });
     ctx.respond = false;

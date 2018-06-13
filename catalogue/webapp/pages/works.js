@@ -20,7 +20,8 @@ import type {Flags} from '@weco/common/model/flags';
 // error. We're setting the properties we expect here until
 // we find a better solution.
 type Props = {|
-  query: {| query?: string, page?: string |},
+  query: ?string,
+  page: ?number,
   works: {| results: [], totalResults: number |},
   pagination: PaginationProps,
   handleSubmit: (EventWithInputValue) => void,
@@ -29,6 +30,7 @@ type Props = {|
 
 const WorksComponent = ({
   query,
+  page,
   works,
   pagination,
   handleSubmit,
@@ -69,11 +71,11 @@ const WorksComponent = ({
               action=''
               id='search-works'
               name='query'
-              query={decodeURIComponent(query.query || '')}
+              query={decodeURIComponent(query || '')}
               autofocus={true}
               onSubmit={handleSubmit} />
 
-            {!query.query
+            {!query
               ? <p className={classNames([
                 spacing({s: 4}, {margin: ['top']}),
                 font({s: 'HNL4', m: 'HNL3'})
@@ -89,11 +91,11 @@ const WorksComponent = ({
       </div>
     </div>
 
-    {!query.query &&
+    {!query &&
       <StaticWorksContent />
     }
 
-    {query.query &&
+    {query &&
       <Fragment>
         {pagination && pagination.range &&
           <div className={`row ${spacing({s: 3, m: 5}, {padding: ['top']})}`}>
@@ -172,11 +174,17 @@ const WorksComponent = ({
 );
 
 class Works extends Component<Props> {
-  static getInitialProps = async ({ req, query }: {req?: any, query: any}) => {
-    const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works${getInitialQueryParams(query)}`);
-    const json = await res.json();
-    const currentPage = query.page || 1;
-    const pagination = PaginationFactory.fromList(json.results, Number(json.totalResults) || 1, Number(currentPage) || 1, json.pageSize || 1, {query: query.query || ''});
+  static getInitialProps = async (context) => {
+    const query = context.query.query;
+    const page = context.query.page ? parseInt(context.query.page, 10) : 1;
+    const json = await getWorks({ query, page });
+    const pagination = PaginationFactory.fromList(
+      json.results,
+      Number(json.totalResults) || 1,
+      Number(page) || 1,
+      json.pageSize || 1,
+      {query: query || ''}
+    );
 
     return {
       works: json,
@@ -216,17 +224,24 @@ class Works extends Component<Props> {
 
 export default PageWrapper(Works);
 
+type GetWorksProps = {|
+  query: ?string,
+  page: ?number
+|}
+async function getWorks({ query, page }: GetWorksProps): Object {
+  const res = await fetch(
+    `https://api.wellcomecollection.org/catalogue/v1/works?` +
+    `includes=identifiers,thumbnail,items&pageSize=100` +
+    (query ? `&query=${query}` : '') +
+    (page ? `&page=${page}` : '')
+  );
+  const json = await res.json();
+
+  return json;
+}
+
 function getQueryParamsForWork(query: {}) {
   return Object.keys(query).reduce((acc, currKey, index) => {
     return `${acc}${index > 0 ? '&' : ''}${currKey}=${query[currKey]}`;
   }, '?');
-}
-
-function getInitialQueryParams(query) {
-  const defaults = '?includes=identifiers,thumbnail,items&pageSize=100';
-  const extra = Object.keys(query).reduce((acc, currKey) => {
-    return `${acc}&${currKey}=${query[currKey]}`;
-  }, '');
-
-  return `${defaults}${extra}`;
 }
