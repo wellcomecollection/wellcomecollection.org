@@ -14,6 +14,7 @@ import License from '@weco/common/views/components/License/License';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
+import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import type {Flags} from '@weco/common/model/flags';
 
@@ -163,13 +164,14 @@ function getMetaContentArray(singleWork, descriptionArray) {
 type Work = Object;
 type Props = {|
   work: Work,
-  queryString?: string,
+  previousQueryString: ?string,
+  page: ?number,
   flags: Flags
 |}
 
 const WorkPage = ({
   work,
-  queryString,
+  previousQueryString,
   flags
 }: Props) => {
   const [iiifImageLocation] = work.items.map(
@@ -189,17 +191,33 @@ const WorkPage = ({
   const metaContent = getMetaContentArray(work, descriptionArray);
   const credit = work.items[0].locations[0].credit;
   const attribution = constructAttribution(work, credit, `https://wellcomecollection.org/works/${work.id}`);
-
   return (
     <Fragment>
       <PageDescription title='Search our images' extraClasses='page-description--hidden' />
       <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
+      {previousQueryString && <div className='row'>
+        <div className='container'>
+          <div className='grid'>
+            <div className={grid({s: 12})}>
+              <SecondaryLink
+                url={`/works${previousQueryString || ''}#${work.id}`}
+                text='Search results'
+                eventTracking={JSON.stringify({
+                  category: 'component',
+                  action: 'return-to-results:click',
+                  label: `id:${work.id}, query:${previousQueryString || ''}, title:${work.title}`
+                })} />
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+
       <WorkMedia2
         id={work.id}
         iiifUrl={iiifInfoUrl}
-        title={work.title}
-        queryString={queryString} />
+        title={work.title} />
 
       <div className={`row ${spacing({s: 6}, {padding: ['top', 'bottom']})}`}>
         <div className='container'>
@@ -326,7 +344,7 @@ WorkPage.getInitialProps = async (context) => {
   const {id} = context.query;
   const {asPath} = context;
   const queryStart = asPath.indexOf('?');
-  const queryString = queryStart > -1 && asPath.slice(queryStart);
+  const previousQueryString = queryStart > -1 && asPath.slice(queryStart);
   const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works/${id}?includes=identifiers,items,thumbnail`);
   const json = await res.json();
   const [iiifImageLocation] = json.items.map(
@@ -336,6 +354,7 @@ WorkPage.getInitialProps = async (context) => {
   );
   const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImage = iiifImageTemplate(iiifInfoUrl);
+
   return {
     title: json.title || json.description,
     description: json.description || '',
@@ -344,7 +363,7 @@ WorkPage.getInitialProps = async (context) => {
     imageUrl: iiifImage({size: '800,'}),
     analyticsCategory: 'collections',
     siteSection: 'images',
-    queryString: queryString,
+    previousQueryString,
     work: (json: Work) };
 };
 

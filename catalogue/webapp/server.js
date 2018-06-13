@@ -44,6 +44,8 @@ app.prepare().then(async () => {
   router.get('/works/:id', async ctx => {
     const flags = getFlags(ctx);
     await app.render(ctx.req, ctx.res, '/work', {
+      page: ctx.query.page,
+      query: ctx.query.query,
       id: ctx.params.id,
       flags
     });

@@ -83,7 +83,7 @@ const WorksComponent = ({
               : <p className={classNames([
                 spacing({s: 2}, {margin: ['top', 'bottom']}),
                 font({s: 'LR3', m: 'LR2'})
-              ])}>{works.totalResults !== 0 ? works.totalResults : 'No'} results for &apos;{decodeURIComponent(query.query)}&apos;
+              ])}>{works.totalResults !== 0 ? works.totalResults : 'No'} results for &apos;{decodeURIComponent(query)}&apos;
               </p>
             }
           </div>
@@ -137,7 +137,7 @@ const WorksComponent = ({
                     }}
                     datePublished={result.createdDate && result.createdDate.label}
                     title={result.title}
-                    url={`/works/${result.id}${getQueryParamsForWork(query)}`} />
+                    url={`/works/${result.id}${getQueryParamsForWork(query, page)}`} />
                 </div>
               ))}
             </div>
@@ -177,18 +177,19 @@ class Works extends Component<Props> {
   static getInitialProps = async (context) => {
     const query = context.query.query;
     const page = context.query.page ? parseInt(context.query.page, 10) : 1;
-    const json = await getWorks({ query, page });
+    const works = await getWorks({ query, page });
     const pagination = PaginationFactory.fromList(
-      json.results,
-      Number(json.totalResults) || 1,
+      works.results,
+      Number(works.totalResults) || 1,
       Number(page) || 1,
-      json.pageSize || 1,
+      works.pageSize || 1,
       {query: query || ''}
     );
 
     return {
-      works: json,
-      query: query,
+      works,
+      query,
+      page,
       pagination: pagination,
       title: 'Image catalogue search | Wellcome Collection',
       description: 'Search through the Wellcome Collection image catalogue',
@@ -212,6 +213,7 @@ class Works extends Component<Props> {
   render() {
     return (
       <WorksComponent
+        page={this.props.page}
         flags={this.props.flags}
         query={this.props.query}
         works={this.props.works}
@@ -240,8 +242,11 @@ async function getWorks({ query, page }: GetWorksProps): Object {
   return json;
 }
 
-function getQueryParamsForWork(query: {}) {
-  return Object.keys(query).reduce((acc, currKey, index) => {
-    return `${acc}${index > 0 ? '&' : ''}${currKey}=${query[currKey]}`;
-  }, '?');
+function getQueryParamsForWork(query: ?string, page: ?number) {
+  const params = {query, page};
+  return Object.keys({query, page})
+    .filter(key => params[key])
+    .reduce((acc, key, index) => {
+      return `${acc}${index > 0 ? '&' : ''}${key}=${params[key] || ''}`;
+    }, '?');
 }
