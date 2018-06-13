@@ -1,5 +1,5 @@
 // @flow
-
+import NextLink from 'next/link';
 import {font} from '../../../../utils/classnames';
 import trackOutboundLink from '../../../../utils/track-outbound-link';
 
@@ -16,13 +16,14 @@ const SecondaryLink = ({url, text, extraClasses, eventTracking}: Props) => {
   }
 
   return (
-    <a
-      href={url}
-      data-track-event={eventTracking}
-      onClick={handleClick}
-      className={`secondary-link ${font({s: 'HNM5', m: 'HNM4'})} ${extraClasses || ''}`}>
-      {text}
-    </a>
+    <NextLink href={url}>
+      <a
+        data-track-event={eventTracking}
+        onClick={handleClick}
+        className={`secondary-link ${font({s: 'HNM5', m: 'HNM4'})} ${extraClasses || ''}`}>
+        {text}
+      </a>
+    </NextLink>
   );
 };
 

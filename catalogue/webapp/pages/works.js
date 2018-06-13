@@ -1,5 +1,6 @@
 // @flow
-
+import {Fragment, Component} from 'react';
+import Router from 'next/router';
 import fetch from 'isomorphic-unfetch';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
@@ -12,25 +13,28 @@ import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagination/Pagination';
 import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
 import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
-import {Fragment, Component} from 'react';
-import Router from 'next/router';
+import type {Flags} from '@weco/common/model/flags';
 
 // TODO: Setting the event parameter to type 'Event' leads to
 // an 'Indexable signature not found in EventTarget' Flow
 // error. We're setting the properties we expect here until
 // we find a better solution.
 type Props = {|
-  query: {| query?: string, page?: string |},
+  query: ?string,
+  page: ?number,
   works: {| results: [], totalResults: number |},
   pagination: PaginationProps,
-  handleSubmit: (EventWithInputValue) => void
+  handleSubmit: (EventWithInputValue) => void,
+  flags: Flags
 |}
 
 const WorksComponent = ({
   query,
+  page,
   works,
   pagination,
-  handleSubmit
+  handleSubmit,
+  flags
 }: Props) => (
   <Fragment>
     <PageDescription title='Search our images' extraClasses='page-description--hidden' />
@@ -67,11 +71,11 @@ const WorksComponent = ({
               action=''
               id='search-works'
               name='query'
-              query={decodeURIComponent(query.query || '')}
+              query={decodeURIComponent(query || '')}
               autofocus={true}
               onSubmit={handleSubmit} />
 
-            {!query.query
+            {!query
               ? <p className={classNames([
                 spacing({s: 4}, {margin: ['top']}),
                 font({s: 'HNL4', m: 'HNL3'})
@@ -79,7 +83,7 @@ const WorksComponent = ({
               : <p className={classNames([
                 spacing({s: 2}, {margin: ['top', 'bottom']}),
                 font({s: 'LR3', m: 'LR2'})
-              ])}>{works.totalResults !== 0 ? works.totalResults : 'No'} results for &apos;{decodeURIComponent(query.query)}&apos;
+              ])}>{works.totalResults !== 0 ? works.totalResults : 'No'} results for &apos;{decodeURIComponent(query)}&apos;
               </p>
             }
           </div>
@@ -87,11 +91,11 @@ const WorksComponent = ({
       </div>
     </div>
 
-    {!query.query &&
+    {!query &&
       <StaticWorksContent />
     }
 
-    {query.query &&
+    {query &&
       <Fragment>
         {pagination && pagination.range &&
           <div className={`row ${spacing({s: 3, m: 5}, {padding: ['top']})}`}>
@@ -133,7 +137,7 @@ const WorksComponent = ({
                     }}
                     datePublished={result.createdDate && result.createdDate.label}
                     title={result.title}
-                    url={`/works/${result.id}${getQueryParamsForWork(query)}`} />
+                    url={`/works/${result.id}${getQueryParamsForWork(query, page)}`} />
                 </div>
               ))}
             </div>
@@ -170,15 +174,22 @@ const WorksComponent = ({
 );
 
 class Works extends Component<Props> {
-  static getInitialProps = async ({ req, query }: {req?: any, query: any}) => {
-    const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works${getInitialQueryParams(query)}`);
-    const json = await res.json();
-    const currentPage = query.page || 1;
-    const pagination = PaginationFactory.fromList(json.results, Number(json.totalResults) || 1, Number(currentPage) || 1, json.pageSize || 1, {query: query.query || ''});
+  static getInitialProps = async (context) => {
+    const query = context.query.query;
+    const page = context.query.page ? parseInt(context.query.page, 10) : 1;
+    const works = await getWorks({ query, page });
+    const pagination = PaginationFactory.fromList(
+      works.results,
+      Number(works.totalResults) || 1,
+      Number(page) || 1,
+      works.pageSize || 1,
+      {query: query || ''}
+    );
 
     return {
-      works: json,
-      query: query,
+      works,
+      query,
+      page,
       pagination: pagination,
       title: 'Image catalogue search | Wellcome Collection',
       description: 'Search through the Wellcome Collection image catalogue',
@@ -202,6 +213,8 @@ class Works extends Component<Props> {
   render() {
     return (
       <WorksComponent
+        page={this.props.page}
+        flags={this.props.flags}
         query={this.props.query}
         works={this.props.works}
         pagination={this.props.pagination}
@@ -213,17 +226,27 @@ class Works extends Component<Props> {
 
 export default PageWrapper(Works);
 
-function getQueryParamsForWork(query: {}) {
-  return Object.keys(query).reduce((acc, currKey, index) => {
-    return `${acc}${index > 0 ? '&' : ''}${currKey}=${query[currKey]}`;
-  }, '?');
+type GetWorksProps = {|
+  query: ?string,
+  page: ?number
+|}
+async function getWorks({ query, page }: GetWorksProps): Object {
+  const res = await fetch(
+    `https://api.wellcomecollection.org/catalogue/v1/works?` +
+    `includes=identifiers,thumbnail,items&pageSize=100` +
+    (query ? `&query=${query}` : '') +
+    (page ? `&page=${page}` : '')
+  );
+  const json = await res.json();
+
+  return json;
 }
 
-function getInitialQueryParams(query) {
-  const defaults = '?includes=identifiers,thumbnail,items&pageSize=100';
-  const extra = Object.keys(query).reduce((acc, currKey) => {
-    return `${acc}&${currKey}=${query[currKey]}`;
-  }, '');
-
-  return `${defaults}${extra}`;
+function getQueryParamsForWork(query: ?string, page: ?number) {
+  const params = {query, page};
+  return Object.keys({query, page})
+    .filter(key => params[key])
+    .reduce((acc, key, index) => {
+      return `${acc}${index > 0 ? '&' : ''}${key}=${params[key] || ''}`;
+    }, '?');
 }
