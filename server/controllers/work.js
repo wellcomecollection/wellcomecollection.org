@@ -10,6 +10,7 @@ import {worksLandingPromos, henryImage} from '../data/works';
 import getLicenseInfo from '../filters/get-license-info';
 import {getLinkObjects} from '../filters/get-link-objects';
 import WorkImage from '../../common/views/components/WorkImage/WorkImage';
+import {iiifImageTemplate} from '../../common/utils/convert-image-uri';
 
 function imageUrlFromMiroId(id) {
   const cleanedMiroId = id.match(/(^\w{1}[0-9]*)+/g, '')[0];
@@ -200,6 +201,15 @@ export const search = async (ctx, next) => {
 export const renderOembed = async (ctx, next) => {
   const {id} = ctx.params;
   const work = await getWork(id);
+  const [iiifImageLocation] = work.items.map(
+    item => item.locations.find(
+      location => location.locationType === 'iiif-image'
+    )
+  );
+  const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
+  const iiifImage = iiifImageTemplate(iiifInfoUrl);
+  const thumbnail = iiifImage({size: '800,'});
+
   ctx.body = {
     url: `https://works.wellcomecollection.org/works/${work.id}`,
     author_name: 'Wellcome Collection',
@@ -210,6 +220,8 @@ export const renderOembed = async (ctx, next) => {
     provider_name: 'Wellcome Collection',
     provider_url: 'https://wellcomecollection.org',
     version: '1.0',
+    thumbnail_url: thumbnail,
+    thumbnail_width: 800,
     html: ReactDOMServer.renderToString(
       React.createElement(WorkImage, { work })
     ),

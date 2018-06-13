@@ -19,27 +19,28 @@ const WorkImage = ({
   );
   const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImage = iiifImageTemplate(iiifInfoUrl);
-  const imageUrl = iiifImage({width: 800});
+  const imageUrl = iiifImage({size: '800,'});
 
   return (
     <Fragment>
-      <UiImage
-        contentUrl={imageUrl}
-        width={800}
-        height={0}
-        alt=''
-        tasl={{
-          title: work.title,
-          author: work.creators.map(creator => creator.label).join(', '),
-          copyrightHolder: null,
-          copyrightLink: null,
-          sourceLink: work.credit,
-          sourceName: `https://wellcomecollection.org/works/${work.id}`,
-          license: work.thumbnail && work.thumbnail.license.licenseType
-        }}
-        sizesQueries=''
-        showTasl={false} />
-
+      <a href={`https://wellcomecollection.org/works/${work.id}`}>
+        <UiImage
+          contentUrl={imageUrl}
+          width={800}
+          height={0}
+          alt=''
+          tasl={{
+            title: work.title,
+            author: work.creators.map(creator => creator.label).join(', '),
+            copyrightHolder: null,
+            copyrightLink: null,
+            sourceLink: work.credit,
+            sourceName: `https://wellcomecollection.org/works/${work.id}`,
+            license: work.thumbnail && work.thumbnail.license.licenseType
+          }}
+          sizesQueries=''
+          showTasl={false} />
+      </a>
       <WorkCredit work={work} />
     </Fragment>
   );
