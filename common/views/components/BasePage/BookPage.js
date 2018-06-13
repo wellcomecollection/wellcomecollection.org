@@ -12,10 +12,11 @@ import {grid, spacing} from '../../../utils/classnames';
 import type {Book} from '../../../model/books';
 
 type Props = {|
-  book: Book
+  book: Book,
+  booksMetadataFlag: boolean
 |}
 
-const BookMetadata = ({book}: Props) => (
+const BookMetadata = ({book}: {| book: Book |}) => (
   <dl className='grid'>
     <dt className={'no-margin ' + grid({ s: 2, m: 2, l: 2, xl: 2 })}>Price</dt>
     <dd className={'no-margin ' + grid({ s: 10, m: 10, l: 10, xl: 10 })}>{book.price}</dd>
@@ -32,7 +33,7 @@ const BookMetadata = ({book}: Props) => (
 );
 
 // TODO: Add subtitle
-const BookPage = ({ book }: Props) => {
+const BookPage = ({ book, booksMetadataFlag }: Props) => {
   // TODO: (drupal migration) this should be linked in Prismic
   const person = book.authorName && {
     type: 'people',
@@ -105,11 +106,12 @@ const BookPage = ({ book }: Props) => {
         {contributor &&
           <Contributors contributors={[contributor]} />
         }
-
-        <div className={`${spacing({s: 2}, {padding: ['top']})} border-top-width-1 border-color-smoke`}>
-          <h2 className='h2'>More information</h2>
-          <BookMetadata book={book} />
-        </div>
+        { booksMetadataFlag &&
+            <div className={`${spacing({s: 2}, {padding: ['top']})} ${spacing({s: 2}, {margin: ['top']})} border-top-width-1 border-color-smoke`}>
+              <h2 className='h2'>More information</h2>
+              <BookMetadata book={book} />
+            </div>
+        }
 
         {book.orderLink && <PrimaryLink url={book.orderLink} name='Order online' />}
       </Fragment>
