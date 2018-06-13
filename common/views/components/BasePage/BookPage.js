@@ -111,7 +111,7 @@ const BookPage = ({ book }: Props) => {
           <BookMetadata book={book} />
         </div>
 
-        <PrimaryLink url={book.orderLink} name='Order online' />
+        {book.orderLink && <PrimaryLink url={book.orderLink} name='Order online' />}
       </Fragment>
     </BasePage>
   );
