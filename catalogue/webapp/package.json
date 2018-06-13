@@ -18,6 +18,7 @@
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-wrap-in-js": "^1.1.1",
     "cookies": "^0.7.1",
+    "css-loader": "^0.28.11",
     "isomorphic-unfetch": "^2.0.0",
     "koa": "^2.5.0",
     "koa-router": "^7.4.0",
@@ -26,7 +27,6 @@
     "nodemon": "^1.17.5",
     "postcss-easy-import": "^3.0.0",
     "postcss-loader": "^2.1.4",
-    "raw-loader": "^0.5.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "sass-loader": "^7.0.1"
