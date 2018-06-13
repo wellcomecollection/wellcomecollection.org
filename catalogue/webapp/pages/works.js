@@ -35,7 +35,6 @@ const WorksComponent = ({
   flags
 }: Props) => (
   <Fragment>
-    <div>{flags.apiV2 ? 'BOOOOM' : 'BAAAAANg'}</div>
     <PageDescription title='Search our images' extraClasses='page-description--hidden' />
     <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
