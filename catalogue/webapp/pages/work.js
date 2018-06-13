@@ -1,4 +1,5 @@
 // @flow
+import {Fragment} from 'react';
 import fetch from 'isomorphic-unfetch';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import {iiifImageTemplate, convertImageUri} from '@weco/common/utils/convert-image-uri';
@@ -14,7 +15,7 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
-import {Fragment} from 'react';
+import type {Flags} from '@weco/common/model/flags';
 
 export type Link = {|
   text: string;
@@ -162,10 +163,15 @@ function getMetaContentArray(singleWork, descriptionArray) {
 type Work = Object;
 type Props = {|
   work: Work,
-  queryString?: string
+  queryString?: string,
+  flags: Flags
 |}
 
-const WorkPage = ({work, queryString}: Props) => {
+const WorkPage = ({
+  work,
+  queryString,
+  flags
+}: Props) => {
   const [iiifImageLocation] = work.items.map(
     item => item.locations.find(
       location => location.locationType === 'iiif-image'

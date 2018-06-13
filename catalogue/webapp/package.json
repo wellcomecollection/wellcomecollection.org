@@ -17,6 +17,7 @@
     "autoprefixer": "^8.3.0",
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-wrap-in-js": "^1.1.1",
+    "cookies": "^0.7.1",
     "isomorphic-unfetch": "^2.0.0",
     "koa": "^2.5.0",
     "koa-router": "^7.4.0",
@@ -29,8 +30,5 @@
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "sass-loader": "^7.0.1"
-  },
-  "devDependencies": {
-    "flow-bin": "^0.70.0"
   }
 }

@@ -1,12 +1,21 @@
 const Koa = require('koa');
 const Router = require('koa-router');
 const next = require('next');
-const { initialize } = require('@weco/common/services/unleash/feature-flags');
+const Cookies = require('cookies');
+const { initialize, isEnabled } = require('@weco/common/services/unleash/feature-flags');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 const port = process.argv[2] || 3000;
+
+function getFlags(ctx) {
+  const cookies = new Cookies(ctx.req, ctx.res);
+  const cohort = cookies.get('WC_featuresCohort');
+  return {
+    apiV2: isEnabled('apiV2', { cohort })
+  };
+}
 
 app.prepare().then(async () => {
   const server = new Koa();
@@ -24,14 +33,28 @@ app.prepare().then(async () => {
   });
 
   router.get('/embed/works/:id', async ctx => {
+    const flags = getFlags(ctx);
     await app.render(ctx.req, ctx.res, '/embed', {
-      id: ctx.params.id
+      id: ctx.params.id,
+      flags
     });
     ctx.respond = false;
   });
 
   router.get('/works/:id', async ctx => {
-    await app.render(ctx.req, ctx.res, '/work', {id: ctx.params.id});
+    const flags = getFlags(ctx);
+    await app.render(ctx.req, ctx.res, '/work', {
+      id: ctx.params.id,
+      flags
+    });
+    ctx.respond = false;
+  });
+
+  router.get('/works', async ctx => {
+    const flags = getFlags(ctx);
+    await app.render(ctx.req, ctx.res, '/works', {
+      flags
+    });
     ctx.respond = false;
   });
 

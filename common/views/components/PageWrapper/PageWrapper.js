@@ -5,8 +5,7 @@ import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/D
 const isServer = typeof window === 'undefined';
 // As this is a store, it's mutable
 const clientStore = isServer ? null : {
-  openingTimes: null,
-  flags: null
+  openingTimes: null
 };
 
 async function fetchOpeningTimes() {
@@ -38,9 +37,11 @@ const PageWrapper = Comp => {
   return class Global extends Component<Props> {
     static async getInitialProps(args) {
       const openingTimes = clientStore ? clientStore.openingTimes : await fetchOpeningTimes();
+      const { flags } = args.query;
 
       return {
         openingTimes,
+        flags,
         ...(Comp.getInitialProps ? await Comp.getInitialProps(args) : null)
       };
     }
@@ -63,9 +64,10 @@ const PageWrapper = Comp => {
         siteSection,
         analyticsCategory,
         openingTimes,
+        flags,
         ...props
       } = this.props;
-      console.info(clientStore && clientStore.openingTimes);
+
       return (
         <DefaultPageLayout
           title={title}
@@ -76,7 +78,7 @@ const PageWrapper = Comp => {
           siteSection={siteSection}
           analyticsCategory={analyticsCategory}
           openingTimes={openingTimes}>
-          <Comp {...props} />
+          <Comp {...props} flags={flags} />
         </DefaultPageLayout>
       );
     }

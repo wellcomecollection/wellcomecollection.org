@@ -1,5 +1,6 @@
 // @flow
-
+import {Fragment, Component} from 'react';
+import Router from 'next/router';
 import fetch from 'isomorphic-unfetch';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
@@ -12,8 +13,7 @@ import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagination/Pagination';
 import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
 import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
-import {Fragment, Component} from 'react';
-import Router from 'next/router';
+import type {Flags} from '@weco/common/model/flags';
 
 // TODO: Setting the event parameter to type 'Event' leads to
 // an 'Indexable signature not found in EventTarget' Flow
@@ -23,16 +23,19 @@ type Props = {|
   query: {| query?: string, page?: string |},
   works: {| results: [], totalResults: number |},
   pagination: PaginationProps,
-  handleSubmit: (EventWithInputValue) => void
+  handleSubmit: (EventWithInputValue) => void,
+  flags: Flags
 |}
 
 const WorksComponent = ({
   query,
   works,
   pagination,
-  handleSubmit
+  handleSubmit,
+  flags
 }: Props) => (
   <Fragment>
+    <div>{flags.apiV2 ? 'BOOOOM' : 'BAAAAANg'}</div>
     <PageDescription title='Search our images' extraClasses='page-description--hidden' />
     <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
@@ -202,6 +205,7 @@ class Works extends Component<Props> {
   render() {
     return (
       <WorksComponent
+        flags={this.props.flags}
         query={this.props.query}
         works={this.props.works}
         pagination={this.props.pagination}
