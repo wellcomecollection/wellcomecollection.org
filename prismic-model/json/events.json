@@ -79,7 +79,7 @@
     "description": {
       "type": "StructuredText",
       "config": {
-        "multi": "paragraph,hyperlink,strong,em",
+        "multi": "paragraph,hyperlink,strong,em,heading2,list-item",
         "label": "Description"
       }
     }
@@ -137,7 +137,9 @@
       "config": {
         "label": "Booking enquiry team",
         "select": "document",
-        "customtypes": "teams"
+        "customtypes": [
+          "teams"
+        ]
       }
     },
     "eventbriteEvent": {
