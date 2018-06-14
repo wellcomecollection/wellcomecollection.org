@@ -23,6 +23,11 @@ type Props = {|
   onChange?: (EventWithInputValue) => void
 |}
 
+// `defaultValue` only gets set on initial load for a form.
+// After that, it won't get 'naturally' updated because the
+// intent was only to set an initial default value.
+// We get around this by passing a `key`
+// (the value itself) to the parent element.
 const HTMLInput = ({
   required,
   inputRef,
