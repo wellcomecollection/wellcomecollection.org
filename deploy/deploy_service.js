@@ -26,7 +26,7 @@ program
 
 if (program.all) {
   const serviceNames = Object.keys(services);
-  const promises = Promise.all(serviceNames.map(serviceName => {
+  Promise.all(serviceNames.map(serviceName => {
     return deploy(serviceName);
   }));
 } else if (program.service) {
@@ -53,12 +53,21 @@ async function deploy(serviceName, options) {
 
   const githubUrl = `https://api.github.com/repos/wellcometrust/wellcomecollection.org/git/commits/${latestTag}`;
   const githubData = await fetch(githubUrl).then(resp => resp.json());
-  const githubMessage = githubData.message.replace('\n', '');
+  const githubMessage = githubData.message;
+  const githubMergeRegExp = /Merge pull request #(\d+) from wellcometrust\/(\w+)/gi;
+  const pr = githubMergeRegExp.exec(githubMessage);
+  const prLink = pr && `https://github.com/wellcometrust/wellcomecollection.org/pulls/${pr[1]}`;
 
+  console.info('\n');
   const {shouldDeploy} = await prompt({
     type: 'confirm',
     name: 'shouldDeploy',
-    message: `Deploy ${serviceName} \n${latestTag}\n${githubMessage}`
+    message:
+      (prLink
+        ? `pr:      ${prLink}\n` : '') +
+      `  tag:     ${serviceName}:${latestTag}\n` +
+      `  message: ${githubMessage.replace(githubMergeRegExp, '').replace(/\n/g, '')}\n` +
+      `  Deploy?`
   });
 
   if (shouldDeploy) {
