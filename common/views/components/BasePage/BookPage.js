@@ -112,13 +112,14 @@ const BookPage = ({ book, booksMetadataFlag }: Props) => {
           <Contributors contributors={[contributor]} />
         }
         { booksMetadataFlag &&
+          <Fragment>
             <div className={`${spacing({s: 2}, {padding: ['top']})} ${spacing({s: 2}, {margin: ['top']})} border-top-width-1 border-color-smoke`}>
               <h2 className='h2'>More information</h2>
               <BookMetadata book={book} />
             </div>
+            {book.orderLink && <PrimaryLink url={book.orderLink} name='Order online' />}
+          </Fragment>
         }
-
-        {book.orderLink && <PrimaryLink url={book.orderLink} name='Order online' />}
       </Fragment>
     </BasePage>
   );
