@@ -126,6 +126,8 @@
             <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
               {% componentV2 'gif-video', bodyPart.value %}
             </div>
+          {% elif bodyPart.type === 'text' %}
+            {{ bodyPart.value | prismicAsText | safe }}
           {% else %}
             <div class="body-text">
               {{ bodyPart.value | safe }}
