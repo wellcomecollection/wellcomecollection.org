@@ -146,5 +146,10 @@ export async function renderExhibitExhibitionLink(ctx, next) {
         React.createElement(Tags, { tags })
       )
     };
+  } else {
+    ctx.status = 404;
+    ctx.body = {
+      html: ''
+    };
   }
 }
