@@ -40,7 +40,7 @@ async function deploy(serviceName, options) {
   const service = services[serviceName];
   if (!service) {
     console.error(colors.red(
-      `We can't fund the service '${serviceName}'. \n` +
+      `We can't find the service '${serviceName}'. \n` +
       `Please specify one of the following ${Object.keys(services).join(', ')}.`
     ));
     process.exit(1);
