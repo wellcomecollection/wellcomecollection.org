@@ -23,7 +23,8 @@ const getSeriesData = async(ctx) => {
   return {
     current: ctx.request.query.current,
     model: createNumberedList({
-      url: `${series.id}`,
+      // TODO: (wordpres migration) series.url doesn't need to be here.
+      url: `${series.id || series.url}`,
       name: promoList.name,
       image: image,
       items: items,
@@ -35,7 +36,6 @@ const getSeriesData = async(ctx) => {
 export const seriesNav = async(ctx, next) => {
   const {id} = ctx.params;
   const seriesData = await getSeriesData(ctx);
-
   ctx.render('components/numbered-list/numbered-list', Object.assign({}, seriesData, {
     modifiers: ['horizontal', 'sticky'],
     data: {

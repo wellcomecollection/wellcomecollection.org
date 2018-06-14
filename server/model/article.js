@@ -45,11 +45,14 @@ export class ArticleFactory {
     const mainVideo: ?VideoEmbed = bodyPartsRaw[0] && bodyPartsRaw[0].type === 'video-embed' ? bodyPartsRaw[0].value : null;
     const wpThumbnail = json.post_thumbnail;
 
-    const thumbnail: ?Picture = wpThumbnail ? {
-      type: 'picture',
-      contentUrl: wpThumbnail.URL,
-      width: wpThumbnail.width,
-      height: wpThumbnail.height
+    const thumbnail = wpThumbnail ? {
+      image: {
+        type: 'picture',
+        contentUrl: wpThumbnail.URL,
+        width: wpThumbnail.width,
+        height: wpThumbnail.height
+      },
+      caption: []
     } : null;
     // Annoyingly Wordpress doesn't always send the featured image over with the attachments,
     // so we revert to the thumbnail.
