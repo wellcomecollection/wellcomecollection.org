@@ -25,8 +25,11 @@ jobs:
       - run:
           name: Docker push
           command: |
-            docker login --username $DOCKER_USER --password $DOCKER_PASS
-            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose push
+            if [ "$CIRCLE_BRANCH" == "QA" ];
+            then
+                docker login --username $DOCKER_USER --password $DOCKER_PASS
+                CONTAINER_TAG=${CIRCLE_SHA1} docker-compose push
+            fi
       - run:
           name: Next report
           command: |
