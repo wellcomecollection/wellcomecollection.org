@@ -4,13 +4,14 @@ import Router from 'next/router';
 import fetch from 'isomorphic-unfetch';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {default as PageWrapper, pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
 import StaticWorksContent from '@weco/common/views/components/StaticWorksContent/StaticWorksContent';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagination/Pagination';
+import {remapV2ToV1} from '../utils/remap-v2-to-v1';
 import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
 import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
 
@@ -127,7 +128,7 @@ const WorksComponent = ({
                   <WorkPromo
                     id={result.id}
                     image={{
-                      contentUrl: result.thumbnail && result.thumbnail.url,
+                      contentUrl: result.thumbnail ? result.thumbnail.url : 'https://via.placeholder.com/1600x900?text=%20',
                       width: 300,
                       height: 300,
                       alt: ''
@@ -227,13 +228,18 @@ type GetWorksProps = {|
   page: ?number
 |}
 async function getWorks({ query, page }: GetWorksProps): Object {
+  const version = pageStore.flags.apiV2 ? 2 : 1;
   const res = await fetch(
-    `https://api.wellcomecollection.org/catalogue/v1/works?` +
+    `https://api.wellcomecollection.org/catalogue/v${version}/works?` +
     `includes=identifiers,thumbnail,items&pageSize=100` +
     (query ? `&query=${query}` : '') +
     (page ? `&page=${page}` : '')
   );
-  const json = await res.json();
+  let json = await res.json();
+
+  if (version === 2) {
+    json.results = json.results.map(remapV2ToV1);
+  }
 
   return json;
 }

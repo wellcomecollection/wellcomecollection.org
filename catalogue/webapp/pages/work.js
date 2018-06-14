@@ -4,7 +4,7 @@ import fetch from 'isomorphic-unfetch';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import {iiifImageTemplate, convertImageUri} from '@weco/common/utils/convert-image-uri';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {default as PageWrapper, pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import WorkMedia2 from '@weco/common/views/components/WorkMedia/WorkMedia2';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -16,6 +16,7 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
+import {remapV2ToV1} from '../utils/remap-v2-to-v1';
 
 export type Link = {|
   text: string;
@@ -342,22 +343,29 @@ WorkPage.getInitialProps = async (context) => {
   const {asPath} = context;
   const queryStart = asPath.indexOf('?');
   const previousQueryString = queryStart > -1 && asPath.slice(queryStart);
-  const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works/${id}?includes=identifiers,items,thumbnail`);
-  const json = await res.json();
+  const version = pageStore.flags.apiV2 ? 2 : 1;
+  const res = await fetch(`https://api.wellcomecollection.org/catalogue/v${version}/works/${id}?includes=identifiers,items,thumbnail`);
+  let json = await res.json();
+
   const [iiifImageLocation] = json.items.map(
     item => item.locations.find(
       location => location.locationType === 'iiif-image'
     )
   );
+
   const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
-  const iiifImage = iiifImageTemplate(iiifInfoUrl);
+  const iiifImage = iiifInfoUrl && iiifImageTemplate(iiifInfoUrl);
+
+  if (version === 2) {
+    json = remapV2ToV1(json);
+  }
 
   return {
     title: json.title || json.description,
     description: json.description || '',
     type: 'website',
     url: `https://wellcomecollection.org/works/${json.id}`,
-    imageUrl: iiifImage({size: '800,'}),
+    imageUrl: iiifImage ? iiifImage({size: '800,'}) : null,
     analyticsCategory: 'collections',
     siteSection: 'images',
     previousQueryString,
