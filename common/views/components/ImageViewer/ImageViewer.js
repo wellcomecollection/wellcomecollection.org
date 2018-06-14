@@ -39,7 +39,7 @@ const ImageViewer = ({id, trackTitle, imageUrl}: Props) => (
           id={`zoom-in-${id}`}
           icon='zoomIn'
           extraClasses={`${spacing({s: 1}, {margin: ['right']})}`}
-          eventTracking={commonBtnTracking(id, trackTitle, 'work-zoom-in-button:click')} />
+          eventTracking={commonBtnTracking(id, 'work-zoom-in-button:click', trackTitle)} />
         <Control
           type='light'
           text='Zoom out'
