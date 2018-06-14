@@ -17,7 +17,7 @@ const BookPromoExample = () => {
   );
 };
 
-const stories = storiesOf('WIP', module);
+const stories = storiesOf('Components (WIP)', module);
 
 stories
   .add('Promos / Book promo', withReadme(BookPromoReadme, BookPromoExample));
