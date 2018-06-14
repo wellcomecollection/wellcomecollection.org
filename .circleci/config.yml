@@ -25,7 +25,7 @@ jobs:
       - run:
           name: Docker push
           command: |
-            if [ "$CIRCLE_BRANCH" == "QA" ];
+            if [ "$CIRCLE_BRANCH" == "MASTER" ];
             then
                 docker login --username $DOCKER_USER --password $DOCKER_PASS
                 CONTAINER_TAG=${CIRCLE_SHA1} docker-compose push
