@@ -11,7 +11,7 @@ const pageStoreHandler = {
     return isServer ? serverStore.get(prop) : clientStore.get(prop);
   },
   set: function() {
-    throw Error('Please don\'t try to set props on me （/｡＼)');
+    throw Error('Page store: Please don\'t try to set props on me （/｡＼)');
   }
 };
 export const pageStore = new Proxy({}, pageStoreHandler);
