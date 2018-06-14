@@ -14,8 +14,8 @@ class="book-promo {{ {s:10} | spacingClasses({margin: ['top']}) }}  {{ {s:4, m:5
     {% if model.title %}
       <h3 class="book-promo__title {{ {s:'HNM3'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{model.title}}</h3>
     {% endif %}
-    {% if model.subTitle %}
-      <h4 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{model.subTitle}}</h4>
+    {% if model.subtitle %}
+      <h4 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{model.subtitle}}</h4>
     {% endif %}
     {% if model.description %}
         <p class="{{ {s:'HNL4'} | fontClasses }} {{ {s:2} | spacingClasses({margin: ['top']}) }} {{ {s:0} | spacingClasses({margin: ['bottom']}) }}">{{model.description}}</p>

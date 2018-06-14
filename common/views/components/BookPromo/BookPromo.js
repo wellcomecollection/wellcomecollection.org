@@ -7,7 +7,7 @@ import type {Image} from '../../../model';
 type Props = {|
   url: string,
   title: string,
-  subTitle: ?string,
+  subtitle: ?string,
   description: ?string,
   image: ?Image
 |}
@@ -16,7 +16,7 @@ const BookPromo = ({
   url,
   image,
   title,
-  subTitle,
+  subtitle,
   description
 }: Props) => {
   const PromoTag = url ? 'a' : 'span';
@@ -42,7 +42,7 @@ const BookPromo = ({
       <div className='book-promo__text-container'>
         {title && <h3 className={`book-promo__title ${font({s: 'HNM3'})} ${spacing({s: 0}, {margin: ['top', 'bottom']})}`}>{title}</h3>}
 
-        {subTitle && <h4 className={`${font({s: 'HNM4'})} ${spacing({s: 0}, {margin: ['top', 'bottom']})}`}>{subTitle}</h4>}
+        {subtitle && <h4 className={`${font({s: 'HNM4'})} ${spacing({s: 0}, {margin: ['top', 'bottom']})}`}>{subtitle}</h4>}
 
         {description && <p className={`${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['top']})} ${spacing({s: 0}, {margin: ['bottom']})}`}>{description}</p>}
 
