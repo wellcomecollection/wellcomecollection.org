@@ -16,7 +16,6 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
-import type {Flags} from '@weco/common/model/flags';
 
 export type Link = {|
   text: string;
@@ -165,14 +164,12 @@ type Work = Object;
 type Props = {|
   work: Work,
   previousQueryString: ?string,
-  page: ?number,
-  flags: Flags
+  page: ?number
 |}
 
 const WorkPage = ({
   work,
-  previousQueryString,
-  flags
+  previousQueryString
 }: Props) => {
   const [iiifImageLocation] = work.items.map(
     item => item.locations.find(

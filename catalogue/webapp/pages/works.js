@@ -13,7 +13,6 @@ import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagination/Pagination';
 import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
 import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
-import type {Flags} from '@weco/common/model/flags';
 
 // TODO: Setting the event parameter to type 'Event' leads to
 // an 'Indexable signature not found in EventTarget' Flow
@@ -24,8 +23,7 @@ type Props = {|
   page: ?number,
   works: {| results: [], totalResults: number |},
   pagination: PaginationProps,
-  handleSubmit: (EventWithInputValue) => void,
-  flags: Flags
+  handleSubmit: (EventWithInputValue) => void
 |}
 
 const WorksComponent = ({
@@ -33,8 +31,7 @@ const WorksComponent = ({
   page,
   works,
   pagination,
-  handleSubmit,
-  flags
+  handleSubmit
 }: Props) => (
   <Fragment>
     <PageDescription title='Search our images' extraClasses='page-description--hidden' />
@@ -214,7 +211,6 @@ class Works extends Component<Props> {
     return (
       <WorksComponent
         page={this.props.page}
-        flags={this.props.flags}
         query={this.props.query}
         works={this.props.works}
         pagination={this.props.pagination}
