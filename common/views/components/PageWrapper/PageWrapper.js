@@ -35,14 +35,14 @@ async function fetchOpeningTimes() {
 
 const PageWrapper = Comp => {
   return class Global extends Component<Props> {
-    static async getInitialProps(args) {
+    static async getInitialProps(context) {
       const openingTimes = clientStore ? clientStore.openingTimes : await fetchOpeningTimes();
-      const { flags } = args.query;
+      const flags = clientStore ? clientStore.flags : context.query.flags;
 
       return {
         openingTimes,
         flags,
-        ...(Comp.getInitialProps ? await Comp.getInitialProps(args) : null)
+        ...(Comp.getInitialProps ? await Comp.getInitialProps(context) : null)
       };
     }
 
@@ -51,6 +51,10 @@ const PageWrapper = Comp => {
 
       if (clientStore && !clientStore.appData) {
         clientStore.openingTimes = props.openingTimes;
+      }
+
+      if (clientStore && !clientStore.flags) {
+        clientStore.flags = props.flags;
       }
     }
 
