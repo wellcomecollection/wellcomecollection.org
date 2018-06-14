@@ -2,6 +2,7 @@ import BackToTop from '../BackToTop/BackToTop';
 import Body from '../Body/Body';
 import { BasePageColumn } from '../BasePage/BasePage';
 import BookPage from '../BasePage/BookPage';
+import BookPromo from '../BookPromo/BookPromo';
 import Button from '../Buttons/Button/Button';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import {UiImage, CaptionedImage as CaptionedImageNew} from '../Images/Images';
@@ -58,6 +59,7 @@ export {
   BasePageColumn,
   Body,
   BookPage,
+  BookPromo,
   Button,
   CaptionedImage,
   CaptionedImageNew,

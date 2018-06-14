@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import { doc, withReadme }  from 'storybook-readme';
 import { text, boolean, select } from '@storybook/addon-knobs/react';
-import { id, url, editorialSeries, eventSeries, eventSchedule, image, imageTall } from '../content';
+import { id, url, editorialSeries, eventSeries, eventSchedule, image } from '../content';
 import moment from 'moment';
 import PromoReadme from '../../../common/views/components/Promo/README.md';
 import EditorialPromoReadme from '../../../common/views/components/Promo/README-editorial.md';
@@ -176,7 +176,7 @@ const WorkPromoExample = () => {
     <WorkPromo
       url={url}
       id={id}
-      image={imageTall()}
+      image={image('https://iiif.wellcomecollection.org/image/V0049964ER.jpg/full/full/0/default.jpg', 800, 1309)}
       title={title}
       datePublished={datePublished}
     />
