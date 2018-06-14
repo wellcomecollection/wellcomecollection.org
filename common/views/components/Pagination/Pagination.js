@@ -81,7 +81,7 @@ function buildQueryString(page: number | null, getParams: {} = {}): string {
   const paramsString = paramsArray.join('&');
 
   if (paramsArray.length && page) {
-    return `?page=${page}&${paramsString}`;
+    return `?${paramsString}&page=${page}`;
   } else if (page) {
     return `?page=${page}`;
   } else if (paramsArray.length) {

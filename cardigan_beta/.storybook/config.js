@@ -6,9 +6,11 @@ import { withKnobs } from '@storybook/addon-knobs/react';
 function loadStories() {
   const pages = require.context('../stories/pages', true, /\.js$/);
   const components = require.context('../stories/components', true, /\.js$/);
+  const global = require.context('../stories/global', true, /\.js$/);
 
   pages.keys().forEach((filename) => pages(filename));
   components.keys().forEach((filename) => components(filename));
+  global.keys().forEach((filename) => global(filename));
 }
 
 addDecorator(withKnobs);

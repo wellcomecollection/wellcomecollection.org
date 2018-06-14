@@ -46,6 +46,10 @@ function isEmptyObj(obj: ?Object): boolean {
   return Object.keys((obj || {})).length === 0;
 }
 
+function isEmptyHtmlString(maybeContent: ?HTMLString): boolean {
+  return maybeContent ? asHtml(maybeContent) === null : false;
+}
+
 export function asText(maybeContent: ?HTMLString): ?string {
   return maybeContent && RichText.asText(maybeContent).trim();
 }
@@ -59,7 +63,7 @@ export function asHtml(maybeContent: ?HTMLString) {
 
 export function parseTitle(title: HTMLString): string {
   // We always need a title - blunt validation, but validation none the less
-  return asText(title) || 'TITLE MISSING';
+  return asText(title) || '';
 }
 
 export function parseDescription(description: HTMLString): HTMLString {
@@ -113,7 +117,6 @@ function parseImage(frag: PrismicFragment): Image {
   };
 }
 
-const defaultContributorImage = 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3ed09488-1992-4f8a-9f0c-de2d296109f9_group+21.png';
 type Crop = | '16:9' | '32:15' | 'square';
 export function parseCaptionedImage(frag: PrismicFragment, crop?: Crop): CaptionedImage {
   if (isEmptyObj(frag.image)) {
@@ -138,7 +141,7 @@ export function parseCaptionedImage(frag: PrismicFragment, crop?: Crop): Caption
       alt: image.alt || '',
       tasl
     },
-    caption: frag.caption
+    caption: !isEmptyHtmlString(frag.caption) ? frag.caption : []
   };
 }
 
@@ -148,14 +151,28 @@ export function parsePromoToCaptionedImage(frag: PrismicFragment): CaptionedImag
   return parseCaptionedImage(promo.primary, '16:9');
 }
 
+const defaultContributorImage = {
+  width: 64,
+  height: 64,
+  contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3ed09488-1992-4f8a-9f0c-de2d296109f9_group+21.png',
+  tasl: {
+    sourceName: 'Unknown',
+    title: null,
+    author: null,
+    sourceLink: null,
+    license: null,
+    copyrightHolder: null,
+    copyrightLink: null
+  },
+  alt: ''
+};
+
 function parsePersonContributor(frag: PrismicFragment): PersonContributor {
   return {
     type: 'people',
     id: frag.id,
-    name: frag.data.name || 'NAME MISSING',
-    image: frag.data.image && parsePicture({
-      image: frag.data.image
-    }) ||  { width: 64, height: 64, contentUrl: defaultContributorImage },
+    name: frag.data.name || '',
+    image: checkAndParseImage(frag.data.image) || defaultContributorImage,
     description: frag.data.description,
     twitterHandle: null
   };
@@ -165,10 +182,8 @@ function parseOrganisationContributor(frag: PrismicFragment): OrganisationContri
   return  {
     id: frag.id,
     type: 'organisations',
-    name: asText(frag.data.name) || 'NAME MISSING',
-    image: frag.data.image && parsePicture({
-      image: frag.data.image
-    }) || { width: 64, height: 64, contentUrl: defaultContributorImage },
+    name: asText(frag.data.name) || '',
+    image: checkAndParseImage(frag.data.image) || defaultContributorImage,
     url: frag.data.url
   };
 }
@@ -177,7 +192,7 @@ export function parseContributors(contributorsDoc: PrismicFragment[]): Contribut
   const contributors = contributorsDoc.map(contributor => {
     const role = contributor.role.isBroken === false ? {
       id: contributor.role.id,
-      title: asText(contributor.role.data.title) || 'MISSING TITLE'
+      title: asText(contributor.role.data.title) || ''
     } : null;
 
     return (() => {
@@ -234,17 +249,14 @@ export function parseImagePromo(
   cropType: CropType = '16:9',
   minWidth: ?string = null
 ): ?ImagePromo {
-  const maybePromo = frag && frag.find(slice => slice.slice_type === 'editorialImage');
-  const hasImage = (maybePromo && maybePromo.primary.image && isImageLink(maybePromo.primary.image)) || false;
-  const link = maybePromo && maybePromo.primary.link;
+  const promoSlice = frag && frag.find(slice => slice.slice_type === 'editorialImage');
+  const link = promoSlice && promoSlice.primary.link;
+  // We introduced enforcing 16:9 half way through, so we have to do a check for it.
+  const promoImage = promoSlice && cropType ? (promoSlice.primary.image[cropType] || promoSlice.primary.image) : promoSlice && promoSlice.primary.image;
 
-  return maybePromo && ({
-    caption: asText(maybePromo.primary.caption),
-    image: hasImage ? parsePicture({
-      image:
-        // We introduced enforcing 16:9 half way through, so we have to do a check for it.
-        cropType ? (maybePromo.primary.image[cropType] || maybePromo.primary.image) : maybePromo.primary.image
-    }, minWidth) : null,
+  return promoSlice && ({
+    caption: asText(promoSlice.primary.caption),
+    image: checkAndParseImage(promoImage),
     link
   }: ImagePromo);
 }

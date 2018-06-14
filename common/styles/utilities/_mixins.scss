@@ -142,9 +142,9 @@
 @mixin font($font-name) {
   $font: map-get($fonts, $font-name);
 
-  $font-family-base: map-get($font, 'font-family-base');
-  $font-family-subset: map-get($font, 'font-family-subset');
-  $font-family-web: map-get($font, 'font-family-web');
+  $font-family-base: unquote(map-get($font, 'font-family-base') or '');
+  $font-family-subset: unquote(map-get($font, 'font-family-subset') or '');
+  $font-family-web: unquote(map-get($font, 'font-family-web') or '');
   $font-size: px-to-rem(map-get($font, 'font-size'));
   $font-weight: map-get($font, 'font-weight');
   $letter-spacing: tracking-to-em(map-get($font, 'letter-spacing'));
@@ -160,15 +160,15 @@
   letter-spacing: $letter-spacing;
   line-height: $line-height;
 
-  @if($font-family-subset) {
+  @if ($font-family-subset != '') {
     font-family: #{$font-family-subset + ',' + $font-family-base};
   }
 
-  @if($font-family-web and $font-family-subset) {
+  @if ($font-family-web and ($font-family-subset != '')) {
     .fonts-loaded & {
       font-family: #{$font-family-web + ',' + $font-family-subset + ',' + $font-family-base};
     }
-  } @else if ($font-family-web) {
+  } @else if ($font-family-web != '') {
     .fonts-loaded & {
       font-family: #{$font-family-web + ',' + $font-family-base};
     }

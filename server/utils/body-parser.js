@@ -5,7 +5,6 @@ import entities from 'entities';
 
 import {createImageGallery} from '../model/image-gallery';
 import type {Picture} from '../model/picture';
-import {createPicture} from '../model/picture';
 import {createVideoEmbed} from '../model/video-embed';
 import {createList} from '../model/list';
 import {createTweet} from '../model/tweet';
@@ -123,11 +122,18 @@ function convertSlideshow(node) {
   const dataGallery = node.attrs && getAttrVal(node.attrs, 'data-gallery');
   if (dataGallery) {
     const parsedData = JSON.parse(dataGallery);
-    const images = parsedData.map(image => createPicture({
-      contentUrl: image.src,
-      caption: image.caption,
-      alt: image.alt,
-      width: 800 // this seems to be a width that works...
+    const images = parsedData.map(image => ({
+      image: {
+        contentUrl: image.src,
+        caption: image.caption,
+        alt: image.alt,
+        width: 800 // this seems to be a width that works...
+      },
+      caption: [{
+        type: 'paragraph',
+        text: image.caption,
+        spans: []
+      }]
     }));
 
     return createBodyPart({
@@ -444,12 +450,12 @@ export function findWpImageGallery(node) {
             const contentUrl = getAttrVal(img.attrs, 'data-orig-file');
             const caption = getAttrVal(img.attrs, 'alt');
             return {
-              image: createPicture({
+              image: {
                 contentUrl,
                 width,
                 height,
                 alt: caption
-              }),
+              },
               caption: [{
                 type: 'paragraph',
                 text: caption,
@@ -496,7 +502,7 @@ function getImageFromWpNode(node) {
 
   return {
     type: 'picture',
-    caption: createPrismicParagraph(striptags(caption)),
+    caption: caption && createPrismicParagraph(striptags(caption)),
     image: {
       contentUrl,
       alt,

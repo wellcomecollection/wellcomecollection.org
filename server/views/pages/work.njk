@@ -12,6 +12,11 @@
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
 
   <meta name="description" content="{{ work.description }}" />
+  <link
+    rel="alternate"
+    type="application/json+oembed"
+    href="https://wellcomecollection.org/oembed/works/{{ work.id }}"
+    title="{{work.title}}" />
 {% endblock %}
 
 {% block body %}

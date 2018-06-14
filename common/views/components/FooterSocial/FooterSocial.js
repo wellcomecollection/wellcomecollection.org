@@ -28,12 +28,6 @@ const items = [
     icon: 'soundcloud'
   },
   {
-    url: 'http://wellcomecollection.tumblr.com/',
-    title: 'Tumblr',
-    service: 'Tumblr',
-    icon: 'tumblr'
-  },
-  {
     url: 'https://www.youtube.com/user/WellcomeCollection',
     title: 'YouTube',
     service: 'YouTube',

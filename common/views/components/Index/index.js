@@ -8,6 +8,7 @@ import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import {UiImage, CaptionedImage as CaptionedImageNew} from '../Images/Images';
 import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
 import Contributor from '../Contributor/Contributor';
+import Contributors from '../Contributors/Contributors';
 import Control from '../Buttons/Control/Control';
 import CopyUrl from '../CopyUrl/CopyUrl';
 import Divider from '../Divider/Divider';
@@ -26,6 +27,7 @@ import InfoBanner from '../InfoBanner/InfoBanner';
 import InstallationPage from '../BasePage/InstallationPage';
 import InstallationPromo from '../InstallationPromo/InstallationPromo';
 import License from '../License/License';
+import MainMedia from '../MainMedia/MainMedia';
 import Map from '../Map/Map';
 import MetaUnit from '../MetaUnit/MetaUnit';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
@@ -63,6 +65,7 @@ export {
   CaptionedImageNew,
   ChapterIndicator,
   Contributor,
+  Contributors,
   Control,
   CopyUrl,
   Divider,
@@ -81,6 +84,7 @@ export {
   InstallationPage,
   InstallationPromo,
   License,
+  MainMedia,
   Map,
   MetaUnit,
   NewsletterPromo,

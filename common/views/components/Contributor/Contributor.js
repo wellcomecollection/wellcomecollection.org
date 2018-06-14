@@ -5,7 +5,11 @@ import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import type {Contributor as ContributorType} from '../../../model/contributors';
 import type {Props as ImageProps} from '../Image/Image';
 
-const Contributor = ({ contributor, role, description }: ContributorType) => {
+const Contributor = ({
+  contributor,
+  role,
+  description
+}: ContributorType) => {
   const descriptionToRender = description || contributor.description;
   const imageProps: ImageProps = contributor.type === 'organisations' ? {
     width: 64,
@@ -35,9 +39,16 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
         </div>
       }
       <div className={`${grid({ s: 10, m: 10, l: 10, xl: 10 })}`}>
-        <div className={font({s: 'WB6'})}>
-          {contributor.name}
-        </div>
+        {contributor.type === 'organisations' && contributor.url &&
+          <div className={font({s: 'WB6'})}>
+            <a href={contributor.url}>{contributor.name}</a>
+          </div>
+        }
+        {!contributor.url &&
+          <div className={font({s: 'WB6'})}>
+            {contributor.name}
+          </div>
+        }
         {role && role.title &&
           <div className={font({s: 'HNL4'})}>
             {role.title}

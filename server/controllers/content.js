@@ -195,6 +195,7 @@ export async function renderExplore(ctx, next) {
       canonicalUri: `${ctx.globals.rootDomain}/explore`
     }),
     promos: promos,
+    articles: contentList.results,
     curatedList
   });
 

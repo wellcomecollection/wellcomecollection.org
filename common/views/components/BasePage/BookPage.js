@@ -5,16 +5,35 @@ import BaseHeader from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
 import HTMLDate from '../HTMLDate/HTMLDate';
 import Contributors from '../Contributors/Contributors';
+import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import {UiImage} from '../Images/Images';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
+import {grid, spacing} from '../../../utils/classnames';
 import type {Book} from '../../../model/books';
 
 type Props = {|
-  book: Book
+  book: Book,
+  booksMetadataFlag: boolean
 |}
 
+const BookMetadata = ({book}: {| book: Book |}) => (
+  <dl className='grid'>
+    <dt className={'no-margin ' + grid({ s: 2, m: 2, l: 2, xl: 2 })}>Price</dt>
+    <dd className={'no-margin ' + grid({ s: 10, m: 10, l: 10, xl: 10 })}>{book.price}</dd>
+
+    <dt className={'no-margin ' + grid({ s: 2, m: 2, l: 2, xl: 2 })}>Format</dt>
+    <dd className={'no-margin ' + grid({ s: 10, m: 10, l: 10, xl: 10 })}>{book.format}</dd>
+
+    <dt className={'no-margin ' + grid({ s: 2, m: 2, l: 2, xl: 2 })}>Extent</dt>
+    <dd className={'no-margin ' + grid({ s: 10, m: 10, l: 10, xl: 10 })}>{book.extent}</dd>
+
+    <dt className={'no-margin ' + grid({ s: 2, m: 2, l: 2, xl: 2 })}>ISBN</dt>
+    <dd className={'no-margin ' + grid({ s: 10, m: 10, l: 10, xl: 10 })}>{book.isbn}</dd>
+  </dl>
+);
+
 // TODO: Add subtitle
-const BookPage = ({ book }: Props) => {
+const BookPage = ({ book, booksMetadataFlag }: Props) => {
   // TODO: (drupal migration) this should be linked in Prismic
   const person = book.authorName && {
     type: 'people',
@@ -23,7 +42,17 @@ const BookPage = ({ book }: Props) => {
     image: {
       contentUrl: book.authorImage || '',
       width: 800,
-      height: null
+      height: 0,
+      alt: `Image of ${book.authorName}`,
+      tasl: {
+        sourceName: 'Unknown',
+        title: null,
+        author: null,
+        sourceLink: null,
+        license: null,
+        copyrightHolder: null,
+        copyrightLink: null
+      }
     },
     twitterHandle: null,
     // parse this as string
@@ -54,7 +83,7 @@ const BookPage = ({ book }: Props) => {
   /* $FlowFixMe */
   const FeaturedMedia = book.promo && <UiImage tasl={tasl} extraClasses='margin-v-auto inherit-max-height width-auto ' {...image} />;
   const Header = (<BaseHeader
-    title={book.title || 'TITLE MISSING'}
+    title={book.title || ''}
     Background={WobblyBackground()}
     TagBar={null}
     DateInfo={DateInfo}
@@ -77,6 +106,14 @@ const BookPage = ({ book }: Props) => {
         {contributor &&
           <Contributors contributors={[contributor]} />
         }
+        { booksMetadataFlag &&
+            <div className={`${spacing({s: 2}, {padding: ['top']})} ${spacing({s: 2}, {margin: ['top']})} border-top-width-1 border-color-smoke`}>
+              <h2 className='h2'>More information</h2>
+              <BookMetadata book={book} />
+            </div>
+        }
+
+        {book.orderLink && <PrimaryLink url={book.orderLink} name='Order online' />}
       </Fragment>
     </BasePage>
   );

@@ -17,6 +17,7 @@ export type UiImageProps = {|
   // Grid sizing object = {| ['s', 'm', 'l', 'xl']: number |}
   sizesQueries: string,
   extraClasses?: string,
+  isFull?: boolean,
   showTasl?: boolean
 |}
 
@@ -28,6 +29,7 @@ export const UiImage = ({
   tasl,
   sizesQueries,
   extraClasses = '',
+  isFull = false,
   showTasl = true
 }: UiImageProps) => {
   return (
@@ -48,7 +50,7 @@ export const UiImage = ({
         })}
         sizes={sizesQueries}
         alt={alt} />
-      {showTasl && <Tasl {...tasl} />}
+      {showTasl && <Tasl {...tasl} isFull={isFull} />}
     </Fragment>
   );
 };

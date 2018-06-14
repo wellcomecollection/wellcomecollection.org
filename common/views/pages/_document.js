@@ -5,7 +5,7 @@ export default function WeDoc(css: string) {
   return class WecoDoc extends Document {
     render() {
       return (
-        <html>
+        <html id='top' lang='en'>
           <Head>
             <style dangerouslySetInnerHTML={{ __html: css }} />
           </Head>
