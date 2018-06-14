@@ -2,6 +2,7 @@
 import type {HTMLString} from '../services/prismic/types';
 import type {ImagePromo} from './image-promo';
 import type {Image} from './image';
+import type {Contributor} from './contributors';
 
 type Review = {|
   text: HTMLString,
@@ -25,5 +26,6 @@ export type Book = {|
   authorDescription: ?HTMLString,
   body: any[],
   promo: ?ImagePromo,
-  cover: ?Image
+  cover: ?Image,
+  contributors: Contributor[]
 |};
