@@ -7,6 +7,7 @@ import HTMLDate from '../HTMLDate/HTMLDate';
 import Contributors from '../Contributors/Contributors';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import {UiImage} from '../Images/Images';
+import Tags from '../Tags/Tags';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
 import {grid, spacing} from '../../../utils/classnames';
 import type {Book} from '../../../model/books';
@@ -82,10 +83,14 @@ const BookPage = ({ book, booksMetadataFlag }: Props) => {
   /* https://github.com/facebook/flow/issues/2405 */
   /* $FlowFixMe */
   const FeaturedMedia = book.promo && <UiImage tasl={tasl} extraClasses='margin-v-auto inherit-max-height width-auto ' {...image} />;
+  const TagBar = <Tags tags={[{
+    text: 'Book',
+    url: '/books'
+  }]} />;
   const Header = (<BaseHeader
     title={book.title || ''}
     Background={WobblyBackground()}
-    TagBar={null}
+    TagBar={TagBar}
     DateInfo={DateInfo}
     Description={
       <Fragment>
@@ -100,8 +105,8 @@ const BookPage = ({ book, booksMetadataFlag }: Props) => {
     <BasePage
       id={book.id}
       Header={Header}
-      Body={<Body
-        body={book.body} />}>
+      Body={<Body body={book.body} />}
+    >
       <Fragment>
         {contributor &&
           <Contributors contributors={[contributor]} />
