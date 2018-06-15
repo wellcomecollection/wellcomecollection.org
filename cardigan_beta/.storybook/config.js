@@ -43,7 +43,8 @@ addDecorator(AppJsDecorator);
 setOptions({
   name: 'Cardigan',
   url: 'https://cardigan.wellcomecollection.org',
-  addonPanelInRight: true
+  addonPanelInRight: true,
+  hierarchySeparator: /\//
 });
 
 configure(loadStories, module);
