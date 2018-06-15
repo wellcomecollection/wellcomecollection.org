@@ -127,7 +127,7 @@
               {% componentV2 'gif-video', bodyPart.value %}
             </div>
           {% elif bodyPart.type === 'text' %}
-            {{ bodyPart.value | prismicAsText | safe }}
+            {% componentJsx 'PrismicHtmlBlock', {html: bodyPart.value} %}
           {% else %}
             <div class="body-text">
               {{ bodyPart.value | safe }}
