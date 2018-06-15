@@ -40,6 +40,7 @@ import PageDescription from '../PageDescription/PageDescription';
 import Pagination from '../Pagination/Pagination';
 import Picture from '../Picture/Picture';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
+import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Promo from '../Promo/Promo';
 import Quote from '../Quote/Quote';
 import SearchBox from '../SearchBox/SearchBox';
@@ -97,6 +98,7 @@ export {
   Pagination,
   Picture,
   PrimaryLink,
+  PrismicHtmlBlock,
   Promo,
   Quote,
   SearchBox,
