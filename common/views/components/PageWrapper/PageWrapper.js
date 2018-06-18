@@ -4,9 +4,17 @@ import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/D
 
 const isServer = typeof window === 'undefined';
 // As this is a store, it's mutable
-const clientStore = isServer ? null : {
-  openingTimes: null
+const clientStore = isServer ? null : new Map();
+const serverStore = isServer ? new Map() : null;
+const pageStoreHandler = {
+  get: function(_, prop) {
+    return isServer ? serverStore.get(prop) : clientStore.get(prop);
+  },
+  set: function() {
+    throw Error('Page store: Please don\'t try to set props on me （/｡＼)');
+  }
 };
+export const pageStore = new Proxy({}, pageStoreHandler);
 
 async function fetchOpeningTimes() {
   const openingTimes = await getCollectionOpeningTimes();
@@ -36,8 +44,13 @@ async function fetchOpeningTimes() {
 const PageWrapper = Comp => {
   return class Global extends Component<Props> {
     static async getInitialProps(context) {
-      const openingTimes = clientStore ? clientStore.openingTimes : await fetchOpeningTimes();
-      const flags = clientStore ? clientStore.flags : context.query.flags;
+      const openingTimes = clientStore ? clientStore.get('openingTimes') : await fetchOpeningTimes();
+      const flags = clientStore ? clientStore.get('flags') : context.query.flags;
+
+      if (serverStore) {
+        serverStore.set('openingTimes', openingTimes);
+        serverStore.set('flags', flags);
+      }
 
       return {
         openingTimes,
@@ -49,12 +62,12 @@ const PageWrapper = Comp => {
     constructor(props) {
       super(props);
 
-      if (clientStore && !clientStore.appData) {
-        clientStore.openingTimes = props.openingTimes;
+      if (clientStore && !clientStore.get('openingTimes')) {
+        clientStore.set('openingTimes', props.openingTimes);
       }
 
-      if (clientStore && !clientStore.flags) {
-        clientStore.flags = props.flags;
+      if (clientStore && !clientStore.get('flags')) {
+        clientStore.set('flags', props.flags);
       }
     }
 
@@ -68,7 +81,6 @@ const PageWrapper = Comp => {
         siteSection,
         analyticsCategory,
         openingTimes,
-        flags,
         ...props
       } = this.props;
 
@@ -82,7 +94,7 @@ const PageWrapper = Comp => {
           siteSection={siteSection}
           analyticsCategory={analyticsCategory}
           openingTimes={openingTimes}>
-          <Comp {...props} flags={flags} />
+          <Comp {...props} />
         </DefaultPageLayout>
       );
     }
