@@ -4,7 +4,6 @@ $fonts: (
     'font-family-subset': "'Wellcome Bold Web Subset'",
     'font-family-web': "'Wellcome Bold Web'",
     'font-size': 90px,
-    'letter-spacing': -20,
     'line-height': 120px
   ),
   'WB2': (
@@ -12,7 +11,6 @@ $fonts: (
     'font-family-subset': "'Wellcome Bold Web Subset'",
     'font-family-web': "'Wellcome Bold Web'",
     'font-size': 60px,
-    'letter-spacing': -20,
     'line-height': 78px
   ),
   'WB3': (
@@ -20,7 +18,6 @@ $fonts: (
     'font-family-subset': "'Wellcome Bold Web Subset'",
     'font-family-web': "'Wellcome Bold Web'",
     'font-size': 44px,
-    'letter-spacing': 0,
     'line-height': 60px
   ),
   'WB4': (
@@ -28,7 +25,6 @@ $fonts: (
     'font-family-subset': "'Wellcome Bold Web Subset'",
     'font-family-web': "'Wellcome Bold Web'",
     'font-size': 33px,
-    'letter-spacing': 0,
     'line-height': 48px
   ),
   'WB5': (
@@ -36,7 +32,6 @@ $fonts: (
     'font-family-subset': "'Wellcome Bold Web Subset'",
     'font-family-web': "'Wellcome Bold Web'",
     'font-size': 22px,
-    'letter-spacing': 20,
     'line-height': 32px
   ),
   'WB6': (
@@ -44,7 +39,6 @@ $fonts: (
     'font-family-subset': "'Wellcome Bold Web Subset'",
     'font-family-web': "'Wellcome Bold Web'",
     'font-size': 19px,
-    'letter-spacing': 20,
     'line-height': 28px
   ),
   'WB7': (
@@ -52,49 +46,48 @@ $fonts: (
     'font-family-subset': "'Wellcome Bold Web Subset'",
     'font-family-web': "'Wellcome Bold Web'",
     'font-size': 15px,
-    'letter-spacing': 20,
     'line-height': 24px
   ),
   'HNM1': (
     'font-family-base': "'HelveticaNeue-Medium', 'Helvetica Neue Medium', 'Arial Black', Gadget, sans-serif",
     'font-family-web': "'Helvetica Neue Medium Web'",
     'font-size': 36px,
-    'letter-spacing': 20,
+    'letter-spacing': 0.02em,
     'line-height': 48px
   ),
   'HNM2': (
     'font-family-base': "'HelveticaNeue-Medium', 'Helvetica Neue Medium', 'Arial Black', Gadget, sans-serif",
     'font-family-web': "'Helvetica Neue Medium Web'",
     'font-size': 26px,
-    'letter-spacing': 20,
+    'letter-spacing': 0.02em,
     'line-height': 38px
   ),
   'HNM3': (
     'font-family-base': "'HelveticaNeue-Medium', 'Helvetica Neue Medium', 'Arial Black', Gadget, sans-serif",
     'font-family-web': "'Helvetica Neue Medium Web'",
     'font-size': 20px,
-    'letter-spacing': 40,
+    'letter-spacing': 0.02em,
     'line-height': 30px
   ),
   'HNM4': (
     'font-family-base': "'HelveticaNeue-Medium', 'Helvetica Neue Medium', 'Arial Black', Gadget, sans-serif",
     'font-family-web': "'Helvetica Neue Medium Web'",
     'font-size': 16px,
-    'letter-spacing': 40,
+    'letter-spacing': 0.02em,
     'line-height': 24px
   ),
   'HNM5': (
     'font-family-base': "'HelveticaNeue-Medium', 'Helvetica Neue Medium', 'Arial Black', Gadget, sans-serif",
     'font-family-web': "'Helvetica Neue Medium Web'",
     'font-size': 14px,
-    'letter-spacing': 80,
+    'letter-spacing': 0.02em,
     'line-height': 20px
   ),
   'HNM6': (
     'font-family-base': "'HelveticaNeue-Medium', 'Helvetica Neue Medium', 'Arial Black', Gadget, sans-serif",
     'font-family-web': "'Helvetica Neue Medium Web'",
     'font-size': 12px,
-    'letter-spacing': 80,
+    'letter-spacing': 0.02em,
     'line-height': 18px
   ),
   'HNL1': (
@@ -102,7 +95,7 @@ $fonts: (
     'font-family-web': "'Helvetica Neue Light Web'",
     'font-weight': normal,
     'font-size': 36px,
-    'letter-spacing': 40,
+    'letter-spacing': 0.02em,
     'line-height': 48px
   ),
   'HNL2': (
@@ -110,7 +103,7 @@ $fonts: (
     'font-family-web': "'Helvetica Neue Light Web'",
     'font-weight': normal,
     'font-size': 26px,
-    'letter-spacing': 40,
+    'letter-spacing': 0.02em,
     'line-height': 38px
   ),
   'HNL3': (
@@ -118,7 +111,7 @@ $fonts: (
     'font-family-web': "'Helvetica Neue Light Web'",
     'font-weight': normal,
     'font-size': 20px,
-    'letter-spacing': 40,
+    'letter-spacing': 0.02em,
     'line-height': 30px
   ),
   'HNL4': (
@@ -126,7 +119,7 @@ $fonts: (
     'font-family-web': "'Helvetica Neue Light Web'",
     'font-weight': normal,
     'font-size': 16px,
-    'letter-spacing': 40,
+    'letter-spacing': 0.02em,
     'line-height': 24px
   ),
   'HNL5': (
@@ -134,7 +127,7 @@ $fonts: (
     'font-family-web': "'Helvetica Neue Light Web'",
     'font-weight': normal,
     'font-size': 14px,
-    'letter-spacing': 40,
+    'letter-spacing': 0.02em,
     'line-height': 20px
   ),
   'HNL6': (
@@ -142,7 +135,7 @@ $fonts: (
     'font-family-web': "'Helvetica Neue Light Web'",
     'font-weight': normal,
     'font-size': 12px,
-    'letter-spacing': 80,
+    'letter-spacing': 0.02em,
     'line-height': 18px
   ),
   'HNL7': (
@@ -150,28 +143,26 @@ $fonts: (
     'font-family-web': "'Helvetica Neue Light Web'",
     'font-weight': normal,
     'font-size': 11px,
-    'letter-spacing': 80,
+    'letter-spacing': 0.02em,
     'line-height': 18px
   ),
   'LR1': (
     'font-family-base': "'Courier New', Courier, Monospace",
     'font-family-web': "'Lettera Regular Web'",
     'font-size': 18px,
-    'letter-spacing': 0,
+    'letter-spacing': 0.02em,
     'line-height': 24px
   ),
   'LR2': (
     'font-family-base': "'Courier New', Courier, Monospace",
     'font-family-web': "'Lettera Regular Web'",
     'font-size': 14px,
-    'letter-spacing': -40,
     'line-height': 24px
   ),
   'LR3': (
     'font-family-base': "'Courier New', Courier, Monospace",
     'font-family-web': "'Lettera Regular Web'",
     'font-size': 12px,
-    'letter-spacing': -20,
     'line-height': 18px
   )
 );
