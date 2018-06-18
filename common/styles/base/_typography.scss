@@ -12,6 +12,9 @@ body {
   }
 
   font-variant-ligatures: no-common-ligatures;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  -o-font-smoothing: antialiased;
 }
 
 h1,

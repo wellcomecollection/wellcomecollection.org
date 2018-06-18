@@ -2,7 +2,7 @@
     <span class="{{- [
       {s:'WB6'} | fontClasses,
       {s:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']})
-    ].join(' ') }} segmented-control__button-text flex bg-black font-white smooth-font flex--h-space-between rounded-diagonal">
+    ].join(' ') }} segmented-control__button-text flex bg-black font-white flex--h-space-between rounded-diagonal">
       <span class="js-segmented-control__button-text">{{ controlText }}</span>
       {% icon 'chevron', null, ['icon--white'] %}
     </span>
@@ -59,7 +59,7 @@
            href="{{ item.url }}"
            class="{{- [
              {s:2} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}),
-             'is-active smooth-font bg-black font-white bg-hover-pewter' if item.id === data.activeId else 'bg-white font-black bg-hover-pumice'
+             'is-active bg-black font-white bg-hover-pewter' if item.id === data.activeId else 'bg-white font-black bg-hover-pumice'
            ].join(' ') }} block plain-link js-segmented-control__link segmented-control__link transition-bg no-visible-focus {{'js-tablink' if data.isTabControl }}">
           {{ item.title }}
         </a>
