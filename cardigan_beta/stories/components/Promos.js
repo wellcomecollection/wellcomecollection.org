@@ -183,11 +183,11 @@ const WorkPromoExample = () => {
   );
 };
 
-const stories = storiesOf('Components', module);
+const stories = storiesOf('Components/Promos', module);
 
 stories
   .add('Promos', doc(PromoReadme))
-  .add('Promos / Editorial promo', withReadme(EditorialPromoReadme, EditorialPromoExample))
-  .add('Promos / Event promo', withReadme(EventPromoReadme, EventPromoExample))
-  .add('Promos / Exhibition promo', withReadme(ExhibitionPromoReadme, ExhibitionPromoExample))
-  .add('Promos / Work promo', withReadme(WorkPromoReadme, WorkPromoExample));
+  .add('Editorial promo', withReadme(EditorialPromoReadme, EditorialPromoExample))
+  .add('Event promo', withReadme(EventPromoReadme, EventPromoExample))
+  .add('Exhibition promo', withReadme(ExhibitionPromoReadme, ExhibitionPromoExample))
+  .add('Work promo', withReadme(WorkPromoReadme, WorkPromoExample));
