@@ -347,6 +347,10 @@
     color: color('green');
   }
 
+  @include respond-to('medium') {
+    min-height: 440px;
+  }
+
   @supports (display: grid) {
     display: flex;
   }
