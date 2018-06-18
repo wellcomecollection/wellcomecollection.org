@@ -134,15 +134,18 @@ jobs:
           command: yarn install
       - run:
           name: Build client assets
-          command: yarn run compile
+          command: yarn compile
       - save_cache:
           key: client_modules_circleci_node_8_{{ checksum "yarn.lock" }}
           paths:
             -  node_modules
       - save_cache:
           key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
+          # We have the critical css here as it's the client app that is
+          # reponsible for compiling
           paths:
             -  ~/wellcomecollection.org/dist
+            -  ~/wellcomecollection.org/server/views/partials/critical.css.njk
   build_events_webapp:
     docker:
       - image: circleci/node:8.9.3
@@ -206,14 +209,14 @@ jobs:
           name: Install modules
           command: yarn install
       - run:
-          name: SHAME - Compile JS to SCSS
-          command: pushd ../../client && yarn add gulp && npx gulp scss:compileJsToScss && popd
+          name: Test
+          command: yarn test
       - run:
           name: Build prod config
           command: pushd ../../ && ./build_prod_config.py && popd
       - run:
           name: Build
-          command: yarn run app:build
+          command: yarn app:build
       - save_cache:
           key: built_whats_on_webapp_{{ .Environment.CIRCLE_SHA1 }}
           paths:

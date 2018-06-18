@@ -10,7 +10,6 @@ dist/
 *.sass-cache*
 
 critical.css.njk
-client/scss/utilities/compiled_variables/
 
 .terraform/
 *.tfvars
