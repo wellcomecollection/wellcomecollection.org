@@ -2,7 +2,13 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import searchQuery from 'search-query-parser';
 import {getInstallation} from '@weco/common/services/prismic/installations';
-import {getExhibitions, getExhibition, getExhibitionExhibits, getExhibitExhibition} from '@weco/common/services/prismic/exhibitions';
+import {
+  getExhibitions,
+  getExhibition,
+  getExhibitionExhibits,
+  getExhibitExhibition
+} from '@weco/common/services/prismic/exhibitions';
+import {getEvent} from '@weco/common/services/prismic/events';
 import {isPreview as isPrismicPreview} from '@weco/common/services/prismic/api';
 import {model, prismic} from 'common';
 import Tags from '@weco/common/views/components/Tags/Tags';
@@ -134,7 +140,7 @@ export async function renderExhibitExhibitionLink(ctx, next) {
 
   if (exhibition) {
     const tags = [{
-      text: 'Installation'
+      text: 'Installations'
     }, {
       text: `Part of ${exhibition.title}`,
       url: `/exhibitions/${exhibition.id}`
@@ -150,5 +156,30 @@ export async function renderExhibitExhibitionLink(ctx, next) {
     ctx.body = {
       html: ''
     };
+  }
+}
+
+export async function renderEvent(ctx, next) {
+  const event = await getEvent(ctx.request, ctx.params.id);
+  const tags = [{
+    text: 'Events',
+    url: '/events'
+  }];
+  const isPreview = isPrismicPreview(ctx.request);
+
+  if (event) {
+    ctx.render('pages/event', {
+      pageConfig: createPageConfig({
+        path: ctx.request.url,
+        title: event.title,
+        inSection: 'whatson',
+        category: 'public-programme',
+        contentType: 'events',
+        canonicalUri: `https://wellcomecollection.org/events/${event.id}`
+      }),
+      event,
+      tags,
+      isPreview
+    });
   }
 }
