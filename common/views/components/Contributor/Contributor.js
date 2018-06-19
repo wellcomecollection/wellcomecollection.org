@@ -10,6 +10,7 @@ const Contributor = ({
   role,
   description
 }: ContributorType) => {
+  const descriptionToRender = description || contributor.description;
   const imageProps: ImageProps = contributor.type === 'organisations' ? {
     width: 64,
     height: 64,
@@ -53,9 +54,9 @@ const Contributor = ({
             {role.title}
           </div>
         }
-        {description &&
+        {descriptionToRender &&
           <div className={font({s: 'HNL4'})}>
-            <PrismicHtmlBlock html={description} />
+            <PrismicHtmlBlock html={descriptionToRender} />
           </div>
         }
       </div>
