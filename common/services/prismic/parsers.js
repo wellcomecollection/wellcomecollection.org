@@ -301,6 +301,10 @@ export function parseBackgroundTexture(backgroundTexture: PrismicBackgroundTextu
   };
 }
 
+export function parseBoolean(fragment: PrismicFragment): boolean {
+  return Boolean(fragment);
+}
+
 function parseStructuredText(maybeFragment: ?PrismicFragment): ?HTMLString {
   return maybeFragment && isStructuredText(maybeFragment.description) ? maybeFragment.description : null;
 }

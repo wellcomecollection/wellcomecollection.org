@@ -19,7 +19,9 @@ import {
   parseImagePromo,
   parsePlace,
   asText,
-  isDocumentLink
+  isDocumentLink,
+  parseTimestamp,
+  parseBoolean
 } from './parsers';
 import type {Event} from '../../model/events';
 import type {PrismicDocument} from './types';
@@ -43,7 +45,13 @@ function parseEventDoc(document: PrismicDocument): Event {
     interpretations: [],
     isDropIn: false,
     series: [],
-    times: [],
+    times: data.times && data.times.map(frag => ({
+      range: {
+        startDateTime: parseTimestamp(frag.startDateTime),
+        endDateTime: parseTimestamp(frag.startDateTime)
+      },
+      isFullyBooked: parseBoolean(frag.isFullyBooked)
+    })),
     // TODO: (event migration)
     body: data.description ? [{
       type: 'text',
