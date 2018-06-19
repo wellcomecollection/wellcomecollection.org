@@ -81,23 +81,6 @@ export const shopPromo: Promo = {
   }
 };
 
-export const spiritBoothPromo: Promo = {
-  type: 'promo',
-  contentType: 'place',
-  title: 'S.P.I.R.I.T Booth',
-  url: 'https://wellcomecollection.org/spiritbooth',
-  description: 'Get your psychic transparency revealed and captured in our photo booth on level 1.',
-  metaIcon: 'clock',
-  metaText: 'Open during gallery hours',
-  image: {
-    type: 'picture',
-    contentUrl: 'https://s3.eu-west-1.amazonaws.com/static.wellcomecollection.org/daily-promo-images/spirit-booth.png',
-    width: 408,
-    height: 229,
-    alt: ''
-  }
-};
-
 export const dailyTourPromo: EventPromo = {
   id: 'tours',
   title: 'Daily guided tours and discussions',
