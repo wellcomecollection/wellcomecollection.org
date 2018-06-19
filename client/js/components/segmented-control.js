@@ -10,7 +10,7 @@ export default (el) => {
   const controlButtonText = el.querySelector('.js-segmented-control__button-text');
   const fullPage = showHide({el: showHideEl});
   const trap = focusTrap(el);
-  const activeClasses = ['is-active', 'smooth-font', 'bg-black', 'font-white', 'bg-hover-pewter'];
+  const activeClasses = ['is-active', 'bg-black', 'font-white', 'bg-hover-pewter'];
   const inactiveClasses = ['bg-white', 'font-black', 'bg-hover-pumice'];
 
   function init() {
