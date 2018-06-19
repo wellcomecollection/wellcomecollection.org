@@ -1,5 +1,5 @@
 import {model, prismic} from 'common';
-import {getUiEventSeries} from '@weco/common/services/prismic/events';
+import {getUiEventSeries} from '@weco/common/services/prismic/event-series';
 const {createPageConfig} = model;
 const {getPaginatedEventPromos, getEventsInSeries, asText, asHtml, createEventPromos, convertPrismicResultsToPaginatedResults, london} = prismic;
 
