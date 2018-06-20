@@ -15,7 +15,7 @@
               {{ bodyPart.value | safe }}
             {% elif bodyPart.type === 'picture' %}
               <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
-                {% componentJsx 'CaptionedImageNew', bodyPart.value %}
+                {% componentJsx 'CaptionedImage', bodyPart.value %}
               </div>
             {% else %}
               {% componentJsx 'FeaturedText', { html: bodyPart.value } %}
@@ -37,7 +37,7 @@
               <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
                 {% set caption = bodyPart.value.caption | prismicAsText %}
                 {% if bodyPart.value.caption and caption !== '' %}
-                  {% componentJsx 'CaptionedImageNew', bodyPart.value | objectAssign({ sizesQueries: sizes }) %}
+                  {% componentJsx 'CaptionedImage', bodyPart.value | objectAssign({ sizesQueries: sizes }) %}
                 {% else %}
                   {% componentJsx 'UiImage', bodyPart.value.image | objectAssign({ sizesQueries: sizes }) %}
                 {% endif %}

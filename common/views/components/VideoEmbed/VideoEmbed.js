@@ -1,6 +1,5 @@
 // @flow
-import {font, spacing} from '../../../utils/classnames';
-import Icon from '../Icon/Icon';
+import Caption from '../Caption/Caption';
 
 type Props = {|
   embedUrl: string,
@@ -21,12 +20,7 @@ const VideoEmbed = ({ embedUrl, caption }: Props) => (
         className='iframe-container__iframe absolute'></iframe>
     </div>
     {caption &&
-      <figcaption className={`inline-flex font-black plain-text ${font({s: 'LR3', m: 'LR2'})} ${spacing({s: 3}, {padding: ['top', 'bottom']})}`}>
-        <Icon name='image' extraClasses='float-l margin-right-s1' />
-        <div className={`overflow-hidden ${spacing({s: 3, m: 4, l: 5}, {padding: ['right']})}`}>
-          <span dangerouslySetInnerHTML={{__html: caption}} />
-        </div>
-      </figcaption>
+      <Caption caption={caption} />
     }
   </figure>
 );

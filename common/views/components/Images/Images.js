@@ -2,13 +2,11 @@
 import {Fragment} from 'react';
 import {convertImageUri} from '../../../utils/convert-image-uri';
 import {imageSizes} from '../../../utils/image-sizes';
-import {font} from '../../../utils/classnames';
 import Tasl from '../Tasl/Tasl';
-import Icon from '../Icon/Icon';
-import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import type {Node} from 'react';
 import type {Image as ImageProps} from '../../../model/image';
 import type {CaptionedImage as CaptionedImageProps} from '../../../model/captioned-image';
+import Caption from '../Caption/Caption';
 
 export type UiImageProps = {|
   ...ImageProps,
@@ -77,16 +75,9 @@ export const CaptionedImage = ({
         {/* $FlowFixMe */}
         <UiImage {...uiImageProps} />
       </div>
-      <figcaption className={`captioned-image__caption ${font({s: 'LR3', m: 'LR2'})}`}>
-        <Icon name='image' extraClasses='float-l margin-right-s1' />
-
-        <div
-          className={`captioned-image__caption-text`}
-          tabIndex={0}>
-          {preCaptionNode}
-          <PrismicHtmlBlock html={caption} />
-        </div>
-      </figcaption>
+      <Caption
+        caption={caption}
+        preCaptionNode={preCaptionNode} />
     </figure>
   );
 };

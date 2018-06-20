@@ -4,8 +4,7 @@ import { BasePageColumn } from '../BasePage/BasePage';
 import BookPage from '../BasePage/BookPage';
 import BookPromo from '../BookPromo/BookPromo';
 import Button from '../Buttons/Button/Button';
-import CaptionedImage from '../CaptionedImage/CaptionedImage';
-import {UiImage, CaptionedImage as CaptionedImageNew} from '../Images/Images';
+import {UiImage, CaptionedImage} from '../Images/Images';
 import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
 import Contributor from '../Contributor/Contributor';
 import Contributors from '../Contributors/Contributors';
@@ -64,7 +63,6 @@ export {
   BookPromo,
   Button,
   CaptionedImage,
-  CaptionedImageNew,
   ChapterIndicator,
   Contributor,
   Contributors,
