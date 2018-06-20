@@ -5,9 +5,16 @@ import shrinkStoriesNav from './shrink-stories-nav';
 export default function asyncContent(el, dispatch) {
   const component = el.getAttribute('data-component');
   const prefixEndpoint = el.getAttribute('data-prefix-endpoint') !== 'false';
+  const endpoint = el.getAttribute('data-endpoint');
 
-  return fetch(`${prefixEndpoint ? '/async' : ''}${el.getAttribute('data-endpoint')}`)
-    .then(resp => resp.json())
+  return fetch(`${prefixEndpoint ? '/async' : ''}${endpoint}`)
+    .then(resp => {
+      if (resp.status !== 200) {
+        throw new Error(`async content: ${endpoint} responded with ${resp.status}`);
+      } else {
+        return resp.json();
+      }
+    })
     .then(json => {
       const outerEl = document.createElement('div');
       outerEl.innerHTML = json.html;
@@ -49,5 +56,7 @@ export default function asyncContent(el, dispatch) {
           });
         }
       }
-    });
+    })
+    // if it's a 500 or similar, we'll hear it in other alerting
+    .catch(() => {});
 };

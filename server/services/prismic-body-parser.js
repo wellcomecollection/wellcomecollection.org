@@ -24,7 +24,7 @@ function parseBodyPart(slice) {
       return {
         type: 'text',
         weight: 'default',
-        value: asHtml(slice.primary.text)
+        value: slice.primary.text
       };
 
     case 'editorialImage':

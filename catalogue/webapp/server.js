@@ -9,12 +9,22 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 const port = process.argv[2] || 3000;
 
-function getFlags(ctx) {
+function getFlags(ctx, next) {
   const cookies = new Cookies(ctx.req, ctx.res);
   const cohort = cookies.get('WC_featuresCohort');
-  return {
+  ctx.flags = {
     apiV2: isEnabled('apiV2', { cohort })
   };
+  return next();
+}
+
+function setCohort(ctx, next) {
+  const cohort = ctx.query.cohort;
+  if (cohort) {
+    const cookies = new Cookies(ctx.req, ctx.res);
+    cookies.set('WC_featuresCohort', cohort);
+  }
+  return next();
 }
 
 app.prepare().then(async () => {
@@ -39,8 +49,13 @@ app.prepare().then(async () => {
     console.error(e);
   }
 
+  // Feature flags
+  server.use(setCohort);
+  server.use(getFlags);
+
+  // Next routing
   router.get('/embed/works/:id', async ctx => {
-    const flags = getFlags(ctx);
+    const {flags} = ctx;
     await app.render(ctx.req, ctx.res, '/embed', {
       id: ctx.params.id,
       flags
@@ -49,7 +64,7 @@ app.prepare().then(async () => {
   });
 
   router.get('/works/:id', async ctx => {
-    const flags = getFlags(ctx);
+    const {flags} = ctx;
     await app.render(ctx.req, ctx.res, '/work', {
       page: ctx.query.page,
       query: ctx.query.query,
@@ -60,7 +75,7 @@ app.prepare().then(async () => {
   });
 
   router.get('/works', async ctx => {
-    const flags = getFlags(ctx);
+    const {flags} = ctx;
     await app.render(ctx.req, ctx.res, '/works', {
       page: ctx.query.page,
       query: ctx.query.query,

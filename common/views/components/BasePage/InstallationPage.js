@@ -53,9 +53,8 @@ const InstallationPage = ({ installation }: Props) => {
     <BasePage
       id={installation.id}
       Header={Header}
-      Body={<Body
-        body={installation.body} />}>
-
+      Body={<Body body={installation.body} />}
+    >
       <Fragment>
         {installation.contributors.length > 0 &&
           <Contributors contributors={installation.contributors} />

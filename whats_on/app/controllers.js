@@ -12,7 +12,6 @@ import {
   cafePromo,
   readingRoomPromo,
   restaurantPromo,
-  spiritBoothPromo,
   dailyTourPromo
 } from '../../server/data/facility-promos';
 const {createPageConfig} = model;
@@ -36,7 +35,7 @@ export async function renderWhatsOn(ctx, next) {
       }
     }),
     exhibitionAndEventPromos,
-    tryTheseTooPromos: [readingRoomPromo, spiritBoothPromo],
+    tryTheseTooPromos: [readingRoomPromo],
     eatShopPromos: [cafePromo, shopPromo, restaurantPromo],
     cafePromo,
     shopPromo,
@@ -145,6 +144,11 @@ export async function renderExhibitExhibitionLink(ctx, next) {
       html: ReactDOMServer.renderToString(
         React.createElement(Tags, { tags })
       )
+    };
+  } else {
+    ctx.status = 404;
+    ctx.body = {
+      html: ''
     };
   }
 }

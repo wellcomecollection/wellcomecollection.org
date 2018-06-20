@@ -3,10 +3,10 @@ import {Fragment} from 'react';
 import BasePage from './BasePage';
 import BaseHeader from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
-import HTMLDate from '../HTMLDate/HTMLDate';
 import Contributors from '../Contributors/Contributors';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import {UiImage} from '../Images/Images';
+import Tags from '../Tags/Tags';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
 import {grid, spacing} from '../../../utils/classnames';
 import type {Book} from '../../../model/books';
@@ -34,7 +34,6 @@ const BookMetadata = ({book}: {| book: Book |}) => (
 
 // TODO: Add subtitle
 const BookPage = ({ book, booksMetadataFlag }: Props) => {
-  const DateInfo = book.datePublished && <HTMLDate date={book.datePublished} />;
   const image = book.promo && book.promo.image;
   const tasl = image && {
     isFull: false,
@@ -50,11 +49,15 @@ const BookPage = ({ book, booksMetadataFlag }: Props) => {
   /* https://github.com/facebook/flow/issues/2405 */
   /* $FlowFixMe */
   const FeaturedMedia = book.promo && <UiImage tasl={tasl} extraClasses='margin-v-auto inherit-max-height width-auto ' {...image} />;
+  const TagBar = <Tags tags={[{
+    text: 'Book',
+    url: '/books'
+  }]} />;
   const Header = (<BaseHeader
     title={book.title || ''}
     Background={WobblyBackground()}
-    TagBar={null}
-    DateInfo={DateInfo}
+    TagBar={TagBar}
+    DateInfo={null}
     Description={
       <Fragment>
         {book.authorName && <p className='no-margin'>{book.authorName}</p>}
@@ -105,20 +108,21 @@ const BookPage = ({ book, booksMetadataFlag }: Props) => {
     <BasePage
       id={book.id}
       Header={Header}
-      Body={<Body
-        body={book.body} />}>
+      Body={<Body body={book.body} />}
+    >
       <Fragment>
         {contributors.length > 0 &&
           <Contributors contributors={contributors} />
         }
         { booksMetadataFlag &&
+          <Fragment>
             <div className={`${spacing({s: 2}, {padding: ['top']})} ${spacing({s: 2}, {margin: ['top']})} border-top-width-1 border-color-smoke`}>
               <h2 className='h2'>More information</h2>
               <BookMetadata book={book} />
             </div>
+            {book.orderLink && <PrimaryLink url={book.orderLink} name='Order online' />}
+          </Fragment>
         }
-
-        {book.orderLink && <PrimaryLink url={book.orderLink} name='Order online' />}
       </Fragment>
     </BasePage>
   );

@@ -2,6 +2,7 @@ import BackToTop from '../BackToTop/BackToTop';
 import Body from '../Body/Body';
 import { BasePageColumn } from '../BasePage/BasePage';
 import BookPage from '../BasePage/BookPage';
+import BookPromo from '../BookPromo/BookPromo';
 import Button from '../Buttons/Button/Button';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import {UiImage, CaptionedImage as CaptionedImageNew} from '../Images/Images';
@@ -39,6 +40,7 @@ import PageDescription from '../PageDescription/PageDescription';
 import Pagination from '../Pagination/Pagination';
 import Picture from '../Picture/Picture';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
+import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Promo from '../Promo/Promo';
 import Quote from '../Quote/Quote';
 import SearchBox from '../SearchBox/SearchBox';
@@ -58,6 +60,7 @@ export {
   BasePageColumn,
   Body,
   BookPage,
+  BookPromo,
   Button,
   CaptionedImage,
   CaptionedImageNew,
@@ -95,6 +98,7 @@ export {
   Pagination,
   Picture,
   PrimaryLink,
+  PrismicHtmlBlock,
   Promo,
   Quote,
   SearchBox,

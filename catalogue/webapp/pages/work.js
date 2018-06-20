@@ -4,7 +4,7 @@ import fetch from 'isomorphic-unfetch';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import {iiifImageTemplate, convertImageUri} from '@weco/common/utils/convert-image-uri';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {default as PageWrapper, pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import WorkMedia2 from '@weco/common/views/components/WorkMedia/WorkMedia2';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -16,7 +16,7 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
-import type {Flags} from '@weco/common/model/flags';
+import {remapV2ToV1} from '../utils/remap-v2-to-v1';
 
 export type Link = {|
   text: string;
@@ -165,14 +165,12 @@ type Work = Object;
 type Props = {|
   work: Work,
   previousQueryString: ?string,
-  page: ?number,
-  flags: Flags
+  page: ?number
 |}
 
 const WorkPage = ({
   work,
-  previousQueryString,
-  flags
+  previousQueryString
 }: Props) => {
   const [iiifImageLocation] = work.items.map(
     item => item.locations.find(
@@ -191,6 +189,8 @@ const WorkPage = ({
   const metaContent = getMetaContentArray(work, descriptionArray);
   const credit = work.items[0].locations[0].credit;
   const attribution = constructAttribution(work, credit, `https://wellcomecollection.org/works/${work.id}`);
+  const workImageUrl = work.items[0].locations[0].url;
+
   return (
     <Fragment>
       <PageDescription title='Search our images' extraClasses='page-description--hidden' />
@@ -214,10 +214,10 @@ const WorkPage = ({
       </div>
       }
 
-      <WorkMedia2
+      {iiifInfoUrl && <WorkMedia2
         id={work.id}
         iiifUrl={iiifInfoUrl}
-        title={work.title} />
+        title={work.title} />}
 
       <div className={`row ${spacing({s: 6}, {padding: ['top', 'bottom']})}`}>
         <div className='container'>
@@ -277,10 +277,10 @@ const WorkPage = ({
                 Download
               </h2>
 
-              <div className={spacing({s: 2}, {margin: ['bottom']})}>
+              {workImageUrl && <div className={spacing({s: 2}, {margin: ['bottom']})}>
                 <Button
                   type='tertiary'
-                  url={convertImageUri(work.items[0].locations[0].url, 'full')}
+                  url={convertImageUri(workImageUrl, 'full')}
                   target='_blank'
                   download={`${work.id}.jpg`}
                   rel='noopener noreferrer'
@@ -291,12 +291,12 @@ const WorkPage = ({
                   })}
                   icon='download'
                   text='Download full size' />
-              </div>
+              </div>}
 
-              <div className={spacing({s: 3}, {margin: ['bottom']})}>
+              {workImageUrl && <div className={spacing({s: 3}, {margin: ['bottom']})}>
                 <Button
                   type='tertiary'
-                  url={convertImageUri(work.items[0].locations[0].url, 760)}
+                  url={convertImageUri(workImageUrl, 760)}
                   target='_blank'
                   download={`${work.id}.jpg`}
                   rel='noopener noreferrer'
@@ -307,7 +307,7 @@ const WorkPage = ({
                   })}
                   icon='download'
                   text='Download small (760px)' />
-              </div>
+              </div>}
 
               <div className={spacing({s: 4}, {margin: ['bottom']})}>
                 <p className={classNames([
@@ -345,26 +345,34 @@ WorkPage.getInitialProps = async (context) => {
   const {asPath} = context;
   const queryStart = asPath.indexOf('?');
   const previousQueryString = queryStart > -1 && asPath.slice(queryStart);
-  const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works/${id}?includes=identifiers,items,thumbnail`);
-  const json = await res.json();
+  const version = pageStore.flags.apiV2 ? 2 : 1;
+  const res = await fetch(`https://api.wellcomecollection.org/catalogue/v${version}/works/${id}?includes=identifiers,items,thumbnail`);
+  let json = await res.json();
+
   const [iiifImageLocation] = json.items.map(
     item => item.locations.find(
       location => location.locationType === 'iiif-image'
     )
   );
+
   const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
-  const iiifImage = iiifImageTemplate(iiifInfoUrl);
+  const iiifImage = iiifInfoUrl && iiifImageTemplate(iiifInfoUrl);
+
+  if (version === 2) {
+    json = remapV2ToV1(json);
+  }
 
   return {
     title: json.title || json.description,
     description: json.description || '',
     type: 'website',
     url: `https://wellcomecollection.org/works/${json.id}`,
-    imageUrl: iiifImage({size: '800,'}),
+    imageUrl: iiifImage ? iiifImage({size: '800,'}) : null,
     analyticsCategory: 'collections',
     siteSection: 'images',
     previousQueryString,
-    work: (json: Work) };
+    work: (json: Work)
+  };
 };
 
 export default PageWrapper(WorkPage);
