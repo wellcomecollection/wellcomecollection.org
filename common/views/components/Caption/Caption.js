@@ -3,9 +3,10 @@ import {font, spacing} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import type {Node} from 'react';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
+import type {HTMLString} from '../../../services/prismic/types';
 
 type Props = {|
-  caption: string,
+  caption: HTMLString,
   preCaptionNode: Node
 |}
 
