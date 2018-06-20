@@ -34,7 +34,7 @@ const CaptionedImage = ({
       <figcaption className={`captioned-image__caption plain-text ${font({s: 'LR3', m: 'LR2'})}`}>
         <Icon name='image' extraClasses='float-l margin-right-s1' />
 
-        <div className={`captioned-image__caption-text ${truncateCaption ? 'js-truncate-text' : ''}`}
+        <div className={`captioned-image__caption-text`}
           tabIndex='0'
           data-slide-number={slideNumbers && slideNumbers.current}>
           {slideNumbers &&

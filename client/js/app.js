@@ -21,7 +21,6 @@ import joinCohort from './components/join-cohort';
 import gifVideo from './components/gif-video';
 import tracking from './tracking';
 import polyfills from './polyfills';
-import truncateText from './components/truncate-text';
 import fontObserver from './utils/font-observer';
 import sortSearch from './components/sort-search';
 import backToTop from './components/back-to-top';
@@ -145,9 +144,6 @@ const init = () => {
   nodeList(cohortButtons).forEach((button) => {
     joinCohort(button);
   });
-
-  const truncateTextNodes = document.querySelectorAll('.js-truncate-text');
-  nodeList(truncateTextNodes).forEach(truncateText);
 
   nodeList(document.querySelectorAll('.js-eventbrite-ticket-button')).forEach(eventbriteTicketButton);
   nodeList(document.querySelectorAll('.js-eventbrite-ticket-status')).forEach(eventbriteTicketStatus);
