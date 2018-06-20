@@ -1,5 +1,5 @@
 import type {ImageList} from '../content-model/content-blocks';
-import {asHtml, asText, parsePicture, parseTaslFromString, prismicImage} from './prismic-parsers';
+import {asHtml, asText, isMissingOrEmpty, parsePicture, parseTaslFromString, prismicImage} from './prismic-parsers';
 // $FlowFixMe
 import {parseCaptionedImage} from '../../common/services/prismic/parsers';
 
@@ -131,7 +131,7 @@ function parseBodyPart(slice) {
           embedUrl: `${embedUrl}&rel=0`,
           title: asText(slice.primary.title),
           description: asText(slice.primary.description), // TODO: check if this exists and/or can be removed in favour of caption
-          caption: slice.primary.caption
+          caption: !isMissingOrEmpty(slice.primary.caption) && slice.primary.caption
         }
       };
 
