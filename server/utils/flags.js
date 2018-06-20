@@ -12,6 +12,10 @@ export function setFeaturesCohort(cohortName: string) {
   featuresCohort = cohortName;
 }
 
+export function getCohort(): ?string {
+  return featuresCohort;
+}
+
 export function getFlag(flagName: string): FeatureFlag {
   const [flags] = cache.get('flags');
   const enabled = isFlagEnabled(featuresCohort, flagName, flags);
