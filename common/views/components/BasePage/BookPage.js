@@ -34,38 +34,6 @@ const BookMetadata = ({book}: {| book: Book |}) => (
 
 // TODO: Add subtitle
 const BookPage = ({ book, booksMetadataFlag }: Props) => {
-  // TODO: (drupal migration) this should be linked in Prismic
-  const person = book.authorName && {
-    type: 'people',
-    id: 'xxx',
-    name: book.authorName || '',
-    image: {
-      contentUrl: book.authorImage || '',
-      width: 800,
-      height: 0,
-      alt: `Image of ${book.authorName}`,
-      tasl: {
-        sourceName: 'Unknown',
-        title: null,
-        author: null,
-        sourceLink: null,
-        license: null,
-        copyrightHolder: null,
-        copyrightLink: null
-      }
-    },
-    twitterHandle: null,
-    // parse this as string
-    description: book.authorDescription
-  };
-  const contributor = person && {
-    contributor: person,
-    description: null,
-    role: {
-      id: 'WcUWeCgAAFws-nGh',
-      title: 'Author'
-    }
-  };
   const image = book.promo && book.promo.image;
   const tasl = image && {
     isFull: false,
@@ -99,6 +67,43 @@ const BookPage = ({ book, booksMetadataFlag }: Props) => {
     FeaturedMedia={FeaturedMedia}
   />);
 
+  // TODO: (drupal migration) we can drop reading the text fields once we've
+  // migrated the content over
+  const drupalPerson = book.authorName && {
+    type: 'people',
+    id: 'xxx',
+    name: book.authorName || '',
+    image: {
+      contentUrl: book.authorImage || '',
+      width: 800,
+      height: 0,
+      alt: `Image of ${book.authorName}`,
+      tasl: {
+        sourceName: 'Unknown',
+        title: null,
+        author: null,
+        sourceLink: null,
+        license: null,
+        copyrightHolder: null,
+        copyrightLink: null
+      }
+    },
+    twitterHandle: null,
+    // parse this as string
+    description: book.authorDescription
+  };
+  const drupalContributor = drupalPerson && {
+    contributor: drupalPerson,
+    description: null,
+    role: {
+      id: 'WcUWeCgAAFws-nGh',
+      title: 'Author'
+    }
+  };
+  const contributors =
+    book.contributors.length > 0 ? book.contributors
+      : drupalContributor ? [drupalContributor] : [];
+
   return (
     <BasePage
       id={book.id}
@@ -106,8 +111,8 @@ const BookPage = ({ book, booksMetadataFlag }: Props) => {
       Body={<Body body={book.body} />}
     >
       <Fragment>
-        {contributor &&
-          <Contributors contributors={[contributor]} />
+        {contributors.length > 0 &&
+          <Contributors contributors={contributors} />
         }
         { booksMetadataFlag &&
           <Fragment>
