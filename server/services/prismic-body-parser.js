@@ -131,7 +131,7 @@ function parseBodyPart(slice) {
           embedUrl: `${embedUrl}&rel=0`,
           title: asText(slice.primary.title),
           description: asText(slice.primary.description), // TODO: check if this exists and/or can be removed in favour of caption
-          caption: asText(slice.primary.caption)
+          caption: slice.primary.caption
         }
       };
 
