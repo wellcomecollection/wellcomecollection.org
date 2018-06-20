@@ -48,7 +48,7 @@ function parseEventDoc(document: PrismicDocument): Event {
     times: data.times && data.times.map(frag => ({
       range: {
         startDateTime: parseTimestamp(frag.startDateTime),
-        endDateTime: parseTimestamp(frag.startDateTime)
+        endDateTime: parseTimestamp(frag.endDateTime)
       },
       isFullyBooked: parseBoolean(frag.isFullyBooked)
     })),
