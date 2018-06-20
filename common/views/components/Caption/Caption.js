@@ -7,7 +7,7 @@ import type {HTMLString} from '../../../services/prismic/types';
 
 type Props = {|
   caption: HTMLString,
-  preCaptionNode: Node
+  preCaptionNode?: Node
 |}
 
 const Caption = ({caption, preCaptionNode}: Props) => {

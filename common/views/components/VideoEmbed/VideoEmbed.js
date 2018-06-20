@@ -1,9 +1,10 @@
 // @flow
 import Caption from '../Caption/Caption';
+import type {HTMLString} from '../../../services/prismic/types';
 
 type Props = {|
   embedUrl: string,
-  caption?: string
+  caption?: HTMLString
 |}
 
 const VideoEmbed = ({ embedUrl, caption }: Props) => (

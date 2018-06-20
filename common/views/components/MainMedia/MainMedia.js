@@ -33,7 +33,11 @@ export const MainMedia = ({
   return (
     <figure className={`captioned-image ${extraClasses}`}>
       <div className='captioned-image__image-container'>
+        {/* https://github.com/facebook/flow/issues/2405 */}
+        {/* $FlowFixMe */}
         <UiImage {...uiImageProps} />
+        {/* https://github.com/facebook/flow/issues/2405 */}
+        {/* $FlowFixMe */}
         {chapterIndicatorProps && <ChapterIndicator {...chapterIndicatorProps} />}
       </div>
 
