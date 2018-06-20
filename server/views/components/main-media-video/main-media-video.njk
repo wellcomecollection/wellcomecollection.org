@@ -2,7 +2,7 @@
   <div class="container">
     <div class="grid">
       <div class="{{ {s:12, m:12, l:8, shiftL:2} | gridClasses }}">
-        {% componentV2 'iframed-video', {
+        {% componentJsx 'VideoEmbed', {
         embedUrl: model.embedUrl
         } %}
       </div>

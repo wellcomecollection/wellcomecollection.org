@@ -50,6 +50,7 @@ import ShameQuote from '../ShameQuote/ShameQuote';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import Tags from '../Tags/Tags';
 import Tasl from '../Tasl/Tasl';
+import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
@@ -109,6 +110,7 @@ export {
   Tags,
   Tasl,
   UiImage,
+  VideoEmbed,
   WobblyEdge,
   WorkDrawer,
   WorkMedia,

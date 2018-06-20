@@ -45,7 +45,7 @@
             </div>
           {% elif bodyPart.type === 'video-embed' %}
             <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-              {% componentV2 'iframed-video', bodyPart.value %}
+              {% componentJsx 'VideoEmbed', bodyPart.value %}
             </div>
           {% elif bodyPart.type === 'list' %}
             {% component 'list', {list: bodyPart.value} %}
