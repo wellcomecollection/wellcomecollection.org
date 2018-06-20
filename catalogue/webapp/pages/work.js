@@ -189,6 +189,8 @@ const WorkPage = ({
   const metaContent = getMetaContentArray(work, descriptionArray);
   const credit = work.items[0].locations[0].credit;
   const attribution = constructAttribution(work, credit, `https://wellcomecollection.org/works/${work.id}`);
+  const workImageUrl = work.items[0].locations[0].url;
+
   return (
     <Fragment>
       <PageDescription title='Search our images' extraClasses='page-description--hidden' />
@@ -212,10 +214,10 @@ const WorkPage = ({
       </div>
       }
 
-      <WorkMedia2
+      {iiifInfoUrl && <WorkMedia2
         id={work.id}
         iiifUrl={iiifInfoUrl}
-        title={work.title} />
+        title={work.title} />}
 
       <div className={`row ${spacing({s: 6}, {padding: ['top', 'bottom']})}`}>
         <div className='container'>
@@ -275,10 +277,10 @@ const WorkPage = ({
                 Download
               </h2>
 
-              <div className={spacing({s: 2}, {margin: ['bottom']})}>
+              {workImageUrl && <div className={spacing({s: 2}, {margin: ['bottom']})}>
                 <Button
                   type='tertiary'
-                  url={convertImageUri(work.items[0].locations[0].url, 'full')}
+                  url={convertImageUri(workImageUrl, 'full')}
                   target='_blank'
                   download={`${work.id}.jpg`}
                   rel='noopener noreferrer'
@@ -289,12 +291,12 @@ const WorkPage = ({
                   })}
                   icon='download'
                   text='Download full size' />
-              </div>
+              </div>}
 
-              <div className={spacing({s: 3}, {margin: ['bottom']})}>
+              {workImageUrl && <div className={spacing({s: 3}, {margin: ['bottom']})}>
                 <Button
                   type='tertiary'
-                  url={convertImageUri(work.items[0].locations[0].url, 760)}
+                  url={convertImageUri(workImageUrl, 760)}
                   target='_blank'
                   download={`${work.id}.jpg`}
                   rel='noopener noreferrer'
@@ -305,7 +307,7 @@ const WorkPage = ({
                   })}
                   icon='download'
                   text='Download small (760px)' />
-              </div>
+              </div>}
 
               <div className={spacing({s: 4}, {margin: ['bottom']})}>
                 <p className={classNames([
@@ -369,7 +371,8 @@ WorkPage.getInitialProps = async (context) => {
     analyticsCategory: 'collections',
     siteSection: 'images',
     previousQueryString,
-    work: (json: Work) };
+    work: (json: Work)
+  };
 };
 
 export default PageWrapper(WorkPage);
