@@ -3,7 +3,6 @@ import {Fragment} from 'react';
 import BasePage from './BasePage';
 import BaseHeader from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
-import HTMLDate from '../HTMLDate/HTMLDate';
 import Contributors from '../Contributors/Contributors';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import {UiImage} from '../Images/Images';
@@ -67,7 +66,6 @@ const BookPage = ({ book, booksMetadataFlag }: Props) => {
       title: 'Author'
     }
   };
-  const DateInfo = book.datePublished && <HTMLDate date={book.datePublished} />;
   const image = book.promo && book.promo.image;
   const tasl = image && {
     isFull: false,
@@ -91,7 +89,7 @@ const BookPage = ({ book, booksMetadataFlag }: Props) => {
     title={book.title || ''}
     Background={WobblyBackground()}
     TagBar={TagBar}
-    DateInfo={DateInfo}
+    DateInfo={null}
     Description={
       <Fragment>
         {book.authorName && <p className='no-margin'>{book.authorName}</p>}
