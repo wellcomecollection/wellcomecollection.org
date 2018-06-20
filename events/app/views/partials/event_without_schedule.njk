@@ -322,7 +322,6 @@
       {% if event.contributors.length > 0 %}
         <div class="{{ {s: 3} | spacingClasses({ margin: ['top', 'bottom'] }) }}">
           {% componentJsx 'Contributors', {
-            title: 'In partnership with',
             contributors: event.contributors
           } %}
         </div>

@@ -7,6 +7,7 @@ import text from './parts/text';
 import list from './parts/list';
 import promo from './parts/promo';
 import timestamp from './parts/timestamp';
+import contributors from './parts/contributors';
 
 const Books = {
   Book: {
@@ -22,10 +23,10 @@ const Books = {
       text: structuredText('Review'),
       citation: structuredText('Citation', 'single')
     }),
-    datePublished: timestamp('Date published'),
-    authorName: structuredText('Author\'s name', 'single'),
-    authorImage: link('Author\'s image', 'web'),
-    authorDescription: structuredText('About the author', 'single')
+    datePublished: timestamp('Date published')
+  },
+  Contributors: {
+    contributors
   },
   Promo: {
     promo
@@ -33,7 +34,10 @@ const Books = {
   Migration: {
     drupalPromoImage: link('Drupal promo image', 'web'),
     drupalNid: text('Drupal node ID'),
-    drupalPath: text('Drupal path')
+    drupalPath: text('Drupal path'),
+    authorName: structuredText('Author\'s name', 'single'),
+    authorImage: link('Author\'s image', 'web'),
+    authorDescription: structuredText('About the author', 'single')
   }
 };
 
