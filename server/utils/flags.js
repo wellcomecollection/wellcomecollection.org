@@ -12,7 +12,7 @@ export function setFeaturesCohort(cohortName: string) {
   featuresCohort = cohortName;
 }
 
-export function getCohort(): string {
+export function getCohort(): ?string {
   return featuresCohort;
 }
 

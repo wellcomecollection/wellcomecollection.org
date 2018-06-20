@@ -36,11 +36,11 @@ export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): UiEve
   if (cohort === 'testB' && doc.id === 'Ww6SySEAAEU5jz5E') {
     // Library insights
     const testImageUrl = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/a1ad462f-f984-4254-b525-20c49ffd49d2_libraryinsights.jpg';
-    promo.image.contentUrl = testImageUrl;
+    if (promo && promo.image) { promo.image.contentUrl = testImageUrl; };
   } else if (cohort === 'testB' && doc.id === 'WvKuRCIAANr4-bi1') {
     // Packed lunch
     const testImageUrl = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/283530bd-6c39-4d89-9e0b-732707172253_tf_180307_1390142.jpeg';
-    promo.image.contentUrl = testImageUrl;
+    if (promo && promo.image) { promo.image.contentUrl = testImageUrl; };
   }
 
   const times: Array<EventTime> = doc.data.times.map(date => {
