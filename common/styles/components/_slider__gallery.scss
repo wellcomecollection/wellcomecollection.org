@@ -8,7 +8,7 @@
     .captioned-image {
       display: block;
 
-      .captioned-image__caption {
+      .caption {
         display: block;
       }
     }
@@ -29,7 +29,7 @@
       }
     }
 
-    .captioned-image__caption {
+    .caption {
       position: relative;
       opacity: 0;
       z-index: 0;
@@ -52,7 +52,7 @@
   .slide-item--current {
     opacity: 1;
 
-    .captioned-image__caption {
+    .caption {
       opacity: inherit;
       z-index: 1;
     }

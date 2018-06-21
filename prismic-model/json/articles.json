@@ -364,6 +364,14 @@
               "embed" : {
                 "type" : "Embed",
                 "fieldset" : "YouTube embed"
+              },
+              "caption" : {
+                "type" : "StructuredText",
+                "config" : {
+                  "label" : "Caption",
+                  "single" : "hyperlink, bold, em",
+                  "placeholder" : "Caption"
+                }
               }
             }
           },

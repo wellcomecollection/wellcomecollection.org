@@ -1,7 +1,7 @@
 import type {ImageList} from '../content-model/content-blocks';
 import {asHtml, asText, parsePicture, parseTaslFromString, prismicImage} from './prismic-parsers';
 // $FlowFixMe
-import {parseCaptionedImage} from '../../common/services/prismic/parsers';
+import {parseCaptionedImage, parseRichText} from '../../common/services/prismic/parsers';
 
 export function parseBody(content) {
   return content.filter(slice => slice.slice_label !== 'featured').map(parseBodyPart).filter(_ => _);
@@ -130,7 +130,7 @@ function parseBodyPart(slice) {
         value: {
           embedUrl: `${embedUrl}&rel=0`,
           title: asText(slice.primary.title),
-          description: asText(slice.primary.description)
+          caption: parseRichText(slice.primary.caption)
         }
       };
 

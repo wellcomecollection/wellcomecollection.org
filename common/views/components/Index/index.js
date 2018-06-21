@@ -4,8 +4,7 @@ import { BasePageColumn } from '../BasePage/BasePage';
 import BookPage from '../BasePage/BookPage';
 import BookPromo from '../BookPromo/BookPromo';
 import Button from '../Buttons/Button/Button';
-import CaptionedImage from '../CaptionedImage/CaptionedImage';
-import {UiImage, CaptionedImage as CaptionedImageNew} from '../Images/Images';
+import {UiImage, CaptionedImage} from '../Images/Images';
 import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
 import Contributor from '../Contributor/Contributor';
 import Contributors from '../Contributors/Contributors';
@@ -50,6 +49,7 @@ import ShameQuote from '../ShameQuote/ShameQuote';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import Tags from '../Tags/Tags';
 import Tasl from '../Tasl/Tasl';
+import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
@@ -63,7 +63,6 @@ export {
   BookPromo,
   Button,
   CaptionedImage,
-  CaptionedImageNew,
   ChapterIndicator,
   Contributor,
   Contributors,
@@ -109,6 +108,7 @@ export {
   Tags,
   Tasl,
   UiImage,
+  VideoEmbed,
   WobblyEdge,
   WorkDrawer,
   WorkMedia,

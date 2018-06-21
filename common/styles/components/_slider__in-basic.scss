@@ -27,7 +27,7 @@
   .slide-item {
     opacity: 1;
 
-    .captioned-image__caption {
+    .caption {
       width: calc(100vw - #{(map-get($container-padding, 'small') * 2)});
 
       @include respond-to('medium') {

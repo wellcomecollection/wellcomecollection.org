@@ -1,19 +1,29 @@
 // @flow
+import Caption from '../Caption/Caption';
+import type {HTMLString} from '../../../services/prismic/types';
 
-type Props = {| embedUrl: string |}
+type Props = {|
+  embedUrl: string,
+  caption?: HTMLString
+|}
 
-const VideoEmbed = ({ embedUrl }: Props) => (
-  <div className='iframe-container relative'>
-    <iframe
-      allowFullScreen='allowfullscreen'
-      mozallowfullscreen='mozallowfullscreen'
-      msallowfullscreen='msallowfullscreen'
-      oallowfullscreen='oallowfullscreen'
-      webkitallowfullscreen='webkitallowfullscreen'
-      src={embedUrl}
-      frameBorder='0'
-      className='iframe-container__iframe absolute'></iframe>
-  </div>
+const VideoEmbed = ({ embedUrl, caption }: Props) => (
+  <figure className='no-margin'>
+    <div className='iframe-container relative'>
+      <iframe
+        allowFullScreen='allowfullscreen'
+        mozallowfullscreen='mozallowfullscreen'
+        msallowfullscreen='msallowfullscreen'
+        oallowfullscreen='oallowfullscreen'
+        webkitallowfullscreen='webkitallowfullscreen'
+        src={embedUrl}
+        frameBorder='0'
+        className='iframe-container__iframe absolute'></iframe>
+    </div>
+    {caption &&
+      <Caption caption={caption} />
+    }
+  </figure>
 );
 
 export default VideoEmbed;
