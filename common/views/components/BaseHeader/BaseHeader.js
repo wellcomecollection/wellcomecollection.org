@@ -11,7 +11,7 @@ import type VideoEmbed from '../VideoEmbed/VideoEmbed';
 type Props = {|
   title: string,
   Background: ?(WobblyBackground | CaptionedImage),
-  TagBar: ?Node, // potentially make this only take Aync | Tags?
+  TagBar: ?Node, // potentially make this only take Async | Tags?
   DateInfo: ?Node,
   InfoBar: ?Node,
   Description: ?Node,

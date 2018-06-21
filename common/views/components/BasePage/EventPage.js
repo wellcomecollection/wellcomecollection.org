@@ -5,6 +5,7 @@ import BaseHeader from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
 import Contributors from '../Contributors/Contributors';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
+import Tags from '../Tags/Tags';
 import {UiImage} from '../Images/Images';
 import type {Event} from '../../../model/events';
 import {spacing, font} from '../../../utils/classnames';
@@ -54,12 +55,14 @@ const EventPage = ({ event }: Props) => {
   /* https://github.com/facebook/flow/issues/2405 */
   /* $FlowFixMe */
   const FeaturedMedia = event.promo && <UiImage tasl={tasl} {...image} />;
-
   const DateInfo = event.times && dateInfo(event.times);
+  const formatTag = event.format && [{text: event.format.title}];
+  const interpretationsTags = event.interpretations && event.interpretations.map(i => ({text: i.interpretationType.title}));
+  const TagBar = <Tags tags={Array.concat(formatTag, interpretationsTags)} />;
   const Header = (<BaseHeader
     title={event.title}
     Background={WobblyBackground()}
-    TagBar={null}
+    TagBar={TagBar}
     DateInfo={DateInfo}
     InfoBar={null}
     Description={null}

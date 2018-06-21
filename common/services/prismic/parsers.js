@@ -280,6 +280,15 @@ export function parsePlace(doc: PrismicFragment): Place {
   };
 }
 
+export function parseEventFormat(frag: Object): ?EventFormat {
+  return isDocumentLink(frag) ? {
+    id: frag.id,
+    title: asText(frag.data.title),
+    shortName: asText(frag.data.shortName),
+    description: asHtml(frag.data.description)
+  } : null;
+}
+
 type PrismicPromoListFragment = {|
   type: string,
   link: {| url: string |},

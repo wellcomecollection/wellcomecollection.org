@@ -16,9 +16,11 @@ import {
   parseTitle,
   parseDescription,
   parseContributors,
+  parseEventFormat,
   parseImagePromo,
   parsePlace,
   asText,
+  asHtml,
   isDocumentLink,
   parseTimestamp,
   parseBoolean
@@ -26,8 +28,20 @@ import {
 import type {Event} from '../../model/events';
 import type {PrismicDocument} from './types';
 
+// TODO: NOTE this doesn't have the A/B image test stuff in it
 function parseEventDoc(document: PrismicDocument): Event {
   const data = document.data;
+
+  const interpretations = document.data.interpretations.map(interpretation => isDocumentLink(interpretation.interpretationType) ? ({
+    interpretationType: {
+      title: asText(interpretation.interpretationType.data.title),
+      abbreviation: asText(interpretation.interpretationType.data.abbreviation),
+      description: asHtml(interpretation.interpretationType.data.description),
+      primaryDescription: asHtml(interpretation.interpretationType.data.primaryDescription)
+    },
+    isPrimary: Boolean(interpretation.isPrimary)
+  }) : null).filter(_ => _);
+
   return {
     id: document.id,
     title: parseTitle(data.title),
@@ -40,11 +54,15 @@ function parseEventDoc(document: PrismicDocument): Event {
     bookingInformation: null,
     bookingType: null,
     cost: null,
-    format: null,
+    format: document.data.format && parseEventFormat(document.data.format),
     identifiers: [],
-    interpretations: [],
+    interpretations: interpretations,
     isDropIn: false,
     series: [],
+    schedule: null,
+    backgroundTexture: document.data.backgroundTexture.data && document.data.backgroundTexture.data.image.url,
+    eventbriteId: null,
+    isCompletelySoldOut: null,
     times: data.times && data.times.map(frag => ({
       range: {
         startDateTime: parseTimestamp(frag.startDateTime),
