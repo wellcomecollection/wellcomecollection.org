@@ -46,7 +46,9 @@ const EventPage = ({ event }: Props) => {
     >
       <Fragment>
         {event.contributors.length > 0 &&
-          <Contributors contributors={event.contributors} />
+          <Contributors
+            titlePrefix='About your'
+            contributors={event.contributors} />
         }
       </Fragment>
     </BasePage>
