@@ -50,6 +50,9 @@ Bits of tech tidy-up that, when fixed, makes it easier to move forward.
 Requires someone with this speciality to take a look before we continue.
 Could be used in conjunction with assignee.
 
+### `research:{type}`
+The type of research that was performed
+
 ### [`thisquarter`](https://github.com/wellcometrust/wellcomecollection.org/issues?q=is%3Aopen+label%3Aneeds%3A+label%3Athisquarter)
 Literally, doing it this quarter (potentially use milestones?).
 

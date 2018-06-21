@@ -1,9 +1,3 @@
-## Type
-<!-- delete as appropriate -->
-- ✨ Feature
-- 🐛 Bug
-- 🚑 Health report
-
 ## Needs
 <!-- delete unneeded -->
 - [ ] User research
@@ -28,5 +22,5 @@ In order to
 As a
  _(who? user/persona)_
 
-I need/want/expect 
+I need/want/expect
 _(what? to do this thing)_
