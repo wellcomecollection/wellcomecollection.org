@@ -398,18 +398,15 @@ export function asText(maybeContent: any) {
   return maybeContent && RichText.asText(maybeContent, linkResolver).trim();
 }
 
-export function asHtml(maybeContent: any) {
-  return isMissingOrEmpty(maybeContent) ? null : RichText.asHtml(maybeContent, linkResolver).trim();
+export function asHtml(maybeContent: ?HTMLString) {
+  // Prismic can send us empty html elements which can lead to unwanted UI in templates.
+  // Check that `asText` wouldn't return an empty string.
+  const isEmpty = !maybeContent || (asText(maybeContent) || '').trim() === '';
+  return isEmpty ? null : RichText.asHtml(maybeContent, linkResolver).trim();
 }
 
 export function isEmptyDocLink(fragment: Object) {
   return fragment.link_type === 'Document' && !fragment.data;
-}
-
-export function isMissingOrEmpty(maybeContent: any) {
-  // Prismic can send us empty html elements which can lead to unwanted UI in templates.
-  // Check that `asText` wouldn't return an empty string.
-  return !maybeContent || asText(maybeContent) === '';
 }
 
 // This is used for when we have a "single" `StructuredText` and want to maintain the inline HTML

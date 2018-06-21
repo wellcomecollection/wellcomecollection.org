@@ -61,6 +61,16 @@ export function asHtml(maybeContent: ?HTMLString) {
   return isEmpty ? null : RichText.asHtml(maybeContent, linkResolver).trim();
 }
 
+function isMissingOrEmpty(maybeContent: any) {
+  // Prismic can send us empty html elements which can lead to unwanted UI in templates.
+  // Check that `asText` wouldn't return an empty string.
+  return !maybeContent || asText(maybeContent) === '';
+}
+
+export function parseRichText(maybeContent: ?HTMLString) {
+  return isMissingOrEmpty(maybeContent) ? null : maybeContent;
+}
+
 export function parseTitle(title: HTMLString): string {
   // We always need a title - blunt validation, but validation none the less
   return asText(title) || '';
