@@ -1,36 +1,85 @@
 // @flow
 import {getDocument} from './api';
-import type {EventSeries} from '../../model/event-series';
-import type {PrismicDocument} from './types';
-import {eventSeriesFields}  from './fetch-links';
+import {
+  eventAccessOptionsFields,
+  teamsFields,
+  eventFormatsFields,
+  placesFields,
+  interpretationTypesFields,
+  audiencesFields,
+  eventSeriesFields,
+  organisationsFields,
+  peopleFields,
+  contributorsFields
+} from './fetch-links';
 import {
   parseTitle,
   parseDescription,
+  parseContributors,
   parseImagePromo,
-  parseBackgroundTexture
+  parsePlace,
+  asText,
+  isDocumentLink,
+  parseTimestamp,
+  parseBoolean
 } from './parsers';
+import type {Event} from '../../model/events';
+import type {PrismicDocument} from './types';
 
-export function parseEventSeries(document: PrismicDocument): EventSeries {
-  const {data} = document;
-  const prismicBackgroundTexture = data.backgroundTexture && data.backgroundTexture.data;
-  const promo = data.promo && parseImagePromo(data.promo);
-
+function parseEventDoc(document: PrismicDocument): Event {
+  const data = document.data;
   return {
-    type: 'event-series',
     id: document.id,
-    title: data.title ? parseTitle(data.title) : 'TITLE MISSING',
-    description: data.description && parseDescription(data.description),
-    backgroundTexture: prismicBackgroundTexture ? parseBackgroundTexture(prismicBackgroundTexture) : null,
-    promo
+    title: parseTitle(data.title),
+    description: asText(data.description),
+    contributors: data.contributors ? parseContributors(data.contributors) : [],
+    place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
+    promo: document.data.promo && parseImagePromo(document.data.promo),
+    audiences: [],
+    bookingEnquiryTeam: null,
+    bookingInformation: null,
+    bookingType: null,
+    cost: null,
+    format: null,
+    identifiers: [],
+    interpretations: [],
+    isDropIn: false,
+    series: [],
+    times: data.times && data.times.map(frag => ({
+      range: {
+        startDateTime: parseTimestamp(frag.startDateTime),
+        endDateTime: parseTimestamp(frag.endDateTime)
+      },
+      isFullyBooked: parseBoolean(frag.isFullyBooked)
+    })),
+    // TODO: (event migration)
+    body: data.description ? [{
+      type: 'text',
+      weight: 'default',
+      value: parseDescription(data.description)
+    }] : []
   };
 }
 
-export async function getUiEventSeries(req: Request, id: string): Promise<?EventSeries> {
+export async function getEvent(req: Request, id: string): Promise<?Event> {
   const document = await getDocument(req, id, {
-    fetchLinks: eventSeriesFields
+    fetchLinks: [].concat(
+      eventAccessOptionsFields,
+      teamsFields,
+      eventFormatsFields,
+      placesFields,
+      interpretationTypesFields,
+      audiencesFields,
+      eventSeriesFields,
+      organisationsFields,
+      peopleFields,
+      contributorsFields,
+      eventSeriesFields
+    )
   });
 
-  if (document) {
-    return parseEventSeries(document);
+  if (document && document.type === 'events') {
+    const event = parseEventDoc(document);
+    return event;
   }
 }

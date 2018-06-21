@@ -82,21 +82,21 @@ export type Audience = {|
 
 export type Event = {|
   id: string,
-  identifiers: Array<Identifier>,
+  identifiers: Identifier[],
   title: string,
   format: ?EventFormat,
   isDropIn: boolean,
-  times: Array<EventTime>,
+  times: EventTime[],
   description: ?HTMLString,
-  series: Array<EventSeries>,
+  series: EventSeries[],
   place: ?Place,
   bookingEnquiryTeam: ?Team,
   contributors: Contributor[],
   promo: ?ImagePromo,
-  interpretations: Array<Interpretation>,
-  audiences: Array<Audience>,
+  interpretations: Interpretation[],
+  audiences: Audience[],
   bookingInformation: ?HTMLString,
-  cost: string,
+  cost: ?string,
   // TODO:
   // this is programmatic and doesn't come from Prismic and can't be edited directly
   // it's more convenient than having to work it out
@@ -104,7 +104,8 @@ export type Event = {|
   bookingType: ?string,
   schedule?: Event[],
   eventbriteId?: string,
-  isCompletelySoldOut?: boolean
+  isCompletelySoldOut?: boolean,
+  body: any[]
 |}
 
 export type EventPromo = {|

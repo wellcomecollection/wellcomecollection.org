@@ -1,0 +1,22 @@
+{% extends 'layout/default.njk' %}
+
+{% set description = event.promo.caption | safe | striptags %}
+{% block pageMeta %}
+  {% set metaContent = {
+    type: 'website',
+    title: event.title,
+    description: description,
+    url: pageConfig.canonicalUri
+  } %}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
+  <meta name="description" content="{{ description }}" />
+{% endblock %}
+
+{% block body %}
+  {# TODO: ld+Json #}
+  {% componentJsx "EventPage", { event: event } %}
+  <script type="application/ld+json">
+    {# {{ jsonLdExhibition | jsonLd('exhibitionLd') | safe }} #}
+  </script>
+{% endblock %}

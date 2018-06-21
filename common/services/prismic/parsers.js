@@ -12,7 +12,7 @@ import type { CaptionedImage } from '../../model/captioned-image';
 import type { ImagePromo } from '../../model/image-promo';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
-import { parseEventSeries } from './events';
+import { parseEventSeries } from './event-series';
 
 const placeHolderImage = {
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
@@ -309,6 +309,10 @@ export function parseBackgroundTexture(backgroundTexture: PrismicBackgroundTextu
     image: backgroundTexture.image.url,
     name: backgroundTexture.name
   };
+}
+
+export function parseBoolean(fragment: PrismicFragment): boolean {
+  return Boolean(fragment);
 }
 
 function parseStructuredText(maybeFragment: ?PrismicFragment): ?HTMLString {
