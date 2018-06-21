@@ -22,8 +22,6 @@
             {% endif %}
           {% elif bodyPart.type === 'heading' %}
             <h2>{{ bodyPart.value.value | safe }}</h2>
-          {% elif bodyPart.type === 'gif-video' %}
-            {% componentV2 'gif-video', bodyPart.value %}
           {% elif bodyPart.type === 'picture' %}
             {% if bodyPart.weight === 'standalone' %}
               {% set sizes = '100vw' %}
