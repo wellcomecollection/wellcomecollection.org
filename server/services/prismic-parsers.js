@@ -398,7 +398,7 @@ export function asText(maybeContent: any) {
   return maybeContent && RichText.asText(maybeContent, linkResolver).trim();
 }
 
-export function asHtml(maybeContent: ?HTMLString) {
+export function asHtml(maybeContent: any) {
   // Prismic can send us empty html elements which can lead to unwanted UI in templates.
   // Check that `asText` wouldn't return an empty string.
   const isEmpty = !maybeContent || (asText(maybeContent) || '').trim() === '';
