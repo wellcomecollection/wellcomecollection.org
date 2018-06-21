@@ -22,7 +22,8 @@ import {
   renderPage,
   searchForDrupalRedirect,
   renderBooks,
-  renderBook
+  renderBook,
+  renderSearch as renderSearchPage
 } from '../controllers/content';
 
 const r = new Router({
@@ -65,6 +66,7 @@ r.get('/webcomic-series/:id', renderWebcomicSeries);
 r.get('/pages/:id', renderPage);
 r.get('/books', renderBooks);
 r.get('/books/:id', renderBook);
+r.get('/search', renderSearchPage);
 r.get('/newsletter', renderNewsletterPage);
 
 // root paths that we want to support.
