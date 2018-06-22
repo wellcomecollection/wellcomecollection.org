@@ -4,12 +4,19 @@ import {spacing, grid} from '../../../utils/classnames';
 import type {Node} from 'react';
 import type BaseHeader from '../BaseHeader/BaseHeader';
 import type Body from '../Body/Body';
+import type Contributors from '../Contributors/Contributors';
+import type BookMetadata from './BookPage';
+import type EventPlace from '../EventPlace/EventPlace';
+
+// We allow passing of null here for situations like Contributors only
+// being passed through if there is more than 1.
+type MetadataContainerChildren = ?Contributors | ?EventPlace | ?BookMetadata
 
 type Props = {|
   id: string,
   Header: BaseHeader,
   Body: Body,
-  children?: ?Node
+  children?: MetadataContainerChildren | MetadataContainerChildren[]
 |}
 
 export const BasePageColumn = ({children}: {| children: Node |}) => (
@@ -21,6 +28,20 @@ export const BasePageColumn = ({children}: {| children: Node |}) => (
         </div>
       </div>
     </div>
+  </div>
+);
+
+type BasePageMetadataContrainerProps = {|
+  children: MetadataContainerChildren
+|}
+export const BasePageMetadataContrainer = (
+  { children }: BasePageMetadataContrainerProps
+) => (
+  <div className={`
+    ${spacing({s: 2}, {padding: ['top']})}
+    ${spacing({s: 2}, {margin: ['top']})}
+    border-top-width-1 border-color-smoke`}>
+    <Fragment>{children}</Fragment>
   </div>
 );
 
@@ -41,7 +62,16 @@ const BasePage = ({
 
       {children &&
         <BasePageColumn>
-          {children}
+          {Array.isArray(children) && children.map(child => (
+            <BasePageMetadataContrainer key={child}>
+              {child}
+            </BasePageMetadataContrainer>
+          ))}
+          {!Array.isArray(children) &&
+            <BasePageMetadataContrainer>
+              {children}
+            </BasePageMetadataContrainer>
+          }
         </BasePageColumn>
       }
     </article>
