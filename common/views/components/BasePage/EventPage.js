@@ -47,6 +47,34 @@ function infoBar(cost) {
   );
 }
 
+//       {% icon interpretation.interpretationType.title | replace(' ', '_') | replace('-', '_') | lower %}
+const BookingInfo = ({bookingInformation, interpretations}: any) => ( // TODO props / icon
+  <div className='body-text'>
+    {interpretations.map((i) => {
+      return (i.interpretationType.description &&
+        <Fragment>
+          <h2 className='flex flex--v-center'>
+            <span className={`flex flex--v-center ${spacing({s: 1}, {margin: ['right']})}`}>
+              icon goes here
+            </span>
+            <span>{i.interpretationType.title}</span>
+          </h2>
+          {i.isPrimary && <div dangerouslySetInnerHTML={{__html: i.interpretationType.primaryDescription}} />}
+          {!i.isPrimary && <div dangerouslySetInnerHTML={{__html: i.interpretationType.description}} />}
+        </Fragment>
+      );
+    })}
+    {bookingInformation &&
+      <Fragment>
+        <h3 className={font({s: 'HNM4'})}>Booking information</h3>
+        <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 4}, {margin: ['bottom']})}`} dangerouslySetInnerHTML={{__html: bookingInformation}} />
+      </Fragment>}
+    <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
+      <a href='https://wellcomecollection.org/visit-us/events-tickets'>Our event terms and conditions</a>
+    </p>
+  </div>
+);
+
 const EventPage = ({ event }: Props) => {
   const image = event.promo && event.promo.image;
   const tasl = image && {
@@ -88,6 +116,7 @@ const EventPage = ({ event }: Props) => {
         {event.contributors.length > 0 &&
           <Contributors contributors={event.contributors} />
         }
+        <BookingInfo bookingInformation={event.bookingInformation} interpretations={event.interpretations} />
       </Fragment>
     </BasePage>
   );

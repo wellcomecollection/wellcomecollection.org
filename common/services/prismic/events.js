@@ -51,7 +51,7 @@ function parseEventDoc(document: PrismicDocument): UiEvent {
     promo: document.data.promo && parseImagePromo(document.data.promo),
     audiences: [], // TODO
     bookingEnquiryTeam: null, // TODO
-    bookingInformation: null, // TODO
+    bookingInformation: asHtml(document.data.bookingInformation),
     bookingType: null, // TODO
     cost: document.data.cost,
     format: document.data.format && parseEventFormat(document.data.format),
