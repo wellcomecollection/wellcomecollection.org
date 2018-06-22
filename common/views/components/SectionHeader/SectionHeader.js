@@ -14,7 +14,7 @@ type Props = {|
 
 const SectionHeader = ({title, linkText, linkUrl}: Props) => {
   return (
-    <div className={`${spacing({s: 6}, {margin: ['bottom']})} ${spacing({s: 8, m: 10}, {margin: ['top']})} `}>
+    <div className={`row ${spacing({s: 6}, {margin: ['bottom']})} ${spacing({s: 8, m: 10}, {margin: ['top']})} `}>
       <div className='container'>
         <div className='grid'>
           <div className={`${grid({s: 12, m: 12, l: 12, xl: 12})} ${spacing({s: 1}, {margin: ['bottom']})}`}>
