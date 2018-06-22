@@ -6,9 +6,11 @@ import Body from '../Body/Body';
 import Contributors from '../Contributors/Contributors';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
 import Tags from '../Tags/Tags';
+import Icon from '../Icon/Icon';
 import {UiImage} from '../Images/Images';
 import type {Event} from '../../../model/events';
 import {spacing, font} from '../../../utils/classnames';
+import camelize from '../../../utils/camelize';
 import {formatAndDedupeOnDate, formatAndDedupeOnTime, joinDateStrings} from '../../../utils/format-date';
 
 type Props = {|
@@ -47,15 +49,14 @@ function infoBar(cost) {
   );
 }
 
-//       {% icon interpretation.interpretationType.title | replace(' ', '_') | replace('-', '_') | lower %}
 const BookingInfo = ({bookingInformation, interpretations}: any) => ( // TODO props / icon
   <div className='body-text'>
     {interpretations.map((i) => {
       return (i.interpretationType.description &&
-        <Fragment>
+        <Fragment key={i.interpretationType.title}>
           <h2 className='flex flex--v-center'>
             <span className={`flex flex--v-center ${spacing({s: 1}, {margin: ['right']})}`}>
-              icon goes here
+              <Icon name={camelize(i.interpretationType.title)} />
             </span>
             <span>{i.interpretationType.title}</span>
           </h2>
