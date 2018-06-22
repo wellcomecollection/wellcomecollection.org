@@ -47,6 +47,7 @@ import Quote from '../Quote/Quote';
 import SearchBox from '../SearchBox/SearchBox';
 import SearchResults from '../SearchResults/SearchResults';
 import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
+import SectionHeader from '../SectionHeader/SectionHeader';
 import ShameQuote from '../ShameQuote/ShameQuote';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import Tags from '../Tags/Tags';
@@ -107,6 +108,7 @@ export {
   SearchBox,
   SearchResults,
   SecondaryLink,
+  SectionHeader,
   ShameQuote,
   StatusIndicator,
   Tags,

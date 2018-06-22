@@ -28,21 +28,17 @@
 
   <div class="css-grid__container">
     <div class="css-grid">
-      <div class="{{ {s:12, m:12, l:10, xl:9} | cssGridClasses }} {{ {s: 3, m: 4} | spacingClasses({margin: ['bottom']}) }}">
-        <h1 class="{{ {s: 'WB4', m:'WB3'} | fontClasses }}">The free museum and library for the incurably curious</h1>
-      </div>
-      <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }}">
-        {% componentV2 'divider', null, {'dashed': true} %}
+      <div class="{{ {s:12, m:12, l:10, xl:9} | cssGridClasses }}">
+        <h1 class="{{ {s: 'WB4', m:'WB3'} | fontClasses }} {{ {s: 3} | spacingClasses({margin: ['bottom']}) }}">The free museum and library for the incurably curious</h1>
       </div>
     </div>
   </div>
 
-  <div class="container">
-    <div class="{{ {s: 6} | spacingClasses({padding: ['top']}) }} flex-m-up flex--v-center flex--h-space-between">
-      <h2 class="h2">This week at Wellcome Collection</h2>
-      {% componentJsx 'PrimaryLink', { name: 'All exhibitions and events', url: '/whats-on' } %}
-    </div>
-  </div>
+  {% componentJsx 'SectionHeader', {
+    title: 'This week at Wellcome Collection',
+    linkText: 'All exhibitions and events',
+    linkUrl: '/whats-on'
+  } %}
 
   <div class="css-grid__container">
     <div class="css-grid">
@@ -82,12 +78,11 @@
     </div>
   </div>
 
-  <div class="container">
-    <div class="{{ {s: 6} | spacingClasses({padding: ['top']}) }} flex-m-up flex--v-center flex--h-space-between">
-      <h2 class="h2">Latest articles, comics and more</h2>
-      {% componentJsx 'PrimaryLink', { name: 'All stories', url: '/explore' } %}
-    </div>
-  </div>
+  {% componentJsx 'SectionHeader', {
+    title: 'Latest articles, comics and more',
+    linkText: 'All stories',
+    linkUrl: '/explore'
+  } %}
 
   <div class="css-grid__container">
     <div class="css-grid">
