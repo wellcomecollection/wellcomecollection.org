@@ -49,20 +49,20 @@ function parseEventDoc(document: PrismicDocument): UiEvent {
     contributors: data.contributors ? parseContributors(data.contributors) : [],
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     promo: document.data.promo && parseImagePromo(document.data.promo),
-    audiences: [],
-    bookingEnquiryTeam: null,
-    bookingInformation: null,
-    bookingType: null,
+    audiences: [], // TODO
+    bookingEnquiryTeam: null, // TODO
+    bookingInformation: null, // TODO
+    bookingType: null, // TODO
     cost: document.data.cost,
     format: document.data.format && parseEventFormat(document.data.format),
-    identifiers: [],
+    identifiers: [], // TODO
     interpretations: interpretations,
-    isDropIn: false,
-    series: [],
-    schedule: [],
+    isDropIn: false, // TODO
+    series: [], // TODO
+    schedule: [], // TODO
     backgroundTexture: document.data.backgroundTexture.data && document.data.backgroundTexture.data.image.url,
-    eventbriteId: '',
-    isCompletelySoldOut: false,
+    eventbriteId: '', // TODO
+    isCompletelySoldOut: false, // TODO
     times: data.times && data.times.map(frag => ({
       range: {
         startDateTime: parseTimestamp(frag.startDateTime),
