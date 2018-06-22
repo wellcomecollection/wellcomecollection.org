@@ -56,9 +56,9 @@ const EventPage = ({ event }: Props) => {
   /* $FlowFixMe */
   const FeaturedMedia = event.promo && <UiImage tasl={tasl} {...image} />;
   const DateInfo = event.times && dateInfo(event.times);
-  const formatTag = event.format && [{text: event.format.title}];
-  const interpretationsTags = event.interpretations && event.interpretations.map(i => ({text: i.interpretationType.title}));
-  const TagBar = <Tags tags={Array.concat(formatTag, interpretationsTags)} />;
+  const formatTag = event.format ? [{text: event.format.title}] : [];
+  const interpretationsTags = event.interpretations ? event.interpretations.map(i => ({text: i.interpretationType.title})) : [];
+  const TagBar = <Tags tags={formatTag.concat(interpretationsTags)} />;
   const Header = (<BaseHeader
     title={event.title}
     Background={WobblyBackground()}

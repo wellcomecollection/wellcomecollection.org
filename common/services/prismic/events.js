@@ -25,16 +25,16 @@ import {
   parseTimestamp,
   parseBoolean
 } from './parsers';
-import type {Event} from '../../model/events';
+import type {UiEvent} from '../../model/events';
 import type {PrismicDocument} from './types';
 
 // TODO: NOTE this doesn't have the A/B image test stuff in it
-function parseEventDoc(document: PrismicDocument): Event {
+function parseEventDoc(document: PrismicDocument): UiEvent {
   const data = document.data;
 
   const interpretations = document.data.interpretations.map(interpretation => isDocumentLink(interpretation.interpretationType) ? ({
     interpretationType: {
-      title: asText(interpretation.interpretationType.data.title),
+      title: parseTitle(interpretation.interpretationType.data.title),
       abbreviation: asText(interpretation.interpretationType.data.abbreviation),
       description: asHtml(interpretation.interpretationType.data.description),
       primaryDescription: asHtml(interpretation.interpretationType.data.primaryDescription)
@@ -59,10 +59,10 @@ function parseEventDoc(document: PrismicDocument): Event {
     interpretations: interpretations,
     isDropIn: false,
     series: [],
-    schedule: null,
+    schedule: [],
     backgroundTexture: document.data.backgroundTexture.data && document.data.backgroundTexture.data.image.url,
-    eventbriteId: null,
-    isCompletelySoldOut: null,
+    eventbriteId: '',
+    isCompletelySoldOut: false,
     times: data.times && data.times.map(frag => ({
       range: {
         startDateTime: parseTimestamp(frag.startDateTime),
@@ -79,7 +79,7 @@ function parseEventDoc(document: PrismicDocument): Event {
   };
 }
 
-export async function getEvent(req: Request, id: string): Promise<?Event> {
+export async function getEvent(req: Request, id: string): Promise<?UiEvent> {
   const document = await getDocument(req, id, {
     fetchLinks: [].concat(
       eventAccessOptionsFields,
