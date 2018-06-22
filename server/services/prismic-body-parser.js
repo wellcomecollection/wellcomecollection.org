@@ -149,7 +149,7 @@ function parseBodyPart(slice) {
         type: 'gifVideo',
         weight: slice.slice_label,
         value: {
-          caption: slice.primary.caption && asHtml(slice.primary.caption),
+          caption: parseRichText(slice.primary.caption),
           videoUrl: slice.primary.video && slice.primary.video.url,
           playbackRate: slice.primary.playbackRate || 1,
           tasl: parseTaslFromString(slice.primary.tasl)

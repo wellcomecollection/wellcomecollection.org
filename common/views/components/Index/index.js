@@ -5,6 +5,7 @@ import BookPage from '../BasePage/BookPage';
 import BookPromo from '../BookPromo/BookPromo';
 import Button from '../Buttons/Button/Button';
 import {UiImage, CaptionedImage} from '../Images/Images';
+import Caption from '../Caption/Caption';
 import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
 import Contributor from '../Contributor/Contributor';
 import Contributors from '../Contributors/Contributors';
@@ -63,6 +64,7 @@ export {
   BookPage,
   BookPromo,
   Button,
+  Caption,
   CaptionedImage,
   ChapterIndicator,
   Contributor,
