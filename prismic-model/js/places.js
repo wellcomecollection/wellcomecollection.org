@@ -3,7 +3,7 @@ import title from './parts/title';
 import geolocation from './parts/geolocation';
 import number from './parts/number';
 import body from './parts/body';
-import structureText from './parts/structured-text';
+import structuredText from './parts/structured-text';
 
 const Place = {
   Place: {
@@ -11,7 +11,7 @@ const Place = {
     geolocation: geolocation(),
     level: number('Level'),
     capacity: number('Capacity'),
-    locationInformation: structureText('Location information'),
+    locationInformation: structuredText('Location information'),
     body
   }
 };
