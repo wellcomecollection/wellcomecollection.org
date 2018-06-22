@@ -11,8 +11,8 @@ const Place = {
     geolocation: geolocation(),
     level: number('Level'),
     capacity: number('Capacity'),
-    body,
-    instructions: structureText('Instructions')
+    locationInformation: structureText('Location information'),
+    body
   }
 };
 

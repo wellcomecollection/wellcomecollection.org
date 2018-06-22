@@ -26,6 +26,13 @@
         "label": "Capacity"
       }
     },
+    "locationInformation": {
+      "type": "StructuredText",
+      "config": {
+        "multi": "paragraph,hyperlink,strong,em",
+        "label": "Location information"
+      }
+    },
     "body": {
       "fieldset": "Body content",
       "type": "Slices",
@@ -243,13 +250,6 @@
             }
           }
         }
-      }
-    },
-    "instructions": {
-      "type": "StructuredText",
-      "config": {
-        "multi": "paragraph,hyperlink,strong,em",
-        "label": "Instructions"
       }
     }
   }
