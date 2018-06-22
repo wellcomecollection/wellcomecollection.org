@@ -280,6 +280,10 @@ export function parsePlace(doc: PrismicFragment): Place {
   };
 }
 
+export function parseNumber(fragment: PrismicFragment): number {
+  return parseInt(fragment, 10);
+}
+
 type PrismicPromoListFragment = {|
   type: string,
   link: {| url: string |},
