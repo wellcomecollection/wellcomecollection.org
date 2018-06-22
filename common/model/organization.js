@@ -20,7 +20,9 @@ export type Organization = {|
   openingHoursSpecification: OpeningHoursDay[],
   specialOpeningHoursSpecification?: ?SpecialOpeningHours[],
   address: PostalAddress,
-  alternateUrl?: string
+  alternateUrl?: string,
+  publicAccess: boolean,
+  isAccessibleForFree: boolean
 |}
 
 export const wellcomeCollectionAddress = {
@@ -65,5 +67,7 @@ export const wellcomeCollection: Organization = {
       return objToJsonLd(specObject, 'OpeningHoursSpecification', false);
     }
   ),
-  address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
+  address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false),
+  isAccessibleForFree: true,
+  publicAccess: true
 };
