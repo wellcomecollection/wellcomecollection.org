@@ -232,7 +232,7 @@
             "type": "StructuredText",
             "config": {
               "multi": "paragraph,hyperlink,strong,em",
-              "label": "Description of contribution?"
+              "label": "Description of contribution"
             }
           }
         }
