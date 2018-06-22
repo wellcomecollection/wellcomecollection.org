@@ -57,7 +57,8 @@ const InstallationPage = ({ installation }: Props) => {
     >
       <Fragment>
         {installation.contributors.length > 0 &&
-          <Contributors contributors={installation.contributors} />
+          <Contributors
+            contributors={installation.contributors} />
         }
       </Fragment>
     </BasePage>
