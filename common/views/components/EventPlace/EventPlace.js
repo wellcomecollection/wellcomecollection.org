@@ -16,8 +16,9 @@ const EventPlace = ({
   <Fragment>
     <h2 className='h2'>Where we{`'`}ll be</h2>
     <p>
-      Well be in the {title}
-      {level ? ` on level ${level}` : ''},
+      We{`'`}ll be in the {title}
+      {level ? ` on level ${level}` : ''}
+      {locationInformation ? ',' : '.'}
       {asText(locationInformation)}
     </p>
   </Fragment>

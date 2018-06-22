@@ -274,7 +274,7 @@ export function parseImagePromo(
 export function parsePlace(doc: PrismicFragment): Place {
   return {
     id: doc.id,
-    title: doc.data.title || 'Unknown',
+    title: asText(doc.data.title) || '',
     level: doc.data.level || 0,
     capacity: doc.data.capacity
   };

@@ -321,9 +321,23 @@
 
       {% if event.contributors.length > 0 %}
         <div class="{{ {s: 3} | spacingClasses({ margin: ['top', 'bottom'] }) }}">
-          {% componentJsx 'Contributors', {
-            contributors: event.contributors
-          } %}
+          <div class="border-top-width-1 border-color-smoke
+            {s: 2} | spacingClasses({padding: ['top']})
+            {s: 2} | spacingClasses({margin: ['bottom']})">
+            {% componentJsx 'Contributors', {
+              contributors: event.contributors
+            } %}
+          </div>
+        </div>
+      {% endif %}
+
+      {% if event.place %}
+        <div class="{{ {s: 3} | spacingClasses({ margin: ['top', 'bottom'] }) }}">
+          <div class="border-top-width-1 border-color-smoke
+            {s: 2} | spacingClasses({padding: ['top']})
+            {s: 2} | spacingClasses({margin: ['bottom']})">
+            {% componentJsx 'EventPlace', event.place %}
+          </div>
         </div>
       {% endif %}
 
