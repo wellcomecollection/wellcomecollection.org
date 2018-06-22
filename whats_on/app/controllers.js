@@ -138,25 +138,20 @@ export async function renderExhibitExhibitionLink(ctx, next) {
   const {id} = ctx.params;
   const exhibition = await getExhibitExhibition(ctx.request, id);
 
-  if (exhibition) {
-    const tags = [{
-      text: 'Installations'
-    }, {
-      text: `Part of ${exhibition.title}`,
-      url: `/exhibitions/${exhibition.id}`
-    }];
+  const tags = exhibition ? [{
+    text: 'Installations'
+  }, {
+    text: `Part of ${exhibition.title}`,
+    url: `/exhibitions/${exhibition.id}`
+  }] : [{
+    text: 'Installations'
+  }];
 
-    ctx.body = {
-      html: ReactDOMServer.renderToString(
-        React.createElement(Tags, { tags })
-      )
-    };
-  } else {
-    ctx.status = 404;
-    ctx.body = {
-      html: ''
-    };
-  }
+  ctx.body = {
+    html: ReactDOMServer.renderToString(
+      React.createElement(Tags, { tags })
+    )
+  };
 }
 
 export async function renderEvent(ctx, next) {
