@@ -39,6 +39,14 @@ function dateInfo(times) {
   );
 }
 
+function infoBar(cost) {
+  return (
+    <p className='no-margin'>
+      {cost || 'Free admission'}
+    </p>
+  );
+}
+
 const EventPage = ({ event }: Props) => {
   const image = event.promo && event.promo.image;
   const tasl = image && {
@@ -56,6 +64,7 @@ const EventPage = ({ event }: Props) => {
   /* $FlowFixMe */
   const FeaturedMedia = event.promo && <UiImage tasl={tasl} {...image} />;
   const DateInfo = event.times && dateInfo(event.times);
+  const InfoBar = infoBar(event.cost);
   const formatTag = event.format ? [{text: event.format.title}] : [];
   const interpretationsTags = event.interpretations ? event.interpretations.map(i => ({text: i.interpretationType.title})) : [];
   const TagBar = <Tags tags={formatTag.concat(interpretationsTags)} />;
@@ -64,7 +73,7 @@ const EventPage = ({ event }: Props) => {
     Background={WobblyBackground()}
     TagBar={TagBar}
     DateInfo={DateInfo}
-    InfoBar={null}
+    InfoBar={InfoBar}
     Description={null}
     FeaturedMedia={FeaturedMedia}
   />);

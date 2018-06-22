@@ -53,7 +53,7 @@ function parseEventDoc(document: PrismicDocument): UiEvent {
     bookingEnquiryTeam: null,
     bookingInformation: null,
     bookingType: null,
-    cost: null,
+    cost: document.data.cost,
     format: document.data.format && parseEventFormat(document.data.format),
     identifiers: [],
     interpretations: interpretations,
