@@ -40,6 +40,7 @@ import Page from '../BasePage/Page';
 import PageDescription from '../PageDescription/PageDescription';
 import Pagination from '../Pagination/Pagination';
 import Picture from '../Picture/Picture';
+import PlacePage from '../BasePage/PlacePage';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Promo from '../Promo/Promo';
@@ -101,6 +102,7 @@ export {
   PageDescription,
   Pagination,
   Picture,
+  PlacePage,
   PrimaryLink,
   PrismicHtmlBlock,
   Promo,
