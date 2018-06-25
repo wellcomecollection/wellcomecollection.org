@@ -17,7 +17,7 @@
   background: color('white');
   border: 2px solid color('green');
 
-  .icon__shape {
+  #{$icon-shapes} {
     fill: color('green');
   }
 
@@ -25,7 +25,7 @@
   &:focus {
     background: color('green');
 
-    .icon__shape {
+    #{$icon-shapes} {
       fill: color('white');
     }
   }
@@ -35,7 +35,7 @@
   border: 0;
   background: color('green');
 
-  .icon__shape {
+  #{$icon-shapes} {
     fill: color('white');
   }
 

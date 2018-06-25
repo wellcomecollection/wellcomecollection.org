@@ -80,9 +80,9 @@
   <body {% if isPreview %}class="is-preview"{% endif %} data-page-state='{{ (pageConfig.pageState or {}) | dump | safe }}'>
     {% component 'skip-link' %}
 
-    {% if featuresCohort === 'testB' %}
+    {# {% if featuresCohort === 'testB' %} #}
       {% component 'cookie-notification', { isFixed: false } %}
-    {% endif %}
+    {# {% endif %} #}
 
     {% set navLinks = [
       {

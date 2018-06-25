@@ -33,7 +33,7 @@ $icon-container-dimension: 46px;
 $transition-properties: 150ms ease;
 
 $header-medium-breakpoint: 825px;
-
+$icon-shapes: '.icon svg *';
 // Empty map for respond-to mixin
 // Override in component Sass files
 $tweakpoints: ();

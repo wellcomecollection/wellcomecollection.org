@@ -25,9 +25,10 @@
 
 @each $color-key, $color-value in $colors {
   .icon--#{$color-key} {
-    svg,
-    .icon__shape {
-      fill: nth($color-value, 1);
+    color: color($color-key);
+
+    svg * {
+      fill: currentColor;
     }
   }
 }

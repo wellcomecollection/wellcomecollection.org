@@ -22,9 +22,9 @@
     margin-right: $spacing-unit;
   }
 
-  .icon__shape {
-    transition: fill $transition-properties;
+  #{$icon-shapes} {
     fill: currentColor;
+    transition: fill $transition-properties;
   }
 }
 

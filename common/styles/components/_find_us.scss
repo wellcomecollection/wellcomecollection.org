@@ -20,9 +20,11 @@
     }
   }
 
-  .icon__shape {
+  // stylelint-disable plugin/selector-bem-pattern
+  #{$icon-shapes} {
     fill: currentColor;
   }
+  // stylelint-enable plugin/selector-bem-pattern
 }
 
 .find-us__link {

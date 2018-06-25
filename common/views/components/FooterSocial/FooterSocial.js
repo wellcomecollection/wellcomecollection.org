@@ -46,7 +46,7 @@ const FooterSocial = () => (
     {items.map((item) => (
       <div key={item.title} className='footer-social__cell'>
         <a className={`footer-social__link ${font({s: 'HNM6'})}`} href={item.url}>
-          <Icon name={item.icon} extraClasses='margin-right-s1' />
+          <Icon name={item.icon} extraClasses='margin-right-s1 icon--green' />
           <span className='footer-social__title'>{item.title}</span>
           <span className='footer-social__service'>{item.service}</span>
         </a>

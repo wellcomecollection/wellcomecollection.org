@@ -53,13 +53,13 @@ const Footer = ({openingHoursId, extraClasses, groupedVenues, upcomingExceptiona
       <div className='footer__bottom'>
         <div className={`footer__left ${spacing({s: 2, l: 0}, {margin: ['bottom']})}`}>
           <div className={`footer__strap ${font({s: 'HNM6'})} ${spacing({m: 4, l: 6}, {margin: ['right']})}`}>
-            <Icon name='wellcome' />
+            <Icon name='wellcome' extraClasses='icon--white' />
             <span className='footer__strap-text'>The free museum and library from Wellcome</span>
           </div>
           <div className={`footer__licensing ${font({s: 'HNM6'})} ${spacing({xl: 2}, {padding: ['right']})}`}>
             <div className='footer__licensing-icons'>
-              <Icon name='cc' />
-              <Icon name='ccBy' />
+              <Icon name='cc' extraClasses='icon--white' />
+              <Icon name='ccBy' extraClasses='icon--white' />
             </div>
             <p className='footer__licensing-copy'>Except where otherwise noted, content on this site is licensed under a <a className='footer__licensing-link' href='https://creativecommons.org/licenses/by/4.0/'> Creative Commons Attribution 4.0 International Licence</a></p>
           </div>
@@ -84,7 +84,7 @@ const Footer = ({openingHoursId, extraClasses, groupedVenues, upcomingExceptiona
             <li className={`footer__hygiene-item ${font({s: 'HNM6'})}`}>
               <a href='#top' className='footer__hygiene-link footer__hygiene-link--back-to-top'>
                 <span>Back to top</span>
-                <Icon name='arrow' extraClasses='icon--270' />
+                <Icon name='arrow' extraClasses='icon--270 icon--white' />
               </a>
             </li>
           </ul>

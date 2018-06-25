@@ -63,10 +63,6 @@ $footer-strap-width: 220px;
     height: 2.6rem;
     margin-right: 0.6rem;
   }
-
-  .icon__shape {
-    fill: color('white');
-  }
 }
 
 .footer__licensing {
@@ -79,10 +75,6 @@ $footer-strap-width: 220px;
 
   .icon {
     margin-right: 0.5rem;
-  }
-
-  .icon__shape {
-    fill: color('white');
   }
 }
 
@@ -168,10 +160,6 @@ $footer-strap-width: 220px;
 
     @include respond-to('xlarge') {
       padding-right: 0;
-    }
-
-    .icon__shape {
-      fill: color('currentColor');
     }
   }
 }

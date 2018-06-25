@@ -10,14 +10,6 @@
   z-index: 2;
   opacity: 1;
   transition: opacity 600ms ease, z-index 0ms 600ms;
-
-  .icon {
-    height: 1.3em;
-  }
-
-  .icon__shape {
-    fill: color('white');
-  }
 }
 
 .cookie-notification--is-fixed {

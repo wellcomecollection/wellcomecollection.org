@@ -2,10 +2,10 @@
   <button class="sort-search__toggle plain-button flex flex--v-center flex--h-space-between js-show-hide-trigger
     {{ {s:4, m:0} | spacingClasses({margin: ['bottom']}) }} {{ {s:0} | spacingClasses({padding: ['top', 'right', 'bottom', 'left']}) }}">
     <div class="flex flex--v-center {{ {s:2} | spacingClasses({margin: ['right']}) }}">
-      {% icon 'sort', null, ['sort-search__sort-icon'] %}
+      {% icon 'sort', null, ['sort-search__sort-icon', 'icon--teal'] %}
       <span class="flex-inline {{ {s:1, m:0} | spacingClasses({margin: ['left']}) }}">Sort:</span>
     </div>
-    {% icon 'cross', null, ['sort-search__close-icon'] %}
+    {% icon 'cross', null, ['sort-search__close-icon', 'icon--teal'] %}
   </button>
   <span class="sort-search__label flex-inline {{ {m:1} | spacingClasses({margin: ['right']}) }}">Sort:</span>
   <form action="" method="get" class="sort-search__form js-sort-search-form js-show-hide-drawer">

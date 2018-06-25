@@ -28,7 +28,7 @@ const Author = ({image, name, twitterHandle, description}: Props) => (
             <a href={`https://twitter.com/${twitterHandle}`}
               className='author__link'
               aria-label={`${name} (screen name: ${twitterHandle})`}>
-              <Icon name='twitter' /> @{twitterHandle}
+              <Icon name='twitter' extraClasses='icon--green' /> @{twitterHandle}
             </a>
           </span>
         }
