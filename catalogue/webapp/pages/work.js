@@ -349,6 +349,10 @@ WorkPage.getInitialProps = async (context) => {
   const res = await fetch(`https://api.wellcomecollection.org/catalogue/v${version}/works/${id}?includes=identifiers,items,thumbnail`);
   let json = await res.json();
 
+  if (res.status !== 200) {
+    return { statusCode: res.status };
+  }
+
   const [iiifImageLocation] = json.items.map(
     item => item.locations.find(
       location => location.locationType === 'iiif-image'
