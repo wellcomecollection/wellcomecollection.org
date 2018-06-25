@@ -1,4 +1,5 @@
 import {Component} from 'react';
+import Error from 'next/error';
 import {getCollectionOpeningTimes} from '@weco/common/services/prismic/opening-times';
 import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/DefaultPageLayout';
 
@@ -83,6 +84,10 @@ const PageWrapper = Comp => {
         openingTimes,
         ...props
       } = this.props;
+
+      if (this.props.statusCode && this.props.statusCode !== 200) {
+        return <Error statusCode={this.props.statusCode} />;
+      }
 
       return (
         <DefaultPageLayout
