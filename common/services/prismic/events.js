@@ -19,15 +19,37 @@ import {
   parseImagePromo,
   parsePlace,
   asText,
+  asHtml,
   isDocumentLink,
   parseTimestamp,
   parseBoolean
 } from './parsers';
-import type {Event} from '../../model/events';
+import type {UiEvent, EventFormat} from '../../model/events';
 import type {PrismicDocument} from './types';
 
-function parseEventDoc(document: PrismicDocument): Event {
+function parseEventFormat(frag: Object): ?EventFormat {
+  return isDocumentLink(frag) ? {
+    id: frag.id,
+    title: parseTitle(frag.data.title),
+    shortName: asText(frag.data.shortName),
+    description: asHtml(frag.data.description)
+  } : null;
+}
+
+// TODO: NOTE this doesn't have the A/B image test stuff in it
+function parseEventDoc(document: PrismicDocument): UiEvent {
   const data = document.data;
+
+  const interpretations = document.data.interpretations.map(interpretation => isDocumentLink(interpretation.interpretationType) ? ({
+    interpretationType: {
+      title: parseTitle(interpretation.interpretationType.data.title),
+      abbreviation: asText(interpretation.interpretationType.data.abbreviation),
+      description: asHtml(interpretation.interpretationType.data.description),
+      primaryDescription: asHtml(interpretation.interpretationType.data.primaryDescription)
+    },
+    isPrimary: Boolean(interpretation.isPrimary)
+  }) : null).filter(_ => _);
+
   return {
     id: document.id,
     title: parseTitle(data.title),
@@ -35,16 +57,20 @@ function parseEventDoc(document: PrismicDocument): Event {
     contributors: data.contributors ? parseContributors(data.contributors) : [],
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     promo: document.data.promo && parseImagePromo(document.data.promo),
-    audiences: [],
-    bookingEnquiryTeam: null,
-    bookingInformation: null,
-    bookingType: null,
-    cost: null,
-    format: null,
-    identifiers: [],
-    interpretations: [],
-    isDropIn: false,
-    series: [],
+    audiences: [], // TODO
+    bookingEnquiryTeam: null, // TODO
+    bookingInformation: asHtml(document.data.bookingInformation),
+    bookingType: null, // TODO
+    cost: document.data.cost,
+    format: document.data.format && parseEventFormat(document.data.format),
+    identifiers: [], // TODO
+    interpretations: interpretations,
+    isDropIn: false, // TODO
+    series: [], // TODO
+    schedule: [], // TODO
+    backgroundTexture: document.data.backgroundTexture.data && document.data.backgroundTexture.data.image.url,
+    eventbriteId: '', // TODO
+    isCompletelySoldOut: false, // TODO
     times: data.times && data.times.map(frag => ({
       range: {
         startDateTime: parseTimestamp(frag.startDateTime),
@@ -61,7 +87,7 @@ function parseEventDoc(document: PrismicDocument): Event {
   };
 }
 
-export async function getEvent(req: Request, id: string): Promise<?Event> {
+export async function getEvent(req: Request, id: string): Promise<?UiEvent> {
   const document = await getDocument(req, id, {
     fetchLinks: [].concat(
       eventAccessOptionsFields,

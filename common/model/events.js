@@ -108,6 +108,11 @@ export type Event = {|
   body: any[]
 |}
 
+export type UiEvent = {|
+  ...Event,
+  backgroundTexture?: string
+|}
+
 export type EventPromo = {|
   id: string,
   title: ?string,
