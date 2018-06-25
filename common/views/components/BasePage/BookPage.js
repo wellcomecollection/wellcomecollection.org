@@ -4,29 +4,15 @@ import BasePage from './BasePage';
 import BaseHeader from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
 import Contributors from '../Contributors/Contributors';
-import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
+import BookMetadata from '../BookMetadata/BookMetadata';
 import {UiImage} from '../Images/Images';
 import Tags from '../Tags/Tags';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
-import {grid, spacing} from '../../../utils/classnames';
 import type {Book} from '../../../model/books';
 
 type Props = {|
   book: Book
 |}
-
-const BookMetadata = ({book}: {| book: Book |}) => (
-  <dl className='grid'>
-    <dt className={'no-margin ' + grid({ s: 2, m: 2, l: 2, xl: 2 })}>Format</dt>
-    <dd className={'no-margin ' + grid({ s: 10, m: 10, l: 10, xl: 10 })}>{book.format}</dd>
-
-    <dt className={'no-margin ' + grid({ s: 2, m: 2, l: 2, xl: 2 })}>Extent</dt>
-    <dd className={'no-margin ' + grid({ s: 10, m: 10, l: 10, xl: 10 })}>{book.extent}</dd>
-
-    <dt className={'no-margin ' + grid({ s: 2, m: 2, l: 2, xl: 2 })}>ISBN</dt>
-    <dd className={'no-margin ' + grid({ s: 10, m: 10, l: 10, xl: 10 })}>{book.isbn}</dd>
-  </dl>
-);
 
 // TODO: Add subtitle
 const BookPage = ({ book }: Props) => {
@@ -106,19 +92,8 @@ const BookPage = ({ book }: Props) => {
       Header={Header}
       Body={<Body body={book.body} />}
     >
-      <Fragment>
-        {contributors.length > 0 &&
-          <Contributors
-            contributors={contributors} />
-        }
-
-        <Fragment>
-          <div className={`${spacing({s: 2}, {padding: ['top']})} ${spacing({s: 2}, {margin: ['top']})} border-top-width-1 border-color-smoke`}>
-            <BookMetadata book={book} />
-          </div>
-          {book.orderLink && <PrimaryLink url={book.orderLink} name='Order online' />}
-        </Fragment>
-      </Fragment>
+      {contributors.length > 0 ? <Contributors contributors={contributors} /> : null}
+      <BookMetadata book={book} />
     </BasePage>
   );
 };

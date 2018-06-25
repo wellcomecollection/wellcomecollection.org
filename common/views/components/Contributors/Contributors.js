@@ -1,6 +1,5 @@
 // @flow
 import {Fragment} from 'react';
-import {spacing} from '../../../utils/classnames';
 import Contributor from '../Contributor/Contributor';
 import type {Contributor as ContributorType} from '../../../model/contributors';
 
@@ -49,7 +48,7 @@ const Contributors = ({
   titlePrefix = 'About the',
   excludeTitle
 }: Props) => (
-  <div className={`${spacing({s: 2}, {padding: ['top']})} border-top-width-1 border-color-smoke`}>
+  <Fragment>
     {!excludeTitle && <h2 className='h2'>
       {`${titlePrefix} ${getContributorsTitle(contributors)}`}
     </h2>}
@@ -58,7 +57,7 @@ const Contributors = ({
         <Contributor contributor={contributor} role={role} description={description} />
       </Fragment>
     ))}
-  </div>
+  </Fragment>
 );
 
 export default Contributors;

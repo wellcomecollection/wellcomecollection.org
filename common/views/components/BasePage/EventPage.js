@@ -1,11 +1,11 @@
 // @flow
-import {Fragment} from 'react';
 import BasePage from './BasePage';
 import BaseHeader from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
 import Contributors from '../Contributors/Contributors';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
 import {UiImage} from '../Images/Images';
+import EventPlace from '../EventPlace/EventPlace';
 import type {Event} from '../../../model/events';
 
 type Props = {|
@@ -44,13 +44,14 @@ const EventPage = ({ event }: Props) => {
       Header={Header}
       Body={<Body body={event.body} />}
     >
-      <Fragment>
-        {event.contributors.length > 0 &&
-          <Contributors
-            titlePrefix='About your'
-            contributors={event.contributors} />
-        }
-      </Fragment>
+      {event.contributors.length > 0
+        ? <Contributors contributors={event.contributors} /> : null
+      }
+      {event.place && <EventPlace
+        title={event.place.title}
+        level={event.place.level}
+        locationInformation={event.place.locationInformation}
+      />}
     </BasePage>
   );
 };

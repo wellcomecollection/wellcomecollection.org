@@ -13,6 +13,7 @@ import Control from '../Buttons/Control/Control';
 import CopyUrl from '../CopyUrl/CopyUrl';
 import Divider from '../Divider/Divider';
 import EventPage from '../BasePage/EventPage';
+import EventPlace from '../EventPlace/EventPlace';
 import EventPromo from '../EventPromo/EventPromo';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import ExceptionalOpeningHoursTable from '../ExceptionalOpeningHoursTable/ExceptionalOpeningHoursTable';
@@ -75,6 +76,7 @@ export {
   CopyUrl,
   Divider,
   EventPage,
+  EventPlace,
   EventPromo,
   EventScheduleItem,
   ExceptionalOpeningHoursTable,
