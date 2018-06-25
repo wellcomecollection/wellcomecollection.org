@@ -22,7 +22,12 @@ function setCohort(ctx, next) {
   const cohort = ctx.query.cohort;
   if (cohort) {
     const cookies = new Cookies(ctx.req, ctx.res);
-    cookies.set('WC_featuresCohort', cohort);
+    cookies.set('WC_featuresCohort', cohort, {
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+      overwrite: true,
+      path: '/',
+      domain: dev ? null : 'wellcomecollection.org'
+    });
   }
   return next();
 }
