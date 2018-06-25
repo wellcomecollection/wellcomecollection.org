@@ -25,6 +25,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     "blog.wellcomecollection.org",
     "wellcomeimages.org",
     "*.wellcomeimages.org",
+    "works.wellcomeimages.org",
   ]
 
   default_cache_behavior {
@@ -53,9 +54,10 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "MIROPAC",
 
         "MIRO",
+
         # dotmailer gives us a 'result' (if we run out of params,
         # consider making new urls for newsletter pages instead)
-        "result"
+        "result",
       ]
 
       cookies {
