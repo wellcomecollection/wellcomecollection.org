@@ -5,6 +5,7 @@ import BookPage from '../BasePage/BookPage';
 import BookPromo from '../BookPromo/BookPromo';
 import Button from '../Buttons/Button/Button';
 import {UiImage, CaptionedImage} from '../Images/Images';
+import Caption from '../Caption/Caption';
 import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
 import Contributor from '../Contributor/Contributor';
 import Contributors from '../Contributors/Contributors';
@@ -39,6 +40,7 @@ import Page from '../BasePage/Page';
 import PageDescription from '../PageDescription/PageDescription';
 import Pagination from '../Pagination/Pagination';
 import Picture from '../Picture/Picture';
+import PlacePage from '../BasePage/PlacePage';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Promo from '../Promo/Promo';
@@ -46,6 +48,7 @@ import Quote from '../Quote/Quote';
 import SearchBox from '../SearchBox/SearchBox';
 import SearchResults from '../SearchResults/SearchResults';
 import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
+import SectionHeader from '../SectionHeader/SectionHeader';
 import ShameQuote from '../ShameQuote/ShameQuote';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import Tags from '../Tags/Tags';
@@ -63,6 +66,7 @@ export {
   BookPage,
   BookPromo,
   Button,
+  Caption,
   CaptionedImage,
   ChapterIndicator,
   Contributor,
@@ -98,6 +102,7 @@ export {
   PageDescription,
   Pagination,
   Picture,
+  PlacePage,
   PrimaryLink,
   PrismicHtmlBlock,
   Promo,
@@ -105,6 +110,7 @@ export {
   SearchBox,
   SearchResults,
   SecondaryLink,
+  SectionHeader,
   ShameQuote,
   StatusIndicator,
   Tags,

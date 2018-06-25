@@ -14,6 +14,7 @@ import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {getPage, getPageFromDrupalPath} from '../../common/services/prismic/pages';
 import {getBook} from '../../common/services/prismic/books';
+import {getPlace} from '../../common/services/prismic/places';
 import {search} from '../../common/services/prismic/search';
 import {getCollectionOpeningTimes} from '../../common/services/prismic/opening-times';
 import {isPreview as getIsPreview} from '../../common/services/prismic/api';
@@ -318,6 +319,26 @@ export async function renderPage(ctx, next) {
         category: 'info'
       }),
       page: page,
+      isPreview: getIsPreview(ctx.request)
+    });
+  }
+
+  return next();
+}
+
+export async function renderPlace(ctx, next) {
+  const {id} = ctx.params;
+  const place = await getPlace(ctx.request, id);
+
+  if (place) {
+    ctx.render('pages/place', {
+      pageConfig: createPageConfig({
+        path: ctx.request.url,
+        title: place.title,
+        inSection: place.siteSection,
+        category: 'info'
+      }),
+      place: place,
       isPreview: getIsPreview(ctx.request)
     });
   }

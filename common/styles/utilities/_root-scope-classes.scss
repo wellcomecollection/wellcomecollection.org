@@ -143,8 +143,8 @@
   display: flex;
 }
 
-.flex-m-up {
-  @include respond-to('medium') {
+.flex-l-up {
+  @include respond-to('large') {
     display: flex;
   }
 }

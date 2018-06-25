@@ -290,6 +290,10 @@ export function parseEventFormat(frag: Object): ?EventFormat {
   } : null;
 }
 
+export function parseNumber(fragment: PrismicFragment): number {
+  return parseInt(fragment, 10);
+}
+
 type PrismicPromoListFragment = {|
   type: string,
   link: {| url: string |},

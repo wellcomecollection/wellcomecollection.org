@@ -22,8 +22,6 @@
             {% endif %}
           {% elif bodyPart.type === 'heading' %}
             <h2>{{ bodyPart.value.value | safe }}</h2>
-          {% elif bodyPart.type === 'gif-video' %}
-            {% componentV2 'gif-video', bodyPart.value %}
           {% elif bodyPart.type === 'picture' %}
             {% if bodyPart.weight === 'standalone' %}
               {% set sizes = '100vw' %}
@@ -33,7 +31,7 @@
               {% set sizes ='(min-width: 1420px) 680px, (min-width: 960px) 50vw, (min-width: 600px) calc(83.24vw - 69px), calc(100vw - 36px)' %}
             {% endif %}
 
-            <div class="bg-cream {{ {l: 2} | spacingClasses({ padding: ['bottom'] }) }}">
+            <div class="{{ {l: 2} | spacingClasses({ padding: ['bottom'] }) }}">
               <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
                 {% set caption = bodyPart.value.caption | prismicAsText %}
                 {% if bodyPart.value.caption and caption !== '' %}
