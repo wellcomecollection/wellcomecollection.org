@@ -17,9 +17,9 @@ type Props = {|
   event: Event
 |}
 
-function dateInfo(times) {
+function DateInfo(times) {
   return (
-    <Fragment>
+    times && <Fragment>
       {times.map((eventTime, index) => {
         const formattedDateRange =  formatAndDedupeOnDate(eventTime.range.startDateTime, eventTime.range.endDateTime);
         return (
@@ -41,7 +41,7 @@ function dateInfo(times) {
   );
 }
 
-function infoBar(cost) {
+function InfoBar(cost) {
   return (
     <p className='no-margin'>
       {cost || 'Free admission'}
@@ -92,8 +92,6 @@ const EventPage = ({ event }: Props) => {
   /* https://github.com/facebook/flow/issues/2405 */
   /* $FlowFixMe */
   const FeaturedMedia = event.promo && <UiImage tasl={tasl} {...image} />;
-  const DateInfo = event.times && dateInfo(event.times);
-  const InfoBar = infoBar(event.cost);
   const formatTag = event.format ? [{text: event.format.title}] : [];
   const interpretationsTags = event.interpretations ? event.interpretations.map(i => ({text: i.interpretationType.title})) : [];
   const TagBar = <Tags tags={formatTag.concat(interpretationsTags)} />;
@@ -101,8 +99,8 @@ const EventPage = ({ event }: Props) => {
     title={event.title}
     Background={WobblyBackground()}
     TagBar={TagBar}
-    DateInfo={DateInfo}
-    InfoBar={InfoBar}
+    DateInfo={DateInfo(event.times)}
+    InfoBar={InfoBar(event.cost)}
     Description={null}
     FeaturedMedia={FeaturedMedia}
   />);

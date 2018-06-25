@@ -10,7 +10,6 @@ import type { Place } from '../../model/place';
 import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/background-texture';
 import type { CaptionedImage } from '../../model/captioned-image';
 import type { ImagePromo } from '../../model/image-promo';
-import type { EventFormat } from '../../model/events';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
@@ -279,15 +278,6 @@ export function parsePlace(doc: PrismicFragment): Place {
     level: doc.data.level || 0,
     capacity: doc.data.capacity
   };
-}
-
-export function parseEventFormat(frag: Object): ?EventFormat {
-  return isDocumentLink(frag) ? {
-    id: frag.id,
-    title: parseTitle(frag.data.title),
-    shortName: asText(frag.data.shortName),
-    description: asHtml(frag.data.description)
-  } : null;
 }
 
 export function parseNumber(fragment: PrismicFragment): number {

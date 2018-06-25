@@ -16,7 +16,6 @@ import {
   parseTitle,
   parseDescription,
   parseContributors,
-  parseEventFormat,
   parseImagePromo,
   parsePlace,
   asText,
@@ -25,8 +24,17 @@ import {
   parseTimestamp,
   parseBoolean
 } from './parsers';
-import type {UiEvent} from '../../model/events';
+import type {UiEvent, EventFormat} from '../../model/events';
 import type {PrismicDocument} from './types';
+
+function parseEventFormat(frag: Object): ?EventFormat {
+  return isDocumentLink(frag) ? {
+    id: frag.id,
+    title: parseTitle(frag.data.title),
+    shortName: asText(frag.data.shortName),
+    description: asHtml(frag.data.description)
+  } : null;
+}
 
 // TODO: NOTE this doesn't have the A/B image test stuff in it
 function parseEventDoc(document: PrismicDocument): UiEvent {
