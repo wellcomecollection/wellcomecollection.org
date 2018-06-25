@@ -147,19 +147,16 @@
   $font-family-web: unquote(map-get($font, 'font-family-web') or '');
   $font-size: px-to-rem(map-get($font, 'font-size'));
   $font-weight: map-get($font, 'font-weight');
-  $letter-spacing: map-get($font, 'letter-spacing');
+  $letter-spacing: map-get($font, 'letter-spacing') or normal;
   $line-height: px-to-unitless(map-get($font, 'line-height'), map-get($font, 'font-size'));
 
   font-family: $font-family-base;
   font-size: $font-size;
   line-height: $line-height;
+  letter-spacing: $letter-spacing;
 
   @if ($font-weight) {
     font-weight: $font-weight;
-  }
-
-  @if ($letter-spacing) {
-    letter-spacing: $letter-spacing;
   }
 
   @if ($font-family-subset != '') {
