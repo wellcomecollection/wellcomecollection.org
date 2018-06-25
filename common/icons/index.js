@@ -1,4 +1,5 @@
 import arrow from './arrow';
+import arrowSmall from './arrow_small';
 import audioDescribed from './audio_described';
 import speechToText from './speech_to_text';
 import britishSignLanguage from './british_sign_language';
@@ -35,6 +36,7 @@ import wellcome from './wellcome';
 import statusIndicator from './status_indicator';
 export {
   arrow,
+  arrowSmall,
   audioDescribed,
   speechToText,
   britishSignLanguage,
