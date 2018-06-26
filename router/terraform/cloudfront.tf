@@ -5,7 +5,7 @@ data "aws_acm_certificate" "wellcomecollection_ssl_cert" {
 
 resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   origin {
-    domain_name = "origin.wellcomecollection.org"
+    domain_name = "${module.router_alb.dns_name}"
     origin_id   = "origin"
 
     custom_origin_config {
@@ -53,9 +53,10 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "MIROPAC",
 
         "MIRO",
+
         # dotmailer gives us a 'result' (if we run out of params,
         # consider making new urls for newsletter pages instead)
-        "result"
+        "result",
       ]
 
       cookies {
