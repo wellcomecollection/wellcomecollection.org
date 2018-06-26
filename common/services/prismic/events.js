@@ -26,7 +26,7 @@ import {
   parseBoolean
 } from './parsers';
 import type {UiEvent, EventFormat} from '../../model/events';
-import type {PrismicDocument, PrismicFragment} from './types';
+import type {PrismicDocument, PrismicFragment, Team} from './types';
 
 function parseEventFormat(frag: Object): ?EventFormat {
   return isDocumentLink(frag) ? {
@@ -35,6 +35,13 @@ function parseEventFormat(frag: Object): ?EventFormat {
     shortName: asText(frag.data.shortName),
     description: asHtml(frag.data.description)
   } : null;
+}
+
+function parseEventBookingType(eventDoc: Object): ?string {
+  return !isEmptyObj(eventDoc.data.eventbriteEvent) ? 'Ticketed'
+    : isDocumentLink(eventDoc.data.bookingEnquiryTeam) ? 'Enquire to book'
+      : isDocumentLink(eventDoc.data.place) && eventDoc.data.place.data.capacity  ? 'First come, first served'
+        : null;
 }
 
 // TODO: NOTE this doesn't have the A/B image test stuff in it
@@ -66,6 +73,20 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs?: PrismicFragment
     description: asText(audience.audience.data.description)
   }) : null).filter(_ => _);
 
+  const bookingEnquiryTeam = document.data.bookingEnquiryTeam.data && ({
+    id: document.data.bookingEnquiryTeam.id,
+    title: asText(document.data.bookingEnquiryTeam.data.title) || '',
+    email: document.data.bookingEnquiryTeam.data.email,
+    phone: document.data.bookingEnquiryTeam.data.phone,
+    url: document.data.bookingEnquiryTeam.data.url
+  }: Team);
+
+  const series = document.data.series.map(series => isDocumentLink(series.series) ? ({
+    id: series.series.id,
+    title: asText(series.series.data.title),
+    description: asHtml(series.series.data.description)
+  }) : null).filter(_ => _);
+
   return {
     id: document.id,
     title: parseTitle(data.title),
@@ -74,19 +95,19 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs?: PrismicFragment
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     promo: document.data.promo && parseImagePromo(document.data.promo),
     audiences,
-    bookingEnquiryTeam: null, // TODO
+    bookingEnquiryTeam,
     bookingInformation: asHtml(document.data.bookingInformation),
-    bookingType: null, // TODO
+    bookingType: parseEventBookingType(document),
     cost: document.data.cost,
     format: document.data.format && parseEventFormat(document.data.format),
-    identifiers: [], // TODO
-    interpretations: interpretations,
-    isDropIn: false, // TODO
-    series: [], // TODO
+    identifiers,
+    interpretations,
+    isDropIn: Boolean(document.data.isDropIn),
+    series,
     schedule: eventSchedule,
     backgroundTexture: document.data.backgroundTexture.data && document.data.backgroundTexture.data.image.url,
     eventbriteId,
-    isCompletelySoldOut: false, // TODO
+    isCompletelySoldOut: data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
     times: data.times && data.times.map(frag => ({
       range: {
         startDateTime: parseTimestamp(frag.startDateTime),

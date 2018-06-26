@@ -69,3 +69,11 @@ export type PaginatedResults<T> = {|
 |}
 
 export type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
+
+export type Team = {|
+  id: string,
+  title: string,
+  email: string,
+  phone: string,
+  url: string
+|}
