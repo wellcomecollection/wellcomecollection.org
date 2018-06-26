@@ -29,7 +29,9 @@ export function serverError(beaconError) {
 
 export function notFound() {
   return async (ctx, next) => {
-    const isPreview = Boolean(ctx.request.url.match('/preview'));
+    const isPreview =
+      Boolean(ctx.request.url.match('/preview')) ||
+      Boolean(ctx.request.href.match('preview.wellcomecollection.org'));
     await next();
     if (404 === ctx.response.status && !ctx.response.body) {
       ctx.throw(404);
