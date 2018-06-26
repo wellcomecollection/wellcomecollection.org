@@ -23,12 +23,11 @@ function getTicketedMarkup(event) {
     return 'No ticket required';
   }
 }
-
 const EventScheduleItem = ({event, hasOwnPage}: Props) => (
   <li className={`event-schedule__item ${spacing({l: 0}, {padding: ['left']})} ${spacing({s: 4, l: 6}, {padding: ['bottom']})} ${spacing({s: 4}, {margin: ['bottom']})} border-color-smoke border-bottom-width-2`}>
     <div className='grid'>
       <div className={`${grid({s: 12, m: 12, l: 2, xl: 2})} ${spacing({s: 2, l: 0}, {margin: ['bottom']})}`}>
-        {event.times.map((t) => {
+        {event.times && event.times.map((t) => {
           const startTimeString = t.range.startDateTime.toString();
           const endTimeString = t.range.endDateTime.toString();
           return (
@@ -78,7 +77,7 @@ const EventScheduleItem = ({event, hasOwnPage}: Props) => (
               </div>
             </div>
           </div>
-          {event.interpretations.length > 0 &&
+          {event.interpretations && event.interpretations.length > 0 &&
             <Fragment>
               <h4 className='visually-hidden'>Accessibility interpretations</h4>
               <ul className={`plain-list no-padding ${font({s: 'HNM5', m: 'HNM4'})}`}>

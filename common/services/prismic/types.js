@@ -67,3 +67,5 @@ export type PaginatedResults<T> = {|
   totalResults: number,
   totalPages: number
 |}
+
+export type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';

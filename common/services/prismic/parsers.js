@@ -42,7 +42,7 @@ const linkResolver = (doc) => {
   }
 };
 
-function isEmptyObj(obj: ?Object): boolean {
+export function isEmptyObj(obj: ?Object): boolean {
   return Object.keys((obj || {})).length === 0;
 }
 
@@ -274,7 +274,7 @@ export function parseImagePromo(
 export function parsePlace(doc: PrismicFragment): Place {
   return {
     id: doc.id,
-    title: doc.data.title || 'Unknown',
+    title: asText(doc.data.title) || 'Unknown',
     level: doc.data.level || 0,
     capacity: doc.data.capacity
   };
