@@ -36,7 +36,7 @@ export function notFound() {
       Boolean(ctx.request.url.match('/preview')) ||
       Boolean(ctx.request.href.match('preview.wellcomecollection.org'));
 
-    console.info('serverError', ctx.request.href, isPreview)
+    console.info('notFound', ctx.request.href, isPreview)
 
     await next();
     if (404 === ctx.response.status && !ctx.response.body) {
