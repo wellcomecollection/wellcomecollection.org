@@ -58,6 +58,7 @@ const InstallationPage = ({ installation }: Props) => {
       <Fragment>
         {installation.contributors.length > 0 &&
           <Contributors
+            excludeTitle={true}
             contributors={installation.contributors} />
         }
       </Fragment>
