@@ -3,7 +3,9 @@ import {createPageConfig} from '../model/page-config';
 
 export function serverError(beaconError) {
   return async (ctx, next) => {
-    const isPreview = Boolean(ctx.request.url.match('/preview')) || ctx.request.host.match('preview.wellcomecollection.org');
+    const isPreview =
+      Boolean(ctx.request.url.match('/preview')) ||
+      Boolean(ctx.request.host.match('preview.wellcomecollection.org'));
     try {
       await next();
     } catch (err) {
