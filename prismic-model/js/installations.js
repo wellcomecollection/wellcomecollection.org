@@ -5,6 +5,7 @@ import promo from './parts/promo';
 import timestamp from './parts/timestamp';
 import place from './parts/place';
 import body from './parts/body';
+import heading from './parts/heading';
 
 const Installations = {
   Installation: {
@@ -15,6 +16,7 @@ const Installations = {
     body
   },
   Contributors: {
+    contributorsTitle: heading('Contributors heading'),
     contributors
   },
   Promo: {

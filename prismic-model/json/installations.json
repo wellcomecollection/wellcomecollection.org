@@ -252,6 +252,13 @@
     }
   },
   "Contributors": {
+    "contributorsTitle": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Contributors heading",
+        "single": "heading1"
+      }
+    },
     "contributors": {
       "type": "Group",
       "fieldset": "Contributors",
