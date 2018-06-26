@@ -1,5 +1,5 @@
 // @flow
-
+import ReactGA from 'react-ga';
 import {spacing, font} from '../../../utils/classnames';
 import {Fragment, Component} from 'react';
 import Icon from '../Icon/Icon';
@@ -88,6 +88,12 @@ class CopyUrl extends Component<Props, State> {
 
     textarea.remove();
     this.focusTextInput();
+
+    ReactGA.event({
+      category: 'component',
+      action: 'copy-url:click',
+      label: `id:${this.props.id}`
+    });
   }
 
   render() {
@@ -111,7 +117,11 @@ class CopyUrl extends Component<Props, State> {
         <button aria-live='polite'
           onClick={this.handleButtonClick}
           data-copy-text={url}
-          data-track-event={`{"category": "component", "action": "copy-url:click", "label": "id:${id}"}`}
+          data-track-event={JSON.stringify({
+            category: 'component',
+            action: 'copy-url:click',
+            label: `id:${id}`
+          })}
           className={`${spacing({s: 2}, {margin: ['top']})} ${font({s: 'HNM5'})} btn btn--tertiary flex-inline flex--v-center ${this.state.isEnhanced ? '' : 'is-hidden'} js-copy-url pointer`}>
           <span className='flex-inline flex--v-center'>
             <Icon name='check' extraClasses={`icon--black ${isTextCopied ? '' : 'is-hidden'}`} />

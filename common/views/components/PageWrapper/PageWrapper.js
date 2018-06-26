@@ -1,7 +1,7 @@
 import {Component} from 'react';
 import Error from 'next/error';
-import {getCollectionOpeningTimes} from '@weco/common/services/prismic/opening-times';
-import DefaultPageLayout from '@weco/common/views/components/DefaultPageLayout/DefaultPageLayout';
+import {getCollectionOpeningTimes} from '../../../services/prismic/opening-times';
+import DefaultPageLayout from '../DefaultPageLayout/DefaultPageLayout';
 
 const isServer = typeof window === 'undefined';
 // As this is a store, it's mutable
