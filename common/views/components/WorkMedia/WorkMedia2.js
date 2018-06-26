@@ -1,4 +1,5 @@
 // @flow
+import ReactGA from 'react-ga';
 import ImageViewer2 from '../ImageViewer/ImageViewer2';
 import Control from '../Buttons/Control/Control';
 import {iiifImageTemplate} from '../../../utils/convert-image-uri';
@@ -30,6 +31,13 @@ const WorkMedia = ({
             action: 'scroll-to-info:click',
             label: 'scrolled-to-id:work-info'
           })}`}
+          clickHandler={() => {
+            ReactGA.event({
+              category: 'component',
+              action: 'scroll-to-info:click',
+              label: 'scrolled-to-id:work-info'
+            });
+          }}
           icon='chevron'
           text='Scroll to info' />
 
