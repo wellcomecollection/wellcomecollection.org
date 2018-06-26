@@ -5,7 +5,7 @@ export function serverError(beaconError) {
   return async (ctx, next) => {
     const isPreview =
       Boolean(ctx.request.url.match('/preview')) ||
-      Boolean(ctx.request.host.match('preview.wellcomecollection.org'));
+      Boolean(ctx.request.href.match('preview.wellcomecollection.org'));
     try {
       await next();
     } catch (err) {
