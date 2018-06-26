@@ -1,6 +1,7 @@
 // @flow
 import {Fragment} from 'react';
 import fetch from 'isomorphic-unfetch';
+import ReactGA from 'react-ga';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import {iiifImageTemplate, convertImageUri} from '@weco/common/utils/convert-image-uri';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
@@ -289,6 +290,13 @@ const WorkPage = ({
                     action: 'download-button:click',
                     label: `id: work.id , size:original, title:${work.title.substring(50)}`
                   })}
+                  clickHandler={() => {
+                    ReactGA.event({
+                      category: 'component',
+                      action: 'download-button:click',
+                      label: `id: work.id , size:original, title:${work.title.substring(50)}`
+                    });
+                  }}
                   icon='download'
                   text='Download full size' />
               </div>}
@@ -305,6 +313,13 @@ const WorkPage = ({
                     action: 'download-button:click',
                     label: `id: work.id , size:760, title:${work.title.substring(50)}`
                   })}
+                  clickHandler={() => {
+                    ReactGA.event({
+                      category: 'component',
+                      action: 'download-button:click',
+                      label: `id: work.id , size:760, title:${work.title.substring(50)}`
+                    });
+                  }}
                   icon='download'
                   text='Download small (760px)' />
               </div>}
