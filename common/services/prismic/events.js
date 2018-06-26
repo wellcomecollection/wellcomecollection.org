@@ -61,6 +61,11 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs?: PrismicFragment
   const eventbriteIdScheme = identifiers.find(id => id.identifierScheme === 'eventbrite-id');
   const eventbriteId = eventbriteIdScheme && eventbriteIdScheme.value;
 
+  const audiences = document.data.audiences.map(audience => isDocumentLink(audience.audience) ? ({
+    title: asText(audience.audience.data.title),
+    description: asText(audience.audience.data.description)
+  }) : null).filter(_ => _);
+
   return {
     id: document.id,
     title: parseTitle(data.title),
@@ -68,7 +73,7 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs?: PrismicFragment
     contributors: data.contributors ? parseContributors(data.contributors) : [],
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     promo: document.data.promo && parseImagePromo(document.data.promo),
-    audiences: [], // TODO
+    audiences,
     bookingEnquiryTeam: null, // TODO
     bookingInformation: asHtml(document.data.bookingInformation),
     bookingType: null, // TODO
