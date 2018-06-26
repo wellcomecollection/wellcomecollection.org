@@ -7,6 +7,8 @@ export function serverError(beaconError) {
       Boolean(ctx.request.url.match('/preview')) ||
       Boolean(ctx.request.host.match('preview.wellcomecollection.org'));
 
+    console.info('serverError', ctx.request.host, isPreview)
+
     try {
       await next();
     } catch (err) {
@@ -33,6 +35,8 @@ export function notFound() {
     const isPreview =
       Boolean(ctx.request.url.match('/preview')) ||
       Boolean(ctx.request.host.match('preview.wellcomecollection.org'));
+
+    console.info('notFound', ctx.request.host, isPreview)
 
     await next();
     if (404 === ctx.response.status && !ctx.response.body) {
