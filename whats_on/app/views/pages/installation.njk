@@ -15,7 +15,15 @@
 
 {% block body %}
   {# TODO: ld+Json #}
-  {% componentJsx "InstallationPage", { installation: installation } %}
+  {% if featuresCohort | isFlagEnabled('installationsContributorsTitle', featureFlags) %}
+    {% set showContributorsTitle = true %}
+  {% else %}
+    {% set showContributorsTitle = false %}
+  {% endif %}
+  {% componentJsx "InstallationPage", {
+    installation: installation,
+    showContributorsTitle: showContributorsTitle
+  } %}
   <script type="application/ld+json">
     {# {{ jsonLdExhibition | jsonLd('exhibitionLd') | safe }} #}
   </script>

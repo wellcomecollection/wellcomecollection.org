@@ -12,10 +12,14 @@ import {UiImage} from '../Images/Images';
 import type {UiInstallation} from '../../../model/installations';
 
 type Props = {|
-  installation: UiInstallation
+  installation: UiInstallation,
+  showContributorsTitle: boolean
 |}
 
-const InstallationPage = ({ installation }: Props) => {
+const InstallationPage = ({
+  installation,
+  showContributorsTitle
+}: Props) => {
   const DateInfo = installation.end ? <DateRange start={installation.start} end={installation.end} /> : <HTMLDate date={installation.start} />;
   const image = installation.promo && installation.promo.image;
   const tasl = image && {
@@ -58,7 +62,7 @@ const InstallationPage = ({ installation }: Props) => {
       <Fragment>
         {installation.contributors.length > 0 &&
           <Contributors
-            excludeTitle={true}
+            excludeTitle={!showContributorsTitle}
             contributors={installation.contributors} />
         }
       </Fragment>
