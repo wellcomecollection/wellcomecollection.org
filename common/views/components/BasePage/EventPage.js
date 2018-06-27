@@ -42,10 +42,15 @@ function DateInfo(times) {
   );
 }
 
-function InfoBar(cost) {
+function InfoBar(cost, eventbriteId, bookingEnquiryTeam) {
   return (
     <p className='no-margin'>
       {cost || 'Free admission'}
+      <span className={`border-left-width-1 border-color-pumice ${spacing({s: 1}, {padding: ['left'], margin: ['left']})}`}>
+        {eventbriteId ? 'Ticketed'
+          : bookingEnquiryTeam ? 'Enquire to book'
+            : 'No ticket required'}
+      </span>
     </p>
   );
 }
@@ -116,7 +121,7 @@ const EventPage = ({ event }: Props) => {
     Background={WobblyBackground()}
     TagBar={TagBar}
     DateInfo={DateInfo(event.times)}
-    InfoBar={InfoBar(event.cost)}
+    InfoBar={InfoBar(event.cost, event.eventbriteId, event.bookingEnquiryTeam)}
     Description={null}
     FeaturedMedia={FeaturedMedia}
   />);
