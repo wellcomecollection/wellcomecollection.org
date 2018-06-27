@@ -50,7 +50,7 @@ function InfoBar(cost) {
   );
 }
 
-const BookingInfo = ({bookingInformation, interpretations}: any) => ( // TODO props / icon
+const BookingInfo = ({bookingInformation, interpretations}: any) => ( // TODO props
   <div className='body-text'>
     {interpretations.map((i) => {
       return (i.interpretationType.description &&
@@ -127,7 +127,7 @@ const EventPage = ({ event }: Props) => {
       Header={Header}
       Body={<Body body={event.body} />}
     >
-      <Fragment>
+      <div className='body-text'>
         {event.schedule && event.schedule.length > 0 &&
           <Fragment>
             <h2 className={`${font({s: 'WB6', l: 'WB5'})} ${spacing({s: 4}, {padding: ['bottom']})} border-color-smoke border-bottom-width-2`}>Events</h2>
@@ -139,13 +139,25 @@ const EventPage = ({ event }: Props) => {
             </ul>
           </Fragment>
         }
+
+        {event.series.map((series) => {
+          return (
+            <Fragment key={series.id}>
+              <h2>Part of <a href='/event-series/{series.id}'>{series.title}</a></h2>
+              <div dangerouslySetInnerHTML={{__html: series.description}} />
+            </Fragment>
+          );
+        })}
+
         {event.contributors.length > 0 &&
           <Contributors
             titlePrefix='About your'
             contributors={event.contributors} />
         }
+
         <BookingInfo bookingInformation={event.bookingInformation} interpretations={event.interpretations} />
-      </Fragment>
+
+      </div>
     </BasePage>
   );
 };

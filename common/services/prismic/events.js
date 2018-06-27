@@ -97,10 +97,10 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs?: PrismicFragment
     audiences,
     bookingEnquiryTeam,
     bookingInformation: asHtml(document.data.bookingInformation),
-    bookingType: parseEventBookingType(document),
+    bookingType: parseEventBookingType(document), // TODO not used on page?
     cost: document.data.cost,
     format: document.data.format && parseEventFormat(document.data.format),
-    identifiers,
+    identifiers, // TODO not used on page?
     interpretations,
     isDropIn: Boolean(document.data.isDropIn),
     series,
