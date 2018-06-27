@@ -8,6 +8,7 @@ import WobblyBackground from '../BaseHeader/WobblyBackground';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import Tags from '../Tags/Tags';
 import Icon from '../Icon/Icon';
+import Button from '../Buttons/Button/Button';
 import {UiImage} from '../Images/Images';
 import type {Event} from '../../../model/events';
 import {spacing, font} from '../../../utils/classnames';
@@ -141,9 +142,9 @@ const EventPage = ({ event }: Props) => {
       Header={Header}
       Body={<Body body={event.body} />}
     >
-      <div className='body-text'>
+      <Fragment>
         {event.schedule && event.schedule.length > 0 &&
-          <Fragment>
+          <div className='body-text'>
             <h2 className={`${font({s: 'WB6', l: 'WB5'})} ${spacing({s: 4}, {padding: ['bottom']})} border-color-smoke border-bottom-width-2`}>Events</h2>
             <ul className='plain-list no-marin no-padding'>
               {event.schedule && event.schedule.map((scheduledEvent) => {
@@ -151,17 +152,40 @@ const EventPage = ({ event }: Props) => {
                   hasOwnPage={Boolean(scheduledEvent.description)} />);
               })}
             </ul>
-          </Fragment>
+          </div>
         }
 
         {event.series.map((series) => {
           return (
-            <Fragment key={series.id}>
+            <div className='body-text' key={series.id}>
               <h2>Part of <a href='/event-series/{series.id}'>{series.title}</a></h2>
               <div dangerouslySetInnerHTML={{__html: series.description}} />
-            </Fragment>
+            </div>
           );
         })}
+
+        {/* Booking sections */
+          event.eventbriteId &&
+          <div className={`border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
+            {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
+              : (
+                <div className='js-eventbrite-ticket-button' data-eventbrite-ticket-id={event.eventbriteId}>
+                  <Button
+                    type='primary'
+                    url={`https://www.eventbrite.com/e/${event.eventbriteId}/`}
+                    eventTracking={JSON.stringify({
+                      category: 'component',
+                      action: 'booking-tickets:click',
+                      label: 'event-page'
+                    })}
+                    icon='ticket'
+                    text='Book free tickets' />
+                  <p className={`font-charcoal ${font({s: 'HNL5'})} ${spacing({s: 1}, {margin: ['top']})} ${spacing({s: 0}, {margin: ['bottom']})}`}>with Eventbrite</p>
+                </div>
+              )
+            }
+          </div>
+        }
 
         {event.contributors.length > 0 &&
           <Contributors
@@ -171,7 +195,7 @@ const EventPage = ({ event }: Props) => {
 
         <BookingInfo bookingInformation={event.bookingInformation} interpretations={event.interpretations} />
 
-      </div>
+      </Fragment>
     </BasePage>
   );
 };
