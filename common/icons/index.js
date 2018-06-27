@@ -29,7 +29,6 @@ import twitter from './twitter';
 import facebook from './facebook';
 import instagram from './instagram';
 import soundcloud from './soundcloud';
-import tumblr from './tumblr';
 import youtube from './youtube';
 import tripadvisor from './tripadvisor';
 import wellcome from './wellcome';
@@ -71,7 +70,6 @@ export {
   facebook,
   instagram,
   soundcloud,
-  tumblr,
   youtube,
   tripadvisor,
   wellcome,

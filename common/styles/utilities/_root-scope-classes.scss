@@ -348,6 +348,14 @@
   }
 
   @include respond-to('medium') {
+    min-height: calc((50vw / 2) * 2);
+  }
+
+  @include respond-to('large') {
+    min-height: calc((50vw / 3) * 2);
+  }
+
+  @include respond-to('xlarge') {
     min-height: 440px;
   }
 

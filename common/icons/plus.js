@@ -1,5 +1,5 @@
 const IconPlus = () => (
-  <svg viewBox="0 0 26 26"><path className="icon__shape" d="M21.49 12H14V4.52a1 1 0 1 0-2 0V12H4.51a1 1 0 0 0 0 2H12v7.49a1 1 0 0 0 2 0V14h7.49a1 1 0 0 0 0-2z"/></svg>
+  <svg viewBox='0 0 24 24'><path d='M20.5 11H13V3.5c0-.6-.4-1-1-1s-1 .4-1 1V11H3.5c-.6 0-1 .4-1 1s.4 1 1 1H11v7.5c0 .6.4 1 1 1s1-.4 1-1V13h7.5c.6 0 1-.4 1-1s-.5-1-1-1z'/></svg>
 );
 
 export default IconPlus;
