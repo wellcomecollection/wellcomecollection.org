@@ -18,10 +18,10 @@ type Props = {|
   event: Event
 |}
 
-function DateInfo(times) {
+function DateInfo(event) {
   return (
-    times && <Fragment>
-      {times.map((eventTime, index) => {
+    event.times && <Fragment>
+      {event.times.map((eventTime, index) => {
         const formattedDateRange =  formatAndDedupeOnDate(eventTime.range.startDateTime, eventTime.range.endDateTime);
         return (
           <div key={index} className={`border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
@@ -33,6 +33,15 @@ function DateInfo(times) {
                 <time className='block'>
                   {joinDateStrings(formatAndDedupeOnTime(eventTime.range.startDateTime, eventTime.range.endDateTime))}
                 </time>
+                {/* TODO - refactor StatusIndicator so it can be used here too */}
+                {(eventTime.isFullyBooked && !(event.eventbriteId || event.bookingEnquiryTeam)) &&
+                  <div className={`${font({s: 'HNM5'})} ${spacing({s: 2}, {margin: ['left']})} flex flex--v-center`}>
+                    <span className={`${spacing({s: 1}, {margin: ['right']})} flex flex--v-center`}>
+                      <Icon name='statusIndicator' extraClasses={`icon--match-text icon--red`} />
+                    </span>
+                    Fully booked
+                  </div>
+                }
               </div>
             )}
           </div>
@@ -120,7 +129,7 @@ const EventPage = ({ event }: Props) => {
     title={event.title}
     Background={WobblyBackground()}
     TagBar={TagBar}
-    DateInfo={DateInfo(event.times)}
+    DateInfo={DateInfo(event)}
     InfoBar={InfoBar(event.cost, event.eventbriteId, event.bookingEnquiryTeam)}
     Description={null}
     FeaturedMedia={FeaturedMedia}
