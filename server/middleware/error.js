@@ -15,7 +15,9 @@ export function serverError(beaconError) {
       const url = ctx.request.href;
       ctx.status = err.status || 500;
       if (beaconError && (ctx.status < 400 || ctx.status >= 500)) {
-        Raven.config('https://2cfb7b8ceb0a4549a4de2010b219a65d:5b48d985281a47e095a73df871b59149@sentry.io/223943').install();
+        Raven.config('https://2cfb7b8ceb0a4549a4de2010b219a65d:5b48d985281a47e095a73df871b59149@sentry.io/223943', {
+          whitelistUrls: [/wellcomecollection\.org/]
+        }).install();
         Raven.captureException(err, {extra: {url: ctx.request.href, statusCode: ctx.status}});
       }
 
