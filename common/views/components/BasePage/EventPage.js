@@ -165,8 +165,8 @@ const EventPage = ({ event }: Props) => {
           );
         })}
 
-        {/* Booking sections */
-          event.eventbriteId &&
+        {/* Booking CTAs */}
+        {event.eventbriteId &&
           <div className={`border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
             {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
               : (
@@ -188,8 +188,7 @@ const EventPage = ({ event }: Props) => {
           </div>
         }
 
-        {
-          event.bookingEnquiryTeam &&
+        {event.bookingEnquiryTeam &&
           <div className={`border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
             {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
               : (
@@ -210,6 +209,70 @@ const EventPage = ({ event }: Props) => {
               extraClasses={`block font-charcoal ${spacing({s: 1}, {margin: ['top']})}`} />
           </div>
         }
+
+        {/* Booking explanations */}
+        <div className={`body-text border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
+          {
+            event.isDropIn ? (
+              <Fragment>
+                <h3 className={`${font({s: 'HNM4'})} no-margin`}>Drop in at any time</h3>
+                <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                  <p>
+                    {`We programme some drop-in events every month. For these events, you can just turn up. There's usually room for everyone.`}
+                  </p>
+                </div>
+              </Fragment>
+            )
+              : event.cost ? (
+                <Fragment>
+                  <h3 className={`${font({s: 'HNM4'})} no-margin`}>Guaranteed entry</h3>
+                  <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                    <p>
+                      {`With our paid events, you are guaranteed entry to the event.
+                  We're unable to offer any refunds unless the event is cancelled.
+                  Concessions are available for people over 60, students, people
+                  on Jobseeker's Allowance and people registered as disabled.
+                  An additional companion ticket for people registered as disabled
+                  is available for free.`}
+                    </p>
+                  </div>
+                </Fragment>
+              )
+                : event.eventbriteId && !event.isCompletelySoldOut ? (
+                  <Fragment>
+                    <h3 className={`${font({s: 'HNM4'})} no-margin`}>First come, first seated</h3>
+                    <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                      <p>
+                        {`Please note, booking a ticket for a free event does not
+                    guarantee a place on the day. Doors usually open 15 minutes
+                    before an event starts, and you can take your seats in order of
+                    arrival. We advise arriving 10 minutes before the event is
+                    scheduled to start.`}
+                      </p>
+                      <p>
+                        {`We hold some spaces for people with access requirements.
+                    Please email
+                    <a href="mailto:access@wellcomecollection.org?subject=${event.title}">access@wellcomecollection.org</a>
+                    if you would like to request one of these spaces.`}
+                      </p>
+                    </div>
+                  </Fragment>
+                )
+                  : event.bookingEnquiryTeam ? null
+                    : (
+                      <Fragment>
+                        <h3 className={`${font({s: 'HNM4'})} no-margin`}>Limited spaces available</h3>
+                        <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                          <p>
+                            {`Doors will open for this event 15 minutes before the event
+                    starts. Spaces are first come, first served and may run out if
+                    we are busy.`}
+                          </p>
+                        </div>
+                      </Fragment>
+                    )
+          }
+        </div>
 
         {event.contributors.length > 0 &&
           <Contributors
