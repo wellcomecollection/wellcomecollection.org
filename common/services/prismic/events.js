@@ -49,8 +49,8 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearc
     },
     isPrimary: Boolean(interpretation.isPrimary)
   }) : null).filter(_ => _);
-
-  const eventbriteId = document.data.eventbriteEvent && /\/e\/([0-9]+)/.exec(document.data.eventbriteEvent.url)[1];
+  const matchedId = /\/e\/([0-9]+)/.exec(document.data.eventbriteEvent.url);
+  const eventbriteId = (document.data.eventbriteEvent && matchedId !== null) ? matchedId[1] : '';
 
   return {
     id: document.id,
