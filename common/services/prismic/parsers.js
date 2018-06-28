@@ -13,6 +13,7 @@ import type { ImagePromo } from '../../model/image-promo';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
+import isEmptyObj from '../../utils/is-empty-object';
 
 const placeHolderImage = {
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
@@ -41,10 +42,6 @@ const linkResolver = (doc) => {
     case 'pages'         : return `/pages/${doc.id}`;
   }
 };
-
-export function isEmptyObj(obj: ?Object): boolean {
-  return Object.keys((obj || {})).length === 0;
-}
 
 function isEmptyHtmlString(maybeContent: ?HTMLString): boolean {
   return maybeContent ? asHtml(maybeContent) === null : false;
@@ -274,7 +271,7 @@ export function parseImagePromo(
 export function parsePlace(doc: PrismicFragment): Place {
   return {
     id: doc.id,
-    title: asText(doc.data.title) || 'Unknown',
+    title: asText(doc.data.title) || '',
     level: doc.data.level || 0,
     capacity: doc.data.capacity
   };

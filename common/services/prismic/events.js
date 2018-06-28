@@ -25,7 +25,7 @@ import {
   parseBoolean
 } from './parsers';
 import type {UiEvent, EventFormat} from '../../model/events';
-import type {PrismicDocument, PrismicFragment} from './types';
+import type {PrismicDocument, PrismicApiSearchResponse} from './types';
 
 function parseEventFormat(frag: Object): ?EventFormat {
   return isDocumentLink(frag) ? {
@@ -37,7 +37,7 @@ function parseEventFormat(frag: Object): ?EventFormat {
 }
 
 // TODO: NOTE this doesn't have the A/B image test stuff in it
-function parseEventDoc(document: PrismicDocument, scheduleDocs?: PrismicFragment): UiEvent {
+function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearchResponse): UiEvent {
   const data = document.data;
   const eventSchedule = scheduleDocs && scheduleDocs.results ? scheduleDocs.results.map(doc => parseEventDoc(doc)) : [];
   const interpretations = document.data.interpretations.map(interpretation => isDocumentLink(interpretation.interpretationType) ? ({
@@ -110,7 +110,7 @@ export async function getEvent(req: Request, id: string): Promise<?UiEvent> {
   if (document && document.type === 'events') {
     const scheduleIds = document.data.schedule.map(event => event.event.id);
     const eventScheduleDocs = scheduleIds.length > 0 && await getTypeByIds(req, ['events'], scheduleIds, {fetchLinks});
-    const event = parseEventDoc(document, eventScheduleDocs || {});
+    const event = parseEventDoc(document, eventScheduleDocs || null);
     return event;
   }
 }

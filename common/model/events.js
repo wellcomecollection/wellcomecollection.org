@@ -73,6 +73,12 @@ export type Audience = {|
   description: ?string
 |}
 
+/* eslint-disable no-use-before-define */
+export type UiEvent = {|
+  ...Event,
+  backgroundTexture?: string
+|}
+
 export type Event = {|
   id: string,
   title: string,
@@ -94,16 +100,12 @@ export type Event = {|
   // it's more convenient than having to work it out
   // not sure if it should be in the model, a question for Silver
   bookingType: ?string,
-  schedule?: Event[],
+  schedule?: UiEvent[],
   eventbriteId?: string,
   isCompletelySoldOut?: boolean,
   body: any[]
 |}
-
-export type UiEvent = {|
-  ...Event,
-  backgroundTexture?: string
-|}
+/* eslint-enable no-use-before-define */
 
 export type EventPromo = {|
   id: string,
