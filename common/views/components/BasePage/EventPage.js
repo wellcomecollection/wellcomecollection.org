@@ -9,6 +9,7 @@ import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import Tags from '../Tags/Tags';
 import Icon from '../Icon/Icon';
 import Button from '../Buttons/Button/Button';
+import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
 import {UiImage} from '../Images/Images';
 import type {Event} from '../../../model/events';
 import {spacing, font} from '../../../utils/classnames';
@@ -184,6 +185,29 @@ const EventPage = ({ event }: Props) => {
                 </div>
               )
             }
+          </div>
+        }
+
+        {
+          event.bookingEnquiryTeam &&
+          <div className={`border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
+            {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
+              : (
+                <Button
+                  type='primary'
+                  url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
+                  eventTracking={JSON.stringify({
+                    category: 'component',
+                    action: 'booking-tickets:click',
+                    label: 'event-page'
+                  })}
+                  icon='email'
+                  text='Email to book' />
+              )}
+            <SecondaryLink
+              url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
+              text={event.bookingEnquiryTeam.email}
+              extraClasses={`block font-charcoal ${spacing({s: 1}, {margin: ['top']})}`} />
           </div>
         }
 
