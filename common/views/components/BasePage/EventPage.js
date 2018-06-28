@@ -35,7 +35,6 @@ function DateInfo(event) {
                 <time className='block'>
                   {joinDateStrings(formatAndDedupeOnTime(eventTime.range.startDateTime, eventTime.range.endDateTime))}
                 </time>
-                {/* TODO - refactor StatusIndicator so it can be used here too */}
                 {(eventTime.isFullyBooked && !(event.eventbriteId || event.bookingEnquiryTeam)) &&
                   <div className={`${font({s: 'HNM5'})} ${spacing({s: 2}, {margin: ['left']})} flex flex--v-center`}>
                     <span className={`${spacing({s: 1}, {margin: ['right']})} flex flex--v-center`}>
@@ -163,6 +162,17 @@ const EventPage = ({ event }: Props) => {
               <div dangerouslySetInnerHTML={{__html: series.description}} />
             </div>
           );
+        })}
+
+        {event.audiences.map((audience) => {
+          if (audience.description) {
+            return (
+              <div className='body-text' key={audience.title}>
+                <h2>For {audience.title}</h2>
+                <div dangerouslySetInnerHTML={{__html: audience.description}} />
+              </div>
+            );
+          }
         })}
 
         {/* Booking CTAs */}
