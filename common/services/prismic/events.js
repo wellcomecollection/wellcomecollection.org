@@ -21,7 +21,6 @@ import {
   asText,
   asHtml,
   isDocumentLink,
-  isEmptyObj,
   parseTimestamp,
   parseBoolean
 } from './parsers';
@@ -41,13 +40,6 @@ function parseEventFormat(frag: Object): ?EventFormat {
 function parseEventDoc(document: PrismicDocument, scheduleDocs?: PrismicFragment): UiEvent {
   const data = document.data;
   const eventSchedule = scheduleDocs && scheduleDocs.results ? scheduleDocs.results.map(doc => parseEventDoc(doc)) : [];
-  // matching https://www.eventbrite.co.uk/e/40144900478?aff=efbneb
-  const eventbriteIdMatch = isEmptyObj(document.data.eventbriteEvent) ? null : /\/e\/([0-9]+)/.exec(document.data.eventbriteEvent.url);
-  const identifiers = eventbriteIdMatch ? [{
-    identifierScheme: 'eventbrite-id',
-    value: eventbriteIdMatch[1]
-  }] : [];
-
   const interpretations = document.data.interpretations.map(interpretation => isDocumentLink(interpretation.interpretationType) ? ({
     interpretationType: {
       title: parseTitle(interpretation.interpretationType.data.title),
@@ -58,8 +50,7 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs?: PrismicFragment
     isPrimary: Boolean(interpretation.isPrimary)
   }) : null).filter(_ => _);
 
-  const eventbriteIdScheme = identifiers.find(id => id.identifierScheme === 'eventbrite-id');
-  const eventbriteId = eventbriteIdScheme && eventbriteIdScheme.value;
+  const eventbriteId = document.data.eventbriteEvent && /\/e\/([0-9]+)/.exec(document.data.eventbriteEvent.url)[1];
 
   return {
     id: document.id,
@@ -74,7 +65,6 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs?: PrismicFragment
     bookingType: null, // TODO
     cost: document.data.cost,
     format: document.data.format && parseEventFormat(document.data.format),
-    identifiers: [], // TODO
     interpretations: interpretations,
     isDropIn: false, // TODO
     series: [], // TODO

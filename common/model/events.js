@@ -67,13 +67,6 @@ export type Place = {|
   capacity: ?number
 |}
 
-type IdentifierScheme = 'eventbrite-id';
-
-type Identifier = {|
-  identifierScheme: IdentifierScheme,
-  value: string
-|}
-
 export type Audience = {|
   id: string,
   title: string,
@@ -82,7 +75,6 @@ export type Audience = {|
 
 export type Event = {|
   id: string,
-  identifiers: Identifier[],
   title: string,
   format: ?EventFormat,
   isDropIn: boolean,
