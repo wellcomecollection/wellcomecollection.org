@@ -65,33 +65,6 @@ function InfoBar(cost, eventbriteId, bookingEnquiryTeam) {
   );
 }
 
-const BookingInfo = ({bookingInformation, interpretations}: any) => ( // TODO props
-  <div className='body-text'>
-    {interpretations.map((i) => {
-      return (i.interpretationType.description &&
-        <Fragment key={i.interpretationType.title}>
-          <h2 className='flex flex--v-center'>
-            <span className={`flex flex--v-center ${spacing({s: 1}, {margin: ['right']})}`}>
-              <Icon name={camelize(i.interpretationType.title)} />
-            </span>
-            <span>{i.interpretationType.title}</span>
-          </h2>
-          {i.isPrimary && <div dangerouslySetInnerHTML={{__html: i.interpretationType.primaryDescription}} />}
-          {!i.isPrimary && <div dangerouslySetInnerHTML={{__html: i.interpretationType.description}} />}
-        </Fragment>
-      );
-    })}
-    {bookingInformation &&
-      <Fragment>
-        <h3 className={font({s: 'HNM4'})}>Booking information</h3>
-        <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 4}, {margin: ['bottom']})}`} dangerouslySetInnerHTML={{__html: bookingInformation}} />
-      </Fragment>}
-    <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
-      <a href='https://wellcomecollection.org/visit-us/events-tickets'>Our event terms and conditions</a>
-    </p>
-  </div>
-);
-
 const EventPage = ({ event }: Props) => {
   const image = event.promo && event.promo.image;
   const tasl = image && {
@@ -290,8 +263,31 @@ const EventPage = ({ event }: Props) => {
             contributors={event.contributors} />
         }
 
-        <BookingInfo bookingInformation={event.bookingInformation} interpretations={event.interpretations} />
+        {event.interpretations.map((i) => {
+          return (i.interpretationType.description &&
+            <div className='body-text' key={i.interpretationType.title}>
+              <h2 className='flex flex--v-center'>
+                <span className={`flex flex--v-center ${spacing({s: 1}, {margin: ['right']})}`}>
+                  <Icon name={camelize(i.interpretationType.title)} />
+                </span>
+                <span>{i.interpretationType.title}</span>
+              </h2>
+              {i.isPrimary && <div dangerouslySetInnerHTML={{__html: i.interpretationType.primaryDescription}} />}
+              {!i.isPrimary && <div dangerouslySetInnerHTML={{__html: i.interpretationType.description}} />}
+            </div>
+          );
+        })}
 
+        <div className='body-text'>
+          {event.bookingInformation &&
+            <Fragment>
+              <h3 className={font({s: 'HNM4'})}>Booking information</h3>
+              <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 4}, {margin: ['bottom']})}`} dangerouslySetInnerHTML={{__html: event.bookingInformation}} />
+            </Fragment>}
+          <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
+            <a href='https://wellcomecollection.org/visit-us/events-tickets'>Our event terms and conditions</a>
+          </p>
+        </div>
       </Fragment>
     </BasePage>
   );

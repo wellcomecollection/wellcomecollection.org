@@ -41,7 +41,7 @@ type InterpretationType = {|
   primaryDescription: ?string
 |}
 
-type Interpretation = {|
+export type Interpretation = {|
   interpretationType: InterpretationType,
   isPrimary: boolean
 |}
