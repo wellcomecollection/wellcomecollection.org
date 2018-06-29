@@ -52,11 +52,11 @@ export async function renderEventSeries(ctx, next) {
   const [ events, uiEventSeries ] = await Promise.all([eventsPromise, uiEventSeriesPromise]);
 
   if (events.results.length > 0) {
-    const promos = createEventPromos(events.results).reverse();
+    const promos = createEventPromos(events.results);
     const paginatedResults = convertPrismicResultsToPaginatedResults(promos);
     const paginatedEvents = paginatedResults(promos);
     const upcomingEvents = Object.assign({}, paginatedEvents, {results: promos.filter(e => london(e.end).isAfter(london()))});
-    const pastEvents = {results: promos.filter(e => london(e.end).isBefore(london())).slice(0, 3).reverse()};
+    const pastEvents = {results: promos.filter(e => london(e.end).isBefore(london())).slice(0, 3)};
 
     ctx.render('pages/event-series', {
       pageConfig: createPageConfig({
