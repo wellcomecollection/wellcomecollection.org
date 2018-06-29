@@ -60,8 +60,8 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs?: PrismicFragment
     interpretationType: {
       title: parseTitle(interpretation.interpretationType.data.title),
       abbreviation: asText(interpretation.interpretationType.data.abbreviation),
-      description: asHtml(interpretation.interpretationType.data.description),
-      primaryDescription: asHtml(interpretation.interpretationType.data.primaryDescription)
+      description: interpretation.interpretationType.data.description,
+      primaryDescription: interpretation.interpretationType.data.primaryDescription
     },
     isPrimary: Boolean(interpretation.isPrimary)
   }) : null).filter(_ => _);
@@ -71,7 +71,7 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs?: PrismicFragment
 
   const audiences = document.data.audiences.map(audience => isDocumentLink(audience.audience) ? ({
     title: asText(audience.audience.data.title),
-    description: asText(audience.audience.data.description)
+    description: audience.audience.data.description
   }) : null).filter(_ => _);
 
   const bookingEnquiryTeam = document.data.bookingEnquiryTeam.data && ({
@@ -85,7 +85,7 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs?: PrismicFragment
   const series = document.data.series.map(series => isDocumentLink(series.series) ? ({
     id: series.series.id,
     title: asText(series.series.data.title),
-    description: asHtml(series.series.data.description)
+    description: series.series.data.description
   }) : null).filter(_ => _);
 
   return {
@@ -97,7 +97,7 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs?: PrismicFragment
     promo: document.data.promo && parseImagePromo(document.data.promo),
     audiences,
     bookingEnquiryTeam,
-    bookingInformation: asHtml(document.data.bookingInformation),
+    bookingInformation: document.data.bookingInformation,
     bookingType: parseEventBookingType(document), // TODO not used on page?
     cost: document.data.cost,
     format: document.data.format && parseEventFormat(document.data.format),
