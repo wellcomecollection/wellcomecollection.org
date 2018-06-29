@@ -18,7 +18,7 @@ export function parseEventSeries(document: PrismicDocument): EventSeries {
   return {
     type: 'event-series',
     id: document.id,
-    title: data.title ? parseTitle(data.title) : 'TITLE MISSING',
+    title: data.title ? parseTitle(data.title) : '',
     description: data.description && parseDescription(data.description),
     backgroundTexture: prismicBackgroundTexture ? parseBackgroundTexture(prismicBackgroundTexture) : null,
     promo
