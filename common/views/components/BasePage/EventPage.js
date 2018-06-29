@@ -201,7 +201,7 @@ const EventPage = ({ event }: Props) => {
                 <h3 className={`${font({s: 'HNM4'})} no-margin`}>Drop in at any time</h3>
                 <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
                   <p>
-                    {`We programme some drop-in events every month. For these events, you can just turn up. There's usually room for everyone.`}
+                    We programme some drop-in events every month. For these events, you can just turn up. There&apos;s usually room for everyone.
                   </p>
                 </div>
               </Fragment>
@@ -211,12 +211,12 @@ const EventPage = ({ event }: Props) => {
                   <h3 className={`${font({s: 'HNM4'})} no-margin`}>Guaranteed entry</h3>
                   <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
                     <p>
-                      {`With our paid events, you are guaranteed entry to the event.
-                  We're unable to offer any refunds unless the event is cancelled.
-                  Concessions are available for people over 60, students, people
-                  on Jobseeker's Allowance and people registered as disabled.
-                  An additional companion ticket for people registered as disabled
-                  is available for free.`}
+                    With our paid events, you are guaranteed entry to the event.
+                    We&apos;re unable to offer any refunds unless the event is cancelled.
+                    Concessions are available for people over 60, students, people
+                    on Jobseeker&apos;s Allowance and people registered as disabled.
+                    An additional companion ticket for people registered as disabled
+                    is available for free.
                     </p>
                   </div>
                 </Fragment>
@@ -226,17 +226,15 @@ const EventPage = ({ event }: Props) => {
                     <h3 className={`${font({s: 'HNM4'})} no-margin`}>First come, first seated</h3>
                     <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
                       <p>
-                        {`Please note, booking a ticket for a free event does not
-                    guarantee a place on the day. Doors usually open 15 minutes
-                    before an event starts, and you can take your seats in order of
-                    arrival. We advise arriving 10 minutes before the event is
-                    scheduled to start.`}
+                    Please note, booking a ticket for a free event does not
+                guarantee a place on the day. Doors usually open 15 minutes
+                before an event starts, and you can take your seats in order of
+                arrival. We advise arriving 10 minutes before the event is
+                scheduled to start.
                       </p>
                       <p>
-                        {`We hold some spaces for people with access requirements.
-                    Please email
-                    <a href="mailto:access@wellcomecollection.org?subject=${event.title}">access@wellcomecollection.org</a>
-                    if you would like to request one of these spaces.`}
+                    We hold some spaces for people with access requirements.
+                    Please email <a href={`mailto:access@wellcomecollection.org?subject=${event.title}`}>access@wellcomecollection.org</a> if you would like to request one of these spaces.
                       </p>
                     </div>
                   </Fragment>
@@ -247,9 +245,9 @@ const EventPage = ({ event }: Props) => {
                         <h3 className={`${font({s: 'HNM4'})} no-margin`}>Limited spaces available</h3>
                         <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
                           <p>
-                            {`Doors will open for this event 15 minutes before the event
+                    Doors will open for this event 15 minutes before the event
                     starts. Spaces are first come, first served and may run out if
-                    we are busy.`}
+                    we are busy.
                           </p>
                         </div>
                       </Fragment>
