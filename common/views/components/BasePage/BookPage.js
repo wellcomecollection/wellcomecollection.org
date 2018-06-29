@@ -44,14 +44,14 @@ const BookPage = ({ book }: Props) => {
   };
   /* https://github.com/facebook/flow/issues/2405 */
   /* $FlowFixMe */
-  const FeaturedMedia = book.promo && <UiImage tasl={tasl} extraClasses='margin-v-auto inherit-max-height width-auto ' {...image} />;
+  const FeaturedMedia = book.promo && <UiImage tasl={tasl} extraClasses='margin-v-auto width-auto max-height-70vh' {...image} />;
   const TagBar = <Tags tags={[{
     text: 'Book',
     url: '/books'
   }]} />;
   const Header = (<BaseHeader
     title={book.title || ''}
-    Background={WobblyBackground()}
+    Background={<WobblyBackground />}
     TagBar={TagBar}
     DateInfo={null}
     Description={
