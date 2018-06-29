@@ -99,11 +99,11 @@ const EventPage = ({ event }: Props) => {
   function audiencesString(audiences) {
     return audiences.reduce((acc, audience, i) => {
       if (i === 0) {
-        return acc + ` for ${audience.title}`;
+        return `${acc} for ${audience.title}`;
       } else if (i + 1 === audiences.length) {
-        return acc + `and ${audience.title}`;
+        return `${acc} and ${audience.title}`;
       } else {
-        return acc + `, ${audience.title}`;
+        return `${acc}, ${audience.title}`;
       }
     }, '');
   }
