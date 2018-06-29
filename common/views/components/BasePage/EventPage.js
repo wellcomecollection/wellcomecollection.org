@@ -97,19 +97,15 @@ const EventPage = ({ event }: Props) => {
   const interpretationsTags = event.interpretations ? event.interpretations.map(i => ({text: i.interpretationType.title})) : [];
   const TagBar = <Tags tags={formatTag.concat(interpretationsTags)} />;
   function audiencesString(audiences) {
-    if (audiences.length > 0) {
-      return audiences.reduce((acc, audience, i) => {
-        if (i === 0) {
-          return acc + ` for ${audience.title}`;
-        } else if (i + 1 === audiences.length) {
-          return acc + `and ${audience.title}`;
-        } else {
-          return acc + `, ${audience.title}`;
-        }
-      }, '');
-    } else {
-      return '';
-    }
+    return audiences.reduce((acc, audience, i) => {
+      if (i === 0) {
+        return acc + ` for ${audience.title}`;
+      } else if (i + 1 === audiences.length) {
+        return acc + `and ${audience.title}`;
+      } else {
+        return acc + `, ${audience.title}`;
+      }
+    }, '');
   }
   const Header = (<BaseHeader
     title={event.title}
