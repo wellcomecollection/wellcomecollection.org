@@ -26,7 +26,8 @@ import {
   parseBoolean
 } from './parsers';
 import type {UiEvent, EventFormat} from '../../model/events';
-import type {PrismicDocument, PrismicFragment, Team} from './types';
+import type {Team} from '../../model/team';
+import type {PrismicDocument, PrismicFragment} from './types';
 
 function parseEventFormat(frag: Object): ?EventFormat {
   return isDocumentLink(frag) ? {
