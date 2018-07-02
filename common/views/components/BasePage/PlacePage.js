@@ -29,7 +29,7 @@ const PlacePage = ({ place }: Props) => {
   const FeaturedMedia = place.promo && <UiImage tasl={tasl} {...image} />;
   const Header = (<BaseHeader
     title={place.title}
-    Background={WobblyBackground()}
+    Background={<WobblyBackground />}
     TagBar={<Tags tags={[{
       text: 'Places'
     }]} />}

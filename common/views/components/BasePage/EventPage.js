@@ -97,7 +97,7 @@ const EventPage = ({ event }: Props) => {
   const TagBar = <Tags tags={formatTag.concat(interpretationsTags)} />;
   const Header = (<BaseHeader
     title={event.title}
-    Background={WobblyBackground()}
+    Background={<WobblyBackground />}
     TagBar={TagBar}
     DateInfo={DateInfo(event.times)}
     InfoBar={InfoBar(event.cost)}

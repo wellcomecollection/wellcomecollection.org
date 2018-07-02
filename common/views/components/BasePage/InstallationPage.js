@@ -38,7 +38,7 @@ const InstallationPage = ({
   const FeaturedMedia = installation.promo && <UiImage tasl={tasl} {...image} />;
   const Header = (<BaseHeader
     title={installation.title}
-    Background={WobblyBackground()}
+    Background={<WobblyBackground />}
     TagBar={
       <div
         style={{ minHeight: '48px' }}
