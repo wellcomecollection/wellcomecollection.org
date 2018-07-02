@@ -46,16 +46,16 @@ const PageWrapper = Comp => {
   return class Global extends Component<Props> {
     static async getInitialProps(context) {
       const openingTimes = clientStore ? clientStore.get('openingTimes') : await fetchOpeningTimes();
-      const flags = clientStore ? clientStore.get('flags') : context.query.flags;
+      const toggles = clientStore ? clientStore.get('toggles') : context.query.toggles;
 
       if (serverStore) {
         serverStore.set('openingTimes', openingTimes);
-        serverStore.set('flags', flags);
+        serverStore.set('toggles', toggles);
       }
 
       return {
         openingTimes,
-        flags,
+        toggles,
         ...(Comp.getInitialProps ? await Comp.getInitialProps(context) : null)
       };
     }
@@ -67,8 +67,8 @@ const PageWrapper = Comp => {
         clientStore.set('openingTimes', props.openingTimes);
       }
 
-      if (clientStore && !clientStore.get('flags')) {
-        clientStore.set('flags', props.flags);
+      if (clientStore && !clientStore.get('toggles')) {
+        clientStore.set('toggles', props.toggles);
       }
     }
 
