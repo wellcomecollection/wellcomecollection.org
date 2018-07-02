@@ -25,7 +25,6 @@ jobs:
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose build
             set -x
             docker-compose up --detach
-            docker run --network container:catalogue
             ./integration_tests.sh
       - run:
           name: Docker push
