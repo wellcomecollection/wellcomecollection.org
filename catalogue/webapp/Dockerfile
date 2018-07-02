@@ -8,5 +8,8 @@ COPY ./common ../../common
 RUN yarn install
 RUN yarn build
 
+HEALTHCHECK --interval=5m --timeout=3s \
+  CMD curl -f http://localhost:3000/works || exit 1
+
 EXPOSE 3000
 CMD ["yarn", "start"]

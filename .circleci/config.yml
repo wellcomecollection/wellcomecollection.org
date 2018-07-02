@@ -26,7 +26,6 @@ jobs:
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose build
             set -x
             docker-compose up --detach
-            docker run -it wellcome/catalogue_webapp:${CIRCLE_SHA1}
             curl http://localhost:3000/works
       - run:
           name: Docker push
