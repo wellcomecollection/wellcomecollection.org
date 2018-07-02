@@ -1,7 +1,6 @@
 version: '3.3'
 services:
   catalogue:
-    container_name: catalogue
     image: wellcome/catalogue_webapp:${CONTAINER_TAG:-test}
     build:
       context: ../..
