@@ -17,6 +17,6 @@ r.get('/installations/:id', renderInstallation);
 r.get('/exhibitions', renderExhibitions);
 r.get('/exhibitions/:id', renderExhibition);
 r.get('/exhibitions/:id/exhibits', renderExhibits);
-r.get('/events/:id', renderEvent);
+r.get('/whats-on/events/:id', renderEvent); // For prototype testing
 
 export const router = r.middleware();
