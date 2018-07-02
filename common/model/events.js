@@ -67,22 +67,20 @@ export type Place = {|
   capacity: ?number
 |}
 
-type IdentifierScheme = 'eventbrite-id';
-
-type Identifier = {|
-  identifierScheme: IdentifierScheme,
-  value: string
-|}
-
 export type Audience = {|
   id: string,
   title: string,
   description: ?string
 |}
 
+/* eslint-disable no-use-before-define */
+export type UiEvent = {|
+  ...Event,
+  backgroundTexture?: string
+|}
+
 export type Event = {|
   id: string,
-  identifiers: Identifier[],
   title: string,
   format: ?EventFormat,
   isDropIn: boolean,
@@ -102,16 +100,12 @@ export type Event = {|
   // it's more convenient than having to work it out
   // not sure if it should be in the model, a question for Silver
   bookingType: ?string,
-  schedule?: Event[],
+  schedule?: UiEvent[],
   eventbriteId?: string,
   isCompletelySoldOut?: boolean,
   body: any[]
 |}
-
-export type UiEvent = {|
-  ...Event,
-  backgroundTexture?: string
-|}
+/* eslint-enable no-use-before-define */
 
 export type EventPromo = {|
   id: string,

@@ -5,6 +5,7 @@ import BaseHeader from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
 import Contributors from '../Contributors/Contributors';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
+import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import Tags from '../Tags/Tags';
 import Icon from '../Icon/Icon';
 import {UiImage} from '../Images/Images';
@@ -112,6 +113,17 @@ const EventPage = ({ event }: Props) => {
       Body={<Body body={event.body} />}
     >
       <Fragment>
+        {event.schedule && event.schedule.length > 0 &&
+          <Fragment>
+            <h2 className={`${font({s: 'WB6', l: 'WB5'})} ${spacing({s: 4}, {padding: ['bottom']})} border-color-smoke border-bottom-width-2`}>Events</h2>
+            <ul className='plain-list no-marin no-padding'>
+              {event.schedule && event.schedule.map((scheduledEvent) => {
+                return (<EventScheduleItem key={scheduledEvent.id} event={Object.assign({}, scheduledEvent, {description: scheduledEvent.promo && scheduledEvent.promo.caption})}
+                  hasOwnPage={Boolean(scheduledEvent.description)} />);
+              })}
+            </ul>
+          </Fragment>
+        }
         {event.contributors.length > 0 &&
           <Contributors
             titlePrefix='About your'

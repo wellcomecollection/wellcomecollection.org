@@ -1,5 +1,5 @@
 // @flow
-import {getDocument} from './api';
+import {getDocument, getTypeByIds} from './api';
 import {
   eventAccessOptionsFields,
   teamsFields,
@@ -25,7 +25,7 @@ import {
   parseBoolean
 } from './parsers';
 import type {UiEvent, EventFormat} from '../../model/events';
-import type {PrismicDocument} from './types';
+import type {PrismicDocument, PrismicApiSearchResponse} from './types';
 
 function parseEventFormat(frag: Object): ?EventFormat {
   return isDocumentLink(frag) ? {
@@ -37,9 +37,9 @@ function parseEventFormat(frag: Object): ?EventFormat {
 }
 
 // TODO: NOTE this doesn't have the A/B image test stuff in it
-function parseEventDoc(document: PrismicDocument): UiEvent {
+function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearchResponse): UiEvent {
   const data = document.data;
-
+  const eventSchedule = scheduleDocs && scheduleDocs.results ? scheduleDocs.results.map(doc => parseEventDoc(doc)) : [];
   const interpretations = document.data.interpretations.map(interpretation => isDocumentLink(interpretation.interpretationType) ? ({
     interpretationType: {
       title: parseTitle(interpretation.interpretationType.data.title),
@@ -49,6 +49,8 @@ function parseEventDoc(document: PrismicDocument): UiEvent {
     },
     isPrimary: Boolean(interpretation.isPrimary)
   }) : null).filter(_ => _);
+  const matchedId = /\/e\/([0-9]+)/.exec(document.data.eventbriteEvent.url);
+  const eventbriteId = (document.data.eventbriteEvent && matchedId !== null) ? matchedId[1] : '';
 
   return {
     id: document.id,
@@ -63,13 +65,12 @@ function parseEventDoc(document: PrismicDocument): UiEvent {
     bookingType: null, // TODO
     cost: document.data.cost,
     format: document.data.format && parseEventFormat(document.data.format),
-    identifiers: [], // TODO
     interpretations: interpretations,
     isDropIn: false, // TODO
     series: [], // TODO
-    schedule: [], // TODO
+    schedule: eventSchedule,
     backgroundTexture: document.data.backgroundTexture.data && document.data.backgroundTexture.data.image.url,
-    eventbriteId: '', // TODO
+    eventbriteId,
     isCompletelySoldOut: false, // TODO
     times: data.times && data.times.map(frag => ({
       range: {
@@ -87,25 +88,29 @@ function parseEventDoc(document: PrismicDocument): UiEvent {
   };
 }
 
+const fetchLinks = [].concat(
+  eventAccessOptionsFields,
+  teamsFields,
+  eventFormatsFields,
+  placesFields,
+  interpretationTypesFields,
+  audiencesFields,
+  eventSeriesFields,
+  organisationsFields,
+  peopleFields,
+  contributorsFields,
+  eventSeriesFields
+);
+
 export async function getEvent(req: Request, id: string): Promise<?UiEvent> {
   const document = await getDocument(req, id, {
-    fetchLinks: [].concat(
-      eventAccessOptionsFields,
-      teamsFields,
-      eventFormatsFields,
-      placesFields,
-      interpretationTypesFields,
-      audiencesFields,
-      eventSeriesFields,
-      organisationsFields,
-      peopleFields,
-      contributorsFields,
-      eventSeriesFields
-    )
+    fetchLinks: fetchLinks
   });
 
   if (document && document.type === 'events') {
-    const event = parseEventDoc(document);
+    const scheduleIds = document.data.schedule.map(event => event.event.id);
+    const eventScheduleDocs = scheduleIds.length > 0 && await getTypeByIds(req, ['events'], scheduleIds, {fetchLinks});
+    const event = parseEventDoc(document, eventScheduleDocs || null);
     return event;
   }
 }
