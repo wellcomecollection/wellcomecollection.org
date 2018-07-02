@@ -107,8 +107,8 @@ export {
 };
 
 // Event delegation
-function getTarget(delegateEl: HTMLElement, eventEl: HTMLElement, possibleTarget: HTMLElement): ?HTMLElement {
-  if (eventEl === delegateEl) return;
+function getTarget(delegateEl: HTMLElement, eventEl?: HTMLElement, possibleTarget: HTMLElement): ?HTMLElement {
+  if (eventEl === delegateEl || !eventEl) return;
 
   if (eventEl === possibleTarget) {
     return possibleTarget;
