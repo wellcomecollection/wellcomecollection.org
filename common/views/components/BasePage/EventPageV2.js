@@ -98,7 +98,7 @@ const EventPage = ({ event }: Props) => {
   const interpretationsTags = event.interpretations ? event.interpretations.map(i => ({text: i.interpretationType.title})) : [];
   const TagBar = <Tags tags={formatTag.concat(interpretationsTags)} />;
   const Header = (<BaseHeader
-    title={`${event.title} - V1`}
+    title={`${event.title} - V2`}
     Background={<WobblyBackground />}
     TagBar={TagBar}
     DateInfo={DateInfo(event)}

@@ -11,12 +11,16 @@
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
   <meta name="description" content="{{ description }}" />
-  <meta name="robots" content="noindex" />
+  <meta name="robots" content="noindex" />{# TODO - only here while this is served from /whats-on/events/ for usability testing #}
 {% endblock %}
 
 {% block body %}
   {# TODO: ld+Json #}
-  {% componentJsx "EventPage", { event: event } %}
+  {% if featuresCohort === 'prototype-2' %}
+    {% componentJsx "EventPageV2", { event: event } %}
+  {% else %}
+    {% componentJsx "EventPage", { event: event } %}
+  {% endif %}
   <script type="application/ld+json">
     {# {{ jsonLdExhibition | jsonLd('exhibitionLd') | safe }} #}
   </script>
