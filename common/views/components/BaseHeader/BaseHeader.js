@@ -7,6 +7,7 @@ import type {Node, Element} from 'react';
 import {UiImage} from '../Images/Images';
 import WobblyBackground from './WobblyBackground';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
+import BaseHeading from '../BaseHeading/BaseHeading';
 
 type FeaturedMedia =
   | Element<typeof UiImage>
@@ -60,14 +61,10 @@ const BaseHeader = ({
               ${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}
               ${spacing({s: 2}, {padding: ['bottom']})}
             `}>
-              <h1 className={`
-              h1 inline-block no-margin
-              ${Background ? '' : `
-                bg-white
-                ${spacing({ s: 2 }, { padding: ['left', 'right'] })}
-                ${spacing({ s: 1 }, { padding: ['bottom', 'top'] })}
-              `}
-            `}>{title}</h1>
+
+              <BaseHeading
+                text={title}
+                hasWhiteBackground={Boolean(FeaturedMedia)} />
 
               {DateInfo &&
                 <div className={`${font({s: 'HNL3'})} ${spacing({s: 3}, {margin: ['top']})}`}>
