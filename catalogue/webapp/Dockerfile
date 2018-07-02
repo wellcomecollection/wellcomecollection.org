@@ -1,5 +1,4 @@
 FROM node:9.11.1-alpine
-FROM appropriate/curl:latest
 
 ENV NODE_ENV=production
 
