@@ -24,6 +24,7 @@ jobs:
           command: |
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose build
             docker-compose up --detach
+            sleep 1000
       - run:
           name: Docker push
           command: |
