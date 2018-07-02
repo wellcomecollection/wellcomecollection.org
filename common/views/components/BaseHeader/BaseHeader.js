@@ -64,7 +64,7 @@ const BaseHeader = ({
 
               <BaseHeading
                 text={title}
-                hasWhiteBackground={Boolean(FeaturedMedia)} />
+                hasWhiteBackground={!Background} />
 
               {DateInfo &&
                 <div className={`${font({s: 'HNL3'})} ${spacing({s: 3}, {margin: ['top']})}`}>

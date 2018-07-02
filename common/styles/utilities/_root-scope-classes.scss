@@ -454,3 +454,10 @@
 .width-auto {
   width: auto;
 }
+
+.box-decoration-break-clone {
+  @supports(box-decoration-break: clone) {
+    line-height: 1.5;
+    box-decoration-break: clone;
+  }
+}
