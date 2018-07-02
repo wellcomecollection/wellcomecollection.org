@@ -179,7 +179,7 @@ const EventPage = ({ event }: Props) => {
                   eventTracking={JSON.stringify({
                     category: 'component',
                     action: 'booking-tickets:click',
-                    label: 'event-page'
+                    label: 'event-page (email to book)'
                   })}
                   icon='email'
                   text='Email to book' />
