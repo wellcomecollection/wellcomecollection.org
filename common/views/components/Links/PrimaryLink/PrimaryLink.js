@@ -1,6 +1,6 @@
 // @flow
 
-import {spacing, font} from '../../../../utils/classnames';
+import {font} from '../../../../utils/classnames';
 import Icon from '../../Icon/Icon';
 import trackOutboundLink from '../../../../utils/track-outbound-link';
 
@@ -24,13 +24,9 @@ const PrimaryLink = ({url, name, screenReaderText}: Props) => {
         'flex-v-center',
         'plain-link',
         font({s: 'HNM4'})].join(' ')} href={url} data-component='PrimaryLink'>
-      <span className={spacing({s: 1}, {margin: ['right']})}>
-        {name}
-        {screenReaderText && <span className='visually-hidden'> {screenReaderText}</span>}
-      </span>
-      <span>
-        <Icon name='arrow' extraClasses='icon--green' />
-      </span>
+      {name}
+      {screenReaderText && <span className='visually-hidden'> {screenReaderText}</span>}
+      <Icon name='arrowSmall' extraClasses='icon--green' />
     </a>
   );
 };

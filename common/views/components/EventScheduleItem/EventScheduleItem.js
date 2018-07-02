@@ -7,10 +7,10 @@ import EventBookingButton from '../EventBookingButton/EventBookingButton';
 import camelize from '../../../utils/camelize';
 import {formatTime} from '../../../utils/format-date';
 import {Fragment} from 'react';
-import type {Event} from '../../../model/events';
+import type {UiEvent} from '../../../model/events';
 
 type Props = {|
-  event: Event,
+  event: UiEvent,
   hasOwnPage: boolean
 |}
 

@@ -176,6 +176,11 @@ class Works extends Component<Props> {
     const query = context.query.query;
     const page = context.query.page ? parseInt(context.query.page, 10) : 1;
     const works = await getWorks({ query, page });
+
+    if (works.type === 'Error') {
+      return { statusCode: works.httpStatus };
+    }
+
     const pagination = PaginationFactory.fromList(
       works.results,
       Number(works.totalResults) || 1,
@@ -192,7 +197,8 @@ class Works extends Component<Props> {
       title: 'Image catalogue search | Wellcome Collection',
       description: 'Search through the Wellcome Collection image catalogue',
       analyticsCategory: 'collections',
-      siteSection: 'images'
+      siteSection: 'images',
+      canonicalUrl: `https://wellcomecollection.org/works${query && `?query=${query}`}`
     };
   };
 

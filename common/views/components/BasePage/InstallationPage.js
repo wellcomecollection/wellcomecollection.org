@@ -12,10 +12,14 @@ import {UiImage} from '../Images/Images';
 import type {UiInstallation} from '../../../model/installations';
 
 type Props = {|
-  installation: UiInstallation
+  installation: UiInstallation,
+  showContributorsTitle: boolean
 |}
 
-const InstallationPage = ({ installation }: Props) => {
+const InstallationPage = ({
+  installation,
+  showContributorsTitle
+}: Props) => {
   const DateInfo = installation.end ? <DateRange start={installation.start} end={installation.end} /> : <HTMLDate date={installation.start} />;
   const image = installation.promo && installation.promo.image;
   const tasl = image && {
@@ -34,7 +38,7 @@ const InstallationPage = ({ installation }: Props) => {
   const FeaturedMedia = installation.promo && <UiImage tasl={tasl} {...image} />;
   const Header = (<BaseHeader
     title={installation.title}
-    Background={WobblyBackground()}
+    Background={<WobblyBackground />}
     TagBar={
       <div
         style={{ minHeight: '48px' }}
@@ -58,6 +62,7 @@ const InstallationPage = ({ installation }: Props) => {
       <Fragment>
         {installation.contributors.length > 0 &&
           <Contributors
+            excludeTitle={!showContributorsTitle}
             contributors={installation.contributors} />
         }
       </Fragment>

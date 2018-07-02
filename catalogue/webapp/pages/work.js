@@ -1,6 +1,7 @@
 // @flow
 import {Fragment} from 'react';
 import fetch from 'isomorphic-unfetch';
+import ReactGA from 'react-ga';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import {iiifImageTemplate, convertImageUri} from '@weco/common/utils/convert-image-uri';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
@@ -289,6 +290,13 @@ const WorkPage = ({
                     action: 'download-button:click',
                     label: `id: work.id , size:original, title:${work.title.substring(50)}`
                   })}
+                  clickHandler={() => {
+                    ReactGA.event({
+                      category: 'component',
+                      action: 'download-button:click',
+                      label: `id: work.id , size:original, title:${work.title.substring(50)}`
+                    });
+                  }}
                   icon='download'
                   text='Download full size' />
               </div>}
@@ -305,6 +313,13 @@ const WorkPage = ({
                     action: 'download-button:click',
                     label: `id: work.id , size:760, title:${work.title.substring(50)}`
                   })}
+                  clickHandler={() => {
+                    ReactGA.event({
+                      category: 'component',
+                      action: 'download-button:click',
+                      label: `id: work.id , size:760, title:${work.title.substring(50)}`
+                    });
+                  }}
                   icon='download'
                   text='Download small (760px)' />
               </div>}
@@ -349,6 +364,10 @@ WorkPage.getInitialProps = async (context) => {
   const res = await fetch(`https://api.wellcomecollection.org/catalogue/v${version}/works/${id}?includes=identifiers,items,thumbnail`);
   let json = await res.json();
 
+  if (res.status !== 200) {
+    return { statusCode: res.status };
+  }
+
   const [iiifImageLocation] = json.items.map(
     item => item.locations.find(
       location => location.locationType === 'iiif-image'
@@ -366,12 +385,13 @@ WorkPage.getInitialProps = async (context) => {
     title: json.title || json.description,
     description: json.description || '',
     type: 'website',
-    url: `https://wellcomecollection.org/works/${json.id}`,
+    canonicalUrl: `https://wellcomecollection.org/works/${json.id}`,
     imageUrl: iiifImage ? iiifImage({size: '800,'}) : null,
     analyticsCategory: 'collections',
     siteSection: 'images',
     previousQueryString,
-    work: (json: Work)
+    work: (json: Work),
+    oEmbedUrl: `https://wellcomecollection.org/oembed/works/${json.id}`
   };
 };
 

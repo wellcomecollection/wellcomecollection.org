@@ -21,13 +21,13 @@ import {
   asText,
   asHtml,
   isDocumentLink,
-  isEmptyObj,
   parseTimestamp,
   parseBoolean
 } from './parsers';
+import isEmptyObj from '../../utils/is-empty-object';
 import type {UiEvent, EventFormat} from '../../model/events';
 import type {Team} from '../../model/team';
-import type {PrismicDocument, PrismicFragment} from './types';
+import type {PrismicDocument, PrismicApiSearchResponse} from './types';
 
 function parseEventFormat(frag: Object): ?EventFormat {
   return isDocumentLink(frag) ? {
@@ -38,7 +38,7 @@ function parseEventFormat(frag: Object): ?EventFormat {
   } : null;
 }
 
-function parseEventBookingType(eventDoc: Object): ?string {
+function parseEventBookingType(eventDoc: PrismicDocument): ?string {
   return !isEmptyObj(eventDoc.data.eventbriteEvent) ? 'Ticketed'
     : isDocumentLink(eventDoc.data.bookingEnquiryTeam) ? 'Enquire to book'
       : isDocumentLink(eventDoc.data.place) && eventDoc.data.place.data.capacity  ? 'First come, first served'
@@ -46,16 +46,9 @@ function parseEventBookingType(eventDoc: Object): ?string {
 }
 
 // TODO: NOTE this doesn't have the A/B image test stuff in it
-function parseEventDoc(document: PrismicDocument, scheduleDocs?: PrismicFragment): UiEvent {
+function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearchResponse): UiEvent {
   const data = document.data;
   const eventSchedule = scheduleDocs && scheduleDocs.results ? scheduleDocs.results.map(doc => parseEventDoc(doc)) : [];
-  // matching https://www.eventbrite.co.uk/e/40144900478?aff=efbneb
-  const eventbriteIdMatch = isEmptyObj(document.data.eventbriteEvent) ? null : /\/e\/([0-9]+)/.exec(document.data.eventbriteEvent.url);
-  const identifiers = eventbriteIdMatch ? [{
-    identifierScheme: 'eventbrite-id',
-    value: eventbriteIdMatch[1]
-  }] : [];
-
   const interpretations = document.data.interpretations.map(interpretation => isDocumentLink(interpretation.interpretationType) ? ({
     interpretationType: {
       title: parseTitle(interpretation.interpretationType.data.title),
@@ -64,15 +57,15 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs?: PrismicFragment
       primaryDescription: interpretation.interpretationType.data.primaryDescription
     },
     isPrimary: Boolean(interpretation.isPrimary)
-  }) : null).filter(_ => _);
+  }) : null).filter(Boolean);
 
-  const eventbriteIdScheme = identifiers.find(id => id.identifierScheme === 'eventbrite-id');
-  const eventbriteId = eventbriteIdScheme && eventbriteIdScheme.value;
+  const matchedId = /\/e\/([0-9]+)/.exec(document.data.eventbriteEvent.url);
+  const eventbriteId = (document.data.eventbriteEvent && matchedId !== null) ? matchedId[1] : '';
 
   const audiences = document.data.audiences.map(audience => isDocumentLink(audience.audience) ? ({
     title: asText(audience.audience.data.title),
     description: audience.audience.data.description
-  }) : null).filter(_ => _);
+  }) : null).filter(Boolean);
 
   const bookingEnquiryTeam = document.data.bookingEnquiryTeam.data && ({
     id: document.data.bookingEnquiryTeam.id,
@@ -86,7 +79,7 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs?: PrismicFragment
     id: series.series.id,
     title: asText(series.series.data.title),
     description: series.series.data.description
-  }) : null).filter(_ => _);
+  }) : null).filter(Boolean);
 
   return {
     id: document.id,
@@ -98,10 +91,9 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs?: PrismicFragment
     audiences,
     bookingEnquiryTeam,
     bookingInformation: document.data.bookingInformation,
-    bookingType: parseEventBookingType(document), // TODO not used on page?
+    bookingType: parseEventBookingType(document),
     cost: document.data.cost,
     format: document.data.format && parseEventFormat(document.data.format),
-    identifiers, // TODO not used on page?
     interpretations,
     isDropIn: Boolean(document.data.isDropIn),
     series,
@@ -147,7 +139,7 @@ export async function getEvent(req: Request, id: string): Promise<?UiEvent> {
   if (document && document.type === 'events') {
     const scheduleIds = document.data.schedule.map(event => event.event.id);
     const eventScheduleDocs = scheduleIds.length > 0 && await getTypeByIds(req, ['events'], scheduleIds, {fetchLinks});
-    const event = parseEventDoc(document, eventScheduleDocs || {});
+    const event = parseEventDoc(document, eventScheduleDocs || null);
     return event;
   }
 }

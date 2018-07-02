@@ -8,8 +8,23 @@ type Props = {|
   featuresCohort: ?string,
 |}
 
+function testLocalStorage() { // Test localStorage i/o
+  const test = 'test';
+
+  try {
+    window.localStorage.setItem(test, test);
+    window.localStorage.removeItem(test);
+
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+const hasWorkingLocalStorage = testLocalStorage();
+
 export default ({ category, contentType, pageState, featuresCohort }: Props) => {
-  const referringComponentListString = window.localStorage.getItem('wc_referring_component_list');
+  const referringComponentListString = hasWorkingLocalStorage && window.localStorage.getItem('wc_referring_component_list');
   window.localStorage.removeItem('wc_referring_component_list');
 
   if (!window.GA_INITIALIZED) {
@@ -19,9 +34,11 @@ export default ({ category, contentType, pageState, featuresCohort }: Props) => 
     // The v1 site was setup with a lot of configuration, which feels like it would be out of sync with
     // the new questions we would like ask of our analytics, so this was for a clean slate.
     ReactGA.initialize([{
-      trackingId: 'UA-55614-6'
+      trackingId: 'UA-55614-6',
+      titleCase: false
     }, {
       trackingId: 'UA-55614-24',
+      titleCase: false,
       gaOptions: {
         name: 'v2'
       }

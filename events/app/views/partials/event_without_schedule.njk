@@ -160,7 +160,12 @@
               {% componentJsx 'SecondaryLink', {
                 extraClasses: 'block font-charcoal ' + {s:1} | spacingClasses({margin: ['top']}),
                 text: event.bookingEnquiryTeam.email,
-                url: 'mailto:' + event.bookingEnquiryTeam.email + '?subject=' + event.title
+                url: 'mailto:' + event.bookingEnquiryTeam.email + '?subject=' + event.title,
+                eventTracking: {
+                  category: 'component',
+                  action: 'booking-tickets-email:click',
+                  label: 'event-page'
+                } | dump
               } %}
             </div>
           {% endif %}

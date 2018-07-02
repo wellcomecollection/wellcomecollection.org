@@ -1,4 +1,4 @@
-FROM node:8-alpine
+FROM node:9.11.1-alpine
 
 # setup a user so as not to run as root
 # see: https://github.com/nodejs/docker-node/blob/master/docs/BestPractices.md#non-root-user

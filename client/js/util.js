@@ -107,8 +107,8 @@ export {
 };
 
 // Event delegation
-function getTarget(delegateEl: HTMLElement, eventEl: HTMLElement, possibleTarget: HTMLElement): ?HTMLElement {
-  if (eventEl === delegateEl) return;
+function getTarget(delegateEl: HTMLElement, eventEl?: HTMLElement, possibleTarget: HTMLElement): ?HTMLElement {
+  if (eventEl === delegateEl || !eventEl) return;
 
   if (eventEl === possibleTarget) {
     return possibleTarget;
@@ -141,3 +141,16 @@ export function getDocumentHeight() {
 export function getWindowHeight() {
   return window.innerHeight;
 }
+
+export function testLocalStorage() { // Test localStorage i/o
+  const test = 'test';
+
+  try {
+    window.localStorage.setItem(test, test);
+    window.localStorage.removeItem(test);
+
+    return true;
+  } catch (e) {
+    return false;
+  }
+};

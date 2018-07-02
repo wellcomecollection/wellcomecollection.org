@@ -66,6 +66,18 @@ function InfoBar(cost, eventbriteId, bookingEnquiryTeam) {
   );
 }
 
+function audiencesString(audiences) {
+  return audiences.reduce((acc, audience, i) => {
+    if (i === 0) {
+      return `${acc} for ${audience.title}`;
+    } else if (i + 1 === audiences.length) {
+      return `${acc} and ${audience.title}`;
+    } else {
+      return `${acc}, ${audience.title}`;
+    }
+  }, '');
+}
+
 const EventPage = ({ event }: Props) => {
   const image = event.promo && event.promo.image;
   const tasl = image && {
@@ -85,24 +97,9 @@ const EventPage = ({ event }: Props) => {
   const formatTag = event.format ? [{text: event.format.title + audiencesString(event.audiences)}] : [];
   const interpretationsTags = event.interpretations ? event.interpretations.map(i => ({text: i.interpretationType.title})) : [];
   const TagBar = <Tags tags={formatTag.concat(interpretationsTags)} />;
-  function audiencesString(audiences) {
-    if (audiences.length > 0) {
-      return audiences.reduce((acc, audience, i) => {
-        if (i === 0) {
-          return acc + ` for ${audience.title}`;
-        } else if (i + 1 === audiences.length) {
-          return acc + `and ${audience.title}`;
-        } else {
-          return acc + `, ${audience.title}`;
-        }
-      }, '');
-    } else {
-      return '';
-    }
-  }
   const Header = (<BaseHeader
     title={event.title}
-    Background={WobblyBackground()}
+    Background={<WobblyBackground />}
     TagBar={TagBar}
     DateInfo={DateInfo(event)}
     InfoBar={InfoBar(event.cost, event.eventbriteId, event.bookingEnquiryTeam)}

@@ -48,8 +48,23 @@ ga('set', 'dimension1', '2');
   ga('set', 'exp', '{{ pageConfig.gaExp }}');
 {% endif %}
 
+function testLocalStorage() { // Test localStorage i/o
+  var test = 'test';
+
+  try {
+    window.localStorage.setItem(test, test);
+    window.localStorage.removeItem(test);
+
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+var hasWorkingLocalStorage = testLocalStorage();
+
 {# see `tracking.js` where this storage item is set #}
-var referringComponentListString = localStorage.getItem('wc_referring_component_list');
+var referringComponentListString = hasWorkingLocalStorage && localStorage.getItem('wc_referring_component_list');
 localStorage.removeItem('wc_referring_component_list');
 if (referringComponentListString) {
   ga('set', 'dimension7', referringComponentListString);
