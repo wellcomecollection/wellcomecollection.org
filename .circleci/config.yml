@@ -23,8 +23,6 @@ jobs:
           name: Docker test
           command: |
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose build
-            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose up --detach
-            ./integration_tests.sh
       - run:
           name: Docker push
           command: |
