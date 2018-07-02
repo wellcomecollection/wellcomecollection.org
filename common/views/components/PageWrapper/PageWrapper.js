@@ -56,7 +56,7 @@ type Props = {|
   title: string,
   description: string,
   type: OgType,
-  url: string,
+  canonicalUrl: string,
   imageUrl: string,
   siteSection: SiteSection,
   analyticsCategory: string,
@@ -67,7 +67,8 @@ type Props = {|
     upcomingExceptionalOpeningPeriods: {dates: Date[], type: string}[]
   },
   flags: { [string]: Boolean },
-  statusCode: ?number
+  statusCode: ?number,
+  oEmbedUrl?: string
 |}
 
 // TODO: Make this universally available
@@ -139,11 +140,12 @@ const PageWrapper = (Comp: NextComponent) => {
         title,
         description,
         type,
-        url,
+        canonicalUrl,
         imageUrl,
         siteSection,
         analyticsCategory,
         openingTimes,
+        oEmbedUrl,
         ...props
       } = this.props;
 
@@ -156,11 +158,12 @@ const PageWrapper = (Comp: NextComponent) => {
           title={title}
           description={description}
           type={type}
-          url={url}
+          canonicalUrl={canonicalUrl}
           imageUrl={imageUrl}
           siteSection={siteSection}
           analyticsCategory={analyticsCategory}
-          openingTimes={openingTimes}>
+          openingTimes={openingTimes}
+          oEmbedUrl={oEmbedUrl}>
           <Comp {...props} />
         </DefaultPageLayout>
       );

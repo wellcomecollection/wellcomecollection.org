@@ -197,7 +197,8 @@ class Works extends Component<Props> {
       title: 'Image catalogue search | Wellcome Collection',
       description: 'Search through the Wellcome Collection image catalogue',
       analyticsCategory: 'collections',
-      siteSection: 'images'
+      siteSection: 'images',
+      canonicalUrl: `https://wellcomecollection.org/works${query && `?query=${query}`}`
     };
   };
 

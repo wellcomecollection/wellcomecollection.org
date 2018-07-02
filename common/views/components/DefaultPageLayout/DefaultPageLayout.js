@@ -104,13 +104,12 @@ export type SiteSection = 'images' | 'explore' | 'whats-on';
 type Props = {|
   children: React.Node,
   type: OgType,
-  url: string,
+  canonicalUrl: string,
   title: string,
   description: string,
   imageUrl: string,
   siteSection: SiteSection,
   analyticsCategory: string,
-  pageMeta?: React.Node,
   featuresCohort?: string,
   featureFlags?: string[],
   isPreview?: boolean,
@@ -119,7 +118,8 @@ type Props = {|
       [string]: PlacesOpeningHours
     },
     upcomingExceptionalOpeningPeriods: {dates: Date[], type: string}[]
-  }
+  },
+  oEmbedUrl?: string
 |}
 
 class DefaultPageLayout extends Component<Props> {
@@ -137,7 +137,7 @@ class DefaultPageLayout extends Component<Props> {
     const {
       title,
       type,
-      url,
+      canonicalUrl,
       description,
       imageUrl,
       siteSection,
@@ -145,7 +145,8 @@ class DefaultPageLayout extends Component<Props> {
       featuresCohort,
       featureFlags,
       isPreview,
-      openingTimes
+      openingTimes,
+      oEmbedUrl
     } = this.props;
 
     return (
@@ -159,14 +160,14 @@ class DefaultPageLayout extends Component<Props> {
 
           <OpenGraph
             type={type}
-            url={url}
+            url={canonicalUrl}
             title={title}
             description={description}
             imageUrl={imageUrl}
           />
           <TwitterCard
             type={type}
-            url={url}
+            url={canonicalUrl}
             title={title}
             description={description}
             imageUrl={imageUrl} />
@@ -188,7 +189,12 @@ class DefaultPageLayout extends Component<Props> {
             featureFlags: ${JSON.stringify(featureFlags)}
           }
         `}} />
-          {url && <link rel='canonical' href={url} />}
+          {canonicalUrl && <link rel='canonical' href={canonicalUrl} />}
+          {oEmbedUrl && <link
+            rel='alternate'
+            type='application/json+oembed'
+            href={oEmbedUrl}
+            title={title} />}
         </Head>
 
         <div className={isPreview ? 'is-preview' : undefined}>
