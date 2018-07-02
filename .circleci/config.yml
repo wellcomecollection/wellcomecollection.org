@@ -22,10 +22,10 @@ jobs:
       - run:
           name: Docker test
           command: |
-            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose build
             set -x
+            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose build
             docker-compose up --detach
-            docker run --network wellcome/catalogue_webapp \
+            docker run --network container:catalogue \
               appropriate/curl --retry 10 --retry-delay 1 --retry-connrefused http://localhost:3000/workssss
       - run:
           name: Docker push
