@@ -13,6 +13,7 @@ jobs:
   catalogue:
     docker:
       - image: circleci/node:8.11.3
+      - image: appropriate/curl:latest
     working_directory: ~/wellcomecollection.org/catalogue/webapp
     steps:
       - restore_cache:
@@ -25,8 +26,7 @@ jobs:
             set -x
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose build
             docker-compose up --detach
-            docker run --network container:catalogue \
-              appropriate/curl --retry 10 --retry-delay 1 --retry-connrefused http://localhost:3000/workssss
+            docker run -d -p 3000:3000 wellcome/catalogue_webapp:${CIRCLE_SHA1} ./integration_tests.sh
       - run:
           name: Docker push
           command: |
