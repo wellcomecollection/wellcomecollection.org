@@ -21,8 +21,8 @@ const SectionHeader = ({title, linkText, linkUrl}: Props) => {
             <Divider extraClasses='divider--dashed' />
           </div>
           <div className={grid({s: 12, m: 12, l: 12, xl: 12})}>
-            <div className='flex-l-up flex--v-end flex--h-space-between'>
-              <h2 className={`${font({s: 'WB5', m: 'WB4'})} ${spacing({l: 1}, {padding: ['right']})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{title}</h2>
+            <div className={`${spacing({s: 1, l: 4}, {margin: ['bottom']})} flex-l-up flex--v-end flex--h-space-between`}>
+              <h2 className={`${font({s: 'WB5', m: 'WB4'})} ${spacing({l: 1}, {padding: ['right']})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 0}, {margin: ['bottom']})}`}>{title}</h2>
               {linkText && linkUrl &&
                 <PrimaryLink name={linkText} url={linkUrl} />
               }
