@@ -1,6 +1,8 @@
 /* global ga */
 
-import { on } from './util';
+import { on, testLocalStorage } from './util';
+
+const hasWorkingLocalStorage = testLocalStorage();
 
 const maybeTrackEvent = (hasAnalytics) => {
   if (hasAnalytics) {
@@ -92,9 +94,12 @@ export default {
         // We set the component list data in localStorage,
         // which we then retrieve on the next pageview,
         // and pass along to GA there
+        if (!hasWorkingLocalStorage) return;
+
         const el = event.target.closest('[data-component]');
         const componentList = (el ? getComponentList(el) : []).concat([{Page: pageState}]);
         const componentListString = JSON.stringify(componentList);
+
         if (componentList.length > 0) {
           window.localStorage.setItem('wc_referring_component_list', componentListString);
         }

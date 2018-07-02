@@ -141,3 +141,16 @@ export function getDocumentHeight() {
 export function getWindowHeight() {
   return window.innerHeight;
 }
+
+export function testLocalStorage() { // Test localStorage i/o
+  const test = 'test';
+
+  try {
+    window.localStorage.setItem(test, test);
+    window.localStorage.removeItem(test);
+
+    return true;
+  } catch (e) {
+    return false;
+  }
+};

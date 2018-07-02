@@ -8,8 +8,23 @@ type Props = {|
   featuresCohort: ?string,
 |}
 
+function testLocalStorage() { // Test localStorage i/o
+  const test = 'test';
+
+  try {
+    window.localStorage.setItem(test, test);
+    window.localStorage.removeItem(test);
+
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+const hasWorkingLocalStorage = testLocalStorage();
+
 export default ({ category, contentType, pageState, featuresCohort }: Props) => {
-  const referringComponentListString = window.localStorage.getItem('wc_referring_component_list');
+  const referringComponentListString = hasWorkingLocalStorage && window.localStorage.getItem('wc_referring_component_list');
   window.localStorage.removeItem('wc_referring_component_list');
 
   if (!window.GA_INITIALIZED) {
