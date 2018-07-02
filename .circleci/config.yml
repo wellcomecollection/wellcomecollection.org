@@ -20,9 +20,12 @@ jobs:
       - add_ssh_keys
       - setup_remote_docker
       - run:
+          name: Docker build
+          command: CONTAINER_TAG=${CIRCLE_SHA1} docker-compose build
+      - run:
           name: Docker test
           command: |
-            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose up --build --detach
+            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose up --detach
             ./integration_tests.sh
       - run:
           name: Docker push
