@@ -51,9 +51,11 @@ function determineUpcomingDate(times) {
   const eventArray = times.map((eventTime) => {
     return london(eventTime.startDateTime);
   })
-    .sort((a, b) => b.isBefore(a, 'day'))
-    .filter((date) => !date.isBefore(todaysDate));
-  return eventArray[0] ? eventArray[0].toString() : null;
+    .sort((a, b) => b.isBefore(a, 'day'));
+  const futureDates = eventArray.filter((date) => !date.isBefore(todaysDate));
+  return futureDates[0] ? futureDates[0].toString()
+    : eventArray[0] ? eventArray[0].toString()
+      : null;
 }
 
 // TODO: NOTE this doesn't have the A/B image test stuff in it
@@ -93,7 +95,7 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearc
   }) : null).filter(Boolean);
 
   const upcomingDate = determineUpcomingDate(data.times);
-
+  const todaysDate = london();
   return {
     id: document.id,
     title: parseTitle(data.title),
@@ -120,7 +122,7 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearc
         endDateTime: parseTimestamp(frag.endDateTime)
       },
       isFullyBooked: parseBoolean(frag.isFullyBooked)
-    })),
+    })).filter((time) => !london(time.range.startDateTime).isBefore(todaysDate)),
     // TODO: (event migration)
     body: data.description ? [{
       type: 'text',
