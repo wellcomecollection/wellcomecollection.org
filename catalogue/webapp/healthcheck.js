@@ -1,12 +1,13 @@
-var http = require('http');
+const http = require('http');
 
-var options = {
+const options = {
   host: 'localhost',
-  port: '2368',
+  port: '3000',
+  path: '/works',
   timeout: 2000
 };
 
-var request = http.request(options, (res) => {
+const request = http.request(options, (res) => {
   console.log(`STATUS: ${res.statusCode}`);
   if (res.statusCode === 200) {
     process.exit(0);
