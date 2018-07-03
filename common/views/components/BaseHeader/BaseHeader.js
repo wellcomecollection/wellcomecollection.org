@@ -47,7 +47,7 @@ const BaseHeader = ({
         backgroundSize: BackgroundComponent ? null : '150%'
       }}>
         <div className={`container`}>
-          <div className={`grid ${spacing({s: 5, m: 7}, {padding: ['top']})}`}>
+          <div className={`grid ${spacing({s: 5, m: 7, l: 9}, {padding: ['top']})}`}>
             {TagBar &&
               <div className={`
                 ${spacing({s: 1}, {padding: ['top']})}
@@ -88,7 +88,7 @@ const BaseHeader = ({
               }
 
               {FeaturedMedia &&
-                <div className={`${spacing({ s: 2 }, { margin: ['top'] })} relative`}>
+                <div className={`${spacing({s: 3}, {margin: ['top']})} relative`}>
                   {FeaturedMedia}
                 </div>
               }
