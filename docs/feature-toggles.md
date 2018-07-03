@@ -1,7 +1,7 @@
 # Feature toggles
 We use feature toggles to develop and release features and code early.
 
-We have different release strategies dependant in what phase a feature is in,
+We have different release strategies dependant on what phase a feature is in,
 or what we are trying to achieve.
 
 We use the open source [Unleash](https://github.com/Unleash/unleash) to manage
@@ -9,7 +9,7 @@ our flags.
 
 
 ## Toggling the toggles
-Losely we have these categories:
+Some use cases might be:
 
 ### User specific, non public use
 Behind a [`UserEnabled`](./common/services/unleash/feature-toggles.js#L15)

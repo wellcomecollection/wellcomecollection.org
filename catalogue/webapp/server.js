@@ -78,7 +78,7 @@ app.prepare().then(async () => {
 
   try {
     await new Promise((resolve, reject) => {
-      instance.on('ready', async (things) => {
+      instance.on('ready', async () => {
         resolve(true);
       });
       instance.on('error', async () => {
