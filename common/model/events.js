@@ -76,6 +76,8 @@ export type Audience = {|
 /* eslint-disable no-use-before-define */
 export type UiEvent = {|
   ...Event,
+  upcomingDate: ?Date,
+  selectedDate: ?Date,
   backgroundTexture?: string
 |}
 

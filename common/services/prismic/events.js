@@ -25,6 +25,7 @@ import {
   parseBoolean
 } from './parsers';
 import isEmptyObj from '../../utils/is-empty-object';
+import {london} from '../../utils/format-date';
 import type {UiEvent, EventFormat} from '../../model/events';
 import type {Team} from '../../model/team';
 import type {PrismicDocument, PrismicApiSearchResponse} from './types';
@@ -45,8 +46,18 @@ function parseEventBookingType(eventDoc: PrismicDocument): ?string {
         : null;
 }
 
+function determineUpcomingDate(times) {
+  const todaysDate = london();
+  const eventArray = times.map((eventTime) => {
+    return london(eventTime.startDateTime);
+  })
+    .sort((a, b) => b.isBefore(a, 'day'))
+    .filter((date) => !date.isBefore(todaysDate));
+  return eventArray[0] ? eventArray[0].toString() : null;
+}
+
 // TODO: NOTE this doesn't have the A/B image test stuff in it
-function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearchResponse): UiEvent {
+function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearchResponse, selectedDate: ?string): UiEvent {
   const data = document.data;
   const eventSchedule = scheduleDocs && scheduleDocs.results ? scheduleDocs.results.map(doc => parseEventDoc(doc)) : [];
   const interpretations = document.data.interpretations.map(interpretation => isDocumentLink(interpretation.interpretationType) ? ({
@@ -81,6 +92,8 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearc
     description: series.series.data.description
   }) : null).filter(Boolean);
 
+  const upcomingDate = determineUpcomingDate(data.times);
+
   return {
     id: document.id,
     title: parseTitle(data.title),
@@ -113,7 +126,9 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearc
       type: 'text',
       weight: 'default',
       value: parseDescription(data.description)
-    }] : []
+    }] : [],
+    upcomingDate: upcomingDate ? london(upcomingDate).toDate() : null,
+    selectedDate: selectedDate ? london(selectedDate).toDate() : null
   };
 }
 
@@ -131,7 +146,7 @@ const fetchLinks = [].concat(
   eventSeriesFields
 );
 
-export async function getEvent(req: Request, id: string): Promise<?UiEvent> {
+export async function getEvent(req: Request, id: string, selectedDate: string): Promise<?UiEvent> {
   const document = await getDocument(req, id, {
     fetchLinks: fetchLinks
   });
@@ -139,7 +154,7 @@ export async function getEvent(req: Request, id: string): Promise<?UiEvent> {
   if (document && document.type === 'events') {
     const scheduleIds = document.data.schedule.map(event => event.event.id);
     const eventScheduleDocs = scheduleIds.length > 0 && await getTypeByIds(req, ['events'], scheduleIds, {fetchLinks});
-    const event = parseEventDoc(document, eventScheduleDocs || null);
+    const event = parseEventDoc(document, eventScheduleDocs || null, selectedDate || null);
     return event;
   }
 }
