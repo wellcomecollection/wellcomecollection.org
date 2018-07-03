@@ -9,7 +9,7 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 const port = process.argv[2] || 3000;
 
-function setToggles(ctx, next) {
+function setUserEnabledToggles(ctx, next) {
   const togglesRequest = ctx.query.toggles;
 
   if (togglesRequest) {
@@ -22,8 +22,13 @@ function setToggles(ctx, next) {
 
     if (Object.keys(toggles).length > 0) {
       const cookies = new Cookies(ctx.req, ctx.res);
-      console.info(JSON.stringify(toggles));
-      cookies.set('toggles', JSON.stringify(toggles));
+      const togglesCookie = cookies.get('toggles');
+      let previousToggles = {};
+      try {
+        previousToggles = JSON.parse(togglesCookie);
+      } catch (e) {}
+      const mergedToggles = Object.assign({}, previousToggles, toggles);
+      cookies.set('toggles', JSON.stringify(mergedToggles));
     }
   }
   return next();
@@ -31,14 +36,26 @@ function setToggles(ctx, next) {
 
 function getToggles(ctx, next) {
   const cookies = new Cookies(ctx.req, ctx.res);
-  const cohort = cookies.get('WC_featuresCohort');
+  // Leaving this here as we might need it for `ActiveForUserInCohort`
+  // const cohort = cookies.get('WC_featuresCohort');
+  let userEnabledToggles = {};
+  try {
+    userEnabledToggles = JSON.parse(cookies.get('toggles'));
+  } catch (e) {}
+
   ctx.toggles = {
-    apiV2: isEnabled('apiV2', { cohort })
+    apiV2: isEnabled('apiV2', {
+      enabled: userEnabledToggles.apiV2 === true
+    }),
+    catalogueApiStaging: isEnabled('catalogueApiStaging', {
+      enabled: userEnabledToggles.catalogueApiStaging === true
+    })
   };
+
   return next();
 }
 
-function setCohort(ctx, next) {
+function setCohortCookie(ctx, next) {
   const cohort = ctx.query.cohort;
   if (cohort) {
     const cookies = new Cookies(ctx.req, ctx.res);
@@ -61,7 +78,7 @@ app.prepare().then(async () => {
 
   try {
     await new Promise((resolve, reject) => {
-      instance.on('ready', async () => {
+      instance.on('ready', async (things) => {
         resolve(true);
       });
       instance.on('error', async () => {
@@ -75,9 +92,9 @@ app.prepare().then(async () => {
   }
 
   // Feature toggles
-  server.use(setCohort);
+  server.use(setCohortCookie);
+  server.use(setUserEnabledToggles);
   server.use(getToggles);
-  server.use(setToggles);
 
   // Next routing
   router.get('/embed/works/:id', async ctx => {

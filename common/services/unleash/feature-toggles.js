@@ -1,5 +1,5 @@
-// Leave this service with common requires as it's needed where we don't have
-// compilation
+// Leave this service with standard nodejs requires as it's needed where we
+// don't have compilation
 const { Strategy, initialize, isEnabled } = require('unleash-client');
 
 class ActiveForUserInCohort extends Strategy {
@@ -12,11 +12,21 @@ class ActiveForUserInCohort extends Strategy {
   }
 }
 
+class UserEnabled extends Strategy {
+  constructor() {
+    super('UserEnabled');
+  }
+
+  isEnabled(_, { enabled }) {
+    return enabled;
+  }
+}
+
 function init(options) {
   return initialize(Object.assign(options, {
     url: 'https://weco-feature-flags.herokuapp.com/api/',
     refreshInterval: 60 * 1000,
-    strategies: [new ActiveForUserInCohort()]
+    strategies: [new ActiveForUserInCohort(), new UserEnabled()]
   }));
 }
 
