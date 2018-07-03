@@ -25,8 +25,8 @@ jobs:
             set -x
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose build
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose up --detach
-            sleep 10
-            node ./healthcheck.js
+            docker run --network container:catalogue \
+              appropriate/curl --retry 10 --retry-delay 1 --retry-connrefused http://localhost:8080/contacts/test
       - run:
           name: Docker push
           command: |
