@@ -8,8 +8,3 @@ services:
       dockerfile: ./catalogue/webapp/Dockerfile
     ports:
       - "3000:3000"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 3
