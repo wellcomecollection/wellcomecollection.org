@@ -28,6 +28,7 @@ jobs:
             # ../../common
             mkdir -p ./.dist/common
             cp -r ../../common ./.dist/common
+            pwd
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose build
             docker-compose up --detach
             docker run -d wellcome/catalogue_webapp:${CIRCLE_SHA1} ./integration_tests.sh
