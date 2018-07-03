@@ -234,7 +234,7 @@ type GetWorksProps = {|
   page: ?number
 |}
 async function getWorks({ query, page }: GetWorksProps): Object {
-  const version = pageStore.flags.apiV2 ? 2 : 1;
+  const version = pageStore.toggles.apiV2 ? 2 : 1;
   const res = await fetch(
     `https://api.wellcomecollection.org/catalogue/v${version}/works?` +
     `includes=identifiers,thumbnail,items&pageSize=100` +
