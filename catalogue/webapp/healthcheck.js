@@ -1,24 +1,14 @@
-const http = require('http');
+var request = require('requestretry');
 
-const options = {
-  host: 'localhost',
-  port: '3000',
-  path: '/works',
-  timeout: 2000
-};
-
-const request = http.request(options, (res) => {
-  console.log(`STATUS: ${res.statusCode}`);
-  if (res.statusCode === 200) {
-    process.exit(0);
-  } else {
-    process.exit(1);
+request({
+  url: 'http://localhost:3000/works',
+  json: true,
+  maxAttempts: 5,
+  retryDelay: 5000,
+  retryStrategy: request.RetryStrategies.HTTPOrNetworkError
+}, function(err, response, body) {
+  if (err) { console.error(err); process.exit(1); }
+  if (response) {
+    console.log('The number of request attempts: ' + response.attempts);
   }
 });
-
-request.on('error', function(err) {
-  console.log(err);
-  process.exit(1);
-});
-
-request.end();
