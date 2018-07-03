@@ -23,15 +23,8 @@ jobs:
           name: Docker test
           command: |
             set -x
-            # We do this to make here and not in docker to make sure the Docker
-            # context isn't huge. It's then copied in the Docker container to
-            # ../../common
-            mkdir -p ./.dist/common
-            cp -r ../../common ./.dist/common
-            pwd
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose build
             docker-compose up --detach
-            docker run -d wellcome/catalogue_webapp:${CIRCLE_SHA1} ./integration_tests.sh
       - run:
           name: Docker push
           command: |
