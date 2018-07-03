@@ -53,8 +53,8 @@ function determineUpcomingDate(times) {
   })
     .sort((a, b) => b.isBefore(a, 'day'));
   const futureDates = eventArray.filter((date) => !date.isBefore(todaysDate));
-  return futureDates[0] ? futureDates[0].toString()
-    : eventArray[0] ? eventArray[0].toString()
+  return futureDates[0] ? futureDates[0].toDate()
+    : eventArray[0] ? eventArray[0].toDate()
       : null;
 }
 
