@@ -25,7 +25,7 @@ jobs:
             set -x
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose build
             docker-compose up --detach
-            docker run -d -p 3000:3000 wellcome/catalogue_webapp:${CIRCLE_SHA1} ./integration_tests.sh
+            docker run -d wellcome/catalogue_webapp:${CIRCLE_SHA1} ./integration_tests.sh
       - run:
           name: Docker push
           command: |
