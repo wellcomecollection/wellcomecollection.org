@@ -455,9 +455,9 @@
   width: auto;
 }
 
-.box-decoration-break-clone {
+.base-heading-highlight {
   @supports(box-decoration-break: clone) {
-    line-height: 1.5;
+    line-height: calc(1.1em + 12px); // Account for 6px top/bottom padding per line
     box-decoration-break: clone;
   }
 }

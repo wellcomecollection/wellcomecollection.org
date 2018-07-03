@@ -8,12 +8,12 @@ type Props = {|
 const BaseHeading = ({hasWhiteBackground, text}: Props) => {
   const spanClass = hasWhiteBackground
     ? `
-      box-decoration-break-clone
+      base-heading-highlight
       bg-white
       ${spacing({s: 2}, {padding: ['left', 'right']})}
       ${spacing({s: 1}, {padding: ['bottom', 'top']})}
     `
-    : '';
+    : 'inline-block';
 
   return (
     <h1 className='h1'>
