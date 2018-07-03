@@ -12,13 +12,13 @@ import Button from '../Buttons/Button/Button';
 import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import {UiImage} from '../Images/Images';
-import type {Event} from '../../../model/events';
+import type {UiEvent} from '../../../model/events';
 import {spacing, font} from '../../../utils/classnames';
 import camelize from '../../../utils/camelize';
 import {formatAndDedupeOnDate, formatAndDedupeOnTime, joinDateStrings, formatDayDate} from '../../../utils/format-date';
 
 type Props = {|
-  event: Event
+  event: UiEvent
 |}
 
 function DateInfo(event) {
