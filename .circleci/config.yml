@@ -25,6 +25,8 @@ jobs:
             set -x
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose build
             docker-compose up --detach
+            sleep 5
+            docker inspect --format='{{json .State.Health}}' wellcome/catalogue_webapp:${CIRCLE_SHA1}
       - run:
           name: Docker push
           command: |
