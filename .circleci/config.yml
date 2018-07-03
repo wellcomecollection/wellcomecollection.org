@@ -24,8 +24,8 @@ jobs:
           command: |
             set -x
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose build
-            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose up --detach
-            sleep 10
+            # CONTAINER_TAG=${CIRCLE_SHA1} docker-compose up --detach
+            docker run -d -p 3000:3000 wellcome/catalogue_webapp:${CIRCLE_SHA1} yarn start
             node ./healthcheck.js
             # docker run --network container:catalogue \
             #   appropriate/curl --retry 10 --retry-delay 1 --retry-connrefused http://localhost:8080/contacts/test
