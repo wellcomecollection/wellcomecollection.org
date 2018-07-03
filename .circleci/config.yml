@@ -24,7 +24,7 @@ jobs:
           command: |
             set -x
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose build
-            docker-compose up --detach
+            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose up --detach
             node ./healthcheck.js
       - run:
           name: Docker push
