@@ -15,7 +15,7 @@ import {UiImage} from '../Images/Images';
 import type {Event} from '../../../model/events';
 import {spacing, font} from '../../../utils/classnames';
 import camelize from '../../../utils/camelize';
-import {formatAndDedupeOnDate, formatAndDedupeOnTime, joinDateStrings} from '../../../utils/format-date';
+import {formatAndDedupeOnDate, formatAndDedupeOnTime, joinDateStrings, formatDayDate} from '../../../utils/format-date';
 
 type Props = {|
   event: Event
@@ -49,6 +49,19 @@ function DateInfo(event) {
           </div>
         );
       })}
+    </Fragment>
+  );
+}
+
+function DateRange(event) {
+  const buttonText = ((event.eventbriteId || event.bookingEnquiryTeam) && !event.isCompletelySoldOut)
+    ? 'Check dates and book'
+    : 'Check dates';
+  return (
+    event.dateRange &&
+    <Fragment>
+      <p className={spacing({s: 2}, {margin: ['bottom']})}>{`${formatDayDate(event.dateRange.firstDate)} - ${formatDayDate(event.dateRange.lastDate)}, ${event.dateRange.repeats} dates`}</p>
+      <Button type='primary' text={buttonText} url='#dates' />
     </Fragment>
   );
 }
@@ -98,10 +111,10 @@ const EventPage = ({ event }: Props) => {
   const interpretationsTags = event.interpretations ? event.interpretations.map(i => ({text: i.interpretationType.title})) : [];
   const TagBar = <Tags tags={formatTag.concat(interpretationsTags)} />;
   const Header = (<BaseHeader
-    title={`${event.title} - V2`}
+    title={`${event.title}`}
     Background={<WobblyBackground />}
     TagBar={TagBar}
-    DateInfo={DateInfo(event)}
+    DateInfo={event.times.length > 1 ? DateRange(event) : DateInfo(event)}
     InfoBar={InfoBar(event.cost, event.eventbriteId, event.bookingEnquiryTeam)}
     Description={null}
     FeaturedMedia={FeaturedMedia}
@@ -145,6 +158,10 @@ const EventPage = ({ event }: Props) => {
             );
           }
         })}
+
+        <div id='dates'>
+          {DateInfo(event)}
+        </div>
 
         {/* Booking CTAs */}
         {event.eventbriteId &&
