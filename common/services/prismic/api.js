@@ -5,7 +5,8 @@ import type {
   PrismicDocument,
   PrismicQueryOpts,
   PrismicApiSearchResponse,
-  PaginatedResults
+  PaginatedResults,
+  DocumentType
 } from './types';
 
 const oneMinute = 1000 * 60;
@@ -67,4 +68,11 @@ export async function getDocuments(
   };
 
   return paginatedResults;
+}
+
+export async function getTypeByIds(req: Request, types: DocumentType[], ids: string[], qOpts: {}) {
+  const prismic = await getPrismicApi(req);
+  const doc = await prismic.getByIDs(ids, qOpts);
+
+  return doc;
 }

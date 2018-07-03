@@ -1,12 +1,12 @@
 // @flow
 
-import type {Event} from '../../../model/events';
+import type {UiEvent} from '../../../model/events';
 import {Fragment} from 'react';
 import Button from '../Buttons/Button/Button';
 import {spacing, font} from '../../../utils/classnames';
 
 type Props = {|
-  event: Event, // TODO
+  event: UiEvent,
 |}
 
 function getButtonMarkup(event) {

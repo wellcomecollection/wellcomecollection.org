@@ -385,12 +385,13 @@ WorkPage.getInitialProps = async (context) => {
     title: json.title || json.description,
     description: json.description || '',
     type: 'website',
-    url: `https://wellcomecollection.org/works/${json.id}`,
+    canonicalUrl: `https://wellcomecollection.org/works/${json.id}`,
     imageUrl: iiifImage ? iiifImage({size: '800,'}) : null,
     analyticsCategory: 'collections',
     siteSection: 'images',
     previousQueryString,
-    work: (json: Work)
+    work: (json: Work),
+    oEmbedUrl: `https://wellcomecollection.org/oembed/works/${json.id}`
   };
 };
 
