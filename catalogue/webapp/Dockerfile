@@ -3,8 +3,8 @@ FROM node:9.11.1-alpine
 ENV NODE_ENV=production
 
 WORKDIR /usr/src/app/webapp
-COPY ./catalogue/webapp .
-COPY ./common ../../common
+COPY ./ ./
+COPY ./.dist/common ../../common
 RUN yarn install
 RUN yarn build
 
