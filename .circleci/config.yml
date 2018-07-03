@@ -27,7 +27,7 @@ jobs:
             # context isn't huge. It's then copied in the Docker container to
             # ../../common
             mkdir -p ./.dist/common
-            cp ../../common ./.dist/common
+            cp -r ../../common ./.dist/common
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose build
             docker-compose up --detach
             docker run -d wellcome/catalogue_webapp:${CIRCLE_SHA1} ./integration_tests.sh
