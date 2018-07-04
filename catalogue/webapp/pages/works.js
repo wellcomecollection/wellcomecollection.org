@@ -69,7 +69,7 @@ const WorksComponent = ({
               action=''
               id='search-works'
               name='query'
-              query={decodeURIComponent(query || '')}
+              query={query || ''}
               autofocus={true}
               onSubmit={handleSubmit} />
 
@@ -81,7 +81,7 @@ const WorksComponent = ({
               : <p className={classNames([
                 spacing({s: 2}, {margin: ['top', 'bottom']}),
                 font({s: 'LR3', m: 'LR2'})
-              ])}>{works.totalResults !== 0 ? works.totalResults : 'No'} results for &apos;{decodeURIComponent(query)}&apos;
+              ])}>{works.totalResults !== 0 ? works.totalResults : 'No'} results for &apos;{query}&apos;
               </p>
             }
           </div>
@@ -204,13 +204,15 @@ class Works extends Component<Props> {
 
   handleSubmit = (event: EventWithInputValue) => {
     event.preventDefault();
-
-    const queryString = encodeURIComponent(event.target[0].value);
+    const queryString = event.target[0].value;
 
     // Update the URL, which in turn will update props
     Router.push({
       pathname: '/works',
-      query: {query: queryString, page: '1'}
+      query: {
+        query: queryString,
+        page: '1'
+      }
     });
   }
 
@@ -238,7 +240,7 @@ async function getWorks({ query, page }: GetWorksProps): Object {
   const res = await fetch(
     `https://api.wellcomecollection.org/catalogue/v${version}/works?` +
     `includes=identifiers,thumbnail,items&pageSize=100` +
-    (query ? `&query=${query}` : '') +
+    (query ? `&query=${encodeURIComponent(query)}` : '') +
     (page ? `&page=${page}` : '')
   );
   let json = await res.json();
