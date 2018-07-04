@@ -36,6 +36,7 @@ import tabs from './components/tabs';
 import {eventbriteTicketStatus} from './components/eventbrite-ticket-status';
 import newsletterSignup from './components/newsletter-signup';
 import {createMaps} from './components/map';
+import {onWindowResizeDebounce$} from './utils/dom-events';
 
 const init = () => {
   polyfills.init();
@@ -71,6 +72,7 @@ const init = () => {
   const eventsFilter = document.querySelectorAll('.js-events-filter');
   const newsletterSignupEl = document.getElementById('newsletter-signup');
   const maps = document.querySelectorAll('.js-map');
+  const eventbriteIframes = document.querySelectorAll('.eventbrite-iframe');
 
   nodeList(segmentedControlEls).forEach(segmentedControl);
 
@@ -96,6 +98,20 @@ const init = () => {
     currentClass: 'tabitem--is-current',
     visibleClass: 'tabpanel--is-visible'
   }));
+
+  nodeList(eventbriteIframes).forEach((iframe) => {
+    iframe.addEventListener('onload', () => {
+      iframe.height = iframe.contentWindow.document.body.scrollHeight;
+    });
+  });
+
+  onWindowResizeDebounce$.subscribe({
+    next() {
+      nodeList(eventbriteIframes).forEach((iframe) => {
+        iframe.height = iframe.contentWindow.document.body.scrollHeight;
+      });
+    }
+  });
 
   if (maps.length > 0) {
     createMaps(maps);
