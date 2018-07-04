@@ -14,6 +14,7 @@ import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagin
 import {remapV2ToV1} from '../utils/remap-v2-to-v1';
 import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
 import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
+import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 // TODO: Setting the event parameter to type 'Event' leads to
 // an 'Indexable signature not found in EventTarget' Flow
@@ -23,7 +24,7 @@ type PageProps = {|
   query: ?string,
   page: ?number,
   works: {| results: [], totalResults: number |},
-  pagination: PaginationProps
+  pagination: ?PaginationProps
 |}
 
 type ComponentProps = {|
@@ -176,7 +177,7 @@ export const Works = ({
 );
 
 export class WorksPage extends Component<PageProps> {
-  static getInitialProps = async (context) => {
+  static getInitialProps = async (context: GetInitialPropsProps) => {
     const query = context.query.query;
     const page = context.query.page ? parseInt(context.query.page, 10) : 1;
     const works = await getWorks({ query, page });
