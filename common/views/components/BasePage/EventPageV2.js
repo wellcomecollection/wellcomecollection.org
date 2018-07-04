@@ -60,7 +60,7 @@ function DateRange(event) {
   return (
     event.dateRange &&
     <Fragment>
-      <p className={spacing({s: 2}, {margin: ['bottom']})}>{`${formatDayDate(event.dateRange.firstDate)} - ${formatDayDate(event.dateRange.lastDate)}, ${event.dateRange.repeats} dates`}</p>
+      <p className={spacing({s: 2}, {margin: ['bottom']})}>{`Multiple dates ${formatDayDate(event.dateRange.firstDate)} - ${formatDayDate(event.dateRange.lastDate)}`}</p>
       <Button type='primary' text={buttonText} url='#dates' />
     </Fragment>
   );
