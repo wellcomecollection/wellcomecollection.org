@@ -111,7 +111,6 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearc
   }) : null).filter(Boolean);
 
   const upcomingDate = determineUpcomingDate(data.times);
-  const todaysDate = london();
   return {
     id: document.id,
     title: parseTitle(data.title),
@@ -138,7 +137,7 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearc
         endDateTime: parseTimestamp(frag.endDateTime)
       },
       isFullyBooked: parseBoolean(frag.isFullyBooked)
-    })).filter((time) => !london(time.range.startDateTime).isBefore(todaysDate)),
+    })),
     // TODO: (event migration)
     body: data.description ? [{
       type: 'text',
