@@ -9,7 +9,7 @@
     "docker-build": "docker build --tag wellcome/catalogue_webapp:test .",
     "docker-push": "docker push wellcome/catalogue_webapp:test",
     "linkweco": "pushd ../../common && yarn link && popd && yarn link @weco/common",
-    "test": "jest --transformIgnorePatterns 'node_modules(?!/@weco(?!.*node_modules))'"
+    "test": "jest --transformIgnorePatterns 'node_modules(?!/@weco(?!.*node_modules))' --no-cache"
   },
   "dependencies": {
     "@weco/common": "../../common",
