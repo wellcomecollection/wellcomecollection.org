@@ -7,7 +7,6 @@ import {iiifImageTemplate, convertImageUri} from '@weco/common/utils/convert-ima
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
 import {default as PageWrapper, pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
-import WorkMedia2 from '@weco/common/views/components/WorkMedia/WorkMedia2';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PrimaryLink from '@weco/common/views/components/Links/PrimaryLink/PrimaryLink';
 import WorkDrawer from '@weco/common/views/components/WorkDrawer/WorkDrawer';
@@ -18,6 +17,7 @@ import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import {remapV2ToV1} from '../utils/remap-v2-to-v1';
+import WorkMedia from '../components/WorkMedia/WorkMedia';
 
 export type Link = {|
   text: string;
@@ -215,7 +215,7 @@ export const WorkPage = ({
       </div>
       }
 
-      {iiifInfoUrl && <WorkMedia2
+      {iiifInfoUrl && <WorkMedia
         id={work.id}
         iiifUrl={iiifInfoUrl}
         title={work.title} />}
