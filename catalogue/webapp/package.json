@@ -29,6 +29,7 @@
     "postcss-loader": "^2.1.4",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "requestretry": "^1.13.0",
     "sass-loader": "^7.0.1"
   }
 }

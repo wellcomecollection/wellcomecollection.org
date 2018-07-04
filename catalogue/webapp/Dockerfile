@@ -5,6 +5,7 @@ ENV NODE_ENV=production
 WORKDIR /usr/src/app/webapp
 COPY ./catalogue/webapp .
 COPY ./common ../../common
+RUN apk --update --no-cache add curl
 RUN yarn install
 RUN yarn build
 
