@@ -53,7 +53,7 @@ function DateInfo(event) {
   );
 }
 
-function DateRange(event) {
+function DateRange(event) { // TODO what happens if tickets aren't available yet
   const buttonText = ((event.eventbriteId || event.bookingEnquiryTeam) && !event.isCompletelySoldOut)
     ? 'Check dates and book'
     : 'Check dates';
@@ -159,31 +159,11 @@ const EventPage = ({ event }: Props) => {
           }
         })}
 
-        <div id='dates'>
-          {DateInfo(event)}
-        </div>
-
         {/* Booking CTAs */}
         {event.eventbriteId &&
-          <div className={`border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
-            {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
-              : (
-                <div className='js-eventbrite-ticket-button' data-eventbrite-ticket-id={event.eventbriteId}>
-                  <Button
-                    type='primary'
-                    url={`https://www.eventbrite.com/e/${event.eventbriteId}/`}
-                    eventTracking={JSON.stringify({
-                      category: 'component',
-                      action: 'booking-tickets:click',
-                      label: 'event-page'
-                    })}
-                    icon='ticket'
-                    text='Book free tickets' />
-                  <p className={`font-charcoal ${font({s: 'HNL5'})} ${spacing({s: 1}, {margin: ['top']})} ${spacing({s: 0}, {margin: ['bottom']})}`}>with Eventbrite</p>
-                </div>
-              )
-            }
-          </div>
+          <div id='dates' tyle={{width: '100%', 'text-align': 'left'}}>
+            <iframe src={`https://eventbrite.co.uk/tickets-external?eid=${event.eventbriteId}&ref=etckt`} frameBorder='0' height='308' width='100%' vspace='0' hspace='0' marginHeight='5' marginWidth='5' scrolling='auto' allowTransparency='true'></iframe>
+            <div style={{'font-family': 'Helvetica, Arial', 'font-size': '12px', padding: '10px 0 5px', margin: '2px', width: '100%', 'text-align': 'left'}}><a className='powered-by-eb' style={{color: '#ADB0B6', 'text-decoration': 'none'}} target='_blank' rel='noopener noreferrer' href='https://www.eventbrite.co.uk/'>Powered by Eventbrite</a></div></div>
         }
 
         {event.bookingEnquiryTeam &&
