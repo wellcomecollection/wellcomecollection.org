@@ -169,7 +169,7 @@ type Props = {|
   page: ?number
 |}
 
-const WorkPage = ({
+export const WorkPage = ({
   work,
   previousQueryString
 }: Props) => {
