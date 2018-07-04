@@ -50,5 +50,6 @@
       "cd client && gulp scss:lint",
       "git add"
     ]
-  }
+  },
+  "dependencies": {}
 }

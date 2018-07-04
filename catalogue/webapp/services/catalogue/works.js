@@ -5,10 +5,15 @@ import {remapV2ToV1} from '../../utils/remap-v2-to-v1';
 // TODO: create from swagger docs
 type Work = Object; // JS Object
 
-export async function getWork(id: string, version: number = 1): Work {
+type GetWorkProps = {|
+  id: string,
+  version?: number
+|}
+export async function getWork({ id, version = 1 }: GetWorkProps): Work {
   const res = await fetch(`https://api.wellcomecollection.org/catalogue/v${version}/works/${id}?includes=identifiers,items,thumbnail`);
+  const json = res.json();
   // TODO: error handling
-  return res;
+  return json;
 }
 
 // TODO: Type from swagger docs
