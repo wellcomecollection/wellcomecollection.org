@@ -5,6 +5,7 @@ node_modules/
 #ignore built files
 dist/
 .dist/
+.next/
 
 # Ignore .sass-cache
 *.sass-cache*
