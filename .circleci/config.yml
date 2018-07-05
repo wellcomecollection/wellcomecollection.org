@@ -119,9 +119,7 @@ jobs:
           name: Install common modules
           command: yarn install
       - save_cache:
-          keys:
-            - common_modules_circleci_node_8_{{ checksum "yarn.lock" }}
-            - common_modules_circleci_node_8_
+          key: common_modules_circleci_node_8_{{ checksum "yarn.lock" }}
           paths:
             -  node_modules
   build_client:
