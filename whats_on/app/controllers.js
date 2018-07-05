@@ -155,7 +155,7 @@ export async function renderExhibitExhibitionLink(ctx, next) {
 }
 
 export async function renderEvent(ctx, next) {
-  const event = await getEvent(ctx.request, ctx.params.id);
+  const event = await getEvent(ctx.request, ctx.params.id, ctx.query.selectedDate);
   const tags = [{
     text: 'Events',
     url: '/events'
