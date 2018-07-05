@@ -92,7 +92,7 @@ type GetInitialPropsServerProps = {|
   jsonPageRes: null
 |}
 
-type GetInitialPropsProps = GetInitialPropsServerProps | GetInitialPropsClientProps
+export type GetInitialPropsProps = GetInitialPropsServerProps | GetInitialPropsClientProps
 
 type NextComponent = {
   getInitialProps: (props: GetInitialPropsProps) => any
