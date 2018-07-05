@@ -4,12 +4,10 @@
       "targets": {
         "node": "current"
       }
-    }]
+    }],
+    "next/babel"
   ],
-  "ignore": [
-    "node_modules",
-    "views/partials/analytics.js.njk",
-    "views/partials/hotjar.js.njk"
-  ],
-  "plugins": ["transform-react-jsx", "transform-flow-strip-types"]
+  "plugins": [
+    "transform-flow-strip-types"
+  ]
 }
