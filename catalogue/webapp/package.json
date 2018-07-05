@@ -10,8 +10,6 @@
   },
   "dependencies": {
     "@weco/common": "../../common",
-    "@weco/next-plugin-transpile-modules": "^0.0.2",
-    "@zeit/next-bundle-analyzer": "^0.1.1",
     "autoprefixer": "^8.3.0",
     "cookies": "^0.7.1",
     "css-loader": "^0.28.11",
