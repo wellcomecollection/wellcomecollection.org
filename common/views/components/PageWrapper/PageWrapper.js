@@ -95,7 +95,7 @@ type GetInitialPropsServerProps = {|
 export type GetInitialPropsProps = GetInitialPropsServerProps | GetInitialPropsClientProps
 
 type NextComponent = {
-  getInitialProps?: (props: GetInitialPropsProps) => any
+  getInitialProps: (props: GetInitialPropsProps) => any
 } & $Subtype<ComponentType<any>>
 
 const PageWrapper = (Comp: NextComponent) => {

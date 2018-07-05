@@ -1,4 +1,3 @@
-// @flow
 import Document, { Head, Main, NextScript } from 'next/document';
 
 export default function WeDoc(css: string) {
