@@ -54,8 +54,9 @@
           validationBar.style.fontSize = '12px';
 
           window.addEventListener('load', function() {
-            const validationFails = [];
-            if (!document.querySelector('meta[name="description"]').content) {
+            var validationFails = [];
+            var descriptionEl = document.querySelector('meta[name="description"]');
+            if (descriptionEl && !descriptionEl.content) {
               validationFails.push(`
                 Warning:
                 This piece of content is missing it's description.
