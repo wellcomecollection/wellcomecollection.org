@@ -8,7 +8,7 @@
   "dependencies": {
     "@weco/common": "../../common",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "next": "^6.1.1",
+    "next": "5.1.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
   }
