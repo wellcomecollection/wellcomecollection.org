@@ -100,7 +100,7 @@ const init = () => {
   }));
 
   nodeList(eventbriteIframes).forEach((iframe) => {
-    iframe.addEventListener('onload', () => {
+    iframe.addEventListener('load', () => {
       iframe.height = iframe.contentWindow.document.body.scrollHeight;
     });
   });
