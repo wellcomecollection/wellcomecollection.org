@@ -14,26 +14,31 @@ import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagin
 import {remapV2ToV1} from '../utils/remap-v2-to-v1';
 import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
 import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
+import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 // TODO: Setting the event parameter to type 'Event' leads to
 // an 'Indexable signature not found in EventTarget' Flow
 // error. We're setting the properties we expect here until
 // we find a better solution.
-type Props = {|
+type PageProps = {|
   query: ?string,
   page: ?number,
   works: {| results: [], totalResults: number |},
-  pagination: PaginationProps,
+  pagination: ?PaginationProps
+|}
+
+type ComponentProps = {|
+  ...PageProps,
   handleSubmit: (EventWithInputValue) => void
 |}
 
-const WorksComponent = ({
+export const Works = ({
   query,
   page,
   works,
   pagination,
   handleSubmit
-}: Props) => (
+}: ComponentProps) => (
   <Fragment>
     <PageDescription title='Search our images' extraClasses='page-description--hidden' />
     <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
@@ -167,12 +172,12 @@ const WorksComponent = ({
           </div>
         }
       </Fragment>
-    }
+    }§
   </Fragment>
 );
 
-class Works extends Component<Props> {
-  static getInitialProps = async (context) => {
+export class WorksPage extends Component<PageProps> {
+  static getInitialProps = async (context: GetInitialPropsProps) => {
     const query = context.query.query;
     const page = context.query.page ? parseInt(context.query.page, 10) : 1;
     const works = await getWorks({ query, page });
@@ -218,7 +223,7 @@ class Works extends Component<Props> {
 
   render() {
     return (
-      <WorksComponent
+      <Works
         page={this.props.page}
         query={this.props.query}
         works={this.props.works}
@@ -228,8 +233,6 @@ class Works extends Component<Props> {
     );
   }
 }
-
-export default PageWrapper(Works);
 
 type GetWorksProps = {|
   query: ?string,
@@ -260,3 +263,5 @@ function getQueryParamsForWork(query: ?string, page: ?number) {
       return `${acc}${index > 0 ? '&' : ''}${key}=${params[key] || ''}`;
     }, '?');
 }
+
+export default PageWrapper(WorksPage);

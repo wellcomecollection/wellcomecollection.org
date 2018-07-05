@@ -2,7 +2,7 @@
 import {Component} from 'react';
 import ReactGA from 'react-ga';
 import fetch from 'isomorphic-unfetch';
-import WorkEmbed from '@weco/common/views/components/WorkEmbed/WorkEmbed';
+import WorkEmbed from '../components/WorkEmbed/WorkEmbed';
 
 // TODO: Find out where to get these types
 class Embed extends Component<{| work: Object |}> {
