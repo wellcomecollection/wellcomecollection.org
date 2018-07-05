@@ -18,6 +18,8 @@ export function eventbriteTicketButton(el) {
           }
           el.innerHTML = ticketButton.html;
         });
+      }).catch(_ => {
+        // Probably safest to do nothing if fetch fails
       });
   });
 }

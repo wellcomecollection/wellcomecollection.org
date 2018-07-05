@@ -1,24 +1,22 @@
-#ignore node modules
+
+# NPM / Yarn
+yarn-error.log*
 npm-debug.log
 node_modules/
 
-#ignore built files
+# Our built files
 dist/
 .dist/
+*.sass-cache*
+critical.css.njk
+pa11y-report.html
 .next/
 
-# Ignore .sass-cache
-*.sass-cache*
-
-critical.css.njk
-
+# terraform
 .terraform/
 *.tfvars
 *.tfstate
 *.tfstate.backup
 
+# Privates
 .env
-
-yarn-error.log*
-
-pa11y-report.html
