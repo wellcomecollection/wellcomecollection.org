@@ -9,6 +9,7 @@
     "@weco/common": "../../common",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "next": "5.1.0",
+    "prismic-javascript": "2.0.0-beta.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
   }
