@@ -1,0 +1,15 @@
+{
+  "name": "@weco/lists",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next",
+    "linkweco": "pushd ../../common && yarn link && popd && yarn link @weco/common"
+  },
+  "dependencies": {
+    "@weco/common": "../../common",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "next": "^6.1.1",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
+  }
+}

@@ -50,8 +50,5 @@
       "cd client && gulp scss:lint",
       "git add"
     ]
-  },
-  "dependencies": {
-    "isomorphic-unfetch": "^2.0.0"
   }
 }

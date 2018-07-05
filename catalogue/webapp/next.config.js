@@ -18,6 +18,7 @@ const withBundleAnalyzerConfig = withBundleAnalyzer({
     },
     browser: {
       analyzerMode: 'static',
+
       generateStatsFile: true,
       statsFilename: `../.dist/browser.${buildHash}.json`,
       reportFilename: `../.dist/browser.${buildHash}.html`,
