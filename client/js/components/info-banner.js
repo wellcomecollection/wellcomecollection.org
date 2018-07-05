@@ -18,16 +18,18 @@ const infoBanner = el => {
 
   el.classList.remove('is-hidden');
 
-  closeButton.addEventListener('click', event => {
-    event.preventDefault();
+  if (closeButton) {
+    closeButton.addEventListener('click', event => {
+      event.preventDefault();
 
-    el.classList.add('is-hidden');
+      el.classList.add('is-hidden');
 
-    cookie.set(cookieName, 'true', {
-      path: '/',
-      expires: isSingleSessionCookie ? null : 'Fri, 31 Dec 2036 23:59:59 GMT'
+      cookie.set(cookieName, 'true', {
+        path: '/',
+        expires: isSingleSessionCookie ? null : 'Fri, 31 Dec 2036 23:59:59 GMT'
+      });
     });
-  });
+  }
 };
 
 export default infoBanner;
