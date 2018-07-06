@@ -160,12 +160,14 @@ const EventPage = ({ event }: Props) => {
         })}
 
         {/* Booking CTAs */}
-        {/* <div id='dates' tyle={{width: '100%', 'text-align': 'left'}}>
-           <iframe src={`https://eventbrite.co.uk/tickets-external?eid=${event.eventbriteId}&ref=etckt`} frameBorder='0' height='308' width='100%' vspace='0' hspace='0' marginHeight='5' marginWidth='5' scrolling='auto' allowTransparency='true'></iframe>
-       <div style={{'font-family': 'Helvetica, Arial', 'font-size': '12px', padding: '10px 0 5px', margin: '2px', width: '100%', 'text-align': 'left'}}><a className='powered-by-eb' style={{color: '#ADB0B6', 'text-decoration': 'none'}} target='_blank' rel='noopener noreferrer' href='https://www.eventbrite.co.uk/'>Powered by Eventbrite</a></div></div> */}
-        {event.eventbriteId &&
+        <div id='dates'>
+          {event.eventbriteId &&
           <iframe className={`eventbrite-iframe`} src={`/eventbrite-event-embed/${event.eventbriteId}`} frameBorder='0' width='100%' vspace='0' hspace='0' marginHeight='5' marginWidth='5' scrolling='auto' allowTransparency='true'></iframe>
-        }
+          }
+          {!event.eventbriteId &&
+          DateInfo(event)
+          }
+        </div>
 
         {event.bookingEnquiryTeam &&
           <div className={`border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
