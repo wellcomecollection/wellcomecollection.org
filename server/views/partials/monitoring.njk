@@ -24,7 +24,7 @@
       whitelistUrls: [/wellcomecollection\.org/],
       ignoreErrors: [
         /Blocked a frame with origin/,
-        'document.getElementsByClassName.ToString is not a function' // https://github.com/SamsungInternet/support/issues/56
+        /document\.getElementsByClassName\.ToString/ // https://github.com/SamsungInternet/support/issues/56
       ]
     }).install();
   }
