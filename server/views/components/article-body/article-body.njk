@@ -83,18 +83,10 @@
                       </div>
                     </h2>
 
-                    {% set imageModel = item.image | objectAssign({lazyload: true}) %}
-
-                    {% set tasl = {name: 'Tasl', model: imageModel | objectAssign({sourceName: imageModel.source.name, sourceLink: imageModel.source.link})}
-                      if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
-                      else null
-                    %}
 
                     <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
-                      {% componentJsx 'CaptionedImage', imageModel, [
-                        {name: 'Image', model:imageModel},
-                        tasl
-                      ] %}
+                    {% set sizes = '(min-width: 1420px) 507px, (min-width: 960px) 35.68vw, (min-width: 600px) calc(83.24vw - 69px), calc(100vw - 36px)' %}
+                      {% componentJsx 'CaptionedImage', item.image | objectAssign({ sizesQueries: sizes }) %}
                     </div>
 
                     {{item.description | safe}}
