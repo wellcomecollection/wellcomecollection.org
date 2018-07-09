@@ -1,5 +1,5 @@
 import type {ImageList} from '../content-model/content-blocks';
-import {asHtml, asText, parsePicture, parseTaslFromString, prismicImage} from './prismic-parsers';
+import {asHtml, asText, parseTaslFromString, prismicImage} from './prismic-parsers';
 // $FlowFixMe
 import {parseCaptionedImage, parseRichText} from '../../common/services/prismic/parsers';
 
@@ -56,7 +56,7 @@ function parseBodyPart(slice) {
           description: asText(slice.primary.description),
           listStyle: slice.primary.listStyle,
           items: slice.items.map(item => {
-            const image = parsePicture(item);
+            const image = parseCaptionedImage(item);
             const description = asHtml(item.description);
             const title = asText(item.title);
             const subtitle = asText(item.subtitle);
