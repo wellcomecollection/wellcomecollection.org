@@ -160,7 +160,8 @@ const EventPage = ({ event }: Props) => {
         })}
 
         {/* Booking CTAs */}
-        <div id='dates'>
+        <div id='dates' className='body-text'>
+          <h2>{`Dates ${event.eventbriteId && ' and booking'}`}</h2>
           {event.eventbriteId &&
           <iframe className={`eventbrite-iframe`} src={`/eventbrite-event-embed/${event.eventbriteId}`} frameBorder='0' width='100%' vspace='0' hspace='0' marginHeight='5' marginWidth='5' scrolling='auto' allowTransparency='true'></iframe>
           }
