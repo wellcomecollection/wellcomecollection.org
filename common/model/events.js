@@ -78,6 +78,11 @@ export type UiEvent = {|
   ...Event,
   upcomingDate: ?Date,
   selectedDate: ?Date,
+  dateRange: {
+    firstDate: Date,
+    lastDate: Date,
+    repeats: number
+  },
   backgroundTexture?: string
 |}
 
