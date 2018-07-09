@@ -33,7 +33,7 @@ In terms of implementation, it dictates a strategy for the use of media queries.
 
 **The site will contain a living design system**
 
-All components will be displayed in a design system, which shares it’s code with the main website, ensuring it stays up to date.
+All components will be displayed in a design system, which shares its code with the main website, ensuring it stays up to date.
 
 A design system will help us to deliver a consistent user experience and promote the reuse of code. It also serves as a reference point for team members and a useful onboarding tool.
 
@@ -43,7 +43,7 @@ A design system will help us to deliver a consistent user experience and promote
 
 Performance needs to be a consideration throughout the build and we should always be mindful of limited hardware, poor latency, and low bandwidth situations.
 
-A performance budget should be used against which decesions about design, development, content, or any aspect of a site that may affect performance can be made.
+A performance budget should be used against which decisions about design, development, content, or any aspect of a site that may affect performance can be made.
 
 ## Accessibility
 
