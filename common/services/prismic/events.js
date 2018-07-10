@@ -15,14 +15,13 @@ import {
 import {
   parseTitle,
   parseDescription,
-  parseContributors,
-  parseImagePromo,
   parsePlace,
   asText,
   asHtml,
   isDocumentLink,
   parseTimestamp,
-  parseBoolean
+  parseBoolean,
+  parseGenericFields
 } from './parsers';
 import isEmptyObj from '../../utils/is-empty-object';
 import {london} from '../../utils/format-date';
@@ -77,6 +76,7 @@ function determineDateRange(times) {
 // TODO: NOTE this doesn't have the A/B image test stuff in it
 function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearchResponse, selectedDate: ?string): UiEvent {
   const data = document.data;
+  const genericFields = parseGenericFields(document);
   const eventSchedule = scheduleDocs && scheduleDocs.results ? scheduleDocs.results.map(doc => parseEventDoc(doc)) : [];
   const interpretations = document.data.interpretations.map(interpretation => isDocumentLink(interpretation.interpretationType) ? ({
     interpretationType: {
@@ -112,12 +112,9 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearc
 
   const upcomingDate = determineUpcomingDate(data.times);
   return {
-    id: document.id,
-    title: parseTitle(data.title),
+    ...genericFields,
     description: asText(data.description),
-    contributors: data.contributors ? parseContributors(data.contributors) : [],
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
-    promo: document.data.promo && parseImagePromo(document.data.promo),
     audiences,
     bookingEnquiryTeam,
     bookingInformation: document.data.bookingInformation,

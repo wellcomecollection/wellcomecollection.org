@@ -195,6 +195,10 @@ function parseOrganisationContributor(frag: PrismicFragment): OrganisationContri
   };
 }
 
+export function parseContributorsWithTitle(doc: PrismicFragment) {
+
+}
+
 export function parseContributors(contributorsDoc: PrismicFragment[]): Contributor[] {
   const contributors = contributorsDoc.map(contributor => {
     const role = contributor.role.isBroken === false ? {
@@ -355,7 +359,7 @@ function getWeight(weight: ?string): ?Weight {
   }
 }
 
-export function parseBody(fragment: PrismicFragment[]) {
+export function parseBody(fragment: PrismicFragment[]): any[] {
   return fragment.map((slice) => {
     switch (slice.slice_type) {
       case 'standfirst':
@@ -456,4 +460,26 @@ export function parseBody(fragment: PrismicFragment[]) {
         }
     }
   }).filter(Boolean);
+}
+
+// TODO: we need to get type in here to be able to union on these
+// i.e. search results
+type GenricContentFields = {|
+  id: string,
+  title: string,
+  // contributorsTitle: ?string,
+  contributors: Contributor[],
+  promo: ?ImagePromo,
+  body: any[]
+|}
+export function parseGenericFields(doc: PrismicFragment): GenricContentFields {
+  const {data} = doc;
+  return {
+    id: doc.id,
+    title: parseTitle(data.title),
+    // contributorsTitle: asText(data.contributorsTitle),
+    contributors: data.contributors ? parseContributors(data.contributors) : [],
+    promo: data.promo && parseImagePromo(data.promo),
+    body: data.body ? parseBody(data.body) : []
+  };
 }
