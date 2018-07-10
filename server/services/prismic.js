@@ -20,7 +20,6 @@ import {PaginationFactory} from '../model/pagination';
 import type {EventPromo} from '../content-model/events';
 import type {GlobalAlert} from '../../common/model/global-alert';
 import {isEmptyObj} from '../utils/is-empty-obj';
-import {getCohort} from '../utils/flags';
 
 type DocumentType = 'articles' | 'webcomics' | 'events' | 'exhibitions';
 
@@ -244,19 +243,6 @@ export function createEventPromos(allResults): Array<EventPromo> {
     const audience = event.data.audiences.map((audience) => {
       return parseAudience(audience.audience);
     })[0];
-
-    // TODO: (A/B tests)
-    const cohort = getCohort();
-
-    if (cohort === 'testB' && event.id === 'Ww6SySEAAEU5jz5E') {
-      // Library insights
-      const testImageUrl = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/a1ad462f-f984-4254-b525-20c49ffd49d2_libraryinsights.jpg';
-      promo.image.contentUrl = testImageUrl;
-    } else if (cohort === 'testB' && event.id === 'WvKuRCIAANr4-bi1') {
-      // Packed lunch
-      const testImageUrl = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/283530bd-6c39-4d89-9e0b-732707172253_tf_180307_1390142.jpeg';
-      promo.image.contentUrl = testImageUrl;
-    }
 
     const bookingType = parseEventBookingType(event);
     const interpretations = event.data.interpretations.map(interpretation => !isEmptyDocLink(interpretation.interpretationType) ? ({
