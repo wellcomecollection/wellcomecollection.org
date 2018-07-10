@@ -295,44 +295,6 @@
       }
     }
   },
-  "Contributors": {
-    "contributors": {
-      "type": "Group",
-      "fieldset": "Contributors",
-      "config": {
-        "fields": {
-          "role": {
-            "type": "Link",
-            "config": {
-              "label": "Role",
-              "select": "document",
-              "customtypes": [
-                "editorial-contributor-roles"
-              ]
-            }
-          },
-          "contributor": {
-            "type": "Link",
-            "config": {
-              "label": "Contributor",
-              "select": "document",
-              "customtypes": [
-                "people",
-                "organisations"
-              ]
-            }
-          },
-          "description": {
-            "type": "StructuredText",
-            "config": {
-              "multi": "paragraph,hyperlink,strong,em",
-              "label": "Description of contribution"
-            }
-          }
-        }
-      }
-    }
-  },
   "Promo": {
     "promo": {
       "type": "Slices",

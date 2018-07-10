@@ -7,7 +7,7 @@ import text from './parts/text';
 import list from './parts/list';
 import promo from './parts/promo';
 import timestamp from './parts/timestamp';
-import contributors from './parts/contributors';
+import contributorsWithTitle from './parts/contributorsWithTitle';
 
 const Books = {
   Book: {
@@ -25,9 +25,7 @@ const Books = {
     }),
     datePublished: timestamp('Date published')
   },
-  Contributors: {
-    contributors
-  },
+  Contributors: contributorsWithTitle,
   Promo: {
     promo
   },

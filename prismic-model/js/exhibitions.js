@@ -1,7 +1,6 @@
 // @flow
 import title from './parts/title';
 import description from './parts/description';
-import contributors from './parts/contributors';
 import promo from './parts/promo';
 import timestamp from './parts/timestamp';
 import place from './parts/place';
@@ -10,6 +9,7 @@ import number from './parts/number';
 import list from './parts/list';
 import text from './parts/text';
 import structuredText from './parts/structured-text';
+import contributorsWithTitle from './parts/contributorsWithTitle';
 
 const Exhibitions = {
   Exhibition: {
@@ -35,9 +35,7 @@ const Exhibitions = {
     // TODO: deprecate for place when the data has been updated
     galleryLevel: number('Gallery level')
   },
-  Contributors: {
-    contributors
-  },
+  Contributors: contributorsWithTitle,
   Exhibits: {
     exhibits: list('Exhibits', {
       item: link('Exhibit', 'document', ['installations'])

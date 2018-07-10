@@ -1,6 +1,5 @@
 // @flow
 import title from './parts/title';
-import contributors from './parts/contributors';
 import promo from './parts/promo';
 import timestamp from './parts/timestamp';
 import place from './parts/place';
@@ -10,6 +9,7 @@ import structuredText from './parts/structured-text';
 import embed from './parts/embed';
 import boolean from './parts/boolean';
 import text from './parts/text';
+import contributorsWithTitle from './parts/contributorsWithTitle';
 
 const Events = {
   Event: {
@@ -48,9 +48,7 @@ const Events = {
     }),
     backgroundTexture: link('Background texture', 'document', ['background-textures'])
   },
-  Contributors: {
-    contributors
-  },
+  Contributors: contributorsWithTitle,
   Promo: {
     promo
   }
