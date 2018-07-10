@@ -403,18 +403,14 @@
   max-width: 100%;
 }
 
-// These classes should probably become something generic
-// that we can look at when we look at having more breakout type content.
-.person-image {
-  max-width: 100px;
-}
+// Images
+.rotated-rounded-corners {
+  clip-path: inset($border-radius-unit round $border-radius-unit);
+  transform: rotateZ(-6deg);
 
-.half-in-image {
-  margin-top: -50px;
-}
-
-.half-in-image-container {
-  margin-top: 50px;
+  img {
+    transform: rotateZ(6deg);
+  }
 }
 
 // This is for when we receive content from a CMS,

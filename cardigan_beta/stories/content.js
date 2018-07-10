@@ -102,10 +102,11 @@ export function person() {
 export function organisation() {
   return {
     id: faker.random.uuid(),
-    name: faker.name.findName(),
+    name: faker.company.companyName(),
     description: smallText(),
+    url: 'https://wellcomecollection.org',
     image: {
-      contentUrl: faker.image.avatar()
+      contentUrl: 'https://vignette.wikia.nocookie.net/logopedia/images/4/42/BBC_Worldwide_1995.svg/revision/latest?cb=20180114133014'
     }
   };
 }
