@@ -143,8 +143,8 @@
   display: flex;
 }
 
-.flex-m-up {
-  @include respond-to('medium') {
+.flex-l-up {
+  @include respond-to('large') {
     display: flex;
   }
 }
@@ -347,6 +347,10 @@
     color: color('green');
   }
 
+  @include respond-to('medium') {
+    min-height: 440px;
+  }
+
   @supports (display: grid) {
     display: flex;
   }
@@ -391,6 +395,14 @@
   width: 100%;
 }
 
+.full-height {
+  height: 100%;
+}
+
+.full-max-width {
+  max-width: 100%;
+}
+
 // These classes should probably become something generic
 // that we can look at when we look at having more breakout type content.
 .person-image {
@@ -430,20 +442,13 @@
   overflow: hidden;
 }
 
-// To be applied to white Wellcome Bold to prevent
-// it looking too chunky on dark backgrounds
-.smooth-font {
-  -webkit-font-smoothing: antialiased;
-  -moz-font-smoothing: grayscale;
-}
-
 .cursor-zoom-in {
   cursor: zoom-in;
 }
 
 // Used mainly for images
-.inherit-max-height {
-  max-height: inherit;
+.max-height-70vh {
+  max-height: 70vh;
 }
 
 .width-auto {

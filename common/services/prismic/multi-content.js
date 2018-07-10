@@ -3,7 +3,7 @@
 import Prismic from 'prismic-javascript';
 import {getDocuments} from './api';
 import { parsePage } from './pages';
-import { parseEventSeries } from './events';
+import { parseEventSeries } from './event-series';
 import { parseBook } from './books';
 import { pagesFields } from './fetch-links';
 import type {MultiContent} from '../../model/multi-content';

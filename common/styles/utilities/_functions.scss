@@ -17,12 +17,6 @@
   @return $pixels / $base * 1rem;
 }
 
-// Converts Photoshop tracking value to CSS em equivalent.
-// https://scotch.io/tutorials/converting-photoshop-letter-spacing-to-css
-@function tracking-to-em($tracking-value) {
-  @return ($tracking-value / 1000) * 1em;
-}
-
 // Converts px value to unitless line-height.
 @function px-to-unitless($line-height, $font-size) {
   @return $line-height / $font-size;

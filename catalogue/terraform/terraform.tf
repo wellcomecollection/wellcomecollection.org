@@ -93,30 +93,14 @@ module "catalogue" {
   secondary_container_port           = "3000"
   path_pattern                       = "/works*"
   healthcheck_path                   = "/management/healthcheck"
-  alb_priority                       = "001"
-
-  # remove this once we have it working and tested
-  host_name = "works.wellcomecollection.org"
+  alb_priority                       = "002"
 }
 
-resource "aws_alb_listener_rule" "next_path_rule" {
-  listener_arn = "${local.alb_listener_https_arn}"
-  priority     = "003"
-
-  action {
-    type             = "forward"
-    target_group_arn = "${module.catalogue.target_group_arn}"
-  }
-
-  condition {
-    field  = "path-pattern"
-    values = ["/_next*"]
-  }
-}
-
+# This is used for the static assets served from _next
+# See: https://github.com/zeit/next.js#multi-zones
 resource "aws_alb_listener_rule" "subdomain_path_rule" {
   listener_arn = "${local.alb_listener_https_arn}"
-  priority     = "002"
+  priority     = "003"
 
   action {
     type             = "forward"

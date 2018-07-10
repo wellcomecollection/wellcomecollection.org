@@ -20,7 +20,10 @@ const BasicPromo = ({
   link,
   imageProps
 }: Props) => {
-  const textGridSize = imageProps ? 9 : 12;
+  const textGridSizes = imageProps
+    ? {s: 7, m: 7, l: 8, xl: 8}
+    : {s: 12, m: 12, l: 12, xl: 12};
+
   return (
     <a
       data-component={promoType}
@@ -32,10 +35,7 @@ const BasicPromo = ({
       className='grid plain-link'
     >
       {imageProps &&
-        <div className={
-          grid({ s: 3, m: 3, l: 3, xl: 3 }) +
-          ` rounded-corners`
-        }>
+        <div className={grid({s: 5, m: 5, l: 4, xl: 4})}>
           {/* Find out why we can't just pass `imageProps` here */}
           <Image
             width={imageProps.width}
@@ -50,12 +50,11 @@ const BasicPromo = ({
             defaultSize={imageProps.defaultSize}
             clickHandler={imageProps.clickHandler}
             zoomable={imageProps.zoomable}
-            extraClasses={'rounded-corners'}
           />
         </div>
       }
 
-      <div className={grid({ s: textGridSize, m: textGridSize, l: textGridSize, xl: textGridSize })}>
+      <div className={grid(textGridSizes)}>
         <div className={`${font({s: 'WB5'})} ${spacing({s: 0}, {margin: ['top']})}`}>
           {title}
         </div>

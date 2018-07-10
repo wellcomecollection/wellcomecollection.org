@@ -25,3 +25,24 @@ export const exhibitionFields = [
 export const bookFields = [
   'books.title'
 ];
+export const eventFormatsFields = [
+  'event-formats.title', 'event-formats.description', 'event-formats.shortName'
+];
+export const eventAccessOptionsFields = [
+  'event-access-options.title',
+  'event-access-options.description',
+  'event-access-options.description'
+];
+export const interpretationTypesFields = [
+  'interpretation-types.title', 'interpretation-types.abbreviation',
+  'interpretation-types.description', 'interpretation-types.primaryDescription'
+];
+export const teamsFields = [
+  'teams.title', 'teams.email', 'teams.phone', 'teams.url'
+];
+export const audiencesFields = [
+  'audiences.title'
+];
+export const backgroundTexturesFields = [
+  'background-textures.image'
+];

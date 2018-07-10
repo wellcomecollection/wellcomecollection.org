@@ -2,7 +2,11 @@ import Router from 'koa-router';
 import request from 'superagent';
 import {healthcheck, featureFlags, progress} from '../controllers/utils';
 import {seriesNav, seriesTransporter, renderSearch} from '../controllers/async-controllers';
-import {work, search} from '../controllers/work';
+import {
+  work,
+  search,
+  renderOembed
+} from '../controllers/work';
 import {article, preview, series, articles} from '../controllers/wordpress';
 import {
   renderHomepage,
@@ -18,7 +22,8 @@ import {
   renderPage,
   searchForDrupalRedirect,
   renderBooks,
-  renderBook
+  renderBook,
+  renderPlace
 } from '../controllers/content';
 
 const r = new Router({
@@ -59,6 +64,7 @@ r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 r.get('/series/(W):id', renderSeries);
 r.get('/webcomic-series/:id', renderWebcomicSeries);
 r.get('/pages/:id', renderPage);
+r.get('/places/:id', renderPlace);
 r.get('/books', renderBooks);
 r.get('/books/:id', renderBook);
 r.get('/newsletter', renderNewsletterPage);
@@ -91,6 +97,7 @@ r.get('/opening-times', renderOpeningTimes);
 // API
 r.get('/works', search);
 r.get('/works/:id', work);
+r.get('/oembed/works/:id', renderOembed);
 
 // Deprecated: Wordpress content
 r.get('/articles/archive', articles);

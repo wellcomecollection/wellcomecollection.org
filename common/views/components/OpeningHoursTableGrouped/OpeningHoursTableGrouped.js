@@ -34,7 +34,7 @@ function dayRows(venues) {
 }
 
 const OpeningHoursTableGrouped = ({venues, extraClasses}: Props) => (
-  <table id='info-page-panel-Wsttgx8AAJeSNmJ4' className='opening-hours__table font-HNL5-s'>
+  <table className='opening-hours__table font-HNL5-s'>
     <thead className='opening-hours__th font-HNM5-s'>
       <tr className='opening-hours__tr'>
         <th scope='col' className='opening-hours__th opening-hours__th--row padding-top-s2 padding-bottom-s2'><span className='visually-hidden'>Day</span></th>

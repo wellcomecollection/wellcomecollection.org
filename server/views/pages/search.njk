@@ -77,7 +77,7 @@
             <h3 class="{{ {s:'WB6', m:'WB4'} | fontClasses }}">Feeling curious?</h3>
             <p class="{{ {s:2} | spacingClasses({margin: ['bottom']}) }} {{ {s:'HNL4', m:'HNL3'} | fontClasses }}">Discover our collections through these topics.</p>
             <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-              {% componentV2 'tags', [
+              {% componentJsx 'Tags', {tags: [
                 {text: 'Quacks', url: '/works?query=quack+OR+quacks'},
                 {text: 'James Gillray', url: '/works?query=james+gillray'},
                 {text: 'Botany', url: '/works?query=botany'},
@@ -86,7 +86,7 @@
                 {text: 'Health', url: '/works?query=health'},
                 {text: 'Paintings', url: '/works?query=paintings'},
                 {text: 'Science', url: '/works?query=science'}
-              ] %}
+              ]} %}
             </div>
 
             <hr class="divider divider--dashed {{ {s:6} | spacingClasses({margin: ['bottom']}) }}" />
@@ -118,7 +118,7 @@
             </div>
           </div>
           <div class="{{ {s: 12, m: 8, l: 5, xl: 5} | gridClasses }}">
-            {% componentJsx 'CaptionedImageNew', henryImage %}
+            {% componentJsx 'CaptionedImage', henryImage %}
           </div>
         </div>
       </div>

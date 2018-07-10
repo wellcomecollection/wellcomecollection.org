@@ -2,15 +2,18 @@ import BackToTop from '../BackToTop/BackToTop';
 import Body from '../Body/Body';
 import { BasePageColumn } from '../BasePage/BasePage';
 import BookPage from '../BasePage/BookPage';
+import BookPromo from '../BookPromo/BookPromo';
 import Button from '../Buttons/Button/Button';
-import CaptionedImage from '../CaptionedImage/CaptionedImage';
-import {UiImage, CaptionedImage as CaptionedImageNew} from '../Images/Images';
+import {UiImage, CaptionedImage} from '../Images/Images';
+import Caption from '../Caption/Caption';
 import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
 import Contributor from '../Contributor/Contributor';
 import Contributors from '../Contributors/Contributors';
 import Control from '../Buttons/Control/Control';
 import CopyUrl from '../CopyUrl/CopyUrl';
 import Divider from '../Divider/Divider';
+import EventPage from '../BasePage/EventPage';
+import EventPageV2 from '../BasePage/EventPageV2';
 import EventPromo from '../EventPromo/EventPromo';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import ExceptionalOpeningHoursTable from '../ExceptionalOpeningHoursTable/ExceptionalOpeningHoursTable';
@@ -38,16 +41,20 @@ import Page from '../BasePage/Page';
 import PageDescription from '../PageDescription/PageDescription';
 import Pagination from '../Pagination/Pagination';
 import Picture from '../Picture/Picture';
+import PlacePage from '../BasePage/PlacePage';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
+import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Promo from '../Promo/Promo';
 import Quote from '../Quote/Quote';
 import SearchBox from '../SearchBox/SearchBox';
 import SearchResults from '../SearchResults/SearchResults';
 import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
+import SectionHeader from '../SectionHeader/SectionHeader';
 import ShameQuote from '../ShameQuote/ShameQuote';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import Tags from '../Tags/Tags';
 import Tasl from '../Tasl/Tasl';
+import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import WorkDrawer from '../WorkDrawer/WorkDrawer';
 import WorkMedia from '../WorkMedia/WorkMedia';
@@ -58,15 +65,18 @@ export {
   BasePageColumn,
   Body,
   BookPage,
+  BookPromo,
   Button,
+  Caption,
   CaptionedImage,
-  CaptionedImageNew,
   ChapterIndicator,
   Contributor,
   Contributors,
   Control,
   CopyUrl,
   Divider,
+  EventPage,
+  EventPageV2,
   EventPromo,
   EventScheduleItem,
   ExceptionalOpeningHoursTable,
@@ -94,17 +104,21 @@ export {
   PageDescription,
   Pagination,
   Picture,
+  PlacePage,
   PrimaryLink,
+  PrismicHtmlBlock,
   Promo,
   Quote,
   SearchBox,
   SearchResults,
   SecondaryLink,
+  SectionHeader,
   ShameQuote,
   StatusIndicator,
   Tags,
   Tasl,
   UiImage,
+  VideoEmbed,
   WobblyEdge,
   WorkDrawer,
   WorkMedia,

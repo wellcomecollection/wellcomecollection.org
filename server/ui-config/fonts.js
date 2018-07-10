@@ -29,7 +29,6 @@ const fonts = {
     [fontFamilySubset]: wellcomeBoldSubset,
     [fontFamilyWeb]: wellcomeBold,
     [fontSize]: `90px`,
-    [letterSpacing]: `-20`,
     [lineHeight]: `120px`
   },
   [`'WB2'`]: {
@@ -37,7 +36,6 @@ const fonts = {
     [fontFamilySubset]: wellcomeBoldSubset,
     [fontFamilyWeb]: wellcomeBold,
     [fontSize]: `60px`,
-    [letterSpacing]: `-20`,
     [lineHeight]: `78px`
   },
   [`'WB3'`]: {
@@ -45,7 +43,6 @@ const fonts = {
     [fontFamilySubset]: wellcomeBoldSubset,
     [fontFamilyWeb]: wellcomeBold,
     [fontSize]: `44px`,
-    [letterSpacing]: `0`,
     [lineHeight]: `60px`
   },
   [`'WB4'`]: {
@@ -53,15 +50,13 @@ const fonts = {
     [fontFamilySubset]: wellcomeBoldSubset,
     [fontFamilyWeb]: wellcomeBold,
     [fontSize]: `33px`,
-    [letterSpacing]: 0,
-    [lineHeight]: `48px`
+    [lineHeight]: `42px`
   },
   [`'WB5'`]: {
     [fontFamilyBase]: wellcomeBoldBase,
     [fontFamilySubset]: wellcomeBoldSubset,
     [fontFamilyWeb]: wellcomeBold,
     [fontSize]: `22px`,
-    [letterSpacing]: `20`,
     [lineHeight]: `32px`
   },
   [`'WB6'`]: {
@@ -69,7 +64,6 @@ const fonts = {
     [fontFamilySubset]: wellcomeBoldSubset,
     [fontFamilyWeb]: wellcomeBold,
     [fontSize]: `19px`,
-    [letterSpacing]: `20`,
     [lineHeight]: `28px`
   },
   [`'WB7'`]: {
@@ -77,49 +71,48 @@ const fonts = {
     [fontFamilySubset]: wellcomeBoldSubset,
     [fontFamilyWeb]: wellcomeBold,
     [fontSize]: `15px`,
-    [letterSpacing]: `20`,
     [lineHeight]: `24px`
   },
   [`'HNM1'`]: {
     [fontFamilyBase]: helveticaNeueMediumBase,
     [fontFamilyWeb]: helveticaNeueMedium,
     [fontSize]: `36px`,
-    [letterSpacing]: `20`,
+    [letterSpacing]: `0.02em`,
     [lineHeight]: `48px`
   },
   [`'HNM2'`]: {
     [fontFamilyBase]: helveticaNeueMediumBase,
     [fontFamilyWeb]: helveticaNeueMedium,
     [fontSize]: `26px`,
-    [letterSpacing]: `20`,
+    [letterSpacing]: `0.02em`,
     [lineHeight]: `38px`
   },
   [`'HNM3'`]: {
     [fontFamilyBase]: helveticaNeueMediumBase,
     [fontFamilyWeb]: helveticaNeueMedium,
     [fontSize]: `20px`,
-    [letterSpacing]: `40`,
+    [letterSpacing]: `0.02em`,
     [lineHeight]: `30px`
   },
   [`'HNM4'`]: {
     [fontFamilyBase]: helveticaNeueMediumBase,
     [fontFamilyWeb]: helveticaNeueMedium,
     [fontSize]: `16px`,
-    [letterSpacing]: `40`,
+    [letterSpacing]: `0.02em`,
     [lineHeight]: `24px`
   },
   [`'HNM5'`]: {
     [fontFamilyBase]: helveticaNeueMediumBase,
     [fontFamilyWeb]: helveticaNeueMedium,
     [fontSize]: `14px`,
-    [letterSpacing]: `80`,
+    [letterSpacing]: `0.02em`,
     [lineHeight]: `20px`
   },
   [`'HNM6'`]: {
     [fontFamilyBase]: helveticaNeueMediumBase,
     [fontFamilyWeb]: helveticaNeueMedium,
     [fontSize]: `12px`,
-    [letterSpacing]: `80`,
+    [letterSpacing]: `0.02em`,
     [lineHeight]: `18px`
   },
   [`'HNL1'`]: {
@@ -127,7 +120,7 @@ const fonts = {
     [fontFamilyWeb]: helveticaNeueLight,
     [fontWeight]: `normal`,
     [fontSize]: `36px`,
-    [letterSpacing]: `40`,
+    [letterSpacing]: `0.02em`,
     [lineHeight]: `48px`
   },
   [`'HNL2'`]: {
@@ -135,7 +128,7 @@ const fonts = {
     [fontFamilyWeb]: helveticaNeueLight,
     [fontWeight]: `normal`,
     [fontSize]: `26px`,
-    [letterSpacing]: `40`,
+    [letterSpacing]: `0.02em`,
     [lineHeight]: `38px`
   },
   [`'HNL3'`]: {
@@ -143,7 +136,7 @@ const fonts = {
     [fontFamilyWeb]: helveticaNeueLight,
     [fontWeight]: `normal`,
     [fontSize]: `20px`,
-    [letterSpacing]: `40`,
+    [letterSpacing]: `0.02em`,
     [lineHeight]: `30px`
   },
   [`'HNL4'`]: {
@@ -151,7 +144,7 @@ const fonts = {
     [fontFamilyWeb]: helveticaNeueLight,
     [fontWeight]: `normal`,
     [fontSize]: `16px`,
-    [letterSpacing]: `40`,
+    [letterSpacing]: `0.02em`,
     [lineHeight]: `24px`
   },
   [`'HNL5'`]: {
@@ -159,7 +152,7 @@ const fonts = {
     [fontFamilyWeb]: helveticaNeueLight,
     [fontWeight]: `normal`,
     [fontSize]: `14px`,
-    [letterSpacing]: `40`,
+    [letterSpacing]: `0.02em`,
     [lineHeight]: `20px`
   },
   [`'HNL6'`]: {
@@ -167,7 +160,7 @@ const fonts = {
     [fontFamilyWeb]: helveticaNeueLight,
     [fontWeight]: `normal`,
     [fontSize]: `12px`,
-    [letterSpacing]: `80`,
+    [letterSpacing]: `0.02em`,
     [lineHeight]: `18px`
   },
   [`'HNL7'`]: {
@@ -175,28 +168,26 @@ const fonts = {
     [fontFamilyWeb]: helveticaNeueLight,
     [fontWeight]: `normal`,
     [fontSize]: `11px`,
-    [letterSpacing]: `80`,
+    [letterSpacing]: `0.02em`,
     [lineHeight]: `18px`
   },
   [`'LR1'`]: {
     [fontFamilyBase]: letteraRegularBase,
     [fontFamilyWeb]: letteraRegular,
     [fontSize]: `18px`,
-    [letterSpacing]: `0`,
+    [letterSpacing]: `0.02em`,
     [lineHeight]: `24px`
   },
   [`'LR2'`]: {
     [fontFamilyBase]: letteraRegularBase,
     [fontFamilyWeb]: letteraRegular,
     [fontSize]: `14px`,
-    [letterSpacing]: `-40`,
     [lineHeight]: `24px`
   },
   [`'LR3'`]: {
     [fontFamilyBase]: letteraRegularBase,
     [fontFamilyWeb]: letteraRegular,
     [fontSize]: `12px`,
-    [letterSpacing]: `-20`,
     [lineHeight]: `18px`
   }
 };

@@ -293,27 +293,43 @@
       "config": {
         "label": "Date published"
       }
-    },
-    "authorName": {
-      "type": "StructuredText",
+    }
+  },
+  "Contributors": {
+    "contributors": {
+      "type": "Group",
+      "fieldset": "Contributors",
       "config": {
-        "single": "paragraph,hyperlink,strong,em",
-        "label": "Author's name"
-      }
-    },
-    "authorImage": {
-      "type": "Link",
-      "config": {
-        "label": "Author's image",
-        "select": "web",
-        "customtypes": []
-      }
-    },
-    "authorDescription": {
-      "type": "StructuredText",
-      "config": {
-        "single": "paragraph,hyperlink,strong,em",
-        "label": "About the author"
+        "fields": {
+          "role": {
+            "type": "Link",
+            "config": {
+              "label": "Role",
+              "select": "document",
+              "customtypes": [
+                "editorial-contributor-roles"
+              ]
+            }
+          },
+          "contributor": {
+            "type": "Link",
+            "config": {
+              "label": "Contributor",
+              "select": "document",
+              "customtypes": [
+                "people",
+                "organisations"
+              ]
+            }
+          },
+          "description": {
+            "type": "StructuredText",
+            "config": {
+              "multi": "paragraph,hyperlink,strong,em",
+              "label": "Description of contribution"
+            }
+          }
+        }
       }
     }
   },
@@ -391,6 +407,28 @@
       "type": "Text",
       "config": {
         "label": "Drupal path"
+      }
+    },
+    "authorName": {
+      "type": "StructuredText",
+      "config": {
+        "single": "paragraph,hyperlink,strong,em",
+        "label": "Author's name"
+      }
+    },
+    "authorImage": {
+      "type": "Link",
+      "config": {
+        "label": "Author's image",
+        "select": "web",
+        "customtypes": []
+      }
+    },
+    "authorDescription": {
+      "type": "StructuredText",
+      "config": {
+        "single": "paragraph,hyperlink,strong,em",
+        "label": "About the author"
       }
     }
   }

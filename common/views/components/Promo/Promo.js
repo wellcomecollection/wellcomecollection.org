@@ -76,7 +76,10 @@ const Promo = ({
   return (
     <PromoTag id={id}
       data-component='ArticlePromo'
-      data-track-event={`${JSON.stringify({category: 'component', action: 'ArticlePromo:click'})}`}
+      data-track-event={`${JSON.stringify({
+        category: 'component',
+        action: 'ArticlePromo:click'})
+      }`}
       href={url}
       className={`promo promo--${contentType} ${!url ? 'promo--surrogate' : ''} ${weight === 'lead' ? 'promo--lead' : ''}`}>
       <div className={`promo__image-container ${spacing({s: 2}, {margin: ['bottom']})}`}>

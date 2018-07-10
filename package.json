@@ -24,16 +24,17 @@
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.2.1",
     "covgen": "^3.0.2",
-    "eslint": "^4.16.0",
+    "eslint": "^5.0.0",
     "eslint-config-standard": "^11.0.0-beta.0",
     "eslint-plugin-flowtype": "^2.42.0",
     "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jest": "^21.17.0",
     "eslint-plugin-node": "^6.0.0",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-react": "^7.5.1",
     "eslint-plugin-standard": "^3.0.1",
-    "flow-bin": "^0.74.0",
-    "flow-typed": "^2.3.0",
+    "flow-bin": "^0.75.0",
+    "flow-typed": "^2.4.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.0.0",
     "nodemon": "^1.12.1",
@@ -50,7 +51,5 @@
       "git add"
     ]
   },
-  "dependencies": {
-    "eslint-plugin-jest": "^21.15.1"
-  }
+  "dependencies": {}
 }

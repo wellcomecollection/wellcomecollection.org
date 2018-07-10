@@ -64,9 +64,6 @@
         {% endfor %}
       </div>
     </div>
-    <div class="container container--no-collapse">
-      {% componentV2 'divider', null, {'thick': true, 'black': true}, {extraClasses: [{s:5} | spacingClasses({margin: ['bottom']})]} %}
-    </div>
   </div>
 
   {% for section in curatedList.data.section %}
@@ -98,29 +95,17 @@
               </div>
             </div>
           </div>
-          <div class="{{ {s:4} | spacingClasses({margin:['top']}) }}">
-            <div class="container container--no-collapse">
-              {% componentV2 'divider', null, {'thick': true, 'black': true} %}
-            </div>
-          </div>
         </div>
       {% endif %}
     {% endif %}
   {% endfor %}
 
   {# Chronological #}
-  <div class="row">
-    <div class="container">
-      <div class="grid">
-        <div class="{{ {s:12, m:12, l:12, xl: 12} | gridClasses }}">
-          <h2 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">You may have missed</h2>
-        </div>
-        <div class="{{ {s:12, m:12, l:8} | gridClasses }}">
-          {% componentJsx 'PrimaryLink', { name: 'More articles', url: '/articles' } %}
-        </div>
-      </div>
-    </div>
-  </div>
+  {% componentJsx 'SectionHeader', {
+    title: 'You may have missed',
+    linkText: 'More articles',
+    linkUrl: '/articles'
+  } %}
 
   <div class="row {{ {s:4} | spacingClasses({padding: ['top']}) }} ">
     <div class="container container--scroll touch-scroll">

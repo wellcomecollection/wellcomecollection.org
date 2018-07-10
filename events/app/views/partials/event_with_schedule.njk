@@ -96,17 +96,11 @@
         </ul>
 
         {% if event.contributors.length > 0 %}
-          <h2 class="{{ {s: 'WB6', l: 'WB5'} | fontClasses }} {{ {s: 4} | spacingClasses({padding: ['bottom']}) }}">In collaboration with</h2>
-          {% for contributor in event.contributors %}
-            {% if contributor.contributor.type === 'people' %}
-              {% component 'author', {
-                name: contributor.contributor.name,
-                image: contributor.contributor.image.contentUrl,
-                description: contributor.contributor.description | prismicAsHtml,
-                twitterHandle: contributor.contributor.twitterHandle
-              } %}
-            {% endif %}
-          {% endfor %}
+          <div class="{{ {s: 3} | spacingClasses({ margin: ['top', 'bottom'] }) }}">
+            {% componentJsx 'Contributors', {
+              contributors: event.contributors
+            } %}
+          </div>
         {% endif %}
 
       </div>

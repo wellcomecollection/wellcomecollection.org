@@ -65,7 +65,7 @@ class ViewerContent extends React.Component<ViewerContentProps> {
   handleZoomIn = (event) => {
     ReactGA.event({
       category: 'component',
-      action: 'ZoomImageViewer:did zoom in',
+      action: 'work-zoom-in-button:click',
       label: `id:${this.props.id}`
     });
   }
@@ -73,7 +73,7 @@ class ViewerContent extends React.Component<ViewerContentProps> {
   handleZoomOut = (event) => {
     ReactGA.event({
       category: 'component',
-      action: 'ZoomImageViewer:did zoom out',
+      action: 'work-zoom-out-button:click',
       label: `id:${this.props.id}`
     });
   }
@@ -176,7 +176,7 @@ class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
           clickHandler={this.handleViewerDisplay}
           zoomable={this.state.viewButtonMounted}
           defaultSize={800}
-          extraClasses='margin-v-auto width-auto inherit-max-height' />
+          extraClasses='margin-v-auto width-auto full-height full-max-width' />
         <Transition in={this.state.mountViewButton} timeout={700}>
           {
             (status) => {

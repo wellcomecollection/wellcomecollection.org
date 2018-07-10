@@ -25,18 +25,19 @@ const setPropertyPrefixed = (el, property, value) => {
   el.style[property] = value;
 };
 
-const featureTest = (property, value, noPrefixes) => {
+const featureTest = (property: string, value: string, noPrefixes: boolean): boolean => {
   // Thanks Modernizr! https://github.com/phistuck/Modernizr/commit/3fb7217f5f8274e2f11fe6cfeda7cfaf9948a1f5
-  const prop = property + ':';
-  const el = document.createElement('test');
+  const prop = `${property}:`;
+  const el = document.createElement('div');
   const mStyle = el.style;
 
-  if (!noPrefixes) {
-    mStyle.cssText = prop + [ '-webkit-', '-moz-', '-ms-', '-o-', '' ].join(value + ';' + prop) + value + ';';
+  if (noPrefixes) {
+    mStyle.cssText = `${prop}${value}`;
   } else {
-    mStyle.cssText = prop + value;
+    mStyle.cssText = prop + [ '-webkit-', '-moz-', '-ms-', '-o-', '' ].join(value + ';' + prop) + value + ';';
   }
-  return mStyle[ property ].indexOf(value) !== -1;
+
+  return mStyle[property].indexOf(value) !== -1;
 };
 
 const addClassesToElements = (elements, className) => {
@@ -107,8 +108,8 @@ export {
 };
 
 // Event delegation
-function getTarget(delegateEl: HTMLElement, eventEl: HTMLElement, possibleTarget: HTMLElement): ?HTMLElement {
-  if (eventEl === delegateEl) return;
+function getTarget(delegateEl: HTMLElement, eventEl?: HTMLElement, possibleTarget: HTMLElement): ?HTMLElement {
+  if (eventEl === delegateEl || !eventEl) return;
 
   if (eventEl === possibleTarget) {
     return possibleTarget;
@@ -141,3 +142,16 @@ export function getDocumentHeight() {
 export function getWindowHeight() {
   return window.innerHeight;
 }
+
+export function testLocalStorage() { // Test localStorage i/o
+  const test = 'test';
+
+  try {
+    window.localStorage.setItem(test, test);
+    window.localStorage.removeItem(test);
+
+    return true;
+  } catch (e) {
+    return false;
+  }
+};

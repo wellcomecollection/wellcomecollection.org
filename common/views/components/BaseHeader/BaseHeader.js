@@ -3,19 +3,27 @@
 import {Fragment} from 'react';
 import {spacing, grid, font} from '../../../utils/classnames';
 import TexturedBackground from './TexturedBackground';
-import type {Node} from 'react';
-import type {CaptionedImage} from '../Images/Images';
-import type WobblyBackground from './WobblyBackground';
-import type VideoEmbed from '../VideoEmbed/VideoEmbed';
+import type {Node, Element} from 'react';
+import {UiImage} from '../Images/Images';
+import WobblyBackground from './WobblyBackground';
+import VideoEmbed from '../VideoEmbed/VideoEmbed';
+
+type FeaturedMedia =
+  | Element<typeof UiImage>
+  | Element<typeof VideoEmbed>
+
+type BackgroundType =
+  | Element<typeof WobblyBackground>
+  | Element<typeof TexturedBackground>
 
 type Props = {|
   title: string,
-  Background: ?(WobblyBackground | CaptionedImage),
-  TagBar: ?Node, // potentially make this only take Aync | Tags?
+  Background: ?BackgroundType,
+  TagBar: ?Node, // potentially make this only take Async | Tags?
   DateInfo: ?Node,
   InfoBar: ?Node,
   Description: ?Node,
-  FeaturedMedia: ?(CaptionedImage | VideoEmbed)
+  FeaturedMedia: ?FeaturedMedia
 |}
 
 const backgroundTexture = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg';
@@ -39,7 +47,7 @@ const BaseHeader = ({
         backgroundSize: BackgroundComponent ? null : '150%'
       }}>
         <div className={`container`}>
-          <div className={`grid ${spacing({s: 5, m: 7}, {padding: ['top']})}`}>
+          <div className={`grid ${spacing({s: 5, m: 7, l: 9}, {padding: ['top']})}`}>
             {TagBar &&
               <div className={`
                 ${spacing({s: 1}, {padding: ['top']})}
@@ -80,10 +88,8 @@ const BaseHeader = ({
               }
 
               {FeaturedMedia &&
-                <div className={`${spacing({ s: 2 }, { margin: ['top'] })} relative`} style={{
-                  maxHeight: `70vh`
-                }}>
-                  <Fragment>{FeaturedMedia}</Fragment>
+                <div className={`${spacing({s: 3}, {margin: ['top']})} relative`}>
+                  {FeaturedMedia}
                 </div>
               }
             </div>

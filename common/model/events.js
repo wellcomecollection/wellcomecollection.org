@@ -41,7 +41,7 @@ type InterpretationType = {|
   primaryDescription: ?string
 |}
 
-type Interpretation = {|
+export type Interpretation = {|
   interpretationType: InterpretationType,
   isPrimary: boolean
 |}
@@ -67,45 +67,52 @@ export type Place = {|
   capacity: ?number
 |}
 
-type IdentifierScheme = 'eventbrite-id';
-
-type Identifier = {|
-  identifierScheme: IdentifierScheme,
-  value: string
-|}
-
 export type Audience = {|
   id: string,
   title: string,
   description: ?string
 |}
 
+/* eslint-disable no-use-before-define */
+export type UiEvent = {|
+  ...Event,
+  upcomingDate: ?Date,
+  selectedDate: ?Date,
+  dateRange: {
+    firstDate: Date,
+    lastDate: Date,
+    repeats: number
+  },
+  backgroundTexture?: string
+|}
+
 export type Event = {|
   id: string,
-  identifiers: Array<Identifier>,
   title: string,
   format: ?EventFormat,
   isDropIn: boolean,
-  times: Array<EventTime>,
+  times: EventTime[],
   description: ?HTMLString,
-  series: Array<EventSeries>,
+  series: EventSeries[],
   place: ?Place,
   bookingEnquiryTeam: ?Team,
   contributors: Contributor[],
   promo: ?ImagePromo,
-  interpretations: Array<Interpretation>,
-  audiences: Array<Audience>,
+  interpretations: Interpretation[],
+  audiences: Audience[],
   bookingInformation: ?HTMLString,
-  cost: string,
+  cost: ?string,
   // TODO:
   // this is programmatic and doesn't come from Prismic and can't be edited directly
   // it's more convenient than having to work it out
   // not sure if it should be in the model, a question for Silver
   bookingType: ?string,
-  schedule?: Event[],
+  schedule?: UiEvent[],
   eventbriteId?: string,
-  isCompletelySoldOut?: boolean
+  isCompletelySoldOut?: boolean,
+  body: any[]
 |}
+/* eslint-enable no-use-before-define */
 
 export type EventPromo = {|
   id: string,

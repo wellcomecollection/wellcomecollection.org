@@ -2,7 +2,14 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import searchQuery from 'search-query-parser';
 import {getInstallation} from '@weco/common/services/prismic/installations';
-import {getExhibitions, getExhibition, getExhibitionExhibits, getExhibitExhibition} from '@weco/common/services/prismic/exhibitions';
+import {
+  getExhibitions,
+  getExhibition,
+  getExhibitionExhibits,
+  getExhibitExhibition
+} from '@weco/common/services/prismic/exhibitions';
+import {getEvent} from '@weco/common/services/prismic/events';
+import {getEventbriteEventEmbed} from '@weco/common/services/eventbrite/event-embed';
 import {isPreview as isPrismicPreview} from '@weco/common/services/prismic/api';
 import {model, prismic} from 'common';
 import Tags from '@weco/common/views/components/Tags/Tags';
@@ -12,7 +19,6 @@ import {
   cafePromo,
   readingRoomPromo,
   restaurantPromo,
-  spiritBoothPromo,
   dailyTourPromo
 } from '../../server/data/facility-promos';
 const {createPageConfig} = model;
@@ -36,7 +42,7 @@ export async function renderWhatsOn(ctx, next) {
       }
     }),
     exhibitionAndEventPromos,
-    tryTheseTooPromos: [readingRoomPromo, spiritBoothPromo],
+    tryTheseTooPromos: [readingRoomPromo],
     eatShopPromos: [cafePromo, shopPromo, restaurantPromo],
     cafePromo,
     shopPromo,
@@ -133,18 +139,51 @@ export async function renderExhibitExhibitionLink(ctx, next) {
   const {id} = ctx.params;
   const exhibition = await getExhibitExhibition(ctx.request, id);
 
-  if (exhibition) {
-    const tags = [{
-      text: 'Installation'
-    }, {
-      text: `Part of ${exhibition.title}`,
-      url: `/exhibitions/${exhibition.id}`
-    }];
+  const tags = exhibition ? [{
+    text: 'Installations'
+  }, {
+    text: `Part of ${exhibition.title}`,
+    url: `/exhibitions/${exhibition.id}`
+  }] : [{
+    text: 'Installations'
+  }];
 
-    ctx.body = {
-      html: ReactDOMServer.renderToString(
-        React.createElement(Tags, { tags })
-      )
-    };
+  ctx.body = {
+    html: ReactDOMServer.renderToString(
+      React.createElement(Tags, { tags })
+    )
+  };
+}
+
+export async function renderEvent(ctx, next) {
+  const event = await getEvent(ctx.request, ctx.params.id, ctx.query.selectedDate);
+  const tags = [{
+    text: 'Events',
+    url: '/events'
+  }];
+  const isPreview = isPrismicPreview(ctx.request);
+
+  if (event) {
+    ctx.render('pages/event', {
+      pageConfig: createPageConfig({
+        path: ctx.request.url,
+        title: event.title,
+        inSection: 'whatson',
+        category: 'public-programme',
+        contentType: 'events',
+        canonicalUri: `https://wellcomecollection.org/events/${event.id}`
+      }),
+      event,
+      tags,
+      isPreview
+    });
   }
 }
+
+export const renderEventbriteEmbed = async(ctx, next) => {
+  const {id} = ctx.params;
+  const eventEmbedHtml = await getEventbriteEventEmbed(id);
+  ctx.body = eventEmbedHtml;
+
+  return next();
+};

@@ -2,7 +2,7 @@ version: 2
 jobs:
   checkout_code:
     docker:
-      - image: circleci/node:8.9.3
+      - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org
     steps:
       - checkout
@@ -12,7 +12,7 @@ jobs:
             -  ~/wellcomecollection.org
   catalogue:
     docker:
-      - image: circleci/node:8.9.3
+      - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org/catalogue/webapp
     steps:
       - restore_cache:
@@ -25,8 +25,11 @@ jobs:
       - run:
           name: Docker push
           command: |
-            docker login --username $DOCKER_USER --password $DOCKER_PASS
-            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose push
+            if [ "$CIRCLE_BRANCH" = "master" ];
+            then
+                docker login --username $DOCKER_USER --password $DOCKER_PASS
+                CONTAINER_TAG=${CIRCLE_SHA1} docker-compose push
+            fi
       - run:
           name: Next report
           command: |
@@ -41,10 +44,10 @@ jobs:
             export PATH=~/.local/bin:$PATH
             pip install awscli --upgrade --user
             pushd .dist
-              cp browser.${CIRCLE_SHA1}.html browser.latest.html
-              cp browser.${CIRCLE_SHA1}.json browser.latest.json
-              cp server.${CIRCLE_SHA1}.html server.latest.html
-              cp server.${CIRCLE_SHA1}.json server.latest.json
+              cp browser.${CIRCLE_SHA1}.html catalogue.browser.latest.html
+              cp browser.${CIRCLE_SHA1}.json catalogue.browser.latest.json
+              cp server.${CIRCLE_SHA1}.html catalogue.server.latest.html
+              cp server.${CIRCLE_SHA1}.json catalogue.server.latest.json
               aws s3 sync --only-show-errors . s3://dash.wellcomecollection.org/bundles
             popd
       - save_cache:
@@ -53,7 +56,7 @@ jobs:
             -  node_modules
   root_tests:
     docker:
-      - image: circleci/node:8.9.3
+      - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -93,7 +96,7 @@ jobs:
             -  node_modules
   install_server_modules:
     docker:
-      - image: circleci/node:8.9.3
+      - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org/server
     steps:
       - restore_cache:
@@ -107,7 +110,7 @@ jobs:
             -  node_modules
   install_common_modules:
     docker:
-      - image: circleci/node:8.9.3
+      - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org/common
     steps:
       - restore_cache:
@@ -121,7 +124,7 @@ jobs:
             -  node_modules
   build_client:
     docker:
-      - image: circleci/node:8.9.3
+      - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org/client
     steps:
       - restore_cache:
@@ -131,18 +134,21 @@ jobs:
           command: yarn install
       - run:
           name: Build client assets
-          command: yarn run compile
+          command: yarn compile
       - save_cache:
           key: client_modules_circleci_node_8_{{ checksum "yarn.lock" }}
           paths:
             -  node_modules
       - save_cache:
           key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
+          # We have the critical css here as it's the client app that is
+          # reponsible for compiling
           paths:
             -  ~/wellcomecollection.org/dist
+            -  ~/wellcomecollection.org/server/views/partials/critical.css.njk
   build_events_webapp:
     docker:
-      - image: circleci/node:8.9.3
+      - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org/events/app
     steps:
       - restore_cache:
@@ -171,7 +177,7 @@ jobs:
             - .dist
   deploy_events_webapp:
     docker:
-      - image: circleci/node:8.9.3
+      - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -188,7 +194,7 @@ jobs:
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/events_webapp.yml push
   build_whats_on_webapp:
     docker:
-      - image: circleci/node:8.9.3
+      - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org/whats_on/app
     steps:
       - restore_cache:
@@ -203,21 +209,21 @@ jobs:
           name: Install modules
           command: yarn install
       - run:
-          name: SHAME - Compile JS to SCSS
-          command: pushd ../../client && yarn add gulp && npx gulp scss:compileJsToScss && popd
+          name: Test
+          command: yarn test
       - run:
           name: Build prod config
           command: pushd ../../ && ./build_prod_config.py && popd
       - run:
           name: Build
-          command: yarn run app:build
+          command: yarn app:build
       - save_cache:
           key: built_whats_on_webapp_{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - .dist
   deploy_whats_on_webapp:
     docker:
-      - image: circleci/node:8.9.3
+      - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -234,7 +240,7 @@ jobs:
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/whats_on_webapp.yml push
   build_eventbrite_webapp:
     docker:
-      - image: circleci/node:8.9.3
+      - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org/eventbrite/app
     steps:
       - restore_cache:
@@ -263,7 +269,7 @@ jobs:
             - .dist
   deploy_eventbrite_webapp:
     docker:
-      - image: circleci/node:8.9.3
+      - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -280,7 +286,7 @@ jobs:
             CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/eventbrite_webapp.yml push
   build_common_webapp:
     docker:
-      - image: circleci/node:8.9.3
+      - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -310,7 +316,7 @@ jobs:
             -  ~/wellcomecollection.org/dist
   test_common_webapp:
     docker:
-      - image: circleci/node:8.9.3
+      - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -326,7 +332,7 @@ jobs:
           command: pushd server && yarn run test && popd
   deploy_common_webapp:
     docker:
-      - image: circleci/node:8.9.3
+      - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -347,7 +353,7 @@ jobs:
             ./build-speedtracker.sh
   deploy_assets:
       docker:
-        - image: node:8.9.3
+        - image: node:8.11.3
       working_directory: /home/circleci/wellcomecollection.org/dist
       steps:
         - restore_cache:
@@ -367,7 +373,7 @@ jobs:
               aws s3 sync --only-show-errors . s3://i.wellcomecollection.org
   deploy_cardigan:
     docker:
-      - image: node:8.9.3
+      - image: node:8.11.3
     working_directory: /home/circleci/wellcomecollection.org
     steps:
       - restore_cache:

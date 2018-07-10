@@ -1,7 +1,7 @@
 import type {ImageList} from '../content-model/content-blocks';
-import {asHtml, asText, parsePicture, parseTaslFromString, prismicImage} from './prismic-parsers';
+import {asHtml, asText, parseTaslFromString, prismicImage} from './prismic-parsers';
 // $FlowFixMe
-import {parseCaptionedImage} from '../../common/services/prismic/parsers';
+import {parseCaptionedImage, parseRichText} from '../../common/services/prismic/parsers';
 
 export function parseBody(content) {
   return content.filter(slice => slice.slice_label !== 'featured').map(parseBodyPart).filter(_ => _);
@@ -24,7 +24,7 @@ function parseBodyPart(slice) {
       return {
         type: 'text',
         weight: 'default',
-        value: asHtml(slice.primary.text)
+        value: slice.primary.text
       };
 
     case 'editorialImage':
@@ -56,7 +56,7 @@ function parseBodyPart(slice) {
           description: asText(slice.primary.description),
           listStyle: slice.primary.listStyle,
           items: slice.items.map(item => {
-            const image = parsePicture(item);
+            const image = parseCaptionedImage(item);
             const description = asHtml(item.description);
             const title = asText(item.title);
             const subtitle = asText(item.subtitle);
@@ -130,7 +130,7 @@ function parseBodyPart(slice) {
         value: {
           embedUrl: `${embedUrl}&rel=0`,
           title: asText(slice.primary.title),
-          description: asText(slice.primary.description)
+          caption: parseRichText(slice.primary.caption)
         }
       };
 
@@ -149,7 +149,7 @@ function parseBodyPart(slice) {
         type: 'gifVideo',
         weight: slice.slice_label,
         value: {
-          caption: slice.primary.caption && asHtml(slice.primary.caption),
+          caption: parseRichText(slice.primary.caption),
           videoUrl: slice.primary.video && slice.primary.video.url,
           playbackRate: slice.primary.playbackRate || 1,
           tasl: parseTaslFromString(slice.primary.tasl)

@@ -15,15 +15,13 @@
               {{ bodyPart.value | safe }}
             {% elif bodyPart.type === 'picture' %}
               <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
-                {% componentJsx 'CaptionedImageNew', bodyPart.value %}
+                {% componentJsx 'CaptionedImage', bodyPart.value %}
               </div>
             {% else %}
               {% componentJsx 'FeaturedText', { html: bodyPart.value } %}
             {% endif %}
           {% elif bodyPart.type === 'heading' %}
             <h2>{{ bodyPart.value.value | safe }}</h2>
-          {% elif bodyPart.type === 'gif-video' %}
-            {% componentV2 'gif-video', bodyPart.value %}
           {% elif bodyPart.type === 'picture' %}
             {% if bodyPart.weight === 'standalone' %}
               {% set sizes = '100vw' %}
@@ -33,11 +31,11 @@
               {% set sizes ='(min-width: 1420px) 680px, (min-width: 960px) 50vw, (min-width: 600px) calc(83.24vw - 69px), calc(100vw - 36px)' %}
             {% endif %}
 
-            <div class="bg-cream {{ {l: 2} | spacingClasses({ padding: ['bottom'] }) }}">
+            <div class="{{ {l: 2} | spacingClasses({ padding: ['bottom'] }) }}">
               <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
                 {% set caption = bodyPart.value.caption | prismicAsText %}
                 {% if bodyPart.value.caption and caption !== '' %}
-                  {% componentJsx 'CaptionedImageNew', bodyPart.value | objectAssign({ sizesQueries: sizes }) %}
+                  {% componentJsx 'CaptionedImage', bodyPart.value | objectAssign({ sizesQueries: sizes }) %}
                 {% else %}
                   {% componentJsx 'UiImage', bodyPart.value.image | objectAssign({ sizesQueries: sizes }) %}
                 {% endif %}
@@ -45,7 +43,7 @@
             </div>
           {% elif bodyPart.type === 'video-embed' %}
             <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-              {% componentV2 'iframed-video', bodyPart.value %}
+              {% componentJsx 'VideoEmbed', bodyPart.value %}
             </div>
           {% elif bodyPart.type === 'list' %}
             {% component 'list', {list: bodyPart.value} %}
@@ -85,18 +83,10 @@
                       </div>
                     </h2>
 
-                    {% set imageModel = item.image | objectAssign({lazyload: true}) %}
-
-                    {% set tasl = {name: 'Tasl', model: imageModel | objectAssign({sourceName: imageModel.source.name, sourceLink: imageModel.source.link})}
-                      if (imageModel.title or imageModel.source.name or imageModel.copyright.name or imageModel.license)
-                      else null
-                    %}
 
                     <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
-                      {% componentJsx 'CaptionedImage', imageModel, [
-                        {name: 'Image', model:imageModel},
-                        tasl
-                      ] %}
+                    {% set sizes = '(min-width: 1420px) 507px, (min-width: 960px) 35.68vw, (min-width: 600px) calc(83.24vw - 69px), calc(100vw - 36px)' %}
+                      {% componentJsx 'CaptionedImage', item.image | objectAssign({ sizesQueries: sizes }) %}
                     </div>
 
                     {{item.description | safe}}
@@ -125,6 +115,10 @@
           {% elif bodyPart.type === 'gifVideo' %}
             <div class="{{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
               {% componentV2 'gif-video', bodyPart.value %}
+            </div>
+          {% elif bodyPart.type === 'text' %}
+            <div class="body-text">
+              {% componentJsx 'PrismicHtmlBlock', {html: bodyPart.value} %}
             </div>
           {% else %}
             <div class="body-text">

@@ -1,37 +1,44 @@
 // @flow
-
+import {Fragment, Component} from 'react';
+import Router from 'next/router';
 import fetch from 'isomorphic-unfetch';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {default as PageWrapper, pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
 import StaticWorksContent from '@weco/common/views/components/StaticWorksContent/StaticWorksContent';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagination/Pagination';
+import {remapV2ToV1} from '../utils/remap-v2-to-v1';
 import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
 import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
-import {Fragment, Component} from 'react';
-import Router from 'next/router';
+import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 // TODO: Setting the event parameter to type 'Event' leads to
 // an 'Indexable signature not found in EventTarget' Flow
 // error. We're setting the properties we expect here until
 // we find a better solution.
-type Props = {|
-  query: {| query?: string, page?: string |},
+type PageProps = {|
+  query: ?string,
+  page: ?number,
   works: {| results: [], totalResults: number |},
-  pagination: PaginationProps,
+  pagination: ?PaginationProps
+|}
+
+type ComponentProps = {|
+  ...PageProps,
   handleSubmit: (EventWithInputValue) => void
 |}
 
-const WorksComponent = ({
+export const Works = ({
   query,
+  page,
   works,
   pagination,
   handleSubmit
-}: Props) => (
+}: ComponentProps) => (
   <Fragment>
     <PageDescription title='Search our images' extraClasses='page-description--hidden' />
     <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
@@ -67,11 +74,11 @@ const WorksComponent = ({
               action=''
               id='search-works'
               name='query'
-              query={decodeURIComponent(query.query || '')}
+              query={query || ''}
               autofocus={true}
               onSubmit={handleSubmit} />
 
-            {!query.query
+            {!query
               ? <p className={classNames([
                 spacing({s: 4}, {margin: ['top']}),
                 font({s: 'HNL4', m: 'HNL3'})
@@ -79,7 +86,7 @@ const WorksComponent = ({
               : <p className={classNames([
                 spacing({s: 2}, {margin: ['top', 'bottom']}),
                 font({s: 'LR3', m: 'LR2'})
-              ])}>{works.totalResults !== 0 ? works.totalResults : 'No'} results for &apos;{decodeURIComponent(query.query)}&apos;
+              ])}>{works.totalResults !== 0 ? works.totalResults : 'No'} results for &apos;{query}&apos;
               </p>
             }
           </div>
@@ -87,11 +94,11 @@ const WorksComponent = ({
       </div>
     </div>
 
-    {!query.query &&
+    {!query &&
       <StaticWorksContent />
     }
 
-    {query.query &&
+    {query &&
       <Fragment>
         {pagination && pagination.range &&
           <div className={`row ${spacing({s: 3, m: 5}, {padding: ['top']})}`}>
@@ -126,14 +133,14 @@ const WorksComponent = ({
                   <WorkPromo
                     id={result.id}
                     image={{
-                      contentUrl: result.thumbnail && result.thumbnail.url,
+                      contentUrl: result.thumbnail ? result.thumbnail.url : 'https://via.placeholder.com/1600x900?text=%20',
                       width: 300,
                       height: 300,
                       alt: ''
                     }}
                     datePublished={result.createdDate && result.createdDate.label}
                     title={result.title}
-                    url={`/works/${result.id}${getQueryParamsForWork(query)}`} />
+                    url={`/works/${result.id}${getQueryParamsForWork(query, page)}`} />
                 </div>
               ))}
             </div>
@@ -169,39 +176,55 @@ const WorksComponent = ({
   </Fragment>
 );
 
-class Works extends Component<Props> {
-  static getInitialProps = async ({ req, query }: {req?: any, query: any}) => {
-    const res = await fetch(`https://api.wellcomecollection.org/catalogue/v1/works${getInitialQueryParams(query)}`);
-    const json = await res.json();
-    const currentPage = query.page || 1;
-    const pagination = PaginationFactory.fromList(json.results, Number(json.totalResults) || 1, Number(currentPage) || 1, json.pageSize || 1, {query: query.query || ''});
+export class WorksPage extends Component<PageProps> {
+  static getInitialProps = async (context: GetInitialPropsProps) => {
+    const query = context.query.query;
+    const page = context.query.page ? parseInt(context.query.page, 10) : 1;
+    const works = await getWorks({ query, page });
+
+    if (works.type === 'Error') {
+      return { statusCode: works.httpStatus };
+    }
+
+    const pagination = PaginationFactory.fromList(
+      works.results,
+      Number(works.totalResults) || 1,
+      Number(page) || 1,
+      works.pageSize || 1,
+      {query: query || ''}
+    );
 
     return {
-      works: json,
-      query: query,
+      works,
+      query,
+      page,
       pagination: pagination,
       title: 'Image catalogue search | Wellcome Collection',
       description: 'Search through the Wellcome Collection image catalogue',
       analyticsCategory: 'collections',
-      siteSection: 'images'
+      siteSection: 'images',
+      canonicalUrl: `https://wellcomecollection.org/works${query && `?query=${query}`}`
     };
   };
 
   handleSubmit = (event: EventWithInputValue) => {
     event.preventDefault();
-
-    const queryString = encodeURIComponent(event.target[0].value);
+    const queryString = event.target[0].value;
 
     // Update the URL, which in turn will update props
     Router.push({
       pathname: '/works',
-      query: {query: queryString, page: '1'}
+      query: {
+        query: queryString,
+        page: '1'
+      }
     });
   }
 
   render() {
     return (
-      <WorksComponent
+      <Works
+        page={this.props.page}
         query={this.props.query}
         works={this.props.works}
         pagination={this.props.pagination}
@@ -211,19 +234,34 @@ class Works extends Component<Props> {
   }
 }
 
-export default PageWrapper(Works);
+type GetWorksProps = {|
+  query: ?string,
+  page: ?number
+|}
+async function getWorks({ query, page }: GetWorksProps): Object {
+  const version = pageStore.toggles.apiV2 ? 2 : 1;
+  const res = await fetch(
+    `https://api.wellcomecollection.org/catalogue/v${version}/works?` +
+    `includes=identifiers,thumbnail,items&pageSize=100` +
+    (query ? `&query=${encodeURIComponent(query)}` : '') +
+    (page ? `&page=${page}` : '')
+  );
+  let json = await res.json();
 
-function getQueryParamsForWork(query: {}) {
-  return Object.keys(query).reduce((acc, currKey, index) => {
-    return `${acc}${index > 0 ? '&' : ''}${currKey}=${query[currKey]}`;
-  }, '?');
+  if (version === 2) {
+    json.results = json.results.map(remapV2ToV1);
+  }
+
+  return json;
 }
 
-function getInitialQueryParams(query) {
-  const defaults = '?includes=identifiers,thumbnail,items&pageSize=100';
-  const extra = Object.keys(query).reduce((acc, currKey) => {
-    return `${acc}&${currKey}=${query[currKey]}`;
-  }, '');
-
-  return `${defaults}${extra}`;
+function getQueryParamsForWork(query: ?string, page: ?number) {
+  const params = {query, page};
+  return Object.keys({query, page})
+    .filter(key => params[key])
+    .reduce((acc, key, index) => {
+      return `${acc}${index > 0 ? '&' : ''}${key}=${params[key] || ''}`;
+    }, '?');
 }
+
+export default PageWrapper(WorksPage);

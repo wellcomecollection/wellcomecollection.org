@@ -19,6 +19,7 @@ import {
   parseCaptionedImage
 // $FlowFixMe
 } from '../../common/services/prismic/parsers';
+import {getCohort} from '../utils/flags';
 
 // This is just JSON
 type PrismicDoc = Object;
@@ -28,6 +29,19 @@ type PrismicDocFragment = Object | Array<any>;
 export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): UiEvent {
   const eventSchedule = scheduleDocs && scheduleDocs.results.map(doc => parseEventDoc(doc));
   const promo = parseImagePromo(doc.data.promo);
+
+  // TODO: (A/B tests)
+  const cohort = getCohort();
+
+  if (cohort === 'testB' && doc.id === 'Ww6SySEAAEU5jz5E') {
+    // Library insights
+    const testImageUrl = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/a1ad462f-f984-4254-b525-20c49ffd49d2_libraryinsights.jpg';
+    if (promo && promo.image) { promo.image.contentUrl = testImageUrl; };
+  } else if (cohort === 'testB' && doc.id === 'WvKuRCIAANr4-bi1') {
+    // Packed lunch
+    const testImageUrl = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/283530bd-6c39-4d89-9e0b-732707172253_tf_180307_1390142.jpeg';
+    if (promo && promo.image) { promo.image.contentUrl = testImageUrl; };
+  }
 
   const times: Array<EventTime> = doc.data.times.map(date => {
     return ({
@@ -157,7 +171,7 @@ export function getPositionInPrismicSeries(seriesId: string, seriesList: Prismic
 }
 
 export function parseArticleDoc(doc: PrismicDoc): Article {
-  // TODO : construct this not from strings
+  // TODO: construct this not from strings
   const url = `/articles/${doc.id}`;
 
   const publishDate = parsePublishedDate(doc);
@@ -401,8 +415,7 @@ export function asText(maybeContent: any) {
 export function asHtml(maybeContent: any) {
   // Prismic can send us empty html elements which can lead to unwanted UI in templates.
   // Check that `asText` wouldn't return an empty string.
-  const isEmpty = !maybeContent || asText(maybeContent).trim() === '';
-
+  const isEmpty = !maybeContent || (asText(maybeContent) || '').trim() === '';
   return isEmpty ? null : RichText.asHtml(maybeContent, linkResolver).trim();
 }
 

@@ -1,4 +1,4 @@
-// @ flow
+// @flow
 import {Component} from 'react';
 import Head from 'next/head';
 import NastyJs from '../Header/NastyJs';
@@ -6,7 +6,7 @@ import Header from '../Header/Header';
 import {striptags} from '../../../utils/striptags';
 import {formatDate} from '../../../utils/format-date';
 import Footer from '../Footer/Footer';
-import type {PlacesOpeningHours} from '@weco/common/model/opening-hours';
+import type {PlacesOpeningHours} from '../../../model/opening-hours';
 import analytics from '../../../utils/analytics';
 
 // TODO: Hashed files
@@ -16,7 +16,7 @@ import analytics from '../../../utils/analytics';
 // TODO: Set the props
 
 // Taken from: http://ogp.me/#no_vertical
-type OgType = 'article' | 'website';
+export type OgType = 'article' | 'website';
 type OgData = {|
   type: OgType,
   url: string,
@@ -25,10 +25,11 @@ type OgData = {|
   imageUrl: string,
   imageAltText?: string,
   video?: string,
-  publishTime?: Date,
+  publishedTime?: Date,
   modifiedTime?: Date,
   section?: string, // e.g. technology
-  tags?: string[]
+  tags?: string[],
+  videoUrl?: string
 |};
 // TODO: Convert image sizes to og:1200, tw:800
 export const OpenGraph = ({
@@ -42,7 +43,7 @@ export const OpenGraph = ({
   videoUrl,
   section,
   tags
-}: OgData) => ([
+}: OgData): React.Element<'meta'>[] => ([
   <meta key='og:site_name' property='og:site_name' content='Wellcome Collection' />,
   <meta key='og:type' property='og:type' content={type} />,
   <meta key='og:url' property='og:url' content={url} />,
@@ -52,13 +53,13 @@ export const OpenGraph = ({
   <meta key='og:image' property='og:image' content={imageUrl} itemProp='image' />,
   <meta key='og:image:width' property='og:image:width' content='1200' />,
 
-  publishedTime && <meta key='og:article:published_time' property='og:article:published_time' content={formatDate(publishedTime)} />,
-  modifiedTime && <meta key='og:article:modified_time' property='og:article:modified_time' content={formatDate(modifiedTime)} />,
-  section && <meta key='og:article:section' property='og:article:section' content={section} />,
-  videoUrl && <meta key='og:video' property='og:video' content={videoUrl} />
+  publishedTime ? <meta key='og:article:published_time' property='og:article:published_time' content={formatDate(publishedTime)} /> : null,
+  modifiedTime ? <meta key='og:article:modified_time' property='og:article:modified_time' content={formatDate(modifiedTime)} /> : null,
+  section ? <meta key='og:article:section' property='og:article:section' content={section} /> : null,
+  videoUrl ? <meta key='og:video' property='og:video' content={videoUrl} /> : null
 ].concat((tags || []).map(tag =>
   <meta key={`og:tag:${tag}`} property='og:article:tag' content={tag} />
-)).filter(_ => _));
+)).filter(Boolean));
 
 export const TwitterCard = ({
   type,
@@ -67,15 +68,15 @@ export const TwitterCard = ({
   description = '',
   imageUrl,
   imageAltText
-}: OgData) => ([
+}: OgData): React.Element<'meta'>[] => ([
   <meta key='twitter:card' name='twitter:card' content='summary_large_image' />,
   <meta key='twitter:site' name='twitter:site' content='@ExploreWellcome' />,
   <meta key='twitter:url' name='twitter:url' content={url} />,
   <meta key='twitter:title' name='twitter:title' content={title} />,
   <meta key='twitter:description' name='twitter:description' content={striptags(description)} />,
   <meta key='twitter:image' name='twitter:image' content={imageUrl} />,
-  imageAltText && <meta name='twitter:image:alt' content={imageAltText} />
-].filter(_ => _));
+  imageAltText ? <meta name='twitter:image:alt' content={imageAltText} /> : null
+].filter(Boolean));
 
 const navLinks = [{
   href: 'https://wellcomecollection.org/visit',
@@ -99,26 +100,26 @@ const navLinks = [{
   siteSection: 'whatwedo'
 }];
 
-type SiteSection = 'images' | 'explore' | 'whats-on';
+export type SiteSection = 'images' | 'explore' | 'whats-on';
 type Props = {|
   children: React.Node,
-  type: string,
-  url: string,
+  type: OgType,
+  canonicalUrl: string,
   title: string,
   description: string,
   imageUrl: string,
   siteSection: SiteSection,
   analyticsCategory: string,
-  pageMeta?: React.Node,
   featuresCohort?: string,
   featureFlags?: string[],
   isPreview?: boolean,
   openingTimes: {
     groupedVenues: {
-      [key]: PlacesOpeningHours
+      [string]: PlacesOpeningHours
     },
-    upcomingExceptionalOpeningPeriods: Date[][]
-  }
+    upcomingExceptionalOpeningPeriods: {dates: Date[], type: string}[]
+  },
+  oEmbedUrl?: string
 |}
 
 class DefaultPageLayout extends Component<Props> {
@@ -136,7 +137,7 @@ class DefaultPageLayout extends Component<Props> {
     const {
       title,
       type,
-      url,
+      canonicalUrl,
       description,
       imageUrl,
       siteSection,
@@ -144,7 +145,8 @@ class DefaultPageLayout extends Component<Props> {
       featuresCohort,
       featureFlags,
       isPreview,
-      openingTimes
+      openingTimes,
+      oEmbedUrl
     } = this.props;
 
     return (
@@ -158,14 +160,14 @@ class DefaultPageLayout extends Component<Props> {
 
           <OpenGraph
             type={type}
-            url={url}
+            url={canonicalUrl}
             title={title}
             description={description}
             imageUrl={imageUrl}
           />
           <TwitterCard
             type={type}
-            url={url}
+            url={canonicalUrl}
             title={title}
             description={description}
             imageUrl={imageUrl} />
@@ -182,12 +184,17 @@ class DefaultPageLayout extends Component<Props> {
           <NastyJs />
           <script type='application/ld+json'>{/* JSON+LD Z */}</script>
           <script dangerouslySetInnerHTML={{ __html: `
-          window.WC = {
-            featuresCohort: ${JSON.stringify(featuresCohort)},
-            featureFlags: ${JSON.stringify(featureFlags)}
-          }
-        `}} />
-          {url && <link rel='canonical' href={url} />}
+            window.WC = {
+              featuresCohort: ${JSON.stringify(featuresCohort)},
+              featureFlags: ${JSON.stringify(featureFlags)}
+            }
+          `}} />
+          {canonicalUrl && <link rel='canonical' href={canonicalUrl} />}
+          {oEmbedUrl && <link
+            rel='alternate'
+            type='application/json+oembed'
+            href={oEmbedUrl}
+            title={title} />}
         </Head>
 
         <div className={isPreview ? 'is-preview' : undefined}>
@@ -203,7 +210,10 @@ class DefaultPageLayout extends Component<Props> {
               upcomingExceptionalOpeningPeriods={openingTimes.upcomingExceptionalOpeningPeriods} />
           }
           {!openingTimes &&
-            <Footer openingHoursId='footer' />
+            <Footer
+              groupedVenues={{}}
+              upcomingExceptionalOpeningPeriods={[]}
+              openingHoursId='footer' />
           }
         </div>
       </div>
@@ -213,7 +223,9 @@ class DefaultPageLayout extends Component<Props> {
 
 class DPLWithLoader extends Component<Props> {
   componentDidMount = () => {
+    // $FlowFixMe
     const lazysizes = require('lazysizes');
+    // $FlowFixMe
     const FontFaceObserver = require('fontfaceobserver');
 
     const WB = new FontFaceObserver('Wellcome Bold Web', {weight: 'bold'});
@@ -222,11 +234,13 @@ class DPLWithLoader extends Component<Props> {
     const LR = new FontFaceObserver('Lettera Regular Web');
 
     Promise.all([WB.load(), HNL.load(), HNM.load(), LR.load()]).then(() => {
+      // $FlowFixMe
       document.documentElement.classList.add('fonts-loaded');
     }).catch(console.log);
 
     lazysizes.init();
 
+    // $FlowFixMe
     document.documentElement.classList.add('enhanced');
   }
 

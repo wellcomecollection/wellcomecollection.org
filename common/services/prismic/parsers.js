@@ -12,7 +12,8 @@ import type { CaptionedImage } from '../../model/captioned-image';
 import type { ImagePromo } from '../../model/image-promo';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
-import { parseEventSeries } from './events';
+import { parseEventSeries } from './event-series';
+import isEmptyObj from '../../utils/is-empty-object';
 
 const placeHolderImage = {
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
@@ -42,12 +43,8 @@ const linkResolver = (doc) => {
   }
 };
 
-function isEmptyObj(obj: ?Object): boolean {
-  return Object.keys((obj || {})).length === 0;
-}
-
 function isEmptyHtmlString(maybeContent: ?HTMLString): boolean {
-  return maybeContent ? asHtml(maybeContent) !== null : false;
+  return maybeContent ? asHtml(maybeContent) === null : false;
 }
 
 export function asText(maybeContent: ?HTMLString): ?string {
@@ -59,6 +56,16 @@ export function asHtml(maybeContent: ?HTMLString) {
   // Check that `asText` wouldn't return an empty string.
   const isEmpty = !maybeContent || (asText(maybeContent) || '').trim() === '';
   return isEmpty ? null : RichText.asHtml(maybeContent, linkResolver).trim();
+}
+
+function isMissingOrEmpty(maybeContent: any) {
+  // Prismic can send us empty html elements which can lead to unwanted UI in templates.
+  // Check that `asText` wouldn't return an empty string.
+  return !maybeContent || asText(maybeContent) === '';
+}
+
+export function parseRichText(maybeContent: ?HTMLString) {
+  return isMissingOrEmpty(maybeContent) ? null : maybeContent;
 }
 
 export function parseTitle(title: HTMLString): string {
@@ -264,10 +271,14 @@ export function parseImagePromo(
 export function parsePlace(doc: PrismicFragment): Place {
   return {
     id: doc.id,
-    title: doc.data.title || 'Unknown',
+    title: asText(doc.data.title) || '',
     level: doc.data.level || 0,
     capacity: doc.data.capacity
   };
+}
+
+export function parseNumber(fragment: PrismicFragment): number {
+  return parseInt(fragment, 10);
 }
 
 type PrismicPromoListFragment = {|
@@ -299,6 +310,10 @@ export function parseBackgroundTexture(backgroundTexture: PrismicBackgroundTextu
     image: backgroundTexture.image.url,
     name: backgroundTexture.name
   };
+}
+
+export function parseBoolean(fragment: PrismicFragment): boolean {
+  return Boolean(fragment);
 }
 
 function parseStructuredText(maybeFragment: ?PrismicFragment): ?HTMLString {

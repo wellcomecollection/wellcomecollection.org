@@ -2,6 +2,7 @@
 import 'core-js/fn/object/assign';
 import 'core-js/fn/promise';
 import 'core-js/fn/map';
+import 'core-js/fn/array/from';
 import 'whatwg-fetch';
 import lazysizes from 'lazysizes';
 
@@ -21,7 +22,6 @@ import joinCohort from './components/join-cohort';
 import gifVideo from './components/gif-video';
 import tracking from './tracking';
 import polyfills from './polyfills';
-import truncateText from './components/truncate-text';
 import fontObserver from './utils/font-observer';
 import sortSearch from './components/sort-search';
 import backToTop from './components/back-to-top';
@@ -36,6 +36,7 @@ import tabs from './components/tabs';
 import {eventbriteTicketStatus} from './components/eventbrite-ticket-status';
 import newsletterSignup from './components/newsletter-signup';
 import {createMaps} from './components/map';
+import {onWindowResizeDebounce$} from './utils/dom-events';
 
 const init = () => {
   polyfills.init();
@@ -71,6 +72,7 @@ const init = () => {
   const eventsFilter = document.querySelectorAll('.js-events-filter');
   const newsletterSignupEl = document.getElementById('newsletter-signup');
   const maps = document.querySelectorAll('.js-map');
+  const eventbriteIframes = document.querySelectorAll('.eventbrite-iframe');
 
   nodeList(segmentedControlEls).forEach(segmentedControl);
 
@@ -96,6 +98,20 @@ const init = () => {
     currentClass: 'tabitem--is-current',
     visibleClass: 'tabpanel--is-visible'
   }));
+
+  nodeList(eventbriteIframes).forEach((iframe) => {
+    iframe.addEventListener('load', () => {
+      iframe.height = iframe.contentWindow.document.body.scrollHeight;
+    });
+  });
+
+  onWindowResizeDebounce$.subscribe({
+    next() {
+      nodeList(eventbriteIframes).forEach((iframe) => {
+        iframe.height = iframe.contentWindow.document.body.scrollHeight;
+      });
+    }
+  });
 
   if (maps.length > 0) {
     createMaps(maps);
@@ -145,9 +161,6 @@ const init = () => {
   nodeList(cohortButtons).forEach((button) => {
     joinCohort(button);
   });
-
-  const truncateTextNodes = document.querySelectorAll('.js-truncate-text');
-  nodeList(truncateTextNodes).forEach(truncateText);
 
   nodeList(document.querySelectorAll('.js-eventbrite-ticket-button')).forEach(eventbriteTicketButton);
   nodeList(document.querySelectorAll('.js-eventbrite-ticket-status')).forEach(eventbriteTicketStatus);

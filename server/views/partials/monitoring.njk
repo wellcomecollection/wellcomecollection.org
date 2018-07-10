@@ -9,12 +9,6 @@
       bingPreview
     ];
 
-    var googleTranslate = /^.*translate\.google.*$/;
-
-    var ignoredUrlsRegex = [
-      googleTranslate
-    ];
-
     function shouldIgnore(regexArray, stringToMatch) {
       return regexArray.some(function(regex) {
         return regex.test(stringToMatch);
@@ -22,14 +16,15 @@
     }
 
     var shouldIgnoreBrowsers = shouldIgnore(ignoredUserAgentRegex, window.navigator.userAgent);
-    var shouldIgnoreUrls = shouldIgnore(ignoredUrlsRegex, window.location.href);
 
     Raven.config('https://f756b8d4b492473782987a054aa9a347@sentry.io/133634', {
       shouldSendCallback: function(data) {
-        return !shouldIgnoreBrowsers && !shouldIgnoreUrls;
+        return !shouldIgnoreBrowsers;
       },
+      whitelistUrls: [/wellcomecollection\.org/],
       ignoreErrors: [
         /Blocked a frame with origin/,
+        /document\.getElementsByClassName\.ToString/ // https://github.com/SamsungInternet/support/issues/56
       ]
     }).install();
   }

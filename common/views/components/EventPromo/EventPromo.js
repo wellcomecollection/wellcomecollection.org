@@ -78,7 +78,7 @@ const EventPromo = ({
       <div className={`
           flex flex--column flex-1 flex--h-space-between
           ${spacing({s: 2}, {padding: ['top']})}
-          ${spacing({s: 3}, {padding: ['left', 'right']})}
+          ${spacing({s: 2}, {padding: ['left', 'right']})}
           ${spacing({s: 4}, {padding: ['bottom']})}
         `}>
 

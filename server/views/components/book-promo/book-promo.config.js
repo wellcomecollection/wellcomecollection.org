@@ -11,7 +11,7 @@ export const context = {
       height: 400
     },
     title: 'Title',
-    subTitle: 'Sub title',
+    subtitle: 'Subtitle',
     url: '/',
     description: 'text text text text text text text text text text text text text text text text text text text text text'
   },
