@@ -28,14 +28,9 @@ function DateInfo(event) {
         const formattedDateRange =  formatAndDedupeOnDate(eventTime.range.startDateTime, eventTime.range.endDateTime);
         return (
           <div key={index} className={`border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
-            <time className='block'>
-              <b className={font({s: 'HNM4'})}>{joinDateStrings(formattedDateRange)}</b>
-            </time>
+            <time>{joinDateStrings(formattedDateRange)}</time>, <time>{joinDateStrings(formatAndDedupeOnTime(eventTime.range.startDateTime, eventTime.range.endDateTime))}</time>
             {formattedDateRange.length === 1 && (
               <div className='flex'>
-                <time className='block'>
-                  {joinDateStrings(formatAndDedupeOnTime(eventTime.range.startDateTime, eventTime.range.endDateTime))}
-                </time>
                 {(eventTime.isFullyBooked && !(event.eventbriteId || event.bookingEnquiryTeam)) &&
                   <div className={`${font({s: 'HNM5'})} ${spacing({s: 2}, {margin: ['left']})} flex flex--v-center`}>
                     <span className={`${spacing({s: 1}, {margin: ['right']})} flex flex--v-center`}>
@@ -216,6 +211,11 @@ const EventPage = ({ event }: Props) => {
             );
           }
         })}
+
+        <div className='body-text'>
+          <h2>Dates</h2>
+          {DateInfo(event)}
+        </div>
 
         {/* Booking CTAs */}
         {event.eventbriteId &&
