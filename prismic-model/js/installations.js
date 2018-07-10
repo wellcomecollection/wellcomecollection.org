@@ -14,7 +14,7 @@ const Installations = {
     place,
     body
   },
-  Contributors: contributorsWithTitle,
+  Contributors: contributorsWithTitle(),
   Promo: {
     promo
   }

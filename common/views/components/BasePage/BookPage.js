@@ -109,6 +109,7 @@ const BookPage = ({ book }: Props) => {
       <Fragment>
         {contributors.length > 0 &&
           <Contributors
+            titleOverride={book.contributorsTitle}
             contributors={contributors} />
         }
 

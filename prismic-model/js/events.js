@@ -48,7 +48,7 @@ const Events = {
     }),
     backgroundTexture: link('Background texture', 'document', ['background-textures'])
   },
-  Contributors: contributorsWithTitle,
+  Contributors: contributorsWithTitle(),
   Promo: {
     promo
   }

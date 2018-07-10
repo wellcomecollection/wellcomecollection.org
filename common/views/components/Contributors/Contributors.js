@@ -6,6 +6,7 @@ import type {Contributor as ContributorType} from '../../../model/contributors';
 
 type Props = {|
   contributors: ContributorType[],
+  titleOverride: ?string,
   titlePrefix?: string,
   excludeTitle?: boolean
 |}
@@ -52,13 +53,17 @@ export function getContributorsTitle(
 
 const Contributors = ({
   contributors,
-  titlePrefix = 'About the',
-  excludeTitle
+  titleOverride,
+  excludeTitle,
+  titlePrefix = 'About the'
 }: Props) => (
   <div className={`${spacing({s: 2}, {padding: ['top']})} border-top-width-1 border-color-smoke`}>
-    {!excludeTitle && <h2 className='h2'>
-      {`${titlePrefix} ${getContributorsTitle(contributors, titlePrefix)}`}
-    </h2>}
+    {titleOverride && <h2 className='h2'>{titleOverride}</h2>}
+    {!titleOverride && !excludeTitle &&
+      <h2 className='h2'>
+        {`${titlePrefix} ${getContributorsTitle(contributors, titlePrefix)}`}
+      </h2>
+    }
     {contributors.map(({contributor, role, description}) => (
       <Fragment key={contributor.id}>
         <Contributor contributor={contributor} role={role} description={description} />

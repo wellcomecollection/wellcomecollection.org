@@ -25,7 +25,7 @@ const Books = {
     }),
     datePublished: timestamp('Date published')
   },
-  Contributors: contributorsWithTitle,
+  Contributors: contributorsWithTitle(),
   Promo: {
     promo
   },

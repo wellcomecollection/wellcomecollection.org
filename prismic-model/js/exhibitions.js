@@ -35,7 +35,7 @@ const Exhibitions = {
     // TODO: deprecate for place when the data has been updated
     galleryLevel: number('Gallery level')
   },
-  Contributors: contributorsWithTitle,
+  Contributors: contributorsWithTitle(),
   Exhibits: {
     exhibits: list('Exhibits', {
       item: link('Exhibit', 'document', ['installations'])
