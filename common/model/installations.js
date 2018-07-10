@@ -1,20 +1,14 @@
 // @flow
+import type {GenericContentFields} from './generic-content-fields';
 import type {HTMLString} from '../services/prismic/types';
 import type {Place} from './place';
-import type {Contributor} from './contributors';
-import type {ImagePromo} from './image-promo';
 
 export type Installation = {|
-  id: string,
-  title: string,
+  ...GenericContentFields,
   description: HTMLString,
-  contributors: Contributor[],
   start: Date,
   end: ?Date,
   place: ?Place
 |};
 
-export type UiInstallation = {| ...Installation, ...{|
-  promo: ?ImagePromo,
-  body: any[]
-|}|}
+export type UiInstallation = Installation;

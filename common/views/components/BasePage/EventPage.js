@@ -327,6 +327,7 @@ const EventPage = ({ event }: Props) => {
         {event.contributors.length > 0 &&
           <Contributors
             titlePrefix='About your'
+            titleOverride={event.contributorsTitle}
             contributors={event.contributors} />
         }
 

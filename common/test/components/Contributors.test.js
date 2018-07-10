@@ -19,18 +19,18 @@ const speaker = {
 };
 
 test('1 contributor, 1 role', async () => {
-  const title = getContributorsTitle([facilitator]);
+  const title = getContributorsTitle([facilitator], 'About the', false);
 
-  expect(title).toBe('facilitator');
+  expect(title).toBe('About the facilitator');
 });
 
 test('multi contributor, 1 role', async () => {
   const title = getContributorsTitle([
     facilitator,
     facilitator
-  ]);
+  ], 'About the', false);
 
-  expect(title).toBe('facilitators');
+  expect(title).toBe('About the facilitators');
 });
 
 test('multi contributor, multi role', async () => {
@@ -38,9 +38,9 @@ test('multi contributor, multi role', async () => {
     facilitator,
     guide,
     speaker
-  ]);
+  ], 'About the', false);
 
-  expect(title).toBe('facilitator, guide and speaker');
+  expect(title).toBe('About the facilitator, guide and speaker');
 });
 
 test('multi contributor, multi role, roles matching', async () => {
@@ -49,7 +49,27 @@ test('multi contributor, multi role, roles matching', async () => {
     guide,
     guide,
     speaker
-  ]);
+  ], 'About the', false);
 
-  expect(title).toBe('facilitator, guides and speaker');
+  expect(title).toBe('About the facilitator, guides and speaker');
+});
+
+test('multi contributor, multi roles, flattened', async () => {
+  const title = getContributorsTitle([
+    facilitator,
+    guide,
+    guide,
+    speaker
+  ], 'About the', true);
+
+  expect(title).toBe('About the contributors');
+});
+
+test('multi contributor, single roles, flattened', async () => {
+  const title = getContributorsTitle([
+    guide,
+    guide
+  ], 'About your', true);
+
+  expect(title).toBe('About your guides');
 });

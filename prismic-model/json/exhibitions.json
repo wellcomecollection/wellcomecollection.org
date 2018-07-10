@@ -113,6 +113,13 @@
           }
         }
       }
+    },
+    "contributorsTitle": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Contributors heading override",
+        "single": "heading1"
+      }
     }
   },
   "Exhibits": {

@@ -9,36 +9,23 @@ import {
   organisationsFields
 } from './fetch-links';
 import {
-  parseTitle,
   parseDescription,
-  parseContributors,
-  parseImagePromo,
   parseTimestamp,
   parsePlace,
-  parseBody,
-  isDocumentLink
+  isDocumentLink,
+  parseGenericFields
 } from './parsers';
 
 export function parseInstallationDoc(document: PrismicDocument): UiInstallation {
   const data = document.data;
-  const promo = document.data.promo && parseImagePromo(document.data.promo);
+  const genericFields = parseGenericFields(document);
+
   return {
-    id: document.id,
-    title: parseTitle(data.title),
+    ...genericFields,
     description: parseDescription(data.description),
-    contributors: data.contributors ? parseContributors(data.contributors) : [],
     start: parseTimestamp(data.start),
     end: data.end && parseTimestamp(data.end),
-    place: isDocumentLink(data.place) && parsePlace(data.place),
-
-    /*
-      This is the display logic.
-      It would be nice to have these as separate steps,
-      but flow has problems with spreading.
-      https://github.com/facebook/flow/issues/3608
-    */
-    promo: promo,
-    body: data.body ? parseBody(data.body) : []
+    place: isDocumentLink(data.place) && parsePlace(data.place)
   };
 }
 
