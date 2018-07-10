@@ -1,5 +1,4 @@
 // @flow
-import {Fragment} from 'react';
 import {spacing} from '../../../utils/classnames';
 import Contributor from '../Contributor/Contributor';
 import type {Contributor as ContributorType} from '../../../model/contributors';
@@ -65,9 +64,12 @@ const Contributors = ({
       </h2>
     }
     {contributors.map(({contributor, role, description}) => (
-      <Fragment key={contributor.id}>
-        <Contributor contributor={contributor} role={role} description={description} />
-      </Fragment>
+      <div className={spacing({s: 2}, {margin: ['top']})} key={contributor.id}>
+        <Contributor
+          contributor={contributor}
+          role={role}
+          description={description} />
+      </div>
     ))}
   </div>
 );

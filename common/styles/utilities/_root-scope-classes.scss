@@ -404,12 +404,23 @@
 }
 
 // Images
-.rotated-rounded-corners {
+.width-inherit {
+  width: inherit;
+}
+
+.avatar {
+  width: 78px;
+  height: 78px;
   clip-path: inset($border-radius-unit round $border-radius-unit);
   transform: rotateZ(-6deg);
 
   img {
     transform: rotateZ(6deg);
+  }
+
+  @include respond-to('large') {
+    width: 126px;
+    height: 126px;
   }
 }
 
