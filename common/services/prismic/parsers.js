@@ -196,10 +196,6 @@ function parseOrganisationContributor(frag: PrismicFragment): OrganisationContri
   };
 }
 
-export function parseContributorsWithTitle(doc: PrismicFragment) {
-
-}
-
 export function parseContributors(contributorsDoc: PrismicFragment[]): Contributor[] {
   const contributors = contributorsDoc.map(contributor => {
     const role = contributor.role.isBroken === false ? {
