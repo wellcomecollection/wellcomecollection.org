@@ -10,6 +10,7 @@ import type { Place } from '../../model/place';
 import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/background-texture';
 import type { CaptionedImage } from '../../model/captioned-image';
 import type { ImagePromo } from '../../model/image-promo';
+import type { GenericContentFields } from '../../model/generic-content-fields';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
@@ -462,17 +463,7 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
   }).filter(Boolean);
 }
 
-// TODO: we need to get type in here to be able to union on these
-// i.e. search results
-type GenricContentFields = {|
-  id: string,
-  title: string,
-  contributorsTitle: ?string,
-  contributors: Contributor[],
-  promo: ?ImagePromo,
-  body: any[]
-|}
-export function parseGenericFields(doc: PrismicFragment): GenricContentFields {
+export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
   const {data} = doc;
   return {
     id: doc.id,
