@@ -467,7 +467,7 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
 type GenricContentFields = {|
   id: string,
   title: string,
-  // contributorsTitle: ?string,
+  contributorsTitle: ?string,
   contributors: Contributor[],
   promo: ?ImagePromo,
   body: any[]
@@ -477,7 +477,7 @@ export function parseGenericFields(doc: PrismicFragment): GenricContentFields {
   return {
     id: doc.id,
     title: parseTitle(data.title),
-    // contributorsTitle: asText(data.contributorsTitle),
+    contributorsTitle: asText(data.contributorsTitle),
     contributors: data.contributors ? parseContributors(data.contributors) : [],
     promo: data.promo && parseImagePromo(data.promo),
     body: data.body ? parseBody(data.body) : []
