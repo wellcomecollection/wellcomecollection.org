@@ -7,7 +7,7 @@ import type {Node, Element} from 'react';
 import {UiImage} from '../Images/Images';
 import WobblyBackground from './WobblyBackground';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
-import BaseHeading from '../BaseHeading/BaseHeading';
+import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
 
 type FeaturedMedia =
   | Element<typeof UiImage>
@@ -62,9 +62,10 @@ const BaseHeader = ({
               ${spacing({s: 2}, {padding: ['bottom']})}
             `}>
 
-              <BaseHeading
-                text={title}
-                hasWhiteBackground={!Background} />
+              {Background
+                ? <h1 className='h1 inline-block no-margin'>{title}</h1>
+                : <HighlightedHeading text={title} />
+              }
 
               {DateInfo &&
                 <div className={`${font({s: 'HNL3'})} ${spacing({s: 3}, {margin: ['top']})}`}>

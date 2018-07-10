@@ -454,10 +454,3 @@
 .width-auto {
   width: auto;
 }
-
-.base-heading-highlight {
-  @supports(box-decoration-break: clone) {
-    line-height: calc(1.1em + 12px); // Account for 6px top/bottom padding per line
-    box-decoration-break: clone;
-  }
-}
