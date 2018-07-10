@@ -417,11 +417,6 @@
   img {
     transform: rotateZ(6deg);
   }
-
-  @include respond-to('large') {
-    width: 126px;
-    height: 126px;
-  }
 }
 
 // This is for when we receive content from a CMS,
