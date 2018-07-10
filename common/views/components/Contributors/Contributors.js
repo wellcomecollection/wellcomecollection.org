@@ -61,7 +61,7 @@ const Contributors = ({
     {titleOverride && <h2 className='h2'>{titleOverride}</h2>}
     {!titleOverride && !excludeTitle &&
       <h2 className='h2'>
-        {`${titlePrefix} ${getContributorsTitle(contributors, titlePrefix)}`}
+        {`${getContributorsTitle(contributors, titlePrefix)}`}
       </h2>
     }
     {contributors.map(({contributor, role, description}) => (
