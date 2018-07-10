@@ -51,6 +51,12 @@ export const text = () => Array(randomNumber(1, 2)).fill().map(() => ({
   'spans': []
 }));
 
+const smallText = () => [{
+  'type': 'paragraph',
+  'text': `${faker.random.words(randomNumber(12, 24))}`,
+  'spans': []
+}];
+
 export const videoEmbed = { embedUrl: 'https://www.youtube.com/embed/VYOjWnS4cMY' };
 
 export const imageGallery = () => {
@@ -81,3 +87,25 @@ export const quote = () => ({
     }]
   }]
 });
+
+export function person() {
+  return {
+    id: faker.random.uuid(),
+    name: faker.name.findName(),
+    description: smallText(),
+    image: {
+      contentUrl: faker.image.avatar()
+    }
+  };
+}
+
+export function organisation() {
+  return {
+    id: faker.random.uuid(),
+    name: faker.name.findName(),
+    description: smallText(),
+    image: {
+      contentUrl: faker.image.avatar()
+    }
+  };
+}

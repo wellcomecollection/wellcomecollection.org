@@ -22,19 +22,11 @@ const Contributor = ({
     contentUrl: contributor.image && contributor.image.contentUrl,
     alt: `Photograph of ${contributor.name}`
   };
+
   return (
     <div className='grid'>
       {imageProps.contentUrl &&
         <div className={`${grid({ s: 2, m: 2, l: 2, xl: 2 })}`}>
-          {/*
-            This definitely passes as it is explicitly `ImageProps`,
-            but because of an error in flow, it fails.
-            There is a fix going into flow, so we can remove this when it hits
-            a stable release.
-
-            https://github.com/facebook/flow/issues/2405
-          */}
-          {/* $FlowFixMe */}
           <Image {...imageProps} />
         </div>
       }
