@@ -1,20 +1,10 @@
-## Needs
-<!-- delete unneeded -->
-- [ ] User research
-- [ ] Content from Content Team
-- [ ] New visual design
-- [ ] Analytics and/or component tracking
+## Who it's for
 
-## UI Requirements
-<!-- Screenshots, wireframes, design comps can go in here -->
 
-## Acceptance Criteria
-<!-- delete unneeded -->
-- [ ] The interface should do this thing
-- [ ] and this thing
-- [ ] and this thing.
+## Problem to be solved
 
-## Problem to be solved / User Story
+
+## User Story/Job
 <!-- delete as necessary -->
 In order to
  _(why? accomplish a goal/get a benefit)_
@@ -24,3 +14,10 @@ As a
 
 I need/want/expect
 _(what? to do this thing)_
+
+
+## Acceptance Criteria
+<!-- delete unneeded -->
+- [ ] The interface should do this thing
+- [ ] and this thing
+- [ ] and this thing.
