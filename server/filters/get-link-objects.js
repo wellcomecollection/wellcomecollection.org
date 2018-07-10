@@ -8,7 +8,7 @@ export function createLinkObject(val: string, prepend?: string): Link {
   };
 };
 
-export function getLinkObjects(objectArray: Array<{}>, objectKey: string, prepend?: string) {
+export function getLinkObjects(objectArray: Array<{}>, objectKey: string, prepend?: string): Link[] {
   return objectArray.map((object) => {
     return createLinkObject(object[objectKey], prepend);
   });
