@@ -335,7 +335,7 @@
     "contributorsTitle": {
       "type": "StructuredText",
       "config": {
-        "label": "Contributors heading",
+        "label": "Contributors heading override",
         "single": "heading1"
       }
     }
