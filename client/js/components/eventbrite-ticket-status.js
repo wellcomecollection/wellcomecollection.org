@@ -9,6 +9,9 @@ export function eventbriteTicketStatus(el) {
       fastdom.mutate(() => {
         el.innerHTML = ticketButton.html;
       });
+    }).catch(_ => {
+      // Fallback to non-enhanced version
+      // button will read 'Book free tickets'
     });
   });
 }

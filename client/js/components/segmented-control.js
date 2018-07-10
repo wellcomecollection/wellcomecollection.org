@@ -6,7 +6,7 @@ import fastdom from '../utils/fastdom-promise';
 export default (el) => {
   const showHideEl = el.querySelector('.js-segmented-control-show-hide');
   const controlDrawerLinks = el.querySelector('.js-segmented-control__drawer-list');
-  const controlLinks = el.querySelector('.js-segmented-control__link');
+  const controlLinks = el.querySelector('.js-segmented-control__list');
   const controlButtonText = el.querySelector('.js-segmented-control__button-text');
   const fullPage = showHide({el: showHideEl});
   const trap = focusTrap(el);
@@ -56,6 +56,8 @@ export default (el) => {
 
     controlLinks.addEventListener('click', (e) => {
       const link = e.target;
+
+      if (!link.hasAttribute('href')) return;
       if (link.classList.contains('is-active') || link.getAttribute('href').charAt(0) !== '#') return;
 
       const currentActive = el.querySelector('.is-active');

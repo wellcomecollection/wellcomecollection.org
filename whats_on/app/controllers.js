@@ -9,6 +9,7 @@ import {
   getExhibitExhibition
 } from '@weco/common/services/prismic/exhibitions';
 import {getEvent} from '@weco/common/services/prismic/events';
+import {getEventbriteEventEmbed} from '@weco/common/services/eventbrite/event-embed';
 import {isPreview as isPrismicPreview} from '@weco/common/services/prismic/api';
 import {model, prismic} from 'common';
 import Tags from '@weco/common/views/components/Tags/Tags';
@@ -155,7 +156,7 @@ export async function renderExhibitExhibitionLink(ctx, next) {
 }
 
 export async function renderEvent(ctx, next) {
-  const event = await getEvent(ctx.request, ctx.params.id);
+  const event = await getEvent(ctx.request, ctx.params.id, ctx.query.selectedDate);
   const tags = [{
     text: 'Events',
     url: '/events'
@@ -178,3 +179,11 @@ export async function renderEvent(ctx, next) {
     });
   }
 }
+
+export const renderEventbriteEmbed = async(ctx, next) => {
+  const {id} = ctx.params;
+  const eventEmbedHtml = await getEventbriteEventEmbed(id);
+  ctx.body = eventEmbedHtml;
+
+  return next();
+};

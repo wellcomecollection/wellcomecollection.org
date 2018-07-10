@@ -184,11 +184,11 @@ class DefaultPageLayout extends Component<Props> {
           <NastyJs />
           <script type='application/ld+json'>{/* JSON+LD Z */}</script>
           <script dangerouslySetInnerHTML={{ __html: `
-          window.WC = {
-            featuresCohort: ${JSON.stringify(featuresCohort)},
-            featureFlags: ${JSON.stringify(featureFlags)}
-          }
-        `}} />
+            window.WC = {
+              featuresCohort: ${JSON.stringify(featuresCohort)},
+              featureFlags: ${JSON.stringify(featureFlags)}
+            }
+          `}} />
           {canonicalUrl && <link rel='canonical' href={canonicalUrl} />}
           {oEmbedUrl && <link
             rel='alternate'

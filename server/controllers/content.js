@@ -75,7 +75,7 @@ export async function renderHomepage(ctx, next) {
       inSection: 'index',
       canonicalUri: `${ctx.globals.rootDomain}`
     }),
-    exhibitionAndEventPromos,
+    exhibitionAndEventPromos: exhibitionAndEventPromos,
     storiesPromos,
     dailyTourPromo
   });

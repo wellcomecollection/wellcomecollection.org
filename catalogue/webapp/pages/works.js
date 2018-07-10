@@ -14,26 +14,31 @@ import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagin
 import {remapV2ToV1} from '../utils/remap-v2-to-v1';
 import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
 import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
+import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 // TODO: Setting the event parameter to type 'Event' leads to
 // an 'Indexable signature not found in EventTarget' Flow
 // error. We're setting the properties we expect here until
 // we find a better solution.
-type Props = {|
+type PageProps = {|
   query: ?string,
   page: ?number,
   works: {| results: [], totalResults: number |},
-  pagination: PaginationProps,
+  pagination: ?PaginationProps
+|}
+
+type ComponentProps = {|
+  ...PageProps,
   handleSubmit: (EventWithInputValue) => void
 |}
 
-const WorksComponent = ({
+export const Works = ({
   query,
   page,
   works,
   pagination,
   handleSubmit
-}: Props) => (
+}: ComponentProps) => (
   <Fragment>
     <PageDescription title='Search our images' extraClasses='page-description--hidden' />
     <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
@@ -69,7 +74,7 @@ const WorksComponent = ({
               action=''
               id='search-works'
               name='query'
-              query={decodeURIComponent(query || '')}
+              query={query || ''}
               autofocus={true}
               onSubmit={handleSubmit} />
 
@@ -81,7 +86,7 @@ const WorksComponent = ({
               : <p className={classNames([
                 spacing({s: 2}, {margin: ['top', 'bottom']}),
                 font({s: 'LR3', m: 'LR2'})
-              ])}>{works.totalResults !== 0 ? works.totalResults : 'No'} results for &apos;{decodeURIComponent(query)}&apos;
+              ])}>{works.totalResults !== 0 ? works.totalResults : 'No'} results for &apos;{query}&apos;
               </p>
             }
           </div>
@@ -171,8 +176,8 @@ const WorksComponent = ({
   </Fragment>
 );
 
-class Works extends Component<Props> {
-  static getInitialProps = async (context) => {
+export class WorksPage extends Component<PageProps> {
+  static getInitialProps = async (context: GetInitialPropsProps) => {
     const query = context.query.query;
     const page = context.query.page ? parseInt(context.query.page, 10) : 1;
     const works = await getWorks({ query, page });
@@ -204,19 +209,21 @@ class Works extends Component<Props> {
 
   handleSubmit = (event: EventWithInputValue) => {
     event.preventDefault();
-
-    const queryString = encodeURIComponent(event.target[0].value);
+    const queryString = event.target[0].value;
 
     // Update the URL, which in turn will update props
     Router.push({
       pathname: '/works',
-      query: {query: queryString, page: '1'}
+      query: {
+        query: queryString,
+        page: '1'
+      }
     });
   }
 
   render() {
     return (
-      <WorksComponent
+      <Works
         page={this.props.page}
         query={this.props.query}
         works={this.props.works}
@@ -227,18 +234,16 @@ class Works extends Component<Props> {
   }
 }
 
-export default PageWrapper(Works);
-
 type GetWorksProps = {|
   query: ?string,
   page: ?number
 |}
 async function getWorks({ query, page }: GetWorksProps): Object {
-  const version = pageStore.flags.apiV2 ? 2 : 1;
+  const version = pageStore.toggles.apiV2 ? 2 : 1;
   const res = await fetch(
     `https://api.wellcomecollection.org/catalogue/v${version}/works?` +
     `includes=identifiers,thumbnail,items&pageSize=100` +
-    (query ? `&query=${query}` : '') +
+    (query ? `&query=${encodeURIComponent(query)}` : '') +
     (page ? `&page=${page}` : '')
   );
   let json = await res.json();
@@ -258,3 +263,5 @@ function getQueryParamsForWork(query: ?string, page: ?number) {
       return `${acc}${index > 0 ? '&' : ''}${key}=${params[key] || ''}`;
     }, '?');
 }
+
+export default PageWrapper(WorksPage);

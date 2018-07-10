@@ -22,7 +22,7 @@ const pageStoreHandler = {
   }
 };
 export const pageStore = new Proxy({
-  flags: {
+  toggles: {
     apiV2: false
   }
 }, pageStoreHandler);
@@ -66,7 +66,7 @@ type Props = {|
     },
     upcomingExceptionalOpeningPeriods: {dates: Date[], type: string}[]
   },
-  flags: { [string]: Boolean },
+  toggles: { [string]: Boolean },
   statusCode: ?number,
   oEmbedUrl?: string
 |}
@@ -92,7 +92,7 @@ type GetInitialPropsServerProps = {|
   jsonPageRes: null
 |}
 
-type GetInitialPropsProps = GetInitialPropsServerProps | GetInitialPropsClientProps
+export type GetInitialPropsProps = GetInitialPropsServerProps | GetInitialPropsClientProps
 
 type NextComponent = {
   getInitialProps?: (props: GetInitialPropsProps) => any
@@ -107,18 +107,18 @@ const PageWrapper = (Comp: NextComponent) => {
         ? await fetchOpeningTimes(context.req)
         : clientStore && clientStore.get('openingTimes');
 
-      const flags = context.req
-        ? context.query.flags
-        : clientStore && clientStore.get('flags');
+      const toggles = context.req
+        ? context.query.toggles
+        : clientStore && clientStore.get('toggles');
 
       if (serverStore) {
         serverStore.set('openingTimes', openingTimes);
-        serverStore.set('flags', flags);
+        serverStore.set('toggles', toggles);
       }
 
       return {
         openingTimes,
-        flags,
+        toggles,
         ...(Comp.getInitialProps ? await Comp.getInitialProps(context) : null)
       };
     }
@@ -130,8 +130,8 @@ const PageWrapper = (Comp: NextComponent) => {
         clientStore.set('openingTimes', props.openingTimes);
       }
 
-      if (clientStore && !clientStore.get('flags')) {
-        clientStore.set('flags', props.flags);
+      if (clientStore && !clientStore.get('toggles')) {
+        clientStore.set('toggles', props.toggles);
       }
     }
 

@@ -42,18 +42,16 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
       query_string = true
 
       query_string_cache_keys = [
+        "cohort",    # feature toggles
+        "toggles",   # feature toggles
         "page",
         "current",
         "query",
-        "cohort",
         "uri",
         "startDate",
         "endDate",
-
-        # Wellcome Images redirect
-        "MIROPAC",
-
-        "MIRO",
+        "MIROPAC",   # Wellcome Images redirect
+        "MIRO",      # Wellcome Images redirect
 
         # dotmailer gives us a 'result' (if we run out of params,
         # consider making new urls for newsletter pages instead)
@@ -64,10 +62,9 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         forward = "whitelist"
 
         whitelisted_names = [
-          "WC_wpAuthToken",
-          "WC_featuresCohort",
+          "toggles",           # feature toggles
+          "WC_featuresCohort", # feature toggles
           "*SESS*",            # Drupal
-          "WC_*_test",         # A/B tests
         ]
       }
     }

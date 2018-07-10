@@ -107,13 +107,6 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     statusOverride: statusOverride,
     place: isDocumentLink(data.place) && parsePlace(data.place),
     exhibits: data.exhibits ? parseExhibits(data.exhibits) : [],
-
-    /*
-      This is the display logic.
-      It would be nice to have these as separate steps,
-      but flow has problems with spreading.
-      https://github.com/facebook/flow/issues/3608
-    */
     promo: {
       id,
       format,

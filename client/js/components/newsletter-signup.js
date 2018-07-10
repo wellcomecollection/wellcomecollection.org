@@ -20,12 +20,12 @@ export default (el) => {
 
     if (!emailInputEl.validity.valid) {
       el.classList.add('is-error');
-      el.append(emailErrorMessage);
+      el.appendChild(emailErrorMessage);
     }
 
     if (!isAnyChecked()) {
       el.classList.add('is-error');
-      el.append(checkboxErrorMessage);
+      el.appendChild(checkboxErrorMessage);
     }
 
     if (!el.classList.contains('is-error')) {
@@ -43,7 +43,7 @@ export default (el) => {
       el.removeChild(checkboxErrorMessage);
     } else if (!isAnyChecked() && isSubmitAttempted) {
       el.classList.add('is-error');
-      el.append(checkboxErrorMessage);
+      el.appendChild(checkboxErrorMessage);
     }
   }
 
@@ -53,7 +53,7 @@ export default (el) => {
       el.removeChild(emailErrorMessage);
     } else if (!emailInputEl.validity.valid && isSubmitAttempted) {
       el.classList.add('is-error');
-      el.append(emailErrorMessage);
+      el.appendChild(emailErrorMessage);
     }
   }
 

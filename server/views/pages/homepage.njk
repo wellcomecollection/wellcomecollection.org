@@ -44,10 +44,17 @@
     <div class="css-grid">
       {% set position = 0 %}
       {% for exhibition in exhibitionAndEventPromos.currentTemporaryExhibitionPromos %}
-        <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-          {% set position = position + 1 %}
-          {% componentJsx 'ExhibitionPromo', exhibition | objectAssign({position: position}) %}
-        </div>
+        {% if exhibition.id === 'Wv2HziAAAOcE8Txh' %}
+          <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
+            {% set position = position + 1 %}
+            {% componentJsx 'EventPromo', exhibition | objectAssign({position: position}) %}
+          </div>
+        {% else %}
+          <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
+            {% set position = position + 1 %}
+            {% componentJsx 'ExhibitionPromo', exhibition | objectAssign({position: position}) %}
+          </div>
+        {% endif %}
       {% endfor %}
 
       {% for event in exhibitionAndEventPromos.eventPromos %}
