@@ -253,9 +253,6 @@ const EventPage = ({ event }: Props) => {
                 <PrismicHtmlBlock html={event.bookingInformation} />
               </div>
             </Fragment>}
-          <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
-            <a href='https://wellcomecollection.org/visit-us/events-tickets'>Our event terms and conditions</a>
-          </p>
         </div>
 
         {event.interpretations.map((i) => {
