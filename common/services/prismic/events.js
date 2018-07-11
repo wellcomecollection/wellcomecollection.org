@@ -167,9 +167,10 @@ export async function getEvent(req: Request, id: string, selectedDate: string): 
   });
 
   if (document && document.type === 'events') {
-    const scheduleIds = document.data.schedule.map(event => event.event.id);
+    const scheduleIds = document.data.schedule.map(event => event.event.id).filter(Boolean);
     const eventScheduleDocs = scheduleIds.length > 0 && await getTypeByIds(req, ['events'], scheduleIds, {fetchLinks});
     const event = parseEventDoc(document, eventScheduleDocs || null, selectedDate || null);
+
     return event;
   }
 }
