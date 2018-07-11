@@ -360,7 +360,7 @@ WorkPage.getInitialProps = async (context) => {
   const {asPath} = context;
   const queryStart = asPath.indexOf('?');
   const previousQueryString = queryStart > -1 && asPath.slice(queryStart);
-  const version = pageStore.toggles.apiV2 ? 2 : 1;
+  const version = pageStore('toggles').apiV2 ? 2 : 1;
   const res = await fetch(`https://api.wellcomecollection.org/catalogue/v${version}/works/${id}?includes=identifiers,items,thumbnail`);
   let json = await res.json();
 

@@ -1,3 +1,4 @@
+const path = require('path');
 const withTM = require('@weco/next-plugin-transpile-modules');
 const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
 const buildHash = process.env.BUILD_HASH || 'test';
@@ -40,7 +41,7 @@ module.exports = function(webpack) {
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new webpack.NormalModuleReplacementPlugin(
           /moment-timezone\/data\/packed\/latest\.json/,
-          require.resolve('./timezones.json')
+          path.join(__dirname, 'timezones.json')
         )
       );
 
