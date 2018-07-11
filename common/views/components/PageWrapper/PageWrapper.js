@@ -13,9 +13,11 @@ const clientStore = isServer ? null : new Map();
 const serverStore = isServer ? new Map() : null;
 
 export function pageStore(prop: string) {
-  return isServer
+  const val = isServer
     ? serverStore && serverStore.get(prop)
     : clientStore && clientStore.get(prop);
+
+  return val || {};
 }
 
 async function fetchOpeningTimes(req: Request) {
