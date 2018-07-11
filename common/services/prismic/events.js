@@ -1,5 +1,6 @@
 // @flow
-import {getDocument, getTypeByIds} from './api';
+import Prismic from 'prismic-javascript';
+import {getDocument, getTypeByIds, getDocuments} from './api';
 import {
   eventAccessOptionsFields,
   teamsFields,
@@ -27,7 +28,7 @@ import isEmptyObj from '../../utils/is-empty-object';
 import {london} from '../../utils/format-date';
 import type {UiEvent, EventFormat} from '../../model/events';
 import type {Team} from '../../model/team';
-import type {PrismicDocument, PrismicApiSearchResponse} from './types';
+import type {PrismicDocument, PrismicApiSearchResponse, PaginatedResults} from './types';
 
 function parseEventFormat(frag: Object): ?EventFormat {
   return isDocumentLink(frag) ? {
@@ -74,7 +75,11 @@ function determineDateRange(times) {
 }
 
 // TODO: NOTE this doesn't have the A/B image test stuff in it
-function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearchResponse, selectedDate: ?string): UiEvent {
+function parseEventDoc(
+  document: PrismicDocument,
+  scheduleDocs: ?PrismicApiSearchResponse,
+  selectedDate: ?string
+): UiEvent {
   const data = document.data;
   const genericFields = parseGenericFields(document);
   const eventSchedule = scheduleDocs && scheduleDocs.results ? scheduleDocs.results.map(doc => parseEventDoc(doc)) : [];
@@ -161,7 +166,14 @@ const fetchLinks = [].concat(
   eventSeriesFields
 );
 
-export async function getEvent(req: Request, id: string, selectedDate: string): Promise<?UiEvent> {
+type EventQueryProps = {|
+  id: string,
+  selectedDate: string
+|}
+export async function getEvent(req: Request, {
+  id,
+  selectedDate
+}: EventQueryProps): Promise<?UiEvent> {
   const document = await getDocument(req, id, {
     fetchLinks: fetchLinks
   });
@@ -171,5 +183,48 @@ export async function getEvent(req: Request, id: string, selectedDate: string): 
     const eventScheduleDocs = scheduleIds.length > 0 && await getTypeByIds(req, ['events'], scheduleIds, {fetchLinks});
     const event = parseEventDoc(document, eventScheduleDocs || null, selectedDate || null);
     return event;
+  }
+}
+
+type EventsQueryProps = {|
+  seriesId: string
+|}
+export async function getEvents(req: Request, {
+  seriesId
+}: EventsQueryProps): Promise<PaginatedResults<UiEvent>> {
+  const predicates = [Prismic.Predicates.at('document.type', 'events')];
+  const paginatedResults = await getDocuments(
+    req,
+    predicates,
+    { fetchLinks, orderings: '[my.events.times.startDateTime]' }
+  );
+
+  const events = paginatedResults.results.map(doc => {
+    return parseEventDoc(doc, null, null);
+  });
+
+  return {
+    currentPage: paginatedResults.currentPage,
+    pageSize: paginatedResults.pageSize,
+    totalResults: paginatedResults.totalResults,
+    totalPages: paginatedResults.totalPages,
+    results: events
+  };
+}
+
+type EventSeriesProps = {| id: string |}
+export async function getEventSeries(req: Request, {
+  id
+}: EventSeriesProps) {
+  const events = await getEvents(req, {
+    seriesId: id
+  });
+
+  if (events.results.length > 0) {
+    const series = events.results[0].series.find(series => series.id === id);
+    return {
+      series,
+      events
+    };
   }
 }

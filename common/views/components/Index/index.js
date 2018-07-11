@@ -16,6 +16,7 @@ import EventPage from '../BasePage/EventPage';
 import EventPageV2 from '../BasePage/EventPageV2';
 import EventPromo from '../EventPromo/EventPromo';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
+import EventSeriesPage from '../BasePage/EventSeriesPage';
 import ExceptionalOpeningHoursTable from '../ExceptionalOpeningHoursTable/ExceptionalOpeningHoursTable';
 import Excerpt from '../Excerpt/Excerpt';
 import ExhibitionPageHeader from '../PageHeaders/ExhibitionPageHeader/ExhibitionPageHeader';
@@ -79,6 +80,7 @@ export {
   EventPageV2,
   EventPromo,
   EventScheduleItem,
+  EventSeriesPage,
   ExceptionalOpeningHoursTable,
   Excerpt,
   ExhibitionPageHeader,
