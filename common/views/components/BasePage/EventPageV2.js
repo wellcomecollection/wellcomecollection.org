@@ -152,9 +152,9 @@ const EventPage = ({ event }: Props) => {
         <div id='dates' className={`body-text ${spacing({s: 4}, {padding: ['bottom']})}`}>
           <h2>{`Dates ${event.eventbriteId ? ' and booking' : ''}`}</h2>
           {event.eventbriteId &&
-            <div id='dates' style={{width: '100%', 'text-align': 'left'}}>
+            <div id='dates' style={{width: '100%', textAlign: 'left'}}>
               <iframe src={`https://eventbrite.co.uk/tickets-external?eid=${event.eventbriteId}&ref=etckt`} frameBorder='0' height='310' width='100%' vspace='0' hspace='0' marginHeight='5' marginWidth='5' scrolling='auto' allowTransparency='true'></iframe>
-              <div style={{'font-family': 'Helvetica, Arial', 'font-size': '12px', padding: '10px 0 5px', margin: '2px', width: '100%', 'text-align': 'left'}}><a className='powered-by-eb' style={{color: '#ADB0B6', 'text-decoration': 'none'}} target='_blank' rel='noopener noreferrer' href='https://www.eventbrite.co.uk/'>Powered by Eventbrite</a></div></div>
+              <div style={{fontFamily: 'Helvetica, Arial', fontSize: '12px', padding: '10px 0 5px', margin: '2px', width: '100%', textAlign: 'left'}}><a className='powered-by-eb' style={{color: '#ADB0B6', 'text-decoration': 'none'}} target='_blank' rel='noopener noreferrer' href='https://www.eventbrite.co.uk/'>Powered by Eventbrite</a></div></div>
           }
           {!event.eventbriteId &&
           DateInfo(event)
