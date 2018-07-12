@@ -82,8 +82,7 @@ const Contributors = ({
         </Fragment>
       ))}
     </div>
-  )
-  ;
+  );
 };
 
 export default Contributors;
