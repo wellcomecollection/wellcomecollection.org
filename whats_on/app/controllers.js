@@ -21,6 +21,7 @@ import {
   restaurantPromo,
   dailyTourPromo
 } from '../../server/data/facility-promos';
+
 const {createPageConfig} = model;
 const {
   getExhibitionAndEventPromos

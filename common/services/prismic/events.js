@@ -28,7 +28,7 @@ import isEmptyObj from '../../utils/is-empty-object';
 import {london} from '../../utils/format-date';
 import type {UiEvent, EventFormat} from '../../model/events';
 import type {Team} from '../../model/team';
-import type {PrismicDocument, PrismicApiSearchResponse, PaginatedResults} from './types';
+import type {PrismicDocument, PrismicApiSearchResponse} from './types';
 
 function parseEventFormat(frag: Object): ?EventFormat {
   return isDocumentLink(frag) ? {
@@ -189,19 +189,58 @@ export async function getEvent(req: Request, {
 type EventsQueryProps = {|
   seriesId: string
 |}
-export async function getEvents(req: Request, {
+export async function getEvents(req: Request,  {
   seriesId
-}: EventsQueryProps): Promise<PaginatedResults<UiEvent>> {
-  const predicates = [Prismic.Predicates.at('document.type', 'events')];
-  const paginatedResults = await getDocuments(
-    req,
-    predicates,
-    { fetchLinks, orderings: '[my.events.times.startDateTime]' }
-  );
+}: EventsQueryProps) {
+  const graphQuery = `{
+    events {
+      ...eventsFields
+      format {
+        ...formatFields
+      }
+      place {
+        ...placeFields
+      }
+      series {
+        series {
+          ...seriesFields
+        }
+      }
+      interpretations {
+        interpretationType {
+          ...interpretationTypeFields
+        }
+      }
+      contributors {
+        ...contributorsFields
+        role {
+          ...roleFields
+        }
+        contributor {
+          ...on people {
+            ...peopleFields
+          }
+          ...on organisations {
+            ...organisationsFields
+          }
+        }
+      }
+    }
+  }`;
+  const orderings = '[my.events.times.startDateTime]';
+  const predicates = [
+    Prismic.Predicates.at('document.type', 'events'),
+    seriesId ? Prismic.Predicates.at('my.events.series.series', seriesId) : null
+  ].filter(Boolean);
 
-  const events = paginatedResults.results.map(doc => {
-    return parseEventDoc(doc, null, null);
+  const paginatedResults = await getDocuments(req, predicates, {
+    orderings,
+    graphQuery
   });
+
+  const events = paginatedResults.results.map(doc =>
+    parseEventDoc(doc, null, null)
+  );
 
   return {
     currentPage: paginatedResults.currentPage,
