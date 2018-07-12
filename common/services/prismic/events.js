@@ -211,6 +211,11 @@ export async function getEvents(req: Request,  {
           ...interpretationTypeFields
         }
       }
+      audiences {
+        audience {
+          ...audienceFields
+        }
+      }
       contributors {
         ...contributorsFields
         role {
