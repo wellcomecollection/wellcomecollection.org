@@ -1,75 +1,56 @@
-import {getContributorsTitle} from '../../views/components/Contributors/Contributors';
+import {
+  dedupeAndPluraliseRoles
+} from '../../views/components/Contributors/Contributors';
 
-const facilitator = {
-  role: {
-    title: 'Facilitator'
-  }
-};
+const facilitator = 'Facilitator';
+const guide = 'Guide';
+const speaker = 'Speaker';
 
-const guide = {
-  role: {
-    title: 'Guide'
-  }
-};
+// test('dedupe and pluralise', () => {
+//   // console.info(dedupeAndPluraliseRoles(['Guide', 'Guide', 'Facilitator']));
+// });
 
-const speaker = {
-  role: {
-    title: 'Speaker'
-  }
-};
+// test('1 contributor, 1 role', async () => {
+//   const title = dedupeAndPluraliseRoles([facilitator], 'About the', false);
 
-test('1 contributor, 1 role', async () => {
-  const title = getContributorsTitle([facilitator], 'About the', false);
-
-  expect(title).toBe('About the facilitator');
-});
+//   expect(title).toBe('About the facilitator');
+// });
 
 test('multi contributor, 1 role', async () => {
-  const title = getContributorsTitle([
+  const title = dedupeAndPluraliseRoles([
     facilitator,
     facilitator
-  ], 'About the', false);
+  ]);
 
-  expect(title).toBe('About the facilitators');
+  expect(title).toEqual(['Facilitators']);
 });
 
 test('multi contributor, multi role', async () => {
-  const title = getContributorsTitle([
+  const title = dedupeAndPluraliseRoles([
     facilitator,
     guide,
     speaker
-  ], 'About the', false);
+  ]);
 
-  expect(title).toBe('About the facilitator, guide and speaker');
+  expect(title).toEqual(['Facilitator', 'Guide', 'Speaker']);
 });
 
 test('multi contributor, multi role, roles matching', async () => {
-  const title = getContributorsTitle([
+  const title = dedupeAndPluraliseRoles([
     facilitator,
     guide,
     guide,
     speaker
   ], 'About the', false);
 
-  expect(title).toBe('About the facilitator, guides and speaker');
-});
-
-test('multi contributor, multi roles, flattened', async () => {
-  const title = getContributorsTitle([
-    facilitator,
-    guide,
-    guide,
-    speaker
-  ], 'About the', true);
-
-  expect(title).toBe('About the contributors');
+  expect(title).toEqual(['Facilitator', 'Guides', 'Speaker']);
 });
 
 test('multi contributor, single roles, flattened', async () => {
-  const title = getContributorsTitle([
+  const title = dedupeAndPluraliseRoles([
     guide,
     guide
-  ], 'About your', true);
+  ]);
 
-  expect(title).toBe('About your guides');
+  expect(title).toEqual(['Guides']);
 });
