@@ -1,7 +1,7 @@
 // @flow
-import type {HTMLString, ImagePromo} from './content-blocks';
+import type {GenericContentFields} from './generic-content-fields';
+import type {HTMLString} from './content-blocks';
 import type {BackgroundTexture} from './background-texture';
-import type {Contributor} from './contributors';
 import type {Image} from './image';
 
 type DateTimeRange = {|
@@ -78,12 +78,16 @@ export type UiEvent = {|
   ...Event,
   upcomingDate: ?Date,
   selectedDate: ?Date,
+  dateRange: {
+    firstDate: Date,
+    lastDate: Date,
+    repeats: number
+  },
   backgroundTexture?: string
 |}
 
 export type Event = {|
-  id: string,
-  title: string,
+  ...GenericContentFields,
   format: ?EventFormat,
   isDropIn: boolean,
   times: EventTime[],
@@ -91,8 +95,6 @@ export type Event = {|
   series: EventSeries[],
   place: ?Place,
   bookingEnquiryTeam: ?Team,
-  contributors: Contributor[],
-  promo: ?ImagePromo,
   interpretations: Interpretation[],
   audiences: Audience[],
   bookingInformation: ?HTMLString,
@@ -104,8 +106,7 @@ export type Event = {|
   bookingType: ?string,
   schedule?: UiEvent[],
   eventbriteId?: string,
-  isCompletelySoldOut?: boolean,
-  body: any[]
+  isCompletelySoldOut?: boolean
 |}
 /* eslint-enable no-use-before-define */
 

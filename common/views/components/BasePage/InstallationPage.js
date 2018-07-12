@@ -62,6 +62,7 @@ const InstallationPage = ({
       <Fragment>
         {installation.contributors.length > 0 &&
           <Contributors
+            titleOverride={installation.contributorsTitle}
             excludeTitle={!showContributorsTitle}
             contributors={installation.contributors} />
         }

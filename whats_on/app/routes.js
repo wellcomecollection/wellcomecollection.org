@@ -6,7 +6,8 @@ import {
   renderExhibition,
   renderExhibits,
   renderExhibitExhibitionLink,
-  renderEvent
+  renderEvent,
+  renderEventbriteEmbed
 } from './controllers';
 
 const r = new Router({ sensitive: true });
@@ -18,5 +19,6 @@ r.get('/exhibitions', renderExhibitions);
 r.get('/exhibitions/:id', renderExhibition);
 r.get('/exhibitions/:id/exhibits', renderExhibits);
 r.get('/whats-on/events/:id', renderEvent); // For prototype testing
+r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 
 export const router = r.middleware();

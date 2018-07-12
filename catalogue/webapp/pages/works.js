@@ -172,7 +172,7 @@ export const Works = ({
           </div>
         }
       </Fragment>
-    }§
+    }
   </Fragment>
 );
 

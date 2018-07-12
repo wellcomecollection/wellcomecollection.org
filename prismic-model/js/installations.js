@@ -1,10 +1,10 @@
 // @flow
 import title from './parts/title';
-import contributors from './parts/contributors';
 import promo from './parts/promo';
 import timestamp from './parts/timestamp';
 import place from './parts/place';
 import body from './parts/body';
+import contributorsWithTitle from './parts/contributorsWithTitle';
 
 const Installations = {
   Installation: {
@@ -14,9 +14,7 @@ const Installations = {
     place,
     body
   },
-  Contributors: {
-    contributors
-  },
+  Contributors: contributorsWithTitle(),
   Promo: {
     promo
   }

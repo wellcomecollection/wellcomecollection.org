@@ -15,14 +15,13 @@ import {
 import {
   parseTitle,
   parseDescription,
-  parseContributors,
-  parseImagePromo,
   parsePlace,
   asText,
   asHtml,
   isDocumentLink,
   parseTimestamp,
-  parseBoolean
+  parseBoolean,
+  parseGenericFields
 } from './parsers';
 import isEmptyObj from '../../utils/is-empty-object';
 import {london} from '../../utils/format-date';
@@ -53,14 +52,31 @@ function determineUpcomingDate(times) {
   })
     .sort((a, b) => b.isBefore(a, 'day'));
   const futureDates = eventArray.filter((date) => !date.isBefore(todaysDate));
-  return futureDates[0] ? futureDates[0].toString()
-    : eventArray[0] ? eventArray[0].toString()
+  return futureDates[0] ? futureDates[0].toDate()
+    : eventArray[0] ? eventArray[0].toDate()
       : null;
+}
+
+function determineDateRange(times) {
+  const startTimes = times.map((eventTime) => {
+    return london(eventTime.startDateTime);
+  })
+    .sort((a, b) => b.isBefore(a, 'day'));
+  const endTimes = times.map((eventTime) => {
+    return london(eventTime.endDateTime);
+  })
+    .sort((a, b) => b.isBefore(a, 'day'));
+  return {
+    firstDate: startTimes[0],
+    lastDate: endTimes[endTimes.length - 1],
+    repeats: times.length
+  };
 }
 
 // TODO: NOTE this doesn't have the A/B image test stuff in it
 function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearchResponse, selectedDate: ?string): UiEvent {
   const data = document.data;
+  const genericFields = parseGenericFields(document);
   const eventSchedule = scheduleDocs && scheduleDocs.results ? scheduleDocs.results.map(doc => parseEventDoc(doc)) : [];
   const interpretations = document.data.interpretations.map(interpretation => isDocumentLink(interpretation.interpretationType) ? ({
     interpretationType: {
@@ -96,12 +112,9 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearc
 
   const upcomingDate = determineUpcomingDate(data.times);
   return {
-    id: document.id,
-    title: parseTitle(data.title),
+    ...genericFields,
     description: asText(data.description),
-    contributors: data.contributors ? parseContributors(data.contributors) : [],
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
-    promo: document.data.promo && parseImagePromo(document.data.promo),
     audiences,
     bookingEnquiryTeam,
     bookingInformation: document.data.bookingInformation,
@@ -129,7 +142,8 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearc
       value: parseDescription(data.description)
     }] : [],
     upcomingDate: upcomingDate ? london(upcomingDate).toDate() : null,
-    selectedDate: selectedDate ? london(selectedDate).toDate() : null
+    selectedDate: selectedDate ? london(selectedDate).toDate() : null,
+    dateRange: determineDateRange(data.times)
   };
 }
 
@@ -153,9 +167,10 @@ export async function getEvent(req: Request, id: string, selectedDate: string): 
   });
 
   if (document && document.type === 'events') {
-    const scheduleIds = document.data.schedule.map(event => event.event.id);
+    const scheduleIds = document.data.schedule.map(event => event.event.id).filter(Boolean);
     const eventScheduleDocs = scheduleIds.length > 0 && await getTypeByIds(req, ['events'], scheduleIds, {fetchLinks});
     const event = parseEventDoc(document, eventScheduleDocs || null, selectedDate || null);
+
     return event;
   }
 }

@@ -3,11 +3,8 @@ import type {PrismicDocument} from './types';
 import type {Book} from '../../model/books';
 import {getDocument} from './api';
 import {
-  parseTitle,
-  parseImagePromo,
+  parseGenericFields,
   parseTimestamp,
-  parseBody,
-  parseContributors,
   asHtml,
   checkAndParseImage,
   asText
@@ -15,11 +12,11 @@ import {
 
 export function parseBook(document: PrismicDocument): Book {
   const data = document.data;
-  const promo = document.data.promo && parseImagePromo(document.data.promo, null);
+  const genericFields = parseGenericFields(document);
+
   return {
     type: 'books',
-    id: document.id,
-    title: parseTitle(data.title),
+    ...genericFields,
     subtitle: data.subtitle && asText(data.subtitle),
     orderLink: data.orderLink && data.orderLink.url,
     price: data.price,
@@ -36,10 +33,7 @@ export function parseBook(document: PrismicDocument): Book {
     authorName: data.authorName && asText(data.authorName),
     authorImage: data.authorImage && data.authorImage.url,
     authorDescription: data.authorDescription,
-    promo,
-    body: data.body ? parseBody(data.body) : [],
-    cover: checkAndParseImage(data.cover),
-    contributors: data.contributors ? parseContributors(data.contributors) : []
+    cover: checkAndParseImage(data.cover)
   };
 }
 

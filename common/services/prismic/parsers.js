@@ -10,6 +10,7 @@ import type { Place } from '../../model/place';
 import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/background-texture';
 import type { CaptionedImage } from '../../model/captioned-image';
 import type { ImagePromo } from '../../model/image-promo';
+import type { GenericContentFields } from '../../model/generic-content-fields';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
@@ -355,7 +356,7 @@ function getWeight(weight: ?string): ?Weight {
   }
 }
 
-export function parseBody(fragment: PrismicFragment[]) {
+export function parseBody(fragment: PrismicFragment[]): any[] {
   return fragment.map((slice) => {
     switch (slice.slice_type) {
       case 'standfirst':
@@ -456,4 +457,16 @@ export function parseBody(fragment: PrismicFragment[]) {
         }
     }
   }).filter(Boolean);
+}
+
+export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
+  const {data} = doc;
+  return {
+    id: doc.id,
+    title: parseTitle(data.title),
+    contributorsTitle: asText(data.contributorsTitle),
+    contributors: data.contributors ? parseContributors(data.contributors) : [],
+    promo: data.promo && parseImagePromo(data.promo),
+    body: data.body ? parseBody(data.body) : []
+  };
 }

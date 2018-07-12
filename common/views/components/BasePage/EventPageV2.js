@@ -12,13 +12,13 @@ import Button from '../Buttons/Button/Button';
 import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import {UiImage} from '../Images/Images';
-import type {Event} from '../../../model/events';
+import type {UiEvent} from '../../../model/events';
 import {spacing, font} from '../../../utils/classnames';
 import camelize from '../../../utils/camelize';
-import {formatAndDedupeOnDate, formatAndDedupeOnTime, joinDateStrings} from '../../../utils/format-date';
+import {formatAndDedupeOnDate, formatAndDedupeOnTime, joinDateStrings, formatDayDate} from '../../../utils/format-date';
 
 type Props = {|
-  event: Event
+  event: UiEvent
 |}
 
 function DateInfo(event) {
@@ -49,6 +49,19 @@ function DateInfo(event) {
           </div>
         );
       })}
+    </Fragment>
+  );
+}
+
+function DateRange(event) { // TODO what happens if tickets aren't available yet
+  const buttonText = ((event.eventbriteId || event.bookingEnquiryTeam) && !event.isCompletelySoldOut)
+    ? 'Check dates and book'
+    : 'Check dates';
+  return (
+    event.dateRange &&
+    <Fragment>
+      <p className={spacing({s: 2}, {margin: ['bottom']})}>{`Multiple dates ${formatDayDate(event.dateRange.firstDate)} - ${formatDayDate(event.dateRange.lastDate)}`}</p>
+      <Button type='primary' text={buttonText} url='#dates' />
     </Fragment>
   );
 }
@@ -98,10 +111,10 @@ const EventPage = ({ event }: Props) => {
   const interpretationsTags = event.interpretations ? event.interpretations.map(i => ({text: i.interpretationType.title})) : [];
   const TagBar = <Tags tags={formatTag.concat(interpretationsTags)} />;
   const Header = (<BaseHeader
-    title={`${event.title} - V2`}
+    title={`${event.title}`}
     Background={<WobblyBackground />}
     TagBar={TagBar}
-    DateInfo={DateInfo(event)}
+    DateInfo={event.times.length > 1 ? DateRange(event) : DateInfo(event)}
     InfoBar={InfoBar(event.cost, event.eventbriteId, event.bookingEnquiryTeam)}
     Description={null}
     FeaturedMedia={FeaturedMedia}
@@ -126,48 +139,27 @@ const EventPage = ({ event }: Props) => {
           </div>
         }
 
-        {event.series.map((series) => {
-          return (
-            <div className='body-text' key={series.id}>
-              <h2>Part of <a href='/event-series/{series.id}'>{series.title}</a></h2>
-              <PrismicHtmlBlock html={series.description} />
-            </div>
-          );
-        })}
-
-        {event.audiences.map((audience) => {
-          if (audience.description) {
-            return (
-              <div className='body-text' key={audience.title}>
-                <h2>For {audience.title}</h2>
-                <PrismicHtmlBlock html={audience.description} />
-              </div>
-            );
-          }
-        })}
-
-        {/* Booking CTAs */}
-        {event.eventbriteId &&
-          <div className={`border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
-            {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
-              : (
-                <div className='js-eventbrite-ticket-button' data-eventbrite-ticket-id={event.eventbriteId}>
-                  <Button
-                    type='primary'
-                    url={`https://www.eventbrite.com/e/${event.eventbriteId}/`}
-                    eventTracking={JSON.stringify({
-                      category: 'component',
-                      action: 'booking-tickets:click',
-                      label: 'event-page'
-                    })}
-                    icon='ticket'
-                    text='Book free tickets' />
-                  <p className={`font-charcoal ${font({s: 'HNL5'})} ${spacing({s: 1}, {margin: ['top']})} ${spacing({s: 0}, {margin: ['bottom']})}`}>with Eventbrite</p>
-                </div>
-              )
-            }
+        {event.contributors.length > 0 &&
+          <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`}>
+            <Contributors
+              titlePrefix='About your'
+              titleOverride={event.contributorsTitle}
+              contributors={event.contributors} />
           </div>
         }
+
+        {/* Booking CTAs */}
+        <div id='dates' className={`body-text ${spacing({s: 4}, {padding: ['bottom']})}`}>
+          <h2>{`Dates ${event.eventbriteId ? ' and booking' : ''}`}</h2>
+          {event.eventbriteId &&
+            <div id='dates' style={{width: '100%', textAlign: 'left'}}>
+              <iframe src={`https://eventbrite.co.uk/tickets-external?eid=${event.eventbriteId}&ref=etckt`} frameBorder='0' height='310' width='100%' vspace='0' hspace='0' marginHeight='5' marginWidth='5' scrolling='auto' allowTransparency='true'></iframe>
+              <div style={{fontFamily: 'Helvetica, Arial', fontSize: '12px', padding: '10px 0 5px', margin: '2px', width: '100%', textAlign: 'left'}}><a className='powered-by-eb' style={{color: '#ADB0B6', 'text-decoration': 'none'}} target='_blank' rel='noopener noreferrer' href='https://www.eventbrite.co.uk/'>Powered by Eventbrite</a></div></div>
+          }
+          {!event.eventbriteId &&
+          DateInfo(event)
+          }
+        </div>
 
         {event.bookingEnquiryTeam &&
           <div className={`border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
@@ -253,15 +245,19 @@ const EventPage = ({ event }: Props) => {
           }
         </div>
 
-        {event.contributors.length > 0 &&
-          <Contributors
-            titlePrefix='About your'
-            contributors={event.contributors} />
-        }
+        <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`}>
+          {event.bookingInformation &&
+            <Fragment>
+              <h3 className={font({s: 'HNM4'})}>Booking information</h3>
+              <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
+                <PrismicHtmlBlock html={event.bookingInformation} />
+              </div>
+            </Fragment>}
+        </div>
 
         {event.interpretations.map((i) => {
           return (i.interpretationType.description &&
-            <div className='body-text' key={i.interpretationType.title}>
+            <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`} key={i.interpretationType.title}>
               <h2 className='flex flex--v-center'>
                 <span className={`flex flex--v-center ${spacing({s: 1}, {margin: ['right']})}`}>
                   <Icon name={camelize(i.interpretationType.title)} />
@@ -274,18 +270,32 @@ const EventPage = ({ event }: Props) => {
           );
         })}
 
-        <div className='body-text'>
-          {event.bookingInformation &&
-            <Fragment>
-              <h3 className={font({s: 'HNM4'})}>Booking information</h3>
-              <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
-                <PrismicHtmlBlock html={event.bookingInformation} />
+        {event.audiences.map((audience) => {
+          if (audience.description) {
+            return (
+              <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`} key={audience.title}>
+                <h2>For {audience.title}</h2>
+                <PrismicHtmlBlock html={audience.description} />
               </div>
-            </Fragment>}
+            );
+          }
+        })}
+
+        <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`}>
           <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
             <a href='https://wellcomecollection.org/visit-us/events-tickets'>Our event terms and conditions</a>
           </p>
         </div>
+
+        {event.series.map((series) => {
+          return (
+            <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`} key={series.id}>
+              <h2>Part of <a href='/event-series/{series.id}'>{series.title}</a></h2>
+              <PrismicHtmlBlock html={series.description} />
+            </div>
+          );
+        })}
+
       </Fragment>
     </BasePage>
   );

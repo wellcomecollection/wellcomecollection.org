@@ -68,12 +68,6 @@ export async function renderHomepage(ctx, next) {
   const contentList = await getArticleList();
   const storiesPromos = contentList.results.map(PromoFactory.fromArticleStub).slice(0, 4);
 
-  if (ctx.featuresCohort === 'testB') {
-    const handleWithCare = exhibitionAndEventPromos.eventPromos.find(promo => promo.id === 'Wv2HziAAAOcE8Txh');
-    exhibitionAndEventPromos.currentTemporaryExhibitionPromos = [handleWithCare].concat(exhibitionAndEventPromos.currentTemporaryExhibitionPromos);
-    exhibitionAndEventPromos.eventPromos = exhibitionAndEventPromos.eventPromos.filter(promo => promo.id !== 'Wv2HziAAAOcE8Txh');
-  }
-
   ctx.render('pages/homepage', {
     pageConfig: createPageConfig({
       path: path,

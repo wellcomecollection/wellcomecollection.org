@@ -28,14 +28,9 @@ function DateInfo(event) {
         const formattedDateRange =  formatAndDedupeOnDate(eventTime.range.startDateTime, eventTime.range.endDateTime);
         return (
           <div key={index} className={`border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
-            <time className='block'>
-              <b className={font({s: 'HNM4'})}>{joinDateStrings(formattedDateRange)}</b>
-            </time>
+            <time>{joinDateStrings(formattedDateRange)}</time>, <time>{joinDateStrings(formatAndDedupeOnTime(eventTime.range.startDateTime, eventTime.range.endDateTime))}</time>
             {formattedDateRange.length === 1 && (
               <div className='flex'>
-                <time className='block'>
-                  {joinDateStrings(formatAndDedupeOnTime(eventTime.range.startDateTime, eventTime.range.endDateTime))}
-                </time>
                 {(eventTime.isFullyBooked && !(event.eventbriteId || event.bookingEnquiryTeam)) &&
                   <div className={`${font({s: 'HNM5'})} ${spacing({s: 2}, {margin: ['left']})} flex flex--v-center`}>
                     <span className={`${spacing({s: 1}, {margin: ['right']})} flex flex--v-center`}>
@@ -197,25 +192,19 @@ const EventPage = ({ event }: Props) => {
           </div>
         }
 
-        {event.series.map((series) => {
-          return (
-            <div className='body-text' key={series.id}>
-              <h2>Part of <a href='/event-series/{series.id}'>{series.title}</a></h2>
-              <PrismicHtmlBlock html={series.description} />
-            </div>
-          );
-        })}
+        {event.contributors.length > 0 &&
+          <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`}>
+            <Contributors
+              titlePrefix='About your'
+              titleOverride={event.contributorsTitle}
+              contributors={event.contributors} />
+          </div>
+        }
 
-        {event.audiences.map((audience) => {
-          if (audience.description) {
-            return (
-              <div className='body-text' key={audience.title}>
-                <h2>For {audience.title}</h2>
-                <PrismicHtmlBlock html={audience.description} />
-              </div>
-            );
-          }
-        })}
+        <div className={`body-text ${spacing({s: 4}, {padding: ['bottom']})}`}>
+          <h2>Dates</h2>
+          {DateInfo(event)}
+        </div>
 
         {/* Booking CTAs */}
         {event.eventbriteId &&
@@ -263,7 +252,7 @@ const EventPage = ({ event }: Props) => {
         }
 
         {/* Booking explanations */}
-        <div className={`body-text border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
+        <div className={`body-text border-top-width-1 border-color-pumice ${spacing({s: 4}, {padding: ['top', 'bottom']})}`}>
           {
             event.isDropIn ? (
               <Fragment>
@@ -324,15 +313,19 @@ const EventPage = ({ event }: Props) => {
           }
         </div>
 
-        {event.contributors.length > 0 &&
-          <Contributors
-            titlePrefix='About your'
-            contributors={event.contributors} />
-        }
+        <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`}>
+          {event.bookingInformation &&
+            <Fragment>
+              <h3 className={font({s: 'HNM4'})}>Booking information</h3>
+              <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
+                <PrismicHtmlBlock html={event.bookingInformation} />
+              </div>
+            </Fragment>}
+        </div>
 
         {event.interpretations.map((i) => {
           return (i.interpretationType.description &&
-            <div className='body-text' key={i.interpretationType.title}>
+            <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`} key={i.interpretationType.title}>
               <h2 className='flex flex--v-center'>
                 <span className={`flex flex--v-center ${spacing({s: 1}, {margin: ['right']})}`}>
                   <Icon name={camelize(i.interpretationType.title)} />
@@ -345,18 +338,32 @@ const EventPage = ({ event }: Props) => {
           );
         })}
 
-        <div className='body-text'>
-          {event.bookingInformation &&
-            <Fragment>
-              <h3 className={font({s: 'HNM4'})}>Booking information</h3>
-              <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
-                <PrismicHtmlBlock html={event.bookingInformation} />
+        {event.audiences.map((audience) => {
+          if (audience.description) {
+            return (
+              <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`} key={audience.title}>
+                <h2>For {audience.title}</h2>
+                <PrismicHtmlBlock html={audience.description} />
               </div>
-            </Fragment>}
+            );
+          }
+        })}
+
+        <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`}>
           <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
             <a href='https://wellcomecollection.org/visit-us/events-tickets'>Our event terms and conditions</a>
           </p>
         </div>
+
+        {event.series.map((series) => {
+          return (
+            <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`} key={series.id}>
+              <h2>Part of <a href='/event-series/{series.id}'>{series.title}</a></h2>
+              <PrismicHtmlBlock html={series.description} />
+            </div>
+          );
+        })}
+
       </Fragment>
     </BasePage>
   );

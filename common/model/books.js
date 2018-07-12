@@ -1,8 +1,7 @@
 // @flow
+import type {GenericContentFields} from './generic-content-fields';
 import type {HTMLString} from '../services/prismic/types';
-import type {ImagePromo} from './image-promo';
 import type {Image} from './image';
-import type {Contributor} from './contributors';
 
 type Review = {|
   text: HTMLString,
@@ -10,9 +9,8 @@ type Review = {|
 |}
 
 export type Book = {|
+  ...GenericContentFields,
   type: 'books',
-  id: string,
-  title: ?string,
   subtitle: ?string,
   orderLink: ?string,
   price: ?string,
@@ -24,8 +22,5 @@ export type Book = {|
   authorName: ?string, // This is structuredText in Prismic >.<
   authorImage: ?string, // This is a link in Prismic >.<
   authorDescription: ?HTMLString,
-  body: any[],
-  promo: ?ImagePromo,
-  cover: ?Image,
-  contributors: Contributor[]
+  cover: ?Image
 |};
