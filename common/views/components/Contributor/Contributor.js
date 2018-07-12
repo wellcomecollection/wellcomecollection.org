@@ -14,7 +14,6 @@ const Contributor = ({
   const descriptionToRender = description || contributor.description;
   const imageProps: ImageProps = contributor.type === 'organisations' ? {
     width: 78,
-    height: 78,
     contentUrl: contributor.image && contributor.image.contentUrl,
     alt: `Logo for ${contributor.name}`
   } : {
