@@ -68,8 +68,13 @@ const Contributors = ({
           {`${getContributorsTitle(roles, titlePrefix)}`}
         </h2>
       }
+
       {contributors.map(({contributor, role, description}) => (
         <Fragment key={contributor.id}>
+          {/*
+            we don't show the role if there is only 1 as it will be
+            displayed in the title
+          */}
           <Contributor
             contributor={contributor}
             role={roles.length > 1 ? role : null}
