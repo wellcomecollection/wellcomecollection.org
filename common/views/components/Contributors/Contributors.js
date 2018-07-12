@@ -10,14 +10,8 @@ type Props = {|
   excludeTitle?: boolean
 |}
 
-export function getContributorsTitle(
-  contributors: ContributorType[],
-  titlePrefix: string = 'About the',
-  flattenRoles: boolean = true
-): string {
-  // We've been guarenteed that we'll only get speaker, guide, and facilitator,
-  // so the pluralisation works here.
-  const roleCounts = contributors.map(contributor => contributor.role && contributor.role.title)
+export function dedupeAndPluraliseRoles(roles: string[]) {
+  const dedupedWithCount: { [string]: number } = roles
     .filter(Boolean)
     .reduce((acc, role) => {
       if (!acc.hasOwnProperty(role)) {
@@ -27,25 +21,28 @@ export function getContributorsTitle(
       return acc;
     }, {});
 
+  // We've been guarenteed that we'll only get speaker, guide, and facilitator,
+  // so the pluralisation works here.
+  const pluralised: string[] = Object.keys(dedupedWithCount).map(role => {
+    const count = dedupedWithCount[role];
+    return count > 1 ? `${role}s` : role;
+  }, []);
+
+  return pluralised;
+}
+
+export function getContributorsTitle(
+  roles: string[],
+  titlePrefix: string = 'About the'
+): string {
+  const lowerCaseRoles = roles.map(role => role.toLowerCase());
+
   // This is basic, but makes sense
-  if (roleCounts.hasOwnProperty('Partner')) {
+  if (roles.indexOf('Partner') !== -1) {
     return 'In partnership with';
   }
 
-  const roles = Object.keys(roleCounts).reduce((acc, role, i, roles) => {
-    const postFix =
-        // The second last of many
-        roles.length !== 1 && i === roles.length - 2 ? ' and '
-        // Not the last of many
-          : roles.length !== 1 && i < roles.length - 2 ? ', '
-          // There's only 1
-            : '';
-
-    const pluralisedS = roleCounts[role] > 1 ? 's' : '';
-    return acc + role.toLowerCase() + pluralisedS + postFix;
-  }, '');
-
-  const rolesString = flattenRoles && Object.keys(roleCounts).length > 1 ? 'contributors' : roles;
+  const rolesString = lowerCaseRoles.length === 1 ?  lowerCaseRoles[0] : 'contributors';
 
   return `${titlePrefix} ${rolesString}`;
 }
@@ -55,23 +52,37 @@ const Contributors = ({
   titleOverride,
   excludeTitle,
   titlePrefix = 'About the'
-}: Props) => (
-  <div className={`${spacing({s: 2}, {padding: ['top']})} border-top-width-1 border-color-smoke`}>
-    {titleOverride && <h2 className='h2'>{titleOverride}</h2>}
-    {!titleOverride && !excludeTitle &&
-      <h2 className='h2'>
-        {`${getContributorsTitle(contributors, titlePrefix)}`}
-      </h2>
-    }
-    {contributors.map(({contributor, role, description}) => (
-      <div className={spacing({s: 2}, {margin: ['top']})} key={contributor.id}>
-        <Contributor
-          contributor={contributor}
-          role={role}
-          description={description} />
-      </div>
-    ))}
-  </div>
-);
+}: Props) => {
+  const roles = dedupeAndPluraliseRoles(
+    contributors
+      .map(contributor => contributor.role && contributor.role.title)
+      .filter(Boolean)
+  );
+
+  return (
+    <div className={`${spacing({s: 2}, {padding: ['top']})} border-top-width-1 border-color-smoke`}>
+      {titleOverride && <h2 className='h2'>{titleOverride}</h2>}
+      {!titleOverride && !excludeTitle &&
+        <h2 className='h2'>
+          {`${getContributorsTitle(roles, titlePrefix)}`}
+        </h2>
+      }
+
+      {contributors.map(({contributor, role, description}) => (
+        <div className={spacing({s: 2}, {margin: ['top']})} key={contributor.id}>
+          {/*
+            we don't show the role if there is only 1 as it will be
+            displayed in the title
+          */}
+          <Contributor
+            contributor={contributor}
+            role={roles.length > 1 ? role : null}
+            description={description} />
+        </div>
+      ))}
+    </div>
+  )
+  ;
+};
 
 export default Contributors;

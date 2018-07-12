@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/react';
 import { doc }  from 'storybook-readme';
 
 const stories = storiesOf('Documentation', module);
-const docs = require.context('./', true, /\.md$/);
+const docs = require.context('../../../docs', true, /\.md$/);
 
 docs.keys().forEach(filename => {
   const content = docs(filename);
