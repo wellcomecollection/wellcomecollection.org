@@ -8,6 +8,7 @@ import {formatDate} from '../../../utils/format-date';
 import Footer from '../Footer/Footer';
 import type {PlacesOpeningHours} from '../../../model/opening-hours';
 import analytics from '../../../utils/analytics';
+import withSentry from '../../hocs/withSentry';
 
 // TODO: Hashed files
 // TODO: Inline CSS
@@ -249,4 +250,4 @@ class DPLWithLoader extends Component<Props> {
   }
 }
 
-export default DPLWithLoader;
+export default withSentry(DPLWithLoader);
