@@ -23,7 +23,7 @@ const Contributor = ({
     contentUrl: contributor.image && contributor.image.contentUrl,
     alt: `Photograph of ${contributor.name}`
   };
-  // ${contributor.type === 'people' ?
+
   return (
     <div className='grid'>
       <div className={`flex ${grid({ s: 12, m: 12, l: 12, xl: 12 })}`}>
