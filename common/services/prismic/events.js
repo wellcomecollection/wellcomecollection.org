@@ -204,6 +204,14 @@ export async function getEvents(req: Request,  {
       series {
         series {
           ...seriesFields
+          promo {
+            ... on editorialImage {
+              non-repeat {
+                caption
+                image
+              }
+            }
+          }
         }
       }
       interpretations {
@@ -222,11 +230,19 @@ export async function getEvents(req: Request,  {
           ...roleFields
         }
         contributor {
-          ...on people {
+          ... on people {
             ...peopleFields
           }
-          ...on organisations {
+          ... on organisations {
             ...organisationsFields
+          }
+        }
+      }
+      promo {
+        ... on editorialImage {
+          non-repeat {
+            caption
+            image
           }
         }
       }
@@ -243,9 +259,10 @@ export async function getEvents(req: Request,  {
     graphQuery
   });
 
-  const events = paginatedResults.results.map(doc =>
-    parseEventDoc(doc, null, null)
-  );
+  const events = paginatedResults.results.map(doc => {
+    console.info(doc.data.promo);
+    return parseEventDoc(doc, null, null);
+  });
 
   return {
     currentPage: paginatedResults.currentPage,

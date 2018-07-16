@@ -22,9 +22,7 @@ const InstallationPage = ({
 }: Props) => {
   const DateInfo = installation.end ? <DateRange start={installation.start} end={installation.end} /> : <HTMLDate date={installation.start} />;
   const image = installation.promo && installation.promo.image;
-  const tasl = image && {
-    isFull: false,
-    contentUrl: image.contentUrl,
+  const tasl: ?Tasl = image && {
     title: image.title,
     author: image.author,
     sourceName: image.source && image.source.name,
