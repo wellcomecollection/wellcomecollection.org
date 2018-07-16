@@ -43,6 +43,14 @@ const Page = ({
     FeaturedMedia={FeaturedMedia}
   />);
 
+  const upcomingEvents = events.filter(event => {
+    const lastStartTime = event.times.length > 0 ? event.times[event.times.length - 1].range.startDateTime : null;
+    const inTheFuture = lastStartTime ? new Date(lastStartTime) > new Date() : false;
+    return inTheFuture;
+  });
+  const upcomingEventsIds = upcomingEvents.map(event => event.id);
+  const pastEvents = events.filter(event => upcomingEventsIds.indexOf(event.id) === -1);
+
   return (
     <BasePage
       id={series.id}
@@ -55,8 +63,11 @@ const Page = ({
             titleOverride={series.contributorsTitle}
             contributors={series.contributors} />
         }
-        {events.length > 0 &&
-          <SearchResults items={events} />
+        {upcomingEvents.length > 0 &&
+          <SearchResults items={upcomingEvents} title={'Upcoming events'} />
+        }
+        {pastEvents.length > 0 &&
+          <SearchResults items={pastEvents} title={'Past events'} />
         }
       </Fragment>
     </BasePage>
