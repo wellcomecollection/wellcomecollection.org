@@ -17,8 +17,7 @@ type Props = {|
 |}
 
 const InstallationPage = ({
-  installation,
-  showContributorsTitle
+  installation
 }: Props) => {
   const DateInfo = installation.end ? <DateRange start={installation.start} end={installation.end} /> : <HTMLDate date={installation.start} />;
   const image = installation.promo && installation.promo.image;
@@ -63,7 +62,6 @@ const InstallationPage = ({
         {installation.contributors.length > 0 &&
           <Contributors
             titleOverride={installation.contributorsTitle}
-            excludeTitle={!showContributorsTitle}
             contributors={installation.contributors} />
         }
       </Fragment>

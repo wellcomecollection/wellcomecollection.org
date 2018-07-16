@@ -81,8 +81,7 @@ const Contributors = ({
         </div>
       ))}
     </div>
-  )
-  ;
+  );
 };
 
 export default Contributors;

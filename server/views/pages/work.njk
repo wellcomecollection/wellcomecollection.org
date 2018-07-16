@@ -86,7 +86,7 @@
               download: work.id + '.jpg',
               rel: 'noopener noreferrer',
               target: '_blank',
-              eventTracking: '{"category": "component", "action": "download-button:click", "label": "id:' +  work.id + ', size:original, title:' + work.title | truncate(50) + '"}',
+              eventTracking: '{"category": "component", "action": "download-button:click", "label": "id:' +  work.id + ', size:original, title:' + work.title | truncate(50) | urlencode + '"}',
               icon: 'download',
               text: 'Download full size'
             } %}
@@ -99,7 +99,7 @@
               download: work.id + '.jpg',
               rel: 'noopener noreferrer',
               target: '_blank',
-              eventTracking: '{"category": "component", "action": "download-button:click", "label": "id:' +  work.id + ', size:760, title:' + work.title | truncate(50) + '"}',
+              eventTracking: '{"category": "component", "action": "download-button:click", "label": "id:' +  work.id + ', size:760, title:' + work.title | truncate(50) | urlencode + '"}',
               icon: 'download',
               text: 'Download small (760px)'
             } %}
