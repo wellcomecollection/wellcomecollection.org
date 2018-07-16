@@ -1,5 +1,6 @@
 // @flow
-import {getDocument, getTypeByIds} from './api';
+import Prismic from 'prismic-javascript';
+import {getDocument, getTypeByIds, getDocuments} from './api';
 import {
   eventAccessOptionsFields,
   teamsFields,
@@ -23,6 +24,7 @@ import {
   parseBoolean,
   parseGenericFields
 } from './parsers';
+import {parseEventSeries} from './event-series';
 import isEmptyObj from '../../utils/is-empty-object';
 import {london} from '../../utils/format-date';
 import type {UiEvent, EventFormat} from '../../model/events';
@@ -73,8 +75,11 @@ function determineDateRange(times) {
   };
 }
 
-// TODO: NOTE this doesn't have the A/B image test stuff in it
-function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearchResponse, selectedDate: ?string): UiEvent {
+function parseEventDoc(
+  document: PrismicDocument,
+  scheduleDocs: ?PrismicApiSearchResponse,
+  selectedDate: ?string
+): UiEvent {
   const data = document.data;
   const genericFields = parseGenericFields(document);
   const eventSchedule = scheduleDocs && scheduleDocs.results ? scheduleDocs.results.map(doc => parseEventDoc(doc)) : [];
@@ -104,11 +109,10 @@ function parseEventDoc(document: PrismicDocument, scheduleDocs: ?PrismicApiSearc
     url: document.data.bookingEnquiryTeam.data.url
   }: Team);
 
-  const series = document.data.series.map(series => isDocumentLink(series.series) ? ({
-    id: series.series.id,
-    title: asText(series.series.data.title),
-    description: series.series.data.description
-  }) : null).filter(Boolean);
+  const series = document.data.series.map(
+    series => isDocumentLink(series.series)
+      ? parseEventSeries(series.series)
+      : null).filter(Boolean);
 
   const upcomingDate = determineUpcomingDate(data.times);
   return {
@@ -161,7 +165,14 @@ const fetchLinks = [].concat(
   eventSeriesFields
 );
 
-export async function getEvent(req: Request, id: string, selectedDate: string): Promise<?UiEvent> {
+type EventQueryProps = {|
+  id: string,
+  selectedDate: string
+|}
+export async function getEvent(req: Request, {
+  id,
+  selectedDate
+}: EventQueryProps): Promise<?UiEvent> {
   const document = await getDocument(req, id, {
     fetchLinks: fetchLinks
   });
@@ -172,5 +183,108 @@ export async function getEvent(req: Request, id: string, selectedDate: string): 
     const event = parseEventDoc(document, eventScheduleDocs || null, selectedDate || null);
 
     return event;
+  }
+}
+
+type EventsQueryProps = {|
+  seriesId: string
+|}
+export async function getEvents(req: Request,  {
+  seriesId
+}: EventsQueryProps) {
+  const graphQuery = `{
+    events {
+      ...eventsFields
+      format {
+        ...formatFields
+      }
+      place {
+        ...placeFields
+      }
+      series {
+        series {
+          ...seriesFields
+          promo {
+            ... on editorialImage {
+              non-repeat {
+                caption
+                image
+              }
+            }
+          }
+        }
+      }
+      interpretations {
+        interpretationType {
+          ...interpretationTypeFields
+        }
+      }
+      audiences {
+        audience {
+          ...audienceFields
+        }
+      }
+      contributors {
+        ...contributorsFields
+        role {
+          ...roleFields
+        }
+        contributor {
+          ... on people {
+            ...peopleFields
+          }
+          ... on organisations {
+            ...organisationsFields
+          }
+        }
+      }
+      promo {
+        ... on editorialImage {
+          non-repeat {
+            caption
+            image
+          }
+        }
+      }
+    }
+  }`;
+  const orderings = '[my.events.times.startDateTime]';
+  const predicates = [
+    Prismic.Predicates.at('document.type', 'events'),
+    seriesId ? Prismic.Predicates.at('my.events.series.series', seriesId) : null
+  ].filter(Boolean);
+
+  const paginatedResults = await getDocuments(req, predicates, {
+    orderings,
+    graphQuery
+  });
+
+  const events = paginatedResults.results.map(doc => {
+    return parseEventDoc(doc, null, null);
+  });
+
+  return {
+    currentPage: paginatedResults.currentPage,
+    pageSize: paginatedResults.pageSize,
+    totalResults: paginatedResults.totalResults,
+    totalPages: paginatedResults.totalPages,
+    results: events
+  };
+}
+
+type EventSeriesProps = {| id: string |}
+export async function getEventSeries(req: Request, {
+  id
+}: EventSeriesProps) {
+  const events = await getEvents(req, {
+    seriesId: id
+  });
+
+  if (events.results.length > 0) {
+    const series = events.results[0].series.find(series => series.id === id);
+    return {
+      series,
+      events: events.results
+    };
   }
 }
