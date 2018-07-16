@@ -406,18 +406,7 @@
 // Images
 .width-inherit {
   width: inherit;
-}
-
-.avatar {
-  width: 78px;
-  height: 78px;
-  clip-path: inset($border-radius-unit round $border-radius-unit);
-  transform: rotateZ(-6deg);
-
-  img {
-    transform: rotateZ(6deg);
-  }
-}
+}p
 
 // This is for when we receive content from a CMS,
 // making it easier to style the first node
