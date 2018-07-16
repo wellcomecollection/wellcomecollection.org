@@ -1,8 +1,10 @@
 // @flow
+import {Fragment} from 'react';
 import BasePage from './BasePage';
 import {default as BaseHeader, getFeaturedMedia} from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
+import Contributors from '../Contributors/Contributors';
 import {parseDescription} from '../../../services/prismic/parsers';
 import type {EventSeries} from '../../../model/event-series';
 import type {UiEvent} from '../../../model/events';
@@ -46,6 +48,13 @@ const Page = ({
       Header={Header}
       Body={<Body body={body} />}
     >
+      <Fragment>
+        {series.contributors.length > 0 &&
+          <Contributors
+            titleOverride={series.contributorsTitle}
+            contributors={series.contributors} />
+        }
+      </Fragment>
     </BasePage>
   );
 };
