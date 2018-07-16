@@ -21,8 +21,6 @@
     {% endfor %}]
   </script>
 
-  {% componentJsx 'EventSeriesPage', { eventSeries: paginatedEvents } %}
-
   <div class="framed-header row relative">
     <div class="framed-header__image overflow-hidden bg-turquoise"
     {% if backgroundTexture.image %}style="background-image: url({{ backgroundTexture.image }});"{% endif %}>
