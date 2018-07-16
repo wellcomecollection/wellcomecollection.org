@@ -94,9 +94,9 @@ const Page = ({
                 <div className={grid({s: 12, m: 612, l: 12, xl: 12})}>
                   <h2 className='h2'>Upcoming events</h2>
                 </div>
-                {UpcomingEventPromos.reverse().map(Promo => {
+                {UpcomingEventPromos.reverse().map((Promo, i) => {
                   return (
-                    <div key={Promo.props.id} className={grid({s: 12, m: 6, l: 4, xl: 4})}>
+                    <div key={`event-${i}`} className={grid({s: 12, m: 6, l: 4, xl: 4})}>
                       <Fragment>{Promo}</Fragment>
                     </div>
                   );
@@ -110,9 +110,9 @@ const Page = ({
                 <div className={grid({s: 12, m: 612, l: 12, xl: 12})}>
                   <h2 className='h2'>Past events</h2>
                 </div>
-                {PastEventPromos.map(Promo => {
+                {PastEventPromos.map((Promo, i) => {
                   return (
-                    <div key={Promo.props.id} className={[
+                    <div key={`event-${i}`} className={[
                       grid({s: 12, m: 6, l: 4, xl: 4}),
                       spacing({ s: 3 }, { margin: ['bottom'] })
                     ].join(' ')}>
