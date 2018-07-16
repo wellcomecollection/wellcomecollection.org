@@ -117,6 +117,7 @@ function parseEventDoc(
   const upcomingDate = determineUpcomingDate(data.times);
   return {
     ...genericFields,
+    type: 'events',
     description: asText(data.description),
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     audiences,
@@ -283,7 +284,7 @@ export async function getEventSeries(req: Request, {
     const series = events.results[0].series.find(series => series.id === id);
     return {
       series,
-      events
+      events: events.results
     };
   }
 }

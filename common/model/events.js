@@ -88,6 +88,7 @@ export type UiEvent = {|
 
 export type Event = {|
   ...GenericContentFields,
+  type: 'events',
   format: ?EventFormat,
   isDropIn: boolean,
   times: EventTime[],

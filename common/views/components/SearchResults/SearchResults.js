@@ -48,6 +48,17 @@ const SearchResults = ({ items }: Props) => (
             link={item.promo && item.promo.link}
           />
         }
+
+        {item.type === 'events' &&
+          <BasicPromo
+            promoType='EventPromo'
+            url={`/events/${item.id}`}
+            title={item.title || ''}
+            description={item.promo && item.promo.caption}
+            imageProps={item.promo && item.promo.image}
+            link={item.promo && item.promo.link}
+          />
+        }
       </div>
     ))}
   </div>
