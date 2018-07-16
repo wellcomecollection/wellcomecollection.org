@@ -3,6 +3,7 @@ import BasePage from './BasePage';
 import BaseHeader from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
+import {parseDescription} from '../../../services/prismic/parsers';
 import {UiImage} from '../Images/Images';
 import type {EventSeries} from '../../../model/event-series';
 import type {UiEvent} from '../../../model/events';
@@ -42,11 +43,17 @@ const Page = ({
     FeaturedMedia={FeaturedMedia}
   />);
 
+  const body = series.description ? [{
+    type: 'text',
+    weight: 'default',
+    value: parseDescription(series.description)
+  }] : [];
+
   return (
     <BasePage
       id={series.id}
       Header={Header}
-      Body={<Body body={[]} />}
+      Body={<Body body={body} />}
     >
     </BasePage>
   );
