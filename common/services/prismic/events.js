@@ -24,6 +24,7 @@ import {
   parseBoolean,
   parseGenericFields
 } from './parsers';
+import {parseEventSeries} from './event-series';
 import isEmptyObj from '../../utils/is-empty-object';
 import {london} from '../../utils/format-date';
 import type {UiEvent, EventFormat} from '../../model/events';
@@ -74,7 +75,6 @@ function determineDateRange(times) {
   };
 }
 
-// TODO: NOTE this doesn't have the A/B image test stuff in it
 function parseEventDoc(
   document: PrismicDocument,
   scheduleDocs: ?PrismicApiSearchResponse,
@@ -109,11 +109,10 @@ function parseEventDoc(
     url: document.data.bookingEnquiryTeam.data.url
   }: Team);
 
-  const series = document.data.series.map(series => isDocumentLink(series.series) ? ({
-    id: series.series.id,
-    title: asText(series.series.data.title),
-    description: series.series.data.description
-  }) : null).filter(Boolean);
+  const series = document.data.series.map(
+    series => isDocumentLink(series.series)
+      ? parseEventSeries(series.series)
+      : null).filter(Boolean);
 
   const upcomingDate = determineUpcomingDate(data.times);
   return {
@@ -260,7 +259,6 @@ export async function getEvents(req: Request,  {
   });
 
   const events = paginatedResults.results.map(doc => {
-    console.info(doc.data.promo);
     return parseEventDoc(doc, null, null);
   });
 

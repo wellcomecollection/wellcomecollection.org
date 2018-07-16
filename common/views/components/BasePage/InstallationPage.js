@@ -10,6 +10,7 @@ import Contributors from '../Contributors/Contributors';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
 import {UiImage} from '../Images/Images';
 import type {UiInstallation} from '../../../model/installations';
+import type {Tasl} from '../../../model/tasl';
 
 type Props = {|
   installation: UiInstallation,

@@ -1,13 +1,11 @@
 // @flow
+import type {GenericContentFields} from './generic-content-fields';
 import type {HTMLString} from '../services/prismic/types';
 import type {BackgroundTexture} from './background-texture';
-import type {ImagePromo} from './image-promo';
 
 export type EventSeries = {|
   type: 'event-series',
-  id: string,
-  title: string,
+  ...GenericContentFields,
   description: ?HTMLString,
-  backgroundTexture: ?BackgroundTexture,
-  promo: ?ImagePromo
+  backgroundTexture: ?BackgroundTexture
 |}
