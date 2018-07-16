@@ -9,7 +9,8 @@ type Props = {|
   id: string,
   Header: BaseHeader,
   Body: Body,
-  children?: ?Node
+  children?: ?Node,
+  lists?: ?Node
 |}
 
 export const BasePageColumn = ({children}: {| children: Node |}) => (
@@ -28,7 +29,8 @@ const BasePage = ({
   id,
   Header,
   Body,
-  children
+  children,
+  lists
 }: Props) => {
   return (
     <article data-wio-id={id}>
@@ -44,6 +46,7 @@ const BasePage = ({
           {children}
         </BasePageColumn>
       }
+      {lists}
     </article>
   );
 };
