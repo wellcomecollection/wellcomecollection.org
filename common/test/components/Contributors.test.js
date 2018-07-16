@@ -6,16 +6,6 @@ const facilitator = 'Facilitator';
 const guide = 'Guide';
 const speaker = 'Speaker';
 
-// test('dedupe and pluralise', () => {
-//   // console.info(dedupeAndPluraliseRoles(['Guide', 'Guide', 'Facilitator']));
-// });
-
-// test('1 contributor, 1 role', async () => {
-//   const title = dedupeAndPluraliseRoles([facilitator], 'About the', false);
-
-//   expect(title).toBe('About the facilitator');
-// });
-
 test('multi contributor, 1 role', async () => {
   const title = dedupeAndPluraliseRoles([
     facilitator,
