@@ -109,12 +109,13 @@
                 <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'a11y_visual' %}</div>
                 <p class="no-margin">Large print guides, transcripts and magnifiers are available in the gallery</p>
               </div>
-            {% if exhibition.id === 'WgV_ACUAAIu2P_ZM' %}
-                <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
-                  <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'information' %}</div>
-                  <p class="no-margin">A family activity pack is available in the gallery</p>
-                </div>
-            {% endif %}
+              {# TODO (hack) #}
+              {% if exhibition.id === 'WgV_ACUAAIu2P_ZM' %}
+                  <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
+                    <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'information' %}</div>
+                    <p class="no-margin">A family activity pack is available in the gallery</p>
+                  </div>
+              {% endif %}
 
               <div class="{{ {s:5} | spacingClasses({margin: ['top']}) }}">
                 {% if exhibition.textAndCaptionsDocument %}
