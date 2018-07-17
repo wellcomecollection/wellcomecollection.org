@@ -1,4 +1,5 @@
 import ReactGA from 'react-ga';
+import Router from 'next/router';
 
 type AnalyticsCategory = 'collections' | 'editorial' | 'public-programme';
 type Props = {|
@@ -67,4 +68,27 @@ export default ({ category, contentType, pageState, featuresCohort }: Props) => 
   ReactGA.plugin.require('GTM-NXMJ6D9');
   const pageview = `${window.location.pathname}${window.location.search}`;
   ReactGA.pageview(pageview, ['v2']);
+
+  Router.onRouteChangeStart = url => {
+    window.performance.mark('onRouteChangeStart');
+  };
+
+  Router.onRouteChangeComplete = url => {
+    window.performance.mark('onRouteChangeEnd');
+    window.performance.measure(
+      'onRouteChange',
+      'onRouteChangeStart',
+      'onRouteChangeEnd'
+    );
+    const measure = window.performance.getEntriesByName('onRouteChange')[0];
+    ReactGA.timing({
+      category: 'Navigation',
+      variable: 'routeChange',
+      value: Math.round(measure.duration),
+      label: url
+    });
+
+    window.performance.clearMarks();
+    window.performance.clearMeasures();
+  };
 };
