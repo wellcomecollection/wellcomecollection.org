@@ -19,13 +19,16 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   enabled         = true
   is_ipv6_enabled = true
 
+  # We can't use *.wellcomecollection.org here as we use other subdomains
+  # elsewhere which would obviously conflict
   aliases = [
     "wellcomecollection.org",
     "next.wellcomecollection.org",
     "blog.wellcomecollection.org",
+    "works.wellcomecollection.org",
+    "whats-on.wellcomecollection.org",
     "wellcomeimages.org",
     "*.wellcomeimages.org",
-    "works.wellcomeimages.org",
   ]
 
   default_cache_behavior {
@@ -42,7 +45,6 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
       query_string = true
 
       query_string_cache_keys = [
-        "cohort",    # feature toggles
         "toggles",   # feature toggles
         "page",
         "current",
