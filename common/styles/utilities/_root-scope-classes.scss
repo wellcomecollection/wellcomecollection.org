@@ -348,7 +348,7 @@
   }
 
   @include respond-to('medium') {
-    min-height: 440px;
+    min-height: 370px;
   }
 
   @supports (display: grid) {
