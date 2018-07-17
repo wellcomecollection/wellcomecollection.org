@@ -23,7 +23,8 @@ type Props = {|
   DateInfo: ?Node,
   InfoBar: ?Node,
   Description: ?Node,
-  FeaturedMedia: ?FeaturedMedia
+  FeaturedMedia: ?FeaturedMedia,
+  isFree?: boolean
 |}
 
 const backgroundTexture = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg';
@@ -34,7 +35,8 @@ const BaseHeader = ({
   DateInfo,
   Description,
   InfoBar,
-  FeaturedMedia
+  FeaturedMedia,
+  isFree
 }: Props) => {
   const BackgroundComponent = Background ||
     (FeaturedMedia ? TexturedBackground({backgroundTexture}) : null);
@@ -47,6 +49,19 @@ const BaseHeader = ({
         backgroundSize: BackgroundComponent ? null : '150%'
       }}>
         <div className={`container`}>
+          {isFree &&
+            <div className={`grid`}>
+              <div className={`
+                ${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
+                <span className={`font-white bg-black float-r rotate-r-8
+                ${font({s: 'WB7'})}
+                ${spacing({s: 1}, {padding: ['top', 'bottom']})}
+                ${spacing({s: 2}, {padding: ['left', 'right']})}`}
+                style={{marginTop: '-8px'}}
+                >Free</span>
+              </div>
+            </div>
+          }
           <div className={`grid ${spacing({s: 5, m: 7, l: 9}, {padding: ['top']})}`}>
             {TagBar &&
               <div className={`
