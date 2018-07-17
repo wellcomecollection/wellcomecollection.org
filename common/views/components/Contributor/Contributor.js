@@ -45,7 +45,7 @@ const Contributor = ({
           }
           {role && role.title &&
             <div className={'font-pewter ' + font({s: 'HNM4'})}>
-              <b>{role.title}</b>
+              {role.title}
             </div>
           }
           {descriptionToRender &&
