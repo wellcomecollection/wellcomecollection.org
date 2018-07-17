@@ -64,11 +64,10 @@ const Page = ({
             contributors={series.contributors} />
         }
         {upcomingEvents.length > 0 &&
-          <SearchResults items={upcomingEvents} title={'Upcoming events'} />
-        }
+          <SearchResults items={upcomingEvents} title={'Upcoming events'} />}
+
         {pastEvents.length > 0 &&
-          <SearchResults items={pastEvents} title={'Past events'} />
-        }
+          <SearchResults items={pastEvents} title={'Past events'} />}
       </Fragment>
     </BasePage>
   );

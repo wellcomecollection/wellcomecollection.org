@@ -6,7 +6,7 @@ import type {MultiContent} from '../../../model/multi-content';
 
 type Props = {|
   title?: string,
-  items: MultiContent[]
+  items: $ReadOnlyArray<MultiContent>
 |}
 
 const SearchResults = ({ items, title }: Props) => (

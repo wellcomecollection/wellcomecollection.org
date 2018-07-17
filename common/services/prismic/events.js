@@ -29,7 +29,7 @@ import isEmptyObj from '../../utils/is-empty-object';
 import {london} from '../../utils/format-date';
 import type {UiEvent, EventFormat} from '../../model/events';
 import type {Team} from '../../model/team';
-import type {PrismicDocument, PrismicApiSearchResponse} from './types';
+import type {PrismicDocument, PrismicApiSearchResponse, PaginatedResults} from './types';
 
 function parseEventFormat(frag: Object): ?EventFormat {
   return isDocumentLink(frag) ? {
@@ -75,7 +75,7 @@ function determineDateRange(times) {
   };
 }
 
-function parseEventDoc(
+export function parseEventDoc(
   document: PrismicDocument,
   scheduleDocs: ?PrismicApiSearchResponse,
   selectedDate: ?string
@@ -116,8 +116,8 @@ function parseEventDoc(
 
   const upcomingDate = determineUpcomingDate(data.times);
   return {
-    ...genericFields,
     type: 'events',
+    ...genericFields,
     description: asText(data.description),
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     audiences,
@@ -191,7 +191,7 @@ type EventsQueryProps = {|
 |}
 export async function getEvents(req: Request,  {
   seriesId
-}: EventsQueryProps) {
+}: EventsQueryProps): Promise<?PaginatedResults<UiEvent>> {
   const graphQuery = `{
     events {
       ...eventsFields
@@ -280,7 +280,7 @@ export async function getEventSeries(req: Request, {
     seriesId: id
   });
 
-  if (events.results.length > 0) {
+  if (events && events.results.length > 0) {
     const series = events.results[0].series.find(series => series.id === id);
     return {
       series,

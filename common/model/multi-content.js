@@ -5,5 +5,5 @@
 import type {Page} from './pages';
 import type {EventSeries} from './event-series';
 import type {Book} from './books';
-import type {Event} from './events';
-export type MultiContent = | Page | EventSeries | Book | Event;
+import type {UiEvent} from './events';
+export type MultiContent = | Page | EventSeries | Book | UiEvent;

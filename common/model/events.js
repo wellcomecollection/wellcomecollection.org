@@ -76,6 +76,7 @@ export type Audience = {|
 /* eslint-disable no-use-before-define */
 export type UiEvent = {|
   ...Event,
+  type: 'events',
   upcomingDate: ?Date,
   selectedDate: ?Date,
   dateRange: {
@@ -88,7 +89,6 @@ export type UiEvent = {|
 
 export type Event = {|
   ...GenericContentFields,
-  type: 'events',
   format: ?EventFormat,
   isDropIn: boolean,
   times: EventTime[],
