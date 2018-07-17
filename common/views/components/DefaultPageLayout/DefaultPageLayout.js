@@ -163,7 +163,7 @@ class DefaultPageLayout extends Component<Props> {
     }).install();
   }
 
-  componentDidCatch(error: Error, errorInfo: string) {
+  componentDidCatch(error: Error, errorInfo: {componentStack: string}) {
     Raven.captureException(error, { extra: errorInfo });
   }
 
