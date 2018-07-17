@@ -6,7 +6,6 @@ import Body from '../Body/Body';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
 import Contributors from '../Contributors/Contributors';
 import SearchResults from '../SearchResults/SearchResults';
-import {parseDescription} from '../../../services/prismic/parsers';
 import type {EventSeries} from '../../../model/event-series';
 import type {UiEvent} from '../../../model/events';
 
@@ -20,18 +19,13 @@ const Page = ({
   events,
   series
 }: Props) => {
-  const body = series.description ? [{
-    type: 'text',
-    weight: 'default',
-    value: parseDescription(series.description)
-  }] : [];
   const FeaturedMedia = getFeaturedMedia({
     id: series.id,
     title: series.title,
     contributors: series.contributors,
     contributorsTitle: series.contributorsTitle,
     promo: series.promo,
-    body: body
+    body: series.body
   });
   const Header = (<BaseHeader
     title={series.title}
@@ -55,7 +49,7 @@ const Page = ({
     <BasePage
       id={series.id}
       Header={Header}
-      Body={<Body body={body} />}
+      Body={<Body body={series.body} />}
     >
       <Fragment>
         {series.contributors.length > 0 &&
