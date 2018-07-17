@@ -10,11 +10,7 @@ import type {PlacesOpeningHours} from '../../../model/opening-hours';
 import analytics from '../../../utils/analytics';
 import Raven from 'raven-js';
 
-// TODO: Hashed files
-// TODO: Inline CSS
 // TODO: JsonLd
-// TODO: Feature flags / cohort
-// TODO: Set the props
 
 // Taken from: http://ogp.me/#no_vertical
 export type OgType = 'article' | 'website';

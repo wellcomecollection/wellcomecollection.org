@@ -1,14 +1,13 @@
 // @flow
 import {Fragment} from 'react';
 import BasePage from './BasePage';
-import BaseHeader from '../BaseHeader/BaseHeader';
+import {default as BaseHeader, getFeaturedMedia} from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
 import DateRange from '../DateRange/DateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import HTMLDate from '../HTMLDate/HTMLDate';
 import Contributors from '../Contributors/Contributors';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
-import {UiImage} from '../Images/Images';
 import type {UiInstallation} from '../../../model/installations';
 
 type Props = {|
@@ -17,25 +16,17 @@ type Props = {|
 |}
 
 const InstallationPage = ({
-  installation,
-  showContributorsTitle
+  installation
 }: Props) => {
   const DateInfo = installation.end ? <DateRange start={installation.start} end={installation.end} /> : <HTMLDate date={installation.start} />;
-  const image = installation.promo && installation.promo.image;
-  const tasl = image && {
-    isFull: false,
-    contentUrl: image.contentUrl,
-    title: image.title,
-    author: image.author,
-    sourceName: image.source && image.source.name,
-    sourceLink: image.source && image.source.link,
-    license: image.license,
-    copyrightHolder: image.copyright && image.copyright.holder,
-    copyrightLink: image.copyright && image.copyright.link
-  };
-  /* https://github.com/facebook/flow/issues/2405 */
-  /* $FlowFixMe */
-  const FeaturedMedia = installation.promo && <UiImage tasl={tasl} {...image} />;
+  const FeaturedMedia = getFeaturedMedia({
+    id: installation.id,
+    title: installation.title,
+    contributors: installation.contributors,
+    contributorsTitle: installation.contributorsTitle,
+    promo: installation.promo,
+    body: installation.body
+  });
   const Header = (<BaseHeader
     title={installation.title}
     Background={<WobblyBackground />}
@@ -63,7 +54,6 @@ const InstallationPage = ({
         {installation.contributors.length > 0 &&
           <Contributors
             titleOverride={installation.contributorsTitle}
-            excludeTitle={!showContributorsTitle}
             contributors={installation.contributors} />
         }
       </Fragment>

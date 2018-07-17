@@ -11,21 +11,14 @@ const isServer = typeof window === 'undefined';
 // As this is a store, it's mutable
 const clientStore = isServer ? null : new Map();
 const serverStore = isServer ? new Map() : null;
-const pageStoreHandler = {
-  get: function(_, prop) {
-    return isServer
-      ? serverStore && serverStore.get(prop)
-      : clientStore && clientStore.get(prop);
-  },
-  set: function() {
-    throw Error('Page store: Please don\'t try to set props on me （/｡＼)');
-  }
-};
-export const pageStore = new Proxy({
-  toggles: {
-    apiV2: false
-  }
-}, pageStoreHandler);
+
+export function pageStore(prop: string) {
+  const val = isServer
+    ? serverStore && serverStore.get(prop)
+    : clientStore && clientStore.get(prop);
+
+  return val || {};
+}
 
 async function fetchOpeningTimes(req: Request) {
   const openingTimes = await getCollectionOpeningTimes(req);

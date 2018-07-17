@@ -29,7 +29,8 @@ export type PrismicQueryOpts = {|
   fetchLinks?: string[],
   page?: number,
   orderings?: string,
-  pageSize?: number
+  pageSize?: number,
+  graphQuery?: string
 |}
 
 export type HTMLSpanTypes =

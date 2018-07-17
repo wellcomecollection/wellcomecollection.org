@@ -1,4 +1,5 @@
 // @flow
+import {conditionalClassNames} from '../../../utils/classnames';
 import {convertImageUri} from '../../../utils/convert-image-uri';
 import {imageSizes} from '../../../utils/image-sizes';
 import {Fragment} from 'react';
@@ -8,7 +9,7 @@ export type Props = {|
   width: number,
   alt: string,
   height?: number,
-  clipPathClass?: string,
+  clipPathClass?: ?string,
   caption?: string,
   lazyload?: boolean,
   sizesQueries?: string,
@@ -16,10 +17,29 @@ export type Props = {|
   defaultSize?: number,
   clickHandler?: () => void,
   zoomable?: boolean,
-  extraClasses?: string
+  extraClasses?: string,
+  style?: { [string]: any } // TODO: find flowtype for this
 |}
 
-const Image = ({
+const Image = (props: Props) => (
+  <Fragment>
+    <noscript dangerouslySetInnerHTML={{__html: `
+      <img width=${props.width}
+        height=${props.height || ''}
+        className='image image--noscript'
+        src=${convertImageUri(props.contentUrl, 640, false)}
+        alt=${props.alt} />`}} />
+
+    {props.clipPathClass ? (
+      <Fragment>
+        <Img {...props} clipPathClass={null} />
+        <Img {...props} />
+      </Fragment>
+    ) : <Img {...props} />}
+  </Fragment>
+);
+
+const Img = ({
   width,
   height,
   contentUrl,
@@ -32,47 +52,20 @@ const Image = ({
   alt = '',
   clickHandler,
   zoomable,
-  extraClasses
-}: Props) => (
-  <Fragment>
-    <noscript dangerouslySetInnerHTML={{__html: `
-      <img width=${width}
-        height=${height || ''}
-        className='image image--noscript'
-        src=${convertImageUri(contentUrl, 640, false)}
-        alt=${alt} />`}} />
-    {imageMarkup(
-      width,
-      height,
-      clipPathClass,
-      lazyload,
-      defaultSize,
-      contentUrl,
-      sizesQueries,
-      copyright,
-      alt,
-      caption,
-      clickHandler,
-      zoomable,
-      extraClasses
-    )}
-  </Fragment>
-);
-
-const imageClasses = (clip = false, lazyload: boolean, clipPathClass, zoomable) => {
-  const lazyloadClass = lazyload ? 'lazy-image lazyload' : '';
-  const clipClass = clip ? `promo__image-mask ${clipPathClass || ''}` : '';
-  const zoomClass = zoomable ? 'cursor-zoom-in' : '';
-
-  return `image ${lazyloadClass} ${clipClass} ${zoomClass}`;
-};
-
-const imageMarkup = (width, height, clipPathClass, lazyload = false, defaultSize, contentUrl, sizesQueries, copyright, alt, caption, clickHandler, zoomable, extraClasses) => {
+  extraClasses,
+  style
+}: Props) => {
   const sizes = imageSizes(width);
-  const baseMarkup = clip => (
+  return (
     <img width={width}
       height={height}
-      className={`${imageClasses(clip, lazyload, clipPathClass, zoomable)} ${extraClasses || ''}`}
+      className={conditionalClassNames({
+        'image': true,
+        'lazy-image lazyload': lazyload,
+        'cursor-zoom-in': Boolean(zoomable),
+        [`promo__image-mask ${clipPathClass || ''}`]: clipPathClass,
+        [`${extraClasses || ''}`]: Boolean(extraClasses)
+      })}
       src={convertImageUri(contentUrl, defaultSize, false)}
       data-srcset={sizes.map(size => {
         return `${convertImageUri(contentUrl, size, false)} ${size}w`;
@@ -80,13 +73,9 @@ const imageMarkup = (width, height, clipPathClass, lazyload = false, defaultSize
       sizes={sizesQueries}
       data-copyright={copyright}
       onClick={clickHandler}
-      alt={alt} />
+      alt={alt}
+      style={style} />
   );
-
-  return clipPathClass ? [
-    baseMarkup(),
-    baseMarkup(true)]
-    : baseMarkup();
 };
 
 export default Image;
