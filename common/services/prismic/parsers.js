@@ -177,7 +177,7 @@ const defaultContributorImage = {
 
 function parsePersonContributor(frag: PrismicFragment): PersonContributor {
   // As we don't have square images retrospectively, we fallback.
-  const image = frag.data.image.square || frag.data.image;
+  const image = frag.data.image && (frag.data.image.square || frag.data.image);
   return {
     type: 'people',
     id: frag.id,
