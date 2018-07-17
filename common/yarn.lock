@@ -4416,9 +4416,9 @@ prismic-helpers@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/prismic-helpers/-/prismic-helpers-1.0.0.tgz#8337420cf187f55fb7b7a8be755523c8696fc329"
 
-prismic-javascript@^1.5.0-beta.2:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/prismic-javascript/-/prismic-javascript-1.5.0.tgz#d11a3489c73a643e9f5f6c1d9c6b552091d67656"
+prismic-javascript@2.0.0-beta.0:
+  version "2.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/prismic-javascript/-/prismic-javascript-2.0.0-beta.0.tgz#8ab766dfe34d69a7dc8ca047204cc8e344690a34"
   dependencies:
     cross-fetch "^2.2.0"
     promise-polyfill "8.0.0"
