@@ -176,11 +176,13 @@ const defaultContributorImage = {
 };
 
 function parsePersonContributor(frag: PrismicFragment): PersonContributor {
+  // As we don't have square images retrospectively, we fallback.
+  const image = frag.data.image.square || frag.data.image;
   return {
     type: 'people',
     id: frag.id,
     name: frag.data.name || '',
-    image: checkAndParseImage(frag.data.image) || defaultContributorImage,
+    image: checkAndParseImage(image) || defaultContributorImage,
     description: frag.data.description,
     twitterHandle: null
   };
