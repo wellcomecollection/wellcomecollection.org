@@ -6,6 +6,7 @@ import type {Node, Element} from 'react';
 import {UiImage} from '../Images/Images';
 import WobblyBackground from './WobblyBackground';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
+import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
 import type {GenericContentFields} from '../../../model/generic-content-fields';
 import type {Tasl} from '../../../model/tasl';
 
@@ -83,14 +84,11 @@ const BaseHeader = ({
               ${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}
               ${spacing({s: 2}, {padding: ['bottom']})}
             `}>
-              <h1 className={`
-              h1 inline-block no-margin
-              ${Background ? '' : `
-                bg-white
-                ${spacing({ s: 2 }, { padding: ['left', 'right'] })}
-                ${spacing({ s: 1 }, { padding: ['bottom', 'top'] })}
-              `}
-            `}>{title}</h1>
+
+              {Background
+                ? <h1 className='h1 inline-block no-margin'>{title}</h1>
+                : <HighlightedHeading text={title} />
+              }
 
               {DateInfo &&
                 <div className={`${font({s: 'HNL3'})} ${spacing({s: 3}, {margin: ['top']})}`}>
