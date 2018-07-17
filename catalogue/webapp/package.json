@@ -26,7 +26,6 @@
     "nodemon": "^1.17.5",
     "postcss-easy-import": "^3.0.0",
     "postcss-loader": "^2.1.4",
-    "raven-js": "^3.26.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-test-renderer": "^16.4.1",
