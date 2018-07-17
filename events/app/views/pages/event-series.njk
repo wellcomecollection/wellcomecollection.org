@@ -45,13 +45,13 @@
   </div>
 
   <div class="row">
-    {% if paginatedEvents.results.length > 0 %}
+    {% if paginatedEvents.length > 0 %}
       <div class="container container--with-frame bg-white {{ {s: 6} | spacingClasses({padding: ['top']}) }}">
         <h2 class="{{ {s: 'WB5'} | fontClasses }} no-margin">Upcoming events</h2>
       </div>
       <div class="container container--with-frame bg-white {{ {s: 4} | spacingClasses({padding: ['top']}) }} {{ {s: 10} | spacingClasses({padding: ['bottom']}) }}">
         <div class="grid">
-          {% for event in paginatedEvents.results %}
+          {% for event in paginatedEvents %}
             <div class="{{ {s: 12, m: 6, l: 4, xl:4} | gridClasses}}">
               <div class="{{ {s: 3} | spacingClasses({margin: ['bottom']}) }}">
                 {% componentJsx 'EventPromo', event %}
@@ -73,13 +73,13 @@
   </div>
 
   <div class="row">
-    {% if pastEvents.results.length > 0 %}
+    {% if pastEvents.length > 0 %}
       <div class="container container--with-frame bg-white">
         <h2 class="{{ {s: 'WB5'} | fontClasses }} no-margin">Past events</h2>
       </div>
       <div class="container container--with-frame bg-white {{ {s: 4} | spacingClasses({padding: ['top']}) }}  {{ {s: 10} | spacingClasses({padding: ['bottom']}) }}">
         <div class="grid">
-          {% for event in pastEvents.results %}
+          {% for event in pastEvents %}
             <div class="{{ {s: 12, m: 6, l: 4, xl:4} | gridClasses}}">
               <div class="{{ {s: 3} | spacingClasses({margin: ['bottom']}) }}">
                 {% componentJsx 'EventPromo', event %}

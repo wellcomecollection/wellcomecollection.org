@@ -1,7 +1,11 @@
 import {model, prismic} from 'common';
-import {getUiEventSeries} from '@weco/common/services/prismic/event-series';
+import {getEventSeries} from '@weco/common/services/prismic/events';
 const {createPageConfig} = model;
-const {getPaginatedEventPromos, getEventsInSeries, asText, asHtml, createEventPromos, convertPrismicResultsToPaginatedResults, london} = prismic;
+const {
+  getPaginatedEventPromos,
+  asText,
+  asHtml
+} = prismic;
 
 export async function renderEvent(ctx, next) {
   const id = `${ctx.params.id}`;
@@ -44,34 +48,62 @@ export async function renderEvent(ctx, next) {
   return next();
 }
 
-export async function renderEventSeries(ctx, next) {
-  const page = ctx.request.query.page ? Number(ctx.request.query.page) : 1;
-  const {id} = ctx.params;
-  const eventsPromise = getEventsInSeries(id, { page });
-  const uiEventSeriesPromise = getUiEventSeries(ctx.request, id);
-  const [ events, uiEventSeries ] = await Promise.all([eventsPromise, uiEventSeriesPromise]);
+function convertEventToEventPromos(events) {
+  return events.map(event => {
+    const hasNotFullyBookedTimes = event.times.find(time => !time.isFullyBooked);
+    return event.times.map(time => {
+      return {
+        id: event.id,
+        title: event.title,
+        url: `/events/${event.id}`,
+        format: event.format,
+        audience: event.audiences.length > 0 ? event.audiences[0] : null,
+        hasNotFullyBookedTimes: hasNotFullyBookedTimes,
+        isFullyBooked: time.isFullyBooked,
+        start: time.range.startDateTime,
+        end: time.range.endDateTime,
+        image: (event.promo && event.promo.image) || {},
+        description: event.promo && event.promo.caption,
+        bookingType: event.bookingType,
+        interpretations: event.interpretations,
+        eventbriteId: event.eventbriteId,
+        series: event.series,
+        schedule: event.schedule
+      };
+    });
+  }).reduce((acc, val) => acc.concat(val), []);
+}
 
-  if (events.results.length > 0) {
-    const promos = createEventPromos(events.results);
-    const paginatedResults = convertPrismicResultsToPaginatedResults(promos);
-    const paginatedEvents = paginatedResults(promos);
-    const upcomingEvents = Object.assign({}, paginatedEvents, {results: promos.filter(e => london(e.end).isAfter(london()))});
-    const pastEvents = {results: promos.filter(e => london(e.end).isBefore(london())).slice(0, 3)};
+export async function renderEventSeries(ctx, next) {
+  const {id} = ctx.params;
+  const {events, series} = await getEventSeries(ctx.request, { id });
+
+  if (events.length > 0) {
+    const upcomingEvents = convertEventToEventPromos(events.filter(event => {
+      const lastStartTime = event.times.length > 0 ? event.times[event.times.length - 1].range.startDateTime : null;
+      const inTheFuture = lastStartTime ? new Date(lastStartTime) > new Date() : false;
+      return inTheFuture;
+    }));
+
+    const upcomingEventsIds = upcomingEvents.map(event => event.id);
+
+    const pastEvents = convertEventToEventPromos(events
+      .filter(event => upcomingEventsIds.indexOf(event.id) === -1)).slice(0, 3);
 
     ctx.render('pages/event-series', {
       pageConfig: createPageConfig({
         path: ctx.request.url,
-        title: uiEventSeries.title,
-        description: asText(uiEventSeries.description),
+        title: series.title,
+        description: asText(series.description),
         inSection: 'whatson',
         category: 'public-programme',
         contentType: 'event-series',
         canonicalUri: `/event-series/${id}`
       }),
-      htmlDescription: asHtml(uiEventSeries.description),
+      htmlDescription: asHtml(series.description),
       paginatedEvents: upcomingEvents,
       pastEvents: pastEvents,
-      backgroundTexture: uiEventSeries.backgroundTexture
+      backgroundTexture: series.backgroundTexture
     });
   }
 
