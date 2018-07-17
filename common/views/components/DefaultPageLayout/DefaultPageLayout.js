@@ -8,6 +8,7 @@ import {formatDate} from '../../../utils/format-date';
 import Footer from '../Footer/Footer';
 import type {PlacesOpeningHours} from '../../../model/opening-hours';
 import analytics from '../../../utils/analytics';
+import Raven from 'raven-js';
 
 // TODO: Hashed files
 // TODO: Inline CSS
@@ -146,6 +147,24 @@ class DefaultPageLayout extends Component<Props> {
 
     // $FlowFixMe
     document.documentElement.classList.add('enhanced');
+
+    Raven.config('https://f756b8d4b492473782987a054aa9a347@sentry.io/133634', {
+      shouldSendCallback(data) {
+        const oldSafari = /^.*Version\/[0-8].*Safari.*$/;
+        const bingPreview = /^.*BingPreview.*$/;
+
+        return ![oldSafari, bingPreview].some(r => r.test(window.navigator.userAgent));
+      },
+      whitelistUrls: [/wellcomecollection\.org/],
+      ignoreErrors: [
+        /Blocked a frame with origin/,
+        /document\.getElementsByClassName\.ToString/ // https://github.com/SamsungInternet/support/issues/56
+      ]
+    }).install();
+  }
+
+  componentDidCatch(error, errorInfo) {
+    Raven.captureException(error, { extra: errorInfo });
   }
 
   componentDidUpdate() {
