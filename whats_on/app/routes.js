@@ -19,7 +19,7 @@ r.get('/installations/:id', renderInstallation);
 r.get('/exhibitions', renderExhibitions);
 r.get('/exhibitions/:id', renderExhibition);
 r.get('/exhibitions/:id/exhibits', renderExhibits);
-r.get('/whats-on/events/:id', renderEvent); // For prototype testing
+r.get('/events/:id', renderEvent);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 r.get('/event-series/:id', renderEventSeries);
 
