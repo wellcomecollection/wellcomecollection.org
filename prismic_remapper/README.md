@@ -5,7 +5,7 @@ To remap content, export the documents from Prismic, dump it into `./.dist`.
 Create the filter and remapper that you'd like, create a new folder for it, and
 stick the remapper at `./<ACTION>/remap.js`.
 
-Remappers should export a `map` and `filter` function, both of which take a
+Remappers should export a `filter` and `map` function, both of which take a
 `{filename: string, doc: PrismicDocument}` object.
 
 The new documents will be stored in `.dist/remapped`.
@@ -28,3 +28,4 @@ An example process of this could be
 
 # TODO
 * Batch sizing (we don't have enough content for this to be an issue).
+* Think about version control of content to avoid not being able to roll back.
