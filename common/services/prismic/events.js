@@ -24,11 +24,12 @@ import {
   parseBoolean,
   parseGenericFields
 } from './parsers';
+import {parseEventSeries} from './event-series';
 import isEmptyObj from '../../utils/is-empty-object';
 import {london} from '../../utils/format-date';
 import type {UiEvent, EventFormat} from '../../model/events';
 import type {Team} from '../../model/team';
-import type {PrismicDocument, PrismicApiSearchResponse} from './types';
+import type {PrismicDocument, PrismicApiSearchResponse, PaginatedResults} from './types';
 
 function parseEventFormat(frag: Object): ?EventFormat {
   return isDocumentLink(frag) ? {
@@ -74,8 +75,7 @@ function determineDateRange(times) {
   };
 }
 
-// TODO: NOTE this doesn't have the A/B image test stuff in it
-function parseEventDoc(
+export function parseEventDoc(
   document: PrismicDocument,
   scheduleDocs: ?PrismicApiSearchResponse,
   selectedDate: ?string
@@ -109,14 +109,14 @@ function parseEventDoc(
     url: document.data.bookingEnquiryTeam.data.url
   }: Team);
 
-  const series = document.data.series.map(series => isDocumentLink(series.series) ? ({
-    id: series.series.id,
-    title: asText(series.series.data.title),
-    description: series.series.data.description
-  }) : null).filter(Boolean);
+  const series = document.data.series.map(
+    series => isDocumentLink(series.series)
+      ? parseEventSeries(series.series)
+      : null).filter(Boolean);
 
   const upcomingDate = determineUpcomingDate(data.times);
   return {
+    type: 'events',
     ...genericFields,
     description: asText(data.description),
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
@@ -192,7 +192,7 @@ type EventsQueryProps = {|
 |}
 export async function getEvents(req: Request,  {
   seriesId
-}: EventsQueryProps) {
+}: EventsQueryProps): Promise<?PaginatedResults<UiEvent>> {
   const graphQuery = `{
     events {
       ...eventsFields
@@ -205,6 +205,14 @@ export async function getEvents(req: Request,  {
       series {
         series {
           ...seriesFields
+          promo {
+            ... on editorialImage {
+              non-repeat {
+                caption
+                image
+              }
+            }
+          }
         }
       }
       interpretations {
@@ -223,11 +231,19 @@ export async function getEvents(req: Request,  {
           ...roleFields
         }
         contributor {
-          ...on people {
+          ... on people {
             ...peopleFields
           }
-          ...on organisations {
+          ... on organisations {
             ...organisationsFields
+          }
+        }
+      }
+      promo {
+        ... on editorialImage {
+          non-repeat {
+            caption
+            image
           }
         }
       }
@@ -244,9 +260,9 @@ export async function getEvents(req: Request,  {
     graphQuery
   });
 
-  const events = paginatedResults.results.map(doc =>
-    parseEventDoc(doc, null, null)
-  );
+  const events = paginatedResults.results.map(doc => {
+    return parseEventDoc(doc, null, null);
+  });
 
   return {
     currentPage: paginatedResults.currentPage,
@@ -265,11 +281,11 @@ export async function getEventSeries(req: Request, {
     seriesId: id
   });
 
-  if (events.results.length > 0) {
+  if (events && events.results.length > 0) {
     const series = events.results[0].series.find(series => series.id === id);
     return {
       series,
-      events
+      events: events.results
     };
   }
 }

@@ -1,8 +1,12 @@
 // @flow
+import {Fragment} from 'react';
 import BasePage from './BasePage';
-import BaseHeader from '../BaseHeader/BaseHeader';
+import {default as BaseHeader, getFeaturedMedia} from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
+import Contributors from '../Contributors/Contributors';
+import SearchResults from '../SearchResults/SearchResults';
+import {parseDescription} from '../../../services/prismic/parsers';
 import type {EventSeries} from '../../../model/event-series';
 import type {UiEvent} from '../../../model/events';
 
@@ -16,6 +20,19 @@ const Page = ({
   events,
   series
 }: Props) => {
+  const body = series.description ? [{
+    type: 'text',
+    weight: 'default',
+    value: parseDescription(series.description)
+  }] : [];
+  const FeaturedMedia = getFeaturedMedia({
+    id: series.id,
+    title: series.title,
+    contributors: series.contributors,
+    contributorsTitle: series.contributorsTitle,
+    promo: series.promo,
+    body: body
+  });
   const Header = (<BaseHeader
     title={series.title}
     Background={<WobblyBackground />}
@@ -23,15 +40,35 @@ const Page = ({
     DateInfo={null}
     InfoBar={null}
     Description={null}
-    FeaturedMedia={null}
+    FeaturedMedia={FeaturedMedia}
   />);
+
+  const upcomingEvents = events.filter(event => {
+    const lastStartTime = event.times.length > 0 ? event.times[event.times.length - 1].range.startDateTime : null;
+    const inTheFuture = lastStartTime ? new Date(lastStartTime) > new Date() : false;
+    return inTheFuture;
+  });
+  const upcomingEventsIds = upcomingEvents.map(event => event.id);
+  const pastEvents = events.filter(event => upcomingEventsIds.indexOf(event.id) === -1);
 
   return (
     <BasePage
       id={series.id}
       Header={Header}
-      Body={<Body body={[]} />}
+      Body={<Body body={body} />}
     >
+      <Fragment>
+        {series.contributors.length > 0 &&
+          <Contributors
+            titleOverride={series.contributorsTitle}
+            contributors={series.contributors} />
+        }
+        {upcomingEvents.length > 0 &&
+          <SearchResults items={upcomingEvents} title={'Upcoming events'} />}
+
+        {pastEvents.length > 0 &&
+          <SearchResults items={pastEvents} title={'Past events'} />}
+      </Fragment>
     </BasePage>
   );
 };
