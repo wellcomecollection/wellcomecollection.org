@@ -2,6 +2,7 @@ import { configure, addDecorator } from '@storybook/react';
 import { setOptions } from '@storybook/addon-options';
 import { checkA11y } from '@storybook/addon-a11y';
 import { withKnobs } from '@storybook/addon-knobs/react';
+import { withInfo } from '@storybook/addon-info';
 
 function loadStories() {
   const pages = require.context('../stories/pages', true, /\.js$/);
@@ -19,6 +20,12 @@ function loadStories() {
 
 addDecorator(withKnobs);
 addDecorator(checkA11y);
+addDecorator(withInfo({
+  header: false,
+  inline: true,
+  source: false,
+  propTables: false
+}));
 
 const styles = {
   padding: '30px',

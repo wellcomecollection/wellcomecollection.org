@@ -288,13 +288,13 @@ export const WorkPage = ({
                   eventTracking={JSON.stringify({
                     category: 'component',
                     action: 'download-button:click',
-                    label: `id: work.id , size:original, title:${work.title.substring(50)}`
+                    label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
                   })}
                   clickHandler={() => {
                     ReactGA.event({
                       category: 'component',
                       action: 'download-button:click',
-                      label: `id: work.id , size:original, title:${work.title.substring(50)}`
+                      label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
                     });
                   }}
                   icon='download'
@@ -360,7 +360,7 @@ WorkPage.getInitialProps = async (context) => {
   const {asPath} = context;
   const queryStart = asPath.indexOf('?');
   const previousQueryString = queryStart > -1 && asPath.slice(queryStart);
-  const version = pageStore.toggles.apiV2 ? 2 : 1;
+  const version = pageStore('toggles').apiV2 ? 2 : 1;
   const res = await fetch(`https://api.wellcomecollection.org/catalogue/v${version}/works/${id}?includes=identifiers,items,thumbnail`);
   let json = await res.json();
 

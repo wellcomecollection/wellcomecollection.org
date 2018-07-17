@@ -348,7 +348,7 @@
   }
 
   @include respond-to('medium') {
-    min-height: 440px;
+    min-height: 370px;
   }
 
   @supports (display: grid) {
@@ -403,19 +403,10 @@
   max-width: 100%;
 }
 
-// These classes should probably become something generic
-// that we can look at when we look at having more breakout type content.
-.person-image {
-  max-width: 100px;
-}
-
-.half-in-image {
-  margin-top: -50px;
-}
-
-.half-in-image-container {
-  margin-top: 50px;
-}
+// Images
+.width-inherit {
+  width: inherit;
+}p
 
 // This is for when we receive content from a CMS,
 // making it easier to style the first node

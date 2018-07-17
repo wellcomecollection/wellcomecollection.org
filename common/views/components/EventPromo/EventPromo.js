@@ -13,9 +13,9 @@ type Props = {|
 
 const labelStyles = {display: 'block', float: 'left', marginRight: '1px', marginTop: '1px', whiteSpace: 'nowrap'};
 
-function label(text) {
+function label(text: string, key: string) {
   return (
-    <span className={`
+    <span key={key} className={`
       line-height-1 bg-yellow
       ${font({s: 'HNM5'})}
       ${spacing({s: 1}, {padding: ['top', 'bottom', 'left', 'right']})}
@@ -64,11 +64,11 @@ const EventPromo = ({
 
         {(format || audience || interpretations.length > 0) &&
           <div style={{position: 'absolute', bottom: 0}}>
-            {format && label(format.title)}
-            {audience && label(audience.title)}
+            {format && label(format.title, format.id)}
+            {audience && label(audience.title, audience.id)}
             {interpretations.map(interpretation => {
               return (
-                label(interpretation.interpretationType.title)
+                label(interpretation.interpretationType.title, interpretation.interpretationType.id)
               );
             })}
           </div>

@@ -1,4 +1,3 @@
-
 // @flow
 import {Fragment} from 'react';
 import {spacing, grid, font} from '../../../utils/classnames';
@@ -8,6 +7,8 @@ import {UiImage} from '../Images/Images';
 import WobblyBackground from './WobblyBackground';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
+import type {GenericContentFields} from '../../../model/generic-content-fields';
+import type {Tasl} from '../../../model/tasl';
 
 type FeaturedMedia =
   | Element<typeof UiImage>
@@ -26,6 +27,28 @@ type Props = {|
   Description: ?Node,
   FeaturedMedia: ?FeaturedMedia
 |}
+
+export function getFeaturedMedia(
+  fields: GenericContentFields
+): ?FeaturedMedia {
+  const image = fields.promo && fields.promo.image;
+  const {body} = fields;
+  const tasl: ?Tasl = image && {
+    title: image.title,
+    author: image.author,
+    sourceName: image.source && image.source.name,
+    sourceLink: image.source && image.source.link,
+    license: image.license,
+    copyrightHolder: image.copyright && image.copyright.holder,
+    copyrightLink: image.copyright && image.copyright.link
+  };
+  const hasFeaturedVideo = body.length > 0 && body[0].type === 'videoEmbed';
+  const FeaturedMedia = hasFeaturedVideo
+    ? <VideoEmbed {...body[0].value} />
+    : image ? <UiImage tasl={tasl} {...image} /> : null;
+
+  return FeaturedMedia;
+}
 
 const backgroundTexture = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg';
 const BaseHeader = ({

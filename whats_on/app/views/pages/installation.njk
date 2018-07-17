@@ -6,6 +6,7 @@
     type: 'website',
     title: installation.title,
     description: description,
+    image: installation.promo.image.contentUrl,
     url: pageConfig.canonicalUri
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
@@ -15,14 +16,8 @@
 
 {% block body %}
   {# TODO: ld+Json #}
-  {% if featuresCohort | isFlagEnabled('installationsContributorsTitle', featureFlags) %}
-    {% set showContributorsTitle = true %}
-  {% else %}
-    {% set showContributorsTitle = false %}
-  {% endif %}
   {% componentJsx "InstallationPage", {
-    installation: installation,
-    showContributorsTitle: showContributorsTitle
+    installation: installation
   } %}
   <script type="application/ld+json">
     {# {{ jsonLdExhibition | jsonLd('exhibitionLd') | safe }} #}
