@@ -1,0 +1,108 @@
+{
+  "type": "event-series",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WoK-NioAACkANeWM",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Library Insights",
+        "spans": []
+      }
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Insight sessions give you the chance to hear researchers talk about their work, and to get up close with our collections. ",
+        "spans": []
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$447435f8-100a-40c2-912a-98dcb8ba8bad",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Insights sessions give you an introductory taste of what our Library can offer you as a browser, explorer or researcher, while showcasing rare items. ",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WoNfzSoAACkAOKtE",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fed2e676d-bbc0-4189-a26c-aff9de8202f9_c0136121.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/18eb8cec966dd02e7c01920a80fa82e4a926d0e6_c0136121.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WoNfzSoAACkAOKtE",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fed2e676d-bbc0-4189-a26c-aff9de8202f9_c0136121.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f780cc7bf7e32abaef1c04a05bd8e49d0f32d45f_c0136121.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "WoNfzSoAACkAOKtE",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fed2e676d-bbc0-4189-a26c-aff9de8202f9_c0136121.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ddb94e150ea49801cf46f520657291e4567dd519_c0136121.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
