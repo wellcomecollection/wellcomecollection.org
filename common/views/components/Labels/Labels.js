@@ -5,7 +5,7 @@ type Props = {|
   labels: string[]
 |}
 
-const Labels = ({labels}: Props) => {
+const Labels = ({labels}: Props): React.Node[] => {
   return (labels.filter(Boolean).map((text, i) => (
     <span key={`text-${i}`} className={`
       line-height-1 bg-yellow
