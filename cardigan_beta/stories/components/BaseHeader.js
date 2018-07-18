@@ -10,6 +10,19 @@ import BaseHeader from '../../../common/views/components/BaseHeader/BaseHeader';
 import Tags from '../../../common/views/components/Tags/Tags';
 import {image, videoEmbed} from '../content';
 
+// TODO replace with component
+function LabelBar(labelArray: string[]) {
+  return labelArray.filter(Boolean).map((text, i) => (
+    <span key={`text-${i}`} className={`
+      line-height-1 bg-yellow line-height-1 bg-yellow
+      font-HNM5-s
+      padding-top-s1 padding-bottom-s1 padding-left-s1 padding-right-s1`}
+    style={{display: 'block', float: 'left', marginRight: '1px', marginTop: '1px', whiteSpace: 'nowrap'}}>
+      {text}
+    </span>
+  ));
+};
+
 const stories = storiesOf('Components', module).addDecorator(withKnobs);
 
 const Header = () => {
@@ -29,6 +42,8 @@ const Header = () => {
   const hasDescription = boolean('Has description?', true);
   const hasDateInfo = boolean('Has date info?', true);
   const hasInfoBar = boolean('Has info bar?', true);
+  const hasLabels = boolean('Has labels?', true);
+  const isFree = boolean('Is free?', false);
 
   const featuredMedia = select('Featured media', {
     none: null,
@@ -48,8 +63,8 @@ const Header = () => {
       Description={hasDescription ? Description : null}
       DateInfo={hasDateInfo ? DateInfo : null}
       InfoBar={hasInfoBar ? InfoBar : null}
-      LabelBar={null} // TODO
-      isFree={false} // TODO
+      LabelBar={hasLabels ? LabelBar(['Gallery tour', 'Audio described']) : null}
+      isFree={isFree}
     />
   );
 };
