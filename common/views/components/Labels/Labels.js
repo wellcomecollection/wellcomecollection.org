@@ -5,7 +5,7 @@ type Props = {|
   labels: string[]
 |}
 
-const Label = ({labels}: Props) => {
+const Labels = ({labels}: Props) => {
   return (labels.filter(Boolean).map((text, i) => (
     <span key={`text-${i}`} className={`
       line-height-1 bg-yellow
@@ -18,4 +18,4 @@ const Label = ({labels}: Props) => {
   );
 };
 
-export default Label;
+export default Labels;
