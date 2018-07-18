@@ -6,7 +6,6 @@ import Body from '../Body/Body';
 import Contributors from '../Contributors/Contributors';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
-import Tags from '../Tags/Tags';
 import Icon from '../Icon/Icon';
 import Button from '../Buttons/Button/Button';
 import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
@@ -59,18 +58,6 @@ function InfoBar(cost, eventbriteId, bookingEnquiryTeam) {
       </span>
     </p>
   );
-}
-
-function audiencesString(audiences) {
-  return audiences.reduce((acc, audience, i) => {
-    if (i === 0) {
-      return `${acc} for ${audience.title}`;
-    } else if (i + 1 === audiences.length) {
-      return `${acc} and ${audience.title}`;
-    } else {
-      return `${acc}, ${audience.title}`;
-    }
-  }, '');
 }
 
 function DatesShowHide(event) {
@@ -144,6 +131,18 @@ function DatesShowHide(event) {
   );
 };
 
+function LabelBar(labelArray: string[]) {
+  return labelArray.filter(Boolean).map((text, i) => (
+    <span key={`text-${i}`} className={`
+      line-height-1 bg-yellow
+      ${font({s: 'HNM5'})}
+      ${spacing({s: 1}, {padding: ['top', 'bottom', 'left', 'right']})}
+    `} style={{display: 'block', float: 'left', marginRight: '1px', marginTop: '1px', whiteSpace: 'nowrap'}}>
+      {text}
+    </span>
+  ));
+};
+
 const EventPage = ({ event }: Props) => {
   const image = event.promo && event.promo.image;
   const tasl = image && {
@@ -160,13 +159,15 @@ const EventPage = ({ event }: Props) => {
   /* https://github.com/facebook/flow/issues/2405 */
   /* $FlowFixMe */
   const FeaturedMedia = event.promo && <UiImage tasl={tasl} {...image} />;
-  const formatTag = event.format ? [{text: event.format.title + audiencesString(event.audiences)}] : [];
-  const interpretationsTags = event.interpretations ? event.interpretations.map(i => ({text: i.interpretationType.title})) : [];
-  const TagBar = <Tags tags={formatTag.concat(interpretationsTags)} />;
+  const eventFormat = event.format ? [event.format.title] : [];
+  const eventAudiences = event.audiences ? event.audiences.map(a => a.title) : [];
+  const eventInterpretations = event.interpretations ? event.interpretations.map(i => (i.interpretationType.title)) : [];
+
   const Header = (<BaseHeader
     title={`${event.title}`}
     Background={<WobblyBackground />}
-    TagBar={TagBar}
+    TagBar={null}
+    LabelBar={LabelBar(eventFormat.concat(eventAudiences, eventInterpretations))}
     DateInfo={DatesShowHide(event)}
     InfoBar={InfoBar(event.cost, event.eventbriteId, event.bookingEnquiryTeam)}
     Description={null}
