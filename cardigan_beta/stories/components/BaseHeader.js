@@ -5,23 +5,11 @@ import VideoEmbed from '../../../common/views/components/VideoEmbed/VideoEmbed';
 import {UiImage} from '../../../common/views/components/Images/Images';
 import StatusIndicator from '../../../common/views/components/StatusIndicator/StatusIndicator';
 import WobblyBackground from '../../../common/views/components/BaseHeader/WobblyBackground';
+import Labels from '../../../common/views/components/Labels/Labels';
 import DateRange from '../../../common/views/components/DateRange/DateRange';
 import BaseHeader from '../../../common/views/components/BaseHeader/BaseHeader';
 import Tags from '../../../common/views/components/Tags/Tags';
 import {image, videoEmbed} from '../content';
-
-// TODO replace with component
-function LabelBar(labelArray: string[]) {
-  return labelArray.filter(Boolean).map((text, i) => (
-    <span key={`text-${i}`} className={`
-      line-height-1 bg-yellow line-height-1 bg-yellow
-      font-HNM5-s
-      padding-top-s1 padding-bottom-s1 padding-left-s1 padding-right-s1`}
-    style={{display: 'block', float: 'left', marginRight: '1px', marginTop: '1px', whiteSpace: 'nowrap'}}>
-      {text}
-    </span>
-  ));
-};
 
 const stories = storiesOf('Components', module).addDecorator(withKnobs);
 
@@ -63,7 +51,7 @@ const Header = () => {
       Description={hasDescription ? Description : null}
       DateInfo={hasDateInfo ? DateInfo : null}
       InfoBar={hasInfoBar ? InfoBar : null}
-      LabelBar={hasLabels ? LabelBar(['Gallery tour', 'Audio described']) : null}
+      LabelBar={hasLabels ? <Labels labels={(['Gallery tour', 'Audio described'])} /> : null}
       isFree={isFree}
     />
   );
