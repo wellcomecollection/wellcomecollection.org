@@ -42,8 +42,7 @@ async function go() {
 
   // Write the example before and after files
   const after = newData[0];
-  const before = data.find(doc => { if (doc.filename === after.filename) { console.info(doc.doc.body); } return doc.filename === after.filename; });
-  data.forEach(d => { if (d.filename.startsWith('W0dMzyYAACYAZuDf')) { console.info(d.doc.body); } });
+  const before = data.find(doc => doc.filename === after.filename);
 
   fs.writeFile(`./${name}/before.json`, JSON.stringify(before.doc, null, 2));
   fs.writeFile(`./${name}/after.json`, JSON.stringify(after.doc, null, 2));

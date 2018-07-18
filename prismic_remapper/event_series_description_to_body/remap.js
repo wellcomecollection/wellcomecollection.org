@@ -15,7 +15,9 @@ module.exports = {
       }
     }];
 
-    doc.body = body;
+    if (!doc.body) {
+      doc.body = body;
+    };
 
     return {doc, filename};
   }
