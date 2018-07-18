@@ -1,5 +1,5 @@
 {
-  "Person": {
+  "Organisation": {
     "name": {
       "type": "StructuredText",
       "config": {

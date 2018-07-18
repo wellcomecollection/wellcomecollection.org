@@ -7,7 +7,7 @@ import title from './parts/title';
 import heading from './parts/heading';
 
 export default {
-  Person: {
+  Organisation: {
     name: title,
     description: description,
     image: image('Image'),
