@@ -242,8 +242,22 @@ const EventPage = ({ event }: Props) => {
           </div>
         }
 
-        {/* Booking explanations */}
-        <div className={`body-text border-top-width-1 border-color-pumice ${spacing({s: 4}, {padding: ['top', 'bottom']})}`}>
+        <div className={`body-text bg-yellow ${spacing({s: 4}, {padding: ['top', 'right', 'bottom', 'left']})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
+          <h2>Need to know</h2>
+          {event.place &&
+            <Fragment>
+              <h3 className={`${font({s: 'HNM4'})} no-margin`}>Location</h3>
+              <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                {event.place.information &&
+                  <p>{event.place.information}</p>
+                }
+                {!event.place.information &&
+                  <p>{event.place.title} {(event.place.level && `on level ${event.place.level}`)}</p>
+                }
+              </div>
+            </Fragment>
+          }
+
           {
             event.isDropIn ? (
               <Fragment>
@@ -301,22 +315,6 @@ const EventPage = ({ event }: Props) => {
                         </div>
                       </Fragment>
                     )
-          }
-        </div>
-
-        <div className={`body-text bg-yellow ${spacing({s: 4}, {padding: ['top', 'right', 'bottom', 'left']})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
-          <h2>Need to know</h2>
-          {event.place &&
-            <Fragment>
-              <h3>Location</h3>
-              {event.place.information &&
-                <p>{event.place.information}</p>
-              }
-
-              {!event.place.information &&
-                <p>{event.place.title} {(event.place.level && `on level ${event.place.level}`)}</p>
-              }
-            </Fragment>
           }
         </div>
 
