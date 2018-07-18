@@ -294,7 +294,8 @@ export function parsePlace(doc: PrismicFragment): Place {
     id: doc.id,
     title: asText(doc.data.title) || '',
     level: doc.data.level || 0,
-    capacity: doc.data.capacity
+    capacity: doc.data.capacity,
+    information: asText(doc.data.locationInformation)
   };
 }
 
