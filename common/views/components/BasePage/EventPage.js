@@ -304,6 +304,22 @@ const EventPage = ({ event }: Props) => {
           }
         </div>
 
+        <div className={`body-text bg-yellow ${spacing({s: 4}, {padding: ['top', 'right', 'bottom', 'left']})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
+          <h2>Need to know</h2>
+          {event.place &&
+            <Fragment>
+              <h3>Location</h3>
+              {event.place.information &&
+                <p>{event.place.information}</p>
+              }
+
+              {!event.place.information &&
+                <p>{event.place.title} {(event.place.level && `on level ${event.place.level}`)}</p>
+              }
+            </Fragment>
+          }
+        </div>
+
         <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`}>
           {event.bookingInformation &&
             <Fragment>
