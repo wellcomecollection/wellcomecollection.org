@@ -110,7 +110,11 @@ const BaseHeader = ({
                 </div>
               }
 
-              {LabelBar}
+              {LabelBar &&
+                <div className={`${spacing({s: 3}, {margin: ['top']})} relative`}>
+                  {LabelBar}
+                </div>
+              }
             </div>
           </div>
         </div>
