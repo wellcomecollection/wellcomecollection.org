@@ -12,7 +12,7 @@ import {
 export function parseEventSeries(document: PrismicDocument): EventSeries {
   const genericFields = parseGenericFields(document);
   const backgroundTexture = document.data.backgroundTexture && document.data.backgroundTexture.data;
-  const body = document.data.body && parseBody(document.data.body);
+  const body = document.data.body ? parseBody(document.data.body) : [];
 
   return {
     ...genericFields,
