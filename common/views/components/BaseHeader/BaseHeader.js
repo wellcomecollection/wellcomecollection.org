@@ -24,7 +24,8 @@ type Props = {|
   InfoBar: ?Node,
   Description: ?Node,
   FeaturedMedia: ?FeaturedMedia,
-  isFree?: boolean
+  LabelBar: ?Node,
+  isFree: boolean
 |}
 
 const backgroundTexture = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg';
@@ -36,6 +37,7 @@ const BaseHeader = ({
   Description,
   InfoBar,
   FeaturedMedia,
+  LabelBar,
   isFree
 }: Props) => {
   const BackgroundComponent = Background ||
@@ -63,6 +65,14 @@ const BaseHeader = ({
             </div>
           }
           <div className={`grid ${spacing({s: 5, m: 7, l: 9}, {padding: ['top']})}`}>
+            {TagBar &&
+              <div className={`
+                ${spacing({s: 1}, {padding: ['top']})}
+                ${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}
+              `}>
+                {TagBar}
+              </div>
+            }
             <div className={`
               ${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}
               ${spacing({s: 2}, {padding: ['bottom']})}
@@ -100,7 +110,7 @@ const BaseHeader = ({
                 </div>
               }
 
-              {TagBar}
+              {LabelBar}
             </div>
           </div>
         </div>
