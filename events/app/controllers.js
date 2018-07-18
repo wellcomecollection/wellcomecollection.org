@@ -100,6 +100,7 @@ export async function renderEventSeries(ctx, next) {
         contentType: 'event-series',
         canonicalUri: `/event-series/${id}`
       }),
+      series: series,
       htmlDescription: asHtml(series.description),
       paginatedEvents: upcomingEvents,
       pastEvents: pastEvents,
