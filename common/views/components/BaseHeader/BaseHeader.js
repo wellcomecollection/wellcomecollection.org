@@ -63,14 +63,6 @@ const BaseHeader = ({
             </div>
           }
           <div className={`grid ${spacing({s: 5, m: 7, l: 9}, {padding: ['top']})}`}>
-            {TagBar &&
-              <div className={`
-                ${spacing({s: 1}, {padding: ['top']})}
-                ${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}
-              `}>
-                {TagBar}
-              </div>
-            }
             <div className={`
               ${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}
               ${spacing({s: 2}, {padding: ['bottom']})}
@@ -107,6 +99,8 @@ const BaseHeader = ({
                   {FeaturedMedia}
                 </div>
               }
+
+              {TagBar}
             </div>
           </div>
         </div>
