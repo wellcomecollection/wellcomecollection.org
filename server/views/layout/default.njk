@@ -55,19 +55,32 @@
 
           window.addEventListener('load', function() {
             var validationFails = [];
+
             var descriptionEl = document.querySelector('meta[name="description"]');
             if (descriptionEl && !descriptionEl.content) {
               validationFails.push(`
-                Warning:
+                <b>Warning:</b>
                 This piece of content is missing its description.
                 This helps with search engine results and sharing on social channels.
                 (If this is from Prismic, it's the promo text).
               `);
             }
 
+            var imageEl = document.querySelector('meta[property="og:image"]');
+            if (imageEl && !imageEl.content) {
+              validationFails.push(`
+                <b>Warning:</b>
+                This piece of content is missing its promo image.
+                This is the image that will be shown across our site,
+                as well as on social media.
+              `);
+            }
+
+
             if (validationFails.length > 0) {
               validationFails.forEach(function(validationFail) {
                 var div = document.createElement('div');
+                div.style.marginBottom = '6px';
                 div.innerHTML = validationFail;
                 validationBar.appendChild(div);
               });
