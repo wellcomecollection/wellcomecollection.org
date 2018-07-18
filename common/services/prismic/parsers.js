@@ -11,6 +11,7 @@ import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/ba
 import type { CaptionedImage } from '../../model/captioned-image';
 import type { ImagePromo } from '../../model/image-promo';
 import type { GenericContentFields } from '../../model/generic-content-fields';
+import type { SameAs } from '../../model/same-as';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
@@ -175,6 +176,13 @@ const defaultContributorImage = {
   alt: ''
 };
 
+function parseSameAs(frag: PrismicFragment): SameAs {
+  return frag.map(linkAndTitle => ({
+    link: linkAndTitle.link,
+    title: linkAndTitle.title
+  }));
+}
+
 function parsePersonContributor(frag: PrismicFragment): PersonContributor {
   // As we don't have square images retrospectively, we fallback.
   const image = frag.data.image && (frag.data.image.square || frag.data.image);
@@ -184,7 +192,8 @@ function parsePersonContributor(frag: PrismicFragment): PersonContributor {
     name: frag.data.name || '',
     image: checkAndParseImage(image) || defaultContributorImage,
     description: frag.data.description,
-    twitterHandle: null
+    twitterHandle: null,
+    sameAs: frag.data.sameAs ? parseSameAs(frag.data.sameAs) : []
   };
 }
 
@@ -194,7 +203,8 @@ function parseOrganisationContributor(frag: PrismicFragment): OrganisationContri
     type: 'organisations',
     name: asText(frag.data.name) || '',
     image: checkAndParseImage(frag.data.image) || defaultContributorImage,
-    url: frag.data.url
+    url: frag.data.url,
+    sameAs: frag.data.sameAs ? parseSameAs(frag.data.sameAs) : []
   };
 }
 

@@ -23,6 +23,7 @@ const Contributor = ({
     alt: `Photograph of ${contributor.name}`
   };
 
+  console.info(contributor.sameAs);
   return (
     <div className='grid'>
       <div className={`flex ${grid({ s: 12, m: 12, l: 12, xl: 12 })}`}>

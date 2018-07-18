@@ -86,7 +86,8 @@ const BookPage = ({ book }: Props) => {
     },
     twitterHandle: null,
     // parse this as string
-    description: book.authorDescription
+    description: book.authorDescription,
+    sameAs: []
   };
   const drupalContributor = drupalPerson && {
     contributor: drupalPerson,
