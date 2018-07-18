@@ -1,0 +1,43 @@
+{
+  "type": "event-series",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WlYUDCQAACQAWcdv",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Perspective tours",
+        "spans": []
+      }
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In these tours, we invite experts in connected fields to bring their unique perspectives to our exhibitions.",
+        "spans": []
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$552de38f-18d6-4ab8-9d12-399a835a20ac",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "In these tours, we invite experts in connected fields to bring their unique perspectives to our exhibitions.",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

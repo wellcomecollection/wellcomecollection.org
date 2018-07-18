@@ -14,12 +14,26 @@ async function go() {
     });
   });
 
+  await new Promise((resolve, reject) => mkdirp(`./${name}/premapped`, (err) => {
+    if (err) {
+      reject(err);
+    } else {
+      resolve();
+    }
+  }));
+
   const data = await Promise.all(dataPromises);
   // we clone here to avoid mutating the original object
-  const newData = data.map(({filename, doc}) => ({
+  const filteredData = data.map(({filename, doc}) => ({
     doc: Object.assign({}, doc),
     filename: filename
-  })).filter(filter).map(map);
+  })).filter(filter);
+
+  filteredData.forEach(({filename, doc}, i) => {
+    fs.writeFileSync(`./${name}/premapped/${filename}`, JSON.stringify(doc, null, 2));
+  });
+
+  const newData = filteredData.map(map);
 
   await new Promise((resolve, reject) => {
     rimraf('./.dist/remapped', (err) => {
