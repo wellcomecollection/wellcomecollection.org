@@ -48,6 +48,8 @@ const Header = () => {
       Description={hasDescription ? Description : null}
       DateInfo={hasDateInfo ? DateInfo : null}
       InfoBar={hasInfoBar ? InfoBar : null}
+      LabelBar={null} // TODO
+      isFree={false} // TODO
     />
   );
 };

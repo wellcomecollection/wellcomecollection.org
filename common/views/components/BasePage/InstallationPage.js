@@ -50,6 +50,8 @@ const InstallationPage = ({
     InfoBar={<StatusIndicator start={installation.start} end={(installation.end || new Date())} />}
     Description={null}
     FeaturedMedia={FeaturedMedia}
+    LabelBar={null}
+    isFree={false}
   />);
 
   return (
