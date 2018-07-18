@@ -17,8 +17,6 @@ export function serverError(beaconError) {
         Raven.captureException(err, {extra: {url: ctx.request.href, statusCode: ctx.status}});
       }
 
-      ctx.throw(err);
-
       ctx.render('pages/error', {
         isPreview,
         errorStatus: ctx.status,
