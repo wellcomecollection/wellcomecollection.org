@@ -2,6 +2,7 @@
 import {font, grid, spacing} from '../../../utils/classnames';
 import Image from '../Image/Image';
 import Avatar from '../Avatar/Avatar';
+import LinkLabels from '../LinkLabels/LinkLabels';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import type {Contributor as ContributorType} from '../../../model/contributors';
 import type {Props as ImageProps} from '../Image/Image';
@@ -23,7 +24,6 @@ const Contributor = ({
     alt: `Photograph of ${contributor.name}`
   };
 
-  console.info(contributor.sameAs);
   return (
     <div className='grid'>
       <div className={`flex ${grid({ s: 12, m: 12, l: 12, xl: 12 })}`}>
@@ -49,6 +49,13 @@ const Contributor = ({
               {role.title}
             </div>
           }
+
+          {contributor.sameAs.length > 0 &&
+            <LinkLabels items={
+              contributor.sameAs.map(({link, title}) => ({ link, label: title }))
+            } />
+          }
+
           {descriptionToRender &&
             <div className={[spacing({s: 1}, {margin: ['top']}), font({s: 'HNL4'})].join(' ')}>
               <PrismicHtmlBlock html={descriptionToRender} />

@@ -176,11 +176,19 @@ const defaultContributorImage = {
   alt: ''
 };
 
-function parseSameAs(frag: PrismicFragment): SameAs {
-  return frag.map(linkAndTitle => ({
-    link: linkAndTitle.link,
-    title: linkAndTitle.title
-  }));
+export function parseSameAs(frag: PrismicFragment[]): SameAs {
+  return frag.map(linkAndTitle => {
+    const {link, title} = linkAndTitle;
+    const autoTitle = link && (
+      link.startsWith('https://twitter.com/') ? `@${link.replace('https://twitter.com/', '')}`
+        : link.match(/^https?:\/\//) ? link.replace(/^https?:\/\//, '') : null
+    );
+
+    return {
+      link: linkAndTitle.link,
+      title: asText(title) || autoTitle || link
+    };
+  });
 }
 
 function parsePersonContributor(frag: PrismicFragment): PersonContributor {
