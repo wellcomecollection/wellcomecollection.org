@@ -242,8 +242,8 @@ const EventPage = ({ event }: Props) => {
           </div>
         }
 
-        <div className={`body-text bg-yellow ${spacing({s: 4}, {padding: ['top', 'right', 'bottom', 'left']})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
-          <h2>Need to know</h2>
+        <div className={`bg-yellow ${spacing({s: 4}, {padding: ['top', 'right', 'bottom', 'left']})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
+          <h2 className='h2'>Need to know</h2>
           {event.place &&
             <Fragment>
               <h3 className={`${font({s: 'HNM4'})} no-margin`}>Location</h3>
@@ -316,6 +316,10 @@ const EventPage = ({ event }: Props) => {
                       </Fragment>
                     )
           }
+
+          <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
+            <a href='https://wellcomecollection.org/visit-us/events-tickets'>Our event terms and conditions</a>
+          </p>
         </div>
 
         <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`}>
@@ -343,7 +347,7 @@ const EventPage = ({ event }: Props) => {
           );
         })}
 
-        {event.audiences.map((audience) => {
+        {event.audiences.map((audience) => { //  TODO remove?
           if (audience.description) {
             return (
               <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`} key={audience.title}>
@@ -353,12 +357,6 @@ const EventPage = ({ event }: Props) => {
             );
           }
         })}
-
-        <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`}>
-          <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
-            <a href='https://wellcomecollection.org/visit-us/events-tickets'>Our event terms and conditions</a>
-          </p>
-        </div>
 
         {event.series.map((series) => {
           return (
