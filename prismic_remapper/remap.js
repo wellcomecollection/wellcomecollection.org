@@ -1,5 +1,6 @@
 const fs = require('mz/fs');
 const rimraf = require('rimraf');
+const mkdirp = require('mkdirp');
 const name = process.argv[2];
 
 // TODO: nicer errors?
@@ -13,8 +14,26 @@ async function go() {
     });
   });
 
+  await new Promise((resolve, reject) => mkdirp(`./${name}/premapped`, (err) => {
+    if (err) {
+      reject(err);
+    } else {
+      resolve();
+    }
+  }));
+
   const data = await Promise.all(dataPromises);
-  const newData = data.filter(filter).map(map);
+  // we clone here to avoid mutating the original object
+  const filteredData = data.map(({filename, doc}) => ({
+    doc: Object.assign({}, doc),
+    filename: filename
+  })).filter(filter);
+
+  filteredData.forEach(({filename, doc}, i) => {
+    fs.writeFileSync(`./${name}/premapped/${filename}`, JSON.stringify(doc, null, 2));
+  });
+
+  const newData = filteredData.map(map);
 
   await new Promise((resolve, reject) => {
     rimraf('./.dist/remapped', (err) => {
@@ -22,7 +41,14 @@ async function go() {
       else resolve();
     });
   });
-  await fs.mkdir('./.dist/remapped');
+
+  await new Promise((resolve, reject) => mkdirp('./.dist/remapped', (err) => {
+    if (err) {
+      reject(err);
+    } else {
+      resolve();
+    }
+  }));
 
   newData.forEach(({filename, doc}, i) => {
     fs.writeFile(`./.dist/remapped/${filename}`, JSON.stringify(doc, null, 2));

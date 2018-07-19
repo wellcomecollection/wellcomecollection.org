@@ -12,6 +12,11 @@ The new documents will be stored in `.dist/remapped`.
 
   yarn remap <FILTER_AND_MAPPER_NAME>
 
+
+## It all broke - get me out of here ＼(º □ º l|l)/
+The premapped content get's saved into the remapper folder, under `premapped`.
+Just zip that up and upload it to Prismic.
+
 ---
 
 An example process of this could be

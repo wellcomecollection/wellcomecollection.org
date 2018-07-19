@@ -1,22 +1,68 @@
 {
-  "Organisation" : {
-    "name" : {
-      "type" : "StructuredText",
-      "config" : {
-        "single" : "heading1",
-        "label" : "Title"
+  "Organisation": {
+    "name": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Title",
+        "single": "heading1",
+        "useAsTitle": true
       }
     },
-    "image" : {
-      "type" : "Image",
-      "config" : {
-        "label" : "Logo"
+    "description": {
+      "type": "StructuredText",
+      "config": {
+        "multi": "paragraph,hyperlink,strong,em,heading2",
+        "label": "Description"
       }
     },
-    "url" : {
-      "type" : "Text",
-      "config" : {
-        "label" : "Web address"
+    "image": {
+      "type": "Image",
+      "config": {
+        "label": "Image",
+        "thumbnails": [
+          {
+            "name": "32:15",
+            "width": 3200,
+            "height": 1500
+          },
+          {
+            "name": "16:9",
+            "width": 3200,
+            "height": 1800
+          },
+          {
+            "name": "square",
+            "width": 3200,
+            "height": 3200
+          }
+        ]
+      }
+    },
+    "sameAs": {
+      "type": "Group",
+      "fieldset": "Same as",
+      "config": {
+        "fields": {
+          "link": {
+            "type": "Text",
+            "config": {
+              "label": "Link"
+            }
+          },
+          "title": {
+            "type": "StructuredText",
+            "config": {
+              "label": "Title (override)",
+              "single": "heading1"
+            }
+          }
+        }
+      }
+    },
+    "url": {
+      "type": "Text",
+      "config": {
+        "label": "URL (deprecated)"
       }
     }
   }

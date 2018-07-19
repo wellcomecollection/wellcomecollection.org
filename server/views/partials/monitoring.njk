@@ -1,4 +1,4 @@
-<script src="https://cdn.ravenjs.com/3.25.2/raven.min.js" async onload="setupMonitoring()"></script>
+<script src="https://cdn.ravenjs.com/3.26.3/raven.min.js" async onload="setupMonitoring()" crossorigin="anonymous"></script>
 <script>
   function setupMonitoring() {
     var oldSafari = /^.*Version\/[0-8]\..*Safari.*$/;
@@ -7,6 +7,12 @@
     var ignoredUserAgentRegex = [
       oldSafari,
       bingPreview
+    ];
+
+    // Unsure how this is consistently slipping through our
+    // whitlistUrls and ignoreUrls -- possibly a browser plugin.
+    var reallyIgnoredUrls = [
+      /googleusercontent/
     ];
 
     function shouldIgnore(regexArray, stringToMatch) {
@@ -19,6 +25,12 @@
 
     Raven.config('https://f756b8d4b492473782987a054aa9a347@sentry.io/133634', {
       shouldSendCallback: function(data) {
+        if (data.request && data.request.url) {
+          var shouldReallyIgnoreUrls = shouldIgnore(reallyIgnoredUrls, data.request.url);
+
+          if (shouldReallyIgnoreUrls) return false;
+        }
+
         return !shouldIgnoreBrowsers;
       },
       whitelistUrls: [/wellcomecollection\.org/],

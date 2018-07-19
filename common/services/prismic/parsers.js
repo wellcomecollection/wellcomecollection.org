@@ -11,6 +11,7 @@ import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/ba
 import type { CaptionedImage } from '../../model/captioned-image';
 import type { ImagePromo } from '../../model/image-promo';
 import type { GenericContentFields } from '../../model/generic-content-fields';
+import type { SameAs } from '../../model/same-as';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
@@ -126,7 +127,7 @@ function parseImage(frag: PrismicFragment): Image {
 }
 
 type Crop = | '16:9' | '32:15' | 'square';
-export function parseCaptionedImage(frag: PrismicFragment, crop?: Crop): CaptionedImage {
+export function parseCaptionedImage(frag: PrismicFragment, crop?: ?Crop): CaptionedImage {
   if (isEmptyObj(frag.image)) {
     return {
       image: placeHolderImage,
@@ -153,13 +154,13 @@ export function parseCaptionedImage(frag: PrismicFragment, crop?: Crop): Caption
   };
 }
 
-export function parsePromoToCaptionedImage(frag: PrismicFragment): CaptionedImage {
+export function parsePromoToCaptionedImage(frag: PrismicFragment, crop: ?Crop = '16:9'): CaptionedImage {
   // We could do more complicated checking here, but this is what we always use.
   const promo = frag[0];
-  return parseCaptionedImage(promo.primary, '16:9');
+  return parseCaptionedImage(promo.primary, crop);
 }
 
-const defaultContributorImage = {
+export const defaultContributorImage = {
   width: 64,
   height: 64,
   contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3ed09488-1992-4f8a-9f0c-de2d296109f9_group+21.png',
@@ -175,6 +176,21 @@ const defaultContributorImage = {
   alt: ''
 };
 
+export function parseSameAs(frag: PrismicFragment[]): SameAs {
+  return frag.map(linkAndTitle => {
+    const {link, title} = linkAndTitle;
+    const autoTitle = link && (
+      link.startsWith('https://twitter.com/') ? `@${link.replace('https://twitter.com/', '')}`
+        : link.match(/^https?:\/\//) ? link.replace(/^https?:\/\//, '') : null
+    );
+
+    return {
+      link: linkAndTitle.link,
+      title: asText(title) || autoTitle || link
+    };
+  });
+}
+
 function parsePersonContributor(frag: PrismicFragment): PersonContributor {
   // As we don't have square images retrospectively, we fallback.
   const image = frag.data.image && (frag.data.image.square || frag.data.image);
@@ -184,7 +200,8 @@ function parsePersonContributor(frag: PrismicFragment): PersonContributor {
     name: frag.data.name || '',
     image: checkAndParseImage(image) || defaultContributorImage,
     description: frag.data.description,
-    twitterHandle: null
+    twitterHandle: null,
+    sameAs: frag.data.sameAs ? parseSameAs(frag.data.sameAs) : []
   };
 }
 
@@ -194,7 +211,8 @@ function parseOrganisationContributor(frag: PrismicFragment): OrganisationContri
     type: 'organisations',
     name: asText(frag.data.name) || '',
     image: checkAndParseImage(frag.data.image) || defaultContributorImage,
-    url: frag.data.url
+    url: frag.data.url,
+    sameAs: frag.data.sameAs ? parseSameAs(frag.data.sameAs) : []
   };
 }
 

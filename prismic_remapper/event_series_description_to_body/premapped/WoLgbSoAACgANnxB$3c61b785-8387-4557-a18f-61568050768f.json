@@ -1,0 +1,108 @@
+{
+  "type": "event-series",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WoLgbSoAACgANnxD",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Access Tours and Discussions",
+        "spans": []
+      }
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "We regularly run tours of our exhibitions for visitors with access needs: British Sign Language (BSL) interpreted, audio described (AD) and speech-to-text (STT) tours.",
+        "spans": []
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$e4c6b36d-c129-4e60-ab2c-43dd2a689fbf",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "We regularly run tours of our exhibitions for visitors with access needs: British Sign Language (BSL) interpreted, audio described (AD) and speech-to-text (STT) tours.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WoNjeSoAACgAOLuD",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fac3136ee-5ca3-4d1a-a1e5-3d09b360ae34_c0112769.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/d27f290e8d04d7b8508d9b2a335ed281315f600b_c0112769.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WoNjeSoAACgAOLuD",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fac3136ee-5ca3-4d1a-a1e5-3d09b360ae34_c0112769.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/68c1ea19627b7cfc3d96de76042b759688cd61b3_c0112769.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "WoNjeSoAACgAOLuD",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fac3136ee-5ca3-4d1a-a1e5-3d09b360ae34_c0112769.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/d2bb65768c4afd1d042c56d6fa0af18786dcf021_c0112769.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

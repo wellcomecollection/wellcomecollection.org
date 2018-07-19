@@ -9,7 +9,7 @@ const Labels = ({
   label
 }: Props) => (
   <ul className='flex plain-list no-margin no-padding line-height-1'>
-    <ul
+    <li
       key={label}
       className={conditionalClassNames({
         'line-height-1 bg-yellow': true,
@@ -24,7 +24,7 @@ const Labels = ({
         whiteSpace: 'nowrap'
       }}>
       {label}
-    </ul>
+    </li>
   </ul>
 );
 

@@ -88,6 +88,11 @@ export const quote = () => ({
   }]
 });
 
+const sameAs = [
+  { link: 'https://twitter.com/mbannisy', title: '@mbannisy' },
+  { link: 'http://things.com', title: 'things.com' },
+  { link: 'https://google.com', title: 'This is it!' }
+];
 export function person() {
   return {
     id: faker.random.uuid(),
@@ -95,7 +100,8 @@ export function person() {
     description: smallText(),
     image: {
       contentUrl: faker.image.avatar()
-    }
+    },
+    sameAs: sameAs
   };
 }
 
@@ -107,6 +113,7 @@ export function organisation() {
     url: 'https://wellcomecollection.org',
     image: {
       contentUrl: 'https://vignette.wikia.nocookie.net/logopedia/images/4/42/BBC_Worldwide_1995.svg/revision/latest?cb=20180114133014'
-    }
+    },
+    sameAs: []
   };
 }

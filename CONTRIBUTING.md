@@ -15,7 +15,6 @@ By participating in this project, you agree to abide by the our
 Some things that will help the PR get through
 * Reference a
   [`userstory`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Auserstory),
-  [`techprofit`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Atechprofit),
   or a [`bug`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Abug).
 * Again, [a good PR](https://github.com/blog/1943-how-to-write-the-perfect-pull-request)
   goes a long way
@@ -42,9 +41,6 @@ Keeping the heartbeat of the system or feature beating steadily if it has degrad
 
 ### [`bug`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Abug)
 It should be one way, but is another.
-
-### [`techprofit`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Atechprofit)
-Bits of tech tidy-up that, when fixed, makes it easier to move forward.
 
 ### `needs:{x}`
 Requires someone with this speciality to take a look before we continue.
