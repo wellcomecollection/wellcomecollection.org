@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block body %}
-   <script type="application/ld+json">
+  <script type="application/ld+json">
     [{% for exhibition in exhibitionAndEventPromos.temporaryExhibitionPromos %}
       {{ exhibition | jsonLd('exhibitionPromoLd') | safe }},
     {% endfor %}
@@ -65,10 +65,9 @@
         </div>
       {% endmacro %}
 
-      {{ permanentPromos('Try these too', tryTheseTooPromos, 'large') }}
+      {{ permanentPromos('Try these too', tryTheseTooPromos | concat(exhibitionAndEventPromos.colourOfPharmacyPromo), 'large') }}
 
       {{ permanentPromos('Eat and shop', eatShopPromos, 'small') }}
-      </div>
     </div>
   </div>
 {% endblock %}

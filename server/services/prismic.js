@@ -225,7 +225,7 @@ function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
   return allResults.map((e): ExhibitionPromo => {
     return {
       id: e.id,
-      url: `/exhibitions/${e.id}`,
+      url: `/${e.type}/${e.id}`,
       format: e.data.format && parseExhibitionFormat(e.data.format),
       title: asText(e.data.title),
       image: e.data.promo && parseImagePromo(e.data.promo).image,
@@ -485,7 +485,7 @@ export async function getExhibitionAndEventPromos(query, collectionOpeningTimes)
   // set 'everything' as default time period, when no startDate is provided
   const toDate = !query.startDate ? undefined : query.endDate; ;
   const dateRange = [fromDate, toDate];
-  const allExhibitionsAndEvents = await getAllOfType(['exhibitions', 'events'], {
+  const allExhibitionsAndEvents = await getAllOfType(['exhibitions', 'events', 'installations'], {
     pageSize: 100,
     fetchLinks: eventFields.concat(exhibitionFields),
     orderings: '[my.events.times.startDateTime desc, my.exhibitions.start]'
@@ -497,6 +497,9 @@ export async function getExhibitionAndEventPromos(query, collectionOpeningTimes)
   const currentTemporaryExhibitionPromos = filterCurrentExhibitions(temporaryExhibitionPromos, todaysDate);
   const upcomingTemporaryExhibitionPromos = filterUpcomingExhibitions(temporaryExhibitionPromos, todaysDate);
   const eventPromos = filterPromosByDate(createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')), fromDate, toDate).sort((a, b) => a.start.localeCompare(b.start));
+
+  // TODO: get rid of this snowflake when what's on/homepage are capable of handling manual lists.
+  const colourOfPharmacyPromo = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.id === 'WyuWLioAACkACeYv'));
 
   // eventPromosSplitAcrossMonths and monthControls only required for the 'everything' view
   const eventPromosSplitAcrossMonths = duplicatePromosByMonthYear(eventPromos);
@@ -524,6 +527,7 @@ export async function getExhibitionAndEventPromos(query, collectionOpeningTimes)
     dates,
     permanentExhibitionPromos,
     temporaryExhibitionPromos,
+    colourOfPharmacyPromo,
     currentTemporaryExhibitionPromos,
     upcomingTemporaryExhibitionPromos,
     eventPromos,
