@@ -14,7 +14,7 @@ type Props = {|
   Image: ?Element<typeof ImageType>
 |}
 
-const BaseSearchResult = ({
+const ContentCard = ({
   url,
   title,
   promoType,
@@ -58,4 +58,4 @@ const BaseSearchResult = ({
   );
 };
 
-export default BaseSearchResult;
+export default ContentCard;
