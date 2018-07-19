@@ -10,6 +10,7 @@ import Tags from '../Tags/Tags';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
 import {grid, spacing} from '../../../utils/classnames';
 import type {Book} from '../../../model/books';
+import {defaultContributorImage} from '../../../services/prismic/parsers';
 
 type Props = {|
   book: Book
@@ -68,7 +69,7 @@ const BookPage = ({ book }: Props) => {
     type: 'people',
     id: 'xxx',
     name: book.authorName || '',
-    image: {
+    image: book.authorImage ? {
       contentUrl: book.authorImage || '',
       width: 800,
       height: 0,
@@ -82,7 +83,7 @@ const BookPage = ({ book }: Props) => {
         copyrightHolder: null,
         copyrightLink: null
       }
-    },
+    } : defaultContributorImage,
     twitterHandle: null,
     // parse this as string
     description: book.authorDescription

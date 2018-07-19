@@ -159,7 +159,7 @@ export function parsePromoToCaptionedImage(frag: PrismicFragment, crop: ?Crop = 
   return parseCaptionedImage(promo.primary, crop);
 }
 
-const defaultContributorImage = {
+export const defaultContributorImage = {
   width: 64,
   height: 64,
   contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3ed09488-1992-4f8a-9f0c-de2d296109f9_group+21.png',
