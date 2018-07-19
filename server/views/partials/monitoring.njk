@@ -9,6 +9,12 @@
       bingPreview
     ];
 
+    // Unsure how this is consistently slipping through our
+    // whitlistUrls and ignoreUrls -- possibly a browser plugin.
+    var reallyIgnoredUrls = [
+      /googleusercontent/
+    ];
+
     function shouldIgnore(regexArray, stringToMatch) {
       return regexArray.some(function(regex) {
         return regex.test(stringToMatch);
@@ -19,6 +25,12 @@
 
     Raven.config('https://f756b8d4b492473782987a054aa9a347@sentry.io/133634', {
       shouldSendCallback: function(data) {
+        if (data.request && data.request.url) {
+          var shouldReallyIgnoreUrls = shouldIgnore(reallyIgnoredUrls, data.request.url);
+
+          if (shouldReallyIgnoreUrls) return false;
+        }
+
         return !shouldIgnoreBrowsers;
       },
       whitelistUrls: [/wellcomecollection\.org/],
