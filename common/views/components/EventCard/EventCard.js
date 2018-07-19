@@ -17,8 +17,14 @@ const EventCard = ({ event }: Props) => {
   ].concat(event.audiences.map(audience => ({
     label: audience.title
   }))).filter(Boolean);
+  // TODO: We need to centralise this somewhere
+  const dateRange = event.times.length > 0 && {
+    start: event.times[0].range.startDateTime,
+    end: event.times[0].range.endDateTime
+  };
+
   const LabelsComponent = <Labels items={labels} />;
-  const DateRangeComponent = <DateRange start={new Date()} end={new Date()} />;
+  const DateRangeComponent = dateRange ? <DateRange {...dateRange} /> : null;
 
   return <ContentCard
     url={`/events/${event.id}`}
