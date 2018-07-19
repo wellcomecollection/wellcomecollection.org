@@ -10,6 +10,7 @@ import Tags from '../Tags/Tags';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
 import {grid, spacing} from '../../../utils/classnames';
 import type {Book} from '../../../model/books';
+import {defaultContributorImage} from '../../../services/prismic/parsers';
 
 type Props = {|
   book: Book
@@ -42,9 +43,8 @@ const BookPage = ({ book }: Props) => {
     copyrightHolder: image.copyright && image.copyright.holder,
     copyrightLink: image.copyright && image.copyright.link
   };
-  /* https://github.com/facebook/flow/issues/2405 */
-  /* $FlowFixMe */
-  const FeaturedMedia = book.promo && <UiImage tasl={tasl} extraClasses='margin-v-auto width-auto max-height-70vh' {...image} />;
+  // $FlowFixMe
+  const FeaturedMedia = book.cover && <UiImage tasl={tasl} extraClasses='margin-v-auto width-auto max-height-70vh' {...book.cover} />;
   const TagBar = <Tags tags={[{
     text: 'Book',
     url: '/books'
@@ -69,7 +69,7 @@ const BookPage = ({ book }: Props) => {
     type: 'people',
     id: 'xxx',
     name: book.authorName || '',
-    image: {
+    image: book.authorImage ? {
       contentUrl: book.authorImage || '',
       width: 800,
       height: 0,
@@ -83,7 +83,7 @@ const BookPage = ({ book }: Props) => {
         copyrightHolder: null,
         copyrightLink: null
       }
-    },
+    } : defaultContributorImage,
     twitterHandle: null,
     // parse this as string
     description: book.authorDescription
