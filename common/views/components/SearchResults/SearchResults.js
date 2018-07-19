@@ -2,7 +2,7 @@
 import {Fragment} from 'react';
 import {spacing, grid} from '../../../utils/classnames';
 import Image from '../Image/Image';
-import BaseResult from '../BaseResult/BaseResult';
+import ContentCard from '../ContentCard/ContentCard';
 import type {MultiContent} from '../../../model/multi-content';
 
 type Props = {|
@@ -26,7 +26,7 @@ const SearchResults = ({ items, title }: Props) => (
           ` border-top-width-1 border-color-pumice`
         } key={item.id}>
           {item.type === 'pages' &&
-            <BaseResult
+            <ContentCard
               promoType='PagePromo'
               url={`/pages/${item.id}`}
               title={item.title || ''}
@@ -38,7 +38,7 @@ const SearchResults = ({ items, title }: Props) => (
           }
 
           {item.type === 'event-series' &&
-            <BaseResult
+            <ContentCard
               promoType='EventSeriesPromo'
               url={`/event-series/${item.id}`}
               title={item.title || ''}
@@ -50,7 +50,7 @@ const SearchResults = ({ items, title }: Props) => (
           }
 
           {item.type === 'books' &&
-            <BaseResult
+            <ContentCard
               promoType='BooksPromo'
               url={`/books/${item.id}`}
               title={item.title || ''}
@@ -62,7 +62,7 @@ const SearchResults = ({ items, title }: Props) => (
           }
 
           {item.type === 'events' &&
-            <BaseResult
+            <ContentCard
               promoType='EventPromo'
               url={`/events/${item.id}`}
               title={item.title || ''}
