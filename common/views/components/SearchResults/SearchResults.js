@@ -23,7 +23,7 @@ const SearchResults = ({ items, title }: Props) => (
       `}>
       {items.map(item => (
         <div className={
-          spacing({s: 5}, {padding: ['bottom', 'top']}) +
+          spacing({s: 2}, {padding: ['bottom', 'top']}) +
           ` border-top-width-1 border-color-pumice`
         } key={item.id}>
           {item.type === 'pages' &&
@@ -35,6 +35,7 @@ const SearchResults = ({ items, title }: Props) => (
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
               urlOverride={item.promo && item.promo.link}
               Tags={null}
+              DateInfo={null}
             />
           }
 
@@ -47,6 +48,7 @@ const SearchResults = ({ items, title }: Props) => (
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
               urlOverride={item.promo && item.promo.link}
               Tags={null}
+              DateInfo={null}
             />
           }
 
@@ -59,6 +61,7 @@ const SearchResults = ({ items, title }: Props) => (
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
               urlOverride={item.promo && item.promo.link}
               Tags={null}
+              DateInfo={null}
             />
           }
 

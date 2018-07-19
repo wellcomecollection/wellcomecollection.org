@@ -58,10 +58,12 @@ const Page = ({
             contributors={series.contributors} />
         }
         {upcomingEvents.length > 0 &&
-          <SearchResults items={upcomingEvents} title={`What's next`} />}
+          <SearchResults items={upcomingEvents} title={`What's next`} />
+        }
 
         {pastEvents.length > 0 &&
-          <SearchResults items={pastEvents} title={`What we've done before`} />}
+          <SearchResults items={pastEvents} title={`What we've done before`} />
+        }
       </Fragment>
     </BasePage>
   );

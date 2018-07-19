@@ -25,6 +25,7 @@ const EventCard = ({ event }: Props) => {
 
   const LabelsComponent = <Labels items={labels} />;
   const DateRangeComponent = dateRange ? <DateRange {...dateRange} /> : null;
+  const ImageComponent = event.promo && event.promo.image && <Image {...event.promo.image} />;
 
   return <ContentCard
     url={`/events/${event.id}`}
@@ -32,8 +33,9 @@ const EventCard = ({ event }: Props) => {
     promoType={'EventPromo'}
     description={null}
     urlOverride={event.promo && event.promo.link}
+    extraClasses={'bg-cream'}
     Tags={LabelsComponent}
-    Image={event.promo && event.promo.image && <Image {...event.promo.image} />}
+    Image={ImageComponent}
     DateInfo={DateRangeComponent}
   />;
 };

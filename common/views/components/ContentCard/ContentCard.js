@@ -11,6 +11,7 @@ type Props = {|
   promoType: string,
   description: ?string,
   urlOverride: ?string,
+  extraClasses?: string,
   DateInfo: ?Element<typeof DateRange>,
   Tags: ?Element<typeof Labels>,
   Image: ?Element<typeof ImageType>
@@ -22,6 +23,7 @@ const ContentCard = ({
   promoType,
   description,
   urlOverride,
+  extraClasses,
   DateInfo,
   Tags,
   Image
@@ -37,7 +39,11 @@ const ContentCard = ({
         action: `${promoType}:click`
       })}
       href={urlOverride || url}
-      className='grid plain-link'>
+      className={conditionalClassNames({
+        'grid plain-link': true,
+        [spacing({ s: 2 }, {padding: ['top', 'bottom']})]: true,
+        [extraClasses || '']: Boolean(extraClasses)
+      })}>
       {Tags &&
         <div className={conditionalClassNames({
           [grid({s: 12, m: 12, l: 12, xl: 12})]: true,
