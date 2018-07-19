@@ -3,6 +3,7 @@ import {Fragment} from 'react';
 import {spacing, grid} from '../../../utils/classnames';
 import Image from '../Image/Image';
 import ContentCard from '../ContentCard/ContentCard';
+import EventCard from '../EventCard/EventCard';
 import type {MultiContent} from '../../../model/multi-content';
 
 type Props = {|
@@ -62,7 +63,7 @@ const SearchResults = ({ items, title }: Props) => (
           }
 
           {item.type === 'events' &&
-            <ContentCard
+            <EventCard
               promoType='EventPromo'
               url={`/events/${item.id}`}
               title={item.title || ''}
