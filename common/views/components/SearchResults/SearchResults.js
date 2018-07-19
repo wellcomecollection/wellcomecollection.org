@@ -63,15 +63,7 @@ const SearchResults = ({ items, title }: Props) => (
           }
 
           {item.type === 'events' &&
-            <EventCard
-              promoType='EventPromo'
-              url={`/events/${item.id}`}
-              title={item.title || ''}
-              description={item.promo && item.promo.caption}
-              Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
-              urlOverride={item.promo && item.promo.link}
-              Tags={null}
-            />
+            <EventCard event={item} />
           }
         </div>
       ))}
