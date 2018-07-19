@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import { text, array } from '@storybook/addon-knobs';
 import Contributors from '../../../common/views/components/Contributors/Contributors';
-import ContributorsReadme from '../../../common/views/components/Contributors/README.md';
+import Readme from '../../../common/views/components/Contributors/README.md';
 import { organisation, person } from '../content';
 
 const stories = storiesOf('Components', module);
@@ -44,5 +44,5 @@ stories
       titleOverride={contributorTitle}
       contributors={contributors} />;
   }, {
-    info: ContributorsReadme
+    info: Readme
   });
