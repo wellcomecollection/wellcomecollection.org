@@ -1,0 +1,135 @@
+{
+  "type": "event-series",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WlYT_SQAACcAWccl",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Saturday Studio",
+        "spans": []
+      }
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Saturday Studio is our monthly programme of interactive workshops for people aged 14–19. They’re led by experts from a variety of creative fields, and across the series you’ll get to develop skills in photography, dance, digital journalism and more.",
+        "spans": []
+      }
+    }
+  ],
+  "backgroundTexture": {
+    "id": "Wr0J7R8AAAjk9ylC",
+    "mask": "background-textures",
+    "wioUrl": "wio://documents/Wr0J7R8AAAjk9ylC"
+  },
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$d649f5de-4cdb-42b4-8d71-a5eed488d5e8",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Take part in our interactive weekend workshops for people aged 14–19. You’ll get to develop skills in photography, dance, digital journalism and more.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WoNiCyoAACkAOLU0",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fa5636895-5581-4a9b-8b95-99179655573c_c0125663.jpg",
+              "width": 4000,
+              "height": 2670
+            },
+            "width": 4000,
+            "height": 2670,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/6d9109661ac182dd315c99e25de0c5adacdf814e_c0125663.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Saturday Studio - lights, signs and designs workshop | Mike Massaro | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of teenagers working with electronic components and soldering irons at a table within the Wellcome Collection Youth Studio.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WoNiCyoAACkAOLU0",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fa5636895-5581-4a9b-8b95-99179655573c_c0125663.jpg",
+                  "width": 4000,
+                  "height": 2670
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/20d002f507ba7492368634c79d573e5c0cf5f512_c0125663.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.198501872659176,
+                  "crop": {
+                    "x": -797,
+                    "y": 0
+                  }
+                },
+                "credits": "Saturday Studio - lights, signs and designs workshop | Mike Massaro | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of teenagers working with electronic components and soldering irons at a table within the Wellcome Collection Youth Studio."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WoNiCyoAACkAOLU0",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fa5636895-5581-4a9b-8b95-99179655573c_c0125663.jpg",
+                  "width": 4000,
+                  "height": 2670
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f1add6b2df634f0ce634c63c1d04961c18e6a4bb_c0125663.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -168
+                  }
+                },
+                "credits": "Saturday Studio - lights, signs and designs workshop | Mike Massaro | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of teenagers working with electronic components and soldering irons at a table within the Wellcome Collection Youth Studio."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "body": [
+    {
+      "key": "text$9c4fa5cf-15f4-4aa6-b8b8-e28814906baa",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Saturday Studio is our monthly programme of interactive workshops for people aged 14–19. They’re led by experts from a variety of creative fields, and across the series you’ll get to develop skills in photography, dance, digital journalism and more...",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "type": "event-series",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Ws8XgiUAAN0dkYap",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "On Medicine and Change",
+        "spans": []
+      }
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To be alive is to be in perpetual change: growing, healing, learning, ageing. In his book Shapeshifters, physician Gavin Francis explores how change is the  essence of being human. Join us for a series of conversations offering personal perspectives on our perpetual metamorphosis.",
+        "spans": [
+          {
+            "start": 90,
+            "end": 103,
+            "type": "em"
+          },
+          {
+            "start": 90,
+            "end": 103,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/shapeshifters"
+              },
+              "url": "https://wellcomecollection.org/shapeshifters"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "backgroundTexture": {
+    "id": "Wr0J7R8AAAjk9ylC",
+    "mask": "background-textures",
+    "wioUrl": "wio://documents/Wr0J7R8AAAjk9ylC"
+  },
+  "promo": [
+    {
+      "key": "editorialImage$a631c10f-dad8-45e8-a40d-1e452e581452",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join us for a series of conversations offering personal perspectives on our perpetual metamorphosis.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "Wrt8WR8AAGjZ8Ifj",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2c17c3ec-af69-4744-8c77-fcb2031459bb_c0146102.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/425056036fd23f16403e2600b5c3ef8b1d82e071_c0146102.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Gavin Francis | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photographic portrait of Gavin Francis against a blue wall.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "Wrt8WR8AAGjZ8Ifj",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2c17c3ec-af69-4744-8c77-fcb2031459bb_c0146102.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/b6abcbfe6069287826e1d873681d6ca1cfcf327b_c0146102.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Gavin Francis | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of Gavin Francis against a blue wall."
+              },
+              "square": {
+                "origin": {
+                  "id": "Wrt8WR8AAGjZ8Ifj",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2c17c3ec-af69-4744-8c77-fcb2031459bb_c0146102.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/5edd9ad6a96a7f2065285595fad5f1af885614c5_c0146102.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Gavin Francis | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of Gavin Francis against a blue wall."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
