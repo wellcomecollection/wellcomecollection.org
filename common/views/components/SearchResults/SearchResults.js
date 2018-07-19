@@ -1,7 +1,8 @@
 // @flow
 import {Fragment} from 'react';
 import {spacing, grid} from '../../../utils/classnames';
-import BasicPromo from '../BasicPromo/BasicPromo';
+import Image from '../Image/Image';
+import ContentCard from '../ContentCard/ContentCard';
 import type {MultiContent} from '../../../model/multi-content';
 
 type Props = {|
@@ -25,46 +26,50 @@ const SearchResults = ({ items, title }: Props) => (
           ` border-top-width-1 border-color-pumice`
         } key={item.id}>
           {item.type === 'pages' &&
-            <BasicPromo
+            <ContentCard
               promoType='PagePromo'
               url={`/pages/${item.id}`}
               title={item.title || ''}
               description={item.promo && item.promo.caption}
-              imageProps={item.promo && item.promo.image}
-              link={item.promo && item.promo.link}
+              Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
+              urlOverride={item.promo && item.promo.link}
+              Tags={null}
             />
           }
 
           {item.type === 'event-series' &&
-            <BasicPromo
+            <ContentCard
               promoType='EventSeriesPromo'
               url={`/event-series/${item.id}`}
               title={item.title || ''}
               description={item.promo && item.promo.caption}
-              imageProps={item.promo && item.promo.image}
-              link={item.promo && item.promo.link}
+              Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
+              urlOverride={item.promo && item.promo.link}
+              Tags={null}
             />
           }
 
           {item.type === 'books' &&
-            <BasicPromo
+            <ContentCard
               promoType='BooksPromo'
               url={`/books/${item.id}`}
               title={item.title || ''}
               description={item.promo && item.promo.caption}
-              imageProps={item.promo && item.promo.image}
-              link={item.promo && item.promo.link}
+              Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
+              urlOverride={item.promo && item.promo.link}
+              Tags={null}
             />
           }
 
           {item.type === 'events' &&
-            <BasicPromo
+            <ContentCard
               promoType='EventPromo'
               url={`/events/${item.id}`}
               title={item.title || ''}
               description={item.promo && item.promo.caption}
-              imageProps={item.promo && item.promo.image}
-              link={item.promo && item.promo.link}
+              Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
+              urlOverride={item.promo && item.promo.link}
+              Tags={null}
             />
           }
         </div>
