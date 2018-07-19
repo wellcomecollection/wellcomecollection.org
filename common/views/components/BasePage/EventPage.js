@@ -312,6 +312,23 @@ const EventPage = ({ event }: Props) => {
                     )
           }
 
+          {event.interpretations.map((i) => {
+            return (i.interpretationType.description &&
+              <Fragment className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`} key={i.interpretationType.title}>
+                <h3 className={`${font({s: 'HNM4'})} no-margin flex flex--v-center'`}>
+                  <span className={`flex flex--v-center ${spacing({s: 1}, {margin: ['right']})}`}>
+                    <Icon name={camelize(i.interpretationType.title)} />
+                  </span>
+                  <span>{i.interpretationType.title}</span>
+                </h3>
+                <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                  {i.isPrimary && <PrismicHtmlBlock html={i.interpretationType.primaryDescription} />}
+                  {!i.isPrimary && <PrismicHtmlBlock html={i.interpretationType.description} />}
+                </div>
+              </Fragment>
+            );
+          })}
+
           <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
             <a href='https://wellcomecollection.org/visit-us/events-tickets'>Our event terms and conditions</a>
           </p>
@@ -326,21 +343,6 @@ const EventPage = ({ event }: Props) => {
               </div>
             </Fragment>}
         </div>
-
-        {event.interpretations.map((i) => {
-          return (i.interpretationType.description &&
-            <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`} key={i.interpretationType.title}>
-              <h2 className='flex flex--v-center'>
-                <span className={`flex flex--v-center ${spacing({s: 1}, {margin: ['right']})}`}>
-                  <Icon name={camelize(i.interpretationType.title)} />
-                </span>
-                <span>{i.interpretationType.title}</span>
-              </h2>
-              {i.isPrimary && <PrismicHtmlBlock html={i.interpretationType.primaryDescription} />}
-              {!i.isPrimary && <PrismicHtmlBlock html={i.interpretationType.description} />}
-            </div>
-          );
-        })}
 
         {event.audiences.map((audience) => { //  TODO remove?
           if (audience.description) {
