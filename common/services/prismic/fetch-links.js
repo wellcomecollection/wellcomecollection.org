@@ -2,7 +2,8 @@ export const peopleFields = [
   'people.name',
   'people.image',
   'people.twitterHandle',
-  'people.description'
+  'people.description',
+  'people.sameAs'
 ];
 export const contributorsFields = ['editorial-contributor-roles.title'];
 export const organisationsFields = ['organisations.name', 'organisations.image', 'organisations.url'];
