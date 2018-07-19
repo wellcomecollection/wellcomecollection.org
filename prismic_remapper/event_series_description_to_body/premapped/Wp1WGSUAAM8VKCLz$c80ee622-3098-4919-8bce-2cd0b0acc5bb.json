@@ -1,0 +1,24 @@
+{
+  "type": "event-series",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Wp1WGSUAAM8VKCL1",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Library Tours",
+        "spans": []
+      }
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Take a guided tour through one of the world’s most significant collections of works around health and the human condition. Surprising and unusual subjects occupy the shelves in a variety of languages, perspectives and formats. From coffee and ketchup to sex machines and poetry, it is all here.",
+        "spans": []
+      }
+    }
+  ]
+}
