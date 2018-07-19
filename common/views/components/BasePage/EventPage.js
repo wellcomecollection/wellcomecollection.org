@@ -248,12 +248,7 @@ const EventPage = ({ event }: Props) => {
             <Fragment>
               <h3 className={`${font({s: 'HNM4'})} no-margin`}>Location</h3>
               <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
-                {event.place.information &&
-                  <p>{event.place.information}</p>
-                }
-                {!event.place.information &&
-                  <p>{event.place.title} {(event.place.level && `on level ${event.place.level}`)}</p>
-                }
+                <p>{event.place.title && `We'll be in the ${event.place.title}. ${event.place.information}`}</p>
               </div>
             </Fragment>
           }
