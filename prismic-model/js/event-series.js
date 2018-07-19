@@ -6,7 +6,7 @@ import contributorsWithTitle from './parts/contributorsWithTitle';
 import link from './parts/link';
 
 const EventSeries = {
-  EventSeries: {
+  'Event series': {
     title,
     backgroundTexture: link('Background texture', 'document', ['background-textures']),
     body
