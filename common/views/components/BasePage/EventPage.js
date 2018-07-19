@@ -252,6 +252,14 @@ const EventPage = ({ event }: Props) => {
               </div>
             </Fragment>
           }
+          {event.bookingInformation && event.bookingInformation.length > 0 &&
+            <Fragment>
+              <h3 className={font({s: 'HNM4'})}>Booking information</h3>
+              <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
+                <PrismicHtmlBlock html={event.bookingInformation} />
+              </div>
+            </Fragment>
+          }
 
           {
             event.isDropIn ? (
@@ -332,16 +340,6 @@ const EventPage = ({ event }: Props) => {
           <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
             <a href='https://wellcomecollection.org/visit-us/events-tickets'>Our event terms and conditions</a>
           </p>
-        </div>
-
-        <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`}>
-          {event.bookingInformation &&
-            <Fragment>
-              <h3 className={font({s: 'HNM4'})}>Booking information</h3>
-              <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
-                <PrismicHtmlBlock html={event.bookingInformation} />
-              </div>
-            </Fragment>}
         </div>
 
         {event.audiences.map((audience) => { //  TODO remove?
