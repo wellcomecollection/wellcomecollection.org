@@ -123,6 +123,7 @@ export async function renderExhibition(ctx, next) {
 
 export async function renderExhibits(ctx, next) {
   const query = searchQuery.parse(ctx.query.query, { keywords: ['ids'] });
+  if (!query.ids) return;
   // searchQueryParser automatically changes comma seperated lists into arrays
   const ids = typeof query.ids === 'string' ? query.ids.split(',') : query.ids;
   const exhibits = await getExhibitionExhibits(ctx.request, {ids});
