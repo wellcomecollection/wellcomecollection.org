@@ -1,7 +1,8 @@
 // @flow
 import type {Element} from 'react';
-import {grid, font, spacing} from '../../../utils/classnames';
+import {grid, font, spacing, conditionalClassNames} from '../../../utils/classnames';
 import Labels from '../Labels/Labels';
+import DateRange from '../DateRange/DateRange';
 import {default as ImageType} from '../Image/Image';
 
 type Props = {|
@@ -10,6 +11,7 @@ type Props = {|
   promoType: string,
   description: ?string,
   urlOverride: ?string,
+  DateInfo: ?Element<typeof DateRange>,
   Tags: ?Element<typeof Labels>,
   Image: ?Element<typeof ImageType>
 |}
@@ -20,6 +22,7 @@ const ContentCard = ({
   promoType,
   description,
   urlOverride,
+  DateInfo,
   Tags,
   Image
 }: Props) => {
@@ -35,7 +38,14 @@ const ContentCard = ({
       })}
       href={urlOverride || url}
       className='grid plain-link'>
-
+      {Tags &&
+        <div className={conditionalClassNames({
+          [grid({s: 12, m: 12, l: 12, xl: 12})]: true,
+          [spacing({s: 1}, {margin: ['bottom']})]: true
+        })}>
+          {Tags}
+        </div>
+      }
       {Image &&
         <div className={grid({s: 5, m: 5, l: 4, xl: 4})}>
           {Image}
@@ -45,6 +55,11 @@ const ContentCard = ({
         <div className={`${font({s: 'WB5'})} ${spacing({s: 0}, {margin: ['top']})}`}>
           {title}
         </div>
+        {DateRange &&
+          <div>
+            {DateInfo}
+          </div>
+        }
         {description &&
         <span className={[
           spacing({s: 2}, {margin: ['top']}),
