@@ -42,9 +42,8 @@ const BookPage = ({ book }: Props) => {
     copyrightHolder: image.copyright && image.copyright.holder,
     copyrightLink: image.copyright && image.copyright.link
   };
-  /* https://github.com/facebook/flow/issues/2405 */
-  /* $FlowFixMe */
-  const FeaturedMedia = book.promo && <UiImage tasl={tasl} extraClasses='margin-v-auto width-auto max-height-70vh' {...image} />;
+  // $FlowFixMe
+  const FeaturedMedia = book.cover && <UiImage tasl={tasl} extraClasses='margin-v-auto width-auto max-height-70vh' {...book.cover} />;
   const TagBar = <Tags tags={[{
     text: 'Book',
     url: '/books'

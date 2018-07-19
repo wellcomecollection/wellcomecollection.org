@@ -126,7 +126,7 @@ function parseImage(frag: PrismicFragment): Image {
 }
 
 type Crop = | '16:9' | '32:15' | 'square';
-export function parseCaptionedImage(frag: PrismicFragment, crop?: Crop): CaptionedImage {
+export function parseCaptionedImage(frag: PrismicFragment, crop?: ?Crop): CaptionedImage {
   if (isEmptyObj(frag.image)) {
     return {
       image: placeHolderImage,
@@ -153,10 +153,10 @@ export function parseCaptionedImage(frag: PrismicFragment, crop?: Crop): Caption
   };
 }
 
-export function parsePromoToCaptionedImage(frag: PrismicFragment): CaptionedImage {
+export function parsePromoToCaptionedImage(frag: PrismicFragment, crop: ?Crop = '16:9'): CaptionedImage {
   // We could do more complicated checking here, but this is what we always use.
   const promo = frag[0];
-  return parseCaptionedImage(promo.primary, '16:9');
+  return parseCaptionedImage(promo.primary, crop);
 }
 
 const defaultContributorImage = {

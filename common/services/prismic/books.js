@@ -6,14 +6,15 @@ import {
   parseGenericFields,
   parseTimestamp,
   asHtml,
-  checkAndParseImage,
-  asText
+  asText,
+  parsePromoToCaptionedImage
 } from './parsers';
 
 export function parseBook(document: PrismicDocument): Book {
   const data = document.data;
   const genericFields = parseGenericFields(document);
-
+  // We do this over the general parser as we want the not 16:9 image.
+  const cover = data.promo && (data.promo.length > 0 ? parsePromoToCaptionedImage(data.promo, null) : null);
   return {
     type: 'books',
     ...genericFields,
@@ -33,7 +34,7 @@ export function parseBook(document: PrismicDocument): Book {
     authorName: data.authorName && asText(data.authorName),
     authorImage: data.authorImage && data.authorImage.url,
     authorDescription: data.authorDescription,
-    cover: checkAndParseImage(data.cover)
+    cover: cover && cover.image
   };
 }
 
