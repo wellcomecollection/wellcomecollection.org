@@ -37,6 +37,7 @@ const Page = ({
     FeaturedMedia={FeaturedMedia}
     LabelBar={null}
     isFree={false}
+    topLink={null}
   />);
 
   const upcomingEvents = events.filter(event => {

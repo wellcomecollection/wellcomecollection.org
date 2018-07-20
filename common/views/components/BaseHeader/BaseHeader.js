@@ -9,6 +9,7 @@ import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
 import type {GenericContentFields} from '../../../model/generic-content-fields';
 import type {Tasl} from '../../../model/tasl';
+import type {Link} from '../../../model/link';
 
 type FeaturedMedia =
   | Element<typeof UiImage>
@@ -27,7 +28,8 @@ type Props = {|
   Description: ?Node,
   FeaturedMedia: ?FeaturedMedia,
   LabelBar: ?Node,
-  isFree: boolean
+  isFree: boolean,
+  topLink: ?Link
 |}
 
 export function getFeaturedMedia(
@@ -62,7 +64,8 @@ const BaseHeader = ({
   InfoBar,
   FeaturedMedia,
   LabelBar,
-  isFree
+  isFree,
+  topLink
 }: Props) => {
   const BackgroundComponent = Background ||
     (FeaturedMedia ? TexturedBackground({backgroundTexture}) : null);
@@ -77,14 +80,20 @@ const BaseHeader = ({
         <div className={`container`}>
           {isFree &&
             <div className={`grid`}>
-              <div className={`
-                ${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
+              <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
                 <span className={`font-white bg-black float-r rotate-r-8
                 ${font({s: 'WB7'})}
                 ${spacing({s: 1}, {padding: ['top', 'bottom']})}
                 ${spacing({s: 2}, {padding: ['left', 'right']})}`}
                 style={{marginTop: '-8px'}}
                 >Free</span>
+              </div>
+            </div>
+          }
+          {topLink &&
+            <div className={`grid`}>
+              <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
+                <a href={topLink.url}>{topLink.text}</a>
               </div>
             </div>
           }
