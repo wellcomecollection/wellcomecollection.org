@@ -499,7 +499,7 @@ export async function getExhibitionAndEventPromos(query, collectionOpeningTimes)
   const eventPromos = filterPromosByDate(createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')), fromDate, toDate).sort((a, b) => a.start.localeCompare(b.start));
 
   // TODO: get rid of this snowflake when what's on/homepage are capable of handling manual lists.
-  const colourOfPharmacyPromo = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.id === 'WyuWLioAACkACeYv'));
+  const colourOfPharmacyPromo = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.id === 'WyuWLioAACkACeYv'))[0];
 
   // eventPromosSplitAcrossMonths and monthControls only required for the 'everything' view
   const eventPromosSplitAcrossMonths = duplicatePromosByMonthYear(eventPromos);

@@ -9,16 +9,19 @@ type Props = {|
   description: string,
   image: Picture,
   start: Date,
-  end: ?Date
+  end: ?Date,
+  position?: number
 |}
 
-const InstallationPromo = ({ id, title, description, image, start, end }: Props) => {
+const InstallationPromo = ({ id, title, description, image, start, end, position = 0 }: Props) => {
   return (
     <a
       data-component='InstallationPromo'
+      data-component-state={JSON.stringify({ position: position })}
       data-track-event={JSON.stringify({
         category: 'component',
-        action: 'InstallationPromo:click'
+        action: 'InstallationPromo:click',
+        label: `id: ${id}, position: ${position}`
       })}
       id={id}
       href={`/installations/${id}`}
