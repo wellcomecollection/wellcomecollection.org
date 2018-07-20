@@ -35,6 +35,8 @@ const Page = ({
     InfoBar={null}
     Description={null}
     FeaturedMedia={FeaturedMedia}
+    LabelBar={null}
+    isFree={false}
   />);
 
   const upcomingEvents = events.filter(event => {
