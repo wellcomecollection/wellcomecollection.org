@@ -1,4 +1,3 @@
-
 // @flow
 import {Fragment} from 'react';
 import {spacing, grid, font} from '../../../utils/classnames';
@@ -7,6 +6,9 @@ import type {Node, Element} from 'react';
 import {UiImage} from '../Images/Images';
 import WobblyBackground from './WobblyBackground';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
+import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
+import type {GenericContentFields} from '../../../model/generic-content-fields';
+import type {Tasl} from '../../../model/tasl';
 
 type FeaturedMedia =
   | Element<typeof UiImage>
@@ -27,6 +29,28 @@ type Props = {|
   LabelBar: ?Node,
   isFree: boolean
 |}
+
+export function getFeaturedMedia(
+  fields: GenericContentFields
+): ?FeaturedMedia {
+  const image = fields.promo && fields.promo.image;
+  const {body} = fields;
+  const tasl: ?Tasl = image && {
+    title: image.title,
+    author: image.author,
+    sourceName: image.source && image.source.name,
+    sourceLink: image.source && image.source.link,
+    license: image.license,
+    copyrightHolder: image.copyright && image.copyright.holder,
+    copyrightLink: image.copyright && image.copyright.link
+  };
+  const hasFeaturedVideo = body.length > 0 && body[0].type === 'videoEmbed';
+  const FeaturedMedia = hasFeaturedVideo
+    ? <VideoEmbed {...body[0].value} />
+    : image ? <UiImage tasl={tasl} {...image} /> : null;
+
+  return FeaturedMedia;
+}
 
 const backgroundTexture = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg';
 const BaseHeader = ({
@@ -77,14 +101,11 @@ const BaseHeader = ({
               ${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}
               ${spacing({s: 2}, {padding: ['bottom']})}
             `}>
-              <h1 className={`
-              h1 inline-block no-margin
-              ${Background ? '' : `
-                bg-white
-                ${spacing({ s: 2 }, { padding: ['left', 'right'] })}
-                ${spacing({ s: 1 }, { padding: ['bottom', 'top'] })}
-              `}
-            `}>{title}</h1>
+
+              {Background
+                ? <h1 className='h1 inline-block no-margin'>{title}</h1>
+                : <HighlightedHeading text={title} />
+              }
 
               {DateInfo &&
                 <div className={`${font({s: 'HNL3'})} ${spacing({s: 3}, {margin: ['top']})}`}>

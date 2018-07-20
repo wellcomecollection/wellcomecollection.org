@@ -352,7 +352,7 @@ export async function renderBooks(ctx, next) {
     return content.promo && {
       url: `/books/${content.id}`,
       contentType: 'Books',
-      image: content.promo.image,
+      image: content.cover,
       title: content.title,
       description: content.promo.caption
     };

@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "fs-extra": "^5.0.0",
+    "mkdirp": "^0.5.1",
     "mz": "^2.7.0",
     "rimraf": "^2.6.2"
   }

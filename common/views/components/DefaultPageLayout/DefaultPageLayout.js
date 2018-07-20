@@ -8,6 +8,7 @@ import {formatDate} from '../../../utils/format-date';
 import Footer from '../Footer/Footer';
 import type {PlacesOpeningHours} from '../../../model/opening-hours';
 import analytics from '../../../utils/analytics';
+import Raven from 'raven-js';
 
 // TODO: JsonLd
 
@@ -122,6 +123,44 @@ class DefaultPageLayout extends Component<Props> {
   componentDidMount() {
     const { analyticsCategory, featuresCohort } = this.props;
     analytics({analyticsCategory, featuresCohort});
+
+    // $FlowFixMe
+    const lazysizes = require('lazysizes');
+    // $FlowFixMe
+    const FontFaceObserver = require('fontfaceobserver');
+
+    const WB = new FontFaceObserver('Wellcome Bold Web', {weight: 'bold'});
+    const HNL = new FontFaceObserver('Helvetica Neue Light Web');
+    const HNM = new FontFaceObserver('Helvetica Neue Medium Web');
+    const LR = new FontFaceObserver('Lettera Regular Web');
+
+    Promise.all([WB.load(), HNL.load(), HNM.load(), LR.load()]).then(() => {
+      // $FlowFixMe
+      document.documentElement.classList.add('fonts-loaded');
+    }).catch(console.log);
+
+    lazysizes.init();
+
+    // $FlowFixMe
+    document.documentElement.classList.add('enhanced');
+
+    Raven.config('https://f756b8d4b492473782987a054aa9a347@sentry.io/133634', {
+      shouldSendCallback(data) {
+        const oldSafari = /^.*Version\/[0-8].*Safari.*$/;
+        const bingPreview = /^.*BingPreview.*$/;
+
+        return ![oldSafari, bingPreview].some(r => r.test(window.navigator.userAgent));
+      },
+      whitelistUrls: [/wellcomecollection\.org/],
+      ignoreErrors: [
+        /Blocked a frame with origin/,
+        /document\.getElementsByClassName\.ToString/ // https://github.com/SamsungInternet/support/issues/56
+      ]
+    }).install();
+  }
+
+  componentDidCatch(error: Error, errorInfo: {componentStack: string}) {
+    Raven.captureException(error, { extra: errorInfo });
   }
 
   componentDidUpdate() {
@@ -217,32 +256,4 @@ class DefaultPageLayout extends Component<Props> {
   }
 }
 
-class DPLWithLoader extends Component<Props> {
-  componentDidMount = () => {
-    // $FlowFixMe
-    const lazysizes = require('lazysizes');
-    // $FlowFixMe
-    const FontFaceObserver = require('fontfaceobserver');
-
-    const WB = new FontFaceObserver('Wellcome Bold Web', {weight: 'bold'});
-    const HNL = new FontFaceObserver('Helvetica Neue Light Web');
-    const HNM = new FontFaceObserver('Helvetica Neue Medium Web');
-    const LR = new FontFaceObserver('Lettera Regular Web');
-
-    Promise.all([WB.load(), HNL.load(), HNM.load(), LR.load()]).then(() => {
-      // $FlowFixMe
-      document.documentElement.classList.add('fonts-loaded');
-    }).catch(console.log);
-
-    lazysizes.init();
-
-    // $FlowFixMe
-    document.documentElement.classList.add('enhanced');
-  }
-
-  render() {
-    return <DefaultPageLayout {...this.props} />;
-  }
-}
-
-export default DPLWithLoader;
+export default DefaultPageLayout;

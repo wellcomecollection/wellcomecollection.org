@@ -12,7 +12,6 @@ import Tags from '../../../common/views/components/Tags/Tags';
 import {image, videoEmbed} from '../content';
 
 const stories = storiesOf('Components', module).addDecorator(withKnobs);
-
 const Header = () => {
   const title = text('Title', 'Some sort of title');
   const description = text('Description', 'Some sort of description');

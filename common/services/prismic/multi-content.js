@@ -5,6 +5,7 @@ import {getDocuments} from './api';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
 import { parseBook } from './books';
+import { parseEventDoc } from './events';
 import { pagesFields } from './fetch-links';
 import type {MultiContent} from '../../model/multi-content';
 import type {StructuredSearchQuery} from './search';
@@ -19,6 +20,8 @@ function parseMultiContent(documents): MultiContent[] {
         return parseEventSeries(document);
       case 'books':
         return parseBook(document);
+      case 'events':
+        return parseEventDoc(document);
     }
   }).filter(Boolean);
 }

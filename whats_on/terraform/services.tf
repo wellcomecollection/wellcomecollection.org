@@ -66,3 +66,18 @@ resource "aws_alb_listener_rule" "exhibitions_path_rule" {
     values = ["/exhibitions*"]
   }
 }
+
+resource "aws_alb_listener_rule" "subdomain_path_rule" {
+  listener_arn = "${local.alb_listener_http_arn}"
+  priority     = "133"
+
+  action {
+    type             = "forward"
+    target_group_arn = "${module.whats_on.target_group_arn}"
+  }
+
+  condition {
+    field  = "host-header"
+    values = ["whats-on.wellcomecollection.org"]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "type": "event-series",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WifrbikAAGSyDtHm",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Packed Lunch",
+        "spans": []
+      }
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "At every Packed Lunch, you’ll get an opportunity to hear from a local scientist in conversation with a Wellcome facilitator about their current research. We then invite you to ask your own questions and share your thoughts. Sit back and listen or contribute – it’s up to you.",
+        "spans": []
+      }
+    }
+  ],
+  "backgroundTexture": {
+    "id": "Wr0Jyh8AAAjk9yij",
+    "mask": "background-textures",
+    "wioUrl": "wio://documents/Wr0Jyh8AAAjk9yij"
+  }
+}

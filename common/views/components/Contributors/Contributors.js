@@ -1,5 +1,4 @@
 // @flow
-import {Fragment} from 'react';
 import {spacing} from '../../../utils/classnames';
 import Contributor from '../Contributor/Contributor';
 import type {Contributor as ContributorType} from '../../../model/contributors';
@@ -70,7 +69,7 @@ const Contributors = ({
       }
 
       {contributors.map(({contributor, role, description}) => (
-        <Fragment key={contributor.id}>
+        <div className={spacing({s: 2}, {margin: ['top']})} key={contributor.id}>
           {/*
             we don't show the role if there is only 1 as it will be
             displayed in the title
@@ -79,7 +78,7 @@ const Contributors = ({
             contributor={contributor}
             role={roles.length > 1 ? role : null}
             description={description} />
-        </Fragment>
+        </div>
       ))}
     </div>
   );

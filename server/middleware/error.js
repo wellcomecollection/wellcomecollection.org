@@ -24,6 +24,9 @@ export function serverError(beaconError) {
           title: `${ctx.status} error`
         })
       });
+
+      ctx.throw(err);
+      next();
     }
   }
 }

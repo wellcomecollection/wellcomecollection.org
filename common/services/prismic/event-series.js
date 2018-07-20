@@ -1,36 +1,28 @@
 // @flow
-import {getDocument} from './api';
 import type {EventSeries} from '../../model/event-series';
 import type {PrismicDocument} from './types';
-import {eventSeriesFields}  from './fetch-links';
+
 import {
-  parseTitle,
+  parseGenericFields,
+  parseBackgroundTexture,
   parseDescription,
-  parseImagePromo,
-  parseBackgroundTexture
+  parseBody
 } from './parsers';
 
 export function parseEventSeries(document: PrismicDocument): EventSeries {
-  const {data} = document;
-  const prismicBackgroundTexture = data.backgroundTexture && data.backgroundTexture.data;
-  const promo = data.promo && parseImagePromo(data.promo);
+  const genericFields = parseGenericFields(document);
+  const backgroundTexture = document.data.backgroundTexture && document.data.backgroundTexture.data;
+  const body = document.data.body ? parseBody(document.data.body) : [];
 
   return {
+    ...genericFields,
     type: 'event-series',
-    id: document.id,
-    title: data.title ? parseTitle(data.title) : '',
-    description: data.description && parseDescription(data.description),
-    backgroundTexture: prismicBackgroundTexture ? parseBackgroundTexture(prismicBackgroundTexture) : null,
-    promo
+    description: parseDescription(document.data.description),
+    backgroundTexture: backgroundTexture ? parseBackgroundTexture(backgroundTexture) : null,
+    body: body.length > 0 ? body : document.data.description ? [{
+      type: 'text',
+      weight: 'default',
+      value: parseDescription(document.data.description)
+    }] : []
   };
-}
-
-export async function getUiEventSeries(req: Request, id: string): Promise<?EventSeries> {
-  const document = await getDocument(req, id, {
-    fetchLinks: eventSeriesFields
-  });
-
-  if (document) {
-    return parseEventSeries(document);
-  }
 }
