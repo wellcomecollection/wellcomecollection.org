@@ -73,31 +73,31 @@ const BaseHeader = ({
   return (
     <Fragment>
       {BackgroundComponent}
-      <div className='row' style={{
+      <div className={`row ${spacing({s: 2}, {padding: ['top']})}`} style={{
         backgroundImage: BackgroundComponent ? null : `url(${backgroundTexture})`,
         backgroundSize: BackgroundComponent ? null : '150%'
       }}>
         <div className={`container`}>
           {isFree &&
             <div className={`grid`}>
-              <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
-                <span className={`font-white bg-black float-r rotate-r-8
+              <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})} relative`}>
+                <span className={`font-white bg-black rotate-r-8 absolute
                 ${font({s: 'WB7'})}
                 ${spacing({s: 1}, {padding: ['top', 'bottom']})}
                 ${spacing({s: 2}, {padding: ['left', 'right']})}`}
-                style={{marginTop: '-8px'}}
+                style={{marginTop: '-20px', right: 0}}
                 >Free</span>
               </div>
             </div>
           }
           {topLink &&
             <div className={`grid`}>
-              <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
+              <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})} ${font({s: 'HNL4'})} plain-text`}>
                 <a href={topLink.url}>{topLink.text}</a>
               </div>
             </div>
           }
-          <div className={`grid ${spacing({s: 5, m: 7, l: 9}, {padding: ['top']})}`}>
+          <div className={`grid`}>
             {TagBar &&
               <div className={`
                 ${spacing({s: 1}, {padding: ['top']})}
@@ -117,7 +117,7 @@ const BaseHeader = ({
               }
 
               {DateInfo &&
-                <div className={`${font({s: 'HNL3'})} ${spacing({s: 3}, {margin: ['top']})}`}>
+                <div className={`${font({s: 'HNL3'})}`}>
                   {DateInfo}
                 </div>
               }
