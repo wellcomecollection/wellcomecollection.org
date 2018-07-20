@@ -199,7 +199,7 @@ export class WorksPage extends Component<PageProps> {
       query,
       page,
       pagination: pagination,
-      title: 'Image catalogue search | Wellcome Collection',
+      title: `Image catalogue search${query ? `: ${query}` : ''}`,
       description: 'Search through the Wellcome Collection image catalogue',
       analyticsCategory: 'collections',
       siteSection: 'images',
