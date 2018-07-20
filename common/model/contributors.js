@@ -2,13 +2,15 @@
 import type {Person} from './people';
 import type {HTMLString} from '../services/prismic/types';
 import type {Image as ImageProps} from './image';
+import type {SameAs} from './same-as';
 
 export type Organisation = {|
   id: string,
   name: string,
   image: ImageProps,
   description?: HTMLString,
-  url: ?string
+  url: ?string,
+  sameAs: SameAs
 |};
 
 type ContributorRole = {|

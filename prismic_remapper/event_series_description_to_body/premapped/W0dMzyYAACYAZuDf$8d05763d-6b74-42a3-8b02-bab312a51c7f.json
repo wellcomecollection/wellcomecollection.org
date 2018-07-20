@@ -1,0 +1,153 @@
+{
+  "type": "event-series",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "W0dMzyYAACYAZuDh",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Library Tours",
+        "spans": []
+      }
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "We run library tours on the first Wednesday of every month at 11:30am. Come along for an informal guided tour of the shelves. You’ll hear about the unusual and surprising contents, the ‘treasures’ and how it all works. ",
+        "spans": []
+      }
+    }
+  ],
+  "backgroundTexture": {
+    "id": "Wr0Jyh8AAAjk9yij",
+    "mask": "background-textures",
+    "wioUrl": "wio://documents/Wr0Jyh8AAAjk9yij"
+  },
+  "promo": [
+    {
+      "key": "editorialImage$74909273-34a5-4bbf-891e-bb45620bce15",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Come along for an informal 30-minute guided tour of the Library on the first Wednesday of every month.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "Wplz8iUAAM8VFw_1",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff8203cb3-ea25-4103-95be-d534fc059642_btg150514102918.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/9a744aa81847e1f52ba45f5c289cd8fd2fa5a7da_btg150514102918.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Wellcome Collection Library open access shelves upstairs in the Reading Room | Benjamin Gilbert | | | CC-BY | Wellcome Collection |",
+            "alt": "Photograph showing a man sat reading a book at a table in front of a window, surrounded by floor to ceiling  library shelves containing books.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "Wplz8iUAAM8VFw_1",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff8203cb3-ea25-4103-95be-d534fc059642_btg150514102918.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/1a98c1e92c1c0803c71d5670271cb60b6e6b3a94_btg150514102918.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.800000011920929,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Wellcome Collection Library open access shelves upstairs in the Reading Room | Benjamin Gilbert | | | CC-BY | Wellcome Collection |",
+                "alt": "Photograph showing a man sat reading a book at a table in front of a window, surrounded by floor to ceiling  library shelves containing books."
+              },
+              "square": {
+                "origin": {
+                  "id": "Wplz8iUAAM8VFw_1",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff8203cb3-ea25-4103-95be-d534fc059642_btg150514102918.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ce08ce1345d3e3e72791675f5e0902316286b0d1_btg150514102918.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222566604614,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Wellcome Collection Library open access shelves upstairs in the Reading Room | Benjamin Gilbert | | | CC-BY | Wellcome Collection |",
+                "alt": "Photograph showing a man sat reading a book at a table in front of a window, surrounded by floor to ceiling  library shelves containing books."
+              },
+              "32:15": {
+                "origin": {
+                  "id": "Wplz8iUAAM8VFw_1",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff8203cb3-ea25-4103-95be-d534fc059642_btg150514102918.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/7471ca12088bd4a66315ad8f93eb4b1f022ba3d8_btg150514102918.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.800000011920929,
+                  "crop": {
+                    "x": 0,
+                    "y": -150
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "body": [
+    {
+      "key": "text$66d8322c-f69a-47bd-ad5c-7de0527acb16",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "We run library tours on the first Wednesday of every month at 11:30am. Come along for an informal guided tour of the shelves. You’ll hear about the unusual and surprising contents, the ‘treasures’ and how it all works. ",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

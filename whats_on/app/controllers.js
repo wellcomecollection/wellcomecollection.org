@@ -8,7 +8,7 @@ import {
   getExhibitionExhibits,
   getExhibitExhibition
 } from '@weco/common/services/prismic/exhibitions';
-import {getEvent} from '@weco/common/services/prismic/events';
+import { getEvent, getEventSeries } from '@weco/common/services/prismic/events';
 import {getEventbriteEventEmbed} from '@weco/common/services/eventbrite/event-embed';
 import {isPreview as isPrismicPreview} from '@weco/common/services/prismic/api';
 import {model, prismic} from 'common';
@@ -21,6 +21,7 @@ import {
   restaurantPromo,
   dailyTourPromo
 } from '../../server/data/facility-promos';
+
 const {createPageConfig} = model;
 const {
   getExhibitionAndEventPromos
@@ -122,6 +123,7 @@ export async function renderExhibition(ctx, next) {
 
 export async function renderExhibits(ctx, next) {
   const query = searchQuery.parse(ctx.query.query, { keywords: ['ids'] });
+  if (!query.ids) return;
   // searchQueryParser automatically changes comma seperated lists into arrays
   const ids = typeof query.ids === 'string' ? query.ids.split(',') : query.ids;
   const exhibits = await getExhibitionExhibits(ctx.request, {ids});
@@ -156,7 +158,10 @@ export async function renderExhibitExhibitionLink(ctx, next) {
 }
 
 export async function renderEvent(ctx, next) {
-  const event = await getEvent(ctx.request, ctx.params.id, ctx.query.selectedDate);
+  const event = await getEvent(ctx.request, {
+    id: ctx.params.id,
+    selectedDate: ctx.query.selectedDate
+  });
   const tags = [{
     text: 'Events',
     url: '/events'
@@ -186,4 +191,25 @@ export const renderEventbriteEmbed = async(ctx, next) => {
   ctx.body = eventEmbedHtml;
 
   return next();
+};
+
+export const renderEventSeries = async(ctx, next) => {
+  const {id} = ctx.params;
+  const isPreview = isPrismicPreview(ctx.request);
+  const eventSeries = await getEventSeries(ctx.request, { id });
+
+  if (eventSeries) {
+    ctx.render('pages/event-series', {
+      pageConfig: createPageConfig({
+        path: ctx.request.url,
+        title: eventSeries.series.title,
+        inSection: 'whatson',
+        category: 'public-programme',
+        canonicalUri: `https://wellcomecollection.org/event-series/${id}`
+      }),
+      events: eventSeries.events,
+      series: eventSeries.series,
+      isPreview
+    });
+  }
 };

@@ -47,3 +47,11 @@ export function font(sizes: FontMap): string {
 export function classNames(classNames: string[]): string {
   return classNames.join(' ');
 }
+
+export function conditionalClassNames(obj: { [string]: boolean }): string {
+  return Object.keys(obj).map(key => {
+    if (obj[key]) {
+      return key;
+    }
+  }).filter(Boolean).join(' ');
+}

@@ -15,9 +15,28 @@
     background: transparentize(color('turquoise'), 0.7);
   }
 
-  li {
-    &:last-child {
-      margin-bottom: 0;
+  ul {
+    list-style: none;
+    margin: 0 0 4 * $spacing-unit;
+    padding: 0;
+
+    li {
+      margin-bottom: $spacing-unit;
+
+      &:before {
+        content: '';
+        width: 0.35em;
+        height: 0.35em;
+        display: inline-block;
+        vertical-align: middle;
+        border-radius: 0.1em;
+        background: color('currentColor');
+        margin-right: $spacing-unit;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
   }
 

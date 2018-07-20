@@ -51,6 +51,12 @@ export const text = () => Array(randomNumber(1, 2)).fill().map(() => ({
   'spans': []
 }));
 
+const smallText = () => [{
+  'type': 'paragraph',
+  'text': `${faker.random.words(randomNumber(12, 24))}`,
+  'spans': []
+}];
+
 export const videoEmbed = { embedUrl: 'https://www.youtube.com/embed/VYOjWnS4cMY' };
 
 export const imageGallery = () => {
@@ -81,3 +87,33 @@ export const quote = () => ({
     }]
   }]
 });
+
+const sameAs = [
+  { link: 'https://twitter.com/mbannisy', title: '@mbannisy' },
+  { link: 'http://things.com', title: 'things.com' },
+  { link: 'https://google.com', title: 'This is it!' }
+];
+export function person() {
+  return {
+    id: faker.random.uuid(),
+    name: faker.name.findName(),
+    description: smallText(),
+    image: {
+      contentUrl: faker.image.avatar()
+    },
+    sameAs: sameAs
+  };
+}
+
+export function organisation() {
+  return {
+    id: faker.random.uuid(),
+    name: faker.company.companyName(),
+    description: smallText(),
+    url: 'https://wellcomecollection.org',
+    image: {
+      contentUrl: 'https://vignette.wikia.nocookie.net/logopedia/images/4/42/BBC_Worldwide_1995.svg/revision/latest?cb=20180114133014'
+    },
+    sameAs: []
+  };
+}

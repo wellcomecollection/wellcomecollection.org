@@ -1,6 +1,6 @@
 # Purpose
-- Showcase people behind the contents and programme
-- Provide context to the content
-- Brand recognition and trust (convince people to consume, why should I read this?)
-- Connect everything (person view)
-- Contractual e.g. events partnership
+- Showcase the people and organisations who make significant contributions to our events, exhibitions and other creative outputs
+- Helps answer user question of "Who's involved, and why should I attend/read this?"
+- Contributes to trust in Wellcome Collection as an institution
+- Gives brand recognition to partners, especially in contractual arrangements (e.g. BBC World Service)
+- Enriches our data graph
