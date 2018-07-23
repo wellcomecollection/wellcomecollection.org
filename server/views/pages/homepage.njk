@@ -82,6 +82,11 @@
           {% componentJsx 'ExhibitionPromo', exhibition | objectAssign({position: position}) %}
         </div>
       {% endfor %}
+
+      <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
+        {% set position = position + 1 %}
+        {% componentJsx 'InstallationPromo', exhibitionAndEventPromos.colourOfPharmacyPromo | objectAssign({position: position}) %}
+      </div>
     </div>
   </div>
 
