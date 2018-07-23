@@ -171,6 +171,7 @@ const EventPage = ({ event }: Props) => {
     InfoBar={InfoBar(event.cost, event.eventbriteId, event.bookingEnquiryTeam)}
     Description={null}
     FeaturedMedia={FeaturedMedia}
+    isFree={Boolean(!event.cost)}
   />);
 
   return (
