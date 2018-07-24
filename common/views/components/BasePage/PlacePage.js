@@ -39,6 +39,7 @@ const PlacePage = ({ place }: Props) => {
     FeaturedMedia={FeaturedMedia}
     LabelBar={null}
     isFree={false}
+    topLink={null}
   />);
 
   return (

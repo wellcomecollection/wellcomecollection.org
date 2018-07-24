@@ -120,6 +120,7 @@ const EventPage = ({ event }: Props) => {
     FeaturedMedia={FeaturedMedia}
     LabelBar={null}
     isFree={true}
+    topLink={null}
   />);
 
   return (

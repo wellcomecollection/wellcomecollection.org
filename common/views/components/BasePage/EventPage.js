@@ -162,6 +162,7 @@ const EventPage = ({ event }: Props) => {
     Description={null}
     FeaturedMedia={FeaturedMedia}
     isFree={Boolean(!event.cost)}
+    topLink={{text: 'Events', url: '/events'}}
   />);
 
   return (

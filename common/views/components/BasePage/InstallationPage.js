@@ -44,6 +44,7 @@ const InstallationPage = ({
     FeaturedMedia={FeaturedMedia}
     LabelBar={null}
     isFree={false}
+    topLink={null}
   />);
 
   return (

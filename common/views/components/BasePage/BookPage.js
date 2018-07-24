@@ -63,6 +63,7 @@ const BookPage = ({ book }: Props) => {
     FeaturedMedia={FeaturedMedia}
     LabelBar={null}
     isFree={false}
+    topLink={null}
   />);
 
   // TODO: (drupal migration) we can drop reading the text fields once we've
