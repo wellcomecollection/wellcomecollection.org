@@ -242,8 +242,25 @@ const EventPage = ({ event }: Props) => {
           </div>
         }
 
-        {/* Booking explanations */}
-        <div className={`body-text border-top-width-1 border-color-pumice ${spacing({s: 4}, {padding: ['top', 'bottom']})}`}>
+        <div className={`bg-yellow ${spacing({s: 4}, {padding: ['top', 'right', 'bottom', 'left']})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
+          <h2 className='h2'>Need to know</h2>
+          {event.place &&
+            <Fragment>
+              <h3 className={`${font({s: 'HNM4'})} no-margin`}>Location</h3>
+              <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                <p>{event.place && event.place.title && `We'll be in the ${event.place.title}. ${(event.place && event.place.information) ? event.place.information : ''}`}</p>
+              </div>
+            </Fragment>
+          }
+          {event.bookingInformation && event.bookingInformation.length > 0 &&
+            <Fragment>
+              <h3 className={font({s: 'HNM4'})}>Booking information</h3>
+              <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
+                <PrismicHtmlBlock html={event.bookingInformation} />
+              </div>
+            </Fragment>
+          }
+
           {
             event.isDropIn ? (
               <Fragment>
@@ -302,34 +319,30 @@ const EventPage = ({ event }: Props) => {
                       </Fragment>
                     )
           }
+
+          {event.interpretations.map((i) => {
+            return (i.interpretationType.description &&
+              <Fragment className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`} key={i.interpretationType.title}>
+                <h3 className={`${font({s: 'HNM4'})} no-margin flex flex--v-center'`}>
+                  <span className={`flex flex--v-center ${spacing({s: 1}, {margin: ['right']})}`}>
+                    <Icon name={camelize(i.interpretationType.title)} />
+                  </span>
+                  <span>{i.interpretationType.title}</span>
+                </h3>
+                <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                  {i.isPrimary && <PrismicHtmlBlock html={i.interpretationType.primaryDescription} />}
+                  {!i.isPrimary && <PrismicHtmlBlock html={i.interpretationType.description} />}
+                </div>
+              </Fragment>
+            );
+          })}
+
+          <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
+            <a href='https://wellcomecollection.org/visit-us/events-tickets'>Our event terms and conditions</a>
+          </p>
         </div>
 
-        <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`}>
-          {event.bookingInformation &&
-            <Fragment>
-              <h3 className={font({s: 'HNM4'})}>Booking information</h3>
-              <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
-                <PrismicHtmlBlock html={event.bookingInformation} />
-              </div>
-            </Fragment>}
-        </div>
-
-        {event.interpretations.map((i) => {
-          return (i.interpretationType.description &&
-            <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`} key={i.interpretationType.title}>
-              <h2 className='flex flex--v-center'>
-                <span className={`flex flex--v-center ${spacing({s: 1}, {margin: ['right']})}`}>
-                  <Icon name={camelize(i.interpretationType.title)} />
-                </span>
-                <span>{i.interpretationType.title}</span>
-              </h2>
-              {i.isPrimary && <PrismicHtmlBlock html={i.interpretationType.primaryDescription} />}
-              {!i.isPrimary && <PrismicHtmlBlock html={i.interpretationType.description} />}
-            </div>
-          );
-        })}
-
-        {event.audiences.map((audience) => {
+        {event.audiences.map((audience) => { //  TODO remove?
           if (audience.description) {
             return (
               <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`} key={audience.title}>
@@ -339,12 +352,6 @@ const EventPage = ({ event }: Props) => {
             );
           }
         })}
-
-        <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`}>
-          <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
-            <a href='https://wellcomecollection.org/visit-us/events-tickets'>Our event terms and conditions</a>
-          </p>
-        </div>
 
         {event.series.map((series) => {
           return (

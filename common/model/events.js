@@ -64,7 +64,8 @@ export type Place = {|
   title: string,
   geolocation: ?Geolocation,
   level: number,
-  capacity: ?number
+  capacity: ?number,
+  information: ?HTMLString
 |}
 
 export type Audience = {|

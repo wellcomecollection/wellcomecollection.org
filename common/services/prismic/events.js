@@ -122,7 +122,11 @@ export function parseEventDoc(
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     audiences,
     bookingEnquiryTeam,
-    bookingInformation: document.data.bookingInformation,
+    bookingInformation: document.data.bookingInformation.filter(info => {
+      if (info.text.length > 0) {
+        return info;
+      }
+    }),
     bookingType: parseEventBookingType(document),
     cost: document.data.cost,
     format: document.data.format && parseEventFormat(document.data.format),
