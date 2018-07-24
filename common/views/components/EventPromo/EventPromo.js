@@ -3,6 +3,7 @@ import {Fragment} from 'react';
 import {spacing, font} from '../../../utils/classnames';
 import {isDatePast, formatDayDate, formatTime} from '../../../utils/format-date';
 import {UiImage} from '../Images/Images';
+import Labels from '../Labels/Labels';
 import Icon from '../Icon/Icon';
 import type {EventPromo as EventPromoProps} from '../../../model/events';
 
@@ -10,20 +11,6 @@ type Props = {|
   ...EventPromoProps,
   position?: number,
 |}
-
-const labelStyles = {display: 'block', float: 'left', marginRight: '1px', marginTop: '1px', whiteSpace: 'nowrap'};
-
-function label(text: string, key: string) {
-  return (
-    <span key={key} className={`
-      line-height-1 bg-yellow
-      ${font({s: 'HNM5'})}
-      ${spacing({s: 1}, {padding: ['top', 'bottom', 'left', 'right']})}
-    `} style={labelStyles}>
-      {text}
-    </span>
-  );
-}
 
 const EventPromo = ({
   id,
@@ -45,6 +32,8 @@ const EventPromo = ({
   position = 0
 }: Props) => {
   const isPast = end && isDatePast(end);
+  const eventInterpretations = interpretations && interpretations.map(interpretation => interpretation.interpretationType.title);
+  const labels = [(format && format.title), (audience && audience.title), ...eventInterpretations].filter(Boolean);
   return (
     <a data-component='EventPromo'
       data-component-state={JSON.stringify({ position: position })}
@@ -62,15 +51,9 @@ const EventPromo = ({
           sizesQueries='(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'
           showTasl={false} />}
 
-        {(format || audience || interpretations.length > 0) &&
+        {(labels.length > 0) &&
           <div style={{position: 'absolute', bottom: 0}}>
-            {format && label(format.title, format.id)}
-            {audience && label(audience.title, audience.id)}
-            {interpretations.map(interpretation => {
-              return (
-                label(interpretation.interpretationType.title, interpretation.interpretationType.id)
-              );
-            })}
+            <Labels labels={labels} />
           </div>
         }
       </div>
