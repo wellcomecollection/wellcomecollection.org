@@ -26,7 +26,8 @@ type Props = {|
   InfoBar: ?Node,
   Description: ?Node,
   FeaturedMedia: ?FeaturedMedia,
-  isFree?: boolean
+  LabelBar: ?Node,
+  isFree: boolean
 |}
 
 export function getFeaturedMedia(
@@ -60,6 +61,7 @@ const BaseHeader = ({
   Description,
   InfoBar,
   FeaturedMedia,
+  LabelBar,
   isFree
 }: Props) => {
   const BackgroundComponent = Background ||
@@ -126,6 +128,12 @@ const BaseHeader = ({
               {FeaturedMedia &&
                 <div className={`${spacing({s: 3}, {margin: ['top']})} relative`}>
                   {FeaturedMedia}
+                </div>
+              }
+
+              {LabelBar &&
+                <div className={`${spacing({s: 3}, {margin: ['top']})} relative`}>
+                  {LabelBar}
                 </div>
               }
             </div>
