@@ -39,7 +39,10 @@ export function notFound() {
 
     await next();
     if (404 === ctx.response.status && !ctx.response.body) {
-      ctx.throw(404);
+
+      if (!isPreview) {
+        ctx.throw(404);
+      }
 
       ctx.render('pages/error', {
         isPreview,
