@@ -8,16 +8,17 @@ type Props = {|
 |}
 
 const style = {
-  width: sized(13),
-  height: sized(13),
-  clipPath: `inset(${sized(1)} round ${sized(1)})`,
-  transform: 'rotateZ(-6deg)'
+  width: sized(12),
+  height: sized(12),
+  borderRadius: sized(1),
+  transform: 'rotateZ(-6deg)',
+  overflow: `hidden`
 };
 
 const Avatar = ({imageProps}: Props) => (
-  <div className={`rotated-rounded-corners`} style={style}>
+  <div style={style}>
     <Image {...imageProps} extraClasses={'width-inherit'} style={{
-      transform: 'rotateZ(6deg)'
+      transform: 'rotateZ(6deg) scale(1.2)'
     }} />
   </div>
 );
