@@ -124,7 +124,7 @@ const EventPromo = ({
           }
 
           {schedule.length > 0 && !isPast &&
-            <p className={`${font({s: 'HNM4'})} no-padding no-margin`}>
+            <p className={`${font({s: 'HNM5'})} no-padding no-margin`}>
               {schedule.length} events
             </p>
           }
