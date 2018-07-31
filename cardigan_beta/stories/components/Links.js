@@ -4,8 +4,11 @@ import SecondaryLink from '../../../common/views/components/Links/SecondaryLink/
 
 const stories = storiesOf('Components', module);
 stories.add('Primary link', () => (
-  <PrimaryLink url={`#`} name={`Take me to the moon`} />
+  <PrimaryLink url={`#`} name={`View all exhibitions`} />
+));
+stories.add('Primary link: jump', () => (
+  <PrimaryLink url={`#`} name={`See all dates/times to book`} isJumpLink={true} />
 ));
 stories.add('Secondary link', () => (
-  <SecondaryLink url={`#`} text={`I want to be forever yours`} />
+  <SecondaryLink url={`#`} text={`Our event terms and conditions`} />
 ));

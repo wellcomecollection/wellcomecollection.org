@@ -5,6 +5,7 @@ import BaseHeader from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
 import Contributors from '../Contributors/Contributors';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
+import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import Labels from '../Labels/Labels';
 import Icon from '../Icon/Icon';
@@ -54,15 +55,15 @@ function infoBar(event) {
   return (
     <Fragment>
       {(eventbriteId || bookingEnquiryTeam) &&
-        <a href='#dates'>See all dates/times to book</a>
+        <PrimaryLink url='#dates' name='See all dates/times to book' isJumpLink={true} />
       }
 
       {(!eventbriteId && !bookingEnquiryTeam) &&
         <Fragment>
-          <div className='clearfix'>
+          <div className={`clearfix ${spacing({s: 2}, {margin: ['bottom']})}`}>
             <Labels labels={['Just turn up']} />
           </div>
-          <a href='#dates'>See all dates/times</a>
+          <PrimaryLink url='#dates' name='See all dates/times' isJumpLink={true} />
         </Fragment>
       }
     </Fragment>
