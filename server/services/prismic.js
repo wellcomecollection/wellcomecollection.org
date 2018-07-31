@@ -472,21 +472,29 @@ export async function getExhibitionAndEventPromos(query, collectionOpeningTimes)
   // set 'everything' as default time period, when no startDate is provided
   const toDate = !query.startDate ? undefined : query.endDate; ;
   const dateRange = [fromDate, toDate];
-  const allExhibitionsAndEvents = await getAllOfType(['exhibitions', 'events', 'installations'], {
+  // Had to split exhibitions and installations query from events query.
+  // We can't query events by dateAfter and there is a max of 100 results per query.
+  // Exhibitions would start disappearing, once results started goind over 100 - we were getting close.
+  const allExhibitionsAndInstallations = await getAllOfType(['exhibitions', 'installations'], {
     pageSize: 100,
-    fetchLinks: eventFields.concat(exhibitionFields),
-    orderings: '[my.events.times.startDateTime desc, my.exhibitions.start]'
+    fetchLinks: exhibitionFields,
+    orderings: '[my.exhibitions.start]'
+  });
+  const allEvents = await getAllOfType(['events'], {
+    pageSize: 100,
+    fetchLinks: eventFields,
+    orderings: '[my.events.times.startDateTime desc]'
   });
 
-  const exhibitionPromos = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'exhibitions'));
+  const exhibitionPromos = createExhibitionPromos(allExhibitionsAndInstallations.results.filter(e => e.type === 'exhibitions'));
   const permanentExhibitionPromos = filterCurrentExhibitions(exhibitionPromos.filter(e => e.format && e.format.title.toLowerCase() === 'permanent'), todaysDate);
   const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => !e.format || e.format && e.format.title.toLowerCase() !== 'permanent'), fromDate, toDate);
   const currentTemporaryExhibitionPromos = filterCurrentExhibitions(temporaryExhibitionPromos, todaysDate);
   const upcomingTemporaryExhibitionPromos = filterUpcomingExhibitions(temporaryExhibitionPromos, todaysDate);
-  const eventPromos = filterPromosByDate(createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')), fromDate, toDate).sort((a, b) => a.start.localeCompare(b.start));
+  const eventPromos = filterPromosByDate(createEventPromos(allEvents.results), fromDate, toDate).sort((a, b) => a.start.localeCompare(b.start));
 
   // TODO: get rid of this snowflake when what's on/homepage are capable of handling manual lists.
-  const colourOfPharmacyPromo = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.id === 'WyuWLioAACkACeYv'))[0];
+  const colourOfPharmacyPromo = createExhibitionPromos(allExhibitionsAndInstallations.results.filter(e => e.id === 'WyuWLioAACkACeYv'))[0];
 
   // eventPromosSplitAcrossMonths and monthControls only required for the 'everything' view
   const eventPromosSplitAcrossMonths = duplicatePromosByMonthYear(eventPromos);
