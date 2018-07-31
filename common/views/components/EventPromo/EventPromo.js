@@ -129,7 +129,7 @@ const EventPromo = ({
             </p>
           }
 
-          {isMultiDate && !isPast && <p className={`${font({s: 'HNM4'})}`}>See all dates/times</p>}
+          {isMultiDate && !isPast && <p className={`${font({s: 'HNM5'})}`}>See all dates/times</p>}
         </div>
 
         {series.length > 0 &&
