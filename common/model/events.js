@@ -118,6 +118,7 @@ export type EventPromo = {|
   url: string,
   start: ?Date,
   end: ?Date,
+  isMultiDate: boolean,
   isFullyBooked: boolean,
   hasNotFullyBookedTimes: boolean,
   description: ?HTMLString,
