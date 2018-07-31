@@ -236,64 +236,88 @@ function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
   });
 }
 
-export function createEventPromos(allResults): Array<EventPromo> {
+function sharedEventPromoProperties(event) {
+  const promo = event.data.promo && parseImagePromo(event.data.promo);
+  const format = event.data.format && parseEventFormat(event.data.format);
+  const audience = event.data.audiences.map((audience) => {
+    return parseAudience(audience.audience);
+  })[0];
+
+  const bookingType = parseEventBookingType(event);
+  const interpretations = event.data.interpretations.map(interpretation => !isEmptyDocLink(interpretation.interpretationType) ? ({
+    interpretationType: {
+      title: asText(interpretation.interpretationType.data.title),
+      abbreviation: asText(interpretation.interpretationType.data.abbreviation),
+      description: asText(interpretation.interpretationType.data.description),
+      primaryDescription: asText(interpretation.interpretationType.data.primaryDescription)
+    },
+    isPrimary: Boolean(interpretation.isPrimary)
+  }) : null).filter(_ => _);
+
+  const eventbriteIdMatch = isEmptyObj(event.data.eventbriteEvent) ? null : /\/e\/([0-9]+)/.exec(event.data.eventbriteEvent.url);
+  const eventbriteId = eventbriteIdMatch ? eventbriteIdMatch[1] : null;
+
+  const series = event.data.series.map(series => !isEmptyDocLink(series.series) ? ({
+    id: series.series.id,
+    title: asText(series.series.data.title),
+    description: series.series.data.description
+  }) : null).filter(_ => _);
+
+  const schedule = event.data.schedule.filter(s => Boolean(s.event.id));
+  const hasNotFullyBookedTimes = event.data.times.find(time => !time.isFullyBooked);
+
+  return {
+    id: event.id,
+    title: asText(event.data.title),
+    url: `/events/${event.id}`,
+    format,
+    audience,
+    hasNotFullyBookedTimes,
+    image: promo && promo.image || {},
+    description: promo && promo.caption,
+    bookingType,
+    interpretations,
+    eventbriteId,
+    series,
+    schedule
+  };
+}
+
+export function createIndividualEventPromos(allResults): Array<EventPromo> {
   return allResults.map((event): EventPromo => {
-    const promo = event.data.promo && parseImagePromo(event.data.promo);
-    const format = event.data.format && parseEventFormat(event.data.format);
-    const audience = event.data.audiences.map((audience) => {
-      return parseAudience(audience.audience);
-    })[0];
-
-    const bookingType = parseEventBookingType(event);
-    const interpretations = event.data.interpretations.map(interpretation => !isEmptyDocLink(interpretation.interpretationType) ? ({
-      interpretationType: {
-        title: asText(interpretation.interpretationType.data.title),
-        abbreviation: asText(interpretation.interpretationType.data.abbreviation),
-        description: asText(interpretation.interpretationType.data.description),
-        primaryDescription: asText(interpretation.interpretationType.data.primaryDescription)
-      },
-      isPrimary: Boolean(interpretation.isPrimary)
-    }) : null).filter(_ => _);
-
-    const eventbriteIdMatch = isEmptyObj(event.data.eventbriteEvent) ? null : /\/e\/([0-9]+)/.exec(event.data.eventbriteEvent.url);
-    const eventbriteId = eventbriteIdMatch ? eventbriteIdMatch[1] : null;
-
-    const series = event.data.series.map(series => !isEmptyDocLink(series.series) ? ({
-      id: series.series.id,
-      title: asText(series.series.data.title),
-      description: series.series.data.description
-    }) : null).filter(_ => _);
-
-    const schedule = event.data.schedule.filter(s => Boolean(s.event.id));
-
+    const promoProperties = sharedEventPromoProperties(event);
     // A single Primsic 'event' can have multiple datetimes, but we
-    // want to display each datetime as an individual promo, so we
-    // map and flatten.
-    const hasNotFullyBookedTimes = event.data.times.find(time => !time.isFullyBooked);
+    // want need each datetime as an individual promo for json-ld
+    // therefore we map and flatten.
     return event.data.times.map(eventAtTime => {
-      return {
-        id: event.id,
-        title: asText(event.data.title),
-        url: `/events/${event.id}`,
-        format: format,
-        audience: audience,
-        hasNotFullyBookedTimes: hasNotFullyBookedTimes,
+      return Object.assign({}, promoProperties, {
         isFullyBooked: Boolean(eventAtTime.isFullyBooked),
         start: eventAtTime.startDateTime,
-        end: eventAtTime.endDateTime,
-        image: promo && promo.image || {},
-        description: promo && promo.caption,
-        bookingType: bookingType,
-        interpretations: interpretations,
-        eventbriteId: eventbriteId,
-        series: series,
-        schedule: schedule
-      };
+        end: eventAtTime.endDateTime
+      });
     });
   }).reduce((acc, curr) => {
     return curr.concat(acc);
   }, []).sort((a, b) => {
     return convertStringToNumber(b.start || '') - convertStringToNumber(a.start || '');
+  });
+}
+
+export function createEventPromos(allResults): Array<EventPromo> {
+  return allResults.map((event): EventPromo => {
+    const promoProperties = sharedEventPromoProperties(event);
+    const isMultiDate = Boolean(event.data.times.length > 1);
+    const upcomingDates = event.data.times.filter(t => london(t.startDateTime).isSameOrAfter(london()));
+    const hasUpcoming = Boolean(upcomingDates.length > 0);
+    const start = hasUpcoming ? upcomingDates[0].startDateTime : event.data.times[0].startDateTime;
+    const end = hasUpcoming ? upcomingDates[0].endDateTime : event.data.times[0].endDateTime;
+    const isFullyBooked = hasUpcoming ? Boolean(upcomingDates[0].isFullyBooked) : Boolean(event.data.times[0].isFullyBooked);
+    return Object.assign({}, promoProperties, {
+      isFullyBooked,
+      start,
+      end,
+      isMultiDate
+    });
   });
 }
 
@@ -492,6 +516,7 @@ export async function getExhibitionAndEventPromos(query, collectionOpeningTimes)
   const currentTemporaryExhibitionPromos = filterCurrentExhibitions(temporaryExhibitionPromos, todaysDate);
   const upcomingTemporaryExhibitionPromos = filterUpcomingExhibitions(temporaryExhibitionPromos, todaysDate);
   const eventPromos = filterPromosByDate(createEventPromos(allEvents.results), fromDate, toDate).sort((a, b) => a.start.localeCompare(b.start));
+  const individualEventPromos = filterPromosByDate(createIndividualEventPromos(allEvents.results), fromDate, toDate).sort((a, b) => a.start.localeCompare(b.start));
 
   // TODO: get rid of this snowflake when what's on/homepage are capable of handling manual lists.
   const colourOfPharmacyPromo = createExhibitionPromos(allExhibitionsAndInstallations.results.filter(e => e.id === 'WyuWLioAACkACeYv'))[0];
@@ -526,6 +551,7 @@ export async function getExhibitionAndEventPromos(query, collectionOpeningTimes)
     currentTemporaryExhibitionPromos,
     upcomingTemporaryExhibitionPromos,
     eventPromos,
+    individualEventPromos,
     eventPromosSplitAcrossMonths,
     monthControls,
     listHeader
