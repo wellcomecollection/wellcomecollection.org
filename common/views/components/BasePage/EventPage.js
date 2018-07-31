@@ -48,16 +48,24 @@ function DateInfo(event) {
   );
 }
 
-function InfoBar(cost, eventbriteId, bookingEnquiryTeam) {
+function infoBar(event) {
+  const { eventbriteId, bookingEnquiryTeam } = event;
+
   return (
-    <p className='no-margin'>
-      {cost || 'Free admission'}
-      <span className={`border-left-width-1 border-color-pumice ${spacing({s: 1}, {padding: ['left'], margin: ['left']})}`}>
-        {eventbriteId ? 'Ticketed'
-          : bookingEnquiryTeam ? 'Enquire to book'
-            : 'No ticket required'}
-      </span>
-    </p>
+    <Fragment>
+      {(eventbriteId || bookingEnquiryTeam) &&
+        <a href='#dates'>See all dates/times to book</a>
+      }
+
+      {(!eventbriteId && !bookingEnquiryTeam) &&
+        <Fragment>
+          <div className='clearfix'>
+            <Labels labels={['Just turn up']} />
+          </div>
+          <a href='#dates'>See all dates/times</a>
+        </Fragment>
+      }
+    </Fragment>
   );
 }
 
@@ -95,7 +103,7 @@ const EventPage = ({ event }: Props) => {
     TagBar={null}
     LabelBar={<Labels labels={(eventFormat.concat(eventAudiences, eventInterpretations))} />}
     DateInfo={topDate(event)}
-    InfoBar={InfoBar(event.cost, event.eventbriteId, event.bookingEnquiryTeam)}
+    InfoBar={infoBar(event)}
     Description={null}
     FeaturedMedia={FeaturedMedia}
     isFree={Boolean(!event.cost)}
@@ -131,7 +139,7 @@ const EventPage = ({ event }: Props) => {
         }
 
         <div className={`body-text ${spacing({s: 4}, {padding: ['bottom']})}`}>
-          <h2>Dates</h2>
+          <h2 id='dates'>Dates</h2>
           {DateInfo(event)}
         </div>
 
@@ -178,6 +186,14 @@ const EventPage = ({ event }: Props) => {
               text={event.bookingEnquiryTeam.email}
               extraClasses={`block font-charcoal ${spacing({s: 1}, {margin: ['top']})}`} />
           </div>
+        }
+
+        {(!event.eventbriteId && !event.bookingEnquiryTeam) &&
+          <Fragment>
+            <div className={`clearfix ${spacing({s: 2}, {margin: ['bottom']})}`}>
+              <Labels labels={['Just turn up']} />
+            </div>
+          </Fragment>
         }
 
         <div className={`bg-yellow ${spacing({s: 4}, {padding: ['top', 'right', 'bottom', 'left']})} ${spacing({s: 4}, {margin: ['bottom']})}`}>

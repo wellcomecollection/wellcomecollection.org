@@ -449,3 +449,7 @@
 .width-auto {
   width: auto;
 }
+
+.clearfix {
+  @include clearfix;
+}
