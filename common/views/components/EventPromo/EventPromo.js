@@ -18,6 +18,7 @@ const EventPromo = ({
   url,
   start,
   end,
+  isMultiDate,
   isFullyBooked,
   hasNotFullyBookedTimes,
   format,
@@ -75,12 +76,6 @@ const EventPromo = ({
             {title}
           </h2>
 
-          {schedule.length > 0 &&
-            <p className={`${font({s: 'HNM4'})} no-padding no-margin`}>
-              {schedule.length} events
-            </p>
-          }
-
           {start && end && !isPast &&
               <Fragment>
                 <p className={`${font({s: 'HNL4'})} no-padding no-margin`}>
@@ -110,7 +105,6 @@ const EventPromo = ({
                   <Icon name='statusIndicator' extraClasses={'icon--red icon--match-text'} />
                 </span>
                 Fully booked
-                {hasNotFullyBookedTimes && ', more dates available'}
               </div>
           }
 
@@ -128,6 +122,14 @@ const EventPromo = ({
                 data-eventbrite-ticket-id={eventbriteId}
                 className='flex flex--h-space-between flex--wrap js-eventbrite-ticket-status'></div>
           }
+
+          {schedule.length > 0 && !isPast &&
+            <p className={`${font({s: 'HNM4'})} no-padding no-margin`}>
+              {schedule.length} events
+            </p>
+          }
+
+          {isMultiDate && !isPast && <p className={`${font({s: 'HNM4'})}`}>See all dates/times</p>}
         </div>
 
         {series.length > 0 &&
