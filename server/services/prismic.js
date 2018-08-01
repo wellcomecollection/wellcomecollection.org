@@ -64,13 +64,13 @@ export async function getPrismicApi(req: ?Request) {
   return api;
 }
 
-async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string, qOpts: Object<any>) {
+async function getTypeById(req: ?Request, types: DocumentType[], id: string, qOpts: Object<any>) {
   const prismic = await getPrismicApi(req);
   const doc = await prismic.getByID(id, qOpts);
   return doc && types.indexOf(doc.type) !== -1 ? doc : null;
 }
 
-async function getTypeByIds(req: ?Request, types: Array<DocumentType>, ids: Array<string>, qOpts: Object<any>) {
+async function getTypeByIds(req: ?Request, types: DocumentType[], ids: string[], qOpts: Object<any>) {
   const prismic = await getPrismicApi(req);
   const doc = await prismic.getByIDs(ids, qOpts);
 
@@ -79,11 +79,11 @@ async function getTypeByIds(req: ?Request, types: Array<DocumentType>, ids: Arra
 
 type PrismicQueryOptions = {|
   page?: number;
-  fetchLinks?: Array<String>;
+  fetchLinks?: String[];
   orderings?: string;
 |}
 
-async function getAllOfType(type: Array<DocumentType>, options: PrismicQueryOptions = {}, predicates: any[] = [], withDelisted: boolean = false) {
+async function getAllOfType(type: DocumentType[], options: PrismicQueryOptions = {}, predicates: any[] = [], withDelisted: boolean = false) {
   const prismic = await getPrismicApi();
   const results = await prismic.query([
     Prismic.Predicates.any('document.type', type),
@@ -220,7 +220,7 @@ export async function getCuratedList(id: string) {
   return curatedList;
 }
 
-function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
+function createExhibitionPromos(allResults: Object): ExhibitionPromo[] {
   return allResults.map((e): ExhibitionPromo => {
     return {
       id: e.id,
@@ -283,7 +283,7 @@ function sharedEventPromoProperties(event) {
   };
 }
 
-export function createIndividualEventPromos(allResults): Array<EventPromo> {
+export function createIndividualEventPromos(allResults): EventPromo[] {
   return allResults.map((event): EventPromo => {
     const promoProperties = sharedEventPromoProperties(event);
     // A single Primsic 'event' can have multiple datetimes, but we
@@ -303,7 +303,7 @@ export function createIndividualEventPromos(allResults): Array<EventPromo> {
   });
 }
 
-export function createEventPromos(allResults): Array<EventPromo> {
+export function createEventPromos(allResults): EventPromo[] {
   return allResults.map((event): EventPromo => {
     const promoProperties = sharedEventPromoProperties(event);
     const isMultiDate = Boolean(event.data.times.length > 1);
@@ -354,7 +354,7 @@ export async function getEventsInSeries(id: string, { page }: PrismicQueryOption
   return events;
 }
 
-export async function getPaginatedEventPromos(page: number): Promise<Array<EventPromo>> {
+export async function getPaginatedEventPromos(page: number): Promise<EventPromo[]> {
   const events = await getAllOfType(['events'], {
     page,
     orderings: '[my.events.times.startDateTime desc]',
@@ -365,7 +365,7 @@ export async function getPaginatedEventPromos(page: number): Promise<Array<Event
   return paginatedResults(promos);
 }
 
-export async function getPaginatedExhibitionPromos(page: number): Promise<Array<ExhibitionPromo>> {
+export async function getPaginatedExhibitionPromos(page: number): Promise<ExhibitionPromo[]> {
   const exhibitions = await getAllOfType(['exhibitions'], {page, orderings: '[my.exhibitions.start]'});
   const promos = createExhibitionPromos(exhibitions.results);
   const paginatedResults = convertPrismicResultsToPaginatedResults(exhibitions);
