@@ -8,7 +8,7 @@ type Props = {|
   url: string,
   name: string,
   screenReaderText?: string,
-  isJumpLink: boolean
+  isJumpLink?: boolean
 |}
 
 const PrimaryLink = ({url, name, screenReaderText, isJumpLink = false}: Props) => {

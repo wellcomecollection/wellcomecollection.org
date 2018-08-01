@@ -47,16 +47,16 @@ function parseEventBookingType(eventDoc: PrismicDocument): ?string {
         : null;
 }
 
-function determineUpcomingDate(times) {
+function determineUpcomingDate(times: Date[]) {
   const todaysDate = london();
-  const eventArray = times.map((eventTime) => {
-    return london(eventTime.startDateTime);
-  })
-    .sort((a, b) => b.isBefore(a, 'day'));
-  const futureDates = eventArray.filter((date) => !date.isBefore(todaysDate));
-  return futureDates[0] ? futureDates[0].toDate()
-    : eventArray[0] ? eventArray[0].toDate()
-      : null;
+  const eventArray = times.sort((a, b) => london(b.startDateTime).isBefore(london(a.startDateTime), 'day'));
+  const futureDates = eventArray.filter(d => !london(d.startDateTime).isBefore(todaysDate));
+  const theDate = futureDates[0] || eventArray[0];
+
+  return {
+    startDateTime: theDate.startDateTime,
+    endDateTime: theDate.endDateTime
+  };
 }
 
 function determineDateRange(times) {
@@ -115,6 +115,7 @@ export function parseEventDoc(
       : null).filter(Boolean);
 
   const upcomingDate = determineUpcomingDate(data.times);
+
   return {
     type: 'events',
     ...genericFields,
@@ -150,7 +151,7 @@ export function parseEventDoc(
       weight: 'default',
       value: parseDescription(data.description)
     }] : [],
-    upcomingDate: upcomingDate ? london(upcomingDate).toDate() : null,
+    upcomingDate: upcomingDate,
     selectedDate: selectedDate ? london(selectedDate).toDate() : null,
     dateRange: determineDateRange(data.times)
   };

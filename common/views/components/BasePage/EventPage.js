@@ -16,32 +16,46 @@ import {UiImage} from '../Images/Images';
 import type {UiEvent} from '../../../model/events';
 import {spacing, font} from '../../../utils/classnames';
 import camelize from '../../../utils/camelize';
-import {formatAndDedupeOnDate, formatAndDedupeOnTime, joinDateStrings, formatDayDate} from '../../../utils/format-date';
+import {formatAndDedupeOnDate, formatAndDedupeOnTime, joinDateStrings, formatDayDate, isDatePast, formatTime} from '../../../utils/format-date';
 
 type Props = {|
   event: UiEvent
-  |}
+|}
+
+function eventStatus(text, color) {
+  return (
+    <div className='flex'>
+      <div className={`${font({s: 'HNM5'})} flex flex--v-center`}>
+        <span className={`${spacing({s: 1}, {margin: ['right']})} flex flex--v-center`}>
+          <Icon name='statusIndicator' extraClasses={`icon--match-text icon--${color}`} />
+        </span>
+        {text}
+      </div>
+    </div>
+  );
+}
 
 function DateInfo(event) {
   return (
     event.times && <Fragment>
       {event.times.map((eventTime, index) => {
-        const formattedDateRange =  formatAndDedupeOnDate(eventTime.range.startDateTime, eventTime.range.endDateTime);
+        const formattedDateRange = formatAndDedupeOnDate(eventTime.range.startDateTime, eventTime.range.endDateTime);
+
         return (
-          <div key={index} className={`border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
-            <time>{joinDateStrings(formattedDateRange)}</time>, <time>{joinDateStrings(formatAndDedupeOnTime(eventTime.range.startDateTime, eventTime.range.endDateTime))}</time>
-            {formattedDateRange.length === 1 && (
-              <div className='flex'>
-                {(eventTime.isFullyBooked && !(event.eventbriteId || event.bookingEnquiryTeam)) &&
-                  <div className={`${font({s: 'HNM5'})} ${spacing({s: 2}, {margin: ['left']})} flex flex--v-center`}>
-                    <span className={`${spacing({s: 1}, {margin: ['right']})} flex flex--v-center`}>
-                      <Icon name='statusIndicator' extraClasses={`icon--match-text icon--red`} />
-                    </span>
-                    Fully booked
-                  </div>
+          <div key={index} className={`flex flex--h-space-between border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
+            <div>
+              <time>{joinDateStrings(formattedDateRange)}</time>, <time>{joinDateStrings(formatAndDedupeOnTime(eventTime.range.startDateTime, eventTime.range.endDateTime))}</time>
+            </div>
+
+            {isDatePast(eventTime.range.endDateTime)
+              ? <Fragment>{eventStatus('Past', 'marble')}</Fragment>
+              : <Fragment>
+                {(eventTime.isFullyBooked /* TODO: || isEventTimeFullyBookedAtEventbrite */)
+                  ? <Fragment>{eventStatus('Full', 'red')}</Fragment>
+                  : <Fragment>{/* {eventStatus('Available', 'green')} */}</Fragment>
                 }
-              </div>
-            )}
+              </Fragment>
+            }
           </div>
         );
       })}
@@ -54,26 +68,25 @@ function infoBar(event) {
 
   return (
     <Fragment>
-      {(eventbriteId || bookingEnquiryTeam) &&
-        <PrimaryLink url='#dates' name='See all dates/times to book' isJumpLink={true} />
-      }
-
-      {(!eventbriteId && !bookingEnquiryTeam) &&
-        <Fragment>
-          <div className={`clearfix ${spacing({s: 2}, {margin: ['bottom']})}`}>
-            <Labels labels={['Just turn up']} />
-          </div>
-          <PrimaryLink url='#dates' name='See all dates/times' isJumpLink={true} />
-        </Fragment>
+      {isDatePast(event.dateRange.lastDate)
+        ? <Fragment>{eventStatus('Past', 'marble')}</Fragment>
+        : <PrimaryLink url='#dates' name={`See all dates/times${(!eventbriteId && !bookingEnquiryTeam) ? ' to book' : ''}`} isJumpLink={true} />
       }
     </Fragment>
   );
 }
 
 function topDate(event) {
+  // Displays the closest future date, or the first date if _all_
+  // dates are in the past
+  const dayAndDate = formatDayDate(event.upcomingDate);
+  const startTime = formatTime(event.upcomingDate.startDateTime);
+  const endTime = formatTime(event.upcomingDate.endDateTime);
+
   return (
     <Fragment>
-      {event.selectedDate ? formatDayDate(event.selectedDate) : event.upcomingDate && formatDayDate(event.upcomingDate)}
+      <time>{dayAndDate}</time>,{' '}
+      <time>{joinDateStrings([startTime, endTime])}</time>
     </Fragment>
   );
 };
@@ -91,8 +104,6 @@ const EventPage = ({ event }: Props) => {
     copyrightHolder: image.copyright && image.copyright.holder,
     copyrightLink: image.copyright && image.copyright.link
   };
-  /* https://github.com/facebook/flow/issues/2405 */
-  /* $FlowFixMe */
   const FeaturedMedia = event.promo && <UiImage tasl={tasl} {...image} />;
   const eventFormat = event.format ? [event.format.title] : [];
   const eventAudiences = event.audiences ? event.audiences.map(a => a.title) : [];
@@ -102,7 +113,7 @@ const EventPage = ({ event }: Props) => {
     title={`${event.title}`}
     Background={<WobblyBackground />}
     TagBar={null}
-    LabelBar={<Labels labels={(eventFormat.concat(eventAudiences, eventInterpretations))} />}
+    LabelBar={<Labels labels={(eventFormat.concat(eventAudiences, eventInterpretations))} isSpaced={true} />}
     DateInfo={topDate(event)}
     InfoBar={infoBar(event)}
     Description={null}
@@ -131,7 +142,7 @@ const EventPage = ({ event }: Props) => {
         }
 
         {event.contributors.length > 0 &&
-          <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`}>
+          <div className={`${spacing({s: 4}, {margin: ['bottom']})}`}>
             <Contributors
               titlePrefix='About your'
               titleOverride={event.contributorsTitle}
@@ -139,65 +150,71 @@ const EventPage = ({ event }: Props) => {
           </div>
         }
 
-        <div className={`body-text ${spacing({s: 4}, {padding: ['bottom']})}`}>
-          <h2 id='dates'>Dates</h2>
-          {DateInfo(event)}
+        <div className={spacing({s: 4}, {margin: ['bottom']})}>
+          <div className={`body-text border-bottom-width-1 border-color-pumice`}>
+            <h2 id='dates'>Dates</h2>
+            {DateInfo(event)}
+          </div>
         </div>
 
-        {/* Booking CTAs */}
-        {event.eventbriteId &&
-          <div className={`border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
-            {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
-              : (
-                <div className='js-eventbrite-ticket-button' data-eventbrite-ticket-id={event.eventbriteId}>
-                  <Button
-                    type='primary'
-                    url={`https://www.eventbrite.com/e/${event.eventbriteId}/`}
-                    eventTracking={JSON.stringify({
-                      category: 'component',
-                      action: 'booking-tickets:click',
-                      label: 'event-page'
-                    })}
-                    icon='ticket'
-                    text='Book free tickets' />
-                  <p className={`font-charcoal ${font({s: 'HNL5'})} ${spacing({s: 1}, {margin: ['top']})} ${spacing({s: 0}, {margin: ['bottom']})}`}>with Eventbrite</p>
-                </div>
-              )
-            }
-          </div>
-        }
-
-        {event.bookingEnquiryTeam &&
-          <div className={`border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
-            {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
-              : (
-                <Button
-                  type='primary'
-                  url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
-                  eventTracking={JSON.stringify({
-                    category: 'component',
-                    action: 'booking-tickets:click',
-                    label: 'event-page (email to book)'
-                  })}
-                  icon='email'
-                  text='Email to book' />
-              )}
-            <SecondaryLink
-              url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
-              text={event.bookingEnquiryTeam.email}
-              extraClasses={`block font-charcoal ${spacing({s: 1}, {margin: ['top']})}`} />
-          </div>
-        }
-
-        {(!event.eventbriteId && !event.bookingEnquiryTeam) &&
+        {!isDatePast(event.dateRange.lastDate) &&
           <Fragment>
-            <div className={`clearfix ${spacing({s: 2}, {margin: ['bottom']})}`}>
-              <Labels labels={['Just turn up']} />
-            </div>
+            {/* Booking CTAs */}
+            {event.eventbriteId &&
+              <div>
+                {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
+                  : (
+                    <div className='js-eventbrite-ticket-button' data-eventbrite-ticket-id={event.eventbriteId}>
+                      <Button
+                        type='primary'
+                        url={`https://www.eventbrite.com/e/${event.eventbriteId}/`}
+                        eventTracking={JSON.stringify({
+                          category: 'component',
+                          action: 'booking-tickets:click',
+                          label: 'event-page'
+                        })}
+                        icon='ticket'
+                        text='Book free tickets' />
+                      <p className={`font-charcoal ${font({s: 'HNL5'})} ${spacing({s: 1}, {margin: ['top']})} ${spacing({s: 0}, {margin: ['bottom']})}`}>with Eventbrite</p>
+                    </div>
+                  )
+                }
+              </div>
+            }
+
+            {event.bookingEnquiryTeam &&
+              <div className={`border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
+                {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
+                  : (
+                    <Button
+                      type='primary'
+                      url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
+                      eventTracking={JSON.stringify({
+                        category: 'component',
+                        action: 'booking-tickets:click',
+                        label: 'event-page (email to book)'
+                      })}
+                      icon='email'
+                      text='Email to book' />
+                  )}
+                <SecondaryLink
+                  url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
+                  text={event.bookingEnquiryTeam.email}
+                  extraClasses={`block font-charcoal ${spacing({s: 1}, {margin: ['top']})}`} />
+              </div>
+            }
+
+            {(!event.eventbriteId && !event.bookingEnquiryTeam) &&
+              <Fragment>
+                <div className={`bg-yellow inline-block ${spacing({s: 4}, {padding: ['left', 'right'], margin: ['top', 'bottom']})} ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${font({s: 'HNM4'})}`}>
+                  <span>Just turn up</span>
+                </div>
+              </Fragment>
+            }
           </Fragment>
         }
 
-        <div className={`bg-yellow ${spacing({s: 4}, {padding: ['top', 'right', 'bottom', 'left']})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
+        <div className={`bg-yellow ${spacing({s: 4}, {padding: ['top', 'right', 'bottom', 'left']})} ${spacing({s: 4}, {margin: ['top', 'bottom']})}`}>
           <h2 className='h2'>Need to know</h2>
           {event.place &&
             <Fragment>
@@ -277,16 +294,18 @@ const EventPage = ({ event }: Props) => {
 
           {event.interpretations.map((i) => {
             return (i.interpretationType.description &&
-              <Fragment className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`} key={i.interpretationType.title}>
-                <h3 className={`${font({s: 'HNM4'})} no-margin flex flex--v-center'`}>
-                  <span className={`flex flex--v-center ${spacing({s: 1}, {margin: ['right']})}`}>
-                    <Icon name={camelize(i.interpretationType.title)} />
-                  </span>
-                  <span>{i.interpretationType.title}</span>
-                </h3>
-                <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
-                  {i.isPrimary && <PrismicHtmlBlock html={i.interpretationType.primaryDescription} />}
-                  {!i.isPrimary && <PrismicHtmlBlock html={i.interpretationType.description} />}
+              <Fragment key={i.interpretationType.title}>
+                <div className={`${spacing({s: 4}, {margin: ['bottom']})}`}>
+                  <h3 className={`${font({s: 'HNM4'})} no-margin flex flex--v-center'`}>
+                    <span className={`flex flex--v-center ${spacing({s: 1}, {margin: ['right']})}`}>
+                      <Icon name={camelize(i.interpretationType.title)} />
+                    </span>
+                    <span>{i.interpretationType.title}</span>
+                  </h3>
+                  <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                    {i.isPrimary && <PrismicHtmlBlock html={i.interpretationType.primaryDescription} />}
+                    {!i.isPrimary && <PrismicHtmlBlock html={i.interpretationType.description} />}
+                  </div>
                 </div>
               </Fragment>
             );
