@@ -159,8 +159,7 @@ export async function renderExhibitExhibitionLink(ctx, next) {
 
 export async function renderEvent(ctx, next) {
   const event = await getEvent(ctx.request, {
-    id: ctx.params.id,
-    selectedDate: ctx.query.selectedDate
+    id: ctx.params.id
   });
   const tags = [{
     text: 'Events',

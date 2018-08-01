@@ -79,7 +79,6 @@ export type UiEvent = {|
   ...Event,
   type: 'events',
   upcomingDate: {|startDateTime: Date, endDateTime: Date|},
-  selectedDate: ?Date,
   dateRange: {
     firstDate: Date,
     lastDate: Date,

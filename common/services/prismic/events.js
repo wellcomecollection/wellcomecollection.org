@@ -77,8 +77,7 @@ function determineDateRange(times) {
 
 export function parseEventDoc(
   document: PrismicDocument,
-  scheduleDocs: ?PrismicApiSearchResponse,
-  selectedDate: ?string
+  scheduleDocs: ?PrismicApiSearchResponse
 ): UiEvent {
   const data = document.data;
   const genericFields = parseGenericFields(document);
@@ -152,7 +151,6 @@ export function parseEventDoc(
       value: parseDescription(data.description)
     }] : [],
     upcomingDate: upcomingDate,
-    selectedDate: selectedDate ? london(selectedDate).toDate() : null,
     dateRange: determineDateRange(data.times)
   };
 }
@@ -172,13 +170,9 @@ const fetchLinks = [].concat(
 );
 
 type EventQueryProps = {|
-  id: string,
-  selectedDate: string
+  id: string
 |}
-export async function getEvent(req: Request, {
-  id,
-  selectedDate
-}: EventQueryProps): Promise<?UiEvent> {
+export async function getEvent(req: Request, {id}: EventQueryProps): Promise<?UiEvent> {
   const document = await getDocument(req, id, {
     fetchLinks: fetchLinks
   });
@@ -186,7 +180,7 @@ export async function getEvent(req: Request, {
   if (document && document.type === 'events') {
     const scheduleIds = document.data.schedule.map(event => event.event.id).filter(Boolean);
     const eventScheduleDocs = scheduleIds.length > 0 && await getTypeByIds(req, ['events'], scheduleIds, {fetchLinks});
-    const event = parseEventDoc(document, eventScheduleDocs || null, selectedDate || null);
+    const event = parseEventDoc(document, eventScheduleDocs);
 
     return event;
   }
