@@ -37,26 +37,37 @@
   <span class="{{ {s:'HNM5', m:'HNM4'} | fontClasses }}">Free admission</span>
 </div>
 
-<div class="js-events-filter tabs {{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }}">
-  {% componentV2 'segmented-control', exhibitionAndEventPromos.monthControls, null, {id: 'monthControls', isTabControl: true, activeId: exhibitionAndEventPromos.monthControls[0].id} %}
-  {% for yearKey, year in exhibitionAndEventPromos.eventPromosSplitAcrossMonths %}
-    {% for monthKey, month in year %}
-      <div class="js-tabpanel tabpanel {{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }}">
-        <div class="css-grid">
-          <h2 id="{{monthKey}}-{{yearKey}}" class="js-tabfocus tabfocus {{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }}">{{monthKey}}</h2>
-          {% for event in month %}
+{% if featuresCohort === 'testA' %}
+  <div class="js-events-filter tabs {{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }}">
+    {% componentV2 'segmented-control', exhibitionAndEventPromos.monthControls, null, {id: 'monthControls', isTabControl: true, activeId: exhibitionAndEventPromos.monthControls[0].id} %}
+    {% for yearKey, year in exhibitionAndEventPromos.eventPromosSplitAcrossMonths %}
+      {% for monthKey, month in year %}
+        <div class="js-tabpanel tabpanel {{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }}">
+          <div class="css-grid">
+            <h2 id="{{monthKey}}-{{yearKey}}" class="js-tabfocus tabfocus {{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }}">{{monthKey}}</h2>
+            {% for event in month %}
+              <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
+                {% componentJsx 'EventPromo', event %}
+              </div>
+            {% endfor %}
             <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-              {% componentJsx 'EventPromo', event %}
+              {% componentJsx 'EventPromo', dailyTourPromo %}
             </div>
-          {% endfor %}
-          <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-            {% componentJsx 'EventPromo', dailyTourPromo %}
           </div>
         </div>
-      </div>
+      {% endfor %}
     {% endfor %}
+  </div>
+{% else %}
+  {% for event in exhibitionAndEventPromos.eventPromos %}
+    <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
+      {% componentJsx 'EventPromo', event %}
+    </div>
   {% endfor %}
-</div>
+  <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
+    {% componentJsx 'EventPromo', dailyTourPromo %}
+  </div>
+{% endif %}
 
 <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }}">
   {% componentJsx 'PrimaryLink', { name: 'View all events', url: '/events' } %}
