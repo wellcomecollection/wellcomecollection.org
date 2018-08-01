@@ -499,16 +499,18 @@ export async function getExhibitionAndEventPromos(query, collectionOpeningTimes)
   // Had to split exhibitions and installations query from events query.
   // We can't query events by dateAfter and there is a max of 100 results per query.
   // Exhibitions would start disappearing, once results started goind over 100 - we were getting close.
-  const allExhibitionsAndInstallations = await getAllOfType(['exhibitions', 'installations'], {
+  const allExhibitionsAndInstallationsPromise = getAllOfType(['exhibitions', 'installations'], {
     pageSize: 100,
     fetchLinks: exhibitionFields,
     orderings: '[my.exhibitions.start]'
   });
-  const allEvents = await getAllOfType(['events'], {
+  const allEventsPromise = getAllOfType(['events'], {
     pageSize: 100,
     fetchLinks: eventFields,
     orderings: '[my.events.times.startDateTime desc]'
   });
+
+  const [ allExhibitionsAndInstallations, allEvents ] = await Promise.all([allExhibitionsAndInstallationsPromise, allEventsPromise]);
 
   const exhibitionPromos = createExhibitionPromos(allExhibitionsAndInstallations.results.filter(e => e.type === 'exhibitions'));
   const permanentExhibitionPromos = filterCurrentExhibitions(exhibitionPromos.filter(e => e.format && e.format.title.toLowerCase() === 'permanent'), todaysDate);
