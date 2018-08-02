@@ -104,6 +104,8 @@ const EventPage = ({ event }: Props) => {
     copyrightHolder: image.copyright && image.copyright.holder,
     copyrightLink: image.copyright && image.copyright.link
   };
+  /* https://github.com/facebook/flow/issues/2405 */
+  /* $FlowFixMe */
   const FeaturedMedia = event.promo && <UiImage tasl={tasl} {...image} />;
   const eventFormat = event.format ? [event.format.title] : [];
   const eventAudiences = event.audiences ? event.audiences.map(a => a.title) : [];
