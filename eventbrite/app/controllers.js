@@ -46,7 +46,8 @@ export async function renderEventbriteTicketStatus(ctx, next) {
 
     ctx.body = {
       html: ctx.body,
-      onSaleStatus: standardTicket.onSaleStatus
+      onSaleStatus: standardTicket.onSaleStatus,
+      saleStarts: standardTicket.saleStarts
     };
   }
   return next();

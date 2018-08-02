@@ -43,7 +43,7 @@ function DateInfo(event) {
 
         return (
           <div key={index} className={`flex flex--h-space-between border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
-            <div>
+            <div className={`${isDatePast(eventTime.range.endDateTime) ? 'font-pewter' : ''}`}>
               <time>{joinDateStrings(formattedDateRange)}</time>, <time>{joinDateStrings(formatAndDedupeOnTime(eventTime.range.startDateTime, eventTime.range.endDateTime))}</time>
             </div>
 
@@ -71,6 +71,16 @@ function infoBar(event) {
       {isDatePast(event.dateRange.lastDate)
         ? <Fragment>{eventStatus('Past', 'marble')}</Fragment>
         : <PrimaryLink url='#dates' name={`See all dates/times${(eventbriteId || bookingEnquiryTeam) ? ' to book' : ''}`} isJumpLink={true} />
+      }
+      {eventbriteId &&
+        <div>
+          <div className={`js-eventbrite-ticket-status-beta
+            inline-block bg-yellow is-hidden
+            ${font({s: 'HNM4'})}
+            ${spacing({s: 2}, {padding: ['top', 'bottom']})}
+            ${spacing({s: 4}, {padding: ['left', 'right']})}`}
+          data-eventbrite-id={eventbriteId}></div>
+        </div>
       }
     </Fragment>
   );

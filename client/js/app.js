@@ -33,7 +33,7 @@ import iframeContainer from './components/iframe-container';
 import {eventbriteTicketButton} from './components/eventbrite-ticket-button';
 import segmentedControl from './components/segmented-control';
 import tabs from './components/tabs';
-import {eventbriteTicketStatus} from './components/eventbrite-ticket-status';
+import {eventbriteTicketStatus, eventbriteTicketStatusBeta} from './components/eventbrite-ticket-status';
 import newsletterSignup from './components/newsletter-signup';
 import {createMaps} from './components/map';
 import {onWindowResizeDebounce$} from './utils/dom-events';
@@ -164,6 +164,7 @@ const init = () => {
 
   nodeList(document.querySelectorAll('.js-eventbrite-ticket-button')).forEach(eventbriteTicketButton);
   nodeList(document.querySelectorAll('.js-eventbrite-ticket-status')).forEach(eventbriteTicketStatus);
+  nodeList(document.querySelectorAll('.js-eventbrite-ticket-status-beta')).forEach(eventbriteTicketStatusBeta);
 };
 
 function initWithRaven() {
