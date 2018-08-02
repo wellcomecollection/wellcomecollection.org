@@ -43,7 +43,7 @@ function DateInfo(event) {
 
         return (
           <div key={index} className={`flex flex--h-space-between border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
-            <div>
+            <div className={`${isDatePast(eventTime.range.endDateTime) ? 'font-pewter' : ''}`}>
               <time>{joinDateStrings(formattedDateRange)}</time>, <time>{joinDateStrings(formatAndDedupeOnTime(eventTime.range.startDateTime, eventTime.range.endDateTime))}</time>
             </div>
 
