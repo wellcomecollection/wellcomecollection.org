@@ -47,7 +47,7 @@ function parseEventBookingType(eventDoc: PrismicDocument): ?string {
         : null;
 }
 
-function determineUpcomingDate(times: Date[]) {
+function determineUpcomingDate(times) {
   const todaysDate = london();
   const eventArray = times.sort((a, b) => london(b.startDateTime).isBefore(london(a.startDateTime), 'day'));
   const futureDates = eventArray.filter(d => !london(d.startDateTime).isBefore(todaysDate));
@@ -180,7 +180,7 @@ export async function getEvent(req: Request, {id}: EventQueryProps): Promise<?Ui
   if (document && document.type === 'events') {
     const scheduleIds = document.data.schedule.map(event => event.event.id).filter(Boolean);
     const eventScheduleDocs = scheduleIds.length > 0 && await getTypeByIds(req, ['events'], scheduleIds, {fetchLinks});
-    const event = parseEventDoc(document, eventScheduleDocs);
+    const event = parseEventDoc(document, eventScheduleDocs || null);
 
     return event;
   }
@@ -260,7 +260,7 @@ export async function getEvents(req: Request,  {
   });
 
   const events = paginatedResults.results.map(doc => {
-    return parseEventDoc(doc, null, null);
+    return parseEventDoc(doc, null);
   });
 
   return {

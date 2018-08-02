@@ -79,7 +79,7 @@ function infoBar(event) {
 function topDate(event) {
   // Displays the closest future date, or the first date if _all_
   // dates are in the past
-  const dayAndDate = formatDayDate(event.upcomingDate);
+  const dayAndDate = formatDayDate(event.upcomingDate.startDateTime);
   const startTime = formatTime(event.upcomingDate.startDateTime);
   const endTime = formatTime(event.upcomingDate.endDateTime);
 
