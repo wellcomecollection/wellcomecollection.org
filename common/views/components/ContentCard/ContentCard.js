@@ -1,6 +1,7 @@
 // @flow
 import type {Element} from 'react';
 import {grid, font, spacing} from '../../../utils/classnames';
+import LabelsList from '../LabelsList/LabelsList';
 import {default as ImageType} from '../Image/Image';
 
 type Props = {|
@@ -9,7 +10,7 @@ type Props = {|
   promoType: string,
   description: ?string,
   urlOverride: ?string,
-  Tags: ?Element<typeof Labels>,
+  Tags: ?Element<typeof LabelsList>,
   Image: ?Element<typeof ImageType>
 |}
 
