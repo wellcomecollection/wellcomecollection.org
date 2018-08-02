@@ -1,7 +1,6 @@
 // @flow
 import type {Element} from 'react';
 import {grid, font, spacing} from '../../../utils/classnames';
-import Labels from '../Labels/Labels';
 import {default as ImageType} from '../Image/Image';
 
 type Props = {|

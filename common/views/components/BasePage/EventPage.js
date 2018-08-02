@@ -7,7 +7,7 @@ import Contributors from '../Contributors/Contributors';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
-import Labels from '../Labels/Labels';
+import LabelsList from '../LabelsList/LabelsList';
 import Icon from '../Icon/Icon';
 import Button from '../Buttons/Button/Button';
 import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
@@ -107,15 +107,25 @@ const EventPage = ({ event }: Props) => {
   /* https://github.com/facebook/flow/issues/2405 */
   /* $FlowFixMe */
   const FeaturedMedia = event.promo && <UiImage tasl={tasl} {...image} />;
-  const eventFormat = event.format ? [event.format.title] : [];
-  const eventAudiences = event.audiences ? event.audiences.map(a => a.title) : [];
-  const eventInterpretations = event.interpretations ? event.interpretations.map(i => (i.interpretationType.title)) : [];
+  const eventFormat = event.format ? [{url: null, text: event.format.title}] : [];
+  const eventAudiences = event.audiences ? event.audiences.map(a => {
+    return {
+      url: null,
+      text: a.title
+    };
+  }) : [];
+  const eventInterpretations = event.interpretations ? event.interpretations.map(i => {
+    return {
+      url: null,
+      text: i.interpretationType.title
+    };
+  }) : [];
 
   const Header = (<BaseHeader
     title={`${event.title}`}
     Background={<WobblyBackground />}
     TagBar={null}
-    LabelBar={<Labels labels={(eventFormat.concat(eventAudiences, eventInterpretations))} isSpaced={true} />}
+    LabelBar={<LabelsList labels={(eventFormat.concat(eventAudiences, eventInterpretations))} isSpaced={true} />}
     DateInfo={topDate(event)}
     InfoBar={infoBar(event)}
     Description={null}

@@ -28,7 +28,7 @@ import ImageGallery from '../ImageGallery/ImageGallery';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import InstallationPage from '../BasePage/InstallationPage';
 import InstallationPromo from '../InstallationPromo/InstallationPromo';
-import Labels from '../Labels/Labels';
+import LabelsList from '../LabelsList/LabelsList';
 import License from '../License/License';
 import MainMedia from '../MainMedia/MainMedia';
 import Map from '../Map/Map';
@@ -92,7 +92,7 @@ export {
   InfoBanner,
   InstallationPage,
   InstallationPromo,
-  Labels,
+  LabelsList,
   License,
   MainMedia,
   Map,
