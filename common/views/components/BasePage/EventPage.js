@@ -173,7 +173,7 @@ const EventPage = ({ event }: Props) => {
     >
       <Fragment>
         {event.schedule && event.schedule.length > 0 &&
-          <div className='body-text'>
+          <div>
             <h2 className={`${font({s: 'WB6', l: 'WB5'})} ${spacing({s: 4}, {padding: ['bottom']})} border-color-smoke border-bottom-width-2`}>Events</h2>
             <ul className='plain-list no-marin no-padding'>
               {event.schedule && event.schedule.map((scheduledEvent) => {

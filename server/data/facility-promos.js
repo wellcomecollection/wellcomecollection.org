@@ -87,6 +87,7 @@ export const dailyTourPromo: EventPromo = {
   url: 'https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sma',
   start: null,
   end: null,
+  isMultiDate: false,
   isFullyBooked: false,
   hasNotFullyBookedTimes: false,
   description: null,

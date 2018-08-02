@@ -64,13 +64,13 @@ export async function getPrismicApi(req: ?Request) {
   return api;
 }
 
-async function getTypeById(req: ?Request, types: Array<DocumentType>, id: string, qOpts: Object<any>) {
+async function getTypeById(req: ?Request, types: DocumentType[], id: string, qOpts: Object<any>) {
   const prismic = await getPrismicApi(req);
   const doc = await prismic.getByID(id, qOpts);
   return doc && types.indexOf(doc.type) !== -1 ? doc : null;
 }
 
-async function getTypeByIds(req: ?Request, types: Array<DocumentType>, ids: Array<string>, qOpts: Object<any>) {
+async function getTypeByIds(req: ?Request, types: DocumentType[], ids: string[], qOpts: Object<any>) {
   const prismic = await getPrismicApi(req);
   const doc = await prismic.getByIDs(ids, qOpts);
 
@@ -79,11 +79,11 @@ async function getTypeByIds(req: ?Request, types: Array<DocumentType>, ids: Arra
 
 type PrismicQueryOptions = {|
   page?: number;
-  fetchLinks?: Array<String>;
+  fetchLinks?: String[];
   orderings?: string;
 |}
 
-async function getAllOfType(type: Array<DocumentType>, options: PrismicQueryOptions = {}, predicates: any[] = [], withDelisted: boolean = false) {
+async function getAllOfType(type: DocumentType[], options: PrismicQueryOptions = {}, predicates: any[] = [], withDelisted: boolean = false) {
   const prismic = await getPrismicApi();
   const results = await prismic.query([
     Prismic.Predicates.any('document.type', type),
@@ -220,7 +220,7 @@ export async function getCuratedList(id: string) {
   return curatedList;
 }
 
-function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
+function createExhibitionPromos(allResults: Object): ExhibitionPromo[] {
   return allResults.map((e): ExhibitionPromo => {
     return {
       id: e.id,
@@ -236,64 +236,88 @@ function createExhibitionPromos(allResults: Object): Array<ExhibitionPromo> {
   });
 }
 
-export function createEventPromos(allResults): Array<EventPromo> {
+function sharedEventPromoProperties(event) {
+  const promo = event.data.promo && parseImagePromo(event.data.promo);
+  const format = event.data.format && parseEventFormat(event.data.format);
+  const audience = event.data.audiences.map((audience) => {
+    return parseAudience(audience.audience);
+  })[0];
+
+  const bookingType = parseEventBookingType(event);
+  const interpretations = event.data.interpretations.map(interpretation => !isEmptyDocLink(interpretation.interpretationType) ? ({
+    interpretationType: {
+      title: asText(interpretation.interpretationType.data.title),
+      abbreviation: asText(interpretation.interpretationType.data.abbreviation),
+      description: asText(interpretation.interpretationType.data.description),
+      primaryDescription: asText(interpretation.interpretationType.data.primaryDescription)
+    },
+    isPrimary: Boolean(interpretation.isPrimary)
+  }) : null).filter(_ => _);
+
+  const eventbriteIdMatch = isEmptyObj(event.data.eventbriteEvent) ? null : /\/e\/([0-9]+)/.exec(event.data.eventbriteEvent.url);
+  const eventbriteId = eventbriteIdMatch ? eventbriteIdMatch[1] : null;
+
+  const series = event.data.series.map(series => !isEmptyDocLink(series.series) ? ({
+    id: series.series.id,
+    title: asText(series.series.data.title),
+    description: series.series.data.description
+  }) : null).filter(_ => _);
+
+  const schedule = event.data.schedule.filter(s => Boolean(s.event.id));
+  const hasNotFullyBookedTimes = event.data.times.find(time => !time.isFullyBooked);
+
+  return {
+    id: event.id,
+    title: asText(event.data.title),
+    url: `/events/${event.id}`,
+    format,
+    audience,
+    hasNotFullyBookedTimes,
+    image: promo && promo.image || {},
+    description: promo && promo.caption,
+    bookingType,
+    interpretations,
+    eventbriteId,
+    series,
+    schedule
+  };
+}
+
+export function createIndividualEventPromos(allResults): EventPromo[] {
   return allResults.map((event): EventPromo => {
-    const promo = event.data.promo && parseImagePromo(event.data.promo);
-    const format = event.data.format && parseEventFormat(event.data.format);
-    const audience = event.data.audiences.map((audience) => {
-      return parseAudience(audience.audience);
-    })[0];
-
-    const bookingType = parseEventBookingType(event);
-    const interpretations = event.data.interpretations.map(interpretation => !isEmptyDocLink(interpretation.interpretationType) ? ({
-      interpretationType: {
-        title: asText(interpretation.interpretationType.data.title),
-        abbreviation: asText(interpretation.interpretationType.data.abbreviation),
-        description: asText(interpretation.interpretationType.data.description),
-        primaryDescription: asText(interpretation.interpretationType.data.primaryDescription)
-      },
-      isPrimary: Boolean(interpretation.isPrimary)
-    }) : null).filter(_ => _);
-
-    const eventbriteIdMatch = isEmptyObj(event.data.eventbriteEvent) ? null : /\/e\/([0-9]+)/.exec(event.data.eventbriteEvent.url);
-    const eventbriteId = eventbriteIdMatch ? eventbriteIdMatch[1] : null;
-
-    const series = event.data.series.map(series => !isEmptyDocLink(series.series) ? ({
-      id: series.series.id,
-      title: asText(series.series.data.title),
-      description: series.series.data.description
-    }) : null).filter(_ => _);
-
-    const schedule = event.data.schedule.filter(s => Boolean(s.event.id));
-
+    const promoProperties = sharedEventPromoProperties(event);
     // A single Primsic 'event' can have multiple datetimes, but we
-    // want to display each datetime as an individual promo, so we
-    // map and flatten.
-    const hasNotFullyBookedTimes = event.data.times.find(time => !time.isFullyBooked);
+    // want need each datetime as an individual promo for json-ld
+    // therefore we map and flatten.
     return event.data.times.map(eventAtTime => {
-      return {
-        id: event.id,
-        title: asText(event.data.title),
-        url: `/events/${event.id}`,
-        format: format,
-        audience: audience,
-        hasNotFullyBookedTimes: hasNotFullyBookedTimes,
+      return Object.assign({}, promoProperties, {
         isFullyBooked: Boolean(eventAtTime.isFullyBooked),
         start: eventAtTime.startDateTime,
-        end: eventAtTime.endDateTime,
-        image: promo && promo.image || {},
-        description: promo && promo.caption,
-        bookingType: bookingType,
-        interpretations: interpretations,
-        eventbriteId: eventbriteId,
-        series: series,
-        schedule: schedule
-      };
+        end: eventAtTime.endDateTime
+      });
     });
   }).reduce((acc, curr) => {
     return curr.concat(acc);
   }, []).sort((a, b) => {
     return convertStringToNumber(b.start || '') - convertStringToNumber(a.start || '');
+  });
+}
+
+export function createEventPromos(allResults): EventPromo[] {
+  return allResults.map((event): EventPromo => {
+    const promoProperties = sharedEventPromoProperties(event);
+    const isMultiDate = Boolean(event.data.times.length > 1);
+    const upcomingDates = event.data.times.filter(t => london(t.startDateTime).isSameOrAfter(london()));
+    const hasUpcoming = Boolean(upcomingDates.length > 0);
+    const start = hasUpcoming ? upcomingDates[0].startDateTime : event.data.times[0].startDateTime;
+    const end = hasUpcoming ? upcomingDates[0].endDateTime : event.data.times[0].endDateTime;
+    const isFullyBooked = hasUpcoming ? Boolean(upcomingDates[0].isFullyBooked) : Boolean(event.data.times[0].isFullyBooked);
+    return Object.assign({}, promoProperties, {
+      isFullyBooked,
+      start,
+      end,
+      isMultiDate
+    });
   });
 }
 
@@ -330,7 +354,7 @@ export async function getEventsInSeries(id: string, { page }: PrismicQueryOption
   return events;
 }
 
-export async function getPaginatedEventPromos(page: number): Promise<Array<EventPromo>> {
+export async function getPaginatedEventPromos(page: number): Promise<EventPromo[]> {
   const events = await getAllOfType(['events'], {
     page,
     orderings: '[my.events.times.startDateTime desc]',
@@ -341,7 +365,7 @@ export async function getPaginatedEventPromos(page: number): Promise<Array<Event
   return paginatedResults(promos);
 }
 
-export async function getPaginatedExhibitionPromos(page: number): Promise<Array<ExhibitionPromo>> {
+export async function getPaginatedExhibitionPromos(page: number): Promise<ExhibitionPromo[]> {
   const exhibitions = await getAllOfType(['exhibitions'], {page, orderings: '[my.exhibitions.start]'});
   const promos = createExhibitionPromos(exhibitions.results);
   const paginatedResults = convertPrismicResultsToPaginatedResults(exhibitions);
@@ -472,21 +496,32 @@ export async function getExhibitionAndEventPromos(query, collectionOpeningTimes)
   // set 'everything' as default time period, when no startDate is provided
   const toDate = !query.startDate ? undefined : query.endDate; ;
   const dateRange = [fromDate, toDate];
-  const allExhibitionsAndEvents = await getAllOfType(['exhibitions', 'events', 'installations'], {
+  // Had to split exhibitions and installations query from events query.
+  // We can't query events by dateAfter and there is a max of 100 results per query.
+  // Exhibitions would start disappearing, once results started goind over 100 - we were getting close.
+  const allExhibitionsAndInstallationsPromise = getAllOfType(['exhibitions', 'installations'], {
     pageSize: 100,
-    fetchLinks: eventFields.concat(exhibitionFields),
-    orderings: '[my.events.times.startDateTime desc, my.exhibitions.start]'
+    fetchLinks: exhibitionFields,
+    orderings: '[my.exhibitions.start]'
+  });
+  const allEventsPromise = getAllOfType(['events'], {
+    pageSize: 100,
+    fetchLinks: eventFields,
+    orderings: '[my.events.times.startDateTime desc]'
   });
 
-  const exhibitionPromos = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'exhibitions'));
+  const [ allExhibitionsAndInstallations, allEvents ] = await Promise.all([allExhibitionsAndInstallationsPromise, allEventsPromise]);
+
+  const exhibitionPromos = createExhibitionPromos(allExhibitionsAndInstallations.results.filter(e => e.type === 'exhibitions'));
   const permanentExhibitionPromos = filterCurrentExhibitions(exhibitionPromos.filter(e => e.format && e.format.title.toLowerCase() === 'permanent'), todaysDate);
   const temporaryExhibitionPromos = filterPromosByDate(exhibitionPromos.filter(e => !e.format || e.format && e.format.title.toLowerCase() !== 'permanent'), fromDate, toDate);
   const currentTemporaryExhibitionPromos = filterCurrentExhibitions(temporaryExhibitionPromos, todaysDate);
   const upcomingTemporaryExhibitionPromos = filterUpcomingExhibitions(temporaryExhibitionPromos, todaysDate);
-  const eventPromos = filterPromosByDate(createEventPromos(allExhibitionsAndEvents.results.filter(e => e.type === 'events')), fromDate, toDate).sort((a, b) => a.start.localeCompare(b.start));
+  const eventPromos = filterPromosByDate(createEventPromos(allEvents.results), fromDate, toDate).sort((a, b) => a.start.localeCompare(b.start));
+  const individualEventPromos = filterPromosByDate(createIndividualEventPromos(allEvents.results), fromDate, toDate).sort((a, b) => a.start.localeCompare(b.start));
 
   // TODO: get rid of this snowflake when what's on/homepage are capable of handling manual lists.
-  const colourOfPharmacyPromo = createExhibitionPromos(allExhibitionsAndEvents.results.filter(e => e.id === 'WyuWLioAACkACeYv'))[0];
+  const colourOfPharmacyPromo = createExhibitionPromos(allExhibitionsAndInstallations.results.filter(e => e.id === 'WyuWLioAACkACeYv'))[0];
 
   // eventPromosSplitAcrossMonths and monthControls only required for the 'everything' view
   const eventPromosSplitAcrossMonths = duplicatePromosByMonthYear(eventPromos);
@@ -518,6 +553,7 @@ export async function getExhibitionAndEventPromos(query, collectionOpeningTimes)
     currentTemporaryExhibitionPromos,
     upcomingTemporaryExhibitionPromos,
     eventPromos,
+    individualEventPromos,
     eventPromosSplitAcrossMonths,
     monthControls,
     listHeader

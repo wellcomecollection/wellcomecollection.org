@@ -19,7 +19,7 @@
     [{% for exhibition in exhibitionAndEventPromos.temporaryExhibitionPromos %}
       {{ exhibition | jsonLd('exhibitionPromoLd') | safe }},
     {% endfor %}
-    {% for event in exhibitionAndEventPromos.eventPromos %}
+    {% for event in exhibitionAndEventPromos.individualEventPromos %}
       {{ event | jsonLd('eventPromoLd') | safe }},
     {% endfor %}
     {% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
