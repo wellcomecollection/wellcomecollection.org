@@ -49,14 +49,14 @@ function parseEventBookingType(eventDoc: PrismicDocument): ?string {
 
 function determineUpcomingDate(times) {
   const todaysDate = london();
-  const eventArray = times.map((eventTime) => {
-    return london(eventTime.startDateTime);
-  })
-    .sort((a, b) => b.isBefore(a, 'day'));
-  const futureDates = eventArray.filter((date) => !date.isBefore(todaysDate));
-  return futureDates[0] ? futureDates[0].toDate()
-    : eventArray[0] ? eventArray[0].toDate()
-      : null;
+  const eventArray = times.sort((a, b) => london(b.startDateTime).isBefore(london(a.startDateTime), 'day'));
+  const futureDates = eventArray.filter(d => !london(d.startDateTime).isBefore(todaysDate));
+  const theDate = futureDates[0] || eventArray[0];
+
+  return {
+    startDateTime: theDate.startDateTime,
+    endDateTime: theDate.endDateTime
+  };
 }
 
 function determineDateRange(times) {
@@ -77,8 +77,7 @@ function determineDateRange(times) {
 
 export function parseEventDoc(
   document: PrismicDocument,
-  scheduleDocs: ?PrismicApiSearchResponse,
-  selectedDate: ?string
+  scheduleDocs: ?PrismicApiSearchResponse
 ): UiEvent {
   const data = document.data;
   const genericFields = parseGenericFields(document);
@@ -115,6 +114,7 @@ export function parseEventDoc(
       : null).filter(Boolean);
 
   const upcomingDate = determineUpcomingDate(data.times);
+
   return {
     type: 'events',
     ...genericFields,
@@ -150,8 +150,7 @@ export function parseEventDoc(
       weight: 'default',
       value: parseDescription(data.description)
     }] : [],
-    upcomingDate: upcomingDate ? london(upcomingDate).toDate() : null,
-    selectedDate: selectedDate ? london(selectedDate).toDate() : null,
+    upcomingDate: upcomingDate,
     dateRange: determineDateRange(data.times)
   };
 }
@@ -171,13 +170,9 @@ const fetchLinks = [].concat(
 );
 
 type EventQueryProps = {|
-  id: string,
-  selectedDate: string
+  id: string
 |}
-export async function getEvent(req: Request, {
-  id,
-  selectedDate
-}: EventQueryProps): Promise<?UiEvent> {
+export async function getEvent(req: Request, {id}: EventQueryProps): Promise<?UiEvent> {
   const document = await getDocument(req, id, {
     fetchLinks: fetchLinks
   });
@@ -185,7 +180,7 @@ export async function getEvent(req: Request, {
   if (document && document.type === 'events') {
     const scheduleIds = document.data.schedule.map(event => event.event.id).filter(Boolean);
     const eventScheduleDocs = scheduleIds.length > 0 && await getTypeByIds(req, ['events'], scheduleIds, {fetchLinks});
-    const event = parseEventDoc(document, eventScheduleDocs || null, selectedDate || null);
+    const event = parseEventDoc(document, eventScheduleDocs || null);
 
     return event;
   }
@@ -265,7 +260,7 @@ export async function getEvents(req: Request,  {
   });
 
   const events = paginatedResults.results.map(doc => {
-    return parseEventDoc(doc, null, null);
+    return parseEventDoc(doc, null);
   });
 
   return {
