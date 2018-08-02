@@ -72,6 +72,16 @@ function infoBar(event) {
         ? <Fragment>{eventStatus('Past', 'marble')}</Fragment>
         : <PrimaryLink url='#dates' name={`See all dates/times${(eventbriteId || bookingEnquiryTeam) ? ' to book' : ''}`} isJumpLink={true} />
       }
+      {eventbriteId &&
+        <div>
+          <div className={`js-eventbrite-ticket-status-beta
+            inline-block bg-yellow is-hidden
+            ${font({s: 'HNM4'})}
+            ${spacing({s: 2}, {padding: ['top', 'bottom']})}
+            ${spacing({s: 4}, {padding: ['left', 'right']})}`}
+          data-eventbrite-id={eventbriteId}></div>
+        </div>
+      }
     </Fragment>
   );
 }

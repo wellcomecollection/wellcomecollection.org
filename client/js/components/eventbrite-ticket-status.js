@@ -15,3 +15,16 @@ export function eventbriteTicketStatus(el) {
     });
   });
 }
+
+export function eventbriteTicketStatusBeta(el) {
+  const eventbriteId = el.getAttribute('data-eventbrite-id');
+  // TODO: Remove no-cors and remove host from URL
+  fetch(`http://localhost:9000/eventbrite/button/events/${eventbriteId}/ticket_status`, {mode: 'no-cors'})
+    .then(res => res.json())
+    .then(data => {
+      if (data.onSaleStatus === 'not_yet_on_sale') {
+        el.innerHTML = `Book from ${data.saleStarts}`;
+        el.classList.remove('is-hidden');
+      }
+    });
+}
