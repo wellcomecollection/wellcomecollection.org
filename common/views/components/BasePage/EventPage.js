@@ -70,7 +70,7 @@ function infoBar(event) {
     <Fragment>
       {isDatePast(event.dateRange.lastDate)
         ? <Fragment>{eventStatus('Past', 'marble')}</Fragment>
-        : <PrimaryLink url='#dates' name={`See all dates/times${(!eventbriteId && !bookingEnquiryTeam) ? ' to book' : ''}`} isJumpLink={true} />
+        : <PrimaryLink url='#dates' name={`See all dates/times${(eventbriteId || bookingEnquiryTeam) ? ' to book' : ''}`} isJumpLink={true} />
       }
     </Fragment>
   );
@@ -185,7 +185,7 @@ const EventPage = ({ event }: Props) => {
             }
 
             {event.bookingEnquiryTeam &&
-              <div className={`border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
+              <div className={`${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
                 {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
                   : (
                     <Button
