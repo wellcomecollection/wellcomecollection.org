@@ -1,5 +1,6 @@
 import {model, prismic} from 'common';
 import {getEventSeries} from '@weco/common/services/prismic/events';
+import {isPreview as isPrismicPreview} from '@weco/common/services/prismic/api';
 const {createPageConfig} = model;
 const {
   getPaginatedEventPromos,
@@ -76,6 +77,7 @@ function convertEventToEventPromos(events) {
 
 export async function renderEventSeries(ctx, next) {
   const {id} = ctx.params;
+  const isPreview = isPrismicPreview(ctx.request);
   const {events, series} = await getEventSeries(ctx.request, { id });
 
   if (events.length > 0) {
@@ -104,7 +106,8 @@ export async function renderEventSeries(ctx, next) {
       htmlDescription: asHtml(series.description),
       paginatedEvents: upcomingEvents,
       pastEvents: pastEvents,
-      backgroundTexture: series.backgroundTexture
+      backgroundTexture: series.backgroundTexture,
+      isPreview
     });
   }
 
