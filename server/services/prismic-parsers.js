@@ -396,7 +396,9 @@ const linkResolver = (doc) => {
 };
 
 export function asText(maybeContent: any) {
-  return maybeContent && Array.isArray(maybeContent) && RichText.asText(maybeContent).trim();
+  if (!Array.isArray(maybeContent)) return '';
+
+  return maybeContent && RichText.asText(maybeContent).trim();
 }
 
 export function asHtml(maybeContent: any) {
