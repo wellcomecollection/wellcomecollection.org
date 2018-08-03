@@ -19,7 +19,7 @@ const Label = ({label}: Props) => {
       ${label.url ? 'plain-link font-white bg-green bg-hover-black' : 'font-black bg-yellow'}
       ${font({s: 'HNM5'})}
       ${spacing({s: 1}, {padding: ['top', 'bottom', 'left', 'right']})}
-    `} style={{whiteSpace: 'nowrap'}}>
+    `} style={{display: 'block', whiteSpace: 'nowrap'}}>
       {label.text}
     </HtmlTag>
   );
