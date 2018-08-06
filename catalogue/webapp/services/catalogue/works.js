@@ -1,6 +1,5 @@
 // @flow
 import fetch from 'isomorphic-unfetch';
-import {remapV2ToV1} from '../../utils/remap-v2-to-v1';
 
 // TODO: create from swagger docs
 type Work = Object; // JS Object
@@ -29,11 +28,6 @@ export async function getWorks({ query, page, version = 1 }: GetWorksProps): Obj
     (query ? `&query=${query}` : '') +
     (page ? `&page=${page}` : '')
   );
-  let json = await res.json();
-
-  if (version === 2) {
-    json.results = json.results.map(remapV2ToV1);
-  }
-
+  const json = await res.json();
   return json;
 }

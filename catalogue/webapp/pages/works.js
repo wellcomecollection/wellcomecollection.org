@@ -257,9 +257,9 @@ export class WorksPage extends Component<PageProps> {
 }
 
 type GetWorksProps = {|
+  version: number,
   query: ?string,
-  page: ?number,
-  version: ?number
+  page: ?number
 |}
 async function getWorks({ query, page, version }: GetWorksProps): Object {
   const res = await fetch(
@@ -268,7 +268,7 @@ async function getWorks({ query, page, version }: GetWorksProps): Object {
     (query ? `&query=${encodeURIComponent(query)}` : '') +
     (page ? `&page=${page}` : '')
   );
-  let json = await res.json();
+  const json = await res.json();
 
   return json;
 }
