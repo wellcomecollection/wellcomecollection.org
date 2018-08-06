@@ -387,6 +387,7 @@ const linkResolver = (doc) => {
     case 'webcomics'     : return `/articles/${doc.id}`;
     case 'exhibitions'   : return `/exhibitions/${doc.id}`;
     case 'events'        : return `/events/${doc.id}`;
+    case 'event-series'  : return `/event-series/${doc.id}`;
     case 'series'        : return `/series/${doc.id}`;
     case 'installations' : return `/installations/${doc.id}`;
     case 'pages'         : return `/pages/${doc.id}`;
@@ -395,7 +396,9 @@ const linkResolver = (doc) => {
 };
 
 export function asText(maybeContent: any) {
-  return maybeContent && RichText.asText(maybeContent, linkResolver).trim();
+  if (!Array.isArray(maybeContent)) return '';
+
+  return maybeContent && RichText.asText(maybeContent).trim();
 }
 
 export function asHtml(maybeContent: any) {
