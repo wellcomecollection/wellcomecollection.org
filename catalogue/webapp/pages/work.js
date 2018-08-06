@@ -16,7 +16,6 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
-import {remapV2ToV1} from '../utils/remap-v2-to-v1';
 import WorkMedia from '../components/WorkMedia/WorkMedia';
 
 export type Link = {|
@@ -166,13 +165,102 @@ type Work = Object;
 type Props = {|
   work: Work,
   previousQueryString: ?string,
-  page: ?number
+  page: ?number,
+  version: ?number
 |}
 
 export const WorkPage = ({
   work,
-  previousQueryString
+  previousQueryString,
+  version
 }: Props) => {
+  if (version === 2) {
+    return (
+      <div className='container'>
+        <div className='grid'>
+          <div className={grid({s: 12})}>
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+              <b>Title:</b> {work.title}
+            </div>
+            {work.description && <div><b>Description:</b> {work.description}</div>}
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+              <b>Physical description:</b> {work.physicalDescription}
+            </div>
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+              <b>Work type:</b> {work.workType && work.workType.label}
+            </div>
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+              <b>Extent:</b> {work.extent}
+            </div>
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+              <b>Lettering:</b> {work.lettering}
+            </div>
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+              <b>Created date:</b> {work.createdDate && work.createdDate.label}
+            </div>
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+              <b>Contributors:</b>
+              <ul>
+                {work.contributors.map(contributor => (
+                  <li key={contributor.agent.label}>
+                    <div><b>Agent:</b> {contributor.agent.label}</div>
+                    <div><b>Roles:</b> {contributor.roles.map(role => role.label).join(', ')}</div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+              <b>Identifiers:</b>
+              <ul>
+                {work.identifiers.map(identifier => (
+                  <li key={identifier.value}>
+                    <div><b>Type:</b> {identifier.identifierType.label}</div>
+                    <div><b>Value:</b> {identifier.value}</div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+              <b>Subjects:</b>
+              <ul>
+                {work.subjects.map(subject => (
+                  <li key={subject.label}>{subject.label}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+              <b>Genres:</b>
+              <ul>
+                {work.genres.map(genre => (
+                  <li key={genre.label}>{genre.label}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+              <b>Thumbnail:</b>
+              {work.thumbnail && <ul>
+                <li>URL: {work.thumbnail.url}</li>
+                <li>License: {JSON.stringify(work.thumbnail.license)}</li>
+              </ul>}
+            </div>
+
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}><b>Production:</b> TODO - API response changing soon.</div>
+
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}><b>Language:</b> {work.language && work.language.label}</div>
+
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}><b>Dimensions:</b> {work.dimensions}</div>
+
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}><b>Type:</b> {work.type}</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const [iiifImageLocation] = work.items.map(
     item => item.locations.find(
       location => location.locationType === 'iiif-image'
@@ -215,142 +303,146 @@ export const WorkPage = ({
       </div>
       }
 
-      {iiifInfoUrl && <WorkMedia
-        id={work.id}
-        iiifUrl={iiifInfoUrl}
-        title={work.title} />}
+      {version !== 2 &&
+        <Fragment>
+          {iiifInfoUrl && <WorkMedia
+            id={work.id}
+            iiifUrl={iiifInfoUrl}
+            title={work.title} />}
 
-      <div className={`row ${spacing({s: 6}, {padding: ['top', 'bottom']})}`}>
-        <div className='container'>
-          <div className='grid'>
-            <div className={classNames([
-              grid({s: 12, m: 10, shiftM: 1, l: 7, xl: 7}),
-              spacing({s: 4}, {margin: ['bottom']})
-            ])}>
-              <div className={spacing({s: 5}, {margin: ['bottom']})}>
-                <h1 id='work-info'
-                  className={classNames([
-                    font({s: 'HNM3', m: 'HNM2', l: 'HNM1'}),
-                    spacing({s: 0}, {margin: ['top']})
-                  ])}>{work.title}</h1>
-
+          <div className={`row ${spacing({s: 6}, {padding: ['top', 'bottom']})}`}>
+            <div className='container'>
+              <div className='grid'>
                 <div className={classNames([
-                  spacing({s: 2}, {padding: ['top', 'bottom']}),
-                  spacing({s: 4}, {padding: ['left', 'right']}),
-                  spacing({s: 4}, {margin: ['bottom']}),
-                  'bg-cream rounded-diagonal flex flex--v-center'
+                  grid({s: 12, m: 10, shiftM: 1, l: 7, xl: 7}),
+                  spacing({s: 4}, {margin: ['bottom']})
                 ])}>
-                  <Icon name='underConstruction' extraClasses='margin-right-s2' />
-                  <p className={`${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
-                    We’re improving the information on this page. <a href='/progress'>Find out more</a>.
-                  </p>
+                  <div className={spacing({s: 5}, {margin: ['bottom']})}>
+                    <h1 id='work-info'
+                      className={classNames([
+                        font({s: 'HNM3', m: 'HNM2', l: 'HNM1'}),
+                        spacing({s: 0}, {margin: ['top']})
+                      ])}>{work.title}</h1>
+
+                    <div className={classNames([
+                      spacing({s: 2}, {padding: ['top', 'bottom']}),
+                      spacing({s: 4}, {padding: ['left', 'right']}),
+                      spacing({s: 4}, {margin: ['bottom']}),
+                      'bg-cream rounded-diagonal flex flex--v-center'
+                    ])}>
+                      <Icon name='underConstruction' extraClasses='margin-right-s2' />
+                      <p className={`${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
+                        We’re improving the information on this page. <a href='/progress'>Find out more</a>.
+                      </p>
+                    </div>
+
+                    {metaContent.map((metaItem, i) => {
+                      return <MetaUnit key={i} headingText={metaItem.heading} text={metaItem.text} links={metaItem.links} includeDivider={i === metaContent.length - 1} />;
+                    })}
+
+                    {encoreLink &&
+                      <div className={spacing({s: 2}, {margin: ['top']})}>
+                        <PrimaryLink name='View Wellcome Library catalogue record' url={encoreLink} />
+                      </div>
+                    }
+                  </div>
+
+                  <WorkDrawer data={[{
+                    headingText: 'License information',
+                    text: getLicenseInfo(work.thumbnail.license.licenseType).humanReadableText
+                  }, {
+                    headingText: 'Credit',
+                    text: attribution
+                  }]} />
                 </div>
 
-                {metaContent.map((metaItem, i) => {
-                  return <MetaUnit key={i} headingText={metaItem.heading} text={metaItem.text} links={metaItem.links} includeDivider={i === metaContent.length - 1} />;
-                })}
-
-                {encoreLink &&
-                  <div className={spacing({s: 2}, {margin: ['top']})}>
-                    <PrimaryLink name='View Wellcome Library catalogue record' url={encoreLink} />
-                  </div>
-                }
-              </div>
-
-              <WorkDrawer data={[{
-                headingText: 'License information',
-                text: getLicenseInfo(work.thumbnail.license.licenseType).humanReadableText
-              }, {
-                headingText: 'Credit',
-                text: attribution
-              }]} />
-            </div>
-
-            <div className={classNames([
-              grid({s: 12, m: 10, shiftM: 1, l: 5, xl: 5}),
-              spacing({s: 1}, {margin: ['top']})
-            ])}>
-              <h2 className={classNames([
-                font({s: 'HNM4', m: 'HNM3'}),
-                spacing({s: 0}, {margin: ['top']}),
-                spacing({s: 2}, {margin: ['bottom']})
-              ])}>
-                Download
-              </h2>
-
-              {workImageUrl && <div className={spacing({s: 2}, {margin: ['bottom']})}>
-                <Button
-                  type='tertiary'
-                  url={convertImageUri(workImageUrl, 'full')}
-                  target='_blank'
-                  download={`${work.id}.jpg`}
-                  rel='noopener noreferrer'
-                  eventTracking={JSON.stringify({
-                    category: 'component',
-                    action: 'download-button:click',
-                    label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
-                  })}
-                  clickHandler={() => {
-                    ReactGA.event({
-                      category: 'component',
-                      action: 'download-button:click',
-                      label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
-                    });
-                  }}
-                  icon='download'
-                  text='Download full size' />
-              </div>}
-
-              {workImageUrl && <div className={spacing({s: 3}, {margin: ['bottom']})}>
-                <Button
-                  type='tertiary'
-                  url={convertImageUri(workImageUrl, 760)}
-                  target='_blank'
-                  download={`${work.id}.jpg`}
-                  rel='noopener noreferrer'
-                  eventTracking={JSON.stringify({
-                    category: 'component',
-                    action: 'download-button:click',
-                    label: `id: work.id , size:760, title:${work.title.substring(50)}`
-                  })}
-                  clickHandler={() => {
-                    ReactGA.event({
-                      category: 'component',
-                      action: 'download-button:click',
-                      label: `id: work.id , size:760, title:${work.title.substring(50)}`
-                    });
-                  }}
-                  icon='download'
-                  text='Download small (760px)' />
-              </div>}
-
-              <div className={spacing({s: 4}, {margin: ['bottom']})}>
-                <p className={classNames([
-                  font({s: 'HNL5', m: 'HNL4'}),
-                  spacing({s: 1}, {margin: ['bottom']})
-                ])}>Credit: {credit}</p>
-
-                {/* TODO: the download links once this is in
-                https://github.com/wellcometrust/wellcomecollection.org/pull/2164/files#diff-f9d8c53a2dbf55f0c9190e6fbd99e45cR21 */}
-                {/* the small one is 760 */}
-                <License subject={''} licenseType={work.thumbnail.license.licenseType} />
-              </div>
-
-              <div className={spacing({s: 2}, {margin: ['top']})}>
-                <Divider extraClasses={`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />
-                <h2 className={classNames([
-                  font({s: 'HNM4', m: 'HNM3'}),
-                  spacing({s: 2}, {margin: ['top']}),
-                  spacing({s: 1}, {margin: ['bottom']})
+                <div className={classNames([
+                  grid({s: 12, m: 10, shiftM: 1, l: 5, xl: 5}),
+                  spacing({s: 1}, {margin: ['top']})
                 ])}>
-                  Share
-                </h2>
-                <CopyUrl id={work.id} url={`https://wellcomecollection.org/works/${work.id}`} />
+                  <h2 className={classNames([
+                    font({s: 'HNM4', m: 'HNM3'}),
+                    spacing({s: 0}, {margin: ['top']}),
+                    spacing({s: 2}, {margin: ['bottom']})
+                  ])}>
+                    Download
+                  </h2>
+
+                  {workImageUrl && <div className={spacing({s: 2}, {margin: ['bottom']})}>
+                    <Button
+                      type='tertiary'
+                      url={convertImageUri(workImageUrl, 'full')}
+                      target='_blank'
+                      download={`${work.id}.jpg`}
+                      rel='noopener noreferrer'
+                      eventTracking={JSON.stringify({
+                        category: 'component',
+                        action: 'download-button:click',
+                        label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
+                      })}
+                      clickHandler={() => {
+                        ReactGA.event({
+                          category: 'component',
+                          action: 'download-button:click',
+                          label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
+                        });
+                      }}
+                      icon='download'
+                      text='Download full size' />
+                  </div>}
+
+                  {workImageUrl && <div className={spacing({s: 3}, {margin: ['bottom']})}>
+                    <Button
+                      type='tertiary'
+                      url={convertImageUri(workImageUrl, 760)}
+                      target='_blank'
+                      download={`${work.id}.jpg`}
+                      rel='noopener noreferrer'
+                      eventTracking={JSON.stringify({
+                        category: 'component',
+                        action: 'download-button:click',
+                        label: `id: work.id , size:760, title:${work.title.substring(50)}`
+                      })}
+                      clickHandler={() => {
+                        ReactGA.event({
+                          category: 'component',
+                          action: 'download-button:click',
+                          label: `id: work.id , size:760, title:${work.title.substring(50)}`
+                        });
+                      }}
+                      icon='download'
+                      text='Download small (760px)' />
+                  </div>}
+
+                  <div className={spacing({s: 4}, {margin: ['bottom']})}>
+                    <p className={classNames([
+                      font({s: 'HNL5', m: 'HNL4'}),
+                      spacing({s: 1}, {margin: ['bottom']})
+                    ])}>Credit: {credit}</p>
+
+                    {/* TODO: the download links once this is in
+                    https://github.com/wellcometrust/wellcomecollection.org/pull/2164/files#diff-f9d8c53a2dbf55f0c9190e6fbd99e45cR21 */}
+                    {/* the small one is 760 */}
+                    <License subject={''} licenseType={work.thumbnail.license.licenseType} />
+                  </div>
+
+                  <div className={spacing({s: 2}, {margin: ['top']})}>
+                    <Divider extraClasses={`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />
+                    <h2 className={classNames([
+                      font({s: 'HNM4', m: 'HNM3'}),
+                      spacing({s: 2}, {margin: ['top']}),
+                      spacing({s: 1}, {margin: ['bottom']})
+                    ])}>
+                      Share
+                    </h2>
+                    <CopyUrl id={work.id} url={`https://wellcomecollection.org/works/${work.id}`} />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </Fragment>
+      }
     </Fragment>
   );
 };
@@ -377,10 +469,6 @@ WorkPage.getInitialProps = async (context) => {
   const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImage = iiifInfoUrl && iiifImageTemplate(iiifInfoUrl);
 
-  if (version === 2) {
-    json = remapV2ToV1(json);
-  }
-
   return {
     title: json.title || json.description,
     description: json.description || '',
@@ -391,7 +479,8 @@ WorkPage.getInitialProps = async (context) => {
     siteSection: 'images',
     previousQueryString,
     work: (json: Work),
-    oEmbedUrl: `https://wellcomecollection.org/oembed/works/${json.id}`
+    oEmbedUrl: `https://wellcomecollection.org/oembed/works/${json.id}`,
+    version
   };
 };
 

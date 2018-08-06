@@ -12,7 +12,6 @@ import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
 import StaticWorksContent from '@weco/common/views/components/StaticWorksContent/StaticWorksContent';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagination/Pagination';
-import {remapV2ToV1} from '../utils/remap-v2-to-v1';
 import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
 import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
@@ -128,13 +127,21 @@ export const Works = ({
             </div>
           </div>
         }
-        {version === 2 && works.results.map(result => (
-          <NextLink href={`/work?id=${result.id}`} as={`/works/${result.id}`} key={result.id}>
-            <a>
-              <h2>{result.title}</h2>
-            </a>
-          </NextLink>
-        ))}
+        {version === 2 &&
+          <div className='container'>
+            <div className='grid'>
+              <div className={grid({s: 12})}>
+                {works.results.map(result => (
+                  <NextLink href={`/work?id=${result.id}`} as={`/works/${result.id}`} key={result.id}>
+                    <a>
+                      <h2>{result.title}</h2>
+                    </a>
+                  </NextLink>
+                ))}
+              </div>
+            </div>
+          </div>
+        }
         {version !== 2 &&
           <div className={`row ${spacing({s: 4}, {padding: ['top']})}`}>
             <div className='container'>
@@ -262,10 +269,6 @@ async function getWorks({ query, page, version }: GetWorksProps): Object {
     (page ? `&page=${page}` : '')
   );
   let json = await res.json();
-
-  if (version === 2) {
-    json.results = json.results.map(remapV2ToV1);
-  }
 
   return json;
 }
