@@ -5,7 +5,7 @@ import serve from 'koa-static';
 import {router as defaultRouter} from './routes';
 import render from './view/render';
 import setCacheControl from './middleware/set-cache-control';
-import {serverError, notFound} from './middleware/error';
+import {error} from './middleware/error';
 import {determineFeaturesCohort} from './middleware/features-cohort';
 import {intervalCache} from './middleware/interval-cache';
 import {setFeaturesCohortFromCtx} from './middleware/set-features-cohort-from-ctx';
@@ -28,8 +28,7 @@ export function setupApp({ router, viewPaths = [], staticPath } = {}) {
   app.use(render(viewPaths.concat(config.views.paths), globals));
   // `error` is only after `intervalCache` and `render` as there's a dependency chain there
   // TODO: remove dependency chain
-  app.use(serverError(globals.beaconErrors));
-  app.use(notFound());
+  app.use(error(globals.beaconErrors));
   app.use(setCacheControl(config.cacheControl));
   app.use(serve(p(config.static.path)));
   app.use(serve(p(config.favicon.path)));

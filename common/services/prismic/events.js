@@ -271,20 +271,3 @@ export async function getEvents(req: Request,  {
     results: events
   };
 }
-
-type EventSeriesProps = {| id: string |}
-export async function getEventSeries(req: Request, {
-  id
-}: EventSeriesProps) {
-  const events = await getEvents(req, {
-    seriesId: id
-  });
-
-  if (events && events.results.length > 0) {
-    const series = events.results[0].series.find(series => series.id === id);
-    return {
-      series,
-      events: events.results
-    };
-  }
-}
