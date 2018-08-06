@@ -1,11 +1,9 @@
 // @flow
 import type {EventSeries} from '../../model/event-series';
 import type {PrismicDocument} from './types';
-
 import {
   parseGenericFields,
   parseBackgroundTexture,
-  parseDescription,
   parseBody
 } from './parsers';
 
@@ -17,12 +15,7 @@ export function parseEventSeries(document: PrismicDocument): EventSeries {
   return {
     ...genericFields,
     type: 'event-series',
-    description: parseDescription(document.data.description),
     backgroundTexture: backgroundTexture ? parseBackgroundTexture(backgroundTexture) : null,
-    body: body.length > 0 ? body : document.data.description ? [{
-      type: 'text',
-      weight: 'default',
-      value: parseDescription(document.data.description)
-    }] : []
+    body: body
   };
 }
