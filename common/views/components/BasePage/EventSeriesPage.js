@@ -25,7 +25,9 @@ const Page = ({
     contributors: series.contributors,
     contributorsTitle: series.contributorsTitle,
     promo: series.promo,
-    body: series.body
+    body: series.body,
+    promoImage: series.promoImage,
+    promoText: series.promoText
   });
   const Header = (<BaseHeader
     title={series.title}
