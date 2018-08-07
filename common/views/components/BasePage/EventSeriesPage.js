@@ -6,6 +6,7 @@ import Body from '../Body/Body';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
 import Contributors from '../Contributors/Contributors';
 import SearchResults from '../SearchResults/SearchResults';
+import { spacing } from '../../../utils/classnames';
 import type {EventSeries} from '../../../model/event-series';
 import type {UiEvent} from '../../../model/events';
 
@@ -25,7 +26,9 @@ const Page = ({
     contributors: series.contributors,
     contributorsTitle: series.contributorsTitle,
     promo: series.promo,
-    body: series.body
+    body: series.body,
+    promoImage: series.promoImage,
+    promoText: series.promoText
   });
   const Header = (<BaseHeader
     title={series.title}
@@ -35,6 +38,9 @@ const Page = ({
     InfoBar={null}
     Description={null}
     FeaturedMedia={FeaturedMedia}
+    LabelBar={null}
+    isFree={false}
+    topLink={null}
   />);
 
   const upcomingEvents = events.filter(event => {
@@ -62,7 +68,9 @@ const Page = ({
         }
 
         {pastEvents.length > 0 &&
-          <SearchResults items={pastEvents} title={`What we've done before`} />
+          <div className={spacing({s: 8}, {margin: ['top']})}>
+            <SearchResults items={pastEvents} title={`What we've done before`} />
+          </div>
         }
       </Fragment>
     </BasePage>

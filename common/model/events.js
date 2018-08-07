@@ -64,7 +64,8 @@ export type Place = {|
   title: string,
   geolocation: ?Geolocation,
   level: number,
-  capacity: ?number
+  capacity: ?number,
+  information: ?HTMLString
 |}
 
 export type Audience = {|
@@ -77,8 +78,7 @@ export type Audience = {|
 export type UiEvent = {|
   ...Event,
   type: 'events',
-  upcomingDate: ?Date,
-  selectedDate: ?Date,
+  upcomingDate: {|startDateTime: Date, endDateTime: Date|},
   dateRange: {
     firstDate: Date,
     lastDate: Date,
@@ -117,6 +117,7 @@ export type EventPromo = {|
   url: string,
   start: ?Date,
   end: ?Date,
+  isMultiDate: boolean,
   isFullyBooked: boolean,
   hasNotFullyBookedTimes: boolean,
   description: ?HTMLString,

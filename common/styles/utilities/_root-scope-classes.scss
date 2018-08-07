@@ -253,6 +253,10 @@
   float: left;
 }
 
+.rotate-r-8 {
+  transform: rotate(8deg);
+}
+
 .h-center {
   margin-left: auto;
   margin-right: auto;
@@ -444,4 +448,8 @@
 
 .width-auto {
   width: auto;
+}
+
+.clearfix {
+  @include clearfix;
 }

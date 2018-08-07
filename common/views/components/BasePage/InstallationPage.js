@@ -25,7 +25,9 @@ const InstallationPage = ({
     contributors: installation.contributors,
     contributorsTitle: installation.contributorsTitle,
     promo: installation.promo,
-    body: installation.body
+    body: installation.body,
+    promoImage: installation.promoImage,
+    promoText: installation.promoText
   });
   const Header = (<BaseHeader
     title={installation.title}
@@ -42,6 +44,9 @@ const InstallationPage = ({
     InfoBar={<StatusIndicator start={installation.start} end={(installation.end || new Date())} />}
     Description={null}
     FeaturedMedia={FeaturedMedia}
+    LabelBar={null}
+    isFree={false}
+    topLink={null}
   />);
 
   return (

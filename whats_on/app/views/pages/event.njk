@@ -16,11 +16,9 @@
 
 {% block body %}
   {# TODO: ld+Json #}
-  {% if featuresCohort === 'prototype-2' %}
-    {% componentJsx "EventPageV2", { event: event } %}
-  {% else %}
-    {% componentJsx "EventPage", { event: event } %}
-  {% endif %}
+
+  {% componentJsx "EventPage", { event: event } %}
+
   <script type="application/ld+json">
     {# {{ jsonLdExhibition | jsonLd('exhibitionLd') | safe }} #}
   </script>

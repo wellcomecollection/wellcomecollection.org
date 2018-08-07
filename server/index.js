@@ -16,6 +16,7 @@ import {
   getExhibitionAndEventPromos,
   convertPrismicResultsToPaginatedResults,
   createEventPromos,
+  createIndividualEventPromos,
   london
 } from './services/prismic';
 import {
@@ -43,5 +44,6 @@ export const prismic = {
   getExhibitionAndEventPromos,
   convertPrismicResultsToPaginatedResults,
   createEventPromos,
+  createIndividualEventPromos,
   london
 };

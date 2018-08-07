@@ -1,35 +1,23 @@
 // @flow
-import {font, spacing, conditionalClassNames} from '../../../utils/classnames';
+import {font, spacing} from '../../../utils/classnames';
+import {sized} from '../../../utils/style';
 
 type Props = {|
-  items: {|
-    label: string
-  |}[]
+  labels: string[],
+  isSpaced?: boolean
 |}
 
-const Labels = ({
-  items
-}: Props) => (
-  <ul className='flex plain-list no-margin no-padding line-height-1'>
-    {items.map(item => (
-      <li
-        key={item.label}
-        className={conditionalClassNames({
-          'line-height-1 bg-yellow': true,
-          [font({s: 'HNM5'})]: true,
-          [spacing({s: 1}, {padding: ['top', 'bottom', 'left', 'right']})]: true
-        })}
-        style={{
-          display: 'block',
-          float: 'left',
-          marginRight: '1px',
-          marginTop: '1px',
-          whiteSpace: 'nowrap'
-        }}>
-        {item.label}
-      </li>
-    ))}
-  </ul>
-);
+const Labels = ({labels, isSpaced = false}: Props): React.Node[] => {
+  return (labels.filter(Boolean).map((text, i) => (
+    <span key={`text-${i}`} className={`
+      line-height-1 bg-yellow
+      ${font({s: 'HNM5'})}
+      ${spacing({s: 1}, {padding: ['top', 'bottom', 'left', 'right']})}
+    `} style={{float: 'left', marginRight: isSpaced ? sized(1) : '1px', marginTop: isSpaced ? sized(1) : '1px', whiteSpace: 'nowrap'}}>
+      {text}
+    </span>
+  ))
+  );
+};
 
 export default Labels;

@@ -30,6 +30,9 @@ const Page = ({ page }: Props): BasePage => {
     InfoBar={null}
     Description={null}
     FeaturedMedia={FeaturedMedia}
+    LabelBar={null}
+    isFree={false}
+    topLink={null}
   />);
 
   return (

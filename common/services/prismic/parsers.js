@@ -294,7 +294,8 @@ export function parsePlace(doc: PrismicFragment): Place {
     id: doc.id,
     title: asText(doc.data.title) || '',
     level: doc.data.level || 0,
-    capacity: doc.data.capacity
+    capacity: doc.data.capacity,
+    information: asText(doc.data.locationInformation)
   };
 }
 
@@ -481,12 +482,15 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
 
 export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
   const {data} = doc;
+  const promo = data.promo && parseImagePromo(data.promo);
   return {
     id: doc.id,
     title: parseTitle(data.title),
     contributorsTitle: asText(data.contributorsTitle),
     contributors: data.contributors ? parseContributors(data.contributors) : [],
-    promo: data.promo && parseImagePromo(data.promo),
-    body: data.body ? parseBody(data.body) : []
+    body: data.body ? parseBody(data.body) : [],
+    promo: promo,
+    promoText: promo && promo.caption,
+    promoImage: promo && promo.image
   };
 }

@@ -3,6 +3,7 @@ import {Fragment} from 'react';
 import {spacing, font} from '../../../utils/classnames';
 import {isDatePast, formatDayDate, formatTime} from '../../../utils/format-date';
 import {UiImage} from '../Images/Images';
+import Labels from '../Labels/Labels';
 import Icon from '../Icon/Icon';
 import type {EventPromo as EventPromoProps} from '../../../model/events';
 
@@ -11,26 +12,13 @@ type Props = {|
   position?: number,
 |}
 
-const labelStyles = {display: 'block', float: 'left', marginRight: '1px', marginTop: '1px', whiteSpace: 'nowrap'};
-
-function label(text: string, key: string) {
-  return (
-    <span key={key} className={`
-      line-height-1 bg-yellow
-      ${font({s: 'HNM5'})}
-      ${spacing({s: 1}, {padding: ['top', 'bottom', 'left', 'right']})}
-    `} style={labelStyles}>
-      {text}
-    </span>
-  );
-}
-
 const EventPromo = ({
   id,
   title,
   url,
   start,
   end,
+  isMultiDate,
   isFullyBooked,
   hasNotFullyBookedTimes,
   format,
@@ -45,6 +33,8 @@ const EventPromo = ({
   position = 0
 }: Props) => {
   const isPast = end && isDatePast(end);
+  const eventInterpretations = interpretations && interpretations.map(interpretation => interpretation.interpretationType.title);
+  const labels = [(format && format.title), (audience && audience.title), ...eventInterpretations].filter(Boolean);
   return (
     <a data-component='EventPromo'
       data-component-state={JSON.stringify({ position: position })}
@@ -62,15 +52,9 @@ const EventPromo = ({
           sizesQueries='(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'
           showTasl={false} />}
 
-        {(format || audience || interpretations.length > 0) &&
+        {(labels.length > 0) &&
           <div style={{position: 'absolute', bottom: 0}}>
-            {format && label(format.title, format.id)}
-            {audience && label(audience.title, audience.id)}
-            {interpretations.map(interpretation => {
-              return (
-                label(interpretation.interpretationType.title, interpretation.interpretationType.id)
-              );
-            })}
+            <Labels labels={labels} />
           </div>
         }
       </div>
@@ -91,12 +75,6 @@ const EventPromo = ({
           `}>
             {title}
           </h2>
-
-          {schedule.length > 0 &&
-            <p className={`${font({s: 'HNM4'})} no-padding no-margin`}>
-              {schedule.length} events
-            </p>
-          }
 
           {start && end && !isPast &&
               <Fragment>
@@ -127,7 +105,6 @@ const EventPromo = ({
                   <Icon name='statusIndicator' extraClasses={'icon--red icon--match-text'} />
                 </span>
                 Fully booked
-                {hasNotFullyBookedTimes && ', more dates available'}
               </div>
           }
 
@@ -145,6 +122,14 @@ const EventPromo = ({
                 data-eventbrite-ticket-id={eventbriteId}
                 className='flex flex--h-space-between flex--wrap js-eventbrite-ticket-status'></div>
           }
+
+          {schedule.length > 0 && !isPast &&
+            <p className={`${font({s: 'HNM5'})} no-padding no-margin`}>
+              {`${schedule.length} ${schedule.length > 1 ? 'events' : 'event'}`}
+            </p>
+          }
+
+          {isMultiDate && !isPast && <p className={`${font({s: 'HNM5'})}`}>See all dates/times</p>}
         </div>
 
         {series.length > 0 &&

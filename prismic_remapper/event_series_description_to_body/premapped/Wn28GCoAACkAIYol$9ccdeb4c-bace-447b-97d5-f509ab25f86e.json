@@ -1,0 +1,24 @@
+{
+  "type": "event-series",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Wn28GCoAACkAIYon",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "The Evidence: Civilisations and Health ",
+        "spans": []
+      }
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The BBC World Service is joining forces with Wellcome Collection for this series of events and radio programmes exploring health in the context of society and civilisation.  ",
+        "spans": []
+      }
+    }
+  ]
+}

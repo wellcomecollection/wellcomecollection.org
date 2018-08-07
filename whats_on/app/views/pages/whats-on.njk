@@ -15,11 +15,11 @@
 {% endblock %}
 
 {% block body %}
-   <script type="application/ld+json">
+  <script type="application/ld+json">
     [{% for exhibition in exhibitionAndEventPromos.temporaryExhibitionPromos %}
       {{ exhibition | jsonLd('exhibitionPromoLd') | safe }},
     {% endfor %}
-    {% for event in exhibitionAndEventPromos.eventPromos %}
+    {% for event in exhibitionAndEventPromos.individualEventPromos %}
       {{ event | jsonLd('eventPromoLd') | safe }},
     {% endfor %}
     {% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
@@ -30,44 +30,52 @@
   {% set whatsOnData = {activeId: exhibitionAndEventPromos.active, id: 'whatsOnFilter' } %}
   {% componentV2 'whats-on-list-header', exhibitionAndEventPromos.listHeader, {}, whatsOnData %}
 
-  <div class="css-grid__container {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top', 'bottom']}) }}">
+  <div class="css-grid__container {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top']}) }}">
     <div class="css-grid {{ {s:2, m:4} | spacingClasses({margin: ['top', 'bottom']}) }}">
-
       {% if exhibitionAndEventPromos.active === 'everything' %}
         {% include 'partials/separate_exhibition_event_promos.njk' %}
       {% else %}
         {% include 'partials/mixed_exhibition_event_promos.njk' %}
       {% endif %}
+    </div>
+  </div>
 
-      {% macro permanentPromos(heading, promos, size) %}
-        <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }}">
-          {% componentV2 'divider', null, {'dashed': true} %}
-        </div>
+  {% componentJsx 'SectionHeader', {
+    title: 'Try these too'
+  } %}
 
-        <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }}">
-          <h2 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">{{heading}}</h2>
-        </div>
+  <div class="css-grid__container">
+    <div class="css-grid {{ {s:2, m:4} | spacingClasses({margin: ['top', 'bottom']}) }}">
+      <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} css-grid__scroll-container container--scroll touch-scroll">
+        <div class="css-grid grid--scroll">
+          {% for promo in tryTheseTooPromos %}
+            <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses }}">
+              {% componentV2 'facility-promo', promo, {}, {sizes: '(min-width: 1420px) 475px, (min-width: 960px) 34.32vw, (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'} %}
+            </div>
+          {% endfor %}
 
-        <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }} css-grid__scroll-container container--scroll touch-scroll">
-          <div class="css-grid grid--scroll">
-            {% if size === 'large' %}
-              {% set gridClasses = {s: 12, m: 6, l: 4, xl:4} | cssGridClasses %}
-            {% else %}
-              {% set gridClasses = {s: 12, m: 6, l: 3, xl:3} | cssGridClasses %}
-            {% endif %}
-
-            {% for promo in promos %}
-              <div class="{{gridClasses}}">
-                {% componentV2 'facility-promo', promo, {}, {sizes: '(min-width: 1420px) 475px, (min-width: 960px) 34.32vw, (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'} %}
-              </div>
-            {% endfor %}
+          <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses }}">
+            {% componentJsx 'InstallationPromo', exhibitionAndEventPromos.colourOfPharmacyPromo %}
           </div>
         </div>
-      {% endmacro %}
+      </div>
+    </div>
+  </div>
 
-      {{ permanentPromos('Try these too', tryTheseTooPromos, 'large') }}
+  {% componentJsx 'SectionHeader', {
+    title: 'Eat and shop'
+  } %}
 
-      {{ permanentPromos('Eat and shop', eatShopPromos, 'small') }}
+  <div class="css-grid__container">
+    <div class="css-grid {{ {s:2, m:4} | spacingClasses({margin: ['top', 'bottom']}) }}">
+      <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} css-grid__scroll-container container--scroll touch-scroll">
+        <div class="css-grid grid--scroll">
+          {% for promo in eatShopPromos %}
+            <div class="{{ {s: 12, m: 6, l: 3, xl:3} | cssGridClasses }}">
+              {% componentV2 'facility-promo', promo, {}, {sizes: '(min-width: 1420px) 475px, (min-width: 960px) 34.32vw, (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'} %}
+            </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>

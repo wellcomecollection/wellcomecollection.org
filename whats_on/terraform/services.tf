@@ -11,7 +11,7 @@ module "whats_on" {
   listener_https_arn = "${local.alb_listener_https_arn}"
   listener_http_arn  = "${local.alb_listener_http_arn}"
   is_config_managed  = false
-  alb_priority       = "130"
+  alb_priority       = "300"
 
   desired_count = 2
 
@@ -37,9 +37,23 @@ module "whats_on" {
 # This is added as we want `/installation` and `/whats-on` to use this service
 # This seems to break the concept of 1 URL per service in the modules,
 # so didn't commit it there.
-resource "aws_alb_listener_rule" "installations_path_rule" {
+resource "aws_alb_listener_rule" "installations_http_path_rule" {
   listener_arn = "${local.alb_listener_http_arn}"
-  priority     = "131"
+  priority     = "301"
+
+  action {
+    type             = "forward"
+    target_group_arn = "${module.whats_on.target_group_arn}"
+  }
+
+  condition {
+    field  = "path-pattern"
+    values = ["/installations*"]
+  }
+}
+resource "aws_alb_listener_rule" "installations_https_path_rule" {
+  listener_arn = "${local.alb_listener_https_arn}"
+  priority     = "301"
 
   action {
     type             = "forward"
@@ -52,9 +66,23 @@ resource "aws_alb_listener_rule" "installations_path_rule" {
   }
 }
 
-resource "aws_alb_listener_rule" "exhibitions_path_rule" {
+resource "aws_alb_listener_rule" "exhibitions_http_path_rule" {
   listener_arn = "${local.alb_listener_http_arn}"
-  priority     = "132"
+  priority     = "302"
+
+  action {
+    type             = "forward"
+    target_group_arn = "${module.whats_on.target_group_arn}"
+  }
+
+  condition {
+    field  = "path-pattern"
+    values = ["/exhibitions*"]
+  }
+}
+resource "aws_alb_listener_rule" "exhibitions_https_path_rule" {
+  listener_arn = "${local.alb_listener_https_arn}"
+  priority     = "302"
 
   action {
     type             = "forward"
@@ -67,9 +95,52 @@ resource "aws_alb_listener_rule" "exhibitions_path_rule" {
   }
 }
 
-resource "aws_alb_listener_rule" "subdomain_path_rule" {
+resource "aws_alb_listener_rule" "event_series_http_path_rule" {
   listener_arn = "${local.alb_listener_http_arn}"
-  priority     = "133"
+  priority     = "303"
+
+  action {
+    type             = "forward"
+    target_group_arn = "${module.whats_on.target_group_arn}"
+  }
+
+  condition {
+    field  = "path-pattern"
+    values = ["/event-series*"]
+  }
+}
+resource "aws_alb_listener_rule" "event_series_https_path_rule" {
+  listener_arn = "${local.alb_listener_https_arn}"
+  priority     = "303"
+
+  action {
+    type             = "forward"
+    target_group_arn = "${module.whats_on.target_group_arn}"
+  }
+
+  condition {
+    field  = "path-pattern"
+    values = ["/event-series*"]
+  }
+}
+
+resource "aws_alb_listener_rule" "subdomain_http_path_rule" {
+  listener_arn = "${local.alb_listener_http_arn}"
+  priority     = "304"
+
+  action {
+    type             = "forward"
+    target_group_arn = "${module.whats_on.target_group_arn}"
+  }
+
+  condition {
+    field  = "host-header"
+    values = ["whats-on.wellcomecollection.org"]
+  }
+}
+resource "aws_alb_listener_rule" "subdomain_https_path_rule" {
+  listener_arn = "${local.alb_listener_https_arn}"
+  priority     = "304"
 
   action {
     type             = "forward"

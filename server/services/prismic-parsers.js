@@ -19,7 +19,6 @@ import {
   parseCaptionedImage
 // $FlowFixMe
 } from '../../common/services/prismic/parsers';
-import {getCohort} from '../utils/flags';
 
 // This is just JSON
 type PrismicDoc = Object;
@@ -29,18 +28,6 @@ type PrismicDocFragment = Object | Array<any>;
 export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): UiEvent {
   const eventSchedule = scheduleDocs && scheduleDocs.results.map(doc => parseEventDoc(doc));
   const promo = parseImagePromo(doc.data.promo);
-
-  // TODO: (A/B tests)
-  const cohort = getCohort();
-  if (cohort === 'testB' && doc.id === 'Ww6SySEAAEU5jz5E') {
-    // Library insights
-    const testImageUrl = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/a1ad462f-f984-4254-b525-20c49ffd49d2_libraryinsights.jpg';
-    if (promo && promo.image) { promo.image.contentUrl = testImageUrl; };
-  } else if (cohort === 'testB' && doc.id === 'WvKuRCIAANr4-bi1') {
-    // Packed lunch
-    const testImageUrl = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/283530bd-6c39-4d89-9e0b-732707172253_tf_180307_1390142.jpeg';
-    if (promo && promo.image) { promo.image.contentUrl = testImageUrl; };
-  }
 
   const times: Array<EventTime> = doc.data.times.map(date => {
     return ({
@@ -400,6 +387,7 @@ const linkResolver = (doc) => {
     case 'webcomics'     : return `/articles/${doc.id}`;
     case 'exhibitions'   : return `/exhibitions/${doc.id}`;
     case 'events'        : return `/events/${doc.id}`;
+    case 'event-series'  : return `/event-series/${doc.id}`;
     case 'series'        : return `/series/${doc.id}`;
     case 'installations' : return `/installations/${doc.id}`;
     case 'pages'         : return `/pages/${doc.id}`;
@@ -408,7 +396,9 @@ const linkResolver = (doc) => {
 };
 
 export function asText(maybeContent: any) {
-  return maybeContent && RichText.asText(maybeContent, linkResolver).trim();
+  if (!Array.isArray(maybeContent)) return '';
+
+  return maybeContent && RichText.asText(maybeContent).trim();
 }
 
 export function asHtml(maybeContent: any) {

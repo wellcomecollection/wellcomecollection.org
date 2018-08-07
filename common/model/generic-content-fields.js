@@ -1,6 +1,7 @@
 // @flow
 import type {Contributor} from './contributors';
 import type {ImagePromo} from './image-promo';
+import type {Picture} from './picture';
 
 export type Body = any[];
 
@@ -12,5 +13,7 @@ export type GenericContentFields = {|
   contributorsTitle: ?string,
   contributors: Contributor[],
   promo: ?ImagePromo,
-  body: any[]
+  body: any[],
+  promoText: ?string,
+  promoImage: ?Picture
 |}

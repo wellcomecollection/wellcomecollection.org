@@ -13,7 +13,6 @@ import Control from '../Buttons/Control/Control';
 import CopyUrl from '../CopyUrl/CopyUrl';
 import Divider from '../Divider/Divider';
 import EventPage from '../BasePage/EventPage';
-import EventPageV2 from '../BasePage/EventPageV2';
 import EventPromo from '../EventPromo/EventPromo';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import EventSeriesPage from '../BasePage/EventSeriesPage';
@@ -29,6 +28,7 @@ import ImageGallery from '../ImageGallery/ImageGallery';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import InstallationPage from '../BasePage/InstallationPage';
 import InstallationPromo from '../InstallationPromo/InstallationPromo';
+import Labels from '../Labels/Labels';
 import License from '../License/License';
 import MainMedia from '../MainMedia/MainMedia';
 import Map from '../Map/Map';
@@ -77,7 +77,6 @@ export {
   CopyUrl,
   Divider,
   EventPage,
-  EventPageV2,
   EventPromo,
   EventScheduleItem,
   EventSeriesPage,
@@ -93,6 +92,7 @@ export {
   InfoBanner,
   InstallationPage,
   InstallationPromo,
+  Labels,
   License,
   MainMedia,
   Map,

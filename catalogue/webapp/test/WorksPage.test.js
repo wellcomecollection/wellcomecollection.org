@@ -12,6 +12,7 @@ it('renders <WorksPage /> with an catalogue API works response', async () => {
     works={works}
     page={page}
     pagination={null}
+    version={1}
   />);
 
   expect(WorksPageComponent).not.toBe(null);

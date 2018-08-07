@@ -7,10 +7,11 @@ import trackOutboundLink from '../../../../utils/track-outbound-link';
 type Props = {|
   url: string,
   name: string,
-  screenReaderText?: string
+  screenReaderText?: string,
+  isJumpLink?: boolean
 |}
 
-const PrimaryLink = ({url, name, screenReaderText}: Props) => {
+const PrimaryLink = ({url, name, screenReaderText, isJumpLink = false}: Props) => {
   function handleClick(event) {
     trackOutboundLink(event.currentTarget.href);
   }
@@ -24,9 +25,14 @@ const PrimaryLink = ({url, name, screenReaderText}: Props) => {
         'flex-v-center',
         'plain-link',
         font({s: 'HNM4'})].join(' ')} href={url} data-component='PrimaryLink'>
+      {isJumpLink &&
+        <Icon name='arrowSmall' extraClasses='icon--green icon--90' />
+      }
       {name}
       {screenReaderText && <span className='visually-hidden'> {screenReaderText}</span>}
-      <Icon name='arrowSmall' extraClasses='icon--green' />
+      {!isJumpLink &&
+        <Icon name='arrowSmall' extraClasses='icon--green' />
+      }
     </a>
   );
 };

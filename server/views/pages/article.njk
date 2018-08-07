@@ -60,7 +60,7 @@
         {% if (article.contentType === 'comic') %}
           {%
             componentJsx 'MainMedia',
-            (article.mainMedia | getPrincipleMainMedia) | objectAssign({ showWobblyEdge: false, license: 'CC-BY-NC' })
+            (article.mainMedia | getPrincipleMainMedia) | objectAssign({extraClasses: 'captioned-image--fit-vh', showWobblyEdge: false, license: 'CC-BY-NC' })
           %}
         {% elif mm.type === 'video-embed' %}
           {% componentV2 'main-media-video', article.mainMedia | getPrincipleMainMedia, {full: true}, mainMediaData %}

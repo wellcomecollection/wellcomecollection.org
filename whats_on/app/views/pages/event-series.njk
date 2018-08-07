@@ -4,9 +4,9 @@
   {% set metaContent = {
     type: 'website',
     title: 'Events',
-    image: paginatedEvents.results[0].image.contentUrl,
+    image: series.promoImage.contentUrl,
     url: pageConfig.canonicalUri,
-    description: 'Choose from an inspiring range of free talks, tours, discussions and more on at Wellcome Collection in London.'
+    description: series.promoText
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
@@ -15,8 +15,8 @@
 
 {% block body %}
   <script type="application/ld+json">
-    [{% for event in paginatedEvents.results %}
-      {{ event | jsonLd('eventPromoLd') | safe }}
+    [{% for event in events %}
+      {{ event | jsonLd('eventLd') | safe }}
       {{ ',' if not loop.last }}
     {% endfor %}]
   </script>

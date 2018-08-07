@@ -19,7 +19,8 @@ export type Props = {|
 
 function buildMarkup(showSingle, commissionedLength, position, showTotal, color) {
   const repeat = new Array(showSingle ? 1 : commissionedLength);
-  return [...repeat].map((item, index) => {
+
+  return Array.from(repeat).map((item, index) => {
     const srcUrl = index < position || showTotal
       ? `data:image/gif;base64,R0lGODlhAQAEAIAAA${colorDataUris[color]}`
       : `data:image/gif;base64,R0lGODlhAQAEAIAAA${colorDataUris['white']}`;

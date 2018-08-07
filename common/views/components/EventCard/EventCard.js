@@ -11,19 +11,15 @@ type Props = {|
 
 const EventCard = ({ event }: Props) => {
   const labels = [
-    (event.format ? {
-      label: event.format.title
-    } : null)
-  ].concat(event.audiences.map(audience => ({
-    label: audience.title
-  }))).filter(Boolean);
+    event.format ? event.format.title : null
+  ].concat(event.audiences.map(audience => audience.title)).filter(Boolean);
   // TODO: We need to centralise this somewhere
   const dateRange = event.times.length > 0 && {
     start: event.times[0].range.startDateTime,
     end: event.times[0].range.endDateTime
   };
 
-  const LabelsComponent = <Labels items={labels} />;
+  const LabelsComponent = <Labels labels={labels} />;
   const DateRangeComponent = dateRange ? <DateRange {...dateRange} /> : null;
   const ImageComponent = event.promo && event.promo.image && <Image {...event.promo.image} />;
 
@@ -33,7 +29,6 @@ const EventCard = ({ event }: Props) => {
     promoType={'EventPromo'}
     description={null}
     urlOverride={event.promo && event.promo.link}
-    extraClasses={'bg-cream'}
     Tags={LabelsComponent}
     Image={ImageComponent}
     DateInfo={DateRangeComponent}

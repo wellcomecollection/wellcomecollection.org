@@ -70,7 +70,7 @@ export const shopPromo: Promo = {
   type: 'promo',
   contentType: 'place',
   title: 'Shop',
-  url: 'http://bookshop.blackwell.co.uk/bookshop/wellcomeshop/',
+  url: 'https://wellcomecollection.org/pages/WwgaIh8AAB8AGhC_',
   description: 'Come and browse a selection of our quirky gifts and books.',
   image: {
     type: 'picture',
@@ -87,6 +87,7 @@ export const dailyTourPromo: EventPromo = {
   url: 'https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sma',
   start: null,
   end: null,
+  isMultiDate: false,
   isFullyBooked: false,
   hasNotFullyBookedTimes: false,
   description: null,

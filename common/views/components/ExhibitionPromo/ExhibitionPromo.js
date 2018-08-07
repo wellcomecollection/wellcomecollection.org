@@ -3,6 +3,7 @@ import {Fragment} from 'react';
 import {spacing, font} from '../../../utils/classnames';
 import {formatDate} from '../../../utils/format-date';
 import {UiImage} from '../Images/Images';
+import Labels from '../Labels/Labels';
 import type {ExhibitionPromo as ExhibitionPromoProps} from '../../../model/exhibitions';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 
@@ -10,20 +11,6 @@ type Props = {|
   ...ExhibitionPromoProps,
   position?: number,
 |}
-
-const labelStyles = {display: 'block', float: 'left', marginRight: '1px', marginTop: '1px', whiteSpace: 'nowrap'};
-
-function label(text) {
-  return (
-    <span className={`
-      line-height-1 bg-yellow
-      ${font({s: 'HNM5'})}
-      ${spacing({s: 1}, {padding: ['top', 'bottom', 'left', 'right']})}
-    `} style={labelStyles}>
-      {text}
-    </span>
-  );
-}
 
 const ExhibitionPromo = ({
   format, id, url, title, image, start, end, statusOverride,
@@ -47,8 +34,7 @@ const ExhibitionPromo = ({
           showTasl={false} />}
 
         <div style={{position: 'absolute', bottom: 0}}>
-          {format && label(`${format.title} exhibition`)}
-          {!format && label('Exhibition')}
+          <Labels labels={format ? [`${format.title} exhibition`] : ['Exhibition']} />
         </div>
       </div>
 

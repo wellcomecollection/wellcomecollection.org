@@ -5,6 +5,7 @@ import VideoEmbed from '../../../common/views/components/VideoEmbed/VideoEmbed';
 import {UiImage} from '../../../common/views/components/Images/Images';
 import StatusIndicator from '../../../common/views/components/StatusIndicator/StatusIndicator';
 import WobblyBackground from '../../../common/views/components/BaseHeader/WobblyBackground';
+import Labels from '../../../common/views/components/Labels/Labels';
 import DateRange from '../../../common/views/components/DateRange/DateRange';
 import BaseHeader from '../../../common/views/components/BaseHeader/BaseHeader';
 import Tags from '../../../common/views/components/Tags/Tags';
@@ -28,6 +29,8 @@ const Header = () => {
   const hasDescription = boolean('Has description?', true);
   const hasDateInfo = boolean('Has date info?', true);
   const hasInfoBar = boolean('Has info bar?', true);
+  const hasLabels = boolean('Has labels?', true);
+  const isFree = boolean('Is free?', false);
 
   const featuredMedia = select('Featured media', {
     none: null,
@@ -47,6 +50,8 @@ const Header = () => {
       Description={hasDescription ? Description : null}
       DateInfo={hasDateInfo ? DateInfo : null}
       InfoBar={hasInfoBar ? InfoBar : null}
+      LabelBar={hasLabels ? <Labels labels={(['Gallery tour', 'Audio described'])} /> : null}
+      isFree={isFree}
     />
   );
 };
