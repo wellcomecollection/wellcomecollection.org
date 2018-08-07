@@ -175,8 +175,31 @@ export const WorkPage = ({
   version
 }: Props) => {
   if (version === 2) {
+    const digitalLocation = work.items && work.items.map((item) => {
+      return item.locations.find((location) => {
+        return location.type === 'DigitalLocation';
+      });
+    }).filter(Boolean);
+
+    const iiifManifest = digitalLocation.length > 0 ? digitalLocation[0].url
+      : work.id === 'prrf9sds' ? 'https://wellcomelibrary.org/iiif/b19743919/manifest' // not in catalogue API as currently only added if material type is ebook
+        : work.id === 'nzn2vaju' ? 'https://wellcomelibrary.org/iiif/b15701712/manifest' /// not in catalogue API as currently only added if material type is ebook
+          : null;
+
     return (
       <div className='container'>
+        {iiifManifest && <div className='grid'>
+          <div className={grid({s: 12})}>
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+              <div className='uv' data-locale='en-GB:English (GB)' data-config='https://wellcomelibrary.org/assets/config/uv-config.json' data-uri={iiifManifest} data-collectionindex='0' data-manifestindex='0' data-sequenceindex='0' data-canvasindex='0' data-zoom='-1.1484,-0.0834,3.2969,1.6681'
+                style={{'width': '1068px', 'height': '600px', 'backgroundColor': '#000'}} data-rotation='0'></div>
+              <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+              <script type='text/javascript' id='embedUV'
+                src='https://wellcomelibrary.org/spas/uv/versions/uv-1.7.32/lib/embed.js'></script>
+            </div>
+          </div>
+        </div>}
+
         <div className='grid'>
           <div className={grid({s: 12})}>
             <div className={spacing({ s: 2 }, { margin: ['top'] })}>
