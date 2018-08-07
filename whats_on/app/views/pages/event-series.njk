@@ -16,7 +16,7 @@
 {% block body %}
   <script type="application/ld+json">
     [{% for event in events %}
-      {{ event | jsonLd('eventPromoLd') | safe }}
+      {{ event | jsonLd('eventLd') | safe }}
       {{ ',' if not loop.last }}
     {% endfor %}]
   </script>
