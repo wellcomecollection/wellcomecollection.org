@@ -22,9 +22,10 @@ type GetWorksProps = {|
   version?: number
 |}
 export async function getWorks({ query, page, version = 1 }: GetWorksProps): Object {
+  const includesString = version === 2 ? 'include' : 'includes';
   const res = await fetch(
     `https://api.wellcomecollection.org/catalogue/v${version}/works?` +
-    `includes=identifiers,thumbnail,items&pageSize=100` +
+    `${includesString}=identifiers,thumbnail,items&pageSize=100` +
     (query ? `&query=${query}` : '') +
     (page ? `&page=${page}` : '')
   );
