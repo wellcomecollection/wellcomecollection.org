@@ -1,6 +1,7 @@
 // @flow
 import {Fragment, Component} from 'react';
 import Router from 'next/router';
+import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
@@ -11,7 +12,6 @@ import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
 import StaticWorksContent from '@weco/common/views/components/StaticWorksContent/StaticWorksContent';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagination/Pagination';
-import {remapV2ToV1} from '../utils/remap-v2-to-v1';
 import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
 import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
@@ -24,7 +24,8 @@ type PageProps = {|
   query: ?string,
   page: ?number,
   works: {| results: [], totalResults: number |},
-  pagination: ?PaginationProps
+  pagination: ?PaginationProps,
+  version: ?number
 |}
 
 type ComponentProps = {|
@@ -37,7 +38,8 @@ export const Works = ({
   page,
   works,
   pagination,
-  handleSubmit
+  handleSubmit,
+  version
 }: ComponentProps) => (
   <Fragment>
     <PageDescription title='Search our images' extraClasses='page-description--hidden' />
@@ -125,27 +127,44 @@ export const Works = ({
             </div>
           </div>
         }
-        <div className={`row ${spacing({s: 4}, {padding: ['top']})}`}>
+        {version === 2 &&
           <div className='container'>
             <div className='grid'>
-              {works.results.map(result => (
-                <div key={result.id} className={grid({s: 6, m: 4, l: 3, xl: 2})}>
-                  <WorkPromo
-                    id={result.id}
-                    image={{
-                      contentUrl: result.thumbnail ? result.thumbnail.url : 'https://via.placeholder.com/1600x900?text=%20',
-                      width: 300,
-                      height: 300,
-                      alt: ''
-                    }}
-                    datePublished={result.createdDate && result.createdDate.label}
-                    title={result.title}
-                    url={`/works/${result.id}${getQueryParamsForWork(query, page)}`} />
-                </div>
-              ))}
+              <div className={grid({s: 12})}>
+                {works.results.map(result => (
+                  <NextLink href={`/work?id=${result.id}`} as={`/works/${result.id}`} key={result.id}>
+                    <a>
+                      <h2>{result.title}</h2>
+                    </a>
+                  </NextLink>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        }
+        {version !== 2 &&
+          <div className={`row ${spacing({s: 4}, {padding: ['top']})}`}>
+            <div className='container'>
+              <div className='grid'>
+                {works.results.map(result => (
+                  <div key={result.id} className={grid({s: 6, m: 4, l: 3, xl: 2})}>
+                    <WorkPromo
+                      id={result.id}
+                      image={{
+                        contentUrl: result.thumbnail ? result.thumbnail.url : 'https://via.placeholder.com/1600x900?text=%20',
+                        width: 300,
+                        height: 300,
+                        alt: ''
+                      }}
+                      datePublished={result.createdDate && result.createdDate.label}
+                      title={result.title}
+                      url={`/works/${result.id}${getQueryParamsForWork(query, page)}`} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        }
         {pagination && pagination.range &&
           <div className={`row ${spacing({s: 10}, {padding: ['top', 'bottom']})}`}>
             <div className='container'>
@@ -155,7 +174,7 @@ export const Works = ({
 
                     <Fragment>
                       <div className={`flex flex--v-center font-pewter ${font({s: 'LR3', m: 'LR2'})}`}>
-                          Showing {pagination.range.beginning} - {pagination.range.end}
+                        Showing {pagination.range.beginning} - {pagination.range.end}
                       </div>
                       <Pagination
                         prevPage={pagination.prevPage}
@@ -178,9 +197,10 @@ export const Works = ({
 
 export class WorksPage extends Component<PageProps> {
   static getInitialProps = async (context: GetInitialPropsProps) => {
+    const version = pageStore('toggles').apiV2 ? 2 : 1;
     const query = context.query.query;
     const page = context.query.page ? parseInt(context.query.page, 10) : 1;
-    const works = await getWorks({ query, page });
+    const works = await getWorks({ query, page, version });
 
     if (works.type === 'Error') {
       return { statusCode: works.httpStatus };
@@ -203,7 +223,8 @@ export class WorksPage extends Component<PageProps> {
       description: 'Search through the Wellcome Collection image catalogue',
       analyticsCategory: 'collections',
       siteSection: 'images',
-      canonicalUrl: `https://wellcomecollection.org/works${query && `?query=${query}`}`
+      canonicalUrl: `https://wellcomecollection.org/works${query && `?query=${query}`}`,
+      version
     };
   };
 
@@ -224,6 +245,7 @@ export class WorksPage extends Component<PageProps> {
   render() {
     return (
       <Works
+        version={this.props.version}
         page={this.props.page}
         query={this.props.query}
         works={this.props.works}
@@ -235,22 +257,18 @@ export class WorksPage extends Component<PageProps> {
 }
 
 type GetWorksProps = {|
+  version: number,
   query: ?string,
   page: ?number
 |}
-async function getWorks({ query, page }: GetWorksProps): Object {
-  const version = pageStore('toggles').apiV2 ? 2 : 1;
+async function getWorks({ query, page, version }: GetWorksProps): Object {
   const res = await fetch(
     `https://api.wellcomecollection.org/catalogue/v${version}/works?` +
     `includes=identifiers,thumbnail,items&pageSize=100` +
     (query ? `&query=${encodeURIComponent(query)}` : '') +
     (page ? `&page=${page}` : '')
   );
-  let json = await res.json();
-
-  if (version === 2) {
-    json.results = json.results.map(remapV2ToV1);
-  }
+  const json = await res.json();
 
   return json;
 }
