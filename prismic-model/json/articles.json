@@ -53,10 +53,6 @@
           }, {
             "name" : "standalone",
             "display" : "Standalone"
-          } ],
-          "imageList" : [ {
-            "name" : "featured",
-            "display" : "Featured"
           } ]
         },
         "choices" : {
