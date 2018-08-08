@@ -50,7 +50,13 @@
         <div class="css-grid grid--scroll">
           {% for promo in tryTheseTooPromos %}
             <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses }}">
-              {% componentV2 'facility-promo', promo, {}, {sizes: '(min-width: 1420px) 475px, (min-width: 960px) 34.32vw, (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'} %}
+              {% componentJsx 'FacilityPromo', {
+                title: promo.title,
+                description: promo.description,
+                imageProps: promo.image,
+                metaText: promo.metaText,
+                metaIcon: promo.metaIcon
+              } %}
             </div>
           {% endfor %}
 
@@ -72,7 +78,13 @@
         <div class="css-grid grid--scroll">
           {% for promo in eatShopPromos %}
             <div class="{{ {s: 12, m: 6, l: 3, xl:3} | cssGridClasses }}">
-              {% componentV2 'facility-promo', promo, {}, {sizes: '(min-width: 1420px) 475px, (min-width: 960px) 34.32vw, (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'} %}
+              {% componentJsx 'FacilityPromo', {
+                title: promo.title,
+                description: promo.description,
+                imageProps: promo.image,
+                metaText: promo.metaText,
+                metaIcon: promo.metaIcon
+              } %}
             </div>
           {% endfor %}
         </div>
