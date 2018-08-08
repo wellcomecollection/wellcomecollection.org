@@ -205,7 +205,9 @@ export const WorkPage = ({
             <div className={spacing({ s: 2 }, { margin: ['top'] })}>
               <b>Title:</b> {work.title}
             </div>
-            {work.description && <div><b>Description:</b> {work.description}</div>}
+            <div>
+              <b>Description:</b> {work.description}
+            </div>
             <div className={spacing({ s: 2 }, { margin: ['top'] })}>
               <b>Physical description:</b> {work.physicalDescription}
             </div>
@@ -271,7 +273,62 @@ export const WorkPage = ({
               </ul>}
             </div>
 
-            <div className={spacing({ s: 2 }, { margin: ['top'] })}><b>Production:</b> TODO - API response changing soon.</div>
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+              <b>Items:</b>
+              <ul>
+                {work.items.map(item => (
+                  <li key={item.id}>
+                    <div><b>ID: {item.id}</b></div>
+                    <div>
+                      <b>Locations</b>
+                      <ul>
+                        {item.locations.map(location => (
+                          <div key={location.id}>
+                            <div><b>{location.type}: {location.label || location.url}</b></div>
+                            <div>{location.locationType.label}</div>
+                          </div>
+                        ))}
+                      </ul>
+                    </div>
+
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+              <b>Production:</b>
+              <ul>
+                {work.production.map(productionEvent => (
+                  <li key={productionEvent.agents[0].label}>
+                    <div>
+                      <b>Places:</b>
+                      <ul>
+                        {productionEvent.places.map(place => (
+                          <li key={place.label}>{place.label}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <b>Agents:</b>
+                      <ul>
+                        {productionEvent.agents.map(agent => (
+                          <li key={agent.label}>{agent.label}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <b>Dates:</b>
+                      <ul>
+                        {productionEvent.dates.map(date => (
+                          <li key={date.label}>{date.label}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
             <div className={spacing({ s: 2 }, { margin: ['top'] })}><b>Language:</b> {work.language && work.language.label}</div>
 
