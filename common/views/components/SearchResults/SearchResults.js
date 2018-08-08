@@ -23,11 +23,7 @@ const SearchResults = ({ items, title }: Props) => (
       `}>
       {items.map(item => (
         <div className={
-          spacing({s: 2}, {
-            padding: ['left', 'right'],
-            margin: ['bottom']
-          }) +
-          ` bg-cream`
+          `border-top-width-1 border-color-pumice`
         } key={item.id}>
           {item.type === 'pages' &&
             <ContentCard

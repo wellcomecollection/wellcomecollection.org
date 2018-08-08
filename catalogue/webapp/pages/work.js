@@ -1,6 +1,5 @@
 // @flow
 import {Fragment} from 'react';
-import fetch from 'isomorphic-unfetch';
 import ReactGA from 'react-ga';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import {iiifImageTemplate, convertImageUri} from '@weco/common/utils/convert-image-uri';
@@ -17,6 +16,7 @@ import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import WorkMedia from '../components/WorkMedia/WorkMedia';
+import {getWork} from '../services/catalogue/works';
 
 export type Link = {|
   text: string;
@@ -175,8 +175,31 @@ export const WorkPage = ({
   version
 }: Props) => {
   if (version === 2) {
+    const digitalLocation = work.items && work.items.map((item) => {
+      return item.locations.find((location) => {
+        return location.type === 'DigitalLocation';
+      });
+    }).filter(Boolean);
+
+    const iiifManifest = digitalLocation.length > 0 ? digitalLocation[0].url
+      : work.id === 'prrf9sds' ? 'https://wellcomelibrary.org/iiif/b19743919/manifest' // not in catalogue API as currently only added if material type is ebook
+        : work.id === 'nzn2vaju' ? 'https://wellcomelibrary.org/iiif/b15701712/manifest' /// not in catalogue API as currently only added if material type is ebook
+          : null;
+
     return (
       <div className='container'>
+        {iiifManifest && <div className='grid'>
+          <div className={grid({s: 12})}>
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+              <div className='uv' data-locale='en-GB:English (GB)' data-config='https://wellcomelibrary.org/assets/config/uv-config.json' data-uri={iiifManifest} data-collectionindex='0' data-manifestindex='0' data-sequenceindex='0' data-canvasindex='0' data-zoom='-1.1484,-0.0834,3.2969,1.6681'
+                style={{'width': '1068px', 'height': '600px', 'backgroundColor': '#000'}} data-rotation='0'></div>
+              <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+              <script type='text/javascript' id='embedUV'
+                src='https://wellcomelibrary.org/spas/uv/versions/uv-1.7.32/lib/embed.js'></script>
+            </div>
+          </div>
+        </div>}
+
         <div className='grid'>
           <div className={grid({s: 12})}>
             <div className={spacing({ s: 2 }, { margin: ['top'] })}>
@@ -453,14 +476,13 @@ WorkPage.getInitialProps = async (context) => {
   const queryStart = asPath.indexOf('?');
   const previousQueryString = queryStart > -1 && asPath.slice(queryStart);
   const version = pageStore('toggles').apiV2 ? 2 : 1;
-  const res = await fetch(`https://api.wellcomecollection.org/catalogue/v${version}/works/${id}?includes=identifiers,items,thumbnail`);
-  const json = await res.json();
+  const work = await getWork({id, version});
 
-  if (res.status !== 200) {
-    return { statusCode: res.status };
+  if (work.type === 'Error') {
+    return { statusCode: work.httpStatus };
   }
 
-  const [iiifImageLocation] = json.items.map(
+  const [iiifImageLocation] = work.items.map(
     item => item.locations.find(
       location => location.locationType === 'iiif-image'
     )
@@ -470,16 +492,16 @@ WorkPage.getInitialProps = async (context) => {
   const iiifImage = iiifInfoUrl && iiifImageTemplate(iiifInfoUrl);
 
   return {
-    title: json.title || json.description,
-    description: json.description || '',
+    title: work.title || work.description,
+    description: work.description || '',
     type: 'website',
-    canonicalUrl: `https://wellcomecollection.org/works/${json.id}`,
+    canonicalUrl: `https://wellcomecollection.org/works/${work.id}`,
     imageUrl: iiifImage ? iiifImage({size: '800,'}) : null,
     analyticsCategory: 'collections',
     siteSection: 'images',
     previousQueryString,
-    work: (json: Work),
-    oEmbedUrl: `https://wellcomecollection.org/oembed/works/${json.id}`,
+    work: (work: Work),
+    oEmbedUrl: `https://wellcomecollection.org/oembed/works/${work.id}`,
     version
   };
 };

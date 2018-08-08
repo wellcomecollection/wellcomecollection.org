@@ -1,8 +1,8 @@
 // @flow
 import type {Element} from 'react';
 import {grid, font, spacing, conditionalClassNames} from '../../../utils/classnames';
-import Labels from '../Labels/Labels';
 import DateRange from '../DateRange/DateRange';
+import LabelsList from '../LabelsList/LabelsList';
 import {default as ImageType} from '../Image/Image';
 
 type Props = {|
@@ -13,7 +13,7 @@ type Props = {|
   urlOverride: ?string,
   extraClasses?: string,
   DateInfo: ?Element<typeof DateRange>,
-  Tags: ?Element<typeof Labels>,
+  Tags: ?Element<typeof LabelsList>,
   Image: ?Element<typeof ImageType>
 |}
 
@@ -41,7 +41,7 @@ const ContentCard = ({
       href={urlOverride || url}
       className={conditionalClassNames({
         'grid plain-link': true,
-        [spacing({ s: 2 }, {padding: ['top', 'bottom']})]: true,
+        [spacing({s: 3}, {padding: ['bottom', 'top']})]: true,
         [extraClasses || '']: Boolean(extraClasses)
       })}>
       {Tags &&

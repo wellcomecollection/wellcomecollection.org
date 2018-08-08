@@ -1,5 +1,5 @@
 // @flow
-import Labels from '../Labels/Labels';
+import LabelsList from '../LabelsList/LabelsList';
 import DateRange from '../DateRange/DateRange';
 import ContentCard from '../ContentCard/ContentCard';
 import Image from '../Image/Image';
@@ -10,16 +10,20 @@ type Props = {|
 |}
 
 const EventCard = ({ event }: Props) => {
-  const labels = [
-    event.format ? event.format.title : null
-  ].concat(event.audiences.map(audience => audience.title)).filter(Boolean);
+  const labels = [event.format ? {
+    url: null,
+    text: event.format.title
+  } : null].concat(event.audiences.map(audience => ({
+    url: null,
+    text: audience.title
+  }))).filter(Boolean);
   // TODO: We need to centralise this somewhere
   const dateRange = event.times.length > 0 && {
     start: event.times[0].range.startDateTime,
     end: event.times[0].range.endDateTime
   };
 
-  const LabelsComponent = <Labels labels={labels} />;
+  const LabelsComponent = <LabelsList labels={labels} />;
   const DateRangeComponent = dateRange ? <DateRange {...dateRange} /> : null;
   const ImageComponent = event.promo && event.promo.image && <Image {...event.promo.image} />;
 
