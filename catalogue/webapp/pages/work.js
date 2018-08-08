@@ -1,6 +1,5 @@
 // @flow
 import {Fragment} from 'react';
-import fetch from 'isomorphic-unfetch';
 import ReactGA from 'react-ga';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import {iiifImageTemplate, convertImageUri} from '@weco/common/utils/convert-image-uri';
@@ -17,6 +16,7 @@ import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import WorkMedia from '../components/WorkMedia/WorkMedia';
+import {getWork} from '../services/catalogue/works';
 
 export type Link = {|
   text: string;
@@ -476,14 +476,13 @@ WorkPage.getInitialProps = async (context) => {
   const queryStart = asPath.indexOf('?');
   const previousQueryString = queryStart > -1 && asPath.slice(queryStart);
   const version = pageStore('toggles').apiV2 ? 2 : 1;
-  const res = await fetch(`https://api.wellcomecollection.org/catalogue/v${version}/works/${id}?includes=identifiers,items,thumbnail`);
-  const json = await res.json();
+  const work = await getWork({id, version});
 
-  if (res.status !== 200) {
-    return { statusCode: res.status };
+  if (work.type === 'Error') {
+    return { statusCode: work.httpStatus };
   }
 
-  const [iiifImageLocation] = json.items.map(
+  const [iiifImageLocation] = work.items.map(
     item => item.locations.find(
       location => location.locationType === 'iiif-image'
     )
@@ -493,16 +492,16 @@ WorkPage.getInitialProps = async (context) => {
   const iiifImage = iiifInfoUrl && iiifImageTemplate(iiifInfoUrl);
 
   return {
-    title: json.title || json.description,
-    description: json.description || '',
+    title: work.title || work.description,
+    description: work.description || '',
     type: 'website',
-    canonicalUrl: `https://wellcomecollection.org/works/${json.id}`,
+    canonicalUrl: `https://wellcomecollection.org/works/${work.id}`,
     imageUrl: iiifImage ? iiifImage({size: '800,'}) : null,
     analyticsCategory: 'collections',
     siteSection: 'images',
     previousQueryString,
-    work: (json: Work),
-    oEmbedUrl: `https://wellcomecollection.org/oembed/works/${json.id}`,
+    work: (work: Work),
+    oEmbedUrl: `https://wellcomecollection.org/oembed/works/${work.id}`,
     version
   };
 };
