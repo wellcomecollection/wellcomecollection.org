@@ -6,6 +6,7 @@ import Body from '../Body/Body';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
 import Contributors from '../Contributors/Contributors';
 import SearchResults from '../SearchResults/SearchResults';
+import { spacing } from '../../../utils/classnames';
 import Tags from '../Tags/Tags';
 import type {EventSeries} from '../../../model/event-series';
 import type {UiEvent} from '../../../model/events';
@@ -67,10 +68,14 @@ const Page = ({
             contributors={series.contributors} />
         }
         {upcomingEvents.length > 0 &&
-          <SearchResults items={upcomingEvents} title={'Upcoming events'} />}
+          <SearchResults items={upcomingEvents} title={`What's next`} />
+        }
 
         {pastEvents.length > 0 &&
-          <SearchResults items={pastEvents} title={'Past events'} />}
+          <div className={spacing({s: 8}, {margin: ['top']})}>
+            <SearchResults items={pastEvents} title={`What we've done before`} />
+          </div>
+        }
       </Fragment>
     </BasePage>
   );

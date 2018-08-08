@@ -1,6 +1,7 @@
 // @flow
 import type {Element} from 'react';
-import {grid, font, spacing} from '../../../utils/classnames';
+import {grid, font, spacing, conditionalClassNames} from '../../../utils/classnames';
+import DateRange from '../DateRange/DateRange';
 import LabelsList from '../LabelsList/LabelsList';
 import {default as ImageType} from '../Image/Image';
 
@@ -10,6 +11,8 @@ type Props = {|
   promoType: string,
   description: ?string,
   urlOverride: ?string,
+  extraClasses?: string,
+  DateInfo: ?Element<typeof DateRange>,
   Tags: ?Element<typeof LabelsList>,
   Image: ?Element<typeof ImageType>
 |}
@@ -20,6 +23,8 @@ const ContentCard = ({
   promoType,
   description,
   urlOverride,
+  extraClasses,
+  DateInfo,
   Tags,
   Image
 }: Props) => {
@@ -34,8 +39,19 @@ const ContentCard = ({
         action: `${promoType}:click`
       })}
       href={urlOverride || url}
-      className='grid plain-link'>
-
+      className={conditionalClassNames({
+        'grid plain-link': true,
+        [spacing({s: 3}, {padding: ['bottom', 'top']})]: true,
+        [extraClasses || '']: Boolean(extraClasses)
+      })}>
+      {Tags &&
+        <div className={conditionalClassNames({
+          [grid({s: 12, m: 12, l: 12, xl: 12})]: true,
+          [spacing({s: 1}, {margin: ['bottom']})]: true
+        })}>
+          {Tags}
+        </div>
+      }
       {Image &&
         <div className={grid({s: 5, m: 5, l: 4, xl: 4})}>
           {Image}
@@ -45,6 +61,11 @@ const ContentCard = ({
         <div className={`${font({s: 'WB5'})} ${spacing({s: 0}, {margin: ['top']})}`}>
           {title}
         </div>
+        {DateRange &&
+          <div>
+            {DateInfo}
+          </div>
+        }
         {description &&
         <span className={[
           spacing({s: 2}, {margin: ['top']}),

@@ -3,6 +3,7 @@ import {Fragment} from 'react';
 import {spacing, grid} from '../../../utils/classnames';
 import Image from '../Image/Image';
 import ContentCard from '../ContentCard/ContentCard';
+import EventCard from '../EventCard/EventCard';
 import type {MultiContent} from '../../../model/multi-content';
 
 type Props = {|
@@ -22,8 +23,7 @@ const SearchResults = ({ items, title }: Props) => (
       `}>
       {items.map(item => (
         <div className={
-          spacing({s: 5}, {padding: ['bottom', 'top']}) +
-          ` border-top-width-1 border-color-pumice`
+          `border-top-width-1 border-color-pumice`
         } key={item.id}>
           {item.type === 'pages' &&
             <ContentCard
@@ -34,6 +34,7 @@ const SearchResults = ({ items, title }: Props) => (
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
               urlOverride={item.promo && item.promo.link}
               Tags={null}
+              DateInfo={null}
             />
           }
 
@@ -46,6 +47,7 @@ const SearchResults = ({ items, title }: Props) => (
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
               urlOverride={item.promo && item.promo.link}
               Tags={null}
+              DateInfo={null}
             />
           }
 
@@ -58,19 +60,12 @@ const SearchResults = ({ items, title }: Props) => (
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
               urlOverride={item.promo && item.promo.link}
               Tags={null}
+              DateInfo={null}
             />
           }
 
           {item.type === 'events' &&
-            <ContentCard
-              promoType='EventPromo'
-              url={`/events/${item.id}`}
-              title={item.title || ''}
-              description={item.promo && item.promo.caption}
-              Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
-              urlOverride={item.promo && item.promo.link}
-              Tags={null}
-            />
+            <EventCard event={item} />
           }
         </div>
       ))}
