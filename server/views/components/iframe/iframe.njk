@@ -4,7 +4,7 @@
       data-track-event='{"category": "component", "action": "launch-iframe:click", "label": "iframeSrc:{{ model.src }}"}'>
       <div class="iframe-container__overlay absolute"></div>
       <span class="iframe-container__launch absolute btn btn--primary js-iframe-launch">Launch</span>
-      {% componentJsx 'UiImage', model.image | objectAssign({ sizesQueries: '100vw' }) %}
+      {% componentJsx 'UiImage', model.image | objectAssign({ sizesQueries: '(min-width: 600px) calc(98.5vw - 75px), calc(100vw - 36px)' }) %}
     </button>
     <button class="iframe-container__close icon-rounder plain-button pointer no-padding absolute is-hidden js-iframe-close">
       {% icon 'clear', 'Close', ['icon--white'] %}
