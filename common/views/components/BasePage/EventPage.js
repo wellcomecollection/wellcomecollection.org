@@ -226,6 +226,22 @@ const EventPage = ({ event }: Props) => {
           </Fragment>
         }
 
+        {event.isCompletelySoldOut &&
+          <div className={`${spacing({s: 2}, {padding: ['top', 'bottom']})} body-text`}>
+            <h3>This event has been fully booked – but there is a waiting list!</h3>
+            <p>
+              Our waiting list opens an hour before a fully-booked event starts.
+              Arrive early, and we’ll give you a numbered ticket.
+              Just before the event starts, waiting list ticket holders will be
+              allowed – in order – to take the seats that have not been filled.
+            </p>
+            <p>
+              We hold some spaces for people with access requirements.
+              Please email <a href='mailto:access@wellcomecollection.org'>access@wellcomecollection.org</a> if you would like to request one of these spaces.
+            </p>
+          </div>
+        }
+
         <div className={`bg-yellow ${spacing({s: 4}, {padding: ['top', 'right', 'bottom', 'left']})} ${spacing({s: 4}, {margin: ['top', 'bottom']})}`}>
           <h2 className='h2'>Need to know</h2>
           {event.place &&
