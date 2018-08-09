@@ -1,5 +1,6 @@
 // @flow
 import {sized} from '../../../utils/style';
+import {spacing} from '../../../utils/classnames';
 import Label from '../../components/Label/Label';
 
 type Props = {|
@@ -11,7 +12,7 @@ type Props = {|
 |}
 
 const LabelsList = ({labels, isSpaced = false}: Props) => (
-  <ul className='plain-list no-padding no-margin'>
+  <ul className={`flex-inline plain-list no-margin ${spacing({s: 0}, {padding: ['top', 'bottom', 'left']})} ${spacing({s: 2}, {padding: ['right']})}`} style={{flexWrap: 'wrap'}}>
     {
       (labels.filter(Boolean).map((label, i) => (
         <li key={`${label.text}-${i}`} style={{float: 'left', marginRight: isSpaced ? sized(1) : '1px', marginTop: isSpaced ? sized(1) : '1px'}}>

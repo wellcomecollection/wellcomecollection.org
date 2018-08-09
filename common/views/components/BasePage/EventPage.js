@@ -125,7 +125,22 @@ const EventPage = ({ event }: Props) => {
     title={`${event.title}`}
     Background={<WobblyBackground />}
     TagBar={null}
-    LabelBar={<LabelsList labels={(eventFormat.concat(eventAudiences, eventInterpretations))} isSpaced={true} />}
+    LabelBar={
+      <Fragment>
+        <LabelsList labels={(eventFormat.concat(eventAudiences, eventInterpretations))} isSpaced={true} />
+        {event.series.length > 0 && (
+          <div className='flex-inline flex--v-center' style={{whiteSpace: 'nowrap'}}>
+            <p className={`${font({s: 'HNL5'})} ${spacing({s: 0}, {margin: ['bottom']})} ${spacing({s: 1}, {margin: ['right', 'top']})} inline-block no-padding`}>{'Part of '}</p>
+            {event.series.length > 0 && <LabelsList labels={event.series.map((series) => {
+              return {
+                url: `/event-series/${series.id}`,
+                text: series.title
+              };
+            })} isSpaced={true} />}
+          </div>
+        )}
+      </Fragment>
+    }
     DateInfo={topDate(event)}
     InfoBar={infoBar(event)}
     Description={null}
@@ -353,15 +368,6 @@ const EventPage = ({ event }: Props) => {
               </div>
             );
           }
-        })}
-
-        {event.series.map((series) => {
-          return (
-            <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`} key={series.id}>
-              <h2>Part of <a href='/event-series/{series.id}'>{series.title}</a></h2>
-              <PrismicHtmlBlock html={series.description} />
-            </div>
-          );
         })}
 
       </Fragment>
