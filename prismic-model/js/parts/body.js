@@ -85,7 +85,12 @@ export default {
           title
         },
         repeat: {
-          content: link('Content item', 'document', ['pages'])
+          content: link('Content item', 'document', [
+            'pages',
+            'event-series',
+            'books',
+            'events'
+          ])
         }
       }),
       searchResults: slice('(β) Search results', {

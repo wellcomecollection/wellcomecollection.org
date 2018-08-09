@@ -221,7 +221,10 @@
                   "label": "Content item",
                   "select": "document",
                   "customtypes": [
-                    "pages"
+                    "pages",
+                    "event-series",
+                    "books",
+                    "events"
                   ]
                 }
               }
