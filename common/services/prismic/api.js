@@ -24,7 +24,7 @@ export function isPreview(req: Request) {
   // TODO: (flow) turns out we're not using the right request object here, which has
   // the host property
   // $FlowFixMe
-  const isPreview = dev || Boolean(req.host.match('preview.wellcomecollection.org'));
+  const isPreview = Boolean(req.host.match('preview.wellcomecollection.org')) || dev;
   return isPreview;
 }
 

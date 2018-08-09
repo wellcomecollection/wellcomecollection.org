@@ -15,7 +15,7 @@ export function error(beaconError) {
       const url = ctx.request.href;
       ctx.status = err.statusCode || err.status || 500;
       ctx.render('pages/error', {
-        isPreview: isPreview(ctx.response),
+        isPreview: isPreview(ctx.request),
         errorStatus: ctx.status,
         pageConfig: createPageConfig({
           title: `${ctx.status} error`

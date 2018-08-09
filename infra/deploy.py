@@ -17,5 +17,5 @@ github_commit_message = json.loads(github_response.read()).get('message')
 forward_march = raw_input(('Deploy:\n%s - %s\n(y/N): ' % (latest_release, github_commit_message)).encode('utf-8'))
 
 if forward_march.lower().strip() == 'y':
-    print 'Off we go!'
+    print('Off we go!')
     subprocess.check_call(['./apply_task_definition.sh', latest_release])
