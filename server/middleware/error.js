@@ -1,12 +1,9 @@
 import Raven from 'raven';
 import {createPageConfig} from '../model/page-config';
+import {isPreview} from '../../common/services/prismic/api';
 
 export function error(beaconError) {
   return async (ctx, next) => {
-    const isPreview = true ||
-      Boolean(ctx.request.url.match('/preview')) ||
-      Boolean(ctx.request.host.match('preview.wellcomecollection.org'));
-
     try {
       await next();
       if (404 === ctx.response.status && !ctx.response.body) {
@@ -18,7 +15,7 @@ export function error(beaconError) {
       const url = ctx.request.href;
       ctx.status = err.statusCode || err.status || 500;
       ctx.render('pages/error', {
-        isPreview,
+        isPreview: isPreview(ctx.response),
         errorStatus: ctx.status,
         pageConfig: createPageConfig({
           title: `${ctx.status} error`

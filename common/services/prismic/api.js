@@ -1,6 +1,5 @@
 // @flow
 import Prismic from 'prismic-javascript';
-import Cookies from 'cookies';
 import type {
   PrismicDocument,
   PrismicQueryOpts,
@@ -8,7 +7,7 @@ import type {
   PaginatedResults,
   DocumentType
 } from './types';
-
+const dev = process.env.NODE_ENV !== 'production';
 const oneMinute = 1000 * 60;
 const apiUri = 'https://wellcomecollection.prismic.io/api/v2';
 
@@ -22,7 +21,8 @@ function periodicallyUpdatePrismic() {
 periodicallyUpdatePrismic();
 
 export function isPreview(req: Request) {
-  return Boolean(new Cookies(req).get(Prismic.previewCookie));
+  const isPreview = dev || Boolean(req.url.match('preview.wellcomecollection.org'));
+  return isPreview;
 }
 
 export async function getPrismicApi(req: ?Request) {
