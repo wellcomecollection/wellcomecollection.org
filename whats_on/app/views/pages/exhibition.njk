@@ -167,7 +167,10 @@
             {% for promo in exhibition.relatedGalleries %}
               <div class="{{ {s:12, m:10, shiftM:1, l:12, xl:12} | gridClasses }}">
                 <a href="{{ promo.url }}">
-                  {% componentV2 'image', promo.image, null, {'lazyload': true, sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'} %}
+                  {% componentJsx 'UiImage', promo.image | objectAssign({
+                    showTasl: false,
+                    sizesQueries: '(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)'
+                  }) %}
                 </a>
                 <div class="{{ {s:2} | spacingClasses({margin: ['top']}) }}">
                   {% componentJsx 'PrimaryLink', { name: 'View images from the exhibition', url: promo.url } %}

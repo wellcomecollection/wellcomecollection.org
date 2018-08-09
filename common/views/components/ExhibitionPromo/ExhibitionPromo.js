@@ -3,7 +3,7 @@ import {Fragment} from 'react';
 import {spacing, font} from '../../../utils/classnames';
 import {formatDate} from '../../../utils/format-date';
 import {UiImage} from '../Images/Images';
-import Labels from '../Labels/Labels';
+import LabelsList from '../LabelsList/LabelsList';
 import type {ExhibitionPromo as ExhibitionPromoProps} from '../../../model/exhibitions';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 
@@ -34,7 +34,7 @@ const ExhibitionPromo = ({
           showTasl={false} />}
 
         <div style={{position: 'absolute', bottom: 0}}>
-          <Labels labels={format ? [`${format.title} exhibition`] : ['Exhibition']} />
+          <LabelsList labels={format ? [{url: null, text: `${format.title} exhibition`}] : [{url: null, text: 'Exhibition'}]} />
         </div>
       </div>
 

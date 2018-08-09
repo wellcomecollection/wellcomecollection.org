@@ -3,7 +3,7 @@ import {Fragment} from 'react';
 import {spacing, font} from '../../../utils/classnames';
 import {isDatePast, formatDayDate, formatTime} from '../../../utils/format-date';
 import {UiImage} from '../Images/Images';
-import Labels from '../Labels/Labels';
+import LabelsList from '../LabelsList/LabelsList';
 import Icon from '../Icon/Icon';
 import type {EventPromo as EventPromoProps} from '../../../model/events';
 
@@ -33,8 +33,13 @@ const EventPromo = ({
   position = 0
 }: Props) => {
   const isPast = end && isDatePast(end);
-  const eventInterpretations = interpretations && interpretations.map(interpretation => interpretation.interpretationType.title);
-  const labels = [(format && format.title), (audience && audience.title), ...eventInterpretations].filter(Boolean);
+  const eventInterpretations = interpretations && interpretations.map(interpretation => {
+    return {
+      url: null,
+      text: interpretation.interpretationType.title
+    };
+  });
+  const labels = [(format && {url: null, text: format.title}), (audience && {url: null, text: audience.title}), ...eventInterpretations].filter(Boolean);
   return (
     <a data-component='EventPromo'
       data-component-state={JSON.stringify({ position: position })}
@@ -54,7 +59,7 @@ const EventPromo = ({
 
         {(labels.length > 0) &&
           <div style={{position: 'absolute', bottom: 0}}>
-            <Labels labels={labels} />
+            <LabelsList labels={labels} />
           </div>
         }
       </div>

@@ -2,7 +2,6 @@
 import {Fragment, Component} from 'react';
 import Router from 'next/router';
 import NextLink from 'next/link';
-import fetch from 'isomorphic-unfetch';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
 import {default as PageWrapper, pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
@@ -15,6 +14,7 @@ import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagin
 import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
 import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {getWorks} from '../services/catalogue/works';
 
 // TODO: Setting the event parameter to type 'Event' leads to
 // an 'Indexable signature not found in EventTarget' Flow
@@ -254,23 +254,6 @@ export class WorksPage extends Component<PageProps> {
       />
     );
   }
-}
-
-type GetWorksProps = {|
-  version: number,
-  query: ?string,
-  page: ?number
-|}
-async function getWorks({ query, page, version }: GetWorksProps): Object {
-  const res = await fetch(
-    `https://api.wellcomecollection.org/catalogue/v${version}/works?` +
-    `includes=identifiers,thumbnail,items&pageSize=100` +
-    (query ? `&query=${encodeURIComponent(query)}` : '') +
-    (page ? `&page=${page}` : '')
-  );
-  const json = await res.json();
-
-  return json;
 }
 
 function getQueryParamsForWork(query: ?string, page: ?number) {

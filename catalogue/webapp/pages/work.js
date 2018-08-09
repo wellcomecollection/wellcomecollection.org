@@ -1,6 +1,5 @@
 // @flow
 import {Fragment} from 'react';
-import fetch from 'isomorphic-unfetch';
 import ReactGA from 'react-ga';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import {iiifImageTemplate, convertImageUri} from '@weco/common/utils/convert-image-uri';
@@ -18,6 +17,7 @@ import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/Sec
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import WorkMedia from '../components/WorkMedia/WorkMedia';
 import UniversalViewer from '../components/UniversalViewer/UniversalViewer';
+import {getWork} from '../services/catalogue/works';
 
 export type Link = {|
   text: string;
@@ -202,7 +202,9 @@ export const WorkPage = ({
             <div className={spacing({ s: 2 }, { margin: ['top'] })}>
               <b>Title:</b> {work.title}
             </div>
-            {work.description && <div><b>Description:</b> {work.description}</div>}
+            <div>
+              <b>Description:</b> {work.description}
+            </div>
             <div className={spacing({ s: 2 }, { margin: ['top'] })}>
               <b>Physical description:</b> {work.physicalDescription}
             </div>
@@ -268,7 +270,62 @@ export const WorkPage = ({
               </ul>}
             </div>
 
-            <div className={spacing({ s: 2 }, { margin: ['top'] })}><b>Production:</b> TODO - API response changing soon.</div>
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+              <b>Items:</b>
+              <ul>
+                {work.items.map(item => (
+                  <li key={item.id}>
+                    <div><b>ID: {item.id}</b></div>
+                    <div>
+                      <b>Locations</b>
+                      <ul>
+                        {item.locations.map(location => (
+                          <div key={location.id}>
+                            <div><b>{location.type}: {location.label || location.url}</b></div>
+                            <div>{location.locationType.label}</div>
+                          </div>
+                        ))}
+                      </ul>
+                    </div>
+
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+              <b>Production:</b>
+              <ul>
+                {work.production.map(productionEvent => (
+                  <li key={productionEvent.agents[0].label}>
+                    <div>
+                      <b>Places:</b>
+                      <ul>
+                        {productionEvent.places.map(place => (
+                          <li key={place.label}>{place.label}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <b>Agents:</b>
+                      <ul>
+                        {productionEvent.agents.map(agent => (
+                          <li key={agent.label}>{agent.label}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <b>Dates:</b>
+                      <ul>
+                        {productionEvent.dates.map(date => (
+                          <li key={date.label}>{date.label}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
             <div className={spacing({ s: 2 }, { margin: ['top'] })}><b>Language:</b> {work.language && work.language.label}</div>
 
@@ -473,14 +530,13 @@ WorkPage.getInitialProps = async (context) => {
   const queryStart = asPath.indexOf('?');
   const previousQueryString = queryStart > -1 && asPath.slice(queryStart);
   const version = pageStore('toggles').apiV2 ? 2 : 1;
-  const res = await fetch(`https://api.wellcomecollection.org/catalogue/v${version}/works/${id}?includes=identifiers,items,thumbnail`);
-  const json = await res.json();
+  const work = await getWork({id, version});
 
-  if (res.status !== 200) {
-    return { statusCode: res.status };
+  if (work.type === 'Error') {
+    return { statusCode: work.httpStatus };
   }
 
-  const [iiifImageLocation] = json.items.map(
+  const [iiifImageLocation] = work.items.map(
     item => item.locations.find(
       location => location.locationType === 'iiif-image'
     )
@@ -490,16 +546,16 @@ WorkPage.getInitialProps = async (context) => {
   const iiifImage = iiifInfoUrl && iiifImageTemplate(iiifInfoUrl);
 
   return {
-    title: json.title || json.description,
-    description: json.description || '',
+    title: work.title || work.description,
+    description: work.description || '',
     type: 'website',
-    canonicalUrl: `https://wellcomecollection.org/works/${json.id}`,
+    canonicalUrl: `https://wellcomecollection.org/works/${work.id}`,
     imageUrl: iiifImage ? iiifImage({size: '800,'}) : null,
     analyticsCategory: 'collections',
     siteSection: 'images',
     previousQueryString,
-    work: (json: Work),
-    oEmbedUrl: `https://wellcomecollection.org/oembed/works/${json.id}`,
+    work: (work: Work),
+    oEmbedUrl: `https://wellcomecollection.org/oembed/works/${work.id}`,
     version
   };
 };

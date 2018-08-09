@@ -8,12 +8,6 @@ type GetWorkProps = {|
   id: string,
   version?: number
 |}
-export async function getWork({ id, version = 1 }: GetWorkProps): Work {
-  const res = await fetch(`https://api.wellcomecollection.org/catalogue/v${version}/works/${id}?includes=identifiers,items,thumbnail`);
-  const json = res.json();
-  // TODO: error handling
-  return json;
-}
 
 // TODO: Type from swagger docs
 type GetWorksProps = {|
@@ -21,10 +15,30 @@ type GetWorksProps = {|
   page: ?number,
   version?: number
 |}
+
+const rootUri = 'https://api.wellcomecollection.org/catalogue';
+const include = [
+  [],
+  ['identifiers', 'thumbnail', 'items'],
+  ['identifiers', 'items']
+];
+
+export async function getWork({ id, version = 1 }: GetWorkProps): Work {
+  const includeString = include[version].join(',');
+  // We use include and includes as it will be changing at some point
+  const url = `${rootUri}/v${version}/works/${id}?includes=${includeString}&include=${includeString}`;
+  const res = await fetch(url);
+  const json = res.json();
+  // TODO: error handling
+  return json;
+}
+
 export async function getWorks({ query, page, version = 1 }: GetWorksProps): Object {
+  const includeString = include[version].join(',');
+  // We use include and includes as it will be changing at some point
+  const url = `${rootUri}/v${version}/works?includes=${includeString}&include=${includeString}`;
   const res = await fetch(
-    `https://api.wellcomecollection.org/catalogue/v${version}/works?` +
-    `includes=identifiers,thumbnail,items&pageSize=100` +
+    `${url}&pageSize=100` +
     (query ? `&query=${query}` : '') +
     (page ? `&page=${page}` : '')
   );

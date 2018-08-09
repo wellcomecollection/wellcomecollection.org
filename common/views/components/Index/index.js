@@ -20,6 +20,7 @@ import ExceptionalOpeningHoursTable from '../ExceptionalOpeningHoursTable/Except
 import Excerpt from '../Excerpt/Excerpt';
 import ExhibitionPageHeader from '../PageHeaders/ExhibitionPageHeader/ExhibitionPageHeader';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
+import FacilityPromo from '../FacilityPromo/FacilityPromo';
 import FeaturedText from '../FeaturedText/FeaturedText';
 import Footer from '../Footer/Footer';
 import FramedHeader from '../PageHeaders/FramedHeader/FramedHeader';
@@ -28,7 +29,7 @@ import ImageGallery from '../ImageGallery/ImageGallery';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import InstallationPage from '../BasePage/InstallationPage';
 import InstallationPromo from '../InstallationPromo/InstallationPromo';
-import Labels from '../Labels/Labels';
+import LabelsList from '../LabelsList/LabelsList';
 import License from '../License/License';
 import MainMedia from '../MainMedia/MainMedia';
 import Map from '../Map/Map';
@@ -84,6 +85,7 @@ export {
   Excerpt,
   ExhibitionPageHeader,
   ExhibitionPromo,
+  FacilityPromo,
   FeaturedText,
   Footer,
   FramedHeader,
@@ -92,7 +94,7 @@ export {
   InfoBanner,
   InstallationPage,
   InstallationPromo,
-  Labels,
+  LabelsList,
   License,
   MainMedia,
   Map,
