@@ -18,8 +18,6 @@ const Page = {
   },
   'βeta': {
     uniquePath: text('uID'),
-    // We label this as `Site section` for the time that we only support this
-    // type of tag
     tags: list('Part of', {
       tag: link('Content', 'document', [
         'pages'
