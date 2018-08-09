@@ -20,8 +20,10 @@ const Page = {
     uniquePath: text('uID'),
     // We label this as `Site section` for the time that we only support this
     // type of tag
-    tags: list('Site section', {
-      tag: link('Site section', 'document', ['tags'])
+    tags: list('Part of', {
+      tag: link('Content', 'document', [
+        'pages'
+      ])
     })
   },
 

@@ -204,7 +204,10 @@
                   "label": "Content item",
                   "select": "document",
                   "customtypes": [
-                    "pages"
+                    "pages",
+                    "event-series",
+                    "books",
+                    "events"
                   ]
                 }
               }
@@ -298,16 +301,16 @@
     },
     "tags": {
       "type": "Group",
-      "fieldset": "Site section",
+      "fieldset": "Part of",
       "config": {
         "fields": {
           "tag": {
             "type": "Link",
             "config": {
-              "label": "Site section",
+              "label": "Content",
               "select": "document",
               "customtypes": [
-                "tags"
+                "pages"
               ]
             }
           }
