@@ -50,7 +50,7 @@ function DateInfo(event) {
             {isDatePast(eventTime.range.endDateTime)
               ? <Fragment>{eventStatus('Past', 'marble')}</Fragment>
               : <Fragment>
-                {(eventTime.isFullyBooked /* TODO: || isEventTimeFullyBookedAtEventbrite */)
+                {(eventTime.isFullyBooked && !(event.eventbriteId || event.bookingEnquiryTeam))/* TODO: || isEventTimeFullyBookedAtEventbrite */
                   ? <Fragment>{eventStatus('Full', 'red')}</Fragment>
                   : <Fragment>{/* {eventStatus('Available', 'green')} */}</Fragment>
                 }
