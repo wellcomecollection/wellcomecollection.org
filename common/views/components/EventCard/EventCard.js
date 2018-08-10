@@ -1,7 +1,7 @@
 // @flow
 import LabelsList from '../LabelsList/LabelsList';
 import DateRange from '../DateRange/DateRange';
-import ContentCard from '../ContentCard/ContentCard';
+import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
 import type {UiEvent} from '../../../model/events';
 
@@ -27,7 +27,7 @@ const EventCard = ({ event }: Props) => {
   const DateRangeComponent = dateRange ? <DateRange {...dateRange} /> : null;
   const ImageComponent = event.promo && event.promo.image && <Image {...event.promo.image} />;
 
-  return <ContentCard
+  return <CompactCard
     url={`/events/${event.id}`}
     title={event.title}
     promoType={'EventPromo'}
