@@ -31,8 +31,8 @@ const SearchResults = ({ items, title }: Props) => (
               url={`/pages/${item.id}`}
               title={item.title || ''}
               description={item.promo && item.promo.caption}
-              Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
               urlOverride={item.promo && item.promo.link}
+              Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
               Tags={null}
               DateInfo={null}
             />
@@ -44,8 +44,8 @@ const SearchResults = ({ items, title }: Props) => (
               url={`/event-series/${item.id}`}
               title={item.title || ''}
               description={item.promo && item.promo.caption}
-              Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
               urlOverride={item.promo && item.promo.link}
+              Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
               Tags={null}
               DateInfo={null}
             />
@@ -57,8 +57,8 @@ const SearchResults = ({ items, title }: Props) => (
               url={`/books/${item.id}`}
               title={item.title || ''}
               description={item.promo && item.promo.caption}
-              Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
               urlOverride={item.promo && item.promo.link}
+              Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
               Tags={null}
               DateInfo={null}
             />
