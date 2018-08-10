@@ -179,7 +179,7 @@ export async function renderExplore(ctx, next) {
   const promos = List(contentPromos.map((promo, index) => {
     // First promo on Explore page is treated differently
     if (index === 0) {
-      return Object.assign({}, promo, {weight: 'lead'});
+      return Object.assign({}, promo, {weight: 'featured'});
     } else {
       return promo;
     }
