@@ -20,11 +20,11 @@ function periodicallyUpdatePrismic() {
 }
 periodicallyUpdatePrismic();
 
-export function isPreview(req: Request) {
+export function isPreview(req: Request): boolean {
   // TODO: (flow) turns out we're not using the right request object here, which has
   // the host property
   // $FlowFixMe
-  const isPreview = Boolean(req.host.match('preview.wellcomecollection.org')) || dev;
+  const isPreview = Boolean(req.host) && Boolean(req.host.match('preview.wellcomecollection.org')) || dev;
   return isPreview;
 }
 
