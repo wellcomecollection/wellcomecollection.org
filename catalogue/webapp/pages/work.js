@@ -282,8 +282,8 @@ export const WorkPage = ({
                     <div>
                       <b>Locations</b>
                       <ul>
-                        {item.locations.map(location => (
-                          <div key={location.id}>
+                        {item.locations.map((location, i) => (
+                          <div key={`location${i}`}>
                             <div><b>{location.type}: {location.label || location.url}</b></div>
                             <div>{location.locationType.label}</div>
                           </div>
@@ -299,8 +299,8 @@ export const WorkPage = ({
             <div className={spacing({ s: 2 }, { margin: ['top'] })}>
               <b>Production:</b>
               <ul>
-                {work.production.map(productionEvent => (
-                  <li key={productionEvent.agents[0].label}>
+                {work.production.map((productionEvent, i) => (
+                  <li key={`productionEvent${i}`}>
                     <div>
                       <b>Places:</b>
                       <ul>
