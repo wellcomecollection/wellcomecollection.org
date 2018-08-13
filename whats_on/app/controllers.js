@@ -8,7 +8,10 @@ import {
   getExhibitionExhibits,
   getExhibitExhibition
 } from '@weco/common/services/prismic/exhibitions';
-import {getEvent} from '@weco/common/services/prismic/events';
+import {
+  getEvents,
+  getEvent
+} from '@weco/common/services/prismic/events';
 import {getEventSeries} from '@weco/common/services/prismic/event-series';
 import {getEventbriteEventEmbed} from '@weco/common/services/eventbrite/event-embed';
 import {isPreview as isPrismicPreview} from '@weco/common/services/prismic/api';
@@ -156,6 +159,27 @@ export async function renderExhibitExhibitionLink(ctx, next) {
       React.createElement(Tags, { tags })
     )
   };
+}
+
+export async function renderEvents(ctx, next) {
+  const page = ctx.query.page || 1;
+  const paginatedResults = await getEvents(ctx.request, {
+    page,
+    seriesId: null
+  });
+  if (paginatedResults) {
+    ctx.render('pages/events', {
+      pageConfig: createPageConfig({
+        path: '/events',
+        title: 'Events',
+        inSection: 'whatson',
+        category: 'public-programme',
+        contentType: 'listing',
+        canonicalUri: 'https://wellcomecollection.org/events'
+      }),
+      paginatedResults
+    });
+  }
 }
 
 export async function renderEvent(ctx, next) {

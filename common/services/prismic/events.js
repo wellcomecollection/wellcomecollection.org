@@ -187,9 +187,12 @@ export async function getEvent(req: Request, {id}: EventQueryProps): Promise<?Ui
 }
 
 type EventsQueryProps = {|
+  page: number,
   seriesId: string
 |}
+
 export async function getEvents(req: Request,  {
+  page = 1,
   seriesId
 }: EventsQueryProps): Promise<?PaginatedResults<UiEvent>> {
   const graphQuery = `{
@@ -248,7 +251,7 @@ export async function getEvents(req: Request,  {
       }
     }
   }`;
-  const orderings = '[my.events.times.startDateTime]';
+  const orderings = '[my.events.times.startDateTime desc]';
   const predicates = [
     Prismic.Predicates.at('document.type', 'events'),
     seriesId ? Prismic.Predicates.at('my.events.series.series', seriesId) : null
@@ -256,6 +259,7 @@ export async function getEvents(req: Request,  {
 
   const paginatedResults = await getDocuments(req, predicates, {
     orderings,
+    page,
     graphQuery
   });
 
