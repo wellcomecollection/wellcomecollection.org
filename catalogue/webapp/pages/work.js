@@ -16,6 +16,7 @@ import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import WorkMedia from '../components/WorkMedia/WorkMedia';
+import UniversalViewer from '../components/UniversalViewer/UniversalViewer';
 import {getWork} from '../services/catalogue/works';
 
 export type Link = {|
@@ -191,11 +192,7 @@ export const WorkPage = ({
         {iiifManifest && <div className='grid'>
           <div className={grid({s: 12})}>
             <div className={spacing({ s: 2 }, { margin: ['top'] })}>
-              <div className='uv' data-locale='en-GB:English (GB)' data-config='https://wellcomelibrary.org/assets/config/uv-config.json' data-uri={iiifManifest} data-collectionindex='0' data-manifestindex='0' data-sequenceindex='0' data-canvasindex='0' data-zoom='-1.1484,-0.0834,3.2969,1.6681'
-                style={{'width': '1068px', 'height': '600px', 'backgroundColor': '#000'}} data-rotation='0'></div>
-              <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
-              <script type='text/javascript' id='embedUV'
-                src='https://wellcomelibrary.org/spas/uv/versions/uv-1.7.32/lib/embed.js'></script>
+              <UniversalViewer manifestUrl={iiifManifest} />
             </div>
           </div>
         </div>}
