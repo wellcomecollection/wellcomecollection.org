@@ -137,6 +137,7 @@ export function parseEventDoc(
     backgroundTexture: document.data.backgroundTexture.data && document.data.backgroundTexture.data.image.url,
     eventbriteId,
     isCompletelySoldOut: data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
+    salesStart: data.salesStart,
     times: data.times && data.times.map(frag => ({
       range: {
         startDateTime: parseTimestamp(frag.startDateTime),

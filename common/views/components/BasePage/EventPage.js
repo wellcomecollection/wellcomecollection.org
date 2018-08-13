@@ -16,7 +16,7 @@ import {UiImage} from '../Images/Images';
 import type {UiEvent} from '../../../model/events';
 import {spacing, font} from '../../../utils/classnames';
 import camelize from '../../../utils/camelize';
-import {formatAndDedupeOnDate, formatAndDedupeOnTime, joinDateStrings, formatDayDate, isDatePast, formatTime} from '../../../utils/format-date';
+import {formatAndDedupeOnDate, formatAndDedupeOnTime, joinDateStrings, formatDayDate, isDatePast, isTimePast, formatTime} from '../../../utils/format-date';
 
 type Props = {|
   event: UiEvent
@@ -90,6 +90,10 @@ function topDate(event) {
     </Fragment>
   );
 };
+
+function showSalesStart(dateTime: ?Date): boolean {
+  return dateTime && !isTimePast(dateTime);
+}
 
 const EventPage = ({ event }: Props) => {
   const image = event.promo && event.promo.image;
@@ -184,7 +188,15 @@ const EventPage = ({ event }: Props) => {
           </div>
         </div>
 
-        {!isDatePast(event.dateRange.lastDate) &&
+        {showSalesStart(event.salesStart) &&
+          <Fragment>
+            <div className={`bg-yellow inline-block ${spacing({s: 4}, {padding: ['left', 'right'], margin: ['top', 'bottom']})} ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${font({s: 'HNM4'})}`}>
+              <span>Booking opens {formatDayDate(event.salesStart)} {formatTime(event.salesStart)}</span>
+            </div>
+          </Fragment>
+        }
+
+        {!isDatePast(event.dateRange.lastDate) && !showSalesStart(event.salesStart) &&
           <Fragment>
             {/* Booking CTAs */}
             {event.eventbriteId &&
@@ -209,7 +221,7 @@ const EventPage = ({ event }: Props) => {
               </div>
             }
 
-            {event.bookingEnquiryTeam &&
+            {event.bookingEnquiryTeam && !isDatePast(event.dateRange.lastDate) &&
               <div className={`${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
                 {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
                   : (
