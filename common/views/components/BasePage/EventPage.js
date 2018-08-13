@@ -16,7 +16,15 @@ import {UiImage} from '../Images/Images';
 import type {UiEvent} from '../../../model/events';
 import {spacing, font} from '../../../utils/classnames';
 import camelize from '../../../utils/camelize';
-import {formatAndDedupeOnDate, formatAndDedupeOnTime, joinDateStrings, formatDayDate, isDatePast, isTimePast, formatTime} from '../../../utils/format-date';
+import {
+  formatAndDedupeOnDate,
+  formatAndDedupeOnTime,
+  joinDateStrings,
+  formatDayDate,
+  isDatePast,
+  isTimePast,
+  formatTime
+} from '../../../utils/format-date';
 
 type Props = {|
   event: UiEvent
@@ -91,7 +99,7 @@ function topDate(event) {
   );
 };
 
-function showSalesStart(dateTime) {
+function showTicketSalesStart(dateTime) {
   return dateTime && !isTimePast(dateTime);
 }
 
@@ -188,16 +196,16 @@ const EventPage = ({ event }: Props) => {
           </div>
         </div>
 
-        {event.salesStart && showSalesStart(event.salesStart) &&
+        {event.ticketSalesStart && showTicketSalesStart(event.ticketSalesStart) &&
           <Fragment>
             <div className={`bg-yellow inline-block ${spacing({s: 4}, {padding: ['left', 'right'], margin: ['top', 'bottom']})} ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${font({s: 'HNM4'})}`}>
               {/* TODO: work out why the second method below will fail Flow without a null check */}
-              <span>Booking opens {formatDayDate(event.salesStart)} {event.salesStart && formatTime(event.salesStart)}</span>
+              <span>Booking opens {formatDayDate(event.ticketSalesStart)} {event.ticketSalesStart && formatTime(event.ticketSalesStart)}</span>
             </div>
           </Fragment>
         }
 
-        {!isDatePast(event.dateRange.lastDate) && !showSalesStart(event.salesStart) &&
+        {!isDatePast(event.dateRange.lastDate) && !showTicketSalesStart(event.ticketSalesStart) &&
           <Fragment>
             {/* Booking CTAs */}
             {event.eventbriteId &&

@@ -47,7 +47,7 @@
         }
       }
     },
-    "salesStart": {
+    "ticketSalesStart": {
       "type": "Timestamp",
       "config": {
         "label": "Ticket sales start"
