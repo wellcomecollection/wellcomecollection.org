@@ -91,7 +91,7 @@ export type Event = {|
   ...GenericContentFields,
   format: ?EventFormat,
   isDropIn: boolean,
-  salesStart: ?DateTimeRange,
+  salesStart: ?Date,
   times: EventTime[],
   description: ?HTMLString,
   series: EventSeries[],

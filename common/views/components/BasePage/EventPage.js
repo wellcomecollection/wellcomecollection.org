@@ -91,7 +91,7 @@ function topDate(event) {
   );
 };
 
-function showSalesStart(dateTime: ?Date): boolean {
+function showSalesStart(dateTime) {
   return dateTime && !isTimePast(dateTime);
 }
 
@@ -188,10 +188,11 @@ const EventPage = ({ event }: Props) => {
           </div>
         </div>
 
-        {showSalesStart(event.salesStart) &&
+        {event.salesStart && showSalesStart(event.salesStart) &&
           <Fragment>
             <div className={`bg-yellow inline-block ${spacing({s: 4}, {padding: ['left', 'right'], margin: ['top', 'bottom']})} ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${font({s: 'HNM4'})}`}>
-              <span>Booking opens {formatDayDate(event.salesStart)} {formatTime(event.salesStart)}</span>
+              {/* TODO: work out why the second method below will fail Flow without a null check */}
+              <span>Booking opens {formatDayDate(event.salesStart)} {event.salesStart && formatTime(event.salesStart)}</span>
             </div>
           </Fragment>
         }
