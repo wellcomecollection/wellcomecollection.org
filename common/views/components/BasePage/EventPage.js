@@ -221,7 +221,7 @@ const EventPage = ({ event }: Props) => {
               </div>
             }
 
-            {event.bookingEnquiryTeam && !isDatePast(event.dateRange.lastDate) &&
+            {event.bookingEnquiryTeam &&
               <div className={`${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
                 {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
                   : (
@@ -253,7 +253,7 @@ const EventPage = ({ event }: Props) => {
           </Fragment>
         }
 
-        {event.isCompletelySoldOut &&
+        {event.isCompletelySoldOut && !isDatePast(event.dateRange.lastDate) &&
           <div className={`${spacing({s: 2}, {padding: ['top', 'bottom']})} body-text`}>
             <h3>This event has been fully booked – but there is a waiting list!</h3>
             <p>
