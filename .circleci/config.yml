@@ -79,7 +79,7 @@ jobs:
             python3.4 get-pip.py --user
             export PATH=~/.local/bin:$PATH
             pip install awscli --upgrade --user
-            # Install Chrome deps§
+            # Install Chrome deps
             sudo apt-get update && \
               sudo apt-get install -yq --no-install-recommends \
               libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
