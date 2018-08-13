@@ -20,7 +20,7 @@ const rootUri = 'https://api.wellcomecollection.org/catalogue';
 const include = [
   [],
   ['identifiers', 'thumbnail', 'items'],
-  ['identifiers', 'items']
+  ['identifiers', 'items', 'contributors', 'subjects', 'genres', 'production']
 ];
 
 export async function getWork({ id, version = 1 }: GetWorkProps): Work {
