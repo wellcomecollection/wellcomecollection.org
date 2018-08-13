@@ -7,6 +7,7 @@ import {
   renderExhibits,
   renderExhibitExhibitionLink,
   renderEvent,
+  renderEvents,
   renderEventbriteEmbed,
   renderEventSeries
 } from './controllers';
@@ -19,6 +20,7 @@ r.get('/installations/:id', renderInstallation);
 r.get('/exhibitions', renderExhibitions);
 r.get('/exhibitions/:id', renderExhibition);
 r.get('/exhibitions/:id/exhibits', renderExhibits);
+r.get('/events', renderEvents);
 r.get('/events/:id', renderEvent);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 r.get('/event-series/:id', renderEventSeries);

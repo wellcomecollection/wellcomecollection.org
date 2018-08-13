@@ -1,21 +1,31 @@
 {
-  "name": "cardigan",
-  "version": "1.0.0",
-  "description": "Wellcome Collection's design system",
-  "main": "index.js",
   "scripts": {
-    "dev": "fractal start --sync --watch",
-    "build": "node ./build-cardigan.js"
+    "dev": "start-storybook -p 9001 -c .storybook -s ../dist/assets",
+    "build": "build-storybook -c .storybook -s ../dist/assets -o .dist"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "devDependencies": {
+    "@storybook/addon-a11y": "^3.4.4",
+    "@storybook/addon-knobs": "^3.4.4",
+    "babel-core": "^6.26.0"
+  },
   "dependencies": {
-    "@frctl/fractal": "^1.1.7",
-    "babel-plugin-transform-react-constant-elements": "^6.23.0",
-    "babel-plugin-transform-react-inline-elements": "^6.22.0",
+    "@storybook/addon-info": "^4.0.0-alpha.12",
+    "@storybook/addon-options": "^4.0.0-alpha.12",
+    "@storybook/cli": "^4.0.0-alpha.12",
+    "@storybook/react": "^4.0.0-alpha.12",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-module-resolver": "^3.0.0",
+    "babel-plugin-react-require": "^3.0.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-plugin-wrap-in-js": "^1.1.1",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
-    "fractal-react-adapter": "https://github.com/davidpmccormick/fractal-react-adapter.git"
+    "faker": "^4.1.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "storybook-readme": "^3.3.0"
   }
 }
