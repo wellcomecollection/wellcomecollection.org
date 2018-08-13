@@ -25,7 +25,7 @@ const Events = {
       endDateTime: timestamp('End'),
       isFullyBooked: boolean('Fully booked')
     }),
-    description: structuredText('Description', 'multi', ['heading2', 'list-item'])
+    body
   },
   Access: {
     interpretations: list('Interpretations', {
@@ -54,7 +54,7 @@ const Events = {
     promo
   },
   Migration: {
-    body
+    description: structuredText('Description', 'multi', ['heading2', 'list-item'])
   }
 };
 
