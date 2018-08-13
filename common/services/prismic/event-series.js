@@ -27,7 +27,8 @@ export async function getEventSeries(req: Request, {
   id
 }: EventSeriesProps) {
   const events = await getEvents(req, {
-    seriesId: id
+    seriesId: id,
+    page: 1
   });
 
   if (events && events.results.length > 0) {

@@ -39,7 +39,11 @@ const EventPromo = ({
       text: interpretation.interpretationType.title
     };
   });
-  const labels = [(format && {url: null, text: format.title}), (audience && {url: null, text: audience.title}), ...eventInterpretations].filter(Boolean);
+  const labels = [
+    (format && {url: null, text: format.title}),
+    (audience && {url: null, text: audience.title}),
+    ...eventInterpretations
+  ].filter(Boolean);
   return (
     <a data-component='EventPromo'
       data-component-state={JSON.stringify({ position: position })}
