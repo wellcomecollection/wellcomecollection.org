@@ -1,11 +1,7 @@
 import {model, prismic} from 'common';
-import {getEventSeries} from '@weco/common/services/prismic/events';
-import {isPreview as isPrismicPreview} from '@weco/common/services/prismic/api';
 const {createPageConfig} = model;
 const {
-  getPaginatedEventPromos,
-  asText,
-  asHtml
+  getPaginatedEventPromos
 } = prismic;
 
 export async function renderEvent(ctx, next) {
@@ -44,71 +40,6 @@ export async function renderEvent(ctx, next) {
         isPreview
       });
     }
-  }
-
-  return next();
-}
-
-function convertEventToEventPromos(events) {
-  return events.map(event => {
-    const hasNotFullyBookedTimes = event.times.find(time => !time.isFullyBooked);
-    return event.times.map(time => {
-      return {
-        id: event.id,
-        title: event.title,
-        url: `/events/${event.id}`,
-        format: event.format,
-        audience: event.audiences.length > 0 ? event.audiences[0] : null,
-        hasNotFullyBookedTimes: hasNotFullyBookedTimes,
-        isFullyBooked: time.isFullyBooked,
-        start: time.range.startDateTime,
-        end: time.range.endDateTime,
-        image: (event.promo && event.promo.image) || {},
-        description: event.promo && event.promo.caption,
-        bookingType: event.bookingType,
-        interpretations: event.interpretations,
-        eventbriteId: event.eventbriteId,
-        series: event.series,
-        schedule: event.schedule
-      };
-    });
-  }).reduce((acc, val) => acc.concat(val), []);
-}
-
-export async function renderEventSeries(ctx, next) {
-  const {id} = ctx.params;
-  const isPreview = isPrismicPreview(ctx.request);
-  const {events, series} = await getEventSeries(ctx.request, { id });
-
-  if (events.length > 0) {
-    const upcomingEvents = convertEventToEventPromos(events.filter(event => {
-      const lastStartTime = event.times.length > 0 ? event.times[event.times.length - 1].range.startDateTime : null;
-      const inTheFuture = lastStartTime ? new Date(lastStartTime) > new Date() : false;
-      return inTheFuture;
-    }));
-
-    const upcomingEventsIds = upcomingEvents.map(event => event.id);
-
-    const pastEvents = convertEventToEventPromos(events
-      .filter(event => upcomingEventsIds.indexOf(event.id) === -1)).slice(0, 3);
-
-    ctx.render('pages/event-series', {
-      pageConfig: createPageConfig({
-        path: ctx.request.url,
-        title: series.title,
-        description: asText(series.description),
-        inSection: 'whatson',
-        category: 'public-programme',
-        contentType: 'event-series',
-        canonicalUri: `/event-series/${id}`
-      }),
-      series: series,
-      htmlDescription: asHtml(series.description),
-      paginatedEvents: upcomingEvents,
-      pastEvents: pastEvents,
-      backgroundTexture: series.backgroundTexture,
-      isPreview
-    });
   }
 
   return next();
