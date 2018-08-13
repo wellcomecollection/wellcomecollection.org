@@ -10,6 +10,7 @@ import embed from './parts/embed';
 import boolean from './parts/boolean';
 import text from './parts/text';
 import contributorsWithTitle from './parts/contributorsWithTitle';
+import body from './parts/body';
 
 const Events = {
   Event: {
@@ -51,6 +52,9 @@ const Events = {
   Contributors: contributorsWithTitle(),
   Promo: {
     promo
+  },
+  Migration: {
+    body
   }
 };
 
