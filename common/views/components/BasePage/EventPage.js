@@ -191,19 +191,47 @@ const EventPage = ({ event }: Props) => {
               <div>
                 {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
                   : (
-                    <div className='js-eventbrite-ticket-button' data-eventbrite-ticket-id={event.eventbriteId}>
+                    <Fragment>
                       <Button
                         type='primary'
-                        url={`https://www.eventbrite.com/e/${event.eventbriteId}/`}
+                        id={`eventbrite-show-widget-${event.eventbriteId || ''}`}
                         eventTracking={JSON.stringify({
                           category: 'component',
                           action: 'booking-tickets:click',
                           label: 'event-page'
                         })}
                         icon='ticket'
-                        text='Book free tickets' />
+                        text='Book tickets' />
+                      <iframe
+                        id={`eventbrite-widget-${event.eventbriteId || ''}`}
+                        src={`/eventbrite/widget/${event.eventbriteId || ''}`}
+                        frameBorder='0'
+                        width='100%'
+                        vspace='0'
+                        hspace='0'
+                        marginHeight='5'
+                        marginWidth='5'
+                        scrolling='auto'
+                        height='1'>
+                      </iframe>
+                      <script dangerouslySetInnerHTML={{ __html: `
+                        (function() {
+                          var iframe = document.getElementById('eventbrite-widget-${event.eventbriteId || ''}');
+                          var showWidget = document.getElementById('eventbrite-show-widget-${event.eventbriteId || ''}');
+                          iframe.addEventListener('load', function() {
+                            iframe.height = iframe.contentWindow.document.body.scrollHeight;
+                            iframe.style.display = 'none';
+                          });
+
+                          showWidget.addEventListener('click', function() {
+                            iframe.style.display = 'block';
+                            showWidget.style.display = 'none';
+                          });
+                        })();
+                      `}}>
+                      </script>
                       <p className={`font-charcoal ${font({s: 'HNL5'})} ${spacing({s: 1}, {margin: ['top']})} ${spacing({s: 0}, {margin: ['bottom']})}`}>with Eventbrite</p>
-                    </div>
+                    </Fragment>
                   )
                 }
               </div>
