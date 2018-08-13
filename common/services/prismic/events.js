@@ -145,7 +145,7 @@ export function parseEventDoc(
       isFullyBooked: parseBoolean(frag.isFullyBooked)
     })),
     // TODO: (event migration)
-    body: data.description ? [{
+    body: genericFields.body.length > 1 ? genericFields.body : data.description ? [{
       type: 'text',
       weight: 'default',
       value: parseDescription(data.description)
