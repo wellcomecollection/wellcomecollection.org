@@ -1,1 +1,0 @@
-variable "container_tag" {}
