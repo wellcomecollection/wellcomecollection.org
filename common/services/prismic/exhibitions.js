@@ -139,7 +139,7 @@ export async function getExhibitions(req: Request, id: string): Promise<Paginate
         installationFields,
         exhibitionFields
       ),
-      orderings: '[my.exhibitions.start]'
+      orderings: '[my.exhibitions.listingWeight desc, my.exhibitions.start desc]'
     }
   );
 

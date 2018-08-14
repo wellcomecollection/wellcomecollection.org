@@ -44,6 +44,9 @@ const Exhibitions = {
   Promo: {
     promo
   },
+  Listing: {
+    listingWeight: number('Listing weight')
+  },
   // When we get a better relational model up, this will be deprecated
   'Related promos': {
     'promoList': {
