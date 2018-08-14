@@ -230,7 +230,7 @@ const EventPage = ({ event }: Props) => {
                           label: 'event-page'
                         }}
                         icon='ticket'
-                        text='Book tickets' />
+                        text='Check for tickets' />
                       <iframe
                         id={`eventbrite-widget-${event.eventbriteId || ''}`}
                         src={`/eventbrite/widget/${event.eventbriteId || ''}`}
