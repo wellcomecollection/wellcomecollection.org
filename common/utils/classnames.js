@@ -44,8 +44,13 @@ export function font(sizes: FontMap): string {
   }).join(' ');
 }
 
-export function classNames(classNames: string[]): string {
-  return classNames.join(' ');
+type ClassNames = string[] | { [string]: boolean }
+export function classNames(classNames: ClassNames): string {
+  if (Array.isArray(classNames)) {
+    return classNames.join(' ');
+  } else {
+    return conditionalClassNames(classNames);
+  }
 }
 
 export function conditionalClassNames(obj: { [string]: boolean }): string {
