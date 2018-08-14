@@ -10,9 +10,6 @@ const services = {
   whats_on: {
     containerUrl: 'https://registry.hub.docker.com/v2/repositories/wellcome/wellcomecollection_whats_on_webapp'
   },
-  events: {
-    containerUrl: 'https://registry.hub.docker.com/v2/repositories/wellcome/wellcomecollection_events_webapp'
-  },
   catalogue: {
     containerUrl: 'https://registry.hub.docker.com/v2/repositories/wellcome/catalogue_webapp'
   },
