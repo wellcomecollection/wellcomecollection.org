@@ -1,8 +1,5 @@
 import {model, prismic} from 'common';
 const {createPageConfig} = model;
-const {
-  getPaginatedEventPromos
-} = prismic;
 
 export async function renderEvent(ctx, next) {
   const id = `${ctx.params.id}`;
@@ -41,28 +38,6 @@ export async function renderEvent(ctx, next) {
       });
     }
   }
-
-  return next();
-}
-
-export async function renderEventsList(ctx, next) {
-  const page = ctx.request.query.page ? Number(ctx.request.query.page) : 1;
-  const paginatedEvents = await getPaginatedEventPromos(page);
-  const description = 'Choose from an inspiring range of free talks, tours, discussions and more, all designed to challenge how we think and feel about health.';
-
-  ctx.render('pages/events', {
-    pageConfig: createPageConfig({
-      path: ctx.request.url,
-      title: 'Events',
-      description: description,
-      inSection: 'whatson',
-      category: 'public-programme',
-      contentType: 'event', // TODO: add pageType (list)
-      canonicalUri: '/events'
-    }),
-    htmlDescription: `<p>${description}</p>`,
-    paginatedEvents
-  });
 
   return next();
 }

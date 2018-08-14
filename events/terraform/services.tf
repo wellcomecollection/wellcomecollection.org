@@ -11,7 +11,7 @@ module "events" {
   listener_https_arn = "${local.alb_listener_https_arn}"
   listener_http_arn  = "${local.alb_listener_http_arn}"
   is_config_managed  = false
-  alb_priority       = "501"
+  alb_priority       = "001"
 
   desired_count = 2
 
@@ -31,5 +31,5 @@ module "events" {
   primary_container_port   = "80"
   secondary_container_port = "3002"
 
-  path_pattern = "/events*"
+  path_pattern = "/events/*"
 }
