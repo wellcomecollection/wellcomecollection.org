@@ -16,7 +16,7 @@ const Exhibitions = {
   Exhibition: {
     format: link('Format', 'document', ['exhibition-formats']),
     title,
-    description,
+    body,
     start: timestamp('Start date'),
     end: timestamp('End date'),
     statusOverride: structuredText('Status override', 'single'),
@@ -100,10 +100,12 @@ const Exhibitions = {
     }
   },
   Migration: {
-    body,
     drupalPromoImage: link('Drupal promo image', 'web'),
     drupalNid: text('Drupal node ID'),
     drupalPath: text('Drupal path')
+  },
+  Deprecated: {
+    description
   }
 };
 
