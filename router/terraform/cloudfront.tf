@@ -74,6 +74,35 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
 
   cache_behavior {
     target_origin_id       = "origin"
+    path_pattern           = "/events/*"
+    allowed_methods        = ["HEAD", "GET"]
+    cached_methods         = ["HEAD", "GET"]
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 60
+    max_ttl                = 60
+
+    forwarded_values {
+      headers      = ["Host"]
+      query_string = true
+
+      query_string_cache_keys = [
+        "toggles",   # feature toggles
+      ]
+
+      cookies {
+        forward = "whitelist"
+
+        whitelisted_names = [
+          "toggles",           # feature toggles
+          "WC_featuresCohort", # feature toggles
+        ]
+      }
+    }
+  }
+
+  cache_behavior {
+    target_origin_id       = "origin"
     path_pattern           = "/eventbrite/*"
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
