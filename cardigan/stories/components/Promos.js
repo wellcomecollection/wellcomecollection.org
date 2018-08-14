@@ -1,5 +1,4 @@
 import { storiesOf } from '@storybook/react';
-import { doc, withReadme }  from 'storybook-readme';
 import { text, boolean, select } from '@storybook/addon-knobs/react';
 import { id, url, editorialSeries, eventSeries, eventSchedule, image } from '../content';
 import moment from 'moment';
@@ -186,8 +185,8 @@ const WorkPromoExample = () => {
 const stories = storiesOf('Components/Promos', module);
 
 stories
-  .add('Promos', doc(PromoReadme))
-  .add('Editorial promo', withReadme(EditorialPromoReadme, EditorialPromoExample))
-  .add('Event promo', withReadme(EventPromoReadme, EventPromoExample))
-  .add('Exhibition promo', withReadme(ExhibitionPromoReadme, ExhibitionPromoExample))
-  .add('Work promo', withReadme(WorkPromoReadme, WorkPromoExample));
+  .add('Promos', () => <div></div>, {info: PromoReadme})
+  .add('Editorial promo', EditorialPromoExample, {info: EditorialPromoReadme})
+  .add('Event promo', EventPromoExample, {info: EventPromoReadme})
+  .add('Exhibition promo', ExhibitionPromoExample, {info: ExhibitionPromoReadme})
+  .add('Work promo', WorkPromoExample, {info: WorkPromoReadme});

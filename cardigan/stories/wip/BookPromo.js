@@ -1,5 +1,4 @@
 import { storiesOf } from '@storybook/react';
-import { withReadme }  from 'storybook-readme';
 import { text } from '@storybook/addon-knobs/react';
 import { url, image, singleLineOfText } from '../content';
 import BookPromoReadme from '../../../common/views/components/BookPromo/README.md';
@@ -20,4 +19,4 @@ const BookPromoExample = () => {
 const stories = storiesOf('Components (WIP)/Promos', module);
 
 stories
-  .add('Book promo', withReadme(BookPromoReadme, BookPromoExample));
+  .add('Book promo', BookPromoExample, {info: BookPromoReadme});

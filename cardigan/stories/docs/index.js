@@ -1,5 +1,4 @@
 import { storiesOf } from '@storybook/react';
-import { doc }  from 'storybook-readme';
 
 const stories = storiesOf('Documentation', module);
 const docs = require.context('../../../docs', true, /\.md$/);
@@ -13,5 +12,5 @@ docs.keys().forEach(filename => {
     .trim();
   const title = `${sanitisedFilename.charAt(0).toUpperCase()}${sanitisedFilename.slice(1)}`;
   stories
-    .add(title, doc(content));
+    .add(title, () => (<div></div>), {info: content});
 });

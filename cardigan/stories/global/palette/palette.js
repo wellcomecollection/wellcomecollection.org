@@ -1,6 +1,5 @@
 import { storiesOf } from '@storybook/react';
 import colors from '../../../../server/ui-config/colors';
-import { withReadme } from 'storybook-readme';
 import paletteReadme from './README.md';
 
 const stories = storiesOf('Global', module);
@@ -29,4 +28,4 @@ const Palette = () => {
 };
 
 stories
-  .add('Palette', withReadme(paletteReadme, Palette));
+  .add('Palette', Palette, {info: paletteReadme});

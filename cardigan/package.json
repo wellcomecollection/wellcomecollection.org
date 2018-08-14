@@ -9,10 +9,10 @@
     "babel-core": "^6.26.0"
   },
   "dependencies": {
-    "@storybook/addon-info": "^4.0.0-alpha.12",
-    "@storybook/addon-options": "^4.0.0-alpha.12",
-    "@storybook/cli": "^4.0.0-alpha.12",
-    "@storybook/react": "^4.0.0-alpha.12",
+    "@storybook/addon-info": "^4.0.0-alpha.16",
+    "@storybook/addon-options": "^4.0.0-alpha.16",
+    "@storybook/cli": "^4.0.0-alpha.16",
+    "@storybook/react": "^4.0.0-alpha.16",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-module-resolver": "^3.0.0",
     "babel-plugin-react-require": "^3.0.0",
@@ -25,7 +25,6 @@
     "babel-preset-react": "^6.24.1",
     "faker": "^4.1.0",
     "react": "^16.3.2",
-    "react-dom": "^16.3.2",
-    "storybook-readme": "^3.3.0"
+    "react-dom": "^16.3.2"
   }
 }

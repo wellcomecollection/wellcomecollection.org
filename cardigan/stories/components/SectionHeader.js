@@ -1,5 +1,4 @@
 import { storiesOf } from '@storybook/react';
-import { withReadme }  from 'storybook-readme';
 import SectionHeader from '../../../common/views/components/SectionHeader/SectionHeader';
 import Readme from '../../../common/views/components/SectionHeader/README.md';
 import { text } from '@storybook/addon-knobs/react';
@@ -15,4 +14,6 @@ const SectionHeaderExample = () => {
 };
 
 stories
-  .add('Section header', withReadme(Readme, SectionHeaderExample));
+  .add('Section header', SectionHeaderExample, {
+    info: Readme
+  });
