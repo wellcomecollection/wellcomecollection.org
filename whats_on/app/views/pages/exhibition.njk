@@ -82,6 +82,8 @@
                       {{ bodyPart.value | prismicAsHtml | safe }}
                     </div>
                   {% endif %}
+                {% elif bodyPart.type === 'quote' %}
+                  {% componentJsx 'Quote', bodyPart.value %}
                 {% endif %}
               {% endfor %}
             {% else %}
