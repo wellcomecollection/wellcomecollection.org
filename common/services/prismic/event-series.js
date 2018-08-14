@@ -33,7 +33,8 @@ export async function getEventSeries(req: Request, {
 
   if (events && events.results.length > 0) {
     const series = events.results[0].series.find(series => series.id === id);
-    return {
+
+    return series && {
       series,
       events: events.results
     };
