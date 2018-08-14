@@ -78,7 +78,15 @@ function infoBar(event) {
     <Fragment>
       {isDatePast(event.dateRange.lastDate)
         ? <Fragment>{eventStatus('Past', 'marble')}</Fragment>
-        : <PrimaryLink url='#dates' name={`See all dates/times${(eventbriteId || bookingEnquiryTeam) ? ' to book' : ''}`} isJumpLink={true} />
+        : <PrimaryLink
+          url='#dates'
+          name={`See all dates/times${(eventbriteId || bookingEnquiryTeam) ? ' to book' : ''}`}
+          isJumpLink={true}
+          trackingEvent={{
+            category: 'Events',
+            action: 'date-times-jump-link:click',
+            label: event.id
+          }} />
       }
     </Fragment>
   );
