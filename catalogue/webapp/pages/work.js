@@ -372,11 +372,11 @@ export const WorkPage = ({
               <SecondaryLink
                 url={`/works${previousQueryString || ''}#${work.id}`}
                 text='Search results'
-                eventTracking={JSON.stringify({
+                trackingEvent={{
                   category: 'component',
                   action: 'return-to-results:click',
                   label: `id:${work.id}, query:${previousQueryString || ''}, title:${work.title}`
-                })} />
+                }} />
             </div>
           </div>
         </div>
@@ -455,11 +455,11 @@ export const WorkPage = ({
                       target='_blank'
                       download={`${work.id}.jpg`}
                       rel='noopener noreferrer'
-                      eventTracking={JSON.stringify({
+                      trackingEvent={{
                         category: 'component',
                         action: 'download-button:click',
                         label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
-                      })}
+                      }}
                       clickHandler={() => {
                         ReactGA.event({
                           category: 'component',
@@ -478,11 +478,11 @@ export const WorkPage = ({
                       target='_blank'
                       download={`${work.id}.jpg`}
                       rel='noopener noreferrer'
-                      eventTracking={JSON.stringify({
+                      trackingEvent={{
                         category: 'component',
                         action: 'download-button:click',
                         label: `id: work.id , size:760, title:${work.title.substring(50)}`
-                      })}
+                      }}
                       clickHandler={() => {
                         ReactGA.event({
                           category: 'component',

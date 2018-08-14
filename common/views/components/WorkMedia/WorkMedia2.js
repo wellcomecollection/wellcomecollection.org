@@ -26,11 +26,11 @@ const WorkMedia = ({
           type='dark'
           extraClasses='scroll-to-info js-scroll-to-info js-work-media-control flush-container-right'
           url='#work-info'
-          eventTracking={`${JSON.stringify({
+          trackingEvent={{
             category: 'component',
             action: 'scroll-to-info:click',
             label: 'scrolled-to-id:work-info'
-          })}`}
+          }}
           clickHandler={() => {
             ReactGA.event({
               category: 'component',
