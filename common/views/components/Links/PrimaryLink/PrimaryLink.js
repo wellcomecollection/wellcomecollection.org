@@ -34,7 +34,8 @@ const PrimaryLink = ({
         'flex-inline': true,
         'flex-v-center': true,
         'plain-link': true,
-        [font({s: 'HNM4'})]: true
+        [font({s: 'HNM4'})]: true,
+        'js-scroll-to-info': url.startsWith('#')
       })}
       href={url}
       data-component='PrimaryLink'

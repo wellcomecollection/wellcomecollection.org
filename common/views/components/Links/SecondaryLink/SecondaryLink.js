@@ -1,6 +1,6 @@
 // @flow
 import NextLink from 'next/link';
-import {font} from '../../../../utils/classnames';
+import {font, conditionalClassNames} from '../../../../utils/classnames';
 import {trackIfOutboundLink, trackEvent} from '../../../../utils/ga';
 import type {GaEvent} from '../../../../utils/ga';
 
@@ -29,7 +29,12 @@ const SecondaryLink = ({
       <a
         data-track-event={trackingEvent && JSON.stringify(trackingEvent)}
         onClick={handleClick}
-        className={`secondary-link ${font({s: 'HNM5', m: 'HNM4'})} ${extraClasses || ''}`}>
+        className={conditionalClassNames({
+          'secondary-link': true,
+          [font({s: 'HNM5', m: 'HNM4'})]: true,
+          [extraClasses || '']: Boolean(extraClasses),
+          'js-scroll-to-info': url.startsWith('#')
+        })}>
         {text}
       </a>
     </NextLink>
