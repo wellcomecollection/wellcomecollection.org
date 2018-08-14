@@ -216,11 +216,11 @@ const EventPage = ({ event }: Props) => {
                       <Button
                         type='primary'
                         id={`eventbrite-show-widget-${event.eventbriteId || ''}`}
-                        eventTracking={JSON.stringify({
+                        trackingEvent={{
                           category: 'component',
                           action: 'booking-tickets:click',
                           label: 'event-page'
-                        })}
+                        }}
                         icon='ticket'
                         text='Book tickets' />
                       <iframe
@@ -265,11 +265,11 @@ const EventPage = ({ event }: Props) => {
                     <Button
                       type='primary'
                       url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
-                      eventTracking={JSON.stringify({
+                      trackingEvent={{
                         category: 'component',
                         action: 'booking-tickets:click',
                         label: 'event-page (email to book)'
-                      })}
+                      }}
                       icon='email'
                       text='Email to book' />
                   )}

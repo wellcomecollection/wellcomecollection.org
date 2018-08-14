@@ -19,11 +19,11 @@ const href = (queryString, id) => {
 };
 
 const tracking = (queryString, id, trackTitle) => {
-  return `{
-    "category": "component",
-    "action": "return-to-results:click",
-    "label": "id:${id}, query:${queryString}, title:${trackTitle}"
-  }`;
+  return {
+    category: 'component',
+    action: 'return-to-results:click',
+    label: `id:${id}, query:${queryString}, title:${trackTitle}`
+  };
 };
 
 const WorkMedia = ({
@@ -45,7 +45,7 @@ const WorkMedia = ({
               <SecondaryLink
                 url={href(queryString, id)}
                 text='Search results'
-                eventTracking={tracking(queryString, id, trackTitle)} />
+                trackingEvent={tracking(queryString, id, trackTitle)} />
             </div>
           </div>
         </div>
@@ -56,11 +56,11 @@ const WorkMedia = ({
           type='dark'
           extraClasses='scroll-to-info js-scroll-to-info js-work-media-control flush-container-right'
           url='#work-info'
-          eventTracking={`${JSON.stringify({
+          trackingEvent={{
             category: 'component',
             action: 'scroll-to-info:click',
             label: 'scrolled-to-id:work-info'
-          })}`}
+          }}
           icon='chevron'
           text='Scroll to info' />
         <div className='work-media__image-container'>
