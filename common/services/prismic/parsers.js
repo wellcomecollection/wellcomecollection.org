@@ -165,7 +165,7 @@ export function parsePromoToCaptionedImage(frag: PrismicFragment, crop: ?Crop = 
 export const defaultContributorImage = {
   width: 64,
   height: 64,
-  contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3ed09488-1992-4f8a-9f0c-de2d296109f9_group+21.png',
+  contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F021d6105-3308-4210-8f65-d207e04c2cb2_contributor_default%402x.png',
   tasl: {
     sourceName: 'Unknown',
     title: null,
