@@ -118,7 +118,7 @@ const EventPage = ({ event }: Props) => {
   };
   /* https://github.com/facebook/flow/issues/2405 */
   /* $FlowFixMe */
-  const FeaturedMedia = event.promo && <UiImage tasl={tasl} {...image} />;
+  const FeaturedMedia = image && <UiImage tasl={tasl} {...image} />;
   const eventFormat = event.format ? [{url: null, text: event.format.title}] : [];
   const eventAudiences = event.audiences ? event.audiences.map(a => {
     return {
