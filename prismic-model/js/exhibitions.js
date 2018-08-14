@@ -21,16 +21,6 @@ const Exhibitions = {
     end: timestamp('End date'),
     statusOverride: structuredText('Status override', 'single'),
     place,
-
-    // Things it would be nice to deprecate
-    // and fold into body
-    intro: {
-      'type': 'StructuredText',
-      'config': {
-        'label': 'Intro',
-        'multi': 'heading2'
-      }
-    },
     textAndCaptionsDocument: link('Text and captions document', 'media'),
 
     // TODO: deprecate for place when the data has been updated
@@ -105,7 +95,14 @@ const Exhibitions = {
     drupalPath: text('Drupal path')
   },
   Deprecated: {
-    description
+    description,
+    intro: {
+      'type': 'StructuredText',
+      'config': {
+        'label': 'Intro',
+        'multi': 'heading2'
+      }
+    }
   }
 };
 

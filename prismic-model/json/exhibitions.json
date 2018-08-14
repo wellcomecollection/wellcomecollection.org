@@ -270,13 +270,6 @@
         "label": "Where is it?"
       }
     },
-    "intro": {
-      "type": "StructuredText",
-      "config": {
-        "label": "Intro",
-        "multi": "heading2"
-      }
-    },
     "textAndCaptionsDocument": {
       "type": "Link",
       "config": {
@@ -501,6 +494,13 @@
       "config": {
         "multi": "paragraph,hyperlink,strong,em,heading2",
         "label": "Description"
+      }
+    },
+    "intro": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Intro",
+        "multi": "heading2"
       }
     }
   }
