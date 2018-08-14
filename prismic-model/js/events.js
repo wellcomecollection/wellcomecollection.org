@@ -20,6 +20,7 @@ const Events = {
     series: list('Event series', {
       series: link('Series', 'document', ['event-series'])
     }),
+    ticketSalesStart: timestamp('Ticket sales start'),
     times: list('Times', {
       startDateTime: timestamp('Start'),
       endDateTime: timestamp('End'),

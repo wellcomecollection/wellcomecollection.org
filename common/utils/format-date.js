@@ -28,6 +28,13 @@ export function formatTime(date: Date): string {
   return london(date).format('HH:mm');
 }
 
+export function isTimePast(date: Date): boolean {
+  const momentNow = london();
+  const momentEnd = london(date);
+
+  return momentEnd.isBefore(momentNow);
+}
+
 export function isDatePast(date: Date): boolean {
   const momentNow = london();
   const momentEnd = london(date);

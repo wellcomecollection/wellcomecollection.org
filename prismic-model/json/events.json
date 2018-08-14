@@ -47,6 +47,12 @@
         }
       }
     },
+    "ticketSalesStart": {
+      "type": "Timestamp",
+      "config": {
+        "label": "Ticket sales start"
+      }
+    },
     "times": {
       "type": "Group",
       "fieldset": "Times",
