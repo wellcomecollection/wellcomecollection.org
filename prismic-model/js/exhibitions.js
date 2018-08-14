@@ -10,6 +10,7 @@ import list from './parts/list';
 import text from './parts/text';
 import structuredText from './parts/structured-text';
 import contributorsWithTitle from './parts/contributorsWithTitle';
+import body from './parts/body';
 
 const Exhibitions = {
   Exhibition: {
@@ -99,6 +100,7 @@ const Exhibitions = {
     }
   },
   Migration: {
+    body,
     drupalPromoImage: link('Drupal promo image', 'web'),
     drupalNid: text('Drupal node ID'),
     drupalPath: text('Drupal path')
