@@ -22,7 +22,8 @@ import {
   parsePromoToCaptionedImage,
   isDocumentLink,
   asText,
-  asHtml
+  asHtml,
+  parseGenericFields
 } from './parsers';
 import {parseInstallationDoc} from './installations';
 
@@ -46,6 +47,7 @@ function parseExhibits(document: PrismicFragment[]): UiExhibit[] {
 }
 
 function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
+  const genericFields = parseGenericFields(document);
   const data = document.data;
   const promo = document.data.promo;
 
@@ -96,9 +98,8 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const intro = data.intro && data.intro[0] && [Object.assign({}, data.intro[0], {type: 'paragraph'})];
 
   return {
-    id: id,
+    ...genericFields,
     format: format,
-    title: title,
     description: description,
     intro: intro,
     contributors: data.contributors ? parseContributors(data.contributors) : [],
