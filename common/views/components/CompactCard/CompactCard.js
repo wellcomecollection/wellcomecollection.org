@@ -17,7 +17,7 @@ type Props = {|
   Image: ?Element<typeof ImageType>
 |}
 
-const ContentCard = ({
+const CompactCard = ({
   url,
   title,
   promoType,
@@ -79,4 +79,4 @@ const ContentCard = ({
   );
 };
 
-export default ContentCard;
+export default CompactCard;
