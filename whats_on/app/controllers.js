@@ -108,7 +108,7 @@ export async function renderExhibitionsComingUp(ctx, next) {
     ctx.render('pages/exhibitions', {
       pageConfig: createPageConfig({
         path: '/exhibitions/coming-up',
-        title: 'Coming up exhibitions',
+        title: 'Upcoming exhibitions',
         inSection: 'whatson',
         category: 'public-programme',
         contentType: 'listing',
