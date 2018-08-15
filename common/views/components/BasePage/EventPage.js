@@ -331,10 +331,15 @@ const EventPage = ({ event }: Props) => {
             <h2 className='h2'>Need to know</h2>
             {event.place &&
               <Fragment>
-                <h3 className={`${font({s: 'HNM4'})} no-margin`}>Location</h3>
-                <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
-                  <p>{event.place && event.place.title && `We'll be in the ${event.place.title}. ${(event.place && event.place.information) ? event.place.information : ''}`}</p>
-                </div>
+                <h3 className={`${font({s: 'HNM4'})} no-margin`}>
+                  Location
+                  {event.place && !event.place.information && `: ${event.place.title}`}
+                </h3>
+                {event.place && event.place.information &&
+                  <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                    <p>{event.place.information}</p>
+                  </div>
+                }
               </Fragment>
             }
             {event.bookingInformation && event.bookingInformation.length > 0 &&
