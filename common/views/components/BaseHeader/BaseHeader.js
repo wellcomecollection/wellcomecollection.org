@@ -72,11 +72,11 @@ const BaseHeader = ({
 
   return (
     <Fragment>
-      {BackgroundComponent}
-      <div className={`row ${spacing({s: 2}, {padding: ['top']})}`} style={{
+      <div className={`row relative ${spacing({s: 2}, {padding: ['top']})}`} style={{
         backgroundImage: BackgroundComponent ? null : `url(${backgroundTexture})`,
         backgroundSize: BackgroundComponent ? null : '150%'
       }}>
+        {BackgroundComponent}
         <div className={`container`}>
           {isFree &&
             <div className={`grid`}>
