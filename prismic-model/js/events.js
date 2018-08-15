@@ -40,8 +40,11 @@ const Events = {
   Reservation: {
     bookingEnquiryTeam: link('Booking enquiry team', 'document', ['teams']),
     eventbriteEvent: embed('Eventbrite event'),
-    isDropIn: boolean('Drop in'),
     bookingInformation: structuredText('Event specific booking information'),
+    policies: list('Policies', {
+      policy: link('Policy', 'document', ['event-policies'])
+    }),
+    isDropIn: boolean('Drop in'),
     cost: text('Cost')
   },
   Schedule: {
