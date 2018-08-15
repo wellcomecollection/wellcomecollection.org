@@ -76,7 +76,7 @@
               {% for bodyPart in exhibition.body %}
                 {% if bodyPart.type === 'text' %}
                   {% if bodyPart.weight === 'featured' %}
-                    {% componentJsx 'FeaturedText', { html: exhibition.intro } %}
+                    {% componentJsx 'FeaturedText', { html: bodyPart.value } %}
                   {% else %}
                     <div class="body-text">
                       {{ bodyPart.value | prismicAsHtml | safe }}
