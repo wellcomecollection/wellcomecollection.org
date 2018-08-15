@@ -405,6 +405,14 @@
       }
     }
   },
+  "Listing": {
+    "listingWeight": {
+      "type": "Number",
+      "config": {
+        "label": "Listing weight"
+      }
+    }
+  },
   "Related promos": {
     "promoList": {
       "type": "Group",
