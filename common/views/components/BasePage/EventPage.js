@@ -170,7 +170,7 @@ const EventPage = ({ event }: Props) => {
   />);
 
   const ticketButtonText = 'Check for tickets';
-  const ticketButtonLoadingText = 'Checking…';
+  const ticketButtonLoadingText = 'Loading…';
 
   return (
     <BasePage
