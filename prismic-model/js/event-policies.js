@@ -1,4 +1,4 @@
 import label from './types/label';
 
-const ExhibitionFormats = label('Exhibition format');
+const ExhibitionFormats = label('Event policy');
 export default ExhibitionFormats;
