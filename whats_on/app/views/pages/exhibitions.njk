@@ -24,7 +24,7 @@
     {% endfor %}]
   </script>
 
-  {% componentV2 'list-header', {name: 'Exhibitions', description: pageDescription, total: paginatedResults.results.length} %}
+  {% componentV2 'list-header', {name: pageConfig.title, description: pageDescription, total: paginatedResults.results.length} %}
 
   {% if paginatedExhibitions.pagination.pageCount > 1  %}
     <div class="css-grid__container">
