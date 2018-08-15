@@ -1,7 +1,6 @@
 import { storiesOf } from '@storybook/react';
 import Icon from '../../../../common/views/components/Icon/Icon';
 import * as icons from '../../../../common/icons';
-import { withReadme } from 'storybook-readme';
 import iconsReadme from './README.md';
 
 const stories = storiesOf('Global', module);
@@ -18,4 +17,4 @@ const Icons = () => (
 );
 
 stories
-  .add('Icons', withReadme(iconsReadme, Icons));
+  .add('Icons', Icons, {info: iconsReadme});
