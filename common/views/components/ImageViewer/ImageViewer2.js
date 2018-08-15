@@ -95,7 +95,7 @@ class ViewerContent extends React.Component<ViewerContentProps> {
             text='Zoom out'
             id={`zoom-out-${this.props.id}`}
             icon='zoomOut'
-            extraClasses={`{spacing({s: 8}, {margin: ['right']})}`}
+            extraClasses={`${spacing({s: 8}, {margin: ['right']})}`}
             clickHandler={this.handleZoomOut} />
 
           <Control
