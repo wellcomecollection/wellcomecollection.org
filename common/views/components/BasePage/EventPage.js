@@ -16,7 +16,15 @@ import {UiImage} from '../Images/Images';
 import type {UiEvent} from '../../../model/events';
 import {spacing, font} from '../../../utils/classnames';
 import camelize from '../../../utils/camelize';
-import {formatAndDedupeOnDate, formatAndDedupeOnTime, joinDateStrings, formatDayDate, isDatePast, formatTime} from '../../../utils/format-date';
+import {
+  formatAndDedupeOnDate,
+  formatAndDedupeOnTime,
+  joinDateStrings,
+  formatDayDate,
+  isDatePast,
+  isTimePast,
+  formatTime
+} from '../../../utils/format-date';
 
 type Props = {|
   event: UiEvent
@@ -70,7 +78,15 @@ function infoBar(event) {
     <Fragment>
       {isDatePast(event.dateRange.lastDate)
         ? <Fragment>{eventStatus('Past', 'marble')}</Fragment>
-        : <PrimaryLink url='#dates' name={`See all dates/times${(eventbriteId || bookingEnquiryTeam) ? ' to book' : ''}`} isJumpLink={true} />
+        : <PrimaryLink
+          url='#dates'
+          name={`See all dates/times${(eventbriteId || bookingEnquiryTeam) ? ' to book' : ''}`}
+          isJumpLink={true}
+          trackingEvent={{
+            category: 'Events',
+            action: 'date-times-jump-link:click',
+            label: event.id
+          }} />
       }
     </Fragment>
   );
@@ -91,6 +107,10 @@ function topDate(event) {
   );
 };
 
+function showTicketSalesStart(dateTime) {
+  return dateTime && !isTimePast(dateTime);
+}
+
 const EventPage = ({ event }: Props) => {
   const image = event.promo && event.promo.image;
   const tasl = image && {
@@ -106,7 +126,7 @@ const EventPage = ({ event }: Props) => {
   };
   /* https://github.com/facebook/flow/issues/2405 */
   /* $FlowFixMe */
-  const FeaturedMedia = event.promo && <UiImage tasl={tasl} {...image} />;
+  const FeaturedMedia = image && <UiImage tasl={tasl} {...image} />;
   const eventFormat = event.format ? [{url: null, text: event.format.title}] : [];
   const eventAudiences = event.audiences ? event.audiences.map(a => {
     return {
@@ -184,7 +204,16 @@ const EventPage = ({ event }: Props) => {
           </div>
         </div>
 
-        {!isDatePast(event.dateRange.lastDate) &&
+        {event.ticketSalesStart && showTicketSalesStart(event.ticketSalesStart) &&
+          <Fragment>
+            <div className={`bg-yellow inline-block ${spacing({s: 4}, {padding: ['left', 'right'], margin: ['top', 'bottom']})} ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${font({s: 'HNM4'})}`}>
+              {/* TODO: work out why the second method below will fail Flow without a null check */}
+              <span>Booking opens {formatDayDate(event.ticketSalesStart)} {event.ticketSalesStart && formatTime(event.ticketSalesStart)}</span>
+            </div>
+          </Fragment>
+        }
+
+        {!isDatePast(event.dateRange.lastDate) && !showTicketSalesStart(event.ticketSalesStart) &&
           <Fragment>
             {/* Booking CTAs */}
             {event.eventbriteId &&
@@ -195,11 +224,11 @@ const EventPage = ({ event }: Props) => {
                       <Button
                         type='primary'
                         id={`eventbrite-show-widget-${event.eventbriteId || ''}`}
-                        eventTracking={JSON.stringify({
+                        trackingEvent={{
                           category: 'component',
                           action: 'booking-tickets:click',
                           label: 'event-page'
-                        })}
+                        }}
                         icon='ticket'
                         text='Book tickets' />
                       <iframe
@@ -244,11 +273,11 @@ const EventPage = ({ event }: Props) => {
                     <Button
                       type='primary'
                       url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
-                      eventTracking={JSON.stringify({
+                      trackingEvent={{
                         category: 'component',
                         action: 'booking-tickets:click',
                         label: 'event-page (email to book)'
-                      })}
+                      }}
                       icon='email'
                       text='Email to book' />
                   )}
@@ -269,7 +298,7 @@ const EventPage = ({ event }: Props) => {
           </Fragment>
         }
 
-        {event.isCompletelySoldOut &&
+        {event.isCompletelySoldOut && !isDatePast(event.dateRange.lastDate) &&
           <div className={`${spacing({s: 2}, {padding: ['top', 'bottom']})} body-text`}>
             <h3>This event has been fully booked – but there is a waiting list!</h3>
             <p>

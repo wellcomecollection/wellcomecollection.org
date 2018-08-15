@@ -86,7 +86,11 @@
               download: work.id + '.jpg',
               rel: 'noopener noreferrer',
               target: '_blank',
-              eventTracking: '{"category": "component", "action": "download-button:click", "label": "id:' +  work.id + ', size:original, title:' + work.title | truncate(50) | urlencode + '"}',
+              trackingEvent: {
+                category: 'component',
+                action: 'download-button:click',
+                label: 'id:' +  work.id + ', size:original, title:' + work.title | truncate(50) | urlencode
+              },
               icon: 'download',
               text: 'Download full size'
             } %}
@@ -99,7 +103,11 @@
               download: work.id + '.jpg',
               rel: 'noopener noreferrer',
               target: '_blank',
-              eventTracking: '{"category": "component", "action": "download-button:click", "label": "id:' +  work.id + ', size:760, title:' + work.title | truncate(50) | urlencode + '"}',
+              trackingEvent: {
+                category: 'component',
+                action: 'download-button:click',
+                label: 'id:' +  work.id + ', size:760, title:' + work.title | truncate(50) | urlencode
+              },
               icon: 'download',
               text: 'Download small (760px)'
             } %}
@@ -133,6 +141,10 @@
     extraClasses: 'icon--180 js-back-to-top back-to-top',
     icon: 'chevron',
     text: 'Back to top',
-    eventTracking: '{"category": "component", "action": "back-to-top:click", "label": "url:' + pageConfig.canonicalUri + '"}'
+    trackingEvent: {
+      category: 'component'
+      action: 'back-to-top:click',
+      label: 'url:' + pageConfig.canonicalUri
+    }
   } %}
 {% endblock %}

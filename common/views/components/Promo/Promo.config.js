@@ -55,8 +55,8 @@ export const variants = [
     context: Object.assign({}, promo, {contentType: 'article'}, {modifiers: ['standalone']})
   },
   {
-    name: 'lead',
-    context: Object.assign({}, promo, {contentType: 'article', weight: 'lead'})
+    name: 'featured',
+    context: Object.assign({}, promo, {contentType: 'article', weight: 'featured'})
   },
   {
     name: 'regular',
@@ -64,10 +64,10 @@ export const variants = [
   },
   {
     name: 'with-chapters',
-    context: Object.assign({}, promoWithCommissionedSeries, {contentType: 'article', weight: 'lead'})
+    context: Object.assign({}, promoWithCommissionedSeries, {contentType: 'article', weight: 'featured'})
   },
   {
     name: 'standalone-with-chapters',
-    context: Object.assign({}, promoWithCommissionedSeries, {contentType: 'article', weight: 'lead'}, {modifiers: ['standalone']})
+    context: Object.assign({}, promoWithCommissionedSeries, {contentType: 'article', weight: 'featured'}, {modifiers: ['standalone']})
   }
 ];

@@ -141,7 +141,7 @@ async function getPreviewSession(token) {
         case 'articles'    : return `/preview/articles/${doc.id}`;
         case 'webcomics'   : return `/preview/articles/${doc.id}`;
         case 'exhibitions' : return `/exhibitions/${doc.id}`;
-        case 'events' : return `/events/${doc.id}/preview`;
+        case 'events' : return `/events/${doc.id}`;
         // We don't use a `/preview` prefix here.
         // It's just a way for editors to get to the content via Prismic
         case 'series' : return `/series/${doc.id}`;
@@ -179,7 +179,7 @@ export async function renderExplore(ctx, next) {
   const promos = List(contentPromos.map((promo, index) => {
     // First promo on Explore page is treated differently
     if (index === 0) {
-      return Object.assign({}, promo, {weight: 'lead'});
+      return Object.assign({}, promo, {weight: 'featured'});
     } else {
       return promo;
     }

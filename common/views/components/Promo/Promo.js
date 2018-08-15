@@ -81,7 +81,7 @@ const Promo = ({
         action: 'ArticlePromo:click'})
       }`}
       href={url}
-      className={`promo promo--${contentType} ${!url ? 'promo--surrogate' : ''} ${weight === 'lead' ? 'promo--lead' : ''}`}>
+      className={`promo promo--${contentType} ${!url ? 'promo--surrogate' : ''} ${weight === 'featured' ? 'promo--lead' : ''}`}>
       <div className={`promo__image-container ${spacing({s: 2}, {margin: ['bottom']})}`}>
         {image
           ? <Image

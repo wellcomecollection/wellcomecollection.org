@@ -146,54 +146,6 @@ jobs:
           paths:
             -  ~/wellcomecollection.org/dist
             -  ~/wellcomecollection.org/server/views/partials/critical.css.njk
-  build_events_webapp:
-    docker:
-      - image: circleci/node:8.11.3
-    working_directory: ~/wellcomecollection.org/events/app
-    steps:
-      - restore_cache:
-          key: repo_{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: server_modules_circleci_node_8_{{ checksum "../../server/yarn.lock" }}
-      - restore_cache:
-          keys:
-            - common_modules_circleci_node_8_{{ checksum "yarn.lock" }}
-            - common_modules_circleci_node_8_
-      - restore_cache:
-          key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
-      - run:
-          name: Install modules
-          command: yarn install
-      - run:
-          name: SHAME - Compile JS to SCSS
-          command: pushd ../../client && yarn add gulp && npx gulp scss:compileJsToScss && popd
-      - run:
-          name: Build prod config
-          command: pushd ../../ && ./build_prod_config.py && popd
-      - run:
-          name: Build
-          command: yarn run app:build
-      - save_cache:
-          key: built_events_webapp_{{ .Environment.CIRCLE_SHA1 }}
-          paths:
-            - .dist
-  deploy_events_webapp:
-    docker:
-      - image: circleci/node:8.11.3
-    working_directory: ~/wellcomecollection.org
-    steps:
-      - restore_cache:
-          key: repo_{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: built_events_webapp_{{ .Environment.CIRCLE_SHA1 }}
-      - add_ssh_keys
-      - setup_remote_docker
-      - run:
-          name: Deploy
-          command: |
-            docker login --username $DOCKER_USER --password $DOCKER_PASS
-            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/events_webapp.yml build
-            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/events_webapp.yml push
   build_whats_on_webapp:
     docker:
       - image: circleci/node:8.11.3
@@ -437,13 +389,6 @@ workflows:
             - build_client
             - install_server_modules
             - install_common_modules
-      - build_events_webapp:
-          requires:
-            - checkout_code
-            - root_tests
-            - build_client
-            - install_server_modules
-            - install_common_modules
       - build_eventbrite_webapp:
           requires:
             - checkout_code
@@ -461,13 +406,6 @@ workflows:
       - deploy_whats_on_webapp:
           requires:
             - build_whats_on_webapp
-          filters:
-            branches:
-              only:
-                - master
-      - deploy_events_webapp:
-          requires:
-            - build_events_webapp
           filters:
             branches:
               only:

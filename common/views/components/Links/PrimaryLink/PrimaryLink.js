@@ -1,30 +1,46 @@
 // @flow
-
-import {font} from '../../../../utils/classnames';
+import {font, conditionalClassNames} from '../../../../utils/classnames';
 import Icon from '../../Icon/Icon';
-import trackOutboundLink from '../../../../utils/track-outbound-link';
+import {trackIfOutboundLink, trackEvent} from '../../../../utils/ga';
+import type {GaEvent} from '../../../../utils/ga';
 
 type Props = {|
   url: string,
   name: string,
   screenReaderText?: string,
-  isJumpLink?: boolean
+  isJumpLink?: boolean,
+  trackingEvent?: GaEvent
 |}
 
-const PrimaryLink = ({url, name, screenReaderText, isJumpLink = false}: Props) => {
+const PrimaryLink = ({
+  url,
+  name,
+  screenReaderText,
+  isJumpLink = false,
+  trackingEvent
+}: Props) => {
   function handleClick(event) {
-    trackOutboundLink(event.currentTarget.href);
+    trackIfOutboundLink(event.currentTarget.href);
+    if (trackingEvent) {
+      trackEvent(trackingEvent);
+    }
   }
 
   return (
     <a
       onClick={handleClick}
-      className={[
-        'primary-link',
-        'flex-inline',
-        'flex-v-center',
-        'plain-link',
-        font({s: 'HNM4'})].join(' ')} href={url} data-component='PrimaryLink'>
+      className={conditionalClassNames({
+        'primary-link': true,
+        'flex-inline': true,
+        'flex-v-center': true,
+        'plain-link': true,
+        [font({s: 'HNM4'})]: true,
+        'js-scroll-to-info': url.startsWith('#')
+      })}
+      href={url}
+      data-component='PrimaryLink'
+      data-track-event={trackingEvent && JSON.stringify(trackingEvent)}
+    >
       {isJumpLink &&
         <Icon name='arrowSmall' extraClasses='icon--green icon--90' />
       }

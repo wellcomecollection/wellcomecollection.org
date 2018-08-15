@@ -165,7 +165,7 @@ export function parsePromoToCaptionedImage(frag: PrismicFragment, crop: ?Crop = 
 export const defaultContributorImage = {
   width: 64,
   height: 64,
-  contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3ed09488-1992-4f8a-9f0c-de2d296109f9_group+21.png',
+  contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F021d6105-3308-4210-8f65-d207e04c2cb2_contributor_default%402x.png',
   tasl: {
     sourceName: 'Unknown',
     title: null,
@@ -179,18 +179,19 @@ export const defaultContributorImage = {
 };
 
 export function parseSameAs(frag: PrismicFragment[]): SameAs {
-  return frag.map(linkAndTitle => {
-    const {link, title} = linkAndTitle;
-    const autoTitle = link && (
-      link.startsWith('https://twitter.com/') ? `@${link.replace('https://twitter.com/', '')}`
-        : link.match(/^https?:\/\//) ? link.replace(/^https?:\/\//, '') : null
-    );
+  return frag
+    .filter(({link, title}) => Boolean(link || title.length > 0))
+    .map(({link, title}) => {
+      const autoTitle = link && (
+        link.startsWith('https://twitter.com/') ? `@${link.replace('https://twitter.com/', '')}`
+          : link.match(/^https?:\/\//) ? link.replace(/^https?:\/\//, '') : null
+      );
 
-    return {
-      link: linkAndTitle.link,
-      title: asText(title) || autoTitle || link
-    };
-  });
+      return {
+        link: link,
+        title: asText(title) || autoTitle || link
+      };
+    });
 }
 
 function parsePersonContributor(frag: PrismicFragment): PersonContributor {
