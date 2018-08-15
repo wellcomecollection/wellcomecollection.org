@@ -10,7 +10,7 @@
     cursor: pointer;
   }
 
-  &[disabled] {
+  &[disabled], &.disabled {
     background: color('pewter');
     border-color: color('pewter');
     cursor: not-allowed;
