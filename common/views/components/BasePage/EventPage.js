@@ -169,6 +169,9 @@ const EventPage = ({ event }: Props) => {
     topLink={{text: 'Events', url: '/events'}}
   />);
 
+  const ticketButtonText = 'Check for tickets';
+  const ticketButtonLoadingText = 'Checking…';
+
   return (
     <BasePage
       id={event.id}
@@ -224,13 +227,14 @@ const EventPage = ({ event }: Props) => {
                       <Button
                         type='primary'
                         id={`eventbrite-show-widget-${event.eventbriteId || ''}`}
+                        url={`https://www.eventbrite.com/e/${event.eventbriteId}/`}
                         trackingEvent={{
                           category: 'component',
                           action: 'booking-tickets:click',
                           label: 'event-page'
                         }}
                         icon='ticket'
-                        text='Book tickets' />
+                        text={ticketButtonText} />
                       <iframe
                         id={`eventbrite-widget-${event.eventbriteId || ''}`}
                         src={`/eventbrite/widget/${event.eventbriteId || ''}`}
@@ -247,14 +251,22 @@ const EventPage = ({ event }: Props) => {
                         (function() {
                           var iframe = document.getElementById('eventbrite-widget-${event.eventbriteId || ''}');
                           var showWidget = document.getElementById('eventbrite-show-widget-${event.eventbriteId || ''}');
+                          showWidget.classList.add('disabled');
+                          showWidget.innerHTML = showWidget.innerHTML.replace('${ticketButtonText}', '${ticketButtonLoadingText}');
+
                           iframe.addEventListener('load', function() {
                             iframe.height = iframe.contentWindow.document.body.scrollHeight;
                             iframe.style.display = 'none';
-                          });
+                            showWidget.classList.remove('disabled');
 
-                          showWidget.addEventListener('click', function() {
-                            iframe.style.display = 'block';
-                            showWidget.style.display = 'none';
+                            showWidget.addEventListener('click', function(event) {
+                              event.preventDefault();
+                              showWidget.style.display = 'none';
+                              iframe.style.display = 'block';
+                              return false;
+                            });
+                            showWidget.innerHTML = showWidget.innerHTML.replace('${ticketButtonLoadingText}', '${ticketButtonText}');
+                            showWidget.disabled = null;
                           });
                         })();
                       `}}>
