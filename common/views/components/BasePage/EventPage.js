@@ -4,7 +4,7 @@ import BasePage from './BasePage';
 import BaseHeader from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
 import Contributors from '../Contributors/Contributors';
-import WobblyBackground from '../BaseHeader/WobblyBackground';
+import HeaderBackground from '../BaseHeader/HeaderBackground';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import LabelsList from '../LabelsList/LabelsList';
@@ -144,7 +144,9 @@ const EventPage = ({ event }: Props) => {
 
   const Header = (<BaseHeader
     title={`${event.title}`}
-    Background={<WobblyBackground />}
+    Background={<HeaderBackground
+      hasWobblyEdge={true}
+      backgroundTexture={`https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F43a35689-4923-4451-85d9-1ab866b1826d_event_header_background.svg`} />}
     TagBar={null}
     LabelBar={
       <Fragment>

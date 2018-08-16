@@ -7,7 +7,7 @@ import DateRange from '../DateRange/DateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import HTMLDate from '../HTMLDate/HTMLDate';
 import Contributors from '../Contributors/Contributors';
-import WobblyBackground from '../BaseHeader/WobblyBackground';
+import HeaderBackground from '../BaseHeader/HeaderBackground';
 import type {UiInstallation} from '../../../model/installations';
 
 type Props = {|
@@ -31,7 +31,7 @@ const InstallationPage = ({
   });
   const Header = (<BaseHeader
     title={installation.title}
-    Background={<WobblyBackground />}
+    Background={<HeaderBackground hasWobblyEdge={true} />}
     TagBar={
       <div
         style={{ minHeight: '48px' }}
