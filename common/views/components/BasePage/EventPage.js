@@ -315,7 +315,12 @@ const EventPage = ({ event }: Props) => {
 
         {event.policies.length > 0 &&
           <Fragment>
-            <InfoBox title='Need to know' items={[]}></InfoBox>
+            <InfoBox title='Need to know' items={[
+              (event.place && {
+                title: 'Location',
+                description: event.place.information
+              })
+            ].filter(Boolean)}></InfoBox>
           </Fragment>
         }
 
@@ -348,7 +353,7 @@ const EventPage = ({ event }: Props) => {
                     </h3>
                     {event.place && event.place.information &&
                       <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
-                        <p>{event.place.information}</p>
+                        <PrismicHtmlBlock html={event.place.information} />
                       </div>
                     }
                   </Fragment>

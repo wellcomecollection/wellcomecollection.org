@@ -6,7 +6,7 @@ import type { Picture } from '../../model/picture';
 import type { Image } from '../../model/image';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
-import type { Place } from '../../model/place';
+import type { Place } from '../../model/places';
 import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/background-texture';
 import type { CaptionedImage } from '../../model/captioned-image';
 import type { ImagePromo } from '../../model/image-promo';
@@ -294,12 +294,12 @@ export function parseImagePromo(
 }
 
 export function parsePlace(doc: PrismicFragment): Place {
+  const genericFields = parseGenericFields(doc);
   return {
-    id: doc.id,
-    title: asText(doc.data.title) || '',
+    ...genericFields,
     level: doc.data.level || 0,
     capacity: doc.data.capacity,
-    information: asText(doc.data.locationInformation)
+    information: doc.data.locationInformation
   };
 }
 

@@ -107,7 +107,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     start: start,
     end: end,
     statusOverride: statusOverride,
-    place: isDocumentLink(data.place) && parsePlace(data.place),
+    place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     exhibits: data.exhibits ? parseExhibits(data.exhibits) : [],
     promo: {
       id,

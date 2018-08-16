@@ -4,6 +4,7 @@ import type {HTMLString} from './content-blocks';
 import type {BackgroundTexture} from './background-texture';
 import type {Image} from './image';
 import type {LabelField} from './label-field';
+import type {Place} from './places';
 
 type DateTimeRange = {|
   startDateTime: Date,
@@ -53,20 +54,6 @@ export type Team = {|
   email: string,
   phone: string,
   url: string
-|}
-
-type Geolocation = {|
-  latitude: number,
-  longitude: number
-|}
-
-export type Place = {|
-  id: string,
-  title: string,
-  geolocation: ?Geolocation,
-  level: number,
-  capacity: ?number,
-  information: ?HTMLString
 |}
 
 export type Audience = {|
