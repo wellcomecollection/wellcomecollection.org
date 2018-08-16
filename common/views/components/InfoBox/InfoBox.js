@@ -8,10 +8,10 @@ import type {LabelField} from '../../../model/label-field';
 
 type Props = {|
   title: string,
-  items: {
+  items: {|
     ...LabelField,
     icon?: string
-  }[],
+  |}[],
   children: Element<'p'>
 |}
 

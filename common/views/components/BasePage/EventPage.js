@@ -324,13 +324,15 @@ const EventPage = ({ event }: Props) => {
                 title: 'Extra information',
                 description: event.bookingInformation
               })
-            ].concat(event.interpretations.map(({interpretationType, isPrimary}) => ({
-              icon: camelize(interpretationType.title),
-              title: interpretationType.title,
-              description: isPrimary
-                ? interpretationType.primaryDescription
-                : interpretationType.description
-            }))).filter(Boolean)}>
+            ]
+              .concat(event.policies.map(policy => ({...policy})))
+              .concat(event.interpretations.map(({interpretationType, isPrimary}) => ({
+                icon: camelize(interpretationType.title),
+                title: interpretationType.title,
+                description: isPrimary
+                  ? interpretationType.primaryDescription
+                  : interpretationType.description
+              }))).filter(Boolean)}>
               <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
                 <a href='https://wellcomecollection.org/visit-us/events-tickets'>Our event terms and conditions</a>
               </p>
@@ -338,7 +340,7 @@ const EventPage = ({ event }: Props) => {
           </Fragment>
         }
 
-        {true &&
+        {event.policies.length === 0 &&
           <Fragment>
             {event.isCompletelySoldOut && !isDatePast(event.dateRange.lastDate) &&
               <div className={`${spacing({s: 2}, {padding: ['top', 'bottom']})} body-text`}>

@@ -338,7 +338,13 @@ export function parseBackgroundTexture(backgroundTexture: PrismicBackgroundTextu
   };
 }
 
-export function parseLabelType(fragment: PrismicFragment): LabelField {
+export function parseLabelTypeList(fragment: PrismicFragment[], labelKey: string): LabelField[] {
+  return fragment
+    .filter(label => !label.isBroken)
+    .map(label => parseLabelType(label[labelKey].data));
+}
+
+function parseLabelType(fragment: PrismicFragment): LabelField {
   return {
     title: asText(fragment.title),
     description: fragment.description

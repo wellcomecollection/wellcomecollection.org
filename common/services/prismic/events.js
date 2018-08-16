@@ -11,7 +11,8 @@ import {
   eventSeriesFields,
   organisationsFields,
   peopleFields,
-  contributorsFields
+  contributorsFields,
+  eventPoliciesFields
 } from './fetch-links';
 import {
   parseTitle,
@@ -23,7 +24,7 @@ import {
   parseTimestamp,
   parseBoolean,
   parseGenericFields,
-  parseLabelType
+  parseLabelTypeList
 } from './parsers';
 import {parseEventSeries} from './event-series';
 import isEmptyObj from '../../utils/is-empty-object';
@@ -128,7 +129,7 @@ export function parseEventDoc(
     cost: document.data.cost,
     format: document.data.format && parseEventFormat(document.data.format),
     interpretations,
-    policies: (data.policies || []).map(parseLabelType),
+    policies: Array.isArray(data.policies) ? parseLabelTypeList(data.policies, 'policy') : [],
     isDropIn: Boolean(document.data.isDropIn),
     series,
     schedule: eventSchedule,
@@ -165,7 +166,8 @@ const fetchLinks = [].concat(
   organisationsFields,
   peopleFields,
   contributorsFields,
-  eventSeriesFields
+  eventSeriesFields,
+  eventPoliciesFields
 );
 
 type EventQueryProps = {|
