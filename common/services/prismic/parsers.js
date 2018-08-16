@@ -340,7 +340,7 @@ export function parseBackgroundTexture(backgroundTexture: PrismicBackgroundTextu
 
 export function parseLabelTypeList(fragment: PrismicFragment[], labelKey: string): LabelField[] {
   return fragment
-    .filter(label => !label.isBroken)
+    .filter(label => label.isBroken === false)
     .map(label => parseLabelType(label[labelKey].data));
 }
 
@@ -449,7 +449,7 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
             items: slice.items.filter(
               // We have to do a check for data here, as if it's a linked piece
               // of content, we won't have this.
-              item => !item.content.isBroken && item.content.data
+              item => item.content.isBroken === false && item.content.data
             ).map(item => {
               switch (item.content.type) {
                 case 'pages':
