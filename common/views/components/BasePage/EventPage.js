@@ -182,6 +182,14 @@ const EventPage = ({ event }: Props) => {
       Body={<Body body={event.body} />}
     >
       <Fragment>
+
+        <div className={spacing({s: 4}, {margin: ['bottom']})}>
+          <div className={`body-text border-bottom-width-1 border-color-pumice`}>
+            <h2 id='dates'>Dates</h2>
+            {DateInfo(event)}
+          </div>
+        </div>
+
         {event.schedule && event.schedule.length > 0 &&
           <div>
             <h2 className={`${font({s: 'WB6', l: 'WB5'})} ${spacing({s: 4}, {padding: ['bottom']})} border-color-smoke border-bottom-width-2`}>Events</h2>
@@ -204,13 +212,6 @@ const EventPage = ({ event }: Props) => {
               contributors={event.contributors} />
           </div>
         }
-
-        <div className={spacing({s: 4}, {margin: ['bottom']})}>
-          <div className={`body-text border-bottom-width-1 border-color-pumice`}>
-            <h2 id='dates'>Dates</h2>
-            {DateInfo(event)}
-          </div>
-        </div>
 
         {event.ticketSalesStart && showTicketSalesStart(event.ticketSalesStart) &&
           <Fragment>
@@ -315,7 +316,7 @@ const EventPage = ({ event }: Props) => {
           </Fragment>
         }
 
-        {event.policies.length > 0 && !isDatePast(event.dateRange.lastDate) &&
+        {event.policies.length > 0 && !isDatePast(event.dateRange.lastDate) && !(event.schedule && event.schedule.length > 0) &&
           <Fragment>
             <InfoBox title='Need to know' items={[
               (event.place && {
