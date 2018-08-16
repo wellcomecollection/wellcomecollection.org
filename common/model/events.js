@@ -5,6 +5,7 @@ import type {BackgroundTexture} from './background-texture';
 import type {Image} from './image';
 import type {LabelField} from './label-field';
 import type {Place} from './places';
+import type {HTMLString as PrismicHTMLString} from '../services/prismic/types';
 
 type DateTimeRange = {|
   startDateTime: Date,
@@ -88,7 +89,7 @@ export type Event = {|
   interpretations: Interpretation[],
   audiences: Audience[],
   policies: LabelField[],
-  bookingInformation: ?HTMLString,
+  bookingInformation: ?PrismicHTMLString,
   cost: ?string,
   // TODO:
   // this is programmatic and doesn't come from Prismic and can't be edited directly

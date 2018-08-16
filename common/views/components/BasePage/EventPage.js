@@ -319,6 +319,10 @@ const EventPage = ({ event }: Props) => {
               (event.place && {
                 title: 'Location',
                 description: event.place.information
+              }),
+              (event.bookingInformation && {
+                title: 'Extra information',
+                description: event.bookingInformation
               })
             ].filter(Boolean)}>
               <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>

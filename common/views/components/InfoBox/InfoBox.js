@@ -1,7 +1,8 @@
 // @flow
-import {Fragment, Element} from 'react';
+import {Fragment} from 'react';
 import {spacing, font, classNames} from '../../../utils/classnames';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
+import type {Element} from 'react';
 import type {LabelField} from '../../../model/label-field';
 
 type Props = {|
