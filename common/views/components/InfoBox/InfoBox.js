@@ -1,17 +1,19 @@
 // @flow
-import {Fragment} from 'react';
+import {Fragment, Element} from 'react';
 import {spacing, font, classNames} from '../../../utils/classnames';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import type {LabelField} from '../../../model/label-field';
 
 type Props = {|
   title: string,
-  items: LabelField[]
+  items: LabelField[],
+  children: Element<'p'>
 |}
 
 const InfoBox = ({
   title,
-  items
+  items,
+  children
 }: Props) => (
   <div className={classNames([
     'bg-yellow',
@@ -34,6 +36,8 @@ const InfoBox = ({
         }
       </Fragment>
     )}
+
+    {children}
   </div>
 );
 
