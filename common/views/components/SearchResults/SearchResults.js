@@ -35,6 +35,7 @@ const SearchResults = ({ items, title }: Props) => (
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
               Tags={null}
               DateInfo={null}
+              StatusIndicator={null}
             />
           }
 
@@ -48,6 +49,7 @@ const SearchResults = ({ items, title }: Props) => (
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
               Tags={null}
               DateInfo={null}
+              StatusIndicator={null}
             />
           }
 
@@ -61,6 +63,7 @@ const SearchResults = ({ items, title }: Props) => (
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
               Tags={null}
               DateInfo={null}
+              StatusIndicator={null}
             />
           }
 
