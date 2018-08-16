@@ -3,7 +3,7 @@ import BasePage from './BasePage';
 import BaseHeader from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
 import Tags from '../Tags/Tags';
-import WobblyBackground from '../BaseHeader/WobblyBackground';
+import TexturedBackground from '../BaseHeader/TexturedBackground';
 import {UiImage} from '../Images/Images';
 import type {Place} from '../../../model/place';
 
@@ -29,7 +29,7 @@ const PlacePage = ({ place }: Props) => {
   const FeaturedMedia = place.promo && <UiImage tasl={tasl} {...image} />;
   const Header = (<BaseHeader
     title={place.title}
-    Background={<WobblyBackground />}
+    Background={<TexturedBackground hasWobblyEdge={true} />}
     TagBar={<Tags tags={[{
       text: 'Places'
     }]} />}

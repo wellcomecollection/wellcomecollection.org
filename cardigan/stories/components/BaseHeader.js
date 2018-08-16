@@ -4,7 +4,7 @@ import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
 import VideoEmbed from '../../../common/views/components/VideoEmbed/VideoEmbed';
 import {UiImage} from '../../../common/views/components/Images/Images';
 import StatusIndicator from '../../../common/views/components/StatusIndicator/StatusIndicator';
-import WobblyBackground from '../../../common/views/components/BaseHeader/WobblyBackground';
+import TexturedBackground from '../../../common/views/components/BaseHeader/TexturedBackground';
 import LabelsList from '../../../common/views/components/LabelsList/LabelsList';
 import DateRange from '../../../common/views/components/DateRange/DateRange';
 import BaseHeader from '../../../common/views/components/BaseHeader/BaseHeader';
@@ -26,6 +26,7 @@ const Header = () => {
 
   const hasTags = boolean('Has tags?', true);
   const hasBackground = boolean('Has background?', true);
+  const hasWobblyEdge = boolean('Has wobbly edge?', true);
   const hasDescription = boolean('Has description?', true);
   const hasDateInfo = boolean('Has date info?', true);
   const hasInfoBar = boolean('Has info bar?', true);
@@ -46,7 +47,9 @@ const Header = () => {
       title={title}
       TagBar={hasTags ? TagBar : null}
       FeaturedMedia={FeaturedMedia}
-      Background={hasBackground ? WobblyBackground() : null}
+      Background={<TexturedBackground
+        backgroundTexture={hasBackground ? 'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg' : null}
+        hasWobblyEdge={hasWobblyEdge} />}
       Description={hasDescription ? Description : null}
       DateInfo={hasDateInfo ? DateInfo : null}
       InfoBar={hasInfoBar ? InfoBar : null}

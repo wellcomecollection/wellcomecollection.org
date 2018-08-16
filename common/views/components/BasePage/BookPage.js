@@ -7,7 +7,7 @@ import Contributors from '../Contributors/Contributors';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import {UiImage} from '../Images/Images';
 import Tags from '../Tags/Tags';
-import WobblyBackground from '../BaseHeader/WobblyBackground';
+import TexturedBackground from '../BaseHeader/TexturedBackground';
 import {grid, spacing} from '../../../utils/classnames';
 import type {Book} from '../../../model/books';
 import {defaultContributorImage} from '../../../services/prismic/parsers';
@@ -51,7 +51,7 @@ const BookPage = ({ book }: Props) => {
   }]} />;
   const Header = (<BaseHeader
     title={book.title || ''}
-    Background={<WobblyBackground />}
+    Background={<TexturedBackground hasWobblyEdge={true} />}
     TagBar={TagBar}
     DateInfo={null}
     Description={

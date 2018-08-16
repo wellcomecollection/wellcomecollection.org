@@ -4,7 +4,6 @@ import {spacing, grid, font} from '../../../utils/classnames';
 import TexturedBackground from './TexturedBackground';
 import type {Node, Element} from 'react';
 import {UiImage} from '../Images/Images';
-import WobblyBackground from './WobblyBackground';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
 import type {GenericContentFields} from '../../../model/generic-content-fields';
@@ -15,9 +14,7 @@ type FeaturedMedia =
   | Element<typeof UiImage>
   | Element<typeof VideoEmbed>
 
-type BackgroundType =
-  | Element<typeof WobblyBackground>
-  | Element<typeof TexturedBackground>
+type BackgroundType = Element<typeof TexturedBackground>
 
 type Props = {|
   title: string,
