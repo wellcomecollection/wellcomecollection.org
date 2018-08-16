@@ -182,11 +182,11 @@ const WorkPromoExample = () => {
   );
 };
 
-const stories = storiesOf('Components/Promos', module);
+const stories = storiesOf('Components', module);
 
 stories
   .add('Promos', () => <div></div>, {info: PromoReadme})
-  .add('Editorial promo', EditorialPromoExample, {info: EditorialPromoReadme})
-  .add('Event promo', EventPromoExample, {info: EventPromoReadme})
-  .add('Exhibition promo', ExhibitionPromoExample, {info: ExhibitionPromoReadme})
-  .add('Work promo', WorkPromoExample, {info: WorkPromoReadme});
+  .add('Promos: Editorial promo', EditorialPromoExample, {info: EditorialPromoReadme})
+  .add('Promos: Event promo', EventPromoExample, {info: EventPromoReadme})
+  .add('Promos: Exhibition promo', ExhibitionPromoExample, {info: ExhibitionPromoReadme})
+  .add('Promos: Work promo', WorkPromoExample, {info: WorkPromoReadme});
