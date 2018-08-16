@@ -277,12 +277,6 @@
         "select": "media",
         "customtypes": []
       }
-    },
-    "galleryLevel": {
-      "type": "Number",
-      "config": {
-        "label": "Gallery level"
-      }
     }
   },
   "Contributors": {
