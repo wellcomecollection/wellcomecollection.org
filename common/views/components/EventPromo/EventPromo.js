@@ -118,7 +118,7 @@ const EventPromo = ({
               </div>
           }
 
-          {isPast &&
+          {start && end && isPast &&
             <StatusIndicator start={start} end={end} />
           }
 
