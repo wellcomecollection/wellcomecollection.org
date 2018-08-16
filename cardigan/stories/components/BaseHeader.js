@@ -4,7 +4,7 @@ import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
 import VideoEmbed from '../../../common/views/components/VideoEmbed/VideoEmbed';
 import {UiImage} from '../../../common/views/components/Images/Images';
 import StatusIndicator from '../../../common/views/components/StatusIndicator/StatusIndicator';
-import TexturedBackground from '../../../common/views/components/BaseHeader/TexturedBackground';
+import HeaderBackground from '../../../common/views/components/BaseHeader/HeaderBackground';
 import LabelsList from '../../../common/views/components/LabelsList/LabelsList';
 import DateRange from '../../../common/views/components/DateRange/DateRange';
 import BaseHeader from '../../../common/views/components/BaseHeader/BaseHeader';
@@ -47,7 +47,7 @@ const Header = () => {
       title={title}
       TagBar={hasTags ? TagBar : null}
       FeaturedMedia={FeaturedMedia}
-      Background={<TexturedBackground
+      Background={<HeaderBackground
         backgroundTexture={hasBackground ? 'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg' : null}
         hasWobblyEdge={hasWobblyEdge} />}
       Description={hasDescription ? Description : null}

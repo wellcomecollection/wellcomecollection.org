@@ -1,7 +1,7 @@
 // @flow
 import {Fragment} from 'react';
 import {spacing, grid, font} from '../../../utils/classnames';
-import TexturedBackground from './TexturedBackground';
+import HeaderBackground from './HeaderBackground';
 import type {Node, Element} from 'react';
 import {UiImage} from '../Images/Images';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
@@ -14,7 +14,7 @@ type FeaturedMedia =
   | Element<typeof UiImage>
   | Element<typeof VideoEmbed>
 
-type BackgroundType = Element<typeof TexturedBackground>
+type BackgroundType = Element<typeof HeaderBackground>
 
 type Props = {|
   title: string,
@@ -65,7 +65,7 @@ const BaseHeader = ({
   topLink
 }: Props) => {
   const BackgroundComponent = Background ||
-    (FeaturedMedia ? TexturedBackground({backgroundTexture}) : null);
+    (FeaturedMedia ? HeaderBackground({backgroundTexture}) : null);
 
   return (
     <Fragment>

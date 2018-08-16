@@ -4,7 +4,7 @@ type Props = {|
   hasWobblyEdge?: boolean
 |}
 
-const TexturedBackground = ({
+const HeaderBackground = ({
   backgroundTexture,
   hasWobblyEdge
 }: Props) => {
@@ -36,4 +36,4 @@ const TexturedBackground = ({
   );
 };
 
-export default TexturedBackground;
+export default HeaderBackground;
