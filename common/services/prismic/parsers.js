@@ -355,13 +355,15 @@ export function parseBoolean(fragment: PrismicFragment): boolean {
   return Boolean(fragment);
 }
 
-function parseStructuredText(maybeFragment: ?PrismicFragment): ?HTMLString {
-  return maybeFragment && isStructuredText(maybeFragment.description) ? maybeFragment.description : null;
+function parseStructuredText(maybeFragment: ?any): ?HTMLString {
+  return maybeFragment &&
+    isStructuredText((maybeFragment: HTMLString))
+    ? (maybeFragment: HTMLString) : null;
 }
 
 // Prismic return `[ { type: 'paragraph', text: '', spans: [] } ]` when you have
 // inserted text, then removed it, so we need to do this check.
-export function isStructuredText(structuredTextObject: ?HTMLString): boolean {
+export function isStructuredText(structuredTextObject: HTMLString): boolean {
   const text = asText(structuredTextObject);
   return Boolean(structuredTextObject) && (text || '').trim() !== '';
 }
