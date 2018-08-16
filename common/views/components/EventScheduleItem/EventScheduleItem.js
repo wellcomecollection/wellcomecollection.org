@@ -1,12 +1,12 @@
 // @flow
-
+import {Fragment} from 'react';
 import {grid, font, spacing} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
+import LabelsList from '../LabelsList/LabelsList';
 import EventBookingButton from '../EventBookingButton/EventBookingButton';
 import camelize from '../../../utils/camelize';
 import {formatTime, london} from '../../../utils/format-date';
-import {Fragment} from 'react';
 import type {UiEvent} from '../../../model/events';
 
 type Props = {|
@@ -44,10 +44,13 @@ const EventScheduleItem = ({event, hasOwnPage}: Props) => {
           }
         </div>
         <div className={`${grid({s: 12, m: 12, l: 7, xl: 7})}`}>
+          <div className={spacing({s: 2}, {margin: ['bottom']})}>
+            {event.format && <LabelsList labels={[{
+              text: event.format.title,
+              url: null
+            }]} />}
+          </div>
           <div className={`event-schedule__main ${spacing({l: 2}, {padding: ['right']})}`}>
-            {event.format &&
-              <span className={`block ${font({s: 'HNM5', m: 'HNM4'})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{event.format.title}</span>
-            }
             <h3 className={`${font({s: 'WB6', l: 'WB5'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{event.title}</h3>
 
             <p className={`${spacing({s: 2}, {margin: ['bottom']})} ${font({s: 'HNL5', m: 'HNL4'})}`} dangerouslySetInnerHTML={{__html: event.description}} />
