@@ -25,7 +25,7 @@ export function parseInstallationDoc(document: PrismicDocument): UiInstallation 
     description: parseDescription(data.description),
     start: parseTimestamp(data.start),
     end: data.end && parseTimestamp(data.end),
-    place: isDocumentLink(data.place) && parsePlace(data.place)
+    place: isDocumentLink(data.place) ? parsePlace(data.place) : null
   };
 }
 

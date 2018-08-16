@@ -1,7 +1,7 @@
 // @flow
 import type {GenericContentFields} from './generic-content-fields';
 import type {HTMLString} from '../services/prismic/types';
-import type {Place} from './place';
+import type {Place} from './places';
 
 export type Installation = {|
   ...GenericContentFields,

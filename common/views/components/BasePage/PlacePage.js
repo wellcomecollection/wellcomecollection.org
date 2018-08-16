@@ -5,7 +5,7 @@ import Body from '../Body/Body';
 import Tags from '../Tags/Tags';
 import WobblyBackground from '../BaseHeader/WobblyBackground';
 import {UiImage} from '../Images/Images';
-import type {Place} from '../../../model/place';
+import type {Place} from '../../../model/places';
 
 type Props = {|
   place: Place

@@ -2,23 +2,20 @@
 import type {PrismicDocument} from './types';
 import {getDocument} from './api';
 import {
-  parseTitle,
-  parseImagePromo,
-  parseBody,
-  parseNumber
+  parseNumber,
+  parseGenericFields
 } from './parsers';
 import type {Place} from '../../model/places';
 
 export function parsePlaceDoc(document: PrismicDocument): Place {
   const data = document.data;
-  const promo = document.data.promo && parseImagePromo(document.data.promo);
+  const genericFields = parseGenericFields(document);
+
   return {
-    id: document.id,
-    title: parseTitle(data.title),
+    ...genericFields,
     level: data.level && parseNumber(data.level),
     capacity: data.capacity && parseNumber(data.capacity),
-    promo: promo,
-    body: data.body ? parseBody(data.body) : []
+    information: data.locationInformation
   };
 }
 

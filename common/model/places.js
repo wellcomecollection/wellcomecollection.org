@@ -1,11 +1,11 @@
 // @flow
-import type {ImagePromo} from './image-promo';
-
+import type {GenericContentFields} from './generic-content-fields';
+import type {HTMLString} from '../services/prismic/types';
 export type Place = {|
+  ...GenericContentFields,
   id: string,
   title: string,
-  level: ?number,
+  level: number,
   capacity: ?number,
-  promo: ?ImagePromo,
-  body: any[]
-|};
+  information: ?HTMLString
+|}
