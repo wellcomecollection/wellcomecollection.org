@@ -5,7 +5,6 @@ import promo from './parts/promo';
 import timestamp from './parts/timestamp';
 import place from './parts/place';
 import link from './parts/link';
-import number from './parts/number';
 import list from './parts/list';
 import text from './parts/text';
 import structuredText from './parts/structured-text';
@@ -21,10 +20,7 @@ const Exhibitions = {
     end: timestamp('End date'),
     statusOverride: structuredText('Status override', 'single'),
     place,
-    textAndCaptionsDocument: link('Text and captions document', 'media'),
-
-    // TODO: deprecate for place when the data has been updated
-    galleryLevel: number('Gallery level')
+    textAndCaptionsDocument: link('Text and captions document', 'media')
   },
   Contributors: contributorsWithTitle(),
   Exhibits: {

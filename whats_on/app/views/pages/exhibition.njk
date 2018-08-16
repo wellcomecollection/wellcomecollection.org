@@ -111,10 +111,10 @@
             <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
             {% block accessStatements %}
               <h2 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Access information</h2>
-              {% if exhibition.galleryLevel !== null %}
+              {% if exhibition.place and exhibition.place.level %}
                 <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
                   <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'lifts' %}</div>
-                  <p class="no-margin">This exhibition is on level {{ exhibition.galleryLevel }}</p>
+                  <p class="no-margin">This exhibition is on level {{ exhibition.place.level }}</p>
                 </div>
               {% endif %}
               <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
