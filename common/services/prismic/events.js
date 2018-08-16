@@ -22,7 +22,8 @@ import {
   isDocumentLink,
   parseTimestamp,
   parseBoolean,
-  parseGenericFields
+  parseGenericFields,
+  parseLabelType
 } from './parsers';
 import {parseEventSeries} from './event-series';
 import isEmptyObj from '../../utils/is-empty-object';
@@ -131,6 +132,7 @@ export function parseEventDoc(
     cost: document.data.cost,
     format: document.data.format && parseEventFormat(document.data.format),
     interpretations,
+    policies: (data.policies || []).map(parseLabelType),
     isDropIn: Boolean(document.data.isDropIn),
     series,
     schedule: eventSchedule,

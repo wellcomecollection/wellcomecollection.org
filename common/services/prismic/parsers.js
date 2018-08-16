@@ -11,6 +11,7 @@ import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/ba
 import type { CaptionedImage } from '../../model/captioned-image';
 import type { ImagePromo } from '../../model/image-promo';
 import type { GenericContentFields } from '../../model/generic-content-fields';
+import type { LabelField } from '../../model/label-field';
 import type { SameAs } from '../../model/same-as';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
@@ -334,6 +335,13 @@ export function parseBackgroundTexture(backgroundTexture: PrismicBackgroundTextu
   return {
     image: backgroundTexture.image.url,
     name: backgroundTexture.name
+  };
+}
+
+export function parseLabelType(fragment: PrismicFragment): LabelField {
+  return {
+    title: asText(fragment.title),
+    description: fragment.description
   };
 }
 

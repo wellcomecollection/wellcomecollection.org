@@ -3,6 +3,7 @@ import type {GenericContentFields} from './generic-content-fields';
 import type {HTMLString} from './content-blocks';
 import type {BackgroundTexture} from './background-texture';
 import type {Image} from './image';
+import type {LabelField} from './label-field';
 
 type DateTimeRange = {|
   startDateTime: Date,
@@ -99,6 +100,7 @@ export type Event = {|
   bookingEnquiryTeam: ?Team,
   interpretations: Interpretation[],
   audiences: Audience[],
+  policies: LabelField[],
   bookingInformation: ?HTMLString,
   cost: ?string,
   // TODO:
