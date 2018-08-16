@@ -3,7 +3,7 @@ import type {HTMLString} from '../services/prismic/types';
 import type {Picture} from './picture';
 import type {Installation, UiInstallation} from './installations';
 import type {ImagePromo} from './image-promo';
-import type {Place} from './place';
+import type {Place} from './places';
 import type {Contributor} from './contributors';
 import type {Image} from './image';
 import type {GenericContentFields} from './generic-content-fields';

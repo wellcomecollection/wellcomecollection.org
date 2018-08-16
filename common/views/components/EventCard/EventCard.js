@@ -1,8 +1,10 @@
 // @flow
+import {london} from '../../../utils/format-date';
 import LabelsList from '../LabelsList/LabelsList';
 import DateRange from '../DateRange/DateRange';
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
+import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import type {UiEvent} from '../../../model/events';
 
 type Props = {|
@@ -27,6 +29,12 @@ const EventCard = ({ event }: Props) => {
   const DateRangeComponent = dateRange ? <DateRange {...dateRange} /> : null;
   const ImageComponent = event.promo && event.promo.image && <Image {...event.promo.image} />;
 
+  const firstTime = event.times[0];
+  const lastTime = event.times[event.times.length - 1];
+  const isPast = lastTime && london(lastTime.range.endDateTime).isBefore(london());
+  const StatusIndicatorComponent =
+    isPast && <StatusIndicator start={firstTime.range.startDateTime} end={lastTime.range.endDateTime} />;
+
   return <CompactCard
     url={`/events/${event.id}`}
     title={event.title}
@@ -36,6 +44,7 @@ const EventCard = ({ event }: Props) => {
     Tags={LabelsComponent}
     Image={ImageComponent}
     DateInfo={DateRangeComponent}
+    StatusIndicator={StatusIndicatorComponent}
   />;
 };
 

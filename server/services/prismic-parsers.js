@@ -115,7 +115,7 @@ export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): UiEve
     promo: promo,
     series: series,
     place: place,
-    bookingInformation: asHtml(doc.data.bookingInformation),
+    bookingInformation: doc.data.bookingInformation,
     bookingType: bookingType,
     cost: cost,
     schedule: eventSchedule,

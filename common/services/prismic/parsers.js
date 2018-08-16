@@ -6,11 +6,12 @@ import type { Picture } from '../../model/picture';
 import type { Image } from '../../model/image';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
-import type { Place } from '../../model/place';
+import type { Place } from '../../model/places';
 import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/background-texture';
 import type { CaptionedImage } from '../../model/captioned-image';
 import type { ImagePromo } from '../../model/image-promo';
 import type { GenericContentFields } from '../../model/generic-content-fields';
+import type { LabelField } from '../../model/label-field';
 import type { SameAs } from '../../model/same-as';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
@@ -293,12 +294,12 @@ export function parseImagePromo(
 }
 
 export function parsePlace(doc: PrismicFragment): Place {
+  const genericFields = parseGenericFields(doc);
   return {
-    id: doc.id,
-    title: asText(doc.data.title) || '',
+    ...genericFields,
     level: doc.data.level || 0,
     capacity: doc.data.capacity,
-    information: asText(doc.data.locationInformation)
+    information: doc.data.locationInformation
   };
 }
 
@@ -337,17 +338,32 @@ export function parseBackgroundTexture(backgroundTexture: PrismicBackgroundTextu
   };
 }
 
+export function parseLabelTypeList(fragment: PrismicFragment[], labelKey: string): LabelField[] {
+  return fragment
+    .filter(label => !label.isBroken)
+    .map(label => parseLabelType(label[labelKey].data));
+}
+
+function parseLabelType(fragment: PrismicFragment): LabelField {
+  return {
+    title: asText(fragment.title),
+    description: fragment.description
+  };
+}
+
 export function parseBoolean(fragment: PrismicFragment): boolean {
   return Boolean(fragment);
 }
 
-function parseStructuredText(maybeFragment: ?PrismicFragment): ?HTMLString {
-  return maybeFragment && isStructuredText(maybeFragment.description) ? maybeFragment.description : null;
+function parseStructuredText(maybeFragment: ?any): ?HTMLString {
+  return maybeFragment &&
+    isStructuredText((maybeFragment: HTMLString))
+    ? (maybeFragment: HTMLString) : null;
 }
 
 // Prismic return `[ { type: 'paragraph', text: '', spans: [] } ]` when you have
 // inserted text, then removed it, so we need to do this check.
-export function isStructuredText(structuredTextObject: ?HTMLString): boolean {
+export function isStructuredText(structuredTextObject: HTMLString): boolean {
   const text = asText(structuredTextObject);
   return Boolean(structuredTextObject) && (text || '').trim() !== '';
 }

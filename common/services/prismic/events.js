@@ -11,7 +11,8 @@ import {
   eventSeriesFields,
   organisationsFields,
   peopleFields,
-  contributorsFields
+  contributorsFields,
+  eventPoliciesFields
 } from './fetch-links';
 import {
   parseTitle,
@@ -22,7 +23,8 @@ import {
   isDocumentLink,
   parseTimestamp,
   parseBoolean,
-  parseGenericFields
+  parseGenericFields,
+  parseLabelTypeList
 } from './parsers';
 import {parseEventSeries} from './event-series';
 import isEmptyObj from '../../utils/is-empty-object';
@@ -122,15 +124,12 @@ export function parseEventDoc(
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     audiences,
     bookingEnquiryTeam,
-    bookingInformation: document.data.bookingInformation.filter(info => {
-      if (info.text.length > 0) {
-        return info;
-      }
-    }),
+    bookingInformation: document.data.bookingInformation.length > 1 ? document.data.bookingInformation : null,
     bookingType: parseEventBookingType(document),
     cost: document.data.cost,
     format: document.data.format && parseEventFormat(document.data.format),
     interpretations,
+    policies: Array.isArray(data.policies) ? parseLabelTypeList(data.policies, 'policy') : [],
     isDropIn: Boolean(document.data.isDropIn),
     series,
     schedule: eventSchedule,
@@ -167,7 +166,8 @@ const fetchLinks = [].concat(
   organisationsFields,
   peopleFields,
   contributorsFields,
-  eventSeriesFields
+  eventSeriesFields,
+  eventPoliciesFields
 );
 
 type EventQueryProps = {|
