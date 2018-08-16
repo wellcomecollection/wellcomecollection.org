@@ -40,8 +40,8 @@ export type UiEventSeries = {|
 type InterpretationType = {|
   id: string,
   title: string,
-  description: ?string,
-  primaryDescription: ?string
+  description: ?PrismicHTMLString,
+  primaryDescription: ?PrismicHTMLString
 |}
 
 export type Interpretation = {|

@@ -2,12 +2,16 @@
 import {Fragment} from 'react';
 import {spacing, font, classNames} from '../../../utils/classnames';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
+import Icon from '../Icon/Icon';
 import type {Element} from 'react';
 import type {LabelField} from '../../../model/label-field';
 
 type Props = {|
   title: string,
-  items: LabelField[],
+  items: {
+    ...LabelField,
+    icon?: string
+  }[],
   children: Element<'p'>
 |}
 
@@ -23,9 +27,22 @@ const InfoBox = ({
   ])}>
     <h2 className='h2'>{title}</h2>
 
-    {items.map(({title, description}) =>
+    {items.map(({title, description, icon}) =>
       <Fragment key={title}>
-        <h3 className={font({s: 'HNM4'})}>{title}</h3>
+        {!icon && <h3 className={font({s: 'HNM4'})}>{title}</h3>}
+        {icon &&
+          <h3 className={classNames([
+            'no-margin flex flex--v-center',
+            font({s: 'HNM4'})
+          ])}>
+            <span className={classNames([
+              'flex flex--v-center',
+              spacing({s: 1}, {margin: ['right']})
+            ])}>
+              <Icon name={icon} />
+            </span>
+            <span>{title}</span>
+          </h3>}
         {description &&
           <div className={classNames([
             'plain-text',
