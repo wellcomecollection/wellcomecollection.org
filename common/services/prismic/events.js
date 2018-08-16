@@ -116,7 +116,6 @@ export function parseEventDoc(
       : null).filter(Boolean);
 
   const upcomingDate = determineUpcomingDate(data.times);
-
   return {
     type: 'events',
     ...genericFields,
@@ -221,6 +220,11 @@ export async function getEvents(req: Request,  {
       interpretations {
         interpretationType {
           ...interpretationTypeFields
+        }
+      }
+      policies {
+        policy {
+          ...policyFields
         }
       }
       audiences {
