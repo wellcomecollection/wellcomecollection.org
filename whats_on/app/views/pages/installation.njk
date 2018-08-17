@@ -14,11 +14,10 @@
 {% endblock %}
 
 {% block body %}
-  {# TODO: ld+Json #}
-  {% componentJsx "InstallationPage", {
-    installation: installation
-  } %}
   <script type="application/ld+json">
     {# {{ jsonLdExhibition | jsonLd('exhibitionLd') | safe }} #}
   </script>
+  {% componentJsx "InstallationPage", {
+    installation: installation
+  } %}
 {% endblock %}
