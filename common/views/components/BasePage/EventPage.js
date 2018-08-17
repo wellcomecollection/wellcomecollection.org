@@ -273,6 +273,7 @@ const EventPage = ({ event }: Props) => {
                             iframe.style.display = 'none';
                             iframe.style.visibility = 'visible';
                             iframe.style.position = 'relative';
+                            iframe.style.minHeight = '400px';
                             showWidget.classList.remove('disabled');
 
                             showWidget.addEventListener('click', function(event) {
