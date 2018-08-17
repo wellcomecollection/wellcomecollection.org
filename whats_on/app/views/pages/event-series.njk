@@ -4,13 +4,13 @@
   {% set metaContent = {
     type: 'website',
     title: 'Events',
-    image: series.promoImage.contentUrl,
-    url: pageConfig.canonicalUri,
-    description: series.promoText
+    image: series.promoImage and series.promoImage.contentUrl,
+    description: series.promoText,
+    url: pageConfig.canonicalUri
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
   {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
- <meta name="description" content="{{ metaContent.description }}" />
+  <meta name="description" content="{{ series.promoText }}" />
 {% endblock %}
 
 {% block body %}

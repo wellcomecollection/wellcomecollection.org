@@ -26,8 +26,8 @@ export function contentLd(content) {
 export function exhibitionLd(exhibition) {
   return objToJsonLd({
     name: exhibition.title,
-    description: exhibition.safeDescription.val,
-    image: exhibition.featuredImage && convertImageUri(exhibition.featuredImage.contentUrl, 1920, false),
+    description: exhibition.promoText,
+    image: exhibition.promoImage && convertImageUri(exhibition.promoImage.contentUrl, 1920, false),
     location: {
       '@type': 'Place',
       name: 'Wellcome Collection',
