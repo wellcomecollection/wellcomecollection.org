@@ -1,7 +1,6 @@
 // @flow
 import {Fragment} from 'react';
-import moment from 'moment';
-import {formatTime, formatDayDate} from '../../../utils/format-date';
+import {formatTime, formatDayDate, london} from '../../../utils/format-date';
 import HTMLDate from '../HTMLDate/HTMLDate';
 import type {DateRange as DateRangeProps} from '../../../model/date-range';
 
@@ -24,7 +23,7 @@ const TimeRange = ({start, end}: DateRangeProps) => (
 );
 
 const DateRange = ({start, end}: DateRangeProps) => {
-  const isSameDay = moment(start).isSame(end, 'day');
+  const isSameDay = london(start).isSame(end, 'day');
 
   return (
     <Fragment>
