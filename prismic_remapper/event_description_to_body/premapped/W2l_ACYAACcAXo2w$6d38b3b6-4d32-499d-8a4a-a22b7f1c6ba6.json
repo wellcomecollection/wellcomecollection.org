@@ -1,0 +1,241 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "W2l_ACYAACcAXo2y",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Somers Town, a Social Laboratory",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmcSsAACx_A8La",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmcSsAACx_A8La"
+  },
+  "series": [
+    {}
+  ],
+  "ticketSalesStart": "2018-09-28T10:00:00+00:00",
+  "times": [
+    {
+      "startDateTime": "2018-10-06T14:00:00+00:00",
+      "endDateTime": "2018-10-06T16:00:00+00:00"
+    },
+    {
+      "startDateTime": "2018-10-12T14:00:00+00:00",
+      "endDateTime": "2018-10-12T16:00:00+00:00"
+    },
+    {
+      "startDateTime": "2018-10-13T14:00:00+00:00",
+      "endDateTime": "2018-10-13T16:00:00+00:00"
+    },
+    {
+      "startDateTime": "2018-10-19T14:00:00+00:00",
+      "endDateTime": "2018-10-19T16:00:00+00:00"
+    },
+    {
+      "startDateTime": "2018-10-20T14:00:00+00:00",
+      "endDateTime": "2018-10-20T16:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you'll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join this guided walking tour through the radical history of Somers Town, a place of architectural and institutional experimentation. We will explore the buildings and people that shaped the local area’s history of social deprivation and progressive politics.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we'll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This tour will start at Wellcome Collection before heading offsite. This walk will be suitable for all fitness levels, but please get in touch if you have any accessibility queries.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/48798485584?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/somers-town-a-social-laboratory-tickets-48798485584",
+    "type": "link",
+    "version": "1.0",
+    "title": "Somers Town: A Social Laboratory",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/48798485584?aff=efbneb\"><h1>Somers Town: A Social Laboratory</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>Somers Town: A Social Laboratory</p></a></div>"
+  },
+  "policies": [
+    {
+      "policy": {
+        "id": "W3VBCSkAACIAG6uQ",
+        "mask": "event-policies",
+        "wioUrl": "wio://documents/W3VBCSkAACIAG6uQ"
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "Wyu-wCoAACkACpod",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/Wyu-wCoAACkACpod"
+      },
+      "contributor": {
+        "id": "W2mB3iYAACYAXpof",
+        "mask": "people",
+        "wioUrl": "wio://documents/W2mB3iYAACYAXpof"
+      }
+    },
+    {
+      "role": {
+        "id": "WoGaByoAACsAMY5g",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WoGaByoAACsAMY5g"
+      },
+      "contributor": {
+        "id": "W3QzZykAACIAFwFt",
+        "mask": "organisations",
+        "wioUrl": "wio://documents/W3QzZykAACIAFwFt"
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$ff5dadae-1172-4101-be4c-c2a8c6429b88",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join this guided walking tour through the radical history of Somers Town, a place of architectural and institutional experimentation.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "W3QwXykAACkAFvPg",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd16a00f4-cc4f-454f-8641-7f3872afbe27_c0089251.jpg",
+              "width": 3000,
+              "height": 1688
+            },
+            "width": 3000,
+            "height": 1688,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/4c11f9812d05643df8fbf6d34724aed69a042f21_c0089251.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "W3QwXykAACkAFvPg",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd16a00f4-cc4f-454f-8641-7f3872afbe27_c0089251.jpg",
+                  "width": 3000,
+                  "height": 1688
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/85c0f99b1955feda6806f5db26497fca454d868e_c0089251.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.0666666666666667,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "W3QwXykAACkAFvPg",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd16a00f4-cc4f-454f-8641-7f3872afbe27_c0089251.jpg",
+                  "width": 3000,
+                  "height": 1688
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/c88a3b32b1730e3a63eee6f7575a0ce31463edd5_c0089251.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.8957345971563981,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "32:15": {
+                "origin": {
+                  "id": "W3QwXykAACkAFvPg",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd16a00f4-cc4f-454f-8641-7f3872afbe27_c0089251.jpg",
+                  "width": 3000,
+                  "height": 1688
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/31c3181aa748d80acd7943e1f2d813bd8fe9d08e_c0089251.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.0666666666666667,
+                  "crop": {
+                    "x": 0,
+                    "y": -150
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

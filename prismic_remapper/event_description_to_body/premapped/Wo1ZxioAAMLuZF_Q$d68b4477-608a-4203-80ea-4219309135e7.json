@@ -1,0 +1,260 @@
+{
+  "type": "events",
+  "tags": [
+    "delist"
+  ],
+  "lang": "en-gb",
+  "grouplang": "Wo1ZxioAAMLuZF_S",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Shakti and Seva: Gender and health in South Asia",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn3ZFyoAACkAIgPT",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn3ZFyoAACkAIgPT"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "Wo1YeCoAACoAZFoN",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/Wo1YeCoAACoAZFoN"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-04-05T18:00:00+00:00",
+      "endDateTime": "2018-04-05T19:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Hear from different perspectives in this discussion about the contemporary issues surrounding sex, gender and sexuality raised by our Ayurvedic Man exhibition.",
+        "spans": [
+          {
+            "start": 134,
+            "end": 147,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/exhibitions/WduTricAAN7Mt8yY"
+              },
+              "url": "https://wellcomecollection.org/exhibitions/WduTricAAN7Mt8yY"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Then we’ll open up to the audience for conversation. You can participate or just listen in. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speakers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Four speakers will take part in the discussion, facilitated by writer Sharmila Chauhan:",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Vayu Naidu, storyteller",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Lu Gram, global health researcher",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Papreen Nahar, medical anthropologist",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Monika Hirmer, PhD candidate in Religions and Philosophies at SOAS, University of London\n",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The Studio, which accommodates about 80 seats, is on level 1. Head upstairs and follow the signs to the Studio through the Medicine Now gallery.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/43435492728?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/embracing-the-goddess-tickets-43435492728",
+    "type": "link",
+    "version": "1.0",
+    "title": "Embracing the Goddess",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F41249671%2F199177384845%2F1%2Foriginal.jpg?w=1000&rect=0%2C0%2C2160%2C1080&s=d388f7ac2577435e9d3bfe5870ca5a75",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/43435492728?aff=efbneb\"><h1>Embracing the Goddess</h1><img src=\"https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F41249671%2F199177384845%2F1%2Foriginal.jpg?w=1000&rect=0%2C0%2C2160%2C1080&s=d388f7ac2577435e9d3bfe5870ca5a75\"><p>By proceeding you agree to Wellcome Collection event terms and conditions here</p></a></div>"
+  },
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This discussion will take place during the Embracing the Goddess event. The exact times will be confirmed shortly.",
+        "spans": [
+          {
+            "start": 72,
+            "end": 114,
+            "type": "strong"
+          }
+        ]
+      }
+    }
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$bc64a5bd-5893-46fd-97b2-d3ec8d8e56b0",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Listen to a discussion about the contemporary issues surrounding sex, gender and sexuality inspired by our Ayurvedic Man exhibition. ",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "Wo68FyoAACoAanYG",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff02eae48-99e5-4121-93c3-a7b4809f5a4b_c0126765.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/7e33337537bf5e15ff01dc0d872287ed930cef67_c0126765.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "Wo68FyoAACoAanYG",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff02eae48-99e5-4121-93c3-a7b4809f5a4b_c0126765.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/0f9c3928c9dde7930d0a7b8dd5fbd5fe3f6f45d9_c0126765.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "Wo68FyoAACoAanYG",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff02eae48-99e5-4121-93c3-a7b4809f5a4b_c0126765.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/a1878ba98efcb2c389c2e6cb522b085381fe9b22_c0126765.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

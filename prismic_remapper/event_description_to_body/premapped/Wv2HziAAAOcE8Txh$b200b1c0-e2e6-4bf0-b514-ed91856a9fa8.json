@@ -1,0 +1,234 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Wv2HziAAAOcE8Txj",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Handle With Care",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Ww_LyiEAAFOTlJ4-",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Ww_LyiEAAFOTlJ4-"
+  },
+  "series": [],
+  "times": [
+    {
+      "startDateTime": "2018-07-06T18:00:00+00:00",
+      "endDateTime": "2018-07-06T22:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join us for a Friday Late Spectacular exploring what it means to care, to be cared for, to be caring, to be a carer.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Has the widespread language of care been hijacked by institutions that are far from caring? What effect does the digital era have on our capacity to care? Enjoy art, performance, conversation and cocktails as we consider how we handle ourselves, each other and our world with care.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "WrEkryAAACAAPF4C",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WrEkryAAACAAPF4C"
+      },
+      "contributor": {
+        "id": "WwUoTyAAAKOgEoNx",
+        "mask": "people",
+        "wioUrl": "wio://documents/WwUoTyAAAKOgEoNx"
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$9eab7a5c-15d8-4f49-90f2-efbe1e2cdeeb",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join us for a Friday Late Spectacular exploring what it means to care.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "Ww6wUiEAAEU5j8GT",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff92d17c6-0384-470a-aa2e-a8260d69dfec_tf_180523_2140127-2.jpg",
+              "width": 3960,
+              "height": 2228
+            },
+            "width": 3960,
+            "height": 2228,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/42787ccfbf21f840e4fea8c0b47730fdad836bb0_tf_180523_2140127-2.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Stacy and Lois | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photographic portrait of two women holding hands. One is facing away from the camera , the other is looking at their clasped hands.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "Ww6wUiEAAEU5j8GT",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff92d17c6-0384-470a-aa2e-a8260d69dfec_tf_180523_2140127-2.jpg",
+                  "width": 3960,
+                  "height": 2228
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/c3dd0a458abe8385d7f98f6efb3bb86195fc3e3a_tf_180523_2140127-2.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8080808080808081,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Stacy and Lois | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of two women holding hands. One is facing away from the camera , the other is looking at their clasped hands."
+              },
+              "square": {
+                "origin": {
+                  "id": "Ww6wUiEAAEU5j8GT",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff92d17c6-0384-470a-aa2e-a8260d69dfec_tf_180523_2140127-2.jpg",
+                  "width": 3960,
+                  "height": 2228
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ddabd9219d3658b4104dfe82b4e9d3b328ec6d2c_tf_180523_2140127-2.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.436265709156194,
+                  "crop": {
+                    "x": -1039,
+                    "y": 0
+                  }
+                },
+                "credits": "Stacy and Lois | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of two women holding hands. One is facing away from the camera , the other is looking at their clasped hands."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {
+      "event": {
+        "id": "WwP2sCAAAIEmDTsQ",
+        "mask": "events",
+        "wioUrl": "wio://documents/WwP2sCAAAIEmDTsQ"
+      }
+    },
+    {
+      "event": {
+        "id": "WwP3yiAAANBfDUAH",
+        "mask": "events",
+        "wioUrl": "wio://documents/WwP3yiAAANBfDUAH"
+      }
+    },
+    {
+      "event": {
+        "id": "Ww5sTiEAAEU5jpNk",
+        "mask": "events",
+        "wioUrl": "wio://documents/Ww5sTiEAAEU5jpNk"
+      }
+    },
+    {
+      "event": {
+        "id": "Ww5rryEAANkkjpCh",
+        "mask": "events",
+        "wioUrl": "wio://documents/Ww5rryEAANkkjpCh"
+      }
+    },
+    {
+      "event": {
+        "id": "Ww5zEyEAAMsAjrGD",
+        "mask": "events",
+        "wioUrl": "wio://documents/Ww5zEyEAAMsAjrGD"
+      }
+    },
+    {
+      "event": {
+        "id": "Ww5rJCEAANgkjo47",
+        "mask": "events",
+        "wioUrl": "wio://documents/Ww5rJCEAANgkjo47"
+      }
+    },
+    {
+      "event": {
+        "id": "Ww5ofyEAANgkjoJy",
+        "mask": "events",
+        "wioUrl": "wio://documents/Ww5ofyEAANgkjoJy"
+      }
+    },
+    {
+      "event": {
+        "id": "Ww5swyEAAEU5jpVu",
+        "mask": "events",
+        "wioUrl": "wio://documents/Ww5swyEAAEU5jpVu"
+      }
+    }
+  ],
+  "backgroundTexture": {
+    "id": "WrOgPiMAALkfU7BI",
+    "mask": "background-textures",
+    "wioUrl": "wio://documents/WrOgPiMAALkfU7BI"
+  }
+}

@@ -1,0 +1,440 @@
+{
+  "type": "events",
+  "tags": [
+    "delist"
+  ],
+  "lang": "en-gb",
+  "grouplang": "WwP2sCAAAIEmDTsS",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Care Radio Live",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1gvyoAACgAIAEF",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gvyoAACgAIAEF"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-06T18:00:00+00:00",
+      "endDateTime": "2018-07-06T19:00:00+00:00"
+    },
+    {
+      "startDateTime": "2018-07-06T19:00:00+00:00",
+      "endDateTime": "2018-07-06T20:00:00+00:00"
+    },
+    {
+      "startDateTime": "2018-07-06T20:00:00+00:00",
+      "endDateTime": "2018-07-06T21:00:00+00:00"
+    },
+    {
+      "startDateTime": "2018-07-06T21:00:00+00:00",
+      "endDateTime": "2018-07-06T21:45:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Listen to and be part of our Care Radio programme, broadcast live in the building and online. Watch the presenters in action as they host a night of discussion, spoken word performance, interviews, music and audience participation.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Bring along your song requests, shout-outs and top tips for self-care, or just sit back and enjoy the show.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your presenters",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "See the frantic behind the scenes workings of live radio with BBC presenters. Nikki Bedi presents BBC World Service’s ‘The Arts Hour’ and is a regular interviewer on BBC Radio 4’s ‘Loose Ends’ and J P Devlin presents BBC Radio 4’s ‘Saturday Live’.",
+        "spans": [
+          {
+            "start": 78,
+            "end": 88,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://www.nikkibedi.com/"
+              },
+              "url": "https://www.nikkibedi.com/"
+            }
+          },
+          {
+            "start": 197,
+            "end": 207,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://twitter.com/devlin_jp?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
+              },
+              "url": "https://twitter.com/devlin_jp?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Line-up",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "7pm: The Language of Care",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "James Thompson is a Performance and Social Engagement scholar at the University of Manchester.",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Christie Watson is the author of ‘The Language of Kindness, a Nurse’s Story’.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 15,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://en.wikipedia.org/wiki/Christie_Watson"
+              },
+              "url": "https://en.wikipedia.org/wiki/Christie_Watson"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Christopher Davis is a medical anthropologist.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "8pm: The Practice of Care",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Maggie Inchley is behind the Verbatim Formula project and works with children in care.",
+        "spans": [
+          {
+            "start": 29,
+            "end": 45,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "http://www.theverbatimformula.org.uk/"
+              },
+              "url": "http://www.theverbatimformula.org.uk/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Selina Thompson is an artist and performer whose work focuses on the politics of identity.",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Ria Hartley is an interdisciplinary artist, researcher, activist and educator.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "9pm: Who Cares?",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Hannah Brown is a medical anthropologist at Durham University.",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Mairead Enright is a Senior Lecturer in Law and expert on feminist legal studies.",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Gareth Esson is a sex and relationships educator.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "10pm: Radio as Care",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Bella Starling is a Wellcome Engagement Fellow and Director of Public Programmes for the Central Manchester NHS Trust who will be exploring radio as care with Reform Radio and Sonder Radio.",
+        "spans": [
+          {
+            "start": 159,
+            "end": 171,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "http://www.reformradio.co.uk/"
+              },
+              "url": "http://www.reformradio.co.uk/"
+            }
+          },
+          {
+            "start": 176,
+            "end": 188,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://www.sonderradio.com/"
+              },
+              "url": "https://www.sonderradio.com/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Tammy WhyNot is a former country music singer turned lesbian performance artist.",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Carolyn Burdett is a Senior Lecturer in English and Victorian Studies at Birkbeck, University of London.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Follow the signs down the stairs or take the lift down to the Auditorium on level -1 to be part of the live audience. The auditorium seats 150. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Alternatively, head to one of our listening posts in the Franks & Steel Room on level -1 and the Viewing Room on level 2. Or pick up some headphones from the information point on level 0.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This event is part of Handle With Care, a Friday Late Spectacular.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 66,
+            "type": "em"
+          },
+          {
+            "start": 22,
+            "end": 38,
+            "type": "hyperlink",
+            "data": {
+              "id": "Wv2HziAAAOcE8Txh",
+              "mask": "events",
+              "preview": {
+                "image": "https://prismic-io.s3.amazonaws.com/wellcomecollection/medium_f92d17c6-0384-470a-aa2e-a8260d69dfec_tf_180523_2140127-2.jpg",
+                "title": "Handle With Care"
+              },
+              "wioUrl": "wio://documents/Wv2HziAAAOcE8Txh"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WlYq1SQAACYAWiuX",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WlYq1SQAACYAWiuX"
+      }
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/47217706431?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/care-radio-live-tickets-47217706431 ",
+    "type": "link",
+    "version": "1.0",
+    "title": "Handle with Care: Care Radio Live",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/47217706431?aff=efbneb\"><h1>Handle with Care: Care Radio Live</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>Handle with Care: Care Radio Live</p></a></div>"
+  },
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$aeb56d2a-a61d-42c7-a426-4a911a6a73bf",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Listen to and be part of our Care Radio programme, broadcast live. Watch the presenters in action as they host a night of discussion, spoken word performance, interviews, music and audience participation.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "Ww6wUiEAAEU5j8GT",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff92d17c6-0384-470a-aa2e-a8260d69dfec_tf_180523_2140127-2.jpg",
+              "width": 3960,
+              "height": 2228
+            },
+            "width": 3960,
+            "height": 2228,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/42787ccfbf21f840e4fea8c0b47730fdad836bb0_tf_180523_2140127-2.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Stacy and Lois | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photographic portrait of two women holding hands. One is facing away from the camera , the other is looking at their clasped hands.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "Ww6wUiEAAEU5j8GT",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff92d17c6-0384-470a-aa2e-a8260d69dfec_tf_180523_2140127-2.jpg",
+                  "width": 3960,
+                  "height": 2228
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/c3dd0a458abe8385d7f98f6efb3bb86195fc3e3a_tf_180523_2140127-2.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8080808080808081,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Stacy and Lois | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of two women holding hands. One is facing away from the camera , the other is looking at their clasped hands."
+              },
+              "square": {
+                "origin": {
+                  "id": "Ww6wUiEAAEU5j8GT",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff92d17c6-0384-470a-aa2e-a8260d69dfec_tf_180523_2140127-2.jpg",
+                  "width": 3960,
+                  "height": 2228
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f328b339593fc20cfc4ae1278eecfcde3fe6dcad_tf_180523_2140127-2.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.436265709156194,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Stacy and Lois | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of two women holding hands. One is facing away from the camera , the other is looking at their clasped hands."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

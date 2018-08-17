@@ -1,0 +1,140 @@
+{
+  "type": "events",
+  "tags": [
+    "delist"
+  ],
+  "lang": "en-gb",
+  "grouplang": "Ww5sTiEAAEU5jpNm",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Cocktails in Care Homes",
+        "spans": []
+      }
+    }
+  ],
+  "place": {
+    "id": "Wn1gnioAACoAIABr",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gnioAACoAIABr"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-06T18:00:00+00:00",
+      "endDateTime": "2018-07-06T22:00:00+00:00"
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$368af6de-89d7-4ea6-9348-0c4a5f5a7983",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Evenings in care homes can get lonely, but MagicMe cocktail parties are a chance for residents and volunteers to socialise. Join us for a chat and a cocktail.",
+                "spans": [
+                  {
+                    "start": 43,
+                    "end": 67,
+                    "type": "hyperlink",
+                    "data": {
+                      "preview": {
+                        "title": "https://magicme.co.uk/project/cocktails-in-care-homes/"
+                      },
+                      "url": "https://magicme.co.uk/project/cocktails-in-care-homes/"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "Ww6wUyEAANgkj8GU",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2a7a028a-a150-42a5-be44-aa10262f4c78_tf_180524_2160487-2-edit.jpg",
+              "width": 3960,
+              "height": 2227
+            },
+            "width": 3960,
+            "height": 2227,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/80278fa5113e7b6dd31c214530e11d6b2f98a75b_tf_180524_2160487-2-edit.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Amy and Alan | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photographic portrait of an elderly lady linking arms with a male carer against a white background.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "Ww6wUyEAANgkj8GU",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2a7a028a-a150-42a5-be44-aa10262f4c78_tf_180524_2160487-2-edit.jpg",
+                  "width": 3960,
+                  "height": 2227
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/0bfb160ec596ce102279378e71ff4606231e769a_tf_180524_2160487-2-edit.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4369106421194433,
+                  "crop": {
+                    "x": -1159,
+                    "y": 0
+                  }
+                },
+                "credits": "Amy and Alan | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of an elderly lady linking arms with a male carer against a white background."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "Ww6wUyEAANgkj8GU",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2a7a028a-a150-42a5-be44-aa10262f4c78_tf_180524_2160487-2-edit.jpg",
+                  "width": 3960,
+                  "height": 2227
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/b5b950ce8929d93e2682f7dbf2c7a79ef57cc07d_tf_180524_2160487-2-edit.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8082622361921868,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Amy and Alan | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of an elderly lady linking arms with a male carer against a white background."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

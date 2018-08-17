@@ -1,0 +1,209 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WoK_JioAACoANemw",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Untapped: Water and health, 1350-1550",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "WoLtUioAACkANrUM",
+    "mask": "places",
+    "wioUrl": "wio://documents/WoLtUioAACkANrUM"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WoK-NioAACkANeWK",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WoK-NioAACkANeWK"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-03-22T18:00:00+00:00",
+      "endDateTime": "2018-03-22T19:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Hear from Dr Elma Brenner about medieval people’s ambivalent relationship with water and see a selection of early manuscripts, early printed books and prints.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Contaminated water was linked to plague and other serious illnesses, but pure water was a key component of certain medical treatments. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speaker",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Dr Elma Brenner is the Wellcome Library’s subject specialist medieval and early modern medicine. Her research examines the medical and religious culture of medieval France and England, especially the region of Normandy. ",
+        "spans": [
+          {
+            "start": 101,
+            "end": 109,
+            "type": "hyperlink",
+            "data": {
+              "url": "http://www.unicaen.fr/crahm/spip.php?article557&lang=fr"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In the Viewing Room in the Library on Level 2. When you arrive in the Library, turn left and the room will be on your right.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/42559163604?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/library-insights-untapped-water-and-health-1350-1550-tickets-42559163604",
+    "type": "link",
+    "version": "1.0",
+    "title": "Library Insights: Untapped - Water and Health 1350-1550",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/42559163604?aff=efbneb\"><h1>Library Insights: Untapped - Water and Health 1350-1550</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>Library Insights: Untapped - Water and Health 1350-1550</p></a></div>"
+  },
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$45192990-0345-40ed-b685-51d5b020d6e6",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "In this event, you’ll hear Dr Elma Brenner talk about medieval people's ambivalent relationship with water and you’ll see a selection of early manuscripts, early printed books and prints.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WoNfySoAACgAOKsx",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd75f6fc5-8256-418b-88cf-c72421782af5_ep_000188_018.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/bcef6e39bd8e1c9dd8927aeabdaeecd2aae6b1a3_ep_000188_018.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WoNfySoAACgAOKsx",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd75f6fc5-8256-418b-88cf-c72421782af5_ep_000188_018.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/22dcf411ce776fc1a3b800807733f0ff37d56efd_ep_000188_018.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WoNfySoAACgAOKsx",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd75f6fc5-8256-418b-88cf-c72421782af5_ep_000188_018.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/07363abb780d85f01272af772858b53ae1bba9ac_ep_000188_018.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

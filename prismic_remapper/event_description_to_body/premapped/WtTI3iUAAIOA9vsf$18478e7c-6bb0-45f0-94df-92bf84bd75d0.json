@@ -1,0 +1,187 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WtTI3iUAAIOA9vsh",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "On the Rag",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1fvyoAACgAH_yG",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1fvyoAACgAH_yG"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WoLgbSoAACgANnxB",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WoLgbSoAACgANnxB"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-05-03T17:00:00+00:00",
+      "endDateTime": "2018-05-03T18:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join us for a discussion about the cultures, histories and science of menstruation. Starting with the many ways we describe periods, we'll explore how our ideas about this bodily function have been shaped.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speakers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Visitor experience assistants Elissavet Ntoulia and Nelly Ekstrom have been exploring the subject of menstruation in our collections. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "You will find us on the chairs in the centre of the Reading Room on level 2.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WmXl4iQAACUAnyDr",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WmXl4iQAACUAnyDr"
+      }
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$ac3d6386-55cf-4c03-9c2e-c98d8318e7e5",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join us for a discussion about the cultures, histories and science of menstruation. ",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "Wo7XSSoAAMLuau3d",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fe798ab90-a8f7-46f9-95d6-3cbb3e334661_ep_000012_086.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/8cdb65e0f5a2f965c7468788916b188e1f51370d_ep_000012_086.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Unexpected Interludes in the Reading Room | Thomas SG Farnetti | | | CC-BY-NC | |",
+            "alt": "Photograph from the gallery level in the Reading Room looking down into the exhibition space below. There is a group of eight people sitting on a carpet engaged in an activity involving strips of paper containing typed words.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "Wo7XSSoAAMLuau3d",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fe798ab90-a8f7-46f9-95d6-3cbb3e334661_ep_000012_086.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/fe13a88981eeb569336b3882c3a8104eafc824ad_ep_000012_086.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Unexpected Interludes in the Reading Room | Thomas SG Farnetti | | | CC-BY-NC | |",
+                "alt": "Photograph from the gallery level in the Reading Room looking down into the exhibition space below. There is a group of eight people sitting on a carpet engaged in an activity involving strips of paper containing typed words."
+              },
+              "square": {
+                "origin": {
+                  "id": "Wo7XSSoAAMLuau3d",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fe798ab90-a8f7-46f9-95d6-3cbb3e334661_ep_000012_086.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/63a071269757a335262b327e57f2ba8d04dff2dd_ep_000012_086.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Unexpected Interludes in the Reading Room | Thomas SG Farnetti | | | CC-BY-NC | |",
+                "alt": "Photograph from the gallery level in the Reading Room looking down into the exhibition space below. There is a group of eight people sitting on a carpet engaged in an activity involving strips of paper containing typed words."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

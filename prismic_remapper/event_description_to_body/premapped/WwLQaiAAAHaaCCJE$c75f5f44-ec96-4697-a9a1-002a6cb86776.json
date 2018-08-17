@@ -1,0 +1,213 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WwLQaiAAAHaaCCJG",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Insect Taxidermy",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmiysAACx_A8NR",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmiysAACx_A8NR"
+  },
+  "place": {
+    "id": "Wn3ZFyoAACkAIgPT",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn3ZFyoAACkAIgPT"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WlYT_SQAACcAWccj",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WlYT_SQAACcAWccj"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-06-23T13:00:00+00:00",
+      "endDateTime": "2018-06-23T14:30:00+00:00"
+    },
+    {
+      "startDateTime": "2018-06-23T15:00:00+00:00",
+      "endDateTime": "2018-06-23T16:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join us and learn how to display insects in the style of museum specimens. You can come individually or as a group of friends. Over the course of the session you will learn more about insect mounting and have the opportunity to mount your own (sustainably sourced) cricket or butterfly. Our experts will supply all of the equipment, so you only need to bring yourself. Your specimen will be available for you to collect and keep the following Saturday.\n\n",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your facilitators",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The workshops will be led by two expert entomologists, Dr Tim Cockerill and Lucia Chmurova.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The workshops will take place in our Studio on level 1. When you enter the museum, head up the stairs or take the lift to level 1 and follow the signs. Each workshop has 25 spaces available. Sign-up will open at 13.30 in the Studio. Places are given out on a first-come, first-served basis.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "These workshops are for anyone aged 14–19. If you’re visiting the museum with a parent, guardian or support worker they are welcome to drop you off at our Studio. If you’d like someone to support you during the session just let us know in advance of the session or on the day.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {
+      "audience": {
+        "id": "WlYWECQAACcAWdBf",
+        "mask": "audiences",
+        "wioUrl": "wio://documents/WlYWECQAACcAWdBf"
+      }
+    }
+  ],
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$10741d05-5dc9-4011-9f31-22e6905a3dd4",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join us and learn how to display insects in the style of museum specimens.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WwUv7iAAAKSgEqVn",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F98a8d720-2534-49f7-9e32-86b63fb06850_btg180517191543.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/199f34020be53f5980013bab69b18efda2e047b1_btg180517191543.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Saturday Studio insect taxidermy | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a young girl and boy involved in an insect taxidermy workshop at Wellcome Collection. The young boy is holding up a patterned butterfly.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WwUv7iAAAKSgEqVn",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F98a8d720-2534-49f7-9e32-86b63fb06850_btg180517191543.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/4f77e1e86e837fee555e6ea3acf8a03d9d0d5146_btg180517191543.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -2197,
+                    "y": 1
+                  }
+                },
+                "credits": "Saturday Studio insect taxidermy | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a young girl and boy involved in an insect taxidermy workshop at Wellcome Collection. The young boy is holding up a patterned butterfly."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WwUv7iAAAKSgEqVn",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F98a8d720-2534-49f7-9e32-86b63fb06850_btg180517191543.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e4c7c64a29e17625796c479581a13b5abb6ba402_btg180517191543.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Saturday Studio insect taxidermy | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a young girl and boy involved in an insect taxidermy workshop at Wellcome Collection. The young boy is holding up a patterned butterfly."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
