@@ -69,12 +69,28 @@
       <div class="container">
         <div class="grid">
           <div class="{{ {s:12, m:10, shiftM:1, l:7, xl:7} | gridClasses }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }}">
-            {% if exhibition.intro %}
+            {% if exhibition.body.length === 0 and exhibition.intro %}
               {% componentJsx 'FeaturedText', { html: exhibition.intro } %}
             {% endif %}
-            <div class="body-text">
-              {{ exhibition.description | prismicAsHtml | safe }}
-            </div>
+            {% if exhibition.body.length > 0 %}
+              {% for bodyPart in exhibition.body %}
+                {% if bodyPart.type === 'text' %}
+                  {% if bodyPart.weight === 'featured' %}
+                    {% componentJsx 'FeaturedText', { html: bodyPart.value } %}
+                  {% else %}
+                    <div class="body-text">
+                      {{ bodyPart.value | prismicAsHtml | safe }}
+                    </div>
+                  {% endif %}
+                {% elif bodyPart.type === 'quote' %}
+                  {% componentJsx 'Quote', bodyPart.value %}
+                {% endif %}
+              {% endfor %}
+            {% else %}
+              <div class="body-text">
+                {{ exhibition.description | prismicAsHtml | safe }}
+              </div>
+            {% endif %}
           </div>
           <div class="{{ {s:12, m:10, shiftM:1, l:5, xl:5} | gridClasses }}">
             <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
@@ -95,10 +111,10 @@
             <hr class="divider divider--keyline divider--pumice {{ {s:2} | spacingClasses({margin: ['bottom']}) }}" />
             {% block accessStatements %}
               <h2 class="{{ {s:'HNM4'} | fontClasses }} {{ {s:3} | spacingClasses({margin: ['bottom']}) }}">Access information</h2>
-              {% if exhibition.galleryLevel !== null %}
+              {% if exhibition.place and exhibition.place.level %}
                 <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">
                   <div class="{{ {s:1} | spacingClasses({margin:['right']}) }}">{% icon 'lifts' %}</div>
-                  <p class="no-margin">This exhibition is on level {{ exhibition.galleryLevel }}</p>
+                  <p class="no-margin">This exhibition is on level {{ exhibition.place.level }}</p>
                 </div>
               {% endif %}
               <div class="flex {{ {s:1} | spacingClasses({margin: ['top', 'bottom']}) }} {{ {s:'HNL4'} | fontClasses}}">

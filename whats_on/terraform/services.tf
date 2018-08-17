@@ -124,9 +124,38 @@ resource "aws_alb_listener_rule" "event_series_https_path_rule" {
   }
 }
 
-resource "aws_alb_listener_rule" "subdomain_http_path_rule" {
+resource "aws_alb_listener_rule" "events_http_path_rule" {
   listener_arn = "${local.alb_listener_http_arn}"
   priority     = "304"
+
+  action {
+    type             = "forward"
+    target_group_arn = "${module.whats_on.target_group_arn}"
+  }
+
+  condition {
+    field  = "path-pattern"
+    values = ["/events*"]
+  }
+}
+resource "aws_alb_listener_rule" "events_https_path_rule" {
+  listener_arn = "${local.alb_listener_https_arn}"
+  priority     = "304"
+
+  action {
+    type             = "forward"
+    target_group_arn = "${module.whats_on.target_group_arn}"
+  }
+
+  condition {
+    field  = "path-pattern"
+    values = ["/events*"]
+  }
+}
+
+resource "aws_alb_listener_rule" "subdomain_http_path_rule" {
+  listener_arn = "${local.alb_listener_http_arn}"
+  priority     = "310"
 
   action {
     type             = "forward"
@@ -140,7 +169,7 @@ resource "aws_alb_listener_rule" "subdomain_http_path_rule" {
 }
 resource "aws_alb_listener_rule" "subdomain_https_path_rule" {
   listener_arn = "${local.alb_listener_https_arn}"
-  priority     = "304"
+  priority     = "310"
 
   action {
     type             = "forward"

@@ -9,6 +9,11 @@ import {
   asText,
   parsePromoToCaptionedImage
 } from './parsers';
+import {
+  contributorsFields,
+  peopleFields,
+  organisationsFields
+} from './fetch-links';
 
 export function parseBook(document: PrismicDocument): Book {
   const data = document.data;
@@ -39,7 +44,9 @@ export function parseBook(document: PrismicDocument): Book {
 }
 
 export async function getBook(req: Request, id: string): Promise<?Book> {
-  const document = await getDocument(req, id, {});
+  const document = await getDocument(req, id, {
+    fetchLinks: contributorsFields.concat(peopleFields, organisationsFields)
+  });
 
   if (document && document.type === 'books') {
     const book = parseBook(document);

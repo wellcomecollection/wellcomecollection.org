@@ -5,35 +5,22 @@ import promo from './parts/promo';
 import timestamp from './parts/timestamp';
 import place from './parts/place';
 import link from './parts/link';
-import number from './parts/number';
 import list from './parts/list';
 import text from './parts/text';
 import structuredText from './parts/structured-text';
 import contributorsWithTitle from './parts/contributorsWithTitle';
+import body from './parts/body';
 
 const Exhibitions = {
   Exhibition: {
     format: link('Format', 'document', ['exhibition-formats']),
     title,
-    description,
+    body,
     start: timestamp('Start date'),
     end: timestamp('End date'),
     statusOverride: structuredText('Status override', 'single'),
     place,
-
-    // Things it would be nice to deprecate
-    // and fold into body
-    intro: {
-      'type': 'StructuredText',
-      'config': {
-        'label': 'Intro',
-        'multi': 'heading2'
-      }
-    },
-    textAndCaptionsDocument: link('Text and captions document', 'media'),
-
-    // TODO: deprecate for place when the data has been updated
-    galleryLevel: number('Gallery level')
+    textAndCaptionsDocument: link('Text and captions document', 'media')
   },
   Contributors: contributorsWithTitle(),
   Exhibits: {
@@ -102,6 +89,16 @@ const Exhibitions = {
     drupalPromoImage: link('Drupal promo image', 'web'),
     drupalNid: text('Drupal node ID'),
     drupalPath: text('Drupal path')
+  },
+  Deprecated: {
+    description,
+    intro: {
+      'type': 'StructuredText',
+      'config': {
+        'label': 'Intro',
+        'multi': 'heading2'
+      }
+    }
   }
 };
 

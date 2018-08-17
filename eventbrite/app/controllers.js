@@ -70,3 +70,10 @@ export async function renderEventbriteButton(ctx, next) {
     return next();
   }
 }
+
+export async function renderEventbriteWidget(ctx, next) {
+  const id = ctx.params.id;
+  const iframeContent = await superagent.get(`https://eventbrite.com/tickets-external?eid=${id}&ref=etckt`);
+  const html = iframeContent.text.concat(`<style>.js-powered-by-eb-link {display: none;}</style>`);
+  ctx.body = html;
+}

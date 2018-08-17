@@ -1,6 +1,7 @@
 // @flow
 export type Weight =
-  | 'lead'
+  | 'featured'
   | 'standalone'
   | 'supporting'
+  | 'compact'
   | 'default';

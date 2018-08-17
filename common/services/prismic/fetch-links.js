@@ -47,3 +47,7 @@ export const audiencesFields = [
 export const backgroundTexturesFields = [
   'background-textures.image'
 ];
+export const eventPoliciesFields = [
+  'event-policies.title',
+  'event-policies.description'
+];

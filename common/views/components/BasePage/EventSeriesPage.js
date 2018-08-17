@@ -3,7 +3,7 @@ import {Fragment} from 'react';
 import BasePage from './BasePage';
 import {default as BaseHeader, getFeaturedMedia} from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
-import WobblyBackground from '../BaseHeader/WobblyBackground';
+import HeaderBackground from '../BaseHeader/HeaderBackground';
 import Contributors from '../Contributors/Contributors';
 import SearchResults from '../SearchResults/SearchResults';
 import { spacing } from '../../../utils/classnames';
@@ -36,7 +36,7 @@ const Page = ({
   }]} />;
   const Header = (<BaseHeader
     title={series.title}
-    Background={<WobblyBackground />}
+    Background={<HeaderBackground hasWobblyEdge={true} />}
     TagBar={TagBar}
     DateInfo={null}
     InfoBar={null}

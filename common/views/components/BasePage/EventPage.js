@@ -4,7 +4,7 @@ import BasePage from './BasePage';
 import BaseHeader from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
 import Contributors from '../Contributors/Contributors';
-import WobblyBackground from '../BaseHeader/WobblyBackground';
+import HeaderBackground from '../BaseHeader/HeaderBackground';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import LabelsList from '../LabelsList/LabelsList';
@@ -12,11 +12,20 @@ import Icon from '../Icon/Icon';
 import Button from '../Buttons/Button/Button';
 import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
+import InfoBox from '../InfoBox/InfoBox';
 import {UiImage} from '../Images/Images';
 import type {UiEvent} from '../../../model/events';
 import {spacing, font} from '../../../utils/classnames';
 import camelize from '../../../utils/camelize';
-import {formatAndDedupeOnDate, formatAndDedupeOnTime, joinDateStrings, formatDayDate, isDatePast, formatTime} from '../../../utils/format-date';
+import {
+  formatAndDedupeOnDate,
+  formatAndDedupeOnTime,
+  joinDateStrings,
+  formatDayDate,
+  isDatePast,
+  isTimePast,
+  formatTime
+} from '../../../utils/format-date';
 
 type Props = {|
   event: UiEvent
@@ -70,7 +79,15 @@ function infoBar(event) {
     <Fragment>
       {isDatePast(event.dateRange.lastDate)
         ? <Fragment>{eventStatus('Past', 'marble')}</Fragment>
-        : <PrimaryLink url='#dates' name={`See all dates/times${(eventbriteId || bookingEnquiryTeam) ? ' to book' : ''}`} isJumpLink={true} />
+        : <PrimaryLink
+          url='#dates'
+          name={`See all dates/times${(eventbriteId || bookingEnquiryTeam) ? ' to book' : ''}`}
+          isJumpLink={true}
+          trackingEvent={{
+            category: 'Events',
+            action: 'date-times-jump-link:click',
+            label: event.id
+          }} />
       }
     </Fragment>
   );
@@ -91,6 +108,10 @@ function topDate(event) {
   );
 };
 
+function showTicketSalesStart(dateTime) {
+  return dateTime && !isTimePast(dateTime);
+}
+
 const EventPage = ({ event }: Props) => {
   const image = event.promo && event.promo.image;
   const tasl = image && {
@@ -106,7 +127,7 @@ const EventPage = ({ event }: Props) => {
   };
   /* https://github.com/facebook/flow/issues/2405 */
   /* $FlowFixMe */
-  const FeaturedMedia = event.promo && <UiImage tasl={tasl} {...image} />;
+  const FeaturedMedia = image && <UiImage tasl={tasl} {...image} />;
   const eventFormat = event.format ? [{url: null, text: event.format.title}] : [];
   const eventAudiences = event.audiences ? event.audiences.map(a => {
     return {
@@ -123,7 +144,9 @@ const EventPage = ({ event }: Props) => {
 
   const Header = (<BaseHeader
     title={`${event.title}`}
-    Background={<WobblyBackground />}
+    Background={<HeaderBackground
+      hasWobblyEdge={true}
+      backgroundTexture={`https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F43a35689-4923-4451-85d9-1ab866b1826d_event_header_background.svg`} />}
     TagBar={null}
     LabelBar={
       <Fragment>
@@ -149,6 +172,9 @@ const EventPage = ({ event }: Props) => {
     topLink={{text: 'Events', url: '/events'}}
   />);
 
+  const ticketButtonText = 'Check for tickets';
+  const ticketButtonLoadingText = 'Loading…';
+
   return (
     <BasePage
       id={event.id}
@@ -156,18 +182,6 @@ const EventPage = ({ event }: Props) => {
       Body={<Body body={event.body} />}
     >
       <Fragment>
-        {event.schedule && event.schedule.length > 0 &&
-          <div>
-            <h2 className={`${font({s: 'WB6', l: 'WB5'})} ${spacing({s: 4}, {padding: ['bottom']})} border-color-smoke border-bottom-width-2`}>Events</h2>
-            <ul className='plain-list no-marin no-padding'>
-              {event.schedule && event.schedule.map((scheduledEvent) => {
-                return (<EventScheduleItem key={scheduledEvent.id} event={Object.assign({}, scheduledEvent, {description: scheduledEvent.promo && scheduledEvent.promo.caption})}
-                  hasOwnPage={Boolean(scheduledEvent.description)} />);
-              })}
-            </ul>
-          </div>
-        }
-
         {event.contributors.length > 0 &&
           <div className={`${spacing({s: 4}, {margin: ['bottom']})}`}>
             <Contributors
@@ -184,26 +198,98 @@ const EventPage = ({ event }: Props) => {
           </div>
         </div>
 
-        {!isDatePast(event.dateRange.lastDate) &&
+        {event.ticketSalesStart && showTicketSalesStart(event.ticketSalesStart) &&
+          <Fragment>
+            <div className={`bg-yellow inline-block ${spacing({s: 4}, {padding: ['left', 'right'], margin: ['top', 'bottom']})} ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${font({s: 'HNM4'})}`}>
+              {/* TODO: work out why the second method below will fail Flow without a null check */}
+              <span>Booking opens {formatDayDate(event.ticketSalesStart)} {event.ticketSalesStart && formatTime(event.ticketSalesStart)}</span>
+            </div>
+          </Fragment>
+        }
+
+        {event.schedule && event.schedule.length > 0 &&
+          <div>
+            <h2 className={`${font({s: 'WB6', l: 'WB5'})} ${spacing({s: 4}, {padding: ['bottom']})} border-color-smoke border-bottom-width-2`}>Events</h2>
+            <ul className='plain-list no-marin no-padding'>
+              {event.schedule && event.schedule.map((scheduledEvent) =>
+                <EventScheduleItem
+                  key={scheduledEvent.id}
+                  event={Object.assign({}, scheduledEvent, {description: scheduledEvent.promo && scheduledEvent.promo.caption})}
+                  hasOwnPage={Boolean(scheduledEvent.description)} />
+              )}
+            </ul>
+          </div>
+        }
+
+        {!isDatePast(event.dateRange.lastDate) && !showTicketSalesStart(event.ticketSalesStart) &&
           <Fragment>
             {/* Booking CTAs */}
             {event.eventbriteId &&
               <div>
                 {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
                   : (
-                    <div className='js-eventbrite-ticket-button' data-eventbrite-ticket-id={event.eventbriteId}>
+                    <Fragment>
                       <Button
                         type='primary'
+                        id={`eventbrite-show-widget-${event.eventbriteId || ''}`}
                         url={`https://www.eventbrite.com/e/${event.eventbriteId}/`}
-                        eventTracking={JSON.stringify({
+                        trackingEvent={{
                           category: 'component',
                           action: 'booking-tickets:click',
                           label: 'event-page'
-                        })}
+                        }}
                         icon='ticket'
-                        text='Book free tickets' />
+                        text={ticketButtonText} />
+                      <iframe
+                        id={`eventbrite-widget-${event.eventbriteId || ''}`}
+                        src={`/eventbrite/widget/${event.eventbriteId || ''}`}
+                        frameBorder='0'
+                        width='100%'
+                        vspace='0'
+                        hspace='0'
+                        marginHeight='5'
+                        marginWidth='5'
+                        scrolling='auto'
+                        height='1'
+                        style={{
+                          visibility: 'hidden',
+                          position: 'absolute'
+                        }}>
+                      </iframe>
+                      <script dangerouslySetInnerHTML={{ __html: `
+                        (function() {
+                          var iframe = document.getElementById('eventbrite-widget-${event.eventbriteId || ''}');
+                          var showWidget = document.getElementById('eventbrite-show-widget-${event.eventbriteId || ''}');
+                          var haltClick = function(event) {
+                            event.preventDefault();
+                            return false;
+                          }
+                          showWidget.addEventListener('click', haltClick)
+                          showWidget.classList.add('disabled');
+                          showWidget.innerHTML = showWidget.innerHTML.replace('${ticketButtonText}', '${ticketButtonLoadingText}');
+
+                          iframe.addEventListener('load', function() {
+                            iframe.height = iframe.contentWindow.document.body.scrollHeight + 12;
+                            iframe.style.display = 'none';
+                            iframe.style.visibility = 'visible';
+                            iframe.style.position = 'relative';
+                            showWidget.classList.remove('disabled');
+
+                            showWidget.addEventListener('click', function(event) {
+                              event.preventDefault();
+                              showWidget.style.display = 'none';
+                              iframe.style.display = 'block';
+                              return false;
+                            });
+                            showWidget.innerHTML = showWidget.innerHTML.replace('${ticketButtonLoadingText}', '${ticketButtonText}');
+                            showWidget.disabled = null;
+                            showWidget.removeEventListener('click', haltClick);
+                          });
+                        })();
+                      `}}>
+                      </script>
                       <p className={`font-charcoal ${font({s: 'HNL5'})} ${spacing({s: 1}, {margin: ['top']})} ${spacing({s: 0}, {margin: ['bottom']})}`}>with Eventbrite</p>
-                    </div>
+                    </Fragment>
                   )
                 }
               </div>
@@ -216,11 +302,11 @@ const EventPage = ({ event }: Props) => {
                     <Button
                       type='primary'
                       url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
-                      eventTracking={JSON.stringify({
+                      trackingEvent={{
                         category: 'component',
                         action: 'booking-tickets:click',
                         label: 'event-page (email to book)'
-                      })}
+                      }}
                       icon='email'
                       text='Email to book' />
                   )}
@@ -241,123 +327,161 @@ const EventPage = ({ event }: Props) => {
           </Fragment>
         }
 
-        {event.isCompletelySoldOut &&
-          <div className={`${spacing({s: 2}, {padding: ['top', 'bottom']})} body-text`}>
-            <h3>This event has been fully booked – but there is a waiting list!</h3>
-            <p>
-              Our waiting list opens an hour before a fully-booked event starts.
-              Arrive early, and we’ll give you a numbered ticket.
-              Just before the event starts, waiting list ticket holders will be
-              allowed – in order – to take the seats that have not been filled.
-            </p>
-            <p>
-              We hold some spaces for people with access requirements.
-              Please email <a href='mailto:access@wellcomecollection.org'>access@wellcomecollection.org</a> if you would like to request one of these spaces.
-            </p>
-          </div>
+        {event.policies.length > 0 && !isDatePast(event.dateRange.lastDate) &&
+          <Fragment>
+            <InfoBox title='Need to know' items={[
+              (event.place && {
+                title: 'Location',
+                description: event.place.information
+              }),
+              (event.bookingInformation && {
+                title: 'Extra information',
+                description: event.bookingInformation
+              })
+            ]
+              .concat(event.policies.map(policy => ({...policy})))
+              .concat(event.interpretations.map(({interpretationType, isPrimary}) => ({
+                icon: camelize(interpretationType.title),
+                title: interpretationType.title,
+                description: isPrimary
+                  ? interpretationType.primaryDescription
+                  : interpretationType.description
+              }))).filter(Boolean)}>
+              <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
+                <a href='https://wellcomecollection.org/visit-us/events-tickets'>Our event terms and conditions</a>
+              </p>
+            </InfoBox>
+          </Fragment>
         }
 
-        <div className={`bg-yellow ${spacing({s: 4}, {padding: ['top', 'right', 'bottom', 'left']})} ${spacing({s: 4}, {margin: ['top', 'bottom']})}`}>
-          <h2 className='h2'>Need to know</h2>
-          {event.place &&
-            <Fragment>
-              <h3 className={`${font({s: 'HNM4'})} no-margin`}>Location</h3>
-              <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
-                <p>{event.place && event.place.title && `We'll be in the ${event.place.title}. ${(event.place && event.place.information) ? event.place.information : ''}`}</p>
+        {event.policies.length === 0 &&
+          <Fragment>
+            {event.isCompletelySoldOut && !isDatePast(event.dateRange.lastDate) &&
+              <div className={`${spacing({s: 2}, {padding: ['top', 'bottom']})} body-text`}>
+                <h3>This event has been fully booked – but there is a waiting list!</h3>
+                <p>
+                  Our waiting list opens an hour before a fully-booked event starts.
+                  Arrive early, and we’ll give you a numbered ticket.
+                  Just before the event starts, waiting list ticket holders will be
+                  allowed – in order – to take the seats that have not been filled.
+                </p>
+                <p>
+                  We hold some spaces for people with access requirements.
+                  Please email <a href='mailto:access@wellcomecollection.org'>access@wellcomecollection.org</a> if you would like to request one of these spaces.
+                </p>
               </div>
-            </Fragment>
-          }
-          {event.bookingInformation && event.bookingInformation.length > 0 &&
-            <Fragment>
-              <h3 className={font({s: 'HNM4'})}>Booking information</h3>
-              <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
-                <PrismicHtmlBlock html={event.bookingInformation} />
-              </div>
-            </Fragment>
-          }
+            }
 
-          {
-            event.isDropIn ? (
-              <Fragment>
-                <h3 className={`${font({s: 'HNM4'})} no-margin`}>Drop in at any time</h3>
-                <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
-                  <p>
-                    We programme some drop-in events every month. For these events, you can just turn up. There&apos;s usually room for everyone.
-                  </p>
-                </div>
-              </Fragment>
-            )
-              : event.cost ? (
-                <Fragment>
-                  <h3 className={`${font({s: 'HNM4'})} no-margin`}>Guaranteed entry</h3>
-                  <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
-                    <p>
-                  With our paid events, you are guaranteed entry to the event.
-                  We&apos;re unable to offer any refunds unless the event is cancelled.
-                  Concessions are available for people over 60, students, people
-                  on Jobseeker&apos;s Allowance and people registered as disabled.
-                  An additional companion ticket for people registered as disabled
-                  is available for free.
-                    </p>
-                  </div>
-                </Fragment>
-              )
-                : event.eventbriteId && !event.isCompletelySoldOut ? (
+            {!isDatePast(event.dateRange.lastDate) &&
+              <div className={`bg-yellow ${spacing({s: 4}, {padding: ['top', 'right', 'bottom', 'left']})} ${spacing({s: 4}, {margin: ['top', 'bottom']})}`}>
+                <h2 className='h2'>Need to know</h2>
+                {event.place &&
                   <Fragment>
-                    <h3 className={`${font({s: 'HNM4'})} no-margin`}>First come, first seated</h3>
-                    <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
-                      <p>
-                      Please note, booking a ticket for a free event does not
-                  guarantee a place on the day. Doors usually open 15 minutes
-                  before an event starts, and you can take your seats in order of
-                  arrival. We advise arriving 10 minutes before the event is
-                  scheduled to start.
-                      </p>
-                      <p>
-                We hold some spaces for people with access requirements.
-                Please email <a href={`mailto:access@wellcomecollection.org?subject=${event.title}`}>access@wellcomecollection.org</a> if you would like to request one of these spaces.
-                      </p>
+                    <h3 className={`${font({s: 'HNM4'})} no-margin`}>
+                      Location
+                      {event.place && !event.place.information && `: ${event.place.title}`}
+                    </h3>
+                    {event.place && event.place.information &&
+                      <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                        <PrismicHtmlBlock html={event.place.information} />
+                      </div>
+                    }
+                  </Fragment>
+                }
+                {event.bookingInformation && event.bookingInformation.length > 0 &&
+                  <Fragment>
+                    <h3 className={font({s: 'HNM4'})}>Booking information</h3>
+                    <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
+                      <PrismicHtmlBlock html={event.bookingInformation} />
                     </div>
                   </Fragment>
-                )
-                  : event.bookingEnquiryTeam ? null
-                    : (
+                }
+
+                {
+                  event.isDropIn ? (
+                    <Fragment>
+                      <h3 className={`${font({s: 'HNM4'})} no-margin`}>Drop in at any time</h3>
+                      <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                        <p>
+                          We programme some drop-in events every month. For these events, you can just turn up. There&apos;s usually room for everyone.
+                        </p>
+                      </div>
+                    </Fragment>
+                  )
+                    : event.cost ? (
                       <Fragment>
-                        <h3 className={`${font({s: 'HNM4'})} no-margin`}>Limited spaces available</h3>
+                        <h3 className={`${font({s: 'HNM4'})} no-margin`}>Guaranteed entry</h3>
                         <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
                           <p>
-                    Doors will open for this event 15 minutes before the event
-                    starts. Spaces are first come, first served and may run out if
-                    we are busy.
+                            With our paid events, you are guaranteed entry to the event.
+                            We&apos;re unable to offer any refunds unless the event is cancelled.
+                            Concessions are available for people over 60, students, people
+                            on Jobseeker&apos;s Allowance and people registered as disabled.
+                            An additional companion ticket for people registered as disabled
+                            is available for free.
                           </p>
                         </div>
                       </Fragment>
                     )
-          }
+                      : event.eventbriteId && !event.isCompletelySoldOut ? (
+                        <Fragment>
+                          <h3 className={`${font({s: 'HNM4'})} no-margin`}>First come, first seated</h3>
+                          <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                            <p>
+                              Please note, booking a ticket for a free event does not
+                              guarantee a place on the day. Doors usually open 15 minutes
+                              before an event starts, and you can take your seats in order of
+                              arrival. We advise arriving 10 minutes before the event is
+                              scheduled to start.
+                            </p>
+                            <p>
+                              We hold some spaces for people with access requirements.
+                              Please email <a href={`mailto:access@wellcomecollection.org?subject=${event.title}`}>access@wellcomecollection.org</a> if you would like to request one of these spaces.
+                            </p>
+                          </div>
+                        </Fragment>
+                      )
+                        : event.bookingEnquiryTeam ? null
+                          : (
+                            <Fragment>
+                              <h3 className={`${font({s: 'HNM4'})} no-margin`}>Limited spaces available</h3>
+                              <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                                <p>
+                                  Doors will open for this event 15 minutes before the event
+                                  starts. Spaces are first come, first served and may run out if
+                                  we are busy.
+                                </p>
+                              </div>
+                            </Fragment>
+                          )
+                }
 
-          {event.interpretations.map((i) => {
-            return (i.interpretationType.description &&
-              <Fragment key={i.interpretationType.title}>
-                <div className={`${spacing({s: 4}, {margin: ['bottom']})}`}>
-                  <h3 className={`${font({s: 'HNM4'})} no-margin flex flex--v-center'`}>
-                    <span className={`flex flex--v-center ${spacing({s: 1}, {margin: ['right']})}`}>
-                      <Icon name={camelize(i.interpretationType.title)} />
-                    </span>
-                    <span>{i.interpretationType.title}</span>
-                  </h3>
-                  <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
-                    {i.isPrimary && <PrismicHtmlBlock html={i.interpretationType.primaryDescription} />}
-                    {!i.isPrimary && <PrismicHtmlBlock html={i.interpretationType.description} />}
-                  </div>
-                </div>
-              </Fragment>
-            );
-          })}
+                {event.interpretations.map((i) => {
+                  return (i.interpretationType.description &&
+                    <Fragment key={i.interpretationType.title}>
+                      <div className={`${spacing({s: 4}, {margin: ['bottom']})}`}>
+                        <h3 className={`${font({s: 'HNM4'})} no-margin flex flex--v-center'`}>
+                          <span className={`flex flex--v-center ${spacing({s: 1}, {margin: ['right']})}`}>
+                            <Icon name={camelize(i.interpretationType.title)} />
+                          </span>
+                          <span>{i.interpretationType.title}</span>
+                        </h3>
+                        <div className={`plain-text ${font({s: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                          {i.isPrimary && <PrismicHtmlBlock html={i.interpretationType.primaryDescription} />}
+                          {!i.isPrimary && <PrismicHtmlBlock html={i.interpretationType.description} />}
+                        </div>
+                      </div>
+                    </Fragment>
+                  );
+                })}
 
-          <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
-            <a href='https://wellcomecollection.org/visit-us/events-tickets'>Our event terms and conditions</a>
-          </p>
-        </div>
+                <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
+                  <a href='https://wellcomecollection.org/visit-us/events-tickets'>Our event terms and conditions</a>
+                </p>
+              </div>
+            }
+          </Fragment>
+        }
 
         {event.audiences.map((audience) => { //  TODO remove?
           if (audience.description) {

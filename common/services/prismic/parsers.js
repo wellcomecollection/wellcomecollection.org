@@ -6,11 +6,12 @@ import type { Picture } from '../../model/picture';
 import type { Image } from '../../model/image';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
-import type { Place } from '../../model/place';
+import type { Place } from '../../model/places';
 import type { BackgroundTexture, PrismicBackgroundTexture } from '../../model/background-texture';
 import type { CaptionedImage } from '../../model/captioned-image';
 import type { ImagePromo } from '../../model/image-promo';
 import type { GenericContentFields } from '../../model/generic-content-fields';
+import type { LabelField } from '../../model/label-field';
 import type { SameAs } from '../../model/same-as';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
@@ -165,7 +166,7 @@ export function parsePromoToCaptionedImage(frag: PrismicFragment, crop: ?Crop = 
 export const defaultContributorImage = {
   width: 64,
   height: 64,
-  contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3ed09488-1992-4f8a-9f0c-de2d296109f9_group+21.png',
+  contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F021d6105-3308-4210-8f65-d207e04c2cb2_contributor_default%402x.png',
   tasl: {
     sourceName: 'Unknown',
     title: null,
@@ -179,18 +180,19 @@ export const defaultContributorImage = {
 };
 
 export function parseSameAs(frag: PrismicFragment[]): SameAs {
-  return frag.map(linkAndTitle => {
-    const {link, title} = linkAndTitle;
-    const autoTitle = link && (
-      link.startsWith('https://twitter.com/') ? `@${link.replace('https://twitter.com/', '')}`
-        : link.match(/^https?:\/\//) ? link.replace(/^https?:\/\//, '') : null
-    );
+  return frag
+    .filter(({link, title}) => Boolean(link || title.length > 0))
+    .map(({link, title}) => {
+      const autoTitle = link && (
+        link.startsWith('https://twitter.com/') ? `@${link.replace('https://twitter.com/', '')}`
+          : link.match(/^https?:\/\//) ? link.replace(/^https?:\/\//, '') : null
+      );
 
-    return {
-      link: linkAndTitle.link,
-      title: asText(title) || autoTitle || link
-    };
-  });
+      return {
+        link: link,
+        title: asText(title) || autoTitle || link
+      };
+    });
 }
 
 function parsePersonContributor(frag: PrismicFragment): PersonContributor {
@@ -292,12 +294,12 @@ export function parseImagePromo(
 }
 
 export function parsePlace(doc: PrismicFragment): Place {
+  const genericFields = parseGenericFields(doc);
   return {
-    id: doc.id,
-    title: asText(doc.data.title) || '',
+    ...genericFields,
     level: doc.data.level || 0,
     capacity: doc.data.capacity,
-    information: asText(doc.data.locationInformation)
+    information: doc.data.locationInformation
   };
 }
 
@@ -336,17 +338,32 @@ export function parseBackgroundTexture(backgroundTexture: PrismicBackgroundTextu
   };
 }
 
+export function parseLabelTypeList(fragment: PrismicFragment[], labelKey: string): LabelField[] {
+  return fragment
+    .filter(label => label.isBroken === false)
+    .map(label => parseLabelType(label[labelKey].data));
+}
+
+function parseLabelType(fragment: PrismicFragment): LabelField {
+  return {
+    title: asText(fragment.title),
+    description: fragment.description
+  };
+}
+
 export function parseBoolean(fragment: PrismicFragment): boolean {
   return Boolean(fragment);
 }
 
-function parseStructuredText(maybeFragment: ?PrismicFragment): ?HTMLString {
-  return maybeFragment && isStructuredText(maybeFragment.description) ? maybeFragment.description : null;
+function parseStructuredText(maybeFragment: ?any): ?HTMLString {
+  return maybeFragment &&
+    isStructuredText((maybeFragment: HTMLString))
+    ? (maybeFragment: HTMLString) : null;
 }
 
 // Prismic return `[ { type: 'paragraph', text: '', spans: [] } ]` when you have
 // inserted text, then removed it, so we need to do this check.
-export function isStructuredText(structuredTextObject: ?HTMLString): boolean {
+export function isStructuredText(structuredTextObject: HTMLString): boolean {
   const text = asText(structuredTextObject);
   return Boolean(structuredTextObject) && (text || '').trim() !== '';
 }
@@ -432,7 +449,7 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
             items: slice.items.filter(
               // We have to do a check for data here, as if it's a linked piece
               // of content, we won't have this.
-              item => !item.content.isBroken && item.content.data
+              item => item.content.isBroken === false && item.content.data
             ).map(item => {
               switch (item.content.type) {
                 case 'pages':

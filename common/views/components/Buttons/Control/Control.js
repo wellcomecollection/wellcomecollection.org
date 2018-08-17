@@ -1,6 +1,7 @@
 // @flow
 import NextLink from 'next/link';
 import Icon from '../../Icon/Icon';
+import type {GaEvent} from '../../../../utils/ga';
 
 type Props = {|
   url?: string,
@@ -9,7 +10,7 @@ type Props = {|
   extraClasses?: string,
   icon: string,
   text: string,
-  eventTracking?: string,
+  trackingEvent?: GaEvent,
   disabled?: boolean,
   clickHandler?: (event: Event) => void
 |}
@@ -29,14 +30,14 @@ const Control = ({
   extraClasses,
   icon,
   text,
-  eventTracking,
+  trackingEvent,
   disabled,
   clickHandler
 }: Props) => {
   const attrs = {
     id: id,
     className: `control control--${type} ${extraClasses || ''}`,
-    'data-track-event': eventTracking,
+    'data-track-event': trackingEvent && JSON.stringify(trackingEvent),
     disabled: disabled,
     onClick: clickHandler
   };

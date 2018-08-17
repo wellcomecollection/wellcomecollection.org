@@ -1,16 +1,49 @@
 // @flow
 import {Fragment} from 'react';
+import moment from 'moment';
+import {formatTime, formatDayDate} from '../../../utils/format-date';
 import HTMLDate from '../HTMLDate/HTMLDate';
 
-type Props = {|
+type DateRangeProps = {|
   start: Date,
   end: Date
 |}
 
-const DateRange = ({start, end}: Props) => (
+type DateProps = {|
+  date: Date
+|}
+
+const HTMLDayDate = ({ date }: DateProps) => (
+  <time dateTime={date.toISOString()}>{formatDayDate(date)}</time>
+);
+
+const HTMLTime = ({ date }: DateProps) => (
+  <time dateTime={date.toISOString()}>{formatTime(date)}</time>
+);
+
+const TimeRange = ({start, end}: DateRangeProps) => (
   <Fragment>
-    <HTMLDate date={start} />—<HTMLDate date={end} />
+    <HTMLTime date={start} />—<HTMLTime date={end} />
   </Fragment>
 );
+
+const DateRange = ({start, end}: DateRangeProps) => {
+  const isSameDay = moment(start).isSame(end, 'day');
+
+  return (
+    <Fragment>
+      {isSameDay &&
+        <Fragment>
+          <HTMLDayDate date={start} />, <TimeRange start={start} end={end} />
+        </Fragment>
+      }
+      {!isSameDay &&
+        <Fragment>
+          <HTMLDate date={start} />—<HTMLDate date={end} />
+        </Fragment>
+      }
+    </Fragment>
+  );
+};
 
 export default DateRange;

@@ -47,6 +47,12 @@
         }
       }
     },
+    "ticketSalesStart": {
+      "type": "Timestamp",
+      "config": {
+        "label": "Ticket sales start"
+      }
+    },
     "times": {
       "type": "Group",
       "fieldset": "Times",
@@ -148,6 +154,31 @@
         "label": "Eventbrite event"
       }
     },
+    "bookingInformation": {
+      "type": "StructuredText",
+      "config": {
+        "multi": "paragraph,hyperlink,strong,em",
+        "label": "Event specific booking information"
+      }
+    },
+    "policies": {
+      "type": "Group",
+      "fieldset": "Policies",
+      "config": {
+        "fields": {
+          "policy": {
+            "type": "Link",
+            "config": {
+              "label": "Policy",
+              "select": "document",
+              "customtypes": [
+                "event-policies"
+              ]
+            }
+          }
+        }
+      }
+    },
     "isDropIn": {
       "type": "Select",
       "config": {
@@ -155,13 +186,6 @@
         "options": [
           "yes"
         ]
-      }
-    },
-    "bookingInformation": {
-      "type": "StructuredText",
-      "config": {
-        "multi": "paragraph,hyperlink,strong,em",
-        "label": "Event specific booking information"
       }
     },
     "cost": {

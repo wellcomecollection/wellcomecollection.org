@@ -3,6 +3,9 @@ import type {GenericContentFields} from './generic-content-fields';
 import type {HTMLString} from './content-blocks';
 import type {BackgroundTexture} from './background-texture';
 import type {Image} from './image';
+import type {LabelField} from './label-field';
+import type {Place} from './places';
+import type {HTMLString as PrismicHTMLString} from '../services/prismic/types';
 
 type DateTimeRange = {|
   startDateTime: Date,
@@ -37,8 +40,8 @@ export type UiEventSeries = {|
 type InterpretationType = {|
   id: string,
   title: string,
-  description: ?string,
-  primaryDescription: ?string
+  description: ?PrismicHTMLString,
+  primaryDescription: ?PrismicHTMLString
 |}
 
 export type Interpretation = {|
@@ -52,20 +55,6 @@ export type Team = {|
   email: string,
   phone: string,
   url: string
-|}
-
-type Geolocation = {|
-  latitude: number,
-  longitude: number
-|}
-
-export type Place = {|
-  id: string,
-  title: string,
-  geolocation: ?Geolocation,
-  level: number,
-  capacity: ?number,
-  information: ?HTMLString
 |}
 
 export type Audience = {|
@@ -91,6 +80,7 @@ export type Event = {|
   ...GenericContentFields,
   format: ?EventFormat,
   isDropIn: boolean,
+  ticketSalesStart: ?Date,
   times: EventTime[],
   description: ?HTMLString,
   series: EventSeries[],
@@ -98,7 +88,8 @@ export type Event = {|
   bookingEnquiryTeam: ?Team,
   interpretations: Interpretation[],
   audiences: Audience[],
-  bookingInformation: ?HTMLString,
+  policies: LabelField[],
+  bookingInformation: ?PrismicHTMLString,
   cost: ?string,
   // TODO:
   // this is programmatic and doesn't come from Prismic and can't be edited directly

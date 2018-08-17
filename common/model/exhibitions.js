@@ -3,9 +3,10 @@ import type {HTMLString} from '../services/prismic/types';
 import type {Picture} from './picture';
 import type {Installation, UiInstallation} from './installations';
 import type {ImagePromo} from './image-promo';
-import type {Place} from './place';
+import type {Place} from './places';
 import type {Contributor} from './contributors';
 import type {Image} from './image';
+import type {GenericContentFields} from './generic-content-fields';
 
 export type Exhibit = {|
   exhibitType: | 'installations',
@@ -25,9 +26,8 @@ export type ExhibitionFormat = {|
 |}
 
 export type Exhibition = {|
-  id: string,
+  ...GenericContentFields,
   format: ?ExhibitionFormat,
-  title: ?string,
   start: Date,
   end: ?Date,
   statusOverride: ?string,
@@ -51,7 +51,7 @@ export type ExhibitionPromo = {|
 |}
 
 export type UiExhibition = {| ...Exhibition,  ...{|
-  promo: ExhibitionPromo,
+  promo: ?ExhibitionPromo,
   galleryLevel: number, // this should be deprecated for place
   textAndCaptionsDocument: any, // TODO: <= not this
   featuredImageList: Picture[],

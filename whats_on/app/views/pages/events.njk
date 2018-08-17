@@ -1,0 +1,101 @@
+{% extends 'layout/default.njk' %}
+{% set pageDescription = 'Choose from an inspiring range of free talks, tours, discussions and more on at Wellcome Collection in London.' %}
+{% set results = paginatedResults.results %}
+{% set metaContent = {
+  type: 'website',
+  title: 'Exhibitions',
+  image: paginatedResults[0].promoImage.contentUrl,
+  url: pageConfig.canonicalUri,
+  description: pageDescription
+} %}
+
+{% block pageMeta %}
+  {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}
+  {% component 'twitter-card', { pageConfig: pageConfig, metaContent: metaContent } %}
+  <meta name="description" content="{{ pageDescription }}" />
+{% endblock %}
+
+{% block body %}
+   <script type="application/ld+json">
+    [{% for event in results %}
+      {% set featuredImage = {contentUrl: event.image.contentUrl} %}
+      {% set ev = event | objectAssign({safeDescription: event.description | safe | striptags, featuredImage: featuredImage}) %}
+      {{ ev | jsonLd('eventLd') | safe }}{{ ',' if not loop.last }}
+    {% endfor %}]
+  </script>
+
+  {% componentV2 'list-header', {
+    name: 'Events',
+    description: pageDescription,
+    total: paginatedResults.results.length
+  } %}
+
+  {% if paginatedResults.totalPages > 1  %}
+    <div class="css-grid__container">
+      <div class="css-grid">
+        <div class="{{ {s:12, m:12, l:12, xl:12} | cssGridClasses }}">
+          <div class="{{ {s:5, m:5, l:5} | spacingClasses({padding: ['top']}) }}  {{ {s:5, m:5, l:5} | spacingClasses({padding: ['bottom']}) }} flex flex--v-center font-pewter {{ {s:'LR3', m:'LR2'} | fontClasses }}">
+            {{ ((paginatedResults.currentPage - 1) * paginatedResults.results.length + 1) }} - {{ ((paginatedResults.currentPage) * paginatedResults.results.length) }}
+          </div>
+          {% componentV2 'divider', null, {'keyline': true, 'pumice': true} %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="css-grid__container {{ {s:4} | spacingClasses({padding: ['top']}) }} ">
+    <div class="css-grid">
+        <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }}">
+          <div class="flex-inline flex--v-center">
+            <span class="{{ {s:'HNM5', m:'HNM4'} | fontClasses }}">Free admission</span>
+          </div>
+        </div>
+        {% for event in paginatedResults.results %}
+          <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
+            {% componentJsx 'EventPromo', {
+              id: event.id,
+              url: '/events/' + event.id,
+              title: event.title,
+              start: event.times[0].range.startDateTime if event.times.length > 0 else null,
+              end: event.times[event.times.length - 1].range.endDateTime if event.times.length > 0 else null,
+              isMultiDate: event.times.length > 1,
+              isFullyBooked: false,
+              hasNotFullyBookedTimes: null,
+              format: event.format,
+              image: event.promoImage,
+              interpretations: event.interpretations,
+              eventbriteId: event.eventbriteId,
+              dateString: null,
+              timeString: null,
+              audience: event.audience,
+              schedule: event.schedule,
+              series: event.series,
+              position: loop.index
+            } %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="css-grid__container  {{ {s:2, m:2, l:2} | spacingClasses({padding: ['top']}) }} {{ {s:3, m:3, l:3} | spacingClasses({padding: ['bottom']}) }} ">
+    <div class="css-grid">
+      {% if paginatedResults.totalPages > 1  %}
+        <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} text-align-right">
+          {% set pageSize = (paginatedResults.totalResults / paginatedResults.pageSize) | round %}
+          {% set currentPage = paginatedResults.currentPage %}
+          {% componentJsx 'Pagination', {
+            prevPage: (currentPage - 1) if currentPage !== 1,
+            currentPage: currentPage,
+            pageCount: pageSize,
+            nextPage: (currentPage + 1) if currentPage < pageSize,
+            nextQueryString: '/events?page=' + (currentPage + 1),
+            prevQueryString: '/events?page=' + (currentPage - 1)
+          } %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+
+{% endblock %}

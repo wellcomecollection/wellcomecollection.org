@@ -11,7 +11,8 @@ import {
   eventSeriesFields,
   organisationsFields,
   peopleFields,
-  contributorsFields
+  contributorsFields,
+  eventPoliciesFields
 } from './fetch-links';
 import {
   parseTitle,
@@ -22,7 +23,8 @@ import {
   isDocumentLink,
   parseTimestamp,
   parseBoolean,
-  parseGenericFields
+  parseGenericFields,
+  parseLabelTypeList
 } from './parsers';
 import {parseEventSeries} from './event-series';
 import isEmptyObj from '../../utils/is-empty-object';
@@ -114,7 +116,6 @@ export function parseEventDoc(
       : null).filter(Boolean);
 
   const upcomingDate = determineUpcomingDate(data.times);
-
   return {
     type: 'events',
     ...genericFields,
@@ -122,21 +123,19 @@ export function parseEventDoc(
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     audiences,
     bookingEnquiryTeam,
-    bookingInformation: document.data.bookingInformation.filter(info => {
-      if (info.text.length > 0) {
-        return info;
-      }
-    }),
+    bookingInformation: document.data.bookingInformation.length > 1 ? document.data.bookingInformation : null,
     bookingType: parseEventBookingType(document),
     cost: document.data.cost,
     format: document.data.format && parseEventFormat(document.data.format),
     interpretations,
+    policies: Array.isArray(data.policies) ? parseLabelTypeList(data.policies, 'policy') : [],
     isDropIn: Boolean(document.data.isDropIn),
     series,
     schedule: eventSchedule,
     backgroundTexture: document.data.backgroundTexture.data && document.data.backgroundTexture.data.image.url,
     eventbriteId,
     isCompletelySoldOut: data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
+    ticketSalesStart: data.ticketSalesStart,
     times: data.times && data.times.map(frag => ({
       range: {
         startDateTime: parseTimestamp(frag.startDateTime),
@@ -166,7 +165,8 @@ const fetchLinks = [].concat(
   organisationsFields,
   peopleFields,
   contributorsFields,
-  eventSeriesFields
+  eventSeriesFields,
+  eventPoliciesFields
 );
 
 type EventQueryProps = {|
@@ -187,9 +187,12 @@ export async function getEvent(req: Request, {id}: EventQueryProps): Promise<?Ui
 }
 
 type EventsQueryProps = {|
+  page: number,
   seriesId: string
 |}
+
 export async function getEvents(req: Request,  {
+  page = 1,
   seriesId
 }: EventsQueryProps): Promise<?PaginatedResults<UiEvent>> {
   const graphQuery = `{
@@ -217,6 +220,11 @@ export async function getEvents(req: Request,  {
       interpretations {
         interpretationType {
           ...interpretationTypeFields
+        }
+      }
+      policies {
+        policy {
+          ...policyFields
         }
       }
       audiences {
@@ -248,7 +256,7 @@ export async function getEvents(req: Request,  {
       }
     }
   }`;
-  const orderings = '[my.events.times.startDateTime]';
+  const orderings = '[my.events.times.startDateTime desc]';
   const predicates = [
     Prismic.Predicates.at('document.type', 'events'),
     seriesId ? Prismic.Predicates.at('my.events.series.series', seriesId) : null
@@ -256,6 +264,7 @@ export async function getEvents(req: Request,  {
 
   const paginatedResults = await getDocuments(req, predicates, {
     orderings,
+    page,
     graphQuery
   });
 

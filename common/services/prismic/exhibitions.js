@@ -22,9 +22,11 @@ import {
   parsePromoToCaptionedImage,
   isDocumentLink,
   asText,
-  asHtml
+  asHtml,
+  parseGenericFields
 } from './parsers';
 import {parseInstallationDoc} from './installations';
+import {london} from '../../utils/format-date';
 
 export function parseExhibitionFormat(frag: Object): ?ExhibitionFormat {
   return isDocumentLink(frag) ? {
@@ -46,6 +48,7 @@ function parseExhibits(document: PrismicFragment[]): UiExhibit[] {
 }
 
 function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
+  const genericFields = parseGenericFields(document);
   const data = document.data;
   const promo = document.data.promo;
 
@@ -96,16 +99,15 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const intro = data.intro && data.intro[0] && [Object.assign({}, data.intro[0], {type: 'paragraph'})];
 
   return {
-    id: id,
+    ...genericFields,
     format: format,
-    title: title,
     description: description,
     intro: intro,
     contributors: data.contributors ? parseContributors(data.contributors) : [],
     start: start,
     end: end,
     statusOverride: statusOverride,
-    place: isDocumentLink(data.place) && parsePlace(data.place),
+    place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     exhibits: data.exhibits ? parseExhibits(data.exhibits) : [],
     promo: {
       id,
@@ -128,10 +130,23 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   };
 }
 
-export async function getExhibitions(req: Request, id: string): Promise<PaginatedResults<UiExhibition>> {
+const startField = 'my.exhibitions.start';
+const endField = 'my.exhibitions.end';
+type Order = 'desc' | 'asc';
+type GetExhibitionsProps = {|
+  predicates: Prismic.Predicates[],
+  order: Order
+|}
+export async function getExhibitions(
+  req: Request,
+  {
+    predicates = [],
+    order = 'asc'
+  }: GetExhibitionsProps = {}
+): Promise<PaginatedResults<UiExhibition>> {
   const paginateResults = await getDocuments(
     req,
-    [Prismic.Predicates.at('document.type', 'exhibitions')],
+    [Prismic.Predicates.at('document.type', 'exhibitions')].concat(predicates),
     {
       fetchLinks: peopleFields.concat(
         contributorsFields,
@@ -139,7 +154,7 @@ export async function getExhibitions(req: Request, id: string): Promise<Paginate
         installationFields,
         exhibitionFields
       ),
-      orderings: '[my.exhibitions.start]'
+      orderings: `[${startField}${order === 'desc' ? ' desc' : ''}]`
     }
   );
 
@@ -153,6 +168,45 @@ export async function getExhibitions(req: Request, id: string): Promise<Paginate
     totalPages: paginateResults.totalPages,
     results: uiExhibitions
   };
+}
+
+export async function getExhibitionsComingUp(req: Request) {
+  const order = 'asc';
+  const predicates = [
+    Prismic.Predicates.dateAfter(startField, london().toDate())
+  ];
+
+  const paginatedResults = await getExhibitions(req, {
+    predicates, order
+  });
+
+  return paginatedResults;
+}
+
+export async function getExhibitionsCurrent(req: Request) {
+  const order = 'desc';
+  const predicates = [
+    Prismic.Predicates.dateBefore(startField, london().toDate()),
+    Prismic.Predicates.dateAfter(endField, london().toDate())
+  ];
+  const paginatedResults = await getExhibitions(req, {
+    predicates, order
+  });
+
+  return paginatedResults;
+}
+
+export async function getExhibitionsPast(req: Request) {
+  const order = 'desc';
+  const predicates = [
+    Prismic.Predicates.dateBefore(endField, london().toDate())
+  ];
+
+  const paginatedResults = await getExhibitions(req, {
+    predicates, order
+  });
+
+  return paginatedResults;
 }
 
 export async function getExhibition(req: Request, id: string): Promise<?UiExhibition> {

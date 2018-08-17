@@ -11,7 +11,7 @@
     "description": {
       "type": "StructuredText",
       "config": {
-        "single": "paragraph,hyperlink,strong,em",
+        "multi": "paragraph,hyperlink,strong,em",
         "label": "Description"
       }
     }

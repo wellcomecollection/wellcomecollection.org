@@ -13,14 +13,17 @@ export function error(beaconError) {
       }
     } catch (err) {
       const url = ctx.request.href;
+      const preview = isPreview(ctx.request);
       ctx.status = err.statusCode || err.status || 500;
       ctx.render('pages/error', {
-        isPreview: isPreview(ctx.request),
+        isPreview: preview,
         errorStatus: ctx.status,
         pageConfig: createPageConfig({
           title: `${ctx.status} error`
         })
       });
+
+      console.error(ctx.request.url, err);
 
       if (beaconError && (ctx.status < 400 || ctx.status >= 500)) {
         Raven.config('https://2cfb7b8ceb0a4549a4de2010b219a65d:5b48d985281a47e095a73df871b59149@sentry.io/223943').install();

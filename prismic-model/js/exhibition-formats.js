@@ -1,11 +1,4 @@
-import title from './parts/title';
-import structuredText from './parts/structured-text';
+import label from './types/label';
 
-const ExhibitionFormats = {
-  'Exhibition format': {
-    title,
-    description: structuredText('Description', 'single')
-  }
-};
-
+const ExhibitionFormats = label('Exhibition format');
 export default ExhibitionFormats;

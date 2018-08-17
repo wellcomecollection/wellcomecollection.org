@@ -5,6 +5,7 @@ import {isDatePast, formatDayDate, formatTime} from '../../../utils/format-date'
 import {UiImage} from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import Icon from '../Icon/Icon';
+import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import type {EventPromo as EventPromoProps} from '../../../model/events';
 
 type Props = {|
@@ -39,7 +40,11 @@ const EventPromo = ({
       text: interpretation.interpretationType.title
     };
   });
-  const labels = [(format && {url: null, text: format.title}), (audience && {url: null, text: audience.title}), ...eventInterpretations].filter(Boolean);
+  const labels = [
+    (format && {url: null, text: format.title}),
+    (audience && {url: null, text: audience.title}),
+    ...eventInterpretations
+  ].filter(Boolean);
   return (
     <a data-component='EventPromo'
       data-component-state={JSON.stringify({ position: position })}
@@ -113,13 +118,8 @@ const EventPromo = ({
               </div>
           }
 
-          {isPast &&
-              <div className={`${font({s: 'HNL5'})} flex flex--v-center`}>
-                <span className={`${spacing({s: 1}, {margin: ['right']})} flex flex--v-center`}>
-                  <Icon name='statusIndicator' extraClasses={'icon--red icon--match-text'} />
-                </span>
-                Past event
-              </div>
+          {start && end && isPast &&
+            <StatusIndicator start={start} end={end} />
           }
 
           {eventbriteId && !isFullyBooked && !isPast &&

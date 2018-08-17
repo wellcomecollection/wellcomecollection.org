@@ -1,0 +1,27 @@
+{
+  "groups": {
+    "common": {
+      "packages": [
+        "common/package.json"
+      ]
+    },
+    "webapps": {
+      "packages": [
+        "catalogue/webapp/package.json",
+        "eventbrite/app/package.json",
+        "server/package.json",
+        "whats_on/app/package.json"
+      ]
+    },
+    "utils": {
+      "packages": [
+        "cardigan/package.json",
+        "client/package.json",
+        "deploy/package.json",
+        "devappy/package.json",
+        "prismic_remapper/package.json",
+        "prismic-model/package.json"
+      ]
+    }
+  }
+}
