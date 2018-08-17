@@ -14,10 +14,11 @@ type Props = {|
 |}
 
 const EventScheduleItem = ({event, hasOwnPage}: Props) => {
-  const format = event.format ? [{text: event.format.title}] : [];
+  const format = event.format ? [{text: event.format.title, url: null}] : [];
   const interpretationTypes = event.interpretations.map(i => {
     return {
-      text: i.interpretationType.title
+      text: i.interpretationType.title,
+      url: null
     };
   });
   const labels = format.concat(interpretationTypes);

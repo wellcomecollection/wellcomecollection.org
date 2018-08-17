@@ -20,7 +20,7 @@ const EventbriteButton = ({event}: Props) => {
             <Button
               type='primary'
               id={`eventbrite-show-widget-${event.eventbriteId || ''}`}
-              url={`https://www.eventbrite.com/e/${event.eventbriteId}/`}
+              url={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
               trackingEvent={{
                 category: 'component',
                 action: 'booking-tickets:click',
@@ -48,18 +48,20 @@ const EventbriteButton = ({event}: Props) => {
                 showWidget.innerHTML = showWidget.innerHTML.replace('${ticketButtonText}', '${ticketButtonLoadingText}');
 
                 iframe.addEventListener('load', function() {
-                  iframe.height = iframe.contentWindow.document.body.scrollHeight;
-                  iframe.style.display = 'none';
-                  showWidget.classList.remove('disabled');
+                  setTimeout(function() {
+                    iframe.height = iframe.contentWindow.document.body.scrollHeight;
+                    iframe.style.display = 'none';
+                    showWidget.classList.remove('disabled');
 
-                  showWidget.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    showWidget.style.display = 'none';
-                    iframe.style.display = 'block';
-                    return false;
-                  });
-                  showWidget.innerHTML = showWidget.innerHTML.replace('${ticketButtonLoadingText}', '${ticketButtonText}');
-                  showWidget.disabled = null;
+                    showWidget.addEventListener('click', function(event) {
+                      event.preventDefault();
+                      showWidget.style.display = 'none';
+                      iframe.style.display = 'block';
+                      return false;
+                    });
+                    showWidget.innerHTML = showWidget.innerHTML.replace('${ticketButtonLoadingText}', '${ticketButtonText}');
+                    showWidget.disabled = null;
+                  }, 1000);
                 });
               })();
             `}}>
