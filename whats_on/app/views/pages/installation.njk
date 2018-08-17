@@ -15,7 +15,7 @@
 
 {% block body %}
   <script type="application/ld+json">
-    {# {{ jsonLdExhibition | jsonLd('exhibitionLd') | safe }} #}
+    {{ installation | jsonLd('exhibitionLd') }}
   </script>
   {% componentJsx "InstallationPage", {
     installation: installation
