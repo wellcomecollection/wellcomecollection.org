@@ -341,6 +341,7 @@ export function parseBackgroundTexture(backgroundTexture: PrismicBackgroundTextu
 export function parseLabelTypeList(fragment: PrismicFragment[], labelKey: string): LabelField[] {
   return fragment
     .map(label => label[labelKey])
+    .filter(Boolean)
     .filter(label => label.isBroken === false)
     .map(label => parseLabelType(label.data));
 }
