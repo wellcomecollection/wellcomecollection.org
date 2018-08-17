@@ -269,21 +269,22 @@ const EventPage = ({ event }: Props) => {
                           showWidget.innerHTML = showWidget.innerHTML.replace('${ticketButtonText}', '${ticketButtonLoadingText}');
 
                           iframe.addEventListener('load', function() {
-                            iframe.height = iframe.contentWindow.document.body.scrollHeight + 12;
-                            iframe.style.display = 'none';
-                            iframe.style.visibility = 'visible';
-                            iframe.style.position = 'relative';
-                            showWidget.classList.remove('disabled');
-
-                            showWidget.addEventListener('click', function(event) {
-                              event.preventDefault();
-                              showWidget.style.display = 'none';
-                              iframe.style.display = 'block';
-                              return false;
-                            });
-                            showWidget.innerHTML = showWidget.innerHTML.replace('${ticketButtonLoadingText}', '${ticketButtonText}');
-                            showWidget.disabled = null;
-                            showWidget.removeEventListener('click', haltClick);
+                            setTimeout(function() {
+                              iframe.height = iframe.contentWindow.document.body.scrollHeight + 12;
+                              iframe.style.display = 'none';
+                              iframe.style.visibility = 'visible';
+                              iframe.style.position = 'relative';
+                              showWidget.classList.remove('disabled');
+                              showWidget.addEventListener('click', function(event) {
+                                event.preventDefault();
+                                showWidget.style.display = 'none';
+                                iframe.style.display = 'block';
+                                return false;
+                              });
+                              showWidget.innerHTML = showWidget.innerHTML.replace('${ticketButtonLoadingText}', '${ticketButtonText}');
+                              showWidget.disabled = null;
+                              showWidget.removeEventListener('click', haltClick);
+                            }, 1000);
                           });
                         })();
                       `}}>
