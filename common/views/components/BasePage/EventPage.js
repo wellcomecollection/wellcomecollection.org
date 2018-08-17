@@ -250,18 +250,29 @@ const EventPage = ({ event }: Props) => {
                         marginHeight='5'
                         marginWidth='5'
                         scrolling='auto'
-                        height='1'>
+                        height='1'
+                        style={{
+                          visibility: 'hidden',
+                          position: 'absolute'
+                        }}>
                       </iframe>
                       <script dangerouslySetInnerHTML={{ __html: `
                         (function() {
                           var iframe = document.getElementById('eventbrite-widget-${event.eventbriteId || ''}');
                           var showWidget = document.getElementById('eventbrite-show-widget-${event.eventbriteId || ''}');
+                          var haltClick = function(event) {
+                            event.preventDefault();
+                            return false;
+                          }
+                          showWidget.addEventListener('click', haltClick)
                           showWidget.classList.add('disabled');
                           showWidget.innerHTML = showWidget.innerHTML.replace('${ticketButtonText}', '${ticketButtonLoadingText}');
 
                           iframe.addEventListener('load', function() {
-                            iframe.height = iframe.contentWindow.document.body.scrollHeight;
+                            iframe.height = iframe.contentWindow.document.body.scrollHeight + 12;
                             iframe.style.display = 'none';
+                            iframe.style.visibility = 'visible';
+                            iframe.style.position = 'relative';
                             showWidget.classList.remove('disabled');
 
                             showWidget.addEventListener('click', function(event) {
@@ -272,6 +283,7 @@ const EventPage = ({ event }: Props) => {
                             });
                             showWidget.innerHTML = showWidget.innerHTML.replace('${ticketButtonLoadingText}', '${ticketButtonText}');
                             showWidget.disabled = null;
+                            showWidget.removeEventListener('click', haltClick);
                           });
                         })();
                       `}}>
