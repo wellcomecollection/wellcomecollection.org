@@ -1,5 +1,4 @@
 // @flow
-import {london} from '../../../utils/format-date';
 import LabelsList from '../LabelsList/LabelsList';
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
@@ -25,9 +24,8 @@ const EventCard = ({ event }: Props) => {
 
   const firstTime = event.times[0];
   const lastTime = event.times[event.times.length - 1];
-  const isPast = lastTime && london(lastTime.range.endDateTime).isBefore(london());
   const StatusIndicatorComponent =
-    isPast && <StatusIndicator start={firstTime.range.startDateTime} end={lastTime.range.endDateTime} />;
+    event.isPast ? <StatusIndicator start={firstTime.range.startDateTime} end={lastTime.range.endDateTime} /> : null;
 
   return <CompactCard
     url={`/events/${event.id}`}
