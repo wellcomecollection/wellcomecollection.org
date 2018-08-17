@@ -1,0 +1,190 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WmXJYyQAACQAnqMl",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "HIV and AIDS",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmeisAALN8A8MB",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmeisAALN8A8MB"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-02-09T10:00:00+00:00",
+      "endDateTime": "2018-02-09T12:30:00+00:00",
+      "isFullyBooked": "yes"
+    },
+    {
+      "startDateTime": "2018-02-09T13:30:00+00:00",
+      "endDateTime": "2018-02-09T16:00:00+00:00",
+      "isFullyBooked": "yes"
+    },
+    {
+      "startDateTime": "2018-03-01T10:30:00+00:00",
+      "endDateTime": "2018-03-01T13:00:00+00:00",
+      "isFullyBooked": "yes"
+    },
+    {
+      "startDateTime": "2018-03-16T10:30:00+00:00",
+      "endDateTime": "2018-03-16T13:00:00+00:00",
+      "isFullyBooked": "yes"
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Suitable for groups of 10–20 students.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 38,
+            "type": "strong"
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This half-day study session uses the Wellcome Library’s HIV/AIDS poster collection as a starting point for exploring public health campaign techniques, the history of HIV/AIDS, and contemporary sexual health issues. After analysing historical campaigns, students will be challenged to design their own poster.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "One of the session leaders will be a sexual health worker, allowing students to explore any questions they might have in a safe and informed way within a neutral environment.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {
+      "audience": {
+        "id": "WlYWByQAACQAWdA0",
+        "mask": "audiences",
+        "wioUrl": "wio://documents/WlYWByQAACQAWdA0"
+      }
+    }
+  ],
+  "bookingEnquiryTeam": {
+    "id": "WmXJ-iQAACcAnqXC",
+    "mask": "teams",
+    "wioUrl": "wio://documents/WmXJ-iQAACcAnqXC"
+  },
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Please note: booking for our spring and summer term school events programme is currently open only to schools in Greater London. Booking will open for all other schools on Friday 22 December.",
+        "spans": []
+      }
+    }
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$e80ac0f1-45b4-48f6-b279-627874e43da6",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Half day study session exploring public health campaign techniques, the history of HIV/AIDS, and contemporary sexual health issues.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WmXLvyQAACYAnq2Y",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F5eadd68e-5325-4e28-b1cf-506ef0833be9_aids_study_day_letterbox.jpg",
+              "width": 650,
+              "height": 340
+            },
+            "width": 650,
+            "height": 340,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/9cdd73d39ad9f0ccf8854fd3a6e6ead6698cc77a_aids_study_day_letterbox.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WmXLvyQAACYAnq2Y",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F5eadd68e-5325-4e28-b1cf-506ef0833be9_aids_study_day_letterbox.jpg",
+                  "width": 650,
+                  "height": 340
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/2fdac6cec1dbefebcb3f76714adc62cece6bffd6_aids_study_day_letterbox.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 5.294117647058823,
+                  "crop": {
+                    "x": -120,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "WmXLvyQAACYAnq2Y",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F5eadd68e-5325-4e28-b1cf-506ef0833be9_aids_study_day_letterbox.jpg",
+                  "width": 650,
+                  "height": 340
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/d59f7816b2c05d3ccecea0e48ab349cd66299d28_aids_study_day_letterbox.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 9.411764705882353,
+                  "crop": {
+                    "x": -1458,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

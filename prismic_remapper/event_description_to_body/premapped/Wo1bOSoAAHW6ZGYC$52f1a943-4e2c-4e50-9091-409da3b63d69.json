@@ -1,0 +1,222 @@
+{
+  "type": "events",
+  "tags": [
+    "delist"
+  ],
+  "lang": "en-gb",
+  "grouplang": "Wo1bOSoAAHW6ZGYE",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Music from Club Kali",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wn3Q3SoAACsAIeFI",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wn3Q3SoAACsAIeFI"
+  },
+  "place": {
+    "id": "Wn1gUioAACoAH_8S",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gUioAACoAH_8S"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "Wo1YeCoAACoAZFoN",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/Wo1YeCoAACoAZFoN"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-04-05T19:30:00+00:00",
+      "endDateTime": "2018-04-05T21:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Listen to the music from Club Kali, The World’s Biggest LGBTQ+ Gaysian club. Join DJ Ritu for some Bollywood, Bhangra, Arabic and Western chart classics. ",
+        "spans": [
+          {
+            "start": 35,
+            "end": 36,
+            "type": "strong"
+          },
+          {
+            "start": 109,
+            "end": 110,
+            "type": "strong"
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your performers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Club Kali has been spinning tunes since 1995. The DJs perform on the first Friday of every month in north London and also do radio shows. ",
+        "spans": [
+          {
+            "start": 0,
+            "end": 9,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://clubkali.com"
+              },
+              "url": "https://clubkali.com"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In the Forum, which can accommodate up to 100 people standing, on level 1. Follow the signs through the Medicine Now gallery. It’s mostly standing room, though there will be a few seats available.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This performance will take place as part of the Embracing the Goddess event. The exact times will be confirmed shortly.",
+        "spans": [
+          {
+            "start": 77,
+            "end": 119,
+            "type": "strong"
+          }
+        ]
+      }
+    }
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "WoGaByoAACsAMY5g",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WoGaByoAACsAMY5g"
+      },
+      "contributor": {
+        "id": "Wo7MzyoAAMLuar-R",
+        "mask": "organisations",
+        "wioUrl": "wio://documents/Wo7MzyoAAMLuar-R"
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$71a84b4a-4318-4eef-b171-ea74b4264465",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "image": {
+            "origin": {
+              "id": "WqwQ6SAAAB8AJiZH",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F72ab18a1-7937-4ce7-bc7a-5e95c74c74ca_btg180314181841.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/5bbf408a29bb6873f841edec6320e851cf20f7a9_btg180314181841.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "DJ Ritu at Resonance FM | Benjamin Gilbert | | | CC-BY-NC | Wellcome Collection |",
+            "alt": "Photographic Portrait of a female DJ in a small Dj booth at a radio station. Behind the woman is radio equipment and a clock on the yellow sound absorbing wall.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WqwQ6SAAAB8AJiZH",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F72ab18a1-7937-4ce7-bc7a-5e95c74c74ca_btg180314181841.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/4c060f688f9714cd4d4fbf287bd79aa39a468d86_btg180314181841.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "DJ Ritu at Resonance FM | Benjamin Gilbert | | | CC-BY-NC | Wellcome Collection |",
+                "alt": "Photographic Portrait of a female DJ in a small Dj booth at a radio station. Behind the woman is radio equipment and a clock on the yellow sound absorbing wall."
+              },
+              "square": {
+                "origin": {
+                  "id": "WqwQ6SAAAB8AJiZH",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F72ab18a1-7937-4ce7-bc7a-5e95c74c74ca_btg180314181841.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/71e3a3db254a64a06dc0e62a6d97f4562d7a7bfb_btg180314181841.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -137,
+                    "y": 8
+                  }
+                },
+                "credits": "DJ Ritu at Resonance FM | Benjamin Gilbert | | | CC-BY-NC | Wellcome Collection |",
+                "alt": "Photographic Portrait of a female DJ in a small Dj booth at a radio station. Behind the woman is radio equipment and a clock on the yellow sound absorbing wall."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

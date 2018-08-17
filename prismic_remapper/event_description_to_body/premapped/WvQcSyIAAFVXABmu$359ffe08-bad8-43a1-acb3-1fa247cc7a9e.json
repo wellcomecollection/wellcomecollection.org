@@ -1,0 +1,202 @@
+{
+  "type": "events",
+  "tags": [
+    "delist"
+  ],
+  "lang": "en-gb",
+  "grouplang": "WvQcSyIAAFVXABmw",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "HIV Testing",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-26T17:00:00+00:00",
+      "endDateTime": "2018-07-26T21:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "You can to speak to a clinician about what’s involved in HIV testing and its consequences, and even take a confidential HIV test if you wish.  ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Testing will be done by Marie Rousseau and clinicians from the Caldecot Centre, an NHS-run sexual health centre based at King's College Hospital. Results of the tests will be available within one minute of taking the test.",
+        "spans": [
+          {
+            "start": 63,
+            "end": 78,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://www.kch.nhs.uk/service/a-z/hiv"
+              },
+              "url": "https://www.kch.nhs.uk/service/a-z/hiv"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "If you have any questions about taking the HIV test at this event, you can contact us at info@wellcomecollection.org.",
+        "spans": [
+          {
+            "start": 89,
+            "end": 116,
+            "type": "hyperlink",
+            "data": {
+              "url": "mailto:info@wellcomecollection.org"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Come to the meeting point in the 'Medicine Now' gallery on level 1 if you want to know more about HIV testing. The testing itself will take place in private, behind screens.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The building might be busy and space is limited, so entry is not guaranteed.",
+        "spans": []
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$6ba62d59-8c68-4f37-99df-e66b8cbae9ed",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "You can to speak to a clinician about what’s involved in HIV testing and its consequences, and even take a confidential HIV test if you wish.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WusJ-iIAAM_-2AkA",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fdd4370db-05cb-4c41-ab82-6c5dc593a46a_ep_000280_004.jpg",
+              "width": 4000,
+              "height": 2669
+            },
+            "width": 4000,
+            "height": 2669,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/064d610617f0c669d5bd4a73a7c2e39ff0d0f0b6_ep_000280_004.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a visitor exploring Alien Sex Club .",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WusJ-iIAAM_-2AkA",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fdd4370db-05cb-4c41-ab82-6c5dc593a46a_ep_000280_004.jpg",
+                  "width": 4000,
+                  "height": 2669
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/23587e7df599d43a3557d34c6a42a5f1930dccec_ep_000280_004.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.1989509179467965,
+                  "crop": {
+                    "x": -798,
+                    "y": 0
+                  }
+                },
+                "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a visitor exploring Alien Sex Club ."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WusJ-iIAAM_-2AkA",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fdd4370db-05cb-4c41-ab82-6c5dc593a46a_ep_000280_004.jpg",
+                  "width": 4000,
+                  "height": 2669
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/a71ac62e78453b3188d0f4864560ed4232852b3a_ep_000280_004.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -168
+                  }
+                },
+                "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a visitor exploring Alien Sex Club ."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

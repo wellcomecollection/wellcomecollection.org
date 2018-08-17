@@ -1,0 +1,272 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Ws8cxCUAALYVkZ30",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Stories of Ageing ",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1gvyoAACgAIAEF",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gvyoAACgAIAEF"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "Ws8XgiUAAN0dkYan",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/Ws8XgiUAAN0dkYan"
+      }
+    },
+    {
+      "series": {
+        "id": "WoLgbSoAACgANnxB",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WoLgbSoAACgANnxB"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-05-17T18:00:00+00:00",
+      "endDateTime": "2018-05-17T19:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join us to hear about the ways we age, inspired by the book Shapeshifters: On Medicine & Human Change by Gavin Francis. Ageing is more than just biological, so our speakers will discuss the different stages of our lives from social, cultural and medical standpoints. After their stories, you will have the opportunity to share your own.",
+        "spans": [
+          {
+            "start": 60,
+            "end": 102,
+            "type": "em"
+          },
+          {
+            "start": 60,
+            "end": 101,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/shapeshifters"
+              },
+              "url": "https://wellcomecollection.org/shapeshifters"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speakers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Rachel Clarke is a physician who specialises in palliative care and author of Your Life in My Hands.",
+        "spans": [
+          {
+            "start": 78,
+            "end": 100,
+            "type": "em"
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Julia Twigg is Professor in the School of Social Policy, Sociology and Social Research at the University of Kent. She studies the ways that dress and age intersect, and how clothes express social identity.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Suzanne O’Sullivan is a consultant neurophysiologist at University College London Hospital and author of It’s All in Your Head which won the 2016 Wellcome Book prize.",
+        "spans": [
+          {
+            "start": 105,
+            "end": 127,
+            "type": "em"
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Your facilitator will be Gavin Francis, GP and author of Shapeshifters: On Medicine & Human Change (published by Wellcome Collection).",
+        "spans": [
+          {
+            "start": 57,
+            "end": 98,
+            "type": "em"
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Follow the signs downstairs or take the lift to the Henry Wellcome Auditorium on level –1. There are 150 seats.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WlYq1SQAACYAWiuX",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WlYq1SQAACYAWiuX"
+      },
+      "isPrimary": "yes"
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/45055631607?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/stories-of-ageing-tickets-45055631607",
+    "type": "link",
+    "version": "1.0",
+    "title": "Stories of Ageing",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/45055631607?aff=efbneb\"><h1>Stories of Ageing</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>Stories of Ageing</p></a></div>"
+  },
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$a3f295c9-3357-410b-b6d9-4b9ebedd4240",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join us to hear experts talk about the ways we age, inspired by the book Shapeshifters: On Medicine & Human Change. ",
+                "spans": [
+                  {
+                    "start": 73,
+                    "end": 114,
+                    "type": "em"
+                  }
+                ]
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WvL40iIAAAQP-wje",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Faf01e1f3-6a0d-428d-b4c5-f6259120506a_c0130619.jpg",
+              "width": 3014,
+              "height": 1695
+            },
+            "width": 3014,
+            "height": 1695,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ea9c711375437d7bf5976955cd8a3097510fd7df_c0130619.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Suzanne O’Sullivan | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photographic head and shoulders portrait of Suzanne O’Sullivan against a blue wall.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WvL40iIAAAQP-wje",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Faf01e1f3-6a0d-428d-b4c5-f6259120506a_c0130619.jpg",
+                  "width": 3014,
+                  "height": 1695
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/6a3d2eb65a11ad16264392c0b7e304e8e6bccccf_c0130619.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.0619469026548674,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Suzanne O’Sullivan | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic head and shoulders portrait of Suzanne O’Sullivan against a blue wall."
+              },
+              "square": {
+                "origin": {
+                  "id": "WvL40iIAAAQP-wje",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Faf01e1f3-6a0d-428d-b4c5-f6259120506a_c0130619.jpg",
+                  "width": 3014,
+                  "height": 1695
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/91eb460ded06d1acf14fcca8a975260fed723f51_c0130619.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.887905604719764,
+                  "crop": {
+                    "x": -683,
+                    "y": 0
+                  }
+                },
+                "credits": "Suzanne O’Sullivan | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic head and shoulders portrait of Suzanne O’Sullivan against a blue wall."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

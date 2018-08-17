@@ -1,0 +1,218 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WmXMnCQAACYAnrFp",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Design for Life",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmeisAALN8A8MB",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmeisAALN8A8MB"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "W1m-yyYAACYAt4Lb",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/W1m-yyYAACYAt4Lb"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-02-21T13:00:00+00:00",
+      "endDateTime": "2018-02-21T15:30:00+00:00",
+      "isFullyBooked": "yes"
+    },
+    {
+      "startDateTime": "2018-03-21T13:00:00+00:00",
+      "endDateTime": "2018-03-21T15:30:00+00:00",
+      "isFullyBooked": "yes"
+    },
+    {
+      "startDateTime": "2018-07-11T12:00:00+00:00",
+      "endDateTime": "2018-07-11T14:30:00+00:00",
+      "isFullyBooked": "yes"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In this two-and-a-half hour study session, inspired by our Can Graphic Design Save Your Life?  exhibition, your students will gain insight into the professional practice of graphic designers through hands-on activities, discussion and gallery time.",
+        "spans": [
+          {
+            "start": 59,
+            "end": 105,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/exhibitions/WZwh4ioAAJ3usf86"
+              },
+              "url": "https://wellcomecollection.org/exhibitions/WZwh4ioAAJ3usf86"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The session will explore the fundamentals of communicating complex ideas in non-verbal ways. These include conveying mood and messaging through humour or fear, using enticing visuals or subverting familiar imagery to convey messages, and creating impact using typography on its own or with images.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Working in small groups, your students will be challenged to propose concepts and designs for a specific user or need. They will identify the most effective language to communicate their message, develop their concepts through drawings and sketching, and pitch their ideas to others in a concise and engaging way.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Who can come",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This study day is suitable for students aged 14–19. We can accommodate groups of 15–30 students, accompanied by staff at a ratio of 1:10.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {
+      "audience": {
+        "id": "WlYWByQAACQAWdA0",
+        "mask": "audiences",
+        "wioUrl": "wio://documents/WlYWByQAACQAWdA0"
+      }
+    }
+  ],
+  "bookingEnquiryTeam": {
+    "id": "WmXJ-iQAACcAnqXC",
+    "mask": "teams",
+    "wioUrl": "wio://documents/WmXJ-iQAACcAnqXC"
+  },
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Only teachers are able to book these sessions. Although these dates and times are now fully booked, we do operate a waiting list. Please email youthprogrammes@wellcomecollection.org to add your school to the list.",
+        "spans": []
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$e80ac0f1-45b4-48f6-b279-627874e43da6",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "A new half-day study session for students studying art and design subjects, exploring the links between graphic design and health.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WtC5bCEAAINM6eVI",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F277ae821-bc91-421d-8452-88dd4b162131_ep_000164_066-edit.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/9253ed0811227e0798ceef86f6e2c9ac610fc70e_ep_000164_066-edit.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Visitors in the Can Graphic Design Save Your Life? exhibition | David Bishop | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of two visitors in the Can Graphic Design Save Your Life? exhibition space looking at a display case.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WtC5bCEAAINM6eVI",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F277ae821-bc91-421d-8452-88dd4b162131_ep_000164_066-edit.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/9f4a9c5dc1417d8ff7b082baeac6425e8a3a65aa_ep_000164_066-edit.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1346,
+                    "y": 0
+                  }
+                },
+                "credits": "Visitors in the Can Graphic Design Save Your Life? exhibition | David Bishop | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of two visitors in the Can Graphic Design Save Your Life? exhibition space looking at a display case."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WtC5bCEAAINM6eVI",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F277ae821-bc91-421d-8452-88dd4b162131_ep_000164_066-edit.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/fd02c941398cb9ae869a2c5d34e3a54834d8b615_ep_000164_066-edit.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Visitors in the Can Graphic Design Save Your Life? exhibition | David Bishop | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of two visitors in the Can Graphic Design Save Your Life? exhibition space looking at a display case."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

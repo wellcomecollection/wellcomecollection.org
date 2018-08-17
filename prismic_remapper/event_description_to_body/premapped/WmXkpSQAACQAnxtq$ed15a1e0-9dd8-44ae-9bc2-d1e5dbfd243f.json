@@ -1,0 +1,168 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WmXkpSQAACQAnxts",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Psychedelics for Psychiatry",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WifrbikAAGSyDtHk",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WifrbikAAGSyDtHk"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-02-07T13:00:00+00:00",
+      "endDateTime": "2018-02-07T14:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Feed your curiosity at our daytime discussions. Drop in to hear local scientists in conversation about their latest experiments, life in the lab and why science matters to everyone, all in the space of your lunch hour. Bring your sarnies with you to eat while you listen.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Could psychedelic drugs like LSD and magic mushrooms revolutionise psychology and psychiatry, for example in the treatment of addiction or depression? Join Robin Carhart-Harris to hear about his pioneering research into the neurological effects and potential therapeutic uses of psychedelics.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Speaker:",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Robin Carhart-Harris, Head of Psychedelic Research, Imperial College London",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WmXhziQAACQAnw7i",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WmXhziQAACQAnw7i"
+      }
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$3cdb609e-af52-430d-9136-e410c9a59b69",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Feed your curiosity at our daytime discussions. This time with neuropsychopharmacologist, Robin Carhart-Harris.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WmXkjSQAACYAnxsD",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb06578c6-2397-46f7-889f-63e9960f49cc_pyschotics+web+resize+%281%29.jpg",
+              "width": 800,
+              "height": 450
+            },
+            "width": 800,
+            "height": 450,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/bf13bb96677c56382906048e6ad7b55ad9c370b4_pyschotics-web-resize-1.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Wellcome Collection",
+            "alt": "Illustration of a when with conflicting voices in her head",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WmXkjSQAACYAnxsD",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb06578c6-2397-46f7-889f-63e9960f49cc_pyschotics+web+resize+%281%29.jpg",
+                  "width": 800,
+                  "height": 450
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/fdc0211f14a6b8413390374045b4d051430666c1_pyschotics-web-resize-1.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 4,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Wellcome Collection",
+                "alt": "Illustration of a when with conflicting voices in her head"
+              },
+              "square": {
+                "origin": {
+                  "id": "WmXkjSQAACYAnxsD",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb06578c6-2397-46f7-889f-63e9960f49cc_pyschotics+web+resize+%281%29.jpg",
+                  "width": 800,
+                  "height": 450
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ee429f23b1a6906e0b2c61e74dbd0820a9d8a75d_pyschotics-web-resize-1.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 7.111111111111111,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Wellcome Collection",
+                "alt": "Illustration of a when with conflicting voices in her head"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

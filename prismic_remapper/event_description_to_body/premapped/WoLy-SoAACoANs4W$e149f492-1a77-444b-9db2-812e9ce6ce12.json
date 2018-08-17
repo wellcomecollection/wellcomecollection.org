@@ -1,0 +1,218 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WoLy-SoAACoANs4Y",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Perspective tour with Bárbara Rodríguez Muñoz",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmcSsAACx_A8La",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmcSsAACx_A8La"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WlYUDCQAACQAWcdt",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WlYUDCQAACQAWcdt"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-04-05T17:00:00+00:00",
+      "endDateTime": "2018-04-05T17:45:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join Bárbara Rodríguez Muñoz on a walking tour of ‘Ayurvedic Man: Encounters with Indian medicine‘. You’ll hear her personal views and insights into the exhibition and have an opportunity to ask questions.",
+        "spans": [
+          {
+            "start": 51,
+            "end": 97,
+            "type": "hyperlink",
+            "data": {
+              "id": "WduTricAAN7Mt8yY",
+              "mask": "exhibitions",
+              "preview": {
+                "image": "https://prismic-io.s3.amazonaws.com/wellcomecollection/medium_10f03792-763e-4b48-84d8-4e008b323740_am.jpg",
+                "title": "Ayurvedic Man: Encounters with Indian medicine"
+              },
+              "wioUrl": "wio://documents/WduTricAAN7Mt8yY"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your guide",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Bárbara is a Wellcome Collection curator. In addition to ‘Ayurvedic Man’, she has curated ‘This is a Voice’ and co-curated ‘Bedlam: the asylum and beyond’. Her previous projects have appeared at the South London Gallery, the Kunsthal in Aarhus and Cubitt in London.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To attend, just turn up and meet your guide beside the Information Point on level 0. There is no need to book (though spaces are limited). ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The tour will take place in the ‘Ayurvedic Man’ exhibition on Level 1.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "contributors": [],
+  "promo": [
+    {
+      "key": "editorialImage$87443fbb-2642-4e10-bb11-fd854e3c94d1",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Take a tour of the exhibition from the perspective of its curator.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WnhvDioAACoACmgz",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3d3fba31-27cf-4108-b761-269bc42a6b2a_ep_000223_003_16x9_web.jpg",
+              "width": 3000,
+              "height": 1687
+            },
+            "width": 3000,
+            "height": 1687,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/4812e270324fa82bb3def2c1f1f827119a25c395_ep_000223_003_16x9_web.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Bárbara Rodriguez Muñoz | Thomas SG Farnetti | | | CC-BY | Wellcome Collection |",
+            "alt": "Curator Bárbara Rodriguez Muñoz standing at the entrance of the Ayurvedic Man exhibition",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WnhvDioAACoACmgz",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3d3fba31-27cf-4108-b761-269bc42a6b2a_ep_000223_003_16x9_web.jpg",
+                  "width": 3000,
+                  "height": 1687
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/21c3a8b792f4280b631c66f53ee808e7edf7543b_ep_000223_003_16x9_web.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.896858328393598,
+                  "crop": {
+                    "x": -1245,
+                    "y": 0
+                  }
+                },
+                "credits": "Bárbara Rodriguez Muñoz | Thomas SG Farnetti | | | CC-BY | Wellcome Collection |",
+                "alt": "Curator Bárbara Rodriguez Muñoz standing at the entrance of the Ayurvedic Man exhibition"
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WnhvDioAACoACmgz",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3d3fba31-27cf-4108-b761-269bc42a6b2a_ep_000223_003_16x9_web.jpg",
+                  "width": 3000,
+                  "height": 1687
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/8d9e29ac1c297f45925e13cb61e6386fc11483ed_ep_000223_003_16x9_web.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.066982809721399,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Bárbara Rodriguez Muñoz | Thomas SG Farnetti | | | CC-BY | Wellcome Collection |",
+                "alt": "Curator Bárbara Rodriguez Muñoz standing at the entrance of the Ayurvedic Man exhibition"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

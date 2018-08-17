@@ -1,0 +1,344 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "W2RQnyYAACYAR93i",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Body of Essays",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wn3Q3SoAACsAIeFI",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wn3Q3SoAACsAIeFI"
+  },
+  "place": {
+    "id": "Wn1fvyoAACgAH_yG",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1fvyoAACgAH_yG"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-09-12T18:00:00+00:00",
+      "endDateTime": "2018-09-12T19:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join us to listen to five writers as they read moving and comical personal essays, each focusing on a different body part. All the 15-minute readings will be recorded for later broadcast as part of ‘The Essay’ series on BBC Radio 3.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "You can also read these essays in our book, ‘Beneath the Skin: Great Writers on the Body’, which you can buy on the night.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "With your ticket you'll get after-hours access to our 'Teeth' exhibition, and Wellcome Café will be open until 19:00 for refreshments before the event.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About the performers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Kayo Chingonyi chooses the blood, and reveals a tragic personal story of HIV AIDS and his native Zambia. ",
+        "spans": [
+          {
+            "start": 0,
+            "end": 14,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://kayochingonyi.com/bio/"
+              },
+              "url": "https://kayochingonyi.com/bio/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Patrick McGuinness explores the grottiness of the labyrinthine ear. ",
+        "spans": [
+          {
+            "start": 0,
+            "end": 19,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://en.wikipedia.org/wiki/Patrick_McGuinness"
+              },
+              "url": "https://en.wikipedia.org/wiki/Patrick_McGuinness"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "A L Kennedy homes in on the ability of our nose to conjure memories. ",
+        "spans": [
+          {
+            "start": 0,
+            "end": 11,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://en.wikipedia.org/wiki/A._L._Kennedy"
+              },
+              "url": "https://en.wikipedia.org/wiki/A._L._Kennedy"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Abi Curtis considers how our eyes both connect us to and alienate us from the world.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 10,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://abicurtis.com"
+              },
+              "url": "https://abicurtis.com"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Imtiaz Dharker casts the liver as the true seat of our feelings.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 14,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://en.wikipedia.org/wiki/Imtiaz_Dharker"
+              },
+              "url": "https://en.wikipedia.org/wiki/Imtiaz_Dharker"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "‘Body of Essays’ is a Cast Iron production for BBC Radio 3.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/48834882448?aff=efbneb",
+    "embed_url": " https://www.eventbrite.co.uk/e/body-of-essays-tickets-48834882448",
+    "type": "link",
+    "version": "1.0",
+    "title": "Body of Essays",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/48834882448?aff=efbneb\"><h1>Body of Essays</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>Body of Essays</p></a></div>"
+  },
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "policies": [
+    {
+      "policy": {
+        "id": "W3U3fikAACIAG4C-",
+        "mask": "event-policies",
+        "wioUrl": "wio://documents/W3U3fikAACIAG4C-"
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "WoGaByoAACsAMY5g",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WoGaByoAACsAMY5g"
+      },
+      "contributor": {
+        "id": "W2lY_SYAACQAXek4",
+        "mask": "organisations",
+        "wioUrl": "wio://documents/W2lY_SYAACQAXek4"
+      },
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "",
+            "spans": []
+          }
+        }
+      ]
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$16e8517f-6ace-48f9-955b-039b0219f62c",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join us to listen to five writers as they read moving and comical personal essays, each focusing on a different body part. All the 15-minute readings will be recorded for later broadcast as part of ‘The Essay’ series on BBC Radio 3.\n",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "W2sOHSkAACgA7uvI",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F95c879b1-d163-4a32-9f2a-65f5bbde976a_ep_000080_1047_large.jpg",
+              "width": 2164,
+              "height": 1217
+            },
+            "width": 2164,
+            "height": 1217,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/0c95c6c391c0a208a594acf86f207b938c21a933_ep_000080_1047_large.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "W2sOHSkAACgA7uvI",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F95c879b1-d163-4a32-9f2a-65f5bbde976a_ep_000080_1047_large.jpg",
+                  "width": 2164,
+                  "height": 1217
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/01de75f6647a37113251e8910855b0d3f8d97735_ep_000080_1047_large.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 2.629416598192276,
+                  "crop": {
+                    "x": -2317,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "32:15": {
+                "origin": {
+                  "id": "W2sOHSkAACgA7uvI",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F95c879b1-d163-4a32-9f2a-65f5bbde976a_ep_000080_1047_large.jpg",
+                  "width": 2164,
+                  "height": 1217
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/aaeedc17d9adcce0bd63c985aa706641ac7b11a5_ep_000080_1047_large.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.478743068391867,
+                  "crop": {
+                    "x": 0,
+                    "y": -150
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "16:9": {
+                "origin": {
+                  "id": "W2sOHSkAACgA7uvI",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F95c879b1-d163-4a32-9f2a-65f5bbde976a_ep_000080_1047_large.jpg",
+                  "width": 2164,
+                  "height": 1217
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/913a33432a2259efcd1518d068229a302b0feb20_ep_000080_1047_large.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4790468364831553,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

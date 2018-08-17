@@ -1,0 +1,193 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WuyF9CIAAFl-3pK-",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Alien Sex Club Live",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Ww_LyiEAAFOTlJ4-",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Ww_LyiEAAFOTlJ4-"
+  },
+  "series": [],
+  "times": [
+    {
+      "startDateTime": "2018-07-26T17:00:00+00:00",
+      "endDateTime": "2018-07-26T21:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "You'll spend an evening exploring the science and visual culture of HIV. Mingle with a group of artists and clinicians who work with HIV in different ways. You can talk to them about the art installation or about the science of HIV over a gin and tonic at the (cash-only) bar. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "You could also take a tarot card reading or join a more in-depth discussion about  HIV. Throughout the evening you can visit the 'Alien Sex Club' installation, which is part of the 'Somewhere in Between’ exhibition.",
+        "spans": [
+          {
+            "start": 182,
+            "end": 214,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/exhibitions/WhvoAykAACgAlDoo"
+              },
+              "url": "https://wellcomecollection.org/exhibitions/WhvoAykAACgAlDoo"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The building might be busy and space is limited, so entry is not guaranteed.",
+        "spans": []
+      }
+    }
+  ],
+  "schedule": [
+    {
+      "event": {
+        "id": "WvQY3SIAAKRfAAp-",
+        "mask": "events",
+        "wioUrl": "wio://documents/WvQY3SIAAKRfAAp-"
+      }
+    },
+    {
+      "event": {
+        "id": "WvQcSyIAAFVXABmu",
+        "mask": "events",
+        "wioUrl": "wio://documents/WvQcSyIAAFVXABmu"
+      }
+    },
+    {
+      "event": {
+        "id": "WvQW1yIAAKZfAAGQ",
+        "mask": "events",
+        "wioUrl": "wio://documents/WvQW1yIAAKZfAAGQ"
+      }
+    }
+  ],
+  "backgroundTexture": {
+    "id": "Wr0JgB8AAAYP9ydN",
+    "mask": "background-textures",
+    "wioUrl": "wio://documents/Wr0JgB8AAAYP9ydN"
+  },
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$c93eff05-0ceb-400c-9737-de7658480d3b",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join us for an evening exploring the science and visual culture of HIV, with tarot card readings and discussions. ",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WqpnMyAAAB4AHvKc",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7aae9dfd-42ff-4a89-9719-b361d3a791b1_ep_000285_014.jpg",
+              "width": 4000,
+              "height": 2681
+            },
+            "width": 4000,
+            "height": 2681,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/cbac24c89d84784b5e5d95e94cd092190aeb9d55_ep_000285_014.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of visitors looking at colourful artworks displayed on coloured patterned wallpaper.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WqpnMyAAAB4AHvKc",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7aae9dfd-42ff-4a89-9719-b361d3a791b1_ep_000285_014.jpg",
+                  "width": 4000,
+                  "height": 2681
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ca77b46b565a8722a4ec24669a92b7869d046768_ep_000285_014.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -172
+                  }
+                },
+                "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of visitors looking at colourful artworks displayed on coloured patterned wallpaper."
+              },
+              "square": {
+                "origin": {
+                  "id": "WqpnMyAAAB4AHvKc",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7aae9dfd-42ff-4a89-9719-b361d3a791b1_ep_000285_014.jpg",
+                  "width": 4000,
+                  "height": 2681
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e51d421a78330a8046cc4e93714fd65ea5ef0d4a_ep_000285_014.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.1935844834017157,
+                  "crop": {
+                    "x": -787,
+                    "y": 0
+                  }
+                },
+                "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of visitors looking at colourful artworks displayed on coloured patterned wallpaper."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

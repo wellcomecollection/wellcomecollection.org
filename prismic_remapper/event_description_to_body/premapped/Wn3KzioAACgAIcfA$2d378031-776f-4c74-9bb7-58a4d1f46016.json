@@ -1,0 +1,190 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Wn3KzioAACgAIcfC",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Lifesaving 3D Printing",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1gUioAACoAH_8S",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gUioAACoAH_8S"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WifrbikAAGSyDtHk",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WifrbikAAGSyDtHk"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-03-07T13:00:00+00:00",
+      "endDateTime": "2018-03-07T14:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Over lunch, hear from a scientist about her research into 3D printing and whether it could revolutionise the healthcare of the future, from drug-delivery to smart prosthetics.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speaker",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Anna Ploszajski is an award-winning engineer and materials scientist from University College London. In 2017, she was named Young Engineer of the Year by the Royal Academy of Engineering. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Our Packed Lunches are held in the Forum, which can seat up to 70 people, on Level 1. Follow the signs through the Medicine Now gallery.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To attend, just turn up on the day. Please remember, spaces are limited and it can get busy. Doors open at 12.45.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WmXl4iQAACUAnyDr",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WmXl4iQAACUAnyDr"
+      }
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$f52677e3-0998-4c82-a111-8572f30fa047",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join a lunchtime conversation with an engineer and materials scientist.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WoKrQioAACkANZIk",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ffb400ceb-87c7-434e-8174-845f0b6b58a9_c0085080.jpg",
+              "width": 2906,
+              "height": 1635
+            },
+            "width": 2906,
+            "height": 1635,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/a0d0daaf296e639a21e448ef2c759f97ddcd4215_c0085080.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WoKrQioAACkANZIk",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ffb400ceb-87c7-434e-8174-845f0b6b58a9_c0085080.jpg",
+                  "width": 2906,
+                  "height": 1635
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/4e0552a8c7a1e9c884fb980cee0e5d32474baf3c_c0085080.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.1011699931176875,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "WoKrQioAACkANZIk",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ffb400ceb-87c7-434e-8174-845f0b6b58a9_c0085080.jpg",
+                  "width": 2906,
+                  "height": 1635
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ad30821e1184369619a131bdaa98be18c6c31731_c0085080.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.9571865443425076,
+                  "crop": {
+                    "x": -1243,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

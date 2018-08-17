@@ -1,0 +1,222 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WwQynCAAAF9rDklD",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Tell Us the Tooth and other stories",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmiysAACx_A8NR",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmiysAACx_A8NR"
+  },
+  "place": {
+    "id": "Wn1fvyoAACgAH_yG",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1fvyoAACgAH_yG"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WoLgbSoAACgANnxB",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WoLgbSoAACgANnxB"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-05-31T18:00:00+00:00",
+      "endDateTime": "2018-05-31T20:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you'll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join in this informal workshop about storytelling. You’ll explore what makes a good story and discover how to transform moments from your life into memorable tales. And there will be storytelling games to play.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "No experience is needed. Come and share your stories or just come to listen.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About our speaker",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Navreet Chawla is a former pharmacist, storyteller and writer. Her stories have been featured on BBC Radio 4, the Peabody Award-winning, Moth Radio Hour, Spark London podcast and published in 'The Moth-All These Wonders'.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 14,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://themoth.org/storytellers/navreet-chawla"
+              },
+              "url": "https://themoth.org/storytellers/navreet-chawla"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "We'll gather in the Reading Room on level 2, next to the Library.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WlYq1SQAACYAWiuX",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WlYq1SQAACYAWiuX"
+      }
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$0078aa5d-1460-4725-b9e4-67b5b345fc7f",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Discover how to transform moments from your life into memorable tales in this workshop about storytelling.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "Wwa6siAAADP6GVyj",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F1c5f8910-eca0-4181-84de-83bea315f19f_ep_000012_089.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/7560f6e2acfd9e4bd2afa48a9d21f31b492e3b1a_ep_000012_089.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Reading Room workshop | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a group of people sitting in a circle on the carpet in the Wellcome Collection Reading Room, engaged in discussion.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "Wwa6siAAADP6GVyj",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F1c5f8910-eca0-4181-84de-83bea315f19f_ep_000012_089.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/07343b9f59459f807a3b740a70c5c9bd8c448c3e_ep_000012_089.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Reading Room workshop | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a group of people sitting in a circle on the carpet in the Wellcome Collection Reading Room, engaged in discussion."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "Wwa6siAAADP6GVyj",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F1c5f8910-eca0-4181-84de-83bea315f19f_ep_000012_089.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/5b28b809814fc6d1d716b0082725b24e0a0ad6a9_ep_000012_089.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Reading Room workshop | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a group of people sitting in a circle on the carpet in the Wellcome Collection Reading Room, engaged in discussion."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

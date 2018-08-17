@@ -1,0 +1,193 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Wp7_KiUAAB8sL29O",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Life, death and art in the Middle Ages",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1gvyoAACgAIAEF",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gvyoAACgAIAEF"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-04-12T18:00:00+00:00",
+      "endDateTime": "2018-04-12T19:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Come and hear from Jack Hartnell in conversation with a facilitator about his beautiful new book exploring the body in the Middle Ages. There will be a chance to ask questions and see some fascinating images.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speakers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Jack Hartnell is Lecturer in Art History at the University of East Anglia and author of Medieval Bodies: Life, Death and Art in the Middle Ages (published this spring in association with Wellcome Collection).  The discussion will be facilitated by literary critic Alexandra Harris.",
+        "spans": [
+          {
+            "start": 88,
+            "end": 143,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/medieval-bodies"
+              },
+              "url": "https://wellcomecollection.org/medieval-bodies"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "We will be in the Henry Wellcome Auditorium on Level -1, which seats 150 people. Follow the signs down the stairs or take the lift.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/43830544338?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/life-art-and-death-in-the-middle-ages-tickets-43830544338",
+    "type": "link",
+    "version": "1.0",
+    "title": "Life, Art and Death in the Middle Ages",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/43830544338?aff=efbneb\"><h1>Life, Art and Death in the Middle Ages</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>Life, Art and Death in the Middle Ages</p></a></div>"
+  },
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$b3d2dae5-8556-451b-bea6-9fff9de12d42",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "image": {
+            "origin": {
+              "id": "WqEzFCUAAPjnORsC",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc204e362-5678-46a8-b04a-b3776b9d97af_btg180307151903.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/88b7039ba3a3e69909c9104977a3688850c76338_btg180307151903.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Dr Jack Hartnell in the rare book store at Wellcome Collection | Benjamin Gilbert | | | CC-BY-NC | Wellcome Collection |",
+            "alt": "Photographic portrait of Dr. Jack Hartnell in the Wellcome Library's rare book store, flanked on both sides by book cases containing rare and old books.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WqEzFCUAAPjnORsC",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc204e362-5678-46a8-b04a-b3776b9d97af_btg180307151903.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/58097e91827a83f5c5156a858e9307540eb58010_btg180307151903.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1635,
+                    "y": 8
+                  }
+                },
+                "credits": "Dr Jack Hartnell in the rare book store at Wellcome Collection | Benjamin Gilbert | | | CC-BY-NC | Wellcome Collection |",
+                "alt": "Photographic portrait of Dr. Jack Hartnell in the Wellcome Library's rare book store, flanked on both sides by book cases containing rare and old books."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WqEzFCUAAPjnORsC",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc204e362-5678-46a8-b04a-b3776b9d97af_btg180307151903.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/da01e204f7aaecc4032c327c21ca94cba2226164_btg180307151903.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Dr Jack Hartnell in the rare book store at Wellcome Collection | Benjamin Gilbert | | | CC-BY-NC | Wellcome Collection |",
+                "alt": "Photographic portrait of Dr. Jack Hartnell in the Wellcome Library's rare book store, flanked on both sides by book cases containing rare and old books."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

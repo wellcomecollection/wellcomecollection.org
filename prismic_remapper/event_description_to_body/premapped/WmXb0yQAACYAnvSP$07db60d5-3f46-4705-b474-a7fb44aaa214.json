@@ -1,0 +1,231 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WmXb0yQAACYAnvSR",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Dementia in the Asylum",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "times": [
+    {
+      "startDateTime": "2018-02-01T14:00:00+00:00",
+      "endDateTime": "2018-02-01T16:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "What was life like for people living with a dementia in a 19th-century asylum? What does this mean for contemporary understanding and treatment of dementias? Join Created out of Mind for conversation and activities exploring the lives of asylum residents through medical accounts from Wellcome Library.",
+        "spans": [
+          {
+            "start": 163,
+            "end": 182,
+            "type": "hyperlink",
+            "data": {
+              "url": "http://www.createdoutofmind.org/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Speakers",
+        "spans": [
+          {
+            "start": 0,
+            "end": 8,
+            "type": "strong"
+          }
+        ]
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Gill Windle, gerontologist, Bangor University",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Millie Ven Der Byl Williams, philosopher, Created out of Mind",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Hannah Zeilig, gerontologist, University of the Arts, London",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Elizabeth Brockman-Icke, cognitive scientist, University College London",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Gemma Goodall, music psychologist, Norwegian University of Science and Technology",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Created out of Mind are residents of The Hub at Wellcome Collection, a pioneering location for interdisciplinary research. This diverse group of world-class collaborators includes people with dementia, researchers, musicians, artists and many more. The residents will put on a series of events exploring dementia through science and the creative arts.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 19,
+            "type": "hyperlink",
+            "data": {
+              "url": "http://www.createdoutofmind.org/"
+            }
+          },
+          {
+            "start": 37,
+            "end": 44,
+            "type": "hyperlink",
+            "data": {
+              "url": "https://wellcomecollection.org/what-we-do/hub"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WlYq1SQAACYAWiuX",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WlYq1SQAACYAWiuX"
+      }
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/42192105724?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/dementia-in-the-asylum-tickets-42192105724",
+    "type": "link",
+    "version": "1.0",
+    "title": "Dementia in the Asylum",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/42192105724?aff=efbneb\"><h1>Dementia in the Asylum</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>Dementia in the Asylum</p></a></div>"
+  },
+  "series": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$cca458ba-0092-4311-90e8-ef1481971556",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "What was life like for people living with a dementia in a 19th-century asylum?",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WmXeISQAADcAnv61",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb8e2e235-c5b0-454a-8d97-b679d6132f4b_dementia+in+the+asylum+web+resize.jpg",
+              "width": 800,
+              "height": 450
+            },
+            "width": 800,
+            "height": 450,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/3cbf636cf22354e220bfec634a6d38a03fb7bb9d_dementia-in-the-asylum-web-resize.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WmXeISQAADcAnv61",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb8e2e235-c5b0-454a-8d97-b679d6132f4b_dementia+in+the+asylum+web+resize.jpg",
+                  "width": 800,
+                  "height": 450
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/3330f674e6f5d97d8d6f8da156e163d23caa923e_dementia-in-the-asylum-web-resize.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 4,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "WmXeISQAADcAnv61",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb8e2e235-c5b0-454a-8d97-b679d6132f4b_dementia+in+the+asylum+web+resize.jpg",
+                  "width": 800,
+                  "height": 450
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f278adef0b97b13f977917f55dfa51716bdca5a3_dementia-in-the-asylum-web-resize.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 7.111111111111111,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
