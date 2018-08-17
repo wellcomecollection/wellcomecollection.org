@@ -1,0 +1,188 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "W3KsrCkAACkAEEdF",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "People and the Medieval Pharmacy",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1gUioAACoAH_8S",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gUioAACoAH_8S"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-08-31T13:00:00+00:00",
+      "endDateTime": "2018-08-31T14:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you'll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join us as we reimagine the daily life of an apothecary. In this talk we’ll explore the types of customers, apprentices and artisans who visited the Medieval pharmacy and why.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "policies": [
+    {
+      "policy": {
+        "id": "W3RJeikAACIAF2Mw",
+        "mask": "event-policies",
+        "wioUrl": "wio://documents/W3RJeikAACIAF2Mw"
+      }
+    }
+  ],
+  "isDropIn": "yes",
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "Wyu-rCoAACsACpm_",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/Wyu-rCoAACsACpm_"
+      },
+      "contributor": {
+        "id": "W3KvwikAACIAEFVE",
+        "mask": "people",
+        "wioUrl": "wio://documents/W3KvwikAACIAEFVE"
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$74d32260-897d-4bfd-ac31-b1f31a8b9ade",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Hear about the customers, apprentices and artisans coming and going to the Medieval pharmacy. ",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WtdY7SAAAHJaKLJa",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F24f05934-8b61-47d8-afe3-4d1dc5663e5d_5db8abe7-a4bb-4e4e-a8e6-a85716d259e1.jpeg",
+              "width": 5804,
+              "height": 3265
+            },
+            "width": 5804,
+            "height": 3265,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/d410ca88f984d9c24ce553b9be1e4e544707393b_5db8abe7-a4bb-4e4e-a8e6-a85716d259e1.jpeg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Library Insights talk in the Viewing Room | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a woman standing at a lecturn giving a talk to an audience. Beside her on the wall is a large screen showing her presentation slides. ",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WtdY7SAAAHJaKLJa",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F24f05934-8b61-47d8-afe3-4d1dc5663e5d_5db8abe7-a4bb-4e4e-a8e6-a85716d259e1.jpeg",
+                  "width": 5804,
+                  "height": 3265
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/147ecc2694d51725baceab9752217ef38f2b9b62_5db8abe7-a4bb-4e4e-a8e6-a85716d259e1.jpeg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.5513439007580979,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Library Insights talk in the Viewing Room | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a woman standing at a lecturn giving a talk to an audience. Beside her on the wall is a large screen showing her presentation slides. "
+              },
+              "square": {
+                "origin": {
+                  "id": "WtdY7SAAAHJaKLJa",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F24f05934-8b61-47d8-afe3-4d1dc5663e5d_5db8abe7-a4bb-4e4e-a8e6-a85716d259e1.jpeg",
+                  "width": 5804,
+                  "height": 3265
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e5784ee4adbd11f6aca9124fe9485db5d6ef1250_5db8abe7-a4bb-4e4e-a8e6-a85716d259e1.jpeg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.9800918836140888,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Library Insights talk in the Viewing Room | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a woman standing at a lecturn giving a talk to an audience. Beside her on the wall is a large screen showing her presentation slides. "
+              },
+              "32:15": {
+                "origin": {
+                  "id": "WtdY7SAAAHJaKLJa",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F24f05934-8b61-47d8-afe3-4d1dc5663e5d_5db8abe7-a4bb-4e4e-a8e6-a85716d259e1.jpeg",
+                  "width": 5804,
+                  "height": 3265
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/176346c3ceb1fc8d5f4ab74f8b5535d008ff9f64_5db8abe7-a4bb-4e4e-a8e6-a85716d259e1.jpeg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.5513439007580979,
+                  "crop": {
+                    "x": 0,
+                    "y": -150
+                  }
+                },
+                "credits": "Library Insights talk in the Viewing Room | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a woman standing at a lecturn giving a talk to an audience. Beside her on the wall is a large screen showing her presentation slides. "
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

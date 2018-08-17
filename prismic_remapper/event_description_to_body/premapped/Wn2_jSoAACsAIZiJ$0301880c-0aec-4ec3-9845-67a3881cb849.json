@@ -1,0 +1,286 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Wn2_jSoAACsAIZiL",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Bodily Possibilities",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "Wn28GCoAACkAIYol",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/Wn28GCoAACkAIYol"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-03-08T19:00:00+00:00",
+      "endDateTime": "2018-03-08T20:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you'll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In this event, listen in to the recording of a radio programme about how the limits of what define us as human will change through the use of new technologies.  ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Claudia Hammond will present the programme and will interview three speakers. Then we’ll open up to the audience. You can participate or just listen in. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The event will be recorded and edited into a programme which will be broadcast on the BBC World Service in April.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speakers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "We have three confirmed speakers:",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Frank Swain is a journalist who writes for 'New Scientist'. He will talk about how we can extend the possibilities of being human by developing new senses. ",
+        "spans": [
+          {
+            "start": 0,
+            "end": 11,
+            "type": "strong"
+          },
+          {
+            "start": 0,
+            "end": 11,
+            "type": "hyperlink",
+            "data": {
+              "url": "https://twitter.com/sciencepunk?lang=en"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Tamar Makin uses approaches from neuroscience, psychology and rehabilitation to better understand how you can train the brain to accept new prosthetics.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 12,
+            "type": "strong"
+          },
+          {
+            "start": 0,
+            "end": 11,
+            "type": "hyperlink",
+            "data": {
+              "url": "https://www.ndcn.ox.ac.uk/team/tamar-makin"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Ghislaine Boddington is an artist-curator, researcher and director who specialises in body responsive technologies and immersion experiences. ",
+        "spans": [
+          {
+            "start": 0,
+            "end": 20,
+            "type": "strong"
+          },
+          {
+            "start": 0,
+            "end": 20,
+            "type": "hyperlink",
+            "data": {
+              "url": "http://www.bodydataspace.net/who-we-are/core-team/ghislaine/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In the Forum, which can seat up to 70 people, on Level 1. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Follow the signs through the Medicine Now gallery. No need to print out a ticket – just show up. You must turn up 10 minutes before to guarantee yourself a seat. We won’t be able to admit any latecomers.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/42559001118?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/the-evidence-bodily-possibilities-tickets-42559001118",
+    "type": "link",
+    "version": "1.0",
+    "title": "The Evidence: Bodily possibilities",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/42559001118?aff=efbneb\"><h1>The Evidence: Bodily possibilities</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>The Evidence: Bodily possibilities</p></a></div>"
+  },
+  "contributors": [
+    {
+      "role": {
+        "id": "WoGaByoAACsAMY5g",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WoGaByoAACsAMY5g"
+      },
+      "contributor": {
+        "id": "WoGTvSoAACoAMXK-",
+        "mask": "organisations",
+        "wioUrl": "wio://documents/WoGTvSoAACoAMXK-"
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$0d08d26e-ae96-42a8-bee8-ead992615433",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Listen in to the recording of a radio programme about how the limits of what define us as human may change.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WoNg3ioAACgAOK_1",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Facdd922f-cc3d-4e32-a1de-24a8f639a465_c0136175.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/0fdff7759be6633b443efee78167f4a1e061e3f2_c0136175.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WoNg3ioAACgAOK_1",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Facdd922f-cc3d-4e32-a1de-24a8f639a465_c0136175.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/9697ea6abe4f24cc8ede40fef0f470b75203f55b_c0136175.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "WoNg3ioAACgAOK_1",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Facdd922f-cc3d-4e32-a1de-24a8f639a465_c0136175.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/4b9f5107da2a664db42ef7f3688ea4149493f64b_c0136175.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

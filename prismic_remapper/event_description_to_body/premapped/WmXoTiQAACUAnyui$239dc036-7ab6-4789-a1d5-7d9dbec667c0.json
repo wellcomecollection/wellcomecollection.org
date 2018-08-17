@@ -1,0 +1,144 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WmXoTiQAACUAnyuk",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Alternative Medicine Marketplace",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "times": [
+    {
+      "startDateTime": "2018-02-15T19:00:00+00:00",
+      "endDateTime": "2018-02-15T20:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "From Ayurvedic diets to therapeutic massage to yoga, traditional medical knowledge and practices from across South Asia are often labelled as ‘alternative medicine’ while stressing their ‘authentic’ nature, but what do ‘alternative’ and ‘authentic’ mean? And what happens when these practices are commercialised, patented or de-contextualised? Join us to discuss alternative medicine in the context of the global wellness marketplace.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/42191360495?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/alternative-medicine-marketplace-tickets-42191360495",
+    "type": "link",
+    "version": "1.0",
+    "title": "Alternative Medicine Marketplace",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/42191360495?aff=efbneb\"><h1>Alternative Medicine Marketplace</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>Alternative Medicine Marketplace</p></a></div>"
+  },
+  "series": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$ea24d9f7-f1e0-49e3-a34c-e101d585015b",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "A conversation about the marketplace of alternative medicines.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WmXoFCQAACUAnyqe",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff1c91d47-b3f2-49a7-be90-025363e15863_alternative-med-market-main_0.png",
+              "width": 800,
+              "height": 450
+            },
+            "width": 800,
+            "height": 450,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/c4b685a7f768b909709395c065e12805d96074a8_alternative-med-market-main_0.png",
+            "edit": {
+              "background": "transparent",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WmXoFCQAACUAnyqe",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff1c91d47-b3f2-49a7-be90-025363e15863_alternative-med-market-main_0.png",
+                  "width": 800,
+                  "height": 450
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/b916cdbc1163df39de789804327a53e41feff21b_alternative-med-market-main_0.png",
+                "edit": {
+                  "background": "transparent",
+                  "zoom": 4,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "WmXoFCQAACUAnyqe",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff1c91d47-b3f2-49a7-be90-025363e15863_alternative-med-market-main_0.png",
+                  "width": 800,
+                  "height": 450
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/d7b24b832f6f18d50f2b2445aa7099c47151190d_alternative-med-market-main_0.png",
+                "edit": {
+                  "background": "transparent",
+                  "zoom": 7.111111111111111,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

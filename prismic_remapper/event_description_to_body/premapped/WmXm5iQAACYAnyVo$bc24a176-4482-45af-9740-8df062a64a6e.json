@@ -1,0 +1,173 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WmXm5iQAACYAnyVq",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "In Therapy with Susie Orbach",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "times": [
+    {
+      "startDateTime": "2018-02-08T19:00:00+00:00",
+      "endDateTime": "2018-02-08T20:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Get as near to the consulting room as you can in this performance of the intimate exchange in psychotherapy. In front of a live audience, Susie Orbach will lead an improvised therapy session, directed by Ian Rickson, and will share insight into the therapy process.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Inspired by the BBC Radio 4 programme ‘In Therapy’.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The complete, expanded edition of Susie’s book on the subject – ‘In Therapy: The unfolding story’ – is out on 11 January, published by Wellcome Collection and Profile Books.",
+        "spans": [
+          {
+            "start": 135,
+            "end": 172,
+            "type": "hyperlink",
+            "data": {
+              "url": "http://wellcomecollection.org/books"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WmXl4iQAACUAnyDr",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WmXl4iQAACUAnyDr"
+      }
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/42357541547?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/in-therapy-with-susie-orbach-tickets-42357541547",
+    "type": "link",
+    "version": "1.0",
+    "title": "In Therapy with Susie Orbach",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/42357541547?aff=efbneb\"><h1>In Therapy with Susie Orbach</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>In Therapy with Susie Orbach</p></a></div>"
+  },
+  "series": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$af89aa74-e2b4-406d-807d-9b53ae3b3466",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Get as near to the consulting room as you can in this performance of the intimate exchange in psychotherapy.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WmXmdiQAADcAnyN_",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F8746583b-ad8a-463c-8c44-5ebbea76a001_susie+o.jpg",
+              "width": 800,
+              "height": 450
+            },
+            "width": 800,
+            "height": 450,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/4c9b3225faa61aabfd8f9309788e51eeba9ce15f_susie-o.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Simon Wagner",
+            "alt": "Photograph of a smiling Susie Orbach",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WmXmdiQAADcAnyN_",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F8746583b-ad8a-463c-8c44-5ebbea76a001_susie+o.jpg",
+                  "width": 800,
+                  "height": 450
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/9cf8b8f2d7409868f4ae7c9a7431102091e406f1_susie-o.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 4,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Simon Wagner",
+                "alt": "Photograph of a smiling Susie Orbach"
+              },
+              "square": {
+                "origin": {
+                  "id": "WmXmdiQAADcAnyN_",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F8746583b-ad8a-463c-8c44-5ebbea76a001_susie+o.jpg",
+                  "width": 800,
+                  "height": 450
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/d8ebdcd4c2eb994b2f830981f59ef1a2357ce34d_susie-o.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 7.111111111111111,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Simon Wagner",
+                "alt": "Photograph of a smiling Susie Orbach"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

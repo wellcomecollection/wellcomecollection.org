@@ -23,7 +23,7 @@ export function error(beaconError) {
         })
       });
 
-      console.error(err);
+      console.error(ctx.request.url, err);
 
       if (beaconError && (ctx.status < 400 || ctx.status >= 500)) {
         Raven.config('https://2cfb7b8ceb0a4549a4de2010b219a65d:5b48d985281a47e095a73df871b59149@sentry.io/223943').install();

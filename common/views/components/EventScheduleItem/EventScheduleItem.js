@@ -1,11 +1,10 @@
 // @flow
-
+import {Fragment} from 'react';
 import {grid, font, spacing} from '../../../utils/classnames';
 import EventBookingButton from '../EventBookingButton/EventBookingButton';
 import EventbriteButton from '../EventbriteButton/EventbriteButton';
 import LabelsList from '../LabelsList/LabelsList';
 import {formatTime, formatDayDate, isTimePast, isDatePast} from '../../../utils/format-date';
-import {Fragment} from 'react';
 import type {UiEvent} from '../../../model/events';
 
 type Props = {|
