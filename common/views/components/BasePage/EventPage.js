@@ -25,8 +25,7 @@ import {
   isTimePast,
   formatTime
 } from '../../../utils/format-date';
-import { getEarliestFutureDateRange } from '../../../utils/dates';
-import DateRange from '../DateRange/DateRange';
+import EventDateRange from '../EventDateRange/EventDateRange';
 
 type Props = {|
   event: UiEvent
@@ -127,16 +126,6 @@ const EventPage = ({ event }: Props) => {
     };
   }) : [];
 
-  const earliestFutureDateRange = getEarliestFutureDateRange(
-    // TODO: Half tempted to put this on the model as `.dateRanges`
-    // to be more standard?
-    event.times.map(({range}) => ({
-      start: range.startDateTime,
-      end: range.endDateTime
-    }))
-  );
-  const DateInfo = earliestFutureDateRange && <DateRange {...earliestFutureDateRange} />;
-
   const Header = (<BaseHeader
     title={`${event.title}`}
     Background={<HeaderBackground
@@ -159,7 +148,7 @@ const EventPage = ({ event }: Props) => {
         )}
       </Fragment>
     }
-    DateInfo={DateInfo}
+    DateInfo={EventDateRange({event})}
     InfoBar={InfoBar(event)}
     Description={null}
     FeaturedMedia={FeaturedMedia}
