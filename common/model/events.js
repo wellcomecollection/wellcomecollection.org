@@ -67,7 +67,6 @@ export type Audience = {|
 export type UiEvent = {|
   ...Event,
   type: 'events',
-  upcomingDate: {|startDateTime: Date, endDateTime: Date|},
   dateRange: {
     firstDate: Date,
     lastDate: Date,
@@ -98,7 +97,10 @@ export type Event = {|
   bookingType: ?string,
   schedule?: UiEvent[],
   eventbriteId?: string,
-  isCompletelySoldOut?: boolean
+  isCompletelySoldOut?: boolean,
+
+  // This is for convenience, but we use it so often, it seems worth while
+  isPast: boolean
 |}
 /* eslint-enable no-use-before-define */
 

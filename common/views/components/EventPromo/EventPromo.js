@@ -87,35 +87,35 @@ const EventPromo = ({
           </h2>
 
           {start && end && !isPast &&
-              <Fragment>
-                <p className={`${font({s: 'HNL4'})} no-padding no-margin`}>
-                  <time dateTime={start}>{formatDayDate(start)}</time>
-                </p>
-                <p className={`${font({s: 'HNL4'})} no-margin no-padding`}>
-                  <time dateTime={start}>{formatTime(start)}</time>&mdash;<time dateTime={end}>{formatTime(end)}</time>
-                </p>
-              </Fragment>
+            <Fragment>
+              <p className={`${font({s: 'HNL4'})} no-padding no-margin`}>
+                <time dateTime={start}>{formatDayDate(start)}</time>
+              </p>
+              <p className={`${font({s: 'HNL4'})} no-margin no-padding`}>
+                <time dateTime={start}>{formatTime(start)}</time>&mdash;<time dateTime={end}>{formatTime(end)}</time>
+              </p>
+            </Fragment>
           }
 
           {dateString &&
-              <p className={`${font({s: 'HNL4'})} no-padding no-margin`}>
-                {dateString}
-              </p>
+            <p className={`${font({s: 'HNL4'})} no-padding no-margin`}>
+              {dateString}
+            </p>
           }
 
           {timeString &&
-              <p className={`${font({s: 'HNL4'})} no-padding no-margin`}>
-                {timeString}
-              </p>
+            <p className={`${font({s: 'HNL4'})} no-padding no-margin`}>
+              {timeString}
+            </p>
           }
 
           {isFullyBooked && !isPast &&
-              <div className={`${font({s: 'HNL5'})} flex flex--v-center`}>
-                <span className={`${spacing({s: 1}, {margin: ['right']})} flex flex--v-center`}>
-                  <Icon name='statusIndicator' extraClasses={'icon--red icon--match-text'} />
-                </span>
-                Fully booked
-              </div>
+            <div className={`${font({s: 'HNL5'})} flex flex--v-center`}>
+              <span className={`${spacing({s: 1}, {margin: ['right']})} flex flex--v-center`}>
+                <Icon name='statusIndicator' extraClasses={'icon--red icon--match-text'} />
+              </span>
+              Fully booked
+            </div>
           }
 
           {start && end && isPast &&
@@ -123,9 +123,9 @@ const EventPromo = ({
           }
 
           {eventbriteId && !isFullyBooked && !isPast &&
-              <div
-                data-eventbrite-ticket-id={eventbriteId}
-                className='flex flex--h-space-between flex--wrap js-eventbrite-ticket-status'></div>
+            <div
+              data-eventbrite-ticket-id={eventbriteId}
+              className='flex flex--h-space-between flex--wrap js-eventbrite-ticket-status'></div>
           }
 
           {schedule.length > 0 && !isPast &&

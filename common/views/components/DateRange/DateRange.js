@@ -3,11 +3,7 @@ import {Fragment} from 'react';
 import moment from 'moment';
 import {formatTime, formatDayDate} from '../../../utils/format-date';
 import HTMLDate from '../HTMLDate/HTMLDate';
-
-type DateRangeProps = {|
-  start: Date,
-  end: Date
-|}
+import type {DateRange as DateRangeProps} from '../../../model/date-range';
 
 type DateProps = {|
   date: Date
