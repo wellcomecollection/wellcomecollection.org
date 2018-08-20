@@ -24,7 +24,7 @@ export function parseEventSeries(document: PrismicDocument): EventSeries {
 
 type EventSeriesProps = {| id: string |}
 export async function getEventSeries(req: Request, {
-  id
+  id, size
 }: EventSeriesProps) {
   const events = await getEvents(req, {
     seriesId: id,
