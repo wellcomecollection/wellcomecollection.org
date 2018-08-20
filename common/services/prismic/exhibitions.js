@@ -23,7 +23,8 @@ import {
   isDocumentLink,
   asText,
   asHtml,
-  parseGenericFields
+  parseGenericFields,
+  parseBoolean
 } from './parsers';
 import {parseInstallationDoc} from './installations';
 import {london} from '../../utils/format-date';
@@ -106,6 +107,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     contributors: data.contributors ? parseContributors(data.contributors) : [],
     start: start,
     end: end,
+    isPermanent: parseBoolean(data.isPermanent),
     statusOverride: statusOverride,
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     exhibits: data.exhibits ? parseExhibits(data.exhibits) : [],
@@ -218,7 +220,32 @@ export async function getExhibitionsCurrentAndComingUp(req: Request) {
     predicates, order
   });
 
-  return paginatedResults;
+  // We order the list this way as, from a user's perspective, seeing the
+  // temporary exhibitions is more urgent, so they're at the front of the list,
+  // but there's no good way to express that ordering through Prismic's ordering
+  const groupedResults = paginatedResults.results.reduce((acc, result) => {
+    // Wishing there was `groupBy`.
+    if (result.isPermanent) {
+      acc.permanent.push(result);
+    } else if (london(result.start).isAfter(london())) {
+      acc.comingUp.push(result);
+    } else {
+      acc.current.push(result);
+    }
+
+    return acc;
+  }, {
+    current: [],
+    permanent: [],
+    comingUp: []
+  });
+
+  return {
+    ...paginatedResults,
+    results: groupedResults.current
+      .concat(groupedResults.permanent)
+      .concat(groupedResults.comingUp)
+  };
 }
 
 export async function getExhibition(req: Request, id: string): Promise<?UiExhibition> {

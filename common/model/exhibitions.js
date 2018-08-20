@@ -30,6 +30,7 @@ export type Exhibition = {|
   format: ?ExhibitionFormat,
   start: Date,
   end: ?Date,
+  isPermanent: boolean,
   statusOverride: ?string,
   intro: ?HTMLString,
   description: HTMLString,
