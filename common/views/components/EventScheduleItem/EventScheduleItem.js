@@ -53,7 +53,7 @@ const EventScheduleItem = ({event, hasOwnPage}: Props) => {
           <div className={`event-schedule__main ${spacing({l: 2}, {padding: ['right']})}`}>
             <h3 className={`${font({s: 'WB6', l: 'WB5'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{event.title}</h3>
 
-            <p className={`${spacing({s: 2}, {margin: ['bottom']})} ${font({s: 'HNL5', m: 'HNL4'})}`} dangerouslySetInnerHTML={{__html: event.description}} />
+            <p className={`${spacing({s: 2}, {margin: ['bottom']})} ${font({s: 'HNL5', m: 'HNL4'})}`} dangerouslySetInnerHTML={{__html: event.promoText}} />
 
             {hasOwnPage &&
               <PrimaryLink url={`/events/${event.id}`} name='Full event details' screenReaderText={`about ${event.title}`} />
