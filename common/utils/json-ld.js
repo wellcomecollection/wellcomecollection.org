@@ -36,7 +36,14 @@ export function exhibitionLd(exhibition) {
     startDate: exhibition.start,
     endDate: exhibition.end,
     url: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
-    isAccessibleForFree: true
+    isAccessibleForFree: true,
+    performers: exhibition.contributors.map(({contributor, role, description}) => {
+      const type = contributor.type === 'person' ? 'Person' : 'Organization';
+      return objToJsonLd({
+        name: contributor.name,
+        image: contributor.image && contributor.image.contentUrl
+      }, type, false);
+    })
   }, 'ExhibitionEvent');
 }
 
