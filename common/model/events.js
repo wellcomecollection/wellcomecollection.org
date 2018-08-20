@@ -82,7 +82,6 @@ export type Event = {|
   isDropIn: boolean,
   ticketSalesStart: ?Date,
   times: EventTime[],
-  description: ?HTMLString,
   series: EventSeries[],
   place: ?Place,
   bookingEnquiryTeam: ?Team,

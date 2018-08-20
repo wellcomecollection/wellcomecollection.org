@@ -16,7 +16,6 @@ import {
 } from './fetch-links';
 import {
   parseTitle,
-  parseDescription,
   parsePlace,
   asText,
   asHtml,
@@ -119,7 +118,6 @@ export function parseEventDoc(
   return {
     type: 'events',
     ...genericFields,
-    description: asText(data.description),
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     audiences,
     bookingEnquiryTeam,
@@ -143,12 +141,6 @@ export function parseEventDoc(
       },
       isFullyBooked: parseBoolean(frag.isFullyBooked)
     })),
-    // TODO: (event migration)
-    body: genericFields.body.length > 1 ? genericFields.body : data.description ? [{
-      type: 'text',
-      weight: 'default',
-      value: parseDescription(data.description)
-    }] : [],
     upcomingDate: upcomingDate,
     dateRange: determineDateRange(data.times)
   };
