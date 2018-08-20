@@ -9,7 +9,8 @@ import {
   getExhibitionsPast,
   getExhibition,
   getExhibitionExhibits,
-  getExhibitExhibition
+  getExhibitExhibition,
+  getExhibitionsCurrentAndComingUp
 } from '@weco/common/services/prismic/exhibitions';
 import {
   getEvents,
@@ -86,7 +87,9 @@ export async function renderInstallation(ctx, next) {
 }
 
 export async function renderExhibitions(ctx, next) {
-  const paginatedResults = await getExhibitions(ctx.request);
+  const paginatedResults = await getExhibitions(ctx.request, {
+    order: 'desc'
+  });
   if (paginatedResults) {
     ctx.render('pages/exhibitions', {
       pageConfig: createPageConfig({
@@ -102,56 +105,48 @@ export async function renderExhibitions(ctx, next) {
   }
 }
 
-export async function renderExhibitionsComingUp(ctx, next) {
-  const paginatedResults = await getExhibitionsComingUp(ctx.request);
-  if (paginatedResults) {
-    ctx.render('pages/exhibitions', {
-      pageConfig: createPageConfig({
-        path: '/exhibitions/coming-up',
-        title: 'Upcoming exhibitions',
-        inSection: 'whatson',
-        category: 'public-programme',
-        contentType: 'listing',
-        canonicalUri: 'https://wellcomecollection.org/exhibitions/coming-up'
-      }),
-      paginatedResults
-    });
-  }
+function renderExhibitionsList(getter, title, url) {
+  return async function(ctx, next) {
+    const paginatedResults = await getter(ctx.request);
+    if (paginatedResults) {
+      ctx.render('pages/exhibitions', {
+        pageConfig: createPageConfig({
+          path: `/exhibitions${url}`,
+          title: title,
+          inSection: 'whatson',
+          category: 'public-programme',
+          contentType: 'listing',
+          canonicalUri: `https://wellcomecollection.org/exhibitions${url}`
+        }),
+        paginatedResults
+      });
+    }
+  };
 }
 
-export async function renderExhibitionsCurrent(ctx, next) {
-  const paginatedResults = await getExhibitionsCurrent(ctx.request);
-  if (paginatedResults) {
-    ctx.render('pages/exhibitions', {
-      pageConfig: createPageConfig({
-        path: '/exhibitions/current',
-        title: 'Current exhibitions',
-        inSection: 'whatson',
-        category: 'public-programme',
-        contentType: 'listing',
-        canonicalUri: 'https://wellcomecollection.org/exhibitions/current'
-      }),
-      paginatedResults
-    });
-  }
-}
+export const renderExhibitionsComingUp = renderExhibitionsList(
+  getExhibitionsComingUp,
+  'Upcoming exhibitions',
+  '/coming-up'
+);
 
-export async function renderExhibitionsPast(ctx, next) {
-  const paginatedResults = await getExhibitionsPast(ctx.request);
-  if (paginatedResults) {
-    ctx.render('pages/exhibitions', {
-      pageConfig: createPageConfig({
-        path: '/exhibitions/past',
-        title: 'Past exhibitions',
-        inSection: 'whatson',
-        category: 'public-programme',
-        contentType: 'listing',
-        canonicalUri: 'https://wellcomecollection.org/exhibitions/past'
-      }),
-      paginatedResults
-    });
-  }
-}
+export const renderExhibitionsCurrent = renderExhibitionsList(
+  getExhibitionsCurrent,
+  'Current exhibitions',
+  '/coming-up'
+);
+
+export const renderExhibitionsPast = renderExhibitionsList(
+  getExhibitionsPast,
+  'Past exhibitions',
+  '/past'
+);
+
+export const renderExhibitionsCurrentAndComingUp = renderExhibitionsList(
+  getExhibitionsCurrentAndComingUp,
+  'Current and upcoming exhibitions',
+  '/current+coming-up'
+);
 
 export async function renderExhibition(ctx, next) {
   const exhibition = await getExhibition(ctx.request, ctx.params.id);

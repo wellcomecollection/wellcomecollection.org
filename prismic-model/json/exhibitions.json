@@ -252,6 +252,15 @@
         "label": "End date"
       }
     },
+    "isPermanent": {
+      "type": "Select",
+      "config": {
+        "label": "Is permanent?",
+        "options": [
+          "yes"
+        ]
+      }
+    },
     "statusOverride": {
       "type": "StructuredText",
       "config": {
@@ -268,14 +277,6 @@
           "places"
         ],
         "label": "Where is it?"
-      }
-    },
-    "textAndCaptionsDocument": {
-      "type": "Link",
-      "config": {
-        "label": "Text and captions document",
-        "select": "media",
-        "customtypes": []
       }
     }
   },
@@ -495,6 +496,14 @@
       "config": {
         "label": "Intro",
         "multi": "heading2"
+      }
+    },
+    "textAndCaptionsDocument": {
+      "type": "Link",
+      "config": {
+        "label": "Text and captions document",
+        "select": "media",
+        "customtypes": []
       }
     }
   }

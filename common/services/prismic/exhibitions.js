@@ -144,9 +144,9 @@ export async function getExhibitions(
     order = 'asc'
   }: GetExhibitionsProps = {}
 ): Promise<PaginatedResults<UiExhibition>> {
-  const paginateResults = await getDocuments(
+  const paginatedResults = await getDocuments(
     req,
-    [Prismic.Predicates.at('document.type', 'exhibitions')].concat(predicates),
+    [Prismic.Predicates.any('document.type', ['exhibitions'])].concat(predicates),
     {
       fetchLinks: peopleFields.concat(
         contributorsFields,
@@ -154,18 +154,18 @@ export async function getExhibitions(
         installationFields,
         exhibitionFields
       ),
-      orderings: `[${startField}${order === 'desc' ? ' desc' : ''}]`
+      orderings: `[my.exhibitions.isPermanent desc,${endField}${order === 'desc' ? ' desc' : ''}]`
     }
   );
 
-  const uiExhibitions: UiExhibition[] = paginateResults.results.map(parseExhibitionDoc);
-  // { ..paginatedResults, results: uiExhibitions } should work, but Flow still
+  const uiExhibitions: UiExhibition[] = paginatedResults.results.map(parseExhibitionDoc);
+  // { ...paginatedResults, results: uiExhibitions } should work, but Flow still
   // battles with spreading.
   return {
-    currentPage: paginateResults.currentPage,
-    pageSize: paginateResults.pageSize,
-    totalResults: paginateResults.totalResults,
-    totalPages: paginateResults.totalPages,
+    currentPage: paginatedResults.currentPage,
+    pageSize: paginatedResults.pageSize,
+    totalResults: paginatedResults.totalResults,
+    totalPages: paginatedResults.totalPages,
     results: uiExhibitions
   };
 }
@@ -184,7 +184,7 @@ export async function getExhibitionsComingUp(req: Request) {
 }
 
 export async function getExhibitionsCurrent(req: Request) {
-  const order = 'desc';
+  const order = 'asc';
   const predicates = [
     Prismic.Predicates.dateBefore(startField, london().toDate()),
     Prismic.Predicates.dateAfter(endField, london().toDate())
@@ -202,6 +202,18 @@ export async function getExhibitionsPast(req: Request) {
     Prismic.Predicates.dateBefore(endField, london().toDate())
   ];
 
+  const paginatedResults = await getExhibitions(req, {
+    predicates, order
+  });
+
+  return paginatedResults;
+}
+
+export async function getExhibitionsCurrentAndComingUp(req: Request) {
+  const order = 'asc';
+  const predicates = [
+    Prismic.Predicates.dateAfter(endField, london().toDate())
+  ];
   const paginatedResults = await getExhibitions(req, {
     predicates, order
   });
