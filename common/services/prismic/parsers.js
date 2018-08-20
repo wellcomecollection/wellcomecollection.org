@@ -146,13 +146,13 @@ export function parseCaptionedImage(frag: PrismicFragment, crop?: ?Crop): Captio
   const tasl = parseTaslFromString(image.copyright);
 
   return {
-    image: {
+    image: image.dimensions ? {
       contentUrl: image.url,
       width: image.dimensions.width,
       height: image.dimensions.height,
       alt: image.alt || '',
       tasl
-    },
+    } : placeHolderImage,
     caption: !isEmptyHtmlString(frag.caption) ? frag.caption : []
   };
 }
