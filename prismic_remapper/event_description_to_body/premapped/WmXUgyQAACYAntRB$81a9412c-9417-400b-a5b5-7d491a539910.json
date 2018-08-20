@@ -1,0 +1,213 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WmXUgyQAACYAntRD",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "The Weird and Wonderful World of Wellcome",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmeisAALN8A8MB",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmeisAALN8A8MB"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "W1m-yyYAACYAt4Lb",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/W1m-yyYAACYAt4Lb"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-03-13T10:30:00+00:00",
+      "endDateTime": "2018-03-13T15:30:00+00:00",
+      "isFullyBooked": "yes"
+    },
+    {
+      "startDateTime": "2018-07-04T09:30:00+00:00",
+      "endDateTime": "2018-07-04T14:30:00+00:00",
+      "isFullyBooked": "yes"
+    },
+    {
+      "startDateTime": "2018-07-17T09:30:00+00:00",
+      "endDateTime": "2018-07-17T14:30:00+00:00",
+      "isFullyBooked": "yes"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In this five-hour session, your students will take part in gallery, creative and discursive activities as they explore the life of Henry Wellcome. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In an eclectic mix of art, science and history, they’ll uncover 19th-century collecting values and their relevance today by handling curious objects and through scientific debate. After a challenge-based activity in the galleries, they’ll collaborate in our Studio to create a contemporary response to Henry Wellcome’s world.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Who can come",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This study day is recommended for groups of students in Year 9 and 10. We can accommodate up to 20–30 students, accompanied by staff at a ratio of 1:10.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {
+      "audience": {
+        "id": "WlYWByQAACQAWdA0",
+        "mask": "audiences",
+        "wioUrl": "wio://documents/WlYWByQAACQAWdA0"
+      }
+    }
+  ],
+  "bookingEnquiryTeam": {
+    "id": "WmXJ-iQAACcAnqXC",
+    "mask": "teams",
+    "wioUrl": "wio://documents/WmXJ-iQAACcAnqXC"
+  },
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Only teachers are able to book these sessions. Although these dates and times are fully booked, we operate a waiting list. Please email youthprogrammes@wellcomecollection.org to add your school to the list.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "We will also run one on-demand session in the summer term between Monday 16 April and Friday 20 July. If you are interested, please email to suggest three dates in order of preference. We will need at least four weeks’ notice.",
+        "spans": []
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$e80ac0f1-45b4-48f6-b279-627874e43da6",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join us for an eclectic mix of art and science through gallery, creative and discursive activities as you explore Henry Wellcome's life.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WtCwISEAACIv6b30",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Faf210107-e204-4ac1-b687-b019496d99d9_c0144060-edit-2.jpg",
+              "width": 2951,
+              "height": 1660
+            },
+            "width": 2951,
+            "height": 1660,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/65c94eb9766f2b01d9fc3a90526469aa0c065232_c0144060-edit-2.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Students in the Medicine Man exhibition | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph or two young school students discussing exhibits in and exhibition.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WtCwISEAACIv6b30",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Faf210107-e204-4ac1-b687-b019496d99d9_c0144060-edit-2.jpg",
+                  "width": 2951,
+                  "height": 1660
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/1a8621c5b095b0acdb7895b839e366e7e76ce633_c0144060-edit-2.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.08437817688919,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Students in the Medicine Man exhibition | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph or two young school students discussing exhibits in and exhibition."
+              },
+              "square": {
+                "origin": {
+                  "id": "WtCwISEAACIv6b30",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Faf210107-e204-4ac1-b687-b019496d99d9_c0144060-edit-2.jpg",
+                  "width": 2951,
+                  "height": 1660
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/fef80553a8f15751dce75baff561600d84bbe839_c0144060-edit-2.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.927710843373494,
+                  "crop": {
+                    "x": -2069,
+                    "y": 0
+                  }
+                },
+                "credits": "Students in the Medicine Man exhibition | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph or two young school students discussing exhibits in and exhibition."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

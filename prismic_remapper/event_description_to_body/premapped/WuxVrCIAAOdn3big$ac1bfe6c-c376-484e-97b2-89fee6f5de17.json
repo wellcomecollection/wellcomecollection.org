@@ -1,0 +1,295 @@
+{
+  "type": "events",
+  "tags": [
+    "delist"
+  ],
+  "lang": "en-gb",
+  "grouplang": "WuxVrCIAAOdn3bii",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Cancelled: Art and Empathy",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1gUioAACoAH_8S",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gUioAACoAH_8S"
+  },
+  "series": [],
+  "times": [
+    {
+      "startDateTime": "2018-06-21T18:00:00+00:00",
+      "endDateTime": "2018-06-21T19:30:00+00:00",
+      "isFullyBooked": "yes"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Cancellation",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Unfortunately, we have had to cancel this event because a speaker is no longer available. You can find lots of other events in the What's On section of our website.",
+        "spans": [
+          {
+            "start": 131,
+            "end": 140,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/whats-on"
+              },
+              "url": "https://wellcomecollection.org/whats-on"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Find out more about mirror-touch synaesthesia, where a person might perceive sounds as colours or they might experience another person’s (or even an object’s) sensations of touch.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Drawing on interviews with people who have mirror-touch synaesthesia, artist Daria Martin and a panel of other speakers will talk about the relationship between art, objects and feelings.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join the discussion as we explore how the experiences of people with synaesthesia can give us insight into our own relationships to artworks, and our ability to share feelings with others.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About our speakers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Our speakers will include:",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Daria Martin, an artist and film maker based in London. She is Professor of Art and Director of Graduate Studies at the Ruskin School of Art in Oxford. Her two films on mirror-touch synaesthesia, ‘Sensorium Tests’ and ‘At the Threshold’ are part of the ‘Somewhere in Between’ exhibition at Wellcome Collection.",
+        "spans": [
+          {
+            "start": 156,
+            "end": 194,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/articles/WqqPuSAAAB4AH6VE"
+              },
+              "url": "https://wellcomecollection.org/articles/WqqPuSAAAB4AH6VE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Dr Elinor Cleghorn, a researcher in film and art. She was involved in the Mirror-Touch Synaesthesia: Empathy, Spectatorship and Participation project at Ruskin School of Drawing and Fine Art, University of Oxford.",
+        "spans": [
+          {
+            "start": 74,
+            "end": 149,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "http://gtr.ukri.org/projects?ref=AH%2FK007319%2F1"
+              },
+              "url": "http://gtr.ukri.org/projects?ref=AH%2FK007319%2F1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In the Forum on level 1. Enter through the Medicine Now gallery and turn left to reach the Forum. There are seats for 70 people.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "  ",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/45286085902?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/art-and-empathy-tickets-45286085902",
+    "type": "link",
+    "version": "1.0",
+    "title": "Art and empathy ",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/45286085902?aff=efbneb\"><h1>Art and empathy </h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>Art and empathy </p></a></div>"
+  },
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$954ad1ee-c9d7-42c6-9e66-b6211da14f88",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Find out how the experiences of people with mirror-touch synaesthesia can give us insight into our relationships to artworks, and our ability to share feelings with others.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WvQRnCIAAKxf_-oJ",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ffdaa7ed9-8940-4ad7-8fac-deca7728abf4_ep_000280_001.jpg",
+              "width": 3734,
+              "height": 2100
+            },
+            "width": 3734,
+            "height": 2100,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/84c6ecd5d6546a5548a23324939370bf07895468_ep_000280_001.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Sensorium Tests part of the exhibition Somewhere in Between | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a woman sitting watching a film projection in a dark gallery space.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WvQRnCIAAKxf_-oJ",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ffdaa7ed9-8940-4ad7-8fac-deca7728abf4_ep_000280_001.jpg",
+                  "width": 3734,
+                  "height": 2100
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/2e9bea7bfdc2b14750d7f4872b790bd95f0fbcf8_ep_000280_001.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8571428571428571,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Sensorium Tests part of the exhibition Somewhere in Between | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a woman sitting watching a film projection in a dark gallery space."
+              },
+              "square": {
+                "origin": {
+                  "id": "WvQRnCIAAKxf_-oJ",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ffdaa7ed9-8940-4ad7-8fac-deca7728abf4_ep_000280_001.jpg",
+                  "width": 3734,
+                  "height": 2100
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/707c5ed7cc9b1df6fc510132a836b901376500dd_ep_000280_001.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.5238095238095237,
+                  "crop": {
+                    "x": -1917,
+                    "y": 0
+                  }
+                },
+                "credits": "Sensorium Tests part of the exhibition Somewhere in Between | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a woman sitting watching a film projection in a dark gallery space."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

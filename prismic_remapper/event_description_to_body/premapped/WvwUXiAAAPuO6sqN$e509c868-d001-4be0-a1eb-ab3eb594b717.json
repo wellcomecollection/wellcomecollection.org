@@ -1,0 +1,198 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WvwUXiAAAPuO6sqP",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Audio described tour of ‘Teeth’",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WmYRpCQAACUAn-Ap",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WmYRpCQAACUAn-Ap"
+  },
+  "place": {
+    "id": "WoLtlioAACoANrY_",
+    "mask": "places",
+    "wioUrl": "wio://documents/WoLtlioAACoANrY_"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WoLgbSoAACgANnxB",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WoLgbSoAACgANnxB"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-08-09T17:00:00+00:00",
+      "endDateTime": "2018-08-09T17:45:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "You’ll be able to explore the gallery space, stories and the objects in the ‘Teeth’ exhibition accompanied by audio description from a visitor experience assistant.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "You can ask questions throughout. The tour will last 45 minutes, with standing and walking. There will be opportunities to sit, and seating is available on request.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your guide",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Rock has been a visitor experience assistant at Wellcome Collection for four years. He is trained in audio description, but this is his first tour, so he’s asked that you be kind to him.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Meet at the Information Desk on level 0 to go up to the gallery together.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WmXhziQAACQAnw7i",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WmXhziQAACQAnw7i"
+      }
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "bookingEnquiryTeam": {
+    "id": "WmXh-SQAACUAnw-j",
+    "mask": "teams",
+    "wioUrl": "wio://documents/WmXh-SQAACUAnw-j"
+  },
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$a556c047-8eab-45b7-892d-0a9b0950bce5",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Explore the gallery space, stories and the objects in the ‘Teeth’ exhibition accompanied by audio description from our visitor experience assistant.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WwZrySAAAPkHF_3B",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F82ce0fda-f380-46c2-9ce6-5c6a2869d805_tf_180521_2110516.jpg",
+              "width": 4000,
+              "height": 2670
+            },
+            "width": 4000,
+            "height": 2670,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/d1471db0996b708c22cc5e22b563f59c00218531_tf_180521_2110516.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1.1700000000000002,
+              "crop": {
+                "x": -631,
+                "y": -418
+              }
+            },
+            "credits": "Gallery tour of Teeth exhibition | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph showing a visitor experience assistant, standing in front of an oil painting, giving a guided tour of an exhibition to three visitors.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WwZrySAAAPkHF_3B",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F82ce0fda-f380-46c2-9ce6-5c6a2869d805_tf_180521_2110516.jpg",
+                  "width": 4000,
+                  "height": 2670
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/bfa5c89380ed0a6078ff8e405bfbd13b85553618_tf_180521_2110516.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.9500000000000002,
+                  "crop": {
+                    "x": -521,
+                    "y": -474
+                  }
+                },
+                "credits": "Gallery tour of Teeth exhibition | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph showing a visitor experience assistant, standing in front of an oil painting, giving a guided tour of an exhibition to three visitors."
+              },
+              "square": {
+                "origin": {
+                  "id": "WwZrySAAAPkHF_3B",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F82ce0fda-f380-46c2-9ce6-5c6a2869d805_tf_180521_2110516.jpg",
+                  "width": 4000,
+                  "height": 2670
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f9f979683ab5ac7b885f59f7a493ae9fcd026a23_tf_180521_2110516.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.2785018726591761,
+                  "crop": {
+                    "x": -899,
+                    "y": -212
+                  }
+                },
+                "credits": "Gallery tour of Teeth exhibition | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph showing a visitor experience assistant, standing in front of an oil painting, giving a guided tour of an exhibition to three visitors."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

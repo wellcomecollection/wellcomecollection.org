@@ -1,0 +1,173 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Wyu_ASoAACoACptI",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Library Tour",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmcSsAACx_A8La",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmcSsAACx_A8La"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "Wp1WGSUAAM8VKCLz",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/Wp1WGSUAAM8VKCLz"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-04T10:30:00+00:00",
+      "endDateTime": "2018-07-04T11:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Take a 30-minute informal guided tour of the Library shelves. You’ll hear about the unusual and surprising contents, the ‘treasures’ and how it all works.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your guide",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Danny is the Library Engagement Officer and runs the Insights programme of public talks.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To attend, just turn up and meet your guide beside the Library entrance on Level 2. There is no need to book (though spaces are limited). ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The tour will take place in the Library on Levels 2 and 3. Stairs are involved but a lift is available.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$b93be505-fdb0-4a4a-925c-181b382060d8",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "image": {
+            "origin": {
+              "id": "Wplz8iUAAM8VFw_1",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff8203cb3-ea25-4103-95be-d534fc059642_btg150514102918.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/9a744aa81847e1f52ba45f5c289cd8fd2fa5a7da_btg150514102918.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Wellcome Collection Library open access shelves upstairs in the Reading Room | Benjamin Gilbert | | | CC-BY | Wellcome Collection |",
+            "alt": "Photograph showing a man sat reading a book at a table in front of a window, surrounded by floor to ceiling  library shelves containing books.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "Wplz8iUAAM8VFw_1",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff8203cb3-ea25-4103-95be-d534fc059642_btg150514102918.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/58da24e7c1a2563c6df95fa2df01a09f044cb3af_btg150514102918.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Wellcome Collection Library open access shelves upstairs in the Reading Room | Benjamin Gilbert | | | CC-BY | Wellcome Collection |",
+                "alt": "Photograph showing a man sat reading a book at a table in front of a window, surrounded by floor to ceiling  library shelves containing books."
+              },
+              "square": {
+                "origin": {
+                  "id": "Wplz8iUAAM8VFw_1",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff8203cb3-ea25-4103-95be-d534fc059642_btg150514102918.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/60cf482084a0f081fdc7ef9699cd40589a292678_btg150514102918.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -809,
+                    "y": 8
+                  }
+                },
+                "credits": "Wellcome Collection Library open access shelves upstairs in the Reading Room | Benjamin Gilbert | | | CC-BY | Wellcome Collection |",
+                "alt": "Photograph showing a man sat reading a book at a table in front of a window, surrounded by floor to ceiling  library shelves containing books."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

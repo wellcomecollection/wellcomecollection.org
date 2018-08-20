@@ -1,0 +1,204 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WmXVTCQAACcAntfB",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Cell: the patterns of life",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "times": [
+    {
+      "startDateTime": "2018-03-14T15:30:00+00:00",
+      "endDateTime": "2018-03-14T17:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "A level/ BTEC Biology discussion event",
+        "spans": [
+          {
+            "start": 0,
+            "end": 38,
+            "type": "strong"
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "From disease and gene expression, to the diversity of cells within the body, to immunity and the spread of infection across the globe, pattern underlies many fundamental behaviours of the cell. This event invites students to explore these connections, and uncover ground- breaking new research alongside our panel of artists and scientists.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Speakers to be announced.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {
+      "audience": {
+        "id": "WlYWByQAACQAWdA0",
+        "mask": "audiences",
+        "wioUrl": "wio://documents/WlYWByQAACQAWdA0"
+      }
+    }
+  ],
+  "bookingEnquiryTeam": {
+    "id": "WmXJ-iQAACcAnqXC",
+    "mask": "teams",
+    "wioUrl": "wio://documents/WmXJ-iQAACcAnqXC"
+  },
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Group bookings: 5-20 students per school and all groups must be accompanied by staff at a ratio of 1:10",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To book, email youthprogrammes@wellcomecollection.org",
+        "spans": [
+          {
+            "start": 15,
+            "end": 53,
+            "type": "hyperlink",
+            "data": {
+              "url": "mailto:youthprogrammes@wellcomecollection.org"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This event is free, but we charge a fee for cancellation or changes to your group size made within three weeks of the event. Both policies are explained fully in the agreement we ask you sign ahead of your visit.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Please note: booking for our spring and summer term school events programme is currently open only to schools in Greater London. Booking will open for all other schools on Friday 22 December.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 13,
+            "type": "strong"
+          }
+        ]
+      }
+    }
+  ],
+  "series": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$e80ac0f1-45b4-48f6-b279-627874e43da6",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Sixth-form discussion event exploring cells and their processes through pattern.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WmXV-CQAACUAntq3",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7fa4fdf1-9fed-4063-9c9c-5461e93568b1_web+image.jpg",
+              "width": 580,
+              "height": 549
+            },
+            "width": 580,
+            "height": 549,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/11dcf3f724c372c71fc7670981197c6b69e3e045_web-image.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": "An colourful illustration of some cells swimming about",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WmXV-CQAACUAntq3",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7fa4fdf1-9fed-4063-9c9c-5461e93568b1_web+image.jpg",
+                  "width": 580,
+                  "height": 549
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/332659a1aa6d0392fb7cb7a831edb6fdbb6ab0a1_web-image.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 5.517241379310345,
+                  "crop": {
+                    "x": 0,
+                    "y": -614
+                  }
+                },
+                "credits": null,
+                "alt": "An colourful illustration of some cells swimming about"
+              },
+              "square": {
+                "origin": {
+                  "id": "WmXV-CQAACUAntq3",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7fa4fdf1-9fed-4063-9c9c-5461e93568b1_web+image.jpg",
+                  "width": 580,
+                  "height": 549
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/245e7801ddb0d25335389a5b0b8343a197a316bc_web-image.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 5.828779599271402,
+                  "crop": {
+                    "x": -90,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": "An colourful illustration of some cells swimming about"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

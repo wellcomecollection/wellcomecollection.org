@@ -1,0 +1,90 @@
+{
+  "type": "events",
+  "tags": [
+    "delist"
+  ],
+  "lang": "en-gb",
+  "grouplang": "WqfhAyUAAM8VVngi",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "DMC Test",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wn3Q3SoAACsAIeFI",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wn3Q3SoAACsAIeFI"
+  },
+  "place": {
+    "id": "Wn1fvyoAACgAH_yG",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1fvyoAACgAH_yG"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-03-13T19:00:00+00:00",
+      "endDateTime": "2018-03-13T23:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WmXhziQAACQAnw7i",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WmXhziQAACQAnw7i"
+      }
+    },
+    {
+      "interpretationType": {
+        "id": "Wn3STCoAACgAIedR",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/Wn3STCoAACgAIedR"
+      }
+    },
+    {
+      "interpretationType": {
+        "id": "WlYq1SQAACYAWiuX",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WlYq1SQAACYAWiuX"
+      }
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "schedule": [
+    {
+      "event": {
+        "id": "Wn3Z_CoAACkAIgeV",
+        "mask": "events",
+        "wioUrl": "wio://documents/Wn3Z_CoAACkAIgeV"
+      }
+    },
+    {
+      "event": {
+        "id": "Wp7_KiUAAB8sL29M",
+        "mask": "events",
+        "wioUrl": "wio://documents/Wp7_KiUAAB8sL29M"
+      }
+    }
+  ]
+}

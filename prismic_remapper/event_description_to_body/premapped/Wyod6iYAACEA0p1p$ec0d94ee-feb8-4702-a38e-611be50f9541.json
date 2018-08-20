@@ -1,0 +1,197 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Wyod6iYAACEA0p1r",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Video Journalism",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmiysAACx_A8NR",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmiysAACx_A8NR"
+  },
+  "place": {
+    "id": "Wn3ZFyoAACkAIgPT",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn3ZFyoAACkAIgPT"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WlYT_SQAACcAWccj",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WlYT_SQAACcAWccj"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-21T13:00:00+00:00",
+      "endDateTime": "2018-07-21T14:30:00+00:00"
+    },
+    {
+      "startDateTime": "2018-07-21T15:00:00+00:00",
+      "endDateTime": "2018-07-21T16:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Come along and learn how to create quality video journalism content. You can come individually or as a group of friends – for the session you’ll be working in pairs and we’ll provide iPads for you to use while you’re here. The workshop will show you how to use day-to-day technology like your own mobile phone or tablet to communicate your ideas about issues that matter to you.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your facilitators",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Abdul Boudiaf will teach you all the videography skills you’ll need for the session. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The workshops will take place in our Studio on level 1. When you enter the museum, head up the stairs or take the lift to floor 1 and follow the signs. Each workshop has 25 spaces available. Sign-up will open at 13.30 in the Studio. Places are given out on a first-come, first-served basis.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "These workshops are for anyone aged 14–19. If you’re visiting the museum with parents, they are welcome to drop you off at our Studio.\n\n",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {
+      "audience": {
+        "id": "WlYWECQAACcAWdBf",
+        "mask": "audiences",
+        "wioUrl": "wio://documents/WlYWECQAACcAWdBf"
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$0260671e-b12a-43de-bd35-e5d6219d9af5",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join us for a session on how to create quality video journalism content about your view on issues.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WypmzyYAAIxc07Hn",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F8ea8bf8a-4a9f-4c04-9926-de4b978848dc_btg180517200023.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/9ba8c84cb2d12e08d7611c8681a5bc7bc259f86f_btg180517200023.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Saturday Studio video journalism | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a young man and woman using an iPad in the Medicine Man gallery to film each other talking to camera.Saturday Studio video journalism | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WypmzyYAAIxc07Hn",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F8ea8bf8a-4a9f-4c04-9926-de4b978848dc_btg180517200023.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/a274ed8758fc8205aaf4cb185dcbbeb3167936a6_btg180517200023.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Saturday Studio video journalism | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a young man and woman using an iPad in the Medicine Man gallery to film each other talking to camera.Saturday Studio video journalism | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |"
+              },
+              "square": {
+                "origin": {
+                  "id": "WypmzyYAAIxc07Hn",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F8ea8bf8a-4a9f-4c04-9926-de4b978848dc_btg180517200023.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/5d51f11236e891c46372feee46fbe5baa5ff8263_btg180517200023.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1133,
+                    "y": 8
+                  }
+                },
+                "credits": "Saturday Studio video journalism | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a young man and woman using an iPad in the Medicine Man gallery to film each other talking to camera.Saturday Studio video journalism | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WoLgOioAACgANntc",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Spices in Ayurveda",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WoLgbSoAACgANnxB",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WoLgbSoAACgANnxB"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-03-17T11:00:00+00:00",
+      "endDateTime": "2018-03-17T11:45:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In this audio-described discussion, you’ll smell Ayurvedic spices such as turmeric, cumin and ginger, and you’ll hear about the health practices associated with them.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your guide",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Visitor Experience Assistant Nelly is trained in audio-description techniques by VocalEyes.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This discussion will take place in the Heal Good section of the ‘Ayurvedic Man’ exhibition on Level 1. We’ll meet you by the information point on Level 0.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": " ",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WmXhziQAACQAnw7i",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WmXhziQAACQAnw7i"
+      },
+      "isPrimary": "yes"
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "bookingEnquiryTeam": {
+    "id": "WmXh-SQAACUAnw-j",
+    "mask": "teams",
+    "wioUrl": "wio://documents/WmXh-SQAACUAnw-j"
+  },
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Places are free but very limited. If you would like to come along, please email access@wellcomecollection.org or call +44 (0)20 7611 2222.",
+        "spans": [
+          {
+            "start": 80,
+            "end": 109,
+            "type": "hyperlink",
+            "data": {
+              "url": "mailto:access@wellcomecollection.org"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "While we can't guarantee it, we are sometimes able to meet you at Euston Square if you have difficulty making your own way from the Underground. Please mention this in your email when you contact us.",
+        "spans": []
+      }
+    }
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$b7cfb9fc-05e5-4582-a18c-5fb58a9eb6d8",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "In this audio-described discussion, you’ll smell Ayurvedic spices and the health practices associated with them.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WoRQCyoAACsAPMu6",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc5fd9a1a-c272-443f-acba-cd041d66a2a8_c0139840.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/0b4460e8b18f36355751d9268914cb5dc3e25a0f_c0139840.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WoRQCyoAACsAPMu6",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc5fd9a1a-c272-443f-acba-cd041d66a2a8_c0139840.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/98b305a591f7a7b74011d2d8d55edc528c8043df_c0139840.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "WoRQCyoAACsAPMu6",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc5fd9a1a-c272-443f-acba-cd041d66a2a8_c0139840.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/1a96e18a7d127629d3af9fadb9e5fa48e41b210a_c0139840.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

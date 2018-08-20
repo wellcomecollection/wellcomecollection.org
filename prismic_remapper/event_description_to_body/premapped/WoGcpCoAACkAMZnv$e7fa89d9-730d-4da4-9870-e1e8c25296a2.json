@@ -1,0 +1,186 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WoGcpCoAACkAMZnx",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Unexpected Interludes in the Reading Room",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-02-22T16:00:00+00:00",
+      "endDateTime": "2018-02-22T20:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "These events – part of our Open Platform series – offer you unexpected interludes where you can step into the unknown. They are all the creations of Wellcome Collection visitors, because through Open Platform we invite you to run your own event. Starting from the themes explored in the Reading Room, you can propose any kind of small event that creates conversation and shares ideas.",
+        "spans": [
+          {
+            "start": 27,
+            "end": 40,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/openplatform"
+              },
+              "url": "https://wellcomecollection.org/openplatform"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "So why not sample some of today’s little treats – you may be inspired to propose your own afterwards!",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "16.00-17.00 How can we observe nature and capture moments in a few words? Join Haiku Poet (Haijin), Pearl Elizabeth Dell May, in the Body niche for Haiku Poetry Works.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 11,
+            "type": "strong"
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "17.30–19.00 Come and experience the magic of the spoken word as it echoes around the Reading Room. Join Artist and Educator, Cate Field, in the Mind niche to breathe, listen, respond and create your own amulet or charm.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 11,
+            "type": "strong"
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "18.30-20.00 Play games, tell stories, compare and discover the many different ways we relate to nature. Join Designer and Illustrator, Stephen Hall, in the Alchemy niche for Nature Narratives.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 11,
+            "type": "strong"
+          }
+        ]
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "place": {
+    "id": "Wn1fvyoAACgAH_yG",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1fvyoAACgAH_yG"
+  },
+  "isDropIn": "yes",
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$4d15e747-8ab3-4f40-aaca-3efc4a08fcf3",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "image": {
+            "origin": {
+              "id": "WoRXHyoAACgAPOrw",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb292bb1e-dc3a-435b-9069-04a29ed9c433_ep_000012_026.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f3ff322394c350b7d0714e070c43e13da8f912f5_ep_000012_026.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Unexpected Interludes in the Reading room | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a group of seven people sitting around a table in the Reading Room in Wellcome Collection. They are in discussion. Behind them is a large window and in the foreground is part of one of the Reading Room display cases.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WoRXHyoAACgAPOrw",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb292bb1e-dc3a-435b-9069-04a29ed9c433_ep_000012_026.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/5ee9e79ce8571e61cca35c0b40bed6c358880e5d_ep_000012_026.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Unexpected Interludes in the Reading room | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a group of seven people sitting around a table in the Reading Room in Wellcome Collection. They are in discussion. Behind them is a large window and in the foreground is part of one of the Reading Room display cases."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WoRXHyoAACgAPOrw",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb292bb1e-dc3a-435b-9069-04a29ed9c433_ep_000012_026.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/55cb9c54e5ca9cef6347fe90c39d76019f4b6726_ep_000012_026.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Unexpected Interludes in the Reading room | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a group of seven people sitting around a table in the Reading Room in Wellcome Collection. They are in discussion. Behind them is a large window and in the foreground is part of one of the Reading Room display cases."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,305 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "W2QmBCYAACQARyht",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "You Don’t Own Me",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wn3Q3SoAACsAIeFI",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wn3Q3SoAACsAIeFI"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-09-06T17:00:00+00:00",
+      "endDateTime": "2018-09-06T20:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Museums are full of strange and wonderful objects, but who (if anyone) truly owns them? And how do we as visitors take ownership of the spaces in which they are displayed?\n\nJoin us for an evening of live poetry, performance from Pecs Collective, gallery tours and more –  giving voice to the little-heard histories from our collections. This event is aimed primarily at an audience of 14 to 25-year-olds. ",
+        "spans": [
+          {
+            "start": 229,
+            "end": 244,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "http://www.pecsdragkings.com"
+              },
+              "url": "http://www.pecsdragkings.com"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your performers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "RawMinds Ambassadors have collaborated with Poet in the City Producers to create a playfully disruptive event at the heart of Wellcome Collection – inviting you to question what museums are and to reimagine what they might be. ",
+        "spans": [
+          {
+            "start": 0,
+            "end": 20,
+            "type": "hyperlink",
+            "data": {
+              "id": "Wuw2MSIAACtd3StA",
+              "mask": "pages",
+              "preview": {
+                "image": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F64f7b0b4-e777-4147-83d0-183aa0f8d73b_teeth-web-banner-02.gif",
+                "title": "RawMinds Ambassadors Panel"
+              },
+              "wioUrl": "wio://documents/Wuw2MSIAACtd3StA"
+            }
+          },
+          {
+            "start": 44,
+            "end": 60,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "http://www.poetinthecity.co.uk"
+              },
+              "url": "http://www.poetinthecity.co.uk"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "You can find us in the Studio, the Forum and the Medicine Man gallery on level 1.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/48378825369?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/you-dont-own-me-tickets-48378825369 ",
+    "type": "link",
+    "version": "1.0",
+    "title": "You don’t own me ",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/48378825369?aff=efbneb\"><h1>You don’t own me </h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>You don’t own me </p></a></div>"
+  },
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "policies": [
+    {
+      "policy": {
+        "id": "W3RKJykAACgAF2ZA",
+        "mask": "event-policies",
+        "wioUrl": "wio://documents/W3RKJykAACgAF2ZA"
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "WoL2lCoAACkANt4D",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WoL2lCoAACkANt4D"
+      },
+      "contributor": {
+        "id": "W1niLyYAACcAuB59",
+        "mask": "organisations",
+        "wioUrl": "wio://documents/W1niLyYAACcAuB59"
+      },
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "",
+            "spans": []
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text": " ",
+            "spans": []
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "",
+            "spans": []
+          }
+        }
+      ]
+    }
+  ],
+  "contributorsTitle": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$c9de7d1c-a0a3-4945-a0ee-7a12145de721",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join us for an evening of participatory and playful live poetry, gallery tours and activities that give voice to little-heard histories from our collections.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "W1sgLCYAACgAvZUu",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F80533c38-b8b0-4db9-9ef8-8231e1687806_ep_000276_031.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/19d6a78246a941849c27f9604a3284b8e0c6f74e_ep_000276_031.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Live performance in the Forum, Wellcome Collection | Camilla Greenwell | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a young man performing in the Forum at Wellcome Collection, dressed in a black t-shirt against a black curtain backdrop, lit by stage lighting.",
+            "thumbnails": {
+              "32:15": {
+                "origin": {
+                  "id": "W1sgLCYAACgAvZUu",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F80533c38-b8b0-4db9-9ef8-8231e1687806_ep_000276_031.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/cd7caabd342f061b5f9412d7dea1042645373272_ep_000276_031.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -10
+                  }
+                },
+                "credits": "Live performance in the Forum, Wellcome Collection | Camilla Greenwell | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a young man performing in the Forum at Wellcome Collection, dressed in a black t-shirt against a black curtain backdrop, lit by stage lighting."
+              },
+              "square": {
+                "origin": {
+                  "id": "W1sgLCYAACgAvZUu",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F80533c38-b8b0-4db9-9ef8-8231e1687806_ep_000276_031.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/c18e5cb76ed0cb50f63e4240482e6166de5c04d2_ep_000276_031.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1286,
+                    "y": 0
+                  }
+                },
+                "credits": "Live performance in the Forum, Wellcome Collection | Camilla Greenwell | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a young man performing in the Forum at Wellcome Collection, dressed in a black t-shirt against a black curtain backdrop, lit by stage lighting."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "W1sgLCYAACgAvZUu",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F80533c38-b8b0-4db9-9ef8-8231e1687806_ep_000276_031.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/d8067b5f551b325603e3fdc66ae771b36d0eca75_ep_000276_031.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Live performance in the Forum, Wellcome Collection | Camilla Greenwell | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a young man performing in the Forum at Wellcome Collection, dressed in a black t-shirt against a black curtain backdrop, lit by stage lighting."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

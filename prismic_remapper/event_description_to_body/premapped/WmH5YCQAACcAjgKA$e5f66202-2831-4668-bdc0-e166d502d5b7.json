@@ -1,0 +1,165 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WmH5YCQAACcAjgKC",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "India - Traditions of Healing",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "times": [
+    {
+      "startDateTime": "2018-01-25T18:00:00+00:00",
+      "endDateTime": "2018-01-25T19:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "India has long been a confluence of traditions of healing. Its ancient physicians were innovators of surgical procedures, and of herbal, animal and mineral products for medicinal use. This talk will explore ancient ideas about paths to health, and how these are evolving today. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Speaker",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Dr Aarathi Prasad, Biologist, writer and broadcaster.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WlYq1SQAACYAWiuX",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WlYq1SQAACYAWiuX"
+      },
+      "isPrimary": "yes"
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/41454456395?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/india-traditions-of-healing-tickets-41454456395?aff=ehomecard",
+    "type": "link",
+    "version": "1.0",
+    "title": "India - Traditions of healing",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/41454456395?aff=efbneb\"><h1>India - Traditions of healing</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>India - Traditions of healing</p></a></div>"
+  },
+  "series": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$ef090743-f378-45e3-bea2-4f824d56e0e7",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "A look at the variety of Indian medical practice over the centuries.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WmH6bSQAACcAjgcl",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F9b12d33d-d6f5-419b-a5de-fd78fcfadc2a_xbb5kue2_crop+%281%29.jpg",
+              "width": 800,
+              "height": 450
+            },
+            "width": 800,
+            "height": 450,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ca0a2b3b77907eae60312f6b0dee1540a030b01a_xbb5kue2_crop-1.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WmH6bSQAACcAjgcl",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F9b12d33d-d6f5-419b-a5de-fd78fcfadc2a_xbb5kue2_crop+%281%29.jpg",
+                  "width": 800,
+                  "height": 450
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/cef9cddf754d5e0c716f88e9cdefa3f69ecb9ad9_xbb5kue2_crop-1.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 4,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "WmH6bSQAACcAjgcl",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F9b12d33d-d6f5-419b-a5de-fd78fcfadc2a_xbb5kue2_crop+%281%29.jpg",
+                  "width": 800,
+                  "height": 450
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/8d64e6e6a41d46b416f242594108f952067a48ca_xbb5kue2_crop-1.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 7.111111111111111,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

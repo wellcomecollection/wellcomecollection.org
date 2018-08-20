@@ -1,0 +1,228 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WqoVliUAAM8VX3wl",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Wellcome Book Prize: Authors in conversation",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1gvyoAACgAIAEF",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gvyoAACgAIAEF"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-04-28T14:00:00+00:00",
+      "endDateTime": "2018-04-28T15:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join five of this year’s Wellcome Book Prize shortlisted authors as they discuss their perspectives on how medicine can touch our lives with Lisa O’Kelly. You will hear how their books address infertility, death and dying, pioneering early surgery, addiction, and the race to discover life-saving vaccines.",
+        "spans": [
+          {
+            "start": 25,
+            "end": 44,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomebookprize.org"
+              },
+              "url": "https://wellcomebookprize.org"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speakers",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Ayọ̀bámi Adébáyọ̀ is the author of ‘Stay with Me’.",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Lindsey Fitzharris is the author of ‘The Butchering Art’.",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Kathryn Mannix is the author of ‘With the End in Mind’.",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Sigrid Rausing is the author of ‘Mayhem: A Memoir’.",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Meredith Wadman is the author of ‘The Vaccine Race’.",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Lisa O’Kelly is the literary editor of the Observer.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "We’ll be in the Henry Wellcome Auditorium on level -1.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/44140499422?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/wellcome-book-prize-authors-in-conversation-tickets-44140499422",
+    "type": "link",
+    "version": "1.0",
+    "title": "Wellcome Book Prize: Authors in conversation",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/44140499422?aff=efbneb\"><h1>Wellcome Book Prize: Authors in conversation</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>Wellcome Book Prize: Authors in conversation</p></a></div>"
+  },
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$00700f45-6ab8-44ac-81f9-c7176e66b28e",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "image": {
+            "origin": {
+              "id": "WqpgLiAAACEAHtOX",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2b099419-f638-47bd-8f11-1b3bea985bb6_c0071100-edit.jpg",
+              "width": 3550,
+              "height": 1997
+            },
+            "width": 3550,
+            "height": 1997,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/77a2f42a9cae412e9a2f0f9043fd192b15444798_c0071100-edit.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Panel discussion in the Henry Wellcome Auditorium | Richard Hall | | | CC-BY | Wellcome Collection |",
+            "alt": "Photograph 4 people seated on the stage as part of a panel discussion in the Henry Wellcome Auditorium, with a projector screen behind them and an audience in front.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WqpgLiAAACEAHtOX",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2b099419-f638-47bd-8f11-1b3bea985bb6_c0071100-edit.jpg",
+                  "width": 3550,
+                  "height": 1997
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e8f33b49dad106a852fbf0ec5e891ac43548654c_c0071100-edit.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.602403605408112,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Panel discussion in the Henry Wellcome Auditorium | Richard Hall | | | CC-BY | Wellcome Collection |",
+                "alt": "Photograph 4 people seated on the stage as part of a panel discussion in the Henry Wellcome Auditorium, with a projector screen behind them and an audience in front."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WqpgLiAAACEAHtOX",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2b099419-f638-47bd-8f11-1b3bea985bb6_c0071100-edit.jpg",
+                  "width": 3550,
+                  "height": 1997
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/4a10f0986bc56b7e070a26c4ab1b96d195ea9bcf_c0071100-edit.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.9014084507042254,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Panel discussion in the Henry Wellcome Auditorium | Richard Hall | | | CC-BY | Wellcome Collection |",
+                "alt": "Photograph 4 people seated on the stage as part of a panel discussion in the Henry Wellcome Auditorium, with a projector screen behind them and an audience in front."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

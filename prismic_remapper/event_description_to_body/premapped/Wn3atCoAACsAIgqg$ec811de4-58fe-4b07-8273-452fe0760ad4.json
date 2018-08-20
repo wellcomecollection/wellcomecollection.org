@@ -1,0 +1,248 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Wn3atCoAACsAIgqi",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Physical Technology",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmiysAACx_A8NR",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmiysAACx_A8NR"
+  },
+  "place": {
+    "id": "Wn3ZFyoAACkAIgPT",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn3ZFyoAACkAIgPT"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WlYT_SQAACcAWccj",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WlYT_SQAACcAWccj"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-04-21T13:00:00+00:00",
+      "endDateTime": "2018-04-21T14:30:00+00:00"
+    },
+    {
+      "startDateTime": "2018-04-21T15:00:00+00:00",
+      "endDateTime": "2018-04-21T16:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In this interactive workshop, you'll create wearable electronic devices that will challenge the limits of your body.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Professional designers will take you through the main steps involved in any design process, including responding to a brief, generating ideas, prototyping and refining what you make. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "You’ll work in small groups as well as independently. Everyone will have the opportunity to learn how to build simple interactive technology, working with electronics including littleBits.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your facilitators",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "These workshops will be led by professional designers from the company Hirsch & Mann, which has worked with Adidas, Google, Nike and Beats.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Who can come",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "All young people aged 14–19 are welcome, on your own or in small groups. If you’re arriving with a parent, they can drop you off at the door.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "If you have any access requirements, please get in touch by email ahead of the session. ",
+        "spans": [
+          {
+            "start": 60,
+            "end": 65,
+            "type": "hyperlink",
+            "data": {
+              "url": "http://youthprogrammes@wellcomecollection.org"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The Studio is on Level 1. Head upstairs and follow the signs to the Studio. There are 25 places in each workshop and it's first come, first served. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": " ",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {
+      "audience": {
+        "id": "WlYWECQAACcAWdBf",
+        "mask": "audiences",
+        "wioUrl": "wio://documents/WlYWECQAACcAWdBf"
+      }
+    }
+  ],
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To take part, you’ll have to sign-up before the start of the workshops. Sign-up begins at 13:30 on Saturday, and once the first session is full, we’ll take bookings for the second one.",
+        "spans": []
+      }
+    }
+  ],
+  "contributors": [],
+  "promo": [
+    {
+      "key": "editorialImage$30e08a84-9468-436c-aaf7-c8636061b21c",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Get creative in this Saturday Studio workshop. Especially for youth aged 14-19.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WunIXyIAAH2l0ptF",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F66c4c96a-213a-4943-a8ba-d8010d05f8be_ep_000266_070.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/b14cc149b00637c7942704412bcc0f543215280c_ep_000266_070.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Saturday Studio | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a young girl taking part in a workshop to create a piece of technology you can wear. Her forearm has wires and components attached to it.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WunIXyIAAH2l0ptF",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F66c4c96a-213a-4943-a8ba-d8010d05f8be_ep_000266_070.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ca5bf3a86d4082233c5734b076eb818f159ce7ae_ep_000266_070.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1448,
+                    "y": 0
+                  }
+                },
+                "credits": "Saturday Studio | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a young girl taking part in a workshop to create a piece of technology you can wear. Her forearm has wires and components attached to it."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WunIXyIAAH2l0ptF",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F66c4c96a-213a-4943-a8ba-d8010d05f8be_ep_000266_070.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ce00b7c3c951290afb3f8088deebceb754f3b42f_ep_000266_070.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Saturday Studio | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a young girl taking part in a workshop to create a piece of technology you can wear. Her forearm has wires and components attached to it."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}
