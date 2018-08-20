@@ -57,7 +57,7 @@ const Events = {
   Promo: {
     promo
   },
-  Migration: {
+  Deprecated: {
     description: structuredText('Description', 'multi', ['heading2', 'list-item'])
   }
 };
