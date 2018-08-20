@@ -146,6 +146,7 @@ export async function getExhibitions(
     order = 'asc'
   }: GetExhibitionsProps = {}
 ): Promise<PaginatedResults<UiExhibition>> {
+  const orderings = `[my.exhibitions.isPermanent desc,${endField}${order === 'desc' ? ' desc' : ''}]`;
   const paginatedResults = await getDocuments(
     req,
     [Prismic.Predicates.any('document.type', ['exhibitions'])].concat(predicates),
@@ -156,7 +157,7 @@ export async function getExhibitions(
         installationFields,
         exhibitionFields
       ),
-      orderings: `[my.exhibitions.isPermanent desc,${endField}${order === 'desc' ? ' desc' : ''}]`
+      orderings
     }
   );
 
