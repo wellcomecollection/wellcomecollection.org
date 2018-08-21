@@ -504,7 +504,7 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
 export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
   const {data} = doc;
   const promo = data.promo && parseImagePromo(data.promo);
-  console.info(promo && promo.caption);
+
   return {
     id: doc.id,
     title: parseTitle(data.title),
