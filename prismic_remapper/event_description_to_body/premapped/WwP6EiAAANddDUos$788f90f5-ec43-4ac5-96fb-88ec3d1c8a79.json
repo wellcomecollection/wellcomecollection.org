@@ -1,0 +1,212 @@
+{
+  "type": "events",
+  "tags": [
+    "delist"
+  ],
+  "lang": "en-gb",
+  "grouplang": "WwP6EiAAANddDUou",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Drop-in Sessions",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wn3Q3SoAACsAIeFI",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wn3Q3SoAACsAIeFI"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-06T18:00:00+00:00",
+      "endDateTime": "2018-07-06T22:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you'll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Drop-in to a Long Table discussion, attend the Care Café, watch performance art in the galleries, participate in a Public Studio with a  designer and public health practitioner and enjoy care home cocktails.",
+        "spans": [
+          {
+            "start": 187,
+            "end": 206,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://magicme.co.uk/project/cocktails-in-care-homes/"
+              },
+              "url": "https://magicme.co.uk/project/cocktails-in-care-homes/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your performers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Stacy Makishi invites you to Malami Maki. Malama means to care. Maki means to roll. Part ritual, part sushi. Join her for sacred humour,  cheeky ritual and ancient rock-n-roll witchcraft to massage and care for your soul",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Rhiannon Armstrong creates Instructions for Empathetic Living. She is interested in both the darkness in lullabies and the promise of song to hold ourselves against the unpredictability of existence.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we'll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "There will be opportunities to get involved and be inspired throughout the building.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Drop-in to individual events once you're inside the building! For this Friday Late Spectacular, the building might be busy and space is limited, so entry is not guaranteed.",
+        "spans": []
+      }
+    }
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$f311da0c-d75b-42fd-9e49-e96941260aa6",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Drop-in to a Long Table discussion, attend the Care Café, watch performance art in the galleries, participate in a Public Studio and enjoy care home cocktails.",
+                "spans": [
+                  {
+                    "start": 139,
+                    "end": 158,
+                    "type": "hyperlink",
+                    "data": {
+                      "preview": {
+                        "title": "https://magicme.co.uk/project/cocktails-in-care-homes/"
+                      },
+                      "url": "https://magicme.co.uk/project/cocktails-in-care-homes/"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WwUoSyAAAOagEoNg",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2667e9e3-2dca-4d65-90d8-7f1f60b1a0f9_download.jpg",
+              "width": 275,
+              "height": 183
+            },
+            "width": 275,
+            "height": 183,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/45df2c9f531182382e1d30d7205e0f7d784dafd1_download.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WwUoSyAAAOagEoNg",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2667e9e3-2dca-4d65-90d8-7f1f60b1a0f9_download.jpg",
+                  "width": 275,
+                  "height": 183
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/a524e9b854a453dbf34453102b39da0059903116_download.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 17.48633879781421,
+                  "crop": {
+                    "x": -804,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WwUoSyAAAOagEoNg",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2667e9e3-2dca-4d65-90d8-7f1f60b1a0f9_download.jpg",
+                  "width": 275,
+                  "height": 183
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/8d37e274cbbbee2038602bc89a792cc5e03ee1df_download.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 11.636363636363637,
+                  "crop": {
+                    "x": 0,
+                    "y": -165
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

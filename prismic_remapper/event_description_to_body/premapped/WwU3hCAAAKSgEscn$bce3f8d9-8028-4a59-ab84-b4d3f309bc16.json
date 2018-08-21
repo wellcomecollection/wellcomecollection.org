@@ -1,0 +1,201 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WwU3hCAAAKSgEscp",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Perspective tour with Dr Alexandra Daisy Ginsberg",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WmYRpCQAACUAn-Ap",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WmYRpCQAACUAn-Ap"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WlYUDCQAACQAWcdt",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WlYUDCQAACQAWcdt"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-06-07T18:00:00+00:00",
+      "endDateTime": "2018-06-07T18:45:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join Dr Alexandra Daisy Ginsberg for a tour of Somewhere in Between. You’ll hear her personal views and insights into the exhibition and have an opportunity to ask questions.",
+        "spans": [
+          {
+            "start": 47,
+            "end": 67,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/exhibitions/WhvoAykAACgAlDoo"
+              },
+              "url": "https://wellcomecollection.org/exhibitions/WhvoAykAACgAlDoo"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your guide",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Dr Alexandra Daisy Ginsberg is an artist, designer and writer. Her experimental practice explores the values that shape design, science and technology. Daisy is the lead author of ‘Synthetic Aesthetics: Investigating Synthetic Biology’s Designs on Nature’. In 2017, she finished ‘Better’, her PhD in Design Interactions at London’s Royal College of Art, interrogating powerful promises of better futures.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To attend, just turn up and meet your guide beside the Information Point on Level 0. There is no need to book (though spaces are limited). ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The tour will take place in the ‘Somewhere in Between’ exhibition, also on Level 0.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "contributors": [],
+  "promo": [
+    {
+      "key": "editorialImage$87443fbb-2642-4e10-bb11-fd854e3c94d1",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Get an inside perspective on an installation in Somewhere in Between from the perspective of an artist/researcher.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WwVP6yAAAHm5Ey0_",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd8db1d2f-7c6b-4fb6-ae34-c435e55e0ea7_ep_000334_009.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/50c677fe65efed111b6e63102ca17054ea15dd61_ep_000334_009.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Dr Alexandra Daisy Ginsberg | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Head and shoulder photographic portrait of Dr Alexandra Daisy Ginsberg against a rose coloured background.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WwVP6yAAAHm5Ey0_",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd8db1d2f-7c6b-4fb6-ae34-c435e55e0ea7_ep_000334_009.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ddfda20f06513b8835eca7a87adcac9f7753b2ee_ep_000334_009.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Dr Alexandra Daisy Ginsberg | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Head and shoulder photographic portrait of Dr Alexandra Daisy Ginsberg against a rose coloured background."
+              },
+              "square": {
+                "origin": {
+                  "id": "WwVP6yAAAHm5Ey0_",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd8db1d2f-7c6b-4fb6-ae34-c435e55e0ea7_ep_000334_009.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/2e6480fd518a2198c906c17337018d3314886979_ep_000334_009.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1609,
+                    "y": 0
+                  }
+                },
+                "credits": "Dr Alexandra Daisy Ginsberg | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Head and shoulder photographic portrait of Dr Alexandra Daisy Ginsberg against a rose coloured background."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

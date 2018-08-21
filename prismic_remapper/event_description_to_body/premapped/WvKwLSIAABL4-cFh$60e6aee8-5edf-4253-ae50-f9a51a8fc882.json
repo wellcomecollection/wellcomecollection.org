@@ -1,0 +1,204 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WvKwLSIAABL4-cFj",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Speech-to-Text tour of Teeth",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WmYRpCQAACUAn-Ap",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WmYRpCQAACUAn-Ap"
+  },
+  "place": {
+    "id": "WoLtlioAACoANrY_",
+    "mask": "places",
+    "wioUrl": "wio://documents/WoLtlioAACoANrY_"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WoLgbSoAACgANnxB",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WoLgbSoAACgANnxB"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-12T17:00:00+00:00",
+      "endDateTime": "2018-07-12T18:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Explore the Teeth exhibition with Visitor Experience Assistant Georgia, with live subtitles provided. You’ll investigate the tribulations of toothache from past to present as we walk through the gallery.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speaker",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Visitor Experience Assistant Georgia will lead your tour and live subtitles will be provided by StageText for speech-to-text users. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "We’ll meet at the Information Point and then head up to the exhibition in Gallery 2 together. ",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WmXl4iQAACUAnyDr",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WmXl4iQAACUAnyDr"
+      }
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Speech-to-Text for people who are deaf or hard of hearing. Places are free but very limited. If you’d like to come along please email access@wellcomecollection.org or call 020 7611 2222.",
+        "spans": [
+          {
+            "start": 134,
+            "end": 163,
+            "type": "hyperlink",
+            "data": {
+              "url": "mailto:access@wellcomecollection.org"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$0d563fbe-6c96-4ef6-a7f2-e74e81fa0705",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Explore the Teeth exhibition with Visitor Experience Assistant Georgia, with live subtitles provided. ",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WvsS8iAAAAJy5lv8",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F6d56b053-63e2-4d3f-b852-7b19fcb16be7_c0112768.jpg",
+              "width": 3929,
+              "height": 2210
+            },
+            "width": 3929,
+            "height": 2210,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/332f1aff454f547a54e839b62d7c95e9934a07c5_c0112768.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Speech-to-text tour | Mike Massaro | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a Wellcome Visitor Experience Assistant speaking into a phone whilst giving a speech-to-text tour of a gallery. In the foreground is a tablet displaying the transition.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WvsS8iAAAAJy5lv8",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F6d56b053-63e2-4d3f-b852-7b19fcb16be7_c0112768.jpg",
+                  "width": 3929,
+                  "height": 2210
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/0423f1a60de3cf07a47c15396aa6d1731621ff2b_c0112768.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8144796380090498,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Speech-to-text tour | Mike Massaro | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a Wellcome Visitor Experience Assistant speaking into a phone whilst giving a speech-to-text tour of a gallery. In the foreground is a tablet displaying the transition."
+              },
+              "square": {
+                "origin": {
+                  "id": "WvsS8iAAAAJy5lv8",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F6d56b053-63e2-4d3f-b852-7b19fcb16be7_c0112768.jpg",
+                  "width": 3929,
+                  "height": 2210
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/312b5def1c70930a77dd89bd82153c78e053c2b0_c0112768.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4479638009049773,
+                  "crop": {
+                    "x": -1593,
+                    "y": 0
+                  }
+                },
+                "credits": "Speech-to-text tour | Mike Massaro | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a Wellcome Visitor Experience Assistant speaking into a phone whilst giving a speech-to-text tour of a gallery. In the foreground is a tablet displaying the transition."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

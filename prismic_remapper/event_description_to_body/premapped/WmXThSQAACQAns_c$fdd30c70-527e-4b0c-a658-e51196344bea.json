@@ -1,0 +1,215 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WmXThSQAACQAns_e",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Body Image",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmeisAALN8A8MB",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmeisAALN8A8MB"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "W1m-yyYAACYAt4Lb",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/W1m-yyYAACYAt4Lb"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-03-08T10:30:00+00:00",
+      "endDateTime": "2018-03-08T15:30:00+00:00",
+      "isFullyBooked": "yes"
+    },
+    {
+      "startDateTime": "2018-07-10T09:30:00+00:00",
+      "endDateTime": "2018-07-10T14:30:00+00:00",
+      "isFullyBooked": "yes"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In this five-hour study day, your students will take part in creative activities and discussion-based workshops on the theme of body image.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "They will visit Wellcome Collection’s two permanent galleries to explore body image in contemporary society, in the past and in different cultures.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Your students will consider how advances in science and technology have enabled us to change, augment and repair our bodies in ways previous generations could never have imagined. They will discuss the ethical questions that arise from this ability and ask where it might lead us in the future.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Who can come",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This study day is suitable for students aged 14–19. It develops enquiry, literacy, debating and creative skills and can be adapted to suit a variety of curriculum areas. We can accommodate groups of 20–30 students, accompanied by staff at a ratio of 1:10.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {
+      "audience": {
+        "id": "WlYWByQAACQAWdA0",
+        "mask": "audiences",
+        "wioUrl": "wio://documents/WlYWByQAACQAWdA0"
+      }
+    }
+  ],
+  "bookingEnquiryTeam": {
+    "id": "WmXJ-iQAACcAnqXC",
+    "mask": "teams",
+    "wioUrl": "wio://documents/WmXJ-iQAACcAnqXC"
+  },
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Only teachers are able to book these sessions. Although these dates and times are now fully booked, we do operate a waiting list. Please email youthprogrammes@wellcomecollection.org if you wish to add your school to the list.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "We will also run two on-demand summer term sessions between Monday 16 April and Friday 20 July. If you are interested, email us to suggest three dates in order of preference. We will need at least four weeks’ notice.",
+        "spans": []
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$e80ac0f1-45b4-48f6-b279-627874e43da6",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "A study day of activities on the theme of body image. Please contact us about our on-demand bookings for this session.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WoRweyoAACkAPVZF",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F034446b4-cf0c-40c7-9933-bedff6a487d3_c0127169.jpg",
+              "width": 3000,
+              "height": 1688
+            },
+            "width": 3000,
+            "height": 1688,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/13c337f994a2104c2f911ee11c1d54583926892e_c0127169.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Body Image study day | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a young student seen through the translucent plastinated slice of a human being, on display in Wellcome Collection's Medicine Man gallery. ",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WoRweyoAACkAPVZF",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F034446b4-cf0c-40c7-9933-bedff6a487d3_c0127169.jpg",
+                  "width": 3000,
+                  "height": 1688
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/d193bd8b7e07963630f4762a61159a55e81233f8_c0127169.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.8957345971563981,
+                  "crop": {
+                    "x": -1243,
+                    "y": 0
+                  }
+                },
+                "credits": "Body Image study day | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a young student seen through the translucent plastinated slice of a human being, on display in Wellcome Collection's Medicine Man gallery. "
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WoRweyoAACkAPVZF",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F034446b4-cf0c-40c7-9933-bedff6a487d3_c0127169.jpg",
+                  "width": 3000,
+                  "height": 1688
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/257ca9422adafba01a1c20f2fa77a36d34128e44_c0127169.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.0666666666666667,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Body Image study day | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a young student seen through the translucent plastinated slice of a human being, on display in Wellcome Collection's Medicine Man gallery. "
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

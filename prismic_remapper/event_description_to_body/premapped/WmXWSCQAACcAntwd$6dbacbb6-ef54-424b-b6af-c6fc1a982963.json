@@ -1,0 +1,238 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WmXWSCQAACcAntwf",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Faster, Smarter, Stronger",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmeisAALN8A8MB",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmeisAALN8A8MB"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-03-15T10:30:00+00:00",
+      "endDateTime": "2018-03-15T15:30:00+00:00",
+      "isFullyBooked": "yes"
+    },
+    {
+      "startDateTime": "2018-05-03T09:30:00+00:00",
+      "endDateTime": "2018-05-03T14:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In this five-hour study day, your students will explore the theme of human enhancement in our permanent collections. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In the morning, your students will take part in activities in our Medicine Man and Medicine Now galleries. These will include exploring and handling a selection of relevant objects from our collections. ",
+        "spans": [
+          {
+            "start": 66,
+            "end": 78,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/exhibitions/Weoe4SQAAKJwjcDC"
+              },
+              "url": "https://wellcomecollection.org/exhibitions/Weoe4SQAAKJwjcDC"
+            }
+          },
+          {
+            "start": 83,
+            "end": 95,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/exhibitions/WeobUyQAAKdwjbEO"
+              },
+              "url": "https://wellcomecollection.org/exhibitions/WeobUyQAAKdwjbEO"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In the afternoon, your students will undertake practical scientific experiments investigating physical and mental enhancement. They will examine the ethics of human enhancement, and participate in games, discussion and debate.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Who can come",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This study day is suitable for students aged 14–19. We can accommodate groups of 20–30 students, accompanied by staff at a ratio of 1:10.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {
+      "audience": {
+        "id": "WlYWByQAACQAWdA0",
+        "mask": "audiences",
+        "wioUrl": "wio://documents/WlYWByQAACQAWdA0"
+      }
+    }
+  ],
+  "bookingEnquiryTeam": {
+    "id": "WmXJ-iQAACcAnqXC",
+    "mask": "teams",
+    "wioUrl": "wio://documents/WmXJ-iQAACcAnqXC"
+  },
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Only teachers are able to book this session. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "We will also run one on-demand summer term session between Monday 16 April and Friday 20 July. If you are interested, email youthprogrammes@wellcomecollection.org to suggest three dates in order of preference. We will need at least four weeks’ notice.",
+        "spans": []
+      }
+    }
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$e80ac0f1-45b4-48f6-b279-627874e43da6",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "This session explores the theme of human enhancement. On-demand sessions are available to request.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WmXWXiQAACQAntx9",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F4e674491-1abb-4ee4-bc9b-52e768084440_faster_study_day_letterbox.jpg",
+              "width": 650,
+              "height": 340
+            },
+            "width": 650,
+            "height": 340,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/6259dc79f67cd900fb55768b21efa8766dc1036f_faster_study_day_letterbox.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WmXWXiQAACQAntx9",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F4e674491-1abb-4ee4-bc9b-52e768084440_faster_study_day_letterbox.jpg",
+                  "width": 650,
+                  "height": 340
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/5d1868e1836fbdfd942257964981634ab35c726b_faster_study_day_letterbox.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 9.411764705882353,
+                  "crop": {
+                    "x": -1458,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WmXWXiQAACQAntx9",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F4e674491-1abb-4ee4-bc9b-52e768084440_faster_study_day_letterbox.jpg",
+                  "width": 650,
+                  "height": 340
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/63640b4f7126dbc602d55e6c675128db854c8b7a_faster_study_day_letterbox.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 5.294117647058823,
+                  "crop": {
+                    "x": -120,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

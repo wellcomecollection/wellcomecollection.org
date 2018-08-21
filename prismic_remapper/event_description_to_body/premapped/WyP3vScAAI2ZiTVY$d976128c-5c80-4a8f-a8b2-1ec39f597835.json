@@ -1,0 +1,208 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WyP3vScAAI2ZiTVa",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Perspective tour with Dr Michael Berthaume",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WmYRpCQAACUAn-Ap",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WmYRpCQAACUAn-Ap"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WlYUDCQAACQAWcdt",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WlYUDCQAACQAWcdt"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-05T17:00:00+00:00",
+      "endDateTime": "2018-07-05T17:45:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join Dr Michael Berthaume for a tour of 'Teeth' and learn about the evolution and biomechanics of human teeth. You’ll hear his personal views and insights into the exhibition and have an opportunity to ask questions.",
+        "spans": [
+          {
+            "start": 41,
+            "end": 46,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/exhibitions/WgV_ACUAAIu2P_ZM"
+              },
+              "url": "https://wellcomecollection.org/exhibitions/WgV_ACUAAIu2P_ZM"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your guide",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Dr Michael Berthaume is a biological anthropologist and mechanical engineer who has spent the last ten years studying the biomechanics of hominoid teeth: how they are shaped, break down food, and relate to health and evolutionary fitness. Much of his research is on the great apes and our extinct hominin ancestors, to understand how natural selection has acted (and is still acting) on human teeth, and why they look the way they do today. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "His passion lies in bridging the gap between anthropology and engineering to solve problems and innovate technologies using a human-centric, bioengineering approach.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To attend, just turn up and meet your guide beside the Information Point on Level 0. There is no need to book (though spaces are limited). ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The tour will take place in the 'Teeth' exhibition on Level 1.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "contributors": [],
+  "promo": [
+    {
+      "key": "editorialImage$87443fbb-2642-4e10-bb11-fd854e3c94d1",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Get an inside perspective on 'Teeth' from a biological anthropologist and mechanical engineer.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WyP45icAAJnTiTp0",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fdcec1fe2-58ba-4e98-8196-670488c3e298_ep_000403_002.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/3cdc139efc0a097f6be72cd8616185fe22d1332d_ep_000403_002.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Dr Michael Berthaume | Thomas S G Farnetti | | | CC-BY-NC | Wellcome Collection |",
+            "alt": "Portrait of Dr Michael Berthaume, wearing a blue checked shirt.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WyP45icAAJnTiTp0",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fdcec1fe2-58ba-4e98-8196-670488c3e298_ep_000403_002.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/7b5058477997265bada2a597f6d994e415d71fef_ep_000403_002.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Dr Michael Berthaume | Thomas S G Farnetti | | | CC-BY-NC | Wellcome Collection |",
+                "alt": "Portrait of Dr Michael Berthaume, wearing a blue checked shirt."
+              },
+              "square": {
+                "origin": {
+                  "id": "WyP45icAAJnTiTp0",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fdcec1fe2-58ba-4e98-8196-670488c3e298_ep_000403_002.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/9af4b8e3fc37ecea065e9f46451e80dfd7ea8ba3_ep_000403_002.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Dr Michael Berthaume | Thomas S G Farnetti | | | CC-BY-NC | Wellcome Collection |",
+                "alt": "Portrait of Dr Michael Berthaume, wearing a blue checked shirt."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

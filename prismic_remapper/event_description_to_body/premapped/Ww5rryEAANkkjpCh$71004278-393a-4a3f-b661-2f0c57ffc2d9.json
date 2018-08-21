@@ -1,0 +1,77 @@
+{
+  "type": "events",
+  "tags": [
+    "delist"
+  ],
+  "lang": "en-gb",
+  "grouplang": "Ww5rryEAANkkjpCj",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Malama Maki",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wn3Q3SoAACsAIeFI",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wn3Q3SoAACsAIeFI"
+  },
+  "place": {
+    "id": "WzTa0SoAANbWMtBN",
+    "mask": "places",
+    "wioUrl": "wio://documents/WzTa0SoAANbWMtBN"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-06T18:00:00+00:00",
+      "endDateTime": "2018-07-06T22:00:00+00:00"
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$35566789-2140-4710-89c3-9fd7370903dd",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Stacy Makishi invites you to Malama Maki. Malama means to care. Maki means to roll. Part ritual, part sushi. Join her for sacred humour, cheeky ritual and ancient rock-’n’-roll witchcraft to massage and care for your soul.",
+                "spans": [
+                  {
+                    "start": 0,
+                    "end": 13,
+                    "type": "hyperlink",
+                    "data": {
+                      "url": "https://www.stacymakishi.co.uk/"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

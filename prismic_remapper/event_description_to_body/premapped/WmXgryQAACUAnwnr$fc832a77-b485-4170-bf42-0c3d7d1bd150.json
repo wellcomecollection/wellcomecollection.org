@@ -1,0 +1,154 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WmXgryQAACUAnwnt",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "AD Tour of Ayurvedic Man: Encounters with Indian medicine",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WmYRpCQAACUAn-Ap",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WmYRpCQAACUAn-Ap"
+  },
+  "times": [
+    {
+      "startDateTime": "2018-02-01T18:00:00+00:00",
+      "endDateTime": "2018-02-01T18:45:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Be guided by us through an exhibition that crosses cultures and continents, but has as its starting point ‘Ayurvedic Man’ – an 18th-century Nepali painting depicting the organs and vessels of the male body according to classical Ayurveda.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Visitor Experience Assistant Daniela explores a series of encounters: between ancient South Asian medical practice and modern biomedicine and between exquisite objects from the Ayurvedic tradition and the colonial-era collector.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Daniela is trained in audio description techniques by VocalEyes and has designed this tour for visitors who are blind or partially sighted.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WmXhziQAACQAnw7i",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WmXhziQAACQAnw7i"
+      },
+      "isPrimary": "yes"
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "bookingEnquiryTeam": {
+    "id": "WmXh-SQAACUAnw-j",
+    "mask": "teams",
+    "wioUrl": "wio://documents/WmXh-SQAACUAnw-j"
+  },
+  "series": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$cca458ba-0092-4311-90e8-ef1481971556",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join an Audio Described tour of Ayurvedic Man: Encounters with Indian Medicine",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WmXhNSQAADcAnwxA",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2cec4312-bd11-4d4b-ad69-5948037a6b25_am7-adtour-02.jpg",
+              "width": 800,
+              "height": 450
+            },
+            "width": 800,
+            "height": 450,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/96347a9d4f3663b694139d3f2b14e45b49d3ebea_am7-adtour-02.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WmXhNSQAADcAnwxA",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2cec4312-bd11-4d4b-ad69-5948037a6b25_am7-adtour-02.jpg",
+                  "width": 800,
+                  "height": 450
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/caae3f92556d285cd8947bd5d77f3674ed665bce_am7-adtour-02.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 4,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "WmXhNSQAADcAnwxA",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2cec4312-bd11-4d4b-ad69-5948037a6b25_am7-adtour-02.jpg",
+                  "width": 800,
+                  "height": 450
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/a442e36f1987ea3a09df37d04f568bc36720ada5_am7-adtour-02.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 7.111111111111111,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

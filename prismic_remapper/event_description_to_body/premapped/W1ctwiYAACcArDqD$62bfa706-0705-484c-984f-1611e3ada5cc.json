@@ -1,0 +1,221 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "W1ctwiYAACcArDqF",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Telling the Tooth",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wn3Q3SoAACsAIeFI",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wn3Q3SoAACsAIeFI"
+  },
+  "place": {
+    "id": "WxkLziIAAKA5RULY",
+    "mask": "places",
+    "wioUrl": "wio://documents/WxkLziIAAKA5RULY"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-09-11T18:30:00+00:00",
+      "endDateTime": "2018-09-11T21:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join us for an intimate evening of true storytelling that will reveal untold tales of our teeth to make you consider your mouth anew! Over a glass or two of mouthwash cocktail hear stories from life transformed into memorable tales. Just listen or share your own anecdotes.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WlYq1SQAACYAWiuX",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WlYq1SQAACYAWiuX"
+      }
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/48377472322?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/telling-the-tooth-an-intimate-evening-of-true-storytelling-about-teeth-tickets-48377472322",
+    "type": "link",
+    "version": "1.0",
+    "title": "Telling the Tooth: An intimate evening of true storytelling about teeth",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/48377472322?aff=efbneb\"><h1>Telling the Tooth: An intimate evening of true storytelling about teeth</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>Telling the Tooth: An intimate evening of true storytelling about teeth</p></a></div>"
+  },
+  "policies": [
+    {
+      "policy": {
+        "id": "W3RKJykAACgAF2ZA",
+        "mask": "event-policies",
+        "wioUrl": "wio://documents/W3RKJykAACgAF2ZA"
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "WyvU0ioAACkACvwK",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WyvU0ioAACkACvwK"
+      },
+      "contributor": {
+        "id": "W1csxCYAACgArDYd",
+        "mask": "people",
+        "wioUrl": "wio://documents/W1csxCYAACgArDYd"
+      }
+    },
+    {
+      "role": {
+        "id": "WyvU0ioAACkACvwK",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WyvU0ioAACkACvwK"
+      },
+      "contributor": {
+        "id": "W1ctByYAACUArDdF",
+        "mask": "people",
+        "wioUrl": "wio://documents/W1ctByYAACUArDdF"
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$d135ede2-5743-4fc1-8c57-040d4b11f0d1",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join us for an intimate evening of true storytelling that will reveal untold tales of our teeth to make you consider your mouth anew.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "W1hHkiYAACUAsRHR",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Facfadb40-ea0d-4dde-ac57-7e4958e3b75b_c0143628.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/b3b505967ce86ae9d47c60d29590bb638a5b771a_c0143628.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Evening event in the Wellcome Café | David Bishop | Wellcome Collection | | CC-BY-NC-ND | |",
+            "alt": "Photograph showing an audience listening to a spotlit speaker in the Wellcome Café, under colourful ceiling lights.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "W1hHkiYAACUAsRHR",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Facfadb40-ea0d-4dde-ac57-7e4958e3b75b_c0143628.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/98a02978ba8e7d327158c27e7e5466453b787fe3_c0143628.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Evening event in the Wellcome Café | David Bishop | Wellcome Collection | | CC-BY-NC-ND | |",
+                "alt": "Photograph showing an audience listening to a spotlit speaker in the Wellcome Café, under colourful ceiling lights."
+              },
+              "32:15": {
+                "origin": {
+                  "id": "W1hHkiYAACUAsRHR",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Facfadb40-ea0d-4dde-ac57-7e4958e3b75b_c0143628.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/a595b46a323376435bde057aba08e6581de52e70_c0143628.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -150
+                  }
+                },
+                "credits": "Evening event in the Wellcome Café | David Bishop | Wellcome Collection | | CC-BY-NC-ND | |",
+                "alt": "Photograph showing an audience listening to a spotlit speaker in the Wellcome Café, under colourful ceiling lights."
+              },
+              "square": {
+                "origin": {
+                  "id": "W1hHkiYAACUAsRHR",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Facfadb40-ea0d-4dde-ac57-7e4958e3b75b_c0143628.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/91ee82c725263d91ddda34fe5c37b243e355154e_c0143628.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -954,
+                    "y": 0
+                  }
+                },
+                "credits": "Evening event in the Wellcome Café | David Bishop | Wellcome Collection | | CC-BY-NC-ND | |",
+                "alt": "Photograph showing an audience listening to a spotlit speaker in the Wellcome Café, under colourful ceiling lights."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

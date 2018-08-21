@@ -1,0 +1,220 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WvKuRCIAANr4-bi3",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Illuminating Brains",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1gUioAACoAH_8S",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gUioAACoAH_8S"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WifrbikAAGSyDtHk",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WifrbikAAGSyDtHk"
+      }
+    },
+    {
+      "series": {
+        "id": "WoLgbSoAACgANnxB",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WoLgbSoAACgANnxB"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-25T12:00:00+00:00",
+      "endDateTime": "2018-07-25T13:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join medical physicist Gemma Bale to hear about her life-saving work using light to observe and diagnose the brain health of newborn babies.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speaker",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Gemma Bale is a medical physicist at University College London. She works with engineers, scientists and doctors as part of the Metabolight project.",
+        "spans": [
+          {
+            "start": 128,
+            "end": 140,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "http://metabolight.org/"
+              },
+              "url": "http://metabolight.org/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "We will be in the Forum, through the Medicine Now gallery on level 1. There are seats for 70 people.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To attend, just turn up on the day and follow the signs. Doors open at 12.45. These events can get busy, so arrive at least 10 minutes before it starts.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WmXl4iQAACUAnyDr",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WmXl4iQAACUAnyDr"
+      }
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$58d79915-634c-45f7-93ab-db13637a1d3b",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join medical physicist Gemma Bale to hear about her life-saving work using light to observe and diagnose the brain health of newborn babies.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WxFY2yQAAL8Ivz7_",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fcc9adf89-9951-482f-9d5d-52b0c70f7cd5_btg180531113138-edit.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/5b445cd8e34a28685a0b31eb3dc28d4d075a33dc_btg180531113138-edit.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Dr Gemma Bale | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photographic portrait of Dr Gemma Bale in her laboratory in UCL.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WxFY2yQAAL8Ivz7_",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fcc9adf89-9951-482f-9d5d-52b0c70f7cd5_btg180531113138-edit.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/c3b9be97eed3e3f7258d599a0f9e19157facf0cd_btg180531113138-edit.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Dr Gemma Bale | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of Dr Gemma Bale in her laboratory in UCL."
+              },
+              "square": {
+                "origin": {
+                  "id": "WxFY2yQAAL8Ivz7_",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fcc9adf89-9951-482f-9d5d-52b0c70f7cd5_btg180531113138-edit.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/989afa237738e4427bdd2cb0e2ca1bc984641e97_btg180531113138-edit.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -962,
+                    "y": 0
+                  }
+                },
+                "credits": "Dr Gemma Bale | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of Dr Gemma Bale in her laboratory in UCL."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

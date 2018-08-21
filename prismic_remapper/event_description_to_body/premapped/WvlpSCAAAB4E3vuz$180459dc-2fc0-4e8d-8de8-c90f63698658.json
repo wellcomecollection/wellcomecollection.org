@@ -1,0 +1,222 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WvlpSCAAAB4E3vu1",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Perspective tour with Michael Banissy",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WmYRpCQAACUAn-Ap",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WmYRpCQAACUAn-Ap"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WlYUDCQAACQAWcdt",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WlYUDCQAACQAWcdt"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-06-28T17:00:00+00:00",
+      "endDateTime": "2018-06-28T17:45:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join Professor Michael Banissy for an inside view of his collaboration with artist Daria Martin for the ’At the Threshold’ and ‘Sensorium Tests’ installation in our Somewhere in Between exhibition. You’ll hear his personal views and scientific insights into the installation and the condition of synaesthesia, and have an opportunity to ask questions too.",
+        "spans": [
+          {
+            "start": 165,
+            "end": 185,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/exhibitions/WhvoAykAACgAlDoo"
+              },
+              "url": "https://wellcomecollection.org/exhibitions/WhvoAykAACgAlDoo"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your guide",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Professor Michael Banissy is Head of the Department of Psychology at Goldsmiths. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "He is recognised as a world-leading authority on mirror-sensory synaesthesia. He received the 2016 Spearman Medal and 2017 Bertelson Award, two of the highest accolades given to psychologists, for this work and his related work on social cognition.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To attend, just turn up and meet your guide beside the Information Point on Level 0. There is no need to book (though spaces are limited). ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The tour will take place in the ‘Somewhere in Between’ exhibition, also on Level 0.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "contributors": [],
+  "promo": [
+    {
+      "key": "editorialImage$87443fbb-2642-4e10-bb11-fd854e3c94d1",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Get an inside perspective on an installation in Somewhere in Between from the perspective of a scientific collaborator.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WvslJCAAANN45qyv",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ffdfe1c2f-b222-4e9f-a504-0273f654da4d_ep_000330_006.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/d5ae4e1d7281b3bde502052db82c8adaeb41d48c_ep_000330_006.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Michael Banissy | Thomas SG Farnetti | | | CC-BY | Wellcome Collection |",
+            "alt": "Photographic portrait of Michael Banissy, head and shoulders on a light blue background.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WvslJCAAANN45qyv",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ffdfe1c2f-b222-4e9f-a504-0273f654da4d_ep_000330_006.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/526bc2e49c50ad2c0a4c66a92699fa6a8d0e053c_ep_000330_006.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1337,
+                    "y": 0
+                  }
+                },
+                "credits": "Michael Banissy | Thomas SG Farnetti | | | CC-BY | Wellcome Collection |",
+                "alt": "Photographic portrait of Michael Banissy, head and shoulders on a light blue background."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WvslJCAAANN45qyv",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ffdfe1c2f-b222-4e9f-a504-0273f654da4d_ep_000330_006.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/7f4665f981ea2f3370089e4184a70879b1846cdb_ep_000330_006.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Michael Banissy | Thomas SG Farnetti | | | CC-BY | Wellcome Collection |",
+                "alt": "Photographic portrait of Michael Banissy, head and shoulders on a light blue background."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

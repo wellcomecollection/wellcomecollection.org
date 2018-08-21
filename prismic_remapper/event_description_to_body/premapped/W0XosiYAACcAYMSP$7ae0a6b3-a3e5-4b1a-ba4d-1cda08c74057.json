@@ -1,0 +1,222 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "W0XosiYAACcAYMSR",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Perspective tour with Sophie Medlin",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WmYRpCQAACUAn-Ap",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WmYRpCQAACUAn-Ap"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WlYUDCQAACQAWcdt",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WlYUDCQAACQAWcdt"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-08-02T17:30:00+00:00",
+      "endDateTime": "2018-08-02T18:15:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join Sophie Medlin for a tour of 'Teeth'. You’ll hear her personal views and insights into the exhibition and have an opportunity to ask questions.",
+        "spans": [
+          {
+            "start": 34,
+            "end": 39,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/exhibitions/WgV_ACUAAIu2P_ZM"
+              },
+              "url": "https://wellcomecollection.org/exhibitions/WgV_ACUAAIu2P_ZM"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your guide",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Sophie is a lecturer in Nutrition and Dietetics at King’s College London and a freelance dietitian. She spent many years in the NHS before moving into lecturing and research, publishing articles in the British Journal of Nursing and the Journal of GI Nursing. Passionate about evidence-based nutrition, Sophie regularly contributes to the media to bring scientific evidence to nutritional topics.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To attend, just turn up and meet your guide beside the Information Point on Level 0. There is no need to book (though spaces are limited). ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The tour will take place in the 'Teeth' exhibition on Level 1.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ],
+  "contributors": [],
+  "promo": [
+    {
+      "key": "editorialImage$87443fbb-2642-4e10-bb11-fd854e3c94d1",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Get an inside perspective on 'Teeth' from a dietician.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "W0VGgCYAACgAXfuu",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fad21ec7c-7840-469b-bd37-d929614f5aa1_tf_180620_2340010.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/6342ddc9f3e7759eab9007363c705f192d0ff699_tf_180620_2340010.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Sophie Medlin | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photographic portrait of Sophie Medlin against a red background",
+            "thumbnails": {
+              "32:15": {
+                "origin": {
+                  "id": "W0VGgCYAACgAXfuu",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fad21ec7c-7840-469b-bd37-d929614f5aa1_tf_180620_2340010.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/d52dc83a41bc53544f35b89cefa42dc9cb38e692_tf_180620_2340010.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -150
+                  }
+                },
+                "credits": "Sophie Medlin | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of Sophie Medlin against a red background"
+              },
+              "square": {
+                "origin": {
+                  "id": "W0VGgCYAACgAXfuu",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fad21ec7c-7840-469b-bd37-d929614f5aa1_tf_180620_2340010.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/9350a27832a8be5440e70d84a5d840613b69c512_tf_180620_2340010.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1550,
+                    "y": 0
+                  }
+                },
+                "credits": "Sophie Medlin | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of Sophie Medlin against a red background"
+              },
+              "16:9": {
+                "origin": {
+                  "id": "W0VGgCYAACgAXfuu",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fad21ec7c-7840-469b-bd37-d929614f5aa1_tf_180620_2340010.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/34a79cf628c548af813db25f9335239af01f2a12_tf_180620_2340010.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Sophie Medlin | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of Sophie Medlin against a red background"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -53,7 +53,7 @@ const Page = ({
     return inTheFuture;
   });
   const upcomingEventsIds = upcomingEvents.map(event => event.id);
-  const pastEvents = events.filter(event => upcomingEventsIds.indexOf(event.id) === -1);
+  const pastEvents = events.filter(event => upcomingEventsIds.indexOf(event.id) === -1).slice(0, 3);
 
   return (
     <BasePage
@@ -69,6 +69,9 @@ const Page = ({
         }
         {upcomingEvents.length > 0 &&
           <SearchResults items={upcomingEvents} title={`What's next`} />
+        }
+        {upcomingEvents.length === 0 &&
+          <h2 className='h2'>No events scheduled at the moment, check back soon…</h2>
         }
 
         {pastEvents.length > 0 &&

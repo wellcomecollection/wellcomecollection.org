@@ -1,0 +1,188 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "W3Kw-SkAACcAEFqr",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Don’t Fade Away",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "WoLtUioAACkANrUM",
+    "mask": "places",
+    "wioUrl": "wio://documents/WoLtUioAACkANrUM"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-08-30T13:00:00+00:00",
+      "endDateTime": "2018-08-30T14:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join us for a talk on how to manage the fine balance between the display and preservation of historic treasures. We’ll explore how light affects delicate materials and how museums cope with conservation.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "policies": [
+    {
+      "policy": {
+        "id": "W3RJeikAACIAF2Mw",
+        "mask": "event-policies",
+        "wioUrl": "wio://documents/W3RJeikAACIAF2Mw"
+      }
+    }
+  ],
+  "isDropIn": "yes",
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "Wyu-rCoAACsACpm_",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/Wyu-rCoAACsACpm_"
+      },
+      "contributor": {
+        "id": "W3KxTikAACgAEFwg",
+        "mask": "people",
+        "wioUrl": "wio://documents/W3KxTikAACgAEFwg"
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$2b10c231-8625-402c-8085-723373d256be",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Learn about how light affects delicate materials and how museums conserve their treasures.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WoNfySoAACgAOKsx",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd75f6fc5-8256-418b-88cf-c72421782af5_ep_000188_018.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/bcef6e39bd8e1c9dd8927aeabdaeecd2aae6b1a3_ep_000188_018.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Library Insights event | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of Aarathi Prasad pointing at a large television screen in the Viewing Room at Wellcome Collection during a Library Insights event. There is a British sign language interpreter to the left facing the audience. The backs of the audience's heads are in the foreground.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WoNfySoAACgAOKsx",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd75f6fc5-8256-418b-88cf-c72421782af5_ep_000188_018.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/22dcf411ce776fc1a3b800807733f0ff37d56efd_ep_000188_018.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Library Insights event | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of Aarathi Prasad pointing at a large television screen in the Viewing Room at Wellcome Collection during a Library Insights event. There is a British sign language interpreter to the left facing the audience. The backs of the audience's heads are in the foreground."
+              },
+              "32:15": {
+                "origin": {
+                  "id": "WoNfySoAACgAOKsx",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd75f6fc5-8256-418b-88cf-c72421782af5_ep_000188_018.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/8db4a3a70ba2b5269064627665bfe2ace8a29af2_ep_000188_018.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -150
+                  }
+                },
+                "credits": "Library Insights event | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of Aarathi Prasad pointing at a large television screen in the Viewing Room at Wellcome Collection during a Library Insights event. There is a British sign language interpreter to the left facing the audience. The backs of the audience's heads are in the foreground."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WoNfySoAACgAOKsx",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd75f6fc5-8256-418b-88cf-c72421782af5_ep_000188_018.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/07363abb780d85f01272af772858b53ae1bba9ac_ep_000188_018.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Library Insights event | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of Aarathi Prasad pointing at a large television screen in the Viewing Room at Wellcome Collection during a Library Insights event. There is a British sign language interpreter to the left facing the audience. The backs of the audience's heads are in the foreground."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

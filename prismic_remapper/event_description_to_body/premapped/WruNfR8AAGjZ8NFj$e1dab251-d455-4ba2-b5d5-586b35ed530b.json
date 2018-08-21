@@ -1,0 +1,221 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WruNfR8AAGjZ8NFl",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Perspective tour with Laurie Britton Newell",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WmYRpCQAACUAn-Ap",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WmYRpCQAACUAn-Ap"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WlYUDCQAACQAWcdt",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WlYUDCQAACQAWcdt"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-04-19T18:00:00+00:00",
+      "endDateTime": "2018-04-19T18:45:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join Laurie Britton Newell on a walking tour of Somewhere in Between. You’ll hear her personal views and insights into the exhibition and have an opportunity to ask questions.",
+        "spans": [
+          {
+            "start": 48,
+            "end": 68,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/exhibitions/WhvoAykAACgAlDoo"
+              },
+              "url": "https://wellcomecollection.org/exhibitions/WhvoAykAACgAlDoo"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your guide",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Laurie Britton Newell is the curator of Somewhere in Between. Before joining Wellcome Collection as a senior curator, Laurie worked at the University of the Colorado and ran a curatorial consultancy company working across the USA. Before that she worked as a curator in the Contemporary Programmes at the V&A Museum in London.",
+        "spans": [
+          {
+            "start": 61,
+            "end": 62,
+            "type": "em"
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To attend, just turn up and meet your guide beside the Information Point on Level 0. There is no need to book (though spaces are limited). ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The tour will take place in the Somewhere in Between exhibition, also on Level 0.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "contributors": [],
+  "promo": [
+    {
+      "key": "editorialImage$87443fbb-2642-4e10-bb11-fd854e3c94d1",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Take a tour of the exhibition from the perspective of its curator.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WrujzB8AAHTf8S8A",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fa88e4d5c-b59c-4ee1-867f-5e75359a39f6_ep_000316_004.jpg",
+              "width": 4000,
+              "height": 2579
+            },
+            "width": 4000,
+            "height": 2579,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/12c16f625bff726aa24e52c0dc8bef07820b5bf1_ep_000316_004.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Laurie Britton Newell | Ian Atkinson | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photographic portrait of Laurie Britton Newell in the exhibition, Somewhere in Between at Wellcome Collection.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WrujzB8AAHTf8S8A",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fa88e4d5c-b59c-4ee1-867f-5e75359a39f6_ep_000316_004.jpg",
+                  "width": 4000,
+                  "height": 2579
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/90355093c2819a1e6046d442ca8f457a543816cf_ep_000316_004.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -132
+                  }
+                },
+                "credits": "Laurie Britton Newell | Ian Atkinson | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of Laurie Britton Newell in the exhibition, Somewhere in Between at Wellcome Collection."
+              },
+              "square": {
+                "origin": {
+                  "id": "WrujzB8AAHTf8S8A",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fa88e4d5c-b59c-4ee1-867f-5e75359a39f6_ep_000316_004.jpg",
+                  "width": 4000,
+                  "height": 2579
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f9dafd659ee084a29c12f8ab1a1a2017e7b4166a_ep_000316_004.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.240791004265219,
+                  "crop": {
+                    "x": -728,
+                    "y": 0
+                  }
+                },
+                "credits": "Laurie Britton Newell | Ian Atkinson | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of Laurie Britton Newell in the exhibition, Somewhere in Between at Wellcome Collection."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

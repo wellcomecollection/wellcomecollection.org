@@ -1,0 +1,200 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Wqf2PiUAAPjnVtXv",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Perspective tour with Vinod Saggar",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WlYUDCQAACQAWcdt",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WlYUDCQAACQAWcdt"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-03-21T15:00:00+00:00",
+      "endDateTime": "2018-03-21T15:45:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join Vinod Saggar for a discussion in Ayurvedic Man: Encounters with Indian Medicine. You’ll hear her personal views and insights into the exhibition and have an opportunity to ask questions.",
+        "spans": [
+          {
+            "start": 38,
+            "end": 84,
+            "type": "hyperlink",
+            "data": {
+              "url": "https://wellcomecollection.org/exhibitions/WduTricAAN7Mt8yY",
+              "target": "_blank"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speaker",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Vinod Saggar was born and brought up in Tanzania. She started out teaching science in Tanzania and Kenya from 1960–68 and then moved to England to pursue a postgraduate qualification. After settling in the UK she was a businesswoman for almost 20 years and then returned to teaching in 1990. She contributed to the Heal Good project as a trustee of the Hindu Cultural Society. ",
+        "spans": [
+          {
+            "start": 353,
+            "end": 375,
+            "type": "hyperlink",
+            "data": {
+              "url": "https://www.hinduculturalsociety.co.uk/",
+              "target": "_blank"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Passionate about bridging the gap between community knowledge and biomedical science, Vinod is an avid practitioner of herbal remedies and beauty treatments, and is particularly interested in passing these down to her children and grandchildren to keep them connected to their culture.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To attend, just turn up and meet your guide beside the Information Point on level 0. There is no need to book (though spaces are limited). ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The tour will take place in the Ayurvedic Man exhibition on level 1.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$5e006fb1-8ec4-4e20-a121-7d2e6012fcc6",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "image": {
+            "origin": {
+              "id": "Wqf2pyUAAM8VVtfA",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb584fd49-10ad-43da-9b26-3a0db05b7d29_btg180313140811.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/328d1508fc65d7a29efdb9e74b246ad2f8479c3d_btg180313140811.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Vinod Saggar | Benjamin Gilbert | | | CC-BY | Wellcome Collection |",
+            "alt": "Close-up photographic portrait of Vinod Saggar's face and shoulders, against a yellow background.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "Wqf2pyUAAM8VVtfA",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb584fd49-10ad-43da-9b26-3a0db05b7d29_btg180313140811.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/154b11cc1ecbabea5d6ca21b6458a6851b123a56_btg180313140811.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -750,
+                    "y": 0
+                  }
+                },
+                "credits": "Vinod Saggar | Benjamin Gilbert | | | CC-BY | Wellcome Collection |",
+                "alt": "Close-up photographic portrait of Vinod Saggar's face and shoulders, against a yellow background."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "Wqf2pyUAAM8VVtfA",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb584fd49-10ad-43da-9b26-3a0db05b7d29_btg180313140811.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/0e0be758c97f7219e4f84bebb5888cbfaf0950c6_btg180313140811.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Vinod Saggar | Benjamin Gilbert | | | CC-BY | Wellcome Collection |",
+                "alt": "Close-up photographic portrait of Vinod Saggar's face and shoulders, against a yellow background."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Wt7tiiAAACTZSggO",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Neutrinos",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1gUioAACoAH_8S",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gUioAACoAH_8S"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WifrbikAAGSyDtHk",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WifrbikAAGSyDtHk"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-05-30T12:00:00+00:00",
+      "endDateTime": "2018-05-30T13:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Come and enjoy a lunchtime conversation with a particle physicist about her work in Antarctica looking for neutrinos – the building blocks of the universe.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speaker",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Linda Cremonesi is an experimental particle physicist at University College London. She is currently detecting ultra-high-energy neutrinos (and cosmic rays).",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "We will be in the Forum, through the Medicine Now gallery on level 1. There are seats for 70 people.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To attend, just turn up on the day and follow the signs. Doors open at 12.45. These events can get busy, so arrive at least 10 minutes before it starts.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$0ed6324a-4991-4b1e-b9b0-563dda35a216",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Come and enjoy a lunchtime conversation with a particle physicist about her work in Antarctica looking for neutrinos – the building blocks of the universe.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "Wqf5OSUAAM8VVuMg",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F080408b1-1df5-4fb6-8df2-94d28418b70c_tf_180307_1390142.jpeg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/cc84504a809555708fa1c598111fcb3c173aff15_tf_180307_1390142.jpeg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Packed Lunch event in the Forum | Thomas SG Farnetti | | | CC-BY | Wellcome Collection |",
+            "alt": "Photograph of two women having a conversation on a small stage. In the background are the audience. Projected onto the far wall is the silhouette of an apple with the words Packed Lunch circling the top of the apple. ",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "Wqf5OSUAAM8VVuMg",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F080408b1-1df5-4fb6-8df2-94d28418b70c_tf_180307_1390142.jpeg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/56e88df16ce1a2d6577dbcc9811b9504b65ae6d1_tf_180307_1390142.jpeg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Packed Lunch event in the Forum | Thomas SG Farnetti | | | CC-BY | Wellcome Collection |",
+                "alt": "Photograph of two women having a conversation on a small stage. In the background are the audience. Projected onto the far wall is the silhouette of an apple with the words Packed Lunch circling the top of the apple. "
+              },
+              "square": {
+                "origin": {
+                  "id": "Wqf5OSUAAM8VVuMg",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F080408b1-1df5-4fb6-8df2-94d28418b70c_tf_180307_1390142.jpeg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/a647895effd8547d32ac4bcaeee1bbfa55014169_tf_180307_1390142.jpeg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1456,
+                    "y": 0
+                  }
+                },
+                "credits": "Packed Lunch event in the Forum | Thomas SG Farnetti | | | CC-BY | Wellcome Collection |",
+                "alt": "Photograph of two women having a conversation on a small stage. In the background are the audience. Projected onto the far wall is the silhouette of an apple with the words Packed Lunch circling the top of the apple. "
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}
