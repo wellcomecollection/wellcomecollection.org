@@ -48,7 +48,7 @@ const EventScheduleItem = ({event, hasOwnPage}: Props) => {
               <p className={`${spacing({s: 1}, {margin: ['bottom']})} ${font({s: 'HNL4'})}`}>{event.place.title}</p>
             }
 
-            <p className={`${spacing({s: 2}, {margin: ['bottom']})} ${font({s: 'HNL5', m: 'HNL4'})}`} dangerouslySetInnerHTML={{__html: event.description}} />
+            <p className={`${spacing({s: 2}, {margin: ['bottom']})} ${font({s: 'HNL5', m: 'HNL4'})}`} dangerouslySetInnerHTML={{__html: event.promoText}} />
 
             {hasOwnPage &&
               <p className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
