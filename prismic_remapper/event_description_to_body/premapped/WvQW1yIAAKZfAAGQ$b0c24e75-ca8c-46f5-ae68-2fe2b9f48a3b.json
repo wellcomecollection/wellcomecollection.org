@@ -1,0 +1,236 @@
+{
+  "type": "events",
+  "tags": [
+    "delist"
+  ],
+  "lang": "en-gb",
+  "grouplang": "WvQW1yIAAKZfAAGS",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Long Table Discussion",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1gUioAACoAH_8S",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gUioAACoAH_8S"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-26T18:00:00+00:00",
+      "endDateTime": "2018-07-26T20:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Drop in and take a seat at the Long Table, where you can join the discussion along with artists and clinicians talking about HIV in the visual arts, current HIV therapies or any other topics related to HIV that you wish to raise.   ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "At the Long Table, conversation is the only course, but there can be silence. It’s a democracy, so no one will moderate you, but a host may assist you. Feel free to write on the tablecloth.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "If you leave the table you can come back again and again.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "People at the long table",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Your host, Topher Campbell, is a filmmaker, theatre maker, actor, writer, social commentator, and social justice advocate. Campbell co-founded rukus! Federation, an arts collective dedicated to presenting the best work by Black LGBTQ artists, and co-created the UK’s first and only archive dedicated to the lives and history of Black LGBTQ people.",
+        "spans": [
+          {
+            "start": 11,
+            "end": 26,
+            "type": "hyperlink",
+            "data": {
+              "url": "https://ubuntubiographyproject.com/2018/01/01/topher-campbell/",
+              "target": "_blank"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "John Walter, an artist, curator and writer. His work considers complex and uncomfortable subjects, including sexual health, and he draws audiences in through an exuberant use of colour, humour and hospitality. He received a Wellcome Arts Award in 2014 to produce ‘Alien Sex Club’, and another in 2016 for ‘CAPSID’, a project that looks in depth at how the HIV virus works.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 11,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "http://www.johnwalter.net/"
+              },
+              "url": "http://www.johnwalter.net/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Dr Nneka Nwokolo, a London based consultant physician in Sexual Health and HIV Medicine with extensive experience in the management of sexually transmitted infections and HIV. She is particularly interested in HIV prevention and has participated in several studies of HIV pre-exposure prophylaxis (PrEP).",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The Forum is on level 1. Enter the ‘Medicine Now’ gallery and turn left to find it.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The building might be busy and space is limited, so entry is not guaranteed.",
+        "spans": []
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$9bb0de8b-ba80-4eba-bc33-bb4259f65cf2",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "A drop-in discussion, with speakers, about all things HIV.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WrE0uCAAAB8APKRu",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F96a8afe4-3c01-4e77-95ee-cb1321e5c5bb_ep_000285_055.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/eac14d19e491be99686fa36567f0854895ec8d29_ep_000285_055.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Somewhere in Between | Michael Bowles | Wellcome Collection | | CC-BY | |",
+            "alt": "Photograph of people gathered in an exhibition.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WrE0uCAAAB8APKRu",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F96a8afe4-3c01-4e77-95ee-cb1321e5c5bb_ep_000285_055.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/eb27ca2de5879c912e7dd1557e288c18ace832c5_ep_000285_055.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -2256,
+                    "y": 0
+                  }
+                },
+                "credits": "Somewhere in Between | Michael Bowles | Wellcome Collection | | CC-BY | |",
+                "alt": "Photograph of people gathered in an exhibition."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WrE0uCAAAB8APKRu",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F96a8afe4-3c01-4e77-95ee-cb1321e5c5bb_ep_000285_055.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/eeec962f4ed71070bc384d216a03acbadcab4571_ep_000285_055.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Somewhere in Between | Michael Bowles | Wellcome Collection | | CC-BY | |",
+                "alt": "Photograph of people gathered in an exhibition."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

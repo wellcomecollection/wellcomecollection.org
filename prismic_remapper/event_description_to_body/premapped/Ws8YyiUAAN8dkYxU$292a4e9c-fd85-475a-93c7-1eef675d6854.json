@@ -1,0 +1,252 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Ws8YyiUAAN8dkYxW",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Stories of Women and Change ",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1gvyoAACgAIAEF",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gvyoAACgAIAEF"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "Ws8XgiUAAN0dkYan",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/Ws8XgiUAAN0dkYan"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-05-24T18:00:00+00:00",
+      "endDateTime": "2018-05-24T19:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Come and hear from women dealing with change in ways that update the standard narratives. In this discussion inspired by the book Shapeshifters: On Medicine & Human Change, experts will share stories of pregnancy, the menopause and gender-transition.",
+        "spans": [
+          {
+            "start": 130,
+            "end": 171,
+            "type": "em"
+          },
+          {
+            "start": 130,
+            "end": 171,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/shapeshifters"
+              },
+              "url": "https://wellcomecollection.org/shapeshifters"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Follow the signs downstairs or take the lift to the Henry Wellcome Auditorium on level –1. There are 150 seats.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speakers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Rebecca Root is an actor, voice and speech teacher.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Louise Foxcroft is a medical historian and author of Hot Flushes, Cold Science: A history of the modern menopause.",
+        "spans": [
+          {
+            "start": 53,
+            "end": 114,
+            "type": "em"
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Chitra Ramaswamy is a journalist and author of Expecting: The Inner Life of Pregnancy.",
+        "spans": [
+          {
+            "start": 47,
+            "end": 86,
+            "type": "em"
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Your facilitator will be Anne Karpf who is a writer, sociologist and reader in Professional Writing and Cultural Inquiry, London Metropolitan University.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/45055690784?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/stories-of-women-and-change-tickets-45055690784",
+    "type": "link",
+    "version": "1.0",
+    "title": "Stories of Women and Change",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/45055690784?aff=efbneb\"><h1>Stories of Women and Change</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>Stories of Women and Change</p></a></div>"
+  },
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$08232dbb-f34f-47c9-9cc8-12d9f1f5a3f3",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join us for a discussion inspired by Gavin Francis’s book Shapeshifters. Experts will share stories of pregnancy, the menopause and gender-change.",
+                "spans": [
+                  {
+                    "start": 58,
+                    "end": 71,
+                    "type": "em"
+                  }
+                ]
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WtBwwCEAACEv6KaA",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2979c95e-c325-44b9-a42d-1db41698139d_c0111751.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/39e3a03af71cffdbba67df907155473b15483686_c0111751.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Panel discussion in the Henry Wellcome Auditorium | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of two women taking part in a panel discussion seated on a stage in an auditorium.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WtBwwCEAACEv6KaA",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2979c95e-c325-44b9-a42d-1db41698139d_c0111751.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f49bba4691aacce7b6a90489aedeb5e5f21bd068_c0111751.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -2469,
+                    "y": 0
+                  }
+                },
+                "credits": "Panel discussion in the Henry Wellcome Auditorium | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of two women taking part in a panel discussion seated on a stage in an auditorium."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WtBwwCEAACEv6KaA",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2979c95e-c325-44b9-a42d-1db41698139d_c0111751.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/21cb241c4a3e17f0bfdb06a4953b92f2cc35ace4_c0111751.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Panel discussion in the Henry Wellcome Auditorium | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of two women taking part in a panel discussion seated on a stage in an auditorium."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

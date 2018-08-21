@@ -1,0 +1,206 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WmXNeiQAACYAnrVA",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Bodies of Knowledge",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmeisAALN8A8MB",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmeisAALN8A8MB"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "W1m-yyYAACYAt4Lb",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/W1m-yyYAACYAt4Lb"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-02-27T10:30:00+00:00",
+      "endDateTime": "2018-02-27T15:30:00+00:00",
+      "isFullyBooked": "yes"
+    },
+    {
+      "startDateTime": "2018-03-27T09:30:00+00:00",
+      "endDateTime": "2018-03-27T14:30:00+00:00",
+      "isFullyBooked": "yes"
+    },
+    {
+      "startDateTime": "2018-07-06T09:30:00+00:00",
+      "endDateTime": "2018-07-06T14:30:00+00:00",
+      "isFullyBooked": "yes"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In this five-hour study session, your students will explore human anatomy and how and why our knowledge of it has changed over the past 2,000 years.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "They will begin with a look at key objects, rare books, manuscripts and images from Wellcome Collection’s galleries and Library. Afterwards, your students will have the chance to use their anatomical knowledge to take part in an osteology workshop, investigating a selection of excavated historical skeletons from the Museum of London’s Centre for Human Bioarchaeology.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Who can come",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This study day is suitable for students aged 14–19. We can accommodate groups of 20–30 students, accompanied by staff at a ratio of 1:10.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {
+      "audience": {
+        "id": "WlYWByQAACQAWdA0",
+        "mask": "audiences",
+        "wioUrl": "wio://documents/WlYWByQAACQAWdA0"
+      }
+    }
+  ],
+  "bookingEnquiryTeam": {
+    "id": "WmXJ-iQAACcAnqXC",
+    "mask": "teams",
+    "wioUrl": "wio://documents/WmXJ-iQAACcAnqXC"
+  },
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Only teachers are able to book these sessions.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Although these dates and times are now fully booked, we operate a waiting list. Please email youthprogrammes@wellcomecollection.org if you would like to add your school to the list.",
+        "spans": []
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$e80ac0f1-45b4-48f6-b279-627874e43da6",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Study day exploring the history of our changing understanding of the human body.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WoRghyoAACkAPRRj",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fa19c1fda-e4e0-4b73-a472-9765d953f391_c0144087.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/0a058f4e5fd3e16ee6e3107fca25d49f815dcc63_c0144087.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Bodies of Knowledge study day | Thomas SG Farnetti | Wellcome Collection | | CC-BY | |",
+            "alt": "Photograph shows a close-up of a tabletop with the skeletal feet of a human carefully laid out. Next to one of the feet is the hand of a young student resting on the table. ",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WoRghyoAACkAPRRj",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fa19c1fda-e4e0-4b73-a472-9765d953f391_c0144087.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e7b0f99f79885538b0fa23043c80fb1b62f184de_c0144087.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Bodies of Knowledge study day | Thomas SG Farnetti | Wellcome Collection | | CC-BY | |",
+                "alt": "Photograph shows a close-up of a tabletop with the skeletal feet of a human carefully laid out. Next to one of the feet is the hand of a young student resting on the table. "
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WoRghyoAACkAPRRj",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fa19c1fda-e4e0-4b73-a472-9765d953f391_c0144087.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/db7aa31ced5e11c3b4e0a9b1cbfa454070d92630_c0144087.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Bodies of Knowledge study day | Thomas SG Farnetti | Wellcome Collection | | CC-BY | |",
+                "alt": "Photograph shows a close-up of a tabletop with the skeletal feet of a human carefully laid out. Next to one of the feet is the hand of a young student resting on the table. "
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

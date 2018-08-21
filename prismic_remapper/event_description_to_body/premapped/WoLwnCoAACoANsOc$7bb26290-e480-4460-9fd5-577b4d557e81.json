@@ -1,0 +1,285 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WoLwnCoAACoANsOe",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Building Better Healthcare",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1gUioAACoAH_8S",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gUioAACoAH_8S"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "Wn28GCoAACkAIYol",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/Wn28GCoAACkAIYol"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-03-22T19:00:00+00:00",
+      "endDateTime": "2018-03-22T20:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In this event, listen in to the recording of a radio programme which asks the question, how could you build a healthcare system from scratch? ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Claudia Hammond will present the programme and will interview three speakers. Then we’ll open up to the audience. You can participate or just listen in. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The event will be recorded and edited into a programme which will be broadcast on the BBC World Service in April.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speakers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "We have two confirmed speakers:",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Nayanabhiram Kalnad is CEO and co-founder of Avegen, which uses technology to improve healthcare with a focus on low-resourced and under-served people. He used to work on clinical trials, and more recently has focused on how new technologies can be used as part of solutions in healthcare, for example within programmes that support people recently diagnosed as HIV positive in India. ",
+        "spans": [
+          {
+            "start": 0,
+            "end": 20,
+            "type": "strong"
+          },
+          {
+            "start": 0,
+            "end": 19,
+            "type": "hyperlink",
+            "data": {
+              "url": "http://www.almatahealth.com/nayanabhiram-kalnad.html"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Mohamed Bailor Barrie set up clinics for amputees and coordinated an emergency response to the Ebola outbreak in Sierra Leone by setting up the Wellbody Alliance. He is currently studying at Harvard Medical School’s Masters of Global Health Delivery programme, and aims to return to Sierra Leone to set up sustainable healthcare systems. ",
+        "spans": [
+          {
+            "start": 0,
+            "end": 21,
+            "type": "strong"
+          },
+          {
+            "start": 0,
+            "end": 21,
+            "type": "hyperlink",
+            "data": {
+              "url": "http://www.abundance.org/mohamed-bailor-barrie-mmsc-ghd-student-and-health-leader/"
+            }
+          },
+          {
+            "start": 144,
+            "end": 161,
+            "type": "hyperlink",
+            "data": {
+              "url": "https://www.healthynewbornnetwork.org/partner/wellbody-alliance/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In the Forum, which can seat up to 70 people, on Level 1. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Follow the signs through the Medicine Now gallery. No need to print out a ticket – just show up. You must turn up 10 minutes before to guarantee yourself a seat. We won’t be able to admit any latecomers.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/42559031208?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/the-evidence-building-better-healthcare-tickets-42559031208",
+    "type": "link",
+    "version": "1.0",
+    "title": "The Evidence: Building better healthcare",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/42559031208?aff=efbneb\"><h1>The Evidence: Building better healthcare</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>The Evidence: Building better healthcare</p></a></div>"
+  },
+  "contributors": [
+    {
+      "role": {
+        "id": "WoGaByoAACsAMY5g",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WoGaByoAACsAMY5g"
+      },
+      "contributor": {
+        "id": "WoGTvSoAACoAMXK-",
+        "mask": "organisations",
+        "wioUrl": "wio://documents/WoGTvSoAACoAMXK-"
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$0d08d26e-ae96-42a8-bee8-ead992615433",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Listen in to the recording of a radio programme which considers how the health of migrants and refugees can be protected.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WoNg7CoAACgAOLA5",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F4173051d-1356-4d31-a836-62231dd656c5_c0136076.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/6fefdef5a0cd11a95dd6214cfccd67dfaed0bc08_c0136076.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WoNg7CoAACgAOLA5",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F4173051d-1356-4d31-a836-62231dd656c5_c0136076.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f2ec0621a6a59e6b2eb75aa2fbb7288c1e2dd799_c0136076.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "WoNg7CoAACgAOLA5",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F4173051d-1356-4d31-a836-62231dd656c5_c0136076.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/000b2434fa0676ecad5d125e84fb39fd14b67c73_c0136076.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

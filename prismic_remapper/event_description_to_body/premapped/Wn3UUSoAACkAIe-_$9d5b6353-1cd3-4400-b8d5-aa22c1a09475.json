@@ -1,0 +1,279 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Wn3UUSoAACkAIe_B",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "RawMinds Improv Comedy Show ",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wn3Q3SoAACsAIeFI",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wn3Q3SoAACsAIeFI"
+  },
+  "place": {
+    "id": "Wn1gUioAACoAH_8S",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gUioAACoAH_8S"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-03-03T15:30:00+00:00",
+      "endDateTime": "2018-03-03T16:30:00+00:00",
+      "isFullyBooked": "yes"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Come have a laugh as stand-up comedian Simon Watts and our RawMinds young people put on a one-time show, RawMinds Presents: No Questions Asked. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Simon will give a monologue and the group will respond with a fun and unpredictable take on his theme, which is inspired by our collections.  ",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your performers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Simon is a stand-up science comedian who has been biologist, broadcaster, podcaster, writer and comedian. He is best known as the head of the Ugly Animal Preservation Society and as a presenter on the BAFTA-winning ‘Inside Nature’s Giants’.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Camila, Saki, Ananta, Josh, Jim, Percival, Carol, Conor, Alexander, Max and Dylan are all part of RawMinds, our series of projects for young people aged 14–19. ",
+        "spans": [
+          {
+            "start": 98,
+            "end": 106,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/rawminds"
+              },
+              "url": "https://wellcomecollection.org/rawminds"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "They created the show following a seven-day intensive workshop with London Improv Theatre Training League.",
+        "spans": [
+          {
+            "start": 68,
+            "end": 105,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "http://thenurserytheatre.com/littl-program/"
+              },
+              "url": "http://thenurserytheatre.com/littl-program/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Who can come",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The event is open to everyone.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In the Forum on level 1. Follow the signs through the Medicine Now gallery.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Doors open at 15:15. Please arrive early to ensure you get a seat.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": " ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": " ",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "Wn3STCoAACgAIedR",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/Wn3STCoAACgAIedR"
+      }
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/43312467757?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/rawminds-presents-no-questions-asked-tickets-43312467757",
+    "type": "link",
+    "version": "1.0",
+    "title": "RawMinds Presents: No Questions Asked",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/43312467757?aff=efbneb\"><h1>RawMinds Presents: No Questions Asked</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>RawMinds Presents: No Questions Asked</p></a></div>"
+  },
+  "contributors": [
+    {
+      "role": {
+        "id": "WoGaByoAACsAMY5g",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WoGaByoAACsAMY5g"
+      },
+      "contributor": {
+        "id": "WoVXQyoAACgAQUoY",
+        "mask": "organisations",
+        "wioUrl": "wio://documents/WoVXQyoAACgAQUoY"
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$335725b7-24a6-45d5-ad14-6069400c6bda",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "image": {
+            "origin": {
+              "id": "WoP5mSoAACgAO091",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F808834f9-97a7-4f39-a2a4-0cc3c89cd0d7_btg180213160856.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e714ed0966c4ce00a44e3386396130b492663723_btg180213160856.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WoP5mSoAACgAO091",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F808834f9-97a7-4f39-a2a4-0cc3c89cd0d7_btg180213160856.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/fdf28ade41c1e460fc15bd42b8c74a3b82b089b5_btg180213160856.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WoP5mSoAACgAO091",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F808834f9-97a7-4f39-a2a4-0cc3c89cd0d7_btg180213160856.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/56fb5d879f20b1c8f02827e6f4e8f84abc5a03c5_btg180213160856.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

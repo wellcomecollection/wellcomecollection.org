@@ -1,0 +1,162 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WmH5PSQAACUAjgHm",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Zebrafish and Human Behaviour",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "times": [
+    {
+      "startDateTime": "2018-01-24T13:00:00+00:00",
+      "endDateTime": "2018-01-24T14:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Feed your curiosity at our daytime discussions. Drop in to hear local scientists in conversation about their latest experiments, life in the lab and why science matters to everyone, all in the space of your lunch hour. Bring your sarnies with you to eat while you listen.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "What makes us social? Why are our actions and thoughts influenced so much by other people? How are these social needs generated in the brain? And what does this have to do with zebrafish? Join behavioural neuroscientist Elena Dreosti to tackle these questions and explore how zebrafish are helping with her research.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Speaker:",
+        "spans": [
+          {
+            "start": 0,
+            "end": 8,
+            "type": "strong"
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Elena Dreosti, Behavioural Neuroscientist, University College London.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "series": [
+    {
+      "series": {
+        "id": "WifrbikAAGSyDtHk",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WifrbikAAGSyDtHk"
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$ef090743-f378-45e3-bea2-4f824d56e0e7",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Feed your curiosity at our daytime discussions. This time with behavioural neuroscientist, Elena Dreosti.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WmH5DCQAACYAjgEL",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F794e1645-893a-454a-86dd-9d0078faddcf_zebrafish+web+resize+%281%29.jpg",
+              "width": 800,
+              "height": 450
+            },
+            "width": 800,
+            "height": 450,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f3a0415a971e9dd7ce2315b956a635ee9f8ec2ec_zebrafish-web-resize-1.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WmH5DCQAACYAjgEL",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F794e1645-893a-454a-86dd-9d0078faddcf_zebrafish+web+resize+%281%29.jpg",
+                  "width": 800,
+                  "height": 450
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/a36332b5a57518ba802556f37a049cc73b5d67c0_zebrafish-web-resize-1.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 7.111111111111111,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WmH5DCQAACYAjgEL",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F794e1645-893a-454a-86dd-9d0078faddcf_zebrafish+web+resize+%281%29.jpg",
+                  "width": 800,
+                  "height": 450
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/8222af4639d848e917cea041ca9bd517c996228d_zebrafish-web-resize-1.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 4,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

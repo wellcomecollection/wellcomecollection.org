@@ -1,0 +1,246 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Ws8bfCUAALYVkZhJ",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Stories of Metamorphosis",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1gvyoAACgAIAEF",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gvyoAACgAIAEF"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "Ws8XgiUAAN0dkYan",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/Ws8XgiUAAN0dkYan"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-05-10T18:00:00+00:00",
+      "endDateTime": "2018-05-10T19:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Come along to hear stories of transformation inspired by the book Shapeshifters: On Medicine & Human Change by Gavin Francis. Hear experts’ scientific, personal and cultural perspectives on the different ways our bodies change, then join the conversation.",
+        "spans": [
+          {
+            "start": 66,
+            "end": 108,
+            "type": "em"
+          },
+          {
+            "start": 66,
+            "end": 107,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/shapeshifters"
+              },
+              "url": "https://wellcomecollection.org/shapeshifters"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speakers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Gavin Francis is a GP and author of Shapeshifters: On Medicine & Human Change (published by Wellcome Collection).",
+        "spans": [
+          {
+            "start": 36,
+            "end": 77,
+            "type": "em"
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "James Young is a double amputee who works in bionics and film-making. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Caroline Vout is a cultural and art historian in the Faculty of Classics at the University of Cambridge.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Your facilitator will be Angela Saini, science journalist, author & broadcaster. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Follow the signs downstairs or take the lift to the Henry Wellcome Auditorium on level –1. There are 150 seats.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/45055597505?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/stories-of-transformation-tickets-45055597505",
+    "type": "link",
+    "version": "1.0",
+    "title": "Stories of Transformation",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/45055597505?aff=efbneb\"><h1>Stories of Transformation</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>Stories of Transformation</p></a></div>"
+  },
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$6185b215-a33b-4fff-a9e5-2792ea807af1",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join us for stories of transformation inspired by Gavin Francis’ book Shapeshifters: On Medicine & Human Change.",
+                "spans": [
+                  {
+                    "start": 70,
+                    "end": 111,
+                    "type": "em"
+                  }
+                ]
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "Wrt8XB8AAA3a8Ifz",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F00328e59-8a96-4299-9b34-adddca1ecdf9_c0146104.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/4df245d23ffb02e57a36e27f8c4d2800c3349584_c0146104.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Gavin Francis | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photographic portrait of Gavin Francis against a blue wall.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "Wrt8XB8AAA3a8Ifz",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F00328e59-8a96-4299-9b34-adddca1ecdf9_c0146104.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/5a55db2d9466d76ec1507cd12cea902b14052351_c0146104.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1439,
+                    "y": 0
+                  }
+                },
+                "credits": "Gavin Francis | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of Gavin Francis against a blue wall."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "Wrt8XB8AAA3a8Ifz",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F00328e59-8a96-4299-9b34-adddca1ecdf9_c0146104.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/05166bc350786483b782e547fc104c491e676670_c0146104.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Gavin Francis | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of Gavin Francis against a blue wall."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

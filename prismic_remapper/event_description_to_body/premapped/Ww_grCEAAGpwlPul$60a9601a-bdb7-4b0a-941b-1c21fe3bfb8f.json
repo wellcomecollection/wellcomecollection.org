@@ -1,0 +1,132 @@
+{
+  "type": "events",
+  "tags": [
+    "delist"
+  ],
+  "lang": "en-gb",
+  "grouplang": "Ww_grCEAAGpwlPun",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Test for content A/B testing",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Ww_LyiEAAFOTlJ4-",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Ww_LyiEAAFOTlJ4-"
+  },
+  "place": {
+    "id": "Wn1fvyoAACgAH_yG",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1fvyoAACgAH_yG"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-05-07T23:00:00+00:00",
+      "endDateTime": "2018-05-30T23:00:00+00:00"
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$85a60958-5ea9-4a13-b1ce-d32c13fe6bd1",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Event testing",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "Ww2AYCEAANEQioD6",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F20bce6ba-983b-419d-a700-dee7c4379e15_gsfc_20171208_archive_e000004_orig.jpg",
+              "width": 1920,
+              "height": 1080
+            },
+            "width": 1920,
+            "height": 1080,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/bf05eb3e9496d95c0df673fd9d8f5385cf51ea9a_gsfc_20171208_archive_e000004_orig.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Tropical Storm Harvey intensifies into a hurricane, 2017 | NOAA/NASA GOES Project | NASA | https://images.nasa.gov/details-GSFC_20171208_Archive_e000004.html | CC-BY-NC | |",
+            "alt": "Satellite image of a hurricane",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "Ww2AYCEAANEQioD6",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F20bce6ba-983b-419d-a700-dee7c4379e15_gsfc_20171208_archive_e000004_orig.jpg",
+                  "width": 1920,
+                  "height": 1080
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/57fde18bd05dccd9fd9be1ec664213a90126b7ef_gsfc_20171208_archive_e000004_orig.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.6666666666666667,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Tropical Storm Harvey intensifies into a hurricane, 2017 | NOAA/NASA GOES Project | NASA | https://images.nasa.gov/details-GSFC_20171208_Archive_e000004.html | CC-BY-NC | |",
+                "alt": "Satellite image of a hurricane"
+              },
+              "square": {
+                "origin": {
+                  "id": "Ww2AYCEAANEQioD6",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F20bce6ba-983b-419d-a700-dee7c4379e15_gsfc_20171208_archive_e000004_orig.jpg",
+                  "width": 1920,
+                  "height": 1080
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/b68b4bc859e3430f91d471bcfdd0ea7eadeda814_gsfc_20171208_archive_e000004_orig.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 2.962962962962963,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Tropical Storm Harvey intensifies into a hurricane, 2017 | NOAA/NASA GOES Project | NASA | https://images.nasa.gov/details-GSFC_20171208_Archive_e000004.html | CC-BY-NC | |",
+                "alt": "Satellite image of a hurricane"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

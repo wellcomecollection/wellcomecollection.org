@@ -1,0 +1,387 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Wn3LzSoAACsAIcv6",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Decolonising Health",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wn3NiioAACsAIdNK",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wn3NiioAACsAIdNK"
+  },
+  "place": {
+    "id": "Wn1gvyoAACgAIAEF",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gvyoAACgAIAEF"
+  },
+  "series": [],
+  "times": [
+    {
+      "startDateTime": "2018-03-24T12:00:00+00:00",
+      "endDateTime": "2018-03-24T17:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Explore the relationship between colonialism and medicine today, as inspired by our Ayurvedic Man exhibition, and join thought-provoking conversations about decolonising health in society, science and museums.",
+        "spans": [
+          {
+            "start": 84,
+            "end": 97,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/exhibitions/WduTricAAN7Mt8yY"
+              },
+              "url": "https://wellcomecollection.org/exhibitions/WduTricAAN7Mt8yY"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "You’ll meet and hear from people with different backgrounds and expertise, who will share their thoughts on these questions: ",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "How does colonialism play a role in what is seen as healthy in our society? ",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "How do the colonial origins of science persist in medical teaching, research and global health? ",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "What does it mean to decolonise a museum’s medical collections and practices?",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Sit back and listen to others’ perspectives or join the conversation – it’s up to you.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Lunch and evening drinks are provided, so there will be a chance to talk to people then, too. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speakers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "We have seven confirmed speakers:",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Branwyn Poleykett is an Anthropologist and Postdoctoral Research Associate in the Centre for Research in the Arts, Social Sciences and Humanities, University of Cambridge. ",
+        "spans": [
+          {
+            "start": 0,
+            "end": 17,
+            "type": "strong"
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Priya Khanchandani is a writer, design researcher and curator based in London. Previously she worked on the acquisition of new objects at the Victoria and Albert Museum and as Head of Arts Programmes for India at the British Council. ",
+        "spans": [
+          {
+            "start": 0,
+            "end": 18,
+            "type": "strong"
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Elsie Gayle is the founder of Midwifery Conversations, a holistic NGO dedicated to sustainable and ‘culturally safe’ maternity services.  ",
+        "spans": [
+          {
+            "start": 0,
+            "end": 11,
+            "type": "strong"
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Subhadra Das is a historian, history of science communicator, comedian, writer and museum curator at UCL, where she works with the UCL Pathology and Science Collections to tell decolonial stories in engaging and affirming ways.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 12,
+            "type": "strong"
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Miranda Lowe is a Principal Curator and museum scientist at the Natural History Museum. She presents lectures on both curatorial research and popular science, mentors students and works on representation and inclusion as part of Museum Detox for BAME museum professionals.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 12,
+            "type": "strong"
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Sumaya Kassim is a writer and researcher. She is a co-curator of Birmingham Museum and Art Gallery’s exhibition on Birmingham and the British Empire, The Past Is Now. Her article chronicling the curation process, ‘The museum will not be decolonised’, appeared in Media Diversified. ",
+        "spans": [
+          {
+            "start": 0,
+            "end": 14,
+            "type": "strong"
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Stephanie Davis is a Lecturer in the School of Psychology at the University of East London. Her research interests include the intersections of race, gender and sexuality, and critical community psychology.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 15,
+            "type": "strong"
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Our main space will be in the Henry Wellcome Auditorium on level –1.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About our paid events",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "While most events at Wellcome Collection are free to attend, this ticketed event includes lunch, refreshments and evening drinks. These paid tickets are now fully booked, but we also have some free places available for anyone who would find paying an obstacle to attending. If you are interested, please email info@wellcomecollection.org.",
+        "spans": [
+          {
+            "start": 310,
+            "end": 337,
+            "type": "hyperlink",
+            "data": {
+              "url": "mailto:info@wellcomecollection.org"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WlYq1SQAACYAWiuX",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WlYq1SQAACYAWiuX"
+      }
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/43243693050?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/symposium-decolonising-health-tickets-43243693050",
+    "type": "link",
+    "version": "1.0",
+    "title": "Symposium: Decolonising Health",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/43243693050?aff=efbneb\"><h1>Symposium: Decolonising Health</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>As explored in our Ayuverdic Man exhibition, Indian encounters with Western medicine during colonial rule were full of tensions between different types of medical knowledge and systems, modernity and tradition, and between empire and colony.\nBut what is the relationship between colonialism, medicine and health today? How does colonialism play a role in what is seen as healthy in our society? How do the colonial origins of science persist in medical teaching, research and global health? What does it mean to decolonise a museums’ medical collections and practices?\nJoin us for a day of conversations about decolonising health in society, science and museums.</p></a></div>"
+  },
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This event will have British Sign Language interpretation. Concessionary rates are available for BSL users. Please book using the link and email us for any additional information concerning access: access@wellcomecollection.org.",
+        "spans": [
+          {
+            "start": 198,
+            "end": 227,
+            "type": "hyperlink",
+            "data": {
+              "url": "mailto:access@wellcomecollection.org",
+              "target": "_blank"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "cost": "£10 full price / £5 concessions",
+  "contributors": [],
+  "promo": [
+    {
+      "key": "editorialImage$f52677e3-0998-4c82-a111-8572f30fa047",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Explore the relationship between colonialism and medicine today on a day of thought-provoking discussions.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "Wob2oCoAACoASGAx",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7499c2d9-602b-41b2-8a0a-97ff679dffb7_c0126730.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/7ff4c0094ba21c26c4034ff43235513db38d204a_c0126730.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "Wob2oCoAACoASGAx",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7499c2d9-602b-41b2-8a0a-97ff679dffb7_c0126730.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/55fb59ca474b27b87939edd8b5d6747d4a9bb311_c0126730.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "Wob2oCoAACoASGAx",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7499c2d9-602b-41b2-8a0a-97ff679dffb7_c0126730.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f4244b496983104b8922163d8e7732db5e49011d_c0126730.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}
