@@ -27,7 +27,7 @@ r.get('/exhibitions', renderExhibitions);
 r.get('/exhibitions/coming-up', renderExhibitionsComingUp);
 r.get('/exhibitions/current', renderExhibitionsCurrent);
 r.get('/exhibitions/past', renderExhibitionsPast);
-r.get('/exhibitions/current+coming-up', renderExhibitionsCurrentAndComingUp);
+r.get('/exhibitions/current-and-coming-up', renderExhibitionsCurrentAndComingUp);
 r.get('/exhibitions/:id', renderExhibition);
 r.get('/exhibitions/:id/exhibits', renderExhibits);
 
