@@ -23,7 +23,8 @@ import {
   isDocumentLink,
   asText,
   asHtml,
-  parseGenericFields
+  parseGenericFields,
+  parseBoolean
 } from './parsers';
 import {parseInstallationDoc} from './installations';
 import {london} from '../../utils/format-date';
@@ -106,6 +107,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     contributors: data.contributors ? parseContributors(data.contributors) : [],
     start: start,
     end: end,
+    isPermanent: parseBoolean(data.isPermanent),
     statusOverride: statusOverride,
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     exhibits: data.exhibits ? parseExhibits(data.exhibits) : [],
@@ -144,9 +146,10 @@ export async function getExhibitions(
     order = 'asc'
   }: GetExhibitionsProps = {}
 ): Promise<PaginatedResults<UiExhibition>> {
-  const paginateResults = await getDocuments(
+  const orderings = `[my.exhibitions.isPermanent desc,${endField}${order === 'desc' ? ' desc' : ''}]`;
+  const paginatedResults = await getDocuments(
     req,
-    [Prismic.Predicates.at('document.type', 'exhibitions')].concat(predicates),
+    [Prismic.Predicates.any('document.type', ['exhibitions'])].concat(predicates),
     {
       fetchLinks: peopleFields.concat(
         contributorsFields,
@@ -154,18 +157,18 @@ export async function getExhibitions(
         installationFields,
         exhibitionFields
       ),
-      orderings: `[${startField}${order === 'desc' ? ' desc' : ''}]`
+      orderings
     }
   );
 
-  const uiExhibitions: UiExhibition[] = paginateResults.results.map(parseExhibitionDoc);
-  // { ..paginatedResults, results: uiExhibitions } should work, but Flow still
+  const uiExhibitions: UiExhibition[] = paginatedResults.results.map(parseExhibitionDoc);
+  // { ...paginatedResults, results: uiExhibitions } should work, but Flow still
   // battles with spreading.
   return {
-    currentPage: paginateResults.currentPage,
-    pageSize: paginateResults.pageSize,
-    totalResults: paginateResults.totalResults,
-    totalPages: paginateResults.totalPages,
+    currentPage: paginatedResults.currentPage,
+    pageSize: paginatedResults.pageSize,
+    totalResults: paginatedResults.totalResults,
+    totalPages: paginatedResults.totalPages,
     results: uiExhibitions
   };
 }
@@ -184,7 +187,7 @@ export async function getExhibitionsComingUp(req: Request) {
 }
 
 export async function getExhibitionsCurrent(req: Request) {
-  const order = 'desc';
+  const order = 'asc';
   const predicates = [
     Prismic.Predicates.dateBefore(startField, london().toDate()),
     Prismic.Predicates.dateAfter(endField, london().toDate())
@@ -207,6 +210,43 @@ export async function getExhibitionsPast(req: Request) {
   });
 
   return paginatedResults;
+}
+
+export async function getExhibitionsCurrentAndComingUp(req: Request) {
+  const order = 'asc';
+  const predicates = [
+    Prismic.Predicates.dateAfter(endField, london().toDate())
+  ];
+  const paginatedResults = await getExhibitions(req, {
+    predicates, order
+  });
+
+  // We order the list this way as, from a user's perspective, seeing the
+  // temporary exhibitions is more urgent, so they're at the front of the list,
+  // but there's no good way to express that ordering through Prismic's ordering
+  const groupedResults = paginatedResults.results.reduce((acc, result) => {
+    // Wishing there was `groupBy`.
+    if (result.isPermanent) {
+      acc.permanent.push(result);
+    } else if (london(result.start).isAfter(london())) {
+      acc.comingUp.push(result);
+    } else {
+      acc.current.push(result);
+    }
+
+    return acc;
+  }, {
+    current: [],
+    permanent: [],
+    comingUp: []
+  });
+
+  return {
+    ...paginatedResults,
+    results: groupedResults.current
+      .concat(groupedResults.permanent)
+      .concat(groupedResults.comingUp)
+  };
 }
 
 export async function getExhibition(req: Request, id: string): Promise<?UiExhibition> {

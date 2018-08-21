@@ -10,6 +10,7 @@ import text from './parts/text';
 import structuredText from './parts/structured-text';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import body from './parts/body';
+import boolean from './parts/boolean';
 
 const Exhibitions = {
   Exhibition: {
@@ -18,9 +19,9 @@ const Exhibitions = {
     body,
     start: timestamp('Start date'),
     end: timestamp('End date'),
+    isPermanent: boolean('Is permanent?'),
     statusOverride: structuredText('Status override', 'single'),
-    place,
-    textAndCaptionsDocument: link('Text and captions document', 'media')
+    place
   },
   Contributors: contributorsWithTitle(),
   Exhibits: {
@@ -98,7 +99,8 @@ const Exhibitions = {
         'label': 'Intro',
         'multi': 'heading2'
       }
-    }
+    },
+    textAndCaptionsDocument: link('Text and captions document', 'media')
   }
 };
 
