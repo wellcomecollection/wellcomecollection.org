@@ -37,6 +37,7 @@ const {
 
 export async function renderWhatsOn(ctx, next) {
   const exhibitionAndEventPromos = await getExhibitionAndEventPromos(ctx.query, ctx.intervalCache.get('collectionOpeningTimes'));
+  const exhibitions = await getExhibitionsCurrentAndComingUp(ctx.request);
 
   ctx.render('pages/whats-on', {
     pageConfig: createPageConfig({
@@ -50,6 +51,7 @@ export async function renderWhatsOn(ctx, next) {
         dateRangeName: exhibitionAndEventPromos.active
       }
     }),
+    exhibitions,
     exhibitionAndEventPromos,
     tryTheseTooPromos: [readingRoomPromo],
     eatShopPromos: [cafePromo, shopPromo, restaurantPromo],

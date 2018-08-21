@@ -38,6 +38,17 @@ export function grid(sizes: SizeMap): string {
   return [base].concat(modifierClasses).join(' ');
 }
 
+export function cssGrid(sizes: SizeMap): string {
+  const base = 'css-grid__cell';
+  const modifierClasses = Object.keys(sizes).map(key => {
+    const size = sizes[key];
+    const modifier = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+    return `${base}--${modifier}${size}`;
+  });
+
+  return [base].concat(modifierClasses).join(' ');
+}
+
 export function font(sizes: FontMap): string {
   return Object.keys(sizes).map(key => {
     return `font-${sizes[key]}-${key}`;

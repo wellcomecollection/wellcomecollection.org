@@ -6,6 +6,7 @@ import BookPromo from '../BookPromo/BookPromo';
 import Button from '../Buttons/Button/Button';
 import {UiImage, CaptionedImage} from '../Images/Images';
 import Caption from '../Caption/Caption';
+import CardGrid from '../CardGrid/CardGrid';
 import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
 import Contributor from '../Contributor/Contributor';
 import Contributors from '../Contributors/Contributors';
@@ -71,6 +72,7 @@ export {
   Button,
   Caption,
   CaptionedImage,
+  CardGrid,
   ChapterIndicator,
   Contributor,
   Contributors,

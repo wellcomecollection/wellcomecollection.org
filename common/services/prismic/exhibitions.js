@@ -101,6 +101,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
 
   return {
     ...genericFields,
+    type: 'exhibitions',
     format: format,
     description: description,
     intro: intro,
