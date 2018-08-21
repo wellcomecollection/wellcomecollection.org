@@ -1,0 +1,196 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WoL4VSoAACoANuXN",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "British Sign Language tour of Ayurvedic Man",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WmYRpCQAACUAn-Ap",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WmYRpCQAACUAn-Ap"
+  },
+  "place": {
+    "id": "WoLtlioAACoANrY_",
+    "mask": "places",
+    "wioUrl": "wio://documents/WoLtlioAACoANrY_"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WoLgbSoAACgANnxB",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WoLgbSoAACgANnxB"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-03-29T17:00:00+00:00",
+      "endDateTime": "2018-03-29T17:45:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "You’ll tour the ‘Ayurvedic Man’ exhibition, led by visitor experience assistants and a British Sign Language (BSL) interpreter, and you'll explore the exhibition as a series of encounters. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your guides",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Rock and Sarah are Visitor Experience Assistants. They each have different perspectives on some of the more provocative themes of the exhibition: panacea and plague, healing and harming, encounters and exchange.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Michelle Wood is a BSL interpreter.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Meet at the information point on Level 0. We'll put out a sign near the desk. This tour will take place in the ‘Ayurvedic Man’ exhibition on Level 1. ",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WlYq1SQAACYAWiuX",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WlYq1SQAACYAWiuX"
+      },
+      "isPrimary": "yes"
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "bookingEnquiryTeam": {
+    "id": "WmXh-SQAACUAnw-j",
+    "mask": "teams",
+    "wioUrl": "wio://documents/WmXh-SQAACUAnw-j"
+  },
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$a1c917bf-1f2d-4cf1-b5e9-fe635273b038",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "You’ll tour and explore the ‘Ayurvedic Man’ exhibition.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WoNkaSoAACkAOL-r",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F5db8dd8a-5707-4b80-bf6b-69b83e55e1af_ep_000188_045.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/bf91f30f06dcce3c7741cbd8a7edaa1c6d0d17a8_ep_000188_045.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WoNkaSoAACkAOL-r",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F5db8dd8a-5707-4b80-bf6b-69b83e55e1af_ep_000188_045.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/bea8b67bbd0b01c364e649835cc5c57142a8eb24_ep_000188_045.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "WoNkaSoAACkAOL-r",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F5db8dd8a-5707-4b80-bf6b-69b83e55e1af_ep_000188_045.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/7597c598e8ec086ac9ece1a3358c46bba2ca7746_ep_000188_045.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

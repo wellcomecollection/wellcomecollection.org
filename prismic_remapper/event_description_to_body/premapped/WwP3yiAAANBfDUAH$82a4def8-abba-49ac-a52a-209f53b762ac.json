@@ -1,0 +1,329 @@
+{
+  "type": "events",
+  "tags": [
+    "delist"
+  ],
+  "lang": "en-gb",
+  "grouplang": "WwP3yiAAANBfDUAJ",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Could I Care Less?",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wn3Q3SoAACsAIeFI",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wn3Q3SoAACsAIeFI"
+  },
+  "place": {
+    "id": "Wn1gUioAACoAH_8S",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gUioAACoAH_8S"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-06T18:00:00+00:00",
+      "endDateTime": "2018-07-06T18:45:00+00:00"
+    },
+    {
+      "startDateTime": "2018-07-06T19:30:00+00:00",
+      "endDateTime": "2018-07-06T20:00:00+00:00"
+    },
+    {
+      "startDateTime": "2018-07-06T20:45:00+00:00",
+      "endDateTime": "2018-07-06T21:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Immerse yourself in a programme of performance art curated by osborn&møller, exploring the aesthetics of care, from the individual to the institutional.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About the performances",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "7-7.45pm and 9.45-10.30pm performances:",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Robbie Synge and Julie Cleves will bring you a choreographic performance with video, investigating the possibilities of moving and dancing together.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 12,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://www.robbiesynge.com/"
+              },
+              "url": "https://www.robbiesynge.com/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Lucy Hutson will give a reading from her upcoming book, a witty rant to the world written over a period of time spent in a psychiatric hospital. This will be accompanied by an animation that takes a lighthearted look at desperation.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 11,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://www.artsadmin.co.uk/artists/lucy-hutson"
+              },
+              "url": "https://www.artsadmin.co.uk/artists/lucy-hutson"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Hosted by Louise Ashcroft, whose style falls between art and activism, performance art and comedy. Louise will share humorous reflections on her own experiences of care, both from her past as a care worker and present as a needy human being. She invites you to bring your teddy bear.",
+        "spans": [
+          {
+            "start": 10,
+            "end": 25,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://www.louiseashcroft.org"
+              },
+              "url": "https://www.louiseashcroft.org"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "8.30-9pm performance:",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Louisa Robbin will perform a ritual to create a product for self-care that is messy and desperate and gross and naked, and is about trying. Louisa Robbin’s piece contains nudity and subject matter that some audience may find triggering (reference to suicide).",
+        "spans": [
+          {
+            "start": 0,
+            "end": 13,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wearefierce.org/fierce-fwd/louisa-robbin/"
+              },
+              "url": "https://wearefierce.org/fierce-fwd/louisa-robbin/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Curated by osborn&møller, Mary Osborn and Emma Møller.",
+        "spans": [
+          {
+            "start": 11,
+            "end": 24,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://www.osbornmoller.org/"
+              },
+              "url": "https://www.osbornmoller.org/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Head up the stairs or take the lift, following the signs to the Forum on level 1.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This event is part of Handle With Care, a Friday Late Spectacular.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 66,
+            "type": "em"
+          },
+          {
+            "start": 22,
+            "end": 38,
+            "type": "hyperlink",
+            "data": {
+              "id": "Wv2HziAAAOcE8Txh",
+              "mask": "events",
+              "preview": {
+                "image": "https://prismic-io.s3.amazonaws.com/wellcomecollection/medium_f92d17c6-0384-470a-aa2e-a8260d69dfec_tf_180523_2140127-2.jpg",
+                "title": "Handle With Care"
+              },
+              "wioUrl": "wio://documents/Wv2HziAAAOcE8Txh"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/46608633678?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/could-i-care-less-tickets-46608633678",
+    "type": "link",
+    "version": "1.0",
+    "title": "Handle with Care: Could I Care Less? ",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/46608633678?aff=efbneb\"><h1>Handle with Care: Could I Care Less? </h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>Handle with Care: Could I Care Less? </p></a></div>"
+  },
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$a035a3ea-e3a6-4b9a-ae95-7a8369d80bbf",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Immerse yourself in a programme of performance art curated by osborn&møller, exploring the aesthetics of care, from the individual to the institutional.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "Ww6wUiEAAEU5j8GN",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fe2430e63-b5eb-42e2-ad7a-b78a5dfac0de_tf_180524_2160039-2.jpg",
+              "width": 3960,
+              "height": 2228
+            },
+            "width": 3960,
+            "height": 2228,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/bf22ebf3a19fe724034d6f71275751c35e504927_tf_180524_2160039-2.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Louisa | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a woman with her head turned to the side, her eyes closed and and her hands touching her head and neck. ",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "Ww6wUiEAAEU5j8GN",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fe2430e63-b5eb-42e2-ad7a-b78a5dfac0de_tf_180524_2160039-2.jpg",
+                  "width": 3960,
+                  "height": 2228
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/1958b2ed6ea079b735043217363da3bdf48c366a_tf_180524_2160039-2.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.436265709156194,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Louisa | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a woman with her head turned to the side, her eyes closed and and her hands touching her head and neck. "
+              },
+              "16:9": {
+                "origin": {
+                  "id": "Ww6wUiEAAEU5j8GN",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fe2430e63-b5eb-42e2-ad7a-b78a5dfac0de_tf_180524_2160039-2.jpg",
+                  "width": 3960,
+                  "height": 2228
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/eeca346aff7bac8a54a5f6c2376fb4401166611a_tf_180524_2160039-2.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8080808080808081,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Louisa | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a woman with her head turned to the side, her eyes closed and and her hands touching her head and neck. "
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

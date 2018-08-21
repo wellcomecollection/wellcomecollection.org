@@ -1,0 +1,236 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WvmstSAAAIYQ4CUS",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Maladies and Medicine – Tudors, tonics and sickly Stuarts",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "WoLtUioAACkANrUM",
+    "mask": "places",
+    "wioUrl": "wio://documents/WoLtUioAACkANrUM"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WoK-NioAACkANeWK",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WoK-NioAACkANeWK"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-06-07T17:00:00+00:00",
+      "endDateTime": "2018-06-07T18:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "You’ll hear about everyday remedies and treatments from the time of the Tudors and Stuarts (in the 16th and 17th centuries). Our speakers will tell you about what measures people took to stay healthy. And if they did get ill, who they would have turned to for treatment.  ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "You’ll also get the chance to look at related historical material from our collections.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speakers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Dr Jennifer Evans is a senior lecturer in the history group at the University of Hertfordshire. She is co-author of ‘Maladies & Medicine: Exploring Health & Healing 1540–1740'.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 17,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "http://researchprofiles.herts.ac.uk/portal/en/persons/jennifer-evans(64c60188-3b9b-44e8-b822-7389e8c7495b).html"
+              },
+              "url": "http://researchprofiles.herts.ac.uk/portal/en/persons/jennifer-evans(64c60188-3b9b-44e8-b822-7389e8c7495b).html"
+            }
+          },
+          {
+            "start": 117,
+            "end": 174,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://search.wellcomelibrary.org/iii/encore/record/C__Rb2975241?lang=eng"
+              },
+              "url": "https://search.wellcomelibrary.org/iii/encore/record/C__Rb2975241?lang=eng"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Dr Sara Read is a specialist in early modern literature and medicine, specifically focusing on women’s reproductive health, and co-author of ‘Maladies & Medicine’.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 12,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "http://www.lboro.ac.uk/departments/aed/staff/academic/sara-read/"
+              },
+              "url": "http://www.lboro.ac.uk/departments/aed/staff/academic/sara-read/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "We'll be in the Viewing Room next to the Library entrance on level 2. ",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/45189176042?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/library-insights-maladies-and-medicine-tudors-tonics-and-sickly-stuarts-tickets-45189176042",
+    "type": "link",
+    "version": "1.0",
+    "title": " Library insights Maladies and Medicine - Tudors, Tonics and Sickly Stuarts",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/45189176042?aff=efbneb\"><h1> Library insights Maladies and Medicine - Tudors, Tonics and Sickly Stuarts</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p> Library insights Maladies and Medicine - Tudors, Tonics and Sickly Stuarts</p></a></div>"
+  },
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$5c9645be-0144-44f4-a297-e0a18779fc46",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "image": {
+            "origin": {
+              "id": "WumkhCIAAD2c0fiV",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb28b5cd4-18d0-427a-943c-3f9bd5df9e33_ep_000277_039.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e5d63bbca89769ecd8ca622365fa0cec2ab56454_ep_000277_039.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Library Insights event at Wellcome Collection | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a group of people examining library material on a table.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WumkhCIAAD2c0fiV",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb28b5cd4-18d0-427a-943c-3f9bd5df9e33_ep_000277_039.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/1ccbbfbb5060c7a2c60fa13b4a7a69cd8b20382f_ep_000277_039.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Library Insights event at Wellcome Collection | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a group of people examining library material on a table."
+              },
+              "square": {
+                "origin": {
+                  "id": "WumkhCIAAD2c0fiV",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb28b5cd4-18d0-427a-943c-3f9bd5df9e33_ep_000277_039.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/69c2ce47994f4befd56bc4484c72d2fa70a49477_ep_000277_039.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1422,
+                    "y": 0
+                  }
+                },
+                "credits": "Library Insights event at Wellcome Collection | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a group of people examining library material on a table."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,218 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WorXMioAACoAWVod",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Perspective tour with Monisha Bharadwaj",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmcSsAACx_A8La",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmcSsAACx_A8La"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WlYUDCQAACQAWcdt",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WlYUDCQAACQAWcdt"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-03-08T18:00:00+00:00",
+      "endDateTime": "2018-03-08T18:45:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join Monisha Bharadwaj on a walking tour of Ayurvedic Man: Encounters with Indian Medicine. You’ll hear her personal views and insights into the exhibition and have an opportunity to ask questions.",
+        "spans": [
+          {
+            "start": 44,
+            "end": 90,
+            "type": "hyperlink",
+            "data": {
+              "id": "WduTricAAN7Mt8yY",
+              "mask": "exhibitions",
+              "preview": {
+                "image": "https://prismic-io.s3.amazonaws.com/wellcomecollection/medium_10f03792-763e-4b48-84d8-4e008b323740_am.jpg",
+                "title": "Ayurvedic Man: Encounters with Indian medicine"
+              },
+              "wioUrl": "wio://documents/WduTricAAN7Mt8yY"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your guide",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Monisha Bharadwaj is an award-winning author, food historian and chef based in London. She was awarded Cookery Writer of the Year in 2003 by the Guild of Food Writers, and her many books have been shortlisted for, and won, several prestigious international awards. An expert in authentic Indian cooking, she runs her own school of cookery in London and teaches at some of the UK’s top cookery schools.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To attend, just turn up and meet your guide beside the Information Point on level 0. There is no need to book (though spaces are limited). ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The tour will take place in the Ayurvedic Man exhibition on level 1.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "contributors": [],
+  "promo": [
+    {
+      "key": "editorialImage$87443fbb-2642-4e10-bb11-fd854e3c94d1",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "On this walking tour, award-winning author, food historian and chef Monisha Bharadwaj will talk you through her personal views and insights into the ‘Ayurvedic Man’ exhibition.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "Wpgk8SUAACMAEU76",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F84bff44f-b735-45c0-87ab-1e627a038d05_ep_000122_118.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/cb9dc3d355692dba8c72aa9bc4fc53a47b7c7f06_ep_000122_118.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "Wpgk8SUAACMAEU76",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F84bff44f-b735-45c0-87ab-1e627a038d05_ep_000122_118.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/a7ef9b0a025034a57c165a51cb26fba103a04378_ep_000122_118.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "Wpgk8SUAACMAEU76",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F84bff44f-b735-45c0-87ab-1e627a038d05_ep_000122_118.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/9461c128113e8ceba09054794a313f3707e3689b_ep_000122_118.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1729,
+                    "y": -8
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

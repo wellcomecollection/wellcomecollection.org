@@ -1,0 +1,151 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WmH6uiQAACcAjgh9",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "BSL tour of Ayurvedic Man: Encounters with Indian medicine",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WmYRpCQAACUAn-Ap",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WmYRpCQAACUAn-Ap"
+  },
+  "times": [
+    {
+      "startDateTime": "2018-01-27T11:00:00+00:00",
+      "endDateTime": "2018-01-27T11:45:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join Rubbena Aurangzeb-Tariq on a tour of Ayurvedic Man: Encounters with Indian medicine, an exhibition that crosses cultures and continents, but has as its starting point ‘Ayurvedic Man’ – an 18th-century Nepali painting depicting the organs and vessels of the male body according to classical Ayurveda.",
+        "spans": [
+          {
+            "start": 42,
+            "end": 88,
+            "type": "hyperlink",
+            "data": {
+              "url": "https://wellcomecollection.org/exhibitions/WduTricAAN7Mt8yY"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Rubbena Aurangzeb-Tariq is a Deaf British Muslim artist and art therapist.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WlYq1SQAACYAWiuX",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WlYq1SQAACYAWiuX"
+      },
+      "isPrimary": "yes"
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "series": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$ef090743-f378-45e3-bea2-4f824d56e0e7",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "A look at the variety of Indian medical practice over the centuries.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WmH7DiQAACQAjgnv",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ffea2c088-2c0a-4f08-8d25-11d99312a31c_bsl-ayurvedic_main_1.jpg",
+              "width": 800,
+              "height": 450
+            },
+            "width": 800,
+            "height": 450,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/487233c3ff4f5ee7084237fcbd964249fe1550f0_bsl-ayurvedic_main_1.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WmH7DiQAACQAjgnv",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ffea2c088-2c0a-4f08-8d25-11d99312a31c_bsl-ayurvedic_main_1.jpg",
+                  "width": 800,
+                  "height": 450
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/68b11908ea1c324798ce7796455c6693725484a5_bsl-ayurvedic_main_1.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 4,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "WmH7DiQAACQAjgnv",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ffea2c088-2c0a-4f08-8d25-11d99312a31c_bsl-ayurvedic_main_1.jpg",
+                  "width": 800,
+                  "height": 450
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f4ebf51abb18d769a34ebb6507ef1107625f46af_bsl-ayurvedic_main_1.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 7.111111111111111,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

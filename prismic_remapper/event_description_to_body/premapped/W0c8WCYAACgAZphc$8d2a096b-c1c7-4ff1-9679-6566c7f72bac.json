@@ -1,0 +1,238 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "W0c8WCYAACgAZphe",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Perspective Tour with Dr Marquard Smith",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WmYRpCQAACUAn-Ap",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WmYRpCQAACUAn-Ap"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WlYUDCQAACQAWcdt",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WlYUDCQAACQAWcdt"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-26T15:00:00+00:00",
+      "endDateTime": "2018-07-26T15:45:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join Dr Marquard Smith for a tour of 'Somewhere in Between'. You'll hear his take on the future for human beings and non-human beings in these biomedical and bioinformational times and have an opportunity to ask questions. ",
+        "spans": [
+          {
+            "start": 38,
+            "end": 58,
+            "type": "hyperlink",
+            "data": {
+              "id": "WhvoAykAACgAlDoo",
+              "mask": "exhibitions",
+              "preview": {
+                "image": "https://prismic-io.s3.amazonaws.com/wellcomecollection/medium_ce587ca8-18c6-4d8f-bfa5-cce1a01ab69f_ep_000280_030.jpg",
+                "title": "Somewhere in Between"
+              },
+              "wioUrl": "wio://documents/WhvoAykAACgAlDoo"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your guide",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Marq is an academic, curator, Founder and Editor-in-Chief of Journal of Visual Culture, Program Leader for the MA Museums & Galleries in Education at UCL Institute of Education, London, and Professor of Artistic Research at Vilnius Academy of Arts, Lithuania. ",
+        "spans": [
+          {
+            "start": 61,
+            "end": 86,
+            "type": "em"
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "As a curator, Marq’s exhibitions include ‘Blood & Bones’ (The Street Gallery, UCLH, forthcoming 2018), ‘Solitary Pleasures’ (Freud Museum, 2018), ‘How to Construct a Time Machine’ (2014), and ‘How We Became Metadata’ (2010).",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To attend, just turn up and meet your guide beside the Information Point on Level 0. There is no need to book (though spaces are limited). ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The tour will take place in the 'Somewhere in Between' exhibition on Level 0.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ],
+  "contributors": [],
+  "promo": [
+    {
+      "key": "editorialImage$87443fbb-2642-4e10-bb11-fd854e3c94d1",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Get an inside perspective on 'Somewhere in Between' from an academic and curator.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "W1suUSYAACgAvdOC",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb76464ed-dd2c-4dcb-bdae-2183e392693f_btg180510161013.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/4765d7d690432a4cae8a3e0262d64554909cef02_btg180510161013.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Marquard Smith  | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photographic portrait of the head and shoulders of Marquard Smith against a blue background.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "W1suUSYAACgAvdOC",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb76464ed-dd2c-4dcb-bdae-2183e392693f_btg180510161013.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/9489331f0b6d4e0c42c78ad84cf1b6e27c041caa_btg180510161013.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Marquard Smith  | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of the head and shoulders of Marquard Smith against a blue background."
+              },
+              "32:15": {
+                "origin": {
+                  "id": "W1suUSYAACgAvdOC",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb76464ed-dd2c-4dcb-bdae-2183e392693f_btg180510161013.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/dcfc30e9decbb75f9200e49609a9f8e56d54f902_btg180510161013.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -150
+                  }
+                },
+                "credits": "Marquard Smith  | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of the head and shoulders of Marquard Smith against a blue background."
+              },
+              "square": {
+                "origin": {
+                  "id": "W1suUSYAACgAvdOC",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb76464ed-dd2c-4dcb-bdae-2183e392693f_btg180510161013.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f3553ff078ba7413d4df0847d781fdc4adf7f491_btg180510161013.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -946,
+                    "y": 0
+                  }
+                },
+                "credits": "Marquard Smith  | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of the head and shoulders of Marquard Smith against a blue background."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

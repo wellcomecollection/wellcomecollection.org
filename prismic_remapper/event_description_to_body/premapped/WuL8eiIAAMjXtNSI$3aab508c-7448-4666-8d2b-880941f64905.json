@@ -1,0 +1,202 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WuL8eiIAAMjXtNSK",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Charmed Circle",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmiysAACx_A8NR",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmiysAACx_A8NR"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WoLgbSoAACgANnxB",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WoLgbSoAACgANnxB"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-05-31T17:00:00+00:00",
+      "endDateTime": "2018-05-31T18:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you'll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join us for a short BSL interpreted tour of one of the immersive installations from Somewhere in Between, Maria McKinney’s SIRE, followed by a discussion and craft activity. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "You’ll have the chance to reflect on and discuss the link between historic fertility rituals and modern day farming.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your facilitators",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Visitor Experience Assistants Clare Curtis and Sarah Bentley will be joined by BSL interpreter Joanna McCaul.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we'll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Meet us by the Information Point on Level 0. The tour will leave from there and then we’ll guide you to the space where we’ll talk and craft.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WlYq1SQAACYAWiuX",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WlYq1SQAACYAWiuX"
+      }
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "bookingEnquiryTeam": {
+    "id": "WmXh-SQAACUAnw-j",
+    "mask": "teams",
+    "wioUrl": "wio://documents/WmXh-SQAACUAnw-j"
+  },
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$5ab8a713-cd8c-4e7e-8da8-046772015aa4",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Come along to a BSL tour and crafting activity exploring the links between historic fertility rituals and modern day farming.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WvLCwSIAADH8-hYZ",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fbe95aca3-59e5-41af-b476-5b1ea2ff2167_ep_000285_017.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/c7efd6c69897353e85ffbe29780972959d93ae27_ep_000285_017.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "SIRE gallery, part of the exhibition Somewhere in Between | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a man and a woman in talking in the Sire gallery of the exhibition Somewhere in Between at Wellcome Collection. Behind them are large photographs mounted on the wall and in the foreground is a colourful sculpture.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WvLCwSIAADH8-hYZ",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fbe95aca3-59e5-41af-b476-5b1ea2ff2167_ep_000285_017.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/20513181e8b19118c8256c2d89b6616b82471258_ep_000285_017.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -997,
+                    "y": 0
+                  }
+                },
+                "credits": "SIRE gallery, part of the exhibition Somewhere in Between | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a man and a woman in talking in the Sire gallery of the exhibition Somewhere in Between at Wellcome Collection. Behind them are large photographs mounted on the wall and in the foreground is a colourful sculpture."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WvLCwSIAADH8-hYZ",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fbe95aca3-59e5-41af-b476-5b1ea2ff2167_ep_000285_017.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/5dfe3b9eddc3cddade0e4757dc3401659775c07a_ep_000285_017.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "SIRE gallery, part of the exhibition Somewhere in Between | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a man and a woman in talking in the Sire gallery of the exhibition Somewhere in Between at Wellcome Collection. Behind them are large photographs mounted on the wall and in the foreground is a colourful sculpture."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

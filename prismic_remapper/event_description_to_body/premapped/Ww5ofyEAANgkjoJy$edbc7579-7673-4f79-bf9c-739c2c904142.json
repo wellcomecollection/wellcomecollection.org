@@ -1,0 +1,68 @@
+{
+  "type": "events",
+  "tags": [
+    "delist"
+  ],
+  "lang": "en-gb",
+  "grouplang": "Ww5ofyEAANgkjoJ0",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Care Café",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1fvyoAACgAH_yG",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1fvyoAACgAH_yG"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-06T19:00:00+00:00",
+      "endDateTime": "2018-07-06T21:00:00+00:00"
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$96fe1903-f932-4adf-a247-36ddcfda20dc",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Gather your thoughts and join a quiet conversation in the social context of the café – carers are especially welcome. You’ll also be able to join Body Politic for a workshop transforming clothes into statements of care and positive resistance. Bring along an item of clothing to customise.",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,293 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "W2LlgyYAACUAQah9",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "The Anatomy of Loneliness",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1fvyoAACgAH_yG",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1fvyoAACgAH_yG"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-09-23T13:00:00+00:00",
+      "endDateTime": "2018-09-23T15:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join us as we reveal and reflect on the results of the Loneliness Experiment with a diverse panel of speakers. BBC Radio 4 will begin recording the discussion from 15:00, but related activities will be happening from 14:00.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Launched on BBC Radio 4’s ‘All in the Mind’, the Loneliness Experiment was designed to find out who feels lonely and what can be done to help them feel more connected. In total, 55,000 people from across the world responded to the survey. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About the panel",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Claudia Hammond is a psychologist who currently presents ‘All in the Mind’ for BBC Radio 4. \nDaljit Nagra is a prize-winning British poet. \nBritish singer-songwriter Jazz Morley writes and records soul-influenced electronica.\nJulian Baggini is a British philosopher and the author of several books, including 'A Short History of Truth'. \nPamela Qualter, Professor of Education at the University of Manchester, has been working on the Loneliness Experiment.\nChristina Victor is Professor of Gerontology and Public Health at Brunel University and, like Professor Qualter, helped devise and evaluate the Loneliness Experiment. \n\nVisitor Experience Assistants trained in audio-description techniques will be on hand from 14:00. There will be no audio description during the recording.\n\n",
+        "spans": [
+          {
+            "start": 0,
+            "end": 15,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://www.bbc.co.uk/programmes/profiles/2ShQx1NjKLkTsbdzZF771X1/claudia-hammond"
+              },
+              "url": "https://www.bbc.co.uk/programmes/profiles/2ShQx1NjKLkTsbdzZF771X1/claudia-hammond"
+            }
+          },
+          {
+            "start": 93,
+            "end": 105,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://en.wikipedia.org/wiki/Daljit_Nagra"
+              },
+              "url": "https://en.wikipedia.org/wiki/Daljit_Nagra"
+            }
+          },
+          {
+            "start": 166,
+            "end": 177,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://jazzmorley.com"
+              },
+              "url": "https://jazzmorley.com"
+            }
+          },
+          {
+            "start": 226,
+            "end": 240,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://en.wikipedia.org/wiki/Julian_Baggini"
+              },
+              "url": "https://en.wikipedia.org/wiki/Julian_Baggini"
+            }
+          },
+          {
+            "start": 338,
+            "end": 352,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://www.research.manchester.ac.uk/portal/pamela.qualter.html"
+              },
+              "url": "https://www.research.manchester.ac.uk/portal/pamela.qualter.html"
+            }
+          },
+          {
+            "start": 457,
+            "end": 473,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "http://www.brunel.ac.uk/people/christina-victor"
+              },
+              "url": "http://www.brunel.ac.uk/people/christina-victor"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WmXhziQAACQAnw7i",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WmXhziQAACQAnw7i"
+      }
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "policies": [
+    {}
+  ],
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "WoGaByoAACsAMY5g",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WoGaByoAACsAMY5g"
+      },
+      "contributor": {
+        "id": "W2A1JigAACgAXr5T",
+        "mask": "organisations",
+        "wioUrl": "wio://documents/W2A1JigAACgAXr5T"
+      },
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "",
+            "spans": []
+          }
+        }
+      ]
+    }
+  ],
+  "contributorsTitle": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$e5a8bbef-8825-464e-a87c-07d17af29932",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Launched on BBC Radio 4’s ‘All in the Mind’, the Loneliness Experiment sought answers to questions about loneliness, and 55,000 people from across the world responded. Join us as we reveal and reflect on the results. ",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WoNg5SoAACkAOLAa",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F1fb1f038-500c-4c50-afdf-fa9505b07857_c0136020.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/2ed8428b3b96811799a0b97735c76d72048fb723_c0136020.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Claudia Hammond | Camilla Greenwell | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of Claudia Hammond in the Wellcome Collection Reading Room.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WoNg5SoAACkAOLAa",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F1fb1f038-500c-4c50-afdf-fa9505b07857_c0136020.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/82e48c1ca1f645273038847c2d2daac2a1cd3764_c0136020.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Claudia Hammond | Camilla Greenwell | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of Claudia Hammond in the Wellcome Collection Reading Room."
+              },
+              "square": {
+                "origin": {
+                  "id": "WoNg5SoAACkAOLAa",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F1fb1f038-500c-4c50-afdf-fa9505b07857_c0136020.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/3fbfc4f625d8237622f4bc04db5e4e4d144e9cbc_c0136020.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Claudia Hammond | Camilla Greenwell | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of Claudia Hammond in the Wellcome Collection Reading Room."
+              },
+              "32:15": {
+                "origin": {
+                  "id": "WoNg5SoAACkAOLAa",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F1fb1f038-500c-4c50-afdf-fa9505b07857_c0136020.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/0504b1ef66b1fa39f7df1b3b98b44e2d8baf34f4_c0136020.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -150
+                  }
+                },
+                "credits": "Claudia Hammond | Camilla Greenwell | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of Claudia Hammond in the Wellcome Collection Reading Room."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

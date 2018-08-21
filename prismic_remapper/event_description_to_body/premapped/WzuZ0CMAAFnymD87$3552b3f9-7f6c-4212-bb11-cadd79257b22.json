@@ -1,0 +1,252 @@
+{
+  "type": "events",
+  "tags": [
+    "delist"
+  ],
+  "lang": "en-gb",
+  "grouplang": "WzuZ0CMAAFnymD89",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "AIDS Education and Emotion",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "WoLtUioAACkANrUM",
+    "mask": "places",
+    "wioUrl": "wio://documents/WoLtUioAACkANrUM"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WoK-NioAACkANeWK",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WoK-NioAACkANeWK"
+      }
+    },
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-10T17:00:00+00:00",
+      "endDateTime": "2018-07-10T18:00:00+00:00"
+    },
+    {
+      "startDateTime": "2018-07-17T17:00:00+00:00",
+      "endDateTime": "2018-07-17T18:00:00+00:00"
+    },
+    {
+      "startDateTime": "2018-07-24T17:00:00+00:00",
+      "endDateTime": "2018-07-24T18:00:00+00:00"
+    },
+    {
+      "startDateTime": "2018-07-31T17:00:00+00:00",
+      "endDateTime": "2018-07-31T18:00:00+00:00",
+      "isFullyBooked": "yes"
+    },
+    {
+      "startDateTime": "2018-08-07T17:00:00+00:00",
+      "endDateTime": "2018-08-07T18:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join historian Dr Hannah J Elizabeth to discuss UK safer-sex campaigns and the emotional responses they provoked. We’ll look at how educational materials aimed to manipulate the behaviour of people of different ages, genders and sexualities. See some surprising items from our archive and discover what they mean to you.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speaker",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Dr Hannah J Elizabeth is a researcher based at the Centre for History in Public Health, London School of Hygiene and Tropical Medicine.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 21,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "http://history.lshtm.ac.uk/2017/04/26/placing-emotion-public-health/"
+              },
+              "url": "http://history.lshtm.ac.uk/2017/04/26/placing-emotion-public-health/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "We’ll be in the Viewing Room next to the Library entrance on level 2, which you can reach by taking the lift or the stairs.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WmXl4iQAACUAnyDr",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WmXl4iQAACUAnyDr"
+      }
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/47946583522?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/aids-education-and-emotion-tickets-47946583522",
+    "type": "link",
+    "version": "1.0",
+    "title": "AIDS Education and Emotion",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/47946583522?aff=efbneb\"><h1>AIDS Education and Emotion</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"></a></div>"
+  },
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "WoL2lCoAACkANt4D",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WoL2lCoAACkANt4D"
+      },
+      "contributor": {
+        "id": "Ww6tfyEAANgkj7Tc",
+        "mask": "organisations",
+        "wioUrl": "wio://documents/Ww6tfyEAANgkj7Tc"
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$e12bce18-b0a5-42e5-bf2e-fa3eb7905f61",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join historian Dr Hannah J Elizabeth to discuss UK safer sex campaigns and the emotional responses they provoked.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "Ww7aGCEAANgkkHT3",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7eaf5baf-687b-4e45-b858-0d9d53217316_btg180524120456-edit.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/90f2f868d4d8da0802bcbc382d3ec4175024f7b5_btg180524120456-edit.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Dr Hannah J Elizabeth | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photographic Portrait of Dr Hannah J Elizabeth looking at AIDS related material in the Wellcome Collection library stores.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "Ww7aGCEAANgkkHT3",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7eaf5baf-687b-4e45-b858-0d9d53217316_btg180524120456-edit.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/3bf37925b5aeaf4984f88a38d07bb59d24b66f3c_btg180524120456-edit.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Dr Hannah J Elizabeth | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic Portrait of Dr Hannah J Elizabeth looking at AIDS related material in the Wellcome Collection library stores."
+              },
+              "square": {
+                "origin": {
+                  "id": "Ww7aGCEAANgkkHT3",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7eaf5baf-687b-4e45-b858-0d9d53217316_btg180524120456-edit.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/0aca2b90af630e6978ab643e8a346b6aebfd37e2_btg180524120456-edit.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -937,
+                    "y": 0
+                  }
+                },
+                "credits": "Dr Hannah J Elizabeth | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic Portrait of Dr Hannah J Elizabeth looking at AIDS related material in the Wellcome Collection library stores."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

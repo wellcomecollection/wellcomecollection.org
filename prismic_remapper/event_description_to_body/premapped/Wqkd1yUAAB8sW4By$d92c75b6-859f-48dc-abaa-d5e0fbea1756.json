@@ -1,0 +1,151 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Wqkd1yUAAB8sW4B0",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Embracing the Goddess",
+        "spans": []
+      }
+    }
+  ],
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-04-05T18:00:00+00:00",
+      "endDateTime": "2018-04-05T21:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In most early medical texts and anatomical illustrations, the male voice is predominant. This absence of women is particularly compelling in the context of South Asian socio-religious life and its complex history of goddess worship. Reflect on what this means for health issues today during this lively evening.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "WrEkryAAACAAPF4C",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WrEkryAAACAAPF4C"
+      },
+      "contributor": {
+        "id": "WrELdCAAAB4AO-7j",
+        "mask": "people",
+        "wioUrl": "wio://documents/WrELdCAAAB4AO-7j"
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$2a747353-7453-431d-bbb6-2eee82ffcda0",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "image": {
+            "origin": {
+              "id": "WqwQ6SAAAB8AJiZH",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F72ab18a1-7937-4ce7-bc7a-5e95c74c74ca_btg180314181841.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/5bbf408a29bb6873f841edec6320e851cf20f7a9_btg180314181841.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "DJ Ritu at Resonance FM | Benjamin Gilbert | | | CC-BY-NC | Wellcome Collection |",
+            "alt": "Photographic Portrait of a female DJ in a small Dj booth at a radio station. Behind the woman is radio equipment and a clock on the yellow sound absorbing wall.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WqwQ6SAAAB8AJiZH",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F72ab18a1-7937-4ce7-bc7a-5e95c74c74ca_btg180314181841.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/4c060f688f9714cd4d4fbf287bd79aa39a468d86_btg180314181841.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "DJ Ritu at Resonance FM | Benjamin Gilbert | | | CC-BY-NC | Wellcome Collection |",
+                "alt": "Photographic Portrait of a female DJ in a small Dj booth at a radio station. Behind the woman is radio equipment and a clock on the yellow sound absorbing wall."
+              },
+              "square": {
+                "origin": {
+                  "id": "WqwQ6SAAAB8AJiZH",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F72ab18a1-7937-4ce7-bc7a-5e95c74c74ca_btg180314181841.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/d413292626bdd07a138397f12ee231301ec72622_btg180314181841.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "DJ Ritu at Resonance FM | Benjamin Gilbert | | | CC-BY-NC | Wellcome Collection |",
+                "alt": "Photographic Portrait of a female DJ in a small Dj booth at a radio station. Behind the woman is radio equipment and a clock on the yellow sound absorbing wall."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {
+      "event": {
+        "id": "Wo1c-CoAACoAZG2p",
+        "mask": "events",
+        "wioUrl": "wio://documents/Wo1c-CoAACoAZG2p"
+      }
+    },
+    {
+      "event": {
+        "id": "Wo1ZxioAAMLuZF_Q",
+        "mask": "events",
+        "wioUrl": "wio://documents/Wo1ZxioAAMLuZF_Q"
+      }
+    },
+    {
+      "event": {
+        "id": "Wo1bOSoAAHW6ZGYC",
+        "mask": "events",
+        "wioUrl": "wio://documents/Wo1bOSoAAHW6ZGYC"
+      }
+    }
+  ]
+}

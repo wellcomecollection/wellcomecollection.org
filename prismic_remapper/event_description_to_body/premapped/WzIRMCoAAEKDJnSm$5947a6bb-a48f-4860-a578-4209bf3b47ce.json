@@ -1,0 +1,277 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WzIRMCoAAEKDJnSo",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Dear Marie Stopes",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wn3Q3SoAACsAIeFI",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wn3Q3SoAACsAIeFI"
+  },
+  "place": {
+    "id": "Wn1fvyoAACgAH_yG",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1fvyoAACgAH_yG"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-08-09T19:00:00+00:00",
+      "endDateTime": "2018-08-09T20:00:00+00:00",
+      "isFullyBooked": "yes"
+    },
+    {
+      "startDateTime": "2018-08-11T13:00:00+00:00",
+      "endDateTime": "2018-08-11T14:00:00+00:00",
+      "isFullyBooked": "yes"
+    },
+    {
+      "startDateTime": "2018-08-12T13:00:00+00:00",
+      "endDateTime": "2018-08-12T14:00:00+00:00",
+      "isFullyBooked": "yes"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join us for the world premiere of a chamber opera inspired by the emotionally charged letters sent to Marie Stopes in response to her “sex manual”, ‘Married Love’.",
+        "spans": [
+          {
+            "start": 162,
+            "end": 163,
+            "type": "em"
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "First published 100 years ago, this book challenged the way people understood desire, sexuality and sexual health. Thousands of letters received by Marie Stopes form part of an archive now held by Wellcome Collection. ",
+        "spans": [
+          {
+            "start": 166,
+            "end": 184,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomelibrary.org/item/b18743687#?c=0&m=0&s=0&cv=0&z=-0.6441%2C-0.0719%2C2.2883%2C1.4374"
+              },
+              "url": "https://wellcomelibrary.org/item/b18743687#?c=0&m=0&s=0&cv=0&z=-0.6441%2C-0.0719%2C2.2883%2C1.4374"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About the performance",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Composer Alex Mills and librettist Jennifer Thorp have written this opera with the support of archivist and gender and sexuality historian Lesley Hall.  See a preview of the opera.",
+        "spans": [
+          {
+            "start": 153,
+            "end": 179,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://www.youtube.com/watch?v=2fqGOmAL1YA"
+              },
+              "url": "https://www.youtube.com/watch?v=2fqGOmAL1YA"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Director: Nina Brazier\nSoprano: Alexa Mason\nContralto: Jess Dandy\nCountertenor: Feargal Mostyn-Williams\nViola da gamba: Liam Byrne\nCello: Lucy Railton",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Head up the stairs or take the lift to level 2. We'll be in the Reading Room, next to the Library.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/45335340223?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/dear-marie-stopes-tickets-45335340223 ",
+    "type": "link",
+    "version": "1.0",
+    "title": "Dear Marie Stopes ",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/45335340223?aff=efbneb\"><h1>Dear Marie Stopes </h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>Dear Marie Stopes </p></a></div>"
+  },
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "WoL2lCoAACkANt4D",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WoL2lCoAACkANt4D"
+      },
+      "contributor": {
+        "id": "W0if6iYAACgAbKpv",
+        "mask": "people",
+        "wioUrl": "wio://documents/W0if6iYAACgAbKpv"
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$bc64ff72-122d-4616-8baf-6645566bb3ae",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join us for the world premiere of a chamber opera inspired by the emotionally charged letters sent to Marie Stopes in response to her “sex manual”, ‘Married Love‘. ",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "W1DhsyYAACgAkKam",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2f65af70-1d07-4202-a088-6b28224c05b0_dms.jpg",
+              "width": 3461,
+              "height": 1947
+            },
+            "width": 3461,
+            "height": 1947,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f0c4e7d3fb31fd0fc87334e3479deb123ee03859_dms.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Soprano Alexa Mason rehearsing for Dear Marie Stopes | | | | | Image from film footage by Ben Burman |",
+            "alt": "Photograph of soprano Alexa Mason rehearsing for Dear Marie Stopes in mid song, holding sheet music.",
+            "thumbnails": {
+              "32:15": {
+                "origin": {
+                  "id": "W1DhsyYAACgAkKam",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2f65af70-1d07-4202-a088-6b28224c05b0_dms.jpg",
+                  "width": 3461,
+                  "height": 1947
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/afd940257d794995617067bc945eb1c9249af62d_dms.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.9245882692863334,
+                  "crop": {
+                    "x": 0,
+                    "y": -150
+                  }
+                },
+                "credits": "Soprano Alexa Mason rehearsing for Dear Marie Stopes | | | | | Image from film footage by Ben Burman |",
+                "alt": "Photograph of soprano Alexa Mason rehearsing for Dear Marie Stopes in mid song, holding sheet music."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "W1DhsyYAACgAkKam",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2f65af70-1d07-4202-a088-6b28224c05b0_dms.jpg",
+                  "width": 3461,
+                  "height": 1947
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/73e3415c44a1d6e4d7991dc66e2a4a4123014e72_dms.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.9245882692863334,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Soprano Alexa Mason rehearsing for Dear Marie Stopes | | | | | Image from film footage by Ben Burman |",
+                "alt": "Photograph of soprano Alexa Mason rehearsing for Dear Marie Stopes in mid song, holding sheet music."
+              },
+              "square": {
+                "origin": {
+                  "id": "W1DhsyYAACgAkKam",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2f65af70-1d07-4202-a088-6b28224c05b0_dms.jpg",
+                  "width": 3461,
+                  "height": 1947
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/0ee6c2c83e050ee63689b11912cc1f82dc8a671a_dms.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.6435541859270673,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Soprano Alexa Mason rehearsing for Dear Marie Stopes | | | | | Image from film footage by Ben Burman |",
+                "alt": "Photograph of soprano Alexa Mason rehearsing for Dear Marie Stopes in mid song, holding sheet music."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

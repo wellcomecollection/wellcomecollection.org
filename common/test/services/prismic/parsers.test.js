@@ -7,7 +7,7 @@ export const sameAs = [
   { link: 'https://google.com',
     title: [ { type: 'heading1', text: 'This is it!', spans: [] } ] }
 ];
-it('should parse same as corretly', () => {
+it('should parse same as correctly', () => {
   const [twitter, url, urlWithTitleOverride] = parseSameAs(sameAs);
 
   expect(twitter).toEqual({ link: 'https://twitter.com/mbannisy', title: '@mbannisy' });

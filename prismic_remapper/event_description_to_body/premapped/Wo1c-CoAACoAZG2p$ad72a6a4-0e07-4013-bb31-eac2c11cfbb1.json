@@ -1,0 +1,260 @@
+{
+  "type": "events",
+  "tags": [
+    "delist"
+  ],
+  "lang": "en-gb",
+  "grouplang": "Wo1c-CoAACoAZG2r",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Creative activities",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmiysAACx_A8NR",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmiysAACx_A8NR"
+  },
+  "place": {
+    "id": "Wn1fvyoAACgAH_yG",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1fvyoAACgAH_yG"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "Wo1YeCoAACoAZFoN",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/Wo1YeCoAACoAZFoN"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-04-05T18:00:00+00:00",
+      "endDateTime": "2018-04-05T21:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Drop in any time on the night to experience a selection of small creative workshops.",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Join a 25-minute masterclass looking at how traditional stories can be retold in compelling ways. Explore the radical, contemporary poetry of Meena Kandasamy and then write your own. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Create self-portraits through drawing, collage and painting, and think about how gender, colonialism, alternative medicine, art, science, illness, the body and wellbeing interlink.",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Take part in a creative drawing and making workshop that will explore questions raised by the bridal ritual Solah Shringar.",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "Design your own mandala, a visual representation of the universe or enlightened mind, while exploring female sexual and reproductive health from an Ayurvedic perspective.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "On the night, we'll hand out a schedule so you can decide which workshops you want to take part in. Each workshop can take up to 15 people at a time.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your facilitators",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Ankita Saxena is a British-Indian poet from London. She graduated from Oxford, studying English, and is now part of Octavia, a woman of colour poetry collective, housed at the Southbank Centre.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Raju Rage is an interdisciplinary artist based in London who is proactive about using art, education and activism to forge creative survival. ",
+        "spans": [
+          {
+            "start": 0,
+            "end": 9,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "http://www.rajurage.com/who-i-am/"
+              },
+              "url": "http://www.rajurage.com/who-i-am/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Sarbjit Natt and Geraldine Bone are the creative force behind ‘A’ Team Arts, which has specialised in arts projects in youth and community settings for 40 years. They are passionate about working on women’s issues.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Raksha Patel studied MFA Painting at the Slade School of Art. Her practice looks at de-industrialisation and place in relation to the British Asian diaspora. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Most of our activities will take place in the Reading Room on Level 2. Simply head up our spiral staircase or take the lifts to find us. ",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The building might be busy and space is limited, so entry is not guaranteed.",
+        "spans": []
+      }
+    }
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$e8c4752f-b123-4f3c-a833-4b2eea621c32",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Experience a selection of different creative activities by dropping in on the night.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WrtwJh8AAHPY8FIm",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fbf57f77c-d667-4b8e-a846-7752f34ba644_ep_000144_054.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/bcc5241dfd18e69512aa3068dc922e295ed551bb_ep_000144_054.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Your Reality is Broken Friday Spectacular | Steven Pocock | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of two women sat at a table surrounded by coloured pens and pencils, undertaking a creative drawing workshop.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WrtwJh8AAHPY8FIm",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fbf57f77c-d667-4b8e-a846-7752f34ba644_ep_000144_054.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/3ad35be583000542e9b1134f5b8a902eb6c9c068_ep_000144_054.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -2035,
+                    "y": 0
+                  }
+                },
+                "credits": "Your Reality is Broken Friday Spectacular | Steven Pocock | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of two women sat at a table surrounded by coloured pens and pencils, undertaking a creative drawing workshop."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WrtwJh8AAHPY8FIm",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fbf57f77c-d667-4b8e-a846-7752f34ba644_ep_000144_054.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/031e4aab0e6732ae9fbb04944c7fb047c18c92b9_ep_000144_054.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Your Reality is Broken Friday Spectacular | Steven Pocock | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of two women sat at a table surrounded by coloured pens and pencils, undertaking a creative drawing workshop."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

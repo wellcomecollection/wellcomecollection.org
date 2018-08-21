@@ -1,0 +1,203 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WzIp-yoAAF2NJuLL",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Tempting Fête",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Ww_LyiEAAFOTlJ4-",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Ww_LyiEAAFOTlJ4-"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-19T17:00:00+00:00",
+      "endDateTime": "2018-07-19T21:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join us for an evening of drop-in opportunities throughout the building.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Attend a book surgery and have your summer reading ‘prescribed’ or have a go at playing the Morse Code game. On the ground floor there'll also be summery music performed by the Wellcome choir. Come along to Wellcome book club upstairs in the Reading Room, who have chosen ‘All My Puny Sorrows’ by Miriam Toews as this month’s read. ",
+        "spans": [
+          {
+            "start": 273,
+            "end": 292,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomebookprize.org/book/all-my-puny-sorrows"
+              },
+              "url": "https://wellcomebookprize.org/book/all-my-puny-sorrows"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "You can also buy cocktails and savour a special summer menu in the café, or enjoy a burger-and-beer deal in Wellcome Kitchen.\n",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The Wellcome Shop and Café can be found on the ground floor. The Reading Room and Kitchen can be accessed on level 2 via the lifts or staircase. ",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$f99c2386-4cb6-4a5d-a9be-99b66bd816f5",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join us for an evening of drop-in opportunities throughout the building, including books, games, cocktails and food.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WzTABioAANbWMllh",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2474bbef-89eb-46ab-880a-fdbee15b7560_c0144444.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/52f4be47a2443b1c965ec67443ac4fbfdd21bc50_c0144444.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "The Wellcome Shop | Camilla Greenwell | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of people browsing in the Wellcome Collection bookshop.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WzTABioAANbWMllh",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2474bbef-89eb-46ab-880a-fdbee15b7560_c0144444.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/c25fc53ed3916ff0ac2c1f3c228cacb96bbaf7b0_c0144444.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1618,
+                    "y": 0
+                  }
+                },
+                "credits": "The Wellcome Shop | Camilla Greenwell | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of people browsing in the Wellcome Collection bookshop."
+              },
+              "32:15": {
+                "origin": {
+                  "id": "WzTABioAANbWMllh",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2474bbef-89eb-46ab-880a-fdbee15b7560_c0144444.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f0878c33671461808c46666a411efca747124911_c0144444.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -150
+                  }
+                },
+                "credits": "The Wellcome Shop | Camilla Greenwell | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of people browsing in the Wellcome Collection bookshop."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WzTABioAANbWMllh",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2474bbef-89eb-46ab-880a-fdbee15b7560_c0144444.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/bcdceabe08cf8b0a3a9facdfc5964d3cf968e38c_c0144444.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "The Wellcome Shop | Camilla Greenwell | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of people browsing in the Wellcome Collection bookshop."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

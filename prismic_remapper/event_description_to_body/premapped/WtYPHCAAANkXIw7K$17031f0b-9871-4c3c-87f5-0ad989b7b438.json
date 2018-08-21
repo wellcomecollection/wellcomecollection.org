@@ -1,0 +1,263 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WtYPHCAAANkXIw7M",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Smiles Apart",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1gUioAACoAH_8S",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gUioAACoAH_8S"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-06-14T18:00:00+00:00",
+      "endDateTime": "2018-06-14T19:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Hear from an expert panel about the history of dental health and the inequalities of access to dental healthcare today. You'll join a discussion about dental health policies and our rights and responsibilities when it comes to our own teeth. You'll have an opportunity to ask questions or just listen in. It's up to you.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speakers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Dr Claire Jones is a historian of medicine and health at the University of Kent.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 15,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://www.kent.ac.uk/history/staff/profiles/jones-c-l.html"
+              },
+              "url": "https://www.kent.ac.uk/history/staff/profiles/jones-c-l.html"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Professor Richard Watt is Chair of Dental Public Health at University College London. ",
+        "spans": [
+          {
+            "start": 0,
+            "end": 22,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://iris.ucl.ac.uk/iris/browse/profile?upi=RGWAT37"
+              },
+              "url": "https://iris.ucl.ac.uk/iris/browse/profile?upi=RGWAT37"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Dr Flora Smyth Zahra is a restorative dentist, as well as Senior Clinical Teacher and Clinical Humanities Programmes Lead at the King's College London Dental Institute.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 20,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://kclpure.kcl.ac.uk/portal/flora.smyth_zahra.html"
+              },
+              "url": "https://kclpure.kcl.ac.uk/portal/flora.smyth_zahra.html"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Your facilitator is Jonny Berliner, science troubadour, educator and graduate in the history and philosophy of science.",
+        "spans": [
+          {
+            "start": 20,
+            "end": 34,
+            "type": "hyperlink",
+            "data": {
+              "url": "http://www.jonnyberliner.com/",
+              "target": "_blank"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In the Forum on level 1. Enter through the Medicine Now gallery and turn left to reach the Forum.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WmXl4iQAACUAnyDr",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WmXl4iQAACUAnyDr"
+      }
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/45286031740?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/smiles-apart-tickets-45286031740",
+    "type": "link",
+    "version": "1.0",
+    "title": "Smiles Apart",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/45286031740?aff=efbneb\"><h1>Smiles Apart</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>Smiles Apart</p></a></div>"
+  },
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$406f27b8-a50f-4045-a641-d69c91ca9407",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Hear from our expert panel about the history of dental health and the inequalities of access to dental healthcare today. ",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WuDHoCIAALdqqwqv",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F4c47ca89-fc78-4946-a2b1-33d668dc1ba4_c0126760.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/5f58196a2646cf47f6e0e1aac997fa312a582e46_c0126760.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Discussion event in the Forum | Camila Greenwell | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a man giving a talk to an audience",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WuDHoCIAALdqqwqv",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F4c47ca89-fc78-4946-a2b1-33d668dc1ba4_c0126760.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/86367ff103903f105339ded8f4abaa610d164750_c0126760.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Discussion event in the Forum | Camila Greenwell | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a man giving a talk to an audience"
+              },
+              "square": {
+                "origin": {
+                  "id": "WuDHoCIAALdqqwqv",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F4c47ca89-fc78-4946-a2b1-33d668dc1ba4_c0126760.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f58ee3eebae2e90f47ee9c8ac5a0defbc6b16f7c_c0126760.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1320,
+                    "y": 0
+                  }
+                },
+                "credits": "Discussion event in the Forum | Camila Greenwell | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a man giving a talk to an audience"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

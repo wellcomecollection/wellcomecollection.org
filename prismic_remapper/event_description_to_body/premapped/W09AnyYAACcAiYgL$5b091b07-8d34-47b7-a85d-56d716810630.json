@@ -1,0 +1,272 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "W09AnyYAACcAiYgN",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Instant and Film Photography",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmiysAACx_A8NR",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmiysAACx_A8NR"
+  },
+  "place": {
+    "id": "Wn3ZFyoAACkAIgPT",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn3ZFyoAACkAIgPT"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WlYT_SQAACcAWccj",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WlYT_SQAACcAWccj"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-08-11T13:00:00+00:00",
+      "endDateTime": "2018-08-11T14:30:00+00:00"
+    },
+    {
+      "startDateTime": "2018-08-11T15:00:00+00:00",
+      "endDateTime": "2018-08-11T16:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Use either an instant or film camera to develop photography skills to put into practice during your summer break. Working in pairs or groups, you’ll create photographs inspired by each other and by unique objects from our Teeth exhibition.",
+        "spans": [
+          {
+            "start": 222,
+            "end": 227,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/exhibitions/WgV_ACUAAIu2P_ZM?gclid=EAIaIQobChMI4Kve8eqo3AIVqrXtCh13Jw1WEAAYASAAEgKC__D_BwE"
+              },
+              "url": "https://wellcomecollection.org/exhibitions/WgV_ACUAAIu2P_ZM?gclid=EAIaIQobChMI4Kve8eqo3AIVqrXtCh13Jw1WEAAYASAAEgKC__D_BwE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "During the first workshop on instant photography, you’ll learn all the techniques you need to take expressive close-ups of yourself, other people and exhibits, using the Lomo’Instant Wide camera. You’ll create immediate images to take away on the day. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The second workshop will focus on film photography, teaching you the tips and tricks of loading a 35 mm camera and shooting original and unusual images through a fisheye lens. Your pictures will be sent to you as soon as we’ve developed them. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your facilitators",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Hannah Brown and Holly Buckle from the Lomography Gallery Store in Soho will provide all the equipment and advice you’ll need to take striking photographs.",
+        "spans": [
+          {
+            "start": 39,
+            "end": 63,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://www.lomography.com/about/stores/united-kingdom"
+              },
+              "url": "https://www.lomography.com/about/stores/united-kingdom"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The workshops will take place in our Studio on level 1. When you enter the museum, head up the stairs or take the lift to level 1 and follow the signs. Each workshop has 25 spaces available. Sign-up will open at 13.30 in the Studio. Places are given out on a first-come, first-served basis.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "These workshops are for anyone aged 14–19. If you’re visiting the museum with a parent, guardian or support worker, they are welcome to drop you off at our Studio. If you’d like someone to support you during the session, just let us know in advance of the session or on the day.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {
+      "audience": {
+        "id": "WlYWECQAACcAWdBf",
+        "mask": "audiences",
+        "wioUrl": "wio://documents/WlYWECQAACcAWdBf"
+      }
+    }
+  ],
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Each workshop has 25 spaces available. Sign-up will open at 13.30 in the Studio.",
+        "spans": []
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$10741d05-5dc9-4011-9f31-22e6905a3dd4",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join us and learn how to take expressive close-up photos and use a fisheye lens.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "W0-gfyYAACUAiy24",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F5e73b8a6-bfe6-46d1-a7b7-121da4cd0b34_eeafc326-e4ba-4b1f-a0db-ab299cc6bf01.jpeg",
+              "width": 4000,
+              "height": 2248
+            },
+            "width": 4000,
+            "height": 2248,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ef32cd3ef734b78d8c12829af4f0be85cbf44fb6_eeafc326-e4ba-4b1f-a0db-ab299cc6bf01.jpeg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Saturday Studio Instant and Film Photography | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a young woman taking a photograph of a young man with a Lomographic camera in the Youth Studio at Wellcome Collection.",
+            "thumbnails": {
+              "32:15": {
+                "origin": {
+                  "id": "W0-gfyYAACUAiy24",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F5e73b8a6-bfe6-46d1-a7b7-121da4cd0b34_eeafc326-e4ba-4b1f-a0db-ab299cc6bf01.jpeg",
+                  "width": 4000,
+                  "height": 2248
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e163f8ce6b4b42868df5ee971124e0bbcd38427a_eeafc326-e4ba-4b1f-a0db-ab299cc6bf01.jpeg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -149
+                  }
+                },
+                "credits": "Saturday Studio Instant and Film Photography | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a young woman taking a photograph of a young man with a Lomographic camera in the Youth Studio at Wellcome Collection."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "W0-gfyYAACUAiy24",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F5e73b8a6-bfe6-46d1-a7b7-121da4cd0b34_eeafc326-e4ba-4b1f-a0db-ab299cc6bf01.jpeg",
+                  "width": 4000,
+                  "height": 2248
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/01e3f1928307c09f78fee17aaa5ddacb76f0e3d2_eeafc326-e4ba-4b1f-a0db-ab299cc6bf01.jpeg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.800711743772242,
+                  "crop": {
+                    "x": -1,
+                    "y": 0
+                  }
+                },
+                "credits": "Saturday Studio Instant and Film Photography | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a young woman taking a photograph of a young man with a Lomographic camera in the Youth Studio at Wellcome Collection."
+              },
+              "square": {
+                "origin": {
+                  "id": "W0-gfyYAACUAiy24",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F5e73b8a6-bfe6-46d1-a7b7-121da4cd0b34_eeafc326-e4ba-4b1f-a0db-ab299cc6bf01.jpeg",
+                  "width": 4000,
+                  "height": 2248
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/24e221066ed25a754a2fdf0562a35c05fc7d4f4a_eeafc326-e4ba-4b1f-a0db-ab299cc6bf01.jpeg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4234875444839858,
+                  "crop": {
+                    "x": -1605,
+                    "y": -7
+                  }
+                },
+                "credits": "Saturday Studio Instant and Film Photography | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a young woman taking a photograph of a young man with a Lomographic camera in the Youth Studio at Wellcome Collection."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

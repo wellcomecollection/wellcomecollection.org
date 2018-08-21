@@ -1,0 +1,68 @@
+{
+  "type": "events",
+  "tags": [
+    "delist"
+  ],
+  "lang": "en-gb",
+  "grouplang": "Ww5swyEAAEU5jpVw",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Public Studio on End of Life Care",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmiysAACx_A8NR",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmiysAACx_A8NR"
+  },
+  "place": {
+    "id": "Wn3ZFyoAACkAIgPT",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn3ZFyoAACkAIgPT"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-06T20:00:00+00:00",
+      "endDateTime": "2018-07-06T21:15:00+00:00"
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$fa2d51d8-56d8-4afa-ab16-a719b0f5809c",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join designer Matt Harrison and palliative care expert Heather Richardson to workshop how emerging digital technologies can support care for people at the end of their life.",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -36,7 +36,14 @@ export function exhibitionLd(exhibition) {
     startDate: exhibition.start,
     endDate: exhibition.end,
     url: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
-    isAccessibleForFree: true
+    isAccessibleForFree: true,
+    performers: exhibition.contributors.map(({contributor, role, description}) => {
+      const type = contributor.type === 'person' ? 'Person' : 'Organization';
+      return objToJsonLd({
+        name: contributor.name,
+        image: contributor.image && contributor.image.contentUrl
+      }, type, false);
+    })
   }, 'ExhibitionEvent');
 }
 
@@ -111,8 +118,16 @@ export function eventLd(event: Event) {
       },
       startDate: event.times.map(time => time.range.startDateTime),
       endDate: event.times.map(time => time.range.endDateTime),
-      description: event.description,
-      image: event.promo && event.promo.image && convertImageUri(event.promo.image.contentUrl, 1920, false)
+      description: event.promoText,
+      image: event.promoImage && event.promoImage.contentUrl && convertImageUri(event.promoImage.contentUrl, 1920, false),
+      isAccessibleForFree: !event.cost,
+      performers: event.contributors.map(({contributor, role, description}) => {
+        const type = contributor.type === 'person' ? 'Person' : 'Organization';
+        return objToJsonLd({
+          name: contributor.name,
+          image: contributor.image && contributor.image.contentUrl
+        }, type, false);
+      })
     }, 'Event');
   });
 }

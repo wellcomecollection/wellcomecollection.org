@@ -1,0 +1,219 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "W3K54ykAACcAEIGN",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Daylighting",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmiysAACx_A8NR",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmiysAACx_A8NR"
+  },
+  "place": {
+    "id": "Wn1gUioAACoAH_8S",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gUioAACoAH_8S"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-10-18T17:00:00+00:00",
+      "endDateTime": "2018-10-21T17:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Get involved in producing Daylight, a collaborative newspaper that will feature women’s writing, art and ideas. You will use a printing press to set type, creating impressions on the page that will be shared with library archives across the country. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "There will also be readings, live writing workshops, discussions and performance featuring the Women of Colour Index Reading Group, The F* Choir and Wellcome Collection archivists. ",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "policies": [
+    {
+      "policy": {
+        "id": "W3RJeikAACIAF2Mw",
+        "mask": "event-policies",
+        "wioUrl": "wio://documents/W3RJeikAACIAF2Mw"
+      }
+    }
+  ],
+  "isDropIn": "yes",
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "Wux6DyIAAO5n3lzk",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/Wux6DyIAAO5n3lzk"
+      },
+      "contributor": {
+        "id": "W3Qy9ykAACkAFv9q",
+        "mask": "people",
+        "wioUrl": "wio://documents/W3Qy9ykAACkAFv9q"
+      }
+    },
+    {
+      "role": {
+        "id": "Wux6DyIAAO5n3lzk",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/Wux6DyIAAO5n3lzk"
+      },
+      "contributor": {
+        "id": "W3QzDykAACcAFv_b",
+        "mask": "people",
+        "wioUrl": "wio://documents/W3QzDykAACcAFv_b"
+      }
+    },
+    {
+      "role": {
+        "id": "Wux6DyIAAO5n3lzk",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/Wux6DyIAAO5n3lzk"
+      },
+      "contributor": {
+        "id": "W3Qy4ikAACIAFv8I",
+        "mask": "people",
+        "wioUrl": "wio://documents/W3Qy4ikAACIAFv8I"
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$f9216e49-b050-4c6c-96bb-aea423c7d5d4",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Get involved in producing Daylight, a collaborative newspaper that will feature women’s writing, art and ideas.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "W3U83ikAACkAG5kN",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F6e4e47c9-e4c1-4ed3-be85-a0c00c98f6d5_c0144431_large.jpg",
+              "width": 2996,
+              "height": 1685
+            },
+            "width": 2996,
+            "height": 1685,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/d5db705efb5c3083787d2943746a5349da50769d_c0144431_large.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "32:15": {
+                "origin": {
+                  "id": "W3U83ikAACkAG5kN",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F6e4e47c9-e4c1-4ed3-be85-a0c00c98f6d5_c0144431_large.jpg",
+                  "width": 2996,
+                  "height": 1685
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/8073649139289bdad0017e82a51b273cb2d63872_c0144431_large.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.0680907877169559,
+                  "crop": {
+                    "x": 0,
+                    "y": -150
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "W3U83ikAACkAG5kN",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F6e4e47c9-e4c1-4ed3-be85-a0c00c98f6d5_c0144431_large.jpg",
+                  "width": 2996,
+                  "height": 1685
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/1a12eadc4b6b0b6ccb6b4a92a1b5f867eb278507_c0144431_large.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.8991097922848665,
+                  "crop": {
+                    "x": -1245,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "16:9": {
+                "origin": {
+                  "id": "W3U83ikAACkAG5kN",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F6e4e47c9-e4c1-4ed3-be85-a0c00c98f6d5_c0144431_large.jpg",
+                  "width": 2996,
+                  "height": 1685
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f1ab23a515dfefc0893c3b470ff79d0ba0bfb549_c0144431_large.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.0682492581602374,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
