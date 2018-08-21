@@ -1,0 +1,265 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Wn3Z_CoAACkAIgeX",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Creative Game Design",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WcKmiysAACx_A8NR",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WcKmiysAACx_A8NR"
+  },
+  "place": {
+    "id": "Wn3ZFyoAACkAIgPT",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn3ZFyoAACkAIgPT"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WlYT_SQAACcAWccj",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WlYT_SQAACcAWccj"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-03-24T14:00:00+00:00",
+      "endDateTime": "2018-03-24T15:30:00+00:00"
+    },
+    {
+      "startDateTime": "2018-03-24T16:00:00+00:00",
+      "endDateTime": "2018-03-24T17:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In this interactive workshop, work with professional game designers to create your own text-based game on iPads using the web platform Twine. You’ll have the opportunity to learn the basics of game design theory. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "By the end of the session, you’ll have created your own short game that you can access at home.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "All the equipment is provided – you won’t need to bring a thing. We’ll provide snacks, too. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your facilitators",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Two games designers from Three Knots games studio will be running the session.",
+        "spans": [
+          {
+            "start": 25,
+            "end": 49,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "http://threeknots.co.uk/"
+              },
+              "url": "http://threeknots.co.uk/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Who can come",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "All young people aged 14–19 are welcome, on your own or in small groups. If you’re arriving with a parent, they can drop you off at the door.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "If you have any access requirements, please get in touch by email ahead of the session. ",
+        "spans": [
+          {
+            "start": 60,
+            "end": 65,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "mailto:access@wellcomecollection.org"
+              },
+              "url": "mailto:access@wellcomecollection.org"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The Studio is on Level 1. Head upstairs and follow the signs to the Studio. There are 25 places in each workshop and it’s first come, first served. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {
+      "audience": {
+        "id": "WlYWECQAACcAWdBf",
+        "mask": "audiences",
+        "wioUrl": "wio://documents/WlYWECQAACcAWdBf"
+      }
+    }
+  ],
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To take part, you’ll have to sign up before the start of the workshops. Sign-up begins at 13.30 on Saturday, and once the first session is full, we’ll take bookings for the second one.",
+        "spans": []
+      }
+    }
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$30e08a84-9468-436c-aaf7-c8636061b21c",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "In this interactive workshop, you’ll work with professional game designers to create your own text-based game on iPads.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WqelmiUAAPjnVXOg",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7fc5601c-7e0f-4b34-86a2-3af890a36e7e_btg180309114345.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/64ee97d045101a0ecfb44d65dc129e18b54d5be8_btg180309114345.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Games Design workshop | Benjamin Gilbert | | | CC-BY | Wellcome Collection |",
+            "alt": "Photograph showing a table with an iPad, pens, a hot chocolate, muffin and hands writing on a pink Post-It note.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WqelmiUAAPjnVXOg",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7fc5601c-7e0f-4b34-86a2-3af890a36e7e_btg180309114345.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/842937d7716b86830570c5265b3753d7ca17d19a_btg180309114345.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -529,
+                    "y": 0
+                  }
+                },
+                "credits": "Games Design workshop | Benjamin Gilbert | | | CC-BY | Wellcome Collection |",
+                "alt": "Photograph showing a table with an iPad, pens, a hot chocolate, muffin and hands writing on a pink Post-It note."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WqelmiUAAPjnVXOg",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7fc5601c-7e0f-4b34-86a2-3af890a36e7e_btg180309114345.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/b6ecad4d32b3a11bc0e2c44f9e16c9ca9ca610b3_btg180309114345.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Games Design workshop | Benjamin Gilbert | | | CC-BY | Wellcome Collection |",
+                "alt": "Photograph showing a table with an iPad, pens, a hot chocolate, muffin and hands writing on a pink Post-It note."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

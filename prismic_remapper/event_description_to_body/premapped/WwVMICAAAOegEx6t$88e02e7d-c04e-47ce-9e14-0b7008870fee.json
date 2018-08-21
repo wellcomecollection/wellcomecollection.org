@@ -1,0 +1,208 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WwVMICAAAOegEx6v",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Perspective tour with Katharine Dowson",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WmYRpCQAACUAn-Ap",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WmYRpCQAACUAn-Ap"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WlYUDCQAACQAWcdt",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WlYUDCQAACQAWcdt"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-05-31T18:00:00+00:00",
+      "endDateTime": "2018-05-31T18:45:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join Katharine Dowson for a tour of Somewhere in Between. You’ll hear her personal views and insights into the exhibition and have an opportunity to ask questions.",
+        "spans": [
+          {
+            "start": 36,
+            "end": 56,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/exhibitions/WhvoAykAACgAlDoo"
+              },
+              "url": "https://wellcomecollection.org/exhibitions/WhvoAykAACgAlDoo"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your guide",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Katharine Dowson studied sculpture at the Royal College of Art. Her work has been exhibited worldwide by the Wellcome Trust, the Arts Council Collection and by The Bill and Melinda Gates Foundation for the project ‘Art of Saving a Life’.   Her work was bought by Charles Saatchi and is included in 'Shark Infested Waters, Saatchi Collection of British Art in the 90s'.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Dowson's work featured in 'Spectacular Bodies, A History of Anatomical Art from Leonardo to Now' at the Haywood Gallery and 'Brains: Mind as Matter'  at Wellcome Collection.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To attend, just turn up and meet your guide beside the Information Point on Level 0. There is no need to book (though spaces are limited). ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The tour will take place in the Somewhere in Between exhibition, also on Level 0.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "contributors": [],
+  "promo": [
+    {
+      "key": "editorialImage$87443fbb-2642-4e10-bb11-fd854e3c94d1",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Get an inside perspective on an installation in Somewhere in Between from the perspective of a sculptor.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WwVsCSAAAOegE6qC",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F09c09d10-cc6f-4578-8424-452d5cac64c5_ep_000364_006.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/9231376d80c9fbb054e00797c4b050dd67b97272_ep_000364_006.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Katharine Dowson | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Head and shoulders photographic portrait of Katharine Dowson on a green background.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WwVsCSAAAOegE6qC",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F09c09d10-cc6f-4578-8424-452d5cac64c5_ep_000364_006.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/935f05c5b5eb2335223b66c4fe85df3997717b1c_ep_000364_006.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1422,
+                    "y": 0
+                  }
+                },
+                "credits": "Katharine Dowson | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Head and shoulders photographic portrait of Katharine Dowson on a green background."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WwVsCSAAAOegE6qC",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F09c09d10-cc6f-4578-8424-452d5cac64c5_ep_000364_006.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/1ceed0a78327a8eb7e253d5332a6e072ed20f9f7_ep_000364_006.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Katharine Dowson | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Head and shoulders photographic portrait of Katharine Dowson on a green background."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

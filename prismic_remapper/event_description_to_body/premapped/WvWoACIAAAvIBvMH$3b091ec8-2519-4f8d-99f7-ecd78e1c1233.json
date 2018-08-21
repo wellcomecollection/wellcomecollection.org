@@ -1,0 +1,253 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WvWoACIAAAvIBvMJ",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "British Sign Language tour of Teeth",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WmYRpCQAACUAn-Ap",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WmYRpCQAACUAn-Ap"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WoLgbSoAACgANnxB",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WoLgbSoAACgANnxB"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-19T17:00:00+00:00",
+      "endDateTime": "2018-07-19T17:45:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "You’ll tour highlights from the Teeth exhibition accompanied by British Sign Language (BSL) guide John Wilson.",
+        "spans": [
+          {
+            "start": 32,
+            "end": 37,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "https://wellcomecollection.org/exhibitions/WgV_ACUAAIu2P_ZM"
+              },
+              "url": "https://wellcomecollection.org/exhibitions/WgV_ACUAAIu2P_ZM"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your guide",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "John Wilson has a wide range of experience as a deaf arts practitioner, theatre and television actor, and director and creative signer. John currently works as a BSL lecturer and guide for a number of institutions including the Tate, Royal Academy, Science Museum and Wellcome Collection.",
+        "spans": [
+          {
+            "start": 162,
+            "end": 184,
+            "type": "hyperlink",
+            "data": {
+              "preview": {
+                "title": "http://www.tate.org.uk/context-comment/video/tate-signing-art-john-wilson-on-presenting-deaf-audience"
+              },
+              "url": "http://www.tate.org.uk/context-comment/video/tate-signing-art-john-wilson-on-presenting-deaf-audience"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Meet at the information point on level 0. We'll put out a sign near the desk. ",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WlYq1SQAACYAWiuX",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WlYq1SQAACYAWiuX"
+      },
+      "isPrimary": "yes"
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "bookingEnquiryTeam": {
+    "id": "WmXh-SQAACUAnw-j",
+    "mask": "teams",
+    "wioUrl": "wio://documents/WmXh-SQAACUAnw-j"
+  },
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$bfdde5fb-a906-4cf0-ac8c-43c39a2c4b8a",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "In this access tour, you'll see highlights from the Teeth exhibition accompanied by a British Sign Language (BSL) guide. ",
+                "spans": [
+                  {
+                    "start": 52,
+                    "end": 57,
+                    "type": "hyperlink",
+                    "data": {
+                      "preview": {
+                        "title": "https://wellcomecollection.org/exhibitions/WgV_ACUAAIu2P_ZM"
+                      },
+                      "url": "https://wellcomecollection.org/exhibitions/WgV_ACUAAIu2P_ZM"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "Wz97ySYAACYAXJFw",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb9d36c6a-9bad-4f35-82aa-4d090a5f13bf_ep_000390_001.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/7949fd4c369b62de1bf9417b397b240199a54a5e_ep_000390_001.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "John Wilson | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photographic portrait of John Wilson against a green background.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "Wz97ySYAACYAXJFw",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb9d36c6a-9bad-4f35-82aa-4d090a5f13bf_ep_000390_001.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ca5bfbd24ff18c927c601edd03a75247735ce785_ep_000390_001.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "John Wilson | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of John Wilson against a green background."
+              },
+              "32:15": {
+                "origin": {
+                  "id": "Wz97ySYAACYAXJFw",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb9d36c6a-9bad-4f35-82aa-4d090a5f13bf_ep_000390_001.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/a718c999d493a4bc32461722e5b19f825f2b1fc2_ep_000390_001.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -150
+                  }
+                },
+                "credits": "John Wilson | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of John Wilson against a green background."
+              },
+              "square": {
+                "origin": {
+                  "id": "Wz97ySYAACYAXJFw",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb9d36c6a-9bad-4f35-82aa-4d090a5f13bf_ep_000390_001.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/396ce600018edec57baf6d1b2fe44edcd8701bf6_ep_000390_001.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "John Wilson | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of John Wilson against a green background."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

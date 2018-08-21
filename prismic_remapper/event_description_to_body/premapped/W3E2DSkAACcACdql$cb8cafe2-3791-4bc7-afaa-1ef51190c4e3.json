@@ -1,0 +1,254 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "W3E2DSkAACcACdqn",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Perspective Tour with Abondance",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WmYRpCQAACUAn-Ap",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WmYRpCQAACUAn-Ap"
+  },
+  "place": {
+    "id": "W22bICkAACgA-hVJ",
+    "mask": "places",
+    "wioUrl": "wio://documents/W22bICkAACgA-hVJ"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WlYUDCQAACQAWcdt",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WlYUDCQAACQAWcdt"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-08-16T17:30:00+00:00",
+      "endDateTime": "2018-08-16T18:15:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join Abondance for a tour of ‘Teeth’. You’ll hear her personal views and insights into the exhibition and have an opportunity to ask questions.",
+        "spans": [
+          {
+            "start": 30,
+            "end": 35,
+            "type": "hyperlink",
+            "data": {
+              "id": "WgV_ACUAAIu2P_ZM",
+              "mask": "exhibitions",
+              "preview": {
+                "image": "https://prismic-io.s3.amazonaws.com/wellcomecollection/medium_5096b783-bd2c-4408-b781-fece90099dae_tf_180516_2060224.jpg",
+                "title": "Teeth"
+              },
+              "wioUrl": "wio://documents/WgV_ACUAAIu2P_ZM"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your guide",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Abondance is a youth poet and co-author of the Teeth Family Activities Pack.",
+        "spans": [
+          {
+            "start": 47,
+            "end": 75,
+            "type": "hyperlink",
+            "data": {
+              "id": "W1CenyYAACUAj4Oy",
+              "mask": "pages",
+              "preview": {
+                "image": "https://prismic-io.s3.amazonaws.com/wellcomecollection/medium_e904891b-6881-482b-a95d-61856c199b58_ep_000448_017_large.jpg",
+                "title": "Families"
+              },
+              "wioUrl": "wio://documents/W1CenyYAACUAj4Oy"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To attend, just turn up and meet your guide beside the Information Point on level 0. There is no need to book (though spaces are limited). ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The tour will take place in the ‘Teeth’ exhibition on level 1.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "",
+        "spans": []
+      }
+    }
+  ],
+  "policies": [
+    {
+      "policy": {
+        "id": "W3RJeikAACIAF2Mw",
+        "mask": "event-policies",
+        "wioUrl": "wio://documents/W3RJeikAACIAF2Mw"
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ],
+  "contributors": [],
+  "promo": [
+    {
+      "key": "editorialImage$87443fbb-2642-4e10-bb11-fd854e3c94d1",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Get an inside perspective on ‘Teeth’ from a young person who helped to create the family activities for the exhibition.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "W3E3EikAACcACd8k",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fef093296-611a-4dd5-ba29-72c37db5c2ba_ep000481_0001.jpg",
+              "width": 3000,
+              "height": 1688
+            },
+            "width": 3000,
+            "height": 1688,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/cdf6421b90afc7edc9d0255d3229c9650249ed58_ep000481_0001.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "32:15": {
+                "origin": {
+                  "id": "W3E3EikAACcACd8k",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fef093296-611a-4dd5-ba29-72c37db5c2ba_ep000481_0001.jpg",
+                  "width": 3000,
+                  "height": 1688
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f1949c2813d82f65277d5e7bc0ab2e291c3f7c0e_ep000481_0001.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.0666666666666667,
+                  "crop": {
+                    "x": 0,
+                    "y": -150
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "W3E3EikAACcACd8k",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fef093296-611a-4dd5-ba29-72c37db5c2ba_ep000481_0001.jpg",
+                  "width": 3000,
+                  "height": 1688
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/41c898122d3458a2663b4776f5482ddb66f660c8_ep000481_0001.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.8957345971563981,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "16:9": {
+                "origin": {
+                  "id": "W3E3EikAACcACd8k",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fef093296-611a-4dd5-ba29-72c37db5c2ba_ep000481_0001.jpg",
+                  "width": 3000,
+                  "height": 1688
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ee77e275174b69e64172aea6b04f9d6021bc1902_ep000481_0001.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.0666666666666667,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

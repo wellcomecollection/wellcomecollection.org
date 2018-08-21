@@ -1,0 +1,254 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Wt7uKCAAAJTzSgrf",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Genes, Technology and Food",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wn3NiioAACsAIdNK",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wn3NiioAACsAIdNK"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-02T09:15:00+00:00",
+      "endDateTime": "2018-07-02T14:30:00+00:00",
+      "isFullyBooked": "yes"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join us for a day exploring the topic of genetics and the food that we eat. Your sixth-form students will get the chance to hear from experts as they take part in a full day of activities, including workshops, gallery visits and discussions.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This day links to themes from post-16 biology syllabi, such as genetic inheritance and social contexts of gene technologies.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "You’ll be sent a pack one month ahead of the symposium with more information about the day, plus pre- and post-visit activities for students to support you in making the most of your visit.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This event is inspired by the artwork Sire, part of the exhibition Somewhere in Between.",
+        "spans": [
+          {
+            "start": 38,
+            "end": 42,
+            "type": "hyperlink",
+            "data": {
+              "id": "WryoVx8AAAjk9Xmg",
+              "mask": "installations",
+              "preview": {
+                "image": "https://prismic-io.s3.amazonaws.com/wellcomecollection/medium_53b153e9-a11b-46c0-919d-c8dba2f9294f_ep_000224_008-2.jpg",
+                "title": "Sire"
+              },
+              "wioUrl": "wio://documents/WryoVx8AAAjk9Xmg"
+            }
+          },
+          {
+            "start": 67,
+            "end": 87,
+            "type": "hyperlink",
+            "data": {
+              "id": "WhvoAykAACgAlDoo",
+              "mask": "exhibitions",
+              "preview": {
+                "image": "https://prismic-io.s3.amazonaws.com/wellcomecollection/medium_3b2c2a06-3f71-46cd-84f8-490e0eb78f5f_ep_000224_011.jpg",
+                "title": "Somewhere in Between"
+              },
+              "wioUrl": "wio://documents/WhvoAykAACgAlDoo"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speakers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Your sessions will be led by expert scientists, as well as social scientists and artists who will reveal the histories and contexts behind the way we breed our food.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This symposium will be held at Wellcome Collection and you’ll get exclusive access to the galleries. ",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {
+      "audience": {
+        "id": "WlYWByQAACQAWdA0",
+        "mask": "audiences",
+        "wioUrl": "wio://documents/WlYWByQAACQAWdA0"
+      }
+    }
+  ],
+  "bookingEnquiryTeam": {
+    "id": "WmXJ-iQAACcAnqXC",
+    "mask": "teams",
+    "wioUrl": "wio://documents/WmXJ-iQAACcAnqXC"
+  },
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Teachers can book for students to attend by emailing or by phoning 020 7611 8250/8659/8361.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Group sizes must be 5–20 students per school or college. Teachers must accompany students in a ratio of 1:10.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The event is free, but we charge a fee for cancellation or changes made to group sizes less than three weeks before the event. Details of these policies are outlined in the terms and conditions documents we ask you to sign.",
+        "spans": []
+      }
+    }
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$d880215b-1b64-449b-a6c2-7df282b20584",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join us for a school symposium for groups of sixth-form students to explore the topic of genetics and the food that we eat.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "Wum9NyIAAH2l0mhx",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc0e0924d-fa87-48cc-b7a4-74c4531e7167_cp_003581_102.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/918d6117cea3464f5f72b35c78bc297e7a37198a_cp_003581_102.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "School event at Wellcome Collection | David Sandison | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "A group of secondary school-aged students sitting at a table in Wellcome Collection with skulls and drawing materials on the table in front of them and a teacher at the head of the table speaking.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "Wum9NyIAAH2l0mhx",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc0e0924d-fa87-48cc-b7a4-74c4531e7167_cp_003581_102.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/1877bdcebaeb410500155f4f56cdbdbbf64b7617_cp_003581_102.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "School event at Wellcome Collection | David Sandison | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "A group of secondary school-aged students sitting at a table in Wellcome Collection with skulls and drawing materials on the table in front of them and a teacher at the head of the table speaking."
+              },
+              "square": {
+                "origin": {
+                  "id": "Wum9NyIAAH2l0mhx",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc0e0924d-fa87-48cc-b7a4-74c4531e7167_cp_003581_102.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/8d905de7e593f159d690d05ba9160f6a493ed59d_cp_003581_102.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1056,
+                    "y": 0
+                  }
+                },
+                "credits": "School event at Wellcome Collection | David Sandison | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "A group of secondary school-aged students sitting at a table in Wellcome Collection with skulls and drawing materials on the table in front of them and a teacher at the head of the table speaking."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

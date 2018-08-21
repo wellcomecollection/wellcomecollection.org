@@ -1,0 +1,78 @@
+{
+  "type": "events",
+  "tags": [
+    "delist"
+  ],
+  "lang": "en-gb",
+  "grouplang": "Ww5rJCEAANgkjo49",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Long Table",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "WxkMfyIAAFEmRUYB",
+    "mask": "places",
+    "wioUrl": "wio://documents/WxkMfyIAAFEmRUYB"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-06T18:30:00+00:00",
+      "endDateTime": "2018-07-06T20:00:00+00:00"
+    },
+    {
+      "startDateTime": "2018-07-06T20:30:00+00:00",
+      "endDateTime": "2018-07-06T22:00:00+00:00"
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WlYq1SQAACYAWiuX",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WlYq1SQAACYAWiuX"
+      }
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$757badd8-d8e4-4344-9c70-edf00334dd65",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Take a seat and discuss with artists and activists! At 7.30, talk care, disability & disobedience with Katherine Araniello, Daniel Oliver, and Tammy Reynolds. At 9.30 talk about care in the digital age with Topher Campbell.",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

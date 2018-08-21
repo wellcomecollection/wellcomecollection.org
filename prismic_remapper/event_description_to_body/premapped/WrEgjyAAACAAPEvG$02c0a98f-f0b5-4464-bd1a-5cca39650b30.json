@@ -1,0 +1,251 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WrEgjyAAACAAPEvI",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Voices in Between",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "WmYRpCQAACUAn-Ap",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/WmYRpCQAACUAn-Ap"
+  },
+  "place": {
+    "id": "WrEgqSAAACAAPEw7",
+    "mask": "places",
+    "wioUrl": "wio://documents/WrEgqSAAACAAPEw7"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WoLgbSoAACgANnxB",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WoLgbSoAACgANnxB"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-04-19T17:00:00+00:00",
+      "endDateTime": "2018-04-19T18:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join us for an audio description tour of Somewhere in Between. Four Visitor Experience Assistants will lead you around each of the four installations to discuss and explore the scientific themes behind the art. ",
+        "spans": [
+          {
+            "start": 41,
+            "end": 61,
+            "type": "hyperlink",
+            "data": {
+              "id": "WhvoAykAACgAlDoo",
+              "mask": "exhibitions",
+              "preview": {
+                "image": "https://prismic-io.s3.amazonaws.com/wellcomecollection/medium_3b2c2a06-3f71-46cd-84f8-490e0eb78f5f_ep_000224_011.jpg",
+                "title": "Somewhere in Between"
+              },
+              "wioUrl": "wio://documents/WhvoAykAACgAlDoo"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "‘Sire’ explores bovine genetics through sculptures and photos. You'll have the opportunity to handle the sculpture source material if you like. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "‘Sensorium Tests’ and ‘At the Threshold’ examine mirror-touch synaesthesia through film.",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "‘Alien Sex Club’ explores sexual health and queerness within a maze of materials.",
+        "spans": []
+      }
+    },
+    {
+      "type": "list-item",
+      "content": {
+        "text": "‘Under’ examines the seemingly superhuman properties of breathing through freediving and immersive film.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "You can ask questions throughout. The event is one hour with standing and walking, but there will be opportunities to sit too, and seating is available on request.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your guides",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Visitor Experience Assistants Zia, Felix, Nelly and Jordan are all trained in audio description by VocalEyes. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The tour will begin at the entrance to Somewhere in Between in Gallery 1 on Level 0. ",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "interpretationType": {
+        "id": "WmXhziQAACQAnw7i",
+        "mask": "interpretation-types",
+        "wioUrl": "wio://documents/WmXhziQAACQAnw7i"
+      },
+      "isPrimary": "yes"
+    }
+  ],
+  "audiences": [
+    {}
+  ],
+  "bookingEnquiryTeam": {
+    "id": "WmXh-SQAACUAnw-j",
+    "mask": "teams",
+    "wioUrl": "wio://documents/WmXh-SQAACUAnw-j"
+  },
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This tour has been created for visitors who are blind or partially sighted. Places are free but very limited. If you would like to come along, please email access@wellcomecollection.org or call 020 7611 2222.",
+        "spans": [
+          {
+            "start": 156,
+            "end": 185,
+            "type": "hyperlink",
+            "data": {
+              "url": "mailto:access@wellcomecollection.org?subject=AD%20Discussion%3A%20Spices"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$e292483f-ea64-48cc-aedd-a962596776c0",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "image": {
+            "origin": {
+              "id": "WrE0uCAAAB8APKRu",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F96a8afe4-3c01-4e77-95ee-cb1321e5c5bb_ep_000285_055.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/eac14d19e491be99686fa36567f0854895ec8d29_ep_000285_055.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WrE0uCAAAB8APKRu",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F96a8afe4-3c01-4e77-95ee-cb1321e5c5bb_ep_000285_055.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/eeec962f4ed71070bc384d216a03acbadcab4571_ep_000285_055.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "WrE0uCAAAB8APKRu",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F96a8afe4-3c01-4e77-95ee-cb1321e5c5bb_ep_000285_055.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e176a0ca474717cacfc0e88d17c76879ceba6f3e_ep_000285_055.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1967,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

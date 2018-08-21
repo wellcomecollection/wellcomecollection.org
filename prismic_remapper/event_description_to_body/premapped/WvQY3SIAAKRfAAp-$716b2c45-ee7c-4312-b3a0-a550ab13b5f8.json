@@ -1,0 +1,167 @@
+{
+  "type": "events",
+  "tags": [
+    "delist"
+  ],
+  "lang": "en-gb",
+  "grouplang": "WvQY3SIAAKRfAAqA",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Tarot Card Reading",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wn3Q3SoAACsAIeFI",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wn3Q3SoAACsAIeFI"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-07-26T17:00:00+00:00",
+      "endDateTime": "2018-07-26T21:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Ask the tarot card readers for an unconventional reading using John Walter’s tarot cards from the ‘Alien Sex Club’ installation.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Find the tarot card readers on level 0 and level 1 all evening.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "bookingInformation": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The building might be busy and space is limited, so entry is not guaranteed.",
+        "spans": []
+      }
+    }
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$a435afcd-9aaf-4377-b79f-45b76193cf48",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Get an unconventional tarot card reading with John Walter’s ‘Alien Sex Club’ tarot cards.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WqpnHSAAACAAHvI6",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F43f78c1a-304a-4d92-b342-0b32c67e2571_ep_000285_009.jpg",
+              "width": 4000,
+              "height": 2702
+            },
+            "width": 4000,
+            "height": 2702,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/9cacc0c44dfc8c60c1b7ce8ce11051702160afc2_ep_000285_009.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a wall of colour large artworks, leaning against the wall on two long shelves which disappears into the distance. In the background are two gallery visitors.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WqpnHSAAACAAHvI6",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F43f78c1a-304a-4d92-b342-0b32c67e2571_ep_000285_009.jpg",
+                  "width": 4000,
+                  "height": 2702
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/5160dcb4ddc81efd16866a4cf63ea60cacd5c212_ep_000285_009.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -181
+                  }
+                },
+                "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a wall of colour large artworks, leaning against the wall on two long shelves which disappears into the distance. In the background are two gallery visitors."
+              },
+              "square": {
+                "origin": {
+                  "id": "WqpnHSAAACAAHvI6",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F43f78c1a-304a-4d92-b342-0b32c67e2571_ep_000285_009.jpg",
+                  "width": 4000,
+                  "height": 2702
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f57ad234ec43d01fe9e98dc6820d1570036f9487_ep_000285_009.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.1843079200592155,
+                  "crop": {
+                    "x": -769,
+                    "y": 0
+                  }
+                },
+                "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a wall of colour large artworks, leaning against the wall on two long shelves which disappears into the distance. In the background are two gallery visitors."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

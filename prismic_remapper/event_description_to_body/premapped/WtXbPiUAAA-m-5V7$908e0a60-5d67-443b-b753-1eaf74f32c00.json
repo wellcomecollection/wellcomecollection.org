@@ -1,0 +1,239 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WtXbPiUAAA-m-5V9",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Left to Rot",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1fvyoAACgAH_yG",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1fvyoAACgAH_yG"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WoK-NioAACkANeWK",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WoK-NioAACkANeWK"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-05-23T17:00:00+00:00",
+      "endDateTime": "2018-05-23T18:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Join us for a discussion on tooth decay and medical ethics. Among the events from history that you’ll hear about is the story of a controversial Swedish experiment involving people being force-fed toffee. You’ll have the opportunity to ask questions after hearing the expert panel speak. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This event is linked with the exhibition Teeth.",
+        "spans": [
+          {
+            "start": 41,
+            "end": 46,
+            "type": "hyperlink",
+            "data": {
+              "id": "WgV_ACUAAIu2P_ZM",
+              "mask": "exhibitions",
+              "preview": {
+                "image": "https://prismic-io.s3.amazonaws.com/wellcomecollection/medium_4112b0d2-c4d5-4946-8c10-d1e5a5bdf641_mp-6822.26_teeth_web+page+assets+%282048+x+960%29_v1b.jpg",
+                "title": "Teeth"
+              },
+              "wioUrl": "wio://documents/WgV_ACUAAIu2P_ZM"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speakers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Rebecka Klette is researching degeneration theory at Birkbeck, University of London.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Claire Jones researches the history of medicine and health in modern Britain and is based at the University of Kent.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "David J. Saunders is studying human experimentation at Queen Mary University of London.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Jennifer Wallis studies histories of the body and is a lecturer at Queen Mary University of London. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "When you arrive at Wellcome, follow the signs up the stairs or take the lift. We’ll be in the Viewing Room on Level 2, opposite the Library entrance. The Viewing Room has space for about 40 people to sit.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/44411175020?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/library-insights-left-to-rot-tooth-decay-and-medical-ethics-tickets-44411175020",
+    "type": "link",
+    "version": "1.0",
+    "title": "Library Insights: Left to Rot - Tooth decay and medical ethics",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/44411175020?aff=efbneb\"><h1>Library Insights: Left to Rot - Tooth decay and medical ethics</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>Library Insights: Left to Rot - Tooth decay and medical ethics</p></a></div>"
+  },
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$c3eb5845-131e-46c1-8a24-d3a5ac4bff4f",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Join us for a discussion on tooth decay and medical ethics, inspired by an experiment from history involving people being force-fed toffee.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WtdY7SAAAHJaKLJa",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F24f05934-8b61-47d8-afe3-4d1dc5663e5d_5db8abe7-a4bb-4e4e-a8e6-a85716d259e1.jpeg",
+              "width": 5804,
+              "height": 3265
+            },
+            "width": 5804,
+            "height": 3265,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/d410ca88f984d9c24ce553b9be1e4e544707393b_5db8abe7-a4bb-4e4e-a8e6-a85716d259e1.jpeg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Library Insights talk in the Viewing Room | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a woman standing at a lecturn giving a talk to an audience. Beside her on the wall is a large screen showing her presentation slides. ",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WtdY7SAAAHJaKLJa",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F24f05934-8b61-47d8-afe3-4d1dc5663e5d_5db8abe7-a4bb-4e4e-a8e6-a85716d259e1.jpeg",
+                  "width": 5804,
+                  "height": 3265
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/147ecc2694d51725baceab9752217ef38f2b9b62_5db8abe7-a4bb-4e4e-a8e6-a85716d259e1.jpeg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.5513439007580979,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Library Insights talk in the Viewing Room | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a woman standing at a lecturn giving a talk to an audience. Beside her on the wall is a large screen showing her presentation slides. "
+              },
+              "square": {
+                "origin": {
+                  "id": "WtdY7SAAAHJaKLJa",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F24f05934-8b61-47d8-afe3-4d1dc5663e5d_5db8abe7-a4bb-4e4e-a8e6-a85716d259e1.jpeg",
+                  "width": 5804,
+                  "height": 3265
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e5784ee4adbd11f6aca9124fe9485db5d6ef1250_5db8abe7-a4bb-4e4e-a8e6-a85716d259e1.jpeg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.9800918836140888,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Library Insights talk in the Viewing Room | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a woman standing at a lecturn giving a talk to an audience. Beside her on the wall is a large screen showing her presentation slides. "
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

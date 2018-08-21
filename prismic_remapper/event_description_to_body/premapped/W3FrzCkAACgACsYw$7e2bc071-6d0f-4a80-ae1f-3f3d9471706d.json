@@ -1,0 +1,276 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "W3FrzCkAACgACsYy",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Salon: An Age of Schadenfreude",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wn3Q3SoAACsAIeFI",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wn3Q3SoAACsAIeFI"
+  },
+  "place": {
+    "id": "Wn1fvyoAACgAH_yG",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1fvyoAACgAH_yG"
+  },
+  "series": [
+    {}
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-11-15T19:00:00+00:00",
+      "endDateTime": "2018-11-15T20:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Your effortlessly successful colleague gets turned down for a promotion. It rains during your friend’s perfect holiday. So why are you smiling? ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "We’ve all felt a furtive pleasure at someone else’s misfortune, and the Germans have given it a name: Schadenfreude. From Schaden (damage) and Freude (joy), the emotion has perplexed philosophers and psychologists for centuries. Why can it be so satisfying to witness another’s distress? And what, if anything, should we do about it?",
+        "spans": [
+          {
+            "start": 122,
+            "end": 129,
+            "type": "em"
+          },
+          {
+            "start": 143,
+            "end": 149,
+            "type": "em"
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "This Salon will bring together artists and performers (and you) to offer a distinctive perspective on this most morally conflicted of emotions. Come along and join the conversation.\n",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/49134429401?aff=efbneb",
+    "embed_url": " https://www.eventbrite.co.uk/e/salon-an-age-of-schadenfreude-tickets-49134429401",
+    "type": "link",
+    "version": "1.0",
+    "title": "Salon: An Age of Schadenfreude",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/49134429401?aff=efbneb\"><h1>Salon: An Age of Schadenfreude</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>Salon: An Age of Schadenfreude</p></a></div>"
+  },
+  "policies": [
+    {
+      "policy": {
+        "id": "W3RKJykAACgAF2ZA",
+        "mask": "event-policies",
+        "wioUrl": "wio://documents/W3RKJykAACgAF2ZA"
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "WrEkryAAACAAPF4C",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WrEkryAAACAAPF4C"
+      },
+      "contributor": {
+        "id": "W3Ka_CkAACcAD_pv",
+        "mask": "people",
+        "wioUrl": "wio://documents/W3Ka_CkAACcAD_pv"
+      },
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Cultural historian Tiffany Watt-Smith will curate the evening. She is author of 'Schadenfreude: The Joy of Another's Misfortune' (Wellcome Books, October 2018). ",
+            "spans": [
+              {
+                "start": 81,
+                "end": 127,
+                "type": "hyperlink",
+                "data": {
+                  "preview": {
+                    "title": "https://wellcomecollection.org/books/W3GgbikAACIAC6nC"
+                  },
+                  "url": "https://wellcomecollection.org/books/W3GgbikAACIAC6nC"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "role": {
+        "id": "Wux6DyIAAO5n3lzk",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/Wux6DyIAAO5n3lzk"
+      },
+      "contributor": {
+        "id": "WwUoTyAAAKOgEoNx",
+        "mask": "people",
+        "wioUrl": "wio://documents/WwUoTyAAAKOgEoNx"
+      }
+    },
+    {
+      "role": {
+        "id": "Wux6DyIAAO5n3lzk",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/Wux6DyIAAO5n3lzk"
+      },
+      "contributor": {
+        "id": "W3KcYykAACgAEACO",
+        "mask": "people",
+        "wioUrl": "wio://documents/W3KcYykAACgAEACO"
+      }
+    },
+    {
+      "role": {
+        "id": "Wux6DyIAAO5n3lzk",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/Wux6DyIAAO5n3lzk"
+      },
+      "contributor": {
+        "id": "W3KczSkAACkAEAJt",
+        "mask": "people",
+        "wioUrl": "wio://documents/W3KczSkAACkAEAJt"
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$e79c685c-d77a-46e2-8de5-473c862e64d6",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "image": {
+            "origin": {
+              "id": "WwVRiyAAAHm5EzR2",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F105697bd-4fef-4060-b420-d6f1850ee3e3_ep_000012_086.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/22c64f2a7a46b883d47f5049e7832c9a0ebcb9f7_ep_000012_086.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Reading Room workshop | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a group of people sitting in a circle on the carpet in the Wellcome Collection Reading Room, engaged in discussion.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "WwVRiyAAAHm5EzR2",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F105697bd-4fef-4060-b420-d6f1850ee3e3_ep_000012_086.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/60a99074fdcbdcbcd759763b13bf23bb16afccfa_ep_000012_086.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Reading Room workshop | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a group of people sitting in a circle on the carpet in the Wellcome Collection Reading Room, engaged in discussion."
+              },
+              "square": {
+                "origin": {
+                  "id": "WwVRiyAAAHm5EzR2",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F105697bd-4fef-4060-b420-d6f1850ee3e3_ep_000012_086.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/20fca7691f15922ceafa2b58c6c62a0d935bb22c_ep_000012_086.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Reading Room workshop | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a group of people sitting in a circle on the carpet in the Wellcome Collection Reading Room, engaged in discussion."
+              },
+              "32:15": {
+                "origin": {
+                  "id": "WwVRiyAAAHm5EzR2",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F105697bd-4fef-4060-b420-d6f1850ee3e3_ep_000012_086.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/0b93370afffb2239030149f403a4d0a2f1c0fdaa_ep_000012_086.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -150
+                  }
+                },
+                "credits": "Reading Room workshop | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a group of people sitting in a circle on the carpet in the Wellcome Collection Reading Room, engaged in discussion."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

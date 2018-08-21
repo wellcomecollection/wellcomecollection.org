@@ -1,0 +1,188 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WvKsyCIAAH73-bIc",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "The Language of Music",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1gUioAACoAH_8S",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gUioAACoAH_8S"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "WifrbikAAGSyDtHk",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/WifrbikAAGSyDtHk"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-06-20T12:00:00+00:00",
+      "endDateTime": "2018-06-20T13:00:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Cognitive neuroscientist Adam Tierney will talk about the relationship between speech and song. What happens in the brain when we listen? Join us to find out.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speaker",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Adam Tierney is a cognitive neuroscientist in the Centre of Brain and Cognitive Development at Birkbeck, University of London.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "We will be in the Forum, through the Medicine Now gallery on level 1. There are seats for 70 people.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "To attend, just turn up on the day and follow the signs. Doors open at 12.45. These events can get busy, so arrive at least 10 minutes before it starts.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "isDropIn": "yes",
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$4061af61-aa10-4e3b-a033-fca77daaea98",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Cognitive neuroscientist Adam Tierney will talk about the relationship between speech and song. What happens in the brain when we listen? Join us to find out.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WxAoZSEAAF1wleeu",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F282a9004-b119-4632-8ece-c27341156692_btg180522145743-edit.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/0f1b84359ffecb398657eb359bd962a80eb6fcd3_btg180522145743-edit.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Dr. Adam Tierney | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photographic portrait of Dr. Adam Tierney sitting in a recording studio wearing headphones and surrounded by two microphones.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WxAoZSEAAF1wleeu",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F282a9004-b119-4632-8ece-c27341156692_btg180522145743-edit.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e1befdf355638a4a77cf3962aca3f3ed7b16ce59_btg180522145743-edit.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -886,
+                    "y": 0
+                  }
+                },
+                "credits": "Dr. Adam Tierney | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of Dr. Adam Tierney sitting in a recording studio wearing headphones and surrounded by two microphones."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WxAoZSEAAF1wleeu",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F282a9004-b119-4632-8ece-c27341156692_btg180522145743-edit.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e087d9435ae27eabeee582ea3d10ab4a25fd18dd_btg180522145743-edit.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Dr. Adam Tierney | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photographic portrait of Dr. Adam Tierney sitting in a recording studio wearing headphones and surrounded by two microphones."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}

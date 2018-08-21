@@ -1,0 +1,291 @@
+{
+  "type": "events",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WoLvsCoAACgANr-O",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Civilisation on the Move",
+        "spans": []
+      }
+    }
+  ],
+  "format": {
+    "id": "Wd-QYCcAACcAoiJS",
+    "mask": "event-formats",
+    "wioUrl": "wio://documents/Wd-QYCcAACcAoiJS"
+  },
+  "place": {
+    "id": "Wn1gUioAACoAH_8S",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gUioAACoAH_8S"
+  },
+  "series": [
+    {
+      "series": {
+        "id": "Wn28GCoAACkAIYol",
+        "mask": "event-series",
+        "wioUrl": "wio://documents/Wn28GCoAACkAIYol"
+      }
+    }
+  ],
+  "times": [
+    {
+      "startDateTime": "2018-03-29T18:00:00+00:00",
+      "endDateTime": "2018-03-29T19:30:00+00:00"
+    }
+  ],
+  "description": [
+    {
+      "type": "heading2",
+      "content": {
+        "text": "What you’ll do",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In this event, listen in to the recording of a radio programme which considers how the health of migrants and refugees can be protected.",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Claudia Hammond will present the programme and will interview three speakers. Then we’ll open up to the audience. You can participate or just listen in. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "The event will be recorded and edited into a programme, which will be broadcast on the BBC World Service in April.",
+        "spans": []
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "About your speakers",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "We have three confirmed speakers:",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Jennifer Leaning, a professor of health and human rights, will talk about the links between climate change, forced migration and health. ",
+        "spans": [
+          {
+            "start": 0,
+            "end": 16,
+            "type": "strong"
+          },
+          {
+            "start": 0,
+            "end": 16,
+            "type": "hyperlink",
+            "data": {
+              "url": "https://www.hsph.harvard.edu/jennifer-leaning/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Fouad M Fouad is a Syrian surgeon currently working at the American University of Beirut. He researches the impact of the crisis in Syria on the health and wellbeing of people who have been displaced both inside Syria and in neighbouring countries. ",
+        "spans": [
+          {
+            "start": 0,
+            "end": 13,
+            "type": "strong"
+          },
+          {
+            "start": 0,
+            "end": 13,
+            "type": "hyperlink",
+            "data": {
+              "url": "http://watson.brown.edu/HI2/people/international-fellows/fouad"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Bernadette Kumar directs the Norwegian Centre for Migration and Health. She works closely with health professionals and migrants to better inform the country’s policies on migration and health. ",
+        "spans": [
+          {
+            "start": 0,
+            "end": 16,
+            "type": "strong"
+          },
+          {
+            "start": 0,
+            "end": 16,
+            "type": "hyperlink",
+            "data": {
+              "url": "http://www.ehfg.org/blog/2017/02/07/interview-with-bernadette-kumar/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading2",
+      "content": {
+        "text": "Where we’ll be",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "In the Forum, which can seat up to 70 people, on Level 1. Follow the signs through the Medicine Now gallery. ",
+        "spans": []
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "No need to print out a ticket – just show up. You must turn up 10 minutes before to guarantee yourself a seat. We won’t be able to admit any latecomers.",
+        "spans": []
+      }
+    }
+  ],
+  "interpretations": [
+    {}
+  ],
+  "audiences": [
+    {}
+  ],
+  "eventbriteEvent": {
+    "url": "https://www.eventbrite.co.uk/e/42558926896?aff=efbneb",
+    "embed_url": "https://www.eventbrite.co.uk/e/the-evidence-civilisation-on-the-move-tickets-42558926896",
+    "type": "link",
+    "version": "1.0",
+    "title": "The Evidence: Civilisation on the move",
+    "author_name": null,
+    "author_url": null,
+    "provider_name": "events.event",
+    "provider_url": null,
+    "cache_age": null,
+    "thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png",
+    "thumbnail_width": null,
+    "thumbnail_height": null,
+    "html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/42558926896?aff=efbneb\"><h1>The Evidence: Civilisation on the move</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/48d2e1/django/images/logos/eb_logo_white_1200x1200.png\"><p>The Evidence: Civilisation on the move</p></a></div>"
+  },
+  "contributors": [
+    {
+      "role": {
+        "id": "WoGaByoAACsAMY5g",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WoGaByoAACsAMY5g"
+      },
+      "contributor": {
+        "id": "WoGTvSoAACoAMXK-",
+        "mask": "organisations",
+        "wioUrl": "wio://documents/WoGTvSoAACoAMXK-"
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$0d08d26e-ae96-42a8-bee8-ead992615433",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Listen in to the recording of a radio programme about building a brand-new healthcare system.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WoNg5SoAACkAOLAa",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F1fb1f038-500c-4c50-afdf-fa9505b07857_c0136020.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/2ed8428b3b96811799a0b97735c76d72048fb723_c0136020.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "WoNg5SoAACkAOLAa",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F1fb1f038-500c-4c50-afdf-fa9505b07857_c0136020.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/3fbfc4f625d8237622f4bc04db5e4e4d144e9cbc_c0136020.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WoNg5SoAACkAOLAa",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F1fb1f038-500c-4c50-afdf-fa9505b07857_c0136020.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/82e48c1ca1f645273038847c2d2daac2a1cd3764_c0136020.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "schedule": [
+    {}
+  ]
+}
