@@ -10,6 +10,7 @@ import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import LabelsList from '../LabelsList/LabelsList';
 import Icon from '../Icon/Icon';
 import Button from '../Buttons/Button/Button';
+import EventbriteButton from '../EventbriteButton/EventbriteButton';
 import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import InfoBox from '../InfoBox/InfoBox';
@@ -172,9 +173,6 @@ const EventPage = ({ event }: Props) => {
     topLink={{text: 'Events', url: '/events'}}
   />);
 
-  const ticketButtonText = 'Check for tickets';
-  const ticketButtonLoadingText = 'Loading…';
-
   return (
     <BasePage
       id={event.id}
@@ -182,6 +180,28 @@ const EventPage = ({ event }: Props) => {
       Body={<Body body={event.body} />}
     >
       <Fragment>
+
+        <div className={spacing({s: 4}, {margin: ['bottom']})}>
+          <div className={`body-text border-bottom-width-1 border-color-pumice`}>
+            <h2 id='dates'>Dates</h2>
+            {DateInfo(event)}
+          </div>
+        </div>
+
+        {event.schedule && event.schedule.length > 0 &&
+          <div>
+            <h2 className={`${font({s: 'WB6', l: 'WB5'})} ${spacing({s: 4}, {padding: ['bottom']})} border-color-smoke border-bottom-width-1`}>Events</h2>
+            <ul className='plain-list no-marin no-padding'>
+              {event.schedule && event.schedule.map((scheduledEvent) =>
+                <EventScheduleItem
+                  key={scheduledEvent.id}
+                  event={Object.assign({}, scheduledEvent, {description: scheduledEvent.promo && scheduledEvent.promo.caption})}
+                  hasOwnPage={Boolean(scheduledEvent.description)} />
+              )}
+            </ul>
+          </div>
+        }
+
         {event.contributors.length > 0 &&
           <div className={`${spacing({s: 4}, {margin: ['bottom']})}`}>
             <Contributors
@@ -190,13 +210,6 @@ const EventPage = ({ event }: Props) => {
               contributors={event.contributors} />
           </div>
         }
-
-        <div className={spacing({s: 4}, {margin: ['bottom']})}>
-          <div className={`body-text border-bottom-width-1 border-color-pumice`}>
-            <h2 id='dates'>Dates</h2>
-            {DateInfo(event)}
-          </div>
-        </div>
 
         {event.ticketSalesStart && showTicketSalesStart(event.ticketSalesStart) &&
           <Fragment>
@@ -223,77 +236,8 @@ const EventPage = ({ event }: Props) => {
 
         {!isDatePast(event.dateRange.lastDate) && !showTicketSalesStart(event.ticketSalesStart) &&
           <Fragment>
-            {/* Booking CTAs */}
             {event.eventbriteId &&
-              <div>
-                {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
-                  : (
-                    <Fragment>
-                      <Button
-                        type='primary'
-                        id={`eventbrite-show-widget-${event.eventbriteId || ''}`}
-                        url={`https://www.eventbrite.com/e/${event.eventbriteId}/`}
-                        trackingEvent={{
-                          category: 'component',
-                          action: 'booking-tickets:click',
-                          label: 'event-page'
-                        }}
-                        icon='ticket'
-                        text={ticketButtonText} />
-                      <iframe
-                        id={`eventbrite-widget-${event.eventbriteId || ''}`}
-                        src={`/eventbrite/widget/${event.eventbriteId || ''}`}
-                        frameBorder='0'
-                        width='100%'
-                        vspace='0'
-                        hspace='0'
-                        marginHeight='5'
-                        marginWidth='5'
-                        scrolling='auto'
-                        height='1'
-                        style={{
-                          visibility: 'hidden',
-                          position: 'absolute'
-                        }}>
-                      </iframe>
-                      <script dangerouslySetInnerHTML={{ __html: `
-                        (function() {
-                          var iframe = document.getElementById('eventbrite-widget-${event.eventbriteId || ''}');
-                          var showWidget = document.getElementById('eventbrite-show-widget-${event.eventbriteId || ''}');
-                          var haltClick = function(event) {
-                            event.preventDefault();
-                            return false;
-                          }
-                          showWidget.addEventListener('click', haltClick)
-                          showWidget.classList.add('disabled');
-                          showWidget.innerHTML = showWidget.innerHTML.replace('${ticketButtonText}', '${ticketButtonLoadingText}');
-
-                          iframe.addEventListener('load', function() {
-                            setTimeout(function() {
-                              iframe.height = iframe.contentWindow.document.body.scrollHeight + 12;
-                              iframe.style.display = 'none';
-                              iframe.style.visibility = 'visible';
-                              iframe.style.position = 'relative';
-                              showWidget.classList.remove('disabled');
-                              showWidget.addEventListener('click', function(event) {
-                                event.preventDefault();
-                                showWidget.style.display = 'none';
-                                iframe.style.display = 'block';
-                                return false;
-                              });
-                              showWidget.innerHTML = showWidget.innerHTML.replace('${ticketButtonLoadingText}', '${ticketButtonText}');
-                              showWidget.disabled = null;
-                              showWidget.removeEventListener('click', haltClick);
-                            }, 1000);
-                          });
-                        })();
-                      `}}>
-                      </script>
-                      <p className={`font-charcoal ${font({s: 'HNL5'})} ${spacing({s: 1}, {margin: ['top']})} ${spacing({s: 0}, {margin: ['bottom']})}`}>with Eventbrite</p>
-                    </Fragment>
-                  )
-                }
-              </div>
+              <EventbriteButton event={event} />
             }
 
             {event.bookingEnquiryTeam &&
@@ -328,7 +272,7 @@ const EventPage = ({ event }: Props) => {
           </Fragment>
         }
 
-        {event.policies.length > 0 && !isDatePast(event.dateRange.lastDate) &&
+        {event.policies.length > 0 && !isDatePast(event.dateRange.lastDate) && !(event.schedule && event.schedule.length > 0) &&
           <Fragment>
             <InfoBox title='Need to know' items={[
               (event.place && {
