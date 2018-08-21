@@ -1,12 +1,10 @@
 // @flow
 import {Fragment} from 'react';
 import {grid, font, spacing} from '../../../utils/classnames';
-import Icon from '../Icon/Icon';
-import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
-import LabelsList from '../LabelsList/LabelsList';
 import EventBookingButton from '../EventBookingButton/EventBookingButton';
-import camelize from '../../../utils/camelize';
-import {formatTime, london} from '../../../utils/format-date';
+import EventbriteButton from '../EventbriteButton/EventbriteButton';
+import LabelsList from '../LabelsList/LabelsList';
+import {formatTime, formatDayDate, isTimePast, isDatePast} from '../../../utils/format-date';
 import type {UiEvent} from '../../../model/events';
 
 type Props = {|
@@ -14,22 +12,20 @@ type Props = {|
   hasOwnPage: boolean
 |}
 
-function getTicketedMarkup(event) {
-  if (event.eventbriteId) {
-    return 'Ticketed';
-  } else if (event.bookingEnquiryTeam) {
-    return 'Enquire to book';
-  } else {
-    return 'No ticket required';
-  }
-}
 const EventScheduleItem = ({event, hasOwnPage}: Props) => {
-  const lastTime = event.times[event.times.length - 1];
-  const isPast = lastTime && london(lastTime.range.endDateTime).isBefore(london());
+  const format = event.format ? [{text: event.format.title, url: null}] : [];
+  const interpretationTypes = event.interpretations.map(i => {
+    return {
+      text: i.interpretationType.title,
+      url: null
+    };
+  });
+  const labels = format.concat(interpretationTypes);
+
   return (
-    <li className={`event-schedule__item ${spacing({l: 0}, {padding: ['left']})} ${spacing({s: 4, l: 6}, {padding: ['bottom']})} ${spacing({s: 4}, {margin: ['bottom']})} border-color-smoke border-bottom-width-2`}>
+    <li className={`${spacing({l: 0}, {padding: ['left']})} ${spacing({s: 4, l: 6}, {padding: ['bottom']})} ${spacing({s: 4}, {margin: ['bottom']})} border-color-smoke border-bottom-width-1`}>
       <div className='grid'>
-        <div className={`${grid({s: 12, m: 12, l: 2, xl: 2})} ${spacing({s: 2, l: 0}, {margin: ['bottom']})}`}>
+        <div className={`${grid({s: 12, m: 12, l: 3, xl: 2})} ${spacing({s: 2, l: 0}, {margin: ['bottom']})}`}>
           {event.times && event.times.map((t) => {
             const startTimeString = t.range.startDateTime.toString();
             const endTimeString = t.range.endDateTime.toString();
@@ -39,66 +35,44 @@ const EventScheduleItem = ({event, hasOwnPage}: Props) => {
               </p>
             );
           })}
-          {event.place &&
-            <p className={`no-margin ${font({s: 'HNL4'})}`}>{event.place.title}</p>
-          }
         </div>
-        <div className={`${grid({s: 12, m: 12, l: 7, xl: 7})}`}>
-          <div className={spacing({s: 2}, {margin: ['bottom']})}>
-            {event.format && <LabelsList labels={[{
-              text: event.format.title,
-              url: null
-            }]} />}
-          </div>
-          <div className={`event-schedule__main ${spacing({l: 2}, {padding: ['right']})}`}>
+        <div className={`${grid({s: 12, m: 12, l: 9, xl: 10})}`}>
+          <div>
+            {labels.length > 0 &&
+              <div className={spacing({s: 1}, {margin: ['bottom']})}>
+                <LabelsList labels={labels} isSpaced={true} />
+              </div>
+            }
             <h3 className={`${font({s: 'WB6', l: 'WB5'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{event.title}</h3>
+            {event.place &&
+              <p className={`${spacing({s: 1}, {margin: ['bottom']})} ${font({s: 'HNL4'})}`}>{event.place.title}</p>
+            }
 
             <p className={`${spacing({s: 2}, {margin: ['bottom']})} ${font({s: 'HNL5', m: 'HNL4'})}`} dangerouslySetInnerHTML={{__html: event.description}} />
 
             {hasOwnPage &&
-              <PrimaryLink url={`/events/${event.id}`} name='Full event details' screenReaderText={`about ${event.title}`} />
+              <p className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
+                <a href={`/events/${event.id}`}>Full event details<span className={`visually-hidden`}> about {event.title}</span></a>
+              </p>
             }
 
-            {!isPast && (event.eventbriteId || event.bookingEnquiryTeam) &&
+            {event.ticketSalesStart && !isTimePast(event.ticketSalesStart) &&
+              <Fragment>
+                <div className={`bg-yellow inline-block ${spacing({s: 4}, {padding: ['left', 'right'], margin: ['top', 'bottom']})} ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${font({s: 'HNM4'})}`}>
+                  {/* TODO: work out why the second method below will fail Flow without a null check */}
+                  <span>Booking opens {formatDayDate(event.ticketSalesStart)} {event.ticketSalesStart && formatTime(event.ticketSalesStart)}</span>
+                </div>
+              </Fragment>
+            }
+
+            {!isDatePast(event.dateRange.lastDate) && event.eventbriteId &&
+              <EventbriteButton event={event} />
+            }
+
+            {!isDatePast(event.dateRange.lastDate) && event.bookingEnquiryTeam &&
               <div className={spacing({s: 2}, {margin: ['top']})}>
                 <EventBookingButton event={event} />
               </div>
-            }
-          </div>
-        </div>
-        <div className={`${grid({s: 12, m: 12, l: 3, xl: 3})} ${spacing({s: 2, l: 0}, {margin: ['top']})}`}>
-          <div className='event-schedule__meta'>
-            {!isPast &&
-              <div className='event-schedule__tickets'>
-                <div className={`${font({s: 'HNM5', m: 'HNM4'})}`}>
-                  {event.cost &&
-                    <span className={`block ${spacing({s: 2}, {margin: ['bottom']})}`}>
-                      {event.cost}
-                    </span>
-                  }
-                  <div className={`flex flex--v-center ${spacing({s: 2}, {margin: ['bottom']})}`}>
-                    <Icon name='ticket' />
-                    <span className={spacing({s: 1}, {margin: ['left']})}>
-                      {getTicketedMarkup(event)}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            }
-            {event.interpretations && event.interpretations.length > 0 &&
-              <Fragment>
-                <h4 className='visually-hidden'>Accessibility interpretations</h4>
-                <ul className={`plain-list no-padding ${font({s: 'HNM5', m: 'HNM4'})}`}>
-                  {event.interpretations.map(interpretation => (
-                    <li key={interpretation.interpretationType.title} className={`flex flex--v-center ${spacing({s: 2}, {margin: ['bottom']})}`}>
-                      <Icon title={interpretation.interpretationType.title} name={camelize(interpretation.interpretationType.title)} />
-                      <span className={spacing({s: 1}, {margin: ['left']})}>
-                        {interpretation.interpretationType.title}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </Fragment>
             }
           </div>
         </div>
