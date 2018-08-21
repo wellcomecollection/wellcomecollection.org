@@ -8,11 +8,10 @@ import {formatTime, formatDayDate, isTimePast, isDatePast} from '../../../utils/
 import type {UiEvent} from '../../../model/events';
 
 type Props = {|
-  event: UiEvent,
-  hasOwnPage: boolean
+  event: UiEvent
 |}
 
-const EventScheduleItem = ({event, hasOwnPage}: Props) => {
+const EventScheduleItem = ({event}: Props) => {
   const format = event.format ? [{text: event.format.title, url: null}] : [];
   const interpretationTypes = event.interpretations.map(i => {
     return {
@@ -50,7 +49,7 @@ const EventScheduleItem = ({event, hasOwnPage}: Props) => {
 
             <p className={`${spacing({s: 2}, {margin: ['bottom']})} ${font({s: 'HNL5', m: 'HNL4'})}`} dangerouslySetInnerHTML={{__html: event.promoText}} />
 
-            {hasOwnPage &&
+            {event.promoText &&
               <p className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
                 <a href={`/events/${event.id}`}>Full event details<span className={`visually-hidden`}> about {event.title}</span></a>
               </p>

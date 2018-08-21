@@ -195,8 +195,7 @@ const EventPage = ({ event }: Props) => {
               {event.schedule && event.schedule.map((scheduledEvent) =>
                 <EventScheduleItem
                   key={scheduledEvent.id}
-                  event={Object.assign({}, scheduledEvent, {description: scheduledEvent.promo && scheduledEvent.promo.caption})}
-                  hasOwnPage={Boolean(scheduledEvent.description)} />
+                  event={scheduledEvent} />
               )}
             </ul>
           </div>
@@ -227,8 +226,7 @@ const EventPage = ({ event }: Props) => {
               {event.schedule && event.schedule.map((scheduledEvent) =>
                 <EventScheduleItem
                   key={scheduledEvent.id}
-                  event={scheduledEvent}
-                  hasOwnPage={Boolean(scheduledEvent.promoText)} />
+                  event={scheduledEvent} />
               )}
             </ul>
           </div>
