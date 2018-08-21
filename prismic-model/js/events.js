@@ -20,7 +20,6 @@ const Events = {
     series: list('Event series', {
       series: link('Series', 'document', ['event-series'])
     }),
-    ticketSalesStart: timestamp('Ticket sales start'),
     times: list('Times', {
       startDateTime: timestamp('Start'),
       endDateTime: timestamp('End'),
@@ -38,6 +37,7 @@ const Events = {
     })
   },
   Reservation: {
+    ticketSalesStart: timestamp('Ticket sales start'),
     bookingEnquiryTeam: link('Booking enquiry team', 'document', ['teams']),
     eventbriteEvent: embed('Eventbrite event'),
     bookingInformation: structuredText('Event specific booking information'),
