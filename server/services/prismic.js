@@ -197,7 +197,7 @@ export async function getSeriesAndArticles(id: string, page: number = 1, content
     predicates: [Prismic.Predicates.at(`my.${contentType}.series.series`, id)], pageSize
   });
 
-  if (paginatedResults.totalResults > 0) {
+  if (paginatedResults.results.length > 0) {
     const series = paginatedResults.results[0].series[0];
     return {series, paginatedResults};
   }
