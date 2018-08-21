@@ -28,6 +28,7 @@ import {
 import {parseEventSeries} from './event-series';
 import isEmptyObj from '../../utils/is-empty-object';
 import {london} from '../../utils/format-date';
+import {isPast} from '../../utils/dates';
 import type {UiEvent, EventFormat} from '../../model/events';
 import type {Team} from '../../model/team';
 import type {PrismicDocument, PrismicApiSearchResponse, PaginatedResults} from './types';
@@ -46,18 +47,6 @@ function parseEventBookingType(eventDoc: PrismicDocument): ?string {
     : isDocumentLink(eventDoc.data.bookingEnquiryTeam) ? 'Enquire to book'
       : isDocumentLink(eventDoc.data.place) && eventDoc.data.place.data.capacity  ? 'First come, first served'
         : null;
-}
-
-function determineUpcomingDate(times) {
-  const todaysDate = london();
-  const eventArray = times.sort((a, b) => london(b.startDateTime).isBefore(london(a.startDateTime), 'day'));
-  const futureDates = eventArray.filter(d => !london(d.startDateTime).isBefore(todaysDate));
-  const theDate = futureDates[0] || eventArray[0];
-
-  return {
-    startDateTime: theDate.startDateTime,
-    endDateTime: theDate.endDateTime
-  };
 }
 
 function determineDateRange(times) {
@@ -114,7 +103,15 @@ export function parseEventDoc(
       ? parseEventSeries(series.series)
       : null).filter(Boolean);
 
-  const upcomingDate = determineUpcomingDate(data.times);
+  const times = data.times && data.times.map(frag => ({
+    range: {
+      startDateTime: parseTimestamp(frag.startDateTime),
+      endDateTime: parseTimestamp(frag.endDateTime)
+    },
+    isFullyBooked: parseBoolean(frag.isFullyBooked)
+  }));
+  const lastEndTime = times.map(time => time.range.endDateTime).find((date, i) => i === 0);
+
   return {
     type: 'events',
     ...genericFields,
@@ -141,8 +138,8 @@ export function parseEventDoc(
       },
       isFullyBooked: parseBoolean(frag.isFullyBooked)
     })),
-    upcomingDate: upcomingDate,
-    dateRange: determineDateRange(data.times)
+    dateRange: determineDateRange(data.times),
+    isPast: lastEndTime ? isPast(lastEndTime) : true
   };
 }
 
