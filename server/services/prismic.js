@@ -529,7 +529,7 @@ export async function getExhibitionAndEventPromos(query, collectionOpeningTimes)
     Object.keys(eventPromosSplitAcrossMonths[year]).forEach((month) => {
       const controlObject = {
         id: `${year}-${month}`,
-        title: month,
+        text: month,
         url: `#${month}-${year}`
       };
       acc.push(controlObject);
