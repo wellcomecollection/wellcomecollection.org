@@ -124,7 +124,9 @@ const SegmentedControl = ({
             className={classNames({
               [font({s: 'WB7'})]: true,
               'border-right-width-1 border-right-color-black': i !== items.length - 1,
-              'segmented-control__item line-height-1 flex': true,
+              'segmented-control__item': true,
+              'line-height-1': true,
+              'flex': true,
               'js-tabitem segmented-control__item--inline': isTabControl
             })}>
             <a
@@ -143,7 +145,8 @@ const SegmentedControl = ({
                 [spacing({s: 2}, {padding: ['top', 'right', 'bottom', 'left']})]: true,
                 'is-active bg-black font-white bg-hover-pewter': item.id === activeId,
                 'bg-white font-black bg-hover-pumice': item.id !== activeId,
-                'block plain-link': true,
+                'block': true,
+                'plain-link': true,
                 'js-segmented-control__link': true,
                 'segmented-control__link': true,
                 'transition-bg': true,
