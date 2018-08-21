@@ -195,8 +195,7 @@ const EventPage = ({ event }: Props) => {
               {event.schedule && event.schedule.map((scheduledEvent) =>
                 <EventScheduleItem
                   key={scheduledEvent.id}
-                  event={Object.assign({}, scheduledEvent, {description: scheduledEvent.promo && scheduledEvent.promo.caption})}
-                  hasOwnPage={Boolean(scheduledEvent.description)} />
+                  event={scheduledEvent} />
               )}
             </ul>
           </div>
@@ -218,20 +217,6 @@ const EventPage = ({ event }: Props) => {
               <span>Booking opens {formatDayDate(event.ticketSalesStart)} {event.ticketSalesStart && formatTime(event.ticketSalesStart)}</span>
             </div>
           </Fragment>
-        }
-
-        {event.schedule && event.schedule.length > 0 &&
-          <div>
-            <h2 className={`${font({s: 'WB6', l: 'WB5'})} ${spacing({s: 4}, {padding: ['bottom']})} border-color-smoke border-bottom-width-2`}>Events</h2>
-            <ul className='plain-list no-marin no-padding'>
-              {event.schedule && event.schedule.map((scheduledEvent) =>
-                <EventScheduleItem
-                  key={scheduledEvent.id}
-                  event={scheduledEvent}
-                  hasOwnPage={Boolean(scheduledEvent.promoText)} />
-              )}
-            </ul>
-          </div>
         }
 
         {!isDatePast(event.dateRange.lastDate) && !showTicketSalesStart(event.ticketSalesStart) &&
