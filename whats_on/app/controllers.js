@@ -36,9 +36,6 @@ const {
 } = prismic;
 
 export async function renderWhatsOn(ctx, next) {
-  const exhibitions = await getExhibitionsCurrentAndComingUp(ctx.request);
-  const events = await getEvents(ctx.request);
-
   const exhibitionAndEventPromos = await getExhibitionAndEventPromos(ctx.query, ctx.intervalCache.get('collectionOpeningTimes'));
 
   ctx.render('pages/whats-on', {
