@@ -37,8 +37,8 @@ export function getDateRangePredicatesFromString(
       Predicates.dateBefore(startField, startOfDay.toDate()),
       Predicates.dateAfter(endField, startOfDay.toDate())
     ] : rangeString === 'this-weekend' ? [
-      Predicates.dateAfter(startField, london(weekendDateRange.start).startOf('day')),
-      Predicates.dateBefore(startField, london(weekendDateRange.end).endOf('day'))
+      Predicates.dateBefore(startField, london(weekendDateRange.start).startOf('day').toDate()),
+      Predicates.dateAfter(endField, london(weekendDateRange.end).endOf('day').toDate())
     ] : rangeString === 'this-week' ? [
       Predicates.dateAfter(startField, now.startOf('week')),
       Predicates.dateBefore(startField, now.endOf('week'))
