@@ -165,6 +165,15 @@ const EventPage = ({ event }: Props) => {
     >
       <Fragment>
 
+        {event.contributors.length > 0 &&
+          <div className={`${spacing({s: 4}, {margin: ['bottom']})}`}>
+            <Contributors
+              titlePrefix='About your'
+              titleOverride={event.contributorsTitle}
+              contributors={event.contributors} />
+          </div>
+        }
+
         <div className={spacing({s: 4}, {margin: ['bottom']})}>
           <div className={`body-text border-bottom-width-1 border-color-pumice`}>
             <h2 id='dates'>Dates</h2>
@@ -182,15 +191,6 @@ const EventPage = ({ event }: Props) => {
                   event={scheduledEvent} />
               )}
             </ul>
-          </div>
-        }
-
-        {event.contributors.length > 0 &&
-          <div className={`${spacing({s: 4}, {margin: ['bottom']})}`}>
-            <Contributors
-              titlePrefix='About your'
-              titleOverride={event.contributorsTitle}
-              contributors={event.contributors} />
           </div>
         }
 
@@ -241,7 +241,7 @@ const EventPage = ({ event }: Props) => {
           </Fragment>
         }
 
-        {!event.isPast && event.policies.length > 0 &&
+        {!event.isPast &&
           <Fragment>
             <InfoBox title='Need to know' items={[
               (event.place && {
