@@ -30,14 +30,12 @@
   {% set whatsOnData = {activeId: dateRange, id: 'whatsOnFilter' } %}
   {% componentV2 'whats-on-list-header', exhibitionAndEventPromos.listHeader, {}, whatsOnData %}
 
-  <div class="{{ {s:3, m:5, l:5} | spacingClasses({padding: ['top']}) }}">
-    <div class="{{ {s:2, m:4} | spacingClasses({margin: ['top', 'bottom']}) }}">
-      {% if exhibitionAndEventPromos.active === 'everything' %}
-        {% include 'partials/separate_exhibition_event_promos.njk' %}
-      {% else %}
-        {% include 'partials/mixed_exhibition_event_promos.njk' %}
-      {% endif %}
-    </div>
+  <div class="{{ {s:2, m:4} | spacingClasses({margin: ['top', 'bottom']}) }}">
+    {% if exhibitionAndEventPromos.active === 'everything' %}
+      {% include 'partials/separate_exhibition_event_promos.njk' %}
+    {% else %}
+      {% include 'partials/mixed_exhibition_event_promos.njk' %}
+    {% endif %}
   </div>
 
   {% componentJsx 'SectionHeader', {

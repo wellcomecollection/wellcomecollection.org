@@ -175,14 +175,30 @@ export async function getEvent(req: Request, {id}: EventQueryProps): Promise<?Ui
   }
 }
 
+export async function getEventsCurrentAndComingUp(req: Request): Promise<?PaginatedResults<UiEvent>> {
+  const predicates = [
+    Prismic.Predicates.dateAfter('my.events.times.endDateTime', london().endOf('day').toDate())
+  ];
+
+  const events = await getEvents(req, {
+    page: 1,
+    predicates,
+    order: 'asc'
+  });
+
+  return events;
+}
+
 type EventsQueryProps = {|
   page: number,
-  seriesId: string
+  predicates: Prismic.Predicates[],
+  order: 'asc' | 'desc'
 |}
 
 export async function getEvents(req: Request,  {
   page = 1,
-  seriesId
+  predicates = [],
+  order = 'desc'
 }: EventsQueryProps): Promise<?PaginatedResults<UiEvent>> {
   const graphQuery = `{
     events {
@@ -259,13 +275,11 @@ export async function getEvents(req: Request,  {
       }
     }
   }`;
-  const orderings = '[my.events.times.startDateTime desc]';
-  const predicates = [
-    Prismic.Predicates.at('document.type', 'events'),
-    seriesId ? Prismic.Predicates.at('my.events.series.series', seriesId) : null
-  ].filter(Boolean);
 
-  const paginatedResults = await getDocuments(req, predicates, {
+  const orderings = `[my.events.times.startDateTime${order === 'desc' ? ' desc' : ''}]`;
+  const paginatedResults = await getDocuments(req, [
+    Prismic.Predicates.at('document.type', 'events')
+  ].concat(predicates), {
     orderings,
     page,
     graphQuery

@@ -14,6 +14,7 @@ import {
 } from '@weco/common/services/prismic/exhibitions';
 import {
   getEvents,
+  getEventsCurrentAndComingUp,
   getEvent
 } from '@weco/common/services/prismic/events';
 import {getEventSeries} from '@weco/common/services/prismic/event-series';
@@ -39,6 +40,7 @@ export async function renderWhatsOn(ctx, next) {
   const dateRange = ctx.params.dateRange || 'everything';
   const exhibitionAndEventPromos = await getExhibitionAndEventPromos(dateRange, ctx.intervalCache.get('collectionOpeningTimes'));
   const exhibitions = await getExhibitionsCurrentAndComingUp(ctx.request);
+  const events = await getEventsCurrentAndComingUp(ctx.request);
 
   ctx.render('pages/whats-on', {
     pageConfig: createPageConfig({
@@ -52,6 +54,7 @@ export async function renderWhatsOn(ctx, next) {
         dateRangeName: exhibitionAndEventPromos.active
       }
     }),
+    events,
     exhibitions,
     exhibitionAndEventPromos,
     tryTheseTooPromos: [readingRoomPromo],

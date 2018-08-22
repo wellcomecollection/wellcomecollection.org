@@ -1,4 +1,5 @@
 // @flow
+import Prismic from 'prismic-javascript';
 import {getEvents} from './events';
 import type {EventSeries} from '../../model/event-series';
 import type {PrismicDocument} from './types';
@@ -27,8 +28,8 @@ export async function getEventSeries(req: Request, {
   id, size
 }: EventSeriesProps) {
   const events = await getEvents(req, {
-    seriesId: id,
-    page: 1
+    page: 1,
+    predicates: [Prismic.Predicates.at('my.events.series.series', id)]
   });
 
   if (events && events.results.length > 0) {

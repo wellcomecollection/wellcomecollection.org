@@ -216,7 +216,7 @@ export async function getExhibitionsPast(req: Request) {
 export async function getExhibitionsCurrentAndComingUp(req: Request) {
   const order = 'asc';
   const predicates = [
-    Prismic.Predicates.dateAfter(endField, london().toDate())
+    Prismic.Predicates.dateAfter(endField, london().endOf('day').toDate())
   ];
   const paginatedResults = await getExhibitions(req, {
     predicates, order
