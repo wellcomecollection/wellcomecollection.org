@@ -462,10 +462,6 @@ function getListHeader(dates, collectionOpeningTimes) {
     return todaysDate.isSame(dayOfWeek);
   });
   const todayOpeningHours = exceptionalOpeningHours || regularOpeningHours;
-  const todayDateString = `startDate=${dates.today}&endDate=${dates.today}`;
-  const weekendDateString = `startDate=${dates.weekend[0]}&endDate=${dates.weekend[1]}`;
-  const allDateString = `startDate=${dates.all[0]}`;
-  const urlBeginning = `${encodeURI('/whats-on?')}`;
 
   return {
     todayOpeningHours,
@@ -474,28 +470,33 @@ function getListHeader(dates, collectionOpeningTimes) {
       {
         id: 'everything',
         title: 'Everything',
-        url: `${urlBeginning}${encodeURI(allDateString)}`
+        url: `/whats-on`
       },
       {
         id: 'today',
         title: 'Today',
-        url: `${urlBeginning}${encodeURI(todayDateString)}`
+        url: `/whats-on/today`
       },
       {
-        id: 'weekend',
+        id: 'the-weekend',
         title: 'This weekend',
-        url: `${urlBeginning}${encodeURI(weekendDateString)}`
+        url: `/whats-on/the-weekend`
       }
     ]
   };
 }
 
-export async function getExhibitionAndEventPromos(query, collectionOpeningTimes) {
+export async function getExhibitionAndEventPromos(dateRange, collectionOpeningTimes) {
   const todaysDate = london();
-  const fromDate = !query.startDate ? todaysDate.format('YYYY-MM-DD') : query.startDate;
-  // set 'everything' as default time period, when no startDate is provided
-  const toDate = !query.startDate ? undefined : query.endDate; ;
-  const dateRange = [fromDate, toDate];
+
+  const [fromDateMoment, toDateMoment] =
+    dateRange === 'today' ? [todaysDate.startOf('day'), todaysDate.endOf('day')]
+      : dateRange === 'the-weekend' ? [getWeekendFromDate(todaysDate), getWeekendToDate(todaysDate)]
+        : [todaysDate.startOf('day'), undefined];
+
+  const fromDate = fromDateMoment.format('YYYY-MM-DD');
+  const toDate  = toDateMoment ? toDateMoment.format('YYYY-MM-DD') : undefined;
+
   // Had to split exhibitions and installations query from events query.
   // We can't query events by dateAfter and there is a max of 100 results per query.
   // Exhibitions would start disappearing, once results started goind over 100 - we were getting close.
@@ -540,7 +541,7 @@ export async function getExhibitionAndEventPromos(query, collectionOpeningTimes)
     today: todaysDate.format('YYYY-MM-DD'),
     weekend: [getWeekendFromDate(todaysDate).format('YYYY-MM-DD'), getWeekendToDate(todaysDate).format('YYYY-MM-DD')],
     all: [todaysDate.format('YYYY-MM-DD')],
-    queriedDates: dateRange
+    queriedDates: [fromDate, toDate]
   };
   const active = getActiveState(todaysDate, fromDate, toDate);
   const listHeader = getListHeader(dates, collectionOpeningTimes);

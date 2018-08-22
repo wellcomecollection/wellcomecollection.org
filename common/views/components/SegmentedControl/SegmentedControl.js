@@ -31,7 +31,7 @@ const SegmentedControl = ({
         <span className='visually-hidden js-trap-reverse-end'>reset focus</span>
         <button className='segmented-control__header plain-button no-margin no-padding js-show-hide-trigger js-trap-start'>
           {items.filter(item => item.id === activeId).map(item => (
-            <Fragment key={item.id} mmhf>
+            <Fragment key={item.id}>
               <span className={classNames({
                 [font({s: 'WB6'})]: true,
                 [spacing({s: 2}, {padding: ['top', 'right', 'bottom', 'left']})]: true,

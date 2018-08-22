@@ -36,7 +36,8 @@ const {
 } = prismic;
 
 export async function renderWhatsOn(ctx, next) {
-  const exhibitionAndEventPromos = await getExhibitionAndEventPromos(ctx.query, ctx.intervalCache.get('collectionOpeningTimes'));
+  const dateRange = ctx.params.dateRange || 'everything';
+  const exhibitionAndEventPromos = await getExhibitionAndEventPromos(dateRange, ctx.intervalCache.get('collectionOpeningTimes'));
 
   ctx.render('pages/whats-on', {
     pageConfig: createPageConfig({
@@ -55,7 +56,8 @@ export async function renderWhatsOn(ctx, next) {
     eatShopPromos: [cafePromo, shopPromo, restaurantPromo],
     cafePromo,
     shopPromo,
-    dailyTourPromo
+    dailyTourPromo,
+    dateRange
   });
 
   return next();

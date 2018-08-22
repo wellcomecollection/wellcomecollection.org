@@ -37,7 +37,7 @@
       <div class="{{ {s: 12, m: 10, l: 8, xl: 6} | gridClasses }}">
         {% componentJsx 'SegmentedControl', {
           id: 'whatsOnFilter',
-          activeId: 'everything',
+          activeId: data.activeId,
           items: [{
             id: 'everything',
             url: '/whats-on',
@@ -47,7 +47,7 @@
             url: '/whats-on/today',
             text: 'Today'
           }, {
-            id: 'weekend',
+            id: 'this-weekend',
             url: '/whats-on/this-weekend',
             text: 'This weekend'
           }]
