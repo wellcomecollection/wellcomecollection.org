@@ -135,7 +135,7 @@ const EventPage = ({ event }: Props) => {
     TagBar={null}
     LabelBar={
       <Fragment>
-        <LabelsList labels={(eventFormat.concat(eventAudiences, eventInterpretations))} isSpaced={true} />
+        <LabelsList labels={(eventFormat.concat(eventAudiences, eventInterpretations))} />
         {event.series.length > 0 && (
           <div className='flex-inline flex--v-center' style={{whiteSpace: 'nowrap'}}>
             <p className={`${font({s: 'HNL5'})} ${spacing({s: 0}, {margin: ['bottom']})} ${spacing({s: 1}, {margin: ['right', 'top']})} inline-block no-padding`}>{'Part of '}</p>
@@ -144,7 +144,7 @@ const EventPage = ({ event }: Props) => {
                 url: `/event-series/${series.id}`,
                 text: series.title
               };
-            })} isSpaced={true} />}
+            })} />}
           </div>
         )}
       </Fragment>

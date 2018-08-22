@@ -39,7 +39,7 @@ const EventScheduleItem = ({event}: Props) => {
           <div>
             {labels.length > 0 &&
               <div className={spacing({s: 1}, {margin: ['bottom']})}>
-                <LabelsList labels={labels} isSpaced={true} />
+                <LabelsList labels={labels} />
               </div>
             }
             <h3 className={`${font({s: 'WB6', l: 'WB5'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{event.title}</h3>
