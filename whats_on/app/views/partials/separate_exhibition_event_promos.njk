@@ -28,7 +28,13 @@
     </div>
 
     <div class="js-events-filter tabs {{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }}">
-      {% componentV2 'segmented-control', exhibitionAndEventPromos.monthControls, null, {id: 'monthControls', isTabControl: true, activeId: exhibitionAndEventPromos.monthControls[0].id} %}
+      {% componentJsx 'SegmentedControl', {
+          id: 'monthControls',
+          isTabControl: true,
+          activeId: exhibitionAndEventPromos.monthControls[0].id,
+          items: exhibitionAndEventPromos.monthControls
+        }
+      %}
       {% for yearKey, year in exhibitionAndEventPromos.eventPromosSplitAcrossMonths %}
         {% for monthKey, month in year %}
           <div class="js-tabpanel tabpanel {{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }}">

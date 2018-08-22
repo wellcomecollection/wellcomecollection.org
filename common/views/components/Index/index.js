@@ -53,6 +53,7 @@ import SearchBox from '../SearchBox/SearchBox';
 import SearchResults from '../SearchResults/SearchResults';
 import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
 import SectionHeader from '../SectionHeader/SectionHeader';
+import SegmentedControl from '../SegmentedControl/SegmentedControl';
 import ShameQuote from '../ShameQuote/ShameQuote';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import Tags from '../Tags/Tags';
@@ -119,6 +120,7 @@ export {
   SearchResults,
   SecondaryLink,
   SectionHeader,
+  SegmentedControl,
   ShameQuote,
   StatusIndicator,
   Tags,

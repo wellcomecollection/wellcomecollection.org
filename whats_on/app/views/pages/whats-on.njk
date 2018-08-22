@@ -27,7 +27,7 @@
     {% endfor %}]
   </script>
 
-  {% set whatsOnData = {activeId: exhibitionAndEventPromos.active, id: 'whatsOnFilter' } %}
+  {% set whatsOnData = {activeId: dateRange, id: 'whatsOnFilter' } %}
   {% componentV2 'whats-on-list-header', exhibitionAndEventPromos.listHeader, {}, whatsOnData %}
 
   <div class="{{ {s:3, m:5, l:5} | spacingClasses({padding: ['top']}) }}">

@@ -35,7 +35,23 @@
         </div>
       </div>
       <div class="{{ {s: 12, m: 10, l: 8, xl: 6} | gridClasses }}">
-        {% componentV2 'segmented-control', model.items, null, data %}
+        {% componentJsx 'SegmentedControl', {
+          id: 'whatsOnFilter',
+          activeId: data.activeId,
+          items: [{
+            id: 'everything',
+            url: '/whats-on',
+            text: 'Everything'
+          }, {
+            id: 'today',
+            url: '/whats-on/today',
+            text: 'Today'
+          }, {
+            id: 'this-weekend',
+            url: '/whats-on/this-weekend',
+            text: 'This weekend'
+          }]
+        } %}
       </div>
     </div>
   </div>
