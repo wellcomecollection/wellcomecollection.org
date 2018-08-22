@@ -3,6 +3,8 @@ import {london} from '../../../utils/format-date';
 import {classNames, cssGrid} from '../../../utils/classnames';
 import SegmentedControl from '../SegmentedControl/SegmentedControl';
 import EventPromo from '../EventPromo/EventPromo';
+import DailyTourPromo from '../DailyTourPromo/DailyTourPromo';
+import type {UiEvent} from '../../../model/events';
 
 type Props = {|
   events: UiEvent[]
@@ -106,6 +108,11 @@ const EventsByMonth = ({
                     />
                   </div>
                 ))}
+                <div key={`${month}-daily-tour'`} className={classNames({
+                  [cssGrid({s: 12, m: 6, l: 4, xl: 4})]: true
+                })}>
+                  <DailyTourPromo />
+                </div>
               </div>
             </div>
           )}
