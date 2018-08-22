@@ -14,7 +14,6 @@ import {
 } from '@weco/common/services/prismic/exhibitions';
 import {
   getEvents,
-  getEventsCurrentAndComingUp,
   getEvent
 } from '@weco/common/services/prismic/events';
 import {getEventSeries} from '@weco/common/services/prismic/event-series';
@@ -22,7 +21,6 @@ import {getEventbriteEventEmbed} from '@weco/common/services/eventbrite/event-em
 import {isPreview as isPrismicPreview} from '@weco/common/services/prismic/api';
 import {model, prismic} from 'common';
 import Tags from '@weco/common/views/components/Tags/Tags';
-
 import {
   shopPromo,
   cafePromo,
@@ -37,10 +35,16 @@ const {
 } = prismic;
 
 export async function renderWhatsOn(ctx, next) {
-  const dateRange = ctx.params.dateRange || 'everything';
-  const exhibitionAndEventPromos = await getExhibitionAndEventPromos(dateRange, ctx.intervalCache.get('collectionOpeningTimes'));
-  const exhibitions = await getExhibitionsCurrentAndComingUp(ctx.request);
-  const events = await getEventsCurrentAndComingUp(ctx.request);
+  const dateRange = ctx.params.dateRange || 'current-and-coming-up';
+  const exhibitionAndEventPromos = await getExhibitionAndEventPromos(dateRange || 'everything', ctx.intervalCache.get('collectionOpeningTimes'));
+  const exhibitions = await getExhibitions(ctx.request, {
+    dateRangeString: dateRange,
+    order: 'asc'
+  });
+  const events = await getEvents(ctx.request, {
+    dateRangeString: dateRange,
+    order: 'asc'
+  });
 
   ctx.render('pages/whats-on', {
     pageConfig: createPageConfig({
@@ -62,7 +66,7 @@ export async function renderWhatsOn(ctx, next) {
     cafePromo,
     shopPromo,
     dailyTourPromo,
-    dateRange
+    dateRange: dateRange
   });
 
   return next();

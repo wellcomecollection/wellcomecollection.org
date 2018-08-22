@@ -29,9 +29,14 @@ import {parseEventSeries} from './event-series';
 import isEmptyObj from '../../utils/is-empty-object';
 import {london} from '../../utils/format-date';
 import {isPast} from '../../utils/dates';
+import {getDateRangePredicatesFromString} from './utils';
 import type {UiEvent, EventFormat} from '../../model/events';
 import type {Team} from '../../model/team';
 import type {PrismicDocument, PrismicApiSearchResponse, PaginatedResults} from './types';
+import type {DateRangeString} from './utils';
+
+const startField = 'my.events.times.startDateTime';
+const endField = 'my.events.times.endDateTime';
 
 function parseEventFormat(frag: Object): ?EventFormat {
   return isDocumentLink(frag) ? {
@@ -175,30 +180,18 @@ export async function getEvent(req: Request, {id}: EventQueryProps): Promise<?Ui
   }
 }
 
-export async function getEventsCurrentAndComingUp(req: Request): Promise<?PaginatedResults<UiEvent>> {
-  const predicates = [
-    Prismic.Predicates.dateAfter('my.events.times.endDateTime', london().endOf('day').toDate())
-  ];
-
-  const events = await getEvents(req, {
-    page: 1,
-    predicates,
-    order: 'asc'
-  });
-
-  return events;
-}
-
 type EventsQueryProps = {|
   page: number,
   predicates: Prismic.Predicates[],
-  order: 'asc' | 'desc'
+  order: 'asc' | 'desc',
+  dateRangeString?: DateRangeString
 |}
 
 export async function getEvents(req: Request,  {
   page = 1,
   predicates = [],
-  order = 'desc'
+  order = 'desc',
+  dateRangeString
 }: EventsQueryProps): Promise<?PaginatedResults<UiEvent>> {
   const graphQuery = `{
     events {
@@ -277,9 +270,14 @@ export async function getEvents(req: Request,  {
   }`;
 
   const orderings = `[my.events.times.startDateTime${order === 'desc' ? ' desc' : ''}]`;
+  const dateRangePredicates = dateRangeString ? getDateRangePredicatesFromString(
+    dateRangeString,
+    startField,
+    endField
+  ) : [];
   const paginatedResults = await getDocuments(req, [
     Prismic.Predicates.at('document.type', 'events')
-  ].concat(predicates), {
+  ].concat(predicates, dateRangePredicates), {
     orderings,
     page,
     graphQuery

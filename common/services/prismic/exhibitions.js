@@ -28,6 +28,11 @@ import {
 } from './parsers';
 import {parseInstallationDoc} from './installations';
 import {london} from '../../utils/format-date';
+import {getDateRangePredicatesFromString} from './utils';
+import type {DateRangeString} from './utils';
+
+const startField = 'my.exhibitions.start';
+const endField = 'my.exhibitions.end';
 
 export function parseExhibitionFormat(frag: Object): ?ExhibitionFormat {
   return isDocumentLink(frag) ? {
@@ -133,24 +138,32 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   };
 }
 
-const startField = 'my.exhibitions.start';
-const endField = 'my.exhibitions.end';
 type Order = 'desc' | 'asc';
 type GetExhibitionsProps = {|
   predicates: Prismic.Predicates[],
-  order: Order
+  order: Order,
+  dateRangeString?: DateRangeString
 |}
 export async function getExhibitions(
   req: Request,
   {
     predicates = [],
-    order = 'asc'
+    order = 'asc',
+    dateRangeString
   }: GetExhibitionsProps = {}
 ): Promise<PaginatedResults<UiExhibition>> {
   const orderings = `[my.exhibitions.isPermanent desc,${endField}${order === 'desc' ? ' desc' : ''}]`;
+  const dateRangeStringPredicates = dateRangeString ? getDateRangePredicatesFromString(
+    dateRangeString,
+    startField,
+    endField
+  ) : [];
   const paginatedResults = await getDocuments(
     req,
-    [Prismic.Predicates.any('document.type', ['exhibitions'])].concat(predicates),
+    [Prismic.Predicates.any('document.type', ['exhibitions'])].concat(
+      predicates,
+      dateRangeStringPredicates
+    ),
     {
       fetchLinks: peopleFields.concat(
         contributorsFields,
@@ -163,6 +176,8 @@ export async function getExhibitions(
   );
 
   const uiExhibitions: UiExhibition[] = paginatedResults.results.map(parseExhibitionDoc);
+  const exhibitionsWithPermAfterCurrent = putPermanentAfterCurrentExhibitions(uiExhibitions);
+
   // { ...paginatedResults, results: uiExhibitions } should work, but Flow still
   // battles with spreading.
   return {
@@ -170,8 +185,34 @@ export async function getExhibitions(
     pageSize: paginatedResults.pageSize,
     totalResults: paginatedResults.totalResults,
     totalPages: paginatedResults.totalPages,
-    results: uiExhibitions
+    results: exhibitionsWithPermAfterCurrent
   };
+}
+
+function putPermanentAfterCurrentExhibitions(exhibitions: UiExhibition[]): UiExhibition[] {
+  // We order the list this way as, from a user's perspective, seeing the
+  // temporary exhibitions is more urgent, so they're at the front of the list,
+  // but there's no good way to express that ordering through Prismic's ordering
+  const groupedResults = exhibitions.reduce((acc, result) => {
+    // Wishing there was `groupBy`.
+    if (result.isPermanent) {
+      acc.permanent.push(result);
+    } else if (london(result.start).isAfter(london())) {
+      acc.comingUp.push(result);
+    } else {
+      acc.current.push(result);
+    }
+
+    return acc;
+  }, {
+    current: [],
+    permanent: [],
+    comingUp: []
+  });
+
+  return groupedResults.current
+    .concat(groupedResults.permanent)
+    .concat(groupedResults.comingUp);
 }
 
 export async function getExhibitionsComingUp(req: Request) {

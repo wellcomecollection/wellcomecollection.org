@@ -1,43 +1,28 @@
-<div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }} {{ {s:0} | spacingClasses({margin: ['top', 'bottom']}) }}">
-  {% include './date_range.njk' %}
-  <div class="flex flex--v-center flex--h-space-between">
-    <h2 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s:0} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">Exhibitions and Events</h2>
-    <span class="{{ {s:'HNM5', m:'HNM4'} | fontClasses }}">Free admission</span>
+<div class="{{{s:3, m:5, l:5} | spacingClasses({ margin: ['top'] })}}">
+  <div class="css-grid__container">
+    <div class="css-grid">
+      <div class="{{ {s: 12, m: 12, l: 12, xl:12} | cssGridClasses }} {{ {s: 0} | spacingClasses({margin: ['top', 'bottom']}) }}">
+        {% include './date_range.njk' %}
+        <div class="flex flex--v-center flex--h-space-between">
+          <h2 class="{{ {s:'WB6', m:'WB5', l:'WB4'} | fontClasses }} {{ {s: 0} | spacingClasses({margin: ['top']}) }} {{ {s:1} | spacingClasses({margin: ['bottom']}) }}">Exhibitions</h2>
+          <span class="{{ {s:'HNM5', m:'HNM4'} | fontClasses }}">Free admission</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-
-{% for exhibition in exhibitionAndEventPromos.currentTemporaryExhibitionPromos %}
-  <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-    {% componentJsx 'ExhibitionPromo', exhibition %}
+{% componentJsx 'ExhibitionsAndEvents', {
+  exhibitions: exhibitions.results,
+  events: events.results
+} %}
+<div class="{{ {s:4} | spacingClasses({margin: ['top']}) }}">
+  <div class="css-grid__container">
+    <div class="css-grid">
+      <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }}">
+        {% componentJsx 'PrimaryLink', { name: 'View past exhibitions', url: '/exhibitions/past' } %}
+          <br>
+        {% componentJsx 'PrimaryLink', { name: 'View all events', url: '/events' } %}
+      </div>
+    </div>
   </div>
-{% endfor %}
-
-{% for event in exhibitionAndEventPromos.eventPromos %}
-  <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-    {% componentJsx 'EventPromo', event %}
-  </div>
-{% endfor %}
-
-{% for exhibition in exhibitionAndEventPromos.upcomingTemporaryExhibitionPromos %}
-  <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-    {% componentJsx 'ExhibitionPromo', exhibition %}
-  </div>
-{% endfor %}
-
-{% if exhibitionAndEventPromos.listHeader.todayOpeningHours.opens or exhibitionAndEventPromos.active !== 'today' %}
-  <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-    {% componentJsx 'EventPromo', dailyTourPromo %}
-  </div>
-{% endif %}
-
-{% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
-  <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-    {% componentJsx 'ExhibitionPromo', exhibition %}
-  </div>
-{% endfor %}
-
-<div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} {{ {s:4} | spacingClasses({margin: ['top']}) }}">
-  {% componentJsx 'PrimaryLink', { name: 'View past exhibitions', url: '/exhibitions/past' } %}
-  <br>
-  {% componentJsx 'PrimaryLink', { name: 'View all events', url: '/events' } %}
 </div>

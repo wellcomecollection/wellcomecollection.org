@@ -22,6 +22,7 @@ import ExceptionalOpeningHoursTable from '../ExceptionalOpeningHoursTable/Except
 import Excerpt from '../Excerpt/Excerpt';
 import ExhibitionPageHeader from '../PageHeaders/ExhibitionPageHeader/ExhibitionPageHeader';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
+import ExhibitionsAndEvents from '../ExhibitionsAndEvents/ExhibitionsAndEvents';
 import FacilityPromo from '../FacilityPromo/FacilityPromo';
 import FeaturedText from '../FeaturedText/FeaturedText';
 import Footer from '../Footer/Footer';
@@ -90,6 +91,7 @@ export {
   Excerpt,
   ExhibitionPageHeader,
   ExhibitionPromo,
+  ExhibitionsAndEvents,
   FacilityPromo,
   FeaturedText,
   Footer,

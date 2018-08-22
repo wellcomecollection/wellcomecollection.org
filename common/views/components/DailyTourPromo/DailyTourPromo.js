@@ -1,7 +1,8 @@
 // @flow
 import EventPromo from '../EventPromo/EventPromo';
 
-const data = {
+export const data = {
+  type: 'daily-tours',
   id: 'tours',
   title: 'Daily guided tours and discussions',
   url: 'https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sma',

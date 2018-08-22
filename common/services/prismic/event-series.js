@@ -29,7 +29,8 @@ export async function getEventSeries(req: Request, {
 }: EventSeriesProps) {
   const events = await getEvents(req, {
     page: 1,
-    predicates: [Prismic.Predicates.at('my.events.series.series', id)]
+    predicates: [Prismic.Predicates.at('my.events.series.series', id)],
+    order: 'desc'
   });
 
   if (events && events.results.length > 0) {
