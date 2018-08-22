@@ -1,4 +1,5 @@
 // @flow
+import moment from 'moment';
 import {Predicates} from 'prismic-javascript';
 import {london} from '../../utils/format-date';
 import {getNextWeekendDateRange} from '../../utils/dates';
@@ -17,12 +18,11 @@ export function getDateRangePredicatesFromString(
   startField: string,
   endField: string
 ): Predicates[] {
-  const now = london();
-  const startOfDay = now.startOf('day');
-  const endOfDay = now.endOf('day');
+  const now = london(new Date());
+  const startOfDay = moment().startOf('day');
+  const endOfDay = moment().endOf('day');
   const weekendDateRange = getNextWeekendDateRange(now);
-  // TODO: this-week
-  console.info(rangeString);
+
   const range =
     rangeString === 'current' ? [
       Predicates.dateBefore(startField, endOfDay.toDate()),
@@ -34,11 +34,11 @@ export function getDateRangePredicatesFromString(
     ] : rangeString === 'past' ? [
       Predicates.dateBefore(endField, endOfDay.toDate())
     ] : rangeString === 'today' ? [
-      Predicates.dateBefore(startField, startOfDay.toDate()),
+      Predicates.dateBefore(startField, endOfDay.toDate()),
       Predicates.dateAfter(endField, startOfDay.toDate())
     ] : rangeString === 'this-weekend' ? [
-      Predicates.dateBefore(startField, london(weekendDateRange.start).startOf('day').toDate()),
-      Predicates.dateAfter(endField, london(weekendDateRange.end).endOf('day').toDate())
+      Predicates.dateBefore(startField, weekendDateRange.end),
+      Predicates.dateAfter(endField, weekendDateRange.start)
     ] : rangeString === 'this-week' ? [
       Predicates.dateAfter(startField, now.startOf('week')),
       Predicates.dateBefore(startField, now.endOf('week'))

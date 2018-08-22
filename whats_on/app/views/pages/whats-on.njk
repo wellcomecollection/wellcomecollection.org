@@ -28,10 +28,11 @@
   </script>
 
   {% set whatsOnData = {activeId: dateRange, id: 'whatsOnFilter' } %}
+  {{dateRange}}
   {% componentV2 'whats-on-list-header', exhibitionAndEventPromos.listHeader, {}, whatsOnData %}
 
   <div class="{{ {s:2, m:4} | spacingClasses({margin: ['top', 'bottom']}) }}">
-    {% if dateRange === 'current-and-upcoming' %}
+    {% if dateRange === 'current-and-coming-up' %}
       {% include 'partials/separate_exhibition_event_promos.njk' %}
     {% else %}
       {% include 'partials/mixed_exhibition_event_promos.njk' %}

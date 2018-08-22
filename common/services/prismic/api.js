@@ -59,7 +59,8 @@ export async function getDocuments(
 ): Promise<PaginatedResults<PrismicDocument>> {
   const api = await getPrismicApi(req);
   const docs: PrismicApiSearchResponse = await api.query(
-    predicates.concat([Prismic.Predicates.not('document.tags', ['delist'])]),
+    // predicates.concat([Prismic.Predicates.not('document.tags', [])]),
+    predicates,
     opts
   );
   const paginatedResults = {
