@@ -13,6 +13,7 @@ import {london} from '../filters/format-date';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {getPage, getPageFromDrupalPath} from '../../common/services/prismic/pages';
+import {getExhibitionFromDrupalPath} from '../../common/services/prismic/exhibitions';
 import {getBook} from '../../common/services/prismic/books';
 import {getPlace} from '../../common/services/prismic/places';
 import {search} from '../../common/services/prismic/search';
@@ -418,6 +419,13 @@ export async function searchForDrupalRedirect(ctx, next) {
   if (page) {
     ctx.status = 301;
     ctx.redirect(`/pages/${page.id}`);
+  } else  {
+    const exhibition = await getExhibitionFromDrupalPath(ctx.request, `/${path}`);
+
+    if (exhibition) {
+      ctx.status = 301;
+      ctx.redirect(`/exhibitions/${exhibition.id}`);
+    }
   }
 
   return next();
