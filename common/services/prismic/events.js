@@ -196,6 +196,20 @@ export async function getEvents(req: Request,  {
       series {
         series {
           ...seriesFields
+          contributors {
+            ...contributorsFields
+            role {
+              ...roleFields
+            }
+            contributor {
+              ... on people {
+                ...peopleFields
+              }
+              ... on organisations {
+                ...organisationsFields
+              }
+            }
+          }
           promo {
             ... on editorialImage {
               non-repeat {
