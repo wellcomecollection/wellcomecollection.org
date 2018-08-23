@@ -19,6 +19,7 @@ import {getPlace} from '../../common/services/prismic/places';
 import {search} from '../../common/services/prismic/search';
 import {getCollectionOpeningTimes} from '../../common/services/prismic/opening-times';
 import {isPreview as getIsPreview} from '../../common/services/prismic/api';
+import superagent from 'superagent';
 
 import {dailyTourPromo} from '../../server/data/facility-promos';
 
@@ -415,15 +416,34 @@ export function renderNewsletterPage(ctx, next) {
 export async function searchForDrupalRedirect(ctx, next) {
   const {path} = ctx.params;
   const page = await getPageFromDrupalPath(ctx.request, `/${path}`);
+  const baseGaPayload = {
+    v: 1,
+    tid: 'UA-55614-6',
+    cid: 555,
+    t: 'event',
+    ec: 'Server',
+    ea: 'Redirect'
+  };
+  const gaPath = 'https://www.google-analytics.com/collect';
 
   if (page) {
+    superagent.post(gaPath)
+      .type('form')
+      .send(Object.assign({}, baseGaPayload, {el: `from:${path} to: /pages/${page.id}`}));
+
     ctx.status = 301;
     ctx.redirect(`/pages/${page.id}`);
-  } else  {
+  } else {
     const exhibition = await getExhibitionFromDrupalPath(ctx.request, `/${path}`);
 
     if (exhibition) {
+      superagent.post(gaPath)
+        .type('form')
+        .send(Object.assign({}, baseGaPayload, {el: `from:${path} to: /exhibitions/${exhibition.id}`}));
+
       ctx.status = 301;
+      // TODO: this _should_ work, but seems like micro-proxy doesn't honour
+      // the redirect locally (unless the URL contains the host:port).
       ctx.redirect(`/exhibitions/${exhibition.id}`);
     }
   }
