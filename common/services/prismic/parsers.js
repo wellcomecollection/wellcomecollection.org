@@ -17,6 +17,7 @@ import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
 import isEmptyObj from '../../utils/is-empty-object';
+import isEmptyDocLink from '../../utils/is-empty-doc-link';
 
 const placeHolderImage = {
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
@@ -504,12 +505,12 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
 export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
   const {data} = doc;
   const promo = data.promo && parseImagePromo(data.promo);
-
+  const contributors = data.contributors.filter(c => !isEmptyDocLink(c.contributor));
   return {
     id: doc.id,
     title: parseTitle(data.title),
     contributorsTitle: asText(data.contributorsTitle),
-    contributors: data.contributors ? parseContributors(data.contributors) : [],
+    contributors: data.contributors ? parseContributors(contributors) : [],
     body: data.body ? parseBody(data.body) : [],
     promo: promo,
     promoText: promo && promo.caption,
