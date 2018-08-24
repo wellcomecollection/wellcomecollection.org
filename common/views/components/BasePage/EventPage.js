@@ -138,7 +138,8 @@ const EventPage = ({ event }: Props) => {
         <LabelsList labels={(eventFormat.concat(eventAudiences, eventInterpretations))} />
         {event.series.length > 0 && (
           <div className='flex-inline flex--v-center' style={{whiteSpace: 'nowrap'}}>
-            <p className={`${font({s: 'HNL5'})} ${spacing({s: 0}, {margin: ['bottom']})} ${spacing({s: 1}, {margin: ['right', 'top']})} inline-block no-padding`}>{'Part of '}</p>
+            <p className={`${font({s: 'HNL5'})} ${spacing({s: 0}, {margin: ['bottom']})} ${spacing({s: 1}, {margin: ['right']})} inline-block no-padding`}
+              style={{marginTop: '3px'}}>{'Part of '}</p> {/* TODO: revisit 3px as part of spacing system */}
             {event.series.length > 0 && <LabelsList labels={event.series.map((series) => {
               return {
                 url: `/event-series/${series.id}`,
