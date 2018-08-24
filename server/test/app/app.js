@@ -15,6 +15,11 @@ test('/explore', async t => {
   t.is(res.status, 200);
 });
 
+test('/books', async t => {
+  const res = await request.get('/books');
+  t.is(res.status, 200);
+});
+
 test('/wp/articles/:slug', async t => {
   const res = await request.get('/articles/a-drop-in-the-ocean-daniel-regan');
   t.is(res.status, 200);
