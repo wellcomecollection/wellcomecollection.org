@@ -1,5 +1,5 @@
 // @flow
-import {spacing, grid, font} from '../../../utils/classnames';
+import {spacing, grid, font, classNames} from '../../../utils/classnames';
 import Divider from '../Divider/Divider';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 
@@ -25,6 +25,11 @@ const SectionHeader = ({title, linkText, linkUrl}: Props) => {
               <h2 className={`${font({s: 'WB5', m: 'WB4'})} ${spacing({l: 1}, {padding: ['right']})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 0}, {margin: ['bottom']})}`}>{title}</h2>
               {linkText && linkUrl &&
                 <PrimaryLink name={linkText} url={linkUrl} />
+              }
+              {linkText && !linkUrl &&
+                <span className={classNames({
+                  [font({s: 'HNM5', m: 'HNM4'})]: true
+                })}>{linkText}</span>
               }
             </div>
           </div>
