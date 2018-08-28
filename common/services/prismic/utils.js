@@ -11,7 +11,6 @@ export type DateRangeString =
   | 'past'
   | 'current'
   | 'coming-up'
-  | 'this-weekend'
   | 'this-week';
 export function getDateRangePredicatesFromString(
   rangeString: ?DateRangeString,
