@@ -36,15 +36,19 @@ const {
 
 export async function renderWhatsOn(ctx, next) {
   const period = ctx.params.period || 'current-and-coming-up';
-  const exhibitionAndEventPromos = await getExhibitionAndEventPromos(period || 'everything', ctx.intervalCache.get('collectionOpeningTimes'));
-  const exhibitions = await getExhibitions(ctx.request, {
+  const exhibitionAndEventPromosPromise = getExhibitionAndEventPromos(period || 'everything', ctx.intervalCache.get('collectionOpeningTimes'));
+  const exhibitionsPromise = getExhibitions(ctx.request, {
     period,
     order: 'asc'
   });
-  const events = await getEvents(ctx.request, {
+  const eventsPromise = getEvents(ctx.request, {
     period,
     order: 'asc'
   });
+
+  const [exhibitions, events, exhibitionAndEventPromos] = await Promise.all([
+    exhibitionsPromise, eventsPromise, exhibitionAndEventPromosPromise
+  ]);
 
   ctx.render('pages/whats-on', {
     pageConfig: createPageConfig({
