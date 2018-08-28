@@ -486,14 +486,22 @@ function getListHeader(dates, collectionOpeningTimes) {
   };
 }
 
+function getMomentsForPeriod(period) {
+  const todaysDate = london();
+  const todaysDatePlusSix = todaysDate.clone().add(6, 'days');
+
+  switch (period) {
+    case 'today': return [todaysDate.startOf('day'), todaysDate.endOf('day')];
+    case 'this-weekend': return [getWeekendFromDate(todaysDate), getWeekendToDate(todaysDate)];
+    // FIXME: this isn't really 'this week', but the 'next seven days' (needs UX/content rethink?)
+    case 'this-week': return [todaysDate.startOf('day'), todaysDatePlusSix.endOf('day')];
+    default: return [todaysDate.startOf('day'), undefined];
+  }
+}
+
 export async function getExhibitionAndEventPromos(dateRange, collectionOpeningTimes) {
   const todaysDate = london();
-
-  const [fromDateMoment, toDateMoment] =
-    dateRange === 'today' ? [todaysDate.startOf('day'), todaysDate.endOf('day')]
-      : dateRange === 'this-weekend' ? [getWeekendFromDate(todaysDate), getWeekendToDate(todaysDate)]
-        : [todaysDate.startOf('day'), undefined];
-
+  const [fromDateMoment, toDateMoment] = getMomentsForPeriod(dateRange);
   const fromDate = fromDateMoment.format('YYYY-MM-DD');
   const toDate  = toDateMoment ? toDateMoment.format('YYYY-MM-DD') : undefined;
 
