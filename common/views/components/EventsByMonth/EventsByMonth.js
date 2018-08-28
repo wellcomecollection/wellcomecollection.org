@@ -13,9 +13,9 @@ type Props = {|
 // recursive - TODO: make tail recursive?
 function getMonthsInDateRange({start, end}, acc = []) {
   if (start.isBefore(end, 'month') || start.isSame(end, 'month')) {
-    acc.push(start.format('MMMM'));
+    const newAcc = acc.concat([start.format('MMMM')]);
     const newStart = start.add(1, 'month');
-    return getMonthsInDateRange({start: newStart, end}, acc);
+    return getMonthsInDateRange({start: newStart, end}, newAcc);
   } else {
     return acc;
   }
