@@ -154,7 +154,7 @@ jobs:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: server_modules_circleci_node_8_{{ checksum "../../server/yarn.lock" }}
+          key: server_modules_circleci_node_8_{{ checksum "../../server/package.json" }}
       - restore_cache:
           keys:
             - common_modules_circleci_node_8_{{ checksum "package.json" }}
@@ -202,7 +202,7 @@ jobs:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: server_modules_circleci_node_8_{{ checksum "../../server/yarn.lock" }}
+          key: server_modules_circleci_node_8_{{ checksum "../../server/package.json" }}
       - restore_cache:
           keys:
             - common_modules_circleci_node_8_{{ checksum "package.json" }}
@@ -250,7 +250,7 @@ jobs:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: server_modules_circleci_node_8_{{ checksum "server/yarn.lock" }}
+          key: server_modules_circleci_node_8_{{ checksum "server/package.json" }}
       - restore_cache:
           keys:
             - common_modules_circleci_node_8_{{ checksum "package.json" }}
@@ -282,7 +282,7 @@ jobs:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: server_modules_circleci_node_8_{{ checksum "server/yarn.lock" }}
+          key: server_modules_circleci_node_8_{{ checksum "server/package.json" }}
       - restore_cache:
           keys:
             - common_modules_circleci_node_8_{{ checksum "package.json" }}
