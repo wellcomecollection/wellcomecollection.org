@@ -9,7 +9,6 @@ export type DateRangeString =
   | 'this-weekend'
   | 'current-and-coming-up'
   | 'past'
-  | 'current'
   | 'coming-up'
   | 'this-week';
 export function getDateRangePredicatesFromString(
@@ -23,15 +22,12 @@ export function getDateRangePredicatesFromString(
   const weekendDateRange = getNextWeekendDateRange(now);
 
   const range =
-    rangeString === 'current' ? [
-      Predicates.dateBefore(startField, endOfDay.toDate()),
-      Predicates.dateAfter(endField, endOfDay.toDate())
-    ] : rangeString === 'coming-up' ? [
+    rangeString === 'coming-up' ? [
       Predicates.dateAfter(startField, startOfDay.toDate())
     ] : rangeString === 'current-and-coming-up' ? [
       Predicates.dateAfter(endField, endOfDay.toDate())
     ] : rangeString === 'past' ? [
-      Predicates.dateBefore(endField, endOfDay.toDate())
+      Predicates.dateBefore(endField, startOfDay.toDate())
     ] : rangeString === 'today' ? [
       Predicates.dateBefore(startField, endOfDay.toDate()),
       Predicates.dateAfter(endField, startOfDay.toDate())
@@ -39,8 +35,8 @@ export function getDateRangePredicatesFromString(
       Predicates.dateBefore(startField, weekendDateRange.end),
       Predicates.dateAfter(endField, weekendDateRange.start)
     ] : rangeString === 'this-week' ? [
-      Predicates.dateAfter(startField, now.startOf('week')),
-      Predicates.dateBefore(startField, now.endOf('week'))
+      Predicates.dateBefore(startField, now.endOf('week')),
+      Predicates.dateAfter(startField, now.startOf('week'))
     ] : [];
 
   return range;
