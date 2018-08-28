@@ -6,6 +6,7 @@ import BookPromo from '../BookPromo/BookPromo';
 import Button from '../Buttons/Button/Button';
 import {UiImage, CaptionedImage} from '../Images/Images';
 import Caption from '../Caption/Caption';
+import CardGrid from '../CardGrid/CardGrid';
 import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
 import Contributor from '../Contributor/Contributor';
 import Contributors from '../Contributors/Contributors';
@@ -14,12 +15,14 @@ import CopyUrl from '../CopyUrl/CopyUrl';
 import Divider from '../Divider/Divider';
 import EventPage from '../BasePage/EventPage';
 import EventPromo from '../EventPromo/EventPromo';
+import EventsByMonth from '../EventsByMonth/EventsByMonth';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import EventSeriesPage from '../BasePage/EventSeriesPage';
 import ExceptionalOpeningHoursTable from '../ExceptionalOpeningHoursTable/ExceptionalOpeningHoursTable';
 import Excerpt from '../Excerpt/Excerpt';
 import ExhibitionPageHeader from '../PageHeaders/ExhibitionPageHeader/ExhibitionPageHeader';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
+import ExhibitionsAndEvents from '../ExhibitionsAndEvents/ExhibitionsAndEvents';
 import FacilityPromo from '../FacilityPromo/FacilityPromo';
 import FeaturedText from '../FeaturedText/FeaturedText';
 import Footer from '../Footer/Footer';
@@ -72,6 +75,7 @@ export {
   Button,
   Caption,
   CaptionedImage,
+  CardGrid,
   ChapterIndicator,
   Contributor,
   Contributors,
@@ -80,12 +84,14 @@ export {
   Divider,
   EventPage,
   EventPromo,
+  EventsByMonth,
   EventScheduleItem,
   EventSeriesPage,
   ExceptionalOpeningHoursTable,
   Excerpt,
   ExhibitionPageHeader,
   ExhibitionPromo,
+  ExhibitionsAndEvents,
   FacilityPromo,
   FeaturedText,
   Footer,

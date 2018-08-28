@@ -29,9 +29,14 @@ import {parseEventSeries} from './event-series';
 import isEmptyObj from '../../utils/is-empty-object';
 import {london} from '../../utils/format-date';
 import {isPast} from '../../utils/dates';
+import {getPeriodPredicates} from './utils';
 import type {UiEvent, EventFormat} from '../../model/events';
 import type {Team} from '../../model/team';
 import type {PrismicDocument, PrismicApiSearchResponse, PaginatedResults} from './types';
+import type {Period} from '../../model/periods';
+
+const startField = 'my.events.times.startDateTime';
+const endField = 'my.events.times.endDateTime';
 
 function parseEventFormat(frag: Object): ?EventFormat {
   return isDocumentLink(frag) ? {
@@ -177,12 +182,16 @@ export async function getEvent(req: Request, {id}: EventQueryProps): Promise<?Ui
 
 type EventsQueryProps = {|
   page: number,
-  seriesId: string
+  predicates: Prismic.Predicates[],
+  order: 'asc' | 'desc',
+  period?: Period
 |}
 
 export async function getEvents(req: Request,  {
   page = 1,
-  seriesId
+  predicates = [],
+  order = 'desc',
+  period
 }: EventsQueryProps): Promise<?PaginatedResults<UiEvent>> {
   const graphQuery = `{
     events {
@@ -259,13 +268,16 @@ export async function getEvents(req: Request,  {
       }
     }
   }`;
-  const orderings = '[my.events.times.startDateTime desc]';
-  const predicates = [
-    Prismic.Predicates.at('document.type', 'events'),
-    seriesId ? Prismic.Predicates.at('my.events.series.series', seriesId) : null
-  ].filter(Boolean);
 
-  const paginatedResults = await getDocuments(req, predicates, {
+  const orderings = `[my.events.times.startDateTime${order === 'desc' ? ' desc' : ''}]`;
+  const dateRangePredicates = period ? getPeriodPredicates(
+    period,
+    startField,
+    endField
+  ) : [];
+  const paginatedResults = await getDocuments(req, [
+    Prismic.Predicates.at('document.type', 'events')
+  ].concat(predicates, dateRangePredicates), {
     orderings,
     page,
     graphQuery

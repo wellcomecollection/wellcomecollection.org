@@ -27,17 +27,15 @@
     {% endfor %}]
   </script>
 
-  {% set whatsOnData = {activeId: dateRange, id: 'whatsOnFilter' } %}
+  {% set whatsOnData = {activeId: period, id: 'whatsOnFilter' } %}
   {% componentV2 'whats-on-list-header', exhibitionAndEventPromos.listHeader, {}, whatsOnData %}
 
-  <div class="css-grid__container {{ {s:3, m:5, l:5} | spacingClasses({padding: ['top']}) }}">
-    <div class="css-grid {{ {s:2, m:4} | spacingClasses({margin: ['top', 'bottom']}) }}">
-      {% if exhibitionAndEventPromos.active === 'everything' %}
-        {% include 'partials/separate_exhibition_event_promos.njk' %}
-      {% else %}
-        {% include 'partials/mixed_exhibition_event_promos.njk' %}
-      {% endif %}
-    </div>
+  <div class="{{ {s:2, m:4} | spacingClasses({margin: ['top']}) }}">
+    {% if period === 'current-and-coming-up' %}
+      {% include 'partials/separate_exhibition_event_promos.njk' %}
+    {% else %}
+      {% include 'partials/mixed_exhibition_event_promos.njk' %}
+    {% endif %}
   </div>
 
   {% componentJsx 'SectionHeader', {

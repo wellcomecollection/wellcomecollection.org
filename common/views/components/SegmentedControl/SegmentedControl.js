@@ -20,8 +20,7 @@ const SegmentedControl = ({
   return (
     <div className={classNames({
       'segmented-control': true,
-      'js-segmented-control': true,
-      [spacing({s: 2}, {margin: ['top', 'bottom']})]: true
+      'js-segmented-control': true
     })}>
       <div className={classNames({
         'segmented-control__drawer': true,
@@ -55,7 +54,6 @@ const SegmentedControl = ({
           id={id}
           className={classNames({
             [spacing({s: 3}, {padding: ['left', 'right']})]: true,
-            [spacing({s: 4}, {padding: ['top']})]: true,
             'segmented-control__body': true,
             'bg-white js-show-hide-drawer': true
           })}>

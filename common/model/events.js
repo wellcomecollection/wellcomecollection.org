@@ -104,6 +104,7 @@ export type Event = {|
 /* eslint-enable no-use-before-define */
 
 export type EventPromo = {|
+  type?: ?string,
   id: string,
   title: ?string,
   url: string,
@@ -118,7 +119,7 @@ export type EventPromo = {|
   image: ?Image,
   interpretations: Interpretation[],
   eventbriteId?: ?string,
-  audience?: Audience,
+  audience?: ?Audience,
   series: EventSeries[],
   schedule: Event[],
   // These are used for when we have a human written string for the dates.

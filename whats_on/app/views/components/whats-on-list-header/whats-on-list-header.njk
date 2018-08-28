@@ -4,10 +4,7 @@
       <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
         <div class="flex flex--v-center flex--h-space-between flex--wrap">
           <div>
-            <h1 class="{{- [
-              {s:'WB6', m:'WB5', l:'WB4'}| fontClasses,
-              {s:4} | spacingClasses({padding: ['right']})
-            ].join(' ') }} no-margin inline">{{ model.name }}</h1>
+            <h1 class="inline h1">{{ model.name }}</h1>
           </div>
           <div class="flex flex--v-center flex--wrap">
             {% if model.todayOpeningHours %}
@@ -34,12 +31,12 @@
           </div>
         </div>
       </div>
-      <div class="{{ {s: 12, m: 10, l: 8, xl: 6} | gridClasses }}">
+      <div class="{{ {s: 12, m: 10, l: 8, xl: 6} | gridClasses }} {{ {s: 2} | spacingClasses({ margin: ['top', 'bottom'] }) }}">
         {% componentJsx 'SegmentedControl', {
           id: 'whatsOnFilter',
           activeId: data.activeId,
           items: [{
-            id: 'everything',
+            id: 'current-and-coming-up',
             url: '/whats-on',
             text: 'Everything'
           }, {

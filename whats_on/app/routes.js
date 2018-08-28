@@ -19,7 +19,7 @@ import {
 const r = new Router({ sensitive: true });
 
 r.get('/whats-on', renderWhatsOn);
-r.get('/whats-on/:dateRange', renderWhatsOn);
+r.get('/whats-on/:period', renderWhatsOn);
 
 r.get('/installations/:id/exhibition', renderExhibitExhibitionLink);
 r.get('/installations/:id', renderInstallation);

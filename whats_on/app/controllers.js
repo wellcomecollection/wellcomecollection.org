@@ -21,7 +21,6 @@ import {getEventbriteEventEmbed} from '@weco/common/services/eventbrite/event-em
 import {isPreview as isPrismicPreview} from '@weco/common/services/prismic/api';
 import {model, prismic} from 'common';
 import Tags from '@weco/common/views/components/Tags/Tags';
-
 import {
   shopPromo,
   cafePromo,
@@ -36,8 +35,20 @@ const {
 } = prismic;
 
 export async function renderWhatsOn(ctx, next) {
-  const dateRange = ctx.params.dateRange || 'everything';
-  const exhibitionAndEventPromos = await getExhibitionAndEventPromos(dateRange, ctx.intervalCache.get('collectionOpeningTimes'));
+  const period = ctx.params.period || 'current-and-coming-up';
+  const exhibitionAndEventPromosPromise = getExhibitionAndEventPromos(period || 'everything', ctx.intervalCache.get('collectionOpeningTimes'));
+  const exhibitionsPromise = getExhibitions(ctx.request, {
+    period,
+    order: 'asc'
+  });
+  const eventsPromise = getEvents(ctx.request, {
+    period,
+    order: 'asc'
+  });
+
+  const [exhibitions, events, exhibitionAndEventPromos] = await Promise.all([
+    exhibitionsPromise, eventsPromise, exhibitionAndEventPromosPromise
+  ]);
 
   ctx.render('pages/whats-on', {
     pageConfig: createPageConfig({
@@ -51,13 +62,15 @@ export async function renderWhatsOn(ctx, next) {
         dateRangeName: exhibitionAndEventPromos.active
       }
     }),
+    events,
+    exhibitions,
     exhibitionAndEventPromos,
     tryTheseTooPromos: [readingRoomPromo],
     eatShopPromos: [cafePromo, shopPromo, restaurantPromo],
     cafePromo,
     shopPromo,
     dailyTourPromo,
-    dateRange
+    period: period
   });
 
   return next();
