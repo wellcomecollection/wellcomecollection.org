@@ -30,7 +30,7 @@
   {% set whatsOnData = {activeId: period, id: 'whatsOnFilter' } %}
   {% componentV2 'whats-on-list-header', exhibitionAndEventPromos.listHeader, {}, whatsOnData %}
 
-  <div class="{{ {s:2, m:4} | spacingClasses({margin: ['top', 'bottom']}) }}">
+  <div class="{{ {s:2, m:4} | spacingClasses({margin: ['top']}) }}">
     {% if period === 'current-and-coming-up' %}
       {% include 'partials/separate_exhibition_event_promos.njk' %}
     {% else %}

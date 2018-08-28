@@ -1,6 +1,6 @@
 // @flow
 import {london} from '../../../utils/format-date';
-import {classNames, cssGrid} from '../../../utils/classnames';
+import {classNames, cssGrid, spacing} from '../../../utils/classnames';
 import SegmentedControl from '../SegmentedControl/SegmentedControl';
 import EventPromo from '../EventPromo/EventPromo';
 import DailyTourPromo from '../DailyTourPromo/DailyTourPromo';
@@ -53,17 +53,25 @@ const EventsByMonth = ({
       'js-events-filter': true,
       'tabs': true
     })}>
+      <div className={classNames({
+        [spacing({s: 2}, { margin: ['bottom'] })]: true
+      })}>
+        <div className='css-grid__container'>
+          <div className='css-grid'>
+            <div className={classNames({
+              [cssGrid({s: 12, m: 12, l: 12, xl: 12})]: true
+            })}>
+              <SegmentedControl
+                id='monthControls'
+                isTabControl={true}
+                activeId={months[0].id}
+                items={months} />
+            </div>
+          </div>
+        </div>
+      </div>
       <div className='css-grid__container'>
         <div className='css-grid'>
-          <div className={classNames({
-            [cssGrid({s: 12, m: 12, l: 12, xl: 12})]: true
-          })}>
-            <SegmentedControl
-              id='monthControls'
-              isTabControl={true}
-              activeId={months[0].id}
-              items={months} />
-          </div>
           {months.map(month => month.id).map(month =>
             <div key={month} className={classNames({
               'js-tabpanel': true,
