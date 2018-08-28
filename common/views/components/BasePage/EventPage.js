@@ -85,7 +85,7 @@ function InfoBar(event) {
           name={`See all dates/times${(eventbriteId || bookingEnquiryTeam) ? ' to book' : ''}`}
           isJumpLink={true}
           trackingEvent={{
-            category: 'Events',
+            category: 'component',
             action: 'date-times-jump-link:click',
             label: event.id
           }} />
