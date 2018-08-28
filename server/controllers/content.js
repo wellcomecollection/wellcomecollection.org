@@ -20,8 +20,8 @@ import {search} from '../../common/services/prismic/search';
 import {getCollectionOpeningTimes} from '../../common/services/prismic/opening-times';
 import {isPreview as getIsPreview} from '../../common/services/prismic/api';
 import superagent from 'superagent';
-
 import {dailyTourPromo} from '../../server/data/facility-promos';
+import uuidv4 from 'uuid/v4';
 
 export const renderOpeningTimes = async(ctx, next) => {
   const path = ctx.request.url;
@@ -419,7 +419,7 @@ export async function searchForDrupalRedirect(ctx, next) {
   const baseGaPayload = {
     v: 1,
     tid: 'UA-55614-6',
-    cid: 555,
+    cid: uuidv4(),
     t: 'event',
     ec: 'Server',
     ea: 'Redirect'
