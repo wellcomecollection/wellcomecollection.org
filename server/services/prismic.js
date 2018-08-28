@@ -486,12 +486,15 @@ function getListHeader(dates, collectionOpeningTimes) {
   };
 }
 
-export async function getExhibitionAndEventPromos(dateRange, collectionOpeningTimes) {
+export async function getExhibitionAndEventPromos(
+  dateRange,
+  collectionOpeningTimes
+) {
   const todaysDate = london();
 
   const [fromDateMoment, toDateMoment] =
     dateRange === 'today' ? [todaysDate.startOf('day'), todaysDate.endOf('day')]
-      : dateRange === 'the-weekend' ? [getWeekendFromDate(todaysDate), getWeekendToDate(todaysDate)]
+      : dateRange === 'this-weekend' ? [getWeekendFromDate(todaysDate), getWeekendToDate(todaysDate)]
         : [todaysDate.startOf('day'), undefined];
 
   const fromDate = fromDateMoment.format('YYYY-MM-DD');
