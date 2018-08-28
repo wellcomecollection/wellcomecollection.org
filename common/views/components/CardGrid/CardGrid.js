@@ -35,7 +35,8 @@ const CardGrid = ({
               image={item.promoImage}
               start={item.start}
               end={item.end}
-              statusOverride={item.statusOverride} />
+              statusOverride={item.statusOverride}
+              position={i} />
           }
           {item.type === 'events' &&
             // TODO: (remove Picture type)

@@ -12,7 +12,10 @@ import {
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {getPage, getPageFromDrupalPath} from '../../common/services/prismic/pages';
-import {getExhibitionFromDrupalPath} from '../../common/services/prismic/exhibitions';
+import {
+  getExhibitionFromDrupalPath,
+  getExhibitions
+} from '../../common/services/prismic/exhibitions';
 import {getBook} from '../../common/services/prismic/books';
 import {getPlace} from '../../common/services/prismic/places';
 import {search} from '../../common/services/prismic/search';
@@ -21,6 +24,7 @@ import {isPreview as getIsPreview} from '../../common/services/prismic/api';
 import superagent from 'superagent';
 import {dailyTourPromo} from '../../server/data/facility-promos';
 import uuidv4 from 'uuid/v4';
+import {getEvents} from '../../common/services/prismic/events';
 
 export const renderOpeningTimes = async(ctx, next) => {
   const path = ctx.request.url;
@@ -66,6 +70,14 @@ export async function renderHomepage(ctx, next) {
   const exhibitionAndEventPromos = await getExhibitionAndEventPromos('this-week', ctx.intervalCache.get('collectionOpeningTimes'));
   const contentList = await getArticleList();
   const storiesPromos = contentList.results.map(PromoFactory.fromArticleStub).slice(0, 4);
+  const exhibitions = await getExhibitions(ctx.request, {
+    period: 'next-seven-days',
+    order: 'asc'
+  });
+  const events = await getEvents(ctx.request, {
+    period: 'next-seven-days',
+    order: 'asc'
+  });
 
   ctx.render('pages/homepage', {
     pageConfig: createPageConfig({
@@ -74,6 +86,8 @@ export async function renderHomepage(ctx, next) {
       inSection: 'index',
       canonicalUri: `${ctx.globals.rootDomain}`
     }),
+    events,
+    exhibitions,
     exhibitionAndEventPromos: exhibitionAndEventPromos,
     storiesPromos,
     dailyTourPromo

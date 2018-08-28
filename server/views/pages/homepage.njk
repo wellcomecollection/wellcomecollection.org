@@ -40,55 +40,11 @@
     linkUrl: '/whats-on'
   } %}
 
-  <div class="css-grid__container">
-    <div class="css-grid">
-      {% set position = 0 %}
-      {% for exhibition in exhibitionAndEventPromos.currentTemporaryExhibitionPromos %}
-        {% if exhibition.id === 'Wv2HziAAAOcE8Txh' %}
-          <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-            {% set position = position + 1 %}
-            {% componentJsx 'EventPromo', exhibition | objectAssign({position: position}) %}
-          </div>
-        {% else %}
-          <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-            {% set position = position + 1 %}
-            {% componentJsx 'ExhibitionPromo', exhibition | objectAssign({position: position}) %}
-          </div>
-        {% endif %}
-      {% endfor %}
+  {% componentJsx 'ExhibitionsAndEvents', {
+    exhibitions: exhibitions.results,
+    events: events.results
+  } %}
 
-      {% for event in exhibitionAndEventPromos.eventPromos %}
-        <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-          {% set position = position + 1 %}
-          {% componentJsx 'EventPromo', event | objectAssign({position: position}) %}
-        </div>
-      {% endfor %}
-
-      {% for exhibition in exhibitionAndEventPromos.upcomingTemporaryExhibitionPromos %}
-        <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-          {% set position = position + 1 %}
-          {% componentJsx 'ExhibitionPromo', exhibition | objectAssign({position: position}) %}
-        </div>
-      {% endfor %}
-
-      <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-        {% set position = position + 1 %}
-        {% componentJsx 'EventPromo', dailyTourPromo | objectAssign({position: position}) %}
-      </div>
-
-      {% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
-        <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-          {% set position = position + 1 %}
-          {% componentJsx 'ExhibitionPromo', exhibition | objectAssign({position: position}) %}
-        </div>
-      {% endfor %}
-
-      <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
-        {% set position = position + 1 %}
-        {% componentJsx 'InstallationPromo', exhibitionAndEventPromos.colourOfPharmacyPromo | objectAssign({position: position}) %}
-      </div>
-    </div>
-  </div>
 
   {% componentJsx 'SectionHeader', {
     title: 'Latest articles, comics and more',
