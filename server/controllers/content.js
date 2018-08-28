@@ -9,7 +9,6 @@ import {
   getArticle, getSeriesAndArticles, getArticleList, getCuratedList,
   defaultPageSize, getExhibitionAndEventPromos
 } from '../services/prismic';
-import {london} from '../filters/format-date';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {getPage, getPageFromDrupalPath} from '../../common/services/prismic/pages';
@@ -62,9 +61,7 @@ export const renderOpeningTimes = async(ctx, next) => {
 
 export async function renderHomepage(ctx, next) {
   const path = ctx.request.url;
-  const todaysDate = london();
-  const todaysDatePlusSix = todaysDate.clone().add(6, 'days');
-  const exhibitionAndEventPromos = await getExhibitionAndEventPromos({startDate: todaysDate.format('YYYY-MM-DD'), endDate: todaysDatePlusSix.format('YYYY-MM-DD')}, ctx.intervalCache.get('collectionOpeningTimes'));
+  const exhibitionAndEventPromos = await getExhibitionAndEventPromos('this-week', ctx.intervalCache.get('collectionOpeningTimes'));
   const contentList = await getArticleList();
   const storiesPromos = contentList.results.map(PromoFactory.fromArticleStub).slice(0, 4);
 

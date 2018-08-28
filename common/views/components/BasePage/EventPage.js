@@ -135,16 +135,17 @@ const EventPage = ({ event }: Props) => {
     TagBar={null}
     LabelBar={
       <Fragment>
-        <LabelsList labels={(eventFormat.concat(eventAudiences, eventInterpretations))} isSpaced={true} />
+        <LabelsList labels={(eventFormat.concat(eventAudiences, eventInterpretations))} />
         {event.series.length > 0 && (
           <div className='flex-inline flex--v-center' style={{whiteSpace: 'nowrap'}}>
-            <p className={`${font({s: 'HNL5'})} ${spacing({s: 0}, {margin: ['bottom']})} ${spacing({s: 1}, {margin: ['right', 'top']})} inline-block no-padding`}>{'Part of '}</p>
+            <p className={`${font({s: 'HNL5'})} ${spacing({s: 0}, {margin: ['bottom']})} ${spacing({s: 1}, {margin: ['right']})} inline-block no-padding`}
+              style={{marginTop: '3px'}}>{'Part of '}</p> {/* TODO: revisit 3px as part of spacing system */}
             {event.series.length > 0 && <LabelsList labels={event.series.map((series) => {
               return {
                 url: `/event-series/${series.id}`,
                 text: series.title
               };
-            })} isSpaced={true} />}
+            })} />}
           </div>
         )}
       </Fragment>
@@ -165,6 +166,15 @@ const EventPage = ({ event }: Props) => {
     >
       <Fragment>
 
+        {event.contributors.length > 0 &&
+          <div className={`${spacing({s: 4}, {margin: ['bottom']})}`}>
+            <Contributors
+              titlePrefix='About your'
+              titleOverride={event.contributorsTitle}
+              contributors={event.contributors} />
+          </div>
+        }
+
         <div className={spacing({s: 4}, {margin: ['bottom']})}>
           <div className={`body-text border-bottom-width-1 border-color-pumice`}>
             <h2 id='dates'>Dates</h2>
@@ -182,15 +192,6 @@ const EventPage = ({ event }: Props) => {
                   event={scheduledEvent} />
               )}
             </ul>
-          </div>
-        }
-
-        {event.contributors.length > 0 &&
-          <div className={`${spacing({s: 4}, {margin: ['bottom']})}`}>
-            <Contributors
-              titlePrefix='About your'
-              titleOverride={event.contributorsTitle}
-              contributors={event.contributors} />
           </div>
         }
 
@@ -241,7 +242,7 @@ const EventPage = ({ event }: Props) => {
           </Fragment>
         }
 
-        {!event.isPast && event.policies.length > 0 &&
+        {!event.isPast &&
           <Fragment>
             <InfoBox title='Need to know' items={[
               (event.place && {
