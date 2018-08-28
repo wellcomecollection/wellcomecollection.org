@@ -15,6 +15,7 @@ import CopyUrl from '../CopyUrl/CopyUrl';
 import Divider from '../Divider/Divider';
 import EventPage from '../BasePage/EventPage';
 import EventPromo from '../EventPromo/EventPromo';
+import EventsByMonth from '../EventsByMonth/EventsByMonth';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import EventSeriesPage from '../BasePage/EventSeriesPage';
 import ExceptionalOpeningHoursTable from '../ExceptionalOpeningHoursTable/ExceptionalOpeningHoursTable';
@@ -83,6 +84,7 @@ export {
   Divider,
   EventPage,
   EventPromo,
+  EventsByMonth,
   EventScheduleItem,
   EventSeriesPage,
   ExceptionalOpeningHoursTable,
