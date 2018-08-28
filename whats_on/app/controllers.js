@@ -35,14 +35,14 @@ const {
 } = prismic;
 
 export async function renderWhatsOn(ctx, next) {
-  const dateRange = ctx.params.dateRange || 'current-and-coming-up';
-  const exhibitionAndEventPromos = await getExhibitionAndEventPromos(dateRange || 'everything', ctx.intervalCache.get('collectionOpeningTimes'));
+  const period = ctx.params.period || 'current-and-coming-up';
+  const exhibitionAndEventPromos = await getExhibitionAndEventPromos(period || 'everything', ctx.intervalCache.get('collectionOpeningTimes'));
   const exhibitions = await getExhibitions(ctx.request, {
-    dateRangeString: dateRange,
+    period,
     order: 'asc'
   });
   const events = await getEvents(ctx.request, {
-    dateRangeString: dateRange,
+    period,
     order: 'asc'
   });
 
@@ -66,7 +66,7 @@ export async function renderWhatsOn(ctx, next) {
     cafePromo,
     shopPromo,
     dailyTourPromo,
-    dateRange: dateRange
+    period: period
   });
 
   return next();

@@ -29,11 +29,11 @@ import {parseEventSeries} from './event-series';
 import isEmptyObj from '../../utils/is-empty-object';
 import {london} from '../../utils/format-date';
 import {isPast} from '../../utils/dates';
-import {getDateRangePredicatesFromString} from './utils';
+import {getPeriodPredicates} from './utils';
 import type {UiEvent, EventFormat} from '../../model/events';
 import type {Team} from '../../model/team';
 import type {PrismicDocument, PrismicApiSearchResponse, PaginatedResults} from './types';
-import type {DateRangeString} from './utils';
+import type {Period} from '../../model/periods';
 
 const startField = 'my.events.times.startDateTime';
 const endField = 'my.events.times.endDateTime';
@@ -184,14 +184,14 @@ type EventsQueryProps = {|
   page: number,
   predicates: Prismic.Predicates[],
   order: 'asc' | 'desc',
-  dateRangeString?: DateRangeString
+  period?: Period
 |}
 
 export async function getEvents(req: Request,  {
   page = 1,
   predicates = [],
   order = 'desc',
-  dateRangeString
+  period
 }: EventsQueryProps): Promise<?PaginatedResults<UiEvent>> {
   const graphQuery = `{
     events {
@@ -270,8 +270,8 @@ export async function getEvents(req: Request,  {
   }`;
 
   const orderings = `[my.events.times.startDateTime${order === 'desc' ? ' desc' : ''}]`;
-  const dateRangePredicates = dateRangeString ? getDateRangePredicatesFromString(
-    dateRangeString,
+  const dateRangePredicates = period ? getPeriodPredicates(
+    period,
     startField,
     endField
   ) : [];

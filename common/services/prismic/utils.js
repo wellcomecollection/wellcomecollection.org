@@ -3,16 +3,10 @@ import moment from 'moment';
 import {Predicates} from 'prismic-javascript';
 import {london} from '../../utils/format-date';
 import {getNextWeekendDateRange} from '../../utils/dates';
+import type {Period} from '../../model/periods';
 
-export type DateRangeString =
-  | 'today'
-  | 'this-weekend'
-  | 'current-and-coming-up'
-  | 'past'
-  | 'coming-up'
-  | 'this-week';
-export function getDateRangePredicatesFromString(
-  rangeString: ?DateRangeString,
+export function getPeriodPredicates(
+  period: ?Period,
   startField: string,
   endField: string
 ): Predicates[] {
@@ -21,23 +15,23 @@ export function getDateRangePredicatesFromString(
   const endOfDay = moment().endOf('day');
   const weekendDateRange = getNextWeekendDateRange(now);
 
-  const range =
-    rangeString === 'coming-up' ? [
+  const predicates =
+    period === 'coming-up' ? [
       Predicates.dateAfter(startField, startOfDay.toDate())
-    ] : rangeString === 'current-and-coming-up' ? [
+    ] : period === 'current-and-coming-up' ? [
       Predicates.dateAfter(endField, endOfDay.toDate())
-    ] : rangeString === 'past' ? [
+    ] : period === 'past' ? [
       Predicates.dateBefore(endField, startOfDay.toDate())
-    ] : rangeString === 'today' ? [
+    ] : period === 'today' ? [
       Predicates.dateBefore(startField, endOfDay.toDate()),
       Predicates.dateAfter(endField, startOfDay.toDate())
-    ] : rangeString === 'this-weekend' ? [
+    ] : period === 'this-weekend' ? [
       Predicates.dateBefore(startField, weekendDateRange.end),
       Predicates.dateAfter(endField, weekendDateRange.start)
-    ] : rangeString === 'this-week' ? [
+    ] : period === 'this-week' ? [
       Predicates.dateBefore(startField, now.endOf('week')),
       Predicates.dateAfter(startField, now.startOf('week'))
     ] : [];
 
-  return range;
+  return predicates;
 }

@@ -28,8 +28,8 @@ import {
 } from './parsers';
 import {parseInstallationDoc} from './installations';
 import {london} from '../../utils/format-date';
-import {getDateRangePredicatesFromString} from './utils';
-import type {DateRangeString} from './utils';
+import {getPeriodPredicates} from './utils';
+import type {Period} from '../../model/periods';
 
 const startField = 'my.exhibitions.start';
 const endField = 'my.exhibitions.end';
@@ -142,19 +142,19 @@ type Order = 'desc' | 'asc';
 type GetExhibitionsProps = {|
   predicates: Prismic.Predicates[],
   order: Order,
-  dateRangeString?: DateRangeString
+  period?: Period
 |}
 export async function getExhibitions(
   req: Request,
   {
     predicates = [],
     order = 'asc',
-    dateRangeString
+    period
   }: GetExhibitionsProps = {}
 ): Promise<PaginatedResults<UiExhibition>> {
   const orderings = `[my.exhibitions.isPermanent desc,${endField}${order === 'desc' ? ' desc' : ''}]`;
-  const dateRangeStringPredicates = dateRangeString ? getDateRangePredicatesFromString(
-    dateRangeString,
+  const periodPredicates = period ? getPeriodPredicates(
+    period,
     startField,
     endField
   ) : [];
@@ -162,7 +162,7 @@ export async function getExhibitions(
     req,
     [Prismic.Predicates.any('document.type', ['exhibitions'])].concat(
       predicates,
-      dateRangeStringPredicates
+      periodPredicates
     ),
     {
       fetchLinks: peopleFields.concat(

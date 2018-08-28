@@ -108,7 +108,7 @@ const EventsByMonth = ({
                     />
                   </div>
                 ))}
-                <div key={`${month}-daily-tour'`} className={classNames({
+                <div key={`${month}-daily-tour`} className={classNames({
                   [cssGrid({s: 12, m: 6, l: 4, xl: 4})]: true
                 })}>
                   <DailyTourPromo />
