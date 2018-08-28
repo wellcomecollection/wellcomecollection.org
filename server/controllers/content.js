@@ -429,7 +429,7 @@ export async function searchForDrupalRedirect(ctx, next) {
   if (page) {
     superagent.post(gaPath)
       .type('form')
-      .send(Object.assign({}, baseGaPayload, {el: `from:${path} to: /pages/${page.id}`}));
+      .send(Object.assign({}, baseGaPayload, {el: path}));
 
     ctx.status = 301;
     ctx.redirect(`/pages/${page.id}`);
@@ -439,7 +439,7 @@ export async function searchForDrupalRedirect(ctx, next) {
     if (exhibition) {
       superagent.post(gaPath)
         .type('form')
-        .send(Object.assign({}, baseGaPayload, {el: `from:${path} to: /exhibitions/${exhibition.id}`}));
+        .send(Object.assign({}, baseGaPayload, {el: path}));
 
       ctx.status = 301;
       // TODO: this _should_ work, but seems like micro-proxy doesn't honour
