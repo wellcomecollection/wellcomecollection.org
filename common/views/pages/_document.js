@@ -1,5 +1,4 @@
 // @flow
-import {Fragment} from 'react';
 import Document, { Head, Main, NextScript } from 'next/document';
 
 export default function WeDoc(css: string) {
@@ -13,17 +12,17 @@ export default function WeDoc(css: string) {
     }
 
     render() {
+      const polyfillFeatures = [
+        'default',
+        'Array.prototype.find',
+        'Array.prototype.includes'
+      ];
       return (
         <html id='top' lang='en'>
           <Head>
-            {this.props.usePolyfill &&
-              <Fragment>
-                <script src='https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.23.0/polyfill.min.js' />
-                <script src='https://cdn.polyfill.io/v2/polyfill.min.js'></script>
-              </Fragment>
-            }
+            <script src={`https://cdn.polyfill.io/v2/polyfill.js?features=${polyfillFeatures.join(',')}`}></script>
+            <script dangerouslySetInnerHTML={{ __html: `` }}></script>
             <style dangerouslySetInnerHTML={{ __html: css }} />
-
           </Head>
           <body>
             <Main />
