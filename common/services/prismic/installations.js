@@ -22,6 +22,7 @@ export function parseInstallationDoc(document: PrismicDocument): UiInstallation 
 
   return {
     ...genericFields,
+    type: 'installations',
     description: parseDescription(data.description),
     start: parseTimestamp(data.start),
     end: data.end && parseTimestamp(data.end),
