@@ -13,6 +13,7 @@ import Contributors from '../Contributors/Contributors';
 import Control from '../Buttons/Control/Control';
 import CopyUrl from '../CopyUrl/CopyUrl';
 import Divider from '../Divider/Divider';
+import ErrorPage from '../BasePage/ErrorPage';
 import EventPage from '../BasePage/EventPage';
 import EventPromo from '../EventPromo/EventPromo';
 import EventsByMonth from '../EventsByMonth/EventsByMonth';
@@ -82,6 +83,7 @@ export {
   Control,
   CopyUrl,
   Divider,
+  ErrorPage,
   EventPage,
   EventPromo,
   EventsByMonth,
