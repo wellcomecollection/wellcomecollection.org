@@ -19,7 +19,7 @@ import {
 import {getEventSeries} from '@weco/common/services/prismic/event-series';
 import {getEventbriteEventEmbed} from '@weco/common/services/eventbrite/event-embed';
 import {isPreview as isPrismicPreview} from '@weco/common/services/prismic/api';
-import {model, prismic} from 'common';
+import {model} from 'common';
 import Tags from '@weco/common/views/components/Tags/Tags';
 import {
   shopPromo,
@@ -29,15 +29,11 @@ import {
   dailyTourPromo
 } from '../../server/data/facility-promos';
 import pharmacyOfColourData from '@weco/common/data/the-pharmacy-of-colour';
-
+import { getListHeader, getMomentsForPeriod } from './utils';
 const {createPageConfig} = model;
-const {
-  getExhibitionAndEventPromos
-} = prismic;
 
 export async function renderWhatsOn(ctx, next) {
   const period = ctx.params.period || 'current-and-coming-up';
-  const exhibitionAndEventPromosPromise = getExhibitionAndEventPromos(period || 'everything', ctx.intervalCache.get('collectionOpeningTimes'));
   const exhibitionsPromise = getExhibitions(ctx.request, {
     period,
     order: 'asc'
@@ -47,9 +43,10 @@ export async function renderWhatsOn(ctx, next) {
     order: 'asc'
   });
 
-  const [exhibitions, events, exhibitionAndEventPromos] = await Promise.all([
-    exhibitionsPromise, eventsPromise, exhibitionAndEventPromosPromise
+  const [exhibitions, events] = await Promise.all([
+    exhibitionsPromise, eventsPromise
   ]);
+  const dateRange = getMomentsForPeriod(period);
 
   ctx.render('pages/whats-on', {
     pageConfig: createPageConfig({
@@ -60,13 +57,14 @@ export async function renderWhatsOn(ctx, next) {
       contentType: 'list',
       canonicalUri: '/whats-on',
       pageState: {
-        dateRangeName: exhibitionAndEventPromos.active
+        dateRangeName: period
       }
     }),
     events,
     exhibitions,
     pharmacyOfColourData,
-    exhibitionAndEventPromos,
+    dateRange,
+    listHeader: getListHeader(ctx.intervalCache.get('collectionOpeningTimes')),
     tryTheseTooPromos: [readingRoomPromo],
     eatShopPromos: [cafePromo, shopPromo, restaurantPromo],
     cafePromo,

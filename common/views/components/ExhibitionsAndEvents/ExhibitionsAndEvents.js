@@ -11,7 +11,7 @@ type Props = {|
   extras: (UiExhibition | UiEvent | Installation)[]
 |}
 
-const ExhibitionsAndEvents = ({exhibitions, events, extras}: Props) => {
+const ExhibitionsAndEvents = ({exhibitions, events, extras = []}: Props) => {
   const permanentExhibitions = exhibitions.filter(exhibition => exhibition.isPermanent);
   const otherExhibitions = exhibitions.filter(exhibition => !exhibition.isPermanent);
   const items = otherExhibitions.concat(events, [dailyTourPromoData], permanentExhibitions, extras);

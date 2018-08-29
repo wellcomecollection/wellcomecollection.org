@@ -27,7 +27,7 @@
   </script>
 
   {% set whatsOnData = {activeId: period, id: 'whatsOnFilter' } %}
-  {% componentV2 'whats-on-list-header', exhibitionAndEventPromos.listHeader, {}, whatsOnData %}
+  {% componentV2 'whats-on-list-header', listHeader, {}, whatsOnData %}
 
   <div class="{{ {s:2, m:4} | spacingClasses({margin: ['top']}) }}">
     {% if period === 'current-and-coming-up' %}
