@@ -15,15 +15,14 @@
 
 {% block body %}
    <script type="application/ld+json">
-    [{% for exhibition in exhibitionAndEventPromos.temporaryExhibitionPromos %}
-      {{ exhibition | jsonLd('exhibitionPromoLd') | safe }},
-    {% endfor %}
-    {% for event in exhibitionAndEventPromos.eventPromos %}
-      {{ event | jsonLd('eventPromoLd') | safe }},
-    {% endfor %}
-    {% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
-      {{ exhibition | jsonLd('exhibitionPromoLd') | safe }}{{ ',' if not loop.last }}
-    {% endfor %}]
+    [
+      {% for exhibition in exhibitions %}
+        {{ exhibition | jsonLd('exhibitionLd') | safe }},
+      {% endfor %}
+      {% for event in event %}
+        {{ event | jsonLd('eventLd') | safe }}{{ ',' if not loop.last }}
+      {% endfor %}
+    ]
   </script>
 
   <div class="css-grid__container">
@@ -42,7 +41,8 @@
 
   {% componentJsx 'ExhibitionsAndEvents', {
     exhibitions: exhibitions.results,
-    events: events.results
+    events: events.results,
+    extras: [pharmacyOfColourData]
   } %}
 
 

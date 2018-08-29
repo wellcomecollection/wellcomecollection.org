@@ -7,7 +7,7 @@ import {PromoFactory} from '../model/promo';
 import {prismicAsText} from '../filters/prismic';
 import {
   getArticle, getSeriesAndArticles, getArticleList, getCuratedList,
-  defaultPageSize, getExhibitionAndEventPromos
+  defaultPageSize
 } from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
@@ -25,6 +25,7 @@ import superagent from 'superagent';
 import {dailyTourPromo} from '../../server/data/facility-promos';
 import uuidv4 from 'uuid/v4';
 import {getEvents} from '../../common/services/prismic/events';
+import pharmacyOfColourData from '../../common/data/the-pharmacy-of-colour';
 
 export const renderOpeningTimes = async(ctx, next) => {
   const path = ctx.request.url;
@@ -67,7 +68,6 @@ export const renderOpeningTimes = async(ctx, next) => {
 
 export async function renderHomepage(ctx, next) {
   const path = ctx.request.url;
-  const exhibitionAndEventPromos = await getExhibitionAndEventPromos('this-week', ctx.intervalCache.get('collectionOpeningTimes'));
   const contentList = await getArticleList();
   const storiesPromos = contentList.results.map(PromoFactory.fromArticleStub).slice(0, 4);
   const exhibitions = await getExhibitions(ctx.request, {
@@ -88,7 +88,7 @@ export async function renderHomepage(ctx, next) {
     }),
     events,
     exhibitions,
-    exhibitionAndEventPromos: exhibitionAndEventPromos,
+    pharmacyOfColourData,
     storiesPromos,
     dailyTourPromo
   });
