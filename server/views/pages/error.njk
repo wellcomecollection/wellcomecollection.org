@@ -10,5 +10,7 @@
   {% endif %}
 {% endblock %}
 {% block body %}
-  {% componentV2 'page-description', { title: errorStatus + '' } %}
+  {% componentJsx 'ErrorPage', {
+    errorStatus: errorStatus
+  } %}
 {% endblock %}
