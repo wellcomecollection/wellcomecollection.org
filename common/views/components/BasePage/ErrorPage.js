@@ -9,7 +9,7 @@ type Props = {|
   errorStatus: number
 |}
 
-const BookPage = ({ errorStatus }: Props) => {
+const ErrorPage = ({ errorStatus }: Props) => {
   return (
     <BasePage
       id={'error'}
@@ -66,4 +66,4 @@ const BookPage = ({ errorStatus }: Props) => {
   );
 };
 
-export default BookPage;
+export default ErrorPage;
