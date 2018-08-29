@@ -27,20 +27,18 @@ Some things that will help the PR get through
 Labels define most of our process within GitHub
 
 
-### [`userstory`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Auserstory)
+### [`Userstory`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Auserstory)
 Who are you, and how might we help?
 
-### [`feature`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Auserstory)
-A potential solution linked to a `userstory`.
+### [`Feature`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Auserstory)
+A new piece of functionality that we have no baseline for, and would like to
+start testing, often against a `userstory`.
 
-### [`improvement`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Aimprovement)
-Improving the heartbeat of the system or feature.
+### [`Improvement`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Aimprovement)
+A change made to an existing part of the product to try raise it's baseline KPIs.
 
-### [`health`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Ahealth)
-Keeping the heartbeat of the system or feature beating steadily if it has degraded over time.
-
-### [`bug`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Abug)
-It should be one way, but is another.
+### [`Bug`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Abug)
+A change made to emsure a feature is maintaining it's baseline KPIs.
 
 ### `needs:{x}`
 Requires someone with this speciality to take a look before we continue.
