@@ -61,6 +61,40 @@ const ErrorPage = ({ errorStatus }: Props) => {
             <PrimaryLink url='/pages/Wuw2MSIAACtd3Ssg' name='Our youth programme' />
           </div>
         </ul>
+
+        <div className={classNames({
+          [spacing({ s: 10 }, {margin: ['top']})]: true
+        })}>
+          <h2 className='h2'>Looking for something published before 2018?</h2>
+          <p>
+            Our websites have been archived by the{' '}
+            <a href='https://archive.org'>Internet Archive</a> in its{' '}
+            <a href='https://web.archive.org/'>Wayback Machine</a>.
+          </p>
+          <PrimaryLink
+            url='https://web.archive.org/web/*/wellcomecollection.org'
+            name='See the Wellcome Collection website from 2007-present' />
+
+          <div className={classNames({
+            [spacing({ s: 5 }, {margin: ['top']})]: true
+          })}>
+            <PrimaryLink
+              url='https://web.archive.org/web/*/blog.wellcomecollection.org'
+              name='Read blog posts from 2013-2017' />
+          </div>
+        </div>
+
+        <div className={classNames({
+          [spacing({ s: 5 }, {margin: ['top']})]: true
+        })}>
+          <p>
+            If you{`'`}re looking for something specific you{`'`}d love to see return to
+            this website, email us at{' '}
+            <a href='mailto:digital@wellcomecollection.org'>
+              digital@wellcomecollection.org
+            </a>.
+          </p>
+        </div>
       </div>
     </BasePage>
   );
