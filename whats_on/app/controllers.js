@@ -28,6 +28,7 @@ import {
   restaurantPromo,
   dailyTourPromo
 } from '../../server/data/facility-promos';
+import pharmacyOfColourData from '@weco/common/data/the-pharmacy-of-colour';
 
 const {createPageConfig} = model;
 const {
@@ -64,6 +65,7 @@ export async function renderWhatsOn(ctx, next) {
     }),
     events,
     exhibitions,
+    pharmacyOfColourData,
     exhibitionAndEventPromos,
     tryTheseTooPromos: [readingRoomPromo],
     eatShopPromos: [cafePromo, shopPromo, restaurantPromo],

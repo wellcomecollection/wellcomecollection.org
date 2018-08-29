@@ -16,10 +16,10 @@
 {% block body %}
    <script type="application/ld+json">
     [
-      {% for exhibition in exhibitions %}
+      {% for exhibition in exhibitions.results %}
         {{ exhibition | jsonLd('exhibitionLd') | safe }},
       {% endfor %}
-      {% for event in event %}
+      {% for event in event.results %}
         {{ event | jsonLd('eventLd') | safe }}{{ ',' if not loop.last }}
       {% endfor %}
     ]
