@@ -78,11 +78,11 @@ type GetInitialPropsClientProps = {
 type GetInitialPropsServerProps = {|
   path: string,
   query: { [string]: any },
+  jsonPageRes: null,
   asPath: string,
   req: Request,
   res: Response,
-  err: Error,
-  jsonPageRes: null
+  err: Error
 |}
 
 export type GetInitialPropsProps = GetInitialPropsServerProps | GetInitialPropsClientProps
