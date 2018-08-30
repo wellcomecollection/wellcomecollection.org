@@ -319,7 +319,7 @@ function parseContributors(doc: ?PrismicDocFragment): List<Contributor> {
   } else {
     // We can't use `parseContributorsProperly` here, as the template receives
     // a different shape
-    return doc.map(({role, contributor}) => {
+    return doc ? List(doc.map(({role, contributor}) => {
       const roleData = role && role.data;
       const contributorData = contributor && contributor.data;
 
@@ -328,15 +328,15 @@ function parseContributors(doc: ?PrismicDocFragment): List<Contributor> {
           id: roleData.id,
           title: roleData.title
         },
-        contributor: contributorData && {
+        person: contributorData && {
           id: contributorData.id,
           name: contributorData.name,
           twitterHandle: contributorData.twitterHandle,
-          images: contributorData.image && contributorData.image.url,
+          image: contributorData.image && contributorData.image.url,
           description: contributorData.description && asHtml(contributorData.description)
         }
       };
-    });
+    })) : List();
   }
 }
 
