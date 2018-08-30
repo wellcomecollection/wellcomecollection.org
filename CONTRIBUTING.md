@@ -35,10 +35,10 @@ A new piece of functionality that we have no baseline for, and would like to
 start testing, often against a `userstory`.
 
 ### [`Improvement`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Aimprovement)
-A change made to an existing part of the product to try raise it's baseline KPIs.
+A change made to an existing part of the product to try raise the baseline KPIs.
 
 ### [`Bug`](https://github.com/wellcometrust/wellcomecollection.org/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Abug)
-A change made to emsure a feature is maintaining it's baseline KPIs.
+A change made to ensure a feature is maintaining the baseline KPIs.
 
 ### `needs:{x}`
 Requires someone with this speciality to take a look before we continue.
