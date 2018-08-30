@@ -50,6 +50,7 @@ module.exports = {
     }));
 
     doc.contributors = contributors;
+    doc.contributorsDeprecated = contributorsDeprecated;
 
     return {doc, filename};
   }

@@ -712,5 +712,43 @@
   "series": [
     {}
   ],
-  "publishDate": "2018-07-16T23:00:00+00:00"
+  "publishDate": "2018-07-16T23:00:00+00:00",
+  "contributorsDeprecated": [
+    {
+      "key": "person$425aaed3-2669-4a9d-b6dc-bea4cf9a4205",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "role": {
+            "id": "WcUWeCgAAFws-nGh",
+            "mask": "editorial-contributor-roles",
+            "wioUrl": "wio://documents/WcUWeCgAAFws-nGh"
+          },
+          "person": {
+            "id": "W03m-SYAACYAg6Op",
+            "mask": "people",
+            "wioUrl": "wio://documents/W03m-SYAACYAg6Op"
+          }
+        }
+      }
+    },
+    {
+      "key": "person$b6df4dc3-d79c-42be-a8f2-43508ca63953",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "role": {
+            "id": "WcUWeCgAAFws-nGh",
+            "mask": "editorial-contributor-roles",
+            "wioUrl": "wio://documents/WcUWeCgAAFws-nGh"
+          },
+          "person": {
+            "id": "Wqf1mSUAAPjnVtMH",
+            "mask": "people",
+            "wioUrl": "wio://documents/Wqf1mSUAAPjnVtMH"
+          }
+        }
+      }
+    }
+  ]
 }
