@@ -43,7 +43,7 @@ module.exports = {
     //     }
     //   }
     // ]
-    const contributorsDeprecated = doc.contributors;
+    const contributorsDeprecated = doc.contributors || [];
     const contributors = contributorsDeprecated.map(contributor => ({
       role: contributor.value['non-repeat'].role,
       contributor: contributor.value['non-repeat'].person

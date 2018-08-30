@@ -1,0 +1,716 @@
+{
+  "type": "articles",
+  "tags": [
+    "delist"
+  ],
+  "lang": "en-gb",
+  "grouplang": "W03jACYAACUAg5IT",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "The Transvengers",
+        "spans": []
+      }
+    }
+  ],
+  "body": [
+    {
+      "key": "editorialImage$d33504aa-5665-4ac0-9cd5-b50b4ce6cab7",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "image": {
+            "origin": {
+              "id": "W03jICYAACUAg5Kk",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb85b9d62-bd18-497f-9626-a76ac39f7ac0_transvengers+2018-03-13+at+11.35.57.png",
+              "width": 1247,
+              "height": 701
+            },
+            "width": 1247,
+            "height": 701,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e3d0d5f59dab36465c2dd77854c5647ea2191f14_transvengers-2018-03-13-at-11.35.57.png",
+            "edit": {
+              "background": "transparent",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |\n",
+            "alt": "The Transvengers logo",
+            "thumbnails": {}
+          }
+        }
+      },
+      "label": "featured"
+    },
+    {
+      "key": "standfirst$0f545baa-c4b5-4198-8830-9779312a5c14",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Characters travel back in time to challenge key sexologists and their ideas, many of which continue to shape society’s thinking about sex and gender today.",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "editorialImageGallery$b658ba3a-5ebe-4e91-9558-f465cd7b06b8",
+      "value": {
+        "repeat": [
+          {
+            "image": {
+              "origin": {
+                "id": "W03jMSYAACcAg5L8",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F8a165baf-deac-4abf-8b2c-ba591046ac1a_transvengers+2018-03-13+at+11.36.18.png",
+                "width": 2100,
+                "height": 701
+              },
+              "width": 2100,
+              "height": 701,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/d65f7c5670256f4717fe4758b12600db85c6f6e5_transvengers-2018-03-13-at-11.36.18.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "A waiting room, London 2014. Image 1: “Next patient, Miss Green.”  Image 2: “Eh? The sign says ‘miss’…” “Is it a boy or a girl?” Image 3: “This is SO embarrassing!” Huh … what’s that?",
+              "thumbnails": {}
+            }
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W03jJSYAACYAg5K7",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F638901ab-cd98-4cdb-ba2c-b5e1599ea8af_transvengers+2018-03-13+at+11.36.33.png",
+                "width": 2075,
+                "height": 684
+              },
+              "width": 2075,
+              "height": 684,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/4d9a979e86b603f6bfc062f1402347442e571652_transvengers-2018-03-13-at-11.36.33.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "A health centre, Oxfordshire, 2014. Image 1: The Trans Enough Centre. Uh oh … Image 2: “So … when you imagine yourself in a sexual situation, do you see yourself as the aggressor or the submissive partner?” “You’ve got to be kidding me!!” Image 3: “Oo, what’s this green vapour?”",
+              "thumbnails": {}
+            }
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W03jJyYAACUAg5LF",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fafc93943-b0a2-4052-a9cc-70b71744dc4e_transvengers+2018-03-13+at+11.36.48.png",
+                "width": 2109,
+                "height": 685
+              },
+              "width": 2109,
+              "height": 685,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/93c860335a412e2ce0a7d852b731379910ef0bc2_transvengers-2018-03-13-at-11.36.48.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "Trendy fashion store, the near future. Image 1: “You know you can’t buy that, right?”  Image 2: “Why not?” “Because it’s for girls … you’re male-chassied.” Image 3: “Why ever should that matter? Oo, green vapour!” ",
+              "thumbnails": {}
+            }
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W03jPiYAACgAg5M6",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F09b67bb5-fe96-4741-930a-286df9bc02cc_transvengers+2018-03-13+at+11.37.02.png",
+                "width": 2103,
+                "height": 679
+              },
+              "width": 2103,
+              "height": 679,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/0d493d01326bf2d3efdc3d0a2accce94a74888dd_transvengers-2018-03-13-at-11.37.02.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "They had all just seen … the paradigm of heteronormativity!!!",
+              "thumbnails": {}
+            }
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W03jQCYAACUAg5ND",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F882cab20-a397-4c38-a331-ed9d93e36322_transvengers+2018-03-13+at+11.37.15.png",
+                "width": 2146,
+                "height": 747
+              },
+              "width": 2146,
+              "height": 747,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/9237001b82dd088bc4c9b17385429256012c0636_transvengers-2018-03-13-at-11.37.15.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "Image 1: When we are born, we are assumed to be either male or female. Image 2: We are expected to behave in a feminine way or masculine way accordingly. And do things that other people with the same assigned sex as us do.  Image 3: Females must be attracted only to males and males must be attracted only to females.",
+              "thumbnails": {}
+            }
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W03jQSYAACUAg5NJ",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fa7c0e7ed-ddcf-4c36-b578-1479861bc968_transvengers+2018-03-13+at+11.37.29.png",
+                "width": 2106,
+                "height": 701
+              },
+              "width": 2106,
+              "height": 701,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/0523985f9f586263c51f401e16f8de995caf97c3_transvengers-2018-03-13-at-11.37.29.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "Meanwhile… Image 1: The penalty for being different can be high. Image 2: “No!! I have to be myself!” Image 3: BOOM!!",
+              "thumbnails": {}
+            }
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W03jPCYAACYAg5Mv",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F5d595c3b-63ff-4f29-bec5-32a603468049_transvengers+2018-03-13+at+11.37.47.png",
+                "width": 2165,
+                "height": 701
+              },
+              "width": 2165,
+              "height": 701,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/9aa408988668f3e524eff47ce8d649662a54c796_transvengers-2018-03-13-at-11.37.47.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "The Boardroom, London, April 2014.  Image 1: “Wooah!” Image 2: “Hello! Welcome to the Transvengers. We travel through time and space battling the paradigm of heteronormativity!!” Image 3: “We need to find out more about this paradigm. Where did it come from?” “I think it’s been around for a very long time. Maybe we should travel back in time until we find its origin?”",
+              "thumbnails": {}
+            }
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W03jPiYAACgAg5M5",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff6a17b55-5044-40cb-9747-a86c11acea37_transvengers+2018-03-13+at+11.37.59.png",
+                "width": 2171,
+                "height": 697
+              },
+              "width": 2171,
+              "height": 697,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/5b43b990e62d59a65b2dd5cdeae4b0b32956f116_transvengers-2018-03-13-at-11.37.59.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "Image 1: “Wait, to a time with no wifi?” “I don’t like the sound of that!” Image 2: “OK, what about we go back in time just for a little while, kidnap some eminent sexologists and ask them about the heteronormative paradigm that’s been giving us so much trouble?” Image 3: “YEAH!!”",
+              "thumbnails": {}
+            }
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W03jLCYAACcAg5Le",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Ff2557757-85a4-4fdc-917f-c9460819d3b8_transvengers+2018-03-13+at+11.38.12.png",
+                "width": 2171,
+                "height": 702
+              },
+              "width": 2171,
+              "height": 702,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/33b398a5a80e89fe4e3eefdcd638ef13053227b6_transvengers-2018-03-13-at-11.38.12.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "Holloway, London, 1921. Image 1: The Mothers’ Clinic. Image 2: “Come with me, Marie Stopes. We need to talk.” Image 3: Brixton, London 1925. “Let’s take a walk, Henry Havelock Ellis … into the future!”",
+              "thumbnails": {}
+            }
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W03jNiYAACUAg5MQ",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fcca69729-41bc-4536-8ee0-12a200ef04b2_transvengers+2018-03-13+at+11.38.25.png",
+                "width": 2172,
+                "height": 727
+              },
+              "width": 2172,
+              "height": 727,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f3d2fc1f895a82758c3b2bb3c14385d3ddcdd5a3_transvengers-2018-03-13-at-11.38.25.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "Hampstead, London, 1938. Image 1: Psychotherapy patient: “And then I remember how my mother used to separate the sausages with a large pair of scissors…” Image 2: “Your patient will just think it is a dream. Come on Sigmund Freud, my friends are waiting!” Image 3: A bookshop, Zurich, 1933. “There are some people in the future who’d like a chat with you, Magnus Hirschfeld!” Hirschfeld: “Oo, goody!”",
+              "thumbnails": {}
+            }
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W03jJiYAACgAg5LE",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3aed21c4-1aee-4f90-867b-77897e76faed_transvengers+2018-03-13+at+11.38.38.png",
+                "width": 2172,
+                "height": 706
+              },
+              "width": 2172,
+              "height": 706,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f4ff43acec6a2b264d98cd14fac7d7355c343632_transvengers-2018-03-13-at-11.38.38.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "West London, 2014. Image 1: Marie Stopes is under the spotlight… “We were so excited to find a woman sexologist, but then we found out about…” Image 2: “…eugenics!!” “You distributed this cervical cap, didn’t you?” Image 3: Stopes: “I am very concerned with the future of my race. We are in the time of great crisis and have to ensure only the strongest reproduce.”",
+              "thumbnails": {}
+            }
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W03jOCYAACUAg5Mb",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F9de0ca54-aaab-4046-9224-f897a91a01b5_transvengers+2018-03-13+at+11.38.51.png",
+                "width": 2157,
+                "height": 690
+              },
+              "width": 2157,
+              "height": 690,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/8c3595b418ef6785277468243c38694cb111fdb2_transvengers-2018-03-13-at-11.38.51.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "Image 1: ‘If you are pro-sex but want to limit procreation, I would have thought you’d have approved of gay sex.” Image 2: Stopes: “Urgh! I read Havelock Ellis and have felt dirty ever since! I am only pro heterosexual sex…” Image 3:  Stopes: “Wooah!” “Phew, I’m glad she’s gone!”",
+              "thumbnails": {}
+            }
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W03jNyYAACYAg5MW",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F9e39c62c-0c44-41d8-84a7-a12c527f93bd_transvengers+2018-03-13+at+11.39.10.png",
+                "width": 2157,
+                "height": 693
+              },
+              "width": 2157,
+              "height": 693,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/275e8fc48dd29d59249368cc0c784599b7c97ce3_transvengers-2018-03-13-at-11.39.10.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "Image 1: Next up is Havelock Ellis. “Tell us more about your theory of ‘inversion’. For instance, that a lesbian has the soul of a man in the body of a woman.” Image 2: Havelock Ellis. “I just wanted a way to explain homosexuality and trans so that the general public would understand. I said people were ‘born in the wrong body’ but I didn’t really believe that. I think of it like colour blindness. A natural variation in human beings that doesn’t need curing or fixing.” Image 3: “Anyway, I’m glad you brought me to 2014. I’ve been really wanting to see Lady Gaga in concert. Do you know the song ‘Born This Way’? My ideas live on!”",
+              "thumbnails": {}
+            }
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W03jKSYAACYAg5LQ",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F4a704026-33dc-4f51-9afc-e60428290953_transvengers+2018-03-13+at+11.39.25.png",
+                "width": 2155,
+                "height": 748
+              },
+              "width": 2155,
+              "height": 748,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ec7ee500e09eb3b2b6b33e5488f3ccd214e0485f_transvengers-2018-03-13-at-11.39.25.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "Sigmund Freud is next to face the Transvengers… Image 1: “In a lot of your work, you treat sexuality and gender as if they’re the same thing.” Freud: “As I understand it, a child is born with no sexuality. They learn by identifying with either their mother or their father. You cannot separate gender and sexuality.” Image 2: “What about people with two mums or two dads or raised by a single parent?” Image 3: Freud: “Ah, that is your world. I can only write about what I see. For instance, if a patient says they want to change sex, I would assume they are expressing repressed homosexual desire.”",
+              "thumbnails": {}
+            }
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W03jLSYAACgAg5Lk",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F352b33f8-3976-4c74-a06e-1d5e3c9b4152_transvengers+2018-03-13+at+11.39.39.png",
+                "width": 2138,
+                "height": 684
+              },
+              "width": 2138,
+              "height": 684,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/89c8f72fbb3b57512ba591c3110b7c73c1e7cccd_transvengers-2018-03-13-at-11.39.39.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "Image 1: “People still think that about trans people now!” Freud: “People need to get over it and move with the times!” Image 2: Freud slips on banana skin: “Whoopsie!” “I guess that was a Freudian slip!” Image 3: Freud wears a slip: “No, this is a Freudian slip! Ha ha ha…” “WOW!”",
+              "thumbnails": {}
+            }
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W03jMyYAACgAg5MH",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F51b1a773-6479-4e7d-8a93-f7a4502141b3_transvengers+2018-03-13+at+11.39.53.png",
+                "width": 2144,
+                "height": 698
+              },
+              "width": 2144,
+              "height": 698,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/b37c698ed108dd9549f495d1190bc5fb6d6cc167_transvengers-2018-03-13-at-11.39.53.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "And finally, Magnus Hirschfeld. Image 1: Hirschfeld: “Wow! The Transvengers are still going, nearly 100 years on! My friends and I started a chapter in Berlin back in the day.” Image 2: “Right then. We’ll talk later. I’m off to a couple of nightclubs … don’t wait up!”",
+              "thumbnails": {}
+            }
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W03jLiYAACgAg5Lp",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F8ff2d3fb-d3f9-4e37-bf79-b9bc4719c83b_transvengers+2018-03-13+at+11.40.18.png",
+                "width": 2149,
+                "height": 696
+              },
+              "width": 2149,
+              "height": 696,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/784f6eeb18be3df9e01fc4646df3a6161c157d2c_transvengers-2018-03-13-at-11.40.18.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "The next morning … Image 1: Hirschfeld: “Hmm … things haven’t moved as much as I would have expected in 100 years. It seems everyone is still bound up with my old foe, the paradigm of heteronormativity, including some of the LGBT community!” Image 2: ‘We know. There’s lots of work still to be done. Now, we should get you back to your own time…” Image 3: Hirschfeld: “But … my work … I’d come so far … Does something happen?”",
+              "thumbnails": {}
+            }
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W03jLiYAACcAg5Lq",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fe4bdb340-7ca6-4a57-b8c2-244f9e028d51_transvengers+2018-03-13+at+11.40.31.png",
+                "width": 2108,
+                "height": 655
+              },
+              "width": 2108,
+              "height": 655,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/b96fa322bb65d800fbf7ce8f0003b7dfc8e4faf8_transvengers-2018-03-13-at-11.40.31.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "The Transvengers watch the Gestapo burn books",
+              "thumbnails": {}
+            }
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W03jJyYAACcAg5LL",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3ef1f510-5b2e-4431-be40-a77df4ab71b4_transvengers+2018-03-13+at+11.40.53.png",
+                "width": 2141,
+                "height": 704
+              },
+              "width": 2141,
+              "height": 704,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/395673ca673304b12fc4eec9eaaee9229e85bdd8_transvengers-2018-03-13-at-11.40.53.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "Image 1: Meanwhile … Aggressive male: “What are you?” Trans person: “Er … a human being?” Image 2: Aggressive male: “Don’t get smart. Are you a boy or a girl?” Trans person: “No…?” Aggressive male: “Grrrr…” Image 3: Back at Transvenger HQ … “Transvengers! Looks like we’ve got work to do.”",
+              "thumbnails": {}
+            }
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W03jPCYAACUAg5Mu",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fda7367c9-6df4-4c0c-bbe0-66af4eaed2c0_transvengers+2018-03-13+at+11.41.12.png",
+                "width": 2120,
+                "height": 668
+              },
+              "width": 2120,
+              "height": 668,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/9f650c20ac1e2e0c46a88b03f00a9e4e571845fb_transvengers-2018-03-13-at-11.41.12.png",
+              "edit": {
+                "background": "transparent",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Transvengers | Gendered Intelligence | Wellcome Collection | | CC-BY-NC-ND | Wellcome Collection |",
+              "alt": "“Join the Transvengers!” The End. ",
+              "thumbnails": {}
+            }
+          }
+        ],
+        "non-repeat": {
+          "title": [
+            {
+              "type": "heading1",
+              "content": {
+                "text": "",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "text$2ac8f3d7-cbb7-4c07-aea9-a2145b178c3f",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "If you’re a young person aged 14–19, we have many different ways for you to get involved. Go to Young People →",
+                "spans": [
+                  {
+                    "start": 0,
+                    "end": 110,
+                    "type": "strong"
+                  },
+                  {
+                    "start": 90,
+                    "end": 110,
+                    "type": "hyperlink",
+                    "data": {
+                      "id": "Wuw2MSIAACtd3Ssg",
+                      "mask": "pages",
+                      "preview": {
+                        "image": "https://prismic-io.s3.amazonaws.com/wellcomecollection/medium_8ea8bf8a-4a9f-4c04-9926-de4b978848dc_btg180517200023.jpg",
+                        "title": "Young People"
+                      },
+                      "wioUrl": "wio://documents/Wuw2MSIAACtd3Ssg"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$6c03bc8c-339a-459c-be50-8356cdd1a58f",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Characters travel back in time to challenge key sexologists, whose ideas still shape society’s thinking about sex and gender today.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "W03jICYAACUAg5Kk",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb85b9d62-bd18-497f-9626-a76ac39f7ac0_transvengers+2018-03-13+at+11.35.57.png",
+              "width": 1247,
+              "height": 701
+            },
+            "width": 1247,
+            "height": 701,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e3d0d5f59dab36465c2dd77854c5647ea2191f14_transvengers-2018-03-13-at-11.35.57.png",
+            "edit": {
+              "background": "transparent",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "W03jICYAACUAg5Kk",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb85b9d62-bd18-497f-9626-a76ac39f7ac0_transvengers+2018-03-13+at+11.35.57.png",
+                  "width": 1247,
+                  "height": 701
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/7aebfd0e503cbdaee794b254d1d84d3392947551_transvengers-2018-03-13-at-11.35.57.png",
+                "edit": {
+                  "background": "transparent",
+                  "zoom": 2.5677603423680457,
+                  "crop": {
+                    "x": -1,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "W03jICYAACUAg5Kk",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb85b9d62-bd18-497f-9626-a76ac39f7ac0_transvengers+2018-03-13+at+11.35.57.png",
+                  "width": 1247,
+                  "height": 701
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/d68db225bc0bc8c6b9b65cc7c82d8099129562bd_transvengers-2018-03-13-at-11.35.57.png",
+                "edit": {
+                  "background": "transparent",
+                  "zoom": 4.56490727532097,
+                  "crop": {
+                    "x": -1246,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "WcUWeCgAAFws-nGh",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WcUWeCgAAFws-nGh"
+      },
+      "contributor": {
+        "id": "W03m-SYAACYAg6Op",
+        "mask": "people",
+        "wioUrl": "wio://documents/W03m-SYAACYAg6Op"
+      }
+    },
+    {
+      "role": {
+        "id": "WcUWeCgAAFws-nGh",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WcUWeCgAAFws-nGh"
+      },
+      "contributor": {
+        "id": "Wqf1mSUAAPjnVtMH",
+        "mask": "people",
+        "wioUrl": "wio://documents/Wqf1mSUAAPjnVtMH"
+      }
+    }
+  ],
+  "series": [
+    {}
+  ],
+  "publishDate": "2018-07-16T23:00:00+00:00"
+}
