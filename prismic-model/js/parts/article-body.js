@@ -298,30 +298,6 @@ export default {
           }
         }
       },
-      'list': {
-        'type': 'Slice',
-        'fieldset': 'List',
-        'non-repeat': {
-          'description': {
-            'type': 'StructuredText',
-            'config': {
-              'label': 'Description',
-              'single': 'strong, em, hyperlink',
-              'placeholder': 'Description'
-            }
-          }
-        },
-        'repeat': {
-          'listItem': {
-            'type': 'StructuredText',
-            'config': {
-              'label': 'Item',
-              'single': 'strong, em, hyperlink',
-              'placeholder': 'Item'
-            }
-          }
-        }
-      },
       'embed': {
         'type': 'Slice',
         'fieldset': 'Embed',
