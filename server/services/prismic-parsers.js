@@ -294,25 +294,50 @@ function parseSeries(doc: ?PrismicDocFragment): Array<Series> {
 }
 
 function parseContributors(doc: ?PrismicDocFragment): List<Contributor> {
-  return doc && List(doc
-    .filter(creator => creator.slice_type === 'person')
-    .map(slice => {
-      const personData = slice.primary.person && slice.primary.person.data;
-      const roleData = slice.primary.role && slice.primary.role.data;
-      const role = roleData && {
-        id: slice.primary.role.id,
-        title: roleData && asText(roleData.title)
-      };
-      const person = personData && {
-        id: slice.primary.person.id,
-        name: personData.name,
-        twitterHandle: personData.twitterHandle,
-        image: personData.image && personData.image.url,
-        description: asHtml(personData.description)
-      };
+  const isSlices = doc && Boolean(doc.find(frag => frag.slice_type));
 
-      return {person, role};
-    })) || List();
+  if (isSlices) {
+    return doc && List(doc
+      .filter(creator => creator.slice_type === 'person')
+      .map(slice => {
+        const personData = slice.primary.person && slice.primary.person.data;
+        const roleData = slice.primary.role && slice.primary.role.data;
+        const role = roleData && {
+          id: slice.primary.role.id,
+          title: roleData && asText(roleData.title)
+        };
+        const person = personData && {
+          id: slice.primary.person.id,
+          name: personData.name,
+          twitterHandle: personData.twitterHandle,
+          image: personData.image && personData.image.url,
+          description: asHtml(personData.description)
+        };
+
+        return {person, role};
+      })) || List();
+  } else {
+    // We can't use `parseContributorsProperly` here, as the template receives
+    // a different shape
+    return doc.map(({role, contributor}) => {
+      const roleData = role && role.data;
+      const contributorData = contributor && contributor.data;
+
+      return {
+        role: roleData && {
+          id: roleData.id,
+          title: roleData.title
+        },
+        contributor: contributorData && {
+          id: contributorData.id,
+          name: contributorData.name,
+          twitterHandle: contributorData.twitterHandle,
+          images: contributorData.image && contributorData.image.url,
+          description: contributorData.description && asHtml(contributorData.description)
+        }
+      };
+    });
+  }
 }
 
 type CropType = '16:9' | '32:15' | 'square';
