@@ -82,7 +82,7 @@ export async function renderHomepage(ctx, next) {
   return next();
 }
 
-export const render = async(ctx, next) => {
+export const renderArticle = async(ctx, next) => {
   const format = ctx.request.query.format;
   const path = ctx.request.url;
   // We rehydrate the `W` here as we take it off when we have the route.
