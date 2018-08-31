@@ -10,7 +10,7 @@ Remappers should export a `filter` and `map` function, both of which take a
 
 The new documents will be stored in `.dist/remapped`.
 
-  yarn remap <FILTER_AND_MAPPER_NAME>
+  yarn remap <FILTER_AND_MAPPER_NAME> <--log-ids>
 
 
 ## It all broke - get me out of here ＼(º □ º l|l)/

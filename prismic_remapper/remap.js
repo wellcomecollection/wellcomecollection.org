@@ -2,6 +2,7 @@ const fs = require('mz/fs');
 const rimraf = require('rimraf');
 const mkdirp = require('mkdirp');
 const name = process.argv[2];
+const showIds = process.argv[3] && process.argv[3] === '--log-ids';
 
 // TODO: nicer errors?
 const {filter = () => true, map} = require(`./${name}/remap`);
@@ -50,16 +51,23 @@ async function go() {
     }
   }));
 
-  newData.forEach(({filename, doc}, i) => {
-    fs.writeFile(`./.dist/remapped/${filename}`, JSON.stringify(doc, null, 2));
-  });
+  if (newData.length > 0) {
+    newData.forEach(({filename, doc}, i) => {
+      fs.writeFile(`./.dist/remapped/${filename}`, JSON.stringify(doc, null, 2));
+    });
 
-  // Write the example before and after files
-  const after = newData[0];
-  const before = data.find(doc => doc.filename === after.filename);
+    // Write the example before and after files
+    const after = newData[0];
+    const before = data.find(doc => doc.filename === after.filename);
 
-  fs.writeFile(`./${name}/before.json`, JSON.stringify(before.doc, null, 2));
-  fs.writeFile(`./${name}/after.json`, JSON.stringify(after.doc, null, 2));
+    fs.writeFile(`./${name}/before.json`, JSON.stringify(before.doc, null, 2));
+    fs.writeFile(`./${name}/after.json`, JSON.stringify(after.doc, null, 2));
+  }
+
+  console.info(`Remapped ${newData.length} documents`);
+  if (showIds) {
+    newData.forEach(({filename}) => console.info(`${filename.split('$')[0]}`));
+  }
 }
 
 go();
