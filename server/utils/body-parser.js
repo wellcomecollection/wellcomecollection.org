@@ -172,7 +172,7 @@ function convertWpStandfirst(node) {
     type: 'standfirst',
     value: [{
       type: 'paragraph',
-      text: striptags(serializeAndCleanNode(unwrapFromEm(node))),
+      text: striptags(serializeAndCleanNode(unwrapFromEm(node))).replace(/&nbsp;/g, ' '),
       spans: []
     }]
   });

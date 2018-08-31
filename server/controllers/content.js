@@ -424,38 +424,58 @@ export function renderNewsletterPage(ctx, next) {
   return next();
 }
 
-export async function searchForDrupalRedirect(ctx, next) {
-  const {path} = ctx.params;
-  const page = await getPageFromDrupalPath(ctx.request, `/${path}`);
-  const baseGaPayload = {
+function sendRedirectToGa(path) {
+  const gaPath = 'https://www.google-analytics.com/collect';
+  const payload = {
     v: 1,
     tid: 'UA-55614-6',
     cid: uuidv4(),
     t: 'event',
     ec: 'Server',
-    ea: 'Redirect'
+    ea: 'Redirect',
+    el: path
   };
-  const gaPath = 'https://www.google-analytics.com/collect';
 
-  if (page) {
-    superagent.post(gaPath)
-      .type('form')
-      .send(Object.assign({}, baseGaPayload, {el: path}));
+  superagent.post(gaPath)
+    .type('form')
+    .send(payload);
+}
+
+function getKeyValueRedirect(path, redirects) {
+  const redirectFrom = Object.keys(redirects).find(key => key === path);
+
+  return redirectFrom && redirects[redirectFrom];
+}
+
+export async function searchForDrupalRedirect(ctx, next) {
+  const {path} = ctx.params;
+  const redirects = ctx.intervalCache.get('redirects');
+  const keyValueRedirect = getKeyValueRedirect(path, redirects);
+
+  if (keyValueRedirect) {
+    sendRedirectToGa(path);
 
     ctx.status = 301;
-    ctx.redirect(`/pages/${page.id}`);
+    ctx.redirect(`/${keyValueRedirect}`);
   } else {
-    const exhibition = await getExhibitionFromDrupalPath(ctx.request, `/${path}`);
+    const page = await getPageFromDrupalPath(ctx.request, `/${path}`);
 
-    if (exhibition) {
-      superagent.post(gaPath)
-        .type('form')
-        .send(Object.assign({}, baseGaPayload, {el: path}));
+    if (page) {
+      sendRedirectToGa(path);
 
       ctx.status = 301;
-      // TODO: this _should_ work, but seems like micro-proxy doesn't honour
-      // the redirect locally (unless the URL contains the host:port).
-      ctx.redirect(`/exhibitions/${exhibition.id}`);
+      ctx.redirect(`/pages/${page.id}`);
+    } else {
+      const exhibition = await getExhibitionFromDrupalPath(ctx.request, `/${path}`);
+
+      if (exhibition) {
+        sendRedirectToGa(path);
+
+        ctx.status = 301;
+        // TODO: this _should_ work, but seems like micro-proxy doesn't honour
+        // the redirect locally (unless the URL contains the host:port).
+        ctx.redirect(`/exhibitions/${exhibition.id}`);
+      }
     }
   }
 

@@ -4,13 +4,9 @@ import searchQuery from 'search-query-parser';
 import {getInstallation} from '@weco/common/services/prismic/installations';
 import {
   getExhibitions,
-  getExhibitionsComingUp,
-  getExhibitionsCurrent,
-  getExhibitionsPast,
   getExhibition,
   getExhibitionExhibits,
-  getExhibitExhibition,
-  getExhibitionsCurrentAndComingUp
+  getExhibitExhibition
 } from '@weco/common/services/prismic/exhibitions';
 import {
   getEvents,
@@ -102,8 +98,10 @@ export async function renderInstallation(ctx, next) {
 }
 
 export async function renderExhibitions(ctx, next) {
+  const {period} = ctx.params;
   const paginatedResults = await getExhibitions(ctx.request, {
-    order: 'desc'
+    order: 'desc',
+    period
   });
   if (paginatedResults) {
     ctx.render('pages/exhibitions', {
@@ -119,49 +117,6 @@ export async function renderExhibitions(ctx, next) {
     });
   }
 }
-
-function renderExhibitionsList(getter, title, url) {
-  return async function(ctx, next) {
-    const paginatedResults = await getter(ctx.request);
-    if (paginatedResults) {
-      ctx.render('pages/exhibitions', {
-        pageConfig: createPageConfig({
-          path: `/exhibitions${url}`,
-          title: title,
-          inSection: 'whatson',
-          category: 'public-programme',
-          contentType: 'listing',
-          canonicalUri: `https://wellcomecollection.org/exhibitions${url}`
-        }),
-        paginatedResults
-      });
-    }
-  };
-}
-
-export const renderExhibitionsComingUp = renderExhibitionsList(
-  getExhibitionsComingUp,
-  'Upcoming exhibitions',
-  '/coming-up'
-);
-
-export const renderExhibitionsCurrent = renderExhibitionsList(
-  getExhibitionsCurrent,
-  'Current exhibitions',
-  '/coming-up'
-);
-
-export const renderExhibitionsPast = renderExhibitionsList(
-  getExhibitionsPast,
-  'Past exhibitions',
-  '/past'
-);
-
-export const renderExhibitionsCurrentAndComingUp = renderExhibitionsList(
-  getExhibitionsCurrentAndComingUp,
-  'Current and upcoming exhibitions',
-  '/current+coming-up'
-);
 
 export async function renderExhibition(ctx, next) {
   const exhibition = await getExhibition(ctx.request, ctx.params.id);
@@ -226,10 +181,12 @@ export async function renderExhibitExhibitionLink(ctx, next) {
 }
 
 export async function renderEvents(ctx, next) {
-  const page = ctx.query.page || 1;
+  const {page = 1} = ctx.query;
+  const {period} = ctx.params;
   const paginatedResults = await getEvents(ctx.request, {
     page,
-    seriesId: null
+    seriesId: null,
+    period
   });
   if (paginatedResults) {
     ctx.render('pages/events', {
