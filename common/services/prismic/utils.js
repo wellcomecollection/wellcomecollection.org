@@ -17,9 +17,9 @@ export function getPeriodPredicates(
 
   const predicates =
     period === 'coming-up' ? [
-      Predicates.dateAfter(startField, startOfDay.toDate())
+      Predicates.dateAfter(startField, endOfDay.toDate())
     ] : period === 'current-and-coming-up' ? [
-      Predicates.dateAfter(endField, endOfDay.toDate())
+      Predicates.dateAfter(endField, startOfDay.toDate())
     ] : period === 'past' ? [
       Predicates.dateBefore(endField, startOfDay.toDate())
     ] : period === 'today' ? [

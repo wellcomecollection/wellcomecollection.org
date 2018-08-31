@@ -41,6 +41,6 @@ test('/series/:id', async t => {
 });
 
 test('404', async t => {
-  const res = await request.get('/exhibitions/medicine-man');
+  const res = await request.get('/exhibitions/medicine-ma');
   t.is(res.status, 404);
 });
