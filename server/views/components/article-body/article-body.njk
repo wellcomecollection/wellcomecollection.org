@@ -94,8 +94,6 @@
                 {% endfor %}
               </ul>
             {% endif %}
-          {% elif bodyPart.type === 'quote' %}
-            {% componentJsx 'ShameQuote', bodyPart.value %}
           {% elif bodyPart.type === 'quoteV2' %}
             {% componentJsx 'Quote', bodyPart.value %}
           {% elif bodyPart.type === 'excerpt' %}
