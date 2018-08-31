@@ -1,4 +1,5 @@
 // @flow
+import body from './body';
 export default {
   'fieldset': 'Body content',
   'type': 'Slices',
@@ -230,38 +231,7 @@ export default {
           }
         }
       },
-      'quote': {
-        'type': 'Slice',
-        'fieldset': 'Quote',
-        'non-repeat': {
-          'quote': {
-            'type': 'StructuredText',
-            'config': {
-              'label': 'Quote',
-              'multi': 'hyperlink, bold, em'
-            }
-          },
-          'source': {
-            'type': 'Text',
-            'config': {
-              'label': 'Source'
-            }
-          },
-          'citation': {
-            'type': 'Text',
-            'config': {
-              'label': 'Citation'
-            }
-          },
-          'citationLink': {
-            'type': 'Link',
-            'config': {
-              'select': 'web',
-              'label': 'Citation link'
-            }
-          }
-        }
-      },
+      'quoteV2': body.config.choices.quote,
       'excerpt': {
         'type': 'Slice',
         'fieldset': 'Excerpt',
@@ -389,6 +359,38 @@ export default {
           'embed': {
             'type': 'Embed',
             'fieldset': 'Twitter embed'
+          }
+        }
+      },
+      'quote': {
+        'type': 'Slice',
+        'fieldset': '(Deprecated) Quote',
+        'non-repeat': {
+          'quote': {
+            'type': 'StructuredText',
+            'config': {
+              'label': 'Quote',
+              'multi': 'hyperlink, bold, em'
+            }
+          },
+          'source': {
+            'type': 'Text',
+            'config': {
+              'label': 'Source'
+            }
+          },
+          'citation': {
+            'type': 'Text',
+            'config': {
+              'label': 'Citation'
+            }
+          },
+          'citationLink': {
+            'type': 'Link',
+            'config': {
+              'select': 'web',
+              'label': 'Citation link'
+            }
           }
         }
       }
