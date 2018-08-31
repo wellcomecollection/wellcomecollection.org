@@ -411,7 +411,7 @@ export function renderNewsletterPage(ctx, next) {
   return next();
 }
 
-async function sendRedirectToGa(path) {
+function sendRedirectToGa(path) {
   const gaPath = 'https://www.google-analytics.com/collect';
   const payload = {
     v: 1,
