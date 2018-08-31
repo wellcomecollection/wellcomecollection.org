@@ -8,6 +8,16 @@
         "useAsTitle": true
       }
     },
+    "format": {
+      "type": "Link",
+      "config": {
+        "label": "Format",
+        "select": "document",
+        "customtypes": [
+          "article-formats"
+        ]
+      }
+    },
     "body": {
       "fieldset": "Body content",
       "type": "Slices",
