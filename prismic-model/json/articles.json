@@ -268,34 +268,22 @@
               }
             }
           },
-          "quote": {
+          "quoteV2": {
             "type": "Slice",
             "fieldset": "Quote",
             "non-repeat": {
-              "quote": {
+              "text": {
                 "type": "StructuredText",
                 "config": {
-                  "label": "Quote",
-                  "multi": "hyperlink, bold, em"
-                }
-              },
-              "source": {
-                "type": "Text",
-                "config": {
-                  "label": "Source"
+                  "multi": "paragraph,hyperlink,strong,em",
+                  "label": "Quote"
                 }
               },
               "citation": {
-                "type": "Text",
+                "type": "StructuredText",
                 "config": {
+                  "single": "paragraph,hyperlink,strong,em",
                   "label": "Citation"
-                }
-              },
-              "citationLink": {
-                "type": "Link",
-                "config": {
-                  "select": "web",
-                  "label": "Citation link"
                 }
               }
             }
@@ -429,6 +417,38 @@
               "embed": {
                 "type": "Embed",
                 "fieldset": "Twitter embed"
+              }
+            }
+          },
+          "quote": {
+            "type": "Slice",
+            "fieldset": "(Deprecated) Quote",
+            "non-repeat": {
+              "quote": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Quote",
+                  "multi": "hyperlink, bold, em"
+                }
+              },
+              "source": {
+                "type": "Text",
+                "config": {
+                  "label": "Source"
+                }
+              },
+              "citation": {
+                "type": "Text",
+                "config": {
+                  "label": "Citation"
+                }
+              },
+              "citationLink": {
+                "type": "Link",
+                "config": {
+                  "select": "web",
+                  "label": "Citation link"
+                }
               }
             }
           }
