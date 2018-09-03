@@ -12,7 +12,7 @@ const navLinks = [
     text: `What's on`
   },
   {
-    url: '/explore',
+    url: '/stories',
     text: 'Stories'
   },
   {
