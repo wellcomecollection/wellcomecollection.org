@@ -476,6 +476,7 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
         };
 
       case 'quote':
+      case 'quoteV2':
         return {
           type: 'quote',
           weight: getWeight(slice.slice_label),

@@ -9,8 +9,8 @@ import articleBody from './parts/article-body';
 const Article = {
   Article: {
     title,
+    format: link('Format', 'document', ['article-formats']),
     body: articleBody
-
   },
   Promo: {
     promo

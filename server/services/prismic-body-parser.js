@@ -81,6 +81,16 @@ function parseBodyPart(slice) {
         }
       };
 
+    case 'quoteV2':
+      return {
+        type: 'quoteV2',
+        weight: 'default',
+        value: {
+          text: slice.primary.text,
+          citation: slice.primary.citation
+        }
+      };
+
     case 'excerpt':
       return {
         type: 'excerpt',
