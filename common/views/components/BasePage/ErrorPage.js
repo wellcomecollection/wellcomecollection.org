@@ -43,7 +43,7 @@ const ErrorPage = ({ errorStatus }: Props) => {
           <div className={classNames({
             [spacing({ s: 5 }, {margin: ['top']})]: true
           })}>
-            <PrimaryLink url='/explore' name='Our stories' />
+            <PrimaryLink url='/stories' name='Our stories' />
           </div>
           <div className={classNames({
             [spacing({ s: 5 }, {margin: ['top']})]: true

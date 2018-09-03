@@ -10,8 +10,8 @@ test('/', async t => {
   t.is(res.status, 200);
 });
 
-test('/explore', async t => {
-  const res = await request.get('/explore');
+test('/stories', async t => {
+  const res = await request.get('/stories');
   t.is(res.status, 200);
 });
 

@@ -205,9 +205,9 @@ export async function renderExplore(ctx, next) {
     pageConfig: createPageConfig({
       path: path,
       title: prismicAsText(curatedList.data.title),
-      inSection: 'explore',
+      inSection: 'stories',
       category: 'editorial',
-      canonicalUri: `${ctx.globals.rootDomain}/explore`
+      canonicalUri: `${ctx.globals.rootDomain}/stories`
     }),
     promos: promos,
     articles: contentList.results,

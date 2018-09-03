@@ -59,6 +59,7 @@ r.get('/management/manifest', async (ctx, next) => {
 // Content
 r.get('/:preview(preview)?/articles/(W):id', renderArticle);
 r.get('/explore', renderExplore);
+r.get('/stories', renderExplore);
 r.get('/preview', setPreviewSession);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 r.get('/series/(W):id', renderSeries);
