@@ -31,6 +31,9 @@ export function getPeriodPredicates(
     ] : period === 'this-week' ? [
       Predicates.dateBefore(startField, now.endOf('week')),
       Predicates.dateAfter(startField, now.startOf('week'))
+    ] : period === 'next-seven-days' ? [
+      Predicates.dateBefore(startField, now.add(6, 'days').endOf('day').toDate()),
+      Predicates.dateAfter(endField, startOfDay.toDate())
     ] : [];
 
   return predicates;

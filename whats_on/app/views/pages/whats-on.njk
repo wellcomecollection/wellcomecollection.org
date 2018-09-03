@@ -3,7 +3,7 @@
 {% set metaContent = {
   type: 'website',
   title: "What's On",
-  image: exhibitionAndEventPromos.temporaryExhibitionPromos[0].image.contentUrl,
+  image: exhibitions.results[0].promoImage.contentUrl,
   url: pageConfig.canonicalUri,
   description: 'Discover all of the exhibitions, events and more on offer at Wellcome Collection, the free museum and library for the incurably curious.'
 } %}
@@ -16,19 +16,18 @@
 
 {% block body %}
   <script type="application/ld+json">
-    [{% for exhibition in exhibitionAndEventPromos.temporaryExhibitionPromos %}
-      {{ exhibition | jsonLd('exhibitionPromoLd') | safe }},
-    {% endfor %}
-    {% for event in exhibitionAndEventPromos.individualEventPromos %}
-      {{ event | jsonLd('eventPromoLd') | safe }},
-    {% endfor %}
-    {% for exhibition in exhibitionAndEventPromos.permanentExhibitionPromos %}
-      {{ exhibition | jsonLd('exhibitionPromoLd') | safe }}{{ ',' if not loop.last }}
-    {% endfor %}]
+    [
+      {% for exhibition in exhibitions.results %}
+        {{ exhibition | jsonLd('exhibitionLd') | safe }},
+      {% endfor %}
+      {% for event in event.results %}
+        {{ event | jsonLd('eventLd') | safe }}{{ ',' if not loop.last }}
+      {% endfor %}
+    ]
   </script>
 
   {% set whatsOnData = {activeId: period, id: 'whatsOnFilter' } %}
-  {% componentV2 'whats-on-list-header', exhibitionAndEventPromos.listHeader, {}, whatsOnData %}
+  {% componentV2 'whats-on-list-header', listHeader, {}, whatsOnData %}
 
   <div class="{{ {s:2, m:4} | spacingClasses({margin: ['top']}) }}">
     {% if period === 'current-and-coming-up' %}
@@ -60,7 +59,15 @@
           {% endfor %}
 
           <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses }}">
-            {% componentJsx 'InstallationPromo', exhibitionAndEventPromos.colourOfPharmacyPromo %}
+            {% componentJsx 'InstallationPromo', {
+              id: pharmacyOfColourData.id,
+              title: pharmacyOfColourData.title,
+              description: pharmacyOfColourData.promoText,
+              image: pharmacyOfColourData.promoImage,
+              start: pharmacyOfColourData.start,
+              end: pharmacyOfColourData.end,
+              position: 2
+            } %}
           </div>
         </div>
       </div>

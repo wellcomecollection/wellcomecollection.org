@@ -5,6 +5,7 @@ import type {Place} from './places';
 
 export type Installation = {|
   ...GenericContentFields,
+  type: 'installations',
   description: HTMLString,
   start: Date,
   end: ?Date,

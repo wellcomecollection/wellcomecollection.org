@@ -6,8 +6,8 @@ import type {Picture} from '../../../model/picture';
 type Props = {|
   id: string,
   title: string,
-  description: string,
-  image: Picture,
+  description: ?string,
+  image: ?Picture,
   start: Date,
   end: ?Date,
   position?: number
@@ -28,8 +28,8 @@ const InstallationPromo = ({ id, title, description, image, start, end, position
       className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'>
       <div className='relative'>
         <Image
-          width={image.width || 0}
-          contentUrl={image.contentUrl || ''}
+          width={image && image.width || 0}
+          contentUrl={image && image.contentUrl || ''}
           lazyload={true}
           sizesQueries='(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(41.76vw - 50px), calc(75vw - 18px)'
           alt='' />
