@@ -18,7 +18,8 @@ import {getPlace} from '../../common/services/prismic/places';
 import {search} from '../../common/services/prismic/search';
 import {getCollectionOpeningTimes} from '../../common/services/prismic/opening-times';
 import {isPreview as getIsPreview} from '../../common/services/prismic/api';
-import superagent from 'superagent';
+import fetch from 'isomorphic-unfetch';
+import querystring from 'querystring';
 import {dailyTourPromo} from '../../server/data/facility-promos';
 import uuidv4 from 'uuid/v4';
 
@@ -422,9 +423,10 @@ function sendRedirectToGa(path) {
     el: path
   };
 
-  superagent.post(gaPath)
-    .type('form')
-    .send(payload);
+  fetch(gaPath, {
+    method: 'POST',
+    body: querystring.stringify(payload)
+  });
 }
 
 function getKeyValueRedirect(path, redirects) {
