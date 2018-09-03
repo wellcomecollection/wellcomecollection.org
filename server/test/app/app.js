@@ -40,6 +40,11 @@ test('/series/:id', async t => {
   t.is(res.status, 200);
 });
 
+test('301', async t => {
+  const res = await request.get('/exhibitions/medicine-man');
+  t.is(res.status, 301);
+});
+
 test('404', async t => {
   const res = await request.get('/exhibitions/medicine-ma');
   t.is(res.status, 404);
