@@ -5,6 +5,7 @@ import list from './parts/list';
 import link from './parts/link';
 import number from './parts/number';
 import articleBody from './parts/article-body';
+import contributorsWithTitle from './parts/contributorsWithTitle';
 
 const Article = {
   Article: {
@@ -15,9 +16,28 @@ const Article = {
   Promo: {
     promo
   },
-  Contributors: {
+  Contributors: contributorsWithTitle(),
+  Series: {
+    series: list('Series', {
+      series: link('Series', 'document', ['event-series']),
+      positionInSeries: number('Position in series')
+    })
+  },
+  Migration: {
+    'publishDate': {
+      'config': {
+        'label': 'Override publish date'
+      },
+      'type': 'Timestamp'
+    },
+    'wordpressSlug': {
+      'config': {
+        'label': 'Wordpress slug'
+      },
+      'type': 'Text'
+    },
     // TODO: deprecate
-    'contributors': {
+    'contributorsDeprecated': {
       'type': 'Slices',
       'fieldset': 'Contributors',
       'config': {
@@ -48,26 +68,6 @@ const Article = {
           }
         }
       }
-    }
-  },
-  Series: {
-    series: list('Series', {
-      series: link('Series', 'document', ['event-series']),
-      positionInSeries: number('Position in series')
-    })
-  },
-  Migration: {
-    'publishDate': {
-      'config': {
-        'label': 'Override publish date'
-      },
-      'type': 'Timestamp'
-    },
-    'wordpressSlug': {
-      'config': {
-        'label': 'Wordpress slug'
-      },
-      'type': 'Text'
     }
   }
 };
