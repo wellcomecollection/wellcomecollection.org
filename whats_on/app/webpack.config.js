@@ -4,6 +4,8 @@ const mkdirp = require('mkdirp');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const sass = require('node-sass');
+var autoprefixer = require('autoprefixer');
+var postcss = require('postcss');
 
 // Seems easier than setting up the webpack plugin
 const css = sass.renderSync({
@@ -12,9 +14,17 @@ const css = sass.renderSync({
   outputStyle: 'compressed'
 });
 mkdirp.sync('./views/partials');
-fs.writeFile('./views/partials/critical.css.njk', css.css.toString(), function(err) {
-  if (err) throw err;
-  console.log('Sass to CSS wrangled!');
+postcss([ autoprefixer({
+  browsers: [
+    'last 2 versions',
+    'iOS 8'
+  ],
+  grid: false
+}) ]).process(css.css.toString(), {from: undefined}).then(result => {
+  fs.writeFile('./views/partials/critical.css.njk', result.css, function(err) {
+    if (err) throw err;
+    console.log('Sass to CSS wrangled!');
+  });
 });
 
 module.exports = {

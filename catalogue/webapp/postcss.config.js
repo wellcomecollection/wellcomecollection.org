@@ -1,6 +1,12 @@
 module.exports = {
   plugins: [
     require('postcss-easy-import')({prefix: '_'}), // keep this first
-    require('autoprefixer')({ /* ...options */ }) // so imports are auto-prefixed too
+    require('autoprefixer')({
+      browsers: [
+        'last 2 versions',
+        'iOS 8'
+      ],
+      grid: false
+    })
   ]
 };
