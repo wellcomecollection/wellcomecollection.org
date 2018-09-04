@@ -17,7 +17,7 @@ $is-next: true;
 @import 'base/fonts';
 @import 'base/responsive-defaults';
 @import 'base/transitions';
-@import 'utilities/root-scope-classes.scss';
+@import 'utilities/root-scope-classes';
 
 // Grids
 @import 'grids/grid_base';
@@ -54,3 +54,4 @@ $is-next: true;
 @import 'components/tabs';
 @import 'components/tags';
 @import 'components/tasl';
+@import 'components/wobbly_edge';

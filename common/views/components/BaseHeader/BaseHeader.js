@@ -9,6 +9,7 @@ import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
 import type {GenericContentFields} from '../../../model/generic-content-fields';
 import type {Tasl} from '../../../model/tasl';
 import type {Link} from '../../../model/link';
+import HeaderText from '../HeaderText/HeaderText';
 
 type FeaturedMedia =
   | Element<typeof UiImage>
@@ -30,7 +31,8 @@ type Props = {|
 |}
 
 export function getFeaturedMedia(
-  fields: GenericContentFields
+  fields: GenericContentFields,
+  isFull?: boolean
 ): ?FeaturedMedia {
   const image = fields.promo && fields.promo.image;
   const {body} = fields;
@@ -46,7 +48,7 @@ export function getFeaturedMedia(
   const hasFeaturedVideo = body.length > 0 && body[0].type === 'videoEmbed';
   const FeaturedMedia = hasFeaturedVideo
     ? <VideoEmbed {...body[0].value} />
-    : image ? <UiImage tasl={tasl} {...image} /> : null;
+    : image ? <UiImage tasl={tasl} {...image} isFull={isFull} /> : null;
 
   return FeaturedMedia;
 }
@@ -66,6 +68,9 @@ const BaseHeader = ({
 }: Props) => {
   const BackgroundComponent = Background ||
     (FeaturedMedia ? HeaderBackground({backgroundTexture}) : null);
+  const Heading = Background
+    ? <h1 className='h1 inline-block no-margin'>{title}</h1>
+    : <HighlightedHeading text={title} />;
 
   return (
     <Fragment>
@@ -87,63 +92,29 @@ const BaseHeader = ({
               </div>
             </div>
           }
-          {topLink &&
-            <div className={`grid`}>
-              <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})} ${font({s: 'HNL4'})} plain-text`}>
-                <a href={topLink.url}>{topLink.text}</a>
-              </div>
-            </div>
-          }
           <div className={`grid`}>
-            {TagBar &&
-              <div className={`
-                ${spacing({s: 1}, {padding: ['top']})}
-                ${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}
-              `}>
-                {TagBar}
-              </div>
-            }
-            <div className={`
-              ${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}
-              ${spacing({s: 2}, {padding: ['bottom']})}
-            `}>
-
-              {Background
-                ? <h1 className='h1 inline-block no-margin'>{title}</h1>
-                : <HighlightedHeading text={title} />
-              }
-
-              {DateInfo &&
-                <div className={`${font({s: 'HNL3'})}`}>
-                  {DateInfo}
-                </div>
-              }
-
-              {Description &&
-                <div className={`${font({s: 'HNL4'})} ${spacing({s: 3}, {margin: ['top']})} first-para-no-margin`}>
-                  {Description}
-                </div>
-              }
-
-              {InfoBar &&
-                <div className={`${font({s: 'HNL4'})} ${spacing({s: 3}, {margin: ['top', 'bottom']})}`}>
-                  {InfoBar}
-                </div>
-              }
-
-              {FeaturedMedia &&
-                <div className={`${spacing({s: 3}, {margin: ['top']})} relative`}>
-                  {FeaturedMedia}
-                </div>
-              }
-
-              {LabelBar &&
-                <div className={`${spacing({s: 3}, {margin: ['top']})} relative`}>
-                  {LabelBar}
-                </div>
-              }
+            <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
+              <HeaderText
+                topLink={topLink}
+                TagBar={TagBar}
+                Heading={Heading}
+                DateInfo={DateInfo}
+                Description={Description}
+                InfoBar={InfoBar} />
             </div>
           </div>
+
+          {FeaturedMedia &&
+            <div className={`${spacing({s: 3}, {margin: ['top']})} relative`}>
+              {FeaturedMedia}
+            </div>
+          }
+
+          {LabelBar &&
+            <div className={`${spacing({s: 3}, {margin: ['top']})} relative`}>
+              {LabelBar}
+            </div>
+          }
         </div>
       </div>
     </Fragment>
