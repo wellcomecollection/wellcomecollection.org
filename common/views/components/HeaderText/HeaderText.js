@@ -22,10 +22,10 @@ const HeaderText = ({
   InfoBar
 }: Props) => {
   return (
-    <Fragment>
+    <div className={spacing({s: 2}, {padding: ['top']})}>
       {topLink &&
         <div className='plain-text'>
-          <a className={`${font({s: 'HNL4'})}`} href={topLink.url}>{topLink.text}</a>
+          <a className={`${font({s: 'HNL4'})} block`} href={topLink.url}>{topLink.text}</a>
         </div>
       }
 
@@ -54,7 +54,7 @@ const HeaderText = ({
           {InfoBar}
         </div>
       }
-    </Fragment>
+    </div>
   );
 };
 

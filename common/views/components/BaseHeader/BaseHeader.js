@@ -1,6 +1,6 @@
 // @flow
 import {Fragment} from 'react';
-import {spacing, grid, font} from '../../../utils/classnames';
+import {spacing} from '../../../utils/classnames';
 import HeaderBackground from './HeaderBackground';
 import type {Node, Element} from 'react';
 import {UiImage} from '../Images/Images';
@@ -10,6 +10,8 @@ import type {GenericContentFields} from '../../../model/generic-content-fields';
 import type {Tasl} from '../../../model/tasl';
 import type {Link} from '../../../model/link';
 import HeaderText from '../HeaderText/HeaderText';
+import FreeSticker from '../FreeSticker/FreeSticker';
+import {BasePageColumn} from '../BasePage/BasePage';
 
 type FeaturedMedia =
   | Element<typeof UiImage>
@@ -74,35 +76,25 @@ const BaseHeader = ({
 
   return (
     <Fragment>
-      <div className={`row relative ${spacing({s: 2}, {padding: ['top']})}`} style={{
+      <div className={`row relative`} style={{
         backgroundImage: BackgroundComponent ? null : `url(${backgroundTexture})`,
         backgroundSize: BackgroundComponent ? null : '150%'
       }}>
         {BackgroundComponent}
-        <div className={`container`}>
+        <BasePageColumn>
           {isFree &&
-            <div className={`grid`}>
-              <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})} relative`}>
-                <span className={`font-white bg-black rotate-r-8 absolute
-                ${font({s: 'WB7'})}
-                ${spacing({s: 1}, {padding: ['top', 'bottom']})}
-                ${spacing({s: 2}, {padding: ['left', 'right']})}`}
-                style={{marginTop: '-20px', right: 0}}
-                >Free</span>
-              </div>
+            <div className='relative'>
+              <FreeSticker />
             </div>
           }
-          <div className={`grid`}>
-            <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
-              <HeaderText
-                topLink={topLink}
-                TagBar={TagBar}
-                Heading={Heading}
-                DateInfo={DateInfo}
-                Description={Description}
-                InfoBar={InfoBar} />
-            </div>
-          </div>
+
+          <HeaderText
+            topLink={topLink}
+            TagBar={TagBar}
+            Heading={Heading}
+            DateInfo={DateInfo}
+            Description={Description}
+            InfoBar={InfoBar} />
 
           {FeaturedMedia &&
             <div className={`${spacing({s: 3}, {margin: ['top']})} relative`}>
@@ -115,7 +107,7 @@ const BaseHeader = ({
               {LabelBar}
             </div>
           }
-        </div>
+        </BasePageColumn>
       </div>
     </Fragment>
   );
