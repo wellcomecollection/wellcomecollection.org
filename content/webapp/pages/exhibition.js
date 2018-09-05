@@ -10,7 +10,9 @@ import HeaderBackground from '@weco/common/views/components/BaseHeader/HeaderBac
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import Contributors from '@weco/common/views/components/Contributors/Contributors';
 import Body from '@weco/common/views/components/Body/Body';
+import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import type {UiExhibition} from '@weco/common/model/exhibitions';
+import {font} from '@weco/common/utils/classnames';
 
 type Props = {|
   exhibition: UiExhibition
@@ -62,6 +64,43 @@ export const ExhibitionPage = ({
             titleOverride={exhibition.contributorsTitle}
             contributors={exhibition.contributors} />
         }
+        <InfoBox title='Visit us' items={[
+          (exhibition.place && {
+            title: 'Location',
+            description: exhibition.place.information,
+            icon: 'lifts'
+          }),
+          {
+            title: '',
+            description: [{
+              type: 'paragraph',
+              text: 'Step-free access is available to all floors of the building',
+              spans: []
+            }],
+            icon: 'a11y'
+          },
+          {
+            title: '',
+            description: [{
+              type: 'paragraph',
+              text: 'Large print guides, transcripts and magnifiers are available in the gallery',
+              spans: []
+            }],
+            icon: 'a11yVisual'
+          },
+          (exhibition.id === 'WgV_ACUAAIu2P_ZM' && {
+            description: [{
+              type: 'paragraph',
+              text: 'A family activity pack is available in the gallery',
+              spans: []
+            }],
+            icon: 'information'
+          })
+        ].filter(Boolean)}>
+          <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
+            <a href='/access'>Find out more about acessibility</a>
+          </p>
+        </InfoBox>
       </Fragment>
     </BasePage>
   );
