@@ -6,6 +6,7 @@ import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import FreeSticker from '../FreeSticker/FreeSticker';
 import type {Link} from '../../../model/link';
 import {BasePageColumn} from '../BasePage/BasePage';
+import {classNames, spacing} from '../../../utils/classnames';
 
 type Props = {|
   title: string,
@@ -33,7 +34,10 @@ const ImageLeadHeader = ({
             <FreeSticker />
           </div>
         </BasePageColumn>
-        <div className='margin-h-auto' style={{maxWidth: '1450px'}}>
+        <div className={classNames({
+          'margin-h-auto': true,
+          [spacing({xl: 4}, {padding: ['left', 'right']})]: true
+        })} style={{maxWidth: '1450px'}}>
           {FeaturedMedia}
         </div>
         <div style={{position: 'sticky', bottom: 0}}>
