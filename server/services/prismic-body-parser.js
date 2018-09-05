@@ -65,22 +65,6 @@ function parseBodyPart(slice) {
         }: ImageList)
       };
 
-    case 'quote':
-      const footer = slice.primary.citation && slice.primary.source
-        ? `${slice.primary.citation} — ${slice.primary.source}`
-        : slice.primary.citation || slice.primary.source || null;
-      return {
-        type: 'quote',
-        weight: 'default',
-        value: {
-          body: slice.primary.quote,
-          footer: footer,
-          quote: asHtml(slice.primary.quote),
-          citation: `${slice.primary.citation} - ${slice.primary.source}`,
-          citationLink: slice.primary.citationLink && slice.primary.citationLink.url
-        }
-      };
-
     case 'quoteV2':
       return {
         type: 'quoteV2',

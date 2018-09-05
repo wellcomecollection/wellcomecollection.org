@@ -337,38 +337,6 @@ export default {
             'fieldset': 'Twitter embed'
           }
         }
-      },
-      'quote': {
-        'type': 'Slice',
-        'fieldset': '(Deprecated) Quote',
-        'non-repeat': {
-          'quote': {
-            'type': 'StructuredText',
-            'config': {
-              'label': 'Quote',
-              'multi': 'hyperlink, bold, em'
-            }
-          },
-          'source': {
-            'type': 'Text',
-            'config': {
-              'label': 'Source'
-            }
-          },
-          'citation': {
-            'type': 'Text',
-            'config': {
-              'label': 'Citation'
-            }
-          },
-          'citationLink': {
-            'type': 'Link',
-            'config': {
-              'select': 'web',
-              'label': 'Citation link'
-            }
-          }
-        }
       }
     }
   }
