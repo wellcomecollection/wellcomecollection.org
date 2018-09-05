@@ -1,9 +1,13 @@
 // @flow
 import {font, spacing, conditionalClassNames} from '../../../utils/classnames';
 
+type ItemProps = {|
+  url: string,
+  text: string
+|}
+
 type Props = {|
-  link: string,
-  label: string
+  items: ItemProps[]
 |}
 
 function getClassName(i) {
@@ -14,13 +18,13 @@ function getClassName(i) {
     [spacing({ s: 1 }, { margin: ['right'] })]: true
   });
 }
-const LinkLabels = ({ items }: { items: Props[] }) => (
+const LinkLabels = ({ items }: Props) => (
   <ul className={`flex plain-list no-margin no-padding line-height-1`}>
-    {items.map(({link, label}, i) => (
-      <li key={link}>
-        {link
-          ? <a className={getClassName(i)} href={link}>{label}</a>
-          : <span className={getClassName(i)} >{label}</span>
+    {items.map(({url, text}, i) => (
+      <li key={url}>
+        {url
+          ? <a className={getClassName(i)} href={url}>{text}</a>
+          : <span className={getClassName(i)} >{text}</span>
         }
       </li>
     ))}
