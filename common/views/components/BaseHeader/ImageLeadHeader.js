@@ -29,7 +29,7 @@ const ImageLeadHeader = ({
     <Fragment>
       <div className='relative'>
         <BasePageColumn>
-          <div className='relative'>
+          <div className='relative' style={{zIndex: 1}}>
             <FreeSticker />
           </div>
         </BasePageColumn>
