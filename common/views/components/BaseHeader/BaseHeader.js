@@ -1,6 +1,7 @@
 // @flow
 import {Fragment} from 'react';
 import {spacing} from '../../../utils/classnames';
+import {breakpoints} from '../../../utils/breakpoints';
 import HeaderBackground from './HeaderBackground';
 import type {Node, Element} from 'react';
 import {UiImage} from '../Images/Images';
@@ -11,6 +12,7 @@ import type {Tasl} from '../../../model/tasl';
 import type {Link} from '../../../model/link';
 import HeaderText from '../HeaderText/HeaderText';
 import FreeSticker from '../FreeSticker/FreeSticker';
+import Picture from '../Picture/Picture';
 import {BasePageColumn} from '../BasePage/BasePage';
 
 type FeaturedMedia =
@@ -34,9 +36,10 @@ type Props = {|
 
 export function getFeaturedMedia(
   fields: GenericContentFields,
-  isFull?: boolean
+  isPicture?: boolean
 ): ?FeaturedMedia {
   const image = fields.promo && fields.promo.image;
+  const squareImage = fields.promo && fields.promo.squareImage;
   const {body} = fields;
   const tasl: ?Tasl = image && {
     title: image.title,
@@ -49,8 +52,11 @@ export function getFeaturedMedia(
   };
   const hasFeaturedVideo = body.length > 0 && body[0].type === 'videoEmbed';
   const FeaturedMedia = hasFeaturedVideo
-    ? <VideoEmbed {...body[0].value} />
-    : image ? <UiImage tasl={tasl} {...image} isFull={isFull} /> : null;
+    ? <VideoEmbed {...body[0].value} /> : isPicture && image && squareImage
+      ? <Picture
+        images={[{...image, minWidth: breakpoints.medium}, squareImage]}
+        isFull={true} />
+      : image ? <UiImage tasl={tasl} {...image} /> : null;
 
   return FeaturedMedia;
 }
