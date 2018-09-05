@@ -27,7 +27,7 @@ import {
 } from './parsers';
 import {parseEventSeries} from './event-series';
 import isEmptyObj from '../../utils/is-empty-object';
-import {london} from '../../utils/format-date';
+import {london, formatDayDate} from '../../utils/format-date';
 import {isPast} from '../../utils/dates';
 import {getPeriodPredicates} from './utils';
 import type {UiEvent, EventFormat} from '../../model/events';
@@ -363,7 +363,7 @@ function getRanges({start, end}, groupBy: GroupDatesBy, acc = []) {
   if (start.isBefore(end, groupBy) || start.isSame(end, groupBy)) {
     const newStart = start.clone().add(1, groupBy);
     const newAcc = acc.concat([{
-      label: start.format(groupByFormat[groupBy]),
+      label: formatDayDate(start),
       start: start.clone().startOf(groupBy),
       end: start.clone().endOf(groupBy)
     }]);

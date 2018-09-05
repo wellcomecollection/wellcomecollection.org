@@ -6,7 +6,7 @@ import Body from '../Body/Body';
 import Contributors from '../Contributors/Contributors';
 import HeaderBackground from '../BaseHeader/HeaderBackground';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
-import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
+import EventSchedule from '../EventSchedule/EventSchedule';
 import LabelsList from '../LabelsList/LabelsList';
 import Icon from '../Icon/Icon';
 import Button from '../Buttons/Button/Button';
@@ -184,13 +184,9 @@ const EventPage = ({ event }: Props) => {
 
         {event.schedule && event.schedule.length > 0 &&
           <div>
-            <h2 className={`${font({s: 'WB6', l: 'WB5'})} ${spacing({s: 4}, {padding: ['bottom']})} border-color-smoke border-bottom-width-1`}>Events</h2>
+            <h2 className='h2'>Events</h2>
             <ul className='plain-list no-marin no-padding'>
-              {event.schedule && event.schedule.map((scheduledEvent) =>
-                <EventScheduleItem
-                  key={scheduledEvent.id}
-                  event={scheduledEvent} />
-              )}
+              {event.schedule && <EventSchedule events={event.schedule} />}
             </ul>
           </div>
         }
