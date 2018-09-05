@@ -15,7 +15,7 @@ const EventSchedule = ({events}: Props) => {
   return groupedEvents.map(eventsGroup => (
     eventsGroup.events.length > 0 &&
       <Fragment key={eventsGroup.label}>
-        {groupedEvents.length > 0 && <h3 className={classNames({
+        {groupedEvents.length > 1 && <h3 className={classNames({
           'h3': true,
           [spacing({s: 4}, {margin: ['bottom']})]: true
         })}>{eventsGroup.label}</h3>}
