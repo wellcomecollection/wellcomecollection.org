@@ -27,7 +27,7 @@ import {
 } from './parsers';
 import {parseEventSeries} from './event-series';
 import isEmptyObj from '../../utils/is-empty-object';
-import {london} from '../../utils/format-date';
+import {london, formatDayDate} from '../../utils/format-date';
 import {isPast} from '../../utils/dates';
 import {getPeriodPredicates} from './utils';
 import type {UiEvent, EventFormat} from '../../model/events';
@@ -294,4 +294,81 @@ export async function getEvents(req: Request,  {
     totalPages: paginatedResults.totalPages,
     results: events
   };
+}
+
+// TODO: Make this way less forEachy and mutationy 0_0
+// TODO: Type this up properly
+const groupByFormat = {
+  day: 'dddd',
+  month: 'MMMM'
+};
+type GroupDatesBy = $Keys<typeof groupByFormat>
+type EventsGroup = {|
+  label: string,
+  start: Date,
+  end: Date,
+  events: UiEvent[]
+|}
+export function groupEventsBy(events: UiEvent[], groupBy: GroupDatesBy): EventsGroup[] {
+  // Get the full range of all the events
+  const range = events.map(({times}) => times.map(time => ({
+    start: time.range.startDateTime,
+    end: time.range.endDateTime
+  }))).reduce((acc, ranges) => acc.concat(ranges)).reduce((acc, range) => {
+    return {
+      start: range.start < acc.start ? range.start : acc.start,
+      end: range.end > acc.end ? range.end : acc.end
+    };
+  });
+
+  // Convert the range into an array of labeled event groups
+  const ranges = getRanges({
+    start: london(range.start).startOf(groupBy),
+    end: london(range.end).endOf(groupBy)
+  }, groupBy).map(range => ({
+    label: range.label,
+    start: range.start.toDate(),
+    end: range.end.toDate(),
+    events: []
+  }));
+
+  // See which events should go into which event group
+  events.forEach(event => {
+    const times = event.times
+      .filter(time => time.range && time.range.startDateTime)
+      .map(time => ({
+        start: time.range.startDateTime,
+        end: time.range.endDateTime
+      }));
+
+    ranges.forEach(range => {
+      const isInRange = times.find(time => {
+        if (
+          (time.start >= range.start && time.start <= range.end) ||
+          (time.end >= range.start && time.end <= range.end)
+        ) {
+          return true;
+        }
+      });
+      const newEvents = isInRange ? range.events.concat([event]) : range.events;
+      range.events = newEvents;
+    });
+  }, {});
+
+  return ranges;
+}
+
+// TODO: maybe use a Map?
+function getRanges({start, end}, groupBy: GroupDatesBy, acc = []) {
+  if (start.isBefore(end, groupBy) || start.isSame(end, groupBy)) {
+    const newStart = start.clone().add(1, groupBy);
+    const newAcc = acc.concat([{
+      label: formatDayDate(start),
+      start: start.clone().startOf(groupBy),
+      end: start.clone().endOf(groupBy)
+    }]);
+    return getRanges({start: newStart, end}, groupBy, newAcc);
+  } else {
+    return acc;
+  }
 }
