@@ -6,6 +6,7 @@ import BaseHeader from '@weco/common/views/components/BaseHeader/BaseHeader';
 import HeaderBackground from '@weco/common/views/components/BaseHeader/HeaderBackground';
 import Body from '@weco/common/views/components/Body/Body';
 import {parseBody, asText} from '@weco/common/services/prismic/parsers';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 
 type Props = {|
   article: any
@@ -22,7 +23,7 @@ export const ArticlePage = ({
     TagBar={null}
     DateInfo={null}
     InfoBar={null}
-    Description={null}
+    Description={data.summary ? <PrismicHtmlBlock html={data.summary} /> : null}
     FeaturedMedia={null}
     LabelBar={null}
     isFree={false}
