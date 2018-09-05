@@ -64,6 +64,7 @@ ExhibitionPage.getInitialProps = async ({req, query}) => {
     const exhibition = await getExhibition(req, id);
 
     return {
+      title: exhibition.title,
       exhibition
     };
   }
