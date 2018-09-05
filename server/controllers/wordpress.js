@@ -21,7 +21,7 @@ export const article = async(ctx, next) => {
       const pageConfig = createPageConfig(Object.assign({}, {
         path: path,
         title: article.headline,
-        inSection: 'explore',
+        inSection: 'stories',
         category: 'editorial'
       }, editorialAnalyticsInfo));
 
@@ -49,7 +49,7 @@ export const articles = async(ctx, next) => {
     pageConfig: createPageConfig({
       path: path,
       title: 'Articles',
-      inSection: 'explore',
+      inSection: 'stories',
       category: 'editorial'
     }),
     list: promoList,
@@ -70,7 +70,7 @@ export const series = async(ctx, next) => {
       pageConfig: createPageConfig({
         path: path,
         title: series.name,
-        inSection: 'explore',
+        inSection: 'stories',
         category: 'editorial',
         seriesUrl: id
       }),
@@ -97,7 +97,7 @@ export const preview = async(ctx, next) => {
         pageConfig: createPageConfig({
           path: path,
           title: article.headline,
-          inSection: 'explore'
+          inSection: 'stories'
         }),
         article: article
       });
