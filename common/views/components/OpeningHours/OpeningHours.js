@@ -17,7 +17,7 @@ type State = {|
 
 class OpeningHours extends Component<Props, State> {
   state = {
-    activePlace: this.props.groupedVenues && Object.keys(this.props.groupedVenues)[0]
+    activePlace: this.props && this.props.groupedVenues && Object.keys(this.props.groupedVenues)[0]
   };
 
   updateActivePlace = (event: any) => {
