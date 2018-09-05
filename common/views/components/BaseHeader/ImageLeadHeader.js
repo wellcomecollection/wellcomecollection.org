@@ -33,8 +33,12 @@ const ImageLeadHeader = ({
             <FreeSticker />
           </div>
         </BasePageColumn>
-        {FeaturedMedia}
-        <WobblyEdge background='white' />
+        <div className='margin-h-auto' style={{maxWidth: '1450px'}}>
+          {FeaturedMedia}
+        </div>
+        <div style={{position: 'sticky', bottom: 0}}>
+          <WobblyEdge background='white' />
+        </div>
       </div>
       <BasePageColumn>
         <HeaderText

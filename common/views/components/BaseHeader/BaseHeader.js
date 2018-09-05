@@ -38,7 +38,7 @@ export function getFeaturedMedia(
   fields: GenericContentFields,
   isPicture?: boolean
 ): ?FeaturedMedia {
-  const image = fields.promo && fields.promo.image;
+  const image = fields.promo && fields.promo.thinImage;
   const squareImage = fields.promo && fields.promo.squareImage;
   const {body} = fields;
   const tasl: ?Tasl = image && {
