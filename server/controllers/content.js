@@ -118,7 +118,7 @@ export const renderArticle = async(ctx, next) => {
         pageConfig: Object.assign({}, createPageConfig({
           path: path,
           title: article.headline,
-          inSection: 'explore',
+          inSection: 'stories',
           category: 'editorial',
           canonicalUri: `${ctx.globals.rootDomain}/articles/${id}`
         }), trackingInfo),
@@ -241,7 +241,7 @@ export async function renderWebcomicSeries(ctx, next) {
       pageConfig: createPageConfig({
         path: path,
         title: series.name,
-        inSection: 'explore',
+        inSection: 'stories',
         category: 'editorial'
       }),
       description: series.description,
@@ -276,7 +276,7 @@ export async function renderSeries(ctx, next) {
       pageConfig: createPageConfig({
         path: path,
         title: series.name,
-        inSection: 'explore',
+        inSection: 'stories',
         category: 'editorial'
       }),
       description: series.description,
@@ -309,7 +309,7 @@ export async function renderArticlesList(ctx, next) {
     pageConfig: createPageConfig({
       path: path,
       title: 'Articles',
-      inSection: 'explore',
+      inSection: 'stories',
       category: 'editorial'
     }),
     list: promoList,
