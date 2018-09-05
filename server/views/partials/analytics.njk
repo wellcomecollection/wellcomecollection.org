@@ -23,8 +23,8 @@ ga('create', 'UA-55614-24', 'auto', 'v2');
 ga('create', 'UA-55614-6', 'auto');
 ga('set', 'dimension1', '2');
 
-{% if pageConfig.category %}
-  ga('set', 'dimension2', '{{ pageConfig.category }}');
+{% if pageConfig.format %}
+  ga('set', 'dimension2', '{{ pageConfig.format }}');
 {% endif %}
 
 {% if pageConfig.seriesUrl %}
@@ -34,6 +34,10 @@ ga('set', 'dimension1', '2');
 
 {% if pageConfig.positionInSeries %}
   ga('set', 'dimension4', '{{ pageConfig.positionInSeries }}');
+{% endif %}
+
+{% if featuresCohort and featuresCohort !== 'default' %}
+  ga('set', 'dimension5', '{{ featuresCohort }}');
 {% endif %}
 
 {% if pageConfig.contentType %}
@@ -69,11 +73,6 @@ localStorage.removeItem('wc_referring_component_list');
 if (referringComponentListString) {
   ga('set', 'dimension7', referringComponentListString);
 }
-
-{# Test dimension #}
-{% if featuresCohort and featuresCohort !== 'default' %}
-  ga('set', 'dimension5', '{{ featuresCohort }}');
-{% endif %}
 
 ga('require', 'GTM-NXMJ6D9');
 ga('send', 'pageview');
