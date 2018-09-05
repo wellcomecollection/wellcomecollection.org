@@ -123,6 +123,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       url,
       title,
       image: promoImage.image,
+      squareImage: promoSquare && promoSquare.image,
       description: (promoThin && promoThin.caption) || '',
       start,
       end,
