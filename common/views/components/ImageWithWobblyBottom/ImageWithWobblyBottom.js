@@ -1,11 +1,20 @@
 // @flow
-import type Picture from '../Picture/Picture';
-import type {UiImage} from '../Images/Images';
+import {Fragment} from 'react';
+import {UiImage} from '../Images/Images';
+import WobblyEdge from '../WobblyEdge/WobblyEdge';
+import type {UiImageProps} from '../Images/Images';
 type Props = {|
-  image: UiImage | Picture
+  image: UiImageProps
 |}
 
 const ImageWithWobblyBottom = ({
   image
-}: Props) => (<div></div>);
+}: Props) => (
+  <div className='relative'>
+    <Fragment>
+      <UiImage {...image} isFull={true} />
+      <WobblyEdge background={'cream'} />
+    </Fragment>
+  </div>
+);
 export default ImageWithWobblyBottom;
