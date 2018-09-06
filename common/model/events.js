@@ -2,7 +2,7 @@
 import type {GenericContentFields} from './generic-content-fields';
 import type {HTMLString} from './content-blocks';
 import type {BackgroundTexture} from './background-texture';
-import type {Image} from './image';
+import type {ImageType} from './image';
 import type {LabelField} from './label-field';
 import type {Place} from './places';
 import type {HTMLString as PrismicHTMLString} from '../services/prismic/types';
@@ -116,7 +116,7 @@ export type EventPromo = {|
   description: ?HTMLString,
   format: ?EventFormat,
   bookingType: ?string,
-  image: ?Image,
+  image: ?ImageType,
   interpretations: Interpretation[],
   eventbriteId?: ?string,
   audience?: ?Audience,

@@ -2,7 +2,7 @@
 import type {Contributor} from './contributors';
 import type {ImagePromo} from './image-promo';
 import type {Picture} from './picture';
-import type {Image as ImageType} from './image';
+import type {ImageType} from './image';
 
 export type Body = any[];
 
