@@ -77,7 +77,8 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
         license: null,
         copyrightHolder: null,
         copyrightLink: null
-      }
+      },
+      crops: []
     }
   } : null;
 
