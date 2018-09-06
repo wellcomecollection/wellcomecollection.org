@@ -41,7 +41,7 @@ const data = ({
       copyrightHolder: null,
       copyrightLink: null
     },
-    crops: []
+    crops: {}
   },
   squareImage: {
     contentUrl: 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/6a00dcdaff0f634659990b353fcebe88c5a27960_ep_000423_001.jpg',
@@ -57,7 +57,7 @@ const data = ({
       copyrightHolder: null,
       copyrightLink: null
     },
-    crops: []
+    crops: {}
   },
   widescreenImage: {
     contentUrl: 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/459df70f34b693495964c51731c4b47bdedf5cb1_ep_000423_001.jpg',
@@ -73,7 +73,7 @@ const data = ({
       copyrightHolder: null,
       copyrightLink: null
     },
-    crops: []
+    crops: {}
   },
   thinImage: {
     contentUrl: 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/6ee9f05e16a7f7e63ac98064059953457bcce704_ep_000423_001.jpg',
@@ -89,7 +89,7 @@ const data = ({
       copyrightHolder: null,
       copyrightLink: null
     },
-    crops: []
+    crops: {}
   }
 }: Installation);
 

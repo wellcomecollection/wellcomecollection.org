@@ -40,7 +40,7 @@ const WorkImage = ({
           }}
           sizesQueries=''
           showTasl={false}
-          crops={[]} />
+          crops={{}} />
       </a>
       <WorkCredit work={work} />
     </Fragment>
