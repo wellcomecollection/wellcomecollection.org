@@ -91,25 +91,15 @@ export function parseTimestamp(frag: PrismicFragment): Date {
 const placeholderImage = 'https://via.placeholder.com/160x90?text=placeholder';
 export function parsePicture(captionedImage: Object, minWidth: ?string = null): Picture {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
-  const tasl = image && parseTaslFromString(image.copyright);
+  const imageCopyright = image ? image.copyright : '';
+  const tasl = parseTaslFromString(imageCopyright);
 
   return ({
     contentUrl: (image && image.url) || placeholderImage,
     width: (image && image.dimensions && image.dimensions.width) || 160,
     height: (image && image.dimensions && image.dimensions.height) || 90,
-    caption: captionedImage.caption && asHtml(captionedImage.caption),
-    alt: image && image.alt,
-    title: tasl && tasl.title,
-    author: tasl && tasl.author,
-    source: {
-      name: tasl && tasl.sourceName,
-      link: tasl && tasl.sourceLink
-    },
-    license: tasl && tasl.license,
-    copyright: {
-      holder: tasl && tasl.copyrightHolder,
-      link: tasl && tasl.copyrightLink
-    },
+    alt: (image && image.alt) || '',
+    tasl: tasl,
     minWidth
   }: Picture);
 }

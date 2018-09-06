@@ -55,6 +55,17 @@ hr {
 }
 
 // Standard heading sizes
+%h0,
+.h0 {
+  @include font('WB4');
+
+  @include respond-to('medium') {
+    @include font('WB3');
+  }
+
+  margin-top: 0;
+}
+
 %h1,
 .h1 {
   @include font('WB5');

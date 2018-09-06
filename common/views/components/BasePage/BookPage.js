@@ -44,7 +44,7 @@ const BookPage = ({ book }: Props) => {
     copyrightLink: image.copyright && image.copyright.link
   };
   // $FlowFixMe
-  const FeaturedMedia = book.cover && <UiImage tasl={tasl} extraClasses='margin-v-auto width-auto max-height-70vh' {...book.cover} />;
+  const FeaturedMedia = book.cover && <UiImage tasl={tasl} extraClasses='margin-h-auto width-auto max-height-70vh' {...book.cover} />;
   const TagBar = <Tags tags={[{
     text: 'Book',
     url: '/books'
