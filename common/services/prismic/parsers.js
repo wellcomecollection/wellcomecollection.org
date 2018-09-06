@@ -520,8 +520,6 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
     }).find(_ => _) : {}; // just get the first one;
 
   const {image, squareImage, widescreenImage, thinImage} = promoImages;
-
-  console.info(image, squareImage, widescreenImage, thinImage);
   return {
     id: doc.id,
     title: parseTitle(data.title),
