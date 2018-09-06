@@ -39,8 +39,9 @@ export function getFeaturedMedia(
   fields: GenericContentFields,
   isPicture?: boolean
 ): ?FeaturedMedia {
-  const image = fields.promo && fields.promo.thinImage;
-  const squareImage = fields.promo && fields.promo.squareImage;
+  const image = fields.promo && fields.promo.image;
+  const thinImage = fields.thinImage;
+  const squareImage = fields.squareImage;
   const {body} = fields;
   const tasl: ?Tasl = image && {
     title: image.title,
@@ -55,7 +56,7 @@ export function getFeaturedMedia(
   const FeaturedMedia = hasFeaturedVideo
     ? <VideoEmbed {...body[0].value} /> : isPicture && image && squareImage
       ? <Picture
-        images={[{...image, minWidth: breakpoints.medium}, squareImage]}
+        images={[{...thinImage, minWidth: breakpoints.medium}, squareImage]}
         isFull={true} />
       : image ? <UiImage tasl={tasl} {...image} /> : null;
 

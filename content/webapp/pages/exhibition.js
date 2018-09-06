@@ -28,7 +28,9 @@ export const ExhibitionPage = ({
     promo: exhibition.promo,
     body: exhibition.body,
     promoImage: exhibition.promoImage,
-    promoText: exhibition.promoText
+    promoText: exhibition.promoText,
+    thinImage: exhibition.promo && exhibition.promo.thinImage,
+    squareImage: exhibition.promo && exhibition.promo.squareImage
   }, true);
   const Header = (<ImageLeadHeader
     Description={null}

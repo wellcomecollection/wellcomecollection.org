@@ -515,6 +515,8 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
     body: data.body ? parseBody(data.body) : [],
     promo: promo,
     promoText: promo && promo.caption,
-    promoImage: promo && promo.image
+    promoImage: promo && promo.image,
+    squareImage: promo && promo.squareImage,
+    thinImage: promo && promo.thinImage
   };
 }
