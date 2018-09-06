@@ -21,40 +21,38 @@ const InfoBox = ({
   children
 }: Props) => (
   <Fragment>
-    <h2 className='h2'>{title}</h2> {/* TODO make this a heading component */}
+    <h2 className='h2'>{title}</h2>
     <div className={classNames([
       'bg-yellow',
       spacing({s: 4}, {padding: ['top', 'right', 'bottom', 'left']}),
-      spacing({s: 4}, {margin: ['top', 'bottom']})
+      spacing({s: 4}, {margin: ['bottom']})
     ])}>
-      {items.map(({title, description, icon}) =>
-        <Fragment key={title}>
-          {!icon && <h3 className={font({s: 'HNM4'})}>{title}</h3>}
-          {icon &&
-            <h3 className={classNames([
-              'no-margin flex flex--v-center',
-              font({s: 'HNM4'})
-            ])}>
-              <span className={classNames([
-                'flex flex--v-center',
-                spacing({s: 1}, {margin: ['right']})
-              ])}>
+      {items.map(({title, description, icon}, i) =>
+        <Fragment key={i}>
+          <div className={font({s: 'HNM4'})}>
+            {icon && (title || description) &&
+              <span className={`float-l ${spacing({s: 1}, {margin: ['right']})}`}>
                 <Icon name={icon} />
               </span>
-              <span>{title}</span>
-            </h3>}
-          {description &&
-            <div className={classNames([
-              'plain-text',
-              font({s: 'HNL4'}),
-              spacing({s: 4}, {margin: ['bottom']})
-            ])}>
-              <PrismicHtmlBlock html={description} />
-            </div>
-          }
+            }
+            {title &&
+              <h3 className={classNames([
+                font({s: 'HNM4'}),
+                spacing({s: 0}, {margin: ['top']})
+              ])}>{title}</h3>
+            }
+            {description &&
+              <div className={classNames([
+                'plain-text',
+                font({s: 'HNL4'}),
+                spacing({s: 4}, {margin: ['bottom']})
+              ])}>
+                <PrismicHtmlBlock html={description} />
+              </div>
+            }
+          </div>
         </Fragment>
       )}
-
       {children}
     </div>
   </Fragment>

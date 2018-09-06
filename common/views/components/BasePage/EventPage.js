@@ -183,7 +183,7 @@ const EventPage = ({ event }: Props) => {
         </div>
 
         {event.schedule && event.schedule.length > 0 &&
-          <div>
+          <div className={spacing({s: 4}, {margin: ['bottom']})}>
             <h2 className='h2'>Events</h2>
             <ul className='plain-list no-marin no-padding'>
               {event.schedule && <EventSchedule events={event.schedule} />}
@@ -193,7 +193,7 @@ const EventPage = ({ event }: Props) => {
 
         {event.ticketSalesStart && showTicketSalesStart(event.ticketSalesStart) &&
           <Fragment>
-            <div className={`bg-yellow inline-block ${spacing({s: 4}, {padding: ['left', 'right'], margin: ['top', 'bottom']})} ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${font({s: 'HNM4'})}`}>
+            <div className={`bg-yellow inline-block ${spacing({s: 4}, {padding: ['left', 'right'], margin: ['bottom']})} ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${font({s: 'HNM4'})}`}>
               {/* TODO: work out why the second method below will fail Flow without a null check */}
               <span>Booking opens {formatDayDate(event.ticketSalesStart)} {event.ticketSalesStart && formatTime(event.ticketSalesStart)}</span>
             </div>
@@ -207,7 +207,7 @@ const EventPage = ({ event }: Props) => {
             }
 
             {event.bookingEnquiryTeam &&
-              <div className={`${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
+              <div className={`${spacing({s: 2}, {padding: ['top', 'bottom']})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
                 {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
                   : (
                     <Button
@@ -230,7 +230,7 @@ const EventPage = ({ event }: Props) => {
 
             {(!event.eventbriteId && !event.bookingEnquiryTeam) &&
               <Fragment>
-                <div className={`bg-yellow inline-block ${spacing({s: 4}, {padding: ['left', 'right'], margin: ['top', 'bottom']})} ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${font({s: 'HNM4'})}`}>
+                <div className={`bg-yellow inline-block ${spacing({s: 4}, {padding: ['left', 'right'], margin: ['bottom']})} ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${font({s: 'HNM4'})}`}>
                   <span>Just turn up</span>
                 </div>
               </Fragment>
