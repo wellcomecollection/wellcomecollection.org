@@ -9,6 +9,7 @@ import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Map from '../Map/Map';
+import ImageWithWobblyBottom from '../ImageWithWobblyBottom/ImageWithWobblyBottom';
 
 import type {Weight} from '../../../services/prismic/parsers';
 
@@ -35,7 +36,10 @@ const Body = ({ body }: Props) => {
               {slice.weight !== 'featured' && <PrismicHtmlBlock html={slice.value} />}
             </div>
           }
-          {slice.type === 'picture' &&
+          {slice.type === 'picture' && slice.weight === 'featured' &&
+            <ImageWithWobblyBottom {...slice.value} />
+          }
+          {slice.type === 'picture' && slice.weight !== 'featured' &&
             <CaptionedImage {...slice.value} sizesQueries={''} />
           }
           {slice.type === 'imageGallery' && <ImageGallery {...slice.value} />}
