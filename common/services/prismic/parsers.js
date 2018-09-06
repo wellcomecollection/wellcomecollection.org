@@ -109,16 +109,22 @@ export function checkAndParseImage(frag: ?PrismicFragment): ?ImageType {
   return frag && (isImageLink(frag) ? parseImage(frag) : null);
 }
 
+// These are the props returned on a prismic image object
+const prismicImageProps = ['dimensions', 'alt', 'copyright', 'url'];
 // We don't export this, as we probably always want to check ^ first
 function parseImage(frag: PrismicFragment): ImageType {
   const tasl = parseTaslFromString(frag.copyright);
+  const crops = Object.keys(frag)
+    .filter(key => prismicImageProps.indexOf(key) === -1)
+    .map(key => parseImage(frag[key]));
+
   return {
     contentUrl: frag.url,
     width: frag.dimensions.width,
     height: frag.dimensions.height,
     alt: frag.alt,
     tasl: tasl,
-    crops: []
+    crops: crops
   };
 }
 
@@ -136,18 +142,8 @@ export function parseCaptionedImage(frag: PrismicFragment, crop?: ?Crop): Captio
   }
 
   const image = crop ? frag.image[crop] : frag.image;
-  const tasl = parseTaslFromString(image.copyright);
-
-  // TODO: use `parseImage`
   return {
-    image: image.dimensions ? {
-      contentUrl: image.url,
-      width: image.dimensions.width,
-      height: image.dimensions.height,
-      alt: image.alt || '',
-      tasl,
-      crops: []
-    } : placeHolderImage,
+    image: image.dimensions ? parseImage(image) : placeHolderImage,
     caption: !isEmptyHtmlString(frag.caption) ? frag.caption : []
   };
 }
