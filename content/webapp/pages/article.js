@@ -5,25 +5,23 @@ import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import BaseHeader from '@weco/common/views/components/BaseHeader/BaseHeader';
 import HeaderBackground from '@weco/common/views/components/BaseHeader/HeaderBackground';
 import Body from '@weco/common/views/components/Body/Body';
-import {parseBody, asText} from '@weco/common/services/prismic/parsers';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import type {ArticleV2} from '@weco/common/services/prismic/articles';
 
 type Props = {|
-  article: any
+  article: ArticleV2
 |}
 
 export const ArticlePage = ({
   article
 }: Props) => {
-  const {data} = article;
-
   const Header = (<BaseHeader
-    title={asText(data.title) || ''}
+    title={article.title || ''}
     Background={<HeaderBackground hasWobblyEdge={true} />}
     TagBar={null}
     DateInfo={null}
     InfoBar={null}
-    Description={data.summary ? <PrismicHtmlBlock html={data.summary} /> : null}
+    Description={article.summary ? <PrismicHtmlBlock html={article.summary} /> : null}
     FeaturedMedia={null}
     LabelBar={null}
     isFree={false}
@@ -34,7 +32,7 @@ export const ArticlePage = ({
     <BasePage
       id={article.id}
       Header={Header}
-      Body={<Body body={parseBody(article.data.body)} />}
+      Body={<Body body={article.body} />}
     >
     </BasePage>
   );
