@@ -8,5 +8,5 @@ export type ImageType = {|
   height: number,
   alt: string,
   tasl: Tasl,
-  crops: ImageType[]
+  crops: {| [string]: ImageType[] |}
 |}

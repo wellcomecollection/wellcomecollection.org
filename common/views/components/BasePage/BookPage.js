@@ -86,7 +86,7 @@ const BookPage = ({ book }: Props) => {
         copyrightHolder: null,
         copyrightLink: null
       },
-      crops: []
+      crops: {}
     } : defaultContributorImage,
     twitterHandle: null,
     // parse this as string

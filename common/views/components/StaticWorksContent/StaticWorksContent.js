@@ -71,7 +71,7 @@ const StaticWorksContent = () => (
                   copyrightHolder: 'Wellcome Collection',
                   copyrightLink: 'https://wellcomecollection.org'
                 },
-                crops: []
+                crops: {}
               }}
             />
           </div>

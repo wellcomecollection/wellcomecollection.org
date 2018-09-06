@@ -33,7 +33,7 @@ const placeHolderImage = ({
     copyrightHolder: null,
     copyrightLink: null
   },
-  crops: []
+  crops: {}
 }: ImageType);
 
 const linkResolver = (doc) => {
@@ -116,7 +116,13 @@ function parseImage(frag: PrismicFragment): ImageType {
   const tasl = parseTaslFromString(frag.copyright);
   const crops = Object.keys(frag)
     .filter(key => prismicImageProps.indexOf(key) === -1)
-    .map(key => parseImage(frag[key]));
+    .map(key => ({
+      key,
+      image: parseImage(frag[key])
+    })).reduce((acc, {key, image}) => {
+      acc[key] = image;
+      return acc;
+    }, {});
 
   return {
     contentUrl: frag.url,
@@ -168,7 +174,7 @@ export const defaultContributorImage = ({
     copyrightLink: null
   },
   alt: '',
-  crops: []
+  crops: {}
 }: ImageType);
 
 export function parseSameAs(frag: PrismicFragment[]): SameAs {
