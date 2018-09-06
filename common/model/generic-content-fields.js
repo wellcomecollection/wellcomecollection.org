@@ -2,6 +2,7 @@
 import type {Contributor} from './contributors';
 import type {ImagePromo} from './image-promo';
 import type {Picture} from './picture';
+import type {Image as ImageType} from './image';
 
 export type Body = any[];
 
@@ -15,5 +16,9 @@ export type GenericContentFields = {|
   promo: ?ImagePromo,
   body: any[],
   promoText: ?string,
-  promoImage: ?Picture
+  promoImage: ?Picture,
+  image: ?ImageType,
+  squareImage: ?ImageType,
+  widescreenImage: ?ImageType,
+  thinImage: ?ImageType
 |}

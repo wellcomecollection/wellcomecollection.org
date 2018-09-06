@@ -28,7 +28,11 @@ export const ExhibitionPage = ({
     promo: exhibition.promo,
     body: exhibition.body,
     promoImage: exhibition.promoImage,
-    promoText: exhibition.promoText
+    promoText: exhibition.promoText,
+    image: exhibition.image,
+    squareImage: exhibition.squareImage,
+    widescreenImage: exhibition.widescreenImage,
+    thinImage: exhibition.thinImage
   });
   const Header = (<BaseHeader
     title={exhibition.title}

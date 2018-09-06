@@ -7,11 +7,11 @@ stories
   .add('LinkLabels', () => {
     return (
       <LinkLabels items={[{
-        link: 'https://twitter.com/mafunyane',
-        label: '@mafunyane'
+        url: 'https://twitter.com/mafunyane',
+        text: '@mafunyane'
       }, {
-        link: 'https://strategiccontent.co.uk/',
-        label: 'strategiccontent.co.uk'
+        url: 'https://strategiccontent.co.uk/',
+        text: 'strategiccontent.co.uk'
       }]} />
     );
   }, {

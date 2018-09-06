@@ -52,7 +52,7 @@ const Contributor = ({
 
           {contributor.sameAs.length > 0 &&
             <LinkLabels items={
-              contributor.sameAs.map(({link, title}) => ({ link, label: title }))
+              contributor.sameAs.map(({link, title}) => ({ url: link, text: title }))
             } />
           }
 

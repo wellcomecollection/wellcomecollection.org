@@ -3,7 +3,7 @@ import { RichText, Date as PrismicDate } from 'prismic-dom';
 import type { HTMLString, PrismicFragment } from './types';
 import type { Contributor, PersonContributor, OrganisationContributor } from '../../model/contributors';
 import type { Picture } from '../../model/picture';
-import type { Image } from '../../model/image';
+import type { Image as ImageType } from '../../model/image';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
 import type { Place } from '../../model/places';
@@ -114,12 +114,12 @@ export function parsePicture(captionedImage: Object, minWidth: ?string = null): 
   }: Picture);
 }
 
-export function checkAndParseImage(frag: ?PrismicFragment): ?Image {
+export function checkAndParseImage(frag: ?PrismicFragment): ?ImageType {
   return frag && (isImageLink(frag) ? parseImage(frag) : null);
 }
 
 // We don't export this, as we probably always want to check ^ first
-function parseImage(frag: PrismicFragment): Image {
+function parseImage(frag: PrismicFragment): ImageType {
   const tasl = parseTaslFromString(frag.copyright);
   return {
     contentUrl: frag.url,
@@ -507,6 +507,19 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
   const {data} = doc;
   const promo = data.promo && parseImagePromo(data.promo);
   const contributors = data.contributors && data.contributors.filter(c => !isEmptyDocLink(c.contributor));
+
+  const promoImages = data.promo && data.promo.length > 0 ? data.promo
+    .filter(slice => slice.primary.image)
+    .map(({primary: {image}}) => {
+      const originalImage = parseImage(image);
+      const squareImage = image.square && parseImage(image.square);
+      const widescreenImage = image['16:9'] && parseImage(image['16:9']);
+      const thinImage = image['32:15'] && parseImage(image['32:15']);
+
+      return {image: originalImage, squareImage, widescreenImage, thinImage};
+    }).find(_ => _) : {}; // just get the first one;
+
+  const {image, squareImage, widescreenImage, thinImage} = promoImages;
   return {
     id: doc.id,
     title: parseTitle(data.title),
@@ -515,6 +528,10 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
     body: data.body ? parseBody(data.body) : [],
     promo: promo,
     promoText: promo && promo.caption,
-    promoImage: promo && promo.image
+    promoImage: promo && promo.image,
+    image,
+    squareImage,
+    widescreenImage,
+    thinImage
   };
 }
