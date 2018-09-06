@@ -1,6 +1,7 @@
 // @flow
 // TODO: Sync up types with the body slices and the components they return
 import {spacing} from '../../../utils/classnames';
+import {breakpoints} from '../../../utils/breakpoints';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import {CaptionedImage, UiImage} from '../Images/Images';
 import Quote from '../Quote/Quote';
@@ -10,7 +11,7 @@ import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Map from '../Map/Map';
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
-
+import {PictureFromImages} from '../Picture/Picture';
 import type {Weight} from '../../../services/prismic/parsers';
 
 type BodySlice = {|
@@ -42,7 +43,10 @@ const Body = ({ body }: Props) => {
           */}
           {slice.type === 'picture' && slice.weight === 'featured' && slice.value.image.crops.square &&
             <WobblyBottom>
-              <UiImage {...slice.value.image} isFull={true} />
+              <PictureFromImages images={{
+                [breakpoints.medium]: slice.value.image.crops['16:9'],
+                'default': slice.value.image.crops.square
+              }} isFull={true} />
             </WobblyBottom>
           }
           {slice.type === 'picture' && slice.weight === 'featured' && !slice.value.image.crops.square &&

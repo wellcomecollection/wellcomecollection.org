@@ -44,29 +44,33 @@ const Picture = ({ images, extraClasses, isFull = false }: Props) => {
   );
 };
 
+// The prder of the images is important, you need to have it from:
+// maximum min-width -> minimum min-width
 type PictureFromImagesProps = {|
-  images: UiImageProps[],
-  minWidths: string[],
+  images: { [string | 'default']: UiImageProps }, // the key here is the minwidth
   extraClasses?: string,
   isFull: boolean
 |};
 export const PictureFromImages = ({
   images,
-  minWidths,
   extraClasses,
   isFull = false
 }: PictureFromImagesProps) => {
-  const lastImage = images[images.length - 1];
+  const minWidths = Object.keys(images);
+  const lastImage = images[minWidths[0]];
+
   return (
     <figure className='relative no-margin'>
       <picture className={extraClasses || ''}>
-        {images.map((image, i) => {
+        {minWidths.map(minWidth => {
+          const image = images[minWidth];
           if (image.width) {
             const sizes = imageSizes(image.width);
+
             return (
               <source
                 key={image.contentUrl}
-                media={minWidths[i] ? `(min-width: ${minWidths[i]})` : ''}
+                media={minWidth !== 'default' ? `(min-width: ${minWidth})` : ''}
                 sizes='100vw'
                 data-srcset={sizes.map(size => {
                   return image.contentUrl && `${convertImageUri(image.contentUrl, size, false)} ${size}w`;
@@ -82,7 +86,7 @@ export const PictureFromImages = ({
           data-src={convertImageUri(lastImage.contentUrl, lastImage.width, false)}
           alt={lastImage.alt} />}
       </picture>
-      {lastImage && <Tasl {...lastImage.tasl} />}
+      {lastImage && <Tasl {...lastImage.tasl} isFull={isFull} />}
     </figure>
   );
 };
