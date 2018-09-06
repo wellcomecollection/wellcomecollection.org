@@ -50,7 +50,14 @@ const InfoBoxExample = () => {
       description: [{
         type: 'paragraph',
         text: 'A family activity pack is available in the gallery',
-        spans: []
+        spans: [{
+          type: 'hyperlink',
+          start: 2,
+          end: 17,
+          data: {
+            url: '/'
+          }
+        }]
       }],
       icon: 'information'
     },
