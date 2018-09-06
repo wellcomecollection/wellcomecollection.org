@@ -7,16 +7,19 @@ import FreeSticker from '../FreeSticker/FreeSticker';
 import type {Link} from '../../../model/link';
 import {BasePageColumn} from '../BasePage/BasePage';
 import {classNames, spacing} from '../../../utils/classnames';
+import type {Node} from 'react';
+import type {FeaturedMedia as FeaturedMediaType} from '../BaseHeader/BaseHeader';
 
 type Props = {|
   title: string,
   TagBar: ?Node,
   DateInfo: ?Node,
   InfoBar: ?Node,
-  FeaturedMedia: Element<typeof UiImage>,
+  FeaturedMedia: ?FeaturedMediaType,
   topLink: ?Link,
   Description: ?Node
 |}
+
 const ImageLeadHeader = ({
   title,
   FeaturedMedia,

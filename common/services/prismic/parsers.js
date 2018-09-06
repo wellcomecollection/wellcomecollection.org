@@ -506,7 +506,6 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
 export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
   const {data} = doc;
   const promo = data.promo && parseImagePromo(data.promo);
-  const squarePromo = data.promo && parseImagePromo(data.promo, 'square');
   const contributors = data.contributors && data.contributors.filter(c => !isEmptyDocLink(c.contributor));
   return {
     id: doc.id,
@@ -516,7 +515,6 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
     body: data.body ? parseBody(data.body) : [],
     promo: promo,
     promoText: promo && promo.caption,
-    promoImage: promo && promo.image,
-    promoImageSquare: squarePromo && squarePromo.image
+    promoImage: promo && promo.image
   };
 }

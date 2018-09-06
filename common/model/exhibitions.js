@@ -46,6 +46,8 @@ export type ExhibitionPromo = {|
   url: string,
   title: string,
   image: Image,
+  squareImage: ?Picture;
+  thinImage: ?Picture;
   description: string,
   start: Date,
   end: ?Date,

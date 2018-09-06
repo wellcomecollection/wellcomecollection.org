@@ -3,6 +3,7 @@
 import {Fragment} from 'react';
 import {font, spacing} from '../../../utils/classnames';
 import type {Link} from '../../../model/link';
+import type {Node} from 'react';
 
 type Props = {|
   Heading: ?Node,

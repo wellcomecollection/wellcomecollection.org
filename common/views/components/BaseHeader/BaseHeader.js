@@ -15,9 +15,10 @@ import FreeSticker from '../FreeSticker/FreeSticker';
 import Picture from '../Picture/Picture';
 import {BasePageColumn} from '../BasePage/BasePage';
 
-type FeaturedMedia =
+export type FeaturedMedia =
   | Element<typeof UiImage>
   | Element<typeof VideoEmbed>
+  | Element<typeof Picture>
 
 type BackgroundType = Element<typeof HeaderBackground>
 

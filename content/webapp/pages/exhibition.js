@@ -31,6 +31,7 @@ export const ExhibitionPage = ({
     promoText: exhibition.promoText
   }, true);
   const Header = (<ImageLeadHeader
+    Description={null}
     title={exhibition.title}
     TagBar={null}
     DateInfo={DateInfo}
@@ -63,10 +64,12 @@ ExhibitionPage.getInitialProps = async ({req, query}) => {
     const {id} = query;
     const exhibition = await getExhibition(req, id);
 
-    return {
-      title: exhibition.title,
-      exhibition
-    };
+    if (exhibition) {
+      return {
+        title: exhibition.title,
+        exhibition
+      };
+    }
   }
 };
 
