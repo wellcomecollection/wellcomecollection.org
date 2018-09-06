@@ -4,12 +4,12 @@ import {convertImageUri} from '../../../utils/convert-image-uri';
 import {imageSizes} from '../../../utils/image-sizes';
 import Tasl from '../Tasl/Tasl';
 import type {Node} from 'react';
-import type {Image as ImageProps} from '../../../model/image';
+import type {ImageType} from '../../../model/image';
 import type {CaptionedImage as CaptionedImageProps} from '../../../model/captioned-image';
 import Caption from '../Caption/Caption';
 
 export type UiImageProps = {|
-  ...ImageProps,
+  ...ImageType,
   // TODO: Could this take a grid sizing object, and work out the queries
   // automatically?
   // Grid sizing object = {| ['s', 'm', 'l', 'xl']: number |}

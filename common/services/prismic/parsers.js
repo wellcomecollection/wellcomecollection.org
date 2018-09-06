@@ -3,7 +3,7 @@ import { RichText, Date as PrismicDate } from 'prismic-dom';
 import type { HTMLString, PrismicFragment } from './types';
 import type { Contributor, PersonContributor, OrganisationContributor } from '../../model/contributors';
 import type { Picture } from '../../model/picture';
-import type { Image as ImageType } from '../../model/image';
+import type { ImageType } from '../../model/image';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
 import type { Place } from '../../model/places';
