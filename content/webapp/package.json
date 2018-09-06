@@ -19,6 +19,7 @@
     "koa": "^2.5.0",
     "koa-router": "^7.4.0",
     "next": "^5.1.0",
+    "node-mocks-http": "^1.7.0",
     "node-sass": "^4.8.3",
     "nodemon": "^1.17.5",
     "postcss-easy-import": "^3.0.0",

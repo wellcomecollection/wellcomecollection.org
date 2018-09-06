@@ -7,12 +7,15 @@ import {PromoFactory} from '../model/promo';
 import {prismicAsText} from '../filters/prismic';
 import {
   getArticle, getSeriesAndArticles, getArticleList, getCuratedList,
-  defaultPageSize, getExhibitionAndEventPromos
+  defaultPageSize
 } from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {PaginationFactory} from '../model/pagination';
 import {getPage, getPageFromDrupalPath} from '../../common/services/prismic/pages';
-import {getExhibitionFromDrupalPath} from '../../common/services/prismic/exhibitions';
+import {
+  getExhibitionFromDrupalPath,
+  getExhibitions
+} from '../../common/services/prismic/exhibitions';
 import {getBook} from '../../common/services/prismic/books';
 import {getPlace} from '../../common/services/prismic/places';
 import {search} from '../../common/services/prismic/search';
@@ -22,6 +25,8 @@ import fetch from 'isomorphic-unfetch';
 import querystring from 'querystring';
 import {dailyTourPromo} from '../../server/data/facility-promos';
 import uuidv4 from 'uuid/v4';
+import {getEvents} from '../../common/services/prismic/events';
+import pharmacyOfColourData from '../../common/data/the-pharmacy-of-colour';
 
 export const renderOpeningTimes = async(ctx, next) => {
   const path = ctx.request.url;
@@ -64,9 +69,16 @@ export const renderOpeningTimes = async(ctx, next) => {
 
 export async function renderHomepage(ctx, next) {
   const path = ctx.request.url;
-  const exhibitionAndEventPromos = await getExhibitionAndEventPromos('this-week', ctx.intervalCache.get('collectionOpeningTimes'));
   const contentList = await getArticleList();
   const storiesPromos = contentList.results.map(PromoFactory.fromArticleStub).slice(0, 4);
+  const exhibitions = await getExhibitions(ctx.request, {
+    period: 'next-seven-days',
+    order: 'asc'
+  });
+  const events = await getEvents(ctx.request, {
+    period: 'next-seven-days',
+    order: 'asc'
+  });
 
   ctx.render('pages/homepage', {
     pageConfig: createPageConfig({
@@ -75,7 +87,9 @@ export async function renderHomepage(ctx, next) {
       inSection: 'index',
       canonicalUri: `${ctx.globals.rootDomain}`
     }),
-    exhibitionAndEventPromos: exhibitionAndEventPromos,
+    events,
+    exhibitions,
+    pharmacyOfColourData,
     storiesPromos,
     dailyTourPromo
   });
@@ -104,7 +118,7 @@ export const renderArticle = async(ctx, next) => {
         pageConfig: Object.assign({}, createPageConfig({
           path: path,
           title: article.headline,
-          inSection: 'explore',
+          inSection: 'stories',
           category: 'editorial',
           canonicalUri: `${ctx.globals.rootDomain}/articles/${id}`
         }), trackingInfo),
@@ -191,9 +205,9 @@ export async function renderExplore(ctx, next) {
     pageConfig: createPageConfig({
       path: path,
       title: prismicAsText(curatedList.data.title),
-      inSection: 'explore',
+      inSection: 'stories',
       category: 'editorial',
-      canonicalUri: `${ctx.globals.rootDomain}/explore`
+      canonicalUri: `${ctx.globals.rootDomain}/stories`
     }),
     promos: promos,
     articles: contentList.results,
@@ -227,7 +241,7 @@ export async function renderWebcomicSeries(ctx, next) {
       pageConfig: createPageConfig({
         path: path,
         title: series.name,
-        inSection: 'explore',
+        inSection: 'stories',
         category: 'editorial'
       }),
       description: series.description,
@@ -262,7 +276,7 @@ export async function renderSeries(ctx, next) {
       pageConfig: createPageConfig({
         path: path,
         title: series.name,
-        inSection: 'explore',
+        inSection: 'stories',
         category: 'editorial'
       }),
       description: series.description,
@@ -295,7 +309,7 @@ export async function renderArticlesList(ctx, next) {
     pageConfig: createPageConfig({
       path: path,
       title: 'Articles',
-      inSection: 'explore',
+      inSection: 'stories',
       category: 'editorial'
     }),
     list: promoList,

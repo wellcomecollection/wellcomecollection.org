@@ -84,9 +84,9 @@ const navLinks = [{
   title: 'What\'s on',
   siteSection: 'whatson'
 }, {
-  href: '/explore',
+  href: '/stories',
   title: 'Stories',
-  siteSection: 'explore'
+  siteSection: 'stories'
 }, {
   href: '/works',
   title: 'Images',

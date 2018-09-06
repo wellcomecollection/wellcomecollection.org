@@ -18,6 +18,13 @@
         ]
       }
     },
+    "summary": {
+      "type": "StructuredText",
+      "config": {
+        "multi": "paragraph,hyperlink,strong,em",
+        "label": "Summary"
+      }
+    },
     "body": {
       "fieldset": "Body content",
       "type": "Slices",
@@ -336,30 +343,6 @@
               }
             }
           },
-          "list": {
-            "type": "Slice",
-            "fieldset": "List",
-            "non-repeat": {
-              "description": {
-                "type": "StructuredText",
-                "config": {
-                  "label": "Description",
-                  "single": "strong, em, hyperlink",
-                  "placeholder": "Description"
-                }
-              }
-            },
-            "repeat": {
-              "listItem": {
-                "type": "StructuredText",
-                "config": {
-                  "label": "Item",
-                  "single": "strong, em, hyperlink",
-                  "placeholder": "Item"
-                }
-              }
-            }
-          },
           "embed": {
             "type": "Slice",
             "fieldset": "Embed",
@@ -429,38 +412,6 @@
                 "fieldset": "Twitter embed"
               }
             }
-          },
-          "quote": {
-            "type": "Slice",
-            "fieldset": "(Deprecated) Quote",
-            "non-repeat": {
-              "quote": {
-                "type": "StructuredText",
-                "config": {
-                  "label": "Quote",
-                  "multi": "hyperlink, bold, em"
-                }
-              },
-              "source": {
-                "type": "Text",
-                "config": {
-                  "label": "Source"
-                }
-              },
-              "citation": {
-                "type": "Text",
-                "config": {
-                  "label": "Citation"
-                }
-              },
-              "citationLink": {
-                "type": "Link",
-                "config": {
-                  "select": "web",
-                  "label": "Citation link"
-                }
-              }
-            }
           }
         }
       }
@@ -523,41 +474,46 @@
   },
   "Contributors": {
     "contributors": {
-      "type": "Slices",
+      "type": "Group",
       "fieldset": "Contributors",
       "config": {
-        "choices": {
-          "person": {
-            "type": "Slice",
-            "fieldset": "Person",
-            "non-repeat": {
-              "role": {
-                "type": "Link",
-                "config": {
-                  "label": "Role",
-                  "select": "document",
-                  "customtypes": [
-                    "editorial-contributor-roles"
-                  ],
-                  "tags": [
-                    "editorial"
-                  ]
-                }
-              },
-              "person": {
-                "type": "Link",
-                "config": {
-                  "label": "Person",
-                  "select": "document",
-                  "customtypes": [
-                    "people"
-                  ],
-                  "placeholder": "Select a person…"
-                }
-              }
+        "fields": {
+          "role": {
+            "type": "Link",
+            "config": {
+              "label": "Role",
+              "select": "document",
+              "customtypes": [
+                "editorial-contributor-roles"
+              ]
+            }
+          },
+          "contributor": {
+            "type": "Link",
+            "config": {
+              "label": "Contributor",
+              "select": "document",
+              "customtypes": [
+                "people",
+                "organisations"
+              ]
+            }
+          },
+          "description": {
+            "type": "StructuredText",
+            "config": {
+              "multi": "paragraph,hyperlink,strong,em",
+              "label": "Contributor description override"
             }
           }
         }
+      }
+    },
+    "contributorsTitle": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Contributors heading override",
+        "single": "heading1"
       }
     }
   },
@@ -599,6 +555,44 @@
         "label": "Wordpress slug"
       },
       "type": "Text"
+    },
+    "contributorsDeprecated": {
+      "type": "Slices",
+      "fieldset": "Contributors",
+      "config": {
+        "choices": {
+          "person": {
+            "type": "Slice",
+            "fieldset": "Person",
+            "non-repeat": {
+              "role": {
+                "type": "Link",
+                "config": {
+                  "label": "Role",
+                  "select": "document",
+                  "customtypes": [
+                    "editorial-contributor-roles"
+                  ],
+                  "tags": [
+                    "editorial"
+                  ]
+                }
+              },
+              "person": {
+                "type": "Link",
+                "config": {
+                  "label": "Person",
+                  "select": "document",
+                  "customtypes": [
+                    "people"
+                  ],
+                  "placeholder": "Select a person…"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

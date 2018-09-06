@@ -268,30 +268,6 @@ export default {
           }
         }
       },
-      'list': {
-        'type': 'Slice',
-        'fieldset': 'List',
-        'non-repeat': {
-          'description': {
-            'type': 'StructuredText',
-            'config': {
-              'label': 'Description',
-              'single': 'strong, em, hyperlink',
-              'placeholder': 'Description'
-            }
-          }
-        },
-        'repeat': {
-          'listItem': {
-            'type': 'StructuredText',
-            'config': {
-              'label': 'Item',
-              'single': 'strong, em, hyperlink',
-              'placeholder': 'Item'
-            }
-          }
-        }
-      },
       'embed': {
         'type': 'Slice',
         'fieldset': 'Embed',
@@ -359,38 +335,6 @@ export default {
           'embed': {
             'type': 'Embed',
             'fieldset': 'Twitter embed'
-          }
-        }
-      },
-      'quote': {
-        'type': 'Slice',
-        'fieldset': '(Deprecated) Quote',
-        'non-repeat': {
-          'quote': {
-            'type': 'StructuredText',
-            'config': {
-              'label': 'Quote',
-              'multi': 'hyperlink, bold, em'
-            }
-          },
-          'source': {
-            'type': 'Text',
-            'config': {
-              'label': 'Source'
-            }
-          },
-          'citation': {
-            'type': 'Text',
-            'config': {
-              'label': 'Citation'
-            }
-          },
-          'citationLink': {
-            'type': 'Link',
-            'config': {
-              'select': 'web',
-              'label': 'Citation link'
-            }
           }
         }
       }

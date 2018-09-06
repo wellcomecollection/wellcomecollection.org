@@ -176,7 +176,7 @@ class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
           clickHandler={this.handleViewerDisplay}
           zoomable={this.state.viewButtonMounted}
           defaultSize={800}
-          extraClasses='margin-h-auto width-auto full-height full-max-width' />
+          extraClasses='margin-h-auto width-auto full-height full-max-width block' />
         <Transition in={this.state.mountViewButton} timeout={700}>
           {
             (status) => {

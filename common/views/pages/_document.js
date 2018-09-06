@@ -15,7 +15,8 @@ export default function WeDoc(css: string) {
       const polyfillFeatures = [
         'default',
         'Array.prototype.find',
-        'Array.prototype.includes'
+        'Array.prototype.includes',
+        'WeakMap'
       ];
       return (
         <html id='top' lang='en'>

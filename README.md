@@ -21,10 +21,10 @@ Giving people the ability to partake in or inform themselves on
 Wellcome Collection's events, exhibitions, talks,
 discussions, and more. [`code`](./whats_on).
 
-### [Content](https://wellcomecollection.org/explore)
+### [Content](https://wellcomecollection.org/content)
 A collection of content from a wide range of authors to challenge the
 ways people think and feel about health by connecting science, medicine,
-life and art [`code`](./server).
+life and art [`code`](./content).
 
 ### [Catalogue](https://wellcomecollection.org/works)
 Tools to allow people to browse and dig deeper into our catalogue.
