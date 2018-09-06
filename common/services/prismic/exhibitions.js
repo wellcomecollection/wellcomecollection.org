@@ -84,7 +84,16 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const promos = drupalPromoImage ? [{
     contentUrl: drupalPromoImage.image.contentUrl,
     width: drupalPromoImage.image.width,
-    height: drupalPromoImage.image.height
+    height: drupalPromoImage.image.height,
+    alt: '',
+    minWidth: null,
+    tasl: { title: null,
+      author: null,
+      sourceName: null,
+      sourceLink: null,
+      license: null,
+      copyrightHolder: null,
+      copyrightLink: null }
   }] : [promoThin, promoSquare].filter(Boolean).map(p => p.image).filter(Boolean);
   const promoList = document.data.promoList || [];
 

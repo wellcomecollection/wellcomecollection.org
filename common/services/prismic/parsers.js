@@ -3,7 +3,7 @@ import { RichText, Date as PrismicDate } from 'prismic-dom';
 import type { HTMLString, PrismicFragment } from './types';
 import type { Contributor, PersonContributor, OrganisationContributor } from '../../model/contributors';
 import type { Picture } from '../../model/picture';
-import type { Image } from '../../model/image';
+import type { Image as ImageType } from '../../model/image';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
 import type { Place } from '../../model/places';
@@ -91,35 +91,25 @@ export function parseTimestamp(frag: PrismicFragment): Date {
 const placeholderImage = 'https://via.placeholder.com/160x90?text=placeholder';
 export function parsePicture(captionedImage: Object, minWidth: ?string = null): Picture {
   const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
-  const tasl = image && parseTaslFromString(image.copyright);
+  const imageCopyright = image ? image.copyright : '';
+  const tasl = parseTaslFromString(imageCopyright);
 
   return ({
     contentUrl: (image && image.url) || placeholderImage,
     width: (image && image.dimensions && image.dimensions.width) || 160,
     height: (image && image.dimensions && image.dimensions.height) || 90,
-    caption: captionedImage.caption && asHtml(captionedImage.caption),
-    alt: image && image.alt,
-    title: tasl && tasl.title,
-    author: tasl && tasl.author,
-    source: {
-      name: tasl && tasl.sourceName,
-      link: tasl && tasl.sourceLink
-    },
-    license: tasl && tasl.license,
-    copyright: {
-      holder: tasl && tasl.copyrightHolder,
-      link: tasl && tasl.copyrightLink
-    },
+    alt: (image && image.alt) || '',
+    tasl: tasl,
     minWidth
   }: Picture);
 }
 
-export function checkAndParseImage(frag: ?PrismicFragment): ?Image {
+export function checkAndParseImage(frag: ?PrismicFragment): ?ImageType {
   return frag && (isImageLink(frag) ? parseImage(frag) : null);
 }
 
 // We don't export this, as we probably always want to check ^ first
-function parseImage(frag: PrismicFragment): Image {
+function parseImage(frag: PrismicFragment): ImageType {
   const tasl = parseTaslFromString(frag.copyright);
   return {
     contentUrl: frag.url,
@@ -507,6 +497,19 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
   const {data} = doc;
   const promo = data.promo && parseImagePromo(data.promo);
   const contributors = data.contributors && data.contributors.filter(c => !isEmptyDocLink(c.contributor));
+
+  const promoImages = data.promo && data.promo.length > 0 ? data.promo
+    .filter(slice => slice.primary.image)
+    .map(({primary: {image}}) => {
+      const originalImage = parseImage(image);
+      const squareImage = image.square && parseImage(image.square);
+      const widescreenImage = image['16:9'] && parseImage(image['16:9']);
+      const thinImage = image['32:15'] && parseImage(image['32:15']);
+
+      return {image: originalImage, squareImage, widescreenImage, thinImage};
+    }).find(_ => _) : {}; // just get the first one;
+
+  const {image, squareImage, widescreenImage, thinImage} = promoImages;
   return {
     id: doc.id,
     title: parseTitle(data.title),
@@ -515,6 +518,10 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
     body: data.body ? parseBody(data.body) : [],
     promo: promo,
     promoText: promo && promo.caption,
-    promoImage: promo && promo.image
+    promoImage: promo && promo.image,
+    image,
+    squareImage,
+    widescreenImage,
+    thinImage
   };
 }

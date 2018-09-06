@@ -12,16 +12,7 @@ type Props = {|
 
 const Picture = ({ images, extraClasses, isFull = false }: Props) => {
   const lastImage = images[images.length - 1];
-  const { title, author, license, copyright, source } = lastImage;
-  const tasl = {
-    title,
-    author,
-    license,
-    copyrightHolder: copyright && copyright.holder,
-    copyrightLink: copyright && copyright.link,
-    sourceName: source && source.name,
-    sourceLink: source && source.link
-  };
+  const { tasl } = lastImage;
 
   return (
     <figure className='relative no-margin'>
