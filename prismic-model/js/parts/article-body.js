@@ -61,53 +61,8 @@ export default {
           }
         }
       },
-      'editorialImage': {
-        'type': 'Slice',
-        'fieldset': 'Editorial image',
-        'non-repeat': {
-          'caption': {
-            'type': 'StructuredText',
-            'config': {
-              'single': 'hyperlink, bold, em',
-              'label': 'Caption'
-            }
-          },
-          'image': {
-            'type': 'Image',
-            'config': {
-              'label': 'Image'
-            }
-          }
-        }
-      },
-      'editorialImageGallery': {
-        'type': 'Slice',
-        'fieldset': 'Editorial image gallery',
-        'non-repeat': {
-          'title': {
-            'type': 'StructuredText',
-            'config': {
-              'label': 'title',
-              'single': 'heading1'
-            }
-          }
-        },
-        'repeat': {
-          'caption': {
-            'type': 'StructuredText',
-            'config': {
-              'label': 'Caption',
-              'single': 'hyperlink, bold, em'
-            }
-          },
-          'image': {
-            'type': 'Image',
-            'config': {
-              'label': 'Image'
-            }
-          }
-        }
-      },
+      'editorialImage': body.config.choices.editorialImage,
+      'editorialImageGallery': body.config.choices.editorialImageGallery,
       'gifVideo': {
         'type': 'Slice',
         'fieldset': 'Gif video',
