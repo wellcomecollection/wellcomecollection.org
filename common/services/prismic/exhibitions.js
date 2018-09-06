@@ -77,14 +77,24 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
         license: null,
         copyrightHolder: null,
         copyrightLink: null
-      }
+      },
+      crops: []
     }
   } : null;
 
   const promos = drupalPromoImage ? [{
     contentUrl: drupalPromoImage.image.contentUrl,
     width: drupalPromoImage.image.width,
-    height: drupalPromoImage.image.height
+    height: drupalPromoImage.image.height,
+    alt: '',
+    minWidth: null,
+    tasl: { title: null,
+      author: null,
+      sourceName: null,
+      sourceLink: null,
+      license: null,
+      copyrightHolder: null,
+      copyrightLink: null }
   }] : [promoThin, promoSquare].filter(Boolean).map(p => p.image).filter(Boolean);
   const promoList = document.data.promoList || [];
 
@@ -123,6 +133,8 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       url,
       title,
       image: promoImage.image,
+      squareImage: promoSquare && promoSquare.image,
+      thinImage: promoThin && promoThin.image,
       description: (promoThin && promoThin.caption) || '',
       start,
       end,

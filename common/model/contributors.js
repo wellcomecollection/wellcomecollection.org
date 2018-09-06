@@ -1,13 +1,13 @@
 // @flow
 import type {Person} from './people';
 import type {HTMLString} from '../services/prismic/types';
-import type {Image as ImageProps} from './image';
+import type {ImageType} from './image';
 import type {SameAs} from './same-as';
 
 export type Organisation = {|
   id: string,
   name: string,
-  image: ImageProps,
+  image: ImageType,
   description?: HTMLString,
   url: ?string,
   sameAs: SameAs

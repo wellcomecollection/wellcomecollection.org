@@ -28,7 +28,7 @@ const Body = ({ body }: Props) => {
   return (
     <div className='basic-body'>
       {body.map((slice, i) =>
-        <div className={`body-part ${spacing({s: 4}, {margin: ['top']})}`} key={`slice${i}`}>
+        <div className={`body-part ${spacing({s: 6}, {margin: ['top']})}`} key={`slice${i}`}>
           {slice.type === 'text' &&
             <div className='body-text'>
               {slice.weight === 'featured' && <FeaturedText html={slice.value} />}

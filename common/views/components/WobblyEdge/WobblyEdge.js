@@ -37,7 +37,7 @@ class WobblyEdge extends React.Component<Props, State> {
     };
   }
 
-  handleScroll = debounce(() => {
+  updatePoints = debounce(() => {
     if (!this.state.isActive) {
       this.setState({
         styleObject: prefixedPropertyStyleObject('clipPath', this.makePolygonPoints(this.points, this.intensity)),
@@ -60,11 +60,12 @@ class WobblyEdge extends React.Component<Props, State> {
   componentDidMount() {
     if (this.props.isStatic) return;
 
-    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('scroll', this.updatePoints);
+    this.updatePoints();
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('scroll', this.updatePoints);
   }
 
   makePolygonPoints(totalPoints: number, intensity: number): string {

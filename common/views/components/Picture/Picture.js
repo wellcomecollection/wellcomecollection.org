@@ -14,6 +14,8 @@ type Props = {|
 // Deprecated: Use `PictureFromImages`. We're deprecating the Picture type.
 const Picture = ({ images, extraClasses, isFull = false }: Props) => {
   const lastImage = images[images.length - 1];
+  const { tasl } = lastImage;
+
   return (
     <figure className='relative no-margin'>
       <picture className={extraClasses || ''}>
@@ -25,7 +27,7 @@ const Picture = ({ images, extraClasses, isFull = false }: Props) => {
                 key={image.contentUrl}
                 media={image.minWidth ? `(min-width: ${image.minWidth})` : ''}
                 sizes='100vw'
-                data-srcset={sizes.map(size => {
+                srcSet={sizes.map(size => {
                   return image.contentUrl && `${convertImageUri(image.contentUrl, size, false)} ${size}w`;
                 })} />
             );
@@ -33,24 +35,11 @@ const Picture = ({ images, extraClasses, isFull = false }: Props) => {
         })}
 
         {lastImage && lastImage.contentUrl && lastImage.width && <img
-          height={lastImage.height}
-          width={lastImage.width}
-          className='image lazy-image lazyload'
-          data-src={convertImageUri(lastImage.contentUrl, lastImage.width, false)}
+          className='image block'
+          src={convertImageUri(lastImage.contentUrl, lastImage.width, false)}
           alt={lastImage.alt} />}
       </picture>
-      {lastImage && <Tasl
-        // TODO: Maybe fill with placeholder so the content team can see it?
-        contentUrl={lastImage.contentUrl || ''}
-        title={lastImage.title}
-        author={lastImage.author}
-        sourceName={lastImage.source && lastImage.source.name}
-        sourceLink={lastImage.source && lastImage.source.link}
-        license={lastImage.license}
-        copyrightHolder={lastImage.copyright && lastImage.copyright.holder}
-        copyrightLink={lastImage.copyright && lastImage.copyright.link}
-        isFull={isFull}
-      />}
+      {tasl && <Tasl {...tasl} isFull={isFull} />}
     </figure>
   );
 };
