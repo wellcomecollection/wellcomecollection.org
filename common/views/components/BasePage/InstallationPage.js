@@ -30,7 +30,8 @@ const InstallationPage = ({
     promoText: installation.promoText,
     image: installation.image,
     squareImage: installation.squareImage,
-    widescreenImage: installation.widescreenImage
+    widescreenImage: installation.widescreenImage,
+    thinImage: installation.thinImage
   });
   const Header = (<BaseHeader
     title={installation.title}

@@ -511,14 +511,17 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
   const promoImages = data.promo && data.promo.length > 0 ? data.promo
     .filter(slice => slice.primary.image)
     .map(({primary: {image}}) => {
-      const original = parseImage(image);
-      const square = image.square && parseImage(image.square);
-      const widescreen = image['16:9'] && parseImage(image['16:9']);
+      const originalImage = parseImage(image);
+      const squareImage = image.square && parseImage(image.square);
+      const widescreenImage = image['16:9'] && parseImage(image['16:9']);
+      const thinImage = image['32:15'] && parseImage(image['32:15']);
 
-      return {original, square, widescreen};
+      return {image: originalImage, squareImage, widescreenImage, thinImage};
     }).find(_ => _) : {}; // just get the first one;
 
-  const {image, squareImage, widescreenImage} = promoImages;
+  const {image, squareImage, widescreenImage, thinImage} = promoImages;
+
+  console.info(image, squareImage, widescreenImage, thinImage);
   return {
     id: doc.id,
     title: parseTitle(data.title),
@@ -528,8 +531,9 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
     promo: promo,
     promoText: promo && promo.caption,
     promoImage: promo && promo.image,
-    image: image,
+    image,
     squareImage,
-    widescreenImage
+    widescreenImage,
+    thinImage
   };
 }
