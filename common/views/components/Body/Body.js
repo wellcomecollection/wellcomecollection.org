@@ -2,14 +2,14 @@
 // TODO: Sync up types with the body slices and the components they return
 import {spacing} from '../../../utils/classnames';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
-import {CaptionedImage} from '../Images/Images';
+import {CaptionedImage, UiImage} from '../Images/Images';
 import Quote from '../Quote/Quote';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Map from '../Map/Map';
-import ImageWithWobblyBottom from '../ImageWithWobblyBottom/ImageWithWobblyBottom';
+import WobblyBottom from '../WobblyBottom/WobblyBottom';
 
 import type {Weight} from '../../../services/prismic/parsers';
 
@@ -36,8 +36,19 @@ const Body = ({ body }: Props) => {
               {slice.weight !== 'featured' && <PrismicHtmlBlock html={slice.value} />}
             </div>
           }
-          {slice.type === 'picture' && slice.weight === 'featured' &&
-            <ImageWithWobblyBottom {...slice.value} />
+          {/*
+            not all featured image slices have their crops as they were only
+            added in later.
+          */}
+          {slice.type === 'picture' && slice.weight === 'featured' && slice.value.image.crops.square &&
+            <WobblyBottom>
+              <UiImage {...slice.value.image} isFull={true} />
+            </WobblyBottom>
+          }
+          {slice.type === 'picture' && slice.weight === 'featured' && !slice.value.image.crops.square &&
+            <WobblyBottom>
+              <UiImage {...slice.value.image} isFull={true} />
+            </WobblyBottom>
           }
           {slice.type === 'picture' && slice.weight !== 'featured' &&
             <CaptionedImage {...slice.value} sizesQueries={''} />

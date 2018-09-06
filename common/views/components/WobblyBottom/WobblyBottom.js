@@ -1,18 +1,18 @@
 // @flow
 import {Fragment} from 'react';
-import {UiImage} from '../Images/Images';
+import type {Node} from 'react';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
-import type {UiImageProps} from '../Images/Images';
+
 type Props = {|
-  image: UiImageProps
+  children: Node
 |}
 
 const ImageWithWobblyBottom = ({
-  image
+  children
 }: Props) => (
   <div className='relative'>
     <Fragment>
-      <UiImage {...image} isFull={true} />
+      {children}
       <WobblyEdge background={'cream'} />
     </Fragment>
   </div>
