@@ -52,41 +52,47 @@ export const ExhibitionPage = ({
     topLink={null}
   />);
 
-  const infoItems = [(exhibition.place && {
-    title: null,
-    description: exhibition.place.information,
-    icon: 'location'
-  }),
-  {
+  const infoItems = [{
     title: null,
     description: [{
       type: 'paragraph',
-      text: 'Step-free access is available to all floors of the building',
+      text: 'Free admission',
       spans: []
     }],
-    icon: 'a11y'
+    icon: 'ticket'
   },
-  {
-    title: null,
-    description: [{
-      type: 'paragraph',
-      text: 'Large print guides, transcripts and magnifiers are available in the gallery',
-      spans: []
-    }],
-    icon: 'a11yVisual'
-  }].filter(Boolean);
-
-  if (exhibition.id === 'WgV_ACUAAIu2P_ZM') {
-    infoItems.push({
+    (exhibition.place && {
+      title: null,
+      description: exhibition.place.information,
+      icon: 'location'
+    }),
+    ((exhibition.id === 'WgV_ACUAAIu2P_ZM') ? {
       title: null,
       description: [{
         type: 'paragraph',
         text: 'A family activity pack is available in the gallery',
         spans: []
       }],
-      icon: 'information'
-    });
-  }
+      icon: 'family'
+    } : null),
+    {
+      title: null,
+      description: [{
+        type: 'paragraph',
+        text: 'Step-free access is available to all floors of the building',
+        spans: []
+      }],
+      icon: 'a11y'
+    },
+    {
+      title: null,
+      description: [{
+        type: 'paragraph',
+        text: 'Large-print guides, transcripts and magnifiers are available in the gallery',
+        spans: []
+      }],
+      icon: 'a11yVisual'
+    }].filter(Boolean);
 
   return (
     <BasePage
@@ -102,7 +108,7 @@ export const ExhibitionPage = ({
         }
         <InfoBox title='Visit us' items={infoItems}>
           <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
-            <a href='/access'>Find out more about acessibility</a>
+            <a href='/access'>Accessibility at Wellcome</a>
           </p>
         </InfoBox>
       </Fragment>
