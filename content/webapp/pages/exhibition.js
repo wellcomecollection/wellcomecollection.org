@@ -63,7 +63,11 @@ export const ExhibitionPage = ({
   },
     (exhibition.place && {
       title: null,
-      description: exhibition.place.information,
+      description: [{
+        type: 'paragraph',
+        text: `${exhibition.place.title}, Level ${exhibition.place.level}`,
+        spans: []
+      }],
       icon: 'location'
     }),
     ((exhibition.id === 'WgV_ACUAAIu2P_ZM') ? {
