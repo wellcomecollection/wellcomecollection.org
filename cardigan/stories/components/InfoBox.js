@@ -6,7 +6,7 @@ import {font} from '../../../common/utils/classnames';
 
 const InfoBoxExample = () => {
   const title = text('Title', 'Visit us');
-  const hasMoreInfoLink = boolean('Has more info. link', true);
+  const hasMoreInfoLink = boolean('Has more information link', true);
 
   return <InfoBox title={title.length > 0 ? title : null} items={[
     {
