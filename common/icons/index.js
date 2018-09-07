@@ -11,6 +11,7 @@ import chevron from './chevron';
 import clock from './clock';
 import cross from './cross';
 import email from './email';
+import family from './family';
 import image from './image';
 import lifts from './lifts';
 import location from './location';
@@ -56,6 +57,7 @@ export {
   clock,
   cross,
   email,
+  family,
   image,
   lifts,
   location,
