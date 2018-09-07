@@ -9,10 +9,12 @@ import LabelsList from '../../../common/views/components/LabelsList/LabelsList';
 import DateRange from '../../../common/views/components/DateRange/DateRange';
 import BaseHeader from '../../../common/views/components/BaseHeader/BaseHeader';
 import Tags from '../../../common/views/components/Tags/Tags';
-import {image, videoEmbed} from '../content';
+import {image, videoEmbed, pictureImages} from '../content';
+import ExhibitionHeader from '../../../common/views/components/BaseHeader/ExhibitionHeader';
+import Picture from '../../../common/views/components/Picture/Picture';
 
 const stories = storiesOf('Components', module).addDecorator(withKnobs);
-const Header = () => {
+export const Base = () => {
   const title = text('Title', 'Some sort of title');
   const description = text('Description', 'Some sort of description');
   const Image = UiImage(image());
@@ -59,7 +61,23 @@ const Header = () => {
   );
 };
 
-stories
-  .add('BaseHeader', Header);
+const Exhibition = () => {
+  const title = text('Title', 'Some sort of title');
+  const DateInfo = <DateRange start={new Date()} end={new Date()} />;
+  const InfoBar = <StatusIndicator start={new Date()} end={new Date()} />;
+  const hasDateInfo = boolean('Has date info?', true);
+  const hasInfoBar = boolean('Has info bar?', true);
 
-export default Header();
+  return (
+    <ExhibitionHeader
+      title={title}
+      FeaturedMedia={<Picture images={pictureImages} isFull={true} />}
+      DateInfo={hasDateInfo ? DateInfo : null}
+      InfoBar={hasInfoBar ? InfoBar : null}
+    />
+  );
+};
+
+stories
+  .add('Headers: Base', Base)
+  .add('Headers: Exhibition', Exhibition);

@@ -40,6 +40,6 @@ const CompactCardExample = () => <CompactCard
 
 const stories = storiesOf('Components', module);
 stories
-  .add('Cards: Featured card', FeaturedCardExample, {info: FeaturedCardReadme})
-  .add('Cards: Card', CardExample, {info: CardReadme})
-  .add('Cards: Compact card', CompactCardExample, {info: CompactCardReadme});
+  .add('Cards: Featured', FeaturedCardExample, {info: FeaturedCardReadme})
+  .add('Cards: Default', CardExample, {info: CardReadme})
+  .add('Cards: Compact', CompactCardExample, {info: CompactCardReadme});

@@ -54,7 +54,7 @@ setOptions({
   url: 'https://cardigan.wellcomecollection.org',
   addonPanelInRight: true,
   hierarchySeparator: /\//,
-  sortStoriesByKind: true
+  sortStoriesByKind: false
 });
 
 configure(loadStories, module);

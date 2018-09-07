@@ -186,7 +186,7 @@ const stories = storiesOf('Components', module);
 
 stories
   .add('Promos', () => <div></div>, {info: PromoReadme})
-  .add('Promos: Editorial promo', EditorialPromoExample, {info: EditorialPromoReadme})
-  .add('Promos: Event promo', EventPromoExample, {info: EventPromoReadme})
-  .add('Promos: Exhibition promo', ExhibitionPromoExample, {info: ExhibitionPromoReadme})
-  .add('Promos: Work promo', WorkPromoExample, {info: WorkPromoReadme});
+  .add('Promos: Editorial', EditorialPromoExample, {info: EditorialPromoReadme})
+  .add('Promos: Event', EventPromoExample, {info: EventPromoReadme})
+  .add('Promos: Exhibition', ExhibitionPromoExample, {info: ExhibitionPromoReadme})
+  .add('Promos: Work', WorkPromoExample, {info: WorkPromoReadme});
