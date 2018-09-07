@@ -1,5 +1,6 @@
 import { storiesOf } from '@storybook/react';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
+import ExhibitionHeaderReadme from '../../../common/views/components/BaseHeader/ExhibitionHeaderReadme.md';
 
 import VideoEmbed from '../../../common/views/components/VideoEmbed/VideoEmbed';
 import {UiImage} from '../../../common/views/components/Images/Images';
@@ -62,22 +63,23 @@ export const Base = () => {
 };
 
 const Exhibition = () => {
-  const title = text('Title', 'Some sort of title');
-  const DateInfo = <DateRange start={new Date()} end={new Date()} />;
-  const InfoBar = <StatusIndicator start={new Date()} end={new Date()} />;
-  const hasDateInfo = boolean('Has date info?', true);
-  const hasInfoBar = boolean('Has info bar?', true);
+  const title = text('Title', 'Teeth');
+  const now = new Date();
+  const threeMonthsAgo = new Date(now.getTime() - (60 * 60 * 24 * 90 * 1000));
+  const threeWeeksFromNow = new Date(now.getTime() + (60 * 60 * 24 * 21 * 1000));
+  const DateInfo = <DateRange start={threeMonthsAgo} end={threeWeeksFromNow} />;
 
   return (
     <ExhibitionHeader
+      topLink={{url: '/', text: 'Exhibitions'}}
       title={title}
       FeaturedMedia={<Picture images={pictureImages} isFull={true} />}
-      DateInfo={hasDateInfo ? DateInfo : null}
-      InfoBar={hasInfoBar ? InfoBar : null}
+      DateInfo={DateInfo}
+      InfoBar={<StatusIndicator start={threeMonthsAgo} end={threeWeeksFromNow} />}
     />
   );
 };
 
 stories
   .add('Headers: Base', Base)
-  .add('Headers: Exhibition', Exhibition);
+  .add('Headers: Exhibition', Exhibition, {info: ExhibitionHeaderReadme});
