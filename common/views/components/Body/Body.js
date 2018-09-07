@@ -9,7 +9,7 @@ import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Map from '../Map/Map';
-
+import {BasePageColumn} from '../BasePage/BasePage';
 import type {Weight} from '../../../services/prismic/parsers';
 
 type BodySlice = {|
@@ -30,24 +30,52 @@ const Body = ({ body }: Props) => {
       {body.map((slice, i) =>
         <div className={`body-part ${spacing({s: 6}, {margin: ['top']})}`} key={`slice${i}`}>
           {slice.type === 'text' &&
-            <div className='body-text'>
-              {slice.weight === 'featured' && <FeaturedText html={slice.value} />}
-              {slice.weight !== 'featured' && <PrismicHtmlBlock html={slice.value} />}
-            </div>
+            <BasePageColumn>
+              <div className='body-text'>
+                {slice.weight === 'featured' && <FeaturedText html={slice.value} />}
+                {slice.weight !== 'featured' && <PrismicHtmlBlock html={slice.value} />}
+              </div>
+            </BasePageColumn>
           }
           {slice.type === 'picture' &&
-            <CaptionedImage {...slice.value} sizesQueries={''} />
+            <BasePageColumn>
+              <CaptionedImage {...slice.value} sizesQueries={''} />
+            </BasePageColumn>
           }
-          {slice.type === 'imageGallery' && <ImageGallery {...slice.value} />}
-          {slice.type === 'quote' && <Quote {...slice.value} />}
+          {slice.type === 'imageGallery' &&
+            <BasePageColumn>
+              <ImageGallery {...slice.value} />
+            </BasePageColumn>
+          }
+          {slice.type === 'quote' &&
+            <BasePageColumn>
+              <Quote {...slice.value} />
+            </BasePageColumn>
+          }
+
           {slice.type === 'contentList' &&
-            <AsyncSearchResults
-              title={slice.value.title}
-              query={slice.value.items.map(({id}) => `id:${id}`).join(' ')}
-            />}
-          {slice.type === 'searchResults' && <AsyncSearchResults {...slice.value} />}
-          {slice.type === 'videoEmbed' && <VideoEmbed {...slice.value} />}
-          {slice.type === 'map' && <Map {...slice.value} />}
+            <BasePageColumn>
+              <AsyncSearchResults
+                title={slice.value.title}
+                query={slice.value.items.map(({id}) => `id:${id}`).join(' ')}
+              />
+            </BasePageColumn>
+          }
+          {slice.type === 'searchResults' &&
+            <BasePageColumn>
+              <AsyncSearchResults {...slice.value} />
+            </BasePageColumn>
+          }
+          {slice.type === 'videoEmbed' &&
+            <BasePageColumn>
+              <VideoEmbed {...slice.value} />
+            </BasePageColumn>
+          }
+          {slice.type === 'map' &&
+            <BasePageColumn>
+              <Map {...slice.value} />
+            </BasePageColumn>
+          }
         </div>
       )}
     </div>
