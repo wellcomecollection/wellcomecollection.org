@@ -86,6 +86,11 @@ const Exhibitions = {
       }
     }
   },
+  Resources: {
+    resources: list('Resources', {
+      resource: link('Resource', 'document', ['exhibition-resources'])
+    })
+  },
   Migration: {
     drupalPromoImage: link('Drupal promo image', 'web'),
     drupalNid: text('Drupal node ID'),
