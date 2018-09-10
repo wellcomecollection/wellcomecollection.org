@@ -31,11 +31,9 @@ const BasePage = ({
   return (
     <article data-wio-id={id}>
       <Fragment>{Header}</Fragment>
-      <BasePageColumn>
-        <div className='basic-page'>
-          <Fragment>{Body}</Fragment>
-        </div>
-      </BasePageColumn>
+      <div className='basic-page'>
+        <Fragment>{Body}</Fragment>
+      </div>
 
       {children &&
         <BasePageColumn>
