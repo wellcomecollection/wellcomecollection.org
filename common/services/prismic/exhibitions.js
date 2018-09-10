@@ -133,7 +133,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     galleryLevel: document.data.galleryLevel,
     textAndCaptionsDocument: textAndCaptionsDocument,
     featuredImageList: promos,
-    resources: Array.isArray(data.resources) ? parseResourceTypeList(data.resources, 'resource') : [],
+    resources: Array.isArray(data.resources) ? parseResourceTypeList(data.resources.map(Boolean), 'resource') : [],
     relatedBooks: promoList.filter(x => x.type === 'book').map(parsePromoListItem),
     relatedEvents: promoList.filter(x => x.type === 'event').map(parsePromoListItem),
     relatedGalleries: promoList.filter(x => x.type === 'gallery').map(parsePromoListItem),
