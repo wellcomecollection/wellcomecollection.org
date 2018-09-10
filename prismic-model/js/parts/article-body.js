@@ -130,62 +130,6 @@ export default {
           }
         }
       },
-      'imageList': {
-        'type': 'Slice',
-        'fieldset': 'Image list',
-        'non-repeat': {
-          'listStyle': {
-            'type': 'Select',
-            'config': {
-              'options': [ 'numeric' ],
-              'label': 'List style'
-            }
-          },
-          'description': {
-            'type': 'StructuredText',
-            'config': {
-              'multi': 'paragraph, hyperlink, bold, em',
-              'label': 'Description'
-            }
-          }
-        },
-        'repeat': {
-          'title': {
-            'type': 'StructuredText',
-            'config': {
-              'label': 'Title',
-              'single': 'heading1'
-            }
-          },
-          'subtitle': {
-            'type': 'StructuredText',
-            'config': {
-              'single': 'heading2',
-              'label': 'Subtitle'
-            }
-          },
-          'image': {
-            'type': 'Image',
-            'config': {
-              'label': 'Image'
-            }
-          },
-          'caption': {
-            'type': 'StructuredText',
-            'config': {
-              'label': 'Caption',
-              'single': 'strong, em, hyperlink'
-            }
-          },
-          'description': {
-            'type': 'StructuredText',
-            'config': {
-              'label': 'Description',
-              'multi': 'paragraph, hyperlink, bold, em'
-            }
-          }
-        }
-      },
       'quoteV2': body.config.choices.quote,
       'excerpt': {
         'type': 'Slice',
@@ -290,6 +234,62 @@ export default {
           'embed': {
             'type': 'Embed',
             'fieldset': 'Twitter embed'
+          }
+        }
+      },
+      'imageList': {
+        'type': 'Slice',
+        'fieldset': '[Deprecated] Image list (please use captioned image or image gallery)',
+        'non-repeat': {
+          'listStyle': {
+            'type': 'Select',
+            'config': {
+              'options': [ 'numeric' ],
+              'label': 'List style'
+            }
+          },
+          'description': {
+            'type': 'StructuredText',
+            'config': {
+              'multi': 'paragraph, hyperlink, bold, em',
+              'label': 'Description'
+            }
+          }
+        },
+        'repeat': {
+          'title': {
+            'type': 'StructuredText',
+            'config': {
+              'label': 'Title',
+              'single': 'heading1'
+            }
+          },
+          'subtitle': {
+            'type': 'StructuredText',
+            'config': {
+              'single': 'heading2',
+              'label': 'Subtitle'
+            }
+          },
+          'image': {
+            'type': 'Image',
+            'config': {
+              'label': 'Image'
+            }
+          },
+          'caption': {
+            'type': 'StructuredText',
+            'config': {
+              'label': 'Caption',
+              'single': 'strong, em, hyperlink'
+            }
+          },
+          'description': {
+            'type': 'StructuredText',
+            'config': {
+              'label': 'Description',
+              'multi': 'paragraph, hyperlink, bold, em'
+            }
           }
         }
       }
