@@ -59,7 +59,7 @@ const InfoBoxExample = () => {
           }
         }]
       }],
-      icon: 'information'
+      icon: 'family'
     },
     {
       title: 'Location',
