@@ -39,7 +39,8 @@ const WorkImage = ({
             license: work.thumbnail && work.thumbnail.license.licenseType
           }}
           sizesQueries=''
-          showTasl={false} />
+          showTasl={false}
+          crops={{}} />
       </a>
       <WorkCredit work={work} />
     </Fragment>

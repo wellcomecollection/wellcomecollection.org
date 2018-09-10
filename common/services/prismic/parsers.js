@@ -19,7 +19,7 @@ import { parseEventSeries } from './event-series';
 import isEmptyObj from '../../utils/is-empty-object';
 import isEmptyDocLink from '../../utils/is-empty-doc-link';
 
-const placeHolderImage = {
+const placeHolderImage = ({
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
   width: 160,
   height: 900,
@@ -32,8 +32,9 @@ const placeHolderImage = {
     license: null,
     copyrightHolder: null,
     copyrightLink: null
-  }
-};
+  },
+  crops: {}
+}: ImageType);
 
 const linkResolver = (doc) => {
   switch (doc.type) {
@@ -108,15 +109,28 @@ export function checkAndParseImage(frag: ?PrismicFragment): ?ImageType {
   return frag && (isImageLink(frag) ? parseImage(frag) : null);
 }
 
+// These are the props returned on a prismic image object
+const prismicImageProps = ['dimensions', 'alt', 'copyright', 'url'];
 // We don't export this, as we probably always want to check ^ first
 function parseImage(frag: PrismicFragment): ImageType {
   const tasl = parseTaslFromString(frag.copyright);
+  const crops = Object.keys(frag)
+    .filter(key => prismicImageProps.indexOf(key) === -1)
+    .map(key => ({
+      key,
+      image: parseImage(frag[key])
+    })).reduce((acc, {key, image}) => {
+      acc[key] = image;
+      return acc;
+    }, {});
+
   return {
     contentUrl: frag.url,
     width: frag.dimensions.width,
     height: frag.dimensions.height,
     alt: frag.alt,
-    tasl: tasl
+    tasl: tasl,
+    crops: crops
   };
 }
 
@@ -134,16 +148,8 @@ export function parseCaptionedImage(frag: PrismicFragment, crop?: ?Crop): Captio
   }
 
   const image = crop ? frag.image[crop] : frag.image;
-  const tasl = parseTaslFromString(image.copyright);
-
   return {
-    image: image.dimensions ? {
-      contentUrl: image.url,
-      width: image.dimensions.width,
-      height: image.dimensions.height,
-      alt: image.alt || '',
-      tasl
-    } : placeHolderImage,
+    image: image.dimensions ? parseImage(image) : placeHolderImage,
     caption: !isEmptyHtmlString(frag.caption) ? frag.caption : []
   };
 }
@@ -154,7 +160,7 @@ export function parsePromoToCaptionedImage(frag: PrismicFragment, crop: ?Crop = 
   return parseCaptionedImage(promo.primary, crop);
 }
 
-export const defaultContributorImage = {
+export const defaultContributorImage = ({
   width: 64,
   height: 64,
   contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F021d6105-3308-4210-8f65-d207e04c2cb2_contributor_default%402x.png',
@@ -167,8 +173,9 @@ export const defaultContributorImage = {
     copyrightHolder: null,
     copyrightLink: null
   },
-  alt: ''
-};
+  alt: '',
+  crops: {}
+}: ImageType);
 
 export function parseSameAs(frag: PrismicFragment[]): SameAs {
   return frag

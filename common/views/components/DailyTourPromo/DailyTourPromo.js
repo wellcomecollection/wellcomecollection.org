@@ -37,7 +37,8 @@ export const data = {
       sourceLink: null,
       sourceName: null,
       title: null
-    }
+    },
+    crops: {}
   }
 };
 
