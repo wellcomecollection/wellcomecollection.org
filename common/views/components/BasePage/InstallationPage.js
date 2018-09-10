@@ -27,7 +27,11 @@ const InstallationPage = ({
     promo: installation.promo,
     body: installation.body,
     promoImage: installation.promoImage,
-    promoText: installation.promoText
+    promoText: installation.promoText,
+    image: installation.image,
+    squareImage: installation.squareImage,
+    widescreenImage: installation.widescreenImage,
+    thinImage: installation.thinImage
   });
   const Header = (<BaseHeader
     title={installation.title}

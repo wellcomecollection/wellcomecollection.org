@@ -70,7 +70,8 @@ const StaticWorksContent = () => (
                   license: 'CC-BY',
                   copyrightHolder: 'Wellcome Collection',
                   copyrightLink: 'https://wellcomecollection.org'
-                }
+                },
+                crops: {}
               }}
             />
           </div>

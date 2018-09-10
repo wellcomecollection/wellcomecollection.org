@@ -2,13 +2,13 @@
 import {spacing, font} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import {UiImage} from '../Images/Images';
-import type {Image as ImageProps} from '../../../model/image';
+import type {ImageType} from '../../../model/image';
 
 type Props = {|
   id: string,
   url: string,
   title: string,
-  imageProps: ImageProps,
+  imageProps: ImageType,
   description: string,
   metaText: ?string,
   metaIcon: ?string

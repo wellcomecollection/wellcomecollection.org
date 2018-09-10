@@ -108,13 +108,17 @@ export function parseEventDoc(
       ? parseEventSeries(series.series)
       : null).filter(Boolean);
 
-  const times = data.times && data.times.map(frag => ({
-    range: {
-      startDateTime: parseTimestamp(frag.startDateTime),
-      endDateTime: parseTimestamp(frag.endDateTime)
-    },
-    isFullyBooked: parseBoolean(frag.isFullyBooked)
-  }));
+  const times = data.times && data.times
+    // Annoyingly prismic puts blanks in here
+    .filter(frag => frag.startDateTime && frag.endDateTime)
+    .map(frag => ({
+      range: {
+        startDateTime: parseTimestamp(frag.startDateTime),
+        endDateTime: parseTimestamp(frag.endDateTime)
+      },
+      isFullyBooked: parseBoolean(frag.isFullyBooked)
+    })) || [];
+
   const lastEndTime = times.map(time => time.range.endDateTime).find((date, i) => i === 0);
 
   return {
@@ -136,13 +140,7 @@ export function parseEventDoc(
     eventbriteId,
     isCompletelySoldOut: data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
     ticketSalesStart: data.ticketSalesStart,
-    times: data.times && data.times.map(frag => ({
-      range: {
-        startDateTime: parseTimestamp(frag.startDateTime),
-        endDateTime: parseTimestamp(frag.endDateTime)
-      },
-      isFullyBooked: parseBoolean(frag.isFullyBooked)
-    })),
+    times: times,
     dateRange: determineDateRange(data.times),
     isPast: lastEndTime ? isPast(lastEndTime) : true
   };

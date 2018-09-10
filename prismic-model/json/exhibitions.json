@@ -461,6 +461,26 @@
       }
     }
   },
+  "Resources": {
+    "resources": {
+      "type": "Group",
+      "fieldset": "Resources",
+      "config": {
+        "fields": {
+          "resource": {
+            "type": "Link",
+            "config": {
+              "label": "Resource",
+              "select": "document",
+              "customtypes": [
+                "exhibition-resources"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
   "Migration": {
     "drupalPromoImage": {
       "type": "Link",

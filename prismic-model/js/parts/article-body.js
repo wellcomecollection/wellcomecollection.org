@@ -61,53 +61,8 @@ export default {
           }
         }
       },
-      'editorialImage': {
-        'type': 'Slice',
-        'fieldset': 'Editorial image',
-        'non-repeat': {
-          'caption': {
-            'type': 'StructuredText',
-            'config': {
-              'single': 'hyperlink, bold, em',
-              'label': 'Caption'
-            }
-          },
-          'image': {
-            'type': 'Image',
-            'config': {
-              'label': 'Image'
-            }
-          }
-        }
-      },
-      'editorialImageGallery': {
-        'type': 'Slice',
-        'fieldset': 'Editorial image gallery',
-        'non-repeat': {
-          'title': {
-            'type': 'StructuredText',
-            'config': {
-              'label': 'title',
-              'single': 'heading1'
-            }
-          }
-        },
-        'repeat': {
-          'caption': {
-            'type': 'StructuredText',
-            'config': {
-              'label': 'Caption',
-              'single': 'hyperlink, bold, em'
-            }
-          },
-          'image': {
-            'type': 'Image',
-            'config': {
-              'label': 'Image'
-            }
-          }
-        }
-      },
+      'editorialImage': body.config.choices.editorialImage,
+      'editorialImageGallery': body.config.choices.editorialImageGallery,
       'gifVideo': {
         'type': 'Slice',
         'fieldset': 'Gif video',
@@ -171,62 +126,6 @@ export default {
             'config': {
               'single': 'strong, em, hyperlink',
               'label': 'Standfirst'
-            }
-          }
-        }
-      },
-      'imageList': {
-        'type': 'Slice',
-        'fieldset': 'Image list',
-        'non-repeat': {
-          'listStyle': {
-            'type': 'Select',
-            'config': {
-              'options': [ 'numeric' ],
-              'label': 'List style'
-            }
-          },
-          'description': {
-            'type': 'StructuredText',
-            'config': {
-              'multi': 'paragraph, hyperlink, bold, em',
-              'label': 'Description'
-            }
-          }
-        },
-        'repeat': {
-          'title': {
-            'type': 'StructuredText',
-            'config': {
-              'label': 'Title',
-              'single': 'heading1'
-            }
-          },
-          'subtitle': {
-            'type': 'StructuredText',
-            'config': {
-              'single': 'heading2',
-              'label': 'Subtitle'
-            }
-          },
-          'image': {
-            'type': 'Image',
-            'config': {
-              'label': 'Image'
-            }
-          },
-          'caption': {
-            'type': 'StructuredText',
-            'config': {
-              'label': 'Caption',
-              'single': 'strong, em, hyperlink'
-            }
-          },
-          'description': {
-            'type': 'StructuredText',
-            'config': {
-              'label': 'Description',
-              'multi': 'paragraph, hyperlink, bold, em'
             }
           }
         }
@@ -338,34 +237,58 @@ export default {
           }
         }
       },
-      'quote': {
+      'imageList': {
         'type': 'Slice',
-        'fieldset': '(Deprecated) Quote',
+        'fieldset': '[Deprecated] Image list (please use captioned image or image gallery)',
         'non-repeat': {
-          'quote': {
+          'listStyle': {
+            'type': 'Select',
+            'config': {
+              'options': [ 'numeric' ],
+              'label': 'List style'
+            }
+          },
+          'description': {
             'type': 'StructuredText',
             'config': {
-              'label': 'Quote',
-              'multi': 'hyperlink, bold, em'
+              'multi': 'paragraph, hyperlink, bold, em',
+              'label': 'Description'
+            }
+          }
+        },
+        'repeat': {
+          'title': {
+            'type': 'StructuredText',
+            'config': {
+              'label': 'Title',
+              'single': 'heading1'
             }
           },
-          'source': {
-            'type': 'Text',
+          'subtitle': {
+            'type': 'StructuredText',
             'config': {
-              'label': 'Source'
+              'single': 'heading2',
+              'label': 'Subtitle'
             }
           },
-          'citation': {
-            'type': 'Text',
+          'image': {
+            'type': 'Image',
             'config': {
-              'label': 'Citation'
+              'label': 'Image'
             }
           },
-          'citationLink': {
-            'type': 'Link',
+          'caption': {
+            'type': 'StructuredText',
             'config': {
-              'select': 'web',
-              'label': 'Citation link'
+              'label': 'Caption',
+              'single': 'strong, em, hyperlink'
+            }
+          },
+          'description': {
+            'type': 'StructuredText',
+            'config': {
+              'label': 'Description',
+              'multi': 'paragraph, hyperlink, bold, em'
             }
           }
         }

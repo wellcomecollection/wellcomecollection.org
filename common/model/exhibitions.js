@@ -5,7 +5,7 @@ import type {Installation, UiInstallation} from './installations';
 import type {ImagePromo} from './image-promo';
 import type {Place} from './places';
 import type {Contributor} from './contributors';
-import type {Image} from './image';
+import type {ImageType} from './image';
 import type {GenericContentFields} from './generic-content-fields';
 import type {Resource} from './resource';
 
@@ -47,7 +47,9 @@ export type ExhibitionPromo = {|
   format: ?ExhibitionFormat,
   url: string,
   title: string,
-  image: Image,
+  image: ImageType,
+  squareImage: ?Picture;
+  thinImage: ?Picture;
   description: string,
   start: Date,
   end: ?Date,

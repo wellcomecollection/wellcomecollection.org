@@ -3,10 +3,10 @@ import {Fragment} from 'react';
 import {getExhibition} from '@weco/common/services/prismic/exhibitions';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
-import {default as BaseHeader, getFeaturedMedia} from '@weco/common/views/components/BaseHeader/BaseHeader';
+import ImageLeadHeader from '@weco/common/views/components/BaseHeader/ImageLeadHeader';
+import {getFeaturedMedia} from '@weco/common/views/components/BaseHeader/BaseHeader';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import HeaderBackground from '@weco/common/views/components/BaseHeader/HeaderBackground';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import Contributors from '@weco/common/views/components/Contributors/Contributors';
 import Body from '@weco/common/views/components/Body/Body';
@@ -21,7 +21,7 @@ type Props = {|
 export const ExhibitionPage = ({
   exhibition
 }: Props) => {
-  const DateInfo = exhibition.end ? <DateRange start={exhibition.start} end={exhibition.end} /> : <HTMLDate date={exhibition.start} />;
+  const DateInfo = exhibition.end ? <DateRange start={new Date(exhibition.start)} end={new Date(exhibition.end)} /> : <HTMLDate date={new Date(exhibition.start)} />;
   const FeaturedMedia = getFeaturedMedia({
     id: exhibition.id,
     title: exhibition.title,
@@ -30,26 +30,20 @@ export const ExhibitionPage = ({
     promo: exhibition.promo,
     body: exhibition.body,
     promoImage: exhibition.promoImage,
-    promoText: exhibition.promoText
-  });
-  const Header = (<BaseHeader
+    promoText: exhibition.promoText,
+    image: exhibition.image,
+    squareImage: exhibition.squareImage,
+    widescreenImage: exhibition.widescreenImage,
+    thinImage: exhibition.thinImage
+  }, true);
+  const Header = (<ImageLeadHeader
+    Description={null}
     title={exhibition.title}
-    Background={<HeaderBackground hasWobblyEdge={true} />}
-    TagBar={
-      <div
-        style={{ minHeight: '48px' }}
-        data-component='exhibit-exhibition-link'
-        className='async-content exhibit-exhibition-link-placeholder'
-        data-endpoint={`/installations/${exhibition.id}/exhibition`}
-        data-prefix-endpoint='false'></div>
-    }
+    TagBar={null}
     DateInfo={DateInfo}
     InfoBar={<StatusIndicator start={exhibition.start} end={(exhibition.end || new Date())} />}
-    Description={null}
     FeaturedMedia={FeaturedMedia}
-    LabelBar={null}
-    isFree={false}
-    topLink={null}
+    topLink={{url: '/exhibitions', text: 'Exhibitions'}}
   />);
 
   // Info box content
@@ -113,8 +107,8 @@ export const ExhibitionPage = ({
     <BasePage
       id={exhibition.id}
       Header={Header}
-      Body={<Body body={exhibition.body} />}
-    >
+      Body={<Body body={exhibition.body} />}>
+
       <Fragment>
         {exhibition.contributors.length > 0 &&
           <Contributors
@@ -138,9 +132,12 @@ ExhibitionPage.getInitialProps = async ({req, query}) => {
     const {id} = query;
     const exhibition = await getExhibition(req, id);
 
-    return {
-      exhibition
-    };
+    if (exhibition) {
+      return {
+        title: exhibition.title,
+        exhibition
+      };
+    }
   }
 };
 
