@@ -25,11 +25,11 @@ const InfoBox = ({
   return (
     <Fragment>
       <h2 className='h2'>{title}</h2>
-      <div className={classNames([
-        'bg-yellow',
-        spacing({s: 4}, {padding: ['top', 'right', 'bottom', 'left']}),
-        spacing({s: 4}, {margin: ['bottom']})
-      ])}>
+      <div className={classNames({
+        'bg-yellow': true,
+        [spacing({s: 4}, {padding: ['top', 'right', 'bottom', 'left']})]: true,
+        [spacing({s: 4}, {margin: ['bottom']})]: true
+      })}>
         {items.map(({title, description, icon}, i) =>
           <Fragment key={i}>
             <div className={font({s: 'HNM4'})}>
