@@ -11,4 +11,5 @@ const FullWidthLayout = ({children}: Props) => (
     {children}
   </Layout>
 );
+
 export default FullWidthLayout;
