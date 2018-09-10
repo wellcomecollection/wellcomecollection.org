@@ -6,14 +6,15 @@ import FindUs from '../FindUs/FindUs';
 import OpeningHours from '../OpeningHours/OpeningHours';
 import FooterSocial from '../FooterSocial/FooterSocial';
 import Icon from '../Icon/Icon';
-import type {PlacesOpeningHours} from '../../../model/opening-hours';
+import type {PlacesOpeningHours, OverrideType} from '../../../model/opening-hours';
+import type Moment from 'moment';
 
 type Props = {|
   openingHoursId: string,
   groupedVenues: {
     [string]: PlacesOpeningHours
   },
-  upcomingExceptionalOpeningPeriods: {dates: Date[], type: string}[],
+  upcomingExceptionalOpeningPeriods: {dates: Moment[], type: OverrideType}[],
   // TODO: make this openingHoursExtraClasses (or something else)
   extraClasses?: string
 |}

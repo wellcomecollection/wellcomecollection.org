@@ -4,7 +4,8 @@ import Error from 'next/error';
 import {getCollectionOpeningTimes} from '../../../services/prismic/opening-times';
 import DefaultPageLayout from '../DefaultPageLayout/DefaultPageLayout';
 import type {OgType, SiteSection} from '../DefaultPageLayout/DefaultPageLayout';
-import type {PlacesOpeningHours} from '../../../model/opening-hours';
+import type {PlacesOpeningHours, OverrideType} from '../../../model/opening-hours';
+import type Moment from 'moment';
 import type {ComponentType} from 'react';
 
 const isServer = typeof window === 'undefined';
@@ -57,9 +58,9 @@ type Props = {|
     groupedVenues: {
       [string]: PlacesOpeningHours
     },
-    upcomingExceptionalOpeningPeriods: {dates: Date[], type: string}[]
+    upcomingExceptionalOpeningPeriods: {dates: Moment[], type: OverrideType}[]
   },
-  toggles: { [string]: Boolean },
+  toggles: { [string]: any }, // TODO put Boolean back
   statusCode: ?number,
   oEmbedUrl?: string
 |}
