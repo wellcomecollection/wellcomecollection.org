@@ -7,6 +7,8 @@ type Props = {|
 |}
 
 const FullWidthLayout = ({children}: Props) => (
-  <Layout gridSizes={{s: 12, m: 12, l: 12, xl: 12}}></Layout>
+  <Layout gridSizes={{s: 12, m: 12, l: 12, xl: 12}}>
+    {children}
+  </Layout>
 );
 export default FullWidthLayout;
