@@ -1,6 +1,6 @@
 // @flow
 // TODO: Sync up types with the body slices and the components they return
-import {spacing} from '../../../utils/classnames';
+import {spacing, classNames} from '../../../utils/classnames';
 import {breakpoints} from '../../../utils/breakpoints';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import {CaptionedImage, UiImage} from '../Images/Images';
@@ -26,12 +26,16 @@ type BodySlice = {|
 export type BodyType = BodySlice[]
 
 type Props = {|
-  body: BodyType
+  body: BodyType,
+  isCreamy?: boolean
 |}
 
-const Body = ({ body }: Props) => {
+const Body = ({ body, isCreamy = false }: Props) => {
   return (
-    <div className='basic-body'>
+    <div className={classNames({
+      'basic-body': true,
+      'bg-cream': isCreamy
+    })}>
       {body.map((slice, i) =>
         <div className={`body-part ${spacing({s: 6}, {margin: ['top']})}`} key={`slice${i}`}>
           {slice.type === 'standfirst' &&
