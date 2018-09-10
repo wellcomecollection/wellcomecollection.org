@@ -41,9 +41,7 @@ function parseResourceTypeList(fragment: PrismicFragment[], labelKey: string): R
     .map(label => label[labelKey])
     .filter(Boolean)
     .filter(label => label.isBroken === false)
-    .map(label => {
-      return parseResourceType(label.data);
-    });
+    .map(label => parseResourceType(label.data));
 }
 
 function parseResourceType(fragment: PrismicFragment): Resource {
@@ -151,7 +149,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     galleryLevel: document.data.galleryLevel,
     textAndCaptionsDocument: textAndCaptionsDocument,
     featuredImageList: promos,
-    resources: Array.isArray(data.resources) ? parseResourceTypeList(data.resources.map(Boolean), 'resource') : [],
+    resources: Array.isArray(data.resources) ? parseResourceTypeList(data.resources, 'resource') : [],
     relatedBooks: promoList.filter(x => x.type === 'book').map(parsePromoListItem),
     relatedEvents: promoList.filter(x => x.type === 'event').map(parsePromoListItem),
     relatedGalleries: promoList.filter(x => x.type === 'gallery').map(parsePromoListItem),
