@@ -25,16 +25,34 @@ import {
   asText,
   asHtml,
   parseGenericFields,
-  parseBoolean,
-  parseResourceTypeList
+  parseBoolean
 } from './parsers';
 import {parseInstallationDoc} from './installations';
 import {london} from '../../utils/format-date';
 import {getPeriodPredicates} from './utils';
 import type {Period} from '../../model/periods';
+import type {Resource} from '../../model/resource';
 
 const startField = 'my.exhibitions.start';
 const endField = 'my.exhibitions.end';
+
+function parseResourceTypeList(fragment: PrismicFragment[], labelKey: string): Resource[] {
+  return fragment
+    .map(label => label[labelKey])
+    .filter(Boolean)
+    .filter(label => label.isBroken === false)
+    .map(label => {
+      return parseResourceType(label.data);
+    });
+}
+
+function parseResourceType(fragment: PrismicFragment): Resource {
+  return {
+    title: asText(fragment.title),
+    description: fragment.description,
+    icon: fragment.icon
+  };
+}
 
 export function parseExhibitionFormat(frag: Object): ?ExhibitionFormat {
   return isDocumentLink(frag) ? {
