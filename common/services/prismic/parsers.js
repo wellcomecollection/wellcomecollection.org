@@ -12,6 +12,7 @@ import type { CaptionedImage } from '../../model/captioned-image';
 import type { ImagePromo } from '../../model/image-promo';
 import type { GenericContentFields } from '../../model/generic-content-fields';
 import type { LabelField } from '../../model/label-field';
+import type { Resource } from '../../model/resource';
 import type { SameAs } from '../../model/same-as';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
@@ -336,6 +337,22 @@ export function parseBackgroundTexture(backgroundTexture: PrismicBackgroundTextu
   return {
     image: backgroundTexture.image.url,
     name: backgroundTexture.name
+  };
+}
+
+export function parseResourceTypeList(fragment: PrismicFragment[], labelKey: string): Resource[] {
+  return fragment
+    .map(label => label[labelKey])
+    .filter(Boolean)
+    .filter(label => label.isBroken === false)
+    .map(label => parseResourceType(label.data));
+}
+
+function parseResourceType(fragment: PrismicFragment): Resource {
+  return {
+    title: asText(fragment.title),
+    description: fragment.description,
+    icon: fragment.icon
   };
 }
 
