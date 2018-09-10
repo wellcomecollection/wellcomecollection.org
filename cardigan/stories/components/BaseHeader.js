@@ -1,6 +1,5 @@
 import { storiesOf } from '@storybook/react';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
-import ExhibitionHeaderReadme from '../../../common/views/components/BaseHeader/ExhibitionHeaderReadme.md';
 
 import VideoEmbed from '../../../common/views/components/VideoEmbed/VideoEmbed';
 import {UiImage} from '../../../common/views/components/Images/Images';
@@ -10,12 +9,10 @@ import LabelsList from '../../../common/views/components/LabelsList/LabelsList';
 import DateRange from '../../../common/views/components/DateRange/DateRange';
 import BaseHeader from '../../../common/views/components/BaseHeader/BaseHeader';
 import Tags from '../../../common/views/components/Tags/Tags';
-import {image, videoEmbed, pictureImages} from '../content';
-import ExhibitionHeader from '../../../common/views/components/BaseHeader/ExhibitionHeader';
-import Picture from '../../../common/views/components/Picture/Picture';
+import {image, videoEmbed} from '../content';
 
 const stories = storiesOf('Components', module).addDecorator(withKnobs);
-export const Base = () => {
+export const Header = () => {
   const title = text('Title', 'Some sort of title');
   const description = text('Description', 'Some sort of description');
   const Image = UiImage(image());
@@ -62,24 +59,5 @@ export const Base = () => {
   );
 };
 
-const Exhibition = () => {
-  const title = text('Title', 'Teeth');
-  const now = new Date();
-  const threeMonthsAgo = new Date(now.getTime() - (60 * 60 * 24 * 90 * 1000));
-  const threeWeeksFromNow = new Date(now.getTime() + (60 * 60 * 24 * 21 * 1000));
-  const DateInfo = <DateRange start={threeMonthsAgo} end={threeWeeksFromNow} />;
-
-  return (
-    <ExhibitionHeader
-      topLink={{url: '/', text: 'Exhibitions'}}
-      title={title}
-      FeaturedMedia={<Picture images={pictureImages} isFull={true} />}
-      DateInfo={DateInfo}
-      InfoBar={<StatusIndicator start={threeMonthsAgo} end={threeWeeksFromNow} />}
-    />
-  );
-};
-
 stories
-  .add('Headers: Base', Base)
-  .add('Headers: Exhibition', Exhibition, {info: ExhibitionHeaderReadme});
+  .add('Headers: Base', Header);

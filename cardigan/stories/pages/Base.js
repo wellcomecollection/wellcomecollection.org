@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/react';
-import { Base as BaseHeader } from '../components/Headers';
+import {Header as BaseHeader} from '../components/BaseHeader';
 import BaseBody from '../components/Body';
 import BasePage from '../../../common/views/components/BasePage/BasePage';
 
