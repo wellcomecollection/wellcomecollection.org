@@ -52,7 +52,8 @@ export const ExhibitionPage = ({
     topLink={null}
   />);
 
-  const infoItems = [{
+  // Info box content
+  const admissionObject = {
     title: null,
     description: [{
       type: 'paragraph',
@@ -60,25 +61,27 @@ export const ExhibitionPage = ({
       spans: []
     }],
     icon: 'ticket'
-  },
-    (exhibition.place && {
+  };
+
+  const placeObject = (exhibition.place && {
+    title: null,
+    description: [{
+      type: 'paragraph',
+      text: `${exhibition.place.title}, level ${exhibition.place.level}`,
+      spans: []
+    }],
+    icon: 'location'
+  });
+
+  const resourcesItems = exhibition.resources.map(resource => {
+    return {
       title: null,
-      description: [{
-        type: 'paragraph',
-        text: `${exhibition.place.title}, Level ${exhibition.place.level}`,
-        spans: []
-      }],
-      icon: 'location'
-    }),
-    ((exhibition.id === 'WgV_ACUAAIu2P_ZM') ? {
-      title: null,
-      description: [{
-        type: 'paragraph',
-        text: 'A family activity pack is available in the gallery',
-        spans: []
-      }],
-      icon: 'family'
-    } : null),
+      description: resource.description,
+      icon: resource.icon
+    };
+  });
+
+  const accessibilityItems = [
     {
       title: null,
       description: [{
@@ -96,7 +99,15 @@ export const ExhibitionPage = ({
         spans: []
       }],
       icon: 'a11yVisual'
-    }].filter(Boolean);
+    }
+  ];
+
+  const infoItems = [
+    admissionObject,
+    placeObject,
+    ...resourcesItems,
+    ...accessibilityItems
+  ].filter(Boolean);
 
   return (
     <BasePage

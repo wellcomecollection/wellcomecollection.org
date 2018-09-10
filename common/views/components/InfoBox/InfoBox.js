@@ -10,7 +10,7 @@ type Props = {|
   title: string,
   items: {|
     ...LabelField,
-    icon?: string
+    icon?: ?string
   |}[],
   children: Element<'p'>
 |}
