@@ -1,9 +1,9 @@
 // @flow
+import {Fragment} from 'react';
 import {getArticle} from '@weco/common/services/prismic/articles';
-import {classNames, spacing} from '@weco/common/utils/classnames';
+import {classNames, spacing, font} from '@weco/common/utils/classnames';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
-import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import HeaderText from '@weco/common/views/components/HeaderText/HeaderText';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Body from '@weco/common/views/components/Body/Body';
@@ -25,17 +25,33 @@ export const ArticlePage = ({
         TagBar={null}
         DateInfo={null}
         InfoBar={
-          <div className='flex'>
+          <div className={classNames({
+            'flex': true,
+            [font({s: 'HNM5'})]: true
+          })}>
             <p className={classNames({
-              [spacing({s: 1}, {margin: ['right']})]: true
-            })}><b>By</b></p>
-            <LinkLabels items={
-              article.contributors.map(({ contributor }) => ({
-                url: `/people/${contributor.id}`,
-                text: contributor.name
-              }))
-            } />
-            <HTMLDate date={new Date(article.datePublished)} />
+              [spacing({s: 1}, {margin: ['right']})]: true,
+              [spacing({s: 0}, {margin: ['bottom']})]: true
+            })}>
+              <b>By </b>
+              {article.contributors.map(({ contributor }, i, arr) => (
+                <Fragment key={contributor.id}>
+                  <a
+                    className={'plain-link font-green'}
+                    href={`/${contributor.type}/${contributor.id}`}>
+                    {contributor.name}
+                  </a>
+
+                  {i < arr.length - 1 && ', '}
+                </Fragment>
+              ))}
+            </p>
+            <div className={classNames({
+              'font-pewter': true,
+              [font({s: 'HNL5'})]: true
+            })}>
+              <HTMLDate date={new Date(article.datePublished)} />
+            </div>
           </div>
         }
         Description={article.summary ? <PrismicHtmlBlock html={article.summary} /> : null}
