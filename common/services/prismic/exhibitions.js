@@ -8,7 +8,8 @@ import {
   contributorsFields,
   placesFields,
   installationFields,
-  exhibitionFields
+  exhibitionFields,
+  exhibitionResourcesFields
 } from './fetch-links';
 import {breakpoints} from '../../utils/breakpoints';
 import {
@@ -220,7 +221,8 @@ export async function getExhibition(req: Request, id: string): Promise<?UiExhibi
     fetchLinks: peopleFields.concat(
       contributorsFields,
       placesFields,
-      installationFields
+      installationFields,
+      exhibitionResourcesFields
     )
   });
 
