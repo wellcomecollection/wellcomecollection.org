@@ -8,7 +8,8 @@ import {
   contributorsFields,
   placesFields,
   installationFields,
-  exhibitionFields
+  exhibitionFields,
+  exhibitionResourcesFields
 } from './fetch-links';
 import {breakpoints} from '../../utils/breakpoints';
 import {
@@ -30,9 +31,26 @@ import {parseInstallationDoc} from './installations';
 import {london} from '../../utils/format-date';
 import {getPeriodPredicates} from './utils';
 import type {Period} from '../../model/periods';
+import type {Resource} from '../../model/resource';
 
 const startField = 'my.exhibitions.start';
 const endField = 'my.exhibitions.end';
+
+function parseResourceTypeList(fragment: PrismicFragment[], labelKey: string): Resource[] {
+  return fragment
+    .map(label => label[labelKey])
+    .filter(Boolean)
+    .filter(label => label.isBroken === false)
+    .map(label => parseResourceType(label.data));
+}
+
+function parseResourceType(fragment: PrismicFragment): Resource {
+  return {
+    title: asText(fragment.title),
+    description: fragment.description,
+    icon: fragment.icon
+  };
+}
 
 export function parseExhibitionFormat(frag: Object): ?ExhibitionFormat {
   return isDocumentLink(frag) ? {
@@ -143,6 +161,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     galleryLevel: document.data.galleryLevel,
     textAndCaptionsDocument: textAndCaptionsDocument,
     featuredImageList: promos,
+    resources: Array.isArray(data.resources) ? parseResourceTypeList(data.resources, 'resource') : [],
     relatedBooks: promoList.filter(x => x.type === 'book').map(parsePromoListItem),
     relatedEvents: promoList.filter(x => x.type === 'event').map(parsePromoListItem),
     relatedGalleries: promoList.filter(x => x.type === 'gallery').map(parsePromoListItem),
@@ -181,7 +200,8 @@ export async function getExhibitions(
         contributorsFields,
         placesFields,
         installationFields,
-        exhibitionFields
+        exhibitionFields,
+        exhibitionResourcesFields
       ),
       orderings
     }
@@ -232,7 +252,8 @@ export async function getExhibition(req: Request, id: string): Promise<?UiExhibi
     fetchLinks: peopleFields.concat(
       contributorsFields,
       placesFields,
-      installationFields
+      installationFields,
+      exhibitionResourcesFields
     )
   });
 

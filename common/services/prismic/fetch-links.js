@@ -51,3 +51,8 @@ export const eventPoliciesFields = [
   'event-policies.title',
   'event-policies.description'
 ];
+export const exhibitionResourcesFields = [
+  'exhibition-resources.title',
+  'exhibition-resources.description',
+  'exhibition-resources.icon'
+];

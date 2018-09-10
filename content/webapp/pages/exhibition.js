@@ -10,7 +10,9 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import Contributors from '@weco/common/views/components/Contributors/Contributors';
 import Body from '@weco/common/views/components/Body/Body';
+import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import type {UiExhibition} from '@weco/common/model/exhibitions';
+import {font} from '@weco/common/utils/classnames';
 
 type Props = {|
   exhibition: UiExhibition
@@ -44,6 +46,63 @@ export const ExhibitionPage = ({
     topLink={{url: '/exhibitions', text: 'Exhibitions'}}
   />);
 
+  // Info box content
+  const admissionObject = {
+    title: null,
+    description: [{
+      type: 'paragraph',
+      text: 'Free admission',
+      spans: []
+    }],
+    icon: 'ticket'
+  };
+
+  const placeObject = (exhibition.place && {
+    title: null,
+    description: [{
+      type: 'paragraph',
+      text: `${exhibition.place.title}, level ${exhibition.place.level}`,
+      spans: []
+    }],
+    icon: 'location'
+  });
+
+  const resourcesItems = exhibition.resources.map(resource => {
+    return {
+      title: null,
+      description: resource.description,
+      icon: resource.icon
+    };
+  });
+
+  const accessibilityItems = [
+    {
+      title: null,
+      description: [{
+        type: 'paragraph',
+        text: 'Step-free access is available to all floors of the building',
+        spans: []
+      }],
+      icon: 'a11y'
+    },
+    {
+      title: null,
+      description: [{
+        type: 'paragraph',
+        text: 'Large-print guides, transcripts and magnifiers are available in the gallery',
+        spans: []
+      }],
+      icon: 'a11yVisual'
+    }
+  ];
+
+  const infoItems = [
+    admissionObject,
+    placeObject,
+    ...resourcesItems,
+    ...accessibilityItems
+  ].filter(Boolean);
+
   return (
     <BasePage
       id={exhibition.id}
@@ -56,6 +115,11 @@ export const ExhibitionPage = ({
             titleOverride={exhibition.contributorsTitle}
             contributors={exhibition.contributors} />
         }
+        <InfoBox title='Visit us' items={infoItems}>
+          <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
+            <a href='/access'>Accessibility at Wellcome</a>
+          </p>
+        </InfoBox>
       </Fragment>
     </BasePage>
   );

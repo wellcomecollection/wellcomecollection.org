@@ -7,6 +7,7 @@ import type {Place} from './places';
 import type {Contributor} from './contributors';
 import type {ImageType} from './image';
 import type {GenericContentFields} from './generic-content-fields';
+import type {Resource} from './resource';
 
 export type Exhibit = {|
   exhibitType: | 'installations',
@@ -37,7 +38,8 @@ export type Exhibition = {|
   description: HTMLString,
   contributors: Contributor[],
   place: ?Place,
-  exhibits: Exhibit[]
+  exhibits: Exhibit[],
+  resources: Resource[]
 |}
 
 export type ExhibitionPromo = {|

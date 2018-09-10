@@ -1,3 +1,5 @@
+import a11y from './a11y';
+import a11yVisual from './a11y_visual';
 import arrow from './arrow';
 import arrowSmall from './arrow_small';
 import audioDescribed from './audio_described';
@@ -9,7 +11,9 @@ import chevron from './chevron';
 import clock from './clock';
 import cross from './cross';
 import email from './email';
+import family from './family';
 import image from './image';
+import lifts from './lifts';
 import location from './location';
 import plus from './plus';
 import search from './search';
@@ -35,6 +39,8 @@ import tripadvisor from './tripadvisor';
 import wellcome from './wellcome';
 import statusIndicator from './status_indicator';
 export {
+  a11y,
+  a11yVisual,
   arrow,
   arrowSmall,
   audioDescribed,
@@ -51,7 +57,9 @@ export {
   clock,
   cross,
   email,
+  family,
   image,
+  lifts,
   location,
   plus,
   search,
