@@ -165,7 +165,6 @@ export function parseArticleDoc(doc: PrismicDoc): Article {
 
   // TODO: Don't convert this into thumbnail
   const promo = doc.data.promo.find(slice => slice.slice_type === 'editorialImage');
-  const thumbnail = promo && parsePicture(promo.primary);
   const description = promo && asText(promo.primary.caption); // TODO: Do not use description
   const contributors = parseContributors(doc.data.contributors);
   const series = parseSeries(doc.data.series);
@@ -177,6 +176,7 @@ export function parseArticleDoc(doc: PrismicDoc): Article {
   const positionInSeries = seriesWithCommissionedLength && getPositionInPrismicSeries(series[0].id, doc.data.series) || null;
   const featuredBodyParts = parseFeaturedBody(doc.data.body);
   const promoElement = parseImagePromoProperly(doc.data.promo);
+  const thumbnail = promoElement && promoElement.image ? promoElement.image : null;
 
   const article: Article = {
     contentType: 'article',
