@@ -188,7 +188,8 @@ export async function getExhibitions(
         contributorsFields,
         placesFields,
         installationFields,
-        exhibitionFields
+        exhibitionFields,
+        exhibitionResourcesFields
       ),
       orderings
     }
