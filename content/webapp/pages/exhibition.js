@@ -3,7 +3,7 @@ import {Fragment} from 'react';
 import {getExhibition} from '@weco/common/services/prismic/exhibitions';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
-import ExhibitionHeader from '@weco/common/views/components/BaseHeader/ExhibitionHeader';
+import ExhibitionHeader from '@weco/common/views/components/ExhibitionHeader/ExhibitionHeader';
 import {getFeaturedMedia} from '@weco/common/views/components/BaseHeader/BaseHeader';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
