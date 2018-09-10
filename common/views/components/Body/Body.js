@@ -12,6 +12,7 @@ import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Map from '../Map/Map';
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
 import {PictureFromImages} from '../Picture/Picture';
+import {BasePageColumn} from '../BasePage/BasePage';
 import type {Weight} from '../../../services/prismic/parsers';
 
 type BodySlice = {|
@@ -32,41 +33,67 @@ const Body = ({ body }: Props) => {
       {body.map((slice, i) =>
         <div className={`body-part ${spacing({s: 6}, {margin: ['top']})}`} key={`slice${i}`}>
           {slice.type === 'text' &&
-            <div className='body-text'>
-              {slice.weight === 'featured' && <FeaturedText html={slice.value} />}
-              {slice.weight !== 'featured' && <PrismicHtmlBlock html={slice.value} />}
-            </div>
+            <BasePageColumn>
+              <div className='body-text'>
+                {slice.weight === 'featured' && <FeaturedText html={slice.value} />}
+                {slice.weight !== 'featured' && <PrismicHtmlBlock html={slice.value} />}
+              </div>
+            </BasePageColumn>
           }
           {/*
             not all featured image slices have their crops as they were only
             added in later.
           */}
           {slice.type === 'picture' && slice.weight === 'featured' && slice.value.image.crops.square &&
-            <WobblyBottom>
-              <PictureFromImages images={{
-                [breakpoints.medium]: slice.value.image.crops['16:9'],
-                'default': slice.value.image.crops.square
-              }} isFull={true} />
-            </WobblyBottom>
+            <BasePageColumn>
+              <WobblyBottom>
+                <PictureFromImages images={{
+                  [breakpoints.medium]: slice.value.image.crops['16:9'],
+                  'default': slice.value.image.crops.square
+                }} isFull={true} />
+              </WobblyBottom>
+            </BasePageColumn>
           }
           {slice.type === 'picture' && slice.weight === 'featured' && !slice.value.image.crops.square &&
-            <WobblyBottom>
-              <UiImage {...slice.value.image} isFull={true} />
-            </WobblyBottom>
+            <BasePageColumn>
+              <WobblyBottom>
+                <UiImage {...slice.value.image} isFull={true} />
+              </WobblyBottom>
+            </BasePageColumn>
           }
           {slice.type === 'picture' && slice.weight !== 'featured' &&
             <CaptionedImage {...slice.value} sizesQueries={''} />
           }
           {slice.type === 'imageGallery' && <ImageGallery {...slice.value} />}
-          {slice.type === 'quote' && <Quote {...slice.value} />}
+          {slice.type === 'quote' &&
+            <BasePageColumn>
+              <Quote {...slice.value} />
+            </BasePageColumn>
+          }
+
           {slice.type === 'contentList' &&
-            <AsyncSearchResults
-              title={slice.value.title}
-              query={slice.value.items.map(({id}) => `id:${id}`).join(' ')}
-            />}
-          {slice.type === 'searchResults' && <AsyncSearchResults {...slice.value} />}
-          {slice.type === 'videoEmbed' && <VideoEmbed {...slice.value} />}
-          {slice.type === 'map' && <Map {...slice.value} />}
+            <BasePageColumn>
+              <AsyncSearchResults
+                title={slice.value.title}
+                query={slice.value.items.map(({id}) => `id:${id}`).join(' ')}
+              />
+            </BasePageColumn>
+          }
+          {slice.type === 'searchResults' &&
+            <BasePageColumn>
+              <AsyncSearchResults {...slice.value} />
+            </BasePageColumn>
+          }
+          {slice.type === 'videoEmbed' &&
+            <BasePageColumn>
+              <VideoEmbed {...slice.value} />
+            </BasePageColumn>
+          }
+          {slice.type === 'map' &&
+            <BasePageColumn>
+              <Map {...slice.value} />
+            </BasePageColumn>
+          }
         </div>
       )}
     </div>

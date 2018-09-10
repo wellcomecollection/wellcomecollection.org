@@ -105,47 +105,82 @@
           },
           "editorialImage": {
             "type": "Slice",
-            "fieldset": "Editorial image",
+            "fieldset": "Captioned image",
             "non-repeat": {
-              "caption": {
-                "type": "StructuredText",
-                "config": {
-                  "single": "hyperlink, bold, em",
-                  "label": "Caption"
-                }
-              },
               "image": {
                 "type": "Image",
                 "config": {
-                  "label": "Image"
+                  "label": "Image",
+                  "thumbnails": [
+                    {
+                      "name": "32:15",
+                      "width": 3200,
+                      "height": 1500
+                    },
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
+                }
+              },
+              "caption": {
+                "type": "StructuredText",
+                "config": {
+                  "single": "paragraph,hyperlink,strong,em",
+                  "label": "Caption"
                 }
               }
             }
           },
           "editorialImageGallery": {
             "type": "Slice",
-            "fieldset": "Editorial image gallery",
+            "fieldset": "Image gallery",
             "non-repeat": {
               "title": {
                 "type": "StructuredText",
                 "config": {
-                  "label": "title",
-                  "single": "heading1"
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
                 }
               }
             },
             "repeat": {
-              "caption": {
-                "type": "StructuredText",
-                "config": {
-                  "label": "Caption",
-                  "single": "hyperlink, bold, em"
-                }
-              },
               "image": {
                 "type": "Image",
                 "config": {
-                  "label": "Image"
+                  "label": "Image",
+                  "thumbnails": [
+                    {
+                      "name": "32:15",
+                      "width": 3200,
+                      "height": 1500
+                    },
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
+                }
+              },
+              "caption": {
+                "type": "StructuredText",
+                "config": {
+                  "single": "paragraph,hyperlink,strong,em",
+                  "label": "Caption"
                 }
               }
             }
@@ -223,64 +258,6 @@
                 "config": {
                   "single": "strong, em, hyperlink",
                   "label": "Standfirst"
-                }
-              }
-            }
-          },
-          "imageList": {
-            "type": "Slice",
-            "fieldset": "Image list",
-            "non-repeat": {
-              "listStyle": {
-                "type": "Select",
-                "config": {
-                  "options": [
-                    "numeric"
-                  ],
-                  "label": "List style"
-                }
-              },
-              "description": {
-                "type": "StructuredText",
-                "config": {
-                  "multi": "paragraph, hyperlink, bold, em",
-                  "label": "Description"
-                }
-              }
-            },
-            "repeat": {
-              "title": {
-                "type": "StructuredText",
-                "config": {
-                  "label": "Title",
-                  "single": "heading1"
-                }
-              },
-              "subtitle": {
-                "type": "StructuredText",
-                "config": {
-                  "single": "heading2",
-                  "label": "Subtitle"
-                }
-              },
-              "image": {
-                "type": "Image",
-                "config": {
-                  "label": "Image"
-                }
-              },
-              "caption": {
-                "type": "StructuredText",
-                "config": {
-                  "label": "Caption",
-                  "single": "strong, em, hyperlink"
-                }
-              },
-              "description": {
-                "type": "StructuredText",
-                "config": {
-                  "label": "Description",
-                  "multi": "paragraph, hyperlink, bold, em"
                 }
               }
             }
@@ -410,6 +387,64 @@
               "embed": {
                 "type": "Embed",
                 "fieldset": "Twitter embed"
+              }
+            }
+          },
+          "imageList": {
+            "type": "Slice",
+            "fieldset": "[Deprecated] Image list (please use captioned image or image gallery)",
+            "non-repeat": {
+              "listStyle": {
+                "type": "Select",
+                "config": {
+                  "options": [
+                    "numeric"
+                  ],
+                  "label": "List style"
+                }
+              },
+              "description": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph, hyperlink, bold, em",
+                  "label": "Description"
+                }
+              }
+            },
+            "repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1"
+                }
+              },
+              "subtitle": {
+                "type": "StructuredText",
+                "config": {
+                  "single": "heading2",
+                  "label": "Subtitle"
+                }
+              },
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Image"
+                }
+              },
+              "caption": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Caption",
+                  "single": "strong, em, hyperlink"
+                }
+              },
+              "description": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Description",
+                  "multi": "paragraph, hyperlink, bold, em"
+                }
               }
             }
           }
