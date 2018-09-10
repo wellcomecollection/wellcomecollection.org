@@ -25,7 +25,8 @@ import {
   asText,
   asHtml,
   parseGenericFields,
-  parseBoolean
+  parseBoolean,
+  parseResourceTypeList
 } from './parsers';
 import {parseInstallationDoc} from './installations';
 import {london} from '../../utils/format-date';
@@ -132,6 +133,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     galleryLevel: document.data.galleryLevel,
     textAndCaptionsDocument: textAndCaptionsDocument,
     featuredImageList: promos,
+    resources: Array.isArray(data.resources) ? parseResourceTypeList(data.resources, 'resource') : [],
     relatedBooks: promoList.filter(x => x.type === 'book').map(parsePromoListItem),
     relatedEvents: promoList.filter(x => x.type === 'event').map(parsePromoListItem),
     relatedGalleries: promoList.filter(x => x.type === 'gallery').map(parsePromoListItem),
