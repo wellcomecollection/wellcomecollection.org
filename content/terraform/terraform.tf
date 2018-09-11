@@ -93,20 +93,5 @@ module "content" {
   secondary_container_port           = "3000"
   host_name                          = "content.wellcomecollection.org"
   healthcheck_path                   = "/management/healthcheck"
-  alb_priority                       = "002"
-}
-
-resource "aws_alb_listener_rule" "articles_path_rule" {
-  listener_arn = "${local.alb_listener_https_arn}"
-  priority     = "004"
-
-  action {
-    type             = "forward"
-    target_group_arn = "${module.content.target_group_arn}"
-  }
-
-  condition {
-    field  = "path-header"
-    values = ["content.wellcomecollection.org"]
-  }
+  alb_priority                       = "700"
 }
