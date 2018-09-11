@@ -10,6 +10,7 @@ export type StructuredSearchQuery = {|
   id: string[],
   tags: string[],
   tag: string[],
+  partOf: string[],
   pageSize: number,
   orderings: string[]
 |}
@@ -27,7 +28,7 @@ export function parseQuery(query: string): StructuredSearchQuery {
     keywords: [
       'types', 'type',
       'ids', 'id',
-      'tags', 'tag',
+      'tags', 'tag', 'partOf', // if we implememnt partOf, we can remove tags.
       'pageSize', 'orderings'
     ]
   });
@@ -48,6 +49,7 @@ export function parseQuery(query: string): StructuredSearchQuery {
     id: arrayedStructuredQuery.id || [],
     tags: arrayedStructuredQuery.tags || [],
     tag: arrayedStructuredQuery.tag || [],
+    partOf: arrayedStructuredQuery.partOf || [],
     orderings: arrayedStructuredQuery.orderings || [],
     pageSize: arrayedStructuredQuery.pageSize
   };
