@@ -13,6 +13,7 @@ import Body from '@weco/common/views/components/Body/Body';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import type {UiExhibition} from '@weco/common/model/exhibitions';
 import {font} from '@weco/common/utils/classnames';
+import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 
 type Props = {|
   exhibition: UiExhibition
@@ -131,7 +132,11 @@ ExhibitionPage.getInitialProps = async ({req, query}) => {
 
     if (exhibition) {
       return {
+        type: 'website',
         title: exhibition.title,
+        imageUrl: exhibition.promoImage && convertImageUri(exhibition.promoImage.contentUrl, 800),
+        description: exhibition.promoText,
+        canonicalUrl: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
         exhibition
       };
     }
