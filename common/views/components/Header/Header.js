@@ -15,7 +15,7 @@ type Props = {|
 |}
 
 const Header = withToggler(({ links, siteSection, toggle, isActive }: Props) => (
-  <div className={`header grid js-header-burger js-focus-trap bg-white ${isActive ? 'header--is-burger-open' : ''}`}>
+  <div className={`header grid js-header-burger js-focus-trap bg-white border-bottom-width-1 border-color-pumice ${isActive ? 'header--is-burger-open' : ''}`}>
     <span className='visually-hidden js-trap-reverse-end'>reset focus</span>
     <div className='header__upper grid__cell'>
       <div className='header__inner container'>
