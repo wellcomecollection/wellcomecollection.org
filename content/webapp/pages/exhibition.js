@@ -134,7 +134,11 @@ ExhibitionPage.getInitialProps = async ({req, query}) => {
 
     if (exhibition) {
       return {
+        type: 'website',
         title: exhibition.title,
+        imageUrl: exhibition.promoImage && exhibition.promoImage.contentUrl,
+        description: exhibition.promoText,
+        canonicalUrl: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
         exhibition
       };
     }
