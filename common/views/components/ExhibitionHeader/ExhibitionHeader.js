@@ -4,7 +4,6 @@ import {Fragment} from 'react';
 import HeaderText from '../HeaderText/HeaderText';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import FreeSticker from '../FreeSticker/FreeSticker';
-import type {Link} from '../../../model/link';
 import {BasePageColumn} from '../BasePage/BasePage';
 import {classNames, spacing} from '../../../utils/classnames';
 import type {Node} from 'react';
@@ -12,22 +11,16 @@ import type {FeaturedMedia as FeaturedMediaType} from '../BaseHeader/BaseHeader'
 
 type Props = {|
   title: string,
-  TagBar: ?Node,
   DateInfo: ?Node,
   InfoBar: ?Node,
   FeaturedMedia: ?FeaturedMediaType,
-  topLink: ?Link,
-  Description: ?Node
 |}
 
-const ImageLeadHeader = ({
+const ExhibitionHeader = ({
   title,
   FeaturedMedia,
-  topLink,
-  TagBar,
   DateInfo,
-  InfoBar,
-  Description
+  InfoBar
 }: Props) => {
   return (
     <Fragment>
@@ -49,15 +42,15 @@ const ImageLeadHeader = ({
       </div>
       <BasePageColumn>
         <HeaderText
-          topLink={topLink}
-          TagBar={TagBar}
+          topLink={{url: '/exhibitions', text: 'Exhibitions'}}
           Heading={<h1 className='h0 inline-block no-margin'>{title}</h1>}
           DateInfo={DateInfo}
-          Description={Description}
-          InfoBar={InfoBar} />
+          InfoBar={InfoBar}
+          Description={null}
+          TagBar={null} />
       </BasePageColumn>
     </Fragment>
   );
 };
 
-export default ImageLeadHeader;
+export default ExhibitionHeader;

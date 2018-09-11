@@ -3,7 +3,7 @@ import {Fragment} from 'react';
 import {getExhibition} from '@weco/common/services/prismic/exhibitions';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
-import ImageLeadHeader from '@weco/common/views/components/BaseHeader/ImageLeadHeader';
+import ExhibitionHeader from '@weco/common/views/components/ExhibitionHeader/ExhibitionHeader';
 import {getFeaturedMedia} from '@weco/common/views/components/BaseHeader/BaseHeader';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
@@ -36,14 +36,11 @@ export const ExhibitionPage = ({
     widescreenImage: exhibition.widescreenImage,
     thinImage: exhibition.thinImage
   }, true);
-  const Header = (<ImageLeadHeader
-    Description={null}
+  const Header = (<ExhibitionHeader
     title={exhibition.title}
-    TagBar={null}
     DateInfo={DateInfo}
     InfoBar={<StatusIndicator start={exhibition.start} end={(exhibition.end || new Date())} />}
     FeaturedMedia={FeaturedMedia}
-    topLink={{url: '/exhibitions', text: 'Exhibitions'}}
   />);
 
   // Info box content
