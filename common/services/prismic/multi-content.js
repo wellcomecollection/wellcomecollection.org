@@ -31,19 +31,23 @@ export async function getMultiContent(
   structuredSearchQuery: StructuredSearchQuery
 ): Promise<PaginatedResults<MultiContent>> {
   const {types, type, id, ids, tags, tag, pageSize, orderings} = structuredSearchQuery;
+  const articleSeries = structuredSearchQuery['article-series'];
   const idsPredicate = ids.length > 0 ? Prismic.Predicates.at('document.id', ids) : null;
   const idPredicate = id.length > 0 ? Prismic.Predicates.in('document.id', id) : null;
   const tagsPredicate = tags.length > 0 ? Prismic.Predicates.at('document.tags', tags) : null;
   const tagPredicate = tag.length > 0 ? Prismic.Predicates.any('document.tags', tag) : null;
   const typesPredicate = types.length > 0 ? Prismic.Predicates.in('document.type', types) : null;
   const typePredicate = type.length > 0 ? Prismic.Predicates.any('document.type', type) : null;
+  // content type specific
+  const articleSeriesPredicate = articleSeries.length > 0 ? Prismic.Predicates.at('my.articles.series.series', articleSeries) : null;
   const predicates = [
     idsPredicate,
     idPredicate,
     tagsPredicate,
     tagPredicate,
     typesPredicate,
-    typePredicate
+    typePredicate,
+    articleSeriesPredicate
   ].filter(Boolean);
   const apiResponse = await getDocuments(req, predicates, {
     fetchLinks: pagesFields,

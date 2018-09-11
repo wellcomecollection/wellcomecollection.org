@@ -11,7 +11,9 @@ export type StructuredSearchQuery = {|
   tags: string[],
   tag: string[],
   pageSize: number,
-  orderings: string[]
+  orderings: string[],
+  // content type specific
+  'article-series': string[],
 |}
 
 export async function search(req: Request, stringQuery: string) {
@@ -28,7 +30,9 @@ export function parseQuery(query: string): StructuredSearchQuery {
       'types', 'type',
       'ids', 'id',
       'tags', 'tag',
-      'pageSize', 'orderings'
+      'pageSize', 'orderings',
+      // content type specific
+      'article-series'
     ]
   });
   const arrayedStructuredQuery = Object.entries(structuredQuery).reduce((acc, entry) => {
@@ -49,6 +53,7 @@ export function parseQuery(query: string): StructuredSearchQuery {
     tags: arrayedStructuredQuery.tags || [],
     tag: arrayedStructuredQuery.tag || [],
     orderings: arrayedStructuredQuery.orderings || [],
-    pageSize: arrayedStructuredQuery.pageSize
+    pageSize: arrayedStructuredQuery.pageSize,
+    'article-series': arrayedStructuredQuery['article-series']
   };
 }
