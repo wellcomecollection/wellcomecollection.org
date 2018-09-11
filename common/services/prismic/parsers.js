@@ -411,7 +411,7 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
         return {
           type: 'standfirst',
           weight: getWeight(slice.slice_label),
-          value: asHtml(slice.primary.text)
+          value: slice.primary.text
         };
 
       case 'text':

@@ -1,6 +1,6 @@
 // @flow
 // TODO: Sync up types with the body slices and the components they return
-import {spacing} from '../../../utils/classnames';
+import {spacing, classNames} from '../../../utils/classnames';
 import {breakpoints} from '../../../utils/breakpoints';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import {CaptionedImage, UiImage} from '../Images/Images';
@@ -12,7 +12,9 @@ import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Map from '../Map/Map';
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
 import {PictureFromImages} from '../Picture/Picture';
-import {BasePageColumn} from '../BasePage/BasePage';
+import TextLayout from '../TextLayout/TextLayout';
+import ImageLayout from '../ImageLayout/ImageLayout';
+import FullWidthLayout from '../FullWidthLayout/FullWidthLayout';
 import type {Weight} from '../../../services/prismic/parsers';
 
 type BodySlice = {|
@@ -24,75 +26,91 @@ type BodySlice = {|
 export type BodyType = BodySlice[]
 
 type Props = {|
-  body: BodyType
+  body: BodyType,
+  isCreamy?: boolean
 |}
 
-const Body = ({ body }: Props) => {
+const Body = ({ body, isCreamy = false }: Props) => {
   return (
-    <div className='basic-body'>
+    <div className={classNames({
+      'basic-body': true,
+      'bg-cream': isCreamy
+    })}>
       {body.map((slice, i) =>
         <div className={`body-part ${spacing({s: 6}, {margin: ['top']})}`} key={`slice${i}`}>
+          {slice.type === 'standfirst' &&
+            <TextLayout>
+              <div className='body-text'>
+                <FeaturedText html={slice.value} />
+              </div>
+            </TextLayout>}
           {slice.type === 'text' &&
-            <BasePageColumn>
+            <TextLayout>
               <div className='body-text'>
                 {slice.weight === 'featured' && <FeaturedText html={slice.value} />}
                 {slice.weight !== 'featured' && <PrismicHtmlBlock html={slice.value} />}
               </div>
-            </BasePageColumn>
+            </TextLayout>
           }
           {/*
             not all featured image slices have their crops as they were only
             added in later.
           */}
-          {slice.type === 'picture' && slice.weight === 'featured' && slice.value.image.crops.square &&
-            <BasePageColumn>
+          {slice.type === 'picture' &&
+            slice.weight === 'featured' &&
+            slice.value.image.crops.square &&
+            <FullWidthLayout>
               <WobblyBottom>
                 <PictureFromImages images={{
                   [breakpoints.medium]: slice.value.image.crops['16:9'],
                   'default': slice.value.image.crops.square
                 }} isFull={true} />
               </WobblyBottom>
-            </BasePageColumn>
+            </FullWidthLayout>
           }
-          {slice.type === 'picture' && slice.weight === 'featured' && !slice.value.image.crops.square &&
-            <BasePageColumn>
+          {slice.type === 'picture' &&
+            slice.weight === 'featured' &&
+            !slice.value.image.crops.square &&
+            <FullWidthLayout>
               <WobblyBottom>
                 <UiImage {...slice.value.image} isFull={true} />
               </WobblyBottom>
-            </BasePageColumn>
+            </FullWidthLayout>
           }
           {slice.type === 'picture' && slice.weight !== 'featured' &&
-            <CaptionedImage {...slice.value} sizesQueries={''} />
+            <ImageLayout>
+              <CaptionedImage {...slice.value} sizesQueries={''} />
+            </ImageLayout>
           }
           {slice.type === 'imageGallery' && <ImageGallery {...slice.value} />}
           {slice.type === 'quote' &&
-            <BasePageColumn>
+            <TextLayout>
               <Quote {...slice.value} />
-            </BasePageColumn>
+            </TextLayout>
           }
 
           {slice.type === 'contentList' &&
-            <BasePageColumn>
+            <TextLayout>
               <AsyncSearchResults
                 title={slice.value.title}
                 query={slice.value.items.map(({id}) => `id:${id}`).join(' ')}
               />
-            </BasePageColumn>
+            </TextLayout>
           }
           {slice.type === 'searchResults' &&
-            <BasePageColumn>
+            <TextLayout>
               <AsyncSearchResults {...slice.value} />
-            </BasePageColumn>
+            </TextLayout>
           }
           {slice.type === 'videoEmbed' &&
-            <BasePageColumn>
+            <TextLayout>
               <VideoEmbed {...slice.value} />
-            </BasePageColumn>
+            </TextLayout>
           }
           {slice.type === 'map' &&
-            <BasePageColumn>
+            <TextLayout>
               <Map {...slice.value} />
-            </BasePageColumn>
+            </TextLayout>
           }
         </div>
       )}

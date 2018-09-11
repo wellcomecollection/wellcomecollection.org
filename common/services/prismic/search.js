@@ -54,6 +54,6 @@ export function parseQuery(query: string): StructuredSearchQuery {
     tag: arrayedStructuredQuery.tag || [],
     orderings: arrayedStructuredQuery.orderings || [],
     pageSize: arrayedStructuredQuery.pageSize,
-    'article-series': arrayedStructuredQuery['article-series']
+    'article-series': arrayedStructuredQuery['article-series'] || []
   };
 }

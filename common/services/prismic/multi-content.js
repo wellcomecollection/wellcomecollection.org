@@ -50,7 +50,7 @@ export async function getMultiContent(
   const typesPredicate = types.length > 0 ? Prismic.Predicates.in('document.type', types) : null;
   const typePredicate = type.length > 0 ? Prismic.Predicates.any('document.type', type) : null;
   // content type specific
-  const articleSeriesPredicate = articleSeries && articleSeries.length > 0 ? Prismic.Predicates.any('my.articles.series.series', articleSeries) : null;
+  const articleSeriesPredicate = articleSeries.length > 0 ? Prismic.Predicates.any('my.articles.series.series', articleSeries) : null;
   const predicates = [
     idsPredicate,
     idPredicate,

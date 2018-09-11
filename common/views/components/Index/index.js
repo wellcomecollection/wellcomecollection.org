@@ -21,7 +21,6 @@ import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import EventSeriesPage from '../BasePage/EventSeriesPage';
 import ExceptionalOpeningHoursTable from '../ExceptionalOpeningHoursTable/ExceptionalOpeningHoursTable';
 import Excerpt from '../Excerpt/Excerpt';
-import ExhibitionPageHeader from '../PageHeaders/ExhibitionPageHeader/ExhibitionPageHeader';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import ExhibitionsAndEvents from '../ExhibitionsAndEvents/ExhibitionsAndEvents';
 import FacilityPromo from '../FacilityPromo/FacilityPromo';
@@ -90,7 +89,6 @@ export {
   EventSeriesPage,
   ExceptionalOpeningHoursTable,
   Excerpt,
-  ExhibitionPageHeader,
   ExhibitionPromo,
   ExhibitionsAndEvents,
   FacilityPromo,
