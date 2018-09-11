@@ -4,7 +4,7 @@ const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
 const buildHash = process.env.BUILD_HASH || 'test';
 const commonDirRegExp = /@weco(?!.*node_modules)/;
 
-module.exports = function(webpack) {
+module.exports = function(webpack, assetPrefix) {
   const withBundleAnalyzerConfig = withBundleAnalyzer({
     analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
     analyzeBrowser: ['browser', 'both'].includes(process.env.BUNDLE_ANALYZE),
@@ -51,7 +51,7 @@ module.exports = function(webpack) {
 
   const isProd = process.env.NODE_ENV === 'production';
   return withTM({
-    assetPrefix: isProd ? 'https://works.wellcomecollection.org' : '',
+    assetPrefix: isProd ? `https://${assetPrefix}.wellcomecollection.org` : '',
     transpileModules: ['@weco'],
     ...withBundleAnalyzerConfig
   });
