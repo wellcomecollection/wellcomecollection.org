@@ -5,12 +5,13 @@ import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Icon from '../Icon/Icon';
 import type {Element} from 'react';
 import type {LabelField} from '../../../model/label-field';
-
+import OpeningHours from '../OpeningHours/OpeningHours';
+import {pageStore} from '../PageWrapper/PageWrapper';
 type Props = {|
   title: string,
   items: {|
     ...LabelField,
-    icon?: string
+    icon?: ?string
   |}[],
   children: Element<'p'>
 |}
@@ -19,44 +20,54 @@ const InfoBox = ({
   title,
   items,
   children
-}: Props) => (
-  <div className={classNames([
-    'bg-yellow',
-    spacing({s: 4}, {padding: ['top', 'right', 'bottom', 'left']}),
-    spacing({s: 4}, {margin: ['top', 'bottom']})
-  ])}>
-    <h2 className='h2'>{title}</h2>
-
-    {items.map(({title, description, icon}) =>
-      <Fragment key={title}>
-        {!icon && <h3 className={font({s: 'HNM4'})}>{title}</h3>}
-        {icon &&
-          <h3 className={classNames([
-            'no-margin flex flex--v-center',
-            font({s: 'HNM4'})
-          ])}>
-            <span className={classNames([
-              'flex flex--v-center',
-              spacing({s: 1}, {margin: ['right']})
-            ])}>
-              <Icon name={icon} />
-            </span>
-            <span>{title}</span>
-          </h3>}
-        {description &&
-          <div className={classNames([
-            'plain-text',
-            font({s: 'HNL4'}),
-            spacing({s: 4}, {margin: ['bottom']})
-          ])}>
-            <PrismicHtmlBlock html={description} />
-          </div>
+}: Props) => {
+  const openingTimes = pageStore('openingTimes');
+  return (
+    <Fragment>
+      <h2 className='h2'>{title}</h2>
+      <div className={classNames({
+        'bg-yellow': true,
+        [spacing({s: 4}, {padding: ['top', 'right', 'bottom', 'left']})]: true,
+        [spacing({s: 4}, {margin: ['bottom']})]: true
+      })}>
+        {items.map(({title, description, icon}, i) =>
+          <Fragment key={i}>
+            <div className={font({s: 'HNM4'})}>
+              {icon && (title || description) &&
+                <span className={`float-l ${spacing({s: 1}, {margin: ['right']})}`}>
+                  <Icon name={icon} />
+                </span>
+              }
+              {title &&
+                <h3 className={classNames([
+                  font({s: 'HNM4'}),
+                  spacing({s: 0}, {margin: ['top']})
+                ])}>{title}</h3>
+              }
+              {description &&
+                <div className={classNames([
+                  'plain-text',
+                  font({s: 'HNL4'}),
+                  spacing({s: 4}, {margin: ['bottom']})
+                ])}>
+                  <PrismicHtmlBlock html={description} />
+                </div>
+              }
+            </div>
+          </Fragment>
+        )}
+        <div className={spacing({s: 4}, {margin: ['bottom']})}>
+          {children}
+        </div>
+        {openingTimes.groupedVenues &&
+        <OpeningHours
+          extraClasses='opening-hours--light opening-hours--yellow opening-hours--compressed'
+          groupedVenues={openingTimes.groupedVenues}
+          upcomingExceptionalOpeningPeriods={openingTimes.upcomingExceptionalOpeningPeriods} />
         }
-      </Fragment>
-    )}
-
-    {children}
-  </div>
-);
+      </div>
+    </Fragment>
+  );
+};
 
 export default InfoBox;

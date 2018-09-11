@@ -6,7 +6,13 @@ export const peopleFields = [
   'people.sameAs'
 ];
 export const contributorsFields = ['editorial-contributor-roles.title'];
-export const organisationsFields = ['organisations.name', 'organisations.image', 'organisations.url'];
+export const organisationsFields = [
+  'organisations.name',
+  'organisations.image',
+  'organisations.url',
+  'organisations.description',
+  'organisations.sameAs'
+];
 export const placesFields = ['places.title', 'places.level', 'places.capacity', 'places.locationInformation'];
 export const installationFields = [
   'installations.title',
@@ -50,4 +56,9 @@ export const backgroundTexturesFields = [
 export const eventPoliciesFields = [
   'event-policies.title',
   'event-policies.description'
+];
+export const exhibitionResourcesFields = [
+  'exhibition-resources.title',
+  'exhibition-resources.description',
+  'exhibition-resources.icon'
 ];

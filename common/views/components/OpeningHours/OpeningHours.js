@@ -4,11 +4,13 @@ import {Fragment, Component} from 'react';
 import {formatDay, formatDate} from '../../../utils/format-date';
 import OpeningHoursTable from '../../components/OpeningHoursTable/OpeningHoursTable';
 import OpeningHoursTableGrouped from '../../components/OpeningHoursTableGrouped/OpeningHoursTableGrouped';
+import type {OverrideType, GroupedVenues} from '../../../model/opening-hours';
+import type Moment from 'moment';
 
 type Props = {|
   extraClasses?: string,
-  groupedVenues: any,
-  upcomingExceptionalOpeningPeriods: {dates: Date[], type: string}[]
+  groupedVenues: GroupedVenues,
+  upcomingExceptionalOpeningPeriods: ?{dates: Moment[], type: OverrideType}[]
 |}
 
 type State = {|
@@ -69,7 +71,7 @@ class OpeningHours extends Component<Props, State> {
               if (firstDate && lastDate) {
                 if (group.dates.length > 1) {
                   return (
-                    <span key={firstDate}>
+                    <span key={firstDate.toISOString()}>
                       {(array.length > 1 && i > 0) && ' and '}
                       {`${typeWording} between`} <span className='nowrap'>{formatDate(firstDate)}</span>
                       &mdash;
@@ -78,7 +80,7 @@ class OpeningHours extends Component<Props, State> {
                   );
                 } else {
                   return (
-                    <Fragment key={firstDate}>
+                    <Fragment key={firstDate.toISOString()}>
                       {`${typeWording} on`} <span className='nowrap'>
                         {formatDate(firstDate)}
                       </span>

@@ -9,11 +9,19 @@
   color: color('pewter');
 }
 
+.opening-hours--yellow {
+  color: color('charcoal');
+}
+
 .opening-hours__tablist {
   border-bottom: 1px solid color('charcoal');
 
   .opening-hours--light & {
     border-bottom-color: color('pewter');
+  }
+
+  .opening-hours--yellow & {
+    border-bottom-color: color('black');
   }
 }
 
@@ -51,6 +59,11 @@
       color: color('black');
       border-color: color('pewter');
       border-bottom-color: color('white');
+    }
+
+    .opening-hours--yellow & {
+      border-color: color('black');
+      border-bottom-color: color('yellow');
     }
   }
 }

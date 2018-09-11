@@ -13,7 +13,7 @@ const ticketButtonLoadingText = 'Loading…';
 
 const EventbriteButton = ({event}: Props) => {
   return (
-    <div>
+    <div className={spacing({s: 4}, {margin: ['bottom']})}>
       {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
         : (
           <Fragment>

@@ -116,6 +116,7 @@ function parseImage(frag: PrismicFragment): ImageType {
   const tasl = parseTaslFromString(frag.copyright);
   const crops = Object.keys(frag)
     .filter(key => prismicImageProps.indexOf(key) === -1)
+    .filter(key => isImageLink(frag[key]))
     .map(key => ({
       key,
       image: parseImage(frag[key])
@@ -209,11 +210,12 @@ function parsePersonContributor(frag: PrismicFragment): PersonContributor {
 
 function parseOrganisationContributor(frag: PrismicFragment): OrganisationContributor {
   return  {
-    id: frag.id,
     type: 'organisations',
+    id: frag.id,
     name: asText(frag.data.name) || '',
     image: checkAndParseImage(frag.data.image) || defaultContributorImage,
     url: frag.data.url,
+    description: frag.data.description,
     sameAs: frag.data.sameAs ? parseSameAs(frag.data.sameAs) : []
   };
 }
@@ -508,10 +510,10 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
   const promoImages = data.promo && data.promo.length > 0 ? data.promo
     .filter(slice => slice.primary.image)
     .map(({primary: {image}}) => {
-      const originalImage = parseImage(image);
-      const squareImage = image.square && parseImage(image.square);
-      const widescreenImage = image['16:9'] && parseImage(image['16:9']);
-      const thinImage = image['32:15'] && parseImage(image['32:15']);
+      const originalImage = isImageLink(image) && parseImage(image);
+      const squareImage = image.square && isImageLink(image.square) && parseImage(image.square);
+      const widescreenImage = image['16:9'] && isImageLink(image['16:9']) && parseImage(image['16:9']);
+      const thinImage = image['32:15'] && isImageLink(image['32:15']) && parseImage(image['32:15']);
 
       return {image: originalImage, squareImage, widescreenImage, thinImage};
     }).find(_ => _) : {}; // just get the first one;
