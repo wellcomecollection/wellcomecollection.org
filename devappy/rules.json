@@ -1,6 +1,14 @@
 {
   "rules": [
     {
+      "pathname": "/articles",
+      "dest": "http://localhost:3001"
+    },
+    {
+      "pathname": "/_next",
+      "dest": "http://localhost:3001"
+    },
+    {
       "pathname": "/eventbrite",
       "dest": "http://localhost:3004"
     },

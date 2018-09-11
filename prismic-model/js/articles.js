@@ -21,7 +21,7 @@ const Article = {
   Contributors: contributorsWithTitle(),
   Series: {
     series: list('Series', {
-      series: link('Series', 'document', ['event-series']),
+      series: link('Series', 'document', ['series']),
       positionInSeries: number('Position in series')
     })
   },

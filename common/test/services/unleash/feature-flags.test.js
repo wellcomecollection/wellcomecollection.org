@@ -1,5 +1,5 @@
 import { isEnabled } from 'unleash-client';
-import { initialize } from '../../../services/unleash/feature-flags';
+import { initialize } from '../../../services/unleash/feature-toggles';
 
 test('Test that flags are working', async () => {
   initialize({

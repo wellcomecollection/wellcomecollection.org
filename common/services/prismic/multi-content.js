@@ -6,7 +6,16 @@ import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
 import { parseBook } from './books';
 import { parseEventDoc } from './events';
-import { pagesFields } from './fetch-links';
+import { parseArticle } from './articles';
+import {
+  pagesFields,
+  interpretationTypesFields,
+  placesFields,
+  eventFormatsFields,
+  eventPoliciesFields,
+  audiencesFields,
+  articleSeriesFields
+} from './fetch-links';
 import type {MultiContent} from '../../model/multi-content';
 import type {StructuredSearchQuery} from './search';
 import type {PaginatedResults} from './types';
@@ -22,6 +31,8 @@ function parseMultiContent(documents): MultiContent[] {
         return parseBook(document);
       case 'events':
         return parseEventDoc(document);
+      case 'articles':
+        return parseArticle(document);
     }
   }).filter(Boolean);
 }
@@ -31,22 +42,33 @@ export async function getMultiContent(
   structuredSearchQuery: StructuredSearchQuery
 ): Promise<PaginatedResults<MultiContent>> {
   const {types, type, id, ids, tags, tag, pageSize, orderings} = structuredSearchQuery;
+  const articleSeries = structuredSearchQuery['article-series'];
   const idsPredicate = ids.length > 0 ? Prismic.Predicates.at('document.id', ids) : null;
   const idPredicate = id.length > 0 ? Prismic.Predicates.in('document.id', id) : null;
   const tagsPredicate = tags.length > 0 ? Prismic.Predicates.at('document.tags', tags) : null;
   const tagPredicate = tag.length > 0 ? Prismic.Predicates.any('document.tags', tag) : null;
   const typesPredicate = types.length > 0 ? Prismic.Predicates.in('document.type', types) : null;
   const typePredicate = type.length > 0 ? Prismic.Predicates.any('document.type', type) : null;
+  // content type specific
+  const articleSeriesPredicate = articleSeries.length > 0 ? Prismic.Predicates.any('my.articles.series.series', articleSeries) : null;
   const predicates = [
     idsPredicate,
     idPredicate,
     tagsPredicate,
     tagPredicate,
     typesPredicate,
-    typePredicate
+    typePredicate,
+    articleSeriesPredicate
   ].filter(Boolean);
   const apiResponse = await getDocuments(req, predicates, {
-    fetchLinks: pagesFields,
+    fetchLinks: pagesFields.concat(
+      interpretationTypesFields,
+      placesFields,
+      eventFormatsFields,
+      eventPoliciesFields,
+      audiencesFields,
+      articleSeriesFields
+    ),
     pageSize: pageSize || 100,
     orderings: `[${(orderings || []).join(',')}]`
   });

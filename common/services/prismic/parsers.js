@@ -363,6 +363,12 @@ function parseStructuredText(maybeFragment: ?any): ?HTMLString {
     ? (maybeFragment: HTMLString) : null;
 }
 
+export function parseSingleLevelGroup(frag: PrismicFragment[], singlePropertyName: string) {
+  return (frag || [])
+    .filter(fragItem => isDocumentLink(fragItem[singlePropertyName]))
+    .map(fragItem => fragItem[singlePropertyName]);
+}
+
 // Prismic return `[ { type: 'paragraph', text: '', spans: [] } ]` when you have
 // inserted text, then removed it, so we need to do this check.
 export function isStructuredText(structuredTextObject: HTMLString): boolean {
