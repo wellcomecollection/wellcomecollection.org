@@ -106,7 +106,7 @@ resource "aws_alb_listener_rule" "articles_path_rule" {
   }
 
   condition {
-    field  = "path-pattern"
-    values = ["/exhibitions*"]
+    field  = "path-header"
+    values = ["content.wellcomecollection.org"]
   }
 }
