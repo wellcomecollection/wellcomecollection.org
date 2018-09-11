@@ -12,7 +12,7 @@ import Tags from '../../../common/views/components/Tags/Tags';
 import {image, videoEmbed} from '../content';
 
 const stories = storiesOf('Components', module).addDecorator(withKnobs);
-const Header = () => {
+export const Header = () => {
   const title = text('Title', 'Some sort of title');
   const description = text('Description', 'Some sort of description');
   const Image = UiImage(image());
@@ -60,6 +60,4 @@ const Header = () => {
 };
 
 stories
-  .add('BaseHeader', Header);
-
-export default Header();
+  .add('Headers: Base', Header);

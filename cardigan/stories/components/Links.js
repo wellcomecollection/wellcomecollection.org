@@ -5,7 +5,7 @@ import SecondaryLink from '../../../common/views/components/Links/SecondaryLink/
 import {sized} from '../../../common/utils/style';
 
 const stories = storiesOf('Components', module);
-stories.add('Links: Primary link', () => (
+stories.add('Links: Primary', () => (
   <Fragment>
     <h2 className='h2'>Link</h2>
     <PrimaryLink url={`#`} name={`View all exhibitions`} />
@@ -17,6 +17,6 @@ stories.add('Links: Primary link', () => (
     <PrimaryLink url={`#`} name={`See all dates/times to book`} isJumpLink={true} />
   </Fragment>
 ));
-stories.add('Links: Secondary link', () => (
+stories.add('Links: Secondary', () => (
   <SecondaryLink url={`#`} text={`Our event terms and conditions`} />
 ));

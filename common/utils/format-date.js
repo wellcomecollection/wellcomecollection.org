@@ -2,8 +2,9 @@
 // $FlowFixMe
 import 'moment-timezone';
 import moment from 'moment';
+import type Moment from 'moment';
 
-export function london(d?: Date | string) {
+export function london(d?: Date | string | Moment) {
   // $FlowFixMe
   return moment.tz(d, 'Europe/London');
 }
@@ -16,7 +17,7 @@ export function formatDayDate(date: Date): string {
   return london(date).format('dddd D MMMM YYYY');
 }
 
-export function formatDate(date: Date): string {
+export function formatDate(date: Date | Moment): string {
   return london(date).format('D MMMM YYYY');
 }
 

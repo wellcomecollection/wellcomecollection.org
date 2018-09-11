@@ -28,6 +28,11 @@ export const image = (
   };
 };
 
+export const pictureImages = [
+  {'contentUrl': 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/fb5b20a53897d484fde6afc612fb9563e987fd5f_tf_180516_2060224.jpg', 'width': 3200, 'height': 1500, 'alt': 'Photograph of a man and a woman looking at an exhibit in the Teeth exhibition at Wellcome Collection.', 'tasl': {'title': 'Teeth exhibition', 'author': 'Thomas SG Farnetti', 'sourceName': 'Wellcome Collection', 'sourceLink': null, 'license': 'CC-BY-NC', 'copyrightHolder': null, 'copyrightLink': null}, 'minWidth': '600px'},
+  {'contentUrl': 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/3ab79986b581a18eabd68602d0f27e989535e0dc_tf_180516_2060224.jpg', 'width': 3200, 'height': 3200, 'alt': 'Photograph of a man and a woman looking at an exhibit in the Teeth exhibition at Wellcome Collection.', 'tasl': {'title': 'Teeth exhibition', 'author': 'Thomas SG Farnetti', 'sourceName': 'Wellcome Collection', 'sourceLink': null, 'license': 'CC-BY-NC', 'copyrightHolder': null, 'copyrightLink': null}, 'minWidth': null}
+];
+
 export const editorialSeries = [{'name': 'Searching for Genius', 'description': [{'type': 'paragraph', 'text': 'This five-part series is great. ', 'spans': []}], 'color': 'turquoise', 'commissionedLength': 6, 'schedule': [{'title': [{'type': 'heading1', 'text': 'First heading', 'spans': []}], 'publishDate': '2018-04-18T23: 00: 00+0000'}, {'title': [{'type': 'heading1', 'text': 'Second heading', 'spans': []}], 'publishDate': '2018-04-25T23: 00: 00+0000'}, {'title': [{'type': 'heading1', 'text': 'Third heading', 'spans': []}], 'publishDate': '2018-05-02T23: 00: 00+0000'}, {'title': [{'type': 'heading1', 'text': 'Fourth heading', 'spans': []}], 'publishDate': '2018-05-09T23: 00: 00+0000'}, {'title': [{'type': 'heading1', 'text': 'Fifth heading', 'spans': []}], 'publishDate': '2018-05-16T23: 00: 00+0000'}], 'promo': [], 'wordpressSlug': null}];
 
 export const eventSeries = [{'id': 'Wn28GCoAACkAIYol', 'title': 'The Evidence:  Civilisations and Health', 'description': [{'type': 'paragraph', 'text': 'The BBC World Service is joining forces with Wellcome Collection for this series of events and radio programmes exploring health in the context of society and civilisation. ', 'spans': []}]}];
