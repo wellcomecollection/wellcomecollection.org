@@ -67,6 +67,20 @@ const SearchResults = ({ items, title }: Props) => (
             />
           }
 
+          {item.type === 'articles' &&
+            <CompactCard
+              promoType='ArticlePromo'
+              url={`/articles/${item.id}`}
+              title={item.title || ''}
+              description={item.promoText}
+              urlOverride={item.promo && item.promo.link}
+              Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
+              Tags={null}
+              DateInfo={null}
+              StatusIndicator={null}
+            />
+          }
+
           {item.type === 'events' &&
             <EventCard event={item} />
           }

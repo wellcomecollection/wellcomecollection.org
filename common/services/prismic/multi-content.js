@@ -6,6 +6,7 @@ import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
 import { parseBook } from './books';
 import { parseEventDoc } from './events';
+import { parseArticle } from './articles';
 import { pagesFields } from './fetch-links';
 import type {MultiContent} from '../../model/multi-content';
 import type {StructuredSearchQuery} from './search';
@@ -22,6 +23,8 @@ function parseMultiContent(documents): MultiContent[] {
         return parseBook(document);
       case 'events':
         return parseEventDoc(document);
+      case 'articles':
+        return parseArticle(document);
     }
   }).filter(Boolean);
 }
@@ -39,7 +42,7 @@ export async function getMultiContent(
   const typesPredicate = types.length > 0 ? Prismic.Predicates.in('document.type', types) : null;
   const typePredicate = type.length > 0 ? Prismic.Predicates.any('document.type', type) : null;
   // content type specific
-  const articleSeriesPredicate = articleSeries.length > 0 ? Prismic.Predicates.at('my.articles.series.series', articleSeries) : null;
+  const articleSeriesPredicate = articleSeries.length > 0 ? Prismic.Predicates.any('my.articles.series.series', articleSeries) : null;
   const predicates = [
     idsPredicate,
     idPredicate,

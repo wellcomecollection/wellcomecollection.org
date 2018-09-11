@@ -25,15 +25,17 @@ const graphQuery = `{
   }
 }`;
 
-// TODO: 0_0
+// TODO: 0_0 -> move this to /model
 export type ArticleV2 = {|
+  type: 'articles',
   ...GenericContentFields,
   summary: ?HTMLString,
   datePublished: Date
 |}
 
-function parseArticle(document: PrismicDocument): ArticleV2 {
+export function parseArticle(document: PrismicDocument): ArticleV2 {
   return {
+    type: 'articles',
     ...parseGenericFields(document),
     summary: document.data.summary,
     datePublished: new Date(document.first_publication_date)
