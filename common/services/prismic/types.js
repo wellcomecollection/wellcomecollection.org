@@ -9,8 +9,8 @@ export type PrismicDocument = {|
   slugs: string[];
   lang?: string;
   alternateLanguages: string[];
-  firstPublicationDate: Date | null;
-  lastPublicationDate: Date | null;
+  first_publication_date: Date;
+  last_publication_date: Date;
   data: any;
 |}
 

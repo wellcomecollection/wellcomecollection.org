@@ -1,14 +1,17 @@
 // @flow
 // TODO: Sync up types with the body slices and the components they return
 import {spacing} from '../../../utils/classnames';
+import {breakpoints} from '../../../utils/breakpoints';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
-import {CaptionedImage} from '../Images/Images';
+import {CaptionedImage, UiImage} from '../Images/Images';
 import Quote from '../Quote/Quote';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Map from '../Map/Map';
+import WobblyBottom from '../WobblyBottom/WobblyBottom';
+import {PictureFromImages} from '../Picture/Picture';
 import {BasePageColumn} from '../BasePage/BasePage';
 import type {Weight} from '../../../services/prismic/parsers';
 
@@ -37,16 +40,31 @@ const Body = ({ body }: Props) => {
               </div>
             </BasePageColumn>
           }
-          {slice.type === 'picture' &&
+          {/*
+            not all featured image slices have their crops as they were only
+            added in later.
+          */}
+          {slice.type === 'picture' && slice.weight === 'featured' && slice.value.image.crops.square &&
             <BasePageColumn>
-              <CaptionedImage {...slice.value} sizesQueries={''} />
+              <WobblyBottom>
+                <PictureFromImages images={{
+                  [breakpoints.medium]: slice.value.image.crops['16:9'],
+                  'default': slice.value.image.crops.square
+                }} isFull={true} />
+              </WobblyBottom>
             </BasePageColumn>
           }
-          {slice.type === 'imageGallery' &&
+          {slice.type === 'picture' && slice.weight === 'featured' && !slice.value.image.crops.square &&
             <BasePageColumn>
-              <ImageGallery {...slice.value} />
+              <WobblyBottom>
+                <UiImage {...slice.value.image} isFull={true} />
+              </WobblyBottom>
             </BasePageColumn>
           }
+          {slice.type === 'picture' && slice.weight !== 'featured' &&
+            <CaptionedImage {...slice.value} sizesQueries={''} />
+          }
+          {slice.type === 'imageGallery' && <ImageGallery {...slice.value} />}
           {slice.type === 'quote' &&
             <BasePageColumn>
               <Quote {...slice.value} />

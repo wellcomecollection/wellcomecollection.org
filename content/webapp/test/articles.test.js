@@ -10,8 +10,12 @@ it('renders <WorkPage /> with an catalogue API work response', async () => {
     url: '/articles/W2qqOikAACkA7Tca'
   }), 'W2qqOikAACkA7Tca');
 
-  const Page = TestRenderer.create(
-    <ArticlePage article={article} />
-  );
-  expect(Page).not.toBe(null);
+  expect(article).not.toBe(null);
+
+  if (article) {
+    const Page = TestRenderer.create(
+      <ArticlePage article={article} />
+    );
+    expect(Page).not.toBe(null);
+  }
 });
