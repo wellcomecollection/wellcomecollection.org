@@ -18,7 +18,7 @@
                 {% componentJsx 'CaptionedImage', bodyPart.value %}
               </div>
             {% else %}
-              {% componentJsx 'FeaturedText', { html: bodyPart.value } %}
+              {% componentJsx 'Standfirst', { html: bodyPart.value } %}
             {% endif %}
           {% elif bodyPart.type === 'heading' %}
             <h2>{{ bodyPart.value.value | safe }}</h2>
