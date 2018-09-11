@@ -1,7 +1,7 @@
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 
 // @flow
-import {spacing, font} from '../../../utils/classnames';
+import {font, classNames} from '../../../utils/classnames';
 import type {HTMLString} from '../../../services/prismic/types';
 
 type Props = {|
@@ -9,13 +9,10 @@ type Props = {|
 |}
 
 const FeaturedText = ({html}: Props) => (
-  <div className={`
-    body-text
-    border-left-width-5
-    border-color-black
-    ${spacing({s: 4}, {padding: ['left']})}
-    ${font({s: 'HNL3', m: 'HNL2'})}
-  `}>
+  <div className={classNames({
+    'body-text': true,
+    [font({s: 'HNM4', m: 'HNM3'})]: true
+  })}>
     <PrismicHtmlBlock html={html} />
   </div>
 );
