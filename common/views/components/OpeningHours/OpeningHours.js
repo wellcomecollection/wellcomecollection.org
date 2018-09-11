@@ -4,13 +4,13 @@ import {Fragment, Component} from 'react';
 import {formatDay, formatDate} from '../../../utils/format-date';
 import OpeningHoursTable from '../../components/OpeningHoursTable/OpeningHoursTable';
 import OpeningHoursTableGrouped from '../../components/OpeningHoursTableGrouped/OpeningHoursTableGrouped';
-import type {OverrideType} from '../../../model/opening-hours';
+import type {OverrideType, GroupedVenues} from '../../../model/opening-hours';
 import type Moment from 'moment';
 
 type Props = {|
   extraClasses?: string,
-  groupedVenues: any,
-  upcomingExceptionalOpeningPeriods: {dates: Moment[], type: OverrideType}[]
+  groupedVenues: GroupedVenues,
+  upcomingExceptionalOpeningPeriods: ?{dates: Moment[], type: OverrideType}[]
 |}
 
 type State = {|

@@ -173,11 +173,13 @@ function exceptionalOpeningHours(dates: OverrideDate[], placesOpeningHours: Plac
 }
 
 function upcomingExceptionalOpeningPeriods(periods: ExceptionalPeriod[]) {
-  return periods && periods.filter((period) => {
+  const exceptionalPeriods =  periods && periods.filter((period) => {
     const displayPeriodStart = london().subtract(1, 'day');
     const displayPeriodEnd = london().add(15, 'day');
     return period.dates[0].overrideDate.clone().isBetween(displayPeriodStart, displayPeriodEnd) || period.dates[period.dates.length - 1].overrideDate.clone().isBetween(displayPeriodStart, displayPeriodEnd);
   });
+
+  return exceptionalPeriods.length > 1 ? exceptionalPeriods : null;
 }
 
 function exceptionalClosedDates(exceptionalOpeningHours: ?periodModifiedHours[]): ?{periodStart: Moment, periodEnd: Moment, venues: {

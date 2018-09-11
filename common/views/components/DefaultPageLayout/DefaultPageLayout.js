@@ -6,7 +6,7 @@ import Header from '../Header/Header';
 import {striptags} from '../../../utils/striptags';
 import {formatDate} from '../../../utils/format-date';
 import Footer from '../Footer/Footer';
-import type {PlacesOpeningHours, OverrideType} from '../../../model/opening-hours';
+import type {GroupedVenues, OverrideType} from '../../../model/opening-hours';
 import type Moment from 'moment';
 import analytics from '../../../utils/analytics';
 import Raven from 'raven-js';
@@ -112,9 +112,7 @@ type Props = {|
   featureFlags?: string[],
   isPreview?: boolean,
   openingTimes: {
-    groupedVenues: {
-      [string]: PlacesOpeningHours
-    },
+    groupedVenues: GroupedVenues,
     upcomingExceptionalOpeningPeriods: {dates: Moment[], type: OverrideType}[]
   },
   oEmbedUrl?: string

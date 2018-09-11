@@ -59,7 +59,7 @@ const InfoBox = ({
         <div className={spacing({s: 4}, {margin: ['bottom']})}>
           {children}
         </div>
-        {openingTimes.groupedVenues && openingTimes.upcomingExceptionalOpeningPeriods &&
+        {openingTimes.groupedVenues &&
         <OpeningHours
           extraClasses='opening-hours--light opening-hours--yellow opening-hours--compressed'
           groupedVenues={openingTimes.groupedVenues}
