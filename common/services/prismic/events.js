@@ -307,6 +307,7 @@ type EventsGroup = {|
   end: Date,
   events: UiEvent[]
 |}
+
 export function groupEventsBy(events: UiEvent[], groupBy: GroupDatesBy): EventsGroup[] {
   // Get the full range of all the events
   const range = events.map(({times}) => times.map(time => ({
@@ -353,7 +354,22 @@ export function groupEventsBy(events: UiEvent[], groupBy: GroupDatesBy): EventsG
     });
   }, {});
 
-  return ranges;
+  // Remove times from event that fall outside the range of the current event group it is in
+  const rangesWithFilteredTimes = ranges.map((range) => {
+    const start = range.start;
+    const end = range.end;
+    const events = range.events.map((event) => {
+      const timesInRange = event.times.filter((time) => {
+        return (time.range.startDateTime >= start && time.range.endDateTime <= end);
+      });
+
+      return Object.assign({}, event, {times: timesInRange});
+    });
+
+    return Object.assign({}, range, {events});
+  });
+
+  return rangesWithFilteredTimes;
 }
 
 // TODO: maybe use a Map?
