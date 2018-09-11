@@ -564,7 +564,7 @@
               "label": "Series",
               "select": "document",
               "customtypes": [
-                "event-series"
+                "series"
               ]
             }
           },

@@ -1,7 +1,7 @@
 // @flow
 import {getDocument} from './api';
-import {parseGenericFields} from './parsers';
 import type {PrismicDocument, HTMLString} from './types';
+import {parseGenericFields, parseSingleLevelGroup} from './parsers';
 import type {GenericContentFields} from '../../model/generic-content-fields';
 
 const graphQuery = `{
@@ -22,15 +22,37 @@ const graphQuery = `{
         }
       }
     }
+    series {
+      series {
+        name
+        description
+      }
+    }
+    promo {
+      ... on editorialImage {
+        non-repeat {
+          caption
+          image
+        }
+      }
+    }
   }
 }`;
+
+type ArticleSeries = {|
+  type: 'article-series',
+  id: string,
+  title: ?string,
+  description: ?HTMLString
+|}
 
 // TODO: 0_0 -> move this to /model
 export type ArticleV2 = {|
   type: 'articles',
   ...GenericContentFields,
   summary: ?HTMLString,
-  datePublished: Date
+  datePublished: Date,
+  series: ArticleSeries[]
 |}
 
 export function parseArticle(document: PrismicDocument): ArticleV2 {
@@ -38,7 +60,15 @@ export function parseArticle(document: PrismicDocument): ArticleV2 {
     type: 'articles',
     ...parseGenericFields(document),
     summary: document.data.summary,
-    datePublished: new Date(document.first_publication_date)
+    datePublished: new Date(document.first_publication_date),
+    series: parseSingleLevelGroup(document.data.series, 'series').map(series => {
+      return {
+        type: 'article-series',
+        id: series.id,
+        title: series.data.name,
+        description: series.data.description
+      };
+    })
   };
 }
 

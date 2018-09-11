@@ -9,6 +9,7 @@ import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Body from '@weco/common/views/components/Body/Body';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import AsyncSearchResults from '@weco/common/views/components/SearchResults/AsyncSearchResults';
 import type {ArticleV2} from '@weco/common/services/prismic/articles';
 
 type Props = {|
@@ -50,6 +51,12 @@ export const ArticlePage = ({
       Header={Header}
       Body={<Body body={article.body} />}
     >
+      {article.series.map(series => (
+        <AsyncSearchResults
+          key={series.id}
+          title={`Read more from ${series.title || ''}`}
+          query={`article-series:${series.id}`} />
+      ))}
     </BasePage>
   );
 };

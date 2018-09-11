@@ -7,7 +7,15 @@ import { parseEventSeries } from './event-series';
 import { parseBook } from './books';
 import { parseEventDoc } from './events';
 import { parseArticle } from './articles';
-import { pagesFields } from './fetch-links';
+import {
+  pagesFields,
+  interpretationTypesFields,
+  placesFields,
+  eventFormatsFields,
+  eventPoliciesFields,
+  audiencesFields,
+  articleSeriesFields
+} from './fetch-links';
 import type {MultiContent} from '../../model/multi-content';
 import type {StructuredSearchQuery} from './search';
 import type {PaginatedResults} from './types';
@@ -42,7 +50,7 @@ export async function getMultiContent(
   const typesPredicate = types.length > 0 ? Prismic.Predicates.in('document.type', types) : null;
   const typePredicate = type.length > 0 ? Prismic.Predicates.any('document.type', type) : null;
   // content type specific
-  const articleSeriesPredicate = articleSeries.length > 0 ? Prismic.Predicates.any('my.articles.series.series', articleSeries) : null;
+  const articleSeriesPredicate = articleSeries && articleSeries.length > 0 ? Prismic.Predicates.any('my.articles.series.series', articleSeries) : null;
   const predicates = [
     idsPredicate,
     idPredicate,
@@ -53,7 +61,14 @@ export async function getMultiContent(
     articleSeriesPredicate
   ].filter(Boolean);
   const apiResponse = await getDocuments(req, predicates, {
-    fetchLinks: pagesFields,
+    fetchLinks: pagesFields.concat(
+      interpretationTypesFields,
+      placesFields,
+      eventFormatsFields,
+      eventPoliciesFields,
+      audiencesFields,
+      articleSeriesFields
+    ),
     pageSize: pageSize || 100,
     orderings: `[${(orderings || []).join(',')}]`
   });
