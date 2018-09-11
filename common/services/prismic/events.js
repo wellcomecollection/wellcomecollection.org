@@ -363,10 +363,16 @@ export function groupEventsBy(events: UiEvent[], groupBy: GroupDatesBy): EventsG
         return (time.range.startDateTime >= start && time.range.endDateTime <= end);
       });
 
-      return Object.assign({}, event, {times: timesInRange});
+      return {
+        ...event,
+        times: timesInRange
+      };
     });
 
-    return Object.assign({}, range, {events});
+    return {
+      ...range,
+      events
+    };
   });
 
   return rangesWithFilteredTimes;
