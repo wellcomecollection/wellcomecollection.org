@@ -32,8 +32,7 @@ const Page = ({
     promoText: series.promoText,
     image: series.image,
     squareImage: series.squareImage,
-    widescreenImage: series.widescreenImage,
-    thinImage: series.thinImage
+    widescreenImage: series.widescreenImage
   });
   const TagBar = <Tags tags={[{
     text: 'Event series'

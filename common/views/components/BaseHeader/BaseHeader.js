@@ -40,7 +40,7 @@ export function getFeaturedMedia(
   isPicture?: boolean
 ): ?FeaturedMedia {
   const image = fields.promo && fields.promo.image;
-  const { squareImage, widescreenImage, thinImage } = fields;
+  const { squareImage, widescreenImage } = fields;
   const {body} = fields;
   const tasl: ?Tasl = image && {
     title: image.title,
@@ -53,9 +53,9 @@ export function getFeaturedMedia(
   };
   const hasFeaturedVideo = body.length > 0 && body[0].type === 'videoEmbed';
   const FeaturedMedia = hasFeaturedVideo
-    ? <VideoEmbed {...body[0].value} /> : isPicture && thinImage && squareImage
+    ? <VideoEmbed {...body[0].value} /> : isPicture && widescreenImage && squareImage
       ? <Picture
-        images={[{...thinImage, minWidth: breakpoints.medium}, {...squareImage, minWidth: null}]}
+        images={[{...widescreenImage, minWidth: breakpoints.medium}, {...squareImage, minWidth: null}]}
         isFull={true} />
       : image && tasl ? <UiImage tasl={tasl} {...widescreenImage} sizesQueries='' /> : null;
 
