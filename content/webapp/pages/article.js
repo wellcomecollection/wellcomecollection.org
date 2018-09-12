@@ -96,6 +96,8 @@ ArticlePage.getInitialProps = async ({req, query}) => {
         siteSection: 'stories',
         analyticsCategory: 'editorial'
       };
+    } else {
+      return {statusCode: 404};
     }
   }
 };
