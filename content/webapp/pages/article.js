@@ -11,6 +11,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import AsyncSearchResults from '@weco/common/views/components/SearchResults/AsyncSearchResults';
 import TextLayout from '@weco/common/views/components/TextLayout/TextLayout';
 import type {ArticleV2} from '@weco/common/services/prismic/articles';
+import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 
 type Props = {|
   article: ArticleV2
@@ -84,9 +85,18 @@ ArticlePage.getInitialProps = async ({req, query}) => {
     const {id} = query;
     const article = await getArticle(req, id);
 
-    return {
-      article
-    };
+    if (article) {
+      return {
+        article,
+        title: article.title,
+        description: article.promoText,
+        type: 'article',
+        canonicalUrl: `https://wellcomecollection.org/articles/${article.id}`,
+        imageUrl: article.image && convertImageUri(article.image.contentUrl, 800),
+        siteSection: 'stories',
+        analyticsCategory: 'editorial'
+      };
+    }
   }
 };
 
