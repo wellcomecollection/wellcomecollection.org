@@ -15,6 +15,9 @@ const services = {
   },
   eventbrite: {
     containerUrl: 'https://registry.hub.docker.com/v2/repositories/wellcome/wellcomecollection_eventbrite_webapp'
+  },
+  content: {
+    containerUrl: 'https://registry.hub.docker.com/v2/repositories/wellcome/content_webapp'
   }
 };
 
