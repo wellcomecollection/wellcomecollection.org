@@ -54,9 +54,11 @@ const Page = ({
     const lastStartTime = event.times.length > 0 ? event.times[event.times.length - 1].range.startDateTime : null;
     const inTheFuture = lastStartTime ? new Date(lastStartTime) > new Date() : false;
     return inTheFuture;
-  });
+  }).sort((a, b) => a.dateRange.firstDate - b.dateRange.firstDate);
   const upcomingEventsIds = upcomingEvents.map(event => event.id);
-  const pastEvents = events.filter(event => upcomingEventsIds.indexOf(event.id) === -1).slice(0, 3);
+  const pastEvents = events.filter(event => upcomingEventsIds.indexOf(event.id) === -1)
+    .sort((a, b) => b.dateRange.firstDate - a.dateRange.firstDate)
+    .slice(0, 3);
 
   return (
     <BasePage
