@@ -126,6 +126,10 @@ const EventPage = ({ event }: Props) => {
       text: i.interpretationType.title
     };
   }) : [];
+  const relaxedPerformanceLabel = event.isRelaxedPerformance ? [{
+    url: null,
+    text: 'Relaxed performance'
+  }] : [];
 
   const Header = (<BaseHeader
     title={`${event.title}`}
@@ -135,7 +139,7 @@ const EventPage = ({ event }: Props) => {
     TagBar={null}
     LabelBar={
       <Fragment>
-        <LabelsList labels={(eventFormat.concat(eventAudiences, eventInterpretations))} />
+        <LabelsList labels={(eventFormat.concat(eventAudiences, eventInterpretations, relaxedPerformanceLabel))} />
         {event.series.length > 0 && (
           <div className='flex-inline flex--v-center' style={{whiteSpace: 'nowrap'}}>
             <p className={`${font({s: 'HNL5'})} ${spacing({s: 0}, {margin: ['bottom']})} ${spacing({s: 1}, {margin: ['right']})} inline-block no-padding`}

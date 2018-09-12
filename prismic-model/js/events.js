@@ -28,6 +28,7 @@ const Events = {
     body
   },
   Access: {
+    isRelaxedPerformance: boolean('Relaxed performance'),
     interpretations: list('Interpretations', {
       interpretationType: link('Interpretation', 'document', ['interpretation-types']),
       isPrimary: boolean('Primary interprtation')
