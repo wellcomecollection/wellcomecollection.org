@@ -13,7 +13,7 @@ jobs:
   catalogue:
     docker:
       - image: circleci/node:8.11.3
-    working_directory: ~/wellcomecollection.org/catalogue/webapp
+    working_directory: ~/wellcomecollection.org/catalogue/app
     steps:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
@@ -146,7 +146,7 @@ jobs:
           paths:
             -  ~/wellcomecollection.org/dist
             -  ~/wellcomecollection.org/server/views/partials/critical.css.njk
-  build_whats_on_webapp:
+  build_whats_on_app:
     docker:
       - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org/whats_on/app
@@ -174,10 +174,10 @@ jobs:
           name: Build
           command: yarn app:build
       - save_cache:
-          key: built_whats_on_webapp_{{ .Environment.CIRCLE_SHA1 }}
+          key: built_whats_on_app_{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - .dist
-  deploy_whats_on_webapp:
+  deploy_whats_on_app:
     docker:
       - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org
@@ -185,16 +185,16 @@ jobs:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: built_whats_on_webapp_{{ .Environment.CIRCLE_SHA1 }}
+          key: built_whats_on_app_{{ .Environment.CIRCLE_SHA1 }}
       - add_ssh_keys
       - setup_remote_docker
       - run:
           name: Deploy
           command: |
             docker login --username $DOCKER_USER --password $DOCKER_PASS
-            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/whats_on_webapp.yml build
-            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/whats_on_webapp.yml push
-  build_eventbrite_webapp:
+            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/whats_on_app.yml build
+            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/whats_on_app.yml push
+  build_eventbrite_app:
     docker:
       - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org/eventbrite/app
@@ -222,10 +222,10 @@ jobs:
           name: Build
           command: yarn run app:build
       - save_cache:
-          key: built_eventbrite_webapp_{{ .Environment.CIRCLE_SHA1 }}
+          key: built_eventbrite_app_{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - .dist
-  deploy_eventbrite_webapp:
+  deploy_eventbrite_app:
     docker:
       - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org
@@ -233,16 +233,16 @@ jobs:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: built_eventbrite_webapp_{{ .Environment.CIRCLE_SHA1 }}
+          key: built_eventbrite_app_{{ .Environment.CIRCLE_SHA1 }}
       - add_ssh_keys
       - setup_remote_docker
       - run:
           name: Deploy
           command: |
             docker login --username $DOCKER_USER --password $DOCKER_PASS
-            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/eventbrite_webapp.yml build
-            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/eventbrite_webapp.yml push
-  build_common_webapp:
+            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/eventbrite_app.yml build
+            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/eventbrite_app.yml push
+  build_common_app:
     docker:
       - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org
@@ -274,7 +274,7 @@ jobs:
           key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
           paths:
             -  ~/wellcomecollection.org/dist
-  test_common_webapp:
+  test_common_app:
     docker:
       - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org
@@ -292,7 +292,7 @@ jobs:
       - run:
           name: Test server
           command: pushd server && yarn run test && popd
-  deploy_common_webapp:
+  deploy_common_app:
     docker:
       - image: circleci/node:8.11.3
     working_directory: ~/wellcomecollection.org
@@ -382,62 +382,62 @@ workflows:
       - build_client:
           requires:
             - checkout_code
-      - build_whats_on_webapp:
+      - build_whats_on_app:
           requires:
             - checkout_code
             - root_tests
             - build_client
             - install_server_modules
             - install_common_modules
-      - build_eventbrite_webapp:
+      - build_eventbrite_app:
           requires:
             - checkout_code
             - root_tests
             - build_client
             - install_server_modules
             - install_common_modules
-      - build_common_webapp:
+      - build_common_app:
           requires:
             - checkout_code
             - root_tests
             - build_client
             - install_server_modules
             - install_common_modules
-      - deploy_whats_on_webapp:
+      - deploy_whats_on_app:
           requires:
-            - build_whats_on_webapp
+            - build_whats_on_app
           filters:
             branches:
               only:
                 - master
-      - deploy_eventbrite_webapp:
+      - deploy_eventbrite_app:
           requires:
-            - build_eventbrite_webapp
+            - build_eventbrite_app
           filters:
             branches:
               only:
                 - master
-      - test_common_webapp:
+      - test_common_app:
           requires:
             - checkout_code
-            - build_common_webapp
+            - build_common_app
       - deploy_assets:
           requires:
-            - test_common_webapp
+            - test_common_app
           filters:
             branches:
               only:
                 - master
-      - deploy_common_webapp:
+      - deploy_common_app:
           requires:
-            - test_common_webapp
+            - test_common_app
           filters:
             branches:
               only:
                 - master
       - deploy_cardigan:
           requires:
-            - test_common_webapp
+            - test_common_app
           filters:
             branches:
               only:

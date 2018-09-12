@@ -8,13 +8,13 @@ const prompt = inquirer.createPromptModule();
 
 const services = {
   whats_on: {
-    containerUrl: 'https://registry.hub.docker.com/v2/repositories/wellcome/wellcomecollection_whats_on_webapp'
+    containerUrl: 'https://registry.hub.docker.com/v2/repositories/wellcome/wellcomecollection_whats_on_app'
   },
   catalogue: {
-    containerUrl: 'https://registry.hub.docker.com/v2/repositories/wellcome/catalogue_webapp'
+    containerUrl: 'https://registry.hub.docker.com/v2/repositories/wellcome/catalogue_app'
   },
   eventbrite: {
-    containerUrl: 'https://registry.hub.docker.com/v2/repositories/wellcome/wellcomecollection_eventbrite_webapp'
+    containerUrl: 'https://registry.hub.docker.com/v2/repositories/wellcome/wellcomecollection_eventbrite_app'
   }
 };
 

@@ -5,7 +5,7 @@ module "eventbrite" {
   template_name      = "default"
   vpc_id             = "${local.vpc_id}"
   nginx_uri          = "wellcome/wellcomecollection_eventbrite_nginx:${var.container_tag}"
-  app_uri            = "wellcome/wellcomecollection_eventbrite_webapp:${var.container_tag}"
+  app_uri            = "wellcome/wellcomecollection_eventbrite_app:${var.container_tag}"
   listener_https_arn = "${local.alb_listener_https_arn}"
   listener_http_arn  = "${local.alb_listener_http_arn}"
   is_config_managed  = false

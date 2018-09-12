@@ -7,26 +7,26 @@ shopt -u dotglob
 
 
 if [ $# -lt ! ]; then
-    echo "⚡ Usage: ./create_webapp <WEBAPP_NAME>"
+    echo "⚡ Usage: ./create_app <WEBAPP_NAME>"
     exit 1
 fi
 
 WEBAPP_NAME=$1
 WEBAPP_PORT=$2
 PROJECT_ROOT_DIR="$( git rev-parse --show-toplevel )"
-WEBAPP_DIR="$WEBAPP_NAME/webapp"
+WEBAPP_DIR="$WEBAPP_NAME/app"
 
 # We start in the root as we want symlinks to be relative
 pushd $PROJECT_ROOT_DIR
   mkdir -p "$WEBAPP_DIR"
   pushd $WEBAPP_DIR
-    for filename in ../../.scripts/webapp/development/*
+    for filename in ../../.scripts/app/development/*
       do
         ln -sf $filename $(basename $filename)
       done
 
     # We copy prod files so they can be edited, and also work with babel etc
-    for filename in ../../.scripts/webapp/production/*
+    for filename in ../../.scripts/app/production/*
       do
         cp -Xf "$filename" $(basename $filename)
         sed -i '' "s/{WEBAPP_PORT}/$WEBAPP_PORT/g" $(basename $filename)
