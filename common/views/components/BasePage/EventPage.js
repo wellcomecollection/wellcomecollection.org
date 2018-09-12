@@ -135,6 +135,10 @@ const EventPage = ({ event }: Props) => {
       text: i.interpretationType.title
     };
   }) : [];
+  const relaxedPerformanceLabel = event.isRelaxedPerformance ? [{
+    url: null,
+    text: 'Relaxed performance'
+  }] : [];
 
   const Header = (<BaseHeader
     title={`${event.title}`}
@@ -143,7 +147,7 @@ const EventPage = ({ event }: Props) => {
       backgroundTexture={`https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F43a35689-4923-4451-85d9-1ab866b1826d_event_header_background.svg`} />}
     LabelBar={
       <Fragment>
-        <LabelsList labels={(eventFormat.concat(eventAudiences, eventInterpretations))} />
+        <LabelsList labels={(eventFormat.concat(eventAudiences, eventInterpretations, relaxedPerformanceLabel))} />
       </Fragment>
     }
     DateInfo={EventDateRange({event})}

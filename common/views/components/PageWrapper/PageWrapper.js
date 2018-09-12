@@ -1,12 +1,12 @@
 // @flow
 import {Component} from 'react';
-import Error from 'next/error';
 import {getCollectionOpeningTimes} from '../../../services/prismic/opening-times';
 import DefaultPageLayout from '../DefaultPageLayout/DefaultPageLayout';
-import type {OgType, SiteSection} from '../DefaultPageLayout/DefaultPageLayout';
-import type {GroupedVenues, OverrideType} from '../../../model/opening-hours';
+import ErrorPage from '../BasePage/ErrorPage';
 import type Moment from 'moment';
 import type {ComponentType} from 'react';
+import type {OgType, SiteSection} from '../DefaultPageLayout/DefaultPageLayout';
+import type {GroupedVenues, OverrideType} from '../../../model/opening-hours';
 
 const isServer = typeof window === 'undefined';
 // As this is a store, it's mutable
@@ -142,7 +142,17 @@ const PageWrapper = (Comp: NextComponent) => {
       } = this.props;
 
       if (this.props.statusCode && this.props.statusCode !== 200) {
-        return <Error statusCode={this.props.statusCode} />;
+        return <DefaultPageLayout
+          title={`${this.props.statusCode}`}
+          description='Nothing to see here, literally, nothing'
+          type='website'
+          canonicalUrl='https://wellcomecollection.org'
+          imageUrl='https://iiif.wellcomecollection.org/image/V0021348.jpg/full/760,/0/default.jpg'
+          siteSection='error'
+          analyticsCategory='error'
+          openingTimes={openingTimes}>
+          <ErrorPage errorStatus={this.props.statusCode} />
+        </DefaultPageLayout>;
       }
 
       return (

@@ -138,6 +138,8 @@ ExhibitionPage.getInitialProps = async ({req, query}) => {
         canonicalUrl: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
         exhibition
       };
+    } else {
+      return {statusCode: 404};
     }
   }
 };

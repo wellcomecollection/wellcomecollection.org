@@ -300,6 +300,15 @@
     }
   },
   "Access": {
+    "isRelaxedPerformance": {
+      "type": "Select",
+      "config": {
+        "label": "Relaxed performance",
+        "options": [
+          "yes"
+        ]
+      }
+    },
     "interpretations": {
       "type": "Group",
       "fieldset": "Interpretations",
