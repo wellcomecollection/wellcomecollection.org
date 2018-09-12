@@ -11,7 +11,7 @@ USER wellcomecollection
 WORKDIR $HOME/
 
 COPY ./${WEBAPP_NAME}/app/.dist ./
-COPY ./build/pm2_webapp.yml ./pm2.yml
+COPY ./build/pm2_app.yml ./pm2.yml
 RUN sed -i "s/WEBAPP_NAME/${WEBAPP_NAME}/g" ./pm2.yml
 RUN yarn add pm2
 

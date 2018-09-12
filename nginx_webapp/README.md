@@ -2,5 +2,5 @@
 
 run
 
-  docker build -t wellcome/nginx_webapp:latest .
-  docker push wellcome/nginx_webapp
+  docker build -t wellcome/nginx_app:latest .
+  docker push wellcome/nginx_app

@@ -5,9 +5,9 @@
         "common/package.json"
       ]
     },
-    "webapps": {
+    "apps": {
       "packages": [
-        "catalogue/webapp/package.json",
+        "catalogue/app/package.json",
         "eventbrite/app/package.json",
         "server/package.json",
         "whats_on/app/package.json"

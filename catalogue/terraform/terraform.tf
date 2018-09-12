@@ -76,8 +76,8 @@ module "catalogue" {
 
   vpc_id = "${local.vpc_id}"
 
-  nginx_uri                          = "wellcome/nginx_webapp:latest"
-  app_uri                            = "wellcome/catalogue_webapp:${var.container_tag}"
+  nginx_uri                          = "wellcome/nginx_app:latest"
+  app_uri                            = "wellcome/catalogue_app:${var.container_tag}"
   listener_https_arn                 = "${local.alb_listener_https_arn}"
   listener_http_arn                  = "${local.alb_listener_http_arn}"
   server_error_alarm_topic_arn       = "${module.alb_server_error_alarm.arn}"

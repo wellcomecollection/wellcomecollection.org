@@ -1,6 +1,6 @@
 # wellcomecollection.org server
 
-The package that other webapps rely on to serve a common [KoaJS](http://koajs.com/) server,
+The package that other apps rely on to serve a common [KoaJS](http://koajs.com/) server,
 and some common services, utils and tid-bits. We should be trimming this and splitting it up over time.
 
 ## Requirements

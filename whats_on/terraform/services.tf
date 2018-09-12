@@ -6,7 +6,7 @@ module "whats_on" {
   template_name = "default"
   vpc_id        = "${local.vpc_id}"
   nginx_uri     = "wellcome/wellcomecollection_whats_on_nginx:${var.container_tag}"
-  app_uri       = "wellcome/wellcomecollection_whats_on_webapp:${var.container_tag}"
+  app_uri       = "wellcome/wellcomecollection_whats_on_app:${var.container_tag}"
 
   listener_https_arn = "${local.alb_listener_https_arn}"
   listener_http_arn  = "${local.alb_listener_http_arn}"
