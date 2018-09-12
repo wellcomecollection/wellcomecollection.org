@@ -6,7 +6,7 @@ import Body from '../Body/Body';
 import Contributors from '../Contributors/Contributors';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import {UiImage} from '../Images/Images';
-import Tags from '../Tags/Tags';
+import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import HeaderBackground from '../BaseHeader/HeaderBackground';
 import {grid, spacing} from '../../../utils/classnames';
 import type {Book} from '../../../model/books';
@@ -45,14 +45,13 @@ const BookPage = ({ book }: Props) => {
   };
   // $FlowFixMe
   const FeaturedMedia = book.cover && <UiImage tasl={tasl} extraClasses='margin-h-auto width-auto max-height-70vh' {...book.cover} />;
-  const TagBar = <Tags tags={[{
-    text: 'Book',
-    url: '/books'
-  }]} />;
   const Header = (<BaseHeader
     title={book.title || ''}
     Background={<HeaderBackground hasWobblyEdge={true} />}
-    TagBar={TagBar}
+    Breadcrumb={<Breadcrumb items={[{
+      text: 'Book',
+      url: '/books'
+    }]} />}
     DateInfo={null}
     Description={
       <Fragment>
@@ -63,7 +62,6 @@ const BookPage = ({ book }: Props) => {
     FeaturedMedia={FeaturedMedia}
     LabelBar={null}
     isFree={false}
-    topLink={null}
   />);
 
   // TODO: (drupal migration) we can drop reading the text fields once we've

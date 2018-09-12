@@ -2,7 +2,7 @@
 import BasePage from './BasePage';
 import BaseHeader from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
-import Tags from '../Tags/Tags';
+import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import HeaderBackground from '../BaseHeader/HeaderBackground';
 import {UiImage} from '../Images/Images';
 import type {Place} from '../../../model/places';
@@ -30,7 +30,7 @@ const PlacePage = ({ place }: Props) => {
   const Header = (<BaseHeader
     title={place.title}
     Background={<HeaderBackground hasWobblyEdge={true} />}
-    TagBar={<Tags tags={[{
+    Breadcrumb={<Breadcrumb items={[{
       text: 'Places'
     }]} />}
     DateInfo={null}
@@ -39,7 +39,6 @@ const PlacePage = ({ place }: Props) => {
     FeaturedMedia={FeaturedMedia}
     LabelBar={null}
     isFree={false}
-    topLink={null}
   />);
 
   return (

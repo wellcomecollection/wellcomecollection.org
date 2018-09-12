@@ -34,7 +34,6 @@ export const ArticlePage = ({
       <HeaderText
         Breadcrumb={<Breadcrumb items={crumbs} />}
         Heading={<h1 className='h1 inline-block no-margin'>{article.title}</h1>}
-        TagBar={null}
         DateInfo={null}
         InfoBar={
           <div className={classNames({
@@ -67,7 +66,6 @@ export const ArticlePage = ({
           </div>
         }
         Description={article.summary ? <PrismicHtmlBlock html={article.summary} /> : null}
-        topLink={null}
       />
     </TextLayout>
   );

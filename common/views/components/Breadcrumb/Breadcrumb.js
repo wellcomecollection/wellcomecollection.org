@@ -1,20 +1,25 @@
 // @flow
-import type {Link} from '../../../model/link';
 import {font, classNames, spacing} from '../../../utils/classnames';
 
 type Props = {|
   items: {|
-    ...Link,
+    text: string,
+    url?: string,
     prefix?: string
   |}[]
 |}
 
 const Breadcrumb = ({ items }: Props) => (
-  <div className='plain-text flex'>
+  <div className={classNames({
+    'plain-text': true,
+    'flex': true,
+    [spacing({s: 4}, {margin: ['top', 'bottom']})]: true
+  })}>
     {items.map(({text, url, prefix}, i) => {
-      const HtmlTag = prefix ? 'b' : 'span';
+      const BoldOrSpanTag = prefix ? 'b' : 'span';
+      const LinkOrSpanTag = url ? 'a' : 'span';
       return (
-        <HtmlTag
+        <BoldOrSpanTag
           key={text}
           className={classNames({
             [font({s: 'HNL4'})]: true,
@@ -24,10 +29,10 @@ const Breadcrumb = ({ items }: Props) => (
           })}
           style={{lineHeight: 1}}>
           {prefix}{' '}
-          <a className={classNames({
+          <LinkOrSpanTag className={classNames({
             [font({s: 'HNM4'})]: Boolean(prefix)
-          })} href={url} style={{lineHeight: 1}}>{text}</a>
-        </HtmlTag>
+          })} href={url} style={{lineHeight: 1}}>{text}</LinkOrSpanTag>
+        </BoldOrSpanTag>
       );
     })}
   </div>

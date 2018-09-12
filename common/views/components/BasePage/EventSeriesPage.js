@@ -6,8 +6,8 @@ import Body from '../Body/Body';
 import HeaderBackground from '../BaseHeader/HeaderBackground';
 import Contributors from '../Contributors/Contributors';
 import SearchResults from '../SearchResults/SearchResults';
+import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import { spacing } from '../../../utils/classnames';
-import Tags from '../Tags/Tags';
 import type {EventSeries} from '../../../model/event-series';
 import type {UiEvent} from '../../../model/events';
 
@@ -34,20 +34,19 @@ const Page = ({
     squareImage: series.squareImage,
     widescreenImage: series.widescreenImage
   });
-  const TagBar = <Tags tags={[{
-    text: 'Event series'
-  }]} />;
+
   const Header = (<BaseHeader
     title={series.title}
     Background={<HeaderBackground hasWobblyEdge={true} />}
-    TagBar={TagBar}
+    Breadcrumb={<Breadcrumb items={[{
+      text: 'Event series'
+    }]} />}
     DateInfo={null}
     InfoBar={null}
     Description={null}
     FeaturedMedia={FeaturedMedia}
     LabelBar={null}
     isFree={false}
-    topLink={null}
   />);
 
   const upcomingEvents = events.filter(event => {
