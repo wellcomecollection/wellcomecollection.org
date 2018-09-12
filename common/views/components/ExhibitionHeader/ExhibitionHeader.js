@@ -2,7 +2,7 @@
 
 import {Fragment} from 'react';
 import HeaderText from '../HeaderText/HeaderText';
-import WobblyEdge from '../WobblyEdge/WobblyEdge';
+import WobblyBottom from '../WobblyBottom/WobblyBottom';
 import FreeSticker from '../FreeSticker/FreeSticker';
 import {BasePageColumn} from '../BasePage/BasePage';
 import {classNames, spacing} from '../../../utils/classnames';
@@ -39,12 +39,11 @@ const ExhibitionHeader = ({
       <div className='relative'>
         <div className={classNames({
           'margin-h-auto': true,
-          [spacing({xl: 4}, {padding: ['left', 'right']})]: true
+          [spacing({s: 2, m: 4}, {padding: ['left', 'right']})]: true
         })} style={{maxWidth: '1450px'}}>
-          {FeaturedMedia}
-        </div>
-        <div style={{position: 'sticky', bottom: 0}}>
-          <WobblyEdge background='white' />
+          <WobblyBottom color='white'>
+            {FeaturedMedia}
+          </WobblyBottom>
         </div>
       </div>
     </Fragment>

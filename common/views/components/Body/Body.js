@@ -60,7 +60,7 @@ const Body = ({ body, isCreamy = false }: Props) => {
             slice.weight === 'featured' &&
             slice.value.image.crops.square &&
             <FullWidthLayout>
-              <WobblyBottom>
+              <WobblyBottom color='cream'>
                 <PictureFromImages images={{
                   [breakpoints.medium]: slice.value.image.crops['16:9'],
                   'default': slice.value.image.crops.square
@@ -72,7 +72,7 @@ const Body = ({ body, isCreamy = false }: Props) => {
             slice.weight === 'featured' &&
             !slice.value.image.crops.square &&
             <FullWidthLayout>
-              <WobblyBottom>
+              <WobblyBottom color='cream'>
                 <UiImage {...slice.value.image} isFull={true} />
               </WobblyBottom>
             </FullWidthLayout>
