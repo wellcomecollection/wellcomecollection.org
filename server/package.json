@@ -4,7 +4,7 @@
   "description": "The node server serving content for wellcomecollection.org",
   "scripts": {
     "app:build": "webpack",
-    "app:dev": "../node_modules/.bin/nodemon --config ./nodemon.json --exec babel-node --inspect=4000 app.js",
+    "dev": "../node_modules/.bin/nodemon --config ./nodemon.json --exec babel-node --inspect=4000 app.js",
     "optimise:svg": "node ./optimise-svgs.js",
     "test": "ava && flow",
     "test:accessibility": "pa11y",

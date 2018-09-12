@@ -11,7 +11,7 @@ and some common services, utils and tid-bits. We should be trimming this and spl
 ```
 # ensure you've yarn installed at the root directory, this is where we keep our devDependecies
 yarn install
-yarn run app:dev
+yarn run dev
 ```
 
 This will run app with [`babel-node`](http://babeljs.io/docs/usage/cli/#babel-node), restarting the server
@@ -22,10 +22,10 @@ on file change to have your changes take effect.
 ```
 yarn install
 yarn run app:build
-```  
+```
 
 This will create a [`webpack`](https://webpack.js.org/) generated package of the app in the `.dist` folder.
-Along with the JS file, we ship the [`./views`](./views) there too. 
+Along with the JS file, we ship the [`./views`](./views) there too.
 
 
 ## Accessibility testing

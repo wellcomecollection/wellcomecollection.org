@@ -1,7 +1,7 @@
 {
   "scripts": {
     "app:build": "webpack",
-    "app:dev": "../../node_modules/.bin/nodemon -e js,njk,json --config ../../nodemon.json --exec node --require babel-register --require dotenv/config --inspect=4004 app.js",
+    "dev": "../../node_modules/.bin/nodemon -e js,njk,json --config ../../nodemon.json --exec node --require babel-register --require dotenv/config --inspect=4004 app.js",
     "test": "ava"
   },
   "dependencies": {
