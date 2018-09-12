@@ -2,9 +2,9 @@
 
 import {Fragment} from 'react';
 import HeaderText from '../HeaderText/HeaderText';
-import WobblyEdge from '../WobblyEdge/WobblyEdge';
+import WobblyBottom from '../WobblyBottom/WobblyBottom';
 import FreeSticker from '../FreeSticker/FreeSticker';
-import {BasePageColumn} from '../BasePage/BasePage';
+import TextLayout from '../TextLayout/TextLayout';
 import {classNames, spacing} from '../../../utils/classnames';
 import type {Node} from 'react';
 import type {FeaturedMedia as FeaturedMediaType} from '../BaseHeader/BaseHeader';
@@ -24,23 +24,7 @@ const ExhibitionHeader = ({
 }: Props) => {
   return (
     <Fragment>
-      <div className='relative'>
-        <BasePageColumn>
-          <div className='relative' style={{zIndex: 1}}>
-            <FreeSticker />
-          </div>
-        </BasePageColumn>
-        <div className={classNames({
-          'margin-h-auto': true,
-          [spacing({xl: 4}, {padding: ['left', 'right']})]: true
-        })} style={{maxWidth: '1450px'}}>
-          {FeaturedMedia}
-        </div>
-        <div style={{position: 'sticky', bottom: 0}}>
-          <WobblyEdge background='white' />
-        </div>
-      </div>
-      <BasePageColumn>
+      <TextLayout>
         <HeaderText
           topLink={{url: '/exhibitions', text: 'Exhibitions'}}
           Heading={<h1 className='h0 inline-block no-margin'>{title}</h1>}
@@ -48,7 +32,20 @@ const ExhibitionHeader = ({
           InfoBar={InfoBar}
           Description={null}
           TagBar={null} />
-      </BasePageColumn>
+      </TextLayout>
+      <TextLayout>
+        <div className='relative' style={{zIndex: 1}}>
+          <FreeSticker />
+        </div>
+      </TextLayout>
+      <div className={classNames({
+        'margin-h-auto': true,
+        [spacing({m: 4}, {padding: ['left', 'right']})]: true
+      })} style={{maxWidth: '1450px'}}>
+        <WobblyBottom color='white'>
+          {FeaturedMedia}
+        </WobblyBottom>
+      </div>
     </Fragment>
   );
 };
