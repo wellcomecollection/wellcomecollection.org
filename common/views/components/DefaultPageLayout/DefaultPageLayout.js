@@ -98,7 +98,7 @@ const navLinks = [{
   siteSection: 'whatwedo'
 }];
 
-export type SiteSection = 'images' | 'explore' | 'whats-on';
+export type SiteSection = 'images' | 'stories' | 'whats-on' | 'error';
 type Props = {|
   children: React.Node,
   type: OgType,
