@@ -9,6 +9,7 @@ type Props = {|
   id: string,
   Header: BaseHeader,
   Body: Body,
+
   children?: ?Node
 |}
 

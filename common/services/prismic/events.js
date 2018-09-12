@@ -120,6 +120,7 @@ export function parseEventDoc(
     })) || [];
 
   const lastEndTime = times.map(time => time.range.endDateTime).find((date, i) => i === 0);
+  const isRelaxedPerformance = parseBoolean(data.isRelaxedPerformance);
 
   return {
     type: 'events',
@@ -142,7 +143,8 @@ export function parseEventDoc(
     ticketSalesStart: data.ticketSalesStart,
     times: times,
     dateRange: determineDateRange(data.times),
-    isPast: lastEndTime ? isPast(lastEndTime) : true
+    isPast: lastEndTime ? isPast(lastEndTime) : true,
+    isRelaxedPerformance
   };
 }
 
