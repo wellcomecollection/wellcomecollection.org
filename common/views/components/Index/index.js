@@ -56,6 +56,7 @@ import SearchResults from '../SearchResults/SearchResults';
 import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
 import SectionHeader from '../SectionHeader/SectionHeader';
 import SegmentedControl from '../SegmentedControl/SegmentedControl';
+import Standfirst from '../Standfirst/Standfirst';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import Tags from '../Tags/Tags';
 import Tasl from '../Tasl/Tasl';
@@ -84,9 +85,9 @@ export {
   ErrorPage,
   EventPage,
   EventPromo,
-  EventsByMonth,
   EventScheduleItem,
   EventSeriesPage,
+  EventsByMonth,
   ExceptionalOpeningHoursTable,
   Excerpt,
   ExhibitionPromo,
@@ -124,6 +125,7 @@ export {
   SecondaryLink,
   SectionHeader,
   SegmentedControl,
+  Standfirst,
   StatusIndicator,
   Tags,
   Tasl,
