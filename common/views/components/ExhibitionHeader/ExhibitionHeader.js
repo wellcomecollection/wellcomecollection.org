@@ -25,9 +25,6 @@ const ExhibitionHeader = ({
   return (
     <Fragment>
       <TextLayout>
-        <div className='relative' style={{zIndex: 1}}>
-          <FreeSticker />
-        </div>
         <HeaderText
           topLink={{url: '/exhibitions', text: 'Exhibitions'}}
           Heading={<h1 className='h0 inline-block no-margin'>{title}</h1>}
@@ -36,15 +33,18 @@ const ExhibitionHeader = ({
           Description={null}
           TagBar={null} />
       </TextLayout>
-      <div className='relative'>
-        <div className={classNames({
-          'margin-h-auto': true,
-          [spacing({s: 2, m: 4}, {padding: ['left', 'right']})]: true
-        })} style={{maxWidth: '1450px'}}>
-          <WobblyBottom color='white'>
-            {FeaturedMedia}
-          </WobblyBottom>
+      <TextLayout>
+        <div className='relative' style={{zIndex: 1}}>
+          <FreeSticker />
         </div>
+      </TextLayout>
+      <div className={classNames({
+        'margin-h-auto': true,
+        [spacing({m: 4}, {padding: ['left', 'right']})]: true
+      })} style={{maxWidth: '1450px'}}>
+        <WobblyBottom color='white'>
+          {FeaturedMedia}
+        </WobblyBottom>
       </div>
     </Fragment>
   );
