@@ -13,7 +13,7 @@ import type {Link} from '../../../model/link';
 import HeaderText from '../HeaderText/HeaderText';
 import FreeSticker from '../FreeSticker/FreeSticker';
 import Picture from '../Picture/Picture';
-import {BasePageColumn} from '../BasePage/BasePage';
+import TextLayout from '../TextLayout/TextLayout';
 
 export type FeaturedMedia =
   | Element<typeof UiImage>
@@ -88,7 +88,7 @@ const BaseHeader = ({
         backgroundSize: BackgroundComponent ? null : '150%'
       }}>
         {BackgroundComponent}
-        <BasePageColumn>
+        <TextLayout>
           {isFree &&
             <div className='relative'>
               <FreeSticker />
@@ -114,7 +114,7 @@ const BaseHeader = ({
               {LabelBar}
             </div>
           }
-        </BasePageColumn>
+        </TextLayout>
       </div>
     </Fragment>
   );

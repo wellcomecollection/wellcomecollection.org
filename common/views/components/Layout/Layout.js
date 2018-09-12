@@ -13,11 +13,13 @@ const Layout = ({
   gridSizes,
   children
 }: Props) => (
-  <div className='grid'>
-    <div className={classNames({
-      [grid(gridSizes)]: true
-    })}>
-      {children}
+  <div className='container'>
+    <div className='grid'>
+      <div className={classNames({
+        [grid(gridSizes)]: true
+      })}>
+        {children}
+      </div>
     </div>
   </div>
 );
