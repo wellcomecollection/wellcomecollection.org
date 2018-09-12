@@ -1,9 +1,9 @@
 // @flow
 import {Fragment} from 'react';
-import {grid} from '../../../utils/classnames';
 import type {Node} from 'react';
 import type BaseHeader from '../BaseHeader/BaseHeader';
 import type Body from '../Body/Body';
+import TextLayout from '../TextLayout/TextLayout';
 
 type Props = {|
   id: string,
@@ -11,16 +11,6 @@ type Props = {|
   Body: Body,
   children?: ?Node
 |}
-
-export const BasePageColumn = ({children}: {| children: Node |}) => (
-  <div className='container'>
-    <div className='grid'>
-      <div className={`${grid({s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2})}`}>
-        {children}
-      </div>
-    </div>
-  </div>
-);
 
 const BasePage = ({
   id,
@@ -36,9 +26,9 @@ const BasePage = ({
       </div>
 
       {children &&
-        <BasePageColumn>
+        <TextLayout>
           {children}
-        </BasePageColumn>
+        </TextLayout>
       }
     </article>
   );

@@ -74,22 +74,6 @@ const data = ({
       copyrightLink: null
     },
     crops: {}
-  },
-  thinImage: {
-    contentUrl: 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/6ee9f05e16a7f7e63ac98064059953457bcce704_ep_000423_001.jpg',
-    width: 3200,
-    height: 1500,
-    alt: 'null',
-    tasl: {
-      title: null,
-      author: null,
-      sourceName: null,
-      sourceLink: null,
-      license: null,
-      copyrightHolder: null,
-      copyrightLink: null
-    },
-    crops: {}
   }
 }: Installation);
 

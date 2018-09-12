@@ -519,12 +519,11 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
       const originalImage = isImageLink(image) && parseImage(image);
       const squareImage = image.square && isImageLink(image.square) && parseImage(image.square);
       const widescreenImage = image['16:9'] && isImageLink(image['16:9']) && parseImage(image['16:9']);
-      const thinImage = image['32:15'] && isImageLink(image['32:15']) && parseImage(image['32:15']);
 
-      return {image: originalImage, squareImage, widescreenImage, thinImage};
+      return {image: originalImage, squareImage, widescreenImage};
     }).find(_ => _) : {}; // just get the first one;
 
-  const {image, squareImage, widescreenImage, thinImage} = promoImages;
+  const {image, squareImage, widescreenImage} = promoImages;
   return {
     id: doc.id,
     title: parseTitle(data.title),
@@ -536,7 +535,6 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
     promoImage: promo && promo.image,
     image,
     squareImage,
-    widescreenImage,
-    thinImage
+    widescreenImage
   };
 }

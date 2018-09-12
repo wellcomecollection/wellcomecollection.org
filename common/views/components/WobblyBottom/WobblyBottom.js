@@ -4,17 +4,19 @@ import type {Node} from 'react';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 
 type Props = {|
+  color: 'cream' | 'white',
   children: Node
 |}
 
-const ImageWithWobblyBottom = ({
+const WobblyBottom = ({
+  color,
   children
 }: Props) => (
   <div className='relative'>
     <Fragment>
       {children}
-      <WobblyEdge background={'cream'} />
+      <WobblyEdge background={color} />
     </Fragment>
   </div>
 );
-export default ImageWithWobblyBottom;
+export default WobblyBottom;

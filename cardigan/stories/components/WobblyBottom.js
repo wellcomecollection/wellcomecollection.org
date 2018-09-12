@@ -11,7 +11,7 @@ const WobblyBottomExample = () => {
   return (
     <Fragment>
       <h2 className='h2'>An image</h2>
-      <WobblyBottom>
+      <WobblyBottom color='cream'>
         <UiImage {...image()} isFull={true} />
       </WobblyBottom>
 
@@ -21,7 +21,7 @@ const WobblyBottomExample = () => {
       }} />
 
       <h2>A headline</h2>
-      <WobblyBottom>
+      <WobblyBottom color='cream'>
         <h1 className='h1'>Old man yells at cloud</h1>
       </WobblyBottom>
     </Fragment>

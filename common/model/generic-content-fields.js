@@ -19,6 +19,5 @@ export type GenericContentFields = {|
   promoImage: ?Picture,
   image: ?ImageType,
   squareImage: ?ImageType,
-  widescreenImage: ?ImageType,
-  thinImage: ?ImageType
+  widescreenImage: ?ImageType
 |}
