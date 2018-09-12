@@ -24,12 +24,19 @@ const ExhibitionHeader = ({
 }: Props) => {
   return (
     <Fragment>
+      <BasePageColumn>
+        <div className='relative' style={{zIndex: 1}}>
+          <FreeSticker />
+        </div>
+        <HeaderText
+          topLink={{url: '/exhibitions', text: 'Exhibitions'}}
+          Heading={<h1 className='h0 inline-block no-margin'>{title}</h1>}
+          DateInfo={DateInfo}
+          InfoBar={InfoBar}
+          Description={null}
+          TagBar={null} />
+      </BasePageColumn>
       <div className='relative'>
-        <BasePageColumn>
-          <div className='relative' style={{zIndex: 1}}>
-            <FreeSticker />
-          </div>
-        </BasePageColumn>
         <div className={classNames({
           'margin-h-auto': true,
           [spacing({xl: 4}, {padding: ['left', 'right']})]: true
@@ -40,15 +47,6 @@ const ExhibitionHeader = ({
           <WobblyEdge background='white' />
         </div>
       </div>
-      <BasePageColumn>
-        <HeaderText
-          topLink={{url: '/exhibitions', text: 'Exhibitions'}}
-          Heading={<h1 className='h0 inline-block no-margin'>{title}</h1>}
-          DateInfo={DateInfo}
-          InfoBar={InfoBar}
-          Description={null}
-          TagBar={null} />
-      </BasePageColumn>
     </Fragment>
   );
 };
