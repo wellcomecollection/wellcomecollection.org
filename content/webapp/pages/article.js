@@ -9,7 +9,7 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Body from '@weco/common/views/components/Body/Body';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import AsyncSearchResults from '@weco/common/views/components/SearchResults/AsyncSearchResults';
-import TextLayout from '@weco/common/views/components/TextLayout/TextLayout';
+import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import type {ArticleV2} from '@weco/common/services/prismic/articles';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 
@@ -21,7 +21,7 @@ export const ArticlePage = ({
   article
 }: Props) => {
   const Header = (
-    <TextLayout>
+    <Layout8>
       <HeaderText
         Heading={<h1 className='h1 inline-block no-margin'>{article.title}</h1>}
         TagBar={null}
@@ -59,7 +59,7 @@ export const ArticlePage = ({
         Description={article.summary ? <PrismicHtmlBlock html={article.summary} /> : null}
         topLink={{ text: 'Articles', url: '/stories' }}
       />
-    </TextLayout>
+    </Layout8>
   );
 
   return (

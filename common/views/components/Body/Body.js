@@ -12,9 +12,9 @@ import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Map from '../Map/Map';
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
 import {PictureFromImages} from '../Picture/Picture';
-import TextLayout from '../TextLayout/TextLayout';
-import ImageLayout from '../ImageLayout/ImageLayout';
-import FullWidthLayout from '../FullWidthLayout/FullWidthLayout';
+import Layout8 from '../Layout8/Layout8';
+import Layout10 from '../Layout10/Layout10';
+import Layout12 from '../Layout12/Layout12';
 import type {Weight} from '../../../services/prismic/parsers';
 
 type BodySlice = {|
@@ -40,18 +40,18 @@ const Body = ({ body, isCreamy = false }: Props) => {
       {body.map((slice, i) =>
         <div className={`body-part ${spacing({s: 6}, {margin: ['top']})}`} key={`slice${i}`}>
           {slice.type === 'standfirst' &&
-            <TextLayout>
+            <Layout8>
               <div className='body-text'>
                 <FeaturedText html={slice.value} />
               </div>
-            </TextLayout>}
+            </Layout8>}
           {slice.type === 'text' &&
-            <TextLayout>
+            <Layout8>
               <div className='body-text'>
                 {slice.weight === 'featured' && <FeaturedText html={slice.value} />}
                 {slice.weight !== 'featured' && <PrismicHtmlBlock html={slice.value} />}
               </div>
-            </TextLayout>
+            </Layout8>
           }
           {/*
             not all featured image slices have their crops as they were only
@@ -60,58 +60,58 @@ const Body = ({ body, isCreamy = false }: Props) => {
           {slice.type === 'picture' &&
             slice.weight === 'featured' &&
             slice.value.image.crops.square &&
-            <FullWidthLayout>
+            <Layout12>
               <WobblyBottom color='cream'>
                 <PictureFromImages images={{
                   [breakpoints.medium]: slice.value.image.crops['16:9'],
                   'default': slice.value.image.crops.square
                 }} isFull={true} />
               </WobblyBottom>
-            </FullWidthLayout>
+            </Layout12>
           }
           {slice.type === 'picture' &&
             slice.weight === 'featured' &&
             !slice.value.image.crops.square &&
-            <FullWidthLayout>
+            <Layout12>
               <WobblyBottom color='cream'>
                 <UiImage {...slice.value.image} isFull={true} />
               </WobblyBottom>
-            </FullWidthLayout>
+            </Layout12>
           }
           {slice.type === 'picture' && slice.weight !== 'featured' &&
-            <ImageLayout>
+            <Layout10>
               <CaptionedImage {...slice.value} sizesQueries={''} />
-            </ImageLayout>
+            </Layout10>
           }
           {slice.type === 'imageGallery' && <ImageGallery {...slice.value} />}
           {slice.type === 'quote' &&
-            <TextLayout>
+            <Layout8>
               <Quote {...slice.value} />
-            </TextLayout>
+            </Layout8>
           }
 
           {slice.type === 'contentList' &&
-            <TextLayout>
+            <Layout8>
               <AsyncSearchResults
                 title={slice.value.title}
                 query={slice.value.items.map(({id}) => `id:${id}`).join(' ')}
               />
-            </TextLayout>
+            </Layout8>
           }
           {slice.type === 'searchResults' &&
-            <TextLayout>
+            <Layout8>
               <AsyncSearchResults {...slice.value} />
-            </TextLayout>
+            </Layout8>
           }
           {slice.type === 'videoEmbed' &&
-            <TextLayout>
+            <Layout8>
               <VideoEmbed {...slice.value} />
-            </TextLayout>
+            </Layout8>
           }
           {slice.type === 'map' &&
-            <TextLayout>
+            <Layout8>
               <Map {...slice.value} />
-            </TextLayout>
+            </Layout8>
           }
         </div>
       )}

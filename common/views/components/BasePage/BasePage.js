@@ -3,7 +3,7 @@ import {Fragment} from 'react';
 import type {Node} from 'react';
 import type BaseHeader from '../BaseHeader/BaseHeader';
 import type Body from '../Body/Body';
-import TextLayout from '../TextLayout/TextLayout';
+import Layout8 from '../Layout8/Layout8';
 
 type Props = {|
   id: string,
@@ -27,9 +27,9 @@ const BasePage = ({
       </div>
 
       {children &&
-        <TextLayout>
+        <Layout8>
           {children}
-        </TextLayout>
+        </Layout8>
       }
     </article>
   );
