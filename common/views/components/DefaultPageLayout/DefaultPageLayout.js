@@ -11,14 +11,18 @@ import type Moment from 'moment';
 import analytics from '../../../utils/analytics';
 import Raven from 'raven-js';
 
-type jsonData = {|
-  pageJsonLd: string
-|};
+export type JsonLdObject = {
+  "@type": string
+}
+type jsonData = {
+  pageJsonLd: JsonLdObject
+};
 
 const JsonLd = ({
   pageJsonLd
 }: jsonData) => {
-  return (<script type='application/ld+json' dangerouslySetInnerHTML={{ __html: pageJsonLd }}></script>);
+  return (<script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(pageJsonLd) }}>
+  </script>);
 };
 
 export type OgType = 'article' | 'website';
@@ -114,7 +118,7 @@ type Props = {|
   title: string,
   description: string,
   imageUrl: string,
-  pageJsonLd: string,
+  pageJsonLd: JsonLdObject,
   siteSection: SiteSection,
   analyticsCategory: string,
   featuresCohort?: string,

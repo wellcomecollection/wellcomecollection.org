@@ -190,7 +190,7 @@ ExhibitionPage.getInitialProps = async ({req, query}) => {
         imageUrl: exhibition.promoImage && convertImageUri(exhibition.promoImage.contentUrl, 800),
         description: exhibition.promoText,
         canonicalUrl: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
-        pageJsonLd: JSON.stringify(exhibitionLd(exhibition)),
+        pageJsonLd: exhibitionLd(exhibition),
         exhibition
       };
     } else {

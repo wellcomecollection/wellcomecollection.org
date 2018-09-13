@@ -52,7 +52,7 @@ type Props = {|
   type: OgType,
   canonicalUrl: string,
   imageUrl: string,
-  pageJsonLd: string,
+  pageJsonLd: JsonLdObject,
   siteSection: SiteSection,
   analyticsCategory: string,
   openingTimes: {
