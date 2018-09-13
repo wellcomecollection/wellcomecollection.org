@@ -52,6 +52,7 @@ type Props = {|
   type: OgType,
   canonicalUrl: string,
   imageUrl: string,
+  pageJsonLd: string,
   siteSection: SiteSection,
   analyticsCategory: string,
   openingTimes: {
@@ -134,6 +135,7 @@ const PageWrapper = (Comp: NextComponent) => {
         type,
         canonicalUrl,
         imageUrl,
+        pageJsonLd,
         siteSection,
         analyticsCategory,
         openingTimes,
@@ -162,6 +164,7 @@ const PageWrapper = (Comp: NextComponent) => {
           type={type}
           canonicalUrl={canonicalUrl}
           imageUrl={imageUrl}
+          pageJsonLd={pageJsonLd}
           siteSection={siteSection}
           analyticsCategory={analyticsCategory}
           openingTimes={openingTimes}
