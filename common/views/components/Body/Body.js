@@ -90,6 +90,11 @@ const Body = ({ body, isCreamy = false }: Props) => {
                 <UiImage
                   {...captionedImage.image}
                   extraClasses={'margin-center width-auto max-height-inherit'} />
+                <TextLayout>
+                  <div className='font-white'>
+                    <PrismicHtmlBlock html={captionedImage.caption} />
+                  </div>
+                </TextLayout>
               </div>);
             })}
           </Fragment>}
