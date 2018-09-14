@@ -47,6 +47,9 @@ function getToggles(ctx, next) {
     apiV2: isEnabled('apiV2', {
       enabled: userEnabledToggles.apiV2 === true
     }),
+    useImageList: isEnabled('useImageList', {
+      enabled: userEnabledToggles.useImageList === true
+    }),
     catalogueApiStaging: isEnabled('catalogueApiStaging', {
       enabled: userEnabledToggles.catalogueApiStaging === true
     })
