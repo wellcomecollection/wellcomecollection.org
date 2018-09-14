@@ -33,7 +33,6 @@ type Props = {|
 const Body = ({ body, isCreamy = false }: Props) => {
   return (
     <div className={classNames({
-      'container': true,
       'basic-body': true,
       'bg-cream': isCreamy
     })}>
