@@ -1,11 +1,11 @@
 // @flow
 // TODO: Sync up types with the body slices and the components they return
+import {Fragment} from 'react';
 import {spacing, classNames} from '../../../utils/classnames';
 import {breakpoints} from '../../../utils/breakpoints';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import {CaptionedImage, UiImage} from '../Images/Images';
 import Quote from '../Quote/Quote';
-import ImageGallery from '../ImageGallery/ImageGallery';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
@@ -33,9 +33,8 @@ type Props = {|
 const Body = ({ body, isCreamy = false }: Props) => {
   return (
     <div className={classNames({
-      'container': true,
       'basic-body': true,
-      'bg-cream': isCreamy
+      'bg-black': isCreamy
     })}>
       {body.map((slice, i) =>
         <div className={`body-part ${spacing({s: 6}, {margin: ['top']})}`} key={`slice${i}`}>
@@ -83,7 +82,17 @@ const Body = ({ body, isCreamy = false }: Props) => {
               <CaptionedImage {...slice.value} sizesQueries={''} />
             </ImageLayout>
           }
-          {slice.type === 'imageGallery' && <ImageGallery {...slice.value} />}
+          {slice.type === 'imageGallery' && <Fragment>
+            {slice.value.items.map((captionedImage, i) => {
+              return (<div key={i} style={{
+                maxHeight: '90vh'
+              }}>
+                <UiImage
+                  {...captionedImage.image}
+                  extraClasses={'margin-center width-auto max-height-inherit'} />
+              </div>);
+            })}
+          </Fragment>}
           {slice.type === 'quote' &&
             <TextLayout>
               <Quote {...slice.value} />
