@@ -1,13 +1,20 @@
 // @flow
 import {getDocument} from './api';
 import type {PrismicDocument, HTMLString} from './types';
-import {parseGenericFields, parseSingleLevelGroup} from './parsers';
+import {
+  parseGenericFields,
+  parseSingleLevelGroup,
+  parseLabelType
+} from './parsers';
+import type {LabelField} from '../../model/label-field';
 import type {GenericContentFields} from '../../model/generic-content-fields';
 
 const graphQuery = `{
   articles {
     ...articlesFields
-
+    format {
+      ...formatFields
+    }
     contributors {
       ...contributorsFields
       role {
@@ -50,6 +57,7 @@ type ArticleSeries = {|
 export type ArticleV2 = {|
   type: 'articles',
   ...GenericContentFields,
+  format: ?LabelField,
   summary: ?HTMLString,
   datePublished: Date,
   series: ArticleSeries[]
@@ -59,6 +67,7 @@ export function parseArticle(document: PrismicDocument): ArticleV2 {
   return {
     type: 'articles',
     ...parseGenericFields(document),
+    format: document.data.format && parseLabelType(document.data.format.data),
     summary: document.data.summary,
     datePublished: new Date(document.first_publication_date),
     series: parseSingleLevelGroup(document.data.series, 'series').map(series => {
