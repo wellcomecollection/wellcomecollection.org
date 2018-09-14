@@ -84,18 +84,25 @@ const Body = ({ body, isCreamy = false }: Props) => {
           }
           {slice.type === 'imageGallery' && <Fragment>
             {slice.value.items.map((captionedImage, i) => {
-              return (<div key={i} style={{
-                maxHeight: '90vh'
-              }}>
-                <UiImage
-                  {...captionedImage.image}
-                  extraClasses={'margin-center width-auto max-height-inherit'} />
-                <TextLayout>
-                  <div className='font-white'>
-                    <PrismicHtmlBlock html={captionedImage.caption} />
+              const caption = `${i + 1}/${slice.value.items.length} ${captionedImage.caption[0].text}`;
+              captionedImage.caption[0] = {...captionedImage.caption[0], text: caption};
+              return (
+                <Fragment key={i}>
+                  <div style={{
+                    maxHeight: '100vh',
+                    marginTop: '120px'
+                  }}>
+                    <UiImage
+                      {...captionedImage.image}
+                      extraClasses={'margin-center width-auto max-height-inherit'} />
                   </div>
-                </TextLayout>
-              </div>);
+                  <TextLayout>
+                    <div className='font-white flex' style={{marginTop: '18px'}}>
+                      <PrismicHtmlBlock html={captionedImage.caption} />
+                    </div>
+                  </TextLayout>
+                </Fragment>
+              );
             })}
           </Fragment>}
           {slice.type === 'quote' &&
