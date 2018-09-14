@@ -31,33 +31,33 @@ type Props = {|
 |}
 
 class ImageGallery extends Component {
+  state = {showCaptions: true}
   render() {
     const items = this.props.items;
 
     return <div style={{position: 'relative'}}>
       {this.props.items.map((captionedImage, i) => {
-        const caption = `${i + 1}/${items.length} ${captionedImage.caption[0].text}`;
-        captionedImage.caption[0] = {...captionedImage.caption[0], text: caption};
         return (
           <Fragment key={i}>
             <div style={{
-              maxHeight: '100vh',
+              maxHeight: 'calc(100vh - 55px)', // The bar at the bottom
               marginTop: '120px',
               position: 'relative'
             }}>
               <UiImage
                 {...captionedImage.image}
                 extraClasses={'margin-center width-auto max-height-inherit'} />
-
-              <div className='font-white flex' style={{
-                position: 'absolute',
-                bottom: 0,
-                background: 'rgba(0, 0, 0, 0.6)',
-                width: '100%',
-                paddingTop: '12px'
-              }}>
-                <TextLayout><PrismicHtmlBlock html={captionedImage.caption} /></TextLayout>
-              </div>
+              {this.state.showCaptions &&
+                <div className='font-white flex' style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  background: 'rgba(0, 0, 0, 0.6)',
+                  width: '100%',
+                  paddingTop: '12px'
+                }}>
+                  <TextLayout><PrismicHtmlBlock html={captionedImage.caption} /></TextLayout>
+                </div>
+              }
             </div>
           </Fragment>
         );
@@ -74,9 +74,9 @@ class ImageGallery extends Component {
           borderTop: 'solid white 1px'
         }}>
         <TextLayout>
-          <label><input type='checkbox' onChange={(e) => {
-            console.info('things', e.target.checked);
-          }} />Captions</label>
+          <label><input checked={this.state.showCaptions} type='checkbox' onChange={(e) => {
+            this.setState({showCaptions: e.target.checked});
+          }} style={{marginRight: '12px'}} />Captions</label>
         </TextLayout>
       </div>
     </div>;
