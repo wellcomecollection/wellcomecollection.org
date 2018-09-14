@@ -1,7 +1,7 @@
 // @flow
 // TODO: Sync up types with the body slices and the components they return
 import {Fragment, Component} from 'react';
-import {spacing, classNames} from '../../../utils/classnames';
+import {spacing, classNames, font} from '../../../utils/classnames';
 import {breakpoints} from '../../../utils/breakpoints';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import {CaptionedImage, UiImage} from '../Images/Images';
@@ -41,9 +41,11 @@ class ImageGallery extends Component {
       paddingLeft: '12px',
       paddingRight: '12px'
     }}>
-      {this.props.items.map((captionedImage, i) => {
+      {items.map((captionedImage, i) => {
         return (
-          <div key={i} style={{marginBottom: '60px'}}>
+          <div key={i} className='font-white' style={{
+            marginBottom: '60px'
+          }}>
             <div style={{
               maxHeight: 'calc(100vh - 55px)', // The bar at the bottom
               position: 'relative'
@@ -53,14 +55,17 @@ class ImageGallery extends Component {
                 extraClasses={'margin-center width-auto max-height-inherit'} />
             </div>
             {this.state.showCaptions &&
-              <div className='font-white flex' style={{
+              <div className='HNL-' style={{
                 // position: 'absolute',
                 // bottom: 0,
                 background: 'rgba(0, 0, 0, 0.6)',
                 width: '100%',
                 paddingTop: '12px'
               }}>
-                <TextLayout><PrismicHtmlBlock html={captionedImage.caption} /></TextLayout>
+                <TextLayout>
+                  <div className={font({s: 'HNL4'})}>{i + 1} of {items.length}</div>
+                  <PrismicHtmlBlock html={captionedImage.caption} />
+                </TextLayout>
               </div>
             }
           </div>
