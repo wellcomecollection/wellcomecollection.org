@@ -22,6 +22,7 @@ export const ArticlePage = ({
 }: Props) => {
   const Header = (
     <TextLayout>
+      <h1>{article.format && article.format.title}</h1>
       <HeaderText
         Heading={<h1 className='h1 inline-block no-margin'>{article.title}</h1>}
         TagBar={null}
