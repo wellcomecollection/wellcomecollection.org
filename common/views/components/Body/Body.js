@@ -35,31 +35,35 @@ class ImageGallery extends Component {
   render() {
     const items = this.props.items;
 
-    return <div style={{position: 'relative'}}>
+    return <div style={{
+      position: 'relative',
+      paddingTop: '12px',
+      paddingLeft: '12px',
+      paddingRight: '12px'
+    }}>
       {this.props.items.map((captionedImage, i) => {
         return (
-          <Fragment key={i}>
+          <div key={i} style={{marginBottom: '60px'}}>
             <div style={{
               maxHeight: 'calc(100vh - 55px)', // The bar at the bottom
-              marginTop: '120px',
               position: 'relative'
             }}>
               <UiImage
                 {...captionedImage.image}
                 extraClasses={'margin-center width-auto max-height-inherit'} />
-              {this.state.showCaptions &&
-                <div className='font-white flex' style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  background: 'rgba(0, 0, 0, 0.6)',
-                  width: '100%',
-                  paddingTop: '12px'
-                }}>
-                  <TextLayout><PrismicHtmlBlock html={captionedImage.caption} /></TextLayout>
-                </div>
-              }
             </div>
-          </Fragment>
+            {this.state.showCaptions &&
+              <div className='font-white flex' style={{
+                // position: 'absolute',
+                // bottom: 0,
+                background: 'rgba(0, 0, 0, 0.6)',
+                width: '100%',
+                paddingTop: '12px'
+              }}>
+                <TextLayout><PrismicHtmlBlock html={captionedImage.caption} /></TextLayout>
+              </div>
+            }
+          </div>
         );
       })}
       <div
@@ -71,12 +75,16 @@ class ImageGallery extends Component {
           background: 'black',
           paddingTop: '12px',
           paddingBottom: '12px',
-          borderTop: 'solid white 1px'
+          borderTop: 'solid white 1px',
+          display: 'none'
         }}>
         <TextLayout>
-          <label><input checked={this.state.showCaptions} type='checkbox' onChange={(e) => {
-            this.setState({showCaptions: e.target.checked});
-          }} style={{marginRight: '12px'}} />Show captions</label>
+          <label>
+            <input checked={this.state.showCaptions} type='checkbox' onChange={(e) => {
+              this.setState({showCaptions: e.target.checked});
+            }} style={{marginRight: '12px'}} />
+            Show captions
+          </label>
         </TextLayout>
       </div>
     </div>;
@@ -136,7 +144,7 @@ const Body = ({ body, isCreamy = false }: Props) => {
             </ImageLayout>
           }
           {slice.type === 'imageGallery' && <Fragment>
-            <ImageGallery items={slice.value.items} />
+            <div className='bg-black'><ImageGallery items={slice.value.items} /></div>
           </Fragment>}
           {slice.type === 'quote' &&
             <TextLayout>
