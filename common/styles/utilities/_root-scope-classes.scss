@@ -412,6 +412,17 @@
   width: inherit;
 }
 
+.width-auto {
+  width: auto;
+}
+.max-height-inherit {
+  max-height: inherit;
+}
+.margin-center {
+  margin-right: auto;
+  margin-left: auto
+}
+
 // This is for when we receive content from a CMS,
 // making it easier to style the first node
 .first-para-bold p:first-of-type {

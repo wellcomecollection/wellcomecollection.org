@@ -16,6 +16,8 @@ import TextLayout from '../TextLayout/TextLayout';
 import ImageLayout from '../ImageLayout/ImageLayout';
 import FullWidthLayout from '../FullWidthLayout/FullWidthLayout';
 import type {Weight} from '../../../services/prismic/parsers';
+import {pageStore} from '../PageWrapper/PageWrapper';
+import ImageList from '../ImageList/ImageList';
 
 type BodySlice = {|
   type: string,
@@ -31,6 +33,8 @@ type Props = {|
 |}
 
 const Body = ({ body, isCreamy = false }: Props) => {
+  const useImageList = pageStore('toggles').useImageList || false;
+
   return (
     <div className={classNames({
       'basic-body': true,
@@ -82,7 +86,8 @@ const Body = ({ body, isCreamy = false }: Props) => {
               <CaptionedImage {...slice.value} sizesQueries={''} />
             </ImageLayout>
           }
-          {slice.type === 'imageGallery' && <ImageGallery {...slice.value} />}
+          {slice.type === 'imageGallery' && !useImageList && <ImageGallery {...slice.value} />}
+          {slice.type === 'imageGallery' && useImageList && <ImageList {...slice.value} />}
           {slice.type === 'quote' &&
             <TextLayout>
               <Quote {...slice.value} />
