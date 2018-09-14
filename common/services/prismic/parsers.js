@@ -346,7 +346,7 @@ export function parseLabelTypeList(fragment: PrismicFragment[], labelKey: string
     .map(label => parseLabelType(label.data));
 }
 
-function parseLabelType(fragment: PrismicFragment): LabelField {
+export function parseLabelType(fragment: PrismicFragment): LabelField {
   return {
     title: asText(fragment.title),
     description: fragment.description

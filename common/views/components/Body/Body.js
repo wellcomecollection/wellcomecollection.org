@@ -1,11 +1,11 @@
 // @flow
 // TODO: Sync up types with the body slices and the components they return
-import {spacing, classNames} from '../../../utils/classnames';
+import {Fragment, Component} from 'react';
+import {spacing, classNames, font} from '../../../utils/classnames';
 import {breakpoints} from '../../../utils/breakpoints';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import {CaptionedImage, UiImage} from '../Images/Images';
 import Quote from '../Quote/Quote';
-import ImageGallery from '../ImageGallery/ImageGallery';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
@@ -29,6 +29,72 @@ type Props = {|
   body: BodyType,
   isCreamy?: boolean
 |}
+
+class ImageGallery extends Component {
+  state = {showCaptions: true}
+  render() {
+    const items = this.props.items;
+
+    return <div style={{
+      position: 'relative',
+      paddingTop: '12px',
+      paddingLeft: '12px',
+      paddingRight: '12px'
+    }}>
+      {items.map((captionedImage, i) => {
+        return (
+          <div key={i} className='font-white' style={{
+            marginBottom: '60px'
+          }}>
+            <div style={{
+              maxHeight: 'calc(100vh - 55px)', // The bar at the bottom
+              position: 'relative'
+            }}>
+              <UiImage
+                {...captionedImage.image}
+                extraClasses={'margin-center width-auto max-height-inherit'} />
+            </div>
+            {this.state.showCaptions &&
+              <div className='HNL-' style={{
+                // position: 'absolute',
+                // bottom: 0,
+                background: 'rgba(0, 0, 0, 0.6)',
+                width: '100%',
+                paddingTop: '12px'
+              }}>
+                <TextLayout>
+                  <div className={font({s: 'HNL4'})}>{i + 1} of {items.length}</div>
+                  <PrismicHtmlBlock html={captionedImage.caption} />
+                </TextLayout>
+              </div>
+            }
+          </div>
+        );
+      })}
+      <div
+        className={'font-white'}
+        style={{
+          position: 'sticky',
+          bottom: 0,
+          color: 'white',
+          background: 'black',
+          paddingTop: '12px',
+          paddingBottom: '12px',
+          borderTop: 'solid white 1px',
+          display: 'none'
+        }}>
+        <TextLayout>
+          <label>
+            <input checked={this.state.showCaptions} type='checkbox' onChange={(e) => {
+              this.setState({showCaptions: e.target.checked});
+            }} style={{marginRight: '12px'}} />
+            Show captions
+          </label>
+        </TextLayout>
+      </div>
+    </div>;
+  }
+}
 
 const Body = ({ body, isCreamy = false }: Props) => {
   return (
@@ -82,7 +148,9 @@ const Body = ({ body, isCreamy = false }: Props) => {
               <CaptionedImage {...slice.value} sizesQueries={''} />
             </ImageLayout>
           }
-          {slice.type === 'imageGallery' && <ImageGallery {...slice.value} />}
+          {slice.type === 'imageGallery' && <Fragment>
+            <div className='bg-black'><ImageGallery items={slice.value.items} /></div>
+          </Fragment>}
           {slice.type === 'quote' &&
             <TextLayout>
               <Quote {...slice.value} />
