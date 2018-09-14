@@ -76,7 +76,7 @@ class ImageGallery extends Component {
         <TextLayout>
           <label><input checked={this.state.showCaptions} type='checkbox' onChange={(e) => {
             this.setState({showCaptions: e.target.checked});
-          }} style={{marginRight: '12px'}} />Captions</label>
+          }} style={{marginRight: '12px'}} />Show captions</label>
         </TextLayout>
       </div>
     </div>;
@@ -87,7 +87,7 @@ const Body = ({ body, isCreamy = false }: Props) => {
   return (
     <div className={classNames({
       'basic-body': true,
-      'bg-black': isCreamy
+      'bg-cream': isCreamy
     })}>
       {body.map((slice, i) =>
         <div className={`body-part ${spacing({s: 6}, {margin: ['top']})}`} key={`slice${i}`}>
