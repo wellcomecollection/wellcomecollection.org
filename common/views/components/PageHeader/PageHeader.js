@@ -58,7 +58,7 @@ export function getHeroPicture(fields: GenericContentFields): ?Element<typeof Pi
 
 type Props = {|
   breadcrumbs: ElementProps<typeof Breadcrumb>,
-  labels: ElementProps<typeof LabelsList>,
+  labels: ?ElementProps<typeof LabelsList>,
   title: string,
   ContentTypeInfo: ?Node,
   Background: ?BackgroundType,
@@ -87,8 +87,10 @@ const PageHeader = ({
           </div>
         }
 
-        <div className={spacing({s: 2}, {padding: ['top']})}>
-          <Breadcrumb {...breadcrumbs} />
+        <div className={spacing({s: 3, m: 4}, {padding: ['top', 'bottom']})}>
+          <div className={spacing({s: 3, m: 4}, {margin: ['bottom']})}>
+            <Breadcrumb {...breadcrumbs} />
+          </div>
           {Heading}
 
           {ContentTypeInfo &&
@@ -99,7 +101,7 @@ const PageHeader = ({
 
           {labels &&
             <div className={classNames({
-              [spacing({s: 3, m: 4}, {margin: ['top', 'bottom']})]: true
+              [spacing({s: 3, m: 4}, {margin: ['top']})]: true
             })}>
               <LabelsList {...labels} />
             </div>

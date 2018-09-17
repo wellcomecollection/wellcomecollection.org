@@ -14,8 +14,7 @@ type Props = {|
 const Breadcrumb = ({ items }: Props) => (
   <div className={classNames({
     'plain-text': true,
-    'flex': true,
-    [spacing({s: 3, m: 4}, {margin: ['top', 'bottom']})]: true
+    'flex': true
   })}>
     {items.map(({text, url, prefix}, i) => {
       const BoldOrSpanTag = prefix ? 'b' : 'span';
