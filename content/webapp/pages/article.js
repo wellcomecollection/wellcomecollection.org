@@ -10,6 +10,7 @@ import Body from '@weco/common/views/components/Body/Body';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import AsyncSearchResults from '@weco/common/views/components/SearchResults/AsyncSearchResults';
 import TextLayout from '@weco/common/views/components/TextLayout/TextLayout';
+import Breadcrumb from '@weco/common/views/components/Breadcrumb/Breadcrumb';
 import type {ArticleV2} from '@weco/common/services/prismic/articles';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 
@@ -20,11 +21,20 @@ type Props = {|
 export const ArticlePage = ({
   article
 }: Props) => {
+  const crumbs = [{
+    url: '/stories',
+    text: 'Stories'
+  }].concat(article.series.map(series => ({
+    url: `/series/${series.id}`,
+    text: series.title || '',
+    prefix: 'Part of'
+  })));
+
   const Header = (
     <TextLayout>
       <HeaderText
+        Breadcrumb={<Breadcrumb items={crumbs} />}
         Heading={<h1 className='h1 inline-block no-margin'>{article.title}</h1>}
-        TagBar={null}
         DateInfo={null}
         InfoBar={
           <div className={classNames({
@@ -57,7 +67,6 @@ export const ArticlePage = ({
           </div>
         }
         Description={article.summary ? <PrismicHtmlBlock html={article.summary} /> : null}
-        topLink={{ text: 'Articles', url: '/stories' }}
       />
     </TextLayout>
   );

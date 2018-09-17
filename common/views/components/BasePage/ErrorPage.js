@@ -22,9 +22,8 @@ const ErrorPage = ({ errorStatus }: Props) => {
           Description={null}
           LabelBar={null}
           InfoBar={null}
-          TagBar={null}
-          isFree={false}
-          topLink={null} />
+          Breadcrumb={null}
+          isFree={false} />
       }
       Body={<Body body={[]} />}
     >

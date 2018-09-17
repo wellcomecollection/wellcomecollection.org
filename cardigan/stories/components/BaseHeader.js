@@ -8,7 +8,7 @@ import HeaderBackground from '../../../common/views/components/BaseHeader/Header
 import LabelsList from '../../../common/views/components/LabelsList/LabelsList';
 import DateRange from '../../../common/views/components/DateRange/DateRange';
 import BaseHeader from '../../../common/views/components/BaseHeader/BaseHeader';
-import Tags from '../../../common/views/components/Tags/Tags';
+import Breadcrumb from '../../../common/views/components/Breadcrumb/Breadcrumb';
 import {image, videoEmbed} from '../content';
 
 const stories = storiesOf('Components', module).addDecorator(withKnobs);
@@ -16,15 +16,20 @@ export const Header = () => {
   const title = text('Title', 'Some sort of title');
   const description = text('Description', 'Some sort of description');
   const Image = UiImage(image());
-  const TagBar = <Tags tags={[{
-    text: 'Tag'
+  const BreadcrumbComponent = <Breadcrumb items={[{
+    text: 'Content type',
+    url: '/content-type'
+  }, {
+    prefix: 'Part of',
+    text: 'The Ambroise Paré collection',
+    url: '/part-of/this'
   }]} />;
   const Video = VideoEmbed(videoEmbed);
   const DateInfo = <DateRange start={new Date()} end={new Date()} />;
   const InfoBar = <StatusIndicator start={new Date()} end={new Date()} />;
   const Description = <div>{description}</div>;
 
-  const hasTags = boolean('Has tags?', true);
+  const hasBreadcrumb = boolean('Has breadcrumb?', true);
   const hasBackground = boolean('Has background?', true);
   const hasWobblyEdge = boolean('Has wobbly edge?', true);
   const hasDescription = boolean('Has description?', true);
@@ -45,7 +50,7 @@ export const Header = () => {
   return (
     <BaseHeader
       title={title}
-      TagBar={hasTags ? TagBar : null}
+      Breadcrumb={hasBreadcrumb ? BreadcrumbComponent : null}
       FeaturedMedia={FeaturedMedia}
       Background={<HeaderBackground
         backgroundTexture={hasBackground ? 'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg' : null}

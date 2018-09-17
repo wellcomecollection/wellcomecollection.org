@@ -5,6 +5,7 @@ import HeaderText from '../HeaderText/HeaderText';
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
 import FreeSticker from '../FreeSticker/FreeSticker';
 import TextLayout from '../TextLayout/TextLayout';
+import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import {classNames, spacing} from '../../../utils/classnames';
 import type {Node} from 'react';
 import type {FeaturedMedia as FeaturedMediaType} from '../BaseHeader/BaseHeader';
@@ -26,12 +27,11 @@ const ExhibitionHeader = ({
     <Fragment>
       <TextLayout>
         <HeaderText
-          topLink={{url: '/exhibitions', text: 'Exhibitions'}}
+          Breadcrumb={<Breadcrumb items={[{url: '/exhibitions', text: 'Exhibitions'}]} />}
           Heading={<h1 className='h0 inline-block no-margin'>{title}</h1>}
           DateInfo={DateInfo}
           InfoBar={InfoBar}
-          Description={null}
-          TagBar={null} />
+          Description={null} />
       </TextLayout>
       <TextLayout>
         <div className='relative' style={{zIndex: 1}}>

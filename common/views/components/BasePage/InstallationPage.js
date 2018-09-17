@@ -8,6 +8,7 @@ import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import HTMLDate from '../HTMLDate/HTMLDate';
 import Contributors from '../Contributors/Contributors';
 import HeaderBackground from '../BaseHeader/HeaderBackground';
+import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import type {UiInstallation} from '../../../model/installations';
 
 type Props = {|
@@ -35,21 +36,13 @@ const InstallationPage = ({
   const Header = (<BaseHeader
     title={installation.title}
     Background={<HeaderBackground hasWobblyEdge={true} />}
-    TagBar={
-      <div
-        style={{ minHeight: '48px' }}
-        data-component='exhibit-exhibition-link'
-        className='async-content exhibit-exhibition-link-placeholder'
-        data-endpoint={`/installations/${installation.id}/exhibition`}
-        data-prefix-endpoint='false'></div>
-    }
     DateInfo={DateInfo}
     InfoBar={<StatusIndicator start={installation.start} end={(installation.end || new Date())} />}
     Description={null}
     FeaturedMedia={FeaturedMedia}
     LabelBar={null}
+    Breadcrumb={<Breadcrumb items={[{ text: 'Installations' }]} />}
     isFree={false}
-    topLink={null}
   />);
 
   return (

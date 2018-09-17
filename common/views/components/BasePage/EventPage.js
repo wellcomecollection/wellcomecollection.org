@@ -27,6 +27,7 @@ import {
   formatTime
 } from '../../../utils/format-date';
 import EventDateRange from '../EventDateRange/EventDateRange';
+import Breadcrumb from '../Breadcrumb/Breadcrumb';
 
 type Props = {|
   event: UiEvent
@@ -99,6 +100,14 @@ function showTicketSalesStart(dateTime) {
 }
 
 const EventPage = ({ event }: Props) => {
+  const crumbs = [{
+    url: '/events',
+    text: 'Events'
+  }].concat(event.series.map(series => ({
+    url: `/event-series/${series.id}`,
+    text: series.title || '',
+    prefix: 'Part of'
+  })));
   const image = event.promo && event.promo.image;
   const tasl = image && {
     isFull: false,
@@ -136,22 +145,9 @@ const EventPage = ({ event }: Props) => {
     Background={<HeaderBackground
       hasWobblyEdge={true}
       backgroundTexture={`https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F43a35689-4923-4451-85d9-1ab866b1826d_event_header_background.svg`} />}
-    TagBar={null}
     LabelBar={
       <Fragment>
         <LabelsList labels={(eventFormat.concat(eventAudiences, eventInterpretations, relaxedPerformanceLabel))} />
-        {event.series.length > 0 && (
-          <div className='flex-inline flex--v-center' style={{whiteSpace: 'nowrap'}}>
-            <p className={`${font({s: 'HNL5'})} ${spacing({s: 0}, {margin: ['bottom']})} ${spacing({s: 1}, {margin: ['right']})} inline-block no-padding`}
-              style={{marginTop: '3px'}}>{'Part of '}</p> {/* TODO: revisit 3px as part of spacing system */}
-            {event.series.length > 0 && <LabelsList labels={event.series.map((series) => {
-              return {
-                url: `/event-series/${series.id}`,
-                text: series.title
-              };
-            })} />}
-          </div>
-        )}
       </Fragment>
     }
     DateInfo={EventDateRange({event})}
@@ -159,7 +155,7 @@ const EventPage = ({ event }: Props) => {
     Description={null}
     FeaturedMedia={FeaturedMedia}
     isFree={Boolean(!event.cost)}
-    topLink={{text: 'Events', url: '/events'}}
+    Breadcrumb={<Breadcrumb items={crumbs} />}
   />);
 
   return (

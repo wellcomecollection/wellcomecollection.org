@@ -3,17 +3,17 @@ import {Fragment} from 'react';
 import {spacing} from '../../../utils/classnames';
 import {breakpoints} from '../../../utils/breakpoints';
 import HeaderBackground from './HeaderBackground';
-import type {Node, Element} from 'react';
 import {UiImage} from '../Images/Images';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
-import type {GenericContentFields} from '../../../model/generic-content-fields';
-import type {Tasl} from '../../../model/tasl';
-import type {Link} from '../../../model/link';
 import HeaderText from '../HeaderText/HeaderText';
 import FreeSticker from '../FreeSticker/FreeSticker';
 import Picture from '../Picture/Picture';
 import TextLayout from '../TextLayout/TextLayout';
+import Breadcrumb from '../Breadcrumb/Breadcrumb';
+import type {Node, Element} from 'react';
+import type {GenericContentFields} from '../../../model/generic-content-fields';
+import type {Tasl} from '../../../model/tasl';
 
 export type FeaturedMedia =
   | Element<typeof UiImage>
@@ -25,14 +25,13 @@ type BackgroundType = Element<typeof HeaderBackground>
 type Props = {|
   title: string,
   Background: ?BackgroundType,
-  TagBar: ?Node, // potentially make this only take Async | Tags?
   DateInfo: ?Node,
   InfoBar: ?Node,
   Description: ?Node,
   FeaturedMedia: ?FeaturedMedia,
   LabelBar: ?Node,
-  isFree: boolean,
-  topLink: ?Link
+  Breadcrumb: ?Element<typeof Breadcrumb>,
+  isFree: boolean
 |}
 
 export function getFeaturedMedia(
@@ -66,14 +65,13 @@ const backgroundTexture = 'https://wellcomecollection.cdn.prismic.io/wellcomecol
 const BaseHeader = ({
   title,
   Background,
-  TagBar,
   DateInfo,
   Description,
   InfoBar,
   FeaturedMedia,
   LabelBar,
-  isFree,
-  topLink
+  Breadcrumb,
+  isFree
 }: Props) => {
   const BackgroundComponent = Background ||
     (FeaturedMedia ? HeaderBackground({backgroundTexture}) : null);
@@ -96,8 +94,7 @@ const BaseHeader = ({
           }
 
           <HeaderText
-            topLink={topLink}
-            TagBar={TagBar}
+            Breadcrumb={Breadcrumb}
             Heading={Heading}
             DateInfo={DateInfo}
             Description={Description}

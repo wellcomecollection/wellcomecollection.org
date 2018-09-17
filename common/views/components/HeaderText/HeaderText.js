@@ -1,22 +1,19 @@
 // @flow
 
-import {Fragment} from 'react';
 import {font, spacing} from '../../../utils/classnames';
-import type {Link} from '../../../model/link';
-import type {Node} from 'react';
+import Breadcrumb from '../Breadcrumb/Breadcrumb';
+import type {Node, Element} from 'react';
 
 type Props = {|
+  Breadcrumb: ?Element<typeof Breadcrumb>,
   Heading: ?Node,
-  TagBar: ?Node,
   DateInfo: ?Node,
   InfoBar: ?Node,
   Description: ?Node,
-  topLink: ?Link
 |}
 
 const HeaderText = ({
-  topLink,
-  TagBar,
+  Breadcrumb,
   Heading,
   DateInfo,
   Description,
@@ -24,18 +21,7 @@ const HeaderText = ({
 }: Props) => {
   return (
     <div className={spacing({s: 2}, {padding: ['top']})}>
-      {topLink &&
-        <div className='plain-text'>
-          <a className={`${font({s: 'HNL4'})} block`} href={topLink.url}>{topLink.text}</a>
-        </div>
-      }
-
-      {TagBar &&
-        <Fragment>
-          {TagBar}
-        </Fragment>
-      }
-
+      {Breadcrumb}
       {Heading}
 
       {DateInfo &&

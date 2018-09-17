@@ -26,13 +26,12 @@ const Page = ({ page }: Props): BasePage => {
     title={page.title}
     DateInfo={DateInfo}
     Background={null}
-    TagBar={null}
     InfoBar={null}
     Description={null}
     FeaturedMedia={FeaturedMedia}
     LabelBar={null}
+    Breadcrumb={null}
     isFree={false}
-    topLink={null}
   />);
 
   return (
