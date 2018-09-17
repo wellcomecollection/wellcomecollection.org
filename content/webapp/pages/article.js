@@ -4,13 +4,15 @@ import {getArticle} from '@weco/common/services/prismic/articles';
 import {classNames, spacing, font} from '@weco/common/utils/classnames';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
-import HeaderText from '@weco/common/views/components/HeaderText/HeaderText';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Body from '@weco/common/views/components/Body/Body';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import AsyncSearchResults from '@weco/common/views/components/SearchResults/AsyncSearchResults';
-import TextLayout from '@weco/common/views/components/TextLayout/TextLayout';
-import Breadcrumb from '@weco/common/views/components/Breadcrumb/Breadcrumb';
+import {
+  default as PageHeader,
+  getFeaturedMedia,
+  getHeroPicture
+} from '@weco/common/views/components/PageHeader/PageHeader';
 import type {ArticleV2} from '@weco/common/services/prismic/articles';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 
@@ -21,60 +23,95 @@ type Props = {|
 export const ArticlePage = ({
   article
 }: Props) => {
-  const crumbs = [{
-    url: '/stories',
-    text: 'Stories'
-  }].concat(article.series.map(series => ({
-    url: `/series/${series.id}`,
-    text: series.title || '',
-    prefix: 'Part of'
-  })));
+  const breadcrumbs = {
+    items: [{
+      url: '/stories',
+      text: 'Stories'
+    }].concat(article.series.map(series => ({
+      url: `/series/${series.id}`,
+      text: series.title || '',
+      prefix: 'Part of'
+    })))
+  };
 
-  const Header = (
-    <TextLayout>
-      <HeaderText
-        Breadcrumb={<Breadcrumb items={crumbs} />}
-        Heading={<h1 className='h1 inline-block no-margin'>{article.title}</h1>}
-        DateInfo={null}
-        InfoBar={
-          <div className={classNames({
-            'flex': true,
-            [font({s: 'HNM5'})]: true
-          })}>
-            <p className={classNames({
-              [spacing({s: 1}, {margin: ['right']})]: true,
-              [spacing({s: 0}, {margin: ['bottom']})]: true
-            })}>
-              <b>By </b>
-              {article.contributors.map(({ contributor }, i, arr) => (
-                <Fragment key={contributor.id}>
-                  <a
-                    className={'plain-link font-green'}
-                    href={`/${contributor.type}/${contributor.id}`}>
-                    {contributor.name}
-                  </a>
+  // TODO: do this properly
+  const labels = {
+    labels: [{
+      url: null,
+      text: 'Essay'
+    }]
+  };
 
-                  {i < arr.length - 1 && ', '}
-                </Fragment>
-              ))}
-            </p>
-            <div className={classNames({
-              'font-pewter': true,
-              [font({s: 'HNL5'})]: true
-            })}>
-              <HTMLDate date={new Date(article.datePublished)} />
-            </div>
-          </div>
-        }
-        Description={article.summary ? <PrismicHtmlBlock html={article.summary} /> : null}
-      />
-    </TextLayout>
-  );
+  const genericFields = {
+    id: article.id,
+    title: article.title,
+    contributors: article.contributors,
+    contributorsTitle: article.contributorsTitle,
+    promo: article.promo,
+    body: article.body,
+    promoImage: article.promoImage,
+    promoText: article.promoText,
+    image: article.image,
+    squareImage: article.squareImage,
+    widescreenImage: article.widescreenImage
+  };
+  const standfirst = article.body.find(slice => slice.type === 'standfirst');
+  const ContentTypeInfoComponent = standfirst &&
+    <Fragment>
+      <div className={classNames({
+        'first-para-no-margin': true,
+        [spacing({s: 1}, {margin: ['top']})]: true
+      })}>
+        <PrismicHtmlBlock html={standfirst.value} />
+      </div>
+      <div className={classNames({
+        'flex': true,
+        [font({s: 'HNM5'})]: true
+      })}>
+        <p className={classNames({
+          [spacing({s: 1}, {margin: ['top']})]: true,
+          [spacing({s: 1}, {margin: ['right']})]: true,
+          [spacing({s: 0}, {margin: ['bottom']})]: true
+        })}>
+          <b>By </b>
+          {article.contributors.map(({ contributor }, i, arr) => (
+            <Fragment key={contributor.id}>
+              <a
+                className={'plain-link font-green'}
+                href={`/${contributor.type}/${contributor.id}`}>
+                {contributor.name}
+              </a>
+
+              {i < arr.length - 1 && ', '}
+            </Fragment>
+          ))}
+        </p>
+        <div className={classNames({
+          'font-pewter': true,
+          [font({s: 'HNL5'})]: true
+        })}>
+          <HTMLDate date={new Date(article.datePublished)} />
+        </div>
+      </div>
+    </Fragment>;
+  // This is for content that we don't have the crops for in Prismic
+  const maybeHeroPicture = getHeroPicture(genericFields);
+  const maybeFeaturedMedia = !maybeHeroPicture ? getFeaturedMedia(genericFields) : null;
+
+  const ArticlePageHeader = <PageHeader
+    breadcrumbs={breadcrumbs}
+    labels={labels}
+    title={article.title}
+    ContentTypeInfo={ContentTypeInfoComponent}
+    Background={null}
+    FeaturedMedia={maybeFeaturedMedia}
+    HeroPicture={maybeHeroPicture}
+  />;
 
   return (
     <BasePage
       id={article.id}
-      Header={Header}
+      Header={ArticlePageHeader}
       Body={<Body body={article.body} isCreamy={true} />}
     >
       {article.series.map(series => (
