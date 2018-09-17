@@ -1,20 +1,16 @@
 // @flow
 // TODO: Sync up types with the body slices and the components they return
 import {spacing, classNames} from '../../../utils/classnames';
-import {breakpoints} from '../../../utils/breakpoints';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
-import {CaptionedImage, UiImage} from '../Images/Images';
+import {CaptionedImage} from '../Images/Images';
 import Quote from '../Quote/Quote';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Map from '../Map/Map';
-import WobblyBottom from '../WobblyBottom/WobblyBottom';
-import {PictureFromImages} from '../Picture/Picture';
 import TextLayout from '../TextLayout/TextLayout';
 import ImageLayout from '../ImageLayout/ImageLayout';
-import FullWidthLayout from '../FullWidthLayout/FullWidthLayout';
 import type {Weight} from '../../../services/prismic/parsers';
 
 type BodySlice = {|
@@ -52,31 +48,11 @@ const Body = ({ body, isCreamy = false }: Props) => {
               </div>
             </TextLayout>
           }
+
           {/*
-            not all featured image slices have their crops as they were only
-            added in later.
+            We leave featured images out for now, the only time they were ever used
+            as different images to the promo image was webcomics
           */}
-          {slice.type === 'picture' &&
-            slice.weight === 'featured' &&
-            slice.value.image.crops.square &&
-            <FullWidthLayout>
-              <WobblyBottom color='cream'>
-                <PictureFromImages images={{
-                  [breakpoints.medium]: slice.value.image.crops['16:9'],
-                  'default': slice.value.image.crops.square
-                }} isFull={true} />
-              </WobblyBottom>
-            </FullWidthLayout>
-          }
-          {slice.type === 'picture' &&
-            slice.weight === 'featured' &&
-            !slice.value.image.crops.square &&
-            <FullWidthLayout>
-              <WobblyBottom color='cream'>
-                <UiImage {...slice.value.image} isFull={true} />
-              </WobblyBottom>
-            </FullWidthLayout>
-          }
           {slice.type === 'picture' && slice.weight !== 'featured' &&
             <ImageLayout>
               <CaptionedImage {...slice.value} sizesQueries={''} />

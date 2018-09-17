@@ -1,8 +1,7 @@
 // @flow
 
-import {font, spacing} from '../../../utils/classnames';
+import {font, spacing, classNames} from '../../../utils/classnames';
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
-import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
 import LabelsList from '../LabelsList/LabelsList';
 import {UiImage} from '../Images/Images';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
@@ -10,8 +9,9 @@ import Picture from '../Picture/Picture';
 import HeaderBackground from '../BaseHeader/HeaderBackground';
 import FreeSticker from '../FreeSticker/FreeSticker';
 import TextLayout from '../TextLayout/TextLayout';
+import WobblyBottom from '../WobblyBottom/WobblyBottom';
 import {breakpoints} from '../../../utils/breakpoints';
-import type {Node, Element} from 'react';
+import type {Node, Element, ElementProps} from 'react';
 import type {GenericContentFields} from '../../../model/generic-content-fields';
 
 export type FeaturedMedia =
@@ -48,40 +48,38 @@ export function getFeaturedMedia(
   return FeaturedMedia;
 }
 
+export function getHeroPicture(fields: GenericContentFields): ?Element<typeof Picture> {
+  const { squareImage, widescreenImage } = fields;
+  return squareImage && widescreenImage &&
+    <Picture
+      images={[{...widescreenImage, minWidth: breakpoints.medium}, {...squareImage, minWidth: null}]}
+      isFull={true} />;
+}
+
 type Props = {|
+  breadcrumbs: ElementProps<typeof Breadcrumb>,
+  labels: ElementProps<typeof LabelsList>,
   title: string,
-  Breadcrumb: ?Element<typeof Breadcrumb>,
   ContentTypeInfo: ?Node,
-  LabelsList: ?Element<typeof LabelsList>,
   Background: ?BackgroundType,
   FeaturedMedia: ?FeaturedMedia,
+  HeroPicture: ?Element<typeof Picture>,
   isFree?: boolean
 |}
 
-const backgroundTexture = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg';
 const PageHeader = ({
+  breadcrumbs,
+  labels,
   title,
-  Breadcrumb,
   ContentTypeInfo,
-  LabelsList,
-  Background,
+  HeroPicture,
   FeaturedMedia,
   isFree = false
 }: Props) => {
-  const BackgroundComponent = Background ||
-    (FeaturedMedia ? HeaderBackground({backgroundTexture}) : null);
-
-  const Heading = Background
-    ? <h1 className='h1 inline-block no-margin'>{title}</h1>
-    : <HighlightedHeading text={title} />;
+  const Heading = <h1 className='h1 inline-block no-margin'>{title}</h1>;
 
   return (
-    <div className={`row relative`} style={{
-      backgroundImage: BackgroundComponent ? null : `url(${backgroundTexture})`,
-      backgroundSize: BackgroundComponent ? null : '150%'
-    }}>
-      {BackgroundComponent}
-
+    <div className={`row relative`}>
       <TextLayout>
         {isFree &&
           <div className='relative'>
@@ -90,16 +88,22 @@ const PageHeader = ({
         }
 
         <div className={spacing({s: 2}, {padding: ['top']})}>
-          {Breadcrumb}
+          <Breadcrumb {...breadcrumbs} />
           {Heading}
 
           {ContentTypeInfo &&
-            <div className={`${font({s: 'HNL3'})}`}>
+            <div className={`${font({s: 'HNL4', m: 'HNL3'})}`}>
               {ContentTypeInfo}
             </div>
           }
 
-          {LabelsList}
+          {labels &&
+            <div className={classNames({
+              [spacing({s: 3, m: 4}, {margin: ['top', 'bottom']})]: true
+            })}>
+              <LabelsList {...labels} />
+            </div>
+          }
 
           {FeaturedMedia &&
             <div className={`${spacing({s: 3}, {margin: ['top']})} relative`}>
@@ -108,6 +112,17 @@ const PageHeader = ({
           }
         </div>
       </TextLayout>
+
+      {HeroPicture &&
+        <div className={classNames({
+          'margin-h-auto': true,
+          [spacing({m: 4}, {padding: ['left', 'right']})]: true
+        })} style={{maxWidth: '1450px'}}>
+          <WobblyBottom color='white'>
+            {HeroPicture}
+          </WobblyBottom>
+        </div>
+      }
     </div>
   );
 };
