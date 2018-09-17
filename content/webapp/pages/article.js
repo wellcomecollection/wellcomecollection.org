@@ -66,6 +66,7 @@ export const ArticlePage = ({
       </div>
       <div className={classNames({
         'flex': true,
+        'flex--h-baseline': true,
         [font({s: 'HNM5'})]: true
       })}>
         <p className={classNames({
