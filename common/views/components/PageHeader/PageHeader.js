@@ -10,7 +10,9 @@ import Picture from '../Picture/Picture';
 import HeaderBackground from '../BaseHeader/HeaderBackground';
 import FreeSticker from '../FreeSticker/FreeSticker';
 import TextLayout from '../TextLayout/TextLayout';
+import {breakpoints} from '../../../utils/breakpoints';
 import type {Node, Element} from 'react';
+import type {GenericContentFields} from '../../../model/generic-content-fields';
 
 export type FeaturedMedia =
   | Element<typeof UiImage>
@@ -18,6 +20,33 @@ export type FeaturedMedia =
   | Element<typeof Picture>
 
 type BackgroundType = Element<typeof HeaderBackground>
+
+export function getFeaturedMedia(
+  fields: GenericContentFields,
+  isPicture?: boolean
+): ?FeaturedMedia {
+  const image = fields.promo && fields.promo.image;
+  const { squareImage, widescreenImage } = fields;
+  const {body} = fields;
+  const tasl = image && {
+    title: image.title,
+    author: image.author,
+    sourceName: image.source && image.source.name,
+    sourceLink: image.source && image.source.link,
+    license: image.license,
+    copyrightHolder: image.copyright && image.copyright.holder,
+    copyrightLink: image.copyright && image.copyright.link
+  };
+  const hasFeaturedVideo = body.length > 0 && body[0].type === 'videoEmbed';
+  const FeaturedMedia = hasFeaturedVideo
+    ? <VideoEmbed {...body[0].value} /> : isPicture && widescreenImage && squareImage
+      ? <Picture
+        images={[{...widescreenImage, minWidth: breakpoints.medium}, {...squareImage, minWidth: null}]}
+        isFull={true} />
+      : image && tasl ? <UiImage tasl={tasl} {...widescreenImage} sizesQueries='' /> : null;
+
+  return FeaturedMedia;
+}
 
 type Props = {|
   title: string,
