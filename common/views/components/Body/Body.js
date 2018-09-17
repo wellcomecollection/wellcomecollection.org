@@ -32,64 +32,63 @@ const Body = ({ body, isCreamy = false }: Props) => {
       'basic-body': true,
       'bg-cream': isCreamy
     })}>
-      {body.map((slice, i) =>
-        <div className={`body-part ${spacing({s: 6}, {margin: ['top']})}`} key={`slice${i}`}>
-          {slice.type === 'standfirst' &&
-            <TextLayout>
-              <div className='body-text'>
-                <FeaturedText html={slice.value} />
-              </div>
-            </TextLayout>}
-          {slice.type === 'text' &&
-            <TextLayout>
-              <div className='body-text'>
-                {slice.weight === 'featured' && <FeaturedText html={slice.value} />}
-                {slice.weight !== 'featured' && <PrismicHtmlBlock html={slice.value} />}
-              </div>
-            </TextLayout>
-          }
+      {body
+        .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
+        .map((slice, i) =>
+          <div className={`body-part ${spacing({s: 6}, {padding: ['top']})}`} key={`slice${i}`}>
+            {slice.type === 'standfirst' &&
+              <TextLayout>
+                <div className='body-text'>
+                  <FeaturedText html={slice.value} />
+                </div>
+              </TextLayout>
+            }
+            {slice.type === 'text' &&
+              <TextLayout>
+                <div className='body-text'>
+                  {slice.weight === 'featured' && <FeaturedText html={slice.value} />}
+                  {slice.weight !== 'featured' && <PrismicHtmlBlock html={slice.value} />}
+                </div>
+              </TextLayout>
+            }
 
-          {/*
-            We leave featured images out for now, the only time they were ever used
-            as different images to the promo image was webcomics
-          */}
-          {slice.type === 'picture' && slice.weight !== 'featured' &&
-            <SingleColMax10Layout>
-              <CaptionedImage {...slice.value} sizesQueries={''} />
-            </SingleColMax10Layout>
-          }
-          {slice.type === 'imageGallery' && <ImageGallery {...slice.value} />}
-          {slice.type === 'quote' &&
-            <TextLayout>
-              <Quote {...slice.value} />
-            </TextLayout>
-          }
+            {slice.type === 'picture' && slice.weight !== 'featured' &&
+              <SingleColMax10Layout>
+                <CaptionedImage {...slice.value} sizesQueries={''} />
+              </SingleColMax10Layout>
+            }
+            {slice.type === 'imageGallery' && <ImageGallery {...slice.value} />}
+            {slice.type === 'quote' &&
+              <TextLayout>
+                <Quote {...slice.value} />
+              </TextLayout>
+            }
 
-          {slice.type === 'contentList' &&
-            <TextLayout>
-              <AsyncSearchResults
-                title={slice.value.title}
-                query={slice.value.items.map(({id}) => `id:${id}`).join(' ')}
-              />
-            </TextLayout>
-          }
-          {slice.type === 'searchResults' &&
-            <TextLayout>
-              <AsyncSearchResults {...slice.value} />
-            </TextLayout>
-          }
-          {slice.type === 'videoEmbed' &&
-            <TextLayout>
-              <VideoEmbed {...slice.value} />
-            </TextLayout>
-          }
-          {slice.type === 'map' &&
-            <TextLayout>
-              <Map {...slice.value} />
-            </TextLayout>
-          }
-        </div>
-      )}
+            {slice.type === 'contentList' &&
+              <TextLayout>
+                <AsyncSearchResults
+                  title={slice.value.title}
+                  query={slice.value.items.map(({id}) => `id:${id}`).join(' ')}
+                />
+              </TextLayout>
+            }
+            {slice.type === 'searchResults' &&
+              <TextLayout>
+                <AsyncSearchResults {...slice.value} />
+              </TextLayout>
+            }
+            {slice.type === 'videoEmbed' &&
+              <TextLayout>
+                <VideoEmbed {...slice.value} />
+              </TextLayout>
+            }
+            {slice.type === 'map' &&
+              <TextLayout>
+                <Map {...slice.value} />
+              </TextLayout>
+            }
+          </div>
+        )}
     </div>
   );
 };

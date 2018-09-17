@@ -99,7 +99,7 @@ export const ArticlePage = ({
   const maybeHeroPicture = getHeroPicture(genericFields);
   const maybeFeaturedMedia = !maybeHeroPicture ? getFeaturedMedia(genericFields) : null;
 
-  const ArticlePageHeader = <PageHeader
+  const Header = <PageHeader
     breadcrumbs={breadcrumbs}
     labels={labels}
     title={article.title}
@@ -107,12 +107,13 @@ export const ArticlePage = ({
     Background={null}
     FeaturedMedia={maybeFeaturedMedia}
     HeroPicture={maybeHeroPicture}
+    heroImageBgColor={'cream'}
   />;
 
   return (
     <BasePage
       id={article.id}
-      Header={ArticlePageHeader}
+      Header={Header}
       Body={<Body body={article.body} isCreamy={true} />}
     >
       {article.series.map(series => (

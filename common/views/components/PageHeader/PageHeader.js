@@ -64,7 +64,8 @@ type Props = {|
   Background: ?BackgroundType,
   FeaturedMedia: ?FeaturedMedia,
   HeroPicture: ?Element<typeof Picture>,
-  isFree?: boolean
+  isFree?: boolean,
+  heroImageBgColor?: 'white' | 'cream'
 |}
 
 const PageHeader = ({
@@ -74,7 +75,10 @@ const PageHeader = ({
   ContentTypeInfo,
   HeroPicture,
   FeaturedMedia,
-  isFree = false
+  isFree = false,
+  // Not a massive fan of this, but it feels overkill to make a new component
+  // for it as it's only used on articles and exhibitions
+  heroImageBgColor = 'white'
 }: Props) => {
   const Heading = <h1 className='h1 inline-block no-margin'>{title}</h1>;
 
@@ -117,12 +121,25 @@ const PageHeader = ({
 
       {HeroPicture &&
         <div className={classNames({
-          'margin-h-auto': true,
-          [spacing({m: 4}, {padding: ['left', 'right']})]: true
-        })} style={{maxWidth: '1450px'}}>
-          <WobblyBottom color='white'>
-            {HeroPicture}
-          </WobblyBottom>
+          'relative': true
+
+        })} style={{height: '100%'}}>
+          <div style={{
+            height: '50%',
+            position: 'absolute',
+            width: '100%',
+            bottom: 0
+          }} className={`bg-${heroImageBgColor}`}></div>
+          <div
+            style={{maxWidth: '1450px'}}
+            className={classNames({
+              'margin-h-auto': true,
+              [spacing({m: 4}, {padding: ['left', 'right']})]: true
+            })}>
+            <WobblyBottom color={heroImageBgColor}>
+              {HeroPicture}
+            </WobblyBottom>
+          </div>
         </div>
       }
     </div>
