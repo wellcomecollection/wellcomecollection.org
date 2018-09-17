@@ -130,7 +130,7 @@ export async function getArticleList(page = 1, {pageSize = 10, predicates = []} 
   const prismic = await prismicApi();
   const articlesList = await prismic.query([
     Prismic.Predicates.any('document.type', ['articles', 'webcomics']),
-    Prismic.Predicates.not('document.tags', ['delist', 'wordpress'])
+    Prismic.Predicates.not('document.tags', ['delist'])
   ].concat(predicates), {fetchLinks, page, pageSize, orderings});
 
   const articlesAsArticles = articlesList.results.map(result => {
