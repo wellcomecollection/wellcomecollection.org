@@ -8,7 +8,7 @@ import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Picture from '../Picture/Picture';
 import HeaderBackground from '../BaseHeader/HeaderBackground';
 import FreeSticker from '../FreeSticker/FreeSticker';
-import TextLayout from '../TextLayout/TextLayout';
+import MaxL10Layout from '../MaxL10Layout/MaxL10Layout';
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
 import {breakpoints} from '../../../utils/breakpoints';
 import type {Node, Element, ElementProps} from 'react';
@@ -80,7 +80,7 @@ const PageHeader = ({
 
   return (
     <div className={`row relative`}>
-      <TextLayout>
+      <MaxL10Layout>
         {isFree &&
           <div className='relative'>
             <FreeSticker />
@@ -113,7 +113,7 @@ const PageHeader = ({
             </div>
           }
         </div>
-      </TextLayout>
+      </MaxL10Layout>
 
       {HeroPicture &&
         <div className={classNames({
