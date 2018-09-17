@@ -10,7 +10,7 @@ import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Map from '../Map/Map';
 import TextLayout from '../TextLayout/TextLayout';
-import MaxL10Layout from '../MaxL10Layout/MaxL10Layout';
+import SingleColMax10Layout from '../SingleColMax10Layout/SingleColMax10Layout';
 import type {Weight} from '../../../services/prismic/parsers';
 
 type BodySlice = {|
@@ -54,9 +54,9 @@ const Body = ({ body, isCreamy = false }: Props) => {
             as different images to the promo image was webcomics
           */}
           {slice.type === 'picture' && slice.weight !== 'featured' &&
-            <MaxL10Layout>
+            <SingleColMax10Layout>
               <CaptionedImage {...slice.value} sizesQueries={''} />
-            </MaxL10Layout>
+            </SingleColMax10Layout>
           }
           {slice.type === 'imageGallery' && <ImageGallery {...slice.value} />}
           {slice.type === 'quote' &&
