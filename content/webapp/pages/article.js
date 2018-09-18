@@ -74,7 +74,9 @@ export const ArticlePage = ({
           [spacing({s: 1}, {margin: ['right']})]: true,
           [spacing({s: 0}, {margin: ['bottom']})]: true
         })}>
-          <b>By </b>
+          <span className={classNames({
+            [font({s: 'HNB5'})]: true
+          })}>By </span>
           {article.contributors.map(({ contributor }, i, arr) => (
             <Fragment key={contributor.id}>
               <a
