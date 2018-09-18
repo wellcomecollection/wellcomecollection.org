@@ -10,7 +10,7 @@ import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Map from '../Map/Map';
 import TextLayout from '../TextLayout/TextLayout';
-import SingleColMax10Layout from '../SingleColMax10Layout/SingleColMax10Layout';
+import Layout10 from '../Layout10/Layout10';
 import type {Weight} from '../../../services/prismic/parsers';
 
 type BodySlice = {|
@@ -53,9 +53,9 @@ const Body = ({ body, isCreamy = false }: Props) => {
             }
 
             {slice.type === 'picture' && slice.weight !== 'featured' &&
-              <SingleColMax10Layout>
+              <Layout10>
                 <CaptionedImage {...slice.value} sizesQueries={''} />
-              </SingleColMax10Layout>
+              </Layout10>
             }
             {slice.type === 'imageGallery' && <ImageGallery {...slice.value} />}
             {slice.type === 'quote' &&
