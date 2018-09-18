@@ -1,7 +1,7 @@
 // @flow
 import {Fragment} from 'react';
 import {getExhibition} from '@weco/common/services/prismic/exhibitions';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageWrapper, {pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import {
   default as PageHeader,
@@ -17,6 +17,7 @@ import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import type {UiExhibition} from '@weco/common/model/exhibitions';
 import {font} from '@weco/common/utils/classnames';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
+import {getTodaysGalleriesHours} from '@weco/common/utils/get-todays-galleries-hours';
 
 type Props = {|
   exhibition: UiExhibition
@@ -69,6 +70,13 @@ export const ExhibitionPage = ({
   />;
 
   // Info box content
+  const openingTimes = pageStore('openingTimes');
+  const galleriesLibraryVenues = openingTimes.groupedVenues && openingTimes.groupedVenues.galleriesLibrary.hours;
+  const galleriesVenue = galleriesLibraryVenues && galleriesLibraryVenues.find(venue => venue.name === 'Galleries');
+  const galleriesOpeningTimes = galleriesVenue && galleriesVenue.openingHours;
+
+  const todaysGalleriesHours = getTodaysGalleriesHours(galleriesOpeningTimes);
+  const todaysHoursText = `${todaysGalleriesHours.opens ? 'Open' : 'Closed'} today${todaysGalleriesHours.opens ? ' ' + todaysGalleriesHours.opens + '–' + todaysGalleriesHours.closes : ''}, Full opening times`;
   const admissionObject = {
     title: null,
     description: [{
@@ -77,6 +85,23 @@ export const ExhibitionPage = ({
       spans: []
     }],
     icon: 'ticket'
+  };
+
+  const todaysHoursObject = {
+    title: null,
+    description: [{
+      type: 'paragraph',
+      text: todaysHoursText,
+      spans: [{
+        type: 'hyperlink',
+        start: todaysHoursText.length - 18,
+        end: todaysHoursText.length,
+        data: {
+          url: '/opening-times'
+        }
+      }]
+    }],
+    icon: 'clock'
   };
 
   const placeObject = (exhibition.place && {
@@ -120,6 +145,7 @@ export const ExhibitionPage = ({
 
   const infoItems = [
     admissionObject,
+    todaysHoursObject,
     placeObject,
     ...resourcesItems,
     ...accessibilityItems

@@ -5,8 +5,7 @@ import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Icon from '../Icon/Icon';
 import type {Element} from 'react';
 import type {LabelField} from '../../../model/label-field';
-import OpeningHours from '../OpeningHours/OpeningHours';
-import {pageStore} from '../PageWrapper/PageWrapper';
+
 type Props = {|
   title: string,
   items: {|
@@ -21,7 +20,6 @@ const InfoBox = ({
   items,
   children
 }: Props) => {
-  const openingTimes = pageStore('openingTimes');
   return (
     <Fragment>
       <h2 className='h2'>{title}</h2>
@@ -59,12 +57,6 @@ const InfoBox = ({
         <div className={spacing({s: 4}, {margin: ['bottom']})}>
           {children}
         </div>
-        {openingTimes.groupedVenues &&
-        <OpeningHours
-          extraClasses='opening-hours--light opening-hours--yellow opening-hours--compressed'
-          groupedVenues={openingTimes.groupedVenues}
-          upcomingExceptionalOpeningPeriods={openingTimes.upcomingExceptionalOpeningPeriods} />
-        }
       </div>
     </Fragment>
   );
