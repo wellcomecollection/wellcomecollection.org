@@ -30,7 +30,7 @@ type Props = {|
   event: UiEvent
 |}
 
-function eventStatus(text, color) {
+function EventStatus(text, color) {
   return (
     <div className='flex'>
       <div className={`${font({s: 'HNM5'})} flex flex--v-center`}>
@@ -56,11 +56,11 @@ function DateList(event) {
             </div>
 
             {event.isPast
-              ? <Fragment>{eventStatus('Past', 'marble')}</Fragment>
+              ? <Fragment>{EventStatus('Past', 'marble')}</Fragment>
               : <Fragment>
                 {(eventTime.isFullyBooked && !(event.eventbriteId || event.bookingEnquiryTeam))/* TODO: || isEventTimeFullyBookedAtEventbrite */
-                  ? <Fragment>{eventStatus('Full', 'red')}</Fragment>
-                  : <Fragment>{/* {eventStatus('Available', 'green')} */}</Fragment>
+                  ? <Fragment>{EventStatus('Full', 'red')}</Fragment>
+                  : <Fragment>{/* {EventStatus('Available', 'green')} */}</Fragment>
                 }
               </Fragment>
             }
@@ -134,27 +134,30 @@ const EventPage = ({ event }: Props) => {
       hasWobblyEdge={true}
       backgroundTexture={`https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F43a35689-4923-4451-85d9-1ab866b1826d_event_header_background.svg`} />}
     ContentTypeInfo={
-      <div className='flex flex--wrap'>
-        <div>
-          {EventDateRange({event})}
-        </div>
+      <Fragment>
         <div className={classNames({
-          [spacing({s: 0, m: 2}, {margin: ['left']})]: true
+          'flex flex--wrap': true,
+          [spacing({s: 1}, {margin: ['bottom']})]: true
         })}>
-          {event.isPast
-            ? <Fragment>{eventStatus('Past', 'marble')}</Fragment>
-            : <SecondaryLink
-              url='#dates'
-              text={`See all dates`}
-              icon={'arrowSmall'}
-              trackingEvent={{
-                category: 'component',
-                action: 'date-times-jump-link:click',
-                label: event.id
-              }} />
-          }
+          {EventDateRange({event})}
+          <div className={classNames({
+            [spacing({s: 0, m: 2}, {margin: ['left']})]: true
+          })}>
+            {!event.isPast &&
+              <SecondaryLink
+                url='#dates'
+                text={`See all dates`}
+                icon={'arrowSmall'}
+                trackingEvent={{
+                  category: 'component',
+                  action: 'date-times-jump-link:click',
+                  label: event.id
+                }} />
+            }
+          </div>
         </div>
-      </div>
+        {event.isPast && <Fragment>{EventStatus('Past', 'marble')}</Fragment>}
+      </Fragment>
     }
     HeroPicture={null}
   />;
