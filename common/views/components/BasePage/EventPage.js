@@ -128,24 +128,6 @@ const EventPage = ({ event }: Props) => {
     text: 'Relaxed performance'
   }] : [];
 
-  // const Header = (<BaseHeader
-  //   title={`${event.title}`}
-  //   Background={<HeaderBackground
-  //     hasWobblyEdge={true}
-  //     backgroundTexture={`https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F43a35689-4923-4451-85d9-1ab866b1826d_event_header_background.svg`} />}
-  //   LabelBar={
-  //     <div className={spacing({s: 3}, {margin: ['bottom']})}>
-  //       <LabelsList labels={(eventFormat.concat(eventAudiences, eventInterpretations, relaxedPerformanceLabel))} />
-  //     </div>
-  //   }
-  //   DateInfo={EventDateRange({event})}
-  //   InfoBar={InfoBar(event)}
-  //   Description={null}
-  //   FeaturedMedia={FeaturedMedia}
-  //   isFree={Boolean(!event.cost)}
-  //   Breadcrumb={<Breadcrumb items={crumbs} />}
-  // />);
-
   const breadcrumbs = {
     items: [{
       url: '/events',
