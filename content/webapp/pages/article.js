@@ -56,7 +56,7 @@ export const ArticlePage = ({
     widescreenImage: article.widescreenImage
   };
   const standfirst = article.body.find(slice => slice.type === 'standfirst');
-  const ContentTypeInfoComponent = standfirst &&
+  const ContentTypeInfo = standfirst &&
     <Fragment>
       <div className={classNames({
         'first-para-no-margin': true,
@@ -103,7 +103,7 @@ export const ArticlePage = ({
     breadcrumbs={breadcrumbs}
     labels={labels}
     title={article.title}
-    ContentTypeInfo={ContentTypeInfoComponent}
+    ContentTypeInfo={ContentTypeInfo}
     Background={null}
     FeaturedMedia={maybeFeaturedMedia}
     HeroPicture={maybeHeroPicture}
