@@ -139,7 +139,7 @@ export const ExhibitionPage = ({
             titleOverride={exhibition.contributorsTitle}
             contributors={exhibition.contributors} />
         }
-        {!isPast(exhibition.end) &&
+        {(exhibition.end && !isPast(exhibition.end)) &&
           <InfoBox title='Visit us' items={infoItems}>
             <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
               <a href='/access'>Accessibility at Wellcome</a>
