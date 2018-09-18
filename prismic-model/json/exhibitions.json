@@ -400,7 +400,111 @@
       }
     }
   },
-  "Related promos": {
+  "Resources": {
+    "resources": {
+      "type": "Group",
+      "fieldset": "Resources",
+      "config": {
+        "fields": {
+          "resource": {
+            "type": "Link",
+            "config": {
+              "label": "Resource",
+              "select": "document",
+              "customtypes": [
+                "exhibition-resources"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "Related": {
+    "relatedOfs": {
+      "type": "Group",
+      "fieldset": "Related of",
+      "config": {
+        "fields": {
+          "relatedOf": {
+            "type": "Link",
+            "config": {
+              "label": "In this exhibition",
+              "select": "document",
+              "customtypes": [
+                "installations",
+                "events"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "relatedAbouts": {
+      "type": "Group",
+      "fieldset": "Related about",
+      "config": {
+        "fields": {
+          "relatedAbout": {
+            "type": "Link",
+            "config": {
+              "label": "About this exhibition",
+              "select": "document",
+              "customtypes": [
+                "articles",
+                "books"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "Migration": {
+    "drupalPromoImage": {
+      "type": "Link",
+      "config": {
+        "label": "Drupal promo image",
+        "select": "web",
+        "customtypes": []
+      }
+    },
+    "drupalNid": {
+      "type": "Text",
+      "config": {
+        "label": "Drupal node ID"
+      }
+    },
+    "drupalPath": {
+      "type": "Text",
+      "config": {
+        "label": "Drupal path"
+      }
+    }
+  },
+  "Deprecated": {
+    "description": {
+      "type": "StructuredText",
+      "config": {
+        "multi": "paragraph,hyperlink,strong,em,heading2",
+        "label": "Description"
+      }
+    },
+    "intro": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Intro",
+        "multi": "heading2"
+      }
+    },
+    "textAndCaptionsDocument": {
+      "type": "Link",
+      "config": {
+        "label": "Text and captions document",
+        "select": "media",
+        "customtypes": []
+      }
+    },
     "promoList": {
       "type": "Group",
       "config": {
@@ -458,72 +562,6 @@
             "type": "Link"
           }
         }
-      }
-    }
-  },
-  "Resources": {
-    "resources": {
-      "type": "Group",
-      "fieldset": "Resources",
-      "config": {
-        "fields": {
-          "resource": {
-            "type": "Link",
-            "config": {
-              "label": "Resource",
-              "select": "document",
-              "customtypes": [
-                "exhibition-resources"
-              ]
-            }
-          }
-        }
-      }
-    }
-  },
-  "Migration": {
-    "drupalPromoImage": {
-      "type": "Link",
-      "config": {
-        "label": "Drupal promo image",
-        "select": "web",
-        "customtypes": []
-      }
-    },
-    "drupalNid": {
-      "type": "Text",
-      "config": {
-        "label": "Drupal node ID"
-      }
-    },
-    "drupalPath": {
-      "type": "Text",
-      "config": {
-        "label": "Drupal path"
-      }
-    }
-  },
-  "Deprecated": {
-    "description": {
-      "type": "StructuredText",
-      "config": {
-        "multi": "paragraph,hyperlink,strong,em,heading2",
-        "label": "Description"
-      }
-    },
-    "intro": {
-      "type": "StructuredText",
-      "config": {
-        "label": "Intro",
-        "multi": "heading2"
-      }
-    },
-    "textAndCaptionsDocument": {
-      "type": "Link",
-      "config": {
-        "label": "Text and captions document",
-        "select": "media",
-        "customtypes": []
       }
     }
   }

@@ -32,8 +32,34 @@ const Exhibitions = {
   Promo: {
     promo
   },
-  // When we get a better relational model up, this will be deprecated
-  'Related promos': {
+  Resources: {
+    resources: list('Resources', {
+      resource: link('Resource', 'document', ['exhibition-resources'])
+    })
+  },
+  Related: {
+    relatedOfs: list('Related of', {
+      relatedOf: link('In this exhibition', 'document', ['installations', 'events'])
+    }),
+    relatedAbouts: list('Related about', {
+      relatedAbout: link('About this exhibition', 'document', ['articles', 'books'])
+    })
+  },
+  Migration: {
+    drupalPromoImage: link('Drupal promo image', 'web'),
+    drupalNid: text('Drupal node ID'),
+    drupalPath: text('Drupal path')
+  },
+  Deprecated: {
+    description,
+    intro: {
+      'type': 'StructuredText',
+      'config': {
+        'label': 'Intro',
+        'multi': 'heading2'
+      }
+    },
+    textAndCaptionsDocument: link('Text and captions document', 'media'),
     'promoList': {
       'type': 'Group',
       'config': {
@@ -85,27 +111,6 @@ const Exhibitions = {
         }
       }
     }
-  },
-  Resources: {
-    resources: list('Resources', {
-      resource: link('Resource', 'document', ['exhibition-resources'])
-    })
-  },
-  Migration: {
-    drupalPromoImage: link('Drupal promo image', 'web'),
-    drupalNid: text('Drupal node ID'),
-    drupalPath: text('Drupal path')
-  },
-  Deprecated: {
-    description,
-    intro: {
-      'type': 'StructuredText',
-      'config': {
-        'label': 'Intro',
-        'multi': 'heading2'
-      }
-    },
-    textAndCaptionsDocument: link('Text and captions document', 'media')
   }
 };
 
