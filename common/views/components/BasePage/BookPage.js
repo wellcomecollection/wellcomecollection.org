@@ -1,13 +1,11 @@
 // @flow
 import {Fragment} from 'react';
 import BasePage from './BasePage';
-import BaseHeader from '../BaseHeader/BaseHeader';
+import PageHeader from '../PageHeader/PageHeader';
 import Body from '../Body/Body';
 import Contributors from '../Contributors/Contributors';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import {UiImage} from '../Images/Images';
-import Breadcrumb from '../Breadcrumb/Breadcrumb';
-import HeaderBackground from '../BaseHeader/HeaderBackground';
 import {grid, spacing} from '../../../utils/classnames';
 import type {Book} from '../../../model/books';
 import {defaultContributorImage} from '../../../services/prismic/parsers';
@@ -45,24 +43,25 @@ const BookPage = ({ book }: Props) => {
   };
   // $FlowFixMe
   const FeaturedMedia = book.cover && <UiImage tasl={tasl} extraClasses='margin-h-auto width-auto max-height-70vh' {...book.cover} />;
-  const Header = (<BaseHeader
-    title={book.title || ''}
-    Background={<HeaderBackground hasWobblyEdge={true} />}
-    Breadcrumb={<Breadcrumb items={[{
-      text: 'Book',
+  const breadcrumbs = {
+    items: [{
+      text: 'Books',
       url: '/books'
-    }]} />}
-    DateInfo={null}
-    Description={
+    }]
+  };
+  const NewHeader = <PageHeader
+    breadcrumbs={breadcrumbs}
+    labels={null}
+    title={book.title}
+    FeaturedMedia={FeaturedMedia}
+    ContentTypeInfo={
       <Fragment>
         {book.authorName && <p className='no-margin'>{book.authorName}</p>}
       </Fragment>
     }
-    InfoBar={null}
-    FeaturedMedia={FeaturedMedia}
-    LabelBar={null}
-    isFree={false}
-  />);
+    HeroPicture={null}
+    Background={null}
+  />;
 
   // TODO: (drupal migration) we can drop reading the text fields once we've
   // migrated the content over
@@ -106,7 +105,7 @@ const BookPage = ({ book }: Props) => {
   return (
     <BasePage
       id={book.id}
-      Header={Header}
+      Header={NewHeader}
       Body={<Body body={book.body} />}
     >
       <Fragment>

@@ -91,8 +91,8 @@ const PageHeader = ({
           </div>
         }
 
-        <div className={spacing({s: 3, m: 4}, {padding: ['top', 'bottom']})}>
-          <div className={spacing({s: 3, m: 4}, {margin: ['bottom']})}>
+        <div className={spacing({s: 2, m: 3}, {padding: ['top', 'bottom']})}>
+          <div className={spacing({s: 2, m: 3}, {margin: ['bottom']})}>
             <Breadcrumb {...breadcrumbs} />
           </div>
           {Heading}
@@ -105,7 +105,7 @@ const PageHeader = ({
 
           {labels &&
             <div className={classNames({
-              [spacing({s: 3, m: 4}, {margin: ['top']})]: true
+              [spacing({s: 2, m: 3}, {margin: ['top']})]: true
             })}>
               <LabelsList {...labels} />
             </div>
@@ -122,7 +122,6 @@ const PageHeader = ({
       {HeroPicture &&
         <div className={classNames({
           'relative': true
-
         })} style={{height: '100%'}}>
           <div
             style={{
