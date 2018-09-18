@@ -32,25 +32,25 @@ export class ArticlePage extends Component<Props, State> {
   static getInitialProps = async (context: GetInitialPropsProps) => {
     // TODO: We shouldn't need this, but do for flow as
     // `GetInitialPropsClientProps` doesn't have `req`
-    if (context.req) {
-      const {id} = context.query;
-      const article = await getArticle(context.req, id);
+    // if (context.req) {
+    const {id} = context.query;
+    const article = await getArticle(context.req, id);
 
-      if (article) {
-        return {
-          article,
-          title: article.title,
-          description: article.promoText,
-          type: 'article',
-          canonicalUrl: `https://wellcomecollection.org/articles/${article.id}`,
-          imageUrl: article.image && convertImageUri(article.image.contentUrl, 800),
-          siteSection: 'stories',
-          analyticsCategory: 'editorial'
-        };
-      } else {
-        return {statusCode: 404};
-      }
+    if (article) {
+      return {
+        article,
+        title: article.title,
+        description: article.promoText,
+        type: 'article',
+        canonicalUrl: `https://wellcomecollection.org/articles/${article.id}`,
+        imageUrl: article.image && convertImageUri(article.image.contentUrl, 800),
+        siteSection: 'stories',
+        analyticsCategory: 'editorial'
+      };
+    } else {
+      return {statusCode: 404};
     }
+    // }
   }
 
   async componentDidMount() {

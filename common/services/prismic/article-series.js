@@ -22,7 +22,7 @@ type ArticleSeriesWithArticles = {|
   articles: Article[]
 |}
 
-export async function getArticleSeries(req: Request, {
+export async function getArticleSeries(req: ?Request, {
   id
 }: ArticleSeriesProps): Promise<?ArticleSeriesWithArticles> {
   const articles = await getArticles(req, {

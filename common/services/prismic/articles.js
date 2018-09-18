@@ -61,7 +61,7 @@ export function parseArticle(document: PrismicDocument): Article {
   };
 }
 
-export async function getArticle(req: Request, id: string): Promise<?Article> {
+export async function getArticle(req: ?Request, id: string): Promise<?Article> {
   const document = await getDocument(req, id, { graphQuery });
   return document && document.type === 'articles' ? parseArticle(document) : null;
 }
@@ -72,7 +72,7 @@ type ArticleQueryProps = {|
   order: 'asc' | 'desc'
 |}
 
-export async function getArticles(req: Request, {
+export async function getArticles(req: ?Request, {
   page = 1,
   predicates = [],
   order = 'desc'
