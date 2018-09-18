@@ -124,12 +124,16 @@ const PageHeader = ({
           'relative': true
 
         })} style={{height: '100%'}}>
-          <div style={{
-            height: '50%',
-            position: 'absolute',
-            width: '100%',
-            bottom: 0
-          }} className={`bg-${heroImageBgColor}`}></div>
+          <div
+            style={{
+              height: '50%',
+              width: '100%',
+              bottom: 0
+            }}
+            className={classNames({
+              [`bg-${heroImageBgColor}`]: true,
+              'absolute': true
+            })}></div>
           <div
             style={{maxWidth: '1450px'}}
             className={classNames({
