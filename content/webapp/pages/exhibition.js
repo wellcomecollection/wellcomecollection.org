@@ -3,8 +3,11 @@ import {Fragment} from 'react';
 import {getExhibition} from '@weco/common/services/prismic/exhibitions';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
-import ExhibitionHeader from '@weco/common/views/components/ExhibitionHeader/ExhibitionHeader';
-import {getFeaturedMedia} from '@weco/common/views/components/BaseHeader/BaseHeader';
+import {
+  default as PageHeader,
+  getFeaturedMedia,
+  getHeroPicture
+} from '@weco/common/views/components/PageHeader/PageHeader';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
@@ -22,8 +25,18 @@ type Props = {|
 export const ExhibitionPage = ({
   exhibition
 }: Props) => {
-  const DateInfo = exhibition.end ? <DateRange start={new Date(exhibition.start)} end={new Date(exhibition.end)} /> : <HTMLDate date={new Date(exhibition.start)} />;
-  const FeaturedMedia = getFeaturedMedia({
+  const breadcrumbs = {
+    items: [{
+      url: '/exhibitions',
+      text: 'Exhibitions'
+    }]
+  };
+  const labels = exhibition.isPermanent ? [{
+    text: 'Permanent exhibition',
+    url: ''
+  }] : null;
+
+  const genericFields = {
     id: exhibition.id,
     title: exhibition.title,
     contributors: exhibition.contributors,
@@ -35,13 +48,25 @@ export const ExhibitionPage = ({
     image: exhibition.image,
     squareImage: exhibition.squareImage,
     widescreenImage: exhibition.widescreenImage
-  }, true);
-  const Header = (<ExhibitionHeader
+  };
+  const DateInfo = exhibition.end ? <DateRange start={new Date(exhibition.start)} end={new Date(exhibition.end)} /> : <HTMLDate date={new Date(exhibition.start)} />;
+  // This is for content that we don't have the crops for in Prismic
+  const maybeHeroPicture = getHeroPicture(genericFields);
+  const maybeFeaturedMedia = !maybeHeroPicture ? getFeaturedMedia(genericFields) : null;
+
+  const Header = <PageHeader
+    breadcrumbs={breadcrumbs}
+    labels={labels ? ({labels}) : null}
     title={exhibition.title}
-    DateInfo={DateInfo}
-    InfoBar={<StatusIndicator start={exhibition.start} end={(exhibition.end || new Date())} />}
-    FeaturedMedia={FeaturedMedia}
-  />);
+    Background={null}
+    ContentTypeInfo={
+      <Fragment>
+        {DateInfo}
+        <StatusIndicator start={exhibition.start} end={(exhibition.end || new Date())} />
+      </Fragment>}
+    FeaturedMedia={maybeFeaturedMedia}
+    HeroPicture={maybeHeroPicture}
+  />;
 
   // Info box content
   const admissionObject = {

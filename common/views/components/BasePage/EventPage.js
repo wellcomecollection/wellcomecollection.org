@@ -146,9 +146,9 @@ const EventPage = ({ event }: Props) => {
       hasWobblyEdge={true}
       backgroundTexture={`https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F43a35689-4923-4451-85d9-1ab866b1826d_event_header_background.svg`} />}
     LabelBar={
-      <Fragment>
+      <div className={spacing({s: 3}, {margin: ['bottom']})}>
         <LabelsList labels={(eventFormat.concat(eventAudiences, eventInterpretations, relaxedPerformanceLabel))} />
-      </Fragment>
+      </div>
     }
     DateInfo={EventDateRange({event})}
     InfoBar={InfoBar(event)}

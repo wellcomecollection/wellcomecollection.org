@@ -8,7 +8,7 @@ import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Picture from '../Picture/Picture';
 import HeaderBackground from '../BaseHeader/HeaderBackground';
 import FreeSticker from '../FreeSticker/FreeSticker';
-import TextLayout from '../TextLayout/TextLayout';
+import Layout10 from '../Layout10/Layout10';
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
 import {breakpoints} from '../../../utils/breakpoints';
 import type {Node, Element, ElementProps} from 'react';
@@ -58,13 +58,14 @@ export function getHeroPicture(fields: GenericContentFields): ?Element<typeof Pi
 
 type Props = {|
   breadcrumbs: ElementProps<typeof Breadcrumb>,
-  labels: ElementProps<typeof LabelsList>,
+  labels: ?ElementProps<typeof LabelsList>,
   title: string,
   ContentTypeInfo: ?Node,
   Background: ?BackgroundType,
   FeaturedMedia: ?FeaturedMedia,
   HeroPicture: ?Element<typeof Picture>,
-  isFree?: boolean
+  isFree?: boolean,
+  heroImageBgColor?: 'white' | 'cream'
 |}
 
 const PageHeader = ({
@@ -74,21 +75,26 @@ const PageHeader = ({
   ContentTypeInfo,
   HeroPicture,
   FeaturedMedia,
-  isFree = false
+  isFree = false,
+  // Not a massive fan of this, but it feels overkill to make a new component
+  // for it as it's only used on articles and exhibitions
+  heroImageBgColor = 'white'
 }: Props) => {
   const Heading = <h1 className='h1 inline-block no-margin'>{title}</h1>;
 
   return (
     <div className={`row relative`}>
-      <TextLayout>
+      <Layout10>
         {isFree &&
           <div className='relative'>
             <FreeSticker />
           </div>
         }
 
-        <div className={spacing({s: 2}, {padding: ['top']})}>
-          <Breadcrumb {...breadcrumbs} />
+        <div className={spacing({s: 3, m: 4}, {padding: ['top', 'bottom']})}>
+          <div className={spacing({s: 3, m: 4}, {margin: ['bottom']})}>
+            <Breadcrumb {...breadcrumbs} />
+          </div>
           {Heading}
 
           {ContentTypeInfo &&
@@ -99,7 +105,7 @@ const PageHeader = ({
 
           {labels &&
             <div className={classNames({
-              [spacing({s: 3, m: 4}, {margin: ['top', 'bottom']})]: true
+              [spacing({s: 3, m: 4}, {margin: ['top']})]: true
             })}>
               <LabelsList {...labels} />
             </div>
@@ -111,16 +117,33 @@ const PageHeader = ({
             </div>
           }
         </div>
-      </TextLayout>
+      </Layout10>
 
       {HeroPicture &&
         <div className={classNames({
-          'margin-h-auto': true,
-          [spacing({m: 4}, {padding: ['left', 'right']})]: true
-        })} style={{maxWidth: '1450px'}}>
-          <WobblyBottom color='white'>
-            {HeroPicture}
-          </WobblyBottom>
+          'relative': true
+
+        })} style={{height: '100%'}}>
+          <div
+            style={{
+              height: '50%',
+              width: '100%',
+              bottom: 0
+            }}
+            className={classNames({
+              [`bg-${heroImageBgColor}`]: true,
+              'absolute': true
+            })}></div>
+          <div
+            style={{maxWidth: '1450px'}}
+            className={classNames({
+              'margin-h-auto': true,
+              [spacing({m: 4}, {padding: ['left', 'right']})]: true
+            })}>
+            <WobblyBottom color={heroImageBgColor}>
+              {HeroPicture}
+            </WobblyBottom>
+          </div>
         </div>
       }
     </div>
