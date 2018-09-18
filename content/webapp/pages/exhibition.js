@@ -15,7 +15,7 @@ import Contributors from '@weco/common/views/components/Contributors/Contributor
 import Body from '@weco/common/views/components/Body/Body';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import type {UiExhibition} from '@weco/common/model/exhibitions';
-import {font} from '@weco/common/utils/classnames';
+import {font, classNames, spacing} from '@weco/common/utils/classnames';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 
 type Props = {|
@@ -61,7 +61,9 @@ export const ExhibitionPage = ({
     Background={null}
     ContentTypeInfo={
       <Fragment>
-        {DateInfo}
+        <div className={classNames({
+          [spacing({s: 1}, {margin: ['bottom']})]: true
+        })}>{DateInfo}</div>
         <StatusIndicator start={exhibition.start} end={(exhibition.end || new Date())} />
       </Fragment>}
     FeaturedMedia={maybeFeaturedMedia}

@@ -12,7 +12,7 @@ import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import InfoBox from '../InfoBox/InfoBox';
 import {UiImage} from '../Images/Images';
 import type {UiEvent} from '../../../model/events';
-import {spacing, font} from '../../../utils/classnames';
+import {spacing, font, classNames} from '../../../utils/classnames';
 import camelize from '../../../utils/camelize';
 import {
   formatAndDedupeOnDate,
@@ -23,6 +23,7 @@ import {
   formatTime
 } from '../../../utils/format-date';
 import EventDateRange from '../EventDateRange/EventDateRange';
+import HeaderBackground from '../BaseHeader/HeaderBackground';
 import PageHeader from '../PageHeader/PageHeader';
 
 type Props = {|
@@ -67,27 +68,6 @@ function DateList(event) {
         );
       })}
     </Fragment>
-  );
-}
-
-function InfoBar(event) {
-  const { eventbriteId, bookingEnquiryTeam } = event;
-
-  return (
-    <div>
-      {event.isPast
-        ? <Fragment>{eventStatus('Past', 'marble')}</Fragment>
-        : <SecondaryLink
-          url='#dates'
-          text={`See all dates/times${(eventbriteId || bookingEnquiryTeam) ? ' to book' : ''}`}
-          icon={'arrowSmall'}
-          trackingEvent={{
-            category: 'component',
-            action: 'date-times-jump-link:click',
-            label: event.id
-          }} />
-      }
-    </div>
   );
 }
 
@@ -150,12 +130,31 @@ const EventPage = ({ event }: Props) => {
     labels={labels}
     title={event.title}
     FeaturedMedia={FeaturedMedia}
-    Background={null}
+    Background={<HeaderBackground
+      hasWobblyEdge={true}
+      backgroundTexture={`https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F43a35689-4923-4451-85d9-1ab866b1826d_event_header_background.svg`} />}
     ContentTypeInfo={
-      <Fragment>
-        {EventDateRange({event})}
-        {InfoBar(event)}
-      </Fragment>
+      <div className='flex flex--wrap'>
+        <div>
+          {EventDateRange({event})}
+        </div>
+        <div className={classNames({
+          [spacing({s: 0, m: 2}, {margin: ['left']})]: true
+        })}>
+          {event.isPast
+            ? <Fragment>{eventStatus('Past', 'marble')}</Fragment>
+            : <SecondaryLink
+              url='#dates'
+              text={`See all dates`}
+              icon={'arrowSmall'}
+              trackingEvent={{
+                category: 'component',
+                action: 'date-times-jump-link:click',
+                label: event.id
+              }} />
+          }
+        </div>
+      </div>
     }
     HeroPicture={null}
   />;

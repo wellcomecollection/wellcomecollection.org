@@ -73,6 +73,7 @@ const PageHeader = ({
   labels,
   title,
   ContentTypeInfo,
+  Background,
   HeroPicture,
   FeaturedMedia,
   isFree = false,
@@ -84,6 +85,7 @@ const PageHeader = ({
 
   return (
     <div className={`row relative`}>
+      {Background}
       <Layout10>
         {isFree &&
           <div className='relative'>
@@ -91,7 +93,7 @@ const PageHeader = ({
           </div>
         }
 
-        <div className={spacing({s: 2, m: 3}, {padding: ['top', 'bottom']})}>
+        <div className={spacing({s: 3, m: 4}, {padding: ['top', 'bottom']})}>
           <div className={spacing({s: 2, m: 3}, {margin: ['bottom']})}>
             <Breadcrumb {...breadcrumbs} />
           </div>
@@ -115,7 +117,7 @@ const PageHeader = ({
           }
 
           {FeaturedMedia &&
-            <div className={`${spacing({s: 3}, {margin: ['top']})} relative`}>
+            <div className={`${spacing({s: 4}, {margin: ['top']})} relative`}>
               {FeaturedMedia}
             </div>
           }
