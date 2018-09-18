@@ -29,7 +29,7 @@ export type ExceptionalOpeningHoursDay = {|
   closes?: string,
 |}
 
-type OpeningHours = {|
+export type OpeningHours = {|
   regular: OpeningHoursDay[],
   exceptional?: ?ExceptionalOpeningHoursDay[]
   |};
