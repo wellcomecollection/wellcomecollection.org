@@ -150,6 +150,7 @@ const PageWrapper = (Comp: NextComponent) => {
           type='website'
           canonicalUrl='https://wellcomecollection.org'
           imageUrl='https://iiif.wellcomecollection.org/image/V0021348.jpg/full/760,/0/default.jpg'
+          pageJsonLd={{'@type': 'WebPage'}}
           siteSection='error'
           analyticsCategory='error'
           openingTimes={openingTimes}>
