@@ -1,19 +1,20 @@
 // @flow
 import {font, classNames, spacing} from '../../../utils/classnames';
 
+export type Breadcrumbs = {|
+  text: string,
+  url?: string,
+  prefix?: string
+|}[]
+
 type Props = {|
-  items: {|
-    text: string,
-    url?: string,
-    prefix?: string
-  |}[]
+  items: Breadcrumbs
 |}
 
 const Breadcrumb = ({ items }: Props) => (
   <div className={classNames({
     'plain-text': true,
-    'flex': true,
-    [spacing({s: 4}, {margin: ['top', 'bottom']})]: true
+    'flex': true
   })}>
     {items.map(({text, url, prefix}, i) => {
       const BoldOrSpanTag = prefix ? 'b' : 'span';
