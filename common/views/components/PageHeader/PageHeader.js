@@ -98,7 +98,10 @@ const PageHeader = ({
           {Heading}
 
           {ContentTypeInfo &&
-            <div className={`${font({s: 'HNL4', m: 'HNL3'})}`}>
+            <div className={classNames({
+              [font({s: 'HNL4', m: 'HNL3'})]: true,
+              [spacing({s: 1}, {margin: ['top']})]: true
+            })}>
               {ContentTypeInfo}
             </div>
           }

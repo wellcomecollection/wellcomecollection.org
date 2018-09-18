@@ -1,13 +1,9 @@
 // @flow
 import {Fragment} from 'react';
 import BasePage from './BasePage';
-import BaseHeader from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
 import Contributors from '../Contributors/Contributors';
-import HeaderBackground from '../BaseHeader/HeaderBackground';
-import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import EventSchedule from '../EventSchedule/EventSchedule';
-import LabelsList from '../LabelsList/LabelsList';
 import Icon from '../Icon/Icon';
 import Button from '../Buttons/Button/Button';
 import EventbriteButton from '../EventbriteButton/EventbriteButton';
@@ -27,7 +23,7 @@ import {
   formatTime
 } from '../../../utils/format-date';
 import EventDateRange from '../EventDateRange/EventDateRange';
-import Breadcrumb from '../Breadcrumb/Breadcrumb';
+import PageHeader from '../PageHeader/PageHeader';
 
 type Props = {|
   event: UiEvent
@@ -78,20 +74,20 @@ function InfoBar(event) {
   const { eventbriteId, bookingEnquiryTeam } = event;
 
   return (
-    <Fragment>
+    <div>
       {event.isPast
         ? <Fragment>{eventStatus('Past', 'marble')}</Fragment>
-        : <PrimaryLink
+        : <SecondaryLink
           url='#dates'
-          name={`See all dates/times${(eventbriteId || bookingEnquiryTeam) ? ' to book' : ''}`}
-          isJumpLink={true}
+          text={`See all dates/times${(eventbriteId || bookingEnquiryTeam) ? ' to book' : ''}`}
+          icon={'arrowSmall'}
           trackingEvent={{
             category: 'component',
             action: 'date-times-jump-link:click',
             label: event.id
           }} />
       }
-    </Fragment>
+    </div>
   );
 }
 
@@ -100,14 +96,6 @@ function showTicketSalesStart(dateTime) {
 }
 
 const EventPage = ({ event }: Props) => {
-  const crumbs = [{
-    url: '/events',
-    text: 'Events'
-  }].concat(event.series.map(series => ({
-    url: `/event-series/${series.id}`,
-    text: series.title || '',
-    prefix: 'Part of'
-  })));
   const image = event.promo && event.promo.image;
   const tasl = image && {
     isFull: false,
@@ -140,23 +128,55 @@ const EventPage = ({ event }: Props) => {
     text: 'Relaxed performance'
   }] : [];
 
-  const Header = (<BaseHeader
-    title={`${event.title}`}
-    Background={<HeaderBackground
-      hasWobblyEdge={true}
-      backgroundTexture={`https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F43a35689-4923-4451-85d9-1ab866b1826d_event_header_background.svg`} />}
-    LabelBar={
-      <div className={spacing({s: 3}, {margin: ['bottom']})}>
-        <LabelsList labels={(eventFormat.concat(eventAudiences, eventInterpretations, relaxedPerformanceLabel))} />
-      </div>
-    }
-    DateInfo={EventDateRange({event})}
-    InfoBar={InfoBar(event)}
-    Description={null}
+  // const Header = (<BaseHeader
+  //   title={`${event.title}`}
+  //   Background={<HeaderBackground
+  //     hasWobblyEdge={true}
+  //     backgroundTexture={`https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F43a35689-4923-4451-85d9-1ab866b1826d_event_header_background.svg`} />}
+  //   LabelBar={
+  //     <div className={spacing({s: 3}, {margin: ['bottom']})}>
+  //       <LabelsList labels={(eventFormat.concat(eventAudiences, eventInterpretations, relaxedPerformanceLabel))} />
+  //     </div>
+  //   }
+  //   DateInfo={EventDateRange({event})}
+  //   InfoBar={InfoBar(event)}
+  //   Description={null}
+  //   FeaturedMedia={FeaturedMedia}
+  //   isFree={Boolean(!event.cost)}
+  //   Breadcrumb={<Breadcrumb items={crumbs} />}
+  // />);
+
+  const breadcrumbs = {
+    items: [{
+      url: '/events',
+      text: 'Events'
+    }].concat(event.series.map(series => ({
+      url: `/event-series/${series.id}`,
+      text: series.title || '',
+      prefix: 'Part of'
+    })))
+  };
+  const labels = {
+    labels: eventFormat.concat(
+      eventAudiences,
+      eventInterpretations,
+      relaxedPerformanceLabel
+    )
+  };
+  const Header = <PageHeader
+    breadcrumbs={breadcrumbs}
+    labels={labels}
+    title={event.title}
     FeaturedMedia={FeaturedMedia}
-    isFree={Boolean(!event.cost)}
-    Breadcrumb={<Breadcrumb items={crumbs} />}
-  />);
+    Background={null}
+    ContentTypeInfo={
+      <Fragment>
+        {EventDateRange({event})}
+        {InfoBar(event)}
+      </Fragment>
+    }
+    HeroPicture={null}
+  />;
 
   return (
     <BasePage

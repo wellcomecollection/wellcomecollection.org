@@ -49,7 +49,7 @@ const BookPage = ({ book }: Props) => {
       url: '/books'
     }]
   };
-  const NewHeader = <PageHeader
+  const Header = <PageHeader
     breadcrumbs={breadcrumbs}
     labels={null}
     title={book.title}
@@ -105,7 +105,7 @@ const BookPage = ({ book }: Props) => {
   return (
     <BasePage
       id={book.id}
-      Header={NewHeader}
+      Header={Header}
       Body={<Body body={book.body} />}
     >
       <Fragment>
