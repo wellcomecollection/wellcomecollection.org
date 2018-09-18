@@ -67,7 +67,7 @@
               eventbriteId: event.eventbriteId,
               dateString: null,
               timeString: null,
-              audience: event.audience,
+              audience: event.audiences[0] if event.audiences.length > 0 else null,
               schedule: event.schedule,
               series: event.series,
               position: loop.index
