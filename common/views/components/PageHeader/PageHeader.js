@@ -8,6 +8,7 @@ import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Picture from '../Picture/Picture';
 import HeaderBackground from '../BaseHeader/HeaderBackground';
 import FreeSticker from '../FreeSticker/FreeSticker';
+import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
 import Layout10 from '../Layout10/Layout10';
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
 import {breakpoints} from '../../../utils/breakpoints';
@@ -65,7 +66,8 @@ type Props = {|
   FeaturedMedia: ?FeaturedMedia,
   HeroPicture: ?Element<typeof Picture>,
   isFree?: boolean,
-  heroImageBgColor?: 'white' | 'cream'
+  heroImageBgColor?: 'white' | 'cream',
+  backgroundTexture?: string
 |}
 
 const PageHeader = ({
@@ -79,12 +81,18 @@ const PageHeader = ({
   isFree = false,
   // Not a massive fan of this, but it feels overkill to make a new component
   // for it as it's only used on articles and exhibitions
-  heroImageBgColor = 'white'
+  heroImageBgColor = 'white',
+  backgroundTexture
 }: Props) => {
-  const Heading = <h1 className='h1 inline-block no-margin'>{title}</h1>;
+  const Heading = backgroundTexture
+    ? <HighlightedHeading text={title} />
+    : <h1 className='h1 inline-block no-margin'>{title}</h1>;
 
   return (
-    <div className={`row relative`}>
+    <div className={`row relative`} style={{
+      backgroundImage: backgroundTexture ? `url(${backgroundTexture})` : null,
+      backgroundSize: backgroundTexture ? '150%' : null
+    }}>
       {Background}
       <Layout10>
         {isFree &&
