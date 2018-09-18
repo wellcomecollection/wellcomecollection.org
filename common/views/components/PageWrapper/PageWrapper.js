@@ -5,7 +5,7 @@ import DefaultPageLayout from '../DefaultPageLayout/DefaultPageLayout';
 import ErrorPage from '../BasePage/ErrorPage';
 import type Moment from 'moment';
 import type {ComponentType} from 'react';
-import type {OgType, SiteSection} from '../DefaultPageLayout/DefaultPageLayout';
+import type {OgType, SiteSection, JsonLdObject} from '../DefaultPageLayout/DefaultPageLayout';
 import type {GroupedVenues, OverrideType} from '../../../model/opening-hours';
 
 const isServer = typeof window === 'undefined';
