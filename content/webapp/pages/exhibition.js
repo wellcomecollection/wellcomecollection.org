@@ -46,7 +46,10 @@ export const ExhibitionPage = ({
 
   // Info box content
   const openingTimes = pageStore('openingTimes');
-  const galleriesOpeningTimes = openingTimes.groupedVenues.galleriesLibrary.hours.find(venue => venue.name === 'Galleries').openingHours;
+  const galleriesLibraryVenues = openingTimes.groupedVenues && openingTimes.groupedVenues.galleriesLibrary.hours;
+  const galleriesVenue = galleriesLibraryVenues && galleriesLibraryVenues.find(venue => venue.name === 'Galleries');
+  const galleriesOpeningTimes = galleriesVenue && galleriesVenue.openingHours;
+
   const todaysGalleriesHours = getTodaysGalleriesHours(galleriesOpeningTimes);
   const todaysHoursText = `${todaysGalleriesHours.opens ? 'Open' : 'Closed'} today${todaysGalleriesHours.opens ? ' ' + todaysGalleriesHours.opens + '–' + todaysGalleriesHours.closes : ''}, Full opening times`;
   const admissionObject = {
