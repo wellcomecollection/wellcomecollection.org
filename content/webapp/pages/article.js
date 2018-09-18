@@ -56,7 +56,7 @@ export const ArticlePage = ({
     widescreenImage: article.widescreenImage
   };
   const standfirst = article.body.find(slice => slice.type === 'standfirst');
-  const ContentTypeInfoComponent = standfirst &&
+  const ContentTypeInfo = standfirst &&
     <Fragment>
       <div className={classNames({
         'first-para-no-margin': true,
@@ -100,12 +100,11 @@ export const ArticlePage = ({
   // This is for content that we don't have the crops for in Prismic
   const maybeHeroPicture = getHeroPicture(genericFields);
   const maybeFeaturedMedia = !maybeHeroPicture ? getFeaturedMedia(genericFields) : null;
-
   const Header = <PageHeader
     breadcrumbs={breadcrumbs}
     labels={labels}
     title={article.title}
-    ContentTypeInfo={ContentTypeInfoComponent}
+    ContentTypeInfo={ContentTypeInfo}
     Background={null}
     FeaturedMedia={maybeFeaturedMedia}
     HeroPicture={maybeHeroPicture}
