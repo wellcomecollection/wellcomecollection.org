@@ -1,6 +1,7 @@
 // @flow
 import {Fragment} from 'react';
 import {getExhibition} from '@weco/common/services/prismic/exhibitions';
+import {isPast} from '@weco/common/utils/dates';
 import PageWrapper, {pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import {
@@ -163,11 +164,13 @@ export const ExhibitionPage = ({
             titleOverride={exhibition.contributorsTitle}
             contributors={exhibition.contributors} />
         }
-        <InfoBox title='Visit us' items={infoItems}>
-          <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
-            <a href='/access'>Accessibility at Wellcome</a>
-          </p>
-        </InfoBox>
+        {(exhibition.end && !isPast(exhibition.end)) &&
+          <InfoBox title='Visit us' items={infoItems}>
+            <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
+              <a href='/access'>Accessibility at Wellcome</a>
+            </p>
+          </InfoBox>
+        }
       </Fragment>
     </BasePage>
   );
