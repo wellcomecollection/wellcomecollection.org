@@ -5,7 +5,7 @@ import DefaultPageLayout from '../DefaultPageLayout/DefaultPageLayout';
 import ErrorPage from '../BasePage/ErrorPage';
 import type Moment from 'moment';
 import type {ComponentType} from 'react';
-import type {OgType, SiteSection} from '../DefaultPageLayout/DefaultPageLayout';
+import type {OgType, SiteSection, JsonLdObject} from '../DefaultPageLayout/DefaultPageLayout';
 import type {GroupedVenues, OverrideType} from '../../../model/opening-hours';
 
 const isServer = typeof window === 'undefined';
@@ -52,6 +52,7 @@ type Props = {|
   type: OgType,
   canonicalUrl: string,
   imageUrl: string,
+  pageJsonLd: JsonLdObject,
   siteSection: SiteSection,
   analyticsCategory: string,
   openingTimes: {
@@ -134,6 +135,7 @@ const PageWrapper = (Comp: NextComponent) => {
         type,
         canonicalUrl,
         imageUrl,
+        pageJsonLd,
         siteSection,
         analyticsCategory,
         openingTimes,
@@ -148,6 +150,7 @@ const PageWrapper = (Comp: NextComponent) => {
           type='website'
           canonicalUrl='https://wellcomecollection.org'
           imageUrl='https://iiif.wellcomecollection.org/image/V0021348.jpg/full/760,/0/default.jpg'
+          pageJsonLd={{'@type': 'WebPage'}}
           siteSection='error'
           analyticsCategory='error'
           openingTimes={openingTimes}>
@@ -162,6 +165,7 @@ const PageWrapper = (Comp: NextComponent) => {
           type={type}
           canonicalUrl={canonicalUrl}
           imageUrl={imageUrl}
+          pageJsonLd={pageJsonLd}
           siteSection={siteSection}
           analyticsCategory={analyticsCategory}
           openingTimes={openingTimes}

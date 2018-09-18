@@ -2,6 +2,7 @@
 import {Fragment} from 'react';
 import {getExhibition} from '@weco/common/services/prismic/exhibitions';
 import {isPast} from '@weco/common/utils/dates';
+import {exhibitionLd} from '@weco/common/utils/json-ld';
 import PageWrapper, {pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import {
@@ -190,6 +191,7 @@ ExhibitionPage.getInitialProps = async ({req, query}) => {
         imageUrl: exhibition.promoImage && convertImageUri(exhibition.promoImage.contentUrl, 800),
         description: exhibition.promoText,
         canonicalUrl: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
+        pageJsonLd: exhibitionLd(exhibition),
         exhibition
       };
     } else {
