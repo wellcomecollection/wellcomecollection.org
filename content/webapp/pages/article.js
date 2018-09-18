@@ -30,9 +30,6 @@ export class ArticlePage extends Component<Props, State> {
   }
 
   static getInitialProps = async (context: GetInitialPropsProps) => {
-    // TODO: We shouldn't need this, but do for flow as
-    // `GetInitialPropsClientProps` doesn't have `req`
-    // if (context.req) {
     const {id} = context.query;
     const article = await getArticle(context.req, id);
 
@@ -50,7 +47,6 @@ export class ArticlePage extends Component<Props, State> {
     } else {
       return {statusCode: 404};
     }
-    // }
   }
 
   async componentDidMount() {
