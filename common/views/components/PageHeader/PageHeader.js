@@ -67,7 +67,8 @@ type Props = {|
   HeroPicture: ?Element<typeof Picture>,
   isFree?: boolean,
   heroImageBgColor?: 'white' | 'cream',
-  backgroundTexture?: string
+  backgroundTexture?: ?string,
+  highlightHeading?: boolean
 |}
 
 const PageHeader = ({
@@ -82,9 +83,10 @@ const PageHeader = ({
   // Not a massive fan of this, but it feels overkill to make a new component
   // for it as it's only used on articles and exhibitions
   heroImageBgColor = 'white',
-  backgroundTexture
+  backgroundTexture,
+  highlightHeading
 }: Props) => {
-  const Heading = backgroundTexture
+  const Heading = highlightHeading
     ? <HighlightedHeading text={title} />
     : <h1 className='h1 inline-block no-margin'>{title}</h1>;
 

@@ -22,7 +22,8 @@ const ErrorPage = ({ errorStatus }: Props) => {
           Background={null}
           backgroundTexture={'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg'}
           FeaturedMedia={null}
-          HeroPicture={null} />
+          HeroPicture={null}
+          highlightHeading={true} />
       }
       Body={<Body body={[]} />}
     >

@@ -30,7 +30,8 @@ const Body = ({ body, isCreamy = false }: Props) => {
   return (
     <div className={classNames({
       'basic-body': true,
-      'bg-cream': isCreamy
+      'bg-cream': isCreamy,
+      [spacing({s: 3}, {margin: ['top']})]: true
     })}>
       {body
         .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
