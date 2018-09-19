@@ -15,13 +15,11 @@ import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import InfoBox from '../InfoBox/InfoBox';
 import {UiImage} from '../Images/Images';
+import DateRange from '../DateRange/DateRange';
 import type {UiEvent} from '../../../model/events';
 import {spacing, font} from '../../../utils/classnames';
 import camelize from '../../../utils/camelize';
 import {
-  formatAndDedupeOnDate,
-  formatAndDedupeOnTime,
-  joinDateStrings,
   formatDayDate,
   isTimePast,
   formatTime
@@ -50,12 +48,10 @@ function DateList(event) {
   return (
     event.times && <Fragment>
       {event.times.map((eventTime, index) => {
-        const formattedDateRange = formatAndDedupeOnDate(eventTime.range.startDateTime, eventTime.range.endDateTime);
-
         return (
           <div key={index} className={`flex flex--h-space-between border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
             <div className={`${event.isPast ? 'font-pewter' : ''}`}>
-              <time>{joinDateStrings(formattedDateRange)}</time>, <time>{joinDateStrings(formatAndDedupeOnTime(eventTime.range.startDateTime, eventTime.range.endDateTime))}</time>
+              <DateRange start={eventTime.range.startDateTime} end={eventTime.range.endDateTime} />
             </div>
 
             {event.isPast
