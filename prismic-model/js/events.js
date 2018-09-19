@@ -50,7 +50,8 @@ const Events = {
   },
   Schedule: {
     schedule: list('Events', {
-      event: link('Event', 'document', ['events'])
+      event: link('Event', 'document', ['events']),
+      isNotLinked: boolean('Suppress link to event')
     }),
     backgroundTexture: link('Background texture', 'document', ['background-textures'])
   },
