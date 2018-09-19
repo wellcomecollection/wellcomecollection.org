@@ -9,8 +9,7 @@ import {
   placesFields,
   installationFields,
   exhibitionFields,
-  exhibitionResourcesFields,
-  booksFields
+  exhibitionResourcesFields
 } from './fetch-links';
 import {breakpoints} from '../../utils/breakpoints';
 import {
@@ -249,15 +248,14 @@ function putPermanentAfterCurrentExhibitions(exhibitions: UiExhibition[]): UiExh
 
 export async function getExhibition(req: Request, id: string): Promise<?UiExhibition> {
   const document = await getDocument(req, id, {
-    fetchLinks: [
-      ...peopleFields,
-      ...contributorsFields,
-      ...placesFields,
-      ...installationFields,
-      ...exhibitionResourcesFields,
-      ...booksFields
-    ]
+    fetchLinks: peopleFields.concat(
+      contributorsFields,
+      placesFields,
+      installationFields,
+      exhibitionResourcesFields
+    )
   });
+
   if (document && document.type === 'exhibitions') {
     const exhibition = parseExhibitionDoc(document);
     return exhibition;
