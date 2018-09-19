@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import searchQuery from 'search-query-parser';
+import Prismic from 'prismic-javascript';
 import {getInstallation} from '@weco/common/services/prismic/installations';
 import {
   getExhibitions,
@@ -25,6 +26,7 @@ import {
   dailyTourPromo
 } from '../../server/data/facility-promos';
 import pharmacyOfColourData from '@weco/common/data/the-pharmacy-of-colour';
+import Breadcrumb from '@weco/common/views/components/Breadcrumb/Breadcrumb';
 import { getListHeader, getMomentsForPeriod } from './utils';
 const {createPageConfig} = model;
 
@@ -228,6 +230,36 @@ export async function renderEvent(ctx, next) {
       isPreview
     });
   }
+}
+export async function renderEventsScheduledInBreadcrumb(ctx, next) {
+  const {id} = ctx.params;
+  const eventsScheduledIn = await getEvents(ctx.req, {
+    predicates: [
+      Prismic.Predicates.at('my.events.schedule.event', id)
+    ]
+  });
+
+  if (eventsScheduledIn.results.length > 0) {
+    const scheduledInbreadcrumbs = eventsScheduledIn.results.map(event => ({
+      prefix: 'Part of',
+      text: event.title,
+      url: `/events/${event.id}`
+    }));
+    // TODO: We don't cater forevent series here... hmmmm
+    ctx.body = {
+      html: ReactDOMServer.renderToString(
+        React.createElement(Breadcrumb, { items: [
+          {
+            url: '/events',
+            text: 'Events'
+          },
+          ...scheduledInbreadcrumbs
+        ]})
+      )
+    };
+  }
+
+  return next();
 }
 
 export const renderEventbriteEmbed = async(ctx, next) => {

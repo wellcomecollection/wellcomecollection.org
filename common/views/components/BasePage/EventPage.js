@@ -122,6 +122,7 @@ const EventPage = ({ event }: Props) => {
     )
   };
   const Header = <PageHeader
+    asyncBreadcrumbsRoute={`/events/${event.id}/scheduled-in`}
     breadcrumbs={breadcrumbs}
     labels={labels}
     title={event.title}
@@ -165,7 +166,6 @@ const EventPage = ({ event }: Props) => {
       Body={<Body body={event.body} />}
     >
       <Fragment>
-
         {event.contributors.length > 0 &&
           <div className={`${spacing({s: 4}, {margin: ['bottom']})}`}>
             <Contributors

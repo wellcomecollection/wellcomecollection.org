@@ -68,7 +68,8 @@ type Props = {|
   isFree?: boolean,
   heroImageBgColor?: 'white' | 'cream',
   backgroundTexture?: ?string,
-  highlightHeading?: boolean
+  highlightHeading?: boolean,
+  asyncBreadcrumbsRoute?: string
 |}
 
 const PageHeader = ({
@@ -84,7 +85,8 @@ const PageHeader = ({
   // for it as it's only used on articles and exhibitions
   heroImageBgColor = 'white',
   backgroundTexture,
-  highlightHeading
+  highlightHeading,
+  asyncBreadcrumbsRoute
 }: Props) => {
   const Heading = highlightHeading
     ? <HighlightedHeading text={title} />
@@ -105,7 +107,17 @@ const PageHeader = ({
 
         <div className={spacing({s: 3, m: 4}, {padding: ['top', 'bottom']})}>
           <div className={spacing({s: 2, m: 3}, {margin: ['bottom']})}>
-            <Breadcrumb {...breadcrumbs} />
+            {!asyncBreadcrumbsRoute && <Breadcrumb {...breadcrumbs} />}
+            {asyncBreadcrumbsRoute &&
+              <div
+                data-component='AsyncBreadcrumb'
+                className='async-content breadcrumb-placeholder'
+                data-endpoint={asyncBreadcrumbsRoute}
+                data-prefix-endpoint='false'
+                data-modifiers=''>
+                <Breadcrumb {...breadcrumbs} />
+              </div>
+            }
           </div>
           {Heading}
 
