@@ -10,9 +10,7 @@ import {
   getFeaturedMedia,
   getHeroPicture
 } from '@weco/common/views/components/PageHeader/PageHeader';
-import DateRange from '@weco/common/views/components/DateRange/DateRange';
-import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
+import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusIndicator/DateAndStatusIndicator';
 import Contributors from '@weco/common/views/components/Contributors/Contributors';
 import Body from '@weco/common/views/components/Body/Body';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
@@ -51,7 +49,6 @@ export const ExhibitionPage = ({
     squareImage: exhibition.squareImage,
     widescreenImage: exhibition.widescreenImage
   };
-  const DateInfo = exhibition.end ? <DateRange start={new Date(exhibition.start)} end={new Date(exhibition.end)} /> : <HTMLDate date={new Date(exhibition.start)} />;
   // This is for content that we don't have the crops for in Prismic
   const maybeHeroPicture = getHeroPicture(genericFields);
   const maybeFeaturedMedia = !maybeHeroPicture ? getFeaturedMedia(genericFields) : null;
@@ -62,10 +59,10 @@ export const ExhibitionPage = ({
     title={exhibition.title}
     Background={null}
     ContentTypeInfo={
-      <Fragment>
-        {DateInfo}
-        <StatusIndicator start={exhibition.start} end={(exhibition.end || new Date())} />
-      </Fragment>}
+      <DateAndStatusIndicator
+        start={new Date(exhibition.start)}
+        end={exhibition.end ? new Date(exhibition.end) : null} />
+    }
     FeaturedMedia={maybeFeaturedMedia}
     HeroPicture={maybeHeroPicture}
   />;

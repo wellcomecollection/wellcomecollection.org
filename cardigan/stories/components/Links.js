@@ -14,7 +14,7 @@ stories.add('Links: Primary', () => (
       marginBottom: sized(3)
     }} />
     <h2 className='h2'>Internal target</h2>
-    <PrimaryLink url={`#`} name={`See all dates/times to book`} isJumpLink={true} />
+    <PrimaryLink url={`#`} name={`See all dates`} isJumpLink={true} />
   </Fragment>
 ));
 stories.add('Links: Secondary', () => (

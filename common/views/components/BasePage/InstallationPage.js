@@ -1,14 +1,11 @@
 // @flow
 import {Fragment} from 'react';
 import BasePage from './BasePage';
-import {default as BaseHeader, getFeaturedMedia} from '../BaseHeader/BaseHeader';
+import {default as PageHeader, getFeaturedMedia} from '../PageHeader/PageHeader';
 import Body from '../Body/Body';
-import DateRange from '../DateRange/DateRange';
-import StatusIndicator from '../StatusIndicator/StatusIndicator';
-import HTMLDate from '../HTMLDate/HTMLDate';
+import DateAndStatusIndicator from '../DateAndStatusIndicator/DateAndStatusIndicator';
 import Contributors from '../Contributors/Contributors';
 import HeaderBackground from '../BaseHeader/HeaderBackground';
-import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import type {UiInstallation} from '../../../model/installations';
 
 type Props = {|
@@ -19,7 +16,6 @@ type Props = {|
 const InstallationPage = ({
   installation
 }: Props) => {
-  const DateInfo = installation.end ? <DateRange start={installation.start} end={installation.end} /> : <HTMLDate date={installation.start} />;
   const FeaturedMedia = getFeaturedMedia({
     id: installation.id,
     title: installation.title,
@@ -33,17 +29,21 @@ const InstallationPage = ({
     squareImage: installation.squareImage,
     widescreenImage: installation.widescreenImage
   });
-  const Header = (<BaseHeader
+
+  const breadcrumbs = { items: [{ text: 'Installations' }] };
+  const Header = <PageHeader
+    breadcrumbs={breadcrumbs}
+    labels={null}
     title={installation.title}
-    Background={<HeaderBackground hasWobblyEdge={true} />}
-    DateInfo={DateInfo}
-    InfoBar={<StatusIndicator start={installation.start} end={(installation.end || new Date())} />}
-    Description={null}
     FeaturedMedia={FeaturedMedia}
-    LabelBar={null}
-    Breadcrumb={<Breadcrumb items={[{ text: 'Installations' }]} />}
-    isFree={false}
-  />);
+    Background={<HeaderBackground hasWobblyEdge={true} />}
+    ContentTypeInfo={
+      <DateAndStatusIndicator
+        start={installation.start}
+        end={installation.end} />
+    }
+    HeroPicture={null}
+  />;
 
   return (
     <BasePage

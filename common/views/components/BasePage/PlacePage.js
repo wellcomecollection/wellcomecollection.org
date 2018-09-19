@@ -1,8 +1,7 @@
 // @flow
 import BasePage from './BasePage';
-import BaseHeader from '../BaseHeader/BaseHeader';
+import PageHeader from '../PageHeader/PageHeader';
 import Body from '../Body/Body';
-import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import HeaderBackground from '../BaseHeader/HeaderBackground';
 import {UiImage} from '../Images/Images';
 import type {Place} from '../../../model/places';
@@ -27,18 +26,19 @@ const PlacePage = ({ place }: Props) => {
   /* https://github.com/facebook/flow/issues/2405 */
   /* $FlowFixMe */
   const FeaturedMedia = place.promo && <UiImage tasl={tasl} {...image} />;
-  const Header = (<BaseHeader
-    title={place.title}
-    Background={<HeaderBackground hasWobblyEdge={true} />}
-    Breadcrumb={<Breadcrumb items={[{
+  const breadcrumbs = {
+    items: [{
       text: 'Places'
-    }]} />}
-    DateInfo={null}
-    InfoBar={null}
-    Description={null}
+    }]
+  };
+  const Header = (<PageHeader
+    breadcrumbs={breadcrumbs}
+    labels={null}
+    title={place.title}
     FeaturedMedia={FeaturedMedia}
-    LabelBar={null}
-    isFree={false}
+    Background={<HeaderBackground hasWobblyEdge={true} />}
+    ContentTypeInfo={null}
+    HeroPicture={null}
   />);
 
   return (
