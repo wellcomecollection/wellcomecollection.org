@@ -81,7 +81,7 @@ export const ExhibitionPage = ({
     icon: 'ticket'
   };
 
-  const todaysHoursText = 'Galleries open Tuesday–Sunday (and Bank Holiday Mondays), Full opening times';
+  const todaysHoursText = 'Galleries open Tuesday–Sunday, Opening times';
   const todaysHoursObject = {
     title: null,
     description: [{
@@ -89,7 +89,7 @@ export const ExhibitionPage = ({
       text: todaysHoursText,
       spans: [{
         type: 'hyperlink',
-        start: todaysHoursText.length - 18,
+        start: todaysHoursText.length - 13,
         end: todaysHoursText.length,
         data: {
           url: '/opening-times'
