@@ -1,14 +1,15 @@
 // @flow
-import {getDocument} from './api';
-import type {PrismicDocument, HTMLString} from './types';
+import Prismic from 'prismic-javascript';
+import {getDocument, getDocuments} from './api';
+import type {PrismicDocument} from './types';
 import {
   parseGenericFields,
   parseSingleLevelGroup,
   parseLabelType,
   isDocumentLink
 } from './parsers';
-import type {LabelField} from '../../model/label-field';
-import type {GenericContentFields} from '../../model/generic-content-fields';
+import {parseArticleSeries} from './article-series';
+import type {Article} from '../../model/articles';
 
 const graphQuery = `{
   articles {
@@ -47,24 +48,7 @@ const graphQuery = `{
   }
 }`;
 
-type ArticleSeries = {|
-  type: 'article-series',
-  id: string,
-  title: ?string,
-  description: ?HTMLString
-|}
-
-// TODO: 0_0 -> move this to /model
-export type ArticleV2 = {|
-  type: 'articles',
-  ...GenericContentFields,
-  format: ?LabelField,
-  summary: ?HTMLString,
-  datePublished: Date,
-  series: ArticleSeries[]
-|}
-
-export function parseArticle(document: PrismicDocument): ArticleV2 {
+export function parseArticle(document: PrismicDocument): Article {
   return {
     type: 'articles',
     ...parseGenericFields(document),
@@ -72,17 +56,45 @@ export function parseArticle(document: PrismicDocument): ArticleV2 {
     summary: document.data.summary,
     datePublished: new Date(document.first_publication_date),
     series: parseSingleLevelGroup(document.data.series, 'series').map(series => {
-      return {
-        type: 'article-series',
-        id: series.id,
-        title: series.data.name,
-        description: series.data.description
-      };
+      return parseArticleSeries(series);
     })
   };
 }
 
-export async function getArticle(req: Request, id: string): Promise<?ArticleV2> {
+export async function getArticle(req: ?Request, id: string): Promise<?Article> {
   const document = await getDocument(req, id, { graphQuery });
   return document && document.type === 'articles' ? parseArticle(document) : null;
+}
+
+type ArticleQueryProps = {|
+  page: number,
+  predicates: Prismic.Predicates[],
+  order: 'asc' | 'desc'
+|}
+
+export async function getArticles(req: ?Request, {
+  page = 1,
+  predicates = [],
+  order = 'desc'
+}: ArticleQueryProps) {
+  const orderings = '[my.articles.publishDate, my.webcomics.publishDate, document.first_publication_date desc]';
+  const paginatedResults = await getDocuments(req, [
+    Prismic.Predicates.at('document.type', 'articles')
+  ].concat(predicates), {
+    orderings,
+    page,
+    graphQuery
+  });
+
+  const articles = paginatedResults.results.map(doc => {
+    return parseArticle(doc);
+  });
+
+  return {
+    currentPage: paginatedResults.currentPage,
+    pageSize: paginatedResults.pageSize,
+    totalResults: paginatedResults.totalResults,
+    totalPages: paginatedResults.totalPages,
+    results: articles
+  };
 }

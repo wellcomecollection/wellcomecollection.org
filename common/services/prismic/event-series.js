@@ -8,7 +8,7 @@ import {
   parseBackgroundTexture,
   parseBody
 } from './parsers';
-import { getDocument } from './api';
+import {getDocument} from './api';
 
 export function parseEventSeries(document: PrismicDocument): EventSeries {
   const genericFields = parseGenericFields(document);
@@ -25,7 +25,7 @@ export function parseEventSeries(document: PrismicDocument): EventSeries {
 
 type EventSeriesProps = {| id: string |}
 export async function getEventSeries(req: Request, {
-  id, size
+  id
 }: EventSeriesProps) {
   const events = await getEvents(req, {
     page: 1,
