@@ -228,7 +228,7 @@ const EventPage = ({ event }: Props) => {
               </div>
             }
 
-            {(!event.eventbriteId && !event.bookingEnquiryTeam) &&
+            {!event.eventbriteId && !event.bookingEnquiryTeam && !(event.schedule && event.schedule.length > 1) &&
               <Fragment>
                 <div className={`bg-yellow inline-block ${spacing({s: 4}, {padding: ['left', 'right'], margin: ['bottom']})} ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${font({s: 'HNM4'})}`}>
                   <span>Just turn up</span>
