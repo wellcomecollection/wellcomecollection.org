@@ -31,6 +31,7 @@ $is-next: true;
 
 // Components
 @import 'components/back-to-top';
+@import 'components/body_text';
 @import 'components/buttons';
 @import 'components/control';
 @import 'components/captioned_image';
@@ -42,6 +43,7 @@ $is-next: true;
 @import 'components/footer_nav';
 @import 'components/footer_social';
 @import 'components/header';
+@import 'components/highlighted_heading';
 @import 'components/image_viewer';
 @import 'components/input';
 @import 'components/lazyload';

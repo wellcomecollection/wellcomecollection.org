@@ -1,20 +1,12 @@
 // @flow
 import {london} from '@weco/common/utils/format-date';
+import {getTodaysGalleriesHours} from '@weco/common/utils/get-todays-galleries-hours';
 import type {Period} from '@weco/common/model/periods';
 
 export function getListHeader(collectionOpeningTimes: any) {
-  const todaysDate = london().startOf('day');
-  const todayString = todaysDate.format('dddd');
-  const galleryOpeningHours = collectionOpeningTimes.placesOpeningHours && collectionOpeningTimes.placesOpeningHours.find(venue => venue.name === 'Galleries').openingHours;
-  const regularOpeningHours = galleryOpeningHours && galleryOpeningHours.regular.find(i => i.dayOfWeek === todayString);
-  const exceptionalOpeningHours = galleryOpeningHours && galleryOpeningHours.exceptional && galleryOpeningHours.exceptional.find(i => {
-    const dayOfWeek = london(i.overrideDate).startOf('day');
-    return todaysDate.isSame(dayOfWeek);
-  });
-  const todayOpeningHours = exceptionalOpeningHours || regularOpeningHours;
-
+  const galleriesOpeningTimes = collectionOpeningTimes.placesOpeningHours && collectionOpeningTimes.placesOpeningHours.find(venue => venue.name === 'Galleries').openingHours;
   return {
-    todayOpeningHours,
+    todayOpeningHours: getTodaysGalleriesHours(galleriesOpeningTimes),
     name: 'What\'s on',
     items: [
       {

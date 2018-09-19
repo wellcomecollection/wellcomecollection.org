@@ -1,7 +1,7 @@
 // @flow
 import {classNames, spacing} from '../../../utils/classnames';
 import BasePage from './BasePage';
-import BaseHeader from '../BaseHeader/BaseHeader';
+import PageHeader from '../PageHeader/PageHeader';
 import Body from '../Body/Body';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 
@@ -14,16 +14,16 @@ const ErrorPage = ({ errorStatus }: Props) => {
     <BasePage
       id={'error'}
       Header={
-        <BaseHeader
+        <PageHeader
+          breadcrumbs={{ items: [{url: '/', text: 'Home'}] }}
+          labels={null}
           title={'This isn’t the page you’re looking for, but how about these?'}
+          ContentTypeInfo={null}
           Background={null}
-          DateInfo={null}
+          backgroundTexture={'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg'}
           FeaturedMedia={null}
-          Description={null}
-          LabelBar={null}
-          InfoBar={null}
-          Breadcrumb={null}
-          isFree={false} />
+          HeroPicture={null}
+          highlightHeading={true} />
       }
       Body={<Body body={[]} />}
     >

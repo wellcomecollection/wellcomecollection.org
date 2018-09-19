@@ -11,10 +11,22 @@ import type Moment from 'moment';
 import analytics from '../../../utils/analytics';
 import Raven from 'raven-js';
 
-// TODO: JsonLd
+export type JsonLdObject = {
+  "@type": string
+}
+type jsonData = {
+  pageJsonLd: JsonLdObject
+};
 
-// Taken from: http://ogp.me/#no_vertical
+const JsonLd = ({
+  pageJsonLd
+}: jsonData) => {
+  return (<script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(pageJsonLd) }}>
+  </script>);
+};
+
 export type OgType = 'article' | 'website';
+// Taken from: http://ogp.me/#no_vertical
 type OgData = {|
   type: OgType,
   url: string,
@@ -106,6 +118,7 @@ type Props = {|
   title: string,
   description: string,
   imageUrl: string,
+  pageJsonLd: JsonLdObject,
   siteSection: SiteSection,
   analyticsCategory: string,
   featuresCohort?: string,
@@ -174,6 +187,7 @@ class DefaultPageLayout extends Component<Props> {
       canonicalUrl,
       description,
       imageUrl,
+      pageJsonLd,
       siteSection,
       children,
       featuresCohort,
@@ -216,7 +230,7 @@ class DefaultPageLayout extends Component<Props> {
           {/* Leaving this out for now as it's hanging locally for me */}
           {/* <script src='//platform.twitter.com/widgets.js' async defer></script> */}
           <NastyJs />
-          <script type='application/ld+json'>{/* JSON+LD Z */}</script>
+          <JsonLd pageJsonLd={pageJsonLd} />
           <script dangerouslySetInnerHTML={{ __html: `
             window.WC = {
               featuresCohort: ${JSON.stringify(featuresCohort)},

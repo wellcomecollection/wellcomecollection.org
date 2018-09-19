@@ -21,7 +21,9 @@ const HeaderText = ({
 }: Props) => {
   return (
     <div className={spacing({s: 2}, {padding: ['top']})}>
-      {Breadcrumb}
+      <div className={spacing({s: 3, m: 4}, {margin: ['top', 'bottom']})}>
+        {Breadcrumb}
+      </div>
       {Heading}
 
       {DateInfo &&

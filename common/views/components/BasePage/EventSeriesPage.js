@@ -1,12 +1,11 @@
 // @flow
 import {Fragment} from 'react';
 import BasePage from './BasePage';
-import {default as BaseHeader, getFeaturedMedia} from '../BaseHeader/BaseHeader';
+import {default as PageHeader, getFeaturedMedia} from '../PageHeader/PageHeader';
 import Body from '../Body/Body';
 import HeaderBackground from '../BaseHeader/HeaderBackground';
 import Contributors from '../Contributors/Contributors';
 import SearchResults from '../SearchResults/SearchResults';
-import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import { spacing } from '../../../utils/classnames';
 import type {EventSeries} from '../../../model/event-series';
 import type {UiEvent} from '../../../model/events';
@@ -35,19 +34,20 @@ const Page = ({
     widescreenImage: series.widescreenImage
   });
 
-  const Header = (<BaseHeader
-    title={series.title}
-    Background={<HeaderBackground hasWobblyEdge={true} />}
-    Breadcrumb={<Breadcrumb items={[{
+  const breadcrumbs = {
+    items: [{
       text: 'Event series'
-    }]} />}
-    DateInfo={null}
-    InfoBar={null}
-    Description={null}
+    }]
+  };
+  const Header = <PageHeader
+    breadcrumbs={breadcrumbs}
+    labels={null}
+    title={series.title}
     FeaturedMedia={FeaturedMedia}
-    LabelBar={null}
-    isFree={false}
-  />);
+    Background={<HeaderBackground hasWobblyEdge={true} />}
+    ContentTypeInfo={null}
+    HeroPicture={null}
+  />;
 
   const upcomingEvents = events.filter(event => {
     const lastStartTime = event.times.length > 0 ? event.times[event.times.length - 1].range.startDateTime : null;

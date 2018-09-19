@@ -44,6 +44,7 @@ export type HTMLSpanTypes =
   | 'embed';
 
 export type HTMLSpan = {|
+  type: HTMLSpanTypes,
   start: number,
   end: number,
   data: Object

@@ -1,13 +1,16 @@
 // @flow
 import {Fragment} from 'react';
 import {getExhibition} from '@weco/common/services/prismic/exhibitions';
+import {isPast} from '@weco/common/utils/dates';
+import {exhibitionLd} from '@weco/common/utils/json-ld';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
-import ExhibitionHeader from '@weco/common/views/components/ExhibitionHeader/ExhibitionHeader';
-import {getFeaturedMedia} from '@weco/common/views/components/BaseHeader/BaseHeader';
-import DateRange from '@weco/common/views/components/DateRange/DateRange';
-import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
+import {
+  default as PageHeader,
+  getFeaturedMedia,
+  getHeroPicture
+} from '@weco/common/views/components/PageHeader/PageHeader';
+import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusIndicator/DateAndStatusIndicator';
 import Contributors from '@weco/common/views/components/Contributors/Contributors';
 import Body from '@weco/common/views/components/Body/Body';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
@@ -22,8 +25,18 @@ type Props = {|
 export const ExhibitionPage = ({
   exhibition
 }: Props) => {
-  const DateInfo = exhibition.end ? <DateRange start={new Date(exhibition.start)} end={new Date(exhibition.end)} /> : <HTMLDate date={new Date(exhibition.start)} />;
-  const FeaturedMedia = getFeaturedMedia({
+  const breadcrumbs = {
+    items: [{
+      url: '/exhibitions',
+      text: 'Exhibitions'
+    }]
+  };
+  const labels = exhibition.isPermanent ? [{
+    text: 'Permanent exhibition',
+    url: ''
+  }] : null;
+
+  const genericFields = {
     id: exhibition.id,
     title: exhibition.title,
     contributors: exhibition.contributors,
@@ -35,13 +48,24 @@ export const ExhibitionPage = ({
     image: exhibition.image,
     squareImage: exhibition.squareImage,
     widescreenImage: exhibition.widescreenImage
-  }, true);
-  const Header = (<ExhibitionHeader
+  };
+  // This is for content that we don't have the crops for in Prismic
+  const maybeHeroPicture = getHeroPicture(genericFields);
+  const maybeFeaturedMedia = !maybeHeroPicture ? getFeaturedMedia(genericFields) : null;
+
+  const Header = <PageHeader
+    breadcrumbs={breadcrumbs}
+    labels={labels ? ({labels}) : null}
     title={exhibition.title}
-    DateInfo={DateInfo}
-    InfoBar={<StatusIndicator start={exhibition.start} end={(exhibition.end || new Date())} />}
-    FeaturedMedia={FeaturedMedia}
-  />);
+    Background={null}
+    ContentTypeInfo={
+      <DateAndStatusIndicator
+        start={new Date(exhibition.start)}
+        end={exhibition.end ? new Date(exhibition.end) : null} />
+    }
+    FeaturedMedia={maybeFeaturedMedia}
+    HeroPicture={maybeHeroPicture}
+  />;
 
   // Info box content
   const admissionObject = {
@@ -52,6 +76,24 @@ export const ExhibitionPage = ({
       spans: []
     }],
     icon: 'ticket'
+  };
+
+  const todaysHoursText = 'Galleries open Tuesday–Sunday, Opening times';
+  const todaysHoursObject = {
+    title: null,
+    description: [{
+      type: 'paragraph',
+      text: todaysHoursText,
+      spans: [{
+        type: 'hyperlink',
+        start: todaysHoursText.length - 13,
+        end: todaysHoursText.length,
+        data: {
+          url: '/opening-times'
+        }
+      }]
+    }],
+    icon: 'clock'
   };
 
   const placeObject = (exhibition.place && {
@@ -95,6 +137,7 @@ export const ExhibitionPage = ({
 
   const infoItems = [
     admissionObject,
+    todaysHoursObject,
     placeObject,
     ...resourcesItems,
     ...accessibilityItems
@@ -112,11 +155,13 @@ export const ExhibitionPage = ({
             titleOverride={exhibition.contributorsTitle}
             contributors={exhibition.contributors} />
         }
-        <InfoBox title='Visit us' items={infoItems}>
-          <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
-            <a href='/access'>Accessibility at Wellcome</a>
-          </p>
-        </InfoBox>
+        {(exhibition.end && !isPast(exhibition.end)) &&
+          <InfoBox title='Visit us' items={infoItems}>
+            <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
+              <a href='/access'>Accessibility at Wellcome</a>
+            </p>
+          </InfoBox>
+        }
       </Fragment>
     </BasePage>
   );
@@ -136,6 +181,7 @@ ExhibitionPage.getInitialProps = async ({req, query}) => {
         imageUrl: exhibition.promoImage && convertImageUri(exhibition.promoImage.contentUrl, 800),
         description: exhibition.promoText,
         canonicalUrl: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
+        pageJsonLd: exhibitionLd(exhibition),
         exhibition
       };
     } else {
