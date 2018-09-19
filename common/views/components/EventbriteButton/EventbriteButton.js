@@ -19,7 +19,7 @@ const EventbriteButton = ({event}: Props) => {
           <Fragment>
             <Button
               type='primary'
-              id={`eventbrite-show-widget-${event.eventbriteId || ''}`}
+              extraClasses={`js-eventbrite-show-widget-${event.eventbriteId || ''}`}
               url={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
               trackingEvent={{
                 category: 'component',
@@ -29,7 +29,7 @@ const EventbriteButton = ({event}: Props) => {
               icon='ticket'
               text={ticketButtonText} />
             <iframe
-              id={`eventbrite-widget-${event.eventbriteId || ''}`}
+              className={`js-eventbrite-widget-${event.eventbriteId || ''}`}
               src={`/eventbrite/widget/${event.eventbriteId || ''}`}
               frameBorder='0'
               width='100%'
@@ -42,8 +42,13 @@ const EventbriteButton = ({event}: Props) => {
             </iframe>
             <script dangerouslySetInnerHTML={{ __html: `
               (function() {
-                var iframe = document.getElementById('eventbrite-widget-${event.eventbriteId || ''}');
-                var showWidget = document.getElementById('eventbrite-show-widget-${event.eventbriteId || ''}');
+                // Bah, IE doesn't have document.currentScript
+                var scripts = document.getElementsByTagName("script");
+                var thisScript = scripts[scripts.length - 1];
+                var parent = thisScript.parentNode;
+
+                var iframe = parent.querySelector('.js-eventbrite-widget-${event.eventbriteId || ''}');
+                var showWidget = parent.querySelector('.js-eventbrite-show-widget-${event.eventbriteId || ''}');
                 showWidget.classList.add('disabled');
                 showWidget.innerHTML = showWidget.innerHTML.replace('${ticketButtonText}', '${ticketButtonLoadingText}');
 

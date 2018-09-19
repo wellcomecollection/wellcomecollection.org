@@ -15,13 +15,11 @@ import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import InfoBox from '../InfoBox/InfoBox';
 import {UiImage} from '../Images/Images';
+import DateRange from '../DateRange/DateRange';
 import type {UiEvent} from '../../../model/events';
 import {spacing, font} from '../../../utils/classnames';
 import camelize from '../../../utils/camelize';
 import {
-  formatAndDedupeOnDate,
-  formatAndDedupeOnTime,
-  joinDateStrings,
   formatDayDate,
   isTimePast,
   formatTime
@@ -50,12 +48,10 @@ function DateList(event) {
   return (
     event.times && <Fragment>
       {event.times.map((eventTime, index) => {
-        const formattedDateRange = formatAndDedupeOnDate(eventTime.range.startDateTime, eventTime.range.endDateTime);
-
         return (
           <div key={index} className={`flex flex--h-space-between border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
             <div className={`${event.isPast ? 'font-pewter' : ''}`}>
-              <time>{joinDateStrings(formattedDateRange)}</time>, <time>{joinDateStrings(formatAndDedupeOnTime(eventTime.range.startDateTime, eventTime.range.endDateTime))}</time>
+              <DateRange start={eventTime.range.startDateTime} end={eventTime.range.endDateTime} />
             </div>
 
             {event.isPast
@@ -186,7 +182,7 @@ const EventPage = ({ event }: Props) => {
           <div className={spacing({s: 4}, {margin: ['bottom']})}>
             <h2 className='h2'>Events</h2>
             <ul className='plain-list no-marin no-padding'>
-              {event.schedule && <EventSchedule events={event.schedule} />}
+              {event.schedule && <EventSchedule schedule={event.schedule} />}
             </ul>
           </div>
         }
@@ -228,7 +224,7 @@ const EventPage = ({ event }: Props) => {
               </div>
             }
 
-            {(!event.eventbriteId && !event.bookingEnquiryTeam) &&
+            {!event.eventbriteId && !event.bookingEnquiryTeam && !(event.schedule && event.schedule.length > 1) &&
               <Fragment>
                 <div className={`bg-yellow inline-block ${spacing({s: 4}, {padding: ['left', 'right'], margin: ['bottom']})} ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${font({s: 'HNM4'})}`}>
                   <span>Just turn up</span>

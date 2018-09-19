@@ -434,6 +434,15 @@
                 "events"
               ]
             }
+          },
+          "isNotLinked": {
+            "type": "Select",
+            "config": {
+              "label": "Suppress link to event",
+              "options": [
+                "yes"
+              ]
+            }
           }
         }
       }

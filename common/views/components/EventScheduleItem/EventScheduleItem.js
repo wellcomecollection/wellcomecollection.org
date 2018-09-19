@@ -8,10 +8,14 @@ import {formatTime, formatDayDate, isTimePast, isDatePast} from '../../../utils/
 import type {UiEvent} from '../../../model/events';
 
 type Props = {|
-  event: UiEvent
+  event: UiEvent,
+  isNotLinked: boolean
 |}
 
-const EventScheduleItem = ({event}: Props) => {
+const EventScheduleItem = ({
+  event,
+  isNotLinked
+}: Props) => {
   const format = event.format ? [{text: event.format.title, url: null}] : [];
   const interpretationTypes = event.interpretations.map(i => {
     return {
@@ -49,7 +53,7 @@ const EventScheduleItem = ({event}: Props) => {
 
             <p className={`${spacing({s: 2}, {margin: ['bottom']})} ${font({s: 'HNL5', m: 'HNL4'})}`} dangerouslySetInnerHTML={{__html: event.promoText}} />
 
-            {event.promoText &&
+            {!isNotLinked &&
               <p className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
                 <a href={`/events/${event.id}`}>Full event details<span className={`visually-hidden`}> about {event.title}</span></a>
               </p>
