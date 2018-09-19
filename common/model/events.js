@@ -75,6 +75,11 @@ export type UiEvent = {|
   backgroundTexture?: string
 |}
 
+export type EventSchedule = {|
+    event: UiEvent,
+    isNotLinked: boolean
+|}[]
+
 export type Event = {|
   ...GenericContentFields,
   format: ?EventFormat,
@@ -94,7 +99,7 @@ export type Event = {|
   // it's more convenient than having to work it out
   // not sure if it should be in the model, a question for Silver
   bookingType: ?string,
-  schedule?: UiEvent[],
+  schedule?: EventSchedule,
   eventbriteId?: string,
   isCompletelySoldOut?: boolean,
 

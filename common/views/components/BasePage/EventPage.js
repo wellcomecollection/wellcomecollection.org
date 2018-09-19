@@ -182,7 +182,7 @@ const EventPage = ({ event }: Props) => {
           <div className={spacing({s: 4}, {margin: ['bottom']})}>
             <h2 className='h2'>Events</h2>
             <ul className='plain-list no-marin no-padding'>
-              {event.schedule && <EventSchedule events={event.schedule} />}
+              {event.schedule && <EventSchedule schedule={event.schedule} />}
             </ul>
           </div>
         }

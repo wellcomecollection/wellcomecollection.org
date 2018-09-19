@@ -122,6 +122,14 @@ export function parseEventDoc(
   const lastEndTime = times.map(time => time.range.endDateTime).find((date, i) => i === 0);
   const isRelaxedPerformance = parseBoolean(data.isRelaxedPerformance);
 
+  const schedule = eventSchedule.map((event, i) => {
+    const scheduleItem = document.data.schedule[i];
+    return {
+      event,
+      isNotLinked: parseBoolean(scheduleItem.isNotLinked)
+    };
+  });
+
   return {
     type: 'events',
     ...genericFields,
@@ -136,7 +144,7 @@ export function parseEventDoc(
     policies: Array.isArray(data.policies) ? parseLabelTypeList(data.policies, 'policy') : [],
     isDropIn: Boolean(document.data.isDropIn),
     series,
-    schedule: eventSchedule,
+    schedule,
     backgroundTexture: document.data.backgroundTexture.data && document.data.backgroundTexture.data.image.url,
     eventbriteId,
     isCompletelySoldOut: data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
@@ -172,7 +180,7 @@ export async function getEvent(req: Request, {id}: EventQueryProps): Promise<?Ui
   });
 
   if (document && document.type === 'events') {
-    const scheduleIds = document.data.schedule.map(event => event.event.id).filter(Boolean);
+    const scheduleIds = document.data.schedule.map(({event}) => event.id).filter(Boolean);
     const eventScheduleDocs = scheduleIds.length > 0 && await getTypeByIds(req, ['events'], scheduleIds, {fetchLinks});
     const event = parseEventDoc(document, eventScheduleDocs || null);
 
