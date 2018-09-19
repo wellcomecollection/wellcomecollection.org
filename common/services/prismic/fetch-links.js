@@ -66,3 +66,4 @@ export const articleSeriesFields = [
   'series.name',
   'series.description'
 ];
+export const booksFields = ['books.title', 'books.author', 'books.isbn', 'books.publisher', 'books.link', 'books.cover', 'books.price', 'books.id'];
