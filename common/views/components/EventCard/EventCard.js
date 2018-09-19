@@ -11,13 +11,23 @@ type Props = {|
 |}
 
 const EventCard = ({ event }: Props) => {
-  const labels = [event.format ? {
+  const formatLabel = [event.format ? {
     url: null,
     text: event.format.title
-  } : null].concat(event.audiences.map(audience => ({
+  } : null];
+  const audienceLabels = event.audiences.map(audience => ({
     url: null,
     text: audience.title
-  }))).filter(Boolean);
+  }));
+  const interpretationLabels = event.interpretations.map(interpretation => ({
+    url: null,
+    text: interpretation.interpretationType.title
+  }));
+  const labels = [
+    ...formatLabel,
+    ...audienceLabels,
+    ...interpretationLabels
+  ].filter(Boolean);
   const LabelsComponent = <LabelsList labels={labels} />;
   const DateRangeComponent = EventDateRange({event});
   const ImageComponent = event.promo && event.promo.image && <Image {...event.promo.image} />;
