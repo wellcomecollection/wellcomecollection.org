@@ -31,12 +31,14 @@ const Body = ({ body, isCreamy = false }: Props) => {
     <div className={classNames({
       'basic-body': true,
       'bg-cream': isCreamy,
-      [spacing({s: 3}, {margin: ['top']})]: true
+      [spacing({s: 3}, {padding: ['top']})]: true
     })}>
       {body
         .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
         .map((slice, i) =>
-          <div className={`body-part ${spacing({s: 6}, {padding: ['top']})}`} key={`slice${i}`}>
+          <div className={classNames({
+            [spacing({s: 6}, {margin: ['top']})]: false
+          })} key={`slice${i}`}>
             {slice.type === 'standfirst' &&
               <TextLayout>
                 <div className='body-text'>
