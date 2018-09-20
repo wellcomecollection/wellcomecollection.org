@@ -35,6 +35,9 @@ const graphQuery = `{
       series {
         name
         description
+        schedule {
+          ...scheduleFields
+        }
         promo {
           ... on editorialImage {
             non-repeat {

@@ -2,7 +2,7 @@
 import Prismic from 'prismic-javascript';
 import {getDocument} from './api';
 import {getArticles} from './articles';
-import {parseGenericFields} from './parsers';
+import {parseGenericFields, isStructuredText, asText} from './parsers';
 import type {PrismicDocument} from './types';
 import type {ArticleSeries} from '../../model/article-series';
 import type {Article} from '../../model/articles';
@@ -10,14 +10,26 @@ import type {Article} from '../../model/articles';
 export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
   const {data} = document;
   const genericFields = parseGenericFields(document);
+  const body = data.description ? [{
+    type: 'text',
+    weight: 'default',
+    value: data.description
+  }].concat(genericFields.body) : genericFields.body;
 
   return {
     ...genericFields,
     type: 'article-series',
-
+    schedule: data.schedule ? data.schedule
+      .filter(({title}) => isStructuredText(title))
+      .map(item => {
+        return {
+          title: asText(item.title),
+          publishDate: item.publishDate
+        };
+      }) : [],
+    body,
     // Amazing old crap fields
-    title: data.name, // This was a text field
-    description: data.description
+    title: data.name
   };
 }
 

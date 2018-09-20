@@ -76,17 +76,12 @@ export class ArticleSeriesPage extends Component<Props> {
       FeaturedMedia={FeaturedMedia}
       HeroPicture={null}
     />;
-    const body = series.description ? [{
-      type: 'text',
-      weight: 'default',
-      value: series.description
-    }] : [];
 
     return (
       <BasePage
         id={series.id}
         Header={Header}
-        Body={<Body body={body} isCreamy={true} />}
+        Body={<Body body={series.body} isCreamy={true} />}
       >
         {articles.length > 0 &&
           <SearchResults items={articles} />
