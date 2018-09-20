@@ -1,89 +1,375 @@
 {
-  "Editorial series" : {
-    "name" : {
-      "type" : "Text",
-      "config" : {
-        "label" : "Name",
-        "useAsTitle" : true
+  "Article series": {
+    "title": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Title",
+        "single": "heading1",
+        "useAsTitle": true
       }
     },
-    "description" : {
-      "type" : "StructuredText",
-      "config" : {
-        "single" : "paragraph",
-        "label" : "Description"
+    "commissionedLength": {
+      "type": "Number",
+      "config": {
+        "label": "Commissioned length"
       }
     },
-    "color" : {
-      "type" : "Select",
-      "config" : {
-        "options" : [ "turquoise", "red", "orange", "purple" ],
-        "label" : "color"
+    "color": {
+      "type": "Select",
+      "config": {
+        "label": "Colour",
+        "options": [
+          "turquoise",
+          "red",
+          "orange",
+          "purple"
+        ]
       }
     },
-    "commissionedLength" : {
-      "type" : "Number",
-      "config" : {
-        "label" : "Number of articles in digital story"
+    "description": {
+      "type": "StructuredText",
+      "config": {
+        "multi": "paragraph,hyperlink,strong,em",
+        "label": "Description"
       }
-    }
-  },
-  "Schedule" : {
-    "schedule" : {
-      "type" : "Group",
-      "fieldset" : "Schedule",
-      "config" : {
-        "fields" : {
-          "title" : {
-            "type" : "StructuredText",
-            "config" : {
-              "single" : "heading1",
-              "label" : "title"
+    },
+    "body": {
+      "fieldset": "Body content",
+      "type": "Slices",
+      "config": {
+        "labels": {
+          "text": [
+            {
+              "name": "featured",
+              "display": "Featured"
+            }
+          ],
+          "editorialImage": [
+            {
+              "name": "supporting",
+              "display": "Supporting"
+            },
+            {
+              "name": "standalone",
+              "display": "Standalone"
+            }
+          ]
+        },
+        "choices": {
+          "text": {
+            "type": "Slice",
+            "fieldset": "Text",
+            "non-repeat": {
+              "text": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph,hyperlink,strong,em,heading2,heading3,list-item",
+                  "label": "Text"
+                }
+              }
             }
           },
-          "publishDate" : {
-            "type" : "Timestamp",
-            "config" : {
-              "label" : "publishDate"
+          "editorialImage": {
+            "type": "Slice",
+            "fieldset": "Captioned image",
+            "non-repeat": {
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Image",
+                  "thumbnails": [
+                    {
+                      "name": "32:15",
+                      "width": 3200,
+                      "height": 1500
+                    },
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
+                }
+              },
+              "caption": {
+                "type": "StructuredText",
+                "config": {
+                  "single": "paragraph,hyperlink,strong,em",
+                  "label": "Caption"
+                }
+              }
+            }
+          },
+          "editorialImageGallery": {
+            "type": "Slice",
+            "fieldset": "Image gallery",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              }
+            },
+            "repeat": {
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Image",
+                  "thumbnails": [
+                    {
+                      "name": "32:15",
+                      "width": 3200,
+                      "height": 1500
+                    },
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
+                }
+              },
+              "caption": {
+                "type": "StructuredText",
+                "config": {
+                  "single": "paragraph,hyperlink,strong,em",
+                  "label": "Caption"
+                }
+              }
+            }
+          },
+          "quote": {
+            "type": "Slice",
+            "fieldset": "Quote",
+            "non-repeat": {
+              "text": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph,hyperlink,strong,em",
+                  "label": "Quote"
+                }
+              },
+              "citation": {
+                "type": "StructuredText",
+                "config": {
+                  "single": "paragraph,hyperlink,strong,em",
+                  "label": "Citation"
+                }
+              }
+            }
+          },
+          "embed": {
+            "type": "Slice",
+            "fieldset": "Embed",
+            "non-repeat": {
+              "embed": {
+                "type": "Embed",
+                "config": {
+                  "label": "Embed (Youtube, Vimeo etc)"
+                }
+              }
+            }
+          },
+          "map": {
+            "type": "Slice",
+            "fieldset": "Map",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              },
+              "geolocation": {
+                "type": "GeoPoint",
+                "config": {
+                  "label": "Geo point"
+                }
+              }
+            }
+          },
+          "contentList": {
+            "type": "Slice",
+            "fieldset": "(β) Content list",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              }
+            },
+            "repeat": {
+              "content": {
+                "type": "Link",
+                "config": {
+                  "label": "Content item",
+                  "select": "document",
+                  "customtypes": [
+                    "pages",
+                    "event-series",
+                    "books",
+                    "events"
+                  ]
+                }
+              }
+            }
+          },
+          "searchResults": {
+            "type": "Slice",
+            "fieldset": "(β) Search results",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              },
+              "query": {
+                "type": "Text",
+                "config": {
+                  "label": "Query"
+                }
+              }
             }
           }
         }
       }
     }
   },
-  "Promo" : {
-    "promo" : {
-      "type" : "Slices",
-      "config" : {
-        "label" : "Promo",
-        "choices" : {
-          "editorialImage" : {
-            "type" : "Slice",
-            "fieldset" : "Editorial image",
-            "config" : {
-              "label" : "Editorial image"
+  "Contributors": {
+    "contributors": {
+      "type": "Group",
+      "fieldset": "Contributors",
+      "config": {
+        "fields": {
+          "role": {
+            "type": "Link",
+            "config": {
+              "label": "Role",
+              "select": "document",
+              "customtypes": [
+                "editorial-contributor-roles"
+              ]
+            }
+          },
+          "contributor": {
+            "type": "Link",
+            "config": {
+              "label": "Contributor",
+              "select": "document",
+              "customtypes": [
+                "people",
+                "organisations"
+              ]
+            }
+          },
+          "description": {
+            "type": "StructuredText",
+            "config": {
+              "multi": "paragraph,hyperlink,strong,em",
+              "label": "Contributor description override"
+            }
+          }
+        }
+      }
+    },
+    "contributorsTitle": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Contributors heading override",
+        "single": "heading1"
+      }
+    }
+  },
+  "Schedule": {
+    "type": "Group",
+    "fieldset": "Schedule",
+    "config": {
+      "fields": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "single": "heading1",
+            "useAsTitle": true
+          }
+        },
+        "publishedDate": {
+          "type": "Timestamp",
+          "config": {
+            "label": "Date to be published"
+          }
+        }
+      }
+    }
+  },
+  "Promo": {
+    "promo": {
+      "type": "Slices",
+      "config": {
+        "label": "Promo",
+        "choices": {
+          "editorialImage": {
+            "type": "Slice",
+            "fieldset": "Editorial image",
+            "config": {
+              "label": "Editorial image"
             },
-            "non-repeat" : {
-              "caption" : {
-                "type" : "StructuredText",
-                "config" : {
-                  "label" : "Promo text",
-                  "single" : "hyperlink, strong, em"
+            "non-repeat": {
+              "caption": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Promo text",
+                  "single": "paragraph"
                 }
               },
-              "image" : {
-                "type" : "Image",
-                "config" : {
-                  "label" : "Promo image",
-                  "thumbnails" : [ {
-                    "name" : "16:9",
-                    "width" : 3200,
-                    "height" : 1800
-                  }, {
-                    "name" : "square",
-                    "width" : 3200,
-                    "height" : 3200
-                  } ]
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Promo image",
+                  "thumbnails": [
+                    {
+                      "name": "32:15",
+                      "width": 3200,
+                      "height": 1500
+                    },
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
+                }
+              },
+              "link": {
+                "type": "Text",
+                "config": {
+                  "label": "Link override"
                 }
               }
             }
@@ -93,10 +379,10 @@
     }
   },
   "Deprecated": {
-    "wordpressSlug" : {
-      "type" : "Text",
-      "config" : {
-        "label" : "Wordpress slug"
+    "wordpressSlug": {
+      "type": "Text",
+      "config": {
+        "label": "Wordpress slug"
       }
     }
   }
