@@ -84,6 +84,8 @@ const SearchResults = ({ items, title }: Props) => (
           {item.type === 'events' &&
             <EventCard event={item} />
           }
+
+          {/* TODO add type === 'installations' */}
         </div>
       ))}
     </div>
