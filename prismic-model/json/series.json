@@ -1,10 +1,9 @@
 {
   "Article series": {
-    "title": {
-      "type": "StructuredText",
+    "name": {
+      "type": "Text",
       "config": {
         "label": "Title",
-        "single": "heading1",
         "useAsTitle": true
       }
     },
@@ -302,22 +301,24 @@
     }
   },
   "Schedule": {
-    "type": "Group",
-    "fieldset": "Schedule",
-    "config": {
-      "fields": {
-        "title": {
-          "type": "StructuredText",
-          "config": {
-            "label": "Title",
-            "single": "heading1",
-            "useAsTitle": true
-          }
-        },
-        "publishedDate": {
-          "type": "Timestamp",
-          "config": {
-            "label": "Date to be published"
+    "schedule": {
+      "type": "Group",
+      "fieldset": "Schedule",
+      "config": {
+        "fields": {
+          "title": {
+            "type": "StructuredText",
+            "config": {
+              "label": "Title",
+              "single": "heading1",
+              "useAsTitle": true
+            }
+          },
+          "publishDate": {
+            "type": "Timestamp",
+            "config": {
+              "label": "Date to be published"
+            }
           }
         }
       }
