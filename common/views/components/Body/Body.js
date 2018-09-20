@@ -37,6 +37,7 @@ const Body = ({ body, isCreamy = false }: Props) => {
         .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
         .map((slice, i) =>
           <div className={classNames({
+            'body-part': true,
             [spacing({s: 6}, {margin: ['top']})]: false
           })} key={`slice${i}`}>
             {slice.type === 'standfirst' &&
