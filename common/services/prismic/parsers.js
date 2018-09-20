@@ -307,30 +307,6 @@ export function parseNumber(fragment: PrismicFragment): number {
   return parseInt(fragment, 10);
 }
 
-type PrismicPromoListFragment = {|
-  type: string,
-  link: {| url: string |},
-  title: HTMLString,
-  description: HTMLString,
-  image: Picture
-|}
-type PromoListItem = {|
-  contentType: string,
-  url: string,
-  title: string,
-  description: string,
-  image: Picture
-|}
-export function parsePromoListItem(item: PrismicPromoListFragment): PromoListItem {
-  return {
-    contentType: item.type,
-    url: item.link.url,
-    title: asText(item.title) || 'TITLE MISSING',
-    description: asText(item.description) || '',
-    image: parsePicture(item)
-  };
-}
-
 export function parseBackgroundTexture(backgroundTexture: PrismicBackgroundTexture): BackgroundTexture {
   return {
     image: backgroundTexture.image.url,

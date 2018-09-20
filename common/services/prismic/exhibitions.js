@@ -19,7 +19,6 @@ import {
   parseImagePromo,
   parseTimestamp,
   parsePlace,
-  parsePromoListItem,
   parsePromoToCaptionedImage,
   isDocumentLink,
   asText,
@@ -75,7 +74,9 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const genericFields = parseGenericFields(document);
   const data = document.data;
   const promo = document.data.promo;
-
+  const relatedAboutIds = document.data.relatedAbouts.map(i => i.relatedAbout.id);
+  const relatedOfIds = document.data.relatedOfs.map(i => i.relatedOf.id);
+  const relatedIds = [...relatedAboutIds, ...relatedOfIds].filter(Boolean);
   const promoThin = promo && parseImagePromo(promo, '32:15', breakpoints.medium);
   const promoSquare = promo && parseImagePromo(promo, 'square', breakpoints.small);
 
@@ -114,7 +115,6 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       copyrightHolder: null,
       copyrightLink: null }
   }] : [promoThin, promoSquare].filter(Boolean).map(p => p.image).filter(Boolean);
-  const promoList = document.data.promoList || [];
 
   const sizeInKb = Math.round(document.data.textAndCaptionsDocument.size / 1024);
   const textAndCaptionsDocument = isDocumentLink(document.data.textAndCaptionsDocument) ? Object.assign({}, document.data.textAndCaptionsDocument, {sizeInKb}) : null;
@@ -161,10 +161,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     textAndCaptionsDocument: textAndCaptionsDocument,
     featuredImageList: promos,
     resources: Array.isArray(data.resources) ? parseResourceTypeList(data.resources, 'resource') : [],
-    relatedBooks: promoList.filter(x => x.type === 'book').map(parsePromoListItem),
-    relatedEvents: promoList.filter(x => x.type === 'event').map(parsePromoListItem),
-    relatedGalleries: promoList.filter(x => x.type === 'gallery').map(parsePromoListItem),
-    relatedArticles: promoList.filter(x => x.type === 'article').map(parsePromoListItem)
+    relatedIds
   };
 }
 
