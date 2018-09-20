@@ -14,17 +14,25 @@ import structuredText from './parts/structured-text';
 // mistake we made way back when when all we were doing was articles
 const ArticleSeries = {
   'Article series': {
-    title,
+    name: {
+      type: 'Text',
+      config: {
+        label: 'Title',
+        useAsTitle: true
+      }
+    },
     commissionedLength: number('Commissioned length'),
     color: select('Colour', [ 'turquoise', 'red', 'orange', 'purple' ]),
     description: structuredText('Description'),
     body
   },
   Contributors: contributorsWithTitle(),
-  Schedule: list('Schedule', {
-    title: title,
-    publishDate: timestamp('Date to be published')
-  }),
+  Schedule: {
+    schedule: list('Schedule', {
+      title: title,
+      publishDate: timestamp('Date to be published')
+    })
+  },
   Promo: {
     promo
   },
