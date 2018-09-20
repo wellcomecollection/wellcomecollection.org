@@ -5,13 +5,20 @@ import type {UiExhibition, UiExhibit, ExhibitionFormat} from '../../model/exhibi
 import {getDocument, getDocuments, getTypeByIds} from './api';
 
 import {
-  peopleFields,
-  contributorsFields,
-  placesFields,
-  installationFields,
   exhibitionFields,
   exhibitionResourcesFields,
-  organisationsFields
+  installationFields,
+  eventAccessOptionsFields,
+  teamsFields,
+  eventFormatsFields,
+  placesFields,
+  interpretationTypesFields,
+  audiencesFields,
+  eventSeriesFields,
+  organisationsFields,
+  peopleFields,
+  contributorsFields,
+  eventPoliciesFields
 } from './fetch-links';
 import {breakpoints} from '../../utils/breakpoints';
 import {
@@ -30,8 +37,8 @@ import {
 } from './parsers';
 import { parseInstallationDoc } from './installations';
 import { parseBook } from './books';
-// import { parseEventDoc } from './events';
-// import { parseArticle } from './articles';
+import { parseEventDoc } from './events';
+import { parseArticle } from './articles';
 import {london} from '../../utils/format-date';
 import {getPeriodPredicates} from './utils';
 import type {Period} from '../../model/periods';
@@ -266,19 +273,32 @@ export async function getExhibition(req: Request, id: string): Promise<?UiExhibi
 
 // TODO better naming
 export async function getExhibitionExtraContent(req: Request, types: string[], ids: string[]): Promise<Array> { // TODO type returned - Promise array of articles, events, installations, books
-  const extraContent = await getTypeByIds(null, types, ids, {
-    fetchLinks: contributorsFields.concat(peopleFields, organisationsFields)
-  }); // TODO need fetch links for all types
+  const fetchLinks = [].concat(
+    eventAccessOptionsFields,
+    teamsFields,
+    eventFormatsFields,
+    placesFields,
+    interpretationTypesFields,
+    audiencesFields,
+    eventSeriesFields,
+    organisationsFields,
+    peopleFields,
+    contributorsFields,
+    eventSeriesFields,
+    eventPoliciesFields,
+    contributorsFields
+  );
+  const extraContent = await getTypeByIds(null, types, ids, {fetchLinks});
   const parsedContent = extraContent.results.map(doc => {
     switch (doc.type) {
       case 'books' :
         return parseBook(doc);
-      // case 'events' :
-      //   return parseEventDoc(doc);
-      // case 'installations' :
-      //   return parseInstallationDoc(doc);
-      // case 'articles' :
-      //   return parseArticle(doc);
+      case 'events' :
+        return parseEventDoc(doc);
+      case 'installations' :
+        return parseInstallationDoc(doc);
+      case 'articles' :
+        return parseArticle(doc);
     };
   }).filter(Boolean);
   return {
