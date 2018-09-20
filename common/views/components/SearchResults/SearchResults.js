@@ -4,6 +4,7 @@ import {spacing, grid} from '../../../utils/classnames';
 import Image from '../Image/Image';
 import CompactCard from '../CompactCard/CompactCard';
 import EventCard from '../EventCard/EventCard';
+import LabelsList from '../LabelsList/LabelsList';
 import type {MultiContent} from '../../../model/multi-content';
 
 type Props = {|
@@ -61,7 +62,7 @@ const SearchResults = ({ items, title }: Props) => (
               description={item.promo && item.promo.caption}
               urlOverride={item.promo && item.promo.link}
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
-              Tags={null}
+              Tags={<LabelsList labels={[{url: null, text: 'Book'}]} />}
               DateInfo={null}
               StatusIndicator={null}
             />
@@ -75,7 +76,7 @@ const SearchResults = ({ items, title }: Props) => (
               description={item.promoText}
               urlOverride={item.promo && item.promo.link}
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
-              Tags={null}
+              Tags={<LabelsList labels={[{url: null, text: 'Article'}]} />}
               DateInfo={null}
               StatusIndicator={null}
             />
@@ -93,7 +94,7 @@ const SearchResults = ({ items, title }: Props) => (
               description={item.promoText}
               urlOverride={item.promo && item.promo.link}
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
-              Tags={null}
+              Tags={<LabelsList labels={[{url: null, text: 'Installation'}]} />}
               DateInfo={null}
               StatusIndicator={null}
             />
