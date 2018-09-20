@@ -9,8 +9,9 @@ import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Map from '../Map/Map';
-import TextLayout from '../TextLayout/TextLayout';
+import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
+import Layout12 from '../Layout12/Layout12';
 import type {Weight} from '../../../services/prismic/parsers';
 
 type BodySlice = {|
@@ -38,55 +39,66 @@ const Body = ({ body, isCreamy = false }: Props) => {
         .map((slice, i) =>
           <div className={`body-part ${spacing({s: 6}, {padding: ['top']})}`} key={`slice${i}`}>
             {slice.type === 'standfirst' &&
-              <TextLayout>
+              <Layout8>
                 <div className='body-text'>
                   <FeaturedText html={slice.value} />
                 </div>
-              </TextLayout>
+              </Layout8>
             }
             {slice.type === 'text' &&
-              <TextLayout>
+              <Layout8>
                 <div className='body-text'>
                   {slice.weight === 'featured' && <FeaturedText html={slice.value} />}
                   {slice.weight !== 'featured' && <PrismicHtmlBlock html={slice.value} />}
                 </div>
-              </TextLayout>
+              </Layout8>
             }
 
-            {slice.type === 'picture' && slice.weight !== 'featured' &&
+            {slice.type === 'picture' && slice.weight === 'default' &&
               <Layout10>
-                <CaptionedImage {...slice.value} sizesQueries={''} />
+                <CaptionedImage {...slice.value} sizesQueries={''} maxHeightRestricted={true} />
               </Layout10>
             }
+            {slice.type === 'picture' && slice.weight === 'standalone' &&
+              <Layout12>
+                <CaptionedImage {...slice.value} sizesQueries={''} maxHeightRestricted={true} />
+              </Layout12>
+            }
+            {slice.type === 'picture' && slice.weight === 'supporting' &&
+              <Layout8>
+                <CaptionedImage {...slice.value} sizesQueries={''} maxHeightRestricted={true} />
+              </Layout8>
+            }
+
             {slice.type === 'imageGallery' && <ImageGallery {...slice.value} />}
             {slice.type === 'quote' &&
-              <TextLayout>
+              <Layout8>
                 <Quote {...slice.value} />
-              </TextLayout>
+              </Layout8>
             }
 
             {slice.type === 'contentList' &&
-              <TextLayout>
+              <Layout8>
                 <AsyncSearchResults
                   title={slice.value.title}
                   query={slice.value.items.map(({id}) => `id:${id}`).join(' ')}
                 />
-              </TextLayout>
+              </Layout8>
             }
             {slice.type === 'searchResults' &&
-              <TextLayout>
+              <Layout8>
                 <AsyncSearchResults {...slice.value} />
-              </TextLayout>
+              </Layout8>
             }
             {slice.type === 'videoEmbed' &&
-              <TextLayout>
+              <Layout8>
                 <VideoEmbed {...slice.value} />
-              </TextLayout>
+              </Layout8>
             }
             {slice.type === 'map' &&
-              <TextLayout>
+              <Layout8>
                 <Map {...slice.value} />
-              </TextLayout>
+              </Layout8>
             }
           </div>
         )}

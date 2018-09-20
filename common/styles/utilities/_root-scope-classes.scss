@@ -416,6 +416,12 @@
   width: inherit;
 }
 
+.image-max-height-restricted {
+  max-height: 90vh;
+  width: auto;
+  margin: 0 auto;
+}
+
 // This is for when we receive content from a CMS,
 // making it easier to style the first node
 .first-para-bold p:first-of-type {

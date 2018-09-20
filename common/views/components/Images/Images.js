@@ -1,6 +1,7 @@
 // @flow
 import {Fragment} from 'react';
 import {convertImageUri} from '../../../utils/convert-image-uri';
+import {classNames} from '../../../utils/classnames';
 import {imageSizes} from '../../../utils/image-sizes';
 import Tasl from '../Tasl/Tasl';
 import type {Node} from 'react';
@@ -16,7 +17,8 @@ export type UiImageProps = {|
   sizesQueries: string,
   extraClasses?: string,
   isFull?: boolean,
-  showTasl?: boolean
+  showTasl?: boolean,
+  maxHeightRestricted?: boolean
 |}
 
 export const UiImage = ({
@@ -28,7 +30,8 @@ export const UiImage = ({
   sizesQueries,
   extraClasses = '',
   isFull = false,
-  showTasl = true
+  showTasl = true,
+  maxHeightRestricted = false
 }: UiImageProps) => {
   return (
     <Fragment>
@@ -41,7 +44,13 @@ export const UiImage = ({
 
       <img width={width}
         height={height}
-        className={`image lazy-image lazyload ${extraClasses}`}
+        className={classNames({
+          'image': true,
+          'lazy-image': true,
+          'lazyload': true,
+          [extraClasses || '']: true,
+          'image-max-height-restricted': maxHeightRestricted
+        })}
         src={convertImageUri(contentUrl, 30, false)}
         data-srcset={imageSizes(width).map(size => {
           return `${convertImageUri(contentUrl, size, false)} ${size}w`;
@@ -57,7 +66,8 @@ export type UiCaptionedImageProps = {|
   ...CaptionedImageProps,
   sizesQueries: string,
   extraClasses?: string,
-  preCaptionNode?: Node
+  preCaptionNode?: Node,
+  maxHeightRestricted?: boolean
 |}
 
 export const CaptionedImage = ({
@@ -65,9 +75,10 @@ export const CaptionedImage = ({
   caption,
   sizesQueries,
   extraClasses = '',
-  preCaptionNode
+  preCaptionNode,
+  maxHeightRestricted = false
 }: UiCaptionedImageProps) => {
-  const uiImageProps = {...image, sizesQueries};
+  const uiImageProps = {...image, sizesQueries, maxHeightRestricted};
   return (
     <figure className={`captioned-image ${extraClasses}`}>
       <div className='captioned-image__image-container'>
