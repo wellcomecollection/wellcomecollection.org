@@ -7,6 +7,7 @@ import { parseEventSeries } from './event-series';
 import { parseBook } from './books';
 import { parseEventDoc } from './events';
 import { parseArticle } from './articles';
+import { parseInstallationDoc } from './installations';
 import {
   pagesFields,
   interpretationTypesFields,
@@ -20,7 +21,7 @@ import type {MultiContent} from '../../model/multi-content';
 import type {StructuredSearchQuery} from './search';
 import type {PaginatedResults} from './types';
 
-function parseMultiContent(documents): MultiContent[] {
+export function parseMultiContent(documents): MultiContent[] {
   return documents.map(document => {
     switch (document.type) {
       case 'pages':
@@ -33,6 +34,8 @@ function parseMultiContent(documents): MultiContent[] {
         return parseEventDoc(document);
       case 'articles':
         return parseArticle(document);
+      case 'installations':
+        return parseInstallationDoc(document);
     }
   }).filter(Boolean);
 }
