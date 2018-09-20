@@ -22,9 +22,10 @@ type Props = {|
 export class ArticleSeriesPage extends Component<Props> {
   static getInitialProps = async (context: GetInitialPropsProps) => {
     const {id} = context.query;
-    const {series, articles} = await getArticleSeries(context.req, {id});
+    const seriesAndArticles = await getArticleSeries(context.req, {id});
 
-    if (series) {
+    if (seriesAndArticles) {
+      const {series, articles} = seriesAndArticles;
       return {
         series,
         articles,
