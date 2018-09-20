@@ -2,14 +2,16 @@
 import Prismic from 'prismic-javascript';
 import type {PrismicFragment, PrismicDocument, PaginatedResults} from './types';
 import type {UiExhibition, UiExhibit, ExhibitionFormat} from '../../model/exhibitions';
-import {getDocument, getDocuments} from './api';
+import {getDocument, getDocuments, getTypeByIds} from './api';
+
 import {
   peopleFields,
   contributorsFields,
   placesFields,
   installationFields,
   exhibitionFields,
-  exhibitionResourcesFields
+  exhibitionResourcesFields,
+  organisationsFields
 } from './fetch-links';
 import {breakpoints} from '../../utils/breakpoints';
 import {
@@ -26,7 +28,10 @@ import {
   parseGenericFields,
   parseBoolean
 } from './parsers';
-import {parseInstallationDoc} from './installations';
+import { parseInstallationDoc } from './installations';
+import { parseBook } from './books';
+// import { parseEventDoc } from './events';
+// import { parseArticle } from './articles';
 import {london} from '../../utils/format-date';
 import {getPeriodPredicates} from './utils';
 import type {Period} from '../../model/periods';
@@ -257,6 +262,29 @@ export async function getExhibition(req: Request, id: string): Promise<?UiExhibi
     const exhibition = parseExhibitionDoc(document);
     return exhibition;
   }
+}
+
+// TODO better naming
+export async function getExhibitionExtraContent(req: Request, types: string[], ids: string[]): Promise<Array> { // TODO type returned - Promise array of articles, events, installations, books
+  const extraContent = await getTypeByIds(null, types, ids, {
+    fetchLinks: contributorsFields.concat(peopleFields, organisationsFields)
+  }); // TODO need fetch links for all types
+  const parsedContent = extraContent.results.map(doc => {
+    switch (doc.type) {
+      case 'books' :
+        return parseBook(doc);
+      // case 'events' :
+      //   return parseEventDoc(doc);
+      // case 'installations' :
+      //   return parseInstallationDoc(doc);
+      // case 'articles' :
+      //   return parseArticle(doc);
+    };
+  }).filter(Boolean);
+  return {
+    exhibitionOfs: parsedContent.filter(doc => doc.type === 'installations' || doc.type === 'events'),
+    exhibitionAbouts: parsedContent.filter(doc => doc.type === 'books' || doc.type === 'articles')
+  };
 }
 
 type ExhibitQuery = {| ids: string[] |}
