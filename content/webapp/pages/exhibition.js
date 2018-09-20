@@ -65,6 +65,7 @@ export const ExhibitionPage = ({
     }
     FeaturedMedia={maybeFeaturedMedia}
     HeroPicture={maybeHeroPicture}
+    isFree={true}
   />;
 
   // Info box content
