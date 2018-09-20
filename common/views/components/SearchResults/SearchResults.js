@@ -85,7 +85,19 @@ const SearchResults = ({ items, title }: Props) => (
             <EventCard event={item} />
           }
 
-          {/* TODO add type === 'installations' */}
+          {item.type === 'installations' &&
+            <CompactCard
+              promoType='InstallationPromo'
+              url={`/installations/${item.id}`}
+              title={item.title || ''}
+              description={item.promoText}
+              urlOverride={item.promo && item.promo.link}
+              Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
+              Tags={null}
+              DateInfo={null}
+              StatusIndicator={null}
+            />
+          }
         </div>
       ))}
     </div>
