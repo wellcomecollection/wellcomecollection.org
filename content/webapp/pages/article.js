@@ -190,6 +190,7 @@ export class ArticlePage extends Component<Props, State> {
           return <SearchResults
             key={series.id}
             title={`Read more from ${series.title}`}
+            summary={series.promoText}
             items={articles} />;
         })}
       </BasePage>

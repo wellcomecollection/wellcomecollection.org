@@ -50,10 +50,14 @@ export async function getArticleSeries(req: ?Request, {
 
   if (articles && articles.results.length > 0) {
     const series = articles.results[0].series.find(series => series.id === id);
+    // GOTCHA: We should hopefully be good here, as we only ever use this for serials,
+    // which  are 6 parts long
+    const reverse = series.schedule.length > 0;
+    const articleList = reverse ? articles.results.slice().reverse() : articles.results;
 
     return series && {
       series,
-      articles: articles.results
+      articles: articleList
     };
   } else {
     // TODO: (perf) we shouldn't really be doing two calls here, but it's for
