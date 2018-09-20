@@ -1,6 +1,6 @@
 // @flow
 import {Fragment, Component} from 'react';
-import {getExhibition} from '@weco/common/services/prismic/exhibitions';
+import {getExhibition, getExhibitionExtraContent} from '@weco/common/services/prismic/exhibitions';
 import {isPast} from '@weco/common/utils/dates';
 import {exhibitionLd} from '@weco/common/utils/json-ld';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
@@ -14,12 +14,12 @@ import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import Contributors from '@weco/common/views/components/Contributors/Contributors';
+import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
 import Body from '@weco/common/views/components/Body/Body';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import type {UiExhibition} from '@weco/common/model/exhibitions';
 import {font} from '@weco/common/utils/classnames';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
-import {getTypeByIds} from '@weco/common/services/prismic/api';
 
 type Props = {|
   exhibition: UiExhibition
@@ -27,7 +27,8 @@ type Props = {|
 
 export class ExhibitionPage extends Component<Props> {
   state = {
-    relatedDocuments: []
+    exhibitionsOfs: [],
+    exhibitionsAbouts: []
   }
 
   static async getInitialProps({req, query}) {
@@ -56,8 +57,11 @@ export class ExhibitionPage extends Component<Props> {
   async componentDidMount() {
     const ids = this.props.exhibition.relatedIds;
     const types = ['events', 'installations', 'articles', 'books'];
-    const relatedDocuments = await getTypeByIds(null, types, ids, []);
-    this.setState({relatedDocuments: relatedDocuments.results});
+    const extraContent = await getExhibitionExtraContent(null, types, ids);
+    this.setState({
+      exhibitionOfs: extraContent.exhibitionOfs,
+      exhibitionAbouts: extraContent.exhibitionAbouts
+    });
   }
 
   render() {
@@ -216,6 +220,7 @@ export class ExhibitionPage extends Component<Props> {
               contributors={exhibition.contributors}
             />
           )}
+          {this.state.exhibitionOfs && this.state.exhibitionOfs.length > 0 && <SearchResults items={this.state.exhibitionOfs} title={`In this exhibition`} />}
           {exhibition.end &&
             !isPast(exhibition.end) && (
             <InfoBox title='Visit us' items={infoItems}>
@@ -224,6 +229,7 @@ export class ExhibitionPage extends Component<Props> {
               </p>
             </InfoBox>
           )}
+          {this.state.exhibitionAbouts && this.state.exhibitionAbouts.length > 0 && <SearchResults items={this.state.exhibitionAbouts} title={`About this exhibition`} />}
         </Fragment>
       </BasePage>
     );
