@@ -10,11 +10,13 @@ import type {Article} from '../../model/articles';
 export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
   const {data} = document;
   const genericFields = parseGenericFields(document);
+
   return {
     ...genericFields,
     type: 'article-series',
-    id: document.id,
-    title: data.name,
+
+    // Amazing old crap fields
+    title: data.name, // This was a text field
     description: data.description
   };
 }
@@ -42,7 +44,7 @@ export async function getArticleSeries(req: ?Request, {
       articles: articles.results
     };
   } else {
-    // TODO: (perf) we shoulnd't really be doing two calls here, but it's for
+    // TODO: (perf) we shouldn't really be doing two calls here, but it's for
     // when a series has no events attached.
     const document = await getDocument(req, id, {});
     return document && { series: parseArticleSeries(document), articles: [] };

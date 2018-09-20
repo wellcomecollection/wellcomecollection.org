@@ -35,6 +35,14 @@ const graphQuery = `{
       series {
         name
         description
+        promo {
+          ... on editorialImage {
+            non-repeat {
+              caption
+              image
+            }
+          }
+        }
       }
     }
     promo {
