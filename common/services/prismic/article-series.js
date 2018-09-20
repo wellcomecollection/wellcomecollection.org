@@ -2,13 +2,16 @@
 import Prismic from 'prismic-javascript';
 import {getDocument} from './api';
 import {getArticles} from './articles';
+import {parseGenericFields} from './parsers';
 import type {PrismicDocument} from './types';
 import type {ArticleSeries} from '../../model/article-series';
 import type {Article} from '../../model/articles';
 
 export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
   const {data} = document;
+  const genericFields = parseGenericFields(document);
   return {
+    ...genericFields,
     type: 'article-series',
     id: document.id,
     title: data.name,
