@@ -3,7 +3,7 @@ import Prismic from 'prismic-javascript';
 import type {PrismicFragment, PrismicDocument, PaginatedResults} from './types';
 import type {UiExhibition, UiExhibit, ExhibitionFormat} from '../../model/exhibitions';
 import {getDocument, getDocuments, getTypeByIds} from './api';
-
+import {parseMultiContent} from './multi-content';
 import {
   exhibitionFields,
   exhibitionResourcesFields,
@@ -36,9 +36,6 @@ import {
   parseBoolean
 } from './parsers';
 import { parseInstallationDoc } from './installations';
-import { parseBook } from './books';
-import { parseEventDoc } from './events';
-import { parseArticle } from './articles';
 import {london} from '../../utils/format-date';
 import {getPeriodPredicates} from './utils';
 import type {Period} from '../../model/periods';
@@ -289,18 +286,7 @@ export async function getExhibitionExtraContent(req: Request, types: string[], i
     contributorsFields
   );
   const extraContent = await getTypeByIds(null, types, ids, {fetchLinks});
-  const parsedContent = extraContent.results.map(doc => {
-    switch (doc.type) {
-      case 'books' :
-        return parseBook(doc);
-      case 'events' :
-        return parseEventDoc(doc);
-      case 'installations' :
-        return parseInstallationDoc(doc);
-      case 'articles' :
-        return parseArticle(doc);
-    };
-  }).filter(Boolean);
+  const parsedContent = parseMultiContent(extraContent.results);
   return {
     exhibitionOfs: parsedContent.filter(doc => doc.type === 'installations' || doc.type === 'events'),
     exhibitionAbouts: parsedContent.filter(doc => doc.type === 'books' || doc.type === 'articles')
