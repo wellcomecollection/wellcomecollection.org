@@ -56,7 +56,7 @@ export class ExhibitionPage extends Component<Props> {
 
   async componentDidMount() {
     const ids = this.props.exhibition.relatedIds;
-    const types = ['events', 'installations', 'articles', 'books'];
+    const types = ['events', 'installations', 'articles', 'books']; // TODO exhibitions
     const extraContent = await getExhibitionRelatedContent(null, types, ids);
     this.setState({
       exhibitionOfs: extraContent.exhibitionOfs,

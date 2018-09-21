@@ -82,10 +82,12 @@ function parseExhibits(document: PrismicFragment[]): UiExhibit[] {
 function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const genericFields = parseGenericFields(document);
   const data = document.data;
-  const promo = document.data.promo;
-  const relatedAboutIds = document.data.relatedAbouts.map(i => i.relatedAbout.id);
-  const relatedOfIds = document.data.relatedOfs.map(i => i.relatedOf.id);
-  const relatedIds = [...relatedAboutIds, ...relatedOfIds].filter(Boolean);
+  const promo = data.promo;
+  const exhibits = data.exhibits ? data.exhibits.map(i => i.item.id) : [];
+  const events = data.events ? data.events.map(i => i.item.id) : [];
+  const articles = data.articles ? data.articles.map(i => i.item.id) : [];
+  const books = data.books ? data.books.map(i => i.item.id) : [];
+  const relatedIds = [...exhibits, ...events, ...articles, ...books].filter(Boolean);
   const promoThin = promo && parseImagePromo(promo, '32:15', breakpoints.medium);
   const promoSquare = promo && parseImagePromo(promo, 'square', breakpoints.small);
 
