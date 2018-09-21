@@ -269,7 +269,7 @@ export async function getExhibition(req: Request, id: string): Promise<?UiExhibi
 }
 
 // TODO better naming
-export async function getExhibitionExtraContent(req: Request, types: string[], ids: string[]): Promise<Array> { // TODO type returned - Promise array of articles, events, installations, books
+export async function getExhibitionRelatedContent(req: Request, types: string[], ids: string[]): Promise<Array> {
   const fetchLinks = [].concat(
     eventAccessOptionsFields,
     teamsFields,

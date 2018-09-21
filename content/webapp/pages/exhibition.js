@@ -1,6 +1,6 @@
 // @flow
 import {Fragment, Component} from 'react';
-import {getExhibition, getExhibitionExtraContent} from '@weco/common/services/prismic/exhibitions';
+import {getExhibition, getExhibitionRelatedContent} from '@weco/common/services/prismic/exhibitions';
 import {isPast} from '@weco/common/utils/dates';
 import {exhibitionLd} from '@weco/common/utils/json-ld';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
@@ -57,7 +57,7 @@ export class ExhibitionPage extends Component<Props> {
   async componentDidMount() {
     const ids = this.props.exhibition.relatedIds;
     const types = ['events', 'installations', 'articles', 'books'];
-    const extraContent = await getExhibitionExtraContent(null, types, ids);
+    const extraContent = await getExhibitionRelatedContent(null, types, ids);
     this.setState({
       exhibitionOfs: extraContent.exhibitionOfs,
       exhibitionAbouts: extraContent.exhibitionAbouts
