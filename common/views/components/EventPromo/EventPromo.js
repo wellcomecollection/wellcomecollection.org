@@ -1,11 +1,12 @@
 // @flow
 import {Fragment} from 'react';
 import {spacing, font} from '../../../utils/classnames';
-import {isDatePast, formatDayDate, formatTime} from '../../../utils/format-date';
+import {isDatePast, formatDayDate, formatTime, london} from '../../../utils/format-date';
 import {UiImage} from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import Icon from '../Icon/Icon';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
+import DateRange from '../DateRange/DateRange';
 import type {EventPromo as EventPromoProps} from '../../../model/events';
 
 type Props = {|
@@ -45,6 +46,34 @@ const EventPromo = ({
     (audience && {url: null, text: audience.title}),
     ...eventInterpretations
   ].filter(Boolean);
+
+  type DateProps = {|
+    start: Date,
+    end: Date
+  |}
+
+  const DisplayDates = ({start, end}: DateProps) => {
+    const showDateRange = !isMultiDate && !london(start).isSame(end, 'day');
+    if (showDateRange) {
+      return (
+        <p className={`${font({s: 'HNL4'})} no-padding no-margin`}>
+          <DateRange start={start} end={end} />
+        </p>
+      );
+    } else {
+      return (
+        <Fragment>
+          <p className={`${font({s: 'HNL4'})} no-padding no-margin`}>
+            <time dateTime={start}>{formatDayDate(start)}</time>
+          </p>
+          <p className={`${font({s: 'HNL4'})} no-margin no-padding`}>
+            <time dateTime={start}>{formatTime(start)}</time>&mdash;<time dateTime={end}>{formatTime(end)}</time>
+          </p>
+        </Fragment>
+      );
+    }
+  };
+
   return (
     <a data-component='EventPromo'
       data-component-state={JSON.stringify({ position: position })}
@@ -82,14 +111,7 @@ const EventPromo = ({
           </h2>
 
           {start && end && !isPast &&
-            <Fragment>
-              <p className={`${font({s: 'HNL4'})} no-padding no-margin`}>
-                <time dateTime={start}>{formatDayDate(start)}</time>
-              </p>
-              <p className={`${font({s: 'HNL4'})} no-margin no-padding`}>
-                <time dateTime={start}>{formatTime(start)}</time>&mdash;<time dateTime={end}>{formatTime(end)}</time>
-              </p>
-            </Fragment>
+           <DisplayDates start={start} end={end} />
           }
 
           {dateString &&
