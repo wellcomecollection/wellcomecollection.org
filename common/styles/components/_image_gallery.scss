@@ -52,17 +52,20 @@ $image-gallery-control-margin: 18px;
   }
 
   .image-gallery__heading {
-    position: static;
-    margin-left: 0;
+    top: 0;
   }
 
   .image-gallery {
     padding-top: $vertical-space-unit * 2;
   }
 
+  .slider-controls--in-content.flush-container-right {
+    right: $spacing-unit * 4;
+  }
+
   .slider--in-basic {
     .slider-inner {
       background: transparent;
-     }
+    }
   }
 }
