@@ -45,6 +45,10 @@ export default {
       }, {
         'name': 'standalone',
         'display': 'Standalone'
+      } ],
+      'quoteV2': [ {
+        'name': 'pull',
+        'Display': 'Pull'
       } ]
     },
     'choices': {
