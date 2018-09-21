@@ -71,7 +71,8 @@ function parseBodyPart(slice) {
         weight: 'default',
         value: {
           text: slice.primary.text,
-          citation: slice.primary.citation
+          citation: slice.primary.citation,
+          isPull: slice.slice_label === 'pull'
         }
       };
 

@@ -48,7 +48,7 @@ export default {
       } ],
       'quoteV2': [ {
         'name': 'pull',
-        'Display': 'Pull'
+        'display': 'Pull'
       } ]
     },
     'choices': {
