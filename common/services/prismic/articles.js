@@ -87,7 +87,7 @@ export async function getArticles(req: ?Request, {
   page = 1,
   predicates = [],
   order = 'desc'
-}: ArticleQueryProps): Promise<?PaginatedResults<Article>> {
+}: ArticleQueryProps): Promise<PaginatedResults<Article>> {
   const orderings = '[my.articles.publishDate, my.webcomics.publishDate, document.first_publication_date desc]';
   const paginatedResults = await getDocuments(req, [
     Prismic.Predicates.at('document.type', 'articles')
