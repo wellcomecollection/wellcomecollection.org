@@ -24,9 +24,20 @@ const Exhibitions = {
     place
   },
   Contributors: contributorsWithTitle(),
-  Exhibits: {
+  'In this exhibition': {
     exhibits: list('Exhibits', {
       item: link('Exhibit', 'document', ['installations'])
+    }),
+    events: list('Events', {
+      item: link('Event', 'document', ['events'])
+    })
+  },
+  'About this exhibition': {
+    articles: list('Articles', {
+      item: link('Article', 'document', ['articles'])
+    }),
+    books: list('Books', {
+      item: link('Book', 'document', ['books'])
     })
   },
   Promo: {
@@ -35,14 +46,6 @@ const Exhibitions = {
   Resources: {
     resources: list('Resources', {
       resource: link('Resource', 'document', ['exhibition-resources'])
-    })
-  },
-  Related: {
-    relatedOfs: list('Related of', {
-      relatedOf: link('In this exhibition', 'document', ['installations', 'events'])
-    }),
-    relatedAbouts: list('Related about', {
-      relatedAbout: link('About this exhibition', 'document', ['articles', 'books'])
     })
   },
   Migration: {
