@@ -72,7 +72,7 @@ function parseBodyPart(slice) {
         value: {
           text: slice.primary.text,
           citation: slice.primary.citation,
-          isPull: slice.slice_label === 'pull'
+          isPullOrReview: slice.slice_label === 'pull' || slice.slice_label === 'review'
         }
       };
 

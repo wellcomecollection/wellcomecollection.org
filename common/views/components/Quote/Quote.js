@@ -6,21 +6,21 @@ import type {HTMLString} from '../../../services/prismic/types';
 type Props = {|
   text: HTMLString,
   citation: ?HTMLString,
-  isPull: boolean
+  isPullOrReview: boolean
 |}
 
-const Quote = ({text, citation, isPull}: Props) => (
+const Quote = ({text, citation, isPullOrReview}: Props) => (
   <blockquote
     className={classNames({
       'quote no-margin': true,
-      'quote--pull': isPull,
-      [font({s: 'HNL3', m: 'HNL2'})]: isPull,
-      [spacing({s: 6}, {padding: ['left']})]: true
+      'quote--pull': isPullOrReview,
+      [font({s: 'HNL3', m: 'HNL2'})]: isPullOrReview,
+      [spacing({s: isPullOrReview ? 5 : 3}, {padding: ['left']})]: true
     })}>
     <PrismicHtmlBlock html={text} />
     {citation &&
       <footer className='quote__footer flex'>
-        <cite className={`quote__cite flex flex--v-end font-silver ${font({s: 'HNL5', m: 'HNL4'})}`}>
+        <cite className={`quote__cite flex flex--v-end font-pewter ${font({s: 'HNL5', m: 'HNL4'})}`}>
           <PrismicHtmlBlock html={citation} />
         </cite>
       </footer>

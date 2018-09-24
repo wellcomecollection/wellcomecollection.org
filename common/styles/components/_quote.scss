@@ -1,7 +1,7 @@
 //* @define quote; weak
 
 .quote {
-  border-left: 5px solid color('pumice');
+  border-left: 12px solid color('pumice');
 
   &.quote--pull {
     border-color: color('transparent');
@@ -12,7 +12,7 @@
       position: absolute;
       content: '\201c';
       color: color('teal');
-      left: -5px;
+      left: -12px;
       top: 0;
       // stylelint-disable sh-waqar/declaration-use-variable
       // Decorative quotes – not defined as part of the typography styles

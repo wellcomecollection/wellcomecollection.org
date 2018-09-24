@@ -49,6 +49,9 @@ export default {
       'quoteV2': [ {
         'name': 'pull',
         'display': 'Pull'
+      }, {
+        'name': 'review',
+        'display': 'Review'
       } ]
     },
     'choices': {
