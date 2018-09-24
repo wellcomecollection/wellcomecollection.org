@@ -8,7 +8,7 @@ import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Body from '@weco/common/views/components/Body/Body';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
+import SeriesNavigation from '@weco/common/views/components/SeriesNavigation/SeriesNavigation';
 import {
   default as PageHeader,
   getFeaturedMedia,
@@ -51,7 +51,9 @@ export class ArticlePage extends Component<Props, State> {
   }
 
   async componentDidMount() {
-    const seriesPromises = this.props.article.series.map(series => getArticleSeries(null, { id: series.id }));
+    const seriesPromises = this.props.article.series.map(series =>
+      getArticleSeries(null, { id: series.id, pageSize: 3 })
+    );
     const listOfSeries = await Promise.all(seriesPromises);
     this.setState({ listOfSeries });
   }
@@ -188,11 +190,14 @@ export class ArticlePage extends Component<Props, State> {
         contributorProps={{contributors: article.contributors}}
       >
         {this.state.listOfSeries.map(({series, articles}) => {
-          return <SearchResults
+          // Overkill? Should this happen on the API?
+          const dedupedArticles = articles.filter(
+            a => a.id !== article.id
+          ).slice(0, 2);
+          return <SeriesNavigation
             key={series.id}
-            title={`Read more from ${series.title}`}
-            summary={series.promoText}
-            items={articles} />;
+            series={series}
+            items={dedupedArticles} />;
         })}
       </BasePage>
     );
