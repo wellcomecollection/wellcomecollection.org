@@ -81,8 +81,9 @@ export class ArticleSeriesPage extends Component<Props> {
     return (
       <BasePage
         id={series.id}
+        isCreamy={true}
         Header={Header}
-        Body={<Body body={series.body} isCreamy={true} />}
+        Body={<Body body={series.body} />}
       >
         {articles.length > 0 &&
           <SearchResults items={articles} />

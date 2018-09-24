@@ -23,15 +23,13 @@ type BodySlice = {|
 export type BodyType = BodySlice[]
 
 type Props = {|
-  body: BodyType,
-  isCreamy?: boolean
+  body: BodyType
 |}
 
-const Body = ({ body, isCreamy = false }: Props) => {
+const Body = ({ body }: Props) => {
   return (
     <div className={classNames({
       'basic-body': true,
-      'bg-cream': isCreamy,
       [spacing({s: 3}, {padding: ['top']})]: true
     })}>
       {body
