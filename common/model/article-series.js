@@ -1,8 +1,11 @@
 // @flow
-import type {HTMLString} from '../services/prismic/types';
+import type {GenericContentFields} from './generic-content-fields';
+
 export type ArticleSeries = {|
   type: 'article-series',
-  id: string,
-  title: ?string,
-  description: ?HTMLString
+  ...GenericContentFields,
+  schedule: {|
+    title: string,
+    publishDate: ?Date
+  |}[]
 |}

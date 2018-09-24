@@ -68,7 +68,10 @@ type Props = {|
   isFree?: boolean,
   heroImageBgColor?: 'white' | 'cream',
   backgroundTexture?: ?string,
-  highlightHeading?: boolean
+  highlightHeading?: boolean,
+  // TODO: Don't overload this, it's just for putting things in till
+  // we find a pattern
+  TitleTopper?: Node
 |}
 
 const PageHeader = ({
@@ -84,7 +87,8 @@ const PageHeader = ({
   // for it as it's only used on articles and exhibitions
   heroImageBgColor = 'white',
   backgroundTexture,
-  highlightHeading
+  highlightHeading,
+  TitleTopper
 }: Props) => {
   const Heading = highlightHeading
     ? <HighlightedHeading text={title} />
@@ -107,6 +111,7 @@ const PageHeader = ({
           <div className={spacing({s: 2, m: 3}, {margin: ['bottom']})}>
             <Breadcrumb {...breadcrumbs} />
           </div>
+          {TitleTopper}
           {Heading}
 
           {ContentTypeInfo &&

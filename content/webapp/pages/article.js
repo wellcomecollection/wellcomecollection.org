@@ -58,6 +58,7 @@ export class ArticlePage extends Component<Props, State> {
 
   render() {
     const article = this.props.article;
+
     const breadcrumbs = {
       items: [{
         url: '/stories',
@@ -65,7 +66,7 @@ export class ArticlePage extends Component<Props, State> {
       }].concat(article.series.map(series => ({
         url: `/series/${series.id}`,
         text: series.title || '',
-        prefix: 'Part of'
+        prefix: `Part of`
       })))
     };
 
@@ -76,6 +77,38 @@ export class ArticlePage extends Component<Props, State> {
         text: 'Essay'
       }]
     };
+
+    const partOfSerial = article.series
+      .map(series => {
+        const titles = series.schedule.map(item => item.title);
+        const positionInSerial = titles.indexOf(article.title);
+        return positionInSerial + 1;
+      }).find(_ => _);
+
+    // We can abstract this out as a component if we see it elsewhere.
+    // Not too confident it's going to be used like this for long.
+    const TitleTopper = !partOfSerial ? null
+      : <div className={classNames({
+        [font({s: 'WB7'})]: true
+      })}>Part
+        <span
+          className={classNames({
+            'bg-purple': true,
+            [spacing({s: 1}, {margin: ['left']})]: true
+          })}
+          style={{
+            transform: 'rotateZ(-6deg)',
+            width: '24px',
+            height: '24px',
+            display: 'inline-block',
+            borderRadius: '3px',
+            textAlign: 'center'
+          }}>
+          <span className={'font-white'} style={{transform: 'rotateZ(6deg) scale(1.2)'}}>
+            {partOfSerial}
+          </span>
+        </span>
+      </div>;
 
     const genericFields = {
       id: article.id,
@@ -144,6 +177,7 @@ export class ArticlePage extends Component<Props, State> {
       FeaturedMedia={maybeFeaturedMedia}
       HeroPicture={maybeHeroPicture}
       heroImageBgColor={'cream'}
+      TitleTopper={TitleTopper}
     />;
 
     return (
@@ -157,6 +191,7 @@ export class ArticlePage extends Component<Props, State> {
           return <SearchResults
             key={series.id}
             title={`Read more from ${series.title}`}
+            summary={series.promoText}
             items={articles} />;
         })}
       </BasePage>
