@@ -98,7 +98,11 @@ export async function getArticles(req: ?Request, {
   });
 
   const articles = paginatedResults.results.map(doc => {
-    return parseArticle(doc);
+    const article = parseArticle(doc);
+    const labels = [
+      article.format ? {url: null, text: article.format.title || ''} : {url: null, text: 'Story'}
+    ];
+    return {...article, labels};
   });
 
   return {

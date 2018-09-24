@@ -15,10 +15,12 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
     weight: 'default',
     value: data.description
   }].concat(genericFields.body) : genericFields.body;
+  const labels = [{ url: null, text: 'Story series' }];
 
   return {
     ...genericFields,
     type: 'article-series',
+    labels,
     schedule: data.schedule ? data.schedule
       .filter(({title}) => isStructuredText(title))
       .map(item => {

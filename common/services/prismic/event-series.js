@@ -12,7 +12,6 @@ import {getDocument} from './api';
 export function parseEventSeries(document: PrismicDocument): EventSeries {
   const genericFields = parseGenericFields(document);
   const backgroundTexture = document.data.backgroundTexture && document.data.backgroundTexture.data;
-
   const labels = [{
     url: null,
     text: 'Event series'

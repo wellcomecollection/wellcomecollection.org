@@ -121,7 +121,8 @@ export class ArticlePage extends Component<Props, State> {
       promoText: article.promoText,
       image: article.image,
       squareImage: article.squareImage,
-      widescreenImage: article.widescreenImage
+      widescreenImage: article.widescreenImage,
+      labels: article.labels
     };
     const standfirst = article.body.find(slice => slice.type === 'standfirst');
     const ContentTypeInfo = standfirst &&
