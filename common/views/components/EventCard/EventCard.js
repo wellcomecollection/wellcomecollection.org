@@ -1,5 +1,4 @@
 // @flow
-import LabelsList from '../LabelsList/LabelsList';
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
@@ -28,7 +27,7 @@ const EventCard = ({ event }: Props) => {
     ...audienceLabels,
     ...interpretationLabels
   ].filter(Boolean);
-  const LabelsComponent = <LabelsList labels={labels} />;
+
   const DateRangeComponent = EventDateRange({event});
   const ImageComponent = event.promo && event.promo.image && <Image {...event.promo.image} />;
 
@@ -41,9 +40,9 @@ const EventCard = ({ event }: Props) => {
     url={`/events/${event.id}`}
     title={event.title}
     promoType={'EventPromo'}
+    labels={{labels}}
     description={null}
     urlOverride={event.promo && event.promo.link}
-    Tags={LabelsComponent}
     Image={ImageComponent}
     DateInfo={DateRangeComponent}
     StatusIndicator={StatusIndicatorComponent}
