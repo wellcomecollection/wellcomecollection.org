@@ -41,7 +41,7 @@ export async function getPrismicApi(req: ?Request) {
 }
 
 export async function getDocument(
-  req: Request,
+  req: ?Request,
   id: string,
   opts: PrismicQueryOpts
 ): Promise<?PrismicDocument> {
