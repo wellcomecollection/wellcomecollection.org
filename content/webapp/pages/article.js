@@ -8,7 +8,7 @@ import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Body from '@weco/common/views/components/Body/Body';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
+import SeriesNavigation from '@weco/common/views/components/SeriesNavigation/SeriesNavigation';
 import {
   default as PageHeader,
   getFeaturedMedia,
@@ -194,10 +194,9 @@ export class ArticlePage extends Component<Props, State> {
           const dedupedArticles = articles.filter(
             a => a.id !== article.id
           ).slice(0, 2);
-          return <SearchResults
+          return <SeriesNavigation
             key={series.id}
-            title={`Read more from ${series.title}`}
-            summary={series.promoText}
+            series={series}
             items={dedupedArticles} />;
         })}
       </BasePage>

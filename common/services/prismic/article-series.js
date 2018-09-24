@@ -46,7 +46,6 @@ export async function getArticleSeries(req: ?Request, {
   id,
   ...opts
 }: ArticleSeriesProps): Promise<?ArticleSeriesWithArticles> {
-  console.info(opts);
   const articles = await getArticles(req, {
     page: 1,
     predicates: [Prismic.Predicates.at('my.articles.series.series', id)],
