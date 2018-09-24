@@ -6,6 +6,7 @@
     type: 'article',
     title: page.title,
     url: pageConfig.canonicalUri,
+    image: page.promo.image.contentUrl,
     description: description
   } %}
   {% component 'open-graph', { pageConfig: pageConfig, metaContent: metaContent } %}

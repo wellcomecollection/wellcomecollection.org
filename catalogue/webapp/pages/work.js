@@ -15,6 +15,7 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
+import {workLd} from '@weco/common/utils/json-ld';
 import WorkMedia from '../components/WorkMedia/WorkMedia';
 import {getWork} from '../services/catalogue/works';
 
@@ -559,7 +560,8 @@ WorkPage.getInitialProps = async (context) => {
     previousQueryString,
     work: (work: Work),
     oEmbedUrl: `https://wellcomecollection.org/oembed/works/${work.id}`,
-    version
+    version,
+    pageJsonLd: workLd(work)
   };
 };
 

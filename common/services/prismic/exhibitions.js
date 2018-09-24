@@ -305,7 +305,10 @@ export async function getExhibitionRelatedContent(req: ?Request, ids: string[]):
   );
   const types = ['events', 'installations', 'articles', 'books'];
   const extraContent = await getTypeByIds(req, types, ids, {fetchLinks});
-  const parsedContent = parseMultiContent(extraContent.results).filter(doc => doc.isPast && !doc.isPast);
+  const parsedContent = parseMultiContent(extraContent.results).filter(doc => {
+    return !(doc.type === 'events' && doc.isPast);
+  });
+
   return {
     exhibitionOfs: parsedContent.filter(doc => doc.type === 'installations' || doc.type === 'events'),
     exhibitionAbouts: parsedContent.filter(doc => doc.type === 'books' || doc.type === 'articles')

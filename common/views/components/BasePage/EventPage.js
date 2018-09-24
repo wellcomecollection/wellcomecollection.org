@@ -1,13 +1,9 @@
 // @flow
 import {Fragment} from 'react';
 import BasePage from './BasePage';
-import BaseHeader from '../BaseHeader/BaseHeader';
 import Body from '../Body/Body';
 import Contributors from '../Contributors/Contributors';
-import HeaderBackground from '../BaseHeader/HeaderBackground';
-import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import EventSchedule from '../EventSchedule/EventSchedule';
-import LabelsList from '../LabelsList/LabelsList';
 import Icon from '../Icon/Icon';
 import Button from '../Buttons/Button/Button';
 import EventbriteButton from '../EventbriteButton/EventbriteButton';
@@ -17,7 +13,7 @@ import InfoBox from '../InfoBox/InfoBox';
 import {UiImage} from '../Images/Images';
 import DateRange from '../DateRange/DateRange';
 import type {UiEvent} from '../../../model/events';
-import {spacing, font} from '../../../utils/classnames';
+import {spacing, font, classNames} from '../../../utils/classnames';
 import camelize from '../../../utils/camelize';
 import {
   formatDayDate,
@@ -25,13 +21,14 @@ import {
   formatTime
 } from '../../../utils/format-date';
 import EventDateRange from '../EventDateRange/EventDateRange';
-import Breadcrumb from '../Breadcrumb/Breadcrumb';
+import HeaderBackground from '../BaseHeader/HeaderBackground';
+import PageHeader from '../PageHeader/PageHeader';
 
 type Props = {|
   event: UiEvent
 |}
 
-function eventStatus(text, color) {
+function EventStatus(text, color) {
   return (
     <div className='flex'>
       <div className={`${font({s: 'HNM5'})} flex flex--v-center`}>
@@ -55,11 +52,11 @@ function DateList(event) {
             </div>
 
             {event.isPast
-              ? <Fragment>{eventStatus('Past', 'marble')}</Fragment>
+              ? <Fragment>{EventStatus('Past', 'marble')}</Fragment>
               : <Fragment>
                 {(eventTime.isFullyBooked && !(event.eventbriteId || event.bookingEnquiryTeam))/* TODO: || isEventTimeFullyBookedAtEventbrite */
-                  ? <Fragment>{eventStatus('Full', 'red')}</Fragment>
-                  : <Fragment>{/* {eventStatus('Available', 'green')} */}</Fragment>
+                  ? <Fragment>{EventStatus('Full', 'red')}</Fragment>
+                  : <Fragment>{/* {EventStatus('Available', 'green')} */}</Fragment>
                 }
               </Fragment>
             }
@@ -70,40 +67,11 @@ function DateList(event) {
   );
 }
 
-function InfoBar(event) {
-  const { eventbriteId, bookingEnquiryTeam } = event;
-
-  return (
-    <Fragment>
-      {event.isPast
-        ? <Fragment>{eventStatus('Past', 'marble')}</Fragment>
-        : <PrimaryLink
-          url='#dates'
-          name={`See all dates/times${(eventbriteId || bookingEnquiryTeam) ? ' to book' : ''}`}
-          isJumpLink={true}
-          trackingEvent={{
-            category: 'component',
-            action: 'date-times-jump-link:click',
-            label: event.id
-          }} />
-      }
-    </Fragment>
-  );
-}
-
 function showTicketSalesStart(dateTime) {
   return dateTime && !isTimePast(dateTime);
 }
 
 const EventPage = ({ event }: Props) => {
-  const crumbs = [{
-    url: '/events',
-    text: 'Events'
-  }].concat(event.series.map(series => ({
-    url: `/event-series/${series.id}`,
-    text: series.title || '',
-    prefix: 'Part of'
-  })));
   const image = event.promo && event.promo.image;
   const tasl = image && {
     isFull: false,
@@ -136,23 +104,61 @@ const EventPage = ({ event }: Props) => {
     text: 'Relaxed performance'
   }] : [];
 
-  const Header = (<BaseHeader
-    title={`${event.title}`}
+  const breadcrumbs = {
+    items: [{
+      url: '/events',
+      text: 'Events'
+    }].concat(event.series.map(series => ({
+      url: `/event-series/${series.id}`,
+      text: series.title || '',
+      prefix: 'Part of'
+    })))
+  };
+  const labels = {
+    labels: eventFormat.concat(
+      eventAudiences,
+      eventInterpretations,
+      relaxedPerformanceLabel
+    )
+  };
+  const Header = <PageHeader
+    asyncBreadcrumbsRoute={`/events/${event.id}/scheduled-in`}
+    breadcrumbs={breadcrumbs}
+    labels={labels}
+    title={event.title}
+    FeaturedMedia={FeaturedMedia}
     Background={<HeaderBackground
       hasWobblyEdge={true}
       backgroundTexture={`https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F43a35689-4923-4451-85d9-1ab866b1826d_event_header_background.svg`} />}
-    LabelBar={
-      <div className={spacing({s: 3}, {margin: ['bottom']})}>
-        <LabelsList labels={(eventFormat.concat(eventAudiences, eventInterpretations, relaxedPerformanceLabel))} />
-      </div>
+    ContentTypeInfo={
+      <Fragment>
+        <div className={classNames({
+          'flex flex--wrap': true,
+          [spacing({s: 1}, {margin: ['bottom']})]: true
+        })}>
+          {EventDateRange({event})}
+          <div className={classNames({
+            [spacing({s: 0, m: 2}, {margin: ['left']})]: true
+          })}>
+            {!event.isPast &&
+              <SecondaryLink
+                url='#dates'
+                text={`See all dates`}
+                icon={'arrowSmall'}
+                trackingEvent={{
+                  category: 'component',
+                  action: 'date-times-jump-link:click',
+                  label: event.id
+                }} />
+            }
+          </div>
+        </div>
+        {event.isPast && <Fragment>{EventStatus('Past', 'marble')}</Fragment>}
+      </Fragment>
     }
-    DateInfo={EventDateRange({event})}
-    InfoBar={InfoBar(event)}
-    Description={null}
-    FeaturedMedia={FeaturedMedia}
-    isFree={Boolean(!event.cost)}
-    Breadcrumb={<Breadcrumb items={crumbs} />}
-  />);
+    HeroPicture={null}
+    isFree={!event.cost}
+  />;
 
   return (
     <BasePage
@@ -161,7 +167,6 @@ const EventPage = ({ event }: Props) => {
       Body={<Body body={event.body} />}
     >
       <Fragment>
-
         {event.contributors.length > 0 &&
           <div className={`${spacing({s: 4}, {margin: ['bottom']})}`}>
             <Contributors

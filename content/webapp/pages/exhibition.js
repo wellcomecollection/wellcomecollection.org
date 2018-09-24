@@ -63,6 +63,7 @@ export class ExhibitionPage extends Component<Props, State> {
   async componentDidMount() {
     const ids = this.props.exhibition.relatedIds;
     const extraContent = await getExhibitionRelatedContent(null, ids);
+    console.info(extraContent);
     this.setState({
       exhibitionOfs: extraContent.exhibitionOfs,
       exhibitionAbouts: extraContent.exhibitionAbouts

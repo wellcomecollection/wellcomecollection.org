@@ -1,6 +1,6 @@
 // @flow
 import {Fragment} from 'react';
-import {spacing, grid} from '../../../utils/classnames';
+import {spacing, grid, classNames} from '../../../utils/classnames';
 import Image from '../Image/Image';
 import CompactCard from '../CompactCard/CompactCard';
 import EventCard from '../EventCard/EventCard';
@@ -9,16 +9,24 @@ import type {MultiContent} from '../../../model/multi-content';
 
 type Props = {|
   title?: string,
+  summary?: ?string,
   items: $ReadOnlyArray<MultiContent>
 |}
 
-const SearchResults = ({ items, title }: Props) => (
+const SearchResults = ({ items, title, summary }: Props) => (
   <Fragment>
     {title && <div className='grid'>
       <div className={grid({s: 12})}>
         <h2 className='h2'>{title}</h2>
       </div>
     </div>}
+    {summary &&
+      <div className={classNames({
+        [spacing({s: 1}, {margin: ['bottom']})]: true
+      })}>
+        {summary}
+      </div>
+    }
     <div className={`
         ${spacing({s: 11}, {margin: ['top']})}
       `}>

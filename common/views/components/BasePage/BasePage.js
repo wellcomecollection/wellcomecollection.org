@@ -1,15 +1,18 @@
 // @flow
 import {Fragment} from 'react';
-import type {Node} from 'react';
+import Contributors from '../Contributors/Contributors';
+import {spacing} from '../../../utils/classnames';
+import type {Node, ElementProps} from 'react';
 import type BaseHeader from '../BaseHeader/BaseHeader';
 import type Body from '../Body/Body';
-import TextLayout from '../TextLayout/TextLayout';
+import Layout8 from '../Layout8/Layout8';
 
+// TODO: use Element<typeof Component>
 type Props = {|
   id: string,
   Header: BaseHeader,
   Body: Body,
-
+  contributorProps?: ElementProps<typeof Contributors>,
   children?: ?Node
 |}
 
@@ -17,6 +20,7 @@ const BasePage = ({
   id,
   Header,
   Body,
+  contributorProps,
   children
 }: Props) => {
   return (
@@ -27,9 +31,14 @@ const BasePage = ({
       </div>
 
       {children &&
-        <TextLayout>
+        <Layout8>
           {children}
-        </TextLayout>
+          {contributorProps && contributorProps.contributors.length > 0 &&
+            <div className={`${spacing({s: 4}, {margin: ['bottom']})}`}>
+              <Contributors {...contributorProps} />
+            </div>
+          }
+        </Layout8>
       }
     </article>
   );

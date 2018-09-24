@@ -24,7 +24,7 @@ const EventScheduleItem = ({
     };
   });
   const labels = format.concat(interpretationTypes);
-
+  const waitForTicketSales = event.ticketSalesStart && !isTimePast(event.ticketSalesStart);
   return (
     <li className={`${spacing({l: 0}, {padding: ['left']})} ${spacing({s: 4, l: 6}, {padding: ['bottom']})} ${spacing({s: 4}, {margin: ['bottom']})} border-color-smoke border-bottom-width-1`}>
       <div className='grid'>
@@ -59,7 +59,7 @@ const EventScheduleItem = ({
               </p>
             }
 
-            {event.ticketSalesStart && !isTimePast(event.ticketSalesStart) &&
+            {event.ticketSalesStart && waitForTicketSales &&
               <Fragment>
                 <div className={`bg-yellow inline-block ${spacing({s: 4}, {padding: ['left', 'right'], margin: ['top', 'bottom']})} ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${font({s: 'HNM4'})}`}>
                   {/* TODO: work out why the second method below will fail Flow without a null check */}
@@ -68,11 +68,11 @@ const EventScheduleItem = ({
               </Fragment>
             }
 
-            {!isDatePast(event.dateRange.lastDate) && event.eventbriteId &&
+            {!isDatePast(event.dateRange.lastDate) && event.eventbriteId && !waitForTicketSales &&
               <EventbriteButton event={event} />
             }
 
-            {!isDatePast(event.dateRange.lastDate) && event.bookingEnquiryTeam &&
+            {!isDatePast(event.dateRange.lastDate) && event.bookingEnquiryTeam && !waitForTicketSales &&
               <div className={spacing({s: 2}, {margin: ['top']})}>
                 <EventBookingButton event={event} />
               </div>

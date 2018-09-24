@@ -1,19 +1,22 @@
 // @flow
 type Props = {|
   backgroundTexture?: string,
-  hasWobblyEdge?: boolean
+  hasWobblyEdge?: boolean,
+  useDefaultBackgroundTexture?: boolean
 |}
 
+const defaultBackgroundTexture = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg';
 const HeaderBackground = ({
   backgroundTexture,
-  hasWobblyEdge
+  hasWobblyEdge,
+  useDefaultBackgroundTexture
 }: Props) => {
-  const backgroundStyles = backgroundTexture
+  const texture = backgroundTexture || (useDefaultBackgroundTexture ? defaultBackgroundTexture : null);
+  const backgroundStyles = texture
     ? {
-      backgroundImage: `url(${backgroundTexture})`,
+      backgroundImage: `url(${texture})`,
       backgroundSize: '150%'
-    }
-    : {};
+    } : {};
 
   const styles = {
     top: 0,

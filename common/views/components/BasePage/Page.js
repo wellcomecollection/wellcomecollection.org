@@ -1,7 +1,8 @@
 // @flow
 import BasePage from './BasePage';
 import Body from '../Body/Body';
-import BaseHeader from '../BaseHeader/BaseHeader';
+import PageHeader from '../PageHeader/PageHeader';
+import HeaderBackground from '../BaseHeader/HeaderBackground';
 import HTMLDate from '../HTMLDate/HTMLDate';
 import {UiImage} from '../Images/Images';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
@@ -11,6 +12,7 @@ type Props = {|
   page: PageProps
 |}
 
+const backgroundTexture = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg';
 const Page = ({ page }: Props): BasePage => {
   const DateInfo = page.datePublished && <HTMLDate date={page.datePublished} />;
 
@@ -22,16 +24,26 @@ const Page = ({ page }: Props): BasePage => {
       : page.body[0].type === 'videoEmbed' ? <VideoEmbed {...page.body[0].value} />
         : null : null;
 
-  const Header = (<BaseHeader
+  // TODO: This is not the way to do site sections
+  const breadcrumbs = {
+    items: page.siteSection ? [{
+      text: page.siteSection === 'visit-us' ? 'Visit us' : 'What we do',
+      url: `/${page.siteSection}`
+    }] : [{
+      url: '/',
+      text: 'Home'
+    }]
+  };
+  const Header = (<PageHeader
+    breadcrumbs={breadcrumbs}
+    labels={null}
     title={page.title}
-    DateInfo={DateInfo}
-    Background={null}
-    InfoBar={null}
-    Description={null}
     FeaturedMedia={FeaturedMedia}
-    LabelBar={null}
-    Breadcrumb={null}
-    isFree={false}
+    Background={FeaturedMedia && <HeaderBackground backgroundTexture={backgroundTexture} />}
+    ContentTypeInfo={DateInfo}
+    HeroPicture={null}
+    backgroundTexture={!FeaturedMedia ? backgroundTexture : null}
+    highlightHeading={true}
   />);
 
   return (

@@ -6,6 +6,13 @@ import type {Page} from './pages';
 import type {EventSeries} from './event-series';
 import type {Book} from './books';
 import type {UiEvent} from './events';
-import type {ArticleV2} from '../services/prismic/articles';
 import type {Installation} from './installations';
-export type MultiContent = | Page | EventSeries | Book | UiEvent | ArticleV2 | Installation;
+import type {Article} from './articles';
+
+export type MultiContent =
+  | Page
+  | EventSeries
+  | Book
+  | UiEvent
+  | Article
+  | Installation;
