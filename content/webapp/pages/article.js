@@ -51,7 +51,9 @@ export class ArticlePage extends Component<Props, State> {
   }
 
   async componentDidMount() {
-    const seriesPromises = this.props.article.series.map(series => getArticleSeries(null, { id: series.id }));
+    const seriesPromises = this.props.article.series.map(series =>
+      getArticleSeries(null, { id: series.id, pageSize: 3 })
+    );
     const listOfSeries = await Promise.all(seriesPromises);
     this.setState({ listOfSeries });
   }
@@ -188,11 +190,15 @@ export class ArticlePage extends Component<Props, State> {
         contributorProps={{contributors: article.contributors}}
       >
         {this.state.listOfSeries.map(({series, articles}) => {
+          // Overkill? Should this happen on the API?
+          const dedupedArticles = articles.filter(
+            a => a.id !== article.id
+          ).slice(0, 2);
           return <SearchResults
             key={series.id}
             title={`Read more from ${series.title}`}
             summary={series.promoText}
-            items={articles} />;
+            items={dedupedArticles} />;
         })}
       </BasePage>
     );
