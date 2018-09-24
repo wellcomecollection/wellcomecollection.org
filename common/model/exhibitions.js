@@ -39,7 +39,8 @@ export type Exhibition = {|
   contributors: Contributor[],
   place: ?Place,
   exhibits: Exhibit[],
-  resources: Resource[]
+  resources: Resource[],
+  relatedIds: string[]
 |}
 
 export type ExhibitionPromo = {|

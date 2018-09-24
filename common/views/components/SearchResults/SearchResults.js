@@ -4,6 +4,7 @@ import {spacing, grid, classNames} from '../../../utils/classnames';
 import Image from '../Image/Image';
 import CompactCard from '../CompactCard/CompactCard';
 import EventCard from '../EventCard/EventCard';
+import LabelsList from '../LabelsList/LabelsList';
 import type {MultiContent} from '../../../model/multi-content';
 
 type Props = {|
@@ -69,7 +70,7 @@ const SearchResults = ({ items, title, summary }: Props) => (
               description={item.promo && item.promo.caption}
               urlOverride={item.promo && item.promo.link}
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
-              Tags={null}
+              Tags={<LabelsList labels={[{url: null, text: 'Book'}]} />}
               DateInfo={null}
               StatusIndicator={null}
             />
@@ -83,7 +84,7 @@ const SearchResults = ({ items, title, summary }: Props) => (
               description={item.promoText}
               urlOverride={item.promo && item.promo.link}
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
-              Tags={null}
+              Tags={<LabelsList labels={[{url: null, text: 'Article'}]} />}
               DateInfo={null}
               StatusIndicator={null}
             />
@@ -91,6 +92,20 @@ const SearchResults = ({ items, title, summary }: Props) => (
 
           {item.type === 'events' &&
             <EventCard event={item} />
+          }
+
+          {item.type === 'installations' &&
+            <CompactCard
+              promoType='InstallationPromo'
+              url={`/installations/${item.id}`}
+              title={item.title || ''}
+              description={item.promoText}
+              urlOverride={item.promo && item.promo.link}
+              Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
+              Tags={<LabelsList labels={[{url: null, text: 'Installation'}]} />}
+              DateInfo={null}
+              StatusIndicator={null}
+            />
           }
         </div>
       ))}
