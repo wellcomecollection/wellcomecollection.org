@@ -5,7 +5,7 @@ import type {Contributor as ContributorType} from '../../../model/contributors';
 
 type Props = {|
   contributors: ContributorType[],
-  titleOverride: ?string,
+  titleOverride?: ?string,
   titlePrefix?: string,
   excludeTitle?: boolean
 |}

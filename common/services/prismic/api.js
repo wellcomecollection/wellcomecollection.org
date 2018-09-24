@@ -41,7 +41,7 @@ export async function getPrismicApi(req: ?Request) {
 }
 
 export async function getDocument(
-  req: Request,
+  req: ?Request,
   id: string,
   opts: PrismicQueryOpts
 ): Promise<?PrismicDocument> {
@@ -53,7 +53,7 @@ export async function getDocument(
 type Predicate = string;
 
 export async function getDocuments(
-  req: Request,
+  req: ?Request,
   predicates: Predicate[],
   opts: PrismicQueryOpts
 ): Promise<PaginatedResults<PrismicDocument>> {

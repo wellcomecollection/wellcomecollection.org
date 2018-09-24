@@ -9,7 +9,7 @@ import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
 import HeaderText from '../HeaderText/HeaderText';
 import FreeSticker from '../FreeSticker/FreeSticker';
 import Picture from '../Picture/Picture';
-import TextLayout from '../TextLayout/TextLayout';
+import Layout8 from '../Layout8/Layout8';
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import type {Node, Element} from 'react';
 import type {GenericContentFields} from '../../../model/generic-content-fields';
@@ -86,7 +86,7 @@ const BaseHeader = ({
         backgroundSize: BackgroundComponent ? null : '150%'
       }}>
         {BackgroundComponent}
-        <TextLayout>
+        <Layout8>
           {isFree &&
             <div className='relative'>
               <FreeSticker />
@@ -111,7 +111,7 @@ const BaseHeader = ({
               {LabelBar}
             </div>
           }
-        </TextLayout>
+        </Layout8>
       </div>
     </Fragment>
   );

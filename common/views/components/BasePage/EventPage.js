@@ -157,6 +157,7 @@ const EventPage = ({ event }: Props) => {
       </Fragment>
     }
     HeroPicture={null}
+    isFree={!event.cost}
   />;
 
   return (

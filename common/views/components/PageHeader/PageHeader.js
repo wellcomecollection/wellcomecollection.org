@@ -69,7 +69,11 @@ type Props = {|
   heroImageBgColor?: 'white' | 'cream',
   backgroundTexture?: ?string,
   highlightHeading?: boolean,
-  asyncBreadcrumbsRoute?: string
+  asyncBreadcrumbsRoute?: string,
+
+  // TODO: Don't overload this, it's just for putting things in till
+  // we find a pattern
+  TitleTopper?: Node
 |}
 
 const PageHeader = ({
@@ -86,7 +90,8 @@ const PageHeader = ({
   heroImageBgColor = 'white',
   backgroundTexture,
   highlightHeading,
-  asyncBreadcrumbsRoute
+  asyncBreadcrumbsRoute,
+  TitleTopper
 }: Props) => {
   const Heading = highlightHeading
     ? <HighlightedHeading text={title} />
@@ -119,6 +124,7 @@ const PageHeader = ({
               </div>
             }
           </div>
+          {TitleTopper}
           {Heading}
 
           {ContentTypeInfo &&
