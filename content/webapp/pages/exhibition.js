@@ -21,6 +21,7 @@ import {font} from '@weco/common/utils/classnames';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {UiExhibition} from '@weco/common/model/exhibitions';
 import type {MultiContent} from '@weco/common/model/multi-content';
+import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 type Props = {|
   exhibition: UiExhibition
@@ -37,33 +38,31 @@ export class ExhibitionPage extends Component<Props, State> {
     exhibitionAbouts: []
   }
 
-  static async getInitialProps({req, query}) {
+  static getInitialProps = async (context: GetInitialPropsProps) => {
     // TODO: We shouldn't need this, but do for flow as
     // `GetInitialPropsClientProps` doesn't have `req`
-    if (req) {
-      const {id} = query;
-      const exhibition = await getExhibition(req, id);
 
-      if (exhibition) {
-        return {
-          type: 'website',
-          title: exhibition.title,
-          imageUrl: exhibition.promoImage && convertImageUri(exhibition.promoImage.contentUrl, 800),
-          description: exhibition.promoText,
-          canonicalUrl: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
-          pageJsonLd: exhibitionLd(exhibition),
-          exhibition
-        };
-      } else {
-        return {statusCode: 404};
-      }
+    const {id} = context.query;
+    const exhibition = await getExhibition(context.req, id);
+
+    if (exhibition) {
+      return {
+        type: 'website',
+        title: exhibition.title,
+        imageUrl: exhibition.promoImage && convertImageUri(exhibition.promoImage.contentUrl, 800),
+        description: exhibition.promoText,
+        canonicalUrl: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
+        pageJsonLd: exhibitionLd(exhibition),
+        exhibition
+      };
+    } else {
+      return {statusCode: 404};
     }
   }
 
   async componentDidMount() {
     const ids = this.props.exhibition.relatedIds;
-    const types = ['events', 'installations', 'articles', 'books']; // TODO exhibitions
-    const extraContent = await getExhibitionRelatedContent(null, types, ids);
+    const extraContent = await getExhibitionRelatedContent(null, ids);
     this.setState({
       exhibitionOfs: extraContent.exhibitionOfs,
       exhibitionAbouts: extraContent.exhibitionAbouts

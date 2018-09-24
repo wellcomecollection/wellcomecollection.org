@@ -40,7 +40,7 @@ export type Exhibition = {|
   place: ?Place,
   exhibits: Exhibit[],
   resources: Resource[],
-  relatedIds?: string[]
+  relatedIds: string[]
 |}
 
 export type ExhibitionPromo = {|

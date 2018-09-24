@@ -42,8 +42,7 @@ import type {Resource} from '../../model/resource';
 import type {
   PrismicFragment,
   PrismicDocument,
-  PaginatedResults,
-  DocumentType
+  PaginatedResults
 } from './types';
 import type {UiExhibition, UiExhibit, ExhibitionFormat} from '../../model/exhibitions';
 import type {MultiContent} from '../../model/multi-content';
@@ -266,7 +265,7 @@ function putPermanentAfterCurrentExhibitions(exhibitions: UiExhibition[]): UiExh
     .concat(groupedResults.comingUp);
 }
 
-export async function getExhibition(req: Request, id: string): Promise<?UiExhibition> {
+export async function getExhibition(req: ?Request, id: string): Promise<?UiExhibition> {
   const document = await getDocument(req, id, {
     fetchLinks: peopleFields.concat(
       contributorsFields,
@@ -288,7 +287,7 @@ type ExhibitionRelatedContent = {|
 |}
 
 // TODO better naming
-export async function getExhibitionRelatedContent(req: Request, types: DocumentType[], ids: string[]): Promise<ExhibitionRelatedContent> {
+export async function getExhibitionRelatedContent(req: ?Request, ids: string[]): Promise<ExhibitionRelatedContent> {
   const fetchLinks = [].concat(
     eventAccessOptionsFields,
     teamsFields,
@@ -304,8 +303,9 @@ export async function getExhibitionRelatedContent(req: Request, types: DocumentT
     eventPoliciesFields,
     contributorsFields
   );
+  const types = ['events', 'installations', 'articles', 'books'];
   const extraContent = await getTypeByIds(req, types, ids, {fetchLinks});
-  const parsedContent = parseMultiContent(extraContent.results).filter(doc => !doc.isPast);
+  const parsedContent = parseMultiContent(extraContent.results).filter(doc => doc.isPast && !doc.isPast);
   return {
     exhibitionOfs: parsedContent.filter(doc => doc.type === 'installations' || doc.type === 'events'),
     exhibitionAbouts: parsedContent.filter(doc => doc.type === 'books' || doc.type === 'articles')
