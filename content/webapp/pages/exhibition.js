@@ -17,18 +17,24 @@ import Contributors from '@weco/common/views/components/Contributors/Contributor
 import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
 import Body from '@weco/common/views/components/Body/Body';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
-import type {UiExhibition} from '@weco/common/model/exhibitions';
 import {font} from '@weco/common/utils/classnames';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
+import type {UiExhibition} from '@weco/common/model/exhibitions';
+import type {MultiContent} from '@weco/common/model/multi-content';
 
 type Props = {|
   exhibition: UiExhibition
 |};
 
-export class ExhibitionPage extends Component<Props> {
+type State = {|
+  exhibitionOfs: MultiContent[],
+  exhibitionAbouts: MultiContent[]
+|}
+
+export class ExhibitionPage extends Component<Props, State> {
   state = {
-    exhibitionsOfs: [],
-    exhibitionsAbouts: []
+    exhibitionOfs: [],
+    exhibitionAbouts: []
   }
 
   static async getInitialProps({req, query}) {
@@ -220,7 +226,13 @@ export class ExhibitionPage extends Component<Props> {
               contributors={exhibition.contributors}
             />
           )}
-          {this.state.exhibitionOfs && this.state.exhibitionOfs.length > 0 && <SearchResults items={this.state.exhibitionOfs} title={`In this exhibition`} />}
+          {
+            this.state.exhibitionOfs &&
+            this.state.exhibitionOfs.length > 0 &&
+            <SearchResults
+              items={this.state.exhibitionOfs}
+              title={`In this exhibition`} />
+          }
           {exhibition.end &&
             !isPast(exhibition.end) && (
             <InfoBox title='Visit us' items={infoItems}>
@@ -229,7 +241,13 @@ export class ExhibitionPage extends Component<Props> {
               </p>
             </InfoBox>
           )}
-          {this.state.exhibitionAbouts && this.state.exhibitionAbouts.length > 0 && <SearchResults items={this.state.exhibitionAbouts} title={`About this exhibition`} />}
+          {
+            this.state.exhibitionAbouts &&
+            this.state.exhibitionAbouts.length > 0 &&
+            <SearchResults
+              items={this.state.exhibitionAbouts}
+              title={`About this exhibition`} />
+          }
         </Fragment>
       </BasePage>
     );

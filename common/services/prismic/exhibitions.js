@@ -1,7 +1,5 @@
 // @flow
 import Prismic from 'prismic-javascript';
-import type {PrismicFragment, PrismicDocument, PaginatedResults} from './types';
-import type {UiExhibition, UiExhibit, ExhibitionFormat} from '../../model/exhibitions';
 import {getDocument, getDocuments, getTypeByIds} from './api';
 import {parseMultiContent} from './multi-content';
 import {
@@ -28,6 +26,7 @@ import {
   parseImagePromo,
   parseTimestamp,
   parsePlace,
+  parsePromoListItem,
   parsePromoToCaptionedImage,
   isDocumentLink,
   asText,
@@ -40,6 +39,14 @@ import {london} from '../../utils/format-date';
 import {getPeriodPredicates} from './utils';
 import type {Period} from '../../model/periods';
 import type {Resource} from '../../model/resource';
+import type {
+  PrismicFragment,
+  PrismicDocument,
+  PaginatedResults,
+  DocumentType
+} from './types';
+import type {UiExhibition, UiExhibit, ExhibitionFormat} from '../../model/exhibitions';
+import type {MultiContent} from '../../model/multi-content';
 
 const startField = 'my.exhibitions.start';
 const endField = 'my.exhibitions.end';
@@ -142,6 +149,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   // As we store the intro as an H2 in the model, incorrectly, we then convert
   // it here to a paragraph
   const intro = data.intro && data.intro[0] && [Object.assign({}, data.intro[0], {type: 'paragraph'})];
+  const promoList = document.data.promoList || [];
 
   return {
     ...genericFields,
@@ -172,6 +180,10 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     textAndCaptionsDocument: textAndCaptionsDocument,
     featuredImageList: promos,
     resources: Array.isArray(data.resources) ? parseResourceTypeList(data.resources, 'resource') : [],
+    relatedBooks: promoList.filter(x => x.type === 'book').map(parsePromoListItem),
+    relatedEvents: promoList.filter(x => x.type === 'event').map(parsePromoListItem),
+    relatedGalleries: promoList.filter(x => x.type === 'gallery').map(parsePromoListItem),
+    relatedArticles: promoList.filter(x => x.type === 'article').map(parsePromoListItem),
     relatedIds
   };
 }
@@ -270,8 +282,13 @@ export async function getExhibition(req: Request, id: string): Promise<?UiExhibi
   }
 }
 
+type ExhibitionRelatedContent = {|
+  exhibitionOfs: MultiContent[],
+  exhibitionAbouts: MultiContent[]
+|}
+
 // TODO better naming
-export async function getExhibitionRelatedContent(req: Request, types: string[], ids: string[]): Promise<Array> {
+export async function getExhibitionRelatedContent(req: Request, types: DocumentType[], ids: string[]): Promise<ExhibitionRelatedContent> {
   const fetchLinks = [].concat(
     eventAccessOptionsFields,
     teamsFields,
@@ -287,7 +304,7 @@ export async function getExhibitionRelatedContent(req: Request, types: string[],
     eventPoliciesFields,
     contributorsFields
   );
-  const extraContent = await getTypeByIds(null, types, ids, {fetchLinks});
+  const extraContent = await getTypeByIds(req, types, ids, {fetchLinks});
   const parsedContent = parseMultiContent(extraContent.results).filter(doc => !doc.isPast);
   return {
     exhibitionOfs: parsedContent.filter(doc => doc.type === 'installations' || doc.type === 'events'),

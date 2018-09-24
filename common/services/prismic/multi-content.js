@@ -19,9 +19,9 @@ import {
 } from './fetch-links';
 import type {MultiContent} from '../../model/multi-content';
 import type {StructuredSearchQuery} from './search';
-import type {PaginatedResults} from './types';
+import type {PaginatedResults, PrismicDocument} from './types';
 
-export function parseMultiContent(documents): MultiContent[] {
+export function parseMultiContent(documents: PrismicDocument[]): MultiContent[] {
   return documents.map(document => {
     switch (document.type) {
       case 'pages':
