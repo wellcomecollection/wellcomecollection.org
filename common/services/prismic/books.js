@@ -20,9 +20,14 @@ export function parseBook(document: PrismicDocument): Book {
   const genericFields = parseGenericFields(document);
   // We do this over the general parser as we want the not 16:9 image.
   const cover = data.promo && (data.promo.length > 0 ? parsePromoToCaptionedImage(data.promo, null) : null);
+  const labels = [{
+    url: null,
+    text: 'Book'
+  }];
   return {
     type: 'books',
     ...genericFields,
+    labels,
     subtitle: data.subtitle && asText(data.subtitle),
     orderLink: data.orderLink && data.orderLink.url,
     price: data.price,

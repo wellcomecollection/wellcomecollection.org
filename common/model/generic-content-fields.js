@@ -3,6 +3,7 @@ import type {Contributor} from './contributors';
 import type {ImagePromo} from './image-promo';
 import type {Picture} from './picture';
 import type {ImageType} from './image';
+import type {Label} from './labels';
 
 export type Body = any[];
 
@@ -19,5 +20,6 @@ export type GenericContentFields = {|
   promoImage: ?Picture,
   image: ?ImageType,
   squareImage: ?ImageType,
-  widescreenImage: ?ImageType
+  widescreenImage: ?ImageType,
+  labels: Label[]
 |}

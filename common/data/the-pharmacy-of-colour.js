@@ -74,7 +74,11 @@ const data = ({
       copyrightLink: null
     },
     crops: {}
-  }
+  },
+  labels: [{
+    url: null,
+    text: 'Installation'
+  }]
 }: Installation);
 
 export default data;

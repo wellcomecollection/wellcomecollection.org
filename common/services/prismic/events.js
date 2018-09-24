@@ -130,7 +130,7 @@ export function parseEventDoc(
     };
   });
 
-  return {
+  const event = {
     type: 'events',
     ...genericFields,
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
@@ -154,6 +154,32 @@ export function parseEventDoc(
     isPast: lastEndTime ? isPast(lastEndTime) : true,
     isRelaxedPerformance
   };
+
+  const eventFormat = event.format ? [{
+    url: null,
+    text: event.format.title
+  }] : [{ url: null, text: 'Event' }];
+  const eventAudiences = event.audiences ? event.audiences.map(a => ({
+    url: null,
+    text: a.title
+  })) : [];
+  const eventInterpretations = event.interpretations ? event.interpretations.map(i => ({
+    url: null,
+    text: i.interpretationType.title
+  })) : [];
+  const relaxedPerformanceLabel = event.isRelaxedPerformance ? [{
+    url: null,
+    text: 'Relaxed performance'
+  }] : [];
+
+  const labels = [
+    ...eventFormat,
+    ...eventAudiences,
+    ...eventInterpretations,
+    ...relaxedPerformanceLabel
+  ];
+
+  return {...event, labels};
 }
 
 const fetchLinks = [].concat(

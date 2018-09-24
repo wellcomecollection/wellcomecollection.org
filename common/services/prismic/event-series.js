@@ -5,21 +5,24 @@ import type {EventSeries} from '../../model/event-series';
 import type {PrismicDocument} from './types';
 import {
   parseGenericFields,
-  parseBackgroundTexture,
-  parseBody
+  parseBackgroundTexture
 } from './parsers';
 import {getDocument} from './api';
 
 export function parseEventSeries(document: PrismicDocument): EventSeries {
   const genericFields = parseGenericFields(document);
   const backgroundTexture = document.data.backgroundTexture && document.data.backgroundTexture.data;
-  const body = document.data.body ? parseBody(document.data.body) : [];
+
+  const labels = [{
+    url: null,
+    text: 'Event series'
+  }];
 
   return {
     ...genericFields,
     type: 'event-series',
     backgroundTexture: backgroundTexture ? parseBackgroundTexture(backgroundTexture) : null,
-    body: body
+    labels: labels
   };
 }
 
