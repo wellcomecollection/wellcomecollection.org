@@ -151,6 +151,7 @@ export class ArticlePage extends Component<Props, State> {
         id={article.id}
         Header={Header}
         Body={<Body body={article.body} isCreamy={true} />}
+        contributorProps={{contributors: article.contributors}}
       >
         {this.state.listOfSeries.map(({series, articles}) => {
           return <SearchResults
