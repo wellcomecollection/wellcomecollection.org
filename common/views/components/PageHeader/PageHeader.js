@@ -69,6 +69,8 @@ type Props = {|
   heroImageBgColor?: 'white' | 'cream',
   backgroundTexture?: ?string,
   highlightHeading?: boolean,
+  asyncBreadcrumbsRoute?: string,
+
   // TODO: Don't overload this, it's just for putting things in till
   // we find a pattern
   TitleTopper?: Node
@@ -88,6 +90,7 @@ const PageHeader = ({
   heroImageBgColor = 'white',
   backgroundTexture,
   highlightHeading,
+  asyncBreadcrumbsRoute,
   TitleTopper
 }: Props) => {
   const Heading = highlightHeading
@@ -109,7 +112,17 @@ const PageHeader = ({
 
         <div className={spacing({s: 3, m: 4}, {padding: ['top', 'bottom']})}>
           <div className={spacing({s: 2, m: 3}, {margin: ['bottom']})}>
-            <Breadcrumb {...breadcrumbs} />
+            {!asyncBreadcrumbsRoute && <Breadcrumb {...breadcrumbs} />}
+            {asyncBreadcrumbsRoute &&
+              <div
+                data-component='AsyncBreadcrumb'
+                className='async-content breadcrumb-placeholder'
+                data-endpoint={asyncBreadcrumbsRoute}
+                data-prefix-endpoint='false'
+                data-modifiers=''>
+                <Breadcrumb {...breadcrumbs} />
+              </div>
+            }
           </div>
           {TitleTopper}
           {Heading}

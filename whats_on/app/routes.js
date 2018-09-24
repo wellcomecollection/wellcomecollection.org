@@ -9,6 +9,7 @@ import {
   renderExhibitExhibitionLink,
   renderEvent,
   renderEvents,
+  renderEventsScheduledInBreadcrumb,
   renderEventbriteEmbed,
   renderEventSeries
 } from './controllers';
@@ -30,6 +31,8 @@ r.get('/exhibitions/:id/exhibits', renderExhibits);
 r.get('/events', renderEvents);
 r.get(`/events/:period(${periodPaths})`, renderEvents);
 r.get('/events/:id', renderEvent);
+// TODO: HACKHACK for getting the part of event breadcrumb
+r.get('/events/:id/scheduled-in', renderEventsScheduledInBreadcrumb);
 r.get('/eventbrite-event-embed/:id', renderEventbriteEmbed);
 r.get('/event-series/:id', renderEventSeries);
 
