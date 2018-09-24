@@ -60,7 +60,7 @@ const graphQuery = `{
 }`;
 
 export function parseArticle(document: PrismicDocument): Article {
-  return {
+  const article = {
     type: 'articles',
     ...parseGenericFields(document),
     format: isDocumentLink(document.data.format) ? parseLabelType(document.data.format.data) : null,
@@ -70,6 +70,12 @@ export function parseArticle(document: PrismicDocument): Article {
       return parseArticleSeries(series);
     })
   };
+  const labels = [
+    article.format ? {url: null, text: article.format.title || ''} : null,
+    article.series.find(series => series.schedule.length > 0) ? {url: null, text: 'Serial'} : null
+  ].filter(Boolean);
+
+  return {...article, labels: labels.length > 0 ? labels : [{url: null, text: 'Story'}]};
 }
 
 export async function getArticle(req: ?Request, id: string): Promise<?Article> {
@@ -99,10 +105,7 @@ export async function getArticles(req: ?Request, {
 
   const articles = paginatedResults.results.map(doc => {
     const article = parseArticle(doc);
-    const labels = [
-      article.format ? {url: null, text: article.format.title || ''} : {url: null, text: 'Story'}
-    ];
-    return {...article, labels};
+    return article;
   });
 
   return {
