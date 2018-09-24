@@ -60,7 +60,7 @@ const Contributors = ({
   );
 
   return (
-    <div className={`${spacing({s: 2}, {padding: ['top']})} border-top-width-1 border-color-smoke`}>
+    <div className={`${spacing({s: 2}, {padding: ['top']})} border-top-width-1 border-color-pumice`}>
       {titleOverride && <h2 className='h2'>{titleOverride}</h2>}
       {!titleOverride && !excludeTitle &&
         <h2 className='h2'>
