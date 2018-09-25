@@ -32,7 +32,12 @@ import {isPast} from '../../utils/dates';
 import {getPeriodPredicates} from './utils';
 import type {UiEvent, EventFormat} from '../../model/events';
 import type {Team} from '../../model/team';
-import type {PrismicDocument, PrismicApiSearchResponse, PaginatedResults} from './types';
+import type {
+  PrismicDocument,
+  PrismicApiSearchResponse,
+  PaginatedResults,
+  PrismicQueryOpts
+} from './types';
 import type {Period} from '../../model/periods';
 
 const startField = 'my.events.times.startDateTime';
@@ -189,18 +194,18 @@ export async function getEvent(req: ?Request, {id}: EventQueryProps): Promise<?U
 }
 
 type EventsQueryProps = {|
-  page: number,
   predicates: Prismic.Predicates[],
+  period?: Period,
   order: 'asc' | 'desc',
-  period?: Period
+  ...PrismicQueryOpts
 |}
 
-export async function getEvents(req: Request,  {
-  page = 1,
+export async function getEvents(req: ?Request,  {
   predicates = [],
   order = 'desc',
-  period
-}: EventsQueryProps): Promise<?PaginatedResults<UiEvent>> {
+  period,
+  ...opts
+}: EventsQueryProps): Promise<PaginatedResults<UiEvent>> {
   const graphQuery = `{
     events {
       ...eventsFields
@@ -287,7 +292,7 @@ export async function getEvents(req: Request,  {
     Prismic.Predicates.at('document.type', 'events')
   ].concat(predicates, dateRangePredicates), {
     orderings,
-    page,
+    page: opts.page,
     graphQuery
   });
 

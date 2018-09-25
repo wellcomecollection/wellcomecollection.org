@@ -195,10 +195,15 @@ export class ArticlePage extends Component<Props, State> {
           const dedupedArticles = articles.filter(
             a => a.id !== article.id
           ).slice(0, 2);
-          return <SeriesNavigation
-            key={series.id}
-            series={series}
-            items={dedupedArticles} />;
+          return (
+            <div
+              key={series.id}
+              className={`${spacing({s: 6}, {margin: ['top']})}`}>
+              <SeriesNavigation
+                series={series}
+                items={dedupedArticles} />
+            </div>
+          );
         })}
       </BasePage>
     );

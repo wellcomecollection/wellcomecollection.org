@@ -27,7 +27,7 @@ const SearchResults = ({ items, title, summary }: Props) => (
       </div>
     }
     <div className={`
-        ${spacing({s: 11}, {margin: ['top']})}
+        ${spacing({s: 4}, {margin: ['top']})}
       `}>
       {items.map(item => (
         <div className={
