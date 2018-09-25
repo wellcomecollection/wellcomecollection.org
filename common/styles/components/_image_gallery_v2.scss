@@ -1,0 +1,53 @@
+.image-gallery-v2 {
+  figure {
+    margin-left: 50%;
+    transform: translateX(-50%);
+    display: inline-block;
+    max-width: 100%;
+  }
+
+  img {
+    max-height: 100vh;
+    width: auto;
+  }
+
+  .caption {
+    max-width: 55em;
+  }
+
+  .captioned-image__image-container {
+    display: inline-block;
+    max-width: 100%;
+  }
+
+  transition: all 200ms ease;
+}
+
+.image-gallery-v2__inner {
+  height: 300px;
+  overflow: hidden;
+
+  .image-gallery-v2.is-active & {
+    height: auto;
+  }
+}
+
+.image-gallery-v2__wobbly-edge {
+  bottom: -2px;
+  width: 100%;
+}
+
+.image-gallery-v2__gradient {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  z-index: 1;
+}
+
+.image-gallery-v2__button {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(50%);
+  z-index: 2;
+}

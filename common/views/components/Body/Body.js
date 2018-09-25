@@ -72,7 +72,10 @@ const Body = ({ body, isCreamy = false }: Props) => {
               </Layout8>
             }
 
-            {slice.type === 'imageGallery' && <ImageGalleryV2 {...slice.value} />}
+            {slice.type === 'imageGallery' &&
+              <ImageGalleryV2 {...slice.value} />
+            }
+
             {slice.type === 'quote' &&
               <Layout8>
                 <Quote {...slice.value} />
