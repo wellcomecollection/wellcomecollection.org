@@ -5,8 +5,11 @@ import NastyJs from '../Header/NastyJs';
 import Header from '../Header/Header';
 import {striptags} from '../../../utils/striptags';
 import {formatDate} from '../../../utils/format-date';
+import {museumLd} from '../../../utils/json-ld';
 import Footer from '../Footer/Footer';
 import type {GroupedVenues, OverrideType} from '../../../model/opening-hours';
+import {wellcomeCollection} from '../../../model/organization';
+
 import type Moment from 'moment';
 import analytics from '../../../utils/analytics';
 import Raven from 'raven-js';
@@ -15,13 +18,13 @@ export type JsonLdObject = {
   "@type": string
 }
 type jsonData = {
-  pageJsonLd: JsonLdObject
+  data: JsonLdObject
 };
 
 const JsonLd = ({
-  pageJsonLd
+  data
 }: jsonData) => {
-  return (<script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(pageJsonLd) }}>
+  return (<script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}>
   </script>);
 };
 
@@ -230,7 +233,8 @@ class DefaultPageLayout extends Component<Props> {
           {/* Leaving this out for now as it's hanging locally for me */}
           {/* <script src='//platform.twitter.com/widgets.js' async defer></script> */}
           <NastyJs />
-          <JsonLd pageJsonLd={pageJsonLd} />
+          <JsonLd data={pageJsonLd} />
+          <JsonLd data={museumLd(wellcomeCollection)} />
           <script dangerouslySetInnerHTML={{ __html: `
             window.WC = {
               featuresCohort: ${JSON.stringify(featuresCohort)},
