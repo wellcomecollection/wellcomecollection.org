@@ -17,6 +17,7 @@ import {
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {Article} from '@weco/common/model/articles';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {articleLd} from '@weco/common/utils/json-ld';
 
 type Props = {|
   article: Article
@@ -43,7 +44,8 @@ export class ArticlePage extends Component<Props, State> {
         canonicalUrl: `https://wellcomecollection.org/articles/${article.id}`,
         imageUrl: article.image && convertImageUri(article.image.contentUrl, 800),
         siteSection: 'stories',
-        analyticsCategory: 'editorial'
+        analyticsCategory: 'editorial',
+        pageJsonLd: articleLd(article)
       };
     } else {
       return {statusCode: 404};
