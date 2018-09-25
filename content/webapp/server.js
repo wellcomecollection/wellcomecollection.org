@@ -121,6 +121,14 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
+  router.get('/events/:id', async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/event', {
+      id: ctx.params.id,
+      toggles
+    });
+    ctx.respond = false;
+  });
 
   router.get('*', async ctx => {
     await handle(ctx.req, ctx.res);
