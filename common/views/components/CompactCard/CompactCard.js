@@ -1,19 +1,19 @@
 // @flow
-import type {Element} from 'react';
+import type {Element, ElementProps} from 'react';
 import {grid, font, spacing, conditionalClassNames} from '../../../utils/classnames';
 import DateRange from '../DateRange/DateRange';
-import LabelsList from '../LabelsList/LabelsList';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
+import LabelsList from '../LabelsList/LabelsList';
 import {default as ImageType} from '../Image/Image';
 
 type Props = {|
   url: string,
   title: string,
   promoType: string,
+  labels: ElementProps<typeof LabelsList>,
   description: ?string,
   urlOverride: ?string,
   extraClasses?: string,
-  Tags: ?Element<typeof LabelsList>,
   Image: ?Element<typeof ImageType>,
   DateInfo: ?Element<typeof DateRange>,
   StatusIndicator: ?Element<typeof StatusIndicator>
@@ -23,10 +23,10 @@ const CompactCard = ({
   url,
   title,
   promoType,
+  labels,
   description,
   urlOverride,
   extraClasses,
-  Tags,
   Image,
   DateInfo,
   StatusIndicator
@@ -47,12 +47,12 @@ const CompactCard = ({
         [spacing({s: 3}, {padding: ['bottom', 'top']})]: true,
         [extraClasses || '']: Boolean(extraClasses)
       })}>
-      {Tags &&
+      {labels.labels.length &&
         <div className={conditionalClassNames({
           [grid({s: 12, m: 12, l: 12, xl: 12})]: true,
           [spacing({s: 1}, {margin: ['bottom']})]: true
         })}>
-          {Tags}
+          <LabelsList {...labels} />
         </div>
       }
       {Image &&
